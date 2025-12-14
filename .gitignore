@@ -1,0 +1,9 @@
+# Daily tracking (changes frequently, not needed in version control)
+.STATUS
+
+# macOS
+.DS_Store
+
+# Backup files (already have version control)
+*.backup
+backups/
