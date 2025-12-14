@@ -246,6 +246,11 @@
 | `flowstats` / `fs` | Today's stats by project/action |
 | `logged <cmd>` | Run command with auto-logging |
 
+### Dashboard Integration
+| Function | Description |
+|----------|-------------|
+| `dashsync` / `ds` | Sync workflow + projects to Apple Notes dashboard |
+
 ### R Package Functions
 | Function | Description |
 |----------|-------------|

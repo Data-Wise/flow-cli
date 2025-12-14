@@ -7,7 +7,11 @@
       "Bash(source ~/.config/zsh/functions/adhd-helpers.zsh)",
       "Bash(whatnext)",
       "Bash(worklog:*)",
-      "Bash(showflow:*)"
+      "Bash(showflow:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git checkout:*)",
+      "Bash(git push:*)",
+      "Bash(ln:*)"
     ]
   }
 }
