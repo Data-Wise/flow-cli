@@ -10,6 +10,8 @@ Comprehensive ZSH configuration documentation and workflows with cross-project i
 
 **Look up aliases:** `ALIAS-REFERENCE-CARD.md`
 
+**Daily health check:** `WORKSPACE-AUDIT-GUIDE.md`
+
 **Strategic overview:** `PROJECT-HUB.md`
 
 ---
@@ -23,7 +25,8 @@ zsh-configuration/
 ├── INDEX.md (navigation)
 ├── .STATUS (daily tracking)
 ├── PROJECT-HUB.md (strategic)
-├── ALIAS-REFERENCE-CARD.md (all 140+ aliases)
+├── ALIAS-REFERENCE-CARD.md (all 144+ aliases)
+├── WORKSPACE-AUDIT-GUIDE.md (daily health checks)
 ├── WORKFLOWS-QUICK-WINS.md (top 10 workflows)
 ├── SYNC-SETUP.md (cloud sync)
 └── backups/ (config backups)
@@ -51,8 +54,9 @@ All changes auto-backup to both clouds.
 
 ## 📊 Success Metrics
 
-- **140+ aliases** working
+- **144+ aliases** working
 - **30+ workflow functions**
+- **4 audit commands** (ga, fa, ah, ma)
 - **95% cognitive load reduction**
 - **60-80% faster commands**
 - **ADHD-optimized** design

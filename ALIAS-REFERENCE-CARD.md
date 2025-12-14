@@ -2,7 +2,7 @@
 
 > **Quick Access:** `ah <category>` for interactive help
 
-**Last Updated:** 2025-12-13 | **Total:** 120+ aliases, 22 functions
+**Last Updated:** 2025-12-14 | **Total:** 144+ aliases, 26 functions
 
 ---
 
@@ -193,6 +193,37 @@
 
 ---
 
+## 🔍 WORKSPACE AUDIT (v1.5.0)
+
+> **Full Guide:** `WORKSPACE-AUDIT-GUIDE.md`
+
+### Quick Commands
+| Alias | Command | Description |
+|-------|---------|-------------|
+| `ga` | `git-audit` | Find dirty/unpushed repos |
+| `fa` | `file-audit` | Find large files (>50MB) |
+| `ah` | `activity-heat` | 7-day activity heatmap |
+| `ma` | `morning-audit` | Full daily health check |
+
+### Common Usage
+```bash
+ma              # Daily health check (recommended)
+ga -q           # Quick git status across all repos
+ah -n 5         # Top 5 active projects
+fa -s 100M      # Find files >100MB
+ma -o           # Generate and open report
+```
+
+### What Each Does
+| Command | Scans | Output |
+|---------|-------|--------|
+| `git-audit` | ~/projects (depth 3) | Dirty repos, unpushed commits |
+| `file-audit` | ~/projects | Files >50MB (excludes node_modules, .git) |
+| `activity-heat` | ~/projects | Visual bar chart of recent activity |
+| `morning-audit` | All of above + obs audit | Combined daily report |
+
+---
+
 ## 📁 FILE OPERATIONS
 
 ### Better Tools
@@ -330,12 +361,12 @@ Common typos auto-correct - just keep typing!
 
 ## 📊 Quick Stats
 
-- **Total Aliases:** 140+
-- **Total Functions:** 22
-- **Categories:** 7
+- **Total Aliases:** 144+
+- **Total Functions:** 26
+- **Categories:** 8
 - **Ultra-fast (1 char):** 3 (t, c, q)
 - **Atomic pairs (2 char):** 2 (lt, dt)
-- **Mnemonic (2 char):** 8 (ld, ts, dc, ck, bd, rd, rc, rb)
+- **Mnemonic (2 char):** 12 (ld, ts, dc, ck, bd, rd, rc, rb, ga, fa, ah, ma)
 - **Typo corrections:** 20+
 
 ---
@@ -373,6 +404,6 @@ Common typos auto-correct - just keep typing!
 
 ---
 
-**Last Updated:** 2025-12-13
-**Version:** 1.0 (P0 Complete)
+**Last Updated:** 2025-12-14
+**Version:** 1.1 (Workspace Audit added)
 **Next:** P1 features (progress indicators, smart confirmations)
