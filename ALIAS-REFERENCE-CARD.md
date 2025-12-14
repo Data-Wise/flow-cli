@@ -230,6 +230,21 @@
 | `startwork <project>` | Jump to project + show context |
 | `endwork` | Update .STATUS |
 | `worktimer <min>` | Work session timer |
+| `startsession [name]` | Start tracked workflow session |
+| `endsession` | End session with duration stats |
+| `sessioninfo` | Show current session info |
+
+### Workflow Logging
+| Function | Description |
+|----------|-------------|
+| `worklog 'action' 'details'` | Log a workflow action |
+| `wl` | Alias for worklog |
+| `wls` / `wld` / `wlb` / `wlp` | Quick: started/done/blocked/paused |
+| `showflow [n] [filter]` | Show recent workflow activity |
+| `sf` | Alias for showflow |
+| `sft` | Show 50 entries |
+| `flowstats` / `fs` | Today's stats by project/action |
+| `logged <cmd>` | Run command with auto-logging |
 
 ### R Package Functions
 | Function | Description |

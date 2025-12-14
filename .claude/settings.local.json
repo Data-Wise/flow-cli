@@ -5,7 +5,9 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(source ~/.config/zsh/functions/adhd-helpers.zsh)",
-      "Bash(whatnext)"
+      "Bash(whatnext)",
+      "Bash(worklog:*)",
+      "Bash(showflow:*)"
     ]
   }
 }
