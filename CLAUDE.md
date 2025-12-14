@@ -66,7 +66,24 @@ ah workflow     # Workflow functions
 
 - **P0 (Complete)**: Core aliases, help system, antidote fix
 - **P1 (Complete)**: ADHD helpers, multi-editor work command
-- **P2 (Queued)**: Context-aware suggestions, typo tolerance
+- **P2 (Complete)**: Context-aware suggestions, typo tolerance, workflow tracking
+- **P3 (Complete)**: Cross-project integrations
+
+## Cross-Project Integrations
+
+This project integrates with other dev-tools:
+
+| Project | Integration |
+|---------|-------------|
+| `zsh-claude-workflow` | Shared `project-detector.zsh` for unified context detection |
+| `iterm2-context-switcher` | Session-aware profiles (Focus mode on `startsession`) |
+| `apple-notes-sync` | Dashboard shows workflow activity from `worklog` |
+
+**Key symlinks:**
+```
+~/.config/zsh/functions/project-detector.zsh → zsh-claude-workflow/lib/project-detector.sh
+~/.config/zsh/functions/core-utils.zsh → zsh-claude-workflow/lib/core.sh
+```
 
 ## Cloud Sync
 

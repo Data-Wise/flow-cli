@@ -161,6 +161,30 @@ rpkgdeep() {
 
 ---
 
+## 🔗 P3 Cross-Project Integrations (Complete ✅)
+
+### Unified Context Detection ✅
+- Shared `project-detector.zsh` from zsh-claude-workflow
+- Used by: whatnext, iterm2-context-switcher, work command
+- Single source of truth for project type detection
+
+### Dashboard + Worklog Integration ✅
+- `dashsync` / `ds` command syncs to Apple Notes
+- Dashboard shows today's workflow activity
+- Reads ~/.workflow-log for recent actions
+
+### Session-Aware iTerm Profiles ✅
+- `startsession` switches iTerm to Focus profile
+- `endsession` restores previous profile
+- Tab title shows session name with 🎯 icon
+
+### Enhanced Work Command ✅
+- Uses shared project-detector
+- Logs project switches to worklog
+- Shows whatnext suggestions (terminal mode)
+
+---
+
 ## 📁 File Structure
 
 ```
