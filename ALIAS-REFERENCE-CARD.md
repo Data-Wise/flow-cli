@@ -286,14 +286,35 @@ aliases-short   # Show ultra-short aliases
 
 ---
 
+## 🔧 TYPO TOLERANCE (ADHD-Friendly)
+
+Common typos auto-correct - just keep typing!
+
+| Typo | Corrects To | Category |
+|------|-------------|----------|
+| `claue`, `cluade`, `clade` | `claude` | AI |
+| `rlaod`, `rlod` | `rload` | R |
+| `rtets`, `rtset` | `rtest` | R |
+| `rdco` | `rdoc` | R |
+| `rchekc`, `rchck` | `rcheck` | R |
+| `rcylce` | `rcycle` | R |
+| `gti`, `tgi` | `git` | Git |
+| `gis` | `gs` | Git |
+| `clera`, `claer` | `clear` | Shell |
+| `sl` | `ls` | Shell |
+| `qurto`, `qaurt` | `quarto` | Quarto |
+
+---
+
 ## 📊 Quick Stats
 
-- **Total Aliases:** 120+
+- **Total Aliases:** 140+
 - **Total Functions:** 22
-- **Categories:** 6
+- **Categories:** 7
 - **Ultra-fast (1 char):** 3 (t, c, q)
 - **Atomic pairs (2 char):** 2 (lt, dt)
 - **Mnemonic (2 char):** 8 (ld, ts, dc, ck, bd, rd, rc, rb)
+- **Typo corrections:** 20+
 
 ---
 
