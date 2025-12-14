@@ -11,7 +11,21 @@
       "Bash(gh repo create:*)",
       "Bash(git checkout:*)",
       "Bash(git push:*)",
-      "Bash(ln:*)"
+      "Bash(ln:*)",
+      "Bash(zsh:*)",
+      "Bash(cat:*)",
+      "Bash(for pkg in medfit mediationverse medrobust medsim probmed)",
+      "Bash(do echo \"--- $pkg ---\" if [[ -f ~/projects/r-packages/active/$pkg/DESCRIPTION ]])",
+      "Bash(then grep -E \"^(Package|Title|Depends|Imports):\" ~/projects/r-packages/active/$pkg/DESCRIPTION)",
+      "Bash(fi)",
+      "Bash([[ -f ~/projects/r-packages/active/$pkg/CLAUDE.md ]])",
+      "Bash([[ -f ~/projects/r-packages/active/$pkg/.STATUS ]])",
+      "Bash(done)",
+      "Bash(xargs:*)",
+      "Bash(~/projects/dev-tools/apple-notes-sync/scanner.sh:*)",
+      "Bash(weeklysync)",
+      "Bash(sp medrobust:*)",
+      "Bash(setprogress:*)"
     ]
   }
 }
