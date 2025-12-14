@@ -41,17 +41,20 @@ Priority tests that can be completed in < 30 min each.
   - 📝 Note: Full interactive deletion requires manual testing (read -q limitation)
   - **Location:** `~/.config/zsh/tests/test-adhd-helpers.zsh`
 
-- [ ] **Test whatnext alias** [est: 10 min]
-  - Verify alias exists
-  - Verify it points to what-next
+- [x] **Test whatnext alias** [est: 10 min] ✅ COMPLETED 2025-12-14
+  - ✅ Added Test 36: whatnext function and wnow alias
+  - ✅ Function existence check
+  - ✅ Alias target verification (wnow → whatnext)
+  - ✅ All tests passing (2 new assertions, 100% pass rate)
   - **Location:** `~/.config/zsh/tests/test-adhd-helpers.zsh`
-  - **Pattern:** One-liner like existing alias tests
 
-- [ ] **Test morning alias variants** [est: 15 min]
-  - Verify 'morning' alias exists → pmorning
-  - Verify 'gmorning' alias exists → pmorning
-  - Verify 'gm' alias does NOT exist in adhd-helpers scope
-  - **Location:** `~/.config/zsh/tests/test-adhd-helpers.zsh`
+- [x] **Test morning alias variants** [est: 15 min] ✅ ALREADY COMPLETED 2025-12-14
+  - ✅ Covered by Test 22: morning routine regression test
+  - ✅ Covered by Test 23: gm not overridden test
+  - ✅ Verifies: morning, gmorning → pmorning
+  - ✅ Verifies: gm NOT defined (avoids Gemini conflict)
+  - ✅ All tests passing
+  - **Location:** `~/.config/zsh/tests/test-adhd-helpers.zsh` (Tests 22-23)
 
 ---
 
