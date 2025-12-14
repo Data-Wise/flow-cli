@@ -218,6 +218,8 @@
 ### Context Awareness
 | Function | Description |
 |----------|-------------|
+| `whatnext` | **Fast** context-aware suggestions (detects R pkg, git, quarto) |
+| `wnow` | Alias for whatnext |
 | `here` | Show current context (location, package, git) |
 | `next` | Show next action from .STATUS |
 | `progress_check` | Show progress bars from .STATUS |
