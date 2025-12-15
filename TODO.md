@@ -57,6 +57,15 @@
   - Generate report
 
 ### Priority 3 (Future)
+- [ ] **Alias refactoring** [est: 2-4 hours depending on plan]
+  - Three comprehensive plans created (see IDEAS.md)
+  - Plan A: Minimal changes (125 aliases)
+  - Plan B: Full standardization (90 aliases)
+  - Plan C: Hybrid frequency-based (110 aliases) ⭐ Recommended
+  - Documents: `ALIAS-REFACTOR-EXISTING-PATTERNS-2025-12-14.md`
+  - Next: Choose plan, create migration script, test
+
+### Priority 4 (Long-term)
 - [ ] **Integration tests** [est: 3+ hours]
   - Full workflow end-to-end tests
   - Morning routine complete flow

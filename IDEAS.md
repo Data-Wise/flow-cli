@@ -102,6 +102,52 @@
   - Test P10k integration
   - Impact: Medium | Risk: Moderate
 
+## 🔧 Alias Refactoring Ideas
+
+### Comprehensive Refactoring Plans (2025-12-14)
+
+**Analysis Complete:** Three detailed plans created
+- **Plan A: Minimal Changes** (125 aliases, 25% reduction)
+  - Keep high-frequency shortcuts (ts, rd, qp, cc)
+  - Remove only duplicates and conflicts
+  - Minimal muscle memory disruption
+  - Impact: Low | Risk: Safe | Effort: 2 hours
+
+- **Plan B: Full Standardization** (90 aliases, 46% reduction)
+  - Extend proj- pattern to all aliases
+  - One consistent domain-action pattern
+  - Biggest cleanup, requires relearning
+  - Impact: High | Risk: Moderate | Effort: 1 week
+
+- **Plan C: Hybrid Frequency-Based** (110 aliases, 34% reduction) ⭐ Recommended
+  - Keep shortcuts for daily commands (30x/day)
+  - Standardize medium-frequency (5x/day)
+  - Best balance for ADHD workflow
+  - Impact: Medium | Risk: Low | Effort: 3-4 hours
+
+**Documents Created:**
+- `ALIAS-REFACTOR-PLAN-2025-12-14.md` - Initial comprehensive analysis
+- `ALIAS-REFACTOR-PLANS-A-B-2025-12-14.md` - First revision with 2 plans
+- `ALIAS-REFACTOR-3-PLANS-2025-12-14.md` - Second revision extending proj- pattern
+- `ALIAS-REFACTOR-EXISTING-PATTERNS-2025-12-14.md` - Final analysis with comparison ⭐
+
+**Key Insights:**
+- User has 5 existing patterns (full names, 2-letter, 1-letter, atomic pairs, domain-action)
+- User specifically likes `proj-*` pattern (domain-action)
+- User finds 1-2 letter aliases hard to remember (ADHD consideration)
+- 42-79 aliases can be removed (duplicates, conflicts, over-specific prompts)
+- Current: 167 aliases → Target: 88-125 aliases depending on plan
+
+**Next Steps (When Ready):**
+1. Review all planning documents
+2. Choose preferred plan (A, B, or C)
+3. Create migration script
+4. Test in parallel (old + new aliases)
+5. Gradual transition over 1-3 weeks
+6. Update help system and documentation
+
+---
+
 ## 📊 Current Testing Status
 
 **Tested (25 tests):**
