@@ -1,0 +1,24 @@
+{
+  "name": "zsh-workflow-cli",
+  "version": "0.1.0",
+  "description": "Node.js integration layer for ZSH workflow commands",
+  "main": "api/index.js",
+  "scripts": {
+    "test": "node test/test-adapters.js",
+    "test:status": "node test/test-status.js",
+    "test:workflow": "node test/test-workflow.js"
+  },
+  "keywords": [
+    "zsh",
+    "workflow",
+    "cli",
+    "integration"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
