@@ -1,0 +1,35 @@
+{
+  "name": "zsh-workflow-manager-monorepo",
+  "version": "0.1.0",
+  "description": "ADHD-optimized ZSH workflow tools with desktop app interface",
+  "private": true,
+  "workspaces": [
+    "app",
+    "cli"
+  ],
+  "scripts": {
+    "setup": "./scripts/setup.sh",
+    "sync": "./scripts/sync-zsh.sh",
+    "dev": "npm run dev --workspace=app",
+    "test": "npm test --workspaces",
+    "build": "npm run build --workspace=app"
+  },
+  "keywords": [
+    "zsh",
+    "workflow",
+    "adhd",
+    "productivity",
+    "shell",
+    "electron"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/zsh-configuration"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

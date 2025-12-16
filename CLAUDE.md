@@ -4,21 +4,38 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **documentation-only** repository for ZSH configuration. The actual configuration files live in `~/.config/zsh/`. This repo contains:
-- Reference documentation for 120+ aliases and 22 workflow functions
+This is the **ZSH Workflow Manager** - an ADHD-optimized workflow system with both CLI and desktop app interfaces. The repo contains:
+- Documentation for 183+ aliases and 108+ workflow functions
+- Desktop app source code (Electron-based)
+- CLI integration layer (Node.js adapters to ZSH functions)
 - ADHD-optimized workflow guides
-- Progress tracking files
+- Progress tracking and planning documents
 - Cloud sync setup (Google Drive + Dropbox via symlinks)
+
+**Important:** The actual ZSH configuration files live in `~/.config/zsh/` (separate location).
+
+## Project Structure
+
+| Directory | Purpose |
+|-----------|---------|
+| `app/` | Desktop application (Electron) |
+| `cli/` | CLI integration layer (adapters + API) |
+| `docs/` | All documentation (organized by type) |
+| `config/` | Configuration files and backups |
+| `tests/` | Test suites for CLI and app |
+| `scripts/` | Utility scripts (setup, sync, deploy) |
 
 ## Key Files
 
 | File | Purpose |
 |------|---------|
-| `WORKFLOWS-QUICK-WINS.md` | Top 10 ADHD-friendly workflows - start here |
-| `ALIAS-REFERENCE-CARD.md` | Complete alias reference (R, Claude, Git, Quarto) |
-| `PROJECT-HUB.md` | Strategic overview with P0/P1/P2 roadmap |
+| `README.md` | Project overview and setup guide |
+| `PROJECT-HUB.md` | Strategic roadmap (P0-P5 phases) |
 | `.STATUS` | Daily progress tracking |
-| `SYNC-SETUP.md` | Cloud sync configuration |
+| `docs/user/WORKFLOWS-QUICK-WINS.md` | Top 10 ADHD-friendly workflows |
+| `docs/user/ALIAS-REFERENCE-CARD.md` | Complete alias reference |
+| `app/README.md` | Desktop app architecture |
+| `cli/README.md` | CLI integration guide |
 
 ## Actual Configuration Location
 
@@ -55,19 +72,44 @@ ah git          # Git shortcuts
 ah workflow     # Workflow functions
 ```
 
+## Documentation Organization
+
+The `/docs` directory is organized by purpose:
+
+- **`docs/user/`** - User-facing guides (workflows, alias reference, tutorials)
+- **`docs/reference/`** - Technical reference (command patterns, sync setup)
+- **`docs/planning/`** - Active planning documents
+  - `current/` - Current phase work (P4 optimization)
+  - `proposals/` - Future proposals
+- **`docs/implementation/`** - Implementation tracking by feature
+  - `help-system/` - Help system overhaul
+  - `alias-refactoring/` - Alias refactoring work
+  - `workflow-redesign/` - Workflow redesign proposals
+  - `status-command/` - Status command research
+- **`docs/archive/`** - Historical decisions and completed work
+- **`docs/ideas/`** - Ideas backlog (TODO items)
+
 ## Editing Guidelines
 
-1. **Documentation changes**: Edit files in this repo directly
-2. **Configuration changes**: Edit files in `~/.config/zsh/`, then update documentation here
-3. **Testing**: Run `~/.config/zsh/tests/test-adhd-helpers.zsh` after config changes
-4. **Backups**: Use `backups/` directory for config snapshots before major changes
+1. **Documentation changes**: Edit files in `docs/` subdirectories
+2. **App development**: Work in `app/` directory, see `app/README.md`
+3. **CLI adapters**: Add to `cli/adapters/`, see `cli/README.md`
+4. **ZSH config changes**: Edit files in `~/.config/zsh/`, then update docs here
+5. **Testing**:
+   - App tests: `npm test --workspace=app`
+   - CLI tests: `npm test --workspace=cli`
+   - ZSH tests: `~/.config/zsh/tests/test-adhd-helpers.zsh`
+6. **Config backups**: Stored in `config/backups/` before major changes
 
 ## Current Phase
 
-- **P0 (Complete)**: Core aliases, help system, antidote fix
-- **P1 (Complete)**: ADHD helpers, multi-editor work command
-- **P2 (Complete)**: Context-aware suggestions, typo tolerance, workflow tracking
-- **P3 (Complete)**: Cross-project integrations
+- **P0-P3 (Complete)**: Core CLI system, ADHD helpers, integrations
+- **P4 (In Progress)**: Optimization (audit complete, conflicts identified)
+- **P5 (Active)**: Desktop App Development
+  - **P5A (Complete)**: Project reorganization ← Just completed!
+  - **P5B (Next)**: Core UI components
+  - **P5C (Planned)**: CLI integration layer implementation
+  - **P5D (Planned)**: Alpha release
 
 ## Cross-Project Integrations
 
