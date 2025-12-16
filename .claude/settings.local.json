@@ -129,7 +129,9 @@
       "Bash(_v_detect_project_type)",
       "Bash(_v_detect_ecosystem)",
       "Bash(})",
-      "Bash(workflow help:*)"
+      "Bash(workflow help:*)",
+      "mcp__ide__executeCode",
+      "mcp__ide__getDiagnostics"
     ]
   }
 }

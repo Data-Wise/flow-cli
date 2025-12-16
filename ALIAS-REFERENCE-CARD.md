@@ -2,7 +2,9 @@
 
 > **Quick Access:** `ah <category>` for interactive help
 
-**Last Updated:** 2025-12-14 | **Total:** 144+ aliases, 26 functions
+**Last Updated:** 2025-12-16 | **Total:** 183 aliases, 108 functions
+
+⚠️ **Optimization in progress:** See `ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md` for details on duplicate resolution
 
 ---
 
