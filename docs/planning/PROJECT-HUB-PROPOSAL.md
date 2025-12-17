@@ -625,6 +625,50 @@ Then in Obsidian:
 
 ---
 
+## Future Work (Backlog)
+
+Items identified during brainstorming for future phases:
+
+### Standards Expansion
+
+| Standard | Domain | Description |
+|----------|--------|-------------|
+| ZSH-COMMANDS-HELP.md | code/ | Help system standards for zsh commands |
+| TUTORIAL-TEMPLATE.md | adhd/ | Standard structure for tutorials |
+| REFCARD-TEMPLATE.md | adhd/ | Reference card design standards |
+| R-PACKAGE-DESIGN.md | project/ | R package architecture patterns |
+| DEV-TOOL-DESIGN.md | project/ | Dev tool architecture patterns |
+
+### Documentation Integration
+
+| Item | Description | Action |
+|------|-------------|--------|
+| GitHub docs repo | Existing documentation repository | Audit, migrate useful content, deprecate |
+| data-wise website | Personal/professional website | Integrate with project showcases |
+
+### Domain-Specific Standards
+
+**R Packages:**
+- Vignette structure
+- pkgdown site design
+- CRAN submission checklist
+- Test coverage requirements
+
+**Dev Tools:**
+- CLI design patterns
+- Help system format
+- README structure
+- Release process
+
+### Phase 5+: Website Integration
+
+- **data-wise website:** Integrate project showcases
+- Link to package documentation (pkgdown sites)
+- Research project summaries
+- Teaching resources
+
+---
+
 ## Document History
 
 - **2025-12-17:** Initial proposal created, approved for implementation
@@ -633,3 +677,7 @@ Then in Obsidian:
   - Decided against nesting dev tools tracking in `zsh-configuration`
   - Created three-tier hub system (master → domain → standards)
   - Updated data flow diagram and implementation phases
+- **2025-12-17:** Added future work backlog
+  - Standards expansion (ZSH help, tutorials, refcards)
+  - Documentation integration (GitHub docs repo, data-wise website)
+  - Domain-specific standards for R packages and dev tools

@@ -216,6 +216,43 @@ zsh-configuration/
 
 ---
 
+## Future Work Backlog (Added 2025-12-17)
+
+### Standards to Create
+
+| Standard | Location | Purpose |
+|----------|----------|---------|
+| ZSH-COMMANDS-HELP.md | standards/code/ | Help system standards for zsh commands |
+| TUTORIAL-TEMPLATE.md | standards/adhd/ | Standard structure for tutorials |
+| REFCARD-TEMPLATE.md | standards/adhd/ | Reference card design standards |
+| R-PACKAGE-DESIGN.md | standards/project/ | R package architecture patterns |
+| DEV-TOOL-DESIGN.md | standards/project/ | Dev tool architecture patterns |
+
+### Integration Needed
+
+| Item | Location | Action |
+|------|----------|--------|
+| GitHub docs repo | Unknown - need to locate | Audit, migrate useful content, deprecate |
+| data-wise website | Personal website | Integrate with project showcases, link pkgdown sites |
+
+### Domain-Specific Standards
+
+**R Packages (for mediation-planning or standards/):**
+- Vignette structure template
+- pkgdown site design standards
+- CRAN submission checklist
+- Test coverage requirements (target %)
+- Documentation standards (roxygen2)
+
+**Dev Tools (for dev-planning or standards/):**
+- CLI design patterns
+- Help system format (`--help`, man pages, etc.)
+- README structure for tools
+- Release process (versioning, changelog)
+- Test requirements
+
+---
+
 ## Related Documents
 
 - [PROJECT-HUB-PROPOSAL.md](PROJECT-HUB-PROPOSAL.md) - Final architecture (approved)
