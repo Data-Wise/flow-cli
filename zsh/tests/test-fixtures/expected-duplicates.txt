@@ -1,0 +1,25 @@
+# ZSH System Health Check - Expected Duplicates Whitelist
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# Format: function_name|final_file|reason
+#
+# These are INTENTIONAL function overrides where smart-dispatchers.zsh
+# provides a unified interface that replaces earlier implementations.
+#
+# Sourcing order (.zshrc lines 739-1113):
+#   genpass → work → claude-workflows → adhd-helpers → dash → status →
+#   obsidian-bridge → functions.zsh → smart-dispatchers.zsh (LAST)
+#
+# When smart-dispatchers.zsh is sourced last, it intentionally overrides
+# earlier function definitions to provide a consistent dispatcher pattern.
+#
+# ═══════════════════════════════════════════════════════════════════════════
+
+focus|smart-dispatchers.zsh|Unified dispatcher replaces adhd-helpers + functions.zsh implementations
+r|smart-dispatchers.zsh|R package development dispatcher (unaliased before definition)
+gm|smart-dispatchers.zsh|Good morning routine dispatcher (shadows GraphicsMagick binary)
+cc|smart-dispatchers.zsh|Claude Code dispatcher (shadows C compiler binary)
+qu|smart-dispatchers.zsh|Quota update dispatcher (unaliased before definition)
+note|smart-dispatchers.zsh|Note-taking dispatcher (unaliased before definition)
+obs|smart-dispatchers.zsh|Obsidian dispatcher - delegates to obs.zsh (unaliased before definition)
+workflow|smart-dispatchers.zsh|Workflow management dispatcher (unaliased before definition)

@@ -1,0 +1,22 @@
+# Backup and archive files
+.archive/
+.backups/
+*.bak
+*.bak[0-9]*
+*.backup*
+*.tmp
+*.broken*
+*-backup-*
+
+# Local machine-specific
+.zshrc.local
+
+# Cache files
+.zcompdump*
+.zsh_history
+.zsh_sessions/
+.DS_Store
+
+# Old backup patterns
+.zshrc.tier*
+.zshrc.cleanup

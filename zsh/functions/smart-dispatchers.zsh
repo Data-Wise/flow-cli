@@ -1,0 +1,879 @@
+# ============================================
+# SMART FUNCTION DISPATCHERS
+# ============================================
+# Created: 2025-12-14
+# Updated: 2025-12-14 (Phase 1: Enhanced Help System)
+# Purpose: Unified command interfaces with full-word actions
+# ADHD-Optimized: Self-documenting, discoverable, consistent
+
+# ============================================
+# COLOR SUPPORT (Terminal Safe)
+# ============================================
+
+# Respect NO_COLOR environment variable
+if [[ -z "${NO_COLOR}" ]] && [[ -t 1 ]]; then
+    # Section headers and emphasis
+    _C_GREEN='\033[0;32m'      # Headers, success
+    _C_CYAN='\033[0;36m'       # Commands, actions
+    _C_YELLOW='\033[1;33m'     # Examples, warnings
+    _C_MAGENTA='\033[0;35m'    # Related, references
+    _C_BLUE='\033[0;34m'       # Info, notes
+    _C_BOLD='\033[1m'          # Bold text
+    _C_DIM='\033[2m'           # Dimmed text
+    _C_NC='\033[0m'            # No color (reset)
+else
+    # No colors (respect NO_COLOR or non-TTY)
+    _C_GREEN=''
+    _C_CYAN=''
+    _C_YELLOW=''
+    _C_MAGENTA=''
+    _C_BLUE=''
+    _C_BOLD=''
+    _C_DIM=''
+    _C_NC=''
+fi
+
+# Unset conflicting aliases before defining functions
+unalias r 2>/dev/null
+unalias qu 2>/dev/null
+unalias cc 2>/dev/null
+unalias gm 2>/dev/null
+unalias focus 2>/dev/null
+unalias note 2>/dev/null
+unalias obs 2>/dev/null
+unalias workflow 2>/dev/null
+
+# ============================================
+# R PACKAGE DEVELOPMENT
+# ============================================
+
+r() {
+    # No arguments → R console (preserves current behavior)
+    if [[ $# -eq 0 ]]; then
+        if command -v radian >/dev/null; then
+            radian --quiet
+        else
+            R --quiet
+        fi
+        return
+    fi
+
+    case "$1" in
+        # Core workflow
+        load|l)      shift; Rscript -e "devtools::load_all()" "$@" ;;
+        test|t)      shift; Rscript -e "devtools::test()" "$@" ;;
+        doc|d)       shift; Rscript -e "devtools::document()" "$@" ;;
+        check|c)     shift; Rscript -e "devtools::check()" "$@" ;;
+        build|b)     shift; Rscript -e "devtools::build()" "$@" ;;
+        install|i)   shift; Rscript -e "devtools::install()" "$@" ;;
+
+        # Combined workflows
+        cycle)       Rscript -e "devtools::document(); devtools::test(); devtools::check()" ;;
+        quick|q)     Rscript -e "devtools::load_all(); devtools::test()" ;;
+
+        # Quality
+        cov)         Rscript -e "covr::package_coverage()" ;;
+        spell)       Rscript -e "spelling::spell_check_package()" ;;
+
+        # Documentation
+        pkgdown|pd)  Rscript -e "pkgdown::build_site()" ;;
+        preview|pv)  Rscript -e "pkgdown::preview_site()" ;;
+
+        # CRAN checks
+        cran)        Rscript -e "devtools::check(args = c('--as-cran'))" ;;
+        fast)        Rscript -e "devtools::check(args = c('--no-examples', '--no-tests', '--no-vignettes'))" ;;
+        win)         Rscript -e "devtools::check_win_devel()" ;;
+
+        # Version bumps
+        patch)       Rscript -e "usethis::use_version('patch')" ;;
+        minor)       Rscript -e "usethis::use_version('minor')" ;;
+        major)       Rscript -e "usethis::use_version('major')" ;;
+
+        # Info
+        info)        rpkginfo ;;
+        tree)        rpkgtree ;;
+
+        # Help
+        help|h)
+            echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ r - R Package Development                   │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}r test${_C_NC}             Run all tests
+  ${_C_CYAN}r cycle${_C_NC}            Full cycle: doc → test → check
+  ${_C_CYAN}r load${_C_NC}             Load package into memory
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} r test                    ${_C_DIM}# Run all tests${_C_NC}
+  ${_C_DIM}\$${_C_NC} r cycle                   ${_C_DIM}# Complete development cycle${_C_NC}
+  ${_C_DIM}\$${_C_NC} r load && r test          ${_C_DIM}# Quick iteration loop${_C_NC}
+
+${_C_BLUE}📋 CORE WORKFLOW${_C_NC}:
+  ${_C_CYAN}r load${_C_NC}             Load package (devtools::load_all)
+  ${_C_CYAN}r test${_C_NC}             Run tests (devtools::test)
+  ${_C_CYAN}r doc${_C_NC}              Generate docs (devtools::document)
+  ${_C_CYAN}r check${_C_NC}            R CMD check (devtools::check)
+  ${_C_CYAN}r build${_C_NC}            Build package (devtools::build)
+  ${_C_CYAN}r install${_C_NC}          Install package (devtools::install)
+
+${_C_BLUE}🔀 COMBINED${_C_NC}:
+  ${_C_CYAN}r cycle${_C_NC}            doc → test → check (full cycle)
+  ${_C_CYAN}r quick${_C_NC}            load → test (quick iteration)
+
+${_C_BLUE}📊 QUALITY${_C_NC}:
+  ${_C_CYAN}r cov${_C_NC}              Coverage report (covr)
+  ${_C_CYAN}r spell${_C_NC}            Spell check package
+
+${_C_BLUE}📚 DOCUMENTATION${_C_NC}:
+  ${_C_CYAN}r pkgdown${_C_NC}          Build pkgdown site
+  ${_C_CYAN}r preview${_C_NC}          Preview pkgdown site
+
+${_C_BLUE}✅ CRAN CHECKS${_C_NC}:
+  ${_C_CYAN}r cran${_C_NC}             Check as CRAN (--as-cran)
+  ${_C_CYAN}r fast${_C_NC}             Fast check (skip examples/tests/vignettes)
+  ${_C_CYAN}r win${_C_NC}              Windows dev check
+
+${_C_BLUE}🏷️  VERSION BUMPS${_C_NC}:
+  ${_C_CYAN}r patch${_C_NC}            Bump patch version (0.0.X)
+  ${_C_CYAN}r minor${_C_NC}            Bump minor version (0.X.0)
+  ${_C_CYAN}r major${_C_NC}            Bump major version (X.0.0)
+
+${_C_BLUE}ℹ️  INFO${_C_NC}:
+  ${_C_CYAN}r info${_C_NC}             Package info summary
+  ${_C_CYAN}r tree${_C_NC}             Package structure tree
+
+${_C_MAGENTA}🔗 SHORTCUTS STILL WORK${_C_NC}:
+  ${_C_DIM}rload, rtest, rdoc, rcheck, rbuild, rinstall${_C_NC}
+
+${_C_MAGENTA}📚 MORE HELP${_C_NC} ${_C_DIM}(coming soon)${_C_NC}:
+  ${_C_DIM}r help full                # Complete reference${_C_NC}
+  ${_C_DIM}r help examples            # More examples${_C_NC}
+  ${_C_DIM}r ?                        # Interactive picker${_C_NC}
+"
+            ;;
+
+        *)
+            echo "Unknown action: $1"
+            echo "Run: r help"
+            return 1
+            ;;
+    esac
+}
+
+# Helper for test suite - shows help
+_r_help() {
+    r help
+}
+
+# ============================================
+# QUARTO
+# ============================================
+
+qu() {
+    # No arguments → show help
+    if [[ $# -eq 0 ]]; then
+        qu help
+        return
+    fi
+
+    case "$1" in
+        # Core commands
+        preview|p)   shift; quarto preview "$@" ;;
+        render|r)    shift; quarto render "$@" ;;
+        check|c)     shift; quarto check "$@" ;;
+        clean)       rm -rf _site/ *_cache/ *_files/ ;;
+
+        # Project
+        new|n)       shift; quarto create project default "$@" ;;
+        serve|s)     shift; quarto preview "$@" ;;
+
+        # Help
+        help|h)
+            echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ qu - Quarto Publishing                      │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}qu preview${_C_NC}         Live preview document/project
+  ${_C_CYAN}qu render${_C_NC}          Render to output format
+  ${_C_CYAN}qu clean${_C_NC}           Remove generated files
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} qu preview                ${_C_DIM}# Preview with live reload${_C_NC}
+  ${_C_DIM}\$${_C_NC} qu render                 ${_C_DIM}# Render current document${_C_NC}
+  ${_C_DIM}\$${_C_NC} qu clean                  ${_C_DIM}# Clean build artifacts${_C_NC}
+
+${_C_BLUE}📋 CORE COMMANDS${_C_NC}:
+  ${_C_CYAN}qu preview${_C_NC}         Preview document/project (live)
+  ${_C_CYAN}qu render${_C_NC}          Render document/project
+  ${_C_CYAN}qu check${_C_NC}           Check Quarto installation
+  ${_C_CYAN}qu clean${_C_NC}           Remove _site, *_cache, *_files
+
+${_C_BLUE}📁 PROJECT MANAGEMENT${_C_NC}:
+  ${_C_CYAN}qu new <name>${_C_NC}      Create new Quarto project
+  ${_C_CYAN}qu serve${_C_NC}           Serve project (alias for preview)
+
+${_C_MAGENTA}🔗 SHORTCUTS STILL WORK${_C_NC}:
+  ${_C_DIM}qp (preview), qr (render), qc (check), qclean${_C_NC}
+
+${_C_MAGENTA}📚 MORE HELP${_C_NC} ${_C_DIM}(coming soon)${_C_NC}:
+  ${_C_DIM}qu help full                # Complete reference${_C_NC}
+  ${_C_DIM}qu help examples            # More examples${_C_NC}
+  ${_C_DIM}qu ?                        # Interactive picker${_C_NC}
+"
+            ;;
+
+        *)
+            echo "Unknown action: $1"
+            echo "Run: qu help"
+            return 1
+            ;;
+    esac
+}
+
+# Helper for test suite - shows help
+_qu_help() {
+    qu help
+}
+
+# ============================================
+# CLAUDE CODE
+# ============================================
+
+cc() {
+    # No arguments → interactive mode
+    if [[ $# -eq 0 ]]; then
+        claude
+        return
+    fi
+
+    case "$1" in
+        # Session modes
+        continue|c)  claude -c ;;
+        resume|r)    claude -r ;;
+        latest|l)    claude --resume latest ;;
+
+        # Models
+        sonnet|s)    shift; claude --model sonnet "$@" ;;
+        opus|o)      shift; claude --model opus "$@" ;;
+        haiku|h)     shift; claude --model haiku "$@" ;;
+
+        # Permission modes
+        plan)        shift; claude --permission-mode plan "$@" ;;
+        auto)        shift; claude --permission-mode acceptEdits "$@" ;;
+        yolo)        shift; claude --permission-mode bypassPermissions "$@" ;;
+
+        # Management
+        mcp)         shift; claude mcp "$@" ;;
+        plugin)      shift; claude plugin "$@" ;;
+
+        # Output formats
+        json)        shift; claude -p --output-format json "$@" ;;
+        stream)      shift; claude -p --output-format stream-json "$@" ;;
+
+        # Common tasks (direct prompts)
+        project)     claude "Analyze this project structure and suggest improvements" ;;
+        fix)         claude "Fix the bugs in this code" ;;
+        review)      claude "Review this code for issues and improvements" ;;
+        test)        claude "Generate comprehensive tests for this code" ;;
+        doc)         claude "Generate documentation for this code" ;;
+        explain)     claude -p "Explain this code clearly and concisely" ;;
+        refactor)    claude "Refactor this code for better readability" ;;
+        optimize)    claude "Optimize this code for performance" ;;
+        security)    claude "Review this code for security vulnerabilities" ;;
+
+        # Help
+        help)
+            echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ cc - Claude Code CLI                        │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}cc${_C_NC}                 Start interactive session
+  ${_C_CYAN}cc continue${_C_NC}        Continue last conversation
+  ${_C_CYAN}cc plan${_C_NC}            Plan mode (review actions first)
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} cc                        ${_C_DIM}# Interactive mode${_C_NC}
+  ${_C_DIM}\$${_C_NC} cc continue               ${_C_DIM}# Pick up where you left off${_C_NC}
+  ${_C_DIM}\$${_C_NC} cc plan \"add tests\"      ${_C_DIM}# Review before executing${_C_NC}
+
+${_C_BLUE}📋 SESSION MANAGEMENT${_C_NC}:
+  ${_C_CYAN}cc${_C_NC}                 Interactive mode
+  ${_C_CYAN}cc continue${_C_NC}        Continue last conversation (-c)
+  ${_C_CYAN}cc resume${_C_NC}          Resume with picker (-r)
+  ${_C_CYAN}cc latest${_C_NC}          Resume latest session
+
+${_C_BLUE}🤖 MODEL SELECTION${_C_NC}:
+  ${_C_CYAN}cc sonnet${_C_NC}          Use Sonnet (default, balanced)
+  ${_C_CYAN}cc opus${_C_NC}            Use Opus (most capable)
+  ${_C_CYAN}cc haiku${_C_NC}           Use Haiku (fastest)
+
+${_C_BLUE}🔐 PERMISSION MODES${_C_NC}:
+  ${_C_CYAN}cc plan${_C_NC}            Plan mode (review before executing)
+  ${_C_CYAN}cc auto${_C_NC}            Auto-accept edits only
+  ${_C_CYAN}cc yolo${_C_NC}            Bypass all permissions ${_C_DIM}(⚠️  use with care)${_C_NC}
+
+${_C_BLUE}⚙️  MANAGEMENT${_C_NC}:
+  ${_C_CYAN}cc mcp${_C_NC}             MCP server management
+  ${_C_CYAN}cc plugin${_C_NC}          Plugin management
+
+${_C_BLUE}📤 OUTPUT FORMATS${_C_NC}:
+  ${_C_CYAN}cc json${_C_NC}            JSON output
+  ${_C_CYAN}cc stream${_C_NC}          Streaming JSON
+
+${_C_BLUE}⚡ QUICK TASKS${_C_NC} ${_C_DIM}(instant prompts)${_C_NC}:
+  ${_C_CYAN}cc project${_C_NC}         Analyze project structure
+  ${_C_CYAN}cc fix${_C_NC}             Fix bugs in code
+  ${_C_CYAN}cc review${_C_NC}          Review code for improvements
+  ${_C_CYAN}cc test${_C_NC}            Generate comprehensive tests
+  ${_C_CYAN}cc doc${_C_NC}             Generate documentation
+  ${_C_CYAN}cc explain${_C_NC}         Explain code clearly
+  ${_C_CYAN}cc refactor${_C_NC}        Refactor for readability
+  ${_C_CYAN}cc optimize${_C_NC}        Optimize performance
+  ${_C_CYAN}cc security${_C_NC}        Security vulnerability review
+
+${_C_MAGENTA}🔗 SHORTCUTS STILL WORK${_C_NC}:
+  ${_C_DIM}ccplan, ccauto, ccyolo${_C_NC}
+
+${_C_MAGENTA}📚 MORE HELP${_C_NC} ${_C_DIM}(coming soon)${_C_NC}:
+  ${_C_DIM}cc help full                # Complete reference${_C_NC}
+  ${_C_DIM}cc help examples            # More examples${_C_NC}
+  ${_C_DIM}cc ?                        # Interactive picker${_C_NC}
+"
+            ;;
+
+        *)
+            # Default: treat as a prompt
+            claude "$@"
+            ;;
+    esac
+}
+
+# Helper for test suite - shows help
+_cc_help() {
+    cc help
+}
+
+# ============================================
+# GEMINI
+# ============================================
+
+gm() {
+    # No arguments → interactive mode
+    if [[ $# -eq 0 ]]; then
+        gemini
+        return
+    fi
+
+    case "$1" in
+        # Power modes
+        yolo)        shift; gemini --yolo "$@" ;;
+        sandbox|s)   shift; gemini --sandbox "$@" ;;
+        debug|d)     shift; gemini --debug "$@" ;;
+
+        # Session
+        resume|r)    gemini --resume latest ;;
+        list|ls)     gemini --list-sessions ;;
+        delete|del)  shift; gemini --delete-session "$@" ;;
+
+        # Management
+        mcp)         shift; gemini mcp "$@" ;;
+        ext)         shift; gemini extensions "$@" ;;
+        install)     shift; gemini extensions install "$@" ;;
+        update)      shift; gemini extensions update "$@" ;;
+
+        # Web search
+        web|w)       shift; gemini "Search the web for: $*" ;;
+        search)      shift; gemini "Find and summarize information about: $*" ;;
+
+        # Combined modes
+        yolosafe)    shift; gemini --yolo --sandbox "$@" ;;
+        yolodebug)   shift; gemini --yolo --debug "$@" ;;
+
+        # Help
+        help|h)
+            echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ gm - Gemini CLI                             │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}gm${_C_NC}                 Start interactive session
+  ${_C_CYAN}gm web${_C_NC}             Search the web (with Gemini)
+  ${_C_CYAN}gm yolo${_C_NC}            Auto-approve mode ${_C_DIM}(⚠️  use with care)${_C_NC}
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} gm                        ${_C_DIM}# Interactive mode${_C_NC}
+  ${_C_DIM}\$${_C_NC} gm web \"latest news\"     ${_C_DIM}# Search and summarize${_C_NC}
+  ${_C_DIM}\$${_C_NC} gm yolo \"analyze logs\"   ${_C_DIM}# Auto-approve actions${_C_NC}
+
+${_C_BLUE}📋 CORE${_C_NC}:
+  ${_C_CYAN}gm${_C_NC}                 Interactive mode
+
+${_C_BLUE}⚡ POWER MODES${_C_NC}:
+  ${_C_CYAN}gm yolo${_C_NC}            Auto-approve all actions ${_C_DIM}(⚠️  YOLO mode)${_C_NC}
+  ${_C_CYAN}gm sandbox${_C_NC}         Run in sandbox (safe mode)
+  ${_C_CYAN}gm debug${_C_NC}           Debug mode with verbose output
+
+${_C_BLUE}📂 SESSION MANAGEMENT${_C_NC}:
+  ${_C_CYAN}gm resume${_C_NC}          Resume latest session
+  ${_C_CYAN}gm list${_C_NC}            List all available sessions
+  ${_C_CYAN}gm delete <N>${_C_NC}      Delete session by index
+
+${_C_BLUE}⚙️  MANAGEMENT${_C_NC}:
+  ${_C_CYAN}gm mcp${_C_NC}             MCP server management
+  ${_C_CYAN}gm ext${_C_NC}             Extension management
+  ${_C_CYAN}gm install${_C_NC}         Install extension
+  ${_C_CYAN}gm update${_C_NC}          Update all extensions
+
+${_C_BLUE}🌐 WEB SEARCH${_C_NC}:
+  ${_C_CYAN}gm web <query>${_C_NC}     Search the web
+  ${_C_CYAN}gm search <query>${_C_NC}  Find and summarize information
+
+${_C_BLUE}🔀 COMBINED MODES${_C_NC}:
+  ${_C_CYAN}gm yolosafe${_C_NC}        YOLO mode in sandbox
+  ${_C_CYAN}gm yolodebug${_C_NC}       YOLO with debug output
+
+${_C_MAGENTA}🔗 SHORTCUTS STILL WORK${_C_NC}:
+  ${_C_DIM}gmyolo${_C_NC}
+
+${_C_MAGENTA}📚 MORE HELP${_C_NC} ${_C_DIM}(coming soon)${_C_NC}:
+  ${_C_DIM}gm help full                # Complete reference${_C_NC}
+  ${_C_DIM}gm help examples            # More examples${_C_NC}
+  ${_C_DIM}gm ?                        # Interactive picker${_C_NC}
+"
+            ;;
+
+        *)
+            # Default: treat as a prompt
+            gemini "$@"
+            ;;
+    esac
+}
+
+# Helper for test suite - shows help
+_gm_help() {
+    gm help
+}
+
+# ============================================
+# FOCUS TIMER - DEPRECATED
+# ============================================
+# focus() is defined in adhd-helpers.zsh (authoritative)
+# That version has the actual timer implementation
+# This dispatcher version called focus-timer which doesn't exist
+#
+# focus() {
+#     ... moved to adhd-helpers.zsh
+# }
+#
+# To restore dispatcher pattern, create _focus_help() and have
+# adhd-helpers.zsh focus() handle the help subcommand
+
+# COMMENTED OUT - keeping for reference
+: '
+focus_DISABLED() {
+    # No arguments → default 25 min timer
+    if [[ $# -eq 0 ]]; then
+        focus-timer 25
+        return
+    fi
+
+    case "$1" in
+        # Time presets (match existing f15, f25, etc.)
+        15)  focus-timer 15 ;;
+        25)  focus-timer 25 ;;
+        50)  focus-timer 50 ;;
+        90)  focus-timer 90 ;;
+
+        # Explicit duration
+        [0-9]*)  focus-timer "$1" ;;
+
+        # Management
+        check|c)     time-check ;;
+        stop|s)      focus-stop ;;
+        status)      time-check ;;
+
+        # Help
+        help|h)
+            echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ focus - Pomodoro Focus Timer                │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}focus${_C_NC}              Start 25 min timer (default)
+  ${_C_CYAN}focus 50${_C_NC}           Deep work session (50 min)
+  ${_C_CYAN}focus check${_C_NC}        Check timer status
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} focus                     ${_C_DIM}# 25 min Pomodoro${_C_NC}
+  ${_C_DIM}\$${_C_NC} focus 50                  ${_C_DIM}# Deep work session${_C_NC}
+  ${_C_DIM}\$${_C_NC} focus check               ${_C_DIM}# Time remaining${_C_NC}
+
+${_C_BLUE}⏱️  START TIMER${_C_NC}:
+  ${_C_CYAN}focus${_C_NC}              25 min timer (default Pomodoro)
+  ${_C_CYAN}focus 15${_C_NC}           15 minute timer (quick task)
+  ${_C_CYAN}focus 25${_C_NC}           25 minute timer (Pomodoro)
+  ${_C_CYAN}focus 50${_C_NC}           50 minute timer (deep work)
+  ${_C_CYAN}focus 90${_C_NC}           90 minute timer (flow state)
+  ${_C_CYAN}focus <N>${_C_NC}          Custom N minute timer
+
+${_C_BLUE}⚙️  MANAGE TIMER${_C_NC}:
+  ${_C_CYAN}focus check${_C_NC}        Check current timer status
+  ${_C_CYAN}focus stop${_C_NC}         Stop current timer
+  ${_C_CYAN}focus status${_C_NC}       Timer status (same as check)
+
+${_C_MAGENTA}🔗 SHORTCUTS STILL WORK${_C_NC}:
+  ${_C_DIM}f15, f25, f50, f90 (direct presets)${_C_NC}
+  ${_C_DIM}tc → focus check, fs → focus stop${_C_NC}
+
+${_C_MAGENTA}📚 MORE HELP${_C_NC} ${_C_DIM}(coming soon)${_C_NC}:
+  ${_C_DIM}focus help full             # Complete reference${_C_NC}
+  ${_C_DIM}focus ?                     # Interactive picker${_C_NC}
+"
+            ;;
+
+        *)
+            echo "Unknown action: $1"
+            echo "Run: focus help"
+            return 1
+            ;;
+    esac
+}
+'
+
+# ============================================
+# NOTE SYNC
+# ============================================
+
+note() {
+    # No arguments → show status
+    if [[ $# -eq 0 ]]; then
+        note help
+        return
+    fi
+
+    case "$1" in
+        # Core operations
+        sync|s)      nsync ;;
+        view|v)      nsyncview ;;
+        clip|c)      nsyncclip ;;
+        export|e)    nsyncexport ;;
+
+        # Status
+        status)      pstat ;;
+        show)        pstatshow ;;
+        list|l)      pstatlist ;;
+        count)       pstatcount ;;
+
+        # Help
+        help|h)
+            echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ note - Apple Notes Sync                     │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}note sync${_C_NC}          Sync dashboard to Apple Notes
+  ${_C_CYAN}note status${_C_NC}        Update project status
+  ${_C_CYAN}note view${_C_NC}          View dashboard content
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} note sync                 ${_C_DIM}# Push to Apple Notes${_C_NC}
+  ${_C_DIM}\$${_C_NC} note status               ${_C_DIM}# Update .STATUS files${_C_NC}
+  ${_C_DIM}\$${_C_NC} note list                 ${_C_DIM}# Show all projects${_C_NC}
+
+${_C_BLUE}📱 SYNC OPERATIONS${_C_NC}:
+  ${_C_CYAN}note sync${_C_NC}          Sync dashboard to Apple Notes
+  ${_C_CYAN}note view${_C_NC}          View dashboard content
+  ${_C_CYAN}note clip${_C_NC}          Copy dashboard to clipboard
+  ${_C_CYAN}note export${_C_NC}        Export dashboard to file
+
+${_C_BLUE}📊 STATUS MANAGEMENT${_C_NC}:
+  ${_C_CYAN}note status${_C_NC}        Update project status
+  ${_C_CYAN}note show${_C_NC}          Show status JSON
+  ${_C_CYAN}note list${_C_NC}          List all .STATUS files
+  ${_C_CYAN}note count${_C_NC}         Count projects by status
+
+${_C_MAGENTA}🔗 SHORTCUTS STILL WORK${_C_NC}:
+  ${_C_DIM}ns, nsv, nsc, nse (sync operations)${_C_NC}
+  ${_C_DIM}pstat, psv, psl, psc (status commands)${_C_NC}
+
+${_C_MAGENTA}📚 MORE HELP${_C_NC} ${_C_DIM}(coming soon)${_C_NC}:
+  ${_C_DIM}note help full              # Complete reference${_C_NC}
+  ${_C_DIM}note ?                      # Interactive picker${_C_NC}
+"
+            ;;
+
+        *)
+            echo "Unknown action: $1"
+            echo "Run: note help"
+            return 1
+            ;;
+    esac
+}
+
+# ============================================
+# OBSIDIAN - DEPRECATED
+# ============================================
+# obs() is defined in obs.zsh (authoritative)
+# That version has the full implementation with graph, sync, etc.
+# This was a simpler wrapper - commented out to avoid duplicate
+#
+# COMMENTED OUT - keeping for reference
+: '
+obs_DISABLED() {
+    # No arguments → show help
+    if [[ $# -eq 0 ]]; then
+        obs help
+        return
+    fi
+
+    local subcommand="$1"
+    shift
+
+    case "$subcommand" in
+        # ============================================
+        # GRAPH ANALYSIS (obsidian-cli-ops)
+        # ============================================
+        graph|g)
+            local graph_cmd="${1:-help}"
+            shift
+
+            case "$graph_cmd" in
+                discover|d)
+                    # Call obsidian-cli-ops discover command
+                    /Users/dt/projects/dev-tools/obsidian-cli-ops/src/obs.zsh discover "$@"
+                    ;;
+                scan|sc)
+                    /Users/dt/projects/dev-tools/obsidian-cli-ops/src/obs.zsh scan "$@"
+                    ;;
+                tui|t)
+                    /Users/dt/projects/dev-tools/obsidian-cli-ops/src/obs.zsh tui "$@"
+                    ;;
+                stats|st)
+                    /Users/dt/projects/dev-tools/obsidian-cli-ops/src/obs.zsh stats "$@"
+                    ;;
+                analyze|a)
+                    /Users/dt/projects/dev-tools/obsidian-cli-ops/src/obs.zsh analyze "$@"
+                    ;;
+                vaults|v)
+                    /Users/dt/projects/dev-tools/obsidian-cli-ops/src/obs.zsh vaults "$@"
+                    ;;
+                help|h|*)
+                    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ obs graph - Knowledge Graph Analysis       │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}📊 GRAPH COMMANDS${_C_NC}:
+  ${_C_CYAN}obs graph discover${_C_NC}     Find Obsidian vaults
+  ${_C_CYAN}obs graph scan${_C_NC}         Scan vault for notes/links
+  ${_C_CYAN}obs graph tui${_C_NC}          Launch interactive TUI
+  ${_C_CYAN}obs graph stats${_C_NC}        Show vault statistics
+  ${_C_CYAN}obs graph analyze${_C_NC}      Analyze knowledge graph
+  ${_C_CYAN}obs graph vaults${_C_NC}       List all vaults
+
+${_C_YELLOW}💡 EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} obs graph tui              ${_C_DIM}# Launch TUI${_C_NC}
+  ${_C_DIM}\$${_C_NC} obs graph discover ~/Docs  ${_C_DIM}# Find vaults${_C_NC}
+  ${_C_DIM}\$${_C_NC} obs graph stats vault_id   ${_C_DIM}# Show stats${_C_NC}
+"
+                    ;;
+            esac
+            ;;
+
+        # ============================================
+        # VAULT NAVIGATION (obsidian-bridge)
+        # ============================================
+        open|o)
+            local open_cmd="${1:-help}"
+            shift
+
+            case "$open_cmd" in
+                research|r)   obs-research "$@" ;;
+                knowledge|k)  obs-knowledge "$@" ;;
+                life|l)       obs-life "$@" ;;
+                dashboard|d)  obs-dashboard ;;
+                quick|q)      obs-quick-note "$@" ;;
+                help|h|*)
+                    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ obs open - Vault Navigation                │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}📂 OPEN COMMANDS${_C_NC}:
+  ${_C_CYAN}obs open research${_C_NC}      Open Research_Lab vault
+  ${_C_CYAN}obs open knowledge${_C_NC}     Open Knowledge_Base vault
+  ${_C_CYAN}obs open life${_C_NC}          Open Life_Admin vault
+  ${_C_CYAN}obs open dashboard${_C_NC}     Open MediationVerse dashboard
+  ${_C_CYAN}obs open quick${_C_NC} <title>  Create quick note
+
+${_C_YELLOW}💡 EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} obs open research         ${_C_DIM}# Open vault${_C_NC}
+  ${_C_DIM}\$${_C_NC} obs open quick \"My idea\"  ${_C_DIM}# Quick note${_C_NC}
+  ${_C_DIM}\$${_C_NC} obs open dashboard        ${_C_DIM}# Open dashboard${_C_NC}
+
+${_C_MAGENTA}🔗 SHORTCUTS${_C_NC}: ${_C_DIM}or, ok, ol, od, oqn${_C_NC}
+"
+                    ;;
+            esac
+            ;;
+
+        # ============================================
+        # SYNC OPERATIONS
+        # ============================================
+        sync|s)
+            local sync_cmd="${1:-help}"
+            shift
+
+            case "$sync_cmd" in
+                project|p)  obs-project-sync "$@" ;;
+                all|a)      obs-sync-all ;;
+                help|h|*)
+                    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ obs sync - Project & Vault Sync             │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔄 SYNC COMMANDS${_C_NC}:
+  ${_C_CYAN}obs sync project${_C_NC}       Sync .STATUS to dashboard
+  ${_C_CYAN}obs sync all${_C_NC}           Sync settings across vaults
+
+${_C_YELLOW}💡 EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} obs sync project -a       ${_C_DIM}# Auto-update${_C_NC}
+  ${_C_DIM}\$${_C_NC} obs sync all              ${_C_DIM}# Sync all vaults${_C_NC}
+
+${_C_MAGENTA}🔗 SHORTCUTS${_C_NC}: ${_C_DIM}ops, osa${_C_NC}
+"
+                    ;;
+            esac
+            ;;
+
+        # ============================================
+        # MAIN HELP
+        # ============================================
+        help|h)
+            echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ obs - Unified Obsidian Management           │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC}:
+  ${_C_CYAN}obs graph tui${_C_NC}          Launch interactive TUI
+  ${_C_CYAN}obs open research${_C_NC}      Open research vault
+  ${_C_CYAN}obs open dashboard${_C_NC}     Open dashboard
+  ${_C_CYAN}obs sync project${_C_NC}       Sync project status
+
+${_C_BLUE}📊 GRAPH ANALYSIS${_C_NC}:
+  ${_C_CYAN}obs graph${_C_NC} ...          Knowledge graph operations
+  ${_C_DIM}Run 'obs graph help' for details${_C_NC}
+
+${_C_BLUE}📂 VAULT NAVIGATION${_C_NC}:
+  ${_C_CYAN}obs open${_C_NC} ...           Open vaults & notes
+  ${_C_DIM}Run 'obs open help' for details${_C_NC}
+
+${_C_BLUE}🔄 SYNC OPERATIONS${_C_NC}:
+  ${_C_CYAN}obs sync${_C_NC} ...           Sync projects & settings
+  ${_C_DIM}Run 'obs sync help' for details${_C_NC}
+
+${_C_MAGENTA}🔗 SHORTCUTS STILL WORK${_C_NC}:
+  ${_C_DIM}or (research), ok (knowledge), od (dashboard)${_C_NC}
+  ${_C_DIM}ops (project sync), osa (sync all)${_C_NC}
+  ${_C_DIM}oqn (quick note)${_C_NC}
+
+${_C_YELLOW}💡 TIP${_C_NC}: Use shortcuts for quick access!
+"
+            ;;
+
+        *)
+            echo "❌ Unknown command: $subcommand"
+            echo "Run: obs help"
+            return 1
+            ;;
+    esac
+}
+'
+
+# ============================================
+# WORKFLOW LOGGING
+# ============================================
+
+workflow() {
+    # No arguments → show recent
+    if [[ $# -eq 0 ]]; then
+        worklog
+        return
+    fi
+
+    case "$1" in
+        # View logs
+        show|s)      worklog ;;
+        recent|r)    worklog ;;
+        today|t)     worklog-today ;;
+        yesterday|y) worklog-yesterday ;;
+        week|w)      worklog-week ;;
+
+        # Session management
+        started)     shift; worklog-started "$@" ;;
+        finished|f)  shift; worklog-finished "$@" ;;
+        break|b)     shift; worklog-break "$@" ;;
+        paused|p)    shift; worklog-paused "$@" ;;
+
+        # Help
+        help|h)
+            echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ workflow - Activity Logging                 │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}workflow${_C_NC}           Show recent activity log
+  ${_C_CYAN}workflow today${_C_NC}     Today's activity
+  ${_C_CYAN}workflow started${_C_NC}   Log session start
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} workflow                  ${_C_DIM}# Recent activity${_C_NC}
+  ${_C_DIM}\$${_C_NC} workflow today            ${_C_DIM}# Today's log${_C_NC}
+  ${_C_DIM}\$${_C_NC} workflow started \"coding\" ${_C_DIM}# Log start${_C_NC}
+
+${_C_BLUE}👁️  VIEW LOGS${_C_NC}:
+  ${_C_CYAN}workflow${_C_NC}           Show recent logs (default)
+  ${_C_CYAN}workflow today${_C_NC}     Show today's entries
+  ${_C_CYAN}workflow yesterday${_C_NC} Show yesterday's entries
+  ${_C_CYAN}workflow week${_C_NC}      Show this week's activity
+
+${_C_BLUE}📝 SESSION LOGGING${_C_NC}:
+  ${_C_CYAN}workflow started <task>${_C_NC}   Log session start
+  ${_C_CYAN}workflow finished <task>${_C_NC}  Log session completion
+  ${_C_CYAN}workflow break${_C_NC}            Log break time
+  ${_C_CYAN}workflow paused <reason>${_C_NC}  Log pause with reason
+
+${_C_MAGENTA}🔗 SHORTCUTS STILL WORK${_C_NC}:
+  ${_C_DIM}wl (show recent), wls (started)${_C_NC}
+  ${_C_DIM}wlf (finished), wlb (break), wlp (paused)${_C_NC}
+
+${_C_MAGENTA}📚 MORE HELP${_C_NC} ${_C_DIM}(coming soon)${_C_NC}:
+  ${_C_DIM}workflow help full          # Complete reference${_C_NC}
+  ${_C_DIM}workflow ?                  # Interactive picker${_C_NC}
+"
+            ;;
+
+        *)
+            echo "Unknown action: $1"
+            echo "Run: workflow help"
+            return 1
+            ;;
+    esac
+}
+
+# ============================================
+# COMPLETION
+# ============================================
+# Note: ZSH completion support can be added here in the future

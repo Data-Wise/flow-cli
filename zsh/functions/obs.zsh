@@ -1,0 +1,1 @@
+/Users/dt/projects/dev-tools/obsidian-cli-ops/src/obs.zsh

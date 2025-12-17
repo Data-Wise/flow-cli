@@ -1,0 +1,18 @@
+# ZSH System Health Check - Intentional Binary Shadows Whitelist
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# Format: function_name|binary_path|reason
+#
+# These are INTENTIONAL function definitions that shadow system binaries.
+# The functions provide more useful behavior for our workflow than the
+# underlying binaries.
+#
+# To access the original binary, use: command binary_name
+# Example: command cc file.c      (uses C compiler instead of Claude Code)
+#          command gm convert ...  (uses GraphicsMagick instead of morning routine)
+#
+# ═══════════════════════════════════════════════════════════════════════════
+
+cc|/usr/bin/cc|Claude Code dispatcher > C compiler (rarely used directly; use 'command cc' for compiler)
+gm|/opt/homebrew/bin/gm|Good Morning routine > GraphicsMagick (use 'command gm' for GraphicsMagick)
+r|builtin|R package development > repeat command (zsh builtin r is rarely used; use 'command r' if needed)
