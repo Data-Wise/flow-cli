@@ -1,0 +1,52 @@
+# Standards Hub
+
+> **TL;DR:** Consistent conventions across all projects. Less thinking, more doing.
+
+## Quick Links
+
+| Category | What's There |
+|----------|--------------|
+| [**adhd/**](adhd/) | ADHD-friendly templates and recovery guides |
+| [**code/**](code/) | Style guides (R, Python, ZSH) |
+| [**project/**](project/) | Project structure, READMEs, versioning |
+| [**workflow/**](workflow/) | Git workflow, releases, reviews |
+
+## Philosophy
+
+1. **Copy-paste ready** — Every guide has commands you can run
+2. **TL;DR first** — Summary at the top, details below
+3. **Decision trees** — "If X, do Y" not essays
+4. **One source of truth** — Standards live here, nowhere else
+
+## How to Use
+
+```bash
+# Quick reference
+cat standards/adhd/QUICK-START-TEMPLATE.md
+
+# When starting a new project
+proj new r-package mypackage   # Uses templates/
+
+# Check compliance
+proj check                     # Validates against standards
+```
+
+## Index
+
+### ADHD Guides
+- `adhd/QUICK-START-TEMPLATE.md` — 30-second project onboarding
+- `adhd/DECISION-TREES.md` — "What do I do when..."
+- `adhd/CONTEXT-RECOVERY.md` — "Where was I?"
+
+### Code Style
+- `code/R-STYLE-GUIDE.md` — R coding conventions
+- `code/COMMIT-MESSAGES.md` — Git commit format
+
+### Project Standards
+- `project/PROJECT-STRUCTURE.md` — Directory conventions
+- `project/README-TEMPLATE.md` — Standard README format
+- `project/VERSIONING.md` — Semantic versioning
+
+### Workflow
+- `workflow/GIT-WORKFLOW.md` — Branches, PRs, merges
+- `workflow/RELEASE-PROCESS.md` — How to release
