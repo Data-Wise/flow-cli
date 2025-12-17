@@ -59,6 +59,8 @@ proj check                     # Validates against standards
 ### ADHD Guides
 - `adhd/QUICK-START-TEMPLATE.md` — 30-second project onboarding
 - `adhd/GETTING-STARTED-TEMPLATE.md` — 10-minute user training guide
+- `adhd/TUTORIAL-TEMPLATE.md` — Step-by-step deep learning guides
+- `adhd/REFCARD-TEMPLATE.md` — One-page quick reference cards
 - `adhd/DECISION-TREES.md` — "What do I do when..."
 - `adhd/CONTEXT-RECOVERY.md` — "Where was I?"
 
