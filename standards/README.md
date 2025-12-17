@@ -2,6 +2,29 @@
 
 > **TL;DR:** Consistent conventions across all projects. Less thinking, more doing.
 
+## Role in Hub Architecture
+
+This is the **Standards Hub** — one tier of the three-tier project management system:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  project-hub/           │ Master aggregation & weekly plan  │
+├─────────────────────────────────────────────────────────────┤
+│  mediation-planning/    │ R packages coordination           │
+│  dev-planning/          │ Dev tools coordination            │
+├─────────────────────────────────────────────────────────────┤
+│  zsh-configuration/     │                                   │
+│    └─ standards/        │ ← YOU ARE HERE                    │
+│                         │ Universal conventions for ALL     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**This folder contains:** Universal standards referenced by all projects across all domains.
+
+**See also:** [../docs/planning/PROJECT-HUB-PROPOSAL.md](../docs/planning/PROJECT-HUB-PROPOSAL.md) for full architecture.
+
+---
+
 ## Quick Links
 
 | Category | What's There |

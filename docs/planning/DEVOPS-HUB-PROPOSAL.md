@@ -1,5 +1,42 @@
 # DevOps Hub: zsh-configuration as Central Command
 
+> **Status:** SUPERSEDED by [PROJECT-HUB-PROPOSAL.md](PROJECT-HUB-PROPOSAL.md)
+>
+> This was the initial brainstorm. After further analysis, we evolved to a three-tier hub system. See the revised proposal for the final architecture.
+
+---
+
+## Revision Notes (2025-12-17)
+
+**What changed:**
+- Original vision: `zsh-configuration` as single hub for everything
+- Final decision: Three-tier system with separation of concerns
+
+**Why we changed:**
+1. `mediation-planning` pattern proved effective for domain coordination
+2. Mixing standards + shell config + project tracking in one repo gets bloated
+3. Cleaner mental model: standards vs coordination vs aggregation
+
+**Final architecture:**
+```
+project-hub/              # Master aggregation (NEW)
+mediation-planning/       # R packages coordination (EXISTS)
+dev-planning/             # Dev tools coordination (NEW)
+zsh-configuration/        # Standards + shell config (FOCUSED)
+```
+
+**What we kept from this proposal:**
+- `standards/` directory structure (implemented)
+- `templates/` concept (planned)
+- Unified commands (`pb`, `pt`, `pd`, `pc`) (planned)
+- ADHD-friendly principles (core to all)
+
+**See:** [PROJECT-HUB-PROPOSAL.md](PROJECT-HUB-PROPOSAL.md) for final design.
+
+---
+
+# Original Proposal (Historical)
+
 ## Vision
 
 > **One place to rule them all.** `zsh-configuration` becomes the single source of truth for all project workflows, standards, and automation.
