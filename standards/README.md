@@ -58,11 +58,13 @@ proj check                     # Validates against standards
 
 ### ADHD Guides
 - `adhd/QUICK-START-TEMPLATE.md` — 30-second project onboarding
+- `adhd/GETTING-STARTED-TEMPLATE.md` — 10-minute user training guide
 - `adhd/DECISION-TREES.md` — "What do I do when..."
 - `adhd/CONTEXT-RECOVERY.md` — "Where was I?"
 
 ### Code Style
 - `code/R-STYLE-GUIDE.md` — R coding conventions
+- `code/ZSH-COMMANDS-HELP.md` — ZSH command help output standard
 - `code/COMMIT-MESSAGES.md` — Git commit format
 
 ### Project Standards

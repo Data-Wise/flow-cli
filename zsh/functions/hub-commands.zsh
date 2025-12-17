@@ -21,13 +21,27 @@ HUB_R_PLANNING="${HUB_R_PLANNING:-$HOME/projects/r-packages/mediation-planning}"
 # focus - Show today's focus
 # -----------------------------------------------------------------------------
 focus() {
+    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: focus
+
+Show today's focus from the project hub .STATUS file.
+
+Alias: f
+
+See also: week, hub
+EOF
+        return 0
+    fi
+
     local status_file="$HUB_PROJECT_HUB/.STATUS"
 
     if [[ -f "$status_file" ]]; then
         echo "━━━ Today's Focus ━━━"
         cat "$status_file"
     else
-        echo "No .STATUS file found at $status_file"
+        echo "focus: no .STATUS file found at $status_file" >&2
+        echo "Create one in $HUB_PROJECT_HUB/.STATUS" >&2
         return 1
     fi
 }
@@ -36,6 +50,19 @@ focus() {
 # week - Show this week's plan
 # -----------------------------------------------------------------------------
 week() {
+    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: week
+
+Show this week's plan from the project hub weekly file.
+
+Alias: wk
+
+See also: focus, hub, hub-new-week
+EOF
+        return 0
+    fi
+
     local week_num=$(date +%V)
     local week_file="$HUB_PROJECT_HUB/weekly/WEEK-${week_num}.md"
 
@@ -43,8 +70,8 @@ week() {
         echo "━━━ Week $week_num Plan ━━━"
         cat "$week_file"
     else
-        echo "No weekly file found: $week_file"
-        echo "Create with: hub-new-week"
+        echo "week: no weekly file found: $week_file" >&2
+        echo "Create with: hub-new-week" >&2
         return 1
     fi
 }
@@ -56,6 +83,28 @@ hub() {
     local cmd="${1:-view}"
 
     case "$cmd" in
+        -h|--help|help)
+            cat <<'EOF'
+Usage: hub [subcommand]
+
+Navigate the master project hub.
+
+Subcommands:
+  view (v)    Display PROJECT-HUB.md (default)
+  edit (e)    Open dashboard in editor
+  open (o)    Open directory in Finder
+  cd (c)      Change to hub directory
+  help        Show this help
+
+Examples:
+  hub         # View dashboard
+  hub edit    # Edit dashboard
+  hub cd      # Go to hub directory
+
+See also: devhub, rhub, focus, week
+EOF
+            return 0
+            ;;
         view|v)
             cat "$HUB_PROJECT_HUB/PROJECT-HUB.md"
             ;;
@@ -69,7 +118,9 @@ hub() {
             cd "$HUB_PROJECT_HUB"
             ;;
         *)
-            echo "Usage: hub [view|edit|open|cd]"
+            echo "hub: unknown subcommand '$cmd'" >&2
+            echo "Run 'hub help' for usage" >&2
+            return 1
             ;;
     esac
 }
@@ -81,6 +132,31 @@ devhub() {
     local cmd="${1:-view}"
 
     case "$cmd" in
+        -h|--help|help)
+            cat <<'EOF'
+Usage: devhub [subcommand]
+
+Navigate the dev tools planning hub.
+
+Subcommands:
+  view (v)    Display PROJECT-HUB.md (default)
+  edit (e)    Open dashboard in editor
+  open (o)    Open directory in Finder
+  cd (c)      Change to hub directory
+  todos (t)   Show TODOS.md
+  help        Show this help
+
+Alias: dh
+
+Examples:
+  devhub         # View dashboard
+  devhub todos   # Show task list
+  dh cd          # Go to hub directory
+
+See also: hub, rhub, focus
+EOF
+            return 0
+            ;;
         view|v)
             cat "$HUB_DEV_PLANNING/PROJECT-HUB.md"
             ;;
@@ -97,7 +173,9 @@ devhub() {
             cat "$HUB_DEV_PLANNING/TODOS.md"
             ;;
         *)
-            echo "Usage: devhub [view|edit|open|cd|todos]"
+            echo "devhub: unknown subcommand '$cmd'" >&2
+            echo "Run 'devhub help' for usage" >&2
+            return 1
             ;;
     esac
 }
@@ -109,6 +187,31 @@ rhub() {
     local cmd="${1:-view}"
 
     case "$cmd" in
+        -h|--help|help)
+            cat <<'EOF'
+Usage: rhub [subcommand]
+
+Navigate the R packages planning hub (mediation-planning).
+
+Subcommands:
+  view (v)    Display PROJECT-HUB.md (default)
+  edit (e)    Open dashboard in editor
+  open (o)    Open directory in Finder
+  cd (c)      Change to hub directory
+  todos (t)   Show TODOS.md
+  help        Show this help
+
+Alias: rh
+
+Examples:
+  rhub         # View dashboard
+  rhub todos   # Show task list
+  rh cd        # Go to hub directory
+
+See also: hub, devhub, focus
+EOF
+            return 0
+            ;;
         view|v)
             cat "$HUB_R_PLANNING/PROJECT-HUB.md"
             ;;
@@ -125,7 +228,9 @@ rhub() {
             cat "$HUB_R_PLANNING/TODOS.md"
             ;;
         *)
-            echo "Usage: rhub [view|edit|open|cd|todos]"
+            echo "rhub: unknown subcommand '$cmd'" >&2
+            echo "Run 'rhub help' for usage" >&2
+            return 1
             ;;
     esac
 }
@@ -134,11 +239,24 @@ rhub() {
 # hub-new-week - Create new weekly file
 # -----------------------------------------------------------------------------
 hub-new-week() {
+    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: hub-new-week
+
+Create a new weekly planning file for the current week.
+
+The file is created at: project-hub/weekly/WEEK-XX.md
+
+See also: week, hub
+EOF
+        return 0
+    fi
+
     local week_num=$(date +%V)
     local week_file="$HUB_PROJECT_HUB/weekly/WEEK-${week_num}.md"
 
     if [[ -f "$week_file" ]]; then
-        echo "Week $week_num file already exists: $week_file"
+        echo "hub-new-week: Week $week_num file already exists: $week_file" >&2
         return 1
     fi
 
