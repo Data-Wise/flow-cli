@@ -1,6 +1,5 @@
-# Backup and archive files
+# Archived junk files (local only)
 .archive/
-.backups/
 *.bak
 *.bak[0-9]*
 *.backup*
