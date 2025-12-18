@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node test/test-status.js:*)",
+      "Bash(node:*)"
+    ]
+  }
+}
