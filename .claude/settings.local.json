@@ -2,7 +2,20 @@
   "permissions": {
     "allow": [
       "Bash(node test/test-status.js:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(pick --fast:*)",
+      "Bash(pick --help:*)",
+      "Bash(_proj_list_all \"dev\")",
+      "Bash(while IFS='|' read -r name type icon dir)",
+      "Bash(do printf \"%-20s %s %-4s\\\\n\" \"$name\" \"$icon\" \"$type\")",
+      "Bash(done)",
+      "Bash(else)",
+      "Bash(fi)",
+      "Bash(if [ -d ~/projects/r-packages/stable/rmediation/tests ])",
+      "Bash(then)",
+      "Bash(else echo \"=== $pkg: No .STATUS ===\")",
+      "Bash(for pkg in medfit probmed medrobust medsim mediationverse)",
+      "Bash(do grep \"^Version:\" ~/projects/r-packages/active/$pkg/DESCRIPTION)"
     ]
   }
 }

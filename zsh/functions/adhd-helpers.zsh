@@ -1860,51 +1860,215 @@ _show_research_context() {
 # ─────────────────────────────────────────────────────────────
 # pick - Project Picker (fzf)
 # ─────────────────────────────────────────────────────────────
+
+# Helper: Truncate long branch names
+_truncate_branch() {
+    local branch="$1"
+    local max_len=20
+    if [[ ${#branch} -gt $max_len ]]; then
+        echo "${branch:0:17}..."
+    else
+        printf "%-20s" "$branch"
+    fi
+}
+
 pick() {
     local category="${1:-}"
+    local fast_mode=0
+
+    # Show help if requested
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        cat << 'EOF'
+╔════════════════════════════════════════════════════════════╗
+║  🔍 PICK - Interactive Project Picker                      ║
+╚════════════════════════════════════════════════════════════╝
+
+USAGE:
+  pick [--fast] [category]
+
+ARGUMENTS:
+  category     Optional filter (r, dev, q, teach, rs, app)
+  --fast       Skip git status checks (faster loading)
+
+CATEGORIES (case-insensitive, multiple aliases):
+  r            R packages (r, R, rpack, rpkg)
+  dev          Development tools (dev, DEV, tool, tools)
+  q            Quarto projects (q, Q, qu, quarto)
+  teach        Teaching courses (teach, teaching)
+  rs           Research projects (rs, research, res)
+  app          Applications (app, apps)
+
+INTERACTIVE KEYS:
+  Enter        cd to project directory
+  Ctrl-W       cd + start work session
+  Ctrl-O       cd + open in VS Code
+  Ctrl-S       View .STATUS file (bat/cat)
+  Ctrl-L       View git log (tig/git)
+  Ctrl-C       Exit without action
+
+DISPLAY FORMAT:
+  project-name         icon type
+  zsh-configuration    🔧 dev
+  mediationverse       📦 r
+
+EXAMPLES:
+  pick              # Show all projects
+  pick r            # Show only R packages
+  pick --fast dev   # Fast mode, dev tools only
+  pickr             # Alias for: pick r
+
+ALIASES:
+  pickr            pick r
+  pickdev          pick dev
+  pickq            pick q
+
+DOCUMENTATION:
+  See: docs/user/PICK-COMMAND-REFERENCE.md
+EOF
+        return 0
+    fi
+
+    # Parse arguments
+    # Support: pick, pick r, pick dev, pick --fast, pick --fast r
+    if [[ "$1" == "--fast" ]]; then
+        fast_mode=1
+        category="${2:-}"
+    fi
+
+    # Normalize category shortcuts
+    case "$category" in
+        r|R|rpack|rpkg) category="r" ;;
+        dev|Dev|DEV|tool|tools) category="dev" ;;
+        q|Q|qu|quarto) category="q" ;;
+        teach|teaching) category="teach" ;;
+        rs|research|res) category="rs" ;;
+        app|apps) category="app" ;;
+    esac
 
     # Check for fzf
     if ! command -v fzf &>/dev/null; then
-        echo "❌ fzf required. Install: brew install fzf"
+        echo "❌ fzf required. Install: brew install fzf" >&2
         return 1
+    fi
+
+    # Show header with category filter if applicable
+    local header_text="🔍 PROJECT PICKER"
+    if [[ -n "$category" ]]; then
+        case "$category" in
+            r) header_text="🔍 PROJECT PICKER - R Packages" ;;
+            dev) header_text="🔍 PROJECT PICKER - Dev Tools" ;;
+            q) header_text="🔍 PROJECT PICKER - Quarto Projects" ;;
+            teach) header_text="🔍 PROJECT PICKER - Teaching" ;;
+            rs) header_text="🔍 PROJECT PICKER - Research" ;;
+            app) header_text="🔍 PROJECT PICKER - Apps" ;;
+        esac
     fi
 
     echo ""
     echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║  🔍 PROJECT PICKER                                         ║"
+    printf "║  %-57s║\n" "$header_text"
     echo "╚════════════════════════════════════════════════════════════╝"
     echo ""
 
-    # Build project list with status - simplified approach
+    # Build project list with status - FIX: use process substitution to avoid subshell
     local tmpfile=$(mktemp)
+    local action_file=$(mktemp)
 
-    _proj_list_all "$category" | while IFS='|' read -r name type icon dir; do
-        local git_info=$(_proj_git_status "$dir")
-        local branch=$(echo "$git_info" | cut -d'|' -f1)
-        local changes=$(echo "$git_info" | cut -d'|' -f2)
+    while IFS='|' read -r name type icon dir; do
+        # Simple format: name, icon, type (always, no colors)
+        # Git info optional with --git flag in future
+        printf "%-20s %s %-4s\n" "$name" "$icon" "$type"
+    done < <(_proj_list_all "$category") > "$tmpfile"
 
-        local status_icon="✅"
-        if [[ "$changes" =~ ^[0-9]+$ ]] && [[ "$changes" -gt 0 ]]; then
-            status_icon="⚠️"
-        fi
+    # Check if we have any projects
+    if [[ ! -s "$tmpfile" ]]; then
+        echo "❌ No projects found${category:+ in category '$category'}" >&2
+        rm -f "$tmpfile" "$action_file"
+        return 1
+    fi
 
-        printf "%-20s %s %-4s %s [%s]\n" "$name" "$icon" "$type" "$status_icon" "$branch"
-    done > "$tmpfile"
+    # fzf with key bindings and help
+    local selection=$(cat "$tmpfile" | fzf \
+        --height=50% \
+        --reverse \
+        --header="Enter=cd | ^W=work | ^O=code | ^S=status | ^L=log | ^C=cancel" \
+        --bind="ctrl-w:execute-silent(echo work > $action_file)+accept" \
+        --bind="ctrl-o:execute-silent(echo code > $action_file)+accept" \
+        --bind="ctrl-s:execute-silent(echo status > $action_file)+accept" \
+        --bind="ctrl-l:execute-silent(echo log > $action_file)+accept")
 
-    local selection=$(cat "$tmpfile" | fzf --height=50% --reverse --header="Select project (Enter=cd, Ctrl-W=work)")
     rm -f "$tmpfile"
 
-    if [[ -n "$selection" ]]; then
-        local proj_name=$(echo "$selection" | awk '{print $1}')
-        local proj_dir=$(_proj_find "$proj_name")
+    # Handle cancellation
+    if [[ -z "$selection" ]]; then
+        rm -f "$action_file"
+        return 0
+    fi
 
-        if [[ -n "$proj_dir" && -d "$proj_dir" ]]; then
+    # Extract project name (first field - simple now that we have no colors)
+    local proj_name=$(echo "$selection" | awk '{print $1}')
+    local proj_dir=$(_proj_find "$proj_name")
+
+    if [[ -z "$proj_dir" || ! -d "$proj_dir" ]]; then
+        echo "❌ Project directory not found: $proj_name" >&2
+        rm -f "$action_file"
+        return 1
+    fi
+
+    # Execute action
+    local action="cd"
+    if [[ -f "$action_file" ]]; then
+        action=$(cat "$action_file")
+        rm -f "$action_file"
+    fi
+
+    case "$action" in
+        work)
+            cd "$proj_dir"
+            echo ""
+            echo "  🚀 Starting work session: $proj_name"
+            work
+            ;;
+        code)
+            cd "$proj_dir"
+            echo ""
+            echo "  📝 Opening in VS Code: $proj_name"
+            code .
+            ;;
+        status)
+            cd "$proj_dir"
+            echo ""
+            if [[ -f .STATUS ]]; then
+                echo "  📊 .STATUS file for: $proj_name"
+                echo ""
+                if command -v bat &>/dev/null; then
+                    bat .STATUS
+                else
+                    cat .STATUS
+                fi
+            else
+                echo "  ⚠️  No .STATUS file found in: $proj_name"
+            fi
+            echo ""
+            ;;
+        log)
+            cd "$proj_dir"
+            echo ""
+            echo "  📜 Git log for: $proj_name"
+            echo ""
+            if command -v tig &>/dev/null; then
+                tig
+            else
+                git log --oneline --graph --decorate -20
+            fi
+            ;;
+        *)
             cd "$proj_dir"
             echo ""
             echo "  📂 Changed to: $proj_dir"
             echo ""
-        fi
-    fi
+            ;;
+    esac
 }
 
 # Category-specific aliases

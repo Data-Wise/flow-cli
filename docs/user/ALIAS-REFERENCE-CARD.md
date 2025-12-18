@@ -267,6 +267,27 @@ ma -o           # Generate and open report
 | `endsession` | End session with duration stats |
 | `sessioninfo` | Show current session info |
 
+### Project Navigation
+
+| Function | Description | Usage |
+|----------|-------------|-------|
+| `pick [category]` | Interactive project picker (fzf) | `pick r`, `pick dev` |
+| `pick --help` | Show pick command help | `pick -h` |
+| `pickr` | Alias for `pick r` | R packages only |
+| `pickdev` | Alias for `pick dev` | Dev tools only |
+| `pickq` | Alias for `pick q` | Quarto projects only |
+
+**Pick Interactive Keys:**
+
+- **Enter** - cd to project directory
+- **Ctrl-W** - cd + start work session
+- **Ctrl-O** - cd + open in VS Code
+- **Ctrl-S** - View .STATUS file
+- **Ctrl-L** - View git log
+- **Ctrl-C** - Exit without action
+
+**Pick Categories:** r, dev, q, teach, rs, app (case-insensitive, forgiving aliases)
+
 ### Workflow Logging
 | Function | Description |
 |----------|-------------|
@@ -406,6 +427,6 @@ Common typos auto-correct - just keep typing!
 
 ---
 
-**Last Updated:** 2025-12-14
-**Version:** 1.1 (Workspace Audit added)
+**Last Updated:** 2025-12-18
+**Version:** 1.2 (Pick command simplified, Project Navigation added)
 **Next:** P1 features (progress indicators, smart confirmations)

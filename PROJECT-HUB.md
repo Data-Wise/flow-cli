@@ -143,9 +143,23 @@ P4: Optimization (NEW)       ░░░░░░░░░░░░░░░░░
 
 ---
 
-## ✅ Completed 2025-12-14 (P0-P3)
+## ✅ Recent Completions
 
-### Critical Fixes
+### Pick Command Enhancement (2025-12-18)
+
+- [x] ✅ Fixed critical subshell output pollution bug
+- [x] ✅ Added branch name truncation (20 chars with ellipsis)
+- [x] ✅ Implemented fzf key bindings (Ctrl-W=work, Ctrl-O=code)
+- [x] ✅ Added fast mode (`pick --fast`)
+- [x] ✅ Added category normalization (r/R/rpack, dev/DEV/tool, q/Q/qu/quarto)
+- [x] ✅ Added dynamic headers showing active filter
+- [x] ✅ Created comprehensive proposal: `PROPOSAL-PICK-COMMAND-ENHANCEMENT.md`
+
+**Impact:** Pick command now reliable, no more erratic behavior. Process substitution prevents debug output leaking into fzf display.
+
+### Completed 2025-12-14 (P0-P3)
+
+#### Critical Fixes
 - [x] ✅ Fixed antidote initialization (line 12 uncommented)
 - [x] ✅ Verified all 120+ aliases load correctly
 - [x] ✅ Restored backup from Dec 10 (stable baseline)
