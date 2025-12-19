@@ -145,6 +145,66 @@ v() {
             ;;
 
         # ─────────────────────────────────────────────────────────────
+        # SESSION MANAGEMENT SHORTCUTS
+        # ─────────────────────────────────────────────────────────────
+        start|begin)
+            shift
+            # Delegate to existing startsession command
+            if command -v startsession &>/dev/null; then
+                startsession "$@"
+            else
+                echo "${_C_RED}Error:${_C_NC} startsession command not found"
+                return 1
+            fi
+            ;;
+
+        end|stop)
+            # Delegate to existing endsession command
+            if command -v endsession &>/dev/null; then
+                endsession
+            else
+                echo "${_C_RED}Error:${_C_NC} endsession command not found"
+                return 1
+            fi
+            ;;
+
+        # ─────────────────────────────────────────────────────────────
+        # MORNING/NIGHT ROUTINES
+        # ─────────────────────────────────────────────────────────────
+        morning|gm)
+            # Delegate to existing pmorning command
+            if command -v pmorning &>/dev/null; then
+                pmorning
+            else
+                echo "${_C_RED}Error:${_C_NC} pmorning command not found"
+                return 1
+            fi
+            ;;
+
+        night|gn)
+            # Delegate to existing pnight command
+            if command -v pnight &>/dev/null; then
+                pnight
+            else
+                echo "${_C_RED}Error:${_C_NC} pnight command not found"
+                return 1
+            fi
+            ;;
+
+        # ─────────────────────────────────────────────────────────────
+        # PROGRESS TRACKING
+        # ─────────────────────────────────────────────────────────────
+        progress|prog|p)
+            # Delegate to existing progress_check command
+            if command -v progress_check &>/dev/null; then
+                progress_check
+            else
+                echo "${_C_RED}Error:${_C_NC} progress_check command not found"
+                return 1
+            fi
+            ;;
+
+        # ─────────────────────────────────────────────────────────────
         # HELP
         # ─────────────────────────────────────────────────────────────
         help|h|--help|-h)
@@ -219,6 +279,13 @@ ${_C_BLUE}🎯 DIRECT COMMANDS${_C_NC}:
   ${_C_CYAN}v dash${_C_NC}           Dashboard (→ dash)
   ${_C_CYAN}v status${_C_NC}         Project status (→ status)
   ${_C_CYAN}v health${_C_NC}         Combined health check
+
+${_C_BLUE}🏃 SESSION SHORTCUTS${_C_NC}:
+  ${_C_CYAN}v start${_C_NC}          Start session (→ startsession)
+  ${_C_CYAN}v end${_C_NC}            End session (→ endsession)
+  ${_C_CYAN}v morning${_C_NC}        Morning routine (→ pmorning)
+  ${_C_CYAN}v night${_C_NC}          Night routine (→ pnight)
+  ${_C_CYAN}v progress${_C_NC}       Check progress (→ progress_check)
 
 ${_C_MAGENTA}💡 TIP${_C_NC}: Use \"vibe\" for full command name
   ${_C_DIM}vibe test        Same as \`v test\`${_C_NC}

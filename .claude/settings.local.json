@@ -25,7 +25,18 @@
       "Bash(if [ -f ~/workflow.log ])",
       "Bash(then tail -1000 ~/workflow.log)",
       "Bash(cut:*)",
-      "Bash(else echo \"No workflow log found\")"
+      "Bash(else echo \"No workflow log found\")",
+      "Bash(gemini --help:*)",
+      "Bash(gemini:*)",
+      "Bash(claude tasks)",
+      "Bash(/tmp/final_dashboard.sh)",
+      "Bash(timer help:*)",
+      "Bash(peek help:*)",
+      "Bash(peek qu:*)",
+      "Bash(peek status:*)",
+      "Bash(peek md:*)",
+      "Bash(timer status)",
+      "Bash(gm help:*)"
     ]
   }
 }

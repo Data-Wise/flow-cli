@@ -163,34 +163,6 @@ worktimer() {
 # ============================================
 
 # Complete check cycle: load → document → test → check
-rcycle() {
-    echo "🔄 Running full R package cycle..."
-    echo ""
-    
-    echo "1️⃣ Loading package..."
-    rload || return 1
-    echo ""
-    
-    echo "2️⃣ Documenting..."
-    rdoc || return 1
-    echo ""
-    
-    echo "3️⃣ Running tests..."
-    rtest || return 1
-    echo ""
-    
-    echo "4️⃣ Checking package..."
-    rcheck || return 1
-    echo ""
-    
-    echo "✅ Full cycle complete!"
-}
-
-# Quick cycle (load + test only)
-rquick() {
-    echo "⚡ Quick check..."
-    rload && rtest
-}
 
 # Jump to R package and show relevant info
 

@@ -262,8 +262,6 @@ alias rpkgdeep='rm -rf man/*.Rd NAMESPACE docs/ *.tar.gz *.Rcheck/'
 # REMOVED 2025-12-14: alias q='qp'               # Most frequent Quarto (preview)
 
 # P0: Atomic pairs (common sequences)
-# REMOVED 2025-12-14: alias lt='rload && rtest'      # Load then test
-# REMOVED 2025-12-14: alias dt='rdoc && rtest'       # Document then test
 
 alias rpkg='rpkginfo'
 # REMOVED 2025-12-14: alias rdev='rpkgcycle'
@@ -289,7 +287,6 @@ alias ccp='claude -p'                                # Print mode (non-interacti
 # REMOVED 2025-12-14: alias ccl='claude --resume latest'                   # Resume latest session
 
 # Model selection
-# REMOVED 2025-12-14: alias ccs='claude --model sonnet'                    # Use Sonnet (default)
 # REMOVED 2025-12-14: alias cco='claude --model opus'                      # Use Opus (most capable)
 # REMOVED 2025-12-14: alias cch='claude --model haiku'                     # Use Haiku (fastest)
 

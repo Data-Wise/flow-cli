@@ -1900,8 +1900,6 @@ CATEGORIES (case-insensitive, multiple aliases):
 
 INTERACTIVE KEYS:
   Enter        cd to project directory
-  Ctrl-W       cd + start work session
-  Ctrl-O       cd + open in VS Code
   Ctrl-S       View .STATUS file (bat/cat)
   Ctrl-L       View git log (tig/git)
   Ctrl-C       Exit without action
@@ -1991,9 +1989,7 @@ EOF
     local selection=$(cat "$tmpfile" | fzf \
         --height=50% \
         --reverse \
-        --header="Enter=cd | ^W=work | ^O=code | ^S=status | ^L=log | ^C=cancel" \
-        --bind="ctrl-w:execute-silent(echo work > $action_file)+accept" \
-        --bind="ctrl-o:execute-silent(echo code > $action_file)+accept" \
+        --header="Enter=cd | ^S=status | ^L=log | ^C=cancel" \
         --bind="ctrl-s:execute-silent(echo status > $action_file)+accept" \
         --bind="ctrl-l:execute-silent(echo log > $action_file)+accept")
 
@@ -2023,18 +2019,6 @@ EOF
     fi
 
     case "$action" in
-        work)
-            cd "$proj_dir"
-            echo ""
-            echo "  🚀 Starting work session: $proj_name"
-            work
-            ;;
-        code)
-            cd "$proj_dir"
-            echo ""
-            echo "  📝 Opening in VS Code: $proj_name"
-            code .
-            ;;
         status)
             cd "$proj_dir"
             echo ""
@@ -2072,9 +2056,6 @@ EOF
 }
 
 # Category-specific aliases
-alias pickr='pick r'         # R packages
-alias pickdev='pick dev'     # Dev tools
-alias pickq='pick q'         # Quarto
 
 
 # ─────────────────────────────────────────────────────────────
@@ -2988,7 +2969,6 @@ tst() {
 }
 
 # Teaching aliases
-alias pickteach='pick teach'
 alias dashteach='dash teach'
 
 # ═══════════════════════════════════════════════════════════════════
@@ -3160,7 +3140,6 @@ rst() {
 }
 
 # Research aliases
-alias pickrs='pick rs'
 alias dashrs='dash rs'
 
 # ─────────────────────────────────────────────────────────────
