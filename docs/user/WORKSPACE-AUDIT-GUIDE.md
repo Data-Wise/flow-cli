@@ -153,7 +153,7 @@ Activity Heatmap (Last 7 Days)
  141 r-packages/recovery        ████████████████████
   89 research/mediation-planning █████████████████
   45 quarto/manuscripts         █████████
-  23 dev-tools/emacs-r-devkit   ████
+  23 dev-tools/spacemacs-rstats ████
 
 ℹ Today: 203 files modified
 ```

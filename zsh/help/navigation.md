@@ -51,9 +51,9 @@
 ```bash
 @datawise      # ~/projects/dev-tools/data-wise
                # Ecosystem hub
-               
-@emacs         # ~/projects/dev-tools/emacs-r-devkit
-               # Emacs R development setup
+
+@emacs         # ~/projects/dev-tools/spacemacs-rstats
+               # Spacemacs R development setup
 ```
 
 ### Planning (1)
@@ -111,7 +111,7 @@ lsrpkg         # List ~/projects/r-packages/active
                # Shows: medfit, probmed, mediationverse, etc.
 
 lsdev          # List ~/projects/dev-tools
-               # Shows: data-wise, emacs-r-devkit, etc.
+               # Shows: data-wise, spacemacs-rstats, etc.
 ```
 
 **When to use:**
@@ -146,7 +146,7 @@ $ treep
 ~/projects
 ├── dev-tools
 │   ├── data-wise
-│   ├── emacs-r-devkit
+│   ├── spacemacs-rstats
 │   └── zsh-claude-workflow
 ├── r-packages
 │   ├── active

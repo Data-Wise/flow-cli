@@ -16,7 +16,7 @@
 │   ├── apple-notes-sync
 │   ├── claude-mcp
 │   ├── claude-statistical-research
-│   ├── emacs-r-devkit
+│   ├── spacemacs-rstats
 │   ├── iterm2-context-switcher
 │   ├── obsidian-cli-ops
 │   ├── zsh-claude-workflow

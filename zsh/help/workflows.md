@@ -422,7 +422,7 @@ $ active
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ✓ medfit
   ✓ datawise
-  ✓ emacs-r-devkit
+  ✓ spacemacs-rstats
 ```
 
 ---

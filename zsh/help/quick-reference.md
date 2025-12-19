@@ -60,7 +60,7 @@ zshrc          # Edit .zshrc
 @probmed       # ~/projects/r-packages/active/probmed
 @medverse      # ~/projects/r-packages/active/mediationverse
 @datawise      # ~/projects/dev-tools/data-wise
-@emacs         # ~/projects/dev-tools/emacs-r-devkit
+@emacs         # ~/projects/dev-tools/spacemacs-rstats
 @planning      # ~/projects/dev-tools/data-wise/planning
 ```
 
