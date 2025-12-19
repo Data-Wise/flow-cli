@@ -793,6 +793,11 @@ if [[ -f ~/.config/zsh/functions/bg-agents.zsh ]]; then
     source ~/.config/zsh/functions/bg-agents.zsh
 fi
 
+# MCP Server Management Dispatcher (2025-12-19)
+if [[ -f ~/.config/zsh/functions/mcp-dispatcher.zsh ]]; then
+    source ~/.config/zsh/functions/mcp-dispatcher.zsh
+fi
+
 # ============================================
 # LOCAL CUSTOMIZATIONS
 # ============================================

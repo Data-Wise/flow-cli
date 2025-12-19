@@ -192,6 +192,48 @@ gy             # YOLO mode
 
 ---
 
+## 🔌 MCP SERVERS (8)
+
+**Pattern:** `mcp <action> [args]`
+
+### Core Actions
+```bash
+mcp            # List all servers (default)
+mcp cd NAME    # Navigate to server
+mcp test NAME  # Test server runs
+mcp edit NAME  # Edit in $EDITOR
+mcp pick       # Interactive picker (fzf)
+```
+
+### Info & Status
+```bash
+mcp status     # Config status
+mcp readme     # View README
+mcp help       # Show help
+```
+
+### Short Forms
+```bash
+mcp l          # list
+mcp g          # cd (goto)
+mcp t          # test
+mcp e          # edit
+mcp p          # pick
+mcp s          # status
+mcp r          # readme
+mcp h          # help
+```
+
+### Alias
+```bash
+mcpp           # mcp pick (interactive)
+```
+
+**Servers:** `~/projects/dev-tools/mcp-servers/`
+**Symlinks:** `~/mcp-servers/<name>`
+
+---
+
 ## 🔧 GIT (7)
 
 **Note:** Git plugin disabled (was 226 aliases!)
@@ -366,8 +408,8 @@ alias | grep "^b"
 
 ## 📊 STATISTICS
 
-**Total aliases:** ~90
-- Custom core: 60
+**Total aliases:** ~98
+- Custom core: 68
 - Homebrew plugin: ~30
 
 **Breakdown:**
@@ -375,6 +417,7 @@ alias | grep "^b"
 - Spacemacs: 10
 - Project Mgmt: 11
 - R Packages: 12
+- MCP Servers: 8
 - Zsh Config: 8
 - AI: 5
 - Git: 7
@@ -382,7 +425,7 @@ alias | grep "^b"
 - Quarto: 3
 - Utilities: 5
 
-**Reduction:** From 387 → 90 (77% fewer)
+**Reduction:** From 387 → 98 (75% fewer)
 
 ---
 
@@ -404,4 +447,4 @@ helpgit        # Git workflows
 
 ---
 
-**Version:** 2.1 | **Last Updated:** 2025-12-16 | **Change:** Added zoxide (replaced z plugin)
+**Version:** 2.2 | **Last Updated:** 2025-12-19 | **Change:** Added MCP Server dispatcher (8 commands)

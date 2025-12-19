@@ -359,11 +359,28 @@ test_<function>
 - [ ] Function named: `<letter>()`
 - [ ] Help function: `_<letter>_help()`
 - [ ] Default action (no args)
-- [ ] Passthrough for unknown commands
+- [ ] Passthrough for unknown commands (if applicable)
 - [ ] Sourced in `.zshrc`
-- [ ] Added to COMMAND-QUICK-REFERENCE.md
+- [ ] Added to quick-reference.md
 - [ ] Tests written
+
+### Example Dispatchers
+
+**Existing implementations:**
+- `g-dispatcher.zsh` - Git commands (`g status`, `g push`)
+- `r-dispatcher.zsh` - R development (`r test`, `r check`)
+- `v-dispatcher.zsh` - Vibe/vibrant (`v build`, `v preview`)
+- `mcp-dispatcher.zsh` - MCP server management (`mcp list`, `mcp test`)
+
+**Pattern consistency:**
+```bash
+# All follow same pattern: cmd + keyword
+g status      # Git
+r test        # R
+v build       # Vibe
+mcp list      # MCP servers
+```
 
 ---
 
-*Last Updated: 2025-12-17*
+*Last Updated: 2025-12-19*
