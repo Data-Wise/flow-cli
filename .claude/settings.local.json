@@ -15,7 +15,17 @@
       "Bash(then)",
       "Bash(else echo \"=== $pkg: No .STATUS ===\")",
       "Bash(for pkg in medfit probmed medrobust medsim mediationverse)",
-      "Bash(do grep \"^Version:\" ~/projects/r-packages/active/$pkg/DESCRIPTION)"
+      "Bash(do grep \"^Version:\" ~/projects/r-packages/active/$pkg/DESCRIPTION)",
+      "Bash(xxd:*)",
+      "Bash(else echo \"File not found - only exists in Positron\")",
+      "Bash(env)",
+      "Bash(~/test-positron-environment.zsh)",
+      "Bash(~/binary-search-zshrc.sh)",
+      "Bash(fc:*)",
+      "Bash(if [ -f ~/workflow.log ])",
+      "Bash(then tail -1000 ~/workflow.log)",
+      "Bash(cut:*)",
+      "Bash(else echo \"No workflow log found\")"
     ]
   }
 }

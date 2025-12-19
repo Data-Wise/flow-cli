@@ -1130,7 +1130,11 @@ dashupdate() {
 # Alias for quick access
 alias dash='dashupdate'
 alias dashopen='dashupdate && open -a "Claude"'
-alias do='dashopen'
+# REMOVED: alias do='dashopen'
+# Reason: 'do' is a ZSH reserved word (for loops: for x do ... done)
+# Aliasing it breaks parsing of any subsequent 'for' loops, causing:
+# "parse error near `unset'" in Positron's shell integration script
+# Use 'dashopen' or 'dash' directly instead
 
 # ─── iTerm2 Smart Context Switching ───────────────────────────────────────────
 [[ -f ~/projects/dev-tools/iterm2-context-switcher/zsh/iterm2-integration.zsh ]] && \
