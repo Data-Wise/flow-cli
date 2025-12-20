@@ -103,14 +103,14 @@ dash() {
 
         local dir=$(dirname "$status_file")
         local name=$(basename "$dir")
-        local status=$(grep -i "^status:" "$status_file" 2>/dev/null | cut -d: -f2- | sed 's/^[[:space:]]*//' | tr '[:upper:]' '[:lower:]')
+        local proj_status=$(grep -i "^status:" "$status_file" 2>/dev/null | cut -d: -f2- | sed 's/^[[:space:]]*//' | tr '[:upper:]' '[:lower:]')
         local priority=$(grep -i "^priority:" "$status_file" 2>/dev/null | cut -d: -f2- | sed 's/^[[:space:]]*//')
         local progress=$(grep -i "^progress:" "$status_file" 2>/dev/null | cut -d: -f2- | sed 's/^[[:space:]]*//')
         local next=$(grep -i "^next:" "$status_file" 2>/dev/null | cut -d: -f2- | sed 's/^[[:space:]]*//')
         local project_type=$(grep -i "^type:" "$status_file" 2>/dev/null | cut -d: -f2- | sed 's/^[[:space:]]*//')
 
         # Default values
-        [[ -z "$status" ]] && status="unknown"
+        [[ -z "$proj_status" ]] && proj_status="unknown"
         [[ -z "$priority" ]] && priority="--"
         [[ -z "$progress" ]] && progress="--"
         [[ -z "$next" ]] && next="No next action defined"
@@ -130,7 +130,7 @@ dash() {
         # Categorize by status
         local entry="${icon} ${name}|${priority}|${progress}|${next}"
 
-        case "$status" in
+        case "$proj_status" in
             active|working|in*progress)
                 active_projects+=("$entry")
                 ;;
