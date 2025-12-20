@@ -273,6 +273,8 @@ ${_C_BOLD}╭──────────────────────�
 ${_C_BOLD}│ g - Git Commands                            │${_C_NC}
 ${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
+${_C_BOLD}Usage:${_C_NC} g [subcommand] [args]
+
 ${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
   ${_C_CYAN}g${_C_NC}                 Status (short)
   ${_C_CYAN}g add .${_C_NC}           Stage all changes
