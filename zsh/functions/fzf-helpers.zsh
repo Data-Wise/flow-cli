@@ -16,6 +16,33 @@ unalias gb ga 2>/dev/null
 # re - Fuzzy find and edit R package files
 # Usage: re [pattern]
 re() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: re
+
+Browse and edit R package files with fzf preview.
+
+DESCRIPTION:
+  Interactive file browser for R package development. Uses fzf to search
+  through R/ and tests/ directories with syntax-highlighted preview.
+  Opens selected file in $EDITOR.
+
+EXAMPLES:
+  re                           # Browse R files with fzf preview
+                               # Tab: select, Enter: edit
+                               # Ctrl+/: toggle preview
+                               # Esc: cancel
+
+REQUIREMENTS:
+  - Must be in R package directory (with R/ or tests/ dir)
+  - Requires: fzf, fd, bat
+
+See also: rt (run tests), rv (view vignettes), fr (find R packages)
+EOF
+        return 0
+    fi
+
     if [ ! -d "R" ] && [ ! -d "tests" ]; then
         echo "❌ Not in an R package directory (no R/ or tests/ directory)"
         return 1
@@ -244,6 +271,21 @@ EOF
 # gshow - Fuzzy git log with preview
 # Usage: gshow
 gshow() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: gshow
+
+Browse git commit history with fzf preview.
+
+EXAMPLES:
+  gshow                        # Interactive commit browser
+
+See also: gb, gdf, ga
+EOF
+        return 0
+    fi
+
     if ! git rev-parse --git-dir > /dev/null 2>&1; then
         echo "❌ Not in a git repository"
         return 1
