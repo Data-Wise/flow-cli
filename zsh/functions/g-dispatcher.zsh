@@ -18,6 +18,10 @@
 #   g push              # Push to remote
 #   g log               # Pretty log
 #   g help              # Show all commands
+
+# Unalias conflicting OMZ git plugin alias
+# (Our dispatcher provides a smarter g command)
+unalias g 2>/dev/null
 #
 # ══════════════════════════════════════════════════════════════════════════════
 

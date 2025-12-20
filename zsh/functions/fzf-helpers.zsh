@@ -5,6 +5,10 @@
 # Created: 2025-12-16
 # Requires: fzf, fd, bat, git
 
+# Unalias conflicting OMZ git plugin aliases
+# (Our functions provide enhanced versions with fzf)
+unalias gb ga 2>/dev/null
+
 # ============================================
 # R PACKAGE HELPERS
 # ============================================
