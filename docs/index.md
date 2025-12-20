@@ -121,8 +121,6 @@ Aggressive cleanup retaining only high-frequency daily-use commands.
 | Git aliases | 5 | Plugin (226+) |
 | Emacs aliases | 2 | Direct commands |
 
-**See [Cleanup Summary](ALIAS-CLEANUP-SUMMARY-2025-12-19.md) for complete details.**
-
 ---
 
 ## 🎯 Design Philosophy

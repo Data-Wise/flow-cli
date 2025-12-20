@@ -12,8 +12,9 @@
 3. **[WORKFLOW-QUICK-REFERENCE.md](user/WORKFLOW-QUICK-REFERENCE.md)** - Daily workflows
 
 ### Current Users (Post-Cleanup)
-1. **[ALIAS-CLEANUP-SUMMARY-2025-12-19.md](../ALIAS-CLEANUP-SUMMARY-2025-12-19.md)** - What changed
-2. **[ALIAS-REFERENCE-CARD.md](user/ALIAS-REFERENCE-CARD.md)** - Migration guide included
+
+1. **[ALIAS-REFERENCE-CARD.md](user/ALIAS-REFERENCE-CARD.md)** - Migration guide included
+2. **[index.md](index.md)** - See "What Changed (2025-12-19)" section for cleanup details
 
 ---
 
@@ -40,10 +41,10 @@
 ## 🔧 Developer Documentation
 
 ### Implementation Guides
+
 | Document | Purpose | Update |
 |----------|---------|--------|
 | [ZSH-DEVELOPMENT-GUIDELINES.md](ZSH-DEVELOPMENT-GUIDELINES.md) | Coding standards | 2025-12-19 ✅ |
-| [SHELL-FIXES-SUMMARY-2025-12-19.md](../SHELL-FIXES-SUMMARY-2025-12-19.md) | Bug fixes log | 2025-12-19 ✅ |
 
 ### Test Documentation
 | Directory | Purpose |
@@ -56,10 +57,11 @@
 ## 📖 Change History
 
 ### 2025-12-19: Alias Cleanup
-- **[ALIAS-CLEANUP-SUMMARY-2025-12-19.md](../ALIAS-CLEANUP-SUMMARY-2025-12-19.md)** - Complete cleanup summary
+
 - Reduced from 179 to 28 aliases (84% reduction)
 - Enabled git plugin (226+ standard aliases)
-- Updated ALIAS-REFERENCE-CARD.md
+- Updated ALIAS-REFERENCE-CARD.md with migration guide
+- See [index.md](index.md) "What Changed" section for details
 
 ### 2025-12-14: Workflow Redesign
 - Simplified workflow commands
@@ -87,9 +89,10 @@
 ## 🎯 Quick Links by Topic
 
 ### Aliases
+
 - **Current list:** [ALIAS-REFERENCE-CARD.md](user/ALIAS-REFERENCE-CARD.md)
-- **Cleanup log:** [ALIAS-CLEANUP-SUMMARY-2025-12-19.md](../ALIAS-CLEANUP-SUMMARY-2025-12-19.md)
 - **Migration guide:** See "Migration Guide" section in ALIAS-REFERENCE-CARD.md
+- **Cleanup details:** See [index.md](index.md) "What Changed (2025-12-19)" section
 
 ### Workflows
 - **Quick reference:** [WORKFLOW-QUICK-REFERENCE.md](user/WORKFLOW-QUICK-REFERENCE.md)
@@ -97,9 +100,10 @@
 - **Quick wins:** [WORKFLOWS-QUICK-WINS.md](user/WORKFLOWS-QUICK-WINS.md)
 
 ### Development
+
 - **Guidelines:** [ZSH-DEVELOPMENT-GUIDELINES.md](ZSH-DEVELOPMENT-GUIDELINES.md)
-- **Bug fixes:** [SHELL-FIXES-SUMMARY-2025-12-19.md](../SHELL-FIXES-SUMMARY-2025-12-19.md)
 - **Tests:** `~/.config/zsh/tests/`
+- **Conventions:** [CONVENTIONS.md](CONVENTIONS.md)
 
 ### Git Integration
 - **Plugin docs:** [OMZ Git Plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git)
@@ -151,10 +155,11 @@ cat docs/user/ALIAS-REFERENCE-CARD.md | grep "alias-name"
 ## 📝 Document Status
 
 ### Up to Date (✅)
+
 - ALIAS-REFERENCE-CARD.md (2025-12-19)
-- ALIAS-CLEANUP-SUMMARY-2025-12-19.md (2025-12-19)
 - ZSH-DEVELOPMENT-GUIDELINES.md (2025-12-19)
 - README.md (2025-12-19)
+- index.md (2025-12-20)
 
 ### Needs Review (⚠️)
 - WORKFLOW-QUICK-REFERENCE.md (references removed aliases)
