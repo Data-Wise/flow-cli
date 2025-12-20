@@ -51,7 +51,17 @@
       "Bash(dash dev:*)",
       "Bash(while read func)",
       "Bash(then echo \" ❌ $func - NO HELP\")",
-      "Bash(else echo \" ✅ $func - has help\")"
+      "Bash(else echo \" ✅ $func - has help\")",
+      "Bash(for func in just-start why win focus pick finish pt pb pv morning)",
+      "Bash(if git log --oneline --all --grep=\"$func\")",
+      "Skill(git:commit)",
+      "Skill(git:commit:*)",
+      "Bash(g log:*)",
+      "Bash(mcp invalid-action)",
+      "Bash(mcp test:*)",
+      "Bash([ -f mkdocs.yml ])",
+      "Bash(lsof:*)",
+      "Bash(for:*)"
     ]
   }
 }
