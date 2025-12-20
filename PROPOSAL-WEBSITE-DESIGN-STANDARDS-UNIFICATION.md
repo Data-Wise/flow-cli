@@ -17,6 +17,9 @@ Create a unified website design standard system that supports multiple documenta
 
 **Next Phase:** Extract base standard and create R package implementations
 
+!!! info "Complementary Proposal: UX Improvements"
+    This proposal focuses on **color system unification** across documentation tools. For **content structure and UX improvements** (progressive disclosure, navigation, interactivity) that leverage this color system, see [ADHD-Friendly Documentation Site Proposal](PROPOSAL-ADHD-FRIENDLY-DOCS.md).
+
 ---
 
 ## Problem Statement
@@ -308,6 +311,7 @@ cp ~/projects/research/mediation-planning/standards/website-design/01-IMPLEMENTA
 - ✅ Single source of truth for color values
 - ✅ Easy updates (change once, sync everywhere)
 - ✅ Documented implementation for each tool
+- ✅ **Enables UX improvements** - Unified color system makes it possible to implement advanced UX patterns (see [ADHD-Friendly Documentation Site Proposal](PROPOSAL-ADHD-FRIENDLY-DOCS.md))
 
 ### Long-term
 - ✅ Scalable to new tools (Hugo, Sphinx, VuePress)

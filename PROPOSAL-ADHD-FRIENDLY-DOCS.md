@@ -116,6 +116,9 @@ details.md-typeset summary:hover {
 
 #### 1.2 Color-Coded Information Types
 
+!!! info "Related: ADHD Color System Standards"
+    This section uses semantic colors for content types. For the broader color palette system (cyan/purple primary colors) used across all documentation tools, see [Website Design Standards Unification Proposal](PROPOSAL-WEBSITE-DESIGN-STANDARDS-UNIFICATION.md).
+
 **Visual system for different content types:**
 
 | Color | Type | Use |
@@ -769,7 +772,7 @@ last_updated: 2025-12-20
 
 ## Questions for Review
 
-1. **Color scheme:** Keep Material indigo or switch to something more "dopamine-friendly" (e.g., cyan/purple)?
+1. **Color scheme:** ✅ **Resolved** - Use ADHD-optimized cyan/purple system (see [Website Design Standards Unification](PROPOSAL-WEBSITE-DESIGN-STANDARDS-UNIFICATION.md))
 2. **Progressive disclosure:** Default to collapsed or expanded for each section?
 3. **Mobile nav:** Bottom bar or hamburger menu?
 4. **Search:** Keep default or add AI-powered semantic search?
