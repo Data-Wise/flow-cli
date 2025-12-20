@@ -111,6 +111,21 @@ EOF
 # rv - Fuzzy find and view R package vignettes
 # Usage: rv
 rv() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: rv
+
+Browse and edit vignettes with fzf preview.
+
+EXAMPLES:
+  rv                           # Select and edit vignette
+
+See also: re, rt, fs
+EOF
+        return 0
+    fi
+
     if [ ! -d "vignettes" ]; then
         echo "❌ No vignettes directory found"
         return 1
@@ -419,6 +434,21 @@ EOF
 # fp - Fuzzy find projects
 # Usage: fp
 fp() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: fp
+
+Browse projects with fzf and navigate to selected directory.
+
+EXAMPLES:
+  fp                           # Select and cd to project
+
+See also: fh
+EOF
+        return 0
+    fi
+
     local project
     project=$(fd -t d -d 3 . ~/projects 2>/dev/null | fzf \
         --prompt="Projects > " \
