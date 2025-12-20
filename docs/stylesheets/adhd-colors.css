@@ -145,6 +145,14 @@
   font-weight: 600;
 }
 
+/* Dark mode needs stronger background for visibility */
+[data-md-color-scheme="slate"] .md-nav__link--active {
+  background: linear-gradient(90deg,
+    rgba(77, 208, 225, 0.25) 0%,     /* Higher opacity for dark bg */
+    rgba(186, 104, 200, 0.15) 100%);
+  border-left: 3px solid var(--md-primary-fg-color);
+}
+
 /* ============================================
    BUTTONS & INTERACTIVE ELEMENTS
    ============================================ */
@@ -207,6 +215,27 @@
   font-style: italic;
 }
 
+/* Dark mode code block optimizations */
+[data-md-color-scheme="slate"] .md-typeset pre code {
+  border-left-color: var(--md-accent-fg-color);  /* Use lighter purple */
+}
+
+/* Dark mode syntax highlighting - ensure visibility */
+[data-md-color-scheme="slate"] .md-typeset pre code .k,
+[data-md-color-scheme="slate"] .md-typeset pre code .kn {
+  color: var(--md-accent-fg-color);  /* Lighter purple for dark */
+}
+
+[data-md-color-scheme="slate"] .md-typeset pre code .nf {
+  color: var(--md-primary-fg-color);  /* Lighter cyan for dark */
+}
+
+[data-md-color-scheme="slate"] .md-typeset pre code .s,
+[data-md-color-scheme="slate"] .md-typeset pre code .s1,
+[data-md-color-scheme="slate"] .md-typeset pre code .s2 {
+  color: var(--adhd-success);  /* Already lightened to #69f0ae */
+}
+
 /* ============================================
    TABLES
    ============================================ */
@@ -224,6 +253,14 @@
     rgba(0, 188, 212, 0.05) 0%,
     transparent 100%);
   transition: background 0.2s ease;
+}
+
+/* Dark mode needs higher opacity for visibility */
+[data-md-color-scheme="slate"] .md-typeset table tbody tr:hover {
+  background: linear-gradient(90deg,
+    rgba(77, 208, 225, 0.15) 0%,     /* 3x opacity for visibility */
+    rgba(77, 208, 225, 0.05) 50%,
+    transparent 100%);
 }
 
 /* ============================================
@@ -317,6 +354,23 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--md-accent-fg-color);
+}
+
+/* Dark mode scrollbar adjustments */
+[data-md-color-scheme="slate"] ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);  /* Lighter track for dark bg */
+}
+
+[data-md-color-scheme="slate"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg,
+    rgba(77, 208, 225, 0.6),      /* Lighter cyan */
+    rgba(186, 104, 200, 0.6));    /* Lighter purple */
+}
+
+[data-md-color-scheme="slate"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg,
+    var(--md-primary-fg-color),
+    var(--md-accent-fg-color));
 }
 
 /* ============================================
