@@ -185,30 +185,58 @@ EOF
 # ═══════════════════════════════════════════════════════════════════
 
 why() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: why
+
+Show current work context and session information.
+
+DESCRIPTION:
+  Displays what you're currently working on, helping restore context
+  after distractions or context switches. ADHD-friendly reminder tool.
+
+EXAMPLES:
+  why                          # Show current context
+
+DISPLAYS:
+  - Current project and location
+  - Git branch and recent commits
+  - Uncommitted changes count
+  - Current .STATUS goals
+  - Recent activity (last 4 hours)
+  - Breadcrumbs notes (if any)
+  - Suggested next commands
+
+See also: just-start, work, breadcrumb
+EOF
+        return 0
+    fi
+
     echo ""
     echo "┌─────────────────────────────────────────────────────────┐"
     echo "│ 🤔 WHY AM I HERE?                                       │"
     echo "└─────────────────────────────────────────────────────────┘"
     echo ""
-    
+
     # Location
     echo "📍 LOCATION: $(pwd)"
     local project=$(basename "$PWD")
     echo "📦 PROJECT:  $project"
     echo ""
-    
+
     # Git context
     if [[ -d .git ]]; then
         local branch=$(git branch --show-current 2>/dev/null)
         local last_commit=$(git log --oneline -1 2>/dev/null)
         local changes=$(git status --porcelain 2>/dev/null | wc -l | tr -d '[:space:]')
-        
+
         echo "🌿 BRANCH: $branch"
         echo "📝 LAST COMMIT: $last_commit"
         echo "✏️  UNCOMMITTED: $changes files"
         echo ""
     fi
-    
+
     # What you were doing (from .STATUS)
     if [[ -f .STATUS ]]; then
         echo "🎯 CURRENT GOAL:"
@@ -218,7 +246,7 @@ why() {
         echo "─────────────────────────────────────────────────────────"
         echo ""
     fi
-    
+
     # Recent activity
     echo "⏰ RECENT ACTIVITY:"
     git log --oneline --since="4 hours ago" 2>/dev/null | head -3
@@ -226,14 +254,14 @@ why() {
         echo "   (no commits in last 4 hours)"
     fi
     echo ""
-    
+
     # Breadcrumbs if any
     if [[ -f .breadcrumbs ]]; then
         echo "🍞 YOUR NOTES:"
         tail -3 .breadcrumbs
         echo ""
     fi
-    
+
     # Suggestion
     echo "💡 SUGGESTED NEXT:"
     echo "   t   = run tests (see if things work)"
