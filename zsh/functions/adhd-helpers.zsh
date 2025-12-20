@@ -22,6 +22,35 @@ emulate -L zsh
 # ═══════════════════════════════════════════════════════════════════
 
 just-start() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: just-start
+
+ADHD-friendly workflow to eliminate decision paralysis and start working.
+
+DESCRIPTION:
+  Automated workflow that picks a project, starts session tracking,
+  and opens work environment. No decisions required - just execute.
+
+EXAMPLES:
+  just-start                   # Let the system decide what to work on
+  js                           # Alias for just-start
+
+WORKFLOW:
+  1. Picks highest priority project (P0, then P1, then any active)
+  2. Starts session tracking
+  3. Opens project in editor
+  4. Shows .STATUS file with next actions
+
+ALIASES:
+  js                           # Shorthand
+
+See also: why, work, startsession
+EOF
+        return 0
+    fi
+
     echo "🎲 Finding your next task..."
     echo ""
 
