@@ -688,6 +688,43 @@ timer() {
 # ═══════════════════════════════════════════════════════════════════
 
 morning() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: morning
+
+Morning startup routine and dashboard.
+
+DESCRIPTION:
+  Automated morning workflow to start the day with clear context.
+  Shows agenda, priorities, and helps pick first task.
+
+EXAMPLES:
+  morning                      # Run morning routine
+  gm                           # Alias for morning
+
+WORKFLOW:
+  1. Shows yesterday's wins (last 5)
+  2. Displays recent Git activity (last 24h)
+  3. Lists active project statuses by priority
+  4. Suggests first task based on P0/P1 priorities
+  5. Provides quick action commands
+
+OUTPUT SECTIONS:
+  - Yesterday's wins           # Quick dopamine boost
+  - Recent work (commits)      # What you accomplished
+  - Project status dashboard   # Current priorities (P0-P2)
+  - Suggested first task       # Smart recommendation
+  - Quick actions              # Next steps
+
+ALIASES:
+  gm                           # Good morning
+
+See also: just-start, dash, why, wins
+EOF
+        return 0
+    fi
+
     local today=$(date +%Y-%m-%d)
     local yesterday=$(date -v-1d +%Y-%m-%d)
     local day_name=$(date +%A)
@@ -2608,6 +2645,33 @@ _dash_display() {
 
 # pt - Project Test (context-aware)
 pt() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: pt
+
+Run project tests (context-aware).
+
+DESCRIPTION:
+  Automatically detects project type and runs appropriate tests.
+  Supports R packages, Node.js, Python, and more.
+
+EXAMPLES:
+  pt                           # Run tests for current project
+
+PROJECT TYPES:
+  - R packages: devtools::test()
+  - Node.js: npm test
+  - Python: pytest
+  - Make-based: make test
+  - Quarto/Teaching: quarto check
+  - Research (LaTeX): lacheck main.tex
+
+See also: pb (build), pv (preview)
+EOF
+        return 0
+    fi
+
     local proj_type=$(_proj_detect_type)
 
     echo "  🧪 Running tests..."
