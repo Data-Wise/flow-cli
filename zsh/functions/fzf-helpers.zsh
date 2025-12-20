@@ -178,6 +178,31 @@ EOF
 # gdf - Interactive git diff with fzf
 # Usage: gdf
 gdf() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: gdf
+
+Browse git diff with fzf preview.
+
+DESCRIPTION:
+  Interactively browse changed files in your git working directory
+  with a live diff preview. Select a file to view the full diff.
+
+EXAMPLES:
+  gdf                          # Interactive git diff browser
+
+FEATURES:
+  - Tab: Select multiple files
+  - Ctrl+/: Toggle preview window
+  - Enter: View full diff in pager
+  - Esc: Cancel
+
+See also: gb, gshow, ga
+EOF
+        return 0
+    fi
+
     if ! git rev-parse --git-dir > /dev/null 2>&1; then
         echo "❌ Not in a git repository"
         return 1
