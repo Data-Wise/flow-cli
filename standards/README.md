@@ -78,5 +78,7 @@ proj check                     # Validates against standards
 - `project/VERSIONING.md` — Semantic versioning
 
 ### Workflow
+
+- `workflow/HELP-CREATION-WORKFLOW.md` — Creating/updating help commands ⭐ NEW
 - `workflow/GIT-WORKFLOW.md` — Branches, PRs, merges
 - `workflow/RELEASE-PROCESS.md` — How to release
