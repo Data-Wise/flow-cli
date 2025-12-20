@@ -14,15 +14,15 @@
 | # | Workflow | Time | Load | Use When |
 |---|----------|------|------|----------|
 | 1 | [Quick Test](#1-quick-test-cycle) | 5 min | 🟢 | Made code changes |
-| 2 | [Load + Test](#2-load--test-atomic) | 5 min | 🟢 | Fresh start on package |
-| 3 | [Doc + Test](#3-document--test) | 8 min | 🟢 | Changed function docs |
+| 2 | [Load + Test](#2-load-test-atomic) | 5 min | 🟢 | Fresh start on package |
+| 3 | [Doc + Test](#3-document-test) | 8 min | 🟢 | Changed function docs |
 | 4 | [Full Check](#4-full-check-before-commit) | 60 min | 🟡 | Before git commit |
 | 5 | [Quick Commit](#5-quick-commit-workflow) | 3 min | 🟢 | Ready to save work |
 | 6 | [Fix Failing Tests](#6-fix-failing-tests) | varies | 🟡 | Tests are red |
-| 7 | [Context Check](#7-where-am-i) | 30 sec | 🟢 | Lost context |
+| 7 | [Context Check](#7-where-am-i-context-check) | 30 sec | 🟢 | Lost context |
 | 8 | [Focus Mode](#8-focus-mode-deep-work) | setup | 🟢 | Need concentration |
 | 9 | [Start Feature](#9-start-new-feature) | 2 min | 🟢 | Beginning new work |
-| 10 | [Emergency Recovery](#10-what-did-i-break) | varies | 🔴 | Something broke |
+| 10 | [Emergency Recovery](#what-did-i-break-emergency-recovery) | varies | 🔴 | Something broke |
 
 **Cognitive Load:** 🟢 Easy | 🟡 Medium | 🔴 Hard
 
