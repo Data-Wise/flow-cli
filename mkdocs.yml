@@ -10,19 +10,19 @@ edit_uri: edit/main/docs/
 theme:
   name: material
   palette:
-    # Light mode
+    # Light mode - ADHD-optimized cyan/purple
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: cyan
+      accent: purple
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-    # Dark mode
+    # Dark mode - ADHD-optimized cyan/purple
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: cyan
+      accent: purple
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
@@ -82,3 +82,4 @@ extra:
 
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/adhd-colors.css
