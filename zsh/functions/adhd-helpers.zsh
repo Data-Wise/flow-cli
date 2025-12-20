@@ -2650,6 +2650,33 @@ pt() {
 
 # pb - Project Build (context-aware)
 pb() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: pb
+
+Build project (context-aware).
+
+DESCRIPTION:
+  Automatically detects project type and runs appropriate build command.
+  Supports R packages, Quarto, LaTeX, Node.js, Python, and more.
+
+EXAMPLES:
+  pb                           # Build current project
+
+PROJECT TYPES:
+  - R packages: devtools::build()
+  - Quarto: quarto render
+  - LaTeX: latexmk -pdf
+  - Node.js: npm run build
+  - Python: python -m build
+  - Makefile projects: make build
+
+See also: pt (test), pv (preview), pr (run)
+EOF
+        return 0
+    fi
+
     local proj_type=$(_proj_detect_type)
 
     echo "  🔨 Building..."
