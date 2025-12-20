@@ -357,9 +357,34 @@ wins-history() {
 # ═══════════════════════════════════════════════════════════════════
 
 focus() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: focus [duration] [task]
+
+Start a focused work timer (Pomodoro technique).
+
+ARGUMENTS:
+  duration    Timer duration in minutes (default: 25)
+  task        What you're focusing on (default: current project)
+
+EXAMPLES:
+  focus                        # 25-minute pomodoro
+  focus 50                     # 50-minute deep work
+  focus 25 "write tests"       # 25 min on specific task
+
+ALIASES:
+  f25                          # 25-minute pomodoro
+  f50                          # 50-minute deep work
+
+See also: timer, win, just-start
+EOF
+        return 0
+    fi
+
     local duration="${1:-25}"
     local task="${2:-$(basename $PWD)}"
-    
+
     # Kill any existing timer
     [[ -f /tmp/focus-timer-pid ]] && kill $(cat /tmp/focus-timer-pid) 2>/dev/null
     
@@ -482,6 +507,119 @@ alias f50='focus 50'
 # alias f90='focus 90'    # REMOVED 2025-12-19
 # alias fst='focus-stop'  # REMOVED 2025-12-19: Use 'focus-stop' directly
 # alias tc='time-check'   # REMOVED 2025-12-19: Use 'time-check' directly
+
+# Timer dispatcher with smart defaults
+_timer_help() {
+    cat <<'EOF'
+Usage: timer [COMMAND] [DURATION] [TASK]
+
+Smart focus timer with auto-win logging.
+
+COMMANDS:
+    (none)          Start 25-min focus session (default)
+    focus [MIN]     Start focus session (default: 25 min)
+    break [MIN]     Start break timer (default: 5 min)
+    status          Show current timer status
+    help            Show this help message
+
+EXAMPLES:
+    timer                    # 25-min focus + auto-log win
+    timer focus              # Same as no args
+    timer focus 50           # 50-min focus session
+    timer break              # 5-min break
+    timer break 10           # 10-min break
+
+ALIASES:
+    tc                       # Check elapsed time (time-check)
+    fs                       # Stop timer early (focus-stop)
+
+NOTES:
+    - Completed focus sessions automatically log as wins
+    - Use 'tc' to check elapsed time during session
+    - Use 'fs' to stop early (prompts to log as win if >5 min)
+
+EOF
+}
+
+timer() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        _timer_help
+        return 0
+    fi
+
+    local cmd="${1:-focus}"
+    local duration="${2:-25}"
+    local task="${3:-$(basename $PWD)}"
+
+    case "$cmd" in
+        focus|"")
+            # Smart default: 25-min pomodoro with auto-win logging
+            # Delegate to existing focus() function
+            focus "$duration" "$task"
+            local focus_result=$?
+
+            # Auto-log win on successful completion
+            # The focus() function runs in background, so we can't directly detect completion
+            # Instead, we'll monitor the PID file and log when it disappears
+            if [[ $focus_result -eq 0 && -f /tmp/focus-timer-pid ]]; then
+                # Launch background watcher to auto-log win on completion
+                (
+                    local pid=$(cat /tmp/focus-timer-pid 2>/dev/null)
+                    if [[ -n "$pid" ]]; then
+                        # Wait for the timer to complete (PID file removed by focus())
+                        while [[ -f /tmp/focus-timer-pid ]]; do
+                            sleep 5
+                        done
+                        # Check if we completed (not stopped early)
+                        # If focus completed, the cleanup happens automatically
+                        # We'll only log if the session wasn't stopped via focus-stop
+                        if ! ps -p $pid >/dev/null 2>&1; then
+                            # Timer completed naturally - auto-log win
+                            if command -v win >/dev/null 2>&1; then
+                                win "Completed ${duration}-min focus on $task" >/dev/null 2>&1
+                            fi
+                        fi
+                    fi
+                ) &!  # Run in background, disowned
+            fi
+            ;;
+
+        break)
+            # Break timer (default 5 min)
+            duration="${2:-5}"
+            echo ""
+            echo "☕ Break timer: ${duration} minutes"
+            echo "Time to recharge!"
+            echo ""
+
+            # Use a simple sleep + notification (no background complexity)
+            (
+                sleep $((duration * 60))
+                osascript -e "display notification \"Break's over! Ready to focus?\" with title \"Break Complete\" sound name \"Glass\"" 2>/dev/null
+                say "Break time is over. Ready to get back to work?" 2>/dev/null
+                echo -e '\a'
+            ) &!
+
+            echo "🔔 Break timer started. Will notify in ${duration} minutes."
+            ;;
+
+        status)
+            # Show current timer status (delegate to time-check)
+            if command -v time-check >/dev/null 2>&1; then
+                time-check
+            else
+                echo "No timer status available"
+            fi
+            ;;
+
+        *)
+            echo "timer: unknown command '$cmd'" >&2
+            echo "Run 'timer help' for usage" >&2
+            return 1
+            ;;
+    esac
+}
 
 # ═══════════════════════════════════════════════════════════════════
 # 5. MORNING - Daily kickstart routine
