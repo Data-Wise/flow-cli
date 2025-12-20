@@ -2045,7 +2045,7 @@ pick() {
     local fast_mode=0
 
     # Show help if requested
-    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+    if [[ "$1" == "help" || "$1" == "--help" || "$1" == "-h" ]]; then
         cat << 'EOF'
 ╔════════════════════════════════════════════════════════════╗
 ║  🔍 PICK - Interactive Project Picker                      ║
@@ -2230,6 +2230,39 @@ EOF
 # finish [MSG] - End work session (alias: wdone, fin)
 # ─────────────────────────────────────────────────────────────
 finish() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: finish [commit_message]
+
+End work session with commit workflow.
+
+ARGUMENTS:
+  commit_message    Optional commit message (default: "WIP")
+
+EXAMPLES:
+  finish                       # Interactive commit with "WIP"
+  finish "Add new feature"     # Quick commit with message
+
+WORKFLOW:
+  1. Reviews changes (git diff)
+  2. Commits with message (git add -A && git commit)
+  3. Offers to merge dev → main if ahead
+  4. Ends session tracking (removes session file)
+  5. Logs work completed (worklog)
+  6. Shows next steps suggestions
+
+BRANCH WORKFLOW:
+  If on 'dev' branch and ahead of 'main':
+    [1] Keep on dev (default)
+    [2] Merge to main
+    [3] Merge to main and push
+
+See also: work, win, startsession, endsession, pp, now, next
+EOF
+        return 0
+    fi
+
     local msg="${1:-WIP}"
 
     # Check if in a git repo
