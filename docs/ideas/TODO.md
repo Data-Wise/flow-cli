@@ -65,6 +65,53 @@
 
 ## 🎯 Next Actions
 
+### Priority 0 (NEW - Documentation Site Design)
+
+**Website Design Standards Unification** [est: 12-17 hours across 4 sprints] - PROPOSED 📋
+
+**Context:** ADHD-optimized MkDocs dark mode complete (Sprint 1-3). Need unified standards for R packages.
+
+**Quick Win: Document MkDocs Work** [est: 15-20 min] ⭐ RECOMMENDED
+
+- [ ] Create `standards/01-IMPLEMENTATIONS/mkdocs/IMPLEMENTATION-GUIDE.md`
+- [ ] Copy adhd-colors.css comments into guide
+- [ ] Add "How to use" section with examples
+- [ ] Update sync-standards.sh to include website standards/
+
+**Sprint 1: Foundation** [est: 3-4 hours]
+
+- [ ] Create standards/ directory structure (00-BASE, 01-IMPLEMENTATIONS, etc.)
+- [ ] Extract COLOR-PALETTE.md (universal hex values from ADHD-COLOR-PSYCHOLOGY.md)
+- [ ] Extract DESIGN-SYSTEM-BASE.md (tool-agnostic ADHD principles)
+- [ ] Document existing MkDocs implementation
+- [ ] Test sync to one PM hub
+
+**Sprint 2: R Package Research** [est: 2-3 hours]
+
+- [ ] Create test R package
+- [ ] Research pkgdown theming (Bootstrap vars, custom CSS)
+- [ ] Research altdoc theming (SCSS, Quarto themes)
+- [ ] Document findings and choose best approach
+
+**Sprint 3: R Package Implementations** [est: 4-6 hours]
+
+- [ ] Create quarto-pkgdown implementation guide + files
+- [ ] Create quarto-altdoc implementation guide + files
+- [ ] Test with real R packages (medfit, probmed)
+
+**Sprint 4: Templates & Examples** [est: 3-4 hours]
+
+- [ ] Create working example sites
+- [ ] Create copy-paste ready templates
+- [ ] Write comprehensive README
+- [ ] Final sync to all PM hubs
+
+**Files:**
+
+- Full proposal: `PROPOSAL-WEBSITE-DESIGN-STANDARDS-UNIFICATION.md`
+- Current work: `docs/stylesheets/adhd-colors.css`, `mkdocs.yml`
+- Research: `ADHD-COLOR-PSYCHOLOGY.md`
+
 ### Priority 1 (DEPLOYMENT COMPLETE ✅)
 - [x] **Deploy smart functions** ✅ DONE (2025-12-14 19:41)
   1. ✅ Sourced smart-dispatchers.zsh in .zshrc

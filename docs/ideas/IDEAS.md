@@ -197,6 +197,102 @@ status med active P0 "Continue sims" 85  # Fuzzy match from anywhere
 
 ---
 
+## 🎨 NEW - Website Design Standards Unification (2025-12-20)
+
+### Unified ADHD-Optimized Design System - PROPOSED 📋
+
+**Status:** Proposal complete, ready for Sprint 1
+**Goal:** Create unified design standards for MkDocs, Quarto+pkgdown, Quarto+altdoc
+**Priority:** P2 (Quality improvement, not urgent)
+
+**Problem:**
+- ADHD-optimized MkDocs implementation complete (Sprint 1-3) ✅
+- No standardized ADHD design system for R packages
+- Risk of standards diverging across tools
+- Manual sync burden to project management hubs
+
+**Recommended Solution:** Hierarchical standard with single base + tool implementations
+
+**Structure:**
+
+```bash
+standards/
+├── 00-BASE/          # Core ADHD principles (tool-agnostic)
+├── 01-IMPLEMENTATIONS/
+│   ├── mkdocs/       # ✅ Already complete
+│   ├── quarto-pkgdown/   # To implement
+│   └── quarto-altdoc/    # To implement
+├── 02-EXAMPLES/      # Working examples
+└── 03-TEMPLATES/     # Copy-paste ready
+```
+
+**Implementation Plan:**
+
+#### Sprint 1: Foundation (3-4 hours) ⭐ RECOMMENDED FIRST
+
+- [ ] Create standards/ directory structure
+- [ ] Extract COLOR-PALETTE.md (universal hex values)
+- [ ] Extract DESIGN-SYSTEM-BASE.md (tool-agnostic principles)
+- [ ] Document existing MkDocs implementation
+- [ ] Update sync-standards.sh to include website standards
+- [ ] Test sync to one PM hub
+
+#### Sprint 2: R Package Research (2-3 hours)
+
+- [ ] Create test R package
+- [ ] Test pkgdown theming (Bootstrap vars, custom CSS)
+- [ ] Test altdoc theming (SCSS, Quarto themes)
+- [ ] Document findings and choose best approach
+
+#### Sprint 3: R Package Implementations (4-6 hours)
+
+- [ ] Create quarto-pkgdown implementation guide
+- [ ] Create quarto-altdoc implementation guide
+- [ ] Test with real R packages (medfit, probmed)
+- [ ] Iterate based on findings
+
+#### Sprint 4: Templates & Examples (3-4 hours)
+
+- [ ] Create working example sites
+- [ ] Create copy-paste ready templates
+- [ ] Write comprehensive README
+- [ ] Create Quick Start guides
+- [ ] Final sync to all PM hubs
+
+**Total Estimated Effort:** 12-17 hours (spread across 4 sessions)
+
+**Benefits:**
+
+- ✅ Consistent ADHD-optimized branding across all projects
+- ✅ Single source of truth for color values
+- ✅ Easy updates (change once, sync everywhere)
+- ✅ Scalable to new tools (Hugo, Sphinx, VuePress)
+- ✅ Could publish as open-source ADHD design system
+
+**Color Palette (Already Defined):**
+
+- Primary: Cyan `#00bcd4` / `#4dd0e1` (dark)
+- Accent: Purple `#9c27b0` / `#ba68c8` (dark)
+- All WCAG AAA compliant (8.4:1 to 11.5:1 contrast ratios)
+
+**Files:**
+
+- Full proposal: `PROPOSAL-WEBSITE-DESIGN-STANDARDS-UNIFICATION.md`
+- Current MkDocs impl: `docs/stylesheets/adhd-colors.css`
+- Color psychology: `ADHD-COLOR-PSYCHOLOGY.md`
+
+**Wild Ideas (Future):**
+
+- ADHD Design System npm package (@adhd-tools/design-system)
+- Browser extension for ADHD colors (like Dark Reader)
+- R package for ADHD Quarto themes (install.packages("adhdtheme"))
+- GitHub Action for automated standards sync
+- Interactive documentation site with live color picker
+
+**Next:** Quick win - Document MkDocs work (15-20 min) or Foundation Sprint (3-4 hours)
+
+---
+
 ## 🧪 Testing Ideas
 
 ### Quick Wins (< 30 min each)
