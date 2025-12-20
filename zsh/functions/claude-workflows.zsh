@@ -19,27 +19,51 @@
 
 # Start Claude Code with project context
 cc-project() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: cc-project [project-name]
+
+Start Claude Code with project context from CLAUDE.md and .STATUS files.
+
+ARGUMENTS:
+  project-name    Name of project (default: current directory basename)
+
+EXAMPLES:
+  cc-project                    # Use current directory
+  cc-project mypackage          # Use specific project name
+
+CONTEXT LOADED:
+  - CLAUDE.md (first 50 lines)
+  - .STATUS file (if exists)
+  - DESCRIPTION (R packages only)
+
+See also: cc-file, cc-implement
+EOF
+        return 0
+    fi
+
     local project="${1:-$(basename $PWD)}"
-    
+
     # Gather context
     local context=""
-    
+
     if [[ -f CLAUDE.md ]]; then
         context+="=== CLAUDE.md ===\n"
         context+="$(head -50 CLAUDE.md)\n\n"
     fi
-    
+
     if [[ -f .STATUS ]]; then
         context+="=== Current Status ===\n"
         context+="$(cat .STATUS)\n\n"
     fi
-    
+
     if [[ -f DESCRIPTION ]]; then
         context+="=== R Package ===\n"
         context+="Package: $(grep '^Package:' DESCRIPTION | cut -d' ' -f2)\n"
         context+="Version: $(grep '^Version:' DESCRIPTION | cut -d' ' -f2)\n\n"
     fi
-    
+
     if [[ -n "$context" ]]; then
         echo "📋 Loading project context..."
         echo "$context" | claude -p "You're helping with project: $project. Context:" --continue
@@ -55,18 +79,40 @@ cc-project() {
 
 # Claude Code for specific file
 cc-file() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: cc-file <file>
+       ccf <file>
+
+Open Claude Code with a specific file in context.
+
+ARGUMENTS:
+  file    Path to file to discuss
+
+EXAMPLES:
+  cc-file R/utils.R            # Help with utils.R
+  cc-file tests/test-foo.R     # Help with test file
+  cc-file README.md            # Review README
+
+See also: cc-project, cc-implement
+EOF
+        return 0
+    fi
+
     local file="$1"
-    
+
     if [[ -z "$file" ]]; then
-        echo "Usage: ccf <file>"
-        echo "Opens Claude Code with file in context"
+        echo "cc-file: missing required argument <file>" >&2
+        echo "Run 'cc-file help' for usage" >&2
         return 1
     fi
-    
+
     if [[ -f "$file" ]]; then
         claude -p "Help me with this file: $file" --add "$file"
     else
-        echo "❌ File not found: $file"
+        echo "cc-file: file not found: $file" >&2
+        echo "Run 'cc-file help' for usage" >&2
         return 1
     fi
 }
