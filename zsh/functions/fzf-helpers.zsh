@@ -310,6 +310,23 @@ EOF
 # ga - Interactive git add (stage files)
 # Usage: ga
 ga() {
+    unalias ga 2>/dev/null
+
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: ga
+
+Stage files with fzf multi-select preview.
+
+EXAMPLES:
+  ga                           # Select and stage files
+
+See also: gundostage, gdf, gshow
+EOF
+        return 0
+    fi
+
     if ! git rev-parse --git-dir > /dev/null 2>&1; then
         echo "❌ Not in a git repository"
         return 1
