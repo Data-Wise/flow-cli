@@ -370,18 +370,46 @@ EOF
 
 # Generate roxygen docs for current file
 cc-roxygen() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: cc-roxygen [file.R]
+
+Generate roxygen2 documentation for R functions.
+
+ARGUMENTS:
+  file    R file to document (optional - auto-finds undocumented)
+
+EXAMPLES:
+  cc-roxygen                   # Auto-find undocumented file
+  cc-roxygen R/utils.R         # Document specific file
+
+GENERATES:
+  - @title
+  - @description
+  - @param (for each parameter)
+  - @return
+  - @export (if public)
+  - @examples
+
+See also: cc-implement, cc-cycle
+EOF
+        return 0
+    fi
+
     local file="${1:-}"
-    
+
     if [[ -z "$file" ]]; then
         # Try to find R files without docs
         file=$(grep -L "^#'" R/*.R 2>/dev/null | head -1)
         if [[ -z "$file" ]]; then
-            echo "Usage: ccrdoc <file.R>"
+            echo "cc-roxygen: no undocumented R files found" >&2
+            echo "Run 'cc-roxygen help' for usage" >&2
             return 1
         fi
         echo "📄 Found undocumented: $file"
     fi
-    
+
     if [[ -f "$file" ]]; then
         cat "$file" | claude -p "Add roxygen2 documentation to all functions in this R file. Include:
 - @title
@@ -393,7 +421,8 @@ cc-roxygen() {
 
 Output the complete file with documentation added."
     else
-        echo "❌ File not found: $file"
+        echo "cc-roxygen: file not found: $file" >&2
+        return 1
     fi
 }
 
