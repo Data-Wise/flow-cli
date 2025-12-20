@@ -2683,6 +2683,31 @@ pr() {
 
 # pv - Project Preview/View (context-aware)
 pv() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: pv
+
+Preview project output (context-aware).
+
+DESCRIPTION:
+  Automatically detects project type and opens appropriate preview.
+  Supports Quarto, R Markdown, LaTeX PDF, and more.
+
+EXAMPLES:
+  pv                           # Preview current project
+
+PROJECT TYPES:
+  - Quarto: Opens preview server
+  - R Markdown: Renders and opens HTML
+  - LaTeX: Opens compiled PDF
+  - Slides: Opens presentation
+
+See also: pb (build), pt (test)
+EOF
+        return 0
+    fi
+
     local proj_type=$(_proj_detect_type)
 
     case "$proj_type" in
