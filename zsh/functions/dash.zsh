@@ -113,15 +113,8 @@ dash() {
             category="all"
             ;;
         *)
-            echo -e "${RED}❌ Unknown category: $category${NC}"
-            echo ""
-            echo "Available categories:"
-            echo -e "  ${CYAN}all${NC}       - All projects (default)"
-            echo -e "  ${CYAN}teaching${NC}  - Teaching courses"
-            echo -e "  ${CYAN}research${NC}  - Research projects"
-            echo -e "  ${CYAN}packages${NC}  - R packages"
-            echo -e "  ${CYAN}dev${NC}       - Dev tools"
-            echo -e "  ${CYAN}quarto${NC}    - Quarto projects"
+            echo "dash: unknown category '$category'" >&2
+            echo "Run 'dash help' for usage" >&2
             return 1
             ;;
     esac
