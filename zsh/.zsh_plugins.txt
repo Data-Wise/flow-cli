@@ -23,8 +23,8 @@ ohmyzsh/ohmyzsh path:lib
 # ============================================
 # GIT (Load early - frequently used)
 # ============================================
-# DISABLED 2025-12-12: Git plugin has 226 aliases - using custom minimal set instead
-# ohmyzsh/ohmyzsh path:plugins/git
+# ENABLED 2025-12-19: Activating git plugin to provide standard git aliases
+ohmyzsh/ohmyzsh path:plugins/git
 ohmyzsh/ohmyzsh path:plugins/github kind:defer  # Lazy load - only when needed
 
 # ============================================

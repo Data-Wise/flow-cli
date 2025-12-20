@@ -1,0 +1,84 @@
+site_name: ZSH Configuration Docs
+site_description: Minimalist ZSH workflow tools with smart dispatchers
+site_author: DT
+site_url: https://data-wise.github.io/zsh-configuration
+
+repo_name: zsh-configuration
+repo_url: https://github.com/data-wise/zsh-configuration
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Quick Start: getting-started/quick-start.md
+    - Installation: getting-started/installation.md
+  - User Guide:
+    - Alias Reference: user/ALIAS-REFERENCE-CARD.md
+    - Workflow Quick Reference: user/WORKFLOW-QUICK-REFERENCE.md
+    - Pick Command: user/PICK-COMMAND-REFERENCE.md
+    - Dashboard: user/DASHBOARD-QUICK-REF.md
+    - Workflows & Tips: user/WORKFLOWS-QUICK-WINS.md
+    - Workspace Audit: user/WORKSPACE-AUDIT-GUIDE.md
+  - Development:
+    - Guidelines: ZSH-DEVELOPMENT-GUIDELINES.md
+    - Conventions: CONVENTIONS.md
+  - Reference:
+    - Complete Index: doc-index.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/data-wise/zsh-configuration
+
+extra_css:
+  - stylesheets/extra.css

@@ -369,18 +369,10 @@ EOF
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# QUICK ALIASES
+# QUICK ALIASES - REMOVED 2025-12-19
 # ═══════════════════════════════════════════════════════════════════
-
-alias w='work'
-alias we='work --editor=emacs'
-alias wc='work --editor=code'
-alias wp='work --editor=positron'
-alias wa='work --editor=claude'
-alias wt='work --editor=terminal'
-
-# Mode shortcuts
-alias wf='work --mode=focus'
-alias wx='work --mode=explore'
-alias wai='work --mode=ai'
-alias wq='work --mode=quick'
+# Use the full 'work' command with options instead:
+#   work <project> --editor=emacs
+#   work <project> --editor=code
+#   work <project> --mode=focus
+# Or use short flags: work <project> -e, work <project> -c, etc.

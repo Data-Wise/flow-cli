@@ -1,10 +1,10 @@
 # ⚡ ZSH Configuration - Project Control Hub
 
-> **Quick Status:** ⚠️ AUDIT COMPLETE | 🔍 Optimization Needed | 📊 183 Aliases, 108 Functions
+> **Quick Status:** ✅ MAJOR CLEANUP COMPLETE | 📚 Documentation Site Live | 🎯 28 Essential Aliases
 
-**Last Updated:** 2025-12-16
-**Current Phase:** P4 - Optimization & Cleanup
-**Next Action:** Review optimization proposal, fix duplicate conflicts
+**Last Updated:** 2025-12-19
+**Current Phase:** P5 - Documentation & Tutorial Updates
+**Next Action:** Update tutorial files, modernize website design
 
 ---
 
@@ -12,12 +12,13 @@
 
 | What | Status | Link |
 |------|--------|------|
-| **Antidote Plugin Manager** | ✅ Fixed | ~/.config/zsh/.zshrc line 12 |
-| **Alias Count** | ⚠️ 183 total | **7 duplicates found** |
-| **Function Count** | ⚠️ 108 total | **7 conflicts need resolution** |
-| **Help System** | ✅ Active | `ah <category>` |
-| **Configuration Files** | ⚠️ Needs cleanup | 18 files, adhd-helpers.zsh too large (3034 lines) |
-| **Optimization Proposal** | 📋 Ready | `ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md` |
+| **Alias Count** | ✅ 28 essential | **84% reduction (179→28)** |
+| **Git Plugin** | ✅ Active | 226+ OMZ git aliases |
+| **Smart Dispatchers** | ✅ 6 functions | cc, gm, peek, qu, work, pick |
+| **Focus Timers** | ✅ Active | f25, f50 |
+| **Documentation Site** | ✅ Live | https://data-wise.github.io/zsh-configuration |
+| **Tutorial Status** | ⚠️ Needs update | Warning notes added, rewrite needed |
+| **Website Design** | 🎨 In progress | Material theme, minimal CSS |
 
 ---
 
@@ -27,21 +28,106 @@
 P0: Critical Fixes           ████████████████████ 100% ✅ (2025-12-14)
 P1: ADHD Helpers             ████████████████████ 100% ✅ (2025-12-14)
 P2: Advanced Features        ████████████████████ 100% ✅ (2025-12-14)
-P3: Cross-Project Integration ███████████████████ 100% ✅ (2025-12-14)
+P3: Cross-Project Integration ████████████████████ 100% ✅ (2025-12-14)
+P4: Alias Cleanup            ████████████████████ 100% ✅ (2025-12-19)
+  ├─ Alias Audit             ████████████████████ 100% ✅
+  ├─ Frequency Analysis      ████████████████████ 100% ✅
+  ├─ Removal (179→28)        ████████████████████ 100% ✅
+  ├─ Migration Guide         ████████████████████ 100% ✅
+  └─ Reference Card Update   ████████████████████ 100% ✅
 ──────────────────────────────────────────────────────────
-P4: Optimization (NEW)       ░░░░░░░░░░░░░░░░░░░░   0% 🔄 (2025-12-16)
-  ├─ Audit & Analysis        ████████████████████ 100% ✅
-  ├─ Critical Conflicts      ░░░░░░░░░░░░░░░░░░░░   0% ⏳
-  ├─ Quality Cleanup         ░░░░░░░░░░░░░░░░░░░░   0% ⏳
-  ├─ Performance Tuning      ░░░░░░░░░░░░░░░░░░░░   0% ⏳
-  └─ Documentation           ░░░░░░░░░░░░░░░░░░░░   0% ⏳
+P5: Documentation & Site     ██████████████░░░░░░  70% 🔄 (2025-12-19)
+  ├─ MkDocs Site Setup       ████████████████████ 100% ✅
+  ├─ Home Page & Quick Start ████████████████████ 100% ✅
+  ├─ Design Standards        ████████████████████ 100% ✅
+  ├─ Tutorial Audit          ████████████████████ 100% ✅
+  ├─ Tutorial Rewrites       ░░░░░░░░░░░░░░░░░░░░   0% ⏳
+  └─ Website Modernization   ░░░░░░░░░░░░░░░░░░░░   0% 🔄 IN PROGRESS
 ```
 
-**Status:** 🟡 Operational but needs optimization | 7 duplicate conflicts found
+**Status:** 🟢 Fully functional | Clean 28-alias system | Documentation site live
 
 ---
 
-## 🔍 P4: Optimization Phase (2025-12-16)
+## 🚀 P5: Documentation & Website (2025-12-19)
+
+### Major Alias Cleanup Complete ✅
+
+**Achievement:** Reduced from 179 → 28 custom aliases (84% reduction)
+
+**What Was Kept (28 aliases):**
+- 23 R Package Development (rload, rtest, rdoc, etc.)
+- 2 Claude Code (ccp, ccr)
+- 1 Tool Replacement (cat='bat')
+- 2 Focus Timers (f25, f50)
+
+**What Was Removed (151 aliases):**
+- 13 typo corrections
+- 25 low-frequency shortcuts
+- 12 duplicate aliases
+- 101 other rarely-used aliases
+
+**Why:** Based on frequency analysis and "10+ uses per day" rule
+
+**Documentation:**
+- ✅ ALIAS-REFERENCE-CARD.md - Complete migration guide
+- ✅ ALIAS-CLEANUP-SUMMARY-2025-12-19.md - Full changelog
+- ✅ Migration paths for all removed aliases
+
+### MkDocs Documentation Site ✅
+
+**Live URL:** https://data-wise.github.io/zsh-configuration
+
+**Created:**
+- ✅ mkdocs.yml with Material theme
+- ✅ docs/index.md (home page with quick stats)
+- ✅ docs/getting-started/quick-start.md
+- ✅ docs/getting-started/installation.md
+- ✅ docs/stylesheets/extra.css (minimal ADHD-friendly enhancements)
+- ✅ standards/documentation/WEBSITE-DESIGN-GUIDE.md
+
+**Features:**
+- System-respecting dark/light mode (indigo theme)
+- Navigation tabs, code copy buttons, search
+- ADHD-friendly: emojis, admonitions, scannable tables
+- Minimalist design (no gradients, subtle animations only)
+
+### Tutorial Status 📋
+
+**Audit Complete:**
+- ✅ ALIAS-REFERENCE-CARD.md - Up to date
+- ✅ WORKFLOW-QUICK-REFERENCE.md - Has warning note
+- ⚠️ WORKFLOW-TUTORIAL.md - Warning added, needs rewrite
+- ⚠️ WORKFLOWS-QUICK-WINS.md - Warning added, needs rewrite
+- ✅ TUTORIAL-UPDATE-STATUS.md - Comprehensive tracking document
+
+**Issues Found:**
+- Tutorials reference removed aliases (js/idk/stuck → use `just-start`)
+- Some atomic pairs (t, lt, dt) not found - may have been removed
+- Core functions verified: dash, status, work, just-start, next all exist
+
+### Next Actions (P5 Remaining)
+
+**Immediate (This Session):**
+1. 🔄 Modernize website design (subtle improvements)
+2. 🔄 Fix broken links in documentation
+3. ⏳ Test site build and preview
+
+**Medium-Term (Next 2-4 Weeks):**
+1. Rewrite WORKFLOW-TUTORIAL.md with current commands (2 hours)
+2. Rewrite WORKFLOWS-QUICK-WINS.md with 28 aliases (2-3 hours)
+3. Create tutorial validation script (1 hour)
+4. Update Quick Start Guide with practice sections (30 min)
+
+**Long-Term (Next 1-3 Months):**
+1. Automated documentation validation (CI checks)
+2. Versioned documentation system (v2.0 = 28-alias system)
+3. Tutorial quality standards (tips & practice mandatory)
+4. Practice-driven tutorial format template
+
+---
+
+## 🔍 P4: Alias Cleanup Phase (2025-12-19) - COMPLETED
 
 ### Comprehensive Audit Results
 

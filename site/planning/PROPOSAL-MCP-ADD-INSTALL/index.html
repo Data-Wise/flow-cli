@@ -1,0 +1,2301 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Minimalist ZSH workflow tools with smart dispatchers">
+      
+      
+        <meta name="author" content="DT">
+      
+      
+        <link rel="canonical" href="https://data-wise.github.io/zsh-configuration/planning/PROPOSAL-MCP-ADD-INSTALL/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>MCP Add/Install Command Proposal - ZSH Configuration Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mcp-addinstall-command-proposal" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ZSH Configuration Docs" class="md-header__button md-logo" aria-label="ZSH Configuration Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ZSH Configuration Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MCP Add/Install Command Proposal
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/data-wise/zsh-configuration" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zsh-configuration
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/quick-start/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user/ALIAS-REFERENCE-CARD/" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../doc-index/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ZSH Configuration Docs" class="md-nav__button md-logo" aria-label="ZSH Configuration Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ZSH Configuration Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/data-wise/zsh-configuration" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zsh-configuration
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/ALIAS-REFERENCE-CARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/PICK-COMMAND-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/DASHBOARD-QUICK-REF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/WORKFLOWS-QUICK-WINS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows & Tips
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONVENTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../doc-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#updated-recommendation-unified-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 UPDATED RECOMMENDATION: UNIFIED SEARCH
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#research-findings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Research Findings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Research Findings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#official-mcp-registry-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official MCP Registry (NEW!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code-native-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code Native Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposed-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proposed Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Proposed Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-wrapper-around-claude-mcp-add-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Wrapper Around claude mcp add (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-manual-database-installation-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Manual Database + Installation Scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-c-hybrid-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C: Hybrid Approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-analysis-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Analysis Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Analysis Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-official-status-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Official Status Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-secret-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Secret Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-permission-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Permission Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-repository-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Repository Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-similar-server-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Similar Server Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duplicate-detection-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Duplicate Detection Logic
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-methods-by-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation Methods by Runtime
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation Methods by Runtime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#npm-nodejs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NPM (Node.js)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uvpython" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UV/Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockeroci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker/OCI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpsse-remote" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP/SSE (Remote)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Plan
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-basic-search-install-week-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Basic Search &amp; Install (Week 1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-security-intelligence-week-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Security &amp; Intelligence (Week 2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-documentation-symlinks-week-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Documentation &amp; Symlinks (Week 3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-advanced-features-week-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Advanced Features (Week 4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Command Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-commands-option-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Commands (Option A)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#short-forms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Short Forms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-case-1-installing-official-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 1: Installing Official Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-2-finding-similar-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 2: Finding Similar Servers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-3-security-warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 3: Security Warning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unit-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files-to-createmodify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files to Create/Modify
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Files to Create/Modify">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modified-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modified Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Enhancements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Future Enhancements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#version-1-mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version 1 (MVP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version 2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version 3
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version 4
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Criteria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Success Criteria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#must-have-mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Must Have (MVP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nice-to-have-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nice to Have (V2+)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/data-wise/zsh-configuration/edit/main/docs/planning/PROPOSAL-MCP-ADD-INSTALL.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="mcp-addinstall-command-proposal">MCP Add/Install Command Proposal<a class="headerlink" href="#mcp-addinstall-command-proposal" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2025-12-19 (Updated: 2025-12-19 with unified search recommendation)
+<strong>Context:</strong> Add intelligent MCP server discovery and installation to <code>mcp</code> dispatcher</p>
+<hr />
+<h2 id="updated-recommendation-unified-search">🎯 UPDATED RECOMMENDATION: UNIFIED SEARCH<a class="headerlink" href="#updated-recommendation-unified-search" title="Permanent link">&para;</a></h2>
+<p><strong>Evolution:</strong> After further research, we discovered Claude Code has BOTH:
+- 📦 <strong>MCP Servers</strong> (~200+ in registry)
+- 🔌 <strong>Claude Code Plugins</strong> (~50+ across 5 marketplaces)</p>
+<p><strong>New Vision:</strong> ONE search that finds EVERYTHING - users don't need to know the distinction!</p>
+<p>See <code>BRAINSTORM-UNIFIED-MCP-SEARCH.md</code> for complete unified search proposal.</p>
+<p><strong>Quick Summary:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mcp<span class="w"> </span>search<span class="w"> </span>github<span class="w">          </span><span class="c1"># Searches BOTH servers + plugins</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mcp<span class="w"> </span>browse<span class="w">                 </span><span class="c1"># Browse ALL with fzf + categories</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>mcp<span class="w"> </span>add<span class="w"> </span>&lt;name&gt;<span class="w">             </span><span class="c1"># Smart install (auto-detects type)</span>
+</code></pre></div></p>
+<p><strong>This document</strong> focuses on the MCP Server aspects (original scope).
+<strong>Unified proposal</strong> extends this to include plugin discovery too.</p>
+<hr />
+<h2 id="problem-statement">Problem Statement<a class="headerlink" href="#problem-statement" title="Permanent link">&para;</a></h2>
+<p>Currently, adding an MCP server requires:
+1. Manually searching for servers (GitHub, documentation, word-of-mouth)
+2. Understanding the installation method (npm, uv, docker, etc.)
+3. Manually configuring <code>~/.claude/settings.json</code>
+4. Testing the server works
+5. No security review or duplicate detection</p>
+<p><strong>User request:</strong></p>
+<blockquote>
+<p>"Add keyword 'add' or 'install' that would search for an mcp server, check if it's installed or similar one installed, then present a summary of what it does, check the security, offer advice, and then proceed to install and test or cancel"</p>
+</blockquote>
+<hr />
+<h2 id="research-findings">Research Findings<a class="headerlink" href="#research-findings" title="Permanent link">&para;</a></h2>
+<h3 id="official-mcp-registry-new">Official MCP Registry (NEW!)<a class="headerlink" href="#official-mcp-registry-new" title="Permanent link">&para;</a></h3>
+<p>Anthropic launched the official MCP Registry in September 2025:
+- <strong>URL:</strong> https://registry.modelcontextprotocol.io
+- <strong>API:</strong> REST API with search, pagination, metadata
+- <strong>Status:</strong> Preview (moving to general availability)
+- <strong>Community-driven:</strong> Backed by Anthropic, GitHub, Microsoft, etc.</p>
+<p><strong>API Endpoints:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Search servers</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>GET<span class="w"> </span>https://registry.modelcontextprotocol.io/v0.1/servers?search<span class="o">=</span>&lt;term&gt;<span class="p">&amp;</span><span class="nv">version</span><span class="o">=</span>latest
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Get server details</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>GET<span class="w"> </span>https://registry.modelcontextprotocol.io/v0.1/servers/&lt;name&gt;/versions/&lt;version&gt;
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># List all</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>GET<span class="w"> </span>https://registry.modelcontextprotocol.io/v0.1/servers?limit<span class="o">=</span><span class="m">100</span>
+</code></pre></div></p>
+<p><strong>Response includes:</strong>
+- Server name, description, version
+- Installation packages (npm, uv/pypi, docker/oci)
+- Repository URL and source
+- Required environment variables (with <code>isSecret</code> flag)
+- Transport type (stdio, sse, http)
+- Official status and publication dates</p>
+<h3 id="claude-code-native-command">Claude Code Native Command<a class="headerlink" href="#claude-code-native-command" title="Permanent link">&para;</a></h3>
+<p>Claude Code already has <code>claude mcp add</code>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>&lt;name&gt;<span class="w"> </span>&lt;commandOrUrl&gt;<span class="w"> </span><span class="o">[</span>args...<span class="o">]</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Examples:</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>--transport<span class="w"> </span>http<span class="w"> </span>sentry<span class="w"> </span>https://mcp.sentry.dev/mcp
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>--transport<span class="w"> </span>stdio<span class="w"> </span>airtable<span class="w"> </span>--<span class="w"> </span>npx<span class="w"> </span>-y<span class="w"> </span>airtable-mcp-server
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Options:</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>--scope<span class="w"> </span>&lt;local<span class="p">|</span>user<span class="p">|</span>project&gt;
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>--transport<span class="w"> </span>&lt;stdio<span class="p">|</span>sse<span class="p">|</span>http&gt;
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>--env<span class="w"> </span><span class="nv">KEY</span><span class="o">=</span>value
+</code></pre></div></p>
+<p><strong>Limitations:</strong>
+- No discovery (must know server name and command)
+- No security review
+- No duplicate detection
+- Manual configuration needed</p>
+<hr />
+<h2 id="proposed-solutions">Proposed Solutions<a class="headerlink" href="#proposed-solutions" title="Permanent link">&para;</a></h2>
+<h3 id="option-a-wrapper-around-claude-mcp-add-recommended">Option A: Wrapper Around <code>claude mcp add</code> (Recommended)<a class="headerlink" href="#option-a-wrapper-around-claude-mcp-add-recommended" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> <code>mcp add</code> becomes an intelligent wrapper that:
+1. Searches MCP Registry
+2. Shows server info and security analysis
+3. Checks for duplicates/similar servers
+4. Calls <code>claude mcp add</code> under the hood
+5. Tests installation
+6. Creates symlink and updates docs</p>
+<p><strong>Workflow:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>filesystem
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>🔍<span class="w"> </span>Searching<span class="w"> </span>MCP<span class="w"> </span>Registry...
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Found<span class="w"> </span><span class="m">3</span><span class="w"> </span>matches:
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="m">1</span>.<span class="w"> </span>@modelcontextprotocol/server-filesystem<span class="w"> </span><span class="o">(</span>Official<span class="w"> </span>Anthropic<span class="o">)</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">   </span>⭐<span class="w"> </span>Official<span class="w"> </span><span class="p">|</span><span class="w"> </span>📦<span class="w"> </span>npm<span class="w"> </span><span class="p">|</span><span class="w"> </span>🔒<span class="w"> </span>Requires:<span class="w"> </span>allowed-directories
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">   </span>Description:<span class="w"> </span>Secure<span class="w"> </span><span class="nb">local</span><span class="w"> </span>filesystem<span class="w"> </span>access<span class="w"> </span>with<span class="w"> </span>path<span class="w"> </span>restrictions
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="m">2</span>.<span class="w"> </span>@ai-capabilities-suite/mcp-filesystem<span class="w"> </span><span class="o">(</span>Digital-Defiance<span class="o">)</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">   </span>📦<span class="w"> </span>npm,<span class="w"> </span>docker<span class="w"> </span><span class="p">|</span><span class="w"> </span>🔒<span class="w"> </span>No<span class="w"> </span>secrets
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">   </span>Description:<span class="w"> </span>Advanced<span class="w"> </span>filesystem<span class="w"> </span>with<span class="w"> </span>batch<span class="w"> </span>ops,<span class="w"> </span>watching,<span class="w"> </span>search
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="m">3</span>.<span class="w"> </span>@agent-infra/mcp-server-filesystem<span class="w"> </span><span class="o">(</span>ByteDance<span class="o">)</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">   </span>📦<span class="w"> </span>npm<span class="w"> </span><span class="p">|</span><span class="w"> </span>🔒<span class="w"> </span>Requires:<span class="w"> </span>allowed-directories
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">   </span>Description:<span class="w"> </span>Filesystem<span class="w"> </span>access<span class="w"> </span><span class="k">for</span><span class="w"> </span>UI-TARS
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>Select<span class="w"> </span>server<span class="w"> </span><span class="o">(</span><span class="m">1</span>-3,<span class="w"> </span>or<span class="w"> </span><span class="s1">&#39;c&#39;</span><span class="w"> </span>to<span class="w"> </span>cancel<span class="o">)</span>:<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>╭─────────────────────────────────────────────╮
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>│<span class="w"> </span>Server<span class="w"> </span>Summary<span class="w">                              </span>│
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>╰─────────────────────────────────────────────╯
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>Name:<span class="w">        </span>@modelcontextprotocol/server-filesystem
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>Version:<span class="w">     </span>latest
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>Repository:<span class="w">  </span>https://github.com/modelcontextprotocol/servers
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>Transport:<span class="w">   </span>stdio
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>Runtime:<span class="w">     </span>npx<span class="w"> </span><span class="o">(</span>Node.js<span class="o">)</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>🔒<span class="w"> </span>Security<span class="w"> </span>Review:
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">  </span>✅<span class="w"> </span>Official<span class="w"> </span>Anthropic<span class="w"> </span>server
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">  </span>✅<span class="w"> </span>Open<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="o">(</span>GitHub<span class="o">)</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">  </span>⚠️<span class="w">  </span>Requires<span class="w"> </span>file<span class="w"> </span>system<span class="w"> </span>access
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">  </span>⚠️<span class="w">  </span>Must<span class="w"> </span>specify<span class="w"> </span>allowed-directories
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">  </span>This<span class="w"> </span>server<span class="w"> </span>can<span class="w"> </span>read/write<span class="w"> </span>files<span class="w"> </span><span class="k">in</span><span class="w"> </span>specified<span class="w"> </span>directories.
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="w">  </span>Only<span class="w"> </span>grant<span class="w"> </span>access<span class="w"> </span>to<span class="w"> </span>necessary<span class="w"> </span>paths.
+<a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a>
+<a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a>📋<span class="w"> </span>Checking<span class="w"> </span>installed<span class="w"> </span>servers...
+<a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>
+<a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="w">  </span>⚠️<span class="w">  </span>Similar<span class="w"> </span>server<span class="w"> </span>found:<span class="w"> </span><span class="s1">&#39;shell&#39;</span><span class="w"> </span><span class="o">(</span>can<span class="w"> </span>access<span class="w"> </span>filesystem<span class="w"> </span>via<span class="w"> </span>shell<span class="w"> </span>commands<span class="o">)</span>
+<a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a>
+<a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a><span class="w">  </span>Continue<span class="w"> </span>installation?<span class="w"> </span><span class="o">(</span>y/n<span class="o">)</span>:<span class="w"> </span>y
+<a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>
+<a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a>📦<span class="w"> </span>Installing...
+<a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a>
+<a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a><span class="w">  </span>→<span class="w"> </span>Adding<span class="w"> </span>to<span class="w"> </span>~/.claude/settings.json<span class="w"> </span><span class="o">(</span>scope:<span class="w"> </span>user<span class="o">)</span>
+<a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a><span class="w">  </span>→<span class="w"> </span>Running:<span class="w"> </span>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>filesystem<span class="w"> </span>--scope<span class="w"> </span>user<span class="w"> </span>--<span class="w"> </span>npx<span class="w"> </span>-y<span class="w"> </span>@modelcontextprotocol/server-filesystem<span class="w"> </span>/Users/dt
+<a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a><span class="w">  </span>✓<span class="w"> </span>Added<span class="w"> </span>to<span class="w"> </span>configuration
+<a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a>
+<a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a><span class="w">  </span>→<span class="w"> </span>Testing<span class="w"> </span>connection...
+<a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="w">  </span>✓<span class="w"> </span>Server<span class="w"> </span>responds
+<a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a>
+<a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a><span class="w">  </span>→<span class="w"> </span>Creating<span class="w"> </span>symlink<span class="w"> </span>~/mcp-servers/filesystem...
+<a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a><span class="w">  </span>✓<span class="w"> </span>Created
+<a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a>
+<a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a><span class="w">  </span>→<span class="w"> </span>Updating<span class="w"> </span>documentation...
+<a id="__codelineno-3-60" name="__codelineno-3-60" href="#__codelineno-3-60"></a><span class="w">  </span>✓<span class="w"> </span>Updated<span class="w"> </span>~/projects/dev-tools/_MCP_SERVERS.md
+<a id="__codelineno-3-61" name="__codelineno-3-61" href="#__codelineno-3-61"></a>
+<a id="__codelineno-3-62" name="__codelineno-3-62" href="#__codelineno-3-62"></a>✅<span class="w"> </span>Installation<span class="w"> </span>complete!
+<a id="__codelineno-3-63" name="__codelineno-3-63" href="#__codelineno-3-63"></a>
+<a id="__codelineno-3-64" name="__codelineno-3-64" href="#__codelineno-3-64"></a>Next<span class="w"> </span>steps:
+<a id="__codelineno-3-65" name="__codelineno-3-65" href="#__codelineno-3-65"></a><span class="w">  </span>$<span class="w"> </span>mcp<span class="w"> </span><span class="nb">test</span><span class="w"> </span>filesystem<span class="w">    </span><span class="c1"># Test the server</span>
+<a id="__codelineno-3-66" name="__codelineno-3-66" href="#__codelineno-3-66"></a><span class="w">  </span>$<span class="w"> </span>mcp<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>filesystem<span class="w">      </span><span class="c1"># Navigate to server</span>
+<a id="__codelineno-3-67" name="__codelineno-3-67" href="#__codelineno-3-67"></a><span class="w">  </span>$<span class="w"> </span>mcp<span class="w"> </span><span class="nb">help</span><span class="w">               </span><span class="c1"># See all commands</span>
+</code></pre></div></p>
+<p><strong>Implementation:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>_mcp_add<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">search_term</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="c1"># 1. Search registry</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">results</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;https://registry.modelcontextprotocol.io/v0.1/servers?search=</span><span class="nv">$search_term</span><span class="s2">&amp;version=latest&quot;</span><span class="k">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="c1"># 2. Parse and display results (using jq or python)</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span>_mcp_display_search_results<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$results</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="c1"># 3. User selection</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;selection?Select server (1-N, &#39;c&#39; to cancel): &quot;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="c1"># 4. Show detailed info and security analysis</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span>_mcp_analyze_security<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$selected_server</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="c1"># 5. Check for duplicates</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span>_mcp_check_duplicates<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$selected_server</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="c1"># 6. Confirm installation</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;confirm?Continue installation? (y/n): &quot;</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="c1"># 7. Call claude mcp add</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>--scope<span class="w"> </span>user<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$server_name</span><span class="s2">&quot;</span><span class="w"> </span>--<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$install_command</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">    </span><span class="c1"># 8. Test</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">    </span>_mcp_test<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$server_name</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">    </span><span class="c1"># 9. Create symlink</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">    </span>ln<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$MCP_SERVERS_DIR</span><span class="s2">/</span><span class="nv">$server_name</span><span class="s2">&quot;</span><span class="w"> </span>~/mcp-servers/
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">    </span><span class="c1"># 10. Update docs</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">    </span>_mcp_update_docs<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$server_name</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="o">}</span>
+</code></pre></div></p>
+<p><strong>Pros:</strong>
+- Uses official registry (authoritative source)
+- Leverages Claude Code's native installation
+- Intelligent guidance and security review
+- Minimal maintenance (registry is maintained by Anthropic)
+- Works with all transport types (stdio, sse, http)</p>
+<p><strong>Cons:</strong>
+- Requires internet connection
+- Depends on registry API availability
+- Not all servers may be in registry yet</p>
+<hr />
+<h3 id="option-b-manual-database-installation-scripts">Option B: Manual Database + Installation Scripts<a class="headerlink" href="#option-b-manual-database-installation-scripts" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Maintain local database of known servers with custom installation scripts</p>
+<p><strong>Workflow:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>postgres
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>📚<span class="w"> </span>Checking<span class="w"> </span><span class="nb">local</span><span class="w"> </span>database...
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Found:<span class="w"> </span>@modelcontextprotocol/server-postgres
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="o">[</span>similar<span class="w"> </span>UI<span class="w"> </span>as<span class="w"> </span>Option<span class="w"> </span>A,<span class="w"> </span>but<span class="w"> </span>uses<span class="w"> </span><span class="nb">local</span><span class="w"> </span>data<span class="o">]</span>
+</code></pre></div></p>
+<p><strong>Implementation:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Database: ~/.config/zsh/mcp-servers-db.json</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="o">{</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="s2">&quot;servers&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="o">{</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">      </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;postgres&quot;</span>,
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">      </span><span class="s2">&quot;package&quot;</span>:<span class="w"> </span><span class="s2">&quot;@modelcontextprotocol/server-postgres&quot;</span>,
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">      </span><span class="s2">&quot;runtime&quot;</span>:<span class="w"> </span><span class="s2">&quot;npx&quot;</span>,
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">      </span><span class="s2">&quot;official&quot;</span>:<span class="w"> </span>true,
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">      </span><span class="s2">&quot;install_script&quot;</span>:<span class="w"> </span><span class="s2">&quot;install_postgres.sh&quot;</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="o">}</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">  </span><span class="o">]</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="o">}</span>
+</code></pre></div></p>
+<p><strong>Pros:</strong>
+- Works offline
+- Full control over installation process
+- Can add custom servers</p>
+<p><strong>Cons:</strong>
+- Manual maintenance required
+- Database gets outdated
+- Limited to known servers
+- Duplication of effort (registry already exists)</p>
+<hr />
+<h3 id="option-c-hybrid-approach">Option C: Hybrid Approach<a class="headerlink" href="#option-c-hybrid-approach" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Try registry first, fallback to local database</p>
+<p><strong>Workflow:</strong>
+1. Search official registry (if online)
+2. If not found, search local database
+3. If still not found, offer to add custom server
+4. Same intelligent installation flow</p>
+<p><strong>Pros:</strong>
+- Best of both worlds
+- Offline capability
+- Extensible to custom servers</p>
+<p><strong>Cons:</strong>
+- More complex implementation
+- Two systems to maintain</p>
+<hr />
+<h2 id="security-analysis-features">Security Analysis Features<a class="headerlink" href="#security-analysis-features" title="Permanent link">&para;</a></h2>
+<p>All options should include:</p>
+<h3 id="1-official-status-check">1. Official Status Check<a class="headerlink" href="#1-official-status-check" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>✅<span class="w"> </span>Official<span class="w"> </span>Anthropic<span class="w"> </span>server
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>⚠️<span class="w">  </span>Community<span class="w"> </span>server<span class="w"> </span><span class="o">(</span>not<span class="w"> </span>officially<span class="w"> </span>vetted<span class="o">)</span>
+</code></pre></div>
+<h3 id="2-secret-detection">2. Secret Detection<a class="headerlink" href="#2-secret-detection" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>🔒<span class="w"> </span>Required<span class="w"> </span>Environment<span class="w"> </span>Variables:
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-<span class="w"> </span>AIRTABLE_API_KEY<span class="w"> </span><span class="o">(</span>secret<span class="o">)</span><span class="w"> </span>⚠️
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>-<span class="w"> </span>DATABASE_URL<span class="w"> </span><span class="o">(</span>connection<span class="w"> </span>string<span class="o">)</span><span class="w"> </span>⚠️
+</code></pre></div>
+<h3 id="3-permission-analysis">3. Permission Analysis<a class="headerlink" href="#3-permission-analysis" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>📋<span class="w"> </span>Permissions<span class="w"> </span>Required:
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>⚠️<span class="w">  </span>Filesystem<span class="w"> </span>access<span class="w"> </span><span class="o">(</span>read/write<span class="o">)</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>⚠️<span class="w">  </span>Network<span class="w"> </span>access<span class="w"> </span><span class="o">(</span>external<span class="w"> </span>APIs<span class="o">)</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span>⚠️<span class="w">  </span>Shell<span class="w"> </span><span class="nb">command</span><span class="w"> </span>execution
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span>✅<span class="w"> </span>Read-only<span class="w"> </span>file<span class="w"> </span>access
+</code></pre></div>
+<h3 id="4-repository-check">4. Repository Check<a class="headerlink" href="#4-repository-check" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>📦<span class="w"> </span>Source<span class="w"> </span>Code:
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>✅<span class="w"> </span>GitHub<span class="w"> </span>repository:<span class="w"> </span>https://github.com/org/repo
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>✅<span class="w"> </span>Open<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="o">(</span>MIT<span class="w"> </span>license<span class="o">)</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>⚠️<span class="w">  </span>Closed<span class="w"> </span><span class="nb">source</span><span class="w"> </span>/<span class="w"> </span>No<span class="w"> </span>repository
+</code></pre></div>
+<h3 id="5-similar-server-detection">5. Similar Server Detection<a class="headerlink" href="#5-similar-server-detection" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>📋<span class="w"> </span>Checking<span class="w"> </span>installed<span class="w"> </span>servers...
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span>⚠️<span class="w">  </span>Similar<span class="w"> </span>functionality<span class="w"> </span>found:
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">      </span>-<span class="w"> </span><span class="s1">&#39;shell&#39;</span><span class="w"> </span><span class="o">(</span>can<span class="w"> </span>access<span class="w"> </span>filesystem<span class="w"> </span>via<span class="w"> </span>shell<span class="o">)</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">      </span>-<span class="w"> </span><span class="s1">&#39;statistical-research&#39;</span><span class="w"> </span><span class="o">(</span>can<span class="w"> </span>execute<span class="w"> </span>R<span class="w"> </span>code<span class="o">)</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">  </span>These<span class="w"> </span>servers<span class="w"> </span>may<span class="w"> </span>overlap<span class="w"> </span><span class="k">in</span><span class="w"> </span>functionality.
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">  </span>Consider<span class="w"> </span><span class="k">if</span><span class="w"> </span>you<span class="w"> </span>need<span class="w"> </span>both.
+</code></pre></div>
+<hr />
+<h2 id="duplicate-detection-logic">Duplicate Detection Logic<a class="headerlink" href="#duplicate-detection-logic" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>_mcp_check_duplicates<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">new_server</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">new_capabilities</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span><span class="w">  </span><span class="c1"># e.g., &quot;filesystem,shell&quot;</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="c1"># Get list of installed servers</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">installed</span><span class="o">=</span><span class="k">$(</span>ls<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$MCP_SERVERS_DIR</span><span class="s2">&quot;</span><span class="k">)</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="c1"># Check for exact name match</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$MCP_SERVERS_DIR</span><span class="s2">/</span><span class="nv">$new_server</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;❌ Server &#39;</span><span class="nv">$new_server</span><span class="s2">&#39; is already installed&quot;</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">    </span><span class="c1"># Check for capability overlap</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span>server<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$installed</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="w">        </span><span class="nb">local</span><span class="w"> </span><span class="nv">capabilities</span><span class="o">=</span><span class="k">$(</span>_mcp_get_capabilities<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$server</span><span class="s2">&quot;</span><span class="k">)</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="w">        </span><span class="c1"># Compare capabilities</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="w">        </span><span class="nb">local</span><span class="w"> </span><span class="nv">overlap</span><span class="o">=</span><span class="k">$(</span>_compare_capabilities<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$new_capabilities</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$capabilities</span><span class="s2">&quot;</span><span class="k">)</span>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$overlap</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  Similar server found: &#39;</span><span class="nv">$server</span><span class="s2">&#39; (overlapping: </span><span class="nv">$overlap</span><span class="s2">)&quot;</span>
+<a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a><span class="w">        </span><span class="k">fi</span>
+<a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a><span class="w">    </span><span class="k">done</span>
+<a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="o">}</span>
+<a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a>
+<a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a>_mcp_get_capabilities<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a><span class="w">    </span><span class="c1"># Parse server README or package.json for capabilities</span>
+<a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a><span class="w">    </span><span class="c1"># Return comma-separated list: &quot;filesystem,shell,network&quot;</span>
+<a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a><span class="o">}</span>
+</code></pre></div>
+<hr />
+<h2 id="installation-methods-by-runtime">Installation Methods by Runtime<a class="headerlink" href="#installation-methods-by-runtime" title="Permanent link">&para;</a></h2>
+<h3 id="npm-nodejs">NPM (Node.js)<a class="headerlink" href="#npm-nodejs" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Using npx (no install needed)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>server-name<span class="w"> </span>--<span class="w"> </span>npx<span class="w"> </span>-y<span class="w"> </span>@scope/package
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Or install locally</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="nb">cd</span><span class="w"> </span>~/projects/dev-tools/mcp-servers/server-name
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>npm<span class="w"> </span>init<span class="w"> </span>-y
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>npm<span class="w"> </span>install<span class="w"> </span>@scope/package
+</code></pre></div>
+<h3 id="uvpython">UV/Python<a class="headerlink" href="#uvpython" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">cd</span><span class="w"> </span>~/projects/dev-tools/mcp-servers/server-name
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>uv<span class="w"> </span>init<span class="w"> </span>--name<span class="w"> </span>server-name<span class="w"> </span>--no-readme
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>uv<span class="w"> </span>add<span class="w"> </span>package-name
+</code></pre></div>
+<h3 id="dockeroci">Docker/OCI<a class="headerlink" href="#dockeroci" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>server-name<span class="w"> </span>--transport<span class="w"> </span>stdio<span class="w"> </span>--<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>package:tag
+</code></pre></div>
+<h3 id="httpsse-remote">HTTP/SSE (Remote)<a class="headerlink" href="#httpsse-remote" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>server-name<span class="w"> </span>--transport<span class="w"> </span>http<span class="w"> </span>https://server.com/mcp
+</code></pre></div>
+<hr />
+<h2 id="implementation-plan">Implementation Plan<a class="headerlink" href="#implementation-plan" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-basic-search-install-week-1">Phase 1: Basic Search &amp; Install (Week 1)<a class="headerlink" href="#phase-1-basic-search-install-week-1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Implement <code>mcp add &lt;search&gt;</code> command</li>
+<li>[ ] Search MCP Registry API</li>
+<li>[ ] Display search results (formatted)</li>
+<li>[ ] User selection interface</li>
+<li>[ ] Call <code>claude mcp add</code> with proper args</li>
+<li>[ ] Basic testing after install</li>
+</ul>
+<h3 id="phase-2-security-intelligence-week-2">Phase 2: Security &amp; Intelligence (Week 2)<a class="headerlink" href="#phase-2-security-intelligence-week-2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Security analysis display</li>
+<li>[ ] Environment variable detection</li>
+<li>[ ] Permission warnings</li>
+<li>[ ] Official status indicators</li>
+<li>[ ] Duplicate detection logic</li>
+<li>[ ] Similar server warnings</li>
+</ul>
+<h3 id="phase-3-documentation-symlinks-week-3">Phase 3: Documentation &amp; Symlinks (Week 3)<a class="headerlink" href="#phase-3-documentation-symlinks-week-3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Auto-create symlinks in ~/mcp-servers/</li>
+<li>[ ] Update _MCP_SERVERS.md</li>
+<li>[ ] Update mcp-servers/README.md</li>
+<li>[ ] Generate server-specific README</li>
+<li>[ ] Add to quick reference</li>
+</ul>
+<h3 id="phase-4-advanced-features-week-4">Phase 4: Advanced Features (Week 4)<a class="headerlink" href="#phase-4-advanced-features-week-4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Local server database (fallback)</li>
+<li>[ ] Custom server addition</li>
+<li>[ ] Uninstall command (<code>mcp remove</code>)</li>
+<li>[ ] Update command (<code>mcp update &lt;server&gt;</code>)</li>
+<li>[ ] Upgrade all command (<code>mcp upgrade</code>)</li>
+</ul>
+<hr />
+<h2 id="command-reference">Command Reference<a class="headerlink" href="#command-reference" title="Permanent link">&para;</a></h2>
+<h3 id="new-commands-option-a">New Commands (Option A)<a class="headerlink" href="#new-commands-option-a" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Search and install</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>mcp<span class="w"> </span>add<span class="w"> </span>&lt;search&gt;<span class="w">          </span><span class="c1"># Search registry and install</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>mcp<span class="w"> </span>install<span class="w"> </span>&lt;search&gt;<span class="w">      </span><span class="c1"># Alias for add</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1"># Management (future)</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>mcp<span class="w"> </span>remove<span class="w"> </span>&lt;name&gt;<span class="w">         </span><span class="c1"># Uninstall server</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>mcp<span class="w"> </span>update<span class="w"> </span>&lt;name&gt;<span class="w">         </span><span class="c1"># Update to latest version</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>mcp<span class="w"> </span>upgrade<span class="w">               </span><span class="c1"># Update all servers</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1"># Already exist</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>mcp<span class="w"> </span>list<span class="w">                  </span><span class="c1"># List installed servers</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>mcp<span class="w"> </span><span class="nb">test</span><span class="w"> </span>&lt;name&gt;<span class="w">           </span><span class="c1"># Test server</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>mcp<span class="w"> </span>status<span class="w">                </span><span class="c1"># Show config status</span>
+</code></pre></div>
+<h3 id="short-forms">Short Forms<a class="headerlink" href="#short-forms" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>mcp<span class="w"> </span>a<span class="w"> </span>&lt;search&gt;<span class="w">            </span><span class="c1"># add</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>mcp<span class="w"> </span>i<span class="w"> </span>&lt;search&gt;<span class="w">            </span><span class="c1"># install</span>
+</code></pre></div>
+<hr />
+<h2 id="recommendation">Recommendation<a class="headerlink" href="#recommendation" title="Permanent link">&para;</a></h2>
+<p><strong>Choose Option A: Registry Wrapper</strong></p>
+<p><strong>Reasons:</strong>
+1. <strong>Authoritative source</strong> - Official MCP Registry maintained by Anthropic
+2. <strong>Low maintenance</strong> - No manual database to update
+3. <strong>Complete coverage</strong> - Access to all public servers
+4. <strong>Leverages existing</strong> - Uses <code>claude mcp add</code> under the hood
+5. <strong>Future-proof</strong> - Registry will grow and improve
+6. <strong>Security metadata</strong> - Registry includes security info
+7. <strong>Community-driven</strong> - Benefits from entire ecosystem</p>
+<p><strong>Implementation effort:</strong> ~2-3 days
+- Day 1: Search and selection interface
+- Day 2: Security analysis and duplicate detection
+- Day 3: Installation flow and testing</p>
+<hr />
+<h2 id="example-use-cases">Example Use Cases<a class="headerlink" href="#example-use-cases" title="Permanent link">&para;</a></h2>
+<h3 id="use-case-1-installing-official-server">Use Case 1: Installing Official Server<a class="headerlink" href="#use-case-1-installing-official-server" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>github
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>🔍<span class="w"> </span>Searching...
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>Found:<span class="w"> </span>@modelcontextprotocol/server-github
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>✅<span class="w"> </span>Official<span class="w"> </span>Anthropic<span class="w"> </span>server
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>🔒<span class="w"> </span>Requires:<span class="w"> </span>GITHUB_TOKEN
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>Install?<span class="w"> </span><span class="o">(</span>y/n<span class="o">)</span>:<span class="w"> </span>y
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>✓<span class="w"> </span>Installed<span class="w"> </span>successfully!
+</code></pre></div>
+<h3 id="use-case-2-finding-similar-servers">Use Case 2: Finding Similar Servers<a class="headerlink" href="#use-case-2-finding-similar-servers" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>database
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>🔍<span class="w"> </span>Searching...
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>Found<span class="w"> </span><span class="m">5</span><span class="w"> </span>matches:<span class="w"> </span>postgres,<span class="w"> </span>mysql,<span class="w"> </span>sqlite,<span class="w"> </span>mongodb,<span class="w"> </span>redis
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="m">1</span>.<span class="w"> </span>postgres<span class="w"> </span><span class="o">(</span>Official<span class="o">)</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="m">2</span>.<span class="w"> </span>mysql<span class="w"> </span><span class="o">(</span>Community<span class="o">)</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="m">3</span>.<span class="w"> </span>sqlite<span class="w"> </span><span class="o">(</span>Official<span class="o">)</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>...
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>Select<span class="w"> </span><span class="o">(</span><span class="m">1</span>-5<span class="o">)</span>:<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>⚠️<span class="w">  </span>Similar<span class="w"> </span>server<span class="w"> </span>found:<span class="w"> </span><span class="s1">&#39;postgres-local&#39;</span><span class="w"> </span>already<span class="w"> </span>installed
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>Continue?<span class="w"> </span><span class="o">(</span>y/n<span class="o">)</span>:<span class="w"> </span>n
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>Cancelled.
+</code></pre></div>
+<h3 id="use-case-3-security-warning">Use Case 3: Security Warning<a class="headerlink" href="#use-case-3-security-warning" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>untrusted-server
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>🔍<span class="w"> </span>Searching...
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>Found:<span class="w"> </span>untrusted-server
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>⚠️<span class="w">  </span>Community<span class="w"> </span>server<span class="w"> </span><span class="o">(</span>not<span class="w"> </span>officially<span class="w"> </span>vetted<span class="o">)</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>⚠️<span class="w">  </span>No<span class="w"> </span>GitHub<span class="w"> </span>repository
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>⚠️<span class="w">  </span>Requires<span class="w"> </span>shell<span class="w"> </span><span class="nb">command</span><span class="w"> </span>execution
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>🔴<span class="w"> </span>Security<span class="w"> </span>concerns<span class="w"> </span>detected!
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>Recommended:<span class="w"> </span>Only<span class="w"> </span>install<span class="w"> </span>from<span class="w"> </span>trusted<span class="w"> </span>sources.
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>Continue<span class="w"> </span>anyway?<span class="w"> </span><span class="o">(</span>y/n<span class="o">)</span>:<span class="w"> </span>n
+</code></pre></div>
+<hr />
+<h2 id="testing-strategy">Testing Strategy<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="unit-tests">Unit Tests<a class="headerlink" href="#unit-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>test_search_registry<span class="o">()</span><span class="w">      </span><span class="c1"># Test API search</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>test_parse_results<span class="o">()</span><span class="w">        </span><span class="c1"># Test JSON parsing</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>test_detect_duplicates<span class="o">()</span><span class="w">    </span><span class="c1"># Test duplicate logic</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>test_security_analysis<span class="o">()</span><span class="w">    </span><span class="c1"># Test security checks</span>
+</code></pre></div>
+<h3 id="integration-tests">Integration Tests<a class="headerlink" href="#integration-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>test_full_install_flow<span class="o">()</span><span class="w">    </span><span class="c1"># End-to-end installation</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>test_error_handling<span class="o">()</span><span class="w">       </span><span class="c1"># Network errors, bad input</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>test_duplicate_warning<span class="o">()</span><span class="w">    </span><span class="c1"># Duplicate detection works</span>
+</code></pre></div>
+<h3 id="manual-tests">Manual Tests<a class="headerlink" href="#manual-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Install from registry</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>mcp<span class="w"> </span>add<span class="w"> </span>filesystem
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Search with no results</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>mcp<span class="w"> </span>add<span class="w"> </span>nonexistent-server
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="c1"># Cancel installation</span>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>mcp<span class="w"> </span>add<span class="w"> </span>postgres<span class="w">  </span><span class="c1"># then press &#39;n&#39;</span>
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="c1"># Install with duplicate</span>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>mcp<span class="w"> </span>add<span class="w"> </span>shell<span class="w">  </span><span class="c1"># when shell already installed</span>
+</code></pre></div>
+<hr />
+<h2 id="files-to-createmodify">Files to Create/Modify<a class="headerlink" href="#files-to-createmodify" title="Permanent link">&para;</a></h2>
+<h3 id="new-files">New Files<a class="headerlink" href="#new-files" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>~/.config/zsh/functions/
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>├── mcp-registry-api.zsh      # Registry API wrapper
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>└── mcp-security.zsh          # Security analysis functions
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>~/.config/zsh/tests/
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>└── test-mcp-add.zsh          # Test suite
+</code></pre></div>
+<h3 id="modified-files">Modified Files<a class="headerlink" href="#modified-files" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>~/.config/zsh/functions/
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>└── mcp-dispatcher.zsh         # Add &#39;add|install|a|i&#39; keywords
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>~/.config/zsh/tests/
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>└── test-mcp-dispatcher.zsh    # Update test count
+</code></pre></div>
+<hr />
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<h3 id="required">Required<a class="headerlink" href="#required" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>curl</code> - API requests (already available)</li>
+<li><code>jq</code> or Python - JSON parsing (already available)</li>
+<li><code>fzf</code> - Interactive selection (already used in mcp pick)</li>
+<li><code>claude</code> - Claude Code CLI (already installed)</li>
+</ul>
+<h3 id="optional">Optional<a class="headerlink" href="#optional" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>bat</code> - Pretty display (already available)</li>
+<li><code>glow</code> - Markdown rendering (if installed)</li>
+</ul>
+<hr />
+<h2 id="future-enhancements">Future Enhancements<a class="headerlink" href="#future-enhancements" title="Permanent link">&para;</a></h2>
+<h3 id="version-1-mvp">Version 1 (MVP)<a class="headerlink" href="#version-1-mvp" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Search and install from registry</li>
+<li>Basic security warnings</li>
+<li>Duplicate detection</li>
+</ul>
+<h3 id="version-2">Version 2<a class="headerlink" href="#version-2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Custom server addition (not in registry)</li>
+<li>Local database fallback</li>
+<li>Uninstall command</li>
+</ul>
+<h3 id="version-3">Version 3<a class="headerlink" href="#version-3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Update/upgrade commands</li>
+<li>Server health monitoring</li>
+<li>Usage statistics</li>
+</ul>
+<h3 id="version-4">Version 4<a class="headerlink" href="#version-4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Server recommendations (based on usage)</li>
+<li>Dependency resolution</li>
+<li>Conflict detection</li>
+</ul>
+<hr />
+<h2 id="success-criteria">Success Criteria<a class="headerlink" href="#success-criteria" title="Permanent link">&para;</a></h2>
+<h3 id="must-have-mvp">Must Have (MVP)<a class="headerlink" href="#must-have-mvp" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[x] Search MCP Registry by keyword</li>
+<li>[ ] Display formatted search results</li>
+<li>[ ] Show security analysis</li>
+<li>[ ] Detect duplicate servers</li>
+<li>[ ] Install via <code>claude mcp add</code></li>
+<li>[ ] Test installed server</li>
+<li>[ ] Update documentation</li>
+</ul>
+<h3 id="nice-to-have-v2">Nice to Have (V2+)<a class="headerlink" href="#nice-to-have-v2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Offline fallback database</li>
+<li>[ ] Custom server installation</li>
+<li>[ ] Uninstall command</li>
+<li>[ ] Update/upgrade commands</li>
+<li>[ ] Interactive TUI</li>
+</ul>
+<hr />
+<h2 id="sources">Sources<a class="headerlink" href="#sources" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://blog.modelcontextprotocol.io/posts/2025-09-08-mcp-registry-preview/">Introducing the MCP Registry</a></li>
+<li><a href="https://github.com/modelcontextprotocol/registry">MCP Registry GitHub</a></li>
+<li><a href="https://modelcontextprotocol.io/development/roadmap">MCP Roadmap</a></li>
+<li><a href="https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation">Donating the MCP to AAIF</a></li>
+</ul>
+<hr />
+<p><strong>Next Steps:</strong>
+1. Review proposal
+2. Choose option (recommend Option A)
+3. Create implementation plan
+4. Start with Phase 1 (basic search &amp; install)</p>
+<p><strong>Estimated Implementation:</strong> 2-3 days for MVP</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/data-wise/zsh-configuration" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

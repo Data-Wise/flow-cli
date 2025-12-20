@@ -308,10 +308,8 @@ cc() {
     # No arguments → use pick to select project, then launch Claude
     if [[ $# -eq 0 ]]; then
         if command -v pick >/dev/null 2>&1; then
-            local project_dir=$(pick)
-            if [[ -n "$project_dir" ]]; then
-                cd "$project_dir" && claude
-            fi
+            # pick() changes directory interactively, so just run it then launch claude
+            pick && claude
         else
             claude
         fi
@@ -448,10 +446,8 @@ gm() {
     # No arguments → use pick to select project, then launch Gemini
     if [[ $# -eq 0 ]]; then
         if command -v pick >/dev/null 2>&1; then
-            local project_dir=$(pick)
-            if [[ -n "$project_dir" ]]; then
-                cd "$project_dir" && gemini
-            fi
+            # pick() changes directory interactively, so just run it then launch gemini
+            pick && gemini
         else
             gemini
         fi

@@ -146,10 +146,10 @@ just-start() {
     fi
 }
 
-# Aliases for just-start
-alias js='just-start'
-alias idk='just-start'      # "I don't know what to work on"
-alias stuck='just-start'    # When you're stuck
+# Aliases for just-start - REMOVED 2025-12-19: Use 'just-start' directly
+# alias js='just-start'
+# alias idk='just-start'      # "I don't know what to work on"
+# alias stuck='just-start'    # When you're stuck
 
 # ═══════════════════════════════════════════════════════════════════
 # 2. WHY - "Why am I here?" Context recovery
@@ -347,9 +347,10 @@ wins-history() {
 # ALIASES
 # ═══════════════════════════════════════════════════════════════════
 
-alias w!='win'
-alias nice='yay'
-alias wh='wins-history'
+# REMOVED 2025-12-19: Use full commands instead
+# alias w!='win'
+# alias nice='yay'
+# alias wh='wins-history'
 
 # ═══════════════════════════════════════════════════════════════════
 # 4. FOCUS TIMER - Combat time blindness
@@ -474,14 +475,13 @@ time-check() {
     fi
 }
 
-# Preset durations
-alias f='focus'
-alias f15='focus 15'
+# Preset durations - KEEP ONLY HIGH-FREQUENCY (f25, f50)
+# alias f15='focus 15'    # REMOVED 2025-12-19
 alias f25='focus 25'
 alias f50='focus 50'
-alias f90='focus 90'
-alias fst='focus-stop'
-alias tc='time-check'
+# alias f90='focus 90'    # REMOVED 2025-12-19
+# alias fst='focus-stop'  # REMOVED 2025-12-19: Use 'focus-stop' directly
+# alias tc='time-check'   # REMOVED 2025-12-19: Use 'time-check' directly
 
 # ═══════════════════════════════════════════════════════════════════
 # 5. MORNING - Daily kickstart routine
@@ -595,9 +595,9 @@ morning() {
     echo ""
 }
 
-# Aliases for morning
-alias am='morning'           # AM = morning routine
-alias goodmorning='morning'
+# Aliases for morning - REMOVED 2025-12-19: Use 'morning' directly
+# alias am='morning'
+# alias goodmorning='morning'
 
 # ═══════════════════════════════════════════════════════════════════
 # 6. BREADCRUMBS - Working memory aid
@@ -682,10 +682,10 @@ crumbs-clear() {
     fi
 }
 
-# Aliases for breadcrumbs
-alias bc='breadcrumb'
-alias bcs='crumbs'
-alias bclear='crumbs-clear'
+# Aliases for breadcrumbs - REMOVED 2025-12-19: Use full commands instead
+# alias bc='breadcrumb'
+# alias bcs='crumbs'
+# alias bclear='crumbs-clear'
 
 # ═══════════════════════════════════════════════════════════════════
 # 7. WHAT-NEXT - AI-powered task suggestion
@@ -777,11 +777,11 @@ Be direct and actionable. No fluff."
     fi
 }
 
-# Energy-based shortcuts
-alias wn='what-next'
-alias wnl='what-next low 30'      # Low energy, 30 min
-alias wnh='what-next high 90'     # High energy, 90 min
-alias wnq='what-next normal 15'   # Quick task
+# Energy-based shortcuts - REMOVED 2025-12-19: Use 'what-next' directly
+# alias wn='what-next'
+# alias wnl='what-next low 30'      # Low energy, 30 min
+# alias wnh='what-next high 90'     # High energy, 90 min
+# alias wnq='what-next normal 15'   # Quick task
 
 # ═══════════════════════════════════════════════════════════════════
 # 8. WHATNEXT - Fast context-aware suggestions (no AI, instant)
@@ -932,8 +932,8 @@ whatnext() {
     echo "💡 Quick: wn = AI suggestions | js = jump to project"
 }
 
-# Alias
-alias wnow='whatnext'
+# Alias - REMOVED 2025-12-19: Use 'whatnext' directly
+# alias wnow='whatnext'
 
 # ═══════════════════════════════════════════════════════════════════
 # 9. WORKFLOW STATE TRACKING - Log actions, view history
@@ -965,12 +965,12 @@ worklog() {
     echo "📝 Logged: $action"
 }
 
-# Aliases for quick logging
-alias wl='worklog'
-alias wls='worklog "started"'
-alias wld='worklog "done"'
-alias wlb='worklog "blocked"'
-alias wlp='worklog "paused"'
+# Aliases for quick logging - REMOVED 2025-12-19: Use 'worklog' directly
+# alias wl='worklog'
+# alias wls='worklog "started"'
+# alias wld='worklog "done"'
+# alias wlb='worklog "blocked"'
+# alias wlp='worklog "paused"'
 
 # Show recent workflow activity
 showflow() {
@@ -1015,10 +1015,10 @@ showflow() {
     echo "💡 Commands: showflow [n] [filter] | worklog 'action' 'details'"
 }
 
-# Aliases
-alias sf='showflow'
-alias sft='showflow 50'           # Show more
-alias sfd='showflow 20 "$(date +%Y-%m-%d)"'  # Today only
+# Aliases - REMOVED 2025-12-19: Use 'showflow' directly
+# alias sf='showflow'
+# alias sft='showflow 50'           # Show more
+# alias sfd='showflow 20 "$(date +%Y-%m-%d)"'  # Today only
 
 # Start a workflow session
 startsession() {
@@ -1149,7 +1149,8 @@ flowstats() {
     echo "📝 Total actions: $total_actions"
 }
 
-alias fls='flowstats'
+# REMOVED 2025-12-19: Use 'flowstats' directly
+# alias fls='flowstats'
 
 # ═══════════════════════════════════════════════════════════════════
 # 10. DASHBOARD INTEGRATION - Sync with Apple Notes
@@ -1174,8 +1175,8 @@ dashsync() {
     )
 }
 
-# Alias
-alias ds='dashsync'
+# Alias - REMOVED 2025-12-19: Use 'dashsync' directly
+# alias ds='dashsync'
 
 # ═══════════════════════════════════════════════════════════════════
 # WEEKLY SYNC - Multi-Project Review Ritual
@@ -1470,13 +1471,13 @@ mediationverse_sync() {
     fi
 }
 
-# Aliases
-alias ws='weeklysync'
-alias su='statusupdate'
-alias sp='setprogress'
-alias pn='projectnotes'
-alias mvr='mediationverse_report'
-alias mvs='mediationverse_sync'
+# Aliases - REMOVED 2025-12-19: Use full commands instead
+# alias ws='weeklysync'
+# alias su='statusupdate'
+# alias sp='setprogress'
+# alias pn='projectnotes'
+# alias mvr='mediationverse_report'
+# alias mvs='mediationverse_sync'
 
 # ─────────────────────────────────────────────────────────────
 # Mediationverse Git Workflow Aliases
@@ -2152,9 +2153,9 @@ finish() {
     echo ""
 }
 
-# Aliases
-alias wdone='finish'
-alias fin='finish'
+# Aliases - REMOVED 2025-12-19: Use 'finish' directly
+# alias wdone='finish'
+# alias fin='finish'
 
 # ─────────────────────────────────────────────────────────────
 # now - What am I working on?
@@ -2365,10 +2366,8 @@ _dash_display() {
     echo ""
 }
 
-# Category-specific dashboards
-alias dashr='dash r'
-alias dashdt='dash dt'
-alias dashq='dash q'
+# Category-specific dashboards removed 2025-12-19
+# Use: dash r, dash dt, dash q directly
 
 # ─────────────────────────────────────────────────────────────
 # Context-Aware Operations
@@ -2780,10 +2779,12 @@ pmorning() {
     echo ""
 }
 
-# Alias
-# Note: 'gm' conflicts with Gemini alias in .zshrc, using 'morning' instead
-alias morning='pmorning'  # good morning routine
-alias gmorning='pmorning'  # alternative: good morning
+# Aliases
+# Note: Both morning() and pmorning() are separate functions with different purposes
+# - morning()  = Show yesterday's wins and recent git activity
+# - pmorning() = Pull all projects and show dashboard ("project morning")
+# REMOVED 2025-12-19: Use 'pmorning' directly
+# alias gmorning='pmorning'
 
 # ═══════════════════════════════════════════════════════════════════
 # TEACHING-SPECIFIC COMMANDS (Unique helpers only)
@@ -2968,8 +2969,8 @@ tst() {
     echo ""
 }
 
-# Teaching aliases
-alias dashteach='dash teach'
+# Teaching aliases removed 2025-12-19
+# Use: dash teach directly
 
 # ═══════════════════════════════════════════════════════════════════
 # RESEARCH-SPECIFIC COMMANDS (Unique helpers only)
@@ -3139,8 +3140,8 @@ rst() {
     echo ""
 }
 
-# Research aliases
-alias dashrs='dash rs'
+# Research aliases removed 2025-12-19
+# Use: dash rs directly
 
 # ─────────────────────────────────────────────────────────────
 # Quick help for teaching/research

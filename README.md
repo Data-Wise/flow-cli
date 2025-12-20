@@ -1,8 +1,10 @@
 # 🐚 ZSH Workflow Manager
 
-**ADHD-optimized ZSH workflow tools with desktop app interface**
+**Minimalist ZSH workflow tools with smart dispatchers**
 
-A comprehensive system for managing development workflows through both CLI and desktop app interfaces. Features 183+ aliases, 108+ functions, and smart context detection optimized for ADHD-friendly productivity.
+A streamlined system for managing development workflows. Features 28 essential aliases, 6 smart dispatchers, and 226+ git aliases (via plugin). Optimized for muscle memory over memorization.
+
+**Recent update (2025-12-19):** Reduced from 179 to 28 custom aliases (84% reduction) based on user feedback about cognitive load.
 
 ---
 

@@ -2,8 +2,10 @@
 
 > **Focus:** Top 10 highest-impact workflows for daily R package development
 
+> **⚠️ Important (2025-12-19):** This guide was written before the alias cleanup (179→28). Many referenced aliases (`t`, `lt`, `dt`, `js`, etc.) were removed. Workflows remain valid but commands need updating. See [ALIAS-REFERENCE-CARD.md](ALIAS-REFERENCE-CARD.md) for current commands.
+
 **Read Time:** 5 minutes | **Apply Time:** Immediate
-**Last Updated:** 2025-12-13
+**Last Updated:** 2025-12-13 (Note added: 2025-12-19)
 
 ---
 

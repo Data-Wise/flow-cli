@@ -1,0 +1,2279 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Minimalist ZSH workflow tools with smart dispatchers">
+      
+      
+        <meta name="author" content="DT">
+      
+      
+        <link rel="canonical" href="https://data-wise.github.io/zsh-configuration/implementation/alias-refactoring/ALIAS-REFACTOR-PLANS-A-B-2025-12-14/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Alias Refactoring: Two Plans - ZSH Configuration Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#alias-refactoring-two-plans" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="ZSH Configuration Docs" class="md-header__button md-logo" aria-label="ZSH Configuration Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ZSH Configuration Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Alias Refactoring: Two Plans
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/data-wise/zsh-configuration" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zsh-configuration
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../getting-started/quick-start/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../user/ALIAS-REFERENCE-CARD/" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../doc-index/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ZSH Configuration Docs" class="md-nav__button md-logo" aria-label="ZSH Configuration Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ZSH Configuration Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/data-wise/zsh-configuration" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zsh-configuration
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/ALIAS-REFERENCE-CARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/PICK-COMMAND-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/DASHBOARD-QUICK-REF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/WORKFLOWS-QUICK-WINS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows & Tips
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONVENTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../doc-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#core-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Core Problem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plan-a-verb-noun-pattern-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Plan A: Verb-Noun Pattern (Recommended ⭐)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Plan A: Verb-Noun Pattern (Recommended ⭐)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pattern-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-alias-list-plan-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Alias List (Plan A)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Full Alias List (Plan A)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#r-package-development-20-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R Package Development (20 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quarto-6-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quarto (6 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code-12-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code (12 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemini-6-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gemini (6 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#git-6-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git (6 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-management-15-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Management (15 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-viewing-8-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Viewing (8 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modern-cli-replacements-3-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modern CLI Replacements (3 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typo-tolerance-keep-all-adhd-essential" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typo Tolerance (Keep all - ADHD essential)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plan-b-namespace-prefix-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Plan B: Namespace-Prefix Pattern
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Plan B: Namespace-Prefix Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pattern-design_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-alias-list-plan-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Alias List (Plan B)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Full Alias List (Plan B)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#r-package-development-20-aliases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R Package Development (20 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quarto-6-aliases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quarto (6 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code-12-aliases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code (12 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemini-6-aliases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gemini (6 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#git-6-aliases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git (6 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-management-15-aliases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Management (15 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-viewing-8-aliases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Viewing (8 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modern-cli-3-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modern CLI (3 aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typo-tolerance-keep-all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typo Tolerance (Keep all)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plan-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 Plan Comparison
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my-recommendation-plan-a-verb-noun" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 My Recommendation: Plan A (Verb-Noun) ⭐
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 My Recommendation: Plan A (Verb-Noun) ⭐">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-plan-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Plan A?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-not-plan-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ Why NOT Plan B?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plan-a-detailed-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Plan A: Detailed Migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Plan A: Detailed Migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remove-49-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remove (49 aliases)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Remove (49 aliases)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#all-1-2-letter-aliases-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All 1-2 Letter Aliases (20)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-cc-prompt-aliases-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All cc* Prompt Aliases (17)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deprecated-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deprecated (3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redundant-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redundant (7)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemini-over-specific-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gemini Over-Specific (8)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-85-new-meaningful-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add (85 new meaningful aliases)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Implementation Timeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Implementation Timeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#week-1-soft-launch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Week 1: Soft Launch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-2-muscle-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Week 2: Muscle Memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-3-full-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Week 3: Full Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Success Metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-enhancements-after-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Future Enhancements (After Migration)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Future Enhancements (After Migration)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#smart-help-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smart Help System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Analytics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interactive-alias-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interactive Alias Builder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎉 Why This Matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/data-wise/zsh-configuration/edit/main/docs/implementation/alias-refactoring/ALIAS-REFACTOR-PLANS-A-B-2025-12-14.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="alias-refactoring-two-plans">Alias Refactoring: Two Plans<a class="headerlink" href="#alias-refactoring-two-plans" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2025-12-14
+<strong>Key Insight:</strong> Short aliases (1-2 letters) are HARD to remember with ADHD
+<strong>Solution:</strong> Mnemonic, meaningful aliases with clear patterns</p>
+<hr />
+<h2 id="core-problem">🎯 Core Problem<a class="headerlink" href="#core-problem" title="Permanent link">&para;</a></h2>
+<p><strong>Current state:</strong>
+- 167 aliases, many are 1-2 letters (c, d, q, t, bd, dc, ck, etc.)
+- <strong>User feedback:</strong> "I do not like one or two letters; it's hard for me to remember"
+- Need: Consolidated aliases with <strong>mnemonics</strong> (memory aids)</p>
+<p><strong>ADHD-Friendly Principles:</strong>
+1. ✅ <strong>Meaningful names</strong> over brevity
+2. ✅ <strong>Consistent patterns</strong> over variety
+3. ✅ <strong>Tab-completable</strong> namespaces
+4. ✅ <strong>Self-documenting</strong> aliases</p>
+<hr />
+<h2 id="plan-a-verb-noun-pattern-recommended">📊 Plan A: Verb-Noun Pattern (Recommended ⭐)<a class="headerlink" href="#plan-a-verb-noun-pattern-recommended" title="Permanent link">&para;</a></h2>
+<p><strong>Philosophy:</strong> Use action-object pairs that read like natural commands</p>
+<h3 id="pattern-design">Pattern Design<a class="headerlink" href="#pattern-design" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[verb]-[object]
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>test-r    → Test R package
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>doc-r     → Document R package
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>build-r   → Build R package
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>check-r   → Check R package
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>load-r    → Load R package
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>preview-q → Preview Quarto
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>render-q  → Render Quarto
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>check-q   → Check Quarto
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>claude-continue → Continue Claude conversation
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>claude-plan     → Claude in plan mode
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>claude-yolo     → Claude bypass permissions
+</code></pre></div>
+<h3 id="full-alias-list-plan-a">Full Alias List (Plan A)<a class="headerlink" href="#full-alias-list-plan-a" title="Permanent link">&para;</a></h3>
+<h4 id="r-package-development-20-aliases">R Package Development (20 aliases)<a class="headerlink" href="#r-package-development-20-aliases" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Core workflow (verb-r pattern)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">alias</span><span class="w"> </span>load-r<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::load_all()&quot;&#39;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">alias</span><span class="w"> </span>test-r<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::test()&quot;&#39;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nb">alias</span><span class="w"> </span>doc-r<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::document()&quot;&#39;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nb">alias</span><span class="w"> </span>check-r<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::check()&quot;&#39;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nb">alias</span><span class="w"> </span>build-r<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::build()&quot;&#39;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nb">alias</span><span class="w"> </span>install-r<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::install()&quot;&#39;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Atomic pairs (ADHD gold - two steps in one)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nb">alias</span><span class="w"> </span>load-test<span class="o">=</span><span class="s1">&#39;load-r &amp;&amp; test-r&#39;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="nb">alias</span><span class="w"> </span>doc-test<span class="o">=</span><span class="s1">&#39;doc-r &amp;&amp; test-r&#39;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># Check variants</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="nb">alias</span><span class="w"> </span>check-fast<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::check(args = c(\&quot;--no-examples\&quot;, \&quot;--no-tests\&quot;, \&quot;--no-vignettes\&quot;))&quot;&#39;</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="nb">alias</span><span class="w"> </span>check-cran<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::check(args = c(\&quot;--as-cran\&quot;))&quot;&#39;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="nb">alias</span><span class="w"> </span>check-rhub<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;rhub::check_for_cran()&quot;&#39;</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="nb">alias</span><span class="w"> </span>check-win<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::check_win_devel()&quot;&#39;</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1"># Package utilities</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="nb">alias</span><span class="w"> </span>pkg-info<span class="o">=</span><span class="s1">&#39;rpkginfo&#39;</span><span class="w">           </span><span class="c1"># Show package info</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="nb">alias</span><span class="w"> </span>pkg-tree<span class="o">=</span><span class="s1">&#39;rpkgtree&#39;</span><span class="w">           </span><span class="c1"># Show package structure</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="nb">alias</span><span class="w"> </span>pkg-clean<span class="o">=</span><span class="s1">&#39;rpkgclean&#39;</span><span class="w">         </span><span class="c1"># Clean temp files</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="nb">alias</span><span class="w"> </span>pkg-cycle<span class="o">=</span><span class="s1">&#39;rpkgcycle&#39;</span><span class="w">         </span><span class="c1"># Full dev cycle (doc+test+check)</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="nb">alias</span><span class="w"> </span>pkg-down<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;pkgdown::build_site()&quot;&#39;</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="nb">alias</span><span class="w"> </span>pkg-preview<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;pkgdown::preview_site()&quot;&#39;</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="c1"># Dependencies</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="nb">alias</span><span class="w"> </span>deps-tree<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;pak::pkg_deps_tree()&quot;&#39;</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="nb">alias</span><span class="w"> </span>deps-update<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;pak::pkg_install(pak::local_deps())&quot;&#39;</span>
+</code></pre></div>
+<h4 id="quarto-6-aliases">Quarto (6 aliases)<a class="headerlink" href="#quarto-6-aliases" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">alias</span><span class="w"> </span>preview-q<span class="o">=</span><span class="s1">&#39;quarto preview&#39;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">alias</span><span class="w"> </span>render-q<span class="o">=</span><span class="s1">&#39;quarto render&#39;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">alias</span><span class="w"> </span>check-q<span class="o">=</span><span class="s1">&#39;quarto check&#39;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nb">alias</span><span class="w"> </span>clean-q<span class="o">=</span><span class="s1">&#39;rm -rf _site/ *_cache/ *_files/&#39;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">alias</span><span class="w"> </span>new-q<span class="o">=</span><span class="s1">&#39;qnew&#39;</span><span class="w">                  </span><span class="c1"># Function to create new project</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nb">alias</span><span class="w"> </span>work-q<span class="o">=</span><span class="s1">&#39;qwork&#39;</span><span class="w">                </span><span class="c1"># Open editor + preview</span>
+</code></pre></div>
+<h4 id="claude-code-12-aliases">Claude Code (12 aliases)<a class="headerlink" href="#claude-code-12-aliases" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Core modes</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">claude</span><span class="o">=</span><span class="s1">&#39;claude&#39;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nb">alias</span><span class="w"> </span>claude-continue<span class="o">=</span><span class="s1">&#39;claude -c&#39;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nb">alias</span><span class="w"> </span>claude-resume<span class="o">=</span><span class="s1">&#39;claude -r&#39;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Models</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nb">alias</span><span class="w"> </span>claude-haiku<span class="o">=</span><span class="s1">&#39;claude --model haiku&#39;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nb">alias</span><span class="w"> </span>claude-sonnet<span class="o">=</span><span class="s1">&#39;claude --model sonnet&#39;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="nb">alias</span><span class="w"> </span>claude-opus<span class="o">=</span><span class="s1">&#39;claude --model opus&#39;</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># Permission modes</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="nb">alias</span><span class="w"> </span>claude-plan<span class="o">=</span><span class="s1">&#39;claude --permission-mode plan&#39;</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="nb">alias</span><span class="w"> </span>claude-auto<span class="o">=</span><span class="s1">&#39;claude --permission-mode acceptEdits&#39;</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="nb">alias</span><span class="w"> </span>claude-yolo<span class="o">=</span><span class="s1">&#39;claude --permission-mode bypassPermissions&#39;</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="c1"># Utilities</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="nb">alias</span><span class="w"> </span>claude-mcp<span class="o">=</span><span class="s1">&#39;claude mcp&#39;</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="nb">alias</span><span class="w"> </span>claude-plugin<span class="o">=</span><span class="s1">&#39;claude plugin&#39;</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="nb">alias</span><span class="w"> </span>claude-ctx<span class="o">=</span><span class="s1">&#39;claude-ctx&#39;</span><span class="w">       </span><span class="c1"># Show context</span>
+</code></pre></div>
+<h4 id="gemini-6-aliases">Gemini (6 aliases)<a class="headerlink" href="#gemini-6-aliases" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">gemini</span><span class="o">=</span><span class="s1">&#39;gemini&#39;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">alias</span><span class="w"> </span>gemini-yolo<span class="o">=</span><span class="s1">&#39;gemini --yolo&#39;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nb">alias</span><span class="w"> </span>gemini-sandbox<span class="o">=</span><span class="s1">&#39;gemini --sandbox&#39;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nb">alias</span><span class="w"> </span>gemini-resume<span class="o">=</span><span class="s1">&#39;gemini --resume latest&#39;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nb">alias</span><span class="w"> </span>gemini-ext<span class="o">=</span><span class="s1">&#39;gemini extensions&#39;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nb">alias</span><span class="w"> </span>gemini-mcp<span class="o">=</span><span class="s1">&#39;gemini mcp&#39;</span>
+</code></pre></div>
+<h4 id="git-6-aliases">Git (6 aliases)<a class="headerlink" href="#git-6-aliases" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">alias</span><span class="w"> </span>git-status<span class="o">=</span><span class="s1">&#39;git status -sb&#39;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">alias</span><span class="w"> </span>git-log<span class="o">=</span><span class="s1">&#39;git log --oneline --graph --decorate --all&#39;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nb">alias</span><span class="w"> </span>git-undo<span class="o">=</span><span class="s1">&#39;git reset --soft HEAD~1&#39;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nb">alias</span><span class="w"> </span>git-author<span class="o">=</span><span class="s1">&#39;git log --oneline --graph --decorate --all --author&#39;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nb">alias</span><span class="w"> </span>git-diff<span class="o">=</span><span class="s1">&#39;git diff&#39;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nb">alias</span><span class="w"> </span>git-commit<span class="o">=</span><span class="s1">&#39;git commit&#39;</span>
+</code></pre></div>
+<h4 id="project-management-15-aliases">Project Management (15 aliases)<a class="headerlink" href="#project-management-15-aliases" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Project status</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">alias</span><span class="w"> </span>proj-status<span class="o">=</span><span class="s1">&#39;~/projects/dev-tools/apple-notes-sync/scanner.sh&#39;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nb">alias</span><span class="w"> </span>proj-view<span class="o">=</span><span class="s1">&#39;pstatview&#39;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nb">alias</span><span class="w"> </span>proj-count<span class="o">=</span><span class="s1">&#39;pstatcount&#39;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">alias</span><span class="w"> </span>proj-list<span class="o">=</span><span class="s1">&#39;pstatlist&#39;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nb">alias</span><span class="w"> </span>proj-show<span class="o">=</span><span class="s1">&#39;pstatshow&#39;</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># Notes sync</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nb">alias</span><span class="w"> </span>notes-sync<span class="o">=</span><span class="s1">&#39;pstat &amp;&amp; ~/projects/dev-tools/apple-notes-sync/dashboard-applescript.sh&#39;</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="nb">alias</span><span class="w"> </span>notes-view<span class="o">=</span><span class="s1">&#39;nsyncview&#39;</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="nb">alias</span><span class="w"> </span>notes-clip<span class="o">=</span><span class="s1">&#39;nsyncclip&#39;</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="nb">alias</span><span class="w"> </span>notes-export<span class="o">=</span><span class="s1">&#39;nsyncexport&#39;</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1"># Dashboard</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="nb">alias</span><span class="w"> </span>dash-update<span class="o">=</span><span class="s1">&#39;dashupdate&#39;</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="nb">alias</span><span class="w"> </span>dash-open<span class="o">=</span><span class="s1">&#39;dashopen&#39;</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="c1"># Project detection</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="nb">alias</span><span class="w"> </span>proj-type<span class="o">=</span><span class="s1">&#39;proj-type&#39;</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="nb">alias</span><span class="w"> </span>proj-info<span class="o">=</span><span class="s1">&#39;proj-info&#39;</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="nb">alias</span><span class="w"> </span>proj-init<span class="o">=</span><span class="s1">&#39;claude-init&#39;</span>
+</code></pre></div>
+<h4 id="file-viewing-8-aliases">File Viewing (8 aliases)<a class="headerlink" href="#file-viewing-8-aliases" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">view</span><span class="o">=</span><span class="s1">&#39;bat&#39;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">alias</span><span class="w"> </span>view-desc<span class="o">=</span><span class="s1">&#39;bat DESCRIPTION&#39;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nb">alias</span><span class="w"> </span>view-news<span class="o">=</span><span class="s1">&#39;bat NEWS.md&#39;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nb">alias</span><span class="w"> </span>view-qmd<span class="o">=</span><span class="s1">&#39;bat --language=markdown&#39;</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nb">alias</span><span class="w"> </span>view-r<span class="o">=</span><span class="s1">&#39;bat --language=r&#39;</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nb">alias</span><span class="w"> </span>view-md<span class="o">=</span><span class="s1">&#39;bat --language=markdown&#39;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="nb">alias</span><span class="w"> </span>view-json<span class="o">=</span><span class="s1">&#39;bat --language=json&#39;</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="nb">alias</span><span class="w"> </span>view-yaml<span class="o">=</span><span class="s1">&#39;bat --language=yaml&#39;</span>
+</code></pre></div>
+<h4 id="modern-cli-replacements-3-aliases">Modern CLI Replacements (3 aliases)<a class="headerlink" href="#modern-cli-replacements-3-aliases" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">cat</span><span class="o">=</span><span class="s1">&#39;bat&#39;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">find</span><span class="o">=</span><span class="s1">&#39;fd&#39;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">grep</span><span class="o">=</span><span class="s1">&#39;rg&#39;</span>
+</code></pre></div>
+<h4 id="typo-tolerance-keep-all-adhd-essential">Typo Tolerance (Keep all - ADHD essential)<a class="headerlink" href="#typo-tolerance-keep-all-adhd-essential" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Claude typos</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">claue</span><span class="o">=</span><span class="s1">&#39;claude&#39;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">cluade</span><span class="o">=</span><span class="s1">&#39;claude&#39;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">clade</span><span class="o">=</span><span class="s1">&#39;claude&#39;</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">calue</span><span class="o">=</span><span class="s1">&#39;claude&#39;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">claudee</span><span class="o">=</span><span class="s1">&#39;claude&#39;</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c1"># R typos</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="nb">alias</span><span class="w"> </span>laod-r<span class="o">=</span><span class="s1">&#39;load-r&#39;</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="nb">alias</span><span class="w"> </span>tets-r<span class="o">=</span><span class="s1">&#39;test-r&#39;</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="nb">alias</span><span class="w"> </span>chekc-r<span class="o">=</span><span class="s1">&#39;check-r&#39;</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="nb">alias</span><span class="w"> </span>biuld-r<span class="o">=</span><span class="s1">&#39;build-r&#39;</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1"># Git typos</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">gti</span><span class="o">=</span><span class="s1">&#39;git&#39;</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">tgi</span><span class="o">=</span><span class="s1">&#39;git&#39;</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="c1"># Common typos</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">clera</span><span class="o">=</span><span class="s1">&#39;clear&#39;</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">claer</span><span class="o">=</span><span class="s1">&#39;clear&#39;</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">sl</span><span class="o">=</span><span class="s1">&#39;ls&#39;</span>
+</code></pre></div>
+<p><strong>Total: ~85 aliases (49% reduction from 167)</strong></p>
+<hr />
+<h2 id="plan-b-namespace-prefix-pattern">📊 Plan B: Namespace-Prefix Pattern<a class="headerlink" href="#plan-b-namespace-prefix-pattern" title="Permanent link">&para;</a></h2>
+<p><strong>Philosophy:</strong> Group aliases by domain with prefixes (like Emacs/Vim packages)</p>
+<h3 id="pattern-design_1">Pattern Design<a class="headerlink" href="#pattern-design_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>r:action        → R package development
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>q:action        → Quarto
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>claude:mode     → Claude Code
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>gemini:mode     → Gemini
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>git:action      → Git
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>proj:action     → Project management
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>view:type       → File viewing
+</code></pre></div>
+<h3 id="full-alias-list-plan-b">Full Alias List (Plan B)<a class="headerlink" href="#full-alias-list-plan-b" title="Permanent link">&para;</a></h3>
+<h4 id="r-package-development-20-aliases_1">R Package Development (20 aliases)<a class="headerlink" href="#r-package-development-20-aliases_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Core workflow (r: namespace)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">alias</span><span class="w"> </span>r:load<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::load_all()&quot;&#39;</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nb">alias</span><span class="w"> </span>r:test<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::test()&quot;&#39;</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="nb">alias</span><span class="w"> </span>r:doc<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::document()&quot;&#39;</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nb">alias</span><span class="w"> </span>r:check<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::check()&quot;&#39;</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="nb">alias</span><span class="w"> </span>r:build<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::build()&quot;&#39;</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nb">alias</span><span class="w"> </span>r:install<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::install()&quot;&#39;</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="nb">alias</span><span class="w"> </span>r:cycle<span class="o">=</span><span class="s1">&#39;rpkgcycle&#39;</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1"># Atomic combinations</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="nb">alias</span><span class="w"> </span>r:load-test<span class="o">=</span><span class="s1">&#39;r:load &amp;&amp; r:test&#39;</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="nb">alias</span><span class="w"> </span>r:doc-test<span class="o">=</span><span class="s1">&#39;r:doc &amp;&amp; r:test&#39;</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="c1"># Check variants</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="nb">alias</span><span class="w"> </span>r:check-fast<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::check(args = c(\&quot;--no-examples\&quot;, \&quot;--no-tests\&quot;, \&quot;--no-vignettes\&quot;))&quot;&#39;</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="nb">alias</span><span class="w"> </span>r:check-cran<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::check(args = c(\&quot;--as-cran\&quot;))&quot;&#39;</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="nb">alias</span><span class="w"> </span>r:check-rhub<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;rhub::check_for_cran()&quot;&#39;</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="nb">alias</span><span class="w"> </span>r:check-win<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;devtools::check_win_devel()&quot;&#39;</span>
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>
+<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="c1"># Package management</span>
+<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="nb">alias</span><span class="w"> </span>r:pkg-info<span class="o">=</span><span class="s1">&#39;rpkginfo&#39;</span>
+<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="nb">alias</span><span class="w"> </span>r:pkg-tree<span class="o">=</span><span class="s1">&#39;rpkgtree&#39;</span>
+<a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="nb">alias</span><span class="w"> </span>r:pkg-clean<span class="o">=</span><span class="s1">&#39;rpkgclean&#39;</span>
+<a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a><span class="nb">alias</span><span class="w"> </span>r:pkg-down<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;pkgdown::build_site()&quot;&#39;</span>
+<a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>
+<a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a><span class="c1"># Dependencies</span>
+<a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a><span class="nb">alias</span><span class="w"> </span>r:deps<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;pak::pkg_deps_tree()&quot;&#39;</span>
+<a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a><span class="nb">alias</span><span class="w"> </span>r:deps-update<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;pak::pkg_install(pak::local_deps())&quot;&#39;</span>
+<a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a>
+<a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a><span class="c1"># Coverage</span>
+<a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a><span class="nb">alias</span><span class="w"> </span>r:coverage<span class="o">=</span><span class="s1">&#39;Rscript -e &quot;covr::package_coverage()&quot;&#39;</span>
+</code></pre></div>
+<h4 id="quarto-6-aliases_1">Quarto (6 aliases)<a class="headerlink" href="#quarto-6-aliases_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nb">alias</span><span class="w"> </span>q:preview<span class="o">=</span><span class="s1">&#39;quarto preview&#39;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">alias</span><span class="w"> </span>q:render<span class="o">=</span><span class="s1">&#39;quarto render&#39;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nb">alias</span><span class="w"> </span>q:check<span class="o">=</span><span class="s1">&#39;quarto check&#39;</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nb">alias</span><span class="w"> </span>q:clean<span class="o">=</span><span class="s1">&#39;rm -rf _site/ *_cache/ *_files/&#39;</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nb">alias</span><span class="w"> </span>q:new<span class="o">=</span><span class="s1">&#39;qnew&#39;</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nb">alias</span><span class="w"> </span>q:work<span class="o">=</span><span class="s1">&#39;qwork&#39;</span>
+</code></pre></div>
+<h4 id="claude-code-12-aliases_1">Claude Code (12 aliases)<a class="headerlink" href="#claude-code-12-aliases_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">alias</span><span class="w"> </span>claude:start<span class="o">=</span><span class="s1">&#39;claude&#39;</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">alias</span><span class="w"> </span>claude:continue<span class="o">=</span><span class="s1">&#39;claude -c&#39;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nb">alias</span><span class="w"> </span>claude:resume<span class="o">=</span><span class="s1">&#39;claude -r&#39;</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1"># Models</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="nb">alias</span><span class="w"> </span>claude:haiku<span class="o">=</span><span class="s1">&#39;claude --model haiku&#39;</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="nb">alias</span><span class="w"> </span>claude:sonnet<span class="o">=</span><span class="s1">&#39;claude --model sonnet&#39;</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="nb">alias</span><span class="w"> </span>claude:opus<span class="o">=</span><span class="s1">&#39;claude --model opus&#39;</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Modes</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="nb">alias</span><span class="w"> </span>claude:plan<span class="o">=</span><span class="s1">&#39;claude --permission-mode plan&#39;</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="nb">alias</span><span class="w"> </span>claude:auto<span class="o">=</span><span class="s1">&#39;claude --permission-mode acceptEdits&#39;</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="nb">alias</span><span class="w"> </span>claude:yolo<span class="o">=</span><span class="s1">&#39;claude --permission-mode bypassPermissions&#39;</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="c1"># Tools</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="nb">alias</span><span class="w"> </span>claude:mcp<span class="o">=</span><span class="s1">&#39;claude mcp&#39;</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="nb">alias</span><span class="w"> </span>claude:plugin<span class="o">=</span><span class="s1">&#39;claude plugin&#39;</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="nb">alias</span><span class="w"> </span>claude:ctx<span class="o">=</span><span class="s1">&#39;claude-ctx&#39;</span>
+</code></pre></div>
+<h4 id="gemini-6-aliases_1">Gemini (6 aliases)<a class="headerlink" href="#gemini-6-aliases_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">alias</span><span class="w"> </span>gemini:start<span class="o">=</span><span class="s1">&#39;gemini&#39;</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">alias</span><span class="w"> </span>gemini:yolo<span class="o">=</span><span class="s1">&#39;gemini --yolo&#39;</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nb">alias</span><span class="w"> </span>gemini:sandbox<span class="o">=</span><span class="s1">&#39;gemini --sandbox&#39;</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nb">alias</span><span class="w"> </span>gemini:resume<span class="o">=</span><span class="s1">&#39;gemini --resume latest&#39;</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nb">alias</span><span class="w"> </span>gemini:ext<span class="o">=</span><span class="s1">&#39;gemini extensions&#39;</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nb">alias</span><span class="w"> </span>gemini:mcp<span class="o">=</span><span class="s1">&#39;gemini mcp&#39;</span>
+</code></pre></div>
+<h4 id="git-6-aliases_1">Git (6 aliases)<a class="headerlink" href="#git-6-aliases_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">alias</span><span class="w"> </span>git:status<span class="o">=</span><span class="s1">&#39;git status -sb&#39;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nb">alias</span><span class="w"> </span>git:log<span class="o">=</span><span class="s1">&#39;git log --oneline --graph --decorate --all&#39;</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nb">alias</span><span class="w"> </span>git:undo<span class="o">=</span><span class="s1">&#39;git reset --soft HEAD~1&#39;</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nb">alias</span><span class="w"> </span>git:author<span class="o">=</span><span class="s1">&#39;git log --oneline --graph --decorate --all --author&#39;</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="nb">alias</span><span class="w"> </span>git:diff<span class="o">=</span><span class="s1">&#39;git diff&#39;</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="nb">alias</span><span class="w"> </span>git:commit<span class="o">=</span><span class="s1">&#39;git commit&#39;</span>
+</code></pre></div>
+<h4 id="project-management-15-aliases_1">Project Management (15 aliases)<a class="headerlink" href="#project-management-15-aliases_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nb">alias</span><span class="w"> </span>proj:status<span class="o">=</span><span class="s1">&#39;~/projects/dev-tools/apple-notes-sync/scanner.sh&#39;</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">alias</span><span class="w"> </span>proj:view<span class="o">=</span><span class="s1">&#39;pstatview&#39;</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="nb">alias</span><span class="w"> </span>proj:count<span class="o">=</span><span class="s1">&#39;pstatcount&#39;</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nb">alias</span><span class="w"> </span>proj:list<span class="o">=</span><span class="s1">&#39;pstatlist&#39;</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nb">alias</span><span class="w"> </span>proj:show<span class="o">=</span><span class="s1">&#39;pstatshow&#39;</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="nb">alias</span><span class="w"> </span>proj:type<span class="o">=</span><span class="s1">&#39;proj-type&#39;</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="nb">alias</span><span class="w"> </span>proj:info<span class="o">=</span><span class="s1">&#39;proj-info&#39;</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="nb">alias</span><span class="w"> </span>proj:init<span class="o">=</span><span class="s1">&#39;claude-init&#39;</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="nb">alias</span><span class="w"> </span>notes:sync<span class="o">=</span><span class="s1">&#39;pstat &amp;&amp; ~/projects/dev-tools/apple-notes-sync/dashboard-applescript.sh&#39;</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="nb">alias</span><span class="w"> </span>notes:view<span class="o">=</span><span class="s1">&#39;nsyncview&#39;</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="nb">alias</span><span class="w"> </span>notes:clip<span class="o">=</span><span class="s1">&#39;nsyncclip&#39;</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="nb">alias</span><span class="w"> </span>notes:export<span class="o">=</span><span class="s1">&#39;nsyncexport&#39;</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="nb">alias</span><span class="w"> </span>dash:update<span class="o">=</span><span class="s1">&#39;dashupdate&#39;</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="nb">alias</span><span class="w"> </span>dash:open<span class="o">=</span><span class="s1">&#39;dashopen&#39;</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="nb">alias</span><span class="w"> </span>dash:show<span class="o">=</span><span class="s1">&#39;dashupdate &amp;&amp; open -a &quot;Claude&quot;&#39;</span>
+</code></pre></div>
+<h4 id="file-viewing-8-aliases_1">File Viewing (8 aliases)<a class="headerlink" href="#file-viewing-8-aliases_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">alias</span><span class="w"> </span>view:file<span class="o">=</span><span class="s1">&#39;bat&#39;</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nb">alias</span><span class="w"> </span>view:desc<span class="o">=</span><span class="s1">&#39;bat DESCRIPTION&#39;</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nb">alias</span><span class="w"> </span>view:news<span class="o">=</span><span class="s1">&#39;bat NEWS.md&#39;</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="nb">alias</span><span class="w"> </span>view:qmd<span class="o">=</span><span class="s1">&#39;bat --language=markdown&#39;</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nb">alias</span><span class="w"> </span>view:r<span class="o">=</span><span class="s1">&#39;bat --language=r&#39;</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="nb">alias</span><span class="w"> </span>view:md<span class="o">=</span><span class="s1">&#39;bat --language=markdown&#39;</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="nb">alias</span><span class="w"> </span>view:json<span class="o">=</span><span class="s1">&#39;bat --language=json&#39;</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="nb">alias</span><span class="w"> </span>view:yaml<span class="o">=</span><span class="s1">&#39;bat --language=yaml&#39;</span>
+</code></pre></div>
+<h4 id="modern-cli-3-aliases">Modern CLI (3 aliases)<a class="headerlink" href="#modern-cli-3-aliases" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">cat</span><span class="o">=</span><span class="s1">&#39;bat&#39;</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">find</span><span class="o">=</span><span class="s1">&#39;fd&#39;</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">grep</span><span class="o">=</span><span class="s1">&#39;rg&#39;</span>
+</code></pre></div>
+<h4 id="typo-tolerance-keep-all">Typo Tolerance (Keep all)<a class="headerlink" href="#typo-tolerance-keep-all" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Same as Plan A - keep all typo aliases</span>
+</code></pre></div>
+<p><strong>Total: ~85 aliases (49% reduction from 167)</strong></p>
+<hr />
+<h2 id="plan-comparison">🔍 Plan Comparison<a class="headerlink" href="#plan-comparison" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Plan A (Verb-Noun)</th>
+<th>Plan B (Namespace)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pattern</strong></td>
+<td><code>test-r</code>, <code>doc-r</code></td>
+<td><code>r:test</code>, <code>r:doc</code></td>
+</tr>
+<tr>
+<td><strong>Readability</strong></td>
+<td>⭐⭐⭐⭐⭐ Reads like English</td>
+<td>⭐⭐⭐⭐ Clear structure</td>
+</tr>
+<tr>
+<td><strong>Tab Completion</strong></td>
+<td>⭐⭐⭐ By verb</td>
+<td>⭐⭐⭐⭐⭐ By domain</td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>⭐⭐⭐⭐⭐ Natural language</td>
+<td>⭐⭐⭐⭐ Logical grouping</td>
+</tr>
+<tr>
+<td><strong>Typing</strong></td>
+<td>⭐⭐⭐⭐ Dash separator</td>
+<td>⭐⭐⭐ Colon separator</td>
+</tr>
+<tr>
+<td><strong>Discoverability</strong></td>
+<td>⭐⭐⭐⭐ Search by action</td>
+<td>⭐⭐⭐⭐⭐ Browse by domain</td>
+</tr>
+<tr>
+<td><strong>Conflicts</strong></td>
+<td>⭐⭐⭐ Possible verb conflicts</td>
+<td>⭐⭐⭐⭐⭐ Namespaced, safe</td>
+</tr>
+<tr>
+<td><strong>ADHD-Friendly</strong></td>
+<td>⭐⭐⭐⭐⭐ Reads naturally</td>
+<td>⭐⭐⭐⭐ Organized clearly</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="my-recommendation-plan-a-verb-noun">🎯 My Recommendation: <strong>Plan A (Verb-Noun)</strong> ⭐<a class="headerlink" href="#my-recommendation-plan-a-verb-noun" title="Permanent link">&para;</a></h2>
+<h3 id="why-plan-a">Why Plan A?<a class="headerlink" href="#why-plan-a" title="Permanent link">&para;</a></h3>
+<p><strong>1. Most ADHD-Friendly</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>test-r<span class="w">          </span><span class="c1"># Reads: &quot;test R&quot;</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>doc-r<span class="w">           </span><span class="c1"># Reads: &quot;document R&quot;</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>preview-q<span class="w">       </span><span class="c1"># Reads: &quot;preview Quarto&quot;</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>claude-continue<span class="w"> </span><span class="c1"># Reads: &quot;Claude continue&quot;</span>
+</code></pre></div>
+- Natural language flow
+- Easy to remember (speaks like you think)
+- Self-documenting</p>
+<p><strong>2. Consistent Pattern</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># R actions</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>test-r,<span class="w"> </span>doc-r,<span class="w"> </span>check-r,<span class="w"> </span>build-r,<span class="w"> </span>load-r
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Quarto actions</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>preview-q,<span class="w"> </span>render-q,<span class="w"> </span>check-q,<span class="w"> </span>clean-q
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="c1"># Claude actions</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>claude-continue,<span class="w"> </span>claude-plan,<span class="w"> </span>claude-yolo
+</code></pre></div>
+- Same verb-noun structure everywhere
+- Muscle memory builds fast
+- Predictable</p>
+<p><strong>3. Better Tab Completion Flow</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Scenario: &quot;I want to test something...&quot;</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>test-&lt;TAB&gt;
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">  </span>test-r<span class="w">          </span><span class="c1"># Test R package</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="c1"># Scenario: &quot;I want to work with R...&quot;</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>&lt;verb&gt;-r&lt;TAB&gt;
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">  </span>test-r
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="w">  </span>doc-r
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="w">  </span>check-r
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="w">  </span>build-r
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="w">  </span>load-r
+</code></pre></div></p>
+<p><strong>4. Natural Combinations</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>load-test<span class="w">       </span><span class="c1"># Load then test (reads naturally)</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>doc-test<span class="w">        </span><span class="c1"># Document then test (clear intent)</span>
+</code></pre></div></p>
+<p><strong>5. Familiar to Other Tools</strong>
+- Git uses this: <code>git-status</code>, <code>git-log</code>
+- npm uses this: <code>npm-install</code>, <code>npm-test</code>
+- Follows Unix philosophy: <code>action-target</code></p>
+<hr />
+<h2 id="why-not-plan-b">⚠️ Why NOT Plan B?<a class="headerlink" href="#why-not-plan-b" title="Permanent link">&para;</a></h2>
+<p><strong>1. Colon Separator Issues</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>r:test<span class="w">          </span><span class="c1"># Harder to type (shift+;)</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>test-r<span class="w">          </span><span class="c1"># Natural on keyboard (just dash)</span>
+</code></pre></div></p>
+<p><strong>2. Less Natural Reading</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>r:test<span class="w">          </span><span class="c1"># Reads: &quot;R colon test&quot; (weird)</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>test-r<span class="w">          </span><span class="c1"># Reads: &quot;test R&quot; (natural)</span>
+</code></pre></div></p>
+<p><strong>3. Tab Completion Less Useful</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Plan B: Must remember namespace first</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>r:&lt;TAB&gt;<span class="w">         </span><span class="c1"># Shows all R commands (could be 20+)</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Plan A: Can search by action</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>test&lt;TAB&gt;<span class="w">       </span><span class="c1"># Shows all test commands across domains</span>
+</code></pre></div></p>
+<p><strong>4. More Mental Load</strong>
+- Must remember which namespace (r, q, claude, gemini, git, proj, notes, dash, view)
+- Plan A: Just think of action first</p>
+<hr />
+<h2 id="plan-a-detailed-migration">📋 Plan A: Detailed Migration<a class="headerlink" href="#plan-a-detailed-migration" title="Permanent link">&para;</a></h2>
+<h3 id="remove-49-aliases">Remove (49 aliases)<a class="headerlink" href="#remove-49-aliases" title="Permanent link">&para;</a></h3>
+<h4 id="all-1-2-letter-aliases-20">All 1-2 Letter Aliases (20)<a class="headerlink" href="#all-1-2-letter-aliases-20" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>c,<span class="w"> </span>d,<span class="w"> </span>q,<span class="w"> </span>t,<span class="w"> </span>ts,<span class="w"> </span>bd,<span class="w"> </span>dc,<span class="w"> </span>ck,<span class="w"> </span>ld,<span class="w"> </span>rb,<span class="w"> </span>rc,<span class="w"> </span>rd,<span class="w"> </span><span class="k">do</span>,<span class="w"> </span>e,<span class="w"> </span>ec,
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>psv,<span class="w"> </span>psl,<span class="w"> </span>psc,<span class="w"> </span>pss,<span class="w"> </span>ns,<span class="w"> </span>nsv,<span class="w"> </span>nsc,<span class="w"> </span>nse
+</code></pre></div>
+<h4 id="all-cc-prompt-aliases-17">All cc* Prompt Aliases (17)<a class="headerlink" href="#all-cc-prompt-aliases-17" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>ccdoc,<span class="w"> </span>ccexplain,<span class="w"> </span>ccfix,<span class="w"> </span>ccoptimize,<span class="w"> </span>ccrefactor,<span class="w"> </span>ccreview,
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>ccsecurity,<span class="w"> </span>cctest,<span class="w"> </span>ccrdoc,<span class="w"> </span>ccrexplain,<span class="w"> </span>ccrfix,<span class="w"> </span>ccroptimize,
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>ccrrefactor,<span class="w"> </span>ccrstyle,<span class="w"> </span>ccrtest,<span class="w"> </span>ccjson,<span class="w"> </span>ccstream
+</code></pre></div>
+<h4 id="deprecated-3">Deprecated (3)<a class="headerlink" href="#deprecated-3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>dashsync,<span class="w"> </span>dashclip,<span class="w"> </span>dashexport
+</code></pre></div>
+<h4 id="redundant-7">Redundant (7)<a class="headerlink" href="#redundant-7" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>aliases-claude,<span class="w"> </span>aliases-files,<span class="w"> </span>aliases-gemini,<span class="w"> </span>aliases-git,
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>aliases-quarto,<span class="w"> </span>aliases-r,<span class="w"> </span>aliases-short
+</code></pre></div>
+<h4 id="gemini-over-specific-8">Gemini Over-Specific (8)<a class="headerlink" href="#gemini-over-specific-8" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>gmpi,<span class="w"> </span>gmsd,<span class="w"> </span>gmyd,<span class="w"> </span>gmys,<span class="w"> </span>gmds,<span class="w"> </span>gmls,<span class="w"> </span>gmei,<span class="w"> </span>gmel,<span class="w"> </span>gmeu,<span class="w"> </span>gmm,<span class="w"> </span>gmd
+</code></pre></div>
+<p><strong>Total removed: 49</strong></p>
+<h3 id="add-85-new-meaningful-aliases">Add (85 new meaningful aliases)<a class="headerlink" href="#add-85-new-meaningful-aliases" title="Permanent link">&para;</a></h3>
+<p>See "Plan A: Full Alias List" above.</p>
+<h3 id="migration-script">Migration Script<a class="headerlink" href="#migration-script" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="c1"># migrate-to-plan-a.sh</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;🔄 Migrating to Plan A (Verb-Noun Pattern)&quot;</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="c1"># Backup</span>
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>cp<span class="w"> </span>~/.config/zsh/.zshrc<span class="w"> </span>~/.config/zsh/.zshrc.backup-2025-12-14
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✅ Backup created&quot;</span>
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a>
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a><span class="c1"># Create new aliases file</span>
+<a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>~/.config/zsh/aliases-plan-a.zsh<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a><span class="s"># ============================================</span>
+<a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a><span class="s"># PLAN A: VERB-NOUN PATTERN</span>
+<a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a><span class="s"># Generated: 2025-12-14</span>
+<a id="__codelineno-32-16" name="__codelineno-32-16" href="#__codelineno-32-16"></a><span class="s"># ============================================</span>
+<a id="__codelineno-32-17" name="__codelineno-32-17" href="#__codelineno-32-17"></a>
+<a id="__codelineno-32-18" name="__codelineno-32-18" href="#__codelineno-32-18"></a><span class="s"># R Package Development</span>
+<a id="__codelineno-32-19" name="__codelineno-32-19" href="#__codelineno-32-19"></a><span class="s">alias load-r=&#39;Rscript -e &quot;devtools::load_all()&quot;&#39;</span>
+<a id="__codelineno-32-20" name="__codelineno-32-20" href="#__codelineno-32-20"></a><span class="s">alias test-r=&#39;Rscript -e &quot;devtools::test()&quot;&#39;</span>
+<a id="__codelineno-32-21" name="__codelineno-32-21" href="#__codelineno-32-21"></a><span class="s">alias doc-r=&#39;Rscript -e &quot;devtools::document()&quot;&#39;</span>
+<a id="__codelineno-32-22" name="__codelineno-32-22" href="#__codelineno-32-22"></a><span class="s">alias check-r=&#39;Rscript -e &quot;devtools::check()&quot;&#39;</span>
+<a id="__codelineno-32-23" name="__codelineno-32-23" href="#__codelineno-32-23"></a><span class="s">alias build-r=&#39;Rscript -e &quot;devtools::build()&quot;&#39;</span>
+<a id="__codelineno-32-24" name="__codelineno-32-24" href="#__codelineno-32-24"></a><span class="s">alias install-r=&#39;Rscript -e &quot;devtools::install()&quot;&#39;</span>
+<a id="__codelineno-32-25" name="__codelineno-32-25" href="#__codelineno-32-25"></a>
+<a id="__codelineno-32-26" name="__codelineno-32-26" href="#__codelineno-32-26"></a><span class="s"># Atomic pairs</span>
+<a id="__codelineno-32-27" name="__codelineno-32-27" href="#__codelineno-32-27"></a><span class="s">alias load-test=&#39;load-r &amp;&amp; test-r&#39;</span>
+<a id="__codelineno-32-28" name="__codelineno-32-28" href="#__codelineno-32-28"></a><span class="s">alias doc-test=&#39;doc-r &amp;&amp; test-r&#39;</span>
+<a id="__codelineno-32-29" name="__codelineno-32-29" href="#__codelineno-32-29"></a>
+<a id="__codelineno-32-30" name="__codelineno-32-30" href="#__codelineno-32-30"></a><span class="s"># Check variants</span>
+<a id="__codelineno-32-31" name="__codelineno-32-31" href="#__codelineno-32-31"></a><span class="s">alias check-fast=&#39;Rscript -e &quot;devtools::check(args = c(\&quot;--no-examples\&quot;, \&quot;--no-tests\&quot;, \&quot;--no-vignettes\&quot;))&quot;&#39;</span>
+<a id="__codelineno-32-32" name="__codelineno-32-32" href="#__codelineno-32-32"></a><span class="s">alias check-cran=&#39;Rscript -e &quot;devtools::check(args = c(\&quot;--as-cran\&quot;))&quot;&#39;</span>
+<a id="__codelineno-32-33" name="__codelineno-32-33" href="#__codelineno-32-33"></a>
+<a id="__codelineno-32-34" name="__codelineno-32-34" href="#__codelineno-32-34"></a><span class="s"># Package utilities</span>
+<a id="__codelineno-32-35" name="__codelineno-32-35" href="#__codelineno-32-35"></a><span class="s">alias pkg-info=&#39;rpkginfo&#39;</span>
+<a id="__codelineno-32-36" name="__codelineno-32-36" href="#__codelineno-32-36"></a><span class="s">alias pkg-tree=&#39;rpkgtree&#39;</span>
+<a id="__codelineno-32-37" name="__codelineno-32-37" href="#__codelineno-32-37"></a><span class="s">alias pkg-clean=&#39;rpkgclean&#39;</span>
+<a id="__codelineno-32-38" name="__codelineno-32-38" href="#__codelineno-32-38"></a><span class="s">alias pkg-cycle=&#39;rpkgcycle&#39;</span>
+<a id="__codelineno-32-39" name="__codelineno-32-39" href="#__codelineno-32-39"></a><span class="s">alias pkg-down=&#39;Rscript -e &quot;pkgdown::build_site()&quot;&#39;</span>
+<a id="__codelineno-32-40" name="__codelineno-32-40" href="#__codelineno-32-40"></a>
+<a id="__codelineno-32-41" name="__codelineno-32-41" href="#__codelineno-32-41"></a><span class="s"># Quarto</span>
+<a id="__codelineno-32-42" name="__codelineno-32-42" href="#__codelineno-32-42"></a><span class="s">alias preview-q=&#39;quarto preview&#39;</span>
+<a id="__codelineno-32-43" name="__codelineno-32-43" href="#__codelineno-32-43"></a><span class="s">alias render-q=&#39;quarto render&#39;</span>
+<a id="__codelineno-32-44" name="__codelineno-32-44" href="#__codelineno-32-44"></a><span class="s">alias check-q=&#39;quarto check&#39;</span>
+<a id="__codelineno-32-45" name="__codelineno-32-45" href="#__codelineno-32-45"></a><span class="s">alias clean-q=&#39;rm -rf _site/ *_cache/ *_files/&#39;</span>
+<a id="__codelineno-32-46" name="__codelineno-32-46" href="#__codelineno-32-46"></a>
+<a id="__codelineno-32-47" name="__codelineno-32-47" href="#__codelineno-32-47"></a><span class="s"># Claude Code</span>
+<a id="__codelineno-32-48" name="__codelineno-32-48" href="#__codelineno-32-48"></a><span class="s">alias claude=&#39;claude&#39;</span>
+<a id="__codelineno-32-49" name="__codelineno-32-49" href="#__codelineno-32-49"></a><span class="s">alias claude-continue=&#39;claude -c&#39;</span>
+<a id="__codelineno-32-50" name="__codelineno-32-50" href="#__codelineno-32-50"></a><span class="s">alias claude-resume=&#39;claude -r&#39;</span>
+<a id="__codelineno-32-51" name="__codelineno-32-51" href="#__codelineno-32-51"></a><span class="s">alias claude-haiku=&#39;claude --model haiku&#39;</span>
+<a id="__codelineno-32-52" name="__codelineno-32-52" href="#__codelineno-32-52"></a><span class="s">alias claude-sonnet=&#39;claude --model sonnet&#39;</span>
+<a id="__codelineno-32-53" name="__codelineno-32-53" href="#__codelineno-32-53"></a><span class="s">alias claude-opus=&#39;claude --model opus&#39;</span>
+<a id="__codelineno-32-54" name="__codelineno-32-54" href="#__codelineno-32-54"></a><span class="s">alias claude-plan=&#39;claude --permission-mode plan&#39;</span>
+<a id="__codelineno-32-55" name="__codelineno-32-55" href="#__codelineno-32-55"></a><span class="s">alias claude-auto=&#39;claude --permission-mode acceptEdits&#39;</span>
+<a id="__codelineno-32-56" name="__codelineno-32-56" href="#__codelineno-32-56"></a><span class="s">alias claude-yolo=&#39;claude --permission-mode bypassPermissions&#39;</span>
+<a id="__codelineno-32-57" name="__codelineno-32-57" href="#__codelineno-32-57"></a>
+<a id="__codelineno-32-58" name="__codelineno-32-58" href="#__codelineno-32-58"></a><span class="s"># Gemini</span>
+<a id="__codelineno-32-59" name="__codelineno-32-59" href="#__codelineno-32-59"></a><span class="s">alias gemini=&#39;gemini&#39;</span>
+<a id="__codelineno-32-60" name="__codelineno-32-60" href="#__codelineno-32-60"></a><span class="s">alias gemini-yolo=&#39;gemini --yolo&#39;</span>
+<a id="__codelineno-32-61" name="__codelineno-32-61" href="#__codelineno-32-61"></a><span class="s">alias gemini-sandbox=&#39;gemini --sandbox&#39;</span>
+<a id="__codelineno-32-62" name="__codelineno-32-62" href="#__codelineno-32-62"></a><span class="s">alias gemini-resume=&#39;gemini --resume latest&#39;</span>
+<a id="__codelineno-32-63" name="__codelineno-32-63" href="#__codelineno-32-63"></a>
+<a id="__codelineno-32-64" name="__codelineno-32-64" href="#__codelineno-32-64"></a><span class="s"># Git</span>
+<a id="__codelineno-32-65" name="__codelineno-32-65" href="#__codelineno-32-65"></a><span class="s">alias git-status=&#39;git status -sb&#39;</span>
+<a id="__codelineno-32-66" name="__codelineno-32-66" href="#__codelineno-32-66"></a><span class="s">alias git-log=&#39;git log --oneline --graph --decorate --all&#39;</span>
+<a id="__codelineno-32-67" name="__codelineno-32-67" href="#__codelineno-32-67"></a><span class="s">alias git-undo=&#39;git reset --soft HEAD~1&#39;</span>
+<a id="__codelineno-32-68" name="__codelineno-32-68" href="#__codelineno-32-68"></a>
+<a id="__codelineno-32-69" name="__codelineno-32-69" href="#__codelineno-32-69"></a><span class="s"># Project Management</span>
+<a id="__codelineno-32-70" name="__codelineno-32-70" href="#__codelineno-32-70"></a><span class="s">alias proj-status=&#39;~/projects/dev-tools/apple-notes-sync/scanner.sh&#39;</span>
+<a id="__codelineno-32-71" name="__codelineno-32-71" href="#__codelineno-32-71"></a><span class="s">alias notes-sync=&#39;pstat &amp;&amp; ~/projects/dev-tools/apple-notes-sync/dashboard-applescript.sh&#39;</span>
+<a id="__codelineno-32-72" name="__codelineno-32-72" href="#__codelineno-32-72"></a>
+<a id="__codelineno-32-73" name="__codelineno-32-73" href="#__codelineno-32-73"></a><span class="s"># File Viewing</span>
+<a id="__codelineno-32-74" name="__codelineno-32-74" href="#__codelineno-32-74"></a><span class="s">alias view=&#39;bat&#39;</span>
+<a id="__codelineno-32-75" name="__codelineno-32-75" href="#__codelineno-32-75"></a><span class="s">alias view-desc=&#39;bat DESCRIPTION&#39;</span>
+<a id="__codelineno-32-76" name="__codelineno-32-76" href="#__codelineno-32-76"></a><span class="s">alias view-news=&#39;bat NEWS.md&#39;</span>
+<a id="__codelineno-32-77" name="__codelineno-32-77" href="#__codelineno-32-77"></a>
+<a id="__codelineno-32-78" name="__codelineno-32-78" href="#__codelineno-32-78"></a><span class="s"># Modern CLI</span>
+<a id="__codelineno-32-79" name="__codelineno-32-79" href="#__codelineno-32-79"></a><span class="s">alias cat=&#39;bat&#39;</span>
+<a id="__codelineno-32-80" name="__codelineno-32-80" href="#__codelineno-32-80"></a><span class="s">alias find=&#39;fd&#39;</span>
+<a id="__codelineno-32-81" name="__codelineno-32-81" href="#__codelineno-32-81"></a><span class="s">alias grep=&#39;rg&#39;</span>
+<a id="__codelineno-32-82" name="__codelineno-32-82" href="#__codelineno-32-82"></a>
+<a id="__codelineno-32-83" name="__codelineno-32-83" href="#__codelineno-32-83"></a><span class="s"># Typo tolerance (keep all)</span>
+<a id="__codelineno-32-84" name="__codelineno-32-84" href="#__codelineno-32-84"></a><span class="s">alias claue=&#39;claude&#39;</span>
+<a id="__codelineno-32-85" name="__codelineno-32-85" href="#__codelineno-32-85"></a><span class="s">alias cluade=&#39;claude&#39;</span>
+<a id="__codelineno-32-86" name="__codelineno-32-86" href="#__codelineno-32-86"></a><span class="s">alias clade=&#39;claude&#39;</span>
+<a id="__codelineno-32-87" name="__codelineno-32-87" href="#__codelineno-32-87"></a><span class="s">alias laod-r=&#39;load-r&#39;</span>
+<a id="__codelineno-32-88" name="__codelineno-32-88" href="#__codelineno-32-88"></a><span class="s">alias tets-r=&#39;test-r&#39;</span>
+<a id="__codelineno-32-89" name="__codelineno-32-89" href="#__codelineno-32-89"></a><span class="s">alias gti=&#39;git&#39;</span>
+<a id="__codelineno-32-90" name="__codelineno-32-90" href="#__codelineno-32-90"></a><span class="s">alias clera=&#39;clear&#39;</span>
+<a id="__codelineno-32-91" name="__codelineno-32-91" href="#__codelineno-32-91"></a><span class="s">EOF</span>
+<a id="__codelineno-32-92" name="__codelineno-32-92" href="#__codelineno-32-92"></a>
+<a id="__codelineno-32-93" name="__codelineno-32-93" href="#__codelineno-32-93"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✅ New aliases file created: ~/.config/zsh/aliases-plan-a.zsh&quot;</span>
+<a id="__codelineno-32-94" name="__codelineno-32-94" href="#__codelineno-32-94"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<a id="__codelineno-32-95" name="__codelineno-32-95" href="#__codelineno-32-95"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;📝 Next steps:&quot;</span>
+<a id="__codelineno-32-96" name="__codelineno-32-96" href="#__codelineno-32-96"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;1. Review: cat ~/.config/zsh/aliases-plan-a.zsh&quot;</span>
+<a id="__codelineno-32-97" name="__codelineno-32-97" href="#__codelineno-32-97"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;2. Source it: source ~/.config/zsh/aliases-plan-a.zsh&quot;</span>
+<a id="__codelineno-32-98" name="__codelineno-32-98" href="#__codelineno-32-98"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;3. Add to .zshrc: echo &#39;source ~/.config/zsh/aliases-plan-a.zsh&#39; &gt;&gt; ~/.config/zsh/.zshrc&quot;</span>
+<a id="__codelineno-32-99" name="__codelineno-32-99" href="#__codelineno-32-99"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;4. Test: test-r, doc-r, preview-q, claude-continue&quot;</span>
+<a id="__codelineno-32-100" name="__codelineno-32-100" href="#__codelineno-32-100"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<a id="__codelineno-32-101" name="__codelineno-32-101" href="#__codelineno-32-101"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;🔄 Rollback: cp ~/.config/zsh/.zshrc.backup-2025-12-14 ~/.config/zsh/.zshrc&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="implementation-timeline">🎯 Implementation Timeline<a class="headerlink" href="#implementation-timeline" title="Permanent link">&para;</a></h2>
+<h3 id="week-1-soft-launch">Week 1: Soft Launch<a class="headerlink" href="#week-1-soft-launch" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Add new aliases alongside old ones</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="nb">source</span><span class="w"> </span>~/.config/zsh/aliases-plan-a.zsh
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="c1"># Use new aliases, old ones still work</span>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>test-r<span class="w">     </span><span class="c1"># New way</span>
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>ts<span class="w">         </span><span class="c1"># Old way (still works)</span>
+</code></pre></div>
+<h3 id="week-2-muscle-memory">Week 2: Muscle Memory<a class="headerlink" href="#week-2-muscle-memory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Start removing old 1-2 letter aliases</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="c1"># Keep both systems during transition</span>
+</code></pre></div>
+<h3 id="week-3-full-migration">Week 3: Full Migration<a class="headerlink" href="#week-3-full-migration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Remove all old aliases</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="c1"># Only Plan A remains</span>
+</code></pre></div>
+<hr />
+<h2 id="success-metrics">✅ Success Metrics<a class="headerlink" href="#success-metrics" title="Permanent link">&para;</a></h2>
+<p><strong>Week 1:</strong>
+- [ ] New aliases file created
+- [ ] Can use both old and new aliases
+- [ ] No broken workflows</p>
+<p><strong>Week 2:</strong>
+- [ ] Using new aliases 50% of the time
+- [ ] Muscle memory forming
+- [ ] Tab completion feels natural</p>
+<p><strong>Week 3:</strong>
+- [ ] Using new aliases 100% of the time
+- [ ] Old aliases removed
+- [ ] Help system updated
+- [ ] Documentation updated</p>
+<hr />
+<h2 id="future-enhancements-after-migration">💡 Future Enhancements (After Migration)<a class="headerlink" href="#future-enhancements-after-migration" title="Permanent link">&para;</a></h2>
+<h3 id="smart-help-system">Smart Help System<a class="headerlink" href="#smart-help-system" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>ah<span class="w"> </span>r<span class="w">        </span><span class="c1"># Shows: load-r, test-r, doc-r, check-r, build-r</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>ah<span class="w"> </span>quarto<span class="w">   </span><span class="c1"># Shows: preview-q, render-q, check-q</span>
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>ah<span class="w"> </span>claude<span class="w">   </span><span class="c1"># Shows: claude-continue, claude-plan, etc.</span>
+</code></pre></div>
+<h3 id="usage-analytics">Usage Analytics<a class="headerlink" href="#usage-analytics" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>alias-stats<span class="w"> </span><span class="c1"># Shows most-used aliases</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="c1"># Output:</span>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="c1"># 1. test-r       (142 times)</span>
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="c1"># 2. doc-r        (89 times)</span>
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="c1"># 3. load-r       (67 times)</span>
+</code></pre></div>
+<h3 id="interactive-alias-builder">Interactive Alias Builder<a class="headerlink" href="#interactive-alias-builder" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>alias-create
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="c1"># What tool? (r/quarto/claude/git) › r</span>
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="c1"># What action? (test/doc/check/build) › test</span>
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="c1"># Creating: test-r=&#39;Rscript -e &quot;devtools::test()&quot;&#39;</span>
+<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="c1"># Add to .zshrc? (y/n) › y</span>
+</code></pre></div>
+<hr />
+<h2 id="why-this-matters">🎉 Why This Matters<a class="headerlink" href="#why-this-matters" title="Permanent link">&para;</a></h2>
+<p><strong>Before (Current):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># User thinking: &quot;How do I test R package?&quot;</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="c1"># Options: t, ts, rtest (which one? I forget!)</span>
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="c1"># Confusion → frustration → wasted time</span>
+</code></pre></div></p>
+<p><strong>After (Plan A):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># User thinking: &quot;How do I test R package?&quot;</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="c1"># Answer: test-r (reads naturally!)</span>
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="c1"># Clear → confident → productive</span>
+</code></pre></div></p>
+<p><strong>ADHD Benefits:</strong>
+- ✅ No guessing ("was it t or ts or rtest?")
+- ✅ Speaks like you think ("test R" = test-r)
+- ✅ Tab completion guides you
+- ✅ Patterns are predictable
+- ✅ Self-documenting code</p>
+<hr />
+<p><em>Recommendation: </em><em>Plan A (Verb-Noun Pattern)</em><em><em>
+</em>Rationale: Most natural for ADHD brain, easiest to remember, best long-term</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/data-wise/zsh-configuration" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,7 +1,9 @@
 # Workflow Quick Reference
 
-**Date:** 2025-12-14
-**Version:** 2.0 - ADHD-Optimized Project Management
+**Date:** 2025-12-14 (Updated 2025-12-19)
+**Version:** 2.0 - Minimalist Workflow Design
+
+> **⚠️ Alias Update (2025-12-19):** Many shortcuts mentioned below were removed. See `ALIAS-REFERENCE-CARD.md` for current aliases (28 total). Use full command names where aliases were removed.
 
 ---
 

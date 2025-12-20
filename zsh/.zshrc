@@ -111,12 +111,12 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 hash -d rpkg="$R_PACKAGES_DIR"
 hash -d quarto="$QUARTO_DIR"
 
-# Directory aliases
-alias cdrpkg='cd $R_PACKAGES_DIR'
-alias cdq='cd $QUARTO_DIR'
+# Directory aliases - REMOVED 2025-12-19: Use 'pick' or 'pp' instead
+# alias cdrpkg='cd $R_PACKAGES_DIR'
+# alias cdq='cd $QUARTO_DIR'
 
-# Directory stack shortcut
-alias d='dirs -v | head -10'
+# Directory stack shortcut - REMOVED 2025-12-19: Use 'dirs' directly
+# alias d='dirs -v | head -10'
 
 # Quick directory creation and navigation
 function mkcd() {
@@ -142,11 +142,11 @@ fi
 
 # Better cat (you already use bat)
 alias cat='bat'
-alias peek='bat'
+# Note: peek is now a function in smart-dispatchers.zsh for smart file viewing
 
-# Better find/grep (you already use these)
-alias find='fd'
-alias grep='rg'
+# Better find/grep - REMOVED 2025-12-19: Use fd and rg directly
+# alias find='fd'
+# alias grep='rg'
 
 # Modern alternatives (if installed)
 command -v dust >/dev/null && alias du='dust'
@@ -185,8 +185,8 @@ fi
 # Note: Use `g` dispatcher instead (g log, g status, g undo, etc.)
 # Old aliases removed 2025-12-17
 
-# R package specific
-alias gpkgcommit='rpkgcommit'
+# R package specific - REMOVED 2025-12-19: Use rpkgcommit directly
+# alias gpkgcommit='rpkgcommit'
 
 # ============================================
 # 📦 R PACKAGE DEVELOPMENT - ALIASES
@@ -225,19 +225,19 @@ alias rbumppatch='Rscript -e "usethis::use_version(\"patch\")"'
 alias rbumpminor='Rscript -e "usethis::use_version(\"minor\")"'
 alias rbumpmajor='Rscript -e "usethis::use_version(\"major\")"'
 
-# File viewing (with syntax highlighting)
-alias peekr='bat --language=r'
-alias peekrd='bat --language=markdown'
-alias peekqmd='bat --language=markdown'
-alias peekdesc='bat DESCRIPTION'
-alias peeknews='bat NEWS.md'
+# File viewing (with syntax highlighting) - REMOVED 2025-12-19: Use 'peek' dispatcher or bat directly
+# alias peekr='bat --language=r'
+# alias peekrd='bat --language=markdown'
+# alias peekqmd='bat --language=markdown'
+# alias peekdesc='bat DESCRIPTION'
+# alias peeknews='bat NEWS.md'
 
 # Tree view for R packages (excluding artifacts)
 alias rpkgtree='tree -L 3 -I "renv|.Rproj.user|*.Rcheck|docs|*.tar.gz|src/*.o|src/*.so"'
 
-# Cleanup
-alias rpkgclean='rm -rf .Rhistory .RData .Rproj.user'
-alias rpkgdeep='rm -rf man/*.Rd NAMESPACE docs/ *.tar.gz *.Rcheck/'
+# Cleanup - REMOVED 2025-12-19: Per user request
+# alias rpkgclean='rm -rf .Rhistory .RData .Rproj.user'
+# alias rpkgdeep='rm -rf man/*.Rd NAMESPACE docs/ *.tar.gz *.Rcheck/'
 
 # Quick shortcuts
 
@@ -280,20 +280,20 @@ command -v radian >/dev/null && alias R='radian' && alias r='radian --quiet'
 # ============================================
 
 # Basic commands
-alias cc='claude'                                    # Interactive mode
+# REPLACED 2025-12-19: alias cc='claude' → Now a dispatcher function in smart-dispatchers.zsh
 alias ccp='claude -p'                                # Print mode (non-interactive)
+alias ccr='claude -r'                                # Resume with picker
 # REMOVED 2025-12-14: alias ccc='claude -c'                                # Continue last conversation
-# REMOVED 2025-12-14: alias ccr='claude -r'                                # Resume with picker
 # REMOVED 2025-12-14: alias ccl='claude --resume latest'                   # Resume latest session
 
 # Model selection
 # REMOVED 2025-12-14: alias cco='claude --model opus'                      # Use Opus (most capable)
 # REMOVED 2025-12-14: alias cch='claude --model haiku'                     # Use Haiku (fastest)
 
-# Permission modes
-alias ccplan='claude --permission-mode plan'         # Plan mode (review before executing)
+# Permission modes - REMOVED 2025-12-19: Use full commands instead
+# alias ccplan='claude --permission-mode plan'         # Plan mode (review before executing)
 # REMOVED 2025-12-14: alias ccauto='claude --permission-mode acceptEdits'  # Auto-accept edits only
-alias ccyolo='claude --permission-mode bypassPermissions'  # Bypass all permissions
+# alias ccyolo='claude --permission-mode bypassPermissions'  # Bypass all permissions
 
 # MCP & Plugin management
 # REMOVED 2025-12-14: alias ccmcp='claude mcp'                             # MCP server management
@@ -809,49 +809,51 @@ fi
 # Add zsh-claude-workflow commands to PATH
 export PATH="$HOME/projects/dev-tools/zsh-claude-workflow/commands:$PATH"
 
-# Aliases for quick access
-alias ptype='proj-type'
-alias pinfo='proj-info'
-alias cctx='claude-ctx'
-alias cinit='claude-init'
-alias cshow='claude-show'
-alias pclaude='proj-claude'
+# Aliases for quick access - REMOVED 2025-12-19: Use full commands instead
+# alias ptype='proj-type'
+# alias pinfo='proj-info'
+# alias cctx='claude-ctx'
+# alias cinit='claude-init'
+# alias cshow='claude-show'
+# alias pclaude='proj-claude'
 
 # ============================================
 # 📊 PROJECT STATUS (Local Operations)
 # ============================================
 # Note: dashupdate() function defined at line 962
+# REMOVED 2025-12-19: Use full commands instead
 
-alias pstat='~/projects/dev-tools/apple-notes-sync/scanner.sh'
-alias pstatshow='pstat && jq -C . /tmp/project-status.json | less -R'
-alias pstatview='pstat && cat /tmp/project-status.json | jq -r ".projects[] | \"\(.priority) \(.name) [\(.progress)%] - \(.next)\""'
-alias pstatlist='command find ~/projects/r-packages/active -name ".STATUS" -exec echo {} \;'
-alias pstatcount='pstat && jq -r "\"Total: \(.projects|length) | Blocked: \([.projects[]|select(.status==\"blocked\")]|length) | Active: \([.projects[]|select(.status==\"active\")]|length)\"" /tmp/project-status.json'
+# alias pstat='~/projects/dev-tools/apple-notes-sync/scanner.sh'
+# alias pstatshow='pstat && jq -C . /tmp/project-status.json | less -R'
+# alias pstatview='pstat && cat /tmp/project-status.json | jq -r ".projects[] | \"\(.priority) \(.name) [\(.progress)%] - \(.next)\""'
+# alias pstatlist='command find ~/projects/r-packages/active -name ".STATUS" -exec echo {} \;'
+# alias pstatcount='pstat && jq -r "\"Total: \(.projects|length) | Blocked: \([.projects[]|select(.status==\"blocked\")]|length) | Active: \([.projects[]|select(.status==\"active\")]|length)\"" /tmp/project-status.json'
 
 # ============================================
 # 📝 NOTES SYNC (Apple Notes Operations)
 # ============================================
+# REMOVED 2025-12-19: Use full commands instead
 
-alias nsync='pstat && ~/projects/dev-tools/apple-notes-sync/dashboard-applescript.sh'
-alias nsyncview='osascript -e "tell application \"Notes\" to return body of (first note of account \"iCloud\" whose name is \"📊 Project Dashboard\")" | sed "s/<[^>]*>//g" | sed "s/&nbsp;/ /g"'
-alias nsyncclip='~/projects/dev-tools/apple-notes-sync/dashboard-clipboard.sh'
-alias nsyncexport='~/projects/dev-tools/apple-notes-sync/dashboard-export.sh'
+# alias nsync='pstat && ~/projects/dev-tools/apple-notes-sync/dashboard-applescript.sh'
+# alias nsyncview='osascript -e "tell application \"Notes\" to return body of (first note of account \"iCloud\" whose name is \"📊 Project Dashboard\")" | sed "s/<[^>]*>//g" | sed "s/&nbsp;/ /g"'
+# alias nsyncclip='~/projects/dev-tools/apple-notes-sync/dashboard-clipboard.sh'
+# alias nsyncexport='~/projects/dev-tools/apple-notes-sync/dashboard-export.sh'
 
 # ============================================
 # ⚡ ULTRA-SHORT ALIASES (Power Users)
 # ============================================
 
-# Project Status (ps conflicts with Unix command, use carefully)
-alias psv='pstatview'
-alias psl='pstatlist'
-alias psc='pstatcount'
-alias pss='pstatshow'
+# Project Status (ps conflicts with Unix command, use carefully) - REMOVED 2025-12-19
+# alias psv='pstatview'
+# alias psl='pstatlist'
+# alias psc='pstatcount'
+# alias pss='pstatshow'
 
-# Notes Sync
-alias ns='nsync'
-alias nsv='nsyncview'
-alias nsc='nsyncclip'
-alias nse='nsyncexport'
+# Notes Sync - REMOVED 2025-12-19: Use full commands instead
+# alias ns='nsync'
+# alias nsv='nsyncview'
+# alias nsc='nsyncclip'
+# alias nse='nsyncexport'
 
 # ============================================
 # 🔄 DEPRECATED (Backward Compatibility)
@@ -859,54 +861,53 @@ alias nse='nsyncexport'
 # Use new aliases: pstat*, nsync* instead
 # Note: dashupdate() function exists at line 998 (no alias needed)
 
-alias dashsync='echo "⚠️  Use: nsync" && nsync'
-alias dashclip='echo "⚠️  Use: nsyncclip" && nsyncclip'
-alias dashexport='echo "⚠️  Use: nsyncexport" && nsyncexport'
+# REPLACED 2025-12-19: dashsync is now a function in adhd-helpers.zsh
+# REMOVED 2025-12-19: alias dashclip, alias dashexport (deprecated)
 
 # ============================================
 # 🔧 TYPO TOLERANCE (ADHD-Friendly Recovery)
 # ============================================
 # Common typos auto-correct to correct command
 
-# Claude typos
-alias claue='claude'
-alias cluade='claude'
-alias clade='claude'
-alias calue='claude'
-alias claudee='claude'
+# Claude typos - REMOVED 2025-12-19: Type correctly
+# alias claue='claude'
+# alias cluade='claude'
+# alias clade='claude'
+# alias calue='claude'
+# alias claudee='claude'
 
-# R package typos
-alias rlaod='rload'
-alias rlod='rload'
-alias rtets='rtest'
-alias rtset='rtest'
-alias rdco='rdoc'
-alias rchekc='rcheck'
-alias rchck='rcheck'
-alias rcylce='rcycle'
+# R package typos - REMOVED 2025-12-19: Type correctly
+# alias rlaod='rload'
+# alias rlod='rload'
+# alias rtets='rtest'
+# alias rtset='rtest'
+# alias rdco='rdoc'
+# alias rchekc='rcheck'
+# alias rchck='rcheck'
+# alias rcylce='rcycle'
 
-# Git typos (redirect to g dispatcher)
-alias gti='g'
-alias tgi='g'
-alias gis='g'
-alias gitstatus='g status'
+# Git typos - REMOVED 2025-12-19: Git plugin now provides all git aliases
+# alias gti='g'
+# alias tgi='g'
+# alias gis='g'
+# alias gitstatus='g status'
 
-# Common command typos
-alias clera='clear'
-alias claer='clear'
-alias sl='ls'
-alias pdw='pwd'
+# Common command typos - REMOVED 2025-12-19: Type correctly
+# alias clera='clear'
+# alias claer='clear'
+# alias sl='ls'
+# alias pdw='pwd'
 
-# Quarto typos
-alias qurto='quarto'
-alias qaurt='quarto'
+# Quarto typos - REMOVED 2025-12-19: Type correctly
+# alias qurto='quarto'
+# alias qaurt='quarto'
 
 # ============================================
 # 💎 GEMINI CLI ALIASES (AI Assistant)
 # ============================================
 
 # Basic commands
-alias gm='gemini'                              # Quick launch interactive
+# REPLACED 2025-12-19: alias gm='gemini' → Now a dispatcher function in smart-dispatchers.zsh
 # Note: Use positional prompts (gemini "query") instead of deprecated -p flag
 # REMOVED 2025-12-14: alias gmpi='gemini -i'                         # Prompt then stay interactive
 
@@ -960,8 +961,9 @@ export EDITOR="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient"
 export VISUAL="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient"
 
 # Convenience alias to open a new GUI frame (falls back to starting Emacs if no daemon)
-alias e="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient -c -a ''"
-alias ec="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient -c -a ''"
+# REMOVED 2025-12-19: Use 'emacs' or 'emacsclient' directly
+# alias e="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient -c -a ''"
+# alias ec="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient -c -a ''"
 
 # The emacs-plus formula injects your shell PATH into Finder-launched Emacs.app by default.
 # To disable that behavior (not usually recommended), uncomment the following line:
@@ -1074,14 +1076,14 @@ aliases() {
   esac
 }
 
-# Category-specific shortcuts
-alias aliases-claude='aliases claude'
-alias aliases-r='aliases r'
-alias aliases-gemini='aliases gemini'
-alias aliases-quarto='aliases quarto'
-alias aliases-git='aliases git'
-alias aliases-files='aliases files'
-alias aliases-short='aliases short'
+# Category-specific shortcuts - REMOVED 2025-12-19: Use 'aliases <category>' directly
+# alias aliases-claude='aliases claude'
+# alias aliases-r='aliases r'
+# alias aliases-gemini='aliases gemini'
+# alias aliases-quarto='aliases quarto'
+# alias aliases-git='aliases git'
+# alias aliases-files='aliases files'
+# alias aliases-short='aliases short'
 
 
 
@@ -1130,8 +1132,8 @@ dashupdate() {
 }
 
 # Alias for quick access
-alias dash='dashupdate'
-alias dashopen='dashupdate && open -a "Claude"'
+# REPLACED 2025-12-19: alias dash='dashupdate' → Now a function in dash.zsh
+# REMOVED 2025-12-19: alias dashopen='dashupdate && open -a "Claude"'
 # REMOVED: alias do='dashopen'
 # Reason: 'do' is a ZSH reserved word (for loops: for x do ... done)
 # Aliasing it breaks parsing of any subsequent 'for' loops, causing:

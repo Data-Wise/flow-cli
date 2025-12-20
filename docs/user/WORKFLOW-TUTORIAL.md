@@ -1,6 +1,8 @@
 # Project Management Workflow - ADHD-Friendly Tutorial
 
-**Last Updated:** 2025-12-14
+> **⚠️ Important (2025-12-19):** This tutorial references `js`, `idk`, and `stuck` which were removed in the alias cleanup. Use `just-start` instead. See [ALIAS-REFERENCE-CARD.md](ALIAS-REFERENCE-CARD.md) for current commands.
+
+**Last Updated:** 2025-12-14 (Note added: 2025-12-19)
 **Read Time:** 5 minutes (lots of examples!)
 
 ---

@@ -402,8 +402,8 @@ KEYBOARD SHORTCUT (Optional):
 EOF
 }
 
-# Alias for help
-alias glowhelp='_glowsplit_help'
+# Alias for help - REMOVED 2025-12-19: glowsplit shows help automatically
+# alias glowhelp='_glowsplit_help'
 
 # ============================================
 # KEYBOARD SHORTCUT INTEGRATION (Optional)

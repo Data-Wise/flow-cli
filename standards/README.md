@@ -31,7 +31,8 @@ This is the **Standards Hub** — one tier of the three-tier project management 
 |----------|--------------|
 | [**adhd/**](adhd/) | ADHD-friendly templates and recovery guides |
 | [**code/**](code/) | Style guides (R, Python, ZSH) |
-| [**project/**](project/) | Project structure, READMEs, versioning |
+| [**documentation/**](documentation/) | Website design, MkDocs standards |
+| [**project/**](project/) | Project structure, PM system, coordination |
 | [**workflow/**](workflow/) | Git workflow, releases, reviews |
 
 ## Philosophy
@@ -71,6 +72,8 @@ proj check                     # Validates against standards
 
 ### Project Standards
 - `project/PROJECT-STRUCTURE.md` — Directory conventions
+- `project/PROJECT-MANAGEMENT-STANDARDS.md` — Two-tier PM system (.STATUS + PROJECT-HUB.md) ⭐ NEW
+- `project/COORDINATION-GUIDE.md` — Cross-project coordination ⭐ NEW
 - `project/README-TEMPLATE.md` — Standard README format
 - `project/VERSIONING.md` — Semantic versioning
 

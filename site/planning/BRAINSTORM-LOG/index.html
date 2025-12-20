@@ -1,0 +1,1619 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Minimalist ZSH workflow tools with smart dispatchers">
+      
+      
+        <meta name="author" content="DT">
+      
+      
+        <link rel="canonical" href="https://data-wise.github.io/zsh-configuration/planning/BRAINSTORM-LOG/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Brainstorm Log: Project Hub Architecture - ZSH Configuration Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#brainstorm-log-project-hub-architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ZSH Configuration Docs" class="md-header__button md-logo" aria-label="ZSH Configuration Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ZSH Configuration Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Brainstorm Log: Project Hub Architecture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/data-wise/zsh-configuration" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zsh-configuration
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/quick-start/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user/ALIAS-REFERENCE-CARD/" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../doc-index/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ZSH Configuration Docs" class="md-nav__button md-logo" aria-label="ZSH Configuration Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ZSH Configuration Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/data-wise/zsh-configuration" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zsh-configuration
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/ALIAS-REFERENCE-CARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/PICK-COMMAND-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/DASHBOARD-QUICK-REF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/WORKFLOWS-QUICK-WINS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows & Tips
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONVENTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../doc-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#session-2025-12-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Session: 2025-12-17
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Session: 2025-12-17">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initial-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#brainstorm-phase-1-single-hub-devops-hub-proposalmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brainstorm Phase 1: Single Hub (DEVOPS-HUB-PROPOSAL.md)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#brainstorm-phase-2-discovered-mediation-planning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brainstorm Phase 2: Discovered mediation-planning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#brainstorm-phase-3-options-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brainstorm Phase 3: Options Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Brainstorm Phase 3: Options Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-single-hub-zsh-configuration-does-everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Single Hub (zsh-configuration does everything)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-separate-domain-hubs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Separate Domain Hubs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-c-hybrid-standards-hub-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C: Hybrid - Standards Hub Only
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-d-meta-hub-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option D: Meta Hub + Standards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-d-refined-three-tier-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option D+ (Refined): Three-Tier System
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#brainstorm-phase-4-workflow-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brainstorm Phase 4: Workflow Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#brainstorm-phase-5-research-teaching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brainstorm Phase 5: Research &amp; Teaching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#brainstorm-phase-6-obsidian-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brainstorm Phase 6: Obsidian Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#brainstorm-phase-7-final-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brainstorm Phase 7: Final Decision
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Final Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-decisions-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Decisions Log
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-questions-for-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open Questions for Future
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-work-backlog-added-2025-12-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Work Backlog (Added 2025-12-17)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Future Work Backlog (Added 2025-12-17)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standards-to-create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standards to Create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration Needed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain-specific-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain-Specific Standards
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documents
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/data-wise/zsh-configuration/edit/main/docs/planning/BRAINSTORM-LOG.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="brainstorm-log-project-hub-architecture">Brainstorm Log: Project Hub Architecture<a class="headerlink" href="#brainstorm-log-project-hub-architecture" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Purpose:</strong> Document the thinking process and decision-making for the hub architecture.</p>
+</blockquote>
+<hr />
+<h2 id="session-2025-12-17">Session: 2025-12-17<a class="headerlink" href="#session-2025-12-17" title="Permanent link">&para;</a></h2>
+<h3 id="initial-problem">Initial Problem<a class="headerlink" href="#initial-problem" title="Permanent link">&para;</a></h3>
+<p><strong>Context:</strong>
+- 16 dev-tools projects, 6 R packages, 11 research projects, 3 courses
+- Each has different conventions
+- Context-switching is expensive (ADHD tax)
+- No unified dashboard or coordination system</p>
+<p><strong>Trigger:</strong> User asked to imagine expert DevOps approach for multi-project management.</p>
+<hr />
+<h3 id="brainstorm-phase-1-single-hub-devops-hub-proposalmd">Brainstorm Phase 1: Single Hub (DEVOPS-HUB-PROPOSAL.md)<a class="headerlink" href="#brainstorm-phase-1-single-hub-devops-hub-proposalmd" title="Permanent link">&para;</a></h3>
+<p><strong>Initial idea:</strong> Make <code>zsh-configuration</code> the central hub for everything.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>zsh-configuration/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── standards/           # Universal standards
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── templates/           # Project scaffolding
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── r-ecosystem/         # R package coordination
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>└── zsh/                 # Shell config
+</code></pre></div>
+<p><strong>Implemented:</strong>
+- Created <code>standards/</code> directory
+- Created <code>standards/code/R-STYLE-GUIDE.md</code>
+- Created <code>standards/code/COMMIT-MESSAGES.md</code>
+- Created <code>standards/project/PROJECT-STRUCTURE.md</code>
+- Created <code>standards/adhd/QUICK-START-TEMPLATE.md</code></p>
+<p><strong>Pushed to GitHub:</strong> Phase 1 Foundation complete.</p>
+<hr />
+<h3 id="brainstorm-phase-2-discovered-mediation-planning">Brainstorm Phase 2: Discovered mediation-planning<a class="headerlink" href="#brainstorm-phase-2-discovered-mediation-planning" title="Permanent link">&para;</a></h3>
+<p><strong>Discovery:</strong> User pointed to <code>~/projects/r-packages/mediation-planning/</code> as a reference.</p>
+<p><strong>What we learned:</strong>
+- <code>mediation-planning</code> uses a proven pattern for domain coordination
+- Structure: <code>PROJECT-HUB.md</code>, <code>.STATUS</code>, <code>TODOS.md</code>, <code>docs/</code>, <code>specs/</code>, <code>proposals/</code>
+- ADHD-friendly: visual progress bars, decision points, quick links
+- Works well for coordinating multiple related packages (mediationverse)</p>
+<p><strong>Key insight:</strong> This pattern is effective and already in use.</p>
+<hr />
+<h3 id="brainstorm-phase-3-options-analysis">Brainstorm Phase 3: Options Analysis<a class="headerlink" href="#brainstorm-phase-3-options-analysis" title="Permanent link">&para;</a></h3>
+<p><strong>Question:</strong> Should we create a similar <code>dev-planning</code> folder, or use <code>zsh-configuration</code>?</p>
+<p><strong>Options explored:</strong></p>
+<h4 id="option-a-single-hub-zsh-configuration-does-everything">Option A: Single Hub (zsh-configuration does everything)<a class="headerlink" href="#option-a-single-hub-zsh-configuration-does-everything" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Pros: One location, unified commands</li>
+<li>Cons: Gets bloated, mixes shell config with project coordination</li>
+</ul>
+<h4 id="option-b-separate-domain-hubs">Option B: Separate Domain Hubs<a class="headerlink" href="#option-b-separate-domain-hubs" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Each domain gets own planning repo (like mediation-planning)</li>
+<li>Pros: Follows proven pattern, clean separation</li>
+<li>Cons: Multiple repos to maintain</li>
+</ul>
+<h4 id="option-c-hybrid-standards-hub-only">Option C: Hybrid - Standards Hub Only<a class="headerlink" href="#option-c-hybrid-standards-hub-only" title="Permanent link">&para;</a></h4>
+<ul>
+<li>zsh-configuration = standards authority</li>
+<li>Domain hubs = coordination</li>
+<li>Pros: Clean separation</li>
+<li>Cons: Cross-domain coordination unclear</li>
+</ul>
+<h4 id="option-d-meta-hub-standards">Option D: Meta Hub + Standards<a class="headerlink" href="#option-d-meta-hub-standards" title="Permanent link">&para;</a></h4>
+<ul>
+<li>project-hub = command center</li>
+<li>mediation-planning = R packages (exists)</li>
+<li>zsh-configuration = standards + shell</li>
+<li>Pros: Clean aggregation</li>
+<li>Cons: Still need dev tools coordination</li>
+</ul>
+<h4 id="option-d-refined-three-tier-system">Option D+ (Refined): Three-Tier System<a class="headerlink" href="#option-d-refined-three-tier-system" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Master: project-hub (aggregates all)</li>
+<li>Domain: mediation-planning, dev-planning</li>
+<li>Standards: zsh-configuration</li>
+</ul>
+<hr />
+<h3 id="brainstorm-phase-4-workflow-integration">Brainstorm Phase 4: Workflow Integration<a class="headerlink" href="#brainstorm-phase-4-workflow-integration" title="Permanent link">&para;</a></h3>
+<p><strong>Critical question:</strong> How does each option fit existing workflows?</p>
+<p><strong>Existing commands:</strong>
+- <code>work NAME</code> - Start session
+- <code>dash</code> - Master dashboard
+- <code>rst</code> - Research dashboard
+- <code>tst</code> - Teaching dashboard
+- <code>pb/pt/pd/pc</code> - Universal build/test/doc/check</p>
+<p><strong>Analysis:</strong>
+- Option C: <code>dash</code> would need to read from 4 sources
+- Option D+: <code>dash</code> reads from 2 sources (project-hub + mediation-planning)
+- Cross-domain tasks need a home → <code>project-hub/cross-domain/</code></p>
+<p><strong>Decision factor:</strong> Simpler data flow with Option D+.</p>
+<hr />
+<h3 id="brainstorm-phase-5-research-teaching">Brainstorm Phase 5: Research &amp; Teaching<a class="headerlink" href="#brainstorm-phase-5-research-teaching" title="Permanent link">&para;</a></h3>
+<p><strong>Question:</strong> How do research and teaching fit?</p>
+<p><strong>Analysis:</strong>
+- Research: 11 projects, various stages (draft, review, published)
+- Teaching: 3 courses, semester-based
+- Both already use <code>.STATUS</code> files</p>
+<p><strong>Decision:</strong>
+- Research &amp; teaching tracked in <code>project-hub/domains/</code> (not separate hubs)
+- Fewer projects, less need for dedicated coordination repos
+- R packages and dev tools get dedicated hubs (more projects, more complexity)</p>
+<hr />
+<h3 id="brainstorm-phase-6-obsidian-integration">Brainstorm Phase 6: Obsidian Integration<a class="headerlink" href="#brainstorm-phase-6-obsidian-integration" title="Permanent link">&para;</a></h3>
+<p><strong>User input:</strong> Considering Obsidian for project and knowledge management.</p>
+<p><strong>Reference:</strong> <code>obsidian-cli-ops</code> (v2.2.0) already provides:
+- Multi-vault management
+- Graph analysis (PageRank, centrality)
+- TUI interface
+- AI features (similarity, duplicates)
+- R-Dev integration</p>
+<p><strong>Integration options:</strong>
+1. Make project-hub an Obsidian vault
+2. Federated vaults with cross-links
+3. CLI-only (no Obsidian app)</p>
+<p><strong>Recommendation:</strong> Hybrid - vault + obs CLI commands</p>
+<hr />
+<h3 id="brainstorm-phase-7-final-decision">Brainstorm Phase 7: Final Decision<a class="headerlink" href="#brainstorm-phase-7-final-decision" title="Permanent link">&para;</a></h3>
+<p><strong>Question:</strong> Should dev tools tracking live in <code>zsh-configuration</code> or separate <code>dev-planning</code>?</p>
+<p><strong>Arguments for separate <code>dev-planning</code>:</strong>
+1. Follows <code>mediation-planning</code> pattern exactly
+2. Keeps <code>zsh-configuration</code> focused
+3. Clean parallel in project-hub links:
+   - R packages → mediation-planning
+   - Dev tools → dev-planning
+4. Scalable for 16+ projects</p>
+<p><strong>Arguments for nesting in <code>zsh-configuration</code>:</strong>
+1. Fewer repos to maintain
+2. Already has planning docs</p>
+<p><strong>Final decision:</strong> Create separate <code>dev-planning/</code> repo.</p>
+<p><strong>Rationale:</strong>
+- Consistency &gt; convenience
+- <code>zsh-configuration</code> name doesn't suggest "dev tools hub"
+- Cleaner mental model</p>
+<hr />
+<h2 id="final-architecture">Final Architecture<a class="headerlink" href="#final-architecture" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>~/projects/
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>├── project-hub/                    # MASTER HUB
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│   ├── PROJECT-HUB.md              # Aggregates all domains
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│   ├── domains/                    # Domain summaries
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>│   ├── cross-domain/               # Integration tasks
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>│   └── weekly/                     # Weekly planning
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>│
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>├── r-packages/
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>│   └── mediation-planning/         # DOMAIN HUB (exists)
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>│
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>├── dev-tools/
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>│   ├── dev-planning/               # DOMAIN HUB (new)
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>│   └── zsh-configuration/          # STANDARDS HUB
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>│       └── standards/              # Universal conventions
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>│
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>├── research/                       # → project-hub/domains/research.md
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>└── teaching/                       # → project-hub/domains/teaching.md
+</code></pre></div>
+<hr />
+<h2 id="key-decisions-log">Key Decisions Log<a class="headerlink" href="#key-decisions-log" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Options Considered</th>
+<th>Choice</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hub structure</td>
+<td>Single vs Multiple</td>
+<td>Three-tier</td>
+<td>Separation of concerns</td>
+</tr>
+<tr>
+<td>Dev tools tracking</td>
+<td>In zsh-config vs separate</td>
+<td>Separate <code>dev-planning</code></td>
+<td>Follows mediation-planning pattern</td>
+</tr>
+<tr>
+<td>Research/teaching</td>
+<td>Separate hubs vs in project-hub</td>
+<td>In project-hub</td>
+<td>Fewer projects, less complexity</td>
+</tr>
+<tr>
+<td>Standards location</td>
+<td>Per-repo vs centralized</td>
+<td>Centralized in zsh-config</td>
+<td>Single source of truth</td>
+</tr>
+<tr>
+<td>Obsidian integration</td>
+<td>Now vs later</td>
+<td>Phase 4 (future)</td>
+<td>Core structure first</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="open-questions-for-future">Open Questions for Future<a class="headerlink" href="#open-questions-for-future" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Should <code>research-planning</code> become a separate hub if research projects grow?</li>
+<li>How to handle semester transitions in teaching tracking?</li>
+<li>Automation level: manual updates vs <code>.STATUS</code> aggregation scripts?</li>
+<li>Obsidian daily notes → weekly file integration workflow?</li>
+</ol>
+<hr />
+<h2 id="future-work-backlog-added-2025-12-17">Future Work Backlog (Added 2025-12-17)<a class="headerlink" href="#future-work-backlog-added-2025-12-17" title="Permanent link">&para;</a></h2>
+<h3 id="standards-to-create">Standards to Create<a class="headerlink" href="#standards-to-create" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Location</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZSH-COMMANDS-HELP.md</td>
+<td>standards/code/</td>
+<td>Help system standards for zsh commands</td>
+</tr>
+<tr>
+<td>TUTORIAL-TEMPLATE.md</td>
+<td>standards/adhd/</td>
+<td>Standard structure for tutorials</td>
+</tr>
+<tr>
+<td>REFCARD-TEMPLATE.md</td>
+<td>standards/adhd/</td>
+<td>Reference card design standards</td>
+</tr>
+<tr>
+<td>R-PACKAGE-DESIGN.md</td>
+<td>standards/project/</td>
+<td>R package architecture patterns</td>
+</tr>
+<tr>
+<td>DEV-TOOL-DESIGN.md</td>
+<td>standards/project/</td>
+<td>Dev tool architecture patterns</td>
+</tr>
+</tbody>
+</table>
+<h3 id="integration-needed">Integration Needed<a class="headerlink" href="#integration-needed" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Location</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub docs repo</td>
+<td>Unknown - need to locate</td>
+<td>Audit, migrate useful content, deprecate</td>
+</tr>
+<tr>
+<td>data-wise website</td>
+<td>Personal website</td>
+<td>Integrate with project showcases, link pkgdown sites</td>
+</tr>
+</tbody>
+</table>
+<h3 id="domain-specific-standards">Domain-Specific Standards<a class="headerlink" href="#domain-specific-standards" title="Permanent link">&para;</a></h3>
+<p><strong>R Packages (for mediation-planning or standards/):</strong>
+- Vignette structure template
+- pkgdown site design standards
+- CRAN submission checklist
+- Test coverage requirements (target %)
+- Documentation standards (roxygen2)</p>
+<p><strong>Dev Tools (for dev-planning or standards/):</strong>
+- CLI design patterns
+- Help system format (<code>--help</code>, man pages, etc.)
+- README structure for tools
+- Release process (versioning, changelog)
+- Test requirements</p>
+<hr />
+<h2 id="related-documents">Related Documents<a class="headerlink" href="#related-documents" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../PROJECT-HUB-PROPOSAL/">PROJECT-HUB-PROPOSAL.md</a> - Final architecture (approved)</li>
+<li><a href="../DEVOPS-HUB-PROPOSAL/">DEVOPS-HUB-PROPOSAL.md</a> - Initial brainstorm (superseded)</li>
+<li><code>~/projects/r-packages/mediation-planning/</code> - Reference implementation</li>
+<li><code>~/projects/dev-tools/obsidian-cli-ops/</code> - Future integration tool</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/data-wise/zsh-configuration" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
