@@ -212,8 +212,8 @@ v() {
             ;;
 
         *)
-            echo "${_C_RED}Unknown action:${_C_NC} $1"
-            echo "Run: ${_C_CYAN}v help${_C_NC}"
+            echo "v: unknown action '$1'" >&2
+            echo "Run 'v help' for usage" >&2
             return 1
             ;;
     esac
@@ -236,6 +236,8 @@ _v_help() {
 ${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
 ${_C_BOLD}│ v / vibe - Workflow Automation              │${_C_NC}
 ${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_BOLD}Usage:${_C_NC} v [subcommand] [args] or vibe [subcommand] [args]
 
 ${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
   ${_C_CYAN}v test${_C_NC}           Run tests (auto-detect)
