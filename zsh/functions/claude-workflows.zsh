@@ -320,17 +320,46 @@ EOF
 
 # Explain code in current file or selection
 cc-explain() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: cc-explain <file>
+       cat file.R | cc-explain
+
+Explain code clearly and concisely with Claude.
+
+ARGUMENTS:
+  file    Path to file to explain (optional if piping)
+
+EXAMPLES:
+  cc-explain R/utils.R         # Explain utils.R
+  cat R/foo.R | cc-explain     # Explain piped code
+
+EXPLAINS:
+  - What the code does
+  - Key parts and structure
+  - Potential issues
+
+ALIASES:
+  cce              Shorthand for cc-explain
+
+See also: cc-project, cc-file
+EOF
+        return 0
+    fi
+
     local file="$1"
-    
+
     if [[ -n "$file" && -f "$file" ]]; then
         cat "$file" | claude -p "Explain this code clearly and concisely. What does it do? What are the key parts? Any potential issues?"
     else
-        echo "Usage: cce <file>"
-        echo "Or pipe code: cat file.R | cce"
-        
         # Check if there's piped input
         if [[ ! -t 0 ]]; then
             claude -p "Explain this code clearly and concisely:"
+        else
+            echo "cc-explain: missing required argument <file>" >&2
+            echo "Run 'cc-explain help' for usage" >&2
+            return 1
         fi
     fi
 }
