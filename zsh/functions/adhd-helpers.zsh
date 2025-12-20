@@ -246,11 +246,44 @@ why() {
 # ═══════════════════════════════════════════════════════════════════
 
 win() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: win <accomplishment>
+
+Log wins and accomplishments for dopamine tracking.
+
+ARGUMENTS:
+  accomplishment    What you accomplished (required)
+
+EXAMPLES:
+  win "Fixed the authentication bug"
+  win "Completed 3 tests"
+  win "Finished documentation"
+
+DESCRIPTION:
+  Logs accomplishments with timestamp to worklog. Provides
+  immediate dopamine reward and builds momentum. ADHD-friendly
+  positive reinforcement system.
+
+  Wins are logged to: ~/.wins/YYYY-MM-DD.md
+
+  The function provides escalating celebrations based on
+  your daily win count:
+  - 3+ wins: "Keep it going!"
+  - 5+ wins: "Great momentum!"
+  - 10+ wins: "YOU'RE ON FIRE!"
+
+See also: worklog, breadcrumb
+EOF
+        return 0
+    fi
+
     local description="$*"
-    
+
     if [[ -z "$description" ]]; then
-        echo "Usage: win 'what you accomplished'"
-        echo "   or: w! 'what you accomplished'"
+        echo "win: missing required argument <accomplishment>" >&2
+        echo "Run 'win help' for usage" >&2
         return 1
     fi
     
