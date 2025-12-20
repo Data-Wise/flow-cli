@@ -41,7 +41,17 @@
       "Bash(for func in re rt rv fs fh gb gdf gshow ga gundostage fp fr)",
       "Bash(do:*)",
       "Bash(if grep -q \"^alias $func=\" ~/Library/Caches/antidote/https-COLON--SLASH--SLASH-github.com-SLASH-ohmyzsh-SLASH-ohmyzsh/plugins/git/git.plugin.zsh)",
-      "Bash(git -C /Users/dt/projects/dev-tools/zsh-configuration status -sb)"
+      "Bash(git -C /Users/dt/projects/dev-tools/zsh-configuration status -sb)",
+      "Bash(for file in )",
+      "Bash(\"ALIAS-CLEANUP-SUMMARY-2025-12-19.md\" )",
+      "Bash(\"SHELL-FIXES-SUMMARY-2025-12-19.md\")",
+      "Bash(if [ -f \"$file\" ])",
+      "Bash(mkdocs build:*)",
+      "Bash(dash --help:*)",
+      "Bash(dash dev:*)",
+      "Bash(while read func)",
+      "Bash(then echo \" ❌ $func - NO HELP\")",
+      "Bash(else echo \" ✅ $func - has help\")"
     ]
   }
 }

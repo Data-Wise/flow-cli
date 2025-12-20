@@ -372,7 +372,7 @@ pb/pt/pd/pc            # Universal build/test/doc/check
 
 ```bash
 # Quick focus check
-focus() {
+today() {
     bat ~/projects/project-hub/.STATUS
 }
 
@@ -404,7 +404,7 @@ hub() {
 | **Cross-domain has home** | `cross-domain/INTEGRATIONS.md` |
 | **Weekly planning** | `weekly/WEEK-XX.md` files |
 | **Standards centralized** | Symlink to `zsh-configuration/standards/` |
-| **ADHD-friendly** | `focus` command, visual dashboards |
+| **ADHD-friendly** | `today` command, visual dashboards |
 | **Existing workflow** | `rst`, `tst`, `work` unchanged |
 
 ---
@@ -431,7 +431,8 @@ hub() {
 - [x] Initialize as git repo
 
 ### Phase 3: Shell integration ✅ COMPLETE
-- [x] Add `focus` command (with --help)
+
+- [x] Add `today` command (with --help) [renamed from `focus` due to conflict]
 - [x] Add `week` command (with --help)
 - [x] Add `hub` command (with --help, subcommands)
 - [x] Add `devhub` command (with --help, subcommands)
@@ -500,7 +501,7 @@ hub() {
 │                      SHELL WORKFLOW                             │
 │  dash    → bat PROJECT-HUB.md (current)                        │
 │  dash    → obs tui project-hub (future - visual mode)          │
-│  focus   → .STATUS file                                         │
+│  today   → .STATUS file                                         │
 │  week    → weekly/WEEK-XX.md                                    │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -696,7 +697,7 @@ Items identified during brainstorming for future phases:
 - **2025-12-17:** Phases 1-3.5 complete
   - project-hub/ created with full structure
   - dev-planning/ created with full structure
-  - Shell commands (focus, week, hub, devhub, rhub) implemented
+  - Shell commands (today, week, hub, devhub, rhub) implemented
   - Standards created: GETTING-STARTED-TEMPLATE, ZSH-COMMANDS-HELP, TUTORIAL-TEMPLATE, REFCARD-TEMPLATE
   - project-hub/GETTING-STARTED.md user guide created
   - All commands follow ZSH-COMMANDS-HELP standard

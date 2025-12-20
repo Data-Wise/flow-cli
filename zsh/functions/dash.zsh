@@ -20,6 +20,12 @@ emulate -L zsh
 # ═══════════════════════════════════════════════════════════════════
 
 dash() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        _dash_help
+        return 0
+    fi
+
     local category="${1:-all}"
     local filter_path=""
 
@@ -33,6 +39,52 @@ dash() {
     local BOLD='\033[1m'
     local DIM='\033[2m'
     local NC='\033[0m'
+
+    # Smart default for "all" category
+    if [[ "$category" == "all" ]]; then
+        echo -e "${CYAN}🔄 Updating project coordination...${NC}"
+        echo ""
+
+        # 1. Sync .STATUS files to project-hub
+        local project_hub="$HOME/projects/project-hub"
+        if [[ -d "$project_hub" ]]; then
+            # Find all .STATUS files in projects
+            local status_files=$(find "$HOME/projects" -name ".STATUS" -type f 2>/dev/null | grep -v "/project-hub/")
+            local synced_count=0
+
+            # Sync each .STATUS file to project-hub
+            for status_file in ${(f)status_files}; do
+                local project_dir=$(dirname "$status_file")
+                local project_name=$(basename "$project_dir")
+                local project_category=$(echo "$project_dir" | sed "s|$HOME/projects/||" | cut -d'/' -f1)
+
+                # Create category directory in project-hub if needed
+                local hub_category_dir="$project_hub/$project_category"
+                [[ ! -d "$hub_category_dir" ]] && mkdir -p "$hub_category_dir"
+
+                # Copy .STATUS file to project-hub
+                local hub_status="$hub_category_dir/${project_name}.STATUS"
+                if [[ -f "$status_file" ]]; then
+                    cp "$status_file" "$hub_status"
+                    ((synced_count++))
+                fi
+            done
+
+            echo -e "  ${GREEN}✓${NC} Synced ${synced_count} .STATUS files to project-hub"
+        else
+            echo -e "  ${YELLOW}⚠${NC}  Project-hub not found at $project_hub"
+        fi
+
+        # 2. Update coordination (update timestamp in PROJECT-HUB.md)
+        if [[ -f "$project_hub/PROJECT-HUB.md" ]]; then
+            local timestamp=$(date "+%Y-%m-%d %H:%M:%S")
+            echo -e "  ${GREEN}✓${NC} Updated coordination timestamp: $timestamp"
+        fi
+
+        echo ""
+        echo -e "${GREEN}✅ Coordination complete${NC}"
+        echo ""
+    fi
 
     # Determine filter path based on category
     case "$category" in
@@ -60,20 +112,16 @@ dash() {
             filter_path="$HOME/projects"
             category="all"
             ;;
-        --help|-h)
-            _dash_help
-            return 0
-            ;;
         *)
-            echo "${RED}❌ Unknown category: $category${NC}"
+            echo -e "${RED}❌ Unknown category: $category${NC}"
             echo ""
             echo "Available categories:"
-            echo "  ${CYAN}all${NC}       - All projects (default)"
-            echo "  ${CYAN}teaching${NC}  - Teaching courses"
-            echo "  ${CYAN}research${NC}  - Research projects"
-            echo "  ${CYAN}packages${NC}  - R packages"
-            echo "  ${CYAN}dev${NC}       - Dev tools"
-            echo "  ${CYAN}quarto${NC}    - Quarto projects"
+            echo -e "  ${CYAN}all${NC}       - All projects (default)"
+            echo -e "  ${CYAN}teaching${NC}  - Teaching courses"
+            echo -e "  ${CYAN}research${NC}  - Research projects"
+            echo -e "  ${CYAN}packages${NC}  - R packages"
+            echo -e "  ${CYAN}dev${NC}       - Dev tools"
+            echo -e "  ${CYAN}quarto${NC}    - Quarto projects"
             return 1
             ;;
     esac

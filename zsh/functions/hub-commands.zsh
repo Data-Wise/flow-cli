@@ -4,7 +4,7 @@
 # Purpose: Quick navigation between project hubs
 #
 # Commands:
-#   focus     - Show today's focus (.STATUS)
+#   today     - Show today's focus (.STATUS)
 #   week      - Show this week's plan
 #   hub       - Project hub navigation
 #   devhub    - Dev planning hub navigation
@@ -18,12 +18,12 @@ HUB_DEV_PLANNING="${HUB_DEV_PLANNING:-$HOME/projects/dev-tools/dev-planning}"
 HUB_R_PLANNING="${HUB_R_PLANNING:-$HOME/projects/r-packages/mediation-planning}"
 
 # -----------------------------------------------------------------------------
-# focus - Show today's focus
+# today - Show today's focus
 # -----------------------------------------------------------------------------
-focus() {
-    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+today() {
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
         cat <<'EOF'
-Usage: focus
+Usage: today
 
 Show today's focus from the project hub .STATUS file.
 
@@ -40,7 +40,7 @@ EOF
         echo "━━━ Today's Focus ━━━"
         cat "$status_file"
     else
-        echo "focus: no .STATUS file found at $status_file" >&2
+        echo "today: no .STATUS file found at $status_file" >&2
         echo "Create one in $HUB_PROJECT_HUB/.STATUS" >&2
         return 1
     fi
@@ -58,7 +58,7 @@ Show this week's plan from the project hub weekly file.
 
 Alias: wk
 
-See also: focus, hub, hub-new-week
+See also: today, hub, hub-new-week
 EOF
         return 0
     fi
@@ -101,7 +101,7 @@ Examples:
   hub edit    # Edit dashboard
   hub cd      # Go to hub directory
 
-See also: devhub, rhub, focus, week
+See also: devhub, rhub, today, week
 EOF
             return 0
             ;;
@@ -153,7 +153,7 @@ Examples:
   devhub todos   # Show task list
   dh cd          # Go to hub directory
 
-See also: hub, rhub, focus
+See also: hub, rhub, today
 EOF
             return 0
             ;;
@@ -208,7 +208,7 @@ Examples:
   rhub todos   # Show task list
   rh cd        # Go to hub directory
 
-See also: hub, devhub, focus
+See also: hub, devhub, today
 EOF
             return 0
             ;;
@@ -305,7 +305,7 @@ EOF
 # -----------------------------------------------------------------------------
 # Aliases
 # -----------------------------------------------------------------------------
-alias f='focus'
+alias f='today'
 alias wk='week'
 alias dh='devhub'
 alias rh='rhub'

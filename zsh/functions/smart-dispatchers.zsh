@@ -208,15 +208,38 @@ _r_help() {
 # ============================================
 
 qu() {
-    # No arguments → show help
-    if [[ $# -eq 0 ]]; then
-        qu help
-        return
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        _qu_help
+        return 0
     fi
 
-    case "$1" in
+    local cmd="${1:-render-preview}"
+
+    case "$cmd" in
+        render-preview|"")
+            # Smart default: render then preview
+            echo "📝 Rendering Quarto document..."
+            quarto render
+
+            if [[ $? -eq 0 ]]; then
+                echo "🔍 Opening preview..."
+                quarto preview --no-browser &
+                sleep 2
+                open http://localhost:4200
+            else
+                echo "❌ Render failed - skipping preview" >&2
+                return 1
+            fi
+            ;;
+
         # Core commands
-        preview|p)   shift; quarto preview "$@" ;;
+        preview|p)
+            quarto preview --no-browser &
+            sleep 2
+            open http://localhost:4200
+            ;;
+
         render|r)    shift; quarto render "$@" ;;
         check|c)     shift; quarto check "$@" ;;
         clean)       rm -rf _site/ *_cache/ *_files/ ;;
@@ -234,6 +257,9 @@ qu() {
             git commit -m "${1:-Update Quarto document}"
             ;;
 
+        # Publishing
+        publish)     shift; quarto publish "$@" ;;
+
         # Project creation
         new|n)       shift; quarto create project default "$@" ;;
         article)     shift; quarto create project "$1" --type article ;;
@@ -242,26 +268,42 @@ qu() {
 
         # Help
         help|h)
-            echo -e "
+            _qu_help
+            ;;
+
+        *)
+            echo "qu: unknown command '$cmd'" >&2
+            echo "Run 'qu help' for usage" >&2
+            return 1
+            ;;
+    esac
+}
+
+# Helper for test suite - shows help
+_qu_help() {
+    echo -e "
 ${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
 ${_C_BOLD}│ qu - Quarto Publishing                      │${_C_NC}
 ${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
 ${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}qu${_C_NC}                 Render → preview → auto-open browser
   ${_C_CYAN}qu preview${_C_NC}         Live preview document/project
   ${_C_CYAN}qu render${_C_NC}          Render to output format
-  ${_C_CYAN}qu clean${_C_NC}           Remove generated files
 
 ${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} qu                        ${_C_DIM}# Smart default workflow${_C_NC}
   ${_C_DIM}\$${_C_NC} qu preview                ${_C_DIM}# Preview with live reload${_C_NC}
-  ${_C_DIM}\$${_C_NC} qu render                 ${_C_DIM}# Render current document${_C_NC}
-  ${_C_DIM}\$${_C_NC} qu clean                  ${_C_DIM}# Clean build artifacts${_C_NC}
+  ${_C_DIM}\$${_C_NC} qu render                 ${_C_DIM}# Just render${_C_NC}
+  ${_C_DIM}\$${_C_NC} qu publish                ${_C_DIM}# Publish to web${_C_NC}
 
 ${_C_BLUE}📋 CORE COMMANDS${_C_NC}:
-  ${_C_CYAN}qu preview${_C_NC}         Preview document/project (live)
+  ${_C_CYAN}qu${_C_NC}                 Smart default: render → preview → open browser
+  ${_C_CYAN}qu preview${_C_NC}         Start preview server & open browser
   ${_C_CYAN}qu render${_C_NC}          Render document/project
   ${_C_CYAN}qu check${_C_NC}           Check Quarto installation
   ${_C_CYAN}qu clean${_C_NC}           Remove _site, *_cache, *_files
+  ${_C_CYAN}qu publish${_C_NC}         Publish to web
 
 ${_C_BLUE}📄 FORMAT-SPECIFIC RENDERING${_C_NC}:
   ${_C_CYAN}qu pdf${_C_NC}             Render to PDF
@@ -280,24 +322,14 @@ ${_C_BLUE}🔀 COMBINED WORKFLOWS${_C_NC}:
 ${_C_MAGENTA}🔗 SHORTCUTS STILL WORK${_C_NC}:
   ${_C_DIM}qp (preview), qr (render), qc (check), qclean${_C_NC}
 
-${_C_MAGENTA}📚 MORE HELP${_C_NC} ${_C_DIM}(coming soon)${_C_NC}:
-  ${_C_DIM}qu help full                # Complete reference${_C_NC}
-  ${_C_DIM}qu help examples            # More examples${_C_NC}
-  ${_C_DIM}qu ?                        # Interactive picker${_C_NC}
+${_C_BLUE}ℹ️  SMART DEFAULT WORKFLOW${_C_NC}:
+  ${_C_DIM}1. Renders current Quarto document${_C_NC}
+  ${_C_DIM}2. Starts preview server (--no-browser)${_C_NC}
+  ${_C_DIM}3. Auto-opens browser at http://localhost:4200${_C_NC}
+  ${_C_DIM}4. Skips preview if render fails${_C_NC}
+
+${_C_MAGENTA}💡 TIP${_C_NC}: Run ${_C_CYAN}qu${_C_NC} to see your work instantly!
 "
-            ;;
-
-        *)
-            echo "Unknown action: $1"
-            echo "Run: qu help"
-            return 1
-            ;;
-    esac
-}
-
-# Helper for test suite - shows help
-_qu_help() {
-    qu help
 }
 
 # ============================================
@@ -652,63 +684,63 @@ ${_C_MAGENTA}📚 MORE HELP${_C_NC} ${_C_DIM}(coming soon)${_C_NC}:
 # ============================================
 
 note() {
-    # No arguments → show status
-    if [[ $# -eq 0 ]]; then
-        note help
-        return
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        _note_help
+        return 0
     fi
 
-    case "$1" in
+    local cmd="${1:-sync-status-open}"
+
+    case "$cmd" in
+        sync-status-open|"")
+            # Smart default: full workflow
+            echo "📓 Obsidian Vault Workflow..."
+            echo ""
+
+            # 1. Sync vault
+            echo "🔄 Syncing vault..."
+            _note_sync
+            local sync_result=$?
+
+            # 2. Show status
+            echo ""
+            echo "📊 Vault Status:"
+            _note_status
+
+            # 3. Open project dashboard
+            if [[ $sync_result -eq 0 ]]; then
+                echo ""
+                echo "📂 Opening project dashboard..."
+                _note_open
+            else
+                echo ""
+                echo "⚠️  Sync had issues - skipping dashboard open"
+            fi
+            ;;
+
         # Core operations
-        sync|s)      nsync ;;
+        sync|s)
+            _note_sync
+            ;;
+
+        status|st)
+            _note_status
+            ;;
+
+        open|o)
+            shift
+            _note_open "$@"
+            ;;
+
         view|v)      nsyncview ;;
         clip|c)      nsyncclip ;;
         export|e)    nsyncexport ;;
 
-        # Status
-        status)      pstat ;;
+        # Legacy status commands
         show)        pstatshow ;;
         list|l)      pstatlist ;;
         count)       pstatcount ;;
-
-        # Help
-        help|h)
-            echo -e "
-${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
-${_C_BOLD}│ note - Apple Notes Sync                     │${_C_NC}
-${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
-
-${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
-  ${_C_CYAN}note sync${_C_NC}          Sync dashboard to Apple Notes
-  ${_C_CYAN}note status${_C_NC}        Update project status
-  ${_C_CYAN}note view${_C_NC}          View dashboard content
-
-${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
-  ${_C_DIM}\$${_C_NC} note sync                 ${_C_DIM}# Push to Apple Notes${_C_NC}
-  ${_C_DIM}\$${_C_NC} note status               ${_C_DIM}# Update .STATUS files${_C_NC}
-  ${_C_DIM}\$${_C_NC} note list                 ${_C_DIM}# Show all projects${_C_NC}
-
-${_C_BLUE}📱 SYNC OPERATIONS${_C_NC}:
-  ${_C_CYAN}note sync${_C_NC}          Sync dashboard to Apple Notes
-  ${_C_CYAN}note view${_C_NC}          View dashboard content
-  ${_C_CYAN}note clip${_C_NC}          Copy dashboard to clipboard
-  ${_C_CYAN}note export${_C_NC}        Export dashboard to file
-
-${_C_BLUE}📊 STATUS MANAGEMENT${_C_NC}:
-  ${_C_CYAN}note status${_C_NC}        Update project status
-  ${_C_CYAN}note show${_C_NC}          Show status JSON
-  ${_C_CYAN}note list${_C_NC}          List all .STATUS files
-  ${_C_CYAN}note count${_C_NC}         Count projects by status
-
-${_C_MAGENTA}🔗 SHORTCUTS STILL WORK${_C_NC}:
-  ${_C_DIM}ns, nsv, nsc, nse (sync operations)${_C_NC}
-  ${_C_DIM}pstat, psv, psl, psc (status commands)${_C_NC}
-
-${_C_MAGENTA}📚 MORE HELP${_C_NC} ${_C_DIM}(coming soon)${_C_NC}:
-  ${_C_DIM}note help full              # Complete reference${_C_NC}
-  ${_C_DIM}note ?                      # Interactive picker${_C_NC}
-"
-            ;;
 
         *)
             echo "Unknown action: $1"
@@ -716,6 +748,117 @@ ${_C_MAGENTA}📚 MORE HELP${_C_NC} ${_C_DIM}(coming soon)${_C_NC}:
             return 1
             ;;
     esac
+}
+
+# Helper: Sync Obsidian vault
+_note_sync() {
+    # Use existing obs-sync-all function from obsidian-bridge.zsh
+    if command -v obs-sync-all >/dev/null 2>&1; then
+        obs-sync-all
+        return $?
+    else
+        echo "❌ obs-sync-all not found - check obsidian-bridge.zsh is loaded"
+        return 1
+    fi
+}
+
+# Helper: Show vault status
+_note_status() {
+    local obs_root="/Users/dt/Library/Mobile Documents/iCloud~md~obsidian/Documents"
+    local research_lab="$obs_root/Research_Lab"
+
+    if [[ ! -d "$research_lab" ]]; then
+        echo "❌ Research_Lab vault not found at: $research_lab"
+        return 1
+    fi
+
+    # Count notes
+    local note_count=$(find "$research_lab" -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
+
+    # Get last modified time of dashboard
+    local dashboard="$research_lab/MediationVerse_Dashboard.md"
+    if [[ -f "$dashboard" ]]; then
+        local last_mod=$(stat -f "%Sm" -t "%Y-%m-%d %H:%M" "$dashboard" 2>/dev/null)
+        echo "   📊 Dashboard: Last updated $last_mod"
+    fi
+
+    echo "   📝 Total notes: $note_count"
+    echo "   📂 Vault: Research_Lab"
+
+    return 0
+}
+
+# Helper: Open dashboard in Obsidian
+_note_open() {
+    local file="${1:-Dashboards/Project-Hub.md}"
+    local vault="Research_Lab"
+    local obs_root="/Users/dt/Library/Mobile Documents/iCloud~md~obsidian/Documents"
+
+    # Check if file exists (try both with and without .md extension)
+    local full_path="$obs_root/$vault/$file"
+    if [[ ! -f "$full_path" ]] && [[ ! -f "${full_path}.md" ]]; then
+        echo "⚠️  Note not found: $file"
+        echo "   Creating quick link to open vault..."
+        open "obsidian://open?vault=$vault"
+        return 1
+    fi
+
+    # Open in Obsidian using URI protocol
+    open "obsidian://open?vault=$vault&file=$file"
+    echo "✅ Opened in Obsidian: $vault → $file"
+
+    return 0
+}
+
+# Helper: Show help
+_note_help() {
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ note - Obsidian Vault Management            │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}note${_C_NC}               Smart default: sync → status → open dashboard
+  ${_C_CYAN}note sync${_C_NC}          Sync vault settings across all vaults
+  ${_C_CYAN}note status${_C_NC}        Show vault status
+  ${_C_CYAN}note open${_C_NC}          Open Project-Hub dashboard
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} note                      ${_C_DIM}# Complete workflow${_C_NC}
+  ${_C_DIM}\$${_C_NC} note sync                 ${_C_DIM}# Just sync vaults${_C_NC}
+  ${_C_DIM}\$${_C_NC} note status               ${_C_DIM}# Just show status${_C_NC}
+  ${_C_DIM}\$${_C_NC} note open                 ${_C_DIM}# Just open dashboard${_C_NC}
+
+${_C_BLUE}📓 CORE OPERATIONS${_C_NC}:
+  ${_C_CYAN}note${_C_NC}               Sync vault → show status → open dashboard
+  ${_C_CYAN}note sync${_C_NC}          Sync settings/themes across all vaults
+  ${_C_CYAN}note status${_C_NC}        Show vault statistics
+  ${_C_CYAN}note open${_C_NC}          Open dashboard (default: Project-Hub)
+  ${_C_CYAN}note open <file>${_C_NC}   Open specific note in vault
+
+${_C_BLUE}📱 LEGACY OPERATIONS${_C_NC} ${_C_DIM}(Apple Notes - deprecated)${_C_NC}:
+  ${_C_CYAN}note view${_C_NC}          View dashboard content
+  ${_C_CYAN}note clip${_C_NC}          Copy dashboard to clipboard
+  ${_C_CYAN}note export${_C_NC}        Export dashboard to file
+
+${_C_BLUE}📊 STATUS COMMANDS${_C_NC}:
+  ${_C_CYAN}note show${_C_NC}          Show status JSON
+  ${_C_CYAN}note list${_C_NC}          List all .STATUS files
+  ${_C_CYAN}note count${_C_NC}         Count projects by status
+
+${_C_MAGENTA}🔗 RELATED COMMANDS${_C_NC}:
+  ${_C_DIM}obs-project-sync           Sync .STATUS to dashboard${_C_NC}
+  ${_C_DIM}obs-open research          Open Research_Lab vault${_C_NC}
+  ${_C_DIM}obs-dashboard              Open MediationVerse dashboard${_C_NC}
+
+${_C_BLUE}ℹ️  SMART DEFAULT WORKFLOW${_C_NC}:
+  ${_C_DIM}1. Syncs appearance/hotkeys across all vaults${_C_NC}
+  ${_C_DIM}2. Shows vault statistics (note count, last update)${_C_NC}
+  ${_C_DIM}3. Opens Project-Hub dashboard in Obsidian${_C_NC}
+  ${_C_DIM}4. Skips open step if sync fails${_C_NC}
+
+${_C_MAGENTA}💡 TIP${_C_NC}: Run ${_C_CYAN}note${_C_NC} at start of day for full vault setup!
+"
 }
 
 # ============================================
@@ -1201,18 +1344,31 @@ ${_C_BLUE}ℹ️  NOTIFICATIONS${_C_NC}:
 # ============================================
 
 peek() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        _peek_help
+        return 0
+    fi
+
+    # No args = brief hint
+    if [[ $# -eq 0 ]]; then
+        echo -e "${_C_BOLD}peek${_C_NC} - Smart File Viewer"
+        echo ""
+        echo "Common:"
+        echo "  ${_C_CYAN}peek <file>${_C_NC}       Auto-detect and view file"
+        echo "  ${_C_CYAN}peek desc${_C_NC}          View DESCRIPTION"
+        echo "  ${_C_CYAN}peek status${_C_NC}        View .STATUS"
+        echo ""
+        echo "Run 'peek help' for all options"
+        return 0
+    fi
+
     # Check if bat is available (for syntax highlighting)
     local viewer_cmd
     if command -v bat >/dev/null 2>&1; then
         viewer_cmd=(bat --style=plain --paging=never)
     else
         viewer_cmd=(cat)
-    fi
-
-    # No arguments → show help
-    if [[ $# -eq 0 ]]; then
-        _peek_help
-        return
     fi
 
     case "$1" in
@@ -1309,11 +1465,6 @@ peek() {
             fi
             echo -e "${_C_BOLD}📝 Workflow Log (last 50 lines)${_C_NC}\n"
             tail -n 50 "$log_file" | "${viewer_cmd[@]}"
-            ;;
-
-        # Help
-        help|h)
-            _peek_help
             ;;
 
         # Auto-detect file type
