@@ -83,6 +83,25 @@ rv() {
 # fs - Fuzzy find and edit .STATUS files
 # Usage: fs
 fs() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: fs
+
+Search and edit .STATUS files across all projects.
+
+DESCRIPTION:
+  Interactively search for .STATUS files in ~/projects using fzf.
+  Preview file contents with bat and open selected file in editor.
+
+EXAMPLES:
+  fs                           # Fuzzy find and edit .STATUS files
+
+See also: fh, re, rv
+EOF
+        return 0
+    fi
+
     local file
     file=$(fd -t f '^\.STATUS$' ~/projects 2>/dev/null | fzf \
         --prompt=".STATUS files > " \
