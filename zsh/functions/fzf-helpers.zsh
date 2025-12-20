@@ -63,6 +63,31 @@ EOF
 # rt - Fuzzy find and run specific test file
 # Usage: rt
 rt() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: rt
+
+Browse and run R package test files with fzf preview.
+
+DESCRIPTION:
+  Interactively select a test file from tests/testthat/ using fzf,
+  preview its contents with syntax highlighting, then run it with
+  testthat::test_file().
+
+EXAMPLES:
+  rt                           # Select and run test file
+
+REQUIREMENTS:
+  - tests/testthat/ directory (R package structure)
+  - fzf, fd, bat installed
+  - R with testthat package
+
+See also: re, rv, fs
+EOF
+        return 0
+    fi
+
     if [ ! -d "tests/testthat" ]; then
         echo "❌ Not in an R package directory (no tests/testthat/ directory)"
         return 1
