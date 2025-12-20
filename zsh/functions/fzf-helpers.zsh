@@ -212,6 +212,21 @@ ga() {
 # gundo - Interactive git reset (unstage files)
 # Usage: gundo
 gundostage() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: gundostage
+
+Unstage files with fzf multi-select preview.
+
+EXAMPLES:
+  gundostage                   # Select and unstage files
+
+See also: ga, gdf
+EOF
+        return 0
+    fi
+
     if ! git rev-parse --git-dir > /dev/null 2>&1; then
         echo "❌ Not in a git repository"
         return 1
