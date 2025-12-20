@@ -77,18 +77,51 @@ cc-file() {
 
 # Claude Code to implement a feature
 cc-implement() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: cc-implement 'description of feature'
+       cci 'description of feature'
+
+Ask Claude Code to implement a feature with tidyverse standards.
+
+ARGUMENTS:
+  description    What feature to implement (required)
+
+EXAMPLES:
+  cc-implement 'add plot method for foo class'
+  cc-implement 'create validation function for inputs'
+  cc-implement 'refactor helper functions with better naming'
+
+STANDARDS APPLIED:
+  - Tidyverse style guide
+  - Roxygen2 documentation
+  - testthat tests
+  - Native pipe |>
+  - Concise and efficient code
+
+SEE ALSO:
+  cc-project        Load project context before implementing
+  cc-fix-tests      Fix failing tests
+  cc-cycle          Full development cycle (implement → test → fix)
+  cc-pre-commit     Review changes before commit
+EOF
+        return 0
+    fi
+
     local feature="$*"
-    
+
     if [[ -z "$feature" ]]; then
-        echo "Usage: cci 'description of feature to implement'"
+        echo "cc-implement: missing required argument <description>" >&2
+        echo "Run 'cc-implement help' for usage" >&2
         return 1
     fi
-    
+
     local pkg_info=""
     if [[ -f DESCRIPTION ]]; then
         pkg_info="This is R package: $(grep '^Package:' DESCRIPTION | cut -d' ' -f2)"
     fi
-    
+
     claude -p "Implement this feature: $feature
 
 $pkg_info
@@ -107,12 +140,32 @@ Requirements:
 
 # Claude Code to fix failing tests
 cc-fix-tests() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: cc-fix-tests
+
+Run R package tests and ask Claude to fix failures.
+
+EXAMPLES:
+  cc-fix-tests                 # Run tests, ask Claude to fix if failing
+
+WORKFLOW:
+  1. Runs devtools::test()
+  2. If tests fail, sends output to Claude
+  3. Claude suggests specific fixes
+
+See also: cc-implement, cc-cycle
+EOF
+        return 0
+    fi
+
     echo "🧪 Running tests..."
-    
+
     # Run tests and capture output
     local test_output=$(Rscript -e "devtools::test()" 2>&1)
     local exit_code=$?
-    
+
     if echo "$test_output" | grep -qE "(FAIL|Error)"; then
         echo "❌ Tests failing - asking Claude for help..."
         echo ""
@@ -133,8 +186,35 @@ cc-fix-tests() {
 
 # Claude Code review before commit
 cc-pre-commit() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: cc-pre-commit
+
+Review staged/unstaged changes with Claude before committing.
+
+EXAMPLES:
+  cc-pre-commit                # Review current changes
+
+REVIEW CHECKS:
+  - Bugs or logic errors
+  - R package best practices
+  - Missing/incorrect documentation
+  - Style issues (tidyverse)
+  - Unhandled edge cases
+
+OUTPUT FORMAT:
+  🔴 ISSUES (must fix)
+  🟡 SUGGESTIONS (nice to have)
+  ✅ GOOD (what's done well)
+
+See also: cc-cycle, cc-fix-tests
+EOF
+        return 0
+    fi
+
     local diff=$(git diff --cached 2>/dev/null)
-    
+
     if [[ -z "$diff" ]]; then
         diff=$(git diff 2>/dev/null)
     fi
@@ -167,12 +247,36 @@ Be concise. Format as:
 
 # Agentic development cycle
 cc-cycle() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: cc-cycle 'description of task'
+
+Full agentic development cycle: implement → load → test → fix.
+
+ARGUMENTS:
+  description    What to implement (required)
+
+EXAMPLES:
+  cc-cycle 'add summary method for foo class'
+  cc-cycle 'fix edge case in validation'
+
+WORKFLOW:
+  1. Claude implements feature
+  2. Load package (devtools::load_all)
+  3. Run tests (devtools::test)
+  4. If tests fail, Claude fixes them
+
+See also: cc-implement, cc-fix-tests, cc-pre-commit
+EOF
+        return 0
+    fi
+
     local task="$*"
-    
+
     if [[ -z "$task" ]]; then
-        echo "Usage: cccycle 'description of task'"
-        echo ""
-        echo "Runs: Claude implement → Load → Test → Fix if needed"
+        echo "cc-cycle: missing required argument <description>" >&2
+        echo "Run 'cc-cycle help' for usage" >&2
         return 1
     fi
     
