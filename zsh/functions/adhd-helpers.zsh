@@ -871,11 +871,10 @@ EOF
 # Leave a breadcrumb note (saved to .breadcrumbs in current dir)
 breadcrumb() {
     local note="$*"
-    
+
     if [[ -z "$note" ]]; then
-        echo "Usage: bc 'your note here'"
-        echo "       bc investigating why tests fail"
-        echo "       bc left off at line 45"
+        echo "breadcrumb: missing required argument <note>" >&2
+        echo "Run 'breadcrumb help' for usage" >&2
         return 1
     fi
     
@@ -1217,11 +1216,8 @@ worklog() {
     local session_id=$(cat "$WORKFLOW_SESSION_FILE" 2>/dev/null || echo "none")
 
     if [[ -z "$action" ]]; then
-        echo "Usage: worklog <action> [details]"
-        echo "Examples:"
-        echo "  worklog 'started coding' 'implementing new feature'"
-        echo "  worklog 'ran tests' 'all passing'"
-        echo "  worklog 'commit' 'fixed bug in parser'"
+        echo "worklog: missing required argument <action>" >&2
+        echo "Run 'worklog help' for usage" >&2
         return 1
     fi
 
