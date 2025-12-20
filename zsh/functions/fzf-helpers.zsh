@@ -310,6 +310,24 @@ fp() {
 # fr - Fuzzy find R packages
 # Usage: fr
 fr() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: fr
+
+Browse and select R packages from ~/projects/r-packages/active with fzf preview.
+
+Shows DESCRIPTION file preview and allows quick navigation to package directory.
+After selection, displays package info using rpkginfo if available.
+
+EXAMPLES:
+  fr                           # Select R package and cd into it
+
+See also: re, rt, rv
+EOF
+        return 0
+    fi
+
     local pkg
     pkg=$(fd -t d -d 1 . ~/projects/r-packages/active 2>/dev/null | fzf \
         --prompt="R packages > " \
