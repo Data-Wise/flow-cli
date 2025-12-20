@@ -36,7 +36,12 @@
       "Bash(peek status:*)",
       "Bash(peek md:*)",
       "Bash(timer status)",
-      "Bash(gm help:*)"
+      "Bash(gm help:*)",
+      "Bash(brew list:*)",
+      "Bash(for func in re rt rv fs fh gb gdf gshow ga gundostage fp fr)",
+      "Bash(do:*)",
+      "Bash(if grep -q \"^alias $func=\" ~/Library/Caches/antidote/https-COLON--SLASH--SLASH-github.com-SLASH-ohmyzsh-SLASH-ohmyzsh/plugins/git/git.plugin.zsh)",
+      "Bash(git -C /Users/dt/projects/dev-tools/zsh-configuration status -sb)"
     ]
   }
 }
