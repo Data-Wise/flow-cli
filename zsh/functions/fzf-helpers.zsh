@@ -98,6 +98,25 @@ fs() {
 # fh - Fuzzy find and view PROJECT-HUB.md files
 # Usage: fh
 fh() {
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: fh
+
+Browse and view PROJECT-HUB.md files across all projects with fzf.
+
+DESCRIPTION:
+  Searches for PROJECT-HUB.md files in ~/projects and displays them
+  in fzf with a bat-powered preview. Select a hub to view it in full.
+
+EXAMPLES:
+  fh                           # Select and view PROJECT-HUB files
+
+See also: fs, fp
+EOF
+        return 0
+    fi
+
     local file
     file=$(fd -t f 'PROJECT-HUB.md' ~/projects 2>/dev/null | fzf \
         --prompt="PROJECT-HUB > " \
@@ -119,6 +138,23 @@ fh() {
 # gb - Fuzzy git branch checkout
 # Usage: gb
 gb() {
+    unalias gb 2>/dev/null  # Keep existing unalias
+
+    # Help check FIRST (all three forms)
+    if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<'EOF'
+Usage: gb
+
+Browse and checkout git branches with fzf preview.
+
+EXAMPLES:
+  gb                           # Select and checkout branch
+
+See also: gdf, gshow, ga
+EOF
+        return 0
+    fi
+
     if ! git rev-parse --git-dir > /dev/null 2>&1; then
         echo "❌ Not in a git repository"
         return 1
