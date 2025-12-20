@@ -41,7 +41,8 @@ _C_RED='\033[31m'
 # List all MCP servers with status
 _mcp_list() {
     if [[ ! -d "$MCP_SERVERS_DIR" ]]; then
-        echo -e "${_C_RED}Error:${_C_NC} MCP servers directory not found: $MCP_SERVERS_DIR"
+        echo "mcp: MCP servers directory not found: $MCP_SERVERS_DIR" >&2
+        echo "Run 'mcp help' for usage" >&2
         return 1
     fi
 
@@ -77,10 +78,10 @@ _mcp_list() {
     done
 
     if [[ $server_count -eq 0 ]]; then
-        echo -e "${_C_YELLOW}Warning:${_C_NC} No MCP servers found in $MCP_SERVERS_DIR"
+        echo "mcp: no MCP servers found in $MCP_SERVERS_DIR" >&2
     else
         echo ""
-        echo -e "${_C_GREEN}Total: $server_count server(s)${_C_NC}"
+        echo "Total: $server_count server(s)"
     fi
 
     echo ""
@@ -95,24 +96,26 @@ _mcp_cd() {
     if [[ -z "$server" ]]; then
         # No argument - go to main directory
         cd "$MCP_SERVERS_DIR" || {
-            echo -e "${_C_RED}Error:${_C_NC} Cannot navigate to $MCP_SERVERS_DIR"
+            echo "mcp: cannot navigate to $MCP_SERVERS_DIR" >&2
+            echo "Run 'mcp help' for usage" >&2
             return 1
         }
-        echo -e "${_C_GREEN}In MCP servers directory${_C_NC}"
+        echo "In MCP servers directory"
         ls -1
     else
         # Navigate to specific server
         if [[ -d "$MCP_SERVERS_DIR/$server" ]]; then
             cd "$MCP_SERVERS_DIR/$server" || {
-                echo -e "${_C_RED}Error:${_C_NC} Cannot navigate to $server"
+                echo "mcp: cannot navigate to $server" >&2
+                echo "Run 'mcp help' for usage" >&2
                 return 1
             }
-            echo -e "${_C_GREEN}In $server${_C_NC}"
+            echo "In $server"
         else
-            echo -e "${_C_RED}Error:${_C_NC} Server not found: $server"
+            echo "mcp: server not found: $server" >&2
             echo ""
-            echo -e "${_C_BLUE}Available servers:${_C_NC}"
-            ls -1 "$MCP_SERVERS_DIR" 2>/dev/null || echo "  (none)"
+            echo "Available servers:" >&2
+            ls -1 "$MCP_SERVERS_DIR" 2>/dev/null || echo "  (none)" >&2
             return 1
         fi
     fi
@@ -123,20 +126,21 @@ _mcp_edit() {
     local server="$1"
 
     if [[ -z "$server" ]]; then
-        echo -e "${_C_RED}Usage:${_C_NC} mcp edit <server-name>"
+        echo "mcp edit <server-name>" >&2
         echo ""
-        echo -e "${_C_BLUE}Available servers:${_C_NC}"
-        ls -1 "$MCP_SERVERS_DIR" 2>/dev/null || echo "  (none)"
+        echo "Available servers:" >&2
+        ls -1 "$MCP_SERVERS_DIR" 2>/dev/null || echo "  (none)" >&2
         return 1
     fi
 
     if [[ ! -d "$MCP_SERVERS_DIR/$server" ]]; then
-        echo -e "${_C_RED}Error:${_C_NC} Server not found: $server"
+        echo "mcp: server not found: $server" >&2
+        echo "Run 'mcp help' for usage" >&2
         return 1
     fi
 
     local editor="${EDITOR:-code}"
-    echo -e "${_C_BLUE}Opening $server in $editor...${_C_NC}"
+    echo "Opening $server in $editor..."
     $editor "$MCP_SERVERS_DIR/$server"
 }
 
@@ -150,16 +154,16 @@ _mcp_readme() {
         if [[ -f "$MCP_SERVERS_DIR/README.md" ]]; then
             $pager "$MCP_SERVERS_DIR/README.md"
         else
-            echo -e "${_C_RED}Error:${_C_NC} Main README.md not found"
-            echo -e "${_C_BLUE}Try:${_C_NC} mcp readme <server-name>"
+            echo "mcp: main README.md not found" >&2
+            echo "Try: mcp readme <server-name>" >&2
         fi
     else
         # Show server README
         if [[ -f "$MCP_SERVERS_DIR/$server/README.md" ]]; then
             $pager "$MCP_SERVERS_DIR/$server/README.md"
         else
-            echo -e "${_C_RED}Error:${_C_NC} README not found for: $server"
-            echo -e "${_C_BLUE}Try:${_C_NC} mcp list"
+            echo "mcp: README not found for: $server" >&2
+            echo "Try: mcp list" >&2
         fi
     fi
 }
@@ -169,19 +173,20 @@ _mcp_test() {
     local server="$1"
 
     if [[ -z "$server" ]]; then
-        echo -e "${_C_RED}Usage:${_C_NC} mcp test <server-name>"
+        echo "mcp test <server-name>" >&2
         echo ""
-        echo -e "${_C_BLUE}Available servers:${_C_NC}"
-        ls -1 "$MCP_SERVERS_DIR" 2>/dev/null || echo "  (none)"
+        echo "Available servers:" >&2
+        ls -1 "$MCP_SERVERS_DIR" 2>/dev/null || echo "  (none)" >&2
         return 1
     fi
 
     if [[ ! -d "$MCP_SERVERS_DIR/$server" ]]; then
-        echo -e "${_C_RED}Error:${_C_NC} Server not found: $server"
+        echo "mcp: server not found: $server" >&2
+        echo "Run 'mcp help' for usage" >&2
         return 1
     fi
 
-    echo -e "${_C_BLUE}Testing MCP server: $server${_C_NC}"
+    echo "Testing MCP server: $server"
 
     local server_dir="$MCP_SERVERS_DIR/$server"
     local test_output=$(mktemp)
@@ -190,31 +195,34 @@ _mcp_test() {
     case "$server" in
         statistical-research)
             if ! command -v bun &>/dev/null; then
-                echo -e "${_C_RED}Error:${_C_NC} Bun not installed (required for $server)"
+                echo "mcp: bun not installed (required for $server)" >&2
+                echo "Run 'mcp help' for usage" >&2
                 return 1
             fi
-            echo -e "${_C_BLUE}Starting with bun...${_C_NC}"
+            echo "Starting with bun..."
             (cd "$server_dir" && timeout 3 bun run src/index.ts 2>&1) > "$test_output" &
             ;;
         shell|project-refactor)
             if ! command -v node &>/dev/null; then
-                echo -e "${_C_RED}Error:${_C_NC} Node.js not installed (required for $server)"
+                echo "mcp: Node.js not installed (required for $server)" >&2
+                echo "Run 'mcp help' for usage" >&2
                 return 1
             fi
-            echo -e "${_C_BLUE}Starting with node...${_C_NC}"
+            echo "Starting with node..."
             (cd "$server_dir" && timeout 3 node index.js 2>&1) > "$test_output" &
             ;;
         docling)
             if ! command -v uv &>/dev/null; then
-                echo -e "${_C_RED}Error:${_C_NC} uv not installed (required for $server)"
+                echo "mcp: uv not installed (required for $server)" >&2
+                echo "Run 'mcp help' for usage" >&2
                 return 1
             fi
-            echo -e "${_C_BLUE}Starting with uv...${_C_NC}"
+            echo "Starting with uv..."
             (cd "$server_dir" && timeout 3 uv run docling-mcp-server 2>&1) > "$test_output" &
             ;;
         *)
-            echo -e "${_C_YELLOW}Warning:${_C_NC} Unknown server type: $server"
-            echo -e "${_C_BLUE}Attempting to detect entry point...${_C_NC}"
+            echo "mcp: unknown server type: $server" >&2
+            echo "Attempting to detect entry point..." >&2
 
             # Try common patterns
             if [[ -f "$server_dir/index.js" ]]; then
@@ -222,7 +230,8 @@ _mcp_test() {
             elif [[ -f "$server_dir/src/index.ts" ]]; then
                 (cd "$server_dir" && timeout 3 bun run src/index.ts 2>&1) > "$test_output" &
             else
-                echo -e "${_C_RED}Error:${_C_NC} Cannot determine how to run $server"
+                echo "mcp: cannot determine how to run $server" >&2
+                echo "Run 'mcp help' for usage" >&2
                 rm -f "$test_output"
                 return 1
             fi
@@ -233,21 +242,21 @@ _mcp_test() {
     sleep 2
 
     if kill -0 $pid 2>/dev/null; then
-        echo -e "${_C_GREEN}Server running (PID: $pid)${_C_NC}"
-        echo -e "${_C_BLUE}Stopping test server...${_C_NC}"
+        echo "Server running (PID: $pid)"
+        echo "Stopping test server..."
         kill $pid 2>/dev/null
         wait $pid 2>/dev/null
 
         # Check for errors in output
         if grep -i "error" "$test_output" &>/dev/null; then
-            echo -e "${_C_YELLOW}Warning:${_C_NC} Server started but errors detected:"
-            head -5 "$test_output"
+            echo "mcp: server started but errors detected:" >&2
+            head -5 "$test_output" >&2
         fi
     else
-        echo -e "${_C_RED}Error:${_C_NC} Server failed to start"
+        echo "mcp: server failed to start" >&2
         echo ""
-        echo -e "${_C_BLUE}Output:${_C_NC}"
-        cat "$test_output"
+        echo "Output:" >&2
+        cat "$test_output" >&2
         rm -f "$test_output"
         return 1
     fi
@@ -311,20 +320,22 @@ _mcp_status() {
 # Interactive MCP server picker (using fzf)
 _mcp_pick() {
     if ! command -v fzf &>/dev/null; then
-        echo -e "${_C_RED}Error:${_C_NC} fzf not installed"
-        echo -e "${_C_BLUE}Install with:${_C_NC} brew install fzf"
+        echo "mcp: fzf not installed" >&2
+        echo "Install with: brew install fzf" >&2
         return 1
     fi
 
     if [[ ! -d "$MCP_SERVERS_DIR" ]]; then
-        echo -e "${_C_RED}Error:${_C_NC} MCP servers directory not found: $MCP_SERVERS_DIR"
+        echo "mcp: MCP servers directory not found: $MCP_SERVERS_DIR" >&2
+        echo "Run 'mcp help' for usage" >&2
         return 1
     fi
 
     local servers=("${(@f)$(ls -1 "$MCP_SERVERS_DIR" 2>/dev/null)}")
 
     if [[ ${#servers[@]} -eq 0 ]]; then
-        echo -e "${_C_RED}Error:${_C_NC} No MCP servers found"
+        echo "mcp: no MCP servers found" >&2
+        echo "Run 'mcp help' for usage" >&2
         return 1
     fi
 
@@ -336,7 +347,7 @@ _mcp_pick() {
         --preview-window=right:60%:wrap)
 
     if [[ -z "$server" ]]; then
-        echo -e "${_C_BLUE}No server selected${_C_NC}"
+        echo "No server selected"
         return 0
     fi
 
@@ -358,7 +369,7 @@ _mcp_pick() {
         3) _mcp_readme "$server" ;;
         4) _mcp_test "$server" ;;
         5) open "$MCP_SERVERS_DIR/$server" ;;
-        *) echo -e "${_C_RED}Invalid choice${_C_NC}" ;;
+        *) echo "mcp: invalid choice" >&2 ;;
     esac
 }
 
@@ -472,8 +483,8 @@ mcp() {
             ;;
 
         *)
-            echo -e "${_C_RED}Unknown action: $1${_C_NC}"
-            echo "Run 'mcp help' for available commands"
+            echo "mcp: unknown action: $1" >&2
+            echo "Run 'mcp help' for available commands" >&2
             return 1
             ;;
     esac
