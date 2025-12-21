@@ -75,12 +75,14 @@ nav:
   - Architecture:
     - Overview: architecture/README.md
     - Quick Reference: architecture/QUICK-REFERENCE.md
+    - Quick Wins: architecture/ARCHITECTURE-QUICK-WINS.md
     - Patterns Analysis: architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md
     - API Design Review: architecture/API-DESIGN-REVIEW.md
     - Code Examples: architecture/CODE-EXAMPLES.md
     - Vendor Integration: architecture/VENDOR-INTEGRATION-ARCHITECTURE.md
     - Architecture Decisions:
       - ADR Index: architecture/decisions/README.md
+      - ADR Summary: architecture/decisions/ADR-SUMMARY.md
       - ADR-001 Vendored Code: architecture/decisions/ADR-001-vendored-code-pattern.md
       - ADR-002 Clean Architecture: architecture/decisions/ADR-002-clean-architecture.md
       - ADR-003 Bridge Pattern: architecture/decisions/ADR-003-bridge-pattern.md
@@ -88,6 +90,7 @@ nav:
     - API Overview: api/API-OVERVIEW.md
     - Project Detector API: api/PROJECT-DETECTOR-API.md
   - Development:
+    - Contributing Guide: CONTRIBUTING.md
     - Guidelines: ZSH-DEVELOPMENT-GUIDELINES.md
     - Conventions: CONVENTIONS.md
     - Philosophy: PHILOSOPHY.md

@@ -67,7 +67,9 @@
       "Bash(electron --version:*)",
       "Bash(/Users/dt/projects/dev-tools/zsh-configuration/node_modules/electron/dist/Electron.app/Contents/MacOS/Electron ./test-minimal-electron)",
       "Bash(xattr:*)",
-      "Bash(positron:*)"
+      "Bash(positron:*)",
+      "Bash(mkdocs gh-deploy:*)",
+      "Bash(git restore:*)"
     ]
   }
 }

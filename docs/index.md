@@ -12,7 +12,9 @@ A streamlined system for managing development workflows. Features **28 essential
 - **Reduction:** 84% fewer aliases to memorize
 - **Git plugin:** 226+ standard aliases included
 - **Smart dispatchers:** 6 context-aware functions
-- **Last major update:** 2025-12-19
+- **Documentation:** 102 markdown files, 60+ pages on site
+- **Architecture:** Clean Architecture with 3 ADRs
+- **Last major update:** 2025-12-21 (Architecture + Site)
 
 ---
 
@@ -74,19 +76,50 @@ glo      # git log --oneline
 ## 📚 Essential Documentation
 
 !!! tip "Start Here"
-    **New to this project?** Read the [Alias Reference Card](user/ALIAS-REFERENCE-CARD.md) first!
+    **New to this project?** Read the [Quick Start Guide](getting-started/quick-start.md) in 5 minutes!
 
 ### Core Guides
 
+- **[Quick Start Guide](getting-started/quick-start.md)** - Get running in 5 minutes
 - **[Alias Reference Card](user/ALIAS-REFERENCE-CARD.md)** - All 28 aliases + migration guide
 - **[Workflow Quick Reference](user/WORKFLOW-QUICK-REFERENCE.md)** - Daily workflows
 - **[Complete Documentation Index](doc-index.md)** - All docs organized
+
+### Architecture & Design
+
+- **[Architecture Hub](architecture/README.md)** - Complete architecture documentation (6,200+ lines)
+- **[Architecture Quick Reference](architecture/QUICK-REFERENCE.md)** - 1-page printable desk reference
+- **[Architecture Quick Wins](architecture/ARCHITECTURE-QUICK-WINS.md)** - Practical patterns for daily use
+- **[Architecture Decisions (ADRs)](architecture/decisions/README.md)** - 3 decision records explaining "why"
 
 ### Specialized Guides
 
 - **[Pick Command Reference](user/PICK-COMMAND-REFERENCE.md)** - Project navigation
 - **[Dashboard Quick Ref](user/DASHBOARD-QUICK-REF.md)** - Dashboard commands
 - **[Workflows & Quick Wins](user/WORKFLOWS-QUICK-WINS.md)** - Productivity tips
+
+---
+
+## 🎯 Recent Updates
+
+### December 21, 2025 - Architecture Documentation Sprint
+
+**Completed comprehensive architecture documentation:**
+
+- ✅ **6,200+ lines** of architecture documentation across 21 files
+- ✅ **3 ADRs** (Architecture Decision Records) documenting key decisions
+- ✅ **88+ code examples** ready to copy-paste
+- ✅ **Documentation site** updated with 60+ pages
+- ✅ **Architecture Reference Suite** (5 docs, 2,567 lines) for reuse across projects
+
+**New Guides:**
+
+- [Architecture Patterns Analysis](architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md) - Clean Architecture deep dive (1,181 lines)
+- [API Design Review](architecture/API-DESIGN-REVIEW.md) - Node.js API best practices (919 lines)
+- [Code Examples](architecture/CODE-EXAMPLES.md) - Production-ready patterns (1,000+ lines)
+- [Vendor Integration Architecture](architecture/VENDOR-INTEGRATION-ARCHITECTURE.md) - External code integration (673 lines)
+
+**Live Site:** [https://Data-Wise.github.io/zsh-configuration/](https://Data-Wise.github.io/zsh-configuration/)
 
 ---
 
