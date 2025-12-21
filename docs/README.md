@@ -24,6 +24,19 @@
 
 ### Architecture
 
+- **[Architecture Patterns Analysis](architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md)** - Clean Architecture & DDD ⭐ **NEW**
+  - Clean Architecture 4-layer mapping
+  - Domain-Driven Design principles
+  - Hexagonal Architecture (Ports & Adapters)
+  - Complete implementation examples
+  - Phase 1-3 migration roadmap
+
+- **[API Design Review](architecture/API-DESIGN-REVIEW.md)** - Design principles applied ⭐ **NEW**
+  - All 8 modules reviewed
+  - Best practices and anti-patterns
+  - Recommended improvements
+  - Code examples for fixes
+
 - **[Vendor Integration Architecture](architecture/VENDOR-INTEGRATION-ARCHITECTURE.md)** - System design and patterns
   - Architecture layers and data flow
   - Design patterns (vendoring, bridge, type mapping)
