@@ -65,15 +65,75 @@ nav:
   - User Guide:
     - Alias Reference: user/ALIAS-REFERENCE-CARD.md
     - Workflow Quick Reference: user/WORKFLOW-QUICK-REFERENCE.md
+    - Workflows & Tips: user/WORKFLOWS-QUICK-WINS.md
     - Pick Command: user/PICK-COMMAND-REFERENCE.md
     - Dashboard: user/DASHBOARD-QUICK-REF.md
-    - Workflows & Tips: user/WORKFLOWS-QUICK-WINS.md
+    - Enhanced Help: user/ENHANCED-HELP-QUICK-START.md
+    - Project Detection: user/PROJECT-DETECTION-GUIDE.md
     - Workspace Audit: user/WORKSPACE-AUDIT-GUIDE.md
+    - Tutorial: user/WORKFLOW-TUTORIAL.md
+  - Architecture:
+    - Overview: architecture/README.md
+    - Quick Reference: architecture/QUICK-REFERENCE.md
+    - Patterns Analysis: architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md
+    - API Design Review: architecture/API-DESIGN-REVIEW.md
+    - Code Examples: architecture/CODE-EXAMPLES.md
+    - Vendor Integration: architecture/VENDOR-INTEGRATION-ARCHITECTURE.md
+    - Architecture Decisions:
+      - ADR Index: architecture/decisions/README.md
+      - ADR-001 Vendored Code: architecture/decisions/ADR-001-vendored-code-pattern.md
+      - ADR-002 Clean Architecture: architecture/decisions/ADR-002-clean-architecture.md
+      - ADR-003 Bridge Pattern: architecture/decisions/ADR-003-bridge-pattern.md
+  - API Documentation:
+    - API Overview: api/API-OVERVIEW.md
+    - Project Detector API: api/PROJECT-DETECTOR-API.md
   - Development:
     - Guidelines: ZSH-DEVELOPMENT-GUIDELINES.md
     - Conventions: CONVENTIONS.md
+    - Philosophy: PHILOSOPHY.md
+  - Planning:
+    - Current Work:
+      - Optimization Summary: planning/current/OPTIMIZATION-SUMMARY-2025-12-16.md
+      - Refactor Response Viewer: planning/current/REFACTOR-RESPONSE-VIEWER.md
+      - ZSH Optimization: planning/current/ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md
+    - Proposals:
+      - Help System Overhaul: planning/proposals/HELP-SYSTEM-OVERHAUL-PROPOSAL.md
+      - Universal Project Workflow: planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL.md
+      - Teaching & Research Workflow: planning/proposals/TEACHING-RESEARCH-WORKFLOW-PROPOSAL.md
+      - Pick Command Next Phase: planning/proposals/PICK-COMMAND-NEXT-PHASE.md
+      - Mediationverse Workflow: planning/proposals/MEDIATIONVERSE-WORKFLOW-PROPOSAL.md
+  - Implementation:
+    - Help System:
+      - Phase 1 Report: implementation/help-system/PHASE1-IMPLEMENTATION-REPORT.md
+      - Overhaul Summary: implementation/help-system/HELP-OVERHAUL-SUMMARY.md
+      - Phase 2 Plan: implementation/help-system/HELP-PHASE2-PLAN.md
+      - Phase 3 Plan: implementation/help-system/HELP-PHASE3-PLAN.md
+    - Alias Refactoring:
+      - Refactor Summary: implementation/alias-refactoring/ALIAS-REFACTOR-SUMMARY.md
+      - 3 Plans Comparison: implementation/alias-refactoring/ALIAS-REFACTOR-3-PLANS-2025-12-14.md
+    - Workflow Redesign:
+      - Implementation Summary: implementation/workflow-redesign/WORKFLOW-IMPLEMENTATION-SUMMARY.md
+      - Analysis: implementation/workflow-redesign/WORKFLOW-ANALYSIS-2025-12-14.md
+    - Status Command:
+      - Problem Analysis: implementation/status-command/STATUS-COMMAND-PROBLEM.md
+      - Alternatives: implementation/status-command/STATUS-COMMAND-ALTERNATIVES.md
+  - Archive:
+    - 2025-12-14 Refactoring:
+      - Index: archive/2025-12-14-refactoring/INDEX.md
+      - Deployment Complete: archive/2025-12-14-refactoring/DEPLOYMENT-COMPLETE.md
+      - Test Suite: archive/2025-12-14-refactoring/TEST-SUITE-COMPLETE.md
+    - Session Summaries:
+      - 2025-12-14 Summary: archive/sessions/SESSION-SUMMARY-2025-12-14.md
+    - Decisions:
+      - Decision Matrix: archive/decisions/DECISION-MATRIX.md
+      - Command Research: archive/decisions/COMMAND-RESEARCH-INDEX.md
   - Reference:
     - Complete Index: doc-index.md
+    - ADHD Helpers Map: reference/ADHD-HELPERS-FUNCTION-MAP.md
+    - Command Patterns: reference/CLI-COMMAND-PATTERNS-RESEARCH.md
+    - Existing System: reference/EXISTING-SYSTEM-SUMMARY.md
+    - Command Quick Ref: reference/COMMAND-QUICK-REFERENCE.md
+    - ZSH Clean Workflow: reference/ZSH-CLEAN-WORKFLOW.md
 
 extra:
   social:
