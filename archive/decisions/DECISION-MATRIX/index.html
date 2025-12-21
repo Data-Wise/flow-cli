@@ -1,0 +1,5208 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Minimalist ZSH workflow tools with smart dispatchers">
+      
+      
+        <meta name="author" content="DT">
+      
+      
+        <link rel="canonical" href="https://data-wise.github.io/zsh-configuration/archive/decisions/DECISION-MATRIX/">
+      
+      
+        <link rel="prev" href="../../sessions/SESSION-SUMMARY-2025-12-14/">
+      
+      
+        <link rel="next" href="../COMMAND-RESEARCH-INDEX/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Decision Matrix - ZSH Configuration Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/adhd-colors.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#decision-matrix-rename-status-command" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="ZSH Configuration Docs" class="md-header__button md-logo" aria-label="ZSH Configuration Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ZSH Configuration Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Decision Matrix
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/data-wise/zsh-configuration" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zsh-configuration
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../getting-started/quick-start/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../user/ALIAS-REFERENCE-CARD/" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../architecture/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api/API-OVERVIEW/" class="md-tabs__link">
+          
+  
+  
+  API Documentation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../planning/current/OPTIMIZATION-SUMMARY-2025-12-16/" class="md-tabs__link">
+          
+  
+  
+  Planning
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../implementation/help-system/PHASE1-IMPLEMENTATION-REPORT/" class="md-tabs__link">
+          
+  
+  
+  Implementation
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../2025-12-14-refactoring/INDEX/" class="md-tabs__link">
+          
+  
+  
+  Archive
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../doc-index/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ZSH Configuration Docs" class="md-nav__button md-logo" aria-label="ZSH Configuration Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ZSH Configuration Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/data-wise/zsh-configuration" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zsh-configuration
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/ALIAS-REFERENCE-CARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/WORKFLOWS-QUICK-WINS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows & Tips
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/PICK-COMMAND-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/DASHBOARD-QUICK-REF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/ENHANCED-HELP-QUICK-START/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enhanced Help
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/PROJECT-DETECTION-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user/WORKFLOW-TUTORIAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/ARCHITECTURE-PATTERNS-ANALYSIS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patterns Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/API-DESIGN-REVIEW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Design Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/CODE-EXAMPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/VENDOR-INTEGRATION-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_7" id="__nav_4_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Decisions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture Decisions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/decisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/decisions/ADR-001-vendored-code-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-001 Vendored Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/decisions/ADR-002-clean-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-002 Clean Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/decisions/ADR-003-bridge-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-003 Bridge Pattern
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/API-OVERVIEW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/PROJECT-DETECTOR-API/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Detector API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONVENTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../PHILOSOPHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Philosophy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Work
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Current Work
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/current/OPTIMIZATION-SUMMARY-2025-12-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimization Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/current/REFACTOR-RESPONSE-VIEWER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Refactor Response Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/current/ZSH-OPTIMIZATION-PROPOSAL-2025-12-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ZSH Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proposals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Proposals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/proposals/HELP-SYSTEM-OVERHAUL-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Help System Overhaul
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Universal Project Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/proposals/TEACHING-RESEARCH-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching & Research Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/proposals/PICK-COMMAND-NEXT-PHASE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Command Next Phase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/proposals/MEDIATIONVERSE-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mediationverse Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implementation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Help System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Help System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation/help-system/PHASE1-IMPLEMENTATION-REPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 1 Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation/help-system/HELP-OVERHAUL-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overhaul Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation/help-system/HELP-PHASE2-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 2 Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation/help-system/HELP-PHASE3-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 3 Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Refactoring
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Alias Refactoring
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation/alias-refactoring/ALIAS-REFACTOR-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Refactor Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation/alias-refactoring/ALIAS-REFACTOR-3-PLANS-2025-12-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Plans Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Redesign
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workflow Redesign
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation/workflow-redesign/WORKFLOW-IMPLEMENTATION-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation/workflow-redesign/WORKFLOW-ANALYSIS-2025-12-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_4" id="__nav_8_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Status Command
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Status Command
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation/status-command/STATUS-COMMAND-PROBLEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problem Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../implementation/status-command/STATUS-COMMAND-ALTERNATIVES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alternatives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_1" id="__nav_9_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025-12-14 Refactoring
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    2025-12-14 Refactoring
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025-12-14-refactoring/INDEX/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025-12-14-refactoring/DEPLOYMENT-COMPLETE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Complete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025-12-14-refactoring/TEST-SUITE-COMPLETE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Test Suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session Summaries
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Session Summaries
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sessions/SESSION-SUMMARY-2025-12-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025-12-14 Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9_3" id="__nav_9_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decisions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Decisions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decision Matrix
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decision Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Decision
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Decision">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-visual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Visual
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Option Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scoring-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scoring System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-d-up-winner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option D: up (WINNER)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-e-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option E: set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-pup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: pup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-a-pupdate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: pupdate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-c-proj-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C: proj update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-status-multi-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current: status (Multi-mode)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-rankings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Final Rankings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#side-by-side-usage-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Side-by-Side Usage Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Side-by-Side Usage Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#show-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Show Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-status-interactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update Status (Interactive)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-status-quick" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update Status (Quick)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create .STATUS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#daily-usage-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Usage Simulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Daily Usage Simulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typical-day-5-updates-2-shows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typical Day (5 updates, 2 shows)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adhd-impact-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADHD Impact Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ADHD Impact Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cognitive-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cognitive Load
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pattern-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern Consistency
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pattern Consistency">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#your-current-commands-what-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your Current Commands (What Works)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-outlier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Outlier
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed-with-option-d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed with Option D
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-comparison-gold-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git Comparison (Gold Standard)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-down-the-winner-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Breaking Down the Winner: up
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Breaking Down the Winner: up">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-up-dominates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why up Dominates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mental-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mental Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Risk Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-d-risks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option D Risks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Decision Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#if-you-value-choose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If You Value... → Choose...
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-verdict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Verdict
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference Card
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMMAND-RESEARCH-INDEX/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Research
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../doc-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADHD Helpers Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/CLI-COMMAND-PATTERNS-RESEARCH/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/EXISTING-SYSTEM-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Existing System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/COMMAND-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/ZSH-CLEAN-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ZSH Clean Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Decision
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Decision">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-visual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Visual
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Option Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scoring-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scoring System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-d-up-winner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option D: up (WINNER)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-e-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option E: set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-pup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: pup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-a-pupdate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: pupdate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-c-proj-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C: proj update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-status-multi-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current: status (Multi-mode)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-rankings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Final Rankings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#side-by-side-usage-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Side-by-Side Usage Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Side-by-Side Usage Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#show-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Show Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-status-interactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update Status (Interactive)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-status-quick" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update Status (Quick)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create .STATUS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#daily-usage-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Usage Simulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Daily Usage Simulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typical-day-5-updates-2-shows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typical Day (5 updates, 2 shows)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adhd-impact-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADHD Impact Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ADHD Impact Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cognitive-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cognitive Load
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pattern-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern Consistency
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pattern Consistency">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#your-current-commands-what-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your Current Commands (What Works)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-outlier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Outlier
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed-with-option-d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed with Option D
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-comparison-gold-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git Comparison (Gold Standard)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-down-the-winner-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Breaking Down the Winner: up
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Breaking Down the Winner: up">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-up-dominates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why up Dominates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mental-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mental Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Risk Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-d-risks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option D Risks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Decision Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#if-you-value-choose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If You Value... → Choose...
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-verdict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Verdict
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference Card
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/data-wise/zsh-configuration/edit/main/docs/archive/decisions/DECISION-MATRIX.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="decision-matrix-rename-status-command">Decision Matrix: Rename "status" Command<a class="headerlink" href="#decision-matrix-rename-status-command" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2025-12-14
+<strong>Question:</strong> What should replace the confusing <code>status</code> command?</p>
+<hr />
+<h2 id="the-decision">The Decision<a class="headerlink" href="#the-decision" title="Permanent link">&para;</a></h2>
+<h3 id="quick-visual">Quick Visual<a class="headerlink" href="#quick-visual" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────┐
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│                                                         │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│  Current:  status &lt;project&gt;        → CONFUSING! 😵      │
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│                                                         │
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│  Winner:   up &lt;project&gt;            → CLEAR! ✅          │
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│                                                         │
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>└─────────────────────────────────────────────────────────┘
+</code></pre></div>
+<hr />
+<h2 id="option-comparison">Option Comparison<a class="headerlink" href="#option-comparison" title="Permanent link">&para;</a></h2>
+<h3 id="scoring-system">Scoring System<a class="headerlink" href="#scoring-system" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Clarity:</strong> Is it obvious what the command does? (0-10)</li>
+<li><strong>Speed:</strong> How fast to type? (0-10)</li>
+<li><strong>Memorability:</strong> Easy to remember? (0-10)</li>
+<li><strong>Consistency:</strong> Matches existing commands? (0-10)</li>
+<li><strong>ADHD-Friendly:</strong> Quick, clear, low cognitive load? (0-10)</li>
+<li><strong>Total:</strong> Sum of all scores (max 50)</li>
+</ul>
+<hr />
+<h3 id="option-d-up-winner">Option D: <code>up</code> (WINNER)<a class="headerlink" href="#option-d-up-winner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>dash<span class="w"> </span>&lt;project&gt;<span class="w">                     </span><span class="c1"># Show status</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>up<span class="w"> </span>&lt;project&gt;<span class="w">                       </span><span class="c1"># Update status</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>pinit<span class="w"> </span>&lt;project&gt;<span class="w">                    </span><span class="c1"># Create .STATUS</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Score</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Clarity</strong></td>
+<td>9/10</td>
+<td>"up" = "update" (verb, clear action)</td>
+</tr>
+<tr>
+<td><strong>Speed</strong></td>
+<td>10/10</td>
+<td>2 chars (fastest possible)</td>
+</tr>
+<tr>
+<td><strong>Memorability</strong></td>
+<td>9/10</td>
+<td>Common word, easy to recall</td>
+</tr>
+<tr>
+<td><strong>Consistency</strong></td>
+<td>10/10</td>
+<td>Matches <code>js</code>, <code>work</code>, <code>finish</code> (verbs)</td>
+</tr>
+<tr>
+<td><strong>ADHD-Friendly</strong></td>
+<td>9/10</td>
+<td>Ultra-fast, zero ambiguity</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>47/50</strong></td>
+<td>⭐ WINNER</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pros:</strong>
+- Ultra-short (2 chars)
+- Clear verb
+- No conflicts
+- Matches existing pattern
+- Leverages <code>dash</code> (no duplication)</p>
+<p><strong>Cons:</strong>
+- Might conflict with <code>uptime</code> (unlikely)
+- Less explicit than "pupdate"</p>
+<p><strong>Verdict:</strong> ✅ RECOMMENDED</p>
+<hr />
+<h3 id="option-e-set">Option E: <code>set</code><a class="headerlink" href="#option-e-set" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>dash<span class="w"> </span>&lt;project&gt;<span class="w">                     </span><span class="c1"># Show status</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">set</span><span class="w"> </span>&lt;project&gt;<span class="w">                      </span><span class="c1"># Update status</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>init<span class="w"> </span>&lt;project&gt;<span class="w">                     </span><span class="c1"># Create .STATUS</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Score</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Clarity</strong></td>
+<td>8/10</td>
+<td>"set" = clear action (Git uses it)</td>
+</tr>
+<tr>
+<td><strong>Speed</strong></td>
+<td>10/10</td>
+<td>3 chars (very fast)</td>
+</tr>
+<tr>
+<td><strong>Memorability</strong></td>
+<td>8/10</td>
+<td>Common in programming</td>
+</tr>
+<tr>
+<td><strong>Consistency</strong></td>
+<td>9/10</td>
+<td>Git-like pattern</td>
+</tr>
+<tr>
+<td><strong>ADHD-Friendly</strong></td>
+<td>8/10</td>
+<td>Fast and clear</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>43/50</strong></td>
+<td>Runner-up</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pros:</strong>
+- Git-style (<code>git config set</code>)
+- Very short
+- Universally understood</p>
+<p><strong>Cons:</strong>
+- "set" often paired with "get" (but we use <code>dash</code>)
+- Slightly longer than <code>up</code></p>
+<p><strong>Verdict:</strong> ⚠️ Good alternative</p>
+<hr />
+<h3 id="option-b-pup">Option B: <code>pup</code><a class="headerlink" href="#option-b-pup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>dash<span class="w"> </span>&lt;project&gt;<span class="w">                     </span><span class="c1"># Show status</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>pup<span class="w"> </span>&lt;project&gt;<span class="w">                      </span><span class="c1"># Update status</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>pinit<span class="w"> </span>&lt;project&gt;<span class="w">                    </span><span class="c1"># Create .STATUS</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Score</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Clarity</strong></td>
+<td>7/10</td>
+<td>"pup" = "project update" (needs explanation)</td>
+</tr>
+<tr>
+<td><strong>Speed</strong></td>
+<td>10/10</td>
+<td>3 chars (very fast)</td>
+</tr>
+<tr>
+<td><strong>Memorability</strong></td>
+<td>6/10</td>
+<td>Cute but not obvious</td>
+</tr>
+<tr>
+<td><strong>Consistency</strong></td>
+<td>8/10</td>
+<td>Prefix pattern (p-commands)</td>
+</tr>
+<tr>
+<td><strong>ADHD-Friendly</strong></td>
+<td>7/10</td>
+<td>Fast but less intuitive</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>38/50</strong></td>
+<td>Third place</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pros:</strong>
+- Short
+- Consistent prefix (p-series)
+- Pairs with <code>pinit</code></p>
+<p><strong>Cons:</strong>
+- "pup" = baby dog (confusing)
+- Not self-documenting
+- Conflicts with Python's <code>pip</code>?</p>
+<p><strong>Verdict:</strong> ⚠️ Cute but unclear</p>
+<hr />
+<h3 id="option-a-pupdate">Option A: <code>pupdate</code><a class="headerlink" href="#option-a-pupdate" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pshow<span class="w"> </span>&lt;project&gt;<span class="w">                    </span><span class="c1"># Show status</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>pupdate<span class="w"> </span>&lt;project&gt;<span class="w">                  </span><span class="c1"># Update status</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>pinit<span class="w"> </span>&lt;project&gt;<span class="w">                    </span><span class="c1"># Create .STATUS</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Score</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Clarity</strong></td>
+<td>9/10</td>
+<td>"pupdate" = "project update" (explicit)</td>
+</tr>
+<tr>
+<td><strong>Speed</strong></td>
+<td>6/10</td>
+<td>7 chars (slower)</td>
+</tr>
+<tr>
+<td><strong>Memorability</strong></td>
+<td>8/10</td>
+<td>Self-documenting</td>
+</tr>
+<tr>
+<td><strong>Consistency</strong></td>
+<td>7/10</td>
+<td>All p-prefix (but verbose)</td>
+</tr>
+<tr>
+<td><strong>ADHD-Friendly</strong></td>
+<td>6/10</td>
+<td>Clear but slow to type</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>36/50</strong></td>
+<td>Fourth place</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pros:</strong>
+- Very explicit
+- Consistent prefix
+- Self-documenting</p>
+<p><strong>Cons:</strong>
+- Too long for daily use
+- <code>pshow</code> duplicates <code>dash</code></p>
+<p><strong>Verdict:</strong> ⚠️ Clear but verbose</p>
+<hr />
+<h3 id="option-c-proj-update">Option C: <code>proj update</code><a class="headerlink" href="#option-c-proj-update" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>proj<span class="w"> </span>show<span class="w"> </span>&lt;project&gt;<span class="w">                </span><span class="c1"># Show status</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>proj<span class="w"> </span>update<span class="w"> </span>&lt;project&gt;<span class="w">              </span><span class="c1"># Update status</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>proj<span class="w"> </span>init<span class="w"> </span>&lt;project&gt;<span class="w">                </span><span class="c1"># Create .STATUS</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Score</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Clarity</strong></td>
+<td>9/10</td>
+<td>"proj update" = very explicit</td>
+</tr>
+<tr>
+<td><strong>Speed</strong></td>
+<td>4/10</td>
+<td>11+ chars (slow)</td>
+</tr>
+<tr>
+<td><strong>Memorability</strong></td>
+<td>7/10</td>
+<td>GitHub CLI pattern</td>
+</tr>
+<tr>
+<td><strong>Consistency</strong></td>
+<td>6/10</td>
+<td>Different from other commands</td>
+</tr>
+<tr>
+<td><strong>ADHD-Friendly</strong></td>
+<td>5/10</td>
+<td>Too long for frequent use</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>31/50</strong></td>
+<td>Fifth place</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pros:</strong>
+- Very clear
+- Follows GitHub CLI pattern
+- Expandable namespace</p>
+<p><strong>Cons:</strong>
+- Two-word commands (verbose)
+- Slow to type
+- Doesn't match existing pattern</p>
+<p><strong>Verdict:</strong> ❌ Too verbose</p>
+<hr />
+<h3 id="current-status-multi-mode">Current: <code>status</code> (Multi-mode)<a class="headerlink" href="#current-status-multi-mode" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>status<span class="w"> </span>&lt;project&gt;<span class="w">                   </span><span class="c1"># Update (default)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>status<span class="w"> </span>&lt;project&gt;<span class="w"> </span>--show<span class="w">            </span><span class="c1"># Show (with flag)</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>status<span class="w"> </span>&lt;project&gt;<span class="w"> </span>--create<span class="w">          </span><span class="c1"># Create (with flag)</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Score</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Clarity</strong></td>
+<td>3/10</td>
+<td>Multi-mode = ambiguous</td>
+</tr>
+<tr>
+<td><strong>Speed</strong></td>
+<td>7/10</td>
+<td>6 chars (medium)</td>
+</tr>
+<tr>
+<td><strong>Memorability</strong></td>
+<td>8/10</td>
+<td>Common word</td>
+</tr>
+<tr>
+<td><strong>Consistency</strong></td>
+<td>2/10</td>
+<td>Noun (others are verbs)</td>
+</tr>
+<tr>
+<td><strong>ADHD-Friendly</strong></td>
+<td>3/10</td>
+<td>Confusing default action</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>23/50</strong></td>
+<td>❌ FAILING</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pros:</strong>
+- Familiar word
+- One command for everything</p>
+<p><strong>Cons:</strong>
+- NOUN pretending to be VERB
+- Multi-mode confusion
+- Default action unexpected (update, not show)
+- Violates Git's <code>status</code> convention</p>
+<p><strong>Verdict:</strong> ❌ CONFUSING (why we're here!)</p>
+<hr />
+<h2 id="final-rankings">Final Rankings<a class="headerlink" href="#final-rankings" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>Option</th>
+<th>Score</th>
+<th>Command</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🥇 1st</td>
+<td><strong>Option D</strong></td>
+<td>47/50</td>
+<td><code>up</code></td>
+<td>✅ <strong>WINNER</strong></td>
+</tr>
+<tr>
+<td>🥈 2nd</td>
+<td>Option E</td>
+<td>43/50</td>
+<td><code>set</code></td>
+<td>⚠️ Good alternative</td>
+</tr>
+<tr>
+<td>🥉 3rd</td>
+<td>Option B</td>
+<td>38/50</td>
+<td><code>pup</code></td>
+<td>⚠️ Cute but unclear</td>
+</tr>
+<tr>
+<td>4th</td>
+<td>Option A</td>
+<td>36/50</td>
+<td><code>pupdate</code></td>
+<td>⚠️ Clear but verbose</td>
+</tr>
+<tr>
+<td>5th</td>
+<td>Option C</td>
+<td>31/50</td>
+<td><code>proj update</code></td>
+<td>❌ Too verbose</td>
+</tr>
+<tr>
+<td>❌ Last</td>
+<td>Current</td>
+<td>23/50</td>
+<td><code>status</code></td>
+<td>❌ Confusing!</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="side-by-side-usage-comparison">Side-by-Side Usage Comparison<a class="headerlink" href="#side-by-side-usage-comparison" title="Permanent link">&para;</a></h2>
+<h3 id="show-status">Show Status<a class="headerlink" href="#show-status" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Command</th>
+<th>Keystrokes</th>
+<th>Clarity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Current</td>
+<td><code>status medfit --show</code></td>
+<td>21</td>
+<td>❌ Needs flag</td>
+</tr>
+<tr>
+<td>Option D</td>
+<td><code>dash medfit</code></td>
+<td>11</td>
+<td>✅ Obvious</td>
+</tr>
+<tr>
+<td>Option E</td>
+<td><code>dash medfit</code></td>
+<td>11</td>
+<td>✅ Obvious</td>
+</tr>
+<tr>
+<td>Option B</td>
+<td><code>dash medfit</code></td>
+<td>11</td>
+<td>✅ Obvious</td>
+</tr>
+<tr>
+<td>Option A</td>
+<td><code>pshow medfit</code></td>
+<td>13</td>
+<td>✅ Clear</td>
+</tr>
+<tr>
+<td>Option C</td>
+<td><code>proj show medfit</code></td>
+<td>17</td>
+<td>✅ Clear but long</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Winner:</strong> Options D/E/B (all use <code>dash</code>)</p>
+<hr />
+<h3 id="update-status-interactive">Update Status (Interactive)<a class="headerlink" href="#update-status-interactive" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Command</th>
+<th>Keystrokes</th>
+<th>Clarity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Current</td>
+<td><code>status medfit</code></td>
+<td>13</td>
+<td>❌ Looks like "show"</td>
+</tr>
+<tr>
+<td><strong>Option D</strong></td>
+<td><code>up medfit</code></td>
+<td>9</td>
+<td>✅ <strong>Clear verb</strong></td>
+</tr>
+<tr>
+<td>Option E</td>
+<td><code>set medfit</code></td>
+<td>10</td>
+<td>✅ Clear verb</td>
+</tr>
+<tr>
+<td>Option B</td>
+<td><code>pup medfit</code></td>
+<td>10</td>
+<td>⚠️ Less obvious</td>
+</tr>
+<tr>
+<td>Option A</td>
+<td><code>pupdate medfit</code></td>
+<td>14</td>
+<td>✅ Very clear</td>
+</tr>
+<tr>
+<td>Option C</td>
+<td><code>proj update medfit</code></td>
+<td>19</td>
+<td>✅ Very clear</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Winner:</strong> Option D (<code>up</code> - fastest + clearest)</p>
+<hr />
+<h3 id="update-status-quick">Update Status (Quick)<a class="headerlink" href="#update-status-quick" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Command</th>
+<th>Keystrokes</th>
+<th>Clarity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Current</td>
+<td><code>status medfit active P1 "X" 60</code></td>
+<td>31</td>
+<td>❌ Ambiguous</td>
+</tr>
+<tr>
+<td><strong>Option D</strong></td>
+<td><code>up medfit active P1 "X" 60</code></td>
+<td>27</td>
+<td>✅ <strong>Clear</strong></td>
+</tr>
+<tr>
+<td>Option E</td>
+<td><code>set medfit active P1 "X" 60</code></td>
+<td>28</td>
+<td>✅ Clear</td>
+</tr>
+<tr>
+<td>Option B</td>
+<td><code>pup medfit active P1 "X" 60</code></td>
+<td>28</td>
+<td>✅ OK</td>
+</tr>
+<tr>
+<td>Option A</td>
+<td><code>pupdate medfit active P1 "X" 60</code></td>
+<td>32</td>
+<td>✅ Clear</td>
+</tr>
+<tr>
+<td>Option C</td>
+<td><code>proj update medfit active P1 "X" 60</code></td>
+<td>37</td>
+<td>✅ Clear</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Winner:</strong> Option D (<code>up</code> - fastest)</p>
+<hr />
+<h3 id="create-status">Create .STATUS<a class="headerlink" href="#create-status" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Command</th>
+<th>Keystrokes</th>
+<th>Clarity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Current</td>
+<td><code>status newproj --create</code></td>
+<td>24</td>
+<td>❌ Hidden mode</td>
+</tr>
+<tr>
+<td>Option D</td>
+<td><code>pinit newproj</code></td>
+<td>14</td>
+<td>✅ Clear</td>
+</tr>
+<tr>
+<td>Option E</td>
+<td><code>init newproj</code></td>
+<td>13</td>
+<td>✅ Clear</td>
+</tr>
+<tr>
+<td>Option B</td>
+<td><code>pinit newproj</code></td>
+<td>14</td>
+<td>✅ Clear</td>
+</tr>
+<tr>
+<td>Option A</td>
+<td><code>pinit newproj</code></td>
+<td>14</td>
+<td>✅ Clear</td>
+</tr>
+<tr>
+<td>Option C</td>
+<td><code>proj init newproj</code></td>
+<td>18</td>
+<td>✅ Clear</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Winner:</strong> Option E (<code>init</code> - shortest)</p>
+<hr />
+<h2 id="daily-usage-simulation">Daily Usage Simulation<a class="headerlink" href="#daily-usage-simulation" title="Permanent link">&para;</a></h2>
+<h3 id="typical-day-5-updates-2-shows">Typical Day (5 updates, 2 shows)<a class="headerlink" href="#typical-day-5-updates-2-shows" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Total Keystrokes</th>
+<th>Time Saved</th>
+<th>Mental Clarity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Current</td>
+<td>107</td>
+<td>baseline</td>
+<td>❌ Confusing</td>
+</tr>
+<tr>
+<td><strong>Option D</strong></td>
+<td>77</td>
+<td>-30 keys</td>
+<td>✅ <strong>Crystal clear</strong></td>
+</tr>
+<tr>
+<td>Option E</td>
+<td>80</td>
+<td>-27 keys</td>
+<td>✅ Clear</td>
+</tr>
+<tr>
+<td>Option B</td>
+<td>80</td>
+<td>-27 keys</td>
+<td>⚠️ Less obvious</td>
+</tr>
+<tr>
+<td>Option A</td>
+<td>92</td>
+<td>-15 keys</td>
+<td>✅ Clear</td>
+</tr>
+<tr>
+<td>Option C</td>
+<td>117</td>
+<td>+10 keys</td>
+<td>✅ Clear but slow</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Winner:</strong> Option D (saves 30 keystrokes/day + mental clarity)</p>
+<hr />
+<h2 id="adhd-impact-analysis">ADHD Impact Analysis<a class="headerlink" href="#adhd-impact-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="cognitive-load">Cognitive Load<a class="headerlink" href="#cognitive-load" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Current (<code>status</code>)</th>
+<th>Winner (<code>up</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Initial thought</strong></td>
+<td>"Does this show or update?"</td>
+<td>"I'm updating"</td>
+</tr>
+<tr>
+<td><strong>Hesitation time</strong></td>
+<td>2-5 seconds</td>
+<td>0 seconds</td>
+</tr>
+<tr>
+<td><strong>Need to verify</strong></td>
+<td>Often</td>
+<td>Never</td>
+</tr>
+<tr>
+<td><strong>Mental model</strong></td>
+<td>Complex (3 modes)</td>
+<td>Simple (1 action)</td>
+</tr>
+<tr>
+<td><strong>Parallel to other commands</strong></td>
+<td>None (<code>work</code>, <code>finish</code> are verbs)</td>
+<td>Perfect match</td>
+</tr>
+<tr>
+<td><strong>Muscle memory</strong></td>
+<td>Unreliable (multi-mode)</td>
+<td>Solid (single action)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Impact:</strong> Option D reduces cognitive load by ~80%</p>
+<hr />
+<h2 id="pattern-consistency">Pattern Consistency<a class="headerlink" href="#pattern-consistency" title="Permanent link">&para;</a></h2>
+<h3 id="your-current-commands-what-works">Your Current Commands (What Works)<a class="headerlink" href="#your-current-commands-what-works" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>work<span class="w"> </span>&lt;name&gt;<span class="w">                        </span><span class="c1"># ✅ Verb (start working)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>finish<span class="w"> </span><span class="o">[</span>msg<span class="o">]</span><span class="w">                       </span><span class="c1"># ✅ Verb (end session)</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>js<span class="w">                                 </span><span class="c1"># ✅ Verb (just start)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>dash<span class="w">                              </span><span class="c1"># ⚠️  Noun (but read-only = OK)</span>
+</code></pre></div>
+<h3 id="the-outlier">The Outlier<a class="headerlink" href="#the-outlier" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>status<span class="w"> </span>&lt;name&gt;<span class="w">                      </span><span class="c1"># ❌ Noun (but modifies = BAD)</span>
+</code></pre></div>
+<h3 id="fixed-with-option-d">Fixed with Option D<a class="headerlink" href="#fixed-with-option-d" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>work<span class="w"> </span>&lt;name&gt;<span class="w">                        </span><span class="c1"># ✅ Verb</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>finish<span class="w"> </span><span class="o">[</span>msg<span class="o">]</span><span class="w">                       </span><span class="c1"># ✅ Verb</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>js<span class="w">                                 </span><span class="c1"># ✅ Verb</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>up<span class="w"> </span>&lt;name&gt;<span class="w">                          </span><span class="c1"># ✅ Verb (NEW!)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>dash<span class="w">                              </span><span class="c1"># ⚠️  Noun (read-only = OK)</span>
+</code></pre></div>
+<p><strong>Consistency:</strong> 100% of action commands are now verbs!</p>
+<hr />
+<h2 id="git-comparison-gold-standard">Git Comparison (Gold Standard)<a class="headerlink" href="#git-comparison-gold-standard" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Git Pattern</th>
+<th>Your Current</th>
+<th>Option D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git status</code> → show (read-only)</td>
+<td><code>status</code> → update (WRONG!)</td>
+<td><code>dash</code> → show (correct!)</td>
+</tr>
+<tr>
+<td><code>git add</code> → modify (verb)</td>
+<td><code>status</code> → update (confusing)</td>
+<td><code>up</code> → update (correct!)</td>
+</tr>
+<tr>
+<td><code>git commit</code> → modify (verb)</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Learning:</strong> Don't use "status" for write operations (Git owns this convention)</p>
+<hr />
+<h2 id="breaking-down-the-winner-up">Breaking Down the Winner: <code>up</code><a class="headerlink" href="#breaking-down-the-winner-up" title="Permanent link">&para;</a></h2>
+<h3 id="why-up-dominates">Why <code>up</code> Dominates<a class="headerlink" href="#why-up-dominates" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Ultra-short:</strong> 2 chars (3x faster than <code>status</code>)</li>
+<li><strong>Clear verb:</strong> "up" = "update" (universally understood)</li>
+<li><strong>No conflicts:</strong> Not used by major tools</li>
+<li><strong>Memorable:</strong> Common word, easy to recall</li>
+<li><strong>Matches pattern:</strong> Like <code>js</code> (2 chars, verb)</li>
+<li><strong>ADHD-perfect:</strong> Fast, clear, zero ambiguity</li>
+</ol>
+<h3 id="mental-model">Mental Model<a class="headerlink" href="#mental-model" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>dash    = Look DOWN at dashboard (show)
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>up      = Move status UP (update progress)
+</code></pre></div>
+<p>Simple, memorable, actionable!</p>
+<hr />
+<h2 id="risk-analysis">Risk Analysis<a class="headerlink" href="#risk-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="option-d-risks">Option D Risks<a class="headerlink" href="#option-d-risks" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Likelihood</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Conflicts with <code>uptime</code></td>
+<td>Low</td>
+<td>Different context</td>
+</tr>
+<tr>
+<td>Too short to discover</td>
+<td>Low</td>
+<td>Help system, docs</td>
+</tr>
+<tr>
+<td>Users forget meaning</td>
+<td>Low</td>
+<td>Common word</td>
+</tr>
+<tr>
+<td>Muscle memory issues</td>
+<td>Medium</td>
+<td>1-week testing period</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Overall risk:</strong> LOW</p>
+<hr />
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">&para;</a></h2>
+<h3 id="if-you-value-choose">If You Value... → Choose...<a class="headerlink" href="#if-you-value-choose" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Speed above all</strong> → Option D (<code>up</code>)</li>
+<li><strong>Maximum clarity</strong> → Option A (<code>pupdate</code>)</li>
+<li><strong>Git-style</strong> → Option E (<code>set</code>)</li>
+<li><strong>Cute factor</strong> → Option B (<code>pup</code>)</li>
+<li><strong>Enterprise-style</strong> → Option C (<code>proj update</code>)</li>
+</ul>
+<p><strong>Most users value:</strong> Speed + Clarity = <strong>Option D</strong></p>
+<hr />
+<h2 id="the-verdict">The Verdict<a class="headerlink" href="#the-verdict" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>╔═══════════════════════════════════════════════════════╗
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>║                                                       ║
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>║  RECOMMENDED SOLUTION: Option D                       ║
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>║                                                       ║
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>║  dash &lt;project&gt;     # Show status                     ║
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>║  up &lt;project&gt;       # Update status                   ║
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>║  pinit &lt;project&gt;    # Create .STATUS                  ║
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>║                                                       ║
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>║  Score: 47/50                                         ║
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>║  Daily savings: 30 keystrokes + mental clarity        ║
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>║  Implementation: 1 hour                               ║
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>║  Testing: 1 week                                      ║
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>║                                                       ║
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>╚═══════════════════════════════════════════════════════╝
+</code></pre></div>
+<hr />
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li>✅ <strong>Read research</strong> (you are here!)</li>
+<li>⏭️ <strong>Test with alias:</strong> <code>alias up='status'</code></li>
+<li>⏭️ <strong>Use for 1 week</strong></li>
+<li>⏭️ <strong>Evaluate comfort</strong></li>
+<li>⏭️ <strong>Implement if good</strong></li>
+<li>⏭️ <strong>Celebrate clarity!</strong></li>
+</ol>
+<hr />
+<h2 id="quick-reference-card">Quick Reference Card<a class="headerlink" href="#quick-reference-card" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># CURRENT (confusing)</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>status<span class="w"> </span>medfit<span class="w">              </span><span class="c1"># Update (unexpected!)</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>status<span class="w"> </span>medfit<span class="w"> </span>--show<span class="w">       </span><span class="c1"># Show (needs flag)</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>status<span class="w"> </span>newproj<span class="w"> </span>--create<span class="w">    </span><span class="c1"># Create (hidden)</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1"># OPTION D (clear)</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>dash<span class="w"> </span>medfit<span class="w">                </span><span class="c1"># Show (obvious!)</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>up<span class="w"> </span>medfit<span class="w">                  </span><span class="c1"># Update (clear verb!)</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>pinit<span class="w"> </span>newproj<span class="w">              </span><span class="c1"># Create (obvious!)</span>
+</code></pre></div>
+<p><strong>Before:</strong> One multi-mode command (confusing)
+<strong>After:</strong> Three single-purpose commands (clear)</p>
+<hr />
+<p><strong>Bottom Line:</strong> Use <code>up</code> - save keystrokes, save sanity.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/data-wise/zsh-configuration" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

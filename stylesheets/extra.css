@@ -1,0 +1,119 @@
+/* ZSH Configuration Docs - Modern ADHD-Friendly Design */
+
+/* ===== MODERN IMPROVEMENTS ===== */
+
+/* Rounded code blocks with subtle shadow */
+.md-typeset pre {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(var(--md-primary-fg-color--light), 0.1);
+}
+
+.md-typeset code {
+  border-radius: 6px;
+  padding: 0.15em 0.4em;
+}
+
+/* Modern tables with hover effect */
+.md-typeset table:not([class]) {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.md-typeset table:not([class]) tbody tr:hover {
+  background-color: rgba(var(--md-primary-fg-color--light), 0.03);
+  transition: background-color 0.2s ease;
+}
+
+/* Smooth nav link interactions */
+.md-nav__link {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 6px;
+  padding: 0.4em 0.8em;
+}
+
+.md-nav__link:hover {
+  transform: translateX(4px);
+  background-color: rgba(var(--md-primary-fg-color--light), 0.05);
+}
+
+/* Active nav indicator */
+.md-nav__link--active {
+  font-weight: 600;
+  background-color: rgba(var(--md-primary-fg-color--light), 0.08);
+}
+
+/* Enhanced admonitions */
+.md-typeset .admonition {
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  border-left-width: 4px;
+}
+
+/* Smooth scrolling with offset for fixed header */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* Modern buttons with depth */
+.md-button {
+  border-radius: 10px !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+.md-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12) !important;
+}
+
+.md-button:active {
+  transform: translateY(0) !important;
+}
+
+/* Dark mode button shadows - lighter glow for ADHD feedback */
+[data-md-color-scheme="slate"] .md-button:hover {
+  box-shadow: 0 4px 12px rgba(77, 208, 225, 0.3) !important;
+}
+
+[data-md-color-scheme="slate"] .md-button--primary:hover {
+  box-shadow: 0 8px 16px rgba(77, 208, 225, 0.4) !important;
+}
+
+/* Softer dividers */
+.md-typeset hr {
+  opacity: 0.2;
+  border-top-width: 2px;
+  margin: 2.5em 0;
+}
+
+/* Headers with subtle bottom border */
+.md-typeset h2 {
+  border-bottom: 2px solid rgba(var(--md-primary-fg-color--light), 0.1);
+  padding-bottom: 0.4em;
+  margin-top: 1.8em;
+}
+
+/* Code copy button enhancement */
+.md-clipboard {
+  transition: all 0.2s ease;
+  border-radius: 6px;
+}
+
+.md-clipboard:hover {
+  transform: scale(1.1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  /* Ensure readability on mobile */
+  .md-typeset {
+    font-size: 0.95rem;
+  }
+
+  .md-typeset code {
+    font-size: 0.85rem;
+  }
+}
