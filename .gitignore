@@ -7,3 +7,4 @@
 # Backup files (already have version control)
 *.backup
 backups/
+node_modules

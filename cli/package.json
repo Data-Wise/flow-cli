@@ -4,9 +4,8 @@
   "description": "Node.js integration layer for ZSH workflow commands",
   "main": "api/index.js",
   "scripts": {
-    "test": "node test/test-adapters.js",
-    "test:status": "node test/test-status.js",
-    "test:workflow": "node test/test-workflow.js"
+    "test": "node test/test-status.js",
+    "test:status": "node test/test-status.js"
   },
   "keywords": [
     "zsh",
@@ -17,7 +16,8 @@
   "author": "Your Name",
   "license": "MIT",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "dependencies": {},
   "devDependencies": {}

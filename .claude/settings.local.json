@@ -61,7 +61,12 @@
       "Bash(mcp test:*)",
       "Bash([ -f mkdocs.yml ])",
       "Bash(lsof:*)",
-      "Bash(for:*)"
+      "Bash(for:*)",
+      "Bash(timeout 5 npx:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(electron --version:*)",
+      "Bash(/Users/dt/projects/dev-tools/zsh-configuration/node_modules/electron/dist/Electron.app/Contents/MacOS/Electron ./test-minimal-electron)",
+      "Bash(xattr:*)"
     ]
   }
 }

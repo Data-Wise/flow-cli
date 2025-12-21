@@ -5,8 +5,8 @@
   "description": "Desktop app for managing ADHD-optimized ZSH workflows",
   "main": "src/main/index.js",
   "scripts": {
-    "start": "electron .",
-    "dev": "electron . --dev",
+    "start": "cd .. && electron ./app --dev",
+    "dev": "cd .. && electron ./app --dev",
     "build": "electron-builder",
     "test": "jest"
   },

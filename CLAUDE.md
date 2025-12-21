@@ -4,9 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is the **ZSH Workflow Manager** - an ADHD-optimized workflow system with both CLI and desktop app interfaces. The repo contains:
+This is the **ZSH Workflow Manager** - an ADHD-optimized CLI workflow system. The repo contains:
 - Documentation for 183+ aliases and 108+ workflow functions
-- Desktop app source code (Electron-based)
 - CLI integration layer (Node.js adapters to ZSH functions)
 - ADHD-optimized workflow guides
 - Progress tracking and planning documents
@@ -14,15 +13,17 @@ This is the **ZSH Workflow Manager** - an ADHD-optimized workflow system with bo
 
 **Important:** The actual ZSH configuration files live in `~/.config/zsh/` (separate location).
 
+**Note:** Desktop app (Electron) was archived 2025-12-20 due to environment issues. See `docs/archive/2025-12-20-app-removal/` for details.
+
 ## Project Structure
 
 | Directory | Purpose |
 |-----------|---------|
-| `app/` | Desktop application (Electron) |
 | `cli/` | CLI integration layer (adapters + API) |
 | `docs/` | All documentation (organized by type) |
+| `docs/archive/2025-12-20-app-removal/` | Archived Electron app code |
 | `config/` | Configuration files and backups |
-| `tests/` | Test suites for CLI and app |
+| `tests/` | Test suites for CLI |
 | `scripts/` | Utility scripts (setup, sync, deploy) |
 
 ## Key Files
@@ -30,12 +31,12 @@ This is the **ZSH Workflow Manager** - an ADHD-optimized workflow system with bo
 | File | Purpose |
 |------|---------|
 | `README.md` | Project overview and setup guide |
-| `PROJECT-HUB.md` | Strategic roadmap (P0-P5 phases) |
+| `PROJECT-HUB.md` | Strategic roadmap (P0-P6 phases) |
 | `.STATUS` | Daily progress tracking |
 | `docs/user/WORKFLOWS-QUICK-WINS.md` | Top 10 ADHD-friendly workflows |
 | `docs/user/ALIAS-REFERENCE-CARD.md` | Complete alias reference |
-| `app/README.md` | Desktop app architecture |
 | `cli/README.md` | CLI integration guide |
+| `MONOREPO-COMMANDS-TUTORIAL.md` | Beginner's guide to npm workspace commands |
 
 ## Actual Configuration Location
 
@@ -92,24 +93,21 @@ The `/docs` directory is organized by purpose:
 ## Editing Guidelines
 
 1. **Documentation changes**: Edit files in `docs/` subdirectories
-2. **App development**: Work in `app/` directory, see `app/README.md`
-3. **CLI adapters**: Add to `cli/adapters/`, see `cli/README.md`
-4. **ZSH config changes**: Edit files in `~/.config/zsh/`, then update docs here
-5. **Testing**:
-   - App tests: `npm test --workspace=app`
-   - CLI tests: `npm test --workspace=cli`
+2. **CLI adapters**: Add to `cli/adapters/`, see `cli/README.md`
+3. **ZSH config changes**: Edit files in `~/.config/zsh/`, then update docs here
+4. **Testing**:
+   - CLI tests: `npm test` or `npm run test`
    - ZSH tests: `~/.config/zsh/tests/test-adhd-helpers.zsh`
-6. **Config backups**: Stored in `config/backups/` before major changes
+5. **Config backups**: Stored in `config/backups/` before major changes
 
 ## Current Phase
 
-- **P0-P3 (Complete)**: Core CLI system, ADHD helpers, integrations
-- **P4 (In Progress)**: Optimization (audit complete, conflicts identified)
-- **P5 (Active)**: Desktop App Development
-  - **P5A (Complete)**: Project reorganization ← Just completed!
-  - **P5B (Next)**: Core UI components
-  - **P5C (Planned)**: CLI integration layer implementation
-  - **P5D (Planned)**: Alpha release
+- **P0-P5C (Complete)**: Core CLI system, ADHD helpers, integrations, CLI adapters
+- **P5 Desktop App (Archived 2025-12-20)**: See `docs/archive/2025-12-20-app-removal/`
+- **P6 (Next)**: CLI Enhancements
+  - Enhanced status command (worklog integration)
+  - Interactive TUI dashboard
+  - Web-based dashboard (optional)
 
 ## Cross-Project Integrations
 

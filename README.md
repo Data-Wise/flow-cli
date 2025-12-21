@@ -15,10 +15,10 @@ A streamlined system for managing development workflows. Features 28 essential a
 **Look up aliases:** `docs/user/ALIAS-REFERENCE-CARD.md`
 **Daily health check:** `docs/user/WORKSPACE-AUDIT-GUIDE.md`
 
-### For App Developers
+### For Developers
 **Setup:** `./scripts/setup.sh`
-**App docs:** `app/README.md`
-**CLI integration:** `cli/README.md`
+**CLI tools:** `cli/README.md`
+**Monorepo guide:** `MONOREPO-COMMANDS-TUTORIAL.md`
 
 ### Strategic Overview
 **Project roadmap:** `PROJECT-HUB.md`
@@ -31,18 +31,10 @@ A streamlined system for managing development workflows. Features 28 essential a
 
 ```
 zsh-configuration/
-├── app/                          # Desktop application (Electron)
-│   ├── src/                      # App source code
-│   │   ├── main/                 # Main process
-│   │   ├── renderer/             # UI layer
-│   │   ├── preload/              # IPC bridge
-│   │   └── shared/               # Shared utilities
-│   ├── assets/                   # Icons, images
-│   └── package.json
-│
 ├── cli/                          # CLI integration layer
 │   ├── adapters/                 # ZSH function wrappers
-│   ├── api/                      # Node.js API for app
+│   ├── api/                      # Node.js APIs
+│   ├── test/                     # CLI tests
 │   └── README.md
 │
 ├── docs/                         # All documentation
@@ -60,6 +52,7 @@ zsh-configuration/
 │   │   ├── workflow-redesign/
 │   │   └── status-command/
 │   ├── archive/                  # Historical docs
+│   │   └── 2025-12-20-app-removal/  # Archived Electron app
 │   └── ideas/                    # Ideas backlog
 │
 ├── config/                       # Configuration files
@@ -67,9 +60,7 @@ zsh-configuration/
 │   ├── backups/                  # Config backups
 │   └── examples/                 # Example configs
 │
-├── tests/                        # Test suites
-│   ├── cli/                      # CLI integration tests
-│   └── app/                      # App tests
+├── tests/                        # Test suites (integration)
 │
 ├── scripts/                      # Utility scripts
 │   ├── setup.sh                  # Initial setup
@@ -80,7 +71,7 @@ zsh-configuration/
 ├── PROJECT-HUB.md                # Strategic roadmap
 ├── CLAUDE.md                     # Claude Code guidance
 ├── .STATUS                       # Daily progress tracking
-└── package.json                  # Monorepo config
+└── package.json                  # Package config
 ```
 
 ---
@@ -90,7 +81,6 @@ zsh-configuration/
 ### Prerequisites
 - Node.js 18+ and npm 9+
 - ZSH configuration at `~/.config/zsh/`
-- macOS (for Electron app development)
 
 ### Installation
 
@@ -99,25 +89,22 @@ zsh-configuration/
 git clone <repo-url>
 cd zsh-configuration
 
-# Install all dependencies (root + app + cli)
+# Install dependencies
 npm run setup
 
-# Start app in development mode
-npm run dev
-
-# Or work on specific components
-cd app && npm run dev          # App development
-cd cli && npm test             # Test CLI adapters
+# Test CLI tools
+npm run test
 ```
 
-### Workspace Commands
+### Available Commands
 
 ```bash
 npm run setup      # Initial setup (install deps)
-npm run dev        # Start app development
-npm run test       # Run all tests
-npm run build      # Build app for distribution
+npm run dev        # Run CLI in dev mode
+npm run test       # Run CLI tests
 npm run sync       # Sync ZSH functions
+npm run clean      # Clean node_modules
+npm run reset      # Clean and reinstall
 ```
 
 ---
@@ -126,8 +113,8 @@ npm run sync       # Sync ZSH functions
 
 **Important:** The actual ZSH configuration files live at `~/.config/zsh/`. This repository:
 - Documents the CLI workflows
-- Provides a desktop app interface
-- Integrates via the `/cli` adapter layer
+- Provides Node.js APIs for ZSH functions
+- Contains comprehensive guides and references
 
 ### ZSH Config Location
 
@@ -144,13 +131,13 @@ npm run sync       # Sync ZSH functions
 └── .p10k.zsh                 # Powerlevel10k theme
 ```
 
-### How CLI/App Integration Works
+### How CLI Integration Works
 
 ```
-Desktop App → CLI API → Adapters → exec() → ZSH Shell → Functions
+Node.js API → Adapters → exec() → ZSH Shell → Functions
 ```
 
-See `cli/README.md` for detailed integration guide.
+See [cli/README.md](cli/README.md) for detailed integration guide.
 
 ---
 
@@ -185,18 +172,24 @@ See `docs/reference/SYNC-SETUP.md` for setup details.
 
 ## 📊 Project Status
 
-### CLI System (P0-P4: Complete)
+### CLI System (P0-P5C: Complete)
 - ✅ **183 aliases** (7 conflicts resolved in P4B)
 - ✅ **108 functions** (smart dispatchers implemented)
 - ✅ **Help system** (Phase 1 complete, Phases 2-3 planned)
 - ✅ **ADHD helpers** (full suite operational)
 - ✅ **Cross-project integrations** (unified context detection)
+- ✅ **CLI integration layer** (Node.js adapters for ZSH functions)
+- ✅ **Monorepo optimization** (zero external dependencies)
 
-### Desktop App (P5: In Progress)
-- 🟡 **P5A:** Project reorganization ← **You are here**
-- ⬜ **P5B:** Core UI components
-- ⬜ **P5C:** CLI integration layer
-- ⬜ **P5D:** Alpha release
+### Future Enhancements (P6)
+- 🔄 **Enhanced status command** (real-time worklog integration)
+- 🔄 **Interactive TUI** (terminal dashboard)
+- 🔄 **Web dashboard** (optional browser interface)
+
+### Archived Projects
+- 📦 **Desktop App** (Electron) - Archived 2025-12-20
+  - See [docs/archive/2025-12-20-app-removal/](docs/archive/2025-12-20-app-removal/) for details
+  - 753 lines of production-ready code preserved for potential future use
 
 ### Success Metrics
 - **95% cognitive load reduction** (6 categories vs 120 items)
