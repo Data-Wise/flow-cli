@@ -4,7 +4,10 @@
 
 A streamlined system for managing development workflows. Features 28 essential aliases, 6 smart dispatchers, and 226+ git aliases (via plugin). Optimized for muscle memory over memorization.
 
-**Recent update (2025-12-19):** Reduced from 179 to 28 custom aliases (84% reduction) based on user feedback about cognitive load.
+**Recent updates:**
+
+- **2025-12-21:** Architecture Documentation Sprint - 7,629 lines of comprehensive architecture docs, site deployed
+- **2025-12-19:** Alias cleanup - Reduced from 179 to 28 custom aliases (84% reduction)
 
 ---
 
@@ -14,6 +17,12 @@ A streamlined system for managing development workflows. Features 28 essential a
 **Read this first:** `docs/user/WORKFLOWS-QUICK-WINS.md`
 **Look up aliases:** `docs/user/ALIAS-REFERENCE-CARD.md`
 **Daily health check:** `docs/user/WORKSPACE-AUDIT-GUIDE.md`
+
+### For Contributors
+
+**Start here:** [CONTRIBUTING.md](CONTRIBUTING.md) - Complete contributor onboarding guide
+**Architecture:** [docs/architecture/](docs/architecture/) - System architecture & patterns
+**Quick wins:** [docs/architecture/ARCHITECTURE-QUICK-WINS.md](docs/architecture/ARCHITECTURE-QUICK-WINS.md) - Copy-paste patterns
 
 ### For Developers
 **Setup:** `./scripts/setup.sh`
@@ -37,12 +46,18 @@ zsh-configuration/
 │   ├── test/                     # CLI tests
 │   └── README.md
 │
-├── docs/                         # All documentation
-│   ├── user/                     # User-facing guides
+├── docs/                         # All documentation (102 files)
+│   ├── architecture/             # Architecture docs (11 pages)
+│   │   ├── README.md             # Architecture hub
+│   │   ├── ARCHITECTURE-QUICK-WINS.md  # Copy-paste patterns
+│   │   ├── decisions/            # 3 ADRs (Architecture Decision Records)
+│   │   └── ...
+│   ├── api/                      # API documentation (2 pages)
+│   ├── user/                     # User-facing guides (9 pages)
 │   │   ├── ALIAS-REFERENCE-CARD.md
 │   │   ├── WORKFLOWS-QUICK-WINS.md
 │   │   └── ...
-│   ├── reference/                # Technical reference
+│   ├── reference/                # Technical reference (6 pages)
 │   ├── planning/                 # Active planning docs
 │   │   ├── current/              # Current phase work
 │   │   └── proposals/            # Future proposals
@@ -52,7 +67,8 @@ zsh-configuration/
 │   │   ├── workflow-redesign/
 │   │   └── status-command/
 │   ├── archive/                  # Historical docs
-│   │   └── 2025-12-20-app-removal/  # Archived Electron app
+│   │   ├── 2025-12-20-app-removal/  # Archived Electron app
+│   │   └── planning-brainstorms-2025-12/  # Archived brainstorms
 │   └── ideas/                    # Ideas backlog
 │
 ├── config/                       # Configuration files
@@ -170,16 +186,46 @@ See `docs/reference/SYNC-SETUP.md` for setup details.
 
 ---
 
+## 🏗️ Architecture & Documentation
+
+### Documentation Site
+
+**Live site:** [https://Data-Wise.github.io/zsh-configuration/](https://Data-Wise.github.io/zsh-configuration/)
+
+- 📚 **63 pages** organized across 9 major sections
+- 🎨 **ADHD-optimized** cyan/purple theme (WCAG AAA)
+- 🔍 **Search functionality** for all documentation
+- 📱 **Mobile responsive** with dark/light mode
+
+### Architecture Documentation (December 2025)
+
+- ✅ **6,200+ lines** of comprehensive architecture documentation
+- ✅ **3 ADRs** (Architecture Decision Records) explaining key decisions
+- ✅ **88+ code examples** ready to copy-paste
+- ✅ **Quick Wins guide** - Practical patterns for daily development
+- ✅ **Clean Architecture** with 4-layer design (Domain, Use Cases, Adapters, Frameworks)
+
+**Key documents:**
+
+- [Architecture Hub](docs/architecture/README.md) - Complete overview
+- [Architecture Quick Wins](docs/architecture/ARCHITECTURE-QUICK-WINS.md) - Copy-paste patterns
+- [ADR Summary](docs/architecture/decisions/ADR-SUMMARY.md) - Executive overview of decisions
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Contributor onboarding (30-minute path)
+
+---
+
 ## 📊 Project Status
 
 ### CLI System (P0-P5C: Complete)
-- ✅ **183 aliases** (7 conflicts resolved in P4B)
-- ✅ **108 functions** (smart dispatchers implemented)
-- ✅ **Help system** (Phase 1 complete, Phases 2-3 planned)
-- ✅ **ADHD helpers** (full suite operational)
+
+- ✅ **28 custom aliases** (down from 179 - 84% reduction)
+- ✅ **226+ git aliases** (standard OMZ git plugin)
+- ✅ **6 smart dispatchers** (context-aware functions)
+- ✅ **108 workflow functions** (ADHD helpers implemented)
+- ✅ **Help system** (Phase 1 complete, 20+ functions with --help)
 - ✅ **Cross-project integrations** (unified context detection)
 - ✅ **CLI integration layer** (Node.js adapters for ZSH functions)
-- ✅ **Monorepo optimization** (zero external dependencies)
+- ✅ **Documentation site** (63 pages deployed to GitHub Pages)
 
 ### Future Enhancements (P6)
 - 🔄 **Enhanced status command** (real-time worklog integration)
