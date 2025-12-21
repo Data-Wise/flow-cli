@@ -27,6 +27,11 @@ The zsh-configuration system currently uses a **three-layer architecture** that 
 
 ## Current Architecture Analysis
 
+> **TL;DR:**
+> - Currently: 3 layers (Frontend/ZSH → Backend/Node.js → Vendor/Shell)
+> - Good separation but mixes concerns (use cases + infrastructure)
+> - Needs explicit domain layer for business rules
+
 ### Existing Three-Layer Structure
 
 ```
@@ -67,6 +72,11 @@ The zsh-configuration system currently uses a **three-layer architecture** that 
 ---
 
 ## Recommended Clean Architecture Mapping
+
+> **TL;DR:**
+> - Upgrade to 4 explicit layers: Domain → Use Cases → Adapters → Frameworks
+> - Inner layers define interfaces (Ports), outer layers implement them (Adapters)
+> - Dependencies point inward only (Dependency Rule)
 
 ### Four-Layer Design
 
@@ -134,6 +144,12 @@ The zsh-configuration system currently uses a **three-layer architecture** that 
 ---
 
 ## Domain Layer Design (DDD)
+
+> **TL;DR:**
+> - Domain = core business logic with ZERO external dependencies
+> - Entities (Session, Project, Task) have identity and behavior
+> - Value Objects (ProjectType, Priority) are immutable data
+> - Repository Interfaces define what we need, implementations come later
 
 ### 1. Entities (with Identity)
 
@@ -996,6 +1012,13 @@ Use Case (inner) depends on FileSystemRepository (concrete)
 ---
 
 ## Implementation Roadmap
+
+> **TL;DR:**
+>
+> - Phase 1: Domain layer (entities, value objects, interfaces)
+> - Phase 2: Use cases (application logic)
+> - Phase 3: Adapters (implementations)
+> - Phase 4: Migration (move existing code gradually)
 
 ### Phase 1: Foundation (Week 2)
 

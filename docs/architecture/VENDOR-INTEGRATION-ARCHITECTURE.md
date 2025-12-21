@@ -8,6 +8,12 @@
 
 ## System Overview
 
+> **TL;DR:**
+> - **What**: Vendored code pattern - copy battle-tested shell scripts into package
+> - **Why**: Zero dependencies, one-command install, production reliability
+> - **How**: JavaScript bridge → Shell scripts → Filesystem detection
+> - **Status**: ✅ Production ready with 7/7 tests passing
+
 The project detection system uses a **vendored code pattern** to integrate battle-tested shell functions from [zsh-claude-workflow](https://github.com/Data-Wise/zsh-claude-workflow) while maintaining zsh-configuration as a standalone, npm-installable package.
 
 ### Design Goals
@@ -70,6 +76,12 @@ graph TB
 ---
 
 ## Component Details
+
+> **TL;DR:**
+> - **Application Layer**: CLI tools, REST API, Desktop UI (consumers)
+> - **Integration Layer**: JavaScript bridge that wraps shell scripts (project-detector-bridge.js)
+> - **Vendor Layer**: ~300 lines of vendored shell scripts (core.sh + project-detector.sh)
+> - **Data Layer**: Filesystem markers (DESCRIPTION, _quarto.yml, .git, etc.)
 
 ### 1. Application Layer
 
@@ -287,6 +299,12 @@ zsh-configuration/
 
 ## Design Patterns
 
+> **TL;DR:**
+> - **Vendored Code**: Copy external code, gain independence (zero runtime deps)
+> - **Bridge Pattern**: Connect incompatible interfaces (JavaScript ↔ Shell)
+> - **Type Mapping**: Normalize shell output to API types (`rpkg` → `r-package`)
+> - **Graceful Degradation**: Return 'unknown' instead of crashing (ADHD-friendly)
+
 ### 1. Vendored Code Pattern
 
 **Definition:** Copy external code into project with clear attribution
@@ -390,6 +408,12 @@ export async function detectProjectType(projectPath) {
 
 ## Performance Characteristics
 
+> **TL;DR:**
+> - **Single detection**: ~20-30ms (warm), ~50ms (cold start)
+> - **Batch (100 projects)**: Sequential ~3s, Parallel ~1s (3x faster)
+> - **Key optimization**: Always use `detectMultipleProjects()` for batch operations
+> - **Future**: Add caching layer for repeated detections
+
 ### Latency
 
 **Single Detection:**
@@ -447,6 +471,12 @@ const types = await detectMultipleProjects(allPaths);  // Single call
 
 ## Error Handling Strategy
 
+> **TL;DR:**
+> - **Philosophy**: Never crash, always return 'unknown' as safe default
+> - **Shell errors**: Log diagnostic info, return 'unknown'
+> - **Invalid paths**: Catch `cd` errors, return 'unknown'
+> - **Unknown types**: Pass through without validation (future-proof)
+
 ### 1. Shell Execution Errors
 
 **Scenario:** Shell command fails (path not found, permission denied)
@@ -497,6 +527,12 @@ function mapProjectType(type) {
 
 ## Testing Strategy
 
+> **TL;DR:**
+> - **Coverage**: 7/7 tests passing (100% core functionality)
+> - **Real projects**: Tests use actual R package, Quarto, git repos
+> - **Test types**: Supported types, detection accuracy, parallel batch, error handling
+> - **Run**: `npm run test:detector` in cli/ directory
+
 ### Test Coverage
 
 **Unit Tests:** `cli/test/test-project-detector.js`
@@ -537,6 +573,12 @@ npm run test:detector
 ---
 
 ## Maintenance & Updates
+
+> **TL;DR:**
+> - **Sync frequency**: Quarterly (every 3 months) or when major upstream changes
+> - **Process**: Check upstream → Review changes → Copy files → Test → Update version → Commit
+> - **Files**: core.sh + project-detector.sh (~300 lines total)
+> - **Safety**: Always run test suite after syncing
 
 ### Syncing Vendored Code
 
@@ -579,6 +621,12 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 
 ## Security Considerations
 
+> **TL;DR:**
+> - **Command injection**: Mitigated by quoting all paths in shell commands
+> - **Path traversal**: Use absolute paths only, validate before passing to shell
+> - **Arbitrary code**: Version control + attribution + test suite prevents tampering
+> - **Read-only**: Detection only reads filesystem, never writes
+
 ### 1. Command Injection
 
 **Risk:** User-provided paths could contain shell metacharacters
@@ -614,6 +662,12 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 ---
 
 ## Future Enhancements
+
+> **TL;DR:**
+> - **Phase 2 (Weeks 2-3)**: Caching, project scanner, TypeScript, benchmarks
+> - **Phase 3 (Month 2+)**: More project types, plugin system, filesystem watch, REST API
+> - **Integration ideas**: IDE plugins, CI/CD, dashboard, auto-configuration
+> - **Current status**: Phase 1 complete, foundation solid for expansion
 
 ### Phase 2 (Week 2-3)
 
