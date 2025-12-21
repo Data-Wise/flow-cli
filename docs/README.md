@@ -10,6 +10,12 @@
 
 ### API Documentation
 
+- **[API Overview](api/API-OVERVIEW.md)** - Complete system API reference ⭐ **NEW**
+  - All 8 modules documented (1 complete, 2 partial, 5 planned)
+  - Architecture diagrams and dependencies
+  - Usage patterns and examples
+  - Implementation timeline
+
 - **[Project Detector API](api/PROJECT-DETECTOR-API.md)** - Complete API reference for project type detection
   - `detectProjectType()` - Single project detection
   - `detectMultipleProjects()` - Batch parallel detection
