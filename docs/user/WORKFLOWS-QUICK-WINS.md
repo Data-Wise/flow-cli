@@ -2,10 +2,8 @@
 
 > **Focus:** Top 10 highest-impact workflows for daily R package development
 
-> **⚠️ Important (2025-12-19):** This guide was written before the alias cleanup (179→28). Many referenced aliases (`t`, `lt`, `dt`, `js`, etc.) were removed. Workflows remain valid but commands need updating. See [ALIAS-REFERENCE-CARD.md](ALIAS-REFERENCE-CARD.md) for current commands.
-
 **Read Time:** 5 minutes | **Apply Time:** Immediate
-**Last Updated:** 2025-12-13 (Note added: 2025-12-19)
+**Last Updated:** 2025-12-21 (Updated for 28-alias system)
 
 ---
 
@@ -35,29 +33,27 @@
 
 ### Commands
 ```bash
-t                    # Test (single letter - fastest!)
-# OR
-rtest                # Test (explicit)
+rtest                # Run all tests
 ```
 
 ### Visual Flow
 ```
-Code changes → t → 2-4 min wait → ✅ Green or ❌ Red
+Code changes → rtest → 2-4 min wait → ✅ Green or ❌ Red
 ```
 
 ### Decision Points
 - ✅ **All green** → Continue coding
-- ❌ **Some red** → Fix and re-run `t`
-- 🔴 **Many red** → Run `lt` to reload + test
+- ❌ **Some red** → Fix and re-run `rtest`
+- 🔴 **Many red** → Run `rload` then `rtest` to reload + test
 
 ### Pro Tips
-💡 Set a 5-min timer while tests run (use `worktimer 5`)
-💡 Tests too slow? Use `rtest1 "pattern"` for specific tests
+💡 Set a 5-min timer while tests run (use `focus 5`)
+💡 Tests too slow? Focus on specific test files
 💡 Leave tests running and switch tasks (ADHD-friendly!)
 
 ### What Could Go Wrong?
 - Tests hang → Ctrl+C to cancel, check for infinite loops
-- All tests fail → Run `here` to verify you're in right directory
+- All tests fail → Run `rpkg` to verify you're in right package
 
 ---
 
@@ -68,20 +64,18 @@ Code changes → t → 2-4 min wait → ✅ Green or ❌ Red
 
 ### Commands
 ```bash
-lt                   # Load then test (atomic pair - ultra-fast!)
-# OR
-rload && rtest       # Explicit version
+rload && rtest       # Load then test
 ```
 
 ### Visual Flow
 ```
-Start work → lt → Package loads → Tests run → ✅ or ❌
+Start work → rload && rtest → Package loads → Tests run → ✅ or ❌
 ```
 
 ### Why This Works (ADHD-Optimized)
-- **Single command** → Less to remember
 - **Automated sequence** → No decision fatigue
 - **Clear output** → Green = go, Red = stop
+- **Verifies everything** → Load + tests in one go
 
 ### When to Use
 - 🌅 **Morning start** → Verify yesterday's work still works
@@ -102,14 +96,12 @@ Start work → lt → Package loads → Tests run → ✅ or ❌
 
 ### Commands
 ```bash
-dt                   # Doc then test (atomic pair)
-# OR
-rdoc && rtest        # Explicit version
+rdoc && rtest        # Document then test
 ```
 
 ### Visual Flow
 ```
-Change @param docs → dt → Docs regenerate → Tests run → ✅
+Change @param docs → rdoc && rtest → Docs regenerate → Tests run → ✅
 ```
 
 ### What This Does
@@ -121,14 +113,14 @@ Change @param docs → dt → Docs regenerate → Tests run → ✅
 ```
 You: Added new function parameter
 You: Updated @param documentation
-Run: dt
+Run: rdoc && rtest
 Result: Documentation updated + tests verify it works
 ```
 
 ### Pro Tips
 💡 Always run after changing ANY roxygen comment
 💡 Catches missing @export tags early
-💡 Faster than full `rcycle`
+💡 Faster than full `rcheck`
 
 ### Safety Checks
 - 🟢 Safe - only regenerates docs
@@ -159,7 +151,7 @@ Ready to commit → rcycle → 60 min wait → ✅ 0 errors/warnings/notes
 3. ⏱️ [30-60min] Full R CMD check
 
 ### ADHD Strategy for Long Wait
-- ⏰ **Set timer** → `worktimer 60 "R CMD check"`
+- ⏰ **Set timer** → `focus 60` for focus timer
 - 🎯 **Switch context** → Work on different package
 - ☕ **Take break** → Perfect time for lunch/walk
 - 📧 **Other tasks** → Email, admin work
@@ -177,7 +169,7 @@ Ready to commit → rcycle → 60 min wait → ✅ 0 errors/warnings/notes
 ### What Could Go Wrong?
 - Check fails → Read error messages carefully
 - Takes forever → Normal! R CMD check is thorough
-- Interrupted → Just re-run `rcheck` to continue
+- Interrupted → Just re-run to continue
 
 ---
 
@@ -189,44 +181,44 @@ Ready to commit → rcycle → 60 min wait → ✅ 0 errors/warnings/notes
 ### Commands
 ```bash
 # Option 1: Quick (if already checked)
-qcommit "message"
+git add . && git commit -m "message"
 
 # Option 2: Safe (docs + tests + commit)
-rpkgcommit "message"
+rdoc && rtest && git add . && git commit -m "message"
 
 # Option 3: Ultra-safe (full check + commit)
-rcycle && qcommit "message"
+rdoc && rtest && rcheck && git add . && git commit -m "message"
 ```
 
 ### Visual Flow
 ```
-Code ready → qcommit "msg" → Git commit → Done in 30s
+Code ready → git commit → Done in 30s
 ```
 
 ### Commit Message Templates
 ```bash
 # Feature
-qcommit "feat: add sensitivity analysis function"
+git commit -m "feat: add sensitivity analysis function"
 
 # Bug fix
-qcommit "fix: handle NA values in mediation estimate"
+git commit -m "fix: handle NA values in mediation estimate"
 
 # Documentation
-qcommit "docs: update README with new examples"
+git commit -m "docs: update README with new examples"
 
 # Tests
-qcommit "test: add tests for interaction effects"
+git commit -m "test: add tests for interaction effects"
 
 # Refactor
-qcommit "refactor: simplify bootstrap algorithm"
+git commit -m "refactor: simplify bootstrap algorithm"
 ```
 
 ### Decision Tree
 ```
-Did you run rcycle? 
-├─ Yes → qcommit "message"
-├─ No → rpkgcommit "message" (safer)
-└─ Not sure → rcycle && qcommit "message" (safest)
+Did you run rcheck?
+├─ Yes → git add . && git commit -m "message"
+├─ No → rdoc && rtest then commit (safer)
+└─ Not sure → Full check first (safest)
 ```
 
 ### Pro Tips
@@ -235,8 +227,8 @@ Did you run rcycle?
 💡 Use clear messages (future you will thank you!)
 
 ### Safety Checks
-- `rpkgcommit` runs docs + tests first
-- Can always undo with `gundo`
+- Always run tests before committing
+- Can undo with `git reset HEAD~1` if needed
 
 ---
 
@@ -249,7 +241,7 @@ Did you run rcycle?
 
 #### Step 1: Identify the Problem (2 min)
 ```bash
-t                    # Run tests, read error messages
+rtest                # Run tests, read error messages
 ```
 
 Look for:
@@ -259,9 +251,8 @@ Look for:
 
 #### Step 2: Run Single Test (1 min)
 ```bash
-rtestfile tests/testthat/test-myfunction.R
-# OR
-rtest1 "myfunction"     # Run tests matching pattern
+# Run specific test file in R:
+devtools::test_file("tests/testthat/test-myfunction.R")
 ```
 
 #### Step 3: Interactive Debugging (varies)
@@ -275,14 +266,14 @@ rload                # Load package
 #### Step 4: Fix and Verify (2 min)
 ```bash
 # Fix the code
-t                    # Re-run all tests
+rtest                # Re-run all tests
 ```
 
 ### Common Test Failures
 
 **1. "Error: object not found"**
 - Cause: Function not exported or loaded
-- Fix: Add `@export` tag, run `dt`
+- Fix: Add `@export` tag, run `rdoc && rtest`
 
 **2. "Expected X but got Y"**
 - Cause: Logic error or outdated test
@@ -297,14 +288,14 @@ t                    # Re-run all tests
 1. Read error (30s)
 2. Hypothesize fix (1 min)
 3. Make ONE small change
-4. Test immediately with `t`
+4. Test immediately with `rtest`
 5. Repeat until green
 ```
 
 ### Pro Tips
 💡 Only fix ONE test at a time
 💡 Use `browser()` for interactive debugging
-💡 Take breaks if frustrated (use `quickbreak 5`)
+💡 Take breaks if frustrated
 
 ---
 
@@ -315,50 +306,50 @@ t                    # Re-run all tests
 
 ### Commands
 ```bash
-here                 # Show full context
-next                 # Show next action from .STATUS
-progress_check       # Show progress bars
+pwd                  # Show current directory
+rpkg                 # Package info & status
+git status           # Check git status
 ```
 
 ### Visual Output
 ```
-here → Shows:
-- 📍 Current directory
+rpkg → Shows:
 - 📦 R package name + version
-- 📊 .STATUS file excerpt
-- 🔧 Git branch + status
+- 📊 Package description
+- 🔧 Git branch
 ```
 
 ### Quick Recovery Checklist
-- [ ] Run `here` → See where you are
-- [ ] Run `next` → See what to do next
-- [ ] Run `gs` → Check git status
-- [ ] Run `ah r` → Remember R package aliases
+- [ ] Run `pwd` → See where you are
+- [ ] Run `rpkg` → Package information
+- [ ] Run `git status` → Check git status
+- [ ] Check `.STATUS` file for next action
 
 ### Common Scenarios
 
 **"I forgot what I was working on"**
 ```bash
-here                 # Full context
-next                 # Next action
+pwd                  # Current directory
+rpkg                 # Package info
+cat .STATUS          # Check status file
 ```
 
 **"I don't remember what this package does"**
 ```bash
 rpkg                 # Package info
-peekdesc             # Read DESCRIPTION
+cat DESCRIPTION      # Read full description
 ```
 
 **"Did I make changes?"**
 ```bash
-gs                   # Git status
-smartgit             # Full git overview
+git status           # Git status
+git diff             # See changes
 ```
 
 ### Pro Tips
-💡 Start every session with `here`
-💡 Make it a habit: open terminal → `here`
-💡 Add to .STATUS file for persistent reminders
+💡 Start every session with `rpkg`
+💡 Keep `.STATUS` file updated
+💡 Use `git status` frequently
 
 ---
 
@@ -389,37 +380,35 @@ Need focus → focus 25 → Work uninterrupted → Timer alert → Break
 
 **Pomodoro (25 min)**
 ```bash
-focus 25 "implement new function"
+f25                  # 25-minute focus timer
 # Work for 25 min
 # Timer alerts when done
-quickbreak 5         # 5-min break
+# Take 5-min break
 ```
 
-**Deep Work (90 min)**
+**Deep Work (50 min)**
 ```bash
-focus 90 "write tests for mediation module"
-# Work for 90 min
+f50                  # 50-minute deep work timer
+# Work for 50 min
 # Timer alerts when done
-quickbreak 15        # 15-min break
+# Take 10-15 min break
 ```
 
-**Quick Focus (no timer)**
+**Custom Duration**
 ```bash
-focus                # Just minimize distractions
-# Work until done
-unfocus              # Restore when finished
+focus 90             # Custom 90-minute session
+# Work until timer ends
 ```
 
 ### Pro Tips
-💡 Combine with `startwork <project>` for full setup
-💡 Use during `rcycle` 60-min wait
-💡 Pair with `worktimer` for accountability
+💡 Use `f25` or `f50` aliases for common durations
+💡 Use during `rcheck` 60-min wait
+💡 Take regular breaks to maintain focus
 
 ### After Focus Session
 ```bash
-unfocus              # Restore notifications
-endwork              # Update .STATUS
-qcommit "msg"        # Commit progress
+# Update status and commit progress
+git add . && git commit -m "Progress on X"
 ```
 
 ---
@@ -433,20 +422,23 @@ qcommit "msg"        # Commit progress
 
 #### [ ] 1. Context Setup (30s)
 ```bash
-here                 # Verify location
-gs                   # Check git status
+pwd                  # Verify location
+rpkg                 # Check package info
+git status           # Check git status
 ```
 
 #### [ ] 2. Create Function File (30s)
 ```bash
-rnewfun "myfunction"     # Creates R/myfunction.R
-# Opens in editor automatically
+# Create R/myfunction.R manually
+# OR use usethis:
+usethis::use_r("myfunction")
 ```
 
 #### [ ] 3. Create Test File (30s)
 ```bash
-rnewtest "myfunction"    # Creates tests/testthat/test-myfunction.R
-# Opens in editor automatically
+# Create tests/testthat/test-myfunction.R
+# OR use usethis:
+usethis::use_test("myfunction")
 ```
 
 #### [ ] 4. Document Template (30s)
@@ -474,20 +466,20 @@ test_that("myfunction works", {
 
 #### [ ] 6. Verify Setup
 ```bash
-lt                   # Load + test
+rload && rtest       # Load + test
 # Should load successfully, test might fail (that's OK!)
 ```
 
 ### Quick Start Template
 ```bash
-# All in one flow:
-here && rnewfun "myfunction" && rnewtest "myfunction" && lt
+# Create files, then verify:
+rload && rtest
 ```
 
 ### Pro Tips
 💡 Start with test first (TDD approach)
 💡 Make smallest working version
-💡 Commit early: `qcommit "feat: add myfunction skeleton"`
+💡 Commit early: `git commit -m "feat: add myfunction skeleton"`
 
 ---
 
@@ -500,16 +492,16 @@ here && rnewfun "myfunction" && rnewtest "myfunction" && lt
 
 #### Step 1: Assess Damage
 ```bash
-here                 # Where am I?
-gs                   # What changed?
-t                    # Do tests pass?
+pwd                  # Where am I?
+git status           # What changed?
+rtest                # Do tests pass?
 ```
 
 #### Step 2: Identify Problem
 
 **Tests failing?**
 ```bash
-t                    # Run tests
+rtest                # Run tests
 # Read error messages carefully
 # Jump to workflow #6 (Fix Failing Tests)
 ```
@@ -523,19 +515,19 @@ rload                # Try to load
 
 **Git issues?**
 ```bash
-gs                   # Git status
-glog                 # Recent commits
+git status           # Git status
+git log --oneline -5 # Recent commits
 ```
 
 ### Recovery Options (Choose One)
 
 #### Option A: Recent Changes (Most Common)
 ```bash
-# Undo last change
-gundo                # Undo last commit (keeps changes)
+# Undo last commit (keeps changes)
+git reset HEAD~1
 # Fix the issue
-t                    # Verify tests pass
-qcommit "fix: ..."   # Re-commit
+rtest                # Verify tests pass
+git add . && git commit -m "fix: ..."
 ```
 
 #### Option B: Code Error
@@ -543,26 +535,26 @@ qcommit "fix: ..."   # Re-commit
 # Use editor to fix syntax error
 # Then:
 rload                # Try loading again
-t                    # Run tests
+rtest                # Run tests
 ```
 
-#### Option C: Nuclear Option (Last Resort)
+#### Option C: Clean Build (Last Resort)
 ```bash
-# Restore from backup
-rpkgdeep             # Clean generated files (DESTRUCTIVE!)
-dt                   # Regenerate docs + test
+# Clean and rebuild
+rm -rf man/ NAMESPACE
+rdoc && rtest        # Regenerate docs + test
 ```
 
 ### Prevention Checklist
-- ✅ Run `rcycle` before commits
+- ✅ Run tests before commits
 - ✅ Commit frequently (small changes)
-- ✅ Keep backups of .zshrc (done automatically)
-- ✅ Use git (easy undo with `gundo`)
+- ✅ Use version control
+- ✅ Test after major changes
 
 ### Pro Tips
 💡 Don't panic - almost everything is reversible
-💡 Read error messages slowly (ADHD: pause before acting)
-💡 Ask for help: `ccc` (Claude) or colleagues
+💡 Read error messages slowly (pause before acting)
+💡 Ask for help: `cc` (Claude Code) or colleagues
 
 ### When to Ask for Help
 - 🔴 Spent > 30 min stuck
@@ -579,26 +571,26 @@ dt                   # Regenerate docs + test
 What do you want to do?
 
 ├─ Just made code changes
-│  └─ Run: t (test)
+│  └─ Run: rtest
 │
 ├─ Starting work on package
-│  └─ Run: lt (load + test)
+│  └─ Run: rload && rtest
 │
 ├─ Changed documentation
-│  └─ Run: dt (doc + test)
+│  └─ Run: rdoc && rtest
 │
 ├─ Ready to commit
-│  ├─ Did full check? → qcommit "msg"
-│  └─ Not sure → rcycle then qcommit "msg"
+│  ├─ Did full check? → git add . && git commit -m "msg"
+│  └─ Not sure → rcheck then commit
 │
 ├─ Tests are failing
 │  └─ See workflow #6 (Fix Failing Tests)
 │
 ├─ Don't know where I am
-│  └─ Run: here
+│  └─ Run: rpkg
 │
 ├─ Need to focus
-│  └─ Run: focus 25
+│  └─ Run: f25 or f50
 │
 ├─ Starting new feature
 │  └─ See workflow #9 (Start New Feature)
@@ -612,23 +604,23 @@ What do you want to do?
 ## ⏱️ Time-Based Quick Reference
 
 **"I have 5 minutes"**
-- Run `t` (quick test)
-- Check `here` (context)
-- Review `next` (what's next)
+- Run `rtest` (quick test)
+- Check `rpkg` (context)
+- Review `.STATUS` file
 
 **"I have 15 minutes"**
-- Run `lt` (load + test)
+- Run `rload && rtest`
 - Fix one failing test
-- Quick commit with `qcommit`
+- Quick commit
 
 **"I have 30 minutes"**
-- Run `dt` (doc + test)
+- Run `rdoc && rtest`
 - Start new feature
-- Focus session with `focus 25`
+- Focus session with `f25`
 
 **"I have 60+ minutes"**
-- Run `rcycle` (full check)
-- Deep work with `focus 90`
+- Run full `rcheck`
+- Deep work with `f50` or `focus 90`
 - Multiple test-fix cycles
 
 ---
@@ -638,22 +630,22 @@ What do you want to do?
 ### Managing Wait Times
 - **Tests running (2-4 min)?** → Perfect for coffee/bathroom
 - **R CMD check (60 min)?** → Switch to different task
-- **Stuck debugging?** → Take 5-min break with `quickbreak 5`
+- **Stuck debugging?** → Take a 5-min break
 
 ### Preventing Context Loss
-- **Start every session:** `here` then `next`
-- **End every session:** `endwork` updates .STATUS
+- **Start every session:** Check `rpkg` and `.STATUS`
+- **End every session:** Update `.STATUS` file
 - **Commit frequently:** Small commits = less to lose
 
 ### Reducing Decision Fatigue
-- **Use atomic pairs:** `lt`, `dt` (one command, no thinking)
+- **Use command chains:** `rload && rtest`, `rdoc && rtest`
 - **Follow workflows:** Don't invent, follow the guide
-- **Set timers:** `worktimer` and `focus` do it for you
+- **Set timers:** `f25`, `f50`, or `focus` commands
 
 ### Building Habits
-- **Morning ritual:** `here → lt → check output`
-- **Before commit:** `rcycle → wait → qcommit`
-- **After break:** `here → next → resume`
+- **Morning ritual:** `rpkg → rload && rtest → check output`
+- **Before commit:** `rcheck → wait → commit`
+- **After break:** `rpkg → review .STATUS → resume`
 
 ---
 
@@ -661,31 +653,31 @@ What do you want to do?
 
 | Mistake | Why Bad | Fix |
 |---------|---------|-----|
-| Skip testing | Breaks accumulate | Always run `t` |
-| No documentation | Future you confused | Run `dt` after changes |
+| Skip testing | Breaks accumulate | Always run `rtest` |
+| No documentation | Future you confused | Run `rdoc && rtest` after changes |
 | Large commits | Hard to debug | Commit every 30-60 min |
-| Commit with errors | Broken code in history | Always `rcycle` first |
-| Work without breaks | Burnout, mistakes | Use `focus` + `quickbreak` |
-| Ignore .STATUS | Lose context | Run `next` regularly |
+| Commit with errors | Broken code in history | Always test first |
+| Work without breaks | Burnout, mistakes | Use `f25` or `f50` timers |
+| Ignore .STATUS | Lose context | Update `.STATUS` regularly |
 
 ---
 
 ## 📚 Integration with Existing Tools
 
 ### Connects to .STATUS Files
-- `next` reads your .STATUS → shows next action
-- `endwork` prompts to update .STATUS
-- `progress_check` shows completion bars
+- Keep `.STATUS` updated with current progress
+- Check `.STATUS` at start of each session
+- Use for context when switching projects
 
 ### Works with Help System
-- Forgot command? → `ah r` (R package help)
-- Need reminder? → `ah workflow` (workflow functions)
-- Full reference → `cat ALIAS-REFERENCE-CARD.md`
+- Forgot command? Check the alias reference card
+- Need reminder? Review this quick wins guide
+- Full reference → See ALIAS-REFERENCE-CARD.md
 
 ### Pairs with Focus Tools
-- `focus` → minimize distractions
-- `worktimer` → accountability
-- `quickbreak` → structured breaks
+- `f25` / `f50` → Pomodoro/deep work timers
+- `focus <min>` → Custom duration focus sessions
+- `win` → Log accomplishments
 
 ---
 
@@ -693,37 +685,36 @@ What do you want to do?
 
 **Morning Start (5 min)**
 ```bash
-here → lt → Coffee while tests run → Review results → Code
+rpkg → rload && rtest → Coffee while tests run → Review results → Code
 ```
 
 **Quick Feature (30 min)**
 ```bash
-focus 25 "add function" → rnewfun → rnewtest → Code → dt → unfocus
+f25 → Create files → Code → rdoc && rtest
 ```
 
 **Pre-Commit (65 min)**
 ```bash
-rcycle → worktimer 60 → Switch tasks → Check results → qcommit
+rcheck → f60 focus session → Switch tasks → Check results → commit
 ```
 
 **End of Day (5 min)**
 ```bash
-t → qcommit "wip: progress on X" → endwork → next (for tomorrow)
+rtest → git commit -m "wip: progress on X" → Update .STATUS for tomorrow
 ```
 
 ---
 
 ## 📖 Related Documentation
 
-- **ALIAS-REFERENCE-CARD.md** - All 120+ aliases
+- **ALIAS-REFERENCE-CARD.md** - All 28 core aliases
+- **WORKFLOW-TUTORIAL.md** - Complete tutorial
 - **PROJECT-HUB.md** - Strategic overview
-- **functions.zsh** - Function implementations
-- **Apple Note** - Mobile quick reference
 
 ---
 
-**Last Updated:** 2025-12-13
-**Version:** 1.0 (Quick Wins)
+**Last Updated:** 2025-12-21
+**Version:** 2.0 (Updated for 28-alias system)
 **Time to Master:** Practice each workflow 3-5 times
 
-💡 **Pro Tip:** Print this guide or keep it open in a second monitor!
+💡 **Pro Tip:** Bookmark this guide for quick reference!

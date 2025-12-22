@@ -1,8 +1,6 @@
 # Project Management Workflow - ADHD-Friendly Tutorial
 
-> **⚠️ Important (2025-12-19):** This tutorial references `js`, `idk`, and `stuck` which were removed in the alias cleanup. Use `just-start` instead. See [ALIAS-REFERENCE-CARD.md](ALIAS-REFERENCE-CARD.md) for current commands.
-
-**Last Updated:** 2025-12-14 (Note added: 2025-12-19)
+**Last Updated:** 2025-12-21 (Updated for flow-cli rename and 28-alias system)
 **Read Time:** 5 minutes (lots of examples!)
 
 ---
@@ -12,10 +10,10 @@
 ```
 ┌──────────────────────────────────────────────┐
 │                                              │
-│  dash    → See all your projects            │
-│  js      → Pick one automatically           │
-│  work    → Start working on it              │
-│  status  → Update its status                │
+│  dash       → See all your projects          │
+│  just-start → Pick one automatically         │
+│  work       → Start working on it            │
+│  status     → Update its status              │
 │                                              │
 └──────────────────────────────────────────────┘
 ```
@@ -96,7 +94,7 @@ dash dev             # Just dev tools
 
 ---
 
-## 2️⃣ `js` - Just Start (Auto-Pick)
+## 2️⃣ `just-start` - Auto-Pick Project
 
 ### 🎯 What it does
 Automatically picks your highest-priority project and takes you there.
@@ -104,11 +102,7 @@ Automatically picks your highest-priority project and takes you there.
 ### 💻 How to use it
 
 ```bash
-js              # That's it!
-
-# Aliases (same thing):
-idk             # "I don't know what to work on"
-stuck           # "I'm stuck, help me decide"
+just-start      # That's it!
 ```
 
 ### ✅ When to use it
@@ -116,7 +110,7 @@ stuck           # "I'm stuck, help me decide"
 - **Morning:** Let it pick for you (zero decisions!)
 - **After break:** Resume work automatically
 - **Context switch:** Jump to most important thing
-- **Decision paralysis:** Can't decide? Let `js` decide!
+- **Decision paralysis:** Can't decide? Let `just-start` decide!
 
 ### 🎨 What you'll see
 
@@ -175,7 +169,7 @@ work                # Would open current project or show picker
 
 ### ✅ When to use it
 
-- **After `js`:** Pick a project → start working
+- **After `just-start`:** Pick a project → start working
 - **After `dash`:** See all → pick one → start
 - **Direct jump:** You know what you want to work on
 - **Resume work:** Jump back to a project
@@ -304,7 +298,7 @@ Progress? [85]
 dash
 
 # 2. Let it pick for you
-js
+just-start
 
 # 3. Start working
 work .
@@ -396,7 +390,7 @@ status mediationverse active P0 "Critical fix" 0
 |---------|------|---------|
 | `dash` | Show all projects | `dash` |
 | `dash teaching` | Filter by category | `dash research` |
-| `js` | Auto-pick project | `js` |
+| `just-start` | Auto-pick project | `just-start` |
 | `work <name>` | Start working | `work mediationverse` |
 | `work med` | Fuzzy match | `work stat` |
 | `status <name>` | Update (interactive) | `status medfit` |
@@ -420,7 +414,7 @@ work med
 ### Tip 2: Morning + Evening Routine
 ```bash
 # Morning:
-dash && js && work .
+dash && just-start && work .
 
 # Evening:
 status . paused P0 "Resume here tomorrow" 90
@@ -447,11 +441,13 @@ win "Completed Phase 1 of help system"
 wins
 ```
 
-### Tip 5: Use Aliases
+### Tip 5: Use Dispatchers
 ```bash
-# These work too:
-idk              # Same as js
-stuck            # Same as js
+# Smart context-aware commands:
+cc               # Claude Code (project-aware)
+gm               # Gemini (project-aware)
+peek <file>      # Smart file viewer
+qu               # Quarto operations
 ```
 
 ---
@@ -470,7 +466,7 @@ A: Yes, but use `status` command - it's easier!
 **Q: What if I have many projects?**
 A: Use category filters: `dash teaching`
 
-**Q: How does `js` pick?**
+**Q: How does `just-start` pick?**
 A: Priority order: P0 active → P1 active → any active → most recent
 
 **Q: Can I use this with my existing workflow?**
@@ -487,7 +483,7 @@ YOUR DAY WITH THESE COMMANDS
 Morning:
   dash          → See overview
     ↓
-  js            → Pick project
+  just-start    → Pick project
     ↓
   work .        → Start working
 
@@ -555,7 +551,7 @@ These work great together:
 
 **You now know:**
 - ✅ `dash` - See everything
-- ✅ `js` - Auto-pick
+- ✅ `just-start` - Auto-pick
 - ✅ `work` - Start working
 - ✅ `status` - Update projects
 
