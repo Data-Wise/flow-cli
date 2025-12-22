@@ -1988,7 +1988,7 @@ _proj_find() {
             # Use nullglob to handle empty directories
             setopt local_options nullglob
             for proj_dir in "$full_path"/*/; do
-                [[ -d "$proj_dir" ]] || continue
+                [[ -d "$proj_dir/.git" ]] || continue  # Only match git repos
                 local proj_name=$(basename "$proj_dir")
 
                 # Fuzzy match
