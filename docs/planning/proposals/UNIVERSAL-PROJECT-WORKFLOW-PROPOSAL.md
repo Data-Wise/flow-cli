@@ -20,7 +20,7 @@
 │   ├── iterm2-context-switcher
 │   ├── obsidian-cli-ops
 │   ├── zsh-claude-workflow
-│   ├── zsh-configuration
+│   ├── flow-cli
 │   └── ...
 │
 ├── quarto/                         # Quarto projects
@@ -144,7 +144,7 @@ Current tools are **mediationverse-specific**:
   🔧 DEV-TOOLS (4 with changes)
   ────────────────────────────────────────
   apple-notes-sync    ✅  [main]           P2 85%
-  zsh-configuration   ⚠️  [dev] modified   P2 new
+  flow-cli   ⚠️  [dev] modified   P2 new
   obsidian-cli-ops    ✅  [main]           P2 70%
   + 8 more stable...
 
@@ -385,7 +385,7 @@ $ pp
     mediationverse                📦 R pkg   ✅
     medrobust                     📦 R pkg   ✅
     apple-notes-sync              🔧 dev     ✅
-    zsh-configuration             🔧 dev     ⚠️ changes
+    flow-cli             🔧 dev     ⚠️ changes
     obsidian-cli-ops              🔧 dev     ✅
     mediation-planning            🔬 research ✅
 

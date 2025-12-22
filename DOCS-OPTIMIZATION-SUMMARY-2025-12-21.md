@@ -272,7 +272,7 @@ docs/archive/planning-brainstorms-2025-12/
    ```
 
 2. **Verify live site** [5 min]
-   - Visit https://Data-Wise.github.io/zsh-configuration/
+   - Visit https://Data-Wise.github.io/flow-cli/
    - Check "Architecture → Quick Wins" page
    - Check "Development → Contributing Guide" page
    - Test navigation and search

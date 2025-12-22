@@ -1,10 +1,10 @@
-site_name: ZSH Configuration Docs
+site_name: Flow CLI Documentation
 site_description: Minimalist ZSH workflow tools with smart dispatchers
 site_author: DT
-site_url: https://data-wise.github.io/zsh-configuration
+site_url: https://data-wise.github.io/flow-cli
 
-repo_name: zsh-configuration
-repo_url: https://github.com/data-wise/zsh-configuration
+repo_name: flow-cli
+repo_url: https://github.com/data-wise/flow-cli
 edit_uri: edit/main/docs/
 
 theme:
@@ -141,7 +141,7 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/data-wise/zsh-configuration
+      link: https://github.com/data-wise/flow-cli
 
 extra_css:
   - stylesheets/extra.css

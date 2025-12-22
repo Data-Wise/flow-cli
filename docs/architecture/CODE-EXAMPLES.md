@@ -1,7 +1,7 @@
 # Architecture Code Examples
 
 **Purpose:** Copy-paste-ready code snippets for implementing Clean Architecture patterns
-**Audience:** Developers implementing new features in the zsh-configuration system
+**Audience:** Developers implementing new features in the flow-cli system
 **Date:** 2025-12-21
 
 ---

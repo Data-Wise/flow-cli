@@ -39,7 +39,7 @@ A streamlined system for managing development workflows. Features 28 essential a
 ## 📁 Project Structure
 
 ```
-zsh-configuration/
+flow-cli/
 ├── cli/                          # CLI integration layer
 │   ├── adapters/                 # ZSH function wrappers
 │   ├── api/                      # Node.js APIs
@@ -102,8 +102,8 @@ zsh-configuration/
 
 ```bash
 # Clone and setup
-git clone <repo-url>
-cd zsh-configuration
+git clone https://github.com/Data-Wise/flow-cli
+cd flow-cli
 
 # Install dependencies
 npm run setup
@@ -178,9 +178,9 @@ This project integrates with other dev-tools:
 ## ☁️ Cloud Sync
 
 Changes auto-sync via symlinks:
-- **Primary:** `~/projects/dev-tools/zsh-configuration/`
-- **Google Drive:** `~/Library/CloudStorage/GoogleDrive-.../My Drive/dev-tools/zsh-configuration`
-- **Dropbox:** `~/Library/CloudStorage/Dropbox/dev-tools/zsh-configuration`
+- **Primary:** `~/projects/dev-tools/flow-cli/`
+- **Google Drive:** `~/Library/CloudStorage/GoogleDrive-.../My Drive/dev-tools/flow-cli`
+- **Dropbox:** `~/Library/CloudStorage/Dropbox/dev-tools/flow-cli`
 
 See `docs/reference/SYNC-SETUP.md` for setup details.
 
@@ -190,7 +190,7 @@ See `docs/reference/SYNC-SETUP.md` for setup details.
 
 ### Documentation Site
 
-**Live site:** [https://Data-Wise.github.io/zsh-configuration/](https://Data-Wise.github.io/zsh-configuration/)
+**Live site:** [https://Data-Wise.github.io/flow-cli/](https://Data-Wise.github.io/flow-cli/)
 
 - 📚 **63 pages** organized across 9 major sections
 - 🎨 **ADHD-optimized** cyan/purple theme (WCAG AAA)

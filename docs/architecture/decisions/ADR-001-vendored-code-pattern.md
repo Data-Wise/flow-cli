@@ -12,7 +12,7 @@
 
 ## Context and Problem Statement
 
-The zsh-configuration system needs project detection functionality. The [zsh-claude-workflow](https://github.com/Data-Wise/zsh-claude-workflow) project already has battle-tested shell scripts (`project-detector.sh`, ~200 lines) that detect project types accurately.
+The flow-cli system needs project detection functionality. The [zsh-claude-workflow](https://github.com/Data-Wise/zsh-claude-workflow) project already has battle-tested shell scripts (`project-detector.sh`, ~200 lines) that detect project types accurately.
 
 **Question:** How should we integrate this existing functionality?
 

@@ -64,7 +64,7 @@ All functions in `~/.config/zsh/functions/claude-workflows.zsh`:
 ### Wave 4: FZF Helpers (12 functions)
 **Status:** ✅ Complete
 
-All functions in `~/projects/dev-tools/zsh-configuration/zsh/functions/fzf-helpers.zsh`:
+All functions in `~/projects/dev-tools/flow-cli/zsh/functions/fzf-helpers.zsh`:
 
 1. ✅ `re()` - Browse/edit R files
 2. ✅ `rt()` - Browse/edit tests
@@ -189,7 +189,7 @@ These are actually correct behavior, not bugs:
 | File | Functions | Lines Changed |
 |------|-----------|---------------|
 | `~/.config/zsh/functions/claude-workflows.zsh` | 8 | ~300 |
-| `~/projects/dev-tools/zsh-configuration/zsh/functions/fzf-helpers.zsh` | 12 | ~200 |
+| `~/projects/dev-tools/flow-cli/zsh/functions/fzf-helpers.zsh` | 12 | ~200 |
 | `~/.config/zsh/functions/adhd-helpers.zsh` | 11 | ~250 |
 | `~/.config/zsh/functions/dash.zsh` | 1 | ~50 |
 | `~/.config/zsh/functions/smart-dispatchers.zsh` | 3 | ~100 |

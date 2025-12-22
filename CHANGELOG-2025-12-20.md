@@ -23,7 +23,7 @@ Implemented comprehensive help system and smart default behaviors across **42 fu
 
 **Files modified:**
 - `~/.config/zsh/functions/claude-workflows.zsh` (8 functions)
-- `~/projects/dev-tools/zsh-configuration/zsh/functions/fzf-helpers.zsh` (12 functions)
+- `~/projects/dev-tools/flow-cli/zsh/functions/fzf-helpers.zsh` (12 functions)
 - `~/.config/zsh/functions/adhd-helpers.zsh` (11 functions)
 - `~/.config/zsh/functions/dash.zsh` (1 function)
 - `~/.config/zsh/functions/smart-dispatchers.zsh` (3 functions)

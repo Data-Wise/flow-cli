@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 # HUB COMMANDS - Project Hub Navigation
-# Part of: zsh-configuration
+# Part of: flow-cli
 # Purpose: Quick navigation between project hubs
 #
 # Commands:

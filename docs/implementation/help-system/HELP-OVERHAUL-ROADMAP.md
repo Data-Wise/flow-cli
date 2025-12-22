@@ -190,7 +190,7 @@ r ?                 # Interactive picker
 ## 📁 Documentation Structure
 
 ```
-~/projects/dev-tools/zsh-configuration/
+~/projects/dev-tools/flow-cli/
 ├── HELP-SYSTEM-OVERHAUL-PROPOSAL.md  # Original proposal
 ├── HELP-OVERHAUL-SUMMARY.md          # Quick decision guide
 ├── HELP-OVERHAUL-ROADMAP.md          # This file

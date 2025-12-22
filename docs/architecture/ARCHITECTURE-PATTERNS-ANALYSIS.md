@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-The zsh-configuration system currently uses a **three-layer architecture** that partially aligns with Clean Architecture and Hexagonal Architecture principles. This analysis identifies where the system already follows best practices and where architectural patterns can improve maintainability, testability, and extensibility.
+The flow-cli system currently uses a **three-layer architecture** that partially aligns with Clean Architecture and Hexagonal Architecture principles. This analysis identifies where the system already follows best practices and where architectural patterns can improve maintainability, testability, and extensibility.
 
 **Assessment:** 🟡 **Moderate Alignment** - Good foundation with clear improvement path
 
@@ -1181,7 +1181,7 @@ describe('CreateSessionUseCase', () => {
 
 ## Conclusion
 
-The zsh-configuration system has a **solid foundation** that can be enhanced with Clean Architecture and DDD principles. The recommended approach:
+The flow-cli system has a **solid foundation** that can be enhanced with Clean Architecture and DDD principles. The recommended approach:
 
 1. **Start with domain entities** (Session, Project) - capture business rules
 2. **Define repository ports** - interfaces for data access

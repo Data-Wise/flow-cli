@@ -115,7 +115,7 @@ Last Updated: 2025-12-13 12:00 PM
 
 🟡 HIGH - P1 [3 projects]
 
-• zsh-configuration: P1 features
+• flow-cli: P1 features
   Progress: [░░░░░░░░░░] 0%
   Next: Progress indicators [20 min]
 
@@ -254,7 +254,7 @@ Ready to test?
 
 **Research:**
 - ~/Downloads/DASHBOARD-ARTIFACT-RESEARCH.md (full research)
-- ~/projects/dev-tools/zsh-configuration/DASHBOARD-IDEA.md (this file)
+- ~/projects/dev-tools/flow-cli/DASHBOARD-IDEA.md (this file)
 
 **Saved to project knowledge:** (manual upload needed)
 - Upload DASHBOARD-ARTIFACT-RESEARCH.md

@@ -7,14 +7,14 @@
 
 ## Summary
 
-Successfully updated all documentation to reflect the new MCP dispatcher pattern (v2.0), migrating from individual `mcp-*` functions to the unified `mcp <keyword>` dispatcher that follows zsh-configuration standards.
+Successfully updated all documentation to reflect the new MCP dispatcher pattern (v2.0), migrating from individual `mcp-*` functions to the unified `mcp <keyword>` dispatcher that follows flow-cli standards.
 
 ---
 
 ## Files Updated
 
 ### 1. Quick Reference Card ✅
-**File:** `~/projects/dev-tools/zsh-configuration/zsh/help/quick-reference.md`
+**File:** `~/projects/dev-tools/flow-cli/zsh/help/quick-reference.md`
 
 **Changes:**
 - Added new "🔌 MCP SERVERS (8)" section
@@ -58,7 +58,7 @@ mcpp           # mcp pick (interactive)
 ---
 
 ### 2. Conventions Document ✅
-**File:** `~/projects/dev-tools/zsh-configuration/docs/CONVENTIONS.md`
+**File:** `~/projects/dev-tools/flow-cli/docs/CONVENTIONS.md`
 
 **Changes:**
 - Added `mcp-dispatcher.zsh` to "Example Dispatchers" section
@@ -114,7 +114,7 @@ mcp test shell  # or: mcp t shell
 ---
 
 ### 4. ZSH MCP Functions Guide ✅
-**File:** `~/projects/dev-tools/zsh-configuration/ZSH-MCP-FUNCTIONS.md`
+**File:** `~/projects/dev-tools/flow-cli/ZSH-MCP-FUNCTIONS.md`
 
 **Status:** Already updated in previous session
 - Comprehensive v2.0 documentation
@@ -125,10 +125,10 @@ mcp test shell  # or: mcp t shell
 ---
 
 ### 5. Help Function ✅
-**File:** `~/projects/dev-tools/zsh-configuration/zsh/functions/mcp-dispatcher.zsh`
+**File:** `~/projects/dev-tools/flow-cli/zsh/functions/mcp-dispatcher.zsh`
 
 **Changes:**
-- Reformatted `_mcp_help()` to match zsh-configuration standards
+- Reformatted `_mcp_help()` to match flow-cli standards
 - Matches structure of `g help`, `r help`, `v help`
 - Better categorization (CORE ACTIONS, INFO & STATUS, SHORT FORMS)
 - Improved alignment and clarity
@@ -139,7 +139,7 @@ mcp test shell  # or: mcp t shell
 
 ### Primary Documentation
 ```
-~/projects/dev-tools/zsh-configuration/
+~/projects/dev-tools/flow-cli/
 ├── zsh/help/quick-reference.md         # ✅ Quick ref card (updated)
 ├── docs/CONVENTIONS.md                 # ✅ Standards (updated)
 ├── ZSH-MCP-FUNCTIONS.md               # ✅ Full MCP guide (already done)
@@ -218,11 +218,11 @@ Users will see beautifully formatted help matching the standard used by other di
 
 ### Primary User-Facing Docs
 - Quick reference: `~/.config/zsh/help/quick-reference.md`
-- Full guide: `~/projects/dev-tools/zsh-configuration/ZSH-MCP-FUNCTIONS.md`
+- Full guide: `~/projects/dev-tools/flow-cli/ZSH-MCP-FUNCTIONS.md`
 - Help command: `mcp help` (built into dispatcher)
 
 ### Developer/Standards Docs
-- Conventions: `~/projects/dev-tools/zsh-configuration/docs/CONVENTIONS.md`
+- Conventions: `~/projects/dev-tools/flow-cli/docs/CONVENTIONS.md`
 - Test suite: `~/.config/zsh/tests/test-mcp-dispatcher.zsh`
 
 ### Implementation Files

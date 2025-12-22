@@ -65,7 +65,7 @@ All category names are case-insensitive and support multiple aliases:
 ```text
 project-name         icon type
 ────────────────────────────────
-zsh-configuration    🔧 dev
+flow-cli    🔧 dev
 mediationverse       📦 r
 medrobust            📦 r
 apple-notes-sync     🔧 dev

@@ -245,9 +245,9 @@ If you're used to old aliases:
 
 ## 📖 ADDITIONAL RESOURCES
 
-- **Workflow Quick Reference:** `~/projects/dev-tools/zsh-configuration/docs/user/WORKFLOW-QUICK-REFERENCE.md`
-- **Pick Command Guide:** `~/projects/dev-tools/zsh-configuration/docs/user/PICK-COMMAND-REFERENCE.md`
-- **ZSH Development Guidelines:** `~/projects/dev-tools/zsh-configuration/docs/ZSH-DEVELOPMENT-GUIDELINES.md`
+- **Workflow Quick Reference:** `~/projects/dev-tools/flow-cli/docs/user/WORKFLOW-QUICK-REFERENCE.md`
+- **Pick Command Guide:** `~/projects/dev-tools/flow-cli/docs/user/PICK-COMMAND-REFERENCE.md`
+- **ZSH Development Guidelines:** `~/projects/dev-tools/flow-cli/docs/ZSH-DEVELOPMENT-GUIDELINES.md`
 
 ---
 

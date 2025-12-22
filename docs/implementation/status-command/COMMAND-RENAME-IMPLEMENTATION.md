@@ -297,9 +297,9 @@ status() {
 ### Step 2: Update Documentation
 
 **Files to update:**
-- [ ] `/Users/dt/projects/dev-tools/zsh-configuration/WORKFLOW-QUICK-REFERENCE.md`
-- [ ] `/Users/dt/projects/dev-tools/zsh-configuration/ALIAS-REFERENCE-CARD.md`
-- [ ] `/Users/dt/projects/dev-tools/zsh-configuration/.STATUS`
+- [ ] `/Users/dt/projects/dev-tools/flow-cli/WORKFLOW-QUICK-REFERENCE.md`
+- [ ] `/Users/dt/projects/dev-tools/flow-cli/ALIAS-REFERENCE-CARD.md`
+- [ ] `/Users/dt/projects/dev-tools/flow-cli/.STATUS`
 - [ ] `/Users/dt/.config/zsh/functions/adhd-helpers.zsh` (help text)
 
 **Changes:**

@@ -17,7 +17,7 @@
 | **Git Plugin** | ✅ Active | 226+ OMZ git aliases |
 | **Smart Dispatchers** | ✅ 6 functions | cc, gm, peek, qu, work, pick |
 | **Focus Timers** | ✅ Active | f25, f50 |
-| **Documentation Site** | ✅ Live | https://data-wise.github.io/zsh-configuration |
+| **Documentation Site** | ✅ Live | https://data-wise.github.io/flow-cli |
 | **Site Pages** | ✅ Complete | 63 pages across 9 major sections |
 | **Help System** | ✅ Complete | 20+ functions with `--help` support |
 | **Architecture Docs** | ✅ Complete | 6,200+ lines across 11 documents |
@@ -117,7 +117,7 @@ P5C: CLI Integration          ████████████████�
 **Site Deployment:**
 
 - ✅ Updated mkdocs.yml with 63 pages across 9 sections
-- ✅ Deployed to GitHub Pages: <https://Data-Wise.github.io/zsh-configuration/>
+- ✅ Deployed to GitHub Pages: <https://Data-Wise.github.io/flow-cli/>
 - ✅ All navigation working, search functional
 
 ### Afternoon Session: Documentation Optimization
@@ -389,7 +389,7 @@ P5C: CLI Integration          ████████████████�
 
 ### MkDocs Documentation Site ✅
 
-**Live URL:** https://data-wise.github.io/zsh-configuration
+**Live URL:** https://data-wise.github.io/flow-cli
 
 **Created:**
 - ✅ mkdocs.yml with Material theme

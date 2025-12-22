@@ -139,7 +139,7 @@ pick --all           # All projects (alphabetical)
 
 # Display shows recency indicator:
 mediationverse       📦 r    ⚠️  [main]  🕐 2h ago
-zsh-configuration    🔧 dev  ✅ [dev]    🕐 Today
+flow-cli    🔧 dev  ✅ [dev]    🕐 Today
 claude-mcp           🔧 dev  ✅ [main]   🕐 Yesterday
 ```
 

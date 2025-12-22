@@ -8,11 +8,11 @@
 
 ## Executive Summary
 
-This document defines how **zsh-configuration** will be architected as a **personal productivity system** that integrates with existing dev-tools packages rather than duplicating their functionality.
+This document defines how **flow-cli** will be architected as a **personal productivity system** that integrates with existing dev-tools packages rather than duplicating their functionality.
 
 **Core Principle:** Port essential functions from existing tools to create a standalone, independently-installable package.
 
-**UPDATE 2025-12-20:** Changed from dependency approach to porting functions. This makes zsh-configuration truly standalone and npm-installable without external dependencies.
+**UPDATE 2025-12-20:** Changed from dependency approach to porting functions. This makes flow-cli truly standalone and npm-installable without external dependencies.
 
 ---
 
@@ -38,7 +38,7 @@ This document defines how **zsh-configuration** will be architected as a **perso
 - Total: ~300 lines of essential code
 
 **Why Porting Instead of Dependency:**
-- Makes zsh-configuration standalone (npm-installable)
+- Makes flow-cli standalone (npm-installable)
 - No external dependencies required
 - Works out-of-box for all users
 - Clear attribution to original source
@@ -82,7 +82,7 @@ export async function detectProjectType(projectPath) {
 
 **Integration Code:**
 ```bash
-# In zsh-configuration/lib/status-aggregator.sh
+# In flow-cli/lib/status-aggregator.sh
 # Reuse apple-notes-sync scanner logic
 source ~/projects/dev-tools/apple-notes-sync/scanner.sh
 
@@ -109,7 +109,7 @@ aggregate_project_status() {
 
 **Integration Code:**
 ```zsh
-# In zsh-configuration/lib/session-manager.zsh
+# In flow-cli/lib/session-manager.zsh
 switch_project() {
   local project="$1"
 
@@ -180,7 +180,7 @@ switch_project() {
 ### Directory Structure
 
 ```
-zsh-configuration/
+flow-cli/
 ├── cli/                                # Backend (Node.js)
 │   ├── core/                          # NEW: Core business logic
 │   │   ├── session-manager.js         # Session persistence
@@ -385,7 +385,7 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/core.sh cli/vendor/zsh-claude-wo
 **Installation Strategy:**
 ```bash
 # Core package works standalone
-npm install -g zsh-configuration
+npm install -g flow-cli
 
 # Optional: Install aiterm for enhanced terminal context
 pipx install git+https://github.com/Data-Wise/aiterm
@@ -571,8 +571,8 @@ export async function detectProjectType(projectPath) {
 ### Technical
 
 1. **Session Storage Location**
-   - `~/.zsh-sessions/` vs `~/.local/share/zsh-configuration/`?
-   - Recommendation: `~/.local/share/zsh-configuration/sessions/` (XDG-compliant)
+   - `~/.zsh-sessions/` vs `~/.local/share/flow-cli/`?
+   - Recommendation: `~/.local/share/flow-cli/sessions/` (XDG-compliant)
 
 2. **Auto-save Frequency**
    - Every command? 15 minutes? On idle?
@@ -602,7 +602,7 @@ export async function detectProjectType(projectPath) {
 
 1. **Create directory structure** (5 min)
    ```bash
-   cd ~/projects/dev-tools/zsh-configuration
+   cd ~/projects/dev-tools/flow-cli
    mkdir -p cli/{core,lib} config/zsh/{functions,completions} data/{sessions,projects,cache} integrations
    ```
 

@@ -20,10 +20,10 @@
 
 ### Brainstorm Phase 1: Single Hub (DEVOPS-HUB-PROPOSAL.md)
 
-**Initial idea:** Make `zsh-configuration` the central hub for everything.
+**Initial idea:** Make `flow-cli` the central hub for everything.
 
 ```
-zsh-configuration/
+flow-cli/
 ├── standards/           # Universal standards
 ├── templates/           # Project scaffolding
 ├── r-ecosystem/         # R package coordination
@@ -57,11 +57,11 @@ zsh-configuration/
 
 ### Brainstorm Phase 3: Options Analysis
 
-**Question:** Should we create a similar `dev-planning` folder, or use `zsh-configuration`?
+**Question:** Should we create a similar `dev-planning` folder, or use `flow-cli`?
 
 **Options explored:**
 
-#### Option A: Single Hub (zsh-configuration does everything)
+#### Option A: Single Hub (flow-cli does everything)
 - Pros: One location, unified commands
 - Cons: Gets bloated, mixes shell config with project coordination
 
@@ -71,7 +71,7 @@ zsh-configuration/
 - Cons: Multiple repos to maintain
 
 #### Option C: Hybrid - Standards Hub Only
-- zsh-configuration = standards authority
+- flow-cli = standards authority
 - Domain hubs = coordination
 - Pros: Clean separation
 - Cons: Cross-domain coordination unclear
@@ -79,14 +79,14 @@ zsh-configuration/
 #### Option D: Meta Hub + Standards
 - project-hub = command center
 - mediation-planning = R packages (exists)
-- zsh-configuration = standards + shell
+- flow-cli = standards + shell
 - Pros: Clean aggregation
 - Cons: Still need dev tools coordination
 
 #### Option D+ (Refined): Three-Tier System
 - Master: project-hub (aggregates all)
 - Domain: mediation-planning, dev-planning
-- Standards: zsh-configuration
+- Standards: flow-cli
 
 ---
 
@@ -148,17 +148,17 @@ zsh-configuration/
 
 ### Brainstorm Phase 7: Final Decision
 
-**Question:** Should dev tools tracking live in `zsh-configuration` or separate `dev-planning`?
+**Question:** Should dev tools tracking live in `flow-cli` or separate `dev-planning`?
 
 **Arguments for separate `dev-planning`:**
 1. Follows `mediation-planning` pattern exactly
-2. Keeps `zsh-configuration` focused
+2. Keeps `flow-cli` focused
 3. Clean parallel in project-hub links:
    - R packages → mediation-planning
    - Dev tools → dev-planning
 4. Scalable for 16+ projects
 
-**Arguments for nesting in `zsh-configuration`:**
+**Arguments for nesting in `flow-cli`:**
 1. Fewer repos to maintain
 2. Already has planning docs
 
@@ -166,7 +166,7 @@ zsh-configuration/
 
 **Rationale:**
 - Consistency > convenience
-- `zsh-configuration` name doesn't suggest "dev tools hub"
+- `flow-cli` name doesn't suggest "dev tools hub"
 - Cleaner mental model
 
 ---
@@ -186,7 +186,7 @@ zsh-configuration/
 │
 ├── dev-tools/
 │   ├── dev-planning/               # DOMAIN HUB (new)
-│   └── zsh-configuration/          # STANDARDS HUB
+│   └── flow-cli/          # STANDARDS HUB
 │       └── standards/              # Universal conventions
 │
 ├── research/                       # → project-hub/domains/research.md

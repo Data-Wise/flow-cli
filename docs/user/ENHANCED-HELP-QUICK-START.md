@@ -164,8 +164,8 @@ r ?                        # Interactive picker (fzf)
 - **Implementation:** `~/.config/zsh/functions/smart-dispatchers.zsh`
 - **Backup:** `~/.config/zsh/functions/smart-dispatchers.zsh.backup-phase1`
 - **Tests:** `~/.config/zsh/tests/test-smart-functions.zsh`
-- **Report:** `~/projects/dev-tools/zsh-configuration/PHASE1-IMPLEMENTATION-REPORT.md`
-- **Comparison:** `~/projects/dev-tools/zsh-configuration/PHASE1-VISUAL-COMPARISON.md`
+- **Report:** `~/projects/dev-tools/flow-cli/PHASE1-IMPLEMENTATION-REPORT.md`
+- **Comparison:** `~/projects/dev-tools/flow-cli/PHASE1-VISUAL-COMPARISON.md`
 
 ---
 

@@ -174,7 +174,7 @@ git pull
 Custom functions are in this repo. Pull latest:
 
 ```bash
-cd ~/projects/dev-tools/zsh-configuration
+cd ~/projects/dev-tools/flow-cli
 git pull
 
 # Copy updated functions

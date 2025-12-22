@@ -1,6 +1,6 @@
 # Architecture Decision Records (ADRs)
 
-This directory contains Architecture Decision Records for the zsh-configuration system.
+This directory contains Architecture Decision Records for the flow-cli system.
 
 ## What is an ADR?
 

@@ -1,6 +1,6 @@
 # 🐚 ZSH Configuration - Documentation Index
 
-**Location:** ~/projects/dev-tools/zsh-configuration/  
+**Location:** ~/projects/dev-tools/flow-cli/  
 **Last Updated:** 2025-12-13
 
 ---
@@ -29,7 +29,7 @@
 
 ## ☁️ Cloud Sync Status
 
-**Primary:** ~/projects/dev-tools/zsh-configuration/  
+**Primary:** ~/projects/dev-tools/flow-cli/  
 **Google Drive:** ✅ Auto-syncing (symlink)  
 **Dropbox:** ✅ Auto-syncing (symlink)
 
@@ -38,7 +38,7 @@
 ## 🚀 Access
 
 ```bash
-cd ~/projects/dev-tools/zsh-configuration
+cd ~/projects/dev-tools/flow-cli
 cat INDEX.md
 cat WORKFLOWS-QUICK-WINS.md
 ```

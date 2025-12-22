@@ -345,7 +345,7 @@ peek() { ... }  # ❌ Parse error!
 
 - Test suite: `~/.config/zsh/tests/`
 - Lint script: `~/.config/zsh/scripts/lint-zsh.sh`
-- Documentation: `~/projects/dev-tools/zsh-configuration/docs/`
+- Documentation: `~/projects/dev-tools/flow-cli/docs/`
 
 ---
 

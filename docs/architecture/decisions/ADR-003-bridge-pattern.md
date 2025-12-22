@@ -12,7 +12,7 @@
 
 ## Context and Problem Statement
 
-The zsh-configuration system (JavaScript/Node.js) needs to execute vendored shell scripts (Bash/ZSH) for project detection. These two environments are fundamentally incompatible:
+The flow-cli system (JavaScript/Node.js) needs to execute vendored shell scripts (Bash/ZSH) for project detection. These two environments are fundamentally incompatible:
 
 - **JavaScript**: Async/await, Promises, objects, exceptions
 - **Shell**: Synchronous, text output, exit codes

@@ -1,5 +1,5 @@
 {
-  "name": "zsh-configuration",
+  "name": "flow-cli",
   "version": "0.1.0",
   "description": "ADHD-optimized ZSH workflow CLI tools",
   "private": true,
@@ -26,7 +26,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/zsh-configuration"
+    "url": "https://github.com/Data-Wise/flow-cli"
   },
   "engines": {
     "node": ">=18.0.0",

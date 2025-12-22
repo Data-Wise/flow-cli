@@ -2,7 +2,7 @@
 
 **Generated:** 2025-12-19 14:20
 **Purpose:** Comprehensive overview + interactive cleanup tool
-**Location:** `/Users/dt/projects/dev-tools/zsh-configuration/`
+**Location:** `/Users/dt/projects/dev-tools/flow-cli/`
 
 ---
 
@@ -215,7 +215,7 @@ mgmt    → ⚙️  (Management - proposed, not yet implemented)
 │   ├── active/          # Active development (medfit, mediationverse, etc.)
 │   └── stable/          # Stable/production (rmediation)
 ├── dev-tools/           # 17 projects
-│   ├── zsh-configuration/
+│   ├── flow-cli/
 │   ├── dev-planning/
 │   ├── mcp-servers/
 │   ├── aiterm/

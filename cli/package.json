@@ -1,5 +1,5 @@
 {
-  "name": "zsh-workflow-cli",
+  "name": "@flowcli/core",
   "version": "0.1.0",
   "description": "Node.js integration layer for ZSH workflow commands",
   "type": "module",

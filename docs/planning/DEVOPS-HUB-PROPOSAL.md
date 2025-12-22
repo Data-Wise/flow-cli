@@ -1,4 +1,4 @@
-# DevOps Hub: zsh-configuration as Central Command
+# DevOps Hub: flow-cli as Central Command
 
 > **Status:** SUPERSEDED by [PROJECT-HUB-PROPOSAL.md](PROJECT-HUB-PROPOSAL.md)
 >
@@ -9,7 +9,7 @@
 ## Revision Notes (2025-12-17)
 
 **What changed:**
-- Original vision: `zsh-configuration` as single hub for everything
+- Original vision: `flow-cli` as single hub for everything
 - Final decision: Three-tier system with separation of concerns
 
 **Why we changed:**
@@ -22,7 +22,7 @@
 project-hub/              # Master aggregation (NEW)
 mediation-planning/       # R packages coordination (EXISTS)
 dev-planning/             # Dev tools coordination (NEW)
-zsh-configuration/        # Standards + shell config (FOCUSED)
+flow-cli/        # Standards + shell config (FOCUSED)
 ```
 
 **What we kept from this proposal:**
@@ -39,7 +39,7 @@ zsh-configuration/        # Standards + shell config (FOCUSED)
 
 ## Vision
 
-> **One place to rule them all.** `zsh-configuration` becomes the single source of truth for all project workflows, standards, and automation.
+> **One place to rule them all.** `flow-cli` becomes the single source of truth for all project workflows, standards, and automation.
 
 ---
 
@@ -48,7 +48,7 @@ zsh-configuration/        # Standards + shell config (FOCUSED)
 ```
 ~/projects/
 ├── dev-tools/           # 16 projects
-│   ├── zsh-configuration/    ← HUB (this repo)
+│   ├── flow-cli/    ← HUB (this repo)
 │   ├── zsh-claude-workflow/
 │   ├── claude-statistical-research/
 │   └── ...
@@ -69,7 +69,7 @@ zsh-configuration/        # Standards + shell config (FOCUSED)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                     zsh-configuration (THE HUB)                              │
+│                     flow-cli (THE HUB)                              │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │

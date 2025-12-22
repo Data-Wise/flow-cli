@@ -1,6 +1,6 @@
 # Architecture Documentation Hub
 
-**Welcome!** This directory contains comprehensive architecture documentation for the zsh-configuration system.
+**Welcome!** This directory contains comprehensive architecture documentation for the flow-cli system.
 
 **Last Updated:** 2025-12-21
 **Documentation Sprint:** Week 1 Complete

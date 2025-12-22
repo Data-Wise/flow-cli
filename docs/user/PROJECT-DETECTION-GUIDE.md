@@ -24,7 +24,7 @@ Project detection automatically identifies what type of project you're working w
 ### Using the API (JavaScript/Node.js)
 
 ```javascript
-import { detectProjectType } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 // Detect a single project
 const type = await detectProjectType('/Users/dt/projects/r-packages/stable/rmediation');
@@ -183,7 +183,7 @@ const type2 = await detectProjectType('/random/folder');
 ### 1. Detect Current Working Directory
 
 ```javascript
-import { detectProjectType } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
 import { cwd } from 'process';
 
 const currentType = await detectProjectType(cwd());
@@ -193,26 +193,26 @@ console.log(`You're working in a ${currentType} project`);
 ### 2. Detect Multiple Projects
 
 ```javascript
-import { detectMultipleProjects } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 const results = await detectMultipleProjects([
   '/Users/dt/projects/r-packages/stable/rmediation',
   '/Users/dt/projects/teaching/stat-440',
-  '/Users/dt/projects/dev-tools/zsh-configuration'
+  '/Users/dt/projects/dev-tools/flow-cli'
 ]);
 
 // Results:
 // {
 //   '/Users/dt/projects/r-packages/stable/rmediation': 'r-package',
 //   '/Users/dt/projects/teaching/stat-440': 'quarto',
-//   '/Users/dt/projects/dev-tools/zsh-configuration': 'generic'
+//   '/Users/dt/projects/dev-tools/flow-cli': 'generic'
 // }
 ```
 
 ### 3. Filter Projects by Type
 
 ```javascript
-import { detectMultipleProjects } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
 import { readdir } from 'fs/promises';
 import { join } from 'path';
 
@@ -236,7 +236,7 @@ console.log(`Found ${rPackages.length} R packages`);
 ### 4. Check if Type is Supported
 
 ```javascript
-import { isTypeSupported, getSupportedTypes } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { isTypeSupported, getSupportedTypes } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 // Check specific type
 if (isTypeSupported('r-package')) {
@@ -282,7 +282,7 @@ console.log(type);  // 'quarto'
 ### Example 3: Scan All Teaching Projects
 
 ```javascript
-import { detectMultipleProjects } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 const teachingProjects = [
   '/Users/dt/projects/teaching/stat-440',           // Regression
@@ -424,7 +424,7 @@ import {
   detectMultipleProjects,
   getSupportedTypes,
   isTypeSupported
-} from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+} from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 // Single detection
 const type = await detectProjectType('/path/to/project');
@@ -446,7 +446,7 @@ if (isTypeSupported('r-package')) { /* ... */ }
 ### Build a Project Dashboard
 
 ```javascript
-import { detectMultipleProjects } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
 import { readdir } from 'fs/promises';
 import { join } from 'path';
 
@@ -483,7 +483,7 @@ console.log(`Quarto Projects: ${dashboard['quarto']?.length || 0}`);
 ### Conditional Workflow Based on Type
 
 ```javascript
-import { detectProjectType } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 async function runBuild(projectPath) {
   const type = await detectProjectType(projectPath);
@@ -561,7 +561,7 @@ async function runBuild(projectPath) {
 **Quick Start:**
 
 ```javascript
-import { detectProjectType } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 const type = await detectProjectType('/path/to/project');
 console.log(`Project type: ${type}`);

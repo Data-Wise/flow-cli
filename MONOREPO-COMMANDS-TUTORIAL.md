@@ -456,7 +456,7 @@ cd app/
 npm run dev:app  # Won't work!
 
 # ✅ Right (in root folder)
-cd /Users/dt/projects/dev-tools/zsh-configuration/
+cd /Users/dt/projects/dev-tools/flow-cli/
 npm run dev:app  # Works!
 ```
 
@@ -517,7 +517,7 @@ Congratulations! You now know:
 2. **Check you're in the right place:**
    ```bash
    pwd
-   # Should show: /Users/dt/projects/dev-tools/zsh-configuration
+   # Should show: /Users/dt/projects/dev-tools/flow-cli
    ```
 
 3. **Verify Node version:**

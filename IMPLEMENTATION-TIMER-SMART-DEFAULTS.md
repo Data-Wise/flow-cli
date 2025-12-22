@@ -161,7 +161,7 @@ timer invalid
 
 ## Related Files
 
-- `/Users/dt/projects/dev-tools/zsh-configuration/PROPOSAL-SMART-DEFAULTS.md` - Original proposal
+- `/Users/dt/projects/dev-tools/flow-cli/PROPOSAL-SMART-DEFAULTS.md` - Original proposal
 - `/Users/dt/.config/zsh/functions/adhd-helpers.zsh` - Implementation location
 
 ## Next Steps

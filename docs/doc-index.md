@@ -195,5 +195,5 @@ cat docs/user/ALIAS-REFERENCE-CARD.md | grep "alias-name"
 ---
 
 **Maintainer:** DT
-**Repository:** `~/projects/dev-tools/zsh-configuration/`
+**Repository:** `~/projects/dev-tools/flow-cli/`
 **Issues:** Create .md files in root or `docs/` directory

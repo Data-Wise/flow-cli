@@ -203,4 +203,4 @@ dc, ld, ck, bd  # Duplicates
 
 *Created: 2025-12-14*
 *Status: Ready for future implementation*
-*Location: ~/projects/dev-tools/zsh-configuration/*
+*Location: ~/projects/dev-tools/flow-cli/*

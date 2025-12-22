@@ -1,6 +1,6 @@
 # Architecture Command Reference
 
-**Purpose:** Quick reference for architectural patterns and commands used in zsh-configuration
+**Purpose:** Quick reference for architectural patterns and commands used in flow-cli
 **Created:** 2025-12-21
 **Use:** Copy-paste when implementing similar patterns in future projects
 

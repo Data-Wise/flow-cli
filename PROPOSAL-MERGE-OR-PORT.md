@@ -1,4 +1,4 @@
-# Should We Merge zsh-claude-workflow into zsh-configuration?
+# Should We Merge zsh-claude-workflow into flow-cli?
 
 **Created:** 2025-12-20
 **Context:** Two projects with overlapping goals, considering consolidation
@@ -24,7 +24,7 @@
 
 **Users:** You (DT), potentially others via public repo
 
-### zsh-configuration
+### flow-cli
 
 **Purpose:** Personal productivity & project management system
 **Size:** Early stage (architecture defined, implementation starting)
@@ -40,7 +40,7 @@
 
 ### Overlap
 
-| Feature | zsh-claude-workflow | zsh-configuration |
+| Feature | zsh-claude-workflow | flow-cli |
 |---------|---------------------|-------------------|
 | Project detection | ✅ Core feature (8+ types) | 🔄 Planned (built-in fallback) |
 | Context gathering | ✅ CLAUDE.md templates | Not planned |
@@ -54,12 +54,12 @@
 
 ### Strategy
 
-Fold zsh-claude-workflow entirely into zsh-configuration.
+Fold zsh-claude-workflow entirely into flow-cli.
 
 ### New Combined Structure
 
 ```
-zsh-configuration/
+flow-cli/
 ├── cli/
 │   ├── core/
 │   │   ├── detectors/
@@ -104,7 +104,7 @@ cp -r ~/projects/dev-tools/zsh-claude-workflow/templates/* cli/lib/templates/
 
 **Phase 4: Archive zsh-claude-workflow**
 - Mark as deprecated
-- Redirect to zsh-configuration
+- Redirect to flow-cli
 - Keep for reference
 
 ### Pros
@@ -119,7 +119,7 @@ cp -r ~/projects/dev-tools/zsh-claude-workflow/templates/* cli/lib/templates/
 ### Cons
 
 ❌ **Breaking change** - Existing zsh-claude-workflow users affected
-❌ **Scope creep** - zsh-configuration becomes very large
+❌ **Scope creep** - flow-cli becomes very large
 ❌ **Lost focus** - Dilutes personal productivity focus
 ❌ **Migration effort** - 2-3 days to merge properly
 ❌ **Documentation complexity** - MkDocs site needs major rewrite
@@ -138,7 +138,7 @@ cp -r ~/projects/dev-tools/zsh-claude-workflow/templates/* cli/lib/templates/
 
 ### Strategy
 
-Copy only the functions zsh-configuration needs, leave rest independent.
+Copy only the functions flow-cli needs, leave rest independent.
 
 ### What to Port
 
@@ -159,7 +159,7 @@ Copy only the functions zsh-configuration needs, leave rest independent.
 ### Implementation
 
 ```
-zsh-configuration/
+flow-cli/
 ├── cli/
 │   └── vendor/                    # NEW: Vendored code
 │       └── zsh-claude-workflow/   # Ported functions
@@ -212,7 +212,7 @@ See original repo for updates.
 
 ### Pros
 
-✅ **Independence** - zsh-configuration works standalone
+✅ **Independence** - flow-cli works standalone
 ✅ **Focused scope** - Only take what we need
 ✅ **Both projects continue** - zsh-claude-workflow stays independent
 ✅ **Low risk** - Doesn't break existing users
@@ -247,7 +247,7 @@ Keep both projects separate, make zsh-claude-workflow a dependency.
 ### Implementation
 
 ```
-zsh-configuration/
+flow-cli/
 ├── integrations/
 │   └── zsh-claude-workflow/  # Symlink to ~/projects/dev-tools/zsh-claude-workflow
 ├── cli/
@@ -319,7 +319,7 @@ zsh-project-tools/           # NEW: Shared library
 zsh-claude-workflow/         # Uses shared library
 └── (imports from zsh-project-tools)
 
-zsh-configuration/           # Uses shared library
+flow-cli/           # Uses shared library
 └── (imports from zsh-project-tools)
 ```
 
@@ -350,12 +350,12 @@ zsh-configuration/           # Uses shared library
 
 ### Strategy
 
-Keep separate now, plan to merge later when zsh-configuration is mature.
+Keep separate now, plan to merge later when flow-cli is mature.
 
 ### Timeline
 
 **Now (Week 1-12):**
-- zsh-configuration: Build core features (session, dashboard, tasks)
+- flow-cli: Build core features (session, dashboard, tasks)
 - zsh-claude-workflow: Continue as dependency
 - Use Option 3 (dependency with bridge)
 
@@ -400,7 +400,7 @@ Keep separate now, plan to merge later when zsh-configuration is mature.
 
 ### Choose **Port Functions** if: ⭐ RECOMMENDED FOR INDEPENDENCE
 
-- ✅ You want zsh-configuration to be truly standalone
+- ✅ You want flow-cli to be truly standalone
 - ✅ You want to publish as npm package
 - ✅ You only need 3-4 functions from zsh-claude-workflow
 - ✅ You're okay with vendoring code
@@ -424,7 +424,7 @@ Keep separate now, plan to merge later when zsh-configuration is mature.
 ### Choose **Future Merge** if:
 
 - ✅ You're not sure yet
-- ✅ You want to focus on building zsh-configuration first
+- ✅ You want to focus on building flow-cli first
 - ✅ You're okay deferring the decision
 
 ---
@@ -434,7 +434,7 @@ Keep separate now, plan to merge later when zsh-configuration is mature.
 ### Primary: **Port Functions (Option 2)** + Built-in Fallback
 
 **Why:**
-1. **Matches npm packaging goal** - zsh-configuration works standalone
+1. **Matches npm packaging goal** - flow-cli works standalone
 2. **Quick to implement** - 2-3 hours vs 2-3 days
 3. **Low risk** - Doesn't disrupt zsh-claude-workflow
 4. **Clear scope** - Only take what we need (3-4 files)
@@ -452,7 +452,7 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/{project-detector,core,claude-co
 ```
 
 **Result:**
-- zsh-configuration works standalone (npm installable)
+- flow-cli works standalone (npm installable)
 - Still enhanced if zsh-claude-workflow installed (check first)
 - Clear attribution to original work
 - Both projects continue independently
@@ -521,7 +521,7 @@ gather_context() { ... }
 ### Step 1: Create Vendor Directory
 
 ```bash
-cd ~/projects/dev-tools/zsh-configuration
+cd ~/projects/dev-tools/flow-cli
 mkdir -p cli/vendor/zsh-claude-workflow
 ```
 
@@ -553,7 +553,7 @@ cat > cli/vendor/zsh-claude-workflow/README.md << 'EOF'
 
 ## Why Vendored?
 
-These functions are copied (vendored) to make zsh-configuration
+These functions are copied (vendored) to make flow-cli
 independently installable via npm. This avoids requiring users
 to install zsh-claude-workflow separately.
 
@@ -632,7 +632,7 @@ node cli/lib/project-detector-bridge.js ~/projects/teaching/stat-440
 
 ## Questions to Answer
 
-1. **How will you distribute zsh-configuration?**
+1. **How will you distribute flow-cli?**
    - npm package → **Port functions** (standalone)
    - Local dev only → **Dependency** (keep separate)
 
@@ -674,7 +674,7 @@ node cli/lib/project-detector-bridge.js ~/projects/teaching/stat-440
 **Future:**
 - Can still merge later if desired
 - Both projects evolve independently
-- zsh-configuration becomes standalone npm package
+- flow-cli becomes standalone npm package
 
 ---
 

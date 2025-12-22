@@ -17,7 +17,7 @@ Scans .STATUS files → Formats for mobile → Updates every 30 min → Check fr
 
 ### Research & Documentation
 - `~/Downloads/DASHBOARD-ARTIFACT-RESEARCH.md` - Full research (9.6K)
-- `~/projects/dev-tools/zsh-configuration/DASHBOARD-IDEA.md` - Saved idea + test plan
+- `~/projects/dev-tools/flow-cli/DASHBOARD-IDEA.md` - Saved idea + test plan
 - `~/Downloads/APPLE-NOTES-TEST-GUIDE.md` - Testing instructions
 
 ### Next Steps

@@ -12,7 +12,7 @@
 
 ## Context and Problem Statement
 
-The current zsh-configuration system uses a 3-layer architecture (Frontend ZSH → Backend Node.js → Vendor Shell). While this works, it mixes concerns - the backend layer combines use cases with infrastructure, and there's no explicit domain layer for business rules.
+The current flow-cli system uses a 3-layer architecture (Frontend ZSH → Backend Node.js → Vendor Shell). While this works, it mixes concerns - the backend layer combines use cases with infrastructure, and there's no explicit domain layer for business rules.
 
 **Question:** How should we structure the codebase for long-term maintainability and testability?
 

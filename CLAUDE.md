@@ -128,6 +128,6 @@ This project integrates with other dev-tools:
 ## Cloud Sync
 
 Changes auto-sync via symlinks:
-- Primary: `~/projects/dev-tools/zsh-configuration/`
-- Google Drive: `~/Library/CloudStorage/GoogleDrive-.../My Drive/dev-tools/zsh-configuration`
-- Dropbox: `~/Library/CloudStorage/Dropbox/dev-tools/zsh-configuration`
+- Primary: `~/projects/dev-tools/flow-cli/`
+- Google Drive: `~/Library/CloudStorage/GoogleDrive-.../My Drive/dev-tools/flow-cli`
+- Dropbox: `~/Library/CloudStorage/Dropbox/dev-tools/flow-cli`

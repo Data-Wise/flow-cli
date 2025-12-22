@@ -2,7 +2,7 @@
 
 **Date:** 2025-12-19
 **Context:** Exploring plugin functionality for MCP dispatcher
-**Location:** zsh-configuration/zsh/tests
+**Location:** flow-cli/zsh/tests
 **Branch:** dev (10 uncommitted files)
 
 ---

@@ -69,7 +69,10 @@
       "Bash(xattr:*)",
       "Bash(positron:*)",
       "Bash(mkdocs gh-deploy:*)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "Skill(taskmaster:to-done)",
+      "Skill(taskmaster:to-done:*)",
+      "Bash(./rename-bulk.sh:*)"
     ]
   }
 }

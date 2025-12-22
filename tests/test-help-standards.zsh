@@ -123,7 +123,7 @@ echo ""
 
 # Source all function files
 source ~/.config/zsh/functions/claude-workflows.zsh 2>/dev/null || echo "Warning: claude-workflows.zsh not found"
-source ~/projects/dev-tools/zsh-configuration/zsh/functions/fzf-helpers.zsh 2>/dev/null || echo "Warning: fzf-helpers.zsh not found"
+source ~/projects/dev-tools/flow-cli/zsh/functions/fzf-helpers.zsh 2>/dev/null || echo "Warning: fzf-helpers.zsh not found"
 source ~/.config/zsh/functions/adhd-helpers.zsh 2>/dev/null || echo "Warning: adhd-helpers.zsh not found"
 source ~/.config/zsh/functions/dash.zsh 2>/dev/null || echo "Warning: dash.zsh not found"
 source ~/.config/zsh/functions/smart-dispatchers.zsh 2>/dev/null || echo "Warning: smart-dispatchers.zsh not found"

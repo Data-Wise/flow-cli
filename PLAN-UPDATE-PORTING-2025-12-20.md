@@ -2,7 +2,7 @@
 
 **Date:** 2025-12-20
 **Decision:** Port essential functions from zsh-claude-workflow instead of using as dependency
-**Impact:** Makes zsh-configuration truly standalone and npm-installable
+**Impact:** Makes flow-cli truly standalone and npm-installable
 
 ---
 
@@ -10,14 +10,14 @@
 
 ### Before (Dependency Approach)
 
-- zsh-configuration would **require** zsh-claude-workflow installed
+- flow-cli would **require** zsh-claude-workflow installed
 - Users must install both tools
 - Symlinks to external libraries
 - Enhanced when available, basic fallback otherwise
 
 ### After (Porting Approach) ✅
 
-- zsh-configuration is **standalone**
+- flow-cli is **standalone**
 - Port ~300 lines from zsh-claude-workflow to `cli/vendor/`
 - No external dependencies required
 - Works out-of-box, npm-installable
@@ -73,7 +73,7 @@
 ### Directory Structure
 
 ```
-zsh-configuration/
+flow-cli/
 ├── cli/
 │   ├── vendor/                          # NEW: Vendored code
 │   │   └── zsh-claude-workflow/
@@ -138,7 +138,7 @@ cat > cli/vendor/zsh-claude-workflow/README.md << 'EOF'
 
 ## Why Vendored
 
-These functions are copied (vendored) to make zsh-configuration
+These functions are copied (vendored) to make flow-cli
 independently installable via npm without requiring users to
 install zsh-claude-workflow separately.
 
@@ -231,7 +231,7 @@ import('./cli/lib/project-detector-bridge.js').then(async (m) => {
     ['~/projects/r-packages/stable/rmediation', 'r-package'],
     ['~/projects/teaching/stat-440', 'quarto'],
     ['~/projects/dev-tools/aiterm', 'python'],
-    ['~/projects/dev-tools/zsh-configuration', 'node']
+    ['~/projects/dev-tools/flow-cli', 'node']
   ];
 
   for (const [path, expected] of types) {
@@ -312,7 +312,7 @@ git log --oneline --since="3 months ago" -- lib/project-detector.sh lib/core.sh
 git diff HEAD~10 -- lib/project-detector.sh lib/core.sh
 
 # 3. If relevant, copy new version
-cd ~/projects/dev-tools/zsh-configuration
+cd ~/projects/dev-tools/flow-cli
 cp ~/projects/dev-tools/zsh-claude-workflow/lib/project-detector.sh cli/vendor/zsh-claude-workflow/
 cp ~/projects/dev-tools/zsh-claude-workflow/lib/core.sh cli/vendor/zsh-claude-workflow/
 
@@ -420,7 +420,7 @@ This project uses vendored code from:
 
 ## Questions Answered
 
-**Q: Should we merge zsh-claude-workflow into zsh-configuration?**
+**Q: Should we merge zsh-claude-workflow into flow-cli?**
 A: No, too complex (20 hours), loses focus.
 
 **Q: Should we use zsh-claude-workflow as dependency?**
@@ -451,7 +451,7 @@ A: Clear README in vendor directory, package.json credits, main README
 
 ### User Success
 
-- ✅ Easy installation (`npm install -g zsh-configuration`)
+- ✅ Easy installation (`npm install -g flow-cli`)
 - ✅ Fast setup (<5 minutes)
 - ✅ Works immediately (no configuration)
 - ✅ Reliable (vendored code is stable)

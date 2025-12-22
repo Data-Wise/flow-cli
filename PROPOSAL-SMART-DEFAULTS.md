@@ -565,7 +565,7 @@ command --invalid-option
 ### Files Modified
 
 1. `~/.config/zsh/functions/claude-workflows.zsh` (8 functions)
-2. `~/projects/dev-tools/zsh-configuration/zsh/functions/fzf-helpers.zsh` (12 functions)
+2. `~/projects/dev-tools/flow-cli/zsh/functions/fzf-helpers.zsh` (12 functions)
 3. `~/.config/zsh/functions/adhd-helpers.zsh` (11 functions)
 4. `~/.config/zsh/functions/dash.zsh` (1 function + error fixes)
 5. `~/.config/zsh/functions/smart-dispatchers.zsh` (3 functions)

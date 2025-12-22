@@ -1,4 +1,4 @@
-# ZSH Configuration
+# Flow CLI
 
 **Minimalist ZSH workflow tools with smart dispatchers**
 
@@ -119,7 +119,7 @@ glo      # git log --oneline
 - [Code Examples](architecture/CODE-EXAMPLES.md) - Production-ready patterns (1,000+ lines)
 - [Vendor Integration Architecture](architecture/VENDOR-INTEGRATION-ARCHITECTURE.md) - External code integration (673 lines)
 
-**Live Site:** [https://Data-Wise.github.io/zsh-configuration/](https://Data-Wise.github.io/zsh-configuration/)
+**Live Site:** [https://Data-Wise.github.io/flow-cli/](https://Data-Wise.github.io/flow-cli/)
 
 ---
 
@@ -252,4 +252,4 @@ Create `.md` files in root or `docs/` directory with issue details.
 
 **Last updated:** 2025-12-19
 **Maintainer:** DT
-**Repository:** [GitHub](https://github.com/data-wise/zsh-configuration)
+**Repository:** [GitHub](https://github.com/data-wise/flow-cli)

@@ -14,7 +14,7 @@
 > - **How**: JavaScript bridge → Shell scripts → Filesystem detection
 > - **Status**: ✅ Production ready with 7/7 tests passing
 
-The project detection system uses a **vendored code pattern** to integrate battle-tested shell functions from [zsh-claude-workflow](https://github.com/Data-Wise/zsh-claude-workflow) while maintaining zsh-configuration as a standalone, npm-installable package.
+The project detection system uses a **vendored code pattern** to integrate battle-tested shell functions from [zsh-claude-workflow](https://github.com/Data-Wise/zsh-claude-workflow) while maintaining flow-cli as a standalone, npm-installable package.
 
 ### Design Goals
 
@@ -94,7 +94,7 @@ graph TB
 
 **Integration:**
 ```javascript
-import { detectProjectType } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 const type = await detectProjectType('/path/to/project');
 ```
@@ -270,7 +270,7 @@ sequenceDiagram
 ## Directory Structure
 
 ```
-zsh-configuration/
+flow-cli/
 ├── cli/
 │   ├── lib/
 │   │   └── project-detector-bridge.js    # JavaScript bridge
@@ -541,7 +541,7 @@ function mapProjectType(type) {
 2. ✅ `isTypeSupported()` - Validates known/unknown types
 3. ✅ R package detection - Real project (`rmediation`)
 4. ✅ Quarto detection - Real project (`stat-440`)
-5. ✅ Generic git detection - Real project (`zsh-configuration`)
+5. ✅ Generic git detection - Real project (`flow-cli`)
 6. ✅ Parallel batch detection - 3 projects simultaneously
 7. ✅ Error handling - Invalid path returns `'unknown'`
 
@@ -599,7 +599,7 @@ git log --oneline --since="3 months ago" -- lib/project-detector.sh lib/core.sh
 git diff HEAD~10 -- lib/project-detector.sh lib/core.sh
 
 # 3. If relevant, copy new versions
-cd ~/projects/dev-tools/zsh-configuration
+cd ~/projects/dev-tools/flow-cli
 cp ~/projects/dev-tools/zsh-claude-workflow/lib/project-detector.sh cli/vendor/zsh-claude-workflow/
 cp ~/projects/dev-tools/zsh-claude-workflow/lib/core.sh cli/vendor/zsh-claude-workflow/
 

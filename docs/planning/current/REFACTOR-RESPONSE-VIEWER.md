@@ -478,11 +478,11 @@ None (backward compatible during transition)
 **Risk:** Low (backward compatible)
 **Impact:** High (better UX)
 
-**Next Step:** Assign to zsh-configuration project for implementation.
+**Next Step:** Assign to flow-cli project for implementation.
 
 ---
 
 **Handoff Date:** 2025-12-16
 **Created By:** Claude (Phase 1 Background Agents implementation)
-**Assigned To:** zsh-configuration project
+**Assigned To:** flow-cli project
 **Status:** Ready for pickup

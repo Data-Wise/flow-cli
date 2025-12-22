@@ -203,7 +203,7 @@ status <project> --create
 🔥 ACTIVE NOW (3):
   📦 mediationverse [P0] 85% - Run final simulations
   📚 stat-440 [P1] 30% - Grade assignment 3
-  🔧 zsh-configuration [P2] 100% - Phase 1 complete
+  🔧 flow-cli [P2] 100% - Phase 1 complete
 
 📋 READY TO START (5):
   📦 medfit [P1] - Add vignette

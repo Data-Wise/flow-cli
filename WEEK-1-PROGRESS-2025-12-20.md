@@ -8,7 +8,7 @@
 
 ## Summary
 
-Successfully completed the **porting approach** from [PLAN-UPDATE-PORTING-2025-12-20.md](PLAN-UPDATE-PORTING-2025-12-20.md). The zsh-configuration project is now standalone and npm-installable with vendored functions from zsh-claude-workflow.
+Successfully completed the **porting approach** from [PLAN-UPDATE-PORTING-2025-12-20.md](PLAN-UPDATE-PORTING-2025-12-20.md). The flow-cli project is now standalone and npm-installable with vendored functions from zsh-claude-workflow.
 
 **Actual Time:** ~2 hours (vs estimated 3 hours)
 **Tests Passed:** 7/7 (100%)
@@ -42,7 +42,7 @@ Successfully completed the **porting approach** from [PLAN-UPDATE-PORTING-2025-1
 ### Directory Structure Created
 
 ```
-zsh-configuration/
+flow-cli/
 ├── cli/
 │   ├── core/                    # Core business logic (empty, ready for Week 2)
 │   ├── lib/
@@ -109,7 +109,7 @@ Implemented clean mapping from zsh-claude-workflow types to our API:
 ✓ Test 2: isTypeSupported() - Correctly identifies supported/unsupported types
 ✓ Test 3: Detect R package - /Users/dt/projects/r-packages/stable/rmediation
 ✓ Test 4: Detect Quarto project - /Users/dt/projects/teaching/stat-440
-✓ Test 5: Detect generic git project - /Users/dt/projects/dev-tools/zsh-configuration
+✓ Test 5: Detect generic git project - /Users/dt/projects/dev-tools/flow-cli
 ✓ Test 6: Detect multiple projects in parallel - 3 projects
 ✓ Test 7: Handle invalid path gracefully - Returns "unknown" without throwing
 ```
@@ -325,7 +325,7 @@ source "${coreScript}" && source "${detectorScript}" && cd "${projectPath}" && g
 
 ## Summary
 
-Today we transformed zsh-configuration from a dependent project into a **truly standalone npm package**. By porting essential functions (~300 lines) and creating a clean JavaScript bridge, we've achieved:
+Today we transformed flow-cli from a dependent project into a **truly standalone npm package**. By porting essential functions (~300 lines) and creating a clean JavaScript bridge, we've achieved:
 
 1. ✅ **Independence** - No external tool dependencies
 2. ✅ **Simplicity** - One-command install ready

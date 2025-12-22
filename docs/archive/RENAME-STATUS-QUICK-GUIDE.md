@@ -248,7 +248,7 @@ If 4/5 = YES → Implement permanently
 
 **Index:** `COMMAND-RESEARCH-INDEX.md` (navigation guide)
 
-**Location:** `/Users/dt/projects/dev-tools/zsh-configuration/`
+**Location:** `/Users/dt/projects/dev-tools/flow-cli/`
 
 ---
 

@@ -1,14 +1,14 @@
 # Integration Best Practices Research
 
 **Created:** 2025-12-20
-**Purpose:** Research how to design zsh-configuration for seamless integration with other tools
+**Purpose:** Research how to design flow-cli for seamless integration with other tools
 **Context:** Making the project integration-friendly while maintaining independence
 
 ---
 
 ## Executive Summary
 
-To make zsh-configuration highly integratable with other tools, we should follow these principles:
+To make flow-cli highly integratable with other tools, we should follow these principles:
 
 1. **Programmatic API** - Expose Node.js modules that other tools can import
 2. **Standard Interfaces** - Use common data formats (JSON, standard outputs)
@@ -36,7 +36,7 @@ export { ProjectScanner } from './project-scanner-api.js';
 export { DependencyTracker } from './dependency-api.js';
 
 // Usage by other tools:
-import { SessionManager, ProjectScanner } from 'zsh-configuration';
+import { SessionManager, ProjectScanner } from 'flow-cli';
 
 const scanner = new ProjectScanner();
 const projects = await scanner.scanAll();
@@ -47,7 +47,7 @@ console.log(`Found ${projects.length} projects`);
 
 ```json
 {
-  "name": "zsh-configuration",
+  "name": "flow-cli",
   "version": "1.0.0",
   "type": "module",
   "exports": {
@@ -69,7 +69,7 @@ import chalk from 'chalk';
 console.log(chalk.blue('Hello world!'));
 
 // We should do the same
-import { SessionManager } from 'zsh-configuration';
+import { SessionManager } from 'flow-cli';
 const session = new SessionManager();
 await session.save({ projectName: 'foo', task: 'bar' });
 ```
@@ -126,7 +126,7 @@ export class DashboardGenerator {
 }
 
 // Other tools can choose their preferred format
-import { DashboardGenerator } from 'zsh-configuration';
+import { DashboardGenerator } from 'flow-cli';
 const dash = new DashboardGenerator();
 const markdown = await dash.generate('markdown');
 ```
@@ -385,8 +385,8 @@ export const events = new ZshConfigEvents();
 ### Integration Example: aiterm
 
 ```javascript
-// In aiterm's integration with zsh-configuration
-import { events } from 'zsh-configuration';
+// In aiterm's integration with flow-cli
+import { events } from 'flow-cli';
 
 events.on('session:start', (session) => {
   // Switch terminal profile when session starts
@@ -416,7 +416,7 @@ compiler.hooks.emit.tapAsync('MyPlugin', (compilation, callback) => {
 });
 
 // We should provide similar hooks
-import { hooks } from 'zsh-configuration';
+import { hooks } from 'flow-cli';
 
 hooks.session.start.tap('MyIntegration', (session) => {
   // Custom logic when session starts
@@ -509,7 +509,7 @@ export const config = new ConfigManager();
 
 ```javascript
 // Other tool accessing our configuration
-import { config } from 'zsh-configuration';
+import { config } from 'flow-cli';
 
 // Read config
 const sessionDir = config.get('session.directory', '~/.zsh-sessions');
@@ -535,7 +535,7 @@ const fontSize = config.get('fontSize', 14);
 await config.update('fontSize', 16, vscode.ConfigurationTarget.Global);
 
 // We should provide similar API
-import { config } from 'zsh-configuration';
+import { config } from 'flow-cli';
 const sessionDir = config.get('session.directory');
 await config.update('dashboard.format', 'json');
 ```
@@ -696,17 +696,17 @@ const XDG_DATA_HOME = process.env.XDG_DATA_HOME || path.join(os.homedir(), '.loc
 const XDG_CACHE_HOME = process.env.XDG_CACHE_HOME || path.join(os.homedir(), '.cache');
 
 // Our directories
-const CONFIG_DIR = path.join(XDG_CONFIG_HOME, 'zsh-configuration');
-const DATA_DIR = path.join(XDG_DATA_HOME, 'zsh-configuration');
-const CACHE_DIR = path.join(XDG_CACHE_HOME, 'zsh-configuration');
+const CONFIG_DIR = path.join(XDG_CONFIG_HOME, 'flow-cli');
+const DATA_DIR = path.join(XDG_DATA_HOME, 'flow-cli');
+const CACHE_DIR = path.join(XDG_CACHE_HOME, 'flow-cli');
 ```
 
 ### Environment Variables
 
 ```bash
 # Respect standard environment variables
-export ZSH_CONFIG_HOME="$HOME/.config/zsh-configuration"
-export ZSH_CONFIG_DATA="$HOME/.local/share/zsh-configuration"
+export ZSH_CONFIG_HOME="$HOME/.config/flow-cli"
+export ZSH_CONFIG_DATA="$HOME/.local/share/flow-cli"
 export ZSH_CONFIG_DEBUG=1
 export ZSH_CONFIG_LOG_LEVEL=debug
 ```
@@ -733,8 +733,8 @@ export ZSH_CONFIG_LOG_LEVEL=debug
 }
 
 // Future: Breaking changes go in v2
-import { SessionManager } from 'zsh-configuration/v1';  // Old API
-import { SessionManager } from 'zsh-configuration/v2';  // New API
+import { SessionManager } from 'flow-cli/v1';  // Old API
+import { SessionManager } from 'flow-cli/v2';  // New API
 ```
 
 ### Deprecation Warnings
@@ -773,7 +773,7 @@ import AWS from 'aws-sdk'; // v2
 import { S3Client } from '@aws-sdk/client-s3'; // v3
 
 // We should do the same
-import { SessionManager } from 'zsh-configuration/v1';
+import { SessionManager } from 'flow-cli/v1';
 ```
 
 ---
@@ -820,13 +820,13 @@ Manages workflow session state.
 ### Constructor
 
 \`\`\`javascript
-import { SessionManager } from 'zsh-configuration';
+import { SessionManager } from 'flow-cli';
 
 const manager = new SessionManager(options);
 \`\`\`
 
 **Options:**
-- `dataDir` (string): Directory for session data. Default: `~/.local/share/zsh-configuration/sessions`
+- `dataDir` (string): Directory for session data. Default: `~/.local/share/flow-cli/sessions`
 - `autoSave` (boolean): Auto-save on changes. Default: `true`
 
 ### Methods
@@ -883,7 +883,7 @@ manager.on('session:end', (session) => {
 
 ```javascript
 // In aiterm's code
-import { SessionManager, events } from 'zsh-configuration';
+import { SessionManager, events } from 'flow-cli';
 
 const sessionManager = new SessionManager();
 
@@ -1071,7 +1071,7 @@ export async function createTestProjects(count = 5) {
 
 ```javascript
 // In aiterm's tests
-import { TestSessionManager, createTestSession } from 'zsh-configuration/testing';
+import { TestSessionManager, createTestSession } from 'flow-cli/testing';
 
 describe('aiterm integration', () => {
   let sessionManager;

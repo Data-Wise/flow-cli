@@ -134,12 +134,12 @@ mcp test project-refactor
 - **Updated:** `~/.config/zsh/tests/test-mcp-dispatcher.zsh`
 
 ### Documentation
-- **Updated:** `~/projects/dev-tools/zsh-configuration/zsh/help/quick-reference.md`
+- **Updated:** `~/projects/dev-tools/flow-cli/zsh/help/quick-reference.md`
   - Added "🔌 MCP SERVERS (8)" section
   - Updated statistics: 90 → 98 commands
   - Version: 2.1 → 2.2
 
-- **Updated:** `~/projects/dev-tools/zsh-configuration/docs/CONVENTIONS.md`
+- **Updated:** `~/projects/dev-tools/flow-cli/docs/CONVENTIONS.md`
   - Added mcp-dispatcher.zsh to example dispatchers
   - Showed pattern consistency with g, r, v
 

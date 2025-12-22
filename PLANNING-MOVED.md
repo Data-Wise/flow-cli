@@ -2,7 +2,7 @@
 
 **Date:** 2025-12-19
 
-Planning docs for zsh-configuration have been migrated to project-hub for better organization and centralization.
+Planning docs for flow-cli have been migrated to project-hub for better organization and centralization.
 
 ---
 
@@ -16,8 +16,8 @@ Planning docs for zsh-configuration have been migrated to project-hub for better
 |------|--------------|
 | **Session Summaries** | [~/projects/project-hub/sessions/2025-12/](../../../project-hub/sessions/2025-12/) |
 | **Proposals** | [~/projects/project-hub/proposals/implemented/2025-12/](../../../project-hub/proposals/implemented/2025-12/) |
-| **Planning Docs** | [~/projects/project-hub/projects/zsh-configuration/planning/](../../../project-hub/projects/zsh-configuration/planning/) |
-| **Archive** | [~/projects/project-hub/projects/zsh-configuration/archive/](../../../project-hub/projects/zsh-configuration/archive/) |
+| **Planning Docs** | [~/projects/project-hub/projects/flow-cli/planning/](../../../project-hub/projects/flow-cli/planning/) |
+| **Archive** | [~/projects/project-hub/projects/flow-cli/archive/](../../../project-hub/projects/flow-cli/archive/) |
 
 ---
 
@@ -52,7 +52,7 @@ Planning docs for zsh-configuration have been migrated to project-hub for better
 
 1. **Centralization** - All planning in one location across all projects
 2. **Better Organization** - Structured folders (planning/, proposals/, sessions/, projects/)
-3. **Cleaner Repo** - zsh-configuration focuses on code and documentation
+3. **Cleaner Repo** - flow-cli focuses on code and documentation
 4. **Historical Context** - Easy to review what was done when
 5. **Discoverability** - project-hub is the natural place to look for planning
 
@@ -67,7 +67,7 @@ See the complete planning documentation index:
 
 ## 📝 What Stays Here
 
-**zsh-configuration root now contains:**
+**flow-cli root now contains:**
 - ✅ PROJECT-HUB.md - Project-specific control file
 - ✅ README.md - Project README
 - ✅ CLAUDE.md - Claude Code configuration
@@ -98,7 +98,7 @@ ls -lt
 cat ~/projects/project-hub/planning/active/NEXT-SESSION.md
 
 # Project-specific archive
-cd ~/projects/project-hub/projects/zsh-configuration/archive
+cd ~/projects/project-hub/projects/flow-cli/archive
 ls -l
 ```
 

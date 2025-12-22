@@ -76,7 +76,7 @@
 🔥 ACTIVE NOW (3):
   📦 mediationverse    [P0] Simulation running
   📚 stat-440          [P1] Grade assignment 3
-  🔧 zsh-configuration [P2] Help Phase 2 ready
+  🔧 flow-cli [P2] Help Phase 2 ready
 
 📋 READY TO START (5):
   📦 medfit            [P1] Add vignette

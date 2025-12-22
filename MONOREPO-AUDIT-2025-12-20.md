@@ -30,7 +30,7 @@ Your monorepo is **intentionally minimal** with a "simplicity-first" philosophy 
 ## Current Architecture
 
 ```
-zsh-configuration/
+flow-cli/
 ├── package.json          # Root (workspaces: ["app", "cli"])
 ├── app/
 │   ├── package.json      # Electron app

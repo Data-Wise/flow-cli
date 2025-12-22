@@ -13,7 +13,7 @@ This is the **Standards Hub** — one tier of the three-tier project management 
 │  mediation-planning/    │ R packages coordination           │
 │  dev-planning/          │ Dev tools coordination            │
 ├─────────────────────────────────────────────────────────────┤
-│  zsh-configuration/     │                                   │
+│  flow-cli/     │                                   │
 │    └─ standards/        │ ← YOU ARE HERE                    │
 │                         │ Universal conventions for ALL     │
 └─────────────────────────────────────────────────────────────┘

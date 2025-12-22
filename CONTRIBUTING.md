@@ -29,7 +29,7 @@ Thank you for your interest in contributing! This guide will help you get starte
 
 1. **Clone or navigate to project:**
    ```bash
-   cd ~/projects/dev-tools/zsh-configuration
+   cd ~/projects/dev-tools/flow-cli
    ```
 
 2. **Install dependencies:**
@@ -53,7 +53,7 @@ Thank you for your interest in contributing! This guide will help you get starte
 ## Project Structure
 
 ```
-zsh-configuration/
+flow-cli/
 ├── cli/                      # Node.js CLI integration
 │   ├── adapters/             # Adapters for ZSH functions
 │   ├── lib/                  # Shared library code

@@ -1,6 +1,6 @@
 # ZSH Configuration Documentation
 
-**Project:** zsh-configuration
+**Project:** flow-cli
 **Version:** 0.1.0
 **Status:** Week 1 Complete ✅
 

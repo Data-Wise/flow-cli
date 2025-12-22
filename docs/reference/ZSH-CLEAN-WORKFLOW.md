@@ -11,7 +11,7 @@
 │  ~/.config/zsh (symlink)                                                    │
 │       │                                                                     │
 │       ▼                                                                     │
-│  ~/projects/dev-tools/zsh-configuration/zsh/                                │
+│  ~/projects/dev-tools/flow-cli/zsh/                                │
 │       │                                                                     │
 │       ├──────────────────┬──────────────────┐                               │
 │       │                  │                  │                               │
@@ -106,7 +106,7 @@ $ zsh-clean status
 ### Restore Specific File
 
 ```bash
-cd ~/projects/dev-tools/zsh-configuration
+cd ~/projects/dev-tools/flow-cli
 git log --oneline zsh/functions/adhd-helpers.zsh
 git checkout abc1234 -- zsh/functions/adhd-helpers.zsh
 source ~/.config/zsh/.zshrc
@@ -128,7 +128,7 @@ No local tarballs needed — two cloud backups are enough.
 ## File Structure
 
 ```
-~/projects/dev-tools/zsh-configuration/
+~/projects/dev-tools/flow-cli/
 ├── zsh/                      # ← Config (symlinked from ~/.config/zsh)
 │   ├── .zshrc
 │   ├── .p10k.zsh

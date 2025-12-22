@@ -24,8 +24,8 @@ The Project Detector API provides Node.js functions to detect project types from
 ## Installation
 
 ```bash
-# As part of zsh-configuration package
-npm install zsh-configuration
+# As part of flow-cli package
+npm install flow-cli
 
 # Or import directly (development)
 import { detectProjectType } from './cli/lib/project-detector-bridge.js';
@@ -49,7 +49,7 @@ Detect the type of a single project.
 **Examples:**
 
 ```javascript
-import { detectProjectType } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 // Detect R package
 const type1 = await detectProjectType('/Users/dt/projects/r-packages/stable/rmediation');
@@ -60,7 +60,7 @@ const type2 = await detectProjectType('/Users/dt/projects/teaching/stat-440');
 console.log(type2); // 'quarto'
 
 // Detect generic git project
-const type3 = await detectProjectType('/Users/dt/projects/dev-tools/zsh-configuration');
+const type3 = await detectProjectType('/Users/dt/projects/dev-tools/flow-cli');
 console.log(type3); // 'generic'
 
 // Handle invalid path gracefully
@@ -103,19 +103,19 @@ Detect types for multiple projects in parallel.
 **Examples:**
 
 ```javascript
-import { detectMultipleProjects } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 const results = await detectMultipleProjects([
   '/Users/dt/projects/r-packages/stable/rmediation',
   '/Users/dt/projects/teaching/stat-440',
-  '/Users/dt/projects/dev-tools/zsh-configuration'
+  '/Users/dt/projects/dev-tools/flow-cli'
 ]);
 
 console.log(results);
 // {
 //   '/Users/dt/projects/r-packages/stable/rmediation': 'r-package',
 //   '/Users/dt/projects/teaching/stat-440': 'quarto',
-//   '/Users/dt/projects/dev-tools/zsh-configuration': 'generic'
+//   '/Users/dt/projects/dev-tools/flow-cli': 'generic'
 // }
 ```
 
@@ -147,7 +147,7 @@ Get list of all supported project types.
 **Example:**
 
 ```javascript
-import { getSupportedTypes } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { getSupportedTypes } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 const types = getSupportedTypes();
 console.log(types);
@@ -183,7 +183,7 @@ Check if a project type is supported.
 **Examples:**
 
 ```javascript
-import { isTypeSupported } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { isTypeSupported } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 console.log(isTypeSupported('r-package'));     // true
 console.log(isTypeSupported('quarto'));        // true
@@ -232,7 +232,7 @@ This mapping provides:
 
 ```javascript
 import express from 'express';
-import { detectProjectType, detectMultipleProjects } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectProjectType, detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 const app = express();
 
@@ -273,7 +273,7 @@ app.post('/api/projects/detect', async (req, res) => {
 
 ```javascript
 #!/usr/bin/env node
-import { detectProjectType } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
 import { resolve } from 'path';
 
 const projectPath = resolve(process.argv[2] || '.');
@@ -296,7 +296,7 @@ chmod +x detect-type.js
 ### Project Scanner
 
 ```javascript
-import { detectMultipleProjects } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
 import { readdir } from 'fs/promises';
 import { join } from 'path';
 

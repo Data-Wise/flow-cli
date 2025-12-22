@@ -1,7 +1,7 @@
 # MCP Dispatcher Standards Alignment
 
 **Generated:** 2025-12-19
-**Context:** zsh-configuration standards compliance
+**Context:** flow-cli standards compliance
 **Current:** Individual functions (mcp-list, mcp-cd, etc.)
 **Proposed:** Dispatcher pattern (mcp + keywords)
 
@@ -60,7 +60,7 @@ mcp test statistical-research
 
 ### ❌ V2: Inconsistent with Existing Dispatchers
 
-**Other dispatchers in zsh-configuration:**
+**Other dispatchers in flow-cli:**
 - `g status` (not `g-status`)
 - `r test` (not `r-test`)
 - `v build` (not `v-build`)
@@ -184,7 +184,7 @@ alias mcp='mcp pick'    # Interactive picker
 ```
 
 **Pros:**
-- ✅ Follows zsh-configuration standards
+- ✅ Follows flow-cli standards
 - ✅ Consistent with g, r, v dispatchers
 - ✅ Single mental model (cmd + keyword)
 - ✅ Extensible (easy to add new actions)
@@ -404,7 +404,7 @@ After 1-2 weeks, remove deprecated functions entirely.
 → **Start with Option A: Full Dispatcher**
 
 **Why:**
-1. Aligns with zsh-configuration standards
+1. Aligns with flow-cli standards
 2. Consistent mental model (like g, r, v)
 3. Better ADHD experience (one pattern to remember)
 4. More extensible for future features

@@ -519,7 +519,7 @@ be2d496 - docs: add pragmatic architecture enhancement roadmap
 ```
 
 ### All Pushed to GitHub
-**Repository:** https://github.com/Data-Wise/zsh-configuration
+**Repository:** https://github.com/Data-Wise/flow-cli
 **Branch:** dev
 **Status:** Up to date with origin/dev
 

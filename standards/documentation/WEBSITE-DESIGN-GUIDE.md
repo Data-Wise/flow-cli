@@ -3,7 +3,7 @@
 > **TL;DR:** Minimalist, clean documentation sites with ADHD-friendly features. Material theme, dark mode, and clear visual hierarchy.
 
 **Last Updated:** 2025-12-19
-**Based on:** zsh-configuration MkDocs site
+**Based on:** flow-cli MkDocs site
 
 ---
 
@@ -809,5 +809,5 @@ lsof -ti:8000 | xargs kill -9
 ---
 
 **Created:** 2025-12-19
-**Based on:** zsh-configuration MkDocs site
-**Location:** `~/projects/dev-tools/zsh-configuration/standards/documentation/`
+**Based on:** flow-cli MkDocs site
+**Location:** `~/projects/dev-tools/flow-cli/standards/documentation/`

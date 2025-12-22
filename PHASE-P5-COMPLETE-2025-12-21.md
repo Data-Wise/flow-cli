@@ -189,7 +189,7 @@ Phase P5 (Documentation & Site) is now **100% complete**. Over two sessions on D
 
 ### Documentation Site
 
-**Live URL:** <https://Data-Wise.github.io/zsh-configuration/>
+**Live URL:** <https://Data-Wise.github.io/flow-cli/>
 
 **Features Implemented:**
 - 📚 63 pages organized across 9 major sections
@@ -238,34 +238,34 @@ Phase P5 (Documentation & Site) is now **100% complete**. Over two sessions on D
 ### Morning Session (Reference Suite)
 
 1. **ARCHITECTURE-ROADMAP.md** (604 lines)
-   - Location: `/Users/dt/projects/dev-tools/zsh-configuration/`
+   - Location: `/Users/dt/projects/dev-tools/flow-cli/`
    - Purpose: Pragmatic implementation planning
    - Reusable: ✅ Can adapt for other projects
 
 2. **ARCHITECTURE-COMMAND-REFERENCE.md** (763 lines)
-   - Location: `/Users/dt/projects/dev-tools/zsh-configuration/`
+   - Location: `/Users/dt/projects/dev-tools/flow-cli/`
    - Purpose: Documentation sprint quick reference
    - Reusable: ✅ Prompt templates and patterns
 
 3. **ARCHITECTURE-CHEATSHEET.md** (269 lines)
-   - Location: `/Users/dt/projects/dev-tools/zsh-configuration/`
+   - Location: `/Users/dt/projects/dev-tools/flow-cli/`
    - Purpose: 1-page printable desk reference
    - Reusable: ✅ Quick commands and paths
 
 4. **ARCHITECTURE-QUICK-REFERENCE.md** (662 lines)
-   - Location: `/Users/dt/projects/dev-tools/zsh-configuration/`
+   - Location: `/Users/dt/projects/dev-tools/flow-cli/`
    - Purpose: Complete development reference
    - Reusable: ✅ Layer-by-layer guide
 
 5. **CODE-EXAMPLES.md** (1,000+ lines)
-   - Location: `/Users/dt/projects/dev-tools/zsh-configuration/`
+   - Location: `/Users/dt/projects/dev-tools/flow-cli/`
    - Purpose: Production-ready code examples (88+)
    - Reusable: ✅ Copy-paste patterns
 
 ### Afternoon Session (Optimization)
 
 6. **CONTRIBUTING.md** (290 lines)
-   - Location: `/Users/dt/projects/dev-tools/zsh-configuration/`
+   - Location: `/Users/dt/projects/dev-tools/flow-cli/`
    - Purpose: Contributor onboarding (30-minute path)
    - Impact: 83-88% reduction in onboarding time
 

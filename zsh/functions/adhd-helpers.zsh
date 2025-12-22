@@ -2168,7 +2168,7 @@ INTERACTIVE KEYS:
 
 DISPLAY FORMAT:
   project-name         icon type
-  zsh-configuration    🔧 dev
+  flow-cli    🔧 dev
   mediationverse       📦 r
 
 EXAMPLES:

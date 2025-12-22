@@ -313,7 +313,7 @@ All three documents have been:
 - ✅ Cross-referenced with each other
 - ✅ Aligned with existing architecture docs
 
-**Repository:** https://github.com/Data-Wise/zsh-configuration
+**Repository:** https://github.com/Data-Wise/flow-cli
 **Branch:** dev
 **Commits:**
 - `756ba09` - ARCHITECTURE-COMMAND-REFERENCE.md

@@ -262,8 +262,8 @@ mcp remove <name>          # Auto-detect type
 
 **Files:**
 - `~/.config/zsh/functions/mcp-dispatcher.zsh` - Update `_mcp_help()`
-- `~/projects/dev-tools/zsh-configuration/zsh/help/quick-reference.md`
-- `~/projects/dev-tools/zsh-configuration/docs/CONVENTIONS.md`
+- `~/projects/dev-tools/flow-cli/zsh/help/quick-reference.md`
+- `~/projects/dev-tools/flow-cli/docs/CONVENTIONS.md`
 
 ---
 
@@ -459,8 +459,8 @@ Total: 7 extensions (6 enabled, 1 disabled)
 6. `PROPOSAL-MCP-DISPATCHER-STANDARDS.md` - Standards analysis
 
 ### Existing Documentation
-- `~/projects/dev-tools/zsh-configuration/ZSH-MCP-FUNCTIONS.md`
-- `~/projects/dev-tools/zsh-configuration/docs/CONVENTIONS.md`
+- `~/projects/dev-tools/flow-cli/ZSH-MCP-FUNCTIONS.md`
+- `~/projects/dev-tools/flow-cli/docs/CONVENTIONS.md`
 - `~/projects/dev-tools/_MCP_SERVERS.md`
 - `~/projects/dev-tools/mcp-servers/README.md`
 

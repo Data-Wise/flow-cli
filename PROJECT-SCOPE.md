@@ -62,7 +62,7 @@ Tracks, persists, and restores workflow state across sessions and projects.
 **Integration:**
 - Uses **vendored functions** from zsh-claude-workflow (~300 lines ported)
 - Optionally coordinates with **aiterm** for terminal context switching (if installed)
-- Stores session state in `~/.local/share/zsh-configuration/sessions/`
+- Stores session state in `~/.local/share/flow-cli/sessions/`
 - **Standalone** - No external dependencies required
 
 ---
@@ -166,7 +166,7 @@ Fast fuzzy finder for switching between projects.
 > rmed▊
   📦 rmediation         R package    Fix failing test
   📊 causal-inference   Teaching     Prepare lecture 14
-  🔧 zsh-configuration  Dev tool     Architecture design
+  🔧 flow-cli  Dev tool     Architecture design
 
 # Select → cd to project + show .STATUS
 ```
@@ -470,7 +470,7 @@ Quick Wins (< 30 min):
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ⚡ rmediation         Fix typo in README
   ⚡ stat-440           Upload answer key to Canvas
-  ⚡ zsh-configuration  Update CLAUDE.md
+  ⚡ flow-cli  Update CLAUDE.md
   ⚡ medfit             Increment version number
   ⚡ aiterm             Add test for new feature
 
@@ -567,7 +567,7 @@ Personal Projects Overview (32 total)
 ### Data Storage
 
 ```
-~/.local/share/zsh-configuration/
+~/.local/share/flow-cli/
 ├── sessions/
 │   ├── current.json              # Active session
 │   └── history/                  # Past sessions (date-named)
@@ -656,8 +656,8 @@ Personal Projects Overview (32 total)
    - **Recommendation:** Auto-call if installed, silent skip if not
 
 5. **Session Storage Location**
-   - `~/.zsh-sessions/` vs `~/.local/share/zsh-configuration/`?
-   - **Recommendation:** `~/.local/share/zsh-configuration/` (XDG-compliant)
+   - `~/.zsh-sessions/` vs `~/.local/share/flow-cli/`?
+   - **Recommendation:** `~/.local/share/flow-cli/` (XDG-compliant)
 
 ---
 
@@ -675,18 +675,18 @@ ait --version          # aiterm (terminal context switching)
 fzf --version          # Fuzzy finder (project picker)
 ```
 
-**No external dependencies required!** zsh-configuration is standalone.
+**No external dependencies required!** flow-cli is standalone.
 
 ### Installation (Week 1+)
 
 **From npm (future):**
 ```bash
-npm install -g zsh-configuration
+npm install -g flow-cli
 ```
 
 **From source (current):**
 ```bash
-cd ~/projects/dev-tools/zsh-configuration
+cd ~/projects/dev-tools/flow-cli
 
 # Create directory structure
 ./scripts/setup.sh

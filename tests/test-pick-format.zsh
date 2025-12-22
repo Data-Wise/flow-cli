@@ -9,7 +9,7 @@ _test_format() {
     local name icon type changes branch status_display
 
     # Test case 1: Clean repo
-    name="zsh-configuration"
+    name="flow-cli"
     icon="🔧"
     type="dev"
     changes="0"

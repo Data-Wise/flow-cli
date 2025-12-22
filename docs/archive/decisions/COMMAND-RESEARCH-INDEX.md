@@ -51,7 +51,7 @@ pinit mediationverse               # Create .STATUS (new, rare use)
 
 **When to read:** First - for full context and research methodology
 
-**File:** `/Users/dt/projects/dev-tools/zsh-configuration/CLI-COMMAND-PATTERNS-RESEARCH.md`
+**File:** `/Users/dt/projects/dev-tools/flow-cli/CLI-COMMAND-PATTERNS-RESEARCH.md`
 
 ---
 
@@ -78,7 +78,7 @@ pinit mediationverse               # Create .STATUS (new, rare use)
 
 **When to read:** Second - for practical examples and usage patterns
 
-**File:** `/Users/dt/projects/dev-tools/zsh-configuration/STATUS-COMMAND-ALTERNATIVES.md`
+**File:** `/Users/dt/projects/dev-tools/flow-cli/STATUS-COMMAND-ALTERNATIVES.md`
 
 ---
 
@@ -110,7 +110,7 @@ pinit mediationverse               # Create .STATUS (new, rare use)
 
 **When to read:** Third - when ready to implement
 
-**File:** `/Users/dt/projects/dev-tools/zsh-configuration/COMMAND-RENAME-IMPLEMENTATION.md`
+**File:** `/Users/dt/projects/dev-tools/flow-cli/COMMAND-RENAME-IMPLEMENTATION.md`
 
 ---
 
@@ -132,7 +132,7 @@ pinit mediationverse               # Create .STATUS (new, rare use)
 
 **When to read:** Start here for quick overview, or as refresher
 
-**File:** `/Users/dt/projects/dev-tools/zsh-configuration/COMMAND-RESEARCH-SUMMARY.md`
+**File:** `/Users/dt/projects/dev-tools/flow-cli/COMMAND-RESEARCH-SUMMARY.md`
 
 ---
 
@@ -160,7 +160,7 @@ pinit mediationverse               # Create .STATUS (new, rare use)
 
 **When to read:** If you need objective scores to make decision
 
-**File:** `/Users/dt/projects/dev-tools/zsh-configuration/DECISION-MATRIX.md`
+**File:** `/Users/dt/projects/dev-tools/flow-cli/DECISION-MATRIX.md`
 
 ---
 
@@ -383,7 +383,7 @@ A: Not if you keep `status` with deprecation warning for transition period.
 
 ### Research Documents
 ```
-/Users/dt/projects/dev-tools/zsh-configuration/
+/Users/dt/projects/dev-tools/flow-cli/
 ├── CLI-COMMAND-PATTERNS-RESEARCH.md       # Main analysis (9,500 words)
 ├── STATUS-COMMAND-ALTERNATIVES.md         # Visual guide (3,800 words)
 ├── COMMAND-RENAME-IMPLEMENTATION.md       # Action plan (4,200 words)

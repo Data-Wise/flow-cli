@@ -4,7 +4,7 @@
 
 **Last Updated:** 2025-12-19
 **Scope:** Data-Wise ecosystem (20+ repositories)
-**Location:** `~/projects/dev-tools/zsh-configuration/standards/project/`
+**Location:** `~/projects/dev-tools/flow-cli/standards/project/`
 
 ---
 
@@ -52,11 +52,11 @@ When working across 20+ projects:
 
 | Concern | Source of Truth |
 |---------|----------------|
-| **Alias definitions** | `~/projects/dev-tools/zsh-configuration/` |
-| **Documentation standards** | `~/projects/dev-tools/zsh-configuration/standards/documentation/` |
-| **Code style** | `~/projects/dev-tools/zsh-configuration/standards/code/` |
-| **Project structure** | `~/projects/dev-tools/zsh-configuration/standards/project/` |
-| **ADHD templates** | `~/projects/dev-tools/zsh-configuration/standards/adhd/` |
+| **Alias definitions** | `~/projects/dev-tools/flow-cli/` |
+| **Documentation standards** | `~/projects/dev-tools/flow-cli/standards/documentation/` |
+| **Code style** | `~/projects/dev-tools/flow-cli/standards/code/` |
+| **Project structure** | `~/projects/dev-tools/flow-cli/standards/project/` |
+| **ADHD templates** | `~/projects/dev-tools/flow-cli/standards/adhd/` |
 | **R package standards** | MediationVerse lead package |
 | **Cross-project status** | `/Users/dt/projects/.planning/` |
 
@@ -83,7 +83,7 @@ When standards change:
 ### Dependency Map
 
 ```
-zsh-configuration (standards)
+flow-cli (standards)
     ↓
     ├──→ All projects (use standards)
     │
@@ -115,7 +115,7 @@ Teaching projects
 
 **Example:**
 ```bash
-# Before changing zsh-configuration standards
+# Before changing flow-cli standards
 grep -r "ALIAS-REFERENCE-CARD" ~/projects/*/README.md
 
 # Update all referencing projects
@@ -185,7 +185,7 @@ A breaking change is ANY change that:
    ## Active Coordination
 
    **Alias cleanup (2025-12-19):**
-   - zsh-configuration: 179→28 aliases
+   - flow-cli: 179→28 aliases
    - Affects: Tutorial docs need rewrite
    - Status: Warning notes added, rewrites planned
    ```
@@ -244,7 +244,7 @@ A breaking change is ANY change that:
 
 | Type | Location | Sync Strategy |
 |------|----------|---------------|
-| **Standards** | `zsh-configuration/standards/` | Manual propagation |
+| **Standards** | `flow-cli/standards/` | Manual propagation |
 | **Tutorials** | Project-specific | Reference standards |
 | **API docs** | Auto-generated | No sync needed |
 | **Website design** | Template in standards | Copy to projects |
@@ -258,13 +258,13 @@ A breaking change is ANY change that:
 1. **Link, don't duplicate:**
    ```markdown
    # In project README
-   See [ZSH Alias Reference](../zsh-configuration/docs/user/ALIAS-REFERENCE-CARD.md)
+   See [ZSH Alias Reference](../flow-cli/docs/user/ALIAS-REFERENCE-CARD.md)
    ```
 
 2. **Use templates:**
    ```bash
    # Copy latest template
-   cp ~/projects/dev-tools/zsh-configuration/standards/adhd/QUICK-START-TEMPLATE.md \
+   cp ~/projects/dev-tools/flow-cli/standards/adhd/QUICK-START-TEMPLATE.md \
       ~/projects/my-project/docs/QUICK-START.md
    ```
 
@@ -273,7 +273,7 @@ A breaking change is ANY change that:
    # Commit Message Standards
 
    This project follows the standards defined in:
-   [zsh-configuration/standards/code/COMMIT-MESSAGES.md](../../zsh-configuration/standards/code/COMMIT-MESSAGES.md)
+   [flow-cli/standards/code/COMMIT-MESSAGES.md](../../flow-cli/standards/code/COMMIT-MESSAGES.md)
    ```
 
 4. **Periodic audits:**
@@ -288,7 +288,7 @@ A breaking change is ANY change that:
 
 ### Standards Synchronization ⭐ NEW
 
-**Source of Truth:** `~/projects/dev-tools/zsh-configuration/standards/`
+**Source of Truth:** `~/projects/dev-tools/flow-cli/standards/`
 
 **Synced To:**
 - `project-hub/standards/`
@@ -297,7 +297,7 @@ A breaking change is ANY change that:
 
 **Sync Command:**
 ```bash
-~/projects/dev-tools/zsh-configuration/scripts/sync-standards.sh
+~/projects/dev-tools/flow-cli/scripts/sync-standards.sh
 ```
 
 **Check Sync Status:**
@@ -325,11 +325,11 @@ cat ~/projects/dev-tools/dev-planning/standards/.version
 
 **Propagation process:**
 
-1. **Update source:** `zsh-configuration/standards/documentation/WEBSITE-DESIGN-GUIDE.md`
+1. **Update source:** `flow-cli/standards/documentation/WEBSITE-DESIGN-GUIDE.md`
 
 2. **Run sync script:**
    ```bash
-   ~/projects/dev-tools/zsh-configuration/scripts/sync-standards.sh
+   ~/projects/dev-tools/flow-cli/scripts/sync-standards.sh
    ```
 
 3. **Document change:**
@@ -367,7 +367,7 @@ cat ~/projects/dev-tools/dev-planning/standards/.version
    ## Active Coordination
 
    **Website standards propagation:**
-   - Updated: zsh-configuration (✅)
+   - Updated: flow-cli (✅)
    - Synced to PM hubs: ✅
    - Pending: project-a, project-b, project-c
    - Deadline: End of week
@@ -385,8 +385,8 @@ mkdir -p ~/projects/category/new-project
 cd ~/projects/category/new-project
 
 # 2. Copy templates
-cp ~/projects/dev-tools/zsh-configuration/standards/project/.STATUS-template .STATUS
-cp ~/projects/dev-tools/zsh-configuration/standards/project/PROJECT-HUB-template.md PROJECT-HUB.md
+cp ~/projects/dev-tools/flow-cli/standards/project/.STATUS-template .STATUS
+cp ~/projects/dev-tools/flow-cli/standards/project/PROJECT-HUB-template.md PROJECT-HUB.md
 
 # 3. Initialize git
 git init
@@ -407,7 +407,7 @@ dash  # Should now show new project
 
 ```bash
 # 1. Document change
-vim ~/projects/dev-tools/zsh-configuration/standards/code/COMMIT-MESSAGES.md
+vim ~/projects/dev-tools/flow-cli/standards/code/COMMIT-MESSAGES.md
 
 # 2. Find affected projects
 find ~/projects -name ".git" -type d | wc -l
@@ -430,7 +430,7 @@ All 20+ projects
 - Week 3: Audit and fix
 
 ## Status
-- [ ] zsh-configuration
+- [ ] flow-cli
 - [ ] medfit
 - [ ] probmed
 ...

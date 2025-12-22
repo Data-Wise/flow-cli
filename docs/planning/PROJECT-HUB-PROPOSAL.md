@@ -1,6 +1,6 @@
 # Project Hub Proposal (Option D+ Revised)
 
-> **TL;DR:** Single command center (`project-hub/`) aggregates all domains. Domain-specific hubs (`mediation-planning`, `dev-planning`) handle coordination. `zsh-configuration` owns standards only.
+> **TL;DR:** Single command center (`project-hub/`) aggregates all domains. Domain-specific hubs (`mediation-planning`, `dev-planning`) handle coordination. `flow-cli` owns standards only.
 
 **Status:** Approved for implementation
 **Created:** 2025-12-17
@@ -17,11 +17,11 @@ After brainstorming, we decided on a **three-tier hub system**:
 |------|-----|---------|
 | **Master** | `project-hub/` | Aggregates all domains, weekly planning |
 | **Domain** | `mediation-planning/`, `dev-planning/` | Domain-specific coordination |
-| **Standards** | `zsh-configuration/standards/` | Universal conventions |
+| **Standards** | `flow-cli/standards/` | Universal conventions |
 
-**Key decision:** Create separate `dev-planning/` repo (not nested in `zsh-configuration/`) to:
+**Key decision:** Create separate `dev-planning/` repo (not nested in `flow-cli/`) to:
 1. Follow `mediation-planning` pattern exactly
-2. Keep `zsh-configuration` focused on standards + shell config
+2. Keep `flow-cli` focused on standards + shell config
 3. Clean parallel structure for project-hub links
 
 ---
@@ -44,7 +44,7 @@ After brainstorming, we decided on a **three-tier hub system**:
 │   ├── weekly/
 │   │   └── WEEK-XX.md              # Weekly focus files
 │   └── reference/
-│       └── standards → zsh-configuration/standards/  # Symlink
+│       └── standards → flow-cli/standards/  # Symlink
 │
 ├── r-packages/
 │   └── mediation-planning/         # DOMAIN HUB - R Packages (EXISTS)
@@ -62,12 +62,12 @@ After brainstorming, we decided on a **three-tier hub system**:
     │   │   ├── TOOL-INVENTORY.md   # All 16 tools
     │   │   └── INTEGRATION-MAP.md  # How tools connect
     │   ├── by-project/             # Per-project tracking
-    │   │   ├── zsh-configuration.md
+    │   │   ├── flow-cli.md
     │   │   ├── obsidian-cli-ops.md
     │   │   └── ...
     │   └── proposals/
     │
-    └── zsh-configuration/          # STANDARDS HUB - Standards + Shell
+    └── flow-cli/          # STANDARDS HUB - Standards + Shell
         ├── standards/              # Universal standards (all domains)
         ├── templates/              # Project scaffolding
         ├── docs/planning/          # Planning docs for THIS repo only
@@ -88,7 +88,7 @@ r-packages/active/medfit/
 r-packages/active/probmed/│       └─ PROJECT-HUB.md      │
   └─ .STATUS ─────────────┘                              │
                                                          │
-dev-tools/zsh-configuration/                             │
+dev-tools/flow-cli/                             │
   └─ .STATUS ─────────────┐                              │
                           ├──→ dev-planning/ ────────────┼──→ project-hub/
 dev-tools/obsidian-cli-ops/│      └─ PROJECT-HUB.md      │       └─ PROJECT-HUB.md
@@ -222,13 +222,13 @@ See [dev-planning/PROJECT-HUB.md](../../dev-tools/dev-planning/PROJECT-HUB.md) f
 
 | Project | Status | Next Action |
 |---------|--------|-------------|
-| zsh-configuration | 🟢 Phase 1 ✅ | Phase 2: Templates |
+| flow-cli | 🟢 Phase 1 ✅ | Phase 2: Templates |
 | obsidian-cli-ops | 🟢 v2.2.0 | Maintenance |
 | claude-mcp | ✅ Stable | — |
 
 ## Standards Reference
 
-See [zsh-configuration/standards/](../../dev-tools/zsh-configuration/standards/)
+See [flow-cli/standards/](../../dev-tools/flow-cli/standards/)
 ```
 
 ### `dev-planning/PROJECT-HUB.md` (New Domain Hub)
@@ -246,7 +246,7 @@ See [zsh-configuration/standards/](../../dev-tools/zsh-configuration/standards/)
 
 | Project | Status | Progress | Priority | Next Action |
 |---------|--------|----------|----------|-------------|
-| zsh-configuration | 🟢 Active | Phase 1 ✅ | P1 | Phase 2: Templates |
+| flow-cli | 🟢 Active | Phase 1 ✅ | P1 | Phase 2: Templates |
 | obsidian-cli-ops | 🟢 Active | 98% | P2 | Maintenance |
 | claude-mcp | ✅ Stable | 100% | — | — |
 | zsh-claude-workflow | 🟢 Active | 90% | P2 | Integration tests |
@@ -257,7 +257,7 @@ See [zsh-configuration/standards/](../../dev-tools/zsh-configuration/standards/)
 ## By Status
 
 ### 🟢 Active Development
-- **zsh-configuration** — Standards hub, shell config
+- **flow-cli** — Standards hub, shell config
 - **obsidian-cli-ops** — Obsidian CLI with graph analysis
 - **claude-statistical-research** — MCP server for research
 
@@ -272,13 +272,13 @@ See [zsh-configuration/standards/](../../dev-tools/zsh-configuration/standards/)
 
 | Resource | Location |
 |----------|----------|
-| Standards | [zsh-configuration/standards/](../zsh-configuration/standards/) |
+| Standards | [flow-cli/standards/](../flow-cli/standards/) |
 | Project details | [by-project/](by-project/) |
 | Integration map | [docs/INTEGRATION-MAP.md](docs/INTEGRATION-MAP.md) |
 
 ## Current Focus
 
-**This Week:** zsh-configuration Phase 2 (templates, unified commands)
+**This Week:** flow-cli Phase 2 (templates, unified commands)
 
 ---
 
@@ -304,14 +304,14 @@ Tasks that span multiple domains.
 - **Status:** 🟡 Waiting
 - **Action:** Create simplified example
 
-### zsh-configuration ↔ mediation-planning
+### flow-cli ↔ mediation-planning
 - **Need:** Add `medstatus` command
 - **Status:** 🟢 Ready
 - **Action:** Implement in Phase 2
 
 ## Completed
 
-- [x] zsh-configuration standards → used by all projects
+- [x] flow-cli standards → used by all projects
 ```
 
 ### `project-hub/weekly/WEEK-50.md`
@@ -403,7 +403,7 @@ hub() {
 | **R packages unchanged** | `mediation-planning` keeps working |
 | **Cross-domain has home** | `cross-domain/INTEGRATIONS.md` |
 | **Weekly planning** | `weekly/WEEK-XX.md` files |
-| **Standards centralized** | Symlink to `zsh-configuration/standards/` |
+| **Standards centralized** | Symlink to `flow-cli/standards/` |
 | **ADHD-friendly** | `today` command, visual dashboards |
 | **Existing workflow** | `rst`, `tst`, `work` unchanged |
 
@@ -418,7 +418,7 @@ hub() {
 - [x] Create `domains/` files (research, teaching, dev-tools, r-packages)
 - [x] Create `cross-domain/INTEGRATIONS.md`
 - [x] Create `weekly/` with current week
-- [x] Symlink `reference/standards` → `zsh-configuration/standards/`
+- [x] Symlink `reference/standards` → `flow-cli/standards/`
 
 ### Phase 2: Create dev-planning hub ✅ COMPLETE
 - [x] Create `~/projects/dev-tools/dev-planning/` directory
@@ -687,7 +687,7 @@ Items identified during brainstorming for future phases:
 - **2025-12-17:** Initial proposal created, approved for implementation
 - **2025-12-17:** Added detailed Obsidian integration section with obs CLI
 - **2025-12-17:** Major revision - Added separate `dev-planning/` hub decision
-  - Decided against nesting dev tools tracking in `zsh-configuration`
+  - Decided against nesting dev tools tracking in `flow-cli`
   - Created three-tier hub system (master → domain → standards)
   - Updated data flow diagram and implementation phases
 - **2025-12-17:** Added future work backlog

@@ -1,7 +1,7 @@
 # Dependency Management Strategies - Independent Package
 
 **Created:** 2025-12-20
-**Context:** Making zsh-configuration independently installable while leveraging existing dev-tools
+**Context:** Making flow-cli independently installable while leveraging existing dev-tools
 **Challenge:** Balance between integration benefits and package independence
 
 ---
@@ -117,14 +117,14 @@ function builtInDetection(projectPath) {
 
 ```bash
 # Minimal install (works but basic)
-npm install -g zsh-configuration
+npm install -g flow-cli
 
 # Enhanced install (recommended)
-npm install -g zsh-configuration
+npm install -g flow-cli
 git clone https://github.com/Data-Wise/zsh-claude-workflow ~/projects/dev-tools/zsh-claude-workflow
 cd ~/projects/dev-tools/zsh-claude-workflow && ./install.sh
 
-# zsh-configuration now uses enhanced project detection
+# flow-cli now uses enhanced project detection
 ```
 
 ### Detection Strategy Status
@@ -282,7 +282,7 @@ Publish external tools as npm packages and use peer dependencies.
 // package.json
 
 {
-  "name": "zsh-configuration",
+  "name": "flow-cli",
   "peerDependencies": {
     "@data-wise/zsh-claude-workflow": "^1.0.0"
   },
@@ -334,7 +334,7 @@ Copy the essential code from external tools into our package.
 ### Implementation
 
 ```
-zsh-configuration/
+flow-cli/
 ├── cli/
 │   └── vendor/
 │       ├── project-detector.sh    # Copied from zsh-claude-workflow
@@ -371,7 +371,7 @@ Combine soft dependencies + plugin system.
 
 ```bash
 # Works out of box with built-in features
-npm install -g zsh-configuration
+npm install -g flow-cli
 
 # Check status
 zsh-config doctor
@@ -479,7 +479,7 @@ git submodule add https://github.com/Data-Wise/zsh-claude-workflow vendor/zsh-cl
 git submodule add https://github.com/Data-Wise/aiterm vendor/aiterm
 
 # Users clone with --recursive
-git clone --recursive https://github.com/Data-Wise/zsh-configuration
+git clone --recursive https://github.com/Data-Wise/flow-cli
 ```
 
 ### Pros
@@ -649,7 +649,7 @@ async function enhancedDetection(projectPath) {
 
 **First Install:**
 ```bash
-npm install -g zsh-configuration
+npm install -g flow-cli
 
 zsh-config doctor
 # Shows core features working, enhancements available
@@ -681,7 +681,7 @@ pp
 npm publish
 
 # Users install globally
-npm install -g zsh-configuration
+npm install -g flow-cli
 
 # Commands available system-wide
 zsh-config doctor
@@ -691,19 +691,19 @@ dashboard
 
 **Pros:**
 - Standard JavaScript package distribution
-- Easy to update (`npm update -g zsh-configuration`)
+- Easy to update (`npm update -g flow-cli`)
 - Version management built-in
 - Works on all platforms
 
 ### Option B: Homebrew Formula
 
 ```ruby
-# Formula: zsh-configuration.rb
+# Formula: flow-cli.rb
 
 class ZshConfiguration < Formula
   desc "Personal productivity & project management for ZSH"
-  homepage "https://github.com/Data-Wise/zsh-configuration"
-  url "https://github.com/Data-Wise/zsh-configuration/archive/v1.0.0.tar.gz"
+  homepage "https://github.com/Data-Wise/flow-cli"
+  url "https://github.com/Data-Wise/flow-cli/archive/v1.0.0.tar.gz"
 
   depends_on "node"
 
@@ -715,7 +715,7 @@ class ZshConfiguration < Formula
 end
 
 # Users install via brew
-brew install data-wise/tap/zsh-configuration
+brew install data-wise/tap/flow-cli
 ```
 
 **Pros:**
@@ -732,11 +732,11 @@ brew install data-wise/tap/zsh-configuration
 
 set -e
 
-echo "Installing zsh-configuration..."
+echo "Installing flow-cli..."
 
 # Clone repo
-git clone https://github.com/Data-Wise/zsh-configuration ~/projects/dev-tools/zsh-configuration
-cd ~/projects/dev-tools/zsh-configuration
+git clone https://github.com/Data-Wise/flow-cli ~/projects/dev-tools/flow-cli
+cd ~/projects/dev-tools/flow-cli
 
 # Install Node.js dependencies (none for core)
 npm install --production
@@ -754,7 +754,7 @@ echo "Run 'zsh-config doctor' to check status"
 
 **Users install:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Data-Wise/zsh-configuration/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
 ```
 
 ### Option D: pipx (Python Package)
@@ -763,7 +763,7 @@ curl -fsSL https://raw.githubusercontent.com/Data-Wise/zsh-configuration/main/in
 
 ```bash
 # Publish to PyPI as Python package
-pipx install zsh-configuration
+pipx install flow-cli
 
 # Commands available
 zsh-config doctor
@@ -782,7 +782,7 @@ zsh-config doctor
 
 ```json
 {
-  "name": "zsh-configuration",
+  "name": "flow-cli",
   "version": "1.0.0",
   "description": "Personal productivity & project management system",
 
@@ -876,7 +876,7 @@ zsh-config doctor
 ## Example Code Structure
 
 ```
-zsh-configuration/
+flow-cli/
 ├── package.json                          # npm package config
 ├── cli/
 │   ├── bin/
@@ -918,8 +918,8 @@ zsh-configuration/
    - Recommendation: Yes, but keep it minimal (6 types)
 
 2. **npm scope: @data-wise or no scope?**
-   - `zsh-configuration` (no scope, easier to type)
-   - `@data-wise/zsh-configuration` (namespaced, professional)
+   - `flow-cli` (no scope, easier to type)
+   - `@data-wise/flow-cli` (namespaced, professional)
    - Recommendation: No scope for simplicity
 
 3. **Should enhancements auto-install on first run?**

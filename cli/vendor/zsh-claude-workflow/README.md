@@ -12,7 +12,7 @@
 
 ## Why Vendored
 
-These functions are copied (vendored) to make zsh-configuration independently installable via npm without requiring users to install zsh-claude-workflow separately.
+These functions are copied (vendored) to make flow-cli independently installable via npm without requiring users to install zsh-claude-workflow separately.
 
 ## Attribution
 

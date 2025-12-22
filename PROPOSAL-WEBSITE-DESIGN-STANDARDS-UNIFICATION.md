@@ -210,7 +210,7 @@ standards/
 ### Sync Strategy
 
 **Single Source of Truth:**
-- `zsh-configuration/standards/` - Master copy
+- `flow-cli/standards/` - Master copy
 - Synced to all PM hubs via `scripts/sync-standards.sh`
 
 **PM Hub Structure:**

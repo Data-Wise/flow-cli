@@ -56,7 +56,7 @@ proj status
 
 - **Stuck?** Check `docs/troubleshooting.md`
 - **Context lost?** Run `proj context` to see where you left off
-- **Standards?** See `~/projects/dev-tools/zsh-configuration/standards/`
+- **Standards?** See `~/projects/dev-tools/flow-cli/standards/`
 ```
 
 ---

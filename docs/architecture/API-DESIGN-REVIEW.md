@@ -14,7 +14,7 @@
 > - Needs: Input validation, TypeScript definitions, ES modules consistency
 > - Best APIs: Project Detection (excellent), Workflow (needs work)
 
-The zsh-configuration system follows **Node.js module patterns** rather than traditional REST/GraphQL APIs, which is appropriate for a CLI/library tool. This review evaluates the API design against general API principles adapted for Node.js modules.
+The flow-cli system follows **Node.js module patterns** rather than traditional REST/GraphQL APIs, which is appropriate for a CLI/library tool. This review evaluates the API design against general API principles adapted for Node.js modules.
 
 **Overall Assessment:** ✅ **Good Foundation** with clear improvement opportunities
 
@@ -39,7 +39,7 @@ The zsh-configuration system follows **Node.js module patterns** rather than tra
 ```
 User Code
     ↓
-import { detectProjectType } from 'zsh-configuration'
+import { detectProjectType } from 'flow-cli'
     ↓
 JavaScript Functions (Promise-based)
     ↓
@@ -938,7 +938,7 @@ const rPackages = await new ProjectQueryBuilder()
 > - **Top 5 fixes**: ES modules, input validation, error classes, TypeScript, design patterns
 > - **Result**: Professional-grade API that's easy to use, hard to misuse, easy to extend
 
-The zsh-configuration API design is **solid but needs modernization**. The Project Detection API (Week 1) demonstrates good patterns that should be applied consistently across all modules.
+The flow-cli API design is **solid but needs modernization**. The Project Detection API (Week 1) demonstrates good patterns that should be applied consistently across all modules.
 
 **Key Recommendations:**
 1. **Standardize on ES modules** - Consistency aids maintenance

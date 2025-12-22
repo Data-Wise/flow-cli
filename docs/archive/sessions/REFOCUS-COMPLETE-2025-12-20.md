@@ -207,7 +207,7 @@ INTEGRATION (External Tools)
 
 2. **Create directory structure** (5 min)
    ```bash
-   cd ~/projects/dev-tools/zsh-configuration
+   cd ~/projects/dev-tools/flow-cli
    mkdir -p cli/core cli/lib config/zsh/functions data/sessions data/projects integrations
    ```
 

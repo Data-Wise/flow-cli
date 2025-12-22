@@ -297,13 +297,13 @@ If adding new command or major changes:
 
 ```bash
 # Add to quick reference
-vim ~/projects/dev-tools/zsh-configuration/docs/user/WORKFLOW-QUICK-REFERENCE.md
+vim ~/projects/dev-tools/flow-cli/docs/user/WORKFLOW-QUICK-REFERENCE.md
 
 # Add to alias reference (if aliased)
-vim ~/projects/dev-tools/zsh-configuration/docs/user/ALIAS-REFERENCE-CARD.md
+vim ~/projects/dev-tools/flow-cli/docs/user/ALIAS-REFERENCE-CARD.md
 
 # Add to dashboard reference (if dashboard command)
-vim ~/projects/dev-tools/zsh-configuration/docs/user/DASHBOARD-QUICK-REF.md
+vim ~/projects/dev-tools/flow-cli/docs/user/DASHBOARD-QUICK-REF.md
 ```
 
 ### 2. Update Standards if Needed
@@ -312,10 +312,10 @@ If you created new pattern or improved workflow:
 
 ```bash
 # Update the standard
-vim ~/projects/dev-tools/zsh-configuration/standards/code/ZSH-COMMANDS-HELP.md
+vim ~/projects/dev-tools/flow-cli/standards/code/ZSH-COMMANDS-HELP.md
 
 # Document the workflow improvement
-vim ~/projects/dev-tools/zsh-configuration/standards/workflow/HELP-CREATION-WORKFLOW.md
+vim ~/projects/dev-tools/flow-cli/standards/workflow/HELP-CREATION-WORKFLOW.md
 ```
 
 ### 3. Commit Changes

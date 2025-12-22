@@ -1,7 +1,7 @@
 # Smart Function Refactoring - File Index
 
 **Created:** December 14, 2025  
-**Location:** `~/projects/dev-tools/zsh-configuration/refactoring-2025-12-14/`
+**Location:** `~/projects/dev-tools/flow-cli/refactoring-2025-12-14/`
 
 ---
 
@@ -22,7 +22,7 @@
 
 ### One-Command Deployment
 ```bash
-cd ~/projects/dev-tools/zsh-configuration/refactoring-2025-12-14
+cd ~/projects/dev-tools/flow-cli/refactoring-2025-12-14
 ./deploy-smart-functions.sh
 ./remove-obsolete-aliases.sh
 ./verify-refactoring.sh

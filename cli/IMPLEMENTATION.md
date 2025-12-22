@@ -58,7 +58,7 @@ Test 1: Get Current Session
 
 Test 2: Get Project Status
 ✅ Project status found:
-   Location: ~/projects/dev-tools/zsh-configuration/
+   Location: ~/projects/dev-tools/flow-cli/
    Last Updated: 2025-12-16 Afternoon
    Progress bars: 9 phases parsed correctly
 

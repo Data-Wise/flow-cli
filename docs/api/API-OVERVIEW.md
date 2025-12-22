@@ -1,6 +1,6 @@
 # API Overview - ZSH Configuration System
 
-**Project:** zsh-configuration
+**Project:** flow-cli
 **Version:** 0.1.0
 **Type:** Personal Productivity & Project Management System
 
@@ -81,7 +81,7 @@ graph TB
 Detect the type of a single project.
 
 ```javascript
-import { detectProjectType } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
 const type = await detectProjectType('/Users/dt/projects/r-packages/stable/rmediation');
 // Returns: 'r-package'
@@ -156,7 +156,7 @@ isTypeSupported('invalid');    // false
 Get complete dashboard data for UI display.
 
 ```javascript
-import { getDashboardData } from 'zsh-configuration/cli/api/status-api.js';
+import { getDashboardData } from 'flow-cli/cli/api/status-api.js';
 
 const data = await getDashboardData('/Users/dt/projects/teaching/stat-440');
 // Returns: { session: {...}, project: {...}, timestamp: '...' }
@@ -292,7 +292,7 @@ const flow = await checkFlowState();
 Start a new work session with validation.
 
 ```javascript
-import { startSession } from 'zsh-configuration/cli/api/workflow-api.js';
+import { startSession } from 'flow-cli/cli/api/workflow-api.js';
 
 const result = await startSession('rmediation', {
   context: 'Fix failing test',
@@ -515,7 +515,7 @@ await restoreSession('session-uuid');
 
 ---
 
-**Storage:** `~/.local/share/zsh-configuration/sessions/`
+**Storage:** `~/.local/share/flow-cli/sessions/`
 **Format:** JSON files with session metadata
 
 ---
@@ -532,7 +532,7 @@ await restoreSession('session-uuid');
 Recursively scan directory for projects.
 
 ```javascript
-import { scanDirectory } from 'zsh-configuration/cli/core/project-scanner.js';
+import { scanDirectory } from 'flow-cli/cli/core/project-scanner.js';
 
 const projects = await scanDirectory('/Users/dt/projects', {
   maxDepth: 3,
@@ -602,7 +602,7 @@ await updateProjectCache();
 ---
 
 **Uses:** Project Detection API (`detectMultipleProjects`)
-**Cache:** `~/.cache/zsh-configuration/projects.json`
+**Cache:** `~/.cache/flow-cli/projects.json`
 
 ---
 
@@ -736,7 +736,7 @@ const graph = await getDependencyGraph();
 
 ---
 
-**Storage:** `~/.local/share/zsh-configuration/dependencies.json`
+**Storage:** `~/.local/share/flow-cli/dependencies.json`
 
 ---
 
@@ -815,8 +815,8 @@ const grouped = await getTasksByCategory();
 ### Pattern 1: Complete Project Info
 
 ```javascript
-import { detectProjectType } from 'zsh-configuration/cli/lib/project-detector-bridge.js';
-import { getDashboardData } from 'zsh-configuration/cli/api/status-api.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import { getDashboardData } from 'flow-cli/cli/api/status-api.js';
 
 // Get complete project information
 const projectPath = '/Users/dt/projects/r-packages/stable/rmediation';
@@ -837,8 +837,8 @@ console.log(`Active Session: ${status.session.active ? 'Yes' : 'No'}`);
 ### Pattern 2: Work Session Workflow
 
 ```javascript
-import { startSession, endSession } from 'zsh-configuration/cli/api/workflow-api.js';
-import { getSessionStatus } from 'zsh-configuration/cli/api/status-api.js';
+import { startSession, endSession } from 'flow-cli/cli/api/workflow-api.js';
+import { getSessionStatus } from 'flow-cli/cli/api/status-api.js';
 
 // Start session
 await startSession('rmediation', {
@@ -860,8 +860,8 @@ await endSession({
 ### Pattern 3: Project Discovery
 
 ```javascript
-import { scanAllProjects } from 'zsh-configuration/cli/core/project-scanner.js';
-import { getTaskRecommendations } from 'zsh-configuration/cli/api/status-api.js';
+import { scanAllProjects } from 'flow-cli/cli/core/project-scanner.js';
+import { getTaskRecommendations } from 'flow-cli/cli/api/status-api.js';
 
 // Find all projects
 const projects = await scanAllProjects();

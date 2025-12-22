@@ -1157,6 +1157,10 @@ export PATH="/opt/homebrew/opt/imagemagick@6/bin:$PATH"
 [[ -f ~/.config/zsh/functions/g-dispatcher.zsh ]] && \
     source ~/.config/zsh/functions/g-dispatcher.zsh
 
+# Terminal Management System (tmux + project launcher) - Added 2025-12-21
+[[ -f ~/.local/share/terminal-aliases.sh ]] && \
+    source ~/.local/share/terminal-aliases.sh
+
 # obs CLI completion
 fpath=(~/.zsh/completions $fpath)
 

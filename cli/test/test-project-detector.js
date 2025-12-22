@@ -94,7 +94,7 @@ async function runTests() {
 
   // Test 5: Detect generic git project (this project)
   info('\nTest 5: Detect generic git project');
-  const nodePath = path.join(process.env.HOME, 'projects/dev-tools/zsh-configuration');
+  const nodePath = path.join(process.env.HOME, 'projects/dev-tools/flow-cli');
   try {
     const nodeType = await detectProjectType(nodePath);
     // This project has package.json and .git, so it should detect as 'generic' (git project)

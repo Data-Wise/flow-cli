@@ -190,7 +190,7 @@ Remove app workspace and app-related scripts:
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/zsh-configuration"
+    "url": "https://github.com/yourusername/flow-cli"
   },
   "engines": {
     "node": ">=18.0.0",
