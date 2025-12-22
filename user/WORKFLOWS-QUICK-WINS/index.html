@@ -1713,10 +1713,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#option-c-nuclear-option-last-resort" class="md-nav__link">
+  <a href="#option-c-clean-build-last-resort" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Option C: Nuclear Option (Last Resort)
+        Option C: Clean Build (Last Resort)
       
     </span>
   </a>
@@ -5422,10 +5422,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#option-c-nuclear-option-last-resort" class="md-nav__link">
+  <a href="#option-c-clean-build-last-resort" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Option C: Nuclear Option (Last Resort)
+        Option C: Clean Build (Last Resort)
       
     </span>
   </a>
@@ -5669,10 +5669,9 @@
 <h1 id="adhd-friendly-workflows-quick-wins-guide">🧠 ADHD-Friendly Workflows - Quick Wins Guide<a class="headerlink" href="#adhd-friendly-workflows-quick-wins-guide" title="Permanent link">&para;</a></h1>
 <blockquote>
 <p><strong>Focus:</strong> Top 10 highest-impact workflows for daily R package development</p>
-<p><strong>⚠️ Important (2025-12-19):</strong> This guide was written before the alias cleanup (179→28). Many referenced aliases (<code>t</code>, <code>lt</code>, <code>dt</code>, <code>js</code>, etc.) were removed. Workflows remain valid but commands need updating. See <a href="../ALIAS-REFERENCE-CARD/">ALIAS-REFERENCE-CARD.md</a> for current commands.</p>
 </blockquote>
 <p><strong>Read Time:</strong> 5 minutes | <strong>Apply Time:</strong> Immediate
-<strong>Last Updated:</strong> 2025-12-13 (Note added: 2025-12-19)</p>
+<strong>Last Updated:</strong> 2025-12-21 (Updated for 28-alias system)</p>
 <hr />
 <h2 id="table-of-contents">📋 Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
 <table>
@@ -5764,45 +5763,41 @@
 <p><strong>When:</strong> You made code changes and want quick feedback
 <strong>Time:</strong> ~5 minutes | <strong>Load:</strong> 🟢 Easy | <strong>Safety:</strong> 🟢 Safe</p>
 <h3 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>t<span class="w">                    </span><span class="c1"># Test (single letter - fastest!)</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># OR</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>rtest<span class="w">                </span><span class="c1"># Test (explicit)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>rtest<span class="w">                </span><span class="c1"># Run all tests</span>
 </code></pre></div>
 <h3 id="visual-flow">Visual Flow<a class="headerlink" href="#visual-flow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Code changes → t → 2-4 min wait → ✅ Green or ❌ Red
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Code changes → rtest → 2-4 min wait → ✅ Green or ❌ Red
 </code></pre></div>
 <h3 id="decision-points">Decision Points<a class="headerlink" href="#decision-points" title="Permanent link">&para;</a></h3>
 <ul>
 <li>✅ <strong>All green</strong> → Continue coding</li>
-<li>❌ <strong>Some red</strong> → Fix and re-run <code>t</code></li>
-<li>🔴 <strong>Many red</strong> → Run <code>lt</code> to reload + test</li>
+<li>❌ <strong>Some red</strong> → Fix and re-run <code>rtest</code></li>
+<li>🔴 <strong>Many red</strong> → Run <code>rload</code> then <code>rtest</code> to reload + test</li>
 </ul>
 <h3 id="pro-tips">Pro Tips<a class="headerlink" href="#pro-tips" title="Permanent link">&para;</a></h3>
-<p>💡 Set a 5-min timer while tests run (use <code>worktimer 5</code>)
-💡 Tests too slow? Use <code>rtest1 "pattern"</code> for specific tests
+<p>💡 Set a 5-min timer while tests run (use <code>focus 5</code>)
+💡 Tests too slow? Focus on specific test files
 💡 Leave tests running and switch tasks (ADHD-friendly!)</p>
 <h3 id="what-could-go-wrong">What Could Go Wrong?<a class="headerlink" href="#what-could-go-wrong" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Tests hang → Ctrl+C to cancel, check for infinite loops</li>
-<li>All tests fail → Run <code>here</code> to verify you're in right directory</li>
+<li>All tests fail → Run <code>rpkg</code> to verify you're in right package</li>
 </ul>
 <hr />
 <h2 id="2-load-test-atomic">2️⃣ Load + Test (Atomic)<a class="headerlink" href="#2-load-test-atomic" title="Permanent link">&para;</a></h2>
 <p><strong>When:</strong> Fresh start, want to verify everything loads and works
 <strong>Time:</strong> ~5 minutes | <strong>Load:</strong> 🟢 Easy | <strong>Safety:</strong> 🟢 Safe</p>
 <h3 id="commands_1">Commands<a class="headerlink" href="#commands_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>lt<span class="w">                   </span><span class="c1"># Load then test (atomic pair - ultra-fast!)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># OR</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>rload<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w">       </span><span class="c1"># Explicit version</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>rload<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w">       </span><span class="c1"># Load then test</span>
 </code></pre></div>
 <h3 id="visual-flow_1">Visual Flow<a class="headerlink" href="#visual-flow_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Start work → lt → Package loads → Tests run → ✅ or ❌
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Start work → rload &amp;&amp; rtest → Package loads → Tests run → ✅ or ❌
 </code></pre></div>
 <h3 id="why-this-works-adhd-optimized">Why This Works (ADHD-Optimized)<a class="headerlink" href="#why-this-works-adhd-optimized" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Single command</strong> → Less to remember</li>
 <li><strong>Automated sequence</strong> → No decision fatigue</li>
 <li><strong>Clear output</strong> → Green = go, Red = stop</li>
+<li><strong>Verifies everything</strong> → Load + tests in one go</li>
 </ul>
 <h3 id="when-to-use">When to Use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h3>
 <ul>
@@ -5819,12 +5814,10 @@
 <p><strong>When:</strong> You changed function documentation (roxygen comments)
 <strong>Time:</strong> ~8 minutes | <strong>Load:</strong> 🟢 Easy | <strong>Safety:</strong> 🟢 Safe</p>
 <h3 id="commands_2">Commands<a class="headerlink" href="#commands_2" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>dt<span class="w">                   </span><span class="c1"># Doc then test (atomic pair)</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># OR</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w">        </span><span class="c1"># Explicit version</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w">        </span><span class="c1"># Document then test</span>
 </code></pre></div>
 <h3 id="visual-flow_2">Visual Flow<a class="headerlink" href="#visual-flow_2" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Change @param docs → dt → Docs regenerate → Tests run → ✅
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Change @param docs → rdoc &amp;&amp; rtest → Docs regenerate → Tests run → ✅
 </code></pre></div>
 <h3 id="what-this-does">What This Does<a class="headerlink" href="#what-this-does" title="Permanent link">&para;</a></h3>
 <ol>
@@ -5835,13 +5828,13 @@
 <h3 id="common-scenario">Common Scenario<a class="headerlink" href="#common-scenario" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>You: Added new function parameter
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>You: Updated @param documentation
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Run: dt
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Run: rdoc &amp;&amp; rtest
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Result: Documentation updated + tests verify it works
 </code></pre></div>
 <h3 id="pro-tips_2">Pro Tips<a class="headerlink" href="#pro-tips_2" title="Permanent link">&para;</a></h3>
 <p>💡 Always run after changing ANY roxygen comment
 💡 Catches missing @export tags early
-💡 Faster than full <code>rcycle</code></p>
+💡 Faster than full <code>rcheck</code></p>
 <h3 id="safety-checks">Safety Checks<a class="headerlink" href="#safety-checks" title="Permanent link">&para;</a></h3>
 <ul>
 <li>🟢 Safe - only regenerates docs</li>
@@ -5867,7 +5860,7 @@
 </ol>
 <h3 id="adhd-strategy-for-long-wait">ADHD Strategy for Long Wait<a class="headerlink" href="#adhd-strategy-for-long-wait" title="Permanent link">&para;</a></h3>
 <ul>
-<li>⏰ <strong>Set timer</strong> → <code>worktimer 60 "R CMD check"</code></li>
+<li>⏰ <strong>Set timer</strong> → <code>focus 60</code> for focus timer</li>
 <li>🎯 <strong>Switch context</strong> → Work on different package</li>
 <li>☕ <strong>Take break</strong> → Perfect time for lunch/walk</li>
 <li>📧 <strong>Other tasks</strong> → Email, admin work</li>
@@ -5886,7 +5879,7 @@
 <ul>
 <li>Check fails → Read error messages carefully</li>
 <li>Takes forever → Normal! R CMD check is thorough</li>
-<li>Interrupted → Just re-run <code>rcheck</code> to continue</li>
+<li>Interrupted → Just re-run to continue</li>
 </ul>
 <hr />
 <h2 id="5-quick-commit-workflow">5️⃣ Quick Commit Workflow<a class="headerlink" href="#5-quick-commit-workflow" title="Permanent link">&para;</a></h2>
@@ -5894,38 +5887,38 @@
 <strong>Time:</strong> ~3 minutes | <strong>Load:</strong> 🟢 Easy | <strong>Safety:</strong> 🟢 Safe</p>
 <h3 id="commands_4">Commands<a class="headerlink" href="#commands_4" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Option 1: Quick (if already checked)</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>qcommit<span class="w"> </span><span class="s2">&quot;message&quot;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;message&quot;</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Option 2: Safe (docs + tests + commit)</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>rpkgcommit<span class="w"> </span><span class="s2">&quot;message&quot;</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;message&quot;</span>
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Option 3: Ultra-safe (full check + commit)</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>rcycle<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>qcommit<span class="w"> </span><span class="s2">&quot;message&quot;</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rcheck<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;message&quot;</span>
 </code></pre></div>
 <h3 id="visual-flow_4">Visual Flow<a class="headerlink" href="#visual-flow_4" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Code ready → qcommit &quot;msg&quot; → Git commit → Done in 30s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Code ready → git commit → Done in 30s
 </code></pre></div>
 <h3 id="commit-message-templates">Commit Message Templates<a class="headerlink" href="#commit-message-templates" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Feature</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>qcommit<span class="w"> </span><span class="s2">&quot;feat: add sensitivity analysis function&quot;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add sensitivity analysis function&quot;</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Bug fix</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>qcommit<span class="w"> </span><span class="s2">&quot;fix: handle NA values in mediation estimate&quot;</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: handle NA values in mediation estimate&quot;</span>
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Documentation</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>qcommit<span class="w"> </span><span class="s2">&quot;docs: update README with new examples&quot;</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: update README with new examples&quot;</span>
 <a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
 <a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1"># Tests</span>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>qcommit<span class="w"> </span><span class="s2">&quot;test: add tests for interaction effects&quot;</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;test: add tests for interaction effects&quot;</span>
 <a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
 <a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="c1"># Refactor</span>
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>qcommit<span class="w"> </span><span class="s2">&quot;refactor: simplify bootstrap algorithm&quot;</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refactor: simplify bootstrap algorithm&quot;</span>
 </code></pre></div>
 <h3 id="decision-tree">Decision Tree<a class="headerlink" href="#decision-tree" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Did you run rcycle? 
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├─ Yes → qcommit &quot;message&quot;
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>├─ No → rpkgcommit &quot;message&quot; (safer)
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>└─ Not sure → rcycle &amp;&amp; qcommit &quot;message&quot; (safest)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Did you run rcheck?
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├─ Yes → git add . &amp;&amp; git commit -m &quot;message&quot;
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>├─ No → rdoc &amp;&amp; rtest then commit (safer)
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>└─ Not sure → Full check first (safest)
 </code></pre></div>
 <h3 id="pro-tips_4">Pro Tips<a class="headerlink" href="#pro-tips_4" title="Permanent link">&para;</a></h3>
 <p>💡 Commit often (every 30-60 min of work)
@@ -5933,8 +5926,8 @@
 💡 Use clear messages (future you will thank you!)</p>
 <h3 id="safety-checks_1">Safety Checks<a class="headerlink" href="#safety-checks_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li><code>rpkgcommit</code> runs docs + tests first</li>
-<li>Can always undo with <code>gundo</code></li>
+<li>Always run tests before committing</li>
+<li>Can undo with <code>git reset HEAD~1</code> if needed</li>
 </ul>
 <hr />
 <h2 id="6-fix-failing-tests">6️⃣ Fix Failing Tests<a class="headerlink" href="#6-fix-failing-tests" title="Permanent link">&para;</a></h2>
@@ -5942,16 +5935,15 @@
 <strong>Time:</strong> Varies | <strong>Load:</strong> 🟡 Medium | <strong>Safety:</strong> 🟢 Safe</p>
 <h3 id="step-by-step-process">Step-by-Step Process<a class="headerlink" href="#step-by-step-process" title="Permanent link">&para;</a></h3>
 <h4 id="step-1-identify-the-problem-2-min">Step 1: Identify the Problem (2 min)<a class="headerlink" href="#step-1-identify-the-problem-2-min" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>t<span class="w">                    </span><span class="c1"># Run tests, read error messages</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>rtest<span class="w">                </span><span class="c1"># Run tests, read error messages</span>
 </code></pre></div>
 <p>Look for:
 - Which test file failed? (test-*.R)
 - Which expectation failed? (expect_equal, etc.)
 - What was expected vs actual?</p>
 <h4 id="step-2-run-single-test-1-min">Step 2: Run Single Test (1 min)<a class="headerlink" href="#step-2-run-single-test-1-min" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>rtestfile<span class="w"> </span>tests/testthat/test-myfunction.R
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># OR</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>rtest1<span class="w"> </span><span class="s2">&quot;myfunction&quot;</span><span class="w">     </span><span class="c1"># Run tests matching pattern</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Run specific test file in R:</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>devtools::test_file<span class="o">(</span><span class="s2">&quot;tests/testthat/test-myfunction.R&quot;</span><span class="o">)</span>
 </code></pre></div>
 <h4 id="step-3-interactive-debugging-varies">Step 3: Interactive Debugging (varies)<a class="headerlink" href="#step-3-interactive-debugging-varies" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>rload<span class="w">                </span><span class="c1"># Load package</span>
@@ -5961,12 +5953,12 @@
 </code></pre></div>
 <h4 id="step-4-fix-and-verify-2-min">Step 4: Fix and Verify (2 min)<a class="headerlink" href="#step-4-fix-and-verify-2-min" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Fix the code</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>t<span class="w">                    </span><span class="c1"># Re-run all tests</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>rtest<span class="w">                </span><span class="c1"># Re-run all tests</span>
 </code></pre></div>
 <h3 id="common-test-failures">Common Test Failures<a class="headerlink" href="#common-test-failures" title="Permanent link">&para;</a></h3>
 <p><strong>1. "Error: object not found"</strong>
 - Cause: Function not exported or loaded
-- Fix: Add <code>@export</code> tag, run <code>dt</code></p>
+- Fix: Add <code>@export</code> tag, run <code>rdoc &amp;&amp; rtest</code></p>
 <p><strong>2. "Expected X but got Y"</strong>
 - Cause: Logic error or outdated test
 - Fix: Check function logic or update test</p>
@@ -5977,53 +5969,53 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>1. Read error (30s)
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>2. Hypothesize fix (1 min)
 <a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>3. Make ONE small change
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>4. Test immediately with `t`
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>4. Test immediately with `rtest`
 <a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>5. Repeat until green
 </code></pre></div>
 <h3 id="pro-tips_5">Pro Tips<a class="headerlink" href="#pro-tips_5" title="Permanent link">&para;</a></h3>
 <p>💡 Only fix ONE test at a time
 💡 Use <code>browser()</code> for interactive debugging
-💡 Take breaks if frustrated (use <code>quickbreak 5</code>)</p>
+💡 Take breaks if frustrated</p>
 <hr />
 <h2 id="7-where-am-i-context-check">7️⃣ Where Am I? (Context Check)<a class="headerlink" href="#7-where-am-i-context-check" title="Permanent link">&para;</a></h2>
 <p><strong>When:</strong> Lost context, can't remember what you were doing
 <strong>Time:</strong> ~30 seconds | <strong>Load:</strong> 🟢 Easy | <strong>Safety:</strong> 🟢 Safe</p>
 <h3 id="commands_5">Commands<a class="headerlink" href="#commands_5" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>here<span class="w">                 </span><span class="c1"># Show full context</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>next<span class="w">                 </span><span class="c1"># Show next action from .STATUS</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>progress_check<span class="w">       </span><span class="c1"># Show progress bars</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nb">pwd</span><span class="w">                  </span><span class="c1"># Show current directory</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>rpkg<span class="w">                 </span><span class="c1"># Package info &amp; status</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>git<span class="w"> </span>status<span class="w">           </span><span class="c1"># Check git status</span>
 </code></pre></div>
 <h3 id="visual-output">Visual Output<a class="headerlink" href="#visual-output" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>here → Shows:
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>- 📍 Current directory
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>- 📦 R package name + version
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>- 📊 .STATUS file excerpt
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>- 🔧 Git branch + status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>rpkg → Shows:
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>- 📦 R package name + version
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>- 📊 Package description
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>- 🔧 Git branch
 </code></pre></div>
 <h3 id="quick-recovery-checklist">Quick Recovery Checklist<a class="headerlink" href="#quick-recovery-checklist" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] Run <code>here</code> → See where you are</li>
-<li>[ ] Run <code>next</code> → See what to do next</li>
-<li>[ ] Run <code>gs</code> → Check git status</li>
-<li>[ ] Run <code>ah r</code> → Remember R package aliases</li>
+<li>[ ] Run <code>pwd</code> → See where you are</li>
+<li>[ ] Run <code>rpkg</code> → Package information</li>
+<li>[ ] Run <code>git status</code> → Check git status</li>
+<li>[ ] Check <code>.STATUS</code> file for next action</li>
 </ul>
 <h3 id="common-scenarios">Common Scenarios<a class="headerlink" href="#common-scenarios" title="Permanent link">&para;</a></h3>
 <p><strong>"I forgot what I was working on"</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>here<span class="w">                 </span><span class="c1"># Full context</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>next<span class="w">                 </span><span class="c1"># Next action</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nb">pwd</span><span class="w">                  </span><span class="c1"># Current directory</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>rpkg<span class="w">                 </span><span class="c1"># Package info</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>cat<span class="w"> </span>.STATUS<span class="w">          </span><span class="c1"># Check status file</span>
 </code></pre></div></p>
 <p><strong>"I don't remember what this package does"</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>rpkg<span class="w">                 </span><span class="c1"># Package info</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>peekdesc<span class="w">             </span><span class="c1"># Read DESCRIPTION</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>cat<span class="w"> </span>DESCRIPTION<span class="w">      </span><span class="c1"># Read full description</span>
 </code></pre></div></p>
 <p><strong>"Did I make changes?"</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>gs<span class="w">                   </span><span class="c1"># Git status</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>smartgit<span class="w">             </span><span class="c1"># Full git overview</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>git<span class="w"> </span>status<span class="w">           </span><span class="c1"># Git status</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>git<span class="w"> </span>diff<span class="w">             </span><span class="c1"># See changes</span>
 </code></pre></div></p>
 <h3 id="pro-tips_6">Pro Tips<a class="headerlink" href="#pro-tips_6" title="Permanent link">&para;</a></h3>
-<p>💡 Start every session with <code>here</code>
-💡 Make it a habit: open terminal → <code>here</code>
-💡 Add to .STATUS file for persistent reminders</p>
+<p>💡 Start every session with <code>rpkg</code>
+💡 Keep <code>.STATUS</code> file updated
+💡 Use <code>git status</code> frequently</p>
 <hr />
 <h2 id="8-focus-mode-deep-work">8️⃣ Focus Mode (Deep Work)<a class="headerlink" href="#8-focus-mode-deep-work" title="Permanent link">&para;</a></h2>
 <p><strong>When:</strong> Need concentration, minimize distractions
@@ -6045,30 +6037,28 @@
 </code></pre></div>
 <h3 id="recommended-focus-workflows">Recommended Focus Workflows<a class="headerlink" href="#recommended-focus-workflows" title="Permanent link">&para;</a></h3>
 <p><strong>Pomodoro (25 min)</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>focus<span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="s2">&quot;implement new function&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>f25<span class="w">                  </span><span class="c1"># 25-minute focus timer</span>
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="c1"># Work for 25 min</span>
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="c1"># Timer alerts when done</span>
-<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>quickbreak<span class="w"> </span><span class="m">5</span><span class="w">         </span><span class="c1"># 5-min break</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Take 5-min break</span>
 </code></pre></div></p>
-<p><strong>Deep Work (90 min)</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>focus<span class="w"> </span><span class="m">90</span><span class="w"> </span><span class="s2">&quot;write tests for mediation module&quot;</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="c1"># Work for 90 min</span>
+<p><strong>Deep Work (50 min)</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>f50<span class="w">                  </span><span class="c1"># 50-minute deep work timer</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="c1"># Work for 50 min</span>
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="c1"># Timer alerts when done</span>
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>quickbreak<span class="w"> </span><span class="m">15</span><span class="w">        </span><span class="c1"># 15-min break</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Take 10-15 min break</span>
 </code></pre></div></p>
-<p><strong>Quick Focus (no timer)</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>focus<span class="w">                </span><span class="c1"># Just minimize distractions</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="c1"># Work until done</span>
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>unfocus<span class="w">              </span><span class="c1"># Restore when finished</span>
+<p><strong>Custom Duration</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>focus<span class="w"> </span><span class="m">90</span><span class="w">             </span><span class="c1"># Custom 90-minute session</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="c1"># Work until timer ends</span>
 </code></pre></div></p>
 <h3 id="pro-tips_7">Pro Tips<a class="headerlink" href="#pro-tips_7" title="Permanent link">&para;</a></h3>
-<p>💡 Combine with <code>startwork &lt;project&gt;</code> for full setup
-💡 Use during <code>rcycle</code> 60-min wait
-💡 Pair with <code>worktimer</code> for accountability</p>
+<p>💡 Use <code>f25</code> or <code>f50</code> aliases for common durations
+💡 Use during <code>rcheck</code> 60-min wait
+💡 Take regular breaks to maintain focus</p>
 <h3 id="after-focus-session">After Focus Session<a class="headerlink" href="#after-focus-session" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>unfocus<span class="w">              </span><span class="c1"># Restore notifications</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>endwork<span class="w">              </span><span class="c1"># Update .STATUS</span>
-<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>qcommit<span class="w"> </span><span class="s2">&quot;msg&quot;</span><span class="w">        </span><span class="c1"># Commit progress</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Update status and commit progress</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Progress on X&quot;</span>
 </code></pre></div>
 <hr />
 <h2 id="9-start-new-feature">9️⃣ Start New Feature<a class="headerlink" href="#9-start-new-feature" title="Permanent link">&para;</a></h2>
@@ -6076,16 +6066,19 @@
 <strong>Time:</strong> ~2 minutes | <strong>Load:</strong> 🟢 Easy | <strong>Safety:</strong> 🟢 Safe</p>
 <h3 id="step-by-step-checklist">Step-by-Step Checklist<a class="headerlink" href="#step-by-step-checklist" title="Permanent link">&para;</a></h3>
 <h4 id="1-context-setup-30s">[ ] 1. Context Setup (30s)<a class="headerlink" href="#1-context-setup-30s" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>here<span class="w">                 </span><span class="c1"># Verify location</span>
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>gs<span class="w">                   </span><span class="c1"># Check git status</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nb">pwd</span><span class="w">                  </span><span class="c1"># Verify location</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>rpkg<span class="w">                 </span><span class="c1"># Check package info</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>git<span class="w"> </span>status<span class="w">           </span><span class="c1"># Check git status</span>
 </code></pre></div>
 <h4 id="2-create-function-file-30s">[ ] 2. Create Function File (30s)<a class="headerlink" href="#2-create-function-file-30s" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>rnewfun<span class="w"> </span><span class="s2">&quot;myfunction&quot;</span><span class="w">     </span><span class="c1"># Creates R/myfunction.R</span>
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="c1"># Opens in editor automatically</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Create R/myfunction.R manually</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="c1"># OR use usethis:</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>usethis::use_r<span class="o">(</span><span class="s2">&quot;myfunction&quot;</span><span class="o">)</span>
 </code></pre></div>
 <h4 id="3-create-test-file-30s">[ ] 3. Create Test File (30s)<a class="headerlink" href="#3-create-test-file-30s" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>rnewtest<span class="w"> </span><span class="s2">&quot;myfunction&quot;</span><span class="w">    </span><span class="c1"># Creates tests/testthat/test-myfunction.R</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="c1"># Opens in editor automatically</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Create tests/testthat/test-myfunction.R</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="c1"># OR use usethis:</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>usethis::use_test<span class="o">(</span><span class="s2">&quot;myfunction&quot;</span><span class="o">)</span>
 </code></pre></div>
 <h4 id="4-document-template-30s">[ ] 4. Document Template (30s)<a class="headerlink" href="#4-document-template-30s" title="Permanent link">&para;</a></h4>
 <p>Add roxygen skeleton:
@@ -6107,30 +6100,30 @@
 <a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="p">})</span>
 </code></pre></div>
 <h4 id="6-verify-setup">[ ] 6. Verify Setup<a class="headerlink" href="#6-verify-setup" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>lt<span class="w">                   </span><span class="c1"># Load + test</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>rload<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w">       </span><span class="c1"># Load + test</span>
 <a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="c1"># Should load successfully, test might fail (that&#39;s OK!)</span>
 </code></pre></div>
 <h3 id="quick-start-template">Quick Start Template<a class="headerlink" href="#quick-start-template" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># All in one flow:</span>
-<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>here<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rnewfun<span class="w"> </span><span class="s2">&quot;myfunction&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rnewtest<span class="w"> </span><span class="s2">&quot;myfunction&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>lt
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Create files, then verify:</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>rload<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest
 </code></pre></div>
 <h3 id="pro-tips_8">Pro Tips<a class="headerlink" href="#pro-tips_8" title="Permanent link">&para;</a></h3>
 <p>💡 Start with test first (TDD approach)
 💡 Make smallest working version
-💡 Commit early: <code>qcommit "feat: add myfunction skeleton"</code></p>
+💡 Commit early: <code>git commit -m "feat: add myfunction skeleton"</code></p>
 <hr />
 <h2 id="what-did-i-break-emergency-recovery">🔟 What Did I Break? (Emergency Recovery)<a class="headerlink" href="#what-did-i-break-emergency-recovery" title="Permanent link">&para;</a></h2>
 <p><strong>When:</strong> Something broke and you're not sure what
 <strong>Time:</strong> Varies | <strong>Load:</strong> 🔴 Hard | <strong>Safety:</strong> 🟡 Careful</p>
 <h3 id="emergency-triage-2-min">Emergency Triage (2 min)<a class="headerlink" href="#emergency-triage-2-min" title="Permanent link">&para;</a></h3>
 <h4 id="step-1-assess-damage">Step 1: Assess Damage<a class="headerlink" href="#step-1-assess-damage" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>here<span class="w">                 </span><span class="c1"># Where am I?</span>
-<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>gs<span class="w">                   </span><span class="c1"># What changed?</span>
-<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>t<span class="w">                    </span><span class="c1"># Do tests pass?</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="nb">pwd</span><span class="w">                  </span><span class="c1"># Where am I?</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>git<span class="w"> </span>status<span class="w">           </span><span class="c1"># What changed?</span>
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>rtest<span class="w">                </span><span class="c1"># Do tests pass?</span>
 </code></pre></div>
 <h4 id="step-2-identify-problem">Step 2: Identify Problem<a class="headerlink" href="#step-2-identify-problem" title="Permanent link">&para;</a></h4>
 <p><strong>Tests failing?</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>t<span class="w">                    </span><span class="c1"># Run tests</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>rtest<span class="w">                </span><span class="c1"># Run tests</span>
 <a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="c1"># Read error messages carefully</span>
 <a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="c1"># Jump to workflow #6 (Fix Failing Tests)</span>
 </code></pre></div></p>
@@ -6140,39 +6133,39 @@
 <a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="c1"># Common: syntax error, missing dependency</span>
 </code></pre></div></p>
 <p><strong>Git issues?</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>gs<span class="w">                   </span><span class="c1"># Git status</span>
-<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>glog<span class="w">                 </span><span class="c1"># Recent commits</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>git<span class="w"> </span>status<span class="w">           </span><span class="c1"># Git status</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>-5<span class="w"> </span><span class="c1"># Recent commits</span>
 </code></pre></div></p>
 <h3 id="recovery-options-choose-one">Recovery Options (Choose One)<a class="headerlink" href="#recovery-options-choose-one" title="Permanent link">&para;</a></h3>
 <h4 id="option-a-recent-changes-most-common">Option A: Recent Changes (Most Common)<a class="headerlink" href="#option-a-recent-changes-most-common" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Undo last change</span>
-<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>gundo<span class="w">                </span><span class="c1"># Undo last commit (keeps changes)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Undo last commit (keeps changes)</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>git<span class="w"> </span>reset<span class="w"> </span>HEAD~1
 <a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="c1"># Fix the issue</span>
-<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>t<span class="w">                    </span><span class="c1"># Verify tests pass</span>
-<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>qcommit<span class="w"> </span><span class="s2">&quot;fix: ...&quot;</span><span class="w">   </span><span class="c1"># Re-commit</span>
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>rtest<span class="w">                </span><span class="c1"># Verify tests pass</span>
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: ...&quot;</span>
 </code></pre></div>
 <h4 id="option-b-code-error">Option B: Code Error<a class="headerlink" href="#option-b-code-error" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1"># Use editor to fix syntax error</span>
 <a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="c1"># Then:</span>
 <a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>rload<span class="w">                </span><span class="c1"># Try loading again</span>
-<a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>t<span class="w">                    </span><span class="c1"># Run tests</span>
+<a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>rtest<span class="w">                </span><span class="c1"># Run tests</span>
 </code></pre></div>
-<h4 id="option-c-nuclear-option-last-resort">Option C: Nuclear Option (Last Resort)<a class="headerlink" href="#option-c-nuclear-option-last-resort" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># Restore from backup</span>
-<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>rpkgdeep<span class="w">             </span><span class="c1"># Clean generated files (DESTRUCTIVE!)</span>
-<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>dt<span class="w">                   </span><span class="c1"># Regenerate docs + test</span>
+<h4 id="option-c-clean-build-last-resort">Option C: Clean Build (Last Resort)<a class="headerlink" href="#option-c-clean-build-last-resort" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># Clean and rebuild</span>
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>man/<span class="w"> </span>NAMESPACE
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w">        </span><span class="c1"># Regenerate docs + test</span>
 </code></pre></div>
 <h3 id="prevention-checklist">Prevention Checklist<a class="headerlink" href="#prevention-checklist" title="Permanent link">&para;</a></h3>
 <ul>
-<li>✅ Run <code>rcycle</code> before commits</li>
+<li>✅ Run tests before commits</li>
 <li>✅ Commit frequently (small changes)</li>
-<li>✅ Keep backups of .zshrc (done automatically)</li>
-<li>✅ Use git (easy undo with <code>gundo</code>)</li>
+<li>✅ Use version control</li>
+<li>✅ Test after major changes</li>
 </ul>
 <h3 id="pro-tips_9">Pro Tips<a class="headerlink" href="#pro-tips_9" title="Permanent link">&para;</a></h3>
 <p>💡 Don't panic - almost everything is reversible
-💡 Read error messages slowly (ADHD: pause before acting)
-💡 Ask for help: <code>ccc</code> (Claude) or colleagues</p>
+💡 Read error messages slowly (pause before acting)
+💡 Ask for help: <code>cc</code> (Claude Code) or colleagues</p>
 <h3 id="when-to-ask-for-help">When to Ask for Help<a class="headerlink" href="#when-to-ask-for-help" title="Permanent link">&para;</a></h3>
 <ul>
 <li>🔴 Spent &gt; 30 min stuck</li>
@@ -6185,26 +6178,26 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>What do you want to do?
 <a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>
 <a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>├─ Just made code changes
-<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>│  └─ Run: t (test)
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>│  └─ Run: rtest
 <a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>│
 <a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a>├─ Starting work on package
-<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a>│  └─ Run: lt (load + test)
+<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a>│  └─ Run: rload &amp;&amp; rtest
 <a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a>│
 <a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a>├─ Changed documentation
-<a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a>│  └─ Run: dt (doc + test)
+<a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a>│  └─ Run: rdoc &amp;&amp; rtest
 <a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a>│
 <a id="__codelineno-43-12" name="__codelineno-43-12" href="#__codelineno-43-12"></a>├─ Ready to commit
-<a id="__codelineno-43-13" name="__codelineno-43-13" href="#__codelineno-43-13"></a>│  ├─ Did full check? → qcommit &quot;msg&quot;
-<a id="__codelineno-43-14" name="__codelineno-43-14" href="#__codelineno-43-14"></a>│  └─ Not sure → rcycle then qcommit &quot;msg&quot;
+<a id="__codelineno-43-13" name="__codelineno-43-13" href="#__codelineno-43-13"></a>│  ├─ Did full check? → git add . &amp;&amp; git commit -m &quot;msg&quot;
+<a id="__codelineno-43-14" name="__codelineno-43-14" href="#__codelineno-43-14"></a>│  └─ Not sure → rcheck then commit
 <a id="__codelineno-43-15" name="__codelineno-43-15" href="#__codelineno-43-15"></a>│
 <a id="__codelineno-43-16" name="__codelineno-43-16" href="#__codelineno-43-16"></a>├─ Tests are failing
 <a id="__codelineno-43-17" name="__codelineno-43-17" href="#__codelineno-43-17"></a>│  └─ See workflow #6 (Fix Failing Tests)
 <a id="__codelineno-43-18" name="__codelineno-43-18" href="#__codelineno-43-18"></a>│
 <a id="__codelineno-43-19" name="__codelineno-43-19" href="#__codelineno-43-19"></a>├─ Don&#39;t know where I am
-<a id="__codelineno-43-20" name="__codelineno-43-20" href="#__codelineno-43-20"></a>│  └─ Run: here
+<a id="__codelineno-43-20" name="__codelineno-43-20" href="#__codelineno-43-20"></a>│  └─ Run: rpkg
 <a id="__codelineno-43-21" name="__codelineno-43-21" href="#__codelineno-43-21"></a>│
 <a id="__codelineno-43-22" name="__codelineno-43-22" href="#__codelineno-43-22"></a>├─ Need to focus
-<a id="__codelineno-43-23" name="__codelineno-43-23" href="#__codelineno-43-23"></a>│  └─ Run: focus 25
+<a id="__codelineno-43-23" name="__codelineno-43-23" href="#__codelineno-43-23"></a>│  └─ Run: f25 or f50
 <a id="__codelineno-43-24" name="__codelineno-43-24" href="#__codelineno-43-24"></a>│
 <a id="__codelineno-43-25" name="__codelineno-43-25" href="#__codelineno-43-25"></a>├─ Starting new feature
 <a id="__codelineno-43-26" name="__codelineno-43-26" href="#__codelineno-43-26"></a>│  └─ See workflow #9 (Start New Feature)
@@ -6215,20 +6208,20 @@
 <hr />
 <h2 id="time-based-quick-reference">⏱️ Time-Based Quick Reference<a class="headerlink" href="#time-based-quick-reference" title="Permanent link">&para;</a></h2>
 <p><strong>"I have 5 minutes"</strong>
-- Run <code>t</code> (quick test)
-- Check <code>here</code> (context)
-- Review <code>next</code> (what's next)</p>
+- Run <code>rtest</code> (quick test)
+- Check <code>rpkg</code> (context)
+- Review <code>.STATUS</code> file</p>
 <p><strong>"I have 15 minutes"</strong>
-- Run <code>lt</code> (load + test)
+- Run <code>rload &amp;&amp; rtest</code>
 - Fix one failing test
-- Quick commit with <code>qcommit</code></p>
+- Quick commit</p>
 <p><strong>"I have 30 minutes"</strong>
-- Run <code>dt</code> (doc + test)
+- Run <code>rdoc &amp;&amp; rtest</code>
 - Start new feature
-- Focus session with <code>focus 25</code></p>
+- Focus session with <code>f25</code></p>
 <p><strong>"I have 60+ minutes"</strong>
-- Run <code>rcycle</code> (full check)
-- Deep work with <code>focus 90</code>
+- Run full <code>rcheck</code>
+- Deep work with <code>f50</code> or <code>focus 90</code>
 - Multiple test-fix cycles</p>
 <hr />
 <h2 id="adhd-specific-tips">🧠 ADHD-Specific Tips<a class="headerlink" href="#adhd-specific-tips" title="Permanent link">&para;</a></h2>
@@ -6236,25 +6229,25 @@
 <ul>
 <li><strong>Tests running (2-4 min)?</strong> → Perfect for coffee/bathroom</li>
 <li><strong>R CMD check (60 min)?</strong> → Switch to different task</li>
-<li><strong>Stuck debugging?</strong> → Take 5-min break with <code>quickbreak 5</code></li>
+<li><strong>Stuck debugging?</strong> → Take a 5-min break</li>
 </ul>
 <h3 id="preventing-context-loss">Preventing Context Loss<a class="headerlink" href="#preventing-context-loss" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Start every session:</strong> <code>here</code> then <code>next</code></li>
-<li><strong>End every session:</strong> <code>endwork</code> updates .STATUS</li>
+<li><strong>Start every session:</strong> Check <code>rpkg</code> and <code>.STATUS</code></li>
+<li><strong>End every session:</strong> Update <code>.STATUS</code> file</li>
 <li><strong>Commit frequently:</strong> Small commits = less to lose</li>
 </ul>
 <h3 id="reducing-decision-fatigue">Reducing Decision Fatigue<a class="headerlink" href="#reducing-decision-fatigue" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Use atomic pairs:</strong> <code>lt</code>, <code>dt</code> (one command, no thinking)</li>
+<li><strong>Use command chains:</strong> <code>rload &amp;&amp; rtest</code>, <code>rdoc &amp;&amp; rtest</code></li>
 <li><strong>Follow workflows:</strong> Don't invent, follow the guide</li>
-<li><strong>Set timers:</strong> <code>worktimer</code> and <code>focus</code> do it for you</li>
+<li><strong>Set timers:</strong> <code>f25</code>, <code>f50</code>, or <code>focus</code> commands</li>
 </ul>
 <h3 id="building-habits">Building Habits<a class="headerlink" href="#building-habits" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Morning ritual:</strong> <code>here → lt → check output</code></li>
-<li><strong>Before commit:</strong> <code>rcycle → wait → qcommit</code></li>
-<li><strong>After break:</strong> <code>here → next → resume</code></li>
+<li><strong>Morning ritual:</strong> <code>rpkg → rload &amp;&amp; rtest → check output</code></li>
+<li><strong>Before commit:</strong> <code>rcheck → wait → commit</code></li>
+<li><strong>After break:</strong> <code>rpkg → review .STATUS → resume</code></li>
 </ul>
 <hr />
 <h2 id="common-mistakes-fixes">🚨 Common Mistakes &amp; Fixes<a class="headerlink" href="#common-mistakes-fixes" title="Permanent link">&para;</a></h2>
@@ -6270,12 +6263,12 @@
 <tr>
 <td>Skip testing</td>
 <td>Breaks accumulate</td>
-<td>Always run <code>t</code></td>
+<td>Always run <code>rtest</code></td>
 </tr>
 <tr>
 <td>No documentation</td>
 <td>Future you confused</td>
-<td>Run <code>dt</code> after changes</td>
+<td>Run <code>rdoc &amp;&amp; rtest</code> after changes</td>
 </tr>
 <tr>
 <td>Large commits</td>
@@ -6285,17 +6278,17 @@
 <tr>
 <td>Commit with errors</td>
 <td>Broken code in history</td>
-<td>Always <code>rcycle</code> first</td>
+<td>Always test first</td>
 </tr>
 <tr>
 <td>Work without breaks</td>
 <td>Burnout, mistakes</td>
-<td>Use <code>focus</code> + <code>quickbreak</code></td>
+<td>Use <code>f25</code> or <code>f50</code> timers</td>
 </tr>
 <tr>
 <td>Ignore .STATUS</td>
 <td>Lose context</td>
-<td>Run <code>next</code> regularly</td>
+<td>Update <code>.STATUS</code> regularly</td>
 </tr>
 </tbody>
 </table>
@@ -6303,49 +6296,48 @@
 <h2 id="integration-with-existing-tools">📚 Integration with Existing Tools<a class="headerlink" href="#integration-with-existing-tools" title="Permanent link">&para;</a></h2>
 <h3 id="connects-to-status-files">Connects to .STATUS Files<a class="headerlink" href="#connects-to-status-files" title="Permanent link">&para;</a></h3>
 <ul>
-<li><code>next</code> reads your .STATUS → shows next action</li>
-<li><code>endwork</code> prompts to update .STATUS</li>
-<li><code>progress_check</code> shows completion bars</li>
+<li>Keep <code>.STATUS</code> updated with current progress</li>
+<li>Check <code>.STATUS</code> at start of each session</li>
+<li>Use for context when switching projects</li>
 </ul>
 <h3 id="works-with-help-system">Works with Help System<a class="headerlink" href="#works-with-help-system" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Forgot command? → <code>ah r</code> (R package help)</li>
-<li>Need reminder? → <code>ah workflow</code> (workflow functions)</li>
-<li>Full reference → <code>cat ALIAS-REFERENCE-CARD.md</code></li>
+<li>Forgot command? Check the alias reference card</li>
+<li>Need reminder? Review this quick wins guide</li>
+<li>Full reference → See ALIAS-REFERENCE-CARD.md</li>
 </ul>
 <h3 id="pairs-with-focus-tools">Pairs with Focus Tools<a class="headerlink" href="#pairs-with-focus-tools" title="Permanent link">&para;</a></h3>
 <ul>
-<li><code>focus</code> → minimize distractions</li>
-<li><code>worktimer</code> → accountability</li>
-<li><code>quickbreak</code> → structured breaks</li>
+<li><code>f25</code> / <code>f50</code> → Pomodoro/deep work timers</li>
+<li><code>focus &lt;min&gt;</code> → Custom duration focus sessions</li>
+<li><code>win</code> → Log accomplishments</li>
 </ul>
 <hr />
 <h2 id="success-patterns">🎉 Success Patterns<a class="headerlink" href="#success-patterns" title="Permanent link">&para;</a></h2>
 <p><strong>Morning Start (5 min)</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>here<span class="w"> </span>→<span class="w"> </span>lt<span class="w"> </span>→<span class="w"> </span>Coffee<span class="w"> </span><span class="k">while</span><span class="w"> </span>tests<span class="w"> </span>run<span class="w"> </span>→<span class="w"> </span>Review<span class="w"> </span>results<span class="w"> </span>→<span class="w"> </span>Code
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>rpkg<span class="w"> </span>→<span class="w"> </span>rload<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w"> </span>→<span class="w"> </span>Coffee<span class="w"> </span><span class="k">while</span><span class="w"> </span>tests<span class="w"> </span>run<span class="w"> </span>→<span class="w"> </span>Review<span class="w"> </span>results<span class="w"> </span>→<span class="w"> </span>Code
 </code></pre></div></p>
 <p><strong>Quick Feature (30 min)</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>focus<span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="s2">&quot;add function&quot;</span><span class="w"> </span>→<span class="w"> </span>rnewfun<span class="w"> </span>→<span class="w"> </span>rnewtest<span class="w"> </span>→<span class="w"> </span>Code<span class="w"> </span>→<span class="w"> </span>dt<span class="w"> </span>→<span class="w"> </span>unfocus
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>f25<span class="w"> </span>→<span class="w"> </span>Create<span class="w"> </span>files<span class="w"> </span>→<span class="w"> </span>Code<span class="w"> </span>→<span class="w"> </span>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest
 </code></pre></div></p>
 <p><strong>Pre-Commit (65 min)</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>rcycle<span class="w"> </span>→<span class="w"> </span>worktimer<span class="w"> </span><span class="m">60</span><span class="w"> </span>→<span class="w"> </span>Switch<span class="w"> </span>tasks<span class="w"> </span>→<span class="w"> </span>Check<span class="w"> </span>results<span class="w"> </span>→<span class="w"> </span>qcommit
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>rcheck<span class="w"> </span>→<span class="w"> </span>f60<span class="w"> </span>focus<span class="w"> </span>session<span class="w"> </span>→<span class="w"> </span>Switch<span class="w"> </span>tasks<span class="w"> </span>→<span class="w"> </span>Check<span class="w"> </span>results<span class="w"> </span>→<span class="w"> </span>commit
 </code></pre></div></p>
 <p><strong>End of Day (5 min)</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>t<span class="w"> </span>→<span class="w"> </span>qcommit<span class="w"> </span><span class="s2">&quot;wip: progress on X&quot;</span><span class="w"> </span>→<span class="w"> </span>endwork<span class="w"> </span>→<span class="w"> </span>next<span class="w"> </span><span class="o">(</span><span class="k">for</span><span class="w"> </span>tomorrow<span class="o">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>rtest<span class="w"> </span>→<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;wip: progress on X&quot;</span><span class="w"> </span>→<span class="w"> </span>Update<span class="w"> </span>.STATUS<span class="w"> </span><span class="k">for</span><span class="w"> </span>tomorrow
 </code></pre></div></p>
 <hr />
 <h2 id="related-documentation">📖 Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>ALIAS-REFERENCE-CARD.md</strong> - All 120+ aliases</li>
+<li><strong>ALIAS-REFERENCE-CARD.md</strong> - All 28 core aliases</li>
+<li><strong>WORKFLOW-TUTORIAL.md</strong> - Complete tutorial</li>
 <li><strong>PROJECT-HUB.md</strong> - Strategic overview</li>
-<li><strong>functions.zsh</strong> - Function implementations</li>
-<li><strong>Apple Note</strong> - Mobile quick reference</li>
 </ul>
 <hr />
-<p><strong>Last Updated:</strong> 2025-12-13
-<strong>Version:</strong> 1.0 (Quick Wins)
+<p><strong>Last Updated:</strong> 2025-12-21
+<strong>Version:</strong> 2.0 (Updated for 28-alias system)
 <strong>Time to Master:</strong> Practice each workflow 3-5 times</p>
-<p>💡 <strong>Pro Tip:</strong> Print this guide or keep it open in a second monitor!</p>
+<p>💡 <strong>Pro Tip:</strong> Bookmark this guide for quick reference!</p>
 
 
 
