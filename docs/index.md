@@ -252,4 +252,4 @@ Create `.md` files in root or `docs/` directory with issue details.
 
 **Last updated:** 2025-12-19
 **Maintainer:** DT
-**Repository:** [GitHub](https://github.com/data-wise/flow-cli)
+**Repository:** [GitHub](https://github.com/Data-Wise/flow-cli)

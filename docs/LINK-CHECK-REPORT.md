@@ -63,7 +63,7 @@ Remove the broken links. The content is likely covered in:
 
 **File:** `docs/index.md` (line 255)
 
-**Link:** `https://github.com/data-wise/flow-cli`
+**Link:** `https://github.com/Data-Wise/flow-cli`
 **Actual:** `https://github.com/Data-Wise/flow-cli`
 
 **Issue:** Lowercase "data-wise" vs actual "Data-Wise" (capital D, capital W)
@@ -72,7 +72,7 @@ Remove the broken links. The content is likely covered in:
 
 **Fix:**
 ```diff
-- [GitHub](https://github.com/data-wise/flow-cli)
+- [GitHub](https://github.com/Data-Wise/flow-cli)
 + [GitHub](https://github.com/Data-Wise/flow-cli)
 ```
 

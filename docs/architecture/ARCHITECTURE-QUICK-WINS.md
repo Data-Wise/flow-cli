@@ -610,8 +610,7 @@ When implementing a new feature, use this checklist:
 
 **For quick reference:**
 
-- [Architecture Cheatsheet](ARCHITECTURE-CHEATSHEET.md) - 1-page printable
-- [Architecture Command Reference](ARCHITECTURE-COMMAND-REFERENCE.md) - Command patterns
+- [Architecture Quick Reference](QUICK-REFERENCE.md) - Command patterns and cheatsheet
 
 ---
 

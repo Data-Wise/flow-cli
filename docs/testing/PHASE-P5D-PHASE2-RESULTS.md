@@ -126,7 +126,7 @@ Most common issues:
 
 **2. GitHub URL Case Mismatch (External - minor)**
 - File: `docs/index.md` line 255
-- Link: `https://github.com/data-wise/flow-cli`
+- Link: `https://github.com/Data-Wise/flow-cli`
 - Should be: `https://github.com/Data-Wise/flow-cli`
 - Impact: Very low (GitHub redirects work)
 
