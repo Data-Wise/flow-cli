@@ -527,7 +527,7 @@ Evening:
 - [ ] Run `dash` to see current projects
 - [ ] Create .STATUS for projects without one: `status <name> --create`
 - [ ] Update statuses: `status <name>`
-- [ ] Try `js` to auto-pick
+- [ ] Try `just-start` to auto-pick
 - [ ] Use `work` to jump to projects
 - [ ] Check `dash` throughout the day
 

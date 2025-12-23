@@ -131,10 +131,10 @@ Modern CLI tools with better UX:
 3. **Single-letter aliases (4)**
    - `e`, `d`, etc. - Too ambiguous
 
-4. **Duplicate aliases (12)**
-   - `stuck`, `idk`, `js` → All pointed to `just-start`
-   - `e` and `ec` → Both emacsclient
-   - `gmorning`, `goodmorning`, `am` → All pointed to `morning`
+4. **Duplicate aliases (12)** - REMOVED in v2.0
+   - ~~`stuck`~~, ~~`idk`~~, ~~`js`~~ → Use `just-start` instead
+   - ~~`e`~~ and ~~`ec`~~ → Both were emacsclient
+   - ~~`gmorning`~~, ~~`goodmorning`~~, ~~`am`~~ → Use `morning` instead
 
 5. **Navigation aliases (10)**
    - `cdrpkg`, `cdq`, etc. → Use `pick` or `pp` instead
