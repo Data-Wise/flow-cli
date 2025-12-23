@@ -44,7 +44,11 @@ plugins:
 markdown_extensions:
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
@@ -72,6 +76,8 @@ nav:
     - Project Detection: user/PROJECT-DETECTION-GUIDE.md
     - Workspace Audit: user/WORKSPACE-AUDIT-GUIDE.md
     - Tutorial: user/WORKFLOW-TUTORIAL.md
+  - Commands:
+    - dash: commands/dash.md
   - Architecture:
     - Overview: architecture/README.md
     - Quick Reference: architecture/QUICK-REFERENCE.md

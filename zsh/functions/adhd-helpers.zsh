@@ -2260,7 +2260,7 @@ EOF
     # Handle cancellation
     if [[ -z "$selection" ]]; then
         rm -f "$action_file"
-        return 0
+        return 1
     fi
 
     # Extract project name (first field - simple now that we have no colors)
