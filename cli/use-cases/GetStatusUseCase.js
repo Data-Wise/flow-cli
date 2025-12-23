@@ -80,10 +80,12 @@ export class GetStatusUseCase {
         id: activeSession.id,
         project: activeSession.project,
         task: activeSession.task,
+        branch: activeSession.branch,
         duration: activeSession.getDuration(),
         isFlowState: activeSession.isInFlowState(),
         state: activeSession.state.value,
-        startTime: activeSession.startTime
+        startTime: activeSession.startTime,
+        context: activeSession.context
       } : null,
 
       today: {
