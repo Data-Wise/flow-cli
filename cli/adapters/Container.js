@@ -17,6 +17,8 @@ import { FileSystemProjectRepository } from './repositories/FileSystemProjectRep
 import { CreateSessionUseCase } from '../use-cases/CreateSessionUseCase.js'
 import { EndSessionUseCase } from '../use-cases/EndSessionUseCase.js'
 import { ScanProjectsUseCase } from '../use-cases/ScanProjectsUseCase.js'
+import { GetStatusUseCase } from '../use-cases/GetStatusUseCase.js'
+import { GetRecentProjectsUseCase } from '../use-cases/GetRecentProjectsUseCase.js'
 
 export class Container {
   constructor(options = {}) {
@@ -87,6 +89,23 @@ export class Container {
     })
   }
 
+  getGetStatusUseCase() {
+    return this._resolve('getStatusUseCase', () => {
+      return new GetStatusUseCase(
+        this.getSessionRepository(),
+        this.getProjectRepository()
+      )
+    })
+  }
+
+  getGetRecentProjectsUseCase() {
+    return this._resolve('getRecentProjectsUseCase', () => {
+      return new GetRecentProjectsUseCase(
+        this.getProjectRepository()
+      )
+    })
+  }
+
   /**
    * Clear all cached instances (useful for testing)
    */
@@ -101,7 +120,9 @@ export class Container {
     return {
       createSession: this.getCreateSessionUseCase(),
       endSession: this.getEndSessionUseCase(),
-      scanProjects: this.getScanProjectsUseCase()
+      scanProjects: this.getScanProjectsUseCase(),
+      getStatus: this.getGetStatusUseCase(),
+      getRecentProjects: this.getGetRecentProjectsUseCase()
     }
   }
 
