@@ -28,14 +28,15 @@ Each ADR includes:
 
 | ADR | Title | Status | Date |
 |-----|-------|--------|------|
-| [ADR-001](ADR-001-vendored-code-pattern.md) | Use Vendored Code Pattern for Project Detection | ✅ Accepted | 2025-12-20 |
-| [ADR-003](ADR-003-bridge-pattern.md) | Use Bridge Pattern for Shell Integration | ✅ Accepted | 2025-12-20 |
+| [ADR-001](ADR-001-use-vendored-code-pattern.md) | Use Vendored Code Pattern for Project Detection | ✅ Accepted | 2025-12-20 |
+| [ADR-002](ADR-002-adopt-clean-architecture.md) | Adopt Clean Architecture for Long-Term Maintainability | ✅ Accepted | 2025-12-20 |
+| [ADR-003](ADR-003-nodejs-module-api-not-rest.md) | Use Node.js Module API Pattern (Not REST/HTTP) | ✅ Accepted | 2025-12-20 |
 
 ### Proposed
 
 | ADR | Title | Status | Date |
 |-----|-------|--------|------|
-| [ADR-002](ADR-002-clean-architecture.md) | Adopt Clean Architecture with Four Explicit Layers | 🟡 Proposed | 2025-12-20 |
+| None currently | | | |
 
 ## Decision Matrix
 
@@ -152,23 +153,23 @@ When a decision is reversed:
 ## Reading Order
 
 **For new contributors:**
-1. [ADR-001: Vendored Code Pattern](ADR-001-vendored-code-pattern.md) - How we handle dependencies
-2. [ADR-003: Bridge Pattern](ADR-003-bridge-pattern.md) - How JavaScript talks to shell
-3. [ADR-002: Clean Architecture](ADR-002-clean-architecture.md) - Overall system structure
+1. [ADR-002: Clean Architecture](ADR-002-adopt-clean-architecture.md) - Overall system structure
+2. [ADR-001: Vendored Code Pattern](ADR-001-use-vendored-code-pattern.md) - How we handle dependencies
+3. [ADR-003: Node.js Module API](ADR-003-nodejs-module-api-not-rest.md) - API design philosophy
 
 **For architecture decisions:**
-- Start with [ADR-002: Clean Architecture](ADR-002-clean-architecture.md)
+- Start with [ADR-002: Clean Architecture](ADR-002-adopt-clean-architecture.md)
 - Then read layer-specific ADRs
 
 **For integration patterns:**
-- Start with [ADR-001: Vendored Code](ADR-001-vendored-code-pattern.md)
-- Then [ADR-003: Bridge Pattern](ADR-003-bridge-pattern.md)
+- Start with [ADR-001: Vendored Code](ADR-001-use-vendored-code-pattern.md)
+- Then [ADR-003: Module API Pattern](ADR-003-nodejs-module-api-not-rest.md)
 
 ## Statistics
 
 - **Total ADRs**: 3
-- **Accepted**: 2
-- **Proposed**: 1
+- **Accepted**: 3
+- **Proposed**: 0
 - **Rejected**: 0
 - **Superseded**: 0
 
@@ -184,6 +185,6 @@ Future decisions to document:
 
 ---
 
-**Last Updated:** 2025-12-21
-**Part of:** Documentation Sprint (Week 1)
+**Last Updated:** 2025-12-23
+**Part of:** Architecture Enhancement Plan (A→C Implementation)
 **See Also:** [Architecture Documentation](../README.md)
