@@ -2,6 +2,7 @@
   "name": "flow-cli",
   "version": "2.0.0-alpha.1",
   "description": "ADHD-optimized ZSH workflow CLI tools",
+  "type": "module",
   "private": true,
   "workspaces": [
     "cli"

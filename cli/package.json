@@ -5,7 +5,9 @@
   "type": "module",
   "main": "api/index.js",
   "scripts": {
-    "test": "node test/test-status.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:unit": "NODE_OPTIONS=--experimental-vm-modules jest --testPathPattern=tests/unit",
+    "test:legacy": "node test/test-status.js",
     "test:status": "node test/test-status.js",
     "test:detector": "node test/test-project-detector.js"
   },
@@ -22,5 +24,7 @@
     "npm": ">=9.0.0"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
