@@ -747,34 +747,41 @@ fi
 # ============================================
 
 # Source custom functions
-if [[ -f ~/.config/zsh/functions/genpass.zsh ]]; then
-    source ~/.config/zsh/functions/genpass.zsh
-fi
+# MOVED TO .zshenv 2025-12-23 - Loaded universally for Claude Code support
+# if [[ -f ~/.config/zsh/functions/genpass.zsh ]]; then
+#     source ~/.config/zsh/functions/genpass.zsh
+# fi
 
 # Option B+ Multi-Editor Quadrant System (2025-12-13)
-if [[ -f ~/.config/zsh/functions/work.zsh ]]; then
-    source ~/.config/zsh/functions/work.zsh
-fi
+# MOVED TO .zshenv 2025-12-23 - Loaded universally for Claude Code support
+# if [[ -f ~/.config/zsh/functions/work.zsh ]]; then
+#     source ~/.config/zsh/functions/work.zsh
+# fi
 
-if [[ -f ~/.config/zsh/functions/claude-workflows.zsh ]]; then
-    source ~/.config/zsh/functions/claude-workflows.zsh
-fi
+# MOVED TO .zshenv 2025-12-23
+# if [[ -f ~/.config/zsh/functions/claude-workflows.zsh ]]; then
+#     source ~/.config/zsh/functions/claude-workflows.zsh
+# fi
 
-if [[ -f ~/.config/zsh/functions/adhd-helpers.zsh ]]; then
-    source ~/.config/zsh/functions/adhd-helpers.zsh
-fi
+# MOVED TO .zshenv 2025-12-23
+# if [[ -f ~/.config/zsh/functions/adhd-helpers.zsh ]]; then
+#     source ~/.config/zsh/functions/adhd-helpers.zsh
+# fi
 
-if [[ -f ~/.config/zsh/functions/dash.zsh ]]; then
-    source ~/.config/zsh/functions/dash.zsh
-fi
+# MOVED TO .zshenv 2025-12-23
+# if [[ -f ~/.config/zsh/functions/dash.zsh ]]; then
+#     source ~/.config/zsh/functions/dash.zsh
+# fi
 
-if [[ -f ~/.config/zsh/functions/status.zsh ]]; then
-    source ~/.config/zsh/functions/status.zsh
-fi
+# MOVED TO .zshenv 2025-12-23
+# if [[ -f ~/.config/zsh/functions/status.zsh ]]; then
+#     source ~/.config/zsh/functions/status.zsh
+# fi
 
-if [[ -f ~/.config/zsh/functions/obsidian-bridge.zsh ]]; then
-    source ~/.config/zsh/functions/obsidian-bridge.zsh
-fi
+# MOVED TO .zshenv 2025-12-23
+# if [[ -f ~/.config/zsh/functions/obsidian-bridge.zsh ]]; then
+#     source ~/.config/zsh/functions/obsidian-bridge.zsh
+# fi
 
 if [[ -f ~/.config/zsh/functions/fzf-helpers.zsh ]]; then
     source ~/.config/zsh/functions/fzf-helpers.zsh
@@ -791,9 +798,10 @@ if [[ -f ~/.config/zsh/functions/bg-agents.zsh ]]; then
 fi
 
 # MCP Server Management Dispatcher (2025-12-19)
-if [[ -f ~/.config/zsh/functions/mcp-dispatcher.zsh ]]; then
-    source ~/.config/zsh/functions/mcp-dispatcher.zsh
-fi
+# MOVED TO .zshenv 2025-12-23
+# if [[ -f ~/.config/zsh/functions/mcp-dispatcher.zsh ]]; then
+#     source ~/.config/zsh/functions/mcp-dispatcher.zsh
+# fi
 
 # ============================================
 # LOCAL CUSTOMIZATIONS
@@ -1146,16 +1154,19 @@ dashupdate() {
 export PATH="/opt/homebrew/opt/imagemagick@6/bin:$PATH"
 
 # Smart Function Dispatchers (ADHD-Optimized) - Added 2025-12-14
-[[ -f ~/.config/zsh/functions/smart-dispatchers.zsh ]] && \
-    source ~/.config/zsh/functions/smart-dispatchers.zsh
+# MOVED TO .zshenv 2025-12-23
+# [[ -f ~/.config/zsh/functions/smart-dispatchers.zsh ]] && \
+#     source ~/.config/zsh/functions/smart-dispatchers.zsh
 
 # V / Vibe Dispatcher (Workflow Automation) - Added 2025-12-15
-[[ -f ~/.config/zsh/functions/v-dispatcher.zsh ]] && \
-    source ~/.config/zsh/functions/v-dispatcher.zsh
+# MOVED TO .zshenv 2025-12-23
+# [[ -f ~/.config/zsh/functions/v-dispatcher.zsh ]] && \
+#     source ~/.config/zsh/functions/v-dispatcher.zsh
 
 # G Dispatcher (Git Commands) - Added 2025-12-17
-[[ -f ~/.config/zsh/functions/g-dispatcher.zsh ]] && \
-    source ~/.config/zsh/functions/g-dispatcher.zsh
+# MOVED TO .zshenv 2025-12-23
+# [[ -f ~/.config/zsh/functions/g-dispatcher.zsh ]] && \
+#     source ~/.config/zsh/functions/g-dispatcher.zsh
 
 # Terminal Management System (tmux + project launcher) - Added 2025-12-21
 [[ -f ~/.local/share/terminal-aliases.sh ]] && \
