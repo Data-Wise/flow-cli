@@ -1172,6 +1172,14 @@ export PATH="/opt/homebrew/opt/imagemagick@6/bin:$PATH"
 [[ -f ~/.local/share/terminal-aliases.sh ]] && \
     source ~/.local/share/terminal-aliases.sh
 
+# ============================================
+# FLOW CLI PLUGIN - Added 2025-12-23
+# ============================================
+# Modern ZSH plugin architecture with single source location
+# Replaces old ~/.config/zsh/functions/ and .zshenv loading
+[[ -f ~/.zsh/plugins/flow-cli/flow-cli.plugin.zsh ]] && \
+    source ~/.zsh/plugins/flow-cli/flow-cli.plugin.zsh
+
 # obs CLI completion
 fpath=(~/.zsh/completions $fpath)
 

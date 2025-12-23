@@ -36,65 +36,22 @@ export EDITOR="emacsclient -t"
 export VISUAL="emacsclient -c"
 
 # ============================================
-# ESSENTIAL FUNCTIONS
+# ESSENTIAL FUNCTIONS - MIGRATED TO PLUGIN 2025-12-23
 # ============================================
-# Load functions needed in non-interactive contexts
-# These work in: scripts, Claude Code, command substitution, etc.
+# All functions now loaded via ~/.zsh/plugins/flow-cli/flow-cli.plugin.zsh
+# This provides single source location and proper plugin architecture
+#
+# The plugin is loaded in .zshrc for interactive shells
+# For non-interactive contexts (Claude Code, scripts), source the plugin:
+#   source ~/.zsh/plugins/flow-cli/flow-cli.plugin.zsh
+#
+# IMPORTANT: Keep .zshenv lightweight - only essential env vars
+# Functions should be in the plugin to avoid double-loading issues
 
-# Core utilities (used by other functions)
-if [[ -f ~/.config/zsh/functions/core-utils.zsh ]]; then
-    source ~/.config/zsh/functions/core-utils.zsh
-fi
-
-# Project detection (used by work, dash, status)
-if [[ -f ~/.config/zsh/functions/project-detector.zsh ]]; then
-    source ~/.config/zsh/functions/project-detector.zsh
-fi
-
-# Dashboard (frequently used in Claude Code)
-if [[ -f ~/.config/zsh/functions/dash.zsh ]]; then
-    source ~/.config/zsh/functions/dash.zsh
-fi
-
-# Status management (frequently used in Claude Code)
-if [[ -f ~/.config/zsh/functions/status.zsh ]]; then
-    source ~/.config/zsh/functions/status.zsh
-fi
-
-# Work command (session management)
-if [[ -f ~/.config/zsh/functions/work.zsh ]]; then
-    source ~/.config/zsh/functions/work.zsh
-fi
-
-# ADHD helpers (js, why, win, focus, etc.)
-if [[ -f ~/.config/zsh/functions/adhd-helpers.zsh ]]; then
-    source ~/.config/zsh/functions/adhd-helpers.zsh
-fi
-
-# Claude workflows (cc, ccc, ccplan, etc.)
-if [[ -f ~/.config/zsh/functions/claude-workflows.zsh ]]; then
-    source ~/.config/zsh/functions/claude-workflows.zsh
-fi
-
-# MCP dispatcher (ml, mc, mcps, etc.)
-if [[ -f ~/.config/zsh/functions/mcp-dispatcher.zsh ]]; then
-    source ~/.config/zsh/functions/mcp-dispatcher.zsh
-fi
-
-# Smart dispatchers (context-aware commands)
-if [[ -f ~/.config/zsh/functions/smart-dispatchers.zsh ]]; then
-    source ~/.config/zsh/functions/smart-dispatchers.zsh
-fi
-
-# v-dispatcher (version management)
-if [[ -f ~/.config/zsh/functions/v-dispatcher.zsh ]]; then
-    source ~/.config/zsh/functions/v-dispatcher.zsh
-fi
-
-# g-dispatcher (git workflows)
-if [[ -f ~/.config/zsh/functions/g-dispatcher.zsh ]]; then
-    source ~/.config/zsh/functions/g-dispatcher.zsh
-fi
+# Load plugin in non-interactive contexts (Claude Code, scripts, etc.)
+# This ensures commands like 'dash', 'work', 'status' work everywhere
+[[ -f ~/.zsh/plugins/flow-cli/flow-cli.plugin.zsh ]] && \
+    source ~/.zsh/plugins/flow-cli/flow-cli.plugin.zsh
 
 # ============================================
 # OPTIONAL FUNCTIONS (lightweight only)
