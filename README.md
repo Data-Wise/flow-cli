@@ -6,6 +6,7 @@ A streamlined system for managing development workflows. Features 28 essential a
 
 **Recent updates:**
 
+- **2025-12-23:** Clean Architecture Foundation - Week 1 complete (265 tests, 19 files, 3-layer architecture)
 - **2025-12-21:** Architecture Documentation Sprint - 7,629 lines of comprehensive architecture docs, site deployed
 - **2025-12-19:** Alias cleanup - Reduced from 179 to 28 custom aliases (84% reduction)
 
@@ -40,10 +41,20 @@ A streamlined system for managing development workflows. Features 28 essential a
 
 ```
 flow-cli/
-├── cli/                          # CLI integration layer
-│   ├── adapters/                 # ZSH function wrappers
-│   ├── api/                      # Node.js APIs
-│   ├── test/                     # CLI tests
+├── cli/                          # CLI integration layer (Clean Architecture)
+│   ├── domain/                   # Business entities & rules (153 tests)
+│   │   ├── entities/             # Session, Project, Task
+│   │   ├── value-objects/        # SessionState, ProjectType, TaskPriority
+│   │   ├── repositories/         # Repository interfaces
+│   │   └── events/               # Domain events
+│   ├── use-cases/                # Application workflows (70 tests)
+│   │   ├── session/              # CreateSession, EndSession
+│   │   ├── project/              # ScanProjects, GetRecentProjects
+│   │   └── dashboard/            # GetStatus
+│   ├── adapters/                 # Infrastructure (42 tests)
+│   │   ├── repositories/         # FileSystem persistence
+│   │   └── Container.js          # Dependency injection
+│   ├── test/                     # Test suites (265 tests total)
 │   └── README.md
 │
 ├── docs/                         # All documentation (102 files)
