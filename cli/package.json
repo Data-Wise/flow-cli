@@ -7,6 +7,8 @@
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:unit": "NODE_OPTIONS=--experimental-vm-modules jest --testPathPattern=tests/unit",
+    "test:integration": "NODE_OPTIONS=--experimental-vm-modules jest --testPathPattern=tests/integration",
+    "test:all": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:legacy": "node test/test-status.js",
     "test:status": "node test/test-status.js",
     "test:detector": "node test/test-project-detector.js"
