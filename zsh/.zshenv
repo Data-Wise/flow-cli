@@ -60,12 +60,12 @@ export VISUAL="emacsclient -c"
 
 # Password generator
 if [[ -f ~/.config/zsh/functions/genpass.zsh ]]; then
-    source ~/.config/zsh/functions/genpass.zsh
+# MIGRATED TO PLUGIN:     source ~/.config/zsh/functions/genpass.zsh
 fi
 
 # Obsidian bridge (if used in scripts)
 if [[ -f ~/.config/zsh/functions/obsidian-bridge.zsh ]]; then
-    source ~/.config/zsh/functions/obsidian-bridge.zsh
+# MIGRATED TO PLUGIN:     source ~/.config/zsh/functions/obsidian-bridge.zsh
 fi
 
 # ============================================
