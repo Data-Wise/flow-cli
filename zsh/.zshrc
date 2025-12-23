@@ -283,7 +283,7 @@ command -v radian >/dev/null && alias R='radian' && alias r='radian --quiet'
 # REPLACED 2025-12-19: alias cc='claude' → Now a dispatcher function in smart-dispatchers.zsh
 alias ccp='claude -p'                                # Print mode (non-interactive)
 alias ccr='claude -r'                                # Resume with picker
-alias ccy='claude-code --dangerously-skip-user-approval-prompts'  # YOLO mode (skip all prompts)
+alias ccy='claude --dangerously-skip-permissions'  # YOLO mode (skip all permissions)
 # REMOVED 2025-12-14: alias ccc='claude -c'                                # Continue last conversation
 # REMOVED 2025-12-14: alias ccl='claude --resume latest'                   # Resume latest session
 
