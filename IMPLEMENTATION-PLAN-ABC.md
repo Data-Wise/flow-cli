@@ -649,54 +649,184 @@ export class CreateTaskUseCase {
 
 ## 📅 Week 2: P6 CLI Enhancements (Option C)
 
-### Day 6-7: Enhanced Status Command
+### Day 6: Enhanced Status Command ✅ COMPLETE
 
 **Goal:** Professional status display with all context
 
-#### Features
+**Completed:** 2025-12-23
+- ✅ StatusController (266 lines)
+- ✅ CLI command with full help system
+- ✅ Worklog integration
+- ✅ 9 integration tests (274 total tests passing)
+- ✅ Follows HELP-CREATION-WORKFLOW.md standards
 
-**1. Worklog Integration**
+### Day 7: Status Command Polish + .STATUS v2
+
+**Goal:** Visual enhancements + Modern .STATUS format
+
+**See Also:**
+- docs/planning/proposals/STATUS-COMMAND-ENHANCEMENTS.md (106 enhancement ideas)
+- docs/planning/proposals/PROJECT-COORDINATION-SYSTEM.md (cross-project coordination)
+
+#### Part 1: Visual Polish (Morning, 2h)
+
+**1. Color-Coded Output with Chalk**
 ```javascript
-// Read from ~/.config/zsh/.worklog
-// Display session history
-// Show productivity metrics
+// cli/adapters/controllers/StatusController.js
+import chalk from 'chalk'
+
+displayActiveSession(session, verbose) {
+  console.log(chalk.green.bold('✅ Active Session'))
+  console.log(chalk.cyan(`   Project: ${session.project}`))
+  console.log(chalk.yellow(`   Task: ${session.task || 'No task specified'}`))
+
+  const flowIndicator = session.isFlowState ? chalk.red.bold(' 🔥 IN FLOW') : ''
+  console.log(chalk.white(`   Duration: ${session.duration} min${flowIndicator}`))
+}
 ```
 
-**2. Session History**
+**2. Box Drawing Characters**
 ```javascript
-// Last 10 sessions
-// Total time this week
-// Most active projects
-// Longest flow state
+// Structure output with unicode box chars
+console.log('╭─────────────────────────────────────╮')
+console.log('│ 🔥 ACTIVE SESSION                   │')
+console.log('├─────────────────────────────────────┤')
+console.log(`│ Project: ${session.project.padEnd(24)} │`)
+console.log('╰─────────────────────────────────────╯')
 ```
 
-**3. Quick Actions Menu**
-```bash
-$ flow status
+**3. Git Status Integration**
+```javascript
+// cli/adapters/gateways/GitGateway.js
+export class GitGateway {
+  async getStatus(projectPath) {
+    // Run git status --porcelain
+    // Return { branch, ahead, behind, dirty, uncommittedFiles: [...] }
+  }
+}
 
-✅ Active Session
-   Project: rmediation
-   Task: Fix failing tests
-   Duration: 45 min 🔥 IN FLOW
-   Branch: fix/test-bug
-
-📊 This Week:
-   Total Time: 12h 30m
-   Sessions: 18
-   Projects: 5
-
-📜 Recent:
-   rmediation (45m) - active
-   quarto-doc (30m) - 2h ago
-   flow-cli (1h 15m) - 5h ago
-
-⚡ Quick Actions:
-   [f] Finish session
-   [p] Pause
-   [s] Switch project
-   [t] Add task
-   [q] Quit
+// In StatusController
+if (verbose && session.gitStatus) {
+  console.log(chalk.yellow(`   Uncommitted changes: ${session.gitStatus.uncommittedFiles.length}`))
+}
 ```
+
+**4. .STATUS File Parsing**
+```javascript
+// cli/adapters/gateways/StatusFileGateway.js
+export class StatusFileGateway {
+  async read(projectPath) {
+    // Read .STATUS file
+    // Parse YAML frontmatter if present
+    // Return { status, progress, next: [...] }
+  }
+}
+
+// In StatusController
+if (status.nextActions && status.nextActions.length > 0) {
+  console.log(chalk.magenta('📌 Next Action:'))
+  console.log(`   ${status.nextActions[0].action}`)
+}
+```
+
+#### Part 2: .STATUS v2 Foundation (Afternoon, 2h)
+
+**1. YAML Frontmatter Format**
+```yaml
+---
+# .STATUS v2 format
+status: active | paused | archived | complete
+progress: 0-100
+type: r-package | quarto | research | node | python | generic
+
+# Next actions (user-editable)
+next:
+  - action: "Write tests for bootstrap function"
+    estimate: "2h"
+    priority: high
+    blockers: []
+
+# Auto-updated fields (do not edit manually)
+metrics:
+  sessions_total: 45
+  sessions_this_week: 5
+  total_duration_minutes: 2340
+  last_session: 2025-12-23T10:00:00Z
+  last_updated: 2025-12-23T18:30:00Z
+---
+
+# Project Status Notes
+Manual notes go here...
+```
+
+**2. .STATUS Validator**
+```javascript
+// cli/domain/validators/StatusFileValidator.js
+export class StatusFileValidator {
+  validate(content) {
+    const { frontmatter, body } = this.parse(content)
+
+    // Required fields
+    if (!['active', 'paused', 'archived', 'complete'].includes(frontmatter.status)) {
+      return { valid: false, error: 'Invalid status value' }
+    }
+
+    if (frontmatter.progress < 0 || frontmatter.progress > 100) {
+      return { valid: false, error: 'Progress must be 0-100' }
+    }
+
+    // Validate next actions structure
+    if (frontmatter.next) {
+      for (const action of frontmatter.next) {
+        if (!action.action) {
+          return { valid: false, error: 'Next action missing "action" field' }
+        }
+      }
+    }
+
+    return { valid: true }
+  }
+}
+```
+
+**3. Auto-Update Mechanism**
+```javascript
+// cli/use-cases/status/UpdateStatusFileUseCase.js
+export class UpdateStatusFileUseCase {
+  async execute({ projectPath }) {
+    // Read existing .STATUS
+    const status = await this.statusFileGateway.read(projectPath)
+
+    // Get session metrics from repository
+    const sessions = await this.sessionRepository.list({
+      project: projectPath,
+      since: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 7 days
+    })
+
+    // Update metrics
+    status.metrics = {
+      sessions_total: sessions.length,
+      sessions_this_week: sessions.filter(s => s.isThisWeek()).length,
+      total_duration_minutes: sessions.reduce((sum, s) => sum + s.getDuration(), 0),
+      last_session: sessions[0]?.startTime,
+      last_updated: new Date()
+    }
+
+    // Write back to file
+    await this.statusFileGateway.write(projectPath, status)
+  }
+}
+```
+
+**Deliverables:**
+- [ ] Chalk integration (color-coded output)
+- [ ] Box drawing characters for structure
+- [ ] Git status integration in verbose mode
+- [ ] .STATUS file parsing for next action display
+- [ ] .STATUS v2 YAML format specification
+- [ ] StatusFileValidator with tests
+- [ ] UpdateStatusFileUseCase with auto-update
+- [ ] Tests for all new features
 
 ---
 
