@@ -32,7 +32,7 @@ flow status -v       # Verbose mode with productivity metrics
 flow dashboard       # Interactive real-time TUI dashboard
 ```
 
-See [INSTALL.md](INSTALL.md) for detailed instructions and troubleshooting.
+See [CLI Installation Guide](docs/guides/CLI-INSTALLATION.md) for detailed instructions and troubleshooting.
 
 ---
 
@@ -55,7 +55,7 @@ See [INSTALL.md](INSTALL.md) for detailed instructions and troubleshooting.
 
 **Setup:** `./scripts/setup.sh`
 **CLI tools:** `cli/README.md`
-**Monorepo guide:** `MONOREPO-COMMANDS-TUTORIAL.md`
+**Monorepo guide:** [docs/guides/MONOREPO-COMMANDS-TUTORIAL.md](docs/guides/MONOREPO-COMMANDS-TUTORIAL.md)
 
 ### Strategic Overview
 

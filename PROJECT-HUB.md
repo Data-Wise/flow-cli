@@ -897,7 +897,7 @@ docs: update README              → No release (unless scope=README)
 
 **Strategic Planning (5,683 lines):**
 
-1. PROJECT-SCOPE.md (732 lines) - Refined scope (removed MCP hub)
+1. docs/guides/PROJECT-SCOPE.md (732 lines) - Refined scope (removed MCP hub)
 2. PROJECT-REFOCUS-SUMMARY.md (520 lines) - Ecosystem audit
 3. PLAN-REMOVE-APP-FOCUS-CLI.md (666 lines) - App pause decision
 4. PLAN-UPDATE-PORTING-2025-12-20.md (472 lines) - Porting strategy
