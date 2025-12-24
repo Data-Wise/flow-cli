@@ -147,6 +147,41 @@ export class StatusController {
         }
       }
 
+      // Next action from .STATUS file
+      if (session.statusFile && session.statusFile.next && session.statusFile.next.length > 0) {
+        console.log(chalk.green('├─────────────────────────────────────────────────────────┤'))
+        console.log(chalk.green('│') + chalk.magenta.bold(' 📌 Next Action                                          ') + chalk.green('│'))
+
+        const nextAction = session.statusFile.next[0]
+        const actionText = nextAction.action
+        const maxLength = 56  // Box width minus padding
+
+        // Wrap long action text
+        if (actionText.length <= maxLength) {
+          console.log(`│   ${chalk.white(actionText)}`.padEnd(66, ' ') + '│')
+        } else {
+          // Simple wrapping for long text
+          let remaining = actionText
+          while (remaining.length > 0) {
+            const chunk = remaining.substring(0, maxLength)
+            console.log(`│   ${chalk.white(chunk)}`.padEnd(66, ' ') + '│')
+            remaining = remaining.substring(maxLength)
+          }
+        }
+
+        // Show estimate and priority if available
+        if (nextAction.estimate || nextAction.priority) {
+          const details = []
+          if (nextAction.estimate) details.push(chalk.gray(`est: ${nextAction.estimate}`))
+          if (nextAction.priority) {
+            const priorityColor = nextAction.priority === 'high' ? chalk.red :
+                                 nextAction.priority === 'medium' ? chalk.yellow : chalk.gray
+            details.push(priorityColor(`priority: ${nextAction.priority}`))
+          }
+          console.log(`│   ${details.join(' • ')}`.padEnd(66, ' ') + '│')
+        }
+      }
+
       if (session.context && Object.keys(session.context).length > 0) {
         console.log(chalk.green('├─────────────────────────────────────────────────────────┤'))
         console.log(chalk.green('│') + chalk.blue.bold(' 📝 Context                                              ') + chalk.green('│'))

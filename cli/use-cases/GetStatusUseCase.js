@@ -18,11 +18,13 @@ export class GetStatusUseCase {
    * @param {ISessionRepository} sessionRepository
    * @param {IProjectRepository} projectRepository
    * @param {GitGateway} [gitGateway] - Optional git gateway for git status
+   * @param {StatusFileGateway} [statusFileGateway] - Optional gateway for .STATUS files
    */
-  constructor(sessionRepository, projectRepository, gitGateway = null) {
+  constructor(sessionRepository, projectRepository, gitGateway = null, statusFileGateway = null) {
     this.sessionRepository = sessionRepository
     this.projectRepository = projectRepository
     this.gitGateway = gitGateway
+    this.statusFileGateway = statusFileGateway
   }
 
   /**
@@ -46,6 +48,12 @@ export class GetStatusUseCase {
     let gitStatus = null
     if (activeSession && this.gitGateway && activeSession.context?.cwd) {
       gitStatus = await this.gitGateway.getStatus(activeSession.context.cwd)
+    }
+
+    // Get .STATUS file for active session project if status file gateway is available
+    let statusFile = null
+    if (activeSession && this.statusFileGateway && activeSession.context?.cwd) {
+      statusFile = await this.statusFileGateway.read(activeSession.context.cwd)
     }
 
     // Get recent sessions if requested
@@ -94,7 +102,8 @@ export class GetStatusUseCase {
         state: activeSession.state.value,
         startTime: activeSession.startTime,
         context: activeSession.context,
-        gitStatus
+        gitStatus,
+        statusFile
       } : null,
 
       today: {
