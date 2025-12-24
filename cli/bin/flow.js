@@ -66,12 +66,17 @@ Commands:
                             -v        Verbose output
                             --help    Show status help
 
+  dashboard [options]        Launch interactive TUI dashboard
+                            --interval <ms>   Auto-refresh interval
+                            --help    Show dashboard help
+
   help                      Show this help message
   --version, -v             Show version
 
 Examples:
   flow status               Show current status (CLI)
   flow status --web         Launch web dashboard
+  flow dashboard            Launch interactive TUI dashboard
   flow status -v            Show detailed status
   flow help                 Show this help
 
