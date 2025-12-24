@@ -1,28 +1,28 @@
 # ⚡ ZSH Configuration - Project Control Hub
 
-> **Quick Status:** 🎉 PHASE P6 - 35% | ✅ Clean Architecture Foundation | 🏗️ Week 1 Complete (5 days) | 🧪 265 Tests Passing
+> **Quick Status:** 🎉 PHASE P6 - 35% | ✅ Clean Architecture + DevOps Phase 2 | 🏗️ Week 1 Complete | 🧪 518 Tests Passing
 
 **Last Updated:** 2025-12-23
-**Last Sprint:** Dec 23 - Clean Architecture Implementation (Domain + Use Cases + Adapters)
-**Current Phase:** P6 - CLI Enhancements (35% - Week 1 complete, Week 2 in progress)
-**Recent Completions:** Clean Architecture foundation (265 tests), Planning consolidation, Plugin diagnostic system
+**Last Sprint:** Dec 23 - Clean Architecture + DevOps Phase 2 (Release Automation + Docs Deployment + E2E Tests)
+**Current Phase:** P6 - CLI Enhancements (35% - Week 1 complete + DevOps Phase 2 complete, Week 2 in progress)
+**Recent Completions:** Clean Architecture (265 tests), DevOps Phase 2 (518 total tests), Planning consolidation
 
 ---
 
 ## 🎯 Quick Reference
 
-| What | Status | Link |
-|------|--------|------|
-| **Alias Count** | ✅ 28 essential | **84% reduction (179→28)** |
-| **Git Plugin** | ✅ Active | 226+ OMZ git aliases |
-| **Smart Dispatchers** | ✅ 6 functions | cc, gm, peek, qu, work, pick |
-| **Focus Timers** | ✅ Active | f25, f50 |
-| **Documentation Site** | ✅ Live | https://data-wise.github.io/flow-cli |
-| **Site Pages** | ✅ Complete | 63 pages across 9 major sections |
-| **Help System** | ✅ Complete | 20+ functions with `--help` support |
-| **Architecture Docs** | ✅ Complete | 6,200+ lines across 11 documents |
-| **Phase P5 Status** | ✅ COMPLETE | 100% - All documentation deployed |
-| **Website Design** | ✅ Complete | ADHD-optimized cyan/purple, WCAG AAA |
+| What                   | Status          | Link                                 |
+| ---------------------- | --------------- | ------------------------------------ |
+| **Alias Count**        | ✅ 28 essential | **84% reduction (179→28)**           |
+| **Git Plugin**         | ✅ Active       | 226+ OMZ git aliases                 |
+| **Smart Dispatchers**  | ✅ 6 functions  | cc, gm, peek, qu, work, pick         |
+| **Focus Timers**       | ✅ Active       | f25, f50                             |
+| **Documentation Site** | ✅ Live         | https://data-wise.github.io/flow-cli |
+| **Site Pages**         | ✅ Complete     | 63 pages across 9 major sections     |
+| **Help System**        | ✅ Complete     | 20+ functions with `--help` support  |
+| **Architecture Docs**  | ✅ Complete     | 6,200+ lines across 11 documents     |
+| **Phase P5 Status**    | ✅ COMPLETE     | 100% - All documentation deployed    |
+| **Website Design**     | ✅ Complete     | ADHD-optimized cyan/purple, WCAG AAA |
 
 ---
 
@@ -99,6 +99,7 @@ P6: CLI Enhancements          ███████░░░░░░░░░�
 **Week 1: Foundation + Enhanced Features (5 days)**
 
 **Domain Layer (Days 1-2) - Pure Business Logic:**
+
 - ✅ **3 Entities**: Session, Project, Task with complete business rules
   - Session: Create/pause/resume/end with flow state detection
   - Project: Statistics tracking, tag management, type detection
@@ -109,6 +110,7 @@ P6: CLI Enhancements          ███████░░░░░░░░░�
 - ✅ **153 unit tests** - 100% domain logic coverage, zero external dependencies
 
 **Use Cases Layer (Days 2-5) - Application Business Rules:**
+
 - ✅ **5 Core Use Cases**:
   - CreateSessionUseCase: Validates, checks for active session, creates entity
   - EndSessionUseCase: Ends session, updates project statistics
@@ -118,6 +120,7 @@ P6: CLI Enhancements          ███████░░░░░░░░░�
 - ✅ **70 unit tests** with mock repositories (fast, isolated testing)
 
 **Adapters Layer (Day 3) - Infrastructure:**
+
 - ✅ **2 File System Repositories**:
   - FileSystemSessionRepository: JSON persistence with atomic writes
   - FileSystemProjectRepository: Project scanning and metadata extraction
@@ -125,6 +128,7 @@ P6: CLI Enhancements          ███████░░░░░░░░░�
 - ✅ **42 integration tests** with actual file I/O
 
 **Enhanced Features (Days 4-5):**
+
 - ✅ Productivity metrics: Flow %, completion rate, streak, trend
 - ✅ Multi-signal project ranking: Recent access (100pts) + Duration (50pts) + Sessions (30pts)
 - ✅ Comprehensive status: Active session, today summary, recent sessions, project stats
@@ -132,12 +136,14 @@ P6: CLI Enhancements          ███████░░░░░░░░░�
 ### Architecture Principles Achieved
 
 **Clean Architecture:**
+
 - ✅ Dependency Rule: Domain → Use Cases → Adapters (strictly enforced)
 - ✅ Independence: Business rules independent of frameworks
 - ✅ Testability: All layers tested in isolation
 - ✅ Flexibility: Can swap persistence without changing domain
 
 **Design Patterns:**
+
 - ✅ Repository Pattern: Interfaces in domain, implementations in adapters
 - ✅ Dependency Inversion: Inner layers define interfaces
 - ✅ Use Case Pattern: Single responsibility per use case
@@ -145,6 +151,7 @@ P6: CLI Enhancements          ███████░░░░░░░░░�
 - ✅ Domain Events: Track state changes
 
 **Best Practices:**
+
 - ✅ TDD: Tests written alongside implementation
 - ✅ Pure Functions: No side effects in domain logic
 - ✅ Atomic Writes: Temp file → rename for data safety
@@ -152,14 +159,15 @@ P6: CLI Enhancements          ███████░░░░░░░░░�
 
 ### Test Coverage
 
-| Layer | Files | Tests | Pass Rate |
-|-------|-------|-------|-----------|
-| Domain | 9 files | 153 tests | ✅ 100% |
-| Use Cases | 7 files | 70 tests | ✅ 100% |
-| Adapters | 3 files | 42 tests | ✅ 100% |
+| Layer     | Files        | Tests         | Pass Rate   |
+| --------- | ------------ | ------------- | ----------- |
+| Domain    | 9 files      | 153 tests     | ✅ 100%     |
+| Use Cases | 7 files      | 70 tests      | ✅ 100%     |
+| Adapters  | 3 files      | 42 tests      | ✅ 100%     |
 | **TOTAL** | **19 files** | **265 tests** | **✅ 100%** |
 
 **Test Quality:**
+
 - Edge cases covered (empty files, missing directories, etc.)
 - All business rules enforced and tested
 - Descriptive error messages
@@ -168,6 +176,7 @@ P6: CLI Enhancements          ███████░░░░░░░░░�
 ### Git History
 
 **5 Commits Created:**
+
 ```
 4d72834 docs: add Clean Architecture implementation completion summary
 4c44d11 feat(use-cases): add enhanced status and project picker use cases
@@ -180,6 +189,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### Documentation
 
 **Created Files:**
+
 - ✅ CLEAN-ARCHITECTURE-IMPLEMENTATION-COMPLETE.md (303 lines)
   - Complete implementation summary with statistics
   - Architecture layer breakdown
@@ -188,12 +198,14 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### Impact
 
 **Technical Excellence:**
+
 - 🏗️ **Solid foundation** for Week 2 features (enhanced status, TUI dashboard)
 - 🧪 **265 tests = confidence** to refactor and extend fearlessly
 - 📦 **Zero coupling** between layers (domain has no framework imports)
 - ⚡ **Fast tests** Unit tests run in ~0.9 seconds
 
 **Development Velocity:**
+
 - 📚 **Clear patterns** for adding new features
 - 🎯 **Single responsibility** makes changes predictable
 - 🔄 **Easy to swap** infrastructure (could add DatabaseRepository)
@@ -202,27 +214,194 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### What's Next (Week 2)
 
 **Day 6-7: Enhanced Status Command** 🚧
+
 - CLI controller using GetStatusUseCase
 - Worklog integration (read from ~/.config/zsh/.worklog)
 - Beautiful terminal output
 - Quick actions menu
 
 **Day 8-9: Interactive TUI Dashboard** ⏳
+
 - Real-time session display using blessed/ink
 - Project list with filtering
 - Task management UI
 - Keyboard shortcuts
 
 **Day 10: Advanced Project Scanning** ⏳
+
 - Parallel directory scanning
 - Cache layer (1-hour TTL)
 - Smart filters (type, status, recent)
 - 10x performance improvement
 
 **Related Documentation:**
+
 - Implementation plan: IMPLEMENTATION-PLAN-ABC.md
 - Completion summary: CLEAN-ARCHITECTURE-IMPLEMENTATION-COMPLETE.md
 - Test suites: tests/unit/, tests/integration/
+
+---
+
+## 🚀 DevOps Phase 2: Release & Documentation Automation (2025-12-23) - COMPLETE ✅
+
+### Achievement Unlocked: Production-Ready CI/CD Pipeline 🏆
+
+**Timeline:** Dec 23, 2025 (Afternoon session)
+**Status:** 100% COMPLETE - All automation deployed
+**Impact:** 14 E2E tests added (504 → 518 total), automated releases, auto-deployed docs
+
+### What Was Accomplished
+
+**Phase 2 Components:**
+
+**1. Semantic Release - Automated Versioning ✅**
+
+- Conventional commits-based versioning (feat → minor, fix → patch, BREAKING → major)
+- Automatic CHANGELOG.md generation
+- GitHub releases with release notes
+- npm publishing support (configured)
+- Triggers on push to `main` branch
+
+**2. Documentation Deployment - GitHub Pages ✅**
+
+- Auto-deploy MkDocs to GitHub Pages
+- Triggers on docs/ or mkdocs.yml changes
+- Installs mkdocs-material theme + mermaid plugin
+- Clean builds with `--force --clean`
+- Live at: https://data-wise.github.io/flow-cli/
+
+**3. E2E Tests - End-to-End CLI Testing ✅**
+
+- 14 comprehensive E2E tests
+- Tests help/version commands (5 tests)
+- Error handling & exit codes (4 tests)
+- Status command functionality (3 tests)
+- Performance tests (< 2s for basic commands)
+
+### Files Created
+
+**GitHub Actions Workflows:**
+
+- `.github/workflows/release.yml` - Semantic release automation
+- `.github/workflows/docs.yml` - Documentation deployment
+
+**Configuration:**
+
+- `.releaserc.json` - Semantic release config (conventional commits)
+
+**Tests:**
+
+- `tests/e2e/cli.test.js` - 14 E2E tests using actual binary
+
+**Documentation:**
+
+- `docs/reference/DEVOPS-PHASE2.md` - Complete Phase 2 documentation
+- Updated `docs/reference/DEVOPS-SETUP.md` - Phase 1 & 2 status
+
+### Test Coverage
+
+| Category            | Tests   | Description                  |
+| ------------------- | ------- | ---------------------------- |
+| Before Phase 2      | 504     | Unit + Integration tests     |
+| E2E: Help & Version | 5       | --help, help, --version, -v  |
+| E2E: Error Handling | 2       | Unknown commands, help hints |
+| E2E: Status Command | 3       | Basic status, output, --help |
+| E2E: Performance    | 2       | Help/version < 2s            |
+| E2E: Exit Codes     | 2       | Success=0, Error=1           |
+| **After Phase 2**   | **518** | **All tests passing ✅**     |
+
+### Bug Fixes
+
+**Flaky Test Resolution:**
+
+- Fixed `CreateSessionUseCase` test that failed intermittently
+- Root cause: Session ID collisions (timestamp-only IDs)
+- Solution: Added random component (`session-${Date.now()}-${random}`)
+- Impact: 100% test reliability across all runs
+
+### Release Workflow
+
+**When you merge to `main`:**
+
+1. GitHub Actions runs tests (all 518 must pass)
+2. Semantic Release analyzes commits
+3. Determines version bump (major/minor/patch)
+4. Generates CHANGELOG.md
+5. Creates git tag
+6. Creates GitHub release with notes
+7. Publishes to npm (if NPM_TOKEN configured)
+
+**Commit Message Format:**
+
+```
+feat(scope): add new feature     → Minor release
+fix(scope): fix bug              → Patch release
+feat(scope)!: breaking change    → Major release
+docs: update README              → No release (unless scope=README)
+```
+
+### Documentation Deployment Workflow
+
+**When you push docs changes to `main`:**
+
+1. GitHub Actions triggers on docs/ or mkdocs.yml changes
+2. Installs Python, MkDocs, and plugins
+3. Builds documentation site
+4. Deploys to gh-pages branch
+5. Available at https://data-wise.github.io/flow-cli/
+
+### Dependencies Added
+
+**Dev Dependencies:**
+
+```json
+{
+  "semantic-release": "^25.0.2",
+  "@semantic-release/changelog": "^6.0.3",
+  "@semantic-release/git": "^10.0.1",
+  "@semantic-release/github": "^12.0.2"
+}
+```
+
+### Git History
+
+**Commits:**
+
+```
+256ad9c feat(devops): implement Phase 2 - Release & Documentation automation
+3fa049b fix(tests): resolve flaky FileSystemSessionRepository test
+```
+
+### Impact
+
+**Development Velocity:**
+
+- 🚀 **Automated releases** - No manual version bumps or CHANGELOG edits
+- 📚 **Auto-deployed docs** - Documentation always up-to-date with main
+- 🧪 **E2E coverage** - Catch CLI regressions before users do
+- ✅ **518 tests** - Confidence to refactor and extend
+
+**Quality Assurance:**
+
+- ✅ **Zero flaky tests** - All tests reliable and deterministic
+- ✅ **Comprehensive E2E** - Tests actual user-facing CLI behavior
+- ✅ **Performance validation** - Ensures CLI stays fast (< 2s)
+
+### Future: Phase 3 (Planned)
+
+**Not started yet:**
+
+1. **Structured Logging** - JSON logs for monitoring
+2. **CodeQL Security Scanning** - Advanced vulnerability detection
+3. **Test Environment Isolation** - Improved reliability
+
+**Estimated Effort:** 2 hours
+
+### Related Documentation
+
+- Phase 2 details: `docs/reference/DEVOPS-PHASE2.md`
+- Phase 1 setup: `docs/reference/DEVOPS-SETUP.md`
+- E2E tests: `tests/e2e/cli.test.js`
 
 ---
 
@@ -237,6 +416,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### What Was Accomplished
 
 **Planning Consolidation:**
+
 - ✅ Audited all 42 planning/architecture documents
 - ✅ Archived 10 completed planning documents (P4, P4.5 work)
 - ✅ Organized 7 future proposals properly
@@ -245,6 +425,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 - ✅ Updated PROJECT-HUB.md with latest progress
 
 **Directory Structure Created:**
+
 - ✅ `docs/archive/2025-12-23-planning-consolidation/` - 10 archived files
 - ✅ `standards/documentation/` - Documentation standards (2 files)
 - ✅ `standards/architecture/` - Architecture standards (3 files)
@@ -254,6 +435,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 - ✅ `docs/implementation/plugin-diagnostic/` - Implementation tracking
 
 **Files Organized:**
+
 - 10 completed documents archived with context README
 - 3 recent work docs moved to proper locations
 - 7 proposals organized by type
@@ -261,12 +443,14 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 - Root directory cleaned (19 → 4 reference files)
 
 **Impact:**
+
 - 📁 **Clean root directory** - Only core docs + 4 architecture references
 - 🗂️ **Organized structure** - Clear separation: current/proposals/archive/standards
 - 📋 **Updated roadmap** - PROJECT-HUB.md reflects Dec 22-23 work
 - 🎯 **Better discoverability** - Standards in dedicated directory
 
 **Related Summaries:**
+
 - `PLANNING-CONSOLIDATION-PLAN.md` - Full consolidation strategy
 - `docs/archive/2025-12-23-planning-consolidation/README.md` - Archive context
 
@@ -349,6 +533,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 - ✅ **README.md** - Added comprehensive Architecture & Documentation section, updated all stats
 
 **Planning Consolidation:**
+
 - ✅ Archived 10 old brainstorm/planning documents
 - ✅ Created archive with context (docs/archive/planning-brainstorms-2025-12/)
 - ✅ Cleaner planning directory (8 active files vs 18 total before)
@@ -380,6 +565,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### Files Created/Modified
 
 **New Files (8):**
+
 1. ARCHITECTURE-ROADMAP.md (604 lines)
 2. ARCHITECTURE-COMMAND-REFERENCE.md (763 lines)
 3. ARCHITECTURE-CHEATSHEET.md (269 lines)
@@ -390,6 +576,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 8. ADR-SUMMARY.md (390 lines)
 
 **Modified Files (6):**
+
 1. docs/index.md - Architecture section added
 2. mkdocs.yml - 3 new navigation entries
 3. README.md - Architecture & Documentation section
@@ -398,14 +585,16 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 6. docs/archive/planning-brainstorms-2025-12/README.md - Archive context
 
 **Archived (10 documents):**
-- BRAINSTORM-*.md files (4)
-- MCP-*.md files (2)
+
+- BRAINSTORM-\*.md files (4)
+- MCP-\*.md files (2)
 - SHELL-CONFIG-MANAGEMENT-BRAINSTORM.md
 - Plus 3 other historical planning files
 
 ### Git Activity
 
 **Total Commits:** 4
+
 - Architecture reference suite creation
 - Documentation optimization summary
 - README update with architecture section
@@ -414,6 +603,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 **Lines Changed:** 3,996 insertions across 17 files
 
 **Branches:**
+
 - ✅ All work committed to main branch
 - ✅ Site deployed to gh-pages branch via `mkdocs gh-deploy`
 
@@ -467,6 +657,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### Achievement Unlocked: 47-Commit Hyperfocus Sprint 🏆
 
 **Stats:**
+
 - **47 commits** in one day
 - **25,037 lines added** (vs 575 removed)
 - **163 files** modified
@@ -478,6 +669,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### Help System Phase 1 ✅ COMPLETE
 
 **What Was Built:**
+
 - ✅ `--help` support for 20+ functions
   - 9 ADHD helper functions (focus, just-start, pv, pick, finish, win, pb, pt, why)
   - 9 FZF helper functions (gundostage, gb, fr, gdf, fs, fh, ga, rt, fp, rv)
@@ -488,6 +680,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 - ✅ Error message standardization (all errors to stderr)
 
 **Impact:**
+
 - 🎯 **Discoverability:** Every function now self-documenting
 - 📚 **Learning curve:** New users can explore via `command --help`
 - ♿ **Accessibility:** Consistent help format across all commands
@@ -498,6 +691,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 **21 New Documents (16,675 lines):**
 
 **Strategic Planning (5,683 lines):**
+
 1. PROJECT-SCOPE.md (732 lines) - Refined scope (removed MCP hub)
 2. PROJECT-REFOCUS-SUMMARY.md (520 lines) - Ecosystem audit
 3. PLAN-REMOVE-APP-FOCUS-CLI.md (666 lines) - App pause decision
@@ -508,18 +702,22 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 8. WEEK-1-PROGRESS-2025-12-20.md (343 lines) - Progress tracking
 
 **Technical Architecture (2,593 lines):**
+
 1. docs/architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md (1,181 lines)
 2. docs/architecture/API-DESIGN-REVIEW.md (919 lines)
 3. docs/architecture/VENDOR-INTEGRATION-ARCHITECTURE.md (673 lines)
 
 **API Documentation (1,513 lines):**
+
 1. docs/api/API-OVERVIEW.md (983 lines)
 2. docs/api/PROJECT-DETECTOR-API.md (530 lines)
 
 **User Documentation (581 lines):**
+
 1. docs/user/PROJECT-DETECTION-GUIDE.md (581 lines)
 
 **Standards & Proposals (3,436 lines):**
+
 1. PROPOSAL-ADHD-FRIENDLY-DOCS.md (843 lines)
 2. PROPOSAL-DEFAULT-BEHAVIOR-STANDARDS.md (369 lines)
 3. PROPOSAL-SMART-DEFAULTS.md (601 lines)
@@ -531,12 +729,14 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### CLI Integration (P5C) ✅ COMPLETE
 
 **Vendored Project Detection:**
+
 - ✅ Vendored `zsh-claude-workflow` into `cli/vendor/`
 - ✅ Node.js bridge (`cli/lib/project-detector-bridge.js` - 135 lines)
 - ✅ Test suite (`cli/test/test-project-detector.js` - 172 lines)
 - ✅ Core libraries: `core.sh` (86 lines), `project-detector.sh` (195 lines)
 
 **Why This Matters:**
+
 - CLI can detect projects without ZSH environment
 - Shared logic across tools (DRY principle)
 - Testable from Node.js
@@ -555,6 +755,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 **Decision:** Pause desktop app (Electron issues), focus on CLI
 
 **What Was Preserved:**
+
 - 753 lines of production-ready Electron code (archived)
 - Full troubleshooting docs (7 methods tried)
 - 5 resolution options for future
@@ -569,12 +770,14 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 **Achievement:** Reduced from 179 → 28 custom aliases (84% reduction)
 
 **What Was Kept (28 aliases):**
+
 - 23 R Package Development (rload, rtest, rdoc, etc.)
 - 2 Claude Code (ccp, ccr)
 - 1 Tool Replacement (cat='bat')
 - 2 Focus Timers (f25, f50)
 
 **What Was Removed (151 aliases):**
+
 - 13 typo corrections
 - 25 low-frequency shortcuts
 - 12 duplicate aliases
@@ -583,6 +786,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 **Why:** Based on frequency analysis and "10+ uses per day" rule
 
 **Documentation:**
+
 - ✅ ALIAS-REFERENCE-CARD.md - Complete migration guide
 - ✅ ALIAS-CLEANUP-SUMMARY-2025-12-19.md - Full changelog
 - ✅ Migration paths for all removed aliases
@@ -592,6 +796,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 **Live URL:** https://data-wise.github.io/flow-cli
 
 **Created:**
+
 - ✅ mkdocs.yml with Material theme
 - ✅ docs/index.md (home page with quick stats)
 - ✅ docs/getting-started/quick-start.md
@@ -600,6 +805,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 - ✅ standards/documentation/WEBSITE-DESIGN-GUIDE.md
 
 **Features:**
+
 - System-respecting dark/light mode (indigo theme)
 - Navigation tabs, code copy buttons, search
 - ADHD-friendly: emojis, admonitions, scannable tables
@@ -608,6 +814,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### Tutorial Status 📋
 
 **Audit Complete:**
+
 - ✅ ALIAS-REFERENCE-CARD.md - Up to date
 - ✅ WORKFLOW-QUICK-REFERENCE.md - Has warning note
 - ⚠️ WORKFLOW-TUTORIAL.md - Warning added, needs rewrite
@@ -615,6 +822,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 - ✅ TUTORIAL-UPDATE-STATUS.md - Comprehensive tracking document
 
 **Issues Found:**
+
 - Tutorials reference removed aliases (js/idk/stuck → use `just-start`)
 - Some atomic pairs (t, lt, dt) not found - may have been removed
 - Core functions verified: dash, status, work, just-start, next all exist
@@ -622,17 +830,20 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### Next Actions (P5 Remaining)
 
 **Immediate (This Session):**
+
 1. 🔄 Modernize website design (subtle improvements)
 2. 🔄 Fix broken links in documentation
 3. ⏳ Test site build and preview
 
 **Medium-Term (Next 2-4 Weeks):**
+
 1. Rewrite WORKFLOW-TUTORIAL.md with current commands (2 hours)
 2. Rewrite WORKFLOWS-QUICK-WINS.md with 28 aliases (2-3 hours)
 3. Create tutorial validation script (1 hour)
 4. Update Quick Start Guide with practice sections (30 min)
 
 **Long-Term (Next 1-3 Months):**
+
 1. Automated documentation validation (CI checks)
 2. Versioned documentation system (v2.0 = 28-alias system)
 3. Tutorial quality standards (tips & practice mandatory)
@@ -645,6 +856,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### Comprehensive Audit Results
 
 **What We Found:**
+
 - ✅ **183 aliases** across all configuration files
 - ✅ **108 functions** total
 - ✅ **~10,000+ lines** of ZSH code
@@ -688,6 +900,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
    - dash.zsh:22 → function `dash()` ← **Keep this one**
 
 **Fixed Today:**
+
 - ✅ `fs` alias conflict (focus-stop vs flowstats vs fuzzy STATUS) - RESOLVED
   - Renamed `alias fs='focus-stop'` → `alias fst='focus-stop'`
   - Renamed `alias fs='flowstats'` → `alias fls='flowstats'`
@@ -696,6 +909,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### 4-Phase Optimization Roadmap
 
 **Phase 1: Critical Conflicts (30 min) - READY TO START**
+
 - Remove 6 duplicate function definitions
 - Remove 3 conflicting aliases
 - Test all changes thoroughly
@@ -703,18 +917,21 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 - **Risk:** Low (keeping most feature-rich versions)
 
 **Phase 2: Quality Cleanup (45 min) - THIS WEEK**
+
 - Move commented code to ALIAS-CHANGELOG-2025-12-14.md
 - Remove deprecated aliases after transition period
 - Add `--help` to top 10 functions
 - Update documentation
 
 **Phase 3: Performance Optimization (2 hours) - NEXT WEEK**
+
 - Split adhd-helpers.zsh into 8 modular files
 - Implement project scan caching (5-minute TTL)
 - Add lazy loading for ADHD functions
 - **Expected:** 250ms → 50ms startup, 400ms → <10ms scans
 
 **Phase 4: Documentation & Polish (1.5 hours) - NEXT 2 WEEKS**
+
 - Add `--help` to all major functions
 - Create unified help system
 - Add tab completion
@@ -722,18 +939,19 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 
 ### Success Metrics - Expected Improvements
 
-| Metric | Current | After P4 | Improvement |
-|--------|---------|----------|-------------|
-| **Duplicate Functions** | 7 | 0 | 100% ✅ |
-| **Duplicate Aliases** | 3 | 0 | 100% ✅ |
-| **Shell Startup (ms)** | 250 | 50 | 80% ⚡ |
-| **Project Scan (ms)** | 400 | <10 | 97% ⚡ |
-| **Largest File (lines)** | 3034 | <500 | 84% 📦 |
-| **Functions with --help** | ~15 | 100+ | 566% 📚 |
+| Metric                    | Current | After P4 | Improvement |
+| ------------------------- | ------- | -------- | ----------- |
+| **Duplicate Functions**   | 7       | 0        | 100% ✅     |
+| **Duplicate Aliases**     | 3       | 0        | 100% ✅     |
+| **Shell Startup (ms)**    | 250     | 50       | 80% ⚡      |
+| **Project Scan (ms)**     | 400     | <10      | 97% ⚡      |
+| **Largest File (lines)**  | 3034    | <500     | 84% 📦      |
+| **Functions with --help** | ~15     | 100+     | 566% 📚     |
 
 ### Documentation
 
 📋 **Main Document:** `ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md`
+
 - Complete catalog of all 183 aliases and 108 functions
 - Detailed analysis of each conflict
 - Line-by-line recommendations
@@ -759,12 +977,14 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ### Completed 2025-12-14 (P0-P3)
 
 #### Critical Fixes
+
 - [x] ✅ Fixed antidote initialization (line 12 uncommented)
 - [x] ✅ Verified all 120+ aliases load correctly
 - [x] ✅ Restored backup from Dec 10 (stable baseline)
 - [x] ✅ Removed conflicting rpkg() function
 
 ### Visual Categorization System
+
 - [x] ✅ Created aliashelp() function (88 lines)
 - [x] ✅ Added 6 category views (r, claude, git, quarto, files, workflow)
 - [x] ✅ Added `ah` shortcut alias
@@ -772,12 +992,14 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 - [x] ✅ Integrated into functions.zsh
 
 ### Mnemonic Consistency
+
 - [x] ✅ Added rd (R + Doc) - first-letter pattern
 - [x] ✅ Added rc (R + Check) - first-letter pattern
 - [x] ✅ Added rb (R + Build) - first-letter pattern
 - [x] ✅ Kept legacy aliases (dc, ck, bd) for compatibility
 
 ### Ultra-Fast Shortcuts
+
 - [x] ✅ Single-letter: t (rtest) - 50+ uses/day
 - [x] ✅ Single-letter: c (claude) - 30+ uses/day
 - [x] ✅ Single-letter: q (qp) - 10+ uses/day
@@ -785,6 +1007,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 - [x] ✅ Atomic pair: dt (rdoc && rtest)
 
 ### Testing & Verification
+
 - [x] ✅ Tested all new shortcuts in interactive shell
 - [x] ✅ Verified aliashelp displays correctly
 - [x] ✅ Confirmed no conflicts or duplicates
@@ -795,16 +1018,19 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ## 🎨 What You Have Now
 
 ### Cognitive Load Reduction
+
 - **Before:** Remember 120 individual aliases
 - **After:** Browse 6 categorized menus
 - **Improvement:** 95% cognitive load reduction
 
 ### Speed Optimization
+
 - **Before:** Type 5-8 characters per command
 - **After:** Type 1-2 characters for frequent tasks
 - **Saved:** ~100-150 keystrokes daily
 
 ### ADHD-Friendly Features
+
 - ✅ Visual categories with emojis
 - ✅ Ultra-short shortcuts (t, c, q)
 - ✅ Mnemonic consistency (rd, rc, rb)
@@ -816,6 +1042,7 @@ d998ff3 feat(use-cases): implement Clean Architecture use cases layer
 ## 🚀 Next: P1 Features (65 min)
 
 ### Progress Indicators [20 min]
+
 **Commands that take 30-60s need visual feedback**
 
 ```zsh
@@ -831,12 +1058,14 @@ rcheck() {
 ```
 
 **Target commands:**
+
 - rcheck (30-60s)
 - rtest (10-30s)
 - rcycle (60-120s)
 - rpkgdown (30-90s)
 
 ### Smart Confirmations [15 min]
+
 **Destructive operations need safety**
 
 ```zsh
@@ -851,10 +1080,12 @@ rpkgdeep() {
 ```
 
 **Target commands:**
+
 - rpkgdeep (destructive)
 - rpkgclean (safe but clarify)
 
 ### Enhanced Workflow Functions [30 min]
+
 **Make rcycle, rpkgcommit more visual**
 
 ---
@@ -862,12 +1093,14 @@ rpkgdeep() {
 ## 💾 P2 Features (Complete ✅)
 
 ### Typo Tolerance [10 min] ✅ COMPLETE
+
 - Common typos: claue → claude
 - Frequent mistakes: rlaod → rload
 - ADHD-friendly error recovery
 - 20+ typo corrections added
 
 ### Context-Aware Suggestions [25 min] ✅ COMPLETE
+
 - whatnext command (instant, no AI)
 - Detects R package, Quarto, git repo context
 - Suggests workflow based on state
@@ -875,6 +1108,7 @@ rpkgdeep() {
 - Reads .STATUS for next actions
 
 ### Workflow State Tracking [30 min] ✅ COMPLETE
+
 - worklog command: log actions to ~/.workflow-log
 - showflow command: view recent activity with filtering
 - startsession/endsession: tracked sessions with duration
@@ -886,21 +1120,25 @@ rpkgdeep() {
 ## 🔗 P3 Cross-Project Integrations (Complete ✅)
 
 ### Unified Context Detection ✅
+
 - Shared `project-detector.zsh` from zsh-claude-workflow
 - Used by: whatnext, iterm2-context-switcher, work command
 - Single source of truth for project type detection
 
 ### Dashboard + Worklog Integration ✅
+
 - `dashsync` / `ds` command syncs to Apple Notes
 - Dashboard shows today's workflow activity
 - Reads ~/.workflow-log for recent actions
 
 ### Session-Aware iTerm Profiles ✅
+
 - `startsession` switches iTerm to Focus profile
 - `endsession` restores previous profile
 - Tab title shows session name with 🎯 icon
 
 ### Enhanced Work Command ✅
+
 - Uses shared project-detector
 - Logs project switches to worklog
 - Shows whatnext suggestions (terminal mode)
@@ -925,12 +1163,14 @@ rpkgdeep() {
 ## 🎯 Success Metrics
 
 ### Usage Statistics (Projected)
+
 - **Daily alias invocations:** 200+
 - **Time saved per day:** 5-10 minutes
 - **Cognitive switches reduced:** 80%
 - **Error rate (typos):** Will measure after P2
 
 ### Quality Metrics
+
 - ✅ No parse errors
 - ✅ All aliases working
 - ✅ Help system functional
@@ -942,16 +1182,19 @@ rpkgdeep() {
 ## 🔄 Maintenance Notes
 
 ### Regular Tasks
+
 - **Monthly:** Review alias usage stats
 - **Quarterly:** Audit for unused aliases
 - **As needed:** Add new workflows
 
 ### Backup Strategy
-- Automatic backups in .zshrc.backup-*
+
+- Automatic backups in .zshrc.backup-\*
 - Git versioning (if desired)
 - Cloud sync via dotfiles repo
 
 ### Known Issues (Updated 2025-12-16)
+
 - ⚠️ **7 duplicate function/alias conflicts** (see P4 section above)
 - ⚠️ **adhd-helpers.zsh too large** (3034 lines - needs modular split)
 - ⚠️ **No performance optimization** (slow startup, no caching)
@@ -962,6 +1205,7 @@ rpkgdeep() {
 ## 📚 Related Documentation
 
 ### Current Documentation
+
 - `ALIAS-REFERENCE-CARD.md` - Quick lookup guide (120+ aliases)
 - `WORKFLOWS-QUICK-WINS.md` - Top 10 ADHD-friendly workflows
 - `ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md` - **NEW** Comprehensive optimization plan
@@ -969,6 +1213,7 @@ rpkgdeep() {
 - `ALIAS-REFACTOR-SUMMARY.md` - Previous refactor notes
 
 ### Configuration Files
+
 - `~/.config/zsh/.zshrc` - Main config (1161 lines, 106 aliases)
 - `~/.config/zsh/functions.zsh` - Legacy functions (643 lines, has duplicates)
 - `~/.config/zsh/functions/adhd-helpers.zsh` - ADHD system (3034 lines, too large)
@@ -981,12 +1226,14 @@ rpkgdeep() {
 ## 🎉 Celebration
 
 **What We Fixed:**
+
 1. 🔧 Antidote initialization (critical bug)
 2. 🗂️ Visual categorization (cognitive relief)
 3. ⚡ Ultra-fast shortcuts (speed boost)
 4. 🧠 Mnemonic patterns (discoverability)
 
 **Impact:**
+
 - Aliases: Broken → 120+ working ✅
 - Speed: 5-8 chars → 1-2 chars ⚡
 - Cognitive load: 120 items → 6 categories 🧠
@@ -997,18 +1244,22 @@ rpkgdeep() {
 ## 🎯 Next Actions
 
 **Immediate (Today):**
+
 1. Review `ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md`
 2. Approve Phase 1 critical fixes (30 min)
 3. Execute Phase 1: Remove 7 duplicate conflicts
 4. Test thoroughly
 
 **This Week:**
+
 - Phase 2: Quality cleanup (move commented code, update docs)
 
 **Next Week:**
+
 - Phase 3: Performance optimization (split files, add caching, lazy loading)
 
 **Commands to start:**
+
 ```bash
 # Review the proposal
 bat ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md
