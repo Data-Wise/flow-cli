@@ -21,6 +21,7 @@ import { existsSync } from 'fs'
 import chalk from 'chalk'
 import { WebDashboard } from '../../web/WebDashboard.js'
 import open from 'open'
+import { sparkline, progressBar, trendIndicator, durationBar } from '../../utils/ascii-charts.js'
 
 export class StatusController {
   /**
@@ -223,8 +224,15 @@ export class StatusController {
   displayTodaySummary(today, verbose) {
     console.log(chalk.blue.bold('📊 Today'))
     console.log(`   Sessions: ${chalk.white(today.sessions)}`)
-    console.log(`   Duration: ${chalk.white(this.formatDuration(today.totalDuration))}`)
-    console.log(`   Completed: ${chalk.green(today.completedSessions)}/${today.sessions}`)
+
+    // Duration with visual bar
+    const durationText = durationBar(today.totalDuration)
+    console.log(`   Duration: ${chalk.white(durationText)}`)
+
+    // Completion rate with progress bar
+    const completionRate = today.sessions > 0 ? (today.completedSessions / today.sessions) * 100 : 0
+    const completionBar = progressBar(completionRate, 100, { width: 10 })
+    console.log(`   Completed: ${chalk.green(today.completedSessions)}/${today.sessions} ${chalk.gray(completionBar)}`)
 
     if (verbose && today.flowSessions !== undefined) {
       console.log(`   Flow sessions: ${chalk.red(today.flowSessions)}`)
@@ -236,8 +244,15 @@ export class StatusController {
    */
   displayProductivityMetrics(metrics) {
     console.log(chalk.magenta.bold('📈 Productivity Metrics'))
-    console.log(`   Flow %: ${chalk.red(metrics.flowPercentage + '%')}`)
-    console.log(`   Completion rate: ${chalk.green(metrics.completionRate + '%')}`)
+
+    // Flow percentage with progress bar
+    const flowBar = progressBar(metrics.flowPercentage, 100, { width: 10 })
+    console.log(`   Flow %: ${chalk.red(metrics.flowPercentage + '%')} ${chalk.gray(flowBar)}`)
+
+    // Completion rate with progress bar
+    const completionBar = progressBar(metrics.completionRate, 100, { width: 10 })
+    console.log(`   Completion rate: ${chalk.green(metrics.completionRate + '%')} ${chalk.gray(completionBar)}`)
+
     console.log(`   Current streak: ${chalk.yellow(metrics.streak)} days`)
 
     const trendIcon = metrics.trend === 'up' ? '📈' :
@@ -255,6 +270,13 @@ export class StatusController {
     console.log(`   Total: ${chalk.white(recent.sessions)}`)
     console.log(`   Duration: ${chalk.white(this.formatDuration(recent.totalDuration))}`)
     console.log(`   Average: ${chalk.white(this.formatDuration(recent.averageDuration))}`)
+
+    // Add sparkline for session duration trend if we have data
+    if (recent.recentSessions && recent.recentSessions.length > 0) {
+      const durations = recent.recentSessions.slice(0, 10).reverse().map(s => s.duration)
+      const trend = sparkline(durations)
+      console.log(`   Trend: ${chalk.gray(trend)}`)
+    }
 
     if (verbose && recent.recentSessions) {
       console.log(chalk.gray('\n   Last 3 sessions:'))
