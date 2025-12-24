@@ -21,7 +21,7 @@ import { existsSync } from 'fs'
 import chalk from 'chalk'
 import { WebDashboard } from '../../web/WebDashboard.js'
 import open from 'open'
-import { sparkline, progressBar, trendIndicator, durationBar } from '../../utils/ascii-charts.js'
+import { sparkline, progressBar, durationBar } from '../../utils/ascii-charts.js'
 
 export class StatusController {
   /**
@@ -117,11 +117,16 @@ export class StatusController {
   displayActiveSession(session, verbose) {
     // Box drawing with color
     console.log(chalk.green('╭─────────────────────────────────────────────────────────╮'))
-    console.log(chalk.green('│') + chalk.green.bold(' ✅ ACTIVE SESSION                                       ') + chalk.green('│'))
+    console.log(
+      chalk.green('│') +
+        chalk.green.bold(' ✅ ACTIVE SESSION                                       ') +
+        chalk.green('│')
+    )
     console.log(chalk.green('├─────────────────────────────────────────────────────────┤'))
 
     // Project and task
-    const projectLine = `│ Project: ${chalk.cyan(session.project)}`.padEnd(72 - session.project.length, ' ') + '│'
+    const projectLine =
+      `│ Project: ${chalk.cyan(session.project)}`.padEnd(72 - session.project.length, ' ') + '│'
     console.log(projectLine)
 
     const taskText = session.task || 'No task specified'
@@ -136,7 +141,9 @@ export class StatusController {
     if (verbose) {
       console.log(chalk.green('├─────────────────────────────────────────────────────────┤'))
       console.log(`│ Branch: ${chalk.magenta(session.branch || 'unknown')}`.padEnd(66, ' ') + '│')
-      console.log(`│ Started: ${chalk.white(this.formatTime(session.startTime))}`.padEnd(66, ' ') + '│')
+      console.log(
+        `│ Started: ${chalk.white(this.formatTime(session.startTime))}`.padEnd(66, ' ') + '│'
+      )
 
       // Git status if available
       if (session.gitStatus) {
@@ -144,7 +151,11 @@ export class StatusController {
 
         if (dirty || ahead > 0 || behind > 0) {
           console.log(chalk.green('├─────────────────────────────────────────────────────────┤'))
-          console.log(chalk.green('│') + chalk.yellow.bold(' 📎 Git Status                                           ') + chalk.green('│'))
+          console.log(
+            chalk.green('│') +
+              chalk.yellow.bold(' 📎 Git Status                                           ') +
+              chalk.green('│')
+          )
 
           if (uncommittedFiles.length > 0) {
             const filesText = `${uncommittedFiles.length} uncommitted file${uncommittedFiles.length > 1 ? 's' : ''}`
@@ -152,11 +163,21 @@ export class StatusController {
           }
 
           if (ahead > 0) {
-            console.log(`│   ${chalk.green(`↑ ${ahead} commit${ahead > 1 ? 's' : ''} ahead`)}`.padEnd(66, ' ') + '│')
+            console.log(
+              `│   ${chalk.green(`↑ ${ahead} commit${ahead > 1 ? 's' : ''} ahead`)}`.padEnd(
+                66,
+                ' '
+              ) + '│'
+            )
           }
 
           if (behind > 0) {
-            console.log(`│   ${chalk.red(`↓ ${behind} commit${behind > 1 ? 's' : ''} behind`)}`.padEnd(66, ' ') + '│')
+            console.log(
+              `│   ${chalk.red(`↓ ${behind} commit${behind > 1 ? 's' : ''} behind`)}`.padEnd(
+                66,
+                ' '
+              ) + '│'
+            )
           }
         }
       }
@@ -164,11 +185,15 @@ export class StatusController {
       // Next action from .STATUS file
       if (session.statusFile && session.statusFile.next && session.statusFile.next.length > 0) {
         console.log(chalk.green('├─────────────────────────────────────────────────────────┤'))
-        console.log(chalk.green('│') + chalk.magenta.bold(' 📌 Next Action                                          ') + chalk.green('│'))
+        console.log(
+          chalk.green('│') +
+            chalk.magenta.bold(' 📌 Next Action                                          ') +
+            chalk.green('│')
+        )
 
         const nextAction = session.statusFile.next[0]
         const actionText = nextAction.action
-        const maxLength = 56  // Box width minus padding
+        const maxLength = 56 // Box width minus padding
 
         // Wrap long action text
         if (actionText.length <= maxLength) {
@@ -188,8 +213,12 @@ export class StatusController {
           const details = []
           if (nextAction.estimate) details.push(chalk.gray(`est: ${nextAction.estimate}`))
           if (nextAction.priority) {
-            const priorityColor = nextAction.priority === 'high' ? chalk.red :
-                                 nextAction.priority === 'medium' ? chalk.yellow : chalk.gray
+            const priorityColor =
+              nextAction.priority === 'high'
+                ? chalk.red
+                : nextAction.priority === 'medium'
+                  ? chalk.yellow
+                  : chalk.gray
             details.push(priorityColor(`priority: ${nextAction.priority}`))
           }
           console.log(`│   ${details.join(' • ')}`.padEnd(66, ' ') + '│')
@@ -198,7 +227,11 @@ export class StatusController {
 
       if (session.context && Object.keys(session.context).length > 0) {
         console.log(chalk.green('├─────────────────────────────────────────────────────────┤'))
-        console.log(chalk.green('│') + chalk.blue.bold(' 📝 Context                                              ') + chalk.green('│'))
+        console.log(
+          chalk.green('│') +
+            chalk.blue.bold(' 📝 Context                                              ') +
+            chalk.green('│')
+        )
         for (const [key, value] of Object.entries(session.context)) {
           const contextLine = `│   ${chalk.gray(key)}: ${value}`.padEnd(66, ' ') + '│'
           console.log(contextLine)
@@ -232,7 +265,9 @@ export class StatusController {
     // Completion rate with progress bar
     const completionRate = today.sessions > 0 ? (today.completedSessions / today.sessions) * 100 : 0
     const completionBar = progressBar(completionRate, 100, { width: 10 })
-    console.log(`   Completed: ${chalk.green(today.completedSessions)}/${today.sessions} ${chalk.gray(completionBar)}`)
+    console.log(
+      `   Completed: ${chalk.green(today.completedSessions)}/${today.sessions} ${chalk.gray(completionBar)}`
+    )
 
     if (verbose && today.flowSessions !== undefined) {
       console.log(`   Flow sessions: ${chalk.red(today.flowSessions)}`)
@@ -251,14 +286,15 @@ export class StatusController {
 
     // Completion rate with progress bar
     const completionBar = progressBar(metrics.completionRate, 100, { width: 10 })
-    console.log(`   Completion rate: ${chalk.green(metrics.completionRate + '%')} ${chalk.gray(completionBar)}`)
+    console.log(
+      `   Completion rate: ${chalk.green(metrics.completionRate + '%')} ${chalk.gray(completionBar)}`
+    )
 
     console.log(`   Current streak: ${chalk.yellow(metrics.streak)} days`)
 
-    const trendIcon = metrics.trend === 'up' ? '📈' :
-                      metrics.trend === 'down' ? '📉' : '➡️'
-    const trendColor = metrics.trend === 'up' ? chalk.green :
-                       metrics.trend === 'down' ? chalk.red : chalk.gray
+    const trendIcon = metrics.trend === 'up' ? '📈' : metrics.trend === 'down' ? '📉' : '➡️'
+    const trendColor =
+      metrics.trend === 'up' ? chalk.green : metrics.trend === 'down' ? chalk.red : chalk.gray
     console.log(`   Trend: ${trendIcon} ${trendColor(metrics.trend)}`)
   }
 
@@ -273,7 +309,10 @@ export class StatusController {
 
     // Add sparkline for session duration trend if we have data
     if (recent.recentSessions && recent.recentSessions.length > 0) {
-      const durations = recent.recentSessions.slice(0, 10).reverse().map(s => s.duration)
+      const durations = recent.recentSessions
+        .slice(0, 10)
+        .reverse()
+        .map(s => s.duration)
       const trend = sparkline(durations)
       console.log(`   Trend: ${chalk.gray(trend)}`)
     }
@@ -281,9 +320,15 @@ export class StatusController {
     if (verbose && recent.recentSessions) {
       console.log(chalk.gray('\n   Last 3 sessions:'))
       for (const session of recent.recentSessions.slice(0, 3)) {
-        const icon = session.outcome === 'completed' ? chalk.green('✓') :
-                    session.outcome === 'cancelled' ? chalk.red('✗') : chalk.gray('?')
-        console.log(`   ${icon} ${chalk.cyan(session.project)} (${session.duration}m) - ${chalk.gray(this.relativeTime(session.endTime))}`)
+        const icon =
+          session.outcome === 'completed'
+            ? chalk.green('✓')
+            : session.outcome === 'cancelled'
+              ? chalk.red('✗')
+              : chalk.gray('?')
+        console.log(
+          `   ${icon} ${chalk.cyan(session.project)} (${session.duration}m) - ${chalk.gray(this.relativeTime(session.endTime))}`
+        )
       }
     }
   }
@@ -299,7 +344,9 @@ export class StatusController {
     if (projects.topProjects && projects.topProjects.length > 0) {
       console.log(chalk.gray('\n   Top projects:'))
       for (const project of projects.topProjects.slice(0, 3)) {
-        console.log(`   • ${chalk.cyan(project.name)} (${chalk.white(this.formatDuration(project.totalDuration))})`)
+        console.log(
+          `   • ${chalk.cyan(project.name)} (${chalk.white(this.formatDuration(project.totalDuration))})`
+        )
       }
     }
   }
@@ -311,7 +358,9 @@ export class StatusController {
     console.log(chalk.blue.bold('📝 Recent Worklog'))
     for (const entry of entries) {
       const time = entry.timestamp ? this.formatTime(entry.timestamp) : 'unknown'
-      console.log(`   ${chalk.gray(time)} - ${chalk.yellow(entry.action)}: ${chalk.white(entry.details || '')}`)
+      console.log(
+        `   ${chalk.gray(time)} - ${chalk.yellow(entry.action)}: ${chalk.white(entry.details || '')}`
+      )
     }
   }
 
@@ -340,17 +389,19 @@ export class StatusController {
       const content = await readFile(worklogPath, 'utf-8')
       const lines = content.trim().split('\n').filter(Boolean)
 
-      return lines.map(line => {
-        const [timestamp, ...rest] = line.split(' ')
-        const text = rest.join(' ')
-        const [action, ...detailsParts] = text.split(':')
+      return lines
+        .map(line => {
+          const [timestamp, ...rest] = line.split(' ')
+          const text = rest.join(' ')
+          const [action, ...detailsParts] = text.split(':')
 
-        return {
-          timestamp: new Date(timestamp),
-          action: action.trim(),
-          details: detailsParts.join(':').trim()
-        }
-      }).reverse() // Most recent first
+          return {
+            timestamp: new Date(timestamp),
+            action: action.trim(),
+            details: detailsParts.join(':').trim()
+          }
+        })
+        .reverse() // Most recent first
     } catch (error) {
       console.error(`Warning: Could not read worklog: ${error.message}`)
       return []

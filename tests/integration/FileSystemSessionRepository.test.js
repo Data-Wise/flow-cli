@@ -16,8 +16,9 @@ describe('FileSystemSessionRepository Integration', () => {
   let testFile
 
   beforeEach(async () => {
-    // Create temp directory for each test
-    testDir = join(tmpdir(), `flow-cli-test-${Date.now()}`)
+    // Create temp directory for each test with random component to avoid collisions
+    const random = Math.random().toString(36).substring(2, 15)
+    testDir = join(tmpdir(), `flow-cli-test-${Date.now()}-${random}`)
     await fs.mkdir(testDir, { recursive: true })
     testFile = join(testDir, 'sessions.json')
 
@@ -42,7 +43,10 @@ describe('FileSystemSessionRepository Integration', () => {
       await repo.save(session)
 
       // Verify file exists
-      const fileExists = await fs.access(testFile).then(() => true).catch(() => false)
+      const fileExists = await fs
+        .access(testFile)
+        .then(() => true)
+        .catch(() => false)
       expect(fileExists).toBe(true)
     })
 
@@ -192,9 +196,18 @@ describe('FileSystemSessionRepository Integration', () => {
       const session3 = new Session('session-3', 'project-1')
       session3.startTime = new Date('2025-01-03')
 
+      // Save sequentially and ensure each completes before next starts
+      // to avoid race condition in read-modify-write cycle
       await repo.save(session1)
+      // Small delay to ensure file write completes
+      await new Promise(resolve => setTimeout(resolve, 10))
+
       await repo.save(session2)
+      await new Promise(resolve => setTimeout(resolve, 10))
+
       await repo.save(session3)
+      // Extra delay before tests run to ensure final write completes
+      await new Promise(resolve => setTimeout(resolve, 10))
     })
 
     test('lists all sessions', async () => {
@@ -264,7 +277,10 @@ describe('FileSystemSessionRepository Integration', () => {
       const session = new Session('session-1', 'rmediation')
       await deepRepo.save(session)
 
-      const fileExists = await fs.access(deepPath).then(() => true).catch(() => false)
+      const fileExists = await fs
+        .access(deepPath)
+        .then(() => true)
+        .catch(() => false)
       expect(fileExists).toBe(true)
     })
   })
