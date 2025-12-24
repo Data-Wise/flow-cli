@@ -66,6 +66,12 @@ nav:
   - Getting Started:
       - Quick Start: getting-started/quick-start.md
       - Installation: getting-started/installation.md
+      - Troubleshooting: getting-started/troubleshooting.md
+  - Tutorials:
+      - 1. Your First Session: tutorials/01-first-session.md
+      - 2. Multiple Projects: tutorials/02-multiple-projects.md
+      - 3. Status Visualizations: tutorials/03-status-visualizations.md
+      - 4. Web Dashboard: tutorials/04-web-dashboard.md
   - User Guide:
       - Alias Reference: user/ALIAS-REFERENCE-CARD.md
       - Workflow Quick Reference: user/WORKFLOW-QUICK-REFERENCE.md
@@ -77,6 +83,8 @@ nav:
       - Workspace Audit: user/WORKSPACE-AUDIT-GUIDE.md
       - Tutorial: user/WORKFLOW-TUTORIAL.md
   - Commands:
+      - status: commands/status.md
+      - dashboard: commands/dashboard.md
       - dash: commands/dash.md
   - Architecture:
       - Overview: architecture/README.md
