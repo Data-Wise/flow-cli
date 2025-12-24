@@ -1,7 +1,7 @@
 status: Active
 priority: P0
-progress: 95
-next: Day 8-9 - Interactive TUI Dashboard (blessed/ink framework)
+progress: 40
+next: Day 9 - Enhanced CLI with ASCII charts + Optional Day 10 tasks
 type: dev
 
 # ═══════════════════════════════════════════════════════════════════
@@ -20,6 +20,9 @@ type: dev
 ────────────────────────────────────────────────
 
 🎯 CURRENT STATUS
+✅ Phase P6 - Week 2 Day 8 - 100% COMPLETE (Dec 23) 🎉🌐✨
+Completed Hybrid Dashboard (CLI + Web): Skipped TUI in favor of hybrid approach. Express server with WebSocket, single-file HTML dashboard with Chart.js, --web flag integration, event system. Total: 331 tests passing (all Week 1+2 features stable).
+
 ✅ Phase P6 - Week 2 Day 7 - 100% COMPLETE (Dec 23) 🎨🚀✅
 Completed Enhanced Status Command: Part 1 (Visual Polish) - colors, box drawing, git integration, .STATUS parsing. Part 2 (.STATUS v2 Foundation) - YAML format, validator, auto-update, write operations. Total: 331 tests passing (up from 274 - 57 new tests).
 
@@ -47,15 +50,147 @@ Phase P5B: Desktop App UI ██████████░░░░░░░░
 Phase P5C: CLI Integration ████████████████████ 100% ✅ (Dec 20)
 Phase P5: Documentation & Site ████████████████████ 100% ✅ 🎉 (Dec 21 - COMPLETE!)
 Phase P5D: Alpha Release ███████████████░░░░░ 75% ✅ (Dec 22 - Phases 1-3 DONE!)
-Phase P6: CLI Enhancements ███████░░░░░░░░░░░░░ 35% 🚧 (Dec 23 - Week 1 COMPLETE!)
+Phase P6: CLI Enhancements ████████░░░░░░░░░░░░ 40% 🚧 (Dec 23 - Week 2 Day 8 COMPLETE!)
   ├─ Clean Architecture (Week 1) ████████████████████ 100% ✅ (265 tests, 19 files)
-  ├─ Enhanced Status (Week 2 D6-7) ░░░░░░░░░░░░░░░░░░░░ 0% 🚧
-  ├─ Interactive TUI (Week 2 D8-9) ░░░░░░░░░░░░░░░░░░░░ 0% ⏳
-  └─ Advanced Scanning (Week 2 D10) ░░░░░░░░░░░░░░░░░░░░ 0% ⏳
+  ├─ Enhanced Status (Week 2 D6-7) ████████████████████ 100% ✅ (331 tests, colors, boxes)
+  ├─ Hybrid Dashboard (Week 2 D8) ████████████████████ 100% ✅ (Express + WebSocket + HTML)
+  ├─ Enhanced CLI (Week 2 D9) ░░░░░░░░░░░░░░░░░░░░ 0% ⏳ (ASCII charts optional)
+  └─ Advanced Scanning (Week 2 D10) ░░░░░░░░░░░░░░░░░░░░ 0% ⏳ (optional)
 
 ────────────────────────────────────────────────
 
-✅ JUST COMPLETED (Session: 2025-12-23 Afternoon - Clean Architecture Week 1)
+✅ JUST COMPLETED (Session: 2025-12-23 Evening - Hybrid Dashboard Implementation)
+
+## Phase P6 - Hybrid Dashboard (CLI + Web) - Day 8 COMPLETE ✅
+
+**Achievement:** Production-ready hybrid dashboard with CLI + optional web interface
+
+**Timeline:** Dec 23, 2025 (Evening session)
+
+**Decision:** Skipped TUI implementation in favor of hybrid approach after comprehensive analysis.
+
+**Statistics:**
+- ✅ 3 core files created (771 lines total)
+- ✅ 331 tests passing (all previous tests stable)
+- ✅ 3 commits to git (planning + implementation)
+- ✅ 3 dependencies added (express, ws, open)
+- ✅ Zero breaking changes (CLI still works)
+
+**What Was Built:**
+
+**1. Web Dashboard Server (168 lines):**
+- Express HTTP server for static file serving
+- WebSocket server for real-time updates
+- Event publisher integration
+- API endpoints (/api/status, /api/health)
+- Clean shutdown handling
+
+**2. HTML Dashboard (545 lines):**
+- Single-file HTML with embedded CSS + JavaScript
+- Chart.js integration for session trends
+- Dark theme (ADHD-friendly #1e1e1e background)
+- Real-time WebSocket updates
+- Connection status indicator
+- Responsive grid layout
+- Active session card with flow state badge
+- Metrics cards (total, flow, time, rate)
+- Recent projects list
+- Fallback API polling if WebSocket fails
+
+**3. Event System (58 lines):**
+- SimpleEventPublisher (Node EventEmitter wrapper)
+- Supports session:created, session:updated, session:ended events
+- 100 max listeners for many WebSocket connections
+- Publish/subscribe pattern
+
+**4. StatusController Integration:**
+- Added launchWebDashboard() method (42 lines)
+- Auto-opens browser with `open` package
+- Keep-alive process handling
+- Error handling for no event publisher
+
+**5. CLI Integration:**
+- --web flag to launch dashboard
+- --port flag for custom ports
+- Updated help text with modes section
+- parseArgs handles new flags
+- Container provides event publisher
+
+**Documentation:**
+- ✅ TUI-ALTERNATIVES-ANALYSIS.md (549 lines) - Decision rationale
+- ✅ IMPLEMENTATION-PLAN-ABC.md updated (replaced TUI with Hybrid)
+- ✅ Comprehensive commit messages
+
+**Architecture Quality:**
+- ✅ No breaking changes (CLI mode still default)
+- ✅ Optional web mode (users choose complexity)
+- ✅ Clean separation (web dashboard is separate layer)
+- ✅ Event-driven updates (decoupled)
+- ✅ Single-file HTML (no build step)
+- ✅ Modern web stack (Express, WebSocket, Chart.js)
+
+**Git Commits:**
+```
+6c783f1 feat: implement hybrid dashboard (CLI + Web) for status command
+9007c5f docs: update planning docs with hybrid dashboard approach
+```
+
+**Dependencies Added:**
+```json
+{
+  "express": "^4.x", // HTTP server
+  "ws": "^8.x",      // WebSocket server
+  "open": "^10.x"    // Auto-open browser
+}
+```
+
+**Why Hybrid Over TUI:**
+1. **TUI Cons Outweigh Benefits:**
+   - Terminal compatibility issues (Linux/Mac/Windows vary)
+   - ADHD concerns (constant visual stimulation overwhelming)
+   - Performance overhead (500KB+ bundle, high CPU)
+   - Maintenance burden (spotty library updates)
+   - Testing complexity (no headless TUI testing)
+
+2. **Hybrid Advantages:**
+   - No breaking changes (CLI still works)
+   - Users choose complexity level
+   - Modern, well-tested web tech
+   - ADHD-friendly (can disable when overwhelming)
+   - Scriptable CLI + rich monitoring coexist
+
+3. **Decision Process:**
+   - Analyzed 4 TUI options (blessed, ink, terminal-kit)
+   - Evaluated 10 alternatives (see TUI-ALTERNATIVES-ANALYSIS.md)
+   - Created decision matrix across 8 criteria
+   - Unanimous recommendation: Hybrid approach
+
+**Usage:**
+```bash
+# Default CLI mode (fast, scriptable)
+flow status
+flow status -v
+
+# Web dashboard mode (rich, interactive)
+flow status --web           # Opens http://localhost:3737
+flow status --web -p 8080   # Custom port
+```
+
+**Impact:**
+- 🎯 Flexible visualization (choose your complexity)
+- 🚀 No breaking changes (backward compatible)
+- 🎨 Modern web dashboard with charts
+- ⚡ Fast CLI for scripts and quick checks
+- 🧠 ADHD-friendly (users control stimulation level)
+- 📚 Clean architecture maintained
+
+**Time:** ~2 hours (planning analysis + implementation)
+
+**What's Next:** Day 9 (optional) - Enhanced CLI with ASCII sparklines and progress bars
+
+────────────────────────────────────────────────
+
+Previous Session (2025-12-23 Afternoon - Clean Architecture Week 1)
 
 ## Phase P6 - Clean Architecture Implementation - Week 1 COMPLETE ✅
 
