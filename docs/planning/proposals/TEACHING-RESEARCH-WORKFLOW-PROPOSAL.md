@@ -486,7 +486,7 @@ tx  → deploy                rl  → literature
 
 ### Related Documents
 
-- [Amendment Options](TEACHING-RESEARCH-AMENDMENT-OPTIONS.md) - Full Option D implementation details
-- [adhd-helpers.zsh](~/.config/zsh/functions/adhd-helpers.zsh) - Source code
+- [Amendment Options](../../implementation/workflow-redesign/TEACHING-RESEARCH-AMENDMENT-OPTIONS.md) - Full Option D implementation details
+- adhd-helpers.zsh (`~/.config/zsh/functions/adhd-helpers.zsh`) - Source code
 
 **Notes:**

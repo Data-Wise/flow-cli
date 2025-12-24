@@ -104,17 +104,15 @@ nav:
       - API Overview: api/API-OVERVIEW.md
       - Project Detector API: api/PROJECT-DETECTOR-API.md
   - Development:
-      - Contributing Guide: CONTRIBUTING.md
+      - Testing Guide: development/TESTING.md
       - Guidelines: ZSH-DEVELOPMENT-GUIDELINES.md
       - Conventions: CONVENTIONS.md
       - Philosophy: PHILOSOPHY.md
   - Planning:
       - Current Work:
-          - Optimization Summary: planning/current/OPTIMIZATION-SUMMARY-2025-12-16.md
-          - Refactor Response Viewer: planning/current/REFACTOR-RESPONSE-VIEWER.md
-          - ZSH Optimization: planning/current/ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md
+          - Multiple Projects Summary: planning/current/MULTIPLE-PROJECTS-SUMMARY.md
+          - Phase P5D Alpha Release: planning/current/PHASE-P5D-ALPHA-RELEASE-PLAN.md
       - Proposals:
-          - Help System Overhaul: planning/proposals/HELP-SYSTEM-OVERHAUL-PROPOSAL.md
           - Universal Project Workflow: planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL.md
           - Teaching & Research Workflow: planning/proposals/TEACHING-RESEARCH-WORKFLOW-PROPOSAL.md
           - Pick Command Next Phase: planning/proposals/PICK-COMMAND-NEXT-PHASE.md

@@ -108,10 +108,10 @@
 
 **Files to validate:**
 
-- `docs/user/WORKFLOW-TUTORIAL.md` ✅ (Updated Dec 21)
-- `docs/user/WORKFLOWS-QUICK-WINS.md` ✅ (Updated Dec 21)
-- `docs/user/ALIAS-REFERENCE-CARD.md`
-- `docs/getting-started/quick-start.md`
+- `../user/WORKFLOW-TUTORIAL.md` ✅ (Updated Dec 21)
+- `../user/WORKFLOWS-QUICK-WINS.md` ✅ (Updated Dec 21)
+- `../user/ALIAS-REFERENCE-CARD.md`
+- `../getting-started/quick-start.md`
 
 ---
 
@@ -398,9 +398,9 @@ git checkout v2.0.0-alpha.1
 ### Documentation
 
 - 📚 [Full Documentation](https://data-wise.github.io/flow-cli)
-- 🚀 [Quick Start Guide](docs/getting-started/quick-start.md)
-- 📖 [Workflow Tutorials](docs/user/WORKFLOWS-QUICK-WINS.md)
-- 🎯 [Alias Reference](docs/user/ALIAS-REFERENCE-CARD.md)
+- 🚀 [Quick Start Guide](../getting-started/quick-start.md)
+- 📖 [Workflow Tutorials](../user/WORKFLOWS-QUICK-WINS.md)
+- 🎯 [Alias Reference](../user/ALIAS-REFERENCE-CARD.md)
 
 ### What's Next (Roadmap)
 
@@ -409,7 +409,7 @@ git checkout v2.0.0-alpha.1
 - Tutorial quality improvements
 - Desktop app resumption (optional)
 
-See [CHANGELOG.md](CHANGELOG.md) for complete details.
+See [CHANGELOG.md](../../CHANGELOG.md) for complete details.
 
 ---
 
@@ -660,9 +660,9 @@ Hour 5:    Phase 4 - GitHub release
 
 **Documentation:**
 
-- `docs/user/WORKFLOW-TUTORIAL.md` - Main tutorial
-- `docs/user/WORKFLOWS-QUICK-WINS.md` - Top 10 workflows
-- `docs/user/ALIAS-REFERENCE-CARD.md` - Alias reference
+- `../user/WORKFLOW-TUTORIAL.md` - Main tutorial
+- `../user/WORKFLOWS-QUICK-WINS.md` - Top 10 workflows
+- `../user/ALIAS-REFERENCE-CARD.md` - Alias reference
 
 **Architecture:**
 
