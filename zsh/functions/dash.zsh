@@ -137,18 +137,18 @@ dash() {
     local -a blocked_projects=()
 
     # Scan all .STATUS files
-    for status_file in $(find "$filter_path" -name ".STATUS" -type f 2>/dev/null | sort); do
+    while IFS= read -r status_file; do
         if [[ ! -f "$status_file" ]]; then
             continue
         fi
 
         local dir=$(dirname "$status_file")
         local name=$(basename "$dir")
-        local proj_status=$(grep -i "^status:" "$status_file" 2>/dev/null | cut -d: -f2- | sed 's/^[[:space:]]*//' | tr '[:upper:]' '[:lower:]')
-        local priority=$(grep -i "^priority:" "$status_file" 2>/dev/null | cut -d: -f2- | sed 's/^[[:space:]]*//')
-        local progress=$(grep -i "^progress:" "$status_file" 2>/dev/null | cut -d: -f2- | sed 's/^[[:space:]]*//')
-        local next=$(grep -i "^next:" "$status_file" 2>/dev/null | cut -d: -f2- | sed 's/^[[:space:]]*//')
-        local project_type=$(grep -i "^type:" "$status_file" 2>/dev/null | cut -d: -f2- | sed 's/^[[:space:]]*//')
+        local proj_status=$(grep -i "^status:" "$status_file" 2>/dev/null | head -1 | cut -d: -f2- | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr '[:upper:]' '[:lower:]')
+        local priority=$(grep -i "^priority:" "$status_file" 2>/dev/null | head -1 | cut -d: -f2- | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+        local progress=$(grep -i "^progress:" "$status_file" 2>/dev/null | head -1 | cut -d: -f2- | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+        local next=$(grep -i "^next:" "$status_file" 2>/dev/null | head -1 | cut -d: -f2- | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+        local project_type=$(grep -i "^type:" "$status_file" 2>/dev/null | head -1 | cut -d: -f2- | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
         # Default values
         [[ -z "$proj_status" ]] && proj_status="unknown"
@@ -172,10 +172,10 @@ dash() {
         local entry="${icon} ${name}|${priority}|${progress}|${next}"
 
         case "$proj_status" in
-            active|working|in*progress)
+            active|working|in*progress|draft|*review*)
                 active_projects+=("$entry")
                 ;;
-            ready|todo|planned)
+            ready|todo|planned|planning)
                 ready_projects+=("$entry")
                 ;;
             paused|hold|waiting)
@@ -184,8 +184,11 @@ dash() {
             blocked)
                 blocked_projects+=("$entry")
                 ;;
+            complete|archive*|done)
+                # Skip completed/archived projects (don't show in dashboard)
+                ;;
         esac
-    done
+    done < <(find "$filter_path" -name ".STATUS" -type f 2>/dev/null | sort)
 
     # Display active projects
     if [[ ${#active_projects[@]} -gt 0 ]]; then
@@ -215,6 +218,7 @@ dash() {
         for project in "${ready_projects[@]}"; do
             local name=$(echo "$project" | cut -d'|' -f1)
             local priority=$(echo "$project" | cut -d'|' -f2)
+            local progress=$(echo "$project" | cut -d'|' -f3)
             local next=$(echo "$project" | cut -d'|' -f4)
 
             local pri_color="$NC"
@@ -224,7 +228,7 @@ dash() {
                 P2) pri_color="$BLUE" ;;
             esac
 
-            echo -e "  ${name} ${pri_color}[$priority]${NC} - $next"
+            echo -e "  ${name} ${pri_color}[$priority]${NC} ${DIM}$progress%${NC} - $next"
         done
         echo ""
     fi
@@ -234,8 +238,11 @@ dash() {
         echo -e "${YELLOW}⏸️  PAUSED${NC} ${DIM}(${#paused_projects[@]})${NC}:"
         for project in "${paused_projects[@]}"; do
             local name=$(echo "$project" | cut -d'|' -f1)
+            local priority=$(echo "$project" | cut -d'|' -f2)
+            local progress=$(echo "$project" | cut -d'|' -f3)
             local next=$(echo "$project" | cut -d'|' -f4)
-            echo -e "  ${name} ${DIM}- $next${NC}"
+
+            echo -e "  ${name} ${DIM}$progress%${NC} - $next"
         done
         echo ""
     fi
@@ -245,8 +252,11 @@ dash() {
         echo -e "${RED}🚫 BLOCKED${NC} ${DIM}(${#blocked_projects[@]})${NC}:"
         for project in "${blocked_projects[@]}"; do
             local name=$(echo "$project" | cut -d'|' -f1)
+            local priority=$(echo "$project" | cut -d'|' -f2)
+            local progress=$(echo "$project" | cut -d'|' -f3)
             local next=$(echo "$project" | cut -d'|' -f4)
-            echo -e "  ${name} ${DIM}- $next${NC}"
+
+            echo -e "  ${name} ${DIM}$progress%${NC} - $next"
         done
         echo ""
     fi
@@ -271,6 +281,8 @@ dash() {
         else
             echo -e "   ${CYAN}dash${NC}               Show all projects"
         fi
+        echo ""
+        echo -e "${DIM}💡 Want live updates? Try: ${CYAN}flow dashboard${DIM} (interactive TUI)${NC}"
         echo ""
     fi
 }

@@ -58,7 +58,7 @@ try {
 function showHelp() {
   console.log(`Usage: flow <command> [options]
 
-Flow CLI - ADHD-optimized workflow management
+Flow CLI - Rich visualizations for ADHD-optimized workflow
 
 Commands:
   status [options]           Show workflow status
@@ -79,6 +79,13 @@ Examples:
   flow dashboard            Launch interactive TUI dashboard
   flow status -v            Show detailed status
   flow help                 Show this help
+
+💡 For instant commands (< 10ms), use native ZSH:
+   work <project>         Start work session
+   finish [message]       Commit and end session
+   dash [category]        Quick project overview
+
+   Flow CLI provides rich visualizations when you need detail.
 
 Documentation:
   https://Data-Wise.github.io/flow-cli/

@@ -65,6 +65,63 @@ See [CLI Installation Guide](docs/guides/CLI-INSTALLATION.md) for detailed instr
 
 ---
 
+## 💡 Two Workflow Systems: Fast vs Rich
+
+This project provides **two complementary command systems** designed for different use cases:
+
+### ⚡ Fast Commands (ZSH Functions - Instant Response)
+
+**Use for daily workflow** - These commands are native ZSH functions with < 10ms response time, optimized for ADHD-friendly context switching:
+
+```bash
+work <project>          # Start work session (instant)
+finish [message]        # Commit and end session (instant)
+dash [category]         # Quick project overview (text-based)
+status <project>        # Update .STATUS file
+```
+
+**When to use:** High-frequency operations where speed matters (starting work, committing changes, quick status checks)
+
+**Location:** `~/.config/zsh/functions/`
+
+### 🎨 Rich Visualizations (Node.js CLI - Enhanced Features)
+
+**Use when you want detail** - The `flow` CLI provides rich visualizations, interactive dashboards, and detailed analytics:
+
+```bash
+flow status             # Beautiful ASCII status with progress bars
+flow status -v          # Verbose mode with productivity metrics
+flow status --web       # Launch web-based dashboard
+flow dashboard          # Interactive real-time TUI dashboard
+```
+
+**When to use:** Reviewing progress, monitoring all projects, detailed analysis, presentations
+
+**Startup time:** ~100ms (Node.js initialization)
+
+### 🔄 Mental Model
+
+```
+ZSH functions = Daily fast workflow (muscle memory)
+flow CLI = Rich views when you want detail (visual feedback)
+```
+
+**Example daily usage:**
+```bash
+# Morning (fast ZSH)
+work flow-cli           # Start session instantly
+
+# Mid-day check (rich Node.js)
+flow dashboard          # Review all projects in TUI
+
+# End of day (fast ZSH)
+finish "Completed docs" # Commit and close session
+```
+
+**Pro tip:** Use ZSH commands for state changes, `flow` commands for viewing/monitoring.
+
+---
+
 ## 📁 Project Structure
 
 ```
