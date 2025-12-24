@@ -96,6 +96,7 @@ nav:
       - dash: commands/dash.md
   - Architecture:
       - Overview: architecture/README.md
+      - Architecture Diagrams: architecture/ARCHITECTURE-DIAGRAM.md
       - Quick Reference: architecture/QUICK-REFERENCE.md
       - Quick Wins: architecture/ARCHITECTURE-QUICK-WINS.md
       - Patterns Analysis: architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md
@@ -104,6 +105,8 @@ nav:
       - Vendor Integration: architecture/VENDOR-INTEGRATION-ARCHITECTURE.md
   - API Documentation:
       - API Overview: api/API-OVERVIEW.md
+      - Complete API Reference: api/API-REFERENCE.md
+      - Interactive Examples: api/INTERACTIVE-EXAMPLES.md
       - Project Detector API: api/PROJECT-DETECTOR-API.md
   - Development:
       - Testing Guide: testing/TESTING.md
