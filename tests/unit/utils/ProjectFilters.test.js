@@ -207,8 +207,8 @@ describe('ProjectFilters', () => {
   })
 
   describe('composite()', () => {
-    test('combines multiple filters', () => {
-      const result = filters.composite(projects, {
+    test('combines multiple filters', async () => {
+      const result = await filters.composite(projects, {
         types: ['node'],
         recentHours: 24,
         minSessions: 1
@@ -216,8 +216,8 @@ describe('ProjectFilters', () => {
       expect(result).toHaveLength(2) // p1, p4
     })
 
-    test('handles all filter types', () => {
-      const result = filters.composite(projects, {
+    test('handles all filter types', async () => {
+      const result = await filters.composite(projects, {
         types: ['node', 'quarto'],
         tags: ['documentation'],
         recentHours: 24,
@@ -226,8 +226,8 @@ describe('ProjectFilters', () => {
       expect(result).toHaveLength(1) // Only p3
     })
 
-    test('returns empty for impossible criteria', () => {
-      const result = filters.composite(projects, {
+    test('returns empty for impossible criteria', async () => {
+      const result = await filters.composite(projects, {
         types: ['nonexistent'],
         minSessions: 100
       })

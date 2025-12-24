@@ -31,7 +31,11 @@ export class ScanProjectsUseCase {
    * @param {string} input.rootPath - Root directory to scan
    * @param {boolean} [input.updateExisting=true] - Update existing projects
    * @param {boolean} [input.removeStale=false] - Remove projects not found in scan
-   * @returns {Promise<{discovered: Project[], updated: Project[], removed: string[]}>}
+   * @param {boolean} [input.useCache=true] - Use cached scan results if available
+   * @param {boolean} [input.forceRefresh=false] - Force refresh (bypass cache)
+   * @param {Function} [input.progressCallback] - Progress callback for scan
+   * @param {Object} [input.filters] - Optional filters to apply (ProjectFilters criteria)
+   * @returns {Promise<{discovered: Project[], updated: Project[], removed: string[], cacheStats: Object}>}
    */
   async execute(input) {
     // Validate input
@@ -40,15 +44,29 @@ export class ScanProjectsUseCase {
     const rootPath = input.rootPath
     const updateExisting = input.updateExisting !== false
     const removeStale = input.removeStale === true
+    const useCache = input.useCache !== false
+    const forceRefresh = input.forceRefresh === true
 
-    // Scan filesystem (repository adapter handles the actual scanning)
-    const scannedProjects = await this.projectRepository.scan(rootPath)
+    // Scan filesystem with caching support
+    const scannedProjects = await this.projectRepository.scan(rootPath, {
+      useCache,
+      forceRefresh,
+      progressCallback: input.progressCallback
+    })
+
+    // Apply filters if provided
+    let filteredProjects = scannedProjects
+    if (input.filters) {
+      const { ProjectFilters } = await import('../utils/ProjectFilters.js')
+      const filters = new ProjectFilters()
+      filteredProjects = await filters.composite(scannedProjects, input.filters)
+    }
 
     const discovered = []
     const updated = []
 
     // Process each scanned project
-    for (const scannedProject of scannedProjects) {
+    for (const scannedProject of filteredProjects) {
       const existingProject = await this.projectRepository.findById(scannedProject.id)
 
       if (existingProject) {
@@ -79,7 +97,7 @@ export class ScanProjectsUseCase {
     const removed = []
     if (removeStale) {
       const allProjects = await this.projectRepository.findAll()
-      const scannedIds = new Set(scannedProjects.map(p => p.id))
+      const scannedIds = new Set(filteredProjects.map(p => p.id))
 
       for (const project of allProjects) {
         if (!scannedIds.has(project.id)) {
@@ -89,10 +107,16 @@ export class ScanProjectsUseCase {
       }
     }
 
+    // Get cache statistics
+    const cacheStats = this.projectRepository.getCacheStats
+      ? this.projectRepository.getCacheStats()
+      : null
+
     return {
       discovered,
       updated,
-      removed
+      removed,
+      cacheStats
     }
   }
 
