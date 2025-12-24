@@ -16,9 +16,9 @@ describe('FileSystemSessionRepository Integration', () => {
   let testFile
 
   beforeEach(async () => {
-    // Create temp directory for each test with random component to avoid collisions
-    const random = Math.random().toString(36).substring(2, 15)
-    testDir = join(tmpdir(), `flow-cli-test-${Date.now()}-${random}`)
+    // Create temp directory for each test with PID + timestamp + random to avoid collisions
+    const uniqueId = `${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+    testDir = join(tmpdir(), `flow-cli-test-${uniqueId}`)
     await fs.mkdir(testDir, { recursive: true })
     testFile = join(testDir, 'sessions.json')
 

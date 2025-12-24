@@ -18,8 +18,9 @@ describe('Scanning Performance Benchmark', () => {
   let largeProjectsDir
 
   beforeAll(async () => {
-    // Create temp directory
-    tempDir = join(os.tmpdir(), `flow-cli-bench-${Date.now()}`)
+    // Create temp directory with PID + timestamp + random for uniqueness
+    const uniqueId = `${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+    tempDir = join(os.tmpdir(), `flow-cli-bench-${uniqueId}`)
     await fs.mkdir(tempDir, { recursive: true })
 
     projectsFile = join(tempDir, 'projects.json')

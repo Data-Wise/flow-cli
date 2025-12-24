@@ -16,7 +16,9 @@ describe('Parallel Scanning with Caching (Integration)', () => {
 
   beforeEach(async () => {
     // Create temp directory for test projects
-    tempDir = join(os.tmpdir(), `flow-cli-test-${Date.now()}`)
+    // Use PID + timestamp + random to ensure uniqueness in parallel execution
+    const uniqueId = `${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+    tempDir = join(os.tmpdir(), `flow-cli-test-${uniqueId}`)
     await fs.mkdir(tempDir, { recursive: true })
 
     // Create temp file for projects.json
