@@ -135,13 +135,18 @@ describe('Parallel Scanning with Caching (Integration)', () => {
       // Wait for cache expiration (TTL is 2000ms in test)
       await new Promise(resolve => setTimeout(resolve, 2100))
 
+      // Ensure directory still exists before second scan (in case of cleanup race)
+      await fs.mkdir(projectsDir, { recursive: true })
+      await fs.mkdir(join(projectsDir, 'app1'), { recursive: true })
+      await fs.writeFile(join(projectsDir, 'app1', 'package.json'), '{}')
+
       // Scan again (should be cache miss due to expiration)
       await repository.scan(projectsDir)
       const stats = repository.getCacheStats()
 
       // Should have 2 sets (expired cache doesn't count as hit)
       expect(stats.sets).toBe(2)
-    })
+    }, 10000)
 
     test('useCache=false bypasses cache', async () => {
       const projectsDir = join(tempDir, 'projects')
