@@ -2,9 +2,15 @@
 
 > **Quick Access:** Type `als` to list all aliases by category
 
-**Last Updated:** 2025-12-19 | **Total:** 28 custom aliases + 226+ git aliases (from plugin)
+**Last Updated:** 2025-12-24 | **Total:** 28 custom aliases + 226+ git aliases (from plugin)
 
 **Philosophy:** Minimalist, high-frequency only. Removed 151 aliases (2025-12-19) to reduce memory load.
+
+> **✨ New in v2.0.0-beta.1 (2025-12-24):**
+>
+> - Enhanced `flow status` command with ASCII visualizations and productivity metrics
+> - Interactive `flow dashboard` TUI with real-time updates
+> - 10x faster project scanning with caching
 
 ---
 

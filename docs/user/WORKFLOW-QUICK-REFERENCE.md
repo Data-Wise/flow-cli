@@ -1,8 +1,14 @@
 # Workflow Quick Reference
 
-**Date:** 2025-12-14 (Updated 2025-12-19)
-**Version:** 2.0 - Minimalist Workflow Design
+**Date:** 2025-12-14 (Updated 2025-12-24)
+**Version:** 2.1 - Week 2 CLI Enhancements Complete
 
+> **✨ New Features (2025-12-24):**
+>
+> - `flow status` - Enhanced with ASCII visualizations, worklog integration, productivity metrics
+> - `flow dashboard` - Interactive real-time TUI with keyboard shortcuts (r=refresh, q=quit, ?=help)
+> - 10x faster project scanning with in-memory caching (~3ms → <1ms)
+>
 > **⚠️ Alias Update (2025-12-19):** Many shortcuts mentioned below were removed. See `ALIAS-REFERENCE-CARD.md` for current aliases (28 total). Use full command names where aliases were removed.
 
 ---

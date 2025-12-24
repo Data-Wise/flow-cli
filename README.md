@@ -6,10 +6,10 @@ A streamlined system for managing development workflows. Features 28 essential a
 
 **Recent updates:**
 
-- **2025-12-23:** Hybrid Dashboard (CLI + Web) - Express server, WebSocket, Chart.js visualizations
+- **2025-12-24:** **Phase P6 Complete** - Week 2 CLI Enhancements (559 tests, 10x faster scanning, interactive TUI)
+- **2025-12-24:** Documentation deployed to GitHub Pages - 63+ pages with 4 ADHD-friendly tutorials
 - **2025-12-23:** Clean Architecture Foundation - Week 1 complete (265 tests, 19 files, 3-layer architecture)
-- **2025-12-21:** Architecture Documentation Sprint - 7,629 lines of comprehensive architecture docs, site deployed
-- **2025-12-19:** Alias cleanup - Reduced from 179 to 28 custom aliases (84% reduction)
+- **2025-12-21:** Architecture Documentation Sprint - 7,629 lines of comprehensive architecture docs
 
 ---
 
@@ -27,13 +27,9 @@ npm run install:cli
 ```bash
 flow --version
 flow help
-flow status
-```
-
-**Web Dashboard:**
-
-```bash
-flow status --web    # Opens browser with real-time dashboard
+flow status          # Beautiful ASCII status with progress bars
+flow status -v       # Verbose mode with productivity metrics
+flow dashboard       # Interactive real-time TUI dashboard
 ```
 
 See [INSTALL.md](INSTALL.md) for detailed instructions and troubleshooting.
@@ -44,9 +40,10 @@ See [INSTALL.md](INSTALL.md) for detailed instructions and troubleshooting.
 
 ### For CLI Users
 
+**Start here:** [Tutorial: Your First Session](docs/tutorials/01-first-session.md)
 **Read this first:** `docs/user/WORKFLOWS-QUICK-WINS.md`
+**Command reference:** [flow status](docs/commands/status.md) | [flow dashboard](docs/commands/dashboard.md)
 **Look up aliases:** `docs/user/ALIAS-REFERENCE-CARD.md`
-**Daily health check:** `docs/user/WORKSPACE-AUDIT-GUIDE.md`
 
 ### For Contributors
 
@@ -273,11 +270,13 @@ See `docs/reference/SYNC-SETUP.md` for setup details.
 - ✅ **CLI integration layer** (Node.js adapters for ZSH functions)
 - ✅ **Documentation site** (63 pages deployed to GitHub Pages)
 
-### Future Enhancements (P6)
+### Phase P6: CLI Enhancements (Complete ✅)
 
-- 🔄 **Enhanced status command** (real-time worklog integration)
-- 🔄 **Interactive TUI** (terminal dashboard)
-- 🔄 **Web dashboard** (optional browser interface)
+- ✅ **Enhanced status command** - ASCII visualizations, worklog integration, productivity metrics
+- ✅ **Interactive TUI dashboard** - Real-time terminal UI with blessed/blessed-contrib
+- ✅ **Advanced project scanning** - In-memory caching, 10x+ performance boost (~3ms → <1ms)
+- ✅ **Comprehensive testing** - 559 tests (100% pass rate), no flakes
+- ✅ **4 ADHD-friendly tutorials** - Step-by-step guides (4,562 lines)
 
 ### Archived Projects
 
@@ -384,6 +383,6 @@ MIT
 
 ---
 
-**Last Updated:** 2025-12-16
-**Status:** 🟢 CLI Operational | 🟡 App Development In Progress
-**Current Phase:** P5A - Project Reorganization Complete
+**Last Updated:** 2025-12-24
+**Status:** 🟢 Production Ready | 📚 Documentation Deployed | 🧪 559 Tests Passing
+**Current Phase:** Production Use Phase - Gathering feedback from real usage
