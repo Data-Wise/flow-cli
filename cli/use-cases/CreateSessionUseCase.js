@@ -44,12 +44,13 @@ export class CreateSessionUseCase {
     if (activeSession) {
       throw new Error(
         `Cannot create session: Active session exists for project "${activeSession.project}". ` +
-        `End the current session first or use pause/resume.`
+          `End the current session first or use pause/resume.`
       )
     }
 
-    // Generate unique ID (timestamp-based for now, can be UUID later)
-    const sessionId = `session-${Date.now()}`
+    // Generate unique ID with timestamp + random component to avoid collisions
+    const random = Math.random().toString(36).substring(2, 15)
+    const sessionId = `session-${Date.now()}-${random}`
 
     // Create Session entity (domain layer handles validation)
     const session = new Session(sessionId, input.project, {

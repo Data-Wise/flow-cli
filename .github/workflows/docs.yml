@@ -1,0 +1,46 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Deploy docs to GitHub Pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+
+      - name: Install MkDocs and dependencies
+        run: |
+          pip install mkdocs
+          pip install mkdocs-material
+          pip install mkdocs-mermaid2-plugin
+
+      - name: Build and deploy docs
+        run: mkdocs gh-deploy --force --clean --verbose
+
+      - name: Summary
+        run: |
+          echo "📚 Documentation deployed successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "View at: https://data-wise.github.io/flow-cli/" >> $GITHUB_STEP_SUMMARY
