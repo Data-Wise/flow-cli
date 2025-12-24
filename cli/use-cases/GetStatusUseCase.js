@@ -17,10 +17,12 @@ export class GetStatusUseCase {
   /**
    * @param {ISessionRepository} sessionRepository
    * @param {IProjectRepository} projectRepository
+   * @param {GitGateway} [gitGateway] - Optional git gateway for git status
    */
-  constructor(sessionRepository, projectRepository) {
+  constructor(sessionRepository, projectRepository, gitGateway = null) {
     this.sessionRepository = sessionRepository
     this.projectRepository = projectRepository
+    this.gitGateway = gitGateway
   }
 
   /**
@@ -39,6 +41,12 @@ export class GetStatusUseCase {
 
     // Get active session
     const activeSession = await this.sessionRepository.findActive()
+
+    // Get git status for active session project if git gateway is available
+    let gitStatus = null
+    if (activeSession && this.gitGateway && activeSession.context?.cwd) {
+      gitStatus = await this.gitGateway.getStatus(activeSession.context.cwd)
+    }
 
     // Get recent sessions if requested
     let recentSessions = []
@@ -85,7 +93,8 @@ export class GetStatusUseCase {
         isFlowState: activeSession.isInFlowState(),
         state: activeSession.state.value,
         startTime: activeSession.startTime,
-        context: activeSession.context
+        context: activeSession.context,
+        gitStatus
       } : null,
 
       today: {

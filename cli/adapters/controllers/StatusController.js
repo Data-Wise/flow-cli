@@ -5,18 +5,20 @@
  * Uses GetStatusUseCase to retrieve comprehensive workflow status.
  *
  * Features:
- * - Active session display
+ * - Active session display with color-coded output
  * - Today's session summary
  * - Recent session history
  * - Project statistics
  * - Productivity metrics
  * - Worklog integration
+ * - Box drawing characters for visual structure
  */
 
 import { homedir } from 'os'
 import { join } from 'path'
 import { readFile } from 'fs/promises'
 import { existsSync } from 'fs'
+import chalk from 'chalk'
 
 export class StatusController {
   /**
@@ -99,44 +101,85 @@ export class StatusController {
    * Display active session information
    */
   displayActiveSession(session, verbose) {
-    console.log('✅ Active Session')
-    console.log(`   Project: ${session.project}`)
-    console.log(`   Task: ${session.task || 'No task specified'}`)
-    console.log(`   Duration: ${session.duration} min${session.isFlowState ? ' 🔥 IN FLOW' : ''}`)
+    // Box drawing with color
+    console.log(chalk.green('╭─────────────────────────────────────────────────────────╮'))
+    console.log(chalk.green('│') + chalk.green.bold(' ✅ ACTIVE SESSION                                       ') + chalk.green('│'))
+    console.log(chalk.green('├─────────────────────────────────────────────────────────┤'))
+
+    // Project and task
+    const projectLine = `│ Project: ${chalk.cyan(session.project)}`.padEnd(72 - session.project.length, ' ') + '│'
+    console.log(projectLine)
+
+    const taskText = session.task || 'No task specified'
+    const taskLine = `│ Task: ${chalk.yellow(taskText)}`.padEnd(72 - taskText.length, ' ') + '│'
+    console.log(taskLine)
+
+    // Duration with flow state
+    const flowIndicator = session.isFlowState ? chalk.red.bold(' 🔥 IN FLOW') : ''
+    const durationText = `${session.duration} min${flowIndicator}`
+    console.log(`│ Duration: ${durationText}`.padEnd(66, ' ') + '│')
 
     if (verbose) {
-      console.log(`   Branch: ${session.branch || 'unknown'}`)
-      console.log(`   Started: ${this.formatTime(session.startTime)}`)
+      console.log(chalk.green('├─────────────────────────────────────────────────────────┤'))
+      console.log(`│ Branch: ${chalk.magenta(session.branch || 'unknown')}`.padEnd(66, ' ') + '│')
+      console.log(`│ Started: ${chalk.white(this.formatTime(session.startTime))}`.padEnd(66, ' ') + '│')
+
+      // Git status if available
+      if (session.gitStatus) {
+        const { dirty, uncommittedFiles, ahead, behind } = session.gitStatus
+
+        if (dirty || ahead > 0 || behind > 0) {
+          console.log(chalk.green('├─────────────────────────────────────────────────────────┤'))
+          console.log(chalk.green('│') + chalk.yellow.bold(' 📎 Git Status                                           ') + chalk.green('│'))
+
+          if (uncommittedFiles.length > 0) {
+            const filesText = `${uncommittedFiles.length} uncommitted file${uncommittedFiles.length > 1 ? 's' : ''}`
+            console.log(`│   ${chalk.yellow(filesText)}`.padEnd(66, ' ') + '│')
+          }
+
+          if (ahead > 0) {
+            console.log(`│   ${chalk.green(`↑ ${ahead} commit${ahead > 1 ? 's' : ''} ahead`)}`.padEnd(66, ' ') + '│')
+          }
+
+          if (behind > 0) {
+            console.log(`│   ${chalk.red(`↓ ${behind} commit${behind > 1 ? 's' : ''} behind`)}`.padEnd(66, ' ') + '│')
+          }
+        }
+      }
 
       if (session.context && Object.keys(session.context).length > 0) {
-        console.log('\n   📝 Context:')
+        console.log(chalk.green('├─────────────────────────────────────────────────────────┤'))
+        console.log(chalk.green('│') + chalk.blue.bold(' 📝 Context                                              ') + chalk.green('│'))
         for (const [key, value] of Object.entries(session.context)) {
-          console.log(`      ${key}: ${value}`)
+          const contextLine = `│   ${chalk.gray(key)}: ${value}`.padEnd(66, ' ') + '│'
+          console.log(contextLine)
         }
       }
     }
+
+    console.log(chalk.green('╰─────────────────────────────────────────────────────────╯'))
   }
 
   /**
    * Display no active session message
    */
   displayNoActiveSession() {
-    console.log('❌ No active session')
-    console.log('\n💡 Start a session with:')
-    console.log('   flow work <project> [task]')
+    console.log(chalk.red('❌ No active session'))
+    console.log(chalk.gray('\n💡 Start a session with:'))
+    console.log(chalk.cyan('   flow work <project> [task]'))
   }
 
   /**
    * Display today's summary
    */
   displayTodaySummary(today, verbose) {
-    console.log('📊 Today')
-    console.log(`   Sessions: ${today.sessions}`)
-    console.log(`   Duration: ${this.formatDuration(today.totalDuration)}`)
-    console.log(`   Completed: ${today.completedSessions}/${today.sessions}`)
+    console.log(chalk.blue.bold('📊 Today'))
+    console.log(`   Sessions: ${chalk.white(today.sessions)}`)
+    console.log(`   Duration: ${chalk.white(this.formatDuration(today.totalDuration))}`)
+    console.log(`   Completed: ${chalk.green(today.completedSessions)}/${today.sessions}`)
 
     if (verbose && today.flowSessions !== undefined) {
-      console.log(`   Flow sessions: ${today.flowSessions}`)
+      console.log(`   Flow sessions: ${chalk.red(today.flowSessions)}`)
     }
   }
 
@@ -144,31 +187,33 @@ export class StatusController {
    * Display productivity metrics
    */
   displayProductivityMetrics(metrics) {
-    console.log('📈 Productivity Metrics')
-    console.log(`   Flow %: ${metrics.flowPercentage}%`)
-    console.log(`   Completion rate: ${metrics.completionRate}%`)
-    console.log(`   Current streak: ${metrics.streak} days`)
+    console.log(chalk.magenta.bold('📈 Productivity Metrics'))
+    console.log(`   Flow %: ${chalk.red(metrics.flowPercentage + '%')}`)
+    console.log(`   Completion rate: ${chalk.green(metrics.completionRate + '%')}`)
+    console.log(`   Current streak: ${chalk.yellow(metrics.streak)} days`)
 
     const trendIcon = metrics.trend === 'up' ? '📈' :
                       metrics.trend === 'down' ? '📉' : '➡️'
-    console.log(`   Trend: ${trendIcon} ${metrics.trend}`)
+    const trendColor = metrics.trend === 'up' ? chalk.green :
+                       metrics.trend === 'down' ? chalk.red : chalk.gray
+    console.log(`   Trend: ${trendIcon} ${trendColor(metrics.trend)}`)
   }
 
   /**
    * Display recent sessions
    */
   displayRecentSessions(recent, verbose) {
-    console.log(`📜 Recent Sessions (last ${recent.period} days)`)
-    console.log(`   Total: ${recent.sessions}`)
-    console.log(`   Duration: ${this.formatDuration(recent.totalDuration)}`)
-    console.log(`   Average: ${this.formatDuration(recent.averageDuration)}`)
+    console.log(chalk.cyan.bold(`📜 Recent Sessions (last ${recent.period} days)`))
+    console.log(`   Total: ${chalk.white(recent.sessions)}`)
+    console.log(`   Duration: ${chalk.white(this.formatDuration(recent.totalDuration))}`)
+    console.log(`   Average: ${chalk.white(this.formatDuration(recent.averageDuration))}`)
 
     if (verbose && recent.recentSessions) {
-      console.log('\n   Last 3 sessions:')
+      console.log(chalk.gray('\n   Last 3 sessions:'))
       for (const session of recent.recentSessions.slice(0, 3)) {
-        const icon = session.outcome === 'completed' ? '✓' :
-                    session.outcome === 'cancelled' ? '✗' : '?'
-        console.log(`   ${icon} ${session.project} (${session.duration}m) - ${this.relativeTime(session.endTime)}`)
+        const icon = session.outcome === 'completed' ? chalk.green('✓') :
+                    session.outcome === 'cancelled' ? chalk.red('✗') : chalk.gray('?')
+        console.log(`   ${icon} ${chalk.cyan(session.project)} (${session.duration}m) - ${chalk.gray(this.relativeTime(session.endTime))}`)
       }
     }
   }
@@ -177,14 +222,14 @@ export class StatusController {
    * Display project statistics
    */
   displayProjectStats(projects) {
-    console.log('📁 Projects')
-    console.log(`   Total: ${projects.total}`)
-    console.log(`   Recent: ${projects.recentCount || 0}`)
+    console.log(chalk.yellow.bold('📁 Projects'))
+    console.log(`   Total: ${chalk.white(projects.total)}`)
+    console.log(`   Recent: ${chalk.white(projects.recentCount || 0)}`)
 
     if (projects.topProjects && projects.topProjects.length > 0) {
-      console.log('\n   Top projects:')
+      console.log(chalk.gray('\n   Top projects:'))
       for (const project of projects.topProjects.slice(0, 3)) {
-        console.log(`   • ${project.name} (${this.formatDuration(project.totalDuration)})`)
+        console.log(`   • ${chalk.cyan(project.name)} (${chalk.white(this.formatDuration(project.totalDuration))})`)
       }
     }
   }
@@ -193,10 +238,10 @@ export class StatusController {
    * Display worklog entries
    */
   displayWorklog(entries) {
-    console.log('📝 Recent Worklog')
+    console.log(chalk.blue.bold('📝 Recent Worklog'))
     for (const entry of entries) {
       const time = entry.timestamp ? this.formatTime(entry.timestamp) : 'unknown'
-      console.log(`   ${time} - ${entry.action}: ${entry.details || ''}`)
+      console.log(`   ${chalk.gray(time)} - ${chalk.yellow(entry.action)}: ${chalk.white(entry.details || '')}`)
     }
   }
 
@@ -204,11 +249,11 @@ export class StatusController {
    * Display quick actions menu
    */
   displayQuickActions() {
-    console.log('⚡ Quick Actions')
-    console.log('   [f] flow finish     - End session')
-    console.log('   [p] flow pause      - Pause session')
-    console.log('   [s] flow switch     - Switch project')
-    console.log('   [t] flow task       - Add task')
+    console.log(chalk.green.bold('⚡ Quick Actions'))
+    console.log(`   ${chalk.cyan('[f]')} flow finish     - ${chalk.gray('End session')}`)
+    console.log(`   ${chalk.cyan('[p]')} flow pause      - ${chalk.gray('Pause session')}`)
+    console.log(`   ${chalk.cyan('[s]')} flow switch     - ${chalk.gray('Switch project')}`)
+    console.log(`   ${chalk.cyan('[t]')} flow task       - ${chalk.gray('Add task')}`)
   }
 
   /**
