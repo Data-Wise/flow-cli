@@ -153,30 +153,25 @@
 
 ### 🔧 Medium Effort (1-3hrs each)
 
-6. **Implement docs/active/ folder for current-phase work**
-   - Merge planning/current + implementation
+6. ✅ **Implement docs/active/ folder for current-phase work** - COMPLETED
+   - Merged planning/current + implementation → docs/active/
    - Clear separation of active vs. archive
-   - Easy to find what's being worked on now
 
-7. **Split docs/user/ into docs/guides/ and docs/reference/**
-   - guides/ = tutorials (WORKFLOW-TUTORIAL.md, etc.)
+7. ✅ **Split docs/user/ into docs/guides/ and docs/reference/** - COMPLETED
+   - guides/ = tutorials and workflows
    - reference/ = command refs, alias cards
-   - Better discoverability
 
-8. **Create docs/decisions/ (ADR-style)**
-   - Move architectural choices from docs/architecture/
-   - Separate decisions from implementation docs
+8. ✅ **Create docs/decisions/ (ADR-style)** - COMPLETED
+   - Moved from docs/architecture/decisions/
    - Track "why" not just "what"
 
-9. **Consolidate all testing docs**
-   - Merge docs/testing/ + tests/README → single comprehensive guide
-   - One source of truth for testing
-   - Easier to maintain
+9. ✅ **Consolidate all testing docs** - COMPLETED
+   - Archived phase-specific test results
+   - Single comprehensive TESTING.md guide
 
-10. **Move standards/ to docs/standards/**
-    - Everything documentation-related in one tree
-    - Simpler mental model
-    - Easier navigation
+10. ✅ **Move standards/ to docs/standards/** - COMPLETED
+    - Everything documentation-related in docs/ tree
+    - Simpler navigation
 
 ### 🚀 Big Ideas (1+ days)
 
