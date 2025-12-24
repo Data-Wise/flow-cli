@@ -112,6 +112,8 @@ nav:
       - Project Detector API: api/PROJECT-DETECTOR-API.md
   - Development:
       - Testing Guide: testing/TESTING.md
+      - PR Workflow Guide: contributing/PR-WORKFLOW-GUIDE.md
+      - ADR Process Guide: contributing/ADR-PROCESS-GUIDE.md
       - Guidelines: ZSH-DEVELOPMENT-GUIDELINES.md
       - Conventions: CONVENTIONS.md
       - Philosophy: PHILOSOPHY.md
