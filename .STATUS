@@ -11,13 +11,13 @@ type: dev
 ~/projects/dev-tools/flow-cli/
 
 ⏰ LAST UPDATED
-2025-12-24 (Session: User-Facing Documentation + Planning Updates)
+2025-12-24 (Session: Folder Organization + Production Use Phase Kickoff)
 
 ────────────────────────────────────────────────
 
 🎯 CURRENT STATUS
-✅ Phase P6 - COMPLETE + All Documentation Synced (Dec 24) 🎉🏆✨
-Production Ready with complete documentation deployment. All user-facing docs, planning docs, and control files updated with Week 2 features.
+🟢 Production Use Phase - ACTIVE (Started Dec 24) 📊🔍
+System is production-ready (P6 complete, 559 tests passing). Now validating with real daily usage to identify genuine needs before building more features.
 
 **Production Ready:**
 - 559 tests passing (100% pass rate)
@@ -51,7 +51,41 @@ Phase P6: CLI Enhancements █████████████████�
 
 ────────────────────────────────────────────────
 
-✅ JUST COMPLETED (Session: 2025-12-24 - User-Facing Documentation + Planning Updates)
+✅ JUST COMPLETED (Session: 2025-12-24 - Folder Organization + Production Use Phase Kickoff)
+
+## Folder Organization + Production Use Phase ✅
+
+**Achievement:** Cleaned up project structure and launched production use phase
+
+**Timeline:** Dec 24, 2025 (Post-P6 cleanup and transition)
+
+**What Was Completed:**
+
+**1. Folder Organization (Quick Wins):**
+- ✅ Deleted redundant site/ directory (21MB of MkDocs build output)
+- ✅ Verified MkDocs rebuild works correctly (site/ regenerates as needed)
+- ✅ Flattened docs/archive/ structure (39 files, dated filenames)
+  - Consolidated 2025-12-14-refactoring/ → 2025-12-14-refactoring-*.md
+  - Consolidated 2025-12-20-app-removal/ → 2025-12-20-app-removal-*.md
+  - Consolidated 2025-12-23-planning-consolidation/ → 2025-12-23-planning-*.md
+  - Flattened decisions/, sessions/, planning-brainstorms-2025-12/
+  - Removed empty subdirectories (kept archived app code intact)
+- Result: Easier to browse historical docs, cleaner repository structure
+
+**2. Production Use Phase Kickoff:**
+- ✅ Created PRODUCTION-USE-PHASE.md (comprehensive guide)
+- ✅ Created docs/ideas/FRICTION-LOG.md (template for tracking issues)
+- ✅ Updated .STATUS to reflect production use phase
+- ✅ Established 1-2 week validation period
+- ✅ Set up friction tracking system (impact/frequency rating)
+
+**Impact:**
+- 🗂️ **Cleaner structure** - Easier to find archived docs
+- 📊 **Validation framework** - Systematic way to gather feedback
+- 🎯 **Feature creep prevention** - Only build what's genuinely needed
+- 📝 **Friction tracking** - Evidence-based decision making
+
+**Previous Session (Earlier Today):**
 
 ## User-Facing Documentation + Planning Updates ✅
 
@@ -181,21 +215,30 @@ Phase P6: CLI Enhancements █████████████████�
 
 📋 NEXT ACTIONS
 
-**All Immediate Tasks Complete!** ✅
+**🟢 Production Use Phase - ACTIVE**
 
-A) ✅ **CHANGELOG.md updated** - v2.0.0-beta.1 documented
-B) ✅ **GitHub Release created** - Published as pre-release
-C) ✅ **Documentation deployed** - Live at https://Data-Wise.github.io/flow-cli/
+**Current Focus:** Use flow-cli daily for 1-2 weeks to validate features
 
-**Recommended Next Step:**
+A) **Daily Usage (Required):**
+   - [ ] Use `flow status` each morning
+   - [ ] Try `flow dashboard` during focus sessions
+   - [ ] Work naturally with flow-cli in projects
+   - [ ] Document friction in docs/ideas/FRICTION-LOG.md
 
-🎯 **Start Production Use Phase** (1-2 weeks)
-   - Use flow-cli commands in actual daily workflow
-   - Track friction points and pain points
-   - Document feature requests from real usage
-   - Only add Week 3 features if genuine needs emerge
+B) **Weekly Check-ins:**
+   - [ ] Day 3 (Dec 27): Review friction log for patterns
+   - [ ] Day 7 (Dec 31): Evaluate if system helps or hinders
+   - [ ] Day 10 (Jan 3): Verify 5+ friction entries logged
+   - [ ] Day 14 (Jan 7): Make go/no-go decision on Week 3 features
 
-**Why:** All planned features complete (P0-P6), 559 tests passing, documentation comprehensive.
+C) **After 2 Weeks:**
+   - Analyze friction log (frequency × impact)
+   - Prioritize fixes vs. features
+   - Only implement what solves real problems
+   - Consider v1.0.0 stable if system works well
+
+**Why Production Use Phase:**
+All planned features complete (P0-P6), 559 tests passing, docs comprehensive.
 Real usage reveals real needs - prevents feature creep and ensures every feature adds genuine value.
 
 **Future (Optional - Only if Real Need Emerges):**

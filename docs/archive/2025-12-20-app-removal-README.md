@@ -28,6 +28,7 @@ Decision: Focus on fully-functional CLI development instead.
 ## Code Quality
 
 The archived code is **production-ready**:
+
 - ✅ Secure architecture (context isolation, preload script)
 - ✅ ADHD-optimized UI (careful color/spacing choices)
 - ✅ Beautiful dark theme with dopamine-friendly accents
@@ -50,6 +51,7 @@ See **APP-SETUP-STATUS-2025-12-20.md** for full details and troubleshooting docu
 ### For Tauri
 
 The renderer code (HTML/CSS/JS) can be reused almost as-is:
+
 - `src/renderer/index.html` - UI structure
 - `src/renderer/styles.css` - ADHD-optimized styling
 - `src/renderer/renderer.js` - Frontend logic
@@ -59,6 +61,7 @@ Only the main process would need to be rewritten in Rust.
 ### For Web Dashboard
 
 The entire renderer can be used directly:
+
 ```bash
 cd app/src/renderer
 python3 -m http.server 8000
@@ -66,6 +69,7 @@ python3 -m http.server 8000
 ```
 
 Just need to:
+
 1. Add REST API endpoints for CLI data
 2. Replace `window.electronAPI` calls with `fetch()`
 3. Add WebSocket for live updates

@@ -5,6 +5,7 @@ A desktop application for managing and monitoring ADHD-optimized ZSH workflows.
 ## Architecture
 
 This is an Electron-based desktop application that provides a graphical interface for:
+
 - Monitoring workflow status
 - Managing sessions (work/teaching/research)
 - Viewing alias/function reference
@@ -49,16 +50,19 @@ The app communicates with the ZSH CLI tools through the `/cli` integration layer
 ## Key Features (Planned)
 
 ### Phase 1: Core UI
+
 - [ ] Dashboard view (session status, quota, recent commands)
 - [ ] Alias reference viewer
 - [ ] Session management (start/end work sessions)
 
 ### Phase 2: Advanced Features
+
 - [ ] Workflow automation
 - [ ] Project switcher
 - [ ] Command palette (fuzzy search aliases)
 
 ### Phase 3: ADHD Optimizations
+
 - [ ] Focus mode integration
 - [ ] Dopamine tracking (wins/celebrations)
 - [ ] Context-aware suggestions

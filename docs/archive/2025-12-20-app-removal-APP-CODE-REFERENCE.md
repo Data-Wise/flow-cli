@@ -39,18 +39,22 @@ app/
 ### Main Process (`src/main/`)
 
 #### `index.js` (Entry Point)
+
 **Purpose:** Simple entry point that loads the main application logic
 **Lines:** 2
 **Code:**
+
 ```javascript
 // Main entry point for Electron app
-require('./main.js');
+require('./main.js')
 ```
 
 #### `main.js` (Core Backend)
+
 **Purpose:** Manages Electron app lifecycle and window creation
 **Lines:** 56
 **Key Features:**
+
 - Creates 1200x800 window with dark theme background
 - Loads renderer HTML
 - Opens DevTools in `--dev` mode
@@ -58,12 +62,14 @@ require('./main.js');
 - Configures security (context isolation, no node integration)
 
 **Window Configuration:**
+
 - Size: 1200x800 (min 800x600)
 - Background: `#1e1e2e` (dark theme)
 - Title bar: Hidden inset (macOS-optimized)
 - Security: Context isolation enabled, sandbox disabled for preload
 
 **Key Functions:**
+
 - `createWindow()` - Creates and configures BrowserWindow
 - App lifecycle handlers (whenReady, activate, window-all-closed)
 
@@ -72,16 +78,19 @@ require('./main.js');
 ### Preload Script (`src/preload/`)
 
 #### `preload.js` (Security Bridge)
+
 **Purpose:** Safely exposes APIs from main to renderer process
 **Lines:** 17
 **Security:** Uses contextBridge for safe IPC
 
 **Exposed APIs:**
+
 - `window.electronAPI.platform` - Operating system platform
 - `window.electronAPI.versions` - Node, Chrome, Electron versions
 
 **Future Expansion:**
 Ready to add IPC methods like:
+
 - `getStatus()` - Fetch workflow status
 - `runCommand(cmd)` - Execute ZSH commands
 - `getAliases()` - List available aliases
@@ -91,10 +100,12 @@ Ready to add IPC methods like:
 ### Renderer Process (`src/renderer/`)
 
 #### `index.html` (UI Structure)
+
 **Purpose:** Main application interface markup
 **Lines:** 142
 
 **Sections:**
+
 1. **Header** - App title, subtitle, status badge
 2. **Welcome Section** - Quick stats (183 aliases, 108 functions, 2 workspaces)
 3. **Workspace Status** - Cards showing app/ and cli/ workspace info
@@ -103,6 +114,7 @@ Ready to add IPC methods like:
 6. **Footer** - Credit line
 
 **ADHD-Friendly Features:**
+
 - Clear visual hierarchy
 - Generous whitespace
 - Scannable sections
@@ -110,41 +122,40 @@ Ready to add IPC methods like:
 - Status badges for instant feedback
 
 #### `styles.css` (ADHD-Optimized Styling)
+
 **Purpose:** Beautiful, focus-friendly visual design
 **Lines:** 450
 
 **Design System:**
 
 **Color Palette:**
+
 ```css
---bg-primary: #1e1e2e      /* Main background */
---bg-secondary: #2a2a3e    /* Card backgrounds */
---text-primary: #e8e8f0    /* Main text */
---accent-primary: #7aa2f7  /* Blue accent */
---accent-success: #9ece6a  /* Green for success */
---accent-warning: #e0af68  /* Yellow for warnings */
+--bg-primary: #1e1e2e /* Main background */ --bg-secondary: #2a2a3e /* Card backgrounds */
+  --text-primary: #e8e8f0 /* Main text */ --accent-primary: #7aa2f7 /* Blue accent */
+  --accent-success: #9ece6a /* Green for success */ --accent-warning: #e0af68
+  /* Yellow for warnings */;
 ```
 
 **Spacing System:**
+
 ```css
---space-xs: 0.5rem   /* 8px */
---space-sm: 1rem     /* 16px */
---space-md: 1.5rem   /* 24px */
---space-lg: 2rem     /* 32px */
---space-xl: 3rem     /* 48px */
+--space-xs: 0.5rem /* 8px */ --space-sm: 1rem /* 16px */ --space-md: 1.5rem /* 24px */
+  --space-lg: 2rem /* 32px */ --space-xl: 3rem /* 48px */;
 ```
 
 **Border Radius:**
+
 ```css
---radius-sm: 6px     /* Small elements */
---radius-md: 12px    /* Medium elements */
---radius-lg: 16px    /* Large cards */
+--radius-sm: 6px /* Small elements */ --radius-md: 12px /* Medium elements */ --radius-lg: 16px
+  /* Large cards */;
 ```
 
 **Transitions:**
+
 ```css
---transition-fast: 150ms ease     /* Quick feedback */
---transition-medium: 250ms ease   /* Smooth animations */
+--transition-fast: 150ms ease /* Quick feedback */ --transition-medium: 250ms ease
+  /* Smooth animations */;
 ```
 
 **Key Components:**
@@ -172,6 +183,7 @@ Ready to add IPC methods like:
    - Colored values
 
 **ADHD Optimizations:**
+
 - High contrast (not overwhelming)
 - Generous spacing (reduces cognitive load)
 - Clear hierarchy (scan in <3 seconds)
@@ -179,11 +191,13 @@ Ready to add IPC methods like:
 - Dopamine-friendly colors (success green, warning yellow)
 
 **Responsive:**
+
 - Mobile: Single column layout
 - Desktop: Multi-column grids
 - Breakpoint: 768px
 
 #### `renderer.js` (Frontend Logic)
+
 **Purpose:** Handles UI interactivity and system info display
 **Lines:** 84
 
@@ -212,13 +226,14 @@ Ready to add IPC methods like:
 
 5. **`animateWelcome()`**
    - Staggers section animations
-   - Each section delays by index * 0.1s
+   - Each section delays by index \* 0.1s
 
 6. **`showNotification(title, message)`**
    - Placeholder for desktop notifications
    - **Future:** Will use Electron's Notification API
 
 **Error Handling:**
+
 - Global error listener
 - Unhandled promise rejection handler
 - All errors logged to console
@@ -272,6 +287,7 @@ Ready to add IPC methods like:
 **Why:** Prevents renderer from accessing Node.js/Electron APIs directly
 
 **Flow:**
+
 ```
 Renderer Process (web context)
     ↓ (contextBridge)
@@ -288,6 +304,7 @@ System/ZSH Commands
 **Why:** Prevents XSS attacks from accessing Node.js
 
 **Safe API Exposure:**
+
 - Only specific methods exposed via preload
 - No `require()` available in renderer
 - No direct filesystem access
@@ -307,9 +324,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   syncZsh: () => ipcRenderer.invoke('sync-zsh'),
 
   // Event listeners
-  onStatusUpdate: (callback) =>
-    ipcRenderer.on('status-update', callback)
-});
+  onStatusUpdate: callback => ipcRenderer.on('status-update', callback)
+})
 ```
 
 ---
@@ -321,37 +337,39 @@ contextBridge.exposeInMainWorld('electronAPI', {
 The app is designed to integrate with the CLI workspace APIs:
 
 **From `cli/api/status-api.js`:**
+
 ```javascript
 // Main process would call:
-const status = require('../cli/api/status-api');
-const dashboardData = status.getDashboardData();
+const status = require('../cli/api/status-api')
+const dashboardData = status.getDashboardData()
 
 // Then send to renderer:
-ipcMain.handle('get-status', () => dashboardData);
+ipcMain.handle('get-status', () => dashboardData)
 ```
 
 **From `cli/api/workflow-api.js`:**
+
 ```javascript
 // Main process would call:
-const workflow = require('../cli/api/workflow-api');
-workflow.executeWorkflow('test');
+const workflow = require('../cli/api/workflow-api')
+workflow.executeWorkflow('test')
 
 // With event feedback:
-workflow.onStatusChange((status) => {
-  mainWindow.webContents.send('status-update', status);
-});
+workflow.onStatusChange(status => {
+  mainWindow.webContents.send('status-update', status)
+})
 ```
 
 ### Quick Actions → Commands
 
 **UI Button → ZSH Command mapping:**
 
-| Button | Current | Future Command |
-|--------|---------|----------------|
-| Run Tests | Placeholder | `npm test` |
+| Button    | Current     | Future Command      |
+| --------- | ----------- | ------------------- |
+| Run Tests | Placeholder | `npm test`          |
 | Build App | Placeholder | `npm run build:all` |
-| Sync ZSH | Placeholder | `npm run sync` |
-| Open Docs | Placeholder | Open mkdocs site |
+| Sync ZSH  | Placeholder | `npm run sync`      |
+| Open Docs | Placeholder | Open mkdocs site    |
 
 ---
 
@@ -360,12 +378,14 @@ workflow.onStatusChange((status) => {
 ### Manual Testing
 
 **What Works:**
+
 - ✅ HTML structure (validated)
 - ✅ CSS renders correctly (tested in browser)
 - ✅ JavaScript executes (tested in browser console)
 - ✅ Responsive design (tested at multiple sizes)
 
 **What's Blocked:**
+
 - ❌ Electron launch (module resolution issue)
 - ❌ IPC communication (can't test without Electron)
 - ❌ Window management (can't test without Electron)
@@ -393,14 +413,16 @@ python3 -m http.server 8000
 ### P5C: CLI Integration Layer
 
 1. **Add IPC Handlers (main.js)**
+
    ```javascript
    ipcMain.handle('get-status', async () => {
-     const status = require('../cli/api/status-api');
-     return status.getDashboardData();
-   });
+     const status = require('../cli/api/status-api')
+     return status.getDashboardData()
+   })
    ```
 
 2. **Expose Methods (preload.js)**
+
    ```javascript
    getStatus: () => ipcRenderer.invoke('get-status'),
    runCommand: (cmd) => ipcRenderer.invoke('run-command', cmd)
@@ -408,8 +430,8 @@ python3 -m http.server 8000
 
 3. **Wire UI (renderer.js)**
    ```javascript
-   const data = await window.electronAPI.getStatus();
-   updateDashboard(data);
+   const data = await window.electronAPI.getStatus()
+   updateDashboard(data)
    ```
 
 ### P5D: Alpha Release
@@ -444,6 +466,7 @@ python3 -m http.server 8000
 **Impact:** App won't launch
 **Status:** Documented in APP-SETUP-STATUS-2025-12-20.md
 **Workarounds:**
+
 1. Manual Electron download
 2. Switch to Tauri
 3. Continue CLI-only

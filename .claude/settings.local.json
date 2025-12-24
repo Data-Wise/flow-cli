@@ -101,7 +101,8 @@
       "Bash(STATUS-FILE-CONVERSION-COMPLETE.md )",
       "Bash(SYNC-VERIFICATION.md)",
       "Bash(MERMAID-DIAGRAMS-QUICK-START.md )",
-      "Bash(EXAMPLE-dash-command-doc.md)"
+      "Bash(EXAMPLE-dash-command-doc.md)",
+      "Bash(/tmp/flatten-archive.sh:*)"
     ]
   }
 }

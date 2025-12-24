@@ -1186,3 +1186,6 @@ fpath=(~/.zsh/completions $fpath)
 
 ## Shell Command Integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# Nexus Desktop - Quick Launcher
+alias nexus='cd ~/projects/dev-tools/nexus/nexus-desktop && npm start'
