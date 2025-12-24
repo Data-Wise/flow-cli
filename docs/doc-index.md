@@ -9,12 +9,12 @@
 ### New Users
 
 1. **[README.md](../README.md)** - Project overview
-2. **[ALIAS-REFERENCE-CARD.md](user/ALIAS-REFERENCE-CARD.md)** - All 28 aliases documented
-3. **[WORKFLOW-QUICK-REFERENCE.md](user/WORKFLOW-QUICK-REFERENCE.md)** - Daily workflows
+2. **[ALIAS-REFERENCE-CARD.md](reference/ALIAS-REFERENCE-CARD.md)** - All 28 aliases documented
+3. **[WORKFLOW-QUICK-REFERENCE.md](reference/WORKFLOW-QUICK-REFERENCE.md)** - Daily workflows
 
 ### Current Users (Post-Cleanup)
 
-1. **[ALIAS-REFERENCE-CARD.md](user/ALIAS-REFERENCE-CARD.md)** - Migration guide included
+1. **[ALIAS-REFERENCE-CARD.md](reference/ALIAS-REFERENCE-CARD.md)** - Migration guide included
 2. **[index.md](index.md)** - See "What Changed (2025-12-19)" section for cleanup details
 
 ---
@@ -23,18 +23,18 @@
 
 ### Core References
 
-| Document                                                        | Purpose                          | Update        |
-| --------------------------------------------------------------- | -------------------------------- | ------------- |
-| [ALIAS-REFERENCE-CARD.md](user/ALIAS-REFERENCE-CARD.md)         | All 28 aliases + migration guide | 2025-12-19 ✅ |
-| [WORKFLOW-QUICK-REFERENCE.md](user/WORKFLOW-QUICK-REFERENCE.md) | Daily workflows                  | 2025-12-14    |
-| [PICK-COMMAND-REFERENCE.md](user/PICK-COMMAND-REFERENCE.md)     | Project picker guide             | -             |
-| [WORKFLOWS-QUICK-WINS.md](user/WORKFLOWS-QUICK-WINS.md)         | Quick productivity tips          | -             |
+| Document                                                             | Purpose                          | Update        |
+| -------------------------------------------------------------------- | -------------------------------- | ------------- |
+| [ALIAS-REFERENCE-CARD.md](reference/ALIAS-REFERENCE-CARD.md)         | All 28 aliases + migration guide | 2025-12-19 ✅ |
+| [WORKFLOW-QUICK-REFERENCE.md](reference/WORKFLOW-QUICK-REFERENCE.md) | Daily workflows                  | 2025-12-14    |
+| [PICK-COMMAND-REFERENCE.md](reference/PICK-COMMAND-REFERENCE.md)     | Project picker guide             | -             |
+| [WORKFLOWS-QUICK-WINS.md](guides/WORKFLOWS-QUICK-WINS.md)            | Quick productivity tips          | -             |
 
 ### Specialized Guides
 
 | Document                                                          | Purpose               |
 | ----------------------------------------------------------------- | --------------------- |
-| [DASHBOARD-QUICK-REF.md](user/DASHBOARD-QUICK-REF.md)             | Dashboard commands    |
+| [DASHBOARD-QUICK-REF.md](reference/DASHBOARD-QUICK-REF.md)        | Dashboard commands    |
 | [WORKSPACE-AUDIT-GUIDE.md](user/WORKSPACE-AUDIT-GUIDE.md)         | Health checks         |
 | [WORKFLOW-TUTORIAL.md](user/WORKFLOW-TUTORIAL.md)                 | Step-by-step tutorial |
 | [ENHANCED-HELP-QUICK-START.md](user/ENHANCED-HELP-QUICK-START.md) | Help system guide     |
@@ -98,15 +98,15 @@
 
 ### Aliases
 
-- **Current list:** [ALIAS-REFERENCE-CARD.md](user/ALIAS-REFERENCE-CARD.md)
+- **Current list:** [ALIAS-REFERENCE-CARD.md](reference/ALIAS-REFERENCE-CARD.md)
 - **Migration guide:** See "Migration Guide" section in ALIAS-REFERENCE-CARD.md
 - **Cleanup details:** See [index.md](index.md) "What Changed (2025-12-19)" section
 
 ### Workflows
 
-- **Quick reference:** [WORKFLOW-QUICK-REFERENCE.md](user/WORKFLOW-QUICK-REFERENCE.md)
+- **Quick reference:** [WORKFLOW-QUICK-REFERENCE.md](reference/WORKFLOW-QUICK-REFERENCE.md)
 - **Tutorial:** [WORKFLOW-TUTORIAL.md](user/WORKFLOW-TUTORIAL.md)
-- **Quick wins:** [WORKFLOWS-QUICK-WINS.md](user/WORKFLOWS-QUICK-WINS.md)
+- **Quick wins:** [WORKFLOWS-QUICK-WINS.md](guides/WORKFLOWS-QUICK-WINS.md)
 
 ### Development
 
@@ -161,7 +161,7 @@ ls -lt docs/ | head -10
 grep -r "command-name" docs/
 
 # What does alias X do?
-cat docs/user/ALIAS-REFERENCE-CARD.md | grep "alias-name"
+cat docs/reference/ALIAS-REFERENCE-CARD.md | grep "alias-name"
 ```
 
 ---

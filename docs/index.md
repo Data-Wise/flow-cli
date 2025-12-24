@@ -85,8 +85,8 @@ glo      # git log --oneline
 ### Core Guides
 
 - **[Quick Start Guide](getting-started/quick-start.md)** - Get running in 5 minutes
-- **[Alias Reference Card](user/ALIAS-REFERENCE-CARD.md)** - All 28 aliases + migration guide
-- **[Workflow Quick Reference](user/WORKFLOW-QUICK-REFERENCE.md)** - Daily workflows
+- **[Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md)** - All 28 aliases + migration guide
+- **[Workflow Quick Reference](reference/WORKFLOW-QUICK-REFERENCE.md)** - Daily workflows
 - **[Complete Documentation Index](doc-index.md)** - All docs organized
 
 ### Architecture & Design
@@ -94,13 +94,13 @@ glo      # git log --oneline
 - **[Architecture Hub](architecture/README.md)** - Complete architecture documentation (6,200+ lines)
 - **[Architecture Quick Reference](architecture/QUICK-REFERENCE.md)** - 1-page printable desk reference
 - **[Architecture Quick Wins](architecture/ARCHITECTURE-QUICK-WINS.md)** - Practical patterns for daily use
-- **[Architecture Decisions (ADRs)](architecture/decisions/README.md)** - 3 decision records explaining "why"
+- **[Architecture Decisions (ADRs)](decisions/README.md)** - 3 decision records explaining "why"
 
 ### Specialized Guides
 
-- **[Pick Command Reference](user/PICK-COMMAND-REFERENCE.md)** - Project navigation
-- **[Dashboard Quick Ref](user/DASHBOARD-QUICK-REF.md)** - Dashboard commands
-- **[Workflows & Quick Wins](user/WORKFLOWS-QUICK-WINS.md)** - Productivity tips
+- **[Pick Command Reference](reference/PICK-COMMAND-REFERENCE.md)** - Project navigation
+- **[Dashboard Quick Ref](reference/DASHBOARD-QUICK-REF.md)** - Dashboard commands
+- **[Workflows & Quick Wins](guides/WORKFLOWS-QUICK-WINS.md)** - Productivity tips
 
 ---
 
@@ -186,7 +186,7 @@ Aggressive cleanup retaining only high-frequency daily-use commands.
 ## 🔄 Migration Guide
 
 !!! info "For Existing Users"
-If you used the old 179-alias system, see the complete migration guide in [Alias Reference Card](user/ALIAS-REFERENCE-CARD.md).
+If you used the old 179-alias system, see the complete migration guide in [Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md).
 
 ### Common Changes
 
@@ -214,14 +214,14 @@ If you used the old 179-alias system, see the complete migration guide in [Alias
 
 ### Day 1: Essentials
 
-1. Read [Alias Reference Card](user/ALIAS-REFERENCE-CARD.md)
+1. Read [Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md)
 2. Master 6 core R aliases (rload, rtest, rdoc, rcheck, rbuild, rinstall)
 3. Learn 2 Claude aliases (ccp, ccr)
 4. Try dispatchers (cc, pick, peek)
 
 ### Week 1: Workflows
 
-1. Read [Workflow Quick Reference](user/WORKFLOW-QUICK-REFERENCE.md)
+1. Read [Workflow Quick Reference](reference/WORKFLOW-QUICK-REFERENCE.md)
 2. Practice daily workflows
 3. Learn git plugin aliases (gst, ga, gcmsg, gp)
 4. Set up focus timers (f25, f50)

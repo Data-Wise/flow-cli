@@ -128,6 +128,86 @@
 
 ---
 
+## 🗂️ FOLDER ORGANIZATION IDEAS (2025-12-24 Brainstorm)
+
+### ⚡ Quick Wins (< 1hr each)
+
+1. ✅ **Delete redundant site/ directory** - COMPLETED
+   - Removed 21MB of MkDocs build output (regenerates as needed)
+
+2. ✅ **Flatten docs/archive/ subdirectories** - COMPLETED
+   - 39 files moved to root with dated filenames (YYYY-MM-DD-category-name.md)
+
+3. **Move .STATUS, TODO.md, IDEAS.md to project root**
+   - Better visibility for control files
+   - Easier access from command line
+   - Already referenced from PROJECT-HUB.md
+
+4. ✅ **Consolidate docs/development/ into docs/architecture/** - COMPLETED
+   - Moved TESTING.md to docs/testing/ (better fit)
+   - Removed empty docs/development/ directory
+
+5. ✅ **Rename docs/hop/ to docs/guides/hop/** - COMPLETED
+   - Clarifies purpose (it's a getting-started guide)
+   - Better semantic grouping
+
+### 🔧 Medium Effort (1-3hrs each)
+
+6. **Implement docs/active/ folder for current-phase work**
+   - Merge planning/current + implementation
+   - Clear separation of active vs. archive
+   - Easy to find what's being worked on now
+
+7. **Split docs/user/ into docs/guides/ and docs/reference/**
+   - guides/ = tutorials (WORKFLOW-TUTORIAL.md, etc.)
+   - reference/ = command refs, alias cards
+   - Better discoverability
+
+8. **Create docs/decisions/ (ADR-style)**
+   - Move architectural choices from docs/architecture/
+   - Separate decisions from implementation docs
+   - Track "why" not just "what"
+
+9. **Consolidate all testing docs**
+   - Merge docs/testing/ + tests/README → single comprehensive guide
+   - One source of truth for testing
+   - Easier to maintain
+
+10. **Move standards/ to docs/standards/**
+    - Everything documentation-related in one tree
+    - Simpler mental model
+    - Easier navigation
+
+### 🚀 Big Ideas (1+ days)
+
+11. **Implement versioned documentation**
+    - docs/v1/, docs/v2/ for major releases
+    - Support multiple versions simultaneously
+    - Better for users on older versions
+
+12. **Create unified documentation index**
+    - Smart search leveraging MkDocs search + tags
+    - Cross-reference discovery
+    - "Related docs" suggestions
+
+13. **Build interactive documentation map**
+    - Mermaid diagrams showing doc relationships
+    - Visual navigation
+    - Understand information architecture at a glance
+
+14. **Automated documentation health checks**
+    - Dead link detection
+    - Outdated content warnings
+    - Missing cross-references
+    - Integration with CI/CD
+
+15. **Convert r-ecosystem/ to separate repo**
+    - It's ecosystem coordination, not flow-cli specific
+    - Cleaner separation of concerns
+    - Easier to share with other projects
+
+---
+
 ## 🔮 FUTURE IDEAS (Only if Production Use Reveals Need)
 
 ### ⚠️ WARNING: Do NOT Build These Without Real User Data

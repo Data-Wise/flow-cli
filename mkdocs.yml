@@ -72,16 +72,24 @@ nav:
       - 2. Multiple Projects: tutorials/02-multiple-projects.md
       - 3. Status Visualizations: tutorials/03-status-visualizations.md
       - 4. Web Dashboard: tutorials/04-web-dashboard.md
-  - User Guide:
-      - Alias Reference: user/ALIAS-REFERENCE-CARD.md
-      - Workflow Quick Reference: user/WORKFLOW-QUICK-REFERENCE.md
-      - Workflows & Tips: user/WORKFLOWS-QUICK-WINS.md
-      - Pick Command: user/PICK-COMMAND-REFERENCE.md
-      - Dashboard: user/DASHBOARD-QUICK-REF.md
-      - Enhanced Help: user/ENHANCED-HELP-QUICK-START.md
-      - Project Detection: user/PROJECT-DETECTION-GUIDE.md
-      - Workspace Audit: user/WORKSPACE-AUDIT-GUIDE.md
-      - Tutorial: user/WORKFLOW-TUTORIAL.md
+  - Guides:
+      - Workflows & Tips: guides/WORKFLOWS-QUICK-WINS.md
+      - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
+      - Enhanced Help Quick Start: guides/ENHANCED-HELP-QUICK-START.md
+      - Migration v1 to v2: guides/MIGRATION-v1-to-v2.md
+      - HOP Setup: guides/hop/README.md
+  - Reference:
+      - Alias Reference Card: reference/ALIAS-REFERENCE-CARD.md
+      - Workflow Quick Reference: reference/WORKFLOW-QUICK-REFERENCE.md
+      - Pick Command Reference: reference/PICK-COMMAND-REFERENCE.md
+      - Dashboard Quick Ref: reference/DASHBOARD-QUICK-REF.md
+      - Project Detection Guide: reference/PROJECT-DETECTION-GUIDE.md
+      - Workspace Audit Guide: reference/WORKSPACE-AUDIT-GUIDE.md
+      - ADHD Helpers Map: reference/ADHD-HELPERS-FUNCTION-MAP.md
+      - Command Patterns: reference/CLI-COMMAND-PATTERNS-RESEARCH.md
+      - Command Quick Ref: reference/COMMAND-QUICK-REFERENCE.md
+      - Existing System Summary: reference/EXISTING-SYSTEM-SUMMARY.md
+      - ZSH Clean Workflow: reference/ZSH-CLEAN-WORKFLOW.md
   - Commands:
       - status: commands/status.md
       - dashboard: commands/dashboard.md
@@ -94,61 +102,45 @@ nav:
       - API Design Review: architecture/API-DESIGN-REVIEW.md
       - Code Examples: architecture/CODE-EXAMPLES.md
       - Vendor Integration: architecture/VENDOR-INTEGRATION-ARCHITECTURE.md
-      - Architecture Decisions:
-          - ADR Index: architecture/decisions/README.md
-          - ADR Summary: architecture/decisions/ADR-SUMMARY.md
-          - ADR-001 Vendored Code: architecture/decisions/ADR-001-vendored-code-pattern.md
-          - ADR-002 Clean Architecture: architecture/decisions/ADR-002-clean-architecture.md
-          - ADR-003 Bridge Pattern: architecture/decisions/ADR-003-bridge-pattern.md
   - API Documentation:
       - API Overview: api/API-OVERVIEW.md
       - Project Detector API: api/PROJECT-DETECTOR-API.md
   - Development:
-      - Testing Guide: development/TESTING.md
+      - Testing Guide: testing/TESTING.md
       - Guidelines: ZSH-DEVELOPMENT-GUIDELINES.md
       - Conventions: CONVENTIONS.md
       - Philosophy: PHILOSOPHY.md
+  - Decisions (ADRs):
+      - ADR Index: decisions/README.md
+      - ADR Summary: decisions/ADR-SUMMARY.md
+      - ADR-001 Vendored Code: decisions/ADR-001-vendored-code-pattern.md
+      - ADR-002 Clean Architecture: decisions/ADR-002-clean-architecture.md
+      - ADR-003 Bridge Pattern: decisions/ADR-003-bridge-pattern.md
+  - Standards:
+      - Overview: standards/README.md
+  - Active Work:
+      - Multiple Projects Summary: active/MULTIPLE-PROJECTS-SUMMARY.md
+      - Phase P5D Alpha Release: active/PHASE-P5D-ALPHA-RELEASE-PLAN.md
+      - Help System:
+          - Phase 1 Report: active/help-system/PHASE1-IMPLEMENTATION-REPORT.md
+          - Overhaul Summary: active/help-system/HELP-OVERHAUL-SUMMARY.md
+          - Phase 2 Plan: active/help-system/HELP-PHASE2-PLAN.md
+          - Phase 3 Plan: active/help-system/HELP-PHASE3-PLAN.md
+      - Alias Refactoring:
+          - Refactor Summary: active/alias-refactoring/ALIAS-REFACTOR-SUMMARY.md
+          - 3 Plans Comparison: active/alias-refactoring/ALIAS-REFACTOR-3-PLANS-2025-12-14.md
+      - Workflow Redesign:
+          - Implementation Summary: active/workflow-redesign/WORKFLOW-IMPLEMENTATION-SUMMARY.md
+          - Analysis: active/workflow-redesign/WORKFLOW-ANALYSIS-2025-12-14.md
+      - Status Command:
+          - Problem Analysis: active/status-command/STATUS-COMMAND-PROBLEM.md
+          - Alternatives: active/status-command/STATUS-COMMAND-ALTERNATIVES.md
   - Planning:
-      - Current Work:
-          - Multiple Projects Summary: planning/current/MULTIPLE-PROJECTS-SUMMARY.md
-          - Phase P5D Alpha Release: planning/current/PHASE-P5D-ALPHA-RELEASE-PLAN.md
       - Proposals:
           - Universal Project Workflow: planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL.md
           - Teaching & Research Workflow: planning/proposals/TEACHING-RESEARCH-WORKFLOW-PROPOSAL.md
           - Pick Command Next Phase: planning/proposals/PICK-COMMAND-NEXT-PHASE.md
           - Mediationverse Workflow: planning/proposals/MEDIATIONVERSE-WORKFLOW-PROPOSAL.md
-  - Implementation:
-      - Help System:
-          - Phase 1 Report: implementation/help-system/PHASE1-IMPLEMENTATION-REPORT.md
-          - Overhaul Summary: implementation/help-system/HELP-OVERHAUL-SUMMARY.md
-          - Phase 2 Plan: implementation/help-system/HELP-PHASE2-PLAN.md
-          - Phase 3 Plan: implementation/help-system/HELP-PHASE3-PLAN.md
-      - Alias Refactoring:
-          - Refactor Summary: implementation/alias-refactoring/ALIAS-REFACTOR-SUMMARY.md
-          - 3 Plans Comparison: implementation/alias-refactoring/ALIAS-REFACTOR-3-PLANS-2025-12-14.md
-      - Workflow Redesign:
-          - Implementation Summary: implementation/workflow-redesign/WORKFLOW-IMPLEMENTATION-SUMMARY.md
-          - Analysis: implementation/workflow-redesign/WORKFLOW-ANALYSIS-2025-12-14.md
-      - Status Command:
-          - Problem Analysis: implementation/status-command/STATUS-COMMAND-PROBLEM.md
-          - Alternatives: implementation/status-command/STATUS-COMMAND-ALTERNATIVES.md
-  - Archive:
-      - 2025-12-14 Refactoring:
-          - Index: archive/2025-12-14-refactoring/INDEX.md
-          - Deployment Complete: archive/2025-12-14-refactoring/DEPLOYMENT-COMPLETE.md
-          - Test Suite: archive/2025-12-14-refactoring/TEST-SUITE-COMPLETE.md
-      - Session Summaries:
-          - 2025-12-14 Summary: archive/sessions/SESSION-SUMMARY-2025-12-14.md
-      - Decisions:
-          - Decision Matrix: archive/decisions/DECISION-MATRIX.md
-          - Command Research: archive/decisions/COMMAND-RESEARCH-INDEX.md
-  - Reference:
-      - Complete Index: doc-index.md
-      - ADHD Helpers Map: reference/ADHD-HELPERS-FUNCTION-MAP.md
-      - Command Patterns: reference/CLI-COMMAND-PATTERNS-RESEARCH.md
-      - Existing System: reference/EXISTING-SYSTEM-SUMMARY.md
-      - Command Quick Ref: reference/COMMAND-QUICK-REFERENCE.md
-      - ZSH Clean Workflow: reference/ZSH-CLEAN-WORKFLOW.md
 
 extra:
   social:

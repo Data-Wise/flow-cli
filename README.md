@@ -41,9 +41,9 @@ See [INSTALL.md](INSTALL.md) for detailed instructions and troubleshooting.
 ### For CLI Users
 
 **Start here:** [Tutorial: Your First Session](docs/tutorials/01-first-session.md)
-**Read this first:** `docs/user/WORKFLOWS-QUICK-WINS.md`
+**Read this first:** `docs/guides/WORKFLOWS-QUICK-WINS.md`
 **Command reference:** [flow status](docs/commands/status.md) | [flow dashboard](docs/commands/dashboard.md)
-**Look up aliases:** `docs/user/ALIAS-REFERENCE-CARD.md`
+**Look up aliases:** `docs/reference/ALIAS-REFERENCE-CARD.md`
 
 ### For Contributors
 
@@ -298,10 +298,10 @@ See `docs/reference/SYNC-SETUP.md` for setup details.
 
 ### User Guides (Start Here)
 
-- `docs/user/WORKFLOWS-QUICK-WINS.md` - Top 10 ADHD-friendly workflows
-- `docs/user/ALIAS-REFERENCE-CARD.md` - Complete alias catalog
-- `docs/user/WORKSPACE-AUDIT-GUIDE.md` - Daily health check procedures
-- `docs/user/WORKFLOW-TUTORIAL.md` - Step-by-step workflow guide
+- `docs/guides/WORKFLOWS-QUICK-WINS.md` - Top 10 ADHD-friendly workflows
+- `docs/reference/ALIAS-REFERENCE-CARD.md` - Complete alias catalog
+- `docs/reference/WORKSPACE-AUDIT-GUIDE.md` - Daily health check procedures
+- `docs/guides/WORKFLOW-TUTORIAL.md` - Step-by-step workflow guide
 
 ### Developer Docs
 
@@ -320,7 +320,7 @@ See `docs/reference/SYNC-SETUP.md` for setup details.
 
 - `docs/planning/current/` - Active phase work (P4 optimization)
 - `docs/planning/proposals/` - Future proposals
-- `docs/implementation/` - Implementation tracking by feature
+- `docs/active/` - Active work and implementation tracking
 - `docs/archive/` - Historical decisions and completed work
 - `docs/ideas/` - Ideas backlog
 

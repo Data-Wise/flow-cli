@@ -28,7 +28,7 @@ cp CHANGELOG.md \
    UPDATED-HELP-FUNCTIONS.md \
    install-hop.sh \
    test-phase2.sh \
-   ~/projects/dev-tools/flow-cli/docs/hop/
+   ~/projects/dev-tools/flow-cli/docs/guides/hop/
 ```
 
 ## Or One-Liner

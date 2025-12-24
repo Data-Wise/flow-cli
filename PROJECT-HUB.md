@@ -120,7 +120,7 @@ P6: CLI Enhancements          ████████████████�
 - mkdocs.yml (navigation fixes)
 - docs/planning/current/PHASE-P5D-ALPHA-RELEASE-PLAN.md (relative paths)
 - docs/planning/proposals/TEACHING-RESEARCH-WORKFLOW-PROPOSAL.md (broken link)
-- docs/development/TESTING.md (new comprehensive guide)
+- docs/testing/TESTING.md (comprehensive testing guide)
 - DOCUMENTATION-CHECK-REPORT.md (new validation report)
 
 **Git Commit:**
@@ -625,19 +625,19 @@ docs: update README              → No release (unless scope=README)
 - ✅ Audited all 42 planning/architecture documents
 - ✅ Archived 10 completed planning documents (P4, P4.5 work)
 - ✅ Organized 7 future proposals properly
-- ✅ Created `standards/` directory structure
+- ✅ Created `docs/standards/` directory structure
 - ✅ Moved integration docs to `docs/architecture/integration/`
 - ✅ Updated PROJECT-HUB.md with latest progress
 
 **Directory Structure Created:**
 
 - ✅ `docs/archive/2025-12-23-planning-consolidation/` - 10 archived files
-- ✅ `standards/documentation/` - Documentation standards (2 files)
-- ✅ `standards/architecture/` - Architecture standards (3 files)
+- ✅ `docs/standards/documentation/` - Documentation standards (2 files)
+- ✅ `docs/standards/architecture/` - Architecture standards (3 files)
 - ✅ `docs/architecture/integration/` - Integration patterns (2 files)
 - ✅ `docs/planning/current/` - Active planning (2 files)
 - ✅ `docs/planning/proposals/` - Future work (6 files)
-- ✅ `docs/implementation/plugin-diagnostic/` - Implementation tracking
+- ✅ `docs/active/plugin-diagnostic/` - Implementation tracking
 
 **Files Organized:**
 
@@ -1007,7 +1007,7 @@ docs: update README              → No release (unless scope=README)
 - ✅ docs/getting-started/quick-start.md
 - ✅ docs/getting-started/installation.md
 - ✅ docs/stylesheets/extra.css (minimal ADHD-friendly enhancements)
-- ✅ standards/documentation/WEBSITE-DESIGN-GUIDE.md
+- ✅ docs/standards/documentation/WEBSITE-DESIGN-GUIDE.md
 
 **Features:**
 
