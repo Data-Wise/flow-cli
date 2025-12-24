@@ -64,6 +64,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting Started:
+      - Welcome: getting-started/00-welcome.md
       - Quick Start: getting-started/quick-start.md
       - Installation: getting-started/installation.md
       - Troubleshooting: getting-started/troubleshooting.md
@@ -79,6 +80,7 @@ nav:
       - Migration v1 to v2: guides/MIGRATION-v1-to-v2.md
       - HOP Setup: guides/hop/README.md
   - Reference:
+      - Command Explorer: reference/COMMAND-EXPLORER.md
       - Alias Reference Card: reference/ALIAS-REFERENCE-CARD.md
       - Workflow Quick Reference: reference/WORKFLOW-QUICK-REFERENCE.md
       - Pick Command Reference: reference/PICK-COMMAND-REFERENCE.md
