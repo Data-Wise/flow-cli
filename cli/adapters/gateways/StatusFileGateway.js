@@ -5,7 +5,7 @@
  * Supports both legacy format and new YAML frontmatter format.
  */
 
-import { readFile } from 'fs/promises'
+import { readFile, writeFile } from 'fs/promises'
 import { existsSync } from 'fs'
 import { join } from 'path'
 
@@ -196,6 +196,75 @@ export class StatusFileGateway {
     if (value === 'false') return false
 
     return value
+  }
+
+  /**
+   * Write .STATUS file to project directory
+   * @param {string} projectPath - Path to project directory
+   * @param {Object} data - Status data to write
+   * @returns {Promise<void>}
+   */
+  async write(projectPath, data) {
+    const statusPath = join(projectPath, '.STATUS')
+
+    // Generate YAML frontmatter format
+    const content = this._generateYAMLFormat(data)
+
+    try {
+      await writeFile(statusPath, content, 'utf-8')
+    } catch (error) {
+      throw new Error(`Failed to write .STATUS file: ${error.message}`)
+    }
+  }
+
+  /**
+   * Generate YAML frontmatter format
+   * @private
+   */
+  _generateYAMLFormat(data) {
+    const lines = ['---']
+
+    // Required fields
+    if (data.status) lines.push(`status: ${data.status}`)
+    if (data.progress !== undefined) lines.push(`progress: ${data.progress}`)
+    if (data.type) lines.push(`type: ${data.type}`)
+
+    // Next actions
+    if (data.next && Array.isArray(data.next) && data.next.length > 0) {
+      lines.push('')
+      lines.push('next:')
+      for (const action of data.next) {
+        lines.push(`  - action: "${action.action}"`)
+        if (action.estimate) lines.push(`    estimate: "${action.estimate}"`)
+        if (action.priority) lines.push(`    priority: ${action.priority}`)
+        if (action.blockers && action.blockers.length > 0) {
+          lines.push(`    blockers:`)
+          for (const blocker of action.blockers) {
+            lines.push(`      - "${blocker}"`)
+          }
+        }
+      }
+    }
+
+    // Metrics (auto-updated)
+    if (data.metrics && Object.keys(data.metrics).length > 0) {
+      lines.push('')
+      lines.push('# Auto-updated fields (do not edit manually)')
+      lines.push('metrics:')
+      for (const [key, value] of Object.entries(data.metrics)) {
+        lines.push(`  ${key}: ${value}`)
+      }
+    }
+
+    lines.push('---')
+
+    // Body content
+    if (data.body) {
+      lines.push('')
+      lines.push(data.body.trim())
+    }
+
+    return lines.join('\n') + '\n'
   }
 
   /**
