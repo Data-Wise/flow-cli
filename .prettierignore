@@ -1,0 +1,10 @@
+node_modules
+coverage
+dist
+build
+.husky
+*.min.js
+package-lock.json
+cli/node_modules
+cli/coverage
+docs/archive/2025-12-20-app-removal

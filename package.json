@@ -16,7 +16,12 @@
     "reset": "npm run clean && npm install",
     "install:cli": "cd cli && npm link",
     "uninstall:cli": "cd cli && npm unlink",
-    "reinstall:cli": "npm run uninstall:cli && npm run install:cli"
+    "reinstall:cli": "npm run uninstall:cli && npm run install:cli",
+    "prepare": "husky",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{js,json,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md,yml,yaml}\""
   },
   "keywords": [
     "zsh",
@@ -41,5 +46,23 @@
     "express": "^5.2.1",
     "open": "^11.0.0",
     "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jest": "^29.11.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.7.4"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run lint --if-present",
+      "npm run format --if-present",
+      "npm test -- --findRelatedTests --bail"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "npm run format --if-present"
+    ]
   }
 }
