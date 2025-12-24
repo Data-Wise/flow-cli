@@ -621,10 +621,10 @@ When implementing a new feature, use this checklist:
 
 **For quick reference:**
 
-- [Architecture Quick Reference](QUICK-REFERENCE.md) - Command patterns and cheatsheet
+- [Architecture Quick Reference](QUICK-REFERENCE.md) - Patterns and cheatsheet
 
 ---
 
-**Last Updated:** 2025-12-21
+**Last Updated:** 2025-12-24
 **Part of:** Architecture Documentation Sprint
 **See Also:** [Architecture Hub](README.md)

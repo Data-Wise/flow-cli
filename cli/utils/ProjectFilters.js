@@ -7,6 +7,7 @@
  * - Type-based filtering (Node, R, Quarto, etc.)
  * - Status-based filtering (active, archived, etc.)
  * - Recency filtering (last accessed within N hours/days)
+ * - .STATUS file filtering (by status field)
  * - Composite filters (combine multiple criteria)
  * - Performance optimized (early exit, minimal allocations)
  *
@@ -17,14 +18,21 @@
  * // Single filter
  * const nodeProjects = filters.byType(projects, 'node')
  *
+ * // Status file filter
+ * const activeProjects = filters.byStatusFile(projects, 'Active')
+ *
  * // Composite filter
  * const recentActive = filters.composite(projects, {
  *   types: ['node', 'r-package'],
  *   recentHours: 24,
- *   minSessions: 1
+ *   minSessions: 1,
+ *   statusFileStatus: 'Active'
  * })
  * ```
  */
+
+import { promises as fs } from 'fs'
+import { join } from 'path'
 
 export class ProjectFilters {
   /**
@@ -212,16 +220,18 @@ export class ProjectFilters {
    * @param {number} [criteria.minDuration] - Minimum duration (minutes)
    * @param {string|RegExp} [criteria.namePattern] - Name pattern
    * @param {string|RegExp} [criteria.pathPattern] - Path pattern
-   * @returns {Array} Filtered projects
+   * @param {string|string[]} [criteria.statusFileStatus] - .STATUS file status value(s)
+   * @param {number} [criteria.minProgress] - Minimum progress percentage
+   * @returns {Promise<Array>} Filtered projects (async if status file filters used)
    */
-  composite(projects, criteria) {
+  async composite(projects, criteria) {
     if (!projects || projects.length === 0) {
       return []
     }
 
     let filtered = projects
 
-    // Apply each filter in sequence
+    // Apply synchronous filters first
     if (criteria.types) {
       filtered = this.byType(filtered, criteria.types)
     }
@@ -248,6 +258,15 @@ export class ProjectFilters {
 
     if (criteria.pathPattern) {
       filtered = this.byPathPattern(filtered, criteria.pathPattern)
+    }
+
+    // Apply async filters (.STATUS file parsing)
+    if (criteria.statusFileStatus) {
+      filtered = await this.byStatusFile(filtered, criteria.statusFileStatus)
+    }
+
+    if (criteria.minProgress !== undefined) {
+      filtered = await this.byMinProgress(filtered, criteria.minProgress)
     }
 
     return filtered
@@ -311,5 +330,93 @@ export class ProjectFilters {
     return [...projects]
       .sort((a, b) => b.lastAccessedAt.getTime() - a.lastAccessedAt.getTime())
       .slice(0, limit)
+  }
+
+  /**
+   * Filter projects by .STATUS file status field
+   * @param {Array} projects - Projects to filter
+   * @param {string|string[]} statuses - Status value(s) to match (Active, Draft, etc.)
+   * @returns {Promise<Array>} Filtered projects
+   */
+  async byStatusFile(projects, statuses) {
+    if (!projects || projects.length === 0) {
+      return []
+    }
+
+    const statusArray = Array.isArray(statuses) ? statuses : [statuses]
+    const statusSet = new Set(statusArray.map(s => s.toLowerCase()))
+
+    // Parse .STATUS files in parallel
+    const statusCheckPromises = projects.map(async project => {
+      const status = await this._parseStatusFile(project.path)
+      if (status && statusSet.has(status.toLowerCase())) {
+        return project
+      }
+      return null
+    })
+
+    const results = await Promise.all(statusCheckPromises)
+    return results.filter(p => p !== null)
+  }
+
+  /**
+   * Filter projects by .STATUS file progress (minimum percentage)
+   * @param {Array} projects - Projects to filter
+   * @param {number} minProgress - Minimum progress percentage (0-100)
+   * @returns {Promise<Array>} Filtered projects
+   */
+  async byMinProgress(projects, minProgress) {
+    if (!projects || projects.length === 0) {
+      return []
+    }
+
+    const progressCheckPromises = projects.map(async project => {
+      const progress = await this._parseStatusProgress(project.path)
+      if (progress !== null && progress >= minProgress) {
+        return project
+      }
+      return null
+    })
+
+    const results = await Promise.all(progressCheckPromises)
+    return results.filter(p => p !== null)
+  }
+
+  /**
+   * Parse status field from .STATUS file
+   * @private
+   * @param {string} projectPath - Path to project directory
+   * @returns {Promise<string|null>} Status value or null if not found
+   */
+  async _parseStatusFile(projectPath) {
+    try {
+      const statusPath = join(projectPath, '.STATUS')
+      const content = await fs.readFile(statusPath, 'utf-8')
+
+      // Look for "status:" line
+      const match = content.match(/^status:\s*(.+)$/im)
+      return match ? match[1].trim() : null
+    } catch {
+      return null
+    }
+  }
+
+  /**
+   * Parse progress from .STATUS file
+   * @private
+   * @param {string} projectPath - Path to project directory
+   * @returns {Promise<number|null>} Progress percentage or null if not found
+   */
+  async _parseStatusProgress(projectPath) {
+    try {
+      const statusPath = join(projectPath, '.STATUS')
+      const content = await fs.readFile(statusPath, 'utf-8')
+
+      // Look for "progress:" line
+      const match = content.match(/^progress:\s*(\d+)$/im)
+      return match ? parseInt(match[1], 10) : null
+    } catch {
+      return null
+    }
   }
 }

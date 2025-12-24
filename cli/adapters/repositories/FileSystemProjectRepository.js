@@ -20,6 +20,7 @@ import { promisify } from 'util'
 import { Project } from '../../domain/entities/Project.js'
 import { ProjectType } from '../../domain/value-objects/ProjectType.js'
 import { IProjectRepository } from '../../domain/repositories/IProjectRepository.js'
+import { ProjectScanCache } from '../../utils/ProjectScanCache.js'
 
 const execAsync = promisify(exec)
 
@@ -27,11 +28,23 @@ export class FileSystemProjectRepository extends IProjectRepository {
   /**
    * @param {string} filePath - Path to projects.json file
    * @param {string} [detectorScriptPath] - Optional path to project-detector script
+   * @param {Object} [cacheOptions] - Cache configuration
+   * @param {number} [cacheOptions.ttl=3600000] - Cache TTL in ms (default: 1 hour)
+   * @param {number} [cacheOptions.maxSize=1000] - Max cache entries
    */
-  constructor(filePath, detectorScriptPath = null) {
+  constructor(filePath, detectorScriptPath = null, cacheOptions = {}) {
     super()
     this.filePath = filePath
     this.detectorScriptPath = detectorScriptPath
+
+    // Initialize cache with 1-hour TTL by default
+    this.scanCache = new ProjectScanCache({
+      ttl: cacheOptions.ttl || 3600000, // 1 hour default
+      maxSize: cacheOptions.maxSize || 1000
+    })
+
+    // Scan timeout for individual directory scans (5 seconds)
+    this.scanTimeout = 5000
   }
 
   /**
@@ -208,13 +221,79 @@ export class FileSystemProjectRepository extends IProjectRepository {
    *
    * If detectorScriptPath is provided, delegates to that script.
    * Otherwise, does a basic scan looking for common project markers.
+   *
+   * @param {string} rootPath - Root directory to scan
+   * @param {Object} [options] - Scan options
+   * @param {boolean} [options.useCache=true] - Use cached results if available
+   * @param {boolean} [options.forceRefresh=false] - Force refresh (bypass cache)
+   * @param {Function} [options.progressCallback] - Progress callback (project) => void
+   * @returns {Promise<Project[]>} Array of discovered projects
    */
-  async scan(rootPath) {
-    if (this.detectorScriptPath) {
-      return await this._scanWithScript(rootPath)
-    } else {
-      return await this._scanBasic(rootPath)
+  async scan(rootPath, options = {}) {
+    const useCache = options.useCache !== false
+    const forceRefresh = options.forceRefresh === true
+
+    // Check cache first (unless force refresh)
+    if (useCache && !forceRefresh) {
+      const cached = this.scanCache.get(rootPath)
+      if (cached) {
+        return cached
+      }
     }
+
+    // Perform actual scan
+    let projects
+    if (this.detectorScriptPath) {
+      projects = await this._scanWithScript(rootPath)
+    } else {
+      projects = await this._scanBasic(rootPath, options.progressCallback)
+    }
+
+    // Cache the results
+    if (useCache) {
+      this.scanCache.set(rootPath, projects)
+    }
+
+    return projects
+  }
+
+  /**
+   * Scan multiple root paths in parallel
+   *
+   * @param {string[]} rootPaths - Array of root directories to scan
+   * @param {Object} [options] - Scan options (same as scan())
+   * @returns {Promise<Map<string, Project[]>>} Map of path -> projects
+   */
+  async scanParallel(rootPaths, options = {}) {
+    const scanPromises = rootPaths.map(rootPath =>
+      this.scan(rootPath, options).then(projects => [rootPath, projects])
+    )
+
+    const results = await Promise.all(scanPromises)
+    return new Map(results)
+  }
+
+  /**
+   * Get cache statistics
+   * @returns {Object} Cache stats
+   */
+  getCacheStats() {
+    return this.scanCache.getStats()
+  }
+
+  /**
+   * Clear scan cache
+   */
+  clearCache() {
+    this.scanCache.clear()
+  }
+
+  /**
+   * Invalidate cache for specific path
+   * @param {string} rootPath - Path to invalidate
+   */
+  invalidateCache(rootPath) {
+    this.scanCache.invalidate(rootPath)
   }
 
   /**
@@ -249,39 +328,76 @@ export class FileSystemProjectRepository extends IProjectRepository {
    * Basic scan without external script
    * Looks for common project markers (package.json, DESCRIPTION, etc.)
    * @private
+   * @param {string} rootPath - Root directory to scan
+   * @param {Function} [progressCallback] - Progress callback for each project found
    */
-  async _scanBasic(rootPath) {
-    const projects = []
-
+  async _scanBasic(rootPath, progressCallback = null) {
     try {
       const entries = await fs.readdir(rootPath, { withFileTypes: true })
+      const directories = entries.filter(entry => entry.isDirectory())
 
-      for (const entry of entries) {
-        if (!entry.isDirectory()) continue
+      // Scan directories in parallel with timeout
+      const scanPromises = directories.map(entry =>
+        this._scanDirectory(rootPath, entry, progressCallback)
+      )
 
-        const projectPath = join(rootPath, entry.name)
+      const results = await Promise.all(scanPromises)
 
-        // Detect project type by looking for marker files
-        const type = await this._detectProjectType(projectPath)
-
-        if (type) {
-          projects.push(
-            new Project(
-              projectPath, // Use path as ID
-              entry.name,
-              {
-                type,
-                path: projectPath
-              }
-            )
-          )
-        }
-      }
+      // Filter out null results (non-projects or failed scans)
+      return results.filter(project => project !== null)
     } catch (error) {
       throw new Error(`Basic scan failed: ${error.message}`)
     }
+  }
 
-    return projects
+  /**
+   * Scan a single directory for project markers
+   * @private
+   */
+  async _scanDirectory(rootPath, entry, progressCallback) {
+    const projectPath = join(rootPath, entry.name)
+
+    try {
+      // Detect project type with timeout
+      const type = await this._withTimeout(
+        this._detectProjectType(projectPath),
+        this.scanTimeout,
+        null // Return null on timeout
+      )
+
+      if (type) {
+        const project = new Project(
+          projectPath, // Use path as ID
+          entry.name,
+          {
+            type,
+            path: projectPath
+          }
+        )
+
+        if (progressCallback) {
+          progressCallback(project)
+        }
+
+        return project
+      }
+    } catch (error) {
+      // Silently skip directories that fail to scan
+      return null
+    }
+
+    return null
+  }
+
+  /**
+   * Execute a promise with timeout
+   * @private
+   */
+  async _withTimeout(promise, timeoutMs, defaultValue = null) {
+    return Promise.race([
+      promise,
+      new Promise(resolve => setTimeout(() => resolve(defaultValue), timeoutMs))
+    ])
   }
 
   /**
