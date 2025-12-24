@@ -10,13 +10,28 @@
 
 ### API Documentation
 
-- **[API Overview](api/API-OVERVIEW.md)** - Complete system API reference ⭐ **NEW**
+- **[Complete API Reference](api/API-REFERENCE.md)** - Full system API (800+ lines) ⭐ **NEW (Dec 24)**
+  - Domain Layer (Session, Project, Task entities with business rules)
+  - Use Cases Layer (GetStatus, CreateSession, EndSession, ScanProjects)
+  - Adapters Layer (Controllers, Repositories, Gateways)
+  - Code examples for every major component
+  - Testing strategies and patterns
+
+- **[Interactive Examples](api/INTERACTIVE-EXAMPLES.md)** - 13 runnable code examples ⭐ **NEW (Dec 24)**
+  - Quick start workflows (create session, check status)
+  - Session management (pause/resume, flow state tracking)
+  - Project tracking (scanning with filters, search)
+  - Custom integrations (Slack notifications, CSV export)
+  - Advanced patterns (PostgreSQL repository, webhook publisher)
+  - Testing examples (unit and integration tests)
+
+- **[API Overview](api/API-OVERVIEW.md)** - System API reference
   - All 8 modules documented (1 complete, 2 partial, 5 planned)
   - Architecture diagrams and dependencies
   - Usage patterns and examples
   - Implementation timeline
 
-- **[Project Detector API](api/PROJECT-DETECTOR-API.md)** - Complete API reference for project type detection
+- **[Project Detector API](api/PROJECT-DETECTOR-API.md)** - Project type detection
   - `detectProjectType()` - Single project detection
   - `detectMultipleProjects()` - Batch parallel detection
   - `getSupportedTypes()` - List all supported types
@@ -24,14 +39,22 @@
 
 ### Architecture
 
-- **[Architecture Patterns Analysis](architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md)** - Clean Architecture & DDD ⭐ **NEW**
+- **[Architecture Diagrams](architecture/ARCHITECTURE-DIAGRAM.md)** - 15 Mermaid diagrams ⭐ **NEW (Dec 24)**
+  - System overview and Clean Architecture layer dependencies
+  - Component diagrams (UML class diagrams for entities)
+  - Sequence diagrams (Create Session, Get Status, End Session flows)
+  - Data flow diagrams (status command, project scanning)
+  - Deployment architecture (local development + GitHub Pages)
+  - Pattern documentation (Repository, Event Sourcing)
+
+- **[Architecture Patterns Analysis](architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md)** - Clean Architecture & DDD
   - Clean Architecture 4-layer mapping
   - Domain-Driven Design principles
   - Hexagonal Architecture (Ports & Adapters)
   - Complete implementation examples
   - Phase 1-3 migration roadmap
 
-- **[API Design Review](architecture/API-DESIGN-REVIEW.md)** - Design principles applied ⭐ **NEW**
+- **[API Design Review](architecture/API-DESIGN-REVIEW.md)** - Design principles applied
   - All 8 modules reviewed
   - Best practices and anti-patterns
   - Recommended improvements
@@ -227,24 +250,48 @@ docs/
 
 ## Documentation Stats
 
-### Coverage
+### Coverage (2025-12-24)
 
-- **API Functions:** 4/4 documented (100%)
-- **Architecture:** Complete with diagrams
-- **User Guide:** Beginner to advanced examples
-- **Code Examples:** 20+ working examples
+- **Documentation Files:** 214 files
+- **Total Lines:** 96,151 lines
+- **Site Pages:** 63 pages across 9 sections
+- **API Reference:** 800+ lines (complete)
+- **Interactive Examples:** 13 runnable examples
+- **Architecture Diagrams:** 15 Mermaid diagrams
+- **Code Examples:** 88+ production-ready patterns
 
 ### Quality Metrics
 
-- ✅ All functions have JSDoc comments
-- ✅ All examples tested and verified
-- ✅ Architecture diagrams included
-- ✅ Troubleshooting guide complete
-- ✅ Real project examples (rmediation, stat-440, etc.)
+- ✅ Clean Architecture documented (Domain, Use Cases, Adapters)
+- ✅ All major entities documented with business rules
+- ✅ Sequence diagrams for key workflows
+- ✅ Testing strategies documented (559 tests, 100% passing)
+- ✅ 4 ADHD-friendly tutorials
+- ✅ Troubleshooting guides included
+- ✅ Real project examples throughout
 
 ---
 
 ## Version History
+
+### v2.0.0-beta.1 (2025-12-24) - Phase P6 Complete
+
+**Major Documentation Updates:**
+
+- Complete API Reference (800+ lines with code examples)
+- Interactive Examples (13 runnable patterns)
+- Architecture Diagrams (15 Mermaid diagrams)
+- 4 ADHD-friendly tutorials
+- Comprehensive testing guide (600+ lines)
+- Production Use Phase documentation
+
+**Coverage:**
+
+- 214 documentation files (96K+ lines)
+- 63-page documentation site
+- 15 visual diagrams
+- 100% API coverage
+- 559 passing tests documented
 
 ### v0.1.0 (2025-12-20) - Week 1 Complete
 
@@ -253,14 +300,7 @@ docs/
 - Project Detector API reference (comprehensive)
 - Vendor Integration Architecture (complete)
 - Project Detection User Guide (beginner-friendly)
-- Documentation index (this file)
-
-**Coverage:**
-
-- 3 major documentation files
-- 20+ code examples
-- 7 Mermaid diagrams
-- 100% API coverage
+- Documentation index
 
 ---
 

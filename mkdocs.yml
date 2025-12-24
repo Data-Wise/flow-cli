@@ -116,9 +116,10 @@ nav:
   - Decisions (ADRs):
       - ADR Index: decisions/README.md
       - ADR Summary: decisions/ADR-SUMMARY.md
-      - ADR-001 Vendored Code: decisions/ADR-001-vendored-code-pattern.md
-      - ADR-002 Clean Architecture: decisions/ADR-002-clean-architecture.md
+      - ADR-001 Vendored Code: decisions/ADR-001-use-vendored-code-pattern.md
+      - ADR-002 Clean Architecture: decisions/ADR-002-adopt-clean-architecture.md
       - ADR-003 Bridge Pattern: decisions/ADR-003-bridge-pattern.md
+      - ADR-004 Module API: decisions/ADR-004-module-api-not-rest.md
   - Standards:
       - Overview: standards/README.md
   - Active Work:

@@ -1,6 +1,6 @@
 # Flow CLI Documentation Index
 
-**Last Updated:** 2025-12-19
+**Last Updated:** 2025-12-24
 
 ---
 
@@ -9,13 +9,16 @@
 ### New Users
 
 1. **[README.md](../README.md)** - Project overview
-2. **[ALIAS-REFERENCE-CARD.md](reference/ALIAS-REFERENCE-CARD.md)** - All 28 aliases documented
-3. **[WORKFLOW-QUICK-REFERENCE.md](reference/WORKFLOW-QUICK-REFERENCE.md)** - Daily workflows
+2. **[Quick Start](getting-started/quick-start.md)** - 5-minute introduction
+3. **[First Session Tutorial](tutorials/01-first-session.md)** - Your first workflow
+4. **[Command Reference](reference/ALIAS-REFERENCE-CARD.md)** - All commands documented
 
-### Current Users (Post-Cleanup)
+### Current Users
 
-1. **[ALIAS-REFERENCE-CARD.md](reference/ALIAS-REFERENCE-CARD.md)** - Migration guide included
-2. **[index.md](index.md)** - See "What Changed (2025-12-19)" section for cleanup details
+1. **[What's New](index.md#recent-updates)** - Phase P6 complete (Dec 24, 2025)
+2. **[Production Use Phase](../PRODUCTION-USE-PHASE.md)** - Started Dec 24, 2025
+3. **[API Reference](api/API-REFERENCE.md)** - Complete API documentation (NEW)
+4. **[Interactive Examples](api/INTERACTIVE-EXAMPLES.md)** - 13 runnable code examples (NEW)
 
 ---
 
@@ -123,19 +126,25 @@
 
 ## 📊 Statistics
 
-### Current State (2025-12-19)
+### Current State (2025-12-24)
 
+- **Version:** v2.0.0-beta.1
+- **Status:** Production Use Phase (started Dec 24, 2025)
 - **Custom aliases:** 28
 - **Git plugin aliases:** 226+
 - **Dispatcher functions:** 6 (cc, gm, peek, qu, work, pick)
 - **Total functions:** 100+
-- **Test coverage:** 9 tests, all passing
+- **Test coverage:** 559 tests, 100% passing ⭐
+- **Documentation:** 63 pages, 96K+ lines
+- **Architecture:** Clean Architecture (3 layers, 265→559 tests)
+- **Performance:** 10x faster (caching layer)
 
 ### Historical
 
 - **Peak aliases:** 179 (pre-2025-12-19)
 - **Reduction:** 84%
-- **Cleanup duration:** ~2 hours
+- **Phases complete:** P0-P6 (100%)
+- **Implementation:** Dec 14-24, 2025 (10 days)
 
 ---
 

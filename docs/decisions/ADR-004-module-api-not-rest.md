@@ -1,4 +1,4 @@
-# ADR-003: Use Node.js Module API Pattern (Not REST/HTTP)
+# ADR-004: Use Node.js Module API Pattern (Not REST/HTTP)
 
 **Status:** ✅ Accepted
 **Date:** 2025-12-20
