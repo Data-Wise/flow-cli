@@ -26,6 +26,7 @@
 ### The Challenge
 
 When working across 20+ projects:
+
 - Changes in one affect others
 - Standards need consistency
 - Documentation can drift
@@ -37,6 +38,7 @@ When working across 20+ projects:
 **Centralized coordination hub:** `/Users/dt/projects/.planning/`
 
 **Key coordination files:**
+
 - `NOW.md` - Current focus across all projects
 - `ROADMAP.md` - Quarterly goals
 - `PACKAGES.md` - R package status
@@ -50,19 +52,20 @@ When working across 20+ projects:
 
 **For each concern:**
 
-| Concern | Source of Truth |
-|---------|----------------|
-| **Alias definitions** | `~/projects/dev-tools/flow-cli/` |
+| Concern                     | Source of Truth                                          |
+| --------------------------- | -------------------------------------------------------- |
+| **Alias definitions**       | `~/projects/dev-tools/flow-cli/`                         |
 | **Documentation standards** | `~/projects/dev-tools/flow-cli/standards/documentation/` |
-| **Code style** | `~/projects/dev-tools/flow-cli/standards/code/` |
-| **Project structure** | `~/projects/dev-tools/flow-cli/standards/project/` |
-| **ADHD templates** | `~/projects/dev-tools/flow-cli/standards/adhd/` |
-| **R package standards** | MediationVerse lead package |
-| **Cross-project status** | `/Users/dt/projects/.planning/` |
+| **Code style**              | `~/projects/dev-tools/flow-cli/standards/code/`          |
+| **Project structure**       | `~/projects/dev-tools/flow-cli/standards/project/`       |
+| **ADHD templates**          | `~/projects/dev-tools/flow-cli/standards/adhd/`          |
+| **R package standards**     | MediationVerse lead package                              |
+| **Cross-project status**    | `/Users/dt/projects/.planning/`                          |
 
 ### 2. Propagation Strategy
 
 When standards change:
+
 1. **Update source of truth** first
 2. **Document change** in CHANGELOG
 3. **Propagate to active projects** (within 1 week)
@@ -71,6 +74,7 @@ When standards change:
 ### 3. Communication Channels
 
 **For coordination:**
+
 - `.STATUS` files - Individual project status
 - `PROJECT-HUB.md` - Project strategic plan
 - `/Users/dt/projects/.planning/NOW.md` - Cross-project priorities
@@ -108,12 +112,14 @@ Teaching projects
 ### Dependency Rules
 
 **When updating a dependency:**
+
 1. **Check downstream** - What depends on this?
 2. **Test affected projects** - Do they still work?
 3. **Update documentation** - Note breaking changes
 4. **Coordinate releases** - Don't break downstream
 
 **Example:**
+
 ```bash
 # Before changing flow-cli standards
 grep -r "ALIAS-REFERENCE-CARD" ~/projects/*/README.md
@@ -129,6 +135,7 @@ grep -r "ALIAS-REFERENCE-CARD" ~/projects/*/README.md
 ### Definition
 
 A breaking change is ANY change that:
+
 - Removes a command/alias others use
 - Changes command behavior others depend on
 - Modifies file structure others reference
@@ -140,38 +147,46 @@ A breaking change is ANY change that:
 **Before making breaking change:**
 
 1. **Document in proposal:**
+
    ```markdown
    ## Breaking Changes
 
    ### What's Breaking
+
    - Removing `js` alias → use `just-start`
 
    ### Who's Affected
+
    - Anyone using shortcuts in scripts
    - Tutorial documentation
 
    ### Migration Path
+
    - Find/replace: js → just-start
    - Update all docs referencing old command
    ```
 
 2. **Add to CHANGELOG:**
+
    ```markdown
    ## [Unreleased]
 
    ### BREAKING CHANGES
+
    - Removed `js`, `idk`, `stuck` aliases
    - Use `just-start` instead
    - See MIGRATION.md for full guide
    ```
 
 3. **Create migration guide:**
+
    ```markdown
    # Migration Guide v1.0 → v2.0
 
    ## Removed Aliases
-   | Old | New | Notes |
-   |-----|-----|-------|
+
+   | Old  | New          | Notes                 |
+   | ---- | ------------ | --------------------- |
    | `js` | `just-start` | Function still exists |
    ```
 
@@ -181,10 +196,12 @@ A breaking change is ANY change that:
    - Test after updates
 
 5. **Announce in .planning/NOW.md:**
+
    ```markdown
    ## Active Coordination
 
    **Alias cleanup (2025-12-19):**
+
    - flow-cli: 179→28 aliases
    - Affects: Tutorial docs need rewrite
    - Status: Warning notes added, rewrites planned
@@ -197,12 +214,15 @@ A breaking change is ANY change that:
 ### R Package Releases
 
 **Coordination needed when:**
+
 - Multiple packages in MediationVerse
 - Dependency changes affect downstream
 - CRAN submission timing
 
 **Process:**
+
 1. **Check dependency graph:**
+
    ```R
    # Which packages depend on this?
    tools::package_dependencies("medfit", reverse = TRUE)
@@ -221,13 +241,16 @@ A breaking change is ANY change that:
 ### Documentation Site Releases
 
 **When updating docs:**
+
 1. **Build and test locally:**
+
    ```bash
    mkdocs build
    mkdocs serve  # Preview at localhost:8000
    ```
 
 2. **Check for broken links:**
+
    ```bash
    mkdocs build 2>&1 | grep -i "warning\|error"
    ```
@@ -242,12 +265,12 @@ A breaking change is ANY change that:
 
 ### Documentation Types
 
-| Type | Location | Sync Strategy |
-|------|----------|---------------|
-| **Standards** | `flow-cli/standards/` | Manual propagation |
-| **Tutorials** | Project-specific | Reference standards |
-| **API docs** | Auto-generated | No sync needed |
-| **Website design** | Template in standards | Copy to projects |
+| Type               | Location              | Sync Strategy       |
+| ------------------ | --------------------- | ------------------- |
+| **Standards**      | `flow-cli/standards/` | Manual propagation  |
+| **Tutorials**      | Project-specific      | Reference standards |
+| **API docs**       | Auto-generated        | No sync needed      |
+| **Website design** | Template in standards | Copy to projects    |
 
 ### Keeping Docs in Sync
 
@@ -256,12 +279,15 @@ A breaking change is ANY change that:
 **Solution:**
 
 1. **Link, don't duplicate:**
+
    ```markdown
    # In project README
+
    See [ZSH Alias Reference](../flow-cli/docs/user/ALIAS-REFERENCE-CARD.md)
    ```
 
 2. **Use templates:**
+
    ```bash
    # Copy latest template
    cp ~/projects/dev-tools/flow-cli/standards/adhd/QUICK-START-TEMPLATE.md \
@@ -269,6 +295,7 @@ A breaking change is ANY change that:
    ```
 
 3. **Reference source of truth:**
+
    ```markdown
    # Commit Message Standards
 
@@ -291,16 +318,19 @@ A breaking change is ANY change that:
 **Source of Truth:** `~/projects/dev-tools/flow-cli/standards/`
 
 **Synced To:**
+
 - `project-hub/standards/`
 - `mediation-planning/standards/`
 - `dev-planning/standards/`
 
 **Sync Command:**
+
 ```bash
 ~/projects/dev-tools/flow-cli/scripts/sync-standards.sh
 ```
 
 **Check Sync Status:**
+
 ```bash
 # See which version each hub has
 cat ~/projects/project-hub/standards/.version
@@ -309,12 +339,14 @@ cat ~/projects/dev-tools/dev-planning/standards/.version
 ```
 
 **When to Sync:**
+
 - After updating any standard document
 - After creating new standard
 - Weekly (Friday with other reviews)
 - When coordinating major changes
 
 **Version Tracking:**
+
 - `.version` file in each standards folder
 - Date-based versioning (YYYY-MM-DD)
 - Easy to see if out of sync
@@ -328,27 +360,32 @@ cat ~/projects/dev-tools/dev-planning/standards/.version
 1. **Update source:** `flow-cli/standards/documentation/WEBSITE-DESIGN-GUIDE.md`
 
 2. **Run sync script:**
+
    ```bash
    ~/projects/dev-tools/flow-cli/scripts/sync-standards.sh
    ```
 
 3. **Document change:**
+
    ```markdown
    ## CHANGELOG
 
    ### 2025-12-19 - Modern CSS Standards
+
    - Added modern depth (subtle shadows)
    - Updated anti-patterns
    - See WEBSITE-DESIGN-GUIDE.md
    ```
 
 4. **Identify affected projects:**
+
    ```bash
    find ~/projects -name "mkdocs.yml" -type f
    # Lists all projects with documentation sites
    ```
 
 5. **Create propagation plan:**
+
    ```markdown
    ## Standards Propagation Plan
 
@@ -363,10 +400,12 @@ cat ~/projects/dev-tools/dev-planning/standards/.version
    ```
 
 6. **Track in .planning/NOW.md:**
+
    ```markdown
    ## Active Coordination
 
    **Website standards propagation:**
+
    - Updated: flow-cli (✅)
    - Synced to PM hubs: ✅
    - Pending: project-a, project-b, project-c
@@ -476,6 +515,7 @@ vim ~/projects/.planning/ROADMAP.md
 **When two projects need incompatible changes:**
 
 1. **Document conflict:**
+
    ```markdown
    # Conflict Log
 
@@ -483,6 +523,7 @@ vim ~/projects/.planning/ROADMAP.md
    Projects: medfit, probmed
 
    Conflict:
+
    - medfit needs API v2
    - probmed still on API v1
 
@@ -508,7 +549,9 @@ vim ~/projects/.planning/ROADMAP.md
 ### When Something Breaks Cross-Project
 
 **Immediate:**
+
 1. **Identify scope:**
+
    ```bash
    # What's broken?
    # Which projects affected?
@@ -516,14 +559,17 @@ vim ~/projects/.planning/ROADMAP.md
    ```
 
 2. **Rollback if critical:**
+
    ```bash
    git revert <commit>
    # Or restore from backup
    ```
 
 3. **Document incident:**
+
    ```markdown
    # Incident Log
+
    Date: 2025-12-19
    Time: 14:30
 
@@ -532,6 +578,7 @@ vim ~/projects/.planning/ROADMAP.md
    Rollback: Yes
 
    Fix Plan:
+
    - Add deprecation warnings first
    - Remove in next version
    ```
@@ -582,6 +629,7 @@ vim ~/projects/.planning/ROADMAP.md
 ## Integration with Other Standards
 
 **See also:**
+
 - [PROJECT-MANAGEMENT-STANDARDS.md](./PROJECT-MANAGEMENT-STANDARDS.md) - Two-tier system
 - [PROJECT-STRUCTURE.md](./PROJECT-STRUCTURE.md) - File organization
 - [COMMIT-MESSAGES.md](../code/COMMIT-MESSAGES.md) - Git standards
@@ -591,11 +639,13 @@ vim ~/projects/.planning/ROADMAP.md
 ## References
 
 **Coordination hub:**
+
 - `/Users/dt/projects/.planning/` - Central coordination
 - `/Users/dt/projects/.planning/NOW.md` - Current priorities
 - `/Users/dt/projects/.planning/ROADMAP.md` - Quarterly goals
 
 **Documentation:**
+
 - `/Users/dt/projects/.planning/README.md` - Planning system overview
 - `/Users/dt/projects/.planning/archive/PROJECT_MANAGEMENT_OVERVIEW.md` - Detailed system
 

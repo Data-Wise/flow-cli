@@ -9,6 +9,7 @@
 ## What Changed
 
 ### Before (v1.0)
+
 ```bash
 mcp-list              # List servers
 mcp-cd shell          # Navigate
@@ -20,6 +21,7 @@ mcp-pick              # Interactive picker
 ```
 
 ### After (v2.0)
+
 ```bash
 mcp                   # List servers (default)
 mcp cd shell          # Navigate
@@ -37,6 +39,7 @@ mcp pick              # Interactive picker
 ## How to Use
 
 ### Quick Start
+
 ```bash
 # Reload shell to activate new commands
 source ~/.config/zsh/.zshrc
@@ -57,6 +60,7 @@ mcp help
 ### Full Command Reference
 
 #### Core Actions
+
 ```bash
 mcp                   # List all servers (default)
 mcp cd <name>         # Navigate to server directory
@@ -66,6 +70,7 @@ mcp pick              # Interactive fzf picker
 ```
 
 #### Info & Status
+
 ```bash
 mcp status            # Show configuration status
 mcp readme <name>     # View server README
@@ -73,6 +78,7 @@ mcp help              # Show help
 ```
 
 #### Short Forms
+
 ```bash
 mcp l                 # list
 mcp g <name>          # cd (goto)
@@ -89,6 +95,7 @@ mcp h                 # help
 ## Available Servers
 
 ### 1. docling
+
 **Runtime:** Python (uv)
 **Purpose:** Advanced document processing (PDF→Markdown, OCR, tables)
 
@@ -98,6 +105,7 @@ mcp test docling
 ```
 
 ### 2. statistical-research
+
 **Runtime:** Bun (TypeScript)
 **Purpose:** R execution, literature search, Zotero integration
 
@@ -107,6 +115,7 @@ mcp test statistical-research
 ```
 
 ### 3. shell
+
 **Runtime:** Node.js
 **Purpose:** Execute shell commands with full zsh environment
 
@@ -116,6 +125,7 @@ mcp test shell
 ```
 
 ### 4. project-refactor
+
 **Runtime:** Node.js
 **Purpose:** Safe project renaming and refactoring
 
@@ -129,11 +139,13 @@ mcp test project-refactor
 ## Files Changed
 
 ### Core Implementation
+
 - **Created:** `~/.config/zsh/functions/mcp-dispatcher.zsh` (from mcp-utils.zsh)
 - **Updated:** `~/.config/zsh/.zshrc` (sources mcp-dispatcher.zsh)
 - **Updated:** `~/.config/zsh/tests/test-mcp-dispatcher.zsh`
 
 ### Documentation
+
 - **Updated:** `~/projects/dev-tools/flow-cli/zsh/help/quick-reference.md`
   - Added "🔌 MCP SERVERS (8)" section
   - Updated statistics: 90 → 98 commands
@@ -149,6 +161,7 @@ mcp test project-refactor
   - Updated development workflow
 
 ### Reference Documentation
+
 - **Created:** `~/PROPOSAL-MCP-DISPATCHER-STANDARDS.md`
 - **Created:** `~/MCP-DISPATCHER-DOCUMENTATION-UPDATE.md`
 - **Created:** `~/MCP-V2-MIGRATION-COMPLETE.md` (this file)
@@ -167,6 +180,7 @@ mcp list              # MCP servers
 ```
 
 Short forms work consistently:
+
 ```bash
 g s                   # git status
 r t                   # r test
@@ -175,6 +189,7 @@ mcp l                 # mcp list
 ```
 
 Help always available:
+
 ```bash
 g help
 r help
@@ -208,6 +223,7 @@ source ~/.config/zsh/.zshrc
 ```
 
 Then try:
+
 ```bash
 mcp                   # See all servers
 mcpp                  # Interactive picker
@@ -220,18 +236,19 @@ mcp help              # Full reference
 
 ### Old → New Mapping
 
-| Old Command | New Command | Short Form |
-|-------------|-------------|------------|
-| `mcp-list` | `mcp list` | `mcp l` |
-| `mcp-cd NAME` | `mcp cd NAME` | `mcp g NAME` |
-| `mcp-test NAME` | `mcp test NAME` | `mcp t NAME` |
-| `mcp-edit NAME` | `mcp edit NAME` | `mcp e NAME` |
-| `mcp-status` | `mcp status` | `mcp s` |
-| `mcp-readme NAME` | `mcp readme NAME` | `mcp r NAME` |
-| `mcp-pick` | `mcp pick` | `mcp p` or `mcpp` |
-| `mcp-help` | `mcp help` | `mcp h` |
+| Old Command       | New Command       | Short Form        |
+| ----------------- | ----------------- | ----------------- |
+| `mcp-list`        | `mcp list`        | `mcp l`           |
+| `mcp-cd NAME`     | `mcp cd NAME`     | `mcp g NAME`      |
+| `mcp-test NAME`   | `mcp test NAME`   | `mcp t NAME`      |
+| `mcp-edit NAME`   | `mcp edit NAME`   | `mcp e NAME`      |
+| `mcp-status`      | `mcp status`      | `mcp s`           |
+| `mcp-readme NAME` | `mcp readme NAME` | `mcp r NAME`      |
+| `mcp-pick`        | `mcp pick`        | `mcp p` or `mcpp` |
+| `mcp-help`        | `mcp help`        | `mcp h`           |
 
 ### Removed Aliases (v1.0)
+
 - `ml` - use `mcp` or `mcp l`
 - `mc` - use `mcp cd`
 - `mcpl` - use `mcp l`
@@ -260,18 +277,19 @@ Failed: 0
 ```
 
 **Tests cover:**
+
 1. MCP_SERVERS_DIR variable
 2. mcp() dispatcher function
-3. _mcp_list internal function
-4. _mcp_cd internal function
-5. _mcp_edit internal function
-6. _mcp_test internal function
-7. _mcp_status internal function
-8. _mcp_readme internal function
-9. _mcp_pick internal function
-10. _mcp_help internal function
+3. \_mcp_list internal function
+4. \_mcp_cd internal function
+5. \_mcp_edit internal function
+6. \_mcp_test internal function
+7. \_mcp_status internal function
+8. \_mcp_readme internal function
+9. \_mcp_pick internal function
+10. \_mcp_help internal function
 11. mcpp alias (mcp pick)
-12. Old mcp-* functions removed
+12. Old mcp-\* functions removed
 
 ---
 

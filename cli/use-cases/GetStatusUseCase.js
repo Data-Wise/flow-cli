@@ -92,19 +92,21 @@ export class GetStatusUseCase {
 
     // Build status response
     return {
-      activeSession: activeSession ? {
-        id: activeSession.id,
-        project: activeSession.project,
-        task: activeSession.task,
-        branch: activeSession.branch,
-        duration: activeSession.getDuration(),
-        isFlowState: activeSession.isInFlowState(),
-        state: activeSession.state.value,
-        startTime: activeSession.startTime,
-        context: activeSession.context,
-        gitStatus,
-        statusFile
-      } : null,
+      activeSession: activeSession
+        ? {
+            id: activeSession.id,
+            project: activeSession.project,
+            task: activeSession.task,
+            branch: activeSession.branch,
+            duration: activeSession.getDuration(),
+            isFlowState: activeSession.isInFlowState(),
+            state: activeSession.state.value,
+            startTime: activeSession.startTime,
+            context: activeSession.context,
+            gitStatus,
+            statusFile
+          }
+        : null,
 
       today: {
         sessions: todaySessions.length,
@@ -113,22 +115,28 @@ export class GetStatusUseCase {
         flowSessions: todaySessions.filter(s => s.getDuration() >= 15).length
       },
 
-      recent: includeRecentSessions ? {
-        days: recentDays,
-        sessions: recentSessions.length,
-        totalDuration: recentSessions.reduce((sum, s) => sum + s.getDuration(), 0),
-        averageDuration: recentSessions.length > 0
-          ? Math.round(recentSessions.reduce((sum, s) => sum + s.getDuration(), 0) / recentSessions.length)
-          : 0,
-        recentSessions: recentSessions.slice(0, 5).map(s => ({
-          id: s.id,
-          project: s.project,
-          task: s.task,
-          duration: s.getDuration(),
-          outcome: s.outcome,
-          startTime: s.startTime
-        }))
-      } : null,
+      recent: includeRecentSessions
+        ? {
+            days: recentDays,
+            sessions: recentSessions.length,
+            totalDuration: recentSessions.reduce((sum, s) => sum + s.getDuration(), 0),
+            averageDuration:
+              recentSessions.length > 0
+                ? Math.round(
+                    recentSessions.reduce((sum, s) => sum + s.getDuration(), 0) /
+                      recentSessions.length
+                  )
+                : 0,
+            recentSessions: recentSessions.slice(0, 5).map(s => ({
+              id: s.id,
+              project: s.project,
+              task: s.task,
+              duration: s.getDuration(),
+              outcome: s.outcome,
+              startTime: s.startTime
+            }))
+          }
+        : null,
 
       projects: projectStats,
 
@@ -145,24 +153,26 @@ export class GetStatusUseCase {
     const todayMinutes = todaySessions.reduce((sum, s) => sum + s.getDuration(), 0)
 
     // Recent average
-    const recentDays = recentSessions.length > 0
-      ? Math.ceil((Date.now() - recentSessions[recentSessions.length - 1].startTime) / (24 * 60 * 60 * 1000))
-      : 1
+    const recentDays =
+      recentSessions.length > 0
+        ? Math.ceil(
+            (Date.now() - recentSessions[recentSessions.length - 1].startTime) /
+              (24 * 60 * 60 * 1000)
+          )
+        : 1
 
     const recentMinutes = recentSessions.reduce((sum, s) => sum + s.getDuration(), 0)
     const dailyAverage = Math.round(recentMinutes / Math.max(recentDays, 1))
 
     // Flow state percentage
     const flowSessions = recentSessions.filter(s => s.getDuration() >= 15).length
-    const flowPercentage = recentSessions.length > 0
-      ? Math.round((flowSessions / recentSessions.length) * 100)
-      : 0
+    const flowPercentage =
+      recentSessions.length > 0 ? Math.round((flowSessions / recentSessions.length) * 100) : 0
 
     // Completion rate
     const completedSessions = recentSessions.filter(s => s.outcome === 'completed').length
-    const completionRate = recentSessions.length > 0
-      ? Math.round((completedSessions / recentSessions.length) * 100)
-      : 0
+    const completionRate =
+      recentSessions.length > 0 ? Math.round((completedSessions / recentSessions.length) * 100) : 0
 
     // Streak (consecutive days with sessions)
     const streak = this._calculateStreak(recentSessions)

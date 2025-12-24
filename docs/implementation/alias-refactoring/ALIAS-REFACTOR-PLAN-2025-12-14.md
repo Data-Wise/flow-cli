@@ -1,4 +1,5 @@
 # Alias Refactoring Plan
+
 **Date:** 2025-12-14
 **Current State:** 167 aliases
 **Target State:** ~88 aliases (47% reduction)
@@ -9,6 +10,7 @@
 ## 📊 Executive Summary
 
 **Analysis of 167 aliases reveals:**
+
 - 19 aliases should be **REMOVED** (deprecated, duplicates, conflicts)
 - 30 aliases should be **CONSOLIDATED** (too many variants)
 - 118 aliases are **WELL-DESIGNED** and should be kept
@@ -19,6 +21,7 @@
 ## 🔴 REMOVE (19 aliases)
 
 ### 1. Deprecated with Warnings (3)
+
 These already warn users to use new commands - just remove them:
 
 ```bash
@@ -34,54 +37,63 @@ unalias dashexport   # Use: nsyncexport
 ### 2. Duplicate Short Aliases (9)
 
 **R Documentation - Remove `dc` (conflicts with Docker)**
+
 ```bash
 unalias dc           # ❌ Conflicts with docker-compose users
 # Keep: rd='rdoc'    # ✅ R + Doc pattern
 ```
 
 **R Build - Remove `bd` (conflicts with "back directory")**
+
 ```bash
 unalias bd           # ❌ Vague, potential conflicts
 # Keep: rb='rbuild'  # ✅ R + Build pattern
 ```
 
 **R Check - Remove `ck` (too vague)**
+
 ```bash
 unalias ck           # ❌ Vague abbreviation
 # Keep: rc='rcheck'  # ✅ R + Check pattern
 ```
 
 **R Load - Remove `ld` (conflicts with "list directory")**
+
 ```bash
 unalias ld           # ❌ Conflicts with ld linker, list dir
 # Use: rload         # ✅ Already short enough
 ```
 
 **R Test - Remove `t` (conflicts with tmux)**
+
 ```bash
 unalias t            # ❌ Conflicts with tmux prefix, tree command
 # Keep: ts='rtest'   # ✅ Test Short
 ```
 
 **Claude - Remove `c` (conflicts with cd users)**
+
 ```bash
 unalias c            # ❌ Conflicts with common cd aliases
 # Keep: cc='claude'  # ✅ Clear, memorable
 ```
 
 **Quarto - Remove `q` (conflicts with quit)**
+
 ```bash
 unalias q            # ❌ Conflicts with quit, q in vi/less
 # Keep: qp='quarto preview'  # ✅ Clear purpose
 ```
 
 **Directories - Remove `d` (use dirs -v directly)**
+
 ```bash
 unalias d            # ❌ Single-letter for uncommon command
 # Use: dirs -v       # ✅ Clear, built-in
 ```
 
 **Dashboard - Remove `do` (too vague)**
+
 ```bash
 unalias do           # ❌ Conflicts with shell keywords
 # Use: dashopen      # ✅ Explicit
@@ -90,6 +102,7 @@ unalias do           # ❌ Conflicts with shell keywords
 ---
 
 ### 3. Redundant Function Wrappers (1)
+
 ```bash
 unalias gpkgcommit   # Just use: rpkgcommit (function exists)
 ```
@@ -97,6 +110,7 @@ unalias gpkgcommit   # Just use: rpkgcommit (function exists)
 ---
 
 ### 4. Redundant Aliases to Aliases (7)
+
 These just add `aliases` prefix to `ah` help system:
 
 ```bash
@@ -118,6 +132,7 @@ unalias aliases-short    # Use: ah short
 ### Claude Code Prompts (17 → 3)
 
 **Currently have 17 prompt aliases:**
+
 ```bash
 ccdoc       → claude "Generate documentation for this code"
 ccexplain   → claude "Explain this code clearly and concisely"
@@ -141,12 +156,14 @@ ccstream    → claude --output-format stream-json
 **Remove all 17 prompt aliases.**
 
 **Why:**
+
 - Already have `ccp="claude -p"` for prompts
 - Users can just use: `ccp "Explain this code"`
 - Cleaner, more flexible, easier to remember
 - Reduces 17 aliases to 1 pattern
 
 **Keep only mode/model aliases (8):**
+
 ```bash
 cc='claude'                                    # Interactive
 ccc='claude -c'                                # Continue
@@ -159,6 +176,7 @@ ccyolo='claude --permission-mode bypassPermissions'  # Bypass all
 ```
 
 **Migration Guide:**
+
 ```bash
 # Old way:
 ccfix
@@ -174,6 +192,7 @@ cc  # Then type your request interactively
 ### Gemini Variants (13 → 5)
 
 **Currently have 13 gemini aliases:**
+
 ```bash
 gm='gemini'                    # Interactive
 gmpi='gemini -i'               # Prompt then interactive
@@ -194,6 +213,7 @@ gmys='gemini --yolo --sandbox'
 ```
 
 **Keep only 5 essential aliases:**
+
 ```bash
 gm='gemini'                  # Interactive
 gmy='gemini --yolo'          # YOLO mode (most used power mode)
@@ -203,6 +223,7 @@ gme='gemini extensions'      # Extensions (common management)
 ```
 
 **Remove 8 aliases:**
+
 ```bash
 unalias gmpi    # Use: gm -i
 unalias gmsd    # Use: gms --debug (if needed)
@@ -217,6 +238,7 @@ unalias gmm     # Use: gm mcp (clear enough)
 ```
 
 **Why:**
+
 - Flag combinations (gmsd, gmyd, gmys) are rare - just use flags
 - Sub-commands (gmei, gmel, gmeu, gmm) - use `gme`/`gm` directly
 - Reduces 13 aliases to 5 core workflows
@@ -226,6 +248,7 @@ unalias gmm     # Use: gm mcp (clear enough)
 ## 🟢 KEEP (118 aliases)
 
 ### R Package Development (Core Workflow) ✅
+
 ```bash
 rload, rtest, rdoc, rcheck, rbuild, rcycle, rinstall
 rbumpmajor, rbumpminor, rbumppatch
@@ -235,13 +258,16 @@ rtest1, rtestfile
 ```
 
 **Atomic Pairs (ADHD Gold):**
+
 ```bash
 lt='rload && rtest'     # Load then test
 dt='rdoc && rtest'      # Document then test
 ```
 
 ### Typo Tolerance (ADHD Essential) ✅
+
 **Keep all 20 typo aliases:**
+
 ```bash
 # Claude typos
 claue, cluade, clade, calue, claudee
@@ -262,6 +288,7 @@ qurto, qaurt
 **Rationale:** These are ADHD lifesavers. Keep them all.
 
 ### Project Status & Dashboard ✅
+
 ```bash
 # Full names (documentation)
 pstat, pstatview, pstatshow, pstatlist, pstatcount
@@ -278,6 +305,7 @@ dash, dashopen  # (Keep dash for muscle memory)
 ```
 
 ### Git Workflow ✅
+
 ```bash
 gs='git status -sb'
 glog='git log --oneline --graph --decorate --all'
@@ -286,6 +314,7 @@ gundo='git reset --soft HEAD~1'
 ```
 
 ### Command Replacements (Modern CLI) ✅
+
 ```bash
 cat='bat'
 grep='rg'
@@ -294,6 +323,7 @@ peek='bat'
 ```
 
 ### Quarto ✅
+
 ```bash
 qp='quarto preview'
 qr='quarto render'
@@ -303,12 +333,14 @@ cdq='cd $QUARTO_DIR'
 ```
 
 ### Emacs ✅
+
 ```bash
 e="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient -c -a ''"
 ec="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient -c -a ''"
 ```
 
 ### Project Detection (zsh-claude-workflow) ✅
+
 ```bash
 ptype='proj-type'
 pinfo='proj-info'
@@ -319,6 +351,7 @@ pclaude='proj-claude'
 ```
 
 ### Peek Aliases (bat viewers) ✅
+
 ```bash
 peek='bat'
 peekdesc='bat DESCRIPTION'
@@ -329,6 +362,7 @@ peekrd='bat --language=markdown'
 ```
 
 ### R Package Utilities ✅
+
 ```bash
 rpkgtree='tree -L 3 -I "renv|.Rproj.user|*.Rcheck|docs|*.tar.gz|src/*.o|src/*.so"'
 rpkgclean='rm -rf .Rhistory .RData .Rproj.user'
@@ -339,6 +373,7 @@ rcovrep='Rscript -e "covr::report()"'
 ```
 
 ### R Check Variants ✅
+
 ```bash
 rcheckfast='Rscript -e "devtools::check(args = c(\"--no-examples\", \"--no-tests\", \"--no-vignettes\"))"'
 rcheckcran='Rscript -e "devtools::check(args = c(\"--as-cran\"))"'
@@ -348,12 +383,14 @@ rdoccheck='Rscript -e "devtools::check_man()"'
 ```
 
 ### Directory Shortcuts ✅
+
 ```bash
 cdq='cd $QUARTO_DIR'
 cdrpkg='cd $R_PACKAGES_DIR'
 ```
 
 ### Claude Code Essentials ✅
+
 ```bash
 ccl='claude --resume latest'
 ccr='claude -r'  # Resume with picker
@@ -366,6 +403,7 @@ ccplugin='claude plugin'
 ## 📋 Implementation Plan
 
 ### Phase 1: Backup (5 min)
+
 ```bash
 # Create backup
 cp ~/.config/zsh/.zshrc ~/.config/zsh/.zshrc.backup-2025-12-14
@@ -375,9 +413,11 @@ cp ~/.config/zsh/functions/adhd-helpers.zsh ~/.config/zsh/functions/adhd-helpers
 ```
 
 ### Phase 2: Remove Aliases (15 min)
+
 Edit `~/.config/zsh/.zshrc` and remove the 19 aliases listed above:
 
 **Remove these lines:**
+
 ```bash
 # Deprecated (3)
 alias dashsync='echo "⚠️  Use: nsync" && nsync'
@@ -409,7 +449,9 @@ alias aliases-short='aliases short'
 ```
 
 ### Phase 3: Consolidate Claude Aliases (20 min)
+
 **Remove these 17 prompt aliases:**
+
 ```bash
 alias ccdoc='claude "Generate documentation for this code"'
 alias ccexplain='claude -p "Explain this code clearly and concisely"'
@@ -431,6 +473,7 @@ alias ccstream='claude -p --output-format stream-json'
 ```
 
 **Keep only these 8:**
+
 ```bash
 alias cc='claude'
 alias ccc='claude -c'
@@ -443,7 +486,9 @@ alias ccyolo='claude --permission-mode bypassPermissions'
 ```
 
 ### Phase 4: Consolidate Gemini Aliases (10 min)
+
 **Remove these 8:**
+
 ```bash
 alias gmpi='gemini -i'
 alias gmsd='gemini --sandbox --debug'
@@ -459,6 +504,7 @@ alias gmd='gemini --debug'
 ```
 
 **Keep only these 5:**
+
 ```bash
 alias gm='gemini'
 alias gmy='gemini --yolo'
@@ -468,14 +514,17 @@ alias gme='gemini extensions'
 ```
 
 ### Phase 5: Update Help System (30 min)
+
 Update `~/.config/zsh/functions/adhd-helpers.zsh` to reflect changes:
 
 **Update `aliashelp()` function to show:**
+
 - Migration notes for removed aliases
-- New patterns (e.g., "Use `ccp 'prompt'` instead of cc* aliases")
+- New patterns (e.g., "Use `ccp 'prompt'` instead of cc\* aliases")
 - Cleaner categorization
 
 ### Phase 6: Test (15 min)
+
 ```bash
 # Reload config
 source ~/.config/zsh/.zshrc
@@ -495,7 +544,9 @@ ccp "test" # Should work
 ```
 
 ### Phase 7: Update Documentation (20 min)
+
 Update these files:
+
 - `ALIAS-REFERENCE-CARD.md` - Remove old aliases
 - `WORKFLOWS-QUICK-WINS.md` - Update examples
 - `.STATUS` - Mark refactor complete
@@ -506,12 +557,14 @@ Update these files:
 ## 🎯 Expected Outcomes
 
 ### Quantitative
+
 - **Before:** 167 aliases
 - **After:** ~88 aliases
 - **Reduction:** 47%
 - **Mental load:** Significantly reduced
 
 ### Qualitative
+
 - ✅ No more 1-letter conflicts (c, d, q, t)
 - ✅ Clearer patterns (use `ccp` for prompts)
 - ✅ Less duplication (one way to do things)
@@ -523,6 +576,7 @@ Update these files:
 ## 📝 Migration Notes for User
 
 ### Quick Reference
+
 **What changed:**
 
 1. **Removed 1-letter aliases:**
@@ -537,16 +591,18 @@ Update these files:
 3. **Removed prompt aliases:**
    - ❌ `ccfix`, `ccexplain`, etc. → Use `ccp "your prompt"`
 
-4. **Removed alias-* helpers:**
+4. **Removed alias-\* helpers:**
    - ❌ `aliases-claude`, etc. → Use `ah claude`
 
 5. **Removed deprecated:**
    - ❌ `dashsync`, `dashclip`, `dashexport` → Already using new names
 
 ### Muscle Memory Retraining
+
 If you keep typing removed aliases:
 
 **Option A:** Add them back to `.zshrc.local` (machine-specific)
+
 ```bash
 # ~/.zshrc.local
 alias c='cc'
@@ -599,6 +655,7 @@ source ~/.config/zsh/.zshrc
 **After:** "I have 88 focused aliases. The pattern is clear."
 
 **ADHD Benefits:**
+
 - Fewer decisions = less cognitive load
 - Clear patterns = easier memory
 - No conflicts = less frustration
@@ -606,5 +663,5 @@ source ~/.config/zsh/.zshrc
 
 ---
 
-*Created: 2025-12-14*
-*Ready for implementation*
+_Created: 2025-12-14_
+_Ready for implementation_

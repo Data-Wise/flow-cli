@@ -17,30 +17,37 @@
 ## 🎯 Test Coverage
 
 ### 1. Basic Functionality ✅
+
 - `test_dash_function_exists` - Verifies dash function is defined
 - `test_dash_help` - Tests help display content
 
 ### 2. Category Filtering ✅
+
 - `test_category_validation` - Tests all valid categories (all, teaching, research, packages, dev, quarto)
 - `test_invalid_category` - Tests error handling for invalid categories
 
 ### 3. Sync Functionality ✅
+
 - `test_sync_creates_project_hub_dirs` - Verifies directory creation
 - `test_sync_copies_status_files` - Tests .STATUS file copying
 
 ### 4. Output Format ✅
+
 - `test_output_format_structure` - Checks dashboard structure
 - `test_priority_display` - Verifies priority markers ([P0], [P1], [P2], [--])
 
 ### 5. Performance ✅
+
 - `test_performance_sync_speed` - Tests sync speed with 20 files
 
 ###6. Edge Cases ✅
+
 - `test_no_status_files` - Empty directory handling
 - `test_missing_fields_in_status` - Handles incomplete .STATUS files
 - `test_project_hub_missing` - Creates missing project-hub
 
 ### 7. Integration ✅
+
 - `test_integration_full_workflow` - End-to-end test with multiple projects
 
 ---
@@ -69,17 +76,20 @@ assert_exit_code "description" "expected_code" "actual_code"
 ## 🏃 Running the Tests
 
 ### Run All Tests
+
 ```bash
 zsh zsh/tests/test-dash.zsh
 ```
 
 ### Run from within ZSH
+
 ```zsh
 source zsh/tests/test-dash.zsh
 run_all_tests
 ```
 
 ### Integration with test suite
+
 ```bash
 # Add to run-all-tests.zsh
 source $SCRIPT_DIR/test-dash.zsh && run_all_tests
@@ -113,11 +123,13 @@ All test suite bugs have been fixed! See `DASH-TEST-SUITE-FIXES.md` for details:
 ## 📈 Improvements Made
 
 ### From: No Tests ❌
+
 - Zero test coverage for dash command
 - No automated validation
 - Manual verification only
 
 ### To: Comprehensive Suite ✅
+
 - 30+ test cases
 - Multiple test categories
 - Automated assertions
@@ -130,15 +142,15 @@ All test suite bugs have been fixed! See `DASH-TEST-SUITE-FIXES.md` for details:
 
 ## 🎯 Test Categories Breakdown
 
-| Category | Tests | Status |
-|----------|-------|--------|
-| Basic Functionality | 2 | ✅ 2/2 passing |
-| Category Filtering | 2 | ⚠️ 1/2 passing |
-| Sync Functionality | 2 | ⚠️ Needs fix |
-| Output Format | 2 | ✅ 2/2 passing |
-| Performance | 1 | ✅ 1/1 passing |
-| Edge Cases | 3 | ✅ 3/3 passing |
-| Integration | 1 | ⚠️ Needs fix |
+| Category            | Tests | Status         |
+| ------------------- | ----- | -------------- |
+| Basic Functionality | 2     | ✅ 2/2 passing |
+| Category Filtering  | 2     | ⚠️ 1/2 passing |
+| Sync Functionality  | 2     | ⚠️ Needs fix   |
+| Output Format       | 2     | ✅ 2/2 passing |
+| Performance         | 1     | ✅ 1/1 passing |
+| Edge Cases          | 3     | ✅ 3/3 passing |
+| Integration         | 1     | ⚠️ Needs fix   |
 
 ---
 
@@ -220,20 +232,24 @@ All test suite bugs have been fixed! See `DASH-TEST-SUITE-FIXES.md` for details:
 
 ### Add to README.md
 
-```markdown
+````markdown
 ## Testing
 
 ### Run All Tests
+
 ```bash
 ./zsh/tests/run-all-tests.zsh
 ```
+````
 
 ### Run Dash Tests Only
+
 ```bash
 zsh ./zsh/tests/test-dash.zsh
 ```
 
 ### Test Coverage
+
 - ✅ Basic functionality (function exists, help)
 - ✅ Category filtering (all categories + errors)
 - ✅ Sync functionality (file copying, directories)
@@ -241,6 +257,7 @@ zsh ./zsh/tests/test-dash.zsh
 - ✅ Performance (sync speed)
 - ✅ Edge cases (empty dirs, missing fields)
 - ✅ Integration (full workflow)
+
 ```
 
 ---
@@ -324,3 +341,4 @@ zsh ./zsh/tests/test-dash.zsh
 **Test Suite Status:** ✅ **READY** (pending minor fixes)
 **Deployment:** ⏳ After fixes applied
 **Integration:** 📋 Planned (run-all-tests.zsh)
+```

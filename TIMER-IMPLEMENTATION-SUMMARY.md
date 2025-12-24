@@ -10,9 +10,11 @@
 ## What Was Implemented
 
 ### 1. Help Function: `_timer_help()`
+
 **Lines:** 486-517
 
 A comprehensive help system showing:
+
 - Usage syntax
 - Available commands
 - Practical examples
@@ -20,19 +22,23 @@ A comprehensive help system showing:
 - Auto-win logging notes
 
 ### 2. Main Function: `timer()`
+
 **Lines:** 519-597
 
 A smart dispatcher with these capabilities:
 
 #### Help Support (Lines 520-524)
+
 ```zsh
 timer help      # Shows help
 timer --help    # Shows help
 timer -h        # Shows help
 ```
+
 All three forms execute `_timer_help()` and return 0.
 
 #### Focus Mode (Lines 531-561)
+
 ```zsh
 timer           # Smart default: 25-min focus + auto-win
 timer focus     # Same as above
@@ -40,6 +46,7 @@ timer focus 50  # 50-min focus + auto-win
 ```
 
 **Smart Features:**
+
 - Defaults to 25 minutes if no duration specified
 - Delegates to existing `focus()` function
 - Launches background watcher for auto-win logging
@@ -47,23 +54,28 @@ timer focus 50  # 50-min focus + auto-win
 - Automatically logs win on successful completion
 
 #### Break Timer (Lines 563-580)
+
 ```zsh
 timer break     # 5-min break (default)
 timer break 10  # 10-min break
 ```
 
 **Features:**
+
 - Simple notification-based timer
 - No win logging (breaks aren't wins)
 - Disowned background process
 
 #### Status Command (Lines 582-589)
+
 ```zsh
 timer status    # Show current timer state
 ```
+
 Delegates to existing `time-check` function.
 
 #### Error Handling (Lines 591-595)
+
 ```zsh
 timer invalid   # Shows error + help suggestion
 ```
@@ -77,12 +89,14 @@ timer invalid   # Shows error + help suggestion
 **Challenge:** The `focus()` function runs in background, making completion detection complex.
 
 **Solution:** Background watcher process that:
+
 1. Captures the timer PID from `/tmp/focus-timer-pid`
 2. Polls every 5 seconds until PID file disappears
 3. Verifies natural completion (vs early stop)
 4. Auto-logs win using existing `win()` command
 
 **Code:**
+
 ```zsh
 (
     local pid=$(cat /tmp/focus-timer-pid 2>/dev/null)
@@ -103,12 +117,12 @@ timer invalid   # Shows error + help suggestion
 
 The timer function works seamlessly with:
 
-| Existing Function | Integration |
-|-------------------|-------------|
-| `focus()` | Delegates focus timer execution |
-| `focus-stop()` | Unchanged (manual win prompt) |
-| `time-check()` | Used by `timer status` |
-| `win()` | Auto-logs completed sessions |
+| Existing Function | Integration                     |
+| ----------------- | ------------------------------- |
+| `focus()`         | Delegates focus timer execution |
+| `focus-stop()`    | Unchanged (manual win prompt)   |
+| `time-check()`    | Used by `timer status`          |
+| `win()`           | Auto-logs completed sessions    |
 
 **No modifications** were made to other functions in adhd-helpers.zsh.
 
@@ -117,6 +131,7 @@ The timer function works seamlessly with:
 ## Testing Status
 
 ### Automated Tests
+
 - [x] **Syntax Check:** PASSED ✓
 
 ### Manual Tests (Required)
@@ -143,6 +158,7 @@ timer invalid  # Should suggest: "Run 'timer help' for usage"
 ```
 
 ### Test Results
+
 - [x] Syntax validation
 - [x] Help command works (verified output)
 - [ ] Smart default (requires user testing)
@@ -155,6 +171,7 @@ timer invalid  # Should suggest: "Run 'timer help' for usage"
 ## Usage Examples
 
 ### Basic Usage
+
 ```bash
 # Start 25-min focus session (auto-logs win on completion)
 timer
@@ -173,6 +190,7 @@ timer status
 ```
 
 ### During Session
+
 ```bash
 # Check elapsed time
 tc
@@ -189,24 +207,28 @@ why
 ## Design Decisions
 
 ### 1. Why Delegate to `focus()`?
+
 - Reuses proven timer infrastructure
 - Maintains backward compatibility
 - Single source of truth for timer logic
 - Existing aliases (`f25`, `f50`) still work
 
 ### 2. Why Background Watcher?
+
 - `focus()` runs timer in background
 - Can't detect completion synchronously
 - Watcher monitors PID file lifecycle
 - Distinguishes completion from early stop
 
 ### 3. Why Disowned Process (`&!`)?
+
 - Prevents blocking terminal
 - Survives shell exit
 - ZSH-specific feature
 - Clean process management
 
 ### 4. Why Check Process Existence?
+
 - `focus-stop()` also removes PID file
 - Need to distinguish: completion vs early stop
 - If PID gone AND file gone = natural completion
@@ -216,34 +238,37 @@ why
 
 ## Files Modified
 
-| File | Change |
-|------|--------|
+| File                                       | Change                    |
+| ------------------------------------------ | ------------------------- |
 | `~/.config/zsh/functions/adhd-helpers.zsh` | Added 112 lines (486-597) |
 
 ## Related Documentation
 
-| Document | Purpose |
-|----------|---------|
-| `PROPOSAL-SMART-DEFAULTS.md` | Original proposal |
+| Document                                 | Purpose                       |
+| ---------------------------------------- | ----------------------------- |
+| `PROPOSAL-SMART-DEFAULTS.md`             | Original proposal             |
 | `IMPLEMENTATION-TIMER-SMART-DEFAULTS.md` | Detailed implementation notes |
-| `TIMER-IMPLEMENTATION-SUMMARY.md` | This summary |
+| `TIMER-IMPLEMENTATION-SUMMARY.md`        | This summary                  |
 
 ---
 
 ## Next Steps
 
 ### Immediate
+
 1. **User Testing:** Test all commands with real sessions
 2. **Verify Auto-Win:** Confirm background watcher works correctly
 3. **Check Edge Cases:** Test early stop, multiple timers, etc.
 
 ### Documentation Updates
+
 1. Add `timer` to alias reference card
 2. Update workflow quick wins guide
 3. Add to ADHD helpers documentation
 4. Create usage tutorial
 
 ### Future Enhancements
+
 - [ ] `timer cancel` - Stop background watcher
 - [ ] Visual progress indicator
 - [ ] Integration with `gm` (morning routine)
@@ -269,6 +294,7 @@ why
 ## Implementation Notes
 
 **Clean Implementation:**
+
 - Single responsibility per function
 - Clear separation of concerns
 - Reuses existing infrastructure
@@ -276,6 +302,7 @@ why
 - Comprehensive help documentation
 
 **ADHD-Friendly Features:**
+
 - Zero-friction start (`timer`)
 - Automatic win logging (dopamine reward)
 - Clear help documentation
@@ -283,6 +310,7 @@ why
 - Simple mental model (timer → focus → win)
 
 **Maintainability:**
+
 - Well-documented code
 - Clear variable names
 - Comprehensive comments

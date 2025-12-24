@@ -10,6 +10,7 @@
 ## 🎯 Objectives
 
 Add interactive command picker using `fzf`:
+
 1. **Visual browsing** - See all commands at once
 2. **Fuzzy search** - Type to filter instantly
 3. **Preview pane** - See details before executing
@@ -308,6 +309,7 @@ _r_help_interactive() {
 ### 4. Apply to All 8 Functions (1-2 hours)
 
 **Template approach:**
+
 ```zsh
 # Create generic preview function
 _help_preview_template() {
@@ -328,6 +330,7 @@ _gm_preview() { _help_preview_template "gm" "$1"; }
 ### 5. Testing (1 hour)
 
 **Manual Testing:**
+
 ```bash
 # Test interactive mode
 r ?
@@ -352,6 +355,7 @@ r ? --execute  # Should execute without confirmation
 ```
 
 **Automated Testing:**
+
 ```zsh
 # Update test suite
 test_interactive_mode() {
@@ -378,6 +382,7 @@ test_interactive_mode() {
 ## 🎨 User Experience
 
 ### Launch Interactive Mode:
+
 ```bash
 r ?
 # or
@@ -385,6 +390,7 @@ r help browse
 ```
 
 ### Interface:
+
 ```
 ┌─ r - R Package Development ────────────────┬─ Preview ─────────────────────┐
 │ > 🔥 test                                   │ r test - Run all tests        │
@@ -404,6 +410,7 @@ r help browse
 ```
 
 ### Workflow:
+
 1. Type `r ?`
 2. Start typing to filter (fuzzy search)
 3. Use arrow keys to navigate
@@ -451,15 +458,18 @@ r ? --execute
 ## 🔗 Dependencies
 
 **Required:**
+
 - Phase 2 complete
 - ZSH 5.0+
 
 **Optional:**
+
 - fzf 0.20+ (for interactive mode)
   - Install: `brew install fzf`
   - Graceful fallback if missing
 
 **fzf Features Used:**
+
 - `--preview` - Show preview pane
 - `--preview-window` - Configure preview
 - `--header` - Show instructions
@@ -533,6 +543,7 @@ FZF_OPTS=(
 ## 🔮 Future Enhancements (Beyond Phase 3)
 
 **Possible additions:**
+
 - Multi-select mode (execute multiple commands)
 - Command chaining (r test → r doc → r check)
 - Custom command lists/favorites
@@ -546,11 +557,13 @@ FZF_OPTS=(
 ## 📅 Timeline
 
 **Day 1 (3-4 hours):**
+
 - Implement fzf integration for r()
 - Create preview function
 - Test thoroughly
 
 **Day 2 (3-4 hours):**
+
 - Apply to remaining 7 functions
 - Add enhanced features (filtering, history)
 - Write tests

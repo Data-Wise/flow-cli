@@ -285,7 +285,9 @@ describe('StatusController - ASCII Visualizations', () => {
 
       await controller.handle()
 
-      const trendLine = consoleOutput.find(line => line.includes('Trend:') && line.match(/[▁▂▃▄▅▆▇█]/))
+      const trendLine = consoleOutput.find(
+        line => line.includes('Trend:') && line.match(/[▁▂▃▄▅▆▇█]/)
+      )
       expect(trendLine).toBeTruthy()
       expect(trendLine).toMatch(/[▁▂▃▄▅▆▇█]+/) // Contains sparkline characters
     })
@@ -317,7 +319,9 @@ describe('StatusController - ASCII Visualizations', () => {
 
       await controller.handle()
 
-      const trendLine = consoleOutput.find(line => line.includes('Trend:') && line.match(/[▁▂▃▄▅▆▇█]/))
+      const trendLine = consoleOutput.find(
+        line => line.includes('Trend:') && line.match(/[▁▂▃▄▅▆▇█]/)
+      )
       expect(trendLine).toBeTruthy()
       // Sparkline should show increasing pattern
       expect(trendLine).toMatch(/[▁▂▃▄▅▆▇█]+/)
@@ -376,7 +380,9 @@ describe('StatusController - ASCII Visualizations', () => {
       await controller.handle()
 
       // Should not crash, no trend line expected
-      const trendLine = consoleOutput.find(line => line.includes('Trend:') && line.match(/[▁▂▃▄▅▆▇█]/))
+      const trendLine = consoleOutput.find(
+        line => line.includes('Trend:') && line.match(/[▁▂▃▄▅▆▇█]/)
+      )
       expect(trendLine).toBeFalsy() // No sparkline for empty data
     })
   })

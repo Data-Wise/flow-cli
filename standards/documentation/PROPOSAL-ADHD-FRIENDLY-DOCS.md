@@ -12,6 +12,7 @@
 Transform the MkDocs site from "reference documentation" to "ADHD-optimized learning hub" with visual hierarchy, progressive disclosure, interactive elements, and cognitive load reduction.
 
 **Key improvements:**
+
 - 🎨 Visual learning aids (color coding, icons, progress indicators)
 - 🧠 Reduced cognitive load (chunking, progressive disclosure)
 - ⚡ Quick access patterns (search shortcuts, bookmarks, quick nav)
@@ -25,6 +26,7 @@ Transform the MkDocs site from "reference documentation" to "ADHD-optimized lear
 ### ✅ What's Working
 
 **Good foundation:**
+
 - Material for MkDocs theme (modern, accessible)
 - Dark/light mode toggle
 - Search functionality
@@ -33,6 +35,7 @@ Transform the MkDocs site from "reference documentation" to "ADHD-optimized lear
 - Custom CSS with modern touches (rounded corners, shadows, smooth transitions)
 
 **Content strengths:**
+
 - Clear hierarchy in most pages
 - Emoji visual markers (🟢🟡🔴 for cognitive load)
 - Table of contents on long pages
@@ -83,19 +86,21 @@ Transform the MkDocs site from "reference documentation" to "ADHD-optimized lear
 
 ```markdown
 ??? abstract "Summary (30 seconds)"
-    Quick 2-3 sentence overview
-    Key takeaway highlighted
+Quick 2-3 sentence overview
+Key takeaway highlighted
 
 ??? info "Full Details (5 minutes)"
-    Detailed explanation with examples
+Detailed explanation with examples
 ```
 
 **Benefits:**
+
 - User controls information flow
 - Can skim or deep-dive
 - Reduces initial cognitive load
 
 **Example implementation:**
+
 ```css
 /* Make collapsed sections stand out */
 details.md-typeset summary {
@@ -117,19 +122,20 @@ details.md-typeset summary:hover {
 #### 1.2 Color-Coded Information Types
 
 !!! info "Related: ADHD Color System Standards"
-    This section uses semantic colors for content types. For the broader color palette system (cyan/purple primary colors) used across all documentation tools, see [Website Design Standards Unification Proposal](PROPOSAL-WEBSITE-DESIGN-STANDARDS-UNIFICATION.md).
+This section uses semantic colors for content types. For the broader color palette system (cyan/purple primary colors) used across all documentation tools, see [Website Design Standards Unification Proposal](PROPOSAL-WEBSITE-DESIGN-STANDARDS-UNIFICATION.md).
 
 **Visual system for different content types:**
 
-| Color | Type | Use |
-|-------|------|-----|
-| 🟦 Blue | Information | Explanations, context |
-| 🟩 Green | Success/Tips | Best practices, pro tips |
-| 🟨 Yellow | Warning | Important notes, gotchas |
-| 🟥 Red | Error/Danger | Breaking changes, destructive actions |
-| 🟪 Purple | Examples | Code samples, workflows |
+| Color     | Type         | Use                                   |
+| --------- | ------------ | ------------------------------------- |
+| 🟦 Blue   | Information  | Explanations, context                 |
+| 🟩 Green  | Success/Tips | Best practices, pro tips              |
+| 🟨 Yellow | Warning      | Important notes, gotchas              |
+| 🟥 Red    | Error/Danger | Breaking changes, destructive actions |
+| 🟪 Purple | Examples     | Code samples, workflows               |
 
 **CSS implementation:**
+
 ```css
 /* ADHD-Friendly Admonition Colors */
 .md-typeset .admonition.tip {
@@ -157,13 +163,15 @@ details.md-typeset summary:hover {
 **Transform dense tables into scannable cards:**
 
 **Before (table):**
+
 ```markdown
-| Command | Action | Time |
-|---------|--------|------|
-| rload | Load package | 5s |
+| Command | Action       | Time |
+| ------- | ------------ | ---- |
+| rload   | Load package | 5s   |
 ```
 
 **After (card layout):**
+
 ```markdown
 <div class="command-card">
   <div class="command-name">rload</div>
@@ -176,6 +184,7 @@ details.md-typeset summary:hover {
 ```
 
 **CSS:**
+
 ```css
 .command-card {
   background: linear-gradient(135deg, rgba(var(--md-primary-fg-color), 0.05), transparent);
@@ -239,16 +248,17 @@ details.md-typeset summary:hover {
 ```
 
 **JavaScript:**
+
 ```javascript
 // Add to mkdocs.yml extra_javascript
 function updateReadingProgress() {
-  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const scrolled = (winScroll / height) * 100;
-  document.querySelector('.reading-progress').style.width = scrolled + '%';
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
+  const scrolled = (winScroll / height) * 100
+  document.querySelector('.reading-progress').style.width = scrolled + '%'
 }
 
-window.addEventListener('scroll', updateReadingProgress);
+window.addEventListener('scroll', updateReadingProgress)
 ```
 
 ---
@@ -275,6 +285,7 @@ window.addEventListener('scroll', updateReadingProgress);
 ```
 
 **CSS:**
+
 ```css
 .fab-menu {
   position: fixed;
@@ -350,6 +361,7 @@ window.addEventListener('scroll', updateReadingProgress);
 ```
 
 **Auto-generated in template:**
+
 ```jinja2
 <!-- In base template -->
 {% if page.meta.breadcrumbs %}
@@ -373,21 +385,25 @@ function trackPageView() {
     title: document.title,
     url: window.location.pathname,
     timestamp: Date.now()
-  };
+  }
 
-  let recent = JSON.parse(localStorage.getItem('recentPages') || '[]');
-  recent = [currentPage, ...recent.filter(p => p.url !== currentPage.url)].slice(0, 5);
-  localStorage.setItem('recentPages', JSON.stringify(recent));
+  let recent = JSON.parse(localStorage.getItem('recentPages') || '[]')
+  recent = [currentPage, ...recent.filter(p => p.url !== currentPage.url)].slice(0, 5)
+  localStorage.setItem('recentPages', JSON.stringify(recent))
 }
 
 // Display in sidebar
 function showRecentPages() {
-  const recent = JSON.parse(localStorage.getItem('recentPages') || '[]');
-  const html = recent.map(page => `
+  const recent = JSON.parse(localStorage.getItem('recentPages') || '[]')
+  const html = recent
+    .map(
+      page => `
     <li><a href="${page.url}">${page.title}</a></li>
-  `).join('');
+  `
+    )
+    .join('')
 
-  document.querySelector('.recent-pages').innerHTML = html;
+  document.querySelector('.recent-pages').innerHTML = html
 }
 ```
 
@@ -401,12 +417,12 @@ function showRecentPages() {
 
 ```markdown
 !!! example "Example: Quick Test Cycle"
-    === "Show me the code"
-        ```bash
+=== "Show me the code"
+`bash
         # Quick test workflow
         rload    # Load package
         rtest    # Run tests
-        ```
+        `
 
     === "Explain what it does"
         1. Loads your package code into memory
@@ -420,6 +436,7 @@ function showRecentPages() {
 ```
 
 **Benefits:**
+
 - User chooses their learning style
 - Code-first or explanation-first
 - Reduces initial visual noise
@@ -438,16 +455,17 @@ function showRecentPages() {
 ```
 
 **CSS for styled checkboxes:**
+
 ```css
 /* Interactive checkboxes */
-.md-typeset input[type="checkbox"] {
+.md-typeset input[type='checkbox'] {
   width: 20px;
   height: 20px;
   cursor: pointer;
   accent-color: var(--md-primary-fg-color);
 }
 
-.md-typeset input[type="checkbox"]:checked + label {
+.md-typeset input[type='checkbox']:checked + label {
   text-decoration: line-through;
   opacity: 0.6;
 }
@@ -492,15 +510,16 @@ cat .STATUS</code></pre>
 ```
 
 **JavaScript:**
+
 ```javascript
 document.querySelectorAll('.copy-workflow').forEach(btn => {
   btn.addEventListener('click', () => {
-    const code = btn.closest('.workflow-template').querySelector('code').textContent;
-    navigator.clipboard.writeText(code);
-    btn.textContent = '✓ Copied!';
-    setTimeout(() => btn.textContent = 'Copy All', 2000);
-  });
-});
+    const code = btn.closest('.workflow-template').querySelector('code').textContent
+    navigator.clipboard.writeText(code)
+    btn.textContent = '✓ Copied!'
+    setTimeout(() => (btn.textContent = 'Copy All'), 2000)
+  })
+})
 ```
 
 ---
@@ -577,31 +596,31 @@ document.querySelectorAll('.copy-workflow').forEach(btn => {
 **Add touch gestures:**
 
 ```javascript
-let touchStartX = 0;
-let touchEndX = 0;
+let touchStartX = 0
+let touchEndX = 0
 
 function handleSwipe() {
-  const threshold = 100;
-  const diff = touchEndX - touchStartX;
+  const threshold = 100
+  const diff = touchEndX - touchStartX
 
   if (Math.abs(diff) > threshold) {
     if (diff > 0) {
       // Swipe right - go to previous page
-      const prev = document.querySelector('a[rel="prev"]');
-      if (prev) window.location.href = prev.href;
+      const prev = document.querySelector('a[rel="prev"]')
+      if (prev) window.location.href = prev.href
     } else {
       // Swipe left - go to next page
-      const next = document.querySelector('a[rel="next"]');
-      if (next) window.location.href = next.href;
+      const next = document.querySelector('a[rel="next"]')
+      if (next) window.location.href = next.href
     }
   }
 }
 
-document.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+document.addEventListener('touchstart', e => (touchStartX = e.changedTouches[0].screenX))
 document.addEventListener('touchend', e => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-});
+  touchEndX = e.changedTouches[0].screenX
+  handleSwipe()
+})
 ```
 
 ---
@@ -638,13 +657,10 @@ last_updated: 2025-12-20
 
 ---
 
-??? abstract "Quick Summary (30 seconds)"
-    - Bullet 1
-    - Bullet 2
-    - Bullet 3
+??? abstract "Quick Summary (30 seconds)" - Bullet 1 - Bullet 2 - Bullet 3
 
 ??? question "Who is this for?"
-    This guide is for developers who...
+This guide is for developers who...
 
 ---
 
@@ -657,10 +673,12 @@ last_updated: 2025-12-20
 ## What's Next?
 
 **Recommended reading:**
+
 - [Related Guide 1](link)
 - [Related Guide 2](link)
 
 **Practice:**
+
 - [ ] Try workflow X
 - [ ] Customize for your needs
 ```
@@ -670,10 +688,7 @@ last_updated: 2025-12-20
 **Add "See Also" sections everywhere:**
 
 ```markdown
-!!! info "Related Topics"
-    - **Prerequisites:** [Getting Started](../getting-started/quick-start.md)
-    - **Next steps:** [Advanced Workflows](advanced-workflows.md)
-    - **Related:** [Dashboard Reference](dashboard-quick-ref.md)
+!!! info "Related Topics" - **Prerequisites:** [Getting Started](../getting-started/quick-start.md) - **Next steps:** [Advanced Workflows](advanced-workflows.md) - **Related:** [Dashboard Reference](dashboard-quick-ref.md)
 ```
 
 ---
@@ -683,12 +698,14 @@ last_updated: 2025-12-20
 ### Week 1: Foundation (4-6 hours)
 
 **Day 1-2: Visual Hierarchy (2-3 hours)**
+
 - [ ] Add progressive disclosure to WORKFLOWS-QUICK-WINS.md
 - [ ] Implement color-coded admonitions
 - [ ] Create command card CSS components
 - [ ] Add reading time estimates to all pages
 
 **Day 3-4: Navigation (2-3 hours)**
+
 - [ ] Implement floating action button menu
 - [ ] Add breadcrumb navigation
 - [ ] Set up recently viewed tracking
@@ -697,16 +714,19 @@ last_updated: 2025-12-20
 ### Week 2: Polish (2-3 hours)
 
 **Day 5: Interactive Elements (1-2 hours)**
+
 - [ ] Add tabbed examples
 - [ ] Create copyable workflow templates
 - [ ] Implement interactive checklists
 
 **Day 6: Mobile (1 hour)**
+
 - [ ] Responsive table transforms
 - [ ] Touch-friendly tap targets
 - [ ] Swipe navigation
 
 **Day 7: Testing & Iteration (30 min)**
+
 - [ ] Test on mobile devices
 - [ ] Verify accessibility
 - [ ] Gather feedback
@@ -716,17 +736,20 @@ last_updated: 2025-12-20
 ## Success Metrics
 
 **Quantitative:**
+
 - Reading completion rate (track with analytics)
 - Time on page (should increase for long guides)
 - Search usage (should decrease if nav is better)
 - Mobile bounce rate (should decrease)
 
 **Qualitative:**
+
 - User feedback: "easier to find what I need"
 - Reduced questions about "where is X?"
 - Self-reported "less overwhelming"
 
 **ADHD-Specific:**
+
 - Can complete a guide without context switching
 - Can return to page and resume where left off
 - Can find information in < 3 clicks
@@ -761,12 +784,12 @@ last_updated: 2025-12-20
 
 ## Risks & Mitigation
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Too much JavaScript | Slow load | Progressive enhancement, defer non-critical |
-| Breaking existing links | High | Comprehensive redirect map |
-| Browser compatibility | Medium | Polyfills, graceful degradation |
-| Maintenance burden | Medium | Document all customizations, use build tools |
+| Risk                    | Impact    | Mitigation                                   |
+| ----------------------- | --------- | -------------------------------------------- |
+| Too much JavaScript     | Slow load | Progressive enhancement, defer non-critical  |
+| Breaking existing links | High      | Comprehensive redirect map                   |
+| Browser compatibility   | Medium    | Polyfills, graceful degradation              |
+| Maintenance burden      | Medium    | Document all customizations, use build tools |
 
 ---
 
@@ -783,12 +806,14 @@ last_updated: 2025-12-20
 ## Resources Needed
 
 **Tools:**
+
 - MkDocs Material (already installed)
 - Custom CSS file (already exists)
 - JavaScript for interactivity (inline or separate file?)
 - Font Awesome icons (optional)
 
 **Time:**
+
 - Initial implementation: 4-6 hours
 - Testing & iteration: 2-3 hours
 - Documentation: 1 hour
@@ -802,6 +827,7 @@ last_updated: 2025-12-20
 ### Before/After: Workflow Guide
 
 **Before (dense table):**
+
 ```
 | # | Workflow | Time | Load |
 |---|----------|------|------|
@@ -810,9 +836,10 @@ last_updated: 2025-12-20
 ```
 
 **After (ADHD-optimized):**
-```markdown
+
+````markdown
 ??? tip "🚀 Workflow #1: Quick Test"
-    **Time:** ⏱ 5 minutes | **Difficulty:** 🟢 Easy
+**Time:** ⏱ 5 minutes | **Difficulty:** 🟢 Easy
 
     === "Quick Start"
         ```bash
@@ -828,10 +855,11 @@ last_updated: 2025-12-20
         - Every 15-30 minutes
 
 ??? tip "🚀 Workflow #2: Load + Test"
-    [Similar structure]
-```
+[Similar structure]
+````
 
 **Benefits:**
+
 - ✅ Progressive disclosure (expand what you need)
 - ✅ Visual hierarchy (emoji, formatting)
 - ✅ Multiple learning paths (code-first vs explanation-first)

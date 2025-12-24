@@ -9,12 +9,14 @@
 ## 📋 Overview
 
 **What's Changing:**
+
 - ✅ Added: 8 smart functions (r, qu, cc, gm, focus, note, obs, workflow)
 - ❌ Removed: 55 aliases (bloat + obsolete shortcuts)
 - ✅ Kept: 112 aliases (all workflows, shortcuts you know)
 - **Result:** 33% less clutter, 100% more discoverable
 
 **ADHD Benefits:**
+
 - 🧠 Zero new aliases to memorize
 - 📚 8 built-in help systems (`<cmd> help`)
 - 💪 Kept all muscle memory (f15, qp, gs, etc.)
@@ -72,6 +74,7 @@ See `ALIAS-REMOVAL-LIST.md` for complete list.
 ## 🎯 Implementation Script Location
 
 **Smart Functions File:** Already created at:
+
 ```
 ~/.config/zsh/functions/smart-dispatchers.zsh
 ```
@@ -87,6 +90,7 @@ See `ALIAS-REMOVAL-LIST.md` for complete list.
 **Reduction:** 55 aliases (33%)
 
 **Migration Impact:**
+
 - Muscle memory: 100% preserved
 - New to learn: 0 aliases
 - Commands changed: 2 only (tc, fs)

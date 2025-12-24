@@ -10,12 +10,12 @@
 
 Four new commands for maintaining workspace hygiene across all projects. Originally a standalone tool (workspace-auditor), now merged into zsh-claude-workflow for better integration.
 
-| Command | Alias | Purpose | Frequency |
-|---------|-------|---------|-----------|
-| `git-audit` | `ga` | Find dirty/unpushed repos | Daily |
-| `file-audit` | `fa` | Find large files (>50MB) | Weekly |
-| `activity-heat` | `ah` | 7-day activity heatmap | Daily |
-| `morning-audit` | `ma` | Full workspace check | Daily |
+| Command         | Alias | Purpose                   | Frequency |
+| --------------- | ----- | ------------------------- | --------- |
+| `git-audit`     | `ga`  | Find dirty/unpushed repos | Daily     |
+| `file-audit`    | `fa`  | Find large files (>50MB)  | Weekly    |
+| `activity-heat` | `ah`  | 7-day activity heatmap    | Daily     |
+| `morning-audit` | `ma`  | Full workspace check      | Daily     |
 
 ---
 
@@ -54,10 +54,10 @@ Summary: 9 dirty, 1 unpushed
 
 ### Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PROJECTS_DIR` | `~/projects` | Base directory to scan |
-| `GIT_AUDIT_DEPTH` | `3` | How deep to search for .git |
+| Variable          | Default      | Description                 |
+| ----------------- | ------------ | --------------------------- |
+| `PROJECTS_DIR`    | `~/projects` | Base directory to scan      |
+| `GIT_AUDIT_DEPTH` | `3`          | How deep to search for .git |
 
 ### Integration with Workflow
 
@@ -102,6 +102,7 @@ Found: 3 files
 ### Exclusions (Automatic)
 
 These directories are always skipped:
+
 - `.git/`
 - `node_modules/`
 - `.venv/`
@@ -110,16 +111,17 @@ These directories are always skipped:
 
 ### Color Coding
 
-| Color | File Type |
-|-------|-----------|
-| Yellow | Data files (.csv, .parquet, .rds, .RData, .feather) |
-| Blue | Archives (.zip, .tar, .gz, .7z) |
-| Magenta | Media (.pdf, .png, .jpg, .mp4) |
-| White | Other |
+| Color   | File Type                                           |
+| ------- | --------------------------------------------------- |
+| Yellow  | Data files (.csv, .parquet, .rds, .RData, .feather) |
+| Blue    | Archives (.zip, .tar, .gz, .7z)                     |
+| Magenta | Media (.pdf, .png, .jpg, .mp4)                      |
+| White   | Other                                               |
 
 ### Action Items
 
 When large files are found:
+
 1. **Data files** → Add to `.gitignore`, use Git LFS, or move to cloud storage
 2. **Archives** → Delete if temporary, or move to external storage
 3. **Media** → Consider compression or external hosting
@@ -160,11 +162,11 @@ Activity Heatmap (Last 7 Days)
 
 ### Color Intensity
 
-| Count | Color | Meaning |
-|-------|-------|---------|
-| 1-20 | Green | Normal activity |
-| 21-50 | Yellow | High activity |
-| 50+ | Red | Very high activity |
+| Count | Color  | Meaning            |
+| ----- | ------ | ------------------ |
+| 1-20  | Green  | Normal activity    |
+| 21-50 | Yellow | High activity      |
+| 50+   | Red    | Very high activity |
 
 ### Use Cases
 
@@ -203,23 +205,28 @@ Reports are saved to: `~/logs/audit/audit_report_YYYY-MM-DD.md`
 
 ```markdown
 # Workspace Audit Report (2025-12-14)
+
 Generated at: Sat Dec 14 09:45:00 PST 2025
 
 ## Git Status
+
 ⚠ research/mediation-planning — uncommitted changes
 ⚠ r-packages/active/medfit — uncommitted changes
 Summary: 2 dirty, 0 unpushed
 
 ## Activity Heatmap
- 446 r-packages/active          ████████████████████
- 197 apps/examark               ████████████████████
+
+446 r-packages/active ████████████████████
+197 apps/examark ████████████████████
 ℹ Today: 203 files modified
 
 ## Large Files
-127M  r-packages/active/dataprep/inst/extdata/census.csv
+
+127M r-packages/active/dataprep/inst/extdata/census.csv
 Found: 1 files
 
 ## Obsidian Vault
+
 ✓ Vault structure clean.
 ```
 
@@ -322,14 +329,14 @@ alias ma='morning-audit'
 
 ## 📊 Quick Reference Card
 
-| Task | Command | Time |
-|------|---------|------|
-| Daily health check | `ma` | ~5s |
-| Quick git status | `ga -q` | ~3s |
-| Find large files | `fa` | ~5s |
-| See active projects | `ah` | ~3s |
-| Generate report | `ma -o` | ~10s |
-| Deep audit (30 days) | `ah -d 30` | ~5s |
+| Task                 | Command    | Time |
+| -------------------- | ---------- | ---- |
+| Daily health check   | `ma`       | ~5s  |
+| Quick git status     | `ga -q`    | ~3s  |
+| Find large files     | `fa`       | ~5s  |
+| See active projects  | `ah`       | ~3s  |
+| Generate report      | `ma -o`    | ~10s |
+| Deep audit (30 days) | `ah -d 30` | ~5s  |
 
 ---
 
@@ -375,12 +382,12 @@ ga -q  # Much faster than full output
 
 ## 📁 Source Files
 
-| File | Location |
-|------|----------|
-| git-audit | `~/projects/dev-tools/zsh-claude-workflow/commands/git-audit` |
-| file-audit | `~/projects/dev-tools/zsh-claude-workflow/commands/file-audit` |
-| activity-heat | `~/projects/dev-tools/zsh-claude-workflow/commands/activity-heat` |
-| morning-audit | `~/projects/dev-tools/zsh-claude-workflow/commands/morning-audit` |
+| File          | Location                                                              |
+| ------------- | --------------------------------------------------------------------- |
+| git-audit     | `~/projects/dev-tools/zsh-claude-workflow/commands/git-audit`         |
+| file-audit    | `~/projects/dev-tools/zsh-claude-workflow/commands/file-audit`        |
+| activity-heat | `~/projects/dev-tools/zsh-claude-workflow/commands/activity-heat`     |
+| morning-audit | `~/projects/dev-tools/zsh-claude-workflow/commands/morning-audit`     |
 | Documentation | `~/projects/dev-tools/zsh-claude-workflow/docs/commands/reference.md` |
 
 ---
@@ -394,4 +401,5 @@ ga -q  # Much faster than full output
 ---
 
 **History:**
+
 - 2025-12-14: Created from workspace-auditor merge into zsh-claude-workflow v1.5.0

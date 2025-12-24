@@ -42,7 +42,10 @@ describe('FileSystemProjectRepository Integration', () => {
 
       await repo.save(project)
 
-      const fileExists = await fs.access(testFile).then(() => true).catch(() => false)
+      const fileExists = await fs
+        .access(testFile)
+        .then(() => true)
+        .catch(() => false)
       expect(fileExists).toBe(true)
     })
 
@@ -269,7 +272,10 @@ describe('FileSystemProjectRepository Integration', () => {
       const project = new Project('p1', 'test')
       await deepRepo.save(project)
 
-      const fileExists = await fs.access(deepPath).then(() => true).catch(() => false)
+      const fileExists = await fs
+        .access(deepPath)
+        .then(() => true)
+        .catch(() => false)
       expect(fileExists).toBe(true)
     })
   })

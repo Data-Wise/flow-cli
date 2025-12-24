@@ -135,7 +135,7 @@ export class Session {
 
     // If currently paused, subtract current pause duration
     if (this.state.isPaused() && this.pausedAt) {
-      duration -= (new Date() - this.pausedAt)
+      duration -= new Date() - this.pausedAt
     }
 
     return Math.max(0, Math.floor(duration / 60000)) // minutes

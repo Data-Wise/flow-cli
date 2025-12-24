@@ -11,18 +11,21 @@
 ### Existing Workflows Tested
 
 **Smart Functions (Enhanced Phase 1):** ✅
+
 - `r help`, `cc help`, `qu help`, `gm help` - All working
 - `focus help`, `note help`, `obs help`, `workflow help` - All working
 - Colors, examples, visual hierarchy - Perfect
 - **ADHD Score:** 9/10 (excellent)
 
 **ADHD Helpers:** ✅
+
 - `js` (just-start) - Working, but limited to R packages only
 - `why` - Context recovery working
 - `win` / `wins` - Dopamine tracking working
 - **ADHD Score:** 7/10 (good but incomplete)
 
 **Work Command:** ✅
+
 - `work <project>` - Multi-editor routing working
 - Auto-detection of project type working
 - **ADHD Score:** 8/10 (great but underutilized)
@@ -68,6 +71,7 @@
 **Command:** `dash` (overhaul existing or create new)
 
 **What it shows:**
+
 ```
 ╭─────────────────────────────────────────────╮
 │ 🎯 YOUR WORK DASHBOARD                      │
@@ -97,6 +101,7 @@
 ```
 
 **ADHD Benefits:**
+
 - ✅ One command to see everything
 - ✅ Visual hierarchy (active → ready → paused)
 - ✅ Color-coded priorities
@@ -104,6 +109,7 @@
 - ✅ <5 second scan time
 
 **Implementation:**
+
 - Scans all `.STATUS` files across ~/projects
 - Parses status, priority, progress
 - Groups by active/ready/paused
@@ -116,6 +122,7 @@
 **Command:** `status` (new)
 
 **Update status:**
+
 ```bash
 # Interactive mode
 status mediationverse
@@ -132,23 +139,27 @@ status mediationverse
 ```
 
 **Quick mode:**
+
 ```bash
 status mediationverse active P0 "Running simulations" 85
 ```
 
 **Show status:**
+
 ```bash
 status mediationverse --show
 # Shows current .STATUS contents
 ```
 
 **Create from template:**
+
 ```bash
 status newproject --create
 # Creates .STATUS from template
 ```
 
 **ADHD Benefits:**
+
 - ✅ No manual file editing
 - ✅ Consistent format guaranteed
 - ✅ Quick updates (one command)
@@ -180,12 +191,14 @@ js
 ```
 
 **Logic:**
+
 1. Check P0 priorities across ALL projects
 2. Check due dates (teaching)
 3. Check most recent activity
 4. Make decision and show clear next action
 
 **ADHD Benefits:**
+
 - ✅ Zero decision making
 - ✅ Context-aware (knows teaching deadlines)
 - ✅ Works across all project types
@@ -196,6 +209,7 @@ js
 ### Option D: Unified .STATUS Format
 
 **Standard fields:**
+
 ```yaml
 project: mediationverse
 type: r-package
@@ -209,11 +223,13 @@ tags: [mediation, simulation, cran]
 ```
 
 **Template command:**
+
 ```bash
 status --template > .STATUS
 ```
 
 **Benefits:**
+
 - ✅ Machine-readable
 - ✅ Consistent across projects
 - ✅ Easy to parse for dashboard
@@ -224,12 +240,14 @@ status --template > .STATUS
 ### Option E: Category Dashboards
 
 **Commands:**
+
 - `dash teaching` - Teaching projects only
 - `dash research` - Research projects only
 - `dash packages` - R packages only
 - `dash dev` - Dev tools only
 
 **Example:**
+
 ```bash
 dash teaching
 
@@ -250,6 +268,7 @@ STAT 579 (Causal Inference):
 ```
 
 **ADHD Benefits:**
+
 - ✅ Focused view (less overwhelming)
 - ✅ Context switching support
 - ✅ Clear priorities per category
@@ -261,6 +280,7 @@ STAT 579 (Causal Inference):
 ### Phase 1: Dashboard Foundation (2-3 hours)
 
 **Tasks:**
+
 1. Create `dash` command (master dashboard)
 2. Scan all `.STATUS` files
 3. Parse and categorize (active/ready/paused)
@@ -268,11 +288,13 @@ STAT 579 (Causal Inference):
 5. Add category filters (teaching/research/packages)
 
 **Files to create:**
+
 - `~/.config/zsh/functions/dash.zsh`
 - Helper: `_parse_status_files()`
 - Helper: `_categorize_projects()`
 
 **Test:**
+
 ```bash
 dash                 # Show all
 dash teaching        # Teaching only
@@ -284,6 +306,7 @@ dash --detail        # Full details
 ### Phase 2: Status Management (1-2 hours)
 
 **Tasks:**
+
 1. Create `status` command
 2. Interactive mode for updates
 3. Quick mode for fast updates
@@ -291,10 +314,12 @@ dash --detail        # Full details
 5. Show current status
 
 **Files to create:**
+
 - `~/.config/zsh/functions/status.zsh`
 - Template: `~/.config/zsh/templates/STATUS.template`
 
 **Test:**
+
 ```bash
 status mediationverse              # Interactive
 status medfit active P1 "Docs" 60  # Quick
@@ -307,16 +332,19 @@ status mediationverse --show       # Display
 ### Phase 3: Enhanced Just-Start (30 min)
 
 **Tasks:**
+
 1. Update `js` to scan all project types
 2. Check priorities across teaching/research/packages
 3. Consider due dates
 4. Show clear next action
 
 **Files to modify:**
+
 - `~/.config/zsh/functions/adhd-helpers.zsh`
 - Update `just-start()` function
 
 **Test:**
+
 ```bash
 js    # Should find P0 regardless of project type
 ```
@@ -326,15 +354,18 @@ js    # Should find P0 regardless of project type
 ### Phase 4: Unified .STATUS Format (1 hour)
 
 **Tasks:**
+
 1. Create standard .STATUS template
 2. Migration tool for existing .STATUS files
 3. Documentation
 
 **Files to create:**
+
 - `~/.config/zsh/templates/STATUS.template`
 - `migrate-status.sh` (convert old to new format)
 
 **Test:**
+
 - Create new .STATUS files with standard format
 - Migrate existing ones
 - Verify dashboard parses correctly
@@ -343,14 +374,14 @@ js    # Should find P0 regardless of project type
 
 ## 📊 COMPARISON MATRIX
 
-| Feature | Current | Option A | Option B | Option C | Option D | Option E |
-|---------|---------|----------|----------|----------|----------|----------|
-| **Unified Dashboard** | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ |
-| **Status Updates** | Manual | ❌ | ✅ | ❌ | ✅ | ❌ |
-| **Cross-Project** | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **ADHD-Friendly** | 6/10 | 9/10 | 8/10 | 9/10 | 7/10 | 8/10 |
-| **Effort (hours)** | - | 2-3 | 1-2 | 0.5 | 1 | 1 |
-| **Value** | - | High | High | High | Medium | Medium |
+| Feature               | Current | Option A | Option B | Option C | Option D | Option E |
+| --------------------- | ------- | -------- | -------- | -------- | -------- | -------- |
+| **Unified Dashboard** | ❌      | ✅       | ❌       | ❌       | ❌       | ✅       |
+| **Status Updates**    | Manual  | ❌       | ✅       | ❌       | ✅       | ❌       |
+| **Cross-Project**     | ❌      | ✅       | ✅       | ✅       | ✅       | ✅       |
+| **ADHD-Friendly**     | 6/10    | 9/10     | 8/10     | 9/10     | 7/10     | 8/10     |
+| **Effort (hours)**    | -       | 2-3      | 1-2      | 0.5      | 1        | 1        |
+| **Value**             | -       | High     | High     | High     | Medium   | Medium   |
 
 **Recommended:** Implement A + B + C (total: 4-5 hours)
 
@@ -359,6 +390,7 @@ js    # Should find P0 regardless of project type
 ## 🎨 ADHD OPTIMIZATION CHECKLIST
 
 **Dashboard (Option A):**
+
 - ✅ Single command (`dash`)
 - ✅ Visual hierarchy (active → ready → paused)
 - ✅ Color-coded priorities
@@ -367,6 +399,7 @@ js    # Should find P0 regardless of project type
 - ✅ Category filters available
 
 **Status Updates (Option B):**
+
 - ✅ No manual file editing
 - ✅ Interactive mode (guided)
 - ✅ Quick mode (for speed)
@@ -374,6 +407,7 @@ js    # Should find P0 regardless of project type
 - ✅ Clear prompts
 
 **Just-Start (Option C):**
+
 - ✅ Zero decisions required
 - ✅ Context-aware
 - ✅ Works across all projects
@@ -410,6 +444,7 @@ dash() {
 ```
 
 **Test:**
+
 ```bash
 dash
 # Shows all active projects with priorities
@@ -422,25 +457,30 @@ dash
 ## 📝 NEXT STEPS
 
 **Immediate (30 min):**
+
 1. Implement minimal `dash` command (quick win above)
 2. Test with existing .STATUS files
 3. Get immediate overview of active work
 
 **Phase 1 (2-3 hours):**
+
 1. Full dashboard implementation (Option A)
 2. Category filters
 3. Priority sorting
 
 **Phase 2 (1-2 hours):**
+
 1. Status command (Option B)
 2. Interactive and quick modes
 3. Template creation
 
 **Phase 3 (30 min):**
+
 1. Enhanced `js` (Option C)
 2. Cross-project awareness
 
 **Phase 4 (1 hour):**
+
 1. Unified .STATUS format (Option D)
 2. Migration tool
 

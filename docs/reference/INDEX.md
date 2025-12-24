@@ -7,15 +7,15 @@
 
 ## 📋 Files
 
-| File | Purpose |
-|------|---------|
-| **INDEX.md** | This navigation file |
-| **PROJECT-HUB.md** | Strategic overview (P0/P1/P2) |
-| **ALIAS-REFERENCE-CARD.md** | All 120+ aliases |
-| **WORKFLOWS-QUICK-WINS.md** | Top 10 workflows |
-| **SYNC-SETUP.md** | Cloud sync guide |
-| **.STATUS** | Daily progress tracking |
-| **backups/** | Config backups |
+| File                        | Purpose                       |
+| --------------------------- | ----------------------------- |
+| **INDEX.md**                | This navigation file          |
+| **PROJECT-HUB.md**          | Strategic overview (P0/P1/P2) |
+| **ALIAS-REFERENCE-CARD.md** | All 120+ aliases              |
+| **WORKFLOWS-QUICK-WINS.md** | Top 10 workflows              |
+| **SYNC-SETUP.md**           | Cloud sync guide              |
+| **.STATUS**                 | Daily progress tracking       |
+| **backups/**                | Config backups                |
 
 ---
 
@@ -42,4 +42,3 @@ cd ~/projects/dev-tools/flow-cli
 cat INDEX.md
 cat WORKFLOWS-QUICK-WINS.md
 ```
-

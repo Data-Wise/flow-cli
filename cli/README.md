@@ -34,18 +34,18 @@ Adapters execute ZSH commands via `child_process.exec()` and return structured d
 
 ```javascript
 // Example: adapters/workflow.js
-const { exec } = require('child_process');
+const { exec } = require('child_process')
 
 async function startWork(project) {
   return new Promise((resolve, reject) => {
     exec(`zsh -c 'source ~/.zshrc && work ${project}'`, (error, stdout, stderr) => {
-      if (error) reject(error);
-      resolve({ success: true, output: stdout });
-    });
-  });
+      if (error) reject(error)
+      resolve({ success: true, output: stdout })
+    })
+  })
 }
 
-module.exports = { startWork };
+module.exports = { startWork }
 ```
 
 ### 2. API Layer (`api/`)
@@ -54,21 +54,21 @@ The API layer provides higher-level functions that the desktop app calls:
 
 ```javascript
 // Example: api/workflow-api.js
-const { startWork } = require('../adapters/workflow');
+const { startWork } = require('../adapters/workflow')
 
 class WorkflowAPI {
   async startSession(projectName) {
-    const result = await startWork(projectName);
+    const result = await startWork(projectName)
     // Parse result, update state, emit events
     return {
       sessionId: Date.now(),
       project: projectName,
       startTime: new Date()
-    };
+    }
   }
 }
 
-module.exports = new WorkflowAPI();
+module.exports = new WorkflowAPI()
 ```
 
 ### 3. Desktop App Usage
@@ -77,11 +77,11 @@ The Electron main process imports these APIs:
 
 ```javascript
 // In app/src/main/index.js
-const { WorkflowAPI } = require('../../cli/api/workflow-api');
+const { WorkflowAPI } = require('../../cli/api/workflow-api')
 
 ipcMain.handle('start-session', async (event, project) => {
-  return await WorkflowAPI.startSession(project);
-});
+  return await WorkflowAPI.startSession(project)
+})
 ```
 
 ## Data Flow

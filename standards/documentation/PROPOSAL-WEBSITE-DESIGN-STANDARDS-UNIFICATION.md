@@ -18,18 +18,20 @@ Create a unified website design standard system that supports multiple documenta
 **Next Phase:** Extract base standard and create R package implementations
 
 !!! info "Complementary Proposal: UX Improvements"
-    This proposal focuses on **color system unification** across documentation tools. For **content structure and UX improvements** (progressive disclosure, navigation, interactivity) that leverage this color system, see [ADHD-Friendly Documentation Site Proposal](PROPOSAL-ADHD-FRIENDLY-DOCS.md).
+This proposal focuses on **color system unification** across documentation tools. For **content structure and UX improvements** (progressive disclosure, navigation, interactivity) that leverage this color system, see [ADHD-Friendly Documentation Site Proposal](PROPOSAL-ADHD-FRIENDLY-DOCS.md).
 
 ---
 
 ## Problem Statement
 
 We have multiple project types with different documentation systems:
+
 - **Dev-tools:** MkDocs (Material theme)
 - **R packages:** Quarto+pkgdown or Quarto+altdoc
 - **Project Management:** Need consistent branding across all
 
 **Current Issues:**
+
 - No standardized ADHD color system for R packages
 - Risk of standards diverging across tools
 - No clear implementation guides for new projects
@@ -88,6 +90,7 @@ standards/
 ### Color Palette (Universal)
 
 **Light Mode:**
+
 - Primary: Cyan `#00bcd4`
 - Accent: Purple `#9c27b0`
 - Success: Green `#00e676`
@@ -95,6 +98,7 @@ standards/
 - Danger: Red `#f44336`
 
 **Dark Mode:**
+
 - Primary: Lighter Cyan `#4dd0e1`
 - Accent: Lighter Purple `#ba68c8`
 - Success: Lighter Green `#69f0ae`
@@ -102,6 +106,7 @@ standards/
 - Danger: Lighter Red `#ff5252`
 
 **WCAG AAA Compliant:**
+
 - All colors meet 7:1 contrast ratio (normal text)
 - Dark mode tested: 8.4:1 to 11.5:1 ratios
 
@@ -114,6 +119,7 @@ standards/
 **Goal:** Create unified base standard + document existing MkDocs work
 
 **Tasks:**
+
 1. ✅ Create `standards/` directory structure
 2. ✅ Extract `00-BASE/COLOR-PALETTE.md` from ADHD-COLOR-PSYCHOLOGY.md
 3. ✅ Extract `00-BASE/DESIGN-SYSTEM-BASE.md` (tool-agnostic principles)
@@ -122,6 +128,7 @@ standards/
 6. ✅ Test sync to one PM hub
 
 **Deliverables:**
+
 - Base standards documented
 - MkDocs implementation documented
 - Sync working to PM hubs
@@ -135,6 +142,7 @@ standards/
 **Goal:** Understand Quarto+pkgdown and Quarto+altdoc theming systems
 
 **Tasks:**
+
 1. Create test R package
 2. Test pkgdown theming:
    - Bootstrap variable overrides
@@ -148,6 +156,7 @@ standards/
 5. Choose best approach for each tool
 
 **Deliverables:**
+
 - Research notes
 - Proof-of-concept examples
 - Implementation strategy decided
@@ -163,18 +172,21 @@ standards/
 **Tasks:**
 
 **Quarto+pkgdown:**
+
 1. Create `01-IMPLEMENTATIONS/quarto-pkgdown/IMPLEMENTATION-GUIDE.md`
 2. Create example `_pkgdown.yml` with Bootstrap overrides
 3. Create `pkgdown/extra.css` for custom styling
 4. Test with real R package (medfit or probmed)
 
 **Quarto+altdoc:**
+
 1. Create `01-IMPLEMENTATIONS/quarto-altdoc/IMPLEMENTATION-GUIDE.md`
 2. Create example config file
 3. Create `altdoc/adhd-colors.scss` theme file
 4. Test with real R package
 
 **Deliverables:**
+
 - Complete implementation guides for both tools
 - Working examples tested with real projects
 - Documentation for common issues
@@ -188,6 +200,7 @@ standards/
 **Goal:** Create copy-paste ready templates for quick adoption
 
 **Tasks:**
+
 1. Create `02-EXAMPLES/` with fully functional example sites
 2. Create `03-TEMPLATES/` with pre-configured files
 3. Write comprehensive `standards/README.md`
@@ -196,6 +209,7 @@ standards/
 6. Test deployment to one project of each type
 
 **Deliverables:**
+
 - Templates ready to copy-paste
 - Examples fully functional and documented
 - Standards synced to all PM hubs
@@ -210,10 +224,12 @@ standards/
 ### Sync Strategy
 
 **Single Source of Truth:**
+
 - `flow-cli/standards/` - Master copy
 - Synced to all PM hubs via `scripts/sync-standards.sh`
 
 **PM Hub Structure:**
+
 ```
 project-hub/standards/website-design/
 mediation-planning/standards/website-design/
@@ -230,6 +246,7 @@ Each contains:
 ### Usage in Projects
 
 **Dev-tools (MkDocs):**
+
 ```bash
 # Copy from synced PM hub
 cp ~/projects/dev-tools/project-hub/standards/website-design/01-IMPLEMENTATIONS/mkdocs/adhd-colors.css \
@@ -240,6 +257,7 @@ cp ~/projects/dev-tools/project-hub/standards/website-design/01-IMPLEMENTATIONS/
 ```
 
 **R packages (Quarto+pkgdown):**
+
 ```bash
 # Copy from synced PM hub
 cp ~/projects/research/mediation-planning/standards/website-design/01-IMPLEMENTATIONS/quarto-pkgdown/_pkgdown.yml.example \
@@ -255,21 +273,25 @@ cp ~/projects/research/mediation-planning/standards/website-design/01-IMPLEMENTA
 ## Alternative Approaches Considered
 
 ### Option B: Separate Standards Per Ecosystem
+
 - **Pros:** Self-contained, no cross-referencing
 - **Cons:** Duplicate docs, risk of drift, update burden
 - **Verdict:** ❌ Rejected - too much duplication
 
 ### Option C: CSS Framework Approach
+
 - **Pros:** Maximum code reuse, single CSS file
 - **Cons:** Requires build tooling, may not fit all tools
 - **Verdict:** ⏳ Consider for Phase 2
 
 ### Option D: Template Repository Approach
+
 - **Pros:** Copy-paste ready, GitHub template feature
 - **Cons:** Multiple repos to maintain, sync complexity
 - **Verdict:** ⏳ Consider after Sprint 4
 
 ### Option E: Monorepo with Packages
+
 - **Pros:** Professional, publishable to npm/CRAN
 - **Cons:** Complex, overkill for single user
 - **Verdict:** ⏳ Future if standards become popular
@@ -279,24 +301,28 @@ cp ~/projects/research/mediation-planning/standards/website-design/01-IMPLEMENTA
 ## Success Criteria
 
 ### Sprint 1 (Foundation)
+
 - ✅ Base standards extracted and documented
 - ✅ MkDocs implementation guide complete
 - ✅ Sync working to at least one PM hub
 - ✅ Color palette matches existing implementation
 
 ### Sprint 2 (Research)
+
 - ✅ pkgdown theming approach identified
 - ✅ altdoc theming approach identified
 - ✅ Proof-of-concept working for both
 - ✅ Implementation strategy documented
 
 ### Sprint 3 (R Implementations)
+
 - ✅ Complete implementation guides for both tools
 - ✅ Tested with real R packages (medfit, probmed)
 - ✅ All ADHD colors working in both systems
 - ✅ WCAG AAA compliance verified
 
 ### Sprint 4 (Templates)
+
 - ✅ Templates ready for copy-paste use
 - ✅ Examples fully functional
 - ✅ Synced to all 3 PM hubs
@@ -307,6 +333,7 @@ cp ~/projects/research/mediation-planning/standards/website-design/01-IMPLEMENTA
 ## Benefits
 
 ### Immediate
+
 - ✅ Consistent ADHD-optimized branding across all projects
 - ✅ Single source of truth for color values
 - ✅ Easy updates (change once, sync everywhere)
@@ -314,6 +341,7 @@ cp ~/projects/research/mediation-planning/standards/website-design/01-IMPLEMENTA
 - ✅ **Enables UX improvements** - Unified color system makes it possible to implement advanced UX patterns (see [ADHD-Friendly Documentation Site Proposal](PROPOSAL-ADHD-FRIENDLY-DOCS.md))
 
 ### Long-term
+
 - ✅ Scalable to new tools (Hugo, Sphinx, VuePress)
 - ✅ Reduced maintenance burden
 - ✅ Could publish as open-source ADHD design system
@@ -324,14 +352,17 @@ cp ~/projects/research/mediation-planning/standards/website-design/01-IMPLEMENTA
 ## Risks & Mitigations
 
 ### Risk 1: Tool constraints prevent full implementation
+
 - **Mitigation:** Research phase (Sprint 2) identifies constraints early
 - **Fallback:** Document limitations, provide best-effort implementation
 
 ### Risk 2: Standards drift over time
+
 - **Mitigation:** Automated sync script with version tracking
 - **Fallback:** Quarterly review of all implementations
 
 ### Risk 3: Effort exceeds estimate
+
 - **Mitigation:** Break into 4 sprints, stop if needed
 - **Fallback:** Sprint 1 alone provides value (MkDocs documented)
 
@@ -340,12 +371,14 @@ cp ~/projects/research/mediation-planning/standards/website-design/01-IMPLEMENTA
 ## Dependencies
 
 ### Technical
+
 - MkDocs Material theme (already installed)
 - Quarto (for R package docs)
 - pkgdown or altdoc R packages
 - rsync (for standards sync)
 
 ### Knowledge
+
 - MkDocs theming ✅ (already learned)
 - Quarto theming ⏳ (need to research)
 - pkgdown theming ⏳ (need to research)
@@ -356,12 +389,14 @@ cp ~/projects/research/mediation-planning/standards/website-design/01-IMPLEMENTA
 ## Timeline
 
 ### Realistic (Spread Over Time)
+
 - **Week 1:** Sprint 1 (Foundation) - 3-4 hours
 - **Week 2:** Sprint 2 (Research) - 2-3 hours
 - **Week 3-4:** Sprint 3 (R Implementations) - 4-6 hours
 - **Week 5:** Sprint 4 (Templates) - 3-4 hours
 
 ### Aggressive (Focused Session)
+
 - **Day 1 Morning:** Sprint 1
 - **Day 1 Afternoon:** Sprint 2
 - **Day 2 Morning:** Sprint 3 Part 1 (pkgdown)
@@ -376,18 +411,21 @@ cp ~/projects/research/mediation-planning/standards/website-design/01-IMPLEMENTA
 ### Immediate (Choose One)
 
 **A) Quick Win: Document MkDocs work** 🟢 [15-20 min] ⭐ RECOMMENDED
+
 - Create `01-IMPLEMENTATIONS/mkdocs/IMPLEMENTATION-GUIDE.md`
 - Copy adhd-colors.css comments into guide
 - Add "How to use" section with examples
 - Update sync script to include standards/
 
 **B) Foundation: Create base standard** 🟡 [1.5 hours]
+
 - Create `standards/00-BASE/` structure
 - Extract COLOR-PALETTE.md from ADHD-COLOR-PSYCHOLOGY.md
 - Write DESIGN-SYSTEM-BASE.md with tool-agnostic principles
 - Document ADHD color psychology rationale
 
 **C) Research: Test Quarto theming** 🟡 [1 hour]
+
 - Create minimal test R package
 - Try pkgdown custom CSS injection
 - Try altdoc SCSS theme system
@@ -417,18 +455,21 @@ cp ~/projects/research/mediation-planning/standards/website-design/01-IMPLEMENTA
 ## Appendix: Tool Research Notes
 
 ### MkDocs Material
+
 - ✅ Custom CSS via `extra_css` in mkdocs.yml
 - ✅ CSS variables for theme colors
 - ✅ Dark mode via `[data-md-color-scheme="slate"]`
 - ✅ WCAG AAA compliant (tested)
 
 ### Quarto+pkgdown (To Research)
+
 - ⏳ Bootstrap 5 theming system
 - ⏳ Custom CSS injection via `_pkgdown.yml`
 - ⏳ SCSS variable overrides
 - ⏳ Dark mode support
 
 ### Quarto+altdoc (To Research)
+
 - ⏳ Quarto theme system integration
 - ⏳ SCSS compilation support
 - ⏳ Custom CSS injection

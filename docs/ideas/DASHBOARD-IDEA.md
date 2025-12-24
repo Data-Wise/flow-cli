@@ -10,6 +10,7 @@
 **Goal:** Visual project dashboard with mobile access
 
 **Best Option:** Apple Notes auto-dashboard
+
 - Scans .STATUS files
 - Auto-updates every 30 min
 - Mobile access (iPhone/iPad)
@@ -26,12 +27,15 @@
 **Before building dashboard, must test:**
 
 ### Test 1: Can Claude Create Notes Programmatically?
+
 - Test: `add_note()` tool
 - Verify: Note appears in Apple Notes app
 - Check: Folder organization works
 
 ### Test 2: What Formatting Works?
+
 **Need to test:**
+
 - ✓ Bullets (•, ◦, -)
 - ✓ Progress bars ([███░░░░░░░])
 - ✓ Emoji (🟢🟡🔴)
@@ -41,11 +45,13 @@
 - ✓ Tables (if possible)
 
 ### Test 3: How to Auto-Update?
+
 - Test: `update_note_content()` tool
 - Verify: Preserves formatting
 - Check: Update frequency limits
 
 ### Test 4: Display Quality
+
 - Mobile (iPhone/iPad) appearance
 - Desktop (Mac) appearance
 - Readability with different content lengths
@@ -57,6 +63,7 @@
 **Prepared for new chat testing:**
 
 ### Phase 1: Basic Creation (5 min)
+
 ```
 Test: Create simple note
 Tool: add_note("Test Dashboard", "content", "Notes")
@@ -64,6 +71,7 @@ Verify: Note exists and is readable
 ```
 
 ### Phase 2: Formatting (10 min)
+
 ```
 Test: All formatting elements
 Content: Sample dashboard with:
@@ -76,6 +84,7 @@ Verify: What renders correctly
 ```
 
 ### Phase 3: Update (5 min)
+
 ```
 Test: Update existing note
 Tool: update_note_content()
@@ -83,6 +92,7 @@ Verify: Changes apply, formatting preserved
 ```
 
 ### Phase 4: Real Content (10 min)
+
 ```
 Test: Actual dashboard format
 Content: Real project data from .STATUS files
@@ -202,12 +212,14 @@ Ready to test?
 **From tool documentation:**
 
 **Available:**
+
 - `add_note(name, content, folder)` - Create new
 - `update_note_content(note_name, new_content)` - Update existing
 - `list_notes(folder, limit)` - Browse notes
 - `get_note_content(note_name)` - Read content
 
 **Unknown/To Test:**
+
 - Rich text support level
 - Progress bar rendering
 - Emoji display
@@ -237,6 +249,7 @@ Ready to test?
 ## 🚀 NEXT STEPS AFTER TESTING
 
 **If test succeeds:**
+
 1. Build dashupdate script (30 min)
 2. Test with real .STATUS files
 3. Set up auto-update (cron)
@@ -244,6 +257,7 @@ Ready to test?
 5. Refine based on experience
 
 **If test fails:**
+
 1. Document what doesn't work
 2. Try HTML generator instead
 3. Or stick with .STATUS files only
@@ -253,10 +267,12 @@ Ready to test?
 ## 📁 FILES CREATED
 
 **Research:**
+
 - ~/Downloads/DASHBOARD-ARTIFACT-RESEARCH.md (full research)
 - ~/projects/dev-tools/flow-cli/DASHBOARD-IDEA.md (this file)
 
 **Saved to project knowledge:** (manual upload needed)
+
 - Upload DASHBOARD-ARTIFACT-RESEARCH.md
 - Location: Project Settings → Knowledge
 

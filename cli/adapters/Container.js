@@ -55,10 +55,7 @@ export class Container {
   getProjectRepository() {
     return this._resolve('projectRepository', () => {
       const filePath = join(this.config.dataDir, 'projects.json')
-      return new FileSystemProjectRepository(
-        filePath,
-        this.config.detectorScriptPath
-      )
+      return new FileSystemProjectRepository(filePath, this.config.detectorScriptPath)
     })
   }
 
@@ -66,44 +63,31 @@ export class Container {
 
   getCreateSessionUseCase() {
     return this._resolve('createSessionUseCase', () => {
-      return new CreateSessionUseCase(
-        this.getSessionRepository(),
-        this.getProjectRepository()
-      )
+      return new CreateSessionUseCase(this.getSessionRepository(), this.getProjectRepository())
     })
   }
 
   getEndSessionUseCase() {
     return this._resolve('endSessionUseCase', () => {
-      return new EndSessionUseCase(
-        this.getSessionRepository(),
-        this.getProjectRepository()
-      )
+      return new EndSessionUseCase(this.getSessionRepository(), this.getProjectRepository())
     })
   }
 
   getScanProjectsUseCase() {
     return this._resolve('scanProjectsUseCase', () => {
-      return new ScanProjectsUseCase(
-        this.getProjectRepository()
-      )
+      return new ScanProjectsUseCase(this.getProjectRepository())
     })
   }
 
   getGetStatusUseCase() {
     return this._resolve('getStatusUseCase', () => {
-      return new GetStatusUseCase(
-        this.getSessionRepository(),
-        this.getProjectRepository()
-      )
+      return new GetStatusUseCase(this.getSessionRepository(), this.getProjectRepository())
     })
   }
 
   getGetRecentProjectsUseCase() {
     return this._resolve('getRecentProjectsUseCase', () => {
-      return new GetRecentProjectsUseCase(
-        this.getProjectRepository()
-      )
+      return new GetRecentProjectsUseCase(this.getProjectRepository())
     })
   }
 

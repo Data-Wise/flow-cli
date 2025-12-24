@@ -13,8 +13,7 @@ describe('ProjectType Value Object', () => {
     })
 
     test('throws error for invalid type', () => {
-      expect(() => new ProjectType('invalid'))
-        .toThrow('Invalid project type: invalid')
+      expect(() => new ProjectType('invalid')).toThrow('Invalid project type: invalid')
     })
 
     test('is immutable', () => {

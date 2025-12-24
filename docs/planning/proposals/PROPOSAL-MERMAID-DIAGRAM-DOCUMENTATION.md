@@ -24,6 +24,7 @@
    - Other architecture docs
 
 2. **dash Command Flow** (from source code analysis)
+
    ```
    dash [category]
    ├─→ Sync .STATUS files to project-hub (if "all")
@@ -55,6 +56,7 @@
 **Purpose:** Show step-by-step execution flow
 
 **Best For:**
+
 - `dash` - complex multi-step sync + categorize + display
 - `pick` - interactive selection with branching paths
 - `work` - session start with multiple side effects
@@ -62,6 +64,7 @@
 - `pb` / `pt` / `pv` - context-aware dispatchers
 
 **Example: `dash` Flow**
+
 ```mermaid
 flowchart TD
     Start([User runs: dash category]) --> CheckCategory{Category?}
@@ -98,6 +101,7 @@ flowchart TD
 ```
 
 **Benefits:**
+
 - ✅ Visual understanding of complex logic
 - ✅ Debugging aid for contributors
 - ✅ Quick reference for users
@@ -110,11 +114,13 @@ flowchart TD
 **Purpose:** Help users choose the right command
 
 **Best For:**
+
 - "Which command should I use?" guides
 - Error troubleshooting paths
 - Project type selection
 
 **Example: "Which Project Command?"**
+
 ```mermaid
 graph TD
     Q1{What do you want to do?}
@@ -145,11 +151,13 @@ graph TD
 **Purpose:** Show project/session lifecycle
 
 **Best For:**
+
 - Project status transitions (Active → Paused → Complete)
 - Session states (Started → Working → Finished)
 - Git workflow states
 
 **Example: Project Status Lifecycle**
+
 ```mermaid
 stateDiagram-v2
     [*] --> Planned
@@ -183,11 +191,13 @@ stateDiagram-v2
 **Purpose:** Show interactions between components over time
 
 **Best For:**
+
 - CLI → Shell → Filesystem interactions
 - API request/response flows
 - Complex multi-step workflows
 
 **Example: `work` Command Sequence**
+
 ```mermaid
 sequenceDiagram
     participant User
@@ -215,6 +225,7 @@ sequenceDiagram
 ### 1. Color Consistency
 
 **Proposed Color Scheme:**
+
 ```
 🟢 Success/Start  : #4CAF50 (Green)
 🔵 Process/Action : #2196F3 (Blue)
@@ -227,6 +238,7 @@ sequenceDiagram
 ### 2. Icon Integration
 
 **Consistent Icons Across Diagrams:**
+
 - 🔥 Active/Hot
 - 📋 List/Ready
 - ⏸️ Paused
@@ -239,6 +251,7 @@ sequenceDiagram
 ### 3. Complexity Levels
 
 **Guidelines:**
+
 - **Simple diagrams:** 5-10 nodes max (quick glance)
 - **Medium diagrams:** 10-20 nodes (main reference)
 - **Complex diagrams:** 20+ nodes (deep dive, optional)
@@ -252,22 +265,26 @@ sequenceDiagram
 **Strategy:** Add diagrams to high-traffic docs first
 
 **Phase 1: Core Commands** (Week 1)
+
 - [ ] `dash` command flow
 - [ ] `pick` command flow
 - [ ] `work` command flow
 - [ ] Command selection decision tree
 
 **Phase 2: Smart Dispatchers** (Week 2)
+
 - [ ] `cc` / `gm` integration flow
 - [ ] `pb` / `pt` / `pv` context detection
 - [ ] `peek` file type auto-detection
 
 **Phase 3: Advanced Flows** (Week 3)
+
 - [ ] Project status lifecycle (state diagram)
 - [ ] Session workflow (sequence diagram)
 - [ ] Error handling paths
 
 **Benefits:**
+
 - ✅ Low risk, high value
 - ✅ User feedback drives priorities
 - ✅ Incremental learning curve
@@ -279,15 +296,18 @@ sequenceDiagram
 **Strategy:** Create diagram-first documentation
 
 **Scope:**
+
 - Diagram for EVERY command (28+ diagrams)
 - Interactive diagram gallery
 - Diagram-based tutorials
 
 **Benefits:**
+
 - ✅ Complete visual reference
 - ✅ Consistent experience
 
 **Drawbacks:**
+
 - ❌ High time investment (2-3 weeks)
 - ❌ Maintenance burden
 - ❌ May overwhelm simple commands
@@ -299,6 +319,7 @@ sequenceDiagram
 **Strategy:** Create reusable templates, apply selectively
 
 **Components:**
+
 1. **Diagram Templates** (5 types)
    - Command flow template
    - Decision tree template
@@ -312,6 +333,7 @@ sequenceDiagram
    - Complex commands (15+ steps): Diagram required
 
 **Benefits:**
+
 - ✅ Balance between completeness and effort
 - ✅ Reusable patterns
 - ✅ Clear guidelines for contributors
@@ -322,12 +344,12 @@ sequenceDiagram
 
 ### High Priority (Do First) ⭐
 
-| Command | Reason | Diagram Type | Effort |
-|---------|--------|--------------|--------|
-| `dash` | Complex, multi-step, high-traffic | Flowchart | 30 min |
-| `pick` | Interactive, branching logic | Flowchart | 20 min |
-| `work` | Multiple side effects, key workflow | Sequence | 30 min |
-| Command selection | Common user question | Decision tree | 20 min |
+| Command           | Reason                              | Diagram Type  | Effort |
+| ----------------- | ----------------------------------- | ------------- | ------ |
+| `dash`            | Complex, multi-step, high-traffic   | Flowchart     | 30 min |
+| `pick`            | Interactive, branching logic        | Flowchart     | 20 min |
+| `work`            | Multiple side effects, key workflow | Sequence      | 30 min |
+| Command selection | Common user question                | Decision tree | 20 min |
 
 **Total Effort:** ~2 hours
 
@@ -335,11 +357,11 @@ sequenceDiagram
 
 ### Medium Priority (Next Phase)
 
-| Command | Reason | Diagram Type | Effort |
-|---------|--------|--------------|--------|
-| `cc` / `gm` | Project integration pattern | Flowchart | 15 min each |
-| `pb` / `pt` / `pv` | Context detection logic | Flowchart | 20 min each |
-| Status lifecycle | Conceptual understanding | State diagram | 25 min |
+| Command            | Reason                      | Diagram Type  | Effort      |
+| ------------------ | --------------------------- | ------------- | ----------- |
+| `cc` / `gm`        | Project integration pattern | Flowchart     | 15 min each |
+| `pb` / `pt` / `pv` | Context detection logic     | Flowchart     | 20 min each |
+| Status lifecycle   | Conceptual understanding    | State diagram | 25 min      |
 
 **Total Effort:** ~2 hours
 
@@ -347,11 +369,11 @@ sequenceDiagram
 
 ### Low Priority (Optional Enhancement)
 
-| Item | Reason | Diagram Type | Effort |
-|------|--------|--------------|--------|
-| Simple commands | Text sufficient | - | - |
-| Architecture | ✅ Already done | - | - |
-| API flows | Technical audience only | Sequence | 30 min each |
+| Item            | Reason                  | Diagram Type | Effort      |
+| --------------- | ----------------------- | ------------ | ----------- |
+| Simple commands | Text sufficient         | -            | -           |
+| Architecture    | ✅ Already done         | -            | -           |
+| API flows       | Technical audience only | Sequence     | 30 min each |
 
 ---
 
@@ -362,6 +384,7 @@ sequenceDiagram
 **Already Supported:** MkDocs Material supports Mermaid out-of-the-box
 
 **Current Config Check:**
+
 ```yaml
 # mkdocs.yml
 markdown_extensions:
@@ -373,6 +396,7 @@ markdown_extensions:
 ```
 
 **If not configured, add:**
+
 ```yaml
 markdown_extensions:
   - pymdownx.superfences:
@@ -387,6 +411,7 @@ markdown_extensions:
 ### Diagram Embedding
 
 **Standard Pattern:**
+
 ````markdown
 ## Command Flow
 
@@ -402,6 +427,7 @@ flowchart TD
 ```
 
 **Steps:**
+
 1. Parse category argument
 2. Sync files if "all"
 3. Filter by path
@@ -413,28 +439,33 @@ flowchart TD
 ### Accessibility Considerations
 
 **Best Practices:**
+
 1. **Always provide text alternative** alongside diagram
 2. **Use semantic HTML** for screen readers
 3. **High contrast colors** for visibility
 4. **Descriptive labels** on all nodes
 
 **Example:**
-```markdown
+
+````markdown
 ### Visual Flow
 
 ```mermaid
 [diagram]
 ```
+````
 
 ### Text Alternative
 
 The `dash` command performs these steps:
+
 1. Parses the category argument (teaching/research/packages/dev/all)
 2. If category is "all", syncs .STATUS files to project-hub
 3. Scans and filters .STATUS files by category
 4. Categorizes projects by status (active/ready/paused/blocked)
 5. Displays formatted dashboard with quick actions
-```
+
+````
 
 ---
 
@@ -454,9 +485,10 @@ The `dash` command performs these steps:
 ```mermaid
 flowchart LR
     Input([dash category]) --> Process[Scan & Filter] --> Output([Display Dashboard])
-```
+````
 
 **Level 2: Detailed View (expandable section)**
+
 ```mermaid
 flowchart TD
     [Full 20-node diagram with all details]
@@ -467,11 +499,13 @@ flowchart TD
 ### Scan-Friendly Layout
 
 **Bad:**
+
 ```
 [Long paragraph of text explaining dash command flow with embedded references to files and functions and multiple conditional branches that require careful reading...]
 ```
 
 **Good:**
+
 ```
 ## Quick Summary
 Visual flow → [Diagram] → Key steps below
@@ -489,11 +523,13 @@ Visual flow → [Diagram] → Key steps below
 ### Documentation Quality Metrics
 
 **Before Diagrams:**
+
 - User questions: "How does X work?"
 - Avg time to understand: ~10 min reading
 - Contributor onboarding: ~1 week
 
 **After Diagrams (Target):**
+
 - User comprehension: 80% from diagram alone
 - Avg time to understand: ~2 min (glance at diagram)
 - Contributor onboarding: ~3 days
@@ -501,6 +537,7 @@ Visual flow → [Diagram] → Key steps below
 ### Implementation Metrics
 
 **Track:**
+
 - Number of diagrams added
 - Page views on diagram-heavy pages
 - User feedback on clarity
@@ -557,11 +594,13 @@ Visual flow → [Diagram] → Key steps below
 **Concept:** Clickable nodes that expand/collapse
 
 **Implementation:**
+
 - Use Mermaid + JavaScript
 - Click on node → Show code snippet
 - Click on decision → Show example
 
 **Example:**
+
 ```
 [User clicks "Sync Files" node]
 → Tooltip shows: "Code: lines 48-71 in dash.zsh"
@@ -577,11 +616,13 @@ Visual flow → [Diagram] → Key steps below
 **Concept:** Step-by-step animation showing execution
 
 **Implementation:**
+
 - CSS animations on Mermaid diagrams
 - Highlight current step
 - Auto-advance or click-to-advance
 
 **Example:**
+
 ```
 Step 1: [Start] (highlighted)
 Step 2: [Parse Args] (highlighted after 1s)
@@ -597,8 +638,10 @@ Step 3: [Sync Files] (highlighted after 2s)
 **Concept:** Interactive decision tree in docs
 
 **Implementation:**
+
 ```markdown
 What do you want to do?
+
 - [View projects] → Go to section 2.1
 - [Start working] → Go to section 2.2
 - [Build/Test] → Go to section 2.3
@@ -613,6 +656,7 @@ What do you want to do?
 **Concept:** Centralized visual reference
 
 **Implementation:**
+
 - `/docs/diagrams/` page
 - Thumbnail grid of all diagrams
 - Click to expand with context
@@ -626,6 +670,7 @@ What do you want to do?
 **Concept:** `command help --diagram` shows ASCII art flow
 
 **Implementation:**
+
 ```bash
 $ dash help --diagram
 
@@ -650,6 +695,7 @@ $ dash help --diagram
 **Concept:** Auto-generate diagrams from code
 
 **Implementation:**
+
 - Parse function code
 - Extract flow logic
 - Generate Mermaid syntax
@@ -666,6 +712,7 @@ $ dash help --diagram
 **Challenge:** Code changes → Diagrams outdated
 
 **Solutions:**
+
 1. **Automated tests** - Check if diagram matches code structure
 2. **Git hooks** - Warning if function changes but diagram doesn't
 3. **Quarterly review** - Scheduled diagram audit
@@ -676,6 +723,7 @@ $ dash help --diagram
 ### Contributor Guidelines
 
 **Required in CONTRIBUTING.md:**
+
 ```markdown
 ## Adding Diagrams
 
@@ -711,12 +759,14 @@ $ dash help --diagram
 #### 1. ⭐⭐⭐ Start with `dash` + Decision Tree (60 min)
 
 **Why:**
+
 - Immediate value to users
 - Addresses user's original question
 - Low effort, high impact
 - Tests the workflow
 
 **Deliverables:**
+
 - `docs/commands/dash.md` with flowchart
 - `docs/getting-started/quick-start.md` with decision tree
 - Test both render correctly
@@ -726,12 +776,14 @@ $ dash help --diagram
 #### 2. ⭐⭐ Adopt Option A: Incremental Addition
 
 **Why:**
+
 - Low risk
 - User feedback-driven
 - Sustainable maintenance
 - Flexible priorities
 
 **Process:**
+
 1. Add diagrams to high-traffic pages
 2. Collect user feedback
 3. Iterate based on value
@@ -741,12 +793,14 @@ $ dash help --diagram
 #### 3. ⭐ Create Diagram Templates + Guidelines (2 hours)
 
 **Why:**
+
 - Consistency across diagrams
 - Faster creation for contributors
 - Clear quality standards
 - Long-term scalability
 
 **Deliverables:**
+
 - 5 diagram templates (flowchart, decision, state, sequence, architecture)
 - Contributor guidelines in CONTRIBUTING.md
 - Color scheme + icon reference
@@ -760,6 +814,7 @@ $ dash help --diagram
 **File:** `docs/commands/dash.md`
 
 **Content:**
+
 1. Command overview (2 sentences)
 2. Quick flow diagram (simple, 5 nodes)
 3. Detailed flow diagram (complete, 15-20 nodes)
@@ -770,6 +825,7 @@ $ dash help --diagram
 **Time:** 45 minutes
 
 **Impact:**
+
 - Answers user's question ✅
 - Establishes diagram pattern ✅
 - Demonstrates value ✅
@@ -799,17 +855,20 @@ $ dash help --diagram
 ## 📝 ACTION CHECKLIST
 
 ### This Session
+
 - [ ] Create `dash` command flowchart
 - [ ] Add to documentation site
 - [ ] Test rendering
 - [ ] Get user feedback
 
 ### Next Week
+
 - [ ] Add 3-5 more diagrams (priority commands)
 - [ ] Create diagram templates
 - [ ] Update contributor guidelines
 
 ### This Month
+
 - [ ] Comprehensive diagram coverage for top 10 commands
 - [ ] User survey on diagram helpfulness
 - [ ] Establish maintenance process

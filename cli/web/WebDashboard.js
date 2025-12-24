@@ -67,7 +67,7 @@ export class WebDashboard {
     // Setup WebSocket server
     this.wss = new WebSocketServer({ server: this.server })
 
-    this.wss.on('connection', (ws) => {
+    this.wss.on('connection', ws => {
       this.clients.add(ws)
 
       // Send initial status immediately
@@ -91,7 +91,7 @@ export class WebDashboard {
       })
 
       // Handle errors
-      ws.on('error', (error) => {
+      ws.on('error', error => {
         console.error('WebSocket error:', error.message)
         this.clients.delete(ws)
       })
@@ -108,20 +108,25 @@ export class WebDashboard {
     try {
       const status = await this.getStatus.execute()
 
-      if (ws.readyState === 1) { // OPEN
-        ws.send(JSON.stringify({
-          type: 'status',
-          data: status,
-          timestamp: new Date().toISOString()
-        }))
+      if (ws.readyState === 1) {
+        // OPEN
+        ws.send(
+          JSON.stringify({
+            type: 'status',
+            data: status,
+            timestamp: new Date().toISOString()
+          })
+        )
       }
     } catch (error) {
       if (ws.readyState === 1) {
-        ws.send(JSON.stringify({
-          type: 'error',
-          error: error.message,
-          timestamp: new Date().toISOString()
-        }))
+        ws.send(
+          JSON.stringify({
+            type: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+          })
+        )
       }
     }
   }
@@ -138,7 +143,8 @@ export class WebDashboard {
     })
 
     for (const client of this.clients) {
-      if (client.readyState === 1) { // OPEN
+      if (client.readyState === 1) {
+        // OPEN
         client.send(message)
       }
     }

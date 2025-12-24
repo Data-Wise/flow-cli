@@ -14,6 +14,7 @@
 **Size:** ~5,572 lines of code
 **Status:** Stable (v1.5.0, 98% complete)
 **Key Features:**
+
 - Project type detection (8+ types)
 - Claude context gathering
 - Template system for CLAUDE.md
@@ -30,6 +31,7 @@
 **Size:** Early stage (architecture defined, implementation starting)
 **Status:** Week 1 of 3-month roadmap
 **Key Features (planned):**
+
 - Workflow state manager
 - Project dashboard
 - Dependency tracker
@@ -40,13 +42,13 @@
 
 ### Overlap
 
-| Feature | zsh-claude-workflow | flow-cli |
-|---------|---------------------|-------------------|
-| Project detection | ✅ Core feature (8+ types) | 🔄 Planned (built-in fallback) |
-| Context gathering | ✅ CLAUDE.md templates | Not planned |
-| Session management | 🔄 Future phase | ✅ Core feature |
-| Dashboard | ❌ Not planned | ✅ Core feature |
-| Plugin management | ✅ Complete | ❌ Not planned |
+| Feature            | zsh-claude-workflow        | flow-cli                       |
+| ------------------ | -------------------------- | ------------------------------ |
+| Project detection  | ✅ Core feature (8+ types) | 🔄 Planned (built-in fallback) |
+| Context gathering  | ✅ CLAUDE.md templates     | Not planned                    |
+| Session management | 🔄 Future phase            | ✅ Core feature                |
+| Dashboard          | ❌ Not planned             | ✅ Core feature                |
+| Plugin management  | ✅ Complete                | ❌ Not planned                 |
 
 ---
 
@@ -86,6 +88,7 @@ flow-cli/
 ### Migration Plan
 
 **Phase 1: Copy Core Libraries**
+
 ```bash
 cp -r ~/projects/dev-tools/zsh-claude-workflow/lib/* cli/lib/zsh-claude-workflow/
 cp -r ~/projects/dev-tools/zsh-claude-workflow/commands/* config/zsh/functions/
@@ -93,16 +96,19 @@ cp -r ~/projects/dev-tools/zsh-claude-workflow/templates/* cli/lib/templates/
 ```
 
 **Phase 2: Integrate Commands**
+
 - Merge project detection into new architecture
 - Keep all 26 functions
 - Preserve 137+ aliases
 
 **Phase 3: Merge Documentation**
+
 - Migrate MkDocs site content
 - Update references
 - Combine README files
 
 **Phase 4: Archive zsh-claude-workflow**
+
 - Mark as deprecated
 - Redirect to flow-cli
 - Keep for reference
@@ -128,6 +134,7 @@ cp -r ~/projects/dev-tools/zsh-claude-workflow/templates/* cli/lib/templates/
 ### Complexity
 
 🔧 **High** - 2-3 days effort
+
 - Code migration: 1 day
 - Testing: 1 day
 - Documentation: 1 day
@@ -143,14 +150,14 @@ Copy only the functions flow-cli needs, leave rest independent.
 ### What to Port
 
 **Essential (MUST have):**
+
 1. **project-detector.sh** - Project type detection
 2. **core.sh** - Shared utilities (path handling, etc.)
 
-**Useful (SHOULD have):**
-3. **claude-context.sh** - Context gathering (for session state)
-4. **CLAUDE.md templates** - Session templates
+**Useful (SHOULD have):** 3. **claude-context.sh** - Context gathering (for session state) 4. **CLAUDE.md templates** - Session templates
 
 **Skip (DON'T need):**
+
 - Plugin management (not relevant to project management)
 - 137+ aliases (already in your .zshrc)
 - Claude Code commands (separate concern)
@@ -176,6 +183,7 @@ flow-cli/
 ### Porting Process
 
 **Step 1: Copy Core Files**
+
 ```bash
 mkdir -p cli/vendor/zsh-claude-workflow
 cp ~/projects/dev-tools/zsh-claude-workflow/lib/project-detector.sh cli/vendor/zsh-claude-workflow/
@@ -184,6 +192,7 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/claude-context.sh cli/vendor/zsh
 ```
 
 **Step 2: Update Import Paths**
+
 ```zsh
 # In config/zsh/functions/session-commands.zsh
 source "${ZSH_CONFIG_ROOT}/cli/vendor/zsh-claude-workflow/project-detector.sh"
@@ -191,6 +200,7 @@ source "${ZSH_CONFIG_ROOT}/cli/vendor/zsh-claude-workflow/core.sh"
 ```
 
 **Step 3: Attribution**
+
 ```markdown
 # cli/vendor/zsh-claude-workflow/README.md
 
@@ -202,6 +212,7 @@ License: MIT
 Date: 2025-12-20
 
 Files included:
+
 - project-detector.sh - Project type detection
 - core.sh - Shared utilities
 - claude-context.sh - Context gathering
@@ -229,6 +240,7 @@ See original repo for updates.
 ### Complexity
 
 🔧 **Low** - 2-3 hours effort
+
 - Copy files: 30 min
 - Update imports: 30 min
 - Test: 1 hour
@@ -262,18 +274,15 @@ flow-cli/
 
 export async function detectProjectType(projectPath) {
   // Try zsh-claude-workflow if available
-  const workflowPath = path.join(
-    process.env.HOME,
-    'projects/dev-tools/zsh-claude-workflow'
-  );
+  const workflowPath = path.join(process.env.HOME, 'projects/dev-tools/zsh-claude-workflow')
 
   if (fs.existsSync(workflowPath)) {
     // Use external tool
-    return await callExternalDetector(projectPath);
+    return await callExternalDetector(projectPath)
   }
 
   // Fall back to built-in
-  return builtInDetection(projectPath);
+  return builtInDetection(projectPath)
 }
 ```
 
@@ -295,6 +304,7 @@ export async function detectProjectType(projectPath) {
 ### Complexity
 
 🔧 **Very Low** - Already designed this way
+
 - Already in ARCHITECTURE-INTEGRATION.md
 - Just implement the bridge
 
@@ -339,6 +349,7 @@ flow-cli/           # Uses shared library
 ### Complexity
 
 🔧 **High** - 3-4 days effort
+
 - Extract library: 1 day
 - Update both projects: 1 day
 - Testing: 1 day
@@ -355,11 +366,13 @@ Keep separate now, plan to merge later when flow-cli is mature.
 ### Timeline
 
 **Now (Week 1-12):**
+
 - flow-cli: Build core features (session, dashboard, tasks)
 - zsh-claude-workflow: Continue as dependency
 - Use Option 3 (dependency with bridge)
 
 **Later (Month 4-6):**
+
 - Evaluate if merge makes sense
 - By then, we'll know which features are actually used
 - Can make informed decision
@@ -379,13 +392,13 @@ Keep separate now, plan to merge later when flow-cli is mature.
 
 ## Comparison Matrix
 
-| Approach | Independence | Effort | Risk | Maintenance | Best For |
-|----------|--------------|--------|------|-------------|----------|
-| **Merge Completely** | ❌ Single project | High (2-3 days) | High | Low (single codebase) | All-in-one solution |
-| **Port Functions** ⭐ | ✅ Standalone | Low (2-3 hours) | Low | Medium (syncing) | Quick independence |
-| **Dependency** ⭐ | ⚬ Requires external | Very Low | Very Low | Low | Existing plan |
-| **Extract Library** | ⚬ Shared library | High (3-4 days) | Medium | Medium | Sophisticated setup |
-| **Future Merge** | ⚬ Deferred | Very Low | Very Low | Medium | Wait and see |
+| Approach              | Independence        | Effort          | Risk     | Maintenance           | Best For            |
+| --------------------- | ------------------- | --------------- | -------- | --------------------- | ------------------- |
+| **Merge Completely**  | ❌ Single project   | High (2-3 days) | High     | Low (single codebase) | All-in-one solution |
+| **Port Functions** ⭐ | ✅ Standalone       | Low (2-3 hours) | Low      | Medium (syncing)      | Quick independence  |
+| **Dependency** ⭐     | ⚬ Requires external | Very Low        | Very Low | Low                   | Existing plan       |
+| **Extract Library**   | ⚬ Shared library    | High (3-4 days) | Medium   | Medium                | Sophisticated setup |
+| **Future Merge**      | ⚬ Deferred          | Very Low        | Very Low | Medium                | Wait and see        |
 
 ---
 
@@ -434,6 +447,7 @@ Keep separate now, plan to merge later when flow-cli is mature.
 ### Primary: **Port Functions (Option 2)** + Built-in Fallback
 
 **Why:**
+
 1. **Matches npm packaging goal** - flow-cli works standalone
 2. **Quick to implement** - 2-3 hours vs 2-3 days
 3. **Low risk** - Doesn't disrupt zsh-claude-workflow
@@ -441,6 +455,7 @@ Keep separate now, plan to merge later when flow-cli is mature.
 5. **Good for users** - Install one package, everything works
 
 **Implementation:**
+
 ```bash
 # Week 1 (now)
 mkdir -p cli/vendor/zsh-claude-workflow
@@ -452,6 +467,7 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/{project-detector,core,claude-co
 ```
 
 **Result:**
+
 - flow-cli works standalone (npm installable)
 - Still enhanced if zsh-claude-workflow installed (check first)
 - Clear attribution to original work
@@ -460,6 +476,7 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/{project-detector,core,claude-co
 ### Alternative: **Keep as Dependency (Option 3)**
 
 **If you prefer:**
+
 - Keep projects separate
 - Don't mind installation complexity
 - Already designed this way
@@ -470,14 +487,14 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/{project-detector,core,claude-co
 
 ## Port vs Dependency - Quick Decision Matrix
 
-| Factor | Port (Option 2) | Dependency (Option 3) |
-|--------|-----------------|----------------------|
-| **npm installable?** | ✅ Yes | ⚬ Needs post-install |
-| **Standalone?** | ✅ Yes | ❌ No |
-| **Maintenance?** | ⚬ Manual sync | ✅ Auto-updates |
-| **Effort now?** | 2-3 hours | 1 hour |
-| **Code quality?** | ⚬ May diverge | ✅ Always in sync |
-| **Best for...** | npm package | local dev |
+| Factor               | Port (Option 2) | Dependency (Option 3) |
+| -------------------- | --------------- | --------------------- |
+| **npm installable?** | ✅ Yes          | ⚬ Needs post-install  |
+| **Standalone?**      | ✅ Yes          | ❌ No                 |
+| **Maintenance?**     | ⚬ Manual sync   | ✅ Auto-updates       |
+| **Effort now?**      | 2-3 hours       | 1 hour                |
+| **Code quality?**    | ⚬ May diverge   | ✅ Always in sync     |
+| **Best for...**      | npm package     | local dev             |
 
 ---
 
@@ -486,6 +503,7 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/{project-detector,core,claude-co
 ### Essential (300-400 lines)
 
 **1. project-detector.sh** (~200 lines)
+
 ```bash
 # Detects 8+ project types
 detect_project_type() {
@@ -494,6 +512,7 @@ detect_project_type() {
 ```
 
 **2. core.sh** (~100 lines)
+
 ```bash
 # Shared utilities
 normalize_path() { ... }
@@ -502,6 +521,7 @@ get_storage_type() { ... }
 ```
 
 **3. claude-context.sh** (~100 lines) - OPTIONAL
+
 ```bash
 # Context gathering for CLAUDE.md
 gather_context() { ... }
@@ -510,6 +530,7 @@ gather_context() { ... }
 ### Total Code to Port: ~400 lines
 
 **Attribution:**
+
 - Add LICENSE notice
 - Link to original repo
 - Document sync process
@@ -537,7 +558,7 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/core.sh \
 
 ### Step 3: Create Attribution
 
-```bash
+````bash
 cat > cli/vendor/zsh-claude-workflow/README.md << 'EOF'
 # Vendored from zsh-claude-workflow
 
@@ -563,9 +584,10 @@ To update vendored code:
 ```bash
 cp ~/projects/dev-tools/zsh-claude-workflow/lib/project-detector.sh cli/vendor/zsh-claude-workflow/
 cp ~/projects/dev-tools/zsh-claude-workflow/lib/core.sh cli/vendor/zsh-claude-workflow/
-```
+````
 
 Check for updates: Compare with upstream periodically
+
 ```
 
 EOF
@@ -576,25 +598,22 @@ EOF
 ```javascript
 // cli/lib/project-detector-bridge.js
 
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import path from 'path';
+import { exec } from 'child_process'
+import { promisify } from 'util'
+import path from 'path'
 
-const execAsync = promisify(exec);
+const execAsync = promisify(exec)
 
 export async function detectProjectType(projectPath) {
   // Use vendored zsh-claude-workflow code
-  const vendoredScript = path.join(
-    __dirname,
-    '../vendor/zsh-claude-workflow/project-detector.sh'
-  );
+  const vendoredScript = path.join(__dirname, '../vendor/zsh-claude-workflow/project-detector.sh')
 
   const { stdout } = await execAsync(
     `source ${vendoredScript} && cd "${projectPath}" && detect_project_type`,
     { shell: '/bin/zsh' }
-  );
+  )
 
-  return stdout.trim();
+  return stdout.trim()
 }
 ```
 
@@ -614,15 +633,18 @@ node cli/lib/project-detector-bridge.js ~/projects/teaching/stat-440
 ## Timeline Comparison
 
 ### Port Functions (Option 2)
+
 - **Day 1:** Copy files, attribution (1 hour)
 - **Day 1:** Update imports, test (2 hours)
 - **Total:** 3 hours
 
 ### Dependency (Option 3)
+
 - **Day 1:** Implement bridge (already designed) (1 hour)
 - **Total:** 1 hour
 
 ### Merge Completely (Option 1)
+
 - **Day 1:** Copy code, restructure (8 hours)
 - **Day 2:** Fix imports, test (8 hours)
 - **Day 3:** Documentation (4 hours)
@@ -662,16 +684,19 @@ node cli/lib/project-detector-bridge.js ~/projects/teaching/stat-440
 5. ✅ **Good for users** - One-command install
 
 **What to port:**
+
 - `project-detector.sh` (200 lines) - MUST have
 - `core.sh` (100 lines) - MUST have
 - Skip: Plugin management, aliases, Claude commands
 
 **Implementation:**
+
 - Week 1: Port and test (3 hours)
 - Add attribution and sync docs
 - Update ARCHITECTURE-INTEGRATION.md
 
 **Future:**
+
 - Can still merge later if desired
 - Both projects evolve independently
 - flow-cli becomes standalone npm package

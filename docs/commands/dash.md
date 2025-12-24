@@ -144,10 +144,12 @@ flowchart TD
 For accessibility and text-based reference:
 
 ### Phase 1: Category Parsing
+
 1. Parse the category argument (default: "all")
 2. Validate category is one of: all, teaching, research, packages, dev, quarto
 
 ### Phase 2: Sync (Only for "all" category)
+
 3. Find all `.STATUS` files in `~/projects` (excluding `/project-hub`)
 4. For each `.STATUS` file:
    - Extract project name, category, and path
@@ -158,6 +160,7 @@ For accessibility and text-based reference:
 6. Update coordination timestamp in `PROJECT-HUB.md`
 
 ### Phase 3: Filter Setup
+
 7. Set filter path based on category:
    - `teaching` → `~/projects/teaching`
    - `research` → `~/projects/research`
@@ -167,6 +170,7 @@ For accessibility and text-based reference:
    - `all` → `~/projects`
 
 ### Phase 4: Scan & Parse
+
 8. Find all `.STATUS` files in filter path
 9. For each `.STATUS` file:
    - Parse fields: `status`, `priority`, `progress`, `next`, `type`
@@ -175,6 +179,7 @@ For accessibility and text-based reference:
    - Create entry: `icon name | priority | progress | next`
 
 ### Phase 5: Categorization
+
 10. Categorize each entry by status:
     - `active/working/in progress` → Active Projects array
     - `ready/todo/planned` → Ready Projects array
@@ -182,6 +187,7 @@ For accessibility and text-based reference:
     - `blocked` → Blocked Projects array
 
 ### Phase 6: Display
+
 11. Display header with category name
 12. If Active Projects array not empty:
     - Display "🔥 ACTIVE NOW" section
@@ -197,6 +203,7 @@ For accessibility and text-based reference:
     - For each project: show name, next action (dimmed)
 
 ### Phase 7: Summary & Actions
+
 16. Calculate total project count
 17. If total = 0:
     - Show "No projects found" message
@@ -219,6 +226,7 @@ $ dash
 ```
 
 **Output:**
+
 ```
 🔄 Updating project coordination...
   ✓ Synced 12 .STATUS files to project-hub
@@ -259,6 +267,7 @@ $ dash teaching
 ```
 
 **Output:**
+
 ```
 ╭─────────────────────────────────────────────╮
 │ 🎯 TEACHING DASHBOARD                       │
@@ -287,6 +296,7 @@ $ dash dev
 ```
 
 **Output:**
+
 ```
 ╭─────────────────────────────────────────────╮
 │ 🎯 DEV-TOOLS DASHBOARD                      │
@@ -304,18 +314,19 @@ No projects found with .STATUS files
 
 When displaying projects, priorities are color-coded:
 
-| Priority | Color | Use Case |
-|----------|-------|----------|
-| **P0** | 🔴 Red | Critical/Urgent work |
-| **P1** | 🟡 Yellow | High priority |
-| **P2** | 🔵 Blue | Medium priority |
-| **--** | ⚪ Gray | No priority set |
+| Priority | Color     | Use Case             |
+| -------- | --------- | -------------------- |
+| **P0**   | 🔴 Red    | Critical/Urgent work |
+| **P1**   | 🟡 Yellow | High priority        |
+| **P2**   | 🔵 Blue   | Medium priority      |
+| **--**   | ⚪ Gray   | No priority set      |
 
 ---
 
 ## 📂 File Dependencies
 
 ### Required Files
+
 - `.STATUS` files in project directories
 - Format: Key-value pairs with fields
   ```
@@ -327,6 +338,7 @@ When displaying projects, priorities are color-coded:
   ```
 
 ### Optional Directories
+
 - `~/projects/project-hub/` - Central coordination hub
 - `~/projects/project-hub/PROJECT-HUB.md` - Coordination file
 
@@ -362,13 +374,13 @@ Blocked: blocked
 
 ## 🔗 Related Commands
 
-| Command | Purpose |
-|---------|---------|
-| `work <name>` | Start working on a project |
-| `status <name>` | Update project status |
-| `pick` | Interactive project picker |
-| `js` | Just start (auto-picks project) |
-| `finish` | End session and commit |
+| Command         | Purpose                         |
+| --------------- | ------------------------------- |
+| `work <name>`   | Start working on a project      |
+| `status <name>` | Update project status           |
+| `pick`          | Interactive project picker      |
+| `js`            | Just start (auto-picks project) |
+| `finish`        | End session and commit          |
 
 ---
 
@@ -391,6 +403,7 @@ The `dash` command follows these ADHD-friendly principles:
 **Cause:** Missing `.STATUS` files
 
 **Solution:**
+
 ```bash
 # Create .STATUS file in project directory
 cd ~/projects/my-project
@@ -404,6 +417,7 @@ status . --create
 **Cause:** project-hub directory doesn't exist
 
 **Solution:**
+
 ```bash
 # Create project-hub manually
 mkdir -p ~/projects/project-hub
@@ -416,6 +430,7 @@ mkdir -p ~/projects/project-hub
 **Cause:** Project in unexpected directory structure
 
 **Solution:**
+
 ```bash
 # Check project location
 pwd
@@ -429,11 +444,13 @@ pwd
 **File:** `~/.config/zsh/functions/dash.zsh`
 **Lines:** 22-326 (main function)
 **Dependencies:**
+
 - `find` command
 - `grep` command
 - `.STATUS` file format
 
 **Key Functions:**
+
 - `dash()` - Main entry point (line 22)
 - `_dash_help()` - Help display (line 282)
 

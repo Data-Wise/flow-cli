@@ -10,6 +10,7 @@
 ## 🎯 Vision
 
 Transform `pick` from a simple project switcher into a **powerful project command center** with:
+
 - Smart context awareness (.STATUS integration)
 - Rich preview pane
 - Batch operations
@@ -21,6 +22,7 @@ Transform `pick` from a simple project switcher into a **powerful project comman
 ## ✅ Current State (v2.0 - Implemented 2025-12-18)
 
 ### Working Features
+
 - ✅ Process substitution (no output pollution)
 - ✅ Branch truncation (20 char limit)
 - ✅ fzf key bindings (Ctrl-W, Ctrl-O)
@@ -30,6 +32,7 @@ Transform `pick` from a simple project switcher into a **powerful project comman
 - ✅ Error handling
 
 ### Current Limitations
+
 - ⚠️ No preview of project contents
 - ⚠️ One project at a time (no multi-select)
 - ⚠️ No recent/frecency sorting
@@ -48,6 +51,7 @@ Transform `pick` from a simple project switcher into a **powerful project comman
 **Effort:** 🔧 Medium (2-3 hours)
 
 **Features:**
+
 ```bash
 # fzf preview shows:
 ╭─ PROJECT INFO ────────────────────────────────╮
@@ -69,6 +73,7 @@ Transform `pick` from a simple project switcher into a **powerful project comman
 ```
 
 **Implementation:**
+
 ```zsh
 # Add preview helper function
 _pick_preview() {
@@ -111,12 +116,14 @@ fzf --preview='_pick_preview {4}' \
 ```
 
 **Benefits:**
+
 - See project status before switching
 - Understand context (last activity, pending work)
 - Make informed decisions
 - Reduce context switching cost
 
 **Testing:**
+
 - [ ] Preview shows for all project types
 - [ ] .STATUS file parsed correctly
 - [ ] Git info displays accurately
@@ -132,6 +139,7 @@ fzf --preview='_pick_preview {4}' \
 **Effort:** 🔧 Medium (2-3 hours)
 
 **Features:**
+
 ```bash
 pick                 # Shows recent + frecency sorted
 pick --recent        # Recent only (last 10)
@@ -144,6 +152,7 @@ claude-mcp           🔧 dev  ✅ [main]   🕐 Yesterday
 ```
 
 **Implementation:**
+
 ```zsh
 # Track usage in ~/.local/share/pick-history
 _pick_record_access() {
@@ -188,11 +197,13 @@ _pick_frecency_score() {
 ```
 
 **Benefits:**
+
 - Muscle memory: frequently-used projects bubble to top
 - Time-aware: recent projects preferred over stale
 - ADHD-friendly: less cognitive load (common projects on top)
 
 **Testing:**
+
 - [ ] History file created on first use
 - [ ] Scores calculated correctly
 - [ ] Sorting works (high score = top)
@@ -208,6 +219,7 @@ _pick_frecency_score() {
 **Effort:** 🏗️ Large (3-4 hours)
 
 **Features:**
+
 ```bash
 pick --multi         # Enable multi-select mode
 
@@ -224,6 +236,7 @@ pick --multi         # Enable multi-select mode
 ```
 
 **Implementation:**
+
 ```zsh
 pick() {
     local multi_mode=0
@@ -289,11 +302,13 @@ _pick_open_workspace() {
 ```
 
 **Benefits:**
+
 - Manage related projects together (e.g., all mediationverse packages)
 - Bulk operations save time
 - Workspace support for complex development
 
 **Use Cases:**
+
 - Update all R packages at once
 - Open entire ecosystem in one workspace
 - Check status across all research projects
@@ -307,6 +322,7 @@ _pick_open_workspace() {
 **Effort:** 🔧 Medium (2 hours)
 
 **New Actions:**
+
 ```bash
 # In fzf:
 Ctrl-F  → finish (commit + push)
@@ -318,6 +334,7 @@ Ctrl-I  → project info
 ```
 
 **Implementation:**
+
 ```zsh
 local selection=$(cat "$tmpfile" | fzf \
     --bind="ctrl-w:execute-silent(echo work > $action_file)+accept" \
@@ -373,6 +390,7 @@ esac
 **Effort:** 🔧 Medium (2 hours)
 
 **Features:**
+
 ```bash
 pick --dirty         # Only projects with uncommitted changes
 pick --clean         # Only clean repos
@@ -383,6 +401,7 @@ pick --progress=50+  # .STATUS progress >= 50%
 ```
 
 **Implementation:**
+
 ```zsh
 _pick_apply_filters() {
     local filter="$1"
@@ -426,6 +445,7 @@ _pick_apply_filters() {
 **Strategies:**
 
 1. **Cache Git Status**
+
    ```zsh
    # Cache for 5 minutes
    _git_status_cached() {
@@ -448,6 +468,7 @@ _pick_apply_filters() {
    ```
 
 2. **Parallel Git Calls**
+
    ```zsh
    # Use xargs for parallelism
    _proj_list_all | xargs -P 8 -I {} zsh -c '_proj_git_status_fast {}'
@@ -464,16 +485,17 @@ _pick_apply_filters() {
 
 ## 📊 Prioritization Matrix
 
-| Phase | Value | Effort | Priority | Est. Time |
-|-------|-------|--------|----------|-----------|
-| P6A: Preview Pane | ⭐⭐⭐⭐⭐ | Medium | **🔥 HIGH** | 2-3h |
-| P6B: Frecency | ⭐⭐⭐⭐ | Medium | 🟡 Medium | 2-3h |
-| P6D: Actions | ⭐⭐⭐⭐ | Medium | 🟡 Medium | 2h |
-| P6E: Filters | ⭐⭐⭐ | Medium | 🟢 Low | 2h |
-| P6C: Multi-Select | ⭐⭐⭐ | Large | 🟢 Low | 3-4h |
-| P6F: Performance | ⭐⭐ | Large | 🔵 Future | 3-4h |
+| Phase             | Value      | Effort | Priority    | Est. Time |
+| ----------------- | ---------- | ------ | ----------- | --------- |
+| P6A: Preview Pane | ⭐⭐⭐⭐⭐ | Medium | **🔥 HIGH** | 2-3h      |
+| P6B: Frecency     | ⭐⭐⭐⭐   | Medium | 🟡 Medium   | 2-3h      |
+| P6D: Actions      | ⭐⭐⭐⭐   | Medium | 🟡 Medium   | 2h        |
+| P6E: Filters      | ⭐⭐⭐     | Medium | 🟢 Low      | 2h        |
+| P6C: Multi-Select | ⭐⭐⭐     | Large  | 🟢 Low      | 3-4h      |
+| P6F: Performance  | ⭐⭐       | Large  | 🔵 Future   | 3-4h      |
 
 **Recommended Order:**
+
 1. **P6A (Preview)** - Highest value, immediate benefit
 2. **P6B (Frecency)** - ADHD-friendly, low complexity
 3. **P6D (Actions)** - Builds on keybinding foundation
@@ -486,16 +508,19 @@ _pick_apply_filters() {
 ## 🎯 Quick Wins (Can Implement Now - <30 min each)
 
 ### 1. Add Ctrl-S for .STATUS Quick View
+
 ```zsh
 --bind="ctrl-s:execute(bat {4}/.STATUS 2>/dev/null || echo 'No .STATUS')"
 ```
 
 ### 2. Add Ctrl-L for Git Log
+
 ```zsh
 --bind="ctrl-l:execute(git -C {4} log --oneline -10 | less)"
 ```
 
 ### 3. Add Color to Status Icons
+
 ```zsh
 # In printf statement:
 local status_icon="✅"
@@ -505,6 +530,7 @@ fi
 ```
 
 ### 4. Show Uncommitted Count
+
 ```zsh
 # Instead of just ⚠️, show: ⚠️(5)
 printf "%-20s %s %-4s %s(%d) [%s]\n" \
@@ -512,6 +538,7 @@ printf "%-20s %s %-4s %s(%d) [%s]\n" \
 ```
 
 ### 5. Add Help Text at Bottom
+
 ```zsh
 --header="Enter=cd | Ctrl-W=work | Ctrl-O=code | Ctrl-S=status | Ctrl-L=log | ?=help"
 ```

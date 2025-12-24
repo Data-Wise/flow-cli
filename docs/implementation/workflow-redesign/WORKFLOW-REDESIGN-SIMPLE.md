@@ -7,6 +7,7 @@
 ## 🤔 The Problem
 
 **Right now (annoying):**
+
 ```bash
 # You're already IN the mediationverse folder
 cd ~/projects/r-packages/active/mediationverse
@@ -16,6 +17,7 @@ status mediationverse active P0 "Run sims" 85
 ```
 
 **This is dumb because:**
+
 - You're ALREADY in the folder
 - Why type the name again?
 - Too much typing = too many decisions
@@ -25,6 +27,7 @@ status mediationverse active P0 "Run sims" 85
 ## ✨ The Fix
 
 **Make it smart (detects where you are):**
+
 ```bash
 # You're in the mediationverse folder
 cd ~/projects/r-packages/active/mediationverse
@@ -34,6 +37,7 @@ status active P0 "Run sims" 85
 ```
 
 **What changed:**
+
 - ✅ Removed project name (detects automatically)
 - ✅ 12 fewer characters
 - ✅ Zero decisions
@@ -45,11 +49,13 @@ status active P0 "Run sims" 85
 ### Change 1: Smart `status`
 
 **Before:**
+
 ```bash
 status mediationverse active P0 "Task" 85  # Must type name
 ```
 
 **After:**
+
 ```bash
 # When you're IN a project folder:
 status active P0 "Task" 85  # Auto-detects!
@@ -63,11 +69,13 @@ status  # Shows picker of all projects
 ### Change 2: Smart `work`
 
 **Before:**
+
 ```bash
 work mediationverse  # Must type name
 ```
 
 **After:**
+
 ```bash
 # When you're IN a project folder:
 work  # Just opens it!
@@ -81,11 +89,13 @@ work  # Shows picker (like js does)
 ### Change 3: Short names work (fuzzy match)
 
 **Before:**
+
 ```bash
 status mediationverse  # Must type full name
 ```
 
 **After:**
+
 ```bash
 status med  # Matches "mediationverse"
 work stat   # Matches "stat-440"
@@ -98,6 +108,7 @@ work stat   # Matches "stat-440"
 ### Scenario: Update status of current project
 
 **NOW (6 steps, lots of typing):**
+
 ```bash
 pwd  # Check where you are
 # /Users/dt/projects/r-packages/active/mediationverse
@@ -107,6 +118,7 @@ status mediationverse active P0 "Run final sims" 85
 ```
 
 **AFTER FIX (2 steps, less typing):**
+
 ```bash
 cd ~/projects/r-packages/active/mediationverse
 
@@ -133,6 +145,7 @@ status active P0 "Run final sims" 85
 ## 🚀 What You Need to Know
 
 ### When IN a project:
+
 ```bash
 status              # Shows current project
 status active P0 "Task" 85  # Updates current project
@@ -140,12 +153,14 @@ work                # Opens current project
 ```
 
 ### When NOT in a project:
+
 ```bash
 status              # Picker appears
 work                # Picker appears (like js)
 ```
 
 ### From anywhere:
+
 ```bash
 status med          # Fuzzy match → mediationverse
 work stat           # Fuzzy match → stat-440
@@ -155,11 +170,11 @@ work stat           # Fuzzy match → stat-440
 
 ## ✅ Three Commands. Three Rules.
 
-| Command | When IN project | When NOT in project |
-|---------|----------------|---------------------|
-| `status` | Auto-detects current | Shows picker |
-| `work` | Opens current | Shows picker (like js) |
-| `dash` | (unchanged) | Shows dashboard |
+| Command  | When IN project      | When NOT in project    |
+| -------- | -------------------- | ---------------------- |
+| `status` | Auto-detects current | Shows picker           |
+| `work`   | Opens current        | Shows picker (like js) |
+| `dash`   | (unchanged)          | Shows dashboard        |
 
 **That's it.**
 
@@ -202,11 +217,13 @@ You: cd ~/projects/r-packages/active/mediationverse
 **Breaking changes:** None (old way still works)
 
 **What changes:**
+
 1. `status` detects current folder
 2. `work` detects current folder
 3. Both accept short names (fuzzy match)
 
 **What stays the same:**
+
 - `dash` (unchanged)
 - `js` (unchanged)
 - All explicit names still work
@@ -238,6 +255,7 @@ A: Yes! `status mediationverse ...` still works.
 Commands detect where you are and do the smart thing.
 
 **Result:**
+
 - ✅ Less typing
 - ✅ Fewer decisions
 - ✅ Works like you expect
@@ -251,6 +269,7 @@ Commands detect where you are and do the smart thing.
 ## 📊 Decision Helper
 
 **If you want:**
+
 - Less typing → YES
 - Commands that "just work" → YES
 - Fewer decisions → YES
@@ -258,4 +277,4 @@ Commands detect where you are and do the smart thing.
 
 ---
 
-*That's the whole proposal. Simple fix, big impact.*
+_That's the whole proposal. Simple fix, big impact._

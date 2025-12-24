@@ -9,6 +9,7 @@ status mediationverse
 ```
 
 **What does this do?**
+
 - Show status? ❓
 - Update status? ❓
 - Create status? ❓
@@ -21,12 +22,15 @@ status mediationverse
 ## 🧠 ADHD Brain Analysis
 
 ### When you see: `git status`
+
 **Your brain knows:** "This shows me the current state"
 
 ### When you see: `git add`
+
 **Your brain knows:** "This adds files"
 
 ### When you see: `status mediationverse`
+
 **Your brain:** "Uhhh... what?" 😵
 
 ---
@@ -36,11 +40,13 @@ status mediationverse
 Looking at the code, `status` does **THREE different things**:
 
 1. **Show status** (read-only)
+
    ```bash
    status mediationverse --show
    ```
 
 2. **Update status** (write)
+
    ```bash
    status mediationverse  # Interactive prompts
    status mediationverse active P0 "Task" 85  # Quick mode
@@ -58,6 +64,7 @@ Looking at the code, `status` does **THREE different things**:
 ## 🎯 Better Patterns from Other Tools
 
 ### Git (Clear Verbs)
+
 ```bash
 git show    # Shows something
 git add     # Adds something
@@ -70,6 +77,7 @@ git status  # Shows status (OK because "status" = "show state")
 ---
 
 ### GitHub CLI (Resource-based)
+
 ```bash
 gh issue list      # List issues
 gh issue create    # Create issue
@@ -82,6 +90,7 @@ gh pr create       # Create PR
 ---
 
 ### NPM (Action words)
+
 ```bash
 npm install   # Install
 npm update    # Update
@@ -113,12 +122,14 @@ init
 ```
 
 **Pros:**
+
 - ✅ Each command does ONE thing
 - ✅ Clear verb names
 - ✅ Easy to remember
 - ✅ Works on current directory (no project name needed)
 
 **Cons:**
+
 - ❌ Three commands instead of one
 
 ---
@@ -138,11 +149,13 @@ p init
 ```
 
 **Pros:**
+
 - ✅ Clear hierarchy
 - ✅ One namespace
 - ✅ Discoverable (proj <tab>)
 
 **Cons:**
+
 - ❌ More typing
 - ❌ Need to remember "proj" namespace
 
@@ -164,11 +177,13 @@ here init
 ```
 
 **Pros:**
+
 - ✅ One command to learn
 - ✅ Context-aware
 - ✅ Short name
 
 **Cons:**
+
 - ❌ Still does multiple things
 - ❌ Less clear than separate commands
 
@@ -192,11 +207,13 @@ update
 ```
 
 **Pros:**
+
 - ✅ Natural language
 - ✅ Reads like English
 - ✅ Each action is clear
 
 **Cons:**
+
 - ❌ "what" might conflict with other tools
 
 ---
@@ -206,27 +223,33 @@ update
 ### Three Simple Commands:
 
 **1. Show current project**
+
 ```bash
 here
 # or
 .
 ```
+
 Shows .STATUS of current directory.
 
 **2. Update current project**
+
 ```bash
 update
 # or
 set
 ```
+
 Interactive prompts to update .STATUS.
 
 **3. Start tracking**
+
 ```bash
 track
 # or
 init
 ```
+
 Create .STATUS in current directory.
 
 ---
@@ -234,6 +257,7 @@ Create .STATUS in current directory.
 ## 📋 Real Examples
 
 ### Current (Confusing)
+
 ```bash
 cd ~/projects/r-packages/active/mediationverse
 status mediationverse --show    # Show
@@ -242,6 +266,7 @@ status mediationverse --create  # Create
 ```
 
 ### Proposed (Clear)
+
 ```bash
 cd ~/projects/r-packages/active/mediationverse
 
@@ -278,13 +303,13 @@ work        # Start working
 
 ## ✅ Decision Matrix
 
-| Option | Clarity | ADHD Score | Breaking Changes | Effort |
-|--------|---------|------------|------------------|--------|
-| Keep `status` | 3/10 | 4/10 | None | 0 hours |
-| Separate commands (here/update/track) | 10/10 | 10/10 | Major | 2-3 hours |
-| Resource-based (proj show/update) | 8/10 | 7/10 | Major | 2-3 hours |
-| Smart single (here) | 7/10 | 7/10 | Major | 2-3 hours |
-| Natural language (what/set) | 9/10 | 9/10 | Major | 2-3 hours |
+| Option                                | Clarity | ADHD Score | Breaking Changes | Effort    |
+| ------------------------------------- | ------- | ---------- | ---------------- | --------- |
+| Keep `status`                         | 3/10    | 4/10       | None             | 0 hours   |
+| Separate commands (here/update/track) | 10/10   | 10/10      | Major            | 2-3 hours |
+| Resource-based (proj show/update)     | 8/10    | 7/10       | Major            | 2-3 hours |
+| Smart single (here)                   | 7/10    | 7/10       | Major            | 2-3 hours |
+| Natural language (what/set)           | 9/10    | 9/10       | Major            | 2-3 hours |
 
 ---
 
@@ -299,6 +324,7 @@ track     # Create .STATUS for current project
 ```
 
 **Why:**
+
 1. ✅ Each command name tells you EXACTLY what it does
 2. ✅ No ambiguity
 3. ✅ Works on current directory (no project name needed)
@@ -307,6 +333,7 @@ track     # Create .STATUS for current project
 6. ✅ Perfect for ADHD (clear, direct, simple)
 
 **Aliases for muscle memory:**
+
 ```bash
 alias .='here'           # Super short
 alias up='update'        # Quick update
@@ -318,6 +345,7 @@ alias st='here'          # For people who type 'status'
 ## 📊 Full Workflow Comparison
 
 ### CURRENT (Confusing)
+
 ```bash
 dash                              # See projects
 cd ~/projects/r-packages/active/mediationverse
@@ -326,6 +354,7 @@ status mediationverse             # Update (prompts)
 ```
 
 ### PROPOSED (Clear)
+
 ```bash
 dash                              # See projects
 cd ~/projects/r-packages/active/mediationverse

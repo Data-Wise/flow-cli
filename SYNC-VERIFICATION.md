@@ -9,19 +9,19 @@
 
 ### Functions (All ✅)
 
-| File | System Location | Project Location | Status |
-|------|----------------|------------------|--------|
-| `dash.zsh` | `~/.config/zsh/functions/` | `zsh/functions/` | ✅ In sync |
-| `adhd-helpers.zsh` | `~/.config/zsh/functions/` | `zsh/functions/` | ✅ In sync |
-| `work.zsh` | `~/.config/zsh/functions/` | `zsh/functions/` | ✅ In sync |
+| File                   | System Location            | Project Location | Status     |
+| ---------------------- | -------------------------- | ---------------- | ---------- |
+| `dash.zsh`             | `~/.config/zsh/functions/` | `zsh/functions/` | ✅ In sync |
+| `adhd-helpers.zsh`     | `~/.config/zsh/functions/` | `zsh/functions/` | ✅ In sync |
+| `work.zsh`             | `~/.config/zsh/functions/` | `zsh/functions/` | ✅ In sync |
 | `claude-workflows.zsh` | `~/.config/zsh/functions/` | `zsh/functions/` | ✅ In sync |
 
 ### Tests (All ✅)
 
-| File | System Location | Project Location | Status |
-|------|----------------|------------------|--------|
-| `test-dash.zsh` | `~/.config/zsh/tests/` | `zsh/tests/` | ✅ In sync |
-| `test-adhd-helpers.zsh` | `~/.config/zsh/tests/` | `zsh/tests/` | ✅ In sync |
+| File                    | System Location        | Project Location | Status     |
+| ----------------------- | ---------------------- | ---------------- | ---------- |
+| `test-dash.zsh`         | `~/.config/zsh/tests/` | `zsh/tests/`     | ✅ In sync |
+| `test-adhd-helpers.zsh` | `~/.config/zsh/tests/` | `zsh/tests/`     | ✅ In sync |
 
 ---
 
@@ -39,6 +39,7 @@
 6. ✅ Lines 431-434: Variable quoting fix
 
 **Verification:**
+
 ```bash
 $ diff ~/.config/zsh/tests/test-dash.zsh zsh/tests/test-dash.zsh
 # (No output = files identical)
@@ -74,6 +75,7 @@ System Location: ~/.config/zsh/
 ```
 
 **Note:** The CLAUDE.md documentation states:
+
 > "The actual ZSH configuration files live in `~/.config/zsh/` (separate location)."
 
 This means files are maintained in both locations and should be manually synced when changes are made.
@@ -83,12 +85,14 @@ This means files are maintained in both locations and should be manually synced 
 ## ✅ Verification Commands
 
 ### Check Individual File Sync
+
 ```bash
 diff ~/.config/zsh/functions/dash.zsh zsh/functions/dash.zsh
 diff ~/.config/zsh/tests/test-dash.zsh zsh/tests/test-dash.zsh
 ```
 
 ### Check All Functions
+
 ```bash
 for file in dash.zsh adhd-helpers.zsh work.zsh claude-workflows.zsh; do
     diff -q ~/.config/zsh/functions/$file zsh/functions/$file
@@ -96,6 +100,7 @@ done
 ```
 
 ### Check All Tests
+
 ```bash
 for file in test-dash.zsh test-adhd-helpers.zsh; do
     diff -q ~/.config/zsh/tests/$file zsh/tests/$file
@@ -114,6 +119,7 @@ When making changes:
 4. **Verify sync:** `diff ~/.config/zsh/functions/file.zsh zsh/functions/file.zsh`
 
 **Or use rsync for multiple files:**
+
 ```bash
 # Sync all functions
 rsync -av zsh/functions/ ~/.config/zsh/functions/
@@ -137,6 +143,7 @@ rsync -av zsh/tests/ ~/.config/zsh/tests/
 ## 🎉 Ready for Use
 
 Both system and project repo files contain:
+
 - ✅ All bug fixes (100% test pass rate)
 - ✅ Latest dash command improvements
 - ✅ Updated test suite (33 tests)

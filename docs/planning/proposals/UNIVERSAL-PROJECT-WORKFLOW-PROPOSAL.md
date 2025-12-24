@@ -50,6 +50,7 @@
 ## The Problem
 
 Current tools are **mediationverse-specific**:
+
 - `mvst`, `mvwork`, `mvdone` only work for 5 R packages
 - No unified way to navigate ALL projects
 - No status overview across categories
@@ -187,12 +188,14 @@ $ p test                 # Runs npm test (detected package.json)
 ```
 
 **Pros:**
+
 - Single command to learn
 - Works everywhere
 - Context-aware reduces typing
 - Scales to any number of projects
 
 **Cons:**
+
 - Lots of subcommands to remember
 - May feel too abstract
 - `p` alone might be too minimal
@@ -266,12 +269,14 @@ $ p test                 # Runs npm test (detected package.json)
 ```
 
 **Pros:**
+
 - Clear mental model per category
 - Shorter commands within category
 - Natural grouping
 - Easier to remember category-specific operations
 
 **Cons:**
+
 - Multiple commands to learn (rp, dt, qp, rs)
 - Cross-category operations harder
 - Duplication of similar functionality
@@ -326,12 +331,14 @@ $ p test                 # Runs npm test (detected package.json)
 ```
 
 **Pros:**
+
 - Best of both worlds
 - Clear hierarchy
 - Category aliases for speed
 - Extensible
 
 **Cons:**
+
 - More verbose for category-specific ops
 - Three-part commands can be long
 
@@ -411,12 +418,14 @@ $ pt
 ```
 
 **Pros:**
+
 - Minimum keystrokes
 - Visual picker reduces memory load
 - Context detection = less typing
 - Very ADHD-friendly (no decisions)
 
 **Cons:**
+
 - Requires fzf
 - Less explicit (magic can confuse)
 - Harder to script
@@ -526,6 +535,7 @@ $ now
 ```
 
 **Pros:**
+
 - Matches mental model of "working on something"
 - Automatic session tracking
 - Natural pause/resume flow
@@ -533,6 +543,7 @@ $ now
 - Integrated activity logging
 
 **Cons:**
+
 - More stateful (tracking active session)
 - What if you forget to `done`?
 - May feel restrictive
@@ -541,16 +552,16 @@ $ now
 
 ## Comparison Matrix
 
-| Feature | Option A | Option B | Option C | Option D | Option E |
-|---------|----------|----------|----------|----------|----------|
-| Commands to learn | 1 (`p`) | 4 (`rp`,`dt`,`qp`,`rs`) | 1 (`proj`) | ~10 short | ~8 session |
-| Keystrokes (avg) | Medium | Low | High | Very Low | Low |
-| Discoverability | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-| ADHD-friendly | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Context-aware | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Cross-category | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| Scriptable | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
-| Implementation | Medium | Medium | High | Medium | High |
+| Feature           | Option A   | Option B                | Option C   | Option D   | Option E   |
+| ----------------- | ---------- | ----------------------- | ---------- | ---------- | ---------- |
+| Commands to learn | 1 (`p`)    | 4 (`rp`,`dt`,`qp`,`rs`) | 1 (`proj`) | ~10 short  | ~8 session |
+| Keystrokes (avg)  | Medium     | Low                     | High       | Very Low   | Low        |
+| Discoverability   | ⭐⭐⭐⭐   | ⭐⭐⭐                  | ⭐⭐⭐⭐⭐ | ⭐⭐⭐     | ⭐⭐⭐⭐   |
+| ADHD-friendly     | ⭐⭐⭐⭐   | ⭐⭐⭐                  | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Context-aware     | ⭐⭐⭐⭐   | ⭐⭐                    | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Cross-category    | ⭐⭐⭐⭐⭐ | ⭐⭐                    | ⭐⭐⭐⭐   | ⭐⭐⭐⭐   | ⭐⭐⭐⭐   |
+| Scriptable        | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐                | ⭐⭐⭐⭐   | ⭐⭐⭐     | ⭐⭐⭐     |
+| Implementation    | Medium     | Medium                  | High       | Medium     | High       |
 
 ---
 
@@ -616,55 +627,62 @@ Combine the **quick keys** of Option D with the **session mindset** of Option E:
 ### Commands Implemented
 
 #### Session Workflow
-| Command | Description |
-|---------|-------------|
-| `work NAME` | Start session (cd + branch + status + log) |
-| `finish [MSG]` | End session (commit + merge prompt) |
-| `now` | What am I working on? |
-| `next` | What should I work on next? |
+
+| Command        | Description                                |
+| -------------- | ------------------------------------------ |
+| `work NAME`    | Start session (cd + branch + status + log) |
+| `finish [MSG]` | End session (commit + merge prompt)        |
+| `now`          | What am I working on?                      |
+| `next`         | What should I work on next?                |
 
 #### Navigation
-| Command | Description |
-|---------|-------------|
-| `pp` | Project picker (fzf) - all projects |
-| `ppr` | R packages only |
-| `ppd` | Dev tools only |
-| `ppq` | Quarto only |
-| `pcd NAME` | Quick cd to project |
+
+| Command    | Description                         |
+| ---------- | ----------------------------------- |
+| `pp`       | Project picker (fzf) - all projects |
+| `ppr`      | R packages only                     |
+| `ppd`      | Dev tools only                      |
+| `ppq`      | Quarto only                         |
+| `pcd NAME` | Quick cd to project                 |
 
 #### Context-Aware Operations
-| Command | Description |
-|---------|-------------|
-| `pt` | Test (R→devtools, Node→npm, Python→pytest) |
-| `pb` | Build (R→devtools, Node→npm, Quarto→render) |
-| `pc MSG` | Quick commit (git add -A && commit) |
-| `pr` | Run/render (Quarto→render, Node→start) |
-| `pv` | Preview (Quarto only) |
+
+| Command  | Description                                 |
+| -------- | ------------------------------------------- |
+| `pt`     | Test (R→devtools, Node→npm, Python→pytest)  |
+| `pb`     | Build (R→devtools, Node→npm, Quarto→render) |
+| `pc MSG` | Quick commit (git add -A && commit)         |
+| `pr`     | Run/render (Quarto→render, Node→start)      |
+| `pv`     | Preview (Quarto only)                       |
 
 #### R Package Specific
-| Command | Description |
-|---------|-------------|
-| `pcheck` | R CMD check (devtools::check) |
-| `pdoc` | Document (devtools::document) |
-| `pinstall` | Install (devtools::install) |
-| `pload` | Load all (devtools::load_all) |
+
+| Command    | Description                   |
+| ---------- | ----------------------------- |
+| `pcheck`   | R CMD check (devtools::check) |
+| `pdoc`     | Document (devtools::document) |
+| `pinstall` | Install (devtools::install)   |
+| `pload`    | Load all (devtools::load_all) |
 
 #### Dashboards
-| Command | Description |
-|---------|-------------|
-| `dash` | Master dashboard (all projects) |
-| `dash r` | R packages only |
-| `dash dt` | Dev tools only |
-| `dash sync` | Sync to Apple Notes |
+
+| Command     | Description                     |
+| ----------- | ------------------------------- |
+| `dash`      | Master dashboard (all projects) |
+| `dash r`    | R packages only                 |
+| `dash dt`   | Dev tools only                  |
+| `dash sync` | Sync to Apple Notes             |
 
 #### Utilities
-| Command | Description |
-|---------|-------------|
-| `plog [N]` | Show recent N commits (default 10) |
+
+| Command    | Description                            |
+| ---------- | -------------------------------------- |
+| `plog [N]` | Show recent N commits (default 10)     |
 | `pmorning` | Morning routine (pull all + dashboard) |
-| `phelp` | Quick reference card |
+| `phelp`    | Quick reference card                   |
 
 ### Aliases
+
 ```
 gm = pmorning      # good morning
 wdone = finish     # alternative for finish
@@ -672,6 +690,7 @@ fin = finish       # short for finish
 ```
 
 ### Project Categories Configured
+
 ```
 ~/projects/r-packages/active    → r    📦
 ~/projects/r-packages/stable    → r    📦
@@ -683,7 +702,9 @@ fin = finish       # short for finish
 ```
 
 ### Backwards Compatible
+
 All existing `mv*` commands for mediationverse remain functional:
+
 - `mvst`, `mvr`, `mvs`, `mvci`, `mvpush`, `mvpull`, `mvmerge`, `mvrebase`, `mvdev`
 
 ---
@@ -723,5 +744,3 @@ All commands implemented in:
 `~/.config/zsh/functions/adhd-helpers.zsh`
 
 Lines 1581-2608 (Universal Project Workflow section)
-
-

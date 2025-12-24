@@ -8,11 +8,11 @@
 
 ### Dispatchers
 
-| Frequency | Style | Examples |
-|-----------|-------|----------|
-| Daily (50+ times) | Single letter | `r`, `g`, `v` |
-| Frequent (10-50) | Two letters | `qu`, `cc`, `gm` |
-| Occasional (<10) | Full word | `work`, `dash`, `pick` |
+| Frequency         | Style         | Examples               |
+| ----------------- | ------------- | ---------------------- |
+| Daily (50+ times) | Single letter | `r`, `g`, `v`          |
+| Frequent (10-50)  | Two letters   | `qu`, `cc`, `gm`       |
+| Occasional (<10)  | Full word     | `work`, `dash`, `pick` |
 
 ### Keywords (Dispatcher Actions)
 
@@ -31,12 +31,12 @@ cob  = checkout -b (create branch)
 
 ### Files
 
-| Type | Pattern | Example |
-|------|---------|---------|
-| Dispatcher | `<letter>-dispatcher.zsh` | `g-dispatcher.zsh` |
-| Helper collection | `<domain>-helpers.zsh` | `adhd-helpers.zsh` |
-| Single purpose | `<purpose>.zsh` | `work.zsh` |
-| Test file | `test-<name>.zsh` | `test-duplicates.zsh` |
+| Type              | Pattern                   | Example               |
+| ----------------- | ------------------------- | --------------------- |
+| Dispatcher        | `<letter>-dispatcher.zsh` | `g-dispatcher.zsh`    |
+| Helper collection | `<domain>-helpers.zsh`    | `adhd-helpers.zsh`    |
+| Single purpose    | `<purpose>.zsh`           | `work.zsh`            |
+| Test file         | `test-<name>.zsh`         | `test-duplicates.zsh` |
 
 ### Functions
 
@@ -225,6 +225,7 @@ echo -e "${_C_CYAN}g push${_C_NC}  Push to remote"
 ```
 
 **Check before adding:**
+
 ```bash
 grep -rn "alias <name>=" ~/.config/zsh/
 grep -rn "^<name>()" ~/.config/zsh/
@@ -367,12 +368,14 @@ test_<function>
 ### Example Dispatchers
 
 **Existing implementations:**
+
 - `g-dispatcher.zsh` - Git commands (`g status`, `g push`)
 - `r-dispatcher.zsh` - R development (`r test`, `r check`)
 - `v-dispatcher.zsh` - Vibe/vibrant (`v build`, `v preview`)
 - `mcp-dispatcher.zsh` - MCP server management (`mcp list`, `mcp test`)
 
 **Pattern consistency:**
+
 ```bash
 # All follow same pattern: cmd + keyword
 g status      # Git
@@ -383,4 +386,4 @@ mcp list      # MCP servers
 
 ---
 
-*Last Updated: 2025-12-19*
+_Last Updated: 2025-12-19_

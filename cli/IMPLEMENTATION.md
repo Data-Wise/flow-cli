@@ -9,6 +9,7 @@
 ### Adapters (`adapters/`)
 
 **1. status.js** - Read-only status queries
+
 - `getCurrentSession()` - Read ~/.config/zsh/.worklog
 - `getProjectStatus(path)` - Parse .STATUS file
 - `getCompleteStatus()` - Combined session + project status
@@ -16,6 +17,7 @@
 - **Tested:** ✅ Working with real .STATUS file
 
 **2. workflow.js** - Command execution
+
 - `executeZshCommand(cmd)` - Execute any ZSH command
 - `startWork(project, options)` - Start work session
 - `finishWork(message)` - End work session
@@ -29,6 +31,7 @@
 ### API Layer (`api/`)
 
 **1. status-api.js** - Dashboard-ready data
+
 - `getDashboardData()` - Formatted for UI display
 - `getSessionStatus()` - Quick session info
 - `getProgressSummary()` - Phase completion stats
@@ -37,6 +40,7 @@
 - **Tested:** ✅ All functions working
 
 **2. workflow-api.js** - Workflow control
+
 - `startSession(project, options)` - Validated session start
 - `endSession(options)` - Validated session end
 - `build()`, `preview()`, `test()` - Smart commands
@@ -133,59 +137,59 @@ ZSH Shell Commands / File System
 ### Example 1: Get Dashboard Data
 
 ```javascript
-const statusAPI = require('./cli/api/status-api');
+const statusAPI = require('./cli/api/status-api')
 
 async function showDashboard() {
-  const data = await statusAPI.getDashboardData();
+  const data = await statusAPI.getDashboardData()
 
   if (data.session.active) {
-    console.log(`Working on: ${data.session.project}`);
-    console.log(`Duration: ${data.session.duration}`);
+    console.log(`Working on: ${data.session.project}`)
+    console.log(`Duration: ${data.session.duration}`)
   }
 
   if (data.project.hasStatus) {
-    console.log(`\nProgress: ${data.project.progress.length} phases`);
-    console.log(`Next: ${data.project.nextActions[0]?.task}`);
+    console.log(`\nProgress: ${data.project.progress.length} phases`)
+    console.log(`Next: ${data.project.nextActions[0]?.task}`)
   }
 }
 
-showDashboard();
+showDashboard()
 ```
 
 ### Example 2: Start a Work Session
 
 ```javascript
-const workflowAPI = require('./cli/api/workflow-api');
+const workflowAPI = require('./cli/api/workflow-api')
 
 async function startCoding() {
   const result = await workflowAPI.startSession('my-project', {
     editor: 'code'
-  });
+  })
 
   if (result.success) {
-    console.log('Session started!');
-    console.log(`Project: ${result.session.project}`);
+    console.log('Session started!')
+    console.log(`Project: ${result.session.project}`)
   } else {
-    console.error('Failed:', result.error);
+    console.error('Failed:', result.error)
   }
 }
 
-startCoding();
+startCoding()
 ```
 
 ### Example 3: Check What Commands Are Available
 
 ```javascript
-const workflowAPI = require('./cli/api/workflow-api');
+const workflowAPI = require('./cli/api/workflow-api')
 
 async function showCommands() {
-  const commands = await workflowAPI.getAvailableCommands();
+  const commands = await workflowAPI.getAvailableCommands()
 
-  console.log(`Project type: ${commands.projectType}`);
-  console.log(`Available commands: ${commands.commands.join(', ')}`);
+  console.log(`Project type: ${commands.projectType}`)
+  console.log(`Available commands: ${commands.commands.join(', ')}`)
 }
 
-showCommands();
+showCommands()
 ```
 
 ## Files Created
@@ -233,16 +237,16 @@ The Electron main process can import and use the API layer:
 
 ```javascript
 // In app/src/main/index.js
-const statusAPI = require('../../cli/api/status-api');
-const workflowAPI = require('../../cli/api/workflow-api');
+const statusAPI = require('../../cli/api/status-api')
+const workflowAPI = require('../../cli/api/workflow-api')
 
 ipcMain.handle('get-dashboard', async () => {
-  return await statusAPI.getDashboardData();
-});
+  return await statusAPI.getDashboardData()
+})
 
 ipcMain.handle('start-session', async (event, project) => {
-  return await workflowAPI.startSession(project);
-});
+  return await workflowAPI.startSession(project)
+})
 ```
 
 ### For Server/External Tools
@@ -250,19 +254,19 @@ ipcMain.handle('start-session', async (event, project) => {
 The CLI layer can be used by any Node.js application:
 
 ```javascript
-const { getDashboardData } = require('./cli/api/status-api');
-const { startSession } = require('./cli/api/workflow-api');
+const { getDashboardData } = require('./cli/api/status-api')
+const { startSession } = require('./cli/api/workflow-api')
 
 // Express.js example
 app.get('/api/status', async (req, res) => {
-  const data = await getDashboardData();
-  res.json(data);
-});
+  const data = await getDashboardData()
+  res.json(data)
+})
 
 app.post('/api/session/start', async (req, res) => {
-  const result = await startSession(req.body.project);
-  res.json(result);
-});
+  const result = await startSession(req.body.project)
+  res.json(result)
+})
 ```
 
 ## Next Steps
@@ -288,12 +292,14 @@ app.post('/api/session/start', async (req, res) => {
 ## Recommendations
 
 **Before moving to P5B (UI):**
+
 1. Test workflow commands in safe environment
 2. Add error logging/debugging utilities
 3. Consider adding caching for expensive operations
 4. Document any ZSH requirements (which functions must exist)
 
 **For Production:**
+
 1. Add proper logging (winston/pino)
 2. Add input validation (joi/zod)
 3. Add retry logic for flaky shell commands

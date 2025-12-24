@@ -55,12 +55,12 @@ PROJ_CATEGORIES=(
 
 | Code    | Name         | Icon | Path                                         | Projects    |
 | ------- | ------------ | ---- | -------------------------------------------- | ----------- |
-| `r`     | R Packages   | 📦    | `r-packages/active`, `r-packages/stable`     | ~6 packages |
-| `dev`   | Dev Tools    | 🔧    | `dev-tools/`                                 | 17 projects |
-| `q`     | Quarto       | 📝📊   | `quarto/manuscripts`, `quarto/presentations` | Multiple    |
-| `teach` | Teaching     | 🎓    | `teaching/`                                  | 3 courses   |
-| `rs`    | Research     | 🔬    | `research/`                                  | 11 projects |
-| `app`   | Applications | 📱    | `apps/`                                      | 1 project   |
+| `r`     | R Packages   | 📦   | `r-packages/active`, `r-packages/stable`     | ~6 packages |
+| `dev`   | Dev Tools    | 🔧   | `dev-tools/`                                 | 17 projects |
+| `q`     | Quarto       | 📝📊 | `quarto/manuscripts`, `quarto/presentations` | Multiple    |
+| `teach` | Teaching     | 🎓   | `teaching/`                                  | 3 courses   |
+| `rs`    | Research     | 🔬   | `research/`                                  | 11 projects |
+| `app`   | Applications | 📱   | `apps/`                                      | 1 project   |
 
 ---
 
@@ -100,11 +100,11 @@ pick app       # Filter: Applications only
 
 ### Existing Aliases for `pick`
 
-- [X] `pickr` - pick r (R packages) - Location: adhd-helpers.zsh
-- [X] `pickdev` - pick dev (Dev tools) - Location: adhd-helpers.zsh
-- [X] `pickq` - pick q (Quarto) - Location: adhd-helpers.zsh
-- [X] `pickteach` - pick teach (Teaching) - Location: adhd-helpers.zsh
-- [X] `pickrs` - pick rs (Research) - Location: adhd-helpers.zsh
+- [x] `pickr` - pick r (R packages) - Location: adhd-helpers.zsh
+- [x] `pickdev` - pick dev (Dev tools) - Location: adhd-helpers.zsh
+- [x] `pickq` - pick q (Quarto) - Location: adhd-helpers.zsh
+- [x] `pickteach` - pick teach (Teaching) - Location: adhd-helpers.zsh
+- [x] `pickrs` - pick rs (Research) - Location: adhd-helpers.zsh
 
 **Note:** There is NO `pickmgmt` or `pm` alias currently.
 
@@ -116,14 +116,14 @@ pick app       # Filter: Applications only
 
 From `ALIAS-REFERENCE-CARD.md`:
 
-- [X] `t` - rtest (50x/day usage) - Location: adhd-helpers.zsh
-- [X] `c` - claude (30x/day usage) - Location: adhd-helpers.zsh
-- [X] `q` - qp - Quarto preview (10x/day usage) - Location: adhd-helpers.zsh
+- [x] `t` - rtest (50x/day usage) - Location: adhd-helpers.zsh
+- [x] `c` - claude (30x/day usage) - Location: adhd-helpers.zsh
+- [x] `q` - qp - Quarto preview (10x/day usage) - Location: adhd-helpers.zsh
 
 ### Atomic Pairs
 
-- [X] `lt` - rload && rtest (load then test) - Location: adhd-helpers.zsh
-- [X] `dt` - rdoc && rtest (doc then test) - Location: adhd-helpers.zsh
+- [x] `lt` - rload && rtest (load then test) - Location: adhd-helpers.zsh
+- [x] `dt` - rdoc && rtest (doc then test) - Location: adhd-helpers.zsh
 
 ### R Package Development (30+ aliases)
 
@@ -137,8 +137,8 @@ Core workflow:
 
 Comprehensive:
 
-- [X] `rcycle` - Full cycle: doc → test → check - Location: adhd-helpers.zsh
-- [X] `rquick` - Quick: load → test only - Location: adhd-helpers.zsh
+- [x] `rcycle` - Full cycle: doc → test → check - Location: adhd-helpers.zsh
+- [x] `rquick` - Quick: load → test only - Location: adhd-helpers.zsh
 - [ ] `rcov` - Code coverage - Location: adhd-helpers.zsh
 - [ ] `rpkgdown` - Build pkgdown site - Location: adhd-helpers.zsh
 
@@ -148,13 +148,13 @@ Launch:
 
 - [ ] `cc` - Interactive mode - Location: adhd-helpers.zsh
 - [ ] `ccc` - Continue last conversation - Location: adhd-helpers.zsh
-- [X] `ccl` - Resume latest session - Location: adhd-helpers.zsh
+- [x] `ccl` - Resume latest session - Location: adhd-helpers.zsh
 
 Models:
 
-- [X] `cch` - Use Haiku (fastest) - Location: adhd-helpers.zsh
-- [X] `ccs` - Use Sonnet (default) - Location: adhd-helpers.zsh
-- [X] `cco` - Use Opus (most capable) - Location: adhd-helpers.zsh
+- [x] `cch` - Use Haiku (fastest) - Location: adhd-helpers.zsh
+- [x] `ccs` - Use Sonnet (default) - Location: adhd-helpers.zsh
+- [x] `cco` - Use Opus (most capable) - Location: adhd-helpers.zsh
 
 ### Git (20+ aliases)
 
@@ -180,17 +180,17 @@ From `adhd-helpers.zsh:1667-1699`, `_proj_detect_type()` function:
 ### Detection Order
 
 1. **Path-based** (highest priority):
-
    - `*/projects/teaching/*` → "teaching"
    - `*/projects/research/*` → "research" (with sub-types)
-2. **File-based**:
 
+2. **File-based**:
    - `DESCRIPTION` file → "r" (R package)
    - `package.json` → "node"
    - `_quarto.yml` or `index.qmd` → "quarto"
    - `setup.py` or `pyproject.toml` → "python"
    - `.Rproj` → "r"
    - `Makefile` → "make"
+
 3. **Fallback**: "generic"
 
 ### Project Type Icons
@@ -347,7 +347,7 @@ From design docs:
 1. **Reuse filter system** - `pick mgmt` follows existing pattern
 2. **Leverage session file** - Can track recent projects
 3. **Extend category array** - `PROJ_MANAGEMENT` parallel to `PROJ_CATEGORIES`
-4. **Use existing icons** - ⚙️  for management type
+4. **Use existing icons** - ⚙️ for management type
 5. **Follow help patterns** - `ah workflow` for documentation
 
 ---

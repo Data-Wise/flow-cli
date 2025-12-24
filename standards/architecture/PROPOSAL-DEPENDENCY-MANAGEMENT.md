@@ -11,11 +11,13 @@
 ### Current Situation
 
 **Our plan relies on:**
+
 - **zsh-claude-workflow** - Project detection (CRITICAL)
 - **aiterm** - Terminal context switching (nice-to-have)
 - **apple-notes-sync** - Dashboard patterns (logic only, not tool itself)
 
 **The problem:**
+
 - Can't assume these tools are installed
 - Want to be independently installable via npm/brew/pipx
 - Don't want to duplicate functionality
@@ -34,21 +36,21 @@ Make all external tools **optional** with built-in fallbacks.
 ```javascript
 // cli/lib/project-detector-bridge.js
 
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import fs from 'fs';
-import path from 'path';
+import { exec } from 'child_process'
+import { promisify } from 'util'
+import fs from 'fs'
+import path from 'path'
 
-const execAsync = promisify(exec);
+const execAsync = promisify(exec)
 
 // Try external tool first, fall back to built-in
 export async function detectProjectType(projectPath) {
   // Level 1: Try zsh-claude-workflow (best detection)
-  const externalDetector = await tryExternalDetector(projectPath);
-  if (externalDetector) return externalDetector;
+  const externalDetector = await tryExternalDetector(projectPath)
+  if (externalDetector) return externalDetector
 
   // Level 2: Built-in detection (good enough)
-  return builtInDetection(projectPath);
+  return builtInDetection(projectPath)
 }
 
 async function tryExternalDetector(projectPath) {
@@ -57,45 +59,42 @@ async function tryExternalDetector(projectPath) {
     const workflowPath = path.join(
       process.env.HOME,
       'projects/dev-tools/zsh-claude-workflow/commands/proj-type'
-    );
+    )
 
     if (!fs.existsSync(workflowPath)) {
-      return null; // Not installed, use fallback
+      return null // Not installed, use fallback
     }
 
     // Use external detector
-    const { stdout } = await execAsync(
-      `cd "${projectPath}" && proj-type`,
-      { shell: '/bin/zsh' }
-    );
-    return stdout.trim();
+    const { stdout } = await execAsync(`cd "${projectPath}" && proj-type`, { shell: '/bin/zsh' })
+    return stdout.trim()
   } catch (error) {
     // Silent fallback on error
-    return null;
+    return null
   }
 }
 
 function builtInDetection(projectPath) {
   // Simple but effective detection
   if (fs.existsSync(path.join(projectPath, 'DESCRIPTION'))) {
-    return 'r-package';
+    return 'r-package'
   }
   if (fs.existsSync(path.join(projectPath, '_quarto.yml'))) {
-    return 'quarto';
+    return 'quarto'
   }
   if (fs.existsSync(path.join(projectPath, 'package.json'))) {
-    return 'node';
+    return 'node'
   }
   if (fs.existsSync(path.join(projectPath, 'pyproject.toml'))) {
-    return 'python';
+    return 'python'
   }
   if (fs.existsSync(path.join(projectPath, 'Cargo.toml'))) {
-    return 'rust';
+    return 'rust'
   }
   if (fs.existsSync(path.join(projectPath, '.spacemacs'))) {
-    return 'spacemacs';
+    return 'spacemacs'
   }
-  return 'generic';
+  return 'generic'
 }
 ```
 
@@ -179,8 +178,8 @@ Build a plugin architecture where external tools are plugins.
 
 class PluginManager {
   constructor() {
-    this.plugins = new Map();
-    this.loadPlugins();
+    this.plugins = new Map()
+    this.loadPlugins()
   }
 
   loadPlugins() {
@@ -188,36 +187,36 @@ class PluginManager {
     this.tryRegisterPlugin('project-detector', [
       '~/projects/dev-tools/zsh-claude-workflow',
       '~/.zsh-config/plugins/project-detector'
-    ]);
+    ])
 
     this.tryRegisterPlugin('terminal-context', [
       '~/projects/dev-tools/aiterm',
       '~/.zsh-config/plugins/aiterm'
-    ]);
+    ])
   }
 
   tryRegisterPlugin(name, searchPaths) {
     for (const searchPath of searchPaths) {
-      const pluginPath = path.expanduser(searchPath);
+      const pluginPath = path.expanduser(searchPath)
       if (fs.existsSync(pluginPath)) {
-        this.plugins.set(name, require(pluginPath));
-        return true;
+        this.plugins.set(name, require(pluginPath))
+        return true
       }
     }
     // Register built-in fallback
-    this.plugins.set(name, require(`./plugins/${name}-builtin`));
-    return false;
+    this.plugins.set(name, require(`./plugins/${name}-builtin`))
+    return false
   }
 
   use(pluginName) {
-    return this.plugins.get(pluginName);
+    return this.plugins.get(pluginName)
   }
 }
 
 // Usage
-const plugins = new PluginManager();
-const detector = plugins.use('project-detector');
-const projectType = detector.detect('/path/to/project');
+const plugins = new PluginManager()
+const detector = plugins.use('project-detector')
+const projectType = detector.detect('/path/to/project')
 ```
 
 ### Plugin Interface
@@ -302,11 +301,12 @@ Publish external tools as npm packages and use peer dependencies.
    - Publish to @data-wise scope
 
 2. **Import as module**
+
    ```javascript
    // Instead of shell exec
-   import { detectProject } from '@data-wise/zsh-claude-workflow';
+   import { detectProject } from '@data-wise/zsh-claude-workflow'
 
-   const projectType = detectProject('/path/to/project');
+   const projectType = detectProject('/path/to/project')
    ```
 
 ### Pros
@@ -398,8 +398,10 @@ const ENHANCEMENTS = {
   'project-detection': {
     name: 'Enhanced Project Detection',
     provider: 'zsh-claude-workflow',
-    install: 'git clone https://github.com/Data-Wise/zsh-claude-workflow ~/projects/dev-tools/zsh-claude-workflow && cd ~/projects/dev-tools/zsh-claude-workflow && ./install.sh',
-    detect: () => fs.existsSync(path.join(process.env.HOME, 'projects/dev-tools/zsh-claude-workflow')),
+    install:
+      'git clone https://github.com/Data-Wise/zsh-claude-workflow ~/projects/dev-tools/zsh-claude-workflow && cd ~/projects/dev-tools/zsh-claude-workflow && ./install.sh',
+    detect: () =>
+      fs.existsSync(path.join(process.env.HOME, 'projects/dev-tools/zsh-claude-workflow')),
     benefits: ['8+ project types', 'Smart templates', 'Storage awareness']
   },
   'terminal-context': {
@@ -409,27 +411,27 @@ const ENHANCEMENTS = {
     detect: () => commandExists('ait'),
     benefits: ['Auto-switch profiles', 'Context-aware colors', 'Session tracking']
   }
-};
+}
 
 export function checkEnhancements() {
   return Object.entries(ENHANCEMENTS).map(([key, config]) => ({
     key,
     ...config,
     installed: config.detect()
-  }));
+  }))
 }
 
 export async function installEnhancement(key) {
-  const config = ENHANCEMENTS[key];
-  if (!config) throw new Error(`Unknown enhancement: ${key}`);
+  const config = ENHANCEMENTS[key]
+  if (!config) throw new Error(`Unknown enhancement: ${key}`)
 
-  console.log(`Installing ${config.name}...`);
-  await execAsync(config.install, { stdio: 'inherit' });
+  console.log(`Installing ${config.name}...`)
+  await execAsync(config.install, { stdio: 'inherit' })
 
   if (config.detect()) {
-    console.log(`✓ ${config.name} installed successfully`);
+    console.log(`✓ ${config.name} installed successfully`)
   } else {
-    console.log(`⚠ Installation may have failed, please check manually`);
+    console.log(`⚠ Installation may have failed, please check manually`)
   }
 }
 ```
@@ -500,14 +502,14 @@ git clone --recursive https://github.com/Data-Wise/flow-cli
 
 ## Comparison Matrix
 
-| Approach | Independence | User Experience | Maintenance | Best Features |
-|----------|--------------|-----------------|-------------|---------------|
-| **Soft Dependencies** ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | Auto-fallback |
-| **Plugin System** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | Extensibility |
-| **npm Peer Deps** | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | npm standards |
-| **Vendoring** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐ | Zero deps |
-| **Hybrid** ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | Best of both |
-| **Git Submodules** | ⭐⭐ | ⭐⭐ | ⭐⭐ | Version pinning |
+| Approach                 | Independence | User Experience | Maintenance | Best Features   |
+| ------------------------ | ------------ | --------------- | ----------- | --------------- |
+| **Soft Dependencies** ⭐ | ⭐⭐⭐⭐⭐   | ⭐⭐⭐⭐        | ⭐⭐⭐⭐    | Auto-fallback   |
+| **Plugin System**        | ⭐⭐⭐⭐⭐   | ⭐⭐⭐          | ⭐⭐⭐      | Extensibility   |
+| **npm Peer Deps**        | ⭐⭐⭐       | ⭐⭐⭐⭐        | ⭐⭐        | npm standards   |
+| **Vendoring**            | ⭐⭐⭐⭐⭐   | ⭐⭐⭐⭐⭐      | ⭐          | Zero deps       |
+| **Hybrid** ⭐            | ⭐⭐⭐⭐⭐   | ⭐⭐⭐⭐⭐      | ⭐⭐⭐      | Best of both    |
+| **Git Submodules**       | ⭐⭐         | ⭐⭐            | ⭐⭐        | Version pinning |
 
 ---
 
@@ -531,20 +533,18 @@ git clone --recursive https://github.com/Data-Wise/flow-cli
 
 export function detectProjectType(projectPath) {
   // Simple but effective detection
-  const files = fs.readdirSync(projectPath);
+  const files = fs.readdirSync(projectPath)
 
-  if (files.includes('DESCRIPTION')) return 'r-package';
-  if (files.includes('_quarto.yml')) return 'quarto';
-  if (files.includes('package.json')) return 'node';
-  if (files.includes('pyproject.toml')) return 'python';
-  if (files.includes('Cargo.toml')) return 'rust';
+  if (files.includes('DESCRIPTION')) return 'r-package'
+  if (files.includes('_quarto.yml')) return 'quarto'
+  if (files.includes('package.json')) return 'node'
+  if (files.includes('pyproject.toml')) return 'python'
+  if (files.includes('Cargo.toml')) return 'rust'
 
-  return 'generic';
+  return 'generic'
 }
 
-export const SUPPORTED_TYPES = [
-  'r-package', 'quarto', 'node', 'python', 'rust', 'generic'
-];
+export const SUPPORTED_TYPES = ['r-package', 'quarto', 'node', 'python', 'rust', 'generic']
 ```
 
 #### Phase 2: Enhancement Discovery (Week 1)
@@ -557,30 +557,28 @@ export const ENHANCEMENTS = {
     name: 'Enhanced Project Detection',
     description: '8+ project types with smart templates',
     detectPath: '~/projects/dev-tools/zsh-claude-workflow',
-    installCmd: 'git clone https://github.com/Data-Wise/zsh-claude-workflow ~/projects/dev-tools/zsh-claude-workflow && cd ~/projects/dev-tools/zsh-claude-workflow && ./install.sh',
+    installCmd:
+      'git clone https://github.com/Data-Wise/zsh-claude-workflow ~/projects/dev-tools/zsh-claude-workflow && cd ~/projects/dev-tools/zsh-claude-workflow && ./install.sh',
     checkInstalled: () => {
-      const workflowPath = path.join(
-        process.env.HOME,
-        'projects/dev-tools/zsh-claude-workflow'
-      );
-      return fs.existsSync(workflowPath);
+      const workflowPath = path.join(process.env.HOME, 'projects/dev-tools/zsh-claude-workflow')
+      return fs.existsSync(workflowPath)
     }
   },
-  'aiterm': {
+  aiterm: {
     name: 'Terminal Context Switching',
     description: 'Auto-switch terminal profiles based on project type',
     detectPath: null, // Installed globally via pipx
     installCmd: 'pipx install git+https://github.com/Data-Wise/aiterm',
     checkInstalled: () => {
       try {
-        execSync('which ait', { stdio: 'ignore' });
-        return true;
+        execSync('which ait', { stdio: 'ignore' })
+        return true
       } catch {
-        return false;
+        return false
       }
     }
   }
-};
+}
 ```
 
 #### Phase 3: Doctor Command (Week 1)
@@ -619,35 +617,33 @@ Quick Install All:
 ```javascript
 // cli/lib/project-detector-bridge.js
 
-import { detectProjectType as builtIn } from '../core/detectors/built-in.js';
-import { checkEnhancement } from '../core/enhancements/index.js';
+import { detectProjectType as builtIn } from '../core/detectors/built-in.js'
+import { checkEnhancement } from '../core/enhancements/index.js'
 
 export async function detectProjectType(projectPath) {
   // Try enhanced detector if available
   if (checkEnhancement('zsh-claude-workflow')) {
     try {
-      return await enhancedDetection(projectPath);
+      return await enhancedDetection(projectPath)
     } catch (error) {
-      console.warn('Enhanced detection failed, falling back to built-in');
+      console.warn('Enhanced detection failed, falling back to built-in')
     }
   }
 
   // Fall back to built-in
-  return builtIn(projectPath);
+  return builtIn(projectPath)
 }
 
 async function enhancedDetection(projectPath) {
-  const { stdout } = await execAsync(
-    `cd "${projectPath}" && proj-type`,
-    { shell: '/bin/zsh' }
-  );
-  return stdout.trim();
+  const { stdout } = await execAsync(`cd "${projectPath}" && proj-type`, { shell: '/bin/zsh' })
+  return stdout.trim()
 }
 ```
 
 ### User Journey
 
 **First Install:**
+
 ```bash
 npm install -g flow-cli
 
@@ -662,6 +658,7 @@ zsh-config doctor
 ```
 
 **Daily Use:**
+
 ```bash
 # Works with or without enhancements
 work rmediation
@@ -690,6 +687,7 @@ dashboard
 ```
 
 **Pros:**
+
 - Standard JavaScript package distribution
 - Easy to update (`npm update -g flow-cli`)
 - Version management built-in
@@ -719,6 +717,7 @@ brew install data-wise/tap/flow-cli
 ```
 
 **Pros:**
+
 - Native macOS experience
 - Handles dependencies automatically
 - Easy updates via `brew upgrade`
@@ -753,6 +752,7 @@ echo "Run 'zsh-config doctor' to check status"
 ```
 
 **Users install:**
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
 ```
@@ -770,6 +770,7 @@ zsh-config doctor
 ```
 
 **Requires:**
+
 - Wrapping Node.js code in Python CLI
 - More complex build process
 - Benefits: Python ecosystem distribution
@@ -828,6 +829,7 @@ zsh-config doctor
 ```
 
 **Custom field `enhancedBy`:**
+
 - Documents optional enhancements
 - Used by `doctor` command to show available features
 - Can be checked by installation scripts
@@ -839,6 +841,7 @@ zsh-config doctor
 ### Primary: Hybrid Approach (Option 5)
 
 **Implementation:**
+
 1. **Core features** - Built-in, zero dependencies, always work
 2. **Enhancement discovery** - Auto-detect if enhanced tools available
 3. **One-command install** - `zsh-config install-enhancements`
@@ -847,6 +850,7 @@ zsh-config doctor
 ### Distribution: npm Global Package (Option A)
 
 **Why:**
+
 - Standard JavaScript distribution
 - Easy updates
 - Works everywhere Node.js works
@@ -855,6 +859,7 @@ zsh-config doctor
 ### Timeline
 
 **Week 1:**
+
 - [x] Built-in project detection (6 types)
 - [ ] Enhancement discovery system
 - [ ] Doctor command
@@ -862,11 +867,13 @@ zsh-config doctor
 - [ ] Smart bridge with fallbacks
 
 **Week 2:**
+
 - [ ] Test with/without enhancements
 - [ ] Documentation for installation
 - [ ] npm package preparation
 
 **Week 3:**
+
 - [ ] Publish to npm
 - [ ] Create Homebrew formula (optional)
 - [ ] Installation guides

@@ -25,6 +25,7 @@
 ## 📖 Tutorial Format
 
 Each command below has:
+
 - 🎯 **What it does** (one sentence)
 - 💻 **How to use it** (examples)
 - ✅ **When to use it** (scenarios)
@@ -37,6 +38,7 @@ Each command below has:
 ## 1️⃣ `dash` - See All Projects
 
 ### 🎯 What it does
+
 Shows all your projects with their status, priority, and progress.
 
 ### 💻 How to use it
@@ -82,12 +84,14 @@ dash dev             # Just dev tools
 ```
 
 **Colors:**
+
 - 🔥 Red = ACTIVE
 - 📋 Cyan = READY
-- ⏸️  Yellow = PAUSED
+- ⏸️ Yellow = PAUSED
 - 🚫 Dim = BLOCKED
 
 **Priorities:**
+
 - [P0] = Critical (red)
 - [P1] = Important (yellow)
 - [P2] = Normal (blue)
@@ -97,6 +101,7 @@ dash dev             # Just dev tools
 ## 2️⃣ `just-start` - Auto-Pick Project
 
 ### 🎯 What it does
+
 Automatically picks your highest-priority project and takes you there.
 
 ### 💻 How to use it
@@ -135,6 +140,7 @@ just-start      # That's it!
 ```
 
 **How it picks:**
+
 1. P0 + active → Highest priority
 2. P1 + active → Important work
 3. Any active → Current work
@@ -147,6 +153,7 @@ just-start      # That's it!
 ## 3️⃣ `work` - Start Working
 
 ### 🎯 What it does
+
 Opens your editor in a project directory.
 
 ### 💻 How to use it
@@ -181,6 +188,7 @@ work mediationverse
 ```
 
 **What happens:**
+
 1. Changes to project directory
 2. Detects project type (R package, Quarto, etc.)
 3. Opens appropriate editor:
@@ -196,11 +204,13 @@ work mediationverse
 ## 4️⃣ `status` - Update Project Status
 
 ### 🎯 What it does
+
 Updates a project's status, priority, task, and progress.
 
 ### 💻 How to use it
 
 **Interactive mode** (Recommended - it guides you):
+
 ```bash
 # Update specific project
 status mediationverse
@@ -222,16 +232,19 @@ status mediationverse
 ```
 
 **Quick mode** (if you know all values):
+
 ```bash
 status mediationverse active P0 "Complete sims" 95
 ```
 
 **Create mode** (start tracking a new project):
+
 ```bash
 status newproject --create
 ```
 
 **Show mode** (just view, don't update):
+
 ```bash
 status mediationverse --show
 ```
@@ -271,6 +284,7 @@ Progress? [85]
 ```
 
 **Fields explained:**
+
 - **Status:** What stage is the project in?
   - `active` = Currently working on
   - `ready` = Ready to start
@@ -386,23 +400,24 @@ status mediationverse active P0 "Critical fix" 0
 
 ## 📊 Command Cheat Sheet
 
-| Command | Does | Example |
-|---------|------|---------|
-| `dash` | Show all projects | `dash` |
-| `dash teaching` | Filter by category | `dash research` |
-| `just-start` | Auto-pick project | `just-start` |
-| `work <name>` | Start working | `work mediationverse` |
-| `work med` | Fuzzy match | `work stat` |
-| `status <name>` | Update (interactive) | `status medfit` |
-| `status <name> ...` | Quick update | `status medfit active P1 "Task" 50` |
-| `status <name> --create` | Create .STATUS | `status newproject --create` |
-| `status <name> --show` | Just view | `status medfit --show` |
+| Command                  | Does                 | Example                             |
+| ------------------------ | -------------------- | ----------------------------------- |
+| `dash`                   | Show all projects    | `dash`                              |
+| `dash teaching`          | Filter by category   | `dash research`                     |
+| `just-start`             | Auto-pick project    | `just-start`                        |
+| `work <name>`            | Start working        | `work mediationverse`               |
+| `work med`               | Fuzzy match          | `work stat`                         |
+| `status <name>`          | Update (interactive) | `status medfit`                     |
+| `status <name> ...`      | Quick update         | `status medfit active P1 "Task" 50` |
+| `status <name> --create` | Create .STATUS       | `status newproject --create`        |
+| `status <name> --show`   | Just view            | `status medfit --show`              |
 
 ---
 
 ## 💡 Pro Tips
 
 ### Tip 1: Use Short Names
+
 ```bash
 # Instead of:
 work mediationverse
@@ -412,6 +427,7 @@ work med
 ```
 
 ### Tip 2: Morning + Evening Routine
+
 ```bash
 # Morning:
 dash && just-start && work .
@@ -421,6 +437,7 @@ status . paused P0 "Resume here tomorrow" 90
 ```
 
 ### Tip 3: Categories for Focus
+
 ```bash
 # Teaching time
 dash teaching
@@ -433,6 +450,7 @@ dash packages
 ```
 
 ### Tip 4: Combine with `win` command
+
 ```bash
 # After accomplishing something
 win "Completed Phase 1 of help system"
@@ -442,6 +460,7 @@ wins
 ```
 
 ### Tip 5: Use Dispatchers
+
 ```bash
 # Smart context-aware commands:
 cc               # Claude Code (project-aware)
@@ -510,10 +529,11 @@ Evening:
 
 - 🔥 **ACTIVE** (red) = Working on now
 - 📋 **READY** (cyan) = Ready to start
-- ⏸️  **PAUSED** (yellow) = On hold
+- ⏸️ **PAUSED** (yellow) = On hold
 - 🚫 **BLOCKED** (dim) = Waiting for something
 
 **Priorities are color-coded:**
+
 - **[P0]** (red) = Do today!
 - **[P1]** (yellow) = This week
 - **[P2]** (blue) = When you can
@@ -537,25 +557,27 @@ Evening:
 
 These work great together:
 
-| Command | Purpose |
-|---------|---------|
-| `why` | Show current context |
+| Command     | Purpose               |
+| ----------- | --------------------- |
+| `why`       | Show current context  |
 | `win "..."` | Log an accomplishment |
-| `wins` | See today's wins |
-| `gm` | Morning routine |
-| `focus 25` | Start focus timer |
+| `wins`      | See today's wins      |
+| `gm`        | Morning routine       |
+| `focus 25`  | Start focus timer     |
 
 ---
 
 ## 🎉 That's It!
 
 **You now know:**
+
 - ✅ `dash` - See everything
 - ✅ `just-start` - Auto-pick
 - ✅ `work` - Start working
 - ✅ `status` - Update projects
 
 **Try it now:**
+
 ```bash
 dash
 ```
@@ -564,5 +586,5 @@ dash
 
 ---
 
-*For detailed docs, see: WORKFLOW-IMPLEMENTATION-SUMMARY.md*
-*For quick reference: WORKFLOW-QUICK-REFERENCE.md*
+_For detailed docs, see: WORKFLOW-IMPLEMENTATION-SUMMARY.md_
+_For quick reference: WORKFLOW-QUICK-REFERENCE.md_

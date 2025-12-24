@@ -11,6 +11,7 @@
 **User feedback:** "It's a bit confusing"
 
 **Key confusion points:**
+
 1. When to use keywords vs options?
 2. `status` requires explicit project name (not context-aware)
 3. Unclear relationship between `dash`, `status`, `js`, `work`
@@ -26,12 +27,14 @@
 ### `status` - Context-Aware Status Management
 
 **Current behavior:**
+
 ```bash
 status mediationverse          # Must specify project
 status medfit active P1 "Task" 60
 ```
 
 **Proposed behavior:**
+
 ```bash
 # Smart detection based on PWD
 status                         # If in project with .STATUS → show it
@@ -49,6 +52,7 @@ status --show                  # Force show mode for current project
 ```
 
 **Implementation:**
+
 ```zsh
 status() {
     local current_dir="$PWD"
@@ -82,6 +86,7 @@ status() {
 ```
 
 **ADHD Impact:**
+
 - ✅ Zero decisions when in a project (`status` just works)
 - ✅ No need to remember project names
 - ✅ One command does everything
@@ -96,12 +101,14 @@ status() {
 ### `dash` - The Everything Dashboard
 
 **Current behavior:**
+
 ```bash
 dash                 # All projects
 dash teaching        # Teaching only
 ```
 
 **Proposed behavior:**
+
 ```bash
 # Views
 dash                 # All projects (default)
@@ -124,6 +131,7 @@ dash --start         # Pick project and cd to it (like js)
 ```
 
 **Integration with `status`:**
+
 ```bash
 # From anywhere:
 dash --update
@@ -137,6 +145,7 @@ status mediationverse
 ```
 
 **ADHD Impact:**
+
 - ✅ One command for all "seeing" tasks
 - ✅ Consistent filtering across all dimensions
 - ✅ Can jump from view → action
@@ -163,11 +172,13 @@ proj create          # Create .STATUS in current dir
 ```
 
 **Pros:**
+
 - One namespace to learn
 - Consistent subcommand pattern
 - Clear hierarchy
 
 **Cons:**
+
 - More typing (4 chars vs 2-4)
 - Breaks existing muscle memory
 - Different pattern from existing smart functions
@@ -192,11 +203,13 @@ work medfit       # Explicit project
 ```
 
 **Pros:**
+
 - ✅ Minimal breaking changes
 - ✅ Leverages existing commands
 - ✅ Adds smart defaults without complexity
 
 **Cons:**
+
 - Still 4 commands to learn
 
 ---
@@ -208,11 +221,13 @@ work medfit       # Explicit project
 ### Enhanced `work` Command
 
 **Current behavior:**
+
 ```bash
 work mediationverse     # cd + open editor
 ```
 
 **Proposed behavior:**
+
 ```bash
 # Context-aware
 work                    # If in project → open editor
@@ -231,6 +246,7 @@ work medfit             # Quick jump from seeing it
 ```
 
 **Integration:**
+
 ```bash
 # Morning workflow:
 dash                    # See what's active
@@ -240,6 +256,7 @@ work medfit             # Explicit choice
 ```
 
 **ADHD Impact:**
+
 - ✅ One command to "start working"
 - ✅ Works from anywhere
 - ✅ Integrates with dashboard
@@ -269,6 +286,7 @@ work m              # Ambiguous → picker
 ```
 
 **Implementation:**
+
 ```zsh
 _fuzzy_match_project() {
     local query="$1"
@@ -291,6 +309,7 @@ _fuzzy_match_project() {
 ```
 
 **ADHD Impact:**
+
 - ✅ Partial names work
 - ✅ No need to remember exact names
 - ✅ Visual confirmation when ambiguous
@@ -325,11 +344,13 @@ pm                  # Shows interactive menu
 ```
 
 **When to use:**
+
 - First time learning the system
 - When confused about which command to use
 - As a fallback when stuck
 
 **ADHD Impact:**
+
 - ✅ Visual guidance
 - ✅ No need to remember commands
 - ✅ Shows current context
@@ -339,15 +360,15 @@ pm                  # Shows interactive menu
 
 ## 📊 Comparison Matrix
 
-| Proposal | Complexity | Breaking Changes | ADHD Score | Implementation |
-|----------|-----------|------------------|------------|----------------|
-| A: Smart Defaults | Low | None | 9/10 | 2-3 hours |
-| B: Unified Dashboard | Medium | Minor | 8/10 | 3-4 hours |
-| C1: Consolidate → proj | High | Major | 7/10 | 6-8 hours |
-| C2: Keep + Smart Modes | Low | None | 9/10 | 2-3 hours |
-| D: Context-Aware work | Low | None | 8/10 | 1-2 hours |
-| E: Fuzzy Picker | Medium | None | 9/10 | 2-3 hours |
-| F: Visual Menu | Low | None | 8/10 | 2-3 hours |
+| Proposal               | Complexity | Breaking Changes | ADHD Score | Implementation |
+| ---------------------- | ---------- | ---------------- | ---------- | -------------- |
+| A: Smart Defaults      | Low        | None             | 9/10       | 2-3 hours      |
+| B: Unified Dashboard   | Medium     | Minor            | 8/10       | 3-4 hours      |
+| C1: Consolidate → proj | High       | Major            | 7/10       | 6-8 hours      |
+| C2: Keep + Smart Modes | Low        | None             | 9/10       | 2-3 hours      |
+| D: Context-Aware work  | Low        | None             | 8/10       | 1-2 hours      |
+| E: Fuzzy Picker        | Medium     | None             | 9/10       | 2-3 hours      |
+| F: Visual Menu         | Low        | None             | 8/10       | 2-3 hours      |
 
 ---
 
@@ -356,6 +377,7 @@ pm                  # Shows interactive menu
 **Implement these together for maximum impact:**
 
 ### Phase 1: Smart Defaults (Proposal A + D)
+
 **Time:** 2-3 hours
 
 ```bash
@@ -369,12 +391,14 @@ work medfit            # Explicit jump
 ```
 
 **Why:**
+
 - ✅ Zero breaking changes
 - ✅ Dramatically reduces decisions
 - ✅ Works with existing mental model
 - ✅ Easy to implement
 
 ### Phase 2: Fuzzy Matching (Proposal E)
+
 **Time:** 2 hours
 
 ```bash
@@ -383,11 +407,13 @@ work stat              # Fuzzy match → stat-440
 ```
 
 **Why:**
+
 - ✅ Less typing
 - ✅ Typo-tolerant
 - ✅ Natural language feel
 
 ### Phase 3: Enhanced Dashboard (Proposal B)
+
 **Time:** 2-3 hours
 
 ```bash
@@ -397,6 +423,7 @@ dash teaching active   # Combined filters
 ```
 
 **Why:**
+
 - ✅ More powerful views
 - ✅ Consistent filtering
 - ✅ No new commands to learn
@@ -406,6 +433,7 @@ dash teaching active   # Combined filters
 ## 🚀 Example Workflows (After Implementation)
 
 ### Morning Routine (Before)
+
 ```bash
 # Current way:
 dash                           # See projects
@@ -414,6 +442,7 @@ status mediationverse active P0 "Continue sims" 85  # Must type name again
 ```
 
 ### Morning Routine (After - Phase 1)
+
 ```bash
 # Smart way:
 dash                           # See projects
@@ -422,6 +451,7 @@ status active P0 "Continue sims" 85  # Detects current project
 ```
 
 ### Mid-Day Check (Before)
+
 ```bash
 # Current way:
 cd ~/projects/r-packages/active/medfit
@@ -429,6 +459,7 @@ status medfit --show           # Must type name
 ```
 
 ### Mid-Day Check (After - Phase 1)
+
 ```bash
 # Smart way:
 cd ~/projects/r-packages/active/medfit
@@ -436,6 +467,7 @@ status                         # Auto-detects current project
 ```
 
 ### End of Day (Before)
+
 ```bash
 # Current way:
 cd ~/projects/r-packages/active/mediationverse
@@ -443,6 +475,7 @@ status mediationverse paused P0 "Resume tomorrow" 95
 ```
 
 ### End of Day (After - Phase 1)
+
 ```bash
 # Smart way:
 cd ~/projects/r-packages/active/mediationverse
@@ -555,6 +588,7 @@ work() {
 ### 1. Consistent Help
 
 All commands should respond to:
+
 ```bash
 command --help
 command -h
@@ -565,6 +599,7 @@ command ?          # Fuzzy picker mode
 ### 2. Current Project Indicator
 
 Show current project in prompt when in one:
+
 ```zsh
 # Add to status detection:
 if [[ -f "$PWD/.STATUS" ]]; then
@@ -592,6 +627,7 @@ alias pause='status paused'  # Pause current
 ### 4. Tab Completion
 
 Add zsh completion for project names:
+
 ```zsh
 # _status completion
 _status() {
@@ -612,20 +648,21 @@ compdef _status dash
 
 **Which proposals should we implement?**
 
-| User Need | Best Solution | Effort | Priority |
-|-----------|--------------|--------|----------|
-| Status without typing name | Proposal A | Low | P0 |
-| Work without typing name | Proposal D | Low | P0 |
-| Typo tolerance | Proposal E | Medium | P1 |
-| Better filtering | Proposal B | Medium | P1 |
-| First-time learning | Proposal F | Low | P2 |
-| Reduce # of commands | Proposal C | High | P2 |
+| User Need                  | Best Solution | Effort | Priority |
+| -------------------------- | ------------- | ------ | -------- |
+| Status without typing name | Proposal A    | Low    | P0       |
+| Work without typing name   | Proposal D    | Low    | P0       |
+| Typo tolerance             | Proposal E    | Medium | P1       |
+| Better filtering           | Proposal B    | Medium | P1       |
+| First-time learning        | Proposal F    | Low    | P2       |
+| Reduce # of commands       | Proposal C    | High   | P2       |
 
 ---
 
 ## ✅ Recommended Action Plan
 
 ### Step 1: Implement Smart Defaults (Today)
+
 - [x] Already have dash, status, js, work
 - [ ] Make `status` context-aware (detect PWD)
 - [ ] Make `work` context-aware (detect PWD)
@@ -637,6 +674,7 @@ compdef _status dash
 **Impact:** High (dramatically reduces typing and decisions)
 
 ### Step 2: Add Fuzzy Matching (Next)
+
 - [ ] Implement `_fuzzy_match_project` helper
 - [ ] Update `status`, `work`, `dash` to use fuzzy matching
 - [ ] Add tab completion
@@ -647,6 +685,7 @@ compdef _status dash
 **Impact:** Medium (nicer UX, less typing)
 
 ### Step 3: Enhanced Dashboard (Later)
+
 - [ ] Add filtering to `dash` (active, P0, teaching+active, etc.)
 - [ ] Add `dash --update` interactive mode
 - [ ] Add `dash --start` quick jump
@@ -680,6 +719,7 @@ work stat                 # Fuzzy match → stat-440
 ```
 
 **ADHD Impact:**
+
 - ✅ **66% less typing** (avg 15 chars → 5 chars)
 - ✅ **Zero decisions** when in project
 - ✅ **Typo tolerant** with fuzzy matching

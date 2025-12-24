@@ -24,7 +24,9 @@ export class TaskPriority {
     ]
 
     if (!validPriorities.includes(value)) {
-      throw new Error(`Invalid task priority: ${value}. Must be one of: ${validPriorities.join(', ')}`)
+      throw new Error(
+        `Invalid task priority: ${value}. Must be one of: ${validPriorities.join(', ')}`
+      )
     }
 
     this._value = value

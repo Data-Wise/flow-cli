@@ -88,6 +88,7 @@
 ### Test: .STATUS Files Synced to project-hub
 
 **Expected Behavior:**
+
 - Find all .STATUS files in ~/projects
 - Copy to ~/projects/project-hub/category/name.STATUS
 - Display count: "Synced X .STATUS files to project-hub"
@@ -128,6 +129,7 @@ Modified: Dec 22 23:29:00 2025  # ✅ Matches command run time!
 ### Test: PROJECT-HUB.md Timestamp Update
 
 **Expected Behavior (from code):**
+
 ```zsh
 # Line 78-82 in dash.zsh
 if [[ -f "$project_hub/PROJECT-HUB.md" ]]; then
@@ -137,22 +139,26 @@ fi
 ```
 
 **Issue Found:**
+
 - ✅ Code **displays** message: "Updated coordination timestamp: 2025-12-22 23:29:01"
 - ❌ Code **doesn't actually write** timestamp to PROJECT-HUB.md file
 - The message is shown but no file modification happens
 
 **Verification:**
+
 ```bash
 $ stat -f "Modified: %Sm" ~/projects/project-hub/PROJECT-HUB.md
 Modified: Dec 17 16:48:32 2025  # ❌ OLD timestamp (before command run)
 ```
 
 **Impact:**
+
 - 🟡 **Low** - Message is misleading but doesn't affect functionality
 - The sync of .STATUS files works perfectly
 - PROJECT-HUB.md just doesn't get a timestamp update
 
 **Fix (if desired):**
+
 ```zsh
 # Replace line 80-81 with actual write operation
 if [[ -f "$project_hub/PROJECT-HUB.md" ]]; then
@@ -167,17 +173,17 @@ fi
 
 ## 📊 Feature-by-Feature Verification
 
-| Feature | Expected | Actual | Status |
-|---------|----------|--------|--------|
-| **Sync .STATUS files** | Copy to project-hub | 32 files synced | ✅ PASS |
-| **Display sync count** | Show count | "Synced 32..." | ✅ PASS |
-| **Categorization** | By category folders | r-packages/, dev-tools/ | ✅ PASS |
-| **File timestamps** | Recent sync time | Dec 22 23:29:00 | ✅ PASS |
-| **Dashboard display** | Formatted output | Perfect match | ✅ PASS |
-| **Active projects** | Color-coded priorities | P0 red, P1 yellow, P2 blue | ✅ PASS |
-| **Paused projects** | Dimmed display | Shown correctly | ✅ PASS |
-| **Quick actions** | Menu at bottom | All 3 shown | ✅ PASS |
-| **PROJECT-HUB.md timestamp** | Update file | Only message shown | ⚠️ PARTIAL |
+| Feature                      | Expected               | Actual                     | Status     |
+| ---------------------------- | ---------------------- | -------------------------- | ---------- |
+| **Sync .STATUS files**       | Copy to project-hub    | 32 files synced            | ✅ PASS    |
+| **Display sync count**       | Show count             | "Synced 32..."             | ✅ PASS    |
+| **Categorization**           | By category folders    | r-packages/, dev-tools/    | ✅ PASS    |
+| **File timestamps**          | Recent sync time       | Dec 22 23:29:00            | ✅ PASS    |
+| **Dashboard display**        | Formatted output       | Perfect match              | ✅ PASS    |
+| **Active projects**          | Color-coded priorities | P0 red, P1 yellow, P2 blue | ✅ PASS    |
+| **Paused projects**          | Dimmed display         | Shown correctly            | ✅ PASS    |
+| **Quick actions**            | Menu at bottom         | All 3 shown                | ✅ PASS    |
+| **PROJECT-HUB.md timestamp** | Update file            | Only message shown         | ⚠️ PARTIAL |
 
 ---
 
@@ -186,12 +192,14 @@ fi
 ### Color Coding ✅
 
 **Priorities:**
+
 - P0 (medrobust): Red `[0;31m` ✅
 - P1 (aiterm, medfit, etc.): Yellow `[1;33m` ✅
 - P2 (medsim): Blue `[0;34m` ✅
 - -- (no priority): Default `[0m` ✅
 
 **Sections:**
+
 - Header: Cyan `[0;36m` ✅
 - Success: Green `[0;32m` ✅
 - Active section: Green `[0;32m` ✅
@@ -229,12 +237,14 @@ fi
 ### Diagram vs. Reality
 
 **Mermaid Diagram Shows:**
+
 1. Find all .STATUS files ✅
 2. Copy to project-hub ✅
 3. Update timestamp ⚠️ (message only)
 4. Display dashboard ✅
 
 **Recommendation:** Update diagram note to clarify:
+
 > "Note: Timestamp message is displayed but PROJECT-HUB.md file is not currently modified"
 
 Or fix the code to actually write the timestamp.
@@ -245,19 +255,20 @@ Or fix the code to actually write the timestamp.
 
 ### Scores
 
-| Category | Score | Notes |
-|----------|-------|-------|
-| **Core Functionality** | 100% | Sync works perfectly |
-| **Output Format** | 100% | Exact match to docs |
-| **Visual Quality** | 100% | All colors/icons correct |
-| **Performance** | ✅ Fast | Synced 32 files instantly |
-| **Accuracy** | 98% | Minor timestamp issue |
+| Category               | Score   | Notes                     |
+| ---------------------- | ------- | ------------------------- |
+| **Core Functionality** | 100%    | Sync works perfectly      |
+| **Output Format**      | 100%    | Exact match to docs       |
+| **Visual Quality**     | 100%    | All colors/icons correct  |
+| **Performance**        | ✅ Fast | Synced 32 files instantly |
+| **Accuracy**           | 98%     | Minor timestamp issue     |
 
 ### Summary
 
 ✅ **EXCELLENT** - The `dash` command works exactly as documented!
 
 **Strengths:**
+
 - Sync functionality is flawless (32 files synced correctly)
 - Output format matches documentation perfectly
 - Color coding and visual formatting are excellent
@@ -265,10 +276,12 @@ Or fix the code to actually write the timestamp.
 - Performance is great (instant sync)
 
 **Minor Issue:**
+
 - PROJECT-HUB.md timestamp update only shows message, doesn't modify file
 - Impact: Low (cosmetic only, doesn't affect functionality)
 
 **Recommendation:**
+
 - ✅ Documentation is accurate - ship it!
 - 🟡 Consider adding timestamp write to PROJECT-HUB.md (optional enhancement)
 - 📝 Update diagram note if timestamp write won't be added

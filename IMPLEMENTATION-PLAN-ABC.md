@@ -1,4 +1,5 @@
 # Implementation Plan: Options A + B + C Combined
+
 **Timeframe:** 2 weeks
 **Approach:** Incremental delivery with quick wins
 
@@ -7,6 +8,7 @@
 ## 🎯 Overview
 
 Combining three strategic initiatives:
+
 - **Option A:** Architecture Refactoring (Clean Architecture implementation)
 - **Option B:** Enhanced Features (immediate user value)
 - **Option C:** P6 CLI Enhancements (roadmap completion)
@@ -24,6 +26,7 @@ Combining three strategic initiatives:
 #### Tasks
 
 **1. Create Directory Structure**
+
 ```bash
 mkdir -p cli/domain/{entities,value-objects,repositories,services}
 mkdir -p cli/use-cases/{session,project,task,dashboard}
@@ -32,6 +35,7 @@ mkdir -p cli/frameworks/{di,config}
 ```
 
 **2. Implement Session Entity**
+
 ```javascript
 // cli/domain/entities/Session.js
 export class Session {
@@ -80,6 +84,7 @@ export class Session {
 ```
 
 **3. Create Value Objects**
+
 ```javascript
 // cli/domain/value-objects/SessionState.js
 export class SessionState {
@@ -95,8 +100,12 @@ export class SessionState {
     Object.freeze(this)
   }
 
-  get value() { return this._value }
-  isActive() { return this._value === SessionState.ACTIVE }
+  get value() {
+    return this._value
+  }
+  isActive() {
+    return this._value === SessionState.ACTIVE
+  }
 }
 
 // cli/domain/value-objects/ProjectType.js
@@ -112,26 +121,42 @@ export class ProjectType {
     Object.freeze(this)
   }
 
-  isResearch() { return this._value === ProjectType.RESEARCH }
-  isRPackage() { return this._value === ProjectType.R_PACKAGE }
+  isResearch() {
+    return this._value === ProjectType.RESEARCH
+  }
+  isRPackage() {
+    return this._value === ProjectType.R_PACKAGE
+  }
 }
 ```
 
 **4. Define Repository Interfaces**
+
 ```javascript
 // cli/domain/repositories/ISessionRepository.js
 export class ISessionRepository {
-  async findById(sessionId) { throw new Error('Not implemented') }
-  async findActive() { throw new Error('Not implemented') }
-  async save(session) { throw new Error('Not implemented') }
-  async delete(sessionId) { throw new Error('Not implemented') }
-  async list(filters = {}) { throw new Error('Not implemented') }
+  async findById(sessionId) {
+    throw new Error('Not implemented')
+  }
+  async findActive() {
+    throw new Error('Not implemented')
+  }
+  async save(session) {
+    throw new Error('Not implemented')
+  }
+  async delete(sessionId) {
+    throw new Error('Not implemented')
+  }
+  async list(filters = {}) {
+    throw new Error('Not implemented')
+  }
 }
 ```
 
 **✅ Quick Win:** Run architecture dashboard - should show clean domain layer with zero violations
 
 **Testing:**
+
 ```bash
 npm run arch-dashboard
 # Should show: Domain layer created, 0 violations
@@ -146,6 +171,7 @@ npm run arch-dashboard
 #### Tasks
 
 **1. CreateSessionUseCase**
+
 ```javascript
 // cli/use-cases/session/CreateSessionUseCase.js
 import { Session } from '../../domain/entities/Session.js'
@@ -198,6 +224,7 @@ export class CreateSessionUseCase {
 ```
 
 **2. EndSessionUseCase**
+
 ```javascript
 // cli/use-cases/session/EndSessionUseCase.js
 export class EndSessionUseCase {
@@ -237,6 +264,7 @@ export class EndSessionUseCase {
 ```
 
 **3. ScanProjectsUseCase**
+
 ```javascript
 // cli/use-cases/project/ScanProjectsUseCase.js
 export class ScanProjectsUseCase {
@@ -262,12 +290,7 @@ export class ScanProjectsUseCase {
       if (types.length > 0 && !types.includes(typeStr)) continue
 
       const projectType = new ProjectType(typeStr)
-      const project = new Project(
-        this.generateId(path),
-        this.extractName(path),
-        path,
-        projectType
-      )
+      const project = new Project(this.generateId(path), this.extractName(path), path, projectType)
 
       // Load metadata
       const metadata = await this.fileSystem.extractMetadata(path, projectType)
@@ -305,6 +328,7 @@ export class ScanProjectsUseCase {
 #### Tasks
 
 **1. FileSystemSessionRepository**
+
 ```javascript
 // cli/adapters/repositories/FileSystemSessionRepository.js
 import { ISessionRepository } from '../../domain/repositories/ISessionRepository.js'
@@ -403,6 +427,7 @@ export class FileSystemSessionRepository extends ISessionRepository {
 ```
 
 **2. Dependency Injection Container**
+
 ```javascript
 // cli/frameworks/di/container.js
 import { CreateSessionUseCase } from '../../use-cases/session/CreateSessionUseCase.js'
@@ -424,10 +449,7 @@ export function createContainer() {
     eventPublisher
   )
 
-  const endSession = new EndSessionUseCase(
-    sessionRepository,
-    eventPublisher
-  )
+  const endSession = new EndSessionUseCase(sessionRepository, eventPublisher)
 
   return {
     repositories: {
@@ -444,6 +466,7 @@ export function createContainer() {
 **✅ Quick Win:** Sessions persist to `~/.config/flow-cli/sessions/` directory
 
 **Testing:**
+
 ```bash
 # Create test script
 node -e "
@@ -471,6 +494,7 @@ ls ~/.config/flow-cli/sessions/
 #### 1. Enhanced Status Command
 
 **Features:**
+
 - Current session info
 - Session duration (live)
 - Project context
@@ -538,6 +562,7 @@ export class StatusController {
 #### 2. Better Project Picker
 
 **Features:**
+
 - Filter by type
 - Filter by status (active/draft/complete)
 - Sort by last accessed
@@ -563,9 +588,7 @@ export class ProjectPickerController {
 
     // Filter by status
     if (status) {
-      projects = projects.filter(p =>
-        p.status?.currentStatus === status
-      )
+      projects = projects.filter(p => p.status?.currentStatus === status)
     }
 
     // Search
@@ -574,9 +597,7 @@ export class ProjectPickerController {
     }
 
     // Sort by last accessed
-    projects.sort((a, b) =>
-      (b.lastAccessed || 0) - (a.lastAccessed || 0)
-    )
+    projects.sort((a, b) => (b.lastAccessed || 0) - (a.lastAccessed || 0))
 
     // Display with fzf
     return await this.displayWithFzf(projects)
@@ -654,6 +675,7 @@ export class CreateTaskUseCase {
 **Goal:** Professional status display with all context
 
 **Completed:** 2025-12-23
+
 - ✅ StatusController (266 lines)
 - ✅ CLI command with full help system
 - ✅ Worklog integration
@@ -665,12 +687,14 @@ export class CreateTaskUseCase {
 **Goal:** Visual enhancements + Modern .STATUS format
 
 **See Also:**
+
 - docs/planning/proposals/STATUS-COMMAND-ENHANCEMENTS.md (106 enhancement ideas)
 - docs/planning/proposals/PROJECT-COORDINATION-SYSTEM.md (cross-project coordination)
 
 #### Part 1: Visual Polish (Morning, 2h)
 
 **1. Color-Coded Output with Chalk**
+
 ```javascript
 // cli/adapters/controllers/StatusController.js
 import chalk from 'chalk'
@@ -686,6 +710,7 @@ displayActiveSession(session, verbose) {
 ```
 
 **2. Box Drawing Characters**
+
 ```javascript
 // Structure output with unicode box chars
 console.log('╭─────────────────────────────────────╮')
@@ -696,6 +721,7 @@ console.log('╰─────────────────────�
 ```
 
 **3. Git Status Integration**
+
 ```javascript
 // cli/adapters/gateways/GitGateway.js
 export class GitGateway {
@@ -712,6 +738,7 @@ if (verbose && session.gitStatus) {
 ```
 
 **4. .STATUS File Parsing**
+
 ```javascript
 // cli/adapters/gateways/StatusFileGateway.js
 export class StatusFileGateway {
@@ -732,6 +759,7 @@ if (status.nextActions && status.nextActions.length > 0) {
 #### Part 2: .STATUS v2 Foundation (Afternoon, 2h)
 
 **1. YAML Frontmatter Format**
+
 ```yaml
 ---
 # .STATUS v2 format
@@ -741,8 +769,8 @@ type: r-package | quarto | research | node | python | generic
 
 # Next actions (user-editable)
 next:
-  - action: "Write tests for bootstrap function"
-    estimate: "2h"
+  - action: 'Write tests for bootstrap function'
+    estimate: '2h'
     priority: high
     blockers: []
 
@@ -754,12 +782,12 @@ metrics:
   last_session: 2025-12-23T10:00:00Z
   last_updated: 2025-12-23T18:30:00Z
 ---
-
 # Project Status Notes
 Manual notes go here...
 ```
 
 **2. .STATUS Validator**
+
 ```javascript
 // cli/domain/validators/StatusFileValidator.js
 export class StatusFileValidator {
@@ -790,6 +818,7 @@ export class StatusFileValidator {
 ```
 
 **3. Auto-Update Mechanism**
+
 ```javascript
 // cli/use-cases/status/UpdateStatusFileUseCase.js
 export class UpdateStatusFileUseCase {
@@ -819,6 +848,7 @@ export class UpdateStatusFileUseCase {
 ```
 
 **Deliverables:**
+
 - [ ] Chalk integration (color-coded output)
 - [ ] Box drawing characters for structure
 - [ ] Git status integration in verbose mode
@@ -837,17 +867,20 @@ export class UpdateStatusFileUseCase {
 **Decision:** After analyzing TUI cons (terminal compatibility, ADHD concerns, maintenance burden), we're implementing a hybrid approach that gives users choice without breaking changes.
 
 **See Also:**
+
 - docs/planning/proposals/TUI-ALTERNATIVES-ANALYSIS.md (decision rationale)
 
 #### Architecture
 
 **1. Default Mode: Enhanced CLI**
+
 ```bash
 flow status        # Fast ASCII output (current behavior)
 flow status -v     # Verbose with ASCII charts
 ```
 
 **2. Optional Web Dashboard**
+
 ```bash
 flow status --web  # Opens browser with rich dashboard
 ```
@@ -855,6 +888,7 @@ flow status --web  # Opens browser with rich dashboard
 #### Phase 1: Web Dashboard Foundation (1.5 hours)
 
 **1. Express Server + WebSocket**
+
 ```javascript
 // cli/web/WebDashboard.js
 import express from 'express'
@@ -888,7 +922,7 @@ export class WebDashboard {
     // Setup WebSocket for live updates
     this.wss = new WebSocketServer({ server: this.server })
 
-    this.wss.on('connection', (ws) => {
+    this.wss.on('connection', ws => {
       // Send initial status
       this.sendStatus(ws)
 
@@ -917,87 +951,106 @@ export class WebDashboard {
 ```
 
 **2. Single-File HTML Dashboard**
+
 ```html
 <!-- cli/web/public/index.html -->
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Flow CLI Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
-  <style>
-    body {
-      font-family: -apple-system, system-ui, sans-serif;
-      background: #1e1e1e;
-      color: #d4d4d4;
-      margin: 0;
-      padding: 20px;
-    }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .card {
-      background: #2d2d2d;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    .session-active { border-left: 4px solid #00ff00; }
-    .session-inactive { border-left: 4px solid #666; }
-    h1 { margin-top: 0; }
-    .metric { display: inline-block; margin-right: 30px; }
-    .metric-value { font-size: 2em; font-weight: bold; }
-    .metric-label { color: #888; font-size: 0.9em; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>🚀 Flow CLI Dashboard</h1>
+  <head>
+    <title>Flow CLI Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <style>
+      body {
+        font-family: -apple-system, system-ui, sans-serif;
+        background: #1e1e1e;
+        color: #d4d4d4;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .card {
+        background: #2d2d2d;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+      .session-active {
+        border-left: 4px solid #00ff00;
+      }
+      .session-inactive {
+        border-left: 4px solid #666;
+      }
+      h1 {
+        margin-top: 0;
+      }
+      .metric {
+        display: inline-block;
+        margin-right: 30px;
+      }
+      .metric-value {
+        font-size: 2em;
+        font-weight: bold;
+      }
+      .metric-label {
+        color: #888;
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 Flow CLI Dashboard</h1>
 
-    <div id="active-session" class="card"></div>
-    <div id="metrics" class="card"></div>
-    <div id="charts" class="card">
-      <canvas id="sessionChart"></canvas>
+      <div id="active-session" class="card"></div>
+      <div id="metrics" class="card"></div>
+      <div id="charts" class="card">
+        <canvas id="sessionChart"></canvas>
+      </div>
+      <div id="projects" class="card"></div>
     </div>
-    <div id="projects" class="card"></div>
-  </div>
 
-  <script>
-    const ws = new WebSocket('ws://localhost:3737')
-    let chart = null
+    <script>
+      const ws = new WebSocket('ws://localhost:3737')
+      let chart = null
 
-    ws.onmessage = (event) => {
-      const { type, data } = JSON.parse(event.data)
-      if (type === 'status') updateDashboard(data)
-    }
-
-    function updateDashboard(status) {
-      updateActiveSession(status.activeSession)
-      updateMetrics(status.metrics)
-      updateChart(status.history)
-      updateProjects(status.projects)
-    }
-
-    function updateActiveSession(session) {
-      const el = document.getElementById('active-session')
-      if (!session) {
-        el.className = 'card session-inactive'
-        el.innerHTML = '<h2>❌ No Active Session</h2>'
-        return
+      ws.onmessage = event => {
+        const { type, data } = JSON.parse(event.data)
+        if (type === 'status') updateDashboard(data)
       }
 
-      el.className = 'card session-active'
-      const flowBadge = session.isFlowState ? '🔥 IN FLOW' : ''
-      el.innerHTML = `
+      function updateDashboard(status) {
+        updateActiveSession(status.activeSession)
+        updateMetrics(status.metrics)
+        updateChart(status.history)
+        updateProjects(status.projects)
+      }
+
+      function updateActiveSession(session) {
+        const el = document.getElementById('active-session')
+        if (!session) {
+          el.className = 'card session-inactive'
+          el.innerHTML = '<h2>❌ No Active Session</h2>'
+          return
+        }
+
+        el.className = 'card session-active'
+        const flowBadge = session.isFlowState ? '🔥 IN FLOW' : ''
+        el.innerHTML = `
         <h2>✅ Active Session ${flowBadge}</h2>
         <p><strong>Project:</strong> ${session.project}</p>
         <p><strong>Task:</strong> ${session.task || 'No task specified'}</p>
         <p><strong>Duration:</strong> ${session.duration} min</p>
         <p><strong>Branch:</strong> ${session.branch}</p>
       `
-    }
+      }
 
-    function updateMetrics(metrics) {
-      const el = document.getElementById('metrics')
-      el.innerHTML = `
+      function updateMetrics(metrics) {
+        const el = document.getElementById('metrics')
+        el.innerHTML = `
         <h2>📊 Metrics</h2>
         <div class="metric">
           <div class="metric-value">${metrics.totalSessions}</div>
@@ -1012,40 +1065,43 @@ export class WebDashboard {
           <div class="metric-label">Total Time</div>
         </div>
       `
-    }
+      }
 
-    function updateChart(history) {
-      const ctx = document.getElementById('sessionChart')
+      function updateChart(history) {
+        const ctx = document.getElementById('sessionChart')
 
-      if (chart) chart.destroy()
+        if (chart) chart.destroy()
 
-      chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: history.map(h => h.date),
-          datasets: [{
-            label: 'Session Duration (min)',
-            data: history.map(h => h.duration),
-            borderColor: '#00ff00',
-            backgroundColor: 'rgba(0, 255, 0, 0.1)'
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { labels: { color: '#d4d4d4' } } },
-          scales: {
-            x: { ticks: { color: '#888' } },
-            y: { ticks: { color: '#888' } }
+        chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: history.map(h => h.date),
+            datasets: [
+              {
+                label: 'Session Duration (min)',
+                data: history.map(h => h.duration),
+                borderColor: '#00ff00',
+                backgroundColor: 'rgba(0, 255, 0, 0.1)'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { labels: { color: '#d4d4d4' } } },
+            scales: {
+              x: { ticks: { color: '#888' } },
+              y: { ticks: { color: '#888' } }
+            }
           }
-        }
-      })
-    }
-  </script>
-</body>
+        })
+      }
+    </script>
+  </body>
 </html>
 ```
 
 **3. Integration in StatusController**
+
 ```javascript
 // cli/adapters/controllers/StatusController.js
 import { WebDashboard } from '../../web/WebDashboard.js'
@@ -1079,12 +1135,14 @@ async launchWebDashboard() {
 #### Phase 2: Rich Visualizations (1 hour)
 
 **1. Chart.js Integration**
+
 - Session duration over time (line chart)
 - Project distribution (pie chart)
 - Flow sessions vs regular (bar chart)
 - Completion rate trends (area chart)
 
 **2. Real-Time Updates**
+
 - Session duration updates every second
 - Live metrics refresh on session events
 - Smooth chart animations
@@ -1092,16 +1150,19 @@ async launchWebDashboard() {
 #### Phase 3: Enhanced CLI (30 min)
 
 **1. ASCII Sparklines**
+
 ```bash
 Session Trend: ▁▂▃▅▇█▇▅▃▂▁ (last 10 days)
 ```
 
 **2. Progress Bars**
+
 ```bash
 Progress: [████████████░░░░░░░░] 60%
 ```
 
 **Deliverables:**
+
 - [ ] Express server with WebSocket support
 - [ ] Single-file HTML dashboard with Chart.js
 - [ ] --web flag in status command
@@ -1112,6 +1173,7 @@ Progress: [████████████░░░░░░░░] 60%
 - [ ] Documentation for both modes
 
 **Benefits of Hybrid Approach:**
+
 - ✅ No breaking changes (CLI still works)
 - ✅ Users choose complexity level
 - ✅ Best of both worlds
@@ -1127,6 +1189,7 @@ Progress: [████████████░░░░░░░░] 60%
 #### Optimizations
 
 **1. Parallel Scanning**
+
 ```javascript
 // Scan multiple directories in parallel
 const results = await Promise.all([
@@ -1137,10 +1200,12 @@ const results = await Promise.all([
 ```
 
 **2. Cache Layer**
+
 ```javascript
 // cli/adapters/cache/ProjectCache.js
 export class ProjectCache {
-  constructor(ttl = 3600000) { // 1 hour
+  constructor(ttl = 3600000) {
+    // 1 hour
     this.cache = new Map()
     this.ttl = ttl
   }
@@ -1167,6 +1232,7 @@ export class ProjectCache {
 ```
 
 **3. Smart Filters**
+
 ```javascript
 // Filter by:
 // - Type (r-package, quarto, research)
@@ -1176,6 +1242,7 @@ export class ProjectCache {
 ```
 
 **4. Recent Projects Tracking**
+
 ```javascript
 // Track in ~/.config/flow-cli/recent-projects.json
 // Sort by:
@@ -1213,6 +1280,7 @@ export class ProjectCache {
 ## 🧪 Testing Strategy
 
 ### Unit Tests (Domain)
+
 ```javascript
 // tests/domain/entities/Session.test.js
 describe('Session Entity', () => {
@@ -1225,6 +1293,7 @@ describe('Session Entity', () => {
 ```
 
 ### Integration Tests (Use Cases)
+
 ```javascript
 // tests/use-cases/CreateSessionUseCase.test.js
 describe('CreateSessionUseCase', () => {
@@ -1239,6 +1308,7 @@ describe('CreateSessionUseCase', () => {
 ```
 
 ### E2E Tests (CLI)
+
 ```bash
 # tests/e2e/session-workflow.test.sh
 flow work rmediation "Fix bug"
@@ -1252,12 +1322,14 @@ flow status  # Should show no active session
 ## 📝 Documentation Updates
 
 ### After Week 1
+
 - [ ] Update GETTING-STARTED.md with real implementation
 - [ ] Add implementation examples to CODE-EXAMPLES.md
 - [ ] Document new commands in README.md
 - [ ] Update .STATUS with progress
 
 ### After Week 2
+
 - [ ] Create TUI-DASHBOARD.md user guide
 - [ ] Update PROJECT-HUB.md (mark P6 complete)
 - [ ] Write blog post about implementation
@@ -1268,6 +1340,7 @@ flow status  # Should show no active session
 ## 🚀 Deployment Plan
 
 ### Phase 1: Alpha Release (After Week 1)
+
 ```bash
 git checkout -b feature/clean-architecture-implementation
 # Commit daily progress
@@ -1276,6 +1349,7 @@ git push origin feature/clean-architecture-implementation
 ```
 
 ### Phase 2: Beta Release (After Week 2)
+
 ```bash
 # Merge to dev
 git checkout dev
@@ -1290,6 +1364,7 @@ npm publish --tag beta
 ```
 
 ### Phase 3: Production (After testing)
+
 ```bash
 # Merge to main
 git checkout main
@@ -1308,6 +1383,7 @@ npm publish
 ## 🎉 Expected Outcomes
 
 ### Technical
+
 - ✅ Clean Architecture fully implemented
 - ✅ 100% test coverage on domain layer
 - ✅ Zero architecture violations
@@ -1315,6 +1391,7 @@ npm publish
 - ✅ Professional TUI interface
 
 ### User Experience
+
 - ✅ Enhanced status command with full context
 - ✅ Better project picker (10x faster)
 - ✅ Task management basics
@@ -1322,6 +1399,7 @@ npm publish
 - ✅ All P6 features delivered
 
 ### Development
+
 - ✅ Codebase matches documentation
 - ✅ Easy to add new features
 - ✅ High maintainability
@@ -1333,6 +1411,7 @@ npm publish
 **Ready to start?**
 
 **Next Command:**
+
 ```bash
 mkdir -p cli/domain/{entities,value-objects,repositories}
 ```

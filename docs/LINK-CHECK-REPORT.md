@@ -8,14 +8,14 @@
 
 ## Summary
 
-| Metric | Count |
-|--------|-------|
-| **Files checked** | 11 |
-| **Total links** | 102 |
-| **Internal links** | 96 |
-| **External links** | 6 |
-| **Broken links** | 2 |
-| **Status** | 98% valid (2 minor issues) |
+| Metric             | Count                      |
+| ------------------ | -------------------------- |
+| **Files checked**  | 11                         |
+| **Total links**    | 102                        |
+| **Internal links** | 96                         |
+| **External links** | 6                          |
+| **Broken links**   | 2                          |
+| **Status**         | 98% valid (2 minor issues) |
 
 ---
 
@@ -42,18 +42,21 @@
 **File:** `docs/architecture/ARCHITECTURE-QUICK-WINS.md`
 
 **Missing links:**
+
 - `ARCHITECTURE-CHEATSHEET.md` (link text: "Architecture Cheatsheet")
 - `ARCHITECTURE-COMMAND-REFERENCE.md` (link text: "Architecture Command Reference")
 
 **Root cause:** These files were never created or were removed during architecture refactoring.
 
 **Fix:** Either:
+
 - Remove the links from ARCHITECTURE-QUICK-WINS.md, OR
 - Create the missing files, OR
 - Update links to point to existing equivalents (QUICK-REFERENCE.md?)
 
 **Recommended action:**
 Remove the broken links. The content is likely covered in:
+
 - `docs/architecture/QUICK-REFERENCE.md`
 - `docs/architecture/README.md`
 
@@ -71,6 +74,7 @@ Remove the broken links. The content is likely covered in:
 **Impact:** GitHub redirects work, but technically incorrect
 
 **Fix:**
+
 ```diff
 - [GitHub](https://github.com/Data-Wise/flow-cli)
 + [GitHub](https://github.com/Data-Wise/flow-cli)
@@ -96,6 +100,7 @@ All external links checked successfully:
 All internal documentation cross-references are working correctly except the 2 missing architecture files noted above.
 
 Key navigation paths verified:
+
 - Getting started → User guides ✅
 - User guides → Architecture docs ✅
 - Architecture docs → Decision records ✅
@@ -108,6 +113,7 @@ Key navigation paths verified:
 ### Immediate (P0)
 
 1. **Fix broken internal links in ARCHITECTURE-QUICK-WINS.md:**
+
    ```bash
    # Option A: Remove broken links
    # Edit docs/architecture/ARCHITECTURE-QUICK-WINS.md
@@ -145,17 +151,20 @@ Key navigation paths verified:
 **Location:** `scripts/check-links.js`
 
 **Features:**
+
 - Checks both internal and external links
 - 5-second timeout for external links
 - Categorizes broken links by type
 - Detailed reporting with recommendations
 
 **Usage:**
+
 ```bash
 node scripts/check-links.js
 ```
 
 **Exit codes:**
+
 - `0` = All links valid
 - `1` = Broken links found
 
@@ -166,6 +175,7 @@ node scripts/check-links.js
 **Documentation link health: Excellent (98% valid)**
 
 Only 2 minor issues found:
+
 1. Two missing architecture reference files (never created)
 2. One GitHub URL case mismatch (still works via redirect)
 

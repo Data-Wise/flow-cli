@@ -9,6 +9,7 @@
 ## Executive Summary
 
 > **TL;DR:**
+>
 > - This is a Node.js library API (not REST/HTTP)
 > - Current: ✅ Good foundation - clear naming, promises, graceful errors
 > - Needs: Input validation, TypeScript definitions, ES modules consistency
@@ -19,12 +20,14 @@ The flow-cli system follows **Node.js module patterns** rather than traditional 
 **Overall Assessment:** ✅ **Good Foundation** with clear improvement opportunities
 
 **Strengths:**
+
 - Clear function naming and semantics
 - Consistent error handling patterns
 - Good separation of concerns (API → Adapter → Vendor)
 - Promise-based async patterns
 
 **Areas for Improvement:**
+
 - Inconsistent module formats (CommonJS vs ES Modules)
 - Missing input validation
 - No standardized error types
@@ -47,12 +50,14 @@ Return Data or throw Errors
 ```
 
 **This is appropriate for:**
+
 - ✅ CLI tools
 - ✅ Desktop applications (Electron)
 - ✅ Local development utilities
 - ✅ Build scripts
 
 **NOT suitable for:**
+
 - ❌ Remote HTTP APIs
 - ❌ Third-party integrations over network
 - ❌ Browser-based applications (without bundling)
@@ -62,6 +67,7 @@ Return Data or throw Errors
 ## Module-by-Module Review
 
 > **TL;DR:**
+>
 > - **Project Detection API**: ✅ Excellent - use this as the template for all APIs
 > - **Status API**: ⚠️ Needs ES modules, input validation, consistent error handling
 > - **Workflow API**: ⚠️ Uses success/error objects instead of exceptions (anti-pattern)
@@ -74,15 +80,17 @@ Return Data or throw Errors
 #### Strengths
 
 **1. Clear Function Semantics**
+
 ```javascript
 // ✅ Good: Verb-noun naming
-detectProjectType(path)      // Action + Subject
+detectProjectType(path) // Action + Subject
 detectMultipleProjects(paths) // Action + Plural Subject
-getSupportedTypes()           // Get + Plural Noun
-isTypeSupported(type)         // Boolean check (is*)
+getSupportedTypes() // Get + Plural Noun
+isTypeSupported(type) // Boolean check (is*)
 ```
 
 **2. Consistent Return Types**
+
 ```javascript
 // Single operation
 detectProjectType() → Promise<string>
@@ -96,14 +104,15 @@ isTypeSupported() → boolean     // Synchronous
 ```
 
 **3. Graceful Error Handling**
+
 ```javascript
 // ✅ Good: Returns safe default instead of throwing
 try {
-  const type = await detectProjectType(invalidPath);
-  return mapProjectType(type);
+  const type = await detectProjectType(invalidPath)
+  return mapProjectType(type)
 } catch (error) {
-  console.error(`Failed: ${error.message}`);
-  return 'unknown';  // Safe default
+  console.error(`Failed: ${error.message}`)
+  return 'unknown' // Safe default
 }
 ```
 
@@ -112,6 +121,7 @@ This follows the **graceful degradation pattern** - appropriate for ADHD-friendl
 #### Areas for Improvement
 
 **1. Input Validation**
+
 ```javascript
 // ❌ Current: No validation
 export async function detectProjectType(projectPath) {
@@ -121,19 +131,20 @@ export async function detectProjectType(projectPath) {
 // ✅ Better: Validate inputs
 export async function detectProjectType(projectPath) {
   if (typeof projectPath !== 'string') {
-    throw new TypeError('projectPath must be a string');
+    throw new TypeError('projectPath must be a string')
   }
   if (!projectPath.trim()) {
-    throw new Error('projectPath cannot be empty');
+    throw new Error('projectPath cannot be empty')
   }
   if (!path.isAbsolute(projectPath)) {
-    throw new Error('projectPath must be absolute');
+    throw new Error('projectPath must be absolute')
   }
   // ... rest of function
 }
 ```
 
 **2. TypeScript Definitions**
+
 ```typescript
 // Add: cli/lib/project-detector-bridge.d.ts
 export type ProjectType =
@@ -142,42 +153,36 @@ export type ProjectType =
   | 'quarto-extension'
   | 'research'
   | 'generic'
-  | 'unknown';
+  | 'unknown'
 
 export interface DetectionOptions {
   /** Custom type mappings */
-  mappings?: Record<string, ProjectType>;
+  mappings?: Record<string, ProjectType>
   /** Timeout in milliseconds */
-  timeout?: number;
+  timeout?: number
 }
 
 export function detectProjectType(
   projectPath: string,
   options?: DetectionOptions
-): Promise<ProjectType>;
+): Promise<ProjectType>
 
 export function detectMultipleProjects(
   projectPaths: string[],
   options?: DetectionOptions
-): Promise<Record<string, ProjectType>>;
+): Promise<Record<string, ProjectType>>
 
-export function getSupportedTypes(): ProjectType[];
+export function getSupportedTypes(): ProjectType[]
 
-export function isTypeSupported(type: string): type is ProjectType;
+export function isTypeSupported(type: string): type is ProjectType
 ```
 
 **3. Options Pattern for Extensibility**
+
 ```javascript
 // ✅ Future-proof with options object
-export async function detectProjectType(
-  projectPath,
-  options = {}
-) {
-  const {
-    timeout = 5000,
-    mappings = {},
-    cache = true
-  } = options;
+export async function detectProjectType(projectPath, options = {}) {
+  const { timeout = 5000, mappings = {}, cache = true } = options
 
   // Use options...
 }
@@ -186,7 +191,7 @@ export async function detectProjectType(
 await detectProjectType('/path', {
   timeout: 10000,
   cache: false
-});
+})
 ```
 
 ---
@@ -198,62 +203,62 @@ await detectProjectType('/path', {
 #### Issues
 
 **1. CommonJS vs ES Modules Inconsistency**
+
 ```javascript
 // ❌ Current: CommonJS
-const statusAdapter = require('../adapters/status');
+const statusAdapter = require('../adapters/status')
 
 module.exports = {
   getDashboardData,
   getSessionStatus
-};
+}
 
 // ✅ Should be: ES Modules (match project-detector-bridge)
-import { statusAdapter } from '../adapters/status.js';
+import { statusAdapter } from '../adapters/status.js'
 
-export {
-  getDashboardData,
-  getSessionStatus
-};
+export { getDashboardData, getSessionStatus }
 ```
 
 **2. Inconsistent Error Handling**
+
 ```javascript
 // ❌ Current: Some functions return error objects
 async function getProgressSummary(projectPath) {
-  const project = await statusAdapter.getProjectStatus(projectPath);
+  const project = await statusAdapter.getProjectStatus(projectPath)
 
   if (project.error) {
     return {
-      error: project.error,  // Error as data
+      error: project.error, // Error as data
       hasProgress: false
-    };
+    }
   }
   // ...
 }
 
 // ✅ Better: Throw errors consistently
 async function getProgressSummary(projectPath) {
-  const project = await statusAdapter.getProjectStatus(projectPath);
+  const project = await statusAdapter.getProjectStatus(projectPath)
 
   if (project.error) {
-    throw new ProjectNotFoundError(project.error);
+    throw new ProjectNotFoundError(project.error)
   }
   // ...
 }
 ```
 
 **3. Missing Input Validation**
+
 ```javascript
 // ❌ Current: No validation
 async function getDashboardData(projectPath = process.cwd()) {
-  const status = await statusAdapter.getCompleteStatus(projectPath);
+  const status = await statusAdapter.getCompleteStatus(projectPath)
   // ...
 }
 
 // ✅ Better: Validate projectPath
 async function getDashboardData(projectPath = process.cwd()) {
-  if (!await exists(projectPath)) {
-    throw new Error(`Project path does not exist: ${projectPath}`);
+  if (!(await exists(projectPath))) {
+    throw new Error(`Project path does not exist: ${projectPath}`)
   }
   // ...
 }
@@ -262,38 +267,40 @@ async function getDashboardData(projectPath = process.cwd()) {
 #### Recommendations
 
 **1. Standardize Error Types**
+
 ```javascript
 // Create: cli/lib/errors.js
 export class ZshConfigError extends Error {
   constructor(message, code) {
-    super(message);
-    this.name = 'ZshConfigError';
-    this.code = code;
+    super(message)
+    this.name = 'ZshConfigError'
+    this.code = code
   }
 }
 
 export class ProjectNotFoundError extends ZshConfigError {
   constructor(path) {
-    super(`Project not found: ${path}`, 'PROJECT_NOT_FOUND');
-    this.path = path;
+    super(`Project not found: ${path}`, 'PROJECT_NOT_FOUND')
+    this.path = path
   }
 }
 
 export class NoActiveSessionError extends ZshConfigError {
   constructor() {
-    super('No active session', 'NO_ACTIVE_SESSION');
+    super('No active session', 'NO_ACTIVE_SESSION')
   }
 }
 
 export class ValidationError extends ZshConfigError {
   constructor(field, message) {
-    super(`Validation failed for ${field}: ${message}`, 'VALIDATION_ERROR');
-    this.field = field;
+    super(`Validation failed for ${field}: ${message}`, 'VALIDATION_ERROR')
+    this.field = field
   }
 }
 ```
 
 **2. Consistent Return Types**
+
 ```javascript
 // ✅ Good pattern: Always return structured objects
 interface DashboardData {
@@ -320,41 +327,44 @@ interface SessionData {
 #### Issues
 
 **1. Result Object Inconsistency**
+
 ```javascript
 // Different success/error patterns
 async function startSession(project, options = {}) {
   // ...
   return {
     success: false,
-    error: 'Already in an active session',  // Pattern 1
+    error: 'Already in an active session', // Pattern 1
     currentSession: existingSession
-  };
+  }
 }
 
 async function endSession(options = {}) {
   // ...
   return {
     success: false,
-    error: result.stderr || 'Failed to end session',  // Pattern 2
+    error: result.stderr || 'Failed to end session', // Pattern 2
     session,
     timestamp: result.timestamp
-  };
+  }
 }
 ```
 
 **Better:** Use exceptions for errors
+
 ```javascript
 async function startSession(project, options = {}) {
-  const existingSession = await statusAdapter.getCurrentSession();
+  const existingSession = await statusAdapter.getCurrentSession()
   if (existingSession && existingSession.project) {
-    throw new SessionAlreadyActiveError(existingSession);
+    throw new SessionAlreadyActiveError(existingSession)
   }
   // ... successful path
-  return newSession;
+  return newSession
 }
 ```
 
 **2. Magic Strings for Commands**
+
 ```javascript
 // ❌ Current: String literals
 async function build() {
@@ -380,6 +390,7 @@ async function build() {
 ## Planned APIs - Design Recommendations
 
 > **TL;DR:**
+>
 > - **Session Manager**: Use class-based EventEmitter pattern (recommended design included)
 > - **Project Scanner**: Use constructor injection + caching strategy
 > - Key patterns: Validate inputs, throw custom errors, emit events for extensibility
@@ -392,12 +403,12 @@ async function build() {
 ```javascript
 // cli/core/session-manager.js
 
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'events'
 
 export class SessionManager extends EventEmitter {
   constructor(options = {}) {
-    super();
-    this.storageDir = options.storageDir || getDefaultStorageDir();
+    super()
+    this.storageDir = options.storageDir || getDefaultStorageDir()
   }
 
   /**
@@ -414,13 +425,13 @@ export class SessionManager extends EventEmitter {
   async createSession(project, options = {}) {
     // Validate inputs
     if (!project || typeof project !== 'string') {
-      throw new ValidationError('project', 'Project name is required');
+      throw new ValidationError('project', 'Project name is required')
     }
 
     // Check for existing session
-    const active = await this.getActiveSession();
+    const active = await this.getActiveSession()
     if (active) {
-      throw new SessionAlreadyActiveError(active);
+      throw new SessionAlreadyActiveError(active)
     }
 
     // Create session
@@ -432,12 +443,12 @@ export class SessionManager extends EventEmitter {
       context: options.context || {},
       startTime: new Date().toISOString(),
       state: 'active'
-    };
+    }
 
-    await this.save(session);
-    this.emit('session:created', session);
+    await this.save(session)
+    this.emit('session:created', session)
 
-    return session;
+    return session
   }
 
   /**
@@ -445,8 +456,8 @@ export class SessionManager extends EventEmitter {
    * @returns {Promise<Session|null>} Active session or null
    */
   async getActiveSession() {
-    const sessions = await this.listSessions({ state: 'active' });
-    return sessions[0] || null;
+    const sessions = await this.listSessions({ state: 'active' })
+    return sessions[0] || null
   }
 
   /**
@@ -457,21 +468,21 @@ export class SessionManager extends EventEmitter {
    * @throws {SessionNotFoundError} If session doesn't exist
    */
   async updateSession(sessionId, updates) {
-    const session = await this.getSession(sessionId);
+    const session = await this.getSession(sessionId)
     if (!session) {
-      throw new SessionNotFoundError(sessionId);
+      throw new SessionNotFoundError(sessionId)
     }
 
     const updated = {
       ...session,
       ...updates,
       updatedAt: new Date().toISOString()
-    };
+    }
 
-    await this.save(updated);
-    this.emit('session:updated', updated);
+    await this.save(updated)
+    this.emit('session:updated', updated)
 
-    return updated;
+    return updated
   }
 
   /**
@@ -483,9 +494,9 @@ export class SessionManager extends EventEmitter {
    * @returns {Promise<Session>} Ended session
    */
   async endSession(sessionId, result = {}) {
-    const session = await this.getSession(sessionId);
+    const session = await this.getSession(sessionId)
     if (!session) {
-      throw new SessionNotFoundError(sessionId);
+      throw new SessionNotFoundError(sessionId)
     }
 
     const ended = {
@@ -495,12 +506,12 @@ export class SessionManager extends EventEmitter {
       outcome: result.outcome || 'completed',
       summary: result.summary,
       duration: calculateDuration(session.startTime)
-    };
+    }
 
-    await this.save(ended);
-    this.emit('session:ended', ended);
+    await this.save(ended)
+    this.emit('session:ended', ended)
 
-    return ended;
+    return ended
   }
 
   /**
@@ -519,22 +530,23 @@ export class SessionManager extends EventEmitter {
 // Error classes
 export class SessionAlreadyActiveError extends Error {
   constructor(session) {
-    super(`Session already active for project: ${session.project}`);
-    this.name = 'SessionAlreadyActiveError';
-    this.session = session;
+    super(`Session already active for project: ${session.project}`)
+    this.name = 'SessionAlreadyActiveError'
+    this.session = session
   }
 }
 
 export class SessionNotFoundError extends Error {
   constructor(sessionId) {
-    super(`Session not found: ${sessionId}`);
-    this.name = 'SessionNotFoundError';
-    this.sessionId = sessionId;
+    super(`Session not found: ${sessionId}`)
+    this.name = 'SessionNotFoundError'
+    this.sessionId = sessionId
   }
 }
 ```
 
 **Benefits:**
+
 - ✅ Class-based API with EventEmitter for extensibility
 - ✅ Clear method signatures with JSDoc
 - ✅ Consistent error handling with custom error types
@@ -550,13 +562,13 @@ export class SessionNotFoundError extends Error {
 ```javascript
 // cli/core/project-scanner.js
 
-import { detectMultipleProjects } from '../lib/project-detector-bridge.js';
+import { detectMultipleProjects } from '../lib/project-detector-bridge.js'
 
 export class ProjectScanner {
   constructor(options = {}) {
-    this.cacheEnabled = options.cache !== false;
-    this.cacheDir = options.cacheDir || getDefaultCacheDir();
-    this.maxDepth = options.maxDepth || 3;
+    this.cacheEnabled = options.cache !== false
+    this.cacheDir = options.cacheDir || getDefaultCacheDir()
+    this.maxDepth = options.maxDepth || 3
   }
 
   /**
@@ -570,31 +582,27 @@ export class ProjectScanner {
    */
   async scanDirectory(basePath, options = {}) {
     // Validate
-    if (!await exists(basePath)) {
-      throw new Error(`Directory does not exist: ${basePath}`);
+    if (!(await exists(basePath))) {
+      throw new Error(`Directory does not exist: ${basePath}`)
     }
 
-    const {
-      maxDepth = this.maxDepth,
-      includeHidden = false,
-      types = []
-    } = options;
+    const { maxDepth = this.maxDepth, includeHidden = false, types = [] } = options
 
     // Find all potential project directories
     const dirs = await this.findProjectDirectories(basePath, {
       maxDepth,
       includeHidden
-    });
+    })
 
     // Detect types in parallel
-    const detections = await detectMultipleProjects(dirs);
+    const detections = await detectMultipleProjects(dirs)
 
     // Build project objects
     const projects = await Promise.all(
       Object.entries(detections).map(async ([path, type]) => {
         // Filter by type if specified
         if (types.length > 0 && !types.includes(type)) {
-          return null;
+          return null
         }
 
         return {
@@ -603,11 +611,11 @@ export class ProjectScanner {
           type,
           metadata: await this.extractMetadata(path, type),
           status: await this.readStatus(path)
-        };
+        }
       })
-    );
+    )
 
-    return projects.filter(Boolean);
+    return projects.filter(Boolean)
   }
 
   /**
@@ -620,13 +628,11 @@ export class ProjectScanner {
       join(homedir(), 'projects/teaching'),
       join(homedir(), 'projects/research'),
       join(homedir(), 'projects/dev-tools')
-    ];
+    ]
 
-    const results = await Promise.all(
-      locations.map(loc => this.scanDirectory(loc))
-    );
+    const results = await Promise.all(locations.map(loc => this.scanDirectory(loc)))
 
-    return results.flat();
+    return results.flat()
   }
 
   /**
@@ -635,8 +641,8 @@ export class ProjectScanner {
    * @returns {Promise<Project|null>} Project or null
    */
   async findProject(name) {
-    const cache = await this.getCache();
-    return cache.find(p => p.name === name) || null;
+    const cache = await this.getCache()
+    return cache.find(p => p.name === name) || null
   }
 
   /**
@@ -645,8 +651,8 @@ export class ProjectScanner {
    * @returns {Promise<Project[]>} Projects of type
    */
   async getProjectsByType(type) {
-    const cache = await this.getCache();
-    return cache.filter(p => p.type === type);
+    const cache = await this.getCache()
+    return cache.filter(p => p.type === type)
   }
 
   /**
@@ -654,13 +660,14 @@ export class ProjectScanner {
    * @returns {Promise<void>}
    */
   async updateProjectCache() {
-    const projects = await this.scanAllProjects();
-    await this.saveCache(projects);
+    const projects = await this.scanAllProjects()
+    await this.saveCache(projects)
   }
 }
 ```
 
 **Design Principles Applied:**
+
 - ✅ Constructor injection for configuration
 - ✅ Sensible defaults with override capability
 - ✅ Async/await throughout
@@ -673,6 +680,7 @@ export class ProjectScanner {
 ## Best Practices Applied
 
 > **TL;DR:**
+>
 > - **Keep doing**: Promise-based async, graceful degradation, parallel operations
 > - **Start doing**: Input validation, custom error types, TypeScript definitions
 > - **Future**: Plugin system, middleware hooks, streaming APIs for large datasets
@@ -707,6 +715,7 @@ export class ProjectScanner {
 ## Design Patterns Recommended
 
 > **TL;DR:**
+>
 > - **Factory Pattern**: Centralize object creation (SessionFactory)
 > - **Repository Pattern**: Abstract data storage (SessionRepository)
 > - **Builder Pattern**: Fluent query APIs (ProjectQueryBuilder)
@@ -735,7 +744,7 @@ export class SessionFactory {
         hostname: os.hostname(),
         user: os.userInfo().username
       }
-    };
+    }
   }
 
   static fromJSON(json) {
@@ -743,7 +752,7 @@ export class SessionFactory {
       ...json,
       startTime: new Date(json.startTime),
       endTime: json.endTime ? new Date(json.endTime) : null
-    };
+    }
   }
 }
 ```
@@ -755,41 +764,39 @@ export class SessionFactory {
 
 export class SessionRepository {
   constructor(storageDir) {
-    this.storageDir = storageDir;
+    this.storageDir = storageDir
   }
 
   async save(session) {
-    const filePath = join(this.storageDir, `${session.id}.json`);
-    await writeFile(filePath, JSON.stringify(session, null, 2));
+    const filePath = join(this.storageDir, `${session.id}.json`)
+    await writeFile(filePath, JSON.stringify(session, null, 2))
   }
 
   async findById(id) {
-    const filePath = join(this.storageDir, `${id}.json`);
+    const filePath = join(this.storageDir, `${id}.json`)
     try {
-      const content = await readFile(filePath, 'utf-8');
-      return JSON.parse(content);
+      const content = await readFile(filePath, 'utf-8')
+      return JSON.parse(content)
     } catch (error) {
-      if (error.code === 'ENOENT') return null;
-      throw error;
+      if (error.code === 'ENOENT') return null
+      throw error
     }
   }
 
   async findAll(filters = {}) {
-    const files = await readdir(this.storageDir);
+    const files = await readdir(this.storageDir)
     const sessions = await Promise.all(
-      files
-        .filter(f => f.endsWith('.json'))
-        .map(f => this.findById(f.replace('.json', '')))
-    );
+      files.filter(f => f.endsWith('.json')).map(f => this.findById(f.replace('.json', '')))
+    )
 
-    return sessions.filter(s => s && this.matchesFilters(s, filters));
+    return sessions.filter(s => s && this.matchesFilters(s, filters))
   }
 
   matchesFilters(session, filters) {
-    if (filters.project && session.project !== filters.project) return false;
-    if (filters.state && session.state !== filters.state) return false;
-    if (filters.since && session.startTime < filters.since) return false;
-    return true;
+    if (filters.project && session.project !== filters.project) return false
+    if (filters.state && session.state !== filters.state) return false
+    if (filters.since && session.startTime < filters.since) return false
+    return true
   }
 }
 ```
@@ -801,68 +808,68 @@ export class SessionRepository {
 
 export class ProjectQueryBuilder {
   constructor() {
-    this.filters = {};
-    this.sorting = {};
-    this.pagination = {};
+    this.filters = {}
+    this.sorting = {}
+    this.pagination = {}
   }
 
   filterByType(...types) {
-    this.filters.types = types;
-    return this;
+    this.filters.types = types
+    return this
   }
 
   filterByCategory(category) {
-    this.filters.category = category;
-    return this;
+    this.filters.category = category
+    return this
   }
 
   filterByStatus(status) {
-    this.filters.status = status;
-    return this;
+    this.filters.status = status
+    return this
   }
 
   sortBy(field, direction = 'asc') {
-    this.sorting = { field, direction };
-    return this;
+    this.sorting = { field, direction }
+    return this
   }
 
   paginate(page, pageSize) {
-    this.pagination = { page, pageSize };
-    return this;
+    this.pagination = { page, pageSize }
+    return this
   }
 
   async execute(scanner) {
-    let projects = await scanner.scanAllProjects();
+    let projects = await scanner.scanAllProjects()
 
     // Apply filters
     if (this.filters.types) {
-      projects = projects.filter(p => this.filters.types.includes(p.type));
+      projects = projects.filter(p => this.filters.types.includes(p.type))
     }
     if (this.filters.category) {
-      projects = projects.filter(p => p.category === this.filters.category);
+      projects = projects.filter(p => p.category === this.filters.category)
     }
     if (this.filters.status) {
-      projects = projects.filter(p => p.status?.currentStatus === this.filters.status);
+      projects = projects.filter(p => p.status?.currentStatus === this.filters.status)
     }
 
     // Apply sorting
     if (this.sorting.field) {
       projects.sort((a, b) => {
-        const aVal = a[this.sorting.field];
-        const bVal = b[this.sorting.field];
-        const cmp = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
-        return this.sorting.direction === 'asc' ? cmp : -cmp;
-      });
+        const aVal = a[this.sorting.field]
+        const bVal = b[this.sorting.field]
+        const cmp = aVal < bVal ? -1 : aVal > bVal ? 1 : 0
+        return this.sorting.direction === 'asc' ? cmp : -cmp
+      })
     }
 
     // Apply pagination
     if (this.pagination.page) {
-      const { page, pageSize } = this.pagination;
-      const start = (page - 1) * pageSize;
-      projects = projects.slice(start, start + pageSize);
+      const { page, pageSize } = this.pagination
+      const start = (page - 1) * pageSize
+      projects = projects.slice(start, start + pageSize)
     }
 
-    return projects;
+    return projects
   }
 }
 
@@ -872,7 +879,7 @@ const rPackages = await new ProjectQueryBuilder()
   .filterByStatus('active')
   .sortBy('lastModified', 'desc')
   .paginate(1, 20)
-  .execute(scanner);
+  .execute(scanner)
 ```
 
 ---
@@ -880,6 +887,7 @@ const rPackages = await new ProjectQueryBuilder()
 ## Implementation Priority
 
 > **TL;DR:**
+>
 > - **Phase 1 (Week 2)**: Foundation - errors, validation, ES modules, TypeScript
 > - **Phase 2 (Week 3)**: Enhancement - Session Manager, events, factories, repositories
 > - **Phase 3 (Week 4+)**: Polish - plugins, middleware, tests, performance
@@ -911,18 +919,21 @@ const rPackages = await new ProjectQueryBuilder()
 ## Success Metrics
 
 ### API Quality
+
 - ✅ 100% input validation coverage
 - ✅ Custom error types for all error conditions
 - ✅ TypeScript definitions for all public APIs
 - ✅ Consistent async/await patterns
 
 ### Developer Experience
+
 - ✅ Clear documentation with examples
 - ✅ Predictable behavior (no surprises)
 - ✅ Helpful error messages
 - ✅ IDE autocomplete support
 
 ### Maintainability
+
 - ✅ Consistent module format (ES modules)
 - ✅ Clear separation of concerns
 - ✅ Testable design (dependency injection)
@@ -933,6 +944,7 @@ const rPackages = await new ProjectQueryBuilder()
 ## Conclusion
 
 > **TL;DR:**
+>
 > - **Current state**: Solid foundation, needs modernization
 > - **Template**: Use Project Detection API as the gold standard
 > - **Top 5 fixes**: ES modules, input validation, error classes, TypeScript, design patterns
@@ -941,6 +953,7 @@ const rPackages = await new ProjectQueryBuilder()
 The flow-cli API design is **solid but needs modernization**. The Project Detection API (Week 1) demonstrates good patterns that should be applied consistently across all modules.
 
 **Key Recommendations:**
+
 1. **Standardize on ES modules** - Consistency aids maintenance
 2. **Add input validation** - Fail fast with clear errors
 3. **Create error hierarchy** - Semantic error types improve DX
@@ -948,6 +961,7 @@ The flow-cli API design is **solid but needs modernization**. The Project Detect
 5. **Apply design patterns** - Factory, Repository, Builder for complex operations
 
 By following these recommendations, the system will have a **professional-grade API** that's:
+
 - Easy to use (clear semantics)
 - Hard to misuse (validation)
 - Easy to extend (patterns & events)

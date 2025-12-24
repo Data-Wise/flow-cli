@@ -12,9 +12,11 @@
 ### What We Have (42 documents total)
 
 **✅ Well-Organized (12 docs):**
+
 - `docs/architecture/` - All 12 architecture docs properly organized and deployed
 
 **📋 Needs Organization (30 docs):**
+
 - 19 files in root directory (should be in docs/)
 - 11 files in `docs/planning/` (some outdated, need archiving)
 
@@ -72,6 +74,7 @@
 **Move to `docs/planning/proposals/` (future work):**
 
 Already properly located:
+
 - MEDIATIONVERSE-WORKFLOW-PROPOSAL.md ✅
 - PICK-COMMAND-NEXT-PHASE.md ✅
 - TEACHING-RESEARCH-WORKFLOW-PROPOSAL.md ✅
@@ -79,6 +82,7 @@ Already properly located:
 - DEVOPS-HUB-PROPOSAL.md (from root)
 
 New additions:
+
 - PROPOSAL-MERMAID-DIAGRAM-DOCUMENTATION.md (from root)
 - BRAINSTORM-ARCHITECTURE-ENHANCEMENTS.md (from root)
 
@@ -89,12 +93,14 @@ New additions:
 **Move to `standards/documentation/`:**
 
 From root:
+
 - PROPOSAL-ADHD-FRIENDLY-DOCS.md
 - PROPOSAL-WEBSITE-DESIGN-STANDARDS-UNIFICATION.md
 
 **Move to `standards/architecture/`:**
 
 From root:
+
 - PROPOSAL-DEFAULT-BEHAVIOR-STANDARDS.md
 - PROPOSAL-SMART-DEFAULTS.md
 - PROPOSAL-DEPENDENCY-MANAGEMENT.md
@@ -102,10 +108,12 @@ From root:
 **Move to `docs/architecture/integration/`:**
 
 From root:
+
 - ARCHITECTURE-INTEGRATION.md
 - PROPOSAL-MERGE-OR-PORT.md
 
 **Keep in root (reference suite - frequently accessed):**
+
 - ARCHITECTURE-CHEATSHEET.md ✅
 - ARCHITECTURE-COMMAND-REFERENCE.md ✅
 - ARCHITECTURE-ROADMAP.md ✅
@@ -277,11 +285,13 @@ git mv PROPOSAL-MERGE-OR-PORT.md docs/architecture/integration/
 ## What's Archived Here (10 files)
 
 ### Completed Phase Work (3 files)
+
 - **OPTIMIZATION-SUMMARY-2025-12-16.md** - Phase P4 optimization summary
 - **ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md** - Phase P4 proposal (completed)
 - **HELP-SYSTEM-OVERHAUL-PROPOSAL.md** - Phase P4.5 proposal (completed Dec 20)
 
 ### Completed Planning (5 files)
+
 - **BRAINSTORM-PROJECT-RENAME-2025-12-21.md** - Project rename completed
 - **OPTION-A-IMPLEMENTATION-2025-12-20.md** - Implementation completed
 - **PLAN-REMOVE-APP-FOCUS-CLI.md** - Decision made: app paused, CLI focus
@@ -289,29 +299,34 @@ git mv PROPOSAL-MERGE-OR-PORT.md docs/architecture/integration/
 - **WEEK-1-PROGRESS-2025-12-20.md** - Historical progress tracking
 
 ### Old Planning (2 files)
+
 - **REFACTOR-RESPONSE-VIEWER.md** - Outdated, no longer relevant
 - **PROJECT-HUB-PROPOSAL.md** - Proposal implemented in PROJECT-HUB.md
 
 ## Current Status (as of 2025-12-23)
 
 **Active Phases:**
+
 - Phase P5D: Alpha Release (75% complete)
 - Plugin Diagnostic System (100% complete)
 - Dash Enhancements (95% complete)
 - Status File Conversion (100% complete)
 
 **Completed Phases:**
+
 - P0-P4: All complete (100%)
 - P4.5: Help System Phase 1 (100%)
 - P5: Documentation & Site (100%)
 - P5C: CLI Integration (100%)
 
 **Paused:**
+
 - P5B: Desktop App (50% - Electron issues)
 
 ## References
 
 See current planning state in:
+
 - `PROJECT-HUB.md` - Main control hub (updated 2025-12-23)
 - `docs/planning/current/` - Active planning documents
 - `docs/planning/proposals/` - Future work proposals
@@ -341,6 +356,7 @@ See current planning state in:
 ## 🚀 Ready to Execute?
 
 This plan will:
+
 - ✅ Clean up 19 files from root directory
 - ✅ Archive 10 completed planning documents
 - ✅ Organize 7 future proposals properly

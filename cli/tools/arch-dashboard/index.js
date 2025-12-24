@@ -43,7 +43,8 @@ async function analyzeLayers() {
     domain: await countFiles('cli/domain/**/*.js'),
     useCases: await countFiles('cli/use-cases/**/*.js'),
     adapters: await countFiles('cli/adapters/**/*.js'),
-    frameworks: await countFiles('cli/frameworks/**/*.js') + await countFiles('cli/vendor/**/*.{sh,js}')
+    frameworks:
+      (await countFiles('cli/frameworks/**/*.js')) + (await countFiles('cli/vendor/**/*.{sh,js}'))
   }
 
   return layers
@@ -227,7 +228,7 @@ function displayDashboard(metrics) {
     console.log('  - Run: npm run arch-lint\n')
   }
 
-  if (tests.total < (total * 0.5)) {
+  if (tests.total < total * 0.5) {
     console.log('💡 RECOMMENDATIONS:')
     console.log('  - Increase test coverage (aim for 1 test per file)')
     console.log('  - Focus on domain and use case layers first\n')

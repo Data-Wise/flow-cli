@@ -17,6 +17,7 @@ The flow-cli system needs project detection functionality. The [zsh-claude-workf
 **Question:** How should we integrate this existing functionality?
 
 **Options Considered:**
+
 1. **Git submodule** - Reference as external dependency
 2. **npm package dependency** - Publish zsh-claude-workflow to npm
 3. **Vendored code** - Copy scripts into our codebase
@@ -57,8 +58,8 @@ export async function detectProjectType(projectPath) {
   const { stdout } = await execAsync(
     `source "${coreScript}" && source "${detectorScript}" && cd "${projectPath}" && get_project_type`,
     { shell: '/bin/zsh' }
-  );
-  return mapProjectType(stdout.trim());
+  )
+  return mapProjectType(stdout.trim())
 }
 ```
 
@@ -102,6 +103,7 @@ export async function detectProjectType(projectPath) {
 ### Alternative Considered: Git Submodule
 
 **Rejected because:**
+
 - Requires users to run `git submodule update --init`
 - Complicates npm installation
 - Fragile when repository moves
@@ -110,6 +112,7 @@ export async function detectProjectType(projectPath) {
 ### Alternative Considered: npm Dependency
 
 **Rejected because:**
+
 - Requires publishing zsh-claude-workflow to npm
 - Adds external dependency (defeats independence goal)
 - Version management complexity
@@ -118,6 +121,7 @@ export async function detectProjectType(projectPath) {
 ### Alternative Considered: JavaScript Rewrite
 
 **Rejected because:**
+
 - 8+ hours estimated implementation time
 - Risk of logic errors (vs proven code)
 - Must maintain feature parity
@@ -148,6 +152,7 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.X.0"
 ### Attribution
 
 All vendored files include:
+
 - Source URL
 - Original author
 - License (MIT)

@@ -9,22 +9,24 @@
 ## Test Suite Breakdown
 
 ### ASCII Chart Utilities (Unit Tests)
+
 **File:** `tests/unit/utils/ascii-charts.test.js`
 **Tests:** 37
 **Coverage:** Comprehensive
 
-| Function | Tests | Coverage |
-|----------|-------|----------|
-| `sparkline()` | 5 tests | ✅ Empty data, constant values, custom min/max, increasing trends |
-| `progressBar()` | 6 tests | ✅ 0%, 50%, 100%, custom width, hide %, custom characters |
-| `trendIndicator()` | 5 tests | ✅ Up, down, flat, threshold handling |
-| `durationBar()` | 6 tests | ✅ Minutes, hours, hours+mins, blocks, 10-block limit, partial blocks |
-| `barChart()` | 4 tests | ✅ Generation, empty data, normalization, label truncation |
-| `percentIndicator()` | 4 tests | ✅ High/medium/low indicators, custom thresholds |
-| `histogram()` | 4 tests | ✅ Generation, empty data, custom bins/height |
-| Integration | 3 tests | ✅ Session trends, completion rates, project stats |
+| Function             | Tests   | Coverage                                                              |
+| -------------------- | ------- | --------------------------------------------------------------------- |
+| `sparkline()`        | 5 tests | ✅ Empty data, constant values, custom min/max, increasing trends     |
+| `progressBar()`      | 6 tests | ✅ 0%, 50%, 100%, custom width, hide %, custom characters             |
+| `trendIndicator()`   | 5 tests | ✅ Up, down, flat, threshold handling                                 |
+| `durationBar()`      | 6 tests | ✅ Minutes, hours, hours+mins, blocks, 10-block limit, partial blocks |
+| `barChart()`         | 4 tests | ✅ Generation, empty data, normalization, label truncation            |
+| `percentIndicator()` | 4 tests | ✅ High/medium/low indicators, custom thresholds                      |
+| `histogram()`        | 4 tests | ✅ Generation, empty data, custom bins/height                         |
+| Integration          | 3 tests | ✅ Session trends, completion rates, project stats                    |
 
 **Edge Cases Covered:**
+
 - Empty/null data inputs
 - Single value datasets
 - Constant value datasets
@@ -33,11 +35,13 @@
 ---
 
 ### StatusController Visualizations (Unit Tests)
+
 **File:** `tests/unit/adapters/StatusController-visualizations.test.js`
 **Tests:** 21
 **Coverage:** Comprehensive
 
 #### displayTodaySummary() Tests (6 tests)
+
 - ✅ Empty progress bar (0% completion)
 - ✅ Full progress bar (100% completion)
 - ✅ Partial progress bar (50% completion)
@@ -46,23 +50,27 @@
 - ✅ Zero duration handling
 
 #### displayProductivityMetrics() Tests (3 tests)
+
 - ✅ Progress bars for flow % and completion rate
 - ✅ 0% flow with empty bar
 - ✅ 100% completion with full bar
 
 #### displayRecentSessions() Tests (4 tests)
+
 - ✅ Sparkline for session trends
 - ✅ Sparkline for increasing trend
 - ✅ Single session handling
 - ✅ No sessions handling
 
 #### Integration Tests (8 tests)
+
 - ✅ Verbose mode shows all visualizations
 - ✅ Duration bar utility usage
 - ✅ Progress bar utility usage
 - ✅ Sparkline utility usage
 
 **Visualization Types Tested:**
+
 - Progress bars: [████░░] with percentages
 - Duration bars: Time + visual blocks (15min increments)
 - Sparklines: ▁▂▃▅▇█ trend indicators
@@ -70,11 +78,13 @@
 ---
 
 ### ASCII Visualizations (Integration Tests)
+
 **File:** `tests/integration/ascii-visualizations-integration.test.js`
 **Tests:** 11
 **Coverage:** Real-world scenarios
 
 #### Real-world Workflow Scenarios (5 tests)
+
 1. **Productive day** - 5 completed sessions with varying durations
    - ✅ 100% completion rate visualization
    - ✅ Total duration with hour formatting
@@ -99,15 +109,18 @@
    - ✅ Multiple duration blocks (capped at 10)
 
 #### Edge Cases and Boundary Conditions (4 tests)
+
 - ✅ Zero sessions - empty bars, no sparklines
 - ✅ Single session - 100% completion, single-char sparkline
 - ✅ All same duration - flat sparkline trend
 - ✅ Very short sessions (<15min) - minimal blocks
 
 #### Project Statistics Integration (1 test)
+
 - ✅ Shows visualizations with active projects
 
 #### Verbose vs Normal Mode (1 test)
+
 - ✅ Verbose shows productivity metrics
 - ✅ Normal mode hides extra visualizations
 
@@ -116,8 +129,10 @@
 ## Coverage Summary by Feature
 
 ### Feature: Progress Bars
+
 **Total Tests:** 15
 **Scenarios:**
+
 - ✅ 0%, 50%, 100% completion
 - ✅ Custom width and characters
 - ✅ Show/hide percentage
@@ -125,8 +140,10 @@
 - ✅ Completion rate metrics
 
 ### Feature: Duration Bars
+
 **Total Tests:** 9
 **Scenarios:**
+
 - ✅ Minutes only format
 - ✅ Hours + minutes format
 - ✅ Hours only format
@@ -135,8 +152,10 @@
 - ✅ Partial block rendering
 
 ### Feature: Sparklines
+
 **Total Tests:** 13
 **Scenarios:**
+
 - ✅ Empty data handling
 - ✅ Single value rendering
 - ✅ Constant values (flat line)
@@ -146,8 +165,10 @@
 - ✅ Session duration trends
 
 ### Feature: Console Output Integration
+
 **Total Tests:** 21
 **Scenarios:**
+
 - ✅ All display methods use utilities correctly
 - ✅ Verbose mode toggle works
 - ✅ Output formatting preserved
@@ -158,12 +179,14 @@
 ## Test Quality Metrics
 
 ### Code Coverage
+
 - **ASCII utilities:** 100% function coverage
 - **StatusController methods:** 100% visualization code paths
 - **Edge cases:** Comprehensive (empty, null, boundary values)
 - **Integration:** Real-world scenarios covered
 
 ### Test Characteristics
+
 - ✅ **Isolated:** Each test is independent
 - ✅ **Repeatable:** Consistent results
 - ✅ **Fast:** All tests run in < 2 seconds
@@ -171,6 +194,7 @@
 - ✅ **Maintainable:** Well-organized by feature
 
 ### Mock Quality
+
 - ✅ Realistic mock data (session durations, timestamps)
 - ✅ Proper time simulation (start/end times)
 - ✅ Console output capture for verification
@@ -207,6 +231,7 @@ Time:        1.6s
 ```
 
 **Breakdown:**
+
 - Existing tests: 359 (maintained ✅)
 - New tests: 37 + 21 + 11 = **69 tests**
 - Total: **396 tests**

@@ -54,7 +54,7 @@ theme:
   name: material
   palette:
     # Light mode
-    - media: "(prefers-color-scheme: light)"
+    - media: '(prefers-color-scheme: light)'
       scheme: default
       primary: indigo
       accent: indigo
@@ -62,7 +62,7 @@ theme:
         icon: material/brightness-7
         name: Switch to dark mode
     # Dark mode
-    - media: "(prefers-color-scheme: dark)"
+    - media: '(prefers-color-scheme: dark)'
       scheme: slate
       primary: indigo
       accent: indigo
@@ -118,6 +118,7 @@ extra_css:
 **File:** `docs/stylesheets/extra.css`
 
 **Design Philosophy:**
+
 - Modern depth with subtle shadows
 - Smooth transitions for better UX
 - Enhanced interactivity feedback
@@ -225,6 +226,7 @@ html {
 ```
 
 **Key Features:**
+
 - **Border radius:** 12px for blocks, 6-10px for smaller elements
 - **Shadows:** Subtle depth (0 2px 8px, max 0.08 opacity)
 - **Transitions:** Cubic-bezier easing (0.25s duration)
@@ -233,6 +235,7 @@ html {
 - **Mobile:** Responsive font sizing
 
 **What to AVOID:**
+
 - ❌ Gradients or complex backgrounds
 - ❌ Large shadows (>12px blur, >0.15 opacity)
 - ❌ Fast animations (<0.15s duration)
@@ -248,12 +251,14 @@ mkdir -p docs/stylesheets
 ```
 
 **When to use custom CSS:**
+
 - Want modern depth (shadows) without being flashy
 - Need enhanced interactivity feedback
 - ADHD-friendly visual improvements
 - Better mobile experience
 
 **When to skip custom CSS:**
+
 - Material theme is sufficient
 - Want absolute minimal design
 - No specific accessibility needs
@@ -268,17 +273,17 @@ mkdir -p docs/stylesheets
 nav:
   - Home: index.md
   - Getting Started:
-    - Quick Start: getting-started/quick-start.md
-    - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quick-start.md
+      - Installation: getting-started/installation.md
   - User Guide:
-    - Main Reference: user/reference.md
-    - Tutorials: user/tutorials.md
-    - FAQ: user/faq.md
+      - Main Reference: user/reference.md
+      - Tutorials: user/tutorials.md
+      - FAQ: user/faq.md
   - Development:
-    - Guidelines: dev/guidelines.md
-    - Contributing: dev/contributing.md
+      - Guidelines: dev/guidelines.md
+      - Contributing: dev/contributing.md
   - Reference:
-    - Complete Index: reference/index.md
+      - Complete Index: reference/index.md
 ```
 
 ### Rules
@@ -314,12 +319,14 @@ A brief description (2-3 sentences) explaining the problem and solution.
 ## 🚀 Quick Start
 
 ### 1. First Step
+
 Brief explanation with code:
 \`\`\`bash
 command here
 \`\`\`
 
 ### 2. Second Step
+
 Brief explanation with code:
 \`\`\`bash
 another command
@@ -330,13 +337,15 @@ another command
 ## 📚 Documentation
 
 !!! tip "Start Here"
-    **New to this project?** Read [Guide Name](link) first!
+**New to this project?** Read [Guide Name](link) first!
 
 ### Core Guides
+
 - **[Guide 1](link)** - Description
 - **[Guide 2](link)** - Description
 
 ### Specialized Guides
+
 - **[Guide 3](link)** - Description
 
 ---
@@ -370,9 +379,13 @@ Use sparingly in headers for quick scanning:
 
 ```markdown
 ## ⚡ Quick Start
+
 ## 📚 Documentation
+
 ## 🎯 Key Concepts
+
 ## 🚀 Deployment
+
 ## 🛠️ Troubleshooting
 ```
 
@@ -384,16 +397,17 @@ Draw attention to important information:
 
 ```markdown
 !!! tip "Start Here"
-    **New users?** Read this guide first!
+**New users?** Read this guide first!
 
 !!! warning "Breaking Change"
-    Version 2.0 removes deprecated features.
+Version 2.0 removes deprecated features.
 
 !!! info "For Existing Users"
-    Migration guide available here.
+Migration guide available here.
 ```
 
 **Types to use:**
+
 - `tip` - Helpful shortcuts, recommendations
 - `warning` - Breaking changes, important notices
 - `info` - Additional context, FYI
@@ -408,13 +422,14 @@ Draw attention to important information:
 
 **Categories eliminated:**
 
-| Category | Count | Replacement |
-|----------|-------|-------------|
-| Item 1 | 10 | Use X instead |
-| Item 2 | 5 | Use Y instead |
+| Category | Count | Replacement   |
+| -------- | ----- | ------------- |
+| Item 1   | 10    | Use X instead |
+| Item 2   | 5     | Use Y instead |
 ```
 
 **Use tables for:**
+
 - Comparisons (before/after)
 - Options (old → new)
 - Reference data (command → description)
@@ -459,7 +474,7 @@ Lead with action, explain after.
 
 1. **Bold for emphasis** - `**important term**`
 2. **Inline code for commands** - `` `command` ``
-3. **Code blocks for examples** - ````bash ... ````
+3. **Code blocks for examples** - `bash ... `
 4. **Lists for steps** - Numbered or bulleted
 5. **Tables for comparisons** - Old vs New, Option vs Description
 
@@ -482,21 +497,25 @@ Lead with action, explain after.
 Get running in 5 minutes.
 
 ## Step 1: Install
+
 \`\`\`bash
 command
 \`\`\`
 
 ## Step 2: Configure
+
 \`\`\`bash
 command
 \`\`\`
 
 ## Step 3: Run
+
 \`\`\`bash
 command
 \`\`\`
 
 ## What's Next?
+
 - [Full Guide](link)
 - [Tutorials](link)
 ```
@@ -510,10 +529,10 @@ All commands organized by category.
 
 ## Category 1
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `cmd1` | What it does | `cmd1 arg` |
-| `cmd2` | What it does | `cmd2 arg` |
+| Command | Description  | Example    |
+| ------- | ------------ | ---------- |
+| `cmd1`  | What it does | `cmd1 arg` |
+| `cmd2`  | What it does | `cmd2 arg` |
 
 ## Category 2
 
@@ -530,19 +549,20 @@ Moving from old to new.
 ## What Changed
 
 !!! warning "Breaking Changes"
-    List of breaking changes
+List of breaking changes
 
 ## Migration Steps
 
 ### Step 1: Update X
+
 \`\`\`bash
 command
 \`\`\`
 
 ### Step 2: Replace Y
 
-| Old | New |
-|-----|-----|
+| Old       | New       |
+| --------- | --------- |
 | `old-cmd` | `new-cmd` |
 ```
 
@@ -561,6 +581,7 @@ command
 Only customize if project has brand colors. Otherwise, stick with indigo.
 
 **Example (if needed):**
+
 ```yaml
 theme:
   palette:
@@ -646,12 +667,12 @@ Features 28 essential aliases, 6 smart dispatchers, and 226+ git aliases.
 ## 🚀 Quick Start
 
 \`\`\`bash
-rload    # Load package
-rtest    # Run tests
+rload # Load package
+rtest # Run tests
 \`\`\`
 
 !!! tip "Start Here"
-    Read [Alias Reference](link) first!
+Read [Alias Reference](link) first!
 ```
 
 ### Bad Home Page
@@ -691,17 +712,18 @@ markdown_extensions:
 ```
 
 Usage:
-````markdown
+
+```markdown
 === "macOS"
-    ```bash
+`bash
     brew install tool
-    ```
+    `
 
 === "Linux"
-    ```bash
+`bash
     apt install tool
-    ```
-````
+    `
+```
 
 ---
 
@@ -730,13 +752,13 @@ Usage:
 
 **Modern vs Flashy:**
 
-| Modern (✅) | Flashy (❌) |
-|-------------|-------------|
+| Modern (✅)                              | Flashy (❌)                               |
+| ---------------------------------------- | ----------------------------------------- |
 | `box-shadow: 0 2px 8px rgba(0,0,0,0.08)` | `box-shadow: 0 10px 30px rgba(0,0,0,0.3)` |
-| `transform: translateY(-2px)` | `transform: scale(1.2) rotate(5deg)` |
-| `transition: 0.25s cubic-bezier(...)` | `transition: 0.1s linear` |
-| `border-radius: 12px` | `border-radius: 50%` (unless circles) |
-| No gradients | `background: linear-gradient(...)` |
+| `transform: translateY(-2px)`            | `transform: scale(1.2) rotate(5deg)`      |
+| `transition: 0.25s cubic-bezier(...)`    | `transition: 0.1s linear`                 |
+| `border-radius: 12px`                    | `border-radius: 50%` (unless circles)     |
+| No gradients                             | `background: linear-gradient(...)`        |
 
 ---
 
@@ -789,11 +811,13 @@ mkdocs gh-deploy       # Deploy to GitHub Pages
 ### Common Fixes
 
 **Broken links:**
+
 ```bash
 mkdocs build 2>&1 | grep WARNING
 ```
 
 **Port in use:**
+
 ```bash
 lsof -ti:8000 | xargs kill -9
 ```

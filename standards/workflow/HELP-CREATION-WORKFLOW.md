@@ -21,11 +21,11 @@ Help not working? → Follow "Testing & Debugging"
 
 Choose your pattern based on function complexity:
 
-| Type | Pattern | Example |
-|------|---------|---------|
-| Simple (no subcommands) | Pattern 1 | `rload`, `rtest` |
-| With subcommands | Pattern 2/3 | `dash`, `work` |
-| With complex options | Pattern 4 | Functions with `-v`, `-q`, etc. |
+| Type                    | Pattern     | Example                         |
+| ----------------------- | ----------- | ------------------------------- |
+| Simple (no subcommands) | Pattern 1   | `rload`, `rtest`                |
+| With subcommands        | Pattern 2/3 | `dash`, `work`                  |
+| With complex options    | Pattern 4   | Functions with `-v`, `-q`, etc. |
 
 ### Step 2: Copy Template
 
@@ -128,6 +128,7 @@ Run the checklist (see "Testing & Debugging" section below).
 ### Workflow
 
 1. **Read the function** to understand what it does
+
    ```bash
    bat ~/.config/zsh/functions/myfunction.zsh
    ```
@@ -135,6 +136,7 @@ Run the checklist (see "Testing & Debugging" section below).
 2. **Identify function type** (Simple/Dispatcher/Complex)
 
 3. **Add help handling at the TOP** (before any logic):
+
    ```zsh
    # For simple functions
    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
@@ -148,6 +150,7 @@ Run the checklist (see "Testing & Debugging" section below).
 4. **Write help content** following standards (see Step 3 above)
 
 5. **Update error messages** to reference help:
+
    ```zsh
    # Change this:
    echo "Error: missing argument"
@@ -167,6 +170,7 @@ Run the checklist (see "Testing & Debugging" section below).
 ### Workflow
 
 1. **Find the help function**:
+
    ```bash
    # If help is inline
    grep -A 20 "cat <<'EOF'" ~/.config/zsh/functions/myfunction.zsh
@@ -254,13 +258,13 @@ test-help work
 
 ### Common Issues & Fixes
 
-| Problem | Cause | Fix |
-|---------|-------|-----|
-| Help doesn't show | Help check not first | Move help check to top of function |
-| Colors don't work | Not using `echo -e` | Change to `echo -e` or use `cat` |
-| Alignment broken | Tab vs space mixing | Use spaces consistently |
-| No newline at end | Missing echo after heredoc | Add `echo ""` or blank line in heredoc |
-| Help shows in error cases | No `return 0` after help | Add `return 0` after help output |
+| Problem                   | Cause                      | Fix                                    |
+| ------------------------- | -------------------------- | -------------------------------------- |
+| Help doesn't show         | Help check not first       | Move help check to top of function     |
+| Colors don't work         | Not using `echo -e`        | Change to `echo -e` or use `cat`       |
+| Alignment broken          | Tab vs space mixing        | Use spaces consistently                |
+| No newline at end         | Missing echo after heredoc | Add `echo ""` or blank line in heredoc |
+| Help shows in error cases | No `return 0` after help   | Add `return 0` after help output       |
 
 ---
 
@@ -268,12 +272,12 @@ test-help work
 
 ### Where to Put Help Files
 
-| Content Type | Location |
-|--------------|----------|
-| Function with inline help | Same file as function |
-| Separate help function | Same file, prefixed with `_` |
-| Shared help utilities | `~/.config/zsh/functions/help-utils.zsh` |
-| Help text files (if long) | `~/.config/zsh/help/command-name.txt` |
+| Content Type              | Location                                 |
+| ------------------------- | ---------------------------------------- |
+| Function with inline help | Same file as function                    |
+| Separate help function    | Same file, prefixed with `_`             |
+| Shared help utilities     | `~/.config/zsh/functions/help-utils.zsh` |
+| Help text files (if long) | `~/.config/zsh/help/command-name.txt`    |
 
 ### Example File Structure
 
@@ -380,16 +384,20 @@ For commands with many options, create a separate quick reference:
 # Command Quick Reference
 
 ## TL;DR
+
 [One sentence what it does]
 
 ## Most Common (90% Use Cases)
+
 - `command action` — [What it does]
 - `command action2` — [What it does]
 
 ## All Commands
+
 [Full reference table]
 
 ## Examples
+
 [Copy-paste ready examples]
 ```
 

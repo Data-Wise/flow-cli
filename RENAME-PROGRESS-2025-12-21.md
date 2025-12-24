@@ -62,6 +62,7 @@ Key user-facing documentation updated:
 Based on grep scan, **181 files** contain "flow-cli" and **91 files** contain GitHub URLs.
 
 **Categories:**
+
 - ~140 documentation files in `docs/` subdirectories
 - ~20 root-level planning/proposal files
 - ~10 code files (CLI, tests, functions)
@@ -73,6 +74,7 @@ Based on grep scan, **181 files** contain "flow-cli" and **91 files** contain Gi
 **Location:** `/Users/dt/projects/dev-tools/flow-cli/rename-bulk.sh`
 
 **What it does:**
+
 1. Updates all markdown files in `docs/` directory
 2. Updates GitHub URLs (all variations)
 3. Updates root-level documentation
@@ -84,6 +86,7 @@ Based on grep scan, **181 files** contain "flow-cli" and **91 files** contain Gi
 9. Cleans up backups after completion
 
 **Excluded from updates:**
+
 - `node_modules/` directory
 - `.git/` directory
 - `site/` directory (will be regenerated)
@@ -159,6 +162,7 @@ mkdocs serve
 The `site/` directory contains 91 generated HTML files with old references. These will be automatically regenerated when you run `mkdocs build`.
 
 **Action:**
+
 ```bash
 # Remove old generated site
 rm -rf site/
@@ -171,15 +175,15 @@ mkdocs build
 
 ## 📊 Progress Statistics
 
-| Category | Status | Count |
-|----------|--------|-------|
-| **Critical config files** | ✅ Complete | 3/3 |
-| **Core documentation** | ✅ Complete | 6/6 |
-| **Bulk documentation** | 🔄 Ready (script created) | 0/~150 |
-| **Code files** | 🔄 Ready (script created) | 0/~10 |
-| **Generated files** | ⏳ Pending rebuild | 0/91 |
-| **Total manual edits** | ✅ Complete | 9 files |
-| **Estimated remaining** | 🔄 Via script | ~160 files |
+| Category                  | Status                    | Count      |
+| ------------------------- | ------------------------- | ---------- |
+| **Critical config files** | ✅ Complete               | 3/3        |
+| **Core documentation**    | ✅ Complete               | 6/6        |
+| **Bulk documentation**    | 🔄 Ready (script created) | 0/~150     |
+| **Code files**            | 🔄 Ready (script created) | 0/~10      |
+| **Generated files**       | ⏳ Pending rebuild        | 0/91       |
+| **Total manual edits**    | ✅ Complete               | 9 files    |
+| **Estimated remaining**   | 🔄 Via script             | ~160 files |
 
 ---
 
@@ -216,6 +220,7 @@ After completing the rename:
    - These currently point to "flow-cli"
 
 3. **Deploy updated documentation:**
+
    ```bash
    mkdocs gh-deploy
    ```

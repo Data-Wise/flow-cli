@@ -8,11 +8,13 @@
 ## The Problem (Current)
 
 ### What Users Expect
+
 ```bash
 status mediationverse              # Show me the status (READ)
 ```
 
 ### What Actually Happens
+
 ```bash
 status mediationverse              # Prompt to UPDATE status (WRITE!)
 ```
@@ -25,17 +27,18 @@ status mediationverse              # Prompt to UPDATE status (WRITE!)
 
 ### Clear Separation of Concerns
 
-| Action | Old Command | New Command | Type |
-|--------|-------------|-------------|------|
-| **Show** status | `status --show` | `dash` | READ |
-| **Update** status | `status` | `up` | WRITE |
-| **Create** .STATUS | `status --create` | `pinit` | WRITE |
+| Action             | Old Command       | New Command | Type  |
+| ------------------ | ----------------- | ----------- | ----- |
+| **Show** status    | `status --show`   | `dash`      | READ  |
+| **Update** status  | `status`          | `up`        | WRITE |
+| **Create** .STATUS | `status --create` | `pinit`     | WRITE |
 
 ---
 
 ## Side-by-Side Comparison
 
 ### Current (Confusing)
+
 ```bash
 # Show status of one project
 status mediationverse --show       # Requires flag! Not intuitive
@@ -54,6 +57,7 @@ status newproj --create            # Same command, yet another mode
 ```
 
 ### Proposed (Clear)
+
 ```bash
 # Show status of one project
 dash mediationverse                # Same command as "show all"
@@ -76,6 +80,7 @@ pinit newproj                      # Different action = different command
 ## Daily Workflow Examples
 
 ### Morning Routine
+
 ```bash
 # OLD WAY
 dash                               # See all projects
@@ -89,6 +94,7 @@ work medfit                        # Start working
 ```
 
 ### Quick Updates
+
 ```bash
 # OLD WAY
 status medfit active P1 "Add tests" 75
@@ -98,6 +104,7 @@ up medfit active P1 "Add tests" 75
 ```
 
 ### New Project Setup
+
 ```bash
 # OLD WAY
 status new-package --create        # "status" doesn't suggest "create"
@@ -111,6 +118,7 @@ pinit new-package                  # "init" clearly means "create new"
 ## Comparison with Your Other Commands
 
 ### Current Successful Patterns (All Verbs!)
+
 ```bash
 work <name>                        # ✅ Verb: start working
 finish [msg]                       # ✅ Verb: end session
@@ -119,11 +127,13 @@ dash                              # ⚠️  Noun: but read-only (OK)
 ```
 
 ### The Outlier
+
 ```bash
 status <name>                      # ❌ Noun: but modifies state (BAD)
 ```
 
 ### The Fix
+
 ```bash
 up <name>                          # ✅ Verb: update state (GOOD)
 ```
@@ -137,6 +147,7 @@ up <name>                          # ✅ Verb: update state (GOOD)
 ### Option D (Recommended)
 
 #### `dash [project]` - Show Status (Existing)
+
 ```bash
 dash                               # Show all projects
 dash mediationverse                # Show one project
@@ -149,6 +160,7 @@ dash --help                        # Help
 **ADHD Score:** 9/10 (ultra-fast scan)
 
 #### `up <project> [args]` - Update Status (New)
+
 ```bash
 # Interactive mode
 up mediationverse                  # Prompt for status/priority/task/progress
@@ -165,6 +177,7 @@ up --help
 **ADHD Score:** 9/10 (2 chars, clear action)
 
 #### `pinit <project>` - Create .STATUS (New)
+
 ```bash
 pinit new-package                  # Create .STATUS with defaults
 pinit new-package --help           # Help
@@ -179,28 +192,33 @@ pinit new-package --help           # Help
 ## Why "up" is Perfect
 
 ### 1. Ultra-Short (ADHD Win)
+
 - Only 2 characters
 - Faster than `status` (6 chars)
 - Matches `js` (2 chars), `lt` (2 chars) pattern
 
 ### 2. Clear Verb
+
 - "up" = "update" (universally understood)
 - Action-oriented (not ambiguous like "status")
 - Muscle memory: `up` → "I'm making a change"
 
 ### 3. No Conflicts
+
 ```bash
 which up                           # (probably nothing)
 # Unlike "set" (git uses it), "get" (many uses), etc.
 ```
 
 ### 4. Pairs Well
+
 ```bash
 dash                               # Look down at dashboard
 up                                 # Move status up (update progress)
 ```
 
 ### 5. Memorable
+
 - Short = memorable
 - Common word = easy to recall
 - Verb = action clear
@@ -210,6 +228,7 @@ up                                 # Move status up (update progress)
 ## Alternative Names (If You Don't Like "up")
 
 ### If You Want More Explicit
+
 ```bash
 pupdate <project>                  # "project update" (6 chars)
 pset <project>                     # "project set" (4 chars)
@@ -217,6 +236,7 @@ track <project>                    # "track progress" (5 chars)
 ```
 
 ### If You Want Matching Prefix
+
 ```bash
 pshow → dash                       # (dash is better, keep it)
 pup <project>                      # "project update" (3 chars)
@@ -224,6 +244,7 @@ pinit <project>                    # "project init" (5 chars)
 ```
 
 ### If You Want Git-Style
+
 ```bash
 proj show                          # (but dash is better)
 proj update                        # 2 words = longer
@@ -237,6 +258,7 @@ proj init                          # 2 words = longer
 ## Migration Strategy
 
 ### Week 1: Add Aliases (Test)
+
 ```bash
 # Add to ~/.config/zsh/functions/aliases.zsh or similar
 alias up='status'
@@ -247,6 +269,7 @@ up mediationverse                  # Does it feel natural?
 ```
 
 ### Week 2: Soft Deprecation
+
 ```bash
 # Modify status() function
 status() {
@@ -258,6 +281,7 @@ status() {
 ```
 
 ### Week 3: Full Migration
+
 ```bash
 # Rename function: status() → up()
 # Move create logic: status --create → pinit()
@@ -265,6 +289,7 @@ status() {
 ```
 
 ### Week 4: Documentation Update
+
 - Update all .md files
 - Update help text
 - Update WORKFLOW-QUICK-REFERENCE.md
@@ -275,6 +300,7 @@ status() {
 ## Before/After Summary
 
 ### Before (Confusing)
+
 ```
 status                             # What does this do?
 ├── No args → Interactive UPDATE   # Unexpected!
@@ -284,6 +310,7 @@ status                             # What does this do?
 ```
 
 ### After (Clear)
+
 ```
 dash                               # Show status (existing)
 up                                 # Update status (new, verb)
@@ -296,12 +323,12 @@ pinit                              # Project init (new, rare)
 
 ## Command Frequency Analysis
 
-| Command | Frequency | Old Name | New Name | Saved Chars |
-|---------|-----------|----------|----------|-------------|
-| Show all | 10x/day | `dash` | `dash` | 0 |
-| Show one | 2x/day | `status X --show` | `dash X` | -7 |
-| Update | 5x/day | `status X` | `up X` | -4 |
-| Create | 1x/month | `status X --create` | `pinit X` | +1 |
+| Command  | Frequency | Old Name            | New Name  | Saved Chars |
+| -------- | --------- | ------------------- | --------- | ----------- |
+| Show all | 10x/day   | `dash`              | `dash`    | 0           |
+| Show one | 2x/day    | `status X --show`   | `dash X`  | -7          |
+| Update   | 5x/day    | `status X`          | `up X`    | -4          |
+| Create   | 1x/month  | `status X --create` | `pinit X` | +1          |
 
 **Daily savings:** ~75 keystrokes (5 updates × 4 chars + 2 shows × 7 chars)
 
@@ -352,11 +379,13 @@ Before finalizing, consider:
 ## Final Recommendation
 
 **Replace:**
+
 ```bash
 status mediationverse              # Confusing multi-mode command
 ```
 
 **With:**
+
 ```bash
 dash mediationverse                # Show status (read-only)
 up mediationverse                  # Update status (write)
@@ -364,6 +393,7 @@ pinit new-project                  # Create .STATUS (rare)
 ```
 
 **Why:**
+
 - ✅ Clear action verbs (`up`, `pinit`)
 - ✅ Consistent with your workflow (`work`, `finish`, `js`)
 - ✅ Ultra-short for daily use (`up` = 2 chars)
@@ -372,4 +402,3 @@ pinit new-project                  # Create .STATUS (rare)
 - ✅ ADHD-friendly (clear, fast, memorable)
 
 **Next:** Implement and test with aliases for 1 week.
-

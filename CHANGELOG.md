@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### ✨ Added
 
 **Help System (Phase 4.5):**
+
 - 20+ functions now support `--help` flag
   - ADHD helper functions: `just-start`, `focus`, `pick`, `win`, `why`, `finish`, `morning`
   - FZF helper functions: `gb`, `fr`, `fs`, `fh`, `ga`, `rt`, `fp`, `rv`, `gundostage`
@@ -49,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test suite for help standards (305 lines)
 
 **Documentation Site (Phase P5):**
+
 - MkDocs site deployed at https://data-wise.github.io/flow-cli
 - 63 pages organized across 9 major sections
 - ADHD-optimized cyan/purple theme (WCAG AAA compliant)
@@ -61,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Planning and implementation tracking
 
 **Architecture Documentation (Phase P5):**
+
 - 6,200+ lines of comprehensive architecture docs across 11 files
 - 3 Architecture Decision Records (ADRs)
 - 88+ copy-paste ready code examples
@@ -70,6 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 1-page architecture cheatsheet
 
 **CLI Integration (Phase P5C):**
+
 - Vendored project detection from zsh-claude-workflow
 - Node.js bridge for calling ZSH functions from JavaScript
 - Test suite with 172 lines of tests
@@ -77,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enables testable CLI tools
 
 **Validation & Quality Tools (Phase P5D):**
+
 - Tutorial validation script (`scripts/validate-tutorials.sh`)
   - Validates all 28 aliases exist
   - Checks 11 ADHD helper functions
@@ -90,6 +95,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Detailed reporting with recommendations
 
 **Contributing Guide:**
+
 - Complete contributor onboarding (290 lines)
 - Reduces onboarding from 3-4 hours to 30 minutes
 - Development setup, workflow, testing, code style
@@ -98,6 +104,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔄 Changed
 
 **Alias System Redesign (Phase P3-P4):**
+
 - Consolidated from 179 to 28 essential aliases
 - Frequency-based analysis (10+ uses/day retention rule)
 - Removed duplicate aliases (12 duplicates eliminated)
@@ -109,12 +116,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Kept tool replacement (1 alias: `cat='bat'`)
 
 **Tutorial Updates (Phase P5D):**
+
 - WORKFLOW-TUTORIAL.md updated for 28-alias system (573 lines)
 - WORKFLOWS-QUICK-WINS.md updated for modern patterns (721 lines)
 - All examples verified to work with current system
 - Deprecated command references clarified with strikethrough
 
 **Website Design (Phase P5):**
+
 - ADHD-optimized color scheme (cyan/purple palette)
 - WCAG AAA contrast compliance
 - Eye strain optimization
@@ -122,6 +131,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced dark mode (421 lines CSS)
 
 **Project Rename (Dec 21):**
+
 - Renamed from zsh-configuration to flow-cli
 - Updated 179 files across project
 - Updated npm packages (flow-cli, @flowcli/core)
@@ -130,6 +140,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deployed documentation with new branding
 
 **Git Workflow:**
+
 - Updated git remote URL to flow-cli
 - Updated cloud sync (Dropbox symlink)
 - All work merged to main branch
@@ -137,21 +148,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🐛 Fixed
 
 **Pick Command (Dec 21):**
+
 - Fixed critical git repo validation bug
 - Now only matches directories with .git repos
-- Prevents false matches with R CMD check artifacts (*.Rcheck)
+- Prevents false matches with R CMD check artifacts (\*.Rcheck)
 - Example: `pick "medfit"` now correctly matches only medfit/ project
 
 **Node Version Consistency (Phase P4.5):**
+
 - Fixed Node version mismatch in CLI workspace
 - Updated from >=14 to >=18 (matches root requirement)
 - Added npm version requirement (>=9.0.0)
 
 **CLI Test Scripts (Phase P4.5):**
+
 - Fixed CLI test scripts (removed non-existent file references)
 - All CLI tests now passing
 
 **Tutorial Validation (Phase P5D):**
+
 - Fixed deprecated command references in tutorials
 - Updated WORKFLOW-TUTORIAL.md (`js` → `just-start`)
 - Clarified deprecated aliases in ALIAS-REFERENCE-CARD.md
@@ -159,6 +174,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🗑️ Removed
 
 **151 Low-Frequency Aliases** (with documented replacements):
+
 - 13 typo corrections (e.g., `claue` → `claude`)
 - 25 low-frequency shortcuts
 - 12 duplicate aliases
@@ -168,6 +184,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - And 57 other rarely-used aliases
 
 **Desktop App (Phase P5B - Paused):**
+
 - 753 lines of Electron code archived
 - Decision: Pause desktop app development (Electron technical issues)
 - Focus on CLI (fully functional)
@@ -175,12 +192,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Can resume later if needed
 
 **Removed workflow commands:**
+
 - `worktimer`, `quickbreak`, `here`, `next`, `endwork`
 - Replaced with: `just-start`, `what-next`, modern workflows
 
 ### 📚 Documentation
 
 **New Documentation (37+ pages):**
+
 - CONTRIBUTING.md - Contributor onboarding guide
 - ARCHITECTURE-QUICK-WINS.md - Copy-paste patterns (620 lines)
 - ADR-SUMMARY.md - Architecture decisions overview (390 lines)
@@ -192,6 +211,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Plus 16 strategic planning documents (16,675 lines total)
 
 **Updated Documentation:**
+
 - docs/index.md - Architecture section added
 - mkdocs.yml - 63 pages across 9 sections
 - README.md - Architecture & Documentation section
@@ -199,6 +219,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All tutorials updated for v2.0
 
 **Planning Consolidation:**
+
 - Archived 10 old brainstorm/planning documents
 - Cleaner planning directory (8 active vs 18 total)
 - Archive includes context README
@@ -206,18 +227,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔧 Development
 
 **npm Workspace Scripts (Phase P4.5):**
+
 - `dev:app`, `dev:cli` - Workspace-specific dev modes
 - `test:app`, `test:cli` - Workspace-specific testing
 - `build:app`, `build:all` - Build commands
 - `clean`, `reset` - Cleanup utilities
 
 **Test Coverage:**
+
 - Tutorial validation: 67/67 checks pass (100%)
 - Link validation: 102 links checked, 98% health
 - CLI tests: All passing
 - ZSH function tests: 25 tests in adhd-helpers
 
 **Quality Metrics:**
+
 - Documentation coverage: 111+ markdown files
 - Code examples: 88+ ready to use
 - Architecture docs: 6,200+ lines
@@ -226,6 +250,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 📊 Statistics
 
 **Phase P5 Achievement (Dec 21):**
+
 - 3,996 lines of new documentation across 8 files
 - 63-page site deployed
 - 100% tutorial validation pass
@@ -233,12 +258,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 3-4x faster with parallel background agents
 
 **Epic Sprint (Dec 20):**
+
 - 47 commits in one day
 - 25,037 lines added (vs 575 removed)
 - 163 files modified
 - 21 new documents (16,675 lines)
 
 **Alias Cleanup Impact:**
+
 - 84% reduction (179 → 28 aliases)
 - Estimated 100-150 keystrokes saved daily
 - 95% cognitive load reduction (6 categories vs 120 individual items)
@@ -248,6 +275,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **Upgrading from v1.0:**
 
 See [docs/user/MIGRATION-v1-to-v2.md](docs/user/MIGRATION-v1-to-v2.md) for complete migration guide including:
+
 - Before/after alias comparison table
 - Command mapping (old → new)
 - What was removed and why
@@ -255,6 +283,7 @@ See [docs/user/MIGRATION-v1-to-v2.md](docs/user/MIGRATION-v1-to-v2.md) for compl
 - FAQ for common questions
 
 **Quick reference:**
+
 ```bash
 # Old (v1.0)          → New (v2.0)
 js / idk / stuck      → just-start
@@ -297,6 +326,7 @@ This release was developed with assistance from Claude Sonnet 4.5, demonstrating
 - Workflow state tracking
 
 **Core Features:**
+
 - 120+ working aliases across all categories
 - R package development (50+ aliases)
 - Git workflow integration
@@ -306,6 +336,7 @@ This release was developed with assistance from Claude Sonnet 4.5, demonstrating
 - Workflow tracking (worklog)
 
 **Documentation:**
+
 - ALIAS-REFERENCE-CARD.md (v1.0)
 - WORKFLOWS-QUICK-WINS.md (v1.0)
 - WORKFLOW-TUTORIAL.md (v1.0)
@@ -320,6 +351,7 @@ This release was developed with assistance from Claude Sonnet 4.5, demonstrating
 ---
 
 **Note:** For detailed phase-by-phase development history, see:
+
 - `.STATUS` - Daily progress tracking
 - `PROJECT-HUB.md` - Strategic roadmap
 - `docs/archive/sessions/` - Session summaries

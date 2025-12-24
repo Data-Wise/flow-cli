@@ -1,4 +1,5 @@
 # Command Rename Implementation Plan
+
 # status → up Migration Plan
 
 **Date:** 2025-12-14
@@ -10,6 +11,7 @@
 ## Overview
 
 ### The Change
+
 ```bash
 # OLD (confusing)
 status <project>                   # Multi-mode: update/show/create
@@ -251,6 +253,7 @@ rm -rf ~/projects/test/test-project
 ### Step 2: Daily Usage Tracking
 
 **Day 1-3:** Use new commands alongside old
+
 ```bash
 # Try to use naturally:
 dash                               # Morning scan
@@ -259,6 +262,7 @@ work medfit                        # Start work
 ```
 
 **Day 4-7:** Evaluate comfort level
+
 - Does `up` feel natural?
 - Is `dash project` intuitive?
 - Any muscle memory conflicts?
@@ -297,12 +301,14 @@ status() {
 ### Step 2: Update Documentation
 
 **Files to update:**
+
 - [ ] `/Users/dt/projects/dev-tools/flow-cli/WORKFLOW-QUICK-REFERENCE.md`
 - [ ] `/Users/dt/projects/dev-tools/flow-cli/ALIAS-REFERENCE-CARD.md`
 - [ ] `/Users/dt/projects/dev-tools/flow-cli/.STATUS`
 - [ ] `/Users/dt/.config/zsh/functions/adhd-helpers.zsh` (help text)
 
 **Changes:**
+
 ```diff
 - status <project>                   # Update status
 + up <project>                       # Update status
@@ -317,6 +323,7 @@ status() {
 ### Step 1: Remove Old Command
 
 **Option A: Complete Removal**
+
 ```bash
 # Delete status.zsh
 rm ~/.config/zsh/functions/status.zsh
@@ -326,6 +333,7 @@ rm ~/.config/zsh/functions/status.zsh
 ```
 
 **Option B: Redirect to Help**
+
 ```bash
 status() {
     echo ""
@@ -376,6 +384,7 @@ status mediationverse              # Should show error/help
 If migration fails or feels wrong:
 
 ### Quick Rollback
+
 ```bash
 # Restore status.zsh from backup
 cp ~/.config/zsh/functions/status.zsh.backup ~/.config/zsh/functions/status.zsh
@@ -385,7 +394,9 @@ source ~/.config/zsh/.zshrc
 ```
 
 ### Alternative Solutions
+
 If `up` doesn't work, try alternatives:
+
 - `pup` (project update)
 - `pset` (project set)
 - `track` (track status)
@@ -410,12 +421,15 @@ Migration is successful if:
 ## Communication Plan
 
 ### Week 1 (Testing)
+
 "Testing new command names. `status` → `up` for clarity."
 
 ### Week 2 (Deprecation)
+
 "Migration in progress. Use `up`/`dash`/`pinit` instead of `status`."
 
 ### Week 3 (Completion)
+
 "Migration complete! `status` removed. Use `up` to update, `dash` to show."
 
 ---
@@ -423,15 +437,18 @@ Migration is successful if:
 ## File Checklist
 
 ### New Files to Create
+
 - [ ] `/Users/dt/.config/zsh/functions/up.zsh`
 - [ ] `/Users/dt/.config/zsh/functions/pinit.zsh`
 
 ### Files to Modify
+
 - [ ] `/Users/dt/.config/zsh/functions/dash.zsh` (add single-project mode)
 - [ ] `/Users/dt/.config/zsh/.zshrc` (source new functions)
 - [ ] `/Users/dt/.config/zsh/functions/status.zsh` (deprecation warning, then remove)
 
 ### Documentation to Update
+
 - [ ] `WORKFLOW-QUICK-REFERENCE.md`
 - [ ] `ALIAS-REFERENCE-CARD.md`
 - [ ] `.STATUS`
@@ -439,6 +456,7 @@ Migration is successful if:
 - [ ] Help text in functions
 
 ### Backups to Create
+
 - [ ] `/Users/dt/.config/zsh/functions/status.zsh.backup`
 - [ ] `/Users/dt/.config/zsh/.zshrc.backup`
 
@@ -446,12 +464,12 @@ Migration is successful if:
 
 ## Timeline Summary
 
-| Week | Phase | Action | Time |
-|------|-------|--------|------|
-| 1 | Prep | Create `up.zsh`, `pinit.zsh` | 15 min |
-| 1 | Test | Daily usage of new commands | 7 days |
-| 2 | Deprecate | Add warnings, update docs | 30 min |
-| 3 | Complete | Remove `status`, verify all | 15 min |
+| Week | Phase     | Action                       | Time   |
+| ---- | --------- | ---------------------------- | ------ |
+| 1    | Prep      | Create `up.zsh`, `pinit.zsh` | 15 min |
+| 1    | Test      | Daily usage of new commands  | 7 days |
+| 2    | Deprecate | Add warnings, update docs    | 30 min |
+| 3    | Complete  | Remove `status`, verify all  | 15 min |
 
 **Total Time:** ~1 hour of work + 2 weeks of testing
 
@@ -484,4 +502,3 @@ Before implementing:
 - **Research:** `CLI-COMMAND-PATTERNS-RESEARCH.md` (full analysis)
 - **Alternatives:** `STATUS-COMMAND-ALTERNATIVES.md` (visual guide)
 - **Current code:** `/Users/dt/.config/zsh/functions/status.zsh`
-

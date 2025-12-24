@@ -15,14 +15,14 @@ Based on analysis of existing functions, we have **4 distinct default behavior p
 
 ### Pattern Distribution
 
-| Pattern | Count | Examples | ADHD Score |
-|---------|-------|----------|------------|
-| **Execute Default** | 6 | `g`, `mcp`, `r`, `workflow`, `just-start`, `dash` | 🟢 9-10/10 |
-| **Interactive Select** | 2 | `cc`, `gm` (use `pick`) | 🟢 9/10 |
-| **Brief Hint** | 1 | `v` | 🟡 7/10 |
-| **Full Help** | 4 | `qu`, `note`, `timer`, `peek` | 🟡 5-6/10 |
-| **Context Display** | 3 | `why`, `wins`, `dashboard` | 🟢 9-10/10 |
-| **Require Input** | Many | `win`, fzf-helpers | 🟡 5-9/10 |
+| Pattern                | Count | Examples                                          | ADHD Score |
+| ---------------------- | ----- | ------------------------------------------------- | ---------- |
+| **Execute Default**    | 6     | `g`, `mcp`, `r`, `workflow`, `just-start`, `dash` | 🟢 9-10/10 |
+| **Interactive Select** | 2     | `cc`, `gm` (use `pick`)                           | 🟢 9/10    |
+| **Brief Hint**         | 1     | `v`                                               | 🟡 7/10    |
+| **Full Help**          | 4     | `qu`, `note`, `timer`, `peek`                     | 🟡 5-6/10  |
+| **Context Display**    | 3     | `why`, `wins`, `dashboard`                        | 🟢 9-10/10 |
+| **Require Input**      | Many  | `win`, fzf-helpers                                | 🟡 5-9/10  |
 
 ---
 
@@ -58,9 +58,11 @@ When function called with NO arguments:
 ## Tier System for Functions
 
 ### Tier 1: Execute Sensible Default ⭐ BEST
+
 **When to use:** Clear, single most-common action (>70% usage)
 
 **Examples:**
+
 - `g` → `git status -sb`
 - `mcp` → list all servers
 - `r` → interactive R console
@@ -68,6 +70,7 @@ When function called with NO arguments:
 - `dash` → show all projects
 
 **Benefits:**
+
 - Zero cognitive load
 - Instant productivity
 - Muscle memory friendly
@@ -76,18 +79,22 @@ When function called with NO arguments:
 ---
 
 ### Tier 2: Interactive Selection 🎯 GREAT
+
 **When to use:** Need context/project selection before action
 
 **Examples:**
+
 - `cc` → `pick && claude`
 - `gm` → `pick && gemini`
 
 **Benefits:**
+
 - Reduces decision fatigue
 - Interactive = engaging
 - Combines navigation + action
 
 **Implementation:**
+
 ```zsh
 if [[ $# -eq 0 ]]; then
     if command -v pick >/dev/null 2>&1; then
@@ -102,18 +109,22 @@ fi
 ---
 
 ### Tier 3: Brief Hint 💡 GOOD
+
 **When to use:** Complex tool with multiple paths, no clear default
 
 **Examples:**
+
 - `v` → shows 5-line hint with common commands
 - Could apply to: `qu`, `peek`
 
 **Benefits:**
+
 - Lightweight guidance
 - Not overwhelming
 - Shows what's possible
 
 **Implementation:**
+
 ```zsh
 if [[ $# -eq 0 ]]; then
     echo -e "${BOLD}toolname${NC} - Description"
@@ -128,14 +139,17 @@ fi
 ---
 
 ### Tier 4: Context Display 📊 SPECIALIZED
+
 **When to use:** Informational tools (no action needed)
 
 **Examples:**
+
 - `why` → shows context (location, goal, recent work)
 - `wins` → today's wins
 - `dashboard` → project overview
 
 **Benefits:**
+
 - Reorients without requiring decision
 - Context recovery for ADHD
 - No action paralysis
@@ -143,17 +157,21 @@ fi
 ---
 
 ### Tier 5: Require Input ⚠️ NECESSARY EVIL
+
 **When to use:** Function cannot operate without specific input
 
 **Examples:**
+
 - `win <description>` → needs what to log
 - `ccf <file>` → needs file path
 
 **Benefits:**
+
 - Clear error messaging
 - Helps user understand requirements
 
 **Implementation:**
+
 ```zsh
 if [[ -z "$required_arg" ]]; then
     echo "functionname: missing required argument <argname>" >&2
@@ -168,16 +186,17 @@ fi
 
 ### Upgrade Candidates (Tier 4 → Tier 1 or 3)
 
-| Function | Current | Proposed | Rationale |
-|----------|---------|----------|-----------|
-| **`qu`** | Full help | `qu preview` OR brief hint | Most common: preview current document |
-| **`timer`** | Full help | `timer focus 25` OR brief hint | Most common: 25-min pomodoro |
-| **`note`** | Full help | `note sync` OR brief hint | Most common: sync + show status |
-| **`peek`** | Full help | Brief hint | Complex, no single default |
+| Function    | Current   | Proposed                       | Rationale                             |
+| ----------- | --------- | ------------------------------ | ------------------------------------- |
+| **`qu`**    | Full help | `qu preview` OR brief hint     | Most common: preview current document |
+| **`timer`** | Full help | `timer focus 25` OR brief hint | Most common: 25-min pomodoro          |
+| **`note`**  | Full help | `note sync` OR brief hint      | Most common: sync + show status       |
+| **`peek`**  | Full help | Brief hint                     | Complex, no single default            |
 
 ### Decision Questions
 
 **For each function, ask:**
+
 1. What do I do **>70% of the time** with this tool?
 2. If there's a clear answer → make it the default
 3. If not → use brief hint pattern (like `v`)
@@ -187,20 +206,25 @@ fi
 ## Implementation Strategy
 
 ### Phase 1: Document Current Patterns
+
 ✅ **DONE** - Analysis complete
 
 ### Phase 2: User Review
+
 ⏳ **NOW** - Get user feedback on:
+
 1. Is Tier 1 (execute default) the gold standard?
 2. Should `qu`, `timer`, `note` default to most-common action?
 3. Is brief hint pattern (like `v`) good for complex tools?
 
 ### Phase 3: Update Functions
+
 - Implement approved defaults
 - Standardize error messages
 - Add help to all functions
 
 ### Phase 4: Document Standard
+
 - Add to `standards/workflow/DEFAULT-BEHAVIOR.md`
 - Update help creation workflow
 
@@ -211,6 +235,7 @@ fi
 ### Example 1: `qu` (Quarto)
 
 **Before:**
+
 ```bash
 $ qu
 Usage: qu <command>
@@ -223,6 +248,7 @@ Commands:
 ```
 
 **After (Option A - Execute Default):**
+
 ```bash
 $ qu
 🔍 Starting Quarto preview...
@@ -230,6 +256,7 @@ $ qu
 ```
 
 **After (Option B - Brief Hint):**
+
 ```bash
 $ qu
 qu - Quarto Document Tools
@@ -246,6 +273,7 @@ Run 'qu help' for all commands
 ### Example 2: `timer`
 
 **Before:**
+
 ```bash
 $ timer
 Usage: timer <command> [duration]
@@ -257,6 +285,7 @@ Commands:
 ```
 
 **After (Option A - Execute Default):**
+
 ```bash
 $ timer
 🍅 Focus timer: 25 minutes
@@ -265,6 +294,7 @@ Press Ctrl+C to stop
 ```
 
 **After (Option B - Brief Hint):**
+
 ```bash
 $ timer
 timer - ADHD Focus Timers
@@ -281,6 +311,7 @@ Run 'timer help' for all options
 ### Example 3: `note`
 
 **Before:**
+
 ```bash
 $ note
 Usage: note <command>
@@ -292,6 +323,7 @@ Commands:
 ```
 
 **After (Option A - Execute Default):**
+
 ```bash
 $ note
 📓 Syncing Obsidian vault...
@@ -300,6 +332,7 @@ $ note
 ```
 
 **After (Option B - Brief Hint):**
+
 ```bash
 $ note
 note - Obsidian Vault Manager
@@ -318,6 +351,7 @@ Run 'note help' for all commands
 **Primary Pattern:** Tier 1 (Execute Default) whenever possible
 
 **Rationale:**
+
 1. ✅ Matches your existing best functions (`g`, `mcp`, `cc`)
 2. ✅ Reduces ADHD friction maximally
 3. ✅ Muscle memory friendly
@@ -326,6 +360,7 @@ Run 'note help' for all commands
 **Secondary Pattern:** Tier 3 (Brief Hint) for complex tools
 
 **Rationale:**
+
 1. ✅ Better than full help (less overwhelming)
 2. ✅ Shows what's possible without requiring --help
 3. ✅ Follows `v` pattern (already proven)

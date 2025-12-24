@@ -29,6 +29,7 @@
 > **Two tiers:** .STATUS for daily tracking, PROJECT-HUB.md for weekly strategic planning.
 
 **Why Two Tiers:**
+
 - Prevents cognitive overload (don't think strategy when doing task)
 - Enables quick context recovery (< 5 seconds)
 - Separates tactical (today) from strategic (this week/month)
@@ -36,12 +37,12 @@
 
 ### System Components
 
-| Component | Purpose | Update Frequency |
-|-----------|---------|------------------|
-| `.STATUS` | Daily task tracking | After each work session |
-| `PROJECT-HUB.md` | Strategic roadmap | Weekly review |
-| ADHD Helpers | Task initiation & dopamine | As needed during work |
-| `work` command | Multi-editor project launcher | Start of work session |
+| Component        | Purpose                       | Update Frequency        |
+| ---------------- | ----------------------------- | ----------------------- |
+| `.STATUS`        | Daily task tracking           | After each work session |
+| `PROJECT-HUB.md` | Strategic roadmap             | Weekly review           |
+| ADHD Helpers     | Task initiation & dopamine    | As needed during work   |
+| `work` command   | Multi-editor project launcher | Start of work session   |
 
 ---
 
@@ -56,11 +57,13 @@
 **Format:** Structured text (YAML-ish header + free-form sections)
 
 **Update Trigger:**
+
 - After completing a work session
 - Before switching to different project
 - End of day wrap-up
 
 **Read By:**
+
 - `dash` command (project dashboard)
 - `just-start` command (auto-pick next task)
 - `status` command (view/edit)
@@ -75,11 +78,13 @@
 **Format:** Markdown with progress bars, sections
 
 **Update Trigger:**
+
 - Weekly review (Friday afternoons)
 - Major milestone completion
 - Phase transitions
 
 **Read By:**
+
 - Manual review during planning
 - Weekly retrospectives
 - When planning next phases
@@ -158,6 +163,7 @@ B) [Alternative task] 🟡 [est. time]
 ### Visual Elements
 
 **Progress Bars:**
+
 ```
 Full:     ████████████████████ 100%
 Partial:  ██████████░░░░░░░░░░  50%
@@ -165,6 +171,7 @@ Empty:    ░░░░░░░░░░░░░░░░░░░░   0%
 ```
 
 **Status Indicators:**
+
 - ✅ Complete
 - 🔄 In Progress
 - 📋 Planned
@@ -172,6 +179,7 @@ Empty:    ░░░░░░░░░░░░░░░░░░░░   0%
 - ⭐ Recommended Next Action
 
 **Priority Colors (for terminal output):**
+
 - 🟢 Green: Easy, quick wins
 - 🟡 Yellow: Medium effort
 - 🔴 Red: High effort or blocked
@@ -179,31 +187,37 @@ Empty:    ░░░░░░░░░░░░░░░░░░░░   0%
 ### Key Sections Explained
 
 **1. CURRENT STATUS:**
+
 - One-line summary
 - What's happening RIGHT NOW
 - Easy to scan in 2 seconds
 
 **2. PROGRESS:**
+
 - Visual progress bars
 - Phase-based tracking
 - Percentage completion
 
 **3. JUST COMPLETED:**
+
 - Document wins immediately
 - Dopamine boost
 - Context for future you
 
 **4. NEXT ACTIONS:**
+
 - Multiple options (ADHD-friendly)
 - Estimated times
 - Recommended action marked with ⭐
 - Categorized: Immediate / Medium / Long-term
 
 **5. KEY FILES:**
+
 - Quick reference to important paths
 - Saves time searching
 
 **6. WINS:**
+
 - Celebrate progress
 - Combat time blindness
 - Motivation boost
@@ -227,8 +241,8 @@ Empty:    ░░░░░░░░░░░░░░░░░░░░   0%
 
 ## 🎯 Quick Reference
 
-| What | Status | Link |
-|------|--------|------|
+| What               | Status          | Link                |
+| ------------------ | --------------- | ------------------- |
 | **[Key Metric 1]** | ✅/⚠️/❌ Status | Description or path |
 | **[Key Metric 2]** | ✅/⚠️/❌ Status | Description or path |
 | **[Key Metric 3]** | ✅/⚠️/❌ Status | Description or path |
@@ -236,14 +250,15 @@ Empty:    ░░░░░░░░░░░░░░░░░░░░   0%
 ---
 
 ## 📊 Overall Progress
-
 ```
-P0: [Phase Name]         ████████████████████ 100% ✅ (date)
-P1: [Phase Name]         ████████████████████ 100% ✅ (date)
-P2: [Phase Name]         ██████████████░░░░░░  70% 🔄 (date)
-  ├─ Subphase A          ████████████████████ 100% ✅
-  ├─ Subphase B          ██████████░░░░░░░░░░  50% 🔄
-  └─ Subphase C          ░░░░░░░░░░░░░░░░░░░░   0% ⏳
+
+P0: [Phase Name] ████████████████████ 100% ✅ (date)
+P1: [Phase Name] ████████████████████ 100% ✅ (date)
+P2: [Phase Name] ██████████████░░░░░░ 70% 🔄 (date)
+├─ Subphase A ████████████████████ 100% ✅
+├─ Subphase B ██████████░░░░░░░░░░ 50% 🔄
+└─ Subphase C ░░░░░░░░░░░░░░░░░░░░ 0% ⏳
+
 ```
 
 **Status:** [Overall project health indicator]
@@ -292,28 +307,33 @@ Brief summary of completed phases for reference.
 ### Sections Explained
 
 **1. Header Summary:**
+
 - Quick Status: One-line project health
 - Current Phase: What's active now
 - Next Action: Top priority (from .STATUS)
 
 **2. Quick Reference Table:**
+
 - Key metrics at a glance
 - Status indicators (✅ good, ⚠️ attention needed, ❌ problem)
 - Links to important resources
 
 **3. Overall Progress:**
+
 - All phases in one view
 - Visual progress bars
 - Subphase breakdown for active work
 - Status indicators and dates
 
 **4. Current Phase Deep Dive:**
+
 - Detailed breakdown of active work
 - Accomplishments
 - Next actions
 - Documentation
 
 **5. Recent Completions:**
+
 - Last 2-3 major milestones
 - Keeps wins visible
 - Provides context
@@ -325,11 +345,13 @@ Brief summary of completed phases for reference.
 ### Daily Updates (.STATUS)
 
 **When:**
+
 - End of work session
 - Before context switching
 - End of day wrap-up
 
 **What to Update:**
+
 - "CURRENT STATUS" - one-line summary
 - "JUST COMPLETED" - add session accomplishments
 - "NEXT ACTIONS" - update based on progress
@@ -340,11 +362,13 @@ Brief summary of completed phases for reference.
 ### Weekly Updates (PROJECT-HUB.md)
 
 **When:**
+
 - Friday afternoon
 - After completing major milestone
 - Phase transitions
 
 **What to Update:**
+
 - "Quick Status" - overall health check
 - "Overall Progress" - update percentages
 - "Current Phase" - update subphase progress
@@ -460,6 +484,7 @@ dash dev
 ```
 
 **Output:**
+
 ```
 ╭─────────────────────────────────────────────╮
 │ 🎯 YOUR WORK DASHBOARD                      │
@@ -517,6 +542,7 @@ status <project> --show
 ### Typical Day Flow
 
 **Morning (< 2 minutes):**
+
 ```bash
 # 1. See what's active
 dash
@@ -529,6 +555,7 @@ work .               # Opens current project
 ```
 
 **During Work:**
+
 ```bash
 # Start focus timer
 f25
@@ -541,6 +568,7 @@ win "Fixed authentication bug"
 ```
 
 **End of Session (< 30 seconds):**
+
 ```bash
 # Update status
 editstatus           # Add to "JUST COMPLETED"
@@ -552,6 +580,7 @@ wins                 # Celebrate progress!
 ```
 
 **Weekly Review (5-10 minutes):**
+
 ```bash
 # Review all progress
 dash
@@ -571,11 +600,13 @@ edithub              # Update progress bars
 Location: `~/.STATUS-template-enhanced`
 
 **Create from template:**
+
 ```bash
 newstatus
 ```
 
 **Or manually:**
+
 ```bash
 cp ~/.STATUS-template-enhanced ~/projects/my-project/.STATUS
 ```
@@ -585,11 +616,13 @@ cp ~/.STATUS-template-enhanced ~/projects/my-project/.STATUS
 Location: `~/.PROJECT-HUB-template`
 
 **Create from template:**
+
 ```bash
 newhub
 ```
 
 **Or manually:**
+
 ```bash
 cp ~/.PROJECT-HUB-template ~/projects/my-project/PROJECT-HUB.md
 ```
@@ -599,6 +632,7 @@ cp ~/.PROJECT-HUB-template ~/projects/my-project/PROJECT-HUB.md
 ## Best Practices
 
 ### DO:
+
 - ✅ Update .STATUS after EVERY work session
 - ✅ Keep "NEXT ACTIONS" updated with options
 - ✅ Mark recommended action with ⭐
@@ -609,6 +643,7 @@ cp ~/.PROJECT-HUB-template ~/projects/my-project/PROJECT-HUB.md
 - ✅ Celebrate small wins
 
 ### DON'T:
+
 - ❌ Skip .STATUS updates (loses context)
 - ❌ Update PROJECT-HUB.md daily (wrong granularity)
 - ❌ Make next actions too vague ("work on it")
@@ -666,6 +701,7 @@ dash                 # All projects
 ## Integration with Other Standards
 
 **See also:**
+
 - [PROJECT-STRUCTURE.md](./PROJECT-STRUCTURE.md) - File organization
 - [COMMIT-MESSAGES.md](../code/COMMIT-MESSAGES.md) - Git commit standards
 - [WEBSITE-DESIGN-GUIDE.md](../documentation/WEBSITE-DESIGN-GUIDE.md) - Documentation sites
@@ -675,12 +711,14 @@ dash                 # All projects
 ## References
 
 **Implemented in:**
+
 - `~/.config/zsh/functions/adhd-helpers.zsh` - ADHD workflow commands
 - `~/.config/zsh/functions/work.zsh` - Multi-editor work command
 - `~/.config/zsh/functions/dash.zsh` - Project dashboard
 - `~/.config/zsh/functions/status.zsh` - Status management
 
 **Documentation:**
+
 - `/Users/dt/projects/.planning/PM-FILE-MANAGEMENT-COMPLETE.md`
 - `/Users/dt/projects/.planning/README.md`
 - `/Users/dt/projects/.planning/archive/PROJECT_MANAGEMENT_OVERVIEW.md`

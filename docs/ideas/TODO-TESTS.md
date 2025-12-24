@@ -82,6 +82,7 @@ fi
 ```
 
 **Where to add:**
+
 - Alias tests → After line 349 (existing "Aliases are defined" test)
 - Function tests → Group with similar functions
 - Keep tests in logical order
@@ -95,5 +96,5 @@ fi
 
 ---
 
-*Created: 2025-12-14*
-*Next: Start with "Test alias loading after fix" (15 min)*
+_Created: 2025-12-14_
+_Next: Start with "Test alias loading after fix" (15 min)_

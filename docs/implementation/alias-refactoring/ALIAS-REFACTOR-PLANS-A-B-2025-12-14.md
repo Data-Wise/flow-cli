@@ -1,4 +1,5 @@
 # Alias Refactoring: Two Plans
+
 **Date:** 2025-12-14
 **Key Insight:** Short aliases (1-2 letters) are HARD to remember with ADHD
 **Solution:** Mnemonic, meaningful aliases with clear patterns
@@ -8,11 +9,13 @@
 ## 🎯 Core Problem
 
 **Current state:**
+
 - 167 aliases, many are 1-2 letters (c, d, q, t, bd, dc, ck, etc.)
 - **User feedback:** "I do not like one or two letters; it's hard for me to remember"
 - Need: Consolidated aliases with **mnemonics** (memory aids)
 
 **ADHD-Friendly Principles:**
+
 1. ✅ **Meaningful names** over brevity
 2. ✅ **Consistent patterns** over variety
 3. ✅ **Tab-completable** namespaces
@@ -25,6 +28,7 @@
 **Philosophy:** Use action-object pairs that read like natural commands
 
 ### Pattern Design
+
 ```
 [verb]-[object]
 test-r    → Test R package
@@ -45,6 +49,7 @@ claude-yolo     → Claude bypass permissions
 ### Full Alias List (Plan A)
 
 #### R Package Development (20 aliases)
+
 ```bash
 # Core workflow (verb-r pattern)
 alias load-r='Rscript -e "devtools::load_all()"'
@@ -78,6 +83,7 @@ alias deps-update='Rscript -e "pak::pkg_install(pak::local_deps())"'
 ```
 
 #### Quarto (6 aliases)
+
 ```bash
 alias preview-q='quarto preview'
 alias render-q='quarto render'
@@ -88,6 +94,7 @@ alias work-q='qwork'                # Open editor + preview
 ```
 
 #### Claude Code (12 aliases)
+
 ```bash
 # Core modes
 alias claude='claude'
@@ -111,6 +118,7 @@ alias claude-ctx='claude-ctx'       # Show context
 ```
 
 #### Gemini (6 aliases)
+
 ```bash
 alias gemini='gemini'
 alias gemini-yolo='gemini --yolo'
@@ -121,6 +129,7 @@ alias gemini-mcp='gemini mcp'
 ```
 
 #### Git (6 aliases)
+
 ```bash
 alias git-status='git status -sb'
 alias git-log='git log --oneline --graph --decorate --all'
@@ -131,6 +140,7 @@ alias git-commit='git commit'
 ```
 
 #### Project Management (15 aliases)
+
 ```bash
 # Project status
 alias proj-status='~/projects/dev-tools/apple-notes-sync/scanner.sh'
@@ -156,6 +166,7 @@ alias proj-init='claude-init'
 ```
 
 #### File Viewing (8 aliases)
+
 ```bash
 alias view='bat'
 alias view-desc='bat DESCRIPTION'
@@ -168,6 +179,7 @@ alias view-yaml='bat --language=yaml'
 ```
 
 #### Modern CLI Replacements (3 aliases)
+
 ```bash
 alias cat='bat'
 alias find='fd'
@@ -175,6 +187,7 @@ alias grep='rg'
 ```
 
 #### Typo Tolerance (Keep all - ADHD essential)
+
 ```bash
 # Claude typos
 alias claue='claude'
@@ -208,6 +221,7 @@ alias sl='ls'
 **Philosophy:** Group aliases by domain with prefixes (like Emacs/Vim packages)
 
 ### Pattern Design
+
 ```
 r:action        → R package development
 q:action        → Quarto
@@ -221,6 +235,7 @@ view:type       → File viewing
 ### Full Alias List (Plan B)
 
 #### R Package Development (20 aliases)
+
 ```bash
 # Core workflow (r: namespace)
 alias r:load='Rscript -e "devtools::load_all()"'
@@ -256,6 +271,7 @@ alias r:coverage='Rscript -e "covr::package_coverage()"'
 ```
 
 #### Quarto (6 aliases)
+
 ```bash
 alias q:preview='quarto preview'
 alias q:render='quarto render'
@@ -266,6 +282,7 @@ alias q:work='qwork'
 ```
 
 #### Claude Code (12 aliases)
+
 ```bash
 alias claude:start='claude'
 alias claude:continue='claude -c'
@@ -288,6 +305,7 @@ alias claude:ctx='claude-ctx'
 ```
 
 #### Gemini (6 aliases)
+
 ```bash
 alias gemini:start='gemini'
 alias gemini:yolo='gemini --yolo'
@@ -298,6 +316,7 @@ alias gemini:mcp='gemini mcp'
 ```
 
 #### Git (6 aliases)
+
 ```bash
 alias git:status='git status -sb'
 alias git:log='git log --oneline --graph --decorate --all'
@@ -308,6 +327,7 @@ alias git:commit='git commit'
 ```
 
 #### Project Management (15 aliases)
+
 ```bash
 alias proj:status='~/projects/dev-tools/apple-notes-sync/scanner.sh'
 alias proj:view='pstatview'
@@ -329,6 +349,7 @@ alias dash:show='dashupdate && open -a "Claude"'
 ```
 
 #### File Viewing (8 aliases)
+
 ```bash
 alias view:file='bat'
 alias view:desc='bat DESCRIPTION'
@@ -341,6 +362,7 @@ alias view:yaml='bat --language=yaml'
 ```
 
 #### Modern CLI (3 aliases)
+
 ```bash
 alias cat='bat'
 alias find='fd'
@@ -348,6 +370,7 @@ alias grep='rg'
 ```
 
 #### Typo Tolerance (Keep all)
+
 ```bash
 # Same as Plan A - keep all typo aliases
 ```
@@ -358,16 +381,16 @@ alias grep='rg'
 
 ## 🔍 Plan Comparison
 
-| Feature | Plan A (Verb-Noun) | Plan B (Namespace) |
-|---------|-------------------|-------------------|
-| **Pattern** | `test-r`, `doc-r` | `r:test`, `r:doc` |
-| **Readability** | ⭐⭐⭐⭐⭐ Reads like English | ⭐⭐⭐⭐ Clear structure |
-| **Tab Completion** | ⭐⭐⭐ By verb | ⭐⭐⭐⭐⭐ By domain |
-| **Memory** | ⭐⭐⭐⭐⭐ Natural language | ⭐⭐⭐⭐ Logical grouping |
-| **Typing** | ⭐⭐⭐⭐ Dash separator | ⭐⭐⭐ Colon separator |
-| **Discoverability** | ⭐⭐⭐⭐ Search by action | ⭐⭐⭐⭐⭐ Browse by domain |
-| **Conflicts** | ⭐⭐⭐ Possible verb conflicts | ⭐⭐⭐⭐⭐ Namespaced, safe |
-| **ADHD-Friendly** | ⭐⭐⭐⭐⭐ Reads naturally | ⭐⭐⭐⭐ Organized clearly |
+| Feature             | Plan A (Verb-Noun)             | Plan B (Namespace)          |
+| ------------------- | ------------------------------ | --------------------------- |
+| **Pattern**         | `test-r`, `doc-r`              | `r:test`, `r:doc`           |
+| **Readability**     | ⭐⭐⭐⭐⭐ Reads like English  | ⭐⭐⭐⭐ Clear structure    |
+| **Tab Completion**  | ⭐⭐⭐ By verb                 | ⭐⭐⭐⭐⭐ By domain        |
+| **Memory**          | ⭐⭐⭐⭐⭐ Natural language    | ⭐⭐⭐⭐ Logical grouping   |
+| **Typing**          | ⭐⭐⭐⭐ Dash separator        | ⭐⭐⭐ Colon separator      |
+| **Discoverability** | ⭐⭐⭐⭐ Search by action      | ⭐⭐⭐⭐⭐ Browse by domain |
+| **Conflicts**       | ⭐⭐⭐ Possible verb conflicts | ⭐⭐⭐⭐⭐ Namespaced, safe |
+| **ADHD-Friendly**   | ⭐⭐⭐⭐⭐ Reads naturally     | ⭐⭐⭐⭐ Organized clearly  |
 
 ---
 
@@ -376,17 +399,20 @@ alias grep='rg'
 ### Why Plan A?
 
 **1. Most ADHD-Friendly**
+
 ```bash
 test-r          # Reads: "test R"
 doc-r           # Reads: "document R"
 preview-q       # Reads: "preview Quarto"
 claude-continue # Reads: "Claude continue"
 ```
+
 - Natural language flow
 - Easy to remember (speaks like you think)
 - Self-documenting
 
 **2. Consistent Pattern**
+
 ```bash
 # R actions
 test-r, doc-r, check-r, build-r, load-r
@@ -397,11 +423,13 @@ preview-q, render-q, check-q, clean-q
 # Claude actions
 claude-continue, claude-plan, claude-yolo
 ```
+
 - Same verb-noun structure everywhere
 - Muscle memory builds fast
 - Predictable
 
 **3. Better Tab Completion Flow**
+
 ```bash
 # Scenario: "I want to test something..."
 test-<TAB>
@@ -417,12 +445,14 @@ test-<TAB>
 ```
 
 **4. Natural Combinations**
+
 ```bash
 load-test       # Load then test (reads naturally)
 doc-test        # Document then test (clear intent)
 ```
 
 **5. Familiar to Other Tools**
+
 - Git uses this: `git-status`, `git-log`
 - npm uses this: `npm-install`, `npm-test`
 - Follows Unix philosophy: `action-target`
@@ -432,18 +462,21 @@ doc-test        # Document then test (clear intent)
 ## ⚠️ Why NOT Plan B?
 
 **1. Colon Separator Issues**
+
 ```bash
 r:test          # Harder to type (shift+;)
 test-r          # Natural on keyboard (just dash)
 ```
 
 **2. Less Natural Reading**
+
 ```bash
 r:test          # Reads: "R colon test" (weird)
 test-r          # Reads: "test R" (natural)
 ```
 
 **3. Tab Completion Less Useful**
+
 ```bash
 # Plan B: Must remember namespace first
 r:<TAB>         # Shows all R commands (could be 20+)
@@ -453,6 +486,7 @@ test<TAB>       # Shows all test commands across domains
 ```
 
 **4. More Mental Load**
+
 - Must remember which namespace (r, q, claude, gemini, git, proj, notes, dash, view)
 - Plan A: Just think of action first
 
@@ -463,12 +497,14 @@ test<TAB>       # Shows all test commands across domains
 ### Remove (49 aliases)
 
 #### All 1-2 Letter Aliases (20)
+
 ```bash
 c, d, q, t, ts, bd, dc, ck, ld, rb, rc, rd, do, e, ec,
 psv, psl, psc, pss, ns, nsv, nsc, nse
 ```
 
-#### All cc* Prompt Aliases (17)
+#### All cc\* Prompt Aliases (17)
+
 ```bash
 ccdoc, ccexplain, ccfix, ccoptimize, ccrefactor, ccreview,
 ccsecurity, cctest, ccrdoc, ccrexplain, ccrfix, ccroptimize,
@@ -476,17 +512,20 @@ ccrrefactor, ccrstyle, ccrtest, ccjson, ccstream
 ```
 
 #### Deprecated (3)
+
 ```bash
 dashsync, dashclip, dashexport
 ```
 
 #### Redundant (7)
+
 ```bash
 aliases-claude, aliases-files, aliases-gemini, aliases-git,
 aliases-quarto, aliases-r, aliases-short
 ```
 
 #### Gemini Over-Specific (8)
+
 ```bash
 gmpi, gmsd, gmyd, gmys, gmds, gmls, gmei, gmel, gmeu, gmm, gmd
 ```
@@ -608,6 +647,7 @@ echo "🔄 Rollback: cp ~/.config/zsh/.zshrc.backup-2025-12-14 ~/.config/zsh/.zs
 ## 🎯 Implementation Timeline
 
 ### Week 1: Soft Launch
+
 ```bash
 # Add new aliases alongside old ones
 source ~/.config/zsh/aliases-plan-a.zsh
@@ -618,12 +658,14 @@ ts         # Old way (still works)
 ```
 
 ### Week 2: Muscle Memory
+
 ```bash
 # Start removing old 1-2 letter aliases
 # Keep both systems during transition
 ```
 
 ### Week 3: Full Migration
+
 ```bash
 # Remove all old aliases
 # Only Plan A remains
@@ -634,16 +676,19 @@ ts         # Old way (still works)
 ## ✅ Success Metrics
 
 **Week 1:**
+
 - [ ] New aliases file created
 - [ ] Can use both old and new aliases
 - [ ] No broken workflows
 
 **Week 2:**
+
 - [ ] Using new aliases 50% of the time
 - [ ] Muscle memory forming
 - [ ] Tab completion feels natural
 
 **Week 3:**
+
 - [ ] Using new aliases 100% of the time
 - [ ] Old aliases removed
 - [ ] Help system updated
@@ -654,6 +699,7 @@ ts         # Old way (still works)
 ## 💡 Future Enhancements (After Migration)
 
 ### Smart Help System
+
 ```bash
 ah r        # Shows: load-r, test-r, doc-r, check-r, build-r
 ah quarto   # Shows: preview-q, render-q, check-q
@@ -661,6 +707,7 @@ ah claude   # Shows: claude-continue, claude-plan, etc.
 ```
 
 ### Usage Analytics
+
 ```bash
 alias-stats # Shows most-used aliases
 # Output:
@@ -670,6 +717,7 @@ alias-stats # Shows most-used aliases
 ```
 
 ### Interactive Alias Builder
+
 ```bash
 alias-create
 # What tool? (r/quarto/claude/git) › r
@@ -683,6 +731,7 @@ alias-create
 ## 🎉 Why This Matters
 
 **Before (Current):**
+
 ```bash
 # User thinking: "How do I test R package?"
 # Options: t, ts, rtest (which one? I forget!)
@@ -690,6 +739,7 @@ alias-create
 ```
 
 **After (Plan A):**
+
 ```bash
 # User thinking: "How do I test R package?"
 # Answer: test-r (reads naturally!)
@@ -697,6 +747,7 @@ alias-create
 ```
 
 **ADHD Benefits:**
+
 - ✅ No guessing ("was it t or ts or rtest?")
 - ✅ Speaks like you think ("test R" = test-r)
 - ✅ Tab completion guides you
@@ -705,5 +756,5 @@ alias-create
 
 ---
 
-*Recommendation: **Plan A (Verb-Noun Pattern)***
-*Rationale: Most natural for ADHD brain, easiest to remember, best long-term*
+\*Recommendation: **Plan A (Verb-Noun Pattern)\***
+_Rationale: Most natural for ADHD brain, easiest to remember, best long-term_

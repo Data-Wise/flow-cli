@@ -1,4 +1,5 @@
 # API Design Quick Reference Card
+
 ## Node.js Module API Patterns
 
 **Version:** 1.0 | **Date:** 2025-12-23 | **Print-friendly:** Yes
@@ -68,7 +69,7 @@ async function scanProjects(path) {
 ```javascript
 // ❌ BAD: Returns string
 function createSession(project) {
-  return 'session-12345'  // Just an ID?
+  return 'session-12345' // Just an ID?
 }
 
 // ✅ GOOD: Returns entity
@@ -87,7 +88,7 @@ function createSession(project) {
 ```javascript
 // ❌ BAD: Fails deep in stack
 async function createSession(project) {
-  await saveToDatabase(project)  // Crashes here if project invalid
+  await saveToDatabase(project) // Crashes here if project invalid
 }
 
 // ✅ GOOD: Validates immediately
@@ -107,21 +108,21 @@ async function createSession(project) {
 
 ```javascript
 // Actions (verbs)
-createSession()      // Create new
-deleteSession()      // Remove
-updateSession()      // Modify
-startSession()       // Begin process
-endSession()         // Finish process
+createSession() // Create new
+deleteSession() // Remove
+updateSession() // Modify
+startSession() // Begin process
+endSession() // Finish process
 
 // Queries (get/find/is)
-getSession()         // Get by ID (expects to find)
-findSession()        // Search (may not find)
-listSessions()       // Get multiple
-isSessionActive()    // Boolean check
+getSession() // Get by ID (expects to find)
+findSession() // Search (may not find)
+listSessions() // Get multiple
+isSessionActive() // Boolean check
 
 // Batch operations (plural)
-createSessions()     // Multiple at once
-deleteSessions()     // Multiple at once
+createSessions() // Multiple at once
+deleteSessions() // Multiple at once
 ```
 
 ---
@@ -134,7 +135,7 @@ deleteSessions()     // Multiple at once
 // ✅ BEST for complex operations
 async function createSession({
   project,
-  task = 'Work session',    // Default values
+  task = 'Work session', // Default values
   branch = 'main',
   context = {}
 }) {
@@ -150,6 +151,7 @@ await createSession({
 ```
 
 **Benefits:**
+
 - Named parameters (self-documenting)
 - Easy to add new options
 - Default values built-in
@@ -160,8 +162,8 @@ await createSession({
 ```javascript
 // ✅ GOOD for clear required params
 async function detectProjectType(
-  projectPath,              // Required, obvious
-  options = {}              // Optional config
+  projectPath, // Required, obvious
+  options = {} // Optional config
 ) {
   const { cache = true, parallel = false } = options
   // Implementation
@@ -215,7 +217,7 @@ async function scanProjects(basePath) {
   const stats = computeStats(projects)
 
   return {
-    projects,         // Array of Project entities
+    projects, // Array of Project entities
     count: projects.length,
     stats,
     scannedAt: new Date()
@@ -235,7 +237,7 @@ async function deleteSession(sessionId) {
 // Or return boolean for success/failure
 async function deleteSession(sessionId) {
   const deleted = await repository.delete(sessionId)
-  return deleted  // true if deleted, false if not found
+  return deleted // true if deleted, false if not found
 }
 ```
 
@@ -264,8 +266,8 @@ if (!result.success) {
 
 // ✅ DO THIS INSTEAD
 function doSomething() {
-  const result = performAction()  // Let errors throw
-  return result                    // Return data directly
+  const result = performAction() // Let errors throw
+  return result // Return data directly
 }
 
 // Caller uses standard error handling:
@@ -300,7 +302,7 @@ async function detectProject(path) {
   try {
     return await shellExec(path)
   } catch {
-    return 'unknown'  // ❌ Hides errors
+    return 'unknown' // ❌ Hides errors
   }
 }
 
@@ -310,7 +312,7 @@ async function detectProject(path) {
     return await shellExec(path)
   } catch (error) {
     console.error('Detection failed:', error)
-    throw error  // Re-throw so caller knows
+    throw error // Re-throw so caller knows
   }
 }
 ```
@@ -320,16 +322,17 @@ async function detectProject(path) {
 ```javascript
 // DON'T CREATE ONE FUNCTION TO RULE THEM ALL
 async function manageSession(action, ...params) {
-  if (action === 'create') { }
-  else if (action === 'delete') { }
-  else if (action === 'update') { }
+  if (action === 'create') {
+  } else if (action === 'delete') {
+  } else if (action === 'update') {
+  }
   // ...
 }
 
 // ✅ SEPARATE FUNCTIONS
-async function createSession(opts) { }
-async function deleteSession(id) { }
-async function updateSession(id, updates) { }
+async function createSession(opts) {}
+async function deleteSession(id) {}
+async function updateSession(id, updates) {}
 ```
 
 ---
@@ -411,9 +414,9 @@ if (!project || project.trim() === '') {
 // cli/lib/sessions.js
 
 // Named exports (recommended)
-export async function createSession(opts) { }
-export async function endSession(id) { }
-export async function listSessions(filters) { }
+export async function createSession(opts) {}
+export async function endSession(id) {}
+export async function listSessions(filters) {}
 
 // Value exports
 export const SessionState = {
@@ -424,7 +427,7 @@ export const SessionState = {
 
 // Default export for main class
 export default class SessionManager {
-  constructor(repository) { }
+  constructor(repository) {}
   // ...
 }
 

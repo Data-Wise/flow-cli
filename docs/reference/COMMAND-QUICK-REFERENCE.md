@@ -129,14 +129,14 @@ reload              # Reload zshrc
 
 ## Pattern Summary
 
-| Domain | Command | Pattern |
-|--------|---------|---------|
-| R Package | `r` | `r <action> [args]` |
-| Git | `g` | `g <action> [args]` |
-| Quarto | `qu` | `qu <action> [args]` |
-| Workflow | `v` | `v <action> [args]` |
-| Claude | `cc` | Direct or with flags |
-| Gemini | `gm` | Direct or with flags |
+| Domain    | Command | Pattern              |
+| --------- | ------- | -------------------- |
+| R Package | `r`     | `r <action> [args]`  |
+| Git       | `g`     | `g <action> [args]`  |
+| Quarto    | `qu`    | `qu <action> [args]` |
+| Workflow  | `v`     | `v <action> [args]`  |
+| Claude    | `cc`    | Direct or with flags |
+| Gemini    | `gm`    | Direct or with flags |
 
 **Get help:** Any dispatcher + `help` (e.g., `r help`, `g help`)
 
@@ -144,13 +144,13 @@ reload              # Reload zshrc
 
 ## Files
 
-| File | Purpose |
-|------|---------|
+| File                                            | Purpose                   |
+| ----------------------------------------------- | ------------------------- |
 | `~/.config/zsh/functions/smart-dispatchers.zsh` | r, qu, cc, gm dispatchers |
-| `~/.config/zsh/functions/v-dispatcher.zsh` | v/vibe dispatcher |
-| `~/.config/zsh/functions/g-dispatcher.zsh` | g (git) dispatcher |
-| `~/.config/zsh/functions/adhd-helpers.zsh` | work, dash, pb, pv, pt |
+| `~/.config/zsh/functions/v-dispatcher.zsh`      | v/vibe dispatcher         |
+| `~/.config/zsh/functions/g-dispatcher.zsh`      | g (git) dispatcher        |
+| `~/.config/zsh/functions/adhd-helpers.zsh`      | work, dash, pb, pv, pt    |
 
 ---
 
-*Updated: 2025-12-17*
+_Updated: 2025-12-17_

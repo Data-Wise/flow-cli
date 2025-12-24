@@ -15,6 +15,7 @@ Implemented smart default behavior for the `timer` function with comprehensive h
 Location: Lines 486-517
 
 Features:
+
 - Comprehensive usage documentation
 - Command descriptions
 - Example usage patterns
@@ -26,7 +27,9 @@ Features:
 Location: Lines 519-597
 
 #### Help Support (Lines 520-524)
+
 Supports all three forms:
+
 ```zsh
 timer help
 timer --help
@@ -36,7 +39,9 @@ timer -h
 All three forms execute `_timer_help` and exit with status 0.
 
 #### Smart Default Behavior (Lines 531-561)
+
 When called with no arguments or `focus`:
+
 - Defaults to 25-minute pomodoro session
 - Delegates to existing `focus()` function
 - Launches background watcher process
@@ -44,16 +49,19 @@ When called with no arguments or `focus`:
 - Uses disowned background process (`&!`) to avoid terminal blocking
 
 #### Break Timer (Lines 563-580)
+
 - Default: 5 minutes
 - Simple sleep + notification
 - No win logging (breaks aren't wins)
 - Disowned background process
 
 #### Status Command (Lines 582-589)
+
 - Delegates to existing `time-check` function
 - Shows current timer status if available
 
 #### Error Handling (Lines 591-595)
+
 - Unknown commands show error message
 - Suggests running `timer help`
 
@@ -68,6 +76,7 @@ The implementation uses a background watcher process because:
 3. Solution: Monitor the PID file `/tmp/focus-timer-pid`
 
 **Watcher Logic:**
+
 ```zsh
 (
     local pid=$(cat /tmp/focus-timer-pid 2>/dev/null)
@@ -86,6 +95,7 @@ The implementation uses a background watcher process because:
 ```
 
 **Why This Works:**
+
 - The `focus()` function removes `/tmp/focus-timer-pid` on completion
 - If stopped early via `focus-stop`, the PID file is also removed
 - We check if the process still exists to distinguish completion vs early stop
@@ -94,6 +104,7 @@ The implementation uses a background watcher process because:
 ### Integration with Existing Commands
 
 The timer function integrates seamlessly with:
+
 - `focus()` - Existing 25-min pomodoro implementation
 - `focus-stop()` - Early stop with manual win prompt
 - `time-check()` - Status checking
@@ -102,23 +113,28 @@ The timer function integrates seamlessly with:
 ## Testing Checklist
 
 ### Help Commands
+
 - [x] `timer help` - Shows help, exits 0
 - [x] `timer --help` - Shows help, exits 0 (verified same output)
 - [x] `timer -h` - Shows help, exits 0 (verified same output)
 
 ### Smart Default
+
 - [ ] `timer` - Starts 25-min focus + auto-logs win on completion
 - [ ] `timer focus` - Same as no args
 - [ ] `timer focus 50` - 50-min pomodoro
 
 ### Break Timer
+
 - [ ] `timer break` - 5-min break timer
 - [ ] `timer break 10` - 10-min break timer
 
 ### Status
+
 - [ ] `timer status` - Shows current timer status
 
 ### Error Handling
+
 - [ ] `timer invalid` - Shows error + help suggestion
 
 ## Testing Instructions

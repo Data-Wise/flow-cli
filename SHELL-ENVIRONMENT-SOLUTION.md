@@ -21,6 +21,7 @@ Claude Code runs ZSH in **non-interactive mode**, which only sources `.zshenv`, 
 ```
 
 **Symptoms:**
+
 - `dash` command → Executed `/bin/dash` (Debian Almquist Shell) instead of custom function
 - `work`, `status`, `just-start` → Not found
 - Functions worked in terminal, failed in Claude Code
@@ -271,6 +272,7 @@ zsh -i -c 'type antidote'
 ### Claude Code Integration
 
 This pattern enables:
+
 - ✅ Dashboard access (`dash`)
 - ✅ Session management (`work`, `finish`)
 - ✅ Status updates (`status`)
@@ -293,17 +295,20 @@ dash "$@"
 ## Summary
 
 **What Changed:**
+
 - Created `~/.config/zsh/.zshenv` with essential function loading
 - Functions now work in **all** ZSH contexts (interactive, non-interactive, Claude Code)
 - No changes to `.zshrc` needed (still works for interactive shells)
 
 **Impact:**
+
 - ✅ Claude Code: Full access to workflow commands
 - ✅ Scripts: Functions available in `zsh -c` and `$()` substitution
 - ✅ Interactive: No regression - everything still works
 - ✅ Portable: Works across different ZSH invocation modes
 
 **Pattern:**
+
 ```
 .zshenv  = Essential functions (universal)
 .zshrc   = Interactive features (terminal only)

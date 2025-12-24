@@ -24,14 +24,14 @@ describe('ProjectFilters', () => {
       description: 'Workflow CLI'
     })
     p1.recordSession(60, true)
-    p1.lastAccessedAt = new Date(now.getTime() - (2 * 60 * 60 * 1000)) // 2 hours ago
+    p1.lastAccessedAt = new Date(now.getTime() - 2 * 60 * 60 * 1000) // 2 hours ago
 
     // Old R package with no sessions
     const p2 = new Project('p2', 'rmediation', {
       type: ProjectType.R_PACKAGE,
       path: '/path/to/rmediation'
     })
-    p2.lastAccessedAt = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000)) // 30 days ago
+    p2.lastAccessedAt = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000) // 30 days ago
 
     // Recent Quarto with tags
     const p3 = new Project('p3', 'docs-site', {
@@ -41,7 +41,7 @@ describe('ProjectFilters', () => {
     })
     p3.recordSession(30, true)
     p3.recordSession(45, true)
-    p3.lastAccessedAt = new Date(now.getTime() - (1 * 60 * 60 * 1000)) // 1 hour ago
+    p3.lastAccessedAt = new Date(now.getTime() - 1 * 60 * 60 * 1000) // 1 hour ago
 
     // Node project with many sessions
     const p4 = new Project('p4', 'api-server', {
@@ -52,7 +52,7 @@ describe('ProjectFilters', () => {
     for (let i = 0; i < 10; i++) {
       p4.recordSession(30, true)
     }
-    p4.lastAccessedAt = new Date(now.getTime() - (6 * 60 * 60 * 1000)) // 6 hours ago
+    p4.lastAccessedAt = new Date(now.getTime() - 6 * 60 * 60 * 1000) // 6 hours ago
 
     projects = [p1, p2, p3, p4]
   })

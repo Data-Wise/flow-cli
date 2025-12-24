@@ -25,6 +25,7 @@ node cli/tools/arch-dashboard/index.js
 ### Layer Distribution
 
 Shows how code is distributed across the 4 layers:
+
 - **Domain** - Should contain core business logic
 - **Use Cases** - Application workflows
 - **Adapters** - Interface implementations
@@ -37,10 +38,12 @@ Shows how code is distributed across the 4 layers:
 Checks for **outward dependencies** (breaks Clean Architecture):
 
 ❌ **Violations:**
+
 - Domain imports from Use Cases/Adapters/Frameworks
 - Use Cases import from Adapters/Frameworks
 
 ✅ **Allowed:**
+
 - Any layer imports from Domain
 - Use Cases import from Domain
 - Adapters import from Domain + Use Cases
@@ -64,6 +67,7 @@ Composite score (0-100):
 - **0-59**: 🔴 Needs Improvement - Significant violations
 
 **Deductions:**
+
 - Dependency violations: -20 points each (max -40)
 - Low test coverage (< 50%): -30 points
 - Low domain percentage (< 15%): -10 points
@@ -141,6 +145,7 @@ Add to CI pipeline:
 **Cause:** Running from wrong directory
 
 **Fix:**
+
 ```bash
 cd /path/to/flow-cli
 npm run arch-dashboard

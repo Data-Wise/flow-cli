@@ -8,6 +8,7 @@
 ## Executive Summary
 
 ADHD brains respond differently to color stimuli. The right color choices can:
+
 - ✅ Increase dopamine response (motivation boost)
 - ✅ Improve visual scanning (reduced cognitive load)
 - ✅ Enhance information retention (memory anchoring)
@@ -25,19 +26,20 @@ ADHD brains respond differently to color stimuli. The right color choices can:
 Colors that trigger positive neurological responses in ADHD brains, increasing dopamine levels and improving focus.
 
 **The Science:**
+
 - **Bright, saturated colors** → Stronger visual cortex activation → Better attention capture
 - **Cool tones (blue/cyan/teal)** → Calming yet stimulating → Reduces hyperactivity while maintaining alertness
 - **High contrast** → Easier pattern recognition → Lower cognitive effort
 
 **Top Dopamine Colors for ADHD:**
 
-| Color | Hex | Effect | Use Case |
-|-------|-----|--------|----------|
-| 🔵 Cyan | `#00bcd4` | Energizing + Calming | Primary theme color |
-| 🟣 Purple | `#9c27b0` | Creative + Focus | Accent color |
-| 🟢 Bright Green | `#00e676` | Success + Reward | Positive feedback |
-| 🟡 Amber | `#ffc107` | Attention + Warning | Important notices |
-| 🔴 Red | `#f44336` | Alert + Stop | Errors only |
+| Color           | Hex       | Effect               | Use Case            |
+| --------------- | --------- | -------------------- | ------------------- |
+| 🔵 Cyan         | `#00bcd4` | Energizing + Calming | Primary theme color |
+| 🟣 Purple       | `#9c27b0` | Creative + Focus     | Accent color        |
+| 🟢 Bright Green | `#00e676` | Success + Reward     | Positive feedback   |
+| 🟡 Amber        | `#ffc107` | Attention + Warning  | Important notices   |
+| 🔴 Red          | `#f44336` | Alert + Stop         | Errors only         |
 
 ---
 
@@ -46,6 +48,7 @@ Colors that trigger positive neurological responses in ADHD brains, increasing d
 **Current Material Indigo:** `#3f51b5`
 
 **Problems for ADHD:**
+
 - ❌ **Too muted** - Lower saturation = weaker dopamine response
 - ❌ **Corporate feel** - Lacks playfulness/novelty (ADHD needs novelty)
 - ❌ **Low energy** - Doesn't create "want to engage" feeling
@@ -66,6 +69,7 @@ Colors that trigger positive neurological responses in ADHD brains, increasing d
 **Error:** Red `#f44336` (Material Red 500)
 
 **Why this works:**
+
 - 🎯 **Cyan is the most ADHD-friendly color**
   - High saturation = strong visual pop
   - Cool tone = calming without sedating
@@ -81,6 +85,7 @@ Colors that trigger positive neurological responses in ADHD brains, increasing d
   - Red = emergency only (not overused)
 
 **Example palette:**
+
 ```css
 :root {
   /* Primary - Cyan (energizing + calming) */
@@ -94,11 +99,11 @@ Colors that trigger positive neurological responses in ADHD brains, increasing d
   --md-accent-fg-color--dark: #6a0080;
 
   /* Semantic colors */
-  --adhd-success: #00e676;      /* Bright green - dopamine reward */
-  --adhd-warning: #ffc107;      /* Amber - attention grabber */
-  --adhd-danger: #f44336;       /* Red - stop signal */
-  --adhd-info: #00bcd4;         /* Cyan - same as primary */
-  --adhd-example: #9c27b0;      /* Purple - code/examples */
+  --adhd-success: #00e676; /* Bright green - dopamine reward */
+  --adhd-warning: #ffc107; /* Amber - attention grabber */
+  --adhd-danger: #f44336; /* Red - stop signal */
+  --adhd-info: #00bcd4; /* Cyan - same as primary */
+  --adhd-example: #9c27b0; /* Purple - code/examples */
 }
 ```
 
@@ -110,23 +115,26 @@ Colors that trigger positive neurological responses in ADHD brains, increasing d
 **Accent:** Deep Orange `#ff5722` (Material Deep Orange 500)
 
 **Why this works:**
+
 - 🔥 **Higher energy** - Orange adds warmth/excitement
 - 🌊 **Teal is softer** - Slightly less intense than cyan
 - ⚡ **Complementary contrast** - Opposite on color wheel = maximum distinction
 
 **When to choose this:**
+
 - User prefers warmer palette
 - Documentation has lots of "action" content (tutorials, quick wins)
 - Want to emphasize urgency/momentum
 
 **Example palette:**
+
 ```css
 :root {
-  --md-primary-fg-color: #009688;      /* Teal */
-  --md-accent-fg-color: #ff5722;       /* Deep Orange */
-  --adhd-success: #00e676;             /* Bright Green */
-  --adhd-warning: #ffc107;             /* Amber */
-  --adhd-danger: #f44336;              /* Red */
+  --md-primary-fg-color: #009688; /* Teal */
+  --md-accent-fg-color: #ff5722; /* Deep Orange */
+  --adhd-success: #00e676; /* Bright Green */
+  --adhd-warning: #ffc107; /* Amber */
+  --adhd-danger: #f44336; /* Red */
 }
 ```
 
@@ -138,23 +146,26 @@ Colors that trigger positive neurological responses in ADHD brains, increasing d
 **Accent:** Cyan `#00bcd4` (Material Cyan 500)
 
 **Why this works:**
+
 - 🎨 **Purple = creativity** - Perfect for workflow/innovation docs
 - 💎 **Unique identity** - Very rare color scheme
 - 🌟 **High novelty** - Maximum ADHD engagement
 
 **When to choose this:**
+
 - Documentation is about creative workflows
 - Want maximum distinction from other tech docs
 - User loves purple
 
 **Example palette:**
+
 ```css
 :root {
-  --md-primary-fg-color: #9c27b0;      /* Purple */
-  --md-accent-fg-color: #00bcd4;       /* Cyan */
-  --adhd-success: #00e676;             /* Bright Green */
-  --adhd-warning: #ffc107;             /* Amber */
-  --adhd-danger: #f44336;              /* Red */
+  --md-primary-fg-color: #9c27b0; /* Purple */
+  --md-accent-fg-color: #00bcd4; /* Cyan */
+  --adhd-success: #00e676; /* Bright Green */
+  --adhd-warning: #ffc107; /* Amber */
+  --adhd-danger: #f44336; /* Red */
 }
 ```
 
@@ -166,18 +177,19 @@ Colors that trigger positive neurological responses in ADHD brains, increasing d
 
 All recommended colors meet **WCAG AAA** standards for normal text:
 
-| Background | Foreground | Contrast Ratio | Rating |
-|------------|------------|----------------|--------|
-| White `#ffffff` | Cyan `#00bcd4` | 4.6:1 | AA ✅ |
-| White `#ffffff` | Purple `#9c27b0` | 5.1:1 | AA ✅ |
-| Cyan `#00bcd4` | White `#ffffff` | 4.6:1 | AA ✅ |
-| Purple `#9c27b0` | White `#ffffff` | 5.1:1 | AA ✅ |
+| Background       | Foreground       | Contrast Ratio | Rating |
+| ---------------- | ---------------- | -------------- | ------ |
+| White `#ffffff`  | Cyan `#00bcd4`   | 4.6:1          | AA ✅  |
+| White `#ffffff`  | Purple `#9c27b0` | 5.1:1          | AA ✅  |
+| Cyan `#00bcd4`   | White `#ffffff`  | 4.6:1          | AA ✅  |
+| Purple `#9c27b0` | White `#ffffff`  | 5.1:1          | AA ✅  |
 
 **Dark mode adjustments:**
+
 ```css
-[data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #4dd0e1;      /* Lighter cyan for dark bg */
-  --md-accent-fg-color: #ba68c8;       /* Lighter purple for dark bg */
+[data-md-color-scheme='slate'] {
+  --md-primary-fg-color: #4dd0e1; /* Lighter cyan for dark bg */
+  --md-accent-fg-color: #ba68c8; /* Lighter purple for dark bg */
 }
 ```
 
@@ -185,13 +197,13 @@ All recommended colors meet **WCAG AAA** standards for normal text:
 
 All dark mode colors meet **WCAG AAA** standards for normal text (7:1 minimum):
 
-| Background | Foreground | Contrast Ratio | Rating |
-|------------|------------|----------------|--------|
-| Slate `#212121` | Cyan `#4dd0e1` | 8.4:1 | AAA ✅ |
-| Slate `#212121` | Purple `#ba68c8` | 9.1:1 | AAA ✅ |
-| Slate `#212121` | Green `#69f0ae` | 10.2:1 | AAA ✅ |
-| Slate `#212121` | Amber `#ffd54f` | 11.5:1 | AAA ✅ |
-| Slate `#212121` | Red `#ff5252` | 5.9:1 | AA+ (large) ⚠️ |
+| Background      | Foreground       | Contrast Ratio | Rating         |
+| --------------- | ---------------- | -------------- | -------------- |
+| Slate `#212121` | Cyan `#4dd0e1`   | 8.4:1          | AAA ✅         |
+| Slate `#212121` | Purple `#ba68c8` | 9.1:1          | AAA ✅         |
+| Slate `#212121` | Green `#69f0ae`  | 10.2:1         | AAA ✅         |
+| Slate `#212121` | Amber `#ffd54f`  | 11.5:1         | AAA ✅         |
+| Slate `#212121` | Red `#ff5252`    | 5.9:1          | AA+ (large) ⚠️ |
 
 **Note:** Red exceeds WCAG AA for large text and warnings (4.5:1 minimum). Since error messages use icons + text labels (not color-only), this is compliant with WCAG accessibility guidelines.
 
@@ -234,19 +246,19 @@ theme:
   name: material
   palette:
     # Light mode
-    - media: "(prefers-color-scheme: light)"
+    - media: '(prefers-color-scheme: light)'
       scheme: default
-      primary: cyan          # Changed from indigo
-      accent: purple         # Changed from indigo
+      primary: cyan # Changed from indigo
+      accent: purple # Changed from indigo
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
 
     # Dark mode
-    - media: "(prefers-color-scheme: dark)"
+    - media: '(prefers-color-scheme: dark)'
       scheme: slate
-      primary: cyan          # Changed from indigo
-      accent: purple         # Changed from indigo
+      primary: cyan # Changed from indigo
+      accent: purple # Changed from indigo
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
@@ -283,9 +295,9 @@ theme:
 }
 
 /* Dark mode adjustments */
-[data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #4dd0e1;      /* Lighter for contrast */
-  --md-accent-fg-color: #ba68c8;       /* Lighter for contrast */
+[data-md-color-scheme='slate'] {
+  --md-primary-fg-color: #4dd0e1; /* Lighter for contrast */
+  --md-accent-fg-color: #ba68c8; /* Lighter for contrast */
   --adhd-success: #69f0ae;
   --adhd-warning: #ffd54f;
   --adhd-danger: #ff5252;
@@ -294,37 +306,27 @@ theme:
 /* Apply semantic colors to admonitions */
 .md-typeset .admonition.tip {
   border-left-color: var(--adhd-success);
-  background: linear-gradient(90deg,
-    rgba(0, 230, 118, 0.05) 0%,
-    transparent 100%);
+  background: linear-gradient(90deg, rgba(0, 230, 118, 0.05) 0%, transparent 100%);
 }
 
 .md-typeset .admonition.warning {
   border-left-color: var(--adhd-warning);
-  background: linear-gradient(90deg,
-    rgba(255, 193, 7, 0.05) 0%,
-    transparent 100%);
+  background: linear-gradient(90deg, rgba(255, 193, 7, 0.05) 0%, transparent 100%);
 }
 
 .md-typeset .admonition.danger {
   border-left-color: var(--adhd-danger);
-  background: linear-gradient(90deg,
-    rgba(244, 67, 54, 0.05) 0%,
-    transparent 100%);
+  background: linear-gradient(90deg, rgba(244, 67, 54, 0.05) 0%, transparent 100%);
 }
 
 .md-typeset .admonition.example {
   border-left-color: var(--adhd-example);
-  background: linear-gradient(90deg,
-    rgba(156, 39, 176, 0.05) 0%,
-    transparent 100%);
+  background: linear-gradient(90deg, rgba(156, 39, 176, 0.05) 0%, transparent 100%);
 }
 
 /* High-energy hover effects */
 .md-nav__link:hover {
-  background: linear-gradient(90deg,
-    rgba(0, 188, 212, 0.1) 0%,
-    rgba(156, 39, 176, 0.05) 100%);
+  background: linear-gradient(90deg, rgba(0, 188, 212, 0.1) 0%, rgba(156, 39, 176, 0.05) 100%);
   transform: translateX(4px);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -347,7 +349,8 @@ theme:
 }
 
 .md-typeset pre code .k,  /* Keywords */
-.md-typeset pre code .kn { /* Import keywords */
+.md-typeset pre code .kn {
+  /* Import keywords */
   color: var(--adhd-example);
   font-weight: 600;
 }
@@ -358,9 +361,15 @@ theme:
 }
 
 @keyframes successPulse {
-  0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(0, 230, 118, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 230, 118, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 230, 118, 0);
+  }
 }
 ```
 
@@ -369,7 +378,7 @@ theme:
 ```yaml
 extra_css:
   - stylesheets/extra.css
-  - stylesheets/adhd-colors.css    # Add this line
+  - stylesheets/adhd-colors.css # Add this line
 ```
 
 ---
@@ -377,6 +386,7 @@ extra_css:
 ## Visual Examples
 
 ### Before (Material Indigo)
+
 ```
 Primary: #3f51b5 (Indigo)
 Energy Level: 6/10
@@ -385,6 +395,7 @@ ADHD Friendliness: 6/10
 ```
 
 ### After (Cyan/Purple)
+
 ```
 Primary: #00bcd4 (Cyan)
 Accent: #9c27b0 (Purple)
@@ -417,10 +428,11 @@ ADHD Friendliness: 10/10 🌟
 ### Quick A/B Test Setup
 
 **Add color scheme switcher:**
+
 ```javascript
 // Add to extra JavaScript
 function addColorSchemeSwitcher() {
-  const switcher = document.createElement('div');
+  const switcher = document.createElement('div')
   switcher.innerHTML = `
     <div class="color-scheme-switcher">
       <label>Try different colors:</label>
@@ -428,13 +440,13 @@ function addColorSchemeSwitcher() {
       <button onclick="setScheme('cyan')">Cyan/Purple (ADHD)</button>
       <button onclick="setScheme('teal')">Teal/Orange</button>
     </div>
-  `;
-  document.body.appendChild(switcher);
+  `
+  document.body.appendChild(switcher)
 }
 
 function setScheme(scheme) {
-  document.documentElement.setAttribute('data-color-scheme', scheme);
-  localStorage.setItem('preferred-color-scheme', scheme);
+  document.documentElement.setAttribute('data-color-scheme', scheme)
+  localStorage.setItem('preferred-color-scheme', scheme)
 }
 ```
 
@@ -445,18 +457,22 @@ function setScheme(scheme) {
 ### Color Blindness Support
 
 **Deuteranopia (Red-Green):**
+
 - ✅ Cyan/Purple safe (no red-green dependency)
 - ✅ Use shapes + colors (not color alone)
 
 **Protanopia (Red-Blind):**
+
 - ✅ Cyan/Purple safe
 - ⚠️ Red error states need icon + text
 
 **Tritanopia (Blue-Yellow):**
+
 - ⚠️ Cyan may appear gray
 - ✅ Purple remains distinct
 
 **Solution:** Always pair colors with:
+
 - Icons (✅ ⚠️ ❌ ℹ️)
 - Text labels ("Success", "Warning", "Error")
 - Shape distinctions (borders, backgrounds)
@@ -693,6 +709,7 @@ ADHD hyperfocus often happens late evening (the "night owl" effect). Blue light 
 ## Migration Plan
 
 ### Phase 1: Test in Dev (30 min)
+
 1. Create new branch: `feature/adhd-colors`
 2. Update `mkdocs.yml` with cyan/purple
 3. Create `adhd-colors.css`
@@ -700,12 +717,14 @@ ADHD hyperfocus often happens late evening (the "night owl" effect). Blue light 
 5. Get user feedback
 
 ### Phase 2: A/B Test (1 week)
+
 1. Deploy to staging environment
 2. Show to 5-10 ADHD users
 3. Collect feedback survey
 4. Measure engagement metrics
 
 ### Phase 3: Rollout (1 hour)
+
 1. Merge to main if positive feedback
 2. Add color scheme toggle for user preference
 3. Update documentation about color choices
@@ -718,6 +737,7 @@ ADHD hyperfocus often happens late evening (the "night owl" effect). Blue light 
 **Choose Option A: Cyan/Purple**
 
 **Rationale:**
+
 1. **Maximum ADHD optimization** - Cyan is scientifically proven to boost dopamine
 2. **Professional yet playful** - Balances credibility with engagement
 3. **Unique identity** - Distinguishes from other tech documentation
@@ -725,6 +745,7 @@ ADHD hyperfocus often happens late evening (the "night owl" effect). Blue light 
 5. **Easy to test** - Simple 5-line change in mkdocs.yml
 
 **Implementation:**
+
 ```yaml
 # mkdocs.yml - just change these two lines:
 primary: cyan
@@ -732,6 +753,7 @@ accent: purple
 ```
 
 **Expected impact:**
+
 - +20% engagement time
 - +15% task completion rate
 - Subjective "more enjoyable" feedback
@@ -751,6 +773,7 @@ accent: purple
 ## Next Steps
 
 **If user approves:**
+
 1. Update `mkdocs.yml` (2 lines)
 2. Create `adhd-colors.css` (copy from this doc)
 3. Build and preview

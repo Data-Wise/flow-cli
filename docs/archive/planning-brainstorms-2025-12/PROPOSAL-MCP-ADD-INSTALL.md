@@ -8,6 +8,7 @@
 ## 🎯 UPDATED RECOMMENDATION: UNIFIED SEARCH
 
 **Evolution:** After further research, we discovered Claude Code has BOTH:
+
 - 📦 **MCP Servers** (~200+ in registry)
 - 🔌 **Claude Code Plugins** (~50+ across 5 marketplaces)
 
@@ -16,6 +17,7 @@
 See `BRAINSTORM-UNIFIED-MCP-SEARCH.md` for complete unified search proposal.
 
 **Quick Summary:**
+
 ```bash
 mcp search github          # Searches BOTH servers + plugins
 mcp browse                 # Browse ALL with fzf + categories
@@ -30,6 +32,7 @@ mcp add <name>             # Smart install (auto-detects type)
 ## Problem Statement
 
 Currently, adding an MCP server requires:
+
 1. Manually searching for servers (GitHub, documentation, word-of-mouth)
 2. Understanding the installation method (npm, uv, docker, etc.)
 3. Manually configuring `~/.claude/settings.json`
@@ -37,6 +40,7 @@ Currently, adding an MCP server requires:
 5. No security review or duplicate detection
 
 **User request:**
+
 > "Add keyword 'add' or 'install' that would search for an mcp server, check if it's installed or similar one installed, then present a summary of what it does, check the security, offer advice, and then proceed to install and test or cancel"
 
 ---
@@ -46,12 +50,14 @@ Currently, adding an MCP server requires:
 ### Official MCP Registry (NEW!)
 
 Anthropic launched the official MCP Registry in September 2025:
+
 - **URL:** https://registry.modelcontextprotocol.io
 - **API:** REST API with search, pagination, metadata
 - **Status:** Preview (moving to general availability)
 - **Community-driven:** Backed by Anthropic, GitHub, Microsoft, etc.
 
 **API Endpoints:**
+
 ```bash
 # Search servers
 GET https://registry.modelcontextprotocol.io/v0.1/servers?search=<term>&version=latest
@@ -64,6 +70,7 @@ GET https://registry.modelcontextprotocol.io/v0.1/servers?limit=100
 ```
 
 **Response includes:**
+
 - Server name, description, version
 - Installation packages (npm, uv/pypi, docker/oci)
 - Repository URL and source
@@ -74,6 +81,7 @@ GET https://registry.modelcontextprotocol.io/v0.1/servers?limit=100
 ### Claude Code Native Command
 
 Claude Code already has `claude mcp add`:
+
 ```bash
 claude mcp add <name> <commandOrUrl> [args...]
 
@@ -88,6 +96,7 @@ claude mcp add --transport stdio airtable -- npx -y airtable-mcp-server
 ```
 
 **Limitations:**
+
 - No discovery (must know server name and command)
 - No security review
 - No duplicate detection
@@ -100,6 +109,7 @@ claude mcp add --transport stdio airtable -- npx -y airtable-mcp-server
 ### Option A: Wrapper Around `claude mcp add` (Recommended)
 
 **Concept:** `mcp add` becomes an intelligent wrapper that:
+
 1. Searches MCP Registry
 2. Shows server info and security analysis
 3. Checks for duplicates/similar servers
@@ -108,6 +118,7 @@ claude mcp add --transport stdio airtable -- npx -y airtable-mcp-server
 6. Creates symlink and updates docs
 
 **Workflow:**
+
 ```bash
 $ mcp add filesystem
 
@@ -179,6 +190,7 @@ Next steps:
 ```
 
 **Implementation:**
+
 ```zsh
 _mcp_add() {
     local search_term="$1"
@@ -216,6 +228,7 @@ _mcp_add() {
 ```
 
 **Pros:**
+
 - Uses official registry (authoritative source)
 - Leverages Claude Code's native installation
 - Intelligent guidance and security review
@@ -223,6 +236,7 @@ _mcp_add() {
 - Works with all transport types (stdio, sse, http)
 
 **Cons:**
+
 - Requires internet connection
 - Depends on registry API availability
 - Not all servers may be in registry yet
@@ -234,6 +248,7 @@ _mcp_add() {
 **Concept:** Maintain local database of known servers with custom installation scripts
 
 **Workflow:**
+
 ```bash
 $ mcp add postgres
 
@@ -245,6 +260,7 @@ Found: @modelcontextprotocol/server-postgres
 ```
 
 **Implementation:**
+
 ```bash
 # Database: ~/.config/zsh/mcp-servers-db.json
 {
@@ -261,11 +277,13 @@ Found: @modelcontextprotocol/server-postgres
 ```
 
 **Pros:**
+
 - Works offline
 - Full control over installation process
 - Can add custom servers
 
 **Cons:**
+
 - Manual maintenance required
 - Database gets outdated
 - Limited to known servers
@@ -278,17 +296,20 @@ Found: @modelcontextprotocol/server-postgres
 **Concept:** Try registry first, fallback to local database
 
 **Workflow:**
+
 1. Search official registry (if online)
 2. If not found, search local database
 3. If still not found, offer to add custom server
 4. Same intelligent installation flow
 
 **Pros:**
+
 - Best of both worlds
 - Offline capability
 - Extensible to custom servers
 
 **Cons:**
+
 - More complex implementation
 - Two systems to maintain
 
@@ -299,12 +320,14 @@ Found: @modelcontextprotocol/server-postgres
 All options should include:
 
 ### 1. Official Status Check
+
 ```bash
 ✅ Official Anthropic server
 ⚠️  Community server (not officially vetted)
 ```
 
 ### 2. Secret Detection
+
 ```bash
 🔒 Required Environment Variables:
   - AIRTABLE_API_KEY (secret) ⚠️
@@ -312,6 +335,7 @@ All options should include:
 ```
 
 ### 3. Permission Analysis
+
 ```bash
 📋 Permissions Required:
   ⚠️  Filesystem access (read/write)
@@ -321,6 +345,7 @@ All options should include:
 ```
 
 ### 4. Repository Check
+
 ```bash
 📦 Source Code:
   ✅ GitHub repository: https://github.com/org/repo
@@ -329,6 +354,7 @@ All options should include:
 ```
 
 ### 5. Similar Server Detection
+
 ```bash
 📋 Checking installed servers...
 
@@ -382,6 +408,7 @@ _mcp_get_capabilities() {
 ## Installation Methods by Runtime
 
 ### NPM (Node.js)
+
 ```bash
 # Using npx (no install needed)
 claude mcp add server-name -- npx -y @scope/package
@@ -393,6 +420,7 @@ npm install @scope/package
 ```
 
 ### UV/Python
+
 ```bash
 cd ~/projects/dev-tools/mcp-servers/server-name
 uv init --name server-name --no-readme
@@ -400,11 +428,13 @@ uv add package-name
 ```
 
 ### Docker/OCI
+
 ```bash
 claude mcp add server-name --transport stdio -- docker run -i package:tag
 ```
 
 ### HTTP/SSE (Remote)
+
 ```bash
 claude mcp add server-name --transport http https://server.com/mcp
 ```
@@ -414,6 +444,7 @@ claude mcp add server-name --transport http https://server.com/mcp
 ## Implementation Plan
 
 ### Phase 1: Basic Search & Install (Week 1)
+
 - [ ] Implement `mcp add <search>` command
 - [ ] Search MCP Registry API
 - [ ] Display search results (formatted)
@@ -422,6 +453,7 @@ claude mcp add server-name --transport http https://server.com/mcp
 - [ ] Basic testing after install
 
 ### Phase 2: Security & Intelligence (Week 2)
+
 - [ ] Security analysis display
 - [ ] Environment variable detection
 - [ ] Permission warnings
@@ -430,13 +462,15 @@ claude mcp add server-name --transport http https://server.com/mcp
 - [ ] Similar server warnings
 
 ### Phase 3: Documentation & Symlinks (Week 3)
+
 - [ ] Auto-create symlinks in ~/mcp-servers/
-- [ ] Update _MCP_SERVERS.md
+- [ ] Update \_MCP_SERVERS.md
 - [ ] Update mcp-servers/README.md
 - [ ] Generate server-specific README
 - [ ] Add to quick reference
 
 ### Phase 4: Advanced Features (Week 4)
+
 - [ ] Local server database (fallback)
 - [ ] Custom server addition
 - [ ] Uninstall command (`mcp remove`)
@@ -479,6 +513,7 @@ mcp i <search>            # install
 **Choose Option A: Registry Wrapper**
 
 **Reasons:**
+
 1. **Authoritative source** - Official MCP Registry maintained by Anthropic
 2. **Low maintenance** - No manual database to update
 3. **Complete coverage** - Access to all public servers
@@ -488,6 +523,7 @@ mcp i <search>            # install
 7. **Community-driven** - Benefits from entire ecosystem
 
 **Implementation effort:** ~2-3 days
+
 - Day 1: Search and selection interface
 - Day 2: Security analysis and duplicate detection
 - Day 3: Installation flow and testing
@@ -497,6 +533,7 @@ mcp i <search>            # install
 ## Example Use Cases
 
 ### Use Case 1: Installing Official Server
+
 ```bash
 $ mcp add github
 
@@ -510,6 +547,7 @@ Install? (y/n): y
 ```
 
 ### Use Case 2: Finding Similar Servers
+
 ```bash
 $ mcp add database
 
@@ -530,6 +568,7 @@ Cancelled.
 ```
 
 ### Use Case 3: Security Warning
+
 ```bash
 $ mcp add untrusted-server
 
@@ -551,6 +590,7 @@ Continue anyway? (y/n): n
 ## Testing Strategy
 
 ### Unit Tests
+
 ```bash
 test_search_registry()      # Test API search
 test_parse_results()        # Test JSON parsing
@@ -559,6 +599,7 @@ test_security_analysis()    # Test security checks
 ```
 
 ### Integration Tests
+
 ```bash
 test_full_install_flow()    # End-to-end installation
 test_error_handling()       # Network errors, bad input
@@ -566,6 +607,7 @@ test_duplicate_warning()    # Duplicate detection works
 ```
 
 ### Manual Tests
+
 ```bash
 # Install from registry
 mcp add filesystem
@@ -585,6 +627,7 @@ mcp add shell  # when shell already installed
 ## Files to Create/Modify
 
 ### New Files
+
 ```
 ~/.config/zsh/functions/
 ├── mcp-registry-api.zsh      # Registry API wrapper
@@ -595,6 +638,7 @@ mcp add shell  # when shell already installed
 ```
 
 ### Modified Files
+
 ```
 ~/.config/zsh/functions/
 └── mcp-dispatcher.zsh         # Add 'add|install|a|i' keywords
@@ -608,12 +652,14 @@ mcp add shell  # when shell already installed
 ## Dependencies
 
 ### Required
+
 - `curl` - API requests (already available)
 - `jq` or Python - JSON parsing (already available)
 - `fzf` - Interactive selection (already used in mcp pick)
 - `claude` - Claude Code CLI (already installed)
 
 ### Optional
+
 - `bat` - Pretty display (already available)
 - `glow` - Markdown rendering (if installed)
 
@@ -622,21 +668,25 @@ mcp add shell  # when shell already installed
 ## Future Enhancements
 
 ### Version 1 (MVP)
+
 - Search and install from registry
 - Basic security warnings
 - Duplicate detection
 
 ### Version 2
+
 - Custom server addition (not in registry)
 - Local database fallback
 - Uninstall command
 
 ### Version 3
+
 - Update/upgrade commands
 - Server health monitoring
 - Usage statistics
 
 ### Version 4
+
 - Server recommendations (based on usage)
 - Dependency resolution
 - Conflict detection
@@ -646,6 +696,7 @@ mcp add shell  # when shell already installed
 ## Success Criteria
 
 ### Must Have (MVP)
+
 - [x] Search MCP Registry by keyword
 - [ ] Display formatted search results
 - [ ] Show security analysis
@@ -655,6 +706,7 @@ mcp add shell  # when shell already installed
 - [ ] Update documentation
 
 ### Nice to Have (V2+)
+
 - [ ] Offline fallback database
 - [ ] Custom server installation
 - [ ] Uninstall command
@@ -673,6 +725,7 @@ mcp add shell  # when shell already installed
 ---
 
 **Next Steps:**
+
 1. Review proposal
 2. Choose option (recommend Option A)
 3. Create implementation plan

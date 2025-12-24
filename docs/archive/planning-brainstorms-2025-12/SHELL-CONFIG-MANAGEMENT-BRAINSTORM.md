@@ -13,6 +13,7 @@
 Based on research from [Scott Spence](https://scottspence.com/posts/my-updated-zsh-config-2025), [Christopher Allen's Zsh Guide](https://gist.github.com/ChristopherA/562c2e62d01cf60458c5fa87df046fbd), and [Cursor Rules Guide](https://cursorrules.org/article/zsh-cursor-mdc-file):
 
 #### Directory Structure
+
 ```
 ~/.config/zsh/
 ├── .zshrc              # Main entry point (loader)
@@ -25,6 +26,7 @@ Based on research from [Scott Spence](https://scottspence.com/posts/my-updated-z
 ```
 
 #### Key Principles
+
 1. **Modular Organization** - Split code into logical modules
 2. **Performance First** - Lazy loading, minimal plugins
 3. **Portable & Adaptive** - Works across machines
@@ -47,6 +49,7 @@ From [ShellCheck](https://www.shellcheck.net/) and [CICDToolbox](https://github.
 ### What We Built Today
 
 #### Dispatcher Pattern (`command + keyword + options`)
+
 ```
 r test              # R package
 g status            # Git
@@ -57,6 +60,7 @@ gm                  # Gemini
 ```
 
 #### File Organization
+
 ```
 ~/.config/zsh/
 ├── .zshrc                              # Main config (~1150 lines)
@@ -73,12 +77,14 @@ gm                  # Gemini
 ```
 
 #### Strengths
+
 - Consistent dispatcher pattern
 - Self-documenting (`<cmd> help`)
 - ADHD-friendly (discoverable)
 - Passthrough for unknown commands
 
 #### Weaknesses
+
 - .zshrc is still monolithic (~1150 lines)
 - No automated testing
 - Some dead code (REMOVED comments)
@@ -90,54 +96,54 @@ gm                  # Gemini
 
 ### Category 1: Documentation
 
-| Idea | ADHD Score | Effort | Priority |
-|------|------------|--------|----------|
-| ⭐ **PHILOSOPHY.md** - Core principles document | ⭐⭐⭐⭐⭐ | Low | High |
-| ⭐ **CONVENTIONS.md** - Naming/structure rules | ⭐⭐⭐⭐⭐ | Low | High |
-| **ARCHITECTURE.md** - Technical deep-dive | ⭐⭐⭐ | Medium | Medium |
-| **CHANGELOG.md** - Track all changes | ⭐⭐⭐⭐ | Low | Medium |
-| **README.md** - Quick start guide | ⭐⭐⭐⭐⭐ | Low | High |
-| **Inline comments** - In each file | ⭐⭐⭐ | Medium | Medium |
+| Idea                                            | ADHD Score | Effort | Priority |
+| ----------------------------------------------- | ---------- | ------ | -------- |
+| ⭐ **PHILOSOPHY.md** - Core principles document | ⭐⭐⭐⭐⭐ | Low    | High     |
+| ⭐ **CONVENTIONS.md** - Naming/structure rules  | ⭐⭐⭐⭐⭐ | Low    | High     |
+| **ARCHITECTURE.md** - Technical deep-dive       | ⭐⭐⭐     | Medium | Medium   |
+| **CHANGELOG.md** - Track all changes            | ⭐⭐⭐⭐   | Low    | Medium   |
+| **README.md** - Quick start guide               | ⭐⭐⭐⭐⭐ | Low    | High     |
+| **Inline comments** - In each file              | ⭐⭐⭐     | Medium | Medium   |
 
 ### Category 2: Testing & Validation
 
-| Idea | ADHD Score | Effort | Priority |
-|------|------------|--------|----------|
-| ⭐ **ShellCheck integration** | ⭐⭐⭐⭐ | Low | High |
-| ⭐ **Dispatcher test suite** | ⭐⭐⭐⭐⭐ | Medium | High |
-| **Duplicate alias checker** | ⭐⭐⭐⭐⭐ | Low | High |
-| **Load time benchmark** | ⭐⭐⭐⭐ | Low | Medium |
-| **CI/CD on push** | ⭐⭐⭐ | Medium | Low |
-| **Docker clean test** | ⭐⭐ | High | Low |
+| Idea                          | ADHD Score | Effort | Priority |
+| ----------------------------- | ---------- | ------ | -------- |
+| ⭐ **ShellCheck integration** | ⭐⭐⭐⭐   | Low    | High     |
+| ⭐ **Dispatcher test suite**  | ⭐⭐⭐⭐⭐ | Medium | High     |
+| **Duplicate alias checker**   | ⭐⭐⭐⭐⭐ | Low    | High     |
+| **Load time benchmark**       | ⭐⭐⭐⭐   | Low    | Medium   |
+| **CI/CD on push**             | ⭐⭐⭐     | Medium | Low      |
+| **Docker clean test**         | ⭐⭐       | High   | Low      |
 
 ### Category 3: Refactoring
 
-| Idea | ADHD Score | Effort | Priority |
-|------|------------|--------|----------|
-| ⭐ **Split .zshrc into modules** | ⭐⭐⭐⭐ | High | Medium |
-| **Move aliases to separate files** | ⭐⭐⭐⭐ | Medium | Medium |
-| **Remove dead code** | ⭐⭐⭐⭐⭐ | Low | High |
-| **Consolidate R aliases** | ⭐⭐⭐⭐ | Low | Medium |
-| **Create alias→dispatcher migration** | ⭐⭐⭐ | Medium | Low |
+| Idea                                  | ADHD Score | Effort | Priority |
+| ------------------------------------- | ---------- | ------ | -------- |
+| ⭐ **Split .zshrc into modules**      | ⭐⭐⭐⭐   | High   | Medium   |
+| **Move aliases to separate files**    | ⭐⭐⭐⭐   | Medium | Medium   |
+| **Remove dead code**                  | ⭐⭐⭐⭐⭐ | Low    | High     |
+| **Consolidate R aliases**             | ⭐⭐⭐⭐   | Low    | Medium   |
+| **Create alias→dispatcher migration** | ⭐⭐⭐     | Medium | Low      |
 
 ### Category 4: Tooling
 
-| Idea | ADHD Score | Effort | Priority |
-|------|------------|--------|----------|
-| ⭐ **`zsh-lint` command** | ⭐⭐⭐⭐⭐ | Medium | High |
-| **`zsh-doctor` health check** | ⭐⭐⭐⭐⭐ | Medium | Medium |
-| **`zsh-help` unified help** | ⭐⭐⭐⭐ | Medium | Medium |
-| **Auto-generate cheatsheet** | ⭐⭐⭐⭐ | Medium | Medium |
-| **Profile startup time** | ⭐⭐⭐ | Low | Low |
+| Idea                          | ADHD Score | Effort | Priority |
+| ----------------------------- | ---------- | ------ | -------- |
+| ⭐ **`zsh-lint` command**     | ⭐⭐⭐⭐⭐ | Medium | High     |
+| **`zsh-doctor` health check** | ⭐⭐⭐⭐⭐ | Medium | Medium   |
+| **`zsh-help` unified help**   | ⭐⭐⭐⭐   | Medium | Medium   |
+| **Auto-generate cheatsheet**  | ⭐⭐⭐⭐   | Medium | Medium   |
+| **Profile startup time**      | ⭐⭐⭐     | Low    | Low      |
 
 ### Category 5: Knowledge Management
 
-| Idea | ADHD Score | Effort | Priority |
-|------|------------|--------|----------|
-| ⭐ **Session summaries** (auto-generated) | ⭐⭐⭐⭐⭐ | Medium | High |
-| **Decision log** | ⭐⭐⭐⭐ | Low | Medium |
-| **Integration with Obsidian** | ⭐⭐⭐ | High | Low |
-| **Searchable command database** | ⭐⭐⭐ | Medium | Medium |
+| Idea                                      | ADHD Score | Effort | Priority |
+| ----------------------------------------- | ---------- | ------ | -------- |
+| ⭐ **Session summaries** (auto-generated) | ⭐⭐⭐⭐⭐ | Medium | High     |
+| **Decision log**                          | ⭐⭐⭐⭐   | Low    | Medium   |
+| **Integration with Obsidian**             | ⭐⭐⭐     | High   | Low      |
+| **Searchable command database**           | ⭐⭐⭐     | Medium | Medium   |
 
 ---
 
@@ -149,36 +155,42 @@ gm                  # Gemini
 # ZSH Configuration Philosophy
 
 ## 1. Dispatcher Pattern
+
 - One command per domain: `r`, `g`, `qu`, `v`, `cc`, `gm`
 - Pattern: `command + keyword + options`
 - Built-in help: `<cmd> help`
 - Passthrough for unknown: `g cherry-pick` → `git cherry-pick`
 
 ## 2. ADHD-Friendly Design
+
 - Discoverable: Help always available
 - Consistent: Same pattern everywhere
 - Memorable: Short, mnemonic commands
 - Forgiving: Typo tolerance aliases
 
 ## 3. Modular Architecture
+
 - Each domain has its own file
 - Functions > Aliases (for complex logic)
 - Aliases for simple shortcuts only
 - No duplicates across files
 
 ## 4. Performance
+
 - Lazy loading where possible
 - Minimal plugins (antidote)
 - No blocking operations at startup
 - Target: <200ms shell startup
 
 ## 5. Maintainability
+
 - Self-documenting code
 - Clear file organization
 - Automated testing
 - Version controlled
 
 ## 6. Portability
+
 - Works on macOS (primary)
 - Graceful degradation if tools missing
 - No hardcoded paths
@@ -192,17 +204,20 @@ gm                  # Gemini
 
 ```markdown
 # RULE: Dispatcher Naming
+
 - Single letter for high-frequency: r, g, v
 - Two letters for medium-frequency: qu, cc, gm
 - Full word for low-frequency: work, dash, pick
 
 # RULE: Keyword Naming
+
 - Use verbs: test, check, build, push, pull
 - Use nouns for info: status, log, branch
 - Keep short: 3-8 characters
 - Use common abbreviations: cov (coverage), doc (document)
 
 # RULE: File Naming
+
 - Dispatchers: `<letter>-dispatcher.zsh`
 - Helpers: `<domain>-helpers.zsh`
 - Utilities: `<purpose>.zsh`
@@ -213,14 +228,15 @@ gm                  # Gemini
 
 ```markdown
 # RULE: No Duplicate Definitions
+
 - Each alias/function defined in exactly ONE file
 - Use grep to check before adding
 
 # RULE: Dispatcher Structure
+
 function <cmd>() {
-    if [[ $# -eq 0 ]]; then
-        # Default action or help
-    fi
+if [[$# -eq 0]]; then # Default action or help
+fi
 
     case "$1" in
         action1) ... ;;
@@ -228,15 +244,18 @@ function <cmd>() {
         help|h)  _<cmd>_help ;;
         *)       passthrough or error ;;
     esac
+
 }
 
 # RULE: Help Function
-- Every dispatcher MUST have _<cmd>_help()
+
+- Every dispatcher MUST have \_<cmd>\_help()
 - Show most common commands first
 - Include examples
 - Use colors consistently
 
 # RULE: Comments
+
 - File header with purpose and date
 - Section headers for grouping
 - Inline comments for non-obvious logic
@@ -249,6 +268,7 @@ function <cmd>() {
 ### Test Categories
 
 #### 1. Syntax Validation
+
 ```bash
 # test-syntax.zsh
 # Run ShellCheck on all .zsh files
@@ -259,6 +279,7 @@ done
 ```
 
 #### 2. Duplicate Detection
+
 ```bash
 # test-duplicates.zsh
 # Check for duplicate alias/function names
@@ -268,6 +289,7 @@ grep -rh "^alias \|^function \|^[a-z_]*() {" ~/.config/zsh/ | \
 ```
 
 #### 3. Dispatcher Tests
+
 ```bash
 # test-dispatchers.zsh
 # Verify each dispatcher works
@@ -289,6 +311,7 @@ test_dispatcher v
 ```
 
 #### 4. Load Time Test
+
 ```bash
 # test-performance.zsh
 # Measure shell startup time
@@ -298,6 +321,7 @@ time (for i in {1..10}; do zsh -ic exit; done)
 ```
 
 #### 5. Integration Test
+
 ```bash
 # test-integration.zsh
 # Test common workflows
@@ -315,24 +339,28 @@ g help | grep -q "Git Commands" || echo "FAIL: g help"
 ## Part 7: Implementation Plan
 
 ### Phase 1: Quick Wins (Today)
+
 1. ✅ Create PHILOSOPHY.md
 2. ✅ Create CONVENTIONS.md
 3. ✅ Create basic test-duplicates.zsh
 4. ✅ Remove dead code from .zshrc
 
 ### Phase 2: Testing (This Week)
+
 1. Set up ShellCheck
 2. Create test-dispatchers.zsh
 3. Create test-performance.zsh
 4. Add pre-commit hook
 
 ### Phase 3: Refactoring (Next Week)
+
 1. Split .zshrc into modules
 2. Move remaining aliases to files
 3. Create auto-generated cheatsheet
 4. Create zsh-doctor command
 
 ### Phase 4: CI/CD (Future)
+
 1. GitHub Actions for testing
 2. Auto-lint on push
 3. Version tagging
@@ -346,12 +374,14 @@ g help | grep -q "Git Commands" || echo "FAIL: g help"
 **Decision:** Adopt dispatcher pattern for all domains
 
 **Rationale:**
+
 - Consistent mental model
 - Self-documenting
 - Easier to maintain
 - ADHD-friendly
 
 **Changes Made:**
+
 - Created `g` dispatcher for git
 - Removed old `gst`, `gco`, `gp` aliases
 - Removed old `qp`, `qr`, `qc` aliases
@@ -359,6 +389,7 @@ g help | grep -q "Git Commands" || echo "FAIL: g help"
 - `qu` = Quarto (not quota)
 
 **Trade-offs:**
+
 - Some muscle memory adjustment needed
 - Slightly more typing: `g push` vs `gp`
 - Benefit: Discoverable, consistent, documented
@@ -368,16 +399,19 @@ g help | grep -q "Git Commands" || echo "FAIL: g help"
 ## Part 9: Next Actions
 
 ### Immediate (Choose 1-2)
+
 1. **Create PHILOSOPHY.md** - Document the principles
 2. **Create test-duplicates.zsh** - Catch duplicate issues
 3. **Clean dead code** - Remove REMOVED comments
 
 ### This Week
+
 1. Set up ShellCheck integration
 2. Create dispatcher test suite
 3. Document architecture
 
 ### Backlog
+
 1. Split .zshrc into modules
 2. CI/CD pipeline
 3. Auto-generated docs
@@ -395,4 +429,4 @@ g help | grep -q "Git Commands" || echo "FAIL: g help"
 
 ---
 
-*Generated: 2025-12-17*
+_Generated: 2025-12-17_

@@ -6,12 +6,12 @@
 
 ## When to Use
 
-| Guide Type | Length | Purpose |
-|------------|--------|---------|
-| QUICK-START | ~1 page | Get running fast |
-| GETTING-STARTED | 2-4 pages | Hands-on intro + testing |
-| **TUTORIAL** | 5-15 pages | Deep learning, build something |
-| REFERENCE | Variable | Lookup, not learning |
+| Guide Type      | Length     | Purpose                        |
+| --------------- | ---------- | ------------------------------ |
+| QUICK-START     | ~1 page    | Get running fast               |
+| GETTING-STARTED | 2-4 pages  | Hands-on intro + testing       |
+| **TUTORIAL**    | 5-15 pages | Deep learning, build something |
+| REFERENCE       | Variable   | Lookup, not learning           |
 
 ---
 
@@ -29,11 +29,13 @@
 ## Prerequisites
 
 Before starting, you should:
+
 - [ ] [Prerequisite 1]
 - [ ] [Prerequisite 2]
 - [ ] Completed: [Link to prior tutorial if part of series]
 
 **Verify your setup:**
+
 ```bash
 [verification command]
 ```
@@ -43,6 +45,7 @@ Before starting, you should:
 ## What You'll Learn
 
 By the end of this tutorial, you will:
+
 1. [Learning objective 1 - action verb]
 2. [Learning objective 2 - action verb]
 3. [Learning objective 3 - action verb]
@@ -86,10 +89,12 @@ By the end of this tutorial, you will:
 ### Checkpoint
 
 At this point, you should have:
+
 - [x] [What they've accomplished]
 - [x] [What they've accomplished]
 
 **Verify:**
+
 ```bash
 [verification command]
 # Expected: [what they should see]
@@ -120,6 +125,7 @@ At this point, you should have:
 ### Checkpoint
 
 **Verify:**
+
 ```bash
 [verification command]
 ```
@@ -140,8 +146,8 @@ At this point, you should have:
 
 [Deeper explanation of an important concept introduced in this section]
 
-| Term | Meaning |
-|------|---------|
+| Term     | Meaning      |
+| -------- | ------------ |
 | [Term 1] | [Definition] |
 | [Term 2] | [Definition] |
 
@@ -156,6 +162,7 @@ At this point, you should have:
 ### Checkpoint
 
 **Verify:**
+
 ```bash
 [verification command]
 ```
@@ -180,12 +187,14 @@ Now let's use everything we learned:
 Practice what you learned with these challenges:
 
 ### Exercise 1: [Easy]
+
 [Task description]
 
 <details>
 <summary>Hint</summary>
 
 [Hint text]
+
 </details>
 
 <details>
@@ -194,9 +203,11 @@ Practice what you learned with these challenges:
 ```bash
 [solution]
 ```
+
 </details>
 
 ### Exercise 2: [Medium]
+
 [Task description]
 
 <details>
@@ -205,9 +216,11 @@ Practice what you learned with these challenges:
 ```bash
 [solution]
 ```
+
 </details>
 
 ### Exercise 3: [Challenge]
+
 [Task description - combines multiple concepts]
 
 <details>
@@ -216,6 +229,7 @@ Practice what you learned with these challenges:
 ```bash
 [solution]
 ```
+
 </details>
 
 ---
@@ -227,6 +241,7 @@ Practice what you learned with these challenges:
 **Cause:** [Why this happens]
 
 **Fix:**
+
 ```bash
 [fix command]
 ```
@@ -236,6 +251,7 @@ Practice what you learned with these challenges:
 **Cause:** [Why]
 
 **Fix:**
+
 ```bash
 [fix]
 ```
@@ -246,13 +262,14 @@ Practice what you learned with these challenges:
 
 In this tutorial, you learned:
 
-| Concept | What You Did |
-|---------|--------------|
+| Concept     | What You Did        |
+| ----------- | ------------------- |
 | [Concept 1] | [Brief description] |
 | [Concept 2] | [Brief description] |
 | [Concept 3] | [Brief description] |
 
 **Key commands:**
+
 ```bash
 [cmd1]    # [what it does]
 [cmd2]    # [what it does]
@@ -292,15 +309,16 @@ Continue your learning:
 
 ### Part Organization
 
-| Part | Content |
-|------|---------|
-| **Part 1** | Foundation — basic setup, first actions |
-| **Part 2** | Core workflow — main topic content |
+| Part       | Content                                    |
+| ---------- | ------------------------------------------ |
+| **Part 1** | Foundation — basic setup, first actions    |
+| **Part 2** | Core workflow — main topic content         |
 | **Part 3** | Advanced/Integration — putting it together |
 
 ### Step Structure
 
 Each step should have:
+
 1. **Brief intro** — What and why (1-2 sentences)
 2. **Code/command** — What to do
 3. **Explanation** — What happened (optional for obvious steps)
@@ -308,6 +326,7 @@ Each step should have:
 ### Checkpoints
 
 Place checkpoints:
+
 - After each Part (major section)
 - Before any destructive/irreversible action
 - At natural "save points"

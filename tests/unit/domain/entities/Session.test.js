@@ -55,8 +55,9 @@ describe('Session Entity', () => {
 
     test('throws error if task description is too long', () => {
       const longTask = 'a'.repeat(501)
-      expect(() => new Session('id-1', 'project', { task: longTask }))
-        .toThrow('Task description too long')
+      expect(() => new Session('id-1', 'project', { task: longTask })).toThrow(
+        'Task description too long'
+      )
     })
   })
 

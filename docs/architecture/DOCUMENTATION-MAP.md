@@ -1,4 +1,5 @@
 # Architecture Documentation Map
+
 **Navigation Guide for flow-cli Architecture Docs**
 
 ---
@@ -58,21 +59,23 @@ graph TB
 
 ### 🎯 Start Here (Pick One Based on Your Goal)
 
-| If you want to... | Read this | Time |
-|-------------------|-----------|------|
-| **Get started quickly** | [GETTING-STARTED.md](./GETTING-STARTED.md) | 10 min |
-| **Understand overall architecture** | [QUICK-REFERENCE.md](./QUICK-REFERENCE.md) | 5 min |
-| **Implement a feature** | [CODE-EXAMPLES.md](./CODE-EXAMPLES.md) | 15 min |
-| **Make architectural decisions** | [ADRs](./decisions/README.md) | 20 min |
+| If you want to...                   | Read this                                  | Time   |
+| ----------------------------------- | ------------------------------------------ | ------ |
+| **Get started quickly**             | [GETTING-STARTED.md](./GETTING-STARTED.md) | 10 min |
+| **Understand overall architecture** | [QUICK-REFERENCE.md](./QUICK-REFERENCE.md) | 5 min  |
+| **Implement a feature**             | [CODE-EXAMPLES.md](./CODE-EXAMPLES.md)     | 15 min |
+| **Make architectural decisions**    | [ADRs](./decisions/README.md)              | 20 min |
 
 ### 📖 Comprehensive Guides
 
 #### [ARCHITECTURE-PATTERNS-ANALYSIS.md](./ARCHITECTURE-PATTERNS-ANALYSIS.md)
+
 **1,200+ lines • 30-45 min read**
 
 > Deep dive into Clean Architecture, Hexagonal Architecture, and DDD
 
 **Topics:**
+
 - Current 3-layer architecture analysis
 - Recommended 4-layer design (Domain → Use Cases → Adapters → Frameworks)
 - Domain-Driven Design patterns (Entities, Value Objects, Repositories)
@@ -80,6 +83,7 @@ graph TB
 - Before/after comparisons with code examples
 
 **Best for:**
+
 - System architects
 - Developers planning major features
 - Understanding long-term direction
@@ -89,11 +93,13 @@ graph TB
 ---
 
 #### [API-DESIGN-REVIEW.md](./API-DESIGN-REVIEW.md)
+
 **900+ lines • 20-30 min read**
 
 > Node.js module API patterns and best practices
 
 **Topics:**
+
 - Why Node.js modules (not REST/GraphQL)
 - Module-by-module API review
 - Error handling strategies (throw vs return)
@@ -102,6 +108,7 @@ graph TB
 - Return type conventions
 
 **Best for:**
+
 - API developers
 - Frontend/backend integration
 - Understanding existing APIs
@@ -111,11 +118,13 @@ graph TB
 ---
 
 #### [VENDOR-INTEGRATION-ARCHITECTURE.md](./VENDOR-INTEGRATION-ARCHITECTURE.md)
+
 **670+ lines • 15-20 min read**
 
 > Vendored code pattern for zero-dependency installation
 
 **Topics:**
+
 - What is "vendoring" and why we use it
 - JavaScript bridge → shell scripts pattern
 - Project detection system architecture
@@ -123,6 +132,7 @@ graph TB
 - Testing strategy for vendored code
 
 **Best for:**
+
 - Integration developers
 - Understanding project detection
 - Maintenance and updates
@@ -134,11 +144,13 @@ graph TB
 ## 📋 Quick References (Desk Cards)
 
 ### [QUICK-REFERENCE.md](./QUICK-REFERENCE.md)
+
 **400 lines • 5 min read • PRINT-FRIENDLY**
 
 > One-page cheat sheet for Clean Architecture + DDD
 
 **Quick Lookups:**
+
 - 4-layer diagram (visual)
 - Dependency rule (what can depend on what)
 - Directory structure at-a-glance
@@ -150,11 +162,13 @@ graph TB
 ---
 
 ### [VENDOR-INTEGRATION-QUICK-REFERENCE.md](./VENDOR-INTEGRATION-QUICK-REFERENCE.md)
+
 **New! | PRINT-FRIENDLY**
 
 > Vendored code integration pattern quick reference
 
 **Quick Lookups:**
+
 - Vendoring pattern diagram
 - Update process checklist
 - Testing strategy
@@ -164,11 +178,13 @@ graph TB
 ---
 
 ### [API-DESIGN-QUICK-REFERENCE.md](./API-DESIGN-QUICK-REFERENCE.md)
+
 **New! | PRINT-FRIENDLY**
 
 > Node.js API design patterns reference card
 
 **Quick Lookups:**
+
 - Golden rules (throw errors, promise everything)
 - Function signature patterns
 - Return type patterns
@@ -183,13 +199,14 @@ graph TB
 
 **Purpose:** Document **why** we made architectural choices
 
-| ADR | Decision | Impact |
-|-----|----------|--------|
-| [ADR-001](./decisions/ADR-001-use-vendored-code-pattern.md) | Use vendored code pattern | ⭐⭐⭐ Zero dependencies, reliable |
-| [ADR-002](./decisions/ADR-002-adopt-clean-architecture.md) | Adopt Clean Architecture | ⭐⭐⭐ Foundation for growth |
-| [ADR-003](./decisions/ADR-003-nodejs-module-api-not-rest.md) | Node.js modules (not REST) | ⭐⭐⭐ Simple, fast, natural |
+| ADR                                                          | Decision                   | Impact                             |
+| ------------------------------------------------------------ | -------------------------- | ---------------------------------- |
+| [ADR-001](./decisions/ADR-001-use-vendored-code-pattern.md)  | Use vendored code pattern  | ⭐⭐⭐ Zero dependencies, reliable |
+| [ADR-002](./decisions/ADR-002-adopt-clean-architecture.md)   | Adopt Clean Architecture   | ⭐⭐⭐ Foundation for growth       |
+| [ADR-003](./decisions/ADR-003-nodejs-module-api-not-rest.md) | Node.js modules (not REST) | ⭐⭐⭐ Simple, fast, natural       |
 
 **When to read:**
+
 - Making architectural decisions
 - Understanding trade-offs
 - Reviewing past choices
@@ -199,11 +216,13 @@ graph TB
 ## 🎓 Learning Resources
 
 ### [CODE-EXAMPLES.md](./CODE-EXAMPLES.md)
+
 **1,350+ lines of copy-paste-ready code**
 
 > Real, working code examples for every pattern
 
 **Sections:**
+
 - Domain Layer (entities, value objects, repositories)
 - Use Cases Layer (application logic)
 - Adapters Layer (controllers, gateways, presenters)
@@ -215,6 +234,7 @@ graph TB
 ---
 
 ### [GETTING-STARTED.md](./GETTING-STARTED.md)
+
 **NEW - Hands-on tutorial**
 
 > Step-by-step guide to implementing your first feature
@@ -222,6 +242,7 @@ graph TB
 **You'll build:** A simple "Task" feature from scratch
 
 **What you'll learn:**
+
 - Create domain entity
 - Write use case
 - Implement repository
@@ -233,11 +254,13 @@ graph TB
 ---
 
 ### [PATTERN-COOKBOOK.md](./PATTERN-COOKBOOK.md)
+
 **NEW - Decision trees and recipes**
 
 > "I want to do X, which pattern should I use?"
 
 **Sections:**
+
 - Decision trees (visual flowcharts)
 - Pattern recipes (step-by-step)
 - When to use each pattern
@@ -248,17 +271,20 @@ graph TB
 ---
 
 ### [Interactive Tutorial](./interactive-tutorial/)
+
 **NEW - Hands-on exercises**
 
 > Learn by doing with guided exercises
 
 **Modules:**
+
 1. Domain Modeling (30 min)
 2. Use Case Design (30 min)
 3. Adapter Implementation (45 min)
 4. Testing Strategy (30 min)
 
 **Features:**
+
 - Code challenges
 - Immediate feedback
 - Progressive difficulty
@@ -269,11 +295,13 @@ graph TB
 ## 🛠️ Tools & Utilities
 
 ### [Architecture Health Dashboard](../../cli/tools/arch-dashboard/)
+
 **NEW - Live metrics**
 
 > Real-time view of architectural health
 
 **Metrics:**
+
 - Dependency violations
 - Layer boundary checks
 - Test coverage by layer
@@ -281,6 +309,7 @@ graph TB
 - Complexity trends
 
 **Usage:**
+
 ```bash
 npm run arch-dashboard
 # Opens in browser at http://localhost:3000
@@ -291,9 +320,11 @@ npm run arch-dashboard
 ## 📊 Visual Diagrams
 
 ### Full Mermaid Diagram Set (20+ diagrams)
+
 Located throughout documentation
 
 **Types:**
+
 - Layer diagrams (4-layer architecture)
 - Sequence diagrams (data flows)
 - Component diagrams (module relationships)
@@ -301,6 +332,7 @@ Located throughout documentation
 - Decision trees (pattern selection)
 
 **Find them in:**
+
 - Main docs (inline with content)
 - `diagrams/` directory (standalone files)
 
@@ -310,36 +342,36 @@ Located throughout documentation
 
 ### By Task
 
-| I want to... | Go here |
-|--------------|---------|
-| **Learn architecture basics** | [QUICK-REFERENCE.md](./QUICK-REFERENCE.md) |
-| **Understand a decision** | [ADRs](./decisions/README.md) |
-| **Implement a feature** | [CODE-EXAMPLES.md](./CODE-EXAMPLES.md) → [GETTING-STARTED.md](./GETTING-STARTED.md) |
-| **Review API design** | [API-DESIGN-REVIEW.md](./API-DESIGN-REVIEW.md) |
-| **Update vendored code** | [VENDOR-INTEGRATION-ARCHITECTURE.md](./VENDOR-INTEGRATION-ARCHITECTURE.md) |
-| **Check system health** | [Architecture Dashboard](../../cli/tools/arch-dashboard/) |
-| **Choose a pattern** | [PATTERN-COOKBOOK.md](./PATTERN-COOKBOOK.md) |
+| I want to...                  | Go here                                                                             |
+| ----------------------------- | ----------------------------------------------------------------------------------- |
+| **Learn architecture basics** | [QUICK-REFERENCE.md](./QUICK-REFERENCE.md)                                          |
+| **Understand a decision**     | [ADRs](./decisions/README.md)                                                       |
+| **Implement a feature**       | [CODE-EXAMPLES.md](./CODE-EXAMPLES.md) → [GETTING-STARTED.md](./GETTING-STARTED.md) |
+| **Review API design**         | [API-DESIGN-REVIEW.md](./API-DESIGN-REVIEW.md)                                      |
+| **Update vendored code**      | [VENDOR-INTEGRATION-ARCHITECTURE.md](./VENDOR-INTEGRATION-ARCHITECTURE.md)          |
+| **Check system health**       | [Architecture Dashboard](../../cli/tools/arch-dashboard/)                           |
+| **Choose a pattern**          | [PATTERN-COOKBOOK.md](./PATTERN-COOKBOOK.md)                                        |
 
 ### By Role
 
-| Role | Start Here | Then Read |
-|------|------------|-----------|
-| **New Developer** | [GETTING-STARTED.md](./GETTING-STARTED.md) | [QUICK-REFERENCE.md](./QUICK-REFERENCE.md) → [CODE-EXAMPLES.md](./CODE-EXAMPLES.md) |
-| **Frontend Developer** | [API-DESIGN-QUICK-REFERENCE.md](./API-DESIGN-QUICK-REFERENCE.md) | [API-DESIGN-REVIEW.md](./API-DESIGN-REVIEW.md) |
-| **Backend Developer** | [ARCHITECTURE-PATTERNS-ANALYSIS.md](./ARCHITECTURE-PATTERNS-ANALYSIS.md) | [CODE-EXAMPLES.md](./CODE-EXAMPLES.md) |
-| **Architect** | [ADRs](./decisions/README.md) | [ARCHITECTURE-PATTERNS-ANALYSIS.md](./ARCHITECTURE-PATTERNS-ANALYSIS.md) |
-| **QA/Tester** | [CODE-EXAMPLES.md#testing-patterns](./CODE-EXAMPLES.md) | [Architecture Dashboard](../../cli/tools/arch-dashboard/) |
+| Role                   | Start Here                                                               | Then Read                                                                           |
+| ---------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| **New Developer**      | [GETTING-STARTED.md](./GETTING-STARTED.md)                               | [QUICK-REFERENCE.md](./QUICK-REFERENCE.md) → [CODE-EXAMPLES.md](./CODE-EXAMPLES.md) |
+| **Frontend Developer** | [API-DESIGN-QUICK-REFERENCE.md](./API-DESIGN-QUICK-REFERENCE.md)         | [API-DESIGN-REVIEW.md](./API-DESIGN-REVIEW.md)                                      |
+| **Backend Developer**  | [ARCHITECTURE-PATTERNS-ANALYSIS.md](./ARCHITECTURE-PATTERNS-ANALYSIS.md) | [CODE-EXAMPLES.md](./CODE-EXAMPLES.md)                                              |
+| **Architect**          | [ADRs](./decisions/README.md)                                            | [ARCHITECTURE-PATTERNS-ANALYSIS.md](./ARCHITECTURE-PATTERNS-ANALYSIS.md)            |
+| **QA/Tester**          | [CODE-EXAMPLES.md#testing-patterns](./CODE-EXAMPLES.md)                  | [Architecture Dashboard](../../cli/tools/arch-dashboard/)                           |
 
 ### By Time Available
 
-| Time | Read This |
-|------|-----------|
-| **5 minutes** | [QUICK-REFERENCE.md](./QUICK-REFERENCE.md) |
-| **15 minutes** | [CODE-EXAMPLES.md](./CODE-EXAMPLES.md) (pick one section) |
-| **30 minutes** | [GETTING-STARTED.md](./GETTING-STARTED.md) (hands-on tutorial) |
-| **1 hour** | [ARCHITECTURE-PATTERNS-ANALYSIS.md](./ARCHITECTURE-PATTERNS-ANALYSIS.md) |
-| **2 hours** | All Quick References + Getting Started + CODE-EXAMPLES |
-| **Half day** | Full architecture docs + Interactive tutorial |
+| Time           | Read This                                                                |
+| -------------- | ------------------------------------------------------------------------ |
+| **5 minutes**  | [QUICK-REFERENCE.md](./QUICK-REFERENCE.md)                               |
+| **15 minutes** | [CODE-EXAMPLES.md](./CODE-EXAMPLES.md) (pick one section)                |
+| **30 minutes** | [GETTING-STARTED.md](./GETTING-STARTED.md) (hands-on tutorial)           |
+| **1 hour**     | [ARCHITECTURE-PATTERNS-ANALYSIS.md](./ARCHITECTURE-PATTERNS-ANALYSIS.md) |
+| **2 hours**    | All Quick References + Getting Started + CODE-EXAMPLES                   |
+| **Half day**   | Full architecture docs + Interactive tutorial                            |
 
 ---
 
@@ -391,37 +423,40 @@ Located throughout documentation
 
 ## 📅 Documentation Status
 
-| Document | Status | Last Updated | Next Review |
-|----------|--------|--------------|-------------|
-| ARCHITECTURE-PATTERNS-ANALYSIS.md | ✅ Complete | 2025-12-20 | 2026-01-20 |
-| API-DESIGN-REVIEW.md | ✅ Complete | 2025-12-20 | 2026-01-20 |
-| VENDOR-INTEGRATION-ARCHITECTURE.md | ✅ Complete | 2025-12-20 | 2026-01-20 |
-| QUICK-REFERENCE.md | ✅ Complete | 2025-12-21 | 2026-01-20 |
-| CODE-EXAMPLES.md | ✅ Complete | 2025-12-21 | 2026-01-20 |
-| ADR-001 | ✅ Accepted | 2025-12-20 | 2026-01-20 |
-| ADR-002 | ✅ Accepted | 2025-12-20 | 2026-01-20 |
-| ADR-003 | ✅ Accepted | 2025-12-20 | 2026-01-20 |
-| VENDOR-INTEGRATION-QUICK-REFERENCE.md | 🆕 New | 2025-12-23 | 2026-01-23 |
-| API-DESIGN-QUICK-REFERENCE.md | 🆕 New | 2025-12-23 | 2026-01-23 |
-| GETTING-STARTED.md | 🚧 In Progress | 2025-12-23 | TBD |
-| PATTERN-COOKBOOK.md | 🚧 In Progress | 2025-12-23 | TBD |
-| Interactive Tutorial | 🚧 In Progress | 2025-12-23 | TBD |
-| Architecture Dashboard | 🚧 In Progress | 2025-12-23 | TBD |
+| Document                              | Status         | Last Updated | Next Review |
+| ------------------------------------- | -------------- | ------------ | ----------- |
+| ARCHITECTURE-PATTERNS-ANALYSIS.md     | ✅ Complete    | 2025-12-20   | 2026-01-20  |
+| API-DESIGN-REVIEW.md                  | ✅ Complete    | 2025-12-20   | 2026-01-20  |
+| VENDOR-INTEGRATION-ARCHITECTURE.md    | ✅ Complete    | 2025-12-20   | 2026-01-20  |
+| QUICK-REFERENCE.md                    | ✅ Complete    | 2025-12-21   | 2026-01-20  |
+| CODE-EXAMPLES.md                      | ✅ Complete    | 2025-12-21   | 2026-01-20  |
+| ADR-001                               | ✅ Accepted    | 2025-12-20   | 2026-01-20  |
+| ADR-002                               | ✅ Accepted    | 2025-12-20   | 2026-01-20  |
+| ADR-003                               | ✅ Accepted    | 2025-12-20   | 2026-01-20  |
+| VENDOR-INTEGRATION-QUICK-REFERENCE.md | 🆕 New         | 2025-12-23   | 2026-01-23  |
+| API-DESIGN-QUICK-REFERENCE.md         | 🆕 New         | 2025-12-23   | 2026-01-23  |
+| GETTING-STARTED.md                    | 🚧 In Progress | 2025-12-23   | TBD         |
+| PATTERN-COOKBOOK.md                   | 🚧 In Progress | 2025-12-23   | TBD         |
+| Interactive Tutorial                  | 🚧 In Progress | 2025-12-23   | TBD         |
+| Architecture Dashboard                | 🚧 In Progress | 2025-12-23   | TBD         |
 
 ---
 
 ## 🔗 External Resources
 
 **Books:**
+
 - [Clean Architecture](https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164) - Robert C. Martin
 - [Domain-Driven Design](https://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215) - Eric Evans
 - [Implementing Domain-Driven Design](https://www.amazon.com/Implementing-Domain-Driven-Design-Vaughn-Vernon/dp/0321834577) - Vaughn Vernon
 
 **Articles:**
+
 - [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) - Uncle Bob
 - [Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/) - Alistair Cockburn
 
 **Videos:**
+
 - [Clean Architecture and Design](https://www.youtube.com/watch?v=2dKZ-dWaCiU) - Robert C. Martin
 
 ---

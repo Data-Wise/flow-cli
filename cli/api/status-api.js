@@ -5,7 +5,7 @@
  * Builds on status adapter to provide formatted, app-ready data.
  */
 
-const statusAdapter = require('../adapters/status');
+const statusAdapter = require('../adapters/status')
 
 /**
  * Get dashboard data for UI
@@ -13,14 +13,14 @@ const statusAdapter = require('../adapters/status');
  * @returns {Promise<Object>} Dashboard-ready data
  */
 async function getDashboardData(projectPath = process.cwd()) {
-  const status = await statusAdapter.getCompleteStatus(projectPath);
+  const status = await statusAdapter.getCompleteStatus(projectPath)
 
   // Format for dashboard display
   return {
     session: formatSessionData(status.session),
     project: formatProjectData(status.project),
     timestamp: status.timestamp
-  };
+  }
 }
 
 /**
@@ -33,7 +33,7 @@ function formatSessionData(session) {
     return {
       active: false,
       message: 'No active work session'
-    };
+    }
   }
 
   return {
@@ -44,7 +44,7 @@ function formatSessionData(session) {
     durationMinutes: session.duration_minutes,
     context: session.context || '',
     editor: session.editor || 'unknown'
-  };
+  }
 }
 
 /**
@@ -58,7 +58,7 @@ function formatProjectData(project) {
       hasStatus: false,
       error: project.error,
       path: project.path
-    };
+    }
   }
 
   return {
@@ -69,7 +69,7 @@ function formatProjectData(project) {
     progress: project.progress || [],
     nextActions: parseNextActions(project.nextActions),
     recentWins: extractRecentWins(project.wins)
-  };
+  }
 }
 
 /**
@@ -78,14 +78,14 @@ function formatProjectData(project) {
  * @returns {Array<Object>} Parsed actions
  */
 function parseNextActions(nextActions) {
-  if (!nextActions) return [];
+  if (!nextActions) return []
 
-  const actions = [];
-  const lines = nextActions.split('\n');
+  const actions = []
+  const lines = nextActions.split('\n')
 
   for (const line of lines) {
     // Match patterns like: A) **Task name** 🟢 [est. X hours]
-    const match = line.match(/([A-C])\)\s+\*\*(.+?)\*\*\s+([🟢🟡🔴⚡])\s+\[est\.\s+(.+?)\]/);
+    const match = line.match(/([A-C])\)\s+\*\*(.+?)\*\*\s+([🟢🟡🔴⚡])\s+\[est\.\s+(.+?)\]/)
     if (match) {
       actions.push({
         option: match[1],
@@ -93,11 +93,11 @@ function parseNextActions(nextActions) {
         status: match[3],
         estimate: match[4],
         raw: line
-      });
+      })
     }
   }
 
-  return actions;
+  return actions
 }
 
 /**
@@ -106,10 +106,10 @@ function parseNextActions(nextActions) {
  * @returns {Array<string>} Recent wins
  */
 function extractRecentWins(wins) {
-  if (!wins) return [];
+  if (!wins) return []
 
-  const lines = wins.split('\n').filter(line => line.trim().startsWith('✅'));
-  return lines.slice(0, 3).map(line => line.replace('✅', '').trim());
+  const lines = wins.split('\n').filter(line => line.trim().startsWith('✅'))
+  return lines.slice(0, 3).map(line => line.replace('✅', '').trim())
 }
 
 /**
@@ -118,14 +118,14 @@ function extractRecentWins(wins) {
  * @returns {string} Formatted duration
  */
 function formatDuration(minutes) {
-  if (!minutes) return '0 min';
+  if (!minutes) return '0 min'
 
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
+  const hours = Math.floor(minutes / 60)
+  const mins = minutes % 60
 
-  if (hours === 0) return `${mins} min`;
-  if (mins === 0) return `${hours}h`;
-  return `${hours}h ${mins}min`;
+  if (hours === 0) return `${mins} min`
+  if (mins === 0) return `${hours}h`
+  return `${hours}h ${mins}min`
 }
 
 /**
@@ -133,8 +133,8 @@ function formatDuration(minutes) {
  * @returns {Promise<Object>} Session status
  */
 async function getSessionStatus() {
-  const session = await statusAdapter.getCurrentSession();
-  return formatSessionData(session);
+  const session = await statusAdapter.getCurrentSession()
+  return formatSessionData(session)
 }
 
 /**
@@ -143,19 +143,19 @@ async function getSessionStatus() {
  * @returns {Promise<Object>} Progress summary
  */
 async function getProgressSummary(projectPath = process.cwd()) {
-  const project = await statusAdapter.getProjectStatus(projectPath);
+  const project = await statusAdapter.getProjectStatus(projectPath)
 
   if (project.error) {
     return {
       error: project.error,
       hasProgress: false
-    };
+    }
   }
 
-  const progress = project.progress || [];
-  const completed = progress.filter(p => p.progress === 100).length;
-  const total = progress.length;
-  const inProgress = progress.filter(p => p.progress > 0 && p.progress < 100).length;
+  const progress = project.progress || []
+  const completed = progress.filter(p => p.progress === 100).length
+  const total = progress.length
+  const inProgress = progress.filter(p => p.progress > 0 && p.progress < 100).length
 
   return {
     hasProgress: true,
@@ -167,7 +167,7 @@ async function getProgressSummary(projectPath = process.cwd()) {
       pending: total - completed - inProgress,
       percentComplete: total > 0 ? Math.round((completed / total) * 100) : 0
     }
-  };
+  }
 }
 
 /**
@@ -176,29 +176,29 @@ async function getProgressSummary(projectPath = process.cwd()) {
  * @returns {Promise<Object>} Recommended tasks
  */
 async function getTaskRecommendations(projectPath = process.cwd()) {
-  const project = await statusAdapter.getProjectStatus(projectPath);
+  const project = await statusAdapter.getProjectStatus(projectPath)
 
   if (project.error) {
     return {
       error: project.error,
       recommendations: []
-    };
+    }
   }
 
-  const actions = parseNextActions(project.nextActions);
+  const actions = parseNextActions(project.nextActions)
 
   // Prioritize quick wins (⚡), then ready (🟢), then others
   const sorted = actions.sort((a, b) => {
-    const priority = { '⚡': 0, '🟢': 1, '🟡': 2, '🔴': 3 };
-    return (priority[a.status] || 99) - (priority[b.status] || 99);
-  });
+    const priority = { '⚡': 0, '🟢': 1, '🟡': 2, '🔴': 3 }
+    return (priority[a.status] || 99) - (priority[b.status] || 99)
+  })
 
   return {
     recommendations: sorted,
     suggested: sorted[0] || null,
     quickWins: sorted.filter(a => a.status === '⚡'),
     ready: sorted.filter(a => a.status === '🟢')
-  };
+  }
 }
 
 /**
@@ -206,16 +206,16 @@ async function getTaskRecommendations(projectPath = process.cwd()) {
  * @returns {Promise<Object>} Flow state info
  */
 async function checkFlowState() {
-  const session = await statusAdapter.getCurrentSession();
+  const session = await statusAdapter.getCurrentSession()
 
   if (!session) {
     return {
       inFlow: false,
       reason: 'No active session'
-    };
+    }
   }
 
-  const duration = session.duration_minutes || 0;
+  const duration = session.duration_minutes || 0
 
   // Consider "in flow" if session is 15+ minutes
   return {
@@ -223,7 +223,7 @@ async function checkFlowState() {
     duration: formatDuration(duration),
     durationMinutes: duration,
     reason: duration >= 15 ? 'Active session running' : 'Session just started'
-  };
+  }
 }
 
 module.exports = {
@@ -232,4 +232,4 @@ module.exports = {
   getProgressSummary,
   getTaskRecommendations,
   checkFlowState
-};
+}

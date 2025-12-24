@@ -30,17 +30,17 @@ To make flow-cli highly integratable with other tools, we should follow these pr
 
 ```javascript
 // cli/api/index.js - Main public API
-export { SessionManager } from './session-api.js';
-export { DashboardGenerator } from './dashboard-api.js';
-export { ProjectScanner } from './project-scanner-api.js';
-export { DependencyTracker } from './dependency-api.js';
+export { SessionManager } from './session-api.js'
+export { DashboardGenerator } from './dashboard-api.js'
+export { ProjectScanner } from './project-scanner-api.js'
+export { DependencyTracker } from './dependency-api.js'
 
 // Usage by other tools:
-import { SessionManager, ProjectScanner } from 'flow-cli';
+import { SessionManager, ProjectScanner } from 'flow-cli'
 
-const scanner = new ProjectScanner();
-const projects = await scanner.scanAll();
-console.log(`Found ${projects.length} projects`);
+const scanner = new ProjectScanner()
+const projects = await scanner.scanAll()
+console.log(`Found ${projects.length} projects`)
 ```
 
 ### package.json Exports
@@ -65,13 +65,13 @@ console.log(`Found ${projects.length} projects`);
 
 ```javascript
 // chalk is designed for programmatic use
-import chalk from 'chalk';
-console.log(chalk.blue('Hello world!'));
+import chalk from 'chalk'
+console.log(chalk.blue('Hello world!'))
 
 // We should do the same
-import { SessionManager } from 'flow-cli';
-const session = new SessionManager();
-await session.save({ projectName: 'foo', task: 'bar' });
+import { SessionManager } from 'flow-cli'
+const session = new SessionManager()
+await session.save({ projectName: 'foo', task: 'bar' })
 ```
 
 ---
@@ -108,27 +108,27 @@ await session.save({ projectName: 'foo', task: 'bar' });
 export class DashboardGenerator {
   // Return multiple formats
   async generate(format = 'json') {
-    const data = await this.collectData();
+    const data = await this.collectData()
 
     switch (format) {
       case 'json':
-        return JSON.stringify(data, null, 2);
+        return JSON.stringify(data, null, 2)
       case 'yaml':
-        return toYAML(data);
+        return toYAML(data)
       case 'csv':
-        return toCSV(data);
+        return toCSV(data)
       case 'markdown':
-        return toMarkdown(data);
+        return toMarkdown(data)
       default:
-        return data; // Return raw object
+        return data // Return raw object
     }
   }
 }
 
 // Other tools can choose their preferred format
-import { DashboardGenerator } from 'flow-cli';
-const dash = new DashboardGenerator();
-const markdown = await dash.generate('markdown');
+import { DashboardGenerator } from 'flow-cli'
+const dash = new DashboardGenerator()
+const markdown = await dash.generate('markdown')
 ```
 
 ### Real-World Example: ESLint
@@ -172,17 +172,17 @@ zsh-config --show-all-projects-with-p0-priority
 
 export async function listProjects(options) {
   try {
-    const scanner = new ProjectScanner();
-    const projects = await scanner.scanAll();
+    const scanner = new ProjectScanner()
+    const projects = await scanner.scanAll()
 
     // Output to stdout (can be piped)
-    console.log(JSON.stringify(projects, null, 2));
+    console.log(JSON.stringify(projects, null, 2))
 
-    return 0; // Success exit code
+    return 0 // Success exit code
   } catch (error) {
     // Errors to stderr
-    console.error(`Error scanning projects: ${error.message}`);
-    return 1; // Error exit code
+    console.error(`Error scanning projects: ${error.message}`)
+    return 1 // Error exit code
   }
 }
 ```
@@ -216,36 +216,42 @@ zsh-config projects find --type r-package | xargs zsh-config deps analyze
 
 export class PluginManager {
   constructor() {
-    this.plugins = new Map();
+    this.plugins = new Map()
   }
 
   register(name, plugin) {
     // Validate plugin has required interface
     if (!plugin.init || !plugin.hooks) {
-      throw new Error(`Invalid plugin: ${name}`);
+      throw new Error(`Invalid plugin: ${name}`)
     }
 
-    this.plugins.set(name, plugin);
-    plugin.init(this.getPluginAPI());
+    this.plugins.set(name, plugin)
+    plugin.init(this.getPluginAPI())
   }
 
   async runHook(hookName, ...args) {
-    const results = [];
+    const results = []
     for (const [name, plugin] of this.plugins) {
       if (plugin.hooks[hookName]) {
-        const result = await plugin.hooks[hookName](...args);
-        results.push({ plugin: name, result });
+        const result = await plugin.hooks[hookName](...args)
+        results.push({ plugin: name, result })
       }
     }
-    return results;
+    return results
   }
 
   getPluginAPI() {
     return {
-      registerCommand: (name, fn) => { /* ... */ },
-      registerDetector: (type, fn) => { /* ... */ },
-      emitEvent: (event, data) => { /* ... */ }
-    };
+      registerCommand: (name, fn) => {
+        /* ... */
+      },
+      registerDetector: (type, fn) => {
+        /* ... */
+      },
+      emitEvent: (event, data) => {
+        /* ... */
+      }
+    }
   }
 }
 ```
@@ -260,39 +266,39 @@ export default {
 
   init(api) {
     // Register new project type detector
-    api.registerDetector('git-repo', (projectPath) => {
-      return fs.existsSync(path.join(projectPath, '.git'));
-    });
+    api.registerDetector('git-repo', projectPath => {
+      return fs.existsSync(path.join(projectPath, '.git'))
+    })
 
     // Register new command
-    api.registerCommand('git-status', async (projectName) => {
-      const session = await api.getSession(projectName);
+    api.registerCommand('git-status', async projectName => {
+      const session = await api.getSession(projectName)
       const { stdout } = await exec('git status -sb', {
         cwd: session.projectPath
-      });
-      return stdout;
-    });
+      })
+      return stdout
+    })
 
     // Listen to events
-    api.onEvent('session:start', (session) => {
-      console.log(`Git plugin: Session started for ${session.projectName}`);
-    });
+    api.onEvent('session:start', session => {
+      console.log(`Git plugin: Session started for ${session.projectName}`)
+    })
   },
 
   hooks: {
-    'before:session:save': async (session) => {
+    'before:session:save': async session => {
       // Add git info to session
-      session.git = await getGitInfo(session.projectPath);
-      return session;
+      session.git = await getGitInfo(session.projectPath)
+      return session
     },
 
-    'after:dashboard:generate': async (dashboard) => {
+    'after:dashboard:generate': async dashboard => {
       // Enhance dashboard with git stats
-      dashboard.gitStats = await collectGitStats();
-      return dashboard;
+      dashboard.gitStats = await collectGitStats()
+      return dashboard
     }
   }
-};
+}
 ```
 
 ### Plugin Discovery
@@ -301,12 +307,12 @@ export default {
 // ~/.zsh-config/plugins/
 // Auto-discover plugins in user directory
 
-const pluginDir = path.join(os.homedir(), '.zsh-config/plugins');
-const pluginFiles = fs.readdirSync(pluginDir).filter(f => f.endsWith('.js'));
+const pluginDir = path.join(os.homedir(), '.zsh-config/plugins')
+const pluginFiles = fs.readdirSync(pluginDir).filter(f => f.endsWith('.js'))
 
 for (const file of pluginFiles) {
-  const plugin = await import(path.join(pluginDir, file));
-  pluginManager.register(file.replace('.js', ''), plugin.default);
+  const plugin = await import(path.join(pluginDir, file))
+  pluginManager.register(file.replace('.js', ''), plugin.default)
 }
 ```
 
@@ -350,77 +356,77 @@ plugins: [new HtmlWebpackPlugin()]
 
 ```javascript
 // cli/core/event-emitter.js
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'events'
 
 export class ZshConfigEvents extends EventEmitter {
   // Session events
   emitSessionStart(session) {
-    this.emit('session:start', session);
-    this.emit('session:change', { type: 'start', session });
+    this.emit('session:start', session)
+    this.emit('session:change', { type: 'start', session })
   }
 
   emitSessionEnd(session) {
-    this.emit('session:end', session);
-    this.emit('session:change', { type: 'end', session });
+    this.emit('session:end', session)
+    this.emit('session:change', { type: 'end', session })
   }
 
   // Project events
   emitProjectsScanned(projects) {
-    this.emit('projects:scanned', projects);
+    this.emit('projects:scanned', projects)
   }
 
   emitProjectAdded(project) {
-    this.emit('project:added', project);
+    this.emit('project:added', project)
   }
 
   // Dashboard events
   emitDashboardGenerated(dashboard) {
-    this.emit('dashboard:generated', dashboard);
+    this.emit('dashboard:generated', dashboard)
   }
 }
 
-export const events = new ZshConfigEvents();
+export const events = new ZshConfigEvents()
 ```
 
 ### Integration Example: aiterm
 
 ```javascript
 // In aiterm's integration with flow-cli
-import { events } from 'flow-cli';
+import { events } from 'flow-cli'
 
-events.on('session:start', (session) => {
+events.on('session:start', session => {
   // Switch terminal profile when session starts
-  const profile = getProfileForProjectType(session.projectType);
-  switchTerminalProfile(profile);
-  setWindowTitle(`${session.projectName} (${session.projectType})`);
-});
+  const profile = getProfileForProjectType(session.projectType)
+  switchTerminalProfile(profile)
+  setWindowTitle(`${session.projectName} (${session.projectType})`)
+})
 
-events.on('session:end', (session) => {
+events.on('session:end', session => {
   // Reset terminal to default
-  switchTerminalProfile('default');
-  setWindowTitle('Terminal');
-});
+  switchTerminalProfile('default')
+  setWindowTitle('Terminal')
+})
 ```
 
 ### Real-World Example: Webpack
 
 ```javascript
 // Webpack emits events via hooks
-compiler.hooks.compile.tap('MyPlugin', (params) => {
-  console.log('The compiler is starting to compile...');
-});
+compiler.hooks.compile.tap('MyPlugin', params => {
+  console.log('The compiler is starting to compile...')
+})
 
 compiler.hooks.emit.tapAsync('MyPlugin', (compilation, callback) => {
   // Do something asynchronous...
-  callback();
-});
+  callback()
+})
 
 // We should provide similar hooks
-import { hooks } from 'flow-cli';
+import { hooks } from 'flow-cli'
 
-hooks.session.start.tap('MyIntegration', (session) => {
+hooks.session.start.tap('MyIntegration', session => {
   // Custom logic when session starts
-});
+})
 ```
 
 ---
@@ -438,106 +444,103 @@ hooks.session.start.tap('MyIntegration', (session) => {
 
 export class ConfigManager {
   constructor(configPath = '~/.zsh-config/config.json') {
-    this.configPath = path.expanduser(configPath);
-    this.config = this.load();
+    this.configPath = path.expanduser(configPath)
+    this.config = this.load()
   }
 
   load() {
     if (!fs.existsSync(this.configPath)) {
-      return this.getDefaults();
+      return this.getDefaults()
     }
-    return JSON.parse(fs.readFileSync(this.configPath, 'utf8'));
+    return JSON.parse(fs.readFileSync(this.configPath, 'utf8'))
   }
 
   save() {
-    fs.writeFileSync(
-      this.configPath,
-      JSON.stringify(this.config, null, 2)
-    );
+    fs.writeFileSync(this.configPath, JSON.stringify(this.config, null, 2))
   }
 
   // Get configuration value
   get(key, defaultValue) {
-    const keys = key.split('.');
-    let value = this.config;
+    const keys = key.split('.')
+    let value = this.config
 
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {
-        value = value[k];
+        value = value[k]
       } else {
-        return defaultValue;
+        return defaultValue
       }
     }
 
-    return value;
+    return value
   }
 
   // Set configuration value
   set(key, value) {
-    const keys = key.split('.');
-    const lastKey = keys.pop();
-    let target = this.config;
+    const keys = key.split('.')
+    const lastKey = keys.pop()
+    let target = this.config
 
     for (const k of keys) {
       if (!(k in target)) {
-        target[k] = {};
+        target[k] = {}
       }
-      target = target[k];
+      target = target[k]
     }
 
-    target[lastKey] = value;
-    this.save();
+    target[lastKey] = value
+    this.save()
   }
 
   // Get all configuration
   getAll() {
-    return { ...this.config };
+    return { ...this.config }
   }
 
   // Update multiple values
   update(updates) {
-    this.config = { ...this.config, ...updates };
-    this.save();
+    this.config = { ...this.config, ...updates }
+    this.save()
   }
 }
 
 // Export singleton
-export const config = new ConfigManager();
+export const config = new ConfigManager()
 ```
 
 ### External Tool Integration
 
 ```javascript
 // Other tool accessing our configuration
-import { config } from 'flow-cli';
+import { config } from 'flow-cli'
 
 // Read config
-const sessionDir = config.get('session.directory', '~/.zsh-sessions');
-const dashboardFormat = config.get('dashboard.defaultFormat', 'terminal');
+const sessionDir = config.get('session.directory', '~/.zsh-sessions')
+const dashboardFormat = config.get('dashboard.defaultFormat', 'terminal')
 
 // Modify config
-config.set('integrations.aiterm.enabled', true);
-config.set('integrations.aiterm.autoSwitch', true);
+config.set('integrations.aiterm.enabled', true)
+config.set('integrations.aiterm.autoSwitch', true)
 
 // Batch update
 config.update({
   'integrations.jira.enabled': true,
   'integrations.jira.apiKey': process.env.JIRA_API_KEY
-});
+})
 ```
 
 ### Real-World Example: VS Code Settings
 
 ```javascript
 // VS Code allows programmatic access to settings
-const config = vscode.workspace.getConfiguration('editor');
-const fontSize = config.get('fontSize', 14);
-await config.update('fontSize', 16, vscode.ConfigurationTarget.Global);
+const config = vscode.workspace.getConfiguration('editor')
+const fontSize = config.get('fontSize', 14)
+await config.update('fontSize', 16, vscode.ConfigurationTarget.Global)
 
 // We should provide similar API
-import { config } from 'flow-cli';
-const sessionDir = config.get('session.directory');
-await config.update('dashboard.format', 'json');
+import { config } from 'flow-cli'
+const sessionDir = config.get('session.directory')
+await config.update('dashboard.format', 'json')
 ```
 
 ---
@@ -561,49 +564,45 @@ export class DataExporter {
       ['csv', this.exportCSV],
       ['markdown', this.exportMarkdown],
       ['html', this.exportHTML]
-    ]);
+    ])
   }
 
   async export(data, format = 'json', options = {}) {
-    const exporter = this.exporters.get(format);
+    const exporter = this.exporters.get(format)
     if (!exporter) {
-      throw new Error(`Unknown export format: ${format}`);
+      throw new Error(`Unknown export format: ${format}`)
     }
-    return exporter.call(this, data, options);
+    return exporter.call(this, data, options)
   }
 
   exportJSON(data, options) {
-    const indent = options.pretty ? 2 : 0;
-    return JSON.stringify(data, null, indent);
+    const indent = options.pretty ? 2 : 0
+    return JSON.stringify(data, null, indent)
   }
 
   exportYAML(data, options) {
     // Use yaml library
-    return yaml.dump(data, options);
+    return yaml.dump(data, options)
   }
 
   exportCSV(data, options) {
     // Convert to CSV format
     if (Array.isArray(data)) {
-      const headers = Object.keys(data[0]);
-      const rows = data.map(item =>
-        headers.map(h => item[h]).join(',')
-      );
-      return [headers.join(','), ...rows].join('\n');
+      const headers = Object.keys(data[0])
+      const rows = data.map(item => headers.map(h => item[h]).join(','))
+      return [headers.join(','), ...rows].join('\n')
     }
-    throw new Error('CSV export requires array of objects');
+    throw new Error('CSV export requires array of objects')
   }
 
   exportMarkdown(data, options) {
     // Convert to Markdown table
     if (Array.isArray(data)) {
-      const headers = Object.keys(data[0]);
-      const headerRow = `| ${headers.join(' | ')} |`;
-      const separator = `| ${headers.map(() => '---').join(' | ')} |`;
-      const rows = data.map(item =>
-        `| ${headers.map(h => item[h]).join(' | ')} |`
-      );
-      return [headerRow, separator, ...rows].join('\n');
+      const headers = Object.keys(data[0])
+      const headerRow = `| ${headers.join(' | ')} |`
+      const separator = `| ${headers.map(() => '---').join(' | ')} |`
+      const rows = data.map(item => `| ${headers.map(h => item[h]).join(' | ')} |`)
+      return [headerRow, separator, ...rows].join('\n')
     }
   }
 
@@ -614,7 +613,7 @@ export class DataExporter {
 
   // Register custom exporter
   registerExporter(format, exporterFn) {
-    this.exporters.set(format, exporterFn);
+    this.exporters.set(format, exporterFn)
   }
 }
 ```
@@ -665,12 +664,12 @@ zsh-config export --format markdown
 
 ```javascript
 // Standard exit codes
-const EXIT_SUCCESS = 0;
-const EXIT_GENERAL_ERROR = 1;
-const EXIT_USAGE_ERROR = 2;
-const EXIT_NOT_FOUND = 3;
+const EXIT_SUCCESS = 0
+const EXIT_GENERAL_ERROR = 1
+const EXIT_USAGE_ERROR = 2
+const EXIT_NOT_FOUND = 3
 
-process.exit(EXIT_SUCCESS);
+process.exit(EXIT_SUCCESS)
 ```
 
 ### Help & Version Flags
@@ -691,14 +690,14 @@ zsh-config session --help
 
 ```javascript
 // Follow XDG Base Directory Specification
-const XDG_CONFIG_HOME = process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config');
-const XDG_DATA_HOME = process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local/share');
-const XDG_CACHE_HOME = process.env.XDG_CACHE_HOME || path.join(os.homedir(), '.cache');
+const XDG_CONFIG_HOME = process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config')
+const XDG_DATA_HOME = process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local/share')
+const XDG_CACHE_HOME = process.env.XDG_CACHE_HOME || path.join(os.homedir(), '.cache')
 
 // Our directories
-const CONFIG_DIR = path.join(XDG_CONFIG_HOME, 'flow-cli');
-const DATA_DIR = path.join(XDG_DATA_HOME, 'flow-cli');
-const CACHE_DIR = path.join(XDG_CACHE_HOME, 'flow-cli');
+const CONFIG_DIR = path.join(XDG_CONFIG_HOME, 'flow-cli')
+const DATA_DIR = path.join(XDG_DATA_HOME, 'flow-cli')
+const CACHE_DIR = path.join(XDG_CACHE_HOME, 'flow-cli')
 ```
 
 ### Environment Variables
@@ -750,10 +749,10 @@ export class SessionManager {
   getCurrent() {
     console.warn(
       'DEPRECATED: SessionManager.getCurrent() is deprecated. ' +
-      'Use getCurrentSession() instead. ' +
-      'This will be removed in v2.0.0'
-    );
-    return this.getCurrentSession();
+        'Use getCurrentSession() instead. ' +
+        'This will be removed in v2.0.0'
+    )
+    return this.getCurrentSession()
   }
 
   getCurrentSession() {
@@ -766,14 +765,14 @@ export class SessionManager {
 
 ```javascript
 // Node.js deprecates APIs gracefully
-fs.exists(); // [DEP0001] DeprecationWarning
+fs.exists() // [DEP0001] DeprecationWarning
 
 // AWS SDK versions APIs
-import AWS from 'aws-sdk'; // v2
-import { S3Client } from '@aws-sdk/client-s3'; // v3
+import AWS from 'aws-sdk' // v2
+import { S3Client } from '@aws-sdk/client-s3' // v3
 
 // We should do the same
-import { SessionManager } from 'flow-cli/v1';
+import { SessionManager } from 'flow-cli/v1'
 ```
 
 ---
@@ -826,6 +825,7 @@ const manager = new SessionManager(options);
 \`\`\`
 
 **Options:**
+
 - `dataDir` (string): Directory for session data. Default: `~/.local/share/flow-cli/sessions`
 - `autoSave` (boolean): Auto-save on changes. Default: `true`
 
@@ -848,14 +848,15 @@ Saves session state to disk.
 
 \`\`\`javascript
 await manager.save({
-  projectName: 'rmediation',
-  projectPath: '/Users/dt/projects/r-packages/stable/rmediation',
-  projectType: 'r-package',
-  startTime: new Date().toISOString()
+projectName: 'rmediation',
+projectPath: '/Users/dt/projects/r-packages/stable/rmediation',
+projectType: 'r-package',
+startTime: new Date().toISOString()
 });
 \`\`\`
 
 **Parameters:**
+
 - `session` (object): Session data to save
 
 **Returns:** `Promise<void>`
@@ -866,11 +867,11 @@ The SessionManager emits the following events:
 
 \`\`\`javascript
 manager.on('session:start', (session) => {
-  console.log(\`Started session for \${session.projectName}\`);
+console.log(\`Started session for \${session.projectName}\`);
 });
 
 manager.on('session:end', (session) => {
-  console.log(\`Ended session for \${session.projectName}\`);
+console.log(\`Ended session for \${session.projectName}\`);
 });
 \`\`\`
 ```
@@ -883,37 +884,37 @@ manager.on('session:end', (session) => {
 
 ```javascript
 // In aiterm's code
-import { SessionManager, events } from 'flow-cli';
+import { SessionManager, events } from 'flow-cli'
 
-const sessionManager = new SessionManager();
+const sessionManager = new SessionManager()
 
 // Listen to session changes
-events.on('session:start', async (session) => {
+events.on('session:start', async session => {
   // Determine terminal profile based on project type
   const profileMap = {
     'r-package': 'R-Dev',
-    'quarto': 'Research',
-    'node': 'Node-Dev',
-    'python': 'Python-Dev'
-  };
+    quarto: 'Research',
+    node: 'Node-Dev',
+    python: 'Python-Dev'
+  }
 
-  const profile = profileMap[session.projectType] || 'Default';
+  const profile = profileMap[session.projectType] || 'Default'
 
   // Switch iTerm2 profile
-  await switchProfile(profile);
+  await switchProfile(profile)
 
   // Update window title
-  await setWindowTitle(`${session.projectName} (${session.projectType})`);
+  await setWindowTitle(`${session.projectName} (${session.projectType})`)
 
   // Set custom user variables
-  await setUserVariable('PROJECT_NAME', session.projectName);
-  await setUserVariable('PROJECT_TYPE', session.projectType);
-});
+  await setUserVariable('PROJECT_NAME', session.projectName)
+  await setUserVariable('PROJECT_TYPE', session.projectType)
+})
 
 events.on('session:end', async () => {
-  await switchProfile('Default');
-  await setWindowTitle('Terminal');
-});
+  await switchProfile('Default')
+  await setWindowTitle('Terminal')
+})
 ```
 
 ### Example 2: JIRA Integration Plugin
@@ -921,7 +922,7 @@ events.on('session:end', async () => {
 ```javascript
 // ~/.zsh-config/plugins/jira-integration.js
 
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'
 
 export default {
   name: 'jira-integration',
@@ -929,24 +930,24 @@ export default {
 
   init(api) {
     // Add JIRA task tracking to sessions
-    api.onEvent('session:start', async (session) => {
-      const jiraIssue = await this.findJiraIssue(session.projectName);
+    api.onEvent('session:start', async session => {
+      const jiraIssue = await this.findJiraIssue(session.projectName)
       if (jiraIssue) {
         session.jira = {
           issueKey: jiraIssue.key,
           summary: jiraIssue.fields.summary,
           status: jiraIssue.fields.status.name
-        };
-        await api.updateSession(session);
+        }
+        await api.updateSession(session)
       }
-    });
+    })
 
     // Register command to create JIRA task
     api.registerCommand('jira-create', async (summary, projectKey) => {
-      const issue = await this.createJiraIssue(summary, projectKey);
-      console.log(`Created JIRA issue: ${issue.key}`);
-      return issue;
-    });
+      const issue = await this.createJiraIssue(summary, projectKey)
+      console.log(`Created JIRA issue: ${issue.key}`)
+      return issue
+    })
   },
 
   async findJiraIssue(projectName) {
@@ -954,18 +955,18 @@ export default {
       `https://jira.example.com/rest/api/2/search?jql=project=${projectName}`,
       {
         headers: {
-          'Authorization': `Bearer ${process.env.JIRA_API_TOKEN}`
+          Authorization: `Bearer ${process.env.JIRA_API_TOKEN}`
         }
       }
-    );
-    const data = await response.json();
-    return data.issues[0];
+    )
+    const data = await response.json()
+    return data.issues[0]
   },
 
   async createJiraIssue(summary, projectKey) {
     // Implementation...
   }
-};
+}
 ```
 
 ### Example 3: Slack Notifier
@@ -979,9 +980,9 @@ export default {
 
   init(api) {
     // Notify when session ends with summary
-    api.onEvent('session:end', async (session) => {
-      const duration = Date.now() - new Date(session.startTime);
-      const hours = (duration / (1000 * 60 * 60)).toFixed(1);
+    api.onEvent('session:end', async session => {
+      const duration = Date.now() - new Date(session.startTime)
+      const hours = (duration / (1000 * 60 * 60)).toFixed(1)
 
       await this.sendSlackMessage({
         text: `Session completed: ${session.projectName}`,
@@ -996,18 +997,19 @@ export default {
             ]
           }
         ]
-      });
-    });
+      })
+    })
 
     // Notify on quick wins completion
-    api.onEvent('task:completed', async (task) => {
-      if (task.duration < 30 * 60 * 1000) { // 30 minutes
+    api.onEvent('task:completed', async task => {
+      if (task.duration < 30 * 60 * 1000) {
+        // 30 minutes
         await this.sendSlackMessage({
           text: `:tada: Quick win completed: ${task.description}`,
           channel: '#productivity'
-        });
+        })
       }
-    });
+    })
   },
 
   async sendSlackMessage(message) {
@@ -1015,9 +1017,9 @@ export default {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(message)
-    });
+    })
   }
-};
+}
 ```
 
 ---
@@ -1035,11 +1037,11 @@ export default {
 
 export class TestSessionManager extends SessionManager {
   constructor() {
-    super({ dataDir: '/tmp/zsh-config-test' });
+    super({ dataDir: '/tmp/zsh-config-test' })
   }
 
   async cleanup() {
-    await fs.rm(this.dataDir, { recursive: true, force: true });
+    await fs.rm(this.dataDir, { recursive: true, force: true })
   }
 }
 
@@ -1051,19 +1053,19 @@ export async function createTestSession(overrides = {}) {
     projectType: 'generic',
     startTime: new Date().toISOString(),
     ...overrides
-  };
+  }
 }
 
 export async function createTestProjects(count = 5) {
-  const projects = [];
+  const projects = []
   for (let i = 0; i < count; i++) {
     projects.push({
       name: `test-project-${i}`,
       path: `/tmp/test-project-${i}`,
       type: ['r-package', 'node', 'python'][i % 3]
-    });
+    })
   }
-  return projects;
+  return projects
 }
 ```
 
@@ -1071,30 +1073,30 @@ export async function createTestProjects(count = 5) {
 
 ```javascript
 // In aiterm's tests
-import { TestSessionManager, createTestSession } from 'flow-cli/testing';
+import { TestSessionManager, createTestSession } from 'flow-cli/testing'
 
 describe('aiterm integration', () => {
-  let sessionManager;
+  let sessionManager
 
   beforeEach(() => {
-    sessionManager = new TestSessionManager();
-  });
+    sessionManager = new TestSessionManager()
+  })
 
   afterEach(async () => {
-    await sessionManager.cleanup();
-  });
+    await sessionManager.cleanup()
+  })
 
   it('should switch profile on session start', async () => {
     const session = await createTestSession({
       projectType: 'r-package'
-    });
+    })
 
-    await sessionManager.save(session);
+    await sessionManager.save(session)
 
     // Test that profile switched correctly
-    expect(getCurrentProfile()).toBe('R-Dev');
-  });
-});
+    expect(getCurrentProfile()).toBe('R-Dev')
+  })
+})
 ```
 
 ---
@@ -1112,26 +1114,26 @@ describe('aiterm integration', () => {
 
 export function validateProjectPath(projectPath) {
   // Prevent directory traversal
-  const normalized = path.normalize(projectPath);
+  const normalized = path.normalize(projectPath)
   if (normalized.includes('..')) {
-    throw new Error('Invalid project path: directory traversal detected');
+    throw new Error('Invalid project path: directory traversal detected')
   }
 
   // Ensure absolute path
   if (!path.isAbsolute(normalized)) {
-    throw new Error('Project path must be absolute');
+    throw new Error('Project path must be absolute')
   }
 
-  return normalized;
+  return normalized
 }
 
 export function validateProjectName(name) {
   // Only allow safe characters
   if (!/^[a-zA-Z0-9_-]+$/.test(name)) {
-    throw new Error('Project name contains invalid characters');
+    throw new Error('Project name contains invalid characters')
   }
 
-  return name;
+  return name
 }
 ```
 
@@ -1141,26 +1143,21 @@ export function validateProjectName(name) {
 // Don't expose sensitive data in exports
 export class SessionManager {
   async getCurrentSession() {
-    const session = await this.load();
+    const session = await this.load()
 
     // Remove sensitive fields before returning
-    const { apiKeys, passwords, secrets, ...safe } = session;
+    const { apiKeys, passwords, secrets, ...safe } = session
 
-    return safe;
+    return safe
   }
 
   async export(format = 'json') {
-    const session = await this.getCurrentSession();
+    const session = await this.getCurrentSession()
 
     // Explicitly mark fields that should never be exported
-    const sanitized = this.sanitize(session, [
-      'apiKeys',
-      'passwords',
-      'tokens',
-      'secrets'
-    ]);
+    const sanitized = this.sanitize(session, ['apiKeys', 'passwords', 'tokens', 'secrets'])
 
-    return this.format(sanitized, format);
+    return this.format(sanitized, format)
   }
 }
 ```

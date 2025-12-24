@@ -10,6 +10,7 @@ c# Shell Alias Reorganization Proposal v2
 ## TL;DR - Your Choice
 
 You chose **Plan D (Hybrid)** with modifications:
+
 - ✅ Keep dispatcher pattern (`command + keyword + options`)
 - ✅ `qu` = Quarto (already implemented in smart-dispatchers.zsh)
 - 🗑️ Remove quota tracking system (no longer needed)
@@ -22,6 +23,7 @@ You chose **Plan D (Hybrid)** with modifications:
 ### What Gets REMOVED (Quota System)
 
 **Files to delete from `~/.claude/bin/`:**
+
 ```
 quota-fetcher.sh
 quota-auto-fetcher.sh
@@ -33,6 +35,7 @@ claude-quota
 ```
 
 **Files to delete from `~/.claude/tests/`:**
+
 ```
 test-quota-fetcher.sh
 test-quota-integration.sh
@@ -40,6 +43,7 @@ test-quota.sh
 ```
 
 **Files to delete from `~/.claude/logs/`:**
+
 ```
 quota-refresh-out.log
 quota-fetcher-out.log
@@ -50,11 +54,13 @@ quota-fetcher.log
 ```
 
 **Update `~/.claude/CLAUDE.md`:**
+
 - Remove "Quota Tracking" section
 - Remove references to `qu X Y Z` for quota
 - Remove `cq` alias reference
 
 **Update statusline (optional):**
+
 - Remove quota display from `~/.claude/statusline-p10k.sh`
 - Or leave it (will just show nothing if no quota file)
 
@@ -63,6 +69,7 @@ quota-fetcher.log
 ### What Gets KEPT
 
 **Dispatchers (command + keyword + options):**
+
 ```bash
 # R Package Development
 r                   # R console (no args)
@@ -106,6 +113,7 @@ g help              # Show all commands
 ```
 
 **Workflow Functions (unchanged):**
+
 ```bash
 work <project>      # Start work session
 dash                # Master dashboard
@@ -118,6 +126,7 @@ finish              # End session
 ```
 
 **Utility Aliases (unchanged):**
+
 ```bash
 ..                  # cd ..
 ...                 # cd ../..
@@ -228,6 +237,7 @@ PASSTHROUGH:
 ## What Gets CLEANED UP
 
 **Remove from `~/.config/zsh/.zshrc`:**
+
 ```bash
 # These are redundant with dispatchers:
 alias qp='quarto preview'    # → qu preview
@@ -239,6 +249,7 @@ alias qclean='...'           # → qu clean
 ```
 
 **Remove from `zsh-claude-workflow/shell/aliases.zsh`:**
+
 ```bash
 # Git aliases (will use g dispatcher instead):
 gst, gco, gp, gl, gd, ga, gc, etc.
@@ -293,6 +304,7 @@ gst, gco, gp, gl, gd, ga, gc, etc.
 When you approve, I will:
 
 ### Step 1: Remove Quota System
+
 ```bash
 # Delete quota files
 rm ~/.claude/bin/quota-*.sh
@@ -303,18 +315,22 @@ rm ~/.claude/logs/quota-*.log
 ```
 
 ### Step 2: Update CLAUDE.md
+
 - Remove "Quota Tracking" section
 - Remove `qu` and `cq` references for quota
 
 ### Step 3: Create `g` Dispatcher
+
 - New file: `~/.config/zsh/functions/g-dispatcher.zsh`
 - Source it from `.zshrc`
 
 ### Step 4: Clean Up Aliases
+
 - Remove `qp`, `qr`, `qc`, `qclean` from `.zshrc` (use `qu` instead)
 - Remove git aliases from `zsh-claude-workflow/shell/aliases.zsh`
 
 ### Step 5: Update Documentation
+
 - Update `WORKFLOW-QUICK-REFERENCE.md`
 - Create updated cheatsheet
 
@@ -322,24 +338,26 @@ rm ~/.claude/logs/quota-*.log
 
 ## Before/After Summary
 
-| Item | Before | After |
-|------|--------|-------|
-| **Quarto** | `qp`, `qr`, `qc` aliases | `qu preview`, `qu render`, `qu check` |
-| **Git** | `gst`, `gco`, `gp` aliases (duplicated) | `g status`, `g checkout`, `g push` |
-| **Quota** | `qu X Y Z`, `cq` + bin files | 🗑️ REMOVED |
-| **R Package** | `r test`, `r doc` | ✅ Keep as-is |
-| **Workflow** | `v test`, `work`, `dash` | ✅ Keep as-is |
-| **AI** | `cc`, `gm` | ✅ Keep as-is |
+| Item          | Before                                  | After                                 |
+| ------------- | --------------------------------------- | ------------------------------------- |
+| **Quarto**    | `qp`, `qr`, `qc` aliases                | `qu preview`, `qu render`, `qu check` |
+| **Git**       | `gst`, `gco`, `gp` aliases (duplicated) | `g status`, `g checkout`, `g push`    |
+| **Quota**     | `qu X Y Z`, `cq` + bin files            | 🗑️ REMOVED                            |
+| **R Package** | `r test`, `r doc`                       | ✅ Keep as-is                         |
+| **Workflow**  | `v test`, `work`, `dash`                | ✅ Keep as-is                         |
+| **AI**        | `cc`, `gm`                              | ✅ Keep as-is                         |
 
 ---
 
 ## Ready to Proceed?
 
 **Approve to start implementation:**
+
 - Tell me "yes" or "proceed" to begin
 - Or ask questions first
 
 **What I'll do:**
+
 1. Remove quota files
 2. Update CLAUDE.md
 3. Create g-dispatcher
@@ -348,4 +366,4 @@ rm ~/.claude/logs/quota-*.log
 
 ---
 
-*Saved: ~/ALIAS-REORGANIZATION-PROPOSAL-V2.md*
+_Saved: ~/ALIAS-REORGANIZATION-PROPOSAL-V2.md_

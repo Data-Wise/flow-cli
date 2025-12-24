@@ -260,13 +260,13 @@ EOF
 
 ### Style Rules
 
-| Rule | Good | Bad |
-|------|------|-----|
-| Align descriptions | `-v, --verbose  Show more` | `-v, --verbose Show more` |
-| Use consistent verbs | "Show", "Create", "Delete" | "Shows", "Creating", "Removes" |
-| Examples use `#` comments | `cmd foo  # do thing` | `cmd foo (does thing)` |
-| Required args in `<>` | `<file>` | `file` or `FILE` |
-| Optional args in `[]` | `[options]` | `(options)` |
+| Rule                      | Good                       | Bad                            |
+| ------------------------- | -------------------------- | ------------------------------ |
+| Align descriptions        | `-v, --verbose  Show more` | `-v, --verbose Show more`      |
+| Use consistent verbs      | "Show", "Create", "Delete" | "Shows", "Creating", "Removes" |
+| Examples use `#` comments | `cmd foo  # do thing`      | `cmd foo (does thing)`         |
+| Required args in `<>`     | `<file>`                   | `file` or `FILE`               |
+| Optional args in `[]`     | `[options]`                | `(options)`                    |
 
 ---
 
@@ -358,6 +358,7 @@ test_help_output() {
    - Complex options → Pattern 4
 
 2. **Add help handling at the top:**
+
    ```zsh
    # Add this as first thing in function
    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
@@ -367,6 +368,7 @@ test_help_output() {
    ```
 
 3. **Update error messages:**
+
    ```zsh
    # Change this:
    echo "Error: invalid input"

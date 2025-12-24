@@ -10,6 +10,7 @@
 ## 🎯 Problem Statement
 
 Currently managing 30+ projects across 5 categories (r-packages, quarto, research, teaching, dev-tools) with:
+
 - Inconsistent project metadata
 - Manual status tracking
 - No cross-project dependency awareness
@@ -52,6 +53,7 @@ Currently managing 30+ projects across 5 categories (r-packages, quarto, researc
 **Purpose:** Single source of truth for all projects
 
 **Schema:**
+
 ```json
 {
   "version": "2.0",
@@ -164,6 +166,7 @@ Currently managing 30+ projects across 5 categories (r-packages, quarto, researc
 ```
 
 **Auto-Update Triggers:**
+
 - Daily scan (cron or on first `flow` command of day)
 - After session end
 - Manual: `flow scan --force`
@@ -175,6 +178,7 @@ Currently managing 30+ projects across 5 categories (r-packages, quarto, researc
 **Purpose:** Detailed project metadata (for complex projects)
 
 **Schema:**
+
 ```yaml
 ---
 # Basic info
@@ -218,9 +222,9 @@ paths:
 dependencies:
   system:
     - name: R
-      version: ">= 4.0.0"
+      version: '>= 4.0.0'
     - name: pandoc
-      version: ">= 2.0"
+      version: '>= 2.0'
   r_packages:
     - testthat
     - devtools
@@ -237,26 +241,26 @@ dependencies:
 # Workflows (common commands)
 workflows:
   dev:
-    load: "devtools::load_all()"
-    test: "devtools::test()"
-    check: "devtools::check()"
-    document: "devtools::document()"
-    build: "devtools::build()"
-    install: "devtools::install()"
+    load: 'devtools::load_all()'
+    test: 'devtools::test()'
+    check: 'devtools::check()'
+    document: 'devtools::document()'
+    build: 'devtools::build()'
+    install: 'devtools::install()'
 
   ci:
-    test: "R CMD check --as-cran"
-    coverage: "covr::package_coverage()"
+    test: 'R CMD check --as-cran'
+    coverage: 'covr::package_coverage()'
 
   docs:
-    build: "pkgdown::build_site()"
-    preview: "pkgdown::preview_site()"
-    deploy: "pkgdown::deploy_to_branch()"
+    build: 'pkgdown::build_site()'
+    preview: 'pkgdown::preview_site()'
+    deploy: 'pkgdown::deploy_to_branch()'
 
   release:
-    bump_version: "usethis::use_version()"
-    build_source: "R CMD build ."
-    submit_cran: "devtools::release()"
+    bump_version: 'usethis::use_version()'
+    build_source: 'R CMD build .'
+    submit_cran: 'devtools::release()'
 
 # Documentation
 documentation:
@@ -309,6 +313,7 @@ health:
 ```
 
 **Usage:**
+
 - Optional for simple projects (use .STATUS only)
 - Recommended for complex projects with teams
 - Auto-generated from templates: `flow init-project --type r-package`
@@ -320,6 +325,7 @@ health:
 **Purpose:** Long-term planning and feature tracking
 
 **Schema:**
+
 ```yaml
 ---
 project: rmediation
@@ -396,6 +402,7 @@ archived:
 ```
 
 **Usage:**
+
 - For projects with long-term vision
 - Helps answer "what's next after current work?"
 - Tracks decisions and removed features
@@ -414,11 +421,7 @@ async function scanEcosystem() {
   const discovered = []
 
   for (const [name, config] of Object.entries(categories)) {
-    const projects = await scanDirectory(
-      config.path,
-      config.scan_depth,
-      config.type
-    )
+    const projects = await scanDirectory(config.path, config.scan_depth, config.type)
 
     discovered.push(...projects)
   }
@@ -447,9 +450,7 @@ async function scanDirectory(basePath, maxDepth, defaultType) {
       const fullPath = join(dir, entry.name)
 
       // Skip hidden/node_modules/etc
-      if (entry.name.startsWith('.') ||
-          entry.name === 'node_modules' ||
-          entry.name === 'venv') {
+      if (entry.name.startsWith('.') || entry.name === 'node_modules' || entry.name === 'venv') {
         continue
       }
 
@@ -549,13 +550,9 @@ function generateMermaidGraph(graph) {
 
   // Define nodes
   for (const node of graph.nodes) {
-    const shape = node.type === 'r-package' ? '([' :
-                  node.type === 'quarto' ? '{' :
-                  '['
+    const shape = node.type === 'r-package' ? '([' : node.type === 'quarto' ? '{' : '['
 
-    const endShape = node.type === 'r-package' ? '])' :
-                     node.type === 'quarto' ? '}' :
-                     ']'
+    const endShape = node.type === 'r-package' ? '])' : node.type === 'quarto' ? '}' : ']'
 
     mermaid += `  ${node.id}${shape}${node.name}${endShape}\n`
   }
@@ -571,6 +568,7 @@ function generateMermaidGraph(graph) {
 ```
 
 **CLI Command:**
+
 ```bash
 flow graph
 # Generates docs/PROJECT-GRAPH.md with Mermaid diagram
@@ -625,9 +623,7 @@ async function suggestNextAction(context) {
 
     if (hour >= 9 && hour <= 11) {
       // Morning - suggest high-priority work
-      const urgent = projects.filter(p =>
-        p.priority === 'p0' && p.status === 'active'
-      )
+      const urgent = projects.filter(p => p.priority === 'p0' && p.status === 'active')
 
       if (urgent.length > 0) {
         suggestions.push({
@@ -770,18 +766,21 @@ flow unregister <id>           # Remove from registry
 ## 📅 Implementation Timeline
 
 ### Week 3: Foundation
+
 - Design schemas (registry, PROJECT.yml, ROADMAP.yml)
 - Implement scanning/discovery
 - Build registry management
 - Create validator
 
 ### Week 4: Coordination
+
 - Dependency graph
 - Health monitoring
 - Cross-project commands
 - Smart suggestions
 
 ### Week 5: Polish
+
 - Documentation
 - Migration tools
 - Templates

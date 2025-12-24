@@ -39,11 +39,13 @@ export function sparkline(data, options = {}) {
 
   const range = max - min
 
-  return data.map(value => {
-    const normalized = (value - min) / range
-    const index = Math.min(Math.floor(normalized * ticks.length), ticks.length - 1)
-    return ticks[index]
-  }).join('')
+  return data
+    .map(value => {
+      const normalized = (value - min) / range
+      const index = Math.min(Math.floor(normalized * ticks.length), ticks.length - 1)
+      return ticks[index]
+    })
+    .join('')
 }
 
 /**
@@ -100,14 +102,16 @@ export function barChart(data, options = {}) {
 
   const maxValue = Math.max(...data.map(d => d.value))
 
-  return data.map(item => {
-    const label = item.label.padEnd(labelWidth).substring(0, labelWidth)
-    const barWidth = Math.round((item.value / maxValue) * maxWidth)
-    const bar = '█'.repeat(barWidth)
-    const value = String(item.value).padStart(5)
+  return data
+    .map(item => {
+      const label = item.label.padEnd(labelWidth).substring(0, labelWidth)
+      const barWidth = Math.round((item.value / maxValue) * maxWidth)
+      const bar = '█'.repeat(barWidth)
+      const value = String(item.value).padStart(5)
 
-    return `${label} ${bar} ${value}`
-  }).join('\n')
+      return `${label} ${bar} ${value}`
+    })
+    .join('\n')
 }
 
 /**
@@ -151,11 +155,11 @@ export function percentIndicator(value, options = {}) {
 
   let indicator
   if (percent >= thresholds[1]) {
-    indicator = '██'  // High
+    indicator = '██' // High
   } else if (percent >= thresholds[0]) {
-    indicator = '█░'  // Medium
+    indicator = '█░' // Medium
   } else {
-    indicator = '░░'  // Low
+    indicator = '░░' // Low
   }
 
   return `${percent}% ${indicator}`
@@ -193,10 +197,12 @@ export function histogram(data, options = {}) {
   // Generate histogram from top to bottom
   const lines = []
   for (let row = height; row > 0; row--) {
-    const line = counts.map(count => {
-      const threshold = (maxCount / height) * row
-      return count >= threshold ? '█' : ' '
-    }).join('')
+    const line = counts
+      .map(count => {
+        const threshold = (maxCount / height) * row
+        return count >= threshold ? '█' : ' '
+      })
+      .join('')
     lines.push(line)
   }
 
@@ -226,7 +232,7 @@ export function durationBar(minutes) {
 
   // Visual blocks (each block = 15 minutes)
   const blocks = Math.floor(minutes / 15)
-  const partial = (minutes % 15) > 7 // Half block threshold
+  const partial = minutes % 15 > 7 // Half block threshold
   const fullBlocks = '█'.repeat(Math.min(blocks, 10))
   const partialBlock = partial && blocks < 10 ? '░' : ''
 

@@ -21,11 +21,12 @@
 
 Modern CLI tools with better UX:
 
-| Alias | Replaces | Why |
-|-------|----------|-----|
-| `cat='bat'` | cat | Syntax highlighting, line numbers, git integration |
+| Alias       | Replaces | Why                                                |
+| ----------- | -------- | -------------------------------------------------- |
+| `cat='bat'` | cat      | Syntax highlighting, line numbers, git integration |
 
 **Removed 2025-12-19:**
+
 - `find='fd'` - Use `fd` directly (it's short enough)
 - `grep='rg'` - Use `rg` directly
 
@@ -34,57 +35,65 @@ Modern CLI tools with better UX:
 ## 📦 R PACKAGE DEVELOPMENT (23)
 
 ### Core Workflow (6)
-| Alias | Full Command | Description | Frequency |
-|-------|-------------|-------------|-----------|
-| `rload` | `devtools::load_all()` | Load all package code | 50x/day |
-| `rtest` | `devtools::test()` | Run all tests | 30x/day |
-| `rdoc` | `devtools::document()` | Generate documentation | 20x/day |
-| `rcheck` | `devtools::check()` | R CMD check | 10x/day |
-| `rbuild` | `devtools::build()` | Build tar.gz | 5x/day |
-| `rinstall` | `devtools::install()` | Install package | 5x/day |
+
+| Alias      | Full Command           | Description            | Frequency |
+| ---------- | ---------------------- | ---------------------- | --------- |
+| `rload`    | `devtools::load_all()` | Load all package code  | 50x/day   |
+| `rtest`    | `devtools::test()`     | Run all tests          | 30x/day   |
+| `rdoc`     | `devtools::document()` | Generate documentation | 20x/day   |
+| `rcheck`   | `devtools::check()`    | R CMD check            | 10x/day   |
+| `rbuild`   | `devtools::build()`    | Build tar.gz           | 5x/day    |
+| `rinstall` | `devtools::install()`  | Install package        | 5x/day    |
 
 ### Quality & Coverage (2)
-| Alias | Description | Time |
-|-------|-------------|------|
-| `rcov` | Code coverage report | ~30s |
-| `rcovrep` | Open coverage report in browser | ~2s |
+
+| Alias     | Description                     | Time |
+| --------- | ------------------------------- | ---- |
+| `rcov`    | Code coverage report            | ~30s |
+| `rcovrep` | Open coverage report in browser | ~2s  |
 
 ### Documentation (3)
-| Alias | Description |
-|-------|-------------|
-| `rdoccheck` | Check documentation completeness |
-| `rspell` | Spell check package docs |
-| `rpkgdown` | Build pkgdown website |
-| `rpkgpreview` | Preview pkgdown site locally |
+
+| Alias         | Description                      |
+| ------------- | -------------------------------- |
+| `rdoccheck`   | Check documentation completeness |
+| `rspell`      | Spell check package docs         |
+| `rpkgdown`    | Build pkgdown website            |
+| `rpkgpreview` | Preview pkgdown site locally     |
 
 ### CRAN Checks (4)
-| Alias | Description | Time |
-|-------|-------------|------|
-| `rcheckfast` | Fast check (no examples/tests/vignettes) | ~15s |
-| `rcheckcran` | Full CRAN submission check | ~60s |
-| `rcheckwin` | Check on Windows (via win-builder) | ~5min |
-| `rcheckrhub` | Check on R-hub (multiple platforms) | ~10min |
+
+| Alias        | Description                              | Time   |
+| ------------ | ---------------------------------------- | ------ |
+| `rcheckfast` | Fast check (no examples/tests/vignettes) | ~15s   |
+| `rcheckcran` | Full CRAN submission check               | ~60s   |
+| `rcheckwin`  | Check on Windows (via win-builder)       | ~5min  |
+| `rcheckrhub` | Check on R-hub (multiple platforms)      | ~10min |
 
 ### Dependencies (2)
-| Alias | Description |
-|-------|-------------|
-| `rdeps` | Show package dependencies |
-| `rdepsupdate` | Update dependencies |
+
+| Alias         | Description               |
+| ------------- | ------------------------- |
+| `rdeps`       | Show package dependencies |
+| `rdepsupdate` | Update dependencies       |
 
 ### Versioning (3)
-| Alias | Description | Example |
-|-------|-------------|---------|
+
+| Alias        | Description             | Example       |
+| ------------ | ----------------------- | ------------- |
 | `rbumppatch` | Increment patch version | 0.1.0 → 0.1.1 |
 | `rbumpminor` | Increment minor version | 0.1.0 → 0.2.0 |
 | `rbumpmajor` | Increment major version | 0.1.0 → 1.0.0 |
 
 ### Utilities (3)
-| Alias | Description |
-|-------|-------------|
+
+| Alias      | Description                          |
+| ---------- | ------------------------------------ |
 | `rpkgtree` | Tree view (excludes build artifacts) |
-| `rpkg` | Quick package info & status |
+| `rpkg`     | Quick package info & status          |
 
 **Removed 2025-12-19:**
+
 - `rpkgclean` - Removed artifacts cleanup (use manual `rm`)
 - `rpkgdeep` - Removed deep clean (use manual `rm`)
 
@@ -92,26 +101,28 @@ Modern CLI tools with better UX:
 
 ## 🤖 CLAUDE CODE (2)
 
-| Alias | Full Command | Description | Frequency |
-|-------|-------------|-------------|-----------|
-| `ccp` | `claude -p` | Print mode (non-interactive) | 10x/day |
-| `ccr` | `claude -r` | Resume session with picker | 5x/day |
+| Alias | Full Command | Description                  | Frequency |
+| ----- | ------------ | ---------------------------- | --------- |
+| `ccp` | `claude -p`  | Print mode (non-interactive) | 10x/day   |
+| `ccr` | `claude -r`  | Resume session with picker   | 5x/day    |
 
 **Note:** Use `cc` function (dispatcher) for project-aware Claude sessions.
 
 **Removed 2025-12-19:**
+
 - All other `cc*` aliases (15+) - Use full commands or `cc` dispatcher
 
 ---
 
 ## ⏱️ FOCUS TIMERS (2)
 
-| Alias | Description | Use Case |
-|-------|-------------|----------|
-| `f25` | 25-minute Pomodoro | Deep work, coding |
+| Alias | Description         | Use Case          |
+| ----- | ------------------- | ----------------- |
+| `f25` | 25-minute Pomodoro  | Deep work, coding |
 | `f50` | 50-minute deep work | Research, writing |
 
 **Removed 2025-12-19:**
+
 - `f15`, `f90` - Use `focus <minutes>` directly for other durations
 
 ---
@@ -163,14 +174,14 @@ Modern CLI tools with better UX:
 
 These smart functions provide context-aware workflows:
 
-| Command | Description | Auto-detects |
-|---------|-------------|--------------|
-| `cc` | Claude Code | Project type, opens in project root |
-| `gm` | Gemini | Project type, opens in project root |
-| `peek` | File viewer | File type, uses bat with correct syntax |
-| `qu` | Quarto | Operation type (preview/render/check) |
-| `work` | Work session | Project type, sets up environment |
-| `pick` | Project picker | Shows all projects with fzf |
+| Command | Description    | Auto-detects                            |
+| ------- | -------------- | --------------------------------------- |
+| `cc`    | Claude Code    | Project type, opens in project root     |
+| `gm`    | Gemini         | Project type, opens in project root     |
+| `peek`  | File viewer    | File type, uses bat with correct syntax |
+| `qu`    | Quarto         | Operation type (preview/render/check)   |
+| `work`  | Work session   | Project type, sets up environment       |
+| `pick`  | Project picker | Shows all projects with fzf             |
 
 ---
 
@@ -179,6 +190,7 @@ These smart functions provide context-aware workflows:
 Provided by OMZ git plugin (enabled 2025-12-19):
 
 **Common examples:**
+
 - `g` = `git`
 - `ga` = `git add`
 - `gaa` = `git add --all`
@@ -190,6 +202,7 @@ Provided by OMZ git plugin (enabled 2025-12-19):
 **Full list:** Run `aliases git` or see [OMZ git plugin docs](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git)
 
 **Removed custom git aliases (2025-12-19):**
+
 - `gti`, `tgi`, `gis`, `gitstatus`, `gpkgcommit` → Use git plugin instead
 
 ---
@@ -197,6 +210,7 @@ Provided by OMZ git plugin (enabled 2025-12-19):
 ## 🎓 HOW TO USE THIS REFERENCE
 
 ### Quick Lookups
+
 ```bash
 # List all aliases by category
 als
@@ -209,12 +223,14 @@ aliases git
 ```
 
 ### Learning Strategy
+
 1. **Master the 6 core R aliases** (rload, rtest, rdoc, rcheck, rbuild, rinstall)
 2. **Learn the 2 Claude aliases** (ccp, ccr)
 3. **Use dispatchers** (cc, gm, peek, qu, work, pick)
 4. **Git plugin aliases** - Learn standard ones (gst, ga, gcmsg, gp)
 
 ### Memory Aid
+
 - **R package dev:** 23 aliases, all start with `r`
 - **Claude:** 2 aliases, both start with `cc`
 - **Focus:** 2 aliases, start with `f` + duration
@@ -226,20 +242,20 @@ aliases git
 
 If you're used to old aliases:
 
-| Old Alias | New Approach |
-|-----------|--------------|
-| `e` / `ec` | `emacs` or `emacsclient -c -a ''` |
-| `find` | `fd` (direct command) |
-| `grep` | `rg` (direct command) |
-| `cdrpkg` | `pick` or `cd ~rpkg` (bookmark) |
-| `cdq` | `pick` or `cd ~quarto` (bookmark) |
-| `ccplan` | `claude --permission-mode plan` |
-| `cctx` | `claude-ctx` (full command) |
-| `peekr` | `peek <file>` or `bat --language=r <file>` |
-| `f15` | `focus 15` |
-| `stuck` | `just-start` |
-| `wn` | `what-next` |
-| All typos | Type correctly! |
+| Old Alias  | New Approach                               |
+| ---------- | ------------------------------------------ |
+| `e` / `ec` | `emacs` or `emacsclient -c -a ''`          |
+| `find`     | `fd` (direct command)                      |
+| `grep`     | `rg` (direct command)                      |
+| `cdrpkg`   | `pick` or `cd ~rpkg` (bookmark)            |
+| `cdq`      | `pick` or `cd ~quarto` (bookmark)          |
+| `ccplan`   | `claude --permission-mode plan`            |
+| `cctx`     | `claude-ctx` (full command)                |
+| `peekr`    | `peek <file>` or `bat --language=r <file>` |
+| `f15`      | `focus 15`                                 |
+| `stuck`    | `just-start`                               |
+| `wn`       | `what-next`                                |
+| All typos  | Type correctly!                            |
 
 ---
 

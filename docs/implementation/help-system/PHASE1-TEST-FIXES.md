@@ -17,14 +17,17 @@ Fixed 3 failing tests to match the new enhanced help text format from Phase 1.
 ## Tests Fixed
 
 ### Test 34: cc help contains MODEL
+
 **File:** `test-smart-functions.zsh:210`
 
 **Before:**
+
 ```zsh
 assert_output_contains "cc help contains MODELS" "MODELS" "$output"
 ```
 
 **After:**
+
 ```zsh
 assert_output_contains "cc help contains MODEL" "MODEL" "$output"
 ```
@@ -34,14 +37,17 @@ assert_output_contains "cc help contains MODEL" "MODEL" "$output"
 ---
 
 ### Test 35: cc help contains PERMISSION
+
 **File:** `test-smart-functions.zsh:211`
 
 **Before:**
+
 ```zsh
 assert_output_contains "cc help contains PERMISSIONS" "PERMISSIONS" "$output"
 ```
 
 **After:**
+
 ```zsh
 assert_output_contains "cc help contains PERMISSION" "PERMISSION" "$output"
 ```
@@ -51,14 +57,17 @@ assert_output_contains "cc help contains PERMISSION" "PERMISSION" "$output"
 ---
 
 ### Test 76: workflow h works as help alias
+
 **File:** `test-smart-functions.zsh:348`
 
 **Before:**
+
 ```zsh
 assert_output_contains "workflow h works as help alias" "Workflow Logging" "$output"
 ```
 
 **After:**
+
 ```zsh
 assert_output_contains "workflow h works as help alias" "Activity Logging" "$output"
 ```

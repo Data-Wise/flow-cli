@@ -56,23 +56,27 @@ describe('Task Entity', () => {
     })
 
     test('throws error if tags is not an array', () => {
-      expect(() => new Task('task-1', 'description', { tags: 'invalid' }))
-        .toThrow('Task tags must be an array')
+      expect(() => new Task('task-1', 'description', { tags: 'invalid' })).toThrow(
+        'Task tags must be an array'
+      )
     })
 
     test('throws error if tags contains non-strings', () => {
-      expect(() => new Task('task-1', 'description', { tags: ['valid', 123] }))
-        .toThrow('Task tags must be strings')
+      expect(() => new Task('task-1', 'description', { tags: ['valid', 123] })).toThrow(
+        'Task tags must be strings'
+      )
     })
 
     test('throws error for invalid estimated minutes', () => {
-      expect(() => new Task('task-1', 'description', { estimatedMinutes: -10 }))
-        .toThrow('Estimated minutes must be a non-negative number')
+      expect(() => new Task('task-1', 'description', { estimatedMinutes: -10 })).toThrow(
+        'Estimated minutes must be a non-negative number'
+      )
     })
 
     test('throws error for invalid actual minutes', () => {
-      expect(() => new Task('task-1', 'description', { actualMinutes: 'invalid' }))
-        .toThrow('Actual minutes must be a non-negative number')
+      expect(() => new Task('task-1', 'description', { actualMinutes: 'invalid' })).toThrow(
+        'Actual minutes must be a non-negative number'
+      )
     })
   })
 
@@ -176,7 +180,9 @@ describe('Task Entity', () => {
     test('throws error for invalid actual time', () => {
       const task = new Task('task-1', 'Fix bug')
 
-      expect(() => task.recordActualTime('invalid')).toThrow('Actual time must be a non-negative number')
+      expect(() => task.recordActualTime('invalid')).toThrow(
+        'Actual time must be a non-negative number'
+      )
     })
 
     test('calculates time variance', () => {

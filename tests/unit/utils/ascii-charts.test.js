@@ -220,9 +220,7 @@ describe('ASCII Chart Utilities', () => {
     })
 
     it('should respect label width', () => {
-      const data = [
-        { label: 'Very Long Project Name', value: 100 }
-      ]
+      const data = [{ label: 'Very Long Project Name', value: 100 }]
       const result = barChart(data, { labelWidth: 10 })
 
       // Label should be truncated to 10 characters

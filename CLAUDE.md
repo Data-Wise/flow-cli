@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 This is the **ZSH Workflow Manager** - an ADHD-optimized CLI workflow system. The repo contains:
+
 - Documentation for 183+ aliases and 108+ workflow functions
 - CLI integration layer (Node.js adapters to ZSH functions)
 - ADHD-optimized workflow guides
@@ -17,30 +18,31 @@ This is the **ZSH Workflow Manager** - an ADHD-optimized CLI workflow system. Th
 
 ## Project Structure
 
-| Directory | Purpose |
-|-----------|---------|
-| `cli/` | CLI integration layer (adapters + API) |
-| `docs/` | All documentation (organized by type) |
-| `docs/archive/2025-12-20-app-removal/` | Archived Electron app code |
-| `config/` | Configuration files and backups |
-| `tests/` | Test suites for CLI |
-| `scripts/` | Utility scripts (setup, sync, deploy) |
+| Directory                              | Purpose                                |
+| -------------------------------------- | -------------------------------------- |
+| `cli/`                                 | CLI integration layer (adapters + API) |
+| `docs/`                                | All documentation (organized by type)  |
+| `docs/archive/2025-12-20-app-removal/` | Archived Electron app code             |
+| `config/`                              | Configuration files and backups        |
+| `tests/`                               | Test suites for CLI                    |
+| `scripts/`                             | Utility scripts (setup, sync, deploy)  |
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
-| `README.md` | Project overview and setup guide |
-| `PROJECT-HUB.md` | Strategic roadmap (P0-P6 phases) |
-| `.STATUS` | Daily progress tracking |
-| `docs/user/WORKFLOWS-QUICK-WINS.md` | Top 10 ADHD-friendly workflows |
-| `docs/user/ALIAS-REFERENCE-CARD.md` | Complete alias reference |
-| `cli/README.md` | CLI integration guide |
-| `MONOREPO-COMMANDS-TUTORIAL.md` | Beginner's guide to npm workspace commands |
+| File                                | Purpose                                    |
+| ----------------------------------- | ------------------------------------------ |
+| `README.md`                         | Project overview and setup guide           |
+| `PROJECT-HUB.md`                    | Strategic roadmap (P0-P6 phases)           |
+| `.STATUS`                           | Daily progress tracking                    |
+| `docs/user/WORKFLOWS-QUICK-WINS.md` | Top 10 ADHD-friendly workflows             |
+| `docs/user/ALIAS-REFERENCE-CARD.md` | Complete alias reference                   |
+| `cli/README.md`                     | CLI integration guide                      |
+| `MONOREPO-COMMANDS-TUTORIAL.md`     | Beginner's guide to npm workspace commands |
 
 ## Actual Configuration Location
 
 The ZSH configuration files are at:
+
 ```
 ~/.config/zsh/
 ├── .zshrc                    # Main config
@@ -113,13 +115,14 @@ The `/docs` directory is organized by purpose:
 
 This project integrates with other dev-tools:
 
-| Project | Integration |
-|---------|-------------|
-| `zsh-claude-workflow` | Shared `project-detector.zsh` for unified context detection |
-| `iterm2-context-switcher` | Session-aware profiles (Focus mode on `startsession`) |
-| `apple-notes-sync` | Dashboard shows workflow activity from `worklog` |
+| Project                   | Integration                                                 |
+| ------------------------- | ----------------------------------------------------------- |
+| `zsh-claude-workflow`     | Shared `project-detector.zsh` for unified context detection |
+| `iterm2-context-switcher` | Session-aware profiles (Focus mode on `startsession`)       |
+| `apple-notes-sync`        | Dashboard shows workflow activity from `worklog`            |
 
 **Key symlinks:**
+
 ```
 ~/.config/zsh/functions/project-detector.zsh → zsh-claude-workflow/lib/project-detector.sh
 ~/.config/zsh/functions/core-utils.zsh → zsh-claude-workflow/lib/core.sh
@@ -128,6 +131,7 @@ This project integrates with other dev-tools:
 ## Cloud Sync
 
 Changes auto-sync via symlinks:
+
 - Primary: `~/projects/dev-tools/flow-cli/`
 - Google Drive: `~/Library/CloudStorage/GoogleDrive-.../My Drive/dev-tools/flow-cli`
 - Dropbox: `~/Library/CloudStorage/Dropbox/dev-tools/flow-cli`

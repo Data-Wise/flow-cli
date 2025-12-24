@@ -47,11 +47,13 @@
 ### From zsh-claude-workflow (~300 lines total)
 
 **1. project-detector.sh** (~200 lines)
+
 - Detects 8+ project types (R package, Quarto, Node, Python, etc.)
 - Smart type detection with file patterns
 - Storage awareness (local, Google Drive, OneDrive, Dropbox)
 
 **2. core.sh** (~100 lines)
+
 - Path normalization utilities
 - Cloud storage detection
 - Shared helper functions
@@ -122,7 +124,7 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/core.sh \
 
 ### Step 3: Create Attribution (15 min)
 
-```bash
+````bash
 cat > cli/vendor/zsh-claude-workflow/README.md << 'EOF'
 # Vendored from zsh-claude-workflow
 
@@ -156,12 +158,14 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/project-detector.sh \
    cli/vendor/zsh-claude-workflow/
 cp ~/projects/dev-tools/zsh-claude-workflow/lib/core.sh \
    cli/vendor/zsh-claude-workflow/
-```
+````
 
 Check for updates periodically, especially if:
+
 - New project types added
 - Bug fixes in detection logic
 - Performance improvements
+
 ```
 
 EOF
@@ -172,13 +176,13 @@ EOF
 ```javascript
 // cli/lib/project-detector-bridge.js
 
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { exec } from 'child_process'
+import { promisify } from 'util'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const execAsync = promisify(exec);
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const execAsync = promisify(exec)
 
 /**
  * Detect project type using vendored zsh-claude-workflow functions
@@ -186,20 +190,17 @@ const execAsync = promisify(exec);
  * @returns {Promise<string>} Project type (r-package, quarto, node, etc.)
  */
 export async function detectProjectType(projectPath) {
-  const vendoredScript = path.join(
-    __dirname,
-    '../vendor/zsh-claude-workflow/project-detector.sh'
-  );
+  const vendoredScript = path.join(__dirname, '../vendor/zsh-claude-workflow/project-detector.sh')
 
   try {
     const { stdout } = await execAsync(
       `source ${vendoredScript} && cd "${projectPath}" && detect_project_type`,
       { shell: '/bin/zsh' }
-    );
-    return stdout.trim();
+    )
+    return stdout.trim()
   } catch (error) {
-    console.error(`Failed to detect project type for ${projectPath}:`, error);
-    return 'unknown';
+    console.error(`Failed to detect project type for ${projectPath}:`, error)
+    return 'unknown'
   }
 }
 
@@ -208,16 +209,7 @@ export async function detectProjectType(projectPath) {
  * @returns {string[]} Array of supported types
  */
 export function getSupportedTypes() {
-  return [
-    'r-package',
-    'quarto',
-    'research',
-    'dev-tool',
-    'node',
-    'python',
-    'spacemacs',
-    'generic'
-  ];
+  return ['r-package', 'quarto', 'research', 'dev-tool', 'node', 'python', 'spacemacs', 'generic']
 }
 ```
 
@@ -274,16 +266,16 @@ import('./cli/lib/project-detector-bridge.js').then(async (m) => {
 
 ## Benefits vs Dependency Approach
 
-| Aspect | Dependency | Porting ✅ |
-|--------|-----------|-----------|
-| **Installation** | Two packages | One package |
-| **npm publish** | Complex | Simple |
-| **User setup** | Manual steps | One command |
-| **Independence** | Requires external tool | Fully standalone |
-| **Maintenance** | Auto-updates | Manual sync (rare) |
-| **Code duplication** | None | ~300 lines |
-| **Time to implement** | 1 hour | 3 hours |
-| **Best for** | Local dev | npm package |
+| Aspect                | Dependency             | Porting ✅         |
+| --------------------- | ---------------------- | ------------------ |
+| **Installation**      | Two packages           | One package        |
+| **npm publish**       | Complex                | Simple             |
+| **User setup**        | Manual steps           | One command        |
+| **Independence**      | Requires external tool | Fully standalone   |
+| **Maintenance**       | Auto-updates           | Manual sync (rare) |
+| **Code duplication**  | None                   | ~300 lines         |
+| **Time to implement** | 1 hour                 | 3 hours            |
+| **Best for**          | Local dev              | npm package        |
 
 **Winner:** Porting (matches npm package goal)
 
@@ -294,6 +286,7 @@ import('./cli/lib/project-detector-bridge.js').then(async (m) => {
 ### When to Sync with Upstream
 
 **Check for updates if:**
+
 - zsh-claude-workflow releases new version
 - New project types added
 - Bug fixes in detection logic
@@ -334,6 +327,7 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 ### In Package
 
 **cli/vendor/zsh-claude-workflow/README.md:**
+
 - Source repository link
 - Version number
 - License (MIT)
@@ -341,11 +335,10 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 - Sync instructions
 
 **package.json:**
+
 ```json
 {
-  "contributors": [
-    "Original zsh-claude-workflow code by DT"
-  ],
+  "contributors": ["Original zsh-claude-workflow code by DT"],
   "licenses": [
     {
       "type": "MIT",
@@ -356,10 +349,12 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 ```
 
 **Main README:**
+
 ```markdown
 ## Credits
 
 This project uses vendored code from:
+
 - [zsh-claude-workflow](https://github.com/Data-Wise/zsh-claude-workflow) (MIT)
   - Project detection functions (~300 lines)
   - See `cli/vendor/zsh-claude-workflow/README.md` for details

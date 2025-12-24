@@ -64,21 +64,22 @@ SHORTCUTS STILL WORK:
 
 ## Key Improvements
 
-| Feature | Before | After |
-|---------|--------|-------|
-| Visual hierarchy | ❌ Plain text | ✅ Box border + colors |
-| Most used commands | ❌ Mixed with others | ✅ Highlighted at top |
-| Examples | ❌ None | ✅ 3 real usage patterns |
-| Section icons | ❌ None | ✅ Emoji icons |
-| Color coding | ❌ None | ✅ Green/Yellow/Blue/Cyan/Magenta |
-| Quick scan | ❌ ~10 seconds | ✅ <3 seconds |
-| ADHD-friendly | ❌ Overwhelming | ✅ Optimized |
-| Future modes | ❌ None | ✅ Footer hints at full/examples/interactive |
-| NO_COLOR support | ❌ N/A | ✅ Respects environment variable |
+| Feature            | Before               | After                                        |
+| ------------------ | -------------------- | -------------------------------------------- |
+| Visual hierarchy   | ❌ Plain text        | ✅ Box border + colors                       |
+| Most used commands | ❌ Mixed with others | ✅ Highlighted at top                        |
+| Examples           | ❌ None              | ✅ 3 real usage patterns                     |
+| Section icons      | ❌ None              | ✅ Emoji icons                               |
+| Color coding       | ❌ None              | ✅ Green/Yellow/Blue/Cyan/Magenta            |
+| Quick scan         | ❌ ~10 seconds       | ✅ <3 seconds                                |
+| ADHD-friendly      | ❌ Overwhelming      | ✅ Optimized                                 |
+| Future modes       | ❌ None              | ✅ Footer hints at full/examples/interactive |
+| NO_COLOR support   | ❌ N/A               | ✅ Respects environment variable             |
 
 ## ADHD Optimization Benefits
 
 ### Before Issues:
+
 - All text looks the same (no visual hierarchy)
 - Can't quickly identify most important commands
 - No examples (hard to visualize usage)
@@ -86,6 +87,7 @@ SHORTCUTS STILL WORK:
 - Requires reading everything to find what you need
 
 ### After Solutions:
+
 - **Visual hierarchy:** Box border + color-coded sections
 - **Most Common:** Top 3-4 commands highlighted first (80% use case)
 - **Quick Examples:** See it in action immediately
@@ -96,6 +98,7 @@ SHORTCUTS STILL WORK:
 ## User Experience Flow
 
 ### Before:
+
 1. User runs `r help`
 2. Sees wall of text
 3. Scans through entire list
@@ -104,6 +107,7 @@ SHORTCUTS STILL WORK:
 6. Time: ~10-15 seconds
 
 ### After:
+
 1. User runs `r help`
 2. Sees box border (clear start)
 3. Scans "Most Common" (🔥) - finds command instantly
@@ -147,11 +151,13 @@ SHORTCUTS STILL WORK:
 ## What's Next (Phase 2)
 
 The "More Help" footer hints at future capabilities:
+
 - `r help full` - Complete reference with all commands
 - `r help examples` - Extended example library
 - `r ?` - Interactive picker with fzf
 
 Phase 2 will add multi-mode help system with:
+
 - Quick mode (concise)
 - Full mode (complete)
 - Examples mode (extended examples)

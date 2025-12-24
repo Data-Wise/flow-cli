@@ -59,18 +59,21 @@ describe('Project Entity', () => {
 
     test('throws error if description is too long', () => {
       const longDesc = 'a'.repeat(501)
-      expect(() => new Project('id-1', 'name', { description: longDesc }))
-        .toThrow('Project description too long')
+      expect(() => new Project('id-1', 'name', { description: longDesc })).toThrow(
+        'Project description too long'
+      )
     })
 
     test('throws error if tags is not an array', () => {
-      expect(() => new Project('id-1', 'name', { tags: 'invalid' }))
-        .toThrow('Project tags must be an array')
+      expect(() => new Project('id-1', 'name', { tags: 'invalid' })).toThrow(
+        'Project tags must be an array'
+      )
     })
 
     test('throws error if tags contains non-strings', () => {
-      expect(() => new Project('id-1', 'name', { tags: ['valid', 123] }))
-        .toThrow('Project tags must be strings')
+      expect(() => new Project('id-1', 'name', { tags: ['valid', 123] })).toThrow(
+        'Project tags must be strings'
+      )
     })
   })
 
@@ -119,7 +122,9 @@ describe('Project Entity', () => {
     test('throws error for invalid duration type', () => {
       const project = new Project('id-1', 'test')
 
-      expect(() => project.recordSession('invalid')).toThrow('Duration must be a non-negative number')
+      expect(() => project.recordSession('invalid')).toThrow(
+        'Duration must be a non-negative number'
+      )
     })
 
     test('updates lastAccessedAt when recording session', () => {

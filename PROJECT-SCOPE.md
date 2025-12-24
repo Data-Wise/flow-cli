@@ -20,12 +20,14 @@ Build a **personal productivity and project management system** that eliminates 
 **DT** (personal productivity tool)
 
 **Use Case:** Academic developer juggling:
+
 - 6 R packages (active development + maintenance)
 - 3 teaching courses (active + archived)
 - 11 research projects (various stages)
 - 16 dev-tools projects (shell automation, CLI tools, etc.)
 
 **Pain Points:**
+
 1. **Context Switching:** Losing mental context when switching between projects
 2. **Project Discovery:** Hard to remember all 30+ projects and their status
 3. **Task Overload:** Next actions scattered across projects, no unified view
@@ -42,6 +44,7 @@ Build a **personal productivity and project management system** that eliminates 
 Tracks, persists, and restores workflow state across sessions and projects.
 
 **State Tracked:**
+
 - **Session State:** Active project, current task, started time
 - **Mental Context:** What I was thinking, next steps, blockers
 - **Project State:** .STATUS content, git status, recent commits
@@ -49,6 +52,7 @@ Tracks, persists, and restores workflow state across sessions and projects.
 - **Environment:** Last working directory, git branch
 
 **Restoration Flow:**
+
 ```
 1. Start shell → Detect last session
 2. Prompt: "Resume [project-name]? (Last: 2 hours ago)"
@@ -60,6 +64,7 @@ Tracks, persists, and restores workflow state across sessions and projects.
 ```
 
 **Integration:**
+
 - Uses **vendored functions** from zsh-claude-workflow (~300 lines ported)
 - Optionally coordinates with **aiterm** for terminal context switching (if installed)
 - Stores session state in `~/.local/share/flow-cli/sessions/`
@@ -73,6 +78,7 @@ Tracks, persists, and restores workflow state across sessions and projects.
 Displays comprehensive overview of all projects at a glance.
 
 **Dashboard View:**
+
 ```
 ═══════════════════════════════════════════════
 Personal Projects Overview (32 total)
@@ -100,6 +106,7 @@ Next Review: stat-440 (HW 5 due Friday)
 ```
 
 **Integration:**
+
 - Adapts **.STATUS parser** logic from apple-notes-sync
 - Uses **vendored project detection** functions
 - Can export to Apple Notes via apple-notes-sync scripts (optional)
@@ -112,12 +119,14 @@ Next Review: stat-440 (HW 5 due Friday)
 Maps relationships between projects to understand impact of changes.
 
 **Tracked Relationships:**
+
 - **Depends On:** Project requires another (e.g., rmediation depends on medfit)
 - **Used By:** Project is used by another (e.g., zsh-claude-workflow used by aiterm)
 - **Related To:** Projects in same ecosystem (e.g., all mediationverse packages)
 - **Blocks:** Project blocked by another (e.g., probmed blocked by reviewer feedback)
 
 **Use Cases:**
+
 - "What projects will be affected if I update medfit?"
 - "Why is probmed paused?" → "Blocked by reviewer feedback on sensitivity"
 - "Show me all projects in mediationverse ecosystem"
@@ -130,12 +139,14 @@ Maps relationships between projects to understand impact of changes.
 Aggregates next actions across all projects into unified task list.
 
 **Task Views:**
+
 - **By Priority:** P0 (urgent) → P3 (someday)
 - **By Effort:** Quick wins (<30 min) → Long projects (>4 hours)
 - **By Category:** R packages, teaching, research, dev-tools
 - **By Date:** Due today, this week, this month
 
 **Example Output:**
+
 ```
 Quick Wins (< 30 min):
   ⚡ rmediation: Fix typo in README
@@ -159,6 +170,7 @@ Long Projects (> 4 hours):
 Fast fuzzy finder for switching between projects.
 
 **Interface:**
+
 ```bash
 > pp
 # Opens fzf with project list:
@@ -172,6 +184,7 @@ Fast fuzzy finder for switching between projects.
 ```
 
 **Features:**
+
 - Fuzzy search by name
 - Filter by type/category
 - Recent projects first
@@ -218,17 +231,18 @@ See [ARCHITECTURE-INTEGRATION.md](ARCHITECTURE-INTEGRATION.md) for complete deta
 
 **UPDATE 2025-12-20:** Changed from dependency approach to porting functions.
 
-| Feature Needed | Source Tool | Integration Method |
-|----------------|-------------|-------------------|
-| Project type detection | zsh-claude-workflow | **Port** project-detector.sh (~200 lines) |
-| Shared utilities | zsh-claude-workflow | **Port** core.sh (~100 lines) |
-| Terminal switching | aiterm | **Optional** - Call `ait context apply` if installed |
-| .STATUS parsing | apple-notes-sync | **Adapt** scanner.sh logic |
-| Dashboard templates | apple-notes-sync | **Reuse** RTF/AppleScript patterns |
+| Feature Needed         | Source Tool         | Integration Method                                   |
+| ---------------------- | ------------------- | ---------------------------------------------------- |
+| Project type detection | zsh-claude-workflow | **Port** project-detector.sh (~200 lines)            |
+| Shared utilities       | zsh-claude-workflow | **Port** core.sh (~100 lines)                        |
+| Terminal switching     | aiterm              | **Optional** - Call `ait context apply` if installed |
+| .STATUS parsing        | apple-notes-sync    | **Adapt** scanner.sh logic                           |
+| Dashboard templates    | apple-notes-sync    | **Reuse** RTF/AppleScript patterns                   |
 
 **Total Vendored Code:** ~300 lines from zsh-claude-workflow
 
 **Why Port Instead of Depend:**
+
 - ✅ Truly standalone package (npm-installable)
 - ✅ No external dependencies required
 - ✅ Works out-of-box for all users
@@ -292,16 +306,19 @@ See [ARCHITECTURE-INTEGRATION.md](ARCHITECTURE-INTEGRATION.md) for complete deta
 **Goal:** Basic session persistence and restoration
 
 **Core Components:**
+
 - `cli/core/session-manager.js` - Save/load/restore logic
 - `cli/adapters/session-adapter.js` - ZSH bridge
 - `config/zsh/functions/session-commands.zsh` - User commands
 
 **Commands:**
+
 - `work <project>` - Start session (detect type, save state)
 - `finish [message]` - End session (save notes, time tracking)
 - `resume` - Restore last session (prompt on new shell)
 
 **Test Plan:**
+
 - Use with 3 different projects for 1 week
 - Verify restoration works after reboot
 - Measure time to productive work (<30 sec goal)
@@ -315,16 +332,19 @@ See [ARCHITECTURE-INTEGRATION.md](ARCHITECTURE-INTEGRATION.md) for complete deta
 **Goal:** Multi-project overview dashboard
 
 **Core Components:**
+
 - `cli/core/dashboard-generator.js` - Aggregate status from all projects
 - Adapt scanner.sh logic from apple-notes-sync
 - `config/zsh/functions/dashboard-commands.zsh` - Display formatting
 
 **Commands:**
+
 - `dashboard` - Show all projects overview
 - `dashboard --category r-packages` - Filter by category
 - `dashboard --quick-wins` - Show tasks <30 min
 
 **Features:**
+
 - Group by category (R packages, teaching, research, dev-tools)
 - Highlight active projects (worked on today/yesterday)
 - Show quick wins separately
@@ -339,15 +359,18 @@ See [ARCHITECTURE-INTEGRATION.md](ARCHITECTURE-INTEGRATION.md) for complete deta
 **Goal:** Fast project switching with fuzzy finder
 
 **Core Components:**
+
 - `cli/core/project-scanner.js` - Search/filter projects
 - `config/zsh/functions/project-commands.zsh` - Fzf integration
 
 **Commands:**
+
 - `pp` - Project picker (fzf interface)
 - `pp --recent` - Recent projects only
 - `pp --category teaching` - Filter by category
 
 **Features:**
+
 - Fuzzy search by name
 - Preview pane shows .STATUS content
 - Recent projects sorted first
@@ -362,12 +385,14 @@ See [ARCHITECTURE-INTEGRATION.md](ARCHITECTURE-INTEGRATION.md) for complete deta
 **Goal:** Understand project relationships and unified task view
 
 **Week 5-6: Dependency Tracker**
+
 - `cli/core/dependency-tracker.js` - Map relationships
 - Define dependency types (depends-on, used-by, related-to, blocks)
 - Build dependency graph from .STATUS files or manual config
 - Commands: `deps <project>`, `deps --graph`, `deps --impact`
 
 **Week 7-8: Task Aggregator**
+
 - `cli/core/task-aggregator.js` - Collect next actions from all .STATUS files
 - Group by priority, effort, category, date
 - Commands: `tasks`, `tasks --quick-wins`, `tasks --p0`
@@ -382,16 +407,19 @@ See [ARCHITECTURE-INTEGRATION.md](ARCHITECTURE-INTEGRATION.md) for complete deta
 **Goal:** Production-ready with advanced features
 
 **Week 9-10: Session Templates & History**
+
 - Session templates (R package, teaching, research)
 - Session history viewer
 - Session analytics (time per project, productivity patterns)
 
 **Week 11: Integration Enhancements**
+
 - Deeper aiterm integration (auto-switch profiles)
 - Apple Notes export (via apple-notes-sync)
 - Git integration (branch tracking, commit history)
 
 **Week 12: Testing & Documentation**
+
 - Comprehensive test suite (Node.js + ZSH tests)
 - User documentation (quick start, command reference)
 - Architecture documentation updates
@@ -589,6 +617,7 @@ Personal Projects Overview (32 total)
 **Goal:** Smart recommendations and automation
 
 **Features:**
+
 - Smart project suggestions based on context
 - Automatic task generation from .STATUS files
 - Pattern recognition (e.g., "You usually work on R packages Friday afternoons")
@@ -604,6 +633,7 @@ Personal Projects Overview (32 total)
 **Goal:** Productivity insights and optimization
 
 **Features:**
+
 - Time tracking across projects
 - Productivity patterns (best times of day for each project type)
 - Project velocity (how quickly making progress)
@@ -680,11 +710,13 @@ fzf --version          # Fuzzy finder (project picker)
 ### Installation (Week 1+)
 
 **From npm (future):**
+
 ```bash
 npm install -g flow-cli
 ```
 
 **From source (current):**
+
 ```bash
 cd ~/projects/dev-tools/flow-cli
 
@@ -709,18 +741,23 @@ node cli/core/project-scanner.js ~/projects/
 ## Success Stories (What Good Looks Like)
 
 **Morning startup:**
+
 > Open terminal → "Resume rmediation?" → y → Productive in 20 seconds
 
 **Context switching:**
+
 > `finish` → `pp` → Select project → Switched in <30 seconds
 
 **Finding work:**
+
 > `tasks --quick-wins` → 7 easy tasks → Pick one, build momentum
 
 **Understanding impact:**
+
 > `deps medfit --impact` → Know which 3 projects will be affected
 
 **Daily overview:**
+
 > `dashboard` → See all 32 projects, priorities, quick wins in 2 seconds
 
 ---

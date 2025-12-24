@@ -20,12 +20,14 @@
 ### Rule: Don't Mix Interactive UI with Return Values
 
 **Interactive functions** are designed for direct user interaction:
+
 - Display UI elements (headers, boxes, colors)
 - Use tools like `fzf`, `select`, `read`
 - Have side effects (change directory, modify files)
 - Print status messages to stdout
 
 **Programmatic functions** are designed to return values:
+
 - Output only the return value to stdout
 - Send all messages to stderr
 - Can be captured with `$()`
@@ -94,6 +96,7 @@ cd "$dir" && do_something
 #### Bug 1: `cc` and `gm` Functions (2025-12-19)
 
 **Problem:**
+
 ```zsh
 cc() {
     if [[ $# -eq 0 ]]; then
@@ -106,11 +109,13 @@ cc() {
 ```
 
 **Error:**
+
 ```
 cc:cd:6: no such file or directory: \n╔════════════════...
 ```
 
 **Fix:**
+
 ```zsh
 cc() {
     if [[ $# -eq 0 ]]; then
@@ -122,12 +127,14 @@ cc() {
 ### Lint Rules
 
 **Never capture these interactive functions:**
+
 - `pick`, `pickr`, `pickdev`, `pickq`
 - `fzf` (directly - wrap it properly)
 - Any function that prints box-drawing characters
 - Any function that calls `cd` as a side effect
 
 **Regex patterns to avoid:**
+
 ```bash
 # These patterns should trigger warnings:
 \$\(pick\)
@@ -148,6 +155,7 @@ local.*=\$\(pick
 #### Bug: `peek` Alias Conflict (2025-12-19)
 
 **Problem:**
+
 ```zsh
 # In .zshrc (line 145)
 alias peek='bat'
@@ -159,12 +167,14 @@ peek() {  # ❌ FAILS - parse error!
 ```
 
 **Error:**
+
 ```
 defining function based on alias `peek'
 parse error near `()'
 ```
 
 **Fix:** Remove the simple alias, let the advanced function take over:
+
 ```zsh
 # In .zshrc
 # Note: peek is now a function in smart-dispatchers.zsh
@@ -173,6 +183,7 @@ parse error near `()'
 ### Best Practices
 
 1. **Check for conflicts before defining functions:**
+
    ```zsh
    # Good practice - unalias first if needed
    unalias peek 2>/dev/null
@@ -182,6 +193,7 @@ parse error near `()'
    ```
 
 2. **Use namespacing for complex commands:**
+
    ```zsh
    # Instead of overriding 'ls'
    alias ls='eza'
@@ -234,11 +246,13 @@ result=$(my_function)  # Gets "Processing...\nFound 5 files\n/path/to/result"
 ### When to Print to Stdout
 
 ✅ **Print to stdout when:**
+
 - Returning data to be captured by `$()`
 - Piping to another command
 - Output is the primary purpose of the function
 
 ❌ **Don't print to stdout when:**
+
 - Showing status messages
 - Displaying UI elements
 - Logging progress

@@ -9,6 +9,7 @@
 ## 📊 What We Found
 
 ### The Good ✅
+
 - **183 aliases** - Comprehensive coverage
 - **108 functions** - Feature-rich system
 - **ADHD-optimized** - Ultra-fast shortcuts work great
@@ -16,6 +17,7 @@
 - **Help system** - `ah` command is excellent
 
 ### The Bad ⚠️
+
 - **7 duplicate conflicts** - Same functions defined multiple times
 - **adhd-helpers.zsh too large** - 3,034 lines in single file
 - **Commented code** - ~100 lines of old removed aliases
@@ -37,6 +39,7 @@
 7. **`dash` alias/function** - conflicts → Keep dash.zsh function
 
 **Already Fixed:**
+
 - ✅ `fs` conflict resolved (renamed to `fst` and `fls`)
 
 ---
@@ -44,29 +47,34 @@
 ## ✅ What Gets Fixed
 
 ### Phase 1: Critical Conflicts (30 min) ← **START HERE**
+
 **Impact:** Zero duplicate conflicts
 **Risk:** Low - keeping most feature-rich versions
 **Test:** All commands work as expected
 
 **Actions:**
+
 - Remove 6 duplicate function definitions
 - Remove 3 conflicting aliases
 - Create backups before changes
 - Test thoroughly
 
 ### Phase 2: Quality Cleanup (45 min)
+
 - Move commented code to changelog
 - Remove deprecated aliases
 - Add `--help` to top 10 functions
 - Update documentation
 
 ### Phase 3: Performance (2 hours)
+
 - Split adhd-helpers.zsh into modules
 - Add caching (5-min TTL)
 - Implement lazy loading
 - **Result:** 250ms → 50ms startup
 
 ### Phase 4: Polish (1.5 hours)
+
 - Add `--help` everywhere
 - Create unified help system
 - Add tab completion
@@ -76,18 +84,19 @@
 
 ## 📈 Expected Results
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| Duplicate conflicts | 7 | 0 | **100%** ✅ |
-| Shell startup | 250ms | 50ms | **80%** ⚡ |
-| Project scans | 400ms | <10ms | **97%** ⚡ |
-| Largest file | 3034 lines | <500 lines | **84%** 📦 |
+| Metric              | Before     | After      | Improvement |
+| ------------------- | ---------- | ---------- | ----------- |
+| Duplicate conflicts | 7          | 0          | **100%** ✅ |
+| Shell startup       | 250ms      | 50ms       | **80%** ⚡  |
+| Project scans       | 400ms      | <10ms      | **97%** ⚡  |
+| Largest file        | 3034 lines | <500 lines | **84%** 📦  |
 
 ---
 
 ## 🎯 Next Steps
 
 ### Today (30 minutes)
+
 ```bash
 # 1. Review the full proposal
 bat ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md
@@ -103,10 +112,12 @@ bat ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md
 ```
 
 ### This Week
+
 - Execute Phase 2 (quality cleanup)
 - Update all documentation
 
 ### Next Week
+
 - Execute Phase 3 (performance optimization)
 - Benchmark improvements
 
@@ -151,12 +162,14 @@ type dash
 ## 💡 Why This Matters
 
 ### ADHD Perspective
+
 - **Fewer conflicts** = Less cognitive load
 - **Faster startup** = Less waiting = Less distraction
 - **Better organization** = Easier to find what you need
 - **Clear documentation** = Easier to remember commands
 
 ### Technical Perspective
+
 - **Maintainability** = Smaller files, modular structure
 - **Performance** = Caching, lazy loading
 - **Quality** = No duplicates, comprehensive help
@@ -178,6 +191,7 @@ type dash
 Say: **"execute Phase 1 of optimization"**
 
 Or read the full proposal first:
+
 ```bash
 bat ZSH-OPTIMIZATION-PROPOSAL-2025-12-16.md
 ```

@@ -13,17 +13,19 @@ Your monorepo is **intentionally minimal** with a "simplicity-first" philosophy 
 ### Current State: ⭐⭐⭐ (3/5)
 
 **Strengths:**
+
 - ✅ Clean workspace separation (`app/` and `cli/`)
 - ✅ Zero dependency overlap (no bloat)
 - ✅ Simple npm workspaces setup
 - ✅ CLI has zero dependencies (pure Node.js)
 
 **Weaknesses:**
+
 - ❌ No shared tooling configuration
 - ❌ No build orchestration or caching
 - ❌ No dependency version management
 - ❌ Tests not unified
-- ⚠️  Node version mismatch between workspaces
+- ⚠️ Node version mismatch between workspaces
 
 ---
 
@@ -42,21 +44,21 @@ flow-cli/
 
 ### Dependency Analysis
 
-| Workspace | Prod Dependencies | Dev Dependencies | Total |
-|-----------|-------------------|------------------|-------|
-| **Root** | 0 | 0 | 0 |
-| **app/** | 1 (electron-store) | 3 (electron, electron-builder, jest) | 4 |
-| **cli/** | 0 | 0 | 0 |
+| Workspace | Prod Dependencies  | Dev Dependencies                     | Total |
+| --------- | ------------------ | ------------------------------------ | ----- |
+| **Root**  | 0                  | 0                                    | 0     |
+| **app/**  | 1 (electron-store) | 3 (electron, electron-builder, jest) | 4     |
+| **cli/**  | 0                  | 0                                    | 0     |
 
 **Overlap:** None (good!)
 
 ### Scripts Audit
 
-| Workspace | Scripts | Build Tools | Test Framework |
-|-----------|---------|-------------|----------------|
-| **Root** | setup, sync, dev, test, build | None | Delegates to workspaces |
-| **app/** | start, dev, build, test | electron-builder | jest |
-| **cli/** | test, test:status, test:workflow | None (vanilla Node) | Custom (node test/*.js) |
+| Workspace | Scripts                          | Build Tools         | Test Framework           |
+| --------- | -------------------------------- | ------------------- | ------------------------ |
+| **Root**  | setup, sync, dev, test, build    | None                | Delegates to workspaces  |
+| **app/**  | start, dev, build, test          | electron-builder    | jest                     |
+| **cli/**  | test, test:status, test:workflow | None (vanilla Node) | Custom (node test/\*.js) |
 
 ---
 
@@ -65,6 +67,7 @@ flow-cli/
 ### 🔴 Critical Issues
 
 #### 1. Node Version Mismatch
+
 **Impact:** HIGH
 **Location:** [package.json:32](package.json#L32), [cli/package.json:20](cli/package.json#L20)
 
@@ -85,21 +88,25 @@ flow-cli/
 ### 🟡 Medium Priority Issues
 
 #### 2. No Shared Configuration Management
+
 **Impact:** MEDIUM
 **Current State:** Each workspace would need to duplicate configs when added
 
 Missing shared configs:
+
 - TypeScript (`tsconfig.json`)
 - ESLint (`.eslintrc.js`)
 - Prettier (`.prettierrc`)
 - Jest (`jest.config.js`)
 
 **Benefit of fixing:**
+
 - Single source of truth for code style
 - Easier to maintain consistency
 - Faster to add new workspaces
 
 #### 3. No Build Orchestration
+
 **Impact:** MEDIUM
 **Current State:** Manual script coordination
 
@@ -113,12 +120,14 @@ Missing shared configs:
 ```
 
 **Issues:**
+
 - Can't run parallel builds
 - No incremental build caching
 - No dependency-aware task execution
 - `dev` and `build` ignore CLI workspace
 
 **Example missing capability:**
+
 ```bash
 # Want: Build CLI first, then app (if CLI changed)
 npm run build  # Currently only builds app
@@ -128,6 +137,7 @@ npm run dev    # Currently only runs app dev mode
 ```
 
 #### 4. Test Framework Inconsistency
+
 **Impact:** MEDIUM
 **Current State:** Different test approaches per workspace
 
@@ -135,20 +145,24 @@ npm run dev    # Currently only runs app dev mode
 - **cli/**: Custom vanilla Node tests (`node test/*.js`)
 
 **Trade-offs:**
+
 - ✅ CLI has zero deps (good for simplicity)
 - ❌ Different test APIs/assertions
 - ❌ Can't collect unified coverage
 - ❌ Different watch modes
 
 #### 5. No Dependency Version Management
+
 **Impact:** LOW (currently)
 **Future Risk:** As project grows, dependency conflicts will arise
 
 Currently no issues because:
+
 - CLI has zero dependencies
 - App dependencies are isolated
 
 **Future risk scenario:**
+
 ```json
 // Future: Both workspaces might need shared deps
 // app/package.json
@@ -165,6 +179,7 @@ Currently no issues because:
 ### 🟢 Low Priority / Enhancement Opportunities
 
 #### 6. No Package Exports Map
+
 **Impact:** LOW
 **Enhancement:** Enable clean imports between workspaces
 
@@ -181,6 +196,7 @@ import { getStatus } from '@workspace/cli/adapters'
 ```
 
 #### 7. Missing Workspace Scripts
+
 **Impact:** LOW
 **Enhancement:** Better DX for common operations
 
@@ -215,6 +231,7 @@ import { getStatus } from '@workspace/cli/adapters'
 **Impact:** ⚡ High (fixes compatibility issues)
 
 **Changes:**
+
 1. ✅ **Align Node versions** to `>=18.0.0` everywhere
 2. ✅ **Add missing root scripts** for better DX
 3. ✅ **Create shared package** for configs (optional, only if needed later)
@@ -232,6 +249,7 @@ import { getStatus } from '@workspace/cli/adapters'
 **Impact:** 🚀 Very High (professional-grade setup)
 
 **Changes:**
+
 1. Migrate to **pnpm workspaces** (faster, better hoisting)
 2. Add **Turborepo** for build caching and orchestration
 3. Create **shared config packages** (`@repo/tsconfig`, `@repo/eslint-config`)
@@ -240,6 +258,7 @@ import { getStatus } from '@workspace/cli/adapters'
 6. Set up **changesets** for versioning
 
 **Turborepo Example:**
+
 ```json
 // turbo.json
 {
@@ -261,12 +280,14 @@ import { getStatus } from '@workspace/cli/adapters'
 ```
 
 **Benefits:**
+
 - ⚡ 2-3x faster builds (caching)
 - 🔄 Parallel task execution
 - 🎯 Run only affected workspaces
 - 📦 Better dependency management
 
 **Drawbacks:**
+
 - 📚 More concepts to learn
 - 🔧 More configuration to maintain
 - 💾 Larger `node_modules`
@@ -280,17 +301,14 @@ import { getStatus } from '@workspace/cli/adapters'
 **Impact:** ⚡⚡ High (best balance)
 
 **Phase 1: Fix Critical (now)**
+
 1. Align Node versions
 2. Add workspace scripts
 3. Document workspace architecture
 
-**Phase 2: Add Shared Configs (when TypeScript is added)**
-4. Create `config/` package with shared tsconfig
-5. Add ESLint shared config (when linting needed)
+**Phase 2: Add Shared Configs (when TypeScript is added)** 4. Create `config/` package with shared tsconfig 5. Add ESLint shared config (when linting needed)
 
-**Phase 3: Add Build Orchestration (when needed)**
-6. Add Turborepo only if builds become slow
-7. Keep it simple: no remote cache initially
+**Phase 3: Add Build Orchestration (when needed)** 6. Add Turborepo only if builds become slow 7. Keep it simple: no remote cache initially
 
 ---
 
@@ -299,6 +317,7 @@ import { getStatus } from '@workspace/cli/adapters'
 ### 🔴 Do Now (Critical)
 
 1. **Fix Node Version Mismatch**
+
    ```json
    // Update cli/package.json
    "engines": {
@@ -323,6 +342,7 @@ import { getStatus } from '@workspace/cli/adapters'
 ### 🟡 Do Soon (Medium Priority)
 
 3. **Create Shared Config Directory** (when TypeScript added)
+
    ```
    config/
    ├── package.json
@@ -346,35 +366,38 @@ import { getStatus } from '@workspace/cli/adapters'
 
 ## Comparison: Current vs Recommended
 
-| Feature | Current | Option A | Option B | Option C |
-|---------|---------|----------|----------|----------|
-| **Workspace Tool** | npm | npm | pnpm | npm |
-| **Build Tool** | None | None | Turborepo | (Later) |
-| **Node Version** | ⚠️ Mixed | ✅ Aligned | ✅ Aligned | ✅ Aligned |
-| **Shared Configs** | ❌ None | ⚠️ Minimal | ✅ Full | 🔄 Incremental |
-| **Test Framework** | Mixed | Mixed | Jest | Mixed → Jest |
-| **Dependency Count** | 4 total | 4 total | ~15 total | 4 → 10 |
-| **Setup Time** | - | 1-2h | 4-6h | 2-3h |
-| **Maintenance** | Low | Low | Medium | Low-Medium |
-| **ADHD-Friendly** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ |
+| Feature              | Current  | Option A   | Option B   | Option C       |
+| -------------------- | -------- | ---------- | ---------- | -------------- |
+| **Workspace Tool**   | npm      | npm        | pnpm       | npm            |
+| **Build Tool**       | None     | None       | Turborepo  | (Later)        |
+| **Node Version**     | ⚠️ Mixed | ✅ Aligned | ✅ Aligned | ✅ Aligned     |
+| **Shared Configs**   | ❌ None  | ⚠️ Minimal | ✅ Full    | 🔄 Incremental |
+| **Test Framework**   | Mixed    | Mixed      | Jest       | Mixed → Jest   |
+| **Dependency Count** | 4 total  | 4 total    | ~15 total  | 4 → 10         |
+| **Setup Time**       | -        | 1-2h       | 4-6h       | 2-3h           |
+| **Maintenance**      | Low      | Low        | Medium     | Low-Medium     |
+| **ADHD-Friendly**    | ⭐⭐⭐   | ⭐⭐⭐⭐⭐ | ⭐⭐       | ⭐⭐⭐⭐       |
 
 ---
 
 ## Decision Matrix
 
 ### Choose Option A if:
+
 - ✅ You want minimal changes
 - ✅ Simplicity is paramount
 - ✅ Current setup works fine
 - ✅ Project stays small (2-3 workspaces max)
 
 ### Choose Option B if:
+
 - ✅ Building a long-term production app
 - ✅ Team will grow beyond 1-2 developers
 - ✅ Build times are already slow
 - ✅ Want professional-grade tooling
 
 ### Choose Option C if:
+
 - ✅ Want best of both worlds
 - ✅ Willing to add complexity incrementally
 - ✅ Unclear on future scale
@@ -387,6 +410,7 @@ import { getStatus } from '@workspace/cli/adapters'
 ### Recommended Path: **Option A** (Minimal Improvements)
 
 **Step 1: Fix Critical Issues (15 min)**
+
 ```bash
 # 1. Update cli/package.json engines
 # 2. Update root package.json scripts
@@ -395,6 +419,7 @@ npm test
 ```
 
 **Step 2: Enhance DX (30 min)**
+
 ```bash
 # Add convenience scripts
 # Document workspace architecture
@@ -402,6 +427,7 @@ npm test
 ```
 
 **Step 3: Validate (15 min)**
+
 ```bash
 # Test all new scripts
 npm run dev:app

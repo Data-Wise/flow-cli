@@ -9,6 +9,7 @@
 ## 🎯 The Vision
 
 **Current Problem:**
+
 ```bash
 # Two different commands, two different mental models
 claude mcp add <server>       # For MCP servers
@@ -21,6 +22,7 @@ claude plugin install <name>  # For Claude Code plugins
 ```
 
 **Proposed Solution:**
+
 ```bash
 # ONE command that searches EVERYTHING
 mcp search github
@@ -51,6 +53,7 @@ Installing mcp-github...
 ```
 
 **User Experience:**
+
 - ✅ Don't need to know if it's a server or plugin
 - ✅ Don't need to know which marketplace/registry
 - ✅ One search, categorized results
@@ -63,6 +66,7 @@ Installing mcp-github...
 ### Claude Code Has THREE Extension Systems!
 
 #### 1. MCP Servers (External processes)
+
 - **Command:** `claude mcp add/remove/list`
 - **Registry:** https://registry.modelcontextprotocol.io
 - **Count:** ~200+ servers
@@ -71,6 +75,7 @@ Installing mcp-github...
 - **Config:** `~/.claude/settings.json`
 
 #### 2. Claude Code Plugins (Bundled agents/skills)
+
 - **Command:** `claude plugin install/uninstall/enable/disable`
 - **Marketplaces:**
   - `claude-plugins-official` (Anthropic)
@@ -84,6 +89,7 @@ Installing mcp-github...
 - **Cache:** `~/.claude/plugins/cache/`
 
 #### 3. User Plugins (Local)
+
 - **Command:** `--plugin-dir <path>`
 - **Location:** Any directory
 - **Type:** Custom plugins you write
@@ -92,6 +98,7 @@ Installing mcp-github...
 ### Key Insight: They're All "Extensions"
 
 From a user perspective, they all:
+
 - ✅ Add functionality to Claude Code
 - ✅ Can be installed/removed
 - ✅ Have names and descriptions
@@ -119,6 +126,7 @@ mcp browse                    # Browse ALL sources
 ### Data Sources
 
 #### Source 1: MCP Registry (Remote)
+
 ```bash
 # API call:
 curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=github&version=latest"
@@ -141,15 +149,18 @@ curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=github&versio
 ```
 
 **Pros:**
+
 - Always up-to-date
 - Large selection (~200+)
 - Official registry
 
 **Cons:**
+
 - Requires internet
 - Rate limited (100 req/min)
 
 #### Source 2: Plugin Marketplaces (Local Cache)
+
 ```bash
 # Local cache:
 ~/.claude/plugins/cache/
@@ -171,11 +182,13 @@ curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=github&versio
 ```
 
 **Pros:**
+
 - Fast (local search)
 - Works offline
 - Multiple marketplaces
 
 **Cons:**
+
 - Needs periodic update
 - Smaller selection (~50)
 
@@ -240,11 +253,13 @@ Select (1-3, 'b' for browse, 'c' to cancel): _
 ```
 
 **Pros:**
+
 - Clear categories
 - Easy to scan
 - Simple to implement
 
 **Cons:**
+
 - Limited info shown
 - No visual separation
 
@@ -278,11 +293,13 @@ Select number (1-3), 'b' to browse all, 'c' to cancel: _
 ```
 
 **Pros:**
+
 - Rich information
 - Visual hierarchy
 - Professional look
 
 **Cons:**
+
 - Wider terminal needed
 - More complex formatting
 
@@ -328,12 +345,14 @@ $ mcp browse
 ```
 
 **Pros:**
+
 - Most visual
 - Rich preview
 - Familiar interface (already use fzf)
 - Natural categorization (icon prefix)
 
 **Cons:**
+
 - Requires fzf
 - Terminal-only
 
@@ -344,6 +363,7 @@ $ mcp browse
 ### Option 1: Smart `mcp` Dispatcher (Recommended) ⭐⭐⭐
 
 **Commands:**
+
 ```bash
 mcp search <term>             # Search both servers + plugins
 mcp browse                    # Browse all with fzf
@@ -351,6 +371,7 @@ mcp add <name>                # Smart install (detects type)
 ```
 
 **How it works:**
+
 1. `mcp search github` → searches both sources
 2. Shows categorized results
 3. User selects by number
@@ -359,6 +380,7 @@ mcp add <name>                # Smart install (detects type)
    - Plugin → `claude plugin install ...`
 
 **Example:**
+
 ```bash
 $ mcp add mcp-github
 
@@ -384,12 +406,14 @@ $ mcp add pr-review-toolkit
 ```
 
 **Pros:**
+
 - ONE interface for everything
 - User doesn't think about types
 - Natural extension of existing `mcp` dispatcher
 - Consistent with current pattern
 
 **Cons:**
+
 - Might confuse plugins with MCP servers (naming)
 - Slightly blurs the technical distinction
 
@@ -398,6 +422,7 @@ $ mcp add pr-review-toolkit
 ### Option 2: Separate Commands, Unified Search
 
 **Commands:**
+
 ```bash
 search <term>                 # Top-level search (both)
 mcp add <server>              # MCP servers only
@@ -405,6 +430,7 @@ plugin add <plugin>           # Plugins only
 ```
 
 **How it works:**
+
 1. `search github` → unified search
 2. Results show type clearly
 3. User uses appropriate install command:
@@ -412,11 +438,13 @@ plugin add <plugin>           # Plugins only
    - `plugin add github` for plugins
 
 **Pros:**
+
 - Clear distinction maintained
 - Separate install paths
 - Technically accurate
 
 **Cons:**
+
 - Need to remember which command
 - Not as seamless
 - User still thinks about types
@@ -426,6 +454,7 @@ plugin add <plugin>           # Plugins only
 ### Option 3: New Top-Level `extend` Command
 
 **Commands:**
+
 ```bash
 extend search <term>          # Search everything
 extend add <name>             # Smart install (detects type)
@@ -436,11 +465,13 @@ extend list                   # List installed (both)
 **Rationale:** "extend" is neutral (doesn't say server or plugin)
 
 **Pros:**
+
 - Clear purpose (extend Claude Code)
 - Neutral terminology
 - Clean namespace
 
 **Cons:**
+
 - Yet another top-level command
 - Breaks `mcp` pattern we've established
 - Need to learn new command
@@ -481,6 +512,7 @@ extend list                   # List installed (both)
 ### Sorting
 
 **Within each category:**
+
 1. Official first (⭐)
 2. Alphabetical
 3. Relevance score (if using fuzzy search)
@@ -494,6 +526,7 @@ extend list                   # List installed (both)
 **Goal:** `mcp search` returns both servers and plugins
 
 **Tasks:**
+
 1. Create `_unified_search()` function
    - Search MCP Registry API
    - Search local plugin cache
@@ -522,6 +555,7 @@ extend list                   # List installed (both)
 **Goal:** `mcp browse` shows everything in fzf
 
 **Tasks:**
+
 1. Fetch all sources
    - MCP Registry (all servers)
    - All plugin marketplaces
@@ -547,7 +581,9 @@ extend list                   # List installed (both)
 **Goal:** `mcp add <name>` detects type and installs correctly
 
 **Tasks:**
+
 1. Type detection logic
+
    ```zsh
    _detect_type() {
        # Check MCP Registry first
@@ -557,6 +593,7 @@ extend list                   # List installed (both)
    ```
 
 2. Smart install dispatch
+
    ```zsh
    _smart_install() {
        case "$type" in
@@ -581,6 +618,7 @@ extend list                   # List installed (both)
 **Goal:** Manage installed servers and plugins together
 
 **Commands:**
+
 ```bash
 mcp list                      # List ALL installed (servers + plugins)
 mcp enable <name>             # Enable (auto-detect type)
@@ -590,6 +628,7 @@ mcp update <name>             # Update (auto-detect type)
 ```
 
 **Tasks:**
+
 1. Unified list
    - Show installed MCP servers
    - Show installed plugins
@@ -792,6 +831,7 @@ Update docling? (y/n): y
 ### Use Option 1: Smart MCP Dispatcher ⭐⭐⭐
 
 **Why:**
+
 1. ✅ **Least cognitive load** - ONE command for everything
 2. ✅ **Natural extension** - Builds on existing `mcp` pattern
 3. ✅ **ADHD-friendly** - Don't need to remember types
@@ -799,6 +839,7 @@ Update docling? (y/n): y
 5. ✅ **Consistent** - Matches g/r/v dispatcher pattern
 
 **Commands:**
+
 ```bash
 mcp search <term>             # Unified search
 mcp browse                    # Unified browse (fzf)
@@ -809,6 +850,7 @@ mcp enable/disable <name>     # Smart toggle (auto-detect)
 ```
 
 **Implementation Priority:**
+
 1. **Week 1:** Unified search + browse
 2. **Week 2:** Smart install (auto-detect type)
 3. **Week 3:** Unified list + management
@@ -862,18 +904,21 @@ mcp list                        # Shows all installed
 ## 📈 SUCCESS METRICS
 
 ### MVP (Week 2)
+
 - [ ] Unified search returns both types
 - [ ] Browse shows all extensions with categories
 - [ ] Install auto-detects type and works
 - [ ] User doesn't need to know the distinction
 
 ### V2 (Week 4)
+
 - [ ] List shows all installed extensions
 - [ ] Enable/disable works for both
 - [ ] Update checks both sources
 - [ ] Recommendations based on workflow
 
 ### Long-term
+
 - [ ] Natural language search
 - [ ] Smart conflict detection
 - [ ] Usage analytics
@@ -950,6 +995,7 @@ Continue? (y/n): n
 ## 🎬 IMPLEMENTATION SEQUENCE
 
 ### Day 1: Unified Search Core
+
 - [ ] `_unified_search()` function
 - [ ] MCP Registry API search
 - [ ] Plugin cache search
@@ -957,24 +1003,28 @@ Continue? (y/n): n
 - [ ] Display formatted results
 
 ### Day 2: FZF Browse
+
 - [ ] Fetch all sources
 - [ ] Create fzf list with icons
 - [ ] Rich preview pane
 - [ ] Test interactive selection
 
 ### Day 3: Smart Install
+
 - [ ] Type detection logic
 - [ ] Install dispatch (mcp vs plugin)
 - [ ] Success confirmation
 - [ ] Error handling
 
 ### Day 4: Unified List
+
 - [ ] List MCP servers
 - [ ] List plugins
 - [ ] Merge and format
 - [ ] Status indicators (enabled/disabled)
 
 ### Day 5: Polish & Documentation
+
 - [ ] Help text (`mcp help`)
 - [ ] Update quick reference
 - [ ] Write tests

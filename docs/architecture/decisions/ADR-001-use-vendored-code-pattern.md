@@ -17,11 +17,11 @@ The flow-cli system needs to detect project types (R packages, Quarto, research 
 
 ## Decision Drivers
 
-* **User Experience** - One-command installation (`npm install`) is critical
-* **Reliability** - External dependencies can break or become unavailable
-* **Maintainability** - Need clear update path for bug fixes
-* **Code Reuse** - Don't want to reimplement working logic
-* **Attribution** - Must properly credit original authors
+- **User Experience** - One-command installation (`npm install`) is critical
+- **Reliability** - External dependencies can break or become unavailable
+- **Maintainability** - Need clear update path for bug fixes
+- **Code Reuse** - Don't want to reimplement working logic
+- **Attribution** - Must properly credit original authors
 
 ---
 
@@ -36,11 +36,13 @@ npm install flow-cli
 ```
 
 **Pros:**
+
 - Always uses latest version
 - No code duplication
 - Automatic updates
 
 **Cons:**
+
 - ❌ Two-step installation (poor UX)
 - ❌ Fragile (breaks if zsh-claude-workflow not installed)
 - ❌ Platform-dependent (Homebrew required)
@@ -56,11 +58,13 @@ function detectProjectType(path) {
 ```
 
 **Pros:**
+
 - Pure JavaScript (no shell dependency)
 - Full control over implementation
 - Easy to test
 
 **Cons:**
+
 - ❌ Code duplication (violates DRY)
 - ❌ Bug fixes need to be applied twice
 - ❌ Logic divergence over time
@@ -78,6 +82,7 @@ cli/lib/project-detector-bridge.js
 ```
 
 **Pros:**
+
 - ✅ One-command installation (`npm install`)
 - ✅ Self-contained (works everywhere npm works)
 - ✅ Leverages battle-tested logic
@@ -85,6 +90,7 @@ cli/lib/project-detector-bridge.js
 - ✅ Documented update process
 
 **Cons:**
+
 - ⚠️ Manual sync required for updates
 - ⚠️ Slight code duplication (acceptable)
 
@@ -107,6 +113,7 @@ cli/lib/project-detector-bridge.js
 
 4. **Clear Update Path**
    We document the source repository and commit hash in vendored file headers. Updates are manual but traceable:
+
    ```bash
    # Copy from source
    cp ~/projects/dev-tools/zsh-claude-workflow/lib/project-detector.sh \
@@ -140,18 +147,11 @@ const execFileAsync = promisify(execFile)
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const DETECTOR_SCRIPT = join(
-  __dirname,
-  '../vendor/zsh-claude-workflow/project-detector.sh'
-)
+const DETECTOR_SCRIPT = join(__dirname, '../vendor/zsh-claude-workflow/project-detector.sh')
 
 export async function detectProjectType(projectPath) {
   try {
-    const { stdout } = await execFileAsync('bash', [
-      DETECTOR_SCRIPT,
-      'detect',
-      projectPath
-    ])
+    const { stdout } = await execFileAsync('bash', [DETECTOR_SCRIPT, 'detect', projectPath])
     return stdout.trim() || 'unknown'
   } catch (error) {
     console.error('Detection failed:', error)
@@ -166,22 +166,22 @@ export async function detectProjectType(projectPath) {
 
 ### Positive
 
-* ✅ **Zero external dependencies** - Works everywhere npm works
-* ✅ **Reliable** - Guaranteed version compatibility
-* ✅ **Fast installation** - No multi-step setup
-* ✅ **Production-tested logic** - Leverages proven detection patterns
-* ✅ **Clear attribution** - Honors original authors
+- ✅ **Zero external dependencies** - Works everywhere npm works
+- ✅ **Reliable** - Guaranteed version compatibility
+- ✅ **Fast installation** - No multi-step setup
+- ✅ **Production-tested logic** - Leverages proven detection patterns
+- ✅ **Clear attribution** - Honors original authors
 
 ### Negative
 
-* ⚠️ **Manual updates required** - Need to sync with source periodically
-* ⚠️ **Code duplication** - Same logic exists in two repos (acceptable trade-off)
-* ⚠️ **Shell dependency** - Still requires bash (but bash is ubiquitous)
+- ⚠️ **Manual updates required** - Need to sync with source periodically
+- ⚠️ **Code duplication** - Same logic exists in two repos (acceptable trade-off)
+- ⚠️ **Shell dependency** - Still requires bash (but bash is ubiquitous)
 
 ### Neutral
 
-* ℹ️ **Bridge pattern** - JavaScript wraps shell scripts (clean abstraction)
-* ℹ️ **Version tracking** - Must document source commit hash in each update
+- ℹ️ **Bridge pattern** - JavaScript wraps shell scripts (clean abstraction)
+- ℹ️ **Version tracking** - Must document source commit hash in each update
 
 ---
 
@@ -209,17 +209,17 @@ export async function detectProjectType(projectPath) {
 
 ## Related Decisions
 
-* **ADR-002**: Use Clean Architecture for Long-Term Maintainability
-* **ADR-003**: JavaScript Bridge Pattern for Shell Integration
-* **Future**: May replace with pure JavaScript implementation later
+- **ADR-002**: Use Clean Architecture for Long-Term Maintainability
+- **ADR-003**: JavaScript Bridge Pattern for Shell Integration
+- **Future**: May replace with pure JavaScript implementation later
 
 ---
 
 ## References
 
-* [VENDOR-INTEGRATION-ARCHITECTURE.md](../VENDOR-INTEGRATION-ARCHITECTURE.md) - Full technical documentation
-* [zsh-claude-workflow](https://github.com/Data-Wise/zsh-claude-workflow) - Source repository
-* [Vendoring Best Practices](https://github.com/golang/go/wiki/Modules#when-should-i-use-the-replace-directive) - Go community patterns
+- [VENDOR-INTEGRATION-ARCHITECTURE.md](../VENDOR-INTEGRATION-ARCHITECTURE.md) - Full technical documentation
+- [zsh-claude-workflow](https://github.com/Data-Wise/zsh-claude-workflow) - Source repository
+- [Vendoring Best Practices](https://github.com/golang/go/wiki/Modules#when-should-i-use-the-replace-directive) - Go community patterns
 
 ---
 

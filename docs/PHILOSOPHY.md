@@ -19,11 +19,13 @@ v dash              # Workflow: open dashboard
 ```
 
 **Rules:**
+
 - Single letter for high-frequency domains: `r`, `g`, `v`
 - Two letters for medium-frequency: `qu`, `cc`, `gm`
 - Full words for low-frequency: `work`, `dash`, `pick`
 
 **Benefits:**
+
 - Consistent mental model
 - Self-documenting via `<cmd> help`
 - Passthrough for advanced usage
@@ -32,14 +34,15 @@ v dash              # Workflow: open dashboard
 
 Every command should be:
 
-| Property | Implementation |
-|----------|----------------|
+| Property         | Implementation              |
+| ---------------- | --------------------------- |
 | **Discoverable** | Built-in help: `<cmd> help` |
-| **Consistent** | Same pattern everywhere |
-| **Memorable** | Short, mnemonic names |
-| **Forgiving** | Typo tolerance aliases |
+| **Consistent**   | Same pattern everywhere     |
+| **Memorable**    | Short, mnemonic names       |
+| **Forgiving**    | Typo tolerance aliases      |
 
 **Example:**
+
 ```bash
 g                   # No args → status (most common)
 g help              # Forgot command? Help is there
@@ -59,6 +62,7 @@ gti push            # Typo? Still works (alias to g)
 ```
 
 **Rules:**
+
 - Each domain has its own file
 - Functions > Aliases (for complex logic)
 - Aliases only for simple shortcuts
@@ -69,6 +73,7 @@ gti push            # Typo? Still works (alias to g)
 **Target:** Shell startup < 200ms
 
 **Strategies:**
+
 - Lazy loading for heavy operations
 - Minimal plugins (use antidote, not oh-my-zsh)
 - No blocking operations at startup
@@ -77,12 +82,14 @@ gti push            # Typo? Still works (alias to g)
 ### 5. Self-Documenting
 
 Every dispatcher MUST have:
+
 - `_<cmd>_help()` function
 - Most common commands shown first
 - Examples with expected output
 - Consistent color scheme
 
 **Help Structure:**
+
 ```
 ╭─────────────────────────────────────────────╮
 │ <cmd> - Domain Description                  │
@@ -211,4 +218,4 @@ This configuration evolves through:
 
 ---
 
-*Last Updated: 2025-12-17*
+_Last Updated: 2025-12-17_

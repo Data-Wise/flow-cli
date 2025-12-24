@@ -13,13 +13,14 @@
 
 After brainstorming, we decided on a **three-tier hub system**:
 
-| Tier | Hub | Purpose |
-|------|-----|---------|
-| **Master** | `project-hub/` | Aggregates all domains, weekly planning |
-| **Domain** | `mediation-planning/`, `dev-planning/` | Domain-specific coordination |
-| **Standards** | `flow-cli/standards/` | Universal conventions |
+| Tier          | Hub                                    | Purpose                                 |
+| ------------- | -------------------------------------- | --------------------------------------- |
+| **Master**    | `project-hub/`                         | Aggregates all domains, weekly planning |
+| **Domain**    | `mediation-planning/`, `dev-planning/` | Domain-specific coordination            |
+| **Standards** | `flow-cli/standards/`                  | Universal conventions                   |
 
 **Key decision:** Create separate `dev-planning/` repo (not nested in `flow-cli/`) to:
+
 1. Follow `mediation-planning` pattern exactly
 2. Keep `flow-cli` focused on standards + shell config
 3. Clean parallel structure for project-hub links
@@ -122,12 +123,12 @@ teaching/causal-inference/│
 
 ## Quick Status
 
-| Domain | Hub | Status | Next Action |
-|--------|-----|--------|-------------|
-| R Packages | [mediation-planning](../r-packages/mediation-planning/) | 🟢 | [from hub] |
-| Dev Tools | [dev-tools.md](domains/dev-tools.md) | 🟢 | [from file] |
-| Research | [research.md](domains/research.md) | 🟡 | [from file] |
-| Teaching | [teaching.md](domains/teaching.md) | 🟢 | [from file] |
+| Domain     | Hub                                                     | Status | Next Action |
+| ---------- | ------------------------------------------------------- | ------ | ----------- |
+| R Packages | [mediation-planning](../r-packages/mediation-planning/) | 🟢     | [from hub]  |
+| Dev Tools  | [dev-tools.md](domains/dev-tools.md)                    | 🟢     | [from file] |
+| Research   | [research.md](domains/research.md)                      | 🟡     | [from file] |
+| Teaching   | [teaching.md](domains/teaching.md)                      | 🟢     | [from file] |
 
 ## This Week
 
@@ -140,29 +141,32 @@ See [INTEGRATIONS.md](cross-domain/INTEGRATIONS.md)
 
 ### `project-hub/domains/research.md`
 
-```markdown
+````markdown
 # 📝 Research Projects
 
 > **Active:** 3 | **Paused:** 5 | **Complete:** 3
 
 ## Dashboard
 
-| Project | Status | Progress | Target | Next Action |
-|---------|--------|----------|--------|-------------|
-| product-of-three | Draft | 75% | JASA | Write discussion |
-| collider | Under Review | — | Biostatistics | Address R2 comments |
-| sensitivity | Paused | 40% | Psych Methods | — |
-| pmed | ✅ Published | 100% | — | — |
+| Project          | Status       | Progress | Target        | Next Action         |
+| ---------------- | ------------ | -------- | ------------- | ------------------- |
+| product-of-three | Draft        | 75%      | JASA          | Write discussion    |
+| collider         | Under Review | —        | Biostatistics | Address R2 comments |
+| sensitivity      | Paused       | 40%      | Psych Methods | —                   |
+| pmed             | ✅ Published | 100%     | —             | —                   |
 
 ## By Stage
 
 ### 🔴 Active Writing
+
 - **product-of-three** — Discussion section needed
 
 ### 🟡 Under Review
+
 - **collider** — R2 received
 
 ### ⏸️ Paused
+
 - **sensitivity** — Blocked on medrobust
 
 ## Quick Commands
@@ -172,7 +176,9 @@ rst                    # Research dashboard
 rms                    # Open current manuscript
 work "product of three"  # Start session
 ```
-```
+````
+
+````
 
 ### `project-hub/domains/teaching.md`
 
@@ -204,8 +210,9 @@ work "product of three"  # Start session
 tst                    # Teaching dashboard
 tweek                  # Current week info
 tlec 14                # Open week 14 lecture
-```
-```
+````
+
+````
 
 ### `project-hub/domains/dev-tools.md`
 
@@ -229,7 +236,7 @@ See [dev-planning/PROJECT-HUB.md](../../dev-tools/dev-planning/PROJECT-HUB.md) f
 ## Standards Reference
 
 See [flow-cli/standards/](../../dev-tools/flow-cli/standards/)
-```
+````
 
 ### `dev-planning/PROJECT-HUB.md` (New Domain Hub)
 
@@ -244,36 +251,39 @@ See [flow-cli/standards/](../../dev-tools/flow-cli/standards/)
 
 ## Dashboard
 
-| Project | Status | Progress | Priority | Next Action |
-|---------|--------|----------|----------|-------------|
-| flow-cli | 🟢 Active | Phase 1 ✅ | P1 | Phase 2: Templates |
-| obsidian-cli-ops | 🟢 Active | 98% | P2 | Maintenance |
-| claude-mcp | ✅ Stable | 100% | — | — |
-| zsh-claude-workflow | 🟢 Active | 90% | P2 | Integration tests |
-| claude-statistical-research | 🟢 Active | — | P1 | MCP improvements |
-| shell-mcp-server | ✅ Stable | 100% | — | — |
-| ... | | | | |
+| Project                     | Status    | Progress   | Priority | Next Action        |
+| --------------------------- | --------- | ---------- | -------- | ------------------ |
+| flow-cli                    | 🟢 Active | Phase 1 ✅ | P1       | Phase 2: Templates |
+| obsidian-cli-ops            | 🟢 Active | 98%        | P2       | Maintenance        |
+| claude-mcp                  | ✅ Stable | 100%       | —        | —                  |
+| zsh-claude-workflow         | 🟢 Active | 90%        | P2       | Integration tests  |
+| claude-statistical-research | 🟢 Active | —          | P1       | MCP improvements   |
+| shell-mcp-server            | ✅ Stable | 100%       | —        | —                  |
+| ...                         |           |            |          |                    |
 
 ## By Status
 
 ### 🟢 Active Development
+
 - **flow-cli** — Standards hub, shell config
 - **obsidian-cli-ops** — Obsidian CLI with graph analysis
 - **claude-statistical-research** — MCP server for research
 
 ### ✅ Stable / Maintenance
+
 - **claude-mcp** — Browser extension
 - **shell-mcp-server** — Shell MCP server
 
 ### ⏸️ Paused
+
 - (none currently)
 
 ## Quick Links
 
-| Resource | Location |
-|----------|----------|
-| Standards | [flow-cli/standards/](../flow-cli/standards/) |
-| Project details | [by-project/](by-project/) |
+| Resource        | Location                                           |
+| --------------- | -------------------------------------------------- |
+| Standards       | [flow-cli/standards/](../flow-cli/standards/)      |
+| Project details | [by-project/](by-project/)                         |
 | Integration map | [docs/INTEGRATION-MAP.md](docs/INTEGRATION-MAP.md) |
 
 ## Current Focus
@@ -282,7 +292,7 @@ See [flow-cli/standards/](../../dev-tools/flow-cli/standards/)
 
 ---
 
-*See also: [project-hub](../../project-hub/) for master dashboard*
+_See also: [project-hub](../../project-hub/) for master dashboard_
 ```
 
 ### `project-hub/cross-domain/INTEGRATIONS.md`
@@ -295,16 +305,19 @@ Tasks that span multiple domains.
 ## Active
 
 ### product-of-three ↔ medfit
+
 - **Need:** Simulation code requires `medfit::fit_mediation()`
 - **Status:** 🟢 Ready
 - **Action:** Update `R/03-simulations.R`
 
 ### STAT-579 ↔ medrobust
+
 - **Need:** Teaching materials for sensitivity lecture
 - **Status:** 🟡 Waiting
 - **Action:** Create simplified example
 
 ### flow-cli ↔ mediation-planning
+
 - **Need:** Add `medstatus` command
 - **Status:** 🟢 Ready
 - **Action:** Implement in Phase 2
@@ -328,22 +341,27 @@ Tasks that span multiple domains.
 ## Daily Plan
 
 ### Monday
+
 - [ ] Review medfit PR
 - [ ] Outline discussion section
 
 ### Tuesday
+
 - [ ] Merge PR, update probmed
 - [ ] Draft discussion intro
 
 ### Wednesday
+
 - [ ] STAT-440 office hours
 - [ ] Continue discussion
 
 ### Thursday
+
 - [ ] Finalize exam questions
 - [ ] Discussion draft complete
 
 ### Friday
+
 - [ ] Final review
 - [ ] Week 51 planning
 
@@ -397,21 +415,22 @@ hub() {
 
 ## Why This Design
 
-| Benefit | How |
-|---------|-----|
-| **Single entry point** | `PROJECT-HUB.md` aggregates all domains |
-| **R packages unchanged** | `mediation-planning` keeps working |
-| **Cross-domain has home** | `cross-domain/INTEGRATIONS.md` |
-| **Weekly planning** | `weekly/WEEK-XX.md` files |
-| **Standards centralized** | Symlink to `flow-cli/standards/` |
-| **ADHD-friendly** | `today` command, visual dashboards |
-| **Existing workflow** | `rst`, `tst`, `work` unchanged |
+| Benefit                   | How                                     |
+| ------------------------- | --------------------------------------- |
+| **Single entry point**    | `PROJECT-HUB.md` aggregates all domains |
+| **R packages unchanged**  | `mediation-planning` keeps working      |
+| **Cross-domain has home** | `cross-domain/INTEGRATIONS.md`          |
+| **Weekly planning**       | `weekly/WEEK-XX.md` files               |
+| **Standards centralized** | Symlink to `flow-cli/standards/`        |
+| **ADHD-friendly**         | `today` command, visual dashboards      |
+| **Existing workflow**     | `rst`, `tst`, `work` unchanged          |
 
 ---
 
 ## Implementation Plan
 
 ### Phase 1: Create project-hub structure ✅ COMPLETE
+
 - [x] Create `~/projects/project-hub/` directory
 - [x] Create `PROJECT-HUB.md`
 - [x] Create `.STATUS`
@@ -421,6 +440,7 @@ hub() {
 - [x] Symlink `reference/standards` → `flow-cli/standards/`
 
 ### Phase 2: Create dev-planning hub ✅ COMPLETE
+
 - [x] Create `~/projects/dev-tools/dev-planning/` directory
 - [x] Create `PROJECT-HUB.md` (dev tools dashboard)
 - [x] Create `.STATUS`
@@ -442,6 +462,7 @@ hub() {
 - [x] Commands follow ZSH-COMMANDS-HELP.md standard
 
 ### Phase 3.5: Standards & Documentation ✅ COMPLETE
+
 - [x] Create GETTING-STARTED-TEMPLATE.md (user onboarding standard)
 - [x] Create project-hub/GETTING-STARTED.md (hands-on guide)
 - [x] Create ZSH-COMMANDS-HELP.md (help output standard)
@@ -450,6 +471,7 @@ hub() {
 - [x] Update hub-commands.zsh to follow help standard
 
 ### Phase 4: Automation (optional)
+
 - [ ] Script to aggregate `.STATUS` files into domain files
 - [ ] Weekly file generator
 
@@ -463,15 +485,15 @@ hub() {
 
 ### What obsidian-cli-ops Provides
 
-| Feature | Description | Relevance to project-hub |
-|---------|-------------|--------------------------|
-| **Multi-vault management** | Discover, scan, sync vaults | Manage project-hub as vault |
-| **Graph analysis** | PageRank, centrality, clustering | Visualize cross-domain connections |
-| **Hub/orphan detection** | Find highly connected or isolated notes | Identify integration gaps |
-| **Link resolution** | Resolve wikilinks, detect broken | Validate domain file links |
-| **TUI interface** | Full-screen terminal UI | Visual dashboard alternative |
-| **AI features** | Similarity, duplicates, analysis | Find related projects/notes |
-| **R-Dev integration** | Link R projects to Obsidian | Connect research projects |
+| Feature                    | Description                             | Relevance to project-hub           |
+| -------------------------- | --------------------------------------- | ---------------------------------- |
+| **Multi-vault management** | Discover, scan, sync vaults             | Manage project-hub as vault        |
+| **Graph analysis**         | PageRank, centrality, clustering        | Visualize cross-domain connections |
+| **Hub/orphan detection**   | Find highly connected or isolated notes | Identify integration gaps          |
+| **Link resolution**        | Resolve wikilinks, detect broken        | Validate domain file links         |
+| **TUI interface**          | Full-screen terminal UI                 | Visual dashboard alternative       |
+| **AI features**            | Similarity, duplicates, analysis        | Find related projects/notes        |
+| **R-Dev integration**      | Link R projects to Obsidian             | Connect research projects          |
 
 ### Integration Architecture
 
@@ -509,6 +531,7 @@ hub() {
 ### Integration Options
 
 #### Option 1: project-hub as Obsidian Vault
+
 Make `~/projects/project-hub/` a full Obsidian vault:
 
 ```bash
@@ -523,12 +546,14 @@ obs graph project-hub
 ```
 
 **Benefits:**
+
 - Full Obsidian features (graph, backlinks, search)
 - Daily notes for weekly planning
 - Tags for status (#active, #paused)
 - Canvas for visual planning
 
 **Workflow integration:**
+
 ```bash
 # Open in Obsidian app
 obs open project-hub
@@ -541,10 +566,12 @@ obs stats project-hub
 ```
 
 #### Option 2: Federated Vaults (Link to Existing)
+
 Keep project-hub as markdown folder, link to existing vaults:
 
 ```markdown
 # In project-hub/domains/research.md
+
 ## Projects
 
 - [[product-of-three]] → obsidian://open?vault=Research&file=product-of-three
@@ -552,11 +579,13 @@ Keep project-hub as markdown folder, link to existing vaults:
 ```
 
 **Benefits:**
+
 - No vault migration needed
 - Uses existing Obsidian setup
 - Cross-vault linking
 
 #### Option 3: obs CLI Integration Only
+
 Use `obs` commands without Obsidian app:
 
 ```bash
@@ -570,6 +599,7 @@ obs ai similar "mediation analysis" --vault=project-hub
 ```
 
 **Benefits:**
+
 - Terminal-native workflow
 - No Obsidian app required
 - AI features from CLI
@@ -626,11 +656,14 @@ Use Obsidian tags for filtering:
 # In domains/research.md
 
 ## product-of-three #active #research #jasa
+
 ## collider #review #research #biostatistics
+
 ## sensitivity #paused #research
 ```
 
 Then in Obsidian:
+
 - Search `#active` → all active projects
 - Search `#paused` → projects needing attention
 - Graph filtered by tag → domain-specific views
@@ -643,31 +676,33 @@ Items identified during brainstorming for future phases:
 
 ### Standards Expansion
 
-| Standard | Domain | Status | Description |
-|----------|--------|--------|-------------|
-| ZSH-COMMANDS-HELP.md | code/ | ✅ DONE | Help system standards for zsh commands |
-| GETTING-STARTED-TEMPLATE.md | adhd/ | ✅ DONE | User onboarding/training guides |
-| TUTORIAL-TEMPLATE.md | adhd/ | ✅ DONE | Standard structure for tutorials |
-| REFCARD-TEMPLATE.md | adhd/ | ✅ DONE | Reference card design standards |
-| R-PACKAGE-DESIGN.md | project/ | 🔲 TODO | R package architecture patterns |
-| DEV-TOOL-DESIGN.md | project/ | 🔲 TODO | Dev tool architecture patterns |
+| Standard                    | Domain   | Status  | Description                            |
+| --------------------------- | -------- | ------- | -------------------------------------- |
+| ZSH-COMMANDS-HELP.md        | code/    | ✅ DONE | Help system standards for zsh commands |
+| GETTING-STARTED-TEMPLATE.md | adhd/    | ✅ DONE | User onboarding/training guides        |
+| TUTORIAL-TEMPLATE.md        | adhd/    | ✅ DONE | Standard structure for tutorials       |
+| REFCARD-TEMPLATE.md         | adhd/    | ✅ DONE | Reference card design standards        |
+| R-PACKAGE-DESIGN.md         | project/ | 🔲 TODO | R package architecture patterns        |
+| DEV-TOOL-DESIGN.md          | project/ | 🔲 TODO | Dev tool architecture patterns         |
 
 ### Documentation Integration
 
-| Item | Description | Action |
-|------|-------------|--------|
-| GitHub docs repo | Existing documentation repository | Audit, migrate useful content, deprecate |
-| data-wise website | Personal/professional website | Integrate with project showcases |
+| Item              | Description                       | Action                                   |
+| ----------------- | --------------------------------- | ---------------------------------------- |
+| GitHub docs repo  | Existing documentation repository | Audit, migrate useful content, deprecate |
+| data-wise website | Personal/professional website     | Integrate with project showcases         |
 
 ### Domain-Specific Standards
 
 **R Packages:**
+
 - Vignette structure
 - pkgdown site design
 - CRAN submission checklist
 - Test coverage requirements
 
 **Dev Tools:**
+
 - CLI design patterns
 - Help system format
 - README structure

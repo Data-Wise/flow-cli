@@ -10,12 +10,12 @@
 
 You have **4 separate project streams** with uncommitted work:
 
-| Project | Status | Files | Effort | Priority |
-|---------|--------|-------|--------|----------|
-| 1. ZSH Plugin Diagnostic System | ✅ 100% Complete | 2 committed | - | ✅ DONE |
-| 2. Dash Command Enhancement | ✅ ~95% Complete | 5 uncommitted | 15 min | 🟢 High |
-| 3. Status File Format Conversion | ✅ 100% Complete | 2 uncommitted | - | 🟡 Medium |
-| 4. Mermaid Diagrams System | ⏸️ 50% Planned | 3 uncommitted | 2-3 hrs | 🔵 Low |
+| Project                          | Status           | Files         | Effort  | Priority  |
+| -------------------------------- | ---------------- | ------------- | ------- | --------- |
+| 1. ZSH Plugin Diagnostic System  | ✅ 100% Complete | 2 committed   | -       | ✅ DONE   |
+| 2. Dash Command Enhancement      | ✅ ~95% Complete | 5 uncommitted | 15 min  | 🟢 High   |
+| 3. Status File Format Conversion | ✅ 100% Complete | 2 uncommitted | -       | 🟡 Medium |
+| 4. Mermaid Diagrams System       | ⏸️ 50% Planned   | 3 uncommitted | 2-3 hrs | 🔵 Low    |
 
 ---
 
@@ -24,6 +24,7 @@ You have **4 separate project streams** with uncommitted work:
 **Status:** ✅ 100% complete and pushed to GitHub
 
 **What Was Done:**
+
 - Created comprehensive diagnostic system (540 lines)
 - 4 functions: `flow-cli-health`, `flow-cli-doctor`, `flow-cli-setup`, `flow-cli-info`
 - Migrated 4 utility files (35.6KB total)
@@ -31,11 +32,13 @@ You have **4 separate project streams** with uncommitted work:
 - Updated documentation
 
 **Git Commits:**
+
 - `b1d3466` - feat(plugin): complete ZSH plugin diagnostic system
 - `d41e658` - docs: update .STATUS with ZSH plugin completion
 - ✅ Pushed to origin/dev
 
 **Impact:**
+
 - 🔧 Self-diagnosing plugin
 - 🩺 Auto-fix common issues
 - ⏱️ 30-second onboarding
@@ -49,6 +52,7 @@ You have **4 separate project streams** with uncommitted work:
 **Status:** ~95% complete - needs final commit
 
 **Files:**
+
 - ✅ `DASH-TEST-SUITE-CREATED.md` (234 lines) - Test suite documentation
 - ✅ `DASH-TEST-SUITE-FIXES.md` (207 lines) - Bug fixes applied
 - ✅ `DASH-VERIFICATION-RESULTS.md` (254 lines) - Test results
@@ -89,16 +93,19 @@ You have **4 separate project streams** with uncommitted work:
    - Added navigation entry for dash command
 
 **Uncommitted Changes:**
+
 - `mkdocs.yml` - Mermaid config + navigation entry
 - `zsh/functions/adhd-helpers.zsh` - Bug fix (return code change)
 
 **Next Actions (15 min):**
+
 1. Review and stage changes: `mkdocs.yml`, `adhd-helpers.zsh`
 2. Add documentation files to docs
 3. Commit with message: "feat(dash): add comprehensive test suite and Mermaid diagrams"
 4. Push to GitHub
 
 **Impact:**
+
 - 📊 Visual documentation (ADHD-friendly)
 - ✅ Comprehensive test coverage
 - 🐛 Bug fixes applied
@@ -111,6 +118,7 @@ You have **4 separate project streams** with uncommitted work:
 **Status:** ✅ 100% complete - needs commit
 
 **Files:**
+
 - ✅ `STATUS-FILE-CONVERSION-COMPLETE.md` (210 lines) - Implementation summary
 - ✅ `SYNC-VERIFICATION.md` (110 lines) - Verification results
 - ✅ `scripts/convert-status-files.sh` (~200 lines) - Conversion script
@@ -134,6 +142,7 @@ The `dash` command couldn't detect 32 existing .STATUS files because they used r
    - 0 errors
 
 3. **New Format:**
+
    ```
    status: active
    priority: P1
@@ -149,17 +158,20 @@ The `dash` command couldn't detect 32 existing .STATUS files because they used r
    ```
 
 **Verification:**
+
 - ✅ All 32 files now detected by `dash` command
 - ✅ Sync functionality working correctly
 - ✅ Dashboard displays all projects properly
 
 **Next Actions (10 min):**
+
 1. Add script to git: `scripts/convert-status-files.sh`
 2. Commit documentation files
 3. Commit with message: "feat(dash): add .STATUS file format conversion script"
 4. Push to GitHub
 
 **Impact:**
+
 - 🎯 All projects now visible in dashboard
 - 🔧 Reusable script for future conversions
 - 📦 Preserves all original content
@@ -171,6 +183,7 @@ The `dash` command couldn't detect 32 existing .STATUS files because they used r
 **Status:** ⏸️ 50% planning complete - not started
 
 **Files:**
+
 - `PROPOSAL-MERMAID-DIAGRAM-DOCUMENTATION.md` (541 lines) - Comprehensive brainstorm
 - `MERMAID-DIAGRAMS-QUICK-START.md` (201 lines) - Implementation guide
 - `EXAMPLE-dash-command-doc.md` (193 lines) - Template example
@@ -198,11 +211,13 @@ The `dash` command couldn't detect 32 existing .STATUS files because they used r
    - Focus on ADHD-friendly visuals
 
 **What's Already Done:**
+
 - ✅ MkDocs Mermaid configuration (mkdocs.yml)
 - ✅ First example (dash command with 2 diagrams)
 - ✅ Template and style guide
 
 **Next Actions (2-3 hours for next 5 commands):**
+
 1. Prioritize next commands (suggest: work, just-start, pick)
 2. Create flowcharts using dash as template
 3. Add to `docs/commands/` directory
@@ -210,12 +225,14 @@ The `dash` command couldn't detect 32 existing .STATUS files because they used r
 5. Deploy and test
 
 **Impact:**
+
 - 📊 Visual learning (ADHD-friendly)
 - 🎯 Faster onboarding for new users
 - 📚 Better documentation discoverability
 - ♿ Accessibility with text alternatives
 
 **Decision Needed:**
+
 - Do you want to continue with more diagrams now?
 - Or save this for later when time permits?
 
@@ -229,6 +246,7 @@ The `dash` command couldn't detect 32 existing .STATUS files because they used r
 **Effort:** ~1 hour (most work is done)
 
 **Steps:**
+
 1. **Dash Enhancement** (15 min)
    - Stage and commit dash test suite + diagrams
    - Push to GitHub
@@ -257,6 +275,7 @@ The `dash` command couldn't detect 32 existing .STATUS files because they used r
 **Effort:** ~20 min
 
 **Steps:**
+
 1. Commit dash enhancement (10 min)
 2. Commit status file conversion (5 min)
 3. Archive mermaid planning docs (5 min)
@@ -272,6 +291,7 @@ The `dash` command couldn't detect 32 existing .STATUS files because they used r
 **Effort:** ~30 min
 
 **Steps:**
+
 1. Complete dash enhancement (15 min) - HIGH VALUE
 2. Complete status file conversion (10 min) - HIGH VALUE
 3. Archive mermaid planning (5 min) - LOW PRIORITY NOW
@@ -283,6 +303,7 @@ The `dash` command couldn't detect 32 existing .STATUS files because they used r
 ## 📁 File Summary
 
 **Ready to Commit (Dash Enhancement):**
+
 - DASH-TEST-SUITE-CREATED.md (234 lines)
 - DASH-TEST-SUITE-FIXES.md (207 lines)
 - DASH-VERIFICATION-RESULTS.md (254 lines)
@@ -293,16 +314,19 @@ The `dash` command couldn't detect 32 existing .STATUS files because they used r
 - zsh/functions/adhd-helpers.zsh (modified - bug fix)
 
 **Ready to Commit (Status Conversion):**
+
 - STATUS-FILE-CONVERSION-COMPLETE.md (210 lines)
 - SYNC-VERIFICATION.md (110 lines)
 - scripts/convert-status-files.sh (~200 lines)
 
 **To Archive or Continue (Mermaid System):**
+
 - PROPOSAL-MERMAID-DIAGRAM-DOCUMENTATION.md (541 lines)
 - MERMAID-DIAGRAMS-QUICK-START.md (201 lines)
 - EXAMPLE-dash-command-doc.md (193 lines)
 
 **Other:**
+
 - .claude/settings.local.json (modified - likely unrelated)
 
 **Total Uncommitted Work:** ~2,000 lines of documentation + 2 scripts + 1 test suite
@@ -314,12 +338,14 @@ The `dash` command couldn't detect 32 existing .STATUS files because they used r
 **Go with Option C: Cherry-Pick (30 minutes)**
 
 **Rationale:**
+
 1. Dash enhancement is **high value** - test suite + diagrams improve usability
 2. Status conversion is **critical** - fixes broken dashboard functionality
 3. Mermaid system planning is **nice-to-have** - can be added incrementally later
 4. You have 4 major projects worth of work here - commit what's done, plan what's next
 
 **Next Steps:**
+
 1. Say "yes" and I'll execute Option C
 2. Or choose Option A/B if you prefer
 3. Or customize your own approach

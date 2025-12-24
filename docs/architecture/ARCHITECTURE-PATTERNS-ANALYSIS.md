@@ -13,11 +13,13 @@ The flow-cli system currently uses a **three-layer architecture** that partially
 **Assessment:** 🟡 **Moderate Alignment** - Good foundation with clear improvement path
 
 **Strengths:**
+
 - ✅ Clear separation of concerns (Frontend → Backend → Vendor)
 - ✅ Dependency inversion in project-detector-bridge
 - ✅ Interface-based design (adapters pattern)
 
 **Opportunities:**
+
 - 🔧 Apply Clean Architecture layers more explicitly
 - 🔧 Implement Ports & Adapters for all integrations
 - 🔧 Use Domain-Driven Design for session/project models
@@ -28,6 +30,7 @@ The flow-cli system currently uses a **three-layer architecture** that partially
 ## Current Architecture Analysis
 
 > **TL;DR:**
+>
 > - Currently: 3 layers (Frontend/ZSH → Backend/Node.js → Vendor/Shell)
 > - Good separation but mixes concerns (use cases + infrastructure)
 > - Needs explicit domain layer for business rules
@@ -60,11 +63,13 @@ The flow-cli system currently uses a **three-layer architecture** that partially
 ```
 
 **This maps to:**
+
 - Frontend Layer ≈ **Controllers/Presenters** (Outer Layer)
 - Backend Layer ≈ **Use Cases** (mixed with some domain logic)
 - Vendor Layer ≈ **Infrastructure/Frameworks** (Outer Layer)
 
 **Issues:**
+
 - Backend layer mixes use cases with infrastructure
 - No explicit domain layer for business rules
 - Controllers (Frontend) too tightly coupled to use cases
@@ -74,6 +79,7 @@ The flow-cli system currently uses a **three-layer architecture** that partially
 ## Recommended Clean Architecture Mapping
 
 > **TL;DR:**
+>
 > - Upgrade to 4 explicit layers: Domain → Use Cases → Adapters → Frameworks
 > - Inner layers define interfaces (Ports), outer layers implement them (Adapters)
 > - Dependencies point inward only (Dependency Rule)
@@ -146,6 +152,7 @@ The flow-cli system currently uses a **three-layer architecture** that partially
 ## Domain Layer Design (DDD)
 
 > **TL;DR:**
+>
 > - Domain = core business logic with ZERO external dependencies
 > - Entities (Session, Project, Task) have identity and behavior
 > - Value Objects (ProjectType, Priority) are immutable data
@@ -158,15 +165,15 @@ The flow-cli system currently uses a **three-layer architecture** that partially
 
 export class Session {
   constructor(id, project, options = {}) {
-    this.id = id;
-    this.project = project;
-    this.task = options.task || 'Work session';
-    this.branch = options.branch || 'main';
-    this.startTime = new Date();
-    this.endTime = null;
-    this.state = SessionState.ACTIVE;
-    this.context = options.context || {};
-    this._events = [];
+    this.id = id
+    this.project = project
+    this.task = options.task || 'Work session'
+    this.branch = options.branch || 'main'
+    this.startTime = new Date()
+    this.endTime = null
+    this.state = SessionState.ACTIVE
+    this.context = options.context || {}
+    this._events = []
   }
 
   /**
@@ -174,58 +181,58 @@ export class Session {
    */
   end(outcome = 'completed') {
     if (this.state !== SessionState.ACTIVE) {
-      throw new Error('Can only end active sessions');
+      throw new Error('Can only end active sessions')
     }
 
-    this.endTime = new Date();
-    this.state = SessionState.ENDED;
-    this.outcome = outcome;
+    this.endTime = new Date()
+    this.state = SessionState.ENDED
+    this.outcome = outcome
 
     // Domain event
-    this._events.push(new SessionEndedEvent(this.id, outcome));
+    this._events.push(new SessionEndedEvent(this.id, outcome))
   }
 
   /**
    * Business rule: Duration must be positive
    */
   getDuration() {
-    const end = this.endTime || new Date();
-    const duration = end - this.startTime;
+    const end = this.endTime || new Date()
+    const duration = end - this.startTime
 
     if (duration < 0) {
-      throw new Error('Invalid session duration');
+      throw new Error('Invalid session duration')
     }
 
-    return Math.floor(duration / 60000); // minutes
+    return Math.floor(duration / 60000) // minutes
   }
 
   /**
    * Business rule: Session is in flow state after 15 minutes
    */
   isInFlowState() {
-    return this.state === SessionState.ACTIVE && this.getDuration() >= 15;
+    return this.state === SessionState.ACTIVE && this.getDuration() >= 15
   }
 
   /**
    * Update context (preserves immutability of core properties)
    */
   updateContext(updates) {
-    this.context = { ...this.context, ...updates };
-    this._events.push(new SessionUpdatedEvent(this.id, updates));
+    this.context = { ...this.context, ...updates }
+    this._events.push(new SessionUpdatedEvent(this.id, updates))
   }
 
   /**
    * Get pending domain events
    */
   getEvents() {
-    return [...this._events];
+    return [...this._events]
   }
 
   /**
    * Clear events after publishing
    */
   clearEvents() {
-    this._events = [];
+    this._events = []
   }
 }
 ```
@@ -235,41 +242,41 @@ export class Session {
 
 export class Project {
   constructor(id, name, path, type) {
-    this.id = id;
-    this.name = name;
-    this.path = path;
-    this.type = type;
-    this.status = null;
-    this.metadata = {};
-    this.lastAccessed = null;
+    this.id = id
+    this.name = name
+    this.path = path
+    this.type = type
+    this.status = null
+    this.metadata = {}
+    this.lastAccessed = null
   }
 
   /**
    * Business rule: Update last accessed time
    */
   recordAccess() {
-    this.lastAccessed = new Date();
+    this.lastAccessed = new Date()
   }
 
   /**
    * Business rule: Project is active if status indicates so
    */
   isActive() {
-    return this.status?.currentStatus === 'active';
+    return this.status?.currentStatus === 'active'
   }
 
   /**
    * Business rule: Has quick wins if tasks exist
    */
   hasQuickWins() {
-    return this.status?.nextActions?.some(a => a.status === '⚡') || false;
+    return this.status?.nextActions?.some(a => a.status === '⚡') || false
   }
 
   /**
    * Update status from .STATUS file
    */
   updateStatus(statusData) {
-    this.status = statusData;
+    this.status = statusData
   }
 }
 ```
@@ -280,12 +287,12 @@ export class Project {
 // cli/domain/value-objects/ProjectType.js
 
 export class ProjectType {
-  static R_PACKAGE = 'r-package';
-  static QUARTO = 'quarto';
-  static QUARTO_EXTENSION = 'quarto-extension';
-  static RESEARCH = 'research';
-  static GENERIC = 'generic';
-  static UNKNOWN = 'unknown';
+  static R_PACKAGE = 'r-package'
+  static QUARTO = 'quarto'
+  static QUARTO_EXTENSION = 'quarto-extension'
+  static RESEARCH = 'research'
+  static GENERIC = 'generic'
+  static UNKNOWN = 'unknown'
 
   static ALL = [
     ProjectType.R_PACKAGE,
@@ -294,38 +301,38 @@ export class ProjectType {
     ProjectType.RESEARCH,
     ProjectType.GENERIC,
     ProjectType.UNKNOWN
-  ];
+  ]
 
   constructor(value) {
     if (!ProjectType.ALL.includes(value)) {
-      throw new Error(`Invalid project type: ${value}`);
+      throw new Error(`Invalid project type: ${value}`)
     }
-    this._value = value;
-    Object.freeze(this);
+    this._value = value
+    Object.freeze(this)
   }
 
   get value() {
-    return this._value;
+    return this._value
   }
 
   equals(other) {
-    return other instanceof ProjectType && this._value === other._value;
+    return other instanceof ProjectType && this._value === other._value
   }
 
   toString() {
-    return this._value;
+    return this._value
   }
 
   isResearch() {
-    return this._value === ProjectType.RESEARCH;
+    return this._value === ProjectType.RESEARCH
   }
 
   isRPackage() {
-    return this._value === ProjectType.R_PACKAGE;
+    return this._value === ProjectType.R_PACKAGE
   }
 
   isQuarto() {
-    return [ProjectType.QUARTO, ProjectType.QUARTO_EXTENSION].includes(this._value);
+    return [ProjectType.QUARTO, ProjectType.QUARTO_EXTENSION].includes(this._value)
   }
 }
 ```
@@ -334,24 +341,24 @@ export class ProjectType {
 // cli/domain/value-objects/SessionState.js
 
 export class SessionState {
-  static ACTIVE = 'active';
-  static PAUSED = 'paused';
-  static ENDED = 'ended';
+  static ACTIVE = 'active'
+  static PAUSED = 'paused'
+  static ENDED = 'ended'
 
   constructor(value) {
     if (![SessionState.ACTIVE, SessionState.PAUSED, SessionState.ENDED].includes(value)) {
-      throw new Error(`Invalid session state: ${value}`);
+      throw new Error(`Invalid session state: ${value}`)
     }
-    this._value = value;
-    Object.freeze(this);
+    this._value = value
+    Object.freeze(this)
   }
 
   get value() {
-    return this._value;
+    return this._value
   }
 
   isActive() {
-    return this._value === SessionState.ACTIVE;
+    return this._value === SessionState.ACTIVE
   }
 
   canTransitionTo(newState) {
@@ -359,9 +366,9 @@ export class SessionState {
       [SessionState.ACTIVE]: [SessionState.PAUSED, SessionState.ENDED],
       [SessionState.PAUSED]: [SessionState.ACTIVE, SessionState.ENDED],
       [SessionState.ENDED]: []
-    };
+    }
 
-    return validTransitions[this._value]?.includes(newState) || false;
+    return validTransitions[this._value]?.includes(newState) || false
   }
 }
 ```
@@ -382,7 +389,7 @@ export class ISessionRepository {
    * @returns {Promise<Session|null>}
    */
   async findById(sessionId) {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented')
   }
 
   /**
@@ -390,7 +397,7 @@ export class ISessionRepository {
    * @returns {Promise<Session|null>}
    */
   async findActive() {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented')
   }
 
   /**
@@ -399,7 +406,7 @@ export class ISessionRepository {
    * @returns {Promise<Session[]>}
    */
   async findByProject(projectName) {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented')
   }
 
   /**
@@ -408,7 +415,7 @@ export class ISessionRepository {
    * @returns {Promise<Session>}
    */
   async save(session) {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented')
   }
 
   /**
@@ -417,7 +424,7 @@ export class ISessionRepository {
    * @returns {Promise<boolean>}
    */
   async delete(sessionId) {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented')
   }
 
   /**
@@ -426,7 +433,7 @@ export class ISessionRepository {
    * @returns {Promise<Session[]>}
    */
   async list(filters = {}) {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented')
   }
 }
 ```
@@ -436,23 +443,23 @@ export class ISessionRepository {
 
 export class IProjectRepository {
   async findById(projectId) {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented')
   }
 
   async findByPath(path) {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented')
   }
 
   async findByType(type) {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented')
   }
 
   async save(project) {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented')
   }
 
   async list(filters = {}) {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented')
   }
 }
 ```
@@ -466,14 +473,14 @@ export class IProjectRepository {
 ```javascript
 // cli/use-cases/CreateSessionUseCase.js
 
-import { Session } from '../domain/entities/Session.js';
-import { SessionState } from '../domain/value-objects/SessionState.js';
+import { Session } from '../domain/entities/Session.js'
+import { SessionState } from '../domain/value-objects/SessionState.js'
 
 export class CreateSessionUseCase {
   constructor(sessionRepository, projectRepository, eventPublisher) {
-    this.sessionRepository = sessionRepository;
-    this.projectRepository = projectRepository;
-    this.eventPublisher = eventPublisher;
+    this.sessionRepository = sessionRepository
+    this.projectRepository = projectRepository
+    this.eventPublisher = eventPublisher
   }
 
   /**
@@ -487,50 +494,46 @@ export class CreateSessionUseCase {
    */
   async execute(request) {
     // Validate: Only one active session allowed
-    const activeSession = await this.sessionRepository.findActive();
+    const activeSession = await this.sessionRepository.findActive()
     if (activeSession) {
       return {
         success: false,
         error: `Session already active for project: ${activeSession.project}`,
         existingSession: activeSession
-      };
+      }
     }
 
     // Validate: Project should exist (optional check)
-    const project = await this.projectRepository.findByPath(request.projectPath);
+    const project = await this.projectRepository.findByPath(request.projectPath)
     if (project) {
-      project.recordAccess();
-      await this.projectRepository.save(project);
+      project.recordAccess()
+      await this.projectRepository.save(project)
     }
 
     // Create domain entity
-    const session = new Session(
-      this.generateId(),
-      request.project,
-      {
-        task: request.task,
-        branch: request.branch,
-        context: request.context
-      }
-    );
+    const session = new Session(this.generateId(), request.project, {
+      task: request.task,
+      branch: request.branch,
+      context: request.context
+    })
 
     // Persist
-    const savedSession = await this.sessionRepository.save(session);
+    const savedSession = await this.sessionRepository.save(session)
 
     // Publish domain events
     for (const event of session.getEvents()) {
-      await this.eventPublisher.publish(event);
+      await this.eventPublisher.publish(event)
     }
-    session.clearEvents();
+    session.clearEvents()
 
     return {
       success: true,
       session: savedSession
-    };
+    }
   }
 
   generateId() {
-    return `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   }
 }
 ```
@@ -540,18 +543,14 @@ export class CreateSessionUseCase {
 ```javascript
 // cli/use-cases/ScanProjectsUseCase.js
 
-import { Project } from '../domain/entities/Project.js';
-import { ProjectType } from '../domain/value-objects/ProjectType.js';
+import { Project } from '../domain/entities/Project.js'
+import { ProjectType } from '../domain/value-objects/ProjectType.js'
 
 export class ScanProjectsUseCase {
-  constructor(
-    projectRepository,
-    projectDetectorGateway,
-    fileSystemGateway
-  ) {
-    this.projectRepository = projectRepository;
-    this.projectDetector = projectDetectorGateway;
-    this.fileSystem = fileSystemGateway;
+  constructor(projectRepository, projectDetectorGateway, fileSystemGateway) {
+    this.projectRepository = projectRepository
+    this.projectDetector = projectDetectorGateway
+    this.fileSystem = fileSystemGateway
   }
 
   /**
@@ -563,68 +562,59 @@ export class ScanProjectsUseCase {
    * @returns {Promise<ScanResult>}
    */
   async execute(request) {
-    const {
-      basePath,
-      maxDepth = 3,
-      types = []
-    } = request;
+    const { basePath, maxDepth = 3, types = [] } = request
 
     // Find all potential project directories
     const directories = await this.fileSystem.findDirectories(basePath, {
       maxDepth,
       excludeHidden: true
-    });
+    })
 
     // Detect types in parallel
-    const detections = await this.projectDetector.detectMultiple(directories);
+    const detections = await this.projectDetector.detectMultiple(directories)
 
     // Create domain entities
-    const projects = [];
+    const projects = []
     for (const [path, typeStr] of Object.entries(detections)) {
       // Filter by type if specified
       if (types.length > 0 && !types.includes(typeStr)) {
-        continue;
+        continue
       }
 
-      const projectType = new ProjectType(typeStr);
+      const projectType = new ProjectType(typeStr)
 
       // Create Project entity
-      const project = new Project(
-        this.generateId(path),
-        this.extractName(path),
-        path,
-        projectType
-      );
+      const project = new Project(this.generateId(path), this.extractName(path), path, projectType)
 
       // Load metadata
-      const metadata = await this.fileSystem.extractMetadata(path, projectType);
-      project.metadata = metadata;
+      const metadata = await this.fileSystem.extractMetadata(path, projectType)
+      project.metadata = metadata
 
       // Load status if exists
-      const status = await this.fileSystem.readStatus(path);
+      const status = await this.fileSystem.readStatus(path)
       if (status) {
-        project.updateStatus(status);
+        project.updateStatus(status)
       }
 
-      projects.push(project);
+      projects.push(project)
 
       // Save to repository
-      await this.projectRepository.save(project);
+      await this.projectRepository.save(project)
     }
 
     return {
       success: true,
       projects,
       count: projects.length
-    };
+    }
   }
 
   generateId(path) {
-    return `project-${path.split('/').pop()}`;
+    return `project-${path.split('/').pop()}`
   }
 
   extractName(path) {
-    return path.split('/').pop();
+    return path.split('/').pop()
   }
 }
 ```
@@ -638,73 +628,73 @@ export class ScanProjectsUseCase {
 ```javascript
 // cli/adapters/repositories/FileSystemSessionRepository.js
 
-import { ISessionRepository } from '../../domain/repositories/ISessionRepository.js';
-import { Session } from '../../domain/entities/Session.js';
-import { readFile, writeFile, readdir } from 'fs/promises';
-import { join } from 'path';
+import { ISessionRepository } from '../../domain/repositories/ISessionRepository.js'
+import { Session } from '../../domain/entities/Session.js'
+import { readFile, writeFile, readdir } from 'fs/promises'
+import { join } from 'path'
 
 /**
  * Adapter: File system implementation of session repository
  */
 export class FileSystemSessionRepository extends ISessionRepository {
   constructor(storageDir) {
-    super();
-    this.storageDir = storageDir;
+    super()
+    this.storageDir = storageDir
   }
 
   async findById(sessionId) {
     try {
-      const filePath = join(this.storageDir, `${sessionId}.json`);
-      const content = await readFile(filePath, 'utf-8');
-      return this.toEntity(JSON.parse(content));
+      const filePath = join(this.storageDir, `${sessionId}.json`)
+      const content = await readFile(filePath, 'utf-8')
+      return this.toEntity(JSON.parse(content))
     } catch (error) {
-      if (error.code === 'ENOENT') return null;
-      throw error;
+      if (error.code === 'ENOENT') return null
+      throw error
     }
   }
 
   async findActive() {
-    const all = await this.list({ state: 'active' });
-    return all[0] || null;
+    const all = await this.list({ state: 'active' })
+    return all[0] || null
   }
 
   async findByProject(projectName) {
-    const all = await this.list();
-    return all.filter(s => s.project === projectName);
+    const all = await this.list()
+    return all.filter(s => s.project === projectName)
   }
 
   async save(session) {
-    const filePath = join(this.storageDir, `${session.id}.json`);
-    const data = this.toJSON(session);
-    await writeFile(filePath, JSON.stringify(data, null, 2));
-    return session;
+    const filePath = join(this.storageDir, `${session.id}.json`)
+    const data = this.toJSON(session)
+    await writeFile(filePath, JSON.stringify(data, null, 2))
+    return session
   }
 
   async delete(sessionId) {
     try {
-      const filePath = join(this.storageDir, `${sessionId}.json`);
-      await unlink(filePath);
-      return true;
+      const filePath = join(this.storageDir, `${sessionId}.json`)
+      await unlink(filePath)
+      return true
     } catch (error) {
-      if (error.code === 'ENOENT') return false;
-      throw error;
+      if (error.code === 'ENOENT') return false
+      throw error
     }
   }
 
   async list(filters = {}) {
-    const files = await readdir(this.storageDir);
-    const sessions = [];
+    const files = await readdir(this.storageDir)
+    const sessions = []
 
     for (const file of files) {
-      if (!file.endsWith('.json')) continue;
+      if (!file.endsWith('.json')) continue
 
-      const session = await this.findById(file.replace('.json', ''));
+      const session = await this.findById(file.replace('.json', ''))
       if (session && this.matchesFilters(session, filters)) {
-        sessions.push(session);
+        sessions.push(session)
       }
     }
 
-    return sessions;
+    return sessions
   }
 
   /**
@@ -715,16 +705,16 @@ export class FileSystemSessionRepository extends ISessionRepository {
       task: json.task,
       branch: json.branch,
       context: json.context
-    });
+    })
 
-    session.startTime = new Date(json.startTime);
+    session.startTime = new Date(json.startTime)
     if (json.endTime) {
-      session.endTime = new Date(json.endTime);
+      session.endTime = new Date(json.endTime)
     }
-    session.state = json.state;
-    session.outcome = json.outcome;
+    session.state = json.state
+    session.outcome = json.outcome
 
-    return session;
+    return session
   }
 
   /**
@@ -741,14 +731,14 @@ export class FileSystemSessionRepository extends ISessionRepository {
       endTime: session.endTime?.toISOString() || null,
       state: session.state,
       outcome: session.outcome
-    };
+    }
   }
 
   matchesFilters(session, filters) {
-    if (filters.state && session.state !== filters.state) return false;
-    if (filters.project && session.project !== filters.project) return false;
-    if (filters.since && session.startTime < new Date(filters.since)) return false;
-    return true;
+    if (filters.state && session.state !== filters.state) return false
+    if (filters.project && session.project !== filters.project) return false
+    if (filters.since && session.startTime < new Date(filters.since)) return false
+    return true
   }
 }
 ```
@@ -756,7 +746,7 @@ export class FileSystemSessionRepository extends ISessionRepository {
 ```javascript
 // cli/adapters/gateways/ProjectDetectorGateway.js
 
-import { detectProjectType, detectMultipleProjects } from '../../lib/project-detector-bridge.js';
+import { detectProjectType, detectMultipleProjects } from '../../lib/project-detector-bridge.js'
 
 /**
  * Gateway: Wraps vendored project detector
@@ -769,7 +759,7 @@ export class ProjectDetectorGateway {
    * @returns {Promise<string>}
    */
   async detect(projectPath) {
-    return await detectProjectType(projectPath);
+    return await detectProjectType(projectPath)
   }
 
   /**
@@ -778,7 +768,7 @@ export class ProjectDetectorGateway {
    * @returns {Promise<Object>}
    */
   async detectMultiple(projectPaths) {
-    return await detectMultipleProjects(projectPaths);
+    return await detectMultipleProjects(projectPaths)
   }
 }
 ```
@@ -790,30 +780,26 @@ export class ProjectDetectorGateway {
 ```javascript
 // cli/adapters/controllers/SessionController.js
 
-import { CreateSessionUseCase } from '../../use-cases/CreateSessionUseCase.js';
-import { EndSessionUseCase } from '../../use-cases/EndSessionUseCase.js';
+import { CreateSessionUseCase } from '../../use-cases/CreateSessionUseCase.js'
+import { EndSessionUseCase } from '../../use-cases/EndSessionUseCase.js'
 
 /**
  * Controller: Handles command-line interface concerns
  * Delegates business logic to use cases
  */
 export class SessionController {
-  constructor(
-    createSessionUseCase,
-    endSessionUseCase,
-    getSessionUseCase
-  ) {
-    this.createSession = createSessionUseCase;
-    this.endSession = endSessionUseCase;
-    this.getSession = getSessionUseCase;
+  constructor(createSessionUseCase, endSessionUseCase, getSessionUseCase) {
+    this.createSession = createSessionUseCase
+    this.endSession = endSessionUseCase
+    this.getSession = getSessionUseCase
   }
 
   /**
    * Handle 'work <project>' command
    */
   async handleStartCommand(args) {
-    const [project, ...taskParts] = args;
-    const task = taskParts.join(' ') || 'Work session';
+    const [project, ...taskParts] = args
+    const task = taskParts.join(' ') || 'Work session'
 
     const result = await this.createSession.execute({
       project,
@@ -823,47 +809,47 @@ export class SessionController {
         cwd: process.cwd(),
         timestamp: new Date().toISOString()
       }
-    });
+    })
 
     if (!result.success) {
-      console.error(`❌ ${result.error}`);
-      return 1;
+      console.error(`❌ ${result.error}`)
+      return 1
     }
 
-    console.log(`✅ Started session for ${project}`);
-    console.log(`   Task: ${task}`);
-    console.log(`   Branch: ${result.session.branch}`);
+    console.log(`✅ Started session for ${project}`)
+    console.log(`   Task: ${task}`)
+    console.log(`   Branch: ${result.session.branch}`)
 
-    return 0;
+    return 0
   }
 
   /**
    * Handle 'finish' command
    */
   async handleFinishCommand(args) {
-    const message = args.join(' ') || 'Completed work session';
+    const message = args.join(' ') || 'Completed work session'
 
     const result = await this.endSession.execute({
       outcome: 'completed',
       summary: message
-    });
+    })
 
     if (!result.success) {
-      console.error(`❌ ${result.error}`);
-      return 1;
+      console.error(`❌ ${result.error}`)
+      return 1
     }
 
-    const duration = result.session.getDuration();
-    console.log(`✅ Ended session: ${result.session.project}`);
-    console.log(`   Duration: ${duration} minutes`);
-    console.log(`   Summary: ${message}`);
+    const duration = result.session.getDuration()
+    console.log(`✅ Ended session: ${result.session.project}`)
+    console.log(`   Duration: ${duration} minutes`)
+    console.log(`   Summary: ${message}`)
 
-    return 0;
+    return 0
   }
 
   async getCurrentBranch() {
     // Git integration
-    return 'main';
+    return 'main'
   }
 }
 ```
@@ -950,61 +936,67 @@ cli/
 ### 1. Testability
 
 **Before (current):**
+
 ```javascript
 // Hard to test - tightly coupled to file system
 async function createSession(project) {
-  const worklogPath = path.join(os.homedir(), '.config/zsh/.worklog');
-  await fs.writeFile(worklogPath, JSON.stringify({ project }));
+  const worklogPath = path.join(os.homedir(), '.config/zsh/.worklog')
+  await fs.writeFile(worklogPath, JSON.stringify({ project }))
 }
 ```
 
 **After (Clean Architecture):**
+
 ```javascript
 // Easy to test - inject mock repository
-const useCase = new CreateSessionUseCase(mockRepository);
-const result = await useCase.execute({ project: 'test' });
+const useCase = new CreateSessionUseCase(mockRepository)
+const result = await useCase.execute({ project: 'test' })
 ```
 
 ### 2. Flexibility
 
 **Swap implementations without changing business logic:**
+
 ```javascript
 // Development: In-memory repository
-const repo = new InMemorySessionRepository();
+const repo = new InMemorySessionRepository()
 
 // Production: File system repository
-const repo = new FileSystemSessionRepository('/path/to/sessions');
+const repo = new FileSystemSessionRepository('/path/to/sessions')
 
 // Future: Database repository
-const repo = new PostgresSessionRepository(dbPool);
+const repo = new PostgresSessionRepository(dbPool)
 
 // Use case doesn't care which implementation
-const useCase = new CreateSessionUseCase(repo);
+const useCase = new CreateSessionUseCase(repo)
 ```
 
 ### 3. Domain-Driven Design
 
 **Business rules in entities:**
+
 ```javascript
 // Business logic in domain, not scattered in use cases
-const session = new Session(id, project);
+const session = new Session(id, project)
 
 if (!session.canEnd()) {
-  throw new Error('Cannot end inactive session');
+  throw new Error('Cannot end inactive session')
 }
 
-session.end('completed');
+session.end('completed')
 ```
 
 ### 4. Dependency Inversion
 
 **Dependencies point inward:**
+
 ```
 Use Case (inner) depends on IRepository (interface)
 Repository (outer) implements IRepository
 ```
 
 **NOT:**
+
 ```
 Use Case (inner) depends on FileSystemRepository (concrete)
 ```
@@ -1064,46 +1056,46 @@ Use Case (inner) depends on FileSystemRepository (concrete)
 ```javascript
 // test/unit/entities/Session.test.js
 
-import { Session } from '../../../domain/entities/Session.js';
-import { SessionState } from '../../../domain/value-objects/SessionState.js';
+import { Session } from '../../../domain/entities/Session.js'
+import { SessionState } from '../../../domain/value-objects/SessionState.js'
 
 describe('Session Entity', () => {
   test('creates active session', () => {
-    const session = new Session('id-1', 'rmediation');
+    const session = new Session('id-1', 'rmediation')
 
-    expect(session.id).toBe('id-1');
-    expect(session.project).toBe('rmediation');
-    expect(session.state).toBe(SessionState.ACTIVE);
-  });
+    expect(session.id).toBe('id-1')
+    expect(session.project).toBe('rmediation')
+    expect(session.state).toBe(SessionState.ACTIVE)
+  })
 
   test('cannot end inactive session', () => {
-    const session = new Session('id-1', 'project');
-    session.end();
+    const session = new Session('id-1', 'project')
+    session.end()
 
-    expect(() => session.end()).toThrow('Can only end active sessions');
-  });
+    expect(() => session.end()).toThrow('Can only end active sessions')
+  })
 
   test('calculates duration correctly', () => {
-    const session = new Session('id-1', 'project');
+    const session = new Session('id-1', 'project')
 
     // Simulate 30 minutes passing
-    session.startTime = new Date(Date.now() - 30 * 60 * 1000);
+    session.startTime = new Date(Date.now() - 30 * 60 * 1000)
 
-    const duration = session.getDuration();
-    expect(duration).toBeGreaterThanOrEqual(30);
-  });
+    const duration = session.getDuration()
+    expect(duration).toBeGreaterThanOrEqual(30)
+  })
 
   test('detects flow state after 15 minutes', () => {
-    const session = new Session('id-1', 'project');
+    const session = new Session('id-1', 'project')
 
-    expect(session.isInFlowState()).toBe(false);
+    expect(session.isInFlowState()).toBe(false)
 
     // Simulate 20 minutes passing
-    session.startTime = new Date(Date.now() - 20 * 60 * 1000);
+    session.startTime = new Date(Date.now() - 20 * 60 * 1000)
 
-    expect(session.isInFlowState()).toBe(true);
-  });
-});
+    expect(session.isInFlowState()).toBe(true)
+  })
+})
 ```
 
 ### Integration Tests (Use Cases)
@@ -1111,37 +1103,37 @@ describe('Session Entity', () => {
 ```javascript
 // test/integration/use-cases/CreateSessionUseCase.test.js
 
-import { CreateSessionUseCase } from '../../../use-cases/session/CreateSessionUseCase.js';
-import { InMemorySessionRepository } from '../../../adapters/repositories/InMemorySessionRepository.js';
+import { CreateSessionUseCase } from '../../../use-cases/session/CreateSessionUseCase.js'
+import { InMemorySessionRepository } from '../../../adapters/repositories/InMemorySessionRepository.js'
 
 describe('CreateSessionUseCase', () => {
-  let repository;
-  let useCase;
+  let repository
+  let useCase
 
   beforeEach(() => {
-    repository = new InMemorySessionRepository();
-    useCase = new CreateSessionUseCase(repository);
-  });
+    repository = new InMemorySessionRepository()
+    useCase = new CreateSessionUseCase(repository)
+  })
 
   test('creates session successfully', async () => {
     const result = await useCase.execute({
       project: 'rmediation',
       task: 'Fix failing test'
-    });
+    })
 
-    expect(result.success).toBe(true);
-    expect(result.session.project).toBe('rmediation');
-  });
+    expect(result.success).toBe(true)
+    expect(result.session.project).toBe('rmediation')
+  })
 
   test('prevents multiple active sessions', async () => {
-    await useCase.execute({ project: 'project1' });
+    await useCase.execute({ project: 'project1' })
 
-    const result = await useCase.execute({ project: 'project2' });
+    const result = await useCase.execute({ project: 'project2' })
 
-    expect(result.success).toBe(false);
-    expect(result.error).toContain('already active');
-  });
-});
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('already active')
+  })
+})
 ```
 
 ---
@@ -1151,11 +1143,13 @@ describe('CreateSessionUseCase', () => {
 ### Before (Current)
 
 **Pros:**
+
 - ✅ Simple and straightforward
 - ✅ Easy to understand initially
 - ✅ Fast to implement
 
 **Cons:**
+
 - ❌ Business logic scattered across layers
 - ❌ Hard to test (file system dependencies)
 - ❌ Difficult to swap implementations
@@ -1164,6 +1158,7 @@ describe('CreateSessionUseCase', () => {
 ### After (Clean Architecture)
 
 **Pros:**
+
 - ✅ Business logic centralized in domain
 - ✅ Highly testable (dependency injection)
 - ✅ Easy to swap implementations
@@ -1171,6 +1166,7 @@ describe('CreateSessionUseCase', () => {
 - ✅ Controllers are thin and focused
 
 **Cons:**
+
 - ⚠️ More files and boilerplate
 - ⚠️ Steeper learning curve initially
 - ⚠️ Requires discipline to maintain
@@ -1190,6 +1186,7 @@ The flow-cli system has a **solid foundation** that can be enhanced with Clean A
 5. **Keep controllers thin** - delegate to use cases
 
 **This architecture will make the system:**
+
 - More testable (mock dependencies easily)
 - More maintainable (clear boundaries)
 - More flexible (swap implementations)

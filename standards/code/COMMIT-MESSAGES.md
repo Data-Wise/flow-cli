@@ -14,27 +14,27 @@
 
 ## Types
 
-| Type | When to Use | Example |
-|------|-------------|---------|
-| `feat` | New feature | `feat(api): add bootstrap CI endpoint` |
-| `fix` | Bug fix | `fix(calc): correct variance formula` |
-| `docs` | Documentation only | `docs(readme): add installation guide` |
-| `style` | Formatting, no code change | `style(r): apply styler formatting` |
+| Type       | When to Use                     | Example                                      |
+| ---------- | ------------------------------- | -------------------------------------------- |
+| `feat`     | New feature                     | `feat(api): add bootstrap CI endpoint`       |
+| `fix`      | Bug fix                         | `fix(calc): correct variance formula`        |
+| `docs`     | Documentation only              | `docs(readme): add installation guide`       |
+| `style`    | Formatting, no code change      | `style(r): apply styler formatting`          |
 | `refactor` | Code change, no new feature/fix | `refactor(utils): simplify helper functions` |
-| `test` | Adding/fixing tests | `test(bootstrap): add edge case tests` |
-| `chore` | Build, tooling, deps | `chore(deps): update testthat to 3.0` |
-| `perf` | Performance improvement | `perf(sim): vectorize loop operations` |
+| `test`     | Adding/fixing tests             | `test(bootstrap): add edge case tests`       |
+| `chore`    | Build, tooling, deps            | `chore(deps): update testthat to 3.0`        |
+| `perf`     | Performance improvement         | `perf(sim): vectorize loop operations`       |
 
 ## Scope (Optional)
 
 Use the affected area:
 
-| Project Type | Common Scopes |
-|--------------|---------------|
-| R Package | `R`, `tests`, `vignettes`, `docs`, function name |
-| Research | `manuscript`, `analysis`, `sim`, `data` |
-| Teaching | `lectures`, `hw`, `exams`, `syllabus` |
-| ZSH | `functions`, `aliases`, `config`, `tests` |
+| Project Type | Common Scopes                                    |
+| ------------ | ------------------------------------------------ |
+| R Package    | `R`, `tests`, `vignettes`, `docs`, function name |
+| Research     | `manuscript`, `analysis`, `sim`, `data`          |
+| Teaching     | `lectures`, `hw`, `exams`, `syllabus`            |
+| ZSH          | `functions`, `aliases`, `config`, `tests`        |
 
 ## Subject Rules
 

@@ -26,6 +26,7 @@ This directory contains brainstorm and completed planning documents that are no 
 ## Status
 
 All documents in this archive represent:
+
 - ✅ Completed work (migrations, updates)
 - 💭 Exploratory brainstorms that didn't lead to implementation
 - 📝 Historical context for decision-making
@@ -35,6 +36,7 @@ All documents in this archive represent:
 ## Active Planning Documents
 
 For current planning, see:
+
 - **Active Work:** `docs/planning/current/`
 - **Active Proposals:** `docs/planning/proposals/`
 

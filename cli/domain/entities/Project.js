@@ -20,9 +20,10 @@ export class Project {
     this.name = name
 
     // Optional properties with defaults
-    this.type = options.type instanceof ProjectType
-      ? options.type
-      : new ProjectType(options.type || ProjectType.GENERAL)
+    this.type =
+      options.type instanceof ProjectType
+        ? options.type
+        : new ProjectType(options.type || ProjectType.GENERAL)
 
     this.path = options.path || id
     this.description = options.description || ''

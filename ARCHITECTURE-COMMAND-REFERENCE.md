@@ -21,6 +21,7 @@
 ### 1. Generate Architecture Documentation Sprint
 
 **Command Pattern:**
+
 ```bash
 # Read existing architecture → Generate comprehensive docs → Create ADRs → Add examples
 
@@ -47,6 +48,7 @@ claude: "Create CODE-EXAMPLES.md with copy-paste ready implementations for all p
 ### 2. Pragmatic Architecture Enhancement
 
 **Command Pattern:**
+
 ```bash
 # When you have comprehensive architecture docs and want to implement improvements
 
@@ -71,6 +73,7 @@ claude: "Create a roadmap with three options: Quick Wins (1 week), Pragmatic (2 
 **Use Case:** Starting a new project or refactoring existing codebase
 
 **Prompt:**
+
 ```
 Analyze the codebase and create comprehensive architecture documentation:
 
@@ -90,6 +93,7 @@ Focus on:
 ```
 
 **Files Created:**
+
 - `docs/architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md` (~1,200 lines)
 - `docs/architecture/API-DESIGN-REVIEW.md` (~920 lines)
 - `docs/architecture/CODE-EXAMPLES.md` (~1,000 lines)
@@ -104,6 +108,7 @@ Focus on:
 **Use Case:** Making existing architecture docs scannable
 
 **Prompt:**
+
 ```
 Add TL;DR sections to all architecture documents:
 
@@ -121,8 +126,10 @@ Requirements:
 ```
 
 **Example Output:**
+
 ```markdown
 > **TL;DR:**
+>
 > - **What**: Vendored code pattern - copy battle-tested shell scripts
 > - **Why**: Zero dependencies, one-command install, production reliability
 > - **How**: JavaScript bridge → Shell scripts → Filesystem detection
@@ -136,6 +143,7 @@ Requirements:
 **Use Case:** Documenting past decisions explicitly
 
 **Prompt:**
+
 ```
 Extract ADRs from existing architecture documentation:
 
@@ -154,6 +162,7 @@ Extract ADRs from existing architecture documentation:
 ```
 
 **Example ADRs:**
+
 - ADR-001: Vendored Code Pattern
 - ADR-002: Clean Architecture (4 layers)
 - ADR-003: Bridge Pattern for Shell Integration
@@ -165,45 +174,47 @@ Extract ADRs from existing architecture documentation:
 ### Pattern: Error Class Hierarchy
 
 **Code Template:**
+
 ```javascript
 // cli/lib/errors.js
 
 export class ZshConfigError extends Error {
   constructor(message, code) {
-    super(message);
-    this.name = 'ZshConfigError';
-    this.code = code;
+    super(message)
+    this.name = 'ZshConfigError'
+    this.code = code
   }
 }
 
 export class ValidationError extends ZshConfigError {
   constructor(field, message) {
-    super(`Validation failed for ${field}: ${message}`, 'VALIDATION_ERROR');
-    this.field = field;
+    super(`Validation failed for ${field}: ${message}`, 'VALIDATION_ERROR')
+    this.field = field
   }
 }
 
 export class ProjectNotFoundError extends ZshConfigError {
   constructor(path) {
-    super(`Project not found: ${path}`, 'PROJECT_NOT_FOUND');
-    this.path = path;
+    super(`Project not found: ${path}`, 'PROJECT_NOT_FOUND')
+    this.path = path
   }
 }
 
 export class SessionAlreadyActiveError extends ZshConfigError {
   constructor(session) {
-    super(`Session already active for project: ${session.project}`, 'SESSION_ACTIVE');
-    this.session = session;
+    super(`Session already active for project: ${session.project}`, 'SESSION_ACTIVE')
+    this.session = session
   }
 }
 ```
 
 **Usage:**
+
 ```javascript
-import { ProjectNotFoundError } from './lib/errors.js';
+import { ProjectNotFoundError } from './lib/errors.js'
 
 if (!fs.existsSync(projectPath)) {
-  throw new ProjectNotFoundError(projectPath);
+  throw new ProjectNotFoundError(projectPath)
 }
 ```
 
@@ -212,58 +223,60 @@ if (!fs.existsSync(projectPath)) {
 ### Pattern: Input Validation
 
 **Code Template:**
+
 ```javascript
 // cli/lib/validation.js
 
-import { ValidationError } from './errors.js';
+import { ValidationError } from './errors.js'
 
 export function validatePath(path, fieldName = 'path') {
   if (!path) {
-    throw new ValidationError(fieldName, 'is required');
+    throw new ValidationError(fieldName, 'is required')
   }
 
   if (typeof path !== 'string') {
-    throw new ValidationError(fieldName, 'must be a string');
+    throw new ValidationError(fieldName, 'must be a string')
   }
 
   if (!path.trim()) {
-    throw new ValidationError(fieldName, 'cannot be empty');
+    throw new ValidationError(fieldName, 'cannot be empty')
   }
 
-  return path;
+  return path
 }
 
 export function validateProjectPath(path) {
-  validatePath(path, 'projectPath');
+  validatePath(path, 'projectPath')
 
   if (!require('path').isAbsolute(path)) {
-    throw new ValidationError('projectPath', 'must be absolute');
+    throw new ValidationError('projectPath', 'must be absolute')
   }
 
-  return path;
+  return path
 }
 
 export function validateOptions(options, schema) {
   if (typeof options !== 'object') {
-    throw new ValidationError('options', 'must be an object');
+    throw new ValidationError('options', 'must be an object')
   }
 
   for (const [key, validator] of Object.entries(schema)) {
     if (key in options) {
-      validator(options[key], key);
+      validator(options[key], key)
     }
   }
 
-  return options;
+  return options
 }
 ```
 
 **Usage:**
+
 ```javascript
-import { validateProjectPath } from './lib/validation.js';
+import { validateProjectPath } from './lib/validation.js'
 
 export async function detectProjectType(projectPath, options = {}) {
-  validateProjectPath(projectPath);
+  validateProjectPath(projectPath)
   // ... rest of implementation
 }
 ```
@@ -273,6 +286,7 @@ export async function detectProjectType(projectPath, options = {}) {
 ### Pattern: TypeScript Definitions
 
 **Code Template:**
+
 ```typescript
 // cli/lib/project-detector-bridge.d.ts
 
@@ -282,15 +296,15 @@ export type ProjectType =
   | 'quarto-extension'
   | 'research'
   | 'generic'
-  | 'unknown';
+  | 'unknown'
 
 export interface DetectionOptions {
   /** Custom type mappings */
-  mappings?: Record<string, ProjectType>;
+  mappings?: Record<string, ProjectType>
   /** Timeout in milliseconds */
-  timeout?: number;
+  timeout?: number
   /** Enable caching */
-  cache?: boolean;
+  cache?: boolean
 }
 
 /**
@@ -302,7 +316,7 @@ export interface DetectionOptions {
 export function detectProjectType(
   projectPath: string,
   options?: DetectionOptions
-): Promise<ProjectType>;
+): Promise<ProjectType>
 
 /**
  * Detect multiple projects in parallel
@@ -313,7 +327,7 @@ export function detectProjectType(
 export function detectMultipleProjects(
   projectPaths: string[],
   options?: DetectionOptions
-): Promise<Record<string, ProjectType>>;
+): Promise<Record<string, ProjectType>>
 ```
 
 ---
@@ -321,35 +335,35 @@ export function detectMultipleProjects(
 ### Pattern: Bridge Pattern (JavaScript ↔ Shell)
 
 **Code Template:**
+
 ```javascript
 // cli/lib/shell-bridge.js
 
-import { exec } from 'child_process';
-import { promisify } from 'util';
+import { exec } from 'child_process'
+import { promisify } from 'util'
 
-const execAsync = promisify(exec);
+const execAsync = promisify(exec)
 
 /**
  * Bridge: Adapts shell script interface to JavaScript Promise-based API
  */
 export async function executeShellFunction(scriptPath, functionName, args = []) {
   try {
-    const argsString = args.map(arg => `"${arg}"`).join(' ');
+    const argsString = args.map(arg => `"${arg}"`).join(' ')
 
     const { stdout, stderr } = await execAsync(
       `source "${scriptPath}" && ${functionName} ${argsString}`,
       { shell: '/bin/zsh' }
-    );
+    )
 
     if (stderr) {
-      console.error(`Warning: ${stderr}`);
+      console.error(`Warning: ${stderr}`)
     }
 
-    return stdout.trim();
-
+    return stdout.trim()
   } catch (error) {
-    console.error(`Shell execution failed: ${error.message}`);
-    throw error;
+    console.error(`Shell execution failed: ${error.message}`)
+    throw error
   }
 }
 
@@ -358,17 +372,18 @@ export async function executeShellFunction(scriptPath, functionName, args = []) 
  */
 export function mapShellType(shellType, mappings = {}) {
   const defaultMappings = {
-    'rpkg': 'r-package',
+    rpkg: 'r-package',
     'quarto-ext': 'quarto-extension',
-    'project': 'generic'
-  };
+    project: 'generic'
+  }
 
-  const allMappings = { ...defaultMappings, ...mappings };
-  return allMappings[shellType] || shellType;
+  const allMappings = { ...defaultMappings, ...mappings }
+  return allMappings[shellType] || shellType
 }
 ```
 
 **Usage Pattern:**
+
 ```
 JavaScript World          Bridge               Shell World
 ─────────────────        ────────             ─────────────
@@ -450,9 +465,9 @@ docs/
 ```javascript
 // test/domain/entities/test-session.js
 
-import { describe, it } from 'node:test';
-import assert from 'node:assert';
-import { Session } from '../../../domain/entities/Session.js';
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { Session } from '../../../domain/entities/Session.js'
 
 describe('Session Entity', () => {
   it('should create session with valid data', () => {
@@ -460,19 +475,16 @@ describe('Session Entity', () => {
       project: 'my-project',
       path: '/absolute/path',
       type: 'r-package'
-    });
+    })
 
-    assert.strictEqual(session.project, 'my-project');
-    assert.strictEqual(session.isActive(), true);
-  });
+    assert.strictEqual(session.project, 'my-project')
+    assert.strictEqual(session.isActive(), true)
+  })
 
   it('should validate required fields', () => {
-    assert.throws(
-      () => new Session({ project: '' }),
-      { name: 'ValidationError' }
-    );
-  });
-});
+    assert.throws(() => new Session({ project: '' }), { name: 'ValidationError' })
+  })
+})
 ```
 
 ### Integration Test Pattern (Adapters Layer)
@@ -480,34 +492,34 @@ describe('Session Entity', () => {
 ```javascript
 // test/adapters/repositories/test-file-system-session-repository.js
 
-import { describe, it, beforeEach, afterEach } from 'node:test';
-import assert from 'node:assert';
-import { FileSystemSessionRepository } from '../../../adapters/repositories/FileSystemSessionRepository.js';
-import fs from 'fs';
-import path from 'path';
+import { describe, it, beforeEach, afterEach } from 'node:test'
+import assert from 'node:assert'
+import { FileSystemSessionRepository } from '../../../adapters/repositories/FileSystemSessionRepository.js'
+import fs from 'fs'
+import path from 'path'
 
 describe('FileSystemSessionRepository', () => {
-  let repo;
-  let tempDir;
+  let repo
+  let tempDir
 
   beforeEach(() => {
-    tempDir = fs.mkdtempSync('/tmp/test-');
-    repo = new FileSystemSessionRepository(tempDir);
-  });
+    tempDir = fs.mkdtempSync('/tmp/test-')
+    repo = new FileSystemSessionRepository(tempDir)
+  })
 
   afterEach(() => {
-    fs.rmSync(tempDir, { recursive: true, force: true });
-  });
+    fs.rmSync(tempDir, { recursive: true, force: true })
+  })
 
   it('should save and retrieve session', async () => {
-    const session = { id: '123', project: 'test' };
+    const session = { id: '123', project: 'test' }
 
-    await repo.save(session);
-    const retrieved = await repo.findById('123');
+    await repo.save(session)
+    const retrieved = await repo.findById('123')
 
-    assert.deepStrictEqual(retrieved, session);
-  });
-});
+    assert.deepStrictEqual(retrieved, session)
+  })
+})
 ```
 
 ### E2E Test Pattern (Full Stack)
@@ -515,30 +527,28 @@ describe('FileSystemSessionRepository', () => {
 ```javascript
 // test/e2e/test-workflow.js
 
-import { describe, it } from 'node:test';
-import assert from 'node:assert';
-import { exec } from 'child_process';
-import { promisify } from 'util';
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { exec } from 'child_process'
+import { promisify } from 'util'
 
-const execAsync = promisify(exec);
+const execAsync = promisify(exec)
 
 describe('E2E: Project Detection Workflow', () => {
   it('should detect R package type', async () => {
     const { stdout } = await execAsync(
       'node cli/bin/detect-type.js /Users/dt/projects/r-packages/stable/rmediation'
-    );
+    )
 
-    assert.strictEqual(stdout.trim(), 'r-package');
-  });
+    assert.strictEqual(stdout.trim(), 'r-package')
+  })
 
   it('should handle invalid path gracefully', async () => {
-    const { stdout } = await execAsync(
-      'node cli/bin/detect-type.js /nonexistent'
-    );
+    const { stdout } = await execAsync('node cli/bin/detect-type.js /nonexistent')
 
-    assert.strictEqual(stdout.trim(), 'unknown');
-  });
-});
+    assert.strictEqual(stdout.trim(), 'unknown')
+  })
+})
 ```
 
 ---
@@ -646,6 +656,7 @@ Create a pragmatic implementation roadmap for [FEATURE/ARCHITECTURE]:
 
 ```markdown
 > **TL;DR:**
+>
 > - **What**: [One sentence describing the thing]
 > - **Why**: [One sentence explaining the motivation]
 > - **How**: [One sentence showing the approach]
@@ -654,28 +665,32 @@ Create a pragmatic implementation roadmap for [FEATURE/ARCHITECTURE]:
 
 ### Code Example Format
 
-```markdown
+````markdown
 ### Pattern Name
 
 **Use Case:** [When to use this pattern]
 
 **Code:**
+
 ```javascript
 // Full implementation (not pseudocode)
 export function exampleFunction() {
   // ... complete working code
 }
 ```
+````
 
 **Usage:**
+
 ```javascript
 // How to use it
-import { exampleFunction } from './lib/example.js';
-const result = exampleFunction();
+import { exampleFunction } from './lib/example.js'
+const result = exampleFunction()
 ```
 
 **Result:** [What this achieves]
-```
+
+````
 
 ### ADR Format
 
@@ -722,7 +737,7 @@ const result = exampleFunction();
 ### Alternative: [Name]
 
 **Rejected because:** [reasons]
-```
+````
 
 ---
 
@@ -758,6 +773,7 @@ const result = exampleFunction();
 **Last Updated:** 2025-12-21
 **Maintainer:** DT
 **See Also:**
+
 - [ARCHITECTURE-ROADMAP.md](ARCHITECTURE-ROADMAP.md) - Implementation plan
 - [docs/architecture/README.md](docs/architecture/README.md) - Documentation hub
 - [docs/architecture/QUICK-REFERENCE.md](docs/architecture/QUICK-REFERENCE.md) - Patterns reference

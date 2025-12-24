@@ -17,11 +17,11 @@ project/
 ## .STATUS File Format
 
 ```yaml
-status: active          # active | draft | stable | paused | archived
-progress: 75            # 0-100 (optional)
-next: Write discussion  # Next action item
-target: JASA            # Target journal/milestone (optional)
-updated: 2025-12-17     # Last update date
+status: active # active | draft | stable | paused | archived
+progress: 75 # 0-100 (optional)
+next: Write discussion # Next action item
+target: JASA # Target journal/milestone (optional)
+updated: 2025-12-17 # Last update date
 ```
 
 **Valid statuses:**
@@ -206,14 +206,14 @@ my-tool/
 
 ## Quick Reference
 
-| Project Type | Main Code | Tests | Docs | Config |
-|--------------|-----------|-------|------|--------|
-| R Package | `R/` | `tests/testthat/` | `man/`, `vignettes/` | `DESCRIPTION` |
-| Research | `R/` | — | `manuscript/` | `.STATUS` |
-| Teaching | `lectures/` | — | `syllabus/` | `.STATUS` |
-| Quarto | `*.qmd` | — | — | `_quarto.yml` |
-| Node.js | `src/` | `tests/` | `docs/` | `package.json` |
-| ZSH | `functions/` | `tests/` | `help/` | `.zshrc` |
+| Project Type | Main Code    | Tests             | Docs                 | Config         |
+| ------------ | ------------ | ----------------- | -------------------- | -------------- |
+| R Package    | `R/`         | `tests/testthat/` | `man/`, `vignettes/` | `DESCRIPTION`  |
+| Research     | `R/`         | —                 | `manuscript/`        | `.STATUS`      |
+| Teaching     | `lectures/`  | —                 | `syllabus/`          | `.STATUS`      |
+| Quarto       | `*.qmd`      | —                 | —                    | `_quarto.yml`  |
+| Node.js      | `src/`       | `tests/`          | `docs/`              | `package.json` |
+| ZSH          | `functions/` | `tests/`          | `help/`              | `.zshrc`       |
 
 ---
 

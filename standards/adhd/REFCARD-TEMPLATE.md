@@ -6,12 +6,12 @@
 
 ## When to Use
 
-| Guide Type | Purpose | Format |
-|------------|---------|--------|
-| QUICK-START | Get running | Prose + commands |
-| GETTING-STARTED | Learn basics | Structured sections |
-| TUTORIAL | Deep learning | Step-by-step |
-| **REFCARD** | Quick lookup | Tables + boxes |
+| Guide Type      | Purpose       | Format              |
+| --------------- | ------------- | ------------------- |
+| QUICK-START     | Get running   | Prose + commands    |
+| GETTING-STARTED | Learn basics  | Structured sections |
+| TUTORIAL        | Deep learning | Step-by-step        |
+| **REFCARD**     | Quick lookup  | Tables + boxes      |
 
 **Refcards are for:** Users who already know the tool but need quick reminders.
 
@@ -73,8 +73,8 @@
 
 ## Essential Commands
 
-| Command | Description |
-|---------|-------------|
+| Command | Description   |
+| ------- | ------------- |
 | `[cmd]` | [description] |
 | `[cmd]` | [description] |
 | `[cmd]` | [description] |
@@ -83,15 +83,15 @@
 
 ## [Category 1]
 
-| Command | Description |
-|---------|-------------|
+| Command | Description   |
+| ------- | ------------- |
 | `[cmd]` | [description] |
 | `[cmd]` | [description] |
 
 ## [Category 2]
 
-| Command | Description |
-|---------|-------------|
+| Command | Description   |
+| ------- | ------------- |
 | `[cmd]` | [description] |
 | `[cmd]` | [description] |
 
@@ -120,22 +120,22 @@
 
 ## Template: Compact Grid Style
 
-````markdown
+```markdown
 # [Tool Name] Refcard
 
-| Essential | Navigation | Editing |
-|-----------|------------|---------|
+| Essential      | Navigation     | Editing        |
+| -------------- | -------------- | -------------- |
 | `[cmd]` [desc] | `[cmd]` [desc] | `[cmd]` [desc] |
 | `[cmd]` [desc] | `[cmd]` [desc] | `[cmd]` [desc] |
 | `[cmd]` [desc] | `[cmd]` [desc] | `[cmd]` [desc] |
 
-| Files | Search | Git |
-|-------|--------|-----|
+| Files          | Search         | Git            |
+| -------------- | -------------- | -------------- |
 | `[cmd]` [desc] | `[cmd]` [desc] | `[cmd]` [desc] |
 | `[cmd]` [desc] | `[cmd]` [desc] | `[cmd]` [desc] |
 
 **Patterns:** `[pattern]` • `[pattern]` • `[pattern]`
-````
+```
 
 ---
 
@@ -178,18 +178,18 @@
 ```markdown
 # Git Refcard
 
-| Basics | Branches | Remote |
-|--------|----------|--------|
-| `gs` status | `gb` list | `gp` push |
-| `ga .` add all | `gco -b` new | `gl` pull |
-| `gc "msg"` commit | `gco name` switch | `gf` fetch |
-| `gd` diff | `gm branch` merge | `gr` remote -v |
+| Basics            | Branches          | Remote         |
+| ----------------- | ----------------- | -------------- |
+| `gs` status       | `gb` list         | `gp` push      |
+| `ga .` add all    | `gco -b` new      | `gl` pull      |
+| `gc "msg"` commit | `gco name` switch | `gf` fetch     |
+| `gd` diff         | `gm branch` merge | `gr` remote -v |
 
-| History | Stash | Undo |
-|---------|-------|------|
+| History           | Stash       | Undo          |
+| ----------------- | ----------- | ------------- |
 | `glog` pretty log | `gst` stash | `gco -- file` |
-| `gsh` show | `gstp` pop | `grh HEAD~1` |
-| `gbl` blame | `gstl` list | `grs file` |
+| `gsh` show        | `gstp` pop  | `grh HEAD~1`  |
+| `gbl` blame       | `gstl` list | `grs file`    |
 
 **Patterns:** `ga . && gc "msg" && gp` • `gf && gm origin/main`
 ```
@@ -208,13 +208,14 @@ LONG (>12 chars)     Put description on next line or use table
 
 ### Descriptions
 
-| Good | Bad |
-|------|-----|
-| "Show status" | "This command shows the current status" |
-| "List branches" | "Lists all branches in the repository" |
-| "Push to remote" | "Pushes your commits to the remote" |
+| Good             | Bad                                     |
+| ---------------- | --------------------------------------- |
+| "Show status"    | "This command shows the current status" |
+| "List branches"  | "Lists all branches in the repository"  |
+| "Push to remote" | "Pushes your commits to the remote"     |
 
 **Rules:**
+
 - Start with verb
 - 2-4 words max
 - No articles (a, the)
@@ -241,11 +242,11 @@ NAVIGATION                blame
 
 ## Size Guidelines
 
-| Format | Max Items | Notes |
-|--------|-----------|-------|
-| ASCII Box | ~30 commands | Best for printing |
-| Markdown Tables | ~40 commands | Good for scrolling |
-| Compact Grid | ~50 commands | Dense but scannable |
+| Format          | Max Items    | Notes               |
+| --------------- | ------------ | ------------------- |
+| ASCII Box       | ~30 commands | Best for printing   |
+| Markdown Tables | ~40 commands | Good for scrolling  |
+| Compact Grid    | ~50 commands | Dense but scannable |
 
 **If you have more:** Split into multiple refcards by topic.
 

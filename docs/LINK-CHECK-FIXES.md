@@ -10,6 +10,7 @@
 **File:** `docs/architecture/ARCHITECTURE-QUICK-WINS.md` (lines 611-614)
 
 **Current (broken):**
+
 ```markdown
 **For quick reference:**
 
@@ -18,11 +19,13 @@
 ```
 
 **Fix Option A - Remove section:**
+
 ```markdown
 (Delete lines 611-614)
 ```
 
 **Fix Option B - Replace with existing docs:**
+
 ```markdown
 **For quick reference:**
 
@@ -39,11 +42,13 @@
 **File:** `docs/index.md` (line 255)
 
 **Current:**
+
 ```markdown
 **Repository:** [GitHub](https://github.com/Data-Wise/flow-cli)
 ```
 
 **Fixed:**
+
 ```markdown
 **Repository:** [GitHub](https://github.com/Data-Wise/flow-cli)
 ```

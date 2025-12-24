@@ -90,49 +90,49 @@
 
 ### Before
 
-| File | Lines | Description |
-|------|-------|-------------|
-| adhd-helpers.zsh | 3198 | 📦 MONOLITH - everything mixed together |
-| smart-dispatchers.zsh | 880 | Multiple dispatchers in one file |
-| g-dispatcher.zsh | ~400 | Git dispatcher |
-| v-dispatcher.zsh | ~500 | Vibe dispatcher |
-| mcp-dispatcher.zsh | ~500 | MCP dispatcher |
+| File                  | Lines     | Description                                |
+| --------------------- | --------- | ------------------------------------------ |
+| adhd-helpers.zsh      | 3198      | 📦 MONOLITH - everything mixed together    |
+| smart-dispatchers.zsh | 880       | Multiple dispatchers in one file           |
+| g-dispatcher.zsh      | ~400      | Git dispatcher                             |
+| v-dispatcher.zsh      | ~500      | Vibe dispatcher                            |
+| mcp-dispatcher.zsh    | ~500      | MCP dispatcher                             |
 | **Total dispatchers** | **~2280** | Spread across 2 files + 3 individual files |
 
 ### After
 
 #### Dispatchers (12 files)
 
-| File | Lines | Description |
-|------|-------|-------------|
-| 00-colors.zsh | 25 | Shared color definitions |
-| r-dispatcher.zsh | 130 | R package development |
-| quarto-dispatcher.zsh | 70 | Quarto publishing |
-| claude-dispatcher.zsh | 120 | Claude Code CLI |
-| gemini-dispatcher.zsh | 100 | Gemini CLI |
-| note-dispatcher.zsh | 70 | Apple Notes sync |
-| workflow-dispatcher.zsh | 70 | Activity logging |
-| git-dispatcher.zsh | 400 | Git operations |
-| vibe-dispatcher.zsh | 500 | Energy management |
-| mcp-dispatcher.zsh | 500 | MCP server management |
-| pick-dispatcher.zsh | 200 | Project picker |
-| **Total** | **~2185** | Clear, focused files |
+| File                    | Lines     | Description              |
+| ----------------------- | --------- | ------------------------ |
+| 00-colors.zsh           | 25        | Shared color definitions |
+| r-dispatcher.zsh        | 130       | R package development    |
+| quarto-dispatcher.zsh   | 70        | Quarto publishing        |
+| claude-dispatcher.zsh   | 120       | Claude Code CLI          |
+| gemini-dispatcher.zsh   | 100       | Gemini CLI               |
+| note-dispatcher.zsh     | 70        | Apple Notes sync         |
+| workflow-dispatcher.zsh | 70        | Activity logging         |
+| git-dispatcher.zsh      | 400       | Git operations           |
+| vibe-dispatcher.zsh     | 500       | Energy management        |
+| mcp-dispatcher.zsh      | 500       | MCP server management    |
+| pick-dispatcher.zsh     | 200       | Project picker           |
+| **Total**               | **~2185** | Clear, focused files     |
 
 #### Helpers (10 files)
 
-| File | Lines | Functions | Description |
-|------|-------|-----------|-------------|
-| energy-helpers.zsh | 500 | 9 | ADHD energy management |
-| focus-helpers.zsh | 100 | 2 | Focus timer helpers |
-| session-management.zsh | 800 | 15 | Session tracking |
-| dashboard-helpers.zsh | 300 | 4 | Dashboard sync |
-| project-detection.zsh | 200 | 8 | Project type detection |
-| project-shortcuts.zsh | 400 | 12 | p* commands |
-| teaching-helpers.zsh | 300 | 6 | t* commands |
-| research-helpers.zsh | 200 | 5 | r* commands |
-| project-helpers.zsh | 100 | 2 | Project utilities |
-| mediationverse-helpers.zsh | 300 | 9 | MediationVerse ecosystem |
-| **Total** | **~3200** | **72** | Modular, maintainable |
+| File                       | Lines     | Functions | Description              |
+| -------------------------- | --------- | --------- | ------------------------ |
+| energy-helpers.zsh         | 500       | 9         | ADHD energy management   |
+| focus-helpers.zsh          | 100       | 2         | Focus timer helpers      |
+| session-management.zsh     | 800       | 15        | Session tracking         |
+| dashboard-helpers.zsh      | 300       | 4         | Dashboard sync           |
+| project-detection.zsh      | 200       | 8         | Project type detection   |
+| project-shortcuts.zsh      | 400       | 12        | p\* commands             |
+| teaching-helpers.zsh       | 300       | 6         | t\* commands             |
+| research-helpers.zsh       | 200       | 5         | r\* commands             |
+| project-helpers.zsh        | 100       | 2         | Project utilities        |
+| mediationverse-helpers.zsh | 300       | 9         | MediationVerse ecosystem |
+| **Total**                  | **~3200** | **72**    | Modular, maintainable    |
 
 ## Command Flow Diagrams
 
@@ -237,6 +237,7 @@ done
 ```
 
 **Benefits:**
+
 - ✅ Correct dependency order guaranteed
 - ✅ Easy to add new files (auto-sourced)
 - ✅ Clear organization by type
@@ -414,14 +415,14 @@ cat ~/.config/zsh/functions/dispatchers/README.md
 
 ## Summary
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| Largest file | 3198 lines | 800 lines | 75% reduction |
-| Files with >1000 lines | 1 | 0 | ✅ Eliminated |
-| Dispatcher files | 2 (mixed) | 12 (focused) | 500% increase in clarity |
-| Average file size | ~400 lines | ~250 lines | 37% reduction |
-| Time to find function | 2-5 min | 30 sec | 80% faster |
-| Files touched per change | Often 1 large | Usually 1 small | Less risk |
+| Metric                   | Before        | After           | Improvement              |
+| ------------------------ | ------------- | --------------- | ------------------------ |
+| Largest file             | 3198 lines    | 800 lines       | 75% reduction            |
+| Files with >1000 lines   | 1             | 0               | ✅ Eliminated            |
+| Dispatcher files         | 2 (mixed)     | 12 (focused)    | 500% increase in clarity |
+| Average file size        | ~400 lines    | ~250 lines      | 37% reduction            |
+| Time to find function    | 2-5 min       | 30 sec          | 80% faster               |
+| Files touched per change | Often 1 large | Usually 1 small | Less risk                |
 
 ---
 

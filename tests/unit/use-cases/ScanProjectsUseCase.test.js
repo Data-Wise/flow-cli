@@ -216,32 +216,35 @@ describe('ScanProjectsUseCase', () => {
 
   describe('Validation', () => {
     test('throws error if input is missing', async () => {
-      await expect(useCase.execute())
-        .rejects.toThrow('input is required')
+      await expect(useCase.execute()).rejects.toThrow('input is required')
     })
 
     test('throws error if rootPath is missing', async () => {
-      await expect(useCase.execute({}))
-        .rejects.toThrow('rootPath must be a non-empty string')
+      await expect(useCase.execute({})).rejects.toThrow('rootPath must be a non-empty string')
     })
 
     test('throws error if rootPath is not a string', async () => {
-      await expect(useCase.execute({ rootPath: 123 }))
-        .rejects.toThrow('rootPath must be a non-empty string')
+      await expect(useCase.execute({ rootPath: 123 })).rejects.toThrow(
+        'rootPath must be a non-empty string'
+      )
     })
 
     test('throws error if updateExisting is not a boolean', async () => {
-      await expect(useCase.execute({
-        rootPath: '/path',
-        updateExisting: 'yes'
-      })).rejects.toThrow('updateExisting must be a boolean')
+      await expect(
+        useCase.execute({
+          rootPath: '/path',
+          updateExisting: 'yes'
+        })
+      ).rejects.toThrow('updateExisting must be a boolean')
     })
 
     test('throws error if removeStale is not a boolean', async () => {
-      await expect(useCase.execute({
-        rootPath: '/path',
-        removeStale: 'yes'
-      })).rejects.toThrow('removeStale must be a boolean')
+      await expect(
+        useCase.execute({
+          rootPath: '/path',
+          removeStale: 'yes'
+        })
+      ).rejects.toThrow('removeStale must be a boolean')
     })
   })
 
@@ -257,9 +260,7 @@ describe('ScanProjectsUseCase', () => {
     })
 
     test('handles scanning with no existing projects', async () => {
-      projectRepo.scannedProjects = [
-        new Project('project-1', 'test')
-      ]
+      projectRepo.scannedProjects = [new Project('project-1', 'test')]
 
       const result = await useCase.execute({ rootPath: '/path' })
 

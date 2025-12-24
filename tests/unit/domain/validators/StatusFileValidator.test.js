@@ -64,7 +64,16 @@ describe('StatusFileValidator', () => {
     })
 
     test('validates all valid types', () => {
-      const types = ['r-package', 'quarto', 'research', 'node', 'python', 'mcp', 'spacemacs', 'generic']
+      const types = [
+        'r-package',
+        'quarto',
+        'research',
+        'node',
+        'python',
+        'mcp',
+        'spacemacs',
+        'generic'
+      ]
 
       for (const type of types) {
         const data = { status: 'active', progress: 0, type }
@@ -73,8 +82,12 @@ describe('StatusFileValidator', () => {
     })
 
     test('validates progress boundary values', () => {
-      expect(validator.validate({ status: 'active', progress: 0, type: 'generic' }).valid).toBe(true)
-      expect(validator.validate({ status: 'active', progress: 100, type: 'generic' }).valid).toBe(true)
+      expect(validator.validate({ status: 'active', progress: 0, type: 'generic' }).valid).toBe(
+        true
+      )
+      expect(validator.validate({ status: 'active', progress: 100, type: 'generic' }).valid).toBe(
+        true
+      )
     })
   })
 

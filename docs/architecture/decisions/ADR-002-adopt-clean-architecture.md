@@ -22,12 +22,12 @@ The flow-cli system currently uses a simple 3-layer architecture (Frontend → B
 
 ## Decision Drivers
 
-* **Testability** - Must be able to test business logic without I/O
-* **Flexibility** - Should easily swap data sources (files → DB → API)
-* **Independence** - Core logic shouldn't depend on frameworks
-* **Maintainability** - New developers should understand structure quickly
-* **Scalability** - Architecture should support growth (desktop app, web UI)
-* **ADHD-Friendly** - Clear boundaries reduce cognitive load
+- **Testability** - Must be able to test business logic without I/O
+- **Flexibility** - Should easily swap data sources (files → DB → API)
+- **Independence** - Core logic shouldn't depend on frameworks
+- **Maintainability** - New developers should understand structure quickly
+- **Scalability** - Architecture should support growth (desktop app, web UI)
+- **ADHD-Friendly** - Clear boundaries reduce cognitive load
 
 ---
 
@@ -40,11 +40,13 @@ Frontend (ZSH) → Backend (Node.js) → Vendor (Shell)
 ```
 
 **Pros:**
+
 - ✅ Simple and straightforward
 - ✅ Easy to implement initially
 - ✅ Minimal files and boilerplate
 
 **Cons:**
+
 - ❌ Business logic mixed with infrastructure
 - ❌ Hard to test (file system dependencies)
 - ❌ Difficult to swap implementations
@@ -57,11 +59,13 @@ Presentation → Business Logic → Data Access
 ```
 
 **Pros:**
+
 - ✅ Well-understood pattern
 - ✅ Clear separation of concerns
 - ✅ Better than current state
 
 **Cons:**
+
 - ❌ Allows dependencies to flow downward only (not ideal)
 - ❌ Database layer often becomes coupled to business logic
 - ❌ Doesn't enforce dependency inversion
@@ -86,12 +90,14 @@ Presentation → Business Logic → Data Access
 ```
 
 **4 Layers:**
+
 1. **Domain** - Entities, value objects, business rules (innermost)
 2. **Use Cases** - Application-specific workflows
 3. **Adapters** - Controllers, gateways, presenters
 4. **Frameworks** - ZSH, Node.js, vendor scripts (outermost)
 
 **Pros:**
+
 - ✅ Business logic completely independent of I/O
 - ✅ Easy to test (mock interfaces, not implementations)
 - ✅ Swap implementations without changing core
@@ -100,6 +106,7 @@ Presentation → Business Logic → Data Access
 - ✅ Well-documented pattern (books, articles, examples)
 
 **Cons:**
+
 - ⚠️ More files and boilerplate (acceptable trade-off)
 - ⚠️ Steeper learning curve initially (mitigated by docs)
 - ⚠️ Requires discipline to maintain boundaries
@@ -125,7 +132,7 @@ Presentation → Business Logic → Data Access
    // AFTER: Easy to test
    class CreateSessionUseCase {
      constructor(sessionRepository) {
-       this.repo = sessionRepository  // Interface, not file system
+       this.repo = sessionRepository // Interface, not file system
      }
 
      async execute({ project }) {
@@ -136,7 +143,7 @@ Presentation → Business Logic → Data Access
    }
 
    // Test with mock repository (no file I/O)
-   const mockRepo = { save: async (s) => s }
+   const mockRepo = { save: async s => s }
    const useCase = new CreateSessionUseCase(mockRepo)
    ```
 
@@ -180,16 +187,22 @@ Presentation → Business Logic → Data Access
    ```javascript
    // Domain defines what it needs (port)
    class ISessionRepository {
-     async save(session) { throw new Error('Not implemented') }
+     async save(session) {
+       throw new Error('Not implemented')
+     }
    }
 
    // Adapters provide implementations
    class FileSystemSessionRepository extends ISessionRepository {
-     async save(session) { /* write to file */ }
+     async save(session) {
+       /* write to file */
+     }
    }
 
    class DatabaseSessionRepository extends ISessionRepository {
-     async save(session) { /* write to DB */ }
+     async save(session) {
+       /* write to DB */
+     }
    }
 
    // Use case doesn't care which implementation
@@ -249,6 +262,7 @@ cli/
 ```
 
 **Start with:**
+
 1. Session entity (domain)
 2. CreateSessionUseCase (use case)
 3. FileSystemSessionRepository (adapter)
@@ -257,6 +271,7 @@ cli/
 ### Phase 2: Migration (Week 3)
 
 **Migrate existing code:**
+
 - `project-detector-bridge.js` → `ProjectDetectorGateway` (adapter)
 - Status/workflow APIs → Use cases + domain entities
 - CLI commands → Controllers
@@ -264,6 +279,7 @@ cli/
 ### Phase 3: Enhancement (Week 4+)
 
 **Add advanced features:**
+
 - Event publishing (domain events)
 - Multiple repository implementations (in-memory for tests)
 - Plugin system using ports & adapters
@@ -274,23 +290,23 @@ cli/
 
 ### Positive
 
-* ✅ **Highly testable** - Business logic has zero I/O dependencies
-* ✅ **Flexible** - Swap implementations without touching core
-* ✅ **Framework-independent** - Could replace Node.js if needed
-* ✅ **Multiple interfaces** - CLI, Desktop, Web from same core
-* ✅ **Clear boundaries** - Easy to reason about code location
-* ✅ **Industry-standard** - Well-documented pattern with examples
+- ✅ **Highly testable** - Business logic has zero I/O dependencies
+- ✅ **Flexible** - Swap implementations without touching core
+- ✅ **Framework-independent** - Could replace Node.js if needed
+- ✅ **Multiple interfaces** - CLI, Desktop, Web from same core
+- ✅ **Clear boundaries** - Easy to reason about code location
+- ✅ **Industry-standard** - Well-documented pattern with examples
 
 ### Negative
 
-* ⚠️ **More boilerplate** - More files and interfaces (one-time cost)
-* ⚠️ **Learning curve** - Team needs to understand pattern (mitigated by docs)
-* ⚠️ **Discipline required** - Must maintain boundaries (code reviews help)
+- ⚠️ **More boilerplate** - More files and interfaces (one-time cost)
+- ⚠️ **Learning curve** - Team needs to understand pattern (mitigated by docs)
+- ⚠️ **Discipline required** - Must maintain boundaries (code reviews help)
 
 ### Neutral
 
-* ℹ️ **Gradual migration** - Can adopt incrementally (no big-bang rewrite)
-* ℹ️ **Documentation critical** - Need good examples and reference cards
+- ℹ️ **Gradual migration** - Can adopt incrementally (no big-bang rewrite)
+- ℹ️ **Documentation critical** - Need good examples and reference cards
 
 ---
 
@@ -329,25 +345,28 @@ npm test -- use-cases/
 
 ## Related Decisions
 
-* **ADR-001**: Use Vendored Code Pattern - Vendor scripts become "frameworks" layer
-* **ADR-003**: JavaScript Bridge Pattern - Bridges become "gateways" (adapters)
-* **Future ADR**: Event Sourcing (if we adopt CQRS pattern later)
+- **ADR-001**: Use Vendored Code Pattern - Vendor scripts become "frameworks" layer
+- **ADR-003**: JavaScript Bridge Pattern - Bridges become "gateways" (adapters)
+- **Future ADR**: Event Sourcing (if we adopt CQRS pattern later)
 
 ---
 
 ## References
 
 **Books:**
-- *Clean Architecture* by Robert C. Martin (Uncle Bob)
-- *Domain-Driven Design* by Eric Evans
-- *Implementing Domain-Driven Design* by Vaughn Vernon
+
+- _Clean Architecture_ by Robert C. Martin (Uncle Bob)
+- _Domain-Driven Design_ by Eric Evans
+- _Implementing Domain-Driven Design_ by Vaughn Vernon
 
 **Articles:**
+
 - [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) - Uncle Bob
 - [Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/) - Alistair Cockburn
 - [Ports & Adapters Pattern](https://herbertograca.com/2017/09/14/ports-adapters-architecture/)
 
 **Internal Docs:**
+
 - [ARCHITECTURE-PATTERNS-ANALYSIS.md](../ARCHITECTURE-PATTERNS-ANALYSIS.md) - Full analysis
 - [QUICK-REFERENCE.md](../QUICK-REFERENCE.md) - Cheat sheet
 

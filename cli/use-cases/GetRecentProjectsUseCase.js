@@ -44,9 +44,7 @@ export class GetRecentProjectsUseCase {
     const scoredProjects = this._scoreProjects(recent, topByDuration, topBySessions)
 
     // Sort by score and limit
-    const rankedProjects = scoredProjects
-      .sort((a, b) => b.score - a.score)
-      .slice(0, limit)
+    const rankedProjects = scoredProjects.sort((a, b) => b.score - a.score).slice(0, limit)
 
     // Format response
     const projects = rankedProjects.map(item => {
@@ -65,11 +63,13 @@ export class GetRecentProjectsUseCase {
 
     return {
       projects,
-      stats: includeStats ? {
-        totalProjects: (await this.projectRepository.count()),
-        recentCount: recent.length,
-        evaluated: scoredProjects.length
-      } : null
+      stats: includeStats
+        ? {
+            totalProjects: await this.projectRepository.count(),
+            recentCount: recent.length,
+            evaluated: scoredProjects.length
+          }
+        : null
     }
   }
 
@@ -82,19 +82,19 @@ export class GetRecentProjectsUseCase {
 
     // Score recent projects (highest weight)
     recent.forEach((project, index) => {
-      const score = 100 - (index * 5) // 100, 95, 90, ...
+      const score = 100 - index * 5 // 100, 95, 90, ...
       this._addProjectScore(projectMap, project, score, 'recent')
     })
 
     // Score top by duration
     topByDuration.forEach((project, index) => {
-      const score = 50 - (index * 3) // 50, 47, 44, ...
+      const score = 50 - index * 3 // 50, 47, 44, ...
       this._addProjectScore(projectMap, project, score, 'duration')
     })
 
     // Score top by sessions
     topBySessions.forEach((project, index) => {
-      const score = 30 - (index * 2) // 30, 28, 26, ...
+      const score = 30 - index * 2 // 30, 28, 26, ...
       this._addProjectScore(projectMap, project, score, 'sessions')
     })
 

@@ -12,6 +12,7 @@
 The Project Detector API provides Node.js functions to detect project types from filesystem paths. It bridges to vendored shell scripts from [zsh-claude-workflow](https://github.com/Data-Wise/zsh-claude-workflow) to leverage battle-tested detection logic while providing a modern async/Promise-based JavaScript API.
 
 **Supported Project Types:**
+
 - R packages (`r-package`)
 - Quarto projects (`quarto`)
 - Quarto extensions (`quarto-extension`)
@@ -40,32 +41,34 @@ import { detectProjectType } from './cli/lib/project-detector-bridge.js';
 Detect the type of a single project.
 
 **Parameters:**
+
 - `projectPath` (string, required) - Absolute path to project directory
 
 **Returns:** `Promise<string>`
+
 - Resolves to project type: `'r-package'`, `'quarto'`, `'quarto-extension'`, `'research'`, `'generic'`, or `'unknown'`
 - Never rejects - returns `'unknown'` on errors
 
 **Examples:**
 
 ```javascript
-import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js'
 
 // Detect R package
-const type1 = await detectProjectType('/Users/dt/projects/r-packages/stable/rmediation');
-console.log(type1); // 'r-package'
+const type1 = await detectProjectType('/Users/dt/projects/r-packages/stable/rmediation')
+console.log(type1) // 'r-package'
 
 // Detect Quarto project
-const type2 = await detectProjectType('/Users/dt/projects/teaching/stat-440');
-console.log(type2); // 'quarto'
+const type2 = await detectProjectType('/Users/dt/projects/teaching/stat-440')
+console.log(type2) // 'quarto'
 
 // Detect generic git project
-const type3 = await detectProjectType('/Users/dt/projects/dev-tools/flow-cli');
-console.log(type3); // 'generic'
+const type3 = await detectProjectType('/Users/dt/projects/dev-tools/flow-cli')
+console.log(type3) // 'generic'
 
 // Handle invalid path gracefully
-const type4 = await detectProjectType('/nonexistent/path');
-console.log(type4); // 'unknown'
+const type4 = await detectProjectType('/nonexistent/path')
+console.log(type4) // 'unknown'
 ```
 
 **Detection Logic:**
@@ -94,24 +97,26 @@ This graceful degradation ensures applications remain functional even when speci
 Detect types for multiple projects in parallel.
 
 **Parameters:**
+
 - `projectPaths` (string[], required) - Array of absolute paths to project directories
 
 **Returns:** `Promise<Object>`
+
 - Resolves to object mapping `path -> type`
 - Example: `{ '/path/1': 'r-package', '/path/2': 'quarto' }`
 
 **Examples:**
 
 ```javascript
-import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js'
 
 const results = await detectMultipleProjects([
   '/Users/dt/projects/r-packages/stable/rmediation',
   '/Users/dt/projects/teaching/stat-440',
   '/Users/dt/projects/dev-tools/flow-cli'
-]);
+])
 
-console.log(results);
+console.log(results)
 // {
 //   '/Users/dt/projects/r-packages/stable/rmediation': 'r-package',
 //   '/Users/dt/projects/teaching/stat-440': 'quarto',
@@ -126,11 +131,11 @@ All detections run in parallel using `Promise.all()`, making batch operations si
 ```javascript
 // Sequential (slow)
 for (const path of paths) {
-  const type = await detectProjectType(path);  // Waits for each
+  const type = await detectProjectType(path) // Waits for each
 }
 
 // Parallel (fast) - built into detectMultipleProjects
-const results = await detectMultipleProjects(paths);  // All at once
+const results = await detectMultipleProjects(paths) // All at once
 ```
 
 ---
@@ -142,15 +147,16 @@ Get list of all supported project types.
 **Parameters:** None
 
 **Returns:** `string[]`
+
 - Array of supported type identifiers
 
 **Example:**
 
 ```javascript
-import { getSupportedTypes } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import { getSupportedTypes } from 'flow-cli/cli/lib/project-detector-bridge.js'
 
-const types = getSupportedTypes();
-console.log(types);
+const types = getSupportedTypes()
+console.log(types)
 // ['r-package', 'quarto', 'quarto-extension', 'research', 'generic', 'unknown']
 ```
 
@@ -159,13 +165,13 @@ console.log(types);
 ```javascript
 // Validate user input
 function isValidType(userType) {
-  return getSupportedTypes().includes(userType);
+  return getSupportedTypes().includes(userType)
 }
 
 // Generate UI dropdown
 const typeOptions = getSupportedTypes()
   .filter(t => t !== 'unknown')
-  .map(type => ({ value: type, label: formatTypeLabel(type) }));
+  .map(type => ({ value: type, label: formatTypeLabel(type) }))
 ```
 
 ---
@@ -175,19 +181,21 @@ const typeOptions = getSupportedTypes()
 Check if a project type is supported.
 
 **Parameters:**
+
 - `type` (string, required) - Project type to check
 
 **Returns:** `boolean`
+
 - `true` if type is supported, `false` otherwise
 
 **Examples:**
 
 ```javascript
-import { isTypeSupported } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import { isTypeSupported } from 'flow-cli/cli/lib/project-detector-bridge.js'
 
-console.log(isTypeSupported('r-package'));     // true
-console.log(isTypeSupported('quarto'));        // true
-console.log(isTypeSupported('invalid-type'));  // false
+console.log(isTypeSupported('r-package')) // true
+console.log(isTypeSupported('quarto')) // true
+console.log(isTypeSupported('invalid-type')) // false
 ```
 
 **Use Cases:**
@@ -195,7 +203,7 @@ console.log(isTypeSupported('invalid-type'));  // false
 ```javascript
 // Input validation
 if (!isTypeSupported(userType)) {
-  throw new Error(`Unsupported project type: ${userType}`);
+  throw new Error(`Unsupported project type: ${userType}`)
 }
 
 // Conditional logic
@@ -210,16 +218,17 @@ if (isTypeSupported(detectedType) && detectedType !== 'unknown') {
 
 The API normalizes shell script output to consistent naming:
 
-| Shell Output | API Output | Description |
-|--------------|------------|-------------|
-| `rpkg` | `r-package` | R package with DESCRIPTION |
-| `quarto` | `quarto` | Quarto project or document |
-| `quarto-ext` | `quarto-extension` | Quarto extension |
-| `research` | `research` | Research project (LaTeX, etc.) |
-| `project` | `generic` | Generic git repository |
-| `unknown` | `unknown` | Unrecognized project type |
+| Shell Output | API Output         | Description                    |
+| ------------ | ------------------ | ------------------------------ |
+| `rpkg`       | `r-package`        | R package with DESCRIPTION     |
+| `quarto`     | `quarto`           | Quarto project or document     |
+| `quarto-ext` | `quarto-extension` | Quarto extension               |
+| `research`   | `research`         | Research project (LaTeX, etc.) |
+| `project`    | `generic`          | Generic git repository         |
+| `unknown`    | `unknown`          | Unrecognized project type      |
 
 This mapping provides:
+
 - **Consistent naming** across language boundaries
 - **API stability** independent of shell implementation
 - **Better developer experience** with descriptive names
@@ -231,32 +240,35 @@ This mapping provides:
 ### Express.js API Endpoint
 
 ```javascript
-import express from 'express';
-import { detectProjectType, detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import express from 'express'
+import {
+  detectProjectType,
+  detectMultipleProjects
+} from 'flow-cli/cli/lib/project-detector-bridge.js'
 
-const app = express();
+const app = express()
 
 // Single project detection
 app.get('/api/projects/:projectId/type', async (req, res) => {
-  const projectPath = getProjectPath(req.params.projectId);
-  const type = await detectProjectType(projectPath);
+  const projectPath = getProjectPath(req.params.projectId)
+  const type = await detectProjectType(projectPath)
 
   res.json({
     projectId: req.params.projectId,
     type: type,
     path: projectPath
-  });
-});
+  })
+})
 
 // Batch detection
 app.post('/api/projects/detect', async (req, res) => {
-  const { paths } = req.body;
+  const { paths } = req.body
 
   if (!Array.isArray(paths)) {
-    return res.status(400).json({ error: 'paths must be an array' });
+    return res.status(400).json({ error: 'paths must be an array' })
   }
 
-  const results = await detectMultipleProjects(paths);
+  const results = await detectMultipleProjects(paths)
 
   res.json({
     count: paths.length,
@@ -265,25 +277,26 @@ app.post('/api/projects/detect', async (req, res) => {
       type,
       name: path.split('/').pop()
     }))
-  });
-});
+  })
+})
 ```
 
 ### CLI Tool
 
 ```javascript
 #!/usr/bin/env node
-import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
-import { resolve } from 'path';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js'
+import { resolve } from 'path'
 
-const projectPath = resolve(process.argv[2] || '.');
-const type = await detectProjectType(projectPath);
+const projectPath = resolve(process.argv[2] || '.')
+const type = await detectProjectType(projectPath)
 
-console.log(`Project type: ${type}`);
-process.exit(type === 'unknown' ? 1 : 0);
+console.log(`Project type: ${type}`)
+process.exit(type === 'unknown' ? 1 : 0)
 ```
 
 Usage:
+
 ```bash
 chmod +x detect-type.js
 ./detect-type.js ~/projects/r-packages/stable/rmediation
@@ -296,33 +309,31 @@ chmod +x detect-type.js
 ### Project Scanner
 
 ```javascript
-import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
-import { readdir } from 'fs/promises';
-import { join } from 'path';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js'
+import { readdir } from 'fs/promises'
+import { join } from 'path'
 
 async function scanProjects(baseDir) {
   // Get all subdirectories
-  const entries = await readdir(baseDir, { withFileTypes: true });
-  const dirs = entries
-    .filter(e => e.isDirectory())
-    .map(e => join(baseDir, e.name));
+  const entries = await readdir(baseDir, { withFileTypes: true })
+  const dirs = entries.filter(e => e.isDirectory()).map(e => join(baseDir, e.name))
 
   // Detect all types in parallel
-  const types = await detectMultipleProjects(dirs);
+  const types = await detectMultipleProjects(dirs)
 
   // Group by type
-  const grouped = {};
+  const grouped = {}
   for (const [path, type] of Object.entries(types)) {
-    if (!grouped[type]) grouped[type] = [];
-    grouped[type].push(path);
+    if (!grouped[type]) grouped[type] = []
+    grouped[type].push(path)
   }
 
-  return grouped;
+  return grouped
 }
 
 // Usage
-const projects = await scanProjects('/Users/dt/projects/r-packages/stable');
-console.log(`Found ${projects['r-package']?.length || 0} R packages`);
+const projects = await scanProjects('/Users/dt/projects/r-packages/stable')
+console.log(`Found ${projects['r-package']?.length || 0} R packages`)
 ```
 
 ---
@@ -370,10 +381,12 @@ console.log(`Found ${projects['r-package']?.length || 0} R packages`);
 ### Dependencies
 
 **Runtime:**
+
 - Node.js ≥18.0.0
 - zsh shell (built-in on macOS)
 
 **Vendored Code:**
+
 - `cli/vendor/zsh-claude-workflow/project-detector.sh` (~200 lines)
 - `cli/vendor/zsh-claude-workflow/core.sh` (~100 lines)
 
@@ -382,18 +395,20 @@ console.log(`Found ${projects['r-package']?.length || 0} R packages`);
 ### Performance
 
 **Benchmarks (M1 Mac):**
+
 - Single detection: ~20-50ms
 - Batch of 10 projects: ~100-200ms (parallel)
 - Batch of 100 projects: ~800-1200ms (parallel)
 
 **Optimization Tips:**
+
 ```javascript
 // ✅ Good: Batch parallel detection
-const types = await detectMultipleProjects(allPaths);
+const types = await detectMultipleProjects(allPaths)
 
 // ❌ Avoid: Sequential detection
 for (const path of allPaths) {
-  await detectProjectType(path);  // Slow!
+  await detectProjectType(path) // Slow!
 }
 ```
 
@@ -427,10 +442,11 @@ npm run test:detector
 ```
 
 **Test Coverage:**
+
 - ✅ getSupportedTypes() returns correct list
 - ✅ isTypeSupported() validates types correctly
 - ✅ Detects R packages (DESCRIPTION file)
-- ✅ Detects Quarto projects (_quarto.yml)
+- ✅ Detects Quarto projects (\_quarto.yml)
 - ✅ Detects generic git repos (.git)
 - ✅ Parallel detection for multiple projects
 - ✅ Graceful handling of invalid paths
@@ -438,18 +454,16 @@ npm run test:detector
 **Example Test:**
 
 ```javascript
-import { detectProjectType } from '../lib/project-detector-bridge.js';
-import { strict as assert } from 'assert';
+import { detectProjectType } from '../lib/project-detector-bridge.js'
+import { strict as assert } from 'assert'
 
 // Test R package detection
-const rmediation = await detectProjectType(
-  '/Users/dt/projects/r-packages/stable/rmediation'
-);
-assert.equal(rmediation, 'r-package');
+const rmediation = await detectProjectType('/Users/dt/projects/r-packages/stable/rmediation')
+assert.equal(rmediation, 'r-package')
 
 // Test error handling
-const invalid = await detectProjectType('/nonexistent');
-assert.equal(invalid, 'unknown');
+const invalid = await detectProjectType('/nonexistent')
+assert.equal(invalid, 'unknown')
 ```
 
 ---
@@ -461,6 +475,7 @@ assert.equal(invalid, 'unknown');
 **Issue:** Returns `'unknown'` for valid projects
 
 **Solution:** Check that the project has the expected marker files:
+
 ```bash
 # R package needs DESCRIPTION with Package: field
 grep "^Package:" DESCRIPTION
@@ -475,6 +490,7 @@ ls -la .git
 **Issue:** Permission errors in logs
 
 **Solution:** Ensure the Node.js process has read access to project directories:
+
 ```bash
 chmod +r /path/to/project
 ```
@@ -482,6 +498,7 @@ chmod +r /path/to/project
 **Issue:** `zsh: command not found: get_project_type`
 
 **Solution:** This is an internal error. The vendored scripts should source correctly. Verify files exist:
+
 ```bash
 ls -la cli/vendor/zsh-claude-workflow/
 # Should show: core.sh, project-detector.sh, README.md
@@ -494,6 +511,7 @@ ls -la cli/vendor/zsh-claude-workflow/
 ### v0.1.0 (2025-12-20)
 
 **Initial Release**
+
 - ✅ Vendored project-detector.sh and core.sh from zsh-claude-workflow v1.5.0
 - ✅ Implemented JavaScript bridge with 4 public functions
 - ✅ Support for 6 project types (R, Quarto, research, generic, etc.)
@@ -501,6 +519,7 @@ ls -la cli/vendor/zsh-claude-workflow/
 - ✅ Full API documentation
 
 **Future Enhancements:**
+
 - Additional project types (Python, Node.js, Rust)
 - Caching for repeated detections
 - Async event-based detection

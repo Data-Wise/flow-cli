@@ -1,4 +1,5 @@
 # Vendor Integration Quick Reference Card
+
 ## ZSH Workflow Integration Pattern
 
 **Version:** 1.0 | **Date:** 2025-12-23 | **Print-friendly:** Yes
@@ -248,7 +249,7 @@ export class ProjectDetectorGateway {
    */
   async detect(projectPath) {
     const typeString = await detectProjectType(projectPath)
-    return new ProjectType(typeString)  // Domain value object
+    return new ProjectType(typeString) // Domain value object
   }
 
   /**
@@ -300,13 +301,13 @@ test('ProjectDetectorGateway detects R packages', async () => {
 // Mock the gateway, not shell scripts
 class MockProjectDetector {
   async detect(path) {
-    return new ProjectType('r-package')  // Controlled output
+    return new ProjectType('r-package') // Controlled output
   }
 }
 
 test('ScanProjectsUseCase handles detection', async () => {
   const useCase = new ScanProjectsUseCase(
-    new MockProjectDetector()  // ← Inject mock
+    new MockProjectDetector() // ← Inject mock
   )
 
   const result = await useCase.execute({ basePath: '/test' })
@@ -464,13 +465,13 @@ const useCase = new ScanProjectsUseCase(new PureJSProjectDetector())
 
 ## 📚 Related Patterns
 
-| Pattern | Purpose | Example |
-|---------|---------|---------|
-| **Vendoring** | Avoid external dependencies | Copy scripts into `vendor/` |
-| **Adapter** | Wrap external code | `ProjectDetectorGateway` wraps shell scripts |
-| **Bridge** | Simple abstraction | `project-detector-bridge.js` |
-| **Gateway** | Clean Architecture adapter | Implements domain interface |
-| **Port** | Define contract | `IProjectDetector` interface |
+| Pattern       | Purpose                     | Example                                      |
+| ------------- | --------------------------- | -------------------------------------------- |
+| **Vendoring** | Avoid external dependencies | Copy scripts into `vendor/`                  |
+| **Adapter**   | Wrap external code          | `ProjectDetectorGateway` wraps shell scripts |
+| **Bridge**    | Simple abstraction          | `project-detector-bridge.js`                 |
+| **Gateway**   | Clean Architecture adapter  | Implements domain interface                  |
+| **Port**      | Define contract             | `IProjectDetector` interface                 |
 
 ---
 

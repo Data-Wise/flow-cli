@@ -141,21 +141,22 @@ describe('EndSessionUseCase', () => {
 
   describe('Validation', () => {
     test('throws error if no active session found', async () => {
-      await expect(useCase.execute())
-        .rejects.toThrow('No active session found to end')
+      await expect(useCase.execute()).rejects.toThrow('No active session found to end')
     })
 
     test('throws error if session ID not found', async () => {
-      await expect(useCase.execute({ sessionId: 'nonexistent' }))
-        .rejects.toThrow('Session not found: nonexistent')
+      await expect(useCase.execute({ sessionId: 'nonexistent' })).rejects.toThrow(
+        'Session not found: nonexistent'
+      )
     })
 
     test('throws error for invalid outcome', async () => {
       const session = new Session('session-1', 'rmediation')
       sessionRepo.sessions.push(session)
 
-      await expect(useCase.execute({ outcome: 'invalid' }))
-        .rejects.toThrow('Invalid outcome: invalid')
+      await expect(useCase.execute({ outcome: 'invalid' })).rejects.toThrow(
+        'Invalid outcome: invalid'
+      )
     })
 
     test('accepts all valid outcomes', async () => {
@@ -181,8 +182,9 @@ describe('EndSessionUseCase', () => {
       session.end('completed')
       sessionRepo.sessions.push(session)
 
-      await expect(useCase.execute({ sessionId: 'session-1' }))
-        .rejects.toThrow('Session is already ended')
+      await expect(useCase.execute({ sessionId: 'session-1' })).rejects.toThrow(
+        'Session is already ended'
+      )
     })
 
     test('calculates duration correctly for ended session', async () => {

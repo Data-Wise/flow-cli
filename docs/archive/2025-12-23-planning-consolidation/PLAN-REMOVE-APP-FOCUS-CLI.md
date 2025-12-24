@@ -12,6 +12,7 @@
 Remove the Electron app workspace (blocked by environment issues) and refocus the monorepo on CLI development. The CLI workspace is fully functional and provides all the core functionality needed for ZSH workflow management.
 
 **Rationale:**
+
 - App is blocked by Electron installation issue (7 troubleshooting attempts failed)
 - CLI workspace is 100% functional and fully tested
 - Removing app simplifies the monorepo significantly
@@ -23,6 +24,7 @@ Remove the Electron app workspace (blocked by environment issues) and refocus th
 ## What Will Be Removed
 
 ### 1. App Workspace Directory
+
 ```
 app/
 ├── src/
@@ -44,7 +46,9 @@ app/
 **Total:** 753 lines of code + documentation
 
 ### 2. App-Related Scripts
+
 From root `package.json`:
+
 - `dev:app`
 - `build:app`
 - `build:all` (references app)
@@ -52,7 +56,9 @@ From root `package.json`:
 - `clean` (references app/dist)
 
 ### 3. App Dependencies
+
 From root `node_modules/` (hoisted):
+
 - `electron` (28.x)
 - `electron-builder`
 - `jest` (if only used by app)
@@ -61,6 +67,7 @@ From root `node_modules/` (hoisted):
 **Total:** ~564 packages (if not used by anything else)
 
 ### 4. Documentation References
+
 - References to app workspace in root README.md
 - References to P5B/P5D in PROJECT-HUB.md
 - App workspace in .STATUS progress bars
@@ -71,6 +78,7 @@ From root `node_modules/` (hoisted):
 ## What Will Be Preserved
 
 ### 1. CLI Workspace (Fully Functional)
+
 ```
 cli/
 ├── adapters/
@@ -89,7 +97,9 @@ cli/
 **Status:** 100% functional, fully tested, zero dependencies
 
 ### 2. Documentation Archive
+
 All app work will be preserved in `docs/archive/`:
+
 - app/ directory → docs/archive/2025-12-20-app-removal/
 - APP-SETUP-STATUS-2025-12-20.md → archive
 - APP-CODE-REFERENCE.md → archive
@@ -97,6 +107,7 @@ All app work will be preserved in `docs/archive/`:
 **Reason:** 753 lines of production-ready code may be useful if we revisit desktop app with Tauri
 
 ### 3. All Other Documentation
+
 - MONOREPO-AUDIT-2025-12-20.md (still relevant for CLI workspace)
 - OPTION-A-IMPLEMENTATION-2025-12-20.md (workspace scripts still useful)
 - MONOREPO-COMMANDS-TUTORIAL.md (CLI commands still work)
@@ -108,16 +119,19 @@ All app work will be preserved in `docs/archive/`:
 ### Phase 1: Archive App Code (10 min)
 
 **Step 1.1: Create Archive Directory**
+
 ```bash
 mkdir -p docs/archive/2025-12-20-app-removal
 ```
 
 **Step 1.2: Move App Directory**
+
 ```bash
 git mv app docs/archive/2025-12-20-app-removal/
 ```
 
 **Step 1.3: Move App Documentation**
+
 ```bash
 git mv APP-SETUP-STATUS-2025-12-20.md docs/archive/2025-12-20-app-removal/
 # APP-CODE-REFERENCE.md is inside app/, already moved
@@ -125,6 +139,7 @@ git mv APP-SETUP-STATUS-2025-12-20.md docs/archive/2025-12-20-app-removal/
 
 **Step 1.4: Create Archive README**
 Create `docs/archive/2025-12-20-app-removal/README.md`:
+
 ```markdown
 # Electron App - Archived 2025-12-20
 
@@ -167,9 +182,7 @@ Remove app workspace and app-related scripts:
   "version": "0.1.0",
   "description": "ADHD-optimized ZSH workflow CLI tools",
   "private": true,
-  "workspaces": [
-    "cli"
-  ],
+  "workspaces": ["cli"],
   "scripts": {
     "setup": "./scripts/setup.sh",
     "sync": "./scripts/sync-zsh.sh",
@@ -178,14 +191,7 @@ Remove app workspace and app-related scripts:
     "clean": "rm -rf cli/node_modules node_modules",
     "reset": "npm run clean && npm install"
   },
-  "keywords": [
-    "zsh",
-    "workflow",
-    "adhd",
-    "productivity",
-    "shell",
-    "cli"
-  ],
+  "keywords": ["zsh", "workflow", "adhd", "productivity", "shell", "cli"],
   "author": "Your Name",
   "license": "MIT",
   "repository": {
@@ -200,6 +206,7 @@ Remove app workspace and app-related scripts:
 ```
 
 **Changes:**
+
 - Rename: `zsh-workflow-manager-monorepo` → `zsh-workflow-manager-cli`
 - Description: Focus on CLI
 - Workspaces: Remove `"app"`
@@ -215,6 +222,7 @@ npm uninstall electron electron-builder jest electron-store
 ```
 
 **Note:** Only remove if not used elsewhere. Check first:
+
 ```bash
 npm list electron electron-builder jest electron-store
 ```
@@ -229,6 +237,7 @@ npm list electron electron-builder jest electron-store
 **New:** Focus on CLI-only
 
 Key changes:
+
 - Remove app workspace description
 - Remove P5 desktop app phases
 - Update "Quick Start" to CLI commands only
@@ -238,17 +247,20 @@ Key changes:
 **Step 3.2: Update PROJECT-HUB.md**
 
 Update phase descriptions:
+
 - ~~P5A: Project Reorganization~~ → ARCHIVED (app-focused)
 - ~~P5B: Core UI Components~~ → ARCHIVED (app-focused)
 - ~~P5C: CLI Integration~~ → COMPLETE (CLI already integrated)
 - ~~P5D: Alpha Release~~ → ARCHIVED (app-focused)
 
 Add new phase:
+
 - **P6: CLI Enhancement** → Active (focus on CLI features)
 
 **Step 3.3: Update .STATUS**
 
 Remove app progress bars:
+
 ```
 Phase P5A: Project Reorganization → ARCHIVED
 Phase P5B: Core UI Components → ARCHIVED
@@ -257,6 +269,7 @@ Phase P5D: Alpha Release → ARCHIVED
 ```
 
 Add CLI-focused next actions:
+
 ```
 📋 NEXT ACTIONS
 
@@ -276,6 +289,7 @@ B) **Build Web Dashboard** [est. 2-3 hours]
 **Step 3.4: Update CLAUDE.md**
 
 Remove app workspace references:
+
 - Remove app/ from structure
 - Remove P5 phase descriptions
 - Update to single-workspace project
@@ -284,6 +298,7 @@ Remove app workspace references:
 **Step 3.5: Update Monorepo Audit Documents**
 
 Add note to top of each:
+
 ```markdown
 **UPDATE 2025-12-20:** App workspace has been removed. This audit
 remains relevant for the CLI workspace structure and package management.
@@ -309,6 +324,7 @@ tree -L 2 -I 'node_modules|.git'
 ```
 
 Expected structure:
+
 ```
 .
 ├── cli/
@@ -337,6 +353,7 @@ npm run test
 ```
 
 Expected output:
+
 ```
 ═══════════════════════════════════════════════
   ZSH Workflow CLI - Status Tests
@@ -361,6 +378,7 @@ git status
 ```
 
 Expected:
+
 - Renamed: app/ → docs/archive/2025-12-20-app-removal/app/
 - Modified: package.json, README.md, PROJECT-HUB.md, .STATUS, CLAUDE.md
 - Deleted: (possibly some node_modules if uninstalled)
@@ -396,12 +414,14 @@ Files archived:
 ### Simplified Structure
 
 **Before (Dual Workspace):**
+
 - 2 workspaces (app, cli)
 - 564 packages (mostly Electron)
 - Complex build orchestration
 - Blocked development path
 
 **After (CLI-Only):**
+
 - 1 workspace (cli)
 - 0 dependencies (vanilla Node.js)
 - Simple, focused development
@@ -409,24 +429,26 @@ Files archived:
 
 ### Reduced Complexity
 
-| Metric | Before | After | Change |
-|--------|--------|-------|--------|
-| Workspaces | 2 | 1 | -50% |
-| Dependencies | 564 | 0 | -100% |
-| node_modules size | ~200MB | ~0MB | -100% |
-| npm scripts | 13 | 6 | -54% |
-| Blocked features | 1 (app) | 0 | ✅ |
-| Working features | 1 (CLI) | 1 (CLI) | ✅ |
+| Metric            | Before  | After   | Change |
+| ----------------- | ------- | ------- | ------ |
+| Workspaces        | 2       | 1       | -50%   |
+| Dependencies      | 564     | 0       | -100%  |
+| node_modules size | ~200MB  | ~0MB    | -100%  |
+| npm scripts       | 13      | 6       | -54%   |
+| Blocked features  | 1 (app) | 0       | ✅     |
+| Working features  | 1 (CLI) | 1 (CLI) | ✅     |
 
 ### Clearer Focus
 
 **Before:**
+
 - "Should we fix Electron or move on?"
 - Two development paths (app vs CLI)
 - Split documentation
 - Uncertain roadmap
 
 **After:**
+
 - Clear focus: CLI development
 - One development path
 - Unified documentation
@@ -439,6 +461,7 @@ Files archived:
 ### Option 1: Tauri (Recommended)
 
 **Pros:**
+
 - Modern Rust-based framework
 - Smaller binaries (~600KB vs 80MB)
 - Better security model
@@ -446,6 +469,7 @@ Files archived:
 - No npm package issues
 
 **Cons:**
+
 - Requires Rust installation
 - Different API from Electron
 - Smaller ecosystem
@@ -455,12 +479,14 @@ Files archived:
 ### Option 2: Web-Based Dashboard
 
 **Pros:**
+
 - Reuse existing HTML/CSS/JS (renderer code)
 - No installation needed
 - Works everywhere (browser)
 - Simple Python/Node server
 
 **Cons:**
+
 - Not a "desktop app"
 - Limited system access
 - Requires server running
@@ -470,10 +496,12 @@ Files archived:
 ### Option 3: Manual Electron Download
 
 **Pros:**
+
 - Bypasses npm package issues
 - Uses existing code as-is
 
 **Cons:**
+
 - Manual setup required
 - Not reproducible
 - Still might not work
@@ -487,6 +515,7 @@ Files archived:
 ### Immediate (Week 1)
 
 **P6A: Enhanced Status Command**
+
 - Real-time worklog integration
 - Recent command history
 - Git status display
@@ -497,6 +526,7 @@ Files archived:
 ### Short-Term (Week 2-3)
 
 **P6B: Interactive CLI Dashboard**
+
 - TUI (Text User Interface) with blessed/ink
 - Live-updating status
 - Keyboard shortcuts
@@ -507,6 +537,7 @@ Files archived:
 ### Medium-Term (Month 1)
 
 **P6C: Advanced Workflow Features**
+
 - Session templates
 - Custom workflows
 - Workflow history
@@ -517,6 +548,7 @@ Files archived:
 ### Long-Term (Month 2+)
 
 **P6D: Web Dashboard**
+
 - Reuse renderer HTML/CSS
 - REST API for CLI data
 - WebSocket for live updates
@@ -549,6 +581,7 @@ Files archived:
 ### Validation Checklist
 
 Before proceeding, verify:
+
 - [ ] CLI tests pass (`npm run test`)
 - [ ] All app code is valuable (might reuse)
 - [ ] Archive location is appropriate
@@ -560,6 +593,7 @@ Before proceeding, verify:
 ## Success Criteria
 
 **Project is simplified if:**
+
 - ✅ Only one workspace remains (cli/)
 - ✅ All npm scripts work
 - ✅ CLI tests pass
@@ -568,6 +602,7 @@ Before proceeding, verify:
 - ✅ Archive is complete
 
 **Focus is clear if:**
+
 - ✅ README describes CLI-only project
 - ✅ Next actions are CLI-focused
 - ✅ No references to blocked app development
@@ -597,13 +632,13 @@ npm run test:app
 
 ## Timeline
 
-| Phase | Tasks | Time | Can Pause? |
-|-------|-------|------|------------|
-| 1. Archive | Move files, create README | 10 min | ✅ Yes |
-| 2. Package Config | Update package.json, uninstall deps | 5 min | ✅ Yes |
-| 3. Documentation | Update 5 docs | 15 min | ✅ Yes |
-| 4. Clean Up | Verify structure, test CLI | 5 min | ❌ No |
-| 5. Git Commit | Stage, review, commit | 5 min | ❌ No |
+| Phase             | Tasks                               | Time   | Can Pause? |
+| ----------------- | ----------------------------------- | ------ | ---------- |
+| 1. Archive        | Move files, create README           | 10 min | ✅ Yes     |
+| 2. Package Config | Update package.json, uninstall deps | 5 min  | ✅ Yes     |
+| 3. Documentation  | Update 5 docs                       | 15 min | ✅ Yes     |
+| 4. Clean Up       | Verify structure, test CLI          | 5 min  | ❌ No      |
+| 5. Git Commit     | Stage, review, commit               | 5 min  | ❌ No      |
 
 **Total:** 30-45 minutes
 **Critical Path:** Phases 4-5 (should complete together)

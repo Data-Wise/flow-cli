@@ -7,6 +7,7 @@
 ## 🚀 QUICK START
 
 **Most important:**
+
 ```bash
 here           # Where am I? Full context
 next           # What's next? Quick view
@@ -16,6 +17,7 @@ morning        # Daily start routine
 ```
 
 **When stuck:**
+
 ```bash
 where          # Same as here
 recent         # What was I working on?
@@ -29,7 +31,9 @@ critical       # What needs attention?
 ### CATEGORY 1: Context Awareness
 
 #### here / where / context
+
 **Show current context with visual clarity**
+
 ```bash
 $ here
 
@@ -52,6 +56,7 @@ Version: 0.1.0
 ```
 
 **When to use:**
+
 - After interruption
 - Switching projects
 - "Where was I?"
@@ -60,7 +65,9 @@ Version: 0.1.0
 ---
 
 #### next / nextstep / todo
+
 **Show just the next action from .STATUS**
+
 ```bash
 $ next
 
@@ -72,6 +79,7 @@ Implement fit_mediation() function
 ```
 
 **When to use:**
+
 - Quick "what's next?"
 - Don't want to read full status
 - After completing task
@@ -79,7 +87,9 @@ Implement fit_mediation() function
 ---
 
 #### prog
+
 **Show just progress bars**
+
 ```bash
 $ prog
 
@@ -94,7 +104,9 @@ $ prog
 ### CATEGORY 2: Session Management
 
 #### start / startwork
+
 **Start work session on a project**
+
 ```bash
 $ start medfit
 
@@ -104,6 +116,7 @@ $ start medfit
 ```
 
 **Available projects:**
+
 - medfit, probmed, medverse
 - datawise, planning
 - emacs
@@ -113,7 +126,9 @@ $ start medfit
 ---
 
 #### done / endwork
+
 **End work session**
+
 ```bash
 $ done
 
@@ -122,6 +137,7 @@ $ done
 ```
 
 **Use when:**
+
 - Finishing work session
 - Need to log what you did
 - Update progress
@@ -129,7 +145,9 @@ $ done
 ---
 
 #### pomo / timer / worktimer
+
 **Pomodoro-style work timer**
+
 ```bash
 $ pomo 25              # 25 minutes
 $ pomo 50 "coding"     # 50 min labeled
@@ -140,6 +158,7 @@ Timer PID: 12345
 ```
 
 **After timer:**
+
 - Voice notification: "Work session complete"
 - Terminal message
 - Reminder to update status
@@ -149,7 +168,9 @@ Timer PID: 12345
 ### CATEGORY 3: R Package Workflows
 
 #### rcycle / rfull
+
 **Complete R development cycle**
+
 ```bash
 $ rcycle
 
@@ -176,7 +197,9 @@ $ rcycle
 ---
 
 #### rquick
+
 **Quick check (load + test only)**
+
 ```bash
 $ rquick
 
@@ -188,7 +211,9 @@ Testing... ✅
 ---
 
 #### rpkg
+
 **Smart jump to R package**
+
 ```bash
 $ rpkg medfit
 
@@ -208,7 +233,9 @@ Title: Mediation Model Fitting
 ---
 
 #### rpkgs / rpkgstatus
+
 **Status of all R packages**
+
 ```bash
 $ rpkgs
 
@@ -226,7 +253,9 @@ medsim (0.1.0) - 🟡
 ### CATEGORY 4: Teaching
 
 #### teach / teaching / class
+
 **Jump to teaching + show what's due**
+
 ```bash
 $ teach
 
@@ -242,7 +271,9 @@ Recent Canvas updates:
 ---
 
 #### grade
+
 **Start grading session**
+
 ```bash
 $ grade
 
@@ -260,7 +291,9 @@ $ grade
 ### CATEGORY 5: Focus & Distraction
 
 #### focus / concentrate / deep
+
 **Minimize distractions**
+
 ```bash
 $ focus 90        # 90-minute focus session
 
@@ -273,6 +306,7 @@ $ focus 90        # 90-minute focus session
 ```
 
 **Actions:**
+
 - Turns off macOS notifications
 - Quits Slack, Mail, Messages
 - Starts timer if minutes provided
@@ -281,7 +315,9 @@ $ focus 90        # 90-minute focus session
 ---
 
 #### unfocus / break
+
 **Restore distractions**
+
 ```bash
 $ unfocus
 
@@ -292,7 +328,9 @@ $ unfocus
 ---
 
 #### break5 / break10
+
 **Quick break timer**
+
 ```bash
 $ break5          # 5-minute break
 $ break10         # 10-minute break
@@ -309,7 +347,9 @@ Started: 14:30
 ### CATEGORY 6: Git Workflows
 
 #### smartgit / gstat
+
 **Enhanced git status**
+
 ```bash
 $ smartgit
 
@@ -332,7 +372,9 @@ M  tests/test-fit.R
 ---
 
 #### qcommit / qc
+
 **Quick commit (add all + commit)**
+
 ```bash
 $ qcommit "Implement fit_mediation"
 
@@ -347,7 +389,9 @@ $ qcommit "Implement fit_mediation"
 ---
 
 #### qpush / qp
+
 **Quick commit + push**
+
 ```bash
 $ qpush "Fix tests"
 
@@ -362,7 +406,9 @@ $ qpush "Fix tests"
 ### CATEGORY 7: Search & Find
 
 #### findproject / fp
+
 **Find files across all projects**
+
 ```bash
 $ fp fit_mediation
 
@@ -375,7 +421,9 @@ $ fp fit_mediation
 ---
 
 #### recent / today / thisweek
+
 **Recently modified files**
+
 ```bash
 $ today          # Files modified today
 $ recent 2       # Last 2 days
@@ -394,7 +442,9 @@ $ thisweek       # Last 7 days
 ### CATEGORY 8: Status Management
 
 #### critical / blocked / urgent
+
 **Show all 🔴 items across projects**
+
 ```bash
 $ critical
 
@@ -414,7 +464,9 @@ $ critical
 ---
 
 #### active
+
 **Show all 🟢 active projects**
+
 ```bash
 $ active
 
@@ -430,7 +482,9 @@ $ active
 ### BONUS: Original Ideas
 
 #### morning
+
 **Daily start routine**
+
 ```bash
 $ morning
 
@@ -442,7 +496,9 @@ $ morning
 ---
 
 #### now
+
 **Edit current project status in Spacemacs**
+
 ```bash
 $ now
 
@@ -452,7 +508,9 @@ $ now
 ---
 
 #### goto
+
 **Jump to project + show status**
+
 ```bash
 $ goto medfit
 
@@ -465,6 +523,7 @@ $ goto medfit
 ## 💡 EXAMPLE WORKFLOWS
 
 ### Morning Routine
+
 ```bash
 $ morning           # What's happening?
 $ critical          # What's urgent?
@@ -472,6 +531,7 @@ $ start medfit      # Begin work
 ```
 
 ### Deep Work Session
+
 ```bash
 $ @medfit
 $ focus 90          # 90-min focus mode
@@ -480,6 +540,7 @@ $ done              # Update status
 ```
 
 ### R Package Development
+
 ```bash
 $ rpkg medfit       # Smart jump
 $ rcycle            # Full dev cycle
@@ -488,6 +549,7 @@ $ done
 ```
 
 ### After Interruption
+
 ```bash
 $ where             # Where am I?
 $ next              # What was I doing?
@@ -495,6 +557,7 @@ $ recent            # What files was I editing?
 ```
 
 ### Priority Check
+
 ```bash
 $ critical          # All 🔴 items
 $ active            # All 🟢 projects
@@ -502,12 +565,14 @@ $ rpkgs             # R package status
 ```
 
 ### Teaching Day
+
 ```bash
 $ teach             # Jump + show what's due
 $ grade             # Start grading session
 ```
 
 ### End of Day
+
 ```bash
 $ critical          # Check blockers
 $ done              # Update all statuses
@@ -535,17 +600,17 @@ $ unfocus           # Restore notifications
 
 ## 📊 FUNCTION COUNT
 
-| Category | Functions | Most Used |
-|----------|-----------|-----------|
-| Context | 3 | here, next |
-| Session | 3 | start, done, pomo |
-| R Packages | 4 | rcycle, rpkg |
-| Teaching | 2 | teach, grade |
-| Focus | 3 | focus, unfocus |
-| Git | 3 | qcommit, qpush |
-| Search | 2 | recent, fp |
-| Status | 2 | critical, active |
-| **TOTAL** | **21** | |
+| Category   | Functions | Most Used         |
+| ---------- | --------- | ----------------- |
+| Context    | 3         | here, next        |
+| Session    | 3         | start, done, pomo |
+| R Packages | 4         | rcycle, rpkg      |
+| Teaching   | 2         | teach, grade      |
+| Focus      | 3         | focus, unfocus    |
+| Git        | 3         | qcommit, qpush    |
+| Search     | 2         | recent, fp        |
+| Status     | 2         | critical, active  |
+| **TOTAL**  | **21**    |                   |
 
 ---
 

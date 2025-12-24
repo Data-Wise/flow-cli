@@ -77,8 +77,8 @@ describe('ASCII Visualizations - Integration Tests', () => {
 
       // 5 completed sessions with varying durations
       for (let i = 0; i < 5; i++) {
-        const durationMinutes = 25 + (i * 10) // 25, 35, 45, 55, 65
-        const startTime = new Date(now.getTime() - (durationMinutes * 60000))
+        const durationMinutes = 25 + i * 10 // 25, 35, 45, 55, 65
+        const startTime = new Date(now.getTime() - durationMinutes * 60000)
 
         const session = new Session(`session-${i}`, 'flow-cli', {
           task: `Task ${i + 1}`,
@@ -115,7 +115,7 @@ describe('ASCII Visualizations - Integration Tests', () => {
 
       // 3 completed sessions
       for (let i = 0; i < 3; i++) {
-        const startTime = new Date(now.getTime() - (30 * 60000))
+        const startTime = new Date(now.getTime() - 30 * 60000)
         const session = new Session(`completed-${i}`, 'project-a', {
           task: `Completed task ${i + 1}`,
           startTime
@@ -126,7 +126,7 @@ describe('ASCII Visualizations - Integration Tests', () => {
 
       // 2 cancelled sessions
       for (let i = 0; i < 2; i++) {
-        const startTime = new Date(now.getTime() - (15 * 60000))
+        const startTime = new Date(now.getTime() - 15 * 60000)
         const session = new Session(`cancelled-${i}`, 'project-b', {
           task: `Cancelled task ${i + 1}`,
           startTime
@@ -160,7 +160,7 @@ describe('ASCII Visualizations - Integration Tests', () => {
 
       // 2 normal sessions (under flow threshold)
       for (let i = 0; i < 2; i++) {
-        const startTime = new Date(now.getTime() - (10 * 60000))
+        const startTime = new Date(now.getTime() - 10 * 60000)
         const session = new Session(`normal-${i}`, 'project-a', { startTime })
         session.end('completed')
         sessions.push(session)
@@ -168,7 +168,7 @@ describe('ASCII Visualizations - Integration Tests', () => {
 
       // 3 flow state sessions (>= 15 minutes)
       for (let i = 0; i < 3; i++) {
-        const startTime = new Date(now.getTime() - (20 * 60000))
+        const startTime = new Date(now.getTime() - 20 * 60000)
         const session = new Session(`flow-${i}`, 'project-b', { startTime })
         session.end('completed')
         sessions.push(session)
@@ -203,7 +203,7 @@ describe('ASCII Visualizations - Integration Tests', () => {
         const sessionDate = new Date(now)
         sessionDate.setDate(sessionDate.getDate() - day)
 
-        const startTime = new Date(sessionDate.getTime() - (durationMinutes * 60000))
+        const startTime = new Date(sessionDate.getTime() - durationMinutes * 60000)
         const session = new Session(`session-day-${day}`, 'flow-cli', { startTime })
         session.end('completed')
         sessions.push(session)
@@ -220,7 +220,9 @@ describe('ASCII Visualizations - Integration Tests', () => {
       const output = consoleOutput.join('\n')
 
       // Should show increasing sparkline pattern
-      const trendLine = consoleOutput.find(line => line.includes('Trend:') && line.match(/[▁▂▃▄▅▆▇█]/))
+      const trendLine = consoleOutput.find(
+        line => line.includes('Trend:') && line.match(/[▁▂▃▄▅▆▇█]/)
+      )
       expect(trendLine).toBeTruthy()
 
       // Verify sparkline shows upward trend (later characters should be higher)
@@ -231,7 +233,7 @@ describe('ASCII Visualizations - Integration Tests', () => {
     test('long work session shows multiple duration blocks', async () => {
       const now = new Date()
       const durationMinutes = 180 // 3 hours
-      const startTime = new Date(now.getTime() - (durationMinutes * 60000))
+      const startTime = new Date(now.getTime() - durationMinutes * 60000)
 
       const sessions = [
         new Session('long-session', 'marathon-project', {
@@ -287,7 +289,7 @@ describe('ASCII Visualizations - Integration Tests', () => {
 
     test('handles single session correctly', async () => {
       const now = new Date()
-      const startTime = new Date(now.getTime() - (30 * 60000))
+      const startTime = new Date(now.getTime() - 30 * 60000)
       const session = new Session('single', 'solo-project', { startTime })
       session.end('completed')
 
@@ -318,7 +320,7 @@ describe('ASCII Visualizations - Integration Tests', () => {
 
       // 5 sessions, all 30 minutes
       for (let i = 0; i < 5; i++) {
-        const startTime = new Date(now.getTime() - (30 * 60000))
+        const startTime = new Date(now.getTime() - 30 * 60000)
         const session = new Session(`session-${i}`, 'project', { startTime })
         session.end('completed')
         sessions.push(session)
@@ -353,7 +355,7 @@ describe('ASCII Visualizations - Integration Tests', () => {
 
       // 3 very short sessions
       for (let i = 0; i < 3; i++) {
-        const startTime = new Date(now.getTime() - (5 * 60000))
+        const startTime = new Date(now.getTime() - 5 * 60000)
         const session = new Session(`short-${i}`, 'quick-tasks', { startTime })
         session.end('completed')
         sessions.push(session)
@@ -385,7 +387,7 @@ describe('ASCII Visualizations - Integration Tests', () => {
         description: 'ADHD workflow CLI'
       })
       proj1.recordSession(120, true) // 2 hours, completed
-      proj1.recordSession(90, true)  // 1.5 hours, completed
+      proj1.recordSession(90, true) // 1.5 hours, completed
       projects.push(proj1)
 
       const proj2 = new Project('p2', 'zsh-config', '/path/to/zsh', {
@@ -419,8 +421,8 @@ describe('ASCII Visualizations - Integration Tests', () => {
   describe('Verbose vs Normal Mode Differences', () => {
     test('verbose mode shows more visualizations than normal mode', async () => {
       const now = new Date()
-      const startTime1 = new Date(now.getTime() - (30 * 60000))
-      const startTime2 = new Date(now.getTime() - (40 * 60000))
+      const startTime1 = new Date(now.getTime() - 30 * 60000)
+      const startTime2 = new Date(now.getTime() - 40 * 60000)
 
       const sessions = [
         new Session('s1', 'project-a', { startTime: startTime1 }),

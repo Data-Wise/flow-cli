@@ -1,4 +1,5 @@
 # Alias Refactoring: Three Plans
+
 **Date:** 2025-12-14
 **Key Insight:** User likes existing `proj-*` pattern (e.g., `proj-status`, `proj-info`)
 **Goal:** Extend that pattern across all aliases
@@ -16,6 +17,7 @@ proj-type        # Project type detection
 ```
 
 **Why this works:**
+
 - ✅ Domain first (proj-)
 - ✅ Dash separator (easy to type)
 - ✅ Tab completion shows all proj- commands
@@ -27,11 +29,11 @@ proj-type        # Project type detection
 
 ### Quick Comparison
 
-| Plan | Pattern | Example | Best For |
-|------|---------|---------|----------|
-| **A** | `domain-action` | `r-test`, `quarto-preview` | Consistency, tab completion |
-| **B** | `domain-short` | `r-test`, `q-preview` | Balance of clarity & brevity |
-| **C** | `action-domain` | `test-r`, `preview-quarto` | Natural reading |
+| Plan  | Pattern         | Example                    | Best For                     |
+| ----- | --------------- | -------------------------- | ---------------------------- |
+| **A** | `domain-action` | `r-test`, `quarto-preview` | Consistency, tab completion  |
+| **B** | `domain-short`  | `r-test`, `q-preview`      | Balance of clarity & brevity |
+| **C** | `action-domain` | `test-r`, `preview-quarto` | Natural reading              |
 
 ---
 
@@ -40,11 +42,13 @@ proj-type        # Project type detection
 **Pattern:** `[full-domain]-[action]`
 
 ### Philosophy
+
 - Every alias starts with full domain name
 - Maximum clarity, zero ambiguity
 - Best tab completion (type domain, see all options)
 
 ### Examples
+
 ```bash
 # R Package Development
 r-load, r-test, r-doc, r-check, r-build
@@ -74,6 +78,7 @@ view-file, view-desc, view-news
 ### Full Alias Set (Plan A)
 
 #### R Package Development (25 aliases)
+
 ```bash
 # Core workflow
 alias r-load='Rscript -e "devtools::load_all()"'
@@ -116,6 +121,7 @@ alias r-spell='Rscript -e "spelling::spell_check_package()"'
 ```
 
 #### Quarto (6 aliases)
+
 ```bash
 alias quarto-preview='quarto preview'
 alias quarto-render='quarto render'
@@ -126,6 +132,7 @@ alias quarto-work='qwork'
 ```
 
 #### Claude Code (15 aliases)
+
 ```bash
 # Core
 alias claude-start='claude'
@@ -154,6 +161,7 @@ alias claude-show='claude-show'
 ```
 
 #### Gemini (6 aliases)
+
 ```bash
 alias gemini-start='gemini'
 alias gemini-yolo='gemini --yolo'
@@ -164,6 +172,7 @@ alias gemini-mcp='gemini mcp'
 ```
 
 #### Git (8 aliases)
+
 ```bash
 alias git-status='git status -sb'
 alias git-log='git log --oneline --graph --decorate --all'
@@ -176,6 +185,7 @@ alias git-push='git push'
 ```
 
 #### Project Management (15 aliases)
+
 ```bash
 # Project status
 alias proj-status='~/projects/dev-tools/apple-notes-sync/scanner.sh'
@@ -201,6 +211,7 @@ alias notes-export='nsyncexport'
 ```
 
 #### File Viewing (10 aliases)
+
 ```bash
 alias view-file='bat'
 alias view-desc='bat DESCRIPTION'
@@ -215,6 +226,7 @@ alias view-toml='bat --language=toml'
 ```
 
 #### Modern CLI (3 aliases)
+
 ```bash
 alias cat='bat'
 alias find='fd'
@@ -222,12 +234,14 @@ alias grep='rg'
 ```
 
 #### Directories (2 aliases)
+
 ```bash
 alias dir-quarto='cd $QUARTO_DIR'
 alias dir-rpkg='cd $R_PACKAGES_DIR'
 ```
 
 #### Typo Tolerance (20+ aliases)
+
 ```bash
 # Claude typos
 alias claue='claude'
@@ -265,11 +279,13 @@ alias pdw='pwd'
 **Pattern:** `[short-domain]-[action]`
 
 ### Philosophy
+
 - Domain abbreviated to 1-3 chars
 - Balance between clarity and brevity
 - Still groupable by domain
 
 ### Examples
+
 ```bash
 # R Package Development
 r-load, r-test, r-doc, r-check, r-build
@@ -296,6 +312,7 @@ n-sync, n-view, n-clip
 ### Full Alias Set (Plan B)
 
 #### R Package Development (25 aliases)
+
 ```bash
 # Same as Plan A, keep r- prefix
 alias r-load='Rscript -e "devtools::load_all()"'
@@ -307,6 +324,7 @@ alias r-build='Rscript -e "devtools::build()"'
 ```
 
 #### Quarto (6 aliases)
+
 ```bash
 alias q-preview='quarto preview'
 alias q-render='quarto render'
@@ -317,6 +335,7 @@ alias q-work='qwork'
 ```
 
 #### Claude Code (15 aliases)
+
 ```bash
 alias c-start='claude'
 alias c-continue='claude -c'
@@ -344,6 +363,7 @@ alias c-show='claude-show'
 ```
 
 #### Gemini (6 aliases)
+
 ```bash
 alias g-start='gemini'
 alias g-yolo='gemini --yolo'
@@ -354,6 +374,7 @@ alias g-mcp='gemini mcp'
 ```
 
 #### Git (8 aliases)
+
 ```bash
 # Keep 'git-' (already short, familiar)
 alias git-status='git status -sb'
@@ -367,6 +388,7 @@ alias git-push='git push'
 ```
 
 #### Project Management (15 aliases)
+
 ```bash
 # Keep 'proj-' (already perfect)
 alias proj-status='~/projects/dev-tools/apple-notes-sync/scanner.sh'
@@ -390,6 +412,7 @@ alias n-export='nsyncexport'
 ```
 
 #### File Viewing (10 aliases)
+
 ```bash
 alias v-file='bat'
 alias v-desc='bat DESCRIPTION'
@@ -404,6 +427,7 @@ alias v-toml='bat --language=toml'
 ```
 
 #### Modern CLI (3 aliases)
+
 ```bash
 alias cat='bat'
 alias find='fd'
@@ -411,12 +435,14 @@ alias grep='rg'
 ```
 
 #### Directories (2 aliases)
+
 ```bash
 alias dir-q='cd $QUARTO_DIR'
 alias dir-r='cd $R_PACKAGES_DIR'
 ```
 
 #### Typo Tolerance (20+ aliases)
+
 ```bash
 # Same as Plan A, map to new names
 alias rlaod='r-load'
@@ -433,11 +459,13 @@ alias rtets='r-test'
 **Pattern:** `[action]-[domain]`
 
 ### Philosophy
+
 - Action word comes first
 - Reads like natural English
 - "test the R package" = test-r
 
 ### Examples
+
 ```bash
 # R Package Development
 load-r, test-r, doc-r, check-r, build-r
@@ -464,6 +492,7 @@ sync-notes, view-notes, clip-notes
 ### Full Alias Set (Plan C)
 
 #### R Package Development (25 aliases)
+
 ```bash
 # Core workflow (action-r pattern)
 alias load-r='Rscript -e "devtools::load_all()"'
@@ -506,6 +535,7 @@ alias spell-r='Rscript -e "spelling::spell_check_package()"'
 ```
 
 #### Quarto (6 aliases)
+
 ```bash
 alias preview-quarto='quarto preview'
 alias render-quarto='quarto render'
@@ -516,6 +546,7 @@ alias work-quarto='qwork'
 ```
 
 #### Claude Code (15 aliases)
+
 ```bash
 # Core
 alias start-claude='claude'
@@ -544,6 +575,7 @@ alias show-claude='claude-show'
 ```
 
 #### Gemini (6 aliases)
+
 ```bash
 alias start-gemini='gemini'
 alias yolo-gemini='gemini --yolo'
@@ -554,6 +586,7 @@ alias mcp-gemini='gemini mcp'
 ```
 
 #### Git (8 aliases)
+
 ```bash
 alias status-git='git status -sb'
 alias log-git='git log --oneline --graph --decorate --all'
@@ -566,6 +599,7 @@ alias push-git='git push'
 ```
 
 #### Project Management (15 aliases)
+
 ```bash
 # Keep existing proj-* pattern (you like it!)
 alias proj-status='~/projects/dev-tools/apple-notes-sync/scanner.sh'
@@ -589,6 +623,7 @@ alias export-notes='nsyncexport'
 ```
 
 #### File Viewing (10 aliases)
+
 ```bash
 alias view='bat'
 alias view-desc='bat DESCRIPTION'
@@ -603,6 +638,7 @@ alias view-toml='bat --language=toml'
 ```
 
 #### Modern CLI (3 aliases)
+
 ```bash
 alias cat='bat'
 alias find='fd'
@@ -610,12 +646,14 @@ alias grep='rg'
 ```
 
 #### Directories (2 aliases)
+
 ```bash
 alias goto-quarto='cd $QUARTO_DIR'
 alias goto-rpkg='cd $R_PACKAGES_DIR'
 ```
 
 #### Typo Tolerance (20+ aliases)
+
 ```bash
 # Map to new names
 alias rlaod='load-r'
@@ -633,6 +671,7 @@ alias rdco='doc-r'
 ### Tab Completion Behavior
 
 **Plan A (domain-action):**
+
 ```bash
 r-<TAB>
   r-load, r-test, r-doc, r-check, r-build, r-pkg-info, ...
@@ -643,9 +682,11 @@ quarto-<TAB>
 claude-<TAB>
   claude-start, claude-continue, claude-plan, ...
 ```
+
 ✅ Best for: "I want to work with R, show me all R commands"
 
 **Plan B (short-domain-action):**
+
 ```bash
 r-<TAB>
   r-load, r-test, r-doc, r-check, r-build, ...
@@ -656,9 +697,11 @@ q-<TAB>
 c-<TAB>
   c-start, c-continue, c-plan, ...
 ```
+
 ✅ Best for: Faster typing, still grouped
 
 **Plan C (action-domain):**
+
 ```bash
 test-<TAB>
   test-r
@@ -669,6 +712,7 @@ preview-<TAB>
 check-<TAB>
   check-r, check-quarto, check-cran-r, ...
 ```
+
 ✅ Best for: "I want to test something, show me all test commands"
 
 ---
@@ -678,6 +722,7 @@ check-<TAB>
 ### Plan A: Full Domain Names
 
 **Pros:**
+
 - ✅ Maximum clarity (`quarto-preview` is 100% clear)
 - ✅ Zero ambiguity
 - ✅ Best tab completion by domain
@@ -685,6 +730,7 @@ check-<TAB>
 - ✅ Self-documenting
 
 **Cons:**
+
 - ⚠️ Longer to type (`quarto-` is 7 chars)
 - ⚠️ `claude-` and `gemini-` are long prefixes
 
@@ -695,6 +741,7 @@ check-<TAB>
 ### Plan B: Short Domain Names ⭐
 
 **Pros:**
+
 - ✅ Balanced clarity and brevity
 - ✅ Still groupable by domain
 - ✅ Faster typing (`q-` vs `quarto-`)
@@ -702,6 +749,7 @@ check-<TAB>
 - ✅ Common pattern (npm has `npm-`, git has `git-`)
 
 **Cons:**
+
 - ⚠️ Must remember abbreviations (q=quarto, c=claude, g=gemini)
 - ⚠️ Potential conflicts (c- could be claude or code or cd)
 
@@ -712,12 +760,14 @@ check-<TAB>
 ### Plan C: Action-Domain
 
 **Pros:**
+
 - ✅ Reads most naturally (`test-r` = "test R")
 - ✅ Action-oriented workflow
 - ✅ Can find all "test" commands easily
 - ✅ Familiar to English speakers
 
 **Cons:**
+
 - ⚠️ Less grouping by domain
 - ⚠️ Tab completion by action, not domain
 - ⚠️ Doesn't match existing `proj-` pattern you like
@@ -731,6 +781,7 @@ check-<TAB>
 ### Why Plan B?
 
 **1. Extends Your Existing Pattern**
+
 ```bash
 # You already have and like:
 proj-status
@@ -745,11 +796,13 @@ c-continue
 ```
 
 **2. Best Balance**
+
 - ✅ Clear enough: `r-test` is obvious
 - ✅ Short enough: Easy to type daily
 - ✅ Consistent: All follow same pattern
 
 **3. Great Tab Completion**
+
 ```bash
 r-<TAB>      # See all R commands
 q-<TAB>      # See all Quarto commands
@@ -758,6 +811,7 @@ proj-<TAB>   # See all project commands (existing!)
 ```
 
 **4. Familiar Abbreviations**
+
 - `r-` = R (obvious)
 - `q-` = Quarto (you already use `qp`, `qr`)
 - `c-` = Claude (you already use `cc`)
@@ -766,6 +820,7 @@ proj-<TAB>   # See all project commands (existing!)
 - `proj-` = Project (already have it!)
 
 **5. Easy Migration**
+
 ```bash
 # Old → New
 rtest  → r-test
@@ -803,17 +858,20 @@ git-status    # Not g-status (git is standard)
 ## ✅ Recommendation Summary
 
 **Top Choice: Plan B (Short Domain)**
+
 - Extends your existing `proj-` pattern
 - Best balance of clarity and brevity
 - Great tab completion
 - Easy to remember abbreviations
 
 **Second Choice: Plan A (Full Domain)**
+
 - If you want maximum clarity
 - If typing speed isn't critical
 - If you want zero ambiguity
 
 **Third Choice: Plan C (Action-Domain)**
+
 - If you prefer natural language reading
 - If you think action-first
 

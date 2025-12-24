@@ -43,6 +43,7 @@ See [INSTALL.md](INSTALL.md) for detailed instructions and troubleshooting.
 ## ⚡ Quick Start
 
 ### For CLI Users
+
 **Read this first:** `docs/user/WORKFLOWS-QUICK-WINS.md`
 **Look up aliases:** `docs/user/ALIAS-REFERENCE-CARD.md`
 **Daily health check:** `docs/user/WORKSPACE-AUDIT-GUIDE.md`
@@ -54,11 +55,13 @@ See [INSTALL.md](INSTALL.md) for detailed instructions and troubleshooting.
 **Quick wins:** [docs/architecture/ARCHITECTURE-QUICK-WINS.md](docs/architecture/ARCHITECTURE-QUICK-WINS.md) - Copy-paste patterns
 
 ### For Developers
+
 **Setup:** `./scripts/setup.sh`
 **CLI tools:** `cli/README.md`
 **Monorepo guide:** `MONOREPO-COMMANDS-TUTORIAL.md`
 
 ### Strategic Overview
+
 **Project roadmap:** `PROJECT-HUB.md`
 **Claude guidance:** `CLAUDE.md`
 **Current status:** `.STATUS`
@@ -134,6 +137,7 @@ flow-cli/
 ## 🚀 Development Setup
 
 ### Prerequisites
+
 - Node.js 18+ and npm 9+
 - ZSH configuration at `~/.config/zsh/`
 
@@ -167,6 +171,7 @@ npm run reset      # Clean and reinstall
 ## 🔗 ZSH Configuration Integration
 
 **Important:** The actual ZSH configuration files live at `~/.config/zsh/`. This repository:
+
 - Documents the CLI workflows
 - Provides Node.js APIs for ZSH functions
 - Contains comprehensive guides and references
@@ -200,13 +205,14 @@ See [cli/README.md](cli/README.md) for detailed integration guide.
 
 This project integrates with other dev-tools:
 
-| Project | Integration |
-|---------|-------------|
-| `zsh-claude-workflow` | Shared `project-detector.zsh` for unified context detection |
-| `iterm2-context-switcher` | Session-aware profiles (Focus mode on `startsession`) |
-| `apple-notes-sync` | Dashboard shows workflow activity from `worklog` |
+| Project                   | Integration                                                 |
+| ------------------------- | ----------------------------------------------------------- |
+| `zsh-claude-workflow`     | Shared `project-detector.zsh` for unified context detection |
+| `iterm2-context-switcher` | Session-aware profiles (Focus mode on `startsession`)       |
+| `apple-notes-sync`        | Dashboard shows workflow activity from `worklog`            |
 
 **Key symlinks:**
+
 ```
 ~/.config/zsh/functions/project-detector.zsh → zsh-claude-workflow/lib/project-detector.sh
 ~/.config/zsh/functions/core-utils.zsh → zsh-claude-workflow/lib/core.sh
@@ -217,6 +223,7 @@ This project integrates with other dev-tools:
 ## ☁️ Cloud Sync
 
 Changes auto-sync via symlinks:
+
 - **Primary:** `~/projects/dev-tools/flow-cli/`
 - **Google Drive:** `~/Library/CloudStorage/GoogleDrive-.../My Drive/dev-tools/flow-cli`
 - **Dropbox:** `~/Library/CloudStorage/Dropbox/dev-tools/flow-cli`
@@ -267,16 +274,19 @@ See `docs/reference/SYNC-SETUP.md` for setup details.
 - ✅ **Documentation site** (63 pages deployed to GitHub Pages)
 
 ### Future Enhancements (P6)
+
 - 🔄 **Enhanced status command** (real-time worklog integration)
 - 🔄 **Interactive TUI** (terminal dashboard)
 - 🔄 **Web dashboard** (optional browser interface)
 
 ### Archived Projects
+
 - 📦 **Desktop App** (Electron) - Archived 2025-12-20
   - See [docs/archive/2025-12-20-app-removal/](docs/archive/2025-12-20-app-removal/) for details
   - 753 lines of production-ready code preserved for potential future use
 
 ### Success Metrics
+
 - **95% cognitive load reduction** (6 categories vs 120 items)
 - **60-80% faster commands** (mnemonic aliases)
 - **ADHD-optimized** design patterns throughout
@@ -288,23 +298,27 @@ See `docs/reference/SYNC-SETUP.md` for setup details.
 ## 📖 Documentation Navigation
 
 ### User Guides (Start Here)
+
 - `docs/user/WORKFLOWS-QUICK-WINS.md` - Top 10 ADHD-friendly workflows
 - `docs/user/ALIAS-REFERENCE-CARD.md` - Complete alias catalog
 - `docs/user/WORKSPACE-AUDIT-GUIDE.md` - Daily health check procedures
 - `docs/user/WORKFLOW-TUTORIAL.md` - Step-by-step workflow guide
 
 ### Developer Docs
+
 - `app/README.md` - Desktop app architecture & development
 - `cli/README.md` - CLI integration layer guide
 - `PROJECT-HUB.md` - Strategic roadmap (P0-P5 phases)
 - `CLAUDE.md` - Claude Code integration guide
 
 ### Technical Reference
+
 - `docs/reference/INDEX.md` - Documentation index
 - `docs/reference/CLI-COMMAND-PATTERNS-RESEARCH.md` - Command naming patterns
 - `docs/reference/SYNC-SETUP.md` - Cloud sync configuration
 
 ### Planning & Implementation
+
 - `docs/planning/current/` - Active phase work (P4 optimization)
 - `docs/planning/proposals/` - Future proposals
 - `docs/implementation/` - Implementation tracking by feature
@@ -316,6 +330,7 @@ See `docs/reference/SYNC-SETUP.md` for setup details.
 ## 🎯 Key Features
 
 ### CLI Features (Operational)
+
 - **Ultra-fast shortcuts:** Single-letter commands (t, c, q)
 - **Atomic pairs:** Combined commands (lt = load+test, dt = doc+test)
 - **Smart dispatchers:** Context-aware pb/pv/pt commands
@@ -324,6 +339,7 @@ See `docs/reference/SYNC-SETUP.md` for setup details.
 - **Multi-editor support:** Emacs, VS Code, Cursor, Positron, RStudio
 
 ### App Features (Planned)
+
 - **Dashboard:** Session status, quota, recent commands
 - **Alias viewer:** Searchable reference with categories
 - **Session control:** Start/end workflows with GUI

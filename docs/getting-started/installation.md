@@ -30,6 +30,7 @@ The configuration is located in `~/.config/zsh/`:
 ### Plugin Manager
 
 **Antidote** manages ZSH plugins:
+
 - Configuration: `~/.config/zsh/.zsh_plugins.txt`
 - Enabled plugins include:
   - `ohmyzsh/ohmyzsh path:plugins/git` (226+ git aliases)
@@ -44,6 +45,7 @@ The configuration is located in `~/.config/zsh/`:
 ### 1. Check Aliases
 
 Count current aliases:
+
 ```bash
 # Custom aliases in .zshrc
 grep -E "^alias [a-zA-Z]" ~/.config/zsh/.zshrc | grep -v "^#" | wc -l
@@ -61,6 +63,7 @@ grep -E "^alias [a-zA-Z]" ~/.config/zsh/functions/adhd-helpers.zsh | grep -v "^#
 ### 2. Check Git Plugin
 
 Verify git plugin is enabled:
+
 ```bash
 grep "ohmyzsh/ohmyzsh path:plugins/git" ~/.config/zsh/.zsh_plugins.txt
 
@@ -69,6 +72,7 @@ grep "ohmyzsh/ohmyzsh path:plugins/git" ~/.config/zsh/.zsh_plugins.txt
 ```
 
 Test git aliases:
+
 ```bash
 alias gst
 # Should show: alias gst='git status'
@@ -77,6 +81,7 @@ alias gst
 ### 3. Check Dispatchers
 
 Test smart dispatchers:
+
 ```bash
 type cc gm peek qu work pick
 
@@ -86,6 +91,7 @@ type cc gm peek qu work pick
 ### 4. Run Tests
 
 Execute test suite:
+
 ```bash
 ~/.config/zsh/tests/test-anti-patterns.zsh
 
@@ -225,7 +231,9 @@ grep "source.*functions" ~/.config/zsh/.zshrc
 ## Configuration Files Reference
 
 ### `.zshrc`
+
 Main configuration file containing:
+
 - Environment variables
 - Modern CLI tool aliases (bat, fd, etc.)
 - R package development aliases (23)
@@ -234,13 +242,16 @@ Main configuration file containing:
 - Function sourcing
 
 ### `.zsh_plugins.txt`
+
 Antidote plugin list:
+
 - Theme (powerlevel10k)
 - OMZ git plugin
 - Fish-like features (autosuggestions, syntax highlighting)
 - Additional completions
 
 ### Functions
+
 - `adhd-helpers.zsh` - Focus timers, workflow helpers
 - `smart-dispatchers.zsh` - cc, gm, peek, qu dispatchers
 - `work.zsh` - Work session management

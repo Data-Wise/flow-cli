@@ -29,11 +29,13 @@ INTEGRATION (External Tools)
 ```
 
 **What This Means:**
+
 - **Frontend** = User-facing ZSH commands (work, finish, dashboard, pp)
 - **Backend** = Business logic in Node.js (session manager, project scanner, dashboard generator)
 - **Integration** = Bridges to existing tools (zsh-claude-workflow, aiterm)
 
 **Benefits:**
+
 - Testable (Node.js modules can be unit tested)
 - Maintainable (clear separation of concerns)
 - Extensible (easy to add features or integrate new tools)
@@ -43,10 +45,12 @@ INTEGRATION (External Tools)
 ### 3. Removed MCP Hub from Scope
 
 **Before:**
+
 - Dual objective: Workflow State Manager + MCP Server Hub
 - 713 lines of PROJECT-SCOPE.md with MCP content
 
 **After:**
+
 - Single focus: Personal productivity & project management
 - Cleaner, clearer scope
 - Faster path to implementation
@@ -81,6 +85,7 @@ INTEGRATION (External Tools)
    - Example workflows
 
 **Backup files created:**
+
 - `PROJECT-SCOPE-WITH-MCP.md.bak` - Original with MCP hub content
 - `PROJECT-REFOCUS-SUMMARY-WITH-MCP.md.bak` - Original with MCP hub content
 
@@ -127,14 +132,15 @@ INTEGRATION (External Tools)
 
 **Instead of reimplementing:**
 
-| Feature | Existing Tool | Our Approach |
-|---------|---------------|--------------|
-| Project detection | zsh-claude-workflow | Symlink lib/, call commands |
-| Terminal switching | aiterm | Call `ait context apply` |
-| .STATUS parsing | apple-notes-sync | Adapt scanner.sh logic |
-| Architecture pattern | obsidian-cli-ops | Copy ZSH+Node.js hybrid design |
+| Feature              | Existing Tool       | Our Approach                   |
+| -------------------- | ------------------- | ------------------------------ |
+| Project detection    | zsh-claude-workflow | Symlink lib/, call commands    |
+| Terminal switching   | aiterm              | Call `ait context apply`       |
+| .STATUS parsing      | apple-notes-sync    | Adapt scanner.sh logic         |
+| Architecture pattern | obsidian-cli-ops    | Copy ZSH+Node.js hybrid design |
 
 **What We're Building (Unique):**
+
 - Session state persistence and restoration
 - Multi-project global dashboard
 - Project relationship mapping
@@ -206,6 +212,7 @@ INTEGRATION (External Tools)
    - [PROJECT-REFOCUS-SUMMARY.md](PROJECT-REFOCUS-SUMMARY.md) - Quick reference
 
 2. **Create directory structure** (5 min)
+
    ```bash
    cd ~/projects/dev-tools/flow-cli
    mkdir -p cli/core cli/lib config/zsh/functions data/sessions data/projects integrations
@@ -264,12 +271,14 @@ A: Build for personal use first, extract later if valuable
 ## Files Modified/Created
 
 **Created:**
+
 - [PROJECT-SCOPE.md](PROJECT-SCOPE.md) - New version (project management focus)
 - [ARCHITECTURE-INTEGRATION.md](ARCHITECTURE-INTEGRATION.md) - Complete architecture
 - [PROJECT-REFOCUS-SUMMARY.md](PROJECT-REFOCUS-SUMMARY.md) - New version (no MCP hub)
 - [REFOCUS-COMPLETE-2025-12-20.md](REFOCUS-COMPLETE-2025-12-20.md) - This summary
 
 **Backed Up:**
+
 - PROJECT-SCOPE-WITH-MCP.md.bak - Original with MCP content
 - PROJECT-REFOCUS-SUMMARY-WITH-MCP.md.bak - Original with MCP content
 
@@ -280,6 +289,7 @@ A: Build for personal use first, extract later if valuable
 ### Option 1: Review Documents (Recommended)
 
 Read the three core documents to fully understand the plan:
+
 1. PROJECT-SCOPE.md (comprehensive specification)
 2. ARCHITECTURE-INTEGRATION.md (technical architecture)
 3. PROJECT-REFOCUS-SUMMARY.md (quick reference)
@@ -287,6 +297,7 @@ Read the three core documents to fully understand the plan:
 ### Option 2: Start Implementation
 
 Begin Week 1 tasks:
+
 1. Create directory structure
 2. Set up zsh-claude-workflow integration
 3. Build basic project scanner
@@ -294,6 +305,7 @@ Begin Week 1 tasks:
 ### Option 3: Refine Plan
 
 If you have questions or want to adjust:
+
 - Clarify any open questions
 - Adjust the roadmap
 - Add/remove features

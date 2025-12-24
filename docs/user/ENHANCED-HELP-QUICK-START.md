@@ -8,6 +8,7 @@
 ## What's New?
 
 All 8 smart functions now have beautiful, colorized, ADHD-optimized help:
+
 - **r** - R Package Development
 - **cc** - Claude Code CLI
 - **qu** - Quarto Publishing
@@ -47,6 +48,7 @@ r h             # Same as r help
 Each help screen now features:
 
 ### 1. Visual Header
+
 ```
 ╭─────────────────────────────────────────────╮
 │ command - Description                       │
@@ -54,18 +56,23 @@ Each help screen now features:
 ```
 
 ### 2. Most Common Commands (🔥)
+
 **Green section** - The 3-4 commands you use 80% of the time
 
 ### 3. Quick Examples (💡)
+
 **Yellow section** - Real usage patterns you can copy/paste
 
 ### 4. Organized Sections (📋/🤖/⏱️)
+
 **Blue sections** - All commands grouped logically
 
 ### 5. Shortcuts Still Work (🔗)
+
 **Magenta section** - Your old muscle memory still works!
 
 ### 6. More Help Coming Soon (📚)
+
 **Magenta section** - Hints at future capabilities
 
 ---
@@ -73,6 +80,7 @@ Each help screen now features:
 ## Key Features
 
 ### Colors Make Everything Better
+
 - **Green** - Most important (Most Common)
 - **Yellow** - Learn by example (Quick Examples)
 - **Blue** - Organized sections
@@ -81,6 +89,7 @@ Each help screen now features:
 - **Dim** - Comments don't distract
 
 ### ADHD-Optimized
+
 - **<3 seconds** to find what you need
 - **Most used first** - no scrolling through lists
 - **Examples show usage** - not just descriptions
@@ -88,6 +97,7 @@ Each help screen now features:
 - **No overwhelm** - progressive disclosure
 
 ### Smart & Accessible
+
 - **NO_COLOR support** - set `NO_COLOR=1` to disable colors
 - **Terminal detection** - only uses colors in interactive terminals
 - **Unicode safe** - box drawing works everywhere
@@ -98,6 +108,7 @@ Each help screen now features:
 ## Example: r help
 
 **Before:**
+
 ```
 r <action> - R Package Development
 
@@ -109,6 +120,7 @@ CORE WORKFLOW:
 ```
 
 **After:**
+
 ```
 ╭─────────────────────────────────────────────╮
 │ r - R Package Development                   │
@@ -172,16 +184,19 @@ r ?                        # Interactive picker (fzf)
 ## Troubleshooting
 
 ### Colors don't show?
+
 - Check if your terminal supports colors
 - Try `echo -e "\033[0;32mGREEN\033[0m"` to test
 - Set `NO_COLOR=1` if colors cause issues
 
 ### Help looks weird?
+
 - Your terminal might not support Unicode box drawing
 - Everything still works, just looks different
 - Try a modern terminal (iTerm2, Alacritty, etc.)
 
 ### Old shortcuts still work?
+
 - ✅ Yes! All shortcuts preserved
 - `rload`, `ccplan`, `qp`, etc. all work exactly as before
 - Nothing breaks, everything improves
@@ -206,6 +221,7 @@ zsh test-smart-functions.zsh
 ## Feedback
 
 This is Phase 1 of a multi-phase enhancement. Future phases will add:
+
 - Multi-mode help (quick/full/examples)
 - Search functionality
 - Interactive fzf picker

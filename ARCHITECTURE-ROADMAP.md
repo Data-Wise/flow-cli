@@ -12,6 +12,7 @@
 **Decision:** Start with high-impact Quick Wins (1 week) instead of full Clean Architecture (4 weeks)
 
 **Why:**
+
 - ✅ Immediate DX improvements
 - ✅ Low risk, fast delivery
 - ✅ Can expand later if needed
@@ -31,12 +32,14 @@
 **ROI:** Immediate
 
 **What:**
+
 - Error class hierarchy
 - Input validation
 - TypeScript definitions
 - ES modules migration
 
 **When to choose:**
+
 - ✅ Want immediate improvements
 - ✅ Limited time
 - ✅ Don't want major refactoring
@@ -51,10 +54,12 @@
 **ROI:** High (if maintained 1+ years)
 
 **What:**
+
 - Week 1: Quick Wins (from Option A)
 - Week 2: Session in Clean Architecture (experiment)
 
 **When to choose:**
+
 - ✅ Want to learn patterns
 - ✅ Have 2 weeks available
 - ✅ Willing to experiment
@@ -69,17 +74,20 @@
 **ROI:** High (if maintained 2+ years AND enjoy architecture)
 
 **What:**
+
 - Complete 4-layer refactoring
 - All design patterns
 - Comprehensive testing
 
 **When to choose:**
+
 - ✅ Building for long-term
 - ✅ Multiple contributors
 - ✅ Want comprehensive solution
 - ✅ Have time to invest
 
 **Skip if:**
+
 - ❌ Just want it to work
 - ❌ Solo developer
 - ❌ Time is limited
@@ -106,41 +114,42 @@
 // Error hierarchy for better error handling
 export class ZshConfigError extends Error {
   constructor(message, code) {
-    super(message);
-    this.name = 'ZshConfigError';
-    this.code = code;
+    super(message)
+    this.name = 'ZshConfigError'
+    this.code = code
   }
 }
 
 export class ValidationError extends ZshConfigError {
   constructor(field, message) {
-    super(`Validation failed for ${field}: ${message}`, 'VALIDATION_ERROR');
-    this.field = field;
+    super(`Validation failed for ${field}: ${message}`, 'VALIDATION_ERROR')
+    this.field = field
   }
 }
 
 export class ProjectNotFoundError extends ZshConfigError {
   constructor(path) {
-    super(`Project not found: ${path}`, 'PROJECT_NOT_FOUND');
-    this.path = path;
+    super(`Project not found: ${path}`, 'PROJECT_NOT_FOUND')
+    this.path = path
   }
 }
 
 export class SessionAlreadyActiveError extends ZshConfigError {
   constructor(session) {
-    super(`Session already active for project: ${session.project}`, 'SESSION_ACTIVE');
-    this.session = session;
+    super(`Session already active for project: ${session.project}`, 'SESSION_ACTIVE')
+    this.session = session
   }
 }
 
 export class SessionNotFoundError extends ZshConfigError {
   constructor() {
-    super('No active session', 'NO_ACTIVE_SESSION');
+    super('No active session', 'NO_ACTIVE_SESSION')
   }
 }
 ```
 
 **Update:** All existing APIs to use new error classes
+
 - Replace generic `Error` with semantic error types
 - Update catch blocks to handle specific errors
 
@@ -159,47 +168,48 @@ export class SessionNotFoundError extends ZshConfigError {
 
 export function validatePath(path, fieldName = 'path') {
   if (!path) {
-    throw new ValidationError(fieldName, 'is required');
+    throw new ValidationError(fieldName, 'is required')
   }
 
   if (typeof path !== 'string') {
-    throw new ValidationError(fieldName, 'must be a string');
+    throw new ValidationError(fieldName, 'must be a string')
   }
 
   if (!path.trim()) {
-    throw new ValidationError(fieldName, 'cannot be empty');
+    throw new ValidationError(fieldName, 'cannot be empty')
   }
 
-  return path;
+  return path
 }
 
 export function validateProjectPath(path) {
-  validatePath(path, 'projectPath');
+  validatePath(path, 'projectPath')
 
   if (!require('path').isAbsolute(path)) {
-    throw new ValidationError('projectPath', 'must be absolute');
+    throw new ValidationError('projectPath', 'must be absolute')
   }
 
-  return path;
+  return path
 }
 
 export function validateOptions(options, schema) {
   if (typeof options !== 'object') {
-    throw new ValidationError('options', 'must be an object');
+    throw new ValidationError('options', 'must be an object')
   }
 
   // Validate against schema
   for (const [key, validator] of Object.entries(schema)) {
     if (key in options) {
-      validator(options[key], key);
+      validator(options[key], key)
     }
   }
 
-  return options;
+  return options
 }
 ```
 
 **Apply to:**
+
 - `cli/lib/project-detector-bridge.js`
 - `cli/api/status-api.js`
 - `cli/api/workflow-api.js`
@@ -221,15 +231,15 @@ export type ProjectType =
   | 'quarto-extension'
   | 'research'
   | 'generic'
-  | 'unknown';
+  | 'unknown'
 
 export interface DetectionOptions {
   /** Custom type mappings */
-  mappings?: Record<string, ProjectType>;
+  mappings?: Record<string, ProjectType>
   /** Timeout in milliseconds */
-  timeout?: number;
+  timeout?: number
   /** Enable caching */
-  cache?: boolean;
+  cache?: boolean
 }
 
 /**
@@ -241,7 +251,7 @@ export interface DetectionOptions {
 export function detectProjectType(
   projectPath: string,
   options?: DetectionOptions
-): Promise<ProjectType>;
+): Promise<ProjectType>
 
 /**
  * Detect multiple projects in parallel
@@ -252,23 +262,24 @@ export function detectProjectType(
 export function detectMultipleProjects(
   projectPaths: string[],
   options?: DetectionOptions
-): Promise<Record<string, ProjectType>>;
+): Promise<Record<string, ProjectType>>
 
 /**
  * Get list of supported project types
  * @returns Array of supported types
  */
-export function getSupportedTypes(): ProjectType[];
+export function getSupportedTypes(): ProjectType[]
 
 /**
  * Check if a type is supported
  * @param type Type to check
  * @returns True if supported
  */
-export function isTypeSupported(type: string): type is ProjectType;
+export function isTypeSupported(type: string): type is ProjectType
 ```
 
 **Create for:**
+
 - `project-detector-bridge.d.ts`
 - `status-api.d.ts`
 - `workflow-api.d.ts`
@@ -283,21 +294,24 @@ export function isTypeSupported(type: string): type is ProjectType;
 **Convert:** CommonJS → ES modules for consistency
 
 **Files:**
+
 - `cli/api/status-api.js`
 - `cli/api/workflow-api.js`
 
 **Before:**
+
 ```javascript
 // CommonJS
-const statusAdapter = require('../adapters/status');
-module.exports = { getDashboardData };
+const statusAdapter = require('../adapters/status')
+module.exports = { getDashboardData }
 ```
 
 **After:**
+
 ```javascript
 // ES Modules
-import { statusAdapter } from '../adapters/status.js';
-export { getDashboardData };
+import { statusAdapter } from '../adapters/status.js'
+export { getDashboardData }
 ```
 
 **Impact:** ✅ Consistency across codebase
@@ -307,6 +321,7 @@ export { getDashboardData };
 ### Week 1 Deliverables
 
 **By end of week:**
+
 - ✅ Error class hierarchy implemented
 - ✅ All APIs validate inputs
 - ✅ TypeScript definitions for IDE support
@@ -317,6 +332,7 @@ export { getDashboardData };
 **Total effort:** 16-20 hours (4-5 days)
 
 **Impact:**
+
 - Better error messages
 - Fewer runtime bugs
 - IDE autocomplete works
@@ -330,6 +346,7 @@ export { getDashboardData };
 After completing Quick Wins, ask yourself:
 
 ### ✅ If You Feel:
+
 - "This is enough, system works great now"
 - "I want to ship features, not refactor more"
 - "The improvements are noticeable"
@@ -339,6 +356,7 @@ After completing Quick Wins, ask yourself:
 ---
 
 ### 🤔 If You Feel:
+
 - "I wish the code was more structured"
 - "I want better testability"
 - "I'm curious about Clean Architecture"
@@ -349,6 +367,7 @@ After completing Quick Wins, ask yourself:
 ---
 
 ### 🚀 If You Feel:
+
 - "I want the full refactoring"
 - "I'm building for the long term"
 - "I enjoy architecture work"
@@ -367,6 +386,7 @@ After completing Quick Wins, ask yourself:
 **Implement:** Just Session management in 4 layers
 
 **Why Session?**
+
 - Small scope (can complete in 1 week)
 - Core feature (high value)
 - Good learning example
@@ -377,6 +397,7 @@ After completing Quick Wins, ask yourself:
 #### Day 1-2: Domain Layer
 
 **Create:**
+
 ```
 cli/domain/
 ├── entities/
@@ -396,6 +417,7 @@ cli/domain/
 #### Day 3-4: Use Cases & Adapters
 
 **Create:**
+
 ```
 cli/use-cases/
 └── CreateSessionUseCase.js
@@ -413,6 +435,7 @@ cli/adapters/
 #### Day 5-6: Wire & Ship
 
 **Create:**
+
 ```
 cli/frameworks/
 └── di-container.js
@@ -458,16 +481,16 @@ Start
 
 ## 📊 Comparison Table
 
-| Metric | Quick Wins | Pragmatic | Full Clean |
-|--------|-----------|-----------|------------|
-| **Time** | 1 week | 2 weeks | 4-6 weeks |
-| **Risk** | Very low | Low | Medium |
-| **Files Added** | ~5 | ~20 | ~50+ |
-| **Complexity** | None | Moderate | High |
-| **Testability** | Same | Better | Best |
-| **Flexibility** | Same | Better | Best |
-| **Learning** | Minimal | Moderate | High |
-| **ADHD Score** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Metric          | Quick Wins | Pragmatic | Full Clean |
+| --------------- | ---------- | --------- | ---------- |
+| **Time**        | 1 week     | 2 weeks   | 4-6 weeks  |
+| **Risk**        | Very low   | Low       | Medium     |
+| **Files Added** | ~5         | ~20       | ~50+       |
+| **Complexity**  | None       | Moderate  | High       |
+| **Testability** | Same       | Better    | Best       |
+| **Flexibility** | Same       | Better    | Best       |
+| **Learning**    | Minimal    | Moderate  | High       |
+| **ADHD Score**  | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐  | ⭐⭐⭐     |
 
 ---
 
@@ -476,18 +499,21 @@ Start
 ### After Quick Wins (Week 1):
 
 **Code Quality:**
+
 - ✅ Professional error handling
 - ✅ Input validation everywhere
 - ✅ TypeScript support
 - ✅ Consistent modules
 
 **Developer Experience:**
+
 - ✅ Better error messages
 - ✅ IDE autocomplete
 - ✅ Fewer bugs
 - ✅ Easier debugging
 
 **Maintenance:**
+
 - ✅ Same architecture (no learning curve)
 - ✅ Incremental improvements
 - ✅ Can expand later
@@ -497,6 +523,7 @@ Start
 ### After Pragmatic Clean (Week 2):
 
 **Everything from Week 1, plus:**
+
 - ✅ Testable domain logic
 - ✅ Clean separation of concerns
 - ✅ Repository pattern (swap storage)
@@ -571,6 +598,7 @@ mkdir -p cli/test
 **Start with Week 1 (Quick Wins)**
 
 **Reasons:**
+
 1. ✅ Immediate value (better DX)
 2. ✅ Low commitment (1 week)
 3. ✅ No risk (incremental improvements)
@@ -586,12 +614,14 @@ Try 1 week → Evaluate → Decide.
 ## 📚 Resources
 
 **Code Examples:**
+
 - Error classes: This document
 - Validation: `docs/architecture/API-DESIGN-REVIEW.md`
 - TypeScript: `docs/architecture/CODE-EXAMPLES.md`
 - Clean Architecture: `docs/architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md`
 
 **ADRs:**
+
 - [ADR-001: Vendored Code](docs/architecture/decisions/ADR-001-vendored-code-pattern.md)
 - [ADR-002: Clean Architecture](docs/architecture/decisions/ADR-002-clean-architecture.md)
 - [ADR-003: Bridge Pattern](docs/architecture/decisions/ADR-003-bridge-pattern.md)

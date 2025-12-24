@@ -9,6 +9,7 @@
 ## System Overview
 
 > **TL;DR:**
+>
 > - **What**: Vendored code pattern - copy battle-tested shell scripts into package
 > - **Why**: Zero dependencies, one-command install, production reliability
 > - **How**: JavaScript bridge → Shell scripts → Filesystem detection
@@ -78,25 +79,28 @@ graph TB
 ## Component Details
 
 > **TL;DR:**
+>
 > - **Application Layer**: CLI tools, REST API, Desktop UI (consumers)
 > - **Integration Layer**: JavaScript bridge that wraps shell scripts (project-detector-bridge.js)
 > - **Vendor Layer**: ~300 lines of vendored shell scripts (core.sh + project-detector.sh)
-> - **Data Layer**: Filesystem markers (DESCRIPTION, _quarto.yml, .git, etc.)
+> - **Data Layer**: Filesystem markers (DESCRIPTION, \_quarto.yml, .git, etc.)
 
 ### 1. Application Layer
 
 **Purpose:** Consumer applications that need project detection
 
 **Components:**
+
 - **CLI Tools** - Command-line utilities (`detect-type`, `scan-projects`)
 - **REST API** - Express endpoints for project type queries
 - **Desktop UI** - Electron app project browser
 
 **Integration:**
-```javascript
-import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
 
-const type = await detectProjectType('/path/to/project');
+```javascript
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js'
+
+const type = await detectProjectType('/path/to/project')
 ```
 
 ---
@@ -108,6 +112,7 @@ const type = await detectProjectType('/path/to/project');
 **Purpose:** Bridge between Node.js and shell scripts
 
 **Responsibilities:**
+
 - Execute vendored shell scripts via `child_process.exec()`
 - Parse shell output (stdout)
 - Map shell types to API types (`rpkg` → `r-package`)
@@ -115,6 +120,7 @@ const type = await detectProjectType('/path/to/project');
 - Provide Promise-based async API
 
 **Public API:**
+
 ```javascript
 export async function detectProjectType(projectPath)
 export async function detectMultipleProjects(projectPaths)
@@ -123,17 +129,18 @@ export function isTypeSupported(type)
 ```
 
 **Type Mapping:**
+
 ```javascript
 function mapProjectType(type) {
   const mapping = {
-    'rpkg': 'r-package',
-    'quarto': 'quarto',
+    rpkg: 'r-package',
+    quarto: 'quarto',
     'quarto-ext': 'quarto-extension',
-    'research': 'research',
-    'project': 'generic',
-    'unknown': 'unknown'
-  };
-  return mapping[type] || type;
+    research: 'research',
+    project: 'generic',
+    unknown: 'unknown'
+  }
+  return mapping[type] || type
 }
 ```
 
@@ -142,6 +149,7 @@ function mapProjectType(type) {
 **Purpose:** Recursive project directory scanner
 
 **Planned Features:**
+
 - Scan `~/projects/` recursively
 - Batch detection using `detectMultipleProjects()`
 - Output to JSON format
@@ -159,6 +167,7 @@ function mapProjectType(type) {
 **Purpose:** Core utilities for shell operations
 
 **Functions:**
+
 ```zsh
 is_git_repo()           # Check if directory is git repo
 get_git_root()          # Get git repository root
@@ -169,6 +178,7 @@ find_up(filename)       # Find file in parent directories
 ```
 
 **Print Utilities:**
+
 ```zsh
 print_success(msg)      # Green checkmark + message
 print_error(msg)        # Red X + message
@@ -184,6 +194,7 @@ print_header(msg)       # Formatted header
 **Purpose:** Project type detection logic
 
 **Detection Functions:**
+
 ```zsh
 is_r_package(dir)         # Checks for DESCRIPTION with Package: field
 is_quarto_project(dir)    # Checks for _quarto.yml or .qmd files
@@ -194,11 +205,13 @@ has_claude_instructions(dir) # Checks for CLAUDE.md
 ```
 
 **Main Function:**
+
 ```zsh
 get_project_type(dir)     # Returns: rpkg, quarto, quarto-ext, research, project, unknown
 ```
 
 **Metadata Functions:**
+
 ```zsh
 get_project_name(dir)        # Extract project name from config/dir
 get_project_description(dir) # Extract description from README/config
@@ -300,6 +313,7 @@ flow-cli/
 ## Design Patterns
 
 > **TL;DR:**
+>
 > - **Vendored Code**: Copy external code, gain independence (zero runtime deps)
 > - **Bridge Pattern**: Connect incompatible interfaces (JavaScript ↔ Shell)
 > - **Type Mapping**: Normalize shell output to API types (`rpkg` → `r-package`)
@@ -310,17 +324,20 @@ flow-cli/
 **Definition:** Copy external code into project with clear attribution
 
 **Benefits:**
+
 - ✅ Zero runtime dependencies
 - ✅ Simple installation (one package)
 - ✅ Version control over external code
 - ✅ Guaranteed availability
 
 **Trade-offs:**
+
 - ⚠️ Manual syncing required for updates
 - ⚠️ Code duplication (~300 lines)
 - ⚠️ Must maintain attribution
 
 **Implementation:**
+
 ```bash
 # Sync process (quarterly)
 cp ~/projects/dev-tools/zsh-claude-workflow/lib/project-detector.sh cli/vendor/zsh-claude-workflow/
@@ -337,19 +354,21 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/core.sh cli/vendor/zsh-claude-wo
 **Purpose:** Connect JavaScript (async/Promise) to Shell (synchronous/text)
 
 **Implementation:**
+
 ```javascript
 // Bridge adapts shell output to JavaScript Promises
 export async function detectProjectType(projectPath) {
   const { stdout } = await execAsync(
     `source "${coreScript}" && source "${detectorScript}" && cd "${projectPath}" && get_project_type`,
     { shell: '/bin/zsh' }
-  );
+  )
 
-  return mapProjectType(stdout.trim());
+  return mapProjectType(stdout.trim())
 }
 ```
 
 **Benefits:**
+
 - Clean separation of concerns
 - Type safety at JavaScript boundary
 - Error handling encapsulation
@@ -362,18 +381,20 @@ export async function detectProjectType(projectPath) {
 **Purpose:** Decouple API from shell implementation details
 
 **Implementation:**
+
 ```javascript
 function mapProjectType(type) {
   const mapping = {
-    'rpkg': 'r-package',        // Shell → API
+    rpkg: 'r-package', // Shell → API
     'quarto-ext': 'quarto-extension',
-    'project': 'generic'
-  };
-  return mapping[type] || type;
+    project: 'generic'
+  }
+  return mapping[type] || type
 }
 ```
 
 **Benefits:**
+
 - API can change independently
 - Consistent naming across languages
 - Better developer experience
@@ -386,19 +407,21 @@ function mapProjectType(type) {
 **Purpose:** Keep application running even with partial failures
 
 **Implementation:**
+
 ```javascript
 export async function detectProjectType(projectPath) {
   try {
-    const { stdout } = await execAsync(/* ... */);
-    return mapProjectType(stdout.trim());
+    const { stdout } = await execAsync(/* ... */)
+    return mapProjectType(stdout.trim())
   } catch (error) {
-    console.error(`Failed to detect: ${error.message}`);
-    return 'unknown';  // Safe default, don't throw
+    console.error(`Failed to detect: ${error.message}`)
+    return 'unknown' // Safe default, don't throw
   }
 }
 ```
 
 **Benefits:**
+
 - ADHD-friendly (no interruptions)
 - Resilient applications
 - Better user experience
@@ -409,6 +432,7 @@ export async function detectProjectType(projectPath) {
 ## Performance Characteristics
 
 > **TL;DR:**
+>
 > - **Single detection**: ~20-30ms (warm), ~50ms (cold start)
 > - **Batch (100 projects)**: Sequential ~3s, Parallel ~1s (3x faster)
 > - **Key optimization**: Always use `detectMultipleProjects()` for batch operations
@@ -417,54 +441,60 @@ export async function detectProjectType(projectPath) {
 ### Latency
 
 **Single Detection:**
+
 - Cold start: ~50ms (first call, shell initialization)
 - Warm: ~20-30ms (subsequent calls)
 
 **Batch Detection (10 projects):**
+
 - Sequential: ~200-300ms (10 × 20-30ms)
 - Parallel: ~50-100ms (Promise.all speedup)
 
 **Batch Detection (100 projects):**
+
 - Sequential: ~2-3 seconds
 - Parallel: ~800-1200ms (3x faster)
 
 ### Optimization Strategies
 
 **1. Parallel Execution**
+
 ```javascript
 // ✅ Fast: Parallel
-const types = await detectMultipleProjects(allPaths);
+const types = await detectMultipleProjects(allPaths)
 
 // ❌ Slow: Sequential
 for (const path of allPaths) {
-  await detectProjectType(path);
+  await detectProjectType(path)
 }
 ```
 
 **2. Caching (Future Enhancement)**
+
 ```javascript
 class CachedDetector {
   constructor() {
-    this.cache = new Map();
+    this.cache = new Map()
   }
 
   async detectProjectType(projectPath) {
     if (this.cache.has(projectPath)) {
-      return this.cache.get(projectPath);
+      return this.cache.get(projectPath)
     }
 
-    const type = await detectProjectType(projectPath);
-    this.cache.set(projectPath, type);
-    return type;
+    const type = await detectProjectType(projectPath)
+    this.cache.set(projectPath, type)
+    return type
   }
 }
 ```
 
 **3. Batching**
+
 ```javascript
 // Collect paths, then detect in one batch
-const allPaths = await collectProjectPaths();
-const types = await detectMultipleProjects(allPaths);  // Single call
+const allPaths = await collectProjectPaths()
+const types = await detectMultipleProjects(allPaths) // Single call
 ```
 
 ---
@@ -472,6 +502,7 @@ const types = await detectMultipleProjects(allPaths);  // Single call
 ## Error Handling Strategy
 
 > **TL;DR:**
+>
 > - **Philosophy**: Never crash, always return 'unknown' as safe default
 > - **Shell errors**: Log diagnostic info, return 'unknown'
 > - **Invalid paths**: Catch `cd` errors, return 'unknown'
@@ -482,16 +513,17 @@ const types = await detectMultipleProjects(allPaths);  // Single call
 **Scenario:** Shell command fails (path not found, permission denied)
 
 **Handling:**
+
 ```javascript
 try {
-  const { stdout, stderr } = await execAsync(/* ... */);
+  const { stdout, stderr } = await execAsync(/* ... */)
   if (stderr) {
-    console.error(`Warning: ${stderr}`);
+    console.error(`Warning: ${stderr}`)
   }
-  return mapProjectType(stdout.trim());
+  return mapProjectType(stdout.trim())
 } catch (error) {
-  console.error(`Failed to detect: ${error.message}`);
-  return 'unknown';  // Don't throw
+  console.error(`Failed to detect: ${error.message}`)
+  return 'unknown' // Don't throw
 }
 ```
 
@@ -502,6 +534,7 @@ try {
 **Scenario:** User provides non-existent directory
 
 **Handling:**
+
 - Shell returns error: `zsh:cd:1: no such file or directory`
 - Bridge catches error
 - Returns `'unknown'` type
@@ -514,10 +547,13 @@ try {
 **Scenario:** Shell returns unexpected type
 
 **Handling:**
+
 ```javascript
 function mapProjectType(type) {
-  const mapping = { /* known mappings */ };
-  return mapping[type] || type;  // Pass through unknown types
+  const mapping = {
+    /* known mappings */
+  }
+  return mapping[type] || type // Pass through unknown types
 }
 ```
 
@@ -528,6 +564,7 @@ function mapProjectType(type) {
 ## Testing Strategy
 
 > **TL;DR:**
+>
 > - **Coverage**: 7/7 tests passing (100% core functionality)
 > - **Real projects**: Tests use actual R package, Quarto, git repos
 > - **Test types**: Supported types, detection accuracy, parallel batch, error handling
@@ -546,6 +583,7 @@ function mapProjectType(type) {
 7. ✅ Error handling - Invalid path returns `'unknown'`
 
 **Test Execution:**
+
 ```bash
 cd cli
 npm run test:detector
@@ -575,6 +613,7 @@ npm run test:detector
 ## Maintenance & Updates
 
 > **TL;DR:**
+>
 > - **Sync frequency**: Quarterly (every 3 months) or when major upstream changes
 > - **Process**: Check upstream → Review changes → Copy files → Test → Update version → Commit
 > - **Files**: core.sh + project-detector.sh (~300 lines total)
@@ -583,6 +622,7 @@ npm run test:detector
 ### Syncing Vendored Code
 
 **When to Sync:**
+
 - Quarterly (every 3 months)
 - When new project types added to upstream
 - When bug fixes released
@@ -622,6 +662,7 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 ## Security Considerations
 
 > **TL;DR:**
+>
 > - **Command injection**: Mitigated by quoting all paths in shell commands
 > - **Path traversal**: Use absolute paths only, validate before passing to shell
 > - **Arbitrary code**: Version control + attribution + test suite prevents tampering
@@ -632,12 +673,12 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 **Risk:** User-provided paths could contain shell metacharacters
 
 **Mitigation:**
+
 ```javascript
 // ✅ Safe: Paths are quoted in shell command
-`source "${coreScript}" && cd "${projectPath}" && get_project_type`
-
+;`source "${coreScript}" && cd "${projectPath}" && get_project_type`
 // ❌ Unsafe (don't do this):
-`cd ${projectPath}`  // No quotes!
+`cd ${projectPath}` // No quotes!
 ```
 
 ### 2. Path Traversal
@@ -645,6 +686,7 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 **Risk:** Malicious paths like `../../etc/passwd`
 
 **Mitigation:**
+
 - Use absolute paths only
 - Validate paths before passing to shell
 - Detection only reads filesystem, never writes
@@ -654,6 +696,7 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 **Risk:** Vendored scripts could be modified
 
 **Mitigation:**
+
 - Version control tracks all changes
 - Clear attribution to source
 - Regular security audits
@@ -664,6 +707,7 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 ## Future Enhancements
 
 > **TL;DR:**
+>
 > - **Phase 2 (Weeks 2-3)**: Caching, project scanner, TypeScript, benchmarks
 > - **Phase 3 (Month 2+)**: More project types, plugin system, filesystem watch, REST API
 > - **Integration ideas**: IDE plugins, CI/CD, dashboard, auto-configuration

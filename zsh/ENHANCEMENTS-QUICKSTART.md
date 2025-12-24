@@ -8,16 +8,19 @@
 ## ✅ What Was Installed
 
 ### 1. **atuin** - Supercharged Shell History
+
 - **What:** Context-aware, searchable, syncable history
 - **Where:** Replaces default Ctrl+R
 - **Why:** "What was that command I used last week in medfit?"
 
 ### 2. **direnv** - Auto Environment Loader
+
 - **What:** Automatically loads/unloads environment per directory
 - **Where:** Triggers on `cd` into directories with `.envrc`
 - **Why:** No more "did I activate renv?" or "is PATH set?"
 
 ### 3. **fzf helpers** - 15 New Interactive Functions
+
 - **What:** Fuzzy find for R files, tests, git, projects
 - **Where:** Available anywhere in terminal
 - **Why:** Faster navigation, better previews, ADHD-friendly
@@ -198,6 +201,7 @@ direnv allow
 ### fzf Preview Customization
 
 The fzf helpers use:
+
 - `bat` for syntax highlighting
 - `fd` for finding files
 - `--preview-window right:60%` for preview size
@@ -254,28 +258,33 @@ brew install bat fd
 ### All New Commands
 
 **Atuin:**
+
 - `Ctrl+R` - Interactive search
 - `atuin search <term>` - Search history
 - `atuin search --cwd <dir>` - Search in directory
 - `atuin stats` - Show statistics
 
 **Direnv:**
+
 - `direnv allow` - Allow .envrc in current directory
 - `direnv deny` - Deny .envrc
 - `direnv edit` - Edit .envrc (safer than direct edit)
 
 **fzf Helpers - R:**
+
 - `re` - Edit R files
 - `rt` - Run test
 - `rv` - View vignettes
 
 **fzf Helpers - Projects:**
+
 - `fs` - Edit .STATUS
 - `fh` - View PROJECT-HUB
 - `fp` - Jump to project
 - `fr` - Jump to R package
 
 **fzf Helpers - Git:**
+
 - `gb` - Checkout branch
 - `gdf` - Interactive diff
 - `gshow` - Browse commits
@@ -283,6 +292,7 @@ brew install bat fd
 - `gundostage` - Unstage files
 
 **Help:**
+
 - `fzf-help` - Show all fzf commands
 
 ---

@@ -20,8 +20,14 @@ export class StatusFileValidator {
    * Valid project types
    */
   static VALID_TYPES = [
-    'r-package', 'quarto', 'research', 'node', 'python',
-    'mcp', 'spacemacs', 'generic'
+    'r-package',
+    'quarto',
+    'research',
+    'node',
+    'python',
+    'mcp',
+    'spacemacs',
+    'generic'
   ]
 
   /**

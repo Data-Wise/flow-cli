@@ -18,6 +18,7 @@
 ## How It Works
 
 Symlinks created:
+
 ```
 ~/Library/CloudStorage/GoogleDrive-.../My Drive/dev-tools/flow-cli
 → ~/projects/dev-tools/flow-cli

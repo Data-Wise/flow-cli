@@ -9,15 +9,18 @@
 ## Revision Notes (2025-12-17)
 
 **What changed:**
+
 - Original vision: `flow-cli` as single hub for everything
 - Final decision: Three-tier system with separation of concerns
 
 **Why we changed:**
+
 1. `mediation-planning` pattern proved effective for domain coordination
 2. Mixing standards + shell config + project tracking in one repo gets bloated
 3. Cleaner mental model: standards vs coordination vs aggregation
 
 **Final architecture:**
+
 ```
 project-hub/              # Master aggregation (NEW)
 mediation-planning/       # R packages coordination (EXISTS)
@@ -26,6 +29,7 @@ flow-cli/        # Standards + shell config (FOCUSED)
 ```
 
 **What we kept from this proposal:**
+
 - `standards/` directory structure (implemented)
 - `templates/` concept (planned)
 - Unified commands (`pb`, `pt`, `pd`, `pc`) (planned)
@@ -168,6 +172,7 @@ r-ecosystem/
 ## Unified Command System
 
 ### Current (Inconsistent)
+
 ```bash
 rload && rtest          # R packages
 quarto render           # Quarto
@@ -176,6 +181,7 @@ pytest                  # Python
 ```
 
 ### Proposed (Unified)
+
 ```bash
 pb                      # Project Build (auto-detects type)
 pt                      # Project Test
@@ -211,6 +217,7 @@ _proj_dispatch() {
 ```
 
 ### Project Creation
+
 ```bash
 proj new r-package mypackage     # Creates from template
 proj new research "My Study"     # Creates research project
@@ -221,15 +228,15 @@ proj new teaching STAT-500       # Creates course structure
 
 ## ADHD-Friendly Principles
 
-| Principle | Implementation |
-|-----------|----------------|
-| **One command** | Every task has a single command entry point |
-| **Zero memory** | System remembers context, not you |
-| **Visual feedback** | Progress bars, colors, emojis |
-| **Decision minimization** | Smart defaults, ask only when necessary |
-| **Interrupt recovery** | Save state automatically, restore seamlessly |
-| **Time blindness** | Built-in timers, reminders, deadlines |
-| **Dopamine hits** | Celebrate completions, show progress |
+| Principle                 | Implementation                               |
+| ------------------------- | -------------------------------------------- |
+| **One command**           | Every task has a single command entry point  |
+| **Zero memory**           | System remembers context, not you            |
+| **Visual feedback**       | Progress bars, colors, emojis                |
+| **Decision minimization** | Smart defaults, ask only when necessary      |
+| **Interrupt recovery**    | Save state automatically, restore seamlessly |
+| **Time blindness**        | Built-in timers, reminders, deadlines        |
+| **Dopamine hits**         | Celebrate completions, show progress         |
 
 ### Context Recovery System
 
@@ -293,37 +300,37 @@ $ dash
 
 ### Phase 1: Foundation (Week 1)
 
-| Task | Effort | Impact |
-|------|--------|--------|
-| Create `standards/` directory structure | 1 hour | High |
-| Write R-STYLE-GUIDE.md | 2 hours | High |
-| Create PROJECT-STRUCTURE.md | 1 hour | High |
-| Create QUICK-START-TEMPLATE.md | 1 hour | High |
+| Task                                    | Effort  | Impact |
+| --------------------------------------- | ------- | ------ |
+| Create `standards/` directory structure | 1 hour  | High   |
+| Write R-STYLE-GUIDE.md                  | 2 hours | High   |
+| Create PROJECT-STRUCTURE.md             | 1 hour  | High   |
+| Create QUICK-START-TEMPLATE.md          | 1 hour  | High   |
 
 ### Phase 2: Templates & Commands (Week 2)
 
-| Task | Effort | Impact |
-|------|--------|--------|
-| Create R package template | 2 hours | High |
-| Create `proj new` command | 2 hours | High |
-| Implement unified `pb/pt/pd/pc` | 3 hours | Very High |
-| Create research project template | 1 hour | Medium |
+| Task                             | Effort  | Impact    |
+| -------------------------------- | ------- | --------- |
+| Create R package template        | 2 hours | High      |
+| Create `proj new` command        | 2 hours | High      |
+| Implement unified `pb/pt/pd/pc`  | 3 hours | Very High |
+| Create research project template | 1 hour  | Medium    |
 
 ### Phase 3: Dashboard & Context (Week 3-4)
 
-| Task | Effort | Impact |
-|------|--------|--------|
+| Task                        | Effort  | Impact    |
+| --------------------------- | ------- | --------- |
 | Implement project dashboard | 4 hours | Very High |
 | Create context save/restore | 3 hours | Very High |
-| Add `.STATUS` file parsing | 2 hours | High |
+| Add `.STATUS` file parsing  | 2 hours | High      |
 
 ### Phase 4: R Ecosystem (Month 2)
 
-| Task | Effort | Impact |
-|------|--------|--------|
-| Create package registry | 1 hour | Medium |
-| Implement `r ecosystem` command | 2 hours | High |
-| Share GitHub Actions across packages | 2 hours | High |
+| Task                                 | Effort  | Impact |
+| ------------------------------------ | ------- | ------ |
+| Create package registry              | 1 hour  | Medium |
+| Implement `r ecosystem` command      | 2 hours | High   |
+| Share GitHub Actions across packages | 2 hours | High   |
 
 ---
 
@@ -331,34 +338,34 @@ $ dash
 
 ### DevOps Standards (Industry)
 
-| Practice | Relevance | Adapt For |
-|----------|-----------|-----------|
-| **12-Factor App** | Configuration, dependencies | R packages, research |
-| **GitFlow** | Branch strategy | Simplified for solo dev |
-| **Semantic Versioning** | Release management | All projects |
-| **CI/CD** | Automated testing | GitHub Actions |
-| **Infrastructure as Code** | Reproducibility | Project templates |
+| Practice                   | Relevance                   | Adapt For               |
+| -------------------------- | --------------------------- | ----------------------- |
+| **12-Factor App**          | Configuration, dependencies | R packages, research    |
+| **GitFlow**                | Branch strategy             | Simplified for solo dev |
+| **Semantic Versioning**    | Release management          | All projects            |
+| **CI/CD**                  | Automated testing           | GitHub Actions          |
+| **Infrastructure as Code** | Reproducibility             | Project templates       |
 
 ### ADHD-Specific Research
 
-| Finding | Application |
-|---------|-------------|
-| **Working memory limits** | External systems (notes, dashboards) |
-| **Time blindness** | Built-in timers, visible progress |
-| **Hyperfocus risk** | Forced breaks, session limits |
-| **Context switching cost** | Minimize, save/restore state |
-| **Decision fatigue** | Smart defaults, fewer choices |
-| **Novelty seeking** | Progress visualization, achievements |
+| Finding                    | Application                          |
+| -------------------------- | ------------------------------------ |
+| **Working memory limits**  | External systems (notes, dashboards) |
+| **Time blindness**         | Built-in timers, visible progress    |
+| **Hyperfocus risk**        | Forced breaks, session limits        |
+| **Context switching cost** | Minimize, save/restore state         |
+| **Decision fatigue**       | Smart defaults, fewer choices        |
+| **Novelty seeking**        | Progress visualization, achievements |
 
 ### R Package Best Practices
 
-| Practice | Source | Implementation |
-|----------|--------|----------------|
-| **usethis conventions** | RStudio | Templates |
-| **testthat 3e** | Wickham | Test structure |
-| **pkgdown** | RStudio | Documentation |
-| **GitHub Actions** | r-lib | CI/CD |
-| **roxygen2** | RStudio | Documentation |
+| Practice                | Source  | Implementation |
+| ----------------------- | ------- | -------------- |
+| **usethis conventions** | RStudio | Templates      |
+| **testthat 3e**         | Wickham | Test structure |
+| **pkgdown**             | RStudio | Documentation  |
+| **GitHub Actions**      | r-lib   | CI/CD          |
+| **roxygen2**            | RStudio | Documentation  |
 
 ---
 
@@ -380,26 +387,31 @@ Create `standards/adhd/QUICK-START-TEMPLATE.md`:
 # [Project Name] - Quick Start
 
 ## 30-Second Setup
+
 \`\`\`bash
 [one command to get running]
 \`\`\`
 
 ## What This Does
+
 [2-3 bullet points max]
 
 ## Common Tasks
+
 | I want to... | Run this |
-|--------------|----------|
-| Build | `pb` |
-| Test | `pt` |
-| Deploy | `pd` |
+| ------------ | -------- |
+| Build        | `pb`     |
+| Test         | `pt`     |
+| Deploy       | `pd`     |
 
 ## Where Things Are
+
 - Main code: `src/` or `R/`
 - Tests: `tests/`
 - Docs: `docs/`
 
 ## Current Status
+
 See `.STATUS` file or run `proj status`
 ```
 
@@ -418,13 +430,13 @@ pc() { echo "Project Check - TODO: implement" }
 
 ## Success Metrics
 
-| Metric | Current | Target |
-|--------|---------|--------|
-| Commands to remember | 50+ | 10 |
-| Context switch time | 5-10 min | 30 sec |
-| "Where was I?" frequency | Daily | Never |
-| Project setup time | 30 min | 2 min |
-| Consistent code style | 30% | 100% |
+| Metric                   | Current  | Target |
+| ------------------------ | -------- | ------ |
+| Commands to remember     | 50+      | 10     |
+| Context switch time      | 5-10 min | 30 sec |
+| "Where was I?" frequency | Daily    | Never  |
+| Project setup time       | 30 min   | 2 min  |
+| Consistent code style    | 30%      | 100%   |
 
 ---
 

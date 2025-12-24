@@ -9,19 +9,19 @@
 
 **Existing Commands (14 total):**
 
-| Command | Purpose | ADHD-Friendly? |
-|---------|---------|----------------|
-| `mvr` | Terminal report | ✅ Good visual |
-| `mvs` | Sync to Notes | ✅ |
-| `mvst` | Git status | ✅ Enhanced |
-| `mvcd` | cd to package | ⚠️ No feedback |
-| `mvci` | Commit | ⚠️ No confirmation |
-| `mvpush` | Push | ⚠️ No status after |
-| `mvpull` | Pull | ⚠️ Minimal feedback |
-| `mvmerge` | Merge dev→main | ⚠️ No guardrails |
-| `mvrebase` | Rebase dev | ⚠️ Dangerous, no confirmation |
-| `mvdev` | Checkout dev | ⚠️ Silent |
-| `sp` | Set progress | ✅ |
+| Command    | Purpose         | ADHD-Friendly?                |
+| ---------- | --------------- | ----------------------------- |
+| `mvr`      | Terminal report | ✅ Good visual                |
+| `mvs`      | Sync to Notes   | ✅                            |
+| `mvst`     | Git status      | ✅ Enhanced                   |
+| `mvcd`     | cd to package   | ⚠️ No feedback                |
+| `mvci`     | Commit          | ⚠️ No confirmation            |
+| `mvpush`   | Push            | ⚠️ No status after            |
+| `mvpull`   | Pull            | ⚠️ Minimal feedback           |
+| `mvmerge`  | Merge dev→main  | ⚠️ No guardrails              |
+| `mvrebase` | Rebase dev      | ⚠️ Dangerous, no confirmation |
+| `mvdev`    | Checkout dev    | ⚠️ Silent                     |
+| `sp`       | Set progress    | ✅                            |
 
 **Problems Identified:**
 
@@ -71,11 +71,13 @@
 ```
 
 **Pros:**
+
 - Familiar pattern, easy to learn incrementally
 - Each command does one thing well
 - Flexible for power users
 
 **Cons:**
+
 - Still requires remembering sequence
 - 18+ commands to remember
 - No guided workflows
@@ -171,12 +173,14 @@
 ```
 
 **Pros:**
+
 - Reduces cognitive load dramatically
 - Guided workflows prevent mistakes
 - Smart suggestions based on state
 - Interactive when decisions needed
 
 **Cons:**
+
 - Less control for power users
 - More complex implementation
 - May feel "hand-holdy" for simple tasks
@@ -206,12 +210,14 @@
 ```
 
 **Pros:**
+
 - Single command to remember
 - Tab-completion friendly
 - Discoverable via `mv help`
 - Consistent with git/docker patterns
 
 **Cons:**
+
 - Longer to type (`mv commit` vs `mvci`)
 - Conflicts if `mv` is used elsewhere (note: `mv` is the Unix move command!)
 - Less "quick" for frequent operations
@@ -263,30 +269,36 @@
 ### Key Enhancements
 
 #### 1. `mv` - Smart Dashboard
+
 Shows status + actionable suggestions. Answers "What should I do next?"
 
 #### 2. `mvwork PKG` - Start Session
+
 - cd to package
 - Checkout dev (create if needed)
 - Show status
 - Log to worklog
 
 #### 3. `mvdone PKG [MSG]` - End Session
+
 - Show diff preview
 - Commit with message
 - Ask: keep on dev / merge / merge+push
 - Log to worklog
 
 #### 4. `mvfix [PKG]` - Auto-Fix
+
 - Detects issues (stale dev, uncommitted, etc.)
 - Guides through fixes interactively
 - Can fix all packages at once
 
 #### 5. `mvhelp` - Contextual Help
+
 - Shows command reference
 - `mvhelp mvmerge` shows detailed usage
 
 #### 6. Confirmation Prompts
+
 - `mvmerge` asks "Merge dev→main? [y/N]"
 - `mvrebase` warns about rewriting history
 
@@ -341,14 +353,14 @@ mvweekly() {
 
 ## Comparison Matrix
 
-| Feature | Option A | Option B | Option C | Option D |
-|---------|----------|----------|----------|----------|
-| Easy to learn | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Quick for experts | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-| ADHD-friendly | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Guided workflows | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Flexibility | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Implementation effort | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Feature               | Option A   | Option B   | Option C | Option D   |
+| --------------------- | ---------- | ---------- | -------- | ---------- |
+| Easy to learn         | ⭐⭐⭐     | ⭐⭐⭐⭐   | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Quick for experts     | ⭐⭐⭐⭐⭐ | ⭐⭐⭐     | ⭐⭐⭐   | ⭐⭐⭐⭐   |
+| ADHD-friendly         | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Guided workflows      | ⭐⭐       | ⭐⭐⭐⭐⭐ | ⭐⭐⭐   | ⭐⭐⭐⭐⭐ |
+| Flexibility           | ⭐⭐⭐⭐⭐ | ⭐⭐⭐     | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Implementation effort | ⭐⭐       | ⭐⭐⭐⭐   | ⭐⭐⭐   | ⭐⭐⭐⭐   |
 
 ---
 
@@ -375,7 +387,6 @@ mvweekly() {
 
 ## Decision
 
-**Selected Option:** _______________
+**Selected Option:** **\*\***\_\_\_**\*\***
 
 **Notes:**
-

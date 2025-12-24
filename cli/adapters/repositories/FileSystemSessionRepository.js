@@ -208,8 +208,6 @@ export class FileSystemSessionRepository extends ISessionRepository {
 
   async findByDateRange(startDate, endDate) {
     const sessions = await this._loadSessions()
-    return sessions.filter(s =>
-      s.startTime >= startDate && s.startTime <= endDate
-    )
+    return sessions.filter(s => s.startTime >= startDate && s.startTime <= endDate)
   }
 }

@@ -264,9 +264,7 @@ export class ProjectFilters {
       return []
     }
 
-    return [...projects]
-      .sort((a, b) => b.totalSessions - a.totalSessions)
-      .slice(0, limit)
+    return [...projects].sort((a, b) => b.totalSessions - a.totalSessions).slice(0, limit)
   }
 
   /**
@@ -280,9 +278,7 @@ export class ProjectFilters {
       return []
     }
 
-    return [...projects]
-      .sort((a, b) => b.totalDuration - a.totalDuration)
-      .slice(0, limit)
+    return [...projects].sort((a, b) => b.totalDuration - a.totalDuration).slice(0, limit)
   }
 
   /**

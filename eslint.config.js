@@ -69,8 +69,8 @@ export default [
       'cli/node_modules/',
       'cli/coverage/',
       'docs/archive/2025-12-20-app-removal/**',
-      'site/**',  // MkDocs generated site
-      'scripts/**',  // Build scripts
+      'site/**', // MkDocs generated site
+      'scripts/**', // Build scripts
       // Legacy CommonJS files - to be migrated
       'cli/adapters/status.js',
       'cli/adapters/workflow.js',

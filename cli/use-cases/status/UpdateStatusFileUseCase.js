@@ -48,9 +48,7 @@ export class UpdateStatusFileUseCase {
     })
 
     // Filter sessions for this project path
-    const projectSessions = allSessions.filter(session =>
-      session.context?.cwd === projectPath
-    )
+    const projectSessions = allSessions.filter(session => session.context?.cwd === projectPath)
 
     // Calculate metrics
     const metrics = this._calculateMetrics(projectSessions, daysPeriod)
@@ -88,14 +86,11 @@ export class UpdateStatusFileUseCase {
     const total_duration_minutes = sessions.reduce((sum, s) => sum + s.getDuration(), 0)
 
     // Last session time
-    const last_session = sessions.length > 0
-      ? sessions[0].startTime.toISOString()
-      : null
+    const last_session = sessions.length > 0 ? sessions[0].startTime.toISOString() : null
 
     // Average session duration
-    const average_session_duration = sessions.length > 0
-      ? Math.round(total_duration_minutes / sessions.length)
-      : 0
+    const average_session_duration =
+      sessions.length > 0 ? Math.round(total_duration_minutes / sessions.length) : 0
 
     // Flow sessions (>= 15 minutes)
     const flow_sessions = sessions.filter(s => s.getDuration() >= 15).length
@@ -104,9 +99,8 @@ export class UpdateStatusFileUseCase {
     const completed_sessions = sessions.filter(s => s.outcome === 'completed').length
 
     // Completion rate
-    const completion_rate = sessions.length > 0
-      ? Math.round((completed_sessions / sessions.length) * 100)
-      : 0
+    const completion_rate =
+      sessions.length > 0 ? Math.round((completed_sessions / sessions.length) * 100) : 0
 
     return {
       sessions_total,

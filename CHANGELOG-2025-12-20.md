@@ -17,11 +17,13 @@ Implemented comprehensive help system and smart default behaviors across **42 fu
 ### 1. Universal Help Support (42 functions)
 
 **All functions now accept ALL three help forms:**
+
 - `command help` (keyword)
 - `command -h` (short flag)
 - `command --help` (long flag)
 
 **Files modified:**
+
 - `~/.config/zsh/functions/claude-workflows.zsh` (8 functions)
 - `~/projects/dev-tools/flow-cli/zsh/functions/fzf-helpers.zsh` (12 functions)
 - `~/.config/zsh/functions/adhd-helpers.zsh` (11 functions)
@@ -37,50 +39,62 @@ Implemented comprehensive help system and smart default behaviors across **42 fu
 **High-impact functions now execute smart defaults when called with no arguments:**
 
 #### `dash` - Complete Coordination Workflow
+
 ```bash
 dash  # Now: Auto-sync .STATUS → Update coordination → Show dashboard
 ```
+
 - Syncs all .STATUS files to project-hub
 - Updates cross-project coordination
 - Shows master dashboard
 - One command = complete picture
 
 #### `timer` - Auto-Win Logging
+
 ```bash
 timer  # Now: 25-min pomodoro + auto-log win on completion
 ```
+
 - Starts 25-minute focus session
 - On completion, automatically logs as win
 - Provides dopamine reward
 
 #### `note` - Full Vault Workflow
+
 ```bash
 note  # Now: Sync → Status → Open Project-Hub.md
 ```
+
 - Syncs Obsidian vault bidirectionally
 - Shows sync status
 - Opens Project-Hub dashboard
 
 #### `qu` - Render + Preview
+
 ```bash
 qu  # Now: Render → Preview → Auto-open browser
 ```
+
 - Renders current Quarto document
 - Starts preview server
 - Opens browser automatically
 
 #### `peek` - Brief Hint
+
 ```bash
 peek  # Now: Shows 5-line hint (not overwhelming)
 ```
+
 - Displays most common uses
 - Lightweight guidance
 - References help for full options
 
 #### `today()` - Renamed from `focus()`
+
 ```bash
 today  # Shows .STATUS file (was: focus)
 ```
+
 - Resolved naming conflict with timer `focus()`
 - More descriptive name ("today's focus")
 - No breaking changes to documented aliases
@@ -90,12 +104,14 @@ today  # Shows .STATUS file (was: focus)
 **All error messages now use stderr with standard format:**
 
 **OLD (incorrect):**
+
 ```zsh
 echo "Usage: command <args>"
 echo "Error: something"
 ```
 
 **NEW (correct):**
+
 ```zsh
 echo "command: error description" >&2
 echo "Run 'command help' for usage" >&2
@@ -103,6 +119,7 @@ return 1
 ```
 
 **Files fixed:**
+
 - v-dispatcher.zsh (lines 215-216)
 - dash.zsh (lines 116-118)
 - mcp-dispatcher.zsh (24 error messages)
@@ -112,6 +129,7 @@ return 1
 ### 4. Usage Lines Added (3 files)
 
 **Help functions now include "Usage:" line at top:**
+
 - `g-dispatcher.zsh`: "Usage: g [subcommand] [args]"
 - `v-dispatcher.zsh`: "Usage: v [subcommand] [args]"
 - `dash.zsh`: "Usage: dash [category]"
@@ -123,6 +141,7 @@ return 1
 ### Execution Strategy: Parallel Agents
 
 **6 waves executed in parallel:**
+
 - Wave 1: High-impact smart defaults (3 agents)
 - Wave 2: Workflow tools (3 agents)
 - Wave 3: Claude workflows (8 agents)
@@ -131,6 +150,7 @@ return 1
 - Wave 6: Error standardization (5 agents)
 
 **Efficiency gains:**
+
 - Implementation time: ~3 hours
 - Sequential estimate: ~13 hours
 - Time saved: ~10 hours (77% reduction)
@@ -138,6 +158,7 @@ return 1
 ### Git Commits Created: 31
 
 **Examples:**
+
 - `feat(cc): add help support to cc-project()`
 - `feat(fzf): add help support to re(), rt(), rv()`
 - `fix(mcp): standardize all error messages to use stderr`
@@ -152,16 +173,19 @@ return 1
 **File:** `tests/test-help-standards.zsh`
 
 **Test coverage:**
+
 - Total tests: 105
 - Passed: 98 (93%)
 - Failed: 7 (expected failures - correct behavior)
 
 **Test categories:**
+
 1. Help invocation (all three forms)
 2. Error message format (stderr usage)
 3. Default behavior validation
 
 **Run tests:**
+
 ```bash
 zsh tests/test-help-standards.zsh
 ```
@@ -212,11 +236,13 @@ zsh tests/test-help-standards.zsh
 **Reason:** Naming conflict with timer `focus()` function
 
 **Impact:** Minimal
+
 - The `f` alias was documented but never actually created
 - `f25` and `f50` aliases remain unchanged (timer shortcuts)
 - Hub version was less frequently used
 
 **Migration:**
+
 ```bash
 # OLD:
 focus  # Show .STATUS file
@@ -230,16 +256,17 @@ today  # Show .STATUS file (more descriptive)
 ## ADHD Optimization Impact
 
 | Command | Before | After | Improvement |
-|---------|--------|-------|-------------|
-| `dash` | 9/10 | 10/10 | +1 |
-| `qu` | 6/10 | 10/10 | +4 🎯 |
-| `timer` | 6/10 | 10/10 | +4 🎯 |
-| `note` | 6/10 | 10/10 | +4 🎯 |
-| `peek` | 5/10 | 7/10 | +2 |
+| ------- | ------ | ----- | ----------- |
+| `dash`  | 9/10   | 10/10 | +1          |
+| `qu`    | 6/10   | 10/10 | +4 🎯       |
+| `timer` | 6/10   | 10/10 | +4 🎯       |
+| `note`  | 6/10   | 10/10 | +4 🎯       |
+| `peek`  | 5/10   | 7/10  | +2          |
 
 **Average improvement:** +3 points
 
 **Key benefits:**
+
 - Zero cognitive load for common actions
 - Instant productivity (no decisions required)
 - Muscle memory friendly
@@ -253,6 +280,7 @@ today  # Show .STATUS file (more descriptive)
 ### ZSH Commands Help Standard
 
 ✅ All functions now comply with `standards/code/ZSH-COMMANDS-HELP.md`:
+
 - Accept all three help forms (help, -h, --help)
 - Help text includes Usage, Description, Examples
 - Help check performed FIRST (before other logic)
@@ -262,6 +290,7 @@ today  # Show .STATUS file (more descriptive)
 ### Default Behavior Standard
 
 ✅ New standard established at `standards/workflow/DEFAULT-BEHAVIOR.md`:
+
 - 5-tier decision tree for default behaviors
 - Smart defaults for high-impact functions
 - Error message standardization
@@ -271,17 +300,17 @@ today  # Show .STATUS file (more descriptive)
 
 ## Files Modified (Summary)
 
-| File | Functions | Changes | Commits |
-|------|-----------|---------|---------|
-| claude-workflows.zsh | 8 | Help + errors | 8 |
-| fzf-helpers.zsh | 12 | Help support | 12 |
-| adhd-helpers.zsh | 11 | Help + errors | 9 |
-| dash.zsh | 1 | Smart default + errors | 2 |
-| smart-dispatchers.zsh | 3 | Smart defaults | 3 |
-| hub-commands.zsh | 1 | Rename focus→today | 1 |
-| v-dispatcher.zsh | 1 | Error messages + Usage | 2 |
-| mcp-dispatcher.zsh | 1 | 24 error messages | 1 |
-| g-dispatcher.zsh | 1 | Usage line | 1 |
+| File                  | Functions | Changes                | Commits |
+| --------------------- | --------- | ---------------------- | ------- |
+| claude-workflows.zsh  | 8         | Help + errors          | 8       |
+| fzf-helpers.zsh       | 12        | Help support           | 12      |
+| adhd-helpers.zsh      | 11        | Help + errors          | 9       |
+| dash.zsh              | 1         | Smart default + errors | 2       |
+| smart-dispatchers.zsh | 3         | Smart defaults         | 3       |
+| hub-commands.zsh      | 1         | Rename focus→today     | 1       |
+| v-dispatcher.zsh      | 1         | Error messages + Usage | 2       |
+| mcp-dispatcher.zsh    | 1         | 24 error messages      | 1       |
+| g-dispatcher.zsh      | 1         | Usage line             | 1       |
 
 **Total:** 9 files, 42 functions, 31 commits
 
@@ -292,9 +321,11 @@ today  # Show .STATUS file (more descriptive)
 ### For Users
 
 **No action required** - all changes are backwards compatible except:
+
 - `focus` (hub version) renamed to `today` - minimal impact
 
 **New capabilities:**
+
 - All functions now support `command help` (in addition to -h, --help)
 - Smart defaults reduce typing for common actions
 - Better error messages with helpful hints
@@ -304,6 +335,7 @@ today  # Show .STATUS file (more descriptive)
 **New patterns to follow:**
 
 1. **Help check FIRST:**
+
 ```zsh
 functionname() {
     if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
@@ -315,6 +347,7 @@ functionname() {
 ```
 
 2. **Error messages use stderr:**
+
 ```zsh
 if [[ -z "$required_arg" ]]; then
     echo "functionname: missing required argument <argname>" >&2
@@ -324,6 +357,7 @@ fi
 ```
 
 3. **Smart defaults where appropriate:**
+
 ```zsh
 local action="${1:-most-common-action}"
 ```

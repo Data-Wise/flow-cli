@@ -12,6 +12,7 @@
 ### 1. `dash` - See Everything
 
 **Show all work:**
+
 ```bash
 dash                 # All projects
 dash teaching        # Teaching only
@@ -24,11 +25,13 @@ dash packages        # R packages only
 ### 2. `status` - Update Projects
 
 **Interactive:**
+
 ```bash
 status mediationverse
 ```
 
 **Quick:**
+
 ```bash
 status medfit active P1 "Add vignette" 60
 ```
@@ -60,16 +63,19 @@ next: task description
 ## 🚀 Quick Workflows
 
 **Start day:**
+
 ```bash
 dash → js
 ```
 
 **Update status:**
+
 ```bash
 status <name> active P0 "Task" 75
 ```
 
 **Switch projects:**
+
 ```bash
 dash teaching → work stat-440
 ```

@@ -53,9 +53,7 @@ describe('UpdateStatusFileUseCase', () => {
       status: 'active',
       progress: 75,
       type: 'r-package',
-      next: [
-        { action: 'Write tests', priority: 'high' }
-      ],
+      next: [{ action: 'Write tests', priority: 'high' }],
       body: '# Project Notes\nSome notes.'
     })
   })
@@ -190,9 +188,9 @@ describe('UpdateStatusFileUseCase', () => {
     })
 
     test('throws error if no .STATUS file exists', async () => {
-      await expect(
-        useCase.execute({ projectPath: '/nonexistent/path' })
-      ).rejects.toThrow('No .STATUS file found')
+      await expect(useCase.execute({ projectPath: '/nonexistent/path' })).rejects.toThrow(
+        'No .STATUS file found'
+      )
     })
   })
 

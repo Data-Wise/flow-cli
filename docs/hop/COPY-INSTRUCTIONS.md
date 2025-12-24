@@ -47,7 +47,7 @@ ls -1 ~/projects/dev-tools/flow-cli/docs/hop/ | wc -l
 ## Files to Copy (17 total)
 
 1. CHANGELOG.md
-2. COMMAND-MAP.txt  
+2. COMMAND-MAP.txt
 3. COMMAND-QUICK-REFERENCE-UPDATED.md
 4. DECISION-LOG-HOP-INTEGRATION.md
 5. MANUAL-INSTALLATION-GUIDE.md

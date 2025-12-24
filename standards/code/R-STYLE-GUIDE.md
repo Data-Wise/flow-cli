@@ -22,14 +22,14 @@ lintr::lint_package()
 
 ### Naming
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Functions | `snake_case` | `calculate_effect()` |
-| Variables | `snake_case` | `sample_size` |
-| Constants | `SCREAMING_SNAKE` | `MAX_ITERATIONS` |
-| S3 classes | `snake_case` | `mediation_result` |
-| S4 classes | `PascalCase` | `MediationModel` |
-| File names | `snake_case.R` | `bootstrap_ci.R` |
+| Type       | Convention        | Example              |
+| ---------- | ----------------- | -------------------- |
+| Functions  | `snake_case`      | `calculate_effect()` |
+| Variables  | `snake_case`      | `sample_size`        |
+| Constants  | `SCREAMING_SNAKE` | `MAX_ITERATIONS`     |
+| S3 classes | `snake_case`      | `mediation_result`   |
+| S4 classes | `PascalCase`      | `MediationModel`     |
+| File names | `snake_case.R`    | `bootstrap_ci.R`     |
 
 ### Spacing
 
@@ -168,15 +168,15 @@ test_that("bootstrap CI has expected length", {
 
 ## Quick Reference Card
 
-| Do This | Not This |
-|---------|----------|
-| `snake_case` | `camelCase` or `dot.case` |
-| `<-` for assignment | `=` for assignment |
-| Explicit `return()` | Implicit return |
-| `TRUE`/`FALSE` | `T`/`F` |
-| `seq_len(n)` | `1:n` when n could be 0 |
-| `vapply()` | `sapply()` |
-| `||` and `&&` | `|` and `&` for scalars |
+| Do This             | Not This                  |
+| ------------------- | ------------------------- | -------- | --- | ------------------- |
+| `snake_case`        | `camelCase` or `dot.case` |
+| `<-` for assignment | `=` for assignment        |
+| Explicit `return()` | Implicit return           |
+| `TRUE`/`FALSE`      | `T`/`F`                   |
+| `seq_len(n)`        | `1:n` when n could be 0   |
+| `vapply()`          | `sapply()`                |
+| `                   |                           | `and`&&` | `   | `and`&` for scalars |
 
 ## Tools
 

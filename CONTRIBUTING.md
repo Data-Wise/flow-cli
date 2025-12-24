@@ -28,16 +28,19 @@ Thank you for your interest in contributing! This guide will help you get starte
 ### Setup
 
 1. **Clone or navigate to project:**
+
    ```bash
    cd ~/projects/dev-tools/flow-cli
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 3. **Run tests:**
+
    ```bash
    npm test
    ```
@@ -84,6 +87,7 @@ flow-cli/
 ### Making Changes
 
 1. **Create a feature branch:**
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -94,6 +98,7 @@ flow-cli/
    - Documentation: Edit files in `docs/`
 
 3. **Test your changes:**
+
    ```bash
    # CLI tests
    npm test
@@ -126,6 +131,7 @@ We use conventional commits:
 ```
 
 **Types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation only
@@ -134,6 +140,7 @@ We use conventional commits:
 - `chore`: Maintenance tasks
 
 **Examples:**
+
 ```
 feat(cli): add project detector adapter
 fix(validation): handle empty paths correctly
@@ -148,14 +155,14 @@ docs(architecture): add quick wins guide
 
 1. **Choose the right location:**
 
-   | Content Type | Directory |
-   |--------------|-----------|
-   | User guides | `docs/user/` |
-   | Architecture | `docs/architecture/` |
-   | API docs | `docs/api/` |
-   | Planning | `docs/planning/current/` or `docs/planning/proposals/` |
-   | Implementation tracking | `docs/implementation/` |
-   | Completed work | `docs/archive/` |
+   | Content Type            | Directory                                              |
+   | ----------------------- | ------------------------------------------------------ |
+   | User guides             | `docs/user/`                                           |
+   | Architecture            | `docs/architecture/`                                   |
+   | API docs                | `docs/api/`                                            |
+   | Planning                | `docs/planning/current/` or `docs/planning/proposals/` |
+   | Implementation tracking | `docs/implementation/`                                 |
+   | Completed work          | `docs/archive/`                                        |
 
 2. **Follow naming conventions:**
    - Use CAPS for visibility: `PROPOSAL-feature-name.md`
@@ -163,6 +170,7 @@ docs(architecture): add quick wins guide
    - Add dates for planning: `SPRINT-REVIEW-2025-12-21.md`
 
 3. **Use consistent format:**
+
    ```markdown
    # Title
 
@@ -183,10 +191,11 @@ docs(architecture): add quick wins guide
    ```
 
 4. **Add to mkdocs.yml navigation:**
+
    ```yaml
    nav:
      - Section Name:
-       - Page Title: path/to/file.md
+         - Page Title: path/to/file.md
    ```
 
 5. **Update doc-index.md** if adding major documents
@@ -194,6 +203,7 @@ docs(architecture): add quick wins guide
 ### Documentation Guidelines
 
 **ADHD-Friendly Writing:**
+
 - ✅ Use visual hierarchy (headers, bullets, tables)
 - ✅ Keep sections short (< 200 words)
 - ✅ Add TL;DR at top of major sections
@@ -201,6 +211,7 @@ docs(architecture): add quick wins guide
 - ✅ Provide quick wins vs long-term items
 
 **Technical Writing:**
+
 - ✅ Code examples should be copy-paste ready
 - ✅ Include file paths and line numbers
 - ✅ Link to related documents
@@ -272,6 +283,7 @@ test_your_function
 ```
 
 **Test Guidelines:**
+
 - Write tests for all new features
 - Test happy path + error cases
 - Use descriptive test names: `should...`
@@ -284,6 +296,7 @@ test_your_function
 ### JavaScript/Node.js
 
 **General:**
+
 - ES6 modules (`import`/`export`)
 - Async/await over callbacks
 - Descriptive variable names
@@ -300,21 +313,18 @@ test_your_function
  * @throws {ValidationError} - If path is invalid
  */
 export async function detectProjectType(projectPath) {
-  validateAbsolutePath(projectPath);
+  validateAbsolutePath(projectPath)
 
-  const result = await executeShellFunction(
-    detectorScript,
-    'get_project_type',
-    [projectPath]
-  );
+  const result = await executeShellFunction(detectorScript, 'get_project_type', [projectPath])
 
-  return mapProjectType(result);
+  return mapProjectType(result)
 }
 ```
 
 ### ZSH Functions
 
 **General:**
+
 - Follow conventions in [ZSH-DEVELOPMENT-GUIDELINES.md](docs/ZSH-DEVELOPMENT-GUIDELINES.md)
 - Use `local` for all variables
 - Add `--help` support
@@ -362,6 +372,7 @@ EOF
 ### Pull Request Process
 
 1. **Ensure all tests pass:**
+
    ```bash
    npm test
    ~/.config/zsh/tests/test-adhd-helpers.zsh
@@ -373,6 +384,7 @@ EOF
    - Update `.STATUS` with your work
 
 3. **Create pull request:**
+
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -386,6 +398,7 @@ EOF
 ### Code Review
 
 **Reviewers will check:**
+
 - ✅ Tests pass
 - ✅ Code follows style guidelines
 - ✅ Documentation updated
@@ -399,16 +412,19 @@ EOF
 When adding features that touch architecture, follow these patterns:
 
 ### 1. Error Handling
+
 - Use semantic error classes (see [Architecture Quick Wins](docs/architecture/ARCHITECTURE-QUICK-WINS.md#error-handling))
 - Throw errors at boundaries
 - Log errors with context
 
 ### 2. Validation
+
 - Validate at API entry points
 - Fail fast with clear messages
 - Use reusable validation functions
 
 ### 3. Layer Organization
+
 ```
 lib/domain/      # Business logic (no external dependencies)
 lib/use-cases/   # Application logic
@@ -417,11 +433,13 @@ lib/utils/       # Shared utilities
 ```
 
 ### 4. Testing
+
 - Unit tests for domain/use-cases (fast, no I/O)
 - Integration tests for adapters (with real dependencies)
 - Use in-memory adapters for testing
 
 **For full details, see:**
+
 - [Architecture Quick Wins](docs/architecture/ARCHITECTURE-QUICK-WINS.md)
 - [Architecture Patterns](docs/architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md)
 - [ADRs](docs/architecture/decisions/README.md)
@@ -440,6 +458,7 @@ lib/utils/       # Shared utilities
 ## Recognition
 
 Contributors who make significant improvements will be recognized in:
+
 - Project README
 - Documentation
 - Changelog

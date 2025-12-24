@@ -17,12 +17,12 @@ The flow-cli system needs to expose functionality to various consumers (CLI, Des
 
 ## Decision Drivers
 
-* **Primary Use Case** - CLI tool and Desktop app (local, not networked)
-* **Performance** - Low latency required for interactive commands
-* **Simplicity** - Easy to call from JavaScript/Node.js
-* **Type Safety** - TypeScript support desirable
-* **Future Flexibility** - May need HTTP API later
-* **Developer Experience** - Clear, discoverable API
+- **Primary Use Case** - CLI tool and Desktop app (local, not networked)
+- **Performance** - Low latency required for interactive commands
+- **Simplicity** - Easy to call from JavaScript/Node.js
+- **Type Safety** - TypeScript support desirable
+- **Future Flexibility** - May need HTTP API later
+- **Developer Experience** - Clear, discoverable API
 
 ---
 
@@ -44,11 +44,13 @@ if (data.status === 200) {
 ```
 
 **Pros:**
+
 - ✅ Language-agnostic (could call from any language)
 - ✅ Well-understood patterns
 - ✅ Network-capable (remote access)
 
 **Cons:**
+
 - ❌ Requires HTTP server (overhead)
 - ❌ Slower (network roundtrip even locally)
 - ❌ Complex error handling (HTTP status codes)
@@ -74,11 +76,13 @@ const result = await client.query({
 ```
 
 **Pros:**
+
 - ✅ Flexible queries
 - ✅ Type system
 - ✅ Efficient data fetching
 
 **Cons:**
+
 - ❌ Too complex for simple CRUD operations
 - ❌ Requires GraphQL server
 - ❌ Learning curve for users
@@ -99,6 +103,7 @@ console.log(session.id)
 ```
 
 **Pros:**
+
 - ✅ Simple and direct (just function calls)
 - ✅ Fast (no network overhead)
 - ✅ Natural JavaScript (async/await)
@@ -108,6 +113,7 @@ console.log(session.id)
 - ✅ No serialization overhead
 
 **Cons:**
+
 - ⚠️ Node.js only (acceptable - that's our platform)
 - ⚠️ Not network-capable (can add HTTP wrapper later if needed)
 
@@ -117,7 +123,7 @@ console.log(session.id)
 // User code
 import { sessions } from 'flow-cli'
 
-sessions.on('created', (session) => {
+sessions.on('created', session => {
   console.log('Session created:', session.id)
 })
 
@@ -125,10 +131,12 @@ sessions.create({ project: 'rmediation' })
 ```
 
 **Pros:**
+
 - ✅ Decoupled
 - ✅ Good for reactive programming
 
 **Cons:**
+
 - ❌ Complex control flow
 - ❌ Harder to reason about
 - ❌ Not suitable for request/response pattern
@@ -174,6 +182,7 @@ sessions.create({ project: 'rmediation' })
    - No need to remember HTTP status codes or GraphQL syntax
 
 4. **Simplicity**
+
    ```javascript
    // No boilerplate, just call the function
    try {
@@ -226,7 +235,7 @@ function createSession(opts) {
   if (!opts.project) {
     throw new ValidationError('Project required')
   }
-  return session  // Return data directly
+  return session // Return data directly
 }
 ```
 
@@ -258,12 +267,7 @@ function createSession(project, task, branch, context) {
 }
 
 // ✅ GOOD: Object parameter with defaults
-async function createSession({
-  project,
-  task = 'Work session',
-  branch = 'main',
-  context = {}
-}) {
+async function createSession({ project, task = 'Work session', branch = 'main', context = {} }) {
   // Named parameters, defaults, any order
 }
 
@@ -280,7 +284,7 @@ await createSession({
 ```javascript
 // ❌ BAD: Return primitives
 function createSession(opts) {
-  return 'session-12345'  // Just an ID?
+  return 'session-12345' // Just an ID?
 }
 
 // ✅ GOOD: Return entities
@@ -295,23 +299,23 @@ function createSession(opts) {
 
 // User gets full object
 const session = await createSession({ project: 'test' })
-console.log(session.id)         // 'session-12345'
-console.log(session.startTime)  // Date object
-console.log(session.state)      // SessionState.ACTIVE
+console.log(session.id) // 'session-12345'
+console.log(session.startTime) // Date object
+console.log(session.state) // SessionState.ACTIVE
 ```
 
 ### 5. **Consistent Naming**
 
-| Pattern | Use When | Example |
-|---------|----------|---------|
-| `createX()` | Create new entity | `createSession()` |
-| `deleteX()` | Remove entity | `deleteSession()` |
-| `updateX()` | Modify entity | `updateSession()` |
-| `getX()` | Get by ID (expects to find) | `getSession()` |
-| `findX()` | Search (may not find) | `findSession()` |
-| `listXs()` | Get multiple | `listSessions()` |
-| `isX()` | Boolean check | `isSessionActive()` |
-| `detectX()` | Analyze/discover | `detectProjectType()` |
+| Pattern     | Use When                    | Example               |
+| ----------- | --------------------------- | --------------------- |
+| `createX()` | Create new entity           | `createSession()`     |
+| `deleteX()` | Remove entity               | `deleteSession()`     |
+| `updateX()` | Modify entity               | `updateSession()`     |
+| `getX()`    | Get by ID (expects to find) | `getSession()`        |
+| `findX()`   | Search (may not find)       | `findSession()`       |
+| `listXs()`  | Get multiple                | `listSessions()`      |
+| `isX()`     | Boolean check               | `isSessionActive()`   |
+| `detectX()` | Analyze/discover            | `detectProjectType()` |
 
 ---
 
@@ -330,9 +334,7 @@ export async function detectProjectType(projectPath) {
 
 // Batch detection
 export async function detectMultipleProjects(projectPaths) {
-  const results = await Promise.all(
-    projectPaths.map(path => detectProjectType(path))
-  )
+  const results = await Promise.all(projectPaths.map(path => detectProjectType(path)))
 
   return projectPaths.reduce((acc, path, i) => {
     acc[path] = results[i]
@@ -351,28 +353,22 @@ export function isTypeSupported(type) {
 ```
 
 **Usage:**
+
 ```javascript
-import {
-  detectProjectType,
-  detectMultipleProjects,
-  getSupportedTypes
-} from 'flow-cli'
+import { detectProjectType, detectMultipleProjects, getSupportedTypes } from 'flow-cli'
 
 // Single
 const type = await detectProjectType('/path/to/rmediation')
-console.log(type)  // 'r-package'
+console.log(type) // 'r-package'
 
 // Batch
-const results = await detectMultipleProjects([
-  '/path/to/rmediation',
-  '/path/to/quarto-doc'
-])
+const results = await detectMultipleProjects(['/path/to/rmediation', '/path/to/quarto-doc'])
 console.log(results)
 // { '/path/to/rmediation': 'r-package', '/path/to/quarto-doc': 'quarto' }
 
 // Metadata
 const types = getSupportedTypes()
-console.log(types)  // ['r-package', ...]
+console.log(types) // ['r-package', ...]
 ```
 
 ### Example 2: Session Management (Future)
@@ -420,23 +416,23 @@ export async function listActiveSessions() {
 
 ### Positive
 
-* ✅ **Fast** - No network/serialization overhead
-* ✅ **Simple** - Just function calls, natural JavaScript
-* ✅ **Type-safe** - TypeScript definitions work perfectly
-* ✅ **IDE-friendly** - Autocomplete, go-to-definition work
-* ✅ **Error handling** - Native try/catch, no status codes
-* ✅ **Testable** - Easy to mock/stub functions
-* ✅ **Future-proof** - Can wrap with HTTP layer later
+- ✅ **Fast** - No network/serialization overhead
+- ✅ **Simple** - Just function calls, natural JavaScript
+- ✅ **Type-safe** - TypeScript definitions work perfectly
+- ✅ **IDE-friendly** - Autocomplete, go-to-definition work
+- ✅ **Error handling** - Native try/catch, no status codes
+- ✅ **Testable** - Easy to mock/stub functions
+- ✅ **Future-proof** - Can wrap with HTTP layer later
 
 ### Negative
 
-* ⚠️ **Node.js only** - Not callable from other languages (acceptable)
-* ⚠️ **Local only** - No network access (can add later)
+- ⚠️ **Node.js only** - Not callable from other languages (acceptable)
+- ⚠️ **Local only** - No network access (can add later)
 
 ### Neutral
 
-* ℹ️ **HTTP later** - If needed, wrap use cases with Express/Fastify
-* ℹ️ **Documentation** - Need good JSDoc comments (automated tooling)
+- ℹ️ **HTTP later** - If needed, wrap use cases with Express/Fastify
+- ℹ️ **Documentation** - Need good JSDoc comments (automated tooling)
 
 ---
 
@@ -483,20 +479,22 @@ createSession(), deleteSession(), listSessions()
 
 ## Related Decisions
 
-* **ADR-002**: Clean Architecture - Use cases are pure functions (perfect for module API)
-* **Future ADR**: HTTP API Wrapper (if we add REST endpoint later)
-* **Future ADR**: GraphQL Layer (if we add GraphQL later)
+- **ADR-002**: Clean Architecture - Use cases are pure functions (perfect for module API)
+- **Future ADR**: HTTP API Wrapper (if we add REST endpoint later)
+- **Future ADR**: GraphQL Layer (if we add GraphQL later)
 
 ---
 
 ## References
 
 **Best Practices:**
+
 - [Node.js Best Practices](https://github.com/goldbergyoni/nodebestpractices)
 - [API Design Guide](https://github.com/microsoft/api-guidelines)
 - [Promise Patterns](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)
 
 **Internal Docs:**
+
 - [API-DESIGN-REVIEW.md](../API-DESIGN-REVIEW.md) - Full API review
 - [API-DESIGN-QUICK-REFERENCE.md](../API-DESIGN-QUICK-REFERENCE.md) - Cheat sheet
 

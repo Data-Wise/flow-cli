@@ -74,7 +74,7 @@ export class StatusFileGateway {
           currentArray = data[currentSection]
         } else {
           data[currentSection] = {}
-          currentArray = null  // Reset array context
+          currentArray = null // Reset array context
         }
         indentLevel = currentIndent
         continue
@@ -163,8 +163,10 @@ export class StatusFileGateway {
       }
 
       // Look for "next:" or "next action:" lines
-      if (trimmed.toLowerCase().startsWith('next:') ||
-          trimmed.toLowerCase().startsWith('next action:')) {
+      if (
+        trimmed.toLowerCase().startsWith('next:') ||
+        trimmed.toLowerCase().startsWith('next action:')
+      ) {
         const actionText = trimmed.split(':').slice(1).join(':').trim()
         if (actionText) {
           data.next.push({ action: actionText, priority: 'medium' })
@@ -181,8 +183,10 @@ export class StatusFileGateway {
    */
   _parseValue(value) {
     // Remove quotes
-    if ((value.startsWith('"') && value.endsWith('"')) ||
-        (value.startsWith("'") && value.endsWith("'"))) {
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
       return value.slice(1, -1)
     }
 

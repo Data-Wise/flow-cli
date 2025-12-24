@@ -17,6 +17,7 @@ The current flow-cli system uses a 3-layer architecture (Frontend ZSH → Backen
 **Question:** How should we structure the codebase for long-term maintainability and testability?
 
 **Current Pain Points:**
+
 - Business logic scattered across layers
 - Hard to test without filesystem/shell execution
 - Controllers tightly coupled to use cases
@@ -152,16 +153,19 @@ cli/
 ### Implementation Roadmap
 
 **Phase 1 (Week 2)**: Foundation
+
 - Create domain entities (Session, Project, Task)
 - Create value objects (ProjectType, SessionState)
 - Define repository interfaces
 
 **Phase 2 (Week 3)**: Migration
+
 - Extract use cases from existing backend
 - Implement adapters (file system, shell gateway)
 - Create DI container
 
 **Phase 3 (Week 4)**: Enhancement
+
 - Add domain events
 - Implement additional use cases
 - Complete test coverage
@@ -171,11 +175,13 @@ cli/
 ## Alternative Considered: Keep Current 3-Layer Architecture
 
 **Pros:**
+
 - ✓ Simpler (fewer files)
 - ✓ Faster short-term development
 - ✓ No migration needed
 
 **Cons:**
+
 - ✗ Business logic scattered
 - ✗ Hard to test
 - ✗ Tight coupling
@@ -188,11 +194,13 @@ cli/
 ## Alternative Considered: Microservices Architecture
 
 **Pros:**
+
 - ✓ Independent deployment
 - ✓ Technology diversity
 - ✓ Scalability
 
 **Cons:**
+
 - ✗ Massive overkill for CLI tool
 - ✗ Network overhead
 - ✗ Operational complexity

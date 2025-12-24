@@ -12,6 +12,7 @@
 ### What We Have Now (mcp-utils.zsh)
 
 **Functions:**
+
 - `mcp-list` - List all MCP servers with status
 - `mcp-cd` - Navigate to MCP servers directory
 - `mcp-edit` - Edit MCP server in $EDITOR
@@ -22,6 +23,7 @@
 - `mcp-help` - Show help
 
 **Aliases:**
+
 - `ml` = mcp-list
 - `mc` = mcp-cd
 - `mcpl` = mcp-list
@@ -42,9 +44,11 @@
 ### ❌ V1: Not Following Dispatcher Pattern
 
 **From CONVENTIONS.md:**
+
 > Pattern: command + keyword + options
 
 **Current:**
+
 ```bash
 mcp-list
 mcp-cd docling
@@ -52,6 +56,7 @@ mcp-test statistical-research
 ```
 
 **Standard Pattern (like g, r, v):**
+
 ```bash
 mcp list
 mcp cd docling
@@ -61,28 +66,33 @@ mcp test statistical-research
 ### ❌ V2: Inconsistent with Existing Dispatchers
 
 **Other dispatchers in flow-cli:**
+
 - `g status` (not `g-status`)
 - `r test` (not `r-test`)
 - `v build` (not `v-build`)
 - `qu render` (not `qu-render`)
 
 **MCP should be:**
+
 - `mcp list` (not `mcp-list`)
 
 ### ❌ V3: Alias Naming Confusion
 
 **Current aliases:**
+
 - `ml` = mcp-list (good)
 - `mc` = mcp-cd (conflicts! `mc` usually = Midnight Commander)
 - `mcpl`, `mcpc`, `mcpe` (too verbose, non-standard)
 
 **Standard approach:**
+
 - Short aliases for common actions only
 - No "mc" prefix (conflicts with Midnight Commander)
 
 ### ❌ V4: No Dispatcher Help Structure
 
 **Missing:**
+
 - `_mcp_help()` function
 - Categories in help (like other dispatchers)
 - "MOST COMMON" section
@@ -97,6 +107,7 @@ mcp test statistical-research
 **Convert to standard dispatcher pattern like g, r, v**
 
 **Implementation:**
+
 ```bash
 mcp() {
     # No arguments → default action (list)
@@ -164,6 +175,7 @@ mcp() {
 ```
 
 **Usage:**
+
 ```bash
 mcp              # List all servers (default)
 mcp list         # or: mcp ls, mcp l
@@ -176,6 +188,7 @@ mcp help         # or: mcp h
 ```
 
 **Aliases (simplified):**
+
 ```bash
 # Short forms for power users
 alias ml='mcp list'     # Keep (common)
@@ -184,6 +197,7 @@ alias mcp='mcp pick'    # Interactive picker
 ```
 
 **Pros:**
+
 - ✅ Follows flow-cli standards
 - ✅ Consistent with g, r, v dispatchers
 - ✅ Single mental model (cmd + keyword)
@@ -191,6 +205,7 @@ alias mcp='mcp pick'    # Interactive picker
 - ✅ Help structure matches other dispatchers
 
 **Cons:**
+
 - ⚠️ Breaking change (existing functions)
 - ⚠️ Need to update tests
 - ⚠️ Documentation update required
@@ -202,6 +217,7 @@ alias mcp='mcp pick'    # Interactive picker
 **Keep current functions + add dispatcher**
 
 **Implementation:**
+
 ```bash
 # Dispatcher calls existing functions
 mcp() {
@@ -225,6 +241,7 @@ mcp() {
 ```
 
 **Usage:**
+
 ```bash
 # Both work:
 mcp list         # Dispatcher
@@ -235,11 +252,13 @@ mcp-cd docling   # Direct function
 ```
 
 **Pros:**
+
 - ✅ No breaking changes
 - ✅ Gradual migration path
 - ✅ Power users can use either
 
 **Cons:**
+
 - ❌ Violates R1: No Duplicates rule
 - ❌ Two ways to do everything (confusing)
 - ❌ More maintenance burden
@@ -251,10 +270,12 @@ mcp-cd docling   # Direct function
 **Keep mcp-<action> pattern as-is**
 
 **Pros:**
+
 - ✅ No changes needed
 - ✅ Works today
 
 **Cons:**
+
 - ❌ Violates standards
 - ❌ Inconsistent with g, r, v
 - ❌ Harder to remember (dash vs space)
@@ -264,22 +285,22 @@ mcp-cd docling   # Direct function
 
 ## Detailed Comparison
 
-| Feature | Current (mcp-*) | Option A (Dispatcher) | Option B (Hybrid) |
-|---------|----------------|----------------------|-------------------|
-| **Standards Compliant** | ❌ No | ✅ Yes | ⚠️ Partial |
-| **Consistent with g, r, v** | ❌ No | ✅ Yes | ✅ Yes |
-| **ADHD-Friendly** | ⚠️ OK | ✅ Better | ⚠️ Confusing |
-| **Breaking Changes** | ✅ None | ❌ Yes | ✅ None |
-| **Follows R1: No Duplicates** | ✅ Yes | ✅ Yes | ❌ No |
-| **Help Structure** | ❌ Basic | ✅ Full | ⚠️ Partial |
-| **Extensibility** | ⚠️ OK | ✅ Excellent | ⚠️ OK |
-| **Migration Effort** | N/A | 🔧 Medium | ⚡ Low |
+| Feature                       | Current (mcp-\*) | Option A (Dispatcher) | Option B (Hybrid) |
+| ----------------------------- | ---------------- | --------------------- | ----------------- |
+| **Standards Compliant**       | ❌ No            | ✅ Yes                | ⚠️ Partial        |
+| **Consistent with g, r, v**   | ❌ No            | ✅ Yes                | ✅ Yes            |
+| **ADHD-Friendly**             | ⚠️ OK            | ✅ Better             | ⚠️ Confusing      |
+| **Breaking Changes**          | ✅ None          | ❌ Yes                | ✅ None           |
+| **Follows R1: No Duplicates** | ✅ Yes           | ✅ Yes                | ❌ No             |
+| **Help Structure**            | ❌ Basic         | ✅ Full               | ⚠️ Partial        |
+| **Extensibility**             | ⚠️ OK            | ✅ Excellent          | ⚠️ OK             |
+| **Migration Effort**          | N/A              | 🔧 Medium             | ⚡ Low            |
 
 ---
 
 ## Help Structure (Option A)
 
-### Proposed _mcp_help()
+### Proposed \_mcp_help()
 
 ```bash
 _mcp_help() {
@@ -336,6 +357,7 @@ ${_C_BLUE}📍 Locations${_C_NC}:
 ### Step 1: Create New Dispatcher ✅
 
 **File:** `mcp-dispatcher.zsh` (new file)
+
 - Implement `mcp()` function
 - Keep all existing `_mcp_*()` internal functions
 - Add `_mcp_help()` with full structure
@@ -343,6 +365,7 @@ ${_C_BLUE}📍 Locations${_C_NC}:
 ### Step 2: Deprecate Old Functions 📝
 
 **In mcp-utils.zsh:**
+
 ```bash
 # Deprecated: Use 'mcp list' instead
 mcp-list() {
@@ -360,6 +383,7 @@ mcp-cd() {
 ### Step 3: Update Aliases 📝
 
 **In .zshrc:**
+
 ```bash
 # MCP shortcuts
 alias ml='mcp list'      # List servers
@@ -381,7 +405,7 @@ After 1-2 weeks, remove deprecated functions entirely.
 
 ## Quick Wins (< 30 min each)
 
-1. ⚡ **Create _mcp_help()** - Add help structure
+1. ⚡ **Create \_mcp_help()** - Add help structure
 2. ⚡ **Fix mc alias conflict** - Rename to `mcd`
 3. ⚡ **Update README** - Document new pattern
 
@@ -404,6 +428,7 @@ After 1-2 weeks, remove deprecated functions entirely.
 → **Start with Option A: Full Dispatcher**
 
 **Why:**
+
 1. Aligns with flow-cli standards
 2. Consistent mental model (like g, r, v)
 3. Better ADHD experience (one pattern to remember)
@@ -411,6 +436,7 @@ After 1-2 weeks, remove deprecated functions entirely.
 5. Proper help structure
 
 **First Action:**
+
 ```bash
 # Create the dispatcher
 1. Rename mcp-utils.zsh → mcp-dispatcher.zsh

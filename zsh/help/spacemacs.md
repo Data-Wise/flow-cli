@@ -15,6 +15,7 @@
 ## 🚀 LAUNCH ALIASES (4)
 
 ### Primary Launch
+
 ```bash
 e              # emacsclient -c -a ""
                # Connect to daemon OR start new
@@ -22,44 +23,52 @@ e              # emacsclient -c -a ""
 ```
 
 **What it does:**
+
 1. Checks if daemon running
 2. If yes: Opens new frame (instant!)
 3. If no: Starts Emacs normally
 
 **When to use:**
+
 - Opening files
 - Daily editing
 - Quick edits
 
 ### Terminal Mode
+
 ```bash
 et             # emacsclient -t
                # Terminal Emacs (no GUI)
 ```
 
 **When to use:**
+
 - SSH sessions
 - Quick edits in terminal
 - GUI not available
 
 ### GUI Client
+
 ```bash
 ec             # emacsclient -c
                # GUI client (assumes daemon running)
 ```
 
 **When to use:**
+
 - Daemon definitely running
 - Want new frame
 - Explicit GUI request
 
 ### Open Directory
+
 ```bash
 edir           # emacsclient -c -a "" .
                # Open current directory in dired
 ```
 
 **When to use:**
+
 - File management
 - Project exploration
 - Bulk operations
@@ -69,40 +78,47 @@ edir           # emacsclient -c -a "" .
 ## ⚙️ SERVER MANAGEMENT (3)
 
 ### Start Server
+
 ```bash
 estart         # emacs --daemon
                # Start Emacs daemon in background
 ```
 
 **Run this ONCE per session (optional):**
+
 ```bash
 # At login or first use:
 $ estart
 ```
 
 **Benefits:**
+
 - Instant subsequent launches
 - Shared buffers across frames
 - Persistent state
 
 ### Stop Server
+
 ```bash
 estop          # emacsclient -e "(kill-emacs)"
                # Gracefully stop daemon
 ```
 
 **When to use:**
+
 - End of day
 - Updating Spacemacs
 - Something went wrong
 
 ### Restart Server
+
 ```bash
 erestart       # estop && sleep 1 && estart
                # Full restart
 ```
 
 **When to use:**
+
 - Config changes not taking effect
 - Weird behavior
 - Fresh start needed
@@ -112,11 +128,13 @@ erestart       # estop && sleep 1 && estart
 ## 📝 QUICK EDITS (3)
 
 ### Edit Zsh Config
+
 ```bash
 ezsh           # Open ~/.config/zsh/.zshrc
 ```
 
 **Workflow:**
+
 ```bash
 $ ezsh              # Edit config
 # Make changes
@@ -125,11 +143,13 @@ $ reload            # Reload zsh
 ```
 
 ### Edit Project Status
+
 ```bash
 estat          # Open .STATUS in current dir
 ```
 
 **Workflow:**
+
 ```bash
 $ @medfit           # Jump to project
 $ estat             # Edit status
@@ -138,6 +158,7 @@ $ estat             # Edit status
 ```
 
 ### Edit Project Hub
+
 ```bash
 ehub           # Open PROJECT-HUB.md
 ```
@@ -149,23 +170,27 @@ ehub           # Open PROJECT-HUB.md
 ## 🔧 CONFIG MANAGEMENT (2)
 
 ### Edit Spacemacs Config
+
 ```bash
 econfig        # Open ~/.spacemacs
 ```
 
 **What to edit:**
+
 - Layer configuration
 - Package additions
 - Key bindings
 - Theme/appearance
 
 ### Reload Config
+
 ```bash
 ereload        # Spacemacs/reload-dotfile
                # Reload WITHOUT restarting
 ```
 
 **After editing .spacemacs:**
+
 ```bash
 $ econfig           # Edit .spacemacs
 # Make changes
@@ -179,6 +204,7 @@ $ ereload           # Reload config
 ## 💡 COMMON WORKFLOWS
 
 ### First Time Each Day
+
 ```bash
 # Option 1: Just use e (auto-starts if needed)
 $ e
@@ -189,6 +215,7 @@ $ e file.R          # Open file (instant!)
 ```
 
 ### Edit Zsh Config
+
 ```bash
 $ ezsh              # Open .zshrc
 # Edit in Spacemacs
@@ -197,6 +224,7 @@ $ reload            # Back in terminal, reload
 ```
 
 ### Update Project Status
+
 ```bash
 $ @medfit           # Jump to project
 $ estat             # Edit .STATUS
@@ -206,6 +234,7 @@ $ status            # Verify changes
 ```
 
 ### Work on R Package
+
 ```bash
 $ @medfit
 $ e R/fit.R         # Open R file
@@ -216,6 +245,7 @@ $ rtest             # Run tests
 ```
 
 ### Multiple Files
+
 ```bash
 $ @medfit
 $ e R/*.R           # Open all R files
@@ -245,12 +275,14 @@ SPC p f         # Find file in project
 ## 🔄 INTEGRATION WITH OTHER ALIASES
 
 ### Spacemacs + Navigation
+
 ```bash
 $ @medfit && estat     # Jump and edit status
 $ @zsh && ezsh         # Jump and edit config
 ```
 
 ### Spacemacs + Status
+
 ```bash
 $ estat                # Edit status
 # Make changes in Spacemacs
@@ -258,6 +290,7 @@ $ status               # View in terminal
 ```
 
 ### Spacemacs + R
+
 ```bash
 $ e R/fit.R            # Edit in Spacemacs
 # Write code
@@ -272,17 +305,20 @@ $ rtest                # Test in terminal
 ### Daemon vs No Daemon
 
 **With daemon:**
+
 - First launch: ~2-3 seconds (estart)
 - Subsequent: <0.5 seconds (e)
 - Shared state
 
 **Without daemon:**
+
 - Every launch: ~2-3 seconds
 - Isolated instances
 
 **Recommendation:** Run estart once per day
 
 ### When Daemon Gets Weird
+
 ```bash
 $ estop             # Stop daemon
 $ estart            # Restart fresh
@@ -295,6 +331,7 @@ $ erestart          # Do both
 ## 🐛 TROUBLESHOOTING
 
 ### "Can't connect to daemon"
+
 ```bash
 # Check if running:
 $ ps aux | grep emacs
@@ -304,6 +341,7 @@ $ erestart
 ```
 
 ### "Config changes not taking"
+
 ```bash
 # After editing .spacemacs:
 $ ereload
@@ -313,6 +351,7 @@ $ erestart
 ```
 
 ### "Spacemacs won't start"
+
 ```bash
 # Check logs:
 $ tail -f ~/.emacs.d/server/server.log
@@ -322,6 +361,7 @@ $ emacs
 ```
 
 ### "Want fresh start"
+
 ```bash
 $ estop
 # Close all Emacs windows
@@ -332,24 +372,25 @@ $ estart
 
 ## 📊 ALIAS SUMMARY
 
-| Alias | Purpose | Frequency |
-|-------|---------|-----------|
-| e | Launch/connect | Daily |
-| estat | Edit status | Daily |
-| ezsh | Edit zsh config | Weekly |
-| econfig | Edit Spacemacs config | As needed |
-| ereload | Reload config | As needed |
-| estart | Start daemon | Once/day |
-| et | Terminal mode | Rare |
-| ec | GUI client | Rare |
-| edir | Open directory | As needed |
-| estop | Stop daemon | End of day |
+| Alias   | Purpose               | Frequency  |
+| ------- | --------------------- | ---------- |
+| e       | Launch/connect        | Daily      |
+| estat   | Edit status           | Daily      |
+| ezsh    | Edit zsh config       | Weekly     |
+| econfig | Edit Spacemacs config | As needed  |
+| ereload | Reload config         | As needed  |
+| estart  | Start daemon          | Once/day   |
+| et      | Terminal mode         | Rare       |
+| ec      | GUI client            | Rare       |
+| edir    | Open directory        | As needed  |
+| estop   | Stop daemon           | End of day |
 
 ---
 
 ## 🎯 QUICK REFERENCE
 
 **Most used:**
+
 ```bash
 e              # Launch
 estat          # Edit status
@@ -358,6 +399,7 @@ ereload        # Reload Spacemacs config
 ```
 
 **Daily workflow:**
+
 ```bash
 # Morning:
 estart         # Optional, or let e auto-start

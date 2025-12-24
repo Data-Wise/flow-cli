@@ -5,10 +5,10 @@
  * Wraps work, finish, and other workflow-related commands.
  */
 
-const { exec } = require('child_process');
-const { promisify } = require('util');
+const { exec } = require('child_process')
+const { promisify } = require('util')
 
-const execAsync = promisify(exec);
+const execAsync = promisify(exec)
 
 /**
  * Execute a ZSH command with full shell environment
@@ -18,28 +18,28 @@ const execAsync = promisify(exec);
 async function executeZshCommand(command) {
   try {
     // Source .zshrc to load all functions and execute command
-    const fullCommand = `zsh -c 'source ~/.zshrc && ${command}'`;
+    const fullCommand = `zsh -c 'source ~/.zshrc && ${command}'`
 
     const { stdout, stderr } = await execAsync(fullCommand, {
       // Set timeout to prevent hanging
       timeout: 30000,
       // Use user's shell environment
       env: process.env
-    });
+    })
 
     return {
       success: true,
       stdout: stdout.trim(),
       stderr: stderr.trim(),
       exitCode: 0
-    };
+    }
   } catch (error) {
     return {
       success: false,
       stdout: error.stdout || '',
       stderr: error.stderr || error.message,
       exitCode: error.code || 1
-    };
+    }
   }
 }
 
@@ -52,23 +52,23 @@ async function executeZshCommand(command) {
  */
 async function startWork(project, options = {}) {
   if (!project) {
-    throw new Error('Project name is required');
+    throw new Error('Project name is required')
   }
 
   // Build command with options
-  let command = `work ${project}`;
+  let command = `work ${project}`
   if (options.editor) {
-    command = `EDITOR=${options.editor} ${command}`;
+    command = `EDITOR=${options.editor} ${command}`
   }
 
-  const result = await executeZshCommand(command);
+  const result = await executeZshCommand(command)
 
   return {
     ...result,
     project,
     command,
     timestamp: new Date().toISOString()
-  };
+  }
 }
 
 /**
@@ -77,20 +77,20 @@ async function startWork(project, options = {}) {
  * @returns {Promise<Object>} Result with session end info
  */
 async function finishWork(message = '') {
-  let command = 'finish';
+  let command = 'finish'
   if (message) {
     // Escape single quotes in message
-    const escapedMessage = message.replace(/'/g, "'\\''");
-    command = `finish '${escapedMessage}'`;
+    const escapedMessage = message.replace(/'/g, "'\\''")
+    command = `finish '${escapedMessage}'`
   }
 
-  const result = await executeZshCommand(command);
+  const result = await executeZshCommand(command)
 
   return {
     ...result,
     command,
     timestamp: new Date().toISOString()
-  };
+  }
 }
 
 /**
@@ -100,15 +100,15 @@ async function finishWork(message = '') {
  */
 async function getWorkflowContext(directory = process.cwd()) {
   // Use the ZSH project type detection
-  const command = `cd ${directory} && project-type`;
-  const result = await executeZshCommand(command);
+  const command = `cd ${directory} && project-type`
+  const result = await executeZshCommand(command)
 
   if (result.success) {
     return {
       directory,
       projectType: result.stdout,
       timestamp: new Date().toISOString()
-    };
+    }
   }
 
   return {
@@ -116,7 +116,7 @@ async function getWorkflowContext(directory = process.cwd()) {
     projectType: 'unknown',
     error: result.stderr,
     timestamp: new Date().toISOString()
-  };
+  }
 }
 
 /**
@@ -130,21 +130,21 @@ async function executeSmartCommand(action, options = {}) {
     build: 'pb',
     view: 'pv',
     test: 'pt'
-  };
-
-  const command = commandMap[action];
-  if (!command) {
-    throw new Error(`Unknown action: ${action}. Must be build, view, or test`);
   }
 
-  const result = await executeZshCommand(command);
+  const command = commandMap[action]
+  if (!command) {
+    throw new Error(`Unknown action: ${action}. Must be build, view, or test`)
+  }
+
+  const result = await executeZshCommand(command)
 
   return {
     ...result,
     action,
     command,
     timestamp: new Date().toISOString()
-  };
+  }
 }
 
 /**
@@ -154,17 +154,17 @@ async function executeSmartCommand(action, options = {}) {
  * @returns {Promise<Object>} Result
  */
 async function executeVibeCommand(subcommand, args = []) {
-  const argsString = args.join(' ');
-  const command = `v ${subcommand} ${argsString}`.trim();
+  const argsString = args.join(' ')
+  const command = `v ${subcommand} ${argsString}`.trim()
 
-  const result = await executeZshCommand(command);
+  const result = await executeZshCommand(command)
 
   return {
     ...result,
     subcommand,
     command,
     timestamp: new Date().toISOString()
-  };
+  }
 }
 
 /**
@@ -173,14 +173,14 @@ async function executeVibeCommand(subcommand, args = []) {
  * @returns {Promise<Object>} Aliases
  */
 async function getAliases(category = '') {
-  const command = category ? `ah ${category}` : 'ah';
-  const result = await executeZshCommand(command);
+  const command = category ? `ah ${category}` : 'ah'
+  const result = await executeZshCommand(command)
 
   return {
     ...result,
     category: category || 'all',
     timestamp: new Date().toISOString()
-  };
+  }
 }
 
 /**
@@ -188,13 +188,13 @@ async function getAliases(category = '') {
  * @returns {Promise<Object>} Dashboard info
  */
 async function getDashboard() {
-  const command = 'dash';
-  const result = await executeZshCommand(command);
+  const command = 'dash'
+  const result = await executeZshCommand(command)
 
   return {
     ...result,
     timestamp: new Date().toISOString()
-  };
+  }
 }
 
 module.exports = {
@@ -206,4 +206,4 @@ module.exports = {
   executeVibeCommand,
   getAliases,
   getDashboard
-};
+}

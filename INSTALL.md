@@ -8,6 +8,7 @@ Quick guide to install Flow CLI and make the `flow` command available globally.
 - npm >= 9.0.0
 
 Check your versions:
+
 ```bash
 node --version
 npm --version
@@ -64,6 +65,7 @@ flow status --web -p 8080
 ```
 
 The web dashboard includes:
+
 - Real-time session monitoring
 - Chart.js visualizations
 - Session history trends
@@ -160,11 +162,13 @@ flow --version
 After installation:
 
 1. **Start a session** (when implemented):
+
    ```bash
    flow work my-project "Implement feature"
    ```
 
 2. **Check status**:
+
    ```bash
    flow status
    ```

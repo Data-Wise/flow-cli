@@ -24,13 +24,13 @@
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `zsh-clean` | **Do everything** (archive junk + sync to GitHub) |
-| `zsh-clean status` | Health check only |
-| `zsh-clean undo` | Discard uncommitted changes |
-| `zsh-clean test` | Run test suite |
-| `zsh-clean help` | Show help |
+| Command            | Description                                       |
+| ------------------ | ------------------------------------------------- |
+| `zsh-clean`        | **Do everything** (archive junk + sync to GitHub) |
+| `zsh-clean status` | Health check only                                 |
+| `zsh-clean undo`   | Discard uncommitted changes                       |
+| `zsh-clean test`   | Run test suite                                    |
+| `zsh-clean help`   | Show help                                         |
 
 ---
 
@@ -56,6 +56,7 @@ $ zsh-clean
 ```
 
 That's it. One command does everything:
+
 1. Archives any junk files (`.bak`, `.tmp`, etc.)
 2. Commits changes to git
 3. Pushes to GitHub
@@ -97,11 +98,11 @@ $ zsh-clean status
 
 ## Recovery
 
-| Scenario | Solution |
-|----------|----------|
-| **Broke something just now** | `zsh-clean undo` |
-| **Need older version** | `git log --oneline` → `git checkout <hash> -- zsh/` |
-| **Catastrophic loss** | Clone from GitHub or Google Drive |
+| Scenario                     | Solution                                            |
+| ---------------------------- | --------------------------------------------------- |
+| **Broke something just now** | `zsh-clean undo`                                    |
+| **Need older version**       | `git log --oneline` → `git checkout <hash> -- zsh/` |
+| **Catastrophic loss**        | Clone from GitHub or Google Drive                   |
 
 ### Restore Specific File
 
@@ -116,10 +117,10 @@ source ~/.config/zsh/.zshrc
 
 ## Backup Strategy
 
-| Method | When | History |
-|--------|------|---------|
-| **GitHub** | Every `zsh-clean` | Full git history |
-| **Google Drive** | Automatic | ~30 days |
+| Method           | When              | History          |
+| ---------------- | ----------------- | ---------------- |
+| **GitHub**       | Every `zsh-clean` | Full git history |
+| **Google Drive** | Automatic         | ~30 days         |
 
 No local tarballs needed — two cloud backups are enough.
 
@@ -143,11 +144,13 @@ No local tarballs needed — two cloud backups are enough.
 ## Tracked vs Ignored
 
 **Tracked (GitHub):**
+
 - `.zshrc`, `.p10k.zsh`, `.zsh_plugins.*`
 - `functions/*.zsh`
 - `tests/`, `help/`
 
 **Ignored (local):**
+
 - `.archive/` — archived junk
 - `.zcompdump*`, `.zsh_history`, `.zsh_sessions/`
 - `.zshrc.local` — machine-specific

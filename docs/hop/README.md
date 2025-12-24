@@ -20,7 +20,7 @@ All documentation files have been presented to you in Claude.ai and are availabl
 2. Copy all `.md`, `.txt`, and `.sh` files from the hop project to this folder
 3. You should have 17 files total
 
-### Option 2: Command Line Copy  
+### Option 2: Command Line Copy
 
 If all files are in ~/Downloads:
 
@@ -63,29 +63,34 @@ find ~ -name "MASTER-INDEX.md" -type f 2>/dev/null | grep -v "docs/hop"
 ## 📋 Expected Files (17 total)
 
 **Core Documentation (5 files):**
+
 - PROJECT-COMPLETE-SUMMARY.md
-- COMMAND-QUICK-REFERENCE-UPDATED.md  
+- COMMAND-QUICK-REFERENCE-UPDATED.md
 - TROUBLESHOOTING-GUIDE.md
 - DECISION-LOG-HOP-INTEGRATION.md
 - CHANGELOG.md
 
 **Installation (2 files):**
+
 - MANUAL-INSTALLATION-GUIDE.md
 - install-hop.sh
 
 **Phase Documentation (4 files):**
+
 - PHASE2-INTEGRATION-GUIDE.md
 - PHASE2-SUMMARY.md
 - PHASE3-COMPLETE.md
 - PHASE2-ARCHITECTURE.txt
 
 **Reference (4 files):**
+
 - MASTER-INDEX.md ✓ (already here)
 - README-SECTION-HOP.md
 - PHASE2-QUICK-REFERENCE.txt
 - COMMAND-MAP.txt
 
 **Testing & Updates (2 files):**
+
 - test-phase2.sh
 - UPDATED-HELP-FUNCTIONS.md
 
@@ -113,7 +118,7 @@ ls -1 ~/projects/dev-tools/flow-cli/docs/hop/
 Once all documentation files are copied:
 
 1. **Start Here:** Open MASTER-INDEX.md
-2. **Install:** Follow MANUAL-INSTALLATION-GUIDE.md  
+2. **Install:** Follow MANUAL-INSTALLATION-GUIDE.md
 3. **Learn:** Read PROJECT-COMPLETE-SUMMARY.md
 
 ---

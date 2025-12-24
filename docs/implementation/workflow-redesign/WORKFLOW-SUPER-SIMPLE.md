@@ -3,11 +3,13 @@
 ## 🤔 The Problem
 
 This is confusing:
+
 ```bash
 status active P0 "Run sims" 85
 ```
 
 **What does each thing mean?**
+
 - active = ???
 - P0 = ???
 - "Run sims" = ???
@@ -26,6 +28,7 @@ status
 ```
 
 **What happens:**
+
 ```
 📋 Current status: ready
    New status? (active/paused/blocked/ready): active
@@ -43,6 +46,7 @@ status
 ```
 
 **Why this is better:**
+
 - ✅ It TELLS you what each thing means
 - ✅ Shows current values
 - ✅ You just type the answer
@@ -71,6 +75,7 @@ status active
 ```
 
 **Why this is better:**
+
 - ✅ Clear what you're updating
 - ✅ One thing at a time
 - ✅ No confusing order
@@ -80,6 +85,7 @@ status active
 ## 🎯 Recommended Commands
 
 ### See what you're working on:
+
 ```bash
 dash
 ```
@@ -89,6 +95,7 @@ Shows all projects with colors and priorities.
 ---
 
 ### Pick what to work on:
+
 ```bash
 js
 ```
@@ -98,6 +105,7 @@ Picks highest priority project for you. Zero decisions.
 ---
 
 ### Update current project:
+
 ```bash
 cd ~/projects/r-packages/active/mediationverse
 
@@ -111,6 +119,7 @@ status
 ---
 
 ### Jump to a project:
+
 ```bash
 work mediationverse
 # or short name:
@@ -161,11 +170,13 @@ status
 ## 🚀 Even Simpler: Two Commands
 
 ### To see everything:
+
 ```bash
 dash
 ```
 
 ### To do something:
+
 ```bash
 js        # Pick and start
 work med  # Specific project
@@ -177,11 +188,13 @@ status    # Update (interactive prompts)
 ## ❓ Quick Questions
 
 **Q: How do I see all my projects?**
+
 ```bash
 dash
 ```
 
 **Q: How do I update a project's status?**
+
 ```bash
 cd <project>
 status
@@ -189,6 +202,7 @@ status
 ```
 
 **Q: How do I start working?**
+
 ```bash
 js
 # or
@@ -196,6 +210,7 @@ work <project-name>
 ```
 
 **Q: Do I have to remember that confusing command?**
+
 ```bash
 NO! Just use: status
 It will prompt you.
@@ -222,14 +237,17 @@ It will prompt you.
 ## ✅ What Should Actually Change
 
 ### Keep as-is:
+
 - ✅ `dash` - Works great, don't change
 - ✅ `js` - Works great, don't change
 
 ### Make smarter:
+
 - 🔧 `status` - Should work on current folder
 - 🔧 `work` - Should work on current folder
 
 ### Remove:
+
 - ❌ That confusing `status active P0 "task" 85` command
 - ❌ Use interactive mode instead
 
@@ -242,6 +260,7 @@ It will prompt you.
 ### 1. Smart `status` (detects current folder)
 
 **Before:**
+
 ```bash
 cd ~/projects/r-packages/active/mediationverse
 status mediationverse  # Why type the name??
@@ -249,6 +268,7 @@ status mediationverse  # Why type the name??
 ```
 
 **After:**
+
 ```bash
 cd ~/projects/r-packages/active/mediationverse
 status  # Auto-detects!
@@ -260,12 +280,14 @@ status  # Auto-detects!
 ### 2. Smart `work` (detects current folder)
 
 **Before:**
+
 ```bash
 cd ~/projects/r-packages/active/mediationverse
 work mediationverse  # Why type the name??
 ```
 
 **After:**
+
 ```bash
 cd ~/projects/r-packages/active/mediationverse
 work  # Auto-detects!

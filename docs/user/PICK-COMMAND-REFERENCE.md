@@ -27,36 +27,36 @@ pick [--fast] [category]
 
 ### Arguments
 
-| Argument | Description |
-|----------|-------------|
-| `category` | Optional project category filter |
-| `--fast` | Skip git status checks (faster loading) |
+| Argument   | Description                             |
+| ---------- | --------------------------------------- |
+| `category` | Optional project category filter        |
+| `--fast`   | Skip git status checks (faster loading) |
 
 ### Categories
 
 All category names are case-insensitive and support multiple aliases:
 
-| Category | Aliases | Description |
-|----------|---------|-------------|
-| **r** | `r`, `R`, `rpack`, `rpkg` | R packages |
-| **dev** | `dev`, `Dev`, `DEV`, `tool`, `tools` | Development tools |
-| **q** | `q`, `Q`, `qu`, `quarto` | Quarto projects |
-| **teach** | `teach`, `teaching` | Teaching courses |
-| **rs** | `rs`, `research`, `res` | Research projects |
-| **app** | `app`, `apps` | Applications |
+| Category  | Aliases                              | Description       |
+| --------- | ------------------------------------ | ----------------- |
+| **r**     | `r`, `R`, `rpack`, `rpkg`            | R packages        |
+| **dev**   | `dev`, `Dev`, `DEV`, `tool`, `tools` | Development tools |
+| **q**     | `q`, `Q`, `qu`, `quarto`             | Quarto projects   |
+| **teach** | `teach`, `teaching`                  | Teaching courses  |
+| **rs**    | `rs`, `research`, `res`              | Research projects |
+| **app**   | `app`, `apps`                        | Applications      |
 
 ---
 
 ## Interactive Keys
 
-| Key | Action | Description |
-|-----|--------|-------------|
-| **Enter** | cd | Change to selected project directory |
-| **Ctrl-W** | work | cd + start work session |
-| **Ctrl-O** | code | cd + open in VS Code |
-| **Ctrl-S** | status | View .STATUS file (with bat/cat) |
-| **Ctrl-L** | log | View git log (with tig/git) |
-| **Ctrl-C** | cancel | Exit without action |
+| Key        | Action | Description                          |
+| ---------- | ------ | ------------------------------------ |
+| **Enter**  | cd     | Change to selected project directory |
+| **Ctrl-W** | work   | cd + start work session              |
+| **Ctrl-O** | code   | cd + open in VS Code                 |
+| **Ctrl-S** | status | View .STATUS file (with bat/cat)     |
+| **Ctrl-L** | log    | View git log (with tig/git)          |
+| **Ctrl-C** | cancel | Exit without action                  |
 
 ---
 
@@ -163,11 +163,11 @@ Works with:
 
 ## Files
 
-| File | Purpose |
-|------|---------|
-| `PROPOSAL-PICK-COMMAND-ENHANCEMENT.md` | Technical proposal & implementation details |
-| `QUICK-WINS-IMPLEMENTED.md` | Quick enhancements documentation |
-| `docs/planning/proposals/PICK-COMMAND-NEXT-PHASE.md` | Future enhancement roadmap (P6A-P6F) |
+| File                                                 | Purpose                                     |
+| ---------------------------------------------------- | ------------------------------------------- |
+| `PROPOSAL-PICK-COMMAND-ENHANCEMENT.md`               | Technical proposal & implementation details |
+| `QUICK-WINS-IMPLEMENTED.md`                          | Quick enhancements documentation            |
+| `docs/planning/proposals/PICK-COMMAND-NEXT-PHASE.md` | Future enhancement roadmap (P6A-P6F)        |
 
 ---
 

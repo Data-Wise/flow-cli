@@ -14,16 +14,19 @@ After the major alias cleanup (2025-12-19), several tutorial and workflow docume
 ## ✅ Completed Updates
 
 ### 1. WORKFLOW-TUTORIAL.md
+
 - ✅ Added warning note at top
 - ⚠️ Still references `js`, `idk`, `stuck` (removed) → should use `just-start`
 - **Status:** Warning added, full rewrite needed
 
 ### 2. WORKFLOWS-QUICK-WINS.md
+
 - ✅ Added warning note at top
 - ⚠️ Still references `t`, `lt`, `dt`, `js` and other removed aliases
 - **Status:** Warning added, full rewrite needed
 
 ### 3. WORKFLOW-QUICK-REFERENCE.md
+
 - ✅ Warning note already added (2025-12-19)
 - **Status:** Complete
 
@@ -33,43 +36,43 @@ After the major alias cleanup (2025-12-19), several tutorial and workflow docume
 
 ### Functions That Still EXIST ✅
 
-| Function | Location | Status |
-|----------|----------|--------|
-| `dash()` | dash.zsh | ✅ Working |
-| `status()` | status.zsh | ✅ Working |
-| `work()` | work.zsh | ✅ Working |
-| `just-start()` | adhd-helpers.zsh | ✅ Working |
-| `next()` | adhd-helpers.zsh | ✅ Working |
-| `f25`, `f50` | adhd-helpers.zsh (aliases) | ✅ Working |
+| Function       | Location                   | Status     |
+| -------------- | -------------------------- | ---------- |
+| `dash()`       | dash.zsh                   | ✅ Working |
+| `status()`     | status.zsh                 | ✅ Working |
+| `work()`       | work.zsh                   | ✅ Working |
+| `just-start()` | adhd-helpers.zsh           | ✅ Working |
+| `next()`       | adhd-helpers.zsh           | ✅ Working |
+| `f25`, `f50`   | adhd-helpers.zsh (aliases) | ✅ Working |
 
 ### Aliases That Were REMOVED ❌
 
-| Old Alias | Function It Called | Replacement | Documented in |
-|-----------|-------------------|-------------|---------------|
-| `js` | `just-start` | `just-start` | ALIAS-REFERENCE-CARD line 135, 240 |
-| `idk` | `just-start` | `just-start` | ALIAS-REFERENCE-CARD line 135 |
-| `stuck` | `just-start` | `just-start` | ALIAS-REFERENCE-CARD line 135, 240 |
-| `t` | ? | Unknown | NOT FOUND in current config |
-| `lt` | ? | Unknown | NOT FOUND in current config |
-| `dt` | ? | Unknown | NOT FOUND in current config |
+| Old Alias | Function It Called | Replacement  | Documented in                      |
+| --------- | ------------------ | ------------ | ---------------------------------- |
+| `js`      | `just-start`       | `just-start` | ALIAS-REFERENCE-CARD line 135, 240 |
+| `idk`     | `just-start`       | `just-start` | ALIAS-REFERENCE-CARD line 135      |
+| `stuck`   | `just-start`       | `just-start` | ALIAS-REFERENCE-CARD line 135, 240 |
+| `t`       | ?                  | Unknown      | NOT FOUND in current config        |
+| `lt`      | ?                  | Unknown      | NOT FOUND in current config        |
+| `dt`      | ?                  | Unknown      | NOT FOUND in current config        |
 
 ### R Package Workflow Commands Status ❓
 
 Need to verify if these exist (referenced in WORKFLOWS-QUICK-WINS.md):
 
-| Command | Purpose | Status |
-|---------|---------|--------|
-| `rload` | Load R package | ✅ In ALIAS-REFERENCE-CARD (line 73) |
-| `rtest` | Run tests | ✅ In ALIAS-REFERENCE-CARD (line 74) |
-| `rdoc` | Generate docs | ✅ In ALIAS-REFERENCE-CARD (line 75) |
-| `rcheck` | R CMD check | ✅ In ALIAS-REFERENCE-CARD (line 76) |
-| `rbuild` | Build package | ✅ In ALIAS-REFERENCE-CARD (line 77) |
-| `rinstall` | Install package | ✅ In ALIAS-REFERENCE-CARD (line 78) |
-| `rcycle` | Full doc+test+check cycle | ✅ In ALIAS-REFERENCE-CARD (line 87) |
-| `qcommit` | Quick commit | ❌ NOT in current ALIAS-REFERENCE-CARD |
-| `rpkgcommit` | Safe R package commit | ❌ NOT in current ALIAS-REFERENCE-CARD |
-| `rnewfun` | Create new function file | ❌ NOT in current ALIAS-REFERENCE-CARD |
-| `rnewtest` | Create new test file | ❌ NOT in current ALIAS-REFERENCE-CARD |
+| Command      | Purpose                   | Status                                 |
+| ------------ | ------------------------- | -------------------------------------- |
+| `rload`      | Load R package            | ✅ In ALIAS-REFERENCE-CARD (line 73)   |
+| `rtest`      | Run tests                 | ✅ In ALIAS-REFERENCE-CARD (line 74)   |
+| `rdoc`       | Generate docs             | ✅ In ALIAS-REFERENCE-CARD (line 75)   |
+| `rcheck`     | R CMD check               | ✅ In ALIAS-REFERENCE-CARD (line 76)   |
+| `rbuild`     | Build package             | ✅ In ALIAS-REFERENCE-CARD (line 77)   |
+| `rinstall`   | Install package           | ✅ In ALIAS-REFERENCE-CARD (line 78)   |
+| `rcycle`     | Full doc+test+check cycle | ✅ In ALIAS-REFERENCE-CARD (line 87)   |
+| `qcommit`    | Quick commit              | ❌ NOT in current ALIAS-REFERENCE-CARD |
+| `rpkgcommit` | Safe R package commit     | ❌ NOT in current ALIAS-REFERENCE-CARD |
+| `rnewfun`    | Create new function file  | ❌ NOT in current ALIAS-REFERENCE-CARD |
+| `rnewtest`   | Create new test file      | ❌ NOT in current ALIAS-REFERENCE-CARD |
 
 ---
 
@@ -106,17 +109,20 @@ Need to verify if these exist (referenced in WORKFLOWS-QUICK-WINS.md):
 ## 🎯 Recommended Approach
 
 ### Option A: Quick Fix (30 min)
+
 1. ✅ Add warning notes to tutorial headers (DONE)
 2. Point users to ALIAS-REFERENCE-CARD.md as source of truth
 3. Mark tutorials as "legacy - needs update"
 
 ### Option B: Full Rewrite (4-6 hours)
+
 1. Rewrite WORKFLOW-TUTORIAL.md with current commands
 2. Rewrite WORKFLOWS-QUICK-WINS.md with current 28 aliases
 3. Create new atomic pair aliases if `t`, `lt`, `dt` are valuable
 4. Update all examples and workflows
 
 ### Option C: Deprecate & Redirect (1 hour)
+
 1. Keep tutorials as-is with warning notes (DONE)
 2. Create NEW "Getting Started with Current Workflow" guide
 3. Redirect users to new guide in docs/index.md
@@ -127,16 +133,19 @@ Need to verify if these exist (referenced in WORKFLOWS-QUICK-WINS.md):
 ## 💡 Insights for Future Updates
 
 ### What Went Well ✅
+
 - ALIAS-REFERENCE-CARD.md is excellent - complete migration guide
 - Warning notes prevent users from being misled
 - Core functions (`dash`, `status`, `work`, `just-start`) still exist
 
 ### Gaps Found ❌
+
 - Tutorials weren't updated during alias cleanup
 - No automated check for tutorial/alias sync
 - Atomic pairs (`t`, `lt`, `dt`) lost without replacement
 
 ### Prevention Strategy 🔮
+
 1. **Add tutorial checklist** to alias cleanup workflow
 2. **Version documentation** to match alias versions
 3. **Create CI check** that validates commands in tutorials exist
@@ -147,14 +156,17 @@ Need to verify if these exist (referenced in WORKFLOWS-QUICK-WINS.md):
 ## 📊 Impact Assessment
 
 ### High Impact (Blocks Users)
+
 - ❌ `js` command in WORKFLOW-TUTORIAL.md (used 8+ times)
 - ❌ Atomic pairs `t`, `lt`, `dt` in WORKFLOWS-QUICK-WINS.md (10 workflows depend on them)
 
 ### Medium Impact (Confusing)
+
 - ⚠️ Mixed old/new command references
 - ⚠️ Examples that don't work as shown
 
 ### Low Impact (Informational)
+
 - ℹ️ Some commands still work (functions vs aliases)
 - ℹ️ Migration guide exists in ALIAS-REFERENCE-CARD
 
@@ -179,6 +191,7 @@ Need to verify if these exist (referenced in WORKFLOWS-QUICK-WINS.md):
 ## 📅 Implementation Timeline
 
 ### ✅ Immediate (COMPLETED - 2025-12-19)
+
 - ✅ Warning notes added to 3 tutorial files
 - ✅ Created TUTORIAL-UPDATE-STATUS.md tracking document
 - ✅ Verified which commands still exist vs removed
@@ -190,6 +203,7 @@ Need to verify if these exist (referenced in WORKFLOWS-QUICK-WINS.md):
 **Option Selected:** **Option B - Full Rewrite** (Recommended)
 
 **Tasks:**
+
 1. **Rewrite WORKFLOW-TUTORIAL.md** (2 hours)
    - Replace `js`/`idk`/`stuck` → `just-start`
    - Verify all 4 core commands work
@@ -217,6 +231,7 @@ Need to verify if these exist (referenced in WORKFLOWS-QUICK-WINS.md):
 **Goal:** Prevent future tutorial drift & improve documentation quality
 
 **Infrastructure:**
+
 1. **Automated Documentation Validation** (2 hours)
    - CI check: validate all commands in markdown files exist
    - Generate report of broken command references
@@ -241,6 +256,7 @@ Need to verify if these exist (referenced in WORKFLOWS-QUICK-WINS.md):
    - Add "Check your understanding" quizzes
 
 **Content Improvements:**
+
 1. **Interactive Examples** (ongoing)
    - Add copy-paste code blocks
    - Include expected output
@@ -257,6 +273,7 @@ Need to verify if these exist (referenced in WORKFLOWS-QUICK-WINS.md):
    - Print-friendly format for desk reference
 
 **Maintenance Process:**
+
 1. **Documentation Review Cadence**
    - Monthly: Check for broken links
    - Quarterly: Update examples with real usage

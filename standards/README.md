@@ -27,13 +27,13 @@ This is the **Standards Hub** — one tier of the three-tier project management 
 
 ## Quick Links
 
-| Category | What's There |
-|----------|--------------|
-| [**adhd/**](adhd/) | ADHD-friendly templates and recovery guides |
-| [**code/**](code/) | Style guides (R, Python, ZSH) |
-| [**documentation/**](documentation/) | Website design, MkDocs standards |
-| [**project/**](project/) | Project structure, PM system, coordination |
-| [**workflow/**](workflow/) | Git workflow, releases, reviews |
+| Category                             | What's There                                |
+| ------------------------------------ | ------------------------------------------- |
+| [**adhd/**](adhd/)                   | ADHD-friendly templates and recovery guides |
+| [**code/**](code/)                   | Style guides (R, Python, ZSH)               |
+| [**documentation/**](documentation/) | Website design, MkDocs standards            |
+| [**project/**](project/)             | Project structure, PM system, coordination  |
+| [**workflow/**](workflow/)           | Git workflow, releases, reviews             |
 
 ## Philosophy
 
@@ -58,6 +58,7 @@ proj check                     # Validates against standards
 ## Index
 
 ### ADHD Guides
+
 - `adhd/QUICK-START-TEMPLATE.md` — 30-second project onboarding
 - `adhd/GETTING-STARTED-TEMPLATE.md` — 10-minute user training guide
 - `adhd/TUTORIAL-TEMPLATE.md` — Step-by-step deep learning guides
@@ -66,11 +67,13 @@ proj check                     # Validates against standards
 - `adhd/CONTEXT-RECOVERY.md` — "Where was I?"
 
 ### Code Style
+
 - `code/R-STYLE-GUIDE.md` — R coding conventions
 - `code/ZSH-COMMANDS-HELP.md` — ZSH command help output standard
 - `code/COMMIT-MESSAGES.md` — Git commit format
 
 ### Project Standards
+
 - `project/PROJECT-STRUCTURE.md` — Directory conventions
 - `project/PROJECT-MANAGEMENT-STANDARDS.md` — Two-tier PM system (.STATUS + PROJECT-HUB.md) ⭐ NEW
 - `project/COORDINATION-GUIDE.md` — Cross-project coordination ⭐ NEW

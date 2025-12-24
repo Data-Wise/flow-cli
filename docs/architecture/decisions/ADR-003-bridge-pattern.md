@@ -20,6 +20,7 @@ The flow-cli system (JavaScript/Node.js) needs to execute vendored shell scripts
 **Question:** How do we cleanly integrate JavaScript code with shell scripts?
 
 **Requirements:**
+
 - Must execute shell scripts from Node.js
 - Must handle stdout/stderr
 - Must map shell types to JavaScript types
@@ -47,10 +48,10 @@ The flow-cli system (JavaScript/Node.js) needs to execute vendored shell scripts
 ```javascript
 // cli/lib/project-detector-bridge.js
 
-import { exec } from 'child_process';
-import { promisify } from 'util';
+import { exec } from 'child_process'
+import { promisify } from 'util'
 
-const execAsync = promisify(exec);
+const execAsync = promisify(exec)
 
 /**
  * Bridge: Adapts shell script interface to JavaScript Promise-based API
@@ -61,23 +62,22 @@ export async function detectProjectType(projectPath) {
     const { stdout, stderr } = await execAsync(
       `source "${coreScript}" && source "${detectorScript}" && cd "${projectPath}" && get_project_type`,
       { shell: '/bin/zsh' }
-    );
+    )
 
     // Log warnings
     if (stderr) {
-      console.error(`Warning: ${stderr}`);
+      console.error(`Warning: ${stderr}`)
     }
 
     // Transform: Shell string → JavaScript string
-    const shellType = stdout.trim();
+    const shellType = stdout.trim()
 
     // Transform: Shell type → API type
-    return mapProjectType(shellType);
-
+    return mapProjectType(shellType)
   } catch (error) {
     // Transform: Shell error → Graceful degradation
-    console.error(`Failed to detect: ${error.message}`);
-    return 'unknown';
+    console.error(`Failed to detect: ${error.message}`)
+    return 'unknown'
   }
 }
 
@@ -86,11 +86,11 @@ export async function detectProjectType(projectPath) {
  */
 function mapProjectType(shellType) {
   const mapping = {
-    'rpkg': 'r-package',           // Shell → API
+    rpkg: 'r-package', // Shell → API
     'quarto-ext': 'quarto-extension',
-    'project': 'generic'
-  };
-  return mapping[shellType] || shellType;
+    project: 'generic'
+  }
+  return mapping[shellType] || shellType
 }
 ```
 
@@ -146,14 +146,14 @@ Exceptions         ←     try/catch       →    exit codes
 // test/test-project-detector.js
 
 test('detect R package', async () => {
-  const type = await detectProjectType('/path/to/r-package');
-  assert.strictEqual(type, 'r-package'); // Not 'rpkg'
-});
+  const type = await detectProjectType('/path/to/r-package')
+  assert.strictEqual(type, 'r-package') // Not 'rpkg'
+})
 
 test('handle invalid path gracefully', async () => {
-  const type = await detectProjectType('/nonexistent');
-  assert.strictEqual(type, 'unknown'); // Doesn't throw
-});
+  const type = await detectProjectType('/nonexistent')
+  assert.strictEqual(type, 'unknown') // Doesn't throw
+})
 ```
 
 ---
@@ -164,13 +164,14 @@ test('handle invalid path gracefully', async () => {
 
 ```javascript
 // ❌ Direct approach (rejected)
-import { exec } from 'child_process';
+import { exec } from 'child_process'
 
-const { stdout } = await exec(`project-detector.sh ${path}`);
-return stdout; // Returns 'rpkg' (shell format)
+const { stdout } = await exec(`project-detector.sh ${path}`)
+return stdout // Returns 'rpkg' (shell format)
 ```
 
 **Rejected because:**
+
 - ✗ Exposes shell implementation details
 - ✗ No type mapping
 - ✗ Inconsistent error handling
@@ -187,13 +188,14 @@ return stdout; // Returns 'rpkg' (shell format)
 // ❌ Pure JavaScript (rejected)
 export function detectProjectType(path) {
   if (fs.existsSync(join(path, 'DESCRIPTION'))) {
-    return 'r-package';
+    return 'r-package'
   }
   // ... 200 lines of detection logic
 }
 ```
 
 **Rejected because:**
+
 - ✗ Duplicate logic (~200 lines)
 - ✗ Maintenance burden (two implementations)
 - ✗ Risk of divergence
@@ -215,6 +217,7 @@ class ShellExecutor {
 ```
 
 **Rejected because:**
+
 - ✗ Over-engineering for simple use case
 - ✗ Adds complexity without benefit
 - ✗ Harder to understand
@@ -229,6 +232,7 @@ class ShellExecutor {
 **Definition:** Decouple abstraction from implementation so they can vary independently
 
 **Applied Here:**
+
 - **Abstraction**: JavaScript Promise-based API
 - **Implementation**: Shell script execution
 - **Bridge**: `project-detector-bridge.js`
@@ -242,6 +246,7 @@ Also applies Adapter pattern:
 **Definition:** Convert interface of class into another interface clients expect
 
 **Applied Here:**
+
 - **Existing interface**: Shell script (text stdout/stderr)
 - **Target interface**: JavaScript Promise API
 - **Adapter**: Bridge layer
@@ -254,10 +259,9 @@ Also applies Adapter pattern:
 
 ```javascript
 // ✅ Safe: Paths are quoted
-`cd "${projectPath}"`
-
+;`cd "${projectPath}"`
 // ❌ Unsafe (don't do this):
-`cd ${projectPath}`  // No quotes!
+`cd ${projectPath}` // No quotes!
 ```
 
 ### Path Validation
@@ -265,7 +269,7 @@ Also applies Adapter pattern:
 ```javascript
 // Future enhancement: Validate paths before execution
 if (!path.isAbsolute(projectPath)) {
-  throw new Error('projectPath must be absolute');
+  throw new Error('projectPath must be absolute')
 }
 ```
 

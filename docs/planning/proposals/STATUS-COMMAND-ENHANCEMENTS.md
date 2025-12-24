@@ -12,6 +12,7 @@
 This proposal outlines enhancements to the `flow status` command and project management files (.STATUS, PROJECT.yml, etc.) to create a comprehensive, ADHD-friendly workflow management system.
 
 **Key Goals:**
+
 1. Make status command visually appealing and scannable
 2. Add intelligent insights and recommendations
 3. Standardize project metadata across ecosystem
@@ -23,45 +24,48 @@ This proposal outlines enhancements to the `flow status` command and project man
 ## 📊 Priority Matrix
 
 ### Tier 1: Quick Wins (Week 2 Day 7) ⚡
+
 **High value + Low effort - Implement immediately**
 
-| Feature | Effort | Impact | Status |
-|---------|--------|--------|--------|
-| Color-coded output | 30min | High | ⏳ Planned |
-| Box drawing characters | 1h | High | ⏳ Planned |
-| Git status integration | 1-2h | High | ⏳ Planned |
-| Parse .STATUS file | 1h | High | ⏳ Planned |
-| Better worklog display | 1h | Medium | ⏳ Planned |
-| YAML .STATUS format | 1-2h | High | ⏳ Planned |
-| .STATUS validator | 1h | Medium | ⏳ Planned |
-| Auto-update .STATUS | 2h | High | ⏳ Planned |
+| Feature                | Effort | Impact | Status     |
+| ---------------------- | ------ | ------ | ---------- |
+| Color-coded output     | 30min  | High   | ⏳ Planned |
+| Box drawing characters | 1h     | High   | ⏳ Planned |
+| Git status integration | 1-2h   | High   | ⏳ Planned |
+| Parse .STATUS file     | 1h     | High   | ⏳ Planned |
+| Better worklog display | 1h     | Medium | ⏳ Planned |
+| YAML .STATUS format    | 1-2h   | High   | ⏳ Planned |
+| .STATUS validator      | 1h     | Medium | ⏳ Planned |
+| Auto-update .STATUS    | 2h     | High   | ⏳ Planned |
 
 **Total Tier 1 Effort:** ~10 hours (1-2 days)
 
 ### Tier 2: Medium-Term (Days 8-10) 📅
+
 **High value + Medium effort**
 
-| Feature | Effort | Impact |
-|---------|--------|--------|
-| Interactive TUI dashboard | 6-8h | Very High |
-| Smart suggestions engine | 4-6h | High |
-| Project graph visualization | 2-3h | Medium |
-| Unified project registry | 3-4h | High |
-| Cross-project sync | 3-4h | Medium |
-| Advanced scanning/caching | 3-4h | Medium |
+| Feature                     | Effort | Impact    |
+| --------------------------- | ------ | --------- |
+| Interactive TUI dashboard   | 6-8h   | Very High |
+| Smart suggestions engine    | 4-6h   | High      |
+| Project graph visualization | 2-3h   | Medium    |
+| Unified project registry    | 3-4h   | High      |
+| Cross-project sync          | 3-4h   | Medium    |
+| Advanced scanning/caching   | 3-4h   | Medium    |
 
 **Total Tier 2 Effort:** ~24 hours (3 days)
 
 ### Tier 3: Strategic (Week 3+) 🎯
+
 **High value + High effort - Plan ahead**
 
-| Feature | Effort | Impact |
-|---------|--------|--------|
-| ML-based recommendations | 1-2 weeks | Very High |
-| Team collaboration | 1-2 weeks | Medium |
-| Multi-device sync | 1 week | Medium |
-| Ecosystem health monitoring | 3-5 days | High |
-| GitHub integration | 3-5 days | Medium |
+| Feature                     | Effort    | Impact    |
+| --------------------------- | --------- | --------- |
+| ML-based recommendations    | 1-2 weeks | Very High |
+| Team collaboration          | 1-2 weeks | Medium    |
+| Multi-device sync           | 1 week    | Medium    |
+| Ecosystem health monitoring | 3-5 days  | High      |
+| GitHub integration          | 3-5 days  | Medium    |
 
 ---
 
@@ -70,6 +74,7 @@ This proposal outlines enhancements to the `flow status` command and project man
 ### A1. Color-Coded Output ⚡ TIER 1
 
 **Implementation:**
+
 ```javascript
 import chalk from 'chalk'
 
@@ -96,6 +101,7 @@ console.log(colors.flow('🔥 IN FLOW STATE'))
 ### A2. Box Drawing Characters ⚡ TIER 1
 
 **Implementation:**
+
 ```javascript
 // Use Unicode box drawing
 const box = {
@@ -121,6 +127,7 @@ const box = {
 ### A3. Progress Bars
 
 **Implementation:**
+
 ```javascript
 import cliProgress from 'cli-progress'
 
@@ -136,6 +143,7 @@ bar.start(5, 3) // Goal: 5, current: 3
 ### A4. Sparklines for Trends
 
 **Implementation:**
+
 ```javascript
 import sparkly from 'sparkly'
 
@@ -152,6 +160,7 @@ console.log(`Trend: ${sparkly(data)}`)
 ### B1. Focus Quality Score ⚡ TIER 1
 
 **Algorithm:**
+
 ```javascript
 calculateFocusScore(sessions) {
   const weights = {
@@ -176,6 +185,7 @@ console.log(`Focus Quality: ${score}/100 ${getGrade(score)}`)
 ```
 
 **Grades:**
+
 - 90-100: 🏆 Excellent
 - 75-89: ⭐ Great
 - 60-74: 👍 Good
@@ -185,6 +195,7 @@ console.log(`Focus Quality: ${score}/100 ${getGrade(score)}`)
 ### B2. Smart Suggestions 📅 TIER 2
 
 **Pattern Detection:**
+
 ```javascript
 // Analyze historical data
 const patterns = {
@@ -200,13 +211,14 @@ if (currentTime in patterns.bestHours) {
 }
 
 if (currentDuration > patterns.preferredDuration) {
-  suggest("You usually work best in shorter sessions. Take a break?")
+  suggest('You usually work best in shorter sessions. Take a break?')
 }
 ```
 
 ### B3. Burnout Detection
 
 **Indicators:**
+
 ```javascript
 const burnoutRisk = {
   tooManyLongSessions: sessions.filter(s => s.duration > 120).length > 3,
@@ -227,6 +239,7 @@ if (burnoutRisk.tooManyLongSessions) {
 ### C1. Git Integration ⚡ TIER 1
 
 **Implementation:**
+
 ```javascript
 import { execSync } from 'child_process'
 
@@ -271,6 +284,7 @@ if (git && git.ahead > 0) {
 ### C2. .STATUS File Parsing ⚡ TIER 1
 
 **Implementation:**
+
 ```javascript
 import { readFile } from 'fs/promises'
 import yaml from 'yaml'
@@ -312,6 +326,7 @@ if (status?.next) {
 ### C3. Worklog Enhanced Display
 
 **Implementation:**
+
 ```javascript
 // Group worklog by action type
 function summarizeWorklog(entries) {
@@ -351,6 +366,7 @@ if (summary.commits.length > 0) {
 ### D1. .STATUS v2 Format (YAML) ⚡ TIER 1
 
 **Schema:**
+
 ```yaml
 ---
 # Required fields
@@ -429,6 +445,7 @@ The bootstrap implementation is working well. Edge case with zero-variance media
 ```
 
 **Migration Script:**
+
 ```javascript
 // Convert old .STATUS to new format
 async function migrateStatus(oldStatusPath) {
@@ -465,6 +482,7 @@ async function migrateStatus(oldStatusPath) {
 ### D2. .STATUS Validator ⚡ TIER 1
 
 **Implementation:**
+
 ```javascript
 function validateStatus(status) {
   const errors = []
@@ -525,6 +543,7 @@ async function validateCommand() {
 ### D3. Auto-Update .STATUS ⚡ TIER 1
 
 **Implementation:**
+
 ```javascript
 // In EndSessionUseCase
 async function updateProjectStatus(session, projectPath) {
@@ -555,8 +574,7 @@ async function updateProjectStatus(session, projectPath) {
   if (new Date(status.metrics.last_updated) < weekStart) {
     status.metrics.sessions_this_week = 1
   } else {
-    status.metrics.sessions_this_week =
-      (status.metrics.sessions_this_week || 0) + 1
+    status.metrics.sessions_this_week = (status.metrics.sessions_this_week || 0) + 1
   }
 
   // Write back
@@ -573,6 +591,7 @@ async function updateProjectStatus(session, projectPath) {
 ### Day 7 - Morning (2h): Polish Status Command ⚡
 
 **Tasks:**
+
 1. Add chalk for color-coded output (30min)
 2. Implement box drawing characters (30min)
 3. Add git status integration (1h)
@@ -582,6 +601,7 @@ async function updateProjectStatus(session, projectPath) {
 ### Day 7 - Afternoon (2h): .STATUS Foundation ⚡
 
 **Tasks:**
+
 1. Design & document YAML format (30min)
 2. Create .STATUS validator (1h)
 3. Implement auto-update from sessions (30min)
@@ -591,6 +611,7 @@ async function updateProjectStatus(session, projectPath) {
 ### Days 8-9: Interactive TUI Dashboard 📅
 
 **Tasks:**
+
 1. Set up blessed/ink framework (2h)
 2. Create dashboard layout (2h)
 3. Add real-time updates (2h)
@@ -601,6 +622,7 @@ async function updateProjectStatus(session, projectPath) {
 ### Day 10: Advanced Features 📅
 
 **Tasks:**
+
 1. Project graph visualization (2h)
 2. Advanced caching for scanning (2h)
 3. Cross-project operations (2h)
@@ -612,6 +634,7 @@ async function updateProjectStatus(session, projectPath) {
 ## 📋 Success Criteria
 
 ### Week 2 Complete When:
+
 - ✅ Status command has colors, boxes, git integration
 - ✅ .STATUS v2 format defined and documented
 - ✅ .STATUS auto-updates from sessions
@@ -621,6 +644,7 @@ async function updateProjectStatus(session, projectPath) {
 - ✅ Migration guide for .STATUS v1 → v2
 
 ### Bonus Goals:
+
 - Interactive TUI dashboard working
 - Project graph visualization
 - Cross-project sync helpers

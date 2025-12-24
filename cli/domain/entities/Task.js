@@ -20,9 +20,10 @@ export class Task {
     this.description = description
 
     // Optional properties with defaults
-    this.priority = options.priority instanceof TaskPriority
-      ? options.priority
-      : new TaskPriority(options.priority || TaskPriority.MEDIUM)
+    this.priority =
+      options.priority instanceof TaskPriority
+        ? options.priority
+        : new TaskPriority(options.priority || TaskPriority.MEDIUM)
 
     this.projectId = options.projectId || null
     this.sessionId = options.sessionId || null
@@ -68,11 +69,17 @@ export class Task {
       throw new Error('Task tags must be strings')
     }
 
-    if (this.estimatedMinutes !== null && (typeof this.estimatedMinutes !== 'number' || this.estimatedMinutes < 0)) {
+    if (
+      this.estimatedMinutes !== null &&
+      (typeof this.estimatedMinutes !== 'number' || this.estimatedMinutes < 0)
+    ) {
       throw new Error('Estimated minutes must be a non-negative number')
     }
 
-    if (this.actualMinutes !== null && (typeof this.actualMinutes !== 'number' || this.actualMinutes < 0)) {
+    if (
+      this.actualMinutes !== null &&
+      (typeof this.actualMinutes !== 'number' || this.actualMinutes < 0)
+    ) {
       throw new Error('Actual minutes must be a non-negative number')
     }
   }

@@ -12,12 +12,12 @@ Planning docs for flow-cli have been migrated to project-hub for better organiza
 
 ### Quick Links
 
-| Type | New Location |
-|------|--------------|
-| **Session Summaries** | [~/projects/project-hub/sessions/2025-12/](../../../project-hub/sessions/2025-12/) |
-| **Proposals** | [~/projects/project-hub/proposals/implemented/2025-12/](../../../project-hub/proposals/implemented/2025-12/) |
-| **Planning Docs** | [~/projects/project-hub/projects/flow-cli/planning/](../../../project-hub/projects/flow-cli/planning/) |
-| **Archive** | [~/projects/project-hub/projects/flow-cli/archive/](../../../project-hub/projects/flow-cli/archive/) |
+| Type                  | New Location                                                                                                 |
+| --------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Session Summaries** | [~/projects/project-hub/sessions/2025-12/](../../../project-hub/sessions/2025-12/)                           |
+| **Proposals**         | [~/projects/project-hub/proposals/implemented/2025-12/](../../../project-hub/proposals/implemented/2025-12/) |
+| **Planning Docs**     | [~/projects/project-hub/projects/flow-cli/planning/](../../../project-hub/projects/flow-cli/planning/)       |
+| **Archive**           | [~/projects/project-hub/projects/flow-cli/archive/](../../../project-hub/projects/flow-cli/archive/)         |
 
 ---
 
@@ -61,6 +61,7 @@ Planning docs for flow-cli have been migrated to project-hub for better organiza
 ## 🔗 Master Index
 
 See the complete planning documentation index:
+
 - [~/projects/project-hub/PLANNING-INDEX.md](../../../project-hub/PLANNING-INDEX.md)
 
 ---
@@ -68,6 +69,7 @@ See the complete planning documentation index:
 ## 📝 What Stays Here
 
 **flow-cli root now contains:**
+
 - ✅ PROJECT-HUB.md - Project-specific control file
 - ✅ README.md - Project README
 - ✅ CLAUDE.md - Claude Code configuration
@@ -77,6 +79,7 @@ See the complete planning documentation index:
 - ✅ zsh/ - ZSH configuration files
 
 **No more:**
+
 - ❌ Planning documents (moved to project-hub)
 - ❌ Proposals (moved to project-hub)
 - ❌ Session summaries (moved to project-hub)

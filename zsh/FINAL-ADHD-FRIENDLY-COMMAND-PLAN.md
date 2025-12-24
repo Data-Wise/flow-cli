@@ -9,14 +9,17 @@
 ## 📋 Executive Summary
 
 ### Problem
+
 - Added 15 new fzf helper commands with cryptic 2-letter names (`re`, `rt`, `fs`, `gb`, etc.)
 - Not ADHD-friendly: high cognitive load, not memorable, not discoverable
 
 ### Solution
+
 - Replace with semantic action verbs following existing patterns (`vibe`, `work`, `focus`, `win`)
 - Use hybrid approach: frequent commands at top level, less frequent under `vibe`
 
 ### Core Verbs Selected
+
 1. **`pick`** - Context-aware selection (replaces: re, rt, rv, fs, fh, fp, fr)
 2. **`switch`** - Git branch switching (replaces: gb)
 3. **`stage`** - Interactive git staging (replaces: ga)
@@ -29,6 +32,7 @@
 ## 🎯 Final Command Structure
 
 ### High-Level Workflow Commands (Keep Existing ⭐)
+
 ```bash
 vibe                # Workflow automation dispatcher
 vibe test           # Run tests (context-aware)
@@ -48,6 +52,7 @@ finish "message"    # End session
 ---
 
 ### New Selection Commands (Top-Level)
+
 ```bash
 # Context-aware picker
 pick                # Smart: shows context-appropriate options
@@ -61,6 +66,7 @@ pick package        # Explicit: pick R package
 ```
 
 **Replaces:**
+
 - `re` → `pick file`
 - `rt` → `pick test`
 - `rv` → `pick vignette`
@@ -70,6 +76,7 @@ pick package        # Explicit: pick R package
 - `fr` → `pick package`
 
 **Why Top-Level:**
+
 - ✅ Used 20+ times per day
 - ✅ Core to workflow
 - ✅ Short and memorable
@@ -78,6 +85,7 @@ pick package        # Explicit: pick R package
 ---
 
 ### New Git Commands (Top-Level)
+
 ```bash
 # Branch management
 switch              # Switch branch (with preview)
@@ -97,6 +105,7 @@ browse <branch>     # Browse specific branch
 ```
 
 **Replaces:**
+
 - `gb` → `switch`
 - `ga` → `stage`
 - `gundostage` → `unstage`
@@ -104,6 +113,7 @@ browse <branch>     # Browse specific branch
 - `gshow` → `browse`
 
 **Why Top-Level:**
+
 - ✅ Used 10-15 times per day
 - ✅ Git standard terminology
 - ✅ Clear, semantic verbs
@@ -112,6 +122,7 @@ browse <branch>     # Browse specific branch
 ---
 
 ### Existing Commands (Keep As-Is ✅)
+
 ```bash
 # Status & Navigation
 status              # View .STATUS (existing)
@@ -138,6 +149,7 @@ f25                 # focus 25 (existing)
 ```
 
 **Why Keep:**
+
 - ✅ Established muscle memory
 - ✅ Already ADHD-friendly
 - ✅ Used frequently
@@ -149,16 +161,17 @@ f25                 # focus 25 (existing)
 
 ### Speed vs Discovery
 
-| Goal | Speed Method | Discovery Method |
-|------|--------------|------------------|
-| Jump to package | `@medfit` or `z medfit` | `pick package` |
-| Edit R file | `vim R/file.R` | `pick file` |
-| Run test | `rtest` (all) | `pick test` (one) |
-| Edit .STATUS | `vim .STATUS` | `pick status` |
-| Switch branch | `git checkout <branch>` | `switch` |
-| Stage files | `git add <files>` | `stage` |
+| Goal            | Speed Method            | Discovery Method  |
+| --------------- | ----------------------- | ----------------- |
+| Jump to package | `@medfit` or `z medfit` | `pick package`    |
+| Edit R file     | `vim R/file.R`          | `pick file`       |
+| Run test        | `rtest` (all)           | `pick test` (one) |
+| Edit .STATUS    | `vim .STATUS`           | `pick status`     |
+| Switch branch   | `git checkout <branch>` | `switch`          |
+| Stage files     | `git add <files>`       | `stage`           |
 
 **When to use what:**
+
 - **Known destination/file** → Use speed method (z, @, direct commands)
 - **Exploring/forgot** → Use discovery method (pick, switch, etc.)
 - **Want preview** → Use discovery method (always has preview)
@@ -168,6 +181,7 @@ f25                 # focus 25 (existing)
 ## 💡 Context-Aware `pick` Behavior
 
 ### Smart Detection
+
 ```bash
 # In R package directory
 $ pick
@@ -196,6 +210,7 @@ $ pick
 ```
 
 ### Explicit Subcommands (Skip Menu)
+
 ```bash
 pick file           # Go directly to file picker
 pick test           # Go directly to test picker
@@ -203,6 +218,7 @@ pick status         # Go directly to .STATUS picker
 ```
 
 **ADHD Benefits:**
+
 - ✅ Zero decision paralysis (context does the thinking)
 - ✅ Visual menu (see options)
 - ✅ Fast escape (Esc to cancel)
@@ -213,6 +229,7 @@ pick status         # Go directly to .STATUS picker
 ## 📊 Migration Strategy
 
 ### Phase 1: Add New Commands (Keep Old as Aliases)
+
 ```bash
 # In ~/.config/zsh/functions/fzf-helpers.zsh
 
@@ -237,6 +254,7 @@ alias browse='gshow'
 ---
 
 ### Phase 2: Implement Smart `pick` Command
+
 ```bash
 # Context-aware dispatcher
 pick() {
@@ -246,6 +264,7 @@ pick() {
 ```
 
 **Features:**
+
 - Context detection (R package, git repo, projects)
 - Interactive menu (numbered choices)
 - Explicit subcommands (`pick file`, `pick test`)
@@ -257,6 +276,7 @@ pick() {
 ---
 
 ### Phase 3: Add Deprecation Warnings
+
 ```bash
 # In old functions
 re() {
@@ -272,6 +292,7 @@ re() {
 ---
 
 ### Phase 4: Remove Old Commands (Optional)
+
 - Remove aliases after 1 month
 - Keep for backwards compatibility if desired
 - Update all documentation
@@ -281,6 +302,7 @@ re() {
 ## 📖 Documentation Updates
 
 ### Files to Update
+
 1. ✅ `ALIAS-REFERENCE-CARD.md` - Main reference
 2. ✅ `help/quick-reference.md` - Quick guide
 3. ✅ `help/navigation.md` - Navigation guide
@@ -289,6 +311,7 @@ re() {
 6. 🔄 Create `GIT-VERBS-GUIDE.md` - New guide for git verbs
 
 ### Help System Updates
+
 ```bash
 # Add to fzf-helpers.zsh
 pick-help() {
@@ -322,6 +345,7 @@ EOF
 ## 🎯 Success Metrics
 
 ### Week 1 Goals
+
 - [ ] New commands feel natural
 - [ ] Reduced "what was that command?" moments
 - [ ] Using `pick` 10+ times per day
@@ -329,12 +353,14 @@ EOF
 - [ ] No confusion between old/new names
 
 ### Week 2 Goals
+
 - [ ] Muscle memory developing for new commands
 - [ ] Using new commands without thinking
 - [ ] Positive feedback on ADHD-friendliness
 - [ ] Ready to deprecate old names
 
 ### Month 1 Goals
+
 - [ ] Fully transitioned to new commands
 - [ ] Documentation updated
 - [ ] Old commands removed or aliased
@@ -345,6 +371,7 @@ EOF
 ## 🔧 Implementation Checklist
 
 ### Core `pick` Command
+
 - [ ] Create `pick()` function
 - [ ] Add context detection (R package, git, projects)
 - [ ] Add interactive menu system
@@ -354,6 +381,7 @@ EOF
 - [ ] Test in all contexts
 
 ### Git Verb Commands
+
 - [ ] Rename `gb` → `switch`
 - [ ] Rename `ga` → `stage`
 - [ ] Rename `gundostage` → `unstage`
@@ -363,6 +391,7 @@ EOF
 - [ ] Update git workflow docs
 
 ### Migration Support
+
 - [ ] Keep old commands as aliases (Phase 1)
 - [ ] Add deprecation warnings (Phase 3)
 - [ ] Update all documentation
@@ -370,6 +399,7 @@ EOF
 - [ ] Test backwards compatibility
 
 ### Documentation
+
 - [ ] Update ALIAS-REFERENCE-CARD.md
 - [ ] Create PICK-COMMAND-GUIDE.md
 - [ ] Create GIT-VERBS-GUIDE.md
@@ -382,6 +412,7 @@ EOF
 ## 💎 Why This Plan Works
 
 ### ADHD-Friendly Principles
+
 1. ✅ **Semantic naming** - `pick file` vs `re`
 2. ✅ **Context-aware** - `pick` adapts to location
 3. ✅ **Discoverable** - Natural language, guessable
@@ -392,6 +423,7 @@ EOF
 8. ✅ **Muscle memory friendly** - Short, memorable
 
 ### Technical Benefits
+
 1. ✅ **Tab completion** - `pick <tab>` shows all options
 2. ✅ **Extensible** - Easy to add new pick types
 3. ✅ **Backwards compatible** - Old commands still work
@@ -400,6 +432,7 @@ EOF
 6. ✅ **Maintainable** - Clear, readable code
 
 ### Workflow Benefits
+
 1. ✅ **Speed preserved** - Old commands still work
 2. ✅ **Discovery added** - New commands for exploration
 3. ✅ **Reduced errors** - Preview before action
@@ -411,18 +444,21 @@ EOF
 ## 📚 Reference Documents
 
 ### Planning Documents (This Session)
+
 1. **FINAL-ADHD-FRIENDLY-COMMAND-PLAN.md** (this file) - Master plan
 2. **PROPOSAL-ADHD-FRIENDLY-COMMANDS.md** - Original proposal
 3. **VERB-BRAINSTORM-COMPREHENSIVE.md** - 100+ verbs analyzed
 4. **COMMAND-INTEGRATION-ANALYSIS.md** - Integration with existing
 
 ### Implementation Files
+
 1. **functions/fzf-helpers.zsh** - Current implementation (old names)
 2. **functions/fzf-helpers-v2.zsh** - Future implementation (new names)
 3. **PICK-COMMAND-GUIDE.md** - To be created
 4. **GIT-VERBS-GUIDE.md** - To be created
 
 ### Related Documents
+
 1. **ALIAS-REFERENCE-CARD.md** - Main reference (needs update)
 2. **help/quick-reference.md** - Quick guide (needs update)
 3. **ENHANCEMENTS-QUICKSTART.md** - Atuin/direnv/fzf guide
@@ -432,18 +468,21 @@ EOF
 ## 🚀 Next Actions
 
 ### Immediate (Next Session)
+
 1. Implement smart `pick` command
 2. Rename git commands to verbs
 3. Add tab completion
 4. Test in real workflow
 
 ### Short-term (This Week)
+
 1. Use new commands daily
 2. Gather feedback
 3. Refine based on usage
 4. Update documentation
 
 ### Long-term (This Month)
+
 1. Complete migration
 2. Deprecate old names
 3. Write comprehensive guides
@@ -454,6 +493,7 @@ EOF
 ## 🎉 Expected Outcomes
 
 ### After 1 Week
+
 - **Memory load:** ↓ 70% (no more "what's `fs` again?")
 - **Discovery time:** ↓ 50% (visual menus)
 - **Error rate:** ↓ 60% (preview before action)
@@ -461,6 +501,7 @@ EOF
 - **Confidence:** ↑ 80% (clear commands)
 
 ### After 1 Month
+
 - **Natural usage:** 95% of commands feel automatic
 - **Zero translation:** No mental conversion needed
 - **System cohesion:** Everything feels integrated

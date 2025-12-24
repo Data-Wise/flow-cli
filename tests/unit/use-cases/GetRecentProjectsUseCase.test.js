@@ -20,15 +20,11 @@ class MockProjectRepository {
   }
 
   async findTopByDuration(limit) {
-    return this.projects
-      .sort((a, b) => b.totalDuration - a.totalDuration)
-      .slice(0, limit)
+    return this.projects.sort((a, b) => b.totalDuration - a.totalDuration).slice(0, limit)
   }
 
   async findTopBySessionCount(limit) {
-    return this.projects
-      .sort((a, b) => b.totalSessions - a.totalSessions)
-      .slice(0, limit)
+    return this.projects.sort((a, b) => b.totalSessions - a.totalSessions).slice(0, limit)
   }
 
   async count() {

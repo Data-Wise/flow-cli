@@ -25,9 +25,7 @@ class MockSessionRepository {
 
     if (filters.orderBy === 'startTime') {
       sessions.sort((a, b) => {
-        return filters.order === 'desc'
-          ? b.startTime - a.startTime
-          : a.startTime - b.startTime
+        return filters.order === 'desc' ? b.startTime - a.startTime : a.startTime - b.startTime
       })
     }
 
@@ -45,15 +43,11 @@ class MockProjectRepository {
   }
 
   async findRecent(hours, limit) {
-    return this.projects
-      .filter(p => p.isRecentlyAccessed(hours))
-      .slice(0, limit)
+    return this.projects.filter(p => p.isRecentlyAccessed(hours)).slice(0, limit)
   }
 
   async findTopByDuration(limit) {
-    return this.projects
-      .sort((a, b) => b.totalDuration - a.totalDuration)
-      .slice(0, limit)
+    return this.projects.sort((a, b) => b.totalDuration - a.totalDuration).slice(0, limit)
   }
 }
 

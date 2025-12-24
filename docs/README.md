@@ -105,6 +105,7 @@ docs/
 ### Week 1 Implementation ✅
 
 **Completed Features:**
+
 - Project type detection (6 types: R, Quarto, research, git, unknown)
 - JavaScript bridge to vendored shell scripts
 - Parallel batch detection
@@ -112,6 +113,7 @@ docs/
 - Type mapping and validation
 
 **Documentation Coverage:**
+
 - ✅ API reference with all functions
 - ✅ Architecture diagrams (Mermaid)
 - ✅ User guide with examples
@@ -247,12 +249,14 @@ docs/
 ### v0.1.0 (2025-12-20) - Week 1 Complete
 
 **Documentation Created:**
+
 - Project Detector API reference (comprehensive)
 - Vendor Integration Architecture (complete)
 - Project Detection User Guide (beginner-friendly)
 - Documentation index (this file)
 
 **Coverage:**
+
 - 3 major documentation files
 - 20+ code examples
 - 7 Mermaid diagrams
@@ -264,14 +268,14 @@ docs/
 
 ### Most Common Tasks
 
-| Task | Documentation |
-|------|---------------|
-| Detect project type | [API: detectProjectType](api/PROJECT-DETECTOR-API.md#detectprojecttypeprojectpath) |
+| Task                     | Documentation                                                                                 |
+| ------------------------ | --------------------------------------------------------------------------------------------- |
+| Detect project type      | [API: detectProjectType](api/PROJECT-DETECTOR-API.md#detectprojecttypeprojectpath)            |
 | Detect multiple projects | [API: detectMultipleProjects](api/PROJECT-DETECTOR-API.md#detectmultipleprojectsprojectpaths) |
-| List supported types | [API: getSupportedTypes](api/PROJECT-DETECTOR-API.md#getsupportedtypes) |
-| Understand architecture | [Architecture Overview](architecture/VENDOR-INTEGRATION-ARCHITECTURE.md#system-overview) |
-| Sync vendored code | [Maintenance](architecture/VENDOR-INTEGRATION-ARCHITECTURE.md#syncing-vendored-code) |
-| Troubleshoot issues | [Troubleshooting](user/PROJECT-DETECTION-GUIDE.md#troubleshooting) |
+| List supported types     | [API: getSupportedTypes](api/PROJECT-DETECTOR-API.md#getsupportedtypes)                       |
+| Understand architecture  | [Architecture Overview](architecture/VENDOR-INTEGRATION-ARCHITECTURE.md#system-overview)      |
+| Sync vendored code       | [Maintenance](architecture/VENDOR-INTEGRATION-ARCHITECTURE.md#syncing-vendored-code)          |
+| Troubleshoot issues      | [Troubleshooting](user/PROJECT-DETECTION-GUIDE.md#troubleshooting)                            |
 
 ---
 

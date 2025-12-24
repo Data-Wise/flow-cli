@@ -49,14 +49,14 @@
 
 ## Proposed Category Structure
 
-| Category | Code | Icon | Path | Projects |
-|----------|------|------|------|----------|
-| R Packages | `r` | 📦 | r-packages/active, stable | 6 |
-| Dev Tools | `dt` | 🔧 | dev-tools | 16 |
-| Teaching | `teach` | 🎓 | teaching | 3 |
-| Research | `rs` | 🔬 | research | 6 |
-| Quarto | `q` | 📝 | quarto/* | 0 |
-| Apps | `app` | 📱 | apps | 1 |
+| Category   | Code    | Icon | Path                      | Projects |
+| ---------- | ------- | ---- | ------------------------- | -------- |
+| R Packages | `r`     | 📦   | r-packages/active, stable | 6        |
+| Dev Tools  | `dt`    | 🔧   | dev-tools                 | 16       |
+| Teaching   | `teach` | 🎓   | teaching                  | 3        |
+| Research   | `rs`    | 🔬   | research                  | 6        |
+| Quarto     | `q`     | 📝   | quarto/\*                 | 0        |
+| Apps       | `app`   | 📱   | apps                      | 1        |
 
 ---
 
@@ -334,21 +334,25 @@ pmorning() {
 ## Implementation Plan
 
 ### Phase 1: Configuration
+
 1. Add teaching/research to PROJ_CATEGORIES
-2. Update _proj_detect_type for new project types
+2. Update \_proj_detect_type for new project types
 3. Update dashboard templates
 
 ### Phase 2: Teaching Commands
+
 1. `twork`, `tlec`, `tslide`, `tpreview`, `tpublish`
 2. `tweek`, `tst` (teaching status)
 3. Course calendar integration
 
 ### Phase 3: Research Commands
+
 1. `rwork`, `rms`, `rsim`, `rpdf`
 2. `rlit` (literature search via MCP/Zotero)
 3. `rst` (research status)
 
 ### Phase 4: Integration
+
 1. Enhanced `pmorning` with teaching/research priorities
 2. Apple Notes sync for all categories
 3. Tab completion for new commands
@@ -357,12 +361,12 @@ pmorning() {
 
 ## Command Summary (Option D - Implemented)
 
-| Category | Entry Point | Context-Aware | Unique Commands |
-|----------|-------------|---------------|-----------------|
-| Universal | `work NAME` | `pb`, `pv`, `pt`, `pc` | `pp`, `dash`, `finish` |
-| R Package | `work NAME` | `pb`, `pt` | `pcheck`, `pdoc`, `pload` |
-| Teaching | `work COURSE` | `pb`, `pv` | `tweek`, `tlec`, `tslide`, `tpublish`, `tst` |
-| Research | `work PROJECT` | `pb`, `pv` | `rms`, `rsim`, `rlit`, `rst` |
+| Category  | Entry Point    | Context-Aware          | Unique Commands                              |
+| --------- | -------------- | ---------------------- | -------------------------------------------- |
+| Universal | `work NAME`    | `pb`, `pv`, `pt`, `pc` | `pp`, `dash`, `finish`                       |
+| R Package | `work NAME`    | `pb`, `pt`             | `pcheck`, `pdoc`, `pload`                    |
+| Teaching  | `work COURSE`  | `pb`, `pv`             | `tweek`, `tlec`, `tslide`, `tpublish`, `tst` |
+| Research  | `work PROJECT` | `pb`, `pv`             | `rms`, `rsim`, `rlit`, `rst`                 |
 
 ---
 
@@ -421,22 +425,22 @@ pmorning() {
 
 ### Why This Works for ADHD
 
-| Problem | Solution |
-|---------|----------|
-| "What was that command?" | Long form is a real word (`teach`, `research`) |
-| "Too many keystrokes" | Short form is always 2 chars (`tw`, `rw`) |
-| "Which prefix?" | Consistent: t=teaching, r=research |
-| "Conflicts with other commands" | Avoided `rm`, `pp` standalone |
-| "Forgot the pattern" | `[category][action]` everywhere |
+| Problem                         | Solution                                       |
+| ------------------------------- | ---------------------------------------------- |
+| "What was that command?"        | Long form is a real word (`teach`, `research`) |
+| "Too many keystrokes"           | Short form is always 2 chars (`tw`, `rw`)      |
+| "Which prefix?"                 | Consistent: t=teaching, r=research             |
+| "Conflicts with other commands" | Avoided `rm`, `pp` standalone                  |
+| "Forgot the pattern"            | `[category][action]` everywhere                |
 
 ### Collision Avoidance
 
-| Avoided | Why | Alternative |
-|---------|-----|-------------|
-| `rm` | Unix remove command | `ms` or `manuscript` |
-| `pp` standalone | Already used for project picker | Keep as-is |
-| `ppt` | PowerPoint association | `tp` (teaching pick) |
-| `rs` | Could conflict | Context: only in teaching/research |
+| Avoided         | Why                             | Alternative                        |
+| --------------- | ------------------------------- | ---------------------------------- |
+| `rm`            | Unix remove command             | `ms` or `manuscript`               |
+| `pp` standalone | Already used for project picker | Keep as-is                         |
+| `ppt`           | PowerPoint association          | `tp` (teaching pick)               |
+| `rs`            | Could conflict                  | Context: only in teaching/research |
 
 ### Quick Reference Card
 

@@ -24,11 +24,11 @@ Project detection automatically identifies what type of project you're working w
 ### Using the API (JavaScript/Node.js)
 
 ```javascript
-import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js'
 
 // Detect a single project
-const type = await detectProjectType('/Users/dt/projects/r-packages/stable/rmediation');
-console.log(`Project type: ${type}`);  // "r-package"
+const type = await detectProjectType('/Users/dt/projects/r-packages/stable/rmediation')
+console.log(`Project type: ${type}`) // "r-package"
 ```
 
 ### Using a CLI Tool (Coming Soon)
@@ -48,10 +48,12 @@ zsh-config detect ~/projects/teaching/stat-440
 ### R Package (`r-package`)
 
 **Detected when:**
+
 - Project has a `DESCRIPTION` file
 - DESCRIPTION contains `Package:` field
 
 **Example:**
+
 ```
 my-r-package/
 ├── DESCRIPTION       ← Must have "Package: mypackage"
@@ -62,8 +64,9 @@ my-r-package/
 ```
 
 **Detection:**
+
 ```javascript
-const type = await detectProjectType('/path/to/my-r-package');
+const type = await detectProjectType('/path/to/my-r-package')
 // Returns: 'r-package'
 ```
 
@@ -72,12 +75,14 @@ const type = await detectProjectType('/path/to/my-r-package');
 ### Quarto Project (`quarto`)
 
 **Detected when project has ANY of:**
+
 - `_quarto.yml` file
 - `_quarto.yaml` file
 - `index.qmd` file
 - `README.qmd` file
 
 **Example:**
+
 ```
 my-quarto-project/
 ├── _quarto.yml       ← Configuration file
@@ -88,8 +93,9 @@ my-quarto-project/
 ```
 
 **Detection:**
+
 ```javascript
-const type = await detectProjectType('/path/to/my-quarto-project');
+const type = await detectProjectType('/path/to/my-quarto-project')
 // Returns: 'quarto'
 ```
 
@@ -98,29 +104,33 @@ const type = await detectProjectType('/path/to/my-quarto-project');
 ### Quarto Extension (`quarto-extension`)
 
 **Detected when project has:**
+
 - `_extension.yml` file OR
 - `_extensions.yml` file
 
 **Example:**
+
 ```
 my-quarto-extension/
 ├── _extension.yml    ← Extension config
 └── shortcode.lua
 ```
 
-**Note:** Quarto extensions are detected *before* regular Quarto projects, so a project with both `_extension.yml` and `_quarto.yml` will be identified as an extension.
+**Note:** Quarto extensions are detected _before_ regular Quarto projects, so a project with both `_extension.yml` and `_quarto.yml` will be identified as an extension.
 
 ---
 
 ### Research Project (`research`)
 
 **Detected when project has ANY of:**
+
 - `main.tex` (LaTeX main file)
 - `manuscript.tex` (Manuscript file)
 - `literature/` directory
 - `references.bib` (Bibliography)
 
 **Example:**
+
 ```
 my-research/
 ├── manuscript.tex
@@ -130,8 +140,9 @@ my-research/
 ```
 
 **Detection:**
+
 ```javascript
-const type = await detectProjectType('/path/to/my-research');
+const type = await detectProjectType('/path/to/my-research')
 // Returns: 'research'
 ```
 
@@ -140,10 +151,12 @@ const type = await detectProjectType('/path/to/my-research');
 ### Generic Git Project (`generic`)
 
 **Detected when:**
+
 - Project has a `.git` directory
 - Doesn't match any more specific type
 
 **Example:**
+
 ```
 my-project/
 ├── .git/            ← Git repository
@@ -153,8 +166,9 @@ my-project/
 ```
 
 **Detection:**
+
 ```javascript
-const type = await detectProjectType('/path/to/my-project');
+const type = await detectProjectType('/path/to/my-project')
 // Returns: 'generic'
 ```
 
@@ -163,16 +177,18 @@ const type = await detectProjectType('/path/to/my-project');
 ### Unknown (`unknown`)
 
 **Returned when:**
+
 - Project doesn't match any known type
 - Path doesn't exist
 - Permission denied
 
 **Example:**
+
 ```javascript
-const type1 = await detectProjectType('/nonexistent/path');
+const type1 = await detectProjectType('/nonexistent/path')
 // Returns: 'unknown'
 
-const type2 = await detectProjectType('/random/folder');
+const type2 = await detectProjectType('/random/folder')
 // Returns: 'unknown' (no .git, no markers)
 ```
 
@@ -183,23 +199,23 @@ const type2 = await detectProjectType('/random/folder');
 ### 1. Detect Current Working Directory
 
 ```javascript
-import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
-import { cwd } from 'process';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js'
+import { cwd } from 'process'
 
-const currentType = await detectProjectType(cwd());
-console.log(`You're working in a ${currentType} project`);
+const currentType = await detectProjectType(cwd())
+console.log(`You're working in a ${currentType} project`)
 ```
 
 ### 2. Detect Multiple Projects
 
 ```javascript
-import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js'
 
 const results = await detectMultipleProjects([
   '/Users/dt/projects/r-packages/stable/rmediation',
   '/Users/dt/projects/teaching/stat-440',
   '/Users/dt/projects/dev-tools/flow-cli'
-]);
+])
 
 // Results:
 // {
@@ -212,40 +228,38 @@ const results = await detectMultipleProjects([
 ### 3. Filter Projects by Type
 
 ```javascript
-import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
-import { readdir } from 'fs/promises';
-import { join } from 'path';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js'
+import { readdir } from 'fs/promises'
+import { join } from 'path'
 
 // Find all R packages in a directory
-const basePath = '/Users/dt/projects/r-packages/stable';
-const entries = await readdir(basePath, { withFileTypes: true });
-const dirs = entries
-  .filter(e => e.isDirectory())
-  .map(e => join(basePath, e.name));
+const basePath = '/Users/dt/projects/r-packages/stable'
+const entries = await readdir(basePath, { withFileTypes: true })
+const dirs = entries.filter(e => e.isDirectory()).map(e => join(basePath, e.name))
 
-const types = await detectMultipleProjects(dirs);
+const types = await detectMultipleProjects(dirs)
 
 // Filter for R packages only
 const rPackages = Object.entries(types)
   .filter(([path, type]) => type === 'r-package')
-  .map(([path, type]) => path);
+  .map(([path, type]) => path)
 
-console.log(`Found ${rPackages.length} R packages`);
+console.log(`Found ${rPackages.length} R packages`)
 ```
 
 ### 4. Check if Type is Supported
 
 ```javascript
-import { isTypeSupported, getSupportedTypes } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import { isTypeSupported, getSupportedTypes } from 'flow-cli/cli/lib/project-detector-bridge.js'
 
 // Check specific type
 if (isTypeSupported('r-package')) {
-  console.log('R packages are supported');
+  console.log('R packages are supported')
 }
 
 // List all supported types
-const types = getSupportedTypes();
-console.log('Supported types:', types);
+const types = getSupportedTypes()
+console.log('Supported types:', types)
 // ['r-package', 'quarto', 'quarto-extension', 'research', 'generic', 'unknown']
 ```
 
@@ -257,9 +271,9 @@ console.log('Supported types:', types);
 
 ```javascript
 // Project: rmediation (R package for mediation analysis)
-const type = await detectProjectType('/Users/dt/projects/r-packages/stable/rmediation');
+const type = await detectProjectType('/Users/dt/projects/r-packages/stable/rmediation')
 
-console.log(type);  // 'r-package'
+console.log(type) // 'r-package'
 
 // Why? Has DESCRIPTION file with:
 // Package: rmediation
@@ -270,9 +284,9 @@ console.log(type);  // 'r-package'
 
 ```javascript
 // Project: STAT 440 (Regression Analysis course)
-const type = await detectProjectType('/Users/dt/projects/teaching/stat-440');
+const type = await detectProjectType('/Users/dt/projects/teaching/stat-440')
 
-console.log(type);  // 'quarto'
+console.log(type) // 'quarto'
 
 // Why? Has _quarto.yml:
 // project:
@@ -282,15 +296,15 @@ console.log(type);  // 'quarto'
 ### Example 3: Scan All Teaching Projects
 
 ```javascript
-import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js'
 
 const teachingProjects = [
-  '/Users/dt/projects/teaching/stat-440',           // Regression
-  '/Users/dt/projects/teaching/causal-inference',   // Causal inference
-  '/Users/dt/projects/teaching/S440_regression_Fall_2024'  // Archive
-];
+  '/Users/dt/projects/teaching/stat-440', // Regression
+  '/Users/dt/projects/teaching/causal-inference', // Causal inference
+  '/Users/dt/projects/teaching/S440_regression_Fall_2024' // Archive
+]
 
-const results = await detectMultipleProjects(teachingProjects);
+const results = await detectMultipleProjects(teachingProjects)
 
 // Results:
 // {
@@ -328,6 +342,7 @@ ls -la .git
 ```
 
 If markers exist but detection still fails, check file permissions:
+
 ```bash
 chmod +r DESCRIPTION _quarto.yml  # Make files readable
 ```
@@ -360,14 +375,15 @@ chmod +rx /path/to/project  # Also need execute for directories
 ```javascript
 // ❌ Slow: Sequential
 for (const path of allPaths) {
-  const type = await detectProjectType(path);  // Waits for each
+  const type = await detectProjectType(path) // Waits for each
 }
 
 // ✅ Fast: Parallel batch
-const types = await detectMultipleProjects(allPaths);  // All at once
+const types = await detectMultipleProjects(allPaths) // All at once
 ```
 
 **Performance:**
+
 - Sequential (10 projects): ~200-300ms
 - Parallel (10 projects): ~50-100ms
 - **3x faster with batch detection!**
@@ -381,16 +397,16 @@ const types = await detectMultipleProjects(allPaths);  // All at once
 **Workaround:** Use generic detection and add your own logic:
 
 ```javascript
-const type = await detectProjectType('/path/to/project');
+const type = await detectProjectType('/path/to/project')
 
 // Add custom logic
 if (type === 'generic') {
   // Check for custom markers
   if (existsSync(join(projectPath, 'cargo.toml'))) {
-    return 'rust';
+    return 'rust'
   }
   if (existsSync(join(projectPath, 'go.mod'))) {
-    return 'go';
+    return 'go'
   }
 }
 ```
@@ -424,19 +440,21 @@ import {
   detectMultipleProjects,
   getSupportedTypes,
   isTypeSupported
-} from 'flow-cli/cli/lib/project-detector-bridge.js';
+} from 'flow-cli/cli/lib/project-detector-bridge.js'
 
 // Single detection
-const type = await detectProjectType('/path/to/project');
+const type = await detectProjectType('/path/to/project')
 
 // Batch detection (parallel)
-const types = await detectMultipleProjects(['/path1', '/path2']);
+const types = await detectMultipleProjects(['/path1', '/path2'])
 
 // Get all supported types
-const allTypes = getSupportedTypes();
+const allTypes = getSupportedTypes()
 
 // Check if type is supported
-if (isTypeSupported('r-package')) { /* ... */ }
+if (isTypeSupported('r-package')) {
+  /* ... */
+}
 ```
 
 ---
@@ -446,67 +464,65 @@ if (isTypeSupported('r-package')) { /* ... */ }
 ### Build a Project Dashboard
 
 ```javascript
-import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js';
-import { readdir } from 'fs/promises';
-import { join } from 'path';
+import { detectMultipleProjects } from 'flow-cli/cli/lib/project-detector-bridge.js'
+import { readdir } from 'fs/promises'
+import { join } from 'path'
 
 async function buildDashboard(baseDir) {
   // Scan all subdirectories
-  const entries = await readdir(baseDir, { withFileTypes: true });
-  const dirs = entries
-    .filter(e => e.isDirectory())
-    .map(e => join(baseDir, e.name));
+  const entries = await readdir(baseDir, { withFileTypes: true })
+  const dirs = entries.filter(e => e.isDirectory()).map(e => join(baseDir, e.name))
 
   // Detect all types in parallel
-  const types = await detectMultipleProjects(dirs);
+  const types = await detectMultipleProjects(dirs)
 
   // Group by type
-  const grouped = {};
+  const grouped = {}
   for (const [path, type] of Object.entries(types)) {
-    if (!grouped[type]) grouped[type] = [];
+    if (!grouped[type]) grouped[type] = []
     grouped[type].push({
       name: path.split('/').pop(),
       path: path
-    });
+    })
   }
 
-  return grouped;
+  return grouped
 }
 
 // Usage
-const dashboard = await buildDashboard('/Users/dt/projects/r-packages/stable');
+const dashboard = await buildDashboard('/Users/dt/projects/r-packages/stable')
 
-console.log(`R Packages: ${dashboard['r-package']?.length || 0}`);
-console.log(`Quarto Projects: ${dashboard['quarto']?.length || 0}`);
+console.log(`R Packages: ${dashboard['r-package']?.length || 0}`)
+console.log(`Quarto Projects: ${dashboard['quarto']?.length || 0}`)
 ```
 
 ### Conditional Workflow Based on Type
 
 ```javascript
-import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js'
 
 async function runBuild(projectPath) {
-  const type = await detectProjectType(projectPath);
+  const type = await detectProjectType(projectPath)
 
   switch (type) {
     case 'r-package':
-      console.log('Running R CMD build...');
+      console.log('Running R CMD build...')
       // R package build logic
-      break;
+      break
 
     case 'quarto':
-      console.log('Running quarto render...');
+      console.log('Running quarto render...')
       // Quarto render logic
-      break;
+      break
 
     case 'research':
-      console.log('Compiling LaTeX...');
+      console.log('Compiling LaTeX...')
       // LaTeX compilation logic
-      break;
+      break
 
     default:
-      console.log('Generic build process...');
-      // Default build logic
+      console.log('Generic build process...')
+    // Default build logic
   }
 }
 ```
@@ -561,10 +577,10 @@ async function runBuild(projectPath) {
 **Quick Start:**
 
 ```javascript
-import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js';
+import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js'
 
-const type = await detectProjectType('/path/to/project');
-console.log(`Project type: ${type}`);
+const type = await detectProjectType('/path/to/project')
+console.log(`Project type: ${type}`)
 ```
 
 **Next Steps:**

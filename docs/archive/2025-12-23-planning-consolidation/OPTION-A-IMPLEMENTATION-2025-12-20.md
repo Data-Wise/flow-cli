@@ -133,8 +133,8 @@ npm run
 
 ### Scripts Available
 
-| Command             | Before           | After                  |
-| ------------------- | ---------------- | ---------------------- |
+| Command             | Before            | After                   |
+| ------------------- | ----------------- | ----------------------- |
 | `npm run dev`       | ✅ App only       | ✅ App only             |
 | `npm run dev:app`   | ❌                | ✅ Explicit app dev     |
 | `npm run dev:cli`   | ❌                | ✅ CLI dev mode         |
@@ -149,8 +149,8 @@ npm run
 
 ### Node Version Requirements
 
-| Workspace | Before      | After       | Status      |
-| --------- | ----------- | ----------- | ----------- |
+| Workspace | Before      | After       | Status       |
+| --------- | ----------- | ----------- | ------------ |
 | Root      | >=18.0.0    | >=18.0.0    | ✅ No change |
 | app/      | (inherited) | (inherited) | ✅ No change |
 | cli/      | >=14.0.0    | >=18.0.0    | ✅**Fixed**  |
@@ -267,14 +267,14 @@ npm run reset        # Fresh install
 
 ## Success Metrics
 
-| Metric                       | Before  | After      | Improvement  |
-| ---------------------------- | ------- | ---------- | ------------ |
-| **Node version consistency** | ❌ Mixed | ✅ Aligned  | 🎯 Fixed      |
-| **Available scripts**        | 5       | 13         | +160%        |
-| **Workspace DX**             | Manual  | Convenient | ⭐⭐⭐          |
-| **Broken test references**   | 2       | 0          | ✅ Clean      |
-| **Setup complexity**         | Low     | Low        | ✅ Maintained |
-| **Time to implement**        | -       | 45 min     | ⚡ Quick      |
+| Metric                       | Before   | After      | Improvement   |
+| ---------------------------- | -------- | ---------- | ------------- |
+| **Node version consistency** | ❌ Mixed | ✅ Aligned | 🎯 Fixed      |
+| **Available scripts**        | 5        | 13         | +160%         |
+| **Workspace DX**             | Manual   | Convenient | ⭐⭐⭐        |
+| **Broken test references**   | 2        | 0          | ✅ Clean      |
+| **Setup complexity**         | Low      | Low        | ✅ Maintained |
+| **Time to implement**        | -        | 45 min     | ⚡ Quick      |
 
 ---
 

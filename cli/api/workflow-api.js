@@ -5,8 +5,8 @@
  * Builds on workflow adapter to provide app-friendly workflow management.
  */
 
-const workflowAdapter = require('../adapters/workflow');
-const statusAdapter = require('../adapters/status');
+const workflowAdapter = require('../adapters/workflow')
+const statusAdapter = require('../adapters/status')
 
 /**
  * Start a new work session with validation
@@ -16,34 +16,34 @@ const statusAdapter = require('../adapters/status');
  */
 async function startSession(project, options = {}) {
   // Check if already in a session
-  const existingSession = await statusAdapter.getCurrentSession();
+  const existingSession = await statusAdapter.getCurrentSession()
   if (existingSession && existingSession.project) {
     return {
       success: false,
       error: 'Already in an active session',
       currentSession: existingSession
-    };
+    }
   }
 
   // Start the session
-  const result = await workflowAdapter.startWork(project, options);
+  const result = await workflowAdapter.startWork(project, options)
 
   if (result.success) {
     // Verify session was created
-    const newSession = await statusAdapter.getCurrentSession();
+    const newSession = await statusAdapter.getCurrentSession()
     return {
       success: true,
       session: newSession,
       output: result.stdout,
       timestamp: result.timestamp
-    };
+    }
   }
 
   return {
     success: false,
     error: result.stderr || 'Failed to start session',
     timestamp: result.timestamp
-  };
+  }
 }
 
 /**
@@ -55,20 +55,20 @@ async function startSession(project, options = {}) {
  */
 async function endSession(options = {}) {
   // Check if there is an active session
-  const session = await statusAdapter.getCurrentSession();
+  const session = await statusAdapter.getCurrentSession()
   if (!session || !session.project) {
     return {
       success: false,
       error: 'No active session to end'
-    };
+    }
   }
 
   // End the session
-  const result = await workflowAdapter.finishWork(options.message);
+  const result = await workflowAdapter.finishWork(options.message)
 
   if (result.success) {
     // Calculate final duration
-    const duration = session.duration_minutes || 0;
+    const duration = session.duration_minutes || 0
 
     return {
       success: true,
@@ -79,7 +79,7 @@ async function endSession(options = {}) {
       },
       output: result.stdout,
       timestamp: result.timestamp
-    };
+    }
   }
 
   return {
@@ -87,7 +87,7 @@ async function endSession(options = {}) {
     error: result.stderr || 'Failed to end session',
     session,
     timestamp: result.timestamp
-  };
+  }
 }
 
 /**
@@ -95,12 +95,12 @@ async function endSession(options = {}) {
  * @returns {Promise<Object>} Build result
  */
 async function build() {
-  const result = await workflowAdapter.executeSmartCommand('build');
+  const result = await workflowAdapter.executeSmartCommand('build')
 
   return {
     ...result,
     action: 'build'
-  };
+  }
 }
 
 /**
@@ -108,12 +108,12 @@ async function build() {
  * @returns {Promise<Object>} Preview result
  */
 async function preview() {
-  const result = await workflowAdapter.executeSmartCommand('view');
+  const result = await workflowAdapter.executeSmartCommand('view')
 
   return {
     ...result,
     action: 'preview'
-  };
+  }
 }
 
 /**
@@ -121,12 +121,12 @@ async function preview() {
  * @returns {Promise<Object>} Test result
  */
 async function test() {
-  const result = await workflowAdapter.executeSmartCommand('test');
+  const result = await workflowAdapter.executeSmartCommand('test')
 
   return {
     ...result,
     action: 'test'
-  };
+  }
 }
 
 /**
@@ -135,25 +135,25 @@ async function test() {
  * @returns {Promise<Object>} Available commands
  */
 async function getAvailableCommands(directory = process.cwd()) {
-  const context = await workflowAdapter.getWorkflowContext(directory);
+  const context = await workflowAdapter.getWorkflowContext(directory)
 
   // Map project types to available commands
   const commandMap = {
-    'r': ['build', 'test', 'view', 'load', 'document', 'check'],
-    'quarto': ['preview', 'render', 'build'],
-    'node': ['test', 'build', 'start'],
-    'python': ['test', 'run'],
-    'unknown': ['build', 'test', 'view']
-  };
+    r: ['build', 'test', 'view', 'load', 'document', 'check'],
+    quarto: ['preview', 'render', 'build'],
+    node: ['test', 'build', 'start'],
+    python: ['test', 'run'],
+    unknown: ['build', 'test', 'view']
+  }
 
-  const projectType = context.projectType.toLowerCase();
-  const commands = commandMap[projectType] || commandMap['unknown'];
+  const projectType = context.projectType.toLowerCase()
+  const commands = commandMap[projectType] || commandMap['unknown']
 
   return {
     projectType,
     commands,
     context
-  };
+  }
 }
 
 /**
@@ -163,7 +163,7 @@ async function getAvailableCommands(directory = process.cwd()) {
  * @returns {Promise<Object>} Result
  */
 async function executeVibe(subcommand, args = []) {
-  const result = await workflowAdapter.executeVibeCommand(subcommand, args);
+  const result = await workflowAdapter.executeVibeCommand(subcommand, args)
 
   return {
     success: result.success,
@@ -171,7 +171,7 @@ async function executeVibe(subcommand, args = []) {
     output: result.stdout,
     error: result.stderr,
     timestamp: result.timestamp
-  };
+  }
 }
 
 /**
@@ -179,14 +179,14 @@ async function executeVibe(subcommand, args = []) {
  * @returns {Promise<Object>} Dashboard data
  */
 async function getDashboard() {
-  const result = await workflowAdapter.getDashboard();
+  const result = await workflowAdapter.getDashboard()
 
   return {
     success: result.success,
     dashboard: result.stdout,
     error: result.stderr,
     timestamp: result.timestamp
-  };
+  }
 }
 
 /**
@@ -195,7 +195,7 @@ async function getDashboard() {
  * @returns {Promise<Object>} Help text
  */
 async function getHelp(category = '') {
-  const result = await workflowAdapter.getAliases(category);
+  const result = await workflowAdapter.getAliases(category)
 
   return {
     success: result.success,
@@ -203,7 +203,7 @@ async function getHelp(category = '') {
     help: result.stdout,
     error: result.stderr,
     timestamp: result.timestamp
-  };
+  }
 }
 
 /**
@@ -213,14 +213,14 @@ async function getHelp(category = '') {
  */
 async function validateCommand(command) {
   // Check if command exists in ZSH
-  const checkResult = await workflowAdapter.executeZshCommand(`type ${command}`);
+  const checkResult = await workflowAdapter.executeZshCommand(`type ${command}`)
 
   return {
     valid: checkResult.success,
     command,
     info: checkResult.stdout,
     timestamp: new Date().toISOString()
-  };
+  }
 }
 
 /**
@@ -231,9 +231,9 @@ async function getSuggestions() {
   const [session, context] = await Promise.all([
     statusAdapter.getCurrentSession(),
     workflowAdapter.getWorkflowContext()
-  ]);
+  ])
 
-  const suggestions = [];
+  const suggestions = []
 
   // No active session - suggest starting one
   if (!session) {
@@ -242,7 +242,7 @@ async function getSuggestions() {
       command: 'work <project>',
       reason: 'No active work session',
       priority: 'high'
-    });
+    })
   }
 
   // Active session - suggest build/test/preview
@@ -251,28 +251,33 @@ async function getSuggestions() {
       suggestions.push(
         { action: 'test', command: 'pt', reason: 'Run R package tests', priority: 'medium' },
         { action: 'build', command: 'pb', reason: 'Build R package', priority: 'medium' }
-      );
+      )
     } else if (context.projectType === 'quarto') {
-      suggestions.push(
-        { action: 'preview', command: 'pv', reason: 'Preview Quarto document', priority: 'high' }
-      );
+      suggestions.push({
+        action: 'preview',
+        command: 'pv',
+        reason: 'Preview Quarto document',
+        priority: 'high'
+      })
     }
   }
 
   return {
     suggestions,
-    session: session ? {
-      active: true,
-      project: session.project,
-      duration: session.duration_minutes
-    } : {
-      active: false
-    },
+    session: session
+      ? {
+          active: true,
+          project: session.project,
+          duration: session.duration_minutes
+        }
+      : {
+          active: false
+        },
     context: {
       projectType: context.projectType,
       directory: context.directory
     }
-  };
+  }
 }
 
 module.exports = {
@@ -287,4 +292,4 @@ module.exports = {
   getHelp,
   validateCommand,
   getSuggestions
-};
+}

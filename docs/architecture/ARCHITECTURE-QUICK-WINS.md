@@ -33,33 +33,33 @@ This guide extracts the most immediately useful patterns from our comprehensive 
 
 export class ZshConfigError extends Error {
   constructor(message, code) {
-    super(message);
-    this.name = 'ZshConfigError';
-    this.code = code;
+    super(message)
+    this.name = 'ZshConfigError'
+    this.code = code
   }
 }
 
 export class ValidationError extends ZshConfigError {
   constructor(field, message) {
-    super(`Validation failed for ${field}: ${message}`, 'VALIDATION_ERROR');
-    this.field = field;
+    super(`Validation failed for ${field}: ${message}`, 'VALIDATION_ERROR')
+    this.field = field
   }
 }
 
 export class NotFoundError extends ZshConfigError {
   constructor(resource, id) {
-    super(`${resource} not found: ${id}`, 'NOT_FOUND');
-    this.resource = resource;
-    this.id = id;
+    super(`${resource} not found: ${id}`, 'NOT_FOUND')
+    this.resource = resource
+    this.id = id
   }
 }
 
 export class ShellExecutionError extends ZshConfigError {
   constructor(command, exitCode, stderr) {
-    super(`Shell execution failed: ${command}`, 'SHELL_ERROR');
-    this.command = command;
-    this.exitCode = exitCode;
-    this.stderr = stderr;
+    super(`Shell execution failed: ${command}`, 'SHELL_ERROR')
+    this.command = command
+    this.exitCode = exitCode
+    this.stderr = stderr
   }
 }
 ```
@@ -67,25 +67,26 @@ export class ShellExecutionError extends ZshConfigError {
 **Usage:**
 
 ```javascript
-import { ValidationError, NotFoundError } from './lib/errors.js';
+import { ValidationError, NotFoundError } from './lib/errors.js'
 
 // Throw semantic errors
-throw new ValidationError('projectPath', 'must be absolute path');
-throw new NotFoundError('Session', sessionId);
+throw new ValidationError('projectPath', 'must be absolute path')
+throw new NotFoundError('Session', sessionId)
 
 // Catch by type
 try {
-  await detector.detect(path);
+  await detector.detect(path)
 } catch (error) {
   if (error instanceof ValidationError) {
-    console.error(`Invalid input: ${error.message}`);
+    console.error(`Invalid input: ${error.message}`)
   } else if (error instanceof NotFoundError) {
-    console.error(`Resource missing: ${error.message}`);
+    console.error(`Resource missing: ${error.message}`)
   }
 }
 ```
 
 **Benefits:**
+
 - ✅ Self-documenting error types
 - ✅ Easy to catch specific errors
 - ✅ Better error messages for users
@@ -104,63 +105,61 @@ try {
 
 export function validatePath(path, fieldName = 'path') {
   if (!path) {
-    throw new ValidationError(fieldName, 'is required');
+    throw new ValidationError(fieldName, 'is required')
   }
   if (typeof path !== 'string') {
-    throw new ValidationError(fieldName, 'must be a string');
+    throw new ValidationError(fieldName, 'must be a string')
   }
   if (!path.trim()) {
-    throw new ValidationError(fieldName, 'cannot be empty');
+    throw new ValidationError(fieldName, 'cannot be empty')
   }
-  return path;
+  return path
 }
 
 export function validateAbsolutePath(path, fieldName = 'path') {
-  validatePath(path, fieldName);
+  validatePath(path, fieldName)
   if (!path.startsWith('/')) {
-    throw new ValidationError(fieldName, 'must be absolute path');
+    throw new ValidationError(fieldName, 'must be absolute path')
   }
-  return path;
+  return path
 }
 
 export function validateEnum(value, allowedValues, fieldName = 'value') {
   if (!allowedValues.includes(value)) {
-    throw new ValidationError(
-      fieldName,
-      `must be one of: ${allowedValues.join(', ')}`
-    );
+    throw new ValidationError(fieldName, `must be one of: ${allowedValues.join(', ')}`)
   }
-  return value;
+  return value
 }
 
 export function validateObject(obj, fieldName = 'object') {
   if (!obj || typeof obj !== 'object') {
-    throw new ValidationError(fieldName, 'must be an object');
+    throw new ValidationError(fieldName, 'must be an object')
   }
-  return obj;
+  return obj
 }
 ```
 
 **Usage:**
 
 ```javascript
-import { validateAbsolutePath, validateEnum } from './lib/validation.js';
+import { validateAbsolutePath, validateEnum } from './lib/validation.js'
 
 export async function detectProjectType(projectPath, options = {}) {
   // Validate at entry point
-  validateAbsolutePath(projectPath, 'projectPath');
+  validateAbsolutePath(projectPath, 'projectPath')
 
   if (options.format) {
-    validateEnum(options.format, ['json', 'text'], 'options.format');
+    validateEnum(options.format, ['json', 'text'], 'options.format')
   }
 
   // Now safe to proceed
-  const type = await detector.detect(projectPath);
-  return type;
+  const type = await detector.detect(projectPath)
+  return type
 }
 ```
 
 **Benefits:**
+
 - ✅ Consistent validation across codebase
 - ✅ Clear error messages
 - ✅ Fail fast (errors at API boundary)
@@ -177,11 +176,11 @@ export async function detectProjectType(projectPath, options = {}) {
 ```javascript
 // lib/shell-bridge.js
 
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import { ShellExecutionError } from './errors.js';
+import { exec } from 'child_process'
+import { promisify } from 'util'
+import { ShellExecutionError } from './errors.js'
 
-const execAsync = promisify(exec);
+const execAsync = promisify(exec)
 
 /**
  * Execute shell script and return stdout
@@ -194,40 +193,44 @@ const execAsync = promisify(exec);
  */
 export async function executeShellFunction(scriptPath, functionName, args = []) {
   try {
-    const argsString = args.map(arg => `"${arg}"`).join(' ');
-    const command = `source "${scriptPath}" && ${functionName} ${argsString}`;
+    const argsString = args.map(arg => `"${arg}"`).join(' ')
+    const command = `source "${scriptPath}" && ${functionName} ${argsString}`
 
     const { stdout, stderr } = await execAsync(command, {
       shell: '/bin/zsh',
       timeout: 5000 // 5 second timeout
-    });
+    })
 
     // Log warnings but don't fail
     if (stderr) {
-      console.error(`Warning from ${functionName}: ${stderr}`);
+      console.error(`Warning from ${functionName}: ${stderr}`)
     }
 
-    return stdout.trim();
-
+    return stdout.trim()
   } catch (error) {
     // Transform to semantic error
     throw new ShellExecutionError(
       `${functionName} ${args.join(' ')}`,
       error.code || 1,
       error.stderr || error.message
-    );
+    )
   }
 }
 
 /**
  * Execute shell script with graceful fallback
  */
-export async function executeShellFunctionSafe(scriptPath, functionName, args = [], fallback = null) {
+export async function executeShellFunctionSafe(
+  scriptPath,
+  functionName,
+  args = [],
+  fallback = null
+) {
   try {
-    return await executeShellFunction(scriptPath, functionName, args);
+    return await executeShellFunction(scriptPath, functionName, args)
   } catch (error) {
-    console.error(`Shell execution failed, using fallback: ${error.message}`);
-    return fallback;
+    console.error(`Shell execution failed, using fallback: ${error.message}`)
+    return fallback
   }
 }
 ```
@@ -235,14 +238,12 @@ export async function executeShellFunctionSafe(scriptPath, functionName, args = 
 **Usage:**
 
 ```javascript
-import { executeShellFunction, executeShellFunctionSafe } from './lib/shell-bridge.js';
+import { executeShellFunction, executeShellFunctionSafe } from './lib/shell-bridge.js'
 
 // Strict execution (throws on error)
-const result = await executeShellFunction(
-  '/path/to/script.sh',
-  'get_project_type',
-  ['/path/to/project']
-);
+const result = await executeShellFunction('/path/to/script.sh', 'get_project_type', [
+  '/path/to/project'
+])
 
 // Graceful execution (returns fallback on error)
 const type = await executeShellFunctionSafe(
@@ -250,10 +251,11 @@ const type = await executeShellFunctionSafe(
   'get_project_type',
   ['/path/to/project'],
   'unknown' // fallback
-);
+)
 ```
 
 **Benefits:**
+
 - ✅ Clean separation JS ↔ Shell
 - ✅ Consistent error handling
 - ✅ Graceful degradation option
@@ -274,10 +276,18 @@ const type = await executeShellFunctionSafe(
  * Repository interface (use for dependency injection)
  */
 export class SessionRepository {
-  async save(session) { throw new Error('Not implemented'); }
-  async findById(id) { throw new Error('Not implemented'); }
-  async findAll() { throw new Error('Not implemented'); }
-  async delete(id) { throw new Error('Not implemented'); }
+  async save(session) {
+    throw new Error('Not implemented')
+  }
+  async findById(id) {
+    throw new Error('Not implemented')
+  }
+  async findAll() {
+    throw new Error('Not implemented')
+  }
+  async delete(id) {
+    throw new Error('Not implemented')
+  }
 }
 
 /**
@@ -285,26 +295,26 @@ export class SessionRepository {
  */
 export class InMemorySessionRepository extends SessionRepository {
   constructor() {
-    super();
-    this.sessions = new Map();
+    super()
+    this.sessions = new Map()
   }
 
   async save(session) {
-    this.sessions.set(session.id, { ...session });
-    return session;
+    this.sessions.set(session.id, { ...session })
+    return session
   }
 
   async findById(id) {
-    const session = this.sessions.get(id);
-    return session ? { ...session } : null;
+    const session = this.sessions.get(id)
+    return session ? { ...session } : null
   }
 
   async findAll() {
-    return Array.from(this.sessions.values()).map(s => ({ ...s }));
+    return Array.from(this.sessions.values()).map(s => ({ ...s }))
   }
 
   async delete(id) {
-    return this.sessions.delete(id);
+    return this.sessions.delete(id)
   }
 }
 
@@ -313,24 +323,24 @@ export class InMemorySessionRepository extends SessionRepository {
  */
 export class FileSystemSessionRepository extends SessionRepository {
   constructor(storageDir) {
-    super();
-    this.storageDir = storageDir;
+    super()
+    this.storageDir = storageDir
   }
 
   async save(session) {
-    const filePath = path.join(this.storageDir, `${session.id}.json`);
-    await fs.writeFile(filePath, JSON.stringify(session, null, 2));
-    return session;
+    const filePath = path.join(this.storageDir, `${session.id}.json`)
+    await fs.writeFile(filePath, JSON.stringify(session, null, 2))
+    return session
   }
 
   async findById(id) {
     try {
-      const filePath = path.join(this.storageDir, `${id}.json`);
-      const data = await fs.readFile(filePath, 'utf-8');
-      return JSON.parse(data);
+      const filePath = path.join(this.storageDir, `${id}.json`)
+      const data = await fs.readFile(filePath, 'utf-8')
+      return JSON.parse(data)
     } catch (error) {
-      if (error.code === 'ENOENT') return null;
-      throw error;
+      if (error.code === 'ENOENT') return null
+      throw error
     }
   }
 
@@ -342,17 +352,18 @@ export class FileSystemSessionRepository extends SessionRepository {
 
 ```javascript
 // Production: use file system
-const repo = new FileSystemSessionRepository('~/.zsh-config/sessions');
+const repo = new FileSystemSessionRepository('~/.zsh-config/sessions')
 
 // Tests: use in-memory
-const repo = new InMemorySessionRepository();
+const repo = new InMemorySessionRepository()
 
 // Same API for both!
-await repo.save({ id: '123', name: 'My Session' });
-const session = await repo.findById('123');
+await repo.save({ id: '123', name: 'My Session' })
+const session = await repo.findById('123')
 ```
 
 **Benefits:**
+
 - ✅ Testable without file I/O
 - ✅ Swap implementations easily
 - ✅ Clear interface
@@ -377,7 +388,7 @@ const session = await repo.findById('123');
  * @throws {ValidationError} If path is invalid
  * @throws {ShellExecutionError} If detection fails
  */
-export function detectProjectType(projectPath: string): Promise<string>;
+export function detectProjectType(projectPath: string): Promise<string>
 
 /**
  * Detect project type with fallback
@@ -386,25 +397,23 @@ export function detectProjectType(projectPath: string): Promise<string>;
  * @param fallback - Value to return on error (default: 'unknown')
  * @returns Promise resolving to project type or fallback
  */
-export function detectProjectTypeSafe(
-  projectPath: string,
-  fallback?: string
-): Promise<string>;
+export function detectProjectTypeSafe(projectPath: string, fallback?: string): Promise<string>
 
 /**
  * Get project metadata
  */
 export interface ProjectMetadata {
-  type: string;
-  path: string;
-  name: string;
-  icon?: string;
+  type: string
+  path: string
+  name: string
+  icon?: string
 }
 
-export function getProjectMetadata(projectPath: string): Promise<ProjectMetadata>;
+export function getProjectMetadata(projectPath: string): Promise<ProjectMetadata>
 ```
 
 **Benefits:**
+
 - ✅ Autocomplete in VS Code
 - ✅ Parameter hints
 - ✅ Type checking (optional)
@@ -429,71 +438,66 @@ export function getProjectMetadata(projectPath: string): Promise<ProjectMetadata
 ```javascript
 // test/test-project-detector.js
 
-import { strict as assert } from 'assert';
-import { detectProjectType } from '../lib/project-detector.js';
-import { ValidationError } from '../lib/errors.js';
+import { strict as assert } from 'assert'
+import { detectProjectType } from '../lib/project-detector.js'
+import { ValidationError } from '../lib/errors.js'
 
 describe('Project Detector', () => {
-
   describe('detectProjectType()', () => {
-
     it('should detect R package from DESCRIPTION file', async () => {
       // ARRANGE
-      const testPath = '/path/to/test/r-package';
+      const testPath = '/path/to/test/r-package'
 
       // ACT
-      const type = await detectProjectType(testPath);
+      const type = await detectProjectType(testPath)
 
       // ASSERT
-      assert.strictEqual(type, 'r-package');
-    });
+      assert.strictEqual(type, 'r-package')
+    })
 
     it('should throw ValidationError for empty path', async () => {
       // ARRANGE
-      const invalidPath = '';
+      const invalidPath = ''
 
       // ACT & ASSERT
-      await assert.rejects(
-        async () => await detectProjectType(invalidPath),
-        ValidationError
-      );
-    });
+      await assert.rejects(async () => await detectProjectType(invalidPath), ValidationError)
+    })
 
     it('should throw ValidationError for relative path', async () => {
       // ARRANGE
-      const relativePath = 'relative/path';
+      const relativePath = 'relative/path'
 
       // ACT & ASSERT
       await assert.rejects(
         async () => await detectProjectType(relativePath),
-        (error) => {
-          assert(error instanceof ValidationError);
-          assert(error.message.includes('absolute path'));
-          return true;
+        error => {
+          assert(error instanceof ValidationError)
+          assert(error.message.includes('absolute path'))
+          return true
         }
-      );
-    });
-  });
+      )
+    })
+  })
 
   describe('Integration Tests', () => {
-
     it('should detect all project types in test fixtures', async () => {
       const fixtures = [
         { path: '/fixtures/r-package', expected: 'r-package' },
         { path: '/fixtures/quarto-ext', expected: 'quarto-extension' },
         { path: '/fixtures/node-app', expected: 'node' }
-      ];
+      ]
 
       for (const { path, expected } of fixtures) {
-        const actual = await detectProjectType(path);
-        assert.strictEqual(actual, expected, `Failed for ${path}`);
+        const actual = await detectProjectType(path)
+        assert.strictEqual(actual, expected, `Failed for ${path}`)
       }
-    });
-  });
-});
+    })
+  })
+})
 ```
 
 **Benefits:**
+
 - ✅ Clear test structure (Arrange-Act-Assert)
 - ✅ Good test names (should...)
 - ✅ Proper error testing
@@ -545,6 +549,7 @@ test/
 ```
 
 **Benefits:**
+
 - ✅ Clear separation of concerns
 - ✅ Easy to find files
 - ✅ Testable layers
@@ -557,27 +562,33 @@ test/
 When implementing a new feature, use this checklist:
 
 ### 1. Start with Errors
+
 - [ ] Copy error classes from [Error Handling](#error-handling)
 - [ ] Add semantic errors for your domain
 
 ### 2. Add Validation
+
 - [ ] Copy validation functions from [Input Validation](#input-validation)
 - [ ] Validate at API entry points
 
 ### 3. Choose Storage Pattern
+
 - [ ] Need file I/O? Use [Repository Pattern](#repository-pattern)
 - [ ] Need shell scripts? Use [Bridge Pattern](#bridge-pattern-js--shell)
 
 ### 4. Add Types (Optional)
+
 - [ ] Copy `.d.ts` template from [TypeScript Definitions](#typescript-definitions)
 - [ ] Add type definitions for IDE support
 
 ### 5. Write Tests
+
 - [ ] Copy test structure from [Testing Patterns](#testing-patterns)
 - [ ] Write unit tests (in-memory adapters)
 - [ ] Write integration tests (real adapters)
 
 ### 6. Organize Files
+
 - [ ] Follow [File Organization](#file-organization) structure
 - [ ] Put domain logic in `lib/domain/`
 - [ ] Put use cases in `lib/use-cases/`
@@ -587,15 +598,15 @@ When implementing a new feature, use this checklist:
 
 ## Quick Reference
 
-| Need to... | Use this pattern | Example |
-|------------|------------------|---------|
-| **Throw semantic error** | Error classes | `throw new ValidationError('path', 'is required')` |
-| **Validate input** | Validation utilities | `validateAbsolutePath(path)` |
-| **Call shell script** | Bridge pattern | `executeShellFunction(script, func, args)` |
-| **Store data** | Repository pattern | `repo.save(session)` |
-| **Add IDE support** | `.d.ts` files | Create `file.d.ts` next to `file.js` |
-| **Write tests** | AAA pattern | Arrange → Act → Assert |
-| **Organize files** | Layer structure | `lib/domain/`, `lib/use-cases/`, `lib/adapters/` |
+| Need to...               | Use this pattern     | Example                                            |
+| ------------------------ | -------------------- | -------------------------------------------------- |
+| **Throw semantic error** | Error classes        | `throw new ValidationError('path', 'is required')` |
+| **Validate input**       | Validation utilities | `validateAbsolutePath(path)`                       |
+| **Call shell script**    | Bridge pattern       | `executeShellFunction(script, func, args)`         |
+| **Store data**           | Repository pattern   | `repo.save(session)`                               |
+| **Add IDE support**      | `.d.ts` files        | Create `file.d.ts` next to `file.js`               |
+| **Write tests**          | AAA pattern          | Arrange → Act → Assert                             |
+| **Organize files**       | Layer structure      | `lib/domain/`, `lib/use-cases/`, `lib/adapters/`   |
 
 ---
 

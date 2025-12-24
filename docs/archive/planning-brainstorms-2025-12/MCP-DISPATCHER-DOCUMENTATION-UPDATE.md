@@ -14,9 +14,11 @@ Successfully updated all documentation to reflect the new MCP dispatcher pattern
 ## Files Updated
 
 ### 1. Quick Reference Card ✅
+
 **File:** `~/projects/dev-tools/flow-cli/zsh/help/quick-reference.md`
 
 **Changes:**
+
 - Added new "🔌 MCP SERVERS (8)" section
 - Updated statistics: ~90 → ~98 total commands
 - Added MCP Servers to breakdown (8 commands)
@@ -24,59 +26,69 @@ Successfully updated all documentation to reflect the new MCP dispatcher pattern
 - Updated last modified: 2025-12-16 → 2025-12-19
 
 **New Section:**
+
 ```markdown
 ## 🔌 MCP SERVERS (8)
 
 **Pattern:** `mcp <action> [args]`
 
 ### Core Actions
-mcp            # List all servers (default)
-mcp cd NAME    # Navigate to server
-mcp test NAME  # Test server runs
-mcp edit NAME  # Edit in $EDITOR
-mcp pick       # Interactive picker (fzf)
+
+mcp # List all servers (default)
+mcp cd NAME # Navigate to server
+mcp test NAME # Test server runs
+mcp edit NAME # Edit in $EDITOR
+mcp pick # Interactive picker (fzf)
 
 ### Info & Status
-mcp status     # Config status
-mcp readme     # View README
-mcp help       # Show help
+
+mcp status # Config status
+mcp readme # View README
+mcp help # Show help
 
 ### Short Forms
-mcp l          # list
-mcp g          # cd (goto)
-mcp t          # test
-mcp e          # edit
-mcp p          # pick
-mcp s          # status
-mcp r          # readme
-mcp h          # help
+
+mcp l # list
+mcp g # cd (goto)
+mcp t # test
+mcp e # edit
+mcp p # pick
+mcp s # status
+mcp r # readme
+mcp h # help
 
 ### Alias
-mcpp           # mcp pick (interactive)
+
+mcpp # mcp pick (interactive)
 ```
 
 ---
 
 ### 2. Conventions Document ✅
+
 **File:** `~/projects/dev-tools/flow-cli/docs/CONVENTIONS.md`
 
 **Changes:**
+
 - Added `mcp-dispatcher.zsh` to "Example Dispatchers" section
 - Added pattern consistency examples showing mcp alongside g, r, v
 - Updated "Checklist for New Dispatchers" (minor clarification)
 - Updated last modified: 2025-12-17 → 2025-12-19
 
 **New Content:**
-```markdown
+
+````markdown
 ### Example Dispatchers
 
 **Existing implementations:**
+
 - `g-dispatcher.zsh` - Git commands (`g status`, `g push`)
 - `r-dispatcher.zsh` - R development (`r test`, `r check`)
 - `v-dispatcher.zsh` - Vibe/vibrant (`v build`, `v preview`)
 - `mcp-dispatcher.zsh` - MCP server management (`mcp list`, `mcp test`)
 
 **Pattern consistency:**
+
 ```bash
 # All follow same pattern: cmd + keyword
 g status      # Git
@@ -84,7 +96,9 @@ r test        # R
 v build       # Vibe
 mcp list      # MCP servers
 ```
-```
+````
+
+````
 
 ---
 
@@ -109,14 +123,16 @@ mcp-test shell
 mcp          # or: mcp list, mcp l
 mcp cd shell # or: mcp g shell
 mcp test shell  # or: mcp t shell
-```
+````
 
 ---
 
 ### 4. ZSH MCP Functions Guide ✅
+
 **File:** `~/projects/dev-tools/flow-cli/ZSH-MCP-FUNCTIONS.md`
 
 **Status:** Already updated in previous session
+
 - Comprehensive v2.0 documentation
 - Migration guide from v1.0
 - Full usage examples
@@ -125,9 +141,11 @@ mcp test shell  # or: mcp t shell
 ---
 
 ### 5. Help Function ✅
+
 **File:** `~/projects/dev-tools/flow-cli/zsh/functions/mcp-dispatcher.zsh`
 
 **Changes:**
+
 - Reformatted `_mcp_help()` to match flow-cli standards
 - Matches structure of `g help`, `r help`, `v help`
 - Better categorization (CORE ACTIONS, INFO & STATUS, SHORT FORMS)
@@ -138,6 +156,7 @@ mcp test shell  # or: mcp t shell
 ## Documentation Structure
 
 ### Primary Documentation
+
 ```
 ~/projects/dev-tools/flow-cli/
 ├── zsh/help/quick-reference.md         # ✅ Quick ref card (updated)
@@ -147,6 +166,7 @@ mcp test shell  # or: mcp t shell
 ```
 
 ### MCP-Specific Documentation
+
 ```
 ~/projects/dev-tools/
 ├── mcp-servers/README.md              # ✅ Server usage (updated)
@@ -155,6 +175,7 @@ mcp test shell  # or: mcp t shell
 ```
 
 ### Proposals & History
+
 ```
 ~/
 ├── PROPOSAL-MCP-DISPATCHER-STANDARDS.md  # ✅ Analysis (created today)
@@ -166,15 +187,19 @@ mcp test shell  # or: mcp t shell
 ## What Users Will See
 
 ### In Quick Reference (`help` command)
+
 Users will see MCP commands in section 🔌 MCP SERVERS alongside other tools, with clear examples of the dispatcher pattern.
 
 ### In Conventions
+
 Developers will see `mcp` listed as an example dispatcher following the same pattern as `g`, `r`, `v`.
 
 ### In MCP Servers README
+
 Users working with MCP servers will see updated commands using the new dispatcher pattern throughout.
 
 ### In Help Output (`mcp help`)
+
 Users will see beautifully formatted help matching the standard used by other dispatchers.
 
 ---
@@ -182,15 +207,18 @@ Users will see beautifully formatted help matching the standard used by other di
 ## Migration Impact
 
 ### Breaking Changes
+
 - Old: `mcp-list`, `mcp-cd`, `mcp-test` (v1.0)
 - New: `mcp list`, `mcp cd`, `mcp test` (v2.0)
 
 ### No Action Required
+
 - All old functions removed in migration
 - Users just need to reload shell: `source ~/.zshrc`
 - New pattern is simpler and more consistent
 
 ### Documentation Coverage
+
 ✅ Quick reference updated
 ✅ Conventions updated with examples
 ✅ MCP servers README updated
@@ -217,15 +245,18 @@ Users will see beautifully formatted help matching the standard used by other di
 ## Locations for Future Reference
 
 ### Primary User-Facing Docs
+
 - Quick reference: `~/.config/zsh/help/quick-reference.md`
 - Full guide: `~/projects/dev-tools/flow-cli/ZSH-MCP-FUNCTIONS.md`
 - Help command: `mcp help` (built into dispatcher)
 
 ### Developer/Standards Docs
+
 - Conventions: `~/projects/dev-tools/flow-cli/docs/CONVENTIONS.md`
 - Test suite: `~/.config/zsh/tests/test-mcp-dispatcher.zsh`
 
 ### Implementation Files
+
 - Dispatcher: `~/.config/zsh/functions/mcp-dispatcher.zsh`
 - Loaded in: `~/.config/zsh/.zshrc` (line 796-799)
 

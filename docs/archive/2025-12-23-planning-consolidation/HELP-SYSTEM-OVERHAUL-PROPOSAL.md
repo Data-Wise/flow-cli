@@ -11,6 +11,7 @@
 ### What We Have
 
 **Strengths:**
+
 - ✅ All 8 functions have help systems
 - ✅ Consistent pattern (`<cmd> help` or `<cmd> h`)
 - ✅ Clear section headers (CORE, SESSION, MANAGE, etc.)
@@ -18,6 +19,7 @@
 - ✅ 100% test coverage
 
 **Current Format Example:**
+
 ```bash
 r help
 # Output:
@@ -79,6 +81,7 @@ SHORTCUTS STILL WORK:
 ### Option A: Enhanced Static Help (Low Effort)
 
 **What Changes:**
+
 - Add colors to section headers
 - Add usage examples
 - Add "Most Common" section at top
@@ -86,6 +89,7 @@ SHORTCUTS STILL WORK:
 - Better formatting
 
 **Example Output:**
+
 ```bash
 r help
 
@@ -124,12 +128,14 @@ r help
 ```
 
 **Pros:**
+
 - ✅ Easy to implement (just update heredocs)
 - ✅ Backward compatible
 - ✅ Immediate improvement
 - ✅ No dependencies
 
 **Cons:**
+
 - ❌ Still static
 - ❌ Colors may not work in all terminals
 - ❌ No interactivity
@@ -142,12 +148,14 @@ r help
 ### Option B: Multi-Mode Help System (Medium Effort)
 
 **What Changes:**
+
 - Keep basic help as default
 - Add modes: `help quick`, `help examples`, `help full`
 - Add search: `help <keyword>`
 - Add interactive picker (optional)
 
 **Usage:**
+
 ```bash
 r help              # Quick essentials
 r help full         # Complete reference
@@ -157,6 +165,7 @@ r help --list       # List all actions (parseable)
 ```
 
 **Example Quick Mode:**
+
 ```bash
 r help
 
@@ -174,12 +183,14 @@ r help
 ```
 
 **Example Full Mode:**
+
 ```bash
 r help full
 # Shows current full help with colors + examples
 ```
 
 **Example Search:**
+
 ```bash
 r help test
 
@@ -197,6 +208,7 @@ Related:
 ```
 
 **Implementation:**
+
 ```zsh
 r() {
     # ... existing code ...
@@ -234,6 +246,7 @@ _r_help_search() {
 ```
 
 **Pros:**
+
 - ✅ Flexible (multiple modes)
 - ✅ Quick reference available
 - ✅ Search capability
@@ -241,6 +254,7 @@ _r_help_search() {
 - ✅ ADHD-friendly (less overwhelming)
 
 **Cons:**
+
 - ❌ More complex implementation
 - ❌ Needs testing for all modes
 - ❌ Slightly more to learn
@@ -253,12 +267,14 @@ _r_help_search() {
 ### Option C: Interactive Help with fzf (Higher Effort)
 
 **What Changes:**
+
 - Add interactive picker using `fzf`
 - Visual browsing of commands
 - Preview pane with details
 - Live search/filter
 
 **Usage:**
+
 ```bash
 r help              # Opens fzf picker
 r help quick        # Static quick mode (no fzf)
@@ -266,6 +282,7 @@ r help --no-fzf     # Force static mode
 ```
 
 **fzf Interface:**
+
 ```
 ┌─ r - Select Action ────────────────────────────────────────┐
 │ > test                                                     │
@@ -291,6 +308,7 @@ r help --no-fzf     # Force static mode
 ```
 
 **Features:**
+
 - ✅ Visual browsing
 - ✅ Fuzzy search (type to filter)
 - ✅ Preview pane with details
@@ -298,6 +316,7 @@ r help --no-fzf     # Force static mode
 - ✅ Most ADHD-friendly option
 
 **Implementation:**
+
 ```zsh
 r() {
     case "$1" in
@@ -354,6 +373,7 @@ EOF
 ```
 
 **Pros:**
+
 - ✅ Most discoverable
 - ✅ Best ADHD experience
 - ✅ Visual and interactive
@@ -361,6 +381,7 @@ EOF
 - ✅ Preview without executing
 
 **Cons:**
+
 - ❌ Requires fzf dependency
 - ❌ More complex implementation
 - ❌ Needs fallback for no-fzf
@@ -376,18 +397,21 @@ EOF
 **Combine best of all options:**
 
 **Default: Quick Static Help (Option A style)**
+
 ```bash
 r help
 # Shows colorized quick reference
 ```
 
 **Full: Complete Reference (Option B)**
+
 ```bash
 r help full
 # Shows complete help with all sections
 ```
 
 **Interactive: fzf Browser (Option C)**
+
 ```bash
 r help browse
 # OR
@@ -396,18 +420,21 @@ r ?
 ```
 
 **Search: Keyword Search**
+
 ```bash
 r help test
 # Search for "test" related commands
 ```
 
 **Examples: Usage Examples**
+
 ```bash
 r help examples
 r help examples test    # Examples for "test" action
 ```
 
 **Implementation Strategy:**
+
 ```zsh
 r() {
     case "$1" in
@@ -434,6 +461,7 @@ r() {
 ```
 
 **Pros:**
+
 - ✅ Best of all worlds
 - ✅ Progressive disclosure
 - ✅ Fallback for missing dependencies
@@ -442,6 +470,7 @@ r() {
 - ✅ Power user friendly
 
 **Cons:**
+
 - ❌ Most complex implementation
 - ❌ More code to maintain
 - ❌ Needs comprehensive testing
@@ -496,6 +525,7 @@ NC='\033[0m'            # No Color
 ## 📋 Implementation Checklist
 
 ### Phase 1: Quick Wins (Option A - 2-3 hours)
+
 - [ ] Add color to section headers
 - [ ] Add "Most Common" section
 - [ ] Add examples to each function
@@ -504,6 +534,7 @@ NC='\033[0m'            # No Color
 - [ ] Update tests for new format
 
 ### Phase 2: Multi-Mode (Option B - 4-6 hours)
+
 - [ ] Implement help modes (quick/full/examples)
 - [ ] Implement search functionality
 - [ ] Add --list mode for scripting
@@ -512,6 +543,7 @@ NC='\033[0m'            # No Color
 - [ ] Add tests for all modes
 
 ### Phase 3: Interactive (Option C - 6-8 hours)
+
 - [ ] Implement fzf integration
 - [ ] Create preview functions
 - [ ] Add fallback for no-fzf
@@ -519,6 +551,7 @@ NC='\033[0m'            # No Color
 - [ ] Document fzf dependency
 
 ### Phase 4: Polish (2-3 hours)
+
 - [ ] Optimize performance
 - [ ] Add completion hints
 - [ ] Update documentation
@@ -561,18 +594,18 @@ test_help_no_color_fallback()
 
 ## 📊 Comparison Matrix
 
-| Feature | Current | Option A | Option B | Option C | Option D |
-|---------|---------|----------|----------|----------|----------|
-| Colors | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Examples | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Quick Mode | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Full Mode | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Search | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Interactive | ❌ | ❌ | ❌ | ✅ | ✅ |
-| fzf Picker | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Effort | 0h | 2-3h | 6-8h | 10-12h | 12-16h |
-| Risk | Low | Low | Med | Med-High | Med |
-| ADHD Score | 5/10 | 7/10 | 8/10 | 9/10 | 10/10 |
+| Feature     | Current | Option A | Option B | Option C | Option D |
+| ----------- | ------- | -------- | -------- | -------- | -------- |
+| Colors      | ❌      | ✅       | ✅       | ✅       | ✅       |
+| Examples    | ❌      | ✅       | ✅       | ✅       | ✅       |
+| Quick Mode  | ❌      | ✅       | ✅       | ✅       | ✅       |
+| Full Mode   | ✅      | ✅       | ✅       | ✅       | ✅       |
+| Search      | ❌      | ❌       | ✅       | ✅       | ✅       |
+| Interactive | ❌      | ❌       | ❌       | ✅       | ✅       |
+| fzf Picker  | ❌      | ❌       | ❌       | ✅       | ✅       |
+| Effort      | 0h      | 2-3h     | 6-8h     | 10-12h   | 12-16h   |
+| Risk        | Low     | Low      | Med      | Med-High | Med      |
+| ADHD Score  | 5/10    | 7/10     | 8/10     | 9/10     | 10/10    |
 
 ---
 
@@ -581,6 +614,7 @@ test_help_no_color_fallback()
 ### Recommended Approach: **Option D (Hybrid)**
 
 **Why:**
+
 1. **Best ADHD Experience** - Multiple access patterns
 2. **Progressive Adoption** - Can implement in phases
 3. **Backward Compatible** - Old help still works
@@ -590,21 +624,25 @@ test_help_no_color_fallback()
 ### Implementation Phases:
 
 **Week 1: Foundation (Option A)**
+
 - Implement colorized quick help
 - Add examples and most common sections
 - Deploy and gather feedback
 
 **Week 2: Modes (Option B)**
+
 - Add help modes (quick/full/examples)
 - Implement search
 - Update documentation
 
 **Week 3: Interactive (Option C)**
+
 - Add fzf integration
 - Create preview functions
 - Polish and optimize
 
 **Week 4: Refinement**
+
 - User testing
 - Performance optimization
 - Documentation updates
@@ -615,12 +653,14 @@ test_help_no_color_fallback()
 ## 🔍 Example: Complete "r" Help Overhaul
 
 ### Current State:
+
 ```bash
 r help
 # Plain text, no colors, comprehensive but overwhelming
 ```
 
 ### Proposed (Quick Mode):
+
 ```bash
 r help
 
@@ -644,6 +684,7 @@ r help
 ```
 
 ### Proposed (Full Mode):
+
 ```bash
 r help full
 
@@ -701,6 +742,7 @@ r help full
 ```
 
 ### Proposed (Interactive Mode):
+
 ```bash
 r ?
 
@@ -737,11 +779,13 @@ r ?
 ## 📞 Next Steps
 
 **Decision Needed:**
+
 - Which option to pursue?
 - Phase implementation or all-at-once?
 - Priority order if phased?
 
 **User Input:**
+
 - What help patterns do you use most?
 - What frustrates you about current help?
 - Which option excites you most?

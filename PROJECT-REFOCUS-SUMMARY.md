@@ -218,13 +218,13 @@
 
 ### Leveraging, Not Duplicating
 
-| Package | What We're Using | Integration Method |
-|---------|------------------|-------------------|
-| **zsh-claude-workflow** | Project detection, context gathering | Symlink lib/, call commands |
-| **aiterm** | Terminal context switching | Call `ait context apply` |
-| **apple-notes-sync** | .STATUS parser, dashboard patterns | Adapt scanner.sh logic |
-| **obsidian-cli-ops** | ZSH+Python hybrid pattern | Copy architecture approach |
-| **dev-planning** | Hub organization pattern | Replicate PROJECT-HUB.md structure |
+| Package                 | What We're Using                     | Integration Method                 |
+| ----------------------- | ------------------------------------ | ---------------------------------- |
+| **zsh-claude-workflow** | Project detection, context gathering | Symlink lib/, call commands        |
+| **aiterm**              | Terminal context switching           | Call `ait context apply`           |
+| **apple-notes-sync**    | .STATUS parser, dashboard patterns   | Adapt scanner.sh logic             |
+| **obsidian-cli-ops**    | ZSH+Python hybrid pattern            | Copy architecture approach         |
+| **dev-planning**        | Hub organization pattern             | Replicate PROJECT-HUB.md structure |
 
 ### What We're Building (Unique)
 
@@ -475,13 +475,11 @@ $ # About to update medfit
    ```
 
 2. **Set up zsh-claude-workflow integration** (15 min)
-
    - Create symlink to lib/
    - Build project-detector-bridge.js
    - Test detection on 3 projects
 
 3. **Build minimal session manager** (Week 2)
-
    - Start simple (without complex features)
    - Test with 1 project for 1 week
    - Iterate based on real use
@@ -491,21 +489,18 @@ $ # About to update medfit
 ## Files Created Today
 
 1. **PROJECT-SCOPE.md** (650+ lines)
-
    - Complete project specification (project management focus)
    - 3-month roadmap
    - Success criteria and use cases
    - Architecture overview
 
 2. **ARCHITECTURE-INTEGRATION.md** (500+ lines)
-
    - Complete architecture design
    - Frontend/backend separation
    - Integration strategy with existing dev-tools
    - Data flow examples
 
 3. **PROJECT-REFOCUS-SUMMARY.md** (this file)
-
    - Executive summary of refocus
    - Quick reference for the plan
    - Key decisions documented

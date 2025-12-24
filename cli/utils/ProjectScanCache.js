@@ -137,7 +137,7 @@ export class ProjectScanCache {
    */
   getStats() {
     const total = this.stats.hits + this.stats.misses
-    const hitRate = total > 0 ? (this.stats.hits / total * 100).toFixed(2) : 0
+    const hitRate = total > 0 ? ((this.stats.hits / total) * 100).toFixed(2) : 0
 
     return {
       ...this.stats,

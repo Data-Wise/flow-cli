@@ -8,6 +8,7 @@
 ## 📊 Summary of New Commands
 
 ### Tools Added
+
 1. **atuin** - History manager (Ctrl+R, atuin search)
 2. **direnv** - Auto environment loader (direnv allow)
 3. **15 fzf helpers** - Interactive fuzzy finders
@@ -27,13 +28,15 @@ All 15 new fzf helper commands use **unique names** that don't conflict with exi
 ### R Package Development
 
 #### NEW fzf helpers:
-| New | Description | Existing Equivalent | Integration |
-|-----|-------------|---------------------|-------------|
-| `re` | Fuzzy find R files | Manual navigation + `vim R/file.R` | ✅ **Complements** - Faster discovery |
-| `rt` | Fuzzy run test | `rtestfile tests/testthat/test-foo.R` | ✅ **Enhances** - Interactive picker |
-| `rv` | Fuzzy find vignettes | Manual `vim vignettes/foo.Rmd` | ✅ **New capability** |
+
+| New  | Description          | Existing Equivalent                   | Integration                           |
+| ---- | -------------------- | ------------------------------------- | ------------------------------------- |
+| `re` | Fuzzy find R files   | Manual navigation + `vim R/file.R`    | ✅ **Complements** - Faster discovery |
+| `rt` | Fuzzy run test       | `rtestfile tests/testthat/test-foo.R` | ✅ **Enhances** - Interactive picker  |
+| `rv` | Fuzzy find vignettes | Manual `vim vignettes/foo.Rmd`        | ✅ **New capability**                 |
 
 **Workflow Integration:**
+
 ```bash
 # OLD workflow
 cd ~/projects/r-packages/active/medfit
@@ -54,14 +57,16 @@ rt                       # Pick specific test (fuzzy)
 ### Project Status & Navigation
 
 #### NEW fzf helpers:
-| New | Description | Existing Equivalent | Integration |
-|-----|-------------|---------------------|-------------|
-| `fs` | Fuzzy find .STATUS | `pstatlist` + manual edit | ✅ **Enhances** - Interactive with preview |
-| `fh` | Fuzzy find PROJECT-HUB | Manual navigation | ✅ **New capability** |
-| `fp` | Fuzzy find projects | `z` / `@bookmarks` + `ls` | ⚠️ **Overlaps** with `z` |
-| `fr` | Fuzzy find R packages | `@rpkg` + `ls` / `z rpkg` | ⚠️ **Overlaps** with workflow |
+
+| New  | Description            | Existing Equivalent       | Integration                                |
+| ---- | ---------------------- | ------------------------- | ------------------------------------------ |
+| `fs` | Fuzzy find .STATUS     | `pstatlist` + manual edit | ✅ **Enhances** - Interactive with preview |
+| `fh` | Fuzzy find PROJECT-HUB | Manual navigation         | ✅ **New capability**                      |
+| `fp` | Fuzzy find projects    | `z` / `@bookmarks` + `ls` | ⚠️ **Overlaps** with `z`                   |
+| `fr` | Fuzzy find R packages  | `@rpkg` + `ls` / `z rpkg` | ⚠️ **Overlaps** with workflow              |
 
 **Existing .STATUS workflow:**
+
 ```bash
 # Current
 pstat                    # Scan all .STATUS
@@ -74,11 +79,13 @@ fs                       # Fuzzy find + preview + edit
 ```
 
 **Analysis:**
+
 - `fs` is **much faster** than `pstatlist` → manual edit
 - `fp` and `fr` **overlap** with `z` / `@bookmarks` but add **preview** capability
 - Tradeoff: Speed (z/bookmarks) vs Discovery (fp/fr with preview)
 
 **Recommendation:**
+
 - ✅ **Keep `fs`** - Clear win over manual workflow
 - ⚠️ **Consider renaming `fp`/`fr`** or positioning as "discovery" tools for when you "forgot what's there"
 
@@ -87,15 +94,17 @@ fs                       # Fuzzy find + preview + edit
 ### Git Workflows
 
 #### NEW fzf helpers:
-| New | Description | Existing Equivalent | Conflict? |
-|-----|-------------|---------------------|-----------|
-| `gb` | Fuzzy checkout branch | `git checkout <branch>` | ✅ **Complements** |
-| `gdf` | Interactive diff | `git diff` | ✅ **Complements** |
-| `gshow` | Fuzzy git log | `glog` (alias for git log) | ⚠️ **Similar name** |
-| `ga` | Interactive stage | `git add` | ⚠️ **Overlaps** with common alias |
-| `gundostage` | Interactive unstage | `git reset HEAD` | ✅ **New capability** |
+
+| New          | Description           | Existing Equivalent        | Conflict?                         |
+| ------------ | --------------------- | -------------------------- | --------------------------------- |
+| `gb`         | Fuzzy checkout branch | `git checkout <branch>`    | ✅ **Complements**                |
+| `gdf`        | Interactive diff      | `git diff`                 | ✅ **Complements**                |
+| `gshow`      | Fuzzy git log         | `glog` (alias for git log) | ⚠️ **Similar name**               |
+| `ga`         | Interactive stage     | `git add`                  | ⚠️ **Overlaps** with common alias |
+| `gundostage` | Interactive unstage   | `git reset HEAD`           | ✅ **New capability**             |
 
 **Existing git aliases:**
+
 ```bash
 gs='git status -sb'
 glog='git log --oneline --graph --decorate --all'
@@ -104,10 +113,12 @@ gundo='git reset --soft HEAD~1'
 ```
 
 **Conflicts:**
+
 - **`gshow`** is similar to **`glog`** but different purpose (interactive browse vs display)
 - **`ga`** might conflict with common git alias patterns (though not defined in your config)
 
 **Workflow comparison:**
+
 ```bash
 # OLD git workflow
 git status
@@ -121,6 +132,7 @@ git commit -m "..."
 ```
 
 **Recommendation:**
+
 - ✅ **Keep `gb`** - Huge win for branch switching
 - ✅ **Keep `gdf`** - Interactive diff is valuable
 - ⚠️ **Consider renaming `gshow`** to `gfl` (git fuzzy log) to distinguish from `glog`
@@ -131,35 +143,38 @@ git commit -m "..."
 ## 🎯 Integration Recommendations
 
 ### Tier 1: Clear Wins (Keep As-Is)
+
 These add **new capability** or are **significantly better** than existing workflows:
 
-| Command | Why Keep | ADHD Value |
-|---------|----------|-----------|
-| `re` | Discovery of R files | ⭐⭐⭐⭐⭐ |
-| `rt` | Interactive test runner | ⭐⭐⭐⭐⭐ |
-| `fs` | Faster than pstatlist workflow | ⭐⭐⭐⭐⭐ |
-| `gb` | Branch switching with preview | ⭐⭐⭐⭐⭐ |
-| `gdf` | Interactive diff | ⭐⭐⭐⭐ |
-| `gundostage` | New capability | ⭐⭐⭐ |
+| Command      | Why Keep                       | ADHD Value |
+| ------------ | ------------------------------ | ---------- |
+| `re`         | Discovery of R files           | ⭐⭐⭐⭐⭐ |
+| `rt`         | Interactive test runner        | ⭐⭐⭐⭐⭐ |
+| `fs`         | Faster than pstatlist workflow | ⭐⭐⭐⭐⭐ |
+| `gb`         | Branch switching with preview  | ⭐⭐⭐⭐⭐ |
+| `gdf`        | Interactive diff               | ⭐⭐⭐⭐   |
+| `gundostage` | New capability                 | ⭐⭐⭐     |
 
 ### Tier 2: Overlaps But Adds Value
+
 These **overlap** with existing tools but add **preview/discovery** value:
 
-| Command | Overlaps With | When to Use New | When to Use Old |
-|---------|---------------|-----------------|-----------------|
-| `fp` | `z`, `@bookmarks` | "What projects exist?" | "Jump to known project" |
-| `fr` | `@rpkg`, `z rpkg` | "Browse R packages" | "Jump to known package" |
+| Command | Overlaps With     | When to Use New        | When to Use Old         |
+| ------- | ----------------- | ---------------------- | ----------------------- |
+| `fp`    | `z`, `@bookmarks` | "What projects exist?" | "Jump to known project" |
+| `fr`    | `@rpkg`, `z rpkg` | "Browse R packages"    | "Jump to known package" |
 
 **Recommendation:** Position as **discovery tools** vs **speed tools**
+
 - **Fast/known:** Use `z medfit` or `@medfit` (muscle memory)
 - **Discovery/forgot:** Use `fp` or `fr` (visual preview)
 
 ### Tier 3: Naming Conflicts to Consider
 
-| Command | Issue | Suggested Fix |
-|---------|-------|---------------|
-| `gshow` | Similar to `glog` | Rename to `gfl` (git fuzzy log) or `glf` |
-| `ga` | Common git alias convention | Keep but document |
+| Command | Issue                       | Suggested Fix                            |
+| ------- | --------------------------- | ---------------------------------------- |
+| `gshow` | Similar to `glog`           | Rename to `gfl` (git fuzzy log) or `glf` |
+| `ga`    | Common git alias convention | Keep but document                        |
 
 ---
 
@@ -168,6 +183,7 @@ These **overlap** with existing tools but add **preview/discovery** value:
 ### 1. Rename `gshow` → `glf` (git log fuzzy)
 
 **Rationale:**
+
 - Avoids confusion with `glog`
 - More descriptive: "git log fuzzy"
 - Follows pattern: `gl` prefix = git log
@@ -182,6 +198,7 @@ glf() {  # was gshow()
 ### 2. Position `fp`/`fr` as Discovery Tools
 
 Update documentation to clarify:
+
 - **Speed navigation:** `z`, `@bookmarks` (when you know where you're going)
 - **Discovery navigation:** `fp`, `fr` (when browsing, exploring, forgot)
 
@@ -204,6 +221,7 @@ alias t='rt'     # Test (fuzzy)
 ## 🔄 Integration with Existing Workflows
 
 ### Morning Workflow
+
 ```bash
 # Existing
 gm                       # Morning kickstart (from adhd-helpers)
@@ -215,6 +233,7 @@ Ctrl+R → "what-next"     # Find last what-next command via atuin
 ```
 
 ### R Package Development Workflow
+
 ```bash
 # Existing
 @medfit                  # Jump to package
@@ -228,6 +247,7 @@ rt                       # If you want specific test (precision)
 ```
 
 ### Git Workflow
+
 ```bash
 # Existing
 gs                       # Git status
@@ -247,17 +267,20 @@ git commit -m "..."
 Based on ADHD-friendly design and your workflows:
 
 ### High Usage Potential (⭐⭐⭐⭐⭐)
+
 - `fs` - Editing .STATUS files (daily task)
 - `re` - Finding R files (when can't remember name)
 - `gb` - Switching branches (visual preview helps)
 - `Ctrl+R` (atuin) - History search (constant need)
 
 ### Medium Usage (⭐⭐⭐)
+
 - `rt` - Running specific tests (when debugging)
 - `fp`/`fr` - When exploring/discovering (less frequent)
 - `gdf` - Reviewing changes before commit
 
 ### Lower Usage (⭐⭐)
+
 - `rv` - Vignettes (if you write many vignettes)
 - `fh` - PROJECT-HUB (less frequent access)
 - `gshow` - Git log browsing (nice-to-have)
@@ -267,16 +290,19 @@ Based on ADHD-friendly design and your workflows:
 ## ✅ Final Recommendations
 
 ### Do This Now:
+
 1. ✅ **Keep all commands as-is** - No critical conflicts
 2. ✅ **Try for 1 week** - See what you actually use
 3. ✅ **Document as "discovery tools"** vs "speed tools"
 
 ### Consider After 1 Week:
+
 1. Rename `gshow` → `glf` if confusion occurs
 2. Add ultra-short aliases for heavily-used commands
 3. Remove any commands you never use
 
 ### Integration Strategy:
+
 - **Coexistence:** New fzf helpers **complement** existing aliases (not replace)
 - **Use case split:**
   - Known destination → Use `z`, `@bookmarks` (fast)
@@ -287,15 +313,15 @@ Based on ADHD-friendly design and your workflows:
 
 ## 🎯 Quick Reference: When to Use What
 
-| Goal | Fast Method | Discovery Method |
-|------|-------------|------------------|
-| Jump to R package | `@medfit` or `z medfit` | `fr` (browse all) |
-| Edit R file | `vim R/fit.R` | `re` (browse all) |
-| Run test | `rtest` (all) or `rtestfile` | `rt` (pick one) |
-| Edit .STATUS | `vim ~/path/.STATUS` | `fs` (browse all) |
-| Checkout branch | `git checkout <branch>` | `gb` (browse all) |
-| Stage files | `git add <file>` | `ga` (preview & pick) |
-| Search history | Up arrow | `Ctrl+R` (atuin fuzzy) |
+| Goal              | Fast Method                  | Discovery Method       |
+| ----------------- | ---------------------------- | ---------------------- |
+| Jump to R package | `@medfit` or `z medfit`      | `fr` (browse all)      |
+| Edit R file       | `vim R/fit.R`                | `re` (browse all)      |
+| Run test          | `rtest` (all) or `rtestfile` | `rt` (pick one)        |
+| Edit .STATUS      | `vim ~/path/.STATUS`         | `fs` (browse all)      |
+| Checkout branch   | `git checkout <branch>`      | `gb` (browse all)      |
+| Stage files       | `git add <file>`             | `ga` (preview & pick)  |
+| Search history    | Up arrow                     | `Ctrl+R` (atuin fuzzy) |
 
 ---
 

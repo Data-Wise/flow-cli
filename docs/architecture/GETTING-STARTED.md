@@ -1,4 +1,5 @@
 # Getting Started with Flow-CLI Architecture
+
 **Build Your First Feature in 30 Minutes**
 
 ---
@@ -6,12 +7,14 @@
 ## 🎯 What You'll Build
 
 A simple **Task Management** feature following Clean Architecture:
+
 - Task entity (domain)
 - CreateTask use case (application logic)
 - Task repository (data access)
 - CLI command (interface)
 
 By the end, you'll understand:
+
 - ✅ Where different code goes (4-layer architecture)
 - ✅ How to write testable business logic
 - ✅ How to swap implementations easily
@@ -40,6 +43,7 @@ By the end, you'll understand:
 ### What is an Entity?
 
 An entity has:
+
 - **Identity** (unique ID)
 - **Behavior** (methods that enforce business rules)
 - **State** (properties that can change over time)
@@ -124,21 +128,22 @@ import { Task } from './cli/domain/entities/Task.js'
 
 // Valid task
 const task = new Task('task-1', 'Write documentation')
-console.log(task.id)  // 'task-1'
+console.log(task.id) // 'task-1'
 
 // Complete it
 task.complete()
-console.log(task.completed)  // true
+console.log(task.completed) // true
 
 // Try to complete again (should throw)
 try {
   task.complete()
 } catch (error) {
-  console.log(error.message)  // 'Task is already completed'
+  console.log(error.message) // 'Task is already completed'
 }
 ```
 
 **✨ What you learned:**
+
 - Entities contain business logic
 - Validation happens in domain layer
 - Methods enforce business rules (can't complete twice)
@@ -151,6 +156,7 @@ try {
 ### What is a Repository?
 
 A repository is an **interface** (contract) that defines:
+
 - How to save/load entities
 - **Not** how it's implemented (file? database? memory?)
 
@@ -208,6 +214,7 @@ export class ITaskRepository {
 ```
 
 **✨ What you learned:**
+
 - Repositories are **interfaces** (just method signatures)
 - Defined in domain layer (what we need)
 - Implemented in adapters layer (how we get it)
@@ -220,6 +227,7 @@ export class ITaskRepository {
 ### What is a Use Case?
 
 A use case orchestrates:
+
 - Domain entities
 - Repositories
 - Business workflows
@@ -270,6 +278,7 @@ export class CreateTaskUseCase {
 ```
 
 **✨ What you learned:**
+
 - Use cases contain **application logic** (workflow)
 - Use cases use domain entities (Task)
 - Use cases depend on repository **interface** (not implementation)
@@ -352,6 +361,7 @@ export class InMemoryTaskRepository extends ITaskRepository {
 ```
 
 **✨ What you learned:**
+
 - Adapters **implement** interfaces from domain
 - In-memory implementation is perfect for testing
 - Same interface, different implementation (flexibility!)
@@ -393,6 +403,7 @@ export function createContainer() {
 ```
 
 **✨ What you learned:**
+
 - Dependencies are wired at application startup
 - Easy to swap implementations (change ONE line)
 - Use cases don't know what repository implementation they're using
@@ -450,6 +461,7 @@ node cli/test.js
 ```
 
 **Output:**
+
 ```
 ✅ Created task: task-1703...
    Description: Write tests
@@ -477,12 +489,12 @@ You just built a feature using Clean Architecture!
 
 ### Key Takeaways
 
-| Layer | What It Does | Example |
-|-------|-------------|---------|
-| **Domain** | Business rules (pure logic) | Task.complete() throws if already completed |
-| **Use Cases** | Orchestrate workflows | CreateTaskUseCase coordinates entity creation + persistence |
-| **Adapters** | Implement interfaces | InMemoryTaskRepository implements ITaskRepository |
-| **Frameworks** | External tools | (Not used in this example) |
+| Layer          | What It Does                | Example                                                     |
+| -------------- | --------------------------- | ----------------------------------------------------------- |
+| **Domain**     | Business rules (pure logic) | Task.complete() throws if already completed                 |
+| **Use Cases**  | Orchestrate workflows       | CreateTaskUseCase coordinates entity creation + persistence |
+| **Adapters**   | Implement interfaces        | InMemoryTaskRepository implements ITaskRepository           |
+| **Frameworks** | External tools              | (Not used in this example)                                  |
 
 ---
 
@@ -491,19 +503,14 @@ You just built a feature using Clean Architecture!
 ### Add More Features (Practice!)
 
 **Easy (15 min each):**
+
 1. Add `CompleteTaskUseCase`
 2. Add `ListTasksUseCase`
 3. Add `DeleteTaskUseCase`
 
-**Medium (30 min each):**
-4. Add `FileSystemTaskRepository` (persist to JSON file)
-5. Add task priorities (high/medium/low) as Value Object
-6. Add task tags
+**Medium (30 min each):** 4. Add `FileSystemTaskRepository` (persist to JSON file) 5. Add task priorities (high/medium/low) as Value Object 6. Add task tags
 
-**Advanced (1 hour each):**
-7. Add CLI command (adapter controller)
-8. Add task due dates with reminders
-9. Add task dependencies (can't complete B until A is done)
+**Advanced (1 hour each):** 7. Add CLI command (adapter controller) 8. Add task due dates with reminders 9. Add task dependencies (can't complete B until A is done)
 
 ### Explore the Codebase
 
@@ -531,6 +538,7 @@ cli/adapters/repositories/FileSystemSessionRepository.js
 **Problem:** Using ITaskRepository directly instead of implementation
 
 **Fix:**
+
 ```javascript
 // ❌ Wrong
 const repo = new ITaskRepository()
@@ -544,9 +552,10 @@ const repo = new InMemoryTaskRepository()
 **Problem:** Validation in Task constructor
 
 **Fix:** This is GOOD! Your business rules are working. Provide a valid description:
+
 ```javascript
-new Task('id', '')  // ❌ Throws
-new Task('id', 'Valid description')  // ✅ Works
+new Task('id', '') // ❌ Throws
+new Task('id', 'Valid description') // ✅ Works
 ```
 
 ---
@@ -558,7 +567,7 @@ new Task('id', 'Valid description')  // ✅ Works
 ```javascript
 // Domain defines WHAT it needs (interface)
 class ITaskRepository {
-  async save(task) { }
+  async save(task) {}
 }
 
 // Adapters provide HOW (implementation)
@@ -569,9 +578,9 @@ class InMemoryTaskRepository extends ITaskRepository {
 }
 
 // Use case doesn't care which implementation
-new CreateTaskUseCase(new InMemoryTaskRepository())  // In-memory
-new CreateTaskUseCase(new FileSystemTaskRepository())  // File system
-new CreateTaskUseCase(new DatabaseTaskRepository())  // Database
+new CreateTaskUseCase(new InMemoryTaskRepository()) // In-memory
+new CreateTaskUseCase(new FileSystemTaskRepository()) // File system
+new CreateTaskUseCase(new DatabaseTaskRepository()) // Database
 ```
 
 ### Testability
@@ -579,7 +588,7 @@ new CreateTaskUseCase(new DatabaseTaskRepository())  // Database
 ```javascript
 // Easy to test - inject mock
 const mockRepo = {
-  save: async (task) => task  // Mock implementation
+  save: async task => task // Mock implementation
 }
 
 const useCase = new CreateTaskUseCase(mockRepo)

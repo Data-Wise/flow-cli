@@ -20,30 +20,33 @@ This document defines how **flow-cli** will be architected as a **personal produ
 
 ### Key Packages and Their Capabilities
 
-| Package | Primary Function | Reusable Components | Status |
-|---------|------------------|---------------------|--------|
-| **zsh-claude-workflow** | Project detection & context | `project-detector.sh`, `claude-context.sh`, templates | ✅ Production |
-| **aiterm** | Terminal context switching | Context detection, iTerm2 integration | ✅ 95% complete |
-| **apple-notes-sync** | Dashboard generation | `.STATUS` parser, dashboard formatter | ✅ Production |
-| **obsidian-cli-ops** | Vault management | ZSH+Python hybrid architecture | ✅ Production |
-| **dev-planning** | Coordination hub | Multi-project tracking patterns | ✅ Production |
+| Package                 | Primary Function            | Reusable Components                                   | Status          |
+| ----------------------- | --------------------------- | ----------------------------------------------------- | --------------- |
+| **zsh-claude-workflow** | Project detection & context | `project-detector.sh`, `claude-context.sh`, templates | ✅ Production   |
+| **aiterm**              | Terminal context switching  | Context detection, iTerm2 integration                 | ✅ 95% complete |
+| **apple-notes-sync**    | Dashboard generation        | `.STATUS` parser, dashboard formatter                 | ✅ Production   |
+| **obsidian-cli-ops**    | Vault management            | ZSH+Python hybrid architecture                        | ✅ Production   |
+| **dev-planning**        | Coordination hub            | Multi-project tracking patterns                       | ✅ Production   |
 
 ### Integration Opportunities
 
 #### 1. **zsh-claude-workflow** (PORTED FUNCTIONS)
 
 **What We're Porting:**
+
 - `project-detector.sh` (~200 lines) - Project type detection (8+ types)
 - `core.sh` (~100 lines) - Shared utilities (path handling, cloud storage detection)
 - Total: ~300 lines of essential code
 
 **Why Porting Instead of Dependency:**
+
 - Makes flow-cli standalone (npm-installable)
 - No external dependencies required
 - Works out-of-box for all users
 - Clear attribution to original source
 
 **Where It Goes:**
+
 ```
 cli/vendor/zsh-claude-workflow/
 ├── project-detector.sh    # Ported from zsh-claude-workflow
@@ -52,35 +55,39 @@ cli/vendor/zsh-claude-workflow/
 ```
 
 **Usage Code:**
+
 ```javascript
 // cli/lib/project-detector-bridge.js
-import { exec } from 'child_process';
-import path from 'path';
+import { exec } from 'child_process'
+import path from 'path'
 
-const vendoredScript = path.join(__dirname, '../vendor/zsh-claude-workflow/project-detector.sh');
+const vendoredScript = path.join(__dirname, '../vendor/zsh-claude-workflow/project-detector.sh')
 
 export async function detectProjectType(projectPath) {
   const { stdout } = await execAsync(
     `source ${vendoredScript} && cd "${projectPath}" && detect_project_type`,
     { shell: '/bin/zsh' }
-  );
-  return stdout.trim();
+  )
+  return stdout.trim()
 }
 ```
 
 #### 2. **apple-notes-sync** (PATTERN REUSE)
 
 **What It Provides:**
+
 - Proven .STATUS file parsing (scanner.sh)
 - Dashboard generation patterns
 - Multiple output formats (AppleScript, RTF, Markdown)
 
 **How We'll Use It:**
+
 - **Adapt scanner.sh** for multi-project aggregation
 - **Reuse dashboard templates** for project overview
 - **Extend .STATUS format** with project metadata
 
 **Integration Code:**
+
 ```bash
 # In flow-cli/lib/status-aggregator.sh
 # Reuse apple-notes-sync scanner logic
@@ -98,16 +105,19 @@ aggregate_project_status() {
 #### 3. **aiterm** (COMPLEMENTARY TOOL)
 
 **What It Provides:**
+
 - Terminal context switching based on project type
 - iTerm2 profile management
 - Session-aware environment
 
 **How We'll Use It:**
+
 - **Trigger aiterm** when switching projects
 - **Share context detection** logic
 - **Coordinate session management**
 
 **Integration Code:**
+
 ```zsh
 # In flow-cli/lib/session-manager.zsh
 switch_project() {
@@ -127,12 +137,14 @@ switch_project() {
 #### 4. **dev-planning** (ORGANIZATIONAL MODEL)
 
 **What It Provides:**
+
 - Domain hub pattern (coordination center for related projects)
 - PROJECT-HUB.md structure
 - TODOS.md tracking format
 - Integration mapping patterns
 
 **How We'll Use It:**
+
 - **Replicate hub structure** for personal projects
 - **Adopt .STATUS format** with extensions
 - **Use coordination patterns** for dependency tracking
@@ -143,11 +155,11 @@ switch_project() {
 
 ### What "Frontend" and "Backend" Mean for a CLI Tool
 
-| Layer | Definition | Technologies | Responsibilities |
-|-------|------------|--------------|------------------|
-| **Frontend** | User interaction layer | ZSH functions, CLI commands | Command parsing, user prompts, output formatting |
-| **Backend** | Core logic & data | Node.js modules, JSON files | State persistence, project scanning, data aggregation |
-| **Integration** | External tool coordination | Shell scripts, symlinks | Calling zsh-claude-workflow, aiterm, etc. |
+| Layer           | Definition                 | Technologies                | Responsibilities                                      |
+| --------------- | -------------------------- | --------------------------- | ----------------------------------------------------- |
+| **Frontend**    | User interaction layer     | ZSH functions, CLI commands | Command parsing, user prompts, output formatting      |
+| **Backend**     | Core logic & data          | Node.js modules, JSON files | State persistence, project scanning, data aggregation |
+| **Integration** | External tool coordination | Shell scripts, symlinks     | Calling zsh-claude-workflow, aiterm, etc.             |
 
 ### Three-Layer Architecture
 
@@ -261,6 +273,7 @@ USER: work rmediation
 ```
 
 **Session State JSON:**
+
 ```json
 {
   "sessionId": "uuid-12345",
@@ -312,6 +325,7 @@ USER: dashboard
 ```
 
 **Dashboard Output:**
+
 ```
 ═══════════════════════════════════════════════
 Personal Projects Overview (32 total)
@@ -346,30 +360,33 @@ Next Review: stat-440 (HW 5 due Friday)
 
 **Port Critical Code, Adapt Patterns:**
 
-| Feature Needed | Existing Tool | Integration Method |
-|----------------|---------------|-------------------|
-| Project type detection | zsh-claude-workflow | **Port** project-detector.sh (~200 lines) |
-| Shared utilities | zsh-claude-workflow | **Port** core.sh (~100 lines) |
-| Terminal switching | aiterm | **Optional** - Call `ait context apply` if installed |
-| .STATUS parsing | apple-notes-sync | **Adapt** scanner.sh logic |
-| Dashboard templates | apple-notes-sync | **Reuse** RTF/AppleScript patterns |
-| ZSH+Node.js hybrid | obsidian-cli-ops | **Copy** architecture pattern |
-| Hub organization | dev-planning | **Replicate** PROJECT-HUB.md structure |
+| Feature Needed         | Existing Tool       | Integration Method                                   |
+| ---------------------- | ------------------- | ---------------------------------------------------- |
+| Project type detection | zsh-claude-workflow | **Port** project-detector.sh (~200 lines)            |
+| Shared utilities       | zsh-claude-workflow | **Port** core.sh (~100 lines)                        |
+| Terminal switching     | aiterm              | **Optional** - Call `ait context apply` if installed |
+| .STATUS parsing        | apple-notes-sync    | **Adapt** scanner.sh logic                           |
+| Dashboard templates    | apple-notes-sync    | **Reuse** RTF/AppleScript patterns                   |
+| ZSH+Node.js hybrid     | obsidian-cli-ops    | **Copy** architecture pattern                        |
+| Hub organization       | dev-planning        | **Replicate** PROJECT-HUB.md structure               |
 
 ### Vendored Code Management
 
 **What We're Vendoring:**
+
 - `cli/vendor/zsh-claude-workflow/project-detector.sh` (~200 lines)
 - `cli/vendor/zsh-claude-workflow/core.sh` (~100 lines)
 - **Total:** ~300 lines of code from zsh-claude-workflow
 
 **Why Vendoring:**
+
 - ✅ Makes package truly standalone (npm-installable)
 - ✅ No external dependencies required
 - ✅ Works out-of-box for all users
 - ✅ Clear attribution to original source
 
 **Maintenance:**
+
 ```bash
 # To sync with upstream zsh-claude-workflow (as needed):
 cp ~/projects/dev-tools/zsh-claude-workflow/lib/project-detector.sh cli/vendor/zsh-claude-workflow/
@@ -379,10 +396,12 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/core.sh cli/vendor/zsh-claude-wo
 ### Optional Dependencies
 
 **External Tools (Optional Enhancement):**
+
 - **aiterm** (OPTIONAL) - Enhanced terminal context switching
 - **apple-notes-sync** (OPTIONAL) - Export dashboard to Apple Notes
 
 **Installation Strategy:**
+
 ```bash
 # Core package works standalone
 npm install -g flow-cli
@@ -402,27 +421,24 @@ git clone https://github.com/Data-Wise/apple-notes-sync ~/projects/dev-tools/app
 // cli/lib/project-detector-bridge.js
 // Uses vendored zsh-claude-workflow functions
 
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { exec } from 'child_process'
+import { promisify } from 'util'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const execAsync = promisify(exec);
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const execAsync = promisify(exec)
 
 export async function detectProjectType(projectPath) {
   // Use vendored project-detector.sh
-  const vendoredScript = path.join(
-    __dirname,
-    '../vendor/zsh-claude-workflow/project-detector.sh'
-  );
+  const vendoredScript = path.join(__dirname, '../vendor/zsh-claude-workflow/project-detector.sh')
 
   const { stdout } = await execAsync(
     `source ${vendoredScript} && cd "${projectPath}" && detect_project_type`,
     { shell: '/bin/zsh' }
-  );
+  )
 
-  return stdout.trim();
+  return stdout.trim()
 }
 ```
 
@@ -432,23 +448,23 @@ export async function detectProjectType(projectPath) {
 
 ### Our Unique Contributions
 
-| Component | Purpose | Why Not Reusing Existing Tool |
-|-----------|---------|-------------------------------|
-| **Session State Manager** | Persist and restore workflow context | No existing tool handles session state across sessions |
+| Component                   | Purpose                              | Why Not Reusing Existing Tool                            |
+| --------------------------- | ------------------------------------ | -------------------------------------------------------- |
+| **Session State Manager**   | Persist and restore workflow context | No existing tool handles session state across sessions   |
 | **Multi-Project Dashboard** | Aggregate status across 30+ projects | apple-notes-sync works per-category, we need global view |
-| **Dependency Tracker** | Map project relationships | Unique to multi-project coordination |
-| **Task Aggregator** | Cross-project task list | Not covered by any existing tool |
-| **Project Picker (pp)** | Fuzzy finder for all projects | Simple but high-value UX improvement |
+| **Dependency Tracker**      | Map project relationships            | Unique to multi-project coordination                     |
+| **Task Aggregator**         | Cross-project task list              | Not covered by any existing tool                         |
+| **Project Picker (pp)**     | Fuzzy finder for all projects        | Simple but high-value UX improvement                     |
 
 ### What We're NOT Building
 
-| Feature | Why Not | Existing Tool |
-|---------|---------|---------------|
-| Project type detection | Already solved | zsh-claude-workflow |
-| Context gathering | Already solved | zsh-claude-workflow |
-| Terminal profile switching | Already solved | aiterm |
-| .STATUS file parsing | Already solved | apple-notes-sync |
-| CLAUDE.md templates | Already solved | zsh-claude-workflow |
+| Feature                    | Why Not        | Existing Tool       |
+| -------------------------- | -------------- | ------------------- |
+| Project type detection     | Already solved | zsh-claude-workflow |
+| Context gathering          | Already solved | zsh-claude-workflow |
+| Terminal profile switching | Already solved | aiterm              |
+| .STATUS file parsing       | Already solved | apple-notes-sync    |
+| CLAUDE.md templates        | Already solved | zsh-claude-workflow |
 
 ---
 
@@ -459,11 +475,13 @@ export async function detectProjectType(projectPath) {
 **Goal:** Set up architecture and port essential functions
 
 1. **Create directory structure**
+
    ```bash
    mkdir -p cli/{core,lib,vendor/zsh-claude-workflow} config/zsh/{functions,completions} data/{sessions,projects,cache}
    ```
 
 2. **Port zsh-claude-workflow functions** (3 hours)
+
    ```bash
    # Copy essential functions to vendor directory
    cp ~/projects/dev-tools/zsh-claude-workflow/lib/project-detector.sh cli/vendor/zsh-claude-workflow/
@@ -485,7 +503,7 @@ export async function detectProjectType(projectPath) {
 
 3. **Build project scanner**
    - Use vendored project-detector.sh
-   - Scan ~/projects/** recursively
+   - Scan ~/projects/\*\* recursively
    - Create projects/registry.json
    - Test with 3 different project types
 
@@ -601,6 +619,7 @@ export async function detectProjectType(projectPath) {
 ## 9. Next Immediate Steps
 
 1. **Create directory structure** (5 min)
+
    ```bash
    cd ~/projects/dev-tools/flow-cli
    mkdir -p cli/{core,lib} config/zsh/{functions,completions} data/{sessions,projects,cache} integrations

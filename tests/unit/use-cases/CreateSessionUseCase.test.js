@@ -147,18 +147,21 @@ describe('CreateSessionUseCase', () => {
     })
 
     test('throws error if task is not a string', async () => {
-      await expect(useCase.execute({ project: 'test', task: 123 }))
-        .rejects.toThrow('task must be a string')
+      await expect(useCase.execute({ project: 'test', task: 123 })).rejects.toThrow(
+        'task must be a string'
+      )
     })
 
     test('throws error if branch is not a string', async () => {
-      await expect(useCase.execute({ project: 'test', branch: 123 }))
-        .rejects.toThrow('branch must be a string')
+      await expect(useCase.execute({ project: 'test', branch: 123 })).rejects.toThrow(
+        'branch must be a string'
+      )
     })
 
     test('throws error if context is not an object', async () => {
-      await expect(useCase.execute({ project: 'test', context: 'invalid' }))
-        .rejects.toThrow('context must be an object')
+      await expect(useCase.execute({ project: 'test', context: 'invalid' })).rejects.toThrow(
+        'context must be an object'
+      )
     })
   })
 
@@ -168,15 +171,17 @@ describe('CreateSessionUseCase', () => {
       await useCase.execute({ project: 'rmediation' })
 
       // Try to create second session
-      await expect(useCase.execute({ project: 'other-project' }))
-        .rejects.toThrow('Cannot create session: Active session exists')
+      await expect(useCase.execute({ project: 'other-project' })).rejects.toThrow(
+        'Cannot create session: Active session exists'
+      )
     })
 
     test('error message includes active session project name', async () => {
       await useCase.execute({ project: 'rmediation' })
 
-      await expect(useCase.execute({ project: 'other' }))
-        .rejects.toThrow('Active session exists for project "rmediation"')
+      await expect(useCase.execute({ project: 'other' })).rejects.toThrow(
+        'Active session exists for project "rmediation"'
+      )
     })
 
     test('can create session after ending previous one', async () => {

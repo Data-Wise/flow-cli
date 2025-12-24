@@ -1,4 +1,5 @@
 # Command Research Summary
+
 # Why "status" is Confusing & What to Do About It
 
 **Date:** 2025-12-14
@@ -24,14 +25,15 @@ Analyzed 7 major CLI tools (Git, GitHub CLI, npm, tmux, cargo, kubectl, taskwarr
 
 ### Universal Pattern: VERBS for Actions
 
-| Tool | Show Command | Update Command | Pattern |
-|------|--------------|----------------|---------|
-| Git | `git status` | `git add/commit` | Verb-first |
-| cargo | `cargo build` | `cargo update` | Pure verbs |
-| taskwarrior | `task list` | `task modify` | Pure verbs |
-| GitHub CLI | `gh pr view` | `gh pr edit` | Resource+Verb |
+| Tool        | Show Command  | Update Command   | Pattern       |
+| ----------- | ------------- | ---------------- | ------------- |
+| Git         | `git status`  | `git add/commit` | Verb-first    |
+| cargo       | `cargo build` | `cargo update`   | Pure verbs    |
+| taskwarrior | `task list`   | `task modify`    | Pure verbs    |
+| GitHub CLI  | `gh pr view`  | `gh pr edit`     | Resource+Verb |
 
 **Key Insight:** Git's `status` is the EXCEPTION - it's read-only!
+
 - If you use the word "status", users expect read-only (like Git)
 - Your `status` modifies state = breaks expectations
 
@@ -65,19 +67,20 @@ pinit medfit                       # Project init (rare use)
 
 ## Comparison Table
 
-| Metric | Current (`status`) | Proposed (`up`) |
-|--------|-------------------|-----------------|
-| **Clarity** | 5/10 (noun = ambiguous) | 9/10 (verb = clear) |
-| **Speed** | 6 chars | 2 chars (3x faster!) |
-| **ADHD Score** | 5/10 | 9/10 |
+| Metric               | Current (`status`)            | Proposed (`up`)              |
+| -------------------- | ----------------------------- | ---------------------------- |
+| **Clarity**          | 5/10 (noun = ambiguous)       | 9/10 (verb = clear)          |
+| **Speed**            | 6 chars                       | 2 chars (3x faster!)         |
+| **ADHD Score**       | 5/10                          | 9/10                         |
 | **Matches workflow** | No (other commands are verbs) | Yes (`js`, `work`, `finish`) |
-| **User expectation** | "Show me" (but updates!) | "Change it" (correct!) |
+| **User expectation** | "Show me" (but updates!)      | "Change it" (correct!)       |
 
 ---
 
 ## Real Examples from Your Workflow
 
 ### Your Successful Commands (All Verbs!)
+
 ```bash
 work <name>                        # ✅ Verb: start working
 finish [msg]                       # ✅ Verb: end session
@@ -86,6 +89,7 @@ dash                              # ⚠️  Noun: but read-only (acceptable)
 ```
 
 ### The Outlier
+
 ```bash
 status <name>                      # ❌ Noun: but modifies state (WRONG!)
 ```
@@ -97,6 +101,7 @@ status <name>                      # ❌ Noun: but modifies state (WRONG!)
 ## Daily Impact
 
 ### Keystrokes Saved
+
 ```bash
 # Old way
 status medfit --show               # 20 chars (to show one project)
@@ -108,6 +113,7 @@ up medfit                          # 9 chars (to update) = -4 chars
 ```
 
 **Daily savings:** ~75 keystrokes
+
 - 5 updates/day × 4 chars = 20 chars
 - 2 shows/day × 9 chars = 18 chars
 - Plus mental clarity (priceless!)
@@ -115,12 +121,14 @@ up medfit                          # 9 chars (to update) = -4 chars
 ### Cognitive Load Reduction
 
 **Before:**
+
 1. Type `status mediationverse`
 2. Think: "Wait, will this show or update?"
 3. Check help or try it
 4. Discover it updates (unexpected!)
 
 **After:**
+
 1. Type `up mediationverse`
 2. Know: "I'm updating status"
 3. Done!
@@ -132,6 +140,7 @@ up medfit                          # 9 chars (to update) = -4 chars
 ## Migration Path (3 Weeks)
 
 ### Week 1: Test
+
 ```bash
 # Create up.zsh and pinit.zsh
 # Use alongside status
@@ -139,12 +148,14 @@ up medfit                          # 9 chars (to update) = -4 chars
 ```
 
 ### Week 2: Deprecate
+
 ```bash
 # Add warning to status
 # Update all documentation
 ```
 
 ### Week 3: Complete
+
 ```bash
 # Remove status command
 # Verify all tests pass
@@ -158,14 +169,14 @@ up medfit                          # 9 chars (to update) = -4 chars
 
 ## Alternatives Considered
 
-| Option | Show | Update | Create | ADHD Score | Winner? |
-|--------|------|--------|--------|------------|---------|
-| **Current** | `status --show` | `status` | `status --create` | 5/10 | ❌ |
-| **A: Pure verbs** | `pshow` | `pupdate` | `pinit` | 9/10 | ⚠️ Verbose |
-| **B: Short + split** | `dash` | `pup` | `pinit` | 8/10 | ⚠️ "pup" too cute |
-| **C: Resource-based** | `proj show` | `proj update` | `proj init` | 7/10 | ❌ Too long |
-| **D: Ultra-short** ⭐ | `dash` | `up` | `pinit` | 9/10 | ✅ WINNER |
-| **E: Context-aware** | `dash` | `set` | `init` | 8/10 | ⚠️ "set" conflicts |
+| Option                | Show            | Update        | Create            | ADHD Score | Winner?            |
+| --------------------- | --------------- | ------------- | ----------------- | ---------- | ------------------ |
+| **Current**           | `status --show` | `status`      | `status --create` | 5/10       | ❌                 |
+| **A: Pure verbs**     | `pshow`         | `pupdate`     | `pinit`           | 9/10       | ⚠️ Verbose         |
+| **B: Short + split**  | `dash`          | `pup`         | `pinit`           | 8/10       | ⚠️ "pup" too cute  |
+| **C: Resource-based** | `proj show`     | `proj update` | `proj init`       | 7/10       | ❌ Too long        |
+| **D: Ultra-short** ⭐ | `dash`          | `up`          | `pinit`           | 9/10       | ✅ WINNER          |
+| **E: Context-aware**  | `dash`          | `set`         | `init`            | 8/10       | ⚠️ "set" conflicts |
 
 **Winner: Option D** - Best balance of clarity + speed
 
@@ -244,11 +255,13 @@ This research generated 4 comprehensive documents:
 ## Bottom Line
 
 **Replace this:**
+
 ```bash
 status mediationverse              # What does this do? 🤔
 ```
 
 **With this:**
+
 ```bash
 up mediationverse                  # Update status! ✅
 ```
@@ -270,4 +283,3 @@ up mediationverse                  # Update status! ✅
 ---
 
 **Next:** Start with aliases, use for 1 week, evaluate.
-

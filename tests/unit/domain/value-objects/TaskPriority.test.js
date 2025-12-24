@@ -13,8 +13,7 @@ describe('TaskPriority Value Object', () => {
     })
 
     test('throws error for invalid priority', () => {
-      expect(() => new TaskPriority('invalid'))
-        .toThrow('Invalid task priority: invalid')
+      expect(() => new TaskPriority('invalid')).toThrow('Invalid task priority: invalid')
     })
 
     test('is immutable', () => {

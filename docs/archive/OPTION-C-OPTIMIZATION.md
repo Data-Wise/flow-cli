@@ -13,17 +13,17 @@ mv status               # Mediationverse status - CONFLICT!
 
 ## Brainstorm: Alternative Prefixes
 
-| Prefix | Example | Pros | Cons |
-|--------|---------|------|------|
-| `med` | `med status` | Clear, short, no conflict | 3 chars |
-| `medi` | `medi work` | Clear | 4 chars |
-| `mdv` | `mdv status` | Short, unique | Not intuitive |
-| `verse` | `verse status` | Memorable | 5 chars, generic |
-| `rp` | `rp status` | Very short (R packages) | Too generic |
-| `rpkg` | `rpkg work` | Clear | 4 chars |
-| `M` | `M status` | Single char! | Case-sensitive issues |
-| `mm` | `mm status` | 2 chars, memorable | Generic |
-| `mw` | `mw status` | 2 chars (mediation workflow) | Generic |
+| Prefix  | Example        | Pros                         | Cons                  |
+| ------- | -------------- | ---------------------------- | --------------------- |
+| `med`   | `med status`   | Clear, short, no conflict    | 3 chars               |
+| `medi`  | `medi work`    | Clear                        | 4 chars               |
+| `mdv`   | `mdv status`   | Short, unique                | Not intuitive         |
+| `verse` | `verse status` | Memorable                    | 5 chars, generic      |
+| `rp`    | `rp status`    | Very short (R packages)      | Too generic           |
+| `rpkg`  | `rpkg work`    | Clear                        | 4 chars               |
+| `M`     | `M status`     | Single char!                 | Case-sensitive issues |
+| `mm`    | `mm status`    | 2 chars, memorable           | Generic               |
+| `mw`    | `mw status`    | 2 chars (mediation workflow) | Generic               |
 
 ### Recommendation: `med`
 
@@ -93,6 +93,7 @@ mv status               # Mediationverse status - CONFLICT!
 ### Smart Features
 
 #### 1. Context Detection
+
 ```bash
 # If you're already in a package directory:
 $ cd ~/projects/r-packages/active/medfit
@@ -104,6 +105,7 @@ $ med s medfit   # Works from anywhere
 ```
 
 #### 2. Fuzzy Package Matching
+
 ```bash
 $ med w fit      # Matches "medfit"
 $ med w robust   # Matches "medrobust"
@@ -111,6 +113,7 @@ $ med w sim      # Matches "medsim"
 ```
 
 #### 3. Interactive Mode
+
 ```bash
 $ med
 ╔════════════════════════════════════════════════════════════╗
@@ -134,12 +137,14 @@ $ med
 ```
 
 #### 4. Command Chaining
+
 ```bash
 $ med w medfit && med c "Add feature" && med m
 # Start work → commit → merge (all in one line)
 ```
 
 #### 5. Dry Run Mode
+
 ```bash
 $ med m medfit --dry
 # Would merge dev → main for medfit
@@ -166,6 +171,7 @@ alias mh='med h'        # med help
 ```
 
 **Usage:**
+
 ```bash
 $ mw fit        # Start work on medfit
 $ mc "message"  # Commit
@@ -233,22 +239,23 @@ med (main function)
 
 ## Comparison: Option C vs Option C Optimized
 
-| Feature | Original C | Optimized C |
-|---------|-----------|-------------|
-| Prefix | `mv` (conflicts!) | `med` (safe) |
-| Subcommand length | Full words | Short aliases (s, w, d) |
-| Context detection | No | Yes (auto-detect package) |
-| Fuzzy matching | No | Yes |
-| Interactive mode | No | Yes |
-| Tab completion | Basic | Full |
-| Power user aliases | No | Yes (ms, mw, md) |
-| Dry run mode | No | Yes |
+| Feature            | Original C        | Optimized C               |
+| ------------------ | ----------------- | ------------------------- |
+| Prefix             | `mv` (conflicts!) | `med` (safe)              |
+| Subcommand length  | Full words        | Short aliases (s, w, d)   |
+| Context detection  | No                | Yes (auto-detect package) |
+| Fuzzy matching     | No                | Yes                       |
+| Interactive mode   | No                | Yes                       |
+| Tab completion     | Basic             | Full                      |
+| Power user aliases | No                | Yes (ms, mw, md)          |
+| Dry run mode       | No                | Yes                       |
 
 ---
 
 ## Example Workflows
 
 ### Daily Workflow
+
 ```bash
 $ med                    # See dashboard
 $ med w fit              # Start work on medfit
@@ -258,18 +265,21 @@ $ med d "Add feature"    # Commit with message
 ```
 
 ### Quick Status Check
+
 ```bash
 $ med s                  # Status all
 $ ms                     # Even shorter
 ```
 
 ### Fix All Issues
+
 ```bash
 $ med f                  # Interactive fix for all packages
 # Guides through: stale branches, uncommitted changes, etc.
 ```
 
 ### From Inside Package Directory
+
 ```bash
 $ cd ~/projects/r-packages/active/medfit
 $ med s                  # Status for medfit (auto-detected)
@@ -301,11 +311,13 @@ $ med p                  # Push medfit
 ## Verdict
 
 **Optimized Option C is viable** if:
+
 - You prefer a unified command structure (like git/docker)
 - You want maximum discoverability
 - You're okay with slightly more typing for clarity
 
 **Stick with Option D (Hybrid)** if:
+
 - You want the fastest possible typing
 - You prefer standalone commands (mvst, mvci)
 - You want simpler implementation
@@ -315,6 +327,7 @@ $ med p                  # Push medfit
 ## Hybrid Possibility: Option C + D
 
 Could have BOTH:
+
 - `med` unified command for discoverability/beginners
 - `mv*` shortcuts for power users
 
@@ -331,7 +344,6 @@ This gives best of both worlds but doubles the API surface.
 
 ## Decision
 
-**Preferred approach:** _______________
+**Preferred approach:** **\*\***\_\_\_**\*\***
 
 **Notes:**
-

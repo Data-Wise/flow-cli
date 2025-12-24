@@ -16,11 +16,13 @@ Scans .STATUS files → Formats for mobile → Updates every 30 min → Check fr
 ## 📁 FILES CREATED
 
 ### Research & Documentation
+
 - `~/Downloads/DASHBOARD-ARTIFACT-RESEARCH.md` - Full research (9.6K)
 - `~/projects/dev-tools/flow-cli/DASHBOARD-IDEA.md` - Saved idea + test plan
 - `~/Downloads/APPLE-NOTES-TEST-GUIDE.md` - Testing instructions
 
 ### Next Steps
+
 1. Test Apple Notes formatting (new chat)
 2. Build dashupdate script if test passes (30 min)
 3. Set up auto-update (cron job)
@@ -30,6 +32,7 @@ Scans .STATUS files → Formats for mobile → Updates every 30 min → Check fr
 ## 🧪 TESTING REQUIRED
 
 **Before building, must test:**
+
 - ✓ Can Claude create notes programmatically?
 - ✓ What formatting works? (emoji, progress bars, bullets)
 - ✓ How to auto-update existing notes?
@@ -42,10 +45,10 @@ Scans .STATUS files → Formats for mobile → Updates every 30 min → Check fr
 
 ## ⚡ QUICK DECISION MATRIX
 
-| Test Result | Action |
-|-------------|--------|
-| ✅ All pass | Build dashboard (30 min) |
-| ⚠️ Minor issues | Adjust format, proceed |
+| Test Result       | Action                     |
+| ----------------- | -------------------------- |
+| ✅ All pass       | Build dashboard (30 min)   |
+| ⚠️ Minor issues   | Adjust format, proceed     |
 | ❌ Major failures | Use HTML generator instead |
 
 ---
@@ -53,6 +56,7 @@ Scans .STATUS files → Formats for mobile → Updates every 30 min → Check fr
 ## 🎯 EXPECTED OUTCOME
 
 **If successful:**
+
 ```
 📊 PROJECT DASHBOARD (Apple Note)
 Auto-updated every 30 min

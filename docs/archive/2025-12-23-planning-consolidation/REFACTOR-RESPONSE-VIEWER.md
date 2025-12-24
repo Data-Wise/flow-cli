@@ -18,6 +18,7 @@ Refactor Claude response viewer from flat namespace (`glowclip`, `glowlast`, etc
 **Location:** `~/.config/zsh/functions/claude-response-viewer.zsh` (420 lines)
 
 **Current Commands (Flat Namespace):**
+
 ```bash
 glowsplit <file> ["Title"] [mode]   # Save file and open
 glowclip "Title" [mode]             # Save from clipboard
@@ -29,6 +30,7 @@ glowhelp                            # Show help
 ```
 
 **Problems:**
+
 1. ❌ Pollutes namespace (7 commands)
 2. ❌ Not discoverable (hard to remember all commands)
 3. ❌ Doesn't match modern CLI patterns (git, docker, kubectl)
@@ -41,6 +43,7 @@ glowhelp                            # Show help
 ### Main Dispatcher: `resp`
 
 **Why `resp`:**
+
 - ✅ Short (4 letters)
 - ✅ Semantic (response)
 - ✅ Matches existing style (`vibe`, `work`, `focus`, `win`)
@@ -84,6 +87,7 @@ none     # Just save, don't open
 **Main File:** `~/.config/zsh/functions/claude-response-viewer.zsh`
 
 **Key Functions:**
+
 ```bash
 # Main commands
 glowsplit()           # Lines 22-82
@@ -167,6 +171,7 @@ _glowsplit_help() → _resp_help()
 ```
 
 **Keep unchanged:**
+
 - `_open_in_split()`
 - `_open_in_tab()`
 - `_open_in_window()`
@@ -310,18 +315,21 @@ glowlast  # Should warn + work
 ## 📊 Migration Strategy
 
 ### Phase 1: Internal Refactor (Week 1)
+
 - ✅ Rename functions to `_resp_*`
 - ✅ Create `resp()` dispatcher
 - ✅ Update help text
 - ✅ Test all subcommands
 
 ### Phase 2: User Transition (Week 2-3)
+
 - ✅ Add deprecation warnings to old commands
 - ✅ Update documentation
 - ✅ Update PROMPT-MODES-GUIDE.md
 - ✅ Announce change
 
 ### Phase 3: Cleanup (Week 4+)
+
 - ✅ Remove old command aliases
 - ✅ Remove deprecation warnings
 - ✅ Final documentation update
@@ -331,33 +339,33 @@ glowlast  # Should warn + work
 ## 📚 Files to Update
 
 **Implementation:**
+
 1. `~/.config/zsh/functions/claude-response-viewer.zsh` - Main refactor
 
-**Documentation:**
-2. `~/.claude/PROMPT-MODES-GUIDE.md` - Update examples
-3. `~/.claude/GLOW-RESPONSE-VIEWER-REFCARD.md` - Update all commands
-4. `~/.claude/RESPONSE-VIEWER-IMPLEMENTATION.md` - Update implementation details
+**Documentation:** 2. `~/.claude/PROMPT-MODES-GUIDE.md` - Update examples 3. `~/.claude/GLOW-RESPONSE-VIEWER-REFCARD.md` - Update all commands 4. `~/.claude/RESPONSE-VIEWER-IMPLEMENTATION.md` - Update implementation details
 
-**Testing:**
-5. Create test script: `~/.config/zsh/tests/test-resp-commands.sh`
+**Testing:** 5. Create test script: `~/.config/zsh/tests/test-resp-commands.sh`
 
 ---
 
 ## 🎯 Success Criteria
 
 **Functionality:**
+
 - ✅ All subcommands work (`clip`, `split`, `last`, `list`, `open`, `clean`)
 - ✅ All viewing modes work (split, tab, window, default, none)
 - ✅ Tab completion works (optional enhancement)
 - ✅ Help text is clear and comprehensive
 
 **User Experience:**
+
 - ✅ `resp` alone shows help (discoverable)
 - ✅ `resp <tab>` shows subcommands (if completion added)
 - ✅ Error messages are helpful
 - ✅ Backward compatibility maintained (during transition)
 
 **Documentation:**
+
 - ✅ All docs updated with new syntax
 - ✅ Migration guide provided
 - ✅ Examples are current
@@ -409,6 +417,7 @@ _resp "$@"
 ```
 
 **Enable:**
+
 ```bash
 # Add to ~/.config/zsh/.zshrc
 fpath=(~/.config/zsh/completions $fpath)
@@ -419,6 +428,7 @@ fpath=(~/.config/zsh/completions $fpath)
 ## 🔗 Related Projects
 
 **Integration Points:**
+
 - Background modes (`[analyze:bg]`, etc.) - Use `resp` for viewing results
 - PROMPT-MODES-GUIDE.md - Update workflow examples
 - Response viewer already integrated with background agents
@@ -427,14 +437,16 @@ fpath=(~/.config/zsh/completions $fpath)
 
 ## 📝 Example PR Description
 
-```markdown
+````markdown
 # Refactor: Response Viewer → `resp` Dispatcher Pattern
 
 ## Summary
+
 Refactor Claude response viewer from flat namespace (`glowclip`, `glowlast`)
 to modern dispatcher pattern (`resp <subcommand>`).
 
 ## Changes
+
 - ✅ Created `resp()` dispatcher function
 - ✅ Renamed internal functions: `glowXXX()` → `_resp_XXX()`
 - ✅ Updated help text
@@ -442,6 +454,7 @@ to modern dispatcher pattern (`resp <subcommand>`).
 - ✅ Updated all documentation
 
 ## Benefits
+
 - Professional CLI pattern (like git, docker)
 - Single namespace (7 commands → 1 command)
 - More discoverable (`resp help`)
@@ -449,24 +462,31 @@ to modern dispatcher pattern (`resp <subcommand>`).
 - Matches existing style (`vibe`, `work`, `focus`)
 
 ## Migration
+
 Old commands work with deprecation warnings for 1 month:
+
 ```bash
 glowclip "Title"  # ⚠️ Deprecated, use: resp clip "Title"
 ```
+````
 
 ## Testing
+
 - ✅ All subcommands tested
 - ✅ All viewing modes tested
 - ✅ Backward compatibility verified
 - ✅ Documentation updated
 
 ## Breaking Changes
+
 None (backward compatible during transition)
 
 ## Files Changed
+
 - `functions/claude-response-viewer.zsh` (refactored)
 - `PROMPT-MODES-GUIDE.md` (updated examples)
 - `GLOW-RESPONSE-VIEWER-REFCARD.md` (updated commands)
+
 ```
 
 ---
@@ -486,3 +506,4 @@ None (backward compatible during transition)
 **Created By:** Claude (Phase 1 Background Agents implementation)
 **Assigned To:** flow-cli project
 **Status:** Ready for pickup
+```

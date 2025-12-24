@@ -27,6 +27,7 @@ work NAME → context → pt/pb/pc → finish
 ### Changes
 
 1. **Enhance `_proj_detect_type()`** to recognize teaching/research:
+
 ```zsh
 _proj_detect_type() {
     # Existing checks...
@@ -39,6 +40,7 @@ _proj_detect_type() {
 ```
 
 2. **Enhance context-aware commands:**
+
 ```zsh
 pt() {  # test
     case $(_proj_detect_type) in
@@ -66,6 +68,7 @@ pv() {  # preview/view
 ```
 
 3. **Add teaching/research to `work` output:**
+
 ```zsh
 work() {
     # ... existing code ...
@@ -85,6 +88,7 @@ work() {
 ```
 
 ### Result
+
 ```
 work stat-440        # Detects teaching, shows teaching commands
 work product-of-three # Detects research, shows research commands
@@ -93,11 +97,13 @@ pb                   # Renders site (teaching) or builds PDF (research)
 ```
 
 ### Pros
+
 - No new commands to learn
 - Consistent with existing mental model
 - `work`, `pp`, `dash` just work
 
 ### Cons
+
 - Less discoverable for domain-specific actions
 - Can't have teaching-specific commands like `tlec`
 
@@ -112,6 +118,7 @@ pb                   # Renders site (teaching) or builds PDF (research)
 1. **All of Option A**, plus:
 
 2. **Add convenience aliases only:**
+
 ```zsh
 # Teaching shortcuts (call existing commands)
 alias tw='work'              # tw stat-440 = work stat-440
@@ -125,12 +132,14 @@ alias rp='pp rs'             # Pick research project
 ```
 
 3. **Keep specialized dashboards** (`tst`, `rst`) because they show domain-specific info:
+
 ```zsh
 tst()  # Shows week number, what to prepare, course calendar
 rst()  # Shows manuscript status, simulation progress, submission deadlines
 ```
 
 ### Result
+
 ```
 tw stat-440          # Same as: work stat-440
 tp                   # Same as: pp teach
@@ -139,11 +148,13 @@ pb                   # Build (context-aware, same command everywhere)
 ```
 
 ### Pros
+
 - Two paths: `tw` for speed, `work` for clarity
 - Specialized dashboards surface domain info
 - Minimal new learning
 
 ### Cons
+
 - `tw` and `work` do same thing (redundancy)
 
 ---
@@ -155,6 +166,7 @@ pb                   # Build (context-aware, same command everywhere)
 ### Changes
 
 1. **Domain entry points:**
+
 ```zsh
 teach() {           # Instead of twork
     local course="$1"
@@ -176,11 +188,13 @@ research() {        # Instead of rwork
 ```
 
 2. **Shared operations (no change):**
+
 ```zsh
 pt, pb, pc, pv, finish  # Work exactly as before, detect context
 ```
 
 3. **Domain-specific operations (few, only where needed):**
+
 ```zsh
 # Teaching-only (no equivalent in other domains)
 tweek()     # Show current week content
@@ -192,6 +206,7 @@ rlit()      # Literature search (unique to research)
 ```
 
 ### Result
+
 ```
 teach stat-440       # work + teaching context
 research collider    # work + research context
@@ -201,11 +216,13 @@ rsim test            # Research-specific (no p* equivalent)
 ```
 
 ### Pros
+
 - Clear domain entry points
 - Shared operations stay unified
 - Domain commands only where truly unique
 
 ### Cons
+
 - `teach` vs `work` - when to use which?
 
 ---
@@ -217,6 +234,7 @@ rsim test            # Research-specific (no p* equivalent)
 ### Changes
 
 1. **Smart `work` with domain detection:**
+
 ```zsh
 work() {
     local query="$1"
@@ -249,6 +267,7 @@ _show_research_context() {
 ```
 
 2. **Enhanced `dash` with domain sections:**
+
 ```zsh
 dash() {
     # Existing categories + richer teaching/research display
@@ -258,12 +277,14 @@ dash() {
 ```
 
 3. **Minimal new commands (only unique operations):**
+
 ```zsh
 rsim [MODE]    # Run simulation (research-only)
 tweek          # What's happening this week (teaching-only)
 ```
 
 ### Result
+
 ```
 work stat-440        # Shows teaching context automatically
 work collider        # Shows research context automatically
@@ -273,25 +294,27 @@ tweek                # Teaching-specific command
 ```
 
 ### Pros
+
 - Minimal new commands
 - `work` is smarter, not different
 - Domain context surfaces automatically
 
 ### Cons
+
 - `work` output varies by type (could be confusing?)
 
 ---
 
 ## Comparison Matrix
 
-| Feature | Option A | Option B | Option C | Option D |
-|---------|----------|----------|----------|----------|
-| New commands to learn | 0 | 3-4 aliases | 2 entry + few specific | 2-3 specific |
-| Consistency | High | High | Medium | High |
-| Discoverability | Low | Medium | High | Medium |
-| Domain-specific features | Via detection | Via tst/rst | Via teach/research | Via smart work |
-| Implementation effort | Low | Low | Medium | Medium |
-| Mental model change | None | Minimal | Moderate | Minimal |
+| Feature                  | Option A      | Option B    | Option C               | Option D       |
+| ------------------------ | ------------- | ----------- | ---------------------- | -------------- |
+| New commands to learn    | 0             | 3-4 aliases | 2 entry + few specific | 2-3 specific   |
+| Consistency              | High          | High        | Medium                 | High           |
+| Discoverability          | Low           | Medium      | High                   | Medium         |
+| Domain-specific features | Via detection | Via tst/rst | Via teach/research     | Via smart work |
+| Implementation effort    | Low           | Low         | Medium                 | Medium         |
+| Mental model change      | None          | Minimal     | Moderate               | Minimal        |
 
 ---
 
@@ -305,7 +328,7 @@ tweek                # Teaching-specific command
 2. **Add detection for teaching/research** - context-aware commands adapt
 3. **Keep `tst` and `rst`** - specialized dashboards add value
 4. **Add only truly unique commands:**
-   - `tweek` - teaching week info (no p* equivalent)
+   - `tweek` - teaching week info (no p\* equivalent)
    - `rsim` - run simulation (unique workflow)
    - `rlit` - literature search (unique to research)
 5. **Optional short aliases** - `tw`, `td`, `rw`, `rd` for muscle memory
@@ -409,15 +432,16 @@ work stat-440
 
 #### 4. Context-Aware Operations
 
-| Command | Teaching | Research-tex | Research-qmd | R Package |
-|---------|----------|--------------|--------------|-----------|
-| `pb` | quarto render | latexmk -pdf | quarto render | devtools::build |
-| `pv` | quarto preview | open PDF | quarto preview | - |
-| `pt` | quarto check | lacheck | quarto check | devtools::test |
+| Command | Teaching       | Research-tex | Research-qmd   | R Package       |
+| ------- | -------------- | ------------ | -------------- | --------------- |
+| `pb`    | quarto render  | latexmk -pdf | quarto render  | devtools::build |
+| `pv`    | quarto preview | open PDF     | quarto preview | -               |
+| `pt`    | quarto check   | lacheck      | quarto check   | devtools::test  |
 
 #### 5. Commands Kept (Unique Only)
 
 **Teaching:**
+
 - `tweek` - Show current week info
 - `tlec [WEEK]` - Open lecture file
 - `tslide [WEEK]` - Open slides
@@ -426,6 +450,7 @@ work stat-440
 - `thelp` - Quick reference
 
 **Research:**
+
 - `rms` - Open manuscript file
 - `rsim [MODE]` - Run simulation
 - `rlit [QUERY]` - Search literature
@@ -434,13 +459,13 @@ work stat-440
 
 #### 6. Commands Removed (Redundant)
 
-| Removed | Use Instead |
-|---------|-------------|
-| `twork` | `work COURSE` |
-| `rwork` | `work PROJECT` |
-| `tpreview` | `pv` |
-| `trender` | `pb` |
-| `rpdf` | `pb` |
+| Removed    | Use Instead    |
+| ---------- | -------------- |
+| `twork`    | `work COURSE`  |
+| `rwork`    | `work PROJECT` |
+| `tpreview` | `pv`           |
+| `trender`  | `pb`           |
+| `rpdf`     | `pb`           |
 
 ### Final Command Structure
 
@@ -520,4 +545,3 @@ rhelp              # Research commands
 2. Integrate `rlit` with MCP/Zotero for literature search
 3. Add tab completion for course/project names
 4. Calendar integration for `tweek`
-

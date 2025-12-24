@@ -8,6 +8,7 @@
 ## 🎯 The Problem
 
 Current help is functional but **not ADHD-optimized**:
+
 - ❌ No visual hierarchy (all text looks same)
 - ❌ No examples (just descriptions)
 - ❌ No quick reference (always shows everything)
@@ -19,6 +20,7 @@ Current help is functional but **not ADHD-optimized**:
 ## 💡 Four Options
 
 ### Option A: Enhanced Static (2-3 hours) ⭐ **Quick Win**
+
 **What:** Add colors, examples, "most common" section
 **Pros:** Easy, immediate improvement, low risk
 **Cons:** Still static, no interactivity
@@ -37,6 +39,7 @@ r help
 ---
 
 ### Option B: Multi-Mode (6-8 hours)
+
 **What:** Multiple help modes (quick/full/examples/search)
 **Pros:** Flexible, progressive disclosure
 **Cons:** More complex
@@ -51,6 +54,7 @@ r help test         # Search for "test"
 ---
 
 ### Option C: Interactive with fzf (10-12 hours)
+
 **What:** Visual picker with fuzzy search
 **Pros:** Most discoverable, best ADHD experience
 **Cons:** Requires fzf, complex implementation
@@ -63,6 +67,7 @@ r ?
 ---
 
 ### Option D: Hybrid - All of Above (12-16 hours) ⭐ **Recommended**
+
 **What:** Combine all approaches
 **Pros:** Best of all worlds, phased implementation
 **Cons:** Most work
@@ -79,31 +84,34 @@ r help test         # Search
 
 ## 📊 Quick Comparison
 
-| Feature | Current | A | B | C | D |
-|---------|---------|---|---|---|---|
-| Colors | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Examples | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Quick Mode | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Search | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Interactive | ❌ | ❌ | ❌ | ✅ | ✅ |
-| **ADHD Score** | 5/10 | 7/10 | 8/10 | 9/10 | **10/10** |
-| **Effort** | 0h | 2-3h | 6-8h | 10-12h | 12-16h |
-| **Risk** | Low | Low | Med | Med-High | Med |
+| Feature        | Current | A    | B    | C        | D         |
+| -------------- | ------- | ---- | ---- | -------- | --------- |
+| Colors         | ❌      | ✅   | ✅   | ✅       | ✅        |
+| Examples       | ❌      | ✅   | ✅   | ✅       | ✅        |
+| Quick Mode     | ❌      | ✅   | ✅   | ✅       | ✅        |
+| Search         | ❌      | ❌   | ✅   | ✅       | ✅        |
+| Interactive    | ❌      | ❌   | ❌   | ✅       | ✅        |
+| **ADHD Score** | 5/10    | 7/10 | 8/10 | 9/10     | **10/10** |
+| **Effort**     | 0h      | 2-3h | 6-8h | 10-12h   | 12-16h    |
+| **Risk**       | Low     | Low  | Med  | Med-High | Med       |
 
 ---
 
 ## 🎯 Recommendation: **Option D (Phased)**
 
 **Phase 1 (Week 1): Quick Wins**
+
 - Implement Option A (colorized help)
 - Deploy and test
 - **Effort:** 2-3 hours
 
 **Phase 2 (Week 2): Modes**
+
 - Add help modes (quick/full/examples/search)
 - **Effort:** 4-6 hours
 
 **Phase 3 (Week 3): Interactive**
+
 - Add fzf integration
 - **Effort:** 6-8 hours
 
@@ -138,23 +146,27 @@ r help test         # Search
 ## 📝 Decision Points
 
 **Choose Option A if:**
+
 - ✅ Want quick improvement NOW
 - ✅ Low time investment (2-3 hours)
 - ✅ Minimize risk
 - ❌ Can live without interactivity
 
 **Choose Option D if:**
+
 - ✅ Want best ADHD experience
 - ✅ Can invest time over 3 weeks
 - ✅ Value discoverability
 - ✅ Want room to grow
 
 **Choose Option B if:**
+
 - ✅ Want flexibility without fzf
 - ✅ Middle ground effort
 - ❌ Don't want fzf dependency
 
 **Choose Option C if:**
+
 - ✅ Only want interactive
 - ✅ Have fzf installed
 - ❌ Don't care about static modes
@@ -164,6 +176,7 @@ r help test         # Search
 ## 🎬 Example Transformation
 
 ### Before:
+
 ```
 r help
 r <action> - R Package Development
@@ -175,6 +188,7 @@ CORE WORKFLOW:
 ```
 
 ### After (Quick):
+
 ```
 r help
 ╭─ r - R Package Development ─╮
@@ -188,6 +202,7 @@ r help
 ```
 
 ### After (Interactive):
+
 ```
 r ?
 [Opens fzf picker with live search and preview]
@@ -226,16 +241,19 @@ r ?
 **If you choose:**
 
 **Option A:**
+
 1. I'll implement colorized help today
 2. 2-3 hours work
 3. Deploy and test
 
 **Option D (Recommended):**
+
 1. Start with Phase 1 (Option A)
 2. Get feedback
 3. Add phases 2-3 based on usage
 
 **Something else:**
+
 1. Let me know what you'd like
 2. I'll create custom plan
 
@@ -246,6 +264,7 @@ r ?
 ---
 
 **Files:**
+
 - Full proposal: `HELP-SYSTEM-OVERHAUL-PROPOSAL.md`
 - This summary: `HELP-OVERHAUL-SUMMARY.md`
 - Current help: `~/.config/zsh/functions/smart-dispatchers.zsh`

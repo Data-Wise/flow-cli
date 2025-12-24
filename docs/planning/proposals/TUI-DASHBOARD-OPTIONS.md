@@ -16,6 +16,7 @@ Create a beautiful, interactive Terminal User Interface (TUI) dashboard for the 
 **Philosophy:** Full-featured terminal interface library (like ncurses for Node.js)
 
 ### Pros
+
 - ✅ Most mature and widely used TUI library
 - ✅ Rich widget set (boxes, lists, tables, progress bars, forms)
 - ✅ Built-in keyboard and mouse support
@@ -25,6 +26,7 @@ Create a beautiful, interactive Terminal User Interface (TUI) dashboard for the 
 - ✅ Active community and plugins (blessed-contrib for charts)
 
 ### Cons
+
 - ⚠️ Larger bundle size (~100KB)
 - ⚠️ Steeper learning curve for complex layouts
 - ⚠️ Some quirks with terminal compatibility
@@ -80,12 +82,14 @@ screen.key(['escape', 'q', 'C-c'], () => process.exit(0))
 ```
 
 ### Use Cases
+
 - Complex dashboards with multiple widgets
 - Interactive forms and menus
 - Real-time data updates
 - Custom key bindings
 
 ### Effort: ~2-3 hours
+
 - Layout: 30 min
 - Widgets: 1 hour
 - Interactivity: 30 min
@@ -100,6 +104,7 @@ screen.key(['escape', 'q', 'C-c'], () => process.exit(0))
 **Philosophy:** Build TUIs with React components
 
 ### Pros
+
 - ✅ Use React components and hooks (familiar for React devs)
 - ✅ Declarative UI (easier to reason about)
 - ✅ Hot reload during development
@@ -109,6 +114,7 @@ screen.key(['escape', 'q', 'C-c'], () => process.exit(0))
 - ✅ Auto-testing with ink-testing-library
 
 ### Cons
+
 - ⚠️ Requires React knowledge
 - ⚠️ Heavier (React runtime overhead)
 - ⚠️ Less control over low-level terminal features
@@ -135,7 +141,9 @@ const Dashboard = () => {
     <Box flexDirection="column">
       <Box borderStyle="round" borderColor="green" padding={1}>
         <Box flexDirection="column">
-          <Text bold color="green">🔥 Active Session</Text>
+          <Text bold color="green">
+            🔥 Active Session
+          </Text>
           <Text>Project: {session?.project}</Text>
           <Text>Duration: {session?.duration} min</Text>
         </Box>
@@ -143,7 +151,9 @@ const Dashboard = () => {
 
       <Box borderStyle="round" marginTop={1} padding={1}>
         <Box flexDirection="column">
-          <Text bold color="cyan">📊 Today</Text>
+          <Text bold color="cyan">
+            📊 Today
+          </Text>
           <Text>Sessions: 5</Text>
           <Text>Duration: 3h 45m</Text>
         </Box>
@@ -156,12 +166,14 @@ render(<Dashboard />)
 ```
 
 ### Use Cases
+
 - React developers
 - Simple, focused dashboards
 - Rapid prototyping
 - Component reusability
 
 ### Effort: ~2 hours
+
 - Components: 1 hour
 - State management: 30 min
 - Styling: 30 min
@@ -174,6 +186,7 @@ render(<Dashboard />)
 **Philosophy:** Full terminal manipulation library
 
 ### Pros
+
 - ✅ Extremely feature-rich (animations, images, menus)
 - ✅ Better graphics support (can display images in terminal)
 - ✅ Progress bars, spinners, tables out of the box
@@ -181,6 +194,7 @@ render(<Dashboard />)
 - ✅ Built-in input handling (text fields, yes/no, menus)
 
 ### Cons
+
 - ⚠️ Less popular (smaller community)
 - ⚠️ Heavy (larger API surface)
 - ⚠️ Some features require specific terminals
@@ -210,12 +224,14 @@ term.singleColumnMenu(items, (error, response) => {
 ```
 
 ### Use Cases
+
 - Rich graphics in terminal
 - Interactive menus and forms
 - Progress tracking with spinners
 - Image display in supported terminals
 
 ### Effort: ~2 hours
+
 - Setup: 15 min
 - UI elements: 1 hour
 - Interactivity: 45 min
@@ -228,12 +244,14 @@ term.singleColumnMenu(items, (error, response) => {
 **Note:** Primarily a Go library, but Elm Architecture concepts apply
 
 ### Pros
+
 - ✅ Elm Architecture pattern (Model-View-Update)
 - ✅ Predictable state management
 - ✅ Great for complex interactive apps
 - ✅ Composable and testable
 
 ### Cons
+
 - ⚠️ No official JavaScript port
 - ⚠️ Would need to build from scratch using the pattern
 - ⚠️ Steeper learning curve
@@ -250,6 +268,7 @@ term.singleColumnMenu(items, (error, response) => {
 **Use with:** blessed
 
 **Features:**
+
 - Line charts
 - Bar charts
 - Donut charts
@@ -311,6 +330,7 @@ screen.render()
 **Use with:** ink
 
 **Features:**
+
 - Select menu
 - Multi-select
 - Progress bar
@@ -383,6 +403,7 @@ render(<Demo />)
 ### Implementation Plan (2-3 hours)
 
 **Phase 1: Basic Layout (1 hour)**
+
 - Setup blessed screen
 - Create session box
 - Create today stats box
@@ -390,18 +411,21 @@ render(<Demo />)
 - Basic keyboard navigation
 
 **Phase 2: Charts (30 min)**
+
 - Add blessed-contrib
 - Line chart for trend
 - Donut chart for completion rate
 - Real-time updates
 
 **Phase 3: Interactivity (45 min)**
+
 - Keyboard shortcuts (f, p, s, r, q)
 - Project selection with Enter
 - Auto-refresh every 5 seconds
 - Status updates on actions
 
 **Phase 4: Polish (30 min)**
+
 - Color scheme (match current CLI colors)
 - Border styles
 - Loading states
@@ -418,12 +442,14 @@ render(<Demo />)
 3. **Best of both worlds:** Fast CLI + rich TUI when needed
 
 ### Benefits
+
 - Users choose their preference
 - CLI remains fast and scriptable
 - TUI available for deep dives
 - No breaking changes
 
 ### Implementation
+
 ```javascript
 // cli/commands/status.js
 if (options.tui) {
@@ -439,15 +465,15 @@ if (options.tui) {
 
 ## Decision Matrix
 
-| Criterion | blessed | ink | terminal-kit | Hybrid |
-|-----------|---------|-----|--------------|--------|
-| **Ease of use** | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **Features** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Performance** | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **Community** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Charts** | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Effort** | 2-3h | 2h | 2h | 3h |
-| **Maintenance** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Criterion       | blessed    | ink      | terminal-kit | Hybrid     |
+| --------------- | ---------- | -------- | ------------ | ---------- |
+| **Ease of use** | ⭐⭐⭐     | ⭐⭐⭐⭐ | ⭐⭐⭐       | ⭐⭐⭐⭐   |
+| **Features**    | ⭐⭐⭐⭐⭐ | ⭐⭐⭐   | ⭐⭐⭐⭐⭐   | ⭐⭐⭐⭐⭐ |
+| **Performance** | ⭐⭐⭐⭐   | ⭐⭐⭐   | ⭐⭐⭐⭐     | ⭐⭐⭐⭐   |
+| **Community**   | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐       | ⭐⭐⭐⭐⭐ |
+| **Charts**      | ⭐⭐⭐⭐⭐ | ⭐⭐     | ⭐⭐⭐⭐     | ⭐⭐⭐⭐⭐ |
+| **Effort**      | 2-3h       | 2h       | 2h           | 3h         |
+| **Maintenance** | ⭐⭐⭐⭐   | ⭐⭐⭐⭐ | ⭐⭐⭐       | ⭐⭐⭐⭐⭐ |
 
 ---
 
@@ -458,6 +484,7 @@ if (options.tui) {
 **Charts:** Use blessed-contrib for visualizations
 
 ### Why?
+
 1. ✅ No breaking changes to CLI
 2. ✅ Users choose their interface
 3. ✅ Best tool for each use case
@@ -470,6 +497,7 @@ if (options.tui) {
 If implementing TUI:
 
 1. **Install dependencies**
+
    ```bash
    npm install blessed blessed-contrib
    ```
@@ -529,12 +557,14 @@ If implementing TUI:
 **Recommended path:** Implement hybrid approach with blessed + blessed-contrib
 
 **Estimated effort:** 3 hours total
+
 - blessed setup: 1 hour
 - Charts: 30 min
 - Interactivity: 1 hour
 - Testing & polish: 30 min
 
 **Benefits:**
+
 - Choice for users (CLI vs TUI)
 - Rich visualizations
 - ADHD-friendly interface
@@ -542,6 +572,7 @@ If implementing TUI:
 - Production-ready library
 
 **When to skip TUI:**
+
 - Time constraints (CLI alone is excellent)
 - Prefer web dashboard instead
 - Focus on other features first

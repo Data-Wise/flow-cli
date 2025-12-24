@@ -9,6 +9,7 @@
 ## Overview
 
 Comprehensive unit test suite for the 8 smart function dispatchers:
+
 - `r()` - R package development
 - `qu()` - Quarto
 - `cc()` - Claude Code
@@ -37,22 +38,22 @@ cd ~/.config/zsh/tests
 
 ### Test Categories
 
-| Category | Tests | Coverage |
-|----------|-------|----------|
-| Function Existence | 8 | All 8 functions |
-| Help Systems | 8 | All help commands |
-| r() Function | 9 | Core, help, errors |
-| qu() Function | 7 | Core, help, errors |
-| cc() Function | 9 | Sessions, models, tasks |
-| gm() Function | 8 | Modes, sessions, web |
-| focus() Function | 8 | Timers, management |
-| note() Function | 6 | Sync, status |
-| obs() Function | 6 | Core, project |
-| workflow() Function | 7 | Logging, sessions |
-| Backward Compatibility | 5 | Alias preservation |
-| Edge Cases | 5 | Error handling |
-| Action Aliases | 5 | Short forms |
-| **Total** | **91** | **100%** |
+| Category               | Tests  | Coverage                |
+| ---------------------- | ------ | ----------------------- |
+| Function Existence     | 8      | All 8 functions         |
+| Help Systems           | 8      | All help commands       |
+| r() Function           | 9      | Core, help, errors      |
+| qu() Function          | 7      | Core, help, errors      |
+| cc() Function          | 9      | Sessions, models, tasks |
+| gm() Function          | 8      | Modes, sessions, web    |
+| focus() Function       | 8      | Timers, management      |
+| note() Function        | 6      | Sync, status            |
+| obs() Function         | 6      | Core, project           |
+| workflow() Function    | 7      | Logging, sessions       |
+| Backward Compatibility | 5      | Alias preservation      |
+| Edge Cases             | 5      | Error handling          |
+| Action Aliases         | 5      | Short forms             |
+| **Total**              | **91** | **100%**                |
 
 ---
 
@@ -76,6 +77,7 @@ Pass Rate: 100%
 ### 1. Function Existence (Tests 1-8)
 
 Verifies all 8 smart functions are properly defined:
+
 - ✅ `r` exists
 - ✅ `qu` exists
 - ✅ `cc` exists
@@ -88,6 +90,7 @@ Verifies all 8 smart functions are properly defined:
 ### 2. Help Systems (Tests 9-16)
 
 Verifies all help commands work:
+
 - ✅ Each function responds to `help` command
 - ✅ Help output contains function name
 - ✅ Help output is non-empty
@@ -294,9 +297,9 @@ When adding new smart functions:
 
 ## Test History
 
-| Date | Tests | Pass Rate | Changes |
-|------|-------|-----------|---------|
-| 2025-12-14 | 91 | 100% | Initial test suite created |
+| Date       | Tests | Pass Rate | Changes                    |
+| ---------- | ----- | --------- | -------------------------- |
+| 2025-12-14 | 91    | 100%      | Initial test suite created |
 
 ---
 

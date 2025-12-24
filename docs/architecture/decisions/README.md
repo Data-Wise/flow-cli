@@ -26,37 +26,37 @@ Each ADR includes:
 
 ### Accepted
 
-| ADR | Title | Status | Date |
-|-----|-------|--------|------|
-| [ADR-001](ADR-001-use-vendored-code-pattern.md) | Use Vendored Code Pattern for Project Detection | ✅ Accepted | 2025-12-20 |
-| [ADR-002](ADR-002-adopt-clean-architecture.md) | Adopt Clean Architecture for Long-Term Maintainability | ✅ Accepted | 2025-12-20 |
-| [ADR-003](ADR-003-nodejs-module-api-not-rest.md) | Use Node.js Module API Pattern (Not REST/HTTP) | ✅ Accepted | 2025-12-20 |
+| ADR                                              | Title                                                  | Status      | Date       |
+| ------------------------------------------------ | ------------------------------------------------------ | ----------- | ---------- |
+| [ADR-001](ADR-001-use-vendored-code-pattern.md)  | Use Vendored Code Pattern for Project Detection        | ✅ Accepted | 2025-12-20 |
+| [ADR-002](ADR-002-adopt-clean-architecture.md)   | Adopt Clean Architecture for Long-Term Maintainability | ✅ Accepted | 2025-12-20 |
+| [ADR-003](ADR-003-nodejs-module-api-not-rest.md) | Use Node.js Module API Pattern (Not REST/HTTP)         | ✅ Accepted | 2025-12-20 |
 
 ### Proposed
 
-| ADR | Title | Status | Date |
-|-----|-------|--------|------|
-| None currently | | | |
+| ADR            | Title | Status | Date |
+| -------------- | ----- | ------ | ---- |
+| None currently |       |        |      |
 
 ## Decision Matrix
 
 ### By Layer
 
-| Layer | Decisions |
-|-------|-----------|
-| **Domain** | ADR-002 (Clean Architecture), ADR-004 (DDD - planned) |
-| **Adapters** | ADR-003 (Bridge Pattern) |
-| **Frameworks** | ADR-001 (Vendored Code) |
+| Layer          | Decisions                                             |
+| -------------- | ----------------------------------------------------- |
+| **Domain**     | ADR-002 (Clean Architecture), ADR-004 (DDD - planned) |
+| **Adapters**   | ADR-003 (Bridge Pattern)                              |
+| **Frameworks** | ADR-001 (Vendored Code)                               |
 
 ### By Topic
 
-| Topic | Decisions |
-|-------|-----------|
-| **Architecture** | ADR-002 (Clean Architecture) |
-| **Integration** | ADR-001 (Vendored Code), ADR-003 (Bridge Pattern) |
-| **Testing** | ADR-002 (testability focus) |
-| **Dependencies** | ADR-001 (zero external deps) |
-| **Error Handling** | ADR-003 (graceful degradation) |
+| Topic              | Decisions                                         |
+| ------------------ | ------------------------------------------------- |
+| **Architecture**   | ADR-002 (Clean Architecture)                      |
+| **Integration**    | ADR-001 (Vendored Code), ADR-003 (Bridge Pattern) |
+| **Testing**        | ADR-002 (testability focus)                       |
+| **Dependencies**   | ADR-001 (zero external deps)                      |
+| **Error Handling** | ADR-003 (graceful degradation)                    |
 
 ## Creating New ADRs
 
@@ -101,12 +101,15 @@ Each ADR includes:
 ## Consequences
 
 ### Positive
+
 - ✅ [Benefit 1]
 
 ### Negative
+
 - ⚠️ [Drawback 1]
 
 ### Neutral
+
 - 📝 [Neutral consequence 1]
 
 ---
@@ -153,15 +156,18 @@ When a decision is reversed:
 ## Reading Order
 
 **For new contributors:**
+
 1. [ADR-002: Clean Architecture](ADR-002-adopt-clean-architecture.md) - Overall system structure
 2. [ADR-001: Vendored Code Pattern](ADR-001-use-vendored-code-pattern.md) - How we handle dependencies
 3. [ADR-003: Node.js Module API](ADR-003-nodejs-module-api-not-rest.md) - API design philosophy
 
 **For architecture decisions:**
+
 - Start with [ADR-002: Clean Architecture](ADR-002-adopt-clean-architecture.md)
 - Then read layer-specific ADRs
 
 **For integration patterns:**
+
 - Start with [ADR-001: Vendored Code](ADR-001-use-vendored-code-pattern.md)
 - Then [ADR-003: Module API Pattern](ADR-003-nodejs-module-api-not-rest.md)
 

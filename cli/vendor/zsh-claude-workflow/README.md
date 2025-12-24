@@ -32,6 +32,7 @@ cp ~/projects/dev-tools/zsh-claude-workflow/lib/core.sh \
 ```
 
 Check for updates periodically, especially if:
+
 - New project types added
 - Bug fixes in detection logic
 - Performance improvements

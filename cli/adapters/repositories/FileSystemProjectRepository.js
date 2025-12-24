@@ -157,17 +157,13 @@ export class FileSystemProjectRepository extends IProjectRepository {
   async findTopBySessionCount(limit = 10) {
     const projects = await this._loadProjects()
 
-    return projects
-      .sort((a, b) => b.totalSessions - a.totalSessions)
-      .slice(0, limit)
+    return projects.sort((a, b) => b.totalSessions - a.totalSessions).slice(0, limit)
   }
 
   async findTopByDuration(limit = 10) {
     const projects = await this._loadProjects()
 
-    return projects
-      .sort((a, b) => b.totalDuration - a.totalDuration)
-      .slice(0, limit)
+    return projects.sort((a, b) => b.totalDuration - a.totalDuration).slice(0, limit)
   }
 
   async save(project) {
@@ -232,15 +228,18 @@ export class FileSystemProjectRepository extends IProjectRepository {
       // Parse script output (assumes JSON format)
       const projectsData = JSON.parse(stdout)
 
-      return projectsData.map(data => new Project(
-        data.path, // Use path as ID
-        data.name || dirname(data.path),
-        {
-          type: data.type || ProjectType.GENERAL,
-          path: data.path,
-          description: data.description || ''
-        }
-      ))
+      return projectsData.map(
+        data =>
+          new Project(
+            data.path, // Use path as ID
+            data.name || dirname(data.path),
+            {
+              type: data.type || ProjectType.GENERAL,
+              path: data.path,
+              description: data.description || ''
+            }
+          )
+      )
     } catch (error) {
       throw new Error(`Project scan failed: ${error.message}`)
     }
@@ -266,14 +265,16 @@ export class FileSystemProjectRepository extends IProjectRepository {
         const type = await this._detectProjectType(projectPath)
 
         if (type) {
-          projects.push(new Project(
-            projectPath, // Use path as ID
-            entry.name,
-            {
-              type,
-              path: projectPath
-            }
-          ))
+          projects.push(
+            new Project(
+              projectPath, // Use path as ID
+              entry.name,
+              {
+                type,
+                path: projectPath
+              }
+            )
+          )
         }
       }
     } catch (error) {

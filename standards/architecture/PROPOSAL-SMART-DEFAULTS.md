@@ -18,9 +18,11 @@ Each command with no arguments will execute a **smart default sequence** that do
 ### 1. `dash` - Master Dashboard
 
 **Your Requirement:**
+
 > "Do everything: update, coordinate, and show the master project-hub dashboard for all"
 
 **Smart Default Sequence:**
+
 ```zsh
 dash() {
     local category="${1:-all}"
@@ -56,6 +58,7 @@ dash() {
 ```
 
 **What happens:**
+
 1. Syncs all `.STATUS` files to project-hub
 2. Updates cross-project coordination
 3. Shows master dashboard for all projects
@@ -68,9 +71,11 @@ dash() {
 ### 2. `qu` - Quarto Workflow
 
 **Your Requirement:**
+
 > "Render and preview"
 
 **Smart Default Sequence:**
+
 ```zsh
 qu() {
     local cmd="${1:-render-preview}"
@@ -124,6 +129,7 @@ qu() {
 ```
 
 **What happens:**
+
 1. Renders current document
 2. Starts preview server
 3. Opens browser automatically
@@ -136,9 +142,11 @@ qu() {
 ### 3. `timer` - Focus Timer
 
 **Your Requirement:**
+
 > "Focus 25"
 
 **Smart Default Sequence:**
+
 ```zsh
 timer() {
     local cmd="${1:-focus}"
@@ -197,6 +205,7 @@ timer() {
 ```
 
 **What happens:**
+
 1. Starts 25-minute pomodoro
 2. Shows progress/countdown
 3. On completion, auto-logs as win
@@ -209,9 +218,11 @@ timer() {
 ### 4. `note` - Obsidian Vault Manager
 
 **Your Requirement:**
+
 > "Sync + status + open the project dashboard note"
 
 **Smart Default Sequence:**
+
 ```zsh
 note() {
     local cmd="${1:-sync-status-open}"
@@ -279,6 +290,7 @@ note() {
 ```
 
 **What happens:**
+
 1. Syncs Obsidian vault (bidirectional)
 2. Shows sync status (# files, last change)
 3. Opens Project-Hub dashboard in Obsidian
@@ -291,12 +303,15 @@ note() {
 ### 5. `peek` - Smart File Viewer
 
 **Your Current Behavior:**
+
 > Shows help (no obvious default)
 
 **Your Preference:**
+
 > "I like your proposal" (brief hint)
 
 **Smart Default (Brief Hint Pattern):**
+
 ```zsh
 peek() {
     local file="$1"
@@ -325,6 +340,7 @@ peek() {
 ```
 
 **What happens:**
+
 - Shows 5-line hint with most common uses
 - Not overwhelming like full help
 - Teaches without requiring --help
@@ -340,6 +356,7 @@ peek() {
 **Recommendation:** Two-tier approach
 
 #### Tier 1: Has Smart Default
+
 ```zsh
 # cc-project - Can use current directory
 cc-project() {
@@ -355,6 +372,7 @@ cc-project() {
 ```
 
 #### Tier 2: Requires Input
+
 ```zsh
 # cc-file - NEEDS file argument
 cc-file() {
@@ -383,6 +401,7 @@ cc-file() {
 **Current Behavior:** Interactive picker + launch
 
 **Keep as-is:**
+
 ```zsh
 cc() {
     if [[ $# -eq 0 ]]; then
@@ -398,6 +417,7 @@ cc() {
 ```
 
 **Why it works:**
+
 - Interactive selection removes decision burden
 - Combines navigation + tool launch
 - Already ADHD-optimized
@@ -424,6 +444,7 @@ functionname() {
 ```
 
 **Why this order matters:**
+
 1. User can ALWAYS get help with any command
 2. Help doesn't interfere with default behavior
 3. Consistent across all functions
@@ -433,20 +454,24 @@ functionname() {
 ## Implementation Priority
 
 ### Phase 1: High-Impact Defaults (These First)
+
 1. **`dash`** - Most-used coordination tool
 2. **`timer`** - Daily focus tool
 3. **`note`** - Vault management
 
 ### Phase 2: Workflow Enhancers
+
 4. **`qu`** - Quarto development
 5. **`peek`** - Brief hint pattern
 
 ### Phase 3: Claude Workflows (Context-Aware)
+
 6. **`cc-project`** - Can default to current dir
 7. **`cc-fix-tests`** - Can run without args
 8. **`cc-pre-commit`** - Can run without args
 
 ### Phase 4: Others (Require Args)
+
 9. **`cc-file`**, **`cc-implement`**, etc. - Need explicit input
 
 ---
@@ -475,29 +500,29 @@ command --invalid-option
 
 ## Expected Behavior Summary
 
-| Command | No Args Behavior | Help Forms |
-|---------|------------------|------------|
-| `dash` | Update + coordinate + show all | `help\|-h\|--help` ✅ |
-| `qu` | Render + preview | `help\|-h\|--help` ✅ |
-| `timer` | Focus 25 + auto-log win | `help\|-h\|--help` ✅ |
-| `note` | Sync + status + open dashboard | `help\|-h\|--help` ✅ |
-| `peek` | Brief hint (like `v`) | `help\|-h\|--help` ✅ |
-| `cc-project` | Use current directory | `help\|-h\|--help` ✅ |
-| `cc-file` | Error: needs file | `help\|-h\|--help` ✅ |
-| `cc` | Interactive pick + launch | (dispatcher) ✅ |
-| `g` | git status -sb | (dispatcher) ✅ |
+| Command      | No Args Behavior               | Help Forms            |
+| ------------ | ------------------------------ | --------------------- |
+| `dash`       | Update + coordinate + show all | `help\|-h\|--help` ✅ |
+| `qu`         | Render + preview               | `help\|-h\|--help` ✅ |
+| `timer`      | Focus 25 + auto-log win        | `help\|-h\|--help` ✅ |
+| `note`       | Sync + status + open dashboard | `help\|-h\|--help` ✅ |
+| `peek`       | Brief hint (like `v`)          | `help\|-h\|--help` ✅ |
+| `cc-project` | Use current directory          | `help\|-h\|--help` ✅ |
+| `cc-file`    | Error: needs file              | `help\|-h\|--help` ✅ |
+| `cc`         | Interactive pick + launch      | (dispatcher) ✅       |
+| `g`          | git status -sb                 | (dispatcher) ✅       |
 
 ---
 
 ## ADHD Optimization Scores
 
-| Command | Before | After | Improvement |
-|---------|--------|-------|-------------|
-| `dash` | 9/10 (showed all) | 10/10 (updates + coordinates + shows) | +1 |
-| `qu` | 6/10 (showed help) | 10/10 (render + preview) | +4 🎯 |
-| `timer` | 6/10 (showed help) | 10/10 (focus + auto-log) | +4 🎯 |
-| `note` | 6/10 (showed help) | 10/10 (sync + status + open) | +4 🎯 |
-| `peek` | 5/10 (full help) | 7/10 (brief hint) | +2 |
+| Command | Before             | After                                 | Improvement |
+| ------- | ------------------ | ------------------------------------- | ----------- |
+| `dash`  | 9/10 (showed all)  | 10/10 (updates + coordinates + shows) | +1          |
+| `qu`    | 6/10 (showed help) | 10/10 (render + preview)              | +4 🎯       |
+| `timer` | 6/10 (showed help) | 10/10 (focus + auto-log)              | +4 🎯       |
+| `note`  | 6/10 (showed help) | 10/10 (sync + status + open)          | +4 🎯       |
+| `peek`  | 5/10 (full help)   | 7/10 (brief hint)                     | +2          |
 
 **Average Improvement:** +3 points (Massive!)
 
@@ -533,29 +558,35 @@ command --invalid-option
 ### What Was Implemented
 
 **Wave 1: High-Impact Smart Defaults (3 functions)**
+
 - ✅ `dash` - Auto-sync .STATUS → Update coordination → Show dashboard
 - ✅ `timer` - 25-min pomodoro with auto-win logging
 - ✅ `note` - Sync → Status → Open Project-Hub.md
 
 **Wave 2: Workflow Tools (3 functions)**
+
 - ✅ `qu` - Render → Preview → Auto-open browser
 - ✅ `peek` - Brief hint pattern (5 lines)
 - ✅ `focus()` conflict resolved - Hub version renamed to `today()`
 
 **Wave 3: Claude Workflows (8 functions)**
+
 - ✅ All 8 functions in claude-workflows.zsh now have comprehensive help
 - ✅ All support all three help forms (help, -h, --help)
 - ✅ All error messages standardized to use stderr
 
 **Wave 4: FZF Helpers (12 functions)**
+
 - ✅ All 12 fzf helper functions have help support
 - ✅ Universal pattern implemented across all
 
 **Wave 5: Top 10 ADHD Helpers (10 functions)**
+
 - ✅ All 10 most-used adhd-helper functions have help
 - ✅ Error messages fixed for win(), breadcrumb(), worklog()
 
 **Wave 6: Error Message Standardization (5 files)**
+
 - ✅ v-dispatcher.zsh - Error messages use stderr
 - ✅ dash.zsh - Error messages standardized
 - ✅ mcp-dispatcher.zsh - 24 error messages fixed
@@ -577,6 +608,7 @@ command --invalid-option
 ### Test Results
 
 **Test Suite:** `tests/test-help-standards.zsh`
+
 - Total tests: 105
 - Passed: 98 (93%)
 - Failed: 7 (expected failures - correct behavior)
