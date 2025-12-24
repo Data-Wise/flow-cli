@@ -19,13 +19,18 @@ import { join } from 'path'
 import { readFile } from 'fs/promises'
 import { existsSync } from 'fs'
 import chalk from 'chalk'
+import { WebDashboard } from '../../web/WebDashboard.js'
+import open from 'open'
 
 export class StatusController {
   /**
    * @param {GetStatusUseCase} getStatusUseCase
+   * @param {Object} options
+   * @param {SimpleEventPublisher} [options.eventPublisher] - Event publisher for web dashboard
    */
-  constructor(getStatusUseCase) {
+  constructor(getStatusUseCase, options = {}) {
     this.getStatus = getStatusUseCase
+    this.eventPublisher = options.eventPublisher
   }
 
   /**
@@ -34,8 +39,16 @@ export class StatusController {
    * @param {boolean} options.verbose - Show detailed output
    * @param {boolean} options.includeWorklog - Include worklog entries
    * @param {number} options.recentDays - Days to include in recent history
+   * @param {boolean} options.web - Launch web dashboard
+   * @param {number} options.port - Web dashboard port (default: 3737)
    */
   async handle(options = {}) {
+    // Web dashboard mode
+    if (options.web) {
+      return await this.launchWebDashboard(options.port)
+    }
+
+    // Default CLI mode
     const verbose = options.verbose || false
     const includeWorklog = options.includeWorklog !== false
     const recentDays = options.recentDays || 7
@@ -377,5 +390,53 @@ export class StatusController {
 
     const diffDays = Math.floor(diffHours / 24)
     return `${diffDays}d ago`
+  }
+
+  /**
+   * Launch web dashboard
+   * @param {number} port - Port to run dashboard on (default: 3737)
+   */
+  async launchWebDashboard(port = 3737) {
+    try {
+      if (!this.eventPublisher) {
+        console.error(chalk.red('Error: Event publisher not configured'))
+        console.log(chalk.gray('Web dashboard requires event publisher for real-time updates'))
+        return { success: false, error: 'Event publisher not configured' }
+      }
+
+      console.log(chalk.blue.bold('🚀 Starting Web Dashboard...'))
+      console.log('')
+
+      const dashboard = new WebDashboard(this.getStatus, this.eventPublisher)
+      const url = await dashboard.start(port)
+
+      console.log(chalk.green('✅ Dashboard started successfully'))
+      console.log('')
+      console.log(chalk.cyan(`   URL: ${chalk.bold(url)}`))
+      console.log(chalk.gray(`   Opening in browser...`))
+      console.log('')
+
+      // Open browser
+      try {
+        await open(url)
+        console.log(chalk.green('✅ Browser opened'))
+      } catch (error) {
+        console.log(chalk.yellow('⚠️  Could not auto-open browser'))
+        console.log(chalk.gray(`   Manually visit: ${url}`))
+      }
+
+      console.log('')
+      console.log(chalk.yellow('📊 Dashboard is running'))
+      console.log(chalk.gray('   Press Ctrl+C to stop server'))
+      console.log('')
+
+      // Keep process alive
+      await new Promise(() => {})
+
+      return { success: true, url }
+    } catch (error) {
+      console.error(chalk.red(`Error launching web dashboard: ${error.message}`))
+      return { success: false, error: error.message }
+    }
   }
 }

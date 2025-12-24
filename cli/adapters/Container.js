@@ -19,6 +19,7 @@ import { EndSessionUseCase } from '../use-cases/EndSessionUseCase.js'
 import { ScanProjectsUseCase } from '../use-cases/ScanProjectsUseCase.js'
 import { GetStatusUseCase } from '../use-cases/GetStatusUseCase.js'
 import { GetRecentProjectsUseCase } from '../use-cases/GetRecentProjectsUseCase.js'
+import { SimpleEventPublisher } from './events/SimpleEventPublisher.js'
 
 export class Container {
   constructor(options = {}) {
@@ -103,6 +104,14 @@ export class Container {
       return new GetRecentProjectsUseCase(
         this.getProjectRepository()
       )
+    })
+  }
+
+  // Services (Infrastructure Layer)
+
+  getEventPublisher() {
+    return this._resolve('eventPublisher', () => {
+      return new SimpleEventPublisher()
     })
   }
 

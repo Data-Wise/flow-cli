@@ -22,12 +22,20 @@ Options:
   -v, --verbose      Show detailed output with all metrics
   -d, --days <n>     Number of days for recent history (default: 7)
   --no-worklog       Skip worklog integration
+  --web              Launch interactive web dashboard (opens browser)
+  -p, --port <n>     Web dashboard port (default: 3737, requires --web)
+
+Modes:
+  Default (CLI):     Fast, scriptable ASCII output in terminal
+  Web Dashboard:     Rich, interactive browser-based dashboard with charts
 
 Examples:
-  flow status                    # Show standard status
-  flow status -v                 # Show detailed status with all metrics
+  flow status                    # Show standard CLI status
+  flow status -v                 # Show detailed CLI status with all metrics
   flow status -d 14              # Show last 14 days of history
   flow status --no-worklog       # Skip worklog entries
+  flow status --web              # Launch web dashboard (opens browser)
+  flow status --web -p 8080      # Launch web dashboard on custom port
 
 See also: flow work, flow finish, flow list`)
 }
@@ -37,7 +45,9 @@ function parseArgs(args) {
   const options = {
     verbose: false,
     recentDays: 7,
-    includeWorklog: true
+    includeWorklog: true,
+    web: false,
+    port: 3737
   }
 
   for (let i = 0; i < args.length; i++) {
@@ -75,6 +85,26 @@ function parseArgs(args) {
         options.includeWorklog = false
         break
 
+      case '--web':
+        options.web = true
+        break
+
+      case '-p':
+      case '--port':
+        i++
+        if (i >= args.length) {
+          console.error('status: --port requires a number argument')
+          console.error("Run 'flow status --help' for usage")
+          process.exit(1)
+        }
+        options.port = parseInt(args[i], 10)
+        if (isNaN(options.port) || options.port < 1 || options.port > 65535) {
+          console.error('status: --port must be a valid port number (1-65535)')
+          console.error("Run 'flow status --help' for usage")
+          process.exit(1)
+        }
+        break
+
       default:
         console.error(`status: unknown option '${arg}'`)
         console.error("Run 'flow status --help' for usage")
@@ -95,7 +125,10 @@ async function main() {
     // Create container and controller
     const container = createContainer()
     const statusUseCase = container.getUseCases().getStatus
-    const controller = new StatusController(statusUseCase)
+
+    // Create controller with event publisher for web dashboard mode
+    const eventPublisher = container.getEventPublisher()
+    const controller = new StatusController(statusUseCase, { eventPublisher })
 
     // Execute
     const result = await controller.handle(options)
