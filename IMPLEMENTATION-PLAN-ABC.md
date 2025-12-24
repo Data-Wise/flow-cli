@@ -830,56 +830,293 @@ export class UpdateStatusFileUseCase {
 
 ---
 
-### Day 8-9: Interactive TUI Dashboard
+### Day 8-9: Hybrid Dashboard (CLI + Web)
 
-**Goal:** Beautiful terminal UI with real-time updates
+**Goal:** Flexible dashboard with default CLI + optional rich web UI
 
-**Technology:** Use `blessed` or `ink` (React for CLIs)
+**Decision:** After analyzing TUI cons (terminal compatibility, ADHD concerns, maintenance burden), we're implementing a hybrid approach that gives users choice without breaking changes.
 
-#### Features
+**See Also:**
+- docs/planning/proposals/TUI-ALTERNATIVES-ANALYSIS.md (decision rationale)
 
-**1. Real-Time Session Display**
-```
-┌─────────────────────────────────────────────────┐
-│ 🔥 ACTIVE SESSION                               │
-│ Project: rmediation                             │
-│ Task: Fix failing tests                         │
-│ Duration: 00:45:32 (IN FLOW)                    │
-│ Branch: fix/test-bug                            │
-└─────────────────────────────────────────────────┘
+#### Architecture
 
-┌─────────────────────────────────────────────────┐
-│ 📊 PROJECTS (filter: active)                    │
-│ › rmediation        R Package    45m    active  │
-│   quarto-doc        Quarto       30m    active  │
-│   flow-cli          Node.js      1h15m  active  │
-│   research-paper    Research     20m    draft   │
-└─────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────┐
-│ ✓ TASKS                                         │
-│ [ ] Write tests for Session entity              │
-│ [ ] Add error handling                          │
-│ [✓] Implement repository                        │
-└─────────────────────────────────────────────────┘
-
-Keyboard: ↑↓ navigate | Enter select | f finish | p pause | q quit
+**1. Default Mode: Enhanced CLI**
+```bash
+flow status        # Fast ASCII output (current behavior)
+flow status -v     # Verbose with ASCII charts
 ```
 
-**2. Keyboard Shortcuts**
-- `↑↓` - Navigate
-- `Enter` - Select project
-- `f` - Finish session
-- `p` - Pause session
-- `t` - Add task
-- `s` - Search/filter
-- `r` - Refresh
-- `q` - Quit
+**2. Optional Web Dashboard**
+```bash
+flow status --web  # Opens browser with rich dashboard
+```
 
-**3. Live Updates**
+#### Phase 1: Web Dashboard Foundation (1.5 hours)
+
+**1. Express Server + WebSocket**
+```javascript
+// cli/web/WebDashboard.js
+import express from 'express'
+import { WebSocketServer } from 'ws'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+
+export class WebDashboard {
+  constructor(getStatusUseCase, eventPublisher) {
+    this.getStatus = getStatusUseCase
+    this.eventPublisher = eventPublisher
+    this.app = express()
+    this.wss = null
+    this.server = null
+  }
+
+  async start(port = 3737) {
+    // Serve static dashboard HTML
+    const __dirname = dirname(fileURLToPath(import.meta.url))
+    this.app.use(express.static(join(__dirname, 'public')))
+
+    // API endpoint
+    this.app.get('/api/status', async (req, res) => {
+      const status = await this.getStatus.execute()
+      res.json(status)
+    })
+
+    // Start server
+    this.server = this.app.listen(port)
+
+    // Setup WebSocket for live updates
+    this.wss = new WebSocketServer({ server: this.server })
+
+    this.wss.on('connection', (ws) => {
+      // Send initial status
+      this.sendStatus(ws)
+
+      // Subscribe to events
+      const listener = () => this.sendStatus(ws)
+      this.eventPublisher.on('session:updated', listener)
+
+      ws.on('close', () => {
+        this.eventPublisher.off('session:updated', listener)
+      })
+    })
+
+    return `http://localhost:${port}`
+  }
+
+  async sendStatus(ws) {
+    const status = await this.getStatus.execute()
+    ws.send(JSON.stringify({ type: 'status', data: status }))
+  }
+
+  stop() {
+    this.wss?.close()
+    this.server?.close()
+  }
+}
+```
+
+**2. Single-File HTML Dashboard**
+```html
+<!-- cli/web/public/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flow CLI Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <style>
+    body {
+      font-family: -apple-system, system-ui, sans-serif;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .card {
+      background: #2d2d2d;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .session-active { border-left: 4px solid #00ff00; }
+    .session-inactive { border-left: 4px solid #666; }
+    h1 { margin-top: 0; }
+    .metric { display: inline-block; margin-right: 30px; }
+    .metric-value { font-size: 2em; font-weight: bold; }
+    .metric-label { color: #888; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Flow CLI Dashboard</h1>
+
+    <div id="active-session" class="card"></div>
+    <div id="metrics" class="card"></div>
+    <div id="charts" class="card">
+      <canvas id="sessionChart"></canvas>
+    </div>
+    <div id="projects" class="card"></div>
+  </div>
+
+  <script>
+    const ws = new WebSocket('ws://localhost:3737')
+    let chart = null
+
+    ws.onmessage = (event) => {
+      const { type, data } = JSON.parse(event.data)
+      if (type === 'status') updateDashboard(data)
+    }
+
+    function updateDashboard(status) {
+      updateActiveSession(status.activeSession)
+      updateMetrics(status.metrics)
+      updateChart(status.history)
+      updateProjects(status.projects)
+    }
+
+    function updateActiveSession(session) {
+      const el = document.getElementById('active-session')
+      if (!session) {
+        el.className = 'card session-inactive'
+        el.innerHTML = '<h2>❌ No Active Session</h2>'
+        return
+      }
+
+      el.className = 'card session-active'
+      const flowBadge = session.isFlowState ? '🔥 IN FLOW' : ''
+      el.innerHTML = `
+        <h2>✅ Active Session ${flowBadge}</h2>
+        <p><strong>Project:</strong> ${session.project}</p>
+        <p><strong>Task:</strong> ${session.task || 'No task specified'}</p>
+        <p><strong>Duration:</strong> ${session.duration} min</p>
+        <p><strong>Branch:</strong> ${session.branch}</p>
+      `
+    }
+
+    function updateMetrics(metrics) {
+      const el = document.getElementById('metrics')
+      el.innerHTML = `
+        <h2>📊 Metrics</h2>
+        <div class="metric">
+          <div class="metric-value">${metrics.totalSessions}</div>
+          <div class="metric-label">Total Sessions</div>
+        </div>
+        <div class="metric">
+          <div class="metric-value">${metrics.flowSessions}</div>
+          <div class="metric-label">Flow Sessions</div>
+        </div>
+        <div class="metric">
+          <div class="metric-value">${Math.round(metrics.totalDuration / 60)}h</div>
+          <div class="metric-label">Total Time</div>
+        </div>
+      `
+    }
+
+    function updateChart(history) {
+      const ctx = document.getElementById('sessionChart')
+
+      if (chart) chart.destroy()
+
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: history.map(h => h.date),
+          datasets: [{
+            label: 'Session Duration (min)',
+            data: history.map(h => h.duration),
+            borderColor: '#00ff00',
+            backgroundColor: 'rgba(0, 255, 0, 0.1)'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { labels: { color: '#d4d4d4' } } },
+          scales: {
+            x: { ticks: { color: '#888' } },
+            y: { ticks: { color: '#888' } }
+          }
+        }
+      })
+    }
+  </script>
+</body>
+</html>
+```
+
+**3. Integration in StatusController**
+```javascript
+// cli/adapters/controllers/StatusController.js
+import { WebDashboard } from '../../web/WebDashboard.js'
+import open from 'open'
+
+async handle(options = {}) {
+  if (options.web) {
+    return await this.launchWebDashboard()
+  }
+
+  // Default CLI output
+  return await this.displayCLI(options)
+}
+
+async launchWebDashboard() {
+  const dashboard = new WebDashboard(this.getStatus, this.eventPublisher)
+  const url = await dashboard.start()
+
+  console.log(chalk.green(`✅ Dashboard started at ${url}`))
+  console.log(chalk.gray('Opening browser...'))
+
+  await open(url)
+
+  console.log(chalk.yellow('Press Ctrl+C to stop dashboard'))
+
+  // Keep process alive
+  await new Promise(() => {})
+}
+```
+
+#### Phase 2: Rich Visualizations (1 hour)
+
+**1. Chart.js Integration**
+- Session duration over time (line chart)
+- Project distribution (pie chart)
+- Flow sessions vs regular (bar chart)
+- Completion rate trends (area chart)
+
+**2. Real-Time Updates**
 - Session duration updates every second
-- Project list refreshes on change
-- Task completion animations
+- Live metrics refresh on session events
+- Smooth chart animations
+
+#### Phase 3: Enhanced CLI (30 min)
+
+**1. ASCII Sparklines**
+```bash
+Session Trend: ▁▂▃▅▇█▇▅▃▂▁ (last 10 days)
+```
+
+**2. Progress Bars**
+```bash
+Progress: [████████████░░░░░░░░] 60%
+```
+
+**Deliverables:**
+- [ ] Express server with WebSocket support
+- [ ] Single-file HTML dashboard with Chart.js
+- [ ] --web flag in status command
+- [ ] Auto-open browser functionality
+- [ ] Real-time updates via WebSocket
+- [ ] ASCII enhancements for CLI mode
+- [ ] Tests for web dashboard
+- [ ] Documentation for both modes
+
+**Benefits of Hybrid Approach:**
+- ✅ No breaking changes (CLI still works)
+- ✅ Users choose complexity level
+- ✅ Best of both worlds
+- ✅ ADHD-friendly (can switch based on need)
+- ✅ Scriptable CLI + rich monitoring
 
 ---
 
