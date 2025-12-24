@@ -1,0 +1,4658 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Minimalist ZSH workflow tools with smart dispatchers">
+      
+      
+        <meta name="author" content="DT">
+      
+      
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/archive/PROJECT-REFOCUS-SUMMARY/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Project Refocus Summary - Flow CLI Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/adhd-colors.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#project-refocus-summary" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow CLI Documentation" class="md-header__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow CLI Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Project Refocus Summary
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/data-wise/flow-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flow-cli
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/quick-start/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/01-first-session/" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/WORKFLOWS-QUICK-WINS/" class="md-tabs__link">
+          
+  
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/ALIAS-REFERENCE-CARD/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../commands/status/" class="md-tabs__link">
+          
+  
+  
+  Commands
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/API-OVERVIEW/" class="md-tabs__link">
+          
+  
+  
+  API Documentation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../testing/TESTING/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../decisions/" class="md-tabs__link">
+          
+  
+  
+  Decisions (ADRs)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../standards/" class="md-tabs__link">
+          
+  
+  
+  Standards
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../active/MULTIPLE-PROJECTS-SUMMARY/" class="md-tabs__link">
+          
+  
+  
+  Active Work
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL/" class="md-tabs__link">
+          
+  
+  
+  Planning
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow CLI Documentation" class="md-nav__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Flow CLI Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/data-wise/flow-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flow-cli
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/01-first-session/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Your First Session
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/02-multiple-projects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Multiple Projects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03-status-visualizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Status Visualizations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04-web-dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Web Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/WORKFLOWS-QUICK-WINS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows & Tips
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/WORKFLOW-TUTORIAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/ENHANCED-HELP-QUICK-START/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enhanced Help Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/MIGRATION-v1-to-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration v1 to v2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HOP Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ALIAS-REFERENCE-CARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Reference Card
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PICK-COMMAND-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/DASHBOARD-QUICK-REF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PROJECT-DETECTION-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Detection Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Audit Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADHD Helpers Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/CLI-COMMAND-PATTERNS-RESEARCH/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/COMMAND-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/EXISTING-SYSTEM-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Existing System Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ZSH-CLEAN-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ZSH Clean Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/dash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dash
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ARCHITECTURE-DIAGRAM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagrams
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ARCHITECTURE-QUICK-WINS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Wins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ARCHITECTURE-PATTERNS-ANALYSIS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patterns Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/API-DESIGN-REVIEW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Design Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/CODE-EXAMPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/VENDOR-INTEGRATION-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/API-OVERVIEW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/INTERACTIVE-EXAMPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interactive Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/PROJECT-DETECTOR-API/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Detector API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/TESTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONVENTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PHILOSOPHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Philosophy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decisions (ADRs)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Decisions (ADRs)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-001-vendored-code-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-001 Vendored Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-002-clean-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-002 Clean Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-003-bridge-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-003 Bridge Pattern
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Standards
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Work
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Active Work
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/MULTIPLE-PROJECTS-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple Projects Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/PHASE-P5D-ALPHA-RELEASE-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase P5D Alpha Release
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_3" id="__nav_12_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Help System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Help System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/PHASE1-IMPLEMENTATION-REPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 1 Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/HELP-OVERHAUL-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overhaul Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/HELP-PHASE2-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 2 Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/HELP-PHASE3-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 3 Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_4" id="__nav_12_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Refactoring
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Alias Refactoring
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/alias-refactoring/ALIAS-REFACTOR-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Refactor Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/alias-refactoring/ALIAS-REFACTOR-3-PLANS-2025-12-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Plans Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_5" id="__nav_12_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Redesign
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workflow Redesign
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/workflow-redesign/WORKFLOW-IMPLEMENTATION-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/workflow-redesign/WORKFLOW-ANALYSIS-2025-12-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_6" id="__nav_12_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Status Command
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Status Command
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/status-command/STATUS-COMMAND-PROBLEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problem Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/status-command/STATUS-COMMAND-ALTERNATIVES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alternatives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1" id="__nav_13_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proposals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Proposals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Universal Project Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/TEACHING-RESEARCH-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching & Research Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/PICK-COMMAND-NEXT-PHASE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Command Next Phase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/MEDIATIONVERSE-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mediationverse Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Changed
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Changed">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-unclear-focus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before (Unclear Focus)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-crystal-clear-focus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        After (Crystal Clear Focus)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-workflow-state-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Workflow State Manager ⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-project-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Project Dashboard ⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-project-dependency-tracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Project Dependency Tracker ⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-multi-project-task-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Multi-Project Task Aggregation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-project-picker-pp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Project Picker (pp) ⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-the-magic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration: The Magic
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-roadmap-3-months" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Roadmap (3 Months)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Roadmap (3 Months)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#week-1-foundation-dec-20-27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Week 1: Foundation (Dec 20-27)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-2-state-manager-core-dec-28-jan-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Week 2: State Manager Core (Dec 28 - Jan 3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-3-dashboard-jan-4-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Week 3: Dashboard (Jan 4-10)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-4-project-picker-jan-11-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Week 4: Project Picker (Jan 11-17)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#month-2-dependency-tracking-tasks-jan-18-feb-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Month 2: Dependency Tracking &amp; Tasks (Jan 18 - Feb 17)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#month-3-polish-evaluate-feb-18-mar-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Month 3: Polish &amp; Evaluate (Feb 18 - Mar 17)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-criteria-3-months" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Criteria (3 Months)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Success Criteria (3 Months)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow-state-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow State Manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-tracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Tracker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Aggregation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-picker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Picker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combined" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combined
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-with-existing-dev-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration with Existing Dev-Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration with Existing Dev-Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leveraging-not-duplicating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leveraging, Not Duplicating
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-were-building-unique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What We're Building (Unique)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-layer-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three-Layer Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-solves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Solves
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What This Solves">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pain-point-1-context-switching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pain Point 1: Context Switching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pain-point-2-project-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pain Point 2: Project Discovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pain-point-3-task-overload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pain Point 3: Task Overload
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pain-point-4-dependency-confusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pain Point 4: Dependency Confusion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pain-point-5-project-navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pain Point 5: Project Navigation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-not-changing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's NOT Changing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technology Stack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monday-morning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monday Morning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-switch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context Switch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-wins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Wins
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Decisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2025-12-20-removed-mcp-server-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2025-12-20: Removed MCP Server Hub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2025-12-20-integration-over-duplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2025-12-20: Integration over Duplication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2025-12-20-three-layer-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2025-12-20: Three-Layer Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2025-12-20-personal-tool-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2025-12-20: Personal Tool First
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2025-12-20-removed-app-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2025-12-20: Removed App Workspace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open Questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Open Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Discovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-stories-what-good-looks-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Stories (What Good Looks Like)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-immediate-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Immediate Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files-created-today" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files Created Today
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/archive/PROJECT-REFOCUS-SUMMARY.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="project-refocus-summary">Project Refocus Summary<a class="headerlink" href="#project-refocus-summary" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2025-12-20
+<strong>Action:</strong> Comprehensive project scope redefinition
+<strong>Outcome:</strong> Personal productivity &amp; project management system</p>
+<hr />
+<h2 id="what-changed">What Changed<a class="headerlink" href="#what-changed" title="Permanent link">&para;</a></h2>
+<h3 id="before-unclear-focus">Before (Unclear Focus)<a class="headerlink" href="#before-unclear-focus" title="Permanent link">&para;</a></h3>
+<ul>
+<li>❓ <strong>Purpose:</strong> Documentation repo? Framework? Tool?</li>
+<li>❓ <strong>User:</strong> Me? Others? Academic community?</li>
+<li>❓ <strong>Scope:</strong> Too broad, too many directions</li>
+<li>📦 <strong>Status:</strong> Just removed Electron app, simplified to CLI</li>
+</ul>
+<h3 id="after-crystal-clear-focus">After (Crystal Clear Focus)<a class="headerlink" href="#after-crystal-clear-focus" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Purpose:</strong> Personal productivity &amp; project management system</li>
+<li>✅ <strong>User:</strong> DT (me) - managing 30+ projects</li>
+<li>✅ <strong>Scope:</strong> 5 core features, 3-month roadmap</li>
+<li>✅ <strong>Architecture:</strong> Three-layer design (ZSH → Node.js → External tools)</li>
+<li>✅ <strong>Integration:</strong> Leverage existing dev-tools packages (no duplication)</li>
+</ul>
+<hr />
+<h2 id="core-features">Core Features<a class="headerlink" href="#core-features" title="Permanent link">&para;</a></h2>
+<h3 id="1-workflow-state-manager">1. Workflow State Manager ⭐<a class="headerlink" href="#1-workflow-state-manager" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Losing mental context when switching between 30+ projects</p>
+<p><strong>Solution:</strong> Track, persist, and restore workflow state</p>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>Session persistence (save project + context + next actions)</li>
+<li>Automatic restoration (&lt;30 seconds to get back to work)</li>
+<li>Integration with existing <code>work</code>/<code>finish</code> commands</li>
+<li>Session templates (R package, research, teaching)</li>
+</ul>
+<p><strong>Success Metric:</strong> Never lose context, &lt;30 second restoration</p>
+<h3 id="2-project-dashboard">2. Project Dashboard ⭐<a class="headerlink" href="#2-project-dashboard" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Hard to see status of all 32 projects at a glance</p>
+<p><strong>Solution:</strong> Multi-project overview dashboard</p>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>Aggregate status from all .STATUS files</li>
+<li>Group by category (R packages, teaching, research, dev-tools)</li>
+<li>Highlight active projects and quick wins</li>
+<li>Export to Apple Notes (via apple-notes-sync)</li>
+</ul>
+<p><strong>Success Metric:</strong> See all projects in &lt;2 seconds, find quick wins in &lt;10 seconds</p>
+<h3 id="3-project-dependency-tracker">3. Project Dependency Tracker ⭐<a class="headerlink" href="#3-project-dependency-tracker" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Unclear which projects depend on each other</p>
+<p><strong>Solution:</strong> Map project relationships and impact analysis</p>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>Track dependencies (depends-on, used-by, related-to, blocks)</li>
+<li>Impact analysis ("What breaks if I update medfit?")</li>
+<li>Ecosystem visualization (mediationverse packages)</li>
+<li>Relationship graph</li>
+</ul>
+<p><strong>Success Metric:</strong> Understand dependencies instantly, clear impact awareness</p>
+<h3 id="4-multi-project-task-aggregation">4. Multi-Project Task Aggregation<a class="headerlink" href="#4-multi-project-task-aggregation" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Next actions scattered across 32 .STATUS files</p>
+<p><strong>Solution:</strong> Unified task list across all projects</p>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>Aggregate tasks from all .STATUS files</li>
+<li>Filter by priority (P0/P1/P2/P3), effort, category</li>
+<li>Quick wins view (tasks &lt;30 min)</li>
+<li>Due date tracking</li>
+</ul>
+<p><strong>Success Metric:</strong> Find next task in &lt;5 seconds, identify quick wins instantly</p>
+<h3 id="5-project-picker-pp">5. Project Picker (pp) ⭐<a class="headerlink" href="#5-project-picker-pp" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Slow project navigation, hard to remember project names</p>
+<p><strong>Solution:</strong> Fast fuzzy finder for project switching</p>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>Fuzzy search by name</li>
+<li>Preview pane with .STATUS content</li>
+<li>Recent projects first</li>
+<li>One-key selection → cd + show status</li>
+</ul>
+<p><strong>Success Metric:</strong> Switch projects in &lt;30 seconds with visual preview</p>
+<hr />
+<h2 id="integration-the-magic">Integration: The Magic<a class="headerlink" href="#integration-the-magic" title="Permanent link">&para;</a></h2>
+<p><strong>These features work together:</strong></p>
+<ol>
+<li><strong>Start session:</strong> <code>work rmediation</code></li>
+<li>Detects project type: R package (via zsh-claude-workflow)</li>
+<li>Switches terminal context (via aiterm if installed)</li>
+<li>Saves session with all context</li>
+<li><strong>Resume session:</strong> New shell → restore prompt</li>
+<li>Restores project (cd, show context)</li>
+<li>Ready to work in &lt;30 seconds</li>
+<li><strong>View dashboard:</strong> <code>dashboard</code></li>
+<li>Shows all 32 projects</li>
+<li>Highlights quick wins and priorities</li>
+<li><strong>Switch project:</strong> <code>pp</code> (project picker)</li>
+<li>Fuzzy finder interface</li>
+<li>Preview .STATUS content</li>
+<li>Fast navigation</li>
+</ol>
+<p><strong>Result:</strong> Complete workflow management (discovery → selection → restoration → productivity)</p>
+<hr />
+<h2 id="implementation-roadmap-3-months">Implementation Roadmap (3 Months)<a class="headerlink" href="#implementation-roadmap-3-months" title="Permanent link">&para;</a></h2>
+<h3 id="week-1-foundation-dec-20-27">Week 1: Foundation (Dec 20-27)<a class="headerlink" href="#week-1-foundation-dec-20-27" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[x] PROJECT-SCOPE.md created</li>
+<li>[x] ARCHITECTURE-INTEGRATION.md created</li>
+<li>[ ] Create directory structure</li>
+<li>[ ] Set up zsh-claude-workflow integration</li>
+<li>[ ] Build basic project scanner</li>
+</ul>
+<h3 id="week-2-state-manager-core-dec-28-jan-3">Week 2: State Manager Core (Dec 28 - Jan 3)<a class="headerlink" href="#week-2-state-manager-core-dec-28-jan-3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Build session persistence (save/load)</li>
+<li>[ ] Create session-adapter.js</li>
+<li>[ ] Implement work/finish/resume commands</li>
+<li>[ ] Test with 3 real projects</li>
+</ul>
+<h3 id="week-3-dashboard-jan-4-10">Week 3: Dashboard (Jan 4-10)<a class="headerlink" href="#week-3-dashboard-jan-4-10" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Adapt .STATUS parser from apple-notes-sync</li>
+<li>[ ] Build dashboard generator</li>
+<li>[ ] Create dashboard command with colored output</li>
+<li>[ ] Test with all 32 projects</li>
+</ul>
+<h3 id="week-4-project-picker-jan-11-17">Week 4: Project Picker (Jan 11-17)<a class="headerlink" href="#week-4-project-picker-jan-11-17" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Build project scanner with search/filter</li>
+<li>[ ] Integrate fzf for fuzzy finding</li>
+<li>[ ] Add preview pane with .STATUS content</li>
+<li>[ ] Test fast project switching</li>
+</ul>
+<h3 id="month-2-dependency-tracking-tasks-jan-18-feb-17">Month 2: Dependency Tracking &amp; Tasks (Jan 18 - Feb 17)<a class="headerlink" href="#month-2-dependency-tracking-tasks-jan-18-feb-17" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Build dependency tracker</li>
+<li>[ ] Map project relationships</li>
+<li>[ ] Create task aggregator</li>
+<li>[ ] Implement filtering and sorting</li>
+</ul>
+<h3 id="month-3-polish-evaluate-feb-18-mar-17">Month 3: Polish &amp; Evaluate (Feb 18 - Mar 17)<a class="headerlink" href="#month-3-polish-evaluate-feb-18-mar-17" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Session templates</li>
+<li>[ ] Session history and analytics</li>
+<li>[ ] Integration enhancements (aiterm, Apple Notes)</li>
+<li>[ ] Comprehensive testing</li>
+<li>[ ] Documentation</li>
+<li>[ ] Evaluate success criteria</li>
+</ul>
+<hr />
+<h2 id="success-criteria-3-months">Success Criteria (3 Months)<a class="headerlink" href="#success-criteria-3-months" title="Permanent link">&para;</a></h2>
+<h3 id="workflow-state-manager">Workflow State Manager<a class="headerlink" href="#workflow-state-manager" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Session restoration: &lt;30 seconds</li>
+<li>✅ Context loss: Never (100% restoration)</li>
+<li>✅ Morning startup: 2-minute dashboard review → productive</li>
+<li>✅ Project switching: &lt;1 minute</li>
+</ul>
+<h3 id="project-dashboard">Project Dashboard<a class="headerlink" href="#project-dashboard" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Overview speed: &lt;2 seconds to see all projects</li>
+<li>✅ Quick wins: Find tasks &lt;30 min in &lt;10 seconds</li>
+<li>✅ Status visibility: All projects visible at a glance</li>
+</ul>
+<h3 id="dependency-tracker">Dependency Tracker<a class="headerlink" href="#dependency-tracker" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Impact awareness: Instant understanding of dependencies</li>
+<li>✅ Relationship clarity: Clear project connections</li>
+</ul>
+<h3 id="task-aggregation">Task Aggregation<a class="headerlink" href="#task-aggregation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Task discovery: Find next task in &lt;5 seconds</li>
+<li>✅ Priority clarity: P0/P1/P2/P3 visible instantly</li>
+</ul>
+<h3 id="project-picker">Project Picker<a class="headerlink" href="#project-picker" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Switching speed: &lt;30 seconds between projects</li>
+<li>✅ Visual preview: See .STATUS before switching</li>
+</ul>
+<h3 id="combined">Combined<a class="headerlink" href="#combined" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Complete workflow: Discovery → Selection → Restoration in &lt;1 minute</li>
+<li>✅ Zero cognitive overhead: Don't think about tools, they're just there</li>
+<li>✅ Daily workflow satisfaction: 8+/10</li>
+</ul>
+<hr />
+<h2 id="integration-with-existing-dev-tools">Integration with Existing Dev-Tools<a class="headerlink" href="#integration-with-existing-dev-tools" title="Permanent link">&para;</a></h2>
+<h3 id="leveraging-not-duplicating">Leveraging, Not Duplicating<a class="headerlink" href="#leveraging-not-duplicating" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>What We're Using</th>
+<th>Integration Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>zsh-claude-workflow</strong></td>
+<td>Project detection, context gathering</td>
+<td>Symlink lib/, call commands</td>
+</tr>
+<tr>
+<td><strong>aiterm</strong></td>
+<td>Terminal context switching</td>
+<td>Call <code>ait context apply</code></td>
+</tr>
+<tr>
+<td><strong>apple-notes-sync</strong></td>
+<td>.STATUS parser, dashboard patterns</td>
+<td>Adapt scanner.sh logic</td>
+</tr>
+<tr>
+<td><strong>obsidian-cli-ops</strong></td>
+<td>ZSH+Python hybrid pattern</td>
+<td>Copy architecture approach</td>
+</tr>
+<tr>
+<td><strong>dev-planning</strong></td>
+<td>Hub organization pattern</td>
+<td>Replicate PROJECT-HUB.md structure</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-were-building-unique">What We're Building (Unique)<a class="headerlink" href="#what-were-building-unique" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Session State Manager</strong> - No existing tool does this</li>
+<li>✅ <strong>Multi-Project Dashboard</strong> - Global view across 30+ projects</li>
+<li>✅ <strong>Dependency Tracker</strong> - Unique to multi-project coordination</li>
+<li>✅ <strong>Task Aggregator</strong> - Cross-project task list</li>
+<li>✅ <strong>Project Picker</strong> - Fast fuzzy finder with preview</li>
+</ul>
+<hr />
+<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
+<h3 id="three-layer-design">Three-Layer Design<a class="headerlink" href="#three-layer-design" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────┐
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│ FRONTEND (ZSH Shell)                    │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│ - Commands: work, finish, dashboard, pp│
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│ - Colored output, fzf integration      │
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>└──────────────┬──────────────────────────┘
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>               │ exec(), JSON
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>┌──────────────▼──────────────────────────┐
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│ BACKEND (Node.js Core)                  │
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│ - Session manager, project scanner     │
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│ - Dashboard generator, task aggregator │
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>└──────────────┬──────────────────────────┘
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>               │ import, shell exec
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>┌──────────────▼──────────────────────────┐
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│ INTEGRATION (External Tools)            │
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│ - zsh-claude-workflow, aiterm          │
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│ - apple-notes-sync patterns            │
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>└─────────────────────────────────────────┘
+</code></pre></div>
+<p>See <a href="ARCHITECTURE-INTEGRATION.md">ARCHITECTURE-INTEGRATION.md</a> for complete details.</p>
+<hr />
+<h2 id="what-this-solves">What This Solves<a class="headerlink" href="#what-this-solves" title="Permanent link">&para;</a></h2>
+<h3 id="pain-point-1-context-switching">Pain Point 1: Context Switching<a class="headerlink" href="#pain-point-1-context-switching" title="Permanent link">&para;</a></h3>
+<p><strong>Before:</strong> Spend 5-10 minutes re-orienting when switching projects
+<strong>After:</strong> &lt;1 minute with automatic context restoration</p>
+<h3 id="pain-point-2-project-discovery">Pain Point 2: Project Discovery<a class="headerlink" href="#pain-point-2-project-discovery" title="Permanent link">&para;</a></h3>
+<p><strong>Before:</strong> "What was I working on? Which projects are active?"
+<strong>After:</strong> <code>dashboard</code> → See all 32 projects in 2 seconds</p>
+<h3 id="pain-point-3-task-overload">Pain Point 3: Task Overload<a class="headerlink" href="#pain-point-3-task-overload" title="Permanent link">&para;</a></h3>
+<p><strong>Before:</strong> Next actions scattered across 32 .STATUS files
+<strong>After:</strong> <code>tasks --quick-wins</code> → 7 tasks &lt;30 min, pick one</p>
+<h3 id="pain-point-4-dependency-confusion">Pain Point 4: Dependency Confusion<a class="headerlink" href="#pain-point-4-dependency-confusion" title="Permanent link">&para;</a></h3>
+<p><strong>Before:</strong> "Will updating medfit break rmediation?"
+<strong>After:</strong> <code>deps medfit --impact</code> → Know exactly what's affected</p>
+<h3 id="pain-point-5-project-navigation">Pain Point 5: Project Navigation<a class="headerlink" href="#pain-point-5-project-navigation" title="Permanent link">&para;</a></h3>
+<p><strong>Before:</strong> <code>cd ~/projects/...</code> → Type full path, misremember names
+<strong>After:</strong> <code>pp</code> → Fuzzy find, preview, select in &lt;30 seconds</p>
+<hr />
+<h2 id="whats-not-changing">What's NOT Changing<a class="headerlink" href="#whats-not-changing" title="Permanent link">&para;</a></h2>
+<p>✅ <strong>Keep:</strong> Zero external dependencies (vanilla Node.js + ZSH)
+✅ <strong>Keep:</strong> Personal tool (no external users, no maintenance burden)
+✅ <strong>Keep:</strong> Minimal tech stack (JSON files, simple CLI)
+✅ <strong>Keep:</strong> ADHD-optimized design (clear focus, immediate value)
+✅ <strong>Keep:</strong> Integration with existing dev-tools ecosystem</p>
+<p>❌ <strong>Not building:</strong> Web dashboard, desktop app, multi-user support
+❌ <strong>Not building:</strong> Complex analytics, advanced visualizations
+❌ <strong>Not building:</strong> Shareable framework (can extract later if valuable)
+❌ <strong>Not building:</strong> MCP Server Hub (removed from scope)</p>
+<hr />
+<h2 id="technology-stack">Technology Stack<a class="headerlink" href="#technology-stack" title="Permanent link">&para;</a></h2>
+<p><strong>No changes to current stack:</strong></p>
+<ul>
+<li><strong>Runtime:</strong> Node.js 18+ (zero npm packages)</li>
+<li><strong>Shell:</strong> ZSH (existing configuration)</li>
+<li><strong>Storage:</strong> JSON files (simple, debuggable)</li>
+<li><strong>Integration:</strong> CLI adapters → exec() → ZSH</li>
+</ul>
+<p><strong>Additions (minimal):</strong></p>
+<ul>
+<li>Session state schema (JSON)</li>
+<li>Project registry schema (JSON)</li>
+<li>State manager module (save/load)</li>
+<li>Dashboard generator (status aggregation)</li>
+<li>Dependency tracker (relationship mapping)</li>
+</ul>
+<p><strong>External Tools (integration only):</strong></p>
+<ul>
+<li>zsh-claude-workflow (REQUIRED) - Project detection</li>
+<li>aiterm (OPTIONAL) - Terminal context</li>
+<li>apple-notes-sync (OPTIONAL) - Dashboard export</li>
+<li>fzf (OPTIONAL) - Fuzzy finder</li>
+</ul>
+<hr />
+<h2 id="example-workflows">Example Workflows<a class="headerlink" href="#example-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="monday-morning">Monday Morning<a class="headerlink" href="#monday-morning" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span><span class="c1"># New shell after weekend</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>&gt;<span class="w"> </span>Resume<span class="w"> </span><span class="s2">&quot;rmediation&quot;</span>?<span class="w"> </span><span class="o">(</span>Last:<span class="w"> </span>Friday<span class="w"> </span><span class="m">5</span>:30<span class="w"> </span>PM<span class="o">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>&gt;<span class="w"> </span>y
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>&gt;<span class="w"> </span>✓<span class="w"> </span>Project:<span class="w"> </span>rmediation<span class="w"> </span><span class="o">(</span>R<span class="w"> </span>package<span class="o">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>&gt;<span class="w"> </span>✓<span class="w"> </span>Task:<span class="w"> </span>Fix<span class="w"> </span>failing<span class="w"> </span><span class="nb">test</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>&gt;<span class="w"> </span><span class="o">[</span>Productive<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">20</span><span class="w"> </span>seconds<span class="o">]</span>
+</code></pre></div>
+<h3 id="context-switch">Context Switch<a class="headerlink" href="#context-switch" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span><span class="c1"># Switch from R package to teaching</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>&gt;<span class="w"> </span>finish<span class="w">  </span><span class="c1"># saves session</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>&gt;<span class="w"> </span>pp
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>&gt;<span class="w"> </span><span class="o">[</span>Fuzzy<span class="w"> </span>finder:<span class="w"> </span>stat-440<span class="o">]</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>&gt;<span class="w"> </span>✓<span class="w"> </span>Switched<span class="w"> </span>to<span class="w"> </span>stat-440
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>&gt;<span class="w"> </span>✓<span class="w"> </span>Next:<span class="w"> </span>Grade<span class="w"> </span>HW<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>&gt;<span class="w"> </span><span class="o">[</span>Right<span class="w"> </span>context<span class="w"> </span>automatically<span class="o">]</span>
+</code></pre></div>
+<h3 id="quick-wins">Quick Wins<a class="headerlink" href="#quick-wins" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span><span class="c1"># Friday afternoon, need easy tasks</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>&gt;<span class="w"> </span>tasks<span class="w"> </span>--quick-wins
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>&gt;<span class="w"> </span>⚡<span class="w"> </span>rmediation:<span class="w"> </span>Fix<span class="w"> </span>typo<span class="w"> </span><span class="k">in</span><span class="w"> </span>README
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>&gt;<span class="w"> </span>⚡<span class="w"> </span>stat-440:<span class="w"> </span>Upload<span class="w"> </span>answer<span class="w"> </span>key
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>&gt;<span class="w"> </span>⚡<span class="w"> </span>zsh-config:<span class="w"> </span>Update<span class="w"> </span>CLAUDE.md
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>&gt;<span class="w"> </span><span class="o">[</span><span class="m">7</span><span class="w"> </span>tasks<span class="w"> </span>found<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">3</span><span class="w"> </span>seconds<span class="o">]</span>
+</code></pre></div>
+<h3 id="dependency-check">Dependency Check<a class="headerlink" href="#dependency-check" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span><span class="c1"># About to update medfit</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>&gt;<span class="w"> </span>deps<span class="w"> </span>medfit<span class="w"> </span>--impact
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>&gt;<span class="w"> </span>Used<span class="w"> </span>By:<span class="w"> </span>rmediation,<span class="w"> </span>probmed,<span class="w"> </span>product-of-three
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>&gt;<span class="w"> </span><span class="o">[</span>Clear<span class="w"> </span>impact<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>seconds<span class="o">]</span>
+</code></pre></div>
+<hr />
+<h2 id="key-decisions">Key Decisions<a class="headerlink" href="#key-decisions" title="Permanent link">&para;</a></h2>
+<h3 id="2025-12-20-removed-mcp-server-hub">2025-12-20: Removed MCP Server Hub<a class="headerlink" href="#2025-12-20-removed-mcp-server-hub" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Previous:</strong> Dual objective (State Manager + MCP Hub)</li>
+<li><strong>Decision:</strong> Focus on project management and personal productivity only</li>
+<li><strong>Rationale:</strong> MCP hub is separate concern, project management is higher priority</li>
+<li><strong>Impact:</strong> Simpler scope, clearer focus, faster implementation</li>
+</ul>
+<h3 id="2025-12-20-integration-over-duplication">2025-12-20: Integration over Duplication<a class="headerlink" href="#2025-12-20-integration-over-duplication" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Decision:</strong> Leverage existing dev-tools packages instead of reimplementing</li>
+<li><strong>Strategy:</strong> Thin orchestration layer over existing tools</li>
+<li><strong>Impact:</strong> Faster development, better integration, less maintenance</li>
+</ul>
+<h3 id="2025-12-20-three-layer-architecture">2025-12-20: Three-Layer Architecture<a class="headerlink" href="#2025-12-20-three-layer-architecture" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Decision:</strong> Frontend (ZSH) → Backend (Node.js) → Integration (External)</li>
+<li><strong>Benefit:</strong> Clear separation, testable core, flexible integration</li>
+<li><strong>Impact:</strong> Maintainable architecture, easy to extend</li>
+</ul>
+<h3 id="2025-12-20-personal-tool-first">2025-12-20: Personal Tool First<a class="headerlink" href="#2025-12-20-personal-tool-first" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Focus:</strong> Build for personal use, not shareable framework</li>
+<li><strong>Can share later if valuable</strong></li>
+<li><strong>Low maintenance burden</strong></li>
+</ul>
+<h3 id="2025-12-20-removed-app-workspace">2025-12-20: Removed App Workspace<a class="headerlink" href="#2025-12-20-removed-app-workspace" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Archive Electron app</strong> (environment issues)</li>
+<li><strong>Focus on CLI development</strong></li>
+<li><strong>753 lines preserved for future</strong></li>
+</ul>
+<hr />
+<h2 id="open-questions">Open Questions<a class="headerlink" href="#open-questions" title="Permanent link">&para;</a></h2>
+<h3 id="state-persistence">State Persistence<a class="headerlink" href="#state-persistence" title="Permanent link">&para;</a></h3>
+<ul>
+<li>How often to auto-save? (every command? 15 min? on idle?)</li>
+<li>Minimum state needed for restoration?</li>
+<li>Include open files?</li>
+</ul>
+<p><strong>Recommendation:</strong> Save on <code>finish</code>, auto-save every 15 min, prompt on new shell</p>
+<h3 id="project-discovery">Project Discovery<a class="headerlink" href="#project-discovery" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Auto-scan ~/projects/ or require manual registration?</li>
+<li>How to handle excluded projects?</li>
+</ul>
+<p><strong>Recommendation:</strong> Auto-scan with manual opt-out (.zsh-ignore file)</p>
+<h3 id="integration">Integration<a class="headerlink" href="#integration" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Auto-activate aiterm or ask first?</li>
+<li>How to handle missing optional dependencies?</li>
+</ul>
+<p><strong>Recommendation:</strong> Auto-call if installed, silent skip if not</p>
+<hr />
+<h2 id="success-stories-what-good-looks-like">Success Stories (What Good Looks Like)<a class="headerlink" href="#success-stories-what-good-looks-like" title="Permanent link">&para;</a></h2>
+<p><strong>Complete restoration:</strong></p>
+<blockquote>
+<p>Project + context in &lt;30 seconds</p>
+</blockquote>
+<p><strong>Zero cognitive overhead:</strong></p>
+<blockquote>
+<p>Don't think about which tools to use, they're just there</p>
+</blockquote>
+<p><strong>Fast discovery:</strong></p>
+<blockquote>
+<p>Find right project or task in &lt;10 seconds</p>
+</blockquote>
+<p><strong>Clear dependencies:</strong></p>
+<blockquote>
+<p>Understand project impact instantly</p>
+</blockquote>
+<p><strong>Daily overview:</strong></p>
+<blockquote>
+<p>See all 32 projects at a glance in 2 seconds</p>
+</blockquote>
+<hr />
+<h2 id="next-immediate-steps">Next Immediate Steps<a class="headerlink" href="#next-immediate-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Create directory structure</strong> (5 min)</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>cli/core<span class="w"> </span>cli/lib<span class="w"> </span>config/zsh/functions<span class="w"> </span>data/sessions<span class="w"> </span>data/projects<span class="w"> </span>integrations
+</code></pre></div>
+<ol>
+<li><strong>Set up zsh-claude-workflow integration</strong> (15 min)</li>
+<li>Create symlink to lib/</li>
+<li>Build project-detector-bridge.js</li>
+<li>
+<p>Test detection on 3 projects</p>
+</li>
+<li>
+<p><strong>Build minimal session manager</strong> (Week 2)</p>
+</li>
+<li>Start simple (without complex features)</li>
+<li>Test with 1 project for 1 week</li>
+<li>Iterate based on real use</li>
+</ol>
+<hr />
+<h2 id="files-created-today">Files Created Today<a class="headerlink" href="#files-created-today" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>PROJECT-SCOPE.md</strong> (650+ lines)</li>
+<li>Complete project specification (project management focus)</li>
+<li>3-month roadmap</li>
+<li>Success criteria and use cases</li>
+<li>
+<p>Architecture overview</p>
+</li>
+<li>
+<p><strong>ARCHITECTURE-INTEGRATION.md</strong> (500+ lines)</p>
+</li>
+<li>Complete architecture design</li>
+<li>Frontend/backend separation</li>
+<li>Integration strategy with existing dev-tools</li>
+<li>
+<p>Data flow examples</p>
+</li>
+<li>
+<p><strong>PROJECT-REFOCUS-SUMMARY.md</strong> (this file)</p>
+</li>
+<li>Executive summary of refocus</li>
+<li>Quick reference for the plan</li>
+<li>Key decisions documented</li>
+</ol>
+<hr />
+<p><strong>Status:</strong> ✅ Project refocus complete
+<strong>Clarity:</strong> ✅ Crystal clear objectives and roadmap
+<strong>Architecture:</strong> ✅ Three-layer design defined
+<strong>Integration:</strong> ✅ Leverage existing dev-tools packages
+<strong>Next Action:</strong> Create directory structure and set up integrations (Week 1, task 3)
+<strong>Estimated Time to Value:</strong> 2 weeks (minimal state manager working)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/data-wise/flow-cli" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

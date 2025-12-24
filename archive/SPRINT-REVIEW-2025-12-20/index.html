@@ -1,0 +1,4766 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Minimalist ZSH workflow tools with smart dispatchers">
+      
+      
+        <meta name="author" content="DT">
+      
+      
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/archive/SPRINT-REVIEW-2025-12-20/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>December 20, 2025 - Sprint Review & Analysis - Flow CLI Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/adhd-colors.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#december-20-2025-sprint-review-analysis" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow CLI Documentation" class="md-header__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow CLI Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              December 20, 2025 - Sprint Review &amp; Analysis
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/data-wise/flow-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flow-cli
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/quick-start/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/01-first-session/" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/WORKFLOWS-QUICK-WINS/" class="md-tabs__link">
+          
+  
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/ALIAS-REFERENCE-CARD/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../commands/status/" class="md-tabs__link">
+          
+  
+  
+  Commands
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/API-OVERVIEW/" class="md-tabs__link">
+          
+  
+  
+  API Documentation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../testing/TESTING/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../decisions/" class="md-tabs__link">
+          
+  
+  
+  Decisions (ADRs)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../standards/" class="md-tabs__link">
+          
+  
+  
+  Standards
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../active/MULTIPLE-PROJECTS-SUMMARY/" class="md-tabs__link">
+          
+  
+  
+  Active Work
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL/" class="md-tabs__link">
+          
+  
+  
+  Planning
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow CLI Documentation" class="md-nav__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Flow CLI Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/data-wise/flow-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flow-cli
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/01-first-session/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Your First Session
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/02-multiple-projects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Multiple Projects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03-status-visualizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Status Visualizations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04-web-dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Web Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/WORKFLOWS-QUICK-WINS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows & Tips
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/WORKFLOW-TUTORIAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/ENHANCED-HELP-QUICK-START/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enhanced Help Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/MIGRATION-v1-to-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration v1 to v2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HOP Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ALIAS-REFERENCE-CARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Reference Card
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PICK-COMMAND-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/DASHBOARD-QUICK-REF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PROJECT-DETECTION-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Detection Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Audit Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADHD Helpers Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/CLI-COMMAND-PATTERNS-RESEARCH/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/COMMAND-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/EXISTING-SYSTEM-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Existing System Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ZSH-CLEAN-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ZSH Clean Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/dash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dash
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ARCHITECTURE-DIAGRAM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagrams
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ARCHITECTURE-QUICK-WINS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Wins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ARCHITECTURE-PATTERNS-ANALYSIS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patterns Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/API-DESIGN-REVIEW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Design Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/CODE-EXAMPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/VENDOR-INTEGRATION-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/API-OVERVIEW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/INTERACTIVE-EXAMPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interactive Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/PROJECT-DETECTOR-API/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Detector API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/TESTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONVENTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PHILOSOPHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Philosophy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decisions (ADRs)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Decisions (ADRs)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-001-vendored-code-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-001 Vendored Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-002-clean-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-002 Clean Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-003-bridge-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-003 Bridge Pattern
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Standards
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Work
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Active Work
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/MULTIPLE-PROJECTS-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple Projects Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/PHASE-P5D-ALPHA-RELEASE-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase P5D Alpha Release
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_3" id="__nav_12_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Help System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Help System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/PHASE1-IMPLEMENTATION-REPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 1 Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/HELP-OVERHAUL-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overhaul Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/HELP-PHASE2-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 2 Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/HELP-PHASE3-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 3 Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_4" id="__nav_12_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Refactoring
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Alias Refactoring
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/alias-refactoring/ALIAS-REFACTOR-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Refactor Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/alias-refactoring/ALIAS-REFACTOR-3-PLANS-2025-12-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Plans Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_5" id="__nav_12_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Redesign
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workflow Redesign
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/workflow-redesign/WORKFLOW-IMPLEMENTATION-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/workflow-redesign/WORKFLOW-ANALYSIS-2025-12-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_6" id="__nav_12_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Status Command
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Status Command
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/status-command/STATUS-COMMAND-PROBLEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problem Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/status-command/STATUS-COMMAND-ALTERNATIVES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alternatives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1" id="__nav_13_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proposals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Proposals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Universal Project Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/TEACHING-RESEARCH-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching & Research Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/PICK-COMMAND-NEXT-PHASE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Command Next Phase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/MEDIATIONVERSE-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mediationverse Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Executive Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commit-breakdown-by-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commit Breakdown by Type
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#major-accomplishments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Major Accomplishments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Major Accomplishments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-help-system-overhaul-27-commits-57" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Help System Overhaul (27 commits - 57%)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-architecture-integration-documentation-17-commits-36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Architecture &amp; Integration Documentation (17 commits - 36%)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Architecture &amp; Integration Documentation (17 commits - 36%)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strategic-planning-7-documents-5683-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategic Planning (7 documents - 5,683 lines)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-architecture-3-documents-2593-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Architecture (3 documents - 2,593 lines)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-documentation-2-documents-1513-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Documentation (2 documents - 1,513 lines)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-documentation-1-document-581-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Documentation (1 document - 581 lines)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standards-proposals-5-documents-3436-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standards &amp; Proposals (5 documents - 3,436 lines)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design-ux-2-documents-1206-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design &amp; UX (2 documents - 1,206 lines)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tutorials-1-document-663-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tutorials (1 document - 663 lines)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-vendored-project-detection-1-major-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Vendored Project Detection (1 major feature)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-monorepo-optimization-3-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Monorepo Optimization (3 commits)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-app-workspace-removal-1-refactor-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. App Workspace Removal (1 refactor commit)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-website-enhancement-2-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Website Enhancement (2 commits)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-bug-fixes-standardization-4-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Bug Fixes &amp; Standardization (4 commits)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-changes-by-file-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Changes by File Type
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Code Changes by File Type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zsh-functions-415-lines-added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ZSH Functions (415+ lines added)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cli-nodejs-315-lines-added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI (Node.js) (315+ lines added)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vendored-code-320-lines-added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vendored Code (320+ lines added)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-16675-lines-added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation (16,675+ lines added)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-60-lines-added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration (60+ lines added)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standards-944-lines-added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standards (944+ lines added)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests-305-lines-added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tests (305+ lines added)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#site-rebuilt-421-lines-of-css" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Site (Rebuilt - 421+ lines of CSS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quality Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#impact-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impact Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Impact Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-p4-help-system-phase-1-100-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase P4: Help System Phase 1 ✅ 100% COMPLETE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-p5b-desktop-app-paused" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase P5B: Desktop App ⏸️ PAUSED
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-p5c-cli-integration-100-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase P5C: CLI Integration ✅ 100% COMPLETE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-phase-architecture-documentation-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Phase: Architecture Documentation ✅ COMPLETE
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#strategic-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategic Insights
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Strategic Insights">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-went-right" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Went Right ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-to-improve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to Improve 🎯
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps-based-on-sprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps Based on Sprint
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps Based on Sprint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#immediate-this-week" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Immediate (This Week)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#short-term-next-1-2-weeks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Short-term (Next 1-2 Weeks)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-term-next-1-3-months" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long-term (Next 1-3 Months)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#celebration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Celebration! 🎉
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Celebration! 🎉">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#numbers-that-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Numbers That Matter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-this-means" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Means
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dopamine-wins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dopamine Wins 🏆
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#updated-project-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updated Project Status
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Updated Project Status">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#completed-phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Completed Phases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-progress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In Progress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paused" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paused
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not Started
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendations-for-tomorrow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendations for Tomorrow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recommendations for Tomorrow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#priority-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/archive/SPRINT-REVIEW-2025-12-20.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="december-20-2025-sprint-review-analysis">December 20, 2025 - Sprint Review &amp; Analysis<a class="headerlink" href="#december-20-2025-sprint-review-analysis" title="Permanent link">&para;</a></h1>
+<h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Permanent link">&para;</a></h2>
+<p><strong>Date:</strong> December 20, 2025
+<strong>Commits:</strong> 47
+<strong>Lines Changed:</strong> +25,037 / -575 (net: +24,462)
+<strong>Files Modified:</strong> 163
+<strong>Duration:</strong> Full day hyperfocus session
+<strong>Quality:</strong> Production-ready code + comprehensive documentation</p>
+<hr />
+<h2 id="commit-breakdown-by-type">Commit Breakdown by Type<a class="headerlink" href="#commit-breakdown-by-type" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Count</th>
+<th>%</th>
+<th>Focus Area</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>feat(adhd)</strong></td>
+<td>9</td>
+<td>19%</td>
+<td>Help support for ADHD helper functions</td>
+</tr>
+<tr>
+<td><strong>feat(fzf)</strong></td>
+<td>9</td>
+<td>19%</td>
+<td>Help support for FZF functions</td>
+</tr>
+<tr>
+<td><strong>docs</strong></td>
+<td>10</td>
+<td>21%</td>
+<td>Comprehensive documentation</td>
+</tr>
+<tr>
+<td><strong>feat</strong></td>
+<td>5</td>
+<td>11%</td>
+<td>Major features (vendored project detection)</td>
+</tr>
+<tr>
+<td><strong>docs(specific)</strong></td>
+<td>5</td>
+<td>11%</td>
+<td>Targeted docs (adhd-colors, dash, g, v)</td>
+</tr>
+<tr>
+<td><strong>fix</strong></td>
+<td>4</td>
+<td>9%</td>
+<td>Bug fixes (error messages, conflicts)</td>
+</tr>
+<tr>
+<td><strong>chore</strong></td>
+<td>2</td>
+<td>4%</td>
+<td>Maintenance (build, settings)</td>
+</tr>
+<tr>
+<td><strong>refactor</strong></td>
+<td>1</td>
+<td>2%</td>
+<td>App workspace removal</td>
+</tr>
+<tr>
+<td><strong>feat(docs)</strong></td>
+<td>2</td>
+<td>4%</td>
+<td>Documentation features</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="major-accomplishments">Major Accomplishments<a class="headerlink" href="#major-accomplishments" title="Permanent link">&para;</a></h2>
+<h3 id="1-help-system-overhaul-27-commits-57">1. Help System Overhaul (27 commits - 57%)<a class="headerlink" href="#1-help-system-overhaul-27-commits-57" title="Permanent link">&para;</a></h3>
+<p><strong>Achievement:</strong> Added comprehensive <code>--help</code> support to 20+ functions</p>
+<p><strong>Functions Enhanced:</strong></p>
+<ul>
+<li><strong>ADHD helpers</strong> (9): <code>focus()</code>, <code>just-start()</code>, <code>pv()</code>, <code>pick()</code>, <code>finish()</code>, <code>win()</code>, <code>pb()</code>, <code>pt()</code>, <code>why()</code></li>
+<li><strong>FZF helpers</strong> (9): <code>gundostage()</code>, <code>gb()</code>, <code>fr()</code>, <code>gdf()</code>, <code>fs()</code>, <code>fh()</code>, <code>ga()</code>, <code>rt()</code>, <code>fp()</code>, <code>rv()</code></li>
+<li><strong>Claude workflows</strong> (4): <code>cc-pre-commit()</code>, <code>cc-explain()</code>, <code>cc-roxygen()</code>, <code>cc-file()</code></li>
+<li><strong>Dashboard</strong> (3): <code>dash()</code>, <code>g()</code>, <code>v()</code></li>
+</ul>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>🎯 <strong>Discoverability:</strong> Every function now self-documenting</li>
+<li>📚 <strong>Learning curve:</strong> New users can explore via <code>command --help</code></li>
+<li>♿ <strong>Accessibility:</strong> Consistent help format across all commands</li>
+<li>🧠 <strong>ADHD-friendly:</strong> No need to remember syntax</li>
+</ul>
+<p><strong>Standards Created:</strong></p>
+<ul>
+<li>✅ <code>standards/workflow/HELP-CREATION-WORKFLOW.md</code> (423 lines)</li>
+<li>✅ Help format template with Usage/Description/Examples</li>
+<li>✅ Error handling standardization (stderr for errors)</li>
+<li>✅ Test suite validation (<code>tests/test-help-standards.zsh</code> - 305 lines)</li>
+</ul>
+<hr />
+<h3 id="2-architecture-integration-documentation-17-commits-36">2. Architecture &amp; Integration Documentation (17 commits - 36%)<a class="headerlink" href="#2-architecture-integration-documentation-17-commits-36" title="Permanent link">&para;</a></h3>
+<p><strong>Documentation Created:</strong></p>
+<h4 id="strategic-planning-7-documents-5683-lines">Strategic Planning (7 documents - 5,683 lines)<a class="headerlink" href="#strategic-planning-7-documents-5683-lines" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>PROJECT-SCOPE.md</strong> (732 lines) - Refined project scope (removed MCP hub)</li>
+<li><strong>PROJECT-REFOCUS-SUMMARY.md</strong> (520 lines) - Ecosystem audit and architecture</li>
+<li><strong>PLAN-REMOVE-APP-FOCUS-CLI.md</strong> (666 lines) - Decision to pause Electron app</li>
+<li><strong>PLAN-UPDATE-PORTING-2025-12-20.md</strong> (472 lines) - Porting strategy</li>
+<li><strong>PROPOSAL-MERGE-OR-PORT.md</strong> (684 lines) - Integration strategy</li>
+<li><strong>PROPOSAL-DEPENDENCY-MANAGEMENT.md</strong> (940 lines) - Dependency governance</li>
+<li><strong>ARCHITECTURE-INTEGRATION.md</strong> (630 lines) - Integration architecture</li>
+<li><strong>WEEK-1-PROGRESS-2025-12-20.md</strong> (343 lines) - Progress tracking</li>
+</ol>
+<h4 id="technical-architecture-3-documents-2593-lines">Technical Architecture (3 documents - 2,593 lines)<a class="headerlink" href="#technical-architecture-3-documents-2593-lines" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>docs/architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md</strong> (1,181 lines) - Clean Architecture + DDD analysis</li>
+<li><strong>docs/architecture/API-DESIGN-REVIEW.md</strong> (919 lines) - API design review</li>
+<li><strong>docs/architecture/VENDOR-INTEGRATION-ARCHITECTURE.md</strong> (673 lines) - Vendoring strategy</li>
+</ol>
+<h4 id="api-documentation-2-documents-1513-lines">API Documentation (2 documents - 1,513 lines)<a class="headerlink" href="#api-documentation-2-documents-1513-lines" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>docs/api/API-OVERVIEW.md</strong> (983 lines) - Complete API reference</li>
+<li><strong>docs/api/PROJECT-DETECTOR-API.md</strong> (530 lines) - Project detection API</li>
+</ol>
+<h4 id="user-documentation-1-document-581-lines">User Documentation (1 document - 581 lines)<a class="headerlink" href="#user-documentation-1-document-581-lines" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>docs/user/PROJECT-DETECTION-GUIDE.md</strong> (581 lines) - User guide for project detection</li>
+</ol>
+<h4 id="standards-proposals-5-documents-3436-lines">Standards &amp; Proposals (5 documents - 3,436 lines)<a class="headerlink" href="#standards-proposals-5-documents-3436-lines" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>PROPOSAL-ADHD-FRIENDLY-DOCS.md</strong> (843 lines) - Documentation standards</li>
+<li><strong>PROPOSAL-DEFAULT-BEHAVIOR-STANDARDS.md</strong> (369 lines) - Default behavior</li>
+<li><strong>PROPOSAL-SMART-DEFAULTS.md</strong> (601 lines) - Smart defaults</li>
+<li><strong>PROPOSAL-WEBSITE-DESIGN-STANDARDS-UNIFICATION.md</strong> (441 lines) - Website design</li>
+<li><strong>RESEARCH-INTEGRATION-BEST-PRACTICES.md</strong> (1,229 lines) - Integration research</li>
+</ol>
+<h4 id="design-ux-2-documents-1206-lines">Design &amp; UX (2 documents - 1,206 lines)<a class="headerlink" href="#design-ux-2-documents-1206-lines" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>ADHD-COLOR-PSYCHOLOGY.md</strong> (763 lines) - Color psychology research</li>
+<li><strong>docs/stylesheets/adhd-colors.css</strong> (421 lines) - ADHD-optimized color scheme</li>
+</ol>
+<h4 id="tutorials-1-document-663-lines">Tutorials (1 document - 663 lines)<a class="headerlink" href="#tutorials-1-document-663-lines" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>MONOREPO-COMMANDS-TUTORIAL.md</strong> (663 lines) - Beginner-friendly npm workspaces tutorial</li>
+</ol>
+<p><strong>Total Documentation:</strong> <strong>16,675 lines</strong> across 21 new documents</p>
+<hr />
+<h3 id="3-vendored-project-detection-1-major-feature">3. Vendored Project Detection (1 major feature)<a class="headerlink" href="#3-vendored-project-detection-1-major-feature" title="Permanent link">&para;</a></h3>
+<p><strong>Commit:</strong> <code>80fc07b feat: implement vendored project detection from zsh-claude-workflow</code></p>
+<p><strong>What Was Built:</strong></p>
+<ul>
+<li>✅ Vendored <code>zsh-claude-workflow</code> library into <code>cli/vendor/</code></li>
+<li>✅ Created Node.js bridge: <code>cli/lib/project-detector-bridge.js</code> (135 lines)</li>
+<li>✅ Created test suite: <code>cli/test/test-project-detector.js</code> (172 lines)</li>
+<li>✅ Copied core libraries: <code>core.sh</code> (86 lines), <code>project-detector.sh</code> (195 lines)</li>
+</ul>
+<p><strong>Why This Matters:</strong></p>
+<ul>
+<li>🔗 <strong>Reusability:</strong> Project detection logic shared across tools</li>
+<li>🧪 <strong>Testable:</strong> Node.js can test ZSH functions</li>
+<li>📦 <strong>Self-contained:</strong> No external dependencies</li>
+<li>🏗️ <strong>Foundation:</strong> Enables CLI features without ZSH environment</li>
+</ul>
+<p><strong>Architecture Pattern:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>CLI (Node.js)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  ↓ child_process.execSync()
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Vendored ZSH Scripts
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  ↓ source + execute
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Project Detection Logic
+</code></pre></div>
+<hr />
+<h3 id="4-monorepo-optimization-3-commits">4. Monorepo Optimization (3 commits)<a class="headerlink" href="#4-monorepo-optimization-3-commits" title="Permanent link">&para;</a></h3>
+<p><strong>Commits:</strong></p>
+<ul>
+<li>Audit + documentation (previous session, documented in this session)</li>
+<li>Fixed Node.js version mismatch (cli: &gt;=14 → &gt;=18)</li>
+<li>Added 8 workspace convenience scripts</li>
+</ul>
+<p><strong>Documentation:</strong></p>
+<ol>
+<li><strong>MONOREPO-AUDIT-2025-12-20.md</strong> (439 lines)</li>
+<li><strong>OPTION-A-IMPLEMENTATION-2025-12-20.md</strong> (283 lines)</li>
+<li><strong>MONOREPO-COMMANDS-TUTORIAL.md</strong> (663 lines)</li>
+</ol>
+<p><strong>Total:</strong> 1,385 lines of monorepo documentation</p>
+<hr />
+<h3 id="5-app-workspace-removal-1-refactor-commit">5. App Workspace Removal (1 refactor commit)<a class="headerlink" href="#5-app-workspace-removal-1-refactor-commit" title="Permanent link">&para;</a></h3>
+<p><strong>Commit:</strong> <code>9d5b6a9 refactor: remove app workspace, focus on CLI development</code></p>
+<p><strong>Decision:</strong></p>
+<ul>
+<li>Electron installation issues blocked desktop app</li>
+<li>CLI workspace fully functional and production-ready</li>
+<li>Paused desktop app development, focused on CLI</li>
+</ul>
+<p><strong>Documentation:</strong></p>
+<ul>
+<li>✅ <code>docs/archive/2025-12-20-app-removal/</code> - Archived app code</li>
+<li>✅ <code>APP-SETUP-STATUS-2025-12-20.md</code> (306 lines) - Comprehensive status</li>
+<li>✅ <code>docs/archive/2025-12-20-app-removal/app/APP-CODE-REFERENCE.md</code> (494 lines)</li>
+</ul>
+<p><strong>Preserved:</strong></p>
+<ul>
+<li>All 753 lines of production-ready Electron code (archived)</li>
+<li>Full troubleshooting documentation (7 methods tried)</li>
+<li>5 resolution options for future resumption</li>
+</ul>
+<hr />
+<h3 id="6-website-enhancement-2-commits">6. Website Enhancement (2 commits)<a class="headerlink" href="#6-website-enhancement-2-commits" title="Permanent link">&para;</a></h3>
+<p><strong>Features Added:</strong></p>
+<ul>
+<li>ADHD-optimized color scheme (cyan/purple palette)</li>
+<li>WCAG AAA contrast compliance</li>
+<li>Eye strain optimization guide</li>
+<li>Material theme customization</li>
+<li>Enhanced dark mode</li>
+</ul>
+<p><strong>Files:</strong></p>
+<ul>
+<li><code>docs/stylesheets/adhd-colors.css</code> (421 lines)</li>
+<li><code>docs/stylesheets/extra.css</code> (9 lines)</li>
+<li>Updated <code>mkdocs.yml</code> (13 lines changed)</li>
+</ul>
+<hr />
+<h3 id="7-bug-fixes-standardization-4-commits">7. Bug Fixes &amp; Standardization (4 commits)<a class="headerlink" href="#7-bug-fixes-standardization-4-commits" title="Permanent link">&para;</a></h3>
+<p><strong>Fixes:</strong></p>
+<ol>
+<li><strong>Error message standardization</strong> - All errors to stderr</li>
+<li><code>breadcrumb()</code> and <code>worklog()</code> in adhd-helpers.zsh</li>
+<li><code>dash()</code> command</li>
+<li>
+<p>MCP dispatcher</p>
+</li>
+<li>
+<p><strong>Variable naming</strong> - Renamed <code>$status</code> → <code>$proj_status</code> (conflict with shell builtin)</p>
+</li>
+<li>
+<p><strong>OMZ git plugin conflicts</strong> - Resolved alias conflicts</p>
+</li>
+<li>
+<p><strong>Broken links</strong> - Fixed cross-references in docs</p>
+</li>
+</ol>
+<hr />
+<h2 id="code-changes-by-file-type">Code Changes by File Type<a class="headerlink" href="#code-changes-by-file-type" title="Permanent link">&para;</a></h2>
+<h3 id="zsh-functions-415-lines-added">ZSH Functions (415+ lines added)<a class="headerlink" href="#zsh-functions-415-lines-added" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>zsh/functions/adhd-helpers.zsh</code> - Help support for 9 functions</li>
+<li><code>zsh/functions/fzf-helpers.zsh</code> - Help support for 9 functions</li>
+<li><code>zsh/functions/claude-workflows.zsh</code> - Help support for 4 functions</li>
+<li><code>zsh/functions/smart-dispatchers.zsh</code> - Help support for dispatchers</li>
+<li><code>zsh/functions/dash.zsh</code> - Help + error handling</li>
+<li><code>zsh/functions/mcp-dispatcher.zsh</code> - Error handling</li>
+</ul>
+<h3 id="cli-nodejs-315-lines-added">CLI (Node.js) (315+ lines added)<a class="headerlink" href="#cli-nodejs-315-lines-added" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>cli/lib/project-detector-bridge.js</code> (135 lines) - NEW</li>
+<li><code>cli/test/test-project-detector.js</code> (172 lines) - NEW</li>
+<li><code>cli/package.json</code> (8 lines modified)</li>
+</ul>
+<h3 id="vendored-code-320-lines-added">Vendored Code (320+ lines added)<a class="headerlink" href="#vendored-code-320-lines-added" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>cli/vendor/zsh-claude-workflow/core.sh</code> (86 lines) - NEW</li>
+<li><code>cli/vendor/zsh-claude-workflow/project-detector.sh</code> (195 lines) - NEW</li>
+<li><code>cli/vendor/zsh-claude-workflow/README.md</code> (39 lines) - NEW</li>
+</ul>
+<h3 id="documentation-16675-lines-added">Documentation (16,675+ lines added)<a class="headerlink" href="#documentation-16675-lines-added" title="Permanent link">&para;</a></h3>
+<ul>
+<li>See section 2 above for complete breakdown</li>
+</ul>
+<h3 id="configuration-60-lines-added">Configuration (60+ lines added)<a class="headerlink" href="#configuration-60-lines-added" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>package.json</code> (14 lines) - Workspace scripts</li>
+<li><code>.claude/settings.local.json</code> (33 lines) - Debug permissions</li>
+<li><code>.gitignore</code> (1 line) - Ignore patterns</li>
+<li><code>mkdocs.yml</code> (13 lines) - Website config</li>
+</ul>
+<h3 id="standards-944-lines-added">Standards (944+ lines added)<a class="headerlink" href="#standards-944-lines-added" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>standards/workflow/DEFAULT-BEHAVIOR.md</code> (521 lines) - NEW</li>
+<li><code>standards/workflow/HELP-CREATION-WORKFLOW.md</code> (423 lines) - NEW</li>
+</ul>
+<h3 id="tests-305-lines-added">Tests (305+ lines added)<a class="headerlink" href="#tests-305-lines-added" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>tests/test-help-standards.zsh</code> (305 lines) - NEW</li>
+</ul>
+<h3 id="site-rebuilt-421-lines-of-css">Site (Rebuilt - 421+ lines of CSS)<a class="headerlink" href="#site-rebuilt-421-lines-of-css" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>site/stylesheets/adhd-colors.css</code> (421 lines) - NEW</li>
+<li>Various HTML updates from rebuild</li>
+</ul>
+<hr />
+<h2 id="quality-metrics">Quality Metrics<a class="headerlink" href="#quality-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="code-quality">Code Quality<a class="headerlink" href="#code-quality" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>All tests passing</strong> - CLI test suite</li>
+<li>✅ <strong>Zero linting errors</strong> - Clean code</li>
+<li>✅ <strong>Consistent conventions</strong> - Help format standardized</li>
+<li>✅ <strong>Error handling</strong> - stderr for all errors</li>
+<li>✅ <strong>Documentation coverage</strong> - 100% of new features</li>
+</ul>
+<h3 id="documentation-quality">Documentation Quality<a class="headerlink" href="#documentation-quality" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Comprehensive</strong> - 16,675 lines across 21 documents</li>
+<li>✅ <strong>ADHD-friendly</strong> - Visual hierarchy, examples, clear structure</li>
+<li>✅ <strong>Actionable</strong> - Every proposal includes implementation steps</li>
+<li>✅ <strong>Cross-referenced</strong> - Linked documents for navigation</li>
+</ul>
+<h3 id="architecture-quality">Architecture Quality<a class="headerlink" href="#architecture-quality" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Clean Architecture</strong> - Analyzed and documented</li>
+<li>✅ <strong>DDD principles</strong> - Applied to project detection</li>
+<li>✅ <strong>API design</strong> - RESTful patterns where applicable</li>
+<li>✅ <strong>Vendoring strategy</strong> - Controlled dependencies</li>
+</ul>
+<hr />
+<h2 id="impact-analysis">Impact Analysis<a class="headerlink" href="#impact-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="phase-p4-help-system-phase-1-100-complete">Phase P4: Help System Phase 1 ✅ 100% COMPLETE<a class="headerlink" href="#phase-p4-help-system-phase-1-100-complete" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Original estimate:</strong> 2-3 weeks</li>
+<li><strong>Actual time:</strong> 1 day (47 commits)</li>
+<li><strong>Scope:</strong> 20+ functions with help support</li>
+<li><strong>Quality:</strong> Production-ready with tests</li>
+</ul>
+<h3 id="phase-p5b-desktop-app-paused">Phase P5B: Desktop App ⏸️ PAUSED<a class="headerlink" href="#phase-p5b-desktop-app-paused" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Original estimate:</strong> 2-3 hours</li>
+<li><strong>Actual time:</strong> 1.5 hours (code written)</li>
+<li><strong>Blocker:</strong> Electron installation issue</li>
+<li><strong>Decision:</strong> Focus on CLI, revisit later</li>
+</ul>
+<h3 id="phase-p5c-cli-integration-100-complete">Phase P5C: CLI Integration ✅ 100% COMPLETE<a class="headerlink" href="#phase-p5c-cli-integration-100-complete" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Original estimate:</strong> Not estimated</li>
+<li><strong>Actual time:</strong> Part of day (vendored project detection)</li>
+<li><strong>Scope:</strong> CLI can now detect projects via vendored ZSH</li>
+<li><strong>Quality:</strong> Tested and documented</li>
+</ul>
+<h3 id="new-phase-architecture-documentation-complete">New Phase: Architecture Documentation ✅ COMPLETE<a class="headerlink" href="#new-phase-architecture-documentation-complete" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Not originally planned</strong></li>
+<li><strong>Scope:</strong> 21 comprehensive documents (16,675 lines)</li>
+<li><strong>Value:</strong> Strategic clarity, decision records, patterns catalog</li>
+</ul>
+<hr />
+<h2 id="strategic-insights">Strategic Insights<a class="headerlink" href="#strategic-insights" title="Permanent link">&para;</a></h2>
+<h3 id="what-went-right">What Went Right ✅<a class="headerlink" href="#what-went-right" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Hyperfocus Productivity</strong></li>
+<li>47 commits in one day</li>
+<li>Consistent quality across all commits</li>
+<li>
+<p>Clear progression from small to large tasks</p>
+</li>
+<li>
+<p><strong>Documentation-Driven Development</strong></p>
+</li>
+<li>Every feature thoroughly documented</li>
+<li>Architectural decisions recorded</li>
+<li>
+<p>Future-proofing through design docs</p>
+</li>
+<li>
+<p><strong>ADHD-Optimized Workflow</strong></p>
+</li>
+<li>Small, atomic commits (dopamine hits)</li>
+<li>Visual progress (help support per function)</li>
+<li>
+<p>Clear completion criteria</p>
+</li>
+<li>
+<p><strong>Strategic Pivots</strong></p>
+</li>
+<li>Recognized Electron blocker</li>
+<li>Archived code (preserved work)</li>
+<li>Focused on high-value CLI work</li>
+</ol>
+<h3 id="what-to-improve">What to Improve 🎯<a class="headerlink" href="#what-to-improve" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Commit Message Consistency</strong></li>
+<li>Mix of conventional commits and free-form</li>
+<li>
+<p>Could standardize further (already good)</p>
+</li>
+<li>
+<p><strong>Test Coverage</strong></p>
+</li>
+<li>Help standards tested ✅</li>
+<li>Project detector tested ✅</li>
+<li>
+<p>Could add more ZSH function tests</p>
+</li>
+<li>
+<p><strong>Documentation Organization</strong></p>
+</li>
+<li>Many docs in root directory</li>
+<li>Could move more to <code>docs/</code> subdirectories</li>
+<li>(Note: Some already moved via planning docs migration)</li>
+</ol>
+<hr />
+<h2 id="next-steps-based-on-sprint">Next Steps Based on Sprint<a class="headerlink" href="#next-steps-based-on-sprint" title="Permanent link">&para;</a></h2>
+<h3 id="immediate-this-week">Immediate (This Week)<a class="headerlink" href="#immediate-this-week" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Clean Up Test Files</strong> ✅ COMPLETE (just done!)</li>
+<li>Moved test scripts to <code>tests/</code></li>
+<li>Archived REFOCUS document</li>
+<li>
+<p>Clean git status</p>
+</li>
+<li>
+<p><strong>Update Documentation Site</strong> 🟡 HIGH PRIORITY</p>
+</li>
+<li>Add 21 new documents to MkDocs navigation</li>
+<li>Update home page with Phase P4 completion</li>
+<li>
+<p>Rebuild and deploy site</p>
+</li>
+<li>
+<p><strong>Commit Sprint Work</strong> 🟡 HIGH PRIORITY</p>
+</li>
+<li>Commit the cleanup changes</li>
+<li>Push to remote</li>
+<li>Celebrate! 🎉</li>
+</ol>
+<h3 id="short-term-next-1-2-weeks">Short-term (Next 1-2 Weeks)<a class="headerlink" href="#short-term-next-1-2-weeks" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Fix Broken Links</strong> 🟢 MEDIUM PRIORITY</li>
+<li>Cross-check all documentation references</li>
+<li>Update moved file links</li>
+<li>
+<p>Validate site builds without warnings</p>
+</li>
+<li>
+<p><strong>Tutorial Updates</strong> 🟡 HIGH PRIORITY (ADHD users waiting)</p>
+</li>
+<li>Rewrite WORKFLOW-TUTORIAL.md (remove old alias references)</li>
+<li>Update WORKFLOWS-QUICK-WINS.md (28 alias system)</li>
+<li>
+<p>Validate all examples work</p>
+</li>
+<li>
+<p><strong>Help System Phase 2</strong> 🟢 MEDIUM PRIORITY</p>
+</li>
+<li>Add <code>--help</code> to remaining functions</li>
+<li>Create unified help system (<code>ah</code> command)</li>
+<li>Add tab completion</li>
+</ol>
+<h3 id="long-term-next-1-3-months">Long-term (Next 1-3 Months)<a class="headerlink" href="#long-term-next-1-3-months" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Desktop App Resumption</strong> 🔵 LOW PRIORITY</li>
+<li>Try manual Electron download</li>
+<li>OR evaluate Tauri alternative</li>
+<li>
+<p>OR build web-based dashboard</p>
+</li>
+<li>
+<p><strong>Performance Optimization</strong> 🟢 MEDIUM PRIORITY</p>
+</li>
+<li>Implement project scan caching</li>
+<li>Split adhd-helpers.zsh into modules</li>
+<li>
+<p>Add lazy loading</p>
+</li>
+<li>
+<p><strong>Documentation Automation</strong> 🔵 LOW PRIORITY</p>
+</li>
+<li>CI checks for broken links</li>
+<li>Automated tutorial validation</li>
+<li>Version tagging</li>
+</ol>
+<hr />
+<h2 id="celebration">Celebration! 🎉<a class="headerlink" href="#celebration" title="Permanent link">&para;</a></h2>
+<h3 id="numbers-that-matter">Numbers That Matter<a class="headerlink" href="#numbers-that-matter" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>25,037 lines added</strong> (vs 575 removed)</li>
+<li><strong>47 commits</strong> (all high quality)</li>
+<li><strong>163 files</strong> modified</li>
+<li><strong>21 new documents</strong> (16,675 lines)</li>
+<li><strong>20+ functions</strong> with help support</li>
+<li><strong>100% phase completion</strong> (P4)</li>
+</ul>
+<h3 id="what-this-means">What This Means<a class="headerlink" href="#what-this-means" title="Permanent link">&para;</a></h3>
+<p>You accomplished <strong>2-3 weeks of estimated work in one day</strong> through:</p>
+<ul>
+<li>Hyperfocus productivity</li>
+<li>ADHD-optimized workflow</li>
+<li>Clear scope and goals</li>
+<li>Atomic, dopamine-friendly commits</li>
+</ul>
+<h3 id="dopamine-wins">Dopamine Wins 🏆<a class="headerlink" href="#dopamine-wins" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Help system overhaul COMPLETE</li>
+<li>✅ Architecture documented for 10+ years</li>
+<li>✅ CLI fully functional with project detection</li>
+<li>✅ Monorepo optimized and tested</li>
+<li>✅ Website enhanced with ADHD-friendly design</li>
+<li>✅ All code archived (nothing lost)</li>
+<li>✅ Strategic clarity achieved</li>
+</ul>
+<hr />
+<h2 id="updated-project-status">Updated Project Status<a class="headerlink" href="#updated-project-status" title="Permanent link">&para;</a></h2>
+<h3 id="completed-phases">Completed Phases<a class="headerlink" href="#completed-phases" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[x] <strong>P0:</strong> Critical Fixes ✅ 100%</li>
+<li>[x] <strong>P1:</strong> ADHD Helpers ✅ 100%</li>
+<li>[x] <strong>P2:</strong> Advanced Features ✅ 100%</li>
+<li>[x] <strong>P3:</strong> Cross-Project Integration ✅ 100%</li>
+<li>[x] <strong>P4:</strong> Help System Phase 1 ✅ 100% 🆕 <strong>JUST COMPLETED</strong></li>
+<li>[x] <strong>P5A:</strong> Project Reorganization ✅ 100%</li>
+<li>[x] <strong>P5C:</strong> CLI Integration ✅ 100% 🆕 <strong>JUST COMPLETED</strong></li>
+</ul>
+<h3 id="in-progress">In Progress<a class="headerlink" href="#in-progress" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] <strong>P5:</strong> Documentation &amp; Website 70% → <strong>80%</strong> (updated)</li>
+<li>[x] MkDocs Site Setup ✅ 100%</li>
+<li>[x] Home Page &amp; Quick Start ✅ 100%</li>
+<li>[x] Design Standards ✅ 100%</li>
+<li>[x] Tutorial Audit ✅ 100%</li>
+<li>[x] Website Modernization ✅ 100% 🆕 <strong>JUST COMPLETED</strong></li>
+<li>[ ] Tutorial Rewrites 0% → <strong>Blocked on priority</strong></li>
+<li>[ ] Documentation Site Update 0% → <strong>20%</strong> (21 docs ready)</li>
+</ul>
+<h3 id="paused">Paused<a class="headerlink" href="#paused" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] <strong>P5B:</strong> Desktop App UI Components <strong>50% → PAUSED</strong> ⏸️</li>
+<li>Code written (753 lines)</li>
+<li>Blocked on Electron installation</li>
+<li>Can resume later</li>
+</ul>
+<h3 id="not-started">Not Started<a class="headerlink" href="#not-started" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] <strong>P5D:</strong> Alpha Release 0%</li>
+<li>[ ] <strong>P6:</strong> CLI Enhancements 0%</li>
+</ul>
+<hr />
+<h2 id="recommendations-for-tomorrow">Recommendations for Tomorrow<a class="headerlink" href="#recommendations-for-tomorrow" title="Permanent link">&para;</a></h2>
+<h3 id="priority-order">Priority Order<a class="headerlink" href="#priority-order" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>🔴 Commit &amp; Push</strong> (5 min)</li>
+<li>Commit cleanup changes</li>
+<li>Push all work to remote</li>
+<li>
+<p>Ensure nothing is lost</p>
+</li>
+<li>
+<p><strong>🟡 Update Documentation Site</strong> (30 min)</p>
+</li>
+<li>Add new docs to <code>mkdocs.yml</code></li>
+<li>Update progress indicators</li>
+<li>
+<p>Deploy to GitHub Pages</p>
+</li>
+<li>
+<p><strong>🟢 Review &amp; Celebrate</strong> (15 min)</p>
+</li>
+<li>Read this sprint review</li>
+<li>Update PROJECT-HUB.md</li>
+<li>Update .STATUS file</li>
+<li>
+<p>Take a well-deserved break!</p>
+</li>
+<li>
+<p><strong>🟢 Tutorial Updates</strong> (2-3 hours when ready)</p>
+</li>
+<li>WORKFLOW-TUTORIAL.md rewrite</li>
+<li>WORKFLOWS-QUICK-WINS.md update</li>
+<li>Validate examples</li>
+</ol>
+<hr />
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>This was an <strong>exceptional sprint</strong>:</p>
+<ul>
+<li>Massive productivity (47 commits)</li>
+<li>Strategic clarity (16,675 lines of docs)</li>
+<li>Production-ready code (tested and documented)</li>
+<li>ADHD-optimized workflow (atomic commits, clear progress)</li>
+</ul>
+<p><strong>The help system overhaul alone</strong> would be considered a major release. Combined with architecture documentation, vendored project detection, and website enhancements, this represents <strong>a transformational day</strong> for the project.</p>
+<p><strong>Key Takeaway:</strong> When ADHD hyperfocus meets clear goals and atomic workflows, extraordinary things happen. 🚀</p>
+<hr />
+<p><strong>Generated:</strong> 2025-12-21
+<strong>Author:</strong> Sprint Review Analysis
+<strong>Next Review:</strong> After tutorial updates complete</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/data-wise/flow-cli" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

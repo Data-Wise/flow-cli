@@ -1,0 +1,5187 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Minimalist ZSH workflow tools with smart dispatchers">
+      
+      
+        <meta name="author" content="DT">
+      
+      
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/archive/2025-12-BRAINSTORM-UNIFIED-MCP-SEARCH/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Brainstorm: Unified MCP Search (Servers + Plugins) - Flow CLI Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/adhd-colors.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#brainstorm-unified-mcp-search-servers-plugins" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow CLI Documentation" class="md-header__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow CLI Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Brainstorm: Unified MCP Search (Servers + Plugins)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/data-wise/flow-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flow-cli
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/quick-start/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/01-first-session/" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/WORKFLOWS-QUICK-WINS/" class="md-tabs__link">
+          
+  
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/ALIAS-REFERENCE-CARD/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../commands/status/" class="md-tabs__link">
+          
+  
+  
+  Commands
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/API-OVERVIEW/" class="md-tabs__link">
+          
+  
+  
+  API Documentation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../testing/TESTING/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../decisions/" class="md-tabs__link">
+          
+  
+  
+  Decisions (ADRs)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../standards/" class="md-tabs__link">
+          
+  
+  
+  Standards
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../active/MULTIPLE-PROJECTS-SUMMARY/" class="md-tabs__link">
+          
+  
+  
+  Active Work
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL/" class="md-tabs__link">
+          
+  
+  
+  Planning
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow CLI Documentation" class="md-nav__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Flow CLI Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/data-wise/flow-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flow-cli
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/01-first-session/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Your First Session
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/02-multiple-projects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Multiple Projects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03-status-visualizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Status Visualizations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04-web-dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Web Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/WORKFLOWS-QUICK-WINS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows & Tips
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/WORKFLOW-TUTORIAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/ENHANCED-HELP-QUICK-START/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enhanced Help Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/MIGRATION-v1-to-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration v1 to v2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HOP Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ALIAS-REFERENCE-CARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Reference Card
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PICK-COMMAND-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/DASHBOARD-QUICK-REF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PROJECT-DETECTION-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Detection Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Audit Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADHD Helpers Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/CLI-COMMAND-PATTERNS-RESEARCH/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/COMMAND-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/EXISTING-SYSTEM-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Existing System Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ZSH-CLEAN-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ZSH Clean Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/dash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dash
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ARCHITECTURE-DIAGRAM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagrams
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ARCHITECTURE-QUICK-WINS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Wins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ARCHITECTURE-PATTERNS-ANALYSIS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patterns Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/API-DESIGN-REVIEW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Design Review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/CODE-EXAMPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/VENDOR-INTEGRATION-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/API-OVERVIEW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/INTERACTIVE-EXAMPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interactive Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/PROJECT-DETECTOR-API/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Detector API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/TESTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONVENTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PHILOSOPHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Philosophy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decisions (ADRs)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Decisions (ADRs)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-001-vendored-code-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-001 Vendored Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-002-clean-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-002 Clean Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-003-bridge-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-003 Bridge Pattern
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Standards
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Active Work
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Active Work
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/MULTIPLE-PROJECTS-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple Projects Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/PHASE-P5D-ALPHA-RELEASE-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase P5D Alpha Release
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_3" id="__nav_12_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Help System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Help System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/PHASE1-IMPLEMENTATION-REPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 1 Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/HELP-OVERHAUL-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overhaul Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/HELP-PHASE2-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 2 Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/help-system/HELP-PHASE3-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 3 Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_4" id="__nav_12_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Refactoring
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Alias Refactoring
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/alias-refactoring/ALIAS-REFACTOR-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Refactor Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/alias-refactoring/ALIAS-REFACTOR-3-PLANS-2025-12-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Plans Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_5" id="__nav_12_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Redesign
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workflow Redesign
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/workflow-redesign/WORKFLOW-IMPLEMENTATION-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/workflow-redesign/WORKFLOW-ANALYSIS-2025-12-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_6" id="__nav_12_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Status Command
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Status Command
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/status-command/STATUS-COMMAND-PROBLEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problem Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../active/status-command/STATUS-COMMAND-ALTERNATIVES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alternatives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1" id="__nav_13_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proposals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Proposals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Universal Project Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/TEACHING-RESEARCH-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching & Research Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/PICK-COMMAND-NEXT-PHASE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Command Next Phase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/proposals/MEDIATIONVERSE-WORKFLOW-PROPOSAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mediationverse Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-vision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 The Vision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discovery-what-we-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 Discovery: What We Have
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Discovery: What We Have">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude-code-has-three-extension-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code Has THREE Extension Systems!
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude Code Has THREE Extension Systems!">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-mcp-servers-external-processes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. MCP Servers (External processes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-claude-code-plugins-bundled-agentsskills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Claude Code Plugins (Bundled agents/skills)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-user-plugins-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. User Plugins (Local)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-insight-theyre-all-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Insight: They're All "Extensions"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unified-search-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 UNIFIED SEARCH ARCHITECTURE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 UNIFIED SEARCH ARCHITECTURE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concept-multi-source-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept: Multi-Source Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Sources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#source-1-mcp-registry-remote" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source 1: MCP Registry (Remote)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#source-2-plugin-marketplaces-local-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source 2: Plugin Marketplaces (Local Cache)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ui-design-categorized-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎨 UI DESIGN: Categorized Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎨 UI DESIGN: Categorized Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-list-format-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: List Format (Simple) ⭐⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-table-format-organized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Table Format (Organized) ⭐⭐⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-c-interactive-fzf-visual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C: Interactive FZF (Visual) ⭐⭐⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 IMPLEMENTATION OPTIONS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 IMPLEMENTATION OPTIONS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-smart-mcp-dispatcher-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Smart mcp Dispatcher (Recommended) ⭐⭐⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-separate-commands-unified-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Separate Commands, Unified Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-new-top-level-extend-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3: New Top-Level extend Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#categorization-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 CATEGORIZATION STRATEGY
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 CATEGORIZATION STRATEGY">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visual-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Indicators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grouping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sorting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sorting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 IMPLEMENTATION PLAN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 IMPLEMENTATION PLAN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-unified-search-week-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Unified Search (Week 1) ⭐⭐⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-unified-browse-week-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Unified Browse (Week 1-2) ⭐⭐⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-smart-install-week-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Smart Install (Week 2) ⭐⭐⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-management-commands-week-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Management Commands (Week 3) ⭐⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples-real-world-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💎 EXAMPLES: Real World Usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💎 EXAMPLES: Real World Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-discover-github-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Discover GitHub Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-browse-all-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Browse All Available
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-list-all-installed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: List All Installed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-quick-add-by-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Quick Add by Name
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-features-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✨ ADVANCED FEATURES (V2+)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✨ ADVANCED FEATURES (V2+)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#smart-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smart Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#natural-language-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Natural Language Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update All
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommended-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 RECOMMENDED APPROACH
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 RECOMMENDED APPROACH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-option-1-smart-mcp-dispatcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Option 1: Smart MCP Dispatcher ⭐⭐⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 TESTING STRATEGY
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 TESTING STRATEGY">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unit-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📈 SUCCESS METRICS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📈 SUCCESS METRICS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mvp-week-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MVP (Week 2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v2-week-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V2 (Week 4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-term" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long-term
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-possibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔮 FUTURE POSSIBILITIES
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔮 FUTURE POSSIBILITIES">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plugin-mcp-server-bundles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugin + MCP Server Bundles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conflict-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conflict Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💬 OPEN QUESTIONS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎬 IMPLEMENTATION SEQUENCE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎬 IMPLEMENTATION SEQUENCE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#day-1-unified-search-core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Day 1: Unified Search Core
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#day-2-fzf-browse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Day 2: FZF Browse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#day-3-smart-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Day 3: Smart Install
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#day-4-unified-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Day 4: Unified List
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#day-5-polish-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Day 5: Polish &amp; Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/archive/2025-12-BRAINSTORM-UNIFIED-MCP-SEARCH.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="brainstorm-unified-mcp-search-servers-plugins">Brainstorm: Unified MCP Search (Servers + Plugins)<a class="headerlink" href="#brainstorm-unified-mcp-search-servers-plugins" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2025-12-19
+<strong>Context:</strong> ONE search command that finds BOTH MCP servers AND Claude Code plugins
+<strong>Key Insight:</strong> Users don't care about the distinction - they just want to add functionality!</p>
+<hr />
+<h2 id="the-vision">🎯 The Vision<a class="headerlink" href="#the-vision" title="Permanent link">&para;</a></h2>
+<p><strong>Current Problem:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Two different commands, two different mental models</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>&lt;server&gt;<span class="w">       </span><span class="c1"># For MCP servers</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>claude<span class="w"> </span>plugin<span class="w"> </span>install<span class="w"> </span>&lt;name&gt;<span class="w">  </span><span class="c1"># For Claude Code plugins</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># User has to know:</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># - Is it a server or plugin?</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># - Where is it hosted?</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># - What registry/marketplace?</span>
+</code></pre></div>
+<p><strong>Proposed Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># ONE command that searches EVERYTHING</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>mcp<span class="w"> </span>search<span class="w"> </span>github
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Results (categorized automatically):</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>╭─────────────────────────────────────────────╮
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>│<span class="w"> </span>Search<span class="w"> </span>Results<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="w">                </span>│
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>╰─────────────────────────────────────────────╯
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>📦<span class="w"> </span>MCP<span class="w"> </span>SERVERS<span class="w"> </span><span class="o">(</span><span class="m">2</span><span class="w"> </span>found<span class="o">)</span>:
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>mcp-github<span class="w"> </span><span class="o">(</span>Official<span class="w"> </span>⭐<span class="o">)</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">      </span>GitHub<span class="w"> </span>API<span class="w"> </span>integration<span class="w"> </span>via<span class="w"> </span>MCP
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">      </span>npm<span class="w"> </span><span class="p">|</span><span class="w"> </span>Requires:<span class="w"> </span>GITHUB_TOKEN
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="o">[</span><span class="m">2</span><span class="o">]</span><span class="w"> </span>github-mcp-server<span class="w"> </span><span class="o">(</span>Community<span class="o">)</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span>GitHub<span class="w"> </span>operations<span class="w"> </span><span class="k">for</span><span class="w"> </span>AI<span class="w"> </span>agents
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">      </span>docker<span class="w"> </span><span class="p">|</span><span class="w"> </span>No<span class="w"> </span>secrets<span class="w"> </span>required
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>🔌<span class="w"> </span>CLAUDE<span class="w"> </span>CODE<span class="w"> </span>PLUGINS<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>found<span class="o">)</span>:
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="o">[</span><span class="m">3</span><span class="o">]</span><span class="w"> </span>github<span class="w"> </span><span class="o">(</span>Official<span class="w"> </span>⭐<span class="o">)</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">      </span>GitHub<span class="w"> </span>workflow<span class="w"> </span>tools<span class="w"> </span><span class="k">for</span><span class="w"> </span>Claude<span class="w"> </span>Code
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">      </span>Skills:<span class="w"> </span><span class="m">5</span><span class="w"> </span>commands<span class="w"> </span><span class="p">|</span><span class="w"> </span>Agents:<span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>Select<span class="w"> </span><span class="o">(</span><span class="m">1</span>-3,<span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="w"> </span>to<span class="w"> </span>browse<span class="w"> </span>all,<span class="w"> </span><span class="s1">&#39;c&#39;</span><span class="w"> </span>to<span class="w"> </span>cancel<span class="o">)</span>:<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>Installing<span class="w"> </span>mcp-github...
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>✓<span class="w"> </span>Done!<span class="w"> </span>Use<span class="w"> </span>with<span class="w"> </span>Claude<span class="w"> </span>Code<span class="w"> </span>now.
+</code></pre></div>
+<p><strong>User Experience:</strong></p>
+<ul>
+<li>✅ Don't need to know if it's a server or plugin</li>
+<li>✅ Don't need to know which marketplace/registry</li>
+<li>✅ One search, categorized results</li>
+<li>✅ Smart install (handles servers vs plugins automatically)</li>
+</ul>
+<hr />
+<h2 id="discovery-what-we-have">🔍 Discovery: What We Have<a class="headerlink" href="#discovery-what-we-have" title="Permanent link">&para;</a></h2>
+<h3 id="claude-code-has-three-extension-systems">Claude Code Has THREE Extension Systems!<a class="headerlink" href="#claude-code-has-three-extension-systems" title="Permanent link">&para;</a></h3>
+<h4 id="1-mcp-servers-external-processes">1. MCP Servers (External processes)<a class="headerlink" href="#1-mcp-servers-external-processes" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Command:</strong> <code>claude mcp add/remove/list</code></li>
+<li><strong>Registry:</strong> https://registry.modelcontextprotocol.io</li>
+<li><strong>Count:</strong> ~200+ servers</li>
+<li><strong>Examples:</strong> filesystem, github, postgres, docling</li>
+<li><strong>Type:</strong> Stdio/SSE/HTTP processes</li>
+<li><strong>Config:</strong> <code>~/.claude/settings.json</code></li>
+</ul>
+<h4 id="2-claude-code-plugins-bundled-agentsskills">2. Claude Code Plugins (Bundled agents/skills)<a class="headerlink" href="#2-claude-code-plugins-bundled-agentsskills" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Command:</strong> <code>claude plugin install/uninstall/enable/disable</code></li>
+<li><strong>Marketplaces:</strong></li>
+<li><code>claude-plugins-official</code> (Anthropic)</li>
+<li><code>claude-code-plugins</code> (Anthropic)</li>
+<li><code>cc-marketplace</code> (Community)</li>
+<li><code>every-marketplace</code> (Every Inc)</li>
+<li><code>matsengrp-marketplace</code> (Community)</li>
+<li><strong>Count:</strong> ~50+ plugins</li>
+<li><strong>Examples:</strong> pr-review-toolkit, commit-commands, feature-dev</li>
+<li><strong>Type:</strong> Markdown files with agents/skills/commands</li>
+<li><strong>Cache:</strong> <code>~/.claude/plugins/cache/</code></li>
+</ul>
+<h4 id="3-user-plugins-local">3. User Plugins (Local)<a class="headerlink" href="#3-user-plugins-local" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Command:</strong> <code>--plugin-dir &lt;path&gt;</code></li>
+<li><strong>Location:</strong> Any directory</li>
+<li><strong>Type:</strong> Custom plugins you write</li>
+<li><strong>Not relevant for search</strong> (local only)</li>
+</ul>
+<h3 id="key-insight-theyre-all-extensions">Key Insight: They're All "Extensions"<a class="headerlink" href="#key-insight-theyre-all-extensions" title="Permanent link">&para;</a></h3>
+<p>From a user perspective, they all:</p>
+<ul>
+<li>✅ Add functionality to Claude Code</li>
+<li>✅ Can be installed/removed</li>
+<li>✅ Have names and descriptions</li>
+<li>✅ May require configuration</li>
+</ul>
+<p><strong>Users shouldn't care about the implementation!</strong></p>
+<hr />
+<h2 id="unified-search-architecture">💡 UNIFIED SEARCH ARCHITECTURE<a class="headerlink" href="#unified-search-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="concept-multi-source-search">Concept: Multi-Source Search<a class="headerlink" href="#concept-multi-source-search" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mcp<span class="w"> </span>search<span class="w"> </span>&lt;term&gt;<span class="w">             </span><span class="c1"># Searches ALL sources</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>mcp<span class="w"> </span>browse<span class="w">                    </span><span class="c1"># Browse ALL sources</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Behind the scenes:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># 1. Search MCP Registry (API)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># 2. Search plugin marketplaces (local cache)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># 3. Merge and categorize results</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># 4. Present unified list</span>
+</code></pre></div>
+<h3 id="data-sources">Data Sources<a class="headerlink" href="#data-sources" title="Permanent link">&para;</a></h3>
+<h4 id="source-1-mcp-registry-remote">Source 1: MCP Registry (Remote)<a class="headerlink" href="#source-1-mcp-registry-remote" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># API call:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>curl<span class="w"> </span><span class="s2">&quot;https://registry.modelcontextprotocol.io/v0.1/servers?search=github&amp;version=latest&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Returns:</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="o">{</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="s2">&quot;servers&quot;</span>:<span class="w"> </span><span class="o">[{</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="s2">&quot;server&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">      </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;mcp-github&quot;</span>,
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="s2">&quot;description&quot;</span>:<span class="w"> </span><span class="s2">&quot;GitHub integration&quot;</span>,
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="s2">&quot;packages&quot;</span>:<span class="w"> </span><span class="o">[</span>...<span class="o">]</span>,
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">      </span><span class="s2">&quot;repository&quot;</span>:<span class="w"> </span><span class="o">{</span>...<span class="o">}</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="o">}</span>,
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="s2">&quot;_meta&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">      </span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;active&quot;</span>,
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">      </span><span class="s2">&quot;isLatest&quot;</span>:<span class="w"> </span><span class="nb">true</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="o">}</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">  </span><span class="o">}]</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="o">}</span>
+</code></pre></div>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Always up-to-date</li>
+<li>Large selection (~200+)</li>
+<li>Official registry</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Requires internet</li>
+<li>Rate limited (100 req/min)</li>
+</ul>
+<h4 id="source-2-plugin-marketplaces-local-cache">Source 2: Plugin Marketplaces (Local Cache)<a class="headerlink" href="#source-2-plugin-marketplaces-local-cache" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Local cache:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>~/.claude/plugins/cache/
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>├──<span class="w"> </span>claude-plugins-official/
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>│<span class="w">   </span>├──<span class="w"> </span>pr-review-toolkit/
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>plugin.json
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>│<span class="w">   </span>├──<span class="w"> </span>commit-commands/
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>plugin.json
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>│<span class="w">   </span>└──<span class="w"> </span>...
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>├──<span class="w"> </span>cc-marketplace/
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>└──<span class="w"> </span>every-marketplace/
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1"># Each plugin.json:</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="o">{</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">  </span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;pr-review-toolkit&quot;</span>,
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">  </span><span class="s2">&quot;description&quot;</span>:<span class="w"> </span><span class="s2">&quot;Comprehensive PR review agents&quot;</span>,
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">  </span><span class="s2">&quot;author&quot;</span>:<span class="w"> </span><span class="o">{</span>...<span class="o">}</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="o">}</span>
+</code></pre></div>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Fast (local search)</li>
+<li>Works offline</li>
+<li>Multiple marketplaces</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Needs periodic update</li>
+<li>Smaller selection (~50)</li>
+</ul>
+<h3 id="search-algorithm">Search Algorithm<a class="headerlink" href="#search-algorithm" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>_unified_search<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">term</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">results</span><span class="o">=()</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="c1"># 1. Search MCP Registry</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">mcp_results</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;https://registry.modelcontextprotocol.io/v0.1/servers?search=</span><span class="nv">$term</span><span class="s2">&amp;version=latest&quot;</span><span class="k">)</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="c1"># 2. Search plugin cache (all marketplaces)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">plugin_results</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-ri<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$term</span><span class="s2">&quot;</span><span class="w"> </span>~/.claude/plugins/cache/*/*/plugin.json<span class="k">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="c1"># 3. Parse and categorize</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">mcp_servers</span><span class="o">=()</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">plugins</span><span class="o">=()</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="c1"># Parse MCP results</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mcp_results</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.servers[] | {</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="s1">        type: &quot;mcp&quot;,</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="s1">        name: .server.name,</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="s1">        desc: .server.description,</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="s1">        official: (._meta.&quot;io.modelcontextprotocol.registry/official&quot;.status == &quot;active&quot;)</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="s1">    }&#39;</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">    </span><span class="c1"># Parse plugin results</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">    </span><span class="c1"># ... similar parsing</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">    </span><span class="c1"># 4. Display categorized results</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">    </span>_display_categorized_results<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mcp_servers</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$plugins</span><span class="s2">&quot;</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="o">}</span>
+</code></pre></div>
+<hr />
+<h2 id="ui-design-categorized-results">🎨 UI DESIGN: Categorized Results<a class="headerlink" href="#ui-design-categorized-results" title="Permanent link">&para;</a></h2>
+<h3 id="option-a-list-format-simple">Option A: List Format (Simple) ⭐⭐<a class="headerlink" href="#option-a-list-format-simple" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>search<span class="w"> </span>github
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>╭─────────────────────────────────────────────╮
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>│<span class="w"> </span>Search<span class="w"> </span>Results<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="w">                </span>│
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>╰─────────────────────────────────────────────╯
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>📦<span class="w"> </span>MCP<span class="w"> </span>SERVERS<span class="w"> </span><span class="o">(</span><span class="m">2</span><span class="o">)</span>:
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>mcp-github<span class="w"> </span><span class="o">(</span>Official<span class="w"> </span>⭐<span class="o">)</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">      </span>GitHub<span class="w"> </span>API<span class="w"> </span>integration
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">  </span><span class="o">[</span><span class="m">2</span><span class="o">]</span><span class="w"> </span>github-mcp-server
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">      </span>GitHub<span class="w"> </span>operations
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>🔌<span class="w"> </span>PLUGINS<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="o">)</span>:
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">  </span><span class="o">[</span><span class="m">3</span><span class="o">]</span><span class="w"> </span>github<span class="w"> </span><span class="o">(</span>Official<span class="w"> </span>⭐<span class="o">)</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">      </span>GitHub<span class="w"> </span>workflow<span class="w"> </span>tools
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>Select<span class="w"> </span><span class="o">(</span><span class="m">1</span>-3,<span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>browse,<span class="w"> </span><span class="s1">&#39;c&#39;</span><span class="w"> </span>to<span class="w"> </span>cancel<span class="o">)</span>:<span class="w"> </span>_
+</code></pre></div>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Clear categories</li>
+<li>Easy to scan</li>
+<li>Simple to implement</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Limited info shown</li>
+<li>No visual separation</li>
+</ul>
+<hr />
+<h3 id="option-b-table-format-organized">Option B: Table Format (Organized) ⭐⭐⭐<a class="headerlink" href="#option-b-table-format-organized" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>search<span class="w"> </span>github
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>╭─────────────────────────────────────────────────────────────────────╮
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>│<span class="w"> </span>Search<span class="w"> </span>Results:<span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="w"> </span><span class="o">(</span><span class="m">3</span><span class="w"> </span>found<span class="o">)</span><span class="w">                                  </span>│
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>├─────────────────────────────────────────────────────────────────────┤
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>│<span class="w">                                                                      </span>│
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>│<span class="w"> </span>📦<span class="w"> </span>MCP<span class="w"> </span>SERVERS<span class="w">                                                      </span>│
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>│<span class="w"> </span>───────────────────────────────────────────────────────────────────<span class="w"> </span>│
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>│<span class="w"> </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>mcp-github<span class="w">              </span>⭐<span class="w"> </span>Official<span class="w"> </span><span class="p">|</span><span class="w"> </span>📦<span class="w"> </span>npm<span class="w"> </span><span class="p">|</span><span class="w"> </span>🔒<span class="w"> </span>Token<span class="w">        </span>│
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>│<span class="w">     </span>GitHub<span class="w"> </span>API<span class="w"> </span>integration<span class="w"> </span><span class="k">for</span><span class="w"> </span>MCP<span class="w">                                  </span>│
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>│<span class="w">                                                                      </span>│
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>│<span class="w"> </span><span class="o">[</span><span class="m">2</span><span class="o">]</span><span class="w"> </span>github-mcp-server<span class="w">       </span>Community<span class="w"> </span><span class="p">|</span><span class="w"> </span>🐳<span class="w"> </span>docker<span class="w">                  </span>│
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>│<span class="w">     </span>GitHub<span class="w"> </span>operations<span class="w"> </span><span class="k">for</span><span class="w"> </span>AI<span class="w"> </span>agents<span class="w">                                 </span>│
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>│<span class="w">                                                                      </span>│
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>│<span class="w"> </span>🔌<span class="w"> </span>CLAUDE<span class="w"> </span>CODE<span class="w"> </span>PLUGINS<span class="w">                                              </span>│
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>│<span class="w"> </span>───────────────────────────────────────────────────────────────────<span class="w"> </span>│
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>│<span class="w"> </span><span class="o">[</span><span class="m">3</span><span class="o">]</span><span class="w"> </span>github<span class="w">                  </span>⭐<span class="w"> </span>Official<span class="w"> </span><span class="p">|</span><span class="w"> </span>💻<span class="w"> </span>Skills:<span class="w"> </span><span class="m">5</span><span class="w">             </span>│
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>│<span class="w">     </span>GitHub<span class="w"> </span>workflow<span class="w"> </span>tools<span class="w"> </span><span class="p">&amp;</span><span class="w"> </span>automation<span class="w">                              </span>│
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>│<span class="w">                                                                      </span>│
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>╰─────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>Select<span class="w"> </span>number<span class="w"> </span><span class="o">(</span><span class="m">1</span>-3<span class="o">)</span>,<span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="w"> </span>to<span class="w"> </span>browse<span class="w"> </span>all,<span class="w"> </span><span class="s1">&#39;c&#39;</span><span class="w"> </span>to<span class="w"> </span>cancel:<span class="w"> </span>_
+</code></pre></div>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Rich information</li>
+<li>Visual hierarchy</li>
+<li>Professional look</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Wider terminal needed</li>
+<li>More complex formatting</li>
+</ul>
+<hr />
+<h3 id="option-c-interactive-fzf-visual">Option C: Interactive FZF (Visual) ⭐⭐⭐<a class="headerlink" href="#option-c-interactive-fzf-visual" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>browse
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># FZF interface:</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>&gt;<span class="w"> </span>github
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>📦<span class="w"> </span>mcp-github<span class="w"> </span><span class="o">(</span>Official<span class="w"> </span>⭐<span class="o">)</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>📦<span class="w"> </span>github-mcp-server
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>🔌<span class="w"> </span>github<span class="w"> </span><span class="o">(</span>Official<span class="w"> </span>⭐<span class="o">)</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>🔌<span class="w"> </span>github-actions
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>🔌<span class="w"> </span>gh-cli-helper
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="c1"># Preview pane (right side):</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>╭─────────────────────────────────╮
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>│<span class="w"> </span>📦<span class="w"> </span>mcp-github<span class="w">                   </span>│
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>├─────────────────────────────────┤
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>│<span class="w"> </span>Type:<span class="w"> </span>MCP<span class="w"> </span>Server<span class="w">                </span>│
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>│<span class="w"> </span>Source:<span class="w"> </span>Official<span class="w"> </span>Registry<span class="w">       </span>│
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>│<span class="w"> </span>Status:<span class="w"> </span>⭐<span class="w"> </span>Official<span class="w"> </span>Anthropic<span class="w">   </span>│
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>│<span class="w">                                 </span>│
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>│<span class="w"> </span>Description:<span class="w">                    </span>│
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>│<span class="w"> </span>GitHub<span class="w"> </span>API<span class="w"> </span>integration<span class="w"> </span>via<span class="w"> </span>MCP<span class="w">  </span>│
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>│<span class="w"> </span>protocol<span class="w"> </span><span class="k">for</span><span class="w"> </span>AI<span class="w"> </span>agents<span class="w">          </span>│
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>│<span class="w">                                 </span>│
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>│<span class="w"> </span>Installation:<span class="w">                   </span>│
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>│<span class="w"> </span>📦<span class="w"> </span>npm<span class="w"> </span><span class="o">(</span>npx<span class="o">)</span><span class="w">                    </span>│
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>│<span class="w"> </span>🔒<span class="w"> </span>Requires:<span class="w"> </span>GITHUB_TOKEN<span class="w">       </span>│
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>│<span class="w">                                 </span>│
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>│<span class="w"> </span>Features:<span class="w">                       </span>│
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>│<span class="w"> </span>-<span class="w"> </span>Repository<span class="w"> </span>management<span class="w">         </span>│
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>│<span class="w"> </span>-<span class="w"> </span>Issue<span class="w"> </span>tracking<span class="w">                </span>│
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>│<span class="w"> </span>-<span class="w"> </span>Pull<span class="w"> </span>request<span class="w"> </span>operations<span class="w">       </span>│
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>│<span class="w">                                 </span>│
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>│<span class="w"> </span><span class="o">[</span>Enter<span class="o">]</span><span class="w"> </span>Install<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">[</span>Esc<span class="o">]</span><span class="w"> </span>Cancel<span class="w">  </span>│
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>╰─────────────────────────────────╯
+</code></pre></div>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Most visual</li>
+<li>Rich preview</li>
+<li>Familiar interface (already use fzf)</li>
+<li>Natural categorization (icon prefix)</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Requires fzf</li>
+<li>Terminal-only</li>
+</ul>
+<hr />
+<h2 id="implementation-options">🔧 IMPLEMENTATION OPTIONS<a class="headerlink" href="#implementation-options" title="Permanent link">&para;</a></h2>
+<h3 id="option-1-smart-mcp-dispatcher-recommended">Option 1: Smart <code>mcp</code> Dispatcher (Recommended) ⭐⭐⭐<a class="headerlink" href="#option-1-smart-mcp-dispatcher-recommended" title="Permanent link">&para;</a></h3>
+<p><strong>Commands:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>mcp<span class="w"> </span>search<span class="w"> </span>&lt;term&gt;<span class="w">             </span><span class="c1"># Search both servers + plugins</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>mcp<span class="w"> </span>browse<span class="w">                    </span><span class="c1"># Browse all with fzf</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>mcp<span class="w"> </span>add<span class="w"> </span>&lt;name&gt;<span class="w">                </span><span class="c1"># Smart install (detects type)</span>
+</code></pre></div>
+<p><strong>How it works:</strong></p>
+<ol>
+<li><code>mcp search github</code> → searches both sources</li>
+<li>Shows categorized results</li>
+<li>User selects by number</li>
+<li><code>mcp add</code> detects type and calls appropriate command:</li>
+<li>MCP server → <code>claude mcp add ...</code></li>
+<li>Plugin → <code>claude plugin install ...</code></li>
+</ol>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>mcp-github
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>🔍<span class="w"> </span>Detecting<span class="w"> </span>type...
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">   </span>Type:<span class="w"> </span>MCP<span class="w"> </span>Server
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">   </span>Source:<span class="w"> </span>Official<span class="w"> </span>Registry
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>📦<span class="w"> </span>Installing<span class="w"> </span>MCP<span class="w"> </span>server...
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">   </span>Running:<span class="w"> </span>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>mcp-github<span class="w"> </span>--scope<span class="w"> </span>user<span class="w"> </span>--<span class="w"> </span>npx<span class="w"> </span>-y<span class="w"> </span>@modelcontextprotocol/server-github
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>✓<span class="w"> </span>Installed!
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>$<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>pr-review-toolkit
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>🔍<span class="w"> </span>Detecting<span class="w"> </span>type...
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">   </span>Type:<span class="w"> </span>Claude<span class="w"> </span>Code<span class="w"> </span>Plugin
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">   </span>Marketplace:<span class="w"> </span>claude-plugins-official
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>🔌<span class="w"> </span>Installing<span class="w"> </span>plugin...
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">   </span>Running:<span class="w"> </span>claude<span class="w"> </span>plugin<span class="w"> </span>install<span class="w"> </span>pr-review-toolkit<span class="w"> </span>--scope<span class="w"> </span>user
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>✓<span class="w"> </span>Installed!
+</code></pre></div>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>ONE interface for everything</li>
+<li>User doesn't think about types</li>
+<li>Natural extension of existing <code>mcp</code> dispatcher</li>
+<li>Consistent with current pattern</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Might confuse plugins with MCP servers (naming)</li>
+<li>Slightly blurs the technical distinction</li>
+</ul>
+<hr />
+<h3 id="option-2-separate-commands-unified-search">Option 2: Separate Commands, Unified Search<a class="headerlink" href="#option-2-separate-commands-unified-search" title="Permanent link">&para;</a></h3>
+<p><strong>Commands:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>search<span class="w"> </span>&lt;term&gt;<span class="w">                 </span><span class="c1"># Top-level search (both)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>mcp<span class="w"> </span>add<span class="w"> </span>&lt;server&gt;<span class="w">              </span><span class="c1"># MCP servers only</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>plugin<span class="w"> </span>add<span class="w"> </span>&lt;plugin&gt;<span class="w">           </span><span class="c1"># Plugins only</span>
+</code></pre></div>
+<p><strong>How it works:</strong></p>
+<ol>
+<li><code>search github</code> → unified search</li>
+<li>Results show type clearly</li>
+<li>User uses appropriate install command:</li>
+<li><code>mcp add mcp-github</code> for servers</li>
+<li><code>plugin add github</code> for plugins</li>
+</ol>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Clear distinction maintained</li>
+<li>Separate install paths</li>
+<li>Technically accurate</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Need to remember which command</li>
+<li>Not as seamless</li>
+<li>User still thinks about types</li>
+</ul>
+<hr />
+<h3 id="option-3-new-top-level-extend-command">Option 3: New Top-Level <code>extend</code> Command<a class="headerlink" href="#option-3-new-top-level-extend-command" title="Permanent link">&para;</a></h3>
+<p><strong>Commands:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>extend<span class="w"> </span>search<span class="w"> </span>&lt;term&gt;<span class="w">          </span><span class="c1"># Search everything</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>extend<span class="w"> </span>add<span class="w"> </span>&lt;name&gt;<span class="w">             </span><span class="c1"># Smart install (detects type)</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>extend<span class="w"> </span>browse<span class="w">                 </span><span class="c1"># Browse all</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>extend<span class="w"> </span>list<span class="w">                   </span><span class="c1"># List installed (both)</span>
+</code></pre></div>
+<p><strong>Rationale:</strong> "extend" is neutral (doesn't say server or plugin)</p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Clear purpose (extend Claude Code)</li>
+<li>Neutral terminology</li>
+<li>Clean namespace</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Yet another top-level command</li>
+<li>Breaks <code>mcp</code> pattern we've established</li>
+<li>Need to learn new command</li>
+</ul>
+<hr />
+<h2 id="categorization-strategy">📊 CATEGORIZATION STRATEGY<a class="headerlink" href="#categorization-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="visual-indicators">Visual Indicators<a class="headerlink" href="#visual-indicators" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Prefix icons for instant recognition:</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>📦<span class="w">  </span>MCP<span class="w"> </span>Server<span class="w"> </span><span class="o">(</span>external<span class="w"> </span>process<span class="o">)</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>🔌<span class="w">  </span>Plugin<span class="w"> </span><span class="o">(</span>bundled<span class="w"> </span>skill/agent<span class="o">)</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>⭐<span class="w">  </span>Official<span class="w"> </span><span class="o">(</span>Anthropic<span class="o">)</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>👥<span class="w">  </span>Community
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>🔒<span class="w">  </span>Requires<span class="w"> </span>secrets
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>🐳<span class="w">  </span>Docker/OCI
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>📦<span class="w">  </span>npm/npx
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>🐍<span class="w">  </span>Python/uv
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>🟢<span class="w">  </span>Installed
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>⚪<span class="w">  </span>Available
+</code></pre></div>
+<h3 id="grouping">Grouping<a class="headerlink" href="#grouping" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Group by type first, then by source:</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>📦<span class="w"> </span>MCP<span class="w"> </span>SERVERS
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">   </span>Official<span class="w"> </span><span class="o">(</span><span class="m">2</span><span class="o">)</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">   </span>Community<span class="w"> </span><span class="o">(</span><span class="m">3</span><span class="o">)</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>🔌<span class="w"> </span>CLAUDE<span class="w"> </span>CODE<span class="w"> </span>PLUGINS
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">   </span>Official<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="o">)</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">   </span>Community<span class="w"> </span><span class="o">(</span><span class="m">2</span><span class="o">)</span>
+</code></pre></div>
+<h3 id="sorting">Sorting<a class="headerlink" href="#sorting" title="Permanent link">&para;</a></h3>
+<p><strong>Within each category:</strong></p>
+<ol>
+<li>Official first (⭐)</li>
+<li>Alphabetical</li>
+<li>Relevance score (if using fuzzy search)</li>
+</ol>
+<hr />
+<h2 id="implementation-plan">🚀 IMPLEMENTATION PLAN<a class="headerlink" href="#implementation-plan" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-unified-search-week-1">Phase 1: Unified Search (Week 1) ⭐⭐⭐<a class="headerlink" href="#phase-1-unified-search-week-1" title="Permanent link">&para;</a></h3>
+<p><strong>Goal:</strong> <code>mcp search</code> returns both servers and plugins</p>
+<p><strong>Tasks:</strong></p>
+<ol>
+<li>Create <code>_unified_search()</code> function</li>
+<li>Search MCP Registry API</li>
+<li>Search local plugin cache</li>
+<li>Merge results</li>
+<li>
+<p>Categorize by type</p>
+</li>
+<li>
+<p>Display categorized results</p>
+</li>
+<li>Format with icons</li>
+<li>Show key info (official, requirements)</li>
+<li>
+<p>Number results</p>
+</li>
+<li>
+<p>Test with real searches
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>mcp<span class="w"> </span>search<span class="w"> </span>github
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>mcp<span class="w"> </span>search<span class="w"> </span>database
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>mcp<span class="w"> </span>search<span class="w"> </span>pdf
+</code></pre></div></p>
+</li>
+</ol>
+<p><strong>Effort:</strong> 1-2 days
+<strong>Deliverable:</strong> Working search that shows both types</p>
+<hr />
+<h3 id="phase-2-unified-browse-week-1-2">Phase 2: Unified Browse (Week 1-2) ⭐⭐⭐<a class="headerlink" href="#phase-2-unified-browse-week-1-2" title="Permanent link">&para;</a></h3>
+<p><strong>Goal:</strong> <code>mcp browse</code> shows everything in fzf</p>
+<p><strong>Tasks:</strong></p>
+<ol>
+<li>Fetch all sources</li>
+<li>MCP Registry (all servers)</li>
+<li>
+<p>All plugin marketplaces</p>
+</li>
+<li>
+<p>Create fzf list with prefixes</p>
+</li>
+<li><code>📦 mcp-github</code></li>
+<li>
+<p><code>🔌 pr-review-toolkit</code></p>
+</li>
+<li>
+<p>Rich preview pane</p>
+</li>
+<li>Show type, source, description</li>
+<li>Show installation method</li>
+<li>
+<p>Show requirements</p>
+</li>
+<li>
+<p>Test interactive browsing</p>
+</li>
+</ol>
+<p><strong>Effort:</strong> 1 day
+<strong>Deliverable:</strong> Beautiful fzf browser for all extensions</p>
+<hr />
+<h3 id="phase-3-smart-install-week-2">Phase 3: Smart Install (Week 2) ⭐⭐⭐<a class="headerlink" href="#phase-3-smart-install-week-2" title="Permanent link">&para;</a></h3>
+<p><strong>Goal:</strong> <code>mcp add &lt;name&gt;</code> detects type and installs correctly</p>
+<p><strong>Tasks:</strong></p>
+<ol>
+<li>Type detection logic</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>_detect_type<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="c1"># Check MCP Registry first</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="c1"># Check plugin marketplaces</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="c1"># Return: &quot;mcp&quot; or &quot;plugin&quot;</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="o">}</span>
+</code></pre></div>
+<ol>
+<li>Smart install dispatch</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>_smart_install<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$type</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">        </span>mcp<span class="o">)</span><span class="w"> </span>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">&quot;</span><span class="w"> </span>...<span class="w"> </span><span class="p">;;</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">        </span>plugin<span class="o">)</span><span class="w"> </span>claude<span class="w"> </span>plugin<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">&quot;</span><span class="w"> </span>...<span class="w"> </span><span class="p">;;</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">    </span><span class="k">esac</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="o">}</span>
+</code></pre></div>
+<ol>
+<li>Unified feedback</li>
+<li>Show what's being installed</li>
+<li>Show progress</li>
+<li>Confirm success</li>
+</ol>
+<p><strong>Effort:</strong> 1 day
+<strong>Deliverable:</strong> <code>mcp add</code> works for both types seamlessly</p>
+<hr />
+<h3 id="phase-4-management-commands-week-3">Phase 4: Management Commands (Week 3) ⭐⭐<a class="headerlink" href="#phase-4-management-commands-week-3" title="Permanent link">&para;</a></h3>
+<p><strong>Goal:</strong> Manage installed servers and plugins together</p>
+<p><strong>Commands:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>mcp<span class="w"> </span>list<span class="w">                      </span><span class="c1"># List ALL installed (servers + plugins)</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>mcp<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>&lt;name&gt;<span class="w">             </span><span class="c1"># Enable (auto-detect type)</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>mcp<span class="w"> </span>disable<span class="w"> </span>&lt;name&gt;<span class="w">            </span><span class="c1"># Disable (auto-detect type)</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>mcp<span class="w"> </span>remove<span class="w"> </span>&lt;name&gt;<span class="w">             </span><span class="c1"># Remove (auto-detect type)</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>mcp<span class="w"> </span>update<span class="w"> </span>&lt;name&gt;<span class="w">             </span><span class="c1"># Update (auto-detect type)</span>
+</code></pre></div>
+<p><strong>Tasks:</strong></p>
+<ol>
+<li>Unified list</li>
+<li>Show installed MCP servers</li>
+<li>Show installed plugins</li>
+<li>
+<p>Categorize and format</p>
+</li>
+<li>
+<p>Smart enable/disable/remove</p>
+</li>
+<li>Detect type from installed list</li>
+<li>Call appropriate command</li>
+</ol>
+<p><strong>Effort:</strong> 1-2 days
+<strong>Deliverable:</strong> Complete management of all extensions</p>
+<hr />
+<h2 id="examples-real-world-usage">💎 EXAMPLES: Real World Usage<a class="headerlink" href="#examples-real-world-usage" title="Permanent link">&para;</a></h2>
+<h3 id="example-1-discover-github-integration">Example 1: Discover GitHub Integration<a class="headerlink" href="#example-1-discover-github-integration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>search<span class="w"> </span>github
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>╭─────────────────────────────────────────────╮
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>│<span class="w"> </span>Search<span class="w"> </span>Results:<span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="w"> </span><span class="o">(</span><span class="m">5</span><span class="w"> </span>found<span class="o">)</span><span class="w">          </span>│
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>╰─────────────────────────────────────────────╯
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>📦<span class="w"> </span>MCP<span class="w"> </span>SERVERS<span class="w"> </span><span class="o">(</span><span class="m">3</span><span class="o">)</span>:
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">  </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>mcp-github<span class="w"> </span>⭐
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">      </span>Official<span class="w"> </span>GitHub<span class="w"> </span>API<span class="w"> </span>integration
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">  </span><span class="o">[</span><span class="m">2</span><span class="o">]</span><span class="w"> </span>github-mcp-server
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">      </span>Community<span class="w"> </span>GitHub<span class="w"> </span>operations
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="w">  </span><span class="o">[</span><span class="m">3</span><span class="o">]</span><span class="w"> </span>github-actions-mcp
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="w">      </span>Run<span class="w"> </span>GitHub<span class="w"> </span>Actions<span class="w"> </span>workflows
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>
+<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>🔌<span class="w"> </span>PLUGINS<span class="w"> </span><span class="o">(</span><span class="m">2</span><span class="o">)</span>:
+<a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a><span class="w">  </span><span class="o">[</span><span class="m">4</span><span class="o">]</span><span class="w"> </span>github<span class="w"> </span>⭐
+<a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a><span class="w">      </span>GitHub<span class="w"> </span>workflow<span class="w"> </span>automation
+<a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>
+<a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a><span class="w">  </span><span class="o">[</span><span class="m">5</span><span class="o">]</span><span class="w"> </span>gh-cli-helper
+<a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a><span class="w">      </span>GitHub<span class="w"> </span>CLI<span class="w"> </span>wrapper<span class="w"> </span>tools
+<a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a>
+<a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a>Select<span class="w"> </span><span class="o">(</span><span class="m">1</span>-5<span class="o">)</span>:<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a>
+<a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a>╭─────────────────────────────────────────────╮
+<a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a>│<span class="w"> </span>Installing:<span class="w"> </span>mcp-github<span class="w">                      </span>│
+<a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a>╰─────────────────────────────────────────────╯
+<a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a>
+<a id="__codelineno-19-30" name="__codelineno-19-30" href="#__codelineno-19-30"></a>🔍<span class="w"> </span>Type:<span class="w"> </span>MCP<span class="w"> </span>Server
+<a id="__codelineno-19-31" name="__codelineno-19-31" href="#__codelineno-19-31"></a>📦<span class="w"> </span>Method:<span class="w"> </span>npm<span class="w"> </span><span class="o">(</span>npx<span class="o">)</span>
+<a id="__codelineno-19-32" name="__codelineno-19-32" href="#__codelineno-19-32"></a>🔒<span class="w"> </span>Requires:<span class="w"> </span>GITHUB_TOKEN
+<a id="__codelineno-19-33" name="__codelineno-19-33" href="#__codelineno-19-33"></a>
+<a id="__codelineno-19-34" name="__codelineno-19-34" href="#__codelineno-19-34"></a>Continue?<span class="w"> </span><span class="o">(</span>y/n<span class="o">)</span>:<span class="w"> </span>y
+<a id="__codelineno-19-35" name="__codelineno-19-35" href="#__codelineno-19-35"></a>
+<a id="__codelineno-19-36" name="__codelineno-19-36" href="#__codelineno-19-36"></a>✓<span class="w"> </span>Added<span class="w"> </span>to<span class="w"> </span>~/.claude/settings.json
+<a id="__codelineno-19-37" name="__codelineno-19-37" href="#__codelineno-19-37"></a>✓<span class="w"> </span>Ready<span class="w"> </span>to<span class="w"> </span>use!
+<a id="__codelineno-19-38" name="__codelineno-19-38" href="#__codelineno-19-38"></a>
+<a id="__codelineno-19-39" name="__codelineno-19-39" href="#__codelineno-19-39"></a>Next<span class="w"> </span>steps:
+<a id="__codelineno-19-40" name="__codelineno-19-40" href="#__codelineno-19-40"></a><span class="w">  </span><span class="m">1</span>.<span class="w"> </span>Set<span class="w"> </span>GITHUB_TOKEN<span class="w"> </span><span class="k">in</span><span class="w"> </span>environment
+<a id="__codelineno-19-41" name="__codelineno-19-41" href="#__codelineno-19-41"></a><span class="w">  </span><span class="m">2</span>.<span class="w"> </span>Restart<span class="w"> </span>Claude<span class="w"> </span>Code
+<a id="__codelineno-19-42" name="__codelineno-19-42" href="#__codelineno-19-42"></a><span class="w">  </span><span class="m">3</span>.<span class="w"> </span>Test:<span class="w"> </span>Use<span class="w"> </span>GitHub<span class="w"> </span>tools<span class="w"> </span><span class="k">in</span><span class="w"> </span>conversation
+</code></pre></div>
+<hr />
+<h3 id="example-2-browse-all-available">Example 2: Browse All Available<a class="headerlink" href="#example-2-browse-all-available" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>browse
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1"># FZF shows ALL extensions (categorized by icon):</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>&gt;
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>📦<span class="w"> </span>@modelcontextprotocol/server-filesystem<span class="w"> </span>⭐
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>📦<span class="w"> </span>mcp-github<span class="w"> </span>⭐
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>📦<span class="w"> </span>postgres-mcp
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>📦<span class="w"> </span>docling-mcp-server
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>🔌<span class="w"> </span>pr-review-toolkit<span class="w"> </span>⭐
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>🔌<span class="w"> </span>commit-commands<span class="w"> </span>⭐
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>🔌<span class="w"> </span>feature-dev<span class="w"> </span>⭐
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>🔌<span class="w"> </span>github<span class="w"> </span>⭐
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>🔌<span class="w"> </span>code-review
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="c1"># Preview pane shows context-aware details</span>
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="c1"># [Enter] to install selected item</span>
+</code></pre></div>
+<hr />
+<h3 id="example-3-list-all-installed">Example 3: List All Installed<a class="headerlink" href="#example-3-list-all-installed" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>list
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>╭─────────────────────────────────────────────╮
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>│<span class="w"> </span>Installed<span class="w"> </span>Extensions<span class="w">                        </span>│
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>╰─────────────────────────────────────────────╯
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>📦<span class="w"> </span>MCP<span class="w"> </span>SERVERS<span class="w"> </span><span class="o">(</span><span class="m">4</span><span class="o">)</span>:
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">  </span>✓<span class="w"> </span>docling<span class="w">           </span>v0.1.0<span class="w">  </span>🟢<span class="w"> </span>enabled
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">  </span>✓<span class="w"> </span>statistical-research<span class="w">  </span>v1.0.0<span class="w">  </span>🟢<span class="w"> </span>enabled
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="w">  </span>✓<span class="w"> </span>shell<span class="w">             </span>v1.0.0<span class="w">  </span>🟢<span class="w"> </span>enabled
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="w">  </span>✓<span class="w"> </span>project-refactor<span class="w">  </span>v1.0.0<span class="w">  </span>🟢<span class="w"> </span>enabled
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>🔌<span class="w"> </span>PLUGINS<span class="w"> </span><span class="o">(</span><span class="m">3</span><span class="o">)</span>:
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="w">  </span>✓<span class="w"> </span>pr-review-toolkit<span class="w">  </span>v1.0.0<span class="w">  </span>🟢<span class="w"> </span>enabled
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="w">  </span>✓<span class="w"> </span>commit-commands<span class="w">    </span>v1.0.0<span class="w">  </span>🟢<span class="w"> </span>enabled
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a><span class="w">  </span>✓<span class="w"> </span>feature-dev<span class="w">        </span>v1.0.0<span class="w">  </span>⚪<span class="w"> </span>disabled
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>Total:<span class="w"> </span><span class="m">7</span><span class="w"> </span>extensions<span class="w"> </span><span class="o">(</span><span class="m">6</span><span class="w"> </span>enabled<span class="o">)</span>
+</code></pre></div>
+<hr />
+<h3 id="example-4-quick-add-by-name">Example 4: Quick Add by Name<a class="headerlink" href="#example-4-quick-add-by-name" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>postgres
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>🔍<span class="w"> </span>Searching<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s2">&quot;postgres&quot;</span>...
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>Found<span class="w"> </span>multiple<span class="w"> </span>matches:
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">  </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>📦<span class="w"> </span>postgres-mcp<span class="w"> </span><span class="o">(</span>MCP<span class="w"> </span>Server<span class="o">)</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">  </span><span class="o">[</span><span class="m">2</span><span class="o">]</span><span class="w"> </span>🔌<span class="w"> </span>postgres-helper<span class="w"> </span><span class="o">(</span>Plugin<span class="o">)</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>Select<span class="w"> </span><span class="o">(</span><span class="m">1</span>-2<span class="o">)</span>:<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>Installing<span class="w"> </span>postgres-mcp<span class="w"> </span><span class="o">(</span>MCP<span class="w"> </span>Server<span class="o">)</span>...
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>✓<span class="w"> </span>Done!
+</code></pre></div>
+<hr />
+<h2 id="advanced-features-v2">✨ ADVANCED FEATURES (V2+)<a class="headerlink" href="#advanced-features-v2" title="Permanent link">&para;</a></h2>
+<h3 id="smart-recommendations">Smart Recommendations<a class="headerlink" href="#smart-recommendations" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>recommend
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>Based<span class="w"> </span>on<span class="w"> </span>your<span class="w"> </span>R<span class="w"> </span>development<span class="w"> </span>workflow,<span class="w"> </span>you<span class="w"> </span>might<span class="w"> </span>like:
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>📦<span class="w"> </span>MCP<span class="w"> </span>SERVERS:
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">  </span>•<span class="w"> </span>r-repl-mcp<span class="w"> </span>-<span class="w"> </span>R<span class="w"> </span>interactive<span class="w"> </span>sessions
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">  </span>•<span class="w"> </span>rstudio-mcp<span class="w"> </span>-<span class="w"> </span>RStudio<span class="w"> </span>integration
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>🔌<span class="w"> </span>PLUGINS:
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="w">  </span>•<span class="w"> </span>r-package-dev<span class="w"> </span>-<span class="w"> </span>R<span class="w"> </span>package<span class="w"> </span>development<span class="w"> </span>tools
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="w">  </span>•<span class="w"> </span>quarto-toolkit<span class="w"> </span>-<span class="w"> </span>Quarto<span class="w"> </span>document<span class="w"> </span>workflows
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>
+<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>Interested?<span class="w"> </span>Try:<span class="w"> </span>mcp<span class="w"> </span>browse<span class="w"> </span>r
+</code></pre></div>
+<hr />
+<h3 id="natural-language-search">Natural Language Search<a class="headerlink" href="#natural-language-search" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;I need to work with PDFs&quot;</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>🧠<span class="w"> </span>Interpreting<span class="w"> </span>query...
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>Found<span class="w"> </span>PDF-related<span class="w"> </span>extensions:
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>📦<span class="w"> </span>MCP<span class="w"> </span>SERVERS:
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="w">  </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>docling-mcp-server<span class="w"> </span>⭐
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="w">      </span>Advanced<span class="w"> </span>PDF<span class="w"> </span>processing<span class="w"> </span><span class="o">(</span>OCR,<span class="w"> </span>tables,<span class="w"> </span>conversion<span class="o">)</span>
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>🔌<span class="w"> </span>PLUGINS:
+<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a><span class="w">  </span><span class="o">[</span><span class="m">2</span><span class="o">]</span><span class="w"> </span>pdf-tools
+<a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a><span class="w">      </span>PDF<span class="w"> </span>manipulation<span class="w"> </span>utilities
+<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a>
+<a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a>Best<span class="w"> </span>match:<span class="w"> </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>docling-mcp-server
+</code></pre></div>
+<hr />
+<h3 id="update-all">Update All<a class="headerlink" href="#update-all" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>update
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>Checking<span class="w"> </span><span class="k">for</span><span class="w"> </span>updates...
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>📦<span class="w"> </span>MCP<span class="w"> </span>SERVERS:
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="w">  </span>✓<span class="w"> </span>docling:<span class="w"> </span><span class="m">0</span>.1.0<span class="w"> </span>→<span class="w"> </span><span class="m">0</span>.2.0<span class="w"> </span><span class="o">(</span>update<span class="w"> </span>available<span class="o">)</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="w">  </span>✓<span class="w"> </span>shell:<span class="w"> </span><span class="m">1</span>.0.0<span class="w"> </span><span class="o">(</span>up<span class="w"> </span>to<span class="w"> </span>date<span class="o">)</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>🔌<span class="w"> </span>PLUGINS:
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="w">  </span>✓<span class="w"> </span>pr-review-toolkit:<span class="w"> </span><span class="m">1</span>.0.0<span class="w"> </span><span class="o">(</span>up<span class="w"> </span>to<span class="w"> </span>date<span class="o">)</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>Update<span class="w"> </span>docling?<span class="w"> </span><span class="o">(</span>y/n<span class="o">)</span>:<span class="w"> </span>y
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>✓<span class="w"> </span>Updated!
+</code></pre></div>
+<hr />
+<h2 id="recommended-approach">🎯 RECOMMENDED APPROACH<a class="headerlink" href="#recommended-approach" title="Permanent link">&para;</a></h2>
+<h3 id="use-option-1-smart-mcp-dispatcher">Use Option 1: Smart MCP Dispatcher ⭐⭐⭐<a class="headerlink" href="#use-option-1-smart-mcp-dispatcher" title="Permanent link">&para;</a></h3>
+<p><strong>Why:</strong></p>
+<ol>
+<li>✅ <strong>Least cognitive load</strong> - ONE command for everything</li>
+<li>✅ <strong>Natural extension</strong> - Builds on existing <code>mcp</code> pattern</li>
+<li>✅ <strong>ADHD-friendly</strong> - Don't need to remember types</li>
+<li>✅ <strong>Future-proof</strong> - Can add more sources later</li>
+<li>✅ <strong>Consistent</strong> - Matches g/r/v dispatcher pattern</li>
+</ol>
+<p><strong>Commands:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>mcp<span class="w"> </span>search<span class="w"> </span>&lt;term&gt;<span class="w">             </span><span class="c1"># Unified search</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>mcp<span class="w"> </span>browse<span class="w">                    </span><span class="c1"># Unified browse (fzf)</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>mcp<span class="w"> </span>add<span class="w"> </span>&lt;name&gt;<span class="w">                </span><span class="c1"># Smart install (auto-detect)</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>mcp<span class="w"> </span>list<span class="w">                      </span><span class="c1"># List all installed</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>mcp<span class="w"> </span>remove<span class="w"> </span>&lt;name&gt;<span class="w">             </span><span class="c1"># Smart remove (auto-detect)</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>mcp<span class="w"> </span>enable/disable<span class="w"> </span>&lt;name&gt;<span class="w">     </span><span class="c1"># Smart toggle (auto-detect)</span>
+</code></pre></div>
+<p><strong>Implementation Priority:</strong></p>
+<ol>
+<li><strong>Week 1:</strong> Unified search + browse</li>
+<li><strong>Week 2:</strong> Smart install (auto-detect type)</li>
+<li><strong>Week 3:</strong> Unified list + management</li>
+</ol>
+<hr />
+<h2 id="testing-strategy">🧪 TESTING STRATEGY<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="unit-tests">Unit Tests<a class="headerlink" href="#unit-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>test_search_mcp_registry<span class="o">()</span><span class="w">      </span><span class="c1"># API search works</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>test_search_plugin_cache<span class="o">()</span><span class="w">      </span><span class="c1"># Local search works</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>test_merge_results<span class="o">()</span><span class="w">            </span><span class="c1"># Merging works correctly</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>test_categorize_results<span class="o">()</span><span class="w">       </span><span class="c1"># Categorization correct</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>test_detect_type<span class="o">()</span><span class="w">              </span><span class="c1"># Type detection accurate</span>
+</code></pre></div>
+<h3 id="integration-tests">Integration Tests<a class="headerlink" href="#integration-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>test_unified_search<span class="o">()</span><span class="w">           </span><span class="c1"># End-to-end search</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>test_unified_browse<span class="o">()</span><span class="w">           </span><span class="c1"># FZF browse works</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>test_smart_install_mcp<span class="o">()</span><span class="w">        </span><span class="c1"># Install MCP server</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>test_smart_install_plugin<span class="o">()</span><span class="w">     </span><span class="c1"># Install plugin</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>test_unified_list<span class="o">()</span><span class="w">             </span><span class="c1"># List shows both types</span>
+</code></pre></div>
+<h3 id="manual-tests">Manual Tests<a class="headerlink" href="#manual-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Search tests</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>mcp<span class="w"> </span>search<span class="w"> </span>github<span class="w">               </span><span class="c1"># Should show both</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>mcp<span class="w"> </span>search<span class="w"> </span>database<span class="w">             </span><span class="c1"># Multiple results</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>mcp<span class="w"> </span>search<span class="w"> </span>nonexistent<span class="w">          </span><span class="c1"># No results</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="c1"># Browse test</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>mcp<span class="w"> </span>browse<span class="w">                      </span><span class="c1"># Shows all, nice preview</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="c1"># Install tests</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>mcp<span class="w"> </span>add<span class="w"> </span>mcp-github<span class="w">              </span><span class="c1"># MCP server</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>mcp<span class="w"> </span>add<span class="w"> </span>pr-review-toolkit<span class="w">       </span><span class="c1"># Plugin</span>
+<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>mcp<span class="w"> </span>add<span class="w"> </span>ambiguous-name<span class="w">          </span><span class="c1"># Disambiguation</span>
+<a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a>
+<a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a><span class="c1"># List test</span>
+<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a>mcp<span class="w"> </span>list<span class="w">                        </span><span class="c1"># Shows all installed</span>
+</code></pre></div>
+<hr />
+<h2 id="success-metrics">📈 SUCCESS METRICS<a class="headerlink" href="#success-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="mvp-week-2">MVP (Week 2)<a class="headerlink" href="#mvp-week-2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Unified search returns both types</li>
+<li>[ ] Browse shows all extensions with categories</li>
+<li>[ ] Install auto-detects type and works</li>
+<li>[ ] User doesn't need to know the distinction</li>
+</ul>
+<h3 id="v2-week-4">V2 (Week 4)<a class="headerlink" href="#v2-week-4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] List shows all installed extensions</li>
+<li>[ ] Enable/disable works for both</li>
+<li>[ ] Update checks both sources</li>
+<li>[ ] Recommendations based on workflow</li>
+</ul>
+<h3 id="long-term">Long-term<a class="headerlink" href="#long-term" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Natural language search</li>
+<li>[ ] Smart conflict detection</li>
+<li>[ ] Usage analytics</li>
+<li>[ ] Community marketplace integration</li>
+</ul>
+<hr />
+<h2 id="future-possibilities">🔮 FUTURE POSSIBILITIES<a class="headerlink" href="#future-possibilities" title="Permanent link">&para;</a></h2>
+<h3 id="plugin-mcp-server-bundles">Plugin + MCP Server Bundles<a class="headerlink" href="#plugin-mcp-server-bundles" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>github-bundle
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>This<span class="w"> </span>bundle<span class="w"> </span>includes:
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="w">  </span>📦<span class="w"> </span>mcp-github<span class="w"> </span><span class="o">(</span>Server<span class="o">)</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="w">  </span>🔌<span class="w"> </span>github<span class="w"> </span><span class="o">(</span>Plugin<span class="o">)</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="w">  </span>🔌<span class="w"> </span>gh-cli-helper<span class="w"> </span><span class="o">(</span>Plugin<span class="o">)</span>
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>Install<span class="w"> </span>all<span class="w"> </span><span class="m">3</span>?<span class="w"> </span><span class="o">(</span>y/n<span class="o">)</span>:<span class="w"> </span>y
+</code></pre></div>
+<h3 id="dependency-management">Dependency Management<a class="headerlink" href="#dependency-management" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>advanced-feature
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>⚠️<span class="w">  </span>Requires:
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">  </span>📦<span class="w"> </span>postgres-mcp<span class="w"> </span><span class="o">(</span>not<span class="w"> </span>installed<span class="o">)</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="w">  </span>🔌<span class="w"> </span>database-tools<span class="w"> </span><span class="o">(</span>not<span class="w"> </span>installed<span class="o">)</span>
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>Install<span class="w"> </span>dependencies?<span class="w"> </span><span class="o">(</span>y/n<span class="o">)</span>:<span class="w"> </span>y
+</code></pre></div>
+<h3 id="conflict-detection">Conflict Detection<a class="headerlink" href="#conflict-detection" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>$<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>duplicate-feature
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>⚠️<span class="w">  </span>Similar<span class="w"> </span>functionality<span class="w"> </span>detected:
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="w">  </span>📦<span class="w"> </span>existing-server<span class="w"> </span><span class="o">(</span>installed<span class="o">)</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="w">  </span>Provides:<span class="w"> </span>Database<span class="w"> </span>access
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>Continue?<span class="w"> </span><span class="o">(</span>y/n<span class="o">)</span>:<span class="w"> </span>n
+</code></pre></div>
+<hr />
+<h2 id="open-questions">💬 OPEN QUESTIONS<a class="headerlink" href="#open-questions" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Terminology in UI:</strong></li>
+<li>Show "MCP Server" or just "Server"?</li>
+<li>Show "Claude Code Plugin" or just "Plugin"?</li>
+<li>
+<p><strong>Recommendation:</strong> Full names initially, can abbreviate in compact views</p>
+</li>
+<li>
+<p><strong>Default scope for install:</strong></p>
+</li>
+<li>User scope (global) or Project scope (local)?</li>
+<li>
+<p><strong>Recommendation:</strong> User scope (works everywhere)</p>
+</li>
+<li>
+<p><strong>Offline mode:</strong></p>
+</li>
+<li>How to handle when registry API is down?</li>
+<li>
+<p><strong>Recommendation:</strong> Cache last search results, show warning</p>
+</li>
+<li>
+<p><strong>Disambiguation:</strong></p>
+</li>
+<li>If name matches both server and plugin, which to prefer?</li>
+<li>
+<p><strong>Recommendation:</strong> Show both, let user choose</p>
+</li>
+<li>
+<p><strong>Update strategy:</strong></p>
+</li>
+<li>Auto-update marketplaces on search?</li>
+<li><strong>Recommendation:</strong> Update weekly in background, manual <code>mcp update-sources</code></li>
+</ol>
+<hr />
+<h2 id="implementation-sequence">🎬 IMPLEMENTATION SEQUENCE<a class="headerlink" href="#implementation-sequence" title="Permanent link">&para;</a></h2>
+<h3 id="day-1-unified-search-core">Day 1: Unified Search Core<a class="headerlink" href="#day-1-unified-search-core" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] <code>_unified_search()</code> function</li>
+<li>[ ] MCP Registry API search</li>
+<li>[ ] Plugin cache search</li>
+<li>[ ] Merge and categorize</li>
+<li>[ ] Display formatted results</li>
+</ul>
+<h3 id="day-2-fzf-browse">Day 2: FZF Browse<a class="headerlink" href="#day-2-fzf-browse" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Fetch all sources</li>
+<li>[ ] Create fzf list with icons</li>
+<li>[ ] Rich preview pane</li>
+<li>[ ] Test interactive selection</li>
+</ul>
+<h3 id="day-3-smart-install">Day 3: Smart Install<a class="headerlink" href="#day-3-smart-install" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Type detection logic</li>
+<li>[ ] Install dispatch (mcp vs plugin)</li>
+<li>[ ] Success confirmation</li>
+<li>[ ] Error handling</li>
+</ul>
+<h3 id="day-4-unified-list">Day 4: Unified List<a class="headerlink" href="#day-4-unified-list" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] List MCP servers</li>
+<li>[ ] List plugins</li>
+<li>[ ] Merge and format</li>
+<li>[ ] Status indicators (enabled/disabled)</li>
+</ul>
+<h3 id="day-5-polish-documentation">Day 5: Polish &amp; Documentation<a class="headerlink" href="#day-5-polish-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Help text (<code>mcp help</code>)</li>
+<li>[ ] Update quick reference</li>
+<li>[ ] Write tests</li>
+<li>[ ] User guide</li>
+</ul>
+<hr />
+<p><strong>Created:</strong> 2025-12-19
+<strong>Next Step:</strong> Implement unified search (Day 1)
+<strong>Estimated MVP:</strong> 3-5 days for full unified experience
+<strong>Impact:</strong> 🎯 Game-changer for discoverability!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/data-wise/flow-cli" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
