@@ -11,7 +11,7 @@ type: dev
 ~/projects/dev-tools/flow-cli/
 
 ⏰ LAST UPDATED
-2025-12-24 (Session: Folder Organization + Production Use Phase Kickoff)
+2025-12-24 (Session: Flow Command Integration - Option A Implementation)
 
 ────────────────────────────────────────────────
 
@@ -51,7 +51,59 @@ Phase P6: CLI Enhancements █████████████████�
 
 ────────────────────────────────────────────────
 
-✅ JUST COMPLETED (Session: 2025-12-24 - Folder Organization + Production Use Phase Kickoff)
+✅ JUST COMPLETED (Session: 2025-12-24 - Flow Command Integration)
+
+## Flow Command Integration - Option A ✅
+
+**Achievement:** Clarified Fast (ZSH) vs Rich (flow CLI) command roles
+
+**Timeline:** Dec 24, 2025 (Post-root cleanup)
+
+**What Was Completed:**
+
+**1. Documentation Updates (4 files):**
+- ✅ README.md: Added "Two Workflow Systems" section (Fast vs Rich distinction)
+- ✅ cli/bin/flow.js: Updated help text with ZSH command cross-reference
+- ✅ docs/getting-started/quick-start.md: Added command systems overview
+- ✅ zsh/functions/dash.zsh: Added tip about flow dashboard
+
+**2. Integration Proposals (3 new reference docs):**
+- ✅ OPTION-A-IMPLEMENTATION-COMPLETE.md: Implementation summary
+- ✅ PROPOSAL-flow-command-integration.md: Full proposal (4 options analyzed)
+- ✅ docs/planning/FLOW-COMMAND-ANALYSIS.md: Decision analysis
+
+**3. Key Results:**
+- ✅ Clear mental model: ZSH = fast daily workflow (< 10ms), flow = rich views (~100ms)
+- ✅ ADHD-friendly speed preserved (instant ZSH commands)
+- ✅ Rich features available when needed (flow CLI)
+- ✅ Cross-linked documentation (each system points to other)
+- ✅ Zero breaking changes, 100% backwards compatible
+
+**Impact:**
+- 🎯 **Zero confusion** - Users know when to use which system
+- ⚡ **Speed preserved** - Fast commands stay instant
+- 🎨 **Rich features** - Available for monitoring/analysis
+- 📚 **Well documented** - Clear guidance in all help text
+
+**Previous Session (Earlier Today):**
+
+## Root Folder Cleanup ✅
+
+**Achievement:** Cleaned root directory from 45 → 8 essential markdown files
+
+**Timeline:** Dec 24, 2025 (Post-folder organization)
+
+**What Was Completed:**
+
+**1. Root Directory Cleanup:**
+- ✅ Moved 27 session/implementation summaries → docs/archive/
+- ✅ Moved 4 architecture docs → docs/architecture/
+- ✅ Moved 6 guide docs → docs/guides/
+- ✅ Updated all references in README.md and PROJECT-HUB.md
+- ✅ Removed redundant .STATUS.backup file
+- Result: Root now contains only 8 essential files (README, CLAUDE, CONTRIBUTING, IDEAS, TODO, PROJECT-HUB, CHANGELOG, PRODUCTION-USE-PHASE)
+
+**Previous Session (Earlier Today):**
 
 ## Folder Organization + Production Use Phase ✅
 
