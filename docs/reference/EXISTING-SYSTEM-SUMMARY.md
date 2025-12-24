@@ -1,4 +1,4 @@
-# Existing System Summary - ZSH Workflow Manager
+# Existing System Summary - Flow CLI
 
 **Generated:** 2025-12-19 14:20
 **Purpose:** Comprehensive overview + interactive cleanup tool

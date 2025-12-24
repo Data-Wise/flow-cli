@@ -1,4 +1,4 @@
-# ZSH Configuration Documentation Index
+# Flow CLI Documentation Index
 
 **Last Updated:** 2025-12-19
 

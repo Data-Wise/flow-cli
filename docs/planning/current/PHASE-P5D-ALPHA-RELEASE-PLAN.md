@@ -361,7 +361,7 @@ gh release create v2.0.0-alpha.1 \
   --notes "$(cat << 'EOF'
 # 🚀 flow-cli v2.0.0 Alpha Release 1
 
-**The ADHD-Optimized ZSH Workflow Manager**
+**The ADHD-Optimized Flow CLI**
 
 ## 🎯 What's New
 

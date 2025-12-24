@@ -1,4 +1,4 @@
-# ZSH Configuration Documentation
+# Flow CLI Documentation
 
 **Project:** flow-cli
 **Version:** 0.1.0

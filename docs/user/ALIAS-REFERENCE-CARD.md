@@ -1,4 +1,4 @@
-# ⚡ ZSH Alias Reference Card
+# ⚡ Flow CLI Alias Reference Card
 
 > **Quick Access:** Type `als` to list all aliases by category
 

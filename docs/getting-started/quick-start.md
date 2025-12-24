@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-Get up and running with ZSH Configuration in 5 minutes.
+Get up and running with Flow CLI in 5 minutes.
 
 ---
 

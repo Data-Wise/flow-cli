@@ -1,6 +1,6 @@
 # Installation
 
-The ZSH configuration is already installed and running. This guide explains the setup for reference.
+The Flow CLI configuration is already installed and running. This guide explains the setup for reference.
 
 ---
 

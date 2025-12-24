@@ -1,4 +1,4 @@
-# ZSH Configuration Philosophy
+# Flow CLI Philosophy
 
 > **One pattern, one command per domain, always discoverable.**
 
