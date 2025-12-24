@@ -13,7 +13,10 @@
     "dev": "npm run dev --workspace=cli",
     "test": "npm test --workspace=cli",
     "clean": "rm -rf cli/node_modules node_modules",
-    "reset": "npm run clean && npm install"
+    "reset": "npm run clean && npm install",
+    "install:cli": "cd cli && npm link",
+    "uninstall:cli": "cd cli && npm unlink",
+    "reinstall:cli": "npm run uninstall:cli && npm run install:cli"
   },
   "keywords": [
     "zsh",

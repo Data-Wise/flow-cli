@@ -4,6 +4,9 @@
   "description": "Node.js integration layer for ZSH workflow commands",
   "type": "module",
   "main": "api/index.js",
+  "bin": {
+    "flow": "./bin/flow.js"
+  },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:unit": "NODE_OPTIONS=--experimental-vm-modules jest --testPathPattern=tests/unit",

@@ -6,9 +6,37 @@ A streamlined system for managing development workflows. Features 28 essential a
 
 **Recent updates:**
 
+- **2025-12-23:** Hybrid Dashboard (CLI + Web) - Express server, WebSocket, Chart.js visualizations
 - **2025-12-23:** Clean Architecture Foundation - Week 1 complete (265 tests, 19 files, 3-layer architecture)
 - **2025-12-21:** Architecture Documentation Sprint - 7,629 lines of comprehensive architecture docs, site deployed
 - **2025-12-19:** Alias cleanup - Reduced from 179 to 28 custom aliases (84% reduction)
+
+---
+
+## 🚀 Installation
+
+**Quick install (2 commands):**
+
+```bash
+npm install
+npm run install:cli
+```
+
+**Verify:**
+
+```bash
+flow --version
+flow help
+flow status
+```
+
+**Web Dashboard:**
+
+```bash
+flow status --web    # Opens browser with real-time dashboard
+```
+
+See [INSTALL.md](INSTALL.md) for detailed instructions and troubleshooting.
 
 ---
 
