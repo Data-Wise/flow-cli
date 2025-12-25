@@ -246,22 +246,42 @@ _dash_categories() {
 
   echo "  📋 ${FLOW_COLORS[bold]}BY CATEGORY${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}($total total)${FLOW_COLORS[reset]}"
 
-  local cats=("dev" "r" "research" "teach")
-  local icons=("🔧" "📦" "🔬" "🎓")
-  local names=("dev-tools" "r-packages" "research" "teaching")
-  local last_idx=$((${#cats[@]} - 1))
+  # Category metadata
+  local -A cat_icons cat_names
+  cat_icons=([dev]="🔧" [r]="📦" [research]="🔬" [teach]="🎓" [quarto]="📝" [apps]="📱")
+  cat_names=([dev]="dev-tools" [r]="r-packages" [research]="research" [teach]="teaching" [quarto]="quarto" [apps]="apps")
 
-  for i in {1..${#cats[@]}}; do
-    local cat="${cats[$i]}"
-    local icon="${icons[$i]}"
-    local name="${names[$i]}"
+  # Sort categories: active count (desc), then total count (desc)
+  local sorted_cats=()
+  local cat_key
+
+  for cat_key in dev r research teach quarto apps; do
+    local t="${cat_total[$cat_key]:-0}"
+    (( t == 0 )) && continue
+    local a="${cat_active[$cat_key]:-0}"
+    # Create sortable key: active*1000 + total (for stable sort)
+    sorted_cats+=("$(printf '%04d:%04d:%s' $((1000-a)) $((1000-t)) "$cat_key")")
+  done
+
+  # Sort and extract category names
+  local sorted=(${(o)sorted_cats})
+  local display_cats=()
+  for item in "${sorted[@]}"; do
+    display_cats+=("${item##*:}")
+  done
+
+  local num_cats=${#display_cats[@]}
+  local idx=0
+
+  for cat in "${display_cats[@]}"; do
+    ((idx++))
+    local icon="${cat_icons[$cat]}"
+    local name="${cat_names[$cat]}"
     local t="${cat_total[$cat]:-0}"
     local a="${cat_active[$cat]:-0}"
 
-    (( t == 0 )) && continue
-
     local prefix="├─"
-    (( i == ${#cats[@]} )) && prefix="└─"
+    (( idx == num_cats )) && prefix="└─"
 
     printf "  %s %s ${FLOW_COLORS[info]}%-12s${FLOW_COLORS[reset]} %2d projects  │  " "$prefix" "$icon" "$name" "$t"
 
@@ -298,8 +318,10 @@ _dash_category_expanded() {
   echo "  ─────────────────────────────────────────────────────────────"
   echo ""
 
+  # Collect and sort projects (active first, then alphabetically)
   local projects=$(_flow_list_projects)
-  local count=0
+  local -a active_projects=()
+  local -a other_projects=()
 
   while IFS= read -r project; do
     [[ -z "$project" ]] && continue
@@ -310,6 +332,30 @@ _dash_category_expanded() {
     local proj_cat=$(_dash_detect_category "$proj_path")
     [[ "$proj_cat" != "$cat" ]] && continue
 
+    # Check if active
+    local proj_status=""
+    if [[ -f "$proj_path/.STATUS" ]]; then
+      proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+    fi
+
+    if [[ "$proj_status" == "active" ]]; then
+      active_projects+=("$project")
+    else
+      other_projects+=("$project")
+    fi
+  done <<< "$projects"
+
+  # Sort each group alphabetically
+  active_projects=(${(o)active_projects})
+  other_projects=(${(o)other_projects})
+
+  # Combined sorted list
+  local -a sorted_projects=("${active_projects[@]}" "${other_projects[@]}")
+  local count=${#sorted_projects[@]}
+
+  # Display projects
+  for project in "${sorted_projects[@]}"; do
+    local proj_path=$(_dash_find_project_path "$project")
     local status_icon="⚪"
     local focus=""
     local progress=""
@@ -341,9 +387,7 @@ _dash_category_expanded() {
     if [[ -n "$focus" ]]; then
       printf "       ${FLOW_COLORS[muted]}→ %.50s${FLOW_COLORS[reset]}\n" "$focus"
     fi
-
-    ((count++))
-  done <<< "$projects"
+  done
 
   if (( count == 0 )); then
     echo "  ${FLOW_COLORS[muted]}No projects in this category${FLOW_COLORS[reset]}"
