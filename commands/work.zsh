@@ -101,28 +101,67 @@ _flow_show_work_context() {
 _flow_open_editor() {
   local editor="$1"
   local path="$2"
+  local editor_cmd="${editor%% *}"  # Get first word if editor has args
+
+  # Check if editor exists
+  if [[ -z "$editor" ]]; then
+    _flow_log_warning "No editor configured. Set EDITOR or pass editor as argument."
+    return 1
+  fi
 
   # Handle common editors
-  case "${editor%% *}" in  # Get first word if editor has args
+  case "$editor_cmd" in
     code|vscode)
-      command code "$path" &>/dev/null &
+      if command -v code &>/dev/null; then
+        { command code "$path" &>/dev/null & } 2>/dev/null
+        disown 2>/dev/null
+      else
+        _flow_log_warning "VS Code not found in PATH"
+      fi
       ;;
     cursor)
-      command cursor "$path" &>/dev/null &
+      if command -v cursor &>/dev/null; then
+        { command cursor "$path" &>/dev/null & } 2>/dev/null
+        disown 2>/dev/null
+      else
+        _flow_log_warning "Cursor not found in PATH"
+      fi
       ;;
     vim|nvim)
-      command $editor "$path"
+      if command -v "$editor_cmd" &>/dev/null; then
+        command $editor "$path"
+      else
+        _flow_log_warning "$editor_cmd not found in PATH"
+      fi
       ;;
     emacs|spacemacs|emacsclient)
       if command -v emacsclient &>/dev/null; then
         command emacsclient -n "$path" 2>/dev/null
       elif command -v emacs &>/dev/null; then
-        command emacs "$path" &
+        { command emacs "$path" & } 2>/dev/null
+        disown 2>/dev/null
+      else
+        _flow_log_warning "Emacs not found in PATH"
+      fi
+      ;;
+    positron)
+      # Positron uses AppleScript on macOS
+      if [[ "$OSTYPE" == darwin* ]]; then
+        osascript -e "tell application \"Positron\" to activate" \
+                  -e "tell application \"Positron\" to open POSIX file \"$path\"" 2>/dev/null &
+        disown 2>/dev/null
+      else
+        _flow_log_warning "Positron only supported on macOS"
       fi
       ;;
     *)
-      # For complex $EDITOR values, use eval
-      eval "$editor \"$path\"" &>/dev/null &
+      # For other editors, check if command exists first
+      if command -v "$editor_cmd" &>/dev/null; then
+        { eval "$editor \"$path\"" &>/dev/null & } 2>/dev/null
+        disown 2>/dev/null
+      else
+        _flow_log_muted "Editor '$editor_cmd' not found - skipping"
+      fi
       ;;
   esac
 }
