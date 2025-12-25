@@ -75,9 +75,11 @@ dash() {
 
 _dash_header() {
   local date_str=$(date "+%b %d, %Y")
+  local time_str=$(date "+%H:%M")
   local streak=0
   local today_sessions=0
-  local today_time="0m"
+  local today_mins=0
+  local today_time="--"
 
   # Get stats from atlas if available
   if _flow_has_atlas; then
@@ -85,30 +87,50 @@ _dash_header() {
     if [[ -n "$stats" ]]; then
       streak=$(echo "$stats" | grep -o '"streak":[0-9]*' | cut -d: -f2 || echo "0")
       today_sessions=$(echo "$stats" | grep -o '"todaySessions":[0-9]*' | cut -d: -f2 || echo "0")
-      local mins=$(echo "$stats" | grep -o '"todayMinutes":[0-9]*' | cut -d: -f2 || echo "0")
-      if (( mins >= 60 )); then
-        today_time="$((mins / 60))h $((mins % 60))m"
-      else
-        today_time="${mins}m"
-      fi
+      today_mins=$(echo "$stats" | grep -o '"todayMinutes":[0-9]*' | cut -d: -f2 || echo "0")
+    fi
+  else
+    # Fallback: Count today's sessions from worklog
+    local worklog="${FLOW_DATA_DIR}/worklog"
+    local today=$(date "+%Y-%m-%d")
+    if [[ -f "$worklog" ]]; then
+      today_sessions=$(grep -c "^$today.*START" "$worklog" 2>/dev/null || echo "0")
     fi
   fi
 
-  # Header box
+  # Format time
+  if (( today_mins >= 60 )); then
+    today_time="$((today_mins / 60))h $((today_mins % 60))m"
+  elif (( today_mins > 0 )); then
+    today_time="${today_mins}m"
+  fi
+
+  # Header box with time
   echo "╭──────────────────────────────────────────────────────────────╮"
-  printf "│  🌊 ${FLOW_COLORS[bold]}FLOW DASHBOARD${FLOW_COLORS[reset]}%$((62 - 18 - ${#date_str}))s%s │\n" "" "$date_str"
+  printf "│  🌊 ${FLOW_COLORS[bold]}FLOW DASHBOARD${FLOW_COLORS[reset]}%$((62 - 18 - ${#date_str} - 8))s%s  🕐 %s │\n" "" "$date_str" "$time_str"
   echo "╰──────────────────────────────────────────────────────────────╯"
   echo ""
 
-  # Stats row
-  if _flow_has_atlas && (( today_sessions > 0 || streak > 0 )); then
-    printf "  📊 ${FLOW_COLORS[muted]}Today:${FLOW_COLORS[reset]} %d sessions, %s" "$today_sessions" "$today_time"
-    if (( streak > 0 )); then
-      printf "          🔥 ${FLOW_COLORS[warning]}%d day streak${FLOW_COLORS[reset]}" "$streak"
-    fi
-    echo ""
-    echo ""
+  # Stats row - always show
+  printf "  📊 ${FLOW_COLORS[muted]}Today:${FLOW_COLORS[reset]} "
+
+  if (( today_sessions > 0 )); then
+    printf "%d session%s" "$today_sessions" "$( (( today_sessions > 1 )) && echo 's' )"
+  else
+    printf "${FLOW_COLORS[muted]}no sessions${FLOW_COLORS[reset]}"
   fi
+
+  if [[ "$today_time" != "--" ]]; then
+    printf ", ⏱ %s" "$today_time"
+  fi
+
+  # Streak
+  if (( streak > 0 )); then
+    printf "        🔥 ${FLOW_COLORS[warning]}%d day streak${FLOW_COLORS[reset]}" "$streak"
+  fi
+
+  echo ""
+  echo ""
 }
 
 # ============================================================================
@@ -169,13 +191,39 @@ _dash_current() {
 # ============================================================================
 
 _dash_quick_access() {
-  echo "  📁 ${FLOW_COLORS[bold]}QUICK ACCESS${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(Recent)${FLOW_COLORS[reset]}"
+  echo "  📁 ${FLOW_COLORS[bold]}QUICK ACCESS${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(Active first)${FLOW_COLORS[reset]}"
 
-  local count=0
+  # Collect projects and sort (active first)
   local projects=$(_flow_list_projects)
+  local -a active_projects=()
+  local -a other_projects=()
 
   while IFS= read -r project; do
     [[ -z "$project" ]] && continue
+
+    local proj_path=$(_dash_find_project_path "$project")
+    local proj_status=""
+
+    if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
+      proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+    fi
+
+    if [[ "$proj_status" == "active" ]]; then
+      active_projects+=("$project")
+    else
+      other_projects+=("$project")
+    fi
+  done <<< "$projects"
+
+  # Combine: active first, then others (keep original order within groups)
+  local -a sorted_projects=("${active_projects[@]}" "${other_projects[@]}")
+
+  # Display top DASH_QUICK_COUNT
+  local count=0
+  local total=${#sorted_projects[@]}
+  local max=$((total < DASH_QUICK_COUNT ? total : DASH_QUICK_COUNT))
+
+  for project in "${sorted_projects[@]}"; do
     (( count >= DASH_QUICK_COUNT )) && break
 
     local proj_path=$(_dash_find_project_path "$project")
@@ -189,7 +237,7 @@ _dash_quick_access() {
     fi
 
     local prefix="├─"
-    (( count == DASH_QUICK_COUNT - 1 )) && prefix="└─"
+    (( count == max - 1 )) && prefix="└─"
 
     if [[ -n "$focus" ]]; then
       local focus_short="${focus:0:30}"
@@ -199,7 +247,7 @@ _dash_quick_access() {
     fi
 
     ((count++))
-  done <<< "$projects"
+  done
 
   echo ""
 }
@@ -209,17 +257,21 @@ _dash_quick_access() {
 # ============================================================================
 
 _dash_categories() {
-  # Count projects per category
+  # Count projects per category and track progress
   local -A cat_total
   local -A cat_active
+  local -A cat_progress_sum
+  local -A cat_progress_count
 
   # Initialize counts
   for key in dev r research teach quarto apps; do
     cat_total[$key]=0
     cat_active[$key]=0
+    cat_progress_sum[$key]=0
+    cat_progress_count[$key]=0
   done
 
-  # Count projects
+  # Count projects and collect progress
   local all_projects=$(_flow_list_projects)
   local total=0
 
@@ -235,11 +287,18 @@ _dash_categories() {
 
     ((cat_total[$cat]++))
 
-    # Check if active
+    # Check status and progress
     if [[ -f "$proj_path/.STATUS" ]]; then
       local proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
       if [[ "$proj_status" == "active" ]]; then
         ((cat_active[$cat]++))
+      fi
+
+      # Collect progress for average
+      local progress=$(grep -m1 "^## Progress:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' %')
+      if [[ -n "$progress" ]] && [[ "$progress" =~ ^[0-9]+$ ]]; then
+        ((cat_progress_sum[$cat] += progress))
+        ((cat_progress_count[$cat]++))
       fi
     fi
   done <<< "$all_projects"
@@ -283,12 +342,31 @@ _dash_categories() {
     local prefix="├─"
     (( idx == num_cats )) && prefix="└─"
 
-    printf "  %s %s ${FLOW_COLORS[info]}%-12s${FLOW_COLORS[reset]} %2d projects  │  " "$prefix" "$icon" "$name" "$t"
+    # Calculate average progress
+    local avg_progress=0
+    if (( cat_progress_count[$cat] > 0 )); then
+      avg_progress=$((cat_progress_sum[$cat] / cat_progress_count[$cat]))
+    fi
+
+    # Build progress bar (5 chars for compact display)
+    local bar=""
+    if (( cat_progress_count[$cat] > 0 )); then
+      local filled=$((avg_progress / 20))  # 5 segments = 20% each
+      local empty=$((5 - filled))
+      local bar_filled="" bar_empty=""
+      (( filled > 0 )) && bar_filled=$(printf '█%.0s' {1..$filled})
+      (( empty > 0 )) && bar_empty=$(printf '░%.0s' {1..$empty})
+      bar="${bar_filled}${bar_empty}"
+    else
+      bar="░░░░░"
+    fi
+
+    printf "  %s %s ${FLOW_COLORS[info]}%-12s${FLOW_COLORS[reset]} %s %3d%%  │  " "$prefix" "$icon" "$name" "$bar" "$avg_progress"
 
     if (( a > 0 )); then
-      printf "${FLOW_COLORS[success]}%d active${FLOW_COLORS[reset]}\n" "$a"
+      printf "${FLOW_COLORS[success]}%d active${FLOW_COLORS[reset]} / %d\n" "$a" "$t"
     else
-      printf "${FLOW_COLORS[muted]}0 active${FLOW_COLORS[reset]}\n"
+      printf "${FLOW_COLORS[muted]}0 active${FLOW_COLORS[reset]} / %d\n" "$t"
     fi
   done
 
