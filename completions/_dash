@@ -1,0 +1,37 @@
+#compdef dash
+
+# Completion for dash command - project dashboard
+
+_dash() {
+  local -a categories
+
+  categories=(
+    'all:Show all projects'
+    'teaching:Teaching projects (courses, lectures)'
+    'teach:Teaching projects (alias)'
+    'research:Research projects (manuscripts, data)'
+    'res:Research projects (alias)'
+    'packages:R packages'
+    'pkg:R packages (alias)'
+    'r:R packages (alias)'
+    'dev:Development tools'
+    'tools:Development tools (alias)'
+    'quarto:Quarto projects (websites, presentations)'
+    'qmd:Quarto projects (alias)'
+    'help:Show help'
+  )
+
+  _arguments -s \
+    '-h[Show help]' \
+    '--help[Show help]' \
+    '1:category:->categories' \
+  && return 0
+
+  case "$state" in
+    categories)
+      _describe -t categories 'category' categories
+      ;;
+  esac
+}
+
+_dash "$@"

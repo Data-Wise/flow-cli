@@ -1,0 +1,52 @@
+#compdef work
+
+# Completion for work command - project switcher
+
+_work() {
+  local -a projects
+  local -a options
+
+  # Options
+  options=(
+    '-e[Open in Emacs]:editor'
+    '-c[Open in VS Code]:editor'
+    '-p[Open in Positron]:editor'
+    '-a[Open with Claude Code]:editor'
+    '-t[Terminal only]:editor'
+    '-h[Show help]'
+    '--help[Show help]'
+    '--editor=[Specify editor]:editor:(emacs code positron claude terminal)'
+    '--mode=[Work mode]:mode:(focus explore collab ai quick)'
+  )
+
+  # Get project list from known locations
+  local search_paths=(
+    "$HOME/projects/r-packages/active"
+    "$HOME/projects/r-packages/stable"
+    "$HOME/projects/dev-tools"
+    "$HOME/projects/research"
+    "$HOME/projects/teaching"
+    "$HOME/projects/quarto"
+  )
+
+  for dir in $search_paths; do
+    if [[ -d "$dir" ]]; then
+      for p in "$dir"/*(N/); do
+        projects+=("${p:t}:${p}")
+      done
+    fi
+  done
+
+  _arguments -s \
+    $options \
+    '1:project:->projects' \
+  && return 0
+
+  case "$state" in
+    projects)
+      _describe -t projects 'project' projects
+      ;;
+  esac
+}
+
+_work "$@"

@@ -1,0 +1,39 @@
+#compdef js
+
+# Completion for js (just-start) command - ADHD-friendly quick start
+
+_js() {
+  local -a projects
+
+  # Get project list from known locations
+  local search_paths=(
+    "$HOME/projects/r-packages/active"
+    "$HOME/projects/r-packages/stable"
+    "$HOME/projects/dev-tools"
+    "$HOME/projects/research"
+    "$HOME/projects/teaching"
+    "$HOME/projects/quarto"
+  )
+
+  for dir in $search_paths; do
+    if [[ -d "$dir" ]]; then
+      for p in "$dir"/*(N/); do
+        projects+=("${p:t}:${p}")
+      done
+    fi
+  done
+
+  _arguments -s \
+    '-h[Show help]' \
+    '--help[Show help]' \
+    '1:project:(->projects)' \
+  && return 0
+
+  case "$state" in
+    projects)
+      _describe -t projects 'project (optional - picks random if empty)' projects
+      ;;
+  esac
+}
+
+_js "$@"

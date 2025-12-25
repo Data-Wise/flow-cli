@@ -1,0 +1,18 @@
+#compdef finish
+
+# Completion for finish command - end work session
+
+_finish() {
+  _arguments -s \
+    '-m[Commit message]:message' \
+    '--message=[Commit message]:message' \
+    '-p[Push after commit]' \
+    '--push[Push after commit]' \
+    '-n[No commit, just end session]' \
+    '--no-commit[No commit, just end session]' \
+    '-h[Show help]' \
+    '--help[Show help]' \
+    '*:message:_message "commit message"'
+}
+
+_finish "$@"
