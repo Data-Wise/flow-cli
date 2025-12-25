@@ -104,9 +104,20 @@ _flow_atlas_async() {
 # Get project info (atlas or fallback)
 _flow_get_project() {
   local name="$1"
-  
+
   if _flow_has_atlas; then
-    _flow_atlas project show "$name" --format=shell 2>/dev/null
+    # Try atlas first, but validate output is shell format
+    local output
+    output=$(_flow_atlas project show "$name" --format=shell 2>/dev/null)
+
+    # Validate: shell format should start with variable assignment (name=, path=, etc.)
+    # If it looks like JSON (starts with { or [), fall back
+    if [[ "$output" == "{"* ]] || [[ "$output" == "["* ]] || [[ -z "$output" ]]; then
+      # Atlas returned JSON or empty - use fallback
+      _flow_get_project_fallback "$name"
+    else
+      echo "$output"
+    fi
   else
     _flow_get_project_fallback "$name"
   fi
@@ -150,12 +161,21 @@ _flow_get_project_fallback() {
 # List projects (atlas or fallback)
 _flow_list_projects() {
   local filter="${1:-}"
-  
+
   if _flow_has_atlas; then
+    local output
     if [[ -n "$filter" ]]; then
-      _flow_atlas project list --status="$filter" --format=names 2>/dev/null
+      output=$(_flow_atlas project list --status="$filter" --format=names 2>/dev/null)
     else
-      _flow_atlas project list --format=names 2>/dev/null
+      output=$(_flow_atlas project list --format=names 2>/dev/null)
+    fi
+
+    # Validate: names format should be plain text, one per line
+    # If it looks like JSON (starts with { or [), fall back
+    if [[ "$output" == "{"* ]] || [[ "$output" == "["* ]] || [[ -z "$output" ]]; then
+      _flow_list_projects_fallback "$filter"
+    else
+      echo "$output"
     fi
   else
     _flow_list_projects_fallback "$filter"
