@@ -1,0 +1,181 @@
+#compdef flow
+
+# Completion for flow command
+
+_flow() {
+  local -a commands
+  local -a adhd_commands
+  local -a capture_commands
+  local -a action_commands
+  local -a timer_commands
+  local -a learn_commands
+
+  commands=(
+    'help:Show help for flow commands'
+    'version:Show version'
+    # Core workflow
+    'work:Start a focused work session'
+    'pick:Interactive project picker'
+    'dash:Show project dashboard'
+    'finish:End session, optionally commit'
+    'hop:Quick switch projects (tmux)'
+    'why:Show current context'
+    # ADHD helpers
+    'start:Just start - picks a project for you'
+    'js:Just start (alias for start)'
+    'stuck:When you are blocked - get unstuck'
+    'focus:Set your current focus'
+    'next:What should I work on?'
+    'break:Take a proper break'
+    'brk:Take a break (alias)'
+    # Capture
+    'catch:Quick capture to inbox'
+    'crumb:Leave breadcrumb in project'
+    'inbox:View your inbox'
+    'win:Log a win'
+    'status:View/update .STATUS file'
+    # Actions
+    'test:Run tests (context-aware)'
+    'build:Build project (context-aware)'
+    'preview:Preview project output'
+    'sync:Smart git sync'
+    'check:Health check (lint, types)'
+    'plan:Sprint/project planning'
+    'log:Activity log'
+    # Timer
+    'timer:Focus timer'
+    'morning:Morning startup routine'
+    # Learning
+    'learn:Interactive tutorial'
+    'tutorial:Interactive tutorial (alias)'
+  )
+
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  _arguments -C \
+    '1: :->command' \
+    '*: :->args'
+
+  case $state in
+    command)
+      _describe -t commands 'flow command' commands
+      ;;
+    args)
+      case $line[1] in
+        pick|pp)
+          local -a categories
+          categories=(
+            'r:R packages'
+            'dev:Development tools'
+            'q:Quarto projects'
+            'teach:Teaching courses'
+            'rs:Research projects'
+            'app:Applications'
+          )
+          _describe -t categories 'category' categories
+          ;;
+        work)
+          # Complete project names
+          local -a projects
+          projects=(${(f)"$(command ls -d ~/projects/*/* 2>/dev/null | xargs -n1 basename 2>/dev/null)"})
+          _describe -t projects 'project' projects
+          ;;
+        dash)
+          local -a scopes
+          scopes=(
+            'dev:Development tools'
+            'r:R packages'
+            'teach:Teaching'
+            'rs:Research'
+            'all:All projects'
+          )
+          _describe -t scopes 'scope' scopes
+          ;;
+        learn|tutorial)
+          local -a levels
+          levels=(
+            'beginner:Core workflow lessons'
+            'medium:Productivity tools'
+            'advanced:Power features'
+            'reset:Reset progress'
+            'progress:Show current progress'
+            'run:Run named tutorial'
+          )
+          _describe -t levels 'level' levels
+          ;;
+        test)
+          local -a test_opts
+          test_opts=(
+            '--watch:Watch mode'
+            '-w:Watch mode'
+            '--coverage:Run with coverage'
+            '--verbose:Verbose output'
+          )
+          _describe -t options 'option' test_opts
+          ;;
+        timer)
+          local -a timer_actions
+          timer_actions=(
+            'status:Check remaining time'
+            'stop:Cancel timer'
+            '5:5 minute timer'
+            '15:15 minute timer'
+            '25:25 minute pomodoro'
+            '45:45 minute deep work'
+          )
+          _describe -t actions 'action' timer_actions
+          ;;
+        status)
+          local -a status_actions
+          status_actions=(
+            'set:Set progress (0-100)'
+            'next:Set next action'
+            'all:View all project statuses'
+          )
+          _describe -t actions 'action' status_actions
+          ;;
+        plan)
+          local -a plan_actions
+          plan_actions=(
+            'sprint:Sprint planning view'
+            'roadmap:Show roadmap'
+            'edit:Edit TODO.md or .STATUS'
+          )
+          _describe -t actions 'action' plan_actions
+          ;;
+        log)
+          local -a log_periods
+          log_periods=(
+            'today:Today activity'
+            'week:This week activity'
+            'recent:Recent activity'
+          )
+          _describe -t periods 'period' log_periods
+          ;;
+        sync)
+          local -a sync_opts
+          sync_opts=(
+            '--force:Force push'
+            '--dry-run:Show what would happen'
+          )
+          _describe -t options 'option' sync_opts
+          ;;
+        help)
+          # Complete command names for help
+          local -a help_topics
+          help_topics=(
+            'work' 'pick' 'dash' 'finish' 'status' 'timer' 'tutorial'
+            'test' 'build' 'sync' 'check' 'plan'
+          )
+          _describe -t topics 'topic' help_topics
+          ;;
+        *)
+          _files
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_flow "$@"
