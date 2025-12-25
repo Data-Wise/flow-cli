@@ -72,7 +72,7 @@ _flow_status_icon() {
 # Get project name from path
 _flow_project_name() {
   local path="${1:-$PWD}"
-  basename "$path"
+  echo "${path:t}"  # ZSH builtin: :t = tail (basename equivalent)
 }
 
 # Find project root (looks for .STATUS, .git, etc.)

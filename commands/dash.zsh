@@ -45,26 +45,31 @@ dash() {
 _flow_dash_project_row() {
   local project="$1"
   local format="$2"
-  
+
   # Get project info
   local info=$(_flow_get_project "$project" 2>/dev/null)
-  
-  local status="unknown"
+
+  local proj_status="unknown"
   local focus=""
   local path=""
-  
+
   if [[ -n "$info" ]]; then
     eval "$info"
   fi
-  
-  # Try to read from .STATUS file if we have path
+
+  # Try to read from .STATUS file if we have path (pure ZSH)
   if [[ -n "$path" ]] && [[ -f "$path/.STATUS" ]]; then
-    status=$(grep -m1 "^## Status:" "$path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
-    focus=$(grep -m1 "^## Focus:" "$path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
+    local line
+    while IFS= read -r line; do
+      case "$line" in
+        "## Status:"*) proj_status="${${line#*:}// /}" ; proj_status="${proj_status:l}" ;;
+        "## Focus:"*)  focus="${line#*:}" ; focus="${focus## }" ;;
+      esac
+    done < "$path/.STATUS"
   fi
-  
-  local icon=$(_flow_status_icon "${status:-unknown}")
-  local color="${FLOW_COLORS[$status]:-${FLOW_COLORS[muted]}}"
+
+  local icon=$(_flow_status_icon "${proj_status:-unknown}")
+  local color="${FLOW_COLORS[$proj_status]:-${FLOW_COLORS[muted]}}"
   local type_icon=$(_flow_project_icon "$(_flow_detect_project_type "$path" 2>/dev/null)")
   
   case "$format" in

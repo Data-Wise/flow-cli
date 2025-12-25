@@ -2,6 +2,23 @@
 # Provides seamless integration with @data-wise/atlas when available
 # Falls back to local operations when atlas is not installed
 
+# Load zsh datetime module for strftime
+zmodload zsh/datetime 2>/dev/null
+
+# ============================================================================
+# ZSH-NATIVE UTILITIES (avoid external commands)
+# ============================================================================
+
+# Get timestamp (YYYY-MM-DD HH:MM:SS)
+_flow_timestamp() {
+  strftime '%Y-%m-%d %H:%M:%S' $EPOCHSECONDS
+}
+
+# Get short timestamp (YYYY-MM-DD HH:MM)
+_flow_timestamp_short() {
+  strftime '%Y-%m-%d %H:%M' $EPOCHSECONDS
+}
+
 # ============================================================================
 # ATLAS DETECTION
 # ============================================================================
@@ -104,17 +121,27 @@ _flow_get_project_fallback() {
   if [[ -d "$FLOW_PROJECTS_ROOT/$name" ]]; then
     path="$FLOW_PROJECTS_ROOT/$name"
   else
-    # Search for project
-    path=$(find "$FLOW_PROJECTS_ROOT" -maxdepth 3 -type d -name "$name" 2>/dev/null | head -1)
+    # Search in common subdirectories
+    local search_dirs=(
+      "$FLOW_PROJECTS_ROOT/dev-tools"
+      "$FLOW_PROJECTS_ROOT/r-packages/active"
+      "$FLOW_PROJECTS_ROOT/r-packages/stable"
+      "$FLOW_PROJECTS_ROOT/research"
+      "$FLOW_PROJECTS_ROOT/teaching"
+      "$FLOW_PROJECTS_ROOT/quarto"
+    )
+    for dir in "${search_dirs[@]}"; do
+      if [[ -d "$dir/$name" ]]; then
+        path="$dir/$name"
+        break
+      fi
+    done
   fi
   
   if [[ -n "$path" ]]; then
     echo "name=\"$name\""
     echo "path=\"$path\""
-    if [[ -f "$path/.STATUS" ]]; then
-      local status=$(grep -m1 "^## Status:" "$path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ')
-      echo "status=\"${status:-unknown}\""
-    fi
+    echo "proj_status=\"active\""  # Avoid 'status' - conflicts with ZSH builtin
     return 0
   fi
   return 1
@@ -138,16 +165,12 @@ _flow_list_projects() {
 # Fallback: List projects from filesystem
 _flow_list_projects_fallback() {
   local filter="${1:-}"
-  find "$FLOW_PROJECTS_ROOT" -maxdepth 3 -name ".STATUS" 2>/dev/null | while read status_file; do
-    local dir=$(dirname "$status_file")
-    local name=$(basename "$dir")
-    
-    if [[ -n "$filter" ]]; then
-      local status=$(grep -m1 "^## Status:" "$status_file" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
-      [[ "$status" == "$filter" ]] && echo "$name"
-    else
-      echo "$name"
-    fi
+  local status_file dir name
+
+  for status_file in "$FLOW_PROJECTS_ROOT"/**/.STATUS(N); do
+    dir="${status_file:h}"   # ZSH: :h = head (dirname equivalent)
+    name="${dir:t}"          # ZSH: :t = tail (basename equivalent)
+    echo "$name"
   done
 }
 
@@ -164,7 +187,7 @@ _flow_session_start() {
   else
     # Fallback: Log to worklog
     local worklog="${FLOW_DATA_DIR}/worklog"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') START $project" >> "$worklog"
+    echo "$(_flow_timestamp) START $project" >> "$worklog"
     _flow_log_success "Session started: $project"
   fi
 }
@@ -178,7 +201,7 @@ _flow_session_end() {
   else
     # Fallback: Log to worklog
     local worklog="${FLOW_DATA_DIR}/worklog"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') END ${note:+($note)}" >> "$worklog"
+    echo "$(_flow_timestamp) END ${note:+($note)}" >> "$worklog"
     _flow_log_success "Session ended"
   fi
 }
@@ -201,7 +224,7 @@ _flow_catch() {
   else
     # Fallback: Append to inbox file
     local inbox="${FLOW_DATA_DIR}/inbox.md"
-    echo "- [ ] $text${project:+ (@$project)} [$(date '+%Y-%m-%d %H:%M')]" >> "$inbox"
+    echo "- [ ] $text${project:+ (@$project)} [$(_flow_timestamp_short)]" >> "$inbox"
     _flow_log_success "Captured: $text"
   fi
 }
@@ -280,7 +303,7 @@ _flow_crumb() {
   else
     # Fallback: Log to trail file
     local trail="${FLOW_DATA_DIR}/trail.log"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') ${project:+[$project] }$text" >> "$trail"
+    echo "$(_flow_timestamp) ${project:+[$project] }$text" >> "$trail"
     _flow_log_success "🍞 Breadcrumb: $text"
   fi
 }

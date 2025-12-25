@@ -69,16 +69,17 @@ _flow_show_work_context() {
   echo "$icon ${FLOW_COLORS[bold]}$project${FLOW_COLORS[reset]} ($type)"
   echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
   
-  # Show status file info
+  # Show status file info (simplified - pure ZSH)
   if [[ -f "$path/.STATUS" ]]; then
-    local status=$(grep -m1 "^## Status:" "$path/.STATUS" | cut -d: -f2 | tr -d ' ')
-    local focus=$(grep -m1 "^## Focus:" "$path/.STATUS" | cut -d: -f2-)
-    local phase=$(grep -m1 "^## Phase:" "$path/.STATUS" | cut -d: -f2-)
-    
-    local status_icon=$(_flow_status_icon "$status")
-    [[ -n "$status" ]] && echo "$status_icon Status: ${FLOW_COLORS[$status]:-}$status${FLOW_COLORS[reset]}"
-    [[ -n "$phase" ]] && echo "📍 Phase:$phase"
-    [[ -n "$focus" ]] && echo "🎯 Focus:$focus"
+    local -i count=0
+    local line
+    while IFS= read -r line && (( count++ < 10 )); do
+      case "$line" in
+        "## Status:"*) echo "🟢 Status:${line#*:}" ;;
+        "## Phase:"*)  echo "📍 Phase:${line#*:}" ;;
+        "## Focus:"*)  echo "🎯 Focus:${line#*:}" ;;
+      esac
+    done < "$path/.STATUS"
   fi
   
   echo ""
@@ -88,23 +89,28 @@ _flow_show_work_context() {
 _flow_open_editor() {
   local editor="$1"
   local path="$2"
-  
-  case "$editor" in
+
+  # Handle common editors
+  case "${editor%% *}" in  # Get first word if editor has args
     code|vscode)
-      code "$path"
+      command code "$path" &>/dev/null &
       ;;
     cursor)
-      cursor "$path"
+      command cursor "$path" &>/dev/null &
       ;;
     vim|nvim)
-      $editor "$path"
+      command $editor "$path"
       ;;
-    emacs|spacemacs)
-      emacsclient -n "$path" 2>/dev/null || emacs "$path" &
+    emacs|spacemacs|emacsclient)
+      if command -v emacsclient &>/dev/null; then
+        command emacsclient -n "$path" 2>/dev/null
+      elif command -v emacs &>/dev/null; then
+        command emacs "$path" &
+      fi
       ;;
     *)
-      # Try to run the editor command
-      $editor "$path"
+      # For complex $EDITOR values, use eval
+      eval "$editor \"$path\"" &>/dev/null &
       ;;
   esac
 }
