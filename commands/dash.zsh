@@ -1,261 +1,500 @@
-# commands/dash.zsh - Dashboard command
-# Quick overview of all projects and their status
+# commands/dash.zsh - Dashboard command (Option A: Summary-First)
+# ADHD-friendly project overview with progressive disclosure
+
+# ============================================================================
+# CONFIGURATION
+# ============================================================================
+
+# Category definitions: path:type:icon:display_name
+typeset -gA DASH_CATEGORIES
+DASH_CATEGORIES=(
+  [dev]="dev-tools:dev:🔧:Dev Tools"
+  [r]="r-packages/active:r:📦:R Packages|r-packages/stable:r:📦:R Packages"
+  [research]="research:rs:🔬:Research"
+  [teach]="teaching:teach:🎓:Teaching"
+  [quarto]="quarto:q:📝:Quarto"
+  [apps]="apps:app:📱:Apps"
+)
+
+# How many projects to show in quick access
+DASH_QUICK_COUNT=5
 
 # ============================================================================
 # DASH COMMAND
 # ============================================================================
 
 dash() {
-  local mode=""
-  local filter=""
-  local format="compact"
-  
+  local mode="${1:-}"
+  local show_all=0
+
   # Parse arguments
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      --full|-f)
-        mode="full"
-        shift
-        ;;
-      --tui|-t)
-        mode="tui"
-        shift
-        ;;
-      --active|-a)
-        filter="active"
-        shift
-        ;;
-      --detailed|-d)
-        format="detailed"
-        shift
-        ;;
-      --minimal|-m)
-        format="minimal"
-        shift
-        ;;
-      *)
-        filter="$1"
-        shift
-        ;;
-    esac
-  done
-  
-  # Full mode: use atlas dashboard (TUI)
-  if [[ "$mode" == "full" ]]; then
-    if _flow_has_atlas; then
-      _flow_atlas dashboard
-      return $?
-    else
-      _flow_log_warning "Atlas not available. Using local dashboard."
-    fi
+  case "$mode" in
+    -h|--help|help)
+      _dash_help
+      return 0
+      ;;
+    -a|--all)
+      show_all=1
+      mode=""
+      ;;
+    -f|--full)
+      # Full TUI mode
+      if _flow_has_atlas; then
+        _flow_atlas dashboard
+      else
+        _flow_log_warning "Atlas not available for TUI mode"
+        mode=""
+      fi
+      return
+      ;;
+    dev|r|research|teach|quarto|apps)
+      # Category expansion mode
+      _dash_category_expanded "$mode"
+      return
+      ;;
+  esac
+
+  # Default: Summary-first dashboard
+  echo ""
+  _dash_header
+  _dash_current
+  _dash_quick_access
+
+  if (( show_all )); then
+    _dash_all_projects
+  else
+    _dash_categories
   fi
-  
-  # TUI mode: interactive fzf dashboard
-  if [[ "$mode" == "tui" ]]; then
-    dash-tui
-    return $?
-  fi
-  
-  # Default: quick ZSH dashboard
-  _flow_dash_quick "$filter" "$format"
+
+  _dash_footer
 }
 
-# Quick ZSH-native dashboard (fast, no dependencies)
-_flow_dash_quick() {
-  local filter="$1"
-  local format="$2"
-  
-  echo ""
-  echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
-  echo "  ${FLOW_COLORS[bold]}PROJECT DASHBOARD${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
-  echo ""
-  
-  # Show current session if active
+# ============================================================================
+# HEADER - Summary stats and streak
+# ============================================================================
+
+_dash_header() {
+  local date_str=$(date "+%b %d, %Y")
+  local streak=0
+  local today_sessions=0
+  local today_time="0m"
+
+  # Get stats from atlas if available
   if _flow_has_atlas; then
-    local current=$(atlas session status --format=json 2>/dev/null | grep -o '"project":"[^"]*"' | cut -d'"' -f4)
-    if [[ -n "$current" ]]; then
-      echo "  ${FLOW_COLORS[success]}▶ Active session:${FLOW_COLORS[reset]} $current"
-      echo ""
+    local stats=$(atlas status --format=json 2>/dev/null)
+    if [[ -n "$stats" ]]; then
+      streak=$(echo "$stats" | grep -o '"streak":[0-9]*' | cut -d: -f2 || echo "0")
+      today_sessions=$(echo "$stats" | grep -o '"todaySessions":[0-9]*' | cut -d: -f2 || echo "0")
+      local mins=$(echo "$stats" | grep -o '"todayMinutes":[0-9]*' | cut -d: -f2 || echo "0")
+      if (( mins >= 60 )); then
+        today_time="$((mins / 60))h $((mins % 60))m"
+      else
+        today_time="${mins}m"
+      fi
     fi
   fi
-  
-  # Get projects (using atlas if available)
-  local projects
-  if [[ -n "$filter" ]]; then
-    projects=$(_flow_list_projects "$filter")
-  else
-    projects=$(_flow_list_projects)
+
+  # Header box
+  echo "╭──────────────────────────────────────────────────────────────╮"
+  printf "│  🌊 ${FLOW_COLORS[bold]}FLOW DASHBOARD${FLOW_COLORS[reset]}%$((62 - 18 - ${#date_str}))s%s │\n" "" "$date_str"
+  echo "╰──────────────────────────────────────────────────────────────╯"
+  echo ""
+
+  # Stats row
+  if _flow_has_atlas && (( today_sessions > 0 || streak > 0 )); then
+    printf "  📊 ${FLOW_COLORS[muted]}Today:${FLOW_COLORS[reset]} %d sessions, %s" "$today_sessions" "$today_time"
+    if (( streak > 0 )); then
+      printf "          🔥 ${FLOW_COLORS[warning]}%d day streak${FLOW_COLORS[reset]}" "$streak"
+    fi
+    echo ""
+    echo ""
   fi
-  
-  if [[ -z "$projects" ]]; then
-    echo "  No projects found"
-    return
+}
+
+# ============================================================================
+# CURRENT SESSION - Highlight active work
+# ============================================================================
+
+_dash_current() {
+  local current_project=""
+  local current_focus=""
+  local elapsed=""
+
+  # Check for active session
+  if _flow_has_atlas; then
+    local session=$(atlas session status --format=json 2>/dev/null)
+    if [[ "$session" != *'"active":false'* ]] && [[ "$session" == *'"project":'* ]]; then
+      current_project=$(echo "$session" | grep -o '"project":"[^"]*"' | cut -d'"' -f4)
+      elapsed=$(echo "$session" | grep -o '"elapsed":[0-9]*' | cut -d: -f2)
+      if [[ -n "$elapsed" ]]; then
+        elapsed="${elapsed}m"
+      fi
+    fi
   fi
-  
-  # Display projects
+
+  # Fallback: check FLOW_CURRENT_PROJECT
+  if [[ -z "$current_project" ]] && [[ -n "$FLOW_CURRENT_PROJECT" ]]; then
+    current_project="$FLOW_CURRENT_PROJECT"
+  fi
+
+  # Get focus from .STATUS if we have a current project
+  if [[ -n "$current_project" ]]; then
+    local proj_path=$(_dash_find_project_path "$current_project")
+    if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
+      current_focus=$(grep -m1 "^## Focus:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
+    fi
+  fi
+
+  if [[ -n "$current_project" ]]; then
+    local type_icon=$(_flow_project_icon "$(_flow_detect_project_type "$proj_path" 2>/dev/null)")
+
+    echo "  🎯 ${FLOW_COLORS[bold]}ACTIVE NOW${FLOW_COLORS[reset]}"
+    echo "  ╭────────────────────────────────────────────────────────────╮"
+    printf "  │  %s ${FLOW_COLORS[success]}%-52s${FLOW_COLORS[reset]} │\n" "$type_icon" "$current_project"
+    if [[ -n "$current_focus" ]]; then
+      # Truncate focus to fit
+      local focus_display="${current_focus:0:54}"
+      printf "  │  ${FLOW_COLORS[muted]}Focus: %-51s${FLOW_COLORS[reset]} │\n" "$focus_display"
+    fi
+    if [[ -n "$elapsed" ]]; then
+      printf "  │  ${FLOW_COLORS[muted]}⏱  %-55s${FLOW_COLORS[reset]} │\n" "$elapsed elapsed"
+    fi
+    echo "  ╰────────────────────────────────────────────────────────────╯"
+    echo ""
+  fi
+}
+
+# ============================================================================
+# QUICK ACCESS - Recent projects
+# ============================================================================
+
+_dash_quick_access() {
+  echo "  📁 ${FLOW_COLORS[bold]}QUICK ACCESS${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(Recent)${FLOW_COLORS[reset]}"
+
+  local count=0
+  local projects=$(_flow_list_projects)
+
   while IFS= read -r project; do
     [[ -z "$project" ]] && continue
-    _flow_dash_project_row "$project" "$format"
+    (( count >= DASH_QUICK_COUNT )) && break
+
+    local proj_path=$(_dash_find_project_path "$project")
+    local status_icon="⚪"
+    local focus=""
+
+    if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
+      local proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+      status_icon=$(_flow_status_icon "$proj_status")
+      focus=$(grep -m1 "^## Focus:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
+    fi
+
+    local prefix="├─"
+    (( count == DASH_QUICK_COUNT - 1 )) && prefix="└─"
+
+    if [[ -n "$focus" ]]; then
+      local focus_short="${focus:0:30}"
+      printf "  %s %s ${FLOW_COLORS[info]}%-16s${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}%s${FLOW_COLORS[reset]}\n" "$prefix" "$status_icon" "$project" "$focus_short"
+    else
+      printf "  %s %s ${FLOW_COLORS[info]}%-16s${FLOW_COLORS[reset]}\n" "$prefix" "$status_icon" "$project"
+    fi
+
+    ((count++))
   done <<< "$projects"
-  
-  echo ""
-  
-  # Show legend
-  echo "${FLOW_COLORS[muted]}  🟢 Active  🟡 Paused  🔴 Blocked  🟠 Stalled  ⚫ Archived${FLOW_COLORS[reset]}"
-  echo ""
-  echo "${FLOW_COLORS[muted]}  Tip: 'dash --full' for interactive TUI (requires atlas)${FLOW_COLORS[reset]}"
+
   echo ""
 }
 
-# Render a single project row
-_flow_dash_project_row() {
-  local project="$1"
-  local format="$2"
+# ============================================================================
+# CATEGORIES - Grouped summary
+# ============================================================================
 
-  # Get project info
-  local info=$(_flow_get_project "$project" 2>/dev/null)
+_dash_categories() {
+  # Count projects per category
+  local -A cat_total
+  local -A cat_active
 
-  local proj_status="unknown"
-  local focus=""
-  local path=""
+  # Initialize counts
+  for key in dev r research teach quarto apps; do
+    cat_total[$key]=0
+    cat_active[$key]=0
+  done
 
-  if [[ -n "$info" ]]; then
-    eval "$info"
+  # Count projects
+  local all_projects=$(_flow_list_projects)
+  local total=0
+
+  while IFS= read -r project; do
+    [[ -z "$project" ]] && continue
+    ((total++))
+
+    local proj_path=$(_dash_find_project_path "$project")
+    [[ -z "$proj_path" ]] && continue
+
+    local cat=$(_dash_detect_category "$proj_path")
+    [[ -z "$cat" ]] && cat="dev"
+
+    ((cat_total[$cat]++))
+
+    # Check if active
+    if [[ -f "$proj_path/.STATUS" ]]; then
+      local proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+      if [[ "$proj_status" == "active" ]]; then
+        ((cat_active[$cat]++))
+      fi
+    fi
+  done <<< "$all_projects"
+
+  echo "  📋 ${FLOW_COLORS[bold]}BY CATEGORY${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}($total total)${FLOW_COLORS[reset]}"
+
+  local cats=("dev" "r" "research" "teach")
+  local icons=("🔧" "📦" "🔬" "🎓")
+  local names=("dev-tools" "r-packages" "research" "teaching")
+  local last_idx=$((${#cats[@]} - 1))
+
+  for i in {1..${#cats[@]}}; do
+    local cat="${cats[$i]}"
+    local icon="${icons[$i]}"
+    local name="${names[$i]}"
+    local t="${cat_total[$cat]:-0}"
+    local a="${cat_active[$cat]:-0}"
+
+    (( t == 0 )) && continue
+
+    local prefix="├─"
+    (( i == ${#cats[@]} )) && prefix="└─"
+
+    printf "  %s %s ${FLOW_COLORS[info]}%-12s${FLOW_COLORS[reset]} %2d projects  │  " "$prefix" "$icon" "$name" "$t"
+
+    if (( a > 0 )); then
+      printf "${FLOW_COLORS[success]}%d active${FLOW_COLORS[reset]}\n" "$a"
+    else
+      printf "${FLOW_COLORS[muted]}0 active${FLOW_COLORS[reset]}\n"
+    fi
+  done
+
+  echo ""
+}
+
+# ============================================================================
+# CATEGORY EXPANDED - Show all projects in a category
+# ============================================================================
+
+_dash_category_expanded() {
+  local cat="$1"
+  local cat_icon=""
+  local cat_name=""
+
+  case "$cat" in
+    dev)      cat_icon="🔧"; cat_name="DEV-TOOLS" ;;
+    r)        cat_icon="📦"; cat_name="R-PACKAGES" ;;
+    research) cat_icon="🔬"; cat_name="RESEARCH" ;;
+    teach)    cat_icon="🎓"; cat_name="TEACHING" ;;
+    quarto)   cat_icon="📝"; cat_name="QUARTO" ;;
+    apps)     cat_icon="📱"; cat_name="APPS" ;;
+  esac
+
+  echo ""
+  echo "  $cat_icon ${FLOW_COLORS[bold]}$cat_name${FLOW_COLORS[reset]}"
+  echo "  ─────────────────────────────────────────────────────────────"
+  echo ""
+
+  local projects=$(_flow_list_projects)
+  local count=0
+
+  while IFS= read -r project; do
+    [[ -z "$project" ]] && continue
+
+    local proj_path=$(_dash_find_project_path "$project")
+    [[ -z "$proj_path" ]] && continue
+
+    local proj_cat=$(_dash_detect_category "$proj_path")
+    [[ "$proj_cat" != "$cat" ]] && continue
+
+    local status_icon="⚪"
+    local focus=""
+    local progress=""
+
+    if [[ -f "$proj_path/.STATUS" ]]; then
+      local proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+      status_icon=$(_flow_status_icon "$proj_status")
+      focus=$(grep -m1 "^## Focus:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
+      progress=$(grep -m1 "^## Progress:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' %')
+    fi
+
+    local type_icon=$(_flow_project_icon "$(_flow_detect_project_type "$proj_path" 2>/dev/null)")
+
+    # Progress bar
+    local bar=""
+    if [[ -n "$progress" ]] && [[ "$progress" =~ ^[0-9]+$ ]]; then
+      local filled=$((progress / 10))
+      local empty=$((10 - filled))
+      local bar_filled="" bar_empty=""
+      (( filled > 0 )) && bar_filled=$(printf '█%.0s' {1..$filled})
+      (( empty > 0 )) && bar_empty=$(printf '░%.0s' {1..$empty})
+      bar=" ${bar_filled}${bar_empty} ${progress}%"
+    fi
+
+    printf "  %s %s %-20s" "$status_icon" "$type_icon" "$project"
+    [[ -n "$bar" ]] && printf "%s" "$bar"
+    echo ""
+
+    if [[ -n "$focus" ]]; then
+      printf "       ${FLOW_COLORS[muted]}→ %.50s${FLOW_COLORS[reset]}\n" "$focus"
+    fi
+
+    ((count++))
+  done <<< "$projects"
+
+  if (( count == 0 )); then
+    echo "  ${FLOW_COLORS[muted]}No projects in this category${FLOW_COLORS[reset]}"
   fi
 
-  # Try to read from .STATUS file if we have path (pure ZSH)
-  if [[ -n "$path" ]] && [[ -f "$path/.STATUS" ]]; then
-    local line
-    while IFS= read -r line; do
-      case "$line" in
-        "## Status:"*) proj_status="${${line#*:}// /}" ; proj_status="${proj_status:l}" ;;
-        "## Focus:"*)  focus="${line#*:}" ; focus="${focus## }" ;;
-      esac
-    done < "$path/.STATUS"
+  echo ""
+  echo "  ${FLOW_COLORS[muted]}← 'dash' to return to summary${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# ============================================================================
+# ALL PROJECTS - Flat list (when using -a flag)
+# ============================================================================
+
+_dash_all_projects() {
+  echo "  📋 ${FLOW_COLORS[bold]}ALL PROJECTS${FLOW_COLORS[reset]}"
+  echo ""
+
+  local projects=$(_flow_list_projects)
+
+  while IFS= read -r project; do
+    [[ -z "$project" ]] && continue
+
+    local proj_path=$(_dash_find_project_path "$project")
+    local status_icon="⚪"
+    local focus=""
+
+    if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
+      local proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+      status_icon=$(_flow_status_icon "$proj_status")
+      focus=$(grep -m1 "^## Focus:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//' | head -c 40)
+    fi
+
+    local type_icon=$(_flow_project_icon "$(_flow_detect_project_type "$proj_path" 2>/dev/null)")
+
+    printf "  %s %s %-20s" "$status_icon" "$type_icon" "$project"
+    [[ -n "$focus" ]] && printf " ${FLOW_COLORS[muted]}│ %s${FLOW_COLORS[reset]}" "$focus"
+    echo ""
+  done <<< "$projects"
+
+  echo ""
+}
+
+# ============================================================================
+# FOOTER
+# ============================================================================
+
+_dash_footer() {
+  local inbox_count=0
+
+  # Get inbox count
+  if _flow_has_atlas; then
+    inbox_count=$(atlas inbox --count 2>/dev/null || echo "0")
+  else
+    local inbox="${FLOW_DATA_DIR}/inbox.md"
+    [[ -f "$inbox" ]] && inbox_count=$(wc -l < "$inbox" | tr -d ' ')
   fi
 
-  local icon=$(_flow_status_icon "${proj_status:-unknown}")
-  local color="${FLOW_COLORS[$proj_status]:-${FLOW_COLORS[muted]}}"
-  local type_icon=$(_flow_project_icon "$(_flow_detect_project_type "$path" 2>/dev/null)")
-  
-  case "$format" in
-    compact)
-      printf "  %s %s ${color}%-18s${FLOW_COLORS[reset]}" "$icon" "$type_icon" "$project"
-      [[ -n "$focus" ]] && printf " │ %.40s" "$focus"
-      echo ""
-      ;;
-    detailed)
-      printf "  %s ${color}%-20s${FLOW_COLORS[reset]}\n" "$icon" "$project"
-      [[ -n "$path" ]] && printf "     📁 %s\n" "$path"
-      [[ -n "$focus" ]] && printf "     🎯 %s\n" "$focus"
-      echo ""
-      ;;
-    minimal)
-      printf "%s %s\n" "$icon" "$project"
-      ;;
+  echo "  ─────────────────────────────────────────────────────────────"
+
+  if (( inbox_count > 0 )); then
+    echo "  📥 ${FLOW_COLORS[warning]}Inbox: $inbox_count items${FLOW_COLORS[reset]}"
+  fi
+
+  echo ""
+  echo "  ${FLOW_COLORS[muted]}💡 'dash dev' to expand category │ 'dash -a' for all │ 'flow pick' to switch${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# ============================================================================
+# HELP
+# ============================================================================
+
+_dash_help() {
+  cat << 'EOF'
+╭──────────────────────────────────────────────────────────────╮
+│  🌊 DASH - Project Dashboard                                 │
+╰──────────────────────────────────────────────────────────────╯
+
+USAGE: dash [option|category]
+
+OPTIONS:
+  (none)        Summary view (default)
+  -a, --all     Show all projects (flat list)
+  -f, --full    Interactive TUI (requires atlas)
+  -h, --help    Show this help
+
+CATEGORIES:
+  dev           Expand dev-tools projects
+  r             Expand R packages
+  research      Expand research projects
+  teach         Expand teaching projects
+
+EXAMPLES:
+  dash              # Summary dashboard
+  dash dev          # Show all dev-tools projects
+  dash -a           # Flat list of all projects
+  flow dash r       # R packages via flow command
+
+LEGEND:
+  🟢 Active    🟡 Paused    🔴 Blocked
+  🟠 Stalled   ⚫ Archived  ⚪ Unknown
+EOF
+}
+
+# ============================================================================
+# HELPERS
+# ============================================================================
+
+# Find project path by name
+_dash_find_project_path() {
+  local name="$1"
+  local search_dirs=(
+    "$FLOW_PROJECTS_ROOT/dev-tools"
+    "$FLOW_PROJECTS_ROOT/apps"
+    "$FLOW_PROJECTS_ROOT/r-packages/active"
+    "$FLOW_PROJECTS_ROOT/r-packages/stable"
+    "$FLOW_PROJECTS_ROOT/research"
+    "$FLOW_PROJECTS_ROOT/teaching"
+    "$FLOW_PROJECTS_ROOT/quarto/manuscripts"
+    "$FLOW_PROJECTS_ROOT/quarto/presentations"
+    "$FLOW_PROJECTS_ROOT"
+  )
+
+  for dir in "${search_dirs[@]}"; do
+    if [[ -d "$dir/$name" ]]; then
+      echo "$dir/$name"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+# Detect category from path
+_dash_detect_category() {
+  local path="$1"
+
+  case "$path" in
+    */dev-tools/*) echo "dev" ;;
+    */r-packages/*) echo "r" ;;
+    */research/*) echo "research" ;;
+    */teaching/*) echo "teach" ;;
+    */quarto/*) echo "quarto" ;;
+    */apps/*) echo "apps" ;;
+    *) echo "dev" ;;
   esac
 }
 
 # ============================================================================
-# DASH VARIANTS
+# ALIASES
 # ============================================================================
 
-# Show only active projects
-dash-active() {
-  dash --active
-}
-
-# Show all projects with details
-dash-all() {
-  dash --detailed
-}
-
-# Show stalled projects (no activity)
-dash-stalled() {
-  echo ""
-  echo "${FLOW_COLORS[warning]}⚠️  STALLED PROJECTS (no recent activity)${FLOW_COLORS[reset]}"
-  echo ""
-  
-  local projects=$(_flow_list_projects)
-  local found=0
-  
-  while IFS= read -r project; do
-    [[ -z "$project" ]] && continue
-    
-    local info=$(_flow_get_project "$project" 2>/dev/null)
-    [[ -z "$info" ]] && continue
-    eval "$info"
-    
-    # Check for staleness (no .STATUS update in 14 days)
-    if [[ -n "$path" ]] && [[ -f "$path/.STATUS" ]]; then
-      local mtime=$(stat -f %m "$path/.STATUS" 2>/dev/null || stat -c %Y "$path/.STATUS" 2>/dev/null)
-      local now=$(date +%s)
-      local age_days=$(( (now - mtime) / 86400 ))
-      
-      if (( age_days > 14 )); then
-        printf "  🟠 %-20s │ %d days stale\n" "$project" "$age_days"
-        found=1
-      fi
-    fi
-  done <<< "$projects"
-  
-  if (( found == 0 )); then
-    echo "  ✨ No stalled projects!"
-  fi
-  echo ""
-}
-
-# ============================================================================
-# INTERACTIVE DASHBOARD (TUI)
-# ============================================================================
-
-dash-tui() {
-  if ! _flow_has_fzf; then
-    _flow_log_error "fzf required for TUI mode. Install: brew install fzf"
-    dash
-    return
-  fi
-  
-  local projects=$(_flow_list_projects)
-  
-  # Build preview data
-  local selected
-  selected=$(echo "$projects" | fzf \
-    --header="🎯 PROJECT DASHBOARD │ Enter: work │ Ctrl-D: delete │ Ctrl-E: edit status" \
-    --preview="_flow_show_project_preview {}" \
-    --preview-window=right:50%:wrap \
-    --height=80% \
-    --layout=reverse \
-    --border=rounded \
-    --bind="enter:accept" \
-    --bind="ctrl-d:execute(echo 'delete:{}' > /tmp/flow-dash-action)+abort" \
-    --bind="ctrl-e:execute(echo 'edit:{}' > /tmp/flow-dash-action)+abort" \
-  )
-  
-  # Handle selection
-  if [[ -n "$selected" ]]; then
-    work "$selected"
-  fi
-  
-  # Handle special actions
-  if [[ -f /tmp/flow-dash-action ]]; then
-    local action=$(cat /tmp/flow-dash-action)
-    rm /tmp/flow-dash-action
-    
-    case "$action" in
-      delete:*)
-        local proj="${action#delete:}"
-        if _flow_confirm "Remove $proj from registry?"; then
-          _flow_atlas project remove "$proj"
-        fi
-        ;;
-      edit:*)
-        local proj="${action#edit:}"
-        local info=$(_flow_get_project "$proj")
-        eval "$info"
-        ${EDITOR:-vim} "$path/.STATUS"
-        ;;
-    esac
-  fi
-}
+alias d='dash'
