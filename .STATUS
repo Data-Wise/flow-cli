@@ -30,9 +30,15 @@
 - Completions use lazy loading + dynamic project discovery
 
 ## Next Phase
-- [ ] Migrate remaining functions from adhd-helpers.zsh
+- [x] Shell integration verified (symlink + .zshrc)
+- [x] All key ADHD functions working (hybrid state)
+- [ ] Migrate remaining functions from adhd-helpers.zsh (optional - legacy works)
 - [ ] Add atlas integration tests
 - [ ] Publish as ZSH plugin (antidote/zinit)
+
+## Function Status
+New (commands/): work, dash, catch, js, hop, finish
+Legacy (working): morning, timer, whatnext, focus, next, why, win, wins, yay, etc.
 
 ## Architecture (New)
 ```
