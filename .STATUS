@@ -1,453 +1,58 @@
-status: Active
-priority: P0
-progress: 100
-next: Production use + gather feedback OR start Phase P7 (optional enhancements)
-type: dev
+# flow-cli - ZSH Workflow Plugin
+# ADHD-optimized workflow management for developers
 
-🚀 Flow CLI Status
-────────────────────────────────────────────────
+## Status: ACTIVE
+## Phase: P7 - Architecture Refactor
+## Focus: Pure ZSH plugin with atlas integration
 
-📍 LOCATION
-~/projects/dev-tools/flow-cli/
+## Current Sprint
+- [x] Create ZSH plugin structure
+- [x] Create lib/core.zsh (utilities)
+- [x] Create lib/atlas-bridge.zsh (atlas integration)
+- [x] Create lib/project-detector.zsh
+- [x] Create lib/tui.zsh (UI components)
+- [x] Create commands/work.zsh
+- [x] Create commands/dash.zsh
+- [x] Create commands/capture.zsh
+- [x] Create commands/adhd.zsh
+- [x] Create hooks/chpwd.zsh
+- [x] Create hooks/precmd.zsh
+- [x] Create flow.plugin.zsh entry point
+- [ ] Migrate completions
+- [ ] Test plugin loading
+- [ ] Update documentation
 
-⏰ LAST UPDATED
-2025-12-24 (Session: Automated API Documentation Generation)
-
-────────────────────────────────────────────────
-
-🎯 CURRENT STATUS
-🟢 Production Use Phase - ACTIVE (Started Dec 24) 📊🔍
-System is production-ready (P6 complete, 559 tests passing). Now validating with real daily usage to identify genuine needs before building more features.
-
-**Production Ready:**
-- 559 tests passing (100% pass rate)
-- Clean Architecture foundation complete
-- 10x+ performance improvement (caching)
-- 4 ADHD-friendly tutorials + comprehensive docs
-- Automated CI/CD with semantic-release
-- v2.0.0-beta.1 released to GitHub
-- All documentation synchronized and deployed
-
-────────────────────────────────────────────────
-
-📊 PROGRESS
-
-Phase P0: Setup ████████████████████ 100% ✅
-Phase P1: ADHD Helpers ████████████████████ 100% ✅
-Phase P2: Testing & Quality ███████████████████░ 95% 🚧
-Phase P3: Alias Refactoring ████████████████████ 100% ✅
-Phase P4: Alias Cleanup ████████████████████ 100% ✅
-Phase P4.5: Help System Phase 1 ████████████████████ 100% ✅
-Phase P5A: Project Reorganization ████████████████████ 100% ✅
-Phase P5B: Desktop App UI ██████████░░░░░░░░░░ 50% ⏸️ (PAUSED - Electron issues)
-Phase P5C: CLI Integration ████████████████████ 100% ✅
-Phase P5: Documentation & Site ████████████████████ 100% ✅
-Phase P5D: Alpha Release ███████████████░░░░░ 75% ✅
-Phase P6: CLI Enhancements ████████████████████ 100% ✅ 🎉 (COMPLETE Dec 24!)
-  ├─ Clean Architecture (Week 1) ████████████████████ 100% ✅ (265 tests)
-  ├─ Enhanced Status (Week 2 D6-7) ████████████████████ 100% ✅ (worklog + ASCII)
-  ├─ Interactive TUI (Week 2 D8-9) ████████████████████ 100% ✅ (blessed dashboard)
-  └─ Advanced Scanning (Week 2 D10) ████████████████████ 100% ✅ (10x perf boost)
-
-────────────────────────────────────────────────
-
-✅ JUST COMPLETED (Session: 2025-12-24 - Automated API Documentation Generation)
-
-## Comprehensive API Documentation Generation ✅
-
-**Achievement:** Generated complete API reference, architecture diagrams, and interactive code examples
-
-**Timeline:** Dec 24, 2025 (Post-flow command integration)
-
-**What Was Completed:**
-
-**1. API Reference Documentation (docs/api/API-REFERENCE.md - 800+ lines):**
-- ✅ Complete Domain Layer documentation (Session, Project, Task entities)
-- ✅ Full Use Cases documentation (GetStatus, CreateSession, EndSession, ScanProjects)
-- ✅ Adapters Layer (Controllers, Repositories, Gateways)
-- ✅ Frameworks Layer (CLI commands, options)
-- ✅ Code examples for every major component
-- ✅ Testing examples (unit and integration)
-
-**2. Architecture Diagrams (docs/architecture/ARCHITECTURE-DIAGRAM.md - 750+ lines):**
-- ✅ 15 Mermaid diagrams for visual documentation
-- ✅ System overview and Clean Architecture layer dependencies
-- ✅ Component diagrams (UML class diagrams)
-- ✅ Sequence diagrams (Create Session, Get Status, End Session)
-- ✅ Data flow diagrams (status command, project scanning)
-- ✅ Deployment architecture (local development + GitHub Pages)
-- ✅ Pattern documentation (Repository, Event Sourcing)
-
-**3. Interactive Code Examples (docs/api/INTERACTIVE-EXAMPLES.md - 650+ lines):**
-- ✅ 13 complete, runnable code examples
-- ✅ Quick start workflows (create session, check status)
-- ✅ Session management (pause/resume, flow state tracking)
-- ✅ Project tracking (scanning with filters, search)
-- ✅ Custom integrations (Slack notifications, CSV export)
-- ✅ Advanced patterns (PostgreSQL repository, webhook publisher)
-- ✅ Testing examples (unit and integration tests)
-
-**4. Documentation Summary (DOCUMENTATION-GENERATION-SUMMARY.md):**
-- ✅ Complete inventory of generated documentation
-- ✅ Documentation coverage statistics
-- ✅ Quality checklist and impact assessment
-- ✅ Deployment verification
-
-**5. Navigation Updates (mkdocs.yml):**
-- ✅ Added Complete API Reference to API Documentation section
-- ✅ Added Interactive Examples to API Documentation section
-- ✅ Added Architecture Diagrams to Architecture section
-
-**6. Deployment:**
-- ✅ Built documentation site successfully (MkDocs 1.6.1)
-- ✅ Deployed to GitHub Pages (gh-pages branch, commit e6a33d5)
-- ✅ All documentation live at https://Data-Wise.github.io/flow-cli/
-
-**Documentation Statistics:**
-- 📊 Total: 2,200+ lines of new documentation
-- 📐 Diagrams: 15 Mermaid diagrams (all rendering correctly)
-- 💻 Examples: 13 complete code examples
-- ✅ Coverage: 100% of domain entities, use cases, adapters
-- 🧪 Tests: 558/559 passing (1 flaky performance benchmark)
-
-**Impact:**
-- ⏱️ **Onboarding:** Reduced from 2-3 hours to 30 minutes
-- 📖 **Architecture:** Clear visual guidance with 15 diagrams
-- 💡 **Examples:** Runnable code for all major patterns
-- 🧪 **Testing:** Comprehensive testing strategy documented
-- 🌐 **Deployment:** Live documentation at GitHub Pages
-
-**Git Commits:**
+## Architecture (New)
 ```
-04de83c docs: add comprehensive API documentation and architecture diagrams
+flow-cli/
+├── flow.plugin.zsh     # Plugin entry point
+├── lib/
+│   ├── core.zsh        # Core utilities
+│   ├── atlas-bridge.zsh # Atlas integration
+│   ├── project-detector.zsh
+│   └── tui.zsh         # TUI components
+├── commands/
+│   ├── work.zsh        # work, finish, hop, why
+│   ├── dash.zsh        # dash, dash-tui
+│   ├── capture.zsh     # catch, inbox, crumb, win
+│   └── adhd.zsh        # js, next, stuck, focus, brk
+├── hooks/
+│   ├── chpwd.zsh       # Directory change
+│   └── precmd.zsh      # Pre-command
+├── completions/        # ZSH completions
+└── zsh/               # Legacy functions (backward compat)
 ```
 
-**Previous Session (Earlier Today):**
+## Integration
+- Atlas: Optional state engine (@data-wise/atlas)
+- Graceful degradation when atlas not installed
+- All commands work standalone
 
-## Flow Command Integration - Option A ✅
+## Installation
+```bash
+# As ZSH plugin (antidote)
+antidote install data-wise/flow-cli
 
-**Achievement:** Clarified Fast (ZSH) vs Rich (flow CLI) command roles
-
-**Timeline:** Dec 24, 2025 (Post-root cleanup)
-
-**What Was Completed:**
-
-**1. Documentation Updates (4 files):**
-- ✅ README.md: Added "Two Workflow Systems" section (Fast vs Rich distinction)
-- ✅ cli/bin/flow.js: Updated help text with ZSH command cross-reference
-- ✅ docs/getting-started/quick-start.md: Added command systems overview
-- ✅ zsh/functions/dash.zsh: Added tip about flow dashboard
-
-**2. Integration Proposals (3 new reference docs):**
-- ✅ OPTION-A-IMPLEMENTATION-COMPLETE.md: Implementation summary
-- ✅ PROPOSAL-flow-command-integration.md: Full proposal (4 options analyzed)
-- ✅ docs/planning/FLOW-COMMAND-ANALYSIS.md: Decision analysis
-
-**3. Key Results:**
-- ✅ Clear mental model: ZSH = fast daily workflow (< 10ms), flow = rich views (~100ms)
-- ✅ ADHD-friendly speed preserved (instant ZSH commands)
-- ✅ Rich features available when needed (flow CLI)
-- ✅ Cross-linked documentation (each system points to other)
-- ✅ Zero breaking changes, 100% backwards compatible
-
-**Impact:**
-- 🎯 **Zero confusion** - Users know when to use which system
-- ⚡ **Speed preserved** - Fast commands stay instant
-- 🎨 **Rich features** - Available for monitoring/analysis
-- 📚 **Well documented** - Clear guidance in all help text
-
-**Previous Session (Earlier Today):**
-
-## Root Folder Cleanup ✅
-
-**Achievement:** Cleaned root directory from 45 → 8 essential markdown files
-
-**Timeline:** Dec 24, 2025 (Post-folder organization)
-
-**What Was Completed:**
-
-**1. Root Directory Cleanup:**
-- ✅ Moved 27 session/implementation summaries → docs/archive/
-- ✅ Moved 4 architecture docs → docs/architecture/
-- ✅ Moved 6 guide docs → docs/guides/
-- ✅ Updated all references in README.md and PROJECT-HUB.md
-- ✅ Removed redundant .STATUS.backup file
-- Result: Root now contains only 8 essential files (README, CLAUDE, CONTRIBUTING, IDEAS, TODO, PROJECT-HUB, CHANGELOG, PRODUCTION-USE-PHASE)
-
-**Previous Session (Earlier Today):**
-
-## Folder Organization + Production Use Phase ✅
-
-**Achievement:** Cleaned up project structure and launched production use phase
-
-**Timeline:** Dec 24, 2025 (Post-P6 cleanup and transition)
-
-**What Was Completed:**
-
-**1. Folder Organization (Quick Wins):**
-- ✅ Deleted redundant site/ directory (21MB of MkDocs build output)
-- ✅ Verified MkDocs rebuild works correctly (site/ regenerates as needed)
-- ✅ Flattened docs/archive/ structure (39 files, dated filenames)
-  - Consolidated 2025-12-14-refactoring/ → 2025-12-14-refactoring-*.md
-  - Consolidated 2025-12-20-app-removal/ → 2025-12-20-app-removal-*.md
-  - Consolidated 2025-12-23-planning-consolidation/ → 2025-12-23-planning-*.md
-  - Flattened decisions/, sessions/, planning-brainstorms-2025-12/
-  - Removed empty subdirectories (kept archived app code intact)
-- Result: Easier to browse historical docs, cleaner repository structure
-
-**2. Production Use Phase Kickoff:**
-- ✅ Created PRODUCTION-USE-PHASE.md (comprehensive guide)
-- ✅ Created docs/ideas/FRICTION-LOG.md (template for tracking issues)
-- ✅ Updated .STATUS to reflect production use phase
-- ✅ Established 1-2 week validation period
-- ✅ Set up friction tracking system (impact/frequency rating)
-
-**Impact:**
-- 🗂️ **Cleaner structure** - Easier to find archived docs
-- 📊 **Validation framework** - Systematic way to gather feedback
-- 🎯 **Feature creep prevention** - Only build what's genuinely needed
-- 📝 **Friction tracking** - Evidence-based decision making
-
-**Previous Session (Earlier Today):**
-
-## User-Facing Documentation + Planning Updates ✅
-
-**Achievement:** All user-facing documentation and planning control files synchronized with Week 2 features
-
-**Timeline:** Dec 24, 2025 (Post-deployment documentation sync)
-
-**What Was Completed:**
-
-**1. User-Facing Documentation Updates:**
-- ✅ README.md - Added Week 2 features to recent updates, enhanced Quick Start
-- ✅ docs/getting-started/quick-start.md - New Step 2 about enhanced status command
-- ✅ docs/user/WORKFLOW-QUICK-REFERENCE.md - Version 2.1 with feature callout
-- ✅ docs/user/ALIAS-REFERENCE-CARD.md - v2.0.0-beta.1 announcement
-- Commit: 1e0d4da "docs: update getting started guides and reference cards with Week 2 features"
-
-**2. Planning Control Documents:**
-- ✅ docs/ideas/TODO.md - Complete rewrite for production ready status
-- ✅ docs/ideas/IDEAS.md - Complete rewrite with Production Use Phase focus
-- Added strong warnings about feature creep prevention
-- Shifted focus from building to production validation
-- Commit: 0e755ca "docs: update TODO and IDEAS with Phase P6 completion and production ready status"
-
-**Previous Session (Earlier Today):**
-
-## Documentation Deployment + Production Ready ✅
-
-**Achievement:** Documentation fixed and deployed, all systems production-ready
-
-**Timeline:** Dec 24, 2025 (Documentation pre-flight check + deployment)
-
-**Statistics:**
-- ✅ 559 tests passing (100% pass rate, no flakes!)
-- ✅ 270 new tests added in Week 2 (265 → 559)
-- ✅ 10x+ performance improvement (caching)
-- ✅ 4,562 lines of new documentation
-- ✅ v2.0.0-beta.1 released to GitHub
-- ✅ Test flakes resolved (isolated temp directories)
-- ✅ Clean Architecture complete (3 layers, Clean main ready to merge)
-
-**What Was Built (Week 2):**
-
-**1. Enhanced Status Command (Days 6-7):**
-- Worklog integration from ~/.config/zsh/.worklog
-- Beautiful ASCII visualizations (progress bars, sparklines)
-- Quick actions menu
-- Verbose mode with productivity metrics
-- Web dashboard mode (--web flag)
-- 9 integration tests
-
-**2. Interactive TUI Dashboard (Days 8-9):**
-- Real-time terminal UI using blessed/blessed-contrib
-- Auto-refresh (configurable interval, default 5s)
-- Keyboard shortcuts (r=refresh, /=filter, q=quit, ?=help)
-- Grid layout: Active Session, Metrics, Stats, Sessions Table
-- 24 E2E tests
-- Complete documentation
-
-**3. Advanced Project Scanning (Day 10):**
-- In-memory caching (1-hour TTL)
-- Parallel directory scanning (Promise.all)
-- Smart filters with .STATUS file parsing
-- Progress callbacks, timeout protection
-- Cache statistics tracking
-- 17 integration + benchmark tests
-- Performance: ~3ms first scan, <1ms cached (60 projects)
-
-**4. Documentation Overhaul:**
-- 4 ADHD-friendly tutorials (01-first-session → 04-web-dashboard)
-- 2 comprehensive command references (status.md, dashboard.md)
-- Troubleshooting guide
-- Updated navigation, fixed broken links
-
-**5. Production Hardening:**
-- Fixed test flakes (isolated temp directories with PID + timestamp + random)
-- All 559 tests pass reliably in parallel execution
-- Updated .STATUS file to reflect completion
-- Created CHANGELOG and GitHub Release
-
-**6. Documentation Deployment (Today):**
-- Ran comprehensive pre-flight check (/code:docs-check skill)
-- Fixed version mismatch (package.json: 2.0.0-alpha.1 → 2.0.0-beta.1)
-- Fixed 5 broken nav links in mkdocs.yml
-- Added TESTING.md to navigation (600+ line comprehensive testing guide)
-- Fixed critical internal links (relative paths)
-- Created DOCUMENTATION-CHECK-REPORT.md
-- Build warnings: 77 → 70 (non-blocking)
-- Deployed to GitHub Pages: https://Data-Wise.github.io/flow-cli/
-- Commit: 815dd8d "docs: fix documentation issues for v2.0.0-beta.1 deployment"
-
-**Performance Benchmarks:**
-- Project scanning: ~3ms first, <1ms cached (60 projects)
-- Command response: <100ms for `flow status`
-- 10x+ speedup with caching
-- Test suite: ~6s (559 tests, all passing)
-
-**Git Commits (Week 2 + Documentation):**
+# Manual
+source /path/to/flow.plugin.zsh
 ```
-815dd8d docs: fix documentation issues for v2.0.0-beta.1 deployment
-3a0fb72 fix(tests): resolve race conditions with isolated temp directories
-6f13610 Merge Week 2 CLI Enhancements (P6 Complete)
-6d208a5 docs: mark Week 2 complete (CLI Enhancements Days 6-10)
-39ad040 fix(tests): resolve race condition in cache expiration test
-48fb5cb docs: improve website content with new tutorials and help files
-1b0772d feat(scanning): implement advanced project scanning with caching (Week 2 Day 10)
-067ff9e feat(ui): implement interactive TUI dashboard (Week 2 Days 8-9)
-```
-
-**Release:**
-- Tag: v2.0.0-beta.1 (published to GitHub)
-- GitHub Release: https://github.com/Data-Wise/flow-cli/releases/tag/v2.0.0-beta.1
-- Documentation Site: https://Data-Wise.github.io/flow-cli/
-- Branch: main (up to date with origin/main)
-- Tests: 559/559 passing (100%)
-- Package version: 2.0.0-beta.1 (synced)
-
-**Impact:**
-- 🎨 **Beautiful CLI** - ASCII art makes status engaging
-- ⚡ **10x faster** - Caching makes scanning nearly instant
-- 🖥️ **Interactive TUI** - Real-time dashboard for power users
-- 📚 **Complete docs** - 4 tutorials + 2 references + troubleshooting
-- 🧪 **559 tests** - Comprehensive coverage, no flakes
-- 🏗️ **Clean Architecture** - Easy to extend
-- 📦 **Production ready** - All tests pass, docs deployed, automated releases
-
-────────────────────────────────────────────────
-
-📋 NEXT ACTIONS
-
-**🟢 Production Use Phase - ACTIVE**
-
-**Current Focus:** Use flow-cli daily for 1-2 weeks to validate features
-
-A) **Daily Usage (Required):**
-   - [ ] Use `flow status` each morning
-   - [ ] Try `flow dashboard` during focus sessions
-   - [ ] Work naturally with flow-cli in projects
-   - [ ] Document friction in docs/ideas/FRICTION-LOG.md
-
-B) **Weekly Check-ins:**
-   - [ ] Day 3 (Dec 27): Review friction log for patterns
-   - [ ] Day 7 (Dec 31): Evaluate if system helps or hinders
-   - [ ] Day 10 (Jan 3): Verify 5+ friction entries logged
-   - [ ] Day 14 (Jan 7): Make go/no-go decision on Week 3 features
-
-C) **After 2 Weeks:**
-   - Analyze friction log (frequency × impact)
-   - Prioritize fixes vs. features
-   - Only implement what solves real problems
-   - Consider v1.0.0 stable if system works well
-
-**Why Production Use Phase:**
-All planned features complete (P0-P6), 559 tests passing, docs comprehensive.
-Real usage reveals real needs - prevents feature creep and ensures every feature adds genuine value.
-
-**Future (Optional - Only if Real Need Emerges):**
-
-D) **Week 3+ Features** 🔵 [Variable - NOT RECOMMENDED without user data]
-   - Advanced workflows (templates, checklists)
-   - External integrations (Jira, Linear, GitHub Issues)
-   - Analytics dashboard (trends, heatmaps)
-   - Mobile companion app
-
-────────────────────────────────────────────────
-
-📁 KEY FILES
-
-**Week 2 Implementation:**
-- cli/commands/status.js - Enhanced status command
-- cli/adapters/controllers/StatusController.js - Status presentation
-- cli/ui/Dashboard.js - Interactive TUI component
-- cli/adapters/repositories/FileSystemProjectRepository.js - Caching layer
-- cli/utils/ProjectFilters.js - Smart filters
-- tests/integration/*.test.js - 270 new tests
-- docs/tutorials/*.md - 4 ADHD-friendly tutorials (4,562 lines)
-- docs/commands/*.md - 2 command references
-
-**Release Documentation:**
-- PROJECT-HUB.md - Strategic roadmap (updated with Week 2 completion)
-- Git tag: v2.0.0-beta.1 (comprehensive release notes)
-- CHANGELOG.md - To be updated
-
-────────────────────────────────────────────────
-
-🎉 WINS
-
-**Phase P6 Complete (2025-12-24):** 🎯 MAJOR MILESTONE
-✅ 100% complete (All Week 1-2 work done!)
-✅ 559 tests passing (100% pass rate, no flakes)
-✅ 270 new tests added in Week 2
-✅ 10x+ performance improvement
-✅ 4,562 lines of documentation
-✅ Production ready with automated CI/CD
-✅ v2.0.0-beta.1 released to GitHub
-✅ Test flakes resolved
-✅ Clean Architecture foundation solid
-
-**Week 2 CLI Enhancements (2025-12-24):** 🏆
-✅ Enhanced status command with ASCII visualizations
-✅ Interactive TUI dashboard (blessed/blessed-contrib)
-✅ Advanced scanning with caching (10x faster)
-✅ 4 ADHD-friendly tutorials
-✅ 2 comprehensive command references
-✅ Troubleshooting guide
-✅ All tests stable and passing
-
-**Clean Architecture (2025-12-23):** 🏗️
-✅ 265 tests, 100% pass rate
-✅ 3-layer architecture (Domain, Use Cases, Adapters)
-✅ Zero coupling between layers
-✅ Production-ready foundation
-✅ Sub-second test runtime
-
-**DevOps Phase 2 (2025-12-23):** 🚀
-✅ Automated semantic-release
-✅ GitHub Pages deployment
-✅ E2E test suite
-✅ CI/CD pipeline complete
-
-────────────────────────────────────────────────
-
-🎯 DECISION: What's Next?
-
-**RECOMMENDED: Production Use Phase** ✅
-- Use flow-cli in actual workflow for 1-2 weeks
-- Gather feedback from real usage
-- Document pain points and friction
-- Only add features if users request them
-
-**Rationale:**
-- P6 is complete - all planned features implemented
-- 559 tests passing - system is stable
-- Feature creep is the enemy of ADHD-friendly design
-- Real usage reveals real needs (not speculation)
-- Best features emerge from actual pain points
-
-**Do NOT build Week 3 unless:**
-- Users actively request features
-- Current system is fully stable (✓)
-- You've used it for 2+ weeks in production
-- New feature solves real pain point (not hypothetical)
-- It doesn't increase complexity significantly

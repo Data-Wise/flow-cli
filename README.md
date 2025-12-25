@@ -107,6 +107,7 @@ flow CLI = Rich views when you want detail (visual feedback)
 ```
 
 **Example daily usage:**
+
 ```bash
 # Morning (fast ZSH)
 work flow-cli           # Start session instantly

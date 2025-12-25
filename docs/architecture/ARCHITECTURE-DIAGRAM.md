@@ -561,6 +561,7 @@ graph TB
 ```
 
 **Performance:**
+
 - First scan: ~3ms (60 projects)
 - Cached scan: <1ms
 - Cache TTL: 1 hour
@@ -701,6 +702,7 @@ graph LR
 ```
 
 **Benefits:**
+
 - Domain layer independent of infrastructure
 - Easy to swap implementations
 - Testable with mock repositories
@@ -736,6 +738,7 @@ sequenceDiagram
 ```
 
 **Benefits:**
+
 - Decoupled side effects
 - Audit trail of domain changes
 - Easy to add new event listeners

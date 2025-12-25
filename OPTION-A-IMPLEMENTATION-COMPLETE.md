@@ -19,6 +19,7 @@ Successfully clarified the roles of **ZSH functions** (fast daily workflow) vs *
 **Location:** After Quick Start, before Project Structure
 
 **Added:**
+
 - Clear distinction between Fast (ZSH) and Rich (Node.js) commands
 - Speed comparison (< 10ms vs ~100ms)
 - Mental model: "ZSH for doing, flow for viewing"
@@ -32,6 +33,7 @@ Successfully clarified the roles of **ZSH functions** (fast daily workflow) vs *
 **File:** `cli/bin/flow.js`
 
 **Added:**
+
 ```
 💡 For instant commands (< 10ms), use native ZSH:
    work <project>         Start work session
@@ -48,6 +50,7 @@ Successfully clarified the roles of **ZSH functions** (fast daily workflow) vs *
 **File:** `~/.config/zsh/functions/dash.zsh`
 
 **Added:**
+
 ```
 💡 Want live updates? Try: flow dashboard (interactive TUI)
 ```
@@ -59,6 +62,7 @@ Successfully clarified the roles of **ZSH functions** (fast daily workflow) vs *
 **File:** `docs/getting-started/quick-start.md`
 
 **Added:**
+
 - New section at top explaining two command systems
 - Comparison table (Type, Commands, Speed, Use For)
 - Mental model and example usage
@@ -135,12 +139,12 @@ Result: Clear decision criteria
 
 ## 📚 Updated Documentation
 
-| File | Change | Purpose |
-|------|--------|---------|
-| `README.md` | New section | Explain dual system |
-| `cli/bin/flow.js` | Help text | Cross-reference ZSH |
-| `~/.config/zsh/functions/dash.zsh` | Tip | Discover flow dashboard |
-| `docs/getting-started/quick-start.md` | Overview | Set expectations |
+| File                                  | Change      | Purpose                 |
+| ------------------------------------- | ----------- | ----------------------- |
+| `README.md`                           | New section | Explain dual system     |
+| `cli/bin/flow.js`                     | Help text   | Cross-reference ZSH     |
+| `~/.config/zsh/functions/dash.zsh`    | Tip         | Discover flow dashboard |
+| `docs/getting-started/quick-start.md` | Overview    | Set expectations        |
 
 ---
 
@@ -172,6 +176,7 @@ Weekly review:
 ### When to Use Each System
 
 **Use ZSH commands when:**
+
 - ✅ Starting/ending work sessions
 - ✅ Context switching between projects
 - ✅ Quick status checks
@@ -179,6 +184,7 @@ Weekly review:
 - ✅ Multiple rapid commands in sequence
 
 **Use flow CLI when:**
+
 - ✅ Reviewing detailed progress
 - ✅ Monitoring multiple projects
 - ✅ Presenting to others
@@ -194,12 +200,14 @@ Weekly review:
 If users want even tighter integration:
 
 1. **Add flags to ZSH commands** (Option C - Hybrid)
+
    ```bash
    dash --tui      # Calls: flow dashboard
    dash --web      # Calls: flow status --web
    ```
 
 2. **Performance monitoring**
+
    ```bash
    # Track which commands are used most
    # Optimize hot paths
@@ -208,7 +216,7 @@ If users want even tighter integration:
 3. **Unified config file**
    ```yaml
    # ~/.flow/config.yml
-   prefer: fast  # or: rich
+   prefer: fast # or: rich
    auto_tui: true
    ```
 

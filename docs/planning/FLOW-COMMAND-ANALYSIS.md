@@ -40,13 +40,13 @@ You have **two workflow systems** with overlapping functionality:
 
 ### 2. Functional Overlap
 
-| Task | ZSH Command | Node.js Command | Winner |
-|------|-------------|----------------|--------|
-| Start work | `work <proj>` | `flow work` (planned) | ZSH (instant) |
-| End work | `finish [msg]` | `flow finish` (planned) | ZSH (instant) |
-| View dashboard | `dash` | `flow dashboard` | Node (richer) |
-| Session status | N/A | `flow status` | Node (only option) |
-| Update .STATUS | `status <proj>` | N/A | ZSH (only option) |
+| Task           | ZSH Command     | Node.js Command         | Winner             |
+| -------------- | --------------- | ----------------------- | ------------------ |
+| Start work     | `work <proj>`   | `flow work` (planned)   | ZSH (instant)      |
+| End work       | `finish [msg]`  | `flow finish` (planned) | ZSH (instant)      |
+| View dashboard | `dash`          | `flow dashboard`        | Node (richer)      |
+| Session status | N/A             | `flow status`           | Node (only option) |
+| Update .STATUS | `status <proj>` | N/A                     | ZSH (only option)  |
 
 ### 3. Performance Gap
 
@@ -68,6 +68,7 @@ For ADHD workflow: Speed wins
 **Strategy:** Native ZSH for speed, Node.js for rich features
 
 **User Experience:**
+
 ```bash
 # Daily workflow (instant)
 work my-project         # < 10ms
@@ -81,12 +82,14 @@ flow status -v          # Verbose CLI
 ```
 
 **Pros:**
+
 - ✅ ADHD-friendly (zero latency)
 - ✅ Clear separation of concerns
 - ✅ Backwards compatible
 - ✅ Low effort to implement
 
 **Cons:**
+
 - ⚠️ Two systems to maintain
 - ⚠️ User needs to learn both
 
@@ -99,6 +102,7 @@ flow status -v          # Verbose CLI
 **Strategy:** Everything through `flow` CLI
 
 **User Experience:**
+
 ```bash
 flow work my-project
 flow finish "Added feature"
@@ -107,11 +111,13 @@ flow status --web
 ```
 
 **Pros:**
+
 - ✅ Single command to learn
 - ✅ Consistent interface
 - ✅ Portable (works in bash, fish)
 
 **Cons:**
+
 - ❌ 100ms latency on every command
 - ❌ Breaks ADHD workflow
 - ❌ High migration effort
@@ -125,6 +131,7 @@ flow status --web
 **Strategy:** ZSH delegates to Node.js for UI features
 
 **User Experience:**
+
 ```bash
 # Fast commands (ZSH)
 work my-project
@@ -136,11 +143,13 @@ dash --web      # Calls: flow status --web
 ```
 
 **Pros:**
+
 - ✅ Fast + Rich features
 - ✅ Backwards compatible
 - ✅ Single command namespace
 
 **Cons:**
+
 - ⚠️ Complex implementation
 - ⚠️ Two systems to maintain
 
@@ -153,6 +162,7 @@ dash --web      # Calls: flow status --web
 **Strategy:** `flow` → `workview` (or similar)
 
 **User Experience:**
+
 ```bash
 # ZSH (unchanged)
 work my-project
@@ -165,11 +175,13 @@ workview status --web
 ```
 
 **Pros:**
+
 - ✅ No namespace conflict
 - ✅ Future-proof (won't clash with FB Flow)
 - ✅ Clear purpose
 
 **Cons:**
+
 - ❌ Rebranding effort
 - ❌ Breaking change
 - ❌ All docs need update
@@ -180,15 +192,15 @@ workview status --web
 
 ## Decision Matrix
 
-| Criteria | A: ZSH-First | B: Node-First | C: Hybrid | D: Rename |
-|----------|-------------|--------------|-----------|-----------|
-| **Speed** | ⚡⚡⚡⚡⚡ | ⚡ | ⚡⚡⚡⚡⚡ | ⚡⚡⚡⚡⚡ |
-| **ADHD-friendly** | ✅ | ❌ | ✅ | ✅ |
-| **Rich features** | ✅ | ✅ | ✅ | ✅ |
-| **Simplicity** | ✅ | ✅ | ❌ | ✅ |
-| **Effort** | 🟢 Low | 🔴 High | 🟡 Med | 🔴 High |
-| **Backwards compat** | ✅ | ⚠️ | ✅ | ✅ |
-| **Risk** | 🟢 | 🔴 | 🟡 | 🟡 |
+| Criteria             | A: ZSH-First | B: Node-First | C: Hybrid  | D: Rename  |
+| -------------------- | ------------ | ------------- | ---------- | ---------- |
+| **Speed**            | ⚡⚡⚡⚡⚡   | ⚡            | ⚡⚡⚡⚡⚡ | ⚡⚡⚡⚡⚡ |
+| **ADHD-friendly**    | ✅           | ❌            | ✅         | ✅         |
+| **Rich features**    | ✅           | ✅            | ✅         | ✅         |
+| **Simplicity**       | ✅           | ✅            | ❌         | ✅         |
+| **Effort**           | 🟢 Low       | 🔴 High       | 🟡 Med     | 🔴 High    |
+| **Backwards compat** | ✅           | ⚠️            | ✅         | ✅         |
+| **Risk**             | 🟢           | 🔴            | 🟡         | 🟡         |
 
 **Winner:** Option A (ZSH-First)
 
@@ -221,6 +233,7 @@ Use when you want rich visualizations:
 ### Phase 2: Clarify Help Text (30 min)
 
 **In `flow --help`:**
+
 ```
 💡 For instant commands, use native ZSH:
    work, finish, plist
@@ -229,6 +242,7 @@ Use when you want rich visualizations:
 ```
 
 **In `plist` (formerly `dash`):**
+
 ```
 💡 Want a live dashboard? Try: flow dashboard
 ```
@@ -274,6 +288,7 @@ Recommendation: Keep fast commands in ZSH
 ### 2. Rich Features Have a Place
 
 When **actively monitoring** (not context switching):
+
 - `flow dashboard` - Live TUI is valuable
 - `flow status --web` - Good for overview
 - `flow status -v` - Pretty when you have time
@@ -281,6 +296,7 @@ When **actively monitoring** (not context switching):
 ### 3. Two Systems = OK (If Clear Roles)
 
 **Mental model:**
+
 ```
 ZSH = Fast daily workflow (muscle memory)
 flow = Rich views when you want detail
@@ -293,6 +309,7 @@ This is **complementary**, not competing.
 ## Usage Patterns (Hypothetical)
 
 ### Daily Workflow
+
 ```bash
 8:00 AM  - work flow-cli          # Start session (ZSH, instant)
 10:30 AM - flow dashboard          # Check all projects (Node, rich)
@@ -327,12 +344,14 @@ workview       # Your workflow dashboard
 ### If Performance Improves
 
 If Node.js startup drops to <20ms (unlikely):
+
 - Reconsider Option B (Node-First)
 - Consolidate to single system
 
 ### If More Features Needed
 
 Future `flow` commands:
+
 - `flow work <proj>` - If ZSH version gets too complex
 - `flow finish` - If git integration needs rich UI
 - `flow ai` - AI-powered suggestions
@@ -344,6 +363,7 @@ Future `flow` commands:
 **Recommendation:** **Option A (ZSH-First)** with documentation updates
 
 **Rationale:**
+
 1. Preserves ADHD-friendly workflow (instant response)
 2. Keeps rich features available (best of both)
 3. Low effort, low risk implementation

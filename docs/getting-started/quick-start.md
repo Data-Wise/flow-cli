@@ -8,14 +8,15 @@ Get up and running with Flow CLI in 5 minutes.
 
 This workflow system provides **two complementary sets of commands**:
 
-| Type | Commands | Speed | Use For |
-|------|----------|-------|---------|
-| **⚡ Fast (ZSH)** | `work`, `finish`, `dash`, `status` | < 10ms | Daily workflow, context switching |
-| **🎨 Rich (flow)** | `flow status`, `flow dashboard` | ~100ms | Detailed views, monitoring |
+| Type               | Commands                           | Speed  | Use For                           |
+| ------------------ | ---------------------------------- | ------ | --------------------------------- |
+| **⚡ Fast (ZSH)**  | `work`, `finish`, `dash`, `status` | < 10ms | Daily workflow, context switching |
+| **🎨 Rich (flow)** | `flow status`, `flow dashboard`    | ~100ms | Detailed views, monitoring        |
 
 **Mental model:** ZSH for doing, `flow` for viewing.
 
 **Example:**
+
 ```bash
 work my-project          # Start session (instant, ZSH)
 flow dashboard           # Monitor all projects (rich TUI, Node.js)

@@ -31,6 +31,7 @@
 Flow CLI provides a programmatic API for managing ADHD-optimized workflow sessions. The system follows Clean Architecture principles with clear separation of concerns across four layers.
 
 **Key Features:**
+
 - Session management (create, end, pause, resume)
 - Project tracking with .STATUS file integration
 - Productivity metrics and analytics
@@ -39,6 +40,7 @@ Flow CLI provides a programmatic API for managing ADHD-optimized workflow sessio
 - Web-based dashboard
 
 **Design Principles:**
+
 - Domain-driven design
 - Dependency inversion
 - Repository pattern
@@ -85,6 +87,7 @@ Entities represent core business concepts with identity and behavior.
 Represents a work session with identity, state, and business rules.
 
 **Constructor:**
+
 ```javascript
 new Session(id, project, options)
 ```
@@ -101,6 +104,7 @@ new Session(id, project, options)
 | `options._skipEvents` | boolean | No | Skip event emission (for testing) |
 
 **Properties:**
+
 ```javascript
 {
   id: string,              // Unique identifier
@@ -121,13 +125,16 @@ new Session(id, project, options)
 **Methods:**
 
 ##### `validate()`
+
 Validates business rules for session data.
 
 **Throws:**
+
 - `Error` if project name is empty or > 100 characters
 - `Error` if task description > 500 characters
 
 **Example:**
+
 ```javascript
 const session = new Session('uuid-123', 'flow-cli', {
   task: 'Implement status command'
@@ -136,22 +143,27 @@ session.validate() // Throws if invalid
 ```
 
 ##### `end(outcome)`
+
 Ends an active session.
 
 **Parameters:**
+
 - `outcome` (string): One of `'completed'`, `'cancelled'`, `'interrupted'`
 
 **Throws:**
+
 - `Error` if session is already ended
 - `Error` if outcome is invalid
 
 **Side Effects:**
+
 - Sets `endTime` to current time
 - Changes `state` to `SessionState.ENDED`
 - Sets `outcome`
 - Emits `SessionEndedEvent`
 
 **Example:**
+
 ```javascript
 session.end('completed')
 console.log(session.endTime) // Current timestamp
@@ -159,29 +171,36 @@ console.log(session.state.value) // 'ended'
 ```
 
 ##### `pause()`
+
 Pauses an active session.
 
 **Throws:**
+
 - `Error` if session is not active
 
 **Side Effects:**
+
 - Sets `pausedAt` to current time
 - Changes `state` to `SessionState.PAUSED`
 - Emits `SessionPausedEvent`
 
 **Example:**
+
 ```javascript
 session.pause()
 console.log(session.state.isPaused()) // true
 ```
 
 ##### `resume()`
+
 Resumes a paused session.
 
 **Throws:**
+
 - `Error` if session is not paused
 
 **Side Effects:**
+
 - Adds pause duration to `totalPausedTime`
 - Sets `resumedAt` to current time
 - Clears `pausedAt`
@@ -189,32 +208,39 @@ Resumes a paused session.
 - Emits `SessionResumedEvent`
 
 **Example:**
+
 ```javascript
 session.resume()
 console.log(session.state.isActive()) // true
 ```
 
 ##### `getDuration(): number`
+
 Gets session duration in minutes (excluding paused time).
 
 **Returns:**
+
 - `number` - Duration in minutes (active work time only)
 
 **Example:**
+
 ```javascript
 const duration = session.getDuration()
 console.log(`${duration} minutes of active work`)
 ```
 
 ##### `isInFlowState(): boolean`
+
 Checks if session is in flow state (≥ 15 minutes of active work).
 
 **Returns:**
+
 - `boolean` - True if active and duration ≥ 15 minutes
 
 **Business Rule:** Flow state is achieved after 15 minutes of uninterrupted work.
 
 **Example:**
+
 ```javascript
 if (session.isInFlowState()) {
   console.log('🔥 IN FLOW STATE')
@@ -222,16 +248,20 @@ if (session.isInFlowState()) {
 ```
 
 ##### `updateContext(updates)`
+
 Updates session metadata.
 
 **Parameters:**
+
 - `updates` (Object): Key-value pairs to merge into context
 
 **Side Effects:**
+
 - Merges `updates` into `context`
 - Emits `SessionContextUpdatedEvent`
 
 **Example:**
+
 ```javascript
 session.updateContext({
   editor: 'vscode',
@@ -240,9 +270,11 @@ session.updateContext({
 ```
 
 ##### `getSummary(): Object`
+
 Gets session summary for display.
 
 **Returns:**
+
 ```javascript
 {
   id: string,
@@ -256,18 +288,22 @@ Gets session summary for display.
 ```
 
 **Example:**
+
 ```javascript
 const summary = session.getSummary()
 console.log(JSON.stringify(summary, null, 2))
 ```
 
 ##### `getEvents(): Array`
+
 Gets pending domain events.
 
 **Returns:**
+
 - `Array<DomainEvent>` - Domain events emitted during session lifecycle
 
 **Example:**
+
 ```javascript
 const events = session.getEvents()
 events.forEach(event => console.log(event.eventType))
@@ -277,9 +313,11 @@ events.forEach(event => console.log(event.eventType))
 ```
 
 ##### `clearEvents()`
+
 Clears pending domain events (after publishing).
 
 **Example:**
+
 ```javascript
 session.clearEvents()
 console.log(session.getEvents().length) // 0
@@ -294,6 +332,7 @@ console.log(session.getEvents().length) // 0
 Represents a project that can have sessions.
 
 **Constructor:**
+
 ```javascript
 new Project(id, name, options)
 ```
@@ -312,6 +351,7 @@ new Project(id, name, options)
 | `options.totalDuration` | number | No | Total duration (minutes) |
 
 **Properties:**
+
 ```javascript
 {
   id: string,              // Unique identifier
@@ -331,71 +371,92 @@ new Project(id, name, options)
 **Methods:**
 
 ##### `validate()`
+
 Validates business rules.
 
 **Throws:**
+
 - `Error` if id or name is empty
 - `Error` if name > 100 characters
 - `Error` if description > 500 characters
 - `Error` if tags is not an array of strings
 
 ##### `touch()`
+
 Updates last accessed time to now.
 
 ##### `recordSession(duration)`
+
 Records a completed session.
 
 **Parameters:**
+
 - `duration` (number): Session duration in minutes
 
 **Throws:**
+
 - `Error` if duration is negative
 
 **Side Effects:**
+
 - Increments `totalSessions`
 - Adds to `totalDuration`
 - Calls `touch()`
 
 ##### `getAverageSessionDuration(): number`
+
 Gets average session duration.
 
 **Returns:**
+
 - `number` - Average duration in minutes (rounded)
 
 ##### `isRecentlyAccessed(hours): boolean`
+
 Checks if project was accessed recently.
 
 **Parameters:**
+
 - `hours` (number): Hours to consider "recent" (default: 24)
 
 **Returns:**
+
 - `boolean` - True if last accessed within specified hours
 
 ##### `hasTag(tag): boolean`
+
 Checks if project has a specific tag.
 
 ##### `addTag(tag)`
+
 Adds a tag (if not already present).
 
 ##### `removeTag(tag)`
+
 Removes a tag.
 
 ##### `updateMetadata(updates)`
+
 Merges updates into metadata.
 
 ##### `matchesSearch(query): boolean`
+
 Checks if project matches search query.
 
 **Parameters:**
+
 - `query` (string): Search query
 
 **Returns:**
+
 - `boolean` - True if name, description, path, tags, or type matches
 
 ##### `getSummary(): Object`
+
 Gets project summary.
 
 **Returns:**
+
 ```javascript
 {
   id: string,
@@ -425,6 +486,7 @@ Immutable objects representing domain concepts without identity.
 **File:** `cli/domain/value-objects/SessionState.js`
 
 **Constants:**
+
 ```javascript
 SessionState.ACTIVE = 'active'
 SessionState.PAUSED = 'paused'
@@ -432,11 +494,13 @@ SessionState.ENDED = 'ended'
 ```
 
 **Constructor:**
+
 ```javascript
 new SessionState(value)
 ```
 
 **Methods:**
+
 - `isActive(): boolean`
 - `isPaused(): boolean`
 - `isEnded(): boolean`
@@ -449,6 +513,7 @@ new SessionState(value)
 **File:** `cli/domain/value-objects/ProjectType.js`
 
 **Constants:**
+
 ```javascript
 ProjectType.R_PACKAGE = 'r-package'
 ProjectType.QUARTO = 'quarto'
@@ -460,11 +525,13 @@ ProjectType.GENERAL = 'general'
 ```
 
 **Constructor:**
+
 ```javascript
 new ProjectType(value)
 ```
 
 **Methods:**
+
 - `getIcon(): string` - Returns icon (📦, 📝, 📚, 📊, 🔧, 📓, 📁)
 - `getDisplayName(): string` - Returns human-readable name
 - `toString(): string`
@@ -480,6 +547,7 @@ Events emitted during entity lifecycle.
 **File:** `cli/domain/events/SessionEvent.js`
 
 **Available Events:**
+
 ```javascript
 SessionStartedEvent(sessionId, project, task)
 SessionEndedEvent(sessionId, outcome, duration)
@@ -489,6 +557,7 @@ SessionContextUpdatedEvent(sessionId, updates)
 ```
 
 **Base Event Structure:**
+
 ```javascript
 {
   eventType: string,     // Event type name
@@ -509,6 +578,7 @@ Repository interfaces define contracts for data access.
 **File:** `cli/domain/repositories/ISessionRepository.js`
 
 **Interface:**
+
 ```javascript
 class ISessionRepository {
   async save(session)                    // Save session
@@ -520,6 +590,7 @@ class ISessionRepository {
 ```
 
 **List Options:**
+
 ```javascript
 {
   since: Date,           // Filter by start time
@@ -539,6 +610,7 @@ class ISessionRepository {
 **File:** `cli/domain/repositories/IProjectRepository.js`
 
 **Interface:**
+
 ```javascript
 class IProjectRepository {
   async save(project)                    // Save project
@@ -565,21 +637,24 @@ Application-specific business workflows.
 Gets comprehensive workflow status with metrics.
 
 **Constructor:**
+
 ```javascript
 new GetStatusUseCase(
-  sessionRepository,    // ISessionRepository
-  projectRepository,    // IProjectRepository
-  gitGateway,          // GitGateway (optional)
-  statusFileGateway    // StatusFileGateway (optional)
+  sessionRepository, // ISessionRepository
+  projectRepository, // IProjectRepository
+  gitGateway, // GitGateway (optional)
+  statusFileGateway // StatusFileGateway (optional)
 )
 ```
 
 **Method:**
+
 ```javascript
 async execute(input)
 ```
 
 **Input:**
+
 ```javascript
 {
   includeRecentSessions: boolean,  // Default: true
@@ -589,6 +664,7 @@ async execute(input)
 ```
 
 **Output:**
+
 ```javascript
 {
   activeSession: {
@@ -638,13 +714,9 @@ async execute(input)
 ```
 
 **Example:**
+
 ```javascript
-const useCase = new GetStatusUseCase(
-  sessionRepo,
-  projectRepo,
-  gitGateway,
-  statusFileGateway
-)
+const useCase = new GetStatusUseCase(sessionRepo, projectRepo, gitGateway, statusFileGateway)
 
 const status = await useCase.execute({
   includeRecentSessions: true,
@@ -665,20 +737,23 @@ console.log(`Streak: ${status.metrics.streak} days`)
 Creates a new work session.
 
 **Constructor:**
+
 ```javascript
 new CreateSessionUseCase(
-  sessionRepository,    // ISessionRepository
-  projectRepository,    // IProjectRepository
-  eventPublisher        // IEventPublisher (optional)
+  sessionRepository, // ISessionRepository
+  projectRepository, // IProjectRepository
+  eventPublisher // IEventPublisher (optional)
 )
 ```
 
 **Method:**
+
 ```javascript
 async execute(input)
 ```
 
 **Input:**
+
 ```javascript
 {
   project: string,       // Required
@@ -689,6 +764,7 @@ async execute(input)
 ```
 
 **Output:**
+
 ```javascript
 {
   session: Session,
@@ -697,12 +773,14 @@ async execute(input)
 ```
 
 **Business Rules:**
+
 - Only one active session allowed at a time
 - Validates project name
 - Generates UUID for session ID
 - Publishes `SessionStartedEvent`
 
 **Example:**
+
 ```javascript
 const useCase = new CreateSessionUseCase(sessionRepo, projectRepo)
 
@@ -724,20 +802,23 @@ console.log(`Session created: ${result.session.id}`)
 Ends the active work session.
 
 **Constructor:**
+
 ```javascript
 new EndSessionUseCase(
-  sessionRepository,    // ISessionRepository
-  projectRepository,    // IProjectRepository
-  eventPublisher        // IEventPublisher (optional)
+  sessionRepository, // ISessionRepository
+  projectRepository, // IProjectRepository
+  eventPublisher // IEventPublisher (optional)
 )
 ```
 
 **Method:**
+
 ```javascript
 async execute(input)
 ```
 
 **Input:**
+
 ```javascript
 {
   outcome: string,       // 'completed', 'cancelled', 'interrupted'
@@ -746,6 +827,7 @@ async execute(input)
 ```
 
 **Output:**
+
 ```javascript
 {
   session: Session,
@@ -754,6 +836,7 @@ async execute(input)
 ```
 
 **Business Rules:**
+
 - Must have an active session
 - Records session in project statistics
 - Publishes `SessionEndedEvent`
@@ -767,19 +850,22 @@ async execute(input)
 Scans file system for projects with .STATUS files.
 
 **Constructor:**
+
 ```javascript
 new ScanProjectsUseCase(
-  projectRepository,    // IProjectRepository
-  cache                 // ProjectScanCache (optional)
+  projectRepository, // IProjectRepository
+  cache // ProjectScanCache (optional)
 )
 ```
 
 **Method:**
+
 ```javascript
 async execute(input)
 ```
 
 **Input:**
+
 ```javascript
 {
   basePath: string,              // Base directory to scan
@@ -794,6 +880,7 @@ async execute(input)
 ```
 
 **Output:**
+
 ```javascript
 {
   projects: Project[],
@@ -806,6 +893,7 @@ async execute(input)
 ```
 
 **Performance:**
+
 - First scan: ~3ms for 60 projects
 - Cached scan: <1ms
 - Cache TTL: 1 hour
@@ -825,6 +913,7 @@ Interface adapters between use cases and frameworks.
 Handles status command presentation logic.
 
 **Constructor:**
+
 ```javascript
 new StatusController(getStatusUseCase)
 ```
@@ -834,6 +923,7 @@ new StatusController(getStatusUseCase)
 ##### `async showStatus(options)`
 
 **Parameters:**
+
 ```javascript
 {
   verbose: boolean,      // Show detailed metrics
@@ -843,11 +933,13 @@ new StatusController(getStatusUseCase)
 ```
 
 **Output:**
+
 - Formatted status display (ASCII charts, colors)
 - Web dashboard (if `web: true`)
 - JSON output (if `format: 'json'`)
 
 **Features:**
+
 - Progress bars (ASCII)
 - Sparkline charts
 - Flow state indicator (🔥)
@@ -867,6 +959,7 @@ File-based implementation of `ISessionRepository`.
 **Storage:** `~/.config/zsh/.sessions/` (JSON files)
 
 **Methods:**
+
 - Implements all `ISessionRepository` methods
 - File format: `{sessionId}.json`
 - Atomic writes with temp files
@@ -880,12 +973,14 @@ File-based implementation of `ISessionRepository`.
 Scans file system for projects with .STATUS files.
 
 **Features:**
+
 - In-memory caching (1-hour TTL)
 - Parallel directory scanning
 - Smart filters (.STATUS parsing)
 - Progress callbacks
 
 **Cache Performance:**
+
 - First scan: ~3ms
 - Cached: <1ms
 - Auto-invalidation after 1 hour
@@ -905,6 +1000,7 @@ Interfaces with Git via shell commands.
 ##### `async getStatus(cwd)`
 
 **Returns:**
+
 ```javascript
 {
   branch: string,
@@ -929,6 +1025,7 @@ Reads and writes .STATUS files.
 ##### `async read(projectPath)`
 
 **Returns:**
+
 ```javascript
 {
   status: string,
@@ -943,6 +1040,7 @@ Reads and writes .STATUS files.
 ##### `async write(projectPath, data)`
 
 **Parameters:**
+
 - `data` (Object): Status fields to write
 
 ---
@@ -958,17 +1056,20 @@ Outer layer containing frameworks, drivers, and CLI commands.
 **File:** `cli/commands/status.js`
 
 **Usage:**
+
 ```bash
 flow status [options]
 ```
 
 **Options:**
+
 - `-v, --verbose` - Show detailed metrics
 - `--web` - Launch web dashboard
 - `--json` - JSON output
 - `--help` - Show help
 
 **Examples:**
+
 ```bash
 flow status                # Basic status
 flow status -v             # Verbose with metrics
@@ -983,21 +1084,25 @@ flow status --json         # JSON output
 **File:** `cli/commands/dashboard.js`
 
 **Usage:**
+
 ```bash
 flow dashboard [options]
 ```
 
 **Options:**
+
 - `--interval <ms>` - Auto-refresh interval (default: 5000)
 - `--help` - Show help
 
 **Features:**
+
 - Real-time TUI (blessed/blessed-contrib)
 - Auto-refresh
 - Keyboard shortcuts (r=refresh, /=filter, q=quit, ?=help)
 - Grid layout (4 widgets)
 
 **Example:**
+
 ```bash
 flow dashboard --interval 3000
 ```
@@ -1049,12 +1154,7 @@ import { GetStatusUseCase } from './use-cases/GetStatusUseCase.js'
 import { StatusController } from './adapters/controllers/StatusController.js'
 
 // Setup use case
-const useCase = new GetStatusUseCase(
-  sessionRepo,
-  projectRepo,
-  gitGateway,
-  statusFileGateway
-)
+const useCase = new GetStatusUseCase(sessionRepo, projectRepo, gitGateway, statusFileGateway)
 
 // Get status
 const status = await useCase.execute({
@@ -1192,6 +1292,7 @@ class PostgresSessionRepository extends ISessionRepository {
 ### Unit Testing
 
 **Run tests:**
+
 ```bash
 npm test                    # All tests
 npm run test:unit           # Unit tests only
@@ -1199,6 +1300,7 @@ npm run test:integration    # Integration tests only
 ```
 
 **Test Coverage:**
+
 - 559 tests (100% passing)
 - Domain: 265 tests
 - Use Cases: 120 tests
@@ -1236,12 +1338,14 @@ describe('Session Entity', () => {
 ## Performance
 
 **Benchmarks:**
+
 - Session creation: <1ms
 - Status retrieval: <10ms (cached)
 - Project scanning: 3ms first, <1ms cached (60 projects)
 - CLI startup: ~100ms (Node.js)
 
 **ADHD Optimization:**
+
 - ZSH commands: <10ms (instant response)
 - Node.js CLI: ~100ms (rich features)
 - Mental model: ZSH for doing, flow for viewing

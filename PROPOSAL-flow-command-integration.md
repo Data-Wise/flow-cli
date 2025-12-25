@@ -9,6 +9,7 @@
 The `flow` command has a **naming conflict** with Facebook's Flow (JavaScript type checker), but you've already resolved this by globally installing your flow-cli. However, there's **functional overlap** between the Node.js `flow` CLI and native ZSH workflow commands that needs strategic resolution.
 
 **Key Insight:** You have TWO parallel workflow systems:
+
 1. **Native ZSH functions** - Fast, direct shell integration (`work`, `finish`, `dash`, `status`)
 2. **Node.js CLI** - Rich features, visualizations, web dashboard (`flow status`, `flow dashboard`)
 
@@ -18,13 +19,13 @@ The `flow` command has a **naming conflict** with Facebook's Flow (JavaScript ty
 
 ### Installed Commands
 
-| Command | Type | Location | Purpose |
-|---------|------|----------|---------|
-| `flow` | Node.js CLI | `/opt/homebrew/bin/flow` → `@flowcli/core` | Enhanced status/dashboard |
-| `work` | ZSH function | `~/.config/zsh/functions/work.zsh` | Start work session |
-| `finish` | ZSH function | `~/.config/zsh/functions/adhd-helpers.zsh` | End session + commit |
-| `dash` | ZSH function | `~/.config/zsh/functions/dash.zsh` | Project dashboard |
-| `status` | ZSH function | `~/.config/zsh/functions/status.zsh` | Update .STATUS files |
+| Command  | Type         | Location                                   | Purpose                   |
+| -------- | ------------ | ------------------------------------------ | ------------------------- |
+| `flow`   | Node.js CLI  | `/opt/homebrew/bin/flow` → `@flowcli/core` | Enhanced status/dashboard |
+| `work`   | ZSH function | `~/.config/zsh/functions/work.zsh`         | Start work session        |
+| `finish` | ZSH function | `~/.config/zsh/functions/adhd-helpers.zsh` | End session + commit      |
+| `dash`   | ZSH function | `~/.config/zsh/functions/dash.zsh`         | Project dashboard         |
+| `status` | ZSH function | `~/.config/zsh/functions/status.zsh`       | Update .STATUS files      |
 
 ### Command Overlap Map
 
@@ -47,16 +48,16 @@ The `flow` command has a **naming conflict** with Facebook's Flow (JavaScript ty
 
 ### Feature Comparison
 
-| Feature | ZSH Native | Node.js CLI |
-|---------|------------|-------------|
-| **Speed** | ⚡ Instant (<10ms) | 🐌 Node startup (~100ms) |
-| **Rich UI** | ❌ Text only | ✅ ASCII art, colors, sparklines |
-| **Web Dashboard** | ❌ No | ✅ Yes (`--web` flag) |
-| **TUI Dashboard** | ❌ No | ✅ Yes (blessed) |
-| **Shell Integration** | ✅ Direct | ⚠️ Via subprocess |
-| **Project Detection** | ✅ Native | ✅ Via adapters |
-| **Caching** | ❌ No | ✅ 10x speedup |
-| **Portability** | ⚠️ ZSH only | ✅ Any shell |
+| Feature               | ZSH Native         | Node.js CLI                      |
+| --------------------- | ------------------ | -------------------------------- |
+| **Speed**             | ⚡ Instant (<10ms) | 🐌 Node startup (~100ms)         |
+| **Rich UI**           | ❌ Text only       | ✅ ASCII art, colors, sparklines |
+| **Web Dashboard**     | ❌ No              | ✅ Yes (`--web` flag)            |
+| **TUI Dashboard**     | ❌ No              | ✅ Yes (blessed)                 |
+| **Shell Integration** | ✅ Direct          | ⚠️ Via subprocess                |
+| **Project Detection** | ✅ Native          | ✅ Via adapters                  |
+| **Caching**           | ❌ No              | ✅ 10x speedup                   |
+| **Portability**       | ⚠️ ZSH only        | ✅ Any shell                     |
 
 ---
 
@@ -65,6 +66,7 @@ The `flow` command has a **naming conflict** with Facebook's Flow (JavaScript ty
 ### 1. **Command Name Conflict**
 
 **Issue:** `flow` is a common package name
+
 - Facebook Flow (JavaScript type checker) - `/opt/homebrew/bin/flow` (if installed)
 - Your flow-cli - Currently symlinked to `/opt/homebrew/bin/flow`
 
@@ -76,19 +78,20 @@ The `flow` command has a **naming conflict** with Facebook's Flow (JavaScript ty
 
 **Issue:** Duplicate functionality between systems
 
-| Function | ZSH Command | Node.js Equivalent | Conflict Level |
-|----------|-------------|-------------------|----------------|
-| View session | `work` (shows current) | `flow status` | 🟡 Medium |
-| Dashboard | `dash` | `flow dashboard` | 🔴 High |
-| Status update | `status <proj>` | N/A | 🟢 None |
-| Start work | `work <proj>` | `flow work` (planned) | 🟡 Medium |
-| Finish work | `finish` | `flow finish` (planned) | 🟡 Medium |
+| Function      | ZSH Command            | Node.js Equivalent      | Conflict Level |
+| ------------- | ---------------------- | ----------------------- | -------------- |
+| View session  | `work` (shows current) | `flow status`           | 🟡 Medium      |
+| Dashboard     | `dash`                 | `flow dashboard`        | 🔴 High        |
+| Status update | `status <proj>`        | N/A                     | 🟢 None        |
+| Start work    | `work <proj>`          | `flow work` (planned)   | 🟡 Medium      |
+| Finish work   | `finish`               | `flow finish` (planned) | 🟡 Medium      |
 
 ### 3. **User Experience Confusion**
 
 **Issue:** Which command should users learn?
 
 **Current confusion points:**
+
 - When to use `dash` vs `flow dashboard`?
 - When to use native `work` vs planned `flow work`?
 - Why do both systems exist?
@@ -102,6 +105,7 @@ The `flow` command has a **naming conflict** with Facebook's Flow (JavaScript ty
 **Philosophy:** Native ZSH for speed, Node.js for rich features
 
 **Implementation:**
+
 ```bash
 # Fast, common operations - ZSH
 work <project>          # Instant start (ZSH)
@@ -116,12 +120,14 @@ flow status -v          # Verbose ASCII art (Node.js)
 ```
 
 **Rationale:**
+
 - ✅ **ADHD-optimized** - Fast commands have zero latency
 - ✅ **Power features available** - Rich UI when you want it
 - ✅ **Clear separation** - `flow` = enhanced visualizations
 - ✅ **Backwards compatible** - Existing muscle memory preserved
 
 **Changes needed:**
+
 1. Keep ZSH `work`, `finish`, `status` as-is
 2. Rename `dash` → `plist` (project list) or keep as basic view
 3. Position `flow` as **"enhanced view"** mode:
@@ -130,6 +136,7 @@ flow status -v          # Verbose ASCII art (Node.js)
    - `flow status -v` - Verbose CLI (enhanced `dash`)
 
 **Documentation:**
+
 ```markdown
 ## Quick Commands (ADHD-friendly - instant)
 
@@ -145,6 +152,7 @@ flow status -v          # Verbose ASCII art (Node.js)
 ```
 
 **Effort:** 🟢 Low
+
 - Rename `dash` → `plist` (or similar)
 - Update docs to clarify roles
 - No breaking changes
@@ -156,6 +164,7 @@ flow status -v          # Verbose ASCII art (Node.js)
 **Philosophy:** All commands go through `flow` CLI
 
 **Implementation:**
+
 ```bash
 # All workflow commands use flow
 flow work <project>     # Start session
@@ -171,6 +180,7 @@ alias dash='flow dashboard'
 ```
 
 **Rationale:**
+
 - ✅ **Single command** to learn (`flow`)
 - ✅ **Consistent interface** - All flags work same way
 - ✅ **Portable** - Works in any shell (bash, fish, etc.)
@@ -178,12 +188,14 @@ alias dash='flow dashboard'
 - ❌ **Breaks ADHD workflow** - Speed matters for context switching
 
 **Changes needed:**
+
 1. Implement `flow work` and `flow finish` in Node.js
 2. Create ZSH aliases for backwards compatibility
 3. Update all documentation
 4. Migrate worklog integration
 
 **Effort:** 🔴 High
+
 - Implement missing Node.js commands
 - Port shell logic to JavaScript
 - High risk of breaking existing workflows
@@ -195,6 +207,7 @@ alias dash='flow dashboard'
 **Philosophy:** ZSH commands call Node.js when needed
 
 **Implementation:**
+
 ```bash
 # User types (ZSH functions)
 work <project>          # ZSH handles session management
@@ -215,6 +228,7 @@ work() {
 ```
 
 **Rationale:**
+
 - ✅ **Zero latency** for core operations (ZSH)
 - ✅ **Rich features** when desired (Node.js)
 - ✅ **Smart delegation** - ZSH calls Node.js only for UI
@@ -222,12 +236,14 @@ work() {
 - ⚠️ **Complexity** - Two systems to maintain
 
 **Changes needed:**
+
 1. Add `--tui` and `--web` flags to ZSH `dash` command
 2. Bridge ZSH → Node.js for visualization features
 3. Keep core logic in ZSH (session management)
 4. Use Node.js for enhanced views only
 
 **Effort:** 🟡 Medium
+
 - Modify ZSH commands to accept flags
 - Delegate to Node.js for rich features
 - Document flag usage
@@ -239,6 +255,7 @@ work() {
 **Philosophy:** Rename `flow` → different command
 
 **Implementation:**
+
 ```bash
 # Rename flow → workview (or similar)
 workview dashboard      # TUI dashboard
@@ -252,6 +269,7 @@ dash
 ```
 
 **Possible names:**
+
 - `workview` - View your workflow
 - `wdash` - Workflow dashboard
 - `flowviz` - Flow visualization
@@ -259,6 +277,7 @@ dash
 - `flo` - Shorter version
 
 **Rationale:**
+
 - ✅ **No confusion** - Completely separate namespaces
 - ✅ **No conflict** with Facebook Flow (if needed later)
 - ✅ **Clear purpose** - Name indicates visualization focus
@@ -266,6 +285,7 @@ dash
 - ❌ **User relearning** - Have to teach new command
 
 **Changes needed:**
+
 1. Rename package: `@flowcli/core` → `@workview/core`
 2. Rename binary: `flow` → `workview`
 3. Update all documentation
@@ -273,6 +293,7 @@ dash
 5. Publish to npm with new name
 
 **Effort:** 🔴 High
+
 - Complete rebranding
 - Breaking change for existing users (if any)
 - All tutorials need updates
@@ -281,21 +302,22 @@ dash
 
 ## 📋 Recommendation Matrix
 
-| Criteria | Option A: ZSH-First | Option B: Node-First | Option C: Hybrid | Option D: Rename |
-|----------|-------------------|-------------------|-----------------|-----------------|
-| **ADHD-friendly** | ✅ Excellent | ❌ Poor | ✅ Excellent | 🟡 Good |
-| **Speed** | ✅ Instant | ❌ Slow | ✅ Instant | ✅ Instant |
-| **Rich features** | ✅ Available | ✅ Unified | ✅ Available | ✅ Available |
-| **Simplicity** | ✅ Clear roles | 🟡 One command | ⚠️ Complex | ✅ Clear |
-| **Effort** | 🟢 Low | 🔴 High | 🟡 Medium | 🔴 High |
-| **Risk** | 🟢 Low | 🔴 High | 🟡 Medium | 🟡 Medium |
-| **Backwards compat** | ✅ Yes | ⚠️ Aliases only | ✅ Yes | ✅ Yes |
+| Criteria             | Option A: ZSH-First | Option B: Node-First | Option C: Hybrid | Option D: Rename |
+| -------------------- | ------------------- | -------------------- | ---------------- | ---------------- |
+| **ADHD-friendly**    | ✅ Excellent        | ❌ Poor              | ✅ Excellent     | 🟡 Good          |
+| **Speed**            | ✅ Instant          | ❌ Slow              | ✅ Instant       | ✅ Instant       |
+| **Rich features**    | ✅ Available        | ✅ Unified           | ✅ Available     | ✅ Available     |
+| **Simplicity**       | ✅ Clear roles      | 🟡 One command       | ⚠️ Complex       | ✅ Clear         |
+| **Effort**           | 🟢 Low              | 🔴 High              | 🟡 Medium        | 🔴 High          |
+| **Risk**             | 🟢 Low              | 🔴 High              | 🟡 Medium        | 🟡 Medium        |
+| **Backwards compat** | ✅ Yes              | ⚠️ Aliases only      | ✅ Yes           | ✅ Yes           |
 
 ---
 
 ## 🎯 Final Recommendation: **Option A (ZSH-First)** + Minor Tweaks
 
 **Why:**
+
 1. ✅ **Preserves ADHD workflow** - Fast commands stay instant
 2. ✅ **Adds power features** - Rich UI when you want it
 3. ✅ **Minimal disruption** - Small rename, big clarity
@@ -304,6 +326,7 @@ dash
 **Proposed Changes:**
 
 ### 1. Rename Dashboard Command (ZSH)
+
 ```bash
 # Before
 dash                    # Basic project list (ZSH)
@@ -317,6 +340,7 @@ dash                    # Keep name, but document as "basic view"
 **Rationale:** Reduce confusion between `dash` and `flow dashboard`
 
 ### 2. Position `flow` as Enhanced Viewer
+
 ```bash
 # Basic workflow (fast, ZSH)
 work <project>          # Start session
@@ -333,6 +357,7 @@ flow status -v          # Verbose ASCII art
 ### 3. Update Documentation
 
 **Quick Start Guide:**
+
 ```markdown
 ## Fast Commands (Muscle Memory)
 
@@ -352,6 +377,7 @@ Use when you want rich visualizations:
 ```
 
 **Mental Model:**
+
 ```
 ZSH functions = Fast daily workflow
 flow CLI = Rich visualization mode
@@ -360,16 +386,19 @@ flow CLI = Rich visualization mode
 ### 4. Implementation Plan
 
 **Phase 1: Clarify Roles (1 hour)**
+
 - [ ] Update README.md with "Fast vs Rich" distinction
 - [ ] Add note to `flow --help` about ZSH commands
 - [ ] Create comparison table in docs
 
 **Phase 2: Optional Rename (2 hours)**
+
 - [ ] Consider: `dash` → `plist` (or keep as-is)
 - [ ] Update ZSH docs if renamed
 - [ ] Add note: "`flow dashboard` for live TUI"
 
 **Phase 3: Integration (4 hours)**
+
 - [ ] Add `dash --tui` → calls `flow dashboard`
 - [ ] Add `dash --web` → calls `flow status --web`
 - [ ] Update help text for both systems
@@ -383,15 +412,19 @@ flow CLI = Rich visualization mode
 These improvements benefit ALL options:
 
 ### 1. Cross-Link Documentation
+
 ```markdown
 # In ZSH dash help:
+
 💡 Want a live dashboard? Try: flow dashboard
 
 # In flow help:
+
 💡 For instant results, use native: work, finish, plist
 ```
 
 ### 2. Add Integration Helpers
+
 ```bash
 # In ~/.config/zsh/functions/adhd-helpers.zsh
 alias tui='flow dashboard'
@@ -400,6 +433,7 @@ alias vstat='flow status -v'
 ```
 
 ### 3. Improve Discoverability
+
 ```bash
 # When user types 'dash', show tip
 dash() {
@@ -445,6 +479,7 @@ workflow-stats() {
 ```
 
 **Decision criteria:**
+
 - If `work`/`finish` > 80% usage → **Option A (ZSH-First)**
 - If `flow dashboard` > 50% → **Option B (Node-First)**
 - If mixed usage → **Option C (Hybrid)**
@@ -454,17 +489,20 @@ workflow-stats() {
 ## 🎬 Next Steps
 
 **Immediate (Today):**
+
 1. Review this proposal
 2. Answer open questions above
 3. Choose preferred option (A, B, C, or D)
 
 **This Week:**
+
 1. Implement chosen option
 2. Update documentation
 3. Test integration
 4. Deploy to production
 
 **Optional (Later):**
+
 1. Collect usage metrics
 2. Refine based on data
 3. Consider publishing to npm

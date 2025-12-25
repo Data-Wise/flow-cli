@@ -78,6 +78,7 @@ basicWorkflow().catch(console.error)
 ```
 
 **Expected Output:**
+
 ```
 Starting work session...
 ✓ Session started: a1b2c3d4-e5f6-7890-abcd-ef1234567890
@@ -115,12 +116,7 @@ async function checkStatus() {
   const statusFileGateway = new StatusFileGateway()
 
   // Create use case
-  const useCase = new GetStatusUseCase(
-    sessionRepo,
-    projectRepo,
-    gitGateway,
-    statusFileGateway
-  )
+  const useCase = new GetStatusUseCase(sessionRepo, projectRepo, gitGateway, statusFileGateway)
 
   // Get status
   console.log('Fetching status...\n')
@@ -172,6 +168,7 @@ checkStatus().catch(console.error)
 ```
 
 **Expected Output:**
+
 ```
 Fetching status...
 
@@ -252,6 +249,7 @@ pauseResumeDemo().catch(console.error)
 ```
 
 **Expected Output:**
+
 ```
 Active session: flow-cli
 Duration before pause: 12 minutes
@@ -307,10 +305,13 @@ async function monitorFlowState() {
   }, 30000)
 
   // Stop after 20 minutes
-  setTimeout(() => {
-    clearInterval(checkInterval)
-    console.log('\nMonitoring stopped')
-  }, 20 * 60 * 1000)
+  setTimeout(
+    () => {
+      clearInterval(checkInterval)
+      console.log('\nMonitoring stopped')
+    },
+    20 * 60 * 1000
+  )
 }
 
 // Run the example
@@ -376,6 +377,7 @@ scanActiveRPackages().catch(console.error)
 ```
 
 **Expected Output:**
+
 ```
 Scanning for active R packages...
 
@@ -464,9 +466,7 @@ async function analyzeProductivity() {
   // Group by week
   const weeks = {}
   sessions.forEach(session => {
-    const weekNum = Math.floor(
-      (Date.now() - session.startTime) / (7 * 24 * 60 * 60 * 1000)
-    )
+    const weekNum = Math.floor((Date.now() - session.startTime) / (7 * 24 * 60 * 60 * 1000))
     const weekKey = `Week ${4 - weekNum}`
 
     if (!weeks[weekKey]) {
@@ -596,9 +596,7 @@ async function exportSessionsToCSV() {
   console.log(`Exporting ${sessions.length} sessions to CSV...\n`)
 
   // CSV header
-  const csv = [
-    'Date,Project,Task,Duration (min),Flow State,Outcome,Branch,Start Time,End Time'
-  ]
+  const csv = ['Date,Project,Task,Duration (min),Flow State,Outcome,Branch,Start Time,End Time']
 
   // Add rows
   sessions.forEach(session => {
