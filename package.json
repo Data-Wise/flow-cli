@@ -1,27 +1,16 @@
 {
   "name": "flow-cli",
   "version": "2.0.0-beta.1",
-  "description": "ADHD-optimized ZSH workflow CLI tools",
-  "type": "module",
+  "description": "ADHD-optimized ZSH workflow plugin",
   "private": true,
-  "workspaces": [
-    "cli"
-  ],
   "scripts": {
-    "setup": "./scripts/setup.sh",
-    "sync": "./scripts/sync-zsh.sh",
-    "dev": "npm run dev --workspace=cli",
-    "test": "npm test --workspace=cli",
-    "clean": "rm -rf cli/node_modules node_modules",
-    "reset": "npm run clean && npm install",
-    "install:cli": "cd cli && npm link",
-    "uninstall:cli": "cd cli && npm unlink",
-    "reinstall:cli": "npm run uninstall:cli && npm run install:cli",
     "prepare": "husky",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,json,md,yml,yaml}\"",
-    "format:check": "prettier --check \"**/*.{js,json,md,yml,yaml}\""
+    "format:check": "prettier --check \"**/*.{js,json,md,yml,yaml}\"",
+    "docs:dev": "mkdocs serve",
+    "docs:build": "mkdocs build"
   },
   "keywords": [
     "zsh",
@@ -29,23 +18,13 @@
     "adhd",
     "productivity",
     "shell",
-    "cli"
+    "plugin"
   ],
-  "author": "Your Name",
+  "author": "Data-Wise",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Data-Wise/flow-cli"
-  },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
-  },
-  "dependencies": {
-    "chalk": "^5.6.2",
-    "express": "^5.2.1",
-    "open": "^11.0.0",
-    "ws": "^8.18.3"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
@@ -53,20 +32,14 @@
     "@semantic-release/github": "^12.0.2",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-jest": "^29.11.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "prettier": "^3.7.4",
     "semantic-release": "^25.0.2"
   },
   "lint-staged": {
-    "*.js": [
-      "npm run lint --if-present",
-      "npm run format --if-present",
-      "npm test -- --findRelatedTests --bail"
-    ],
     "*.{json,md,yml,yaml}": [
-      "npm run format --if-present"
+      "prettier --write"
     ]
   }
 }

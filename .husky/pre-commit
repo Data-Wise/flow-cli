@@ -1,8 +1,2 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# Run tests before commit
-npm test
-
-# Run lint-staged if configured
+# Run lint-staged for formatting checks
 npx lint-staged
