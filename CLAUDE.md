@@ -4,134 +4,111 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is the **ZSH Workflow Manager** - an ADHD-optimized CLI workflow system. The repo contains:
+This is **flow-cli** - a pure ZSH plugin for ADHD-optimized workflow management. The repo contains:
 
-- Documentation for 183+ aliases and 108+ workflow functions
-- CLI integration layer (Node.js adapters to ZSH functions)
-- ADHD-optimized workflow guides
-- Progress tracking and planning documents
-- Cloud sync setup (Google Drive + Dropbox via symlinks)
+- ZSH plugin with instant workflow commands (`work`, `dash`, `finish`, etc.)
+- Optional Atlas integration for enhanced state management
+- ADHD-optimized workflow guides and documentation
+- Legacy functions retained for backward compatibility
 
-**Important:** The actual ZSH configuration files live in `~/.config/zsh/` (separate location).
-
-**Note:** Desktop app (Electron) was archived 2025-12-20 due to environment issues. See `docs/archive/2025-12-20-app-removal/` for details.
+**Architecture:** Pure ZSH plugin (no Node.js runtime required)
 
 ## Project Structure
 
-| Directory                              | Purpose                                |
-| -------------------------------------- | -------------------------------------- |
-| `cli/`                                 | CLI integration layer (adapters + API) |
-| `docs/`                                | All documentation (organized by type)  |
-| `docs/archive/2025-12-20-app-removal/` | Archived Electron app code             |
-| `config/`                              | Configuration files and backups        |
-| `tests/`                               | Test suites for CLI                    |
-| `scripts/`                             | Utility scripts (setup, sync, deploy)  |
+```
+flow-cli/
+├── flow.plugin.zsh      # Plugin entry point
+├── lib/                 # Core libraries
+│   ├── core.zsh         # Colors, logging, utilities
+│   ├── atlas-bridge.zsh # Atlas state engine integration
+│   ├── project-detector.zsh
+│   └── tui.zsh          # Terminal UI components
+├── commands/            # Command implementations
+│   ├── work.zsh         # work, finish, hop, why
+│   ├── dash.zsh         # Dashboard display
+│   ├── capture.zsh      # catch, inbox, crumb, win
+│   └── adhd.zsh         # js, next, stuck, focus, brk
+├── completions/         # ZSH completions (_work, _dash, etc.)
+├── hooks/               # ZSH hooks
+│   ├── chpwd.zsh        # Directory change hook
+│   └── precmd.zsh       # Pre-command hook
+├── zsh/functions/       # Legacy functions (backward compat)
+├── docs/                # Documentation
+├── .archive/            # Archived Node.js CLI (2025-12-25)
+└── .STATUS              # Current progress tracking
+```
 
 ## Key Files
 
-| File                                | Purpose                                    |
-| ----------------------------------- | ------------------------------------------ |
-| `README.md`                         | Project overview and setup guide           |
-| `PROJECT-HUB.md`                    | Strategic roadmap (P0-P6 phases)           |
-| `.STATUS`                           | Daily progress tracking                    |
-| `docs/user/WORKFLOWS-QUICK-WINS.md` | Top 10 ADHD-friendly workflows             |
-| `docs/user/ALIAS-REFERENCE-CARD.md` | Complete alias reference                   |
-| `cli/README.md`                     | CLI integration guide                      |
-| `MONOREPO-COMMANDS-TUTORIAL.md`     | Beginner's guide to npm workspace commands |
+| File                   | Purpose                          |
+| ---------------------- | -------------------------------- |
+| `flow.plugin.zsh`      | Plugin entry point (source this) |
+| `.STATUS`              | Current sprint progress          |
+| `README.md`            | User-facing installation guide   |
+| `lib/core.zsh`         | Core utilities (logging, colors) |
+| `lib/atlas-bridge.zsh` | Atlas integration layer          |
 
-## Actual Configuration Location
+## Commands
 
-The ZSH configuration files are at:
+| Command           | Description                    | File                 |
+| ----------------- | ------------------------------ | -------------------- |
+| `work <project>`  | Start working on a project     | commands/work.zsh    |
+| `finish [note]`   | End session, optionally commit | commands/work.zsh    |
+| `hop <project>`   | Quick switch (tmux)            | commands/work.zsh    |
+| `dash [category]` | Show project dashboard         | commands/dash.zsh    |
+| `catch <text>`    | Quick capture idea/task        | commands/capture.zsh |
+| `js`              | Just start (ADHD helper)       | commands/adhd.zsh    |
 
-```
-~/.config/zsh/
-├── .zshrc                    # Main config
-├── functions.zsh             # Legacy functions
-├── functions/
-│   ├── adhd-helpers.zsh      # ADHD helper commands
-│   ├── work.zsh              # Multi-editor work command
-│   └── claude-workflows.zsh  # Claude Code workflows
-├── tests/
-│   └── test-adhd-helpers.zsh # Test suite (25 tests)
-├── .zsh_plugins.txt          # Antidote plugins
-└── .p10k.zsh                 # Powerlevel10k theme
-```
+## Development
 
-## Key Alias Categories
-
-- **Ultra-fast (1-char)**: `t` (test), `c` (claude), `q` (quarto preview)
-- **Atomic pairs**: `lt` (load+test), `dt` (doc+test)
-- **R package**: `rload`, `rtest`, `rdoc`, `rcheck`, `rcycle`
-- **Claude Code**: `cc`, `ccc`, `ccplan`, `ccauto`, `ccyolo`
-- **ADHD helpers**: `js` (just-start), `why` (context), `win` (dopamine log), `gm` (morning routine)
-
-## Help System
+### Testing the plugin
 
 ```bash
-ah              # Show all categories
-ah r            # R package development
-ah claude       # Claude Code aliases
-ah git          # Git shortcuts
-ah workflow     # Workflow functions
+# Load plugin in current shell
+source flow.plugin.zsh
+
+# Test commands work
+work <Tab>    # Should show completions
+dash          # Should show dashboard
 ```
 
-## Documentation Organization
+### Adding new commands
 
-The `/docs` directory is organized by purpose:
+1. Create function in appropriate `commands/*.zsh` file
+2. Use `_flow_*` helpers from `lib/core.zsh`
+3. Add completion in `completions/_commandname`
 
-- **`docs/user/`** - User-facing guides (workflows, alias reference, tutorials)
-- **`docs/reference/`** - Technical reference (command patterns, sync setup)
-- **`docs/planning/`** - Active planning documents
-  - `current/` - Current phase work (P4 optimization)
-  - `proposals/` - Future proposals
-- **`docs/implementation/`** - Implementation tracking by feature
-  - `help-system/` - Help system overhaul
-  - `alias-refactoring/` - Alias refactoring work
-  - `workflow-redesign/` - Workflow redesign proposals
-  - `status-command/` - Status command research
-- **`docs/archive/`** - Historical decisions and completed work
-- **`docs/ideas/`** - Ideas backlog (TODO items)
+### Legacy functions
 
-## Editing Guidelines
+The `zsh/functions/` directory contains legacy implementations. When both exist:
 
-1. **Documentation changes**: Edit files in `docs/` subdirectories
-2. **CLI adapters**: Add to `cli/adapters/`, see `cli/README.md`
-3. **ZSH config changes**: Edit files in `~/.config/zsh/`, then update docs here
-4. **Testing**:
-   - CLI tests: `npm test` or `npm run test`
-   - ZSH tests: `~/.config/zsh/tests/test-adhd-helpers.zsh`
-5. **Config backups**: Stored in `config/backups/` before major changes
+- New `commands/*.zsh` load first
+- Legacy `zsh/functions/*.zsh` overwrite (safe fallback)
+
+To activate new implementations, remove the legacy duplicate.
 
 ## Current Phase
 
-- **P0-P5C (Complete)**: Core CLI system, ADHD helpers, integrations, CLI adapters
-- **P5 Desktop App (Archived 2025-12-20)**: See `docs/archive/2025-12-20-app-removal/`
-- **P6 (Next)**: CLI Enhancements
-  - Enhanced status command (worklog integration)
-  - Interactive TUI dashboard
-  - Web-based dashboard (optional)
+- **P7 - Architecture Refactor** (Active)
+  - [x] Pure ZSH plugin structure
+  - [x] Atlas integration bridge
+  - [x] Completions for main commands
+  - [ ] Documentation updates
+  - [ ] Remove legacy duplicates after testing
 
-## Cross-Project Integrations
+## Integration Points
 
-This project integrates with other dev-tools:
+| Project               | Integration                                |
+| --------------------- | ------------------------------------------ |
+| `atlas`               | Optional state engine (`@data-wise/atlas`) |
+| `zsh-claude-workflow` | Shared project detection patterns          |
 
-| Project                   | Integration                                                 |
-| ------------------------- | ----------------------------------------------------------- |
-| `zsh-claude-workflow`     | Shared `project-detector.zsh` for unified context detection |
-| `iterm2-context-switcher` | Session-aware profiles (Focus mode on `startsession`)       |
-| `apple-notes-sync`        | Dashboard shows workflow activity from `worklog`            |
+## Configuration
 
-**Key symlinks:**
+Set before sourcing the plugin:
 
+```zsh
+export FLOW_PROJECTS_ROOT="$HOME/projects"  # Project root
+export FLOW_ATLAS_ENABLED="auto"            # auto|yes|no
+export FLOW_QUIET=1                         # Suppress welcome
 ```
-~/.config/zsh/functions/project-detector.zsh → zsh-claude-workflow/lib/project-detector.sh
-~/.config/zsh/functions/core-utils.zsh → zsh-claude-workflow/lib/core.sh
-```
-
-## Cloud Sync
-
-Changes auto-sync via symlinks:
-
-- Primary: `~/projects/dev-tools/flow-cli/`
-- Google Drive: `~/Library/CloudStorage/GoogleDrive-.../My Drive/dev-tools/flow-cli`
-- Dropbox: `~/Library/CloudStorage/Dropbox/dev-tools/flow-cli`
