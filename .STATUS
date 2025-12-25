@@ -18,9 +18,16 @@
 - [x] Create hooks/chpwd.zsh
 - [x] Create hooks/precmd.zsh
 - [x] Create flow.plugin.zsh entry point
-- [ ] Migrate completions
-- [ ] Test plugin loading
+- [x] Migrate completions (_work, _dash, _finish, _hop, _js)
+- [x] Test plugin loading (works with legacy fallback)
+- [x] Remove Node.js CLI layer (archived to .archive/)
 - [ ] Update documentation
+- [ ] Remove legacy duplicates (zsh/functions/) after testing
+
+## Notes
+- Legacy zsh/functions/ retained for backward compatibility
+- New commands/ load first, legacy overwrites (safe migration path)
+- Completions use lazy loading + dynamic project discovery
 
 ## Architecture (New)
 ```
