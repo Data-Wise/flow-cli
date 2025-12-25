@@ -9,6 +9,18 @@ work() {
   local project="$1"
   local editor="${2:-${EDITOR:-code}}"
   
+  # Check for existing session (avoid conflicts)
+  if _flow_has_atlas; then
+    local current_session=$(atlas session status --format=json 2>/dev/null | grep -o '"project":"[^"]*"' | cut -d'"' -f4)
+    if [[ -n "$current_session" && "$current_session" != "$project" && -n "$project" ]]; then
+      _flow_log_warning "Active session: $current_session"
+      if ! _flow_confirm "End current session and switch to $project?"; then
+        return 1
+      fi
+      _flow_session_end "Switched to $project"
+    fi
+  fi
+  
   # If no project specified, use picker or current directory
   if [[ -z "$project" ]]; then
     if _flow_has_fzf; then

@@ -58,6 +58,44 @@ crumb() {
 }
 
 # ============================================================================
+# TRAIL - Show breadcrumb trail
+# ============================================================================
+
+trail() {
+  local project="${1:-}"
+  local limit="${2:-20}"
+  
+  # If no project specified, try to detect from current directory
+  if [[ -z "$project" ]] && _flow_in_project; then
+    project=$(_flow_project_name "$(_flow_find_project_root)")
+  fi
+  
+  if _flow_has_atlas; then
+    if [[ -n "$project" ]]; then
+      _flow_atlas trail "$project" --limit="$limit"
+    else
+      _flow_atlas trail --limit="$limit"
+    fi
+  else
+    # Fallback: Show from local trail file
+    local trail_file="${FLOW_DATA_DIR}/trail.log"
+    if [[ -f "$trail_file" ]]; then
+      echo ""
+      echo "  ${FLOW_COLORS[header]}🍞 Breadcrumb Trail${FLOW_COLORS[reset]}"
+      echo ""
+      if [[ -n "$project" ]]; then
+        grep "\[$project\]" "$trail_file" | tail -"$limit"
+      else
+        tail -"$limit" "$trail_file"
+      fi
+      echo ""
+    else
+      _flow_log_info "No breadcrumbs yet. Use 'crumb' to leave one."
+    fi
+  fi
+}
+
+# ============================================================================
 # QUICK CAPTURE ALIASES
 # ============================================================================
 
@@ -65,6 +103,7 @@ crumb() {
 c() { catch "$@" }
 i() { inbox "$@" }
 b() { crumb "$@" }
+t() { trail "$@" }
 
 # ============================================================================
 # WIN - Dopamine logging (celebrate small wins!)

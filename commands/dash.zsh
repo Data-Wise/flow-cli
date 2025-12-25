@@ -6,14 +6,79 @@
 # ============================================================================
 
 dash() {
-  local filter="${1:-}"
-  local format="${2:-compact}"
+  local mode=""
+  local filter=""
+  local format="compact"
+  
+  # Parse arguments
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --full|-f)
+        mode="full"
+        shift
+        ;;
+      --tui|-t)
+        mode="tui"
+        shift
+        ;;
+      --active|-a)
+        filter="active"
+        shift
+        ;;
+      --detailed|-d)
+        format="detailed"
+        shift
+        ;;
+      --minimal|-m)
+        format="minimal"
+        shift
+        ;;
+      *)
+        filter="$1"
+        shift
+        ;;
+    esac
+  done
+  
+  # Full mode: use atlas dashboard (TUI)
+  if [[ "$mode" == "full" ]]; then
+    if _flow_has_atlas; then
+      _flow_atlas dashboard
+      return $?
+    else
+      _flow_log_warning "Atlas not available. Using local dashboard."
+    fi
+  fi
+  
+  # TUI mode: interactive fzf dashboard
+  if [[ "$mode" == "tui" ]]; then
+    dash-tui
+    return $?
+  fi
+  
+  # Default: quick ZSH dashboard
+  _flow_dash_quick "$filter" "$format"
+}
+
+# Quick ZSH-native dashboard (fast, no dependencies)
+_flow_dash_quick() {
+  local filter="$1"
+  local format="$2"
   
   echo ""
   echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[bold]}PROJECT DASHBOARD${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
   echo ""
+  
+  # Show current session if active
+  if _flow_has_atlas; then
+    local current=$(atlas session status --format=json 2>/dev/null | grep -o '"project":"[^"]*"' | cut -d'"' -f4)
+    if [[ -n "$current" ]]; then
+      echo "  ${FLOW_COLORS[success]}▶ Active session:${FLOW_COLORS[reset]} $current"
+      echo ""
+    fi
+  fi
   
   # Get projects (using atlas if available)
   local projects
@@ -38,6 +103,8 @@ dash() {
   
   # Show legend
   echo "${FLOW_COLORS[muted]}  🟢 Active  🟡 Paused  🔴 Blocked  🟠 Stalled  ⚫ Archived${FLOW_COLORS[reset]}"
+  echo ""
+  echo "${FLOW_COLORS[muted]}  Tip: 'dash --full' for interactive TUI (requires atlas)${FLOW_COLORS[reset]}"
   echo ""
 }
 
@@ -96,12 +163,12 @@ _flow_dash_project_row() {
 
 # Show only active projects
 dash-active() {
-  dash "active"
+  dash --active
 }
 
 # Show all projects with details
 dash-all() {
-  dash "" "detailed"
+  dash --detailed
 }
 
 # Show stalled projects (no activity)
