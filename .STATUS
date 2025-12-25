@@ -21,13 +21,18 @@
 - [x] Migrate completions (_work, _dash, _finish, _hop, _js)
 - [x] Test plugin loading (works with legacy fallback)
 - [x] Remove Node.js CLI layer (archived to .archive/)
-- [ ] Update documentation
-- [ ] Remove legacy duplicates (zsh/functions/) after testing
+- [x] Update documentation (CLAUDE.md rewritten for P7)
+- [x] Remove legacy duplicates (dash.zsh, work.zsh removed)
 
 ## Notes
-- Legacy zsh/functions/ retained for backward compatibility
-- New commands/ load first, legacy overwrites (safe migration path)
+- New commands/work.zsh and commands/dash.zsh now active
+- Legacy adhd-helpers.zsh retained (contains many non-migrated functions)
 - Completions use lazy loading + dynamic project discovery
+
+## Next Phase
+- [ ] Migrate remaining functions from adhd-helpers.zsh
+- [ ] Add atlas integration tests
+- [ ] Publish as ZSH plugin (antidote/zinit)
 
 ## Architecture (New)
 ```
