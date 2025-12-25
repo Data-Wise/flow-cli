@@ -35,7 +35,7 @@
 - [x] Hybrid migration complete (new commands/ + legacy zsh/functions/)
 - [x] Published as ZSH plugin (v2.0.0)
 - [x] Add atlas integration tests (26 tests passing)
-- [ ] Create GitHub Release with changelog
+- [x] Create GitHub Release with changelog (v2.0.0)
 
 ## Function Status
 New (commands/): work, dash, catch, js, hop, finish
