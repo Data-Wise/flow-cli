@@ -120,6 +120,96 @@ flow-cli/
 └── zsh/                 # Legacy functions (being migrated)
 ```
 
+## Programmatic API
+
+flow-cli exposes internal functions for shell scripting:
+
+### Project Functions
+
+```zsh
+# Get project info (returns shell-eval format)
+info=$(_flow_get_project "myproject")
+eval "$info"  # Sets: name, path, proj_status
+
+# List all projects
+projects=("${(@f)$(_flow_list_projects)}")
+
+# List by status filter
+active=("${(@f)$(_flow_list_projects "active")}")
+```
+
+### Session Functions
+
+```zsh
+# Start session
+_flow_session_start "myproject"
+
+# End session with optional note
+_flow_session_end "completed feature"
+```
+
+### Capture Functions
+
+```zsh
+# Quick capture
+_flow_catch "idea text"
+_flow_catch "project-specific task" "myproject"
+
+# Leave breadcrumb
+_flow_crumb "working on auth module"
+
+# Show inbox
+_flow_inbox
+```
+
+### Context Functions
+
+```zsh
+# Get context ("where was I?")
+_flow_where
+_flow_where "myproject"  # Specific project
+
+# Timestamp (zsh/datetime)
+ts=$(_flow_timestamp)       # 2025-12-25 10:30:00
+ts=$(_flow_timestamp_short) # 2025-12-25 10:30
+```
+
+### Atlas Functions
+
+```zsh
+# Check if atlas is available
+if _flow_has_atlas; then
+  echo "Atlas connected"
+fi
+
+# Direct atlas call
+_flow_atlas project list --format=json
+
+# Silent (no output)
+_flow_atlas_silent sync
+
+# JSON output
+json=$(_flow_atlas_json where)
+
+# Async (fire-and-forget)
+_flow_atlas_async crumb "background note"
+```
+
+### Helper Functions
+
+```zsh
+# Logging (colored output)
+_flow_log_success "Done!"
+_flow_log_warning "Careful..."
+_flow_log_error "Failed!"
+_flow_log_debug "Debug info"  # Only when FLOW_DEBUG=1
+
+# Project detection
+root=$(_flow_find_project_root)
+type=$(_flow_detect_project_type "$PWD")
+name=$(_flow_project_name "$PWD")
+```
+
 ## Atlas Integration
 
 When atlas is installed, flow-cli automatically uses it for:
@@ -157,6 +247,21 @@ flow-cli auto-detects project types:
 - [gum](https://github.com/charmbracelet/gum) - Beautiful prompts
 - [atlas](../atlas) - State management engine
 - tmux - Session management for `hop`
+
+## Testing
+
+```bash
+# Unit tests (always run)
+zsh tests/test-atlas-integration.zsh
+
+# E2E tests (require atlas)
+zsh tests/test-atlas-e2e.zsh
+```
+
+Test results:
+
+- **Integration tests**: 26 tests (fallback mode)
+- **E2E tests**: 20+ tests (when atlas installed)
 
 ## License
 

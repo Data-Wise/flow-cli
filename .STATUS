@@ -36,6 +36,8 @@
 - [x] Published as ZSH plugin (v2.0.0)
 - [x] Add atlas integration tests (26 tests passing)
 - [x] Create GitHub Release with changelog (v2.0.0)
+- [x] Add E2E tests for atlas CLI (when installed)
+- [x] Document programmatic API in README
 
 ## Function Status
 New (commands/): work, dash, catch, js, hop, finish
