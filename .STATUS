@@ -1,71 +1,105 @@
-# flow-cli - ZSH Workflow Plugin
+# flow-cli - Pure ZSH Workflow Plugin
 # ADHD-optimized workflow management for developers
 
-## Status: ACTIVE
-## Phase: P7 - Architecture Refactor
-## Focus: Pure ZSH plugin with atlas integration
+## Project: flow-cli
+## Type: zsh-plugin
+## Status: active
+## Phase: v3.0.0 - Clean Architecture
+## Priority: 1
+## Progress: 100
 
-## Current Sprint
-- [x] Create ZSH plugin structure
-- [x] Create lib/core.zsh (utilities)
-- [x] Create lib/atlas-bridge.zsh (atlas integration)
-- [x] Create lib/project-detector.zsh
-- [x] Create lib/tui.zsh (UI components)
-- [x] Create commands/work.zsh
-- [x] Create commands/dash.zsh
-- [x] Create commands/capture.zsh
-- [x] Create commands/adhd.zsh
-- [x] Create hooks/chpwd.zsh
-- [x] Create hooks/precmd.zsh
-- [x] Create flow.plugin.zsh entry point
-- [x] Migrate completions (_work, _dash, _finish, _hop, _js)
-- [x] Test plugin loading (works with legacy fallback)
-- [x] Remove Node.js CLI layer (archived to .archive/)
-- [x] Update documentation (CLAUDE.md rewritten for P7)
-- [x] Remove legacy duplicates (dash.zsh, work.zsh removed)
+## Focus: Production ready - clean separation achieved
 
-## Notes
-- New commands/work.zsh and commands/dash.zsh now active
-- Legacy adhd-helpers.zsh retained (contains many non-migrated functions)
-- Completions use lazy loading + dynamic project discovery
+## Quick Context
+Pure ZSH workflow plugin with optional atlas integration for state management.
+Clean separation from atlas (Node.js state engine) complete.
+Legacy 140KB monolithic code archived - lean plugin architecture.
 
-## Next Phase
-- [x] Shell integration verified (symlink + .zshrc)
-- [x] All key ADHD functions working (hybrid state)
-- [x] Hybrid migration complete (new commands/ + legacy zsh/functions/)
-- [x] Published as ZSH plugin (v2.0.0)
-- [x] Add atlas integration tests (26 tests passing)
-- [x] Create GitHub Release with changelog (v2.0.0)
-- [x] Add E2E tests for atlas CLI (when installed)
-- [x] Document programmatic API in README
-
-## Function Status
-New (commands/): work, dash, catch, js, hop, finish
-Legacy (working): morning, timer, whatnext, focus, next, why, win, wins, yay, etc.
-
-## Architecture (New)
+## Architecture (Final)
 ```
 flow-cli/
-├── flow.plugin.zsh     # Plugin entry point
+├── flow.plugin.zsh        # Plugin entry point
 ├── lib/
-│   ├── core.zsh        # Core utilities
-│   ├── atlas-bridge.zsh # Atlas integration
+│   ├── core.zsh           # Core utilities, colors
+│   ├── atlas-bridge.zsh   # Atlas CLI integration (graceful fallback)
 │   ├── project-detector.zsh
-│   └── tui.zsh         # TUI components
+│   ├── tui.zsh            # TUI components
+│   └── dispatchers/       # v, g, mcp, obs dispatchers
 ├── commands/
-│   ├── work.zsh        # work, finish, hop, why
-│   ├── dash.zsh        # dash, dash-tui
-│   ├── capture.zsh     # catch, inbox, crumb, win
-│   └── adhd.zsh        # js, next, stuck, focus, brk
-├── hooks/
-│   ├── chpwd.zsh       # Directory change
-│   └── precmd.zsh      # Pre-command
-├── completions/        # ZSH completions
-└── zsh/               # Legacy functions (backward compat)
+│   ├── work.zsh           # work, finish, hop, why
+│   ├── dash.zsh           # dash, dash-tui
+│   ├── capture.zsh        # catch, inbox, crumb, win, yay
+│   ├── adhd.zsh           # js, next, stuck, focus, brk
+│   ├── status.zsh         # status, st, setprogress
+│   ├── timer.zsh          # timer, pom
+│   └── morning.zsh        # morning, today, week, am
+├── completions/           # ZSH completions
+├── hooks/                 # chpwd, precmd
+└── zsh/functions/         # Symlinks to external integrations only
+    ├── core-utils.zsh → zsh-claude-workflow/
+    ├── obs.zsh → obsidian-cli-ops/
+    └── project-detector.zsh → zsh-claude-workflow/
 ```
 
+## v3.0.0 Changes (2025-12-25)
+- [x] Archive 140KB legacy zsh/functions/ to .archive/
+- [x] Keep only symlinks to external integrations
+- [x] Remove FLOW_LEGACY_COMPAT flag (no longer needed)
+- [x] Update plugin loading to handle symlinks properly
+- [x] Bump version to 3.0.0
+
+## Completed
+- [x] Create ZSH plugin structure
+- [x] Migrate core commands to commands/
+- [x] Create lib/core.zsh, atlas-bridge.zsh
+- [x] Create all core commands (work, dash, capture, adhd, status, timer, morning)
+- [x] Move dispatchers to lib/dispatchers/
+- [x] Archive Node.js CLI to atlas project
+- [x] Archive legacy 140KB functions to .archive/
+- [x] Clean plugin entry point
+- [x] Update version to 3.0.0
+
+## Features
+### Core Commands
+- `work <project>` - Start working on a project
+- `finish [note]` - End session with optional commit
+- `hop <project>` - Quick project switch (tmux)
+- `why` - Show current context
+
+### Dashboard
+- `dash` - Project dashboard
+- `dash-tui` - Interactive fzf dashboard
+
+### Capture (Dopamine)
+- `catch <text>` - Quick idea capture
+- `crumb <text>` - Leave breadcrumb
+- `win <text>` - Log accomplishment
+- `yay` - Show recent wins
+
+### ADHD Helpers
+- `js` - Just start (anti-paralysis)
+- `next` - What to work on
+- `stuck` - When blocked
+- `focus [text]` - Get/set focus
+- `brk [min]` - Take a break
+
+### Status Management
+- `status [project]` - Show/update status
+- `setprogress <n>` - Quick progress update
+
+### Timers
+- `timer [min]` - Focus timer
+- `timer break` - Break timer
+- `pom [cycles]` - Pomodoro
+
+### Daily Routine
+- `morning` - Start of day overview
+- `today` - Today's status
+- `week` - Weekly review
+- `am` - Quick morning check
+
 ## Integration
-- Atlas: Optional state engine (@data-wise/atlas)
+- Atlas: Optional state engine (`npm i -g @data-wise/atlas`)
 - Graceful degradation when atlas not installed
 - All commands work standalone
 
@@ -77,3 +111,22 @@ antidote install data-wise/flow-cli
 # Manual
 source /path/to/flow.plugin.zsh
 ```
+
+## Configuration
+```zsh
+# In .zshrc before sourcing plugin:
+FLOW_PROJECTS_ROOT=~/projects
+FLOW_ATLAS_ENABLED=auto    # auto|yes|no
+FLOW_LOAD_DISPATCHERS=yes  # Load v, g, mcp, obs
+FLOW_QUIET=1               # Disable welcome message
+```
+
+## Links
+- GitHub: https://github.com/Data-Wise/flow-cli
+- Atlas: https://github.com/Data-Wise/atlas
+- npm (atlas): `npm install -g @data-wise/atlas`
+
+## Session Log
+- 2025-12-25: v3.0.0 - Clean Architecture achieved
+- 2025-12-25: Legacy 140KB functions archived
+- 2025-12-25: Symlink-only external integrations

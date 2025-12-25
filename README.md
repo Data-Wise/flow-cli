@@ -70,20 +70,57 @@ catch "check that paper about mediation"
 
 # Show dashboard
 dash
+
+# Interactive dashboard (TUI via atlas)
+dash --full
 ```
 
 ## Commands
 
-| Command          | Description                    |
-| ---------------- | ------------------------------ |
-| `work <project>` | Start working on a project     |
-| `finish [note]`  | End session, optionally commit |
-| `hop <project>`  | Quick switch (tmux sessions)   |
-| `dash`           | Show project dashboard         |
-| `why`            | Show current context           |
-| `catch <text>`   | Quick capture idea/task        |
-| `crumb <text>`   | Leave breadcrumb               |
-| `at <cmd>`       | Direct atlas access            |
+| Command          | Description                      |
+| ---------------- | -------------------------------- |
+| `work <project>` | Start working on a project       |
+| `finish [note]`  | End session, optionally commit   |
+| `hop <project>`  | Quick switch (tmux sessions)     |
+| `dash`           | Show project dashboard           |
+| `dash --full`    | Interactive TUI (requires atlas) |
+| `why`            | Show current context             |
+| `catch <text>`   | Quick capture idea/task          |
+| `crumb <text>`   | Leave breadcrumb                 |
+| `trail [proj]`   | Show breadcrumb trail            |
+| `at <cmd>`       | Direct atlas access              |
+
+### Command Shortcuts
+
+```zsh
+c "idea"      # catch
+i             # inbox
+b "note"      # crumb (breadcrumb)
+t             # trail
+```
+
+### Dash Options
+
+```zsh
+dash                # Quick ZSH dashboard
+dash --full         # Atlas TUI dashboard
+dash --tui          # Interactive fzf picker
+dash --active       # Show only active projects
+dash --detailed     # Show full project info
+dash --minimal      # One project per line
+```
+
+## Session Conflict Handling
+
+When you `work` on a new project while another session is active:
+
+```zsh
+$ work medrobust
+⚠️ Active session: atlas
+End current session and switch to medrobust? (y/n)
+```
+
+This prevents accidentally leaving orphan sessions.
 
 ## Configuration
 
@@ -108,7 +145,7 @@ flow-cli/
 ├── commands/            # Command implementations
 │   ├── work.zsh         # work, finish, hop, why
 │   ├── dash.zsh         # Dashboard
-│   ├── capture.zsh      # catch, crumb
+│   ├── capture.zsh      # catch, crumb, trail
 │   └── adhd.zsh         # ADHD helpers
 ├── lib/                 # Core libraries
 │   ├── core.zsh         # Colors, logging, utils
@@ -117,6 +154,8 @@ flow-cli/
 │   └── tui.zsh          # Terminal UI
 ├── completions/         # ZSH completions
 ├── hooks/               # ZSH hooks (chpwd, precmd)
+├── tests/               # Test suites
+│   └── integration/     # Atlas integration tests
 └── zsh/                 # Legacy functions (being migrated)
 ```
 
@@ -217,13 +256,31 @@ When atlas is installed, flow-cli automatically uses it for:
 - Project registry (faster lookups)
 - Session tracking (work/finish)
 - Context reconstruction (why)
-- Quick capture (catch, crumb)
+- Quick capture (catch, crumb, trail)
+- Interactive dashboard (dash --full)
 
 Without atlas, flow-cli falls back to:
 
 - Filesystem-based project discovery
 - Local worklog file
 - Basic context from .STATUS files
+
+### Output Format Expectations
+
+flow-cli expects these atlas output formats:
+
+| Command          | Format Flag      | Expected Output                   |
+| ---------------- | ---------------- | --------------------------------- |
+| `project list`   | `--format=names` | One name per line                 |
+| `project show`   | `--format=shell` | `name="x"` `path="y"` (eval-able) |
+| `session status` | `--format=json`  | JSON with `project` field         |
+
+### Version Compatibility
+
+| flow-cli | atlas | Status        |
+| -------- | ----- | ------------- |
+| 2.x      | 0.1.x | ✅ Compatible |
+| 3.x      | 0.1.x | 🔮 Planned    |
 
 ## Project Types
 
@@ -256,6 +313,9 @@ zsh tests/test-atlas-integration.zsh
 
 # E2E tests (require atlas)
 zsh tests/test-atlas-e2e.zsh
+
+# Full integration test (atlas + flow-cli coordination)
+zsh tests/integration/atlas-flow-integration.zsh
 ```
 
 Test results:
