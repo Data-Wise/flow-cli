@@ -67,12 +67,13 @@ _flow_init_atlas() {
 
 # Main atlas command wrapper (use this for all atlas calls)
 _flow_atlas() {
-  if _flow_has_atlas; then
-    atlas "$@"
-  else
-    _flow_log_warning "Atlas not available. Install with: npm install -g @data-wise/atlas"
+  # Double-check atlas exists (cache might be stale)
+  if ! command -v atlas &>/dev/null; then
+    _FLOW_ATLAS_AVAILABLE="no"
     return 1
   fi
+
+  atlas "$@" 2>/dev/null
 }
 
 # Silent atlas call (no output, just return code)

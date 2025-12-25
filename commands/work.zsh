@@ -140,9 +140,8 @@ _flow_open_editor() {
       elif command -v emacs &>/dev/null; then
         { command emacs "$path" & } 2>/dev/null
         disown 2>/dev/null
-      else
-        _flow_log_warning "Emacs not found in PATH"
       fi
+      # Silently skip if not available (user likely has GUI emacs)
       ;;
     positron)
       # Positron uses AppleScript on macOS
