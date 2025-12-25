@@ -34,7 +34,7 @@
 - [x] All key ADHD functions working (hybrid state)
 - [x] Hybrid migration complete (new commands/ + legacy zsh/functions/)
 - [x] Published as ZSH plugin (v2.0.0)
-- [ ] Add atlas integration tests
+- [x] Add atlas integration tests (26 tests passing)
 - [ ] Create GitHub Release with changelog
 
 ## Function Status
