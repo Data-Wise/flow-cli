@@ -102,25 +102,14 @@ _flow_atlas_async() {
 # ============================================================================
 
 # Get project info (atlas or fallback)
+# NOTE: We always use fallback now because atlas --format=shell embeds JSON
+# in values which causes eval errors. The fallback is fast and reliable.
 _flow_get_project() {
   local name="$1"
 
-  if _flow_has_atlas; then
-    # Try atlas first, but validate output is shell format
-    local output
-    output=$(_flow_atlas project show "$name" --format=shell 2>/dev/null)
-
-    # Validate: shell format should start with variable assignment (name=, path=, etc.)
-    # If it looks like JSON (starts with { or [), fall back
-    if [[ "$output" == "{"* ]] || [[ "$output" == "["* ]] || [[ -z "$output" ]]; then
-      # Atlas returned JSON or empty - use fallback
-      _flow_get_project_fallback "$name"
-    else
-      echo "$output"
-    fi
-  else
-    _flow_get_project_fallback "$name"
-  fi
+  # Always use fallback - it's reliable and fast
+  # Atlas shell format has embedded JSON that breaks eval
+  _flow_get_project_fallback "$name"
 }
 
 # Fallback: Find project by name in FLOW_PROJECTS_ROOT
