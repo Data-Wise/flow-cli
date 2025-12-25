@@ -32,9 +32,10 @@
 ## Next Phase
 - [x] Shell integration verified (symlink + .zshrc)
 - [x] All key ADHD functions working (hybrid state)
-- [ ] Migrate remaining functions from adhd-helpers.zsh (optional - legacy works)
+- [x] Hybrid migration complete (new commands/ + legacy zsh/functions/)
+- [x] Published as ZSH plugin (v2.0.0)
 - [ ] Add atlas integration tests
-- [ ] Publish as ZSH plugin (antidote/zinit)
+- [ ] Create GitHub Release with changelog
 
 ## Function Status
 New (commands/): work, dash, catch, js, hop, finish
