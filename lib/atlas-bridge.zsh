@@ -187,10 +187,23 @@ _flow_list_projects_fallback() {
 # SESSION OPERATIONS
 # ============================================================================
 
+# Session state file
+_FLOW_SESSION_FILE="${FLOW_DATA_DIR}/.current-session"
+
 # Start session
 _flow_session_start() {
   local project="$1"
-  
+
+  # Save session state (for time tracking)
+  [[ ! -d "${FLOW_DATA_DIR}" ]] && /bin/mkdir -p "${FLOW_DATA_DIR}"
+  echo "project=$project" > "$_FLOW_SESSION_FILE"
+  echo "start=$EPOCHSECONDS" >> "$_FLOW_SESSION_FILE"
+  echo "date=$(strftime '%Y-%m-%d' $EPOCHSECONDS)" >> "$_FLOW_SESSION_FILE"
+
+  # Export for current shell
+  export FLOW_CURRENT_PROJECT="$project"
+  export FLOW_SESSION_START="$EPOCHSECONDS"
+
   if _flow_has_atlas; then
     _flow_atlas session start "$project"
   else
@@ -204,15 +217,83 @@ _flow_session_start() {
 # End session
 _flow_session_end() {
   local note="${1:-}"
-  
+  local duration_mins=0
+
+  # Calculate duration
+  if [[ -n "$FLOW_SESSION_START" ]]; then
+    local elapsed=$((EPOCHSECONDS - FLOW_SESSION_START))
+    duration_mins=$((elapsed / 60))
+  elif [[ -f "$_FLOW_SESSION_FILE" ]]; then
+    local start_time=$(grep "^start=" "$_FLOW_SESSION_FILE" | cut -d= -f2)
+    if [[ -n "$start_time" ]]; then
+      local elapsed=$((EPOCHSECONDS - start_time))
+      duration_mins=$((elapsed / 60))
+    fi
+  fi
+
   if _flow_has_atlas; then
     _flow_atlas session end "$note"
   else
-    # Fallback: Log to worklog
+    # Fallback: Log to worklog with duration
     local worklog="${FLOW_DATA_DIR}/worklog"
-    echo "$(_flow_timestamp) END ${note:+($note)}" >> "$worklog"
-    _flow_log_success "Session ended"
+    echo "$(_flow_timestamp) END ${duration_mins}m ${note:+($note)}" >> "$worklog"
+    if (( duration_mins >= 60 )); then
+      _flow_log_success "Session ended: $((duration_mins / 60))h $((duration_mins % 60))m"
+    else
+      _flow_log_success "Session ended: ${duration_mins}m"
+    fi
   fi
+
+  # Clean up session state
+  rm -f "$_FLOW_SESSION_FILE"
+  unset FLOW_CURRENT_PROJECT FLOW_SESSION_START
+}
+
+# Get current session info
+_flow_session_current() {
+  if [[ -f "$_FLOW_SESSION_FILE" ]]; then
+    local project=$(grep "^project=" "$_FLOW_SESSION_FILE" | cut -d= -f2)
+    local start_time=$(grep "^start=" "$_FLOW_SESSION_FILE" | cut -d= -f2)
+
+    if [[ -n "$project" && -n "$start_time" ]]; then
+      local elapsed=$((EPOCHSECONDS - start_time))
+      local mins=$((elapsed / 60))
+      echo "project=$project"
+      echo "elapsed_mins=$mins"
+      return 0
+    fi
+  fi
+  return 1
+}
+
+# Get today's total session time (from worklog)
+_flow_today_session_time() {
+  local worklog="${FLOW_DATA_DIR}/worklog"
+  local today=$(strftime '%Y-%m-%d' $EPOCHSECONDS)
+  local total_mins=0
+
+  if [[ -f "$worklog" ]]; then
+    # Sum up all session durations from today
+    while IFS= read -r line; do
+      if [[ "$line" == "$today"*" END "* ]]; then
+        # Extract minutes from "END Xm" format
+        local mins=$(echo "$line" | grep -o 'END [0-9]*m' | grep -o '[0-9]*')
+        [[ -n "$mins" ]] && ((total_mins += mins))
+      fi
+    done < "$worklog"
+  fi
+
+  # Add current session if active
+  if [[ -f "$_FLOW_SESSION_FILE" ]]; then
+    local start_time=$(grep "^start=" "$_FLOW_SESSION_FILE" | cut -d= -f2)
+    local session_date=$(grep "^date=" "$_FLOW_SESSION_FILE" | cut -d= -f2)
+    if [[ "$session_date" == "$today" && -n "$start_time" ]]; then
+      local elapsed=$((EPOCHSECONDS - start_time))
+      ((total_mins += elapsed / 60))
+    fi
+  fi
+
+  echo "$total_mins"
 }
 
 # ============================================================================

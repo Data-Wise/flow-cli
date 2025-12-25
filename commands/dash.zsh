@@ -37,12 +37,17 @@ dash() {
       show_all=1
       mode=""
       ;;
+    -i|--interactive)
+      # Interactive mode with fzf
+      _dash_interactive
+      return
+      ;;
     -f|--full)
       # Full TUI mode
       if _flow_has_atlas; then
         _flow_atlas dashboard
       else
-        _flow_log_warning "Atlas not available for TUI mode"
+        _flow_log_warning "Atlas not available for TUI mode. Try 'dash -i' for fzf mode."
         mode=""
       fi
       return
@@ -90,12 +95,14 @@ _dash_header() {
       today_mins=$(echo "$stats" | grep -o '"todayMinutes":[0-9]*' | cut -d: -f2 || echo "0")
     fi
   else
-    # Fallback: Count today's sessions from worklog
+    # Fallback: Count today's sessions and time from worklog
     local worklog="${FLOW_DATA_DIR}/worklog"
     local today=$(date "+%Y-%m-%d")
     if [[ -f "$worklog" ]]; then
       today_sessions=$(grep -c "^$today.*START" "$worklog" 2>/dev/null || echo "0")
     fi
+    # Get total time including current session
+    today_mins=$(_flow_today_session_time)
   fi
 
   # Format time
@@ -142,14 +149,25 @@ _dash_current() {
   local current_focus=""
   local elapsed=""
 
-  # Check for active session
-  if _flow_has_atlas; then
+  # Check for active session (local first, then atlas)
+  local session_info=$(_flow_session_current 2>/dev/null)
+  if [[ -n "$session_info" ]]; then
+    eval "$session_info"
+    current_project="$project"
+    if [[ -n "$elapsed_mins" ]]; then
+      if (( elapsed_mins >= 60 )); then
+        elapsed="$((elapsed_mins / 60))h $((elapsed_mins % 60))m"
+      else
+        elapsed="${elapsed_mins}m"
+      fi
+    fi
+  elif _flow_has_atlas; then
     local session=$(atlas session status --format=json 2>/dev/null)
     if [[ "$session" != *'"active":false'* ]] && [[ "$session" == *'"project":'* ]]; then
       current_project=$(echo "$session" | grep -o '"project":"[^"]*"' | cut -d'"' -f4)
-      elapsed=$(echo "$session" | grep -o '"elapsed":[0-9]*' | cut -d: -f2)
-      if [[ -n "$elapsed" ]]; then
-        elapsed="${elapsed}m"
+      local mins=$(echo "$session" | grep -o '"elapsed":[0-9]*' | cut -d: -f2)
+      if [[ -n "$mins" ]]; then
+        elapsed="${mins}m"
       fi
     fi
   fi
@@ -205,7 +223,7 @@ _dash_quick_access() {
     local proj_status=""
 
     if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
-      proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+      proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
     fi
 
     if [[ "$proj_status" == "active" ]]; then
@@ -231,9 +249,9 @@ _dash_quick_access() {
     local focus=""
 
     if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
-      local proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+      local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
       status_icon=$(_flow_status_icon "$proj_status")
-      focus=$(grep -m1 "^## Focus:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
+      focus=$(_dash_get_project_focus "$proj_path/.STATUS")
     fi
 
     local prefix="├─"
@@ -289,13 +307,13 @@ _dash_categories() {
 
     # Check status and progress
     if [[ -f "$proj_path/.STATUS" ]]; then
-      local proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+      local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
       if [[ "$proj_status" == "active" ]]; then
         ((cat_active[$cat]++))
       fi
 
       # Collect progress for average
-      local progress=$(grep -m1 "^## Progress:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' %')
+      local progress=$(_dash_get_project_progress "$proj_path/.STATUS")
       if [[ -n "$progress" ]] && [[ "$progress" =~ ^[0-9]+$ ]]; then
         ((cat_progress_sum[$cat] += progress))
         ((cat_progress_count[$cat]++))
@@ -413,7 +431,7 @@ _dash_category_expanded() {
     # Check if active
     local proj_status=""
     if [[ -f "$proj_path/.STATUS" ]]; then
-      proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+      proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
     fi
 
     if [[ "$proj_status" == "active" ]]; then
@@ -439,10 +457,10 @@ _dash_category_expanded() {
     local progress=""
 
     if [[ -f "$proj_path/.STATUS" ]]; then
-      local proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+      local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
       status_icon=$(_flow_status_icon "$proj_status")
-      focus=$(grep -m1 "^## Focus:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
-      progress=$(grep -m1 "^## Progress:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' %')
+      focus=$(_dash_get_project_focus "$proj_path/.STATUS")
+      progress=$(_dash_get_project_progress "$proj_path/.STATUS")
     fi
 
     local type_icon=$(_flow_project_icon "$(_flow_detect_project_type "$proj_path" 2>/dev/null)")
@@ -494,9 +512,10 @@ _dash_all_projects() {
     local focus=""
 
     if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
-      local proj_status=$(grep -m1 "^## Status:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+      local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
       status_icon=$(_flow_status_icon "$proj_status")
-      focus=$(grep -m1 "^## Focus:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//' | head -c 40)
+      focus=$(_dash_get_project_focus "$proj_path/.STATUS")
+      focus="${focus:0:40}"  # Truncate
     fi
 
     local type_icon=$(_flow_project_icon "$(_flow_detect_project_type "$proj_path" 2>/dev/null)")
@@ -550,6 +569,7 @@ USAGE: dash [option|category]
 OPTIONS:
   (none)        Summary view (default)
   -a, --all     Show all projects (flat list)
+  -i            Interactive mode with fzf picker
   -f, --full    Interactive TUI (requires atlas)
   -h, --help    Show this help
 
@@ -615,8 +635,162 @@ _dash_detect_category() {
   esac
 }
 
+# Parse .STATUS field (supports both "## Field:" and "field:" formats)
+_dash_get_status_field() {
+  local file="$1"
+  local field="$2"
+  local value=""
+
+  [[ ! -f "$file" ]] && return 1
+
+  # Try markdown format first (## Field:)
+  value=$(grep -m1 "^## ${field}:" "$file" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
+
+  # Fall back to YAML-like format (field:)
+  if [[ -z "$value" ]]; then
+    value=$(grep -m1 "^${field}:" "$file" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
+  fi
+
+  # Normalize status values
+  if [[ "$field" == "Status" || "$field" == "status" ]]; then
+    value=$(echo "$value" | tr '[:upper:]' '[:lower:]' | tr -d ' ')
+    # Map variations
+    case "$value" in
+      underreview|"under review") value="active" ;;
+      inprogress|"in progress") value="active" ;;
+      wip) value="active" ;;
+      onhold|"on hold") value="paused" ;;
+    esac
+  fi
+
+  echo "$value"
+}
+
+# Get project status
+_dash_get_project_status() {
+  local status_file="$1"
+  _dash_get_status_field "$status_file" "Status"
+}
+
+# Get project focus
+_dash_get_project_focus() {
+  local status_file="$1"
+  local focus=""
+  focus=$(_dash_get_status_field "$status_file" "Focus")
+  [[ -z "$focus" ]] && focus=$(_dash_get_status_field "$status_file" "next")
+  echo "$focus"
+}
+
+# Get project progress
+_dash_get_project_progress() {
+  local status_file="$1"
+  local progress=""
+  progress=$(_dash_get_status_field "$status_file" "Progress")
+  [[ -z "$progress" ]] && progress=$(_dash_get_status_field "$status_file" "progress")
+  echo "${progress//%/}"  # Remove % if present
+}
+
+# ============================================================================
+# INTERACTIVE MODE
+# ============================================================================
+
+_dash_interactive() {
+  # Check for fzf
+  if ! command -v fzf &>/dev/null; then
+    _flow_log_error "fzf not installed. Install with: brew install fzf"
+    return 1
+  fi
+
+  # Build project list with status info
+  local projects=$(_flow_list_projects)
+  local -a project_lines=()
+
+  while IFS= read -r project; do
+    [[ -z "$project" ]] && continue
+
+    local proj_path=$(_dash_find_project_path "$project")
+    local status_icon="⚪"
+    local focus=""
+    local cat_icon=""
+
+    if [[ -n "$proj_path" ]]; then
+      local cat=$(_dash_detect_category "$proj_path")
+      case "$cat" in
+        dev) cat_icon="🔧" ;;
+        r) cat_icon="📦" ;;
+        research) cat_icon="🔬" ;;
+        teach) cat_icon="🎓" ;;
+        quarto) cat_icon="📝" ;;
+        apps) cat_icon="📱" ;;
+      esac
+
+      if [[ -f "$proj_path/.STATUS" ]]; then
+        local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
+        status_icon=$(_flow_status_icon "$proj_status")
+        focus=$(_dash_get_project_focus "$proj_path/.STATUS")
+        focus="${focus:0:40}"
+      fi
+    fi
+
+    # Format: icon status name :: focus (the :: is a separator for fzf)
+    if [[ -n "$focus" ]]; then
+      project_lines+=("$cat_icon $status_icon $project :: $focus")
+    else
+      project_lines+=("$cat_icon $status_icon $project")
+    fi
+  done <<< "$projects"
+
+  # Sort: active projects first (🟢 comes before other icons alphabetically)
+  local sorted_lines=$(printf '%s\n' "${project_lines[@]}" | sort -t' ' -k2,2 -k3,3)
+
+  # Create preview script
+  local preview_cmd='
+    project=$(echo {} | sed "s/.*[🔧📦🔬🎓📝📱] [🟢🟡🔴🟠⚫⚪] //" | cut -d: -f1 | xargs)
+    path=$(find ~/projects -maxdepth 4 -type d -name "$project" 2>/dev/null | head -1)
+    if [[ -f "$path/.STATUS" ]]; then
+      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      cat "$path/.STATUS" | head -20
+      echo ""
+      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      echo "Path: $path"
+    else
+      echo "No .STATUS file"
+      echo "Path: $path"
+    fi
+  '
+
+  # Run fzf
+  local selected=$(echo "$sorted_lines" | fzf \
+    --ansi \
+    --header="🌊 FLOW DASHBOARD - Select project (Enter: work, Ctrl-D: dash)" \
+    --preview="$preview_cmd" \
+    --preview-window=right:50%:wrap \
+    --bind="ctrl-d:execute(echo DASH {})+abort" \
+    --bind="enter:accept" \
+    --height=80% \
+    --border=rounded \
+    --prompt="🔍 " \
+    --pointer="▶" \
+    --marker="✓")
+
+  [[ -z "$selected" ]] && return 0
+
+  # Extract project name
+  local project_name=$(echo "$selected" | sed 's/.*[🔧📦🔬🎓📝📱] [🟢🟡🔴🟠⚫⚪] //' | cut -d: -f1 | xargs)
+
+  # Check if it was a DASH command (Ctrl-D)
+  if [[ "$selected" == "DASH "* ]]; then
+    local cat=$(_dash_detect_category "$(_dash_find_project_path "$project_name")")
+    dash "$cat"
+  else
+    # Start work session
+    work "$project_name"
+  fi
+}
+
 # ============================================================================
 # ALIASES
 # ============================================================================
 
 alias d='dash'
+alias di='dash -i'
