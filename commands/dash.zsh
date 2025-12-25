@@ -79,8 +79,10 @@ dash() {
 # ============================================================================
 
 _dash_header() {
-  local date_str=$(date "+%b %d, %Y")
-  local time_str=$(date "+%H:%M")
+  # Use ZSH strftime instead of date
+  zmodload -F zsh/datetime b:strftime
+  local date_str=$(strftime "%b %d, %Y" $EPOCHSECONDS)
+  local time_str=$(strftime "%H:%M" $EPOCHSECONDS)
   local streak=0
   local today_sessions=0
   local today_mins=0
@@ -90,16 +92,22 @@ _dash_header() {
   if _flow_has_atlas; then
     local stats=$(atlas status --format=json 2>/dev/null)
     if [[ -n "$stats" ]]; then
-      streak=$(echo "$stats" | grep -o '"streak":[0-9]*' | cut -d: -f2 || echo "0")
-      today_sessions=$(echo "$stats" | grep -o '"todaySessions":[0-9]*' | cut -d: -f2 || echo "0")
-      today_mins=$(echo "$stats" | grep -o '"todayMinutes":[0-9]*' | cut -d: -f2 || echo "0")
+      # ZSH pattern matching for JSON values
+      [[ "$stats" =~ '"streak":([0-9]+)' ]] && streak="${match[1]}"
+      [[ "$stats" =~ '"todaySessions":([0-9]+)' ]] && today_sessions="${match[1]}"
+      [[ "$stats" =~ '"todayMinutes":([0-9]+)' ]] && today_mins="${match[1]}"
     fi
   else
     # Fallback: Count today's sessions and time from worklog
     local worklog="${FLOW_DATA_DIR}/worklog"
-    local today=$(date "+%Y-%m-%d")
+    local today=$(strftime "%Y-%m-%d" $EPOCHSECONDS)
     if [[ -f "$worklog" ]]; then
-      today_sessions=$(grep -c "^$today.*START" "$worklog" 2>/dev/null || echo "0")
+      # Count lines matching pattern using ZSH
+      today_sessions=0
+      local line
+      while IFS= read -r line; do
+        [[ "$line" == "$today"*"START"* ]] && ((today_sessions++))
+      done < "$worklog"
     fi
     # Get total time including current session
     today_mins=$(_flow_today_session_time)
@@ -164,8 +172,10 @@ _dash_current() {
   elif _flow_has_atlas; then
     local session=$(atlas session status --format=json 2>/dev/null)
     if [[ "$session" != *'"active":false'* ]] && [[ "$session" == *'"project":'* ]]; then
-      current_project=$(echo "$session" | grep -o '"project":"[^"]*"' | cut -d'"' -f4)
-      local mins=$(echo "$session" | grep -o '"elapsed":[0-9]*' | cut -d: -f2)
+      # ZSH pattern matching for JSON
+      [[ "$session" =~ '"project":"([^"]*)"' ]] && current_project="${match[1]}"
+      local mins=""
+      [[ "$session" =~ '"elapsed":([0-9]+)' ]] && mins="${match[1]}"
       if [[ -n "$mins" ]]; then
         elapsed="${mins}m"
       fi
@@ -181,7 +191,7 @@ _dash_current() {
   if [[ -n "$current_project" ]]; then
     local proj_path=$(_dash_find_project_path "$current_project")
     if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
-      current_focus=$(grep -m1 "^## Focus:" "$proj_path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
+      current_focus=$(_dash_get_project_focus "$proj_path/.STATUS")
     fi
   fi
 
@@ -540,7 +550,12 @@ _dash_footer() {
     inbox_count=$(atlas inbox --count 2>/dev/null || echo "0")
   else
     local inbox="${FLOW_DATA_DIR}/inbox.md"
-    [[ -f "$inbox" ]] && inbox_count=$(wc -l < "$inbox" | tr -d ' ')
+    if [[ -f "$inbox" ]]; then
+      # Count lines using ZSH array (no external commands)
+      local -a lines
+      lines=("${(@f)$(< "$inbox")}")
+      inbox_count=${#lines[@]}
+    fi
   fi
 
   echo "  ─────────────────────────────────────────────────────────────"
@@ -636,30 +651,40 @@ _dash_detect_category() {
 }
 
 # Parse .STATUS field (supports both "## Field:" and "field:" formats)
+# Uses ZSH builtins only - no external commands
 _dash_get_status_field() {
   local file="$1"
   local field="$2"
-  local value=""
+  local value="" line
 
   [[ ! -f "$file" ]] && return 1
 
-  # Try markdown format first (## Field:)
-  value=$(grep -m1 "^## ${field}:" "$file" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
-
-  # Fall back to YAML-like format (field:)
-  if [[ -z "$value" ]]; then
-    value=$(grep -m1 "^${field}:" "$file" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
-  fi
+  # Read file and find matching line
+  while IFS= read -r line; do
+    # Try markdown format (## Field:)
+    if [[ "$line" == "## ${field}:"* ]]; then
+      value="${line#*: }"  # Remove everything up to ": "
+      value="${value#"${value%%[![:space:]]*}"}"  # Trim leading whitespace
+      break
+    fi
+    # Try YAML format (field:)
+    if [[ "$line" == "${field}:"* ]]; then
+      value="${line#*: }"
+      value="${value#"${value%%[![:space:]]*}"}"
+      break
+    fi
+  done < "$file"
 
   # Normalize status values
   if [[ "$field" == "Status" || "$field" == "status" ]]; then
-    value=$(echo "$value" | tr '[:upper:]' '[:lower:]' | tr -d ' ')
+    value="${value:l}"      # ZSH: lowercase
+    value="${value// /}"    # ZSH: remove spaces
     # Map variations
     case "$value" in
-      underreview|"under review") value="active" ;;
-      inprogress|"in progress") value="active" ;;
+      underreview) value="active" ;;
+      inprogress) value="active" ;;
       wip) value="active" ;;
-      onhold|"on hold") value="paused" ;;
+      onhold) value="paused" ;;
     esac
   fi
 
@@ -775,8 +800,20 @@ _dash_interactive() {
 
   [[ -z "$selected" ]] && return 0
 
-  # Extract project name
-  local project_name=$(echo "$selected" | sed 's/.*[🔧📦🔬🎓📝📱] [🟢🟡🔴🟠⚫⚪] //' | cut -d: -f1 | xargs)
+  # Extract project name using ZSH (no sed/cut/xargs)
+  # Format is: "cat_icon status_icon project_name :: focus"
+  local project_name="$selected"
+  # Remove leading "DASH " if present
+  project_name="${project_name#DASH }"
+  # Remove category icon and space (first 2 chars + space)
+  project_name="${project_name#?? }"
+  # Remove status icon and space (next 2 chars + space)
+  project_name="${project_name#?? }"
+  # Remove everything after " ::" if present
+  project_name="${project_name%% ::*}"
+  # Trim whitespace
+  project_name="${project_name#"${project_name%%[![:space:]]*}"}"
+  project_name="${project_name%"${project_name##*[![:space:]]}"}"
 
   # Check if it was a DASH command (Ctrl-D)
   if [[ "$selected" == "DASH "* ]]; then

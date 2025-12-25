@@ -127,6 +127,7 @@ FLOW_QUIET=1               # Disable welcome message
 - npm (atlas): `npm install -g @data-wise/atlas`
 
 ## Session Log
+- 2025-12-25: Fixed external command deps (sed/cut/wc/tr/date → ZSH builtins)
 - 2025-12-25: v3.0.0 - Clean Architecture achieved
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
