@@ -1,7 +1,10 @@
 site_name: Flow CLI Documentation
-site_description: Minimalist ZSH workflow tools with smart dispatchers
+site_description: Minimalist ZSH workflow tools with smart dispatchers. Track work sessions, manage multiple projects, visualize productivity metrics with ADHD-friendly design.
 site_author: DT
 site_url: https://data-wise.github.io/flow-cli
+
+# Copyright and license
+copyright: Copyright &copy; 2025 DT. Released under MIT License.
 
 repo_name: flow-cli
 repo_url: https://github.com/data-wise/flow-cli
@@ -114,6 +117,7 @@ nav:
       - Testing Guide: testing/TESTING.md
       - PR Workflow Guide: contributing/PR-WORKFLOW-GUIDE.md
       - ADR Process Guide: contributing/ADR-PROCESS-GUIDE.md
+      - Documentation Style Guide: contributing/DOCUMENTATION-STYLE-GUIDE.md
       - Guidelines: ZSH-DEVELOPMENT-GUIDELINES.md
       - Conventions: CONVENTIONS.md
       - Philosophy: PHILOSOPHY.md
@@ -124,31 +128,10 @@ nav:
       - ADR-002 Clean Architecture: decisions/ADR-002-adopt-clean-architecture.md
       - ADR-003 Bridge Pattern: decisions/ADR-003-bridge-pattern.md
       - ADR-004 Module API: decisions/ADR-004-module-api-not-rest.md
-  - Standards:
-      - Overview: standards/README.md
-  - Active Work:
-      - Multiple Projects Summary: active/MULTIPLE-PROJECTS-SUMMARY.md
-      - Phase P5D Alpha Release: active/PHASE-P5D-ALPHA-RELEASE-PLAN.md
-      - Help System:
-          - Phase 1 Report: active/help-system/PHASE1-IMPLEMENTATION-REPORT.md
-          - Overhaul Summary: active/help-system/HELP-OVERHAUL-SUMMARY.md
-          - Phase 2 Plan: active/help-system/HELP-PHASE2-PLAN.md
-          - Phase 3 Plan: active/help-system/HELP-PHASE3-PLAN.md
-      - Alias Refactoring:
-          - Refactor Summary: active/alias-refactoring/ALIAS-REFACTOR-SUMMARY.md
-          - 3 Plans Comparison: active/alias-refactoring/ALIAS-REFACTOR-3-PLANS-2025-12-14.md
-      - Workflow Redesign:
-          - Implementation Summary: active/workflow-redesign/WORKFLOW-IMPLEMENTATION-SUMMARY.md
-          - Analysis: active/workflow-redesign/WORKFLOW-ANALYSIS-2025-12-14.md
-      - Status Command:
-          - Problem Analysis: active/status-command/STATUS-COMMAND-PROBLEM.md
-          - Alternatives: active/status-command/STATUS-COMMAND-ALTERNATIVES.md
-  - Planning:
-      - Proposals:
-          - Universal Project Workflow: planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL.md
-          - Teaching & Research Workflow: planning/proposals/TEACHING-RESEARCH-WORKFLOW-PROPOSAL.md
-          - Pick Command Next Phase: planning/proposals/PICK-COMMAND-NEXT-PHASE.md
-          - Mediationverse Workflow: planning/proposals/MEDIATIONVERSE-WORKFLOW-PROPOSAL.md
+  - Project Status:
+      - Production Use Phase: PRODUCTION-USE-PHASE.md
+      - Project Hub: PROJECT-HUB.md
+      - Changelog: CHANGELOG.md
 
 extra:
   social:
