@@ -162,7 +162,7 @@ run_interactive_test() {
     echo -e "${BOLD}  $ ${command}${NC}"
     
     # Show expected output
-    show_expected_output "Look for these patterns:" "${expected_patterns[@]}"
+    show_expected_output "Look for these elements:" "${expected_patterns[@]}"
     
     echo -e "${YELLOW}${EYES} Watch carefully as the command runs...${NC}"
     press_any_key
@@ -170,7 +170,7 @@ run_interactive_test() {
     # Run the command and show output
     echo ""
     echo -e "${CYAN}╭─ Actual Output ──────────────────────────────────────────╮${NC}"
-    eval "$command" 2>&1 | head -20
+    eval "$command" 2>&1
     echo -e "${CYAN}╰──────────────────────────────────────────────────────────╯${NC}"
     
     # Ask user to confirm
@@ -247,10 +247,20 @@ press_any_key
 run_interactive_test \
     "Show Project Dashboard" \
     "dash" \
-    "╭── or ╔══ (border characters)" \
-    "🌊 FLOW DASHBOARD" \
-    "Date and time in header" \
-    "Project names listed" \
+    "╭──────────── border line at top" \
+    "│  🌊 FLOW DASHBOARD                        Dec 25, 2025  🕐 HH:MM │" \
+    "╰──────────── border line below header" \
+    "📊 Today: session stats" \
+    "⚡ RIGHT NOW section with suggestion box" \
+    "│  💡 SUGGESTION: message about what to work on" \
+    "│  📊 TODAY: stats with sessions, streak, goal" \
+    "📁 QUICK ACCESS (Active first)" \
+    "├─ 🟢 project-name followed by description" \
+    "└─ More projects listed..." \
+    "📋 BY CATEGORY (X total)" \
+    "├─ 📦 r-packages  [progress bar]  NN%  │  N active / N" \
+    "├─ 🔧 dev-tools   [progress bar]  NN%  │  N active / N" \
+    "Footer with tips: 'Try: work...' 'dash -i...' 'h for help'" \
     "${GREEN}The dog sees all your projects! ${HAPPY}${NC}" \
     15
 
@@ -269,9 +279,12 @@ finish 2>/dev/null || true
 run_interactive_test \
     "Start Work Session" \
     "work flow-cli" \
-    "Project name: flow-cli" \
-    "Status: active (or 🟢)" \
-    "Border/separator lines" \
+    "━━━━━━━━━━━━━━━━━━ separator line at top" \
+    "📗 flow-cli (node)" \
+    "━━━━━━━━━━━━━━━━━━ separator line below project name" \
+    "🟢 Status: active" \
+    "📍 Phase: (version or phase description)" \
+    "Additional project details may appear" \
     "${GREEN}Work session started! The dog approves ${STAR}${NC}" \
     20
 
@@ -287,8 +300,9 @@ press_any_key
 run_interactive_test \
     "Capture an Idea" \
     "catch 'Make the dog even happier with more tests'" \
-    "📥 Captured:" \
-    "Make the dog even happier with more tests" \
+    "📥 Captured: \"Make the dog even happier with more tests\"" \
+    "(Single line of confirmation)" \
+    "(No errors or warnings)" \
     "${GREEN}Idea captured! The dog loves organized thoughts ${THINKING}${NC}" \
     15
 
@@ -304,8 +318,10 @@ press_any_key
 run_interactive_test \
     "Log a Win" \
     "win 'Successfully fed the test dog'" \
-    "Win logged" \
-    "Successfully fed the test dog" \
+    "(Blank line)" \
+    "  🎉 WIN LOGGED!" \
+    "  Successfully fed the test dog" \
+    "(Blank line)" \
     "${GREEN}Win logged! The dog is proud of you ${STAR}${HAPPY}${NC}" \
     15
 
@@ -320,10 +336,13 @@ press_any_key
 
 run_interactive_test \
     "Verify Active Session Shows in Dashboard" \
-    "dash | head -30" \
-    "ACTIVE NOW (section appears)" \
-    "flow-cli (in the active section)" \
-    "Session timer or duration" \
+    "dash" \
+    "🎯 ACTIVE SESSION • Nm elapsed" \
+    "┏━━━━━━━━━━━━━━━━━━━━ box border at top" \
+    "┃  📗 flow-cli (project name in the box)" \
+    "┃  Focus: (focus text or description)" \
+    "┗━━━━━━━━━━━━━━━━━━━━ box border at bottom" \
+    "The session appears in a highlighted box with borders" \
     "${GREEN}Session confirmed active! ${CHECK}${NC}" \
     10
 
@@ -339,9 +358,12 @@ press_any_key
 run_interactive_test \
     "ADHD Helper - Just Start" \
     "js" \
+    "(Blank line)" \
     "🚀 JUST START" \
-    "Picks a project/task for you" \
-    "Shows a suggestion with →" \
+    "(Picking something for you...)" \
+    "(Blank line)" \
+    "  → project-name" \
+    "(Blank line or project card with ━━━━ separators)" \
     "${GREEN}Motivation delivered! The dog believes in you ${STAR}${NC}" \
     10
 
@@ -357,8 +379,9 @@ press_any_key
 run_interactive_test \
     "End Work Session" \
     "finish 'Fed the test dog successfully'" \
-    "Session ended (or similar message)" \
-    "No errors displayed" \
+    "✓ Session ended: Nm (time display)" \
+    "OR (completely silent, no output)" \
+    "(No error messages)" \
     "${GREEN}Session ended cleanly! ${CHECK}${NC}" \
     15
 
