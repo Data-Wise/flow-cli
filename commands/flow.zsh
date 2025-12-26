@@ -106,6 +106,11 @@ flow() {
       _flow_action_log "$@"
       ;;
 
+    # ── Setup & Diagnostics ────────────────────────────────────────────────
+    doctor|health)
+      doctor "$@"
+      ;;
+
     # ── Unknown ─────────────────────────────────────────────────────────────
     *)
       echo "Unknown command: $cmd"
