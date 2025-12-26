@@ -4,11 +4,11 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v3.4.0 - AI Enhancement
+## Phase: v3.5.0 - Dashboard Polish
 ## Priority: 1
-## Progress: 100
+## Progress: 0
 
-## Focus: v3.4.0 COMPLETE - AI recipes, usage tracking, multi-model, dashboard quick wins
+## Focus: v3.5.0 PLANNING - Dopamine features, streak visualization, daily goals
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -249,16 +249,26 @@ FLOW_QUIET=1               # Disable welcome message
   - [x] Quick wins section (< 30min tasks)
   - [x] Urgency indicators (🔥⏰⚡)
 
-### v3.5.0 - Dashboard Polish (PLANNED)
+### v3.5.0 - Dashboard Polish (IN PLANNING)
 - [ ] Dopamine features
-  - [ ] Recent wins display
-  - [ ] Streak visualization enhancements
-- [ ] Polish
-  - [ ] Daily goal tracking
-  - [ ] Extended .STATUS format
+  - [ ] Recent wins display in `dash` (show last 3 wins with timestamps)
+  - [ ] Streak visualization (🔥 consecutive days, 📊 weekly graph)
+  - [ ] `yay --week` - Weekly accomplishments summary
+  - [ ] Win categories (code, docs, review, ship)
+- [ ] Daily goal tracking
+  - [ ] `flow goal set <n>` - Set daily task goal
+  - [ ] `flow goal` - Show progress toward daily goal
+  - [ ] Goal completion celebration (confetti in terminal?)
+  - [ ] .STATUS field: `daily_goal: 3`
+- [ ] Extended .STATUS format
+  - [ ] `wins:` - Recent wins array
+  - [ ] `streak:` - Current streak count
+  - [ ] `last_active:` - Last activity timestamp
+  - [ ] `tags:` - Project tags for filtering
 - [ ] Interactive TUI improvements
-  - [ ] Keyboard shortcuts
-  - [ ] Live refresh
+  - [ ] `dash --tui` keyboard shortcuts (j/k navigation, Enter to select)
+  - [ ] Live refresh option (watch mode)
+  - [ ] Project preview pane
 
 ### v4.0.0 - Ecosystem Integration
 - [ ] Cross-tool orchestration
@@ -272,6 +282,10 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-26: v3.5.0 PLANNING - Detailed roadmap with dopamine features, daily goals, TUI
+- 2025-12-26: DOCS - Fixed 16 broken link warnings (42→26), added CONTRIBUTING.md to docs
+- 2025-12-26: TEST - Created test-ai-features.zsh (19 tests) and test-quick-wins.zsh (13 tests)
+- 2025-12-26: CI - Added new tests to GitHub Actions workflow
 - 2025-12-26: v3.4.0 - Version bump to 3.4.0
 - 2025-12-26: DASH - Added Quick Wins section for tasks < 30min
 - 2025-12-26: DASH - Added urgency indicators (🔥⏰⚡) to Quick Access
