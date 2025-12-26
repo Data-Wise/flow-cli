@@ -323,6 +323,59 @@ When displaying projects, priorities are color-coded:
 
 ---
 
+## ⚡ Quick Wins Section (v3.4.0+)
+
+The dashboard now includes a **Quick Wins** section showing tasks that can be completed in under 30 minutes. This is designed for ADHD-friendly productivity - easy wins to build momentum.
+
+### Triggering Quick Wins
+
+Projects appear in Quick Wins when their `.STATUS` file contains:
+
+```yaml
+# Option 1: Mark as quick win directly
+quick_win: yes
+
+# Option 2: Set estimate under 30 minutes
+estimate: 15m
+estimate: 20min
+```
+
+### Display
+
+```
+  ⚡ QUICK WINS (< 30 min)
+  ├─ ⚡ flow-cli      Fix typo in docs          ~15m
+  ├─ 🔥 medfit       Update version number     ~10m
+  └─ ⏰ stat-440     Post grades               ~20m
+```
+
+---
+
+## 🔥 Urgency Indicators (v3.4.0+)
+
+Projects can show urgency indicators in the Quick Access and Quick Wins sections:
+
+| Icon | Urgency | Trigger                                        |
+| ---- | ------- | ---------------------------------------------- |
+| 🔥   | High    | `urgency: high`, `deadline: today`, or overdue |
+| ⏰   | Medium  | `urgency: medium` or deadline within 3 days    |
+| ⚡   | Low     | Quick win or `priority: low`                   |
+
+### Setting Urgency in .STATUS
+
+```yaml
+# Direct urgency setting
+urgency: high
+
+# Or via deadline (YYYY-MM-DD format)
+deadline: 2025-12-27
+
+# Or via priority
+priority: 1 # Maps to high urgency
+```
+
+---
+
 ## 📂 File Dependencies
 
 ### Required Files

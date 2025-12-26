@@ -6,11 +6,113 @@
 
 ```bash
 flow ai [options] <query>
+flow ai recipe <name> [input]
+flow ai chat [options]
+flow ai usage [action]
+flow ai model [action]
 ```
 
 ## Description
 
 `flow ai` sends queries to Claude with automatic project context. The AI receives information about your current directory, project type, git status, and active flow session.
+
+## Subcommands
+
+### recipe
+
+Run reusable AI prompts with variable substitution.
+
+```bash
+flow ai recipe list              # List all recipes
+flow ai recipe show <name>       # View recipe content
+flow ai recipe <name> <input>    # Run a recipe
+flow ai recipe create <name>     # Create custom recipe
+flow ai recipe edit <name>       # Edit user recipe
+flow ai recipe delete <name>     # Delete user recipe
+```
+
+**Built-in Recipes:**
+
+| Recipe         | Description                          |
+| -------------- | ------------------------------------ |
+| `review`       | Code review with actionable feedback |
+| `commit`       | Generate conventional commit message |
+| `explain-code` | Step-by-step code explanation        |
+| `debug`        | Help diagnose issues                 |
+| `refactor`     | Suggest code improvements            |
+| `test`         | Generate tests for code              |
+| `document`     | Generate documentation               |
+| `eli5`         | Explain like I'm 5                   |
+| `shell`        | Generate shell commands              |
+| `fix`          | Fix a problem                        |
+
+**Variables Available:**
+
+- `{{input}}` - User-provided input
+- `{{project_type}}` - Detected project type
+- `{{pwd}}` - Current directory
+- `{{date}}` - Today's date
+- `{{branch}}` - Current git branch
+- `{{project}}` - Project name
+
+### chat
+
+Interactive conversation mode with persistent history.
+
+```bash
+flow ai chat                     # Start chat session
+flow ai chat --context           # Enable project context
+flow ai chat --clear             # Clear conversation history
+flow ai chat --history           # Show conversation history
+```
+
+**In-Chat Commands:**
+
+| Command    | Description                |
+| ---------- | -------------------------- |
+| `/clear`   | Clear conversation history |
+| `/history` | Show conversation history  |
+| `/context` | Toggle project context     |
+| `/help`    | Show help                  |
+| `/exit`    | Exit chat (or Ctrl+D)      |
+
+### usage
+
+Track AI command usage and get personalized suggestions.
+
+```bash
+flow ai usage                    # Show statistics (default)
+flow ai usage stats              # Show usage statistics
+flow ai usage suggest            # Get personalized suggestions
+flow ai usage recent [n]         # Show last n commands
+flow ai usage clear              # Clear usage history
+```
+
+**Statistics Tracked:**
+
+- Total calls and success rate
+- Usage by command and mode
+- Recipe usage frequency
+- Current streak (daily usage)
+- Project-type patterns
+
+### model
+
+Manage AI model selection.
+
+```bash
+flow ai model                    # Show current model
+flow ai model list               # List available models
+flow ai model set <name>         # Set default model
+```
+
+**Available Models:**
+
+| Model    | Description                             |
+| -------- | --------------------------------------- |
+| `opus`   | Most capable, deep reasoning            |
+| `sonnet` | Balanced speed and capability (default) |
+| `haiku`  | Fast, lightweight responses             |
 
 ## Options
 
@@ -20,6 +122,7 @@ flow ai [options] <query>
 | `-f, --fix`     | Fix mode - get suggestions to fix problems          |
 | `-s, --suggest` | Suggest mode - get improvement suggestions          |
 | `--create`      | Create mode - generate code from descriptions       |
+| `-m, --model`   | Select model for this query (opus, sonnet, haiku)   |
 | `-c, --context` | Force include project context                       |
 | `-v, --verbose` | Show context being sent to AI                       |
 | `-h, --help`    | Show help message                                   |
@@ -97,14 +200,22 @@ flow ai "should I use associative arrays here?"
 # Explain existing code
 flow ai --explain "the _flow_detect_type function"
 
-# Get fix suggestions
-flow ai --fix "zsh: command not found: r"
+# Get fix suggestions with specific model
+flow ai --model opus --fix "complex architectural issue"
 
-# Request improvements
-flow ai --suggest "better progress bar implementation"
+# Use recipes
+flow ai recipe review "function parse_status() { ... }"
+flow ai recipe commit "$(git diff --staged)"
 
-# Generate new code
-flow ai --create "a health check for brew packages"
+# Interactive chat
+flow ai chat --context
+
+# Check usage patterns
+flow ai usage suggest
+
+# Switch to faster model for quick queries
+flow ai model set haiku
+flow ai "quick question"
 ```
 
 ## Requirements
@@ -119,4 +230,4 @@ flow ai --create "a health check for brew packages"
 
 ---
 
-_Added in v3.2.0_
+_Added in v3.2.0, enhanced in v3.4.0 (recipes, chat, usage, model)_
