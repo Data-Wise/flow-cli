@@ -62,7 +62,7 @@ git push origin feature/your-feature-name
 **Essential reading:**
 
 - [README.md](../../README.md) - Project overview
-- [CONTRIBUTING.md](../../CONTRIBUTING.md) - Contribution guidelines
+- [CONTRIBUTING.md](../contributing/CONTRIBUTING.md) - Contribution guidelines
 - [Architecture Overview](../architecture/README.md) - System design
 - [Testing Guide](../testing/TESTING.md) - Test requirements
 
@@ -605,7 +605,7 @@ git push origin --delete feature/name
 
 ## Related Documentation
 
-- [Contributing Guide](../../CONTRIBUTING.md) - High-level contribution guidelines
+- [Contributing Guide](../contributing/CONTRIBUTING.md) - High-level contribution guidelines
 - [Testing Guide](../testing/TESTING.md) - How to write and run tests
 - [Architecture Overview](../architecture/README.md) - System design principles
 - [ADR Process Guide](ADR-PROCESS-GUIDE.md) - Writing architecture decisions

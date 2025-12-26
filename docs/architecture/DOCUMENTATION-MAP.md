@@ -467,7 +467,7 @@ Located throughout documentation
 
 **Need clarification?** Add a comment to the relevant doc
 
-**Want to add examples?** We love contributions! See [CONTRIBUTING.md](../../CONTRIBUTING.md)
+**Want to add examples?** We love contributions! See [CONTRIBUTING.md](../contributing/CONTRIBUTING.md)
 
 ---
 

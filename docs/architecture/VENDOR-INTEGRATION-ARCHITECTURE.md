@@ -655,8 +655,6 @@ git add cli/vendor/
 git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 ```
 
-**Documentation:** See [cli/vendor/zsh-claude-workflow/README.md](../../cli/vendor/zsh-claude-workflow/README.md)
-
 ---
 
 ## Security Considerations
@@ -759,9 +757,7 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 ## Related Documentation
 
 - [PROJECT-DETECTOR-API.md](../api/PROJECT-DETECTOR-API.md) - Complete API reference
-- [WEEK-1-PROGRESS-2025-12-20.md](../../WEEK-1-PROGRESS-2025-12-20.md) - Implementation report
 - [ARCHITECTURE-INTEGRATION.md](../../ARCHITECTURE-INTEGRATION.md) - System overview
-- [Vendor README](../../cli/vendor/zsh-claude-workflow/README.md) - Attribution & sync
 
 ---
 

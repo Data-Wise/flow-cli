@@ -43,6 +43,16 @@ jobs:
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-cc-dispatcher.zsh
 
+      - name: Run AI features tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-ai-features.zsh
+
+      - name: Run quick wins tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-quick-wins.zsh
+
   # Node.js tests are optional - flow-cli is now a pure ZSH plugin
   # These tests only run if npm test script exists
   node-tests:

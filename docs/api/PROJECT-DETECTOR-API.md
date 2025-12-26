@@ -532,15 +532,11 @@ ls -la cli/vendor/zsh-claude-workflow/
 Vendored code: MIT License (zsh-claude-workflow)
 Bridge implementation: MIT License
 
-See [cli/vendor/zsh-claude-workflow/README.md](../../cli/vendor/zsh-claude-workflow/README.md) for attribution details.
-
 ---
 
 ## Related Documentation
 
 - [Architecture Integration](../../ARCHITECTURE-INTEGRATION.md) - Overall system architecture
-- [Week 1 Progress Report](../../WEEK-1-PROGRESS-2025-12-20.md) - Implementation details
-- [Vendor README](../../cli/vendor/zsh-claude-workflow/README.md) - Vendored code documentation
 
 ---
 

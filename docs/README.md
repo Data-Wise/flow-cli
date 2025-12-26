@@ -76,7 +76,6 @@
 
 ### Planning & Progress
 
-- **[Week 1 Progress Report](../WEEK-1-PROGRESS-2025-12-20.md)** - Implementation summary
 - **[Project Scope](../PROJECT-SCOPE.md)** - Overall project plan
 - **[Architecture Integration](../ARCHITECTURE-INTEGRATION.md)** - System overview
 - **[Porting Plan](../PLAN-UPDATE-PORTING-2025-12-20.md)** - Vendoring decision
@@ -100,8 +99,8 @@
 ### For Maintainers
 
 1. **Syncing vendored code?** → Follow [Sync process](architecture/VENDOR-INTEGRATION-ARCHITECTURE.md#syncing-vendored-code)
-2. **Reviewing changes?** → See [Week 1 Progress](../WEEK-1-PROGRESS-2025-12-20.md)
-3. **Planning next steps?** → Check [Project Scope](../PROJECT-SCOPE.md)
+
+2. **Planning next steps?** → Check [Project Scope](../PROJECT-SCOPE.md)
 
 ---
 
@@ -243,7 +242,7 @@ docs/
 ### Still Need Help?
 
 - Check the [Troubleshooting section](reference/PROJECT-DETECTION-GUIDE.md#troubleshooting)
-- Review [Week 1 Progress](../WEEK-1-PROGRESS-2025-12-20.md) for context
+
 - Ask Claude Code: "How do I...?"
 
 ---

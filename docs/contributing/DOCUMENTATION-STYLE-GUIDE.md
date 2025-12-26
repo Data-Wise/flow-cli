@@ -752,7 +752,7 @@ flow status
 
 ## Related Documentation
 
-- [Contributing Guide](../../CONTRIBUTING.md) - How to contribute
+- [Contributing Guide](../contributing/CONTRIBUTING.md) - How to contribute
 - [PR Workflow Guide](PR-WORKFLOW-GUIDE.md) - Pull request process
 - [ADR Process Guide](ADR-PROCESS-GUIDE.md) - Architecture decisions
 

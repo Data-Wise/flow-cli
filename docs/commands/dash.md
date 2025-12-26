@@ -522,9 +522,8 @@ pwd
 ## 🎓 See Also
 
 - [Status Command Reference](status.md) - Update project status
-- [Work Command Reference](work.md) - Start work sessions
 - [Project Detection Guide](../reference/PROJECT-DETECTION-GUIDE.md) - How types are detected
-- [.STATUS File Format](../reference/STATUS-FILE-FORMAT.md) - File structure spec
+- [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
 
 ---
 

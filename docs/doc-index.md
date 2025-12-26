@@ -8,7 +8,7 @@
 
 ### New Users
 
-1. **[README.md](../README.md)** - Project overview
+1. **[README.md](README-PROJECT.md)** - Project overview
 2. **[Quick Start](getting-started/quick-start.md)** - 5-minute introduction
 3. **[First Session Tutorial](tutorials/01-first-session.md)** - Your first workflow
 4. **[Command Reference](reference/ALIAS-REFERENCE-CARD.md)** - All commands documented

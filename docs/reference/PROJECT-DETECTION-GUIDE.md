@@ -553,7 +553,6 @@ async function runBuild(projectPath) {
 
 - [API Reference](../api/PROJECT-DETECTOR-API.md) - Complete API documentation
 - [Architecture](../architecture/VENDOR-INTEGRATION-ARCHITECTURE.md) - How it works
-- [Week 1 Progress](../../WEEK-1-PROGRESS-2025-12-20.md) - Implementation details
 
 ### Issues & Questions
 

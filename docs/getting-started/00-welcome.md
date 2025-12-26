@@ -99,7 +99,7 @@
 
 ### Phase 3: Customization & Extension (1-2 hours)
 
-1. [Contributing Guide](../../CONTRIBUTING.md) - How to contribute
+1. [Contributing Guide](../contributing/CONTRIBUTING.md) - How to contribute
 2. [Testing Guide](../testing/TESTING.md) - 559 tests explained
 3. [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md) - Copy-paste patterns
 4. [ZSH Development Guidelines](../ZSH-DEVELOPMENT-GUIDELINES.md) - Shell scripting
@@ -148,7 +148,7 @@
 
 ### "I Want to Contribute"
 
-1. Read: [Contributing Guide](../../CONTRIBUTING.md) (15 min)
+1. Read: [Contributing Guide](../contributing/CONTRIBUTING.md) (15 min)
 2. Study: [Architecture Overview](../architecture/README.md) (30 min)
 3. Review: [Testing Guide](../testing/TESTING.md) (20 min)
 4. Practice: [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md) (30 min)
