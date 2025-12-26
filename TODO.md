@@ -1,12 +1,35 @@
 # TODO - Flow CLI Project
 
-**Last Updated:** 2025-12-25
+**Last Updated:** 2025-12-26
 **Current Version:** v3.0.0
-**Status:** 🟢 Active Development - v3.1.0 Dashboard UX
+**Status:** 🟢 Active Development - v3.1.0 Dashboard UX + Doctor Command
 
 ---
 
 ## ✅ Completed
+
+### Health Check & Dependency Management (2025-12-26) ✅
+
+**Doctor Command:**
+
+- [x] Created `flow doctor` command for dependency health checks
+- [x] Interactive fix mode (`--fix` flag)
+- [x] Auto-install mode (`--fix -y` for non-interactive)
+- [x] AI-assisted troubleshooting (`--ai` flag with Claude CLI)
+- [x] Multi-package manager support (Homebrew, npm, pip)
+- [x] Created `setup/Brewfile` with 14 recommended CLI tools
+- [x] Created `setup/README.md` with installation guide
+- [x] Updated COMMAND-QUICK-REFERENCE.md with doctor section
+- [x] Updated installation.md with health check instructions
+- [x] Fixed 10+ broken documentation links
+- [x] Deployed updated website to GitHub Pages
+
+**Benefits:**
+
+- One command to verify all dependencies
+- Easy onboarding for new users
+- AI assistance for complex issues
+- Consistent development environment
 
 ### v3.0.0 - Clean Architecture (2025-12-25) ✅
 

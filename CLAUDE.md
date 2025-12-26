@@ -7,9 +7,10 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v2.0+)
+- **Status:** Production ready (v3.0.0)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
+- **Health Check:** `flow doctor` for dependency verification
 
 ### What It Does
 
@@ -31,6 +32,8 @@ hop <project>     # Quick switch (tmux)
 dash [category]   # Project dashboard
 catch <text>      # Quick capture
 js                # Just start (auto-picks project)
+flow doctor       # Health check (verify dependencies)
+flow doctor --fix # Interactive install missing tools
 ```
 
 ### Active Dispatchers (5)
@@ -81,7 +84,11 @@ flow-cli/
 │   ├── capture.zsh          # catch, crumb, trail
 │   ├── adhd.zsh             # js, next, stuck, focus
 │   ├── flow.zsh             # flow command
+│   ├── doctor.zsh           # Health check & dependency management
 │   └── pick.zsh             # Project picker
+├── setup/                    # Installation & setup
+│   ├── Brewfile             # Recommended Homebrew packages
+│   └── README.md            # Setup instructions
 ├── completions/             # ZSH completions
 │   ├── _work, _dash, _flow, _hop, _pick
 ├── hooks/                   # ZSH hooks

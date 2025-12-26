@@ -1,8 +1,68 @@
 # Ideas for Flow CLI
 
-**Last Updated:** 2025-12-24
-**Current Version:** v2.0.0-beta.1
-**Status:** 🟢 Production Ready - Gathering Feedback
+**Last Updated:** 2025-12-26
+**Current Version:** v3.0.0
+**Status:** 🟢 Production Ready - Doctor Command Added
+
+---
+
+## ✅ COMPLETED - Doctor Command (2025-12-26)
+
+### Health Check & Dependency Management - IMPLEMENTED ✅
+
+**What Was Built:**
+
+- `flow doctor` - One-command health check for all dependencies
+- `flow doctor --fix` - Interactive installation of missing tools
+- `flow doctor --fix -y` - Auto-install without prompts
+- `flow doctor --ai` - Claude CLI assisted troubleshooting
+- `setup/Brewfile` - Declarative dependency list (14 tools)
+- Multi-package manager support (Homebrew, npm, pip)
+
+**Documentation Updated:**
+
+- `docs/reference/COMMAND-QUICK-REFERENCE.md` - Doctor section added
+- `docs/getting-started/installation.md` - Health check instructions
+- Fixed 10+ broken links in architecture docs
+- Website deployed with all updates
+
+---
+
+## 🔮 NEW IDEAS FROM DOCTOR SESSION (2025-12-26)
+
+### ⚡ Quick Wins (< 1hr each)
+
+1. **Add doctor status to `dash` command**
+   - Show health indicator in dashboard header
+   - Quick visual: ✅ All good or ⚠️ N issues
+   - Link to `flow doctor` for details
+
+2. **Clean up remaining stale doc links (66 warnings)**
+   - Most are old project tracking files
+   - Non-blocking but should be cleaned
+   - Can run `mkdocs build` to see list
+
+3. **Add `flow setup` interactive wizard**
+   - First-time setup experience
+   - Walks through all recommended tools
+   - Uses `flow doctor --fix` under the hood
+
+### 🔧 Medium Effort (1-3hrs)
+
+4. **Doctor self-update feature**
+   - `flow doctor --update-docs` to regenerate help files
+   - Auto-update refcards when commands change
+   - Keep documentation in sync with implementation
+
+5. **Plugin health checks**
+   - Check ZSH plugins are loaded correctly
+   - Verify antidote/zinit configuration
+   - Detect plugin conflicts
+
+6. **Environment snapshot/export**
+   - `flow doctor --export` to save current setup
+   - Share setup with teammates
+   - Reproducible development environment
 
 ---
 
