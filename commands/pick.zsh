@@ -24,7 +24,7 @@ PROJ_SESSION_FILE="$HOME/.current-project-session"
 # HELPER FUNCTIONS
 # ============================================================================
 
-# Find project by fuzzy name
+# Find project by fuzzy name (returns first match)
 _proj_find() {
     local query="$1"
     local category="${2:-}"
@@ -56,6 +56,41 @@ _proj_find() {
     done
 
     return 1
+}
+
+# Find ALL projects matching fuzzy name (for direct jump)
+_proj_find_all() {
+    local query="$1"
+    local category="${2:-}"
+    local -a matches=()
+
+    for cat_info in "${PROJ_CATEGORIES[@]}"; do
+        local cat_path="${cat_info%%:*}"
+        local cat_type="${cat_info#*:}"
+        cat_type="${cat_type%%:*}"
+        local full_path="$PROJ_BASE/$cat_path"
+
+        # Skip if category filter doesn't match
+        if [[ -n "$category" && "$cat_type" != "$category" ]]; then
+            continue
+        fi
+
+        if [[ -d "$full_path" ]]; then
+            setopt local_options nullglob
+            for proj_dir in "$full_path"/*/; do
+                [[ -d "$proj_dir/.git" ]] || continue
+                local proj_name=$(basename "$proj_dir")
+
+                # Fuzzy match (case-insensitive)
+                if [[ "${proj_name:l}" == *"${query:l}"* ]]; then
+                    matches+=("$proj_name|$cat_type|$proj_dir")
+                fi
+            done
+        fi
+    done
+
+    # Return matches (one per line)
+    printf '%s\n' "${matches[@]}"
 }
 
 # List all projects
@@ -92,6 +127,7 @@ _proj_list_all() {
 pick() {
     local category="${1:-}"
     local fast_mode=0
+    local force_picker=0
 
     # Show help if requested
     if [[ "$1" == "help" || "$1" == "--help" || "$1" == "-h" ]]; then
@@ -101,36 +137,41 @@ pick() {
 ╚════════════════════════════════════════════════════════════╝
 
 USAGE:
-  pick [--fast] [category]
+  pick [options] [category|project-name]
 
 ARGUMENTS:
-  category     Optional filter (r, dev, q, teach, rs, app)
-  --fast       Skip git status checks (faster loading)
+  category       Filter by category (r, dev, q, teach, rs, app)
+  project-name   Direct jump to matching project (fuzzy)
+
+OPTIONS:
+  --fast         Skip git status checks (faster loading)
+  -a, --all      Force full picker (skip direct jump)
 
 CATEGORIES (case-insensitive, multiple aliases):
-  r            R packages (r, R, rpack, rpkg)
-  dev          Development tools (dev, DEV, tool, tools)
-  q            Quarto projects (q, Q, qu, quarto)
-  teach        Teaching courses (teach, teaching)
-  rs           Research projects (rs, research, res)
-  app          Applications (app, apps)
+  r              R packages (r, R, rpack, rpkg)
+  dev            Development tools (dev, DEV, tool, tools)
+  q              Quarto projects (q, Q, qu, quarto)
+  teach          Teaching courses (teach, teaching)
+  rs             Research projects (rs, research, res)
+  app            Applications (app, apps)
+
+DIRECT JUMP:
+  pick flow      → Direct cd to flow-cli (no picker)
+  pick med       → Direct cd to mediationverse
+  pick stat      → If multiple matches, shows filtered picker
 
 INTERACTIVE KEYS:
-  Enter        cd to project directory
-  Ctrl-S       View .STATUS file (bat/cat)
-  Ctrl-L       View git log (tig/git)
-  Ctrl-C       Exit without action
-
-DISPLAY FORMAT:
-  project-name         icon type
-  flow-cli    🔧 dev
-  mediationverse       📦 r
+  Enter          cd to project directory
+  Ctrl-S         View .STATUS file (bat/cat)
+  Ctrl-L         View git log (tig/git)
+  Ctrl-C         Exit without action
 
 EXAMPLES:
   pick              # Show all projects
+  pick flow         # Direct jump to flow-cli
   pick r            # Show only R packages
   pick --fast dev   # Fast mode, dev tools only
-  pickr             # Alias for: pick r
+  pick -a flow      # Force picker, pre-filter "flow"
 
 ALIASES:
   pickr            pick r
@@ -143,10 +184,97 @@ EOF
     # Parse arguments
     if [[ "$1" == "--fast" ]]; then
         fast_mode=1
-        category="${2:-}"
+        shift
+        category="${1:-}"
+    fi
+
+    if [[ "$1" == "-a" || "$1" == "--all" ]]; then
+        force_picker=1
+        shift
+        category="${1:-}"
+    fi
+
+    # Check if argument is a category or a project name
+    local is_category=0
+    case "$1" in
+        r|R|rpack|rpkg|dev|Dev|DEV|tool|tools|q|Q|qu|quarto|teach|teaching|rs|research|res|app|apps)
+            is_category=1
+            ;;
+    esac
+
+    # DIRECT JUMP: If arg provided and not a category, try direct jump
+    if [[ -n "$1" && $is_category -eq 0 && $force_picker -eq 0 ]]; then
+        local query="$1"
+        local -a matches
+        matches=("${(@f)$(_proj_find_all "$query")}")
+
+        # Filter out empty entries
+        matches=("${(@)matches:#}")
+
+        local match_count=${#matches[@]}
+
+        if [[ $match_count -eq 0 ]]; then
+            # No matches
+            echo "❌ No project matching: $query" >&2
+            echo "💡 Try: pick (to see all projects)" >&2
+            return 1
+        elif [[ $match_count -eq 1 ]]; then
+            # Exactly one match - direct jump!
+            local match="${matches[1]}"
+            local proj_name="${match%%|*}"
+            local proj_dir="${match##*|}"
+
+            cd "$proj_dir"
+            echo "  📂 $proj_dir"
+            return 0
+        else
+            # Multiple matches - show filtered picker
+            echo ""
+            echo "  💡 Multiple matches for '$query' - showing picker..."
+            echo ""
+
+            local tmpfile=$(mktemp)
+            for match in "${matches[@]}"; do
+                local name="${match%%|*}"
+                local rest="${match#*|}"
+                local type="${rest%%|*}"
+                local icon=""
+                case "$type" in
+                    r) icon="📦" ;;
+                    dev) icon="🔧" ;;
+                    q) icon="📝" ;;
+                    teach) icon="🎓" ;;
+                    rs) icon="🔬" ;;
+                    app) icon="📱" ;;
+                esac
+                printf "%-20s %s %-4s\n" "$name" "$icon" "$type"
+            done > "$tmpfile"
+
+            local selection=$(cat "$tmpfile" | fzf \
+                --height=50% \
+                --reverse \
+                --header="Enter=cd | ^C=cancel")
+
+            rm -f "$tmpfile"
+
+            if [[ -z "$selection" ]]; then
+                return 1
+            fi
+
+            local proj_name=$(echo "$selection" | awk '{print $1}')
+            local proj_dir=$(_proj_find "$proj_name")
+
+            if [[ -n "$proj_dir" ]]; then
+                cd "$proj_dir"
+                echo "  📂 $proj_dir"
+                return 0
+            fi
+            return 1
+        fi
     fi
 
     # Normalize category shortcuts
+    category="${1:-}"
     case "$category" in
         r|R|rpack|rpkg) category="r" ;;
         dev|Dev|DEV|tool|tools) category="dev" ;;
