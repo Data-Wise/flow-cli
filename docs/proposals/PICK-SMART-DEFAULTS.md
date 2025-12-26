@@ -2,6 +2,7 @@
 
 **Generated:** 2025-12-26
 **Revised:** 2025-12-26 (v2 - consistent key bindings)
+**Status:** ✅ **IMPLEMENTED** (Phase 1 & 2 complete)
 **Context:** flow-cli project picker enhancement
 
 ## Overview
@@ -319,10 +320,15 @@ Show filtered fzf picker with matches only.
 
 ---
 
-## Recommended Order
+## Implementation Status
 
-1. **Phase 1:** `pick <name>` direct jump (30min, high value)
-2. **Phase 2:** Enter/Space key bindings (1hr, consistency)
-3. **Phase 3:** `cc flow` direct jump (30min, leverages Phase 1)
+| Phase | Feature                   | Status  | Commit                |
+| ----- | ------------------------- | ------- | --------------------- |
+| **1** | `pick <name>` direct jump | ✅ Done | `a4f81e7`             |
+| **2** | Enter/Space key bindings  | ✅ Done | `269085f`             |
+| **3** | `cc flow` direct jump     | ✅ Done | (included in Phase 1) |
 
-Start with Phase 1 - it's the foundation for everything else.
+### Commits
+
+- `a4f81e7` feat: add direct jump to pick and cc commands
+- `269085f` feat: add session-aware resume with Enter/Space bindings (Phase 2)

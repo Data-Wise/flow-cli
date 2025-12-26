@@ -1,7 +1,7 @@
 # Dispatcher Reference - flow-cli
 
-**Last Updated:** December 25, 2025  
-**Version:** flow-cli v3.0.0
+**Last Updated:** December 26, 2025
+**Version:** flow-cli v3.1.0
 
 ---
 
@@ -13,7 +13,7 @@ Dispatchers are smart command routers that provide context-aware workflows for s
 
 ---
 
-## Active Dispatchers (5)
+## Active Dispatchers (6)
 
 ### 1. `g` - Git Workflows
 
@@ -202,6 +202,52 @@ r tree            # Package structure tree
 
 ---
 
+### 6. `cc` - Claude Code Workflows
+
+**File:** `cc-dispatcher.zsh`
+**Purpose:** Smart Claude Code project workflows
+**Added:** December 26, 2025
+
+**Common Commands:**
+
+```bash
+# Launch modes
+cc                # Pick project → NEW Claude session (acceptEdits)
+cc flow           # Direct jump → Claude
+cc yolo           # Pick project → YOLO mode (skip permissions)
+cc yolo flow      # Direct jump → YOLO mode
+cc plan           # Pick project → Plan mode
+cc now            # Current dir → Claude (no picker)
+
+# Session management
+cc resume         # Resume with Claude session picker
+cc continue       # Resume most recent conversation
+
+# Quick actions
+cc ask "query"    # Quick question (print mode)
+cc file <file>    # Analyze a file
+cc diff           # Review git changes
+cc rpkg           # R package context helper
+
+# Model selection
+cc opus           # Pick project → Opus model
+cc haiku          # Pick project → Haiku model
+```
+
+**Features:**
+
+- Smart project selection via `pick` (inherits direct jump, smart resume)
+- Multiple permission modes (acceptEdits, YOLO, plan)
+- Session resume with Claude's built-in picker
+- Quick actions for common tasks
+- Model selection shortcuts
+
+**Shortcuts:** `y`=yolo, `p`=plan, `n`=now, `r`=resume, `c`=continue, `a`=ask, `f`=file, `d`=diff, `o`=opus, `h`=haiku
+
+**See also:** [CC-DISPATCHER-REFERENCE.md](CC-DISPATCHER-REFERENCE.md)
+
+---
+
 ## Removed Dispatchers
 
 ### `v` / `vibe` - DEPRECATED
@@ -221,29 +267,6 @@ vibe         →    flow
 ```
 
 **Use `flow` command directly** - It provides the same functionality with a clearer, unified interface.
-
----
-
-## Not Restored (Alternatives Available)
-
-### `cc` - Claude Code Dispatcher
-
-**Status:** Archived  
-**Alternative:** Personal `ccy` function in .zshrc
-
-**Why not restored:**
-
-- Personal AI shortcuts work better in .zshrc
-- Simple function (`pick && claude`) is clearer than full dispatcher
-- Existing aliases (`ccp`, `ccr`, etc.) cover all needs
-
-**Available alternatives:**
-
-```bash
-ccy              # Pick project → launch Claude
-ccp "query"      # Print mode
-ccr              # Resume with picker
-```
 
 ---
 

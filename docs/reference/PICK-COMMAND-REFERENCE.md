@@ -1,20 +1,18 @@
 # Pick Command Reference
 
-Interactive project picker with fuzzy search
+Interactive project picker with fuzzy search, smart resume, and direct jump
 
-**Location:** `~/.config/zsh/functions/adhd-helpers.zsh:1875-2050`
+**Location:** `commands/pick.zsh`
 
 ---
 
 ## Quick Start
 
 ```bash
-pick --help       # Show built-in help
-pick              # Show all projects
+pick              # Smart resume or browse all projects
+pick flow         # Direct jump to flow-cli (no picker)
 pick r            # Show only R packages
-pick dev          # Show only dev tools
-pick qu           # Show only Quarto projects
-pick --fast       # Skip git status (faster)
+pick -a           # Force full picker (bypass resume)
 ```
 
 ---
@@ -22,15 +20,52 @@ pick --fast       # Skip git status (faster)
 ## Usage
 
 ```bash
-pick [--fast] [category]
+pick [options] [category|project-name]
 ```
 
 ### Arguments
 
-| Argument   | Description                             |
-| ---------- | --------------------------------------- |
-| `category` | Optional project category filter        |
-| `--fast`   | Skip git status checks (faster loading) |
+| Argument       | Description                             |
+| -------------- | --------------------------------------- |
+| `project-name` | Direct jump to matching project (fuzzy) |
+| `category`     | Filter by category (r, dev, q, etc.)    |
+| `-a, --all`    | Force full picker (skip direct jump)    |
+| `--fast`       | Skip git status checks (faster loading) |
+
+---
+
+## Smart Behaviors (NEW)
+
+### Direct Jump
+
+Jump directly to a project without the picker:
+
+```bash
+pick flow         # → cd to flow-cli (exact match)
+pick med          # → cd to mediationverse
+pick stat         # → Multiple matches? Shows filtered picker
+```
+
+### Session-Aware Resume
+
+When you run `pick` with no args and have a recent session:
+
+```
+╔════════════════════════════════════════════════════════════╗
+║  🔍 PROJECT PICKER                                         ║
+╚════════════════════════════════════════════════════════════╝
+
+  💡 Last: flow-cli (2h ago)
+  [Enter] Resume  │  [Space] Browse all  │  Type to search...
+```
+
+| Key       | Action                            |
+| --------- | --------------------------------- |
+| **Enter** | Resume last project               |
+| **Space** | Force full picker (bypass resume) |
+| **Type**  | Filter projects as before         |
+
+Sessions expire after 24 hours.
 
 ### Categories
 
@@ -49,14 +84,13 @@ All category names are case-insensitive and support multiple aliases:
 
 ## Interactive Keys
 
-| Key        | Action | Description                          |
-| ---------- | ------ | ------------------------------------ |
-| **Enter**  | cd     | Change to selected project directory |
-| **Ctrl-W** | work   | cd + start work session              |
-| **Ctrl-O** | code   | cd + open in VS Code                 |
-| **Ctrl-S** | status | View .STATUS file (with bat/cat)     |
-| **Ctrl-L** | log    | View git log (with tig/git)          |
-| **Ctrl-C** | cancel | Exit without action                  |
+| Key        | Action | Description                              |
+| ---------- | ------ | ---------------------------------------- |
+| **Enter**  | cd     | Change to selected project (or resume)   |
+| **Space**  | browse | Force full picker (bypass resume prompt) |
+| **Ctrl-S** | status | View .STATUS file (with bat/cat)         |
+| **Ctrl-L** | log    | View git log (with tig/git)              |
+| **Ctrl-C** | cancel | Exit without action                      |
 
 ---
 
@@ -86,20 +120,33 @@ apple-notes-sync     🔧 dev
 
 ## Examples
 
-### Basic Usage
+### Direct Jump (NEW)
 
 ```bash
-# Pick from all projects
-pick
+# Jump to project by name (fuzzy match)
+pick flow         # → flow-cli
+pick med          # → mediationverse
+pick stat         # → Multiple matches? Shows filtered picker
 
-# Pick from R packages only
-pick r
+# Force full picker even with name
+pick -a flow      # Shows picker, pre-filtered to "flow"
+```
 
-# Pick from dev tools (case-insensitive)
-pick DEV
+### Smart Resume (NEW)
 
-# Fast mode (no git status)
-pick --fast
+```bash
+# If you were recently in flow-cli:
+pick              # Shows: "💡 Last: flow-cli (2h ago)"
+                  # Press Enter to resume, Space to browse
+```
+
+### Category Filtering
+
+```bash
+# Filter by category
+pick r            # R packages only
+pick dev          # Dev tools only
+pick DEV          # Case-insensitive
 
 # Fast mode with filter
 pick --fast r
@@ -108,10 +155,10 @@ pick --fast r
 ### Interactive Actions
 
 ```bash
-# After selecting a project:
-#   - Press Enter to cd
-#   - Press Ctrl-W to start work session
-#   - Press Ctrl-O to open in VS Code
+# In the picker:
+#   - Type to filter projects
+#   - Press Enter to cd (or resume last)
+#   - Press Space to bypass resume and browse all
 #   - Press Ctrl-S to view .STATUS file
 #   - Press Ctrl-L to view git log
 ```
@@ -154,8 +201,9 @@ pickq             # Expands to: pick q
 
 Works with:
 
+- **`cc` dispatcher** - `cc` uses `pick` for project selection, then launches Claude
+- **`cc <project>`** - Direct jump to project + Claude (inherits pick's direct jump)
 - `work` command - Start work session in selected project
-- VS Code - Open project with `code .`
 - `bat` - Syntax-highlighted .STATUS viewing
 - `tig` - Interactive git log browser
 
@@ -212,5 +260,5 @@ printf '\033[32m✅\033[0m'  # Single quotes don't interpret escapes
 
 ---
 
-**Last Updated:** 2025-12-18
-**Status:** ✅ Fully implemented and tested
+**Last Updated:** 2025-12-26
+**Status:** ✅ Fully implemented (v2.0 - smart defaults)
