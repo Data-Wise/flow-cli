@@ -4,7 +4,9 @@
 
 ## Overview
 
-This gamified test validates your flow-cli setup by having you "feed a virtual dog" through confirming that commands produce expected output. The test runs each command, shows you what to expect, displays the actual output, and asks you to confirm if they match. Each successful confirmation earns you food to feed the dog and increases its happiness level.
+This gamified test validates your flow-cli setup by having you "feed a virtual dog" through confirming that commands produce expected output. The test runs each command, shows you comprehensive expected patterns, displays the actual output, and asks you to confirm if they match. Each successful confirmation earns you food to feed the dog and increases its happiness level.
+
+**Latest Version:** Completely revised with comprehensive expected patterns that match flow-cli's rich, elaborate outputs (Dec 25, 2025)
 
 ## Quick Start
 
@@ -18,10 +20,22 @@ cd /path/to/flow-cli
 For each test task:
 
 1. 📋 Shows the command that will run
-2. 👀 Shows expected output patterns to look for
+2. 👀 Shows **comprehensive** expected output patterns to look for
 3. ▶️ Runs the command and displays actual output
 4. ❓ Asks you to confirm if actual matches expected
 5. ✅ Feeds the dog if you confirm (or 😢 disappoints if not)
+
+### What Makes This Test Special
+
+**Comprehensive Expected Patterns:** Unlike typical tests, this shows you the FULL structure to expect:
+
+- Complete box borders and separators
+- All headers and sections
+- Progress bars and indicators
+- Nested structures and spacing
+- Even blank lines are documented!
+
+**Example:** Dashboard test shows 16 detailed patterns covering borders, headers, sections, progress bars, and footer - matching the rich output exactly.
 
 ## What It Tests
 

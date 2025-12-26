@@ -148,9 +148,15 @@ show_expected_output() {
 run_interactive_test() {
     local task_name="$1"
     local command="$2"
-    local -a expected_patterns=("${(@)@:3:$#-4}")
-    local success_msg="${@[-2]}"
+    shift 2  # Remove first two parameters
+    
+    # Last parameter is reward, second to last is success message
     local reward="${@[-1]}"
+    local success_msg="${@[-2]}"
+    
+    # Everything else (except last 2) are expected patterns
+    local num_patterns=$(($# - 2))
+    local -a expected_patterns=("${@:1:$num_patterns}")
     
     echo -e "${BOLD}${BLUE}═══════════════════════════════════════════════════════════${NC}"
     echo -e "${BOLD}${BLUE}Task: ${task_name}${NC}"

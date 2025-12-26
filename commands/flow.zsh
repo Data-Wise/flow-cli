@@ -690,5 +690,4 @@ EOF
 # SHORT ALIAS
 # ============================================================================
 
-# 'f' as short alias for flow
-alias f='flow'
+# Removed 'f' alias - use full 'flow' command (single-letter aliases removed per user preference)

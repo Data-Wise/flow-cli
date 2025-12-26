@@ -75,6 +75,25 @@ dash
 dash --full
 ```
 
+## Testing Your Installation
+
+After installing, validate everything works with our interactive dog feeding test:
+
+```bash
+./tests/interactive-dog-feeding.zsh
+```
+
+This gamified test walks you through validating all core commands in a fun, ADHD-friendly way. Feed a virtual dog by confirming commands work correctly! 🐕
+
+**Features:**
+
+- 👀 Shows expected output before running commands
+- ✅ Interactive validation (just confirm y/n)
+- ⭐ Star rating system (aim for 5 stars!)
+- 🎮 Gamification makes testing engaging
+
+See [tests/DOG-FEEDING-TEST-README.md](tests/DOG-FEEDING-TEST-README.md) for details.
+
 ## Commands
 
 | Command          | Description                      |

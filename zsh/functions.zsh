@@ -472,8 +472,7 @@ aliashelp() {
     esac
 }
 
-# Short alias for aliashelp
-alias ah='aliashelp'
+# Removed 'ah' alias - use full 'aliashelp' command (consistent with no-short-aliases policy)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # CATEGORY 10: ADHD DECISION HELPERS

@@ -93,6 +93,7 @@ nav:
       - ADHD Helpers Map: reference/ADHD-HELPERS-FUNCTION-MAP.md
       - Command Patterns: reference/CLI-COMMAND-PATTERNS-RESEARCH.md
       - Command Quick Ref: reference/COMMAND-QUICK-REFERENCE.md
+      - Testing Quick Ref: reference/TESTING-QUICK-REF.md
       - Existing System Summary: reference/EXISTING-SYSTEM-SUMMARY.md
       - ZSH Clean Workflow: reference/ZSH-CLEAN-WORKFLOW.md
   - Commands:
@@ -113,8 +114,12 @@ nav:
       - Complete API Reference: api/API-REFERENCE.md
       - Interactive Examples: api/INTERACTIVE-EXAMPLES.md
       - Project Detector API: api/PROJECT-DETECTOR-API.md
-  - Development:
+  - Testing:
       - Testing Guide: testing/TESTING.md
+      - Interactive Dog Test: ../tests/DOG-FEEDING-TEST-README.md
+      - Interactive Test Guide: ../tests/INTERACTIVE-TEST-GUIDE.md
+      - Testing Quick Ref: reference/TESTING-QUICK-REF.md
+  - Development:
       - PR Workflow Guide: contributing/PR-WORKFLOW-GUIDE.md
       - ADR Process Guide: contributing/ADR-PROCESS-GUIDE.md
       - Documentation Style Guide: contributing/DOCUMENTATION-STYLE-GUIDE.md

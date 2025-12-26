@@ -277,5 +277,4 @@ alias pickteach='pick teach'
 alias pickrs='pick rs'
 alias pickapp='pick app'
 
-# Backward compatibility alias
-alias pp='pick'
+# Removed 'pp' alias - conflicts with /usr/bin/pp (use full 'pick' command)

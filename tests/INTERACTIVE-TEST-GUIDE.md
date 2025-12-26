@@ -16,18 +16,29 @@
 This gamified test validates:
 
 - Plugin loading
-- Dashboard display
+- Dashboard display (with comprehensive pattern matching)
 - Session management (work/finish)
 - Capture commands (catch/win)
 - ADHD helpers (js)
-- User interaction
+- Active session display
+- User interactive validation
 
 **Features:**
 
-- 🐕 Feed a virtual dog by completing tasks
-- ⭐ Earn stars for successful tests
+- 🐕 Feed a virtual dog by confirming commands work
+- 👀 Shows comprehensive expected patterns (60+ patterns total!)
+- ✅ Interactive y/n validation
+- ⭐ Earn 1-5 stars based on performance
 - 😊 Track dog happiness and hunger
 - 🎮 ADHD-friendly gamification
+
+**Latest Update (Dec 25, 2025):**
+
+- ✅ Fixed parameter parsing bug
+- ✅ Added comprehensive expected patterns for all 7 tests
+- ✅ Dashboard test now shows 16 detailed patterns
+- ✅ Each test shows correct expected output
+- ✅ Captures complete box structures, separators, spacing
 
 ---
 

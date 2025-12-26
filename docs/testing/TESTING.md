@@ -852,3 +852,28 @@ When adding new features:
 **Last Updated:** 2025-12-24
 **Test Count:** 559 tests (100% passing)
 **Version:** v2.0.0-beta.1
+
+## Quick Test: Interactive Dog Feeding 🐕
+
+**The fastest way to validate your installation!**
+
+```bash
+./tests/interactive-dog-feeding.zsh
+```
+
+This gamified test validates all core commands through an engaging experience:
+
+- 👀 Shows comprehensive expected output patterns
+- ▶️ Runs each command and displays actual output
+- ❓ Asks you to confirm if they match
+- 🐕 Feeds a virtual dog for each success
+- ⭐ Earn 1-5 stars based on performance
+
+**Perfect for:**
+
+- First-time installation validation
+- After major refactoring
+- Teaching new users
+- Making testing fun!
+
+See [Dog Feeding Test Guide](../../tests/DOG-FEEDING-TEST-README.md) for full details.
