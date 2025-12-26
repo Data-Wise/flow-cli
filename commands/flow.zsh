@@ -110,6 +110,23 @@ flow() {
     doctor|health)
       doctor "$@"
       ;;
+    setup)
+      setup "$@"
+      ;;
+    install)
+      flow_install "$@"
+      ;;
+    upgrade|update)
+      flow_upgrade "$@"
+      ;;
+
+    # ── AI Integration ─────────────────────────────────────────────────────
+    ai)
+      flow_ai "$@"
+      ;;
+    do)
+      flow_do "$@"
+      ;;
 
     # ── Unknown ─────────────────────────────────────────────────────────────
     *)
@@ -235,9 +252,15 @@ ${_C_BLUE}📚 LEARNING${_C_NC}:
 
 ${_C_BLUE}🔧 SETUP & DIAGNOSTICS${_C_NC}:
   ${_C_CYAN}doctor${_C_NC}             Check dependencies & health
-  ${_C_CYAN}doctor --fix${_C_NC}       Interactive install missing tools
-  ${_C_CYAN}doctor --fix -y${_C_NC}    Auto-install all (no prompts)
-  ${_C_CYAN}doctor --ai${_C_NC}        AI-assisted troubleshooting (Claude CLI)
+  ${_C_CYAN}setup${_C_NC}              Interactive first-time setup
+  ${_C_CYAN}install${_C_NC} [tool]     Install tools (--profile for presets)
+  ${_C_CYAN}upgrade${_C_NC}            Update flow-cli and tools
+
+${_C_BLUE}🤖 AI-POWERED${_C_NC} ${_C_DIM}(requires Claude CLI)${_C_NC}:
+  ${_C_CYAN}ai${_C_NC} <query>         Ask AI anything
+  ${_C_CYAN}do${_C_NC} \"<request>\"     Natural language commands
+  ${_C_CYAN}stuck --ai${_C_NC}         AI help when blocked
+  ${_C_CYAN}next --ai${_C_NC}          AI-powered task suggestion
 
 ${_C_DIM}SHORTCUTS: Most commands work directly too:${_C_NC}
   pick dev    =  flow pick dev
@@ -246,7 +269,7 @@ ${_C_DIM}SHORTCUTS: Most commands work directly too:${_C_NC}
 
 ${_C_DIM}See also:${_C_NC} man flow, r help, g help, qu help, mcp help, obs help
 
-${_C_BOLD}Version:${_C_NC} flow-cli v\${FLOW_VERSION:-3.1.0}
+${_C_BOLD}Version:${_C_NC} flow-cli v\${FLOW_VERSION:-3.2.0}
 "
 }
 
@@ -305,12 +328,20 @@ _flow_help_list() {
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "morning" "Morning startup routine"
   echo ""
 
-  # Setup & Learning
-  echo -e "${_C_BOLD}Setup & Learning:${_C_NC}"
+  # Setup & Diagnostics
+  echo -e "${_C_BOLD}Setup & Diagnostics:${_C_NC}"
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "doctor" "Check dependencies & health"
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "setup" "Interactive setup wizard"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "install" "Install tools (--profile for presets)"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "upgrade" "Update flow-cli and tools"
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "learn" "Interactive tutorial"
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "help" "Show help"
+  echo ""
+
+  # AI-Powered
+  echo -e "${_C_BOLD}AI-Powered:${_C_NC} ${_C_DIM}(requires Claude CLI)${_C_NC}"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "ai" "Ask AI anything"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "do" "Natural language commands"
   echo ""
 
   # Dispatchers
@@ -376,6 +407,10 @@ _flow_help_search() {
     "morning|Morning startup routine|routine startup daily"
     "doctor|Check dependencies & health|diagnose install deps"
     "setup|Interactive setup wizard|install configure"
+    "install|Install tools with profiles|brew npm pip package"
+    "upgrade|Update flow-cli and tools|update version"
+    "ai|Ask AI anything|claude question help"
+    "do|Natural language commands|ai execute run"
     "learn|Interactive tutorial|tutorial guide help"
     "g|Git workflows dispatcher|git commit push pull branch"
     "r|R package development|r cran test check build"

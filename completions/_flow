@@ -48,6 +48,14 @@ _flow() {
     # Learning
     'learn:Interactive tutorial'
     'tutorial:Interactive tutorial (alias)'
+    # Setup & Diagnostics
+    'doctor:Check dependencies & health'
+    'setup:Interactive setup wizard'
+    'install:Install tools with profiles'
+    'upgrade:Update flow-cli and tools'
+    # AI-Powered
+    'ai:Ask AI anything'
+    'do:Natural language commands'
   )
 
   local curcontext="$curcontext" state line
@@ -166,9 +174,118 @@ _flow() {
           local -a help_topics
           help_topics=(
             'work' 'pick' 'dash' 'finish' 'status' 'timer' 'tutorial'
-            'test' 'build' 'sync' 'check' 'plan'
+            'test' 'build' 'sync' 'check' 'plan' 'doctor' 'setup'
+            'install' 'upgrade' 'ai' 'do' 'stuck' 'next'
+            '--list' '-l'
+            '--search' '-s'
           )
           _describe -t topics 'topic' help_topics
+          ;;
+        doctor)
+          local -a doctor_opts
+          doctor_opts=(
+            '--fix:Interactive install missing tools'
+            '-f:Interactive install (short)'
+            '--ai:AI-assisted troubleshooting'
+            '-a:AI assist (short)'
+            '--update-docs:Regenerate documentation'
+            '-u:Update docs (short)'
+            '--yes:Skip confirmations'
+            '-y:Skip confirmations (short)'
+            '--verbose:Verbose output'
+            '-v:Verbose (short)'
+            '--help:Show help'
+          )
+          _describe -t options 'option' doctor_opts
+          ;;
+        install)
+          local -a install_opts
+          install_opts=(
+            '--profile:Install from profile'
+            '-p:Profile (short)'
+            '--category:Install from category'
+            '-c:Category (short)'
+            '--dry-run:Show what would be installed'
+            '-n:Dry run (short)'
+            '--force:Reinstall even if present'
+            '-f:Force (short)'
+            '--list:List available profiles'
+            '-l:List (short)'
+            '--help:Show help'
+          )
+          local -a profiles
+          profiles=(
+            'minimal:Essential tools (fzf, zoxide, bat)'
+            'developer:Full dev setup'
+            'researcher:Academic tools'
+            'writer:Publishing tools'
+            'full:Everything'
+          )
+          _describe -t options 'option' install_opts
+          _describe -t profiles 'profile' profiles
+          ;;
+        upgrade)
+          local -a upgrade_targets
+          upgrade_targets=(
+            'self:Update flow-cli itself'
+            'tools:Update Homebrew packages'
+            'plugins:Update ZSH plugins'
+            'all:Update everything'
+            '--check:Check for updates only'
+            '-c:Check (short)'
+            '--changelog:Show what is new'
+            '--force:Skip confirmations'
+            '-f:Force (short)'
+            '--help:Show help'
+          )
+          _describe -t targets 'target' upgrade_targets
+          ;;
+        ai)
+          local -a ai_opts
+          ai_opts=(
+            '--context:Include project context'
+            '-c:Context (short)'
+            '--explain:Explain mode'
+            '-e:Explain (short)'
+            '--fix:Fix mode'
+            '-f:Fix (short)'
+            '--suggest:Suggest mode'
+            '-s:Suggest (short)'
+            '--create:Create mode'
+            '--verbose:Verbose output'
+            '-v:Verbose (short)'
+            '--help:Show help'
+          )
+          _describe -t options 'option' ai_opts
+          ;;
+        do)
+          local -a do_opts
+          do_opts=(
+            '--dry-run:Show command without executing'
+            '-n:Dry run (short)'
+            '--verbose:Verbose output'
+            '-v:Verbose (short)'
+            '--help:Show help'
+          )
+          _describe -t options 'option' do_opts
+          ;;
+        stuck)
+          local -a stuck_opts
+          stuck_opts=(
+            '--ai:AI help when blocked'
+            '-a:AI help (short)'
+            '--help:Show help'
+          )
+          _describe -t options 'option' stuck_opts
+          ;;
+        next)
+          local -a next_opts
+          next_opts=(
+            '--ai:AI-powered suggestion'
+            '-a:AI (short)'
+            '--help:Show help'
+          )
+          _describe -t options 'option' next_opts
           ;;
         *)
           _files

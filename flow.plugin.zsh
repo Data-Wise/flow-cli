@@ -113,7 +113,7 @@ _flow_init_atlas
 
 # Export loaded marker
 export FLOW_PLUGIN_LOADED=1
-export FLOW_VERSION="3.0.0"
+export FLOW_VERSION="3.2.0"
 
 # Welcome message (disable with FLOW_QUIET=1)
 if [[ -z "$FLOW_QUIET" ]] && [[ -z "$FLOW_WELCOMED" ]]; then

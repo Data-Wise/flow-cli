@@ -55,10 +55,21 @@ js() {
 # ============================================================================
 
 next() {
+  local use_ai=false
+
+  # Parse arguments
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --ai|-a)   use_ai=true; shift ;;
+      --help|-h) _next_help; return 0 ;;
+      *)         shift ;;
+    esac
+  done
+
   echo ""
   echo "${FLOW_COLORS[header]}🎯 NEXT TASK SUGGESTIONS${FLOW_COLORS[reset]}"
   echo ""
-  
+
   # Check inbox first
   local inbox_count=0
   if _flow_has_atlas; then
@@ -67,42 +78,77 @@ next() {
     local inbox="${FLOW_DATA_DIR}/inbox.md"
     [[ -f "$inbox" ]] && inbox_count=$(wc -l < "$inbox" | tr -d ' ')
   fi
-  
+
   if (( inbox_count > 0 )); then
     echo "  📥 You have $inbox_count items in your inbox"
   fi
-  
+
   # Show active projects with focus
   echo ""
   echo "  ${FLOW_COLORS[muted]}Active projects:${FLOW_COLORS[reset]}"
-  
+
   local projects=$(_flow_list_projects "active" 2>/dev/null)
   local count=0
-  
+  local project_info=""
+
   while IFS= read -r project; do
     [[ -z "$project" ]] && continue
     (( count >= 3 )) && break
-    
+
     local info=$(_flow_get_project "$project" 2>/dev/null)
     local focus=""
-    
+
     if [[ -n "$info" ]]; then
       eval "$info"
       if [[ -n "$path" ]] && [[ -f "$path/.STATUS" ]]; then
         focus=$(grep -m1 "^## Focus:" "$path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
       fi
     fi
-    
+
     local icon=$(_flow_project_icon "$(_flow_detect_project_type "$path" 2>/dev/null)")
     printf "  %s %-15s" "$icon" "$project"
     [[ -n "$focus" ]] && printf " → %s" "$focus"
     echo ""
-    
+
+    # Collect info for AI
+    project_info+="- $project"
+    [[ -n "$focus" ]] && project_info+=" (focus: $focus)"
+    project_info+=$'\n'
+
     ((count++))
   done <<< "$projects"
-  
+
   echo ""
-  echo "  ${FLOW_COLORS[muted]}Tip: Run 'js' to just start, or 'work <project>' to pick${FLOW_COLORS[reset]}"
+
+  # AI-enhanced suggestions
+  if $use_ai && command -v claude >/dev/null 2>&1; then
+    echo "${FLOW_COLORS[accent]}🤖 AI Suggestion:${FLOW_COLORS[reset]}"
+    echo ""
+
+    local context="Active projects:\n$project_info\nInbox items: $inbox_count"
+    local prompt="Based on this ADHD developer's projects and context, give ONE clear, actionable recommendation for what to work on next. Be brief (2-3 sentences max). Consider momentum and energy management.
+
+Context:
+$context"
+
+    claude -p "$prompt" 2>/dev/null
+    echo ""
+  else
+    echo "  ${FLOW_COLORS[muted]}Tip: Run 'js' to just start, or 'next --ai' for AI suggestion${FLOW_COLORS[reset]}"
+    echo ""
+  fi
+}
+
+_next_help() {
+  echo ""
+  echo "${FLOW_COLORS[bold]}next${FLOW_COLORS[reset]} - What should I work on next?"
+  echo ""
+  echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "  next [options]"
+  echo ""
+  echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+  echo "  -a, --ai     Get AI-powered suggestion"
+  echo "  -h, --help   Show this help"
   echo ""
 }
 
@@ -111,9 +157,81 @@ next() {
 # ============================================================================
 
 stuck() {
+  local problem=""
+  local use_ai=false
+
+  # Parse arguments
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --ai|-a)   use_ai=true; shift ;;
+      --help|-h) _stuck_help; return 0 ;;
+      *)         problem="$problem $1"; shift ;;
+    esac
+  done
+
+  problem="${problem# }"  # Trim leading space
+
   echo ""
   echo "${FLOW_COLORS[warning]}😵 FEELING STUCK?${FLOW_COLORS[reset]}"
   echo ""
+
+  # If AI mode with a problem description
+  if $use_ai || [[ -n "$problem" ]]; then
+    if ! command -v claude >/dev/null 2>&1; then
+      echo "${FLOW_COLORS[error]}Claude CLI not installed for AI help${FLOW_COLORS[reset]}"
+      echo "Install: npm install -g @anthropic-ai/claude-code"
+      echo ""
+      return 1
+    fi
+
+    # Get problem if not provided
+    if [[ -z "$problem" ]]; then
+      echo "  What are you stuck on? (describe briefly)"
+      echo -n "  ${FLOW_COLORS[accent]}→${FLOW_COLORS[reset]} "
+      read -r problem
+      echo ""
+    fi
+
+    if [[ -n "$problem" ]]; then
+      echo "${FLOW_COLORS[accent]}🤖 AI Help:${FLOW_COLORS[reset]}"
+      echo ""
+
+      # Build context
+      local context=""
+      context+="Directory: $PWD\n"
+      local proj_type=$(_flow_detect_type 2>/dev/null || echo "unknown")
+      context+="Project type: $proj_type\n"
+
+      if [[ -f ".STATUS" ]]; then
+        local status_content=$(head -10 .STATUS 2>/dev/null)
+        context+="Project status:\n$status_content\n"
+      fi
+
+      local prompt="A developer with ADHD is stuck on: $problem
+
+Context:
+$context
+
+Please help by:
+1. Breaking down the problem into tiny, manageable steps (2-3 max)
+2. Suggesting ONE specific action to start RIGHT NOW
+3. Keep response brief and actionable (no fluff)
+
+Be encouraging but practical. ADHD brains need clear, immediate next actions."
+
+      claude -p "$prompt" 2>/dev/null
+      echo ""
+
+      # Offer to capture
+      echo ""
+      if _flow_confirm "Capture this problem for later?"; then
+        catch "$problem"
+      fi
+      return 0
+    fi
+  fi
+
+  # Default stuck help (no AI)
   echo "  Try one of these:"
   echo ""
   echo "  ${FLOW_COLORS[success]}1.${FLOW_COLORS[reset]} Take a 5-minute break (walk, stretch, water)"
@@ -122,10 +240,31 @@ stuck() {
   echo "  ${FLOW_COLORS[success]}4.${FLOW_COLORS[reset]} Switch to a different project"
   echo "  ${FLOW_COLORS[success]}5.${FLOW_COLORS[reset]} Ask for help (rubber duck it)"
   echo ""
-  
+  echo "  ${FLOW_COLORS[muted]}Tip: Run 'stuck --ai \"your problem\"' for AI help${FLOW_COLORS[reset]}"
+  echo ""
+
   if _flow_confirm "Would you like to capture what you're stuck on?"; then
     catch
   fi
+}
+
+_stuck_help() {
+  echo ""
+  echo "${FLOW_COLORS[bold]}stuck${FLOW_COLORS[reset]} - Get help when you're stuck"
+  echo ""
+  echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "  stuck [options] [problem]"
+  echo ""
+  echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+  echo "  -a, --ai     Use AI for personalized help"
+  echo "  -h, --help   Show this help"
+  echo ""
+  echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+  echo "  stuck                              # Show general unstuck tips"
+  echo "  stuck --ai                         # AI help (will prompt for problem)"
+  echo "  stuck --ai \"tests keep failing\"    # AI help with specific problem"
+  echo "  stuck \"can't figure out the API\"   # Same as --ai with problem"
+  echo ""
 }
 
 # ============================================================================
