@@ -267,7 +267,10 @@ alias rpkg='rpkginfo'
 # REMOVED 2025-12-14: alias rdev='rpkgcycle'
 
 # R Console
-command -v radian >/dev/null && alias R='radian' && alias r='radian --quiet'
+# NOTE: 'r' is now a dispatcher function in flow-cli (r test, r doc, r check, etc.)
+# When called with no args, it still launches radian/R console
+command -v radian >/dev/null && alias R='radian'
+# REMOVED 2025-12-25: alias r='radian --quiet' - conflicts with r() dispatcher function
 
 # ============================================
 # 📝 QUARTO SHORTCUTS
