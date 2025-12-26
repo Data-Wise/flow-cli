@@ -495,9 +495,6 @@ createSession(), deleteSession(), listSessions()
 
 **Internal Docs:**
 
-- [API-DESIGN-REVIEW.md](../API-DESIGN-REVIEW.md) - Full API review
-- [API-DESIGN-QUICK-REFERENCE.md](../API-DESIGN-QUICK-REFERENCE.md) - Cheat sheet
-
 ---
 
 **Last Updated:** 2025-12-23

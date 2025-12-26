@@ -367,9 +367,6 @@ npm test -- use-cases/
 
 **Internal Docs:**
 
-- [ARCHITECTURE-PATTERNS-ANALYSIS.md](../ARCHITECTURE-PATTERNS-ANALYSIS.md) - Full analysis
-- [QUICK-REFERENCE.md](../QUICK-REFERENCE.md) - Cheat sheet
-
 ---
 
 **Last Updated:** 2025-12-23

@@ -198,8 +198,6 @@ docs(architecture): add quick wins guide
          - Page Title: path/to/file.md
    ```
 
-5. **Update doc-index.md** if adding major documents
-
 ### Documentation Guidelines
 
 **ADHD-Friendly Writing:**
@@ -442,13 +440,11 @@ lib/utils/       # Shared utilities
 
 - [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md)
 - [Architecture Patterns](../architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md)
-- [ADRs](../architecture/decisions/README.md)
 
 ---
 
 ## Questions?
 
-- **Documentation:** See [Complete Documentation Index](../doc-index.md)
 - **Architecture:** See [Architecture Hub](../architecture/README.md)
 - **ZSH Functions:** See [Development Guidelines](../ZSH-DEVELOPMENT-GUIDELINES.md)
 - **Issues:** Create a `.md` file in the root or `docs/` directory
@@ -469,4 +465,3 @@ Thank you for contributing! 🎉
 
 **Last Updated:** 2025-12-21
 **Maintainer:** DT
-**Questions?** See [docs/doc-index.md](../doc-index.md)

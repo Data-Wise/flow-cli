@@ -217,7 +217,6 @@ export async function detectProjectType(projectPath) {
 
 ## References
 
-- [VENDOR-INTEGRATION-ARCHITECTURE.md](../VENDOR-INTEGRATION-ARCHITECTURE.md) - Full technical documentation
 - [zsh-claude-workflow](https://github.com/Data-Wise/zsh-claude-workflow) - Source repository
 - [Vendoring Best Practices](https://github.com/golang/go/wiki/Modules#when-should-i-use-the-replace-directive) - Go community patterns
 

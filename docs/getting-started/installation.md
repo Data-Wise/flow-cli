@@ -284,4 +284,4 @@ Antidote plugin list:
 
 ---
 
-**Questions?** See [Complete Documentation Index](../doc-index.md)
+**Questions?** See [Documentation Home](../index.md)

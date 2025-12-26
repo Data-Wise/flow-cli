@@ -57,7 +57,7 @@ dash --help
 ```bash
 # Confirm tutorials work
 bat docs/guides/WORKFLOWS-QUICK-WINS.md
-bat docs/reference/ALIAS-REFERENCE-CARD.md
+bat docs/reference/../reference/ALIAS-REFERENCE-CARD.md
 ```
 
 ---
@@ -513,7 +513,7 @@ https://github.com/Data-Wise/flow-cli/issues
 
 - [Quick Start Guide](../getting-started/quick-start.md)
 - [Workflows Quick Wins](WORKFLOWS-QUICK-WINS.md) - Top 10 workflows
-- [Alias Reference Card](ALIAS-REFERENCE-CARD.md) - Complete alias list
+- [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) - Complete alias list
 - [Workflow Tutorial](WORKFLOW-TUTORIAL.md) - Step-by-step guide
 
 **Architecture:**

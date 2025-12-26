@@ -757,7 +757,6 @@ git commit -m "chore: sync vendored code from zsh-claude-workflow v1.6.0"
 ## Related Documentation
 
 - [PROJECT-DETECTOR-API.md](../api/PROJECT-DETECTOR-API.md) - Complete API reference
-- [ARCHITECTURE-INTEGRATION.md](../../ARCHITECTURE-INTEGRATION.md) - System overview
 
 ---
 

@@ -617,7 +617,6 @@ When implementing a new feature, use this checklist:
 - [Architecture Patterns Analysis](ARCHITECTURE-PATTERNS-ANALYSIS.md) - Full Clean Architecture explanation
 - [API Design Review](API-DESIGN-REVIEW.md) - API best practices
 - [Code Examples](CODE-EXAMPLES.md) - 88+ production-ready examples
-- [ADRs](decisions/README.md) - Why we made these decisions
 
 **For quick reference:**
 

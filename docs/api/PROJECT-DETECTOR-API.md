@@ -536,8 +536,6 @@ Bridge implementation: MIT License
 
 ## Related Documentation
 
-- [Architecture Integration](../../ARCHITECTURE-INTEGRATION.md) - Overall system architecture
-
 ---
 
 **Last Updated:** 2025-12-20

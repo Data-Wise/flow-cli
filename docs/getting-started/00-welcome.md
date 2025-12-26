@@ -169,7 +169,7 @@
 
 ### Comprehensive Guides (Deep Reading)
 
-- [Complete Documentation Index](../doc-index.md) - Everything organized
+- [Documentation Home](../index.md) - Everything organized
 - [API Overview](../api/API-OVERVIEW.md) - System modules
 - [Architecture Patterns](../architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md) - Design patterns
 - [ADR Summary](../decisions/ADR-SUMMARY.md) - Architectural decisions
