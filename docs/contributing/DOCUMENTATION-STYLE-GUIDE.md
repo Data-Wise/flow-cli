@@ -545,7 +545,7 @@ graph LR
 
 ```markdown
 !!! warning "Deprecated"
-This feature was removed in v2.0.0. Use [new feature](link) instead.
+This feature was removed in v2.0.0. Use [new feature](#) instead.
 ```
 
 ---
@@ -669,8 +669,8 @@ This feature was removed in v2.0.0. Use [new feature](link) instead.
 
 **See also:**
 
-- [Related doc 1](link)
-- [Related doc 2](link)
+- [Related doc 1](#)
+- [Related doc 2](#)
 
 ````
 
