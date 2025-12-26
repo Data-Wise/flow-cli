@@ -6,9 +6,9 @@
 ## Status: active
 ## Phase: v3.5.0 - Dashboard Polish
 ## Priority: 1
-## Progress: 0
+## Progress: 25
 
-## Focus: v3.5.0 PLANNING - Dopamine features, streak visualization, daily goals
+## Focus: v3.5.0 IN PROGRESS - Wins display in dash, yay --week implemented
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -249,11 +249,11 @@ FLOW_QUIET=1               # Disable welcome message
   - [x] Quick wins section (< 30min tasks)
   - [x] Urgency indicators (🔥⏰⚡)
 
-### v3.5.0 - Dashboard Polish (IN PLANNING)
-- [ ] Dopamine features
-  - [ ] Recent wins display in `dash` (show last 3 wins with timestamps)
-  - [ ] Streak visualization (🔥 consecutive days, 📊 weekly graph)
-  - [ ] `yay --week` - Weekly accomplishments summary
+### v3.5.0 - Dashboard Polish (IN PROGRESS)
+- [~] Dopamine features
+  - [x] Recent wins display in `dash` (show last 3 wins with timestamps)
+  - [x] Streak visualization (🔥 consecutive days counter)
+  - [x] `yay --week` - Weekly accomplishments summary with mini graph
   - [ ] Win categories (code, docs, review, ship)
 - [ ] Daily goal tracking
   - [ ] `flow goal set <n>` - Set daily task goal
@@ -282,6 +282,8 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-26: v3.5.0 - Implemented wins display in dash with streak counter
+- 2025-12-26: v3.5.0 - Added yay --week with weekly summary and mini activity graph
 - 2025-12-26: v3.5.0 PLANNING - Detailed roadmap with dopamine features, daily goals, TUI
 - 2025-12-26: DOCS - Fixed 16 broken link warnings (42→26), added CONTRIBUTING.md to docs
 - 2025-12-26: TEST - Created test-ai-features.zsh (19 tests) and test-quick-wins.zsh (13 tests)
