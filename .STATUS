@@ -4,44 +4,83 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v3.1.0 - Dashboard UX Improvements
+## Phase: v3.2.0 - AI-Powered Commands & Unified Management
 ## Priority: 1
-## Progress: 35
+## Progress: 85
 
-## Focus: Phase 1 complete - Phase 2 next (dopamine features)
+## Focus: AI integration complete - Plugin system next
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
 Clean separation from atlas (Node.js state engine) complete.
 Legacy 140KB monolithic code archived - lean plugin architecture.
 
-## Architecture (Final)
+## Architecture (v3.2.0)
 ```
 flow-cli/
-├── flow.plugin.zsh        # Plugin entry point
+├── flow.plugin.zsh        # Plugin entry point (v3.2.0)
 ├── lib/
 │   ├── core.zsh           # Core utilities, colors
 │   ├── atlas-bridge.zsh   # Atlas CLI integration (graceful fallback)
 │   ├── project-detector.zsh
 │   ├── tui.zsh            # TUI components
-│   └── dispatchers/       # v, g, mcp, obs dispatchers
+│   └── dispatchers/       # g, mcp, obs, qu, r dispatchers
 ├── commands/
 │   ├── work.zsh           # work, finish, hop, why
 │   ├── dash.zsh           # dash, dash-tui
 │   ├── capture.zsh        # catch, inbox, crumb, win, yay
-│   ├── adhd.zsh           # js, next, stuck, focus, brk
+│   ├── adhd.zsh           # js, next (--ai), stuck (--ai), focus, brk
 │   ├── status.zsh         # status, st, setprogress
 │   ├── timer.zsh          # timer, pom
-│   └── morning.zsh        # morning, today, week, am
+│   ├── morning.zsh        # morning, today, week, am
+│   ├── flow.zsh           # flow dispatcher (help, version, etc.)
+│   ├── ai.zsh             # flow ai, flow do (NEW v3.2.0)
+│   ├── install.zsh        # flow install (NEW v3.2.0)
+│   └── upgrade.zsh        # flow upgrade (NEW v3.2.0)
 ├── completions/           # ZSH completions
 ├── hooks/                 # chpwd, precmd
+├── setup/                 # Setup files
+│   └── Brewfile           # Recommended CLI tools
 └── zsh/functions/         # Symlinks to external integrations only
     ├── core-utils.zsh → zsh-claude-workflow/
     ├── obs.zsh → obsidian-cli-ops/
     └── project-detector.zsh → zsh-claude-workflow/
 ```
 
-## v3.0.0 Changes (2025-12-25)
+## v3.2.0 Changes (2025-12-26) ✅ COMPLETE
+### AI-Powered Commands
+- [x] `flow ai <query>` - Ask AI anything with project context
+- [x] `flow ai --explain <code>` - Explain code or concepts
+- [x] `flow ai --fix <problem>` - Get fix suggestions
+- [x] `flow ai --suggest <goal>` - Get improvement suggestions
+- [x] `flow ai --create <spec>` - Generate code from description
+- [x] `flow do "<natural language>"` - Natural language → shell command
+- [x] `stuck --ai` - AI-powered help when blocked
+- [x] `next --ai` - AI-powered task suggestions
+
+### Install & Upgrade System
+- [x] `flow install` - Interactive tool installer
+- [x] `flow install --profile <name>` - Profile-based install (minimal/developer/researcher/writer/full)
+- [x] `flow install --category <name>` - Category-based install (core/productivity/git/dev/research)
+- [x] `flow upgrade self` - Self-update flow-cli via git
+- [x] `flow upgrade tools` - Update Homebrew packages
+- [x] `flow upgrade plugins` - Update ZSH plugins
+- [x] `flow upgrade all` - Update everything
+- [x] `flow upgrade --check` - Check for updates without applying
+
+### Infrastructure
+- [x] Tab completions for all new commands
+- [x] Help system integration
+- [x] Context-aware AI prompts
+- [x] Safety checks for dangerous commands in `flow do`
+- [x] Version bump to 3.2.0
+
+## v3.1.0 Changes (2025-12-26) ✅ COMPLETE
+- [x] `flow doctor` command with --fix and --ai modes
+- [x] setup/Brewfile with 14 recommended CLI tools
+- [x] Dashboard Phase 1 enhancements complete
+
+## v3.0.0 Changes (2025-12-25) ✅ COMPLETE
 - [x] Archive 140KB legacy zsh/functions/ to .archive/
 - [x] Keep only symlinks to external integrations
 - [x] Remove FLOW_LEGACY_COMPAT flag (no longer needed)
@@ -78,10 +117,25 @@ flow-cli/
 
 ### ADHD Helpers
 - `js` - Just start (anti-paralysis)
-- `next` - What to work on
-- `stuck` - When blocked
+- `next` - What to work on (`--ai` for AI suggestion)
+- `stuck` - When blocked (`--ai` for AI help)
 - `focus [text]` - Get/set focus
 - `brk [min]` - Take a break
+
+### AI-Powered (v3.2.0)
+- `flow ai <query>` - Ask AI with context
+- `flow ai --explain` - Explain code/concepts
+- `flow ai --fix` - Get fix suggestions
+- `flow ai --suggest` - Get improvements
+- `flow ai --create` - Generate code
+- `flow do "..."` - Natural language commands
+
+### Setup & Management (v3.2.0)
+- `flow install` - Interactive tool installer
+- `flow install --profile <p>` - Install by profile
+- `flow upgrade self` - Update flow-cli
+- `flow upgrade tools` - Update brew packages
+- `flow doctor` - Health check & diagnostics
 
 ### Status Management
 - `status [project]` - Show/update status
@@ -126,23 +180,71 @@ FLOW_QUIET=1               # Disable welcome message
 - Atlas: https://github.com/Data-Wise/atlas
 - npm (atlas): `npm install -g @data-wise/atlas`
 
-## Next: v3.1.0 - Dashboard Enhancements
-- [x] Phase 1: High impact improvements ✅ COMPLETE
-  - [x] RIGHT NOW section with smart suggestion
-  - [x] 10-char progress bars (was 5-char)
-  - [x] Enhanced active session (┏━┓ borders)
-  - [x] Session timer with progress bar
-  - [x] Context-aware footer
-- [ ] Phase 2: Dopamine features (NEXT)
+## Roadmap
+
+### v3.3.0 - Configuration & Plugin System (NEXT)
+- [ ] `flow config` - Interactive configuration
+  - [ ] `flow config show` - Display current config
+  - [ ] `flow config set <key> <value>` - Set config value
+  - [ ] `flow config edit` - Open config in editor
+  - [ ] `flow config reset` - Reset to defaults
+- [ ] Plugin system
+  - [ ] Plugin loader architecture
+  - [ ] Plugin discovery (local + git)
+  - [ ] `flow plugin list` - List available plugins
+  - [ ] `flow plugin install <name>` - Install plugin
+  - [ ] `flow plugin enable/disable` - Toggle plugins
+- [ ] Configuration profiles
+  - [ ] `flow config profile save <name>` - Save current config
+  - [ ] `flow config profile load <name>` - Load config profile
+  - [ ] Export/import for sharing
+
+### v3.4.0 - AI Enhancement
+- [ ] AI recipes/templates
+  - [ ] Pre-built prompts for common tasks
+  - [ ] `flow ai recipe <name>` - Run saved recipe
+  - [ ] Custom recipe creation
+- [ ] Learning from usage
+  - [ ] Track successful commands
+  - [ ] Personalized suggestions
+- [ ] Multi-model support
+  - [ ] Switch between Claude models
+  - [ ] Optional OpenAI/Gemini integration
+- [ ] Conversation mode
+  - [ ] `flow ai chat` - Interactive session
+  - [ ] Context persistence
+
+### v3.5.0 - Dashboard Enhancements
+- [ ] Dopamine features
   - [ ] Quick wins section (< 30min tasks)
   - [ ] Recent wins display
   - [ ] Urgency indicators (🔥⏰⚡)
-- [ ] Phase 3: Polish
+- [ ] Polish
   - [ ] Enhanced streak visualization
   - [ ] Daily goal tracking
   - [ ] Extended .STATUS format
+- [ ] Interactive TUI improvements
+  - [ ] Keyboard shortcuts
+  - [ ] Live refresh
+
+### v4.0.0 - Ecosystem Integration
+- [ ] Cross-tool orchestration
+  - [ ] `flow sync all` - Sync everything
+  - [ ] Unified status across tools
+- [ ] Remote state sync
+  - [ ] Optional cloud backup
+  - [ ] Multi-device support
+- [ ] Team features (optional)
+  - [ ] Shared project templates
+  - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-26: AI - Created `flow ai` command (461 lines) - ask AI with context
+- 2025-12-26: AI - Created `flow do` command - natural language → shell
+- 2025-12-26: AI - Enhanced `stuck --ai` and `next --ai` with Claude integration
+- 2025-12-26: INSTALL - Created `flow install` command (445 lines) - profiles & categories
+- 2025-12-26: UPGRADE - Created `flow upgrade` command (377 lines) - self, tools, plugins
+- 2025-12-26: Version bump to 3.2.0 - 1594 new lines of code
 - 2025-12-26: DOCTOR - Created `flow doctor` command with --fix and --ai modes
 - 2025-12-26: DOCTOR - Created setup/Brewfile with 14 recommended CLI tools
 - 2025-12-26: DOCTOR - Fixed 10+ broken documentation links

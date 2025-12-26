@@ -72,7 +72,45 @@ obs daily           # Open daily note
 obs help            # Show all commands
 ```
 
-### AI Tools
+---
+
+## AI-Powered Commands (v3.2.0)
+
+### Ask AI: `flow ai`
+
+```bash
+flow ai "how do I..."           # Ask anything with project context
+flow ai --explain <code>        # Explain code or concepts
+flow ai --fix <problem>         # Get fix suggestions
+flow ai --suggest <goal>        # Get improvement ideas
+flow ai --create <spec>         # Generate code from description
+flow ai --context "query"       # Force include project context
+flow ai --verbose "query"       # Show context being sent
+flow ai --help                  # Show all options
+```
+
+### Natural Language: `flow do`
+
+```bash
+flow do "show git log"          # Translates to: git log --oneline -20
+flow do "find large files"      # Translates to: find . -size +10M
+flow do "count lines of code"   # Translates to: find . -name "*.zsh" | xargs wc -l
+flow do --dry-run "..."         # Show command without executing
+flow do --verbose "..."         # Show AI reasoning
+flow do --help                  # Show all options
+```
+
+**Safety:** Dangerous commands (rm -rf, etc.) require confirmation.
+
+### ADHD Helpers with AI
+
+```bash
+stuck --ai                      # AI help when blocked
+stuck --ai "tests failing"      # AI help with specific problem
+next --ai                       # AI-powered task suggestion
+```
+
+### External AI Tools
 
 ```bash
 ccy                 # Project picker → Claude Code (function in .zshrc)
@@ -107,6 +145,44 @@ flow doctor --help       # Show all options
 
 ```bash
 brew bundle --file=$FLOW_PLUGIN_DIR/setup/Brewfile
+```
+
+### Install Tools: `flow install`
+
+```bash
+flow install                        # Interactive installer
+flow install --profile minimal      # Essential: fzf, zoxide, bat
+flow install --profile developer    # Full dev: + fd, rg, gh, delta, jq
+flow install --profile researcher   # Academic: + quarto
+flow install --profile writer       # Publishing: + pandoc, quarto
+flow install --profile full         # Everything
+flow install --category core        # Just core tools
+flow install --dry-run              # Show what would install
+flow install --list                 # List all profiles
+flow install --help                 # Show all options
+```
+
+**Profiles:**
+
+| Profile    | Tools                              |
+| ---------- | ---------------------------------- |
+| minimal    | fzf, zoxide, bat                   |
+| developer  | + eza, fd, rg, gh, delta, jq       |
+| researcher | + quarto                           |
+| writer     | + pandoc, quarto                   |
+| full       | All of the above + dust, duf, btop |
+
+### Upgrade: `flow upgrade`
+
+```bash
+flow upgrade self               # Update flow-cli via git pull
+flow upgrade tools              # Update Homebrew packages
+flow upgrade plugins            # Update ZSH plugins (antidote)
+flow upgrade all                # Update everything
+flow upgrade --check            # Check for updates (no install)
+flow upgrade --changelog        # Show what's new
+flow upgrade --force            # Skip confirmations
+flow upgrade --help             # Show all options
 ```
 
 ---
@@ -164,18 +240,22 @@ reload              # Reload zshrc
 
 ## Pattern Summary
 
-| Domain         | Command       | Pattern                     |
-| -------------- | ------------- | --------------------------- |
-| R Package      | `r`           | `r <action> [args]`         |
-| Git            | `g`           | `g <action> [args]`         |
-| Quarto         | `qu`          | `qu <action> [args]`        |
-| MCP Servers    | `mcp`         | `mcp <action> [srv]`        |
-| Obsidian Notes | `obs`         | `obs <action> [arg]`        |
-| Claude         | `ccy`         | Function (no args)          |
-| Gemini         | `gem*`        | See aliases in .zshrc       |
-| Health Check   | `flow doctor` | `flow doctor [--fix\|--ai]` |
+| Domain         | Command        | Pattern                        |
+| -------------- | -------------- | ------------------------------ |
+| R Package      | `r`            | `r <action> [args]`            |
+| Git            | `g`            | `g <action> [args]`            |
+| Quarto         | `qu`           | `qu <action> [args]`           |
+| MCP Servers    | `mcp`          | `mcp <action> [srv]`           |
+| Obsidian Notes | `obs`          | `obs <action> [arg]`           |
+| AI Assistant   | `flow ai`      | `flow ai [--mode] "query"`     |
+| Natural Lang   | `flow do`      | `flow do "command in English"` |
+| Health Check   | `flow doctor`  | `flow doctor [--fix\|--ai]`    |
+| Install        | `flow install` | `flow install [--profile p]`   |
+| Upgrade        | `flow upgrade` | `flow upgrade [target]`        |
+| Claude         | `ccy`          | Function (no args)             |
+| Gemini         | `gem*`         | See aliases in .zshrc          |
 
-**Get help:** Any dispatcher + `help` (e.g., `r help`, `g help`, `qu help`, `flow doctor --help`)
+**Get help:** Any command + `help` or `--help` (e.g., `r help`, `flow ai --help`)
 
 ---
 
@@ -189,6 +269,9 @@ reload              # Reload zshrc
 | `~/projects/dev-tools/flow-cli/lib/dispatchers/qu-dispatcher.zsh`  | qu (Quarto publishing)      |
 | `~/projects/dev-tools/flow-cli/lib/dispatchers/mcp-dispatcher.zsh` | mcp (MCP servers)           |
 | `~/projects/dev-tools/flow-cli/lib/dispatchers/obs.zsh`            | obs (Obsidian notes)        |
+| `~/projects/dev-tools/flow-cli/commands/ai.zsh`                    | flow ai, flow do (v3.2.0)   |
+| `~/projects/dev-tools/flow-cli/commands/install.zsh`               | flow install (v3.2.0)       |
+| `~/projects/dev-tools/flow-cli/commands/upgrade.zsh`               | flow upgrade (v3.2.0)       |
 | `~/projects/dev-tools/flow-cli/commands/doctor.zsh`                | flow doctor (health check)  |
 | `~/projects/dev-tools/flow-cli/setup/Brewfile`                     | Homebrew bundle             |
 | `~/.config/zsh/.zshrc`                                             | ccy function, gem\* aliases |
@@ -197,4 +280,4 @@ reload              # Reload zshrc
 
 ---
 
-_Updated: 2025-12-26_
+_Updated: 2025-12-26 (v3.2.0)_
