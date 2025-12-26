@@ -40,10 +40,12 @@ VERBOSE=false
 CI_MODE=false
 TEST_FILTER=""
 
-# Paths
-ZSH_FUNCTIONS_DIR="$HOME/.config/zsh/functions"
-ZSH_TESTS_DIR="$HOME/.config/zsh/tests"
-ZSH_ZSHRC="$HOME/.config/zsh/.zshrc"
+# Paths - v3.0.0 architecture
+PLUGIN_ROOT="${0:A:h:h:h}"
+ZSH_FUNCTIONS_DIR="$PLUGIN_ROOT/lib"
+COMMANDS_DIR="$PLUGIN_ROOT/commands"
+DISPATCHERS_DIR="$PLUGIN_ROOT/lib/dispatchers"
+ZSH_TESTS_DIR="$PLUGIN_ROOT/zsh/tests"
 FIXTURES_DIR="$ZSH_TESTS_DIR/test-fixtures"
 WHITELIST_DUPLICATES="$FIXTURES_DIR/expected-duplicates.txt"
 WHITELIST_SHADOWS="$FIXTURES_DIR/intentional-shadows.txt"

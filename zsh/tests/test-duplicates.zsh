@@ -24,20 +24,21 @@ PASS=0
 FAIL=0
 WARN=0
 
-# Get list of actual .zsh files (exclude backups and p10k config)
-ZSH_FILES=(
-    ~/.config/zsh/.zshrc
-    ~/.config/zsh/functions.zsh
-)
-# Add function files
-for f in ~/.config/zsh/functions/*.zsh; do
-    # Skip backup files
-    [[ "$f" == *.bak* ]] && continue
-    [[ "$f" == *.backup* ]] && continue
-    [[ "$f" == *.tmp* ]] && continue
-    [[ "$f" == *.broken* ]] && continue
-    [[ -f "$f" ]] && ZSH_FILES+=("$f")
+# Get plugin root and collect all .zsh files from v3.0.0 structure
+PLUGIN_ROOT="${0:A:h:h:h}"
+
+# Collect all .zsh files from the new structure (use lib/** which includes dispatchers)
+ZSH_FILES=()
+for dir in "$PLUGIN_ROOT/lib" "$PLUGIN_ROOT/commands" "$PLUGIN_ROOT/completions" "$PLUGIN_ROOT/hooks"; do
+    for f in "$dir"/**/*.zsh(N); do
+        [[ -f "$f" ]] && ZSH_FILES+=("$f")
+    done
 done
+# Add plugin entry point
+[[ -f "$PLUGIN_ROOT/flow.plugin.zsh" ]] && ZSH_FILES+=("$PLUGIN_ROOT/flow.plugin.zsh")
+
+# Remove duplicates from array (in case glob matched same file twice)
+ZSH_FILES=(${(u)ZSH_FILES[@]})
 
 echo -e "${_BOLD}═══════════════════════════════════════════════════════════${_NC}"
 echo -e "${_BOLD}  Duplicate Definition Check${_NC}"

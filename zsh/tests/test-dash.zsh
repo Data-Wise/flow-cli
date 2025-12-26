@@ -170,8 +170,9 @@ assert_exit_code() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 setup_test_environment() {
-    # Source the dash function
-    source ~/.config/zsh/functions/dash.zsh
+    # Get plugin root and source it
+    PLUGIN_ROOT="${0:A:h:h:h}"
+    source "$PLUGIN_ROOT/flow.plugin.zsh" 2>/dev/null
 
     # Create temporary test directory
     export TEST_TMP_DIR="/tmp/test-dash-$$"

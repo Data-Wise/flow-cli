@@ -5,7 +5,7 @@
 # ============================================================================
 # Purpose: Detect common ZSH anti-patterns in configuration files
 # Created: 2025-12-19
-# Location: ~/.config/zsh/tests/test-anti-patterns.zsh
+# Location: flow-cli/zsh/tests/test-anti-patterns.zsh
 #
 # Tests:
 #   1. Interactive function command substitution ($(pick))
@@ -17,6 +17,10 @@
 #   ./test-anti-patterns.zsh
 #   ./run-all-tests.zsh
 # ============================================================================
+
+# Get plugin root for v3.0.0 architecture
+PLUGIN_ROOT="${0:A:h:h:h}"
+SEARCH_DIRS=("$PLUGIN_ROOT/lib" "$PLUGIN_ROOT/commands" "$PLUGIN_ROOT/lib/dispatchers")
 
 # Color codes for output
 RED='\033[0;31m'
@@ -98,7 +102,7 @@ test_no_pick_command_substitution() {
     local pattern='local.*=\$\(pick'
 
     # Search in all function files
-    local results=$(grep -r "$pattern" ~/.config/zsh/functions/ 2>/dev/null)
+    local results=$(grep -r "$pattern" ${SEARCH_DIRS[@]} 2>/dev/null)
 
     if [[ -n "$results" ]]; then
         fail "$test_name" "Found $(pick) command substitution:"
@@ -114,7 +118,7 @@ test_no_pickr_command_substitution() {
     local test_name="No \$(pickr) command substitution"
     local pattern='local.*=\$\(pickr'
 
-    local results=$(grep -r "$pattern" ~/.config/zsh/functions/ 2>/dev/null)
+    local results=$(grep -r "$pattern" ${SEARCH_DIRS[@]} 2>/dev/null)
 
     if [[ -n "$results" ]]; then
         fail "$test_name" "Found $(pickr) command substitution"
@@ -127,7 +131,7 @@ test_no_pickdev_command_substitution() {
     local test_name="No \$(pickdev) command substitution"
     local pattern='local.*=\$\(pickdev'
 
-    local results=$(grep -r "$pattern" ~/.config/zsh/functions/ 2>/dev/null)
+    local results=$(grep -r "$pattern" ${SEARCH_DIRS[@]} 2>/dev/null)
 
     if [[ -n "$results" ]]; then
         fail "$test_name" "Found $(pickdev) command substitution"
@@ -141,7 +145,7 @@ test_no_bare_fzf_substitution() {
     local pattern='local.*=\$\(fzf[^<]'
 
     # This is a warning, not a failure - fzf can be used programmatically
-    local results=$(grep -r "$pattern" ~/.config/zsh/functions/ 2>/dev/null | grep -v ">&2")
+    local results=$(grep -r "$pattern" ${SEARCH_DIRS[@]} 2>/dev/null | grep -v ">&2")
 
     if [[ -n "$results" ]]; then
         warn "$test_name" "Found bare fzf usage (may need stderr redirect)"
@@ -168,7 +172,7 @@ test_no_alias_function_conflicts() {
 
     # Get all functions
     local function_file=$(mktemp)
-    grep -r "^[a-zA-Z_][a-zA-Z0-9_]*() {" ~/.config/zsh/functions/ 2>/dev/null | \
+    grep -r "^[a-zA-Z_][a-zA-Z0-9_]*() {" ${SEARCH_DIRS[@]} 2>/dev/null | \
         sed -E "s/.*:([a-zA-Z_][a-zA-Z0-9_]*)\(\).*/\1/" | \
         sort -u > "$function_file"
 
@@ -216,7 +220,7 @@ test_programmatic_functions_clean_output() {
 
     for func in "${programmatic_functions[@]}"; do
         for pattern in "${suspicious_patterns[@]}"; do
-            local matches=$(grep -A 20 "^${func}()" ~/.config/zsh/functions/*.zsh 2>/dev/null | \
+            local matches=$(grep -A 20 "^${func}()" ${SEARCH_DIRS[@]}*.zsh 2>/dev/null | \
                            grep -E "$pattern" | \
                            grep -v ">&2")
 
@@ -257,7 +261,7 @@ test_interactive_functions_not_captured() {
 
     for func in "${interactive_functions[@]}"; do
         # Look for $(<function>) pattern
-        local matches=$(grep -r "\$($func)" ~/.config/zsh/functions/ 2>/dev/null | \
+        local matches=$(grep -r "\$($func)" ${SEARCH_DIRS[@]} 2>/dev/null | \
                        grep -v "^#" | \
                        grep -v "grep")
 
@@ -284,7 +288,7 @@ test_functions_use_local_variables() {
 
     # This is a warning - check for variable assignments without 'local'
     # in function bodies
-    local suspicious=$(grep -r "^[a-zA-Z_]" ~/.config/zsh/functions/*.zsh 2>/dev/null | \
+    local suspicious=$(grep -r "^[a-zA-Z_]" ${SEARCH_DIRS[@]}*.zsh 2>/dev/null | \
                       grep "() {" -A 50 | \
                       grep -E "^[[:space:]]+[a-zA-Z_][a-zA-Z0-9_]*=" | \
                       grep -v "local " | \
@@ -306,7 +310,7 @@ test_no_unquoted_variables() {
     local test_name="Warn on potentially unquoted variables"
 
     # Check for common unquoted variable patterns in critical locations
-    local suspicious=$(grep -r 'cd \$[a-zA-Z_]' ~/.config/zsh/functions/*.zsh 2>/dev/null | \
+    local suspicious=$(grep -r 'cd \$[a-zA-Z_]' ${SEARCH_DIRS[@]}*.zsh 2>/dev/null | \
                       grep -v 'cd "\$' | \
                       head -10)
 

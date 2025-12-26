@@ -62,6 +62,7 @@ dash() {
   # Default: Summary-first dashboard
   echo ""
   _dash_header
+  _dash_right_now
   _dash_current
   _dash_quick_access
 
@@ -149,6 +150,160 @@ _dash_header() {
 }
 
 # ============================================================================
+# RIGHT NOW - Smart suggestion (Phase 1: ADHD-friendly)
+# ============================================================================
+
+_dash_right_now() {
+  # Get today's stats (reuse from header logic)
+  local today_sessions=0
+  local today_mins=0
+  local streak=0
+  local daily_goal=1  # Default: at least 1 session per day
+  
+  # Get stats
+  if _flow_has_atlas; then
+    local stats=$(atlas status --format=json 2>/dev/null)
+    if [[ -n "$stats" ]]; then
+      [[ "$stats" =~ '"streak":([0-9]+)' ]] && streak="${match[1]}"
+      [[ "$stats" =~ '"todaySessions":([0-9]+)' ]] && today_sessions="${match[1]}"
+      [[ "$stats" =~ '"todayMinutes":([0-9]+)' ]] && today_mins="${match[1]}"
+    fi
+  else
+    local worklog="${FLOW_DATA_DIR}/worklog"
+    zmodload -F zsh/datetime b:strftime
+    local today=$(strftime "%Y-%m-%d" $EPOCHSECONDS)
+    if [[ -f "$worklog" ]]; then
+      today_sessions=0
+      local line
+      while IFS= read -r line; do
+        [[ "$line" == "$today"*"START"* ]] && ((today_sessions++))
+      done < "$worklog"
+    fi
+    today_mins=$(_flow_today_session_time)
+  fi
+  
+  # Smart suggestion logic
+  local suggestion=""
+  local suggested_project=""
+  local next_action=""
+  local estimate=""
+  
+  # Check if already in a session
+  local current_project=""
+  local session_info=$(_flow_session_current 2>/dev/null)
+  if [[ -n "$session_info" ]]; then
+    eval "$session_info"
+    current_project="$project"
+  elif [[ -n "$FLOW_CURRENT_PROJECT" ]]; then
+    current_project="$FLOW_CURRENT_PROJECT"
+  fi
+  
+  if [[ -n "$current_project" ]]; then
+    # Already working - suggest continuing
+    suggestion="Keep going on"
+    suggested_project="$current_project"
+  else
+    # Not working - suggest starting
+    # Find first active project with a focus/next item
+    local projects=$(_flow_list_projects)
+    local found=0
+    
+    while IFS= read -r project; do
+      [[ -z "$project" ]] && continue
+      
+      local proj_path=$(_dash_find_project_path "$project")
+      if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
+        local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
+        if [[ "$proj_status" == "active" ]]; then
+          local focus=$(_dash_get_project_focus "$proj_path/.STATUS")
+          if [[ -n "$focus" ]]; then
+            suggested_project="$project"
+            next_action="$focus"
+            found=1
+            break
+          fi
+        fi
+      fi
+    done <<< "$projects"
+    
+    if (( found )); then
+      suggestion="Start work on"
+    else
+      # No active project with focus - suggest first active
+      while IFS= read -r project; do
+        [[ -z "$project" ]] && continue
+        local proj_path=$(_dash_find_project_path "$project")
+        if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
+          local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
+          if [[ "$proj_status" == "active" ]]; then
+            suggested_project="$project"
+            found=1
+            break
+          fi
+        fi
+      done <<< "$projects"
+      
+      if (( found )); then
+        suggestion="Start work on"
+      else
+        suggestion="No active projects"
+      fi
+    fi
+  fi
+  
+  # Build goal message
+  local goal_msg=""
+  if (( today_sessions == 0 )); then
+    goal_msg="🎯 Goal: Get 1 session done to start streak"
+  elif (( streak == 0 && today_sessions > 0 )); then
+    goal_msg="🎯 Goal: Complete session to start streak"
+  elif (( today_sessions < daily_goal )); then
+    goal_msg="🎯 Goal: ${daily_goal} session$(( daily_goal > 1 ? 's' : '' )) today"
+  else
+    goal_msg="✅ Daily goal achieved!"
+  fi
+  
+  # Format today stats
+  local sessions_text="0 sessions"
+  if (( today_sessions > 0 )); then
+    sessions_text="$today_sessions session$(( today_sessions > 1 ? 's' : '' ))"
+  fi
+  
+  local time_text="0m"
+  if (( today_mins >= 60 )); then
+    time_text="$((today_mins / 60))h $((today_mins % 60))m"
+  elif (( today_mins > 0 )); then
+    time_text="${today_mins}m"
+  fi
+  
+  local streak_text="0 day"
+  if (( streak > 0 )); then
+    streak_text="$streak day$(( streak > 1 ? 's' : '' ))"
+  fi
+  
+  # Display RIGHT NOW section
+  echo "  ⚡ ${FLOW_COLORS[bold]}RIGHT NOW${FLOW_COLORS[reset]}"
+  echo "  ╭────────────────────────────────────────────────────────────╮"
+  
+  if [[ -n "$suggested_project" ]]; then
+    printf "  │  💡 ${FLOW_COLORS[bold]}SUGGESTION:${FLOW_COLORS[reset]} %-42s │\n" "$suggestion '$suggested_project'"
+    if [[ -n "$next_action" ]]; then
+      # Truncate to 54 chars
+      local action_display="${next_action:0:54}"
+      printf "  │     ${FLOW_COLORS[muted]}→ %-52s${FLOW_COLORS[reset]} │\n" "$action_display"
+    fi
+  else
+    printf "  │  💡 ${FLOW_COLORS[muted]}%-52s${FLOW_COLORS[reset]} │\n" "No active projects - run 'work <project>'"
+  fi
+  
+  echo "  │                                                              │"
+  printf "  │  📊 TODAY: %-10s  •  🔥 %-8s  •  %-22s │\n" \
+    "$sessions_text, $time_text" "$streak_text" "$goal_msg"
+  echo "  ╰────────────────────────────────────────────────────────────╯"
+  echo ""
+}
+
+# ============================================================================
 # CURRENT SESSION - Highlight active work
 # ============================================================================
 
@@ -197,19 +352,59 @@ _dash_current() {
 
   if [[ -n "$current_project" ]]; then
     local type_icon=$(_flow_project_icon "$(_flow_detect_project_type "$proj_path" 2>/dev/null)")
+    
+    # Calculate session progress for timer bar
+    local elapsed_mins=0
+    local target_mins=90  # Default 90 min sessions
+    local timer_percent=0
+    
+    if [[ -n "$session_info" ]] && [[ -n "$elapsed_mins" ]]; then
+      timer_percent=$(( elapsed_mins * 100 / target_mins ))
+      (( timer_percent > 100 )) && timer_percent=100
+    elif [[ -n "$elapsed" ]]; then
+      # Parse elapsed time to get minutes
+      if [[ "$elapsed" == *"h"* ]]; then
+        local hours="${elapsed%%h*}"
+        local mins="${elapsed##*h }"
+        mins="${mins%%m*}"
+        elapsed_mins=$(( hours * 60 + mins ))
+      else
+        elapsed_mins="${elapsed%%m*}"
+      fi
+      timer_percent=$(( elapsed_mins * 100 / target_mins ))
+      (( timer_percent > 100 )) && timer_percent=100
+    fi
+    
+    # Build 10-char progress bar for timer
+    local timer_bar=""
+    if (( elapsed_mins > 0 )); then
+      local filled=$(( timer_percent / 10 ))
+      local empty=$(( 10 - filled ))
+      local bar_filled="" bar_empty=""
+      (( filled > 0 )) && bar_filled=$(printf '█%.0s' {1..$filled})
+      (( empty > 0 )) && bar_empty=$(printf '░%.0s' {1..$empty})
+      timer_bar="[${bar_filled}${bar_empty}] ${timer_percent}% of ${target_mins}m"
+    fi
 
-    echo "  🎯 ${FLOW_COLORS[bold]}ACTIVE NOW${FLOW_COLORS[reset]}"
-    echo "  ╭────────────────────────────────────────────────────────────╮"
-    printf "  │  %s ${FLOW_COLORS[success]}%-52s${FLOW_COLORS[reset]} │\n" "$type_icon" "$current_project"
-    if [[ -n "$current_focus" ]]; then
-      # Truncate focus to fit
-      local focus_display="${current_focus:0:54}"
-      printf "  │  ${FLOW_COLORS[muted]}Focus: %-51s${FLOW_COLORS[reset]} │\n" "$focus_display"
-    fi
+    # Enhanced display with different borders (┏━┓ vs ╭─╮)
     if [[ -n "$elapsed" ]]; then
-      printf "  │  ${FLOW_COLORS[muted]}⏱  %-55s${FLOW_COLORS[reset]} │\n" "$elapsed elapsed"
+      echo "  🎯 ${FLOW_COLORS[bold]}ACTIVE SESSION${FLOW_COLORS[reset]} • $elapsed elapsed"
+    else
+      echo "  🎯 ${FLOW_COLORS[bold]}ACTIVE SESSION${FLOW_COLORS[reset]}"
     fi
-    echo "  ╰────────────────────────────────────────────────────────────╯"
+    echo "  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
+    printf "  ┃  %s ${FLOW_COLORS[success]}%-52s${FLOW_COLORS[reset]} ┃\n" "$type_icon" "$current_project"
+    
+    if [[ -n "$current_focus" ]]; then
+      # No truncation - full text
+      printf "  ┃  ${FLOW_COLORS[muted]}Focus: %-51s${FLOW_COLORS[reset]} ┃\n" "$current_focus"
+    fi
+    
+    if [[ -n "$timer_bar" ]]; then
+      printf "  ┃  ${FLOW_COLORS[muted]}Timer: %-51s${FLOW_COLORS[reset]} ┃\n" "$timer_bar"
+    fi
+    
+    echo "  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
     echo ""
   fi
 }
@@ -376,17 +571,17 @@ _dash_categories() {
       avg_progress=$((cat_progress_sum[$cat] / cat_progress_count[$cat]))
     fi
 
-    # Build progress bar (5 chars for compact display)
+    # Build progress bar (10 chars for better visibility)
     local bar=""
     if (( cat_progress_count[$cat] > 0 )); then
-      local filled=$((avg_progress / 20))  # 5 segments = 20% each
-      local empty=$((5 - filled))
+      local filled=$((avg_progress / 10))  # 10 segments = 10% each
+      local empty=$((10 - filled))
       local bar_filled="" bar_empty=""
       (( filled > 0 )) && bar_filled=$(printf '█%.0s' {1..$filled})
       (( empty > 0 )) && bar_empty=$(printf '░%.0s' {1..$empty})
-      bar="${bar_filled}${bar_empty}"
+      bar="[${bar_filled}${bar_empty}]"
     else
-      bar="░░░░░"
+      bar="[░░░░░░░░░░]"
     fi
 
     printf "  %s %s ${FLOW_COLORS[info]}%-12s${FLOW_COLORS[reset]} %s %3d%%  │  " "$prefix" "$icon" "$name" "$bar" "$avg_progress"
@@ -475,7 +670,7 @@ _dash_category_expanded() {
 
     local type_icon=$(_flow_project_icon "$(_flow_detect_project_type "$proj_path" 2>/dev/null)")
 
-    # Progress bar
+    # Progress bar (10-char for consistency)
     local bar=""
     if [[ -n "$progress" ]] && [[ "$progress" =~ ^[0-9]+$ ]]; then
       local filled=$((progress / 10))
@@ -483,7 +678,7 @@ _dash_category_expanded() {
       local bar_filled="" bar_empty=""
       (( filled > 0 )) && bar_filled=$(printf '█%.0s' {1..$filled})
       (( empty > 0 )) && bar_empty=$(printf '░%.0s' {1..$empty})
-      bar=" ${bar_filled}${bar_empty} ${progress}%"
+      bar=" [${bar_filled}${bar_empty}] ${progress}%"
     fi
 
     printf "  %s %s %-20s" "$status_icon" "$type_icon" "$project"
@@ -560,12 +755,50 @@ _dash_footer() {
 
   echo "  ─────────────────────────────────────────────────────────────"
 
+  # Context-aware single suggestion
+  local suggestion=""
+  
+  # Check if in active session
+  local current_project=""
+  local session_info=$(_flow_session_current 2>/dev/null)
+  if [[ -n "$session_info" ]]; then
+    eval "$session_info"
+    current_project="$project"
+  elif [[ -n "$FLOW_CURRENT_PROJECT" ]]; then
+    current_project="$FLOW_CURRENT_PROJECT"
+  fi
+  
+  if [[ -n "$current_project" ]]; then
+    suggestion="💡 Type 'finish' when done  •  'dash -i' to switch  •  'h' for help"
+  else
+    # Find first active project to suggest
+    local projects=$(_flow_list_projects)
+    local suggested=""
+    while IFS= read -r project; do
+      [[ -z "$project" ]] && continue
+      local proj_path=$(_dash_find_project_path "$project")
+      if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
+        local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
+        if [[ "$proj_status" == "active" ]]; then
+          suggested="$project"
+          break
+        fi
+      fi
+    done <<< "$projects"
+    
+    if [[ -n "$suggested" ]]; then
+      suggestion="💡 Try: 'work $suggested' to start  •  'dash -i' for picker  •  'h' for help"
+    else
+      suggestion="💡 Run 'work <project>' to start  •  'dash -i' for picker  •  'h' for help"
+    fi
+  fi
+  
   if (( inbox_count > 0 )); then
     echo "  📥 ${FLOW_COLORS[warning]}Inbox: $inbox_count items${FLOW_COLORS[reset]}"
   fi
 
   echo ""
-  echo "  ${FLOW_COLORS[muted]}💡 'dash dev' to expand category │ 'dash -a' for all │ 'flow pick' to switch${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[muted]}$suggestion${FLOW_COLORS[reset]}"
   echo ""
 }
 

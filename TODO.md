@@ -1,12 +1,31 @@
 # TODO - Flow CLI Project
 
-**Last Updated:** 2025-12-24
-**Current Version:** v2.0.0-beta.1
-**Status:** 🟢 Production Ready - Phase P6 Complete
+**Last Updated:** 2025-12-25
+**Current Version:** v3.0.0
+**Status:** 🟢 Active Development - v3.1.0 Dashboard UX
 
 ---
 
-## ✅ Completed (2025-12-24)
+## ✅ Completed
+
+### v3.0.0 - Clean Architecture (2025-12-25) ✅
+
+**Major Refactoring:**
+
+- [x] Archive 140KB legacy zsh/functions/ to .archive/
+- [x] Pure ZSH plugin structure (no Node.js runtime)
+- [x] Symlink-only external integrations
+- [x] Atlas bridge for optional state management
+- [x] Clean separation of concerns
+- [x] All commands in commands/ directory
+- [x] Completions for all main commands
+
+**Benefits:**
+
+- Instant loading (no Node.js startup)
+- Lean architecture (minimal dependencies)
+- Optional atlas integration
+- Backward compatible
 
 ### Phase P6: CLI Enhancements (Week 2) - COMPLETE ✅
 
@@ -101,30 +120,54 @@
 
 ## 🎯 Current Status
 
-**Version:** v2.0.0-beta.1
-**Tests:** 559/559 passing (100%)
-**Documentation:** https://Data-Wise.github.io/flow-cli/
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v2.0.0-beta.1
+**Version:** v3.0.0 (Clean Architecture)
+**Current Sprint:** v3.1.0 - Dashboard UX Improvements
+**Architecture:** Pure ZSH plugin with optional Atlas integration
 
-**Phase:** Production Use Phase
-**Focus:** Gathering feedback from real usage
+**Phase:** Active Development
+**Focus:** ADHD-friendly dashboard enhancements
 
 ---
 
 ## 📋 Next Actions
 
-### Priority 0: Production Use Phase (1-2 weeks) ⭐ RECOMMENDED
+### Priority 0: v3.1.0 Dashboard UX Improvements ⭐ CURRENT
 
-**Goal:** Use flow-cli in actual daily workflow to identify real needs
+**Goal:** Implement ADHD-friendly dashboard enhancements
+
+**Phase 1: High Impact (2-3 hours)** - NEXT
+
+- [ ] Add "RIGHT NOW" section with smart suggestion
+- [ ] Increase progress bars from 5-char to 10-char
+- [ ] Enhance active session highlighting (┏━┓ borders)
+- [ ] Simplify footer to single suggestion
+- [ ] Add session timer with progress bar
+
+**Phase 2: Dopamine Features (2-3 hours)**
+
+- [ ] Add Quick Wins section (tasks < 30min)
+- [ ] Display Recent Wins (last 3 accomplishments)
+- [ ] Add urgency indicators (🔥 urgent, ⏰ due, ⚡ quick)
+- [ ] Sort Quick Access by urgency
+
+**Phase 3: Polish (3-4 hours)**
+
+- [ ] Enhanced streak visualization
+- [ ] Daily goal tracking
+- [ ] Color coding improvements
+- [ ] Extended .STATUS format support
+
+**See:** `docs/planning/DASHBOARD-UX-IMPROVEMENTS.md` for full design
+
+### Priority 1: Production Use & Feedback
+
+**Goal:** Use v3.0.0 in actual daily workflow
 
 **What to do:**
 
 - [ ] Use flow-cli commands naturally in projects
-- [ ] Try `flow status` and `flow status -v` daily
-- [ ] Use `flow dashboard` for real-time monitoring
 - [ ] Track friction points and pain points
 - [ ] Document feature requests that emerge from real usage
-- [ ] Only add Week 3 features if genuine needs emerge
 
 **Why this matters:**
 

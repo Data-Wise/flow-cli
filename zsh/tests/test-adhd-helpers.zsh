@@ -44,15 +44,15 @@ echo "  ADHD HELPERS TEST SUITE"
 echo "══════════════════════════════════════════════════════════════════"
 echo ""
 
-# Source the functions
-SCRIPT_PATH="$HOME/.config/zsh/functions/adhd-helpers.zsh"
-if [[ ! -f "$SCRIPT_PATH" ]]; then
-    echo "${RED}ERROR: Cannot find $SCRIPT_PATH${NC}"
+# Get plugin root and source the plugin
+PLUGIN_ROOT="${0:A:h:h:h}"
+if [[ ! -f "$PLUGIN_ROOT/flow.plugin.zsh" ]]; then
+    echo "${RED}ERROR: Cannot find flow.plugin.zsh${NC}"
     exit 1
 fi
 
-source "$SCRIPT_PATH"
-echo "✓ Sourced: $SCRIPT_PATH"
+source "$PLUGIN_ROOT/flow.plugin.zsh" 2>/dev/null
+echo "✓ Sourced: flow.plugin.zsh"
 
 # Backup existing wins file if it exists
 TODAY=$(date +%Y-%m-%d)

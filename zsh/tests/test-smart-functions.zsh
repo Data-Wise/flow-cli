@@ -18,14 +18,15 @@ TESTS_FAILED=0
 # Test results array
 typeset -a FAILED_TESTS
 
-# Source the smart functions
-SMART_FUNCS="$HOME/.config/zsh/functions/smart-dispatchers.zsh"
-if [[ ! -f "$SMART_FUNCS" ]]; then
-    echo "${RED}Error: Smart functions file not found: $SMART_FUNCS${NC}"
+# Get plugin root and source the plugin
+PLUGIN_ROOT="${0:A:h:h:h}"
+
+if [[ ! -f "$PLUGIN_ROOT/flow.plugin.zsh" ]]; then
+    echo "${RED}Error: flow.plugin.zsh not found${NC}"
     exit 1
 fi
 
-source "$SMART_FUNCS"
+source "$PLUGIN_ROOT/flow.plugin.zsh" 2>/dev/null
 
 # Test helper functions
 assert_function_exists() {
