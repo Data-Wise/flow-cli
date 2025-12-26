@@ -127,10 +127,23 @@ flow() {
 _flow_help() {
   local topic="${1:-}"
 
+  # Handle --list option
+  if [[ "$topic" == "--list" || "$topic" == "-l" ]]; then
+    _flow_help_list
+    return
+  fi
+
+  # Handle --search option
+  if [[ "$topic" == "--search" || "$topic" == "-s" ]]; then
+    shift
+    _flow_help_search "$@"
+    return
+  fi
+
   if [[ -n "$topic" ]]; then
     # Specific command help
     case "$topic" in
-      work|pick|dash|finish|status|timer|tutorial|morning)
+      work|pick|dash|finish|status|timer|tutorial|morning|setup)
         $topic help
         ;;
       test|build|sync|check|plan)
@@ -141,7 +154,7 @@ _flow_help() {
         ;;
       *)
         echo "No help available for: $topic"
-        echo "Try: flow help"
+        echo "Try: flow help --list"
         ;;
     esac
     return
@@ -235,6 +248,168 @@ ${_C_DIM}See also:${_C_NC} man flow, r help, g help, qu help, mcp help, obs help
 
 ${_C_BOLD}Version:${_C_NC} flow-cli v\${FLOW_VERSION:-3.1.0}
 "
+}
+
+# List all available commands (for --list option)
+_flow_help_list() {
+  local _C_BOLD="${_C_BOLD:-\033[1m}"
+  local _C_NC="${_C_NC:-\033[0m}"
+  local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+  local _C_DIM="${_C_DIM:-\033[2m}"
+
+  echo -e "${_C_BOLD}All flow-cli Commands${_C_NC}"
+  echo ""
+
+  # Core workflow
+  echo -e "${_C_BOLD}Core Workflow:${_C_NC}"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "work" "Start focused work session"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "pick" "Interactive project picker"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "dash" "Project dashboard"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "finish" "End session, optionally commit"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "hop" "Quick project switch (tmux)"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "why" "Show current context"
+  echo ""
+
+  # ADHD Helpers
+  echo -e "${_C_BOLD}ADHD Helpers:${_C_NC}"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "js" "Just start - picks a project"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "stuck" "Get unstuck when blocked"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "focus" "Set current focus"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "next" "What to work on next"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "break" "Take a proper break"
+  echo ""
+
+  # Capture & Track
+  echo -e "${_C_BOLD}Capture & Track:${_C_NC}"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "catch" "Quick capture to inbox"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "crumb" "Leave breadcrumb in project"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "inbox" "View inbox"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "win" "Log a win"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "status" "View/update .STATUS file"
+  echo ""
+
+  # Context-Aware Actions
+  echo -e "${_C_BOLD}Context-Aware Actions:${_C_NC}"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "test" "Run tests (auto-detects type)"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "build" "Build project"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "preview" "Preview output"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "sync" "Smart git sync"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "check" "Health check (lint, types)"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "plan" "Sprint/project planning"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "log" "Activity log"
+  echo ""
+
+  # Timer & Routine
+  echo -e "${_C_BOLD}Timer & Routine:${_C_NC}"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "timer" "Focus timer (default: 25min)"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "morning" "Morning startup routine"
+  echo ""
+
+  # Setup & Learning
+  echo -e "${_C_BOLD}Setup & Learning:${_C_NC}"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "doctor" "Check dependencies & health"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "setup" "Interactive setup wizard"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "learn" "Interactive tutorial"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "help" "Show help"
+  echo ""
+
+  # Dispatchers
+  echo -e "${_C_BOLD}Dispatchers:${_C_NC} ${_C_DIM}(domain-specific tools)${_C_NC}"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "g" "Git workflows"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "r" "R package development"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "qu" "Quarto publishing"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "mcp" "MCP server management"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "obs" "Obsidian notes"
+  echo ""
+
+  echo -e "${_C_DIM}Use 'flow help <command>' for detailed help on any command.${_C_NC}"
+  echo -e "${_C_DIM}Use 'flow help --search <term>' to search commands.${_C_NC}"
+}
+
+# Search commands (for --search option)
+_flow_help_search() {
+  local term="${1:-}"
+
+  if [[ -z "$term" ]]; then
+    echo "Usage: flow help --search <term>"
+    echo "Example: flow help --search git"
+    return 1
+  fi
+
+  local _C_BOLD="${_C_BOLD:-\033[1m}"
+  local _C_NC="${_C_NC:-\033[0m}"
+  local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+  local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+  local _C_DIM="${_C_DIM:-\033[2m}"
+
+  echo -e "${_C_BOLD}Search: '$term'${_C_NC}"
+  echo ""
+
+  local found=0
+
+  # Command database: name|description|keywords
+  local -a commands=(
+    "work|Start focused work session|session project start begin"
+    "pick|Interactive project picker|select choose fzf"
+    "dash|Project dashboard|overview status summary"
+    "finish|End session, optionally commit|done complete end commit"
+    "hop|Quick project switch (tmux)|switch change tmux"
+    "why|Show current context|context where status"
+    "js|Just start - picks a project|start auto quick begin"
+    "stuck|Get unstuck when blocked|help block assist"
+    "focus|Set current focus|attention priority"
+    "next|What to work on next|todo priority"
+    "break|Take a proper break|rest pause timer"
+    "catch|Quick capture to inbox|capture note idea"
+    "crumb|Leave breadcrumb in project|note trail trace"
+    "inbox|View inbox|notes ideas captured"
+    "win|Log a win|success celebrate dopamine"
+    "status|View/update .STATUS file|progress state"
+    "test|Run tests (auto-detects type)|testing unit check"
+    "build|Build project|compile make"
+    "preview|Preview output|view open browser"
+    "sync|Smart git sync|git push pull"
+    "check|Health check (lint, types)|lint type quality"
+    "plan|Sprint/project planning|sprint roadmap todo"
+    "log|Activity log|history commits"
+    "timer|Focus timer|pomodoro time"
+    "morning|Morning startup routine|routine startup daily"
+    "doctor|Check dependencies & health|diagnose install deps"
+    "setup|Interactive setup wizard|install configure"
+    "learn|Interactive tutorial|tutorial guide help"
+    "g|Git workflows dispatcher|git commit push pull branch"
+    "r|R package development|r cran test check build"
+    "qu|Quarto publishing|quarto render preview publish"
+    "mcp|MCP server management|mcp server"
+    "obs|Obsidian notes|obsidian vault notes"
+  )
+
+  local cmd desc keywords
+  local term_lower="${term:l}"  # lowercase for case-insensitive search
+
+  for entry in "${commands[@]}"; do
+    cmd="${entry%%|*}"
+    local rest="${entry#*|}"
+    desc="${rest%%|*}"
+    keywords="${rest#*|}"
+
+    # Search in command name, description, and keywords (case-insensitive)
+    if [[ "${cmd:l}" == *"$term_lower"* ]] || \
+       [[ "${desc:l}" == *"$term_lower"* ]] || \
+       [[ "${keywords:l}" == *"$term_lower"* ]]; then
+      printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "$cmd" "$desc"
+      ((found++))
+    fi
+  done
+
+  echo ""
+  if (( found == 0 )); then
+    echo -e "${_C_DIM}No commands found matching '$term'.${_C_NC}"
+    echo -e "${_C_DIM}Try: flow help --list${_C_NC}"
+  else
+    echo -e "${_C_GREEN}Found $found command(s).${_C_NC}"
+    echo -e "${_C_DIM}Use 'flow help <command>' for details.${_C_NC}"
+  fi
 }
 
 # ============================================================================

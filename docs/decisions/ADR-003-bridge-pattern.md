@@ -277,9 +277,8 @@ if (!path.isAbsolute(projectPath)) {
 
 ## Related Decisions
 
-- [ADR-001: Vendored Code Pattern](ADR-001-vendored-code-pattern.md) - What code to integrate
-- [ADR-002: Clean Architecture](ADR-002-clean-architecture.md) - Where bridge fits in layers
-- [ADR-005: Graceful Degradation Pattern](ADR-005-graceful-degradation.md) - Error handling philosophy
+- [ADR-001: Vendored Code Pattern](ADR-001-use-vendored-code-pattern.md) - What code to integrate
+- [ADR-002: Clean Architecture](ADR-002-adopt-clean-architecture.md) - Where bridge fits in layers
 
 ---
 
@@ -291,6 +290,6 @@ if (!path.isAbsolute(projectPath)) {
 
 ---
 
-**Last Updated:** 2025-12-21
-**Part of:** Documentation Sprint (Week 1)
-**See Also:** [VENDOR-INTEGRATION-ARCHITECTURE.md](../VENDOR-INTEGRATION-ARCHITECTURE.md)
+**Last Updated:** 2025-12-26
+**Part of:** Architecture Documentation
+**See Also:** [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md)

@@ -11,11 +11,11 @@ This document provides a high-level summary of all Architecture Decision Records
 
 ## Quick Reference Table
 
-| ADR                                     | Title                                | Status      | Impact | Date       |
-| --------------------------------------- | ------------------------------------ | ----------- | ------ | ---------- |
-| [001](ADR-001-vendored-code-pattern.md) | Vendored Code Pattern                | ✅ Accepted | High   | 2025-12-20 |
-| [002](ADR-002-clean-architecture.md)    | Clean Architecture                   | 🟡 Proposed | High   | 2025-12-20 |
-| [003](ADR-003-bridge-pattern.md)        | Bridge Pattern for Shell Integration | ✅ Accepted | Medium | 2025-12-20 |
+| ADR                                         | Title                                | Status      | Impact | Date       |
+| ------------------------------------------- | ------------------------------------ | ----------- | ------ | ---------- |
+| [001](ADR-001-use-vendored-code-pattern.md) | Vendored Code Pattern                | ✅ Accepted | High   | 2025-12-20 |
+| [002](ADR-002-adopt-clean-architecture.md)  | Clean Architecture                   | 🟡 Proposed | High   | 2025-12-20 |
+| [003](ADR-003-bridge-pattern.md)            | Bridge Pattern for Shell Integration | ✅ Accepted | Medium | 2025-12-20 |
 
 ---
 
@@ -55,7 +55,7 @@ cli/vendor/
 - **Current:** Project detection working in CLI
 - **Future:** Template for other vendored integrations
 
-**Read Full ADR:** [ADR-001-vendored-code-pattern.md](ADR-001-vendored-code-pattern.md)
+**Read Full ADR:** [ADR-001-use-vendored-code-pattern.md](ADR-001-use-vendored-code-pattern.md)
 
 ---
 
@@ -103,7 +103,7 @@ Frameworks Layer     # CLI, web, etc.
 2. **Pragmatic (2 weeks):** + Use Cases + TypeScript definitions
 3. **Full (4-6 weeks):** Complete 4-layer refactoring
 
-**Read Full ADR:** [ADR-002-clean-architecture.md](ADR-002-clean-architecture.md)
+**Read Full ADR:** [ADR-002-adopt-clean-architecture.md](ADR-002-adopt-clean-architecture.md)
 
 ---
 
@@ -267,9 +267,9 @@ Future architectural decisions to document:
 **Start here** to understand key architectural decisions:
 
 1. Read this summary (5 min)
-2. Read [ADR-001](ADR-001-vendored-code-pattern.md) - Understand dependency approach (10 min)
+2. Read [ADR-001](ADR-001-use-vendored-code-pattern.md) - Understand dependency approach (10 min)
 3. Read [ADR-003](ADR-003-bridge-pattern.md) - Understand JS ↔ Shell integration (10 min)
-4. Skim [ADR-002](ADR-002-clean-architecture.md) - Proposed architecture (optional, 15 min)
+4. Skim [ADR-002](ADR-002-adopt-clean-architecture.md) - Proposed architecture (optional, 15 min)
 
 **Total:** 25-40 minutes for full context
 
@@ -323,20 +323,16 @@ Future architectural decisions to document:
 
 ### Architecture Documentation
 
-- [Architecture Hub](../README.md) - Complete architecture overview
-- [Architecture Patterns](../ARCHITECTURE-PATTERNS-ANALYSIS.md) - Clean Architecture deep dive
-- [Architecture Quick Wins](../ARCHITECTURE-QUICK-WINS.md) - Practical patterns
-- [Code Examples](../CODE-EXAMPLES.md) - 88+ copy-paste ready examples
+- [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md) - Practical patterns
+- [Code Examples](../architecture/CODE-EXAMPLES.md) - Copy-paste ready examples
 
 ### Implementation Guides
 
-- [API Design Review](../API-DESIGN-REVIEW.md) - API best practices
-- [Vendor Integration Architecture](../VENDOR-INTEGRATION-ARCHITECTURE.md) - Integration patterns
+- [Vendor Integration Architecture](../architecture/VENDOR-INTEGRATION-ARCHITECTURE.md) - Integration patterns
 
 ### Process
 
 - [ADR Index](README.md) - Full ADR index with template
-- [Contributing Guide](../../../CONTRIBUTING.md) - How to propose new ADRs
 
 ---
 
@@ -376,10 +372,10 @@ Create an ADR when making decisions that:
 
 ---
 
-**Questions about ADRs?** See [ADR Index](README.md) or [Contributing Guide](../../../CONTRIBUTING.md)
+**Questions about ADRs?** See [ADR Index](README.md)
 
 ---
 
-**Last Updated:** 2025-12-21
+**Last Updated:** 2025-12-26
 **Part of:** Architecture Documentation Sprint
-**See Also:** [ADR Index](README.md), [Architecture Hub](../README.md)
+**See Also:** [ADR Index](README.md)

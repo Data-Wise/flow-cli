@@ -89,6 +89,15 @@ _dash_header() {
   local today_mins=0
   local today_time="--"
 
+  # Quick health check (cached for performance)
+  local health_indicator=""
+  local health_issues=$(_dash_quick_health_check)
+  if [[ "$health_issues" == "0" ]]; then
+    health_indicator="${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]}"
+  else
+    health_indicator="${FLOW_COLORS[warning]}⚠${health_issues}${FLOW_COLORS[reset]}"
+  fi
+
   # Get stats from atlas if available
   if _flow_has_atlas; then
     local stats=$(atlas status --format=json 2>/dev/null)
@@ -121,9 +130,9 @@ _dash_header() {
     today_time="${today_mins}m"
   fi
 
-  # Header box with time
+  # Header box with time and health indicator
   echo "╭──────────────────────────────────────────────────────────────╮"
-  printf "│  🌊 ${FLOW_COLORS[bold]}FLOW DASHBOARD${FLOW_COLORS[reset]}%$((62 - 18 - ${#date_str} - 8))s%s  🕐 %s │\n" "" "$date_str" "$time_str"
+  printf "│  🌊 ${FLOW_COLORS[bold]}FLOW DASHBOARD${FLOW_COLORS[reset]} %s%$((48 - ${#date_str}))s%s  🕐 %s │\n" "$health_indicator" "" "$date_str" "$time_str"
   echo "╰──────────────────────────────────────────────────────────────╯"
   echo ""
 
@@ -965,6 +974,39 @@ _dash_get_project_progress() {
   progress=$(_dash_get_status_field "$status_file" "Progress")
   [[ -z "$progress" ]] && progress=$(_dash_get_status_field "$status_file" "progress")
   echo "${progress//%/}"  # Remove % if present
+}
+
+# Quick health check (fast, cached, for header display)
+# Returns number of issues (0 = all good)
+_dash_quick_health_check() {
+  local cache_file="${FLOW_DATA_DIR:-/tmp}/.health_cache"
+  local cache_ttl=3600  # 1 hour cache
+
+  # Check cache
+  if [[ -f "$cache_file" ]]; then
+    local cache_time=$(stat -f %m "$cache_file" 2>/dev/null || echo 0)
+    local now=$EPOCHSECONDS
+    if (( now - cache_time < cache_ttl )); then
+      cat "$cache_file"
+      return
+    fi
+  fi
+
+  # Quick checks (no external commands for speed)
+  local issues=0
+
+  # Required: fzf
+  command -v fzf >/dev/null 2>&1 || ((issues++))
+
+  # Recommended core tools (only count critical ones)
+  command -v eza >/dev/null 2>&1 || ((issues++))
+  command -v bat >/dev/null 2>&1 || ((issues++))
+  command -v fd >/dev/null 2>&1 || ((issues++))
+  command -v rg >/dev/null 2>&1 || ((issues++))
+
+  # Cache result
+  echo "$issues" > "$cache_file" 2>/dev/null
+  echo "$issues"
 }
 
 # ============================================================================

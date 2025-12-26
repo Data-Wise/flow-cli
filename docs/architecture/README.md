@@ -385,21 +385,16 @@ Perfect for: New team members, architectural understanding
 
 ## 🔗 Related Documentation
 
-### Project Documentation
-
-- [Project README](../../README.md) - Project overview
-- [PROJECT-HUB.md](../../PROJECT-HUB.md) - Strategic roadmap
-- [CLI README](../../cli/README.md) - CLI integration guide
-
 ### User Documentation
 
-- [WORKFLOWS-QUICK-WINS.md](../guides/WORKFLOWS-QUICK-WINS.md) - Top 10 ADHD-friendly workflows
-- [ALIAS-REFERENCE-CARD.md](../reference/ALIAS-REFERENCE-CARD.md) - Complete alias reference
+- [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) - Complete alias reference
+- [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md) - All commands at a glance
+- [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) - Smart dispatcher guide
 
-### Implementation Tracking
+### Architecture
 
-- [SPRINT-REVIEW-2025-12-20.md](../../SPRINT-REVIEW-2025-12-20.md) - Week 1 achievements
-- [BRAINSTORM-ARCHITECTURE-ENHANCEMENTS.md](../../BRAINSTORM-ARCHITECTURE-ENHANCEMENTS.md) - Future ideas
+- [Architecture Decisions](../decisions/README.md) - ADR index and templates
+- [Architecture Quick Wins](ARCHITECTURE-QUICK-WINS.md) - Practical patterns
 
 ---
 
@@ -458,8 +453,8 @@ Perfect for: New team members, architectural understanding
 
 ---
 
-**Questions?** Start with [QUICK-REFERENCE.md](QUICK-REFERENCE.md) or ask DT
+**Questions?** Check [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)
 
-**Last Updated:** 2025-12-21
-**Version:** 1.0.0 (Documentation Sprint Complete)
+**Last Updated:** 2025-12-26
+**Version:** 1.0.0
 **Maintainer:** DT

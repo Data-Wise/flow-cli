@@ -26,11 +26,12 @@ Each ADR includes:
 
 ### Accepted
 
-| ADR                                              | Title                                                  | Status      | Date       |
-| ------------------------------------------------ | ------------------------------------------------------ | ----------- | ---------- |
-| [ADR-001](ADR-001-use-vendored-code-pattern.md)  | Use Vendored Code Pattern for Project Detection        | ✅ Accepted | 2025-12-20 |
-| [ADR-002](ADR-002-adopt-clean-architecture.md)   | Adopt Clean Architecture for Long-Term Maintainability | ✅ Accepted | 2025-12-20 |
-| [ADR-003](ADR-003-nodejs-module-api-not-rest.md) | Use Node.js Module API Pattern (Not REST/HTTP)         | ✅ Accepted | 2025-12-20 |
+| ADR                                             | Title                                                  | Status      | Date       |
+| ----------------------------------------------- | ------------------------------------------------------ | ----------- | ---------- |
+| [ADR-001](ADR-001-use-vendored-code-pattern.md) | Use Vendored Code Pattern for Project Detection        | ✅ Accepted | 2025-12-20 |
+| [ADR-002](ADR-002-adopt-clean-architecture.md)  | Adopt Clean Architecture for Long-Term Maintainability | ✅ Accepted | 2025-12-20 |
+| [ADR-003](ADR-003-bridge-pattern.md)            | Bridge Pattern for Shell Integration                   | ✅ Accepted | 2025-12-20 |
+| [ADR-004](ADR-004-module-api-not-rest.md)       | Use Node.js Module API Pattern (Not REST/HTTP)         | ✅ Accepted | 2025-12-20 |
 
 ### Proposed
 
@@ -159,7 +160,8 @@ When a decision is reversed:
 
 1. [ADR-002: Clean Architecture](ADR-002-adopt-clean-architecture.md) - Overall system structure
 2. [ADR-001: Vendored Code Pattern](ADR-001-use-vendored-code-pattern.md) - How we handle dependencies
-3. [ADR-003: Node.js Module API](ADR-003-nodejs-module-api-not-rest.md) - API design philosophy
+3. [ADR-003: Bridge Pattern](ADR-003-bridge-pattern.md) - Shell integration patterns
+4. [ADR-004: Node.js Module API](ADR-004-module-api-not-rest.md) - API design philosophy
 
 **For architecture decisions:**
 
@@ -169,12 +171,13 @@ When a decision is reversed:
 **For integration patterns:**
 
 - Start with [ADR-001: Vendored Code](ADR-001-use-vendored-code-pattern.md)
-- Then [ADR-003: Module API Pattern](ADR-003-nodejs-module-api-not-rest.md)
+- Then [ADR-003: Bridge Pattern](ADR-003-bridge-pattern.md)
+- Then [ADR-004: Module API Pattern](ADR-004-module-api-not-rest.md)
 
 ## Statistics
 
-- **Total ADRs**: 3
-- **Accepted**: 3
+- **Total ADRs**: 4
+- **Accepted**: 4
 - **Proposed**: 0
 - **Rejected**: 0
 - **Superseded**: 0
@@ -183,14 +186,14 @@ When a decision is reversed:
 
 Future decisions to document:
 
-- **ADR-004**: Domain-Driven Design for Sessions and Projects
-- **ADR-005**: Graceful Degradation Pattern for Error Handling
-- **ADR-006**: Parallel Execution for Batch Operations
-- **ADR-007**: File System vs Database for Persistence
-- **ADR-008**: Event-Driven Architecture for Session Management
+- **ADR-005**: Domain-Driven Design for Sessions and Projects
+- **ADR-006**: Graceful Degradation Pattern for Error Handling
+- **ADR-007**: Parallel Execution for Batch Operations
+- **ADR-008**: File System vs Database for Persistence
+- **ADR-009**: Event-Driven Architecture for Session Management
 
 ---
 
-**Last Updated:** 2025-12-23
-**Part of:** Architecture Enhancement Plan (A→C Implementation)
-**See Also:** [Architecture Documentation](../README.md)
+**Last Updated:** 2025-12-26
+**Part of:** Architecture Enhancement Plan
+**See Also:** [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md)
