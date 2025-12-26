@@ -621,7 +621,7 @@ Continue your learning:
 
 1. **[Tutorial 4: Web Dashboard Deep Dive](04-web-dashboard.md)** — Use browser-based visualizations
 2. **[Command Reference: status](../commands/status.md)** — Complete status command guide
-3. **[Workflows & Quick Wins](../user/WORKFLOWS-QUICK-WINS.md)** — Advanced productivity tips
+3. **[Workflows & Quick Wins](../guides/WORKFLOWS-QUICK-WINS.md)** — Advanced productivity tips
 
 ---
 

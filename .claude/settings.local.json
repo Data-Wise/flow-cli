@@ -103,7 +103,15 @@
       "Bash(MERMAID-DIAGRAMS-QUICK-START.md )",
       "Bash(EXAMPLE-dash-command-doc.md)",
       "Bash(/tmp/flatten-archive.sh:*)",
-      "Bash(git -C ~/projects/dev-tools/flow-cli status --short)"
+      "Bash(git -C ~/projects/dev-tools/flow-cli status --short)",
+      "Bash(git -C ~/projects/dev-tools/flow-cli diff --stat)",
+      "Bash(_proj_save_session:*)",
+      "Bash(./tests/test-pick-smart-defaults.zsh)",
+      "Bash(./tests/test-cc-dispatcher.zsh)",
+      "Bash(cc help:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(# Fix common broken link patterns cd /Users/dt/projects/dev-tools/flow-cli/docs # user/ → reference/ or guides/ \\(check which exists\\) find . -name \"\"*.md\"\" -exec grep -l \"\"user/WORKFLOW-QUICK-REFERENCE\"\" {} \\\\;)"
     ]
   }
 }

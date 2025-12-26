@@ -647,7 +647,7 @@ Continue your learning:
 
 1. **[Tutorial 3: Using Status Visualizations](03-status-visualizations.md)** — Understand progress bars and charts
 2. **[Tutorial 4: Web Dashboard Deep Dive](04-web-dashboard.md)** — Use the browser-based dashboard
-3. **[Workflow Quick Reference](../user/WORKFLOW-QUICK-REFERENCE.md)** — Advanced workflows
+3. **[Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)** — Advanced workflows
 
 ---
 

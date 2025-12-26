@@ -941,7 +941,7 @@ describe('GetStatusUseCase', () => {
 
 - [Complete API Reference](API-REFERENCE.md)
 - [Architecture Diagrams](../architecture/ARCHITECTURE-DIAGRAM.md)
-- [Testing Guide](../development/TESTING.md)
+- [Testing Guide](../testing/TESTING.md)
 - [Contributing Guide](../../CONTRIBUTING.md)
 
 ---

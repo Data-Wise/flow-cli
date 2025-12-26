@@ -262,8 +262,8 @@ Antidote plugin list:
 ## Next Steps
 
 1. **Quick Start**: Follow [Quick Start Guide](quick-start.md)
-2. **Learn Aliases**: Read [Alias Reference Card](../user/ALIAS-REFERENCE-CARD.md)
-3. **Master Workflows**: Review [Workflow Quick Reference](../user/WORKFLOW-QUICK-REFERENCE.md)
+2. **Learn Aliases**: Read [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md)
+3. **Master Workflows**: Review [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
 
 ---
 

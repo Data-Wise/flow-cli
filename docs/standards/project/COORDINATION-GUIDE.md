@@ -283,7 +283,7 @@ A breaking change is ANY change that:
    ```markdown
    # In project README
 
-   See [ZSH Alias Reference](../flow-cli/docs/user/ALIAS-REFERENCE-CARD.md)
+   See [ZSH Alias Reference](../flow-cli/docs/reference/ALIAS-REFERENCE-CARD.md)
    ```
 
 2. **Use templates:**

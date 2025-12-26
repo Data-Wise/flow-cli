@@ -393,8 +393,8 @@ Perfect for: New team members, architectural understanding
 
 ### User Documentation
 
-- [WORKFLOWS-QUICK-WINS.md](../user/WORKFLOWS-QUICK-WINS.md) - Top 10 ADHD-friendly workflows
-- [ALIAS-REFERENCE-CARD.md](../user/ALIAS-REFERENCE-CARD.md) - Complete alias reference
+- [WORKFLOWS-QUICK-WINS.md](../guides/WORKFLOWS-QUICK-WINS.md) - Top 10 ADHD-friendly workflows
+- [ALIAS-REFERENCE-CARD.md](../reference/ALIAS-REFERENCE-CARD.md) - Complete alias reference
 
 ### Implementation Tracking
 

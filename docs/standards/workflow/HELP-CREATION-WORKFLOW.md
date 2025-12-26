@@ -301,13 +301,13 @@ If adding new command or major changes:
 
 ```bash
 # Add to quick reference
-vim ~/projects/dev-tools/flow-cli/docs/user/WORKFLOW-QUICK-REFERENCE.md
+vim ~/projects/dev-tools/flow-cli/docs/reference/WORKFLOW-QUICK-REFERENCE.md
 
 # Add to alias reference (if aliased)
-vim ~/projects/dev-tools/flow-cli/docs/user/ALIAS-REFERENCE-CARD.md
+vim ~/projects/dev-tools/flow-cli/docs/reference/ALIAS-REFERENCE-CARD.md
 
 # Add to dashboard reference (if dashboard command)
-vim ~/projects/dev-tools/flow-cli/docs/user/DASHBOARD-QUICK-REF.md
+vim ~/projects/dev-tools/flow-cli/docs/reference/DASHBOARD-QUICK-REF.md
 ```
 
 ### 2. Update Standards if Needed
@@ -401,7 +401,7 @@ For commands with many options, create a separate quick reference:
 [Copy-paste ready examples]
 ```
 
-See existing example: [DASHBOARD-QUICK-REF.md](docs/user/DASHBOARD-QUICK-REF.md)
+See existing example: [DASHBOARD-QUICK-REF.md](docs/reference/DASHBOARD-QUICK-REF.md)
 
 ---
 
@@ -423,7 +423,7 @@ See existing example: [DASHBOARD-QUICK-REF.md](docs/user/DASHBOARD-QUICK-REF.md)
 
 - [ZSH-COMMANDS-HELP.md](../code/ZSH-COMMANDS-HELP.md) — Detailed standards and patterns
 - [REFCARD-TEMPLATE.md](../adhd/REFCARD-TEMPLATE.md) — Quick reference card template
-- [DASHBOARD-QUICK-REF.md](../../docs/user/DASHBOARD-QUICK-REF.md) — Example reference doc
+- [DASHBOARD-QUICK-REF.md](../../docs/reference/DASHBOARD-QUICK-REF.md) — Example reference doc
 
 ---
 

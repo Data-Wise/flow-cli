@@ -492,8 +492,8 @@ Choose based on whether you want to share status with collaborators.
 ## See Also
 
 - [`flow dashboard`](dashboard.md) - View all project statuses
-- [`work`](../user/WORKFLOW-QUICK-REFERENCE.md) - Start working on a project
-- [`dash`](../user/DASHBOARD-QUICK-REF.md) - Quick dashboard alias
+- [`work`](../reference/WORKFLOW-QUICK-REFERENCE.md) - Start working on a project
+- [`dash`](../reference/DASHBOARD-QUICK-REF.md) - Quick dashboard alias
 - [Tutorial 1: First Session](../tutorials/01-first-session.md)
 - [Tutorial 3: Status Visualizations](../tutorials/03-status-visualizations.md)
 

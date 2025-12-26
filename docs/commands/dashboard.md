@@ -659,9 +659,9 @@ flow status your-project active P1 "First task" 25
 ## See Also
 
 - [`flow status`](status.md) - Update project status
-- [`dash`](../user/DASHBOARD-QUICK-REF.md) - Dashboard quick reference
+- [`dash`](../reference/DASHBOARD-QUICK-REF.md) - Dashboard quick reference
 - [Tutorial 4: Web Dashboard](../tutorials/04-web-dashboard.md) - Complete tutorial
-- [Workflows & Tips](../user/WORKFLOWS-QUICK-WINS.md) - Productivity patterns
+- [Workflows & Tips](../guides/WORKFLOWS-QUICK-WINS.md) - Productivity patterns
 
 ---
 

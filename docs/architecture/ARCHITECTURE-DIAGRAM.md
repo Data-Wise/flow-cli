@@ -751,7 +751,7 @@ sequenceDiagram
 - [API Reference](../api/API-REFERENCE.md)
 - [ADR-002: Clean Architecture](../decisions/ADR-002-adopt-clean-architecture.md)
 - [Architecture Patterns Analysis](ARCHITECTURE-PATTERNS-ANALYSIS.md)
-- [Testing Guide](../development/TESTING.md)
+- [Testing Guide](../testing/TESTING.md)
 
 ---
 

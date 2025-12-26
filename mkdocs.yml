@@ -46,6 +46,23 @@ plugins:
   - exclude:
       glob:
         - archive/*
+        - active/*
+        - planning/*
+        - ideas/*
+        - standards/*
+        - doc-index.md
+        - architecture/ARCHITECTURE-CHEATSHEET.md
+        - architecture/ARCHITECTURE-COMMAND-REFERENCE.md
+        - architecture/ARCHITECTURE-REFERENCE-SUMMARY.md
+        - architecture/ARCHITECTURE-ROADMAP.md
+        - architecture/DOCUMENTATION-MAP.md
+        - architecture/GETTING-STARTED.md
+        - architecture/INDEX-AND-GLOSSARY.md
+        - guides/00-START-HERE.md
+        - guides/EXAMPLE-dash-command-doc.md
+        - guides/MONOREPO-COMMANDS-TUTORIAL.md
+        - guides/PROJECT-SCOPE.md
+        - reference/ALIAS-CONFLICT-REVIEW.md
         - '*.bak'
         - '*.tmp'
 

@@ -1037,7 +1037,7 @@ task-aggregator.js (📋 Planned)
 
 - [Project Detector API](PROJECT-DETECTOR-API.md) - Detailed API reference
 - [Vendor Integration Architecture](../architecture/VENDOR-INTEGRATION-ARCHITECTURE.md) - System design
-- [Project Detection Guide](../user/PROJECT-DETECTION-GUIDE.md) - User tutorial
+- [Project Detection Guide](../reference/PROJECT-DETECTION-GUIDE.md) - User tutorial
 - [Week 1 Progress](../../WEEK-1-PROGRESS-2025-12-20.md) - Implementation details
 - [Project Scope](../../PROJECT-SCOPE.md) - Overall system design
 

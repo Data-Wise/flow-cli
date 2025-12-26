@@ -109,8 +109,8 @@
 **Files to validate:**
 
 - `../user/WORKFLOW-TUTORIAL.md` ✅ (Updated Dec 21)
-- `../user/WORKFLOWS-QUICK-WINS.md` ✅ (Updated Dec 21)
-- `../user/ALIAS-REFERENCE-CARD.md`
+- `../guides/WORKFLOWS-QUICK-WINS.md` ✅ (Updated Dec 21)
+- `../reference/ALIAS-REFERENCE-CARD.md`
 - `../getting-started/quick-start.md`
 
 ---
@@ -399,8 +399,8 @@ git checkout v2.0.0-alpha.1
 
 - 📚 [Full Documentation](https://data-wise.github.io/flow-cli)
 - 🚀 [Quick Start Guide](../getting-started/quick-start.md)
-- 📖 [Workflow Tutorials](../user/WORKFLOWS-QUICK-WINS.md)
-- 🎯 [Alias Reference](../user/ALIAS-REFERENCE-CARD.md)
+- 📖 [Workflow Tutorials](../guides/WORKFLOWS-QUICK-WINS.md)
+- 🎯 [Alias Reference](../reference/ALIAS-REFERENCE-CARD.md)
 
 ### What's Next (Roadmap)
 
@@ -661,8 +661,8 @@ Hour 5:    Phase 4 - GitHub release
 **Documentation:**
 
 - `../user/WORKFLOW-TUTORIAL.md` - Main tutorial
-- `../user/WORKFLOWS-QUICK-WINS.md` - Top 10 workflows
-- `../user/ALIAS-REFERENCE-CARD.md` - Alias reference
+- `../guides/WORKFLOWS-QUICK-WINS.md` - Top 10 workflows
+- `../reference/ALIAS-REFERENCE-CARD.md` - Alias reference
 
 **Architecture:**
 

@@ -291,7 +291,7 @@ If you're used to old aliases:
 
 ## 📖 ADDITIONAL RESOURCES
 
-- **Workflow Quick Reference:** `~/projects/dev-tools/flow-cli/docs/user/WORKFLOW-QUICK-REFERENCE.md`
+- **Workflow Quick Reference:** `~/projects/dev-tools/flow-cli/docs/reference/WORKFLOW-QUICK-REFERENCE.md`
 - **Pick Command Guide:** `~/projects/dev-tools/flow-cli/docs/user/PICK-COMMAND-REFERENCE.md`
 - **ZSH Development Guidelines:** `~/projects/dev-tools/flow-cli/docs/ZSH-DEVELOPMENT-GUIDELINES.md`
 

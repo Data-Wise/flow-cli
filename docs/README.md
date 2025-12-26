@@ -68,7 +68,7 @@
 
 ### User Guides
 
-- **[Project Detection Guide](user/PROJECT-DETECTION-GUIDE.md)** - User-friendly tutorial
+- **[Project Detection Guide](reference/PROJECT-DETECTION-GUIDE.md)** - User-friendly tutorial
   - Quick start and examples
   - Supported project types
   - Common use cases
@@ -87,9 +87,9 @@
 
 ### For Users
 
-1. **New to project detection?** → Start with [Project Detection Guide](user/PROJECT-DETECTION-GUIDE.md)
+1. **New to project detection?** → Start with [Project Detection Guide](reference/PROJECT-DETECTION-GUIDE.md)
 2. **Need API details?** → See [Project Detector API](api/PROJECT-DETECTOR-API.md)
-3. **Want examples?** → Check out the [User Guide examples](user/PROJECT-DETECTION-GUIDE.md#examples-with-real-projects)
+3. **Want examples?** → Check out the [User Guide examples](reference/PROJECT-DETECTION-GUIDE.md#examples-with-real-projects)
 
 ### For Developers
 
@@ -242,7 +242,7 @@ docs/
 
 ### Still Need Help?
 
-- Check the [Troubleshooting section](user/PROJECT-DETECTION-GUIDE.md#troubleshooting)
+- Check the [Troubleshooting section](reference/PROJECT-DETECTION-GUIDE.md#troubleshooting)
 - Review [Week 1 Progress](../WEEK-1-PROGRESS-2025-12-20.md) for context
 - Ask Claude Code: "How do I...?"
 
@@ -315,7 +315,7 @@ docs/
 | List supported types     | [API: getSupportedTypes](api/PROJECT-DETECTOR-API.md#getsupportedtypes)                       |
 | Understand architecture  | [Architecture Overview](architecture/VENDOR-INTEGRATION-ARCHITECTURE.md#system-overview)      |
 | Sync vendored code       | [Maintenance](architecture/VENDOR-INTEGRATION-ARCHITECTURE.md#syncing-vendored-code)          |
-| Troubleshoot issues      | [Troubleshooting](user/PROJECT-DETECTION-GUIDE.md#troubleshooting)                            |
+| Troubleshoot issues      | [Troubleshooting](reference/PROJECT-DETECTION-GUIDE.md#troubleshooting)                       |
 
 ---
 

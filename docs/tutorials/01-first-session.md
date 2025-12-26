@@ -513,7 +513,7 @@ Continue your learning:
 
 1. **[Tutorial 2: Tracking Multiple Projects](02-multiple-projects.md)** — Manage multiple active projects
 2. **[Tutorial 3: Using Status Visualizations](03-status-visualizations.md)** — Understand progress bars and charts
-3. **[Workflow Quick Reference](../user/WORKFLOW-QUICK-REFERENCE.md)** — Daily workflows
+3. **[Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)** — Daily workflows
 
 ---
 

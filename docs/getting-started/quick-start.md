@@ -170,8 +170,8 @@ gp                           # Push
 
 1. [flow status Command](../commands/status.md) - Complete reference
 2. [flow dashboard Command](../commands/dashboard.md) - TUI guide
-3. [Alias Reference Card](../user/ALIAS-REFERENCE-CARD.md) - All 28 aliases
-4. [Workflow Quick Reference](../user/WORKFLOW-QUICK-REFERENCE.md) - Daily workflows
+3. [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) - All 28 aliases
+4. [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Daily workflows
 
 ### Customize Your Workflow
 
@@ -182,7 +182,7 @@ gp                           # Push
 ### Get Help
 
 - All docs: [Documentation Site](https://Data-Wise.github.io/flow-cli/)
-- Testing guide: [TESTING.md](../development/TESTING.md)
+- Testing guide: [TESTING.md](../testing/TESTING.md)
 - Coding standards: [Development Guidelines](../ZSH-DEVELOPMENT-GUIDELINES.md)
 - Git plugin: [OMZ Git Plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git)
 

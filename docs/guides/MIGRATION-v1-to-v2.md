@@ -56,8 +56,8 @@ dash --help
 
 ```bash
 # Confirm tutorials work
-bat docs/user/WORKFLOWS-QUICK-WINS.md
-bat docs/user/ALIAS-REFERENCE-CARD.md
+bat docs/guides/WORKFLOWS-QUICK-WINS.md
+bat docs/reference/ALIAS-REFERENCE-CARD.md
 ```
 
 ---

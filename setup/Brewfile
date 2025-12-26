@@ -1,0 +1,41 @@
+# flow-cli/setup/Brewfile
+# Recommended CLI tools for flow-cli
+#
+# Install all: brew bundle --file=setup/Brewfile
+# Install from flow-cli dir: brew bundle --file=setup/Brewfile
+
+# ============================================
+# REQUIRED - Core functionality
+# ============================================
+brew "fzf"              # Fuzzy finder - pick, dash interactive mode
+
+# ============================================
+# HIGHLY RECOMMENDED - Modern CLI experience
+# ============================================
+brew "eza"              # Modern ls with icons & git status
+brew "bat"              # Syntax-highlighted cat
+brew "zoxide"           # Smart cd (z command, replaces autojump)
+brew "fd"               # Fast find replacement
+brew "ripgrep"          # Fast grep replacement (rg)
+
+# ============================================
+# NICE TO HAVE - Enhanced system tools
+# ============================================
+brew "dust"             # Disk usage analyzer (modern du)
+brew "duf"              # Disk free viewer (modern df)
+brew "btop"             # System monitor (modern top)
+brew "delta"            # Better git diffs
+
+# ============================================
+# DEVELOPMENT - Project workflows
+# ============================================
+brew "gh"               # GitHub CLI
+brew "jq"               # JSON processor
+
+# ============================================
+# OPTIONAL - Uncomment if needed
+# ============================================
+# brew "tldr"           # Simplified man pages
+# brew "httpie"         # Modern curl alternative
+# brew "lazygit"        # Terminal UI for git
+# brew "glow"           # Markdown viewer in terminal

@@ -665,7 +665,7 @@ You've completed all tutorials! Continue learning:
 
 1. **[Command Reference: status](../commands/status.md)** — Complete status command documentation
 2. **[Command Reference: dashboard](../commands/dashboard.md)** — Complete dashboard command documentation
-3. **[Workflows & Quick Wins](../user/WORKFLOWS-QUICK-WINS.md)** — Advanced productivity patterns
+3. **[Workflows & Quick Wins](../guides/WORKFLOWS-QUICK-WINS.md)** — Advanced productivity patterns
 4. **[Troubleshooting Guide](../getting-started/troubleshooting.md)** — Common issues and fixes
 
 ---
