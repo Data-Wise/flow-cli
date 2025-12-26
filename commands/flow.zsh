@@ -71,6 +71,9 @@ flow() {
     win)
       win "$@"
       ;;
+    goal)
+      flow_goal "$@"
+      ;;
     status)
       status "$@"
       ;;
@@ -237,6 +240,7 @@ ${_C_BLUE}📝 CAPTURE & TRACK${_C_NC}:
   ${_C_CYAN}crumb${_C_NC} <note>       Leave breadcrumb in project
   ${_C_CYAN}inbox${_C_NC}              View your inbox
   ${_C_CYAN}win${_C_NC} <text>         Log a win (dopamine boost!)
+  ${_C_CYAN}goal${_C_NC} [set n]       Daily win goal tracking
   ${_C_CYAN}status${_C_NC} [action]    View/update .STATUS file
 
 ${_C_BLUE}⚡ ACTIONS${_C_NC} ${_C_DIM}(Context-Aware)${_C_NC}:
@@ -330,7 +334,8 @@ _flow_help_list() {
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "catch" "Quick capture to inbox"
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "crumb" "Leave breadcrumb in project"
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "inbox" "View inbox"
-  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "win" "Log a win"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "win" "Log a win (with categories)"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "goal" "Daily win goal tracking"
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "status" "View/update .STATUS file"
   echo ""
 
@@ -427,7 +432,8 @@ _flow_help_search() {
     "catch|Quick capture to inbox|capture note idea"
     "crumb|Leave breadcrumb in project|note trail trace"
     "inbox|View inbox|notes ideas captured"
-    "win|Log a win|success celebrate dopamine"
+    "win|Log a win|success celebrate dopamine categories code docs review ship"
+    "goal|Daily win goal tracking|target progress daily wins"
     "status|View/update .STATUS file|progress state"
     "test|Run tests (auto-detects type)|testing unit check"
     "build|Build project|compile make"

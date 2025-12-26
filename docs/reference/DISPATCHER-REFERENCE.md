@@ -508,4 +508,4 @@ source ~/projects/dev-tools/flow-cli/lib/dispatchers/<name>.zsh
 
 - [Command Quick Reference](./COMMAND-QUICK-REFERENCE.md)
 - [Workflow Quick Reference](./WORKFLOW-QUICK-REFERENCE.md)
-- [flow.plugin.zsh](../../flow.plugin.zsh) - Dispatcher loading
+- [Architecture Overview](../architecture/README.md) - Plugin structure

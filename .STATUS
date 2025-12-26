@@ -4,11 +4,11 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v3.5.0 - Dashboard Polish
+## Phase: v3.5.0 Complete → v4.0.0 Planning
 ## Priority: 1
-## Progress: 25
+## Progress: 100
 
-## Focus: v3.5.0 IN PROGRESS - Wins display in dash, yay --week implemented
+## Focus: v3.5.0 COMPLETE - Dopamine features, goal tracking, extended .STATUS
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -250,25 +250,25 @@ FLOW_QUIET=1               # Disable welcome message
   - [x] Urgency indicators (🔥⏰⚡)
 
 ### v3.5.0 - Dashboard Polish (IN PROGRESS)
-- [~] Dopamine features
+- [x] Dopamine features
   - [x] Recent wins display in `dash` (show last 3 wins with timestamps)
   - [x] Streak visualization (🔥 consecutive days counter)
   - [x] `yay --week` - Weekly accomplishments summary with mini graph
-  - [ ] Win categories (code, docs, review, ship)
-- [ ] Daily goal tracking
-  - [ ] `flow goal set <n>` - Set daily task goal
-  - [ ] `flow goal` - Show progress toward daily goal
-  - [ ] Goal completion celebration (confetti in terminal?)
-  - [ ] .STATUS field: `daily_goal: 3`
-- [ ] Extended .STATUS format
-  - [ ] `wins:` - Recent wins array
-  - [ ] `streak:` - Current streak count
-  - [ ] `last_active:` - Last activity timestamp
-  - [ ] `tags:` - Project tags for filtering
-- [ ] Interactive TUI improvements
-  - [ ] `dash --tui` keyboard shortcuts (j/k navigation, Enter to select)
-  - [ ] Live refresh option (watch mode)
-  - [ ] Project preview pane
+  - [x] Win categories (code, docs, review, ship, fix, test) with auto-detection
+- [x] Daily goal tracking
+  - [x] `flow goal set <n>` - Set daily task goal
+  - [x] `flow goal` - Show progress toward daily goal (with progress bar)
+  - [x] Goal display in dash (shows progress in wins section)
+  - [x] .STATUS field: `daily_goal: 3` with per-project override
+- [x] Extended .STATUS format
+  - [x] `wins:` - Recent wins array
+  - [x] `streak:` - Current streak count
+  - [x] `last_active:` - Last activity timestamp
+  - [x] `tags:` - Project tags for filtering
+- [x] Interactive TUI improvements
+  - [x] `dash --tui` keyboard shortcuts (Ctrl-E edit, Ctrl-S status, Ctrl-W wins)
+  - [x] Live refresh option (`dash --watch`)
+  - [x] Project preview pane with extended status and git log
 
 ### v4.0.0 - Ecosystem Integration
 - [ ] Cross-tool orchestration
@@ -282,6 +282,18 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-26: DOCS - Deployed v3.5.0 documentation to GitHub Pages
+- 2025-12-26: v3.5.0 RELEASE - Version bumped to 3.5.0, all dopamine features complete
+- 2025-12-26: v3.5.0 - Added daily_goal field to .STATUS with per-project override
+- 2025-12-26: v3.5.0 - Extended .STATUS format (wins, streak, last_active, tags) implemented
+- 2025-12-26: v3.5.0 - Interactive TUI improvements (Ctrl-E/S/W keybindings, watch mode)
+- 2025-12-26: v3.5.0 - Fixed _flow_find_project_path eval bug (atlas shell format issue)
+- 2025-12-26: v3.5.0 - Tested all dopamine features (win categories, goal, extended status)
+- 2025-12-26: v3.5.0 - Win categories (code/docs/review/ship/fix/test) with auto-detection
+- 2025-12-26: v3.5.0 - `flow goal` command for daily win goal tracking with progress bar
+- 2025-12-26: v3.5.0 - Goal progress in dash wins section
+- 2025-12-26: DOCS - Fixed remaining 12 broken link warnings (now just 1 expected warning)
+- 2025-12-26: DOCS - Deployed updated documentation to GitHub Pages
 - 2025-12-26: v3.5.0 - Implemented wins display in dash with streak counter
 - 2025-12-26: v3.5.0 - Added yay --week with weekly summary and mini activity graph
 - 2025-12-26: v3.5.0 PLANNING - Detailed roadmap with dopamine features, daily goals, TUI
@@ -325,3 +337,12 @@ FLOW_QUIET=1               # Disable welcome message
 - 2025-12-25: v3.0.0 - Clean Architecture achieved
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
+## wins: --help (2025-12-26)
+## streak: 0
+## last_active: 2025-12-26 18:14
+## wins: --help (2025-12-26)
+## streak: 0
+## last_active: 2025-12-26 18:25
+## wins: Fixed the eval bug (2025-12-26)
+## streak: 0
+## last_active: 2025-12-26 18:25

@@ -42,6 +42,12 @@ dash() {
       _dash_interactive
       return
       ;;
+    -w|--watch)
+      # Watch mode - auto-refresh (v3.5.0)
+      local interval="${2:-5}"
+      _dash_watch "$interval"
+      return
+      ;;
     -f|--full)
       # Full TUI mode
       if _flow_has_atlas; then
@@ -722,6 +728,30 @@ _dash_recent_wins() {
     echo "     🔥 ${FLOW_COLORS[success]}${streak}-day streak!${FLOW_COLORS[reset]}"
   fi
 
+  # Show daily goal progress (v3.5.0)
+  if typeset -f _flow_read_goal >/dev/null 2>&1; then
+    local target=$(_flow_read_goal)
+    local current=${#today_wins[@]}
+    if (( target > 0 )); then
+      local percent=$((current * 100 / target))
+      (( percent > 100 )) && percent=100
+
+      # Build mini progress bar
+      local bar_width=10
+      local filled=$((percent * bar_width / 100))
+      local empty=$((bar_width - filled))
+      local bar=""
+      for (( i = 0; i < filled; i++ )); do bar+="█"; done
+      for (( i = 0; i < empty; i++ )); do bar+="░"; done
+
+      if (( current >= target )); then
+        echo "     🎯 ${FLOW_COLORS[success]}[$bar] Goal reached! ($current/$target)${FLOW_COLORS[reset]}"
+      else
+        echo "     🎯 ${FLOW_COLORS[muted]}[$bar] $current/$target wins today${FLOW_COLORS[reset]}"
+      fi
+    fi
+  fi
+
   echo ""
 }
 
@@ -1083,14 +1113,25 @@ ${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
   ${_C_DIM}\$${_C_NC} dash                   ${_C_DIM}# Summary view${_C_NC}
   ${_C_DIM}\$${_C_NC} dash dev               ${_C_DIM}# Dev-tools projects${_C_NC}
   ${_C_DIM}\$${_C_NC} dash r                 ${_C_DIM}# R packages${_C_NC}
-  ${_C_DIM}\$${_C_NC} dash -a                ${_C_DIM}# All projects flat list${_C_NC}
+  ${_C_DIM}\$${_C_NC} dash -i                ${_C_DIM}# Interactive picker${_C_NC}
+  ${_C_DIM}\$${_C_NC} dash -w                ${_C_DIM}# Auto-refresh every 5s${_C_NC}
+  ${_C_DIM}\$${_C_NC} dash -w 10             ${_C_DIM}# Auto-refresh every 10s${_C_NC}
 
 ${_C_BLUE}📋 OPTIONS${_C_NC}:
   ${_C_CYAN}(none)${_C_NC}            Summary view (default)
   ${_C_CYAN}-a, --all${_C_NC}         Show all projects (flat list)
   ${_C_CYAN}-i${_C_NC}                Interactive mode with fzf picker
+  ${_C_CYAN}-w [sec]${_C_NC}          Watch mode - auto-refresh (default: 5s)
   ${_C_CYAN}-f, --full${_C_NC}        Interactive TUI (requires atlas)
   ${_C_CYAN}-h, --help${_C_NC}        Show this help
+
+${_C_BLUE}⌨️  INTERACTIVE KEYS${_C_NC} (with -i):
+  ${_C_CYAN}Enter${_C_NC}             Start work on project
+  ${_C_CYAN}Ctrl-D${_C_NC}            Open project dashboard
+  ${_C_CYAN}Ctrl-E${_C_NC}            Edit .STATUS file
+  ${_C_CYAN}Ctrl-S${_C_NC}            Show status with extended info
+  ${_C_CYAN}Ctrl-W${_C_NC}            Show project wins
+  ${_C_CYAN}?${_C_NC}                 Toggle preview panel
 
 ${_C_BLUE}📂 CATEGORIES${_C_NC}:
   ${_C_CYAN}dev${_C_NC}               Dev-tools projects
@@ -1308,35 +1349,49 @@ _dash_interactive() {
   # Sort: active projects first (🟢 comes before other icons alphabetically)
   local sorted_lines=$(printf '%s\n' "${project_lines[@]}" | sort -t' ' -k2,2 -k3,3)
 
-  # Create preview script
+  # Create enhanced preview script (v3.5.0)
   local preview_cmd='
     project=$(echo {} | sed "s/.*[🔧📦🔬🎓📝📱] [🟢🟡🔴🟠⚫⚪] //" | cut -d: -f1 | xargs)
     path=$(find ~/projects -maxdepth 4 -type d -name "$project" 2>/dev/null | head -1)
     if [[ -f "$path/.STATUS" ]]; then
       echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-      cat "$path/.STATUS" | head -20
+      echo "📁 $project"
+      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      echo ""
+      # Show key fields
+      grep -E "^## (Status|Phase|Progress|Focus|Next|wins|streak|tags|last_active):" "$path/.STATUS" 2>/dev/null | head -10
       echo ""
       echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-      echo "Path: $path"
+      # Git status if available
+      if [[ -d "$path/.git" ]]; then
+        cd "$path" && git log --oneline -3 2>/dev/null | while read line; do echo "  $line"; done
+      fi
+      echo ""
+      echo "📂 $path"
     else
       echo "No .STATUS file"
       echo "Path: $path"
     fi
   '
 
-  # Run fzf
+  # Run fzf with enhanced keybindings (v3.5.0)
   local selected=$(echo "$sorted_lines" | fzf \
     --ansi \
-    --header="🌊 FLOW DASHBOARD - Select project (Enter: work, Ctrl-D: dash)" \
+    --header="🌊 FLOW DASHBOARD │ ↵:work  ^D:dash  ^E:edit  ^S:status  ^W:wins  ?:help" \
     --preview="$preview_cmd" \
     --preview-window=right:50%:wrap \
     --bind="ctrl-d:execute(echo DASH {})+abort" \
+    --bind="ctrl-e:execute(echo EDIT {})+abort" \
+    --bind="ctrl-s:execute(echo STATUS {})+abort" \
+    --bind="ctrl-w:execute(echo WINS {})+abort" \
     --bind="enter:accept" \
+    --bind="?:toggle-preview" \
     --height=80% \
     --border=rounded \
     --prompt="🔍 " \
     --pointer="▶" \
-    --marker="✓")
+    --marker="✓" \
+    --color="header:italic")
 
   [[ -z "$selected" ]] && return 0
 
@@ -1355,14 +1410,67 @@ _dash_interactive() {
   project_name="${project_name#"${project_name%%[![:space:]]*}"}"
   project_name="${project_name%"${project_name##*[![:space:]]}"}"
 
-  # Check if it was a DASH command (Ctrl-D)
+  # Handle action based on keybinding (v3.5.0)
+  local proj_path=$(_dash_find_project_path "$project_name")
+
   if [[ "$selected" == "DASH "* ]]; then
-    local cat=$(_dash_detect_category "$(_dash_find_project_path "$project_name")")
+    # Ctrl-D: Show category dashboard
+    local cat=$(_dash_detect_category "$proj_path")
     dash "$cat"
+  elif [[ "$selected" == "EDIT "* ]]; then
+    # Ctrl-E: Edit .STATUS file
+    if [[ -f "$proj_path/.STATUS" ]]; then
+      ${EDITOR:-vim} "$proj_path/.STATUS"
+    else
+      _flow_log_warning "No .STATUS file for $project_name"
+    fi
+  elif [[ "$selected" == "STATUS "* ]]; then
+    # Ctrl-S: Show detailed status
+    status "$project_name" --extended
+  elif [[ "$selected" == "WINS "* ]]; then
+    # Ctrl-W: Show project wins
+    if [[ -f "$proj_path/.STATUS" ]]; then
+      local wins=$(grep -i "^## wins:" "$proj_path/.STATUS" 2>/dev/null | sed 's/^## wins: *//')
+      if [[ -n "$wins" ]]; then
+        echo ""
+        echo "  ${FLOW_COLORS[header]}🎉 Wins for $project_name${FLOW_COLORS[reset]}"
+        echo ""
+        local -a wins_arr
+        wins_arr=("${(@s:, :)wins}")
+        for win in "${wins_arr[@]}"; do
+          echo "  ✓ ${FLOW_COLORS[accent]}$win${FLOW_COLORS[reset]}"
+        done
+        echo ""
+      else
+        _flow_log_info "No wins logged for $project_name yet"
+      fi
+    else
+      _flow_log_warning "No .STATUS file for $project_name"
+    fi
   else
-    # Start work session
+    # Enter: Start work session
     work "$project_name"
   fi
+}
+
+# ============================================================================
+# WATCH MODE (v3.5.0)
+# ============================================================================
+
+_dash_watch() {
+  local interval="${1:-5}"
+
+  echo ""
+  echo "  ${FLOW_COLORS[header]}🔄 Watch Mode${FLOW_COLORS[reset]} (refreshing every ${interval}s, Ctrl-C to exit)"
+  echo ""
+
+  while true; do
+    clear
+    dash
+    echo ""
+    echo "  ${FLOW_COLORS[muted]}Last updated: $(date '+%H:%M:%S') │ Ctrl-C to exit${FLOW_COLORS[reset]}"
+    sleep "$interval"
+  done
 }
 
 # ============================================================================

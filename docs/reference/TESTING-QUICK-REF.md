@@ -229,10 +229,8 @@ Check for external command dependencies (grep, head, etc.)
 
 ## See Also
 
-- [Dog Feeding Test README](../../tests/DOG-FEEDING-TEST-README.md)
-- [Interactive Test Guide](../../tests/INTERACTIVE-TEST-GUIDE.md)
-- [Testing Guide](../testing/TESTING.md)
-- [Main README](../../README.md)
+- [Testing Guide](../testing/TESTING.md) - Comprehensive testing documentation
+- [Documentation Home](../index.md) - Project overview
 
 ---
 

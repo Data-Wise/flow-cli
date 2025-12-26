@@ -92,7 +92,7 @@ This gamified test walks you through validating all core commands in a fun, ADHD
 - ⭐ Star rating system (aim for 5 stars!)
 - 🎮 Gamification makes testing engaging
 
-See [tests/DOG-FEEDING-TEST-README.md](tests/DOG-FEEDING-TEST-README.md) for details.
+See the [Testing Guide](testing/TESTING.md) for details.
 
 ## Commands
 
@@ -121,7 +121,7 @@ qu <cmd>      # Quarto publishing (preview, render, pdf)
 r <cmd>       # R package development (test, doc, check, cycle)
 ```
 
-See [DISPATCHER-REFERENCE.md](docs/reference/DISPATCHER-REFERENCE.md) for complete documentation.
+See [DISPATCHER-REFERENCE.md](reference/DISPATCHER-REFERENCE.md) for complete documentation.
 
 ### Command Shortcuts
 

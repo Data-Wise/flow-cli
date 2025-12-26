@@ -228,7 +228,7 @@ Before publishing each diagram:
 
 - [Mermaid Live Editor](https://mermaid.live/) - Test diagrams interactively
 - [Mermaid Docs](https://mermaid.js.org/) - Full syntax reference
-- [Example `dash` doc](EXAMPLE-dash-command-doc.md) - Template
+- [Example `dash` doc](../commands/dash.md) - Live example with diagrams
 
 ---
 
@@ -236,10 +236,11 @@ Before publishing each diagram:
 
 **Goal:** Ship your first diagram-rich doc page
 
-1. **Copy example** (5 min)
+1. **Review existing example** (5 min)
 
    ```bash
-   cp EXAMPLE-dash-command-doc.md docs/commands/dash.md
+   # See how diagrams are used in existing docs
+   cat docs/commands/dash.md | grep -A 10 "mermaid"
    ```
 
 2. **Verify MkDocs config** (5 min)

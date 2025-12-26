@@ -209,19 +209,9 @@ Works with:
 
 ---
 
-## Files
-
-| File                                                 | Purpose                                     |
-| ---------------------------------------------------- | ------------------------------------------- |
-| `PROPOSAL-PICK-COMMAND-ENHANCEMENT.md`               | Technical proposal & implementation details |
-| `QUICK-WINS-IMPLEMENTED.md`                          | Quick enhancements documentation            |
-| `docs/planning/proposals/PICK-COMMAND-NEXT-PHASE.md` | Future enhancement roadmap (P6A-P6F)        |
-
----
-
 ## Next Phase Enhancements
 
-See [PICK-COMMAND-NEXT-PHASE.md](../planning/proposals/PICK-COMMAND-NEXT-PHASE.md) for planned features:
+Planned features for future releases:
 
 - **P6A:** Preview pane showing .STATUS, README, git info
 - **P6B:** Frecency sorting (frequency + recency)

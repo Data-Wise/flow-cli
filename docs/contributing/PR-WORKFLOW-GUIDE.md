@@ -61,7 +61,7 @@ git push origin feature/your-feature-name
 
 **Essential reading:**
 
-- [README.md](../../README.md) - Project overview
+- [Documentation Home](../index.md) - Project overview
 - [CONTRIBUTING.md](../contributing/CONTRIBUTING.md) - Contribution guidelines
 - [Architecture Overview](../architecture/README.md) - System design
 - [Testing Guide](../testing/TESTING.md) - Test requirements

@@ -18,8 +18,6 @@ This document doubles as an **interactive cleanup checklist**:
 
 **Safety:** Backups created before deletion. Dependency checking. User approval required.
 
-See [PROPOSAL-INTERACTIVE-CLEANUP.md](../../PROPOSAL-INTERACTIVE-CLEANUP.md) for full details.
-
 ---
 
 ## 📊 System Overview

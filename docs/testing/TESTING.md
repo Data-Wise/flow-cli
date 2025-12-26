@@ -876,4 +876,4 @@ This gamified test validates all core commands through an engaging experience:
 - Teaching new users
 - Making testing fun!
 
-See [Dog Feeding Test Guide](../../tests/DOG-FEEDING-TEST-README.md) for full details.
+Run `./tests/interactive-dog-feeding.zsh` to try it!
