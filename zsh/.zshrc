@@ -272,7 +272,7 @@ command -v radian >/dev/null && alias R='radian' && alias r='radian --quiet'
 # ============================================
 # 📝 QUARTO SHORTCUTS
 # ============================================
-# Note: Use `qu` dispatcher instead (qu preview, qu render, qu check, qu clean)
+# Note: qu dispatcher is now active in flow-cli (qu preview, qu render, qu check, qu clean)
 # Old aliases removed 2025-12-17
 
 # ============================================
@@ -280,10 +280,19 @@ command -v radian >/dev/null && alias R='radian' && alias r='radian --quiet'
 # ============================================
 
 # Basic commands
-# REPLACED 2025-12-19: alias cc='claude' → Now a dispatcher function in smart-dispatchers.zsh
+# NOTE 2025-12-25: cc dispatcher is archived - use ccy function below for pick+claude workflow
 alias ccp='claude -p'                                # Print mode (non-interactive)
 alias ccr='claude -r'                                # Resume with picker
-alias ccy='claude --dangerously-skip-permissions'  # YOLO mode (skip all permissions)
+
+# ccy - Pick project, then launch Claude (replaces archived cc dispatcher)
+ccy() {
+    # Use pick to select project interactively, then launch claude
+    if command -v pick >/dev/null 2>&1; then
+        pick && claude
+    else
+        claude
+    fi
+}
 # REMOVED 2025-12-14: alias ccc='claude -c'                                # Continue last conversation
 # REMOVED 2025-12-14: alias ccl='claude --resume latest'                   # Resume latest session
 
@@ -912,54 +921,62 @@ export PATH="$HOME/projects/dev-tools/zsh-claude-workflow/commands:$PATH"
 # alias qaurt='quarto'
 
 # ============================================
-# 💎 GEMINI CLI ALIASES (AI Assistant)
+# 💎 GEMINI CLI ALIASES (v0.22.2) - Updated 2025-12-25
 # ============================================
+# Note: 'gm' conflicts with GraphicsMagick, using 'gem' prefix instead
+# Note: -p flag deprecated, use positional prompts: gemini "query"
 
-# Basic commands
-# REPLACED 2025-12-19: alias gm='gemini' → Now a dispatcher function in smart-dispatchers.zsh
-# Note: Use positional prompts (gemini "query") instead of deprecated -p flag
-# REMOVED 2025-12-14: alias gmpi='gemini -i'                         # Prompt then stay interactive
+# Main shortcut
+alias gem='gemini'
 
-# Power user modes
-# REMOVED 2025-12-14: alias gmy='gemini --yolo'                      # Auto-approve all actions (YOLO mode)
-# REMOVED 2025-12-14: alias gms='gemini --sandbox'                   # Run in sandbox (safe mode)
-# REMOVED 2025-12-14: alias gmd='gemini --debug'                     # Debug mode
-# REMOVED 2025-12-14: alias gmr='gemini --resume latest'             # Resume latest session
-
-# Web search (using functions for flexibility)
-gmw() {
+# Web search functions (updated to remove deprecated -p flag)
+gemw() {
     if [ -z "$*" ]; then
-        echo "Usage: gmw <search query>"
-        echo "Example: gmw latest AI news"
+        echo "Usage: gemw <search query>"
+        echo "Example: gemw latest AI news"
         return 1
     fi
     gemini "Search the web for: $*"
 }
 
-gmws() {
+gemws() {
     if [ -z "$*" ]; then
-        echo "Usage: gmws <search query>"
-        echo "Example: gmws Python best practices 2025"
+        echo "Usage: gemws <search query>"
+        echo "Example: gemws Python best practices 2025"
         return 1
     fi
     gemini "Find and summarize information about: $*"
 }
 
-# MCP & Extensions
-# REMOVED 2025-12-14: alias gmm='gemini mcp'                         # MCP server management
-# REMOVED 2025-12-14: alias gme='gemini extensions'                  # Extension management
-# REMOVED 2025-12-14: alias gmei='gemini extensions install'         # Install extension
-# REMOVED 2025-12-14: alias gmel='gemini --list-extensions'          # List all extensions
-# REMOVED 2025-12-14: alias gmeu='gemini extensions update'          # Update extensions
+# Quick interactive with common options
+alias gemi='gemini -i'                    # Interactive mode
+alias gemy='gemini -y'                    # YOLO mode (auto-approve)
+alias gems='gemini -s'                    # Sandbox mode
+alias gemr='gemini -r latest'             # Resume latest session
 
-# Session management
-# REMOVED 2025-12-14: alias gmls='gemini --list-sessions'            # List available sessions
-# REMOVED 2025-12-14: alias gmds='gemini --delete-session'           # Delete session by index
+# Model selection shortcuts
+alias gemf='gemini -m gemini-2.5-flash'   # Fast model
+alias gemp='gemini -m gemini-2.5-pro'     # Pro model
 
-# Useful combinations
-# REMOVED 2025-12-14: alias gmys='gemini --yolo --sandbox'           # YOLO mode in sandbox (safe experimentation)
-# REMOVED 2025-12-14: alias gmyd='gemini --yolo --debug'             # YOLO with debug output
-# REMOVED 2025-12-14: alias gmsd='gemini --sandbox --debug'          # Sandbox with debug
+# Output formats
+alias gemj='gemini -o json'               # JSON output
+alias gemsj='gemini -o stream-json'       # Streaming JSON
+
+# Common workflows
+gemc() {
+    # Code review current changes
+    gemini "Review my git changes and suggest improvements"
+}
+
+geme() {
+    # Explain current codebase
+    gemini "Explain the architecture of this codebase"
+}
+
+gemd() {
+    # Debug help
+    gemini "Help me debug this issue: $*"
+}
 
 # emacs-plus@30 (Homebrew) — make emacs-plus the default Emacs and set editor vars
 # Adjust the path to match the installed version if different.
@@ -1015,15 +1032,15 @@ aliases() {
       echo "⚡ ULTRA-SHORT (5 aliases)"
       echo "   ld → rload  |  ts → rtest  |  dc → rdoc  |  ck → rcheck  |  bd → rbuild"
       echo ""
-      echo "💎 GEMINI (16 aliases)"
-      alias | grep "^gm" | head -5
+      echo "💎 GEMINI CLI (13 aliases - v0.22.2)"
+      alias | grep "^gem" | head -5
       echo "   ... (run 'aliases gemini' for all)"
       echo ""
       echo "📝 QUARTO (4 aliases)"
       alias | grep "^q[a-z]" 
       echo ""
       echo "🔀 GIT (6 aliases)"
-      alias | grep "^g" | grep -v "^gm"
+      alias | grep "^g" | grep -v "^gem"
       echo ""
       echo "📂 FILE VIEWING (9 aliases)"
       alias | grep "^peek\|^cat=\|^find=\|^grep="
@@ -1043,10 +1060,17 @@ aliases() {
       alias | grep "^r" | grep -v "^run-help"
       ;;
     
-    gemini|gm|gem)
-      echo "💎 GEMINI ALIASES (16 total)"
+    gemini|gem)
+      echo "💎 GEMINI CLI ALIASES (v0.22.2)"
       echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-      alias | grep "^gm"
+      echo "Main: gem, gemi, gemy, gems, gemr"
+      echo "Models: gemf (flash), gemp (pro)"
+      echo "Output: gemj (json), gemsj (stream-json)"
+      echo "Web: gemw, gemws"
+      echo "Workflows: gemc (code review), geme (explain), gemd (debug)"
+      echo ""
+      echo "Full list:"
+      alias | grep "^gem" | sort
       ;;
     
     quarto|q)
@@ -1058,7 +1082,7 @@ aliases() {
     git|g)
       echo "🔀 GIT ALIASES (6 total)"
       echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-      alias | grep "^g" | grep -v "^gm"
+      alias | grep "^g" | grep -v "^gem"
       ;;
     
     files|file|peek)
@@ -1154,20 +1178,22 @@ dashupdate() {
   source ~/projects/dev-tools/iterm2-context-switcher/zsh/iterm2-integration.zsh
 export PATH="/opt/homebrew/opt/imagemagick@6/bin:$PATH"
 
-# Smart Function Dispatchers (ADHD-Optimized) - Added 2025-12-14
-# MOVED TO .zshenv 2025-12-23
-# [[ -f ~/.config/zsh/functions/smart-dispatchers.zsh ]] && \
-#     source ~/.config/zsh/functions/smart-dispatchers.zsh
-
-# V / Vibe Dispatcher (Workflow Automation) - Added 2025-12-15
-# MOVED TO .zshenv 2025-12-23
-# [[ -f ~/.config/zsh/functions/v-dispatcher.zsh ]] && \
-#     source ~/.config/zsh/functions/v-dispatcher.zsh
-
-# G Dispatcher (Git Commands) - Added 2025-12-17
-# MOVED TO .zshenv 2025-12-23
-# [[ -f ~/.config/zsh/functions/g-dispatcher.zsh ]] && \
-#     source ~/.config/zsh/functions/g-dispatcher.zsh
+# Smart Function Dispatchers (ADHD-Optimized)
+# NOTE 2025-12-25: Dispatchers in flow-cli plugin (loaded via flow.plugin.zsh)
+#
+# Active dispatchers in ~/projects/dev-tools/flow-cli/lib/dispatchers/:
+#   g      - Git workflows
+#   mcp    - MCP server management
+#   obs    - Obsidian integration
+#   qu     - Quarto publishing (restored 2025-12-25)
+#   r      - R package development (restored 2025-12-25)
+#
+# Removed: v, vibe (deprecated - use 'flow' command instead)
+#
+# Not restored (personal shortcuts in .zshrc work better):
+#   cc/gem - Use ccy, gem* aliases below instead
+#   note   - Use obs dispatcher
+#   timer  - Use flow timer command
 
 # Terminal Management System (tmux + project launcher) - Added 2025-12-21
 [[ -f ~/.local/share/terminal-aliases.sh ]] && \
