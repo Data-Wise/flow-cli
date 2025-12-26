@@ -133,16 +133,23 @@ _flow_time_ago() {
 # ============================================================================
 
 # Simple yes/no prompt
+# Returns default if not running in interactive terminal
 _flow_confirm() {
   local prompt="${1:-Continue?}"
   local default="${2:-n}"
-  
+
+  # If no TTY, return default (usually false/no)
+  if [[ ! -t 0 ]]; then
+    [[ "$default" == "y" ]]
+    return
+  fi
+
   if [[ "$default" == "y" ]]; then
     prompt="$prompt [Y/n] "
   else
     prompt="$prompt [y/N] "
   fi
-  
+
   read -q "?$prompt" response
   echo
   [[ "$response" == "y" ]]

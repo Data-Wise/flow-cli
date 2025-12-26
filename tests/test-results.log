@@ -1,0 +1,540 @@
+=== FLOW-CLI TEST RUN ===
+Date: Thu Dec 25 18:12:05 EST 2025
+=========================
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FLOW-CLI INTERACTIVE TEST SUITE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Plugin loaded successfully
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEST 1: Basic Dashboard
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+▶ STEP: Run the dashboard command
+EXPECTED:
+
+• Header with date and time (🕐 HH:MM)
+• Stats row showing 'Today: X sessions'
+• QUICK ACCESS section with 5 projects
+• BY CATEGORY section with progress bars
+• Footer with tips
+
+COMMAND: dash
+EXIT CODE: 0
+OUTPUT:
+
+╭──────────────────────────────────────────────────────────────╮
+│  🌊 [1mFLOW DASHBOARD[0m                        Dec 25, 2025  🕐 18:12 │
+╰──────────────────────────────────────────────────────────────╯
+
+  📊 [38;5;245mToday:[0m [38;5;245mno sessions[0m
+
+  📁 [1mQUICK ACCESS[0m [38;5;245m(Active first)[0m
+  ├─ 🟢 [38;5;117matlas           [0m [38;5;245mProduction ready with flow-cli[0m
+  ├─ 🟢 [38;5;117mdata-wise.github.io[0m [38;5;245mPersonal/organization document[0m
+  ├─ 🟢 [38;5;117mflow-cli        [0m [38;5;245mProduction ready - clean separ[0m
+  ├─ 🟢 [38;5;117mmcp-servers     [0m [38;5;245mUnified MCP server ecosystem w[0m
+  └─ 🟢 [38;5;117mmedfit          [0m [38;5;245mNo next action defined[0m
+
+  📋 [1mBY CATEGORY[0m [38;5;245m(39 total)[0m
+  ├─ 📦 [38;5;117mr-packages  [0m ███░░  75%  │  [38;5;114m6 active[0m / 6
+  ├─ 🔧 [38;5;117mdev-tools   [0m ███░░  67%  │  [38;5;114m4 active[0m / 18
+  ├─ 🔬 [38;5;117mresearch    [0m ██░░░  43%  │  [38;5;245m0 active[0m / 10
+  ├─ 🎓 [38;5;117mteaching    [0m ████░  91%  │  [38;5;245m0 active[0m / 3
+  └─ 📱 [38;5;117mapps        [0m ░░░░░   0%  │  [38;5;245m0 active[0m / 1
+
+  ─────────────────────────────────────────────────────────────
+
+  [38;5;245m💡 'dash dev' to expand category │ 'dash -a' for all │ 'flow pick' to switch[0m
+
+RESULT: PASSED (auto)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEST 2: Category Expansion
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+▶ STEP: Expand the dev-tools category
+EXPECTED:
+
+• Header shows '🔧 DEV-TOOLS'
+• Active projects (🟢) appear FIRST
+• Progress bars shown (████░░ XX%)
+• Focus text below each project
+• Footer: '← dash to return'
+
+COMMAND: dash dev
+EXIT CODE: 0
+OUTPUT:
+
+  🔧 [1mDEV-TOOLS[0m
+  ─────────────────────────────────────────────────────────────
+
+  🟢 📗 atlas                ██████████ 100%
+       [38;5;245m→ Production ready with flow-cli v3.0.0 integration[0m
+  🟢 📝 data-wise.github.io  ██████░░░░ 60%
+       [38;5;245m→ Personal/organization documentation site[0m
+  🟢 📗 flow-cli             ██████████ 100%
+       [38;5;245m→ Production ready - clean separation achieved[0m
+  🟢 📁 mcp-servers          ████████░░ 80%
+       [38;5;245m→ Unified MCP server ecosystem with statistical-rese[0m
+  ⚪ 🐍 aiterm               ██████████ 100%
+       [38;5;245m→ Begin PyPI publication preparation (TestPyPI setup[0m
+  ⚪ 📁 apple-notes-sync     ████████░░ 85%
+  ⚪ 📁 claude-plugins       ████░░░░░░ 40%
+       [38;5;245m→ Test for 1 week, document feedback in TESTING-FEED[0m
+  ⚪ 📁 dev-planning        
+       [38;5;245m→ No next action defined[0m
+  🟡 📁 docs-standards       ██░░░░░░░░ 20%
+       [38;5;245m→ Unified documentation templates and standards[0m
+  🟡 📁 homebrew-tap         ███░░░░░░░ 30%
+       [38;5;245m→ Custom Homebrew formulas for personal tools[0m
+  ⚪ 📁 nexus                ███████░░░ 75%
+       [38;5;245m→ Phase 1 - Zotero Integration (extend statistical-r[0m
+  ⚪ 🐍 nexus-cli            ██████████ 100%
+       [38;5;245m→ v0.6.0 planning - additional exporters and interac[0m
+  ⚪ 🐍 obsidian-cli-ops     ██░░░░░░░░ 25%
+       [38;5;245m→ Phase 7.2 - AI-Powered Note Operations OR merge to[0m
+  ⚪ 📁 project-hub         
+  ⚪ 📗 scribe               ██████░░░░ 64%
+  ⚪ 📁 spacemacs-rstats     ██████████ 100%
+  🟡 📁 workspace-auditor    █░░░░░░░░░ 10%
+       [38;5;245m→ Tool for auditing and organizing project workspace[0m
+  ⚪ 📁 zsh-claude-workflow  █████████░ 98%
+
+  [38;5;245m← 'dash' to return to summary[0m
+
+RESULT: PASSED (auto)
+
+▶ STEP: Try R packages category
+EXPECTED:
+
+• Header shows '📦 R-PACKAGES'
+• Projects like medfit, rmediation visible
+• Active status and progress shown
+
+COMMAND: dash r
+EXIT CODE: 0
+OUTPUT:
+
+  📦 [1mR-PACKAGES[0m
+  ─────────────────────────────────────────────────────────────
+
+  🟢 📦 medfit               ██████████ 100%
+       [38;5;245m→ No next action defined[0m
+  🟢 📦 mediationverse       ████████░░ 85%
+       [38;5;245m→ No next action defined[0m
+  🟢 📦 medrobust            ██████░░░░ 65%
+       [38;5;245m→ Complete vignettes, prepare for CRAN submission[0m
+  🟢 📦 medsim               █████░░░░░ 50%
+       [38;5;245m→ Add more data generation scenarios[0m
+  🟢 📦 probmed              █████░░░░░ 55%
+       [38;5;245m→ Add more distribution support, expand vignettes[0m
+  🟢 📦 rmediation           ██████████ 100%
+       [38;5;245m→ CRAN published - maintenance mode[0m
+
+  [38;5;245m← 'dash' to return to summary[0m
+
+RESULT: PASSED (auto)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEST 3: Session Tracking
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+▶ STEP: End any existing session first
+COMMAND: finish 'cleanup' 2>/dev/null || echo 'No active session'
+EXIT CODE: 0
+OUTPUT:
+
+
+
+▶ STEP: Start a new work session
+EXPECTED:
+
+• Project context shown (icon, name, type)
+• Status info from .STATUS file
+• Session file created
+
+COMMAND: work atlas
+EXIT CODE: 0
+OUTPUT:
+
+[38;5;147m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+📗 [1matlas[0m (node)
+[38;5;147m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+🟢 Status: active
+📍 Phase: 🚀 v0.1.0 - Ecosystem Complete
+🎯 Focus: Production ready with flow-cli v3.0.0 integration
+
+RESULT: PASSED (auto)
+
+▶ STEP: Verify session file exists
+EXPECTED:
+
+• File contains: project=atlas
+• File contains: start=<timestamp>
+• File contains: date=<today>
+
+COMMAND: cat ~/.local/share/flow/.current-session
+EXIT CODE: 0
+OUTPUT:
+project=atlas
+start=1766704347
+date=2025-12-25
+
+RESULT: PASSED (auto)
+
+▶ STEP: Check dashboard shows ACTIVE NOW
+EXPECTED:
+
+• 🎯 ACTIVE NOW section visible
+• Shows 'atlas' as current project
+• Shows elapsed time (⏱ Xm)
+
+COMMAND: dash
+EXIT CODE: 0
+OUTPUT:
+
+╭──────────────────────────────────────────────────────────────╮
+│  🌊 [1mFLOW DASHBOARD[0m                        Dec 25, 2025  🕐 18:12 │
+╰──────────────────────────────────────────────────────────────╯
+
+  📊 [38;5;245mToday:[0m [38;5;245mno sessions[0m
+
+  🎯 [1mACTIVE NOW[0m
+  ╭────────────────────────────────────────────────────────────╮
+  │  📗 [38;5;114matlas                                               [0m │
+  │  [38;5;245mFocus: Production ready with flow-cli v3.0.0 integration  [0m │
+  │  [38;5;245m⏱  0m elapsed                                             [0m │
+  ╰────────────────────────────────────────────────────────────╯
+
+  📁 [1mQUICK ACCESS[0m [38;5;245m(Active first)[0m
+  ├─ 🟢 [38;5;117matlas           [0m [38;5;245mProduction ready with flow-cli[0m
+  ├─ 🟢 [38;5;117mdata-wise.github.io[0m [38;5;245mPersonal/organization document[0m
+  ├─ 🟢 [38;5;117mflow-cli        [0m [38;5;245mProduction ready - clean separ[0m
+  ├─ 🟢 [38;5;117mmcp-servers     [0m [38;5;245mUnified MCP server ecosystem w[0m
+  └─ 🟢 [38;5;117mmedfit          [0m [38;5;245mNo next action defined[0m
+
+  📋 [1mBY CATEGORY[0m [38;5;245m(39 total)[0m
+  ├─ 📦 [38;5;117mr-packages  [0m ███░░  75%  │  [38;5;114m6 active[0m / 6
+  ├─ 🔧 [38;5;117mdev-tools   [0m ███░░  67%  │  [38;5;114m4 active[0m / 18
+  ├─ 🔬 [38;5;117mresearch    [0m ██░░░  43%  │  [38;5;245m0 active[0m / 10
+  ├─ 🎓 [38;5;117mteaching    [0m ████░  91%  │  [38;5;245m0 active[0m / 3
+  └─ 📱 [38;5;117mapps        [0m ░░░░░   0%  │  [38;5;245m0 active[0m / 1
+
+  ─────────────────────────────────────────────────────────────
+
+  [38;5;245m💡 'dash dev' to expand category │ 'dash -a' for all │ 'flow pick' to switch[0m
+
+RESULT: PASSED (auto)
+
+▶ STEP: End the session
+EXPECTED:
+
+• Shows 'Session ended: Xm'
+• Duration calculated correctly
+
+COMMAND: finish 'test session complete'
+EXIT CODE: 0
+OUTPUT:
+
+
+RESULT: PASSED (auto)
+
+▶ STEP: Verify session file removed
+EXPECTED:
+
+• Error: No such file or directory (THIS IS EXPECTED)
+
+COMMAND: cat ~/.local/share/flow/.current-session 2>&1
+EXIT CODE: 1
+OUTPUT:
+cat: /Users/dt/.local/share/flow/.current-session: No such file or directory
+
+RESULT: PASSED (auto)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEST 4: Interactive Mode (fzf)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RESULT: SKIPPED (auto - fzf requires terminal)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEST 5: Dual .STATUS Format Parsing
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+▶ STEP: Check Markdown format (dev-tools)
+EXPECTED:
+
+• Uses '## Status: Active' format
+• Uses '## Progress: XX' format
+
+COMMAND: head -12 ~/projects/dev-tools/flow-cli/.STATUS
+EXIT CODE: 0
+OUTPUT:
+# flow-cli - Pure ZSH Workflow Plugin
+# ADHD-optimized workflow management for developers
+
+## Project: flow-cli
+## Type: zsh-plugin
+## Status: active
+## Phase: v3.0.0 - Clean Architecture
+## Priority: 1
+## Progress: 100
+
+## Focus: Production ready - clean separation achieved
+
+RESULT: PASSED (auto)
+
+▶ STEP: Check YAML format (research)
+EXPECTED:
+
+• Uses 'status: under review' format (lowercase)
+• Uses 'progress: XX' format
+• Uses 'next: ...' for focus text
+
+COMMAND: head -12 ~/projects/research/collider/.STATUS
+EXIT CODE: 0
+OUTPUT:
+status: under review
+priority: --
+progress: 95
+next: Await reviewer decision
+type: research
+
+# ═══════════════════════════════════════════════════════════════════
+# Below is the original .STATUS content (preserved for reference)
+# ═══════════════════════════════════════════════════════════════════
+
+# Collider Bias in Mediation
+# Methodology paper on collider stratification
+
+RESULT: PASSED (auto)
+
+▶ STEP: Dashboard parses research projects correctly
+EXPECTED:
+
+• Research projects show status icons
+• Progress bars display
+• 'under review' shows as active (🟢)
+
+COMMAND: dash research
+EXIT CODE: 0
+OUTPUT:
+
+  🔬 [1mRESEARCH[0m
+  ─────────────────────────────────────────────────────────────
+
+  ⚪ 📝 collider             █████████░ 95%
+       [38;5;245m→ Await reviewer decision[0m
+  ⚪ 📁 Interventional mediation █░░░░░░░░░ 10%
+       [38;5;245m→ Literature review and scope definition[0m
+  ⚪ 📁 measurement error    ░░░░░░░░░░ 5%
+       [38;5;245m→ Define scope and approach[0m
+  ⚪ 📁 medbounds            ░░░░░░░░░░ 5%
+       [38;5;245m→ Review bounds literature[0m
+  ⚪ 📁 Missing Effect       ░░░░░░░░░░ 5%
+       [38;5;245m→ Scope definition[0m
+  ⚪ 📁 mult_med             ██████████ 100%
+       [38;5;245m→ Reference as needed[0m
+  ⚪ 📁 Path Specific Mediation █░░░░░░░░░ 10%
+       [38;5;245m→ Literature synthesis[0m
+  ⚪ 📁 pmed                 ██████████ 100%
+       [38;5;245m→ None - published[0m
+  ⚪ 📁 product of three     ██████░░░░ 60%
+       [38;5;245m→ Complete simulation results section[0m
+  ⚪ 📁 sensitivity          ████░░░░░░ 40%
+       [38;5;245m→ Resume simulation runs when time permits[0m
+
+  [38;5;245m← 'dash' to return to summary[0m
+
+RESULT: PASSED (auto)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEST 6: Help and Aliases
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+▶ STEP: Check help output
+EXPECTED:
+
+• Shows USAGE section
+• Lists OPTIONS: -a, -i, -f, -h
+• Lists CATEGORIES: dev, r, research, teach
+• Shows LEGEND for status icons
+
+COMMAND: dash --help
+EXIT CODE: 0
+OUTPUT:
+╭──────────────────────────────────────────────────────────────╮
+│  🌊 DASH - Project Dashboard                                 │
+╰──────────────────────────────────────────────────────────────╯
+
+USAGE: dash [option|category]
+
+OPTIONS:
+  (none)        Summary view (default)
+  -a, --all     Show all projects (flat list)
+  -i            Interactive mode with fzf picker
+  -f, --full    Interactive TUI (requires atlas)
+  -h, --help    Show this help
+
+CATEGORIES:
+  dev           Expand dev-tools projects
+  r             Expand R packages
+  research      Expand research projects
+  teach         Expand teaching projects
+
+EXAMPLES:
+  dash              # Summary dashboard
+  dash dev          # Show all dev-tools projects
+  dash -a           # Flat list of all projects
+  flow dash r       # R packages via flow command
+
+LEGEND:
+  🟢 Active    🟡 Paused    🔴 Blocked
+  🟠 Stalled   ⚫ Archived  ⚪ Unknown
+
+RESULT: PASSED (auto)
+
+▶ STEP: Test 'd' alias
+EXPECTED:
+
+• Same output as 'dash'
+
+COMMAND: d
+EXIT CODE: 0
+OUTPUT:
+
+╭──────────────────────────────────────────────────────────────╮
+│  🌊 [1mFLOW DASHBOARD[0m                        Dec 25, 2025  🕐 18:12 │
+╰──────────────────────────────────────────────────────────────╯
+
+  📊 [38;5;245mToday:[0m [38;5;245mno sessions[0m
+
+  📁 [1mQUICK ACCESS[0m [38;5;245m(Active first)[0m
+  ├─ 🟢 [38;5;117matlas           [0m [38;5;245mProduction ready with flow-cli[0m
+  ├─ 🟢 [38;5;117mdata-wise.github.io[0m [38;5;245mPersonal/organization document[0m
+  ├─ 🟢 [38;5;117mflow-cli        [0m [38;5;245mProduction ready - clean separ[0m
+  ├─ 🟢 [38;5;117mmcp-servers     [0m [38;5;245mUnified MCP server ecosystem w[0m
+  └─ 🟢 [38;5;117mmedfit          [0m [38;5;245mNo next action defined[0m
+
+  📋 [1mBY CATEGORY[0m [38;5;245m(39 total)[0m
+  ├─ 📦 [38;5;117mr-packages  [0m ███░░  75%  │  [38;5;114m6 active[0m / 6
+  ├─ 🔧 [38;5;117mdev-tools   [0m ███░░  67%  │  [38;5;114m4 active[0m / 18
+  ├─ 🔬 [38;5;117mresearch    [0m ██░░░  43%  │  [38;5;245m0 active[0m / 10
+  ├─ 🎓 [38;5;117mteaching    [0m ████░  91%  │  [38;5;245m0 active[0m / 3
+  └─ 📱 [38;5;117mapps        [0m ░░░░░   0%  │  [38;5;245m0 active[0m / 1
+
+  ─────────────────────────────────────────────────────────────
+
+  [38;5;245m💡 'dash dev' to expand category │ 'dash -a' for all │ 'flow pick' to switch[0m
+
+RESULT: PASSED (auto)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEST 7: All Projects View
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+▶ STEP: Show all projects (flat list)
+EXPECTED:
+
+• Shows ALL projects in flat list
+• Status icons visible
+• Focus text shown inline
+• No grouping by category
+
+COMMAND: dash -a | head -20
+EXIT CODE: 0
+OUTPUT:
+
+╭──────────────────────────────────────────────────────────────╮
+│  🌊 [1mFLOW DASHBOARD[0m                        Dec 25, 2025  🕐 18:12 │
+╰──────────────────────────────────────────────────────────────╯
+
+  📊 [38;5;245mToday:[0m [38;5;245mno sessions[0m
+
+  📁 [1mQUICK ACCESS[0m [38;5;245m(Active first)[0m
+  ├─ 🟢 [38;5;117matlas           [0m [38;5;245mProduction ready with flow-cli[0m
+  ├─ 🟢 [38;5;117mdata-wise.github.io[0m [38;5;245mPersonal/organization document[0m
+  ├─ 🟢 [38;5;117mflow-cli        [0m [38;5;245mProduction ready - clean separ[0m
+  ├─ 🟢 [38;5;117mmcp-servers     [0m [38;5;245mUnified MCP server ecosystem w[0m
+  └─ 🟢 [38;5;117mmedfit          [0m [38;5;245mNo next action defined[0m
+
+  📋 [1mALL PROJECTS[0m
+
+  ⚪ 📝 examark             
+  ⚪ 🐍 aiterm               [38;5;245m│ Begin PyPI publication preparation (Test[0m
+  ⚪ 📁 apple-notes-sync    
+  🟢 📗 atlas                [38;5;245m│ Production ready with flow-cli v3.0.0 in[0m
+
+RESULT: PASSED (auto)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEST 8: Edge Cases
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+▶ STEP: Dashboard with no active session
+EXPECTED:
+
+• NO 'ACTIVE NOW' section
+• Dashboard still displays normally
+
+COMMAND: finish 2>/dev/null; dash | head -15
+EXIT CODE: 0
+OUTPUT:
+
+╭──────────────────────────────────────────────────────────────╮
+│  🌊 [1mFLOW DASHBOARD[0m                        Dec 25, 2025  🕐 18:13 │
+╰──────────────────────────────────────────────────────────────╯
+
+  📊 [38;5;245mToday:[0m [38;5;245mno sessions[0m
+
+  📁 [1mQUICK ACCESS[0m [38;5;245m(Active first)[0m
+  ├─ 🟢 [38;5;117matlas           [0m [38;5;245mProduction ready with flow-cli[0m
+  ├─ 🟢 [38;5;117mdata-wise.github.io[0m [38;5;245mPersonal/organization document[0m
+  ├─ 🟢 [38;5;117mflow-cli        [0m [38;5;245mProduction ready - clean separ[0m
+  ├─ 🟢 [38;5;117mmcp-servers     [0m [38;5;245mUnified MCP server ecosystem w[0m
+  └─ 🟢 [38;5;117mmedfit          [0m [38;5;245mNo next action defined[0m
+
+  📋 [1mBY CATEGORY[0m [38;5;245m(39 total)[0m
+
+RESULT: PASSED (auto)
+
+▶ STEP: Project without .STATUS file
+EXPECTED:
+
+• Shows ⚪ (unknown) status icon
+• No progress bar
+• No focus text
+• Still navigable
+
+COMMAND: dash dev | grep '⚪' || echo '(No projects without .STATUS)'
+EXIT CODE: 0
+OUTPUT:
+  ⚪ 🐍 aiterm               ██████████ 100%
+  ⚪ 📁 apple-notes-sync     ████████░░ 85%
+  ⚪ 📁 claude-plugins       ████░░░░░░ 40%
+  ⚪ 📁 dev-planning        
+  ⚪ 📁 nexus                ███████░░░ 75%
+  ⚪ 🐍 nexus-cli            ██████████ 100%
+  ⚪ 🐍 obsidian-cli-ops     ██░░░░░░░░ 25%
+  ⚪ 📁 project-hub         
+  ⚪ 📗 scribe               ██████░░░░ 64%
+  ⚪ 📁 spacemacs-rstats     ██████████ 100%
+  ⚪ 📁 zsh-claude-workflow  █████████░ 98%
+
+RESULT: PASSED (auto)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEST RESULTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Passed: 16
+Failed: 0
+Skipped: 1
+Auto-detected errors: 0
+Pass rate: 100%
+Status: ALL PASSED
