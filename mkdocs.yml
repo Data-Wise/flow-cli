@@ -43,6 +43,11 @@ theme:
 
 plugins:
   - search
+  - exclude:
+      glob:
+        - archive/*
+        - '*.bak'
+        - '*.tmp'
 
 markdown_extensions:
   - admonition
