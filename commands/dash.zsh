@@ -807,36 +807,55 @@ _dash_footer() {
 # ============================================================================
 
 _dash_help() {
-  cat << 'EOF'
-╭──────────────────────────────────────────────────────────────╮
-│  🌊 DASH - Project Dashboard                                 │
-╰──────────────────────────────────────────────────────────────╯
+  # Colors
+  local _C_BOLD="${_C_BOLD:-\033[1m}"
+  local _C_NC="${_C_NC:-\033[0m}"
+  local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+  local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+  local _C_BLUE="${_C_BLUE:-\033[0;34m}"
+  local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
+  local _C_MAGENTA="${_C_MAGENTA:-\033[0;35m}"
+  local _C_DIM="${_C_DIM:-\033[2m}"
 
-USAGE: dash [option|category]
+  echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ 🌊 DASH - Project Dashboard                 │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-OPTIONS:
-  (none)        Summary view (default)
-  -a, --all     Show all projects (flat list)
-  -i            Interactive mode with fzf picker
-  -f, --full    Interactive TUI (requires atlas)
-  -h, --help    Show this help
+${_C_BOLD}Usage:${_C_NC} dash [option|category]
 
-CATEGORIES:
-  dev           Expand dev-tools projects
-  r             Expand R packages
-  research      Expand research projects
-  teach         Expand teaching projects
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}dash${_C_NC}              Summary dashboard (default)
+  ${_C_CYAN}dash dev${_C_NC}          Expand dev-tools projects
+  ${_C_CYAN}dash -i${_C_NC}           Interactive fzf picker
 
-EXAMPLES:
-  dash              # Summary dashboard
-  dash dev          # Show all dev-tools projects
-  dash -a           # Flat list of all projects
-  flow dash r       # R packages via flow command
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} dash                   ${_C_DIM}# Summary view${_C_NC}
+  ${_C_DIM}\$${_C_NC} dash dev               ${_C_DIM}# Dev-tools projects${_C_NC}
+  ${_C_DIM}\$${_C_NC} dash r                 ${_C_DIM}# R packages${_C_NC}
+  ${_C_DIM}\$${_C_NC} dash -a                ${_C_DIM}# All projects flat list${_C_NC}
 
-LEGEND:
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}(none)${_C_NC}            Summary view (default)
+  ${_C_CYAN}-a, --all${_C_NC}         Show all projects (flat list)
+  ${_C_CYAN}-i${_C_NC}                Interactive mode with fzf picker
+  ${_C_CYAN}-f, --full${_C_NC}        Interactive TUI (requires atlas)
+  ${_C_CYAN}-h, --help${_C_NC}        Show this help
+
+${_C_BLUE}📂 CATEGORIES${_C_NC}:
+  ${_C_CYAN}dev${_C_NC}               Dev-tools projects
+  ${_C_CYAN}r${_C_NC}                 R packages
+  ${_C_CYAN}research${_C_NC}          Research projects
+  ${_C_CYAN}teach${_C_NC}             Teaching projects
+  ${_C_CYAN}quarto${_C_NC}            Quarto projects
+  ${_C_CYAN}apps${_C_NC}              Applications
+
+${_C_BLUE}🎨 LEGEND${_C_NC}:
   🟢 Active    🟡 Paused    🔴 Blocked
   🟠 Stalled   ⚫ Archived  ⚪ Unknown
-EOF
+
+${_C_DIM}See also:${_C_NC} work help, status help, pick help
+"
 }
 
 # ============================================================================

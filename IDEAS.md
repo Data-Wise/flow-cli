@@ -1,8 +1,40 @@
 # Ideas for Flow CLI
 
 **Last Updated:** 2025-12-26
-**Current Version:** v3.0.0
-**Status:** 🟢 Production Ready - Doctor Command Added
+**Current Version:** v3.1.0
+**Status:** 🟢 Production Ready - Help Standards & Man Pages Complete
+
+---
+
+## ✅ COMPLETED - Help Standards Update (2025-12-26)
+
+### Consistent Help Output Across All Commands - IMPLEMENTED ✅
+
+**What Was Built:**
+
+- Updated all command help functions to follow standards
+- Colors: BOLD, CYAN, GREEN, YELLOW, DIM for visual hierarchy
+- "MOST COMMON" section highlighting 80% daily usage
+- "QUICK EXAMPLES" with copy-paste ready commands
+- "See also" section with related commands/man pages
+- Consistent box-drawing character headers
+
+**Commands Updated:**
+
+- `flow help` - Main command (commands/flow.zsh)
+- `dash help` - Dashboard command (commands/dash.zsh)
+- `timer help` - Timer command (commands/timer.zsh)
+- `status help` - Status command (commands/status.zsh)
+- All dispatchers already followed standards (g, qu, r, mcp, cc, obs)
+
+**Man Pages Created (6 total):**
+
+- `man flow` - Main flow command (270 lines)
+- `man r` - R package development (120 lines)
+- `man g` - Git workflows (160 lines)
+- `man qu` - Quarto publishing (100 lines)
+- `man mcp` - MCP server management (110 lines)
+- `man obs` - Obsidian CLI (100 lines)
 
 ---
 
@@ -22,13 +54,14 @@
 **Documentation Updated:**
 
 - `docs/reference/COMMAND-QUICK-REFERENCE.md` - Doctor section added
+- `docs/commands/doctor.md` - Full command documentation
 - `docs/getting-started/installation.md` - Health check instructions
 - Fixed 10+ broken links in architecture docs
 - Website deployed with all updates
 
 ---
 
-## 🔮 NEW IDEAS FROM DOCTOR SESSION (2025-12-26)
+## 🔮 FUTURE ENHANCEMENTS (From 2025-12-26 Sessions)
 
 ### ⚡ Quick Wins (< 1hr each)
 
@@ -47,22 +80,31 @@
    - Walks through all recommended tools
    - Uses `flow doctor --fix` under the hood
 
+4. **Add "See also" to all man pages**
+   - Cross-reference between man pages
+   - Link to online documentation
+
 ### 🔧 Medium Effort (1-3hrs)
 
-4. **Doctor self-update feature**
+5. **Doctor self-update feature**
    - `flow doctor --update-docs` to regenerate help files
    - Auto-update refcards when commands change
    - Keep documentation in sync with implementation
 
-5. **Plugin health checks**
+6. **Plugin health checks**
    - Check ZSH plugins are loaded correctly
    - Verify antidote/zinit configuration
    - Detect plugin conflicts
 
-6. **Environment snapshot/export**
+7. **Environment snapshot/export**
    - `flow doctor --export` to save current setup
    - Share setup with teammates
    - Reproducible development environment
+
+8. **Help system improvements**
+   - `flow help --list` to show all commands
+   - `flow help --search <term>` for fuzzy search
+   - Completions health check in doctor
 
 ---
 
@@ -428,7 +470,7 @@ These are interesting but low priority. Document for future consideration:
 
 ## 📊 Current State Summary
 
-**Version:** v2.0.0-beta.1
+**Version:** v3.1.0
 **Status:** 🟢 Production Ready
 **Tests:** 559/559 passing (100%)
 **Documentation:** Comprehensive and deployed
@@ -441,6 +483,9 @@ These are interesting but low priority. Document for future consideration:
 - Comprehensive testing
 - Beautiful visualizations
 - Complete documentation
+- Consistent help standards across all commands
+- Man pages for all major commands
+- Doctor command for health checks
 
 **What's Next:**
 
@@ -451,8 +496,8 @@ These are interesting but low priority. Document for future consideration:
 
 ---
 
-**Last Updated:** 2025-12-24 16:15
+**Last Updated:** 2025-12-26
 **Current Focus:** Real-world usage validation
 **Next Milestone:** Production use feedback collected
 
-_Major milestone: Phase P6 complete! 🎉 Now validating with real usage._
+_Major milestone: Help standards complete! 🎉 All commands now have consistent, ADHD-friendly help output._

@@ -220,29 +220,54 @@ _flow_status_set() {
 # ============================================================================
 
 _flow_status_help() {
-  cat << 'EOF'
-Usage: status [project] [options]
+  # Colors
+  local _C_BOLD="${_C_BOLD:-\033[1m}"
+  local _C_NC="${_C_NC:-\033[0m}"
+  local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+  local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+  local _C_BLUE="${_C_BLUE:-\033[0;34m}"
+  local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
+  local _C_MAGENTA="${_C_MAGENTA:-\033[0;35m}"
+  local _C_DIM="${_C_DIM:-\033[2m}"
 
-View and update project status files.
+  echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ 📊 STATUS - Project Status Management       │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-OPTIONS:
-  --create    Create new .STATUS file
-  --edit      Open .STATUS in editor
-  --set       Update status fields
+${_C_BOLD}Usage:${_C_NC} status [project] [options]
 
-SET OPTIONS:
-  --status <value>    Set status (active|paused|blocked|archived)
-  --focus <text>      Set current focus
-  --progress <0-100>  Set progress percentage
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}status${_C_NC}              Show current project status
+  ${_C_CYAN}status <name>${_C_NC}       Show specific project status
+  ${_C_CYAN}status <name> --edit${_C_NC} Edit .STATUS file
 
-EXAMPLES:
-  status               # Show current project status
-  status medrobust     # Show medrobust status
-  status myproj --create   # Create new .STATUS
-  status myproj --set --progress 50 --focus "Testing"
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} status                   ${_C_DIM}# Current project${_C_NC}
+  ${_C_DIM}\$${_C_NC} status medrobust         ${_C_DIM}# Show medrobust${_C_NC}
+  ${_C_DIM}\$${_C_NC} status myproj --create   ${_C_DIM}# Create .STATUS${_C_NC}
+  ${_C_DIM}\$${_C_NC} status myproj --set --progress 50 --focus \"Testing\"
 
-With atlas installed, provides richer display and tracking.
-EOF
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--create${_C_NC}            Create new .STATUS file
+  ${_C_CYAN}--edit${_C_NC}              Open .STATUS in editor
+  ${_C_CYAN}--set${_C_NC}               Update status fields
+
+${_C_BLUE}⚙️  SET OPTIONS${_C_NC}:
+  ${_C_CYAN}--status${_C_NC} <value>    Set status (active|paused|blocked|archived)
+  ${_C_CYAN}--focus${_C_NC} <text>      Set current focus
+  ${_C_CYAN}--progress${_C_NC} <0-100>  Set progress percentage
+
+${_C_BLUE}📄 .STATUS FILE FORMAT${_C_NC}:
+  ${_C_DIM}status: active${_C_NC}
+  ${_C_DIM}priority: P0${_C_NC}
+  ${_C_DIM}progress: 45${_C_NC}
+  ${_C_DIM}next: Implement feature${_C_NC}
+
+${_C_MAGENTA}💡 TIP${_C_NC}: With atlas installed, provides richer display
+
+${_C_DIM}See also:${_C_NC} dash help, work help
+"
 }
 
 # Find project path by name

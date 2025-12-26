@@ -234,31 +234,54 @@ _flow_timer_progress_mini() {
 # ============================================================================
 
 _flow_timer_help() {
-  cat << 'EOF'
-Usage: timer [command] [options]
+  # Colors
+  local _C_BOLD="${_C_BOLD:-\033[1m}"
+  local _C_NC="${_C_NC:-\033[0m}"
+  local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+  local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+  local _C_BLUE="${_C_BLUE:-\033[0;34m}"
+  local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
+  local _C_MAGENTA="${_C_MAGENTA:-\033[0;35m}"
+  local _C_DIM="${_C_DIM:-\033[2m}"
 
-ADHD-friendly timer for focus sessions and breaks.
+  echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ ⏱️  TIMER - Focus & Break Management         │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-COMMANDS:
-  timer [minutes]     Start focus timer (default: 25)
-  timer focus <min>   Start focus session
-  timer break <min>   Start break timer (default: 5)
-  timer pomodoro [n]  Run n pomodoro cycles (default: 4)
-  timer stop          Stop active timer
-  timer status        Show timer status
+${_C_BOLD}Usage:${_C_NC} timer [command] [options]
 
-EXAMPLES:
-  timer               # 25 minute focus
-  timer 45            # 45 minute focus
-  timer break         # 5 minute break
-  timer pomodoro 2    # 2 pomodoro cycles
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}timer${_C_NC}              Start 25-minute focus (default)
+  ${_C_CYAN}timer 45${_C_NC}           Start 45-minute focus
+  ${_C_CYAN}timer break${_C_NC}        Start 5-minute break
+  ${_C_CYAN}timer status${_C_NC}       Check remaining time
 
-POMODORO OPTIONS:
-  timer pomodoro [cycles] [focus] [break] [long-break]
-  timer pomodoro 4 25 5 15   # 4 cycles, 25m focus, 5m break, 15m long
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} timer                  ${_C_DIM}# 25 min focus${_C_NC}
+  ${_C_DIM}\$${_C_NC} timer 45               ${_C_DIM}# 45 min focus${_C_NC}
+  ${_C_DIM}\$${_C_NC} timer break            ${_C_DIM}# 5 min break${_C_NC}
+  ${_C_DIM}\$${_C_NC} timer pomodoro         ${_C_DIM}# 4 pomodoro cycles${_C_NC}
 
-Press Ctrl+C to interrupt any timer.
-EOF
+${_C_BLUE}📋 COMMANDS${_C_NC}:
+  ${_C_CYAN}timer${_C_NC} [minutes]     Start focus timer (default: 25)
+  ${_C_CYAN}timer focus${_C_NC} <min>   Start focus session
+  ${_C_CYAN}timer break${_C_NC} <min>   Start break timer (default: 5)
+  ${_C_CYAN}timer stop${_C_NC}          Stop active timer
+  ${_C_CYAN}timer status${_C_NC}        Show timer status
+
+${_C_BLUE}🍅 POMODORO${_C_NC}:
+  ${_C_CYAN}timer pomodoro${_C_NC} [n]  Run n pomodoro cycles (default: 4)
+  ${_C_CYAN}timer pom${_C_NC}           Alias for pomodoro
+
+${_C_BLUE}⚙️  POMODORO OPTIONS${_C_NC}:
+  ${_C_DIM}timer pomodoro [cycles] [focus] [break] [long-break]${_C_NC}
+  ${_C_DIM}timer pomodoro 4 25 5 15   # 4 cycles, 25m focus, 5m break, 15m long${_C_NC}
+
+${_C_MAGENTA}💡 TIP${_C_NC}: Press Ctrl+C to interrupt any timer
+
+${_C_DIM}See also:${_C_NC} flow break, morning help
+"
 }
 
 # ============================================================================
