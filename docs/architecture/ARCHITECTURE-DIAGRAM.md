@@ -1,8 +1,8 @@
 # Flow CLI - Architecture Diagrams
 
-**Version:** 2.0.0-beta.1
-**Architecture:** Clean Architecture (4-Layer)
-**Last Updated:** 2025-12-24
+**Version:** 3.5.0
+**Architecture:** Pure ZSH Plugin with Clean Separation
+**Last Updated:** 2025-12-26
 
 ---
 

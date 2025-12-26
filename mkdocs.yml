@@ -100,6 +100,7 @@ nav:
       - 4. Web Dashboard: tutorials/04-web-dashboard.md
       - 5. AI-Powered Commands: tutorials/05-ai-commands.md
   - Guides:
+      - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - Workflows & Tips: guides/WORKFLOWS-QUICK-WINS.md
       - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
       - Enhanced Help Quick Start: guides/ENHANCED-HELP-QUICK-START.md
