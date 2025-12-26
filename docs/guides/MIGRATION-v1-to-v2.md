@@ -549,7 +549,7 @@ Use this checklist to track your migration progress:
 
 **Questions or Issues?**
 
-- Check [Frequently Asked Questions](#-faq) above
+- Check [Frequently Asked Questions](#faq) above
 - Review [WORKFLOWS-QUICK-WINS.md](WORKFLOWS-QUICK-WINS.md)
 - Open an issue: https://github.com/Data-Wise/flow-cli/issues
 

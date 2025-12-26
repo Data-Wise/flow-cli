@@ -236,7 +236,7 @@
 - ✅ **Visual learners:** Start with [Architecture Diagrams](../architecture/ARCHITECTURE-DIAGRAM.md)
 - ✅ **Hands-on learners:** Jump straight to [Tutorial 1](../tutorials/01-first-session.md)
 - ✅ **Reference learners:** Bookmark [Command Reference](../reference/ALIAS-REFERENCE-CARD.md)
-- ✅ **Speed learners:** Use the [5-Minute Quick Start](#-5-minute-quick-start)
+- ✅ **Speed learners:** Use the [5-Minute Quick Start](#5-minute-quick-start)
 
 ### Best Practices
 
@@ -256,7 +256,7 @@
 
 **Ready to start?** Pick your path above and dive in!
 
-**Questions?** See the [Getting Help](#-getting-help) section.
+**Questions?** See the [Getting Help](#getting-help) section.
 
 **Version:** v2.0.0-beta.1
 **Last updated:** 2025-12-24

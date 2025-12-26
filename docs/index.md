@@ -148,7 +148,7 @@ Validate your installation with our gamified test suite!
 - ⭐ Earn 1-5 stars based on performance
 - 🐕 Feed a virtual dog by confirming tests pass
 
-See [Interactive Dog Test Guide](../tests/DOG-FEEDING-TEST-README.md) for details.
+See [Interactive Dog Test Guide](testing/DOG-FEEDING-TEST-README.md) for details.
 
 ### Architecture & Design
 

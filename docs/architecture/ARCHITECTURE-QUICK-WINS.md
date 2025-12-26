@@ -13,7 +13,7 @@ This guide extracts the most immediately useful patterns from our comprehensive 
 
 - [Error Handling](#error-handling)
 - [Input Validation](#input-validation)
-- [Bridge Pattern (JS ↔ Shell)](#bridge-pattern-js--shell)
+- [Bridge Pattern (JS ↔ Shell)](#bridge-pattern-js-shell)
 - [Repository Pattern](#repository-pattern)
 - [TypeScript Definitions](#typescript-definitions)
 - [Testing Patterns](#testing-patterns)
@@ -574,7 +574,7 @@ When implementing a new feature, use this checklist:
 ### 3. Choose Storage Pattern
 
 - [ ] Need file I/O? Use [Repository Pattern](#repository-pattern)
-- [ ] Need shell scripts? Use [Bridge Pattern](#bridge-pattern-js--shell)
+- [ ] Need shell scripts? Use [Bridge Pattern](#bridge-pattern-js-shell)
 
 ### 4. Add Types (Optional)
 

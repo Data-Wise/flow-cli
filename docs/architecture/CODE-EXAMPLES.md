@@ -11,7 +11,7 @@
 - [Domain Layer](#domain-layer) - Entities, Value Objects, Repositories
 - [Use Cases Layer](#use-cases-layer) - Application logic
 - [Adapters Layer](#adapters-layer) - Controllers, Gateways, Presenters
-- [Performance & Caching](#performance--caching) - Optimization patterns
+- [Performance & Caching](#performance-caching) - Optimization patterns
 - [Dependency Injection](#dependency-injection) - Wiring it all together
 - [Testing Patterns](#testing-patterns) - Unit and integration tests
 
