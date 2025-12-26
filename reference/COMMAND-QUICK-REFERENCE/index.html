@@ -1580,6 +1580,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#setup-diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup &amp; Diagnostics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup &amp; Diagnostics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#health-check-flow-doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health Check: flow doctor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#workflow-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3117,6 +3145,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#setup-diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup &amp; Diagnostics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup &amp; Diagnostics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#health-check-flow-doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health Check: flow doctor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#workflow-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3299,37 +3355,55 @@
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>gemp<span class="w">                </span><span class="c1"># Gemini Pro</span>
 </code></pre></div>
 <hr />
+<h2 id="setup-diagnostics">Setup &amp; Diagnostics<a class="headerlink" href="#setup-diagnostics" title="Permanent link">&para;</a></h2>
+<h3 id="health-check-flow-doctor">Health Check: <code>flow doctor</code><a class="headerlink" href="#health-check-flow-doctor" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>flow<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># Check all dependencies</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w">        </span><span class="c1"># Interactive install missing tools</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w"> </span>-y<span class="w">     </span><span class="c1"># Auto-install all missing (no prompts)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--ai<span class="w">         </span><span class="c1"># AI-assisted troubleshooting (Claude CLI)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--help<span class="w">       </span><span class="c1"># Show all options</span>
+</code></pre></div>
+<p><strong>What it checks:</strong>
+- Required: fzf
+- Recommended: eza, bat, zoxide, fd, ripgrep
+- Optional: dust, duf, btop, delta, gh, jq
+- Integrations: atlas, radian
+- ZSH plugins: p10k, autosuggestions, syntax-highlighting</p>
+<p><strong>Quick fix all:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>brew<span class="w"> </span>bundle<span class="w"> </span>--file<span class="o">=</span><span class="nv">$FLOW_PLUGIN_DIR</span>/setup/Brewfile
+</code></pre></div></p>
+<hr />
 <h2 id="workflow-functions">Workflow Functions<a class="headerlink" href="#workflow-functions" title="Permanent link">&para;</a></h2>
 <h3 id="session-management">Session Management<a class="headerlink" href="#session-management" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>work<span class="w"> </span>&lt;project&gt;<span class="w">      </span><span class="c1"># Start work session</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>finish<span class="w"> </span><span class="o">[</span>msg<span class="o">]</span><span class="w">        </span><span class="c1"># End session (commit + push)</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>here<span class="w">                </span><span class="c1"># Quick context (pwd + status + ls)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>work<span class="w"> </span>&lt;project&gt;<span class="w">      </span><span class="c1"># Start work session</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>finish<span class="w"> </span><span class="o">[</span>msg<span class="o">]</span><span class="w">        </span><span class="c1"># End session (commit + push)</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>here<span class="w">                </span><span class="c1"># Quick context (pwd + status + ls)</span>
 </code></pre></div>
 <h3 id="project-operations">Project Operations<a class="headerlink" href="#project-operations" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>pb<span class="w">                  </span><span class="c1"># Build (auto-detects type)</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>pv<span class="w">                  </span><span class="c1"># Preview/view</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>pt<span class="w">                  </span><span class="c1"># Test</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>pick<span class="w">                </span><span class="c1"># FZF picker</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>dash<span class="w">                </span><span class="c1"># Master dashboard</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>pb<span class="w">                  </span><span class="c1"># Build (auto-detects type)</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>pv<span class="w">                  </span><span class="c1"># Preview/view</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>pt<span class="w">                  </span><span class="c1"># Test</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>pick<span class="w">                </span><span class="c1"># FZF picker</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>dash<span class="w">                </span><span class="c1"># Master dashboard</span>
 </code></pre></div>
 <h3 id="teaching">Teaching<a class="headerlink" href="#teaching" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>tst<span class="w">                 </span><span class="c1"># Teaching status</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>tweek<span class="w">               </span><span class="c1"># Current week</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>tlec<span class="w"> </span><span class="o">[</span>N<span class="o">]</span><span class="w">            </span><span class="c1"># Open lecture N</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>tpublish<span class="w">            </span><span class="c1"># Deploy to GitHub Pages</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>tst<span class="w">                 </span><span class="c1"># Teaching status</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>tweek<span class="w">               </span><span class="c1"># Current week</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>tlec<span class="w"> </span><span class="o">[</span>N<span class="o">]</span><span class="w">            </span><span class="c1"># Open lecture N</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>tpublish<span class="w">            </span><span class="c1"># Deploy to GitHub Pages</span>
 </code></pre></div>
 <h3 id="research">Research<a class="headerlink" href="#research" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>rst<span class="w">                 </span><span class="c1"># Research status</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>rms<span class="w">                 </span><span class="c1"># Open manuscript</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>rsim<span class="w">                </span><span class="c1"># Run simulation</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>rst<span class="w">                 </span><span class="c1"># Research status</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>rms<span class="w">                 </span><span class="c1"># Open manuscript</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>rsim<span class="w">                </span><span class="c1"># Run simulation</span>
 </code></pre></div>
 <hr />
 <h2 id="utility-aliases">Utility Aliases<a class="headerlink" href="#utility-aliases" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>..<span class="w">                  </span><span class="c1"># cd ..</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>...<span class="w">                 </span><span class="c1"># cd ../..</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>ll<span class="w">                  </span><span class="c1"># Long listing (eza)</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>la<span class="w">                  </span><span class="c1"># All files</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>reload<span class="w">              </span><span class="c1"># Reload zshrc</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>..<span class="w">                  </span><span class="c1"># cd ..</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>...<span class="w">                 </span><span class="c1"># cd ../..</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>ll<span class="w">                  </span><span class="c1"># Long listing (eza)</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>la<span class="w">                  </span><span class="c1"># All files</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>reload<span class="w">              </span><span class="c1"># Reload zshrc</span>
 </code></pre></div>
 <hr />
 <h2 id="pattern-summary">Pattern Summary<a class="headerlink" href="#pattern-summary" title="Permanent link">&para;</a></h2>
@@ -3377,9 +3451,14 @@
 <td><code>gem*</code></td>
 <td>See aliases in .zshrc</td>
 </tr>
+<tr>
+<td>Health Check</td>
+<td><code>flow doctor</code></td>
+<td><code>flow doctor [--fix\|--ai]</code></td>
+</tr>
 </tbody>
 </table>
-<p><strong>Get help:</strong> Any dispatcher + <code>help</code> (e.g., <code>r help</code>, <code>g help</code>, <code>qu help</code>)</p>
+<p><strong>Get help:</strong> Any dispatcher + <code>help</code> (e.g., <code>r help</code>, <code>g help</code>, <code>qu help</code>, <code>flow doctor --help</code>)</p>
 <hr />
 <h2 id="files">Files<a class="headerlink" href="#files" title="Permanent link">&para;</a></h2>
 <table>
@@ -3415,18 +3494,22 @@
 <td>obs (Obsidian notes)</td>
 </tr>
 <tr>
-<td><code>~/.config/zsh/.zshrc</code></td>
-<td>ccy function, gem* aliases</td>
+<td><code>~/projects/dev-tools/flow-cli/commands/doctor.zsh</code></td>
+<td>flow doctor (health check)</td>
 </tr>
 <tr>
-<td><code>~/.config/zsh/functions/adhd-helpers.zsh</code></td>
-<td>work, dash, pb, pv, pt</td>
+<td><code>~/projects/dev-tools/flow-cli/setup/Brewfile</code></td>
+<td>Homebrew bundle</td>
+</tr>
+<tr>
+<td><code>~/.config/zsh/.zshrc</code></td>
+<td>ccy function, gem* aliases</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Removed:</strong> <code>v-dispatcher.zsh</code> (deprecated, use <code>flow</code> command instead)</p>
 <hr />
-<p><em>Updated: 2025-12-25</em></p>
+<p><em>Updated: 2025-12-26</em></p>
 
 
 
