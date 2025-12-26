@@ -2113,6 +2113,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/plugin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    plugin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/ai/" class="md-nav__link">
         
   
@@ -3735,11 +3791,13 @@
 <p>Ask AI anything about your project:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="s2">&quot;what testing framework should I use for this project?&quot;</span>
 </code></pre></div>
-<p>The AI receives context about:
-- Your current directory
-- Project type (ZSH plugin, R package, etc.)
-- Git branch and status
-- Active flow session</p>
+<p>The AI receives context about:</p>
+<ul>
+<li>Your current directory</li>
+<li>Project type (ZSH plugin, R package, etc.)</li>
+<li>Git branch and status</li>
+<li>Active flow session</li>
+</ul>
 <h3 id="explain-mode">Explain Mode<a class="headerlink" href="#explain-mode" title="Permanent link">&para;</a></h3>
 <p>Get explanations of code or concepts:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span><span class="s2">&quot;what does this regex do: ^##\s*Focus:&quot;</span>
@@ -3776,23 +3834,23 @@
 <p>See what command would run without executing:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;delete all .bak files&quot;</span>
 </code></pre></div>
-<p>Output:
+<p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>🔍 Translating: &quot;delete all .bak files&quot;
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>📝 Command: find . -name &quot;*.bak&quot; -delete
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>⚠️  DRY RUN - command not executed
-</code></pre></div></p>
+</code></pre></div>
 <h3 id="safety-features">Safety Features<a class="headerlink" href="#safety-features" title="Permanent link">&para;</a></h3>
 <p>Dangerous commands require confirmation:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;remove all files&quot;</span>
 </code></pre></div>
-<p>Output:
+<p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>⚠️  DANGEROUS COMMAND DETECTED
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>📝 Command: rm -rf *
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>This command could cause data loss.
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>Execute anyway? [y/N]:
-</code></pre></div></p>
+</code></pre></div>
 <hr />
 <h2 id="step-4-adhd-helpers-with-ai">Step 4: ADHD Helpers with AI<a class="headerlink" href="#step-4-adhd-helpers-with-ai" title="Permanent link">&para;</a></h2>
 <h3 id="when-youre-stuck">When You're Stuck<a class="headerlink" href="#when-youre-stuck" title="Permanent link">&para;</a></h3>
@@ -3805,10 +3863,12 @@
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Describe your specific problem</span>
 <a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>stuck<span class="w"> </span>--ai<span class="w"> </span><span class="s2">&quot;can&#39;t figure out why the tests pass locally but fail in CI&quot;</span>
 </code></pre></div>
-<p>The AI will:
-1. Break down the problem into tiny steps
-2. Suggest ONE specific action to start
-3. Offer to capture the problem for later</p>
+<p>The AI will:</p>
+<ol>
+<li>Break down the problem into tiny steps</li>
+<li>Suggest ONE specific action to start</li>
+<li>Offer to capture the problem for later</li>
+</ol>
 <h3 id="what-to-work-on-next">What to Work on Next<a class="headerlink" href="#what-to-work-on-next" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># See your active projects</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>next
@@ -3816,10 +3876,12 @@
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Get AI-powered suggestion</span>
 <a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>next<span class="w"> </span>--ai
 </code></pre></div>
-<p>The AI considers:
-- Your active projects and their focus
-- Inbox items waiting
-- Energy management for ADHD</p>
+<p>The AI considers:</p>
+<ul>
+<li>Your active projects and their focus</li>
+<li>Inbox items waiting</li>
+<li>Energy management for ADHD</li>
+</ul>
 <hr />
 <h2 id="step-5-advanced-usage">Step 5: Advanced Usage<a class="headerlink" href="#step-5-advanced-usage" title="Permanent link">&para;</a></h2>
 <h3 id="include-extra-context">Include Extra Context<a class="headerlink" href="#include-extra-context" title="Permanent link">&para;</a></h3>
@@ -3830,7 +3892,7 @@
 <p>See what context is being sent to AI:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--verbose<span class="w"> </span><span class="s2">&quot;how do I add a new command?&quot;</span>
 </code></pre></div>
-<p>Output:
+<p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>📋 Context being sent:
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>Directory: /Users/dt/projects/dev-tools/flow-cli
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>Project type: zsh-plugin
@@ -3839,7 +3901,7 @@
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>...
 <a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
 <a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>🤖 Asking AI...
-</code></pre></div></p>
+</code></pre></div>
 <h3 id="combine-modes">Combine Modes<a class="headerlink" href="#combine-modes" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Explain with context</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span>--context<span class="w"> </span><span class="s2">&quot;the _flow_detect_type function&quot;</span>
@@ -3926,9 +3988,9 @@
 <hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="claude-cli-not-found">"Claude CLI not found"<a class="headerlink" href="#claude-cli-not-found" title="Permanent link">&para;</a></h3>
-<p>Install with:
+<p>Install with:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>@anthropic-ai/claude-code
-</code></pre></div></p>
+</code></pre></div>
 <h3 id="ai-responses-are-slow">AI responses are slow<a class="headerlink" href="#ai-responses-are-slow" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Claude CLI makes API calls - expect 1-3 seconds</li>

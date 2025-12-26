@@ -1750,6 +1750,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    plugin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ai/" class="md-nav__link">
         
   
@@ -3524,30 +3580,32 @@
 <p>Commands that could cause data loss are flagged:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;delete all files&quot;</span>
 </code></pre></div>
-<p>Output:
+<p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>⚠️  DANGEROUS COMMAND DETECTED
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>📝 Command: rm -rf *
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>This command could cause data loss.
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>Execute anyway? [y/N]:
-</code></pre></div></p>
-<p>Dangerous patterns detected:
-- <code>rm -rf</code>
-- <code>rm -r</code>
-- <code>&gt; /dev/</code>
-- <code>mkfs</code>
-- <code>dd if=</code>
-- <code>:(){:|:&amp;};:</code></p>
+</code></pre></div>
+<p>Dangerous patterns detected:</p>
+<ul>
+<li><code>rm -rf</code></li>
+<li><code>rm -r</code></li>
+<li><code>&gt; /dev/</code></li>
+<li><code>mkfs</code></li>
+<li><code>dd if=</code></li>
+<li><code>:(){:|:&amp;};:</code></li>
+</ul>
 <h3 id="dry-run-mode">Dry Run Mode<a class="headerlink" href="#dry-run-mode" title="Permanent link">&para;</a></h3>
 <p>Always preview before executing uncertain commands:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;remove all backup files&quot;</span>
 </code></pre></div>
-<p>Output:
+<p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>🔍 Translating: &quot;remove all backup files&quot;
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>📝 Command: find . -name &quot;*.bak&quot; -delete
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>⚠️  DRY RUN - command not executed
-</code></pre></div></p>
+</code></pre></div>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="file-operations">File Operations<a class="headerlink" href="#file-operations" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;find large files over 100MB&quot;</span>

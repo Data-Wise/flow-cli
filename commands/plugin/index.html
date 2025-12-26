@@ -12,13 +12,13 @@
         <meta name="author" content="DT">
       
       
-        <link rel="canonical" href="https://data-wise.github.io/flow-cli/commands/doctor/">
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/commands/plugin/">
       
       
-        <link rel="prev" href="../dash/">
+        <link rel="prev" href="../config/">
       
       
-        <link rel="next" href="../config/">
+        <link rel="next" href="../ai/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>doctor - Flow CLI Documentation</title>
+        <title>plugin - Flow CLI Documentation</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#doctor-health-check-dependency-manager" class="md-skip">
+        <a href="#flow-plugin" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              doctor
+              plugin
             
           </span>
         </div>
@@ -1719,37 +1719,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    doctor
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../doctor/" class="md-nav__link">
         
   
   
@@ -1765,353 +1738,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#quick-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#visual-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Visual Flow
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Visual Flow">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#simple-view" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Simple View
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Options
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dependency-categories" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependency Categories
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Dependency Categories">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#required-core-functionality" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Required (Core Functionality)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#recommended-enhanced-experience" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended (Enhanced Experience)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#optional-nice-to-have" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Optional (Nice to Have)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#integrations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Integrations
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#zsh-plugins-via-antidote" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ZSH Plugins (via antidote)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-output" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example Output
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Example Output">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#check-mode-default" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check Mode (Default)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#with-missing-dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        With Missing Dependencies
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fix-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fix Mode
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Fix Mode">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#interactive-fix-fix" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Interactive Fix (--fix)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#auto-fix-fix-y" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Auto-Fix (--fix -y)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ai-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        AI Mode
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-install-all" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Install All
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related Commands
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#issue-brew-not-found" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Issue: "brew not found"
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#issue-zsh-plugin-shows-as-missing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Issue: ZSH plugin shows as missing
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#issue-npm-packages-fail-to-install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Issue: npm packages fail to install
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#source-code" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Source Code
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#design-philosophy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Design Philosophy
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See Also
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2149,10 +1775,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../plugin/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    plugin
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2168,6 +1821,319 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#synopsis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synopsis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Description
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugin-search-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugin Search Paths
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hook-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hook System
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#list-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        List Plugins
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a Plugin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-from-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install from GitHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabledisable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enable/Disable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#view-hook-registrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        View Hook Registrations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating Plugins
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating Plugins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minimal-plugin-single-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimal Plugin (Single File)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plugin-with-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugin with Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plugin-with-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugin with Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plugin-metadata-pluginjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugin Metadata (plugin.json)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugin-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugin API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Plugin API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugin-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugin Registry
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3436,10 +3402,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quick-summary" class="md-nav__link">
+  <a href="#synopsis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick Summary
+        Synopsis
       
     </span>
   </a>
@@ -3447,22 +3413,110 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#visual-flow" class="md-nav__link">
+  <a href="#description" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Visual Flow
+        Description
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Visual Flow">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugin-search-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugin Search Paths
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hook-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hook System
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#simple-view" class="md-nav__link">
+  <a href="#list-plugins" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Simple View
+        List Plugins
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a Plugin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-from-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install from GitHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabledisable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enable/Disable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#view-hook-registrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        View Hook Registrations
       
     </span>
   </a>
@@ -3475,44 +3529,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#creating-plugins" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Creating Plugins
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Options
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dependency-categories" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependency Categories
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Dependency Categories">
+    <nav class="md-nav" aria-label="Creating Plugins">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#required-core-functionality" class="md-nav__link">
+  <a href="#minimal-plugin-single-file" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Required (Core Functionality)
+        Minimal Plugin (Single File)
       
     </span>
   </a>
@@ -3520,10 +3552,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#recommended-enhanced-experience" class="md-nav__link">
+  <a href="#plugin-with-hooks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recommended (Enhanced Experience)
+        Plugin with Hooks
       
     </span>
   </a>
@@ -3531,10 +3563,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#optional-nice-to-have" class="md-nav__link">
+  <a href="#plugin-with-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Optional (Nice to Have)
+        Plugin with Dependencies
       
     </span>
   </a>
@@ -3542,21 +3574,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#integrations" class="md-nav__link">
+  <a href="#plugin-metadata-pluginjson" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Integrations
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#zsh-plugins-via-antidote" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ZSH Plugins (via antidote)
+        Plugin Metadata (plugin.json)
       
     </span>
   </a>
@@ -3569,22 +3590,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-output" class="md-nav__link">
+  <a href="#plugin-api" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example Output
+        Plugin API
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Example Output">
+    <nav class="md-nav" aria-label="Plugin API">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#check-mode-default" class="md-nav__link">
+  <a href="#registration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check Mode (Default)
+        Registration
       
     </span>
   </a>
@@ -3592,10 +3613,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#with-missing-dependencies" class="md-nav__link">
+  <a href="#hooks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        With Missing Dependencies
+        Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging
       
     </span>
   </a>
@@ -3608,49 +3651,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fix-mode" class="md-nav__link">
+  <a href="#plugin-registry" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fix Mode
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Fix Mode">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#interactive-fix-fix" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Interactive Fix (--fix)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#auto-fix-fix-y" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Auto-Fix (--fix -y)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ai-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        AI Mode
+        Plugin Registry
       
     </span>
   </a>
@@ -3658,10 +3662,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-install-all" class="md-nav__link">
+  <a href="#best-practices" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick Install All
+        Best Practices
       
     </span>
   </a>
@@ -3673,78 +3677,6 @@
     <span class="md-ellipsis">
       
         Related Commands
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#issue-brew-not-found" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Issue: "brew not found"
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#issue-zsh-plugin-shows-as-missing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Issue: ZSH plugin shows as missing
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#issue-npm-packages-fail-to-install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Issue: npm packages fail to install
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#source-code" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Source Code
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#design-philosophy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Design Philosophy
       
     </span>
   </a>
@@ -3779,7 +3711,7 @@
 
 
   
-    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/commands/doctor.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/commands/plugin.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -3787,456 +3719,288 @@
   
 
 
-<h1 id="doctor-health-check-dependency-manager"><code>doctor</code> - Health Check &amp; Dependency Manager<a class="headerlink" href="#doctor-health-check-dependency-manager" title="Permanent link">&para;</a></h1>
-<p><strong>Command:</strong> <code>flow doctor [options]</code>
-<strong>Purpose:</strong> Check installed dependencies and optionally fix issues
-<strong>Type:</strong> Setup/Diagnostics
-<strong>Added:</strong> v3.1.0 (2025-12-26)</p>
-<hr />
-<h2 id="quick-summary">Quick Summary<a class="headerlink" href="#quick-summary" title="Permanent link">&para;</a></h2>
-<p>The <code>doctor</code> command checks all flow-cli dependencies across multiple categories (required, recommended, optional, integrations, ZSH plugins). It can also interactively or automatically install missing tools using Homebrew, npm, or pip.</p>
-<hr />
-<h2 id="visual-flow">Visual Flow<a class="headerlink" href="#visual-flow" title="Permanent link">&para;</a></h2>
-<h3 id="simple-view">Simple View<a class="headerlink" href="#simple-view" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart LR
-    A([flow doctor]) --&gt; B{Check Dependencies}
-    B --&gt; C[Display Status]
-    C --&gt; D{--fix mode?}
-    D --&gt;|yes| E[Install Missing]
-    D --&gt;|no| F([Done])
-    E --&gt; F
-
-    style A fill:#4CAF50,stroke:#2E7D32,color:#fff
-    style F fill:#2196F3,stroke:#1565C0,color:#fff</code></pre>
-<p><strong>In plain words:</strong> Check → Report → (Optional) Fix</p>
-<hr />
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check all dependencies</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>flow<span class="w"> </span>doctor
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Interactive fix mode (prompts before each install)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Auto-fix mode (install all without prompts)</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w"> </span>-y
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># AI-assisted troubleshooting (via Claude CLI)</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--ai
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Verbose output</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--verbose
+<h1 id="flow-plugin">flow plugin<a class="headerlink" href="#flow-plugin" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Plugin management for flow-cli extensions</p>
+</blockquote>
+<h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>flow<span class="w"> </span>plugin<span class="w"> </span><span class="o">[</span>command<span class="o">]</span><span class="w"> </span><span class="o">[</span>options<span class="o">]</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>flow<span class="w"> </span>plugin<span class="w"> </span>list
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>flow<span class="w"> </span>plugin<span class="w"> </span>install<span class="w"> </span>&lt;path<span class="p">|</span>gh:user/repo&gt;
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>flow<span class="w"> </span>plugin<span class="w"> </span>create<span class="w"> </span>&lt;name&gt;
 </code></pre></div>
-<hr />
-<h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
+<h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
+<p><code>flow plugin</code> manages the flow-cli plugin system. Plugins extend flow-cli with new commands, hooks, and functionality without modifying the core codebase.</p>
+<h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Option</th>
-<th>Short</th>
+<th>Command</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>--fix</code></td>
-<td><code>-f</code></td>
-<td>Enable fix mode (install missing tools)</td>
+<td><code>list</code></td>
+<td>List all installed plugins</td>
 </tr>
 <tr>
-<td><code>--yes</code></td>
-<td><code>-y</code></td>
-<td>Auto-confirm all installs (use with --fix)</td>
+<td><code>enable &lt;name&gt;</code></td>
+<td>Enable a disabled plugin</td>
 </tr>
 <tr>
-<td><code>--ai</code></td>
-<td><code>-a</code></td>
-<td>AI-assisted troubleshooting via Claude CLI</td>
+<td><code>disable &lt;name&gt;</code></td>
+<td>Disable a plugin (persists across sessions)</td>
 </tr>
 <tr>
-<td><code>--verbose</code></td>
-<td><code>-v</code></td>
-<td>Show additional diagnostic information</td>
+<td><code>create &lt;name&gt;</code></td>
+<td>Create a new plugin from template</td>
 </tr>
 <tr>
-<td><code>--help</code></td>
-<td><code>-h</code></td>
-<td>Show help</td>
+<td><code>install &lt;path&gt;</code></td>
+<td>Install plugin from local path</td>
+</tr>
+<tr>
+<td><code>install gh:user/repo</code></td>
+<td>Install plugin from GitHub</td>
+</tr>
+<tr>
+<td><code>remove &lt;name&gt;</code></td>
+<td>Remove a user-installed plugin</td>
+</tr>
+<tr>
+<td><code>info &lt;name&gt;</code></td>
+<td>Show plugin details</td>
+</tr>
+<tr>
+<td><code>hooks</code></td>
+<td>Show all registered hooks</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td>Show plugin search paths</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="dependency-categories">Dependency Categories<a class="headerlink" href="#dependency-categories" title="Permanent link">&para;</a></h2>
-<h3 id="required-core-functionality">Required (Core Functionality)<a class="headerlink" href="#required-core-functionality" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Tool</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>fzf</strong></td>
-<td>Fuzzy finder for <code>pick</code>, <code>dash -i</code>, interactive modes</td>
-</tr>
-</tbody>
-</table>
-<h3 id="recommended-enhanced-experience">Recommended (Enhanced Experience)<a class="headerlink" href="#recommended-enhanced-experience" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Tool</th>
-<th>Purpose</th>
-<th>Replaces</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>eza</strong></td>
-<td>Modern ls with icons &amp; git status</td>
-<td><code>ls</code></td>
-</tr>
-<tr>
-<td><strong>bat</strong></td>
-<td>Syntax-highlighted file viewer</td>
-<td><code>cat</code></td>
-</tr>
-<tr>
-<td><strong>zoxide</strong></td>
-<td>Smart directory jumping</td>
-<td><code>cd</code>, <code>z</code></td>
-</tr>
-<tr>
-<td><strong>fd</strong></td>
-<td>Fast file finder</td>
-<td><code>find</code></td>
-</tr>
-<tr>
-<td><strong>ripgrep</strong></td>
-<td>Fast text search</td>
-<td><code>grep</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="optional-nice-to-have">Optional (Nice to Have)<a class="headerlink" href="#optional-nice-to-have" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Tool</th>
-<th>Purpose</th>
-<th>Replaces</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>dust</strong></td>
-<td>Disk usage analyzer</td>
-<td><code>du</code></td>
-</tr>
-<tr>
-<td><strong>duf</strong></td>
-<td>Disk free viewer</td>
-<td><code>df</code></td>
-</tr>
-<tr>
-<td><strong>btop</strong></td>
-<td>System monitor</td>
-<td><code>top</code></td>
-</tr>
-<tr>
-<td><strong>delta</strong></td>
-<td>Better git diffs</td>
-<td><code>diff</code></td>
-</tr>
-<tr>
-<td><strong>gh</strong></td>
-<td>GitHub CLI</td>
-<td>-</td>
-</tr>
-<tr>
-<td><strong>jq</strong></td>
-<td>JSON processor</td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="integrations">Integrations<a class="headerlink" href="#integrations" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Tool</th>
-<th>Purpose</th>
-<th>Install Via</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>atlas</strong></td>
-<td>Session tracking &amp; state management</td>
-<td>npm</td>
-</tr>
-<tr>
-<td><strong>radian</strong></td>
-<td>Enhanced R console (if R installed)</td>
-<td>pip</td>
-</tr>
-</tbody>
-</table>
-<h3 id="zsh-plugins-via-antidote">ZSH Plugins (via antidote)<a class="headerlink" href="#zsh-plugins-via-antidote" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Plugin</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>powerlevel10k</strong></td>
-<td>Modern ZSH prompt theme</td>
-</tr>
-<tr>
-<td><strong>autosuggestions</strong></td>
-<td>Fish-like suggestions</td>
-</tr>
-<tr>
-<td><strong>syntax-highlighting</strong></td>
-<td>Command syntax colors</td>
-</tr>
-<tr>
-<td><strong>completions</strong></td>
-<td>Extended completions</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="example-output">Example Output<a class="headerlink" href="#example-output" title="Permanent link">&para;</a></h2>
-<h3 id="check-mode-default">Check Mode (Default)<a class="headerlink" href="#check-mode-default" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>╭─────────────────────────────────────────────╮
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│  🩺 flow-cli Health Check                   │
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>╰─────────────────────────────────────────────╯
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>🐚 SHELL
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  ✓ zsh          5.9
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  ✓ git          2.43.0
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>⚡ REQUIRED (core functionality)
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>  ✓ fzf          0.46.0
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>✨ RECOMMENDED (enhanced experience)
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>  ✓ eza          0.18.0
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>  ✓ bat          0.24.0
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>  ✓ zoxide       0.9.2
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>  ✓ fd           9.0.0
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>  ✓ rg           14.1.0
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>📦 OPTIONAL (nice to have)
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>  ✓ dust         0.8.6
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>  ✓ duf          0.8.1
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>  ✓ btop         1.2.13
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>  ✓ delta        0.16.5
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>  ✓ gh           2.40.0
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>  ✓ jq           1.7
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
-<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>🔌 INTEGRATIONS
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>  ✓ atlas        1.2.0
-<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>  ✓ radian       0.6.7
-<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>
-<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>🔧 ZSH PLUGINS (via antidote)
-<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>  ✓ powerlevel10k
-<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>  ✓ autosuggestions
-<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>  ✓ syntax-highlighting
-<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>  ✓ completions
-<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>
-<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>🌊 FLOW-CLI
-<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>  ✓ Plugin loaded    v3.1.0
-<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>  ✓ Plugin directory ~/projects/dev-tools/flow-cli
-<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>
-<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>────────────────────────────────────────────────
-<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>✅ All dependencies OK!
-</code></pre></div>
-<h3 id="with-missing-dependencies">With Missing Dependencies<a class="headerlink" href="#with-missing-dependencies" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>⚡ REQUIRED (core functionality)
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  ✗ fzf          NOT INSTALLED → brew install fzf
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>✨ RECOMMENDED (enhanced experience)
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  ✓ eza          0.18.0
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  ✗ bat          NOT INSTALLED → brew install bat
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  ✓ zoxide       0.9.2
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  ...
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>────────────────────────────────────────────────
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>⚠️  Some dependencies are missing
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>Quick fix options:
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>  flow doctor --fix       Interactive install (prompts each)
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>  flow doctor --fix -y    Auto-install all missing
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>  brew bundle --file=$FLOW_PLUGIN_DIR/setup/Brewfile
-</code></pre></div>
-<hr />
-<h2 id="fix-mode">Fix Mode<a class="headerlink" href="#fix-mode" title="Permanent link">&para;</a></h2>
-<h3 id="interactive-fix-fix">Interactive Fix (<code>--fix</code>)<a class="headerlink" href="#interactive-fix-fix" title="Permanent link">&para;</a></h3>
-<p>Prompts before each installation:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>flow<span class="w"> </span>doctor<span class="w"> </span>--fix
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Found<span class="w"> </span><span class="m">3</span><span class="w"> </span>missing<span class="w"> </span>tools:
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="m">1</span>.<span class="w"> </span>fzf<span class="w"> </span><span class="o">(</span>required<span class="o">)</span><span class="w"> </span>-<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>fzf
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="m">2</span>.<span class="w"> </span>bat<span class="w"> </span><span class="o">(</span>recommended<span class="o">)</span><span class="w"> </span>-<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>bat
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="m">3</span>.<span class="w"> </span>dust<span class="w"> </span><span class="o">(</span>optional<span class="o">)</span><span class="w"> </span>-<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>dust
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>Install<span class="w"> </span>fzf?<span class="w"> </span><span class="o">(</span>y/N<span class="o">)</span><span class="w"> </span>y
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>⏳<span class="w"> </span>Running:<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>fzf
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>✓<span class="w"> </span>fzf<span class="w"> </span>installed<span class="w"> </span>successfully
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>Install<span class="w"> </span>bat?<span class="w"> </span><span class="o">(</span>y/N<span class="o">)</span><span class="w"> </span>y
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>⏳<span class="w"> </span>Running:<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>bat
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>✓<span class="w"> </span>bat<span class="w"> </span>installed<span class="w"> </span>successfully
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>Install<span class="w"> </span>dust?<span class="w"> </span><span class="o">(</span>y/N<span class="o">)</span><span class="w"> </span>n
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>⏸️<span class="w">  </span>Skipped<span class="w"> </span>dust
-<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
-<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>────────────────────────────────────────────────
-<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>✅<span class="w"> </span>Installed<span class="w"> </span><span class="m">2</span><span class="w"> </span>tools,<span class="w"> </span>skipped<span class="w"> </span><span class="m">1</span>
-</code></pre></div>
-<h3 id="auto-fix-fix-y">Auto-Fix (<code>--fix -y</code>)<a class="headerlink" href="#auto-fix-fix-y" title="Permanent link">&para;</a></h3>
-<p>Installs all missing without prompts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w"> </span>-y
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Auto-installing<span class="w"> </span><span class="m">3</span><span class="w"> </span>missing<span class="w"> </span>tools...
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>⏳<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>fzf...
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>✓<span class="w"> </span>fzf<span class="w"> </span>installed
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>⏳<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>bat...
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>✓<span class="w"> </span>bat<span class="w"> </span>installed
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>⏳<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>dust...
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>✓<span class="w"> </span>dust<span class="w"> </span>installed
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>────────────────────────────────────────────────
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>✅<span class="w"> </span>Installed<span class="w"> </span><span class="m">3</span><span class="w"> </span>tools
-</code></pre></div>
-<hr />
-<h2 id="ai-mode">AI Mode<a class="headerlink" href="#ai-mode" title="Permanent link">&para;</a></h2>
-<p>Uses Claude CLI for intelligent troubleshooting:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>flow<span class="w"> </span>doctor<span class="w"> </span>--ai
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>🤖<span class="w"> </span>AI-Assisted<span class="w"> </span>Troubleshooting
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Analyzing<span class="w"> </span>your<span class="w"> </span>environment...
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>Based<span class="w"> </span>on<span class="w"> </span>your<span class="w"> </span>flow-cli<span class="w"> </span>installation<span class="w"> </span>and<span class="w"> </span>missing<span class="w"> </span>dependencies,
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>here<span class="w"> </span>are<span class="w"> </span>my<span class="w"> </span>recommendations:
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="m">1</span>.<span class="w"> </span>**fzf<span class="w"> </span>is<span class="w"> </span>required**<span class="w"> </span>-<span class="w"> </span>This<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span>core<span class="w"> </span>dependency<span class="w"> </span><span class="k">for</span><span class="w"> </span>interactive
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">   </span>project<span class="w"> </span>picking.<span class="w"> </span>Install<span class="w"> </span>with:<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>fzf
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="m">2</span>.<span class="w"> </span>**Consider<span class="w"> </span>adding<span class="w"> </span>radian**<span class="w"> </span>-<span class="w"> </span>Since<span class="w"> </span>you<span class="w"> </span>have<span class="w"> </span>R<span class="w"> </span>installed,<span class="w"> </span>radian
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">   </span>provides<span class="w"> </span>a<span class="w"> </span>much<span class="w"> </span>better<span class="w"> </span>console<span class="w"> </span>experience<span class="w"> </span>with<span class="w"> </span>syntax<span class="w"> </span>highlighting
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">   </span>and<span class="w"> </span>multiline<span class="w"> </span>editing.
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="m">3</span>.<span class="w"> </span>**Your<span class="w"> </span>ZSH<span class="w"> </span>plugins<span class="w"> </span>look<span class="w"> </span>good**<span class="w"> </span>-<span class="w"> </span>All<span class="w"> </span>recommended<span class="w"> </span>plugins<span class="w"> </span>are<span class="w"> </span>installed.
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
-<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>Would<span class="w"> </span>you<span class="w"> </span>like<span class="w"> </span>me<span class="w"> </span>to<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>installation<span class="w"> </span>commands?<span class="w"> </span><span class="o">(</span>y/N<span class="o">)</span>
-</code></pre></div>
-<hr />
-<h2 id="quick-install-all">Quick Install All<a class="headerlink" href="#quick-install-all" title="Permanent link">&para;</a></h2>
-<p>For a complete setup, use the included Brewfile:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Install all recommended tools at once</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>brew<span class="w"> </span>bundle<span class="w"> </span>--file<span class="o">=</span>~/projects/dev-tools/flow-cli/setup/Brewfile
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Then verify</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>flow<span class="w"> </span>doctor
-</code></pre></div>
-<hr />
-<h2 id="related-commands">Related Commands<a class="headerlink" href="#related-commands" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>flow help</code></td>
-<td>Show all flow-cli commands</td>
-</tr>
-<tr>
-<td><code>flow version</code></td>
-<td>Show flow-cli version</td>
-</tr>
-<tr>
-<td><code>man flow</code></td>
-<td>View man page</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<h3 id="issue-brew-not-found">Issue: "brew not found"<a class="headerlink" href="#issue-brew-not-found" title="Permanent link">&para;</a></h3>
-<p><strong>Cause:</strong> Homebrew not installed</p>
-<p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="k">)</span><span class="s2">&quot;</span>
-</code></pre></div>
-<h3 id="issue-zsh-plugin-shows-as-missing">Issue: ZSH plugin shows as missing<a class="headerlink" href="#issue-zsh-plugin-shows-as-missing" title="Permanent link">&para;</a></h3>
-<p><strong>Cause:</strong> Plugin not in antidote bundle</p>
-<p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Add to ~/.config/zsh/.zsh_plugins.txt</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;romkatv/powerlevel10k&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.config/zsh/.zsh_plugins.txt
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Rebuild antidote bundle</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>antidote<span class="w"> </span>bundle<span class="w"> </span>&lt;<span class="w"> </span>~/.config/zsh/.zsh_plugins.txt<span class="w"> </span>&gt;<span class="w"> </span>~/.config/zsh/.zsh_plugins.zsh
-</code></pre></div>
-<h3 id="issue-npm-packages-fail-to-install">Issue: npm packages fail to install<a class="headerlink" href="#issue-npm-packages-fail-to-install" title="Permanent link">&para;</a></h3>
-<p><strong>Cause:</strong> Global npm permissions issue</p>
-<p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Use npx instead of global install for atlas</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>npx<span class="w"> </span>@data-wise/atlas<span class="w"> </span>--version
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Or fix npm permissions</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>npm<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>prefix<span class="w"> </span>~/.npm-global
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>~/.npm-global/bin:<span class="nv">$PATH</span>
-</code></pre></div>
-<hr />
-<h2 id="source-code">Source Code<a class="headerlink" href="#source-code" title="Permanent link">&para;</a></h2>
-<p><strong>File:</strong> <code>commands/doctor.zsh</code>
-<strong>Dependencies:</strong></p>
-<ul>
-<li><code>brew</code> command (Homebrew)</li>
-<li><code>npm</code> command (optional, for atlas)</li>
-<li><code>pip</code> command (optional, for radian)</li>
-<li><code>claude</code> command (optional, for --ai mode)</li>
-</ul>
-<p><strong>Key Functions:</strong></p>
-<ul>
-<li><code>doctor()</code> - Main entry point</li>
-<li><code>_doctor_check_cmd()</code> - Check individual command</li>
-<li><code>_doctor_check_zsh_plugin()</code> - Check ZSH plugin</li>
-<li><code>_doctor_install()</code> - Install missing tool</li>
-<li><code>_doctor_help()</code> - Display help</li>
-</ul>
-<hr />
-<h2 id="design-philosophy">Design Philosophy<a class="headerlink" href="#design-philosophy" title="Permanent link">&para;</a></h2>
-<p>The <code>doctor</code> command follows these principles:</p>
+<h2 id="plugin-search-paths">Plugin Search Paths<a class="headerlink" href="#plugin-search-paths" title="Permanent link">&para;</a></h2>
+<p>Plugins are discovered in these locations:</p>
 <ol>
-<li><strong>Non-Destructive</strong> - Check mode is read-only, fix mode requires explicit flag</li>
-<li><strong>Categorized</strong> - Clear distinction between required/recommended/optional</li>
-<li><strong>Progressive</strong> - Start with check, graduate to fix if needed</li>
-<li><strong>Multi-Manager</strong> - Supports Homebrew, npm, and pip package managers</li>
-<li><strong>AI-Augmented</strong> - Optional Claude integration for smart troubleshooting</li>
+<li><code>~/.config/flow/plugins/</code> - User plugins</li>
+<li><code>~/.local/share/flow/plugins/</code> - Installed plugins</li>
+<li><code>&lt;flow-cli&gt;/plugins/</code> - Bundled plugins</li>
 </ol>
-<hr />
+<h2 id="hook-system">Hook System<a class="headerlink" href="#hook-system" title="Permanent link">&para;</a></h2>
+<p>Plugins can register callbacks for these events:</p>
+<table>
+<thead>
+<tr>
+<th>Hook</th>
+<th>Trigger</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>post-work</code></td>
+<td>After <code>work</code> command</td>
+<td>Project setup, notifications</td>
+</tr>
+<tr>
+<td><code>pre-finish</code></td>
+<td>Before <code>finish</code> command</td>
+<td>Validation, cleanup</td>
+</tr>
+<tr>
+<td><code>post-finish</code></td>
+<td>After <code>finish</code> command</td>
+<td>Notifications, stats</td>
+</tr>
+<tr>
+<td><code>session-start</code></td>
+<td>When session begins</td>
+<td>Logging, timers</td>
+</tr>
+<tr>
+<td><code>session-end</code></td>
+<td>When session ends</td>
+<td>Cleanup, reporting</td>
+</tr>
+<tr>
+<td><code>project-change</code></td>
+<td>On chpwd in project</td>
+<td>Context switching</td>
+</tr>
+<tr>
+<td><code>pre-command</code></td>
+<td>Before any command</td>
+<td>Logging, validation</td>
+</tr>
+<tr>
+<td><code>post-command</code></td>
+<td>After any command</td>
+<td>Stats, notifications</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="list-plugins">List Plugins<a class="headerlink" href="#list-plugins" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span>plugin<span class="w"> </span>list
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>INSTALLED PLUGINS
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  example  v1.0.0  [enabled]
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    Example plugin demonstrating capabilities
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    Path: ~/.config/flow/plugins/example
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  TOTALS
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    Installed: 1
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    Enabled: 1
+</code></pre></div>
+<h3 id="create-a-plugin">Create a Plugin<a class="headerlink" href="#create-a-plugin" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>flow<span class="w"> </span>plugin<span class="w"> </span>create<span class="w"> </span>my-plugin
+</code></pre></div>
+<p>Creates:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>~/.config/flow/plugins/my-plugin/
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── main.zsh          # Plugin entry point
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>├── plugin.json       # Metadata (optional)
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>└── README.md         # Documentation
+</code></pre></div>
+<h3 id="install-from-github">Install from GitHub<a class="headerlink" href="#install-from-github" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Install from GitHub</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>flow<span class="w"> </span>plugin<span class="w"> </span>install<span class="w"> </span>gh:username/flow-plugin-name
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Install as dev (symlink)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>flow<span class="w"> </span>plugin<span class="w"> </span>install<span class="w"> </span>--dev<span class="w"> </span>~/code/my-plugin
+</code></pre></div>
+<h3 id="enabledisable">Enable/Disable<a class="headerlink" href="#enabledisable" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Disable a plugin</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>flow<span class="w"> </span>plugin<span class="w"> </span>disable<span class="w"> </span>example
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Re-enable it</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>flow<span class="w"> </span>plugin<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>example
+</code></pre></div>
+<h3 id="view-hook-registrations">View Hook Registrations<a class="headerlink" href="#view-hook-registrations" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>flow<span class="w"> </span>plugin<span class="w"> </span>hooks
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>REGISTERED HOOKS
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>  post-work:
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    _example_on_work (example)
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>  session-start:
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    _example_on_session (example)
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>  TOTALS
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    Events with hooks: 2
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    Total callbacks: 2
+</code></pre></div>
+<h2 id="creating-plugins">Creating Plugins<a class="headerlink" href="#creating-plugins" title="Permanent link">&para;</a></h2>
+<h3 id="minimal-plugin-single-file">Minimal Plugin (Single File)<a class="headerlink" href="#minimal-plugin-single-file" title="Permanent link">&para;</a></h3>
+<p><code>~/.config/flow/plugins/hello/main.zsh</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Register the plugin</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>_flow_plugin_register<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span><span class="w"> </span><span class="s2">&quot;Says hello&quot;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Define commands</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>hello<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Hello from my plugin!&quot;</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="o">}</span>
+</code></pre></div>
+<h3 id="plugin-with-hooks">Plugin with Hooks<a class="headerlink" href="#plugin-with-hooks" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>_flow_plugin_register<span class="w"> </span><span class="s2">&quot;notify&quot;</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span><span class="w"> </span><span class="s2">&quot;Desktop notifications&quot;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1"># Register hook callback</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>_notify_on_finish<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">project</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span>osascript<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;display notification \&quot;Finished </span><span class="nv">$project</span><span class="s2">\&quot; with title \&quot;flow-cli\&quot;&quot;</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="o">}</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>_flow_hook_register<span class="w"> </span><span class="s2">&quot;post-finish&quot;</span><span class="w"> </span><span class="s2">&quot;_notify_on_finish&quot;</span>
+</code></pre></div>
+<h3 id="plugin-with-dependencies">Plugin with Dependencies<a class="headerlink" href="#plugin-with-dependencies" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>_flow_plugin_register<span class="w"> </span><span class="s2">&quot;git-stats&quot;</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span><span class="w"> </span><span class="s2">&quot;Git statistics&quot;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1"># Check dependencies</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>_flow_plugin_require_tool<span class="w"> </span><span class="s2">&quot;git&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>_flow_plugin_require_tool<span class="w"> </span><span class="s2">&quot;gh&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Plugin code here...</span>
+</code></pre></div>
+<h3 id="plugin-metadata-pluginjson">Plugin Metadata (plugin.json)<a class="headerlink" href="#plugin-metadata-pluginjson" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my-plugin&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;My awesome plugin&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Your Name&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nt">&quot;requires&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">        </span><span class="nt">&quot;flow&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&gt;=3.3.0&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">        </span><span class="nt">&quot;tools&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;git&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;fzf&quot;</span><span class="p">]</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="nt">&quot;hooks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;post-work&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;post-finish&quot;</span><span class="p">]</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="plugin-api">Plugin API<a class="headerlink" href="#plugin-api" title="Permanent link">&para;</a></h2>
+<h3 id="registration">Registration<a class="headerlink" href="#registration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Register plugin</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>_flow_plugin_register<span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="w"> </span><span class="s2">&quot;version&quot;</span><span class="w"> </span><span class="s2">&quot;description&quot;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Check if plugin exists</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>_flow_plugin_exists<span class="w"> </span><span class="s2">&quot;name&quot;</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Get plugin info</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>_flow_plugin_info<span class="w"> </span><span class="s2">&quot;name&quot;</span>
+</code></pre></div>
+<h3 id="hooks">Hooks<a class="headerlink" href="#hooks" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Register hook callback</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>_flow_hook_register<span class="w"> </span><span class="s2">&quot;event-name&quot;</span><span class="w"> </span><span class="s2">&quot;callback_function&quot;</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Run hooks for an event</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>_flow_hook_run<span class="w"> </span><span class="s2">&quot;event-name&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$arg1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$arg2</span><span class="s2">&quot;</span>
+</code></pre></div>
+<h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Require a CLI tool</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>_flow_plugin_require_tool<span class="w"> </span><span class="s2">&quot;tool-name&quot;</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Require flow version</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>_flow_plugin_require_version<span class="w"> </span><span class="s2">&quot;3.3.0&quot;</span>
+</code></pre></div>
+<h3 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Use flow-cli logging</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>_flow_log_success<span class="w"> </span><span class="s2">&quot;Operation complete&quot;</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>_flow_log_error<span class="w"> </span><span class="s2">&quot;Something went wrong&quot;</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>_flow_log_warning<span class="w"> </span><span class="s2">&quot;Watch out&quot;</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>_flow_log_debug<span class="w"> </span><span class="s2">&quot;Debug info&quot;</span>
+</code></pre></div>
+<h2 id="plugin-registry">Plugin Registry<a class="headerlink" href="#plugin-registry" title="Permanent link">&para;</a></h2>
+<p>Disabled plugins are tracked in:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>~/.config/flow/plugin-registry.json
+</code></pre></div>
+<p>Format:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="p">{</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="nt">&quot;disabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;plugin-a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;plugin-b&quot;</span><span class="p">],</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Use unique prefixes</strong> - Prefix functions with plugin name (e.g., <code>_myplugin_func</code>)</li>
+<li><strong>Check dependencies</strong> - Use <code>_flow_plugin_require_tool</code> for external tools</li>
+<li><strong>Handle errors gracefully</strong> - Don't break flow-cli if plugin fails</li>
+<li><strong>Document hooks</strong> - Specify which hooks your plugin uses</li>
+<li><strong>Keep it focused</strong> - One plugin, one purpose</li>
+</ol>
+<h2 id="related-commands">Related Commands<a class="headerlink" href="#related-commands" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../config/"><code>flow config</code></a> - Configuration management</li>
+<li><a href="../doctor/"><code>flow doctor</code></a> - Check system health</li>
+</ul>
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../../getting-started/quick-start/">Setup Guide</a> - First-time setup</li>
-<li><a href="../../setup/Brewfile">Brewfile</a> - All recommended tools</li>
-<li><a href="../../reference/DISPATCHER-REFERENCE/">DISPATCHER-REFERENCE.md</a> - Command reference</li>
+<li><a href="../../architecture/PLUGIN-ARCHITECTURE/">Plugin Architecture</a></li>
+<li><a href="https://github.com/data-wise/flow-cli/tree/main/plugins/example">Example Plugin</a></li>
 </ul>
 <hr />
-<p><strong>Last Updated:</strong> 2025-12-26
-<strong>Version:</strong> 1.0
-<strong>Status:</strong> Production ready</p>
+<p><em>Added in v3.3.0</em></p>
 
 
 
