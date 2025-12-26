@@ -133,6 +133,11 @@ flow() {
       flow_plugin "$@"
       ;;
 
+    # ── Configuration ──────────────────────────────────────────────────────
+    config|cfg)
+      flow_config "$@"
+      ;;
+
     # ── Unknown ─────────────────────────────────────────────────────────────
     *)
       echo "Unknown command: $cmd"
@@ -274,6 +279,12 @@ ${_C_BLUE}🔌 PLUGINS${_C_NC}:
   ${_C_CYAN}plugin enable${_C_NC}      Enable a plugin
   ${_C_CYAN}plugin disable${_C_NC}     Disable a plugin
 
+${_C_BLUE}⚙️ CONFIGURATION${_C_NC}:
+  ${_C_CYAN}config show${_C_NC}        Show all settings
+  ${_C_CYAN}config set${_C_NC}         Set a config value
+  ${_C_CYAN}config wizard${_C_NC}      Interactive setup
+  ${_C_CYAN}config profile${_C_NC}     Manage config profiles
+
 ${_C_DIM}SHORTCUTS: Most commands work directly too:${_C_NC}
   pick dev    =  flow pick dev
   work foo    =  flow work foo
@@ -361,6 +372,11 @@ _flow_help_list() {
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "plugin" "Manage flow-cli plugins"
   echo ""
 
+  # Configuration
+  echo -e "${_C_BOLD}Configuration:${_C_NC}"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "config" "Manage configuration and profiles"
+  echo ""
+
   # Dispatchers
   echo -e "${_C_BOLD}Dispatchers:${_C_NC} ${_C_DIM}(domain-specific tools)${_C_NC}"
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "g" "Git workflows"
@@ -430,6 +446,7 @@ _flow_help_search() {
     "do|Natural language commands|ai execute run"
     "learn|Interactive tutorial|tutorial guide help"
     "plugin|Manage flow-cli plugins|extend customize hook"
+    "config|Manage configuration and profiles|settings preferences profile options"
     "g|Git workflows dispatcher|git commit push pull branch"
     "r|R package development|r cran test check build"
     "qu|Quarto publishing|quarto render preview publish"

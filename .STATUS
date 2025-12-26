@@ -6,9 +6,9 @@
 ## Status: active
 ## Phase: v3.3.0 - Plugin System
 ## Priority: 1
-## Progress: 90
+## Progress: 95
 
-## Focus: Plugin system complete - Config management next
+## Focus: v3.3.0 COMPLETE - Config and Plugin systems done
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -202,22 +202,28 @@ FLOW_QUIET=1               # Disable welcome message
 
 ## Roadmap
 
-### v3.3.0 - Configuration & Plugin System (NEXT)
-- [ ] `flow config` - Interactive configuration
-  - [ ] `flow config show` - Display current config
-  - [ ] `flow config set <key> <value>` - Set config value
-  - [ ] `flow config edit` - Open config in editor
-  - [ ] `flow config reset` - Reset to defaults
-- [ ] Plugin system
-  - [ ] Plugin loader architecture
-  - [ ] Plugin discovery (local + git)
-  - [ ] `flow plugin list` - List available plugins
-  - [ ] `flow plugin install <name>` - Install plugin
-  - [ ] `flow plugin enable/disable` - Toggle plugins
-- [ ] Configuration profiles
-  - [ ] `flow config profile save <name>` - Save current config
-  - [ ] `flow config profile load <name>` - Load config profile
-  - [ ] Export/import for sharing
+### v3.3.0 - Configuration & Plugin System ✅ COMPLETE
+- [x] `flow config` - Interactive configuration
+  - [x] `flow config show` - Display current config
+  - [x] `flow config set <key> <value>` - Set config value
+  - [x] `flow config edit` - Open config in editor
+  - [x] `flow config reset` - Reset to defaults
+  - [x] `flow config wizard` - Interactive configuration wizard
+  - [x] `flow config export` - Export config in shell format
+  - [x] `flow config path` - Show config file paths
+- [x] Plugin system
+  - [x] Plugin loader architecture (lib/plugin-loader.zsh, 400+ lines)
+  - [x] Plugin discovery (local + git)
+  - [x] `flow plugin list` - List available plugins
+  - [x] `flow plugin install <name>` - Install plugin
+  - [x] `flow plugin enable/disable` - Toggle plugins
+  - [x] `flow plugin create` - Create new plugin from template
+  - [x] Hook system with 8 events
+- [x] Configuration profiles
+  - [x] `flow config profile save <name>` - Save current config
+  - [x] `flow config profile load <name>` - Load config profile
+  - [x] Built-in profiles: minimal, developer, adhd, researcher
+  - [x] Export/import for sharing
 
 ### v3.4.0 - AI Enhancement
 - [ ] AI recipes/templates
@@ -259,6 +265,10 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-26: CONFIG - Created config system (lib/config.zsh, 350+ lines)
+- 2025-12-26: CONFIG - Created flow config command with 11 subcommands
+- 2025-12-26: CONFIG - Built-in profiles: minimal, developer, adhd, researcher
+- 2025-12-26: CONFIG - Interactive wizard and profile management
 - 2025-12-26: PLUGIN - Created plugin system (lib/plugin-loader.zsh, 400+ lines)
 - 2025-12-26: PLUGIN - Created flow plugin command with 9 subcommands
 - 2025-12-26: PLUGIN - Created hook system with 8 events

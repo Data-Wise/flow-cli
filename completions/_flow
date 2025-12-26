@@ -58,6 +58,8 @@ _flow() {
     'do:Natural language commands'
     # Plugins
     'plugin:Manage flow-cli plugins'
+    # Configuration
+    'config:Manage configuration and profiles'
   )
 
   local curcontext="$curcontext" state line
@@ -303,6 +305,23 @@ _flow() {
             'path:Show plugin search paths'
           )
           _describe -t commands 'plugin command' plugin_cmds
+          ;;
+        config)
+          local -a config_cmds
+          config_cmds=(
+            'show:Show all configuration'
+            'get:Get a specific config value'
+            'set:Set a config value'
+            'edit:Open config in editor'
+            'reset:Reset config to defaults'
+            'save:Save current config to file'
+            'reload:Reload config from file'
+            'wizard:Interactive configuration wizard'
+            'profile:Manage configuration profiles'
+            'export:Export config in shell format'
+            'path:Show config file paths'
+          )
+          _describe -t commands 'config command' config_cmds
           ;;
         *)
           _files
