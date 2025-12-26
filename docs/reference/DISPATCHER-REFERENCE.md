@@ -355,6 +355,51 @@ obs stats                 # Show statistics
 
 ---
 
+## Setup & Diagnostics
+
+### `flow doctor` - Health Check
+
+**File:** `commands/doctor.zsh`
+**Purpose:** Dependency verification and system health checks
+**Added:** December 26, 2025
+
+**Commands:**
+
+```bash
+flow doctor              # Check all dependencies
+flow doctor --fix        # Interactive install missing tools
+flow doctor --fix -y     # Auto-install all (no prompts)
+flow doctor --ai         # AI-assisted troubleshooting (Claude CLI)
+flow doctor --verbose    # Verbose output
+flow doctor --help       # Show help
+```
+
+**Features:**
+
+- Checks required, recommended, and optional dependencies
+- Multi-package manager support (Homebrew, npm, pip)
+- Interactive fix mode with confirmation prompts
+- AI-assisted troubleshooting via Claude CLI
+- ZSH plugin health verification
+
+**Dependency Categories:**
+
+| Category         | Tools                                      |
+| ---------------- | ------------------------------------------ |
+| **Required**     | fzf                                        |
+| **Recommended**  | eza, bat, zoxide, fd, ripgrep              |
+| **Optional**     | dust, duf, btop, delta, gh, jq             |
+| **Integrations** | atlas, radian                              |
+| **ZSH Plugins**  | p10k, autosuggestions, syntax-highlighting |
+
+**Quick Fix All:**
+
+```bash
+brew bundle --file=$FLOW_PLUGIN_DIR/setup/Brewfile
+```
+
+---
+
 ## Integration with Flow
 
 All dispatchers integrate with the main `flow` command namespace:
@@ -364,6 +409,7 @@ All dispatchers integrate with the main `flow` command namespace:
 flow test                 # Calls appropriate dispatcher
 flow build                # Context-aware build
 flow preview              # Context-aware preview
+flow doctor               # Health check
 ```
 
 ---
@@ -449,10 +495,10 @@ source ~/projects/dev-tools/flow-cli/lib/dispatchers/<name>.zsh
 
 ## Summary
 
-**Active Dispatchers:** 5 (g, mcp, obs, qu, r)  
-**Removed:** 2 (v, vibe)  
-**Not Restored:** 4 (cc, gm, note, timer - alternatives available)  
-**Total Commands:** ~90+ subcommands across all dispatchers
+**Active Dispatchers:** 6 (g, mcp, obs, qu, r, cc)
+**Removed:** 2 (v, vibe)
+**Not Restored:** 3 (gm, note, timer - alternatives available)
+**Total Commands:** ~100+ subcommands across all dispatchers
 
 **Philosophy:** Each dispatcher provides a unified, ADHD-friendly interface for complex tool workflows with smart defaults and common operations.
 

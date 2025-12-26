@@ -2,11 +2,17 @@
 
 > **Quick Access:** Type `als` to list all aliases by category
 
-**Last Updated:** 2025-12-25 | **Total:** 28 custom aliases + 226+ git aliases (from plugin)
+**Last Updated:** 2025-12-26 | **Total:** 28 custom aliases + 226+ git aliases (from plugin)
 
 **Philosophy:** Minimalist, high-frequency only. Removed 151 aliases (2025-12-19) to reduce memory load.
 
-> **✨ New in v2.0.0-beta.1 (2025-12-24):**
+> **✨ New in v3.1.0 (2025-12-26):**
+>
+> - `flow doctor` command - Dependency verification with --fix, --fix -y, --ai modes
+> - Comprehensive man pages: `man flow`, `man r`, `man g`, `man qu`, `man mcp`, `man obs`
+> - 6 active dispatchers (added `cc` for Claude Code workflows)
+>
+> **Previous (v2.0.0):**
 >
 > - Enhanced `flow status` command with ASCII visualizations and productivity metrics
 > - Interactive `flow dashboard` TUI with real-time updates
@@ -193,16 +199,21 @@ These smart functions provide context-aware workflows:
 | `obs`   | Obsidian notes     | Note creation, linking, search          |
 | `qu`    | Quarto publishing  | Preview/render/check (15+ commands)     |
 | `r`     | R package dev      | Test/doc/check cycle (25+ commands)     |
-| `ccy`   | Claude with picker | Project picker then Claude session      |
+| `cc`    | Claude Code        | Project picker + Claude sessions        |
 | `peek`  | File viewer        | File type, uses bat with correct syntax |
 | `work`  | Work session       | Project type, sets up environment       |
 | `pick`  | Project picker     | Shows all projects with fzf             |
 
+**Man pages available:** `man flow`, `man r`, `man g`, `man qu`, `man mcp`, `man obs`
+
 **Removed 2025-12-25:**
 
 - `v` / `vibe` - Deprecated wrapper, use `flow` command directly
-- `cc` - Replaced with `ccy` function in .zshrc
 - `gm` / `gem` - Use 13 `gem*` aliases in .zshrc instead
+
+**Added 2025-12-26:**
+
+- `cc` - Claude Code dispatcher with project picker + multiple modes (yolo, plan, resume)
 
 See [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) for complete documentation.
 
@@ -297,4 +308,4 @@ If you're used to old aliases:
 
 ---
 
-**Last cleanup:** 2025-12-25 (Aliases: 28 active | Dispatchers: 5 active [g, mcp, obs, qu, r])
+**Last cleanup:** 2025-12-26 (Aliases: 28 active | Dispatchers: 6 active [g, mcp, obs, qu, r, cc])

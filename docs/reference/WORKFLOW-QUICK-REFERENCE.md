@@ -1,21 +1,21 @@
 # Workflow Quick Reference
 
-**Date:** 2025-12-14 (Updated 2025-12-25)
-**Version:** 2.1 - Week 2 CLI Enhancements Complete
+**Date:** 2025-12-14 (Updated 2025-12-26)
+**Version:** 3.1 - Doctor Command & Man Pages
 
-> **✨ New Features (2025-12-24):**
+> **✨ New in v3.1.0 (2025-12-26):**
 >
-> - `flow status` - Enhanced with ASCII visualizations, worklog integration, productivity metrics
-> - `flow dashboard` - Interactive real-time TUI with keyboard shortcuts (r=refresh, q=quit, ?=help)
-> - 10x faster project scanning with in-memory caching (~3ms → <1ms)
+> - `flow doctor` - Dependency verification with --fix, --fix -y, --ai modes
+> - Comprehensive man pages: `man flow`, `man r`, `man g`, `man qu`, `man mcp`, `man obs`
+> - 6 active dispatchers (added `cc` for Claude Code workflows)
 >
-> **⚠️ Updates (2025-12-25):**
+> **Previous (v2.0):**
 >
+> - `flow status` - ASCII visualizations, worklog integration, productivity metrics
+> - `flow dashboard` - Interactive real-time TUI with keyboard shortcuts
 > - Removed deprecated `v`/`vibe` dispatcher - use `flow` command directly
-> - Removed single-letter aliases (`d`, `f`, `pp`, `ah`) - use full commands
-> - Added `qu` and `r` dispatchers for Quarto and R workflows
 > - See `ALIAS-REFERENCE-CARD.md` for current aliases (28 total)
-> - See `DISPATCHER-REFERENCE.md` for active dispatchers (5 total: g, mcp, obs, qu, r)
+> - See `DISPATCHER-REFERENCE.md` for active dispatchers (6 total: g, mcp, obs, qu, r, cc)
 
 ---
 
@@ -94,4 +94,24 @@ dash teaching → work stat-440
 
 ---
 
+## 🔧 Setup & Diagnostics
+
+**Check your environment:**
+
+```bash
+flow doctor              # Check all dependencies
+flow doctor --fix        # Interactive install missing
+flow doctor --fix -y     # Auto-install all
+```
+
+**First-time setup:**
+
+```bash
+brew bundle --file=~/projects/dev-tools/flow-cli/setup/Brewfile
+flow doctor              # Verify installation
+```
+
+---
+
 **Full guide:** `WORKFLOW-ANALYSIS-2025-12-14.md`
+**Man pages:** `man flow`, `man r`, `man g`, `man qu`, `man mcp`, `man obs`

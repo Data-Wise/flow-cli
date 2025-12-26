@@ -147,84 +147,94 @@ _flow_help() {
     return
   fi
 
-  cat << 'EOF'
-╔════════════════════════════════════════════════════════════════════════════╗
-║  🌊 FLOW - ADHD-Friendly Workflow CLI                                      ║
-╚════════════════════════════════════════════════════════════════════════════╝
+  # Colors (use flow-cli colors if available)
+  local _C_BOLD="${_C_BOLD:-\033[1m}"
+  local _C_NC="${_C_NC:-\033[0m}"
+  local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+  local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+  local _C_BLUE="${_C_BLUE:-\033[0;34m}"
+  local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
+  local _C_DIM="${_C_DIM:-\033[2m}"
 
-USAGE: flow <command> [args]
+  echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ 🌊 FLOW - ADHD-Friendly Workflow CLI                                        │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────────────────────────────────────╯${_C_NC}
 
-┌─ CORE WORKFLOW ────────────────────────────────────────────────────────────┐
-│  work <project>     Start a focused work session                           │
-│  pick [category]    Interactive project picker (fzf)                       │
-│  dash [scope]       Show project dashboard                                 │
-│  finish [note]      End session, optionally commit                         │
-│  hop <project>      Quick switch (tmux)                                    │
-│  why                Show current context                                   │
-└────────────────────────────────────────────────────────────────────────────┘
+${_C_BOLD}Usage:${_C_NC} flow <command> [args]
 
-┌─ ADHD HELPERS ─────────────────────────────────────────────────────────────┐
-│  start              Just start - picks a project for you (alias: js)       │
-│  stuck              When you're blocked - get unstuck                      │
-│  focus <text>       Set your current focus                                 │
-│  next               What should I work on?                                 │
-│  break [mins]       Take a proper break (default: 5 min)                   │
-└────────────────────────────────────────────────────────────────────────────┘
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}work <project>${_C_NC}     Start focused work session
+  ${_C_CYAN}pick [category]${_C_NC}    Interactive project picker (fzf)
+  ${_C_CYAN}js${_C_NC}                 Just start - picks a project for you
+  ${_C_CYAN}dash${_C_NC}               Show project dashboard
+  ${_C_CYAN}doctor${_C_NC}             Check dependencies & health
 
-┌─ CAPTURE & TRACK ──────────────────────────────────────────────────────────┐
-│  catch <idea>       Quick capture to inbox                                 │
-│  crumb <note>       Leave breadcrumb in project                            │
-│  inbox              View your inbox                                        │
-│  win <text>         Log a win (dopamine boost!)                            │
-│  status [action]    View/update .STATUS file                               │
-└────────────────────────────────────────────────────────────────────────────┘
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} flow work flow-cli        ${_C_DIM}# Start working on project${_C_NC}
+  ${_C_DIM}\$${_C_NC} flow pick dev             ${_C_DIM}# Pick from dev-tools${_C_NC}
+  ${_C_DIM}\$${_C_NC} flow test                 ${_C_DIM}# Run tests (auto-detects type)${_C_NC}
+  ${_C_DIM}\$${_C_NC} flow finish \"done\"        ${_C_DIM}# Commit and end session${_C_NC}
+  ${_C_DIM}\$${_C_NC} flow doctor --fix         ${_C_DIM}# Install missing tools${_C_NC}
 
-┌─ ACTIONS (Context-Aware) ──────────────────────────────────────────────────┐
-│  test [args]        Run tests (detects R/Node/Python)                      │
-│  build [args]       Build project (Quarto/npm/R CMD)                       │
-│  preview            Preview output (opens browser)                         │
-│  sync               Smart git sync (pull, push, conflicts)                 │
-│  check              Health check (lint, types, etc.)                       │
-│  plan               Sprint/project planning                                │
-└────────────────────────────────────────────────────────────────────────────┘
+${_C_BLUE}📋 CORE WORKFLOW${_C_NC}:
+  ${_C_CYAN}work${_C_NC} <project>     Start a focused work session
+  ${_C_CYAN}pick${_C_NC} [category]    Interactive project picker (fzf)
+  ${_C_CYAN}dash${_C_NC} [scope]       Show project dashboard
+  ${_C_CYAN}finish${_C_NC} [note]      End session, optionally commit
+  ${_C_CYAN}hop${_C_NC} <project>      Quick switch (tmux)
+  ${_C_CYAN}why${_C_NC}                Show current context
 
-┌─ TIMER & ROUTINE ──────────────────────────────────────────────────────────┐
-│  timer [mins]       Start focus timer (default: 25)                        │
-│  timer status       Check remaining time                                   │
-│  timer stop         Cancel timer                                           │
-│  morning            Morning startup routine                                │
-└────────────────────────────────────────────────────────────────────────────┘
+${_C_BLUE}🧠 ADHD HELPERS${_C_NC}:
+  ${_C_CYAN}start${_C_NC}, ${_C_CYAN}js${_C_NC}         Just start - picks a project for you
+  ${_C_CYAN}stuck${_C_NC}              When you're blocked - get unstuck
+  ${_C_CYAN}focus${_C_NC} <text>       Set your current focus
+  ${_C_CYAN}next${_C_NC}               What should I work on?
+  ${_C_CYAN}break${_C_NC} [mins]       Take a proper break (default: 5 min)
 
-┌─ LEARNING ─────────────────────────────────────────────────────────────────┐
-│  learn              Start/resume interactive tutorial                      │
-│  learn beginner     Core workflow lessons                                  │
-│  learn medium       Productivity tools                                     │
-│  learn advanced     Power features                                         │
-│  help [command]     Show help (this screen or specific command)            │
-└────────────────────────────────────────────────────────────────────────────┘
+${_C_BLUE}📝 CAPTURE & TRACK${_C_NC}:
+  ${_C_CYAN}catch${_C_NC} <idea>       Quick capture to inbox
+  ${_C_CYAN}crumb${_C_NC} <note>       Leave breadcrumb in project
+  ${_C_CYAN}inbox${_C_NC}              View your inbox
+  ${_C_CYAN}win${_C_NC} <text>         Log a win (dopamine boost!)
+  ${_C_CYAN}status${_C_NC} [action]    View/update .STATUS file
 
-┌─ SETUP & DIAGNOSTICS ──────────────────────────────────────────────────────┐
-│  doctor             Check dependencies & health                            │
-│  doctor --fix       Interactive install missing tools                      │
-│  doctor --fix -y    Auto-install all missing (no prompts)                  │
-│  doctor --ai        AI-assisted troubleshooting (Claude CLI)               │
-└────────────────────────────────────────────────────────────────────────────┘
+${_C_BLUE}⚡ ACTIONS${_C_NC} ${_C_DIM}(Context-Aware)${_C_NC}:
+  ${_C_CYAN}test${_C_NC} [args]        Run tests (detects R/Node/Python)
+  ${_C_CYAN}build${_C_NC} [args]       Build project (Quarto/npm/R CMD)
+  ${_C_CYAN}preview${_C_NC}            Preview output (opens browser)
+  ${_C_CYAN}sync${_C_NC}               Smart git sync (pull, push, conflicts)
+  ${_C_CYAN}check${_C_NC}              Health check (lint, types, etc.)
+  ${_C_CYAN}plan${_C_NC}               Sprint/project planning
 
-EXAMPLES:
-  flow pick dev           # Pick from dev-tools projects
-  flow work flow-cli      # Start working on flow-cli
-  flow test               # Run tests for current project
-  flow sync               # Git pull, push, handle conflicts
-  flow finish "done"      # Commit and end session
-  flow learn              # Start tutorial
+${_C_BLUE}⏱️ TIMER & ROUTINE${_C_NC}:
+  ${_C_CYAN}timer${_C_NC} [mins]       Start focus timer (default: 25)
+  ${_C_CYAN}timer status${_C_NC}       Check remaining time
+  ${_C_CYAN}timer stop${_C_NC}         Cancel timer
+  ${_C_CYAN}morning${_C_NC}            Morning startup routine
 
-SHORTCUTS: Most commands work directly too:
+${_C_BLUE}📚 LEARNING${_C_NC}:
+  ${_C_CYAN}learn${_C_NC}              Start/resume interactive tutorial
+  ${_C_CYAN}learn beginner${_C_NC}     Core workflow lessons
+  ${_C_CYAN}learn medium${_C_NC}       Productivity tools
+  ${_C_CYAN}learn advanced${_C_NC}     Power features
+  ${_C_CYAN}help${_C_NC} [command]     Show help (this or specific command)
+
+${_C_BLUE}🔧 SETUP & DIAGNOSTICS${_C_NC}:
+  ${_C_CYAN}doctor${_C_NC}             Check dependencies & health
+  ${_C_CYAN}doctor --fix${_C_NC}       Interactive install missing tools
+  ${_C_CYAN}doctor --fix -y${_C_NC}    Auto-install all (no prompts)
+  ${_C_CYAN}doctor --ai${_C_NC}        AI-assisted troubleshooting (Claude CLI)
+
+${_C_DIM}SHORTCUTS: Most commands work directly too:${_C_NC}
   pick dev    =  flow pick dev
   work foo    =  flow work foo
   js          =  flow start
 
-VERSION: flow-cli v${FLOW_VERSION:-3.0.0}
-EOF
+${_C_DIM}See also:${_C_NC} man flow, r help, g help, qu help, mcp help, obs help
+
+${_C_BOLD}Version:${_C_NC} flow-cli v\${FLOW_VERSION:-3.1.0}
+"
 }
 
 # ============================================================================

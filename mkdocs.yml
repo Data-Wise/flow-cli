@@ -124,6 +124,7 @@ nav:
       - status: commands/status.md
       - dashboard: commands/dashboard.md
       - dash: commands/dash.md
+      - doctor: commands/doctor.md
   - Architecture:
       - Overview: architecture/README.md
       - Architecture Diagrams: architecture/ARCHITECTURE-DIAGRAM.md
