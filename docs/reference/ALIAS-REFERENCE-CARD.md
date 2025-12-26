@@ -2,7 +2,7 @@
 
 > **Quick Access:** Type `als` to list all aliases by category
 
-**Last Updated:** 2025-12-24 | **Total:** 28 custom aliases + 226+ git aliases (from plugin)
+**Last Updated:** 2025-12-25 | **Total:** 28 custom aliases + 226+ git aliases (from plugin)
 
 **Philosophy:** Minimalist, high-frequency only. Removed 151 aliases (2025-12-19) to reduce memory load.
 
@@ -103,6 +103,12 @@ Modern CLI tools with better UX:
 - `rpkgclean` - Removed artifacts cleanup (use manual `rm`)
 - `rpkgdeep` - Removed deep clean (use manual `rm`)
 
+**Removed 2025-12-25:**
+
+- Single-letter aliases (`d`, `f`) - Too ambiguous, use full commands
+- System conflicts (`pp`) - Conflicts with `/usr/bin/pp`, use `pick` directly
+- Short 2-letter aliases (`ah`) - Use `aliashelp` directly
+
 ---
 
 ## 🤖 CLAUDE CODE (2)
@@ -112,7 +118,7 @@ Modern CLI tools with better UX:
 | `ccp` | `claude -p`  | Print mode (non-interactive) | 10x/day   |
 | `ccr` | `claude -r`  | Resume session with picker   | 5x/day    |
 
-**Note:** Use `cc` function (dispatcher) for project-aware Claude sessions.
+**Note:** Use `ccy` function in ~/.config/zsh/.zshrc for project picker + Claude sessions.
 
 **Removed 2025-12-19:**
 
@@ -180,14 +186,25 @@ Modern CLI tools with better UX:
 
 These smart functions provide context-aware workflows:
 
-| Command | Description    | Auto-detects                            |
-| ------- | -------------- | --------------------------------------- |
-| `cc`    | Claude Code    | Project type, opens in project root     |
-| `gm`    | Gemini         | Project type, opens in project root     |
-| `peek`  | File viewer    | File type, uses bat with correct syntax |
-| `qu`    | Quarto         | Operation type (preview/render/check)   |
-| `work`  | Work session   | Project type, sets up environment       |
-| `pick`  | Project picker | Shows all projects with fzf             |
+| Command | Description        | Auto-detects                            |
+| ------- | ------------------ | --------------------------------------- |
+| `g`     | Git workflows      | Git operations with smart defaults      |
+| `mcp`   | MCP server manager | Server status, logs, control            |
+| `obs`   | Obsidian notes     | Note creation, linking, search          |
+| `qu`    | Quarto publishing  | Preview/render/check (15+ commands)     |
+| `r`     | R package dev      | Test/doc/check cycle (25+ commands)     |
+| `ccy`   | Claude with picker | Project picker then Claude session      |
+| `peek`  | File viewer        | File type, uses bat with correct syntax |
+| `work`  | Work session       | Project type, sets up environment       |
+| `pick`  | Project picker     | Shows all projects with fzf             |
+
+**Removed 2025-12-25:**
+
+- `v` / `vibe` - Deprecated wrapper, use `flow` command directly
+- `cc` - Replaced with `ccy` function in .zshrc
+- `gm` / `gem` - Use 13 `gem*` aliases in .zshrc instead
+
+See [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) for complete documentation.
 
 ---
 
@@ -221,8 +238,8 @@ Provided by OMZ git plugin (enabled 2025-12-19):
 # List all aliases by category
 als
 
-# Interactive help (if ah function exists)
-ah <category>
+# Interactive help
+aliashelp <category>
 
 # Git plugin aliases
 aliases git
@@ -250,6 +267,13 @@ If you're used to old aliases:
 
 | Old Alias  | New Approach                               |
 | ---------- | ------------------------------------------ |
+| `d`        | `dash` (full command)                      |
+| `f`        | `flow` (full command)                      |
+| `pp`       | `pick` (full command)                      |
+| `ah`       | `aliashelp` (full command)                 |
+| `v test`   | `flow test` (use flow directly)            |
+| `vibe`     | `flow` (use flow directly)                 |
+| `cc`       | `ccy` (new function in .zshrc)             |
 | `e` / `ec` | `emacs` or `emacsclient -c -a ''`          |
 | `find`     | `fd` (direct command)                      |
 | `grep`     | `rg` (direct command)                      |
@@ -273,4 +297,4 @@ If you're used to old aliases:
 
 ---
 
-**Last cleanup:** 2025-12-19 (Reduced from 179 to 28 aliases)
+**Last cleanup:** 2025-12-25 (Aliases: 28 active | Dispatchers: 5 active [g, mcp, obs, qu, r])

@@ -91,18 +91,21 @@ Instead of navigating manually, use context-aware functions:
 
 ```bash
 pick     # Fuzzy-find and navigate to any project (10x faster with caching!)
-pp       # Same as pick (shorter alias)
 ```
 
 **Performance:** First scan ~3ms, cached scans <1ms for 60 projects.
 
+**Note:** The `pp` alias was removed (2025-12-25) to avoid conflicts with system `/usr/bin/pp`. Use `pick` directly.
+
 ### Claude Code
 
 ```bash
-cc       # Opens Claude in current project root
+ccy      # Project picker → Claude Code (function in ~/.config/zsh/.zshrc)
 ccp      # Claude print mode (non-interactive)
 ccr      # Resume last session
 ```
+
+**Note:** The `cc` dispatcher was replaced (2025-12-25) with the `ccy` function for better project integration.
 
 ### File Viewer
 

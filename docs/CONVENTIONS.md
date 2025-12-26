@@ -10,9 +10,11 @@
 
 | Frequency         | Style         | Examples               |
 | ----------------- | ------------- | ---------------------- |
-| Daily (50+ times) | Single letter | `r`, `g`, `v`          |
-| Frequent (10-50)  | Two letters   | `qu`, `cc`, `gm`       |
+| Daily (50+ times) | Single letter | `r`, `g`               |
+| Frequent (10-50)  | Two letters   | `qu`, `mcp`, `obs`     |
 | Occasional (<10)  | Full word     | `work`, `dash`, `pick` |
+
+**Note (2025-12-25):** `v` dispatcher was deprecated. Use `flow` command directly.
 
 ### Keywords (Dispatcher Actions)
 
@@ -72,20 +74,34 @@ alias gis='g'
 ### Directory Structure
 
 ```
-~/.config/zsh/
-├── .zshrc                      # Main entry point
-├── functions/                  # All function files
-│   ├── smart-dispatchers.zsh   # r, qu, cc, gm, focus
-│   ├── v-dispatcher.zsh        # v/vibe
-│   ├── g-dispatcher.zsh        # git
-│   ├── adhd-helpers.zsh        # work, dash, pb, pv, pt
-│   ├── work.zsh                # Work session
+~/projects/dev-tools/flow-cli/
+├── flow.plugin.zsh             # Plugin entry point
+├── lib/
+│   ├── dispatchers/
+│   │   ├── g-dispatcher.zsh    # Git workflows
+│   │   ├── mcp-dispatcher.zsh  # MCP server management
+│   │   ├── obs.zsh             # Obsidian notes
+│   │   ├── qu-dispatcher.zsh   # Quarto publishing
+│   │   └── r-dispatcher.zsh    # R package development
+│   ├── core.zsh                # Colors, logging, utils
+│   ├── atlas-bridge.zsh        # Atlas integration
+│   └── tui.zsh                 # Terminal UI
+├── commands/                   # Command implementations
+│   ├── work.zsh                # work, finish, hop, why
 │   ├── dash.zsh                # Dashboard
-│   ├── status.zsh              # Status functions
-│   └── fzf-helpers.zsh         # FZF integrations
-├── completions/                # Custom completions
+│   ├── capture.zsh             # catch, crumb, trail
+│   └── adhd.zsh                # ADHD helpers
+├── completions/                # ZSH completions
+├── hooks/                      # ZSH hooks (chpwd, precmd)
 └── tests/                      # Test scripts
+
+~/.config/zsh/
+├── .zshrc                      # Main config (ccy function, gem* aliases)
+└── functions/                  # Legacy ADHD helpers
+    └── adhd-helpers.zsh        # work, dash, pb, pv, pt
 ```
+
+**Note (2025-12-25):** Moved from ~/.config/zsh to flow-cli plugin structure. `v-dispatcher.zsh` was removed.
 
 ### File Header Template
 

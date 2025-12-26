@@ -1,6 +1,6 @@
 # Workflow Quick Reference
 
-**Date:** 2025-12-14 (Updated 2025-12-24)
+**Date:** 2025-12-14 (Updated 2025-12-25)
 **Version:** 2.1 - Week 2 CLI Enhancements Complete
 
 > **✨ New Features (2025-12-24):**
@@ -9,7 +9,13 @@
 > - `flow dashboard` - Interactive real-time TUI with keyboard shortcuts (r=refresh, q=quit, ?=help)
 > - 10x faster project scanning with in-memory caching (~3ms → <1ms)
 >
-> **⚠️ Alias Update (2025-12-19):** Many shortcuts mentioned below were removed. See `ALIAS-REFERENCE-CARD.md` for current aliases (28 total). Use full command names where aliases were removed.
+> **⚠️ Updates (2025-12-25):**
+>
+> - Removed deprecated `v`/`vibe` dispatcher - use `flow` command directly
+> - Removed single-letter aliases (`d`, `f`, `pp`, `ah`) - use full commands
+> - Added `qu` and `r` dispatchers for Quarto and R workflows
+> - See `ALIAS-REFERENCE-CARD.md` for current aliases (28 total)
+> - See `DISPATCHER-REFERENCE.md` for active dispatchers (5 total: g, mcp, obs, qu, r)
 
 ---
 

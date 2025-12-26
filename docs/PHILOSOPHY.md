@@ -15,14 +15,17 @@ Every domain gets ONE command that handles all related operations.
 r test              # R package: run tests
 g push              # Git: push to remote
 qu preview          # Quarto: preview document
-v dash              # Workflow: open dashboard
+mcp status          # MCP: server status
+obs daily           # Obsidian: daily note
 ```
 
 **Rules:**
 
-- Single letter for high-frequency domains: `r`, `g`, `v`
-- Two letters for medium-frequency: `qu`, `cc`, `gm`
+- Single letter for high-frequency domains: `r`, `g`
+- Two letters for medium-frequency: `qu`, `mcp`, `obs`
 - Full words for low-frequency: `work`, `dash`, `pick`
+
+**Note (2025-12-25):** `v`/`vibe` dispatcher was deprecated. Use `flow` command directly for workflow operations.
 
 **Benefits:**
 
@@ -46,19 +49,26 @@ Every command should be:
 ```bash
 g                   # No args → status (most common)
 g help              # Forgot command? Help is there
-gti push            # Typo? Still works (alias to g)
+r test              # Run tests (R package)
+qu preview          # Preview Quarto doc
 ```
 
 ### 3. Modular Architecture
 
 ```
-~/.config/zsh/
-├── .zshrc                  # Loader + environment
-└── functions/
-    ├── smart-dispatchers.zsh   # r, qu, cc, gm
-    ├── g-dispatcher.zsh        # git
-    ├── v-dispatcher.zsh        # vibe/workflow
-    └── adhd-helpers.zsh        # work, dash, pb, pv
+~/projects/dev-tools/flow-cli/
+├── flow.plugin.zsh         # Plugin entry point
+├── lib/
+│   └── dispatchers/
+│       ├── g-dispatcher.zsh    # git
+│       ├── mcp-dispatcher.zsh  # MCP servers
+│       ├── obs.zsh             # Obsidian
+│       ├── qu-dispatcher.zsh   # Quarto
+│       └── r-dispatcher.zsh    # R packages
+└── commands/
+    ├── work.zsh            # Session management
+    ├── dash.zsh            # Dashboard
+    └── adhd.zsh            # ADHD helpers
 ```
 
 **Rules:**
@@ -67,6 +77,8 @@ gti push            # Typo? Still works (alias to g)
 - Functions > Aliases (for complex logic)
 - Aliases only for simple shortcuts
 - **No duplicates across files**
+
+**Note (2025-12-25):** Migrated from ~/.config/zsh to flow-cli plugin structure. `v-dispatcher.zsh` removed.
 
 ### 4. Performance First
 
@@ -151,7 +163,8 @@ deploy() {
 }
 
 # ✅ Discoverable with help
-# v help → shows all vibe commands
+# r help → shows all R package commands
+# qu help → shows all Quarto commands
 
 # ✅ Lazy loading
 motd() { curl -s api.example.com/motd; }  # Only runs when called
@@ -165,12 +178,11 @@ motd() { curl -s api.example.com/motd; }  # Only runs when called
 TIER 1: Daily Drivers (muscle memory)
 ├── g       Git operations
 ├── r       R package development
-├── cc      Claude Code
-└── v       Workflow automation
+└── qu      Quarto publishing
 
 TIER 2: Frequent (weekly)
-├── qu      Quarto publishing
-├── gm      Gemini
+├── mcp     MCP server management
+├── obs     Obsidian notes
 ├── work    Start session
 ├── dash    Dashboard
 └── pick    FZF picker
@@ -185,6 +197,11 @@ TIER 4: Utilities (as needed)
 ├── ..      Navigate up
 ├── ll      List files
 └── reload  Refresh shell
+
+DEPRECATED (2025-12-25):
+├── v       Use 'flow' command directly
+├── cc      Use 'ccy' function in .zshrc
+└── gm      Use 'gem*' aliases in .zshrc
 ```
 
 ---

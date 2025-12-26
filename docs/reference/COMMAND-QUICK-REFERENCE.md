@@ -40,38 +40,45 @@ g undo              # Undo last commit (keep changes)
 g help              # Show all commands
 ```
 
-### Quarto: `qu`
+### Quarto Publishing: `qu`
 
 ```bash
-qu                  # Show help
+qu                  # Smart default: render → preview
 qu preview          # Live preview
 qu render           # Render document
+qu pdf              # Render to PDF
 qu check            # Check installation
 qu clean            # Remove build artifacts
 qu new <name>       # Create new project
 qu help             # Show all commands
 ```
 
-### Workflow Automation: `v` / `vibe`
+### MCP Server Manager: `mcp`
 
 ```bash
-v                   # Show help
-v test              # Run tests (context-aware)
-v dash              # Dashboard
-v coord             # Coordination
-v plan              # Planning
-v status            # Project status
-v help              # Show all commands
-vibe test           # Full name also works
+mcp                 # Show server status
+mcp status          # Detailed status
+mcp logs <server>   # View server logs
+mcp restart <srv>   # Restart server
+mcp help            # Show all commands
 ```
 
-### AI Tools: `cc` / `gm`
+### Obsidian Integration: `obs`
 
 ```bash
-cc                  # Claude Code
-cc --continue       # Continue conversation
-gm                  # Gemini
-gm help             # Gemini help
+obs                 # Quick capture note
+obs search <term>   # Search notes
+obs daily           # Open daily note
+obs help            # Show all commands
+```
+
+### AI Tools
+
+```bash
+ccy                 # Project picker → Claude Code (function in .zshrc)
+gem                 # Gemini (see 13 gem* aliases)
+gemf                # Gemini Flash
+gemp                # Gemini Pro
 ```
 
 ---
@@ -129,28 +136,35 @@ reload              # Reload zshrc
 
 ## Pattern Summary
 
-| Domain    | Command | Pattern              |
-| --------- | ------- | -------------------- |
-| R Package | `r`     | `r <action> [args]`  |
-| Git       | `g`     | `g <action> [args]`  |
-| Quarto    | `qu`    | `qu <action> [args]` |
-| Workflow  | `v`     | `v <action> [args]`  |
-| Claude    | `cc`    | Direct or with flags |
-| Gemini    | `gm`    | Direct or with flags |
+| Domain         | Command | Pattern               |
+| -------------- | ------- | --------------------- |
+| R Package      | `r`     | `r <action> [args]`   |
+| Git            | `g`     | `g <action> [args]`   |
+| Quarto         | `qu`    | `qu <action> [args]`  |
+| MCP Servers    | `mcp`   | `mcp <action> [srv]`  |
+| Obsidian Notes | `obs`   | `obs <action> [arg]`  |
+| Claude         | `ccy`   | Function (no args)    |
+| Gemini         | `gem*`  | See aliases in .zshrc |
 
-**Get help:** Any dispatcher + `help` (e.g., `r help`, `g help`)
+**Get help:** Any dispatcher + `help` (e.g., `r help`, `g help`, `qu help`)
 
 ---
 
 ## Files
 
-| File                                            | Purpose                   |
-| ----------------------------------------------- | ------------------------- |
-| `~/.config/zsh/functions/smart-dispatchers.zsh` | r, qu, cc, gm dispatchers |
-| `~/.config/zsh/functions/v-dispatcher.zsh`      | v/vibe dispatcher         |
-| `~/.config/zsh/functions/g-dispatcher.zsh`      | g (git) dispatcher        |
-| `~/.config/zsh/functions/adhd-helpers.zsh`      | work, dash, pb, pv, pt    |
+| File                                                               | Purpose                     |
+| ------------------------------------------------------------------ | --------------------------- |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/`                   | All dispatchers             |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/r-dispatcher.zsh`   | r (R package dev)           |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/g-dispatcher.zsh`   | g (git workflows)           |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/qu-dispatcher.zsh`  | qu (Quarto publishing)      |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/mcp-dispatcher.zsh` | mcp (MCP servers)           |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/obs.zsh`            | obs (Obsidian notes)        |
+| `~/.config/zsh/.zshrc`                                             | ccy function, gem\* aliases |
+| `~/.config/zsh/functions/adhd-helpers.zsh`                         | work, dash, pb, pv, pt      |
+
+**Removed:** `v-dispatcher.zsh` (deprecated, use `flow` command instead)
 
 ---
 
-_Updated: 2025-12-17_
+_Updated: 2025-12-25_
