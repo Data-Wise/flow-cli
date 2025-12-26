@@ -12,13 +12,9 @@
         <meta name="author" content="DT">
       
       
-        <link rel="canonical" href="https://data-wise.github.io/flow-cli/reference/PICK-COMMAND-REFERENCE/">
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/proposals/PICK-SMART-DEFAULTS/">
       
       
-        <link rel="prev" href="../WORKFLOW-QUICK-REFERENCE/">
-      
-      
-        <link rel="next" href="../DASHBOARD-QUICK-REF/">
       
       
         
@@ -29,7 +25,7 @@
     
     
       
-        <title>Pick Command Reference - Flow CLI Documentation</title>
+        <title>Smart Default Behavior for pick and Related Commands - Flow CLI Documentation</title>
       
     
     
@@ -84,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#pick-command-reference" class="md-skip">
+        <a href="#smart-default-behavior-for-pick-and-related-commands" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Pick Command Reference
+              Smart Default Behavior for pick and Related Commands
             
           </span>
         </div>
@@ -308,13 +304,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../COMMAND-EXPLORER/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../reference/COMMAND-EXPLORER/" class="md-tabs__link">
           
   
   
@@ -1089,31 +1083,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   
@@ -1131,7 +1122,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1149,7 +1140,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../COMMAND-EXPLORER/" class="md-nav__link">
+      <a href="../../reference/COMMAND-EXPLORER/" class="md-nav__link">
         
   
   
@@ -1177,7 +1168,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../DISPATCHER-REFERENCE/" class="md-nav__link">
+      <a href="../../reference/DISPATCHER-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1205,7 +1196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ALIAS-REFERENCE-CARD/" class="md-nav__link">
+      <a href="../../reference/ALIAS-REFERENCE-CARD/" class="md-nav__link">
         
   
   
@@ -1233,7 +1224,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
+      <a href="../../reference/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1258,37 +1249,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Pick Command Reference
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../reference/PICK-COMMAND-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1304,348 +1268,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Start
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Arguments
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#smart-behaviors-new" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Smart Behaviors (NEW)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Smart Behaviors (NEW)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#direct-jump" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Direct Jump
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#session-aware-resume" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Session-Aware Resume
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#categories" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Categories
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#interactive-keys" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Interactive Keys
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#display-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Display Format
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Display Format">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#icons-by-category" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Icons by Category
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#direct-jump-new" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Direct Jump (NEW)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#smart-resume-new" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Smart Resume (NEW)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#category-filtering" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Category Filtering
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#interactive-actions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Interactive Actions
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#aliases" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Aliases
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Features
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Features">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#adhd-friendly-design" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADHD-Friendly Design
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#technical-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Technical Features
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Integration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#files" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Files
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-phase-enhancements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Phase Enhancements
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#colors-not-showing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Colors not showing?
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#parse-error-at-line-49" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Parse error at line 49?
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#formatting-broken" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Formatting broken?
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1658,7 +1280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../DASHBOARD-QUICK-REF/" class="md-nav__link">
+      <a href="../../reference/DASHBOARD-QUICK-REF/" class="md-nav__link">
         
   
   
@@ -1686,7 +1308,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PROJECT-DETECTION-GUIDE/" class="md-nav__link">
+      <a href="../../reference/PROJECT-DETECTION-GUIDE/" class="md-nav__link">
         
   
   
@@ -1714,7 +1336,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
+      <a href="../../reference/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
         
   
   
@@ -1742,7 +1364,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
+      <a href="../../reference/ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
         
   
   
@@ -1770,7 +1392,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../CLI-COMMAND-PATTERNS-RESEARCH/" class="md-nav__link">
+      <a href="../../reference/CLI-COMMAND-PATTERNS-RESEARCH/" class="md-nav__link">
         
   
   
@@ -1798,7 +1420,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../COMMAND-QUICK-REFERENCE/" class="md-nav__link">
+      <a href="../../reference/COMMAND-QUICK-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1826,7 +1448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TESTING-QUICK-REF/" class="md-nav__link">
+      <a href="../../reference/TESTING-QUICK-REF/" class="md-nav__link">
         
   
   
@@ -1854,7 +1476,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../EXISTING-SYSTEM-SUMMARY/" class="md-nav__link">
+      <a href="../../reference/EXISTING-SYSTEM-SUMMARY/" class="md-nav__link">
         
   
   
@@ -1882,7 +1504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ZSH-CLEAN-WORKFLOW/" class="md-nav__link">
+      <a href="../../reference/ZSH-CLEAN-WORKFLOW/" class="md-nav__link">
         
   
   
@@ -2658,7 +2280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TESTING-QUICK-REF/" class="md-nav__link">
+      <a href="../../reference/TESTING-QUICK-REF/" class="md-nav__link">
         
   
   
@@ -3316,10 +2938,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick Start
+        Overview
       
     </span>
   </a>
@@ -3327,22 +2949,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#design-principles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Design Principles
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Usage">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposed-key-bindings-consistent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proposed Key Bindings (Consistent)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Proposed Key Bindings (Consistent)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
+  <a href="#key-insight" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Arguments
+        Key Insight
       
     </span>
   </a>
@@ -3355,22 +2988,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#smart-behaviors-new" class="md-nav__link">
+  <a href="#detailed-behaviors" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Smart Behaviors (NEW)
+        Detailed Behaviors
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Smart Behaviors (NEW)">
+    <nav class="md-nav" aria-label="Detailed Behaviors">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#direct-jump" class="md-nav__link">
+  <a href="#1-pick-command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Direct Jump
+        1. pick Command
       
     </span>
   </a>
@@ -3378,10 +3011,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#session-aware-resume" class="md-nav__link">
+  <a href="#2-cc-and-ccy-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Session-Aware Resume
+        2. cc and ccy Commands
       
     </span>
   </a>
@@ -3389,10 +3022,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#categories" class="md-nav__link">
+  <a href="#3-work-command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Categories
+        3. work Command
       
     </span>
   </a>
@@ -3405,10 +3038,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#interactive-keys" class="md-nav__link">
+  <a href="#consistency-matrix" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Interactive Keys
+        Consistency Matrix
       
     </span>
   </a>
@@ -3416,22 +3049,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#display-format" class="md-nav__link">
+  <a href="#implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Display Format
+        Implementation
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Display Format">
+    <nav class="md-nav" aria-label="Implementation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#icons-by-category" class="md-nav__link">
+  <a href="#phase-1-direct-jump-quick-win-30min" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Icons by Category
+        Phase 1: Direct Jump (Quick Win - 30min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-enterspace-key-bindings-medium-1hr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Enter/Space Key Bindings (Medium - 1hr)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-update-ccccy-for-consistency-30min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Update cc/ccy for Consistency (30min)
       
     </span>
   </a>
@@ -3444,22 +3099,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#edge-cases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Examples
+        Edge Cases
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Examples">
+    <nav class="md-nav" aria-label="Edge Cases">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#direct-jump-new" class="md-nav__link">
+  <a href="#q-what-if-user-wants-to-resume-claude-session-in-last-project" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Direct Jump (NEW)
+        Q: What if user wants to resume Claude session in last project?
       
     </span>
   </a>
@@ -3467,10 +3122,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#smart-resume-new" class="md-nav__link">
+  <a href="#q-what-about-cc-with-no-session-file" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Smart Resume (NEW)
+        Q: What about cc with no session file?
       
     </span>
   </a>
@@ -3478,21 +3133,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#category-filtering" class="md-nav__link">
+  <a href="#q-what-if-direct-name-has-multiple-matches" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Category Filtering
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#interactive-actions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Interactive Actions
+        Q: What if direct name has multiple matches?
       
     </span>
   </a>
@@ -3505,10 +3149,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#aliases" class="md-nav__link">
+  <a href="#quick-wins-1hr" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Aliases
+        Quick Wins (&lt; 1hr)
       
     </span>
   </a>
@@ -3516,116 +3160,55 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#medium-effort-1-3hrs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Features
+        Medium Effort (1-3hrs)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Features">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#big-ideas-1-day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Big Ideas (1+ day)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Status
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Status">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#adhd-friendly-design" class="md-nav__link">
+  <a href="#commits" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ADHD-Friendly Design
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#technical-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Technical Features
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Integration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#files" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Files
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-phase-enhancements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Phase Enhancements
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#colors-not-showing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Colors not showing?
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#parse-error-at-line-49" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Parse error at line 49?
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#formatting-broken" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Formatting broken?
+        Commits
       
     </span>
   </a>
@@ -3654,7 +3237,7 @@
 
 
   
-    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/reference/PICK-COMMAND-REFERENCE.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/proposals/PICK-SMART-DEFAULTS.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -3662,309 +3245,401 @@
   
 
 
-<h1 id="pick-command-reference">Pick Command Reference<a class="headerlink" href="#pick-command-reference" title="Permanent link">&para;</a></h1>
-<p>Interactive project picker with fuzzy search, smart resume, and direct jump</p>
-<p><strong>Location:</strong> <code>commands/pick.zsh</code></p>
+<h1 id="smart-default-behavior-for-pick-and-related-commands">Smart Default Behavior for <code>pick</code> and Related Commands<a class="headerlink" href="#smart-default-behavior-for-pick-and-related-commands" title="Permanent link">&para;</a></h1>
+<p><strong>Generated:</strong> 2025-12-26
+<strong>Revised:</strong> 2025-12-26 (v2 - consistent key bindings)
+<strong>Status:</strong> ✅ <strong>IMPLEMENTED</strong> (Phase 1 &amp; 2 complete)
+<strong>Context:</strong> flow-cli project picker enhancement</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Add intelligent default behaviors to <code>pick</code> and commands that use it (<code>cc</code>, <code>ccy</code>, <code>work</code>, etc.) with <strong>consistent key bindings</strong> across all commands.</p>
 <hr />
-<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pick<span class="w">              </span><span class="c1"># Smart resume or browse all projects</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pick<span class="w"> </span>flow<span class="w">         </span><span class="c1"># Direct jump to flow-cli (no picker)</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>pick<span class="w"> </span>r<span class="w">            </span><span class="c1"># Show only R packages</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>pick<span class="w"> </span>-a<span class="w">           </span><span class="c1"># Force full picker (bypass resume)</span>
-</code></pre></div>
+<h2 id="design-principles">Design Principles<a class="headerlink" href="#design-principles" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Consistency</strong> - Same keys do same things everywhere</li>
+<li><strong>Enter = Default action</strong> - Most common use case</li>
+<li><strong>Space = Escape hatch</strong> - Override default, show full picker</li>
+<li><strong>Direct name = Fastest path</strong> - Skip picker entirely</li>
+</ol>
 <hr />
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pick<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>category<span class="p">|</span>project-name<span class="o">]</span>
-</code></pre></div>
-<h3 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Argument</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>project-name</code></td>
-<td>Direct jump to matching project (fuzzy)</td>
-</tr>
-<tr>
-<td><code>category</code></td>
-<td>Filter by category (r, dev, q, etc.)</td>
-</tr>
-<tr>
-<td><code>-a, --all</code></td>
-<td>Force full picker (skip direct jump)</td>
-</tr>
-<tr>
-<td><code>--fast</code></td>
-<td>Skip git status checks (faster loading)</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="smart-behaviors-new">Smart Behaviors (NEW)<a class="headerlink" href="#smart-behaviors-new" title="Permanent link">&para;</a></h2>
-<h3 id="direct-jump">Direct Jump<a class="headerlink" href="#direct-jump" title="Permanent link">&para;</a></h3>
-<p>Jump directly to a project without the picker:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pick<span class="w"> </span>flow<span class="w">         </span><span class="c1"># → cd to flow-cli (exact match)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>pick<span class="w"> </span>med<span class="w">          </span><span class="c1"># → cd to mediationverse</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>pick<span class="w"> </span>stat<span class="w">         </span><span class="c1"># → Multiple matches? Shows filtered picker</span>
-</code></pre></div>
-<h3 id="session-aware-resume">Session-Aware Resume<a class="headerlink" href="#session-aware-resume" title="Permanent link">&para;</a></h3>
-<p>When you run <code>pick</code> with no args and have a recent session:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>╔════════════════════════════════════════════════════════════╗
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>║  🔍 PROJECT PICKER                                         ║
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>╚════════════════════════════════════════════════════════════╝
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  💡 Last: flow-cli (2h ago)
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  [Enter] Resume  │  [Space] Browse all  │  Type to search...
-</code></pre></div>
+<h2 id="proposed-key-bindings-consistent">Proposed Key Bindings (Consistent)<a class="headerlink" href="#proposed-key-bindings-consistent" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Key</th>
-<th>Action</th>
+<th>In <code>pick</code></th>
+<th>In <code>cc</code>/<code>ccy</code></th>
+<th>In <code>work</code></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Enter</strong></td>
 <td>Resume last project</td>
+<td>Pick → <strong>NEW</strong> session</td>
+<td>Resume last session</td>
 </tr>
 <tr>
 <td><strong>Space</strong></td>
-<td>Force full picker (bypass resume)</td>
+<td>Show full picker</td>
+<td>Show full picker → NEW session</td>
+<td>Show full picker</td>
 </tr>
 <tr>
-<td><strong>Type</strong></td>
-<td>Filter projects as before</td>
-</tr>
-</tbody>
-</table>
-<p>Sessions expire after 24 hours.</p>
-<h3 id="categories">Categories<a class="headerlink" href="#categories" title="Permanent link">&para;</a></h3>
-<p>All category names are case-insensitive and support multiple aliases:</p>
-<table>
-<thead>
-<tr>
-<th>Category</th>
-<th>Aliases</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>r</strong></td>
-<td><code>r</code>, <code>R</code>, <code>rpack</code>, <code>rpkg</code></td>
-<td>R packages</td>
-</tr>
-<tr>
-<td><strong>dev</strong></td>
-<td><code>dev</code>, <code>Dev</code>, <code>DEV</code>, <code>tool</code>, <code>tools</code></td>
-<td>Development tools</td>
-</tr>
-<tr>
-<td><strong>q</strong></td>
-<td><code>q</code>, <code>Q</code>, <code>qu</code>, <code>quarto</code></td>
-<td>Quarto projects</td>
-</tr>
-<tr>
-<td><strong>teach</strong></td>
-<td><code>teach</code>, <code>teaching</code></td>
-<td>Teaching courses</td>
-</tr>
-<tr>
-<td><strong>rs</strong></td>
-<td><code>rs</code>, <code>research</code>, <code>res</code></td>
-<td>Research projects</td>
-</tr>
-<tr>
-<td><strong>app</strong></td>
-<td><code>app</code>, <code>apps</code></td>
-<td>Applications</td>
+<td><strong><code>&lt;name&gt;</code></strong></td>
+<td>Direct jump</td>
+<td>Direct jump → NEW session</td>
+<td>Direct jump → session</td>
 </tr>
 </tbody>
 </table>
+<h3 id="key-insight">Key Insight<a class="headerlink" href="#key-insight" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>pick</code> = <strong>Navigation only</strong> (Enter = resume is convenient)</li>
+<li><code>cc</code>/<code>ccy</code> = <strong>Always NEW Claude session</strong> (you don't resume pick, you resume Claude)</li>
+<li><code>work</code> = <strong>Session management</strong> (resume makes sense)</li>
+</ul>
 <hr />
-<h2 id="interactive-keys">Interactive Keys<a class="headerlink" href="#interactive-keys" title="Permanent link">&para;</a></h2>
+<h2 id="detailed-behaviors">Detailed Behaviors<a class="headerlink" href="#detailed-behaviors" title="Permanent link">&para;</a></h2>
+<h3 id="1-pick-command">1. <code>pick</code> Command<a class="headerlink" href="#1-pick-command" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pick              → Resume last project (Enter) or full picker (Space)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pick flow         → Direct jump to flow-cli
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>pick r            → R packages picker (category filter)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>pick -a           → Force full picker (flag override)
+</code></pre></div>
+<p><strong>Visual prompt:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ pick
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>╔════════════════════════════════════════════════════════════╗
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>║  🔍 PROJECT PICKER                                         ║
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>╚════════════════════════════════════════════════════════════╝
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  💡 Last: flow-cli (dev) - 2h ago
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  [Enter] Resume  │  [Space] Browse all  │  Type to search...
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>&gt; _
+</code></pre></div>
+<p><strong>Behavior:</strong></p>
+<ul>
+<li><strong>Enter</strong> (empty query) → cd to last project</li>
+<li><strong>Space</strong> → Show full fzf picker</li>
+<li><strong>Typing</strong> → Filter projects</li>
+<li><strong>No session</strong> → Fall back to full picker</li>
+</ul>
+<hr />
+<h3 id="2-cc-and-ccy-commands">2. <code>cc</code> and <code>ccy</code> Commands<a class="headerlink" href="#2-cc-and-ccy-commands" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cc                → Pick project → NEW Claude session (acceptEdits)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>cc flow           → Direct jump → NEW Claude session
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>cc now            → Current dir → NEW Claude session (no pick)
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>ccy               → Pick project → NEW Claude YOLO session
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>ccy flow          → Direct jump → NEW YOLO session
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>ccy now           → Current dir → NEW YOLO session (no pick)
+</code></pre></div>
+<p><strong>Why NEW session (not resume)?</strong></p>
+<ul>
+<li>Claude has its own resume: <code>claude -r</code> or <code>cc resume</code></li>
+<li>When you type <code>cc</code>, you want to START working</li>
+<li>Resuming Claude session ≠ resuming project navigation</li>
+</ul>
+<p><strong>Visual prompt:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$ cc
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>╔════════════════════════════════════════════════════════════╗
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>║  🤖 CLAUDE CODE                                            ║
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>╚════════════════════════════════════════════════════════════╝
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  💡 Last: flow-cli (dev) - 2h ago
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>  [Enter] flow-cli → Claude  │  [Space] Browse  │  Type to search...
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>&gt; _
+</code></pre></div>
+<p><strong>Key difference from <code>pick</code>:</strong></p>
+<ul>
+<li>After selection, <strong>always launches NEW Claude session</strong></li>
+<li>To resume a Claude conversation: <code>cc resume</code> or <code>cc continue</code></li>
+</ul>
+<hr />
+<h3 id="3-work-command">3. <code>work</code> Command<a class="headerlink" href="#3-work-command" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>work              → Resume last session (if active) or pick new
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>work flow         → Direct jump → Start/resume session
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>work -n           → Force new session (even if one exists)
+</code></pre></div>
+<p><strong>Behavior:</strong></p>
+<ul>
+<li><strong>Enter</strong> → Resume last work session (including timers, context)</li>
+<li><strong>Space</strong> → Browse all projects</li>
+<li>Work sessions are different from Claude sessions</li>
+</ul>
+<hr />
+<h2 id="consistency-matrix">Consistency Matrix<a class="headerlink" href="#consistency-matrix" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Key</th>
-<th>Action</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Enter</strong></td>
-<td>cd</td>
-<td>Change to selected project (or resume)</td>
-</tr>
-<tr>
-<td><strong>Space</strong></td>
-<td>browse</td>
-<td>Force full picker (bypass resume prompt)</td>
-</tr>
-<tr>
-<td><strong>Ctrl-S</strong></td>
-<td>status</td>
-<td>View .STATUS file (with bat/cat)</td>
-</tr>
-<tr>
-<td><strong>Ctrl-L</strong></td>
-<td>log</td>
-<td>View git log (with tig/git)</td>
-</tr>
-<tr>
-<td><strong>Ctrl-C</strong></td>
-<td>cancel</td>
-<td>Exit without action</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="display-format">Display Format<a class="headerlink" href="#display-format" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>project-name         icon type
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>────────────────────────────────
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>flow-cli    🔧 dev
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>mediationverse       📦 r
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>medrobust            📦 r
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>apple-notes-sync     🔧 dev
-</code></pre></div>
-<p><strong>Note:</strong> Git status display was removed for simplicity and reliability. A <code>--git</code> flag may be added in future versions to optionally show branch and status information.</p>
-<h3 id="icons-by-category">Icons by Category<a class="headerlink" href="#icons-by-category" title="Permanent link">&para;</a></h3>
-<ul>
-<li>📦 - R packages (<code>r</code>)</li>
-<li>🔧 - Dev tools (<code>dev</code>)</li>
-<li>📝 - Quarto projects (<code>q</code>)</li>
-<li>📚 - Teaching courses (<code>teach</code>)</li>
-<li>🔬 - Research projects (<code>rs</code>)</li>
-<li>📱 - Applications (<code>app</code>)</li>
-</ul>
-<hr />
-<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
-<h3 id="direct-jump-new">Direct Jump (NEW)<a class="headerlink" href="#direct-jump-new" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Jump to project by name (fuzzy match)</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>pick<span class="w"> </span>flow<span class="w">         </span><span class="c1"># → flow-cli</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>pick<span class="w"> </span>med<span class="w">          </span><span class="c1"># → mediationverse</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>pick<span class="w"> </span>stat<span class="w">         </span><span class="c1"># → Multiple matches? Shows filtered picker</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Force full picker even with name</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>pick<span class="w"> </span>-a<span class="w"> </span>flow<span class="w">      </span><span class="c1"># Shows picker, pre-filtered to &quot;flow&quot;</span>
-</code></pre></div>
-<h3 id="smart-resume-new">Smart Resume (NEW)<a class="headerlink" href="#smart-resume-new" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># If you were recently in flow-cli:</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>pick<span class="w">              </span><span class="c1"># Shows: &quot;💡 Last: flow-cli (2h ago)&quot;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">                  </span><span class="c1"># Press Enter to resume, Space to browse</span>
-</code></pre></div>
-<h3 id="category-filtering">Category Filtering<a class="headerlink" href="#category-filtering" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Filter by category</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>pick<span class="w"> </span>r<span class="w">            </span><span class="c1"># R packages only</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>pick<span class="w"> </span>dev<span class="w">          </span><span class="c1"># Dev tools only</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>pick<span class="w"> </span>DEV<span class="w">          </span><span class="c1"># Case-insensitive</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># Fast mode with filter</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>pick<span class="w"> </span>--fast<span class="w"> </span>r
-</code></pre></div>
-<h3 id="interactive-actions">Interactive Actions<a class="headerlink" href="#interactive-actions" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># In the picker:</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1">#   - Type to filter projects</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1">#   - Press Enter to cd (or resume last)</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1">#   - Press Space to bypass resume and browse all</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1">#   - Press Ctrl-S to view .STATUS file</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1">#   - Press Ctrl-L to view git log</span>
-</code></pre></div>
-<hr />
-<h2 id="aliases">Aliases<a class="headerlink" href="#aliases" title="Permanent link">&para;</a></h2>
-<p>Shortcuts available for common categories:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>pickr<span class="w">             </span><span class="c1"># Expands to: pick r</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>pickdev<span class="w">           </span><span class="c1"># Expands to: pick dev</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>pickq<span class="w">             </span><span class="c1"># Expands to: pick q</span>
-</code></pre></div>
-<hr />
-<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
-<h3 id="adhd-friendly-design">ADHD-Friendly Design<a class="headerlink" href="#adhd-friendly-design" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Color-coded status</strong> - Pre-attentive processing (see status before reading)</li>
-<li><strong>Forgiving input</strong> - Multiple aliases, case-insensitive</li>
-<li><strong>Visual hierarchy</strong> - Icons, colors, clear sections</li>
-<li><strong>Fast mode</strong> - Skip git checks when you need speed</li>
-<li><strong>Dynamic headers</strong> - Always know what you're filtering</li>
-</ul>
-<h3 id="technical-features">Technical Features<a class="headerlink" href="#technical-features" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Process substitution (no subshell pollution)</li>
-<li>Branch name truncation (20 chars max)</li>
-<li>ANSI color support with fzf <code>--ansi</code> flag</li>
-<li>Comprehensive error handling</li>
-<li>Git status caching potential</li>
-</ul>
-<hr />
-<h2 id="integration">Integration<a class="headerlink" href="#integration" title="Permanent link">&para;</a></h2>
-<p>Works with:</p>
-<ul>
-<li><strong><code>cc</code> dispatcher</strong> - <code>cc</code> uses <code>pick</code> for project selection, then launches Claude</li>
-<li><strong><code>cc &lt;project&gt;</code></strong> - Direct jump to project + Claude (inherits pick's direct jump)</li>
-<li><code>work</code> command - Start work session in selected project</li>
-<li><code>bat</code> - Syntax-highlighted .STATUS viewing</li>
-<li><code>tig</code> - Interactive git log browser</li>
-</ul>
-<hr />
-<h2 id="files">Files<a class="headerlink" href="#files" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>File</th>
+<th>Command</th>
+<th>Enter (default)</th>
+<th>Space</th>
+<th><code>&lt;name&gt;</code></th>
 <th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>PROPOSAL-PICK-COMMAND-ENHANCEMENT.md</code></td>
-<td>Technical proposal &amp; implementation details</td>
+<td><code>pick</code></td>
+<td>Resume last dir</td>
+<td>Full picker</td>
+<td>Direct jump</td>
+<td><strong>Navigate</strong></td>
 </tr>
 <tr>
-<td><code>QUICK-WINS-IMPLEMENTED.md</code></td>
-<td>Quick enhancements documentation</td>
+<td><code>cc</code></td>
+<td>Last dir → NEW Claude</td>
+<td>Picker → NEW Claude</td>
+<td>Jump → NEW Claude</td>
+<td><strong>Code with Claude</strong></td>
 </tr>
 <tr>
-<td><code>docs/planning/proposals/PICK-COMMAND-NEXT-PHASE.md</code></td>
-<td>Future enhancement roadmap (P6A-P6F)</td>
+<td><code>ccy</code></td>
+<td>Last dir → NEW YOLO</td>
+<td>Picker → NEW YOLO</td>
+<td>Jump → NEW YOLO</td>
+<td><strong>YOLO with Claude</strong></td>
+</tr>
+<tr>
+<td><code>work</code></td>
+<td>Resume session</td>
+<td>Full picker</td>
+<td>Direct → session</td>
+<td><strong>Session mgmt</strong></td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="next-phase-enhancements">Next Phase Enhancements<a class="headerlink" href="#next-phase-enhancements" title="Permanent link">&para;</a></h2>
-<p>See <a href="../../planning/proposals/PICK-COMMAND-NEXT-PHASE/">PICK-COMMAND-NEXT-PHASE.md</a> for planned features:</p>
+<p><strong>Mnemonic:</strong></p>
 <ul>
-<li><strong>P6A:</strong> Preview pane showing .STATUS, README, git info</li>
-<li><strong>P6B:</strong> Frecency sorting (frequency + recency)</li>
-<li><strong>P6C:</strong> Multi-select batch operations</li>
-<li><strong>P6D:</strong> Advanced actions (PR creation, deployment)</li>
-<li><strong>P6E:</strong> Smart filters (by git status, .STATUS progress)</li>
-<li><strong>P6F:</strong> Performance optimization (parallel git, caching)</li>
+<li><strong>Enter</strong> = "Do the thing I probably want"</li>
+<li><strong>Space</strong> = "Wait, let me choose"</li>
+<li><strong>Name</strong> = "I know exactly what I want"</li>
 </ul>
 <hr />
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<h3 id="colors-not-showing">Colors not showing?<a class="headerlink" href="#colors-not-showing" title="Permanent link">&para;</a></h3>
-<p>Make sure your terminal supports ANSI colors and fzf has the <code>--ansi</code> flag.</p>
-<h3 id="parse-error-at-line-49">Parse error at line 49?<a class="headerlink" href="#parse-error-at-line-49" title="Permanent link">&para;</a></h3>
-<p>Reload the function:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">source</span><span class="w"> </span>~/.config/zsh/functions/adhd-helpers.zsh
+<h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-direct-jump-quick-win-30min">Phase 1: Direct Jump (Quick Win - 30min)<a class="headerlink" href="#phase-1-direct-jump-quick-win-30min" title="Permanent link">&para;</a></h3>
+<p>Add <code>pick &lt;name&gt;</code> direct jump:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pick<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">arg</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="c1"># Direct jump if name provided (not a category/flag)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$arg</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$arg</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span>-*<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$arg</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$arg</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">            </span>r<span class="p">|</span>dev<span class="p">|</span>q<span class="p">|</span>teach<span class="p">|</span>rs<span class="p">|</span>app<span class="o">)</span><span class="w"> </span><span class="p">;;</span><span class="w"> </span><span class="c1"># Category - fall through</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">            </span>*<span class="o">)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">                </span><span class="nb">local</span><span class="w"> </span><span class="nv">match</span><span class="o">=</span><span class="k">$(</span>_proj_find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$arg</span><span class="s2">&quot;</span><span class="k">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$match</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">                    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$match</span><span class="s2">&quot;</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">                    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  📂 </span><span class="nv">$match</span><span class="s2">&quot;</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">                </span><span class="k">fi</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">                </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;❌ No project: </span><span class="nv">$arg</span><span class="s2">&quot;</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">                </span><span class="p">;;</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">        </span><span class="k">esac</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">    </span><span class="c1"># ... rest of picker</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="o">}</span>
 </code></pre></div>
-<h3 id="formatting-broken">Formatting broken?<a class="headerlink" href="#formatting-broken" title="Permanent link">&para;</a></h3>
-<p>Check that ANSI escape codes use <strong>double quotes</strong> in printf:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Correct:</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;\033[32m✅\033[0m&quot;</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Incorrect:</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nb">printf</span><span class="w"> </span><span class="s1">&#39;\033[32m✅\033[0m&#39;</span><span class="w">  </span><span class="c1"># Single quotes don&#39;t interpret escapes</span>
+<h3 id="phase-2-enterspace-key-bindings-medium-1hr">Phase 2: Enter/Space Key Bindings (Medium - 1hr)<a class="headerlink" href="#phase-2-enterspace-key-bindings-medium-1hr" title="Permanent link">&para;</a></h3>
+<p>Modify fzf to handle Space as escape:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pick<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="c1"># ... setup ...</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="c1"># Check for recent session</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">show_resume</span><span class="o">=</span><span class="m">0</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$category</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PROJ_SESSION_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="c1"># Parse session, check age &lt; 24h</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">        </span><span class="nv">show_resume</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$show_resume</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  💡 Last: </span><span class="nv">$last_proj</span><span class="s2"> (</span><span class="si">${</span><span class="nv">age</span><span class="si">}</span><span class="s2">h ago)&quot;</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  [Enter] Resume  │  [Space] Browse  │  Type to search...&quot;</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">    </span><span class="c1"># fzf with special handling</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span>selection
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">    </span><span class="nv">selection</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$tmpfile</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>fzf<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">        </span>--height<span class="o">=</span><span class="m">50</span>%<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">        </span>--reverse<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="w">        </span>--print-query<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="w">        </span>--expect<span class="o">=</span>space<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="w">        </span>--header<span class="o">=</span><span class="s2">&quot;Enter=select | Space=browse all | ^C=cancel&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">        </span><span class="si">${</span><span class="nv">show_resume</span><span class="p">:+--query=</span><span class="s2">&quot;&quot;</span><span class="si">}</span><span class="k">)</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="w">    </span><span class="c1"># Parse fzf output</span>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">query</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$selection</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;1p&#39;</span><span class="k">)</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">key</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$selection</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;2p&#39;</span><span class="k">)</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">picked</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$selection</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;3p&#39;</span><span class="k">)</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">    </span><span class="c1"># Handle Space key</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$key</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;space&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="w">        </span><span class="c1"># User pressed Space - show full picker without resume prompt</span>
+<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="w">        </span><span class="c1"># Re-run fzf without resume logic</span>
+<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="w">        </span>pick<span class="w"> </span>-a<span class="w">  </span><span class="c1"># Force all</span>
+<a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a><span class="w">        </span><span class="k">return</span>
+<a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a>
+<a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a><span class="w">    </span><span class="c1"># Handle Enter with empty query (resume)</span>
+<a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$query</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$picked</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">$show_resume</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a><span class="w">        </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$last_dir</span><span class="s2">&quot;</span>
+<a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  📂 Resumed: </span><span class="nv">$last_proj</span><span class="s2">&quot;</span>
+<a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a>
+<a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a><span class="w">    </span><span class="c1"># Normal selection</span>
+<a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a><span class="w">    </span><span class="c1"># ...</span>
+<a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a><span class="o">}</span>
+</code></pre></div>
+<h3 id="phase-3-update-ccccy-for-consistency-30min">Phase 3: Update cc/ccy for Consistency (30min)<a class="headerlink" href="#phase-3-update-ccccy-for-consistency-30min" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>cc<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">arg</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="c1"># No args - smart pick then NEW Claude</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$arg</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">        </span><span class="c1"># Use pick&#39;s smart behavior, then launch Claude</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span>pick<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">            </span>claude<span class="w"> </span>--permission-mode<span class="w"> </span>acceptEdits
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">        </span><span class="k">fi</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">        </span><span class="k">return</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="c1"># Known subcommands</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$arg</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">        </span>yolo<span class="p">|</span>y<span class="p">|</span>plan<span class="p">|</span>p<span class="p">|</span>now<span class="p">|</span>n<span class="p">|</span>resume<span class="p">|</span>r<span class="p">|</span><span class="k">continue</span><span class="p">|</span>c<span class="p">|</span>...<span class="o">)</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">            </span><span class="c1"># Handle as before</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">        </span>*<span class="o">)</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">            </span><span class="c1"># Assume project name - direct jump then Claude</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span>pick<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$arg</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">                </span>claude<span class="w"> </span>--permission-mode<span class="w"> </span>acceptEdits
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">            </span><span class="k">fi</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">    </span><span class="k">esac</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="o">}</span>
 </code></pre></div>
 <hr />
-<p><strong>Last Updated:</strong> 2025-12-26
-<strong>Status:</strong> ✅ Fully implemented (v2.0 - smart defaults)</p>
+<h2 id="edge-cases">Edge Cases<a class="headerlink" href="#edge-cases" title="Permanent link">&para;</a></h2>
+<h3 id="q-what-if-user-wants-to-resume-claude-session-in-last-project">Q: What if user wants to resume Claude session in last project?<a class="headerlink" href="#q-what-if-user-wants-to-resume-claude-session-in-last-project" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Option 1: Resume Claude (with picker)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>cc<span class="w"> </span>resume<span class="w">          </span><span class="c1"># or: cc r</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Option 2: Go to last project, then resume Claude</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>pick<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>cc<span class="w"> </span>resume<span class="w">  </span><span class="c1"># Two steps, explicit</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Option 3: Direct resume in specific project</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>cc<span class="w"> </span>flow<span class="w"> </span>resume<span class="w">     </span><span class="c1"># Future enhancement?</span>
+</code></pre></div>
+<h3 id="q-what-about-cc-with-no-session-file">Q: What about <code>cc</code> with no session file?<a class="headerlink" href="#q-what-about-cc-with-no-session-file" title="Permanent link">&para;</a></h3>
+<p>Falls back to full picker (same as Space behavior).</p>
+<h3 id="q-what-if-direct-name-has-multiple-matches">Q: What if direct name has multiple matches?<a class="headerlink" href="#q-what-if-direct-name-has-multiple-matches" title="Permanent link">&para;</a></h3>
+<p>Show filtered fzf picker with matches only.</p>
+<hr />
+<h2 id="quick-wins-1hr">Quick Wins (&lt; 1hr)<a class="headerlink" href="#quick-wins-1hr" title="Permanent link">&para;</a></h2>
+<ol>
+<li>⭐ <strong>Direct jump: <code>pick &lt;name&gt;</code></strong> - Highest value, lowest risk</li>
+<li><strong>Update help text</strong> - Document new key bindings</li>
+<li><strong>Add <code>-a</code> flag</strong> - <code>pick -a</code> forces full picker</li>
+</ol>
+<h2 id="medium-effort-1-3hrs">Medium Effort (1-3hrs)<a class="headerlink" href="#medium-effort-1-3hrs" title="Permanent link">&para;</a></h2>
+<ol>
+<li>⭐ <strong>Enter/Space bindings in fzf</strong> - Consistent escape hatch</li>
+<li><strong>Update cc/ccy</strong> - Support <code>cc flow</code> direct jump</li>
+<li><strong>Session file validation</strong> - Handle stale/missing gracefully</li>
+</ol>
+<h2 id="big-ideas-1-day">Big Ideas (1+ day)<a class="headerlink" href="#big-ideas-1-day" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Recent projects list</strong> - Track last 5, show as fzf header</li>
+<li><strong>Project frecency</strong> - Sort by frequency × recency</li>
+<li><strong>Context-aware defaults</strong> - "You usually work on X now"</li>
+</ol>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th><code>pick</code></th>
+<th><code>cc</code> / <code>ccy</code></th>
+<th><code>work</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(Enter)</strong></td>
+<td>Resume last</td>
+<td>Last → <strong>NEW</strong> Claude</td>
+<td>Resume session</td>
+</tr>
+<tr>
+<td><strong>(Space)</strong></td>
+<td>Full picker</td>
+<td>Full picker → <strong>NEW</strong> Claude</td>
+<td>Full picker</td>
+</tr>
+<tr>
+<td><strong><code>&lt;name&gt;</code></strong></td>
+<td>Direct jump</td>
+<td>Direct → <strong>NEW</strong> Claude</td>
+<td>Direct → session</td>
+</tr>
+<tr>
+<td><strong><code>resume</code></strong></td>
+<td>N/A</td>
+<td>Resume Claude convo</td>
+<td>Resume work session</td>
+</tr>
+<tr>
+<td><strong><code>-a</code></strong></td>
+<td>Force picker</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insight:</strong> <code>cc</code>/<code>ccy</code> always starts NEW Claude sessions because Claude has its own resume mechanism (<code>cc resume</code>). The "last project" shortcut is just for navigation convenience.</p>
+<hr />
+<h2 id="implementation-status">Implementation Status<a class="headerlink" href="#implementation-status" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Feature</th>
+<th>Status</th>
+<th>Commit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td><code>pick &lt;name&gt;</code> direct jump</td>
+<td>✅ Done</td>
+<td><code>a4f81e7</code></td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Enter/Space key bindings</td>
+<td>✅ Done</td>
+<td><code>269085f</code></td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><code>cc flow</code> direct jump</td>
+<td>✅ Done</td>
+<td>(included in Phase 1)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="commits">Commits<a class="headerlink" href="#commits" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>a4f81e7</code> feat: add direct jump to pick and cc commands</li>
+<li><code>269085f</code> feat: add session-aware resume with Enter/Space bindings (Phase 2)</li>
+</ul>
 
 
 

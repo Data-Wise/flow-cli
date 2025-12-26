@@ -1248,15 +1248,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#active-dispatchers-5" class="md-nav__link">
+  <a href="#active-dispatchers-6" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Active Dispatchers (5)
+        Active Dispatchers (6)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Active Dispatchers (5)">
+    <nav class="md-nav" aria-label="Active Dispatchers (6)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1314,6 +1314,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#6-cc-claude-code-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. cc - Claude Code Workflows
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1336,34 +1347,6 @@
     <span class="md-ellipsis">
       
         v / vibe - DEPRECATED
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#not-restored-alternatives-available" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Not Restored (Alternatives Available)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Not Restored (Alternatives Available)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cc-claude-code-dispatcher" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        cc - Claude Code Dispatcher
       
     </span>
   </a>
@@ -3299,15 +3282,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#active-dispatchers-5" class="md-nav__link">
+  <a href="#active-dispatchers-6" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Active Dispatchers (5)
+        Active Dispatchers (6)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Active Dispatchers (5)">
+    <nav class="md-nav" aria-label="Active Dispatchers (6)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3365,6 +3348,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#6-cc-claude-code-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. cc - Claude Code Workflows
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3387,34 +3381,6 @@
     <span class="md-ellipsis">
       
         v / vibe - DEPRECATED
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#not-restored-alternatives-available" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Not Restored (Alternatives Available)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Not Restored (Alternatives Available)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cc-claude-code-dispatcher" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        cc - Claude Code Dispatcher
       
     </span>
   </a>
@@ -3607,14 +3573,14 @@
 
 
 <h1 id="dispatcher-reference-flow-cli">Dispatcher Reference - flow-cli<a class="headerlink" href="#dispatcher-reference-flow-cli" title="Permanent link">&para;</a></h1>
-<p><strong>Last Updated:</strong> December 25, 2025<br />
-<strong>Version:</strong> flow-cli v3.0.0</p>
+<p><strong>Last Updated:</strong> December 26, 2025
+<strong>Version:</strong> flow-cli v3.1.0</p>
 <hr />
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>Dispatchers are smart command routers that provide context-aware workflows for specific tools. Each dispatcher provides a unified interface with smart defaults and common subcommands.</p>
 <p><strong>Location:</strong> <code>~/projects/dev-tools/flow-cli/lib/dispatchers/</code></p>
 <hr />
-<h2 id="active-dispatchers-5">Active Dispatchers (5)<a class="headerlink" href="#active-dispatchers-5" title="Permanent link">&para;</a></h2>
+<h2 id="active-dispatchers-6">Active Dispatchers (6)<a class="headerlink" href="#active-dispatchers-6" title="Permanent link">&para;</a></h2>
 <h3 id="1-g-git-workflows">1. <code>g</code> - Git Workflows<a class="headerlink" href="#1-g-git-workflows" title="Permanent link">&para;</a></h3>
 <p><strong>File:</strong> <code>g-dispatcher.zsh</code><br />
 <strong>Purpose:</strong> Smart Git command shortcuts</p>
@@ -3772,35 +3738,57 @@
 <li>Integrated documentation</li>
 </ul>
 <hr />
+<h3 id="6-cc-claude-code-workflows">6. <code>cc</code> - Claude Code Workflows<a class="headerlink" href="#6-cc-claude-code-workflows" title="Permanent link">&para;</a></h3>
+<p><strong>File:</strong> <code>cc-dispatcher.zsh</code>
+<strong>Purpose:</strong> Smart Claude Code project workflows
+<strong>Added:</strong> December 26, 2025</p>
+<p><strong>Common Commands:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Launch modes</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>cc<span class="w">                </span><span class="c1"># Pick project → NEW Claude session (acceptEdits)</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>cc<span class="w"> </span>flow<span class="w">           </span><span class="c1"># Direct jump → Claude</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>cc<span class="w"> </span>yolo<span class="w">           </span><span class="c1"># Pick project → YOLO mode (skip permissions)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>cc<span class="w"> </span>yolo<span class="w"> </span>flow<span class="w">      </span><span class="c1"># Direct jump → YOLO mode</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>cc<span class="w"> </span>plan<span class="w">           </span><span class="c1"># Pick project → Plan mode</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>cc<span class="w"> </span>now<span class="w">            </span><span class="c1"># Current dir → Claude (no picker)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># Session management</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>cc<span class="w"> </span>resume<span class="w">         </span><span class="c1"># Resume with Claude session picker</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>cc<span class="w"> </span><span class="k">continue</span><span class="w">       </span><span class="c1"># Resume most recent conversation</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># Quick actions</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>cc<span class="w"> </span>ask<span class="w"> </span><span class="s2">&quot;query&quot;</span><span class="w">    </span><span class="c1"># Quick question (print mode)</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>cc<span class="w"> </span>file<span class="w"> </span>&lt;file&gt;<span class="w">    </span><span class="c1"># Analyze a file</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>cc<span class="w"> </span>diff<span class="w">           </span><span class="c1"># Review git changes</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>cc<span class="w"> </span>rpkg<span class="w">           </span><span class="c1"># R package context helper</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="c1"># Model selection</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>cc<span class="w"> </span>opus<span class="w">           </span><span class="c1"># Pick project → Opus model</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>cc<span class="w"> </span>haiku<span class="w">          </span><span class="c1"># Pick project → Haiku model</span>
+</code></pre></div>
+<p><strong>Features:</strong></p>
+<ul>
+<li>Smart project selection via <code>pick</code> (inherits direct jump, smart resume)</li>
+<li>Multiple permission modes (acceptEdits, YOLO, plan)</li>
+<li>Session resume with Claude's built-in picker</li>
+<li>Quick actions for common tasks</li>
+<li>Model selection shortcuts</li>
+</ul>
+<p><strong>Shortcuts:</strong> <code>y</code>=yolo, <code>p</code>=plan, <code>n</code>=now, <code>r</code>=resume, <code>c</code>=continue, <code>a</code>=ask, <code>f</code>=file, <code>d</code>=diff, <code>o</code>=opus, <code>h</code>=haiku</p>
+<p><strong>See also:</strong> <a href="../CC-DISPATCHER-REFERENCE/">CC-DISPATCHER-REFERENCE.md</a></p>
+<hr />
 <h2 id="removed-dispatchers">Removed Dispatchers<a class="headerlink" href="#removed-dispatchers" title="Permanent link">&para;</a></h2>
 <h3 id="v-vibe-deprecated"><code>v</code> / <code>vibe</code> - DEPRECATED<a class="headerlink" href="#v-vibe-deprecated" title="Permanent link">&para;</a></h3>
 <p><strong>Removed:</strong> December 25, 2025<br />
 <strong>Commit:</strong> <code>7cdd78f</code><br />
 <strong>Reason:</strong> Deprecated wrappers around <code>flow</code> command</p>
 <p><strong>Migration:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Old              # New</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>v<span class="w"> </span><span class="nb">test</span><span class="w">       </span>→<span class="w">    </span>flow<span class="w"> </span><span class="nb">test</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>v<span class="w"> </span>build<span class="w">      </span>→<span class="w">    </span>flow<span class="w"> </span>build
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>v<span class="w"> </span>preview<span class="w">    </span>→<span class="w">    </span>flow<span class="w"> </span>preview
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>vibe<span class="w">         </span>→<span class="w">    </span>flow
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Old              # New</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>v<span class="w"> </span><span class="nb">test</span><span class="w">       </span>→<span class="w">    </span>flow<span class="w"> </span><span class="nb">test</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>v<span class="w"> </span>build<span class="w">      </span>→<span class="w">    </span>flow<span class="w"> </span>build
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>v<span class="w"> </span>preview<span class="w">    </span>→<span class="w">    </span>flow<span class="w"> </span>preview
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>vibe<span class="w">         </span>→<span class="w">    </span>flow
 </code></pre></div>
 <p><strong>Use <code>flow</code> command directly</strong> - It provides the same functionality with a clearer, unified interface.</p>
-<hr />
-<h2 id="not-restored-alternatives-available">Not Restored (Alternatives Available)<a class="headerlink" href="#not-restored-alternatives-available" title="Permanent link">&para;</a></h2>
-<h3 id="cc-claude-code-dispatcher"><code>cc</code> - Claude Code Dispatcher<a class="headerlink" href="#cc-claude-code-dispatcher" title="Permanent link">&para;</a></h3>
-<p><strong>Status:</strong> Archived<br />
-<strong>Alternative:</strong> Personal <code>ccy</code> function in .zshrc</p>
-<p><strong>Why not restored:</strong></p>
-<ul>
-<li>Personal AI shortcuts work better in .zshrc</li>
-<li>Simple function (<code>pick &amp;&amp; claude</code>) is clearer than full dispatcher</li>
-<li>Existing aliases (<code>ccp</code>, <code>ccr</code>, etc.) cover all needs</li>
-</ul>
-<p><strong>Available alternatives:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ccy<span class="w">              </span><span class="c1"># Pick project → launch Claude</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>ccp<span class="w"> </span><span class="s2">&quot;query&quot;</span><span class="w">      </span><span class="c1"># Print mode</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>ccr<span class="w">              </span><span class="c1"># Resume with picker</span>
-</code></pre></div>
 <hr />
 <h3 id="gm-gem-gemini-dispatcher"><code>gm</code> / <code>gem</code> - Gemini Dispatcher<a class="headerlink" href="#gm-gem-gemini-dispatcher" title="Permanent link">&para;</a></h3>
 <p><strong>Status:</strong> Archived<br />
