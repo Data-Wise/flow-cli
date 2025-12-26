@@ -83,6 +83,34 @@ gemp                # Gemini Pro
 
 ---
 
+## Setup & Diagnostics
+
+### Health Check: `flow doctor`
+
+```bash
+flow doctor              # Check all dependencies
+flow doctor --fix        # Interactive install missing tools
+flow doctor --fix -y     # Auto-install all missing (no prompts)
+flow doctor --ai         # AI-assisted troubleshooting (Claude CLI)
+flow doctor --help       # Show all options
+```
+
+**What it checks:**
+
+- Required: fzf
+- Recommended: eza, bat, zoxide, fd, ripgrep
+- Optional: dust, duf, btop, delta, gh, jq
+- Integrations: atlas, radian
+- ZSH plugins: p10k, autosuggestions, syntax-highlighting
+
+**Quick fix all:**
+
+```bash
+brew bundle --file=$FLOW_PLUGIN_DIR/setup/Brewfile
+```
+
+---
+
 ## Workflow Functions
 
 ### Session Management
@@ -136,17 +164,18 @@ reload              # Reload zshrc
 
 ## Pattern Summary
 
-| Domain         | Command | Pattern               |
-| -------------- | ------- | --------------------- |
-| R Package      | `r`     | `r <action> [args]`   |
-| Git            | `g`     | `g <action> [args]`   |
-| Quarto         | `qu`    | `qu <action> [args]`  |
-| MCP Servers    | `mcp`   | `mcp <action> [srv]`  |
-| Obsidian Notes | `obs`   | `obs <action> [arg]`  |
-| Claude         | `ccy`   | Function (no args)    |
-| Gemini         | `gem*`  | See aliases in .zshrc |
+| Domain         | Command       | Pattern                     |
+| -------------- | ------------- | --------------------------- |
+| R Package      | `r`           | `r <action> [args]`         |
+| Git            | `g`           | `g <action> [args]`         |
+| Quarto         | `qu`          | `qu <action> [args]`        |
+| MCP Servers    | `mcp`         | `mcp <action> [srv]`        |
+| Obsidian Notes | `obs`         | `obs <action> [arg]`        |
+| Claude         | `ccy`         | Function (no args)          |
+| Gemini         | `gem*`        | See aliases in .zshrc       |
+| Health Check   | `flow doctor` | `flow doctor [--fix\|--ai]` |
 
-**Get help:** Any dispatcher + `help` (e.g., `r help`, `g help`, `qu help`)
+**Get help:** Any dispatcher + `help` (e.g., `r help`, `g help`, `qu help`, `flow doctor --help`)
 
 ---
 
@@ -160,11 +189,12 @@ reload              # Reload zshrc
 | `~/projects/dev-tools/flow-cli/lib/dispatchers/qu-dispatcher.zsh`  | qu (Quarto publishing)      |
 | `~/projects/dev-tools/flow-cli/lib/dispatchers/mcp-dispatcher.zsh` | mcp (MCP servers)           |
 | `~/projects/dev-tools/flow-cli/lib/dispatchers/obs.zsh`            | obs (Obsidian notes)        |
+| `~/projects/dev-tools/flow-cli/commands/doctor.zsh`                | flow doctor (health check)  |
+| `~/projects/dev-tools/flow-cli/setup/Brewfile`                     | Homebrew bundle             |
 | `~/.config/zsh/.zshrc`                                             | ccy function, gem\* aliases |
-| `~/.config/zsh/functions/adhd-helpers.zsh`                         | work, dash, pb, pv, pt      |
 
 **Removed:** `v-dispatcher.zsh` (deprecated, use `flow` command instead)
 
 ---
 
-_Updated: 2025-12-25_
+_Updated: 2025-12-26_

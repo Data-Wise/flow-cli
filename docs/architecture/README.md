@@ -24,7 +24,7 @@
 | **Design APIs**                | [API-DESIGN-REVIEW.md](API-DESIGN-REVIEW.md)                             |
 | **Integrate external code**    | [VENDOR-INTEGRATION-ARCHITECTURE.md](VENDOR-INTEGRATION-ARCHITECTURE.md) |
 | **Implement a feature**        | [CODE-EXAMPLES.md](CODE-EXAMPLES.md)                                     |
-| **Understand past decisions**  | [decisions/README.md](decisions/README.md)                               |
+| **Understand past decisions**  | [decisions/README.md](../decisions/README.md)                            |
 
 ---
 
@@ -163,7 +163,7 @@
 
 ### Decision Records
 
-#### 6. [decisions/README.md](decisions/README.md)
+#### 6. [decisions/README.md](../decisions/README.md)
 
 **Purpose:** Index of Architecture Decision Records (ADRs)
 **Audience:** All team members, especially architects
@@ -177,9 +177,9 @@
 
 **Current ADRs:**
 
-- [ADR-001: Vendored Code Pattern](decisions/ADR-001-vendored-code-pattern.md) ✅ Accepted
-- [ADR-002: Clean Architecture](decisions/ADR-002-clean-architecture.md) 🟡 Proposed
-- [ADR-003: Bridge Pattern](decisions/ADR-003-bridge-pattern.md) ✅ Accepted
+- [ADR-001: Vendored Code Pattern](../decisions/ADR-001-use-vendored-code-pattern.md) ✅ Accepted
+- [ADR-002: Clean Architecture](../decisions/ADR-002-adopt-clean-architecture.md) 🟡 Proposed
+- [ADR-003: Bridge Pattern](../decisions/ADR-003-bridge-pattern.md) ✅ Accepted
 
 **When to use:** Understanding "why" decisions were made, proposing new decisions
 
@@ -206,7 +206,7 @@ Perfect for: New team members, architectural understanding
 1. [QUICK-REFERENCE.md](QUICK-REFERENCE.md) - Get the big picture (15 min)
 2. [ARCHITECTURE-PATTERNS-ANALYSIS.md](ARCHITECTURE-PATTERNS-ANALYSIS.md) - Full architecture (60 min)
 3. [CODE-EXAMPLES.md](CODE-EXAMPLES.md) - See it in code (30 min)
-4. [decisions/README.md](decisions/README.md) - Understand why (30 min)
+4. [decisions/README.md](../decisions/README.md) - Understand why (30 min)
 5. [API-DESIGN-REVIEW.md](API-DESIGN-REVIEW.md) - API patterns (30 min)
 
 **Output:** Comprehensive understanding of system architecture
@@ -219,13 +219,13 @@ Perfect for: New team members, architectural understanding
 
 1. [API-DESIGN-REVIEW.md](API-DESIGN-REVIEW.md) - Full review
 2. [CODE-EXAMPLES.md](CODE-EXAMPLES.md) - Use Cases + Adapters sections
-3. [ADR-003: Bridge Pattern](decisions/ADR-003-bridge-pattern.md)
+3. [ADR-003: Bridge Pattern](../decisions/ADR-003-bridge-pattern.md)
 
 **Vendor Integration:**
 
 1. [VENDOR-INTEGRATION-ARCHITECTURE.md](VENDOR-INTEGRATION-ARCHITECTURE.md) - Full guide
-2. [ADR-001: Vendored Code](decisions/ADR-001-vendored-code-pattern.md)
-3. [ADR-003: Bridge Pattern](decisions/ADR-003-bridge-pattern.md)
+2. [ADR-001: Vendored Code](../decisions/ADR-001-use-vendored-code-pattern.md)
+3. [ADR-003: Bridge Pattern](../decisions/ADR-003-bridge-pattern.md)
 
 **Testing:**
 
@@ -376,7 +376,7 @@ Perfect for: New team members, architectural understanding
 
 **ADRs:**
 
-- Use template from [decisions/README.md](decisions/README.md)
+- Use template from [decisions/README.md](../decisions/README.md)
 - Include alternatives considered
 - Document consequences
 - Link related decisions

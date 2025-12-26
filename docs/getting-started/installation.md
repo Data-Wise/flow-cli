@@ -42,6 +42,23 @@ The configuration is located in `~/.config/zsh/`:
 
 ## Verification
 
+### Quick Health Check
+
+The fastest way to verify your installation:
+
+```bash
+flow doctor
+```
+
+This shows all dependencies, what's installed, and what's missing.
+
+**Fix any issues:**
+
+```bash
+flow doctor --fix      # Interactive install
+flow doctor --fix -y   # Auto-install all
+```
+
 ### 1. Check Aliases
 
 Count current aliases:
@@ -113,11 +130,11 @@ If you need to set up on a new machine:
 # Antidote plugin manager
 brew install antidote
 
-# Modern CLI tools
-brew install bat fd ripgrep eza fzf
+# All recommended CLI tools via Brewfile (recommended)
+brew bundle --file=~/projects/dev-tools/flow-cli/setup/Brewfile
 
-# Optional: Additional tools
-brew install dust duf btop
+# Or install manually:
+# brew install fzf eza bat zoxide fd ripgrep
 ```
 
 ### 2. Copy Configuration
