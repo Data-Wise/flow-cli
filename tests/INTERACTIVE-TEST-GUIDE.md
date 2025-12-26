@@ -5,6 +5,32 @@
 
 ---
 
+## Quick Test: Dog Feeding 🐕
+
+**The most fun way to test flow-cli!**
+
+```bash
+./tests/interactive-dog-feeding.zsh
+```
+
+This gamified test validates:
+
+- Plugin loading
+- Dashboard display
+- Session management (work/finish)
+- Capture commands (catch/win)
+- ADHD helpers (js)
+- User interaction
+
+**Features:**
+
+- 🐕 Feed a virtual dog by completing tasks
+- ⭐ Earn stars for successful tests
+- 😊 Track dog happiness and hunger
+- 🎮 ADHD-friendly gamification
+
+---
+
 ## Prerequisites
 
 ```bash

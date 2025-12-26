@@ -1,0 +1,223 @@
+# 🐕 Interactive Dog Feeding Test
+
+**The most fun way to test your flow-cli installation!**
+
+## Overview
+
+This gamified test validates your flow-cli setup by having you "feed a virtual dog" through completing tasks. Each successful task earns you food to feed the dog and increases its happiness level.
+
+## Quick Start
+
+```bash
+cd /path/to/flow-cli
+./tests/interactive-dog-feeding.zsh
+```
+
+## What It Tests
+
+The dog feeding test validates **7 core flow-cli features**:
+
+1. **Plugin Loading** - Ensures flow.plugin.zsh loads correctly
+2. **Dashboard Display** - Tests `dash` command output
+3. **Work Session Start** - Tests `work <project>` command
+4. **Idea Capture** - Tests `catch <idea>` command
+5. **Win Logging** - Tests `win <accomplishment>` command
+6. **Active Session Tracking** - Verifies session file exists
+7. **ADHD Helper** - Tests `js` (just start) command
+8. **Session Cleanup** - Tests `finish` command
+
+## Features
+
+- 🐕 **Virtual Dog** - Feed and make happy by passing tests
+- 🥩 **Food Rewards** - Earn food for each successful task
+- ⭐ **Star Rating System** - Get 1-5 stars based on performance
+- 😊 **Happiness Meter** - Track dog happiness (0-100%)
+- 🎮 **Gamification** - ADHD-friendly, engaging test experience
+- 📊 **Progress Tracking** - See X/7 tasks completed
+- 🎨 **Colorful UI** - Beautiful terminal output with emojis
+
+## Grading System
+
+| Tasks Completed | Grade      | Stars      | Dog Status      |
+| --------------- | ---------- | ---------- | --------------- |
+| 7/7             | PERFECT!   | ⭐⭐⭐⭐⭐ | ECSTATIC! 😊⭐  |
+| 5-6             | EXCELLENT! | ⭐⭐⭐⭐   | Very happy! 😊  |
+| 3-4             | GOOD       | ⭐⭐⭐     | Satisfied 🤔    |
+| 0-2             | NEEDS WORK | ⭐         | Still hungry 😢 |
+
+## Sample Output
+
+```
+╔════════════════════════════════════════════════════════════╗
+║  🐕  INTERACTIVE DOG FEEDING TEST  🐕                     ║
+╚════════════════════════════════════════════════════════════╝
+
+Welcome to the Interactive Dog Feeding Test!
+
+Your mission: Feed the dog by completing flow-cli tasks
+
+Each successful task earns you 🥩 to feed your dog.
+The happier the dog, the better your flow-cli setup!
+
+╭─ Dog Status ─────────────────────────────────────────────╮
+│ Hunger:    100%
+│ Happiness: 🤔 Okay
+│ Tasks:     0/7 completed
+╰──────────────────────────────────────────────────────────╯
+
+🐕 "Woof! Show me the dashboard first!"
+
+Task: Show Project Dashboard
+Running: dash 2>&1 | head -20
+
+✅ Success!
+
+╭──────────────────────────────────────────────────────────────╮
+│  🌊 FLOW DASHBOARD                        Dec 25, 2025  🕐 20:24 │
+╰──────────────────────────────────────────────────────────────╯
+
+The dog sees all your projects! 😊
+🥩 Fed the dog! 😊
+```
+
+## Exit Codes
+
+- `0` - All tests passed (7/7)
+- `1` - Some tests failed (0-6/7)
+
+## Use Cases
+
+### 1. After Fresh Installation
+
+```bash
+# Install flow-cli
+git clone https://github.com/Data-Wise/flow-cli.git
+cd flow-cli
+
+# Validate everything works
+./tests/interactive-dog-feeding.zsh
+```
+
+### 2. After Major Refactor
+
+```bash
+# Made big changes? Feed the dog!
+./tests/interactive-dog-feeding.zsh
+```
+
+### 3. Teaching New Users
+
+```bash
+# Perfect onboarding experience
+# Shows all major features in fun way
+./tests/interactive-dog-feeding.zsh
+```
+
+### 4. CI/CD Integration
+
+```bash
+# Non-interactive mode (auto-feeds with 'yes')
+yes '' | ./tests/interactive-dog-feeding.zsh
+
+# Check exit code
+echo $?  # 0 = success, 1 = failure
+```
+
+## ADHD-Friendly Design
+
+This test is specifically designed for ADHD developers:
+
+- ✅ **Immediate Feedback** - See results instantly
+- ✅ **Dopamine Hits** - Stars and happy emojis for wins
+- ✅ **Visual Progress** - Clear X/7 task counter
+- ✅ **Gamification** - Feeding dog is more fun than "running tests"
+- ✅ **Short Tasks** - Each task is quick and focused
+- ✅ **Clear Goals** - You know exactly what to do next
+- ✅ **Positive Reinforcement** - Dog gets happier with each win
+
+## Technical Details
+
+### File Locations
+
+- **Test Script:** `tests/interactive-dog-feeding.zsh`
+- **Session File:** `~/.local/share/flow/.current-session`
+- **Captures:** `~/.local/share/flow/captures/`
+- **Wins Log:** `~/.wins/`
+
+### Dependencies
+
+- ZSH shell
+- flow-cli plugin
+- Standard terminal with emoji support
+
+### Variables Tracked
+
+```zsh
+HUNGER=100          # Decreases as you feed (0-100)
+HAPPINESS=50        # Increases with success (0-100)
+TASKS_COMPLETED=0   # Increments per task (0-7)
+TOTAL_TASKS=7       # Fixed at 7
+```
+
+## Troubleshooting
+
+### Dog is Sad / Tests Fail
+
+**Check plugin loads:**
+
+```bash
+source ~/projects/dev-tools/flow-cli/flow.plugin.zsh
+type dash  # Should show function
+```
+
+**Check session directory:**
+
+```bash
+ls -la ~/.local/share/flow/
+```
+
+**Run individual commands:**
+
+```bash
+dash
+work flow-cli
+catch "test idea"
+finish
+```
+
+### No Emoji Support
+
+If emojis don't display:
+
+1. Use a modern terminal (iTerm2, Ghostty, Warp)
+2. Install a font with emoji support
+3. Set `LANG=en_US.UTF-8`
+
+## Contributing
+
+Want to add more tasks? Edit the script and:
+
+1. Increment `TOTAL_TASKS`
+2. Add a new task section following the pattern
+3. Use `run_test` helper function
+4. Give appropriate food reward (5-20 points)
+
+Example:
+
+```zsh
+run_test \
+    "New Feature Test" \
+    "your-command 2>&1" \
+    "${GREEN}Success message ${STAR}${NC}" \
+    15  # Food reward
+```
+
+## See Also
+
+- **Main Test Suite:** `tests/automated-test.zsh`
+- **ZSH Tests:** `zsh/tests/run-all-tests.zsh`
+- **Interactive Guide:** `tests/INTERACTIVE-TEST-GUIDE.md`
+
+---
+
+**Made with ❤️ for ADHD developers who deserve fun tests!** 🐕⭐
