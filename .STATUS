@@ -225,20 +225,22 @@ FLOW_QUIET=1               # Disable welcome message
   - [x] Built-in profiles: minimal, developer, adhd, researcher
   - [x] Export/import for sharing
 
-### v3.4.0 - AI Enhancement
-- [ ] AI recipes/templates
-  - [ ] Pre-built prompts for common tasks
-  - [ ] `flow ai recipe <name>` - Run saved recipe
-  - [ ] Custom recipe creation
-- [ ] Learning from usage
+### v3.4.0 - AI Enhancement (IN PROGRESS)
+- [x] AI recipes/templates
+  - [x] 10 built-in recipes (review, commit, debug, refactor, test, etc.)
+  - [x] `flow ai recipe <name>` - Run saved recipe
+  - [x] Custom recipe creation (`flow ai recipe create`)
+  - [x] Variable substitution ({{input}}, {{project_type}}, etc.)
+- [ ] Learning from usage (Future)
   - [ ] Track successful commands
   - [ ] Personalized suggestions
-- [ ] Multi-model support
+- [ ] Multi-model support (Future)
   - [ ] Switch between Claude models
   - [ ] Optional OpenAI/Gemini integration
-- [ ] Conversation mode
-  - [ ] `flow ai chat` - Interactive session
-  - [ ] Context persistence
+- [x] Conversation mode
+  - [x] `flow ai chat` - Interactive session
+  - [x] Context persistence
+  - [x] /commands for in-chat control
 
 ### v3.5.0 - Dashboard Enhancements
 - [ ] Dopamine features
@@ -265,6 +267,10 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-26: AI - Created AI recipes system (lib/ai-recipes.zsh, 300+ lines)
+- 2025-12-26: AI - 10 built-in recipes (review, commit, debug, refactor, test, etc.)
+- 2025-12-26: AI - Created `flow ai chat` interactive conversation mode
+- 2025-12-26: AI - Chat with /commands, context toggle, persistent history
 - 2025-12-26: CONFIG - Created config system (lib/config.zsh, 350+ lines)
 - 2025-12-26: CONFIG - Created flow config command with 11 subcommands
 - 2025-12-26: CONFIG - Built-in profiles: minimal, developer, adhd, researcher

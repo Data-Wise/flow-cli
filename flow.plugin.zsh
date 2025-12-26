@@ -33,6 +33,7 @@ source "$FLOW_PLUGIN_DIR/lib/atlas-bridge.zsh"
 source "$FLOW_PLUGIN_DIR/lib/project-detector.zsh"
 source "$FLOW_PLUGIN_DIR/lib/tui.zsh"
 source "$FLOW_PLUGIN_DIR/lib/plugin-loader.zsh"
+source "$FLOW_PLUGIN_DIR/lib/ai-recipes.zsh"
 
 # ============================================================================
 # COMMANDS

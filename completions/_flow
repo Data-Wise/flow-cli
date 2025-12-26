@@ -245,22 +245,61 @@ _flow() {
           _describe -t targets 'target' upgrade_targets
           ;;
         ai)
-          local -a ai_opts
-          ai_opts=(
-            '--context:Include project context'
-            '-c:Context (short)'
-            '--explain:Explain mode'
-            '-e:Explain (short)'
-            '--fix:Fix mode'
-            '-f:Fix (short)'
-            '--suggest:Suggest mode'
-            '-s:Suggest (short)'
-            '--create:Create mode'
-            '--verbose:Verbose output'
-            '-v:Verbose (short)'
-            '--help:Show help'
-          )
-          _describe -t options 'option' ai_opts
+          # Check for subcommand
+          if [[ ${#line[@]} -eq 2 ]]; then
+            local -a ai_subcmds
+            ai_subcmds=(
+              'recipe:Reusable AI prompts'
+              'chat:Interactive conversation mode'
+            )
+            local -a ai_opts
+            ai_opts=(
+              '--context:Include project context'
+              '-c:Context (short)'
+              '--explain:Explain mode'
+              '-e:Explain (short)'
+              '--fix:Fix mode'
+              '-f:Fix (short)'
+              '--suggest:Suggest mode'
+              '-s:Suggest (short)'
+              '--create:Create mode'
+              '--verbose:Verbose output'
+              '-v:Verbose (short)'
+              '--help:Show help'
+            )
+            _describe -t commands 'ai subcommand' ai_subcmds
+            _describe -t options 'option' ai_opts
+          elif [[ "${line[2]}" == "recipe" ]]; then
+            local -a recipes
+            recipes=(
+              'list:List all recipes'
+              'show:View recipe content'
+              'create:Create new recipe'
+              'edit:Edit user recipe'
+              'delete:Delete user recipe'
+              'review:Code review'
+              'commit:Generate commit message'
+              'explain-code:Explain code step by step'
+              'debug:Help debug an issue'
+              'refactor:Suggest refactoring'
+              'test:Generate tests'
+              'document:Generate documentation'
+              'eli5:Explain simply'
+              'shell:Generate shell commands'
+              'fix:Fix a problem'
+            )
+            _describe -t recipes 'recipe' recipes
+          elif [[ "${line[2]}" == "chat" ]]; then
+            local -a chat_opts
+            chat_opts=(
+              '--context:Enable project context'
+              '-c:Context (short)'
+              '--clear:Clear conversation history'
+              '--history:Show conversation history'
+              '--help:Show help'
+            )
+            _describe -t options 'option' chat_opts
+          fi
           ;;
         do)
           local -a do_opts

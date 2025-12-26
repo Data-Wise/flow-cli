@@ -6,6 +6,20 @@
 # ============================================================================
 
 flow_ai() {
+  # Handle subcommands first
+  case "$1" in
+    recipe)
+      shift
+      flow_ai_recipe "$@"
+      return $?
+      ;;
+    chat)
+      shift
+      flow_ai_chat "$@"
+      return $?
+      ;;
+  esac
+
   local mode="default"
   local context_enabled=false
   local verbose=false
@@ -217,6 +231,12 @@ _flow_ai_help() {
   echo ""
   echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
   echo "  flow ai [options] <query>"
+  echo "  flow ai recipe <name> <input>"
+  echo "  flow ai chat"
+  echo ""
+  echo "${FLOW_COLORS[bold]}SUBCOMMANDS${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[accent]}recipe${FLOW_COLORS[reset]}          Reusable AI prompts (10 built-in)"
+  echo "  ${FLOW_COLORS[accent]}chat${FLOW_COLORS[reset]}            Interactive conversation mode"
   echo ""
   echo "${FLOW_COLORS[bold]}MODES${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[accent]}(default)${FLOW_COLORS[reset]}       Free-form question"
@@ -230,17 +250,16 @@ _flow_ai_help() {
   echo "  -v, --verbose  Show debug info"
   echo "  -h, --help     Show this help"
   echo ""
+  echo "${FLOW_COLORS[bold]}RECIPES${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(flow ai recipe <name> <input>)${FLOW_COLORS[reset]}"
+  echo "  review, commit, explain-code, debug, refactor,"
+  echo "  test, document, eli5, shell, fix"
+  echo ""
   echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai \"what does fzf do?\""
-  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai --explain \"git rebase vs merge\""
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai --fix --context \"tests are failing\""
-  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai --suggest \"tools for R development\""
-  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai --create \"a git pre-commit hook\""
-  echo ""
-  echo "${FLOW_COLORS[bold]}SHORTCUTS${FLOW_COLORS[reset]}"
-  echo "  ${FLOW_COLORS[accent]}ai_explain${FLOW_COLORS[reset]} <topic>   Quick explain"
-  echo "  ${FLOW_COLORS[accent]}ai_fix${FLOW_COLORS[reset]} <problem>     Quick fix (with context)"
-  echo "  ${FLOW_COLORS[accent]}ai_suggest${FLOW_COLORS[reset]} <topic>   Quick suggestion"
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai recipe review \"my code here\""
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai recipe commit \"\$(git diff --staged)\""
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai chat --context"
   echo ""
   echo "${FLOW_COLORS[muted]}Requires: Claude CLI (npm install -g @anthropic-ai/claude-code)${FLOW_COLORS[reset]}"
   echo ""
@@ -459,3 +478,219 @@ _flow_do_help() {
 
 # Main command alias
 alias ai='flow_ai'
+
+# ============================================================================
+# FLOW AI CHAT - Interactive Conversation Mode
+# ============================================================================
+
+# Chat session file
+FLOW_CHAT_FILE="${FLOW_DATA_DIR}/chat-session.md"
+
+flow_ai_chat() {
+  local context_enabled=false
+  local verbose=false
+
+  # Parse arguments
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --context|-c)    context_enabled=true; shift ;;
+      --verbose|-v)    verbose=true; shift ;;
+      --clear)         _flow_chat_clear; return 0 ;;
+      --history)       _flow_chat_history; return 0 ;;
+      --help|-h)       _flow_chat_help; return 0 ;;
+      -*)              echo "Unknown option: $1"; return 1 ;;
+      *)               shift ;;
+    esac
+  done
+
+  # Check if Claude CLI is available
+  if ! command -v claude >/dev/null 2>&1; then
+    echo ""
+    _flow_log_error "Claude CLI not found"
+    echo ""
+    echo "Install it with:"
+    echo "  ${FLOW_COLORS[accent]}npm install -g @anthropic-ai/claude-code${FLOW_COLORS[reset]}"
+    echo ""
+    return 1
+  fi
+
+  echo ""
+  echo "${FLOW_COLORS[header]}╭─────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}💬 flow ai chat${FLOW_COLORS[reset]} - Interactive Session       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰─────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+  echo "${FLOW_COLORS[muted]}Type your message and press Enter. Commands:${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[muted]}  /clear    Clear conversation history${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[muted]}  /history  Show conversation history${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[muted]}  /context  Toggle project context${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[muted]}  /help     Show help${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[muted]}  /exit     Exit chat (or Ctrl+D)${FLOW_COLORS[reset]}"
+  echo ""
+
+  if $context_enabled; then
+    echo "${FLOW_COLORS[info]}📁 Project context enabled${FLOW_COLORS[reset]}"
+    echo ""
+  fi
+
+  # Initialize chat session file
+  [[ ! -d "${FLOW_DATA_DIR}" ]] && mkdir -p "${FLOW_DATA_DIR}"
+
+  # Load existing conversation or start fresh
+  local conversation=""
+  if [[ -f "$FLOW_CHAT_FILE" ]]; then
+    conversation=$(cat "$FLOW_CHAT_FILE")
+    local msg_count=$(grep -c "^## " "$FLOW_CHAT_FILE" 2>/dev/null || echo "0")
+    if [[ $msg_count -gt 0 ]]; then
+      echo "${FLOW_COLORS[muted]}(Resuming session with $msg_count messages. /clear to start fresh)${FLOW_COLORS[reset]}"
+      echo ""
+    fi
+  fi
+
+  # Chat loop
+  while true; do
+    # Prompt
+    echo -n "${FLOW_COLORS[accent]}You:${FLOW_COLORS[reset]} "
+    local user_input
+    read -r user_input || { echo ""; break; }  # Handle Ctrl+D
+
+    # Handle commands
+    case "$user_input" in
+      /exit|/quit|/q)
+        echo ""
+        echo "${FLOW_COLORS[muted]}Chat session saved. Goodbye!${FLOW_COLORS[reset]}"
+        break
+        ;;
+      /clear)
+        _flow_chat_clear
+        conversation=""
+        echo "${FLOW_COLORS[success]}✓ Conversation cleared${FLOW_COLORS[reset]}"
+        echo ""
+        continue
+        ;;
+      /history)
+        _flow_chat_history
+        continue
+        ;;
+      /context)
+        context_enabled=$(! $context_enabled && echo true || echo false)
+        if $context_enabled; then
+          echo "${FLOW_COLORS[info]}📁 Project context enabled${FLOW_COLORS[reset]}"
+        else
+          echo "${FLOW_COLORS[muted]}📁 Project context disabled${FLOW_COLORS[reset]}"
+        fi
+        echo ""
+        continue
+        ;;
+      /help)
+        _flow_chat_help
+        continue
+        ;;
+      "")
+        continue
+        ;;
+    esac
+
+    # Build prompt with conversation history
+    local full_prompt=""
+
+    # Add context if enabled
+    if $context_enabled; then
+      local ctx=$(_flow_ai_build_context)
+      full_prompt+="PROJECT CONTEXT:\n$ctx\n\n"
+    fi
+
+    # Add conversation history (last 10 exchanges for context window)
+    if [[ -n "$conversation" ]]; then
+      # Get last 10 exchanges
+      local recent=$(echo "$conversation" | tail -40)
+      full_prompt+="CONVERSATION HISTORY:\n$recent\n\n"
+    fi
+
+    # Add current message
+    full_prompt+="USER: $user_input\n\nProvide a helpful, concise response."
+
+    # Save user message to history
+    echo "## User" >> "$FLOW_CHAT_FILE"
+    echo "$user_input" >> "$FLOW_CHAT_FILE"
+    echo "" >> "$FLOW_CHAT_FILE"
+
+    # Get response
+    echo ""
+    echo "${FLOW_COLORS[accent]}Claude:${FLOW_COLORS[reset]}"
+
+    local response
+    response=$(claude -p "$full_prompt" 2>/dev/null)
+    local exit_code=$?
+
+    if [[ $exit_code -ne 0 ]]; then
+      echo "${FLOW_COLORS[error]}Error getting response${FLOW_COLORS[reset]}"
+    else
+      echo "$response"
+
+      # Save response to history
+      echo "## Claude" >> "$FLOW_CHAT_FILE"
+      echo "$response" >> "$FLOW_CHAT_FILE"
+      echo "" >> "$FLOW_CHAT_FILE"
+
+      # Update conversation variable
+      conversation+="User: $user_input\n\nClaude: $response\n\n"
+    fi
+
+    echo ""
+  done
+}
+
+# Clear chat history
+_flow_chat_clear() {
+  if [[ -f "$FLOW_CHAT_FILE" ]]; then
+    rm "$FLOW_CHAT_FILE"
+  fi
+}
+
+# Show chat history
+_flow_chat_history() {
+  echo ""
+  if [[ -f "$FLOW_CHAT_FILE" && -s "$FLOW_CHAT_FILE" ]]; then
+    echo "${FLOW_COLORS[header]}CHAT HISTORY${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[muted]}─────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    cat "$FLOW_CHAT_FILE"
+    echo "${FLOW_COLORS[muted]}─────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    local msg_count=$(grep -c "^## " "$FLOW_CHAT_FILE" 2>/dev/null || echo "0")
+    echo "${FLOW_COLORS[muted]}Total messages: $msg_count${FLOW_COLORS[reset]}"
+  else
+    echo "${FLOW_COLORS[muted]}No chat history. Start a conversation with: flow ai chat${FLOW_COLORS[reset]}"
+  fi
+  echo ""
+}
+
+# Chat help
+_flow_chat_help() {
+  echo ""
+  echo "${FLOW_COLORS[header]}╭─────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}💬 flow ai chat${FLOW_COLORS[reset]} - Interactive Session       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰─────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+  echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "  flow ai chat [options]"
+  echo ""
+  echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+  echo "  -c, --context   Enable project context"
+  echo "  --clear         Clear conversation history"
+  echo "  --history       Show conversation history"
+  echo "  -h, --help      Show this help"
+  echo ""
+  echo "${FLOW_COLORS[bold]}IN-CHAT COMMANDS${FLOW_COLORS[reset]}"
+  echo "  /clear          Clear conversation history"
+  echo "  /history        Show conversation history"
+  echo "  /context        Toggle project context"
+  echo "  /help           Show help"
+  echo "  /exit           Exit chat (or Ctrl+D)"
+  echo ""
+  echo "${FLOW_COLORS[bold]}FEATURES${FLOW_COLORS[reset]}"
+  echo "  • Persistent conversation history"
+  echo "  • Context-aware responses (optional)"
+  echo "  • Resume previous conversations"
+  echo ""
+  echo "${FLOW_COLORS[muted]}History saved to: $FLOW_CHAT_FILE${FLOW_COLORS[reset]}"
+  echo ""
+}
