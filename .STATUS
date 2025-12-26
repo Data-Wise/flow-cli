@@ -4,11 +4,11 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v3.2.0 - AI-Powered Commands & Unified Management
+## Phase: v3.3.0 - Plugin System
 ## Priority: 1
-## Progress: 85
+## Progress: 90
 
-## Focus: AI integration complete - Plugin system next
+## Focus: Plugin system complete - Config management next
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -46,6 +46,26 @@ flow-cli/
     ├── obs.zsh → obsidian-cli-ops/
     └── project-detector.zsh → zsh-claude-workflow/
 ```
+
+## v3.3.0 Changes (2025-12-26) ✅ COMPLETE
+### Plugin System
+- [x] `lib/plugin-loader.zsh` - Core plugin system (400+ lines)
+  - [x] Plugin discovery (single file, directory, git)
+  - [x] Plugin registration and loading
+  - [x] Enable/disable with registry persistence
+  - [x] Dependency checking (tools, flow version)
+- [x] Hook system with 8 events
+  - [x] post-work, pre-finish, post-finish
+  - [x] session-start, session-end
+  - [x] project-change, pre-command, post-command
+- [x] `flow plugin` command
+  - [x] list, enable, disable, create, install, remove
+  - [x] info, hooks, path
+  - [x] GitHub installation support (gh:user/repo)
+  - [x] Dev mode installation (symlink)
+- [x] Example plugin demonstrating capabilities
+- [x] Tab completions for plugin commands
+- [x] Version bump to 3.3.0
 
 ## v3.2.0 Changes (2025-12-26) ✅ COMPLETE
 ### AI-Powered Commands
@@ -239,6 +259,11 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-26: PLUGIN - Created plugin system (lib/plugin-loader.zsh, 400+ lines)
+- 2025-12-26: PLUGIN - Created flow plugin command with 9 subcommands
+- 2025-12-26: PLUGIN - Created hook system with 8 events
+- 2025-12-26: PLUGIN - Created example plugin demonstrating capabilities
+- 2025-12-26: PLUGIN - Version bump to 3.3.0
 - 2025-12-26: AI - Created `flow ai` command (461 lines) - ask AI with context
 - 2025-12-26: AI - Created `flow do` command - natural language → shell
 - 2025-12-26: AI - Enhanced `stuck --ai` and `next --ai` with Claude integration

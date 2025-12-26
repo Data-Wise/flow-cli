@@ -31,6 +31,7 @@ source "$FLOW_PLUGIN_DIR/lib/core.zsh"
 source "$FLOW_PLUGIN_DIR/lib/atlas-bridge.zsh"
 source "$FLOW_PLUGIN_DIR/lib/project-detector.zsh"
 source "$FLOW_PLUGIN_DIR/lib/tui.zsh"
+source "$FLOW_PLUGIN_DIR/lib/plugin-loader.zsh"
 
 # ============================================================================
 # COMMANDS
@@ -111,16 +112,23 @@ fi
 # Initialize atlas
 _flow_init_atlas
 
+# Initialize plugin system
+_flow_plugin_init
+
 # Export loaded marker
 export FLOW_PLUGIN_LOADED=1
-export FLOW_VERSION="3.2.0"
+export FLOW_VERSION="3.3.0"
+
+# Register exit hook for plugin cleanup
+add-zsh-hook zshexit _flow_plugin_cleanup
 
 # Welcome message (disable with FLOW_QUIET=1)
 if [[ -z "$FLOW_QUIET" ]] && [[ -z "$FLOW_WELCOMED" ]]; then
+  local plugin_count=${#_FLOW_PLUGINS[@]}
   if _flow_has_atlas; then
-    _flow_log_debug "flow-cli v$FLOW_VERSION (atlas: connected)"
+    _flow_log_debug "flow-cli v$FLOW_VERSION (atlas: connected, plugins: $plugin_count)"
   else
-    _flow_log_debug "flow-cli v$FLOW_VERSION (standalone)"
+    _flow_log_debug "flow-cli v$FLOW_VERSION (standalone, plugins: $plugin_count)"
   fi
   export FLOW_WELCOMED=1
 fi

@@ -1,0 +1,15 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "Example plugin demonstrating flow-cli plugin capabilities",
+  "author": "flow-cli",
+  "commands": ["example_hello", "example_status"],
+  "dependencies": {
+    "tools": [],
+    "flow": ">=3.3.0"
+  },
+  "hooks": {
+    "post-work": "_example_on_work",
+    "post-finish": "_example_on_finish"
+  }
+}

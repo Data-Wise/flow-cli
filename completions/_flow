@@ -56,6 +56,8 @@ _flow() {
     # AI-Powered
     'ai:Ask AI anything'
     'do:Natural language commands'
+    # Plugins
+    'plugin:Manage flow-cli plugins'
   )
 
   local curcontext="$curcontext" state line
@@ -286,6 +288,21 @@ _flow() {
             '--help:Show help'
           )
           _describe -t options 'option' next_opts
+          ;;
+        plugin)
+          local -a plugin_cmds
+          plugin_cmds=(
+            'list:List installed plugins'
+            'enable:Enable a disabled plugin'
+            'disable:Disable a plugin'
+            'create:Create a new plugin'
+            'install:Install plugin from path/GitHub'
+            'remove:Remove a user plugin'
+            'info:Show plugin details'
+            'hooks:Show registered hooks'
+            'path:Show plugin search paths'
+          )
+          _describe -t commands 'plugin command' plugin_cmds
           ;;
         *)
           _files

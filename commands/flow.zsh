@@ -128,6 +128,11 @@ flow() {
       flow_do "$@"
       ;;
 
+    # ── Plugin Management ──────────────────────────────────────────────────
+    plugin|plugins)
+      flow_plugin "$@"
+      ;;
+
     # ── Unknown ─────────────────────────────────────────────────────────────
     *)
       echo "Unknown command: $cmd"
@@ -262,6 +267,13 @@ ${_C_BLUE}🤖 AI-POWERED${_C_NC} ${_C_DIM}(requires Claude CLI)${_C_NC}:
   ${_C_CYAN}stuck --ai${_C_NC}         AI help when blocked
   ${_C_CYAN}next --ai${_C_NC}          AI-powered task suggestion
 
+${_C_BLUE}🔌 PLUGINS${_C_NC}:
+  ${_C_CYAN}plugin list${_C_NC}        Show installed plugins
+  ${_C_CYAN}plugin create${_C_NC}      Create new plugin
+  ${_C_CYAN}plugin install${_C_NC}     Install from path/GitHub
+  ${_C_CYAN}plugin enable${_C_NC}      Enable a plugin
+  ${_C_CYAN}plugin disable${_C_NC}     Disable a plugin
+
 ${_C_DIM}SHORTCUTS: Most commands work directly too:${_C_NC}
   pick dev    =  flow pick dev
   work foo    =  flow work foo
@@ -344,6 +356,11 @@ _flow_help_list() {
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "do" "Natural language commands"
   echo ""
 
+  # Plugins
+  echo -e "${_C_BOLD}Plugins:${_C_NC}"
+  printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "plugin" "Manage flow-cli plugins"
+  echo ""
+
   # Dispatchers
   echo -e "${_C_BOLD}Dispatchers:${_C_NC} ${_C_DIM}(domain-specific tools)${_C_NC}"
   printf "  ${_C_CYAN}%-12s${_C_NC} %s\n" "g" "Git workflows"
@@ -412,6 +429,7 @@ _flow_help_search() {
     "ai|Ask AI anything|claude question help"
     "do|Natural language commands|ai execute run"
     "learn|Interactive tutorial|tutorial guide help"
+    "plugin|Manage flow-cli plugins|extend customize hook"
     "g|Git workflows dispatcher|git commit push pull branch"
     "r|R package development|r cran test check build"
     "qu|Quarto publishing|quarto render preview publish"
