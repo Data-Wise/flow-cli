@@ -126,6 +126,8 @@ nav:
       - dashboard: commands/dashboard.md
       - dash: commands/dash.md
       - doctor: commands/doctor.md
+      - config: commands/config.md
+      - plugin: commands/plugin.md
       - ai: commands/ai.md
       - do: commands/do.md
       - install: commands/install.md
