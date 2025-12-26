@@ -117,8 +117,8 @@ nav:
       - Project Detector API: api/PROJECT-DETECTOR-API.md
   - Testing:
       - Testing Guide: testing/TESTING.md
-      - Interactive Dog Test: ../tests/DOG-FEEDING-TEST-README.md
-      - Interactive Test Guide: ../tests/INTERACTIVE-TEST-GUIDE.md
+      - Interactive Dog Test: testing/DOG-FEEDING-TEST-README.md
+      - Interactive Test Guide: testing/INTERACTIVE-TEST-GUIDE.md
       - Testing Quick Ref: reference/TESTING-QUICK-REF.md
   - Development:
       - PR Workflow Guide: contributing/PR-WORKFLOW-GUIDE.md
