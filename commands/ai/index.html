@@ -1888,6 +1888,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#subcommands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subcommands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subcommands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        recipe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#options" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3280,6 +3341,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#subcommands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subcommands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subcommands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        recipe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#options" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3437,9 +3559,166 @@
 </blockquote>
 <h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span>&lt;query&gt;
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>recipe<span class="w"> </span>&lt;name&gt;<span class="w"> </span><span class="o">[</span>input<span class="o">]</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>flow<span class="w"> </span>ai<span class="w"> </span>chat<span class="w"> </span><span class="o">[</span>options<span class="o">]</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>flow<span class="w"> </span>ai<span class="w"> </span>usage<span class="w"> </span><span class="o">[</span>action<span class="o">]</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>flow<span class="w"> </span>ai<span class="w"> </span>model<span class="w"> </span><span class="o">[</span>action<span class="o">]</span>
 </code></pre></div>
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
 <p><code>flow ai</code> sends queries to Claude with automatic project context. The AI receives information about your current directory, project type, git status, and active flow session.</p>
+<h2 id="subcommands">Subcommands<a class="headerlink" href="#subcommands" title="Permanent link">&para;</a></h2>
+<h3 id="recipe">recipe<a class="headerlink" href="#recipe" title="Permanent link">&para;</a></h3>
+<p>Run reusable AI prompts with variable substitution.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>recipe<span class="w"> </span>list<span class="w">              </span><span class="c1"># List all recipes</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>recipe<span class="w"> </span>show<span class="w"> </span>&lt;name&gt;<span class="w">       </span><span class="c1"># View recipe content</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>flow<span class="w"> </span>ai<span class="w"> </span>recipe<span class="w"> </span>&lt;name&gt;<span class="w"> </span>&lt;input&gt;<span class="w">    </span><span class="c1"># Run a recipe</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>flow<span class="w"> </span>ai<span class="w"> </span>recipe<span class="w"> </span>create<span class="w"> </span>&lt;name&gt;<span class="w">     </span><span class="c1"># Create custom recipe</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>flow<span class="w"> </span>ai<span class="w"> </span>recipe<span class="w"> </span>edit<span class="w"> </span>&lt;name&gt;<span class="w">       </span><span class="c1"># Edit user recipe</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>flow<span class="w"> </span>ai<span class="w"> </span>recipe<span class="w"> </span>delete<span class="w"> </span>&lt;name&gt;<span class="w">     </span><span class="c1"># Delete user recipe</span>
+</code></pre></div>
+<p><strong>Built-in Recipes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Recipe</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>review</code></td>
+<td>Code review with actionable feedback</td>
+</tr>
+<tr>
+<td><code>commit</code></td>
+<td>Generate conventional commit message</td>
+</tr>
+<tr>
+<td><code>explain-code</code></td>
+<td>Step-by-step code explanation</td>
+</tr>
+<tr>
+<td><code>debug</code></td>
+<td>Help diagnose issues</td>
+</tr>
+<tr>
+<td><code>refactor</code></td>
+<td>Suggest code improvements</td>
+</tr>
+<tr>
+<td><code>test</code></td>
+<td>Generate tests for code</td>
+</tr>
+<tr>
+<td><code>document</code></td>
+<td>Generate documentation</td>
+</tr>
+<tr>
+<td><code>eli5</code></td>
+<td>Explain like I'm 5</td>
+</tr>
+<tr>
+<td><code>shell</code></td>
+<td>Generate shell commands</td>
+</tr>
+<tr>
+<td><code>fix</code></td>
+<td>Fix a problem</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variables Available:</strong></p>
+<ul>
+<li><code>{{input}}</code> - User-provided input</li>
+<li><code>{{project_type}}</code> - Detected project type</li>
+<li><code>{{pwd}}</code> - Current directory</li>
+<li><code>{{date}}</code> - Today's date</li>
+<li><code>{{branch}}</code> - Current git branch</li>
+<li><code>{{project}}</code> - Project name</li>
+</ul>
+<h3 id="chat">chat<a class="headerlink" href="#chat" title="Permanent link">&para;</a></h3>
+<p>Interactive conversation mode with persistent history.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>chat<span class="w">                     </span><span class="c1"># Start chat session</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>chat<span class="w"> </span>--context<span class="w">           </span><span class="c1"># Enable project context</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>flow<span class="w"> </span>ai<span class="w"> </span>chat<span class="w"> </span>--clear<span class="w">             </span><span class="c1"># Clear conversation history</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>flow<span class="w"> </span>ai<span class="w"> </span>chat<span class="w"> </span>--history<span class="w">           </span><span class="c1"># Show conversation history</span>
+</code></pre></div>
+<p><strong>In-Chat Commands:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/clear</code></td>
+<td>Clear conversation history</td>
+</tr>
+<tr>
+<td><code>/history</code></td>
+<td>Show conversation history</td>
+</tr>
+<tr>
+<td><code>/context</code></td>
+<td>Toggle project context</td>
+</tr>
+<tr>
+<td><code>/help</code></td>
+<td>Show help</td>
+</tr>
+<tr>
+<td><code>/exit</code></td>
+<td>Exit chat (or Ctrl+D)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="usage">usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
+<p>Track AI command usage and get personalized suggestions.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>usage<span class="w">                    </span><span class="c1"># Show statistics (default)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>usage<span class="w"> </span>stats<span class="w">              </span><span class="c1"># Show usage statistics</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>flow<span class="w"> </span>ai<span class="w"> </span>usage<span class="w"> </span>suggest<span class="w">            </span><span class="c1"># Get personalized suggestions</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>flow<span class="w"> </span>ai<span class="w"> </span>usage<span class="w"> </span>recent<span class="w"> </span><span class="o">[</span>n<span class="o">]</span><span class="w">         </span><span class="c1"># Show last n commands</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>flow<span class="w"> </span>ai<span class="w"> </span>usage<span class="w"> </span>clear<span class="w">              </span><span class="c1"># Clear usage history</span>
+</code></pre></div>
+<p><strong>Statistics Tracked:</strong></p>
+<ul>
+<li>Total calls and success rate</li>
+<li>Usage by command and mode</li>
+<li>Recipe usage frequency</li>
+<li>Current streak (daily usage)</li>
+<li>Project-type patterns</li>
+</ul>
+<h3 id="model">model<a class="headerlink" href="#model" title="Permanent link">&para;</a></h3>
+<p>Manage AI model selection.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>model<span class="w">                    </span><span class="c1"># Show current model</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>model<span class="w"> </span>list<span class="w">               </span><span class="c1"># List available models</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>flow<span class="w"> </span>ai<span class="w"> </span>model<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;name&gt;<span class="w">         </span><span class="c1"># Set default model</span>
+</code></pre></div>
+<p><strong>Available Models:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>opus</code></td>
+<td>Most capable, deep reasoning</td>
+</tr>
+<tr>
+<td><code>sonnet</code></td>
+<td>Balanced speed and capability (default)</td>
+</tr>
+<tr>
+<td><code>haiku</code></td>
+<td>Fast, lightweight responses</td>
+</tr>
+</tbody>
+</table>
 <h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -3466,6 +3745,10 @@
 <td>Create mode - generate code from descriptions</td>
 </tr>
 <tr>
+<td><code>-m, --model</code></td>
+<td>Select model for this query (opus, sonnet, haiku)</td>
+</tr>
+<tr>
 <td><code>-c, --context</code></td>
 <td>Force include project context</td>
 </tr>
@@ -3482,27 +3765,27 @@
 <h2 id="modes">Modes<a class="headerlink" href="#modes" title="Permanent link">&para;</a></h2>
 <h3 id="default-mode">Default Mode<a class="headerlink" href="#default-mode" title="Permanent link">&para;</a></h3>
 <p>Ask any question with project awareness:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="s2">&quot;what&#39;s the best way to handle errors in this project?&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="s2">&quot;what&#39;s the best way to handle errors in this project?&quot;</span>
 </code></pre></div>
 <h3 id="explain-mode-explain">Explain Mode (<code>--explain</code>)<a class="headerlink" href="#explain-mode-explain" title="Permanent link">&para;</a></h3>
 <p>Get explanations of code, patterns, or concepts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span><span class="s2">&quot;the dispatcher pattern used here&quot;</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;what does this regex do?&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span><span class="s2">&quot;the dispatcher pattern used here&quot;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;what does this regex do?&quot;</span>
 </code></pre></div>
 <h3 id="fix-mode-fix">Fix Mode (<code>--fix</code>)<a class="headerlink" href="#fix-mode-fix" title="Permanent link">&para;</a></h3>
 <p>Get help fixing problems:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--fix<span class="w"> </span><span class="s2">&quot;tests are timing out&quot;</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;completion not working for new command&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--fix<span class="w"> </span><span class="s2">&quot;tests are timing out&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;completion not working for new command&quot;</span>
 </code></pre></div>
 <h3 id="suggest-mode-suggest">Suggest Mode (<code>--suggest</code>)<a class="headerlink" href="#suggest-mode-suggest" title="Permanent link">&para;</a></h3>
 <p>Get improvement suggestions:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--suggest<span class="w"> </span><span class="s2">&quot;make this function faster&quot;</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;better error messages&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--suggest<span class="w"> </span><span class="s2">&quot;make this function faster&quot;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;better error messages&quot;</span>
 </code></pre></div>
 <h3 id="create-mode-create">Create Mode (<code>--create</code>)<a class="headerlink" href="#create-mode-create" title="Permanent link">&para;</a></h3>
 <p>Generate code from descriptions:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--create<span class="w"> </span><span class="s2">&quot;a function that parses .STATUS files&quot;</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>--create<span class="w"> </span><span class="s2">&quot;completion for the new &#39;sync&#39; command&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--create<span class="w"> </span><span class="s2">&quot;a function that parses .STATUS files&quot;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>--create<span class="w"> </span><span class="s2">&quot;completion for the new &#39;sync&#39; command&quot;</span>
 </code></pre></div>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
 <p>The AI automatically receives:</p>
@@ -3516,23 +3799,31 @@
 <li>Active flow session (if any)</li>
 </ul>
 <p>Use <code>--verbose</code> to see what context is sent:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--verbose<span class="w"> </span><span class="s2">&quot;how do I add a test?&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--verbose<span class="w"> </span><span class="s2">&quot;how do I add a test?&quot;</span>
 </code></pre></div>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># General questions</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="s2">&quot;should I use associative arrays here?&quot;</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Explain existing code</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span><span class="s2">&quot;the _flow_detect_type function&quot;</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Get fix suggestions</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>flow<span class="w"> </span>ai<span class="w"> </span>--fix<span class="w"> </span><span class="s2">&quot;zsh: command not found: r&quot;</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># Request improvements</span>
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>flow<span class="w"> </span>ai<span class="w"> </span>--suggest<span class="w"> </span><span class="s2">&quot;better progress bar implementation&quot;</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
-<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="c1"># Generate new code</span>
-<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>flow<span class="w"> </span>ai<span class="w"> </span>--create<span class="w"> </span><span class="s2">&quot;a health check for brew packages&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># General questions</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="s2">&quot;should I use associative arrays here?&quot;</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Explain existing code</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span><span class="s2">&quot;the _flow_detect_type function&quot;</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Get fix suggestions with specific model</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>flow<span class="w"> </span>ai<span class="w"> </span>--model<span class="w"> </span>opus<span class="w"> </span>--fix<span class="w"> </span><span class="s2">&quot;complex architectural issue&quot;</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1"># Use recipes</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>flow<span class="w"> </span>ai<span class="w"> </span>recipe<span class="w"> </span>review<span class="w"> </span><span class="s2">&quot;function parse_status() { ... }&quot;</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>flow<span class="w"> </span>ai<span class="w"> </span>recipe<span class="w"> </span>commit<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>git<span class="w"> </span>diff<span class="w"> </span>--staged<span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="c1"># Interactive chat</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>flow<span class="w"> </span>ai<span class="w"> </span>chat<span class="w"> </span>--context
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="c1"># Check usage patterns</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>flow<span class="w"> </span>ai<span class="w"> </span>usage<span class="w"> </span>suggest
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>
+<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="c1"># Switch to faster model for quick queries</span>
+<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>flow<span class="w"> </span>ai<span class="w"> </span>model<span class="w"> </span><span class="nb">set</span><span class="w"> </span>haiku
+<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="s2">&quot;quick question&quot;</span>
 </code></pre></div>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <ul>
@@ -3545,7 +3836,7 @@
 <li><a href="../../tutorials/05-ai-commands/">Tutorial: AI-Powered Commands</a></li>
 </ul>
 <hr />
-<p><em>Added in v3.2.0</em></p>
+<p><em>Added in v3.2.0, enhanced in v3.4.0 (recipes, chat, usage, model)</em></p>
 
 
 

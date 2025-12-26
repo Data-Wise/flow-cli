@@ -1959,6 +1959,73 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#quick-wins-section-v340" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ Quick Wins Section (v3.4.0+)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚡ Quick Wins Section (v3.4.0+)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#triggering-quick-wins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Triggering Quick Wins
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#urgency-indicators-v340" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔥 Urgency Indicators (v3.4.0+)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔥 Urgency Indicators (v3.4.0+)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-urgency-in-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting Urgency in .STATUS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#file-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3702,6 +3769,73 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#quick-wins-section-v340" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ Quick Wins Section (v3.4.0+)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚡ Quick Wins Section (v3.4.0+)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#triggering-quick-wins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Triggering Quick Wins
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#urgency-indicators-v340" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔥 Urgency Indicators (v3.4.0+)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔥 Urgency Indicators (v3.4.0+)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-urgency-in-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting Urgency in .STATUS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#file-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4227,16 +4361,73 @@
 </tbody>
 </table>
 <hr />
+<h2 id="quick-wins-section-v340">⚡ Quick Wins Section (v3.4.0+)<a class="headerlink" href="#quick-wins-section-v340" title="Permanent link">&para;</a></h2>
+<p>The dashboard now includes a <strong>Quick Wins</strong> section showing tasks that can be completed in under 30 minutes. This is designed for ADHD-friendly productivity - easy wins to build momentum.</p>
+<h3 id="triggering-quick-wins">Triggering Quick Wins<a class="headerlink" href="#triggering-quick-wins" title="Permanent link">&para;</a></h3>
+<p>Projects appear in Quick Wins when their <code>.STATUS</code> file contains:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Option 1: Mark as quick win directly</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">quick_win</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yes</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Option 2: Set estimate under 30 minutes</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nt">estimate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15m</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nt">estimate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20min</span>
+</code></pre></div>
+<h3 id="display">Display<a class="headerlink" href="#display" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>  ⚡ QUICK WINS (&lt; 30 min)
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  ├─ ⚡ flow-cli      Fix typo in docs          ~15m
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  ├─ 🔥 medfit       Update version number     ~10m
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  └─ ⏰ stat-440     Post grades               ~20m
+</code></pre></div>
+<hr />
+<h2 id="urgency-indicators-v340">🔥 Urgency Indicators (v3.4.0+)<a class="headerlink" href="#urgency-indicators-v340" title="Permanent link">&para;</a></h2>
+<p>Projects can show urgency indicators in the Quick Access and Quick Wins sections:</p>
+<table>
+<thead>
+<tr>
+<th>Icon</th>
+<th>Urgency</th>
+<th>Trigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔥</td>
+<td>High</td>
+<td><code>urgency: high</code>, <code>deadline: today</code>, or overdue</td>
+</tr>
+<tr>
+<td>⏰</td>
+<td>Medium</td>
+<td><code>urgency: medium</code> or deadline within 3 days</td>
+</tr>
+<tr>
+<td>⚡</td>
+<td>Low</td>
+<td>Quick win or <code>priority: low</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="setting-urgency-in-status">Setting Urgency in .STATUS<a class="headerlink" href="#setting-urgency-in-status" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Direct urgency setting</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">urgency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">high</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Or via deadline (YYYY-MM-DD format)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nt">deadline</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2025-12-27</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Or via priority</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">   </span><span class="c1"># Maps to high urgency</span>
+</code></pre></div>
+<hr />
 <h2 id="file-dependencies">📂 File Dependencies<a class="headerlink" href="#file-dependencies" title="Permanent link">&para;</a></h2>
 <h3 id="required-files">Required Files<a class="headerlink" href="#required-files" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>.STATUS</code> files in project directories</li>
 <li>Format: Key-value pairs with fields
-  <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>status: active
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>priority: P0
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>progress: 45
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>next: Implement GLM
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>type: r
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>status: active
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>priority: P0
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>progress: 45
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>next: Implement GLM
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>type: r
 </code></pre></div></li>
 </ul>
 <h3 id="optional-directories">Optional Directories<a class="headerlink" href="#optional-directories" title="Permanent link">&para;</a></h3>
@@ -4248,19 +4439,19 @@
 <h2 id="configuration">⚙️ Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <h3 id="category-paths">Category Paths<a class="headerlink" href="#category-paths" title="Permanent link">&para;</a></h3>
 <p>The command maps category arguments to filesystem paths:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>teaching<span class="w">  </span>→<span class="w"> </span>~/projects/teaching
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>research<span class="w">  </span>→<span class="w"> </span>~/projects/research
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>packages<span class="w">  </span>→<span class="w"> </span>~/projects/r-packages
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>dev<span class="w">       </span>→<span class="w"> </span>~/projects/dev-tools
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>quarto<span class="w">    </span>→<span class="w"> </span>~/projects/quarto
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>all<span class="w">       </span>→<span class="w"> </span>~/projects<span class="w"> </span><span class="o">(</span>root<span class="o">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>teaching<span class="w">  </span>→<span class="w"> </span>~/projects/teaching
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>research<span class="w">  </span>→<span class="w"> </span>~/projects/research
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>packages<span class="w">  </span>→<span class="w"> </span>~/projects/r-packages
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>dev<span class="w">       </span>→<span class="w"> </span>~/projects/dev-tools
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>quarto<span class="w">    </span>→<span class="w"> </span>~/projects/quarto
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>all<span class="w">       </span>→<span class="w"> </span>~/projects<span class="w"> </span><span class="o">(</span>root<span class="o">)</span>
 </code></pre></div>
 <h3 id="status-mapping">Status Mapping<a class="headerlink" href="#status-mapping" title="Permanent link">&para;</a></h3>
 <p>The command recognizes these status values (case-insensitive):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Active:  active, working, in progress
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Ready:   ready, todo, planned
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Paused:  paused, hold, waiting
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Blocked: blocked
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Active:  active, working, in progress
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>Ready:   ready, todo, planned
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Paused:  paused, hold, waiting
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>Blocked: blocked
 </code></pre></div>
 <hr />
 <h2 id="related-commands">🔗 Related Commands<a class="headerlink" href="#related-commands" title="Permanent link">&para;</a></h2>
@@ -4309,24 +4500,24 @@
 <h3 id="issue-no-projects-shown">Issue: No projects shown<a class="headerlink" href="#issue-no-projects-shown" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Missing <code>.STATUS</code> files</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Create .STATUS file in project directory</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/my-project
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>status<span class="w"> </span>.<span class="w"> </span>--create
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Create .STATUS file in project directory</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/my-project
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>status<span class="w"> </span>.<span class="w"> </span>--create
 </code></pre></div>
 <hr />
 <h3 id="issue-sync-failed">Issue: Sync failed<a class="headerlink" href="#issue-sync-failed" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> project-hub directory doesn't exist</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Create project-hub manually</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/projects/project-hub
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Create project-hub manually</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/projects/project-hub
 </code></pre></div>
 <hr />
 <h3 id="issue-wrong-category-displayed">Issue: Wrong category displayed<a class="headerlink" href="#issue-wrong-category-displayed" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Project in unexpected directory structure</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Check project location</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">pwd</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1"># Should be under ~/projects/category/project-name</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Check project location</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">pwd</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c1"># Should be under ~/projects/category/project-name</span>
 </code></pre></div>
 <hr />
 <h2 id="source-code">📚 Source Code<a class="headerlink" href="#source-code" title="Permanent link">&para;</a></h2>
