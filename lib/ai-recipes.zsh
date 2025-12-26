@@ -404,8 +404,20 @@ _flow_recipe_run() {
     return 1
   fi
 
+  local start_time=$SECONDS
   claude -p "$prompt" 2>/dev/null
+  local exit_code=$?
+  local duration=$(( (SECONDS - start_time) * 1000 ))
+
+  # Log usage
+  if [[ $exit_code -eq 0 ]]; then
+    _flow_ai_log_usage "recipe" "recipe:$name" "true" "$duration" 2>/dev/null
+  else
+    _flow_ai_log_usage "recipe" "recipe:$name" "false" "$duration" 2>/dev/null
+  fi
+
   echo ""
+  return $exit_code
 }
 
 # ============================================================================

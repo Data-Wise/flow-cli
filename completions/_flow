@@ -251,6 +251,8 @@ _flow() {
             ai_subcmds=(
               'recipe:Reusable AI prompts'
               'chat:Interactive conversation mode'
+              'usage:Usage statistics and suggestions'
+              'model:Manage AI models'
             )
             local -a ai_opts
             ai_opts=(
@@ -263,6 +265,8 @@ _flow() {
               '--suggest:Suggest mode'
               '-s:Suggest (short)'
               '--create:Create mode'
+              '--model:Select model (opus, sonnet, haiku)'
+              '-m:Model (short)'
               '--verbose:Verbose output'
               '-v:Verbose (short)'
               '--help:Show help'
@@ -299,6 +303,28 @@ _flow() {
               '--help:Show help'
             )
             _describe -t options 'option' chat_opts
+          elif [[ "${line[2]}" == "usage" ]]; then
+            local -a usage_actions
+            usage_actions=(
+              'stats:Show usage statistics'
+              'suggest:Get personalized suggestions'
+              'recent:Show recent AI activity'
+              'clear:Clear usage history'
+              'help:Show help'
+            )
+            _describe -t actions 'action' usage_actions
+          elif [[ "${line[2]}" == "model" ]]; then
+            local -a model_actions
+            model_actions=(
+              'show:Show current model'
+              'list:List available models'
+              'set:Set default model'
+              'opus:Claude Opus (most capable)'
+              'sonnet:Claude Sonnet (balanced)'
+              'haiku:Claude Haiku (fast)'
+              'help:Show help'
+            )
+            _describe -t actions 'action' model_actions
           fi
           ;;
         do)

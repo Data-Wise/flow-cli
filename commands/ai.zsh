@@ -18,11 +18,22 @@ flow_ai() {
       flow_ai_chat "$@"
       return $?
       ;;
+    usage|stats)
+      shift
+      flow_ai_usage "$@"
+      return $?
+      ;;
+    model)
+      shift
+      flow_ai_model "$@"
+      return $?
+      ;;
   esac
 
   local mode="default"
   local context_enabled=false
   local verbose=false
+  local model=""
   local query=""
 
   # Parse arguments
@@ -33,12 +44,18 @@ flow_ai() {
       --fix|-f)        mode="fix"; shift ;;
       --suggest|-s)    mode="suggest"; shift ;;
       --create)        mode="create"; shift ;;
+      --model|-m)      shift; model="$1"; shift ;;
       --verbose|-v)    verbose=true; shift ;;
       --help|-h)       _flow_ai_help; return 0 ;;
       -*)              echo "Unknown option: $1"; return 1 ;;
       *)               query="$query $1"; shift ;;
     esac
   done
+
+  # Get model from config if not specified
+  if [[ -z "$model" ]]; then
+    model="${FLOW_CONFIG[ai_model]:-sonnet}"
+  fi
 
   # Trim leading space
   query="${query# }"
@@ -122,21 +139,38 @@ $full_prompt"
   if $verbose; then
     echo "${FLOW_COLORS[muted]}─────────────────────────────────────────────${FLOW_COLORS[reset]}"
     echo "${FLOW_COLORS[muted]}Mode: $mode${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[muted]}Model: $model${FLOW_COLORS[reset]}"
     echo "${FLOW_COLORS[muted]}Context: $context_enabled${FLOW_COLORS[reset]}"
     echo "${FLOW_COLORS[muted]}─────────────────────────────────────────────${FLOW_COLORS[reset]}"
     echo ""
   fi
 
-  # Execute Claude CLI
-  echo "${FLOW_COLORS[accent]}🤖 Thinking...${FLOW_COLORS[reset]}"
+  # Execute Claude CLI with timing
+  echo "${FLOW_COLORS[accent]}🤖 Thinking ($model)...${FLOW_COLORS[reset]}"
   echo ""
 
+  local start_time=$SECONDS
+
+  # Map short model names to full model identifiers
+  local model_flag=""
+  case "$model" in
+    opus|opus4)     model_flag="--model claude-opus-4-20250514" ;;
+    sonnet|sonnet4) model_flag="--model claude-sonnet-4-20250514" ;;
+    haiku)          model_flag="--model claude-3-5-haiku-latest" ;;
+    *)              model_flag="" ;;  # Use default
+  esac
+
   # Use claude -p for print mode (one-shot, no conversation)
-  claude -p "$full_prompt" 2>/dev/null
+  claude -p "$full_prompt" $model_flag 2>/dev/null
 
   local exit_code=$?
+  local duration=$(( (SECONDS - start_time) * 1000 ))
 
-  if [[ $exit_code -ne 0 ]]; then
+  # Log usage
+  if [[ $exit_code -eq 0 ]]; then
+    _flow_ai_log_usage "ai" "$mode" "true" "$duration" 2>/dev/null
+  else
+    _flow_ai_log_usage "ai" "$mode" "false" "$duration" 2>/dev/null
     echo ""
     echo "${FLOW_COLORS[error]}Claude CLI returned an error${FLOW_COLORS[reset]}"
     echo "${FLOW_COLORS[muted]}Try: claude --help${FLOW_COLORS[reset]}"
@@ -237,6 +271,8 @@ _flow_ai_help() {
   echo "${FLOW_COLORS[bold]}SUBCOMMANDS${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[accent]}recipe${FLOW_COLORS[reset]}          Reusable AI prompts (10 built-in)"
   echo "  ${FLOW_COLORS[accent]}chat${FLOW_COLORS[reset]}            Interactive conversation mode"
+  echo "  ${FLOW_COLORS[accent]}usage${FLOW_COLORS[reset]}           Usage statistics and suggestions"
+  echo "  ${FLOW_COLORS[accent]}model${FLOW_COLORS[reset]}           Manage AI models"
   echo ""
   echo "${FLOW_COLORS[bold]}MODES${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[accent]}(default)${FLOW_COLORS[reset]}       Free-form question"
@@ -247,6 +283,7 @@ _flow_ai_help() {
   echo ""
   echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
   echo "  -c, --context  Include project context automatically"
+  echo "  -m, --model    Select model (opus, sonnet, haiku)"
   echo "  -v, --verbose  Show debug info"
   echo "  -h, --help     Show this help"
   echo ""
@@ -257,11 +294,146 @@ _flow_ai_help() {
   echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai \"what does fzf do?\""
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai --fix --context \"tests are failing\""
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai --model opus \"complex question\""
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai recipe review \"my code here\""
-  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai recipe commit \"\$(git diff --staged)\""
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai chat --context"
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai model set haiku"
   echo ""
   echo "${FLOW_COLORS[muted]}Requires: Claude CLI (npm install -g @anthropic-ai/claude-code)${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# ============================================================================
+# MODEL MANAGEMENT
+# ============================================================================
+
+# Available models
+typeset -gA FLOW_AI_MODELS=(
+  [opus]="claude-opus-4-20250514"
+  [opus4]="claude-opus-4-20250514"
+  [sonnet]="claude-sonnet-4-20250514"
+  [sonnet4]="claude-sonnet-4-20250514"
+  [haiku]="claude-3-5-haiku-latest"
+)
+
+# Model command handler
+flow_ai_model() {
+  local action="${1:-show}"
+  shift 2>/dev/null
+
+  case "$action" in
+    show|current)
+      _flow_ai_model_show
+      ;;
+    list|ls)
+      _flow_ai_model_list
+      ;;
+    set|use)
+      _flow_ai_model_set "$@"
+      ;;
+    help|--help|-h)
+      _flow_ai_model_help
+      ;;
+    *)
+      # Assume it's a model name to set
+      _flow_ai_model_set "$action"
+      ;;
+  esac
+}
+
+# Show current model
+_flow_ai_model_show() {
+  local current="${FLOW_CONFIG[ai_model]:-sonnet}"
+  echo ""
+  echo "${FLOW_COLORS[bold]}Current AI Model:${FLOW_COLORS[reset]} ${FLOW_COLORS[accent]}$current${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[muted]}Full ID: ${FLOW_AI_MODELS[$current]:-unknown}${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# List available models
+_flow_ai_model_list() {
+  local current="${FLOW_CONFIG[ai_model]:-sonnet}"
+
+  echo ""
+  echo "${FLOW_COLORS[header]}AVAILABLE MODELS${FLOW_COLORS[reset]}"
+  echo ""
+
+  echo "  ${FLOW_COLORS[bold]}Name       Description                          ${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[muted]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+  # Opus
+  local marker=""
+  [[ "$current" == "opus" || "$current" == "opus4" ]] && marker=" ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[accent]}opus${FLOW_COLORS[reset]}       Most capable, deep reasoning$marker"
+
+  # Sonnet
+  marker=""
+  [[ "$current" == "sonnet" || "$current" == "sonnet4" ]] && marker=" ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[accent]}sonnet${FLOW_COLORS[reset]}     Balanced speed and capability$marker"
+
+  # Haiku
+  marker=""
+  [[ "$current" == "haiku" ]] && marker=" ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[accent]}haiku${FLOW_COLORS[reset]}      Fast, lightweight responses$marker"
+
+  echo ""
+  echo "${FLOW_COLORS[muted]}Set with: flow ai model set <name>${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[muted]}One-off:  flow ai --model <name> \"query\"${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# Set model
+_flow_ai_model_set() {
+  local model="$1"
+
+  if [[ -z "$model" ]]; then
+    echo "Usage: flow ai model set <name>"
+    echo ""
+    echo "Available: opus, sonnet, haiku"
+    return 1
+  fi
+
+  # Validate model
+  if [[ -z "${FLOW_AI_MODELS[$model]+isset}" ]]; then
+    _flow_log_error "Unknown model: $model"
+    echo ""
+    echo "Available models: opus, sonnet, haiku"
+    return 1
+  fi
+
+  # Update config
+  FLOW_CONFIG[ai_model]="$model"
+  _flow_config_save
+
+  _flow_log_success "Model set to: $model"
+  echo "${FLOW_COLORS[muted]}Full ID: ${FLOW_AI_MODELS[$model]}${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# Model help
+_flow_ai_model_help() {
+  echo ""
+  echo "${FLOW_COLORS[header]}╭─────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🤖 flow ai model${FLOW_COLORS[reset]} - Model Management       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰─────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+  echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "  flow ai model [action]"
+  echo ""
+  echo "${FLOW_COLORS[bold]}ACTIONS${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[accent]}show${FLOW_COLORS[reset]}          Show current model (default)"
+  echo "  ${FLOW_COLORS[accent]}list${FLOW_COLORS[reset]}          List available models"
+  echo "  ${FLOW_COLORS[accent]}set <name>${FLOW_COLORS[reset]}    Set default model"
+  echo ""
+  echo "${FLOW_COLORS[bold]}MODELS${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[accent]}opus${FLOW_COLORS[reset]}          Most capable, deep reasoning"
+  echo "  ${FLOW_COLORS[accent]}sonnet${FLOW_COLORS[reset]}        Balanced (default)"
+  echo "  ${FLOW_COLORS[accent]}haiku${FLOW_COLORS[reset]}         Fast, lightweight"
+  echo ""
+  echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai model list"
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai model set opus"
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow ai --model haiku \"quick question\""
   echo ""
 }
 

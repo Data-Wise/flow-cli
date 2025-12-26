@@ -43,6 +43,7 @@ typeset -gA FLOW_CONFIG_DEFAULTS=(
 
   # AI settings
   [ai_provider]="claude"
+  [ai_model]="sonnet"
   [ai_context]="auto"
   [ai_verbose]="no"
 )

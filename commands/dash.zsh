@@ -64,6 +64,7 @@ dash() {
   _dash_header
   _dash_right_now
   _dash_current
+  _dash_quick_wins
   _dash_quick_access
 
   if (( show_all )); then
@@ -313,6 +314,143 @@ _dash_right_now() {
 }
 
 # ============================================================================
+# QUICK WINS - Tasks under 30 minutes (v3.5.0)
+# ============================================================================
+
+_dash_quick_wins() {
+  # Collect quick wins from .STATUS files
+  local -a quick_wins=()
+  local projects=$(_flow_list_projects)
+
+  while IFS= read -r project; do
+    [[ -z "$project" ]] && continue
+
+    local proj_path=$(_dash_find_project_path "$project")
+    [[ -z "$proj_path" ]] && continue
+    [[ ! -f "$proj_path/.STATUS" ]] && continue
+
+    local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
+    [[ "$proj_status" != "active" ]] && continue
+
+    # Check for quick win markers
+    local quick_win=$(_dash_get_status_field "$proj_path/.STATUS" "quick_win")
+    local estimate=$(_dash_get_status_field "$proj_path/.STATUS" "estimate")
+    local focus=$(_dash_get_project_focus "$proj_path/.STATUS")
+
+    # Is it a quick win? (marked as quick_win, or estimate < 30m)
+    local is_quick=0
+    if [[ -n "$quick_win" && "$quick_win" != "no" && "$quick_win" != "false" ]]; then
+      is_quick=1
+    elif [[ -n "$estimate" ]]; then
+      # Parse estimate (e.g., "15m", "20min", "1h")
+      local mins=0
+      if [[ "$estimate" == *"m"* ]]; then
+        mins="${estimate//[^0-9]/}"
+        (( mins < 30 )) && is_quick=1
+      fi
+    fi
+
+    if (( is_quick )) && [[ -n "$focus" ]]; then
+      local urgency=$(_dash_get_urgency "$proj_path/.STATUS")
+      quick_wins+=("${urgency}|${project}|${focus}|${estimate:-quick}")
+    fi
+  done <<< "$projects"
+
+  # Only show section if we have quick wins
+  (( ${#quick_wins[@]} == 0 )) && return
+
+  echo "  ⚡ ${FLOW_COLORS[bold]}QUICK WINS${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(< 30 min)${FLOW_COLORS[reset]}"
+
+  local count=0
+  local max=3  # Show top 3 quick wins
+
+  for item in "${quick_wins[@]}"; do
+    (( count >= max )) && break
+
+    local urgency="${item%%|*}"
+    local rest="${item#*|}"
+    local proj="${rest%%|*}"
+    rest="${rest#*|}"
+    local focus="${rest%%|*}"
+    local est="${rest##*|}"
+
+    local urgency_icon=""
+    case "$urgency" in
+      high)   urgency_icon="🔥 " ;;
+      medium) urgency_icon="⏰ " ;;
+      low)    urgency_icon="⚡ " ;;
+      *)      urgency_icon="⚡ " ;;
+    esac
+
+    local prefix="├─"
+    (( count == max - 1 || count == ${#quick_wins[@]} - 1 )) && prefix="└─"
+
+    printf "  %s %s${FLOW_COLORS[success]}%-14s${FLOW_COLORS[reset]} %s" "$prefix" "$urgency_icon" "$proj" "${focus:0:35}"
+    if [[ -n "$est" && "$est" != "quick" ]]; then
+      printf " ${FLOW_COLORS[muted]}~%s${FLOW_COLORS[reset]}" "$est"
+    fi
+    echo ""
+
+    ((count++))
+  done
+
+  echo ""
+}
+
+# Get urgency level from .STATUS
+_dash_get_urgency() {
+  local status_file="$1"
+  local urgency=""
+
+  # Check for urgency field
+  urgency=$(_dash_get_status_field "$status_file" "urgency")
+  if [[ -n "$urgency" ]]; then
+    echo "${urgency:l}"
+    return
+  fi
+
+  # Check for deadline
+  local deadline=$(_dash_get_status_field "$status_file" "deadline")
+  if [[ -n "$deadline" ]]; then
+    # Parse deadline and check if it's soon
+    zmodload -F zsh/datetime b:strftime
+    local today=$(strftime "%Y-%m-%d" $EPOCHSECONDS)
+
+    # Simple comparison (works for YYYY-MM-DD format)
+    if [[ "$deadline" < "$today" ]]; then
+      echo "high"  # Overdue
+    elif [[ "$deadline" == "$today" ]]; then
+      echo "high"  # Due today
+    else
+      # Check if within 3 days
+      local today_epoch=$EPOCHSECONDS
+      # Rough calculation: assume deadline is 3+ days if greater than today + 3 days
+      echo "medium"
+    fi
+    return
+  fi
+
+  # Check for priority field
+  local priority=$(_dash_get_status_field "$status_file" "priority")
+  case "${priority:l}" in
+    1|high|urgent) echo "high" ;;
+    2|medium)      echo "medium" ;;
+    *)             echo "low" ;;
+  esac
+}
+
+# Format urgency icon for display
+_dash_urgency_icon() {
+  local urgency="$1"
+  case "$urgency" in
+    high)   echo "🔥" ;;   # Fire - urgent
+    medium) echo "⏰" ;;   # Clock - time-sensitive
+    low)    echo "⚡" ;;   # Lightning - quick
+    *)      echo "" ;;
+  esac
+}
+
+# ============================================================================
 # CURRENT SESSION - Highlight active work
 # ============================================================================
 
@@ -461,11 +599,21 @@ _dash_quick_access() {
     local proj_path=$(_dash_find_project_path "$project")
     local status_icon="⚪"
     local focus=""
+    local urgency_icon=""
 
     if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
       local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
       status_icon=$(_flow_status_icon "$proj_status")
       focus=$(_dash_get_project_focus "$proj_path/.STATUS")
+
+      # Get urgency indicator for active projects
+      if [[ "$proj_status" == "active" ]]; then
+        local urgency=$(_dash_get_urgency "$proj_path/.STATUS")
+        case "$urgency" in
+          high)   urgency_icon="🔥" ;;
+          medium) urgency_icon="⏰" ;;
+        esac
+      fi
     fi
 
     local prefix="├─"
@@ -473,9 +621,17 @@ _dash_quick_access() {
 
     if [[ -n "$focus" ]]; then
       local focus_short="${focus:0:30}"
-      printf "  %s %s ${FLOW_COLORS[info]}%-16s${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}%s${FLOW_COLORS[reset]}\n" "$prefix" "$status_icon" "$project" "$focus_short"
+      if [[ -n "$urgency_icon" ]]; then
+        printf "  %s %s %s ${FLOW_COLORS[info]}%-14s${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}%s${FLOW_COLORS[reset]}\n" "$prefix" "$status_icon" "$urgency_icon" "$project" "$focus_short"
+      else
+        printf "  %s %s ${FLOW_COLORS[info]}%-16s${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}%s${FLOW_COLORS[reset]}\n" "$prefix" "$status_icon" "$project" "$focus_short"
+      fi
     else
-      printf "  %s %s ${FLOW_COLORS[info]}%-16s${FLOW_COLORS[reset]}\n" "$prefix" "$status_icon" "$project"
+      if [[ -n "$urgency_icon" ]]; then
+        printf "  %s %s %s ${FLOW_COLORS[info]}%-14s${FLOW_COLORS[reset]}\n" "$prefix" "$status_icon" "$urgency_icon" "$project"
+      else
+        printf "  %s %s ${FLOW_COLORS[info]}%-16s${FLOW_COLORS[reset]}\n" "$prefix" "$status_icon" "$project"
+      fi
     fi
 
     ((count++))
@@ -862,6 +1018,11 @@ ${_C_BLUE}📂 CATEGORIES${_C_NC}:
 ${_C_BLUE}🎨 LEGEND${_C_NC}:
   🟢 Active    🟡 Paused    🔴 Blocked
   🟠 Stalled   ⚫ Archived  ⚪ Unknown
+
+${_C_BLUE}⚡ URGENCY INDICATORS${_C_NC}:
+  🔥 High (deadline/urgent)
+  ⏰ Medium (time-sensitive)
+  ⚡ Quick win (< 30 min)
 
 ${_C_DIM}See also:${_C_NC} work help, status help, pick help
 "

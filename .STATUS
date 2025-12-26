@@ -4,11 +4,11 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v3.3.0 - Plugin System
+## Phase: v3.4.0 - AI Enhancement
 ## Priority: 1
-## Progress: 95
+## Progress: 100
 
-## Focus: v3.3.0 COMPLETE - Config and Plugin systems done
+## Focus: v3.4.0 COMPLETE - AI recipes, usage tracking, multi-model, dashboard quick wins
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -225,30 +225,35 @@ FLOW_QUIET=1               # Disable welcome message
   - [x] Built-in profiles: minimal, developer, adhd, researcher
   - [x] Export/import for sharing
 
-### v3.4.0 - AI Enhancement (IN PROGRESS)
+### v3.4.0 - AI Enhancement ✅ COMPLETE
 - [x] AI recipes/templates
   - [x] 10 built-in recipes (review, commit, debug, refactor, test, etc.)
   - [x] `flow ai recipe <name>` - Run saved recipe
   - [x] Custom recipe creation (`flow ai recipe create`)
   - [x] Variable substitution ({{input}}, {{project_type}}, etc.)
-- [ ] Learning from usage (Future)
-  - [ ] Track successful commands
-  - [ ] Personalized suggestions
-- [ ] Multi-model support (Future)
-  - [ ] Switch between Claude models
-  - [ ] Optional OpenAI/Gemini integration
+- [x] Usage tracking & suggestions
+  - [x] `lib/ai-usage.zsh` - Track AI command usage
+  - [x] `flow ai usage stats` - Show usage statistics
+  - [x] `flow ai usage suggest` - Personalized suggestions
+  - [x] Project-type aware recommendations
+- [x] Multi-model support
+  - [x] `flow ai model list` - List available models
+  - [x] `flow ai model set <name>` - Set default model
+  - [x] `--model` flag for one-off model selection
+  - [x] Opus, Sonnet, Haiku support
 - [x] Conversation mode
   - [x] `flow ai chat` - Interactive session
   - [x] Context persistence
   - [x] /commands for in-chat control
+- [x] Dashboard enhancements (v3.5.0 preview)
+  - [x] Quick wins section (< 30min tasks)
+  - [x] Urgency indicators (🔥⏰⚡)
 
-### v3.5.0 - Dashboard Enhancements
+### v3.5.0 - Dashboard Polish (PLANNED)
 - [ ] Dopamine features
-  - [ ] Quick wins section (< 30min tasks)
   - [ ] Recent wins display
-  - [ ] Urgency indicators (🔥⏰⚡)
+  - [ ] Streak visualization enhancements
 - [ ] Polish
-  - [ ] Enhanced streak visualization
   - [ ] Daily goal tracking
   - [ ] Extended .STATUS format
 - [ ] Interactive TUI improvements
@@ -267,6 +272,13 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-26: v3.4.0 - Version bump to 3.4.0
+- 2025-12-26: DASH - Added Quick Wins section for tasks < 30min
+- 2025-12-26: DASH - Added urgency indicators (🔥⏰⚡) to Quick Access
+- 2025-12-26: AI - Created `flow ai model` command (list, set, show)
+- 2025-12-26: AI - Added --model flag for one-off model selection
+- 2025-12-26: AI - Created lib/ai-usage.zsh (280+ lines) - usage tracking
+- 2025-12-26: AI - Added `flow ai usage` command (stats, suggest, recent)
 - 2025-12-26: AI - Created AI recipes system (lib/ai-recipes.zsh, 300+ lines)
 - 2025-12-26: AI - 10 built-in recipes (review, commit, debug, refactor, test, etc.)
 - 2025-12-26: AI - Created `flow ai chat` interactive conversation mode

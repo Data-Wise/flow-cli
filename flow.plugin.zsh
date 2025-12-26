@@ -34,6 +34,7 @@ source "$FLOW_PLUGIN_DIR/lib/project-detector.zsh"
 source "$FLOW_PLUGIN_DIR/lib/tui.zsh"
 source "$FLOW_PLUGIN_DIR/lib/plugin-loader.zsh"
 source "$FLOW_PLUGIN_DIR/lib/ai-recipes.zsh"
+source "$FLOW_PLUGIN_DIR/lib/ai-usage.zsh"
 
 # ============================================================================
 # COMMANDS
@@ -119,7 +120,7 @@ _flow_plugin_init
 
 # Export loaded marker
 export FLOW_PLUGIN_LOADED=1
-export FLOW_VERSION="3.3.0"
+export FLOW_VERSION="3.4.0"
 
 # Register exit hook for plugin cleanup
 add-zsh-hook zshexit _flow_plugin_cleanup
