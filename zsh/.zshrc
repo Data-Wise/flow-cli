@@ -189,88 +189,14 @@ fi
 # alias gpkgcommit='rpkgcommit'
 
 # ============================================
-# 📦 R PACKAGE DEVELOPMENT - ALIASES
+# 📦 R PACKAGE DEVELOPMENT
 # ============================================
+# CONSOLIDATED 2025-12-26: Use 'r' dispatcher from flow-cli
+# Run 'r help' to see all available commands:
+#   r test, r doc, r check, r build, r cov, r cran, r patch, etc.
 
-# Quick development cycle
-alias rload='Rscript -e "devtools::load_all()"'
-alias rtest='Rscript -e "devtools::test()"'
-alias rdoc='Rscript -e "devtools::document()"'
-alias rcheck='Rscript -e "devtools::check()"'
-alias rbuild='Rscript -e "devtools::build()"'
-alias rinstall='Rscript -e "devtools::install()"'
-
-# Testing shortcuts
-alias rcov='Rscript -e "covr::package_coverage()"'
-alias rcovrep='Rscript -e "covr::report()"'
-
-# Documentation
-alias rdoccheck='Rscript -e "devtools::check_man()"'
-alias rspell='Rscript -e "spelling::spell_check_package()"'
-alias rpkgdown='Rscript -e "pkgdown::build_site()"'
-alias rpkgpreview='Rscript -e "pkgdown::preview_site()"'
-
-# CRAN checks
-alias rcheckfast='Rscript -e "devtools::check(args = c(\"--no-examples\", \"--no-tests\", \"--no-vignettes\"))"'
-alias rcheckcran='Rscript -e "devtools::check(args = c(\"--as-cran\"))"'
-alias rcheckwin='Rscript -e "devtools::check_win_devel()"'
-alias rcheckrhub='Rscript -e "rhub::check_for_cran()"'
-
-# Dependencies
-alias rdeps='Rscript -e "pak::pkg_deps_tree()"'
-alias rdepsupdate='Rscript -e "pak::pkg_install(pak::local_deps())"'
-
-# Version management
-alias rbumppatch='Rscript -e "usethis::use_version(\"patch\")"'
-alias rbumpminor='Rscript -e "usethis::use_version(\"minor\")"'
-alias rbumpmajor='Rscript -e "usethis::use_version(\"major\")"'
-
-# File viewing (with syntax highlighting) - REMOVED 2025-12-19: Use 'peek' dispatcher or bat directly
-# alias peekr='bat --language=r'
-# alias peekrd='bat --language=markdown'
-# alias peekqmd='bat --language=markdown'
-# alias peekdesc='bat DESCRIPTION'
-# alias peeknews='bat NEWS.md'
-
-# Tree view for R packages (excluding artifacts)
-alias rpkgtree='tree -L 3 -I "renv|.Rproj.user|*.Rcheck|docs|*.tar.gz|src/*.o|src/*.so"'
-
-# Cleanup - REMOVED 2025-12-19: Per user request
-# alias rpkgclean='rm -rf .Rhistory .RData .Rproj.user'
-# alias rpkgdeep='rm -rf man/*.Rd NAMESPACE docs/ *.tar.gz *.Rcheck/'
-
-# Quick shortcuts
-
-# ⚡ ULTRA-SHORT ALIASES (High-Frequency Commands)
-# These provide 1-2 character shortcuts for daily tasks
-# REMOVED 2025-12-14: alias ld='rload'           # ⚡ Load R package (50x/day)
-# REMOVED 2025-12-14: alias ts='rtest'           # ⚡ Test R package (30x/day)
-# REMOVED 2025-12-14: alias dc='rdoc'            # ⚡ Document R package (20x/day)
-# REMOVED 2025-12-14: alias ck='rcheck'          # ⚡ Check R package (10x/day)
-# REMOVED 2025-12-14: alias bd='rbuild'          # ⚡ Build R package (5x/day)
-# Note: Long forms (rload, rtest, etc.) still work for discoverability
-
-# P0: Mnemonic consistency (first-letter pattern)
-# REMOVED 2025-12-14: alias rd='rdoc'            # Consistent: R + Doc
-# REMOVED 2025-12-14: alias rc='rcheck'          # Consistent: R + Check  
-# REMOVED 2025-12-14: alias rb='rbuild'          # Consistent: R + Build
-# Note: dc/ck/bd remain as alternates for those who prefer them
-
-# P0: ULTRA-FAST single-letter (most frequent only)
-# REMOVED 2025-12-14: alias t='rtest'            # Most frequent R workflow action
-# REMOVED 2025-12-14: alias c='claude'           # Most frequent AI tool
-# REMOVED 2025-12-14: alias q='qp'               # Most frequent Quarto (preview)
-
-# P0: Atomic pairs (common sequences)
-
-alias rpkg='rpkginfo'
-# REMOVED 2025-12-14: alias rdev='rpkgcycle'
-
-# R Console
-# NOTE: 'r' is now a dispatcher function in flow-cli (r test, r doc, r check, etc.)
-# When called with no args, it still launches radian/R console
+# R Console - radian as default
 command -v radian >/dev/null && alias R='radian'
-# REMOVED 2025-12-25: alias r='radian --quiet' - conflicts with r() dispatcher function
 
 # ============================================
 # 📝 QUARTO SHORTCUTS
@@ -279,108 +205,14 @@ command -v radian >/dev/null && alias R='radian'
 # Old aliases removed 2025-12-17
 
 # ============================================
-# 🤖 CLAUDE CODE ALIASES (AI Assistant)
+# 🤖 CLAUDE CODE
 # ============================================
+# CONSOLIDATED 2025-12-26: Use 'cc' dispatcher from flow-cli
+# Run 'cc help' to see all available commands:
+#   cc, cc yolo, cc plan, cc ask, cc file, cc diff, cc resume, etc.
 
-# Basic commands
-# NOTE 2025-12-25: cc dispatcher is archived - use ccy function below for pick+claude workflow
-alias ccp='claude -p'                                # Print mode (non-interactive)
-alias ccr='claude -r'                                # Resume with picker
-
-# ccy - Pick project, then launch Claude (replaces archived cc dispatcher)
-ccy() {
-    # Use pick to select project interactively, then launch claude
-    if command -v pick >/dev/null 2>&1; then
-        pick && claude
-    else
-        claude
-    fi
-}
-# REMOVED 2025-12-14: alias ccc='claude -c'                                # Continue last conversation
-# REMOVED 2025-12-14: alias ccl='claude --resume latest'                   # Resume latest session
-
-# Model selection
-# REMOVED 2025-12-14: alias cco='claude --model opus'                      # Use Opus (most capable)
-# REMOVED 2025-12-14: alias cch='claude --model haiku'                     # Use Haiku (fastest)
-
-# Permission modes - REMOVED 2025-12-19: Use full commands instead
-# alias ccplan='claude --permission-mode plan'         # Plan mode (review before executing)
-# REMOVED 2025-12-14: alias ccauto='claude --permission-mode acceptEdits'  # Auto-accept edits only
-# alias ccyolo='claude --permission-mode bypassPermissions'  # Bypass all permissions
-
-# MCP & Plugin management
-# REMOVED 2025-12-14: alias ccmcp='claude mcp'                             # MCP server management
-# REMOVED 2025-12-14: alias ccplugin='claude plugin'                       # Plugin management
-
-# Output formats (for scripting/automation)
-# REMOVED 2025-12-14: alias ccjson='claude -p --output-format json'        # JSON output
-# REMOVED 2025-12-14: alias ccstream='claude -p --output-format stream-json'  # Streaming JSON
-
-# R-specific Claude workflows
-# REMOVED 2025-12-14: alias ccrdoc='claude -p "Generate roxygen2 documentation for this function"'
-# REMOVED 2025-12-14: alias ccrtest='claude -p "Generate testthat tests for this function"'
-# REMOVED 2025-12-14: alias ccrfix='claude "Fix R CMD check issues in this package"'
-# REMOVED 2025-12-14: alias ccrrefactor='claude "Refactor this R code following tidyverse style guide"'
-# REMOVED 2025-12-14: alias ccrexplain='claude -p "Explain this R code in detail"'
-# REMOVED 2025-12-14: alias ccroptimize='claude "Optimize this R code for performance"'
-# REMOVED 2025-12-14: alias ccrstyle='claude "Apply tidyverse style guide to this R code"'
-
-# Common development tasks (language-agnostic)
-# REMOVED 2025-12-14: alias ccfix='claude "Fix the bugs in this code"'
-# REMOVED 2025-12-14: alias ccreview='claude "Review this code for issues and improvements"'
-# REMOVED 2025-12-14: alias cctest='claude "Generate comprehensive tests for this code"'
-# REMOVED 2025-12-14: alias ccdoc='claude "Generate documentation for this code"'
-# REMOVED 2025-12-14: alias ccexplain='claude -p "Explain this code clearly and concisely"'
-# REMOVED 2025-12-14: alias ccrefactor='claude "Refactor this code for better readability"'
-# REMOVED 2025-12-14: alias ccoptimize='claude "Optimize this code for performance"'
-# REMOVED 2025-12-14: alias ccsecurity='claude "Review this code for security vulnerabilities"'
-
-# Quick helpers (shell functions)
-ccask() {
-    # Quick question to Claude (print mode)
-    if [ -z "$*" ]; then
-        echo "Usage: ccask <question>"
-        echo "Example: ccask how do I handle missing data in R?"
-        return 1
-    fi
-    claude -p "$*"
-}
-
-ccfile() {
-    # Analyze a file with Claude
-    if [ -z "$1" ]; then
-        echo "Usage: ccfile <file> [prompt]"
-        echo "Example: ccfile R/myfunction.R explain this code"
-        return 1
-    fi
-    local file="$1"
-    shift
-    local prompt="${*:-Explain this code in detail}"
-    if [ ! -f "$file" ]; then
-        echo "Error: File not found: $file"
-        return 1
-    fi
-    claude -p "$prompt" < "$file"
-}
-
-ccrdiff() {
-    # Review uncommitted R package changes with Claude
-    if ! git rev-parse --git-dir > /dev/null 2>&1; then
-        echo "Error: Not in a git repository"
-        return 1
-    fi
-    git diff | claude "Review these R package changes for quality and correctness"
-}
-
-ccrpkg() {
-    # Smart R package helper - detects context and helps accordingly
-    if [ ! -f "DESCRIPTION" ]; then
-        echo "Error: Not in an R package directory (no DESCRIPTION file)"
-        return 1
-    fi
-    local pkg_name=$(grep "^Package:" DESCRIPTION | cut -d' ' -f2)
-    claude "I'm working on the R package '$pkg_name'. $*"
-}
+# Backward compatibility alias for YOLO mode
+alias ccy='cc yolo'
 
 # ============================================
 # R PACKAGE DEVELOPMENT - FUNCTIONS
@@ -980,6 +812,11 @@ gemd() {
     # Debug help
     gemini "Help me debug this issue: $*"
 }
+
+# ============================================
+# 🔷 OPENCODE ALIAS - Added 2025-12-25
+# ============================================
+alias oc='opencode'
 
 # emacs-plus@30 (Homebrew) — make emacs-plus the default Emacs and set editor vars
 # Adjust the path to match the installed version if different.
