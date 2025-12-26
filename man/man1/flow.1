@@ -1,0 +1,268 @@
+.\" Man page for flow command
+.\" Generated: 2025-12-26
+.TH FLOW 1 "December 2025" "flow-cli 3.0.0" "User Commands"
+.SH NAME
+flow \- ADHD-friendly workflow CLI for developers
+.SH SYNOPSIS
+.B flow
+[\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B flow
+is a pure ZSH plugin providing ADHD-optimized workflow management for developers.
+It offers instant workflow commands, smart dispatchers, session tracking, and
+project switching with sub-10ms response times.
+.PP
+The flow command serves as a unified entry point for all flow-cli functionality,
+though most commands also work as standalone functions.
+.SH COMMANDS
+.SS Core Workflow
+.TP
+.B work \fIproject\fR
+Start a focused work session on the specified project.
+.TP
+.B pick \fR[\fIcategory\fR]
+Interactive project picker using fzf. Optional category filter.
+.TP
+.B dash \fR[\fIscope\fR]
+Show project dashboard. Scope can be: all, active, dev, research, teaching.
+.TP
+.B finish \fR[\fInote\fR]
+End the current session. Optionally commit with the provided note.
+.TP
+.B hop \fIproject\fR
+Quick switch to another project (uses tmux).
+.TP
+.B why
+Show current context (project, focus, session info).
+.SS ADHD Helpers
+.TP
+.B start\fR, \fBjs
+Just start - auto-picks a project to work on. Helps overcome analysis paralysis.
+.TP
+.B stuck
+When you're blocked - provides suggestions to get unstuck.
+.TP
+.B focus \fR[\fItext\fR]
+Get or set your current focus. Without args, shows current focus.
+.TP
+.B next
+Get recommendation for what to work on next.
+.TP
+.B break \fR[\fIminutes\fR]
+Take a proper break. Default: 5 minutes.
+.SS Capture & Track
+.TP
+.B catch \fIidea\fR
+Quick capture an idea to your inbox.
+.TP
+.B crumb \fInote\fR
+Leave a breadcrumb note in the current project.
+.TP
+.B inbox
+View your captured ideas inbox.
+.TP
+.B win \fItext\fR
+Log an accomplishment. Provides dopamine boost!
+.TP
+.B status \fR[\fIaction\fR]
+View or update the project's .STATUS file.
+.SS Context-Aware Actions
+These commands detect your project type and run appropriate tools:
+.TP
+.B test \fR[\fIoptions\fR]
+Run tests. Detects: R/testthat, npm test, pytest, cargo test, go test.
+Options: --watch, --coverage, --verbose.
+.TP
+.B build \fR[\fIoptions\fR]
+Build project. Detects: Quarto, R CMD build, npm build, cargo build.
+.TP
+.B preview
+Preview output. Opens browser for Quarto, runs npm dev for Node.
+.TP
+.B sync
+Smart git sync: stash, pull --rebase, push, pop stash.
+.TP
+.B check
+Health check with linting. Runs: R CMD check, eslint, ruff, cargo clippy.
+.TP
+.B plan \fR[\fIaction\fR]
+Sprint/project planning. Actions: show, sprint, edit.
+.TP
+.B log \fR[\fIperiod\fR]
+Activity log. Periods: today, week, recent.
+.SS Timer & Routine
+.TP
+.B timer \fR[\fIminutes\fR]
+Start a focus timer. Default: 25 minutes (Pomodoro).
+.TP
+.B timer status
+Check remaining time on current timer.
+.TP
+.B timer stop
+Cancel the current timer.
+.TP
+.B morning
+Run the morning startup routine.
+.SS Learning
+.TP
+.B learn
+Start or resume the interactive tutorial.
+.TP
+.B learn beginner
+Core workflow lessons.
+.TP
+.B learn medium
+Productivity tools lessons.
+.TP
+.B learn advanced
+Power features lessons.
+.SS Setup & Diagnostics
+.TP
+.B doctor
+Check all dependencies and system health.
+.TP
+.B doctor --fix
+Interactively install missing dependencies.
+.TP
+.B doctor --fix -y
+Auto-install all missing dependencies without prompts.
+.TP
+.B doctor --ai
+AI-assisted troubleshooting using Claude CLI.
+.TP
+.B help \fR[\fIcommand\fR]
+Show help. Without args, shows overview. With command, shows specific help.
+.TP
+.B version
+Show flow-cli version.
+.SH PROJECT TYPE DETECTION
+Flow automatically detects project types based on files present:
+.PP
+.RS
+.nf
+DESCRIPTION        -> R package
+package.json       -> Node.js
+_quarto.yml        -> Quarto
+pyproject.toml     -> Python
+Cargo.toml         -> Rust
+go.mod             -> Go
+Makefile           -> Make
+.fi
+.RE
+.SH ENVIRONMENT
+.TP
+.B FLOW_PROJECTS_ROOT
+Root directory for projects. Default: ~/projects
+.TP
+.B FLOW_ATLAS_ENABLED
+Atlas integration. Values: auto, yes, no. Default: auto
+.TP
+.B FLOW_QUIET
+Suppress welcome message. Set to 1 to enable.
+.TP
+.B FLOW_DEBUG
+Enable debug output. Set to 1 to enable.
+.TP
+.B FLOW_VERSION
+Current version (read-only). Default: 3.0.0
+.SH FILES
+.TP
+.I ~/.config/zsh/.worklog
+Session tracking log.
+.TP
+.I .STATUS
+Project status file (per-project).
+.TP
+.I setup/Brewfile
+Recommended Homebrew dependencies.
+.SH EXAMPLES
+Start working on a project:
+.RS
+.nf
+flow work flow-cli
+.fi
+.RE
+.PP
+Pick a project interactively:
+.RS
+.nf
+flow pick dev
+.fi
+.RE
+.PP
+Run tests for current project:
+.RS
+.nf
+flow test
+.fi
+.RE
+.PP
+Sync with remote:
+.RS
+.nf
+flow sync
+.fi
+.RE
+.PP
+End session with commit:
+.RS
+.nf
+flow finish "completed feature"
+.fi
+.RE
+.PP
+Check system health:
+.RS
+.nf
+flow doctor
+.fi
+.RE
+.PP
+Fix missing dependencies:
+.RS
+.nf
+flow doctor --fix
+.fi
+.RE
+.SH SHORTCUTS
+Most commands work as standalone functions:
+.PP
+.RS
+.nf
+pick dev     = flow pick dev
+work foo     = flow work foo
+js           = flow start
+dash         = flow dash
+.fi
+.RE
+.SH SMART DISPATCHERS
+In addition to flow commands, these dispatchers are available:
+.TP
+.B g \fIcmd\fR
+Git workflows (g status, g push, g commit)
+.TP
+.B r \fIcmd\fR
+R package development (r test, r doc, r check)
+.TP
+.B qu \fIcmd\fR
+Quarto publishing (qu preview, qu render)
+.TP
+.B mcp \fIcmd\fR
+MCP server management (mcp status, mcp logs)
+.TP
+.B obs \fIcmd\fR
+Obsidian notes (obs daily, obs search)
+.PP
+Use \fIdispatcher\fR help for details (e.g., r help, qu help).
+.SH SEE ALSO
+.BR git (1),
+.BR zsh (1),
+.BR quarto (1)
+.SH WEBSITE
+https://Data-Wise.github.io/flow-cli/
+.SH BUGS
+Report bugs at: https://github.com/Data-Wise/flow-cli/issues
+.SH AUTHOR
+DT
+.SH COPYRIGHT
+MIT License

@@ -136,6 +136,9 @@ _flow_help() {
       test|build|sync|check|plan)
         _flow_action_${topic} --help
         ;;
+      doctor|health)
+        doctor --help
+        ;;
       *)
         echo "No help available for: $topic"
         echo "Try: flow help"
@@ -198,6 +201,13 @@ USAGE: flow <command> [args]
 │  learn medium       Productivity tools                                     │
 │  learn advanced     Power features                                         │
 │  help [command]     Show help (this screen or specific command)            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SETUP & DIAGNOSTICS ──────────────────────────────────────────────────────┐
+│  doctor             Check dependencies & health                            │
+│  doctor --fix       Interactive install missing tools                      │
+│  doctor --fix -y    Auto-install all missing (no prompts)                  │
+│  doctor --ai        AI-assisted troubleshooting (Claude CLI)               │
 └────────────────────────────────────────────────────────────────────────────┘
 
 EXAMPLES:
