@@ -6,37 +6,33 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Minimalist ZSH workflow tools with smart dispatchers">
+        <meta name="description" content="Minimalist ZSH workflow tools with smart dispatchers. Track work sessions, manage multiple projects, visualize productivity metrics with ADHD-friendly design.">
       
       
         <meta name="author" content="DT">
       
       
-        <link rel="canonical" href="https://data-wise.github.io/flow-cli/decisions/ADR-001-vendored-code-pattern/">
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/PLAN-A-DOCUMENTATION-POLISH/">
       
       
-        <link rel="prev" href="../ADR-SUMMARY/">
-      
-      
-        <link rel="next" href="../ADR-002-clean-architecture/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>ADR-001 Vendored Code - Flow CLI Documentation</title>
+        <title>Plan A: Documentation Polish - Implementation - Flow CLI Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -55,11 +51,11 @@
       
     
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
-      <link rel="stylesheet" href="../../stylesheets/adhd-colors.css">
+      <link rel="stylesheet" href="../stylesheets/adhd-colors.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -84,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#adr-001-use-vendored-code-pattern-for-project-detection" class="md-skip">
+        <a href="#plan-a-documentation-polish-implementation" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Flow CLI Documentation" class="md-header__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
+    <a href=".." title="Flow CLI Documentation" class="md-header__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -118,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ADR-001 Vendored Code
+              Plan A: Documentation Polish - Implementation
             
           </span>
         </div>
@@ -231,7 +227,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href=".." class="md-tabs__link">
         
   
   
@@ -252,7 +248,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../getting-started/quick-start/" class="md-tabs__link">
+        <a href="../getting-started/00-welcome/" class="md-tabs__link">
           
   
   
@@ -272,7 +268,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../tutorials/01-first-session/" class="md-tabs__link">
+        <a href="../tutorials/01-first-session/" class="md-tabs__link">
           
   
   
@@ -292,7 +288,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../guides/WORKFLOWS-QUICK-WINS/" class="md-tabs__link">
+        <a href="../guides/WORKFLOWS-QUICK-WINS/" class="md-tabs__link">
           
   
   
@@ -312,7 +308,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../reference/ALIAS-REFERENCE-CARD/" class="md-tabs__link">
+        <a href="../reference/COMMAND-EXPLORER/" class="md-tabs__link">
           
   
   
@@ -332,7 +328,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../commands/status/" class="md-tabs__link">
+        <a href="../commands/status/" class="md-tabs__link">
           
   
   
@@ -352,7 +348,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../architecture/" class="md-tabs__link">
+        <a href="../architecture/" class="md-tabs__link">
           
   
   
@@ -372,7 +368,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../api/API-OVERVIEW/" class="md-tabs__link">
+        <a href="../api/API-OVERVIEW/" class="md-tabs__link">
           
   
   
@@ -392,7 +388,27 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../testing/TESTING/" class="md-tabs__link">
+        <a href="../testing/TESTING/" class="md-tabs__link">
+          
+  
+  
+  Testing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../contributing/PR-WORKFLOW-GUIDE/" class="md-tabs__link">
           
   
   
@@ -408,13 +424,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../decisions/" class="md-tabs__link">
           
   
   
@@ -434,64 +448,14 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../standards/" class="md-tabs__link">
+        <a href="../PRODUCTION-USE-PHASE.md" class="md-tabs__link">
           
   
   
-  Standards
+  Project Status
 
         </a>
       </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../active/MULTIPLE-PROJECTS-SUMMARY/" class="md-tabs__link">
-          
-  
-  
-  Active Work
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL/" class="md-tabs__link">
-          
-  
-  
-  Planning
-
-        </a>
-      </li>
-    
-  
-
     
   
 
@@ -518,7 +482,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Flow CLI Documentation" class="md-nav__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
+    <a href=".." title="Flow CLI Documentation" class="md-nav__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -548,7 +512,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -629,7 +593,35 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/quick-start/" class="md-nav__link">
+      <a href="../getting-started/00-welcome/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/quick-start/" class="md-nav__link">
         
   
   
@@ -657,7 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/installation/" class="md-nav__link">
+      <a href="../getting-started/installation/" class="md-nav__link">
         
   
   
@@ -685,7 +677,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/troubleshooting/" class="md-nav__link">
+      <a href="../getting-started/troubleshooting/" class="md-nav__link">
         
   
   
@@ -774,7 +766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/01-first-session/" class="md-nav__link">
+      <a href="../tutorials/01-first-session/" class="md-nav__link">
         
   
   
@@ -802,7 +794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/02-multiple-projects/" class="md-nav__link">
+      <a href="../tutorials/02-multiple-projects/" class="md-nav__link">
         
   
   
@@ -830,7 +822,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/03-status-visualizations/" class="md-nav__link">
+      <a href="../tutorials/03-status-visualizations/" class="md-nav__link">
         
   
   
@@ -858,7 +850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/04-web-dashboard/" class="md-nav__link">
+      <a href="../tutorials/04-web-dashboard/" class="md-nav__link">
         
   
   
@@ -947,7 +939,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/WORKFLOWS-QUICK-WINS/" class="md-nav__link">
+      <a href="../guides/WORKFLOWS-QUICK-WINS/" class="md-nav__link">
         
   
   
@@ -975,7 +967,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/WORKFLOW-TUTORIAL/" class="md-nav__link">
+      <a href="../guides/WORKFLOW-TUTORIAL/" class="md-nav__link">
         
   
   
@@ -1003,7 +995,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/ENHANCED-HELP-QUICK-START/" class="md-nav__link">
+      <a href="../guides/ENHANCED-HELP-QUICK-START/" class="md-nav__link">
         
   
   
@@ -1031,7 +1023,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/MIGRATION-v1-to-v2/" class="md-nav__link">
+      <a href="../guides/MIGRATION-v1-to-v2/" class="md-nav__link">
         
   
   
@@ -1059,7 +1051,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/hop/" class="md-nav__link">
+      <a href="../guides/hop/" class="md-nav__link">
         
   
   
@@ -1148,7 +1140,63 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/ALIAS-REFERENCE-CARD/" class="md-nav__link">
+      <a href="../reference/COMMAND-EXPLORER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Explorer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dispatcher Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/ALIAS-REFERENCE-CARD/" class="md-nav__link">
         
   
   
@@ -1176,7 +1224,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
+      <a href="../reference/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1204,7 +1252,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/PICK-COMMAND-REFERENCE/" class="md-nav__link">
+      <a href="../reference/PICK-COMMAND-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1232,7 +1280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/DASHBOARD-QUICK-REF/" class="md-nav__link">
+      <a href="../reference/DASHBOARD-QUICK-REF/" class="md-nav__link">
         
   
   
@@ -1260,7 +1308,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/PROJECT-DETECTION-GUIDE/" class="md-nav__link">
+      <a href="../reference/PROJECT-DETECTION-GUIDE/" class="md-nav__link">
         
   
   
@@ -1288,7 +1336,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
+      <a href="../reference/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
         
   
   
@@ -1316,7 +1364,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
+      <a href="../reference/ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
         
   
   
@@ -1344,7 +1392,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/CLI-COMMAND-PATTERNS-RESEARCH/" class="md-nav__link">
+      <a href="../reference/CLI-COMMAND-PATTERNS-RESEARCH/" class="md-nav__link">
         
   
   
@@ -1372,7 +1420,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/COMMAND-QUICK-REFERENCE/" class="md-nav__link">
+      <a href="../reference/COMMAND-QUICK-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1400,7 +1448,35 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/EXISTING-SYSTEM-SUMMARY/" class="md-nav__link">
+      <a href="../reference/TESTING-QUICK-REF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/EXISTING-SYSTEM-SUMMARY/" class="md-nav__link">
         
   
   
@@ -1428,7 +1504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/ZSH-CLEAN-WORKFLOW/" class="md-nav__link">
+      <a href="../reference/ZSH-CLEAN-WORKFLOW/" class="md-nav__link">
         
   
   
@@ -1517,7 +1593,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../commands/status/" class="md-nav__link">
+      <a href="../commands/status/" class="md-nav__link">
         
   
   
@@ -1545,7 +1621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../commands/dashboard/" class="md-nav__link">
+      <a href="../commands/dashboard/" class="md-nav__link">
         
   
   
@@ -1573,7 +1649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../commands/dash/" class="md-nav__link">
+      <a href="../commands/dash/" class="md-nav__link">
         
   
   
@@ -1662,7 +1738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/" class="md-nav__link">
+      <a href="../architecture/" class="md-nav__link">
         
   
   
@@ -1690,7 +1766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/ARCHITECTURE-DIAGRAM/" class="md-nav__link">
+      <a href="../architecture/ARCHITECTURE-DIAGRAM/" class="md-nav__link">
         
   
   
@@ -1718,7 +1794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/QUICK-REFERENCE/" class="md-nav__link">
+      <a href="../architecture/QUICK-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1746,7 +1822,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/ARCHITECTURE-QUICK-WINS/" class="md-nav__link">
+      <a href="../architecture/ARCHITECTURE-QUICK-WINS/" class="md-nav__link">
         
   
   
@@ -1774,7 +1850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/ARCHITECTURE-PATTERNS-ANALYSIS/" class="md-nav__link">
+      <a href="../architecture/ARCHITECTURE-PATTERNS-ANALYSIS/" class="md-nav__link">
         
   
   
@@ -1802,7 +1878,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/API-DESIGN-REVIEW/" class="md-nav__link">
+      <a href="../architecture/API-DESIGN-REVIEW/" class="md-nav__link">
         
   
   
@@ -1830,7 +1906,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/CODE-EXAMPLES/" class="md-nav__link">
+      <a href="../architecture/CODE-EXAMPLES/" class="md-nav__link">
         
   
   
@@ -1858,7 +1934,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/VENDOR-INTEGRATION-ARCHITECTURE/" class="md-nav__link">
+      <a href="../architecture/VENDOR-INTEGRATION-ARCHITECTURE/" class="md-nav__link">
         
   
   
@@ -1947,7 +2023,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/API-OVERVIEW/" class="md-nav__link">
+      <a href="../api/API-OVERVIEW/" class="md-nav__link">
         
   
   
@@ -1975,7 +2051,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/API-REFERENCE/" class="md-nav__link">
+      <a href="../api/API-REFERENCE/" class="md-nav__link">
         
   
   
@@ -2003,7 +2079,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/INTERACTIVE-EXAMPLES/" class="md-nav__link">
+      <a href="../api/INTERACTIVE-EXAMPLES/" class="md-nav__link">
         
   
   
@@ -2031,7 +2107,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/PROJECT-DETECTOR-API/" class="md-nav__link">
+      <a href="../api/PROJECT-DETECTOR-API/" class="md-nav__link">
         
   
   
@@ -2091,7 +2167,7 @@
   <span class="md-ellipsis">
     
   
-    Development
+    Testing
   
 
     
@@ -2107,7 +2183,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Development
+    Testing
   
 
           </label>
@@ -2120,7 +2196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../testing/TESTING/" class="md-nav__link">
+      <a href="../testing/TESTING/" class="md-nav__link">
         
   
   
@@ -2148,7 +2224,236 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-nav__link">
+      <a href="../../tests/DOG-FEEDING-TEST-README.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interactive Dog Test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/INTERACTIVE-TEST-GUIDE.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interactive Test Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/TESTING-QUICK-REF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/PR-WORKFLOW-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PR Workflow Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/ADR-PROCESS-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Process Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/DOCUMENTATION-STYLE-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Style Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ZSH-DEVELOPMENT-GUIDELINES/" class="md-nav__link">
         
   
   
@@ -2176,7 +2481,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../CONVENTIONS/" class="md-nav__link">
+      <a href="../CONVENTIONS/" class="md-nav__link">
         
   
   
@@ -2204,7 +2509,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../PHILOSOPHY/" class="md-nav__link">
+      <a href="../PHILOSOPHY/" class="md-nav__link">
         
   
   
@@ -2212,479 +2517,6 @@
     
   
     Philosophy
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Decisions (ADRs)
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_10">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Decisions (ADRs)
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR Index
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ADR-SUMMARY/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR Summary
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR-001 Vendored Code
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR-001 Vendored Code
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#context-and-problem-statement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Context and Problem Statement
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#decision-drivers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Decision Drivers
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#decision" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Decision
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Decision">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#implementation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Implementation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bridge-pattern" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Bridge Pattern
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#consequences" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Consequences
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Consequences">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#positive" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Positive
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#negative" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Negative
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#neutral" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Neutral
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Validation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Validation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#success-metrics-week-1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Success Metrics (Week 1)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#alternative-considered-git-submodule" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Alternative Considered: Git Submodule
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#alternative-considered-npm-dependency" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Alternative Considered: npm Dependency
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#alternative-considered-javascript-rewrite" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Alternative Considered: JavaScript Rewrite
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-decisions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related Decisions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notes
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Notes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#update-process" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Update Process
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#attribution" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Attribution
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ADR-002-clean-architecture/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR-002 Clean Architecture
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ADR-003-bridge-pattern/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR-003 Bridge Pattern
   
 
     
@@ -2737,7 +2569,7 @@
   <span class="md-ellipsis">
     
   
-    Standards
+    Decisions (ADRs)
   
 
     
@@ -2753,7 +2585,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Standards
+    Decisions (ADRs)
   
 
           </label>
@@ -2766,14 +2598,154 @@
   
   
     <li class="md-nav__item">
-      <a href="../../standards/" class="md-nav__link">
+      <a href="../decisions/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Overview
+    ADR Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decisions/ADR-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decisions/ADR-001-use-vendored-code-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-001 Vendored Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decisions/ADR-002-adopt-clean-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-002 Clean Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decisions/ADR-003-bridge-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-003 Bridge Pattern
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decisions/ADR-004-module-api-not-rest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-004 Module API
   
 
     
@@ -2826,7 +2798,7 @@
   <span class="md-ellipsis">
     
   
-    Active Work
+    Project Status
   
 
     
@@ -2842,7 +2814,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Active Work
+    Project Status
   
 
           </label>
@@ -2855,14 +2827,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../active/MULTIPLE-PROJECTS-SUMMARY/" class="md-nav__link">
+      <a href="../PRODUCTION-USE-PHASE.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Multiple Projects Summary
+    Production Use Phase
   
 
     
@@ -2883,96 +2855,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../active/PHASE-P5D-ALPHA-RELEASE-PLAN/" class="md-nav__link">
+      <a href="../PROJECT-HUB.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Phase P5D Alpha Release
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_12_3" id="__nav_12_3_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Help System
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_12_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Help System
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../active/help-system/PHASE1-IMPLEMENTATION-REPORT/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Phase 1 Report
+    Project Hub
   
 
     
@@ -2993,14 +2883,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../active/help-system/HELP-OVERHAUL-SUMMARY/" class="md-nav__link">
+      <a href="../CHANGELOG.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Overhaul Summary
+    Changelog
   
 
     
@@ -3009,659 +2899,6 @@
   
 
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../active/help-system/HELP-PHASE2-PLAN/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Phase 2 Plan
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../active/help-system/HELP-PHASE3-PLAN/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Phase 3 Plan
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_12_4" id="__nav_12_4_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Alias Refactoring
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_12_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Alias Refactoring
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../active/alias-refactoring/ALIAS-REFACTOR-SUMMARY/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Refactor Summary
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../active/alias-refactoring/ALIAS-REFACTOR-3-PLANS-2025-12-14/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    3 Plans Comparison
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_12_5" id="__nav_12_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Workflow Redesign
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_12_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Workflow Redesign
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../active/workflow-redesign/WORKFLOW-IMPLEMENTATION-SUMMARY/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Implementation Summary
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../active/workflow-redesign/WORKFLOW-ANALYSIS-2025-12-14/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Analysis
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_12_6" id="__nav_12_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Status Command
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_12_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Status Command
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../active/status-command/STATUS-COMMAND-PROBLEM/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Problem Analysis
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../active/status-command/STATUS-COMMAND-ALTERNATIVES/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Alternatives
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
-        
-          
-          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Planning
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_13">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Planning
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_13_1" id="__nav_13_1_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Proposals
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_13_1">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Proposals
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../planning/proposals/UNIVERSAL-PROJECT-WORKFLOW-PROPOSAL/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Universal Project Workflow
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../planning/proposals/TEACHING-RESEARCH-WORKFLOW-PROPOSAL/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Teaching & Research Workflow
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../planning/proposals/PICK-COMMAND-NEXT-PHASE/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Pick Command Next Phase
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../planning/proposals/MEDIATIONVERSE-WORKFLOW-PROPOSAL/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Mediationverse Workflow
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -3701,44 +2938,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#context-and-problem-statement" class="md-nav__link">
+  <a href="#issues-identified" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Context and Problem Statement
+        Issues Identified
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#decision-drivers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Decision Drivers
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#decision" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Decision
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Decision">
+    <nav class="md-nav" aria-label="Issues Identified">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#implementation" class="md-nav__link">
+  <a href="#1-duplicateinconsistent-adr-files" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Implementation
+        1. Duplicate/Inconsistent ADR Files ❌
       
     </span>
   </a>
@@ -3746,10 +2961,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bridge-pattern" class="md-nav__link">
+  <a href="#2-outdated-documentation-indexes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bridge Pattern
+        2. Outdated Documentation Indexes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-missing-cross-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Missing Cross-References
       
     </span>
   </a>
@@ -3762,22 +2988,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#consequences" class="md-nav__link">
+  <a href="#fixes-to-implement" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Consequences
+        Fixes to Implement
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Consequences">
+    <nav class="md-nav" aria-label="Fixes to Implement">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#positive" class="md-nav__link">
+  <a href="#fix-1-consolidate-adr-files-20-min" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Positive
+        Fix 1: Consolidate ADR Files (20 min)
       
     </span>
   </a>
@@ -3785,10 +3011,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#negative" class="md-nav__link">
+  <a href="#fix-2-update-docsdoc-indexmd-10-min" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Negative
+        Fix 2: Update docs/doc-index.md (10 min)
       
     </span>
   </a>
@@ -3796,10 +3022,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#neutral" class="md-nav__link">
+  <a href="#fix-3-update-docsreadmemd-10-min" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Neutral
+        Fix 3: Update docs/README.md (10 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fix-4-update-docsindexmd-10-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fix 4: Update docs/index.md (10 min)
       
     </span>
   </a>
@@ -3812,22 +3049,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#validation" class="md-nav__link">
+  <a href="#files-to-createmodify" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Validation
+        Files to Create/Modify
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Validation">
+    <nav class="md-nav" aria-label="Files to Create/Modify">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#success-metrics-week-1" class="md-nav__link">
+  <a href="#files-to-delete-3-files" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Success Metrics (Week 1)
+        Files to Delete (3 files)
       
     </span>
   </a>
@@ -3835,10 +3072,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#alternative-considered-git-submodule" class="md-nav__link">
+  <a href="#files-to-rename-1-file" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Alternative Considered: Git Submodule
+        Files to Rename (1 file)
       
     </span>
   </a>
@@ -3846,21 +3083,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#alternative-considered-npm-dependency" class="md-nav__link">
+  <a href="#files-to-modify-4-files" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Alternative Considered: npm Dependency
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#alternative-considered-javascript-rewrite" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Alternative Considered: JavaScript Rewrite
+        Files to Modify (4 files)
       
     </span>
   </a>
@@ -3873,10 +3099,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#related-decisions" class="md-nav__link">
+  <a href="#expected-outcomes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related Decisions
+        Expected Outcomes
       
     </span>
   </a>
@@ -3884,41 +3110,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
+  <a href="#implementation-checklist" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notes
+        Implementation Checklist
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Notes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#update-process" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Update Process
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#attribution" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Attribution
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -3939,7 +3137,7 @@
 
 
   
-    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/decisions/ADR-001-vendored-code-pattern.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/PLAN-A-DOCUMENTATION-POLISH.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -3947,137 +3145,215 @@
   
 
 
-<h1 id="adr-001-use-vendored-code-pattern-for-project-detection">ADR-001: Use Vendored Code Pattern for Project Detection<a class="headerlink" href="#adr-001-use-vendored-code-pattern-for-project-detection" title="Permanent link">&para;</a></h1>
-<p><strong>Status:</strong> ✅ Accepted</p>
-<p><strong>Date:</strong> 2025-12-20</p>
-<p><strong>Deciders:</strong> DT</p>
-<p><strong>Technical Story:</strong> Week 1 - Project Detection System Implementation</p>
+<h1 id="plan-a-documentation-polish-implementation">Plan A: Documentation Polish - Implementation<a class="headerlink" href="#plan-a-documentation-polish-implementation" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2025-12-24
+<strong>Effort:</strong> 30-50 minutes
+<strong>Status:</strong> In Progress</p>
 <hr />
-<h2 id="context-and-problem-statement">Context and Problem Statement<a class="headerlink" href="#context-and-problem-statement" title="Permanent link">&para;</a></h2>
-<p>The flow-cli system needs project detection functionality. The <a href="https://github.com/Data-Wise/zsh-claude-workflow">zsh-claude-workflow</a> project already has battle-tested shell scripts (<code>project-detector.sh</code>, ~200 lines) that detect project types accurately.</p>
-<p><strong>Question:</strong> How should we integrate this existing functionality?</p>
-<p><strong>Options Considered:</strong></p>
+<h2 id="issues-identified">Issues Identified<a class="headerlink" href="#issues-identified" title="Permanent link">&para;</a></h2>
+<h3 id="1-duplicateinconsistent-adr-files">1. Duplicate/Inconsistent ADR Files ❌<a class="headerlink" href="#1-duplicateinconsistent-adr-files" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Multiple versions of the same ADR exist with different content:</p>
+<table>
+<thead>
+<tr>
+<th>Shorter Name (in mkdocs.yml)</th>
+<th>Longer Name (not linked)</th>
+<th>Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADR-001-vendored-code-pattern.md (166 lines)</td>
+<td>ADR-001-use-vendored-code-pattern.md (227 lines)</td>
+<td>Longer version has more content</td>
+</tr>
+<tr>
+<td>ADR-002-clean-architecture.md (255 lines, 🟡 Proposed)</td>
+<td>ADR-002-adopt-clean-architecture.md (376 lines, ✅ Accepted)</td>
+<td><strong>WRONG VERSION IN NAV</strong> - implemented version not linked</td>
+</tr>
+<tr>
+<td>ADR-003-bridge-pattern.md (296 lines)</td>
+<td>ADR-003-nodejs-module-api-not-rest.md (504 lines)</td>
+<td>Different topics entirely</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Root Cause:</strong> ADRs were created/updated at different times, creating multiple versions</p>
+<h3 id="2-outdated-documentation-indexes">2. Outdated Documentation Indexes<a class="headerlink" href="#2-outdated-documentation-indexes" title="Permanent link">&para;</a></h3>
+<p><strong>doc-index.md:</strong></p>
+<ul>
+<li>Last updated: 2025-12-19 (before Phase P6 completion)</li>
+<li>Missing: Week 2 CLI enhancements, Production Use Phase</li>
+<li>Stale status markers ("Needs Review" for fixed docs)</li>
+</ul>
+<p><strong>docs/README.md:</strong></p>
+<ul>
+<li>Last updated: 2025-12-20 (before API documentation generation)</li>
+<li>Missing: API-REFERENCE.md, INTERACTIVE-EXAMPLES.md, ARCHITECTURE-DIAGRAM.md</li>
+<li>Stats out of date (doesn't reflect 63-page site, 559 tests)</li>
+</ul>
+<p><strong>docs/index.md (website home):</strong></p>
+<ul>
+<li>Doesn't mention Production Use Phase (started Dec 24)</li>
+<li>Week 2 features not highlighted in recent updates</li>
+<li>Quick Stats section doesn't show Phase P6 completion</li>
+</ul>
+<h3 id="3-missing-cross-references">3. Missing Cross-References<a class="headerlink" href="#3-missing-cross-references" title="Permanent link">&para;</a></h3>
+<p><strong>New documentation not linked:</strong></p>
+<ul>
+<li>docs/api/API-REFERENCE.md (800+ lines) - not in docs/README.md</li>
+<li>docs/api/INTERACTIVE-EXAMPLES.md (650+ lines) - not in docs/README.md</li>
+<li>docs/architecture/ARCHITECTURE-DIAGRAM.md (750+ lines) - not in docs/README.md</li>
+<li>PRODUCTION-USE-PHASE.md - not mentioned in docs/index.md</li>
+</ul>
+<hr />
+<h2 id="fixes-to-implement">Fixes to Implement<a class="headerlink" href="#fixes-to-implement" title="Permanent link">&para;</a></h2>
+<h3 id="fix-1-consolidate-adr-files-20-min">Fix 1: Consolidate ADR Files (20 min)<a class="headerlink" href="#fix-1-consolidate-adr-files-20-min" title="Permanent link">&para;</a></h3>
+<p><strong>Decision on which to keep:</strong></p>
+<p><strong>ADR-001:</strong></p>
+<ul>
+<li><strong>KEEP:</strong> ADR-001-use-vendored-code-pattern.md (227 lines, more comprehensive)</li>
+<li><strong>DELETE:</strong> ADR-001-vendored-code-pattern.md (166 lines, abbreviated)</li>
+<li><strong>UPDATE:</strong> mkdocs.yml to point to longer version</li>
+</ul>
+<p><strong>ADR-002:</strong></p>
+<ul>
+<li><strong>KEEP:</strong> ADR-002-adopt-clean-architecture.md (376 lines, ✅ Accepted, implemented)</li>
+<li><strong>DELETE:</strong> ADR-002-clean-architecture.md (255 lines, 🟡 Proposed, outdated)</li>
+<li><strong>UPDATE:</strong> mkdocs.yml to point to correct (adopted) version</li>
+</ul>
+<p><strong>ADR-003:</strong></p>
+<ul>
+<li><strong>ISSUE:</strong> These are DIFFERENT ADRs, not duplicates!</li>
+<li>ADR-003-bridge-pattern.md - About Node.js ↔ Shell bridge</li>
+<li>ADR-003-nodejs-module-api-not-rest.md - About choosing module API over REST</li>
+<li><strong>ACTION:</strong> Rename to ADR-003 and ADR-004 (create new number)</li>
+<li><strong>DECISION:</strong> Keep both, renumber second one</li>
+</ul>
+<p><strong>Actions:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Delete outdated versions</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>rm<span class="w"> </span>docs/decisions/ADR-001-vendored-code-pattern.md
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>rm<span class="w"> </span>docs/decisions/ADR-002-clean-architecture.md
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Rename ADR-003 conflict (nodejs-module is actually different decision)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>mv<span class="w"> </span>docs/decisions/ADR-003-nodejs-module-api-not-rest.md<span class="w"> </span>docs/decisions/ADR-004-module-api-not-rest.md
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Update mkdocs.yml</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># Change: ADR-001-vendored-code-pattern.md → ADR-001-use-vendored-code-pattern.md</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Change: ADR-002-clean-architecture.md → ADR-002-adopt-clean-architecture.md</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1"># Add: ADR-004 Module API (new entry)</span>
+</code></pre></div>
+<h3 id="fix-2-update-docsdoc-indexmd-10-min">Fix 2: Update docs/doc-index.md (10 min)<a class="headerlink" href="#fix-2-update-docsdoc-indexmd-10-min" title="Permanent link">&para;</a></h3>
+<p><strong>Changes needed:</strong></p>
+<ul>
+<li>Update "Last Updated" to 2025-12-24</li>
+<li>Add Phase P6 completion to statistics</li>
+<li>Remove stale "Needs Review" warnings (WORKFLOW-TUTORIAL.md was updated)</li>
+<li>Update alias count from "28" to current state</li>
+<li>Add Production Use Phase section</li>
+</ul>
+<h3 id="fix-3-update-docsreadmemd-10-min">Fix 3: Update docs/README.md (10 min)<a class="headerlink" href="#fix-3-update-docsreadmemd-10-min" title="Permanent link">&para;</a></h3>
+<p><strong>Add to API Documentation section:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">-</span><span class="w"> </span><span class="gs">**[Complete API Reference](api/API-REFERENCE.md)**</span> - Full system API (800+ lines) ⭐ <span class="gs">**NEW**</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>Domain Layer (Session, Project, Task entities)
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>Use Cases Layer (GetStatus, CreateSession, etc.)
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>Adapters Layer (Controllers, Repositories, Gateways)
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>Code examples for every component
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="k">-</span><span class="w"> </span><span class="gs">**[Interactive Examples](api/INTERACTIVE-EXAMPLES.md)**</span> - 13 runnable code examples ⭐ <span class="gs">**NEW**</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>Quick start workflows
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>Session management patterns
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>Custom integrations
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>Testing strategies
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="k">-</span><span class="w"> </span><span class="gs">**[Architecture Diagrams](architecture/ARCHITECTURE-DIAGRAM.md)**</span> - 15 Mermaid diagrams ⭐ <span class="gs">**NEW**</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>System overview
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>Sequence diagrams
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>Data flows
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="k">-</span><span class="w"> </span>Deployment architecture
+</code></pre></div>
+<p><strong>Update stats:</strong></p>
+<ul>
+<li>Total documentation files: 214</li>
+<li>Total lines: 96,151</li>
+<li>Site pages: 63</li>
+<li>Test coverage: 559 tests (100% passing)</li>
+</ul>
+<h3 id="fix-4-update-docsindexmd-10-min">Fix 4: Update docs/index.md (10 min)<a class="headerlink" href="#fix-4-update-docsindexmd-10-min" title="Permanent link">&para;</a></h3>
+<p><strong>Add to "What's New" section:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gu">## Recent Updates (December 2025)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="gu">### Phase P6 Complete - CLI Enhancements (2025-12-24) 🎉</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">-</span><span class="w"> </span>559 tests passing (100% pass rate)
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">-</span><span class="w"> </span>Enhanced status command with ASCII visualizations
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">-</span><span class="w"> </span>Interactive TUI dashboard
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="k">-</span><span class="w"> </span>10x performance boost with caching
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="k">-</span><span class="w"> </span>4 ADHD-friendly tutorials
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">-</span><span class="w"> </span>v2.0.0-beta.1 released
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="gu">### Production Use Phase Started (2025-12-24) 🚀</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">-</span><span class="w"> </span>1-2 week validation period
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="k">-</span><span class="w"> </span>Focus on real usage feedback
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="k">-</span><span class="w"> </span>Friction log for systematic feedback
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="k">-</span><span class="w"> </span>Feature freeze until user validation complete
+</code></pre></div>
+<p><strong>Update Quick Stats:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">-</span><span class="w"> </span><span class="gs">**Version:**</span> v2.0.0-beta.1
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">-</span><span class="w"> </span><span class="gs">**Status:**</span> Production Use Phase (Started Dec 24, 2025)
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">-</span><span class="w"> </span><span class="gs">**Tests:**</span> 559 passing (100%)
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">-</span><span class="w"> </span><span class="gs">**Documentation:**</span> 63 pages, 96K+ lines
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">-</span><span class="w"> </span><span class="gs">**Phase:**</span> P6 Complete, P7 (optional) awaiting user feedback
+</code></pre></div>
+<hr />
+<h2 id="files-to-createmodify">Files to Create/Modify<a class="headerlink" href="#files-to-createmodify" title="Permanent link">&para;</a></h2>
+<h3 id="files-to-delete-3-files">Files to Delete (3 files)<a class="headerlink" href="#files-to-delete-3-files" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>Git submodule</strong> - Reference as external dependency</li>
-<li><strong>npm package dependency</strong> - Publish zsh-claude-workflow to npm</li>
-<li><strong>Vendored code</strong> - Copy scripts into our codebase</li>
-<li><strong>Rewrite in JavaScript</strong> - Fresh implementation</li>
+<li><code>docs/decisions/ADR-001-vendored-code-pattern.md</code> (superseded by longer version)</li>
+<li><code>docs/decisions/ADR-002-clean-architecture.md</code> (outdated, pre-implementation)</li>
+</ol>
+<h3 id="files-to-rename-1-file">Files to Rename (1 file)<a class="headerlink" href="#files-to-rename-1-file" title="Permanent link">&para;</a></h3>
+<ol>
+<li><code>docs/decisions/ADR-003-nodejs-module-api-not-rest.md</code> → <code>ADR-004-module-api-not-rest.md</code></li>
+</ol>
+<h3 id="files-to-modify-4-files">Files to Modify (4 files)<a class="headerlink" href="#files-to-modify-4-files" title="Permanent link">&para;</a></h3>
+<ol>
+<li><code>mkdocs.yml</code> - Update ADR navigation links</li>
+<li><code>docs/doc-index.md</code> - Update stats, add Phase P6, remove stale warnings</li>
+<li><code>docs/README.md</code> - Add new API docs, update stats</li>
+<li><code>docs/index.md</code> - Add Phase P6 completion, Production Use Phase</li>
 </ol>
 <hr />
-<h2 id="decision-drivers">Decision Drivers<a class="headerlink" href="#decision-drivers" title="Permanent link">&para;</a></h2>
+<h2 id="expected-outcomes">Expected Outcomes<a class="headerlink" href="#expected-outcomes" title="Permanent link">&para;</a></h2>
+<p><strong>After implementation:</strong></p>
 <ul>
-<li><strong>Independence</strong>: Should work without external tools/services</li>
-<li><strong>Simplicity</strong>: One-command <code>npm install</code> for users</li>
-<li><strong>Reliability</strong>: Proven detection logic (production-tested)</li>
-<li><strong>Maintainability</strong>: Clear update process</li>
-<li><strong>Performance</strong>: Fast detection (&lt;50ms per project)</li>
+<li>✅ No duplicate ADR files (3 files deleted)</li>
+<li>✅ All ADRs correctly numbered (1, 2, 3, 4)</li>
+<li>✅ mkdocs.yml points to correct, current versions</li>
+<li>✅ All indexes updated with Phase P6 completion</li>
+<li>✅ New API documentation discoverable from main indexes</li>
+<li>✅ Production Use Phase clearly communicated</li>
+<li>✅ Stats accurate (559 tests, 63 pages, v2.0.0-beta.1)</li>
 </ul>
 <hr />
-<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
-<p><strong>Chosen option: "Vendored Code Pattern"</strong> - Copy shell scripts into <code>cli/vendor/zsh-claude-workflow/</code></p>
-<h3 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cli/vendor/zsh-claude-workflow/
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── core.sh                  # ~100 lines
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── project-detector.sh      # ~200 lines
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>└── README.md                # Attribution + sync process
-</code></pre></div>
-<h3 id="bridge-pattern">Bridge Pattern<a class="headerlink" href="#bridge-pattern" title="Permanent link">&para;</a></h3>
-<p>JavaScript bridge wraps vendored scripts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// cli/lib/project-detector-bridge.js</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">detectProjectType</span><span class="p">(</span><span class="nx">projectPath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">stdout</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">execAsync</span><span class="p">(</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="sb">`source &quot;</span><span class="si">${</span><span class="nx">coreScript</span><span class="si">}</span><span class="sb">&quot; &amp;&amp; source &quot;</span><span class="si">${</span><span class="nx">detectorScript</span><span class="si">}</span><span class="sb">&quot; &amp;&amp; cd &quot;</span><span class="si">${</span><span class="nx">projectPath</span><span class="si">}</span><span class="sb">&quot; &amp;&amp; get_project_type`</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">shell</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/bin/zsh&#39;</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="p">)</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">mapProjectType</span><span class="p">(</span><span class="nx">stdout</span><span class="p">.</span><span class="nx">trim</span><span class="p">())</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
-</code></pre></div>
-<hr />
-<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
-<h3 id="positive">Positive<a class="headerlink" href="#positive" title="Permanent link">&para;</a></h3>
+<h2 id="implementation-checklist">Implementation Checklist<a class="headerlink" href="#implementation-checklist" title="Permanent link">&para;</a></h2>
 <ul>
-<li>✅ <strong>Zero runtime dependencies</strong> - No external tools required</li>
-<li>✅ <strong>Simple installation</strong> - <code>npm install</code> works immediately</li>
-<li>✅ <strong>Guaranteed availability</strong> - Code can't disappear or break</li>
-<li>✅ <strong>Version control</strong> - All code tracked in our repository</li>
-<li>✅ <strong>Production-tested</strong> - Leverage existing battle-tested logic</li>
-<li>✅ <strong>Fast implementation</strong> - 2 hours vs 8+ hours for rewrite</li>
-</ul>
-<h3 id="negative">Negative<a class="headerlink" href="#negative" title="Permanent link">&para;</a></h3>
-<ul>
-<li>⚠️ <strong>Code duplication</strong> - ~300 lines duplicated across projects</li>
-<li>⚠️ <strong>Manual syncing</strong> - Must manually update when upstream changes</li>
-<li>⚠️ <strong>Attribution required</strong> - Must maintain clear source attribution</li>
-<li>⚠️ <strong>Divergence risk</strong> - Could drift from upstream over time</li>
-</ul>
-<h3 id="neutral">Neutral<a class="headerlink" href="#neutral" title="Permanent link">&para;</a></h3>
-<ul>
-<li>📝 <strong>Clear sync process</strong> - Quarterly review and update cycle</li>
-<li>📝 <strong>Test coverage</strong> - 7/7 tests ensure behavior stays correct</li>
+<li>[ ] Delete outdated ADR files (3 files)</li>
+<li>[ ] Rename ADR-003 conflict to ADR-004</li>
+<li>[ ] Update mkdocs.yml navigation</li>
+<li>[ ] Update docs/doc-index.md</li>
+<li>[ ] Update docs/README.md</li>
+<li>[ ] Update docs/index.md</li>
+<li>[ ] Test site build (<code>mkdocs build</code>)</li>
+<li>[ ] Verify all links work</li>
+<li>[ ] Commit changes with clear message</li>
+<li>[ ] Deploy to GitHub Pages</li>
 </ul>
 <hr />
-<h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h2>
-<h3 id="success-metrics-week-1">Success Metrics (Week 1)<a class="headerlink" href="#success-metrics-week-1" title="Permanent link">&para;</a></h3>
-<ul>
-<li>✅ 7/7 tests passing</li>
-<li>✅ Zero external dependencies</li>
-<li>✅ 2-hour implementation time</li>
-<li>✅ 20-30ms detection latency</li>
-<li>✅ Clear attribution in vendor README</li>
-</ul>
-<h3 id="alternative-considered-git-submodule">Alternative Considered: Git Submodule<a class="headerlink" href="#alternative-considered-git-submodule" title="Permanent link">&para;</a></h3>
-<p><strong>Rejected because:</strong></p>
-<ul>
-<li>Requires users to run <code>git submodule update --init</code></li>
-<li>Complicates npm installation</li>
-<li>Fragile when repository moves</li>
-<li>Not suitable for npm-published packages</li>
-</ul>
-<h3 id="alternative-considered-npm-dependency">Alternative Considered: npm Dependency<a class="headerlink" href="#alternative-considered-npm-dependency" title="Permanent link">&para;</a></h3>
-<p><strong>Rejected because:</strong></p>
-<ul>
-<li>Requires publishing zsh-claude-workflow to npm</li>
-<li>Adds external dependency (defeats independence goal)</li>
-<li>Version management complexity</li>
-<li>Overhead for ~300 lines of code</li>
-</ul>
-<h3 id="alternative-considered-javascript-rewrite">Alternative Considered: JavaScript Rewrite<a class="headerlink" href="#alternative-considered-javascript-rewrite" title="Permanent link">&para;</a></h3>
-<p><strong>Rejected because:</strong></p>
-<ul>
-<li>8+ hours estimated implementation time</li>
-<li>Risk of logic errors (vs proven code)</li>
-<li>Must maintain feature parity</li>
-<li>No performance benefit</li>
-</ul>
-<hr />
-<h2 id="related-decisions">Related Decisions<a class="headerlink" href="#related-decisions" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="../ADR-002-clean-architecture/">ADR-002: Clean Architecture Layers</a></li>
-<li><a href="../ADR-003-bridge-pattern/">ADR-003: Bridge Pattern for Shell Integration</a></li>
-</ul>
-<hr />
-<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<h3 id="update-process">Update Process<a class="headerlink" href="#update-process" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Quarterly sync (every 3 months)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>cp<span class="w"> </span>~/projects/dev-tools/zsh-claude-workflow/lib/project-detector.sh<span class="w"> </span>cli/vendor/zsh-claude-workflow/
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>cp<span class="w"> </span>~/projects/dev-tools/zsh-claude-workflow/lib/core.sh<span class="w"> </span>cli/vendor/zsh-claude-workflow/
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>npm<span class="w"> </span>run<span class="w"> </span>test:detector<span class="w">  </span><span class="c1"># Ensure tests pass</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Update version in vendor README</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: sync vendored code from zsh-claude-workflow v1.X.0&quot;</span>
-</code></pre></div>
-<h3 id="attribution">Attribution<a class="headerlink" href="#attribution" title="Permanent link">&para;</a></h3>
-<p>All vendored files include:</p>
-<ul>
-<li>Source URL</li>
-<li>Original author</li>
-<li>License (MIT)</li>
-<li>Last sync date</li>
-<li>Version number</li>
-</ul>
-<hr />
-<p><strong>Last Updated:</strong> 2025-12-21
-<strong>Part of:</strong> Documentation Sprint (Week 1)
-<strong>See Also:</strong> <a href="../VENDOR-INTEGRATION-ARCHITECTURE.md">VENDOR-INTEGRATION-ARCHITECTURE.md</a></p>
+<p><strong>Status:</strong> Ready for implementation
+<strong>Next:</strong> Execute fixes in order listed above</p>
 
 
 
@@ -4111,6 +3387,10 @@
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 DT. Released under MIT License.
+    </div>
   
   
     Made with
@@ -4149,10 +3429,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>
