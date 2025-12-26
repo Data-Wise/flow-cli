@@ -4,7 +4,7 @@
 
 ## Overview
 
-This gamified test validates your flow-cli setup by having you "feed a virtual dog" through completing tasks. Each successful task earns you food to feed the dog and increases its happiness level.
+This gamified test validates your flow-cli setup by having you "feed a virtual dog" through confirming that commands produce expected output. The test runs each command, shows you what to expect, displays the actual output, and asks you to confirm if they match. Each successful confirmation earns you food to feed the dog and increases its happiness level.
 
 ## Quick Start
 
@@ -13,18 +13,28 @@ cd /path/to/flow-cli
 ./tests/interactive-dog-feeding.zsh
 ```
 
+## How It Works
+
+For each test task:
+
+1. 📋 Shows the command that will run
+2. 👀 Shows expected output patterns to look for
+3. ▶️ Runs the command and displays actual output
+4. ❓ Asks you to confirm if actual matches expected
+5. ✅ Feeds the dog if you confirm (or 😢 disappoints if not)
+
 ## What It Tests
 
 The dog feeding test validates **7 core flow-cli features**:
 
 1. **Plugin Loading** - Ensures flow.plugin.zsh loads correctly
-2. **Dashboard Display** - Tests `dash` command output
-3. **Work Session Start** - Tests `work <project>` command
-4. **Idea Capture** - Tests `catch <idea>` command
+2. **Dashboard Display** - Tests `dash` command output format
+3. **Work Session Start** - Tests `work <project>` command and display
+4. **Idea Capture** - Tests `catch <idea>` command and confirmation
 5. **Win Logging** - Tests `win <accomplishment>` command
-6. **Active Session Tracking** - Verifies session file exists
+6. **Active Session Display** - Verifies session shows in dashboard
 7. **ADHD Helper** - Tests `js` (just start) command
-8. **Session Cleanup** - Tests `finish` command
+8. **Session Cleanup** - Tests `finish` command completes cleanly
 
 ## Features
 
@@ -54,27 +64,45 @@ The dog feeding test validates **7 core flow-cli features**:
 
 Welcome to the Interactive Dog Feeding Test!
 
-Your mission: Feed the dog by completing flow-cli tasks
+Your mission: Feed the dog by confirming flow-cli works
 
-Each successful task earns you 🥩 to feed your dog.
-The happier the dog, the better your flow-cli setup!
+How it works:
+  1. We show you what to expect
+  2. We run a command
+  3. You confirm the output matches
+  4. The dog gets fed if you confirm 🥩
 
-╭─ Dog Status ─────────────────────────────────────────────╮
-│ Hunger:    100%
-│ Happiness: 🤔 Okay
-│ Tasks:     0/7 completed
+Each successful confirmation makes the dog happier! 😊
+
+═══════════════════════════════════════════════════════════
+Task: Show Project Dashboard
+═══════════════════════════════════════════════════════════
+
+Command to run:
+  $ dash
+
+╭─ Expected Output ────────────────────────────────────────╮
+│ Look for these patterns:
+╰──────────────────────────────────────────────────────────╯
+  ╭── or ╔══ (border characters)
+  🌊 FLOW DASHBOARD
+  Date and time in header
+  Project names listed
+
+👀 Watch carefully as the command runs...
+
+╭─ Actual Output ──────────────────────────────────────────╮
+╭──────────────────────────────────────────────────────────╮
+│  🌊 FLOW DASHBOARD              Dec 25, 2025  🕐 20:24   │
+╰──────────────────────────────────────────────────────────╯
+... (dashboard content) ...
 ╰──────────────────────────────────────────────────────────╯
 
-🐕 "Woof! Show me the dashboard first!"
+❓ Does the output match the expected patterns?
+(y/n, default: y)
+> y
 
-Task: Show Project Dashboard
-Running: dash 2>&1 | head -20
-
-✅ Success!
-
-╭──────────────────────────────────────────────────────────────╮
-│  🌊 FLOW DASHBOARD                        Dec 25, 2025  🕐 20:24 │
-╰──────────────────────────────────────────────────────────────╯
+✅ Great! Test passed!
 
 The dog sees all your projects! 😊
 🥩 Fed the dog! 😊
@@ -127,13 +155,16 @@ echo $?  # 0 = success, 1 = failure
 
 This test is specifically designed for ADHD developers:
 
-- ✅ **Immediate Feedback** - See results instantly
-- ✅ **Dopamine Hits** - Stars and happy emojis for wins
+- ✅ **Show, Don't Tell** - Shows expected output before running
+- ✅ **Immediate Feedback** - See actual results right after
+- ✅ **Dopamine Hits** - Stars and happy emojis for confirmations
 - ✅ **Visual Progress** - Clear X/7 task counter
 - ✅ **Gamification** - Feeding dog is more fun than "running tests"
 - ✅ **Short Tasks** - Each task is quick and focused
-- ✅ **Clear Goals** - You know exactly what to do next
-- ✅ **Positive Reinforcement** - Dog gets happier with each win
+- ✅ **Clear Expectations** - You know exactly what to look for
+- ✅ **Simple Decisions** - Just confirm yes/no
+- ✅ **Positive Reinforcement** - Dog gets happier with each confirmation
+- ✅ **Forgiving** - Can continue even if one test fails
 
 ## Technical Details
 

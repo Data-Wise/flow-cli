@@ -4,7 +4,7 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # Purpose: ADHD-friendly interactive test that validates flow-cli commands
-#          through a gamified dog feeding scenario
+#          by showing expected output and asking user to confirm matches
 #
 # Usage: ./interactive-dog-feeding.zsh
 #
@@ -14,7 +14,7 @@
 #   - Capture commands (catch/win)
 #   - Dashboard display
 #   - ADHD helpers (js, next)
-#   - User interaction and feedback
+#   - User validation of output
 #
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -38,6 +38,8 @@ STAR='⭐'
 CHECK='✅'
 CROSS='❌'
 THINKING='🤔'
+EYES='👀'
+QUESTION='❓'
 
 # Game state
 HUNGER=100
@@ -89,40 +91,113 @@ feed_dog() {
     ((TASKS_COMPLETED++))
 }
 
+disappoint_dog() {
+    HAPPINESS=$((HAPPINESS - 10))
+    [[ $HAPPINESS -lt 0 ]] && HAPPINESS=0
+    echo -e "${RED}The dog is disappointed ${SAD}${NC}"
+}
+
 press_any_key() {
+    echo ""
     echo -e "${DIM}Press any key to continue...${NC}"
     read -k1 -s
 }
 
-run_test() {
-    local task_name="$1"
-    local command="$2"
-    local success_msg="$3"
-    local reward=${4:-10}
+ask_confirmation() {
+    local prompt="$1"
+    local default="${2:-y}"
     
-    echo -e "${BOLD}${BLUE}Task: ${task_name}${NC}"
-    echo -e "${DIM}Running: ${command}${NC}"
+    echo ""
+    echo -e "${BOLD}${QUESTION} ${prompt}${NC}"
+    echo -e "${DIM}(y/n, default: ${default})${NC}"
+    echo -n "> "
+    
+    local response
+    read -k1 response
     echo ""
     
-    # Run the command and capture output
-    local output
-    output=$(eval "$command" 2>&1)
-    local exit_code=$?
+    # Handle empty response (just Enter)
+    [[ -z "$response" ]] && response="$default"
     
-    if [[ $exit_code -eq 0 ]]; then
-        echo -e "${GREEN}${CHECK} Success!${NC}"
-        echo "$output" | head -5
+    # Normalize to lowercase
+    response="${response:l}"
+    
+    if [[ "$response" == "y" ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+show_expected_output() {
+    local title="$1"
+    shift
+    local -a expected_lines=("$@")
+    
+    echo ""
+    echo -e "${MAGENTA}╭─ Expected Output ────────────────────────────────────────╮${NC}"
+    echo -e "${MAGENTA}│${NC} ${BOLD}${title}${NC}"
+    echo -e "${MAGENTA}╰──────────────────────────────────────────────────────────╯${NC}"
+    
+    for line in "${expected_lines[@]}"; do
+        echo -e "${DIM}  ${line}${NC}"
+    done
+    echo ""
+}
+
+run_interactive_test() {
+    local task_name="$1"
+    local command="$2"
+    local -a expected_patterns=("${(@)@:3:$#-4}")
+    local success_msg="${@[-2]}"
+    local reward="${@[-1]}"
+    
+    echo -e "${BOLD}${BLUE}═══════════════════════════════════════════════════════════${NC}"
+    echo -e "${BOLD}${BLUE}Task: ${task_name}${NC}"
+    echo -e "${BOLD}${BLUE}═══════════════════════════════════════════════════════════${NC}"
+    echo ""
+    
+    # Show what we're about to run
+    echo -e "${CYAN}Command to run:${NC}"
+    echo -e "${BOLD}  $ ${command}${NC}"
+    
+    # Show expected output
+    show_expected_output "Look for these patterns:" "${expected_patterns[@]}"
+    
+    echo -e "${YELLOW}${EYES} Watch carefully as the command runs...${NC}"
+    press_any_key
+    
+    # Run the command and show output
+    echo ""
+    echo -e "${CYAN}╭─ Actual Output ──────────────────────────────────────────╮${NC}"
+    eval "$command" 2>&1 | head -20
+    echo -e "${CYAN}╰──────────────────────────────────────────────────────────╯${NC}"
+    
+    # Ask user to confirm
+    if ask_confirmation "Does the output match the expected patterns?"; then
+        echo -e "${GREEN}${CHECK} Great! Test passed!${NC}"
         echo ""
         echo -e "${success_msg}"
         feed_dog $reward
         return 0
     else
-        echo -e "${RED}${CROSS} Failed${NC}"
-        echo "$output" | head -10
+        echo -e "${RED}${CROSS} Hmm, something doesn't match${NC}"
         echo ""
-        echo -e "${RED}The dog is disappointed ${SAD}${NC}"
-        HAPPINESS=$((HAPPINESS - 5))
-        return 1
+        echo -e "${YELLOW}Let's investigate:${NC}"
+        echo -e "  ${DIM}1. Check if the command ran without errors${NC}"
+        echo -e "  ${DIM}2. Look for the expected patterns in the output${NC}"
+        echo -e "  ${DIM}3. If missing, there may be a bug to fix${NC}"
+        disappoint_dog
+        
+        # Ask if they want to continue anyway
+        echo ""
+        if ask_confirmation "Continue to next test anyway?" "y"; then
+            return 1
+        else
+            echo ""
+            echo -e "${RED}Test suite stopped by user${NC}"
+            exit 1
+        fi
     fi
 }
 
@@ -134,10 +209,15 @@ print_banner
 
 echo -e "${CYAN}Welcome to the Interactive Dog Feeding Test!${NC}"
 echo ""
-echo -e "Your mission: ${BOLD}Feed the dog by completing flow-cli tasks${NC}"
+echo -e "Your mission: ${BOLD}Feed the dog by confirming flow-cli works${NC}"
 echo ""
-echo -e "Each successful task earns you ${FOOD} to feed your dog."
-echo -e "The happier the dog, the better your flow-cli setup!"
+echo -e "How it works:"
+echo -e "  ${DIM}1. We show you what to expect${NC}"
+echo -e "  ${DIM}2. We run a command${NC}"
+echo -e "  ${DIM}3. You confirm the output matches${NC}"
+echo -e "  ${DIM}4. The dog gets fed if you confirm ${FOOD}${NC}"
+echo ""
+echo -e "Each successful confirmation makes the dog happier! ${HAPPY}"
 echo ""
 
 press_any_key
@@ -162,16 +242,17 @@ echo ""
 print_dog_status
 
 echo -e "${DOG} ${CYAN}\"Woof! Show me the dashboard first!\"${NC}"
-echo ""
 press_any_key
 
-run_test \
+run_interactive_test \
     "Show Project Dashboard" \
-    "dash 2>&1 | head -20" \
+    "dash" \
+    "╭── or ╔══ (border characters)" \
+    "🌊 FLOW DASHBOARD" \
+    "Date and time in header" \
+    "Project names listed" \
     "${GREEN}The dog sees all your projects! ${HAPPY}${NC}" \
     15
-
-press_any_key
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TASK 2: Start a work session
@@ -180,19 +261,19 @@ press_any_key
 print_dog_status
 
 echo -e "${DOG} ${CYAN}\"Let's start working on something!\"${NC}"
-echo ""
 press_any_key
 
 # Clean up any existing session first
 finish 2>/dev/null || true
 
-run_test \
+run_interactive_test \
     "Start Work Session" \
-    "work flow-cli 2>&1" \
+    "work flow-cli" \
+    "Project name: flow-cli" \
+    "Status: active (or 🟢)" \
+    "Border/separator lines" \
     "${GREEN}Work session started! The dog approves ${STAR}${NC}" \
     20
-
-press_any_key
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TASK 3: Capture an idea
@@ -201,16 +282,15 @@ press_any_key
 print_dog_status
 
 echo -e "${DOG} ${CYAN}\"Quick! Catch this idea before it runs away!\"${NC}"
-echo ""
 press_any_key
 
-run_test \
+run_interactive_test \
     "Capture an Idea" \
-    "catch 'Make the dog even happier with more tests' 2>&1" \
+    "catch 'Make the dog even happier with more tests'" \
+    "📥 Captured:" \
+    "Make the dog even happier with more tests" \
     "${GREEN}Idea captured! The dog loves organized thoughts ${THINKING}${NC}" \
     15
-
-press_any_key
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TASK 4: Log a win
@@ -219,34 +299,33 @@ press_any_key
 print_dog_status
 
 echo -e "${DOG} ${CYAN}\"Tell me about something good you did!\"${NC}"
-echo ""
 press_any_key
 
-run_test \
+run_interactive_test \
     "Log a Win" \
-    "win 'Successfully fed the test dog' 2>&1" \
+    "win 'Successfully fed the test dog'" \
+    "Win logged" \
+    "Successfully fed the test dog" \
     "${GREEN}Win logged! The dog is proud of you ${STAR}${HAPPY}${NC}" \
     15
 
-press_any_key
-
 # ══════════════════════════════════════════════════════════════════════════════
-# TASK 5: Check session with dash
+# TASK 5: Check session is active
 # ══════════════════════════════════════════════════════════════════════════════
 
 print_dog_status
 
-echo -e "${DOG} ${CYAN}\"Show me that active session!\"${NC}"
-echo ""
+echo -e "${DOG} ${CYAN}\"Show me that active session in the dashboard!\"${NC}"
 press_any_key
 
-run_test \
-    "Verify Active Session" \
-    "[[ -f ~/.local/share/flow/.current-session ]] && echo 'Session is active!' || echo 'No session found'" \
+run_interactive_test \
+    "Verify Active Session Shows in Dashboard" \
+    "dash | head -30" \
+    "ACTIVE NOW (section appears)" \
+    "flow-cli (in the active section)" \
+    "Session timer or duration" \
     "${GREEN}Session confirmed active! ${CHECK}${NC}" \
     10
-
-press_any_key
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TASK 6: Use ADHD helper
@@ -255,16 +334,16 @@ press_any_key
 print_dog_status
 
 echo -e "${DOG} ${CYAN}\"Sometimes you just need to start... show me 'js'!\"${NC}"
-echo ""
 press_any_key
 
-run_test \
+run_interactive_test \
     "ADHD Helper - Just Start" \
-    "js 2>&1 | head -10" \
+    "js" \
+    "🚀 JUST START" \
+    "Picks a project/task for you" \
+    "Shows a suggestion with →" \
     "${GREEN}Motivation delivered! The dog believes in you ${STAR}${NC}" \
     10
-
-press_any_key
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TASK 7: End the session
@@ -273,16 +352,15 @@ press_any_key
 print_dog_status
 
 echo -e "${DOG} ${CYAN}\"Time to wrap up! Finish your session.\"${NC}"
-echo ""
 press_any_key
 
-run_test \
+run_interactive_test \
     "End Work Session" \
-    "finish 'Fed the test dog successfully' 2>&1" \
+    "finish 'Fed the test dog successfully'" \
+    "Session ended (or similar message)" \
+    "No errors displayed" \
     "${GREEN}Session ended cleanly! ${CHECK}${NC}" \
     15
-
-press_any_key
 
 # ══════════════════════════════════════════════════════════════════════════════
 # FINAL RESULTS
@@ -301,22 +379,22 @@ local grade stars_earned final_message
 if [[ $TASKS_COMPLETED -eq $TOTAL_TASKS ]]; then
     stars_earned="${STAR}${STAR}${STAR}${STAR}${STAR}"
     grade="${GREEN}${BOLD}PERFECT!${NC}"
-    final_message="${GREEN}${DOG} The dog is ECSTATIC! All tests passed! ${HAPPY}${STAR}${NC}"
+    final_message="${GREEN}${DOG} The dog is ECSTATIC! All tests confirmed! ${HAPPY}${STAR}${NC}"
 elif [[ $TASKS_COMPLETED -ge 5 ]]; then
     stars_earned="${STAR}${STAR}${STAR}${STAR}"
     grade="${GREEN}EXCELLENT!${NC}"
-    final_message="${GREEN}${DOG} The dog is very happy! Most tests passed! ${HAPPY}${NC}"
+    final_message="${GREEN}${DOG} The dog is very happy! Most tests confirmed! ${HAPPY}${NC}"
 elif [[ $TASKS_COMPLETED -ge 3 ]]; then
     stars_earned="${STAR}${STAR}${STAR}"
     grade="${YELLOW}GOOD${NC}"
-    final_message="${YELLOW}${DOG} The dog is satisfied. Keep improving! ${THINKING}${NC}"
+    final_message="${YELLOW}${DOG} The dog is satisfied. Some issues to fix! ${THINKING}${NC}"
 else
     stars_earned="${STAR}"
     grade="${RED}NEEDS WORK${NC}"
-    final_message="${RED}${DOG} The dog is still hungry. Fix those errors! ${SAD}${NC}"
+    final_message="${RED}${DOG} The dog is still hungry. Several issues found! ${SAD}${NC}"
 fi
 
-echo -e "  Tasks Completed: ${BOLD}$TASKS_COMPLETED / $TOTAL_TASKS${NC}"
+echo -e "  Tasks Confirmed: ${BOLD}$TASKS_COMPLETED / $TOTAL_TASKS${NC}"
 echo -e "  Final Happiness: ${BOLD}$HAPPINESS%${NC}"
 echo -e "  Grade:           $grade"
 echo -e "  Stars:           $stars_earned"
@@ -328,10 +406,18 @@ if [[ $TASKS_COMPLETED -eq $TOTAL_TASKS ]]; then
     echo -e "${GREEN}${BOLD}${BOWL}${FOOD}${DOG}${HAPPY} CONGRATULATIONS! ${HAPPY}${DOG}${FOOD}${BOWL}${NC}"
     echo ""
     echo -e "${CYAN}Your flow-cli installation is working perfectly!${NC}"
+    echo -e "${CYAN}All commands produced expected output.${NC}"
+    echo ""
+    exit 0
+elif [[ $TASKS_COMPLETED -ge 4 ]]; then
+    echo -e "${YELLOW}Most tests confirmed! A few issues to investigate.${NC}"
+    echo -e "${DIM}Review the failed tests and check for bugs.${NC}"
     echo ""
     exit 0
 else
-    echo -e "${YELLOW}Some tasks failed. Check the output above for details.${NC}"
+    echo -e "${RED}Several tests failed confirmation.${NC}"
+    echo -e "${YELLOW}This suggests flow-cli may not be working correctly.${NC}"
+    echo -e "${DIM}Review the output and fix any issues before using.${NC}"
     echo ""
     exit 1
 fi
