@@ -19,6 +19,56 @@ PROJ_CATEGORIES=(
 
 # Session state file
 PROJ_SESSION_FILE="$HOME/.current-project-session"
+PROJ_SESSION_MAX_AGE=86400  # 24 hours in seconds
+
+# ============================================================================
+# SESSION MANAGEMENT
+# ============================================================================
+
+# Save current project to session file
+_proj_save_session() {
+    local proj_dir="$1"
+    local proj_name=$(basename "$proj_dir")
+    local timestamp=$(date +%s)
+
+    echo "${proj_name}|${proj_dir}|${timestamp}" > "$PROJ_SESSION_FILE"
+}
+
+# Get last session info (returns: name|dir|age_hours or empty if invalid/old)
+_proj_get_session() {
+    [[ -f "$PROJ_SESSION_FILE" ]] || return 1
+
+    local session_data=$(cat "$PROJ_SESSION_FILE")
+    local proj_name="${session_data%%|*}"
+    local rest="${session_data#*|}"
+    local proj_dir="${rest%%|*}"
+    local timestamp="${rest##*|}"
+
+    # Validate directory exists
+    [[ -d "$proj_dir" ]] || return 1
+
+    # Check age
+    local now=$(date +%s)
+    local age=$((now - timestamp))
+
+    # Reject if too old
+    [[ $age -gt $PROJ_SESSION_MAX_AGE ]] && return 1
+
+    # Calculate human-readable age
+    local age_hours=$((age / 3600))
+    local age_mins=$(((age % 3600) / 60))
+    local age_str
+    if [[ $age_hours -gt 0 ]]; then
+        age_str="${age_hours}h ago"
+    elif [[ $age_mins -gt 0 ]]; then
+        age_str="${age_mins}m ago"
+    else
+        age_str="just now"
+    fi
+
+    echo "${proj_name}|${proj_dir}|${age_str}"
+    return 0
+}
 
 # ============================================================================
 # HELPER FUNCTIONS
@@ -160,8 +210,14 @@ DIRECT JUMP:
   pick med       → Direct cd to mediationverse
   pick stat      → If multiple matches, shows filtered picker
 
+SMART RESUME (no args):
+  pick           → Shows resume prompt if recent session exists
+  Enter          → Resume last project (if shown)
+  Space          → Force full picker (bypass resume)
+
 INTERACTIVE KEYS:
   Enter          cd to project directory
+  Space          Force full picker (bypass resume prompt)
   Ctrl-S         View .STATUS file (bat/cat)
   Ctrl-L         View git log (tig/git)
   Ctrl-C         Exit without action
@@ -225,6 +281,7 @@ EOF
             local proj_dir="${match##*|}"
 
             cd "$proj_dir"
+            _proj_save_session "$proj_dir"
             echo "  📂 $proj_dir"
             return 0
         else
@@ -266,6 +323,7 @@ EOF
 
             if [[ -n "$proj_dir" ]]; then
                 cd "$proj_dir"
+                _proj_save_session "$proj_dir"
                 echo "  📂 $proj_dir"
                 return 0
             fi
@@ -290,6 +348,26 @@ EOF
         return 1
     fi
 
+    # =========================================================================
+    # SESSION-AWARE RESUME (Phase 2)
+    # =========================================================================
+
+    # Check for recent session (only when no category filter)
+    local session_info=""
+    local show_resume=0
+    local last_name="" last_dir="" last_age=""
+
+    if [[ -z "$category" ]]; then
+        session_info=$(_proj_get_session)
+        if [[ -n "$session_info" ]]; then
+            show_resume=1
+            last_name="${session_info%%|*}"
+            local rest="${session_info#*|}"
+            last_dir="${rest%%|*}"
+            last_age="${rest##*|}"
+        fi
+    fi
+
     # Show header with category filter if applicable
     local header_text="🔍 PROJECT PICKER"
     if [[ -n "$category" ]]; then
@@ -309,6 +387,13 @@ EOF
     echo "╚════════════════════════════════════════════════════════════╝"
     echo ""
 
+    # Show resume hint if available
+    if [[ $show_resume -eq 1 ]]; then
+        echo "  💡 Last: $last_name ($last_age)"
+        echo "  [Enter] Resume  │  [Space] Browse all  │  Type to search..."
+        echo ""
+    fi
+
     # Build project list
     local tmpfile=$(mktemp)
     local action_file=$(mktemp)
@@ -324,23 +409,60 @@ EOF
         return 1
     fi
 
-    # fzf with key bindings
-    local selection=$(cat "$tmpfile" | fzf \
+    # fzf with key bindings (including space for escape hatch)
+    local fzf_header="Enter=cd | ^S=status | ^L=log | ^C=cancel"
+    if [[ $show_resume -eq 1 ]]; then
+        fzf_header="Enter=resume | Space=browse | ^S=status | ^L=log"
+    fi
+
+    local fzf_output
+    fzf_output=$(cat "$tmpfile" | fzf \
         --height=50% \
         --reverse \
-        --header="Enter=cd | ^S=status | ^L=log | ^C=cancel" \
+        --print-query \
+        --expect=space \
+        --header="$fzf_header" \
         --bind="ctrl-s:execute-silent(echo status > $action_file)+accept" \
         --bind="ctrl-l:execute-silent(echo log > $action_file)+accept")
 
+    local fzf_exit=$?
     rm -f "$tmpfile"
 
-    # Handle cancellation
+    # Parse fzf output (3 lines: query, key, selection)
+    local query=$(echo "$fzf_output" | sed -n '1p')
+    local key=$(echo "$fzf_output" | sed -n '2p')
+    local selection=$(echo "$fzf_output" | sed -n '3p')
+
+    # Handle Space key - force full picker (bypass resume)
+    if [[ "$key" == "space" ]]; then
+        rm -f "$action_file"
+        # Re-run without resume prompt
+        pick -a
+        return $?
+    fi
+
+    # Handle Enter with empty query = resume last project
+    if [[ $show_resume -eq 1 && -z "$query" && -z "$selection" && $fzf_exit -eq 0 ]]; then
+        rm -f "$action_file"
+        cd "$last_dir"
+        _proj_save_session "$last_dir"
+        echo "  📂 Resumed: $last_dir"
+        return 0
+    fi
+
+    # Handle cancellation (Ctrl-C or Esc)
+    if [[ -z "$selection" && $fzf_exit -ne 0 ]]; then
+        rm -f "$action_file"
+        return 1
+    fi
+
+    # If no selection but we have a query, it might be a partial match - treat as cancel
     if [[ -z "$selection" ]]; then
         rm -f "$action_file"
         return 1
     fi
 
-    # Extract project name
+    # Extract project name from selection
     local proj_name=$(echo "$selection" | awk '{print $1}')
     local proj_dir=$(_proj_find "$proj_name")
 
@@ -360,6 +482,7 @@ EOF
     case "$action" in
         status)
             cd "$proj_dir"
+            _proj_save_session "$proj_dir"
             echo ""
             if [[ -f .STATUS ]]; then
                 echo "  📊 .STATUS file for: $proj_name"
@@ -376,6 +499,7 @@ EOF
             ;;
         log)
             cd "$proj_dir"
+            _proj_save_session "$proj_dir"
             echo ""
             echo "  📜 Git log for: $proj_name"
             echo ""
@@ -387,6 +511,7 @@ EOF
             ;;
         *)
             cd "$proj_dir"
+            _proj_save_session "$proj_dir"
             echo ""
             echo "  📂 Changed to: $proj_dir"
             echo ""
