@@ -857,6 +857,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/05-ai-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. AI-Powered Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1994,6 +2022,146 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/doctor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    doctor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ai
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    do
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2098,6 +2266,34 @@
     
   
     Architecture Diagrams
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/PLUGIN-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugin Architecture
   
 
     
@@ -3405,10 +3601,16 @@
 <blockquote>
 <p><strong>Quick Access:</strong> Type <code>als</code> to list all aliases by category</p>
 </blockquote>
-<p><strong>Last Updated:</strong> 2025-12-25 | <strong>Total:</strong> 28 custom aliases + 226+ git aliases (from plugin)</p>
+<p><strong>Last Updated:</strong> 2025-12-26 | <strong>Total:</strong> 28 custom aliases + 226+ git aliases (from plugin)</p>
 <p><strong>Philosophy:</strong> Minimalist, high-frequency only. Removed 151 aliases (2025-12-19) to reduce memory load.</p>
 <blockquote>
-<p><strong>✨ New in v2.0.0-beta.1 (2025-12-24):</strong></p>
+<p><strong>✨ New in v3.1.0 (2025-12-26):</strong></p>
+<ul>
+<li><code>flow doctor</code> command - Dependency verification with --fix, --fix -y, --ai modes</li>
+<li>Comprehensive man pages: <code>man flow</code>, <code>man r</code>, <code>man g</code>, <code>man qu</code>, <code>man mcp</code>, <code>man obs</code></li>
+<li>6 active dispatchers (added <code>cc</code> for Claude Code workflows)</li>
+</ul>
+<p><strong>Previous (v2.0.0):</strong></p>
 <ul>
 <li>Enhanced <code>flow status</code> command with ASCII visualizations and productivity metrics</li>
 <li>Interactive <code>flow dashboard</code> TUI with real-time updates</li>
@@ -3824,9 +4026,9 @@
 <td>Test/doc/check cycle (25+ commands)</td>
 </tr>
 <tr>
-<td><code>ccy</code></td>
-<td>Claude with picker</td>
-<td>Project picker then Claude session</td>
+<td><code>cc</code></td>
+<td>Claude Code</td>
+<td>Project picker + Claude sessions</td>
 </tr>
 <tr>
 <td><code>peek</code></td>
@@ -3845,11 +4047,15 @@
 </tr>
 </tbody>
 </table>
+<p><strong>Man pages available:</strong> <code>man flow</code>, <code>man r</code>, <code>man g</code>, <code>man qu</code>, <code>man mcp</code>, <code>man obs</code></p>
 <p><strong>Removed 2025-12-25:</strong></p>
 <ul>
 <li><code>v</code> / <code>vibe</code> - Deprecated wrapper, use <code>flow</code> command directly</li>
-<li><code>cc</code> - Replaced with <code>ccy</code> function in .zshrc</li>
 <li><code>gm</code> / <code>gem</code> - Use 13 <code>gem*</code> aliases in .zshrc instead</li>
+</ul>
+<p><strong>Added 2025-12-26:</strong></p>
+<ul>
+<li><code>cc</code> - Claude Code dispatcher with project picker + multiple modes (yolo, plan, resume)</li>
 </ul>
 <p>See <a href="../DISPATCHER-REFERENCE/">DISPATCHER-REFERENCE.md</a> for complete documentation.</p>
 <hr />
@@ -3993,7 +4199,7 @@
 <li><strong>ZSH Development Guidelines:</strong> <code>~/projects/dev-tools/flow-cli/docs/ZSH-DEVELOPMENT-GUIDELINES.md</code></li>
 </ul>
 <hr />
-<p><strong>Last cleanup:</strong> 2025-12-25 (Aliases: 28 active | Dispatchers: 5 active [g, mcp, obs, qu, r])</p>
+<p><strong>Last cleanup:</strong> 2025-12-26 (Aliases: 28 active | Dispatchers: 6 active [g, mcp, obs, qu, r, cc])</p>
 
 
 

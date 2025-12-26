@@ -857,6 +857,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/05-ai-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. AI-Powered Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1684,6 +1712,146 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/doctor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    doctor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ai
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    do
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1788,6 +1956,34 @@
     
   
     Architecture Diagrams
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/PLUGIN-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugin Architecture
   
 
     
@@ -3292,7 +3488,13 @@
 <td>2025-12-20</td>
 </tr>
 <tr>
-<td><a href="ADR-003-nodejs-module-api-not-rest.md">ADR-003</a></td>
+<td><a href="ADR-003-bridge-pattern/">ADR-003</a></td>
+<td>Bridge Pattern for Shell Integration</td>
+<td>✅ Accepted</td>
+<td>2025-12-20</td>
+</tr>
+<tr>
+<td><a href="ADR-004-module-api-not-rest/">ADR-004</a></td>
 <td>Use Node.js Module API Pattern (Not REST/HTTP)</td>
 <td>✅ Accepted</td>
 <td>2025-12-20</td>
@@ -3468,7 +3670,8 @@
 <ol>
 <li><a href="ADR-002-adopt-clean-architecture/">ADR-002: Clean Architecture</a> - Overall system structure</li>
 <li><a href="ADR-001-use-vendored-code-pattern/">ADR-001: Vendored Code Pattern</a> - How we handle dependencies</li>
-<li><a href="ADR-003-nodejs-module-api-not-rest.md">ADR-003: Node.js Module API</a> - API design philosophy</li>
+<li><a href="ADR-003-bridge-pattern/">ADR-003: Bridge Pattern</a> - Shell integration patterns</li>
+<li><a href="ADR-004-module-api-not-rest/">ADR-004: Node.js Module API</a> - API design philosophy</li>
 </ol>
 <p><strong>For architecture decisions:</strong></p>
 <ul>
@@ -3478,12 +3681,13 @@
 <p><strong>For integration patterns:</strong></p>
 <ul>
 <li>Start with <a href="ADR-001-use-vendored-code-pattern/">ADR-001: Vendored Code</a></li>
-<li>Then <a href="ADR-003-nodejs-module-api-not-rest.md">ADR-003: Module API Pattern</a></li>
+<li>Then <a href="ADR-003-bridge-pattern/">ADR-003: Bridge Pattern</a></li>
+<li>Then <a href="ADR-004-module-api-not-rest/">ADR-004: Module API Pattern</a></li>
 </ul>
 <h2 id="statistics">Statistics<a class="headerlink" href="#statistics" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Total ADRs</strong>: 3</li>
-<li><strong>Accepted</strong>: 3</li>
+<li><strong>Total ADRs</strong>: 4</li>
+<li><strong>Accepted</strong>: 4</li>
 <li><strong>Proposed</strong>: 0</li>
 <li><strong>Rejected</strong>: 0</li>
 <li><strong>Superseded</strong>: 0</li>
@@ -3491,16 +3695,16 @@
 <h2 id="planned-adrs">Planned ADRs<a class="headerlink" href="#planned-adrs" title="Permanent link">&para;</a></h2>
 <p>Future decisions to document:</p>
 <ul>
-<li><strong>ADR-004</strong>: Domain-Driven Design for Sessions and Projects</li>
-<li><strong>ADR-005</strong>: Graceful Degradation Pattern for Error Handling</li>
-<li><strong>ADR-006</strong>: Parallel Execution for Batch Operations</li>
-<li><strong>ADR-007</strong>: File System vs Database for Persistence</li>
-<li><strong>ADR-008</strong>: Event-Driven Architecture for Session Management</li>
+<li><strong>ADR-005</strong>: Domain-Driven Design for Sessions and Projects</li>
+<li><strong>ADR-006</strong>: Graceful Degradation Pattern for Error Handling</li>
+<li><strong>ADR-007</strong>: Parallel Execution for Batch Operations</li>
+<li><strong>ADR-008</strong>: File System vs Database for Persistence</li>
+<li><strong>ADR-009</strong>: Event-Driven Architecture for Session Management</li>
 </ul>
 <hr />
-<p><strong>Last Updated:</strong> 2025-12-23
-<strong>Part of:</strong> Architecture Enhancement Plan (A→C Implementation)
-<strong>See Also:</strong> <a href="../README.md">Architecture Documentation</a></p>
+<p><strong>Last Updated:</strong> 2025-12-26
+<strong>Part of:</strong> Architecture Enhancement Plan
+<strong>See Also:</strong> <a href="../architecture/ARCHITECTURE-QUICK-WINS/">Architecture Quick Wins</a></p>
 
 
 

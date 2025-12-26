@@ -857,6 +857,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/05-ai-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. AI-Powered Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1372,6 +1400,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#setup-diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Setup &amp; Diagnostics
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1806,6 +1845,146 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/doctor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    doctor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ai
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    do
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1910,6 +2089,34 @@
     
   
     Architecture Diagrams
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/PLUGIN-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugin Architecture
   
 
     
@@ -3000,6 +3207,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#setup-diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Setup &amp; Diagnostics
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3026,22 +3244,22 @@
 
 
 <h1 id="workflow-quick-reference">Workflow Quick Reference<a class="headerlink" href="#workflow-quick-reference" title="Permanent link">&para;</a></h1>
-<p><strong>Date:</strong> 2025-12-14 (Updated 2025-12-25)
-<strong>Version:</strong> 2.1 - Week 2 CLI Enhancements Complete</p>
+<p><strong>Date:</strong> 2025-12-14 (Updated 2025-12-26)
+<strong>Version:</strong> 3.1 - Doctor Command &amp; Man Pages</p>
 <blockquote>
-<p><strong>✨ New Features (2025-12-24):</strong></p>
+<p><strong>✨ New in v3.1.0 (2025-12-26):</strong></p>
 <ul>
-<li><code>flow status</code> - Enhanced with ASCII visualizations, worklog integration, productivity metrics</li>
-<li><code>flow dashboard</code> - Interactive real-time TUI with keyboard shortcuts (r=refresh, q=quit, ?=help)</li>
-<li>10x faster project scanning with in-memory caching (~3ms → &lt;1ms)</li>
+<li><code>flow doctor</code> - Dependency verification with --fix, --fix -y, --ai modes</li>
+<li>Comprehensive man pages: <code>man flow</code>, <code>man r</code>, <code>man g</code>, <code>man qu</code>, <code>man mcp</code>, <code>man obs</code></li>
+<li>6 active dispatchers (added <code>cc</code> for Claude Code workflows)</li>
 </ul>
-<p><strong>⚠️ Updates (2025-12-25):</strong></p>
+<p><strong>Previous (v2.0):</strong></p>
 <ul>
+<li><code>flow status</code> - ASCII visualizations, worklog integration, productivity metrics</li>
+<li><code>flow dashboard</code> - Interactive real-time TUI with keyboard shortcuts</li>
 <li>Removed deprecated <code>v</code>/<code>vibe</code> dispatcher - use <code>flow</code> command directly</li>
-<li>Removed single-letter aliases (<code>d</code>, <code>f</code>, <code>pp</code>, <code>ah</code>) - use full commands</li>
-<li>Added <code>qu</code> and <code>r</code> dispatchers for Quarto and R workflows</li>
 <li>See <code>ALIAS-REFERENCE-CARD.md</code> for current aliases (28 total)</li>
-<li>See <code>DISPATCHER-REFERENCE.md</code> for active dispatchers (5 total: g, mcp, obs, qu, r)</li>
+<li>See <code>DISPATCHER-REFERENCE.md</code> for active dispatchers (6 total: g, mcp, obs, qu, r, cc)</li>
 </ul>
 </blockquote>
 <hr />
@@ -3086,7 +3304,19 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>dash<span class="w"> </span>teaching<span class="w"> </span>→<span class="w"> </span>work<span class="w"> </span>stat-440
 </code></pre></div>
 <hr />
-<p><strong>Full guide:</strong> <code>WORKFLOW-ANALYSIS-2025-12-14.md</code></p>
+<h2 id="setup-diagnostics">🔧 Setup &amp; Diagnostics<a class="headerlink" href="#setup-diagnostics" title="Permanent link">&para;</a></h2>
+<p><strong>Check your environment:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>flow<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># Check all dependencies</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w">        </span><span class="c1"># Interactive install missing</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w"> </span>-y<span class="w">     </span><span class="c1"># Auto-install all</span>
+</code></pre></div>
+<p><strong>First-time setup:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>brew<span class="w"> </span>bundle<span class="w"> </span>--file<span class="o">=</span>~/projects/dev-tools/flow-cli/setup/Brewfile
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>flow<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># Verify installation</span>
+</code></pre></div>
+<hr />
+<p><strong>Full guide:</strong> <code>WORKFLOW-ANALYSIS-2025-12-14.md</code>
+<strong>Man pages:</strong> <code>man flow</code>, <code>man r</code>, <code>man g</code>, <code>man qu</code>, <code>man mcp</code>, <code>man obs</code></p>
 
 
 
