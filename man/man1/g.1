@@ -1,0 +1,175 @@
+.\" Man page for g dispatcher (Git workflows)
+.\" Generated: 2025-12-26
+.TH G 1 "December 2025" "flow-cli 3.0.0" "User Commands"
+.SH NAME
+g \- Git commands dispatcher
+.SH SYNOPSIS
+.B g
+[\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B g
+is a smart dispatcher for Git workflows. It provides shortcuts for common
+git operations with ADHD-friendly design. Unknown commands pass through to git.
+.PP
+When called without arguments, it shows short status (git status -sb).
+.SH COMMANDS
+.SS Status & Info
+.TP
+.B (none)
+Show short status (git status -sb).
+.TP
+.B status\fR, \fBs
+Show full status.
+.TP
+.B diff\fR, \fBd
+Show diff.
+.TP
+.B ds\fR, \fBstaged
+Show staged diff.
+.TP
+.B log\fR, \fBl
+Pretty log (20 commits, graph, decorated).
+.TP
+.B loga\fR, \fBla
+Log all branches.
+.TP
+.B blame\fR, \fBbl \fIfile\fR
+Show blame for file.
+.SS Staging & Commits
+.TP
+.B add\fR, \fBa \fIfiles\fR
+Add files to staging.
+.TP
+.B aa
+Add all files (git add --all).
+.TP
+.B commit\fR, \fBc \fR[\fImessage\fR]
+Commit. With message as argument, uses -m flag.
+.TP
+.B amend
+Amend last commit (no edit).
+.TP
+.B amendm \fImessage\fR
+Amend last commit with new message.
+.SS Branches
+.TP
+.B branch\fR, \fBb
+List branches.
+.TP
+.B ba
+List all branches (including remote).
+.TP
+.B checkout\fR, \fBco \fIbranch\fR
+Checkout branch.
+.TP
+.B cob \fIbranch\fR
+Create and checkout new branch.
+.TP
+.B switch\fR, \fBsw \fIbranch\fR
+Switch to branch.
+.TP
+.B swc \fIbranch\fR
+Switch and create new branch.
+.TP
+.B main\fR, \fBm
+Checkout main or master branch.
+.SS Remote Operations
+.TP
+.B push\fR, \fBp
+Push to remote.
+.TP
+.B pushu\fR, \fBpu
+Push with upstream tracking (git push -u origin HEAD).
+.TP
+.B pull\fR, \fBpl
+Pull from remote.
+.TP
+.B fetch\fR, \fBf
+Fetch from remote.
+.TP
+.B fa
+Fetch all remotes.
+.SS Stash
+.TP
+.B stash\fR, \fBst
+Stash changes.
+.TP
+.B pop\fR, \fBstp
+Pop stash.
+.TP
+.B stl
+List stashes.
+.SS Reset & Undo
+.TP
+.B reset\fR, \fBrs
+Reset.
+.TP
+.B undo
+Undo last commit (soft reset, keeps changes).
+.TP
+.B unstage \fIfile\fR
+Unstage file.
+.TP
+.B discard \fIfile\fR
+Discard changes in file.
+.TP
+.B clean
+Remove untracked files (git clean -fd).
+.SS Rebase & Merge
+.TP
+.B rebase\fR, \fBrb
+Rebase.
+.TP
+.B rbc
+Continue rebase.
+.TP
+.B rba
+Abort rebase.
+.TP
+.B merge\fR, \fBmg
+Merge.
+.TP
+.B help\fR, \fBh
+Show help.
+.SH PASSTHROUGH
+Unknown commands are passed through to git:
+.RS
+.nf
+g remote -v      -> git remote -v
+g cherry-pick x  -> git cherry-pick x
+.fi
+.RE
+.SH EXAMPLES
+Quick status:
+.RS
+.nf
+g
+.fi
+.RE
+.PP
+Add all and commit:
+.RS
+.nf
+g aa
+g commit "fix bug"
+.fi
+.RE
+.PP
+Undo last commit:
+.RS
+.nf
+g undo
+.fi
+.RE
+.PP
+Create feature branch:
+.RS
+.nf
+g cob feature/new-thing
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR git (1)
+.SH AUTHOR
+DT

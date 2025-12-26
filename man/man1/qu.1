@@ -1,0 +1,116 @@
+.\" Man page for qu dispatcher (Quarto publishing)
+.\" Generated: 2025-12-26
+.TH QU 1 "December 2025" "flow-cli 3.0.0" "User Commands"
+.SH NAME
+qu \- Quarto publishing dispatcher
+.SH SYNOPSIS
+.B qu
+[\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B qu
+is a smart dispatcher for Quarto publishing workflows. It provides
+shortcuts for common Quarto operations with ADHD-friendly design.
+.PP
+When called without arguments, it performs the smart default workflow:
+render, then preview, then auto-open browser.
+.SH COMMANDS
+.SS Core Commands
+.TP
+.B (none)
+Smart default: render -> preview -> open browser at localhost:4200.
+.TP
+.B preview\fR, \fBp
+Start preview server and open browser.
+.TP
+.B render\fR, \fBr
+Render document/project.
+.TP
+.B check\fR, \fBc
+Check Quarto installation.
+.TP
+.B clean
+Remove _site/, *_cache/, *_files/ directories.
+.TP
+.B publish
+Publish to web hosting.
+.SS Format-Specific Rendering
+.TP
+.B pdf
+Render to PDF.
+.TP
+.B html
+Render to HTML.
+.TP
+.B docx
+Render to Word document.
+.SS Project Creation
+.TP
+.B new\fR, \fBn \fIname\fR
+Create new Quarto project.
+.TP
+.B article \fIname\fR
+Create article project.
+.TP
+.B present\fR, \fBpresentation \fIname\fR
+Create presentation project.
+.TP
+.B serve\fR, \fBs
+Serve project (alias for preview).
+.SS Combined Workflows
+.TP
+.B commit \fR[\fImessage\fR]
+Render and commit changes.
+.TP
+.B help\fR, \fBh
+Show help.
+.SH SMART DEFAULT WORKFLOW
+When called without arguments:
+.PP
+.RS
+.nf
+1. Renders current Quarto document
+2. Starts preview server (--no-browser)
+3. Auto-opens browser at http://localhost:4200
+4. Skips preview if render fails
+.fi
+.RE
+.SH EXAMPLES
+Smart default (render + preview):
+.RS
+.nf
+qu
+.fi
+.RE
+.PP
+Just preview with live reload:
+.RS
+.nf
+qu preview
+.fi
+.RE
+.PP
+Render to PDF:
+.RS
+.nf
+qu pdf
+.fi
+.RE
+.PP
+Create new project:
+.RS
+.nf
+qu new my-blog
+.fi
+.RE
+.PP
+Render and commit:
+.RS
+.nf
+qu commit "Update chapter 2"
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR quarto (1)
+.SH AUTHOR
+DT

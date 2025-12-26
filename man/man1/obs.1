@@ -1,0 +1,121 @@
+.\" Man page for obs dispatcher (Obsidian CLI)
+.\" Generated: 2025-12-26
+.TH OBS 1 "December 2025" "flow-cli 3.0.0" "User Commands"
+.SH NAME
+obs \- Obsidian CLI operations dispatcher
+.SH SYNOPSIS
+.B obs
+[\fB--verbose\fR] [\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B obs
+is a CLI tool for managing Obsidian vaults with AI-powered graph analysis.
+It provides commands for vault discovery, statistics, and AI-assisted
+note analysis.
+.PP
+When called without arguments, it lists all registered vaults.
+.SH OPTIONS
+.TP
+.B --verbose\fR, \fB-v
+Enable verbose output.
+.SH COMMANDS
+.SS Primary Commands
+.TP
+.B (none)
+List all registered vaults.
+.TP
+.B stats \fR[\fIvault\fR]
+Show vault statistics. If vault specified, shows details for that vault.
+.TP
+.B discover \fIpath\fR
+Find vaults in directory. Use --scan to deep scan.
+.TP
+.B vaults
+List all vaults in database.
+.SS Graph Analysis
+.TP
+.B analyze \fIvault_id\fR
+Analyze vault graph metrics (links, orphans, clusters).
+.SS AI Features
+.TP
+.B ai status
+Show AI provider status.
+.TP
+.B ai setup
+Interactive AI setup wizard.
+.TP
+.B ai test \fR[\fB--provider \fIname\fR]
+Test AI providers. Optionally specify provider.
+.TP
+.B ai similar \fInote_id\fR
+Find notes similar to specified note.
+.TP
+.B ai analyze \fInote_id\fR
+Analyze note content with AI.
+.TP
+.B ai duplicates \fIvault_id\fR
+Find duplicate notes in vault.
+.SS Utilities
+.TP
+.B help \fR[\fB--all\fR]
+Show help. Use --all for extended help.
+.TP
+.B version
+Show version information.
+.SH CONFIGURATION
+.TP
+.B Database
+~/.config/obs/obsidian_vaults.db
+.TP
+.B Last vault
+~/.config/obs/last_vault
+.TP
+.B iCloud default
+~/Library/Mobile Documents/iCloud~md~obsidian/Documents
+.SH DEPENDENCIES
+.TP
+.B Required
+python3, jq
+.TP
+.B Python packages
+See requirements.txt in obsidian-cli-ops project.
+.SH EXAMPLES
+List all vaults:
+.RS
+.nf
+obs
+.fi
+.RE
+.PP
+Show vault statistics:
+.RS
+.nf
+obs stats my-notes
+.fi
+.RE
+.PP
+Discover vaults in iCloud:
+.RS
+.nf
+obs discover ~/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents
+.fi
+.RE
+.PP
+Analyze vault graph:
+.RS
+.nf
+obs analyze my-notes
+.fi
+.RE
+.PP
+Find similar notes:
+.RS
+.nf
+obs ai similar "2024-01-15-meeting-notes"
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1)
+.SH WEBSITE
+https://data-wise.github.io/obsidian-cli-ops/
+.SH AUTHOR
+DT

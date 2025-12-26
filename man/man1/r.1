@@ -1,0 +1,142 @@
+.\" Man page for r dispatcher (R package development)
+.\" Generated: 2025-12-26
+.TH R 1 "December 2025" "flow-cli 3.0.0" "User Commands"
+.SH NAME
+r \- R package development dispatcher
+.SH SYNOPSIS
+.B r
+[\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B r
+is a smart dispatcher for R package development workflows. It provides
+shortcuts for common devtools operations with ADHD-friendly design.
+.PP
+When called without arguments, it launches the R console (radian if available).
+.SH COMMANDS
+.SS Core Workflow
+.TP
+.B (none)
+Launch R console (radian --quiet or R --quiet).
+.TP
+.B load\fR, \fBl
+Load package into memory (devtools::load_all).
+.TP
+.B test\fR, \fBt
+Run all tests (devtools::test).
+.TP
+.B doc\fR, \fBd
+Generate documentation (devtools::document).
+.TP
+.B check\fR, \fBc
+Run R CMD check (devtools::check).
+.TP
+.B build\fR, \fBb
+Build package (devtools::build).
+.TP
+.B install\fR, \fBi
+Install package (devtools::install).
+.SS Combined Workflows
+.TP
+.B cycle
+Full development cycle: doc -> test -> check.
+.TP
+.B quick\fR, \fBq
+Quick iteration: load -> test.
+.SS Quality
+.TP
+.B cov
+Generate coverage report (covr::package_coverage).
+.TP
+.B spell
+Spell check package (spelling::spell_check_package).
+.SS Documentation
+.TP
+.B pkgdown\fR, \fBpd
+Build pkgdown site.
+.TP
+.B preview\fR, \fBpv
+Preview pkgdown site.
+.SS CRAN Checks
+.TP
+.B cran
+Check as CRAN (--as-cran flag).
+.TP
+.B fast
+Fast check (skip examples, tests, vignettes).
+.TP
+.B win
+Check on Windows development version.
+.SS Version Bumps
+.TP
+.B patch
+Bump patch version (0.0.X).
+.TP
+.B minor
+Bump minor version (0.X.0).
+.TP
+.B major
+Bump major version (X.0.0).
+.SS Cleanup
+.TP
+.B clean\fR, \fBcl
+Remove .Rhistory and .RData files.
+.TP
+.B deep\fR, \fBdeepclean
+Deep clean: remove man/, NAMESPACE, docs/ (with confirmation).
+.TP
+.B tex\fR, \fBlatex
+Remove LaTeX build files (*.aux, *.log, etc.).
+.TP
+.B commit\fR, \fBsave
+Document, test, and commit changes.
+.SS Information
+.TP
+.B info
+Package info summary.
+.TP
+.B tree
+Package structure tree.
+.TP
+.B help\fR, \fBh
+Show help.
+.SH EXAMPLES
+Run all tests:
+.RS
+.nf
+r test
+.fi
+.RE
+.PP
+Full development cycle:
+.RS
+.nf
+r cycle
+.fi
+.RE
+.PP
+Quick iteration loop:
+.RS
+.nf
+r load && r test
+.fi
+.RE
+.PP
+Build pkgdown site:
+.RS
+.nf
+r pkgdown
+.fi
+.RE
+.PP
+Check for CRAN:
+.RS
+.nf
+r cran
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR R (1),
+.BR devtools (R package)
+.SH AUTHOR
+DT

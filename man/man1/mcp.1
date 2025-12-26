@@ -1,0 +1,114 @@
+.\" Man page for mcp dispatcher (MCP server management)
+.\" Generated: 2025-12-26
+.TH MCP 1 "December 2025" "flow-cli 3.0.0" "User Commands"
+.SH NAME
+mcp \- MCP server management dispatcher
+.SH SYNOPSIS
+.B mcp
+[\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B mcp
+is a dispatcher for managing Model Context Protocol (MCP) servers.
+It provides tools for listing, testing, and navigating to MCP server projects.
+.PP
+When called without arguments, it lists all available MCP servers.
+.SH COMMANDS
+.SS Core Actions
+.TP
+.B (none)
+List all servers with status.
+.TP
+.B list\fR, \fBls\fR, \fBl
+List all MCP servers.
+.TP
+.B cd\fR, \fBgoto\fR, \fBg \fR[\fIname\fR]
+Navigate to server directory. Without name, goes to main MCP directory.
+.TP
+.B test\fR, \fBt \fIname\fR
+Test if server runs correctly.
+.TP
+.B edit\fR, \fBe \fIname\fR
+Open server in $EDITOR.
+.TP
+.B pick\fR, \fBp
+Interactive server picker (requires fzf).
+.SS Info & Status
+.TP
+.B status\fR, \fBs
+Show configuration status for Desktop/CLI and Browser.
+.TP
+.B readme\fR, \fBr\fR, \fBdoc \fR[\fIname\fR]
+View README for server (or main README if no name given).
+.TP
+.B help\fR, \fBh
+Show help.
+.SH SHORT FORMS
+.RS
+.nf
+mcp l, ls     -> list
+mcp g, goto   -> cd
+mcp t         -> test
+mcp e         -> edit
+mcp s         -> status
+mcp r, doc    -> readme
+mcp p         -> pick
+mcp h         -> help
+.fi
+.RE
+.SH CONFIGURATION FILES
+.TP
+.B Desktop/CLI
+~/.claude/settings.json
+.TP
+.B Browser Extension
+~/projects/dev-tools/claude-mcp/MCP_SERVER_CONFIG.json
+.SH SERVER LOCATIONS
+.TP
+.B Main directory
+~/projects/dev-tools/mcp-servers/
+.TP
+.B Symlinks
+~/mcp-servers/<name>
+.SH EXAMPLES
+List all servers:
+.RS
+.nf
+mcp
+.fi
+.RE
+.PP
+Test the shell server:
+.RS
+.nf
+mcp test shell
+.fi
+.RE
+.PP
+Navigate to statistical-research:
+.RS
+.nf
+mcp cd statistical-research
+.fi
+.RE
+.PP
+Interactive picker:
+.RS
+.nf
+mcp pick
+.fi
+.RE
+.PP
+Check configuration status:
+.RS
+.nf
+mcp status
+.fi
+.RE
+.SH ALIASES
+.TP
+.B mcpp
+Shortcut for 'mcp pick' (interactive picker).
+.SH SEE ALSO
+.BR flow (1)
+.SH AUTHOR
+DT

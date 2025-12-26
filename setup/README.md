@@ -83,6 +83,35 @@ romkatv/powerlevel10k
 
 These are managed separately via antidote - see `~/.config/zsh/.zsh_plugins.txt`.
 
+## Man Pages
+
+flow-cli includes comprehensive man pages for all commands:
+
+```bash
+# View main flow command help
+man flow
+
+# View dispatcher-specific help
+man r      # R package development
+man g      # Git workflows
+man qu     # Quarto publishing
+man mcp    # MCP server management
+man obs    # Obsidian CLI
+```
+
+**Note:** Man pages are automatically available when loading the plugin. The plugin
+adds its man/ directory to your MANPATH.
+
+If man pages aren't available, ensure the plugin is loaded:
+
+```bash
+# Check if plugin is loaded
+echo $FLOW_PLUGIN_LOADED   # Should show: 1
+
+# Manually add to MANPATH if needed
+export MANPATH="$FLOW_PLUGIN_DIR/man:$MANPATH"
+```
+
 ## Optional: Atlas Integration
 
 For session tracking and rich state management:
