@@ -66,6 +66,7 @@ dash() {
   _dash_current
   _dash_quick_wins
   _dash_quick_access
+  _dash_recent_wins
 
   if (( show_all )); then
     _dash_all_projects
@@ -636,6 +637,90 @@ _dash_quick_access() {
 
     ((count++))
   done
+
+  echo ""
+}
+
+# ============================================================================
+# RECENT WINS - Dopamine boost (v3.5.0)
+# ============================================================================
+
+_dash_recent_wins() {
+  local wins_file="${FLOW_DATA_DIR}/wins.md"
+
+  # Skip if no wins file
+  [[ -f "$wins_file" ]] || return 0
+
+  # Get today's wins and recent wins
+  zmodload -F zsh/datetime b:strftime
+  local today=$(strftime "%Y-%m-%d" $EPOCHSECONDS)
+  local -a today_wins=()
+  local -a recent_wins=()
+  local total_wins=0
+
+  # Parse wins file (format: - 🎉 text (@project) [YYYY-MM-DD HH:MM])
+  while IFS= read -r line; do
+    [[ -z "$line" ]] && continue
+    ((total_wins++))
+
+    # Extract date from [YYYY-MM-DD HH:MM]
+    if [[ "$line" =~ '\[([0-9]{4}-[0-9]{2}-[0-9]{2})' ]]; then
+      local win_date="${match[1]}"
+
+      # Extract text (between 🎉 and (@project) or [date])
+      local win_text="${line#*🎉 }"
+      win_text="${win_text%% \(@*}"
+      win_text="${win_text%% \[*}"
+
+      if [[ "$win_date" == "$today" ]]; then
+        today_wins+=("$win_text")
+      elif [[ ${#recent_wins[@]} -lt 3 ]]; then
+        recent_wins+=("$win_text")
+      fi
+    fi
+  done < "$wins_file"
+
+  # Display section only if there are wins
+  (( total_wins == 0 )) && return 0
+
+  echo "  🎉 ${FLOW_COLORS[bold]}RECENT WINS${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(Dopamine boost!)${FLOW_COLORS[reset]}"
+
+  # Show today's wins
+  if (( ${#today_wins[@]} > 0 )); then
+    echo "     ${FLOW_COLORS[success]}Today:${FLOW_COLORS[reset]}"
+    for win in "${today_wins[@]:0:3}"; do
+      # Truncate long wins
+      (( ${#win} > 45 )) && win="${win:0:42}..."
+      echo "     ✓ ${FLOW_COLORS[accent]}${win}${FLOW_COLORS[reset]}"
+    done
+    if (( ${#today_wins[@]} > 3 )); then
+      echo "     ${FLOW_COLORS[muted]}  +$((${#today_wins[@]} - 3)) more today${FLOW_COLORS[reset]}"
+    fi
+  else
+    echo "     ${FLOW_COLORS[muted]}No wins logged today. Use 'win' to celebrate!${FLOW_COLORS[reset]}"
+  fi
+
+  # Calculate streak
+  local streak=0
+  local check_date="$today"
+  local prev_day=""
+
+  # Sort wins by date and count streak
+  for (( i = 1; i <= 30; i++ )); do
+    if grep -q "\[$check_date" "$wins_file" 2>/dev/null; then
+      ((streak++))
+      # Go back one day
+      prev_day=$check_date
+      check_date=$(strftime "%Y-%m-%d" $((EPOCHSECONDS - i * 86400)))
+    else
+      break
+    fi
+  done
+
+  # Show streak if > 1
+  if (( streak > 1 )); then
+    echo "     🔥 ${FLOW_COLORS[success]}${streak}-day streak!${FLOW_COLORS[reset]}"
+  fi
 
   echo ""
 }

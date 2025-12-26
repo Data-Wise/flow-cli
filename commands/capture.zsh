@@ -151,23 +151,107 @@ win() {
 # ============================================================================
 
 yay() {
-  if [[ -n "$*" ]]; then
-    win "$@"
-  else
-    # Just show recent wins
-    echo ""
-    echo "  ${FLOW_COLORS[header]}Recent Wins:${FLOW_COLORS[reset]}"
-    echo ""
-    
-    if _flow_has_atlas; then
-      _flow_atlas inbox --type=win --limit=5 2>/dev/null || {
-        local wins="${FLOW_DATA_DIR}/wins.md"
+  local wins="${FLOW_DATA_DIR}/wins.md"
+
+  case "$1" in
+    --week|-w)
+      # Weekly wins summary (v3.5.0)
+      echo ""
+      echo "  ${FLOW_COLORS[header]}📊 This Week's Wins${FLOW_COLORS[reset]}"
+      echo ""
+
+      if [[ ! -f "$wins" ]]; then
+        echo "  No wins yet. Use 'win' to log your first!"
+        echo ""
+        return
+      fi
+
+      # Calculate 7 days ago
+      zmodload -F zsh/datetime b:strftime
+      local today=$(strftime "%Y-%m-%d" $EPOCHSECONDS)
+      local week_ago=$(strftime "%Y-%m-%d" $((EPOCHSECONDS - 7 * 86400)))
+      local count=0
+      local -A day_counts
+
+      # Initialize day counts
+      for (( i = 0; i < 7; i++ )); do
+        local day=$(strftime "%Y-%m-%d" $((EPOCHSECONDS - i * 86400)))
+        day_counts[$day]=0
+      done
+
+      # Count wins per day
+      while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+        if [[ "$line" =~ '\[([0-9]{4}-[0-9]{2}-[0-9]{2})' ]]; then
+          local win_date="${match[1]}"
+          if [[ ! "$win_date" < "$week_ago" ]]; then
+            ((count++))
+            ((day_counts[$win_date]++))
+
+            # Show the win
+            local win_text="${line#*🎉 }"
+            win_text="${win_text%% \[*}"
+            (( ${#win_text} > 50 )) && win_text="${win_text:0:47}..."
+            echo "  ✓ ${FLOW_COLORS[accent]}${win_text}${FLOW_COLORS[reset]}"
+          fi
+        fi
+      done < "$wins"
+
+      echo ""
+      echo "  ${FLOW_COLORS[muted]}─────────────────────────────────────${FLOW_COLORS[reset]}"
+      echo "  ${FLOW_COLORS[success]}Total: $count wins this week!${FLOW_COLORS[reset]}"
+
+      # Mini graph
+      echo -n "  "
+      for (( i = 6; i >= 0; i-- )); do
+        local day=$(strftime "%Y-%m-%d" $((EPOCHSECONDS - i * 86400)))
+        local day_count=${day_counts[$day]:-0}
+        if (( day_count == 0 )); then
+          echo -n "${FLOW_COLORS[muted]}·${FLOW_COLORS[reset]}"
+        elif (( day_count < 3 )); then
+          echo -n "${FLOW_COLORS[accent]}▂${FLOW_COLORS[reset]}"
+        elif (( day_count < 5 )); then
+          echo -n "${FLOW_COLORS[success]}▄${FLOW_COLORS[reset]}"
+        else
+          echo -n "${FLOW_COLORS[success]}█${FLOW_COLORS[reset]}"
+        fi
+      done
+      echo " ${FLOW_COLORS[muted]}(last 7 days)${FLOW_COLORS[reset]}"
+      echo ""
+      ;;
+
+    --help|-h)
+      echo ""
+      echo "  ${FLOW_COLORS[header]}yay - Celebrate wins!${FLOW_COLORS[reset]}"
+      echo ""
+      echo "  ${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+      echo "    yay [text]       Log a win (same as 'win')"
+      echo "    yay              Show recent wins"
+      echo "    yay --week       Weekly wins summary"
+      echo ""
+      ;;
+
+    "")
+      # Show recent wins
+      echo ""
+      echo "  ${FLOW_COLORS[header]}🎉 Recent Wins${FLOW_COLORS[reset]}"
+      echo ""
+
+      if _flow_has_atlas; then
+        _flow_atlas inbox --type=win --limit=5 2>/dev/null || {
+          [[ -f "$wins" ]] && tail -5 "$wins" || echo "  No wins yet. Use 'win' to log your first!"
+        }
+      else
         [[ -f "$wins" ]] && tail -5 "$wins" || echo "  No wins yet. Use 'win' to log your first!"
-      }
-    else
-      local wins="${FLOW_DATA_DIR}/wins.md"
-      [[ -f "$wins" ]] && tail -5 "$wins" || echo "  No wins yet. Use 'win' to log your first!"
-    fi
-    echo ""
-  fi
+      fi
+      echo ""
+      echo "  ${FLOW_COLORS[muted]}Tip: 'yay --week' for weekly summary${FLOW_COLORS[reset]}"
+      echo ""
+      ;;
+
+    *)
+      # Log a win
+      win "$@"
+      ;;
+  esac
 }
