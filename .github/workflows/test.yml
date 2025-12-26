@@ -7,8 +7,44 @@ on:
     branches: [main, dev]
 
 jobs:
-  test:
-    name: Test on Node ${{ matrix.node-version }}
+  zsh-tests:
+    name: ZSH Plugin Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install zsh
+        run: sudo apt-get update && sudo apt-get install -y zsh
+
+      - name: Create mock project structure
+        run: |
+          # Create project directories that tests expect
+          mkdir -p ~/projects/dev-tools/flow-cli
+          mkdir -p ~/projects/dev-tools/flow-cli/.git
+          mkdir -p ~/projects/r-packages/active/mediationverse/.git
+          mkdir -p ~/projects/r-packages/stable/rmediation/.git
+          mkdir -p ~/projects/teaching/stat-440/.git
+          mkdir -p ~/projects/research/mediation-planning/.git
+          mkdir -p ~/projects/quarto/manuscripts/paper1/.git
+          mkdir -p ~/projects/apps/examify/.git
+
+          # Copy current repo to expected location
+          cp -r . ~/projects/dev-tools/flow-cli/
+
+      - name: Run pick smart defaults tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-pick-smart-defaults.zsh
+
+      - name: Run cc dispatcher tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-cc-dispatcher.zsh
+
+  node-tests:
+    name: Node.js Tests (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
 
     strategy:
