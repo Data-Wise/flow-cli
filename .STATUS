@@ -4,11 +4,11 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v3.6.3 Released → v4.0.0 Planning
+## Phase: v4.0.0 Development
 ## Priority: 1
 ## Progress: 100
 
-## Focus: v3.6.3 RELEASED - Unit tests, docs cleanup, maintenance
+## Focus: v4.0.0 - Implementing `flow sync all` unified sync
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -317,6 +317,11 @@ FLOW_QUIET=1               # Disable welcome message
 - 2025-12-27: FIX - _flow_status_get/set_field rewritten with pure ZSH builtins (PR #21)
 - 2025-12-27: FIX - Cleaned malformed wins.md test data (empty date brackets)
 - 2025-12-27: DOCS - Updated planning docs, deployed to GitHub Pages (PR #19)
+- 2025-12-27: v4.0.0 - Implemented `flow sync all` unified sync command (595 lines)
+- 2025-12-27: v4.0.0 - 5 sync targets: session, status, wins, goals, git
+- 2025-12-27: v4.0.0 - Smart sync detection, dashboard, state file
+- 2025-12-27: v4.0.0 - Created test-sync.zsh (40 tests, 100% pass)
+- 2025-12-27: v4.0.0 - Created docs/commands/sync.md (comprehensive docs)
 - 2025-12-27: DOCS - Rewrote ARCHITECTURE-ROADMAP.md for pure ZSH (was outdated Node.js CLI)
 - 2025-12-27: DOCS - Created V4-PLANNING.md with ecosystem integration roadmap
 - 2025-12-27: v3.6.2 - Created scripts/release.sh for automated version bumping
@@ -381,6 +386,6 @@ FLOW_QUIET=1               # Disable welcome message
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: v3.6.3 released + docs deployed (2025-12-27)
-## streak: 2
-## last_active: 2025-12-27 14:15
+## wins: flow sync all implemented (2025-12-27)
+## streak: 0
+## last_active: 2025-12-27 15:00

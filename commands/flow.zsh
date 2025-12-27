@@ -97,7 +97,7 @@ flow() {
       _flow_action_preview "$@"
       ;;
     sync)
-      _flow_action_sync "$@"
+      flow_sync "$@"
       ;;
     check)
       _flow_action_check "$@"
