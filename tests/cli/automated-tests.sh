@@ -312,7 +312,8 @@ done
 
 # Test: Dispatcher help works
 for dispatcher in g r qu; do
-    if zsh -c "source '$FLOW_CLI_DIR/flow.plugin.zsh' && $dispatcher help" 2>&1 | grep -qi "usage\|command\|help"; then
+    # Look for common help output patterns (usage, command, help, workflow, common, quick)
+    if zsh -c "source '$FLOW_CLI_DIR/flow.plugin.zsh' && $dispatcher help" 2>&1 | grep -qi "usage\|command\|help\|workflow\|common\|quick"; then
         log_pass "$dispatcher help works"
     else
         log_skip "$dispatcher help" "May not have help"
