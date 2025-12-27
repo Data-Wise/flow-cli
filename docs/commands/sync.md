@@ -296,8 +296,8 @@ flow sync all --quiet || exit 1
 
 ## Related Commands
 
-- [`flow goal`](../reference/DOPAMINE-FEATURES-GUIDE.md) - Manage daily goals
-- [`win`](../reference/DOPAMINE-FEATURES-GUIDE.md) - Log accomplishments
+- [`flow goal`](../guides/DOPAMINE-FEATURES-GUIDE.md) - Manage daily goals
+- [`win`](../guides/DOPAMINE-FEATURES-GUIDE.md) - Log accomplishments
 - [`dash`](dashboard.md) - Project dashboard
 - [`finish`](../reference/WORKFLOW-QUICK-REFERENCE.md) - End work session
 
