@@ -24,7 +24,7 @@ flow-cli/
 │   ├── atlas-bridge.zsh   # Atlas CLI integration (graceful fallback)
 │   ├── project-detector.zsh
 │   ├── tui.zsh            # TUI components
-│   └── dispatchers/       # g, mcp, obs, qu, r dispatchers
+│   └── dispatchers/       # g, mcp, obs, qu, r, cc dispatchers
 ├── commands/
 │   ├── work.zsh           # work, finish, hop, why
 │   ├── dash.zsh           # dash, dash-tui
@@ -46,6 +46,14 @@ flow-cli/
     ├── obs.zsh → obsidian-cli-ops/
     └── project-detector.zsh → zsh-claude-workflow/
 ```
+
+## CC Dispatcher (2025-12-27) ✅ COMPLETE
+- [x] Added `cc` dispatcher for Claude Code workflows
+- [x] Default launches Claude in current directory (not picker)
+- [x] `cc pick` subcommand for project selection
+- [x] Consistent pattern: `<mode>` = here, `<mode> pick` = picker
+- [x] `cc now` deprecated (redundant with new default)
+- [x] Updated all docs (CLAUDE.md, README.md, DISPATCHER-REFERENCE.md)
 
 ## v3.3.0 Changes (2025-12-26) ✅ COMPLETE
 ### Plugin System
