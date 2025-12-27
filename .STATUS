@@ -307,6 +307,9 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-27: FIX - win command now writes to local file (atlas lacks --type=win) (PR #21)
+- 2025-12-27: FIX - _flow_status_get/set_field rewritten with pure ZSH builtins (PR #21)
+- 2025-12-27: FIX - Cleaned malformed wins.md test data (empty date brackets)
 - 2025-12-27: DOCS - Updated planning docs, deployed to GitHub Pages (PR #19)
 - 2025-12-27: DOCS - Rewrote ARCHITECTURE-ROADMAP.md for pure ZSH (was outdated Node.js CLI)
 - 2025-12-27: DOCS - Created V4-PLANNING.md with ecosystem integration roadmap
