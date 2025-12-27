@@ -303,11 +303,28 @@ flow sync all --quiet || exit 1
 
 ---
 
+## Scheduled Sync
+
+Enable automatic background sync using macOS launchd:
+
+```bash
+flow sync schedule                 # Show status
+flow sync schedule enable          # Every 30 minutes
+flow sync schedule enable 15       # Every 15 minutes
+flow sync schedule disable         # Stop scheduled sync
+flow sync schedule logs            # View logs
+```
+
+**What runs:** session, status, wins, goals (git is skipped - requires user interaction)
+
+---
+
 ## Version History
 
-| Version | Changes                             |
-| ------- | ----------------------------------- |
-| v4.0.0  | Initial release with 5 sync targets |
+| Version | Changes                                        |
+| ------- | ---------------------------------------------- |
+| v4.0.0  | Initial release with 5 sync targets            |
+| v4.0.1  | Added `schedule` for automated background sync |
 
 ---
 

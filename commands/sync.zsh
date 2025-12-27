@@ -46,6 +46,7 @@ flow_sync() {
     wins)       _flow_sync_wins "$@" ;;
     goals)      _flow_sync_goals "$@" ;;
     session)    _flow_sync_session "$@" ;;
+    schedule)   _flow_sync_schedule "$@" ;;
     --status)   _flow_sync_dashboard ;;
     help|--help|-h) _flow_sync_help ;;
     "")         _flow_sync_smart ;;
@@ -549,6 +550,231 @@ EOF
 }
 
 # ============================================================================
+# SCHEDULE - Automated sync
+# ============================================================================
+
+_flow_sync_schedule() {
+  local action="${1:-status}"
+  local plist_name="com.flow-cli.sync"
+  local plist_path="$HOME/Library/LaunchAgents/${plist_name}.plist"
+  local flow_bin="${FLOW_PLUGIN_DIR:-$HOME/.local/share/flow-cli}/flow.plugin.zsh"
+  local log_file="${FLOW_DATA_DIR}/sync-schedule.log"
+
+  case "$action" in
+    status|show)
+      _flow_sync_schedule_status "$plist_path" "$plist_name"
+      ;;
+    enable|start)
+      local interval="${2:-30}"  # Default 30 minutes
+      _flow_sync_schedule_enable "$plist_path" "$plist_name" "$interval" "$flow_bin" "$log_file"
+      ;;
+    disable|stop)
+      _flow_sync_schedule_disable "$plist_path" "$plist_name"
+      ;;
+    logs)
+      _flow_sync_schedule_logs "$log_file"
+      ;;
+    help|--help|-h)
+      _flow_sync_schedule_help
+      ;;
+    *)
+      _flow_log_error "Unknown schedule action: $action"
+      echo "Run 'flow sync schedule help' for usage"
+      return 1
+      ;;
+  esac
+}
+
+_flow_sync_schedule_status() {
+  local plist_path="$1"
+  local plist_name="$2"
+
+  echo ""
+  echo "  ${FLOW_COLORS[header]}⏰ Sync Schedule Status${FLOW_COLORS[reset]}"
+  echo ""
+
+  if [[ -f "$plist_path" ]]; then
+    # Check if loaded
+    if launchctl list 2>/dev/null | grep -q "$plist_name"; then
+      echo "  Status: ${FLOW_COLORS[success]}Active${FLOW_COLORS[reset]}"
+
+      # Parse interval from plist
+      local interval=$(grep -A1 'StartInterval' "$plist_path" 2>/dev/null | tail -1 | sed 's/[^0-9]//g')
+      if [[ -n "$interval" ]]; then
+        local minutes=$((interval / 60))
+        echo "  Interval: ${FLOW_COLORS[accent]}Every ${minutes} minutes${FLOW_COLORS[reset]}"
+      fi
+
+      # Last run from log
+      local log_file="${FLOW_DATA_DIR}/sync-schedule.log"
+      if [[ -f "$log_file" ]]; then
+        local last_run=$(tail -1 "$log_file" 2>/dev/null | cut -d' ' -f1-2)
+        [[ -n "$last_run" ]] && echo "  Last run: ${FLOW_COLORS[muted]}$last_run${FLOW_COLORS[reset]}"
+      fi
+    else
+      echo "  Status: ${FLOW_COLORS[warning]}Disabled${FLOW_COLORS[reset]} (plist exists but not loaded)"
+      echo ""
+      echo "  ${FLOW_COLORS[muted]}Run 'flow sync schedule enable' to start${FLOW_COLORS[reset]}"
+    fi
+  else
+    echo "  Status: ${FLOW_COLORS[muted]}Not configured${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  ${FLOW_COLORS[muted]}Run 'flow sync schedule enable [minutes]' to start${FLOW_COLORS[reset]}"
+  fi
+  echo ""
+}
+
+_flow_sync_schedule_enable() {
+  local plist_path="$1"
+  local plist_name="$2"
+  local interval_min="$3"
+  local flow_bin="$4"
+  local log_file="$5"
+
+  local interval_sec=$((interval_min * 60))
+
+  echo ""
+  echo "  ${FLOW_COLORS[header]}⏰ Enabling Sync Schedule${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Ensure directories exist
+  mkdir -p "$(dirname "$plist_path")"
+  mkdir -p "$(dirname "$log_file")"
+
+  # Create wrapper script
+  local wrapper_script="${FLOW_DATA_DIR}/sync-scheduled.sh"
+  cat > "$wrapper_script" << 'WRAPPER'
+#!/bin/zsh
+# Flow CLI scheduled sync wrapper
+source ~/.zshrc 2>/dev/null
+FLOW_SYNC_QUIET=1 flow sync all --skip-git >> "${FLOW_DATA_DIR}/sync-schedule.log" 2>&1
+echo "$(date '+%Y-%m-%d %H:%M:%S') Sync completed" >> "${FLOW_DATA_DIR}/sync-schedule.log"
+WRAPPER
+  chmod +x "$wrapper_script"
+
+  # Unload existing if present
+  if launchctl list 2>/dev/null | grep -q "$plist_name"; then
+    launchctl unload "$plist_path" 2>/dev/null
+  fi
+
+  # Create plist
+  cat > "$plist_path" << PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>${plist_name}</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>${wrapper_script}</string>
+    </array>
+    <key>StartInterval</key>
+    <integer>${interval_sec}</integer>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>${log_file}</string>
+    <key>StandardErrorPath</key>
+    <string>${log_file}</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>FLOW_DATA_DIR</key>
+        <string>${FLOW_DATA_DIR}</string>
+        <key>FLOW_PROJECTS_ROOT</key>
+        <string>${FLOW_PROJECTS_ROOT:-$HOME/projects}</string>
+    </dict>
+</dict>
+</plist>
+PLIST
+
+  # Load the plist
+  if launchctl load "$plist_path" 2>/dev/null; then
+    echo "  ${FLOW_COLORS[success]}✓ Schedule enabled${FLOW_COLORS[reset]}"
+    echo "  Interval: ${FLOW_COLORS[accent]}Every ${interval_min} minutes${FLOW_COLORS[reset]}"
+    echo "  Targets: session, status, wins, goals (git skipped)"
+    echo ""
+    echo "  ${FLOW_COLORS[muted]}View logs: flow sync schedule logs${FLOW_COLORS[reset]}"
+    echo "  ${FLOW_COLORS[muted]}Disable: flow sync schedule disable${FLOW_COLORS[reset]}"
+  else
+    _flow_log_error "Failed to load schedule"
+    return 1
+  fi
+  echo ""
+}
+
+_flow_sync_schedule_disable() {
+  local plist_path="$1"
+  local plist_name="$2"
+
+  echo ""
+  echo "  ${FLOW_COLORS[header]}⏰ Disabling Sync Schedule${FLOW_COLORS[reset]}"
+  echo ""
+
+  if launchctl list 2>/dev/null | grep -q "$plist_name"; then
+    if launchctl unload "$plist_path" 2>/dev/null; then
+      echo "  ${FLOW_COLORS[success]}✓ Schedule disabled${FLOW_COLORS[reset]}"
+    else
+      _flow_log_error "Failed to unload schedule"
+      return 1
+    fi
+  else
+    echo "  ${FLOW_COLORS[muted]}Schedule was not active${FLOW_COLORS[reset]}"
+  fi
+
+  # Optionally remove the plist
+  if [[ -f "$plist_path" ]]; then
+    rm -f "$plist_path"
+    echo "  ${FLOW_COLORS[muted]}Plist removed${FLOW_COLORS[reset]}"
+  fi
+  echo ""
+}
+
+_flow_sync_schedule_logs() {
+  local log_file="$1"
+
+  echo ""
+  echo "  ${FLOW_COLORS[header]}📋 Sync Schedule Logs${FLOW_COLORS[reset]}"
+  echo ""
+
+  if [[ -f "$log_file" ]]; then
+    echo "  ${FLOW_COLORS[muted]}Last 20 entries:${FLOW_COLORS[reset]}"
+    echo ""
+    tail -20 "$log_file" | while IFS= read -r line; do
+      echo "  $line"
+    done
+  else
+    echo "  ${FLOW_COLORS[muted]}No logs yet${FLOW_COLORS[reset]}"
+  fi
+  echo ""
+}
+
+_flow_sync_schedule_help() {
+  echo ""
+  echo "  ${FLOW_COLORS[header]}⏰ FLOW SYNC SCHEDULE - Automated Sync${FLOW_COLORS[reset]}"
+  echo ""
+  echo "  ${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "    flow sync schedule                 Show schedule status"
+  echo "    flow sync schedule enable [min]    Enable (default: 30 min)"
+  echo "    flow sync schedule disable         Disable scheduled sync"
+  echo "    flow sync schedule logs            View recent sync logs"
+  echo ""
+  echo "  ${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+  echo "    flow sync schedule enable          # Every 30 minutes"
+  echo "    flow sync schedule enable 15       # Every 15 minutes"
+  echo "    flow sync schedule enable 60       # Every hour"
+  echo "    flow sync schedule disable         # Stop scheduled sync"
+  echo ""
+  echo "  ${FLOW_COLORS[bold]}WHAT RUNS${FLOW_COLORS[reset]}"
+  echo "    Scheduled sync runs: session, status, wins, goals"
+  echo "    Git sync is skipped (requires user interaction)"
+  echo ""
+  echo "  ${FLOW_COLORS[muted]}Uses macOS launchd for reliable background execution${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# ============================================================================
 # HELP
 # ============================================================================
 
@@ -567,6 +793,7 @@ _flow_sync_help() {
   echo "    wins       Aggregate project wins to global wins.md"
   echo "    goals      Recalculate daily goal progress"
   echo "    git        Smart git push/pull with stash handling"
+  echo "    schedule   Manage automated background sync"
   echo ""
   echo "  ${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
   echo "    --dry-run, -n    Preview changes without executing"
