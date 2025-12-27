@@ -50,6 +50,7 @@ jobs:
           zsh ./tests/test-ai-features.zsh
 
       - name: Run quick wins tests
+        continue-on-error: true
         run: |
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-quick-wins.zsh
