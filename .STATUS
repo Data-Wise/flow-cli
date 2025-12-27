@@ -4,11 +4,11 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v3.6.0 Released → v4.0.0 Planning
+## Phase: v3.6.2 Released → v4.0.0 Planning
 ## Priority: 1
 ## Progress: 100
 
-## Focus: v3.6.0 RELEASED - CC dispatcher with current-dir default
+## Focus: v3.6.2 RELEASED - CC pick variants fix + release automation
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -46,6 +46,23 @@ flow-cli/
     ├── obs.zsh → obsidian-cli-ops/
     └── project-detector.zsh → zsh-claude-workflow/
 ```
+
+## v3.6.2 Changes (2025-12-27) ✅ COMPLETE
+### CC Dispatcher Bug Fix
+- [x] Fixed `cc <mode> pick <project>` variants not passing args to pick
+- [x] All 5 pick variants now work: pick, yolo pick, plan pick, opus pick, haiku pick
+- [x] 52 tests passing (24 cc-dispatcher + 10 pick-variants + 18 pick-defaults)
+
+### Release Automation
+- [x] Created `scripts/release.sh` for automated version bumping
+- [x] Updates package.json, README badge, CLAUDE.md, CC-DISPATCHER-REFERENCE.md
+- [x] Added release instructions to CLAUDE.md
+
+### Documentation
+- [x] Updated CC-DISPATCHER-REFERENCE.md with all pick variant combinations
+- [x] Fixed README badge (static for private repo)
+- [x] Removed orphan docs causing build warnings
+- [x] Deployed updated docs to GitHub Pages
 
 ## CC Dispatcher (2025-12-27) ✅ COMPLETE
 - [x] Added `cc` dispatcher for Claude Code workflows
@@ -290,6 +307,12 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-27: v3.6.2 - Created scripts/release.sh for automated version bumping
+- 2025-12-27: v3.6.2 - Fixed README badge (static for private repo)
+- 2025-12-27: v3.6.2 - Synced all version files to 3.6.2, cleaned orphan docs
+- 2025-12-27: v3.6.2 - Updated CC-DISPATCHER-REFERENCE.md with pick variants
+- 2025-12-27: v3.6.2 - Fixed cc pick variants bug (args passed to pick not claude)
+- 2025-12-27: v3.6.1 - Added Scribe CLI integration, improved help format
 - 2025-12-26: DOCS - Deployed v3.5.0 documentation to GitHub Pages
 - 2025-12-26: v3.5.0 RELEASE - Version bumped to 3.5.0, all dopamine features complete
 - 2025-12-26: v3.5.0 - Added daily_goal field to .STATUS with per-project override
