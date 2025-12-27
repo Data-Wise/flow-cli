@@ -8,31 +8,42 @@ A streamlined system for managing development workflows. Features **28 essential
 
 ## ⚡ Quick Stats
 
-- **Version:** v3.0.0 🎉
-- **Status:** Production Ready (Updated Dec 25, 2025)
+- **Version:** v4.0.1 🎉
+- **Status:** Production Ready (Updated Dec 27, 2025)
 - **Custom aliases:** 28 (down from 179 - 84% reduction)
 - **Git plugin:** 226+ standard aliases included
-- **Smart dispatchers:** 6 context-aware functions
+- **Smart dispatchers:** 6 context-aware functions (`g`, `mcp`, `obs`, `qu`, `r`, `cc`)
 - **Tests:** 16 automated + 7 interactive (100% pass rate)
 - **Testing:** Interactive dog feeding test 🐕 (60+ comprehensive patterns)
 - **Documentation:** 214+ files, 96K+ lines, 65+ pages
 - **Architecture:** Pure ZSH plugin with optional atlas integration
-- **Last major update:** 2025-12-25 (v3.0.0 - Clean Architecture)
+- **Last major update:** 2025-12-27 (v4.0.0 - Dopamine Features & Sync)
 
 ---
 
 ## 🎉 Recent Updates (December 2025)
 
-### v3.0.0 - Clean Architecture & Comprehensive Testing (2025-12-25)
+### v4.0.1 - Sync Command & Theme (2025-12-27)
+
+- ✅ **Unified sync command** (`flow sync all`) - sync session, status, wins, goals, git
+- ✅ **ADHD-calm theme** - warm brown/orange documentation site
+- ✅ **CI improvements** - code coverage docs, performance monitoring
+- ✅ **Test suite enhancements** - CI compatibility and benchmarks
+
+### v4.0.0 - Dopamine Features (2025-12-27)
+
+- ✅ **Win tracking** (`win <text>`) - log accomplishments with auto-categorization
+- ✅ **Streak visualization** - 🔥 consecutive days counter
+- ✅ **Daily goal tracking** (`flow goal`) - set and track daily win targets
+- ✅ **Win categories** - 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test
+- ✅ **Extended .STATUS format** - wins, streak, last_active, tags
+- ✅ **Dashboard TUI** - Ctrl-E/S/W shortcuts, watch mode (`dash --watch`)
+
+### v3.0.0 - Clean Architecture (2025-12-25)
 
 - ✅ **Pure ZSH plugin** with optional atlas integration
 - ✅ **Interactive dog feeding test** 🐕 (60+ comprehensive patterns)
-- ✅ **All test suites updated** for v3.0.0 architecture
-- ✅ **16 automated tests** + 7 interactive tests (100% pass rate)
 - ✅ **Clean separation** from Node.js dependencies
-- ✅ **Comprehensive expected patterns** matching rich command outputs
-- ✅ **Fixed parameter parsing** in interactive tests
-- ✅ **Updated documentation** across all pages
 
 ### Phase P6 Complete - CLI Enhancements (2025-12-24)
 
