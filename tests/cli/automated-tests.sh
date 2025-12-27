@@ -27,10 +27,10 @@ BOLD='\033[1m'
 DIM='\033[2m'
 NC='\033[0m' # No Color
 
-# Test helpers
-log_pass() { ((PASS++)); ((TOTAL++)); echo -e "${GREEN}✅ PASS${NC}: $1"; }
-log_fail() { ((FAIL++)); ((TOTAL++)); echo -e "${RED}❌ FAIL${NC}: $1${2:+ - $2}"; }
-log_skip() { ((SKIP++)); ((TOTAL++)); echo -e "${YELLOW}⏭️  SKIP${NC}: $1${2:+ - $2}"; }
+# Test helpers (use || true to avoid set -e exit on ((0++)))
+log_pass() { ((PASS++)) || true; ((TOTAL++)) || true; echo -e "${GREEN}✅ PASS${NC}: $1"; }
+log_fail() { ((FAIL++)) || true; ((TOTAL++)) || true; echo -e "${RED}❌ FAIL${NC}: $1${2:+ - $2}"; }
+log_skip() { ((SKIP++)) || true; ((TOTAL++)) || true; echo -e "${YELLOW}⏭️  SKIP${NC}: $1${2:+ - $2}"; }
 log_section() { echo -e "\n${BOLD}${BLUE}▶ $1${NC}"; }
 
 # Timeout helper (macOS compatible)

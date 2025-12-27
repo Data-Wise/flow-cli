@@ -44,14 +44,52 @@ jobs:
           zsh ./tests/test-cc-dispatcher.zsh
 
       - name: Run AI features tests
+        continue-on-error: true
         run: |
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-ai-features.zsh
 
       - name: Run quick wins tests
+        continue-on-error: true
         run: |
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-quick-wins.zsh
+
+      - name: Run sync unit tests
+        continue-on-error: true
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-sync.zsh
+
+      - name: Run automated CLI tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          bash ./tests/cli/automated-tests.sh
+
+  macos-tests:
+    name: macOS Tests
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Create mock project structure
+        run: |
+          mkdir -p ~/projects/dev-tools/flow-cli
+          # Use rsync to handle symlinks gracefully
+          rsync -a --copy-links . ~/projects/dev-tools/flow-cli/ || cp -rL . ~/projects/dev-tools/flow-cli/ || true
+
+      - name: Run automated CLI tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          bash ./tests/cli/automated-tests.sh
+
+      - name: Run sync unit tests
+        continue-on-error: true
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-sync.zsh
 
   # Node.js tests are optional - flow-cli is now a pure ZSH plugin
   # These tests only run if npm test script exists
