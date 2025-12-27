@@ -307,6 +307,9 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-27: TEST - Added unit tests for _flow_status_get/set_field (12 tests) (PR #23)
+- 2025-12-27: REFACTOR - Moved zmodload to module initialization in capture.zsh (PR #23)
+- 2025-12-27: DOCS - Added TODO for atlas --type=win support (PR #23)
 - 2025-12-27: FIX - win command now writes to local file (atlas lacks --type=win) (PR #21)
 - 2025-12-27: FIX - _flow_status_get/set_field rewritten with pure ZSH builtins (PR #21)
 - 2025-12-27: FIX - Cleaned malformed wins.md test data (empty date brackets)
@@ -374,12 +377,7 @@ FLOW_QUIET=1               # Disable welcome message
 - 2025-12-25: v3.0.0 - Clean Architecture achieved
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
-## wins: --help (2025-12-26)
-## streak: 0
-## last_active: 2025-12-26 18:14
-## wins: --help (2025-12-26)
-## streak: 0
-## last_active: 2025-12-26 18:25
-## wins: Fixed the eval bug (2025-12-26)
-## streak: 0
-## last_active: 2025-12-26 18:25
+
+## wins: Code review improvements PR #23 (2025-12-27)
+## streak: 2
+## last_active: 2025-12-27 13:45
