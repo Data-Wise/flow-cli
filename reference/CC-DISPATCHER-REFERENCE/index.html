@@ -3688,10 +3688,12 @@
 <p><strong>Location:</strong> <code>lib/dispatchers/cc-dispatcher.zsh</code></p>
 <hr />
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cc<span class="w">                </span><span class="c1"># Pick project → NEW Claude session (acceptEdits)</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>cc<span class="w"> </span>flow<span class="w">           </span><span class="c1"># Direct jump to flow-cli → Claude</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>cc<span class="w"> </span>yolo<span class="w">           </span><span class="c1"># Pick project → YOLO mode (skip all permissions)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>cc<span class="w"> </span>resume<span class="w">         </span><span class="c1"># Resume previous Claude conversation</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cc<span class="w">                </span><span class="c1"># Launch Claude HERE (current dir, acceptEdits)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>cc<span class="w"> </span>pick<span class="w">           </span><span class="c1"># Pick project → Claude</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>cc<span class="w"> </span>flow<span class="w">           </span><span class="c1"># Direct jump to flow-cli → Claude</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>cc<span class="w"> </span>yolo<span class="w">           </span><span class="c1"># Launch HERE in YOLO mode (skip all permissions)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>cc<span class="w"> </span>yolo<span class="w"> </span>pick<span class="w">      </span><span class="c1"># Pick project → YOLO mode</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>cc<span class="w"> </span>resume<span class="w">         </span><span class="c1"># Resume previous Claude conversation</span>
 </code></pre></div>
 <hr />
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
@@ -3715,27 +3717,51 @@
 <tbody>
 <tr>
 <td><code>cc</code></td>
-<td>Pick project → NEW Claude (acceptEdits mode)</td>
+<td>Launch Claude HERE (current dir, acceptEdits)</td>
+</tr>
+<tr>
+<td><code>cc pick</code></td>
+<td>Pick project → Claude</td>
 </tr>
 <tr>
 <td><code>cc &lt;project&gt;</code></td>
-<td>Direct jump → NEW Claude</td>
+<td>Direct jump → Claude</td>
+</tr>
+<tr>
+<td><code>cc pick &lt;project&gt;</code></td>
+<td>Direct jump via pick → Claude</td>
 </tr>
 <tr>
 <td><code>cc yolo</code></td>
-<td>Pick project → YOLO mode (skip permissions)</td>
+<td>Launch HERE in YOLO mode (skip permissions)</td>
+</tr>
+<tr>
+<td><code>cc yolo pick</code></td>
+<td>Pick project → YOLO mode</td>
 </tr>
 <tr>
 <td><code>cc yolo &lt;project&gt;</code></td>
 <td>Direct jump → YOLO mode</td>
 </tr>
 <tr>
+<td><code>cc yolo pick &lt;project&gt;</code></td>
+<td>Direct jump via pick → YOLO</td>
+</tr>
+<tr>
 <td><code>cc plan</code></td>
+<td>Launch HERE in Plan mode</td>
+</tr>
+<tr>
+<td><code>cc plan pick</code></td>
 <td>Pick project → Plan mode</td>
 </tr>
 <tr>
-<td><code>cc now</code></td>
-<td>Current directory → Claude (no picker)</td>
+<td><code>cc plan &lt;project&gt;</code></td>
+<td>Direct jump → Plan mode</td>
+</tr>
+<tr>
+<td><code>cc plan pick &lt;project&gt;</code></td>
+<td>Direct jump via pick → Plan</td>
 </tr>
 </tbody>
 </table>
@@ -3832,19 +3858,35 @@
 <tbody>
 <tr>
 <td><code>cc opus</code></td>
-<td>Pick project → Claude with Opus model</td>
+<td>Launch HERE with Opus model</td>
+</tr>
+<tr>
+<td><code>cc opus pick</code></td>
+<td>Pick project → Opus model</td>
 </tr>
 <tr>
 <td><code>cc opus &lt;project&gt;</code></td>
 <td>Direct jump → Opus</td>
 </tr>
 <tr>
+<td><code>cc opus pick &lt;project&gt;</code></td>
+<td>Direct jump via pick → Opus</td>
+</tr>
+<tr>
 <td><code>cc haiku</code></td>
-<td>Pick project → Claude with Haiku model</td>
+<td>Launch HERE with Haiku model</td>
+</tr>
+<tr>
+<td><code>cc haiku pick</code></td>
+<td>Pick project → Haiku model</td>
 </tr>
 <tr>
 <td><code>cc haiku &lt;project&gt;</code></td>
 <td>Direct jump → Haiku</td>
+</tr>
+<tr>
+<td><code>cc haiku pick &lt;project&gt;</code></td>
+<td>Direct jump via pick → Haiku</td>
 </tr>
 </tbody>
 </table>
@@ -3921,11 +3963,6 @@
 <td>Plan mode</td>
 </tr>
 <tr>
-<td><code>now</code></td>
-<td><code>n</code></td>
-<td>Current dir (no picker)</td>
-</tr>
-<tr>
 <td><code>resume</code></td>
 <td><code>r</code></td>
 <td>Resume session picker</td>
@@ -3967,6 +4004,9 @@
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>Note:</strong> <code>cc now</code> is deprecated. Just use <code>cc</code> (default is current dir).</p>
+</blockquote>
 <hr />
 <h2 id="integration">Integration<a class="headerlink" href="#integration" title="Permanent link">&para;</a></h2>
 <ul>
@@ -3981,7 +4021,8 @@
 <li><a href="../DISPATCHER-REFERENCE/">DISPATCHER-REFERENCE.md</a> - All dispatchers</li>
 </ul>
 <hr />
-<p><strong>Last Updated:</strong> 2025-12-26
+<p><strong>Last Updated:</strong> 2025-12-27
+<strong>Version:</strong> v3.6.2
 <strong>Status:</strong> ✅ Fully implemented</p>
 
 
