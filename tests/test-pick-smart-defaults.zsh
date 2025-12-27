@@ -59,9 +59,10 @@ setup() {
         fi
     fi
 
-    # Method 3: Hardcoded fallback
+    # Method 3: Error if not found
     if [[ -z "$project_root" || ! -f "$project_root/commands/pick.zsh" ]]; then
-        project_root="/Users/dt/projects/dev-tools/flow-cli"
+        echo "${RED}ERROR: Cannot find project root - run from project directory${NC}"
+        exit 1
     fi
 
     echo "  Project root: $project_root"
@@ -182,7 +183,7 @@ test_session_reject_old() {
 
     # Create session with old timestamp (25 hours ago)
     local old_time=$(($(date +%s) - 90000))
-    echo "flow-cli|/Users/dt/projects/dev-tools/flow-cli|$old_time" > "$PROJ_SESSION_FILE"
+    echo "flow-cli|/tmp/test-project/flow-cli|$old_time" > "$PROJ_SESSION_FILE"
 
     local result=$(_proj_get_session)
 
