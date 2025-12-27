@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v4.0.0)
+- **Status:** Production ready (v4.0.1)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -366,16 +366,17 @@ export FLOW_DEBUG=1
 
 ## Current Status (2025-12-27)
 
-### ✅ v4.0.0 Released
+### ✅ v4.0.1 Released
 
+- [x] Unified sync command (`flow sync all`)
 - [x] Dopamine features (win tracking, streaks, goals)
 - [x] Win categories with auto-detection
 - [x] Daily goal tracking (global + per-project)
 - [x] Extended .STATUS format (wins, streak, last_active, tags)
 - [x] Dashboard TUI enhancements (Ctrl-E/S/W shortcuts)
 - [x] Watch mode (`dash --watch`)
-- [x] Documentation fully updated
-- [x] GitHub release tagged and published
+- [x] ADHD-calm theme for documentation site
+- [x] CI improvements and test suite enhancements
 
 ### ✅ CC Dispatcher (2025-12-27)
 
@@ -387,18 +388,18 @@ export FLOW_DEBUG=1
 
 ### 🎯 Production Ready
 
-- **Version:** 3.6.0
+- **Version:** 4.0.1
 - **Released:** 2025-12-27
 - **Status:** Production use phase
 - **Performance:** Sub-10ms for core commands
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
 - **Tests:** Interactive dog feeding test (gamified)
 
-### 📋 Next: v4.0.0 Planning
+### 📋 Next: v4.1.0 Planning
 
-- [ ] Cross-tool orchestration (`flow sync all`)
 - [ ] Remote state sync (optional cloud backup)
 - [ ] Team features (shared templates)
+- [ ] Multi-device sync
 
 ---
 
@@ -459,10 +460,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 3.7.0"
-git tag -a v4.0.0 -m "v4.0.0"
+git tag -a v4.0.1 -m "v4.0.1"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v4.0.0
+git push origin main && git push origin v4.0.1
 ```
 
 **Files updated by release script:**
