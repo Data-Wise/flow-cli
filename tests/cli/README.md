@@ -14,7 +14,7 @@ bash /path/to/flow-cli/tests/cli/automated-tests.sh
 
 ## Test Coverage
 
-The test suite validates **85 test cases** across 13 sections:
+The test suite validates **95 test cases** across 15 sections:
 
 | Section                      | Tests | Description                                     |
 | ---------------------------- | ----- | ----------------------------------------------- |
@@ -28,9 +28,31 @@ The test suite validates **85 test cases** across 13 sections:
 | Dispatchers                  | 15    | File existence, function defs, help output      |
 | Completions                  | 8     | Completion files, sync targets, schedule        |
 | Core Commands                | 15    | Command files, function definitions             |
+| Command Behavior             | 7     | work, dash, finish, pick, status, hop, why      |
 | ADHD Features                | 4     | win, goal, js, yay functions                    |
 | Error Handling               | 2     | Invalid command handling                        |
 | Documentation                | 4     | Key doc files exist                             |
+| Performance Benchmarks       | 3     | Plugin source time, help response time          |
+
+## Code Coverage by Component
+
+| Component       | Files Tested | Functions Tested | Coverage  |
+| --------------- | ------------ | ---------------- | --------- |
+| **Core**        | 8/8          | 15+              | ✅ High   |
+| **Commands**    | 8/8          | 20+              | ✅ High   |
+| **Dispatchers** | 6/6          | 12+              | ✅ High   |
+| **Completions** | 6/6          | N/A              | ✅ High   |
+| **Lib**         | 3/5          | 8+               | 🔶 Medium |
+| **Hooks**       | 0/2          | 0                | ⚠️ Low    |
+
+### Untested Areas
+
+The following areas need additional test coverage:
+
+- `hooks/chpwd.zsh` - Directory change hooks
+- `hooks/precmd.zsh` - Pre-command hooks
+- `lib/tui.zsh` - Interactive TUI components
+- Integration tests with actual git repositories
 
 ## Requirements
 

@@ -18,6 +18,10 @@ jobs:
       - name: Install zsh
         run: sudo apt-get update && sudo apt-get install -y zsh
 
+      - name: Record start time
+        id: start
+        run: echo "time=$(date +%s)" >> $GITHUB_OUTPUT
+
       - name: Create mock project structure
         run: |
           # Create project directories that tests expect
@@ -66,6 +70,24 @@ jobs:
           cd ~/projects/dev-tools/flow-cli
           bash ./tests/cli/automated-tests.sh
 
+      - name: Performance Summary
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - ${{ steps.start.outputs.time }}))
+          echo "## 📊 ZSH Tests Performance" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Total Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
+          echo "| Platform | Ubuntu (linux) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Date | $(date -u +%Y-%m-%d) |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Expected Baselines" >> $GITHUB_STEP_SUMMARY
+          echo "- Plugin source: <150ms" >> $GITHUB_STEP_SUMMARY
+          echo "- Help commands: <200ms" >> $GITHUB_STEP_SUMMARY
+          echo "- Total CI job: <120s" >> $GITHUB_STEP_SUMMARY
+
   macos-tests:
     name: macOS Tests
     runs-on: macos-latest
@@ -73,6 +95,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+
+      - name: Record start time
+        id: start
+        run: echo "time=$(date +%s)" >> $GITHUB_OUTPUT
 
       - name: Create mock project structure
         run: |
@@ -90,6 +116,19 @@ jobs:
         run: |
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-sync.zsh
+
+      - name: Performance Summary
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - ${{ steps.start.outputs.time }}))
+          echo "## 🍎 macOS Tests Performance" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Total Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
+          echo "| Platform | macOS |" >> $GITHUB_STEP_SUMMARY
+          echo "| Date | $(date -u +%Y-%m-%d) |" >> $GITHUB_STEP_SUMMARY
 
   # Node.js tests are optional - flow-cli is now a pure ZSH plugin
   # These tests only run if npm test script exists
