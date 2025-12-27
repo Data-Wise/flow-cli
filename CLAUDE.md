@@ -448,6 +448,30 @@ mkdocs gh-deploy --force
 open https://Data-Wise.github.io/flow-cli/
 ```
 
+### Create Release
+
+```bash
+# Use the release script to bump all version files
+./scripts/release.sh 3.7.0
+
+# Review changes
+git diff
+
+# Commit and tag
+git add -A && git commit -m "chore: bump version to 3.7.0"
+git tag -a v3.7.0 -m "v3.7.0"
+
+# Push (requires PR for protected branch)
+git push origin main && git push origin v3.7.0
+```
+
+**Files updated by release script:**
+
+- `package.json` - version field
+- `README.md` - badge version
+- `CLAUDE.md` - version references
+- `docs/reference/CC-DISPATCHER-REFERENCE.md` - version
+
 ---
 
 ## Support
