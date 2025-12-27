@@ -4,187 +4,242 @@ Get up and running with Flow CLI in 5 minutes.
 
 ---
 
-## 💡 Two Command Systems
+## The Core Workflow
 
-This workflow system provides **two complementary sets of commands**:
-
-| Type               | Commands                           | Speed  | Use For                           |
-| ------------------ | ---------------------------------- | ------ | --------------------------------- |
-| **⚡ Fast (ZSH)**  | `work`, `finish`, `dash`, `status` | < 10ms | Daily workflow, context switching |
-| **🎨 Rich (flow)** | `flow status`, `flow dashboard`    | ~100ms | Detailed views, monitoring        |
-
-**Mental model:** ZSH for doing, `flow` for viewing.
-
-**Example:**
+Flow CLI is built around a simple, ADHD-friendly workflow:
 
 ```bash
-work my-project          # Start session (instant, ZSH)
-flow dashboard           # Monitor all projects (rich TUI, Node.js)
-finish "Completed work"  # End session (instant, ZSH)
+work my-project     # 1. Start a focused session
+# ... do your work ...
+win "Did the thing"  # 2. Log your wins
+finish "Done!"       # 3. End and optionally commit
 ```
+
+**That's it!** Everything else builds on this foundation.
 
 ---
 
-## Step 1: Check Your Setup
+## Step 1: Verify Installation
 
-The configuration files are already installed in `~/.config/zsh/`. Verify:
+Check that flow-cli is loaded:
 
 ```bash
-ls ~/.config/zsh/.zshrc
-ls ~/.config/zsh/functions/
-
-# Test the new CLI commands
+# Should show version
 flow --version
-flow status
+
+# Should show help
+flow help
+```
+
+If commands aren't found, ensure the plugin is sourced in your `.zshrc`:
+
+```bash
+# Via antidote
+antidote load data-wise/flow-cli
+
+# Or manual source
+source /path/to/flow-cli/flow.plugin.zsh
 ```
 
 ---
 
-## Step 2: Try the Enhanced Status Command
-
-Flow CLI now includes beautiful ASCII visualizations:
+## Step 2: Start Your First Session
 
 ```bash
-flow status          # Basic status with progress bars
-flow status -v       # Verbose mode with productivity metrics
-flow dashboard       # Interactive real-time TUI (press 'q' to quit)
+# Start working on a project
+work my-project
+
+# Or use the interactive picker
+work
 ```
 
-**What you'll see:**
+You'll see:
 
-- Active session status with duration
-- Today's productivity stats
-- Recent sessions with sparkline trends
-- Quick action menu
-- Flow state indicators 🔥
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 my-project (node)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🟢 Status: active
+🎯 Focus: Implement new feature
+```
+
+**What happened:**
+
+- Changed to project directory
+- Started session tracking
+- Opened your editor
+- Showed project context
 
 ---
 
-## Step 3: Learn the 6 Core Aliases
+## Step 3: Log Your Wins
 
-These are your daily drivers for R package development:
+As you accomplish things, log them:
 
 ```bash
-rload    # Load package code         (50x/day)
-rtest    # Run tests                 (30x/day)
-rdoc     # Generate documentation    (20x/day)
-rcheck   # R CMD check              (10x/day)
-rbuild   # Build tar.gz             (5x/day)
-rinstall # Install package          (5x/day)
+win "Implemented user login"
+win "Fixed that annoying bug"
+win --ship "Deployed to production"
 ```
 
-**Try it now:**
+Output:
+
+```
+🎉 WIN LOGGED! #code
+Implemented user login
+
+Keep it up! 🚀
+```
+
+### Win Categories
+
+Wins are auto-categorized, or you can specify:
+
+| Flag       | Category      | Icon |
+| ---------- | ------------- | ---- |
+| `--code`   | Code work     | 💻   |
+| `--docs`   | Documentation | 📝   |
+| `--fix`    | Bug fix       | 🔧   |
+| `--ship`   | Deployed      | 🚀   |
+| `--test`   | Testing       | 🧪   |
+| `--review` | Code review   | 👀   |
+
+---
+
+## Step 4: Check Your Progress
 
 ```bash
-cd ~/projects/r-packages/active/your-package
-rload
-rtest
+# Quick dashboard
+dash
+
+# Show recent wins
+yay
+
+# Weekly summary with graph
+yay --week
 ```
 
 ---
 
-## Step 4: Use Smart Dispatchers
-
-Instead of navigating manually, use context-aware functions:
-
-### Project Picker
+## Step 5: End Your Session
 
 ```bash
-pick     # Fuzzy-find and navigate to any project (10x faster with caching!)
-```
+# End session with a note
+finish "Completed auth feature"
 
-**Performance:** First scan ~3ms, cached scans <1ms for 60 projects.
-
-**Note:** The `pp` alias was removed (2025-12-25) to avoid conflicts with system `/usr/bin/pp`. Use `pick` directly.
-
-### Claude Code
-
-```bash
-ccy      # Project picker → Claude Code (function in ~/.config/zsh/.zshrc)
-ccp      # Claude print mode (non-interactive)
-ccr      # Resume last session
-```
-
-**Note:** The `cc` dispatcher was replaced (2025-12-25) with the `ccy` function for better project integration.
-
-### File Viewer
-
-```bash
-peek README.md       # Smart syntax highlighting
-peek *.R             # View R files
+# You'll be prompted to commit if there are changes
+# Commit 3 change(s)? [y/N] y
+# ✓ Changes committed
 ```
 
 ---
 
-## Step 5: Set Up Focus Timers
+## Daily Goals (Optional)
 
-Stay productive with Pomodoro timers:
+Set and track daily win goals:
 
 ```bash
-f25      # 25-minute focused session
-f50      # 50-minute deep work session
+# Set a goal of 3 wins per day
+flow goal set 3
+
+# Check progress
+flow goal
+# Today: ██████░░░░ 2/3 wins
 ```
-
-During a timer:
-
-- Terminal shows countdown
-- Notification when time's up
-- Helps combat time blindness
 
 ---
 
-## Step 6: Learn Git Plugin Aliases
+## Essential Commands
 
-Standard OMZ git plugin (226+ aliases) is enabled:
+### Workflow
+
+| Command          | Description                    |
+| ---------------- | ------------------------------ |
+| `work [project]` | Start a focused session        |
+| `finish [note]`  | End session, optionally commit |
+| `hop <project>`  | Quick switch (tmux)            |
+| `dash`           | Project dashboard              |
+
+### Capture & Celebrate
+
+| Command        | Description           |
+| -------------- | --------------------- |
+| `win <text>`   | Log an accomplishment |
+| `yay`          | Show recent wins      |
+| `catch <text>` | Quick idea capture    |
+| `crumb <text>` | Leave a breadcrumb    |
+
+### Navigation
+
+| Command   | Description                |
+| --------- | -------------------------- |
+| `pick`    | Interactive project picker |
+| `cc`      | Launch Claude Code         |
+| `cc pick` | Pick project → Claude Code |
+
+---
+
+## Smart Dispatchers
+
+Flow CLI includes 6 domain-specific dispatchers:
+
+| Dispatcher | Domain      | Example                    |
+| ---------- | ----------- | -------------------------- |
+| `g`        | Git         | `g status`, `g push`       |
+| `r`        | R packages  | `r test`, `r check`        |
+| `qu`       | Quarto      | `qu preview`, `qu render`  |
+| `mcp`      | MCP servers | `mcp status`, `mcp logs`   |
+| `obs`      | Obsidian    | `obs daily`, `obs search`  |
+| `cc`       | Claude Code | `cc`, `cc pick`, `cc yolo` |
+
+Get help for any dispatcher:
 
 ```bash
-gst      # git status
-ga       # git add
-gaa      # git add --all
-gcmsg    # git commit -m "message"
-gp       # git push
-glo      # git log --oneline
-```
-
-**Try it:**
-
-```bash
-gst                          # Check status
-ga README.md                 # Stage file
-gcmsg "Update documentation" # Commit
-gp                           # Push
+g help
+r help
+cc help
 ```
 
 ---
 
 ## What's Next?
 
-### Learn Through Tutorials
+### Tutorials (Recommended)
 
-1. [Tutorial 1: Your First Session](../tutorials/01-first-session.md) - Start tracking work
-2. [Tutorial 2: Multiple Projects](../tutorials/02-multiple-projects.md) - Manage many projects
-3. [Tutorial 3: Status Visualizations](../tutorials/03-status-visualizations.md) - Master ASCII visuals
-4. [Tutorial 4: Web Dashboard](../tutorials/04-web-dashboard.md) - Interactive TUI
+1. [Your First Session](../tutorials/01-first-session.md) - Deep dive into `work`
+2. [Multiple Projects](../tutorials/02-multiple-projects.md) - Managing many projects
+3. [AI-Powered Commands](../tutorials/05-ai-commands.md) - Using `flow ai`
 
-### Master the Commands
+### Reference
 
-1. [flow status Command](../commands/status.md) - Complete reference
-2. [flow dashboard Command](../commands/dashboard.md) - TUI guide
-3. [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) - All 28 aliases
-4. [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Daily workflows
-
-### Customize Your Workflow
-
-- Add aliases if used 10+ times/day
-- Create custom dispatcher functions
-- Configure focus timer defaults
+- [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)
+- [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)
+- [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md)
 
 ### Get Help
 
-- All docs: [Documentation Site](https://Data-Wise.github.io/flow-cli/)
-- Testing guide: [TESTING.md](../testing/TESTING.md)
-- Coding standards: [Development Guidelines](../ZSH-DEVELOPMENT-GUIDELINES.md)
-- Git plugin: [OMZ Git Plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git)
+```bash
+# Built-in help
+flow help
+dash --help
+work --help
+
+# Health check
+flow doctor
+```
+
+---
+
+## ADHD Tips
+
+!!! tip "One Command to Start"
+Just type `work` and let the picker guide you. No need to remember project paths.
+
+!!! tip "Log Wins Immediately"
+Don't wait - log wins as they happen. Each `win` gives you a dopamine boost!
+
+!!! tip "Use Breadcrumbs"
+Before switching contexts, run `crumb "was working on X"` so you can pick up later.
 
 ---
 
