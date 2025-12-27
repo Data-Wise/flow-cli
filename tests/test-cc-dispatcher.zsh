@@ -229,17 +229,8 @@ test_help_shows_haiku() {
     fi
 }
 
-test_help_shows_now() {
-    log_test "help shows now"
-
-    local output=$(cc help 2>&1)
-
-    if echo "$output" | grep -q "now"; then
-        pass
-    else
-        fail "now not in help"
-    fi
-}
+# REMOVED: test_help_shows_now - "cc now" was deprecated in v3.6.0
+# The default behavior (cc with no args) now launches Claude in current dir
 
 test_help_shows_direct_jump() {
     log_test "help shows direct jump"
@@ -437,7 +428,7 @@ main() {
     test_help_shows_diff
     test_help_shows_opus
     test_help_shows_haiku
-    test_help_shows_now
+    # test_help_shows_now - deprecated in v3.6.0
     test_help_shows_direct_jump
     echo ""
 
