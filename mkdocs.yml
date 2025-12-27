@@ -107,12 +107,15 @@ nav:
       - Quick Start: getting-started/quick-start.md
       - Installation: getting-started/installation.md
       - Troubleshooting: getting-started/troubleshooting.md
+      - FAQ: getting-started/faq.md
   - Tutorials:
       - 1. Your First Session: tutorials/01-first-session.md
       - 2. Multiple Projects: tutorials/02-multiple-projects.md
       - 3. Status Visualizations: tutorials/03-status-visualizations.md
       - 4. Web Dashboard: tutorials/04-web-dashboard.md
       - 5. AI-Powered Commands: tutorials/05-ai-commands.md
+      - 6. Dopamine Features: tutorials/06-dopamine-features.md
+      - 7. Sync Command: tutorials/07-sync-command.md
   - Guides:
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
