@@ -73,13 +73,13 @@ html {
   transform: translateY(0) !important;
 }
 
-/* Dark mode button shadows - lighter glow for ADHD feedback */
+/* Dark mode button shadows - warm glow for cozy feedback */
 [data-md-color-scheme="slate"] .md-button:hover {
-  box-shadow: 0 4px 12px rgba(77, 208, 225, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(161, 136, 127, 0.3) !important;
 }
 
 [data-md-color-scheme="slate"] .md-button--primary:hover {
-  box-shadow: 0 8px 16px rgba(77, 208, 225, 0.4) !important;
+  box-shadow: 0 8px 16px rgba(255, 138, 101, 0.4) !important;
 }
 
 /* Softer dividers */
