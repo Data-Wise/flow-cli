@@ -189,13 +189,11 @@ win() {
 
   local cat_icon="${FLOW_WIN_CATEGORIES[$category]:-✨}"
 
-  # Log the win with category
-  if _flow_has_atlas; then
-    _flow_atlas catch "$text" --type=win --category="$category" ${project:+--project="$project"}
-  else
-    local wins="${FLOW_DATA_DIR}/wins.md"
-    echo "- $cat_icon $text${project:+ (@$project)} #$category [$(date '+%Y-%m-%d %H:%M')]" >> "$wins"
-  fi
+  # Log the win to local file (atlas doesn't support win type yet)
+  local wins="${FLOW_DATA_DIR}/wins.md"
+  zmodload -F zsh/datetime b:strftime
+  local timestamp=$(strftime "%Y-%m-%d %H:%M" $EPOCHSECONDS)
+  echo "- $cat_icon $text${project:+ (@$project)} #$category [$timestamp]" >> "$wins"
 
   # Also update project .STATUS if in a project (v3.5.0)
   if _flow_in_project; then
