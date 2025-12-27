@@ -138,6 +138,7 @@ nav:
       - do: commands/do.md
       - install: commands/install.md
       - upgrade: commands/upgrade.md
+      - sync: commands/sync.md
   - Architecture:
       - Overview: architecture/README.md
       - Architecture Diagrams: architecture/ARCHITECTURE-DIAGRAM.md
