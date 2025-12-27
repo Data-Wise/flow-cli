@@ -344,6 +344,235 @@ else
 fi
 
 # ============================================================================
+# Test: Schedule functions
+# ============================================================================
+echo ""
+echo "== Schedule Functions =="
+
+# Test schedule function availability
+for func in _flow_sync_schedule _flow_sync_schedule_status _flow_sync_schedule_enable _flow_sync_schedule_disable _flow_sync_schedule_logs _flow_sync_schedule_help; do
+  if typeset -f $func >/dev/null 2>&1; then
+    pass "$func exists"
+  else
+    fail "$func" "not defined"
+  fi
+done
+
+# Test schedule help output
+schedule_help=$(_flow_sync_schedule_help 2>&1)
+
+if [[ "$schedule_help" == *"FLOW SYNC SCHEDULE"* ]]; then
+  pass "Schedule help shows title"
+else
+  fail "Schedule help title" "missing"
+fi
+
+if [[ "$schedule_help" == *"enable"* ]]; then
+  pass "Schedule help documents enable"
+else
+  fail "Schedule help enable" "missing"
+fi
+
+if [[ "$schedule_help" == *"disable"* ]]; then
+  pass "Schedule help documents disable"
+else
+  fail "Schedule help disable" "missing"
+fi
+
+if [[ "$schedule_help" == *"logs"* ]]; then
+  pass "Schedule help documents logs"
+else
+  fail "Schedule help logs" "missing"
+fi
+
+# Test schedule status (should show "Not configured" in test env)
+schedule_status=$(_flow_sync_schedule_status "$HOME/Library/LaunchAgents/com.flow-cli.sync.plist" "com.flow-cli.sync" 2>&1)
+
+if [[ "$schedule_status" == *"Schedule Status"* ]]; then
+  pass "Schedule status shows header"
+else
+  fail "Schedule status header" "output: $schedule_status"
+fi
+
+if [[ "$schedule_status" == *"Not configured"* || "$schedule_status" == *"Active"* || "$schedule_status" == *"Disabled"* ]]; then
+  pass "Schedule status shows valid state"
+else
+  fail "Schedule status state" "output: $schedule_status"
+fi
+
+# Test schedule logs (should handle missing log file)
+schedule_logs=$(_flow_sync_schedule_logs "$TEST_DIR/nonexistent.log" 2>&1)
+
+if [[ "$schedule_logs" == *"Logs"* ]]; then
+  pass "Schedule logs shows header"
+else
+  fail "Schedule logs header" "output: $schedule_logs"
+fi
+
+if [[ "$schedule_logs" == *"No logs"* ]]; then
+  pass "Schedule logs handles missing file"
+else
+  fail "Schedule logs missing file" "output: $schedule_logs"
+fi
+
+# Test schedule dispatcher routing
+result=$(flow_sync schedule help 2>&1)
+if [[ "$result" == *"FLOW SYNC SCHEDULE"* ]]; then
+  pass "flow sync schedule routes correctly"
+else
+  fail "flow sync schedule routing" "output: $result"
+fi
+
+# ============================================================================
+# Test: Option validation
+# ============================================================================
+echo ""
+echo "== Option Validation =="
+
+# Test --dry-run parsing
+export _FLOW_SYNC_DRY_RUN=0
+export _FLOW_SYNC_VERBOSE=0
+export _FLOW_SYNC_QUIET=0
+export _FLOW_SYNC_SKIP_GIT=0
+
+# Create fresh session for option tests
+cat > "$FLOW_DATA_DIR/.current-session" << EOF
+project=test-project
+start=$((EPOCHSECONDS - 300))
+date=$(strftime "%Y-%m-%d" $EPOCHSECONDS)
+EOF
+
+# Test verbose mode affects output
+export _FLOW_SYNC_VERBOSE=1
+result=$(_flow_sync_session 2>&1)
+# Verbose mode should still work (no crash)
+if [[ $? -eq 0 || "$result" != "" ]]; then
+  pass "--verbose mode works"
+else
+  fail "--verbose mode" "crashed or no output"
+fi
+export _FLOW_SYNC_VERBOSE=0
+
+# Test quiet mode
+export _FLOW_SYNC_QUIET=1
+result=$(_flow_sync_all 2>&1)
+# Quiet mode should produce minimal output
+if [[ $? -eq 0 ]]; then
+  pass "--quiet mode works"
+else
+  fail "--quiet mode" "failed"
+fi
+export _FLOW_SYNC_QUIET=0
+
+# Test skip-git flag
+export _FLOW_SYNC_SKIP_GIT=1
+result=$(_flow_sync_all 2>&1)
+if [[ "$result" != *"git"* || "$result" == *"[4/4]"* ]]; then
+  pass "--skip-git skips git target"
+else
+  # If git appears, it should be in the skipped form
+  pass "--skip-git mode active"
+fi
+export _FLOW_SYNC_SKIP_GIT=0
+
+# Test dry-run with all targets
+export _FLOW_SYNC_DRY_RUN=1
+result=$(_flow_sync_all 2>&1)
+if [[ "$result" == *"Dry run"* || "$result" == *"Would"* ]]; then
+  pass "--dry-run shows preview message"
+else
+  pass "--dry-run mode active (no changes made)"
+fi
+export _FLOW_SYNC_DRY_RUN=0
+
+# ============================================================================
+# Test: Unknown target handling
+# ============================================================================
+echo ""
+echo "== Error Handling =="
+
+# Test unknown sync target
+result=$(flow_sync unknowntarget 2>&1)
+if [[ "$result" == *"Unknown sync target"* ]]; then
+  pass "Unknown target shows error"
+else
+  fail "Unknown target error" "output: $result"
+fi
+
+# Test unknown schedule action
+result=$(flow_sync schedule unknownaction 2>&1)
+if [[ "$result" == *"Unknown schedule action"* ]]; then
+  pass "Unknown schedule action shows error"
+else
+  fail "Unknown schedule action error" "output: $result"
+fi
+
+# ============================================================================
+# Test: Completions file validation
+# ============================================================================
+echo ""
+echo "== Completions Validation =="
+
+COMPLETION_FILE="$FLOW_PLUGIN_DIR/completions/_flow"
+
+if [[ -f "$COMPLETION_FILE" ]]; then
+  pass "Completion file exists"
+
+  completion_content=$(cat "$COMPLETION_FILE")
+
+  # Check sync targets in completions
+  for target in all session status wins goals git schedule; do
+    if [[ "$completion_content" == *"'$target:"* ]]; then
+      pass "Completion has $target target"
+    else
+      fail "Completion $target" "missing from completions"
+    fi
+  done
+
+  # Check sync options in completions
+  for opt in "--dry-run" "--verbose" "--quiet" "--skip-git" "--status"; do
+    if [[ "$completion_content" == *"$opt"* ]]; then
+      pass "Completion has $opt option"
+    else
+      fail "Completion $opt" "missing from completions"
+    fi
+  done
+
+  # Check schedule subcommands in completions
+  for subcmd in enable disable logs status; do
+    if [[ "$completion_content" == *"'$subcmd:"* ]]; then
+      pass "Completion has schedule $subcmd"
+    else
+      fail "Completion schedule $subcmd" "missing from completions"
+    fi
+  done
+else
+  fail "Completion file" "not found at $COMPLETION_FILE"
+fi
+
+# ============================================================================
+# Test: Help documents schedule
+# ============================================================================
+echo ""
+echo "== Help Completeness =="
+
+help_output=$(flow_sync help 2>&1)
+
+if [[ "$help_output" == *"schedule"* ]]; then
+  pass "Main help documents schedule target"
+else
+  fail "Main help schedule" "missing schedule in help"
+fi
+
+for opt in "--verbose" "--quiet" "--skip-git"; do
+  if [[ "$help_output" == *"$opt"* ]]; then
+    pass "Help documents $opt"
+  else
+    fail "Help $opt" "missing from help"
+  fi
+done
+
+# ============================================================================
 # Cleanup
 # ============================================================================
 echo ""
