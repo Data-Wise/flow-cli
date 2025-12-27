@@ -41,7 +41,8 @@ cc() {
         pick)
             shift
             if (( $+functions[pick] )); then
-                pick && claude --permission-mode acceptEdits "$@"
+                # Pass remaining args to pick (for filtering), not claude
+                pick "$@" && claude --permission-mode acceptEdits
             else
                 echo "❌ pick function not available" >&2
                 return 1
@@ -55,7 +56,8 @@ cc() {
             if [[ "$1" == "pick" ]]; then
                 shift
                 if (( $+functions[pick] )); then
-                    pick && claude --dangerously-skip-permissions "$@"
+                    # Pass remaining args to pick (for filtering), not claude
+                    pick "$@" && claude --dangerously-skip-permissions
                 else
                     echo "❌ pick function not available" >&2
                     return 1
@@ -81,7 +83,8 @@ cc() {
             if [[ "$1" == "pick" ]]; then
                 shift
                 if (( $+functions[pick] )); then
-                    pick && claude --permission-mode plan "$@"
+                    # Pass remaining args to pick (for filtering), not claude
+                    pick "$@" && claude --permission-mode plan
                 else
                     echo "❌ pick function not available" >&2
                     return 1
@@ -182,7 +185,8 @@ cc() {
             if [[ "$1" == "pick" ]]; then
                 shift
                 if (( $+functions[pick] )); then
-                    pick && claude --model opus --permission-mode acceptEdits "$@"
+                    # Pass remaining args to pick (for filtering), not claude
+                    pick "$@" && claude --model opus --permission-mode acceptEdits
                 else
                     echo "❌ pick function not available" >&2
                     return 1
@@ -208,7 +212,8 @@ cc() {
             if [[ "$1" == "pick" ]]; then
                 shift
                 if (( $+functions[pick] )); then
-                    pick && claude --model haiku --permission-mode acceptEdits "$@"
+                    # Pass remaining args to pick (for filtering), not claude
+                    pick "$@" && claude --model haiku --permission-mode acceptEdits
                 else
                     echo "❌ pick function not available" >&2
                     return 1
