@@ -307,6 +307,9 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Team dashboards
 
 ## Session Log
+- 2025-12-27: DOCS - Updated planning docs, deployed to GitHub Pages (PR #19)
+- 2025-12-27: DOCS - Rewrote ARCHITECTURE-ROADMAP.md for pure ZSH (was outdated Node.js CLI)
+- 2025-12-27: DOCS - Created V4-PLANNING.md with ecosystem integration roadmap
 - 2025-12-27: v3.6.2 - Created scripts/release.sh for automated version bumping
 - 2025-12-27: v3.6.2 - Fixed README badge (static for private repo)
 - 2025-12-27: v3.6.2 - Synced all version files to 3.6.2, cleaned orphan docs
