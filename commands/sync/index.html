@@ -12,13 +12,13 @@
         <meta name="author" content="DT">
       
       
-        <link rel="canonical" href="https://data-wise.github.io/flow-cli/reference/ZSH-CLEAN-WORKFLOW/">
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/commands/sync/">
       
       
-        <link rel="prev" href="../EXISTING-SYSTEM-SUMMARY/">
+        <link rel="prev" href="../upgrade/">
       
       
-        <link rel="next" href="../../commands/status/">
+        <link rel="next" href="../../architecture/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>ZSH Clean Workflow - Flow CLI Documentation</title>
+        <title>sync - Flow CLI Documentation</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#zsh-config-maintenance" class="md-skip">
+        <a href="#flow-sync" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ZSH Clean Workflow
+              sync
             
           </span>
         </div>
@@ -308,13 +308,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../COMMAND-EXPLORER/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../reference/COMMAND-EXPLORER/" class="md-tabs__link">
           
   
   
@@ -330,11 +328,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../commands/status/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../status/" class="md-tabs__link">
           
   
   
@@ -1125,31 +1125,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   
@@ -1167,7 +1164,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1185,7 +1182,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../COMMAND-EXPLORER/" class="md-nav__link">
+      <a href="../../reference/COMMAND-EXPLORER/" class="md-nav__link">
         
   
   
@@ -1213,7 +1210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../DISPATCHER-REFERENCE/" class="md-nav__link">
+      <a href="../../reference/DISPATCHER-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1241,7 +1238,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../CC-DISPATCHER-REFERENCE/" class="md-nav__link">
+      <a href="../../reference/CC-DISPATCHER-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1269,7 +1266,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ALIAS-REFERENCE-CARD/" class="md-nav__link">
+      <a href="../../reference/ALIAS-REFERENCE-CARD/" class="md-nav__link">
         
   
   
@@ -1297,7 +1294,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
+      <a href="../../reference/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1325,7 +1322,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PICK-COMMAND-REFERENCE/" class="md-nav__link">
+      <a href="../../reference/PICK-COMMAND-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1353,7 +1350,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../DASHBOARD-QUICK-REF/" class="md-nav__link">
+      <a href="../../reference/DASHBOARD-QUICK-REF/" class="md-nav__link">
         
   
   
@@ -1381,7 +1378,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PROJECT-DETECTION-GUIDE/" class="md-nav__link">
+      <a href="../../reference/PROJECT-DETECTION-GUIDE/" class="md-nav__link">
         
   
   
@@ -1409,7 +1406,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
+      <a href="../../reference/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
         
   
   
@@ -1437,7 +1434,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
+      <a href="../../reference/ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
         
   
   
@@ -1465,7 +1462,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../CLI-COMMAND-PATTERNS-RESEARCH/" class="md-nav__link">
+      <a href="../../reference/CLI-COMMAND-PATTERNS-RESEARCH/" class="md-nav__link">
         
   
   
@@ -1493,7 +1490,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../COMMAND-QUICK-REFERENCE/" class="md-nav__link">
+      <a href="../../reference/COMMAND-QUICK-REFERENCE/" class="md-nav__link">
         
   
   
@@ -1521,7 +1518,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TESTING-QUICK-REF/" class="md-nav__link">
+      <a href="../../reference/TESTING-QUICK-REF/" class="md-nav__link">
         
   
   
@@ -1549,7 +1546,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../EXISTING-SYSTEM-SUMMARY/" class="md-nav__link">
+      <a href="../../reference/EXISTING-SYSTEM-SUMMARY/" class="md-nav__link">
         
   
   
@@ -1557,6 +1554,378 @@
     
   
     Existing System Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ZSH-CLEAN-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ZSH Clean Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dash
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../doctor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    doctor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    plugin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ai
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    do
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    upgrade
   
 
     
@@ -1593,7 +1962,7 @@
   <span class="md-ellipsis">
     
   
-    ZSH Clean Workflow
+    sync
   
 
     
@@ -1611,7 +1980,7 @@
   <span class="md-ellipsis">
     
   
-    ZSH Clean Workflow
+    sync
   
 
     
@@ -1637,10 +2006,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#philosophy" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Philosophy
+        Quick Start
       
     </span>
   </a>
@@ -1648,44 +2017,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
+  <a href="#synopsis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture
+        Synopsis
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Commands
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage">
+    <nav class="md-nav" aria-label="Synopsis">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#daily-maintenance-just-this" class="md-nav__link">
+  <a href="#targets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Daily Maintenance (Just This!)
+        Targets
       
     </span>
   </a>
@@ -1693,21 +2040,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#undo-changes" class="md-nav__link">
+  <a href="#options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Undo Changes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#check-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check Status
+        Options
       
     </span>
   </a>
@@ -1720,6 +2056,212 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#individual-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Individual Targets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scripting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scripting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-each-target-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Each Target Does
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Each Target Does">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flow-sync-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync session
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-sync-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-sync-wins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync wins
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-sync-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync goals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-sync-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync git
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execution-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quiet-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quiet Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dry-run-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dry Run Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State File
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#recovery" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1728,14 +2270,52 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Recovery">
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#restore-specific-file" class="md-nav__link">
+  <a href="#with-finish-command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Restore Specific File
+        With finish Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-dash-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With dash Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With CI/CD
       
     </span>
   </a>
@@ -1748,10 +2328,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#backup-strategy" class="md-nav__link">
+  <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Backup Strategy
+        Environment Variables
       
     </span>
   </a>
@@ -1759,10 +2339,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#file-structure" class="md-nav__link">
+  <a href="#related-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        File Structure
+        Related Commands
       
     </span>
   </a>
@@ -1770,10 +2350,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tracked-vs-ignored" class="md-nav__link">
+  <a href="#version-history" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Tracked vs Ignored
+        Version History
       
     </span>
   </a>
@@ -1784,375 +2364,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Commands
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Commands
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../commands/status/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    status
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../commands/dashboard/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    dashboard
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../commands/dash/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    dash
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../commands/doctor/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    doctor
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../commands/config/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    config
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../commands/plugin/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    plugin
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../commands/ai/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ai
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../commands/do/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    do
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../commands/install/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    install
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../commands/upgrade/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    upgrade
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../commands/sync/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    sync
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -2796,7 +3007,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TESTING-QUICK-REF/" class="md-nav__link">
+      <a href="../../reference/TESTING-QUICK-REF/" class="md-nav__link">
         
   
   
@@ -3337,10 +3548,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#philosophy" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Philosophy
+        Quick Start
       
     </span>
   </a>
@@ -3348,44 +3559,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
+  <a href="#synopsis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture
+        Synopsis
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Commands
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage">
+    <nav class="md-nav" aria-label="Synopsis">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#daily-maintenance-just-this" class="md-nav__link">
+  <a href="#targets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Daily Maintenance (Just This!)
+        Targets
       
     </span>
   </a>
@@ -3393,21 +3582,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#undo-changes" class="md-nav__link">
+  <a href="#options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Undo Changes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#check-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check Status
+        Options
       
     </span>
   </a>
@@ -3420,6 +3598,212 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#individual-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Individual Targets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scripting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scripting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-each-target-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Each Target Does
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Each Target Does">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flow-sync-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync session
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-sync-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-sync-wins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync wins
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-sync-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync goals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-sync-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync git
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execution-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quiet-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quiet Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dry-run-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dry Run Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State File
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#recovery" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3428,14 +3812,52 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Recovery">
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#restore-specific-file" class="md-nav__link">
+  <a href="#with-finish-command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Restore Specific File
+        With finish Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-dash-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With dash Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With CI/CD
       
     </span>
   </a>
@@ -3448,10 +3870,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#backup-strategy" class="md-nav__link">
+  <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Backup Strategy
+        Environment Variables
       
     </span>
   </a>
@@ -3459,10 +3881,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#file-structure" class="md-nav__link">
+  <a href="#related-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        File Structure
+        Related Commands
       
     </span>
   </a>
@@ -3470,10 +3892,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tracked-vs-ignored" class="md-nav__link">
+  <a href="#version-history" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Tracked vs Ignored
+        Version History
       
     </span>
   </a>
@@ -3497,7 +3919,7 @@
 
 
   
-    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/reference/ZSH-CLEAN-WORKFLOW.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/commands/sync.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -3505,188 +3927,353 @@
   
 
 
-<h1 id="zsh-config-maintenance">ZSH Config Maintenance<a class="headerlink" href="#zsh-config-maintenance" title="Permanent link">&para;</a></h1>
-<h2 id="philosophy">Philosophy<a class="headerlink" href="#philosophy" title="Permanent link">&para;</a></h2>
-<blockquote>
-<p><strong>Just type <code>zsh-clean</code> and everything gets done. Zero decisions.</strong></p>
-</blockquote>
-<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────────────────────────┐
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│  ~/.config/zsh (symlink)                                                    │
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│       │                                                                     │
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│       ▼                                                                     │
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│  ~/projects/dev-tools/flow-cli/zsh/                                │
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│       │                                                                     │
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│       ├──────────────────┬──────────────────┐                               │
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│       │                  │                  │                               │
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│       ▼                  ▼                  ▼                               │
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   GitHub             Google Drive       Local                               │
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   (zsh-clean)        (auto-sync)        (working copy)                      │
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   full history       real-time          instant access                      │
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>└─────────────────────────────────────────────────────────────────────────────┘
+<h1 id="flow-sync">flow sync<a class="headerlink" href="#flow-sync" title="Permanent link">&para;</a></h1>
+<p><strong>Unified sync orchestration for flow-cli v4.0.0</strong></p>
+<p>Synchronize workflow data across all flow-cli components with a single command. Designed for ADHD-friendly operation with smart detection, clear feedback, and safe defaults.</p>
+<hr />
+<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>flow<span class="w"> </span>sync<span class="w">              </span><span class="c1"># Smart sync - see what needs syncing</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>all<span class="w">          </span><span class="c1"># Sync everything</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>flow<span class="w"> </span>sync<span class="w"> </span>--status<span class="w">     </span><span class="c1"># View sync dashboard</span>
 </code></pre></div>
-<h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span>sync<span class="w"> </span><span class="o">[</span>target<span class="o">]</span><span class="w"> </span><span class="o">[</span>options<span class="o">]</span>
+</code></pre></div>
+<h3 id="targets">Targets<a class="headerlink" href="#targets" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Command</th>
+<th>Target</th>
+<th>Description</th>
+<th>Speed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>session</code></td>
+<td>Persist current session data to worklog</td>
+<td>~2ms</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Update .STATUS timestamps and streaks</td>
+<td>~120ms</td>
+</tr>
+<tr>
+<td><code>wins</code></td>
+<td>Aggregate project wins to global wins.md</td>
+<td>~15ms</td>
+</tr>
+<tr>
+<td><code>goals</code></td>
+<td>Recalculate daily goal progress</td>
+<td>~5ms</td>
+</tr>
+<tr>
+<td><code>git</code></td>
+<td>Smart git push/pull with stash handling</td>
+<td>~1.2s</td>
+</tr>
+<tr>
+<td><code>all</code></td>
+<td>Run all targets in dependency order</td>
+<td>~1.4s</td>
+</tr>
+<tr>
+<td>(none)</td>
+<td>Smart sync - auto-detect what needs syncing</td>
+<td>~50ms</td>
+</tr>
+</tbody>
+</table>
+<h3 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Short</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>zsh-clean</code></td>
-<td><strong>Do everything</strong> (archive junk + sync to GitHub)</td>
+<td><code>--dry-run</code></td>
+<td><code>-n</code></td>
+<td>Preview changes without executing</td>
 </tr>
 <tr>
-<td><code>zsh-clean status</code></td>
-<td>Health check only</td>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Show detailed output</td>
 </tr>
 <tr>
-<td><code>zsh-clean undo</code></td>
-<td>Discard uncommitted changes</td>
+<td><code>--quiet</code></td>
+<td><code>-q</code></td>
+<td>Minimal output (for scripts)</td>
 </tr>
 <tr>
-<td><code>zsh-clean test</code></td>
-<td>Run test suite</td>
+<td><code>--skip-git</code></td>
+<td></td>
+<td>Skip git sync for quick local sync</td>
 </tr>
 <tr>
-<td><code>zsh-clean help</code></td>
-<td>Show help</td>
+<td><code>--status</code></td>
+<td></td>
+<td>Show sync dashboard</td>
+</tr>
+<tr>
+<td><code>--help</code></td>
+<td><code>-h</code></td>
+<td>Show help message</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<h3 id="daily-maintenance-just-this">Daily Maintenance (Just This!)<a class="headerlink" href="#daily-maintenance-just-this" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>zsh-clean
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>═══════════════════════════════════════════════════════════
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>🧹<span class="w"> </span>ZSH<span class="w"> </span>Config<span class="w"> </span>Maintenance
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>═══════════════════════════════════════════════════════════
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="m">1</span>.<span class="w"> </span>Cleaning<span class="w"> </span>up...
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span>✓<span class="w"> </span>No<span class="w"> </span>junk<span class="w"> </span>to<span class="w"> </span>archive
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="m">2</span>.<span class="w"> </span>Syncing<span class="w"> </span>to<span class="w"> </span>GitHub...
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span>✓<span class="w"> </span>Committed<span class="w"> </span>changes
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span>✓<span class="w"> </span>Pushed<span class="w"> </span>to<span class="w"> </span>GitHub
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>───────────────────────────────────────────────────────────
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span>✓<span class="w"> </span>Done!<span class="w"> </span>Config<span class="w"> </span>is<span class="w"> </span>clean<span class="w"> </span>and<span class="w"> </span>backed<span class="w"> </span>up.
-</code></pre></div>
-<p>That's it. One command does everything:</p>
-<ol>
-<li>Archives any junk files (<code>.bak</code>, <code>.tmp</code>, etc.)</li>
-<li>Commits changes to git</li>
-<li>Pushes to GitHub</li>
-</ol>
-<h3 id="undo-changes">Undo Changes<a class="headerlink" href="#undo-changes" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>zsh-clean<span class="w"> </span>undo
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>═══════════════════════════════════════════════════════════
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>⏪<span class="w"> </span>Undo<span class="w"> </span>Changes
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>═══════════════════════════════════════════════════════════
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># See what needs syncing (smart detection)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>flow<span class="w"> </span>sync
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Sync everything</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>flow<span class="w"> </span>sync<span class="w"> </span>all
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span>Changes<span class="w"> </span>to<span class="w"> </span>discard:
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span>M<span class="w"> </span>zsh/functions/adhd-helpers.zsh
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Preview what would happen</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>flow<span class="w"> </span>sync<span class="w"> </span>all<span class="w"> </span>--dry-run
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span>⚠<span class="w">  </span>Discard<span class="w"> </span>these<span class="w"> </span>changes?<span class="w"> </span><span class="o">[</span>y/N<span class="o">]</span><span class="w"> </span>y
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span>✓<span class="w"> </span>Changes<span class="w"> </span>discarded
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span>Run<span class="w"> </span><span class="s1">&#39;source ~/.config/zsh/.zshrc&#39;</span><span class="w"> </span>to<span class="w"> </span>reload
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Quick local sync (skip git)</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>flow<span class="w"> </span>sync<span class="w"> </span>all<span class="w"> </span>--skip-git
 </code></pre></div>
-<h3 id="check-status">Check Status<a class="headerlink" href="#check-status" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>zsh-clean<span class="w"> </span>status
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>═══════════════════════════════════════════════════════════
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>🩺<span class="w"> </span>ZSH<span class="w"> </span>Configuration<span class="w"> </span>Health
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>═══════════════════════════════════════════════════════════
+<h3 id="individual-targets">Individual Targets<a class="headerlink" href="#individual-targets" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Update .STATUS files only</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>status
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Aggregate wins across projects</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>flow<span class="w"> </span>sync<span class="w"> </span>wins
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span>📁<span class="w"> </span>Config:<span class="w"> </span>/Users/dt/.config/zsh<span class="w"> </span><span class="o">(</span><span class="m">1</span>.5M<span class="o">)</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span>📦<span class="w"> </span>Functions:<span class="w"> </span><span class="m">18</span><span class="w"> </span>files
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span>☁️<span class="w">  </span>Git:<span class="w"> </span>synced
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span>🧹<span class="w"> </span>Junk:<span class="w"> </span>none
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Recalculate goal progress</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>flow<span class="w"> </span>sync<span class="w"> </span>goals
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Sync git (fetch, rebase, push)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>flow<span class="w"> </span>sync<span class="w"> </span>git
+</code></pre></div>
+<h3 id="scripting">Scripting<a class="headerlink" href="#scripting" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Quiet mode for scripts</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>all<span class="w"> </span>--quiet
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Check sync status</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>flow<span class="w"> </span>sync<span class="w"> </span>--status
 </code></pre></div>
 <hr />
-<h2 id="recovery">Recovery<a class="headerlink" href="#recovery" title="Permanent link">&para;</a></h2>
+<h2 id="what-each-target-does">What Each Target Does<a class="headerlink" href="#what-each-target-does" title="Permanent link">&para;</a></h2>
+<h3 id="flow-sync-session"><code>flow sync session</code><a class="headerlink" href="#flow-sync-session" title="Permanent link">&para;</a></h3>
+<p>Persists the current work session to the worklog.</p>
+<ul>
+<li><strong>Reads:</strong> <code>$FLOW_DATA_DIR/.current-session</code></li>
+<li><strong>Writes:</strong> <code>$FLOW_DATA_DIR/worklog</code></li>
+<li><strong>Output:</strong> Duration and project name (e.g., "45m on flow-cli")</li>
+</ul>
+<p>Use this to capture session data without ending the session.</p>
+<h3 id="flow-sync-status"><code>flow sync status</code><a class="headerlink" href="#flow-sync-status" title="Permanent link">&para;</a></h3>
+<p>Updates <code>.STATUS</code> files for recently active projects.</p>
+<ul>
+<li><strong>Scans:</strong> <code>$FLOW_PROJECTS_ROOT/**/.STATUS</code></li>
+<li><strong>Updates:</strong> <code>last_active</code> timestamp</li>
+<li><strong>Triggers:</strong> Streak updates (if configured)</li>
+</ul>
+<p>Only updates files modified in the last hour (avoids touching inactive projects).</p>
+<h3 id="flow-sync-wins"><code>flow sync wins</code><a class="headerlink" href="#flow-sync-wins" title="Permanent link">&para;</a></h3>
+<p>Aggregates project-level wins to a global wins file.</p>
+<ul>
+<li><strong>Scans:</strong> <code>.STATUS</code> files with <code>wins:</code> field</li>
+<li><strong>Writes:</strong> <code>$FLOW_DATA_DIR/wins.md</code></li>
+<li><strong>Deduplicates:</strong> Won't add the same win twice</li>
+</ul>
+<p>Useful for seeing all accomplishments across projects in one place.</p>
+<h3 id="flow-sync-goals"><code>flow sync goals</code><a class="headerlink" href="#flow-sync-goals" title="Permanent link">&para;</a></h3>
+<p>Recalculates daily goal progress based on wins.</p>
+<ul>
+<li><strong>Reads:</strong> <code>$FLOW_DATA_DIR/wins.md</code></li>
+<li><strong>Reads:</strong> <code>$FLOW_DATA_DIR/goal.json</code> (for target)</li>
+<li><strong>Writes:</strong> Updated <code>$FLOW_DATA_DIR/goal.json</code></li>
+<li><strong>Output:</strong> Progress (e.g., "5/3 (100%)")</li>
+</ul>
+<h3 id="flow-sync-git"><code>flow sync git</code><a class="headerlink" href="#flow-sync-git" title="Permanent link">&para;</a></h3>
+<p>Smart git synchronization with safety features.</p>
+<p><strong>Workflow:</strong></p>
+<ol>
+<li>Stash uncommitted changes (if any)</li>
+<li>Fetch from remote</li>
+<li>Rebase if behind remote</li>
+<li>Push if ahead</li>
+<li>Pop stash</li>
+</ol>
+<p><strong>Safety:</strong></p>
+<ul>
+<li>Auto-aborts on rebase conflicts</li>
+<li>Restores stash on any failure</li>
+<li>Reports ahead/behind status</li>
+</ul>
+<hr />
+<h2 id="execution-order">Execution Order<a class="headerlink" href="#execution-order" title="Permanent link">&para;</a></h2>
+<p>When running <code>flow sync all</code>, targets execute in dependency order:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>session → status → wins → goals → git
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>   ↓         ↓        ↓       ↓      ↓
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a> (2ms)    (120ms)  (15ms)  (5ms)  (1.2s)
+</code></pre></div>
+<ul>
+<li><strong>Session</strong> must run first (captures current state)</li>
+<li><strong>Status</strong> updates timestamps before win aggregation</li>
+<li><strong>Wins</strong> aggregates before goal calculation</li>
+<li><strong>Goals</strong> calculates progress from wins</li>
+<li><strong>Git</strong> runs last (longest operation, optional)</li>
+</ul>
+<hr />
+<h2 id="output-format">Output Format<a class="headerlink" href="#output-format" title="Permanent link">&para;</a></h2>
+<h3 id="standard-output">Standard Output<a class="headerlink" href="#standard-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>🔄 Syncing flow-cli
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>━━━━━━━━━━━━━━━━━━━━
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  [1/5] session... done (45m on flow-cli)
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  [2/5] status... done (2 projects updated)
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  [3/5] wins... done (3 new wins aggregated)
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  [4/5] goals... done (5/3 (100%))
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  [5/5] git... done (pushed 2 commits)
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>✓ Sync complete (1.4s)
+</code></pre></div>
+<h3 id="quiet-output">Quiet Output<a class="headerlink" href="#quiet-output" title="Permanent link">&para;</a></h3>
+<p>With <code>--quiet</code>, only errors are shown.</p>
+<h3 id="dry-run-output">Dry Run Output<a class="headerlink" href="#dry-run-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>🔍 Dry run - no changes will be made
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  [1/5] session... Would log: 45m on flow-cli
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  [2/5] status... Would update: 2 projects
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>  ...
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>Run without --dry-run to execute
+</code></pre></div>
+<hr />
+<h2 id="state-file">State File<a class="headerlink" href="#state-file" title="Permanent link">&para;</a></h2>
+<p>Sync state is stored in <code>$FLOW_DATA_DIR/sync-state.json</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">&quot;last_sync&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">&quot;all&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-27T14:07:57Z&quot;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="nt">&quot;session&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="nt">&quot;wins&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="nt">&quot;goals&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="nt">&quot;git&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;skipped&quot;</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="p">}</span>
+</code></pre></div>
+<p>View with <code>flow sync --status</code>.</p>
+<hr />
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Scenario</th>
-<th>Solution</th>
+<th>Behavior</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Broke something just now</strong></td>
-<td><code>zsh-clean undo</code></td>
+<td>Network timeout</td>
+<td>Log warning, continue</td>
 </tr>
 <tr>
-<td><strong>Need older version</strong></td>
-<td><code>git log --oneline</code> → <code>git checkout &lt;hash&gt; -- zsh/</code></td>
+<td>Missing directory</td>
+<td>Log error, abort</td>
 </tr>
 <tr>
-<td><strong>Catastrophic loss</strong></td>
-<td>Clone from GitHub or Google Drive</td>
+<td>Git merge conflict</td>
+<td>Abort, restore stash, provide steps</td>
+</tr>
+<tr>
+<td>Optional dependency missing</td>
+<td>Skip silently</td>
 </tr>
 </tbody>
 </table>
-<h3 id="restore-specific-file">Restore Specific File<a class="headerlink" href="#restore-specific-file" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">cd</span><span class="w"> </span>~/projects/dev-tools/flow-cli
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>zsh/functions/adhd-helpers.zsh
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>git<span class="w"> </span>checkout<span class="w"> </span>abc1234<span class="w"> </span>--<span class="w"> </span>zsh/functions/adhd-helpers.zsh
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nb">source</span><span class="w"> </span>~/.config/zsh/.zshrc
+<h3 id="recovery">Recovery<a class="headerlink" href="#recovery" title="Permanent link">&para;</a></h3>
+<p>If git sync fails with a conflict:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># View conflict</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>git<span class="w"> </span>status
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Option 1: Abort and sync again later</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>git<span class="w"> </span>rebase<span class="w"> </span>--abort
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Option 2: Resolve and continue</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>git<span class="w"> </span>add<span class="w"> </span>&lt;resolved-files&gt;
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>git<span class="w"> </span>rebase<span class="w"> </span>--continue
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>git<span class="w"> </span>push
 </code></pre></div>
 <hr />
-<h2 id="backup-strategy">Backup Strategy<a class="headerlink" href="#backup-strategy" title="Permanent link">&para;</a></h2>
+<h2 id="integration">Integration<a class="headerlink" href="#integration" title="Permanent link">&para;</a></h2>
+<h3 id="with-finish-command">With <code>finish</code> Command<a class="headerlink" href="#with-finish-command" title="Permanent link">&para;</a></h3>
+<p>The <code>finish</code> command can optionally sync before ending a session:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>finish<span class="w"> </span><span class="s2">&quot;Completed feature&quot;</span><span class="w">  </span><span class="c1"># Commits and optionally syncs</span>
+</code></pre></div>
+<h3 id="with-dash-command">With <code>dash</code> Command<a class="headerlink" href="#with-dash-command" title="Permanent link">&para;</a></h3>
+<p>The dashboard shows sync status:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>dash<span class="w">          </span><span class="c1"># Shows last sync time</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>dash<span class="w"> </span>--watch<span class="w">  </span><span class="c1"># Auto-refreshes with sync status</span>
+</code></pre></div>
+<h3 id="with-cicd">With CI/CD<a class="headerlink" href="#with-cicd" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># In a pre-push hook</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>all<span class="w"> </span>--quiet<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+<hr />
+<h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>When</th>
-<th>History</th>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>GitHub</strong></td>
-<td>Every <code>zsh-clean</code></td>
-<td>Full git history</td>
+<td><code>FLOW_DATA_DIR</code></td>
+<td><code>~/.local/share/flow</code></td>
+<td>Data storage location</td>
 </tr>
 <tr>
-<td><strong>Google Drive</strong></td>
-<td>Automatic</td>
-<td>~30 days</td>
+<td><code>FLOW_PROJECTS_ROOT</code></td>
+<td><code>~/projects</code></td>
+<td>Root for project scanning</td>
 </tr>
 </tbody>
 </table>
-<p>No local tarballs needed — two cloud backups are enough.</p>
 <hr />
-<h2 id="file-structure">File Structure<a class="headerlink" href="#file-structure" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>~/projects/dev-tools/flow-cli/
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>├── zsh/                      # ← Config (symlinked from ~/.config/zsh)
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>│   ├── .zshrc
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│   ├── .p10k.zsh
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│   ├── functions/
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│   │   └── zsh-clean.zsh     # This tool
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>│   ├── tests/
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>│   └── .archive/             # Junk files (local only)
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>├── docs/
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>└── README.md
-</code></pre></div>
-<h2 id="tracked-vs-ignored">Tracked vs Ignored<a class="headerlink" href="#tracked-vs-ignored" title="Permanent link">&para;</a></h2>
-<p><strong>Tracked (GitHub):</strong></p>
+<h2 id="related-commands">Related Commands<a class="headerlink" href="#related-commands" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>.zshrc</code>, <code>.p10k.zsh</code>, <code>.zsh_plugins.*</code></li>
-<li><code>functions/*.zsh</code></li>
-<li><code>tests/</code>, <code>help/</code></li>
+<li><a href="../reference/DOPAMINE-FEATURES-GUIDE.md"><code>flow goal</code></a> - Manage daily goals</li>
+<li><a href="../reference/DOPAMINE-FEATURES-GUIDE.md"><code>win</code></a> - Log accomplishments</li>
+<li><a href="../dashboard/"><code>dash</code></a> - Project dashboard</li>
+<li><a href="../../reference/WORKFLOW-QUICK-REFERENCE/"><code>finish</code></a> - End work session</li>
 </ul>
-<p><strong>Ignored (local):</strong></p>
-<ul>
-<li><code>.archive/</code> — archived junk</li>
-<li><code>.zcompdump*</code>, <code>.zsh_history</code>, <code>.zsh_sessions/</code></li>
-<li><code>.zshrc.local</code> — machine-specific</li>
-</ul>
+<hr />
+<h2 id="version-history">Version History<a class="headerlink" href="#version-history" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v4.0.0</td>
+<td>Initial release with 5 sync targets</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>See also:</strong> <a href="../../guides/DOPAMINE-FEATURES-GUIDE/">Dopamine Features Guide</a> for win tracking and goals.</p>
 
 
 
