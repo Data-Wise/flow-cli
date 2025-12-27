@@ -271,21 +271,21 @@ For Developers:
 
 ## Implementation Checklist
 
-### Phase 1: Critical Gaps (Today)
+### Phase 1: Critical Gaps (Today) ✅ DONE
 
-- [ ] Create `docs/commands/work.md`
-- [ ] Create `docs/commands/finish.md`
-- [ ] Create `docs/commands/capture.md`
-- [ ] Update `docs/getting-started/quick-start.md`
+- [x] Create `docs/commands/work.md`
+- [x] Create `docs/commands/finish.md`
+- [x] Create `docs/commands/capture.md`
+- [x] Update `docs/getting-started/quick-start.md`
 
-### Phase 2: Complete Commands (This Week)
+### Phase 2: Complete Commands (This Week) ✅ DONE
 
-- [ ] Create `docs/commands/hop.md`
-- [ ] Create `docs/commands/timer.md`
-- [ ] Create `docs/commands/morning.md`
-- [ ] Create `docs/commands/pick.md`
-- [ ] Create `docs/commands/flow.md`
-- [ ] Update `mkdocs.yml` navigation
+- [x] Create `docs/commands/hop.md`
+- [x] Create `docs/commands/timer.md`
+- [x] Create `docs/commands/morning.md`
+- [x] Create `docs/commands/pick.md`
+- [x] Create `docs/commands/flow.md`
+- [x] Update `mkdocs.yml` navigation
 
 ### Phase 3: New Tutorials (Next)
 
