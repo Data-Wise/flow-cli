@@ -30,11 +30,25 @@ work <project>    # Start session
 finish [note]     # End session (optional commit)
 hop <project>     # Quick switch (tmux)
 dash [category]   # Project dashboard
+dash -i           # Interactive TUI (fzf)
+dash --watch      # Live refresh mode
 catch <text>      # Quick capture
 js                # Just start (auto-picks project)
 flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
+
+### Dopamine Features (v3.5.0)
+
+```bash
+win <text>        # Log accomplishment (auto-categorized)
+yay               # Show recent wins
+yay --week        # Weekly summary + graph
+flow goal         # Show daily goal progress
+flow goal set 3   # Set daily win target
+```
+
+**Categories:** 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test, ✨ other
 
 ### Active Dispatchers (5)
 
@@ -273,6 +287,7 @@ zsh tests/unit/test-project-detector.zsh
 
 | Document                                     | Purpose                   |
 | -------------------------------------------- | ------------------------- |
+| `docs/guides/DOPAMINE-FEATURES-GUIDE.md`     | Win/streak/goal features  |
 | `docs/reference/DISPATCHER-REFERENCE.md`     | Complete dispatcher guide |
 | `docs/reference/ALIAS-REFERENCE-CARD.md`     | All 28 aliases            |
 | `docs/reference/COMMAND-QUICK-REFERENCE.md`  | Quick command lookup      |
@@ -332,26 +347,33 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2025-12-25)
+## Current Status (2025-12-26)
 
-### ✅ Completed
+### ✅ v3.5.0 Released
 
-- [x] Pure ZSH plugin structure
-- [x] 5 active dispatchers (g, mcp, obs, qu, r)
-- [x] Atlas integration bridge
-- [x] Completions for all commands
-- [x] Comprehensive documentation (442-line dispatcher guide)
-- [x] Website deployed with all updates
-- [x] Alias conflict resolution (removed d, f, pp, ah, r alias)
-- [x] Removed deprecated v/vibe dispatcher
+- [x] Dopamine features (win tracking, streaks, goals)
+- [x] Win categories with auto-detection
+- [x] Daily goal tracking (global + per-project)
+- [x] Extended .STATUS format (wins, streak, last_active, tags)
+- [x] Dashboard TUI enhancements (Ctrl-E/S/W shortcuts)
+- [x] Watch mode (`dash --watch`)
+- [x] Documentation fully updated
+- [x] GitHub release tagged and published
 
 ### 🎯 Production Ready
 
 - **Version:** 3.5.0
+- **Released:** 2025-12-26
 - **Status:** Production use phase
 - **Performance:** Sub-10ms for core commands
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
 - **Tests:** Interactive dog feeding test (gamified)
+
+### 📋 Next: v4.0.0 Planning
+
+- [ ] Cross-tool orchestration (`flow sync all`)
+- [ ] Remote state sync (optional cloud backup)
+- [ ] Team features (shared templates)
 
 ---
 

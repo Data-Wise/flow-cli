@@ -205,6 +205,30 @@ pv                  # Preview/view
 pt                  # Test
 pick                # FZF picker
 dash                # Master dashboard
+dash -i             # Interactive TUI
+dash --watch        # Live refresh
+```
+
+### Dopamine Features (v3.5.0)
+
+```bash
+win "text"          # Log accomplishment (auto-categorized)
+win --category fix  # Log with explicit category
+yay                 # Show recent wins
+yay --week          # Weekly summary + graph
+flow goal           # Show daily goal progress
+flow goal set 3     # Set daily win target
+```
+
+**Categories:** 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test, ✨ other
+
+### Capture & Breadcrumbs
+
+```bash
+catch "idea"        # Quick capture
+inbox               # View captured items
+crumb "note"        # Leave breadcrumb
+trail               # Show breadcrumb trail
 ```
 
 ### Teaching
@@ -252,6 +276,8 @@ reload              # Reload zshrc
 | Health Check   | `flow doctor`  | `flow doctor [--fix\|--ai]`    |
 | Install        | `flow install` | `flow install [--profile p]`   |
 | Upgrade        | `flow upgrade` | `flow upgrade [target]`        |
+| Wins (v3.5.0)  | `win`          | `win [--category] "text"`      |
+| Goals (v3.5.0) | `flow goal`    | `flow goal [set N]`            |
 | Claude         | `ccy`          | Function (no args)             |
 | Gemini         | `gem*`         | See aliases in .zshrc          |
 

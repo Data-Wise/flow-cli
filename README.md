@@ -1,5 +1,9 @@
 # flow-cli
 
+[![Version](https://img.shields.io/badge/version-3.5.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v3.5.0)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Documentation](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
+
 **Pure ZSH Workflow Plugin** - ADHD-optimized productivity for developers.
 
 ## Overview
@@ -108,6 +112,9 @@ See [tests/DOG-FEEDING-TEST-README.md](tests/DOG-FEEDING-TEST-README.md) for det
 | `crumb <text>`   | Leave breadcrumb                 |
 | `trail [proj]`   | Show breadcrumb trail            |
 | `at <cmd>`       | Direct atlas access              |
+| `win <text>`     | Log accomplishment (v3.5.0)      |
+| `yay`            | Show recent wins (v3.5.0)        |
+| `flow goal`      | Daily goal tracking (v3.5.0)     |
 
 ### Dispatchers (Smart Context-Aware Functions)
 
@@ -137,11 +144,31 @@ t             # trail
 ```zsh
 dash                # Quick ZSH dashboard
 dash --full         # Atlas TUI dashboard
-dash --tui          # Interactive fzf picker
+dash -i             # Interactive fzf picker
+dash --watch        # Live refresh mode (v3.5.0)
 dash --active       # Show only active projects
-dash --detailed     # Show full project info
-dash --minimal      # One project per line
 ```
+
+### Dopamine Features (v3.5.0)
+
+```zsh
+# Log wins with auto-categorization
+win "Fixed the login bug"        # 🔧 fix
+win "Deployed to production"     # 🚀 ship
+win "Added unit tests"           # 🧪 test
+
+# View wins
+yay                              # Recent wins
+yay --week                       # Weekly summary + graph
+
+# Daily goal tracking
+flow goal set 3                  # Set daily target
+flow goal                        # Check progress
+```
+
+**Dashboard shows:** streak counter, recent wins, goal progress.
+
+See [Dopamine Features Guide](docs/guides/DOPAMINE-FEATURES-GUIDE.md) for details.
 
 ## Session Conflict Handling
 
