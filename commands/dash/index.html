@@ -1926,6 +1926,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#new-in-v350" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🆕 New in v3.5.0
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆕 New in v3.5.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#watch-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Watch Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interactive-tui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interactive TUI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wins-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wins Section
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#usage-examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3736,6 +3786,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#new-in-v350" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🆕 New in v3.5.0
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆕 New in v3.5.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#watch-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Watch Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interactive-tui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interactive TUI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wins-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wins Section
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#usage-examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4284,75 +4384,124 @@
 </li>
 </ol>
 <hr />
+<h2 id="new-in-v350">🆕 New in v3.5.0<a class="headerlink" href="#new-in-v350" title="Permanent link">&para;</a></h2>
+<h3 id="watch-mode">Watch Mode<a class="headerlink" href="#watch-mode" title="Permanent link">&para;</a></h3>
+<p>Auto-refresh the dashboard:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>dash<span class="w"> </span>--watch<span class="w">        </span><span class="c1"># Refresh every 5 seconds</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>dash<span class="w"> </span>--watch<span class="w"> </span><span class="m">10</span><span class="w">     </span><span class="c1"># Custom interval (seconds)</span>
+</code></pre></div>
+<h3 id="interactive-tui">Interactive TUI<a class="headerlink" href="#interactive-tui" title="Permanent link">&para;</a></h3>
+<p>Enhanced keyboard shortcuts in <code>dash -i</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Enter</code></td>
+<td>Open project</td>
+</tr>
+<tr>
+<td><code>Ctrl-E</code></td>
+<td>Edit .STATUS file</td>
+</tr>
+<tr>
+<td><code>Ctrl-S</code></td>
+<td>Show status</td>
+</tr>
+<tr>
+<td><code>Ctrl-W</code></td>
+<td>Log a win</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>Show help</td>
+</tr>
+</tbody>
+</table>
+<h3 id="wins-section">Wins Section<a class="headerlink" href="#wins-section" title="Permanent link">&para;</a></h3>
+<p>The dashboard now shows recent wins and streak:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌─ 🎉 Recent Wins ─────────────────────────────────────────────┐
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│ 🎯 Daily Goal: ██████░░░░ 2/3                                │
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│                                                              │
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│ 💻 Implemented auth service              14:20               │
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>│ 🔧 Fixed login redirect bug              11:45               │
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>└──────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<p>See <a href="../../guides/DOPAMINE-FEATURES-GUIDE/">Dopamine Features Guide</a> for details.</p>
+<hr />
 <h2 id="usage-examples">💡 Usage Examples<a class="headerlink" href="#usage-examples" title="Permanent link">&para;</a></h2>
 <h3 id="example-1-view-all-projects">Example 1: View All Projects<a class="headerlink" href="#example-1-view-all-projects" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>dash
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>dash
 </code></pre></div>
 <p><strong>Output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>🔄 Updating project coordination...
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  ✓ Synced 12 .STATUS files to project-hub
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  ✓ Updated coordination timestamp: 2025-12-22 15:30:45
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>✅ Coordination complete
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>╭─────────────────────────────────────────────╮
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>│ 🎯 YOUR WORK DASHBOARD                      │
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>╰─────────────────────────────────────────────╯
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>🔥 ACTIVE NOW (3):
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>  📦 medfit [P0] 45% - Implement GLM
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>  📚 STAT-579 [P1] 60% - Grade assignments
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>  🔧 flow-cli [P2] 80% - Add diagrams to docs
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>📋 READY TO START (2):
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>  📊 collider [P1] - Respond to reviewers
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>  📦 medsim [P2] - Add simulation examples
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>⏸️ PAUSED (1):
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>  📊 sensitivity [P2] - Waiting for data
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>────────────────────────────────────────────────
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>💡 Quick actions:
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>   work &lt;name&gt;         Start working on a project
-<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>   status &lt;name&gt;       Update project status
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>   dash teaching       Filter by category
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>🔄 Updating project coordination...
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  ✓ Synced 12 .STATUS files to project-hub
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  ✓ Updated coordination timestamp: 2025-12-22 15:30:45
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>✅ Coordination complete
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>╭─────────────────────────────────────────────╮
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│ 🎯 YOUR WORK DASHBOARD                      │
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>╰─────────────────────────────────────────────╯
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>🔥 ACTIVE NOW (3):
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>  📦 medfit [P0] 45% - Implement GLM
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>  📚 STAT-579 [P1] 60% - Grade assignments
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>  🔧 flow-cli [P2] 80% - Add diagrams to docs
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>📋 READY TO START (2):
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>  📊 collider [P1] - Respond to reviewers
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>  📦 medsim [P2] - Add simulation examples
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>⏸️ PAUSED (1):
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>  📊 sensitivity [P2] - Waiting for data
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>────────────────────────────────────────────────
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>💡 Quick actions:
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>   work &lt;name&gt;         Start working on a project
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>   status &lt;name&gt;       Update project status
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>   dash teaching       Filter by category
 </code></pre></div>
 <hr />
 <h3 id="example-2-filter-by-category">Example 2: Filter by Category<a class="headerlink" href="#example-2-filter-by-category" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>dash<span class="w"> </span>teaching
-</code></pre></div>
-<p><strong>Output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>╭─────────────────────────────────────────────╮
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│ 🎯 TEACHING DASHBOARD                       │
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>╰─────────────────────────────────────────────╯
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>🔥 ACTIVE NOW (1):
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  📚 STAT-579 [P1] 60% - Grade assignments
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>📋 READY TO START (1):
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>  📚 STAT-440 [P2] - Prepare Week 15 lecture
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>────────────────────────────────────────────────
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>💡 Quick actions:
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>   work &lt;name&gt;         Start working on a project
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>   status &lt;name&gt;       Update project status
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>   dash                Show all projects
-</code></pre></div>
-<hr />
-<h3 id="example-3-no-projects-found">Example 3: No Projects Found<a class="headerlink" href="#example-3-no-projects-found" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>dash<span class="w"> </span>dev
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>dash<span class="w"> </span>teaching
 </code></pre></div>
 <p><strong>Output:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>╭─────────────────────────────────────────────╮
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>│ 🎯 DEV-TOOLS DASHBOARD                      │
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>│ 🎯 TEACHING DASHBOARD                       │
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>╰─────────────────────────────────────────────╯
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>No projects found with .STATUS files
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>💡 Tip: Create .STATUS files with:
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>   status &lt;project&gt; --create
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>🔥 ACTIVE NOW (1):
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  📚 STAT-579 [P1] 60% - Grade assignments
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>📋 READY TO START (1):
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>  📚 STAT-440 [P2] - Prepare Week 15 lecture
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>────────────────────────────────────────────────
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>💡 Quick actions:
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>   work &lt;name&gt;         Start working on a project
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>   status &lt;name&gt;       Update project status
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>   dash                Show all projects
+</code></pre></div>
+<hr />
+<h3 id="example-3-no-projects-found">Example 3: No Projects Found<a class="headerlink" href="#example-3-no-projects-found" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>dash<span class="w"> </span>dev
+</code></pre></div>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>╭─────────────────────────────────────────────╮
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>│ 🎯 DEV-TOOLS DASHBOARD                      │
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>╰─────────────────────────────────────────────╯
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>No projects found with .STATUS files
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>💡 Tip: Create .STATUS files with:
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>   status &lt;project&gt; --create
 </code></pre></div>
 <hr />
 <h2 id="priority-color-coding">🎨 Priority Color Coding<a class="headerlink" href="#priority-color-coding" title="Permanent link">&para;</a></h2>
@@ -4393,18 +4542,18 @@
 <p>The dashboard now includes a <strong>Quick Wins</strong> section showing tasks that can be completed in under 30 minutes. This is designed for ADHD-friendly productivity - easy wins to build momentum.</p>
 <h3 id="triggering-quick-wins">Triggering Quick Wins<a class="headerlink" href="#triggering-quick-wins" title="Permanent link">&para;</a></h3>
 <p>Projects appear in Quick Wins when their <code>.STATUS</code> file contains:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Option 1: Mark as quick win directly</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">quick_win</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yes</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Option 2: Set estimate under 30 minutes</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nt">estimate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15m</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nt">estimate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20min</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Option 1: Mark as quick win directly</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">quick_win</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yes</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Option 2: Set estimate under 30 minutes</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nt">estimate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15m</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="nt">estimate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20min</span>
 </code></pre></div>
 <h3 id="display">Display<a class="headerlink" href="#display" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>  ⚡ QUICK WINS (&lt; 30 min)
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  ├─ ⚡ flow-cli      Fix typo in docs          ~15m
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  ├─ 🔥 medfit       Update version number     ~10m
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  └─ ⏰ stat-440     Post grades               ~20m
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>  ⚡ QUICK WINS (&lt; 30 min)
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  ├─ ⚡ flow-cli      Fix typo in docs          ~15m
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  ├─ 🔥 medfit       Update version number     ~10m
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  └─ ⏰ stat-440     Post grades               ~20m
 </code></pre></div>
 <hr />
 <h2 id="urgency-indicators-v340">🔥 Urgency Indicators (v3.4.0+)<a class="headerlink" href="#urgency-indicators-v340" title="Permanent link">&para;</a></h2>
@@ -4436,14 +4585,14 @@
 </tbody>
 </table>
 <h3 id="setting-urgency-in-status">Setting Urgency in .STATUS<a class="headerlink" href="#setting-urgency-in-status" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Direct urgency setting</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">urgency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">high</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Or via deadline (YYYY-MM-DD format)</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nt">deadline</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2025-12-27</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Or via priority</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"> </span><span class="c1"># Maps to high urgency</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Direct urgency setting</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nt">urgency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">high</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Or via deadline (YYYY-MM-DD format)</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="nt">deadline</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2025-12-27</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Or via priority</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"> </span><span class="c1"># Maps to high urgency</span>
 </code></pre></div>
 <hr />
 <h2 id="file-dependencies">📂 File Dependencies<a class="headerlink" href="#file-dependencies" title="Permanent link">&para;</a></h2>
@@ -4451,11 +4600,11 @@
 <ul>
 <li><code>.STATUS</code> files in project directories</li>
 <li>Format: Key-value pairs with fields
-  <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>status: active
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>priority: P0
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>progress: 45
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>next: Implement GLM
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>type: r
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>status: active
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>priority: P0
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>progress: 45
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>next: Implement GLM
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>type: r
 </code></pre></div></li>
 </ul>
 <h3 id="optional-directories">Optional Directories<a class="headerlink" href="#optional-directories" title="Permanent link">&para;</a></h3>
@@ -4467,19 +4616,19 @@
 <h2 id="configuration">⚙️ Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <h3 id="category-paths">Category Paths<a class="headerlink" href="#category-paths" title="Permanent link">&para;</a></h3>
 <p>The command maps category arguments to filesystem paths:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>teaching<span class="w">  </span>→<span class="w"> </span>~/projects/teaching
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>research<span class="w">  </span>→<span class="w"> </span>~/projects/research
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>packages<span class="w">  </span>→<span class="w"> </span>~/projects/r-packages
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>dev<span class="w">       </span>→<span class="w"> </span>~/projects/dev-tools
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>quarto<span class="w">    </span>→<span class="w"> </span>~/projects/quarto
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>all<span class="w">       </span>→<span class="w"> </span>~/projects<span class="w"> </span><span class="o">(</span>root<span class="o">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>teaching<span class="w">  </span>→<span class="w"> </span>~/projects/teaching
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>research<span class="w">  </span>→<span class="w"> </span>~/projects/research
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>packages<span class="w">  </span>→<span class="w"> </span>~/projects/r-packages
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>dev<span class="w">       </span>→<span class="w"> </span>~/projects/dev-tools
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>quarto<span class="w">    </span>→<span class="w"> </span>~/projects/quarto
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>all<span class="w">       </span>→<span class="w"> </span>~/projects<span class="w"> </span><span class="o">(</span>root<span class="o">)</span>
 </code></pre></div>
 <h3 id="status-mapping">Status Mapping<a class="headerlink" href="#status-mapping" title="Permanent link">&para;</a></h3>
 <p>The command recognizes these status values (case-insensitive):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Active:  active, working, in progress
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>Ready:   ready, todo, planned
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Paused:  paused, hold, waiting
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>Blocked: blocked
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Active:  active, working, in progress
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>Ready:   ready, todo, planned
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>Paused:  paused, hold, waiting
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>Blocked: blocked
 </code></pre></div>
 <hr />
 <h2 id="related-commands">🔗 Related Commands<a class="headerlink" href="#related-commands" title="Permanent link">&para;</a></h2>
@@ -4528,24 +4677,24 @@
 <h3 id="issue-no-projects-shown">Issue: No projects shown<a class="headerlink" href="#issue-no-projects-shown" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Missing <code>.STATUS</code> files</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Create .STATUS file in project directory</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/my-project
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>status<span class="w"> </span>.<span class="w"> </span>--create
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Create .STATUS file in project directory</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/my-project
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>status<span class="w"> </span>.<span class="w"> </span>--create
 </code></pre></div>
 <hr />
 <h3 id="issue-sync-failed">Issue: Sync failed<a class="headerlink" href="#issue-sync-failed" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> project-hub directory doesn't exist</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Create project-hub manually</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/projects/project-hub
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Create project-hub manually</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/projects/project-hub
 </code></pre></div>
 <hr />
 <h3 id="issue-wrong-category-displayed">Issue: Wrong category displayed<a class="headerlink" href="#issue-wrong-category-displayed" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Project in unexpected directory structure</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Check project location</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">pwd</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c1"># Should be under ~/projects/category/project-name</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Check project location</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">pwd</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="c1"># Should be under ~/projects/category/project-name</span>
 </code></pre></div>
 <hr />
 <h2 id="source-code">📚 Source Code<a class="headerlink" href="#source-code" title="Permanent link">&para;</a></h2>
