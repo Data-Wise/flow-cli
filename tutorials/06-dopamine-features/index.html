@@ -12,13 +12,13 @@
         <meta name="author" content="DT">
       
       
-        <link rel="canonical" href="https://data-wise.github.io/flow-cli/tutorials/04-web-dashboard/">
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/tutorials/06-dopamine-features/">
       
       
-        <link rel="prev" href="../03-status-visualizations/">
+        <link rel="prev" href="../05-ai-commands/">
       
       
-        <link rel="next" href="../05-ai-commands/">
+        <link rel="next" href="../07-sync-command/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>4. Web Dashboard - Flow CLI Documentation</title>
+        <title>6. Dopamine Features - Flow CLI Documentation</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tutorial-web-dashboard-deep-dive" class="md-skip">
+        <a href="#tutorial-dopamine-features-for-motivation" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              4. Web Dashboard
+              6. Dopamine Features
             
           </span>
         </div>
@@ -864,6 +864,62 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-web-dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Web Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-ai-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. AI-Powered Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -883,7 +939,7 @@
   <span class="md-ellipsis">
     
   
-    4. Web Dashboard
+    6. Dopamine Features
   
 
     
@@ -901,7 +957,7 @@
   <span class="md-ellipsis">
     
   
-    4. Web Dashboard
+    6. Dopamine Features
   
 
     
@@ -949,10 +1005,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#why-dopamine-features" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Why Dopamine Features?
       
     </span>
   </a>
@@ -960,22 +1016,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-1-launching-the-dashboard" class="md-nav__link">
+  <a href="#part-1-logging-your-first-win" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 1: Launching the Dashboard
+        Part 1: Logging Your First Win
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 1: Launching the Dashboard">
+    <nav class="md-nav" aria-label="Part 1: Logging Your First Win">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-11-start-the-web-server" class="md-nav__link">
+  <a href="#step-11-complete-something-anything" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1.1: Start the Web Server
+        Step 1.1: Complete Something (Anything!)
       
     </span>
   </a>
@@ -983,10 +1039,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-12-dashboard-layout" class="md-nav__link">
+  <a href="#step-12-log-the-win" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1.2: Dashboard Layout
+        Step 1.2: Log the Win
       
     </span>
   </a>
@@ -994,21 +1050,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-13-navigation-basics" class="md-nav__link">
+  <a href="#step-13-try-different-categories" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1.3: Navigation Basics
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#checkpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint
+        Step 1.3: Try Different Categories
       
     </span>
   </a>
@@ -1021,22 +1066,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-2-interactive-features" class="md-nav__link">
+  <a href="#part-2-understanding-win-categories" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 2: Interactive Features
+        Part 2: Understanding Win Categories
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 2: Interactive Features">
+    <nav class="md-nav" aria-label="Part 2: Understanding Win Categories">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-21-filtering-projects" class="md-nav__link">
+  <a href="#category-auto-detection" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2.1: Filtering Projects
+        Category Auto-Detection
       
     </span>
   </a>
@@ -1044,43 +1089,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-22-search-projects" class="md-nav__link">
+  <a href="#manual-category-override" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2.2: Search Projects
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-23-sorting-projects" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 2.3: Sorting Projects
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-24-project-details" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 2.4: Project Details
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#checkpoint_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint
+        Manual Category Override
       
     </span>
   </a>
@@ -1093,22 +1105,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-3-real-time-monitoring" class="md-nav__link">
+  <a href="#part-3-viewing-your-wins" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 3: Real-Time Monitoring
+        Part 3: Viewing Your Wins
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 3: Real-Time Monitoring">
+    <nav class="md-nav" aria-label="Part 3: Viewing Your Wins">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-31-active-session-display" class="md-nav__link">
+  <a href="#recent-wins" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3.1: Active Session Display
+        Recent Wins
       
     </span>
   </a>
@@ -1116,43 +1128,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-32-todays-metrics-charts" class="md-nav__link">
+  <a href="#weekly-summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3.2: Today's Metrics Charts
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-33-statistics-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 3.3: Statistics Summary
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-34-auto-refresh" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 3.4: Auto-Refresh
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#checkpoint_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint
+        Weekly Summary
       
     </span>
   </a>
@@ -1165,22 +1144,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-4-advanced-features" class="md-nav__link">
+  <a href="#part-4-tracking-your-streak" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 4: Advanced Features
+        Part 4: Tracking Your Streak
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 4: Advanced Features">
+    <nav class="md-nav" aria-label="Part 4: Tracking Your Streak">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#feature-1-export-views" class="md-nav__link">
+  <a href="#whats-a-streak" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Feature 1: Export Views
+        What's a Streak?
       
     </span>
   </a>
@@ -1188,10 +1167,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#feature-2-multiple-dashboard-windows" class="md-nav__link">
+  <a href="#viewing-your-streak" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Feature 2: Multiple Dashboard Windows
+        Viewing Your Streak
       
     </span>
   </a>
@@ -1199,32 +1178,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#feature-3-embed-in-other-tools" class="md-nav__link">
+  <a href="#building-a-streak" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Feature 3: Embed in Other Tools
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#feature-4-keyboard-shortcuts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Feature 4: Keyboard Shortcuts
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#feature-5-darklight-theme" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Feature 5: Dark/Light Theme
+        Building a Streak
       
     </span>
   </a>
@@ -1237,22 +1194,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#exercises" class="md-nav__link">
+  <a href="#part-5-setting-daily-goals" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exercises
+        Part 5: Setting Daily Goals
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Exercises">
+    <nav class="md-nav" aria-label="Part 5: Setting Daily Goals">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#exercise-1-custom-view" class="md-nav__link">
+  <a href="#set-your-first-goal" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exercise 1: Custom View
+        Set Your First Goal
       
     </span>
   </a>
@@ -1260,10 +1217,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#exercise-2-monitor-active-session" class="md-nav__link">
+  <a href="#check-your-progress" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exercise 2: Monitor Active Session
+        Check Your Progress
       
     </span>
   </a>
@@ -1271,10 +1228,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#exercise-3-weekly-review-dashboard" class="md-nav__link">
+  <a href="#goal-shown-in-dashboard" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exercise 3: Weekly Review Dashboard
+        Goal Shown in Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adjusting-your-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adjusting Your Goal
       
     </span>
   </a>
@@ -1287,22 +1255,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#common-issues" class="md-nav__link">
+  <a href="#part-6-per-project-goals" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Common Issues
+        Part 6: Per-Project Goals
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Common Issues">
+    <nav class="md-nav" aria-label="Part 6: Per-Project Goals">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dashboard-wont-open" class="md-nav__link">
+  <a href="#add-to-status-file" class="md-nav__link">
     <span class="md-ellipsis">
       
-        "Dashboard won't open"
+        Add to .STATUS File
       
     </span>
   </a>
@@ -1310,21 +1278,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#data-not-updating" class="md-nav__link">
+  <a href="#how-priority-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        "Data not updating"
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#charts-look-empty" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        "Charts look empty"
+        How Priority Works
       
     </span>
   </a>
@@ -1333,6 +1290,178 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-7-dashboard-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 7: Dashboard Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 7: Dashboard Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#full-dashboard-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Dashboard View
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interactive-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interactive Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-8-complete-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 8: Complete Workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-log-wins-immediately" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Log Wins Immediately
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-keep-goals-achievable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Keep Goals Achievable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-use-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Use Categories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-check-dashboard-daily" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Check Dashboard Daily
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wins-not-showing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wins Not Showing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streak-reset-unexpectedly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Streak Reset Unexpectedly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#goal-not-updating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal Not Updating
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next?
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1347,88 +1476,10 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Reference
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../05-ai-commands/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5. AI-Powered Commands
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../06-dopamine-features/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    6. Dopamine Features
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -3966,10 +4017,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#why-dopamine-features" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Why Dopamine Features?
       
     </span>
   </a>
@@ -3977,22 +4028,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-1-launching-the-dashboard" class="md-nav__link">
+  <a href="#part-1-logging-your-first-win" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 1: Launching the Dashboard
+        Part 1: Logging Your First Win
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 1: Launching the Dashboard">
+    <nav class="md-nav" aria-label="Part 1: Logging Your First Win">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-11-start-the-web-server" class="md-nav__link">
+  <a href="#step-11-complete-something-anything" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1.1: Start the Web Server
+        Step 1.1: Complete Something (Anything!)
       
     </span>
   </a>
@@ -4000,10 +4051,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-12-dashboard-layout" class="md-nav__link">
+  <a href="#step-12-log-the-win" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1.2: Dashboard Layout
+        Step 1.2: Log the Win
       
     </span>
   </a>
@@ -4011,21 +4062,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-13-navigation-basics" class="md-nav__link">
+  <a href="#step-13-try-different-categories" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1.3: Navigation Basics
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#checkpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint
+        Step 1.3: Try Different Categories
       
     </span>
   </a>
@@ -4038,22 +4078,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-2-interactive-features" class="md-nav__link">
+  <a href="#part-2-understanding-win-categories" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 2: Interactive Features
+        Part 2: Understanding Win Categories
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 2: Interactive Features">
+    <nav class="md-nav" aria-label="Part 2: Understanding Win Categories">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-21-filtering-projects" class="md-nav__link">
+  <a href="#category-auto-detection" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2.1: Filtering Projects
+        Category Auto-Detection
       
     </span>
   </a>
@@ -4061,43 +4101,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-22-search-projects" class="md-nav__link">
+  <a href="#manual-category-override" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2.2: Search Projects
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-23-sorting-projects" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 2.3: Sorting Projects
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-24-project-details" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 2.4: Project Details
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#checkpoint_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint
+        Manual Category Override
       
     </span>
   </a>
@@ -4110,22 +4117,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-3-real-time-monitoring" class="md-nav__link">
+  <a href="#part-3-viewing-your-wins" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 3: Real-Time Monitoring
+        Part 3: Viewing Your Wins
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 3: Real-Time Monitoring">
+    <nav class="md-nav" aria-label="Part 3: Viewing Your Wins">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-31-active-session-display" class="md-nav__link">
+  <a href="#recent-wins" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3.1: Active Session Display
+        Recent Wins
       
     </span>
   </a>
@@ -4133,43 +4140,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-32-todays-metrics-charts" class="md-nav__link">
+  <a href="#weekly-summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3.2: Today's Metrics Charts
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-33-statistics-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 3.3: Statistics Summary
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-34-auto-refresh" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 3.4: Auto-Refresh
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#checkpoint_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint
+        Weekly Summary
       
     </span>
   </a>
@@ -4182,22 +4156,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-4-advanced-features" class="md-nav__link">
+  <a href="#part-4-tracking-your-streak" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 4: Advanced Features
+        Part 4: Tracking Your Streak
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 4: Advanced Features">
+    <nav class="md-nav" aria-label="Part 4: Tracking Your Streak">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#feature-1-export-views" class="md-nav__link">
+  <a href="#whats-a-streak" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Feature 1: Export Views
+        What's a Streak?
       
     </span>
   </a>
@@ -4205,10 +4179,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#feature-2-multiple-dashboard-windows" class="md-nav__link">
+  <a href="#viewing-your-streak" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Feature 2: Multiple Dashboard Windows
+        Viewing Your Streak
       
     </span>
   </a>
@@ -4216,32 +4190,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#feature-3-embed-in-other-tools" class="md-nav__link">
+  <a href="#building-a-streak" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Feature 3: Embed in Other Tools
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#feature-4-keyboard-shortcuts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Feature 4: Keyboard Shortcuts
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#feature-5-darklight-theme" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Feature 5: Dark/Light Theme
+        Building a Streak
       
     </span>
   </a>
@@ -4254,22 +4206,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#exercises" class="md-nav__link">
+  <a href="#part-5-setting-daily-goals" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exercises
+        Part 5: Setting Daily Goals
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Exercises">
+    <nav class="md-nav" aria-label="Part 5: Setting Daily Goals">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#exercise-1-custom-view" class="md-nav__link">
+  <a href="#set-your-first-goal" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exercise 1: Custom View
+        Set Your First Goal
       
     </span>
   </a>
@@ -4277,10 +4229,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#exercise-2-monitor-active-session" class="md-nav__link">
+  <a href="#check-your-progress" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exercise 2: Monitor Active Session
+        Check Your Progress
       
     </span>
   </a>
@@ -4288,10 +4240,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#exercise-3-weekly-review-dashboard" class="md-nav__link">
+  <a href="#goal-shown-in-dashboard" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exercise 3: Weekly Review Dashboard
+        Goal Shown in Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adjusting-your-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adjusting Your Goal
       
     </span>
   </a>
@@ -4304,22 +4267,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#common-issues" class="md-nav__link">
+  <a href="#part-6-per-project-goals" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Common Issues
+        Part 6: Per-Project Goals
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Common Issues">
+    <nav class="md-nav" aria-label="Part 6: Per-Project Goals">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dashboard-wont-open" class="md-nav__link">
+  <a href="#add-to-status-file" class="md-nav__link">
     <span class="md-ellipsis">
       
-        "Dashboard won't open"
+        Add to .STATUS File
       
     </span>
   </a>
@@ -4327,21 +4290,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#data-not-updating" class="md-nav__link">
+  <a href="#how-priority-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        "Data not updating"
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#charts-look-empty" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        "Charts look empty"
+        How Priority Works
       
     </span>
   </a>
@@ -4350,6 +4302,178 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-7-dashboard-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 7: Dashboard Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 7: Dashboard Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#full-dashboard-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Dashboard View
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interactive-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interactive Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-8-complete-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 8: Complete Workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-log-wins-immediately" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Log Wins Immediately
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-keep-goals-achievable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Keep Goals Achievable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-use-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Use Categories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-check-dashboard-daily" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Check Dashboard Daily
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wins-not-showing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wins Not Showing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streak-reset-unexpectedly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Streak Reset Unexpectedly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#goal-not-updating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal Not Updating
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next?
+      
+    </span>
+  </a>
   
 </li>
       
@@ -4358,28 +4482,6 @@
     <span class="md-ellipsis">
       
         Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Reference
       
     </span>
   </a>
@@ -4403,7 +4505,7 @@
 
 
   
-    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/tutorials/04-web-dashboard.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/tutorials/06-dopamine-features.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -4411,351 +4513,309 @@
   
 
 
-<h1 id="tutorial-web-dashboard-deep-dive">Tutorial: Web Dashboard Deep Dive<a class="headerlink" href="#tutorial-web-dashboard-deep-dive" title="Permanent link">&para;</a></h1>
+<h1 id="tutorial-dopamine-features-for-motivation">Tutorial: Dopamine Features for Motivation<a class="headerlink" href="#tutorial-dopamine-features-for-motivation" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p><strong>What you'll build:</strong> Using the browser-based dashboard for rich visualizations</p>
-<p><strong>Time:</strong> ~20 minutes | <strong>Level:</strong> Advanced</p>
+<p><strong>What you'll learn:</strong> How to use win tracking, streaks, and goals to stay motivated</p>
+<p><strong>Time:</strong> ~20 minutes | <strong>Level:</strong> Beginner</p>
 </blockquote>
 <hr />
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <p>Before starting, you should:</p>
 <ul>
-<li>[ ] Completed: <a href="../03-status-visualizations/">Tutorial 3: Using Status Visualizations</a></li>
-<li>[ ] Have Node.js installed (for web dashboard)</li>
-<li>[ ] Have multiple projects tracked with progress</li>
-<li>[ ] Comfortable with terminal commands</li>
+<li>[ ] Have completed <a href="../01-first-session/">Tutorial 1: Your First Session</a></li>
+<li>[ ] Know how to use <code>work</code> and <code>finish</code> commands</li>
+<li>[ ] Have at least one project to work on</li>
 </ul>
-<p><strong>Verify your setup:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check Node.js is installed</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>node<span class="w"> </span>--version
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Should see v18+ or v20+</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Check Flow CLI is installed</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>which<span class="w"> </span>flow
-</code></pre></div>
 <hr />
 <h2 id="what-youll-learn">What You'll Learn<a class="headerlink" href="#what-youll-learn" title="Permanent link">&para;</a></h2>
 <p>By the end of this tutorial, you will:</p>
 <ol>
-<li>Launch and navigate the web dashboard</li>
-<li>Use interactive visualizations</li>
-<li>Filter and search projects</li>
-<li>Monitor real-time session data</li>
-<li>Export and share dashboard views</li>
+<li>Log wins and celebrate accomplishments</li>
+<li>Understand win categories and auto-detection</li>
+<li>Track your streak and daily progress</li>
+<li>Set and monitor daily goals</li>
+<li>Use the dashboard to visualize your progress</li>
 </ol>
 <hr />
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>The web dashboard provides rich browser-based visualizations:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌────────────────┐     ┌────────────────┐     ┌────────────────┐
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│  Launch        │ --&gt; │  Interactive   │ --&gt; │  Take Actions  │
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│  (flow dash)   │     │  Explore       │     │  (terminal)    │
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>└────────────────┘     └────────────────┘     └────────────────┘
+<h2 id="why-dopamine-features">Why Dopamine Features?<a class="headerlink" href="#why-dopamine-features" title="Permanent link">&para;</a></h2>
+<p>For ADHD minds, small visible rewards are essential for sustained focus:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────┐
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│  Do Something  →  Log Win  →  See Progress  →  Repeat  │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│      🎯              🎉            📊           🔄      │
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>└─────────────────────────────────────────────────────────┘
 </code></pre></div>
-<p>Benefits over terminal dashboard:</p>
-<ul>
-<li>Charts and graphs (bar, line, pie)</li>
-<li>Mouse/touch interaction</li>
-<li>Larger screen real estate</li>
-<li>Persistent view while you work</li>
-<li>Shareable URLs</li>
-</ul>
+<p>Each win gives you a dopamine boost, making it easier to keep going.</p>
 <hr />
-<h2 id="part-1-launching-the-dashboard">Part 1: Launching the Dashboard<a class="headerlink" href="#part-1-launching-the-dashboard" title="Permanent link">&para;</a></h2>
-<h3 id="step-11-start-the-web-server">Step 1.1: Start the Web Server<a class="headerlink" href="#step-11-start-the-web-server" title="Permanent link">&para;</a></h3>
-<p>Launch the dashboard:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web
-</code></pre></div>
-<p><strong>What happened:</strong> A web server starts and opens your browser:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>🌐 Starting Flow CLI Web Dashboard...
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Server: http://localhost:3000
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Dashboard: http://localhost:3000/dashboard
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>✨ Dashboard ready!
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>Press Ctrl+C to stop server
-</code></pre></div>
-<p><strong>Your browser opens automatically</strong> showing the dashboard.</p>
-<blockquote>
-<p><strong>Tip:</strong> Keep the terminal open - closing it stops the server</p>
-</blockquote>
-<h3 id="step-12-dashboard-layout">Step 1.2: Dashboard Layout<a class="headerlink" href="#step-12-dashboard-layout" title="Permanent link">&para;</a></h3>
-<p>The dashboard has 4 main sections:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>┌─────────────────────────────────────────────┐
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>│ 📊 Flow CLI Dashboard          [Filters]    │
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>├─────────────────────────────────────────────┤
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>│ 🔥 ACTIVE SESSION (if running)              │
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>│   Project: mediationverse                   │
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>│   Duration: 45 minutes                      │
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>│   Progress: ████████░░ 85%                  │
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>├─────────────────────────────────────────────┤
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>│ 📈 TODAY&#39;S METRICS                          │
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>│   [Bar Chart: Sessions, Time, Progress]     │
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>├─────────────────────────────────────────────┤
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>│ 📋 ALL PROJECTS                             │
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>│   [Table: Name, Status, Priority, Progress] │
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>├─────────────────────────────────────────────┤
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>│ 📊 STATISTICS                               │
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>│   Total Projects: 15                        │
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>│   Active: 4 | Paused: 6 | Blocked: 1        │
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>│   Average Progress: 62%                     │
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>└─────────────────────────────────────────────┘
-</code></pre></div>
-<h3 id="step-13-navigation-basics">Step 1.3: Navigation Basics<a class="headerlink" href="#step-13-navigation-basics" title="Permanent link">&para;</a></h3>
-<p>Navigate using:</p>
-<p><strong>Mouse:</strong></p>
+<h2 id="part-1-logging-your-first-win">Part 1: Logging Your First Win<a class="headerlink" href="#part-1-logging-your-first-win" title="Permanent link">&para;</a></h2>
+<h3 id="step-11-complete-something-anything">Step 1.1: Complete Something (Anything!)<a class="headerlink" href="#step-11-complete-something-anything" title="Permanent link">&para;</a></h3>
+<p>First, do some work. It could be small:</p>
 <ul>
-<li>Scroll up/down to see all sections</li>
-<li>Click table headers to sort</li>
-<li>Click project names for details</li>
-<li>Hover for tooltips</li>
+<li>Fixed a typo</li>
+<li>Wrote one function</li>
+<li>Read some documentation</li>
+<li>Replied to an email</li>
 </ul>
-<p><strong>Keyboard:</strong></p>
-<ul>
-<li><code>↑/↓</code> - Navigate projects list</li>
-<li><code>/</code> - Focus search box</li>
-<li><code>ESC</code> - Clear search</li>
-<li><code>r</code> - Refresh data</li>
-<li><code>q</code> - Quit (returns to terminal)</li>
-</ul>
-<h3 id="checkpoint">Checkpoint<a class="headerlink" href="#checkpoint" title="Permanent link">&para;</a></h3>
-<p>At this point, you should have:</p>
-<ul>
-<li>[x] Launched the web dashboard</li>
-<li>[x] Seen the 4 main sections</li>
-<li>[x] Tried basic navigation</li>
-</ul>
-<p><strong>Verify:</strong></p>
-<p>Open browser to <code>http://localhost:3000/dashboard</code> - you should see your projects.</p>
+<h3 id="step-12-log-the-win">Step 1.2: Log the Win<a class="headerlink" href="#step-12-log-the-win" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>win<span class="w"> </span><span class="s2">&quot;Fixed the typo in README&quot;</span>
+</code></pre></div>
+<p><strong>What happened:</strong> You logged your first win! The output shows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>🎉 WIN LOGGED! #docs
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Fixed the typo in README
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Keep it up! 🚀
+</code></pre></div>
+<p>Notice how it detected the category <code>#docs</code> from the word "README".</p>
+<h3 id="step-13-try-different-categories">Step 1.3: Try Different Categories<a class="headerlink" href="#step-13-try-different-categories" title="Permanent link">&para;</a></h3>
+<p>Log a few more wins with different keywords:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>win<span class="w"> </span><span class="s2">&quot;Deployed the new homepage&quot;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># → 🚀 ship (detected &quot;deployed&quot;)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>win<span class="w"> </span><span class="s2">&quot;Fixed login bug&quot;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># → 🔧 fix (detected &quot;fixed&quot;)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>win<span class="w"> </span><span class="s2">&quot;Added unit tests for auth module&quot;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># → 🧪 test (detected &quot;tests&quot;)</span>
+</code></pre></div>
 <hr />
-<h2 id="part-2-interactive-features">Part 2: Interactive Features<a class="headerlink" href="#part-2-interactive-features" title="Permanent link">&para;</a></h2>
-<h3 id="step-21-filtering-projects">Step 2.1: Filtering Projects<a class="headerlink" href="#step-21-filtering-projects" title="Permanent link">&para;</a></h3>
-<p>Use filters to focus:</p>
-<p><strong>By status:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>[Filters]
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>☑ Active
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>☐ Ready
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>☑ Paused
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>☐ Blocked
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>Apply Filters
-</code></pre></div>
-<p><strong>By category:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>[Category]
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>▼ All Categories
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  Teaching
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  Research
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  Packages
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  Dev Tools
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>Select: Teaching
-</code></pre></div>
-<p><strong>By priority:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>[Priority]
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>☑ P0 (Critical)
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>☑ P1 (Important)
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>☐ P2 (Normal)
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>Apply Filters
-</code></pre></div>
-<h3 id="step-22-search-projects">Step 2.2: Search Projects<a class="headerlink" href="#step-22-search-projects" title="Permanent link">&para;</a></h3>
-<p>Use the search box:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>[🔍 Search projects...]
-</code></pre></div>
-<p><strong>Search examples:</strong></p>
-<ul>
-<li>Type <code>med</code> → Shows mediationverse, medfit, rmediation</li>
-<li>Type <code>stat</code> → Shows stat-440</li>
-<li>Type <code>active</code> → Shows all active projects</li>
-<li>Type <code>90%</code> → Shows projects near completion</li>
-</ul>
-<h3 id="step-23-sorting-projects">Step 2.3: Sorting Projects<a class="headerlink" href="#step-23-sorting-projects" title="Permanent link">&para;</a></h3>
-<p>Click column headers to sort:</p>
+<h2 id="part-2-understanding-win-categories">Part 2: Understanding Win Categories<a class="headerlink" href="#part-2-understanding-win-categories" title="Permanent link">&para;</a></h2>
+<h3 id="category-auto-detection">Category Auto-Detection<a class="headerlink" href="#category-auto-detection" title="Permanent link">&para;</a></h3>
+<p>Flow CLI automatically categorizes wins based on keywords:</p>
 <table>
 <thead>
 <tr>
-<th>Column</th>
-<th>Sort Options</th>
+<th>Category</th>
+<th>Icon</th>
+<th>Trigger Words</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Name</td>
-<td>A-Z, Z-A</td>
+<td><code>code</code></td>
+<td>💻</td>
+<td>implement, add, create, build, refactor</td>
 </tr>
 <tr>
-<td>Status</td>
-<td>Active first, Paused first</td>
+<td><code>docs</code></td>
+<td>📝</td>
+<td>doc, readme, guide, tutorial, comment</td>
 </tr>
 <tr>
-<td>Priority</td>
-<td>P0 first, P2 first</td>
+<td><code>review</code></td>
+<td>👀</td>
+<td>review, pr, feedback, approve</td>
 </tr>
 <tr>
-<td>Progress</td>
-<td>High to low, Low to high</td>
+<td><code>ship</code></td>
+<td>🚀</td>
+<td>deploy, release, ship, publish, merge</td>
 </tr>
 <tr>
-<td>Updated</td>
-<td>Newest first, Oldest first</td>
+<td><code>fix</code></td>
+<td>🔧</td>
+<td>fix, bug, issue, resolve, patch</td>
+</tr>
+<tr>
+<td><code>test</code></td>
+<td>🧪</td>
+<td>test, spec, coverage, passing</td>
+</tr>
+<tr>
+<td><code>other</code></td>
+<td>✨</td>
+<td>(default if no keywords match)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Example:</strong> Click "Progress ↓" to see most complete projects first.</p>
-<h3 id="step-24-project-details">Step 2.4: Project Details<a class="headerlink" href="#step-24-project-details" title="Permanent link">&para;</a></h3>
-<p>Click a project name to see details:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>┌─────────────────────────────────────────────┐
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>│ 📦 mediationverse                           │
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>├─────────────────────────────────────────────┤
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>│ Status:    🔥 ACTIVE                        │
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>│ Priority:  [P0] Critical                    │
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>│ Category:  r-packages                       │
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>│ Progress:  ████████░░ 85%                   │
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>│ Task:      Final simulations                │
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>│ Updated:   2025-12-24 10:30 AM              │
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>│                                             │
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>│ Recent Activity:                            │
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>│   Dec 20: 60% → 70% (+10%)                  │
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>│   Dec 22: 70% → 80% (+10%)                  │
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>│   Dec 24: 80% → 85% (+5%)                   │
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>│                                             │
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>│ [Open in Terminal] [Update Status]          │
-<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>└─────────────────────────────────────────────┘
+<h3 id="manual-category-override">Manual Category Override<a class="headerlink" href="#manual-category-override" title="Permanent link">&para;</a></h3>
+<p>Sometimes auto-detection doesn't match your intent:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Force a specific category</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>win<span class="w"> </span>--code<span class="w"> </span><span class="s2">&quot;Wrote utility function&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>win<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;Resolved edge case&quot;</span><span class="w">    </span><span class="c1"># -f = fix</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>win<span class="w"> </span>--ship<span class="w"> </span><span class="s2">&quot;Merged feature branch&quot;</span>
 </code></pre></div>
-<h3 id="checkpoint_1">Checkpoint<a class="headerlink" href="#checkpoint_1" title="Permanent link">&para;</a></h3>
-<p>At this point, you should:</p>
-<ul>
-<li>[x] Filter projects by status/category/priority</li>
-<li>[x] Search for specific projects</li>
-<li>[x] Sort by different columns</li>
-<li>[x] View project details</li>
-</ul>
-<p><strong>Verify:</strong></p>
-<p>Filter to show only "Teaching" category and "P0" priority. You should see fewer projects.</p>
+<div class="admonition tip">
+<p class="admonition-title">When to Override</p>
+</div>
+<p>Use manual categories when: - Keywords are ambiguous ("added docs" → is it code or docs?) - You want a specific categorization for tracking - Auto-detection missed the context</p>
 <hr />
-<h2 id="part-3-real-time-monitoring">Part 3: Real-Time Monitoring<a class="headerlink" href="#part-3-real-time-monitoring" title="Permanent link">&para;</a></h2>
-<h3 id="step-31-active-session-display">Step 3.1: Active Session Display<a class="headerlink" href="#step-31-active-session-display" title="Permanent link">&para;</a></h3>
-<p>When you have an active session, the dashboard shows live updates:</p>
-<p><strong>Terminal:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Start a session (in separate terminal)</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>work<span class="w"> </span>mediationverse
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>f25
+<h2 id="part-3-viewing-your-wins">Part 3: Viewing Your Wins<a class="headerlink" href="#part-3-viewing-your-wins" title="Permanent link">&para;</a></h2>
+<h3 id="recent-wins">Recent Wins<a class="headerlink" href="#recent-wins" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>yay
 </code></pre></div>
-<p><strong>Dashboard displays:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>╭───────────────────────────────────────────╮
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>│ 🔥 ACTIVE SESSION                         │
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>├───────────────────────────────────────────┤
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>│ Project:   mediationverse                 │
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>│ Started:   10:30 AM (45 minutes ago)      │
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>│ Timer:     🍅 Pomodoro (15:32 remaining)  │
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>│ Progress:  ████████░░ 85%                 │
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>│ Task:      Final simulations              │
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>╰───────────────────────────────────────────╯
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>[Duration updates every second]
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>🎉 Recent Wins
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>💻 Implemented user authentication       2h ago
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>🔧 Fixed the login bug                   4h ago
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>📝 Updated README with new features      yesterday
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>Total: 3 wins | Streak: 🔥 5 days
 </code></pre></div>
-<h3 id="step-32-todays-metrics-charts">Step 3.2: Today's Metrics Charts<a class="headerlink" href="#step-32-todays-metrics-charts" title="Permanent link">&para;</a></h3>
-<p>View visual metrics:</p>
-<p><strong>Bar Chart:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Today&#39;s Activity
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>─────────────────
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>Sessions │████████░░ 4 sessions
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>Time     │██████████ 3.5 hours
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>Projects │███░░░░░░░ 3 active
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>Progress │███████░░░ +15% total
+<h3 id="weekly-summary">Weekly Summary<a class="headerlink" href="#weekly-summary" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>yay<span class="w"> </span>--week
 </code></pre></div>
-<p><strong>Progress Distribution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Progress Ranges
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>───────────────
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>0-25%   │███░░░░░░░░ 3 projects
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>26-50%  │█████░░░░░░ 5 projects
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>51-75%  │████░░░░░░░ 4 projects
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>76-99%  │██████░░░░░ 6 projects
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>100%    │██░░░░░░░░░ 2 projects
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>📊 This Week&#39;s Wins
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>🚀 Deployed v2.0 to production
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>💻 Implemented OAuth login
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>🧪 Added integration tests
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>🔧 Fixed race condition
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>📝 Updated installation docs
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>─────────────────────────────────────
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>🚀2 💻3 🔧1 📝1 = 7 wins this week
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>Mon Tue Wed Thu Fri Sat Sun
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a> ▁   ▃   ██  ▅   ▂
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>     Activity Graph
 </code></pre></div>
-<h3 id="step-33-statistics-summary">Step 3.3: Statistics Summary<a class="headerlink" href="#step-33-statistics-summary" title="Permanent link">&para;</a></h3>
-<p>Key metrics at a glance:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>╭───────────────────────────────────────────╮
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>│ 📊 STATISTICS                             │
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>├───────────────────────────────────────────┤
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>│ Total Projects:       20                  │
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>│ Active:               4 (20%)             │
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>│ Ready:                8 (40%)             │
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>│ Paused:               6 (30%)             │
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>│ Blocked:              2 (10%)             │
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>│                                           │
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>│ Average Progress:     62%                 │
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>│ Completed This Week:  3 projects          │
-<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>│ Total Time This Week: 18.5 hours          │
-<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>╰───────────────────────────────────────────╯
-</code></pre></div>
-<h3 id="step-34-auto-refresh">Step 3.4: Auto-Refresh<a class="headerlink" href="#step-34-auto-refresh" title="Permanent link">&para;</a></h3>
-<p>Dashboard auto-refreshes every 5 seconds to show latest data.</p>
-<p><strong>Customize refresh interval:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Faster updates (every 2 seconds)</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web<span class="w"> </span>--interval<span class="w"> </span><span class="m">2000</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Slower updates (every 10 seconds)</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web<span class="w"> </span>--interval<span class="w"> </span><span class="m">10000</span>
-</code></pre></div>
-<h3 id="checkpoint_2">Checkpoint<a class="headerlink" href="#checkpoint_2" title="Permanent link">&para;</a></h3>
-<p>At this point, you should:</p>
-<ul>
-<li>[x] See active session updates (if you have one)</li>
-<li>[x] View today's metrics charts</li>
-<li>[x] Understand statistics summary</li>
-<li>[x] See auto-refresh in action</li>
-</ul>
-<p><strong>Verify:</strong></p>
-<p>Update a project in terminal (<code>status . active P0 "Test" 88</code>), watch dashboard update within 5 seconds.</p>
+<div class="admonition success">
+<p class="admonition-title">Celebrate Your Progress</p>
+</div>
+<p>The weekly summary shows your work patterns. Seeing your wins visualized helps reinforce the habit.</p>
 <hr />
-<h2 id="part-4-advanced-features">Part 4: Advanced Features<a class="headerlink" href="#part-4-advanced-features" title="Permanent link">&para;</a></h2>
-<h3 id="feature-1-export-views">Feature 1: Export Views<a class="headerlink" href="#feature-1-export-views" title="Permanent link">&para;</a></h3>
-<p>Save dashboard views:</p>
-<p><strong>Screenshot:</strong></p>
-<ul>
-<li>Use browser screenshot tool (Cmd+Shift+4 on Mac)</li>
-<li>Captures current dashboard state</li>
-</ul>
-<p><strong>Print to PDF:</strong></p>
-<ul>
-<li>Browser: File → Print → Save as PDF</li>
-<li>Useful for sharing with team</li>
-</ul>
-<p><strong>Data Export:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Export project data to JSON</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>flow<span class="w"> </span>status<span class="w"> </span>--json<span class="w"> </span>&gt;<span class="w"> </span>projects.json
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Share with team or import elsewhere</span>
+<h2 id="part-4-tracking-your-streak">Part 4: Tracking Your Streak<a class="headerlink" href="#part-4-tracking-your-streak" title="Permanent link">&para;</a></h2>
+<h3 id="whats-a-streak">What's a Streak?<a class="headerlink" href="#whats-a-streak" title="Permanent link">&para;</a></h3>
+<p>A streak counts consecutive days with at least one work session.</p>
+<table>
+<thead>
+<tr>
+<th>Streak</th>
+<th>Visual</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-2</td>
+<td>🌱</td>
+<td>Building momentum</td>
+</tr>
+<tr>
+<td>3-6</td>
+<td>🔥</td>
+<td>On a roll</td>
+</tr>
+<tr>
+<td>7-13</td>
+<td>🔥🔥</td>
+<td>Strong week</td>
+</tr>
+<tr>
+<td>14+</td>
+<td>🔥🔥🔥</td>
+<td>Exceptional streak</td>
+</tr>
+</tbody>
+</table>
+<h3 id="viewing-your-streak">Viewing Your Streak<a class="headerlink" href="#viewing-your-streak" title="Permanent link">&para;</a></h3>
+<p>Your streak appears in several places:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># In the dashboard</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>dash
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># In the win display</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>yay
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># In extended status</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>status<span class="w"> </span>--extended
 </code></pre></div>
-<h3 id="feature-2-multiple-dashboard-windows">Feature 2: Multiple Dashboard Windows<a class="headerlink" href="#feature-2-multiple-dashboard-windows" title="Permanent link">&para;</a></h3>
-<p>Open multiple views:</p>
-<p><strong>Terminal 1:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web<span class="w"> </span>--port<span class="w"> </span><span class="m">3000</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="c1"># Main dashboard</span>
+<h3 id="building-a-streak">Building a Streak<a class="headerlink" href="#building-a-streak" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Day 1: work project → 🌱 1 day streak
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>Day 2: work project → 🌱 2 days
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>Day 3: work project → 🔥 3 days - On a roll!
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>Day 4: (no work)    → 😢 Streak reset
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>Day 5: work project → 🌱 1 day (starting over)
 </code></pre></div>
-<p><strong>Terminal 2:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web<span class="w"> </span>--port<span class="w"> </span><span class="m">3001</span><span class="w"> </span>--category<span class="w"> </span>teaching
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># Teaching-only dashboard</span>
+<div class="admonition tip">
+<p class="admonition-title">Maintain Your Streak</p>
+</div>
+<p>Even a 5-minute session counts! On busy days, do a quick <code>work</code> → <code>win "Quick check-in"</code> → <code>finish</code> to keep your streak alive.</p>
+<hr />
+<h2 id="part-5-setting-daily-goals">Part 5: Setting Daily Goals<a class="headerlink" href="#part-5-setting-daily-goals" title="Permanent link">&para;</a></h2>
+<h3 id="set-your-first-goal">Set Your First Goal<a class="headerlink" href="#set-your-first-goal" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Set a goal of 3 wins per day</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">3</span>
 </code></pre></div>
-<p><strong>Terminal 3:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web<span class="w"> </span>--port<span class="w"> </span><span class="m">3002</span><span class="w"> </span>--category<span class="w"> </span>research
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="c1"># Research-only dashboard</span>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>🎯 Daily goal set: 3 wins
 </code></pre></div>
-<p>Now you have 3 browser tabs, each showing different views!</p>
-<h3 id="feature-3-embed-in-other-tools">Feature 3: Embed in Other Tools<a class="headerlink" href="#feature-3-embed-in-other-tools" title="Permanent link">&para;</a></h3>
-<p>Use the dashboard URL in other apps:</p>
-<p><strong>Browser bookmark:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>http://localhost:3000/dashboard
+<h3 id="check-your-progress">Check Your Progress<a class="headerlink" href="#check-your-progress" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>flow<span class="w"> </span>goal
 </code></pre></div>
-<p><strong>Obsidian/Notion:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>[<span class="nt">My Projects Dashboard</span>](<span class="na">http://localhost:3000/dashboard</span>)
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>🎯 Today&#39;s Progress
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>━━━━━━━━━━━━━━━━━━━
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>██████░░░░ 2/3 wins
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>Log 1 more win to reach your goal!
 </code></pre></div>
-<p><strong>Alfred/Raycast workflow:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>open<span class="w"> </span>http://localhost:3000/dashboard
+<h3 id="goal-shown-in-dashboard">Goal Shown in Dashboard<a class="headerlink" href="#goal-shown-in-dashboard" title="Permanent link">&para;</a></h3>
+<p>The dashboard now shows your goal progress:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>dash
 </code></pre></div>
-<h3 id="feature-4-keyboard-shortcuts">Feature 4: Keyboard Shortcuts<a class="headerlink" href="#feature-4-keyboard-shortcuts" title="Permanent link">&para;</a></h3>
-<p>Productivity shortcuts:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>┌─ 🎉 Recent Wins ─────────────────────────────────────────────┐
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>│ 🎯 Daily Goal: ██████░░░░ 2/3                                │
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>│                                                              │
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>│ 💻 Implemented auth service              14:20               │
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>│ 🔧 Fixed login redirect bug              11:45               │
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>└──────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="adjusting-your-goal">Adjusting Your Goal<a class="headerlink" href="#adjusting-your-goal" title="Permanent link">&para;</a></h3>
+<p>Start small and increase as you build the habit:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Start conservatively</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># After a week of hitting goals</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">3</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># If you&#39;re crushing it</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">5</span>
+</code></pre></div>
+<hr />
+<h2 id="part-6-per-project-goals">Part 6: Per-Project Goals<a class="headerlink" href="#part-6-per-project-goals" title="Permanent link">&para;</a></h2>
+<p>You can set different goals for different projects.</p>
+<h3 id="add-to-status-file">Add to .STATUS File<a class="headerlink" href="#add-to-status-file" title="Permanent link">&para;</a></h3>
+<p>Open your project's <code>.STATUS</code> file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="gu">## Project: my-project</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="gu">## Status: active</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="gu">## daily_goal: 5</span>
+</code></pre></div>
+<h3 id="how-priority-works">How Priority Works<a class="headerlink" href="#how-priority-works" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Project <code>.STATUS</code></strong> → <code>daily_goal</code> field (highest priority)</li>
+<li><strong>Global goal</strong> → <code>flow goal set N</code></li>
+<li><strong>Default</strong> → 3 wins</li>
+</ol>
+<hr />
+<h2 id="part-7-dashboard-integration">Part 7: Dashboard Integration<a class="headerlink" href="#part-7-dashboard-integration" title="Permanent link">&para;</a></h2>
+<h3 id="full-dashboard-view">Full Dashboard View<a class="headerlink" href="#full-dashboard-view" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>dash
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>╭──────────────────────────────────────────────────────────────╮
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>│  🌊 FLOW DASHBOARD ✓                     Dec 27, 2025  14:30 │
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>╰──────────────────────────────────────────────────────────────╯
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>  📊 Today: 2 sessions, ⏱ 3h 45m        🔥 5 day streak
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>  💡 Keep it up! You&#39;re 2/3 of the way to your daily goal.
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>┌─ 🎉 Recent Wins ─────────────────────────────────────────────┐
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>│ 🎯 Daily Goal: ██████░░░░ 2/3                                │
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>│                                                              │
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>│ 💻 Implemented auth service              14:20               │
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>│ 🔧 Fixed login redirect bug              11:45               │
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>│ 📝 Updated API documentation             09:30               │
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>└──────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="interactive-dashboard">Interactive Dashboard<a class="headerlink" href="#interactive-dashboard" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>dash<span class="w"> </span>-i
+</code></pre></div>
+<p><strong>Keyboard shortcuts:</strong></p>
 <table>
 <thead>
 <tr>
@@ -4765,264 +4825,155 @@
 </thead>
 <tbody>
 <tr>
-<td><code>/</code></td>
-<td>Focus search</td>
+<td><code>Enter</code></td>
+<td>Open project</td>
 </tr>
 <tr>
-<td><code>r</code></td>
-<td>Refresh now</td>
+<td><code>Ctrl-W</code></td>
+<td>Log a win</td>
 </tr>
 <tr>
-<td><code>1-5</code></td>
-<td>Filter by status</td>
-</tr>
-<tr>
-<td><code>a</code></td>
-<td>Show all</td>
-</tr>
-<tr>
-<td><code>h</code></td>
-<td>Show help overlay</td>
+<td><code>Ctrl-E</code></td>
+<td>Edit .STATUS file</td>
 </tr>
 <tr>
 <td><code>?</code></td>
-<td>Keyboard shortcuts</td>
+<td>Show help</td>
 </tr>
 <tr>
-<td><code>ESC</code></td>
-<td>Clear filters</td>
-</tr>
-<tr>
-<td><code>q</code></td>
-<td>Quit dashboard</td>
+<td><code>Esc</code></td>
+<td>Exit</td>
 </tr>
 </tbody>
 </table>
-<h3 id="feature-5-darklight-theme">Feature 5: Dark/Light Theme<a class="headerlink" href="#feature-5-darklight-theme" title="Permanent link">&para;</a></h3>
-<p>Toggle theme (if implemented):</p>
-<p><strong>Top-right corner:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>[🌙] Dark Mode
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>[☀️] Light Mode
-</code></pre></div>
-<p>Or use browser's dark mode settings.</p>
 <hr />
-<h2 id="exercises">Exercises<a class="headerlink" href="#exercises" title="Permanent link">&para;</a></h2>
-<h3 id="exercise-1-custom-view">Exercise 1: Custom View<a class="headerlink" href="#exercise-1-custom-view" title="Permanent link">&para;</a></h3>
-<p>Create a custom filtered view for your workflow.</p>
-<details>
-<summary>Hint</summary>
-
-Combine filters (status, category, priority) and bookmark the result.
-
-</details>
-
-<details>
-<summary>Solution</summary>
-
-**Morning teaching view:**
-
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>1. Launch dashboard: flow dashboard --web
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>2. Filters:
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>   - Category: Teaching
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>   - Priority: P0, P1
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>   - Status: Active
-<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>3. Sort: Priority (P0 first)
-<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>4. Bookmark: &quot;Morning Teaching Focus&quot;
+<h2 id="part-8-complete-workflow">Part 8: Complete Workflow<a class="headerlink" href="#part-8-complete-workflow" title="Permanent link">&para;</a></h2>
+<p>Here's how dopamine features fit into your daily routine:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Morning: Check your state</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>morning
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1"># or</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>dash
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="c1"># Start working</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>work<span class="w"> </span>my-project
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="c1"># Log wins as you go (don&#39;t wait!)</span>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>win<span class="w"> </span><span class="s2">&quot;Fixed authentication bug&quot;</span>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>win<span class="w"> </span><span class="s2">&quot;Added input validation&quot;</span>
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="c1"># Check progress mid-day</span>
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>flow<span class="w"> </span>goal
+<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>
+<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a><span class="c1"># More work...</span>
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>win<span class="w"> </span><span class="s2">&quot;Completed user profile feature&quot;</span>
+<a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a>
+<a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a><span class="c1"># End of session</span>
+<a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a>finish<span class="w"> </span><span class="s2">&quot;Good progress today&quot;</span>
+<a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a>
+<a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a><span class="c1"># Check your streak</span>
+<a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a>yay
 </code></pre></div>
-
-**Research progress view:**
-
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>1. Launch dashboard
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>2. Filters:
-<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>   - Category: Research
-<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>   - Progress: 50%+
-<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>3. Sort: Progress (high to low)
-<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>4. Bookmark: &quot;Near-Complete Research&quot;
+<hr />
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="1-log-wins-immediately">1. Log Wins Immediately<a class="headerlink" href="#1-log-wins-immediately" title="Permanent link">&para;</a></h3>
+<p>Don't wait until the end of the day:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Right after finishing something</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>win<span class="w"> </span><span class="s2">&quot;Just fixed that annoying bug&quot;</span>
 </code></pre></div>
-
-</details>
-
-<h3 id="exercise-2-monitor-active-session">Exercise 2: Monitor Active Session<a class="headerlink" href="#exercise-2-monitor-active-session" title="Permanent link">&para;</a></h3>
-<p>Track a complete work session using the dashboard.</p>
-<details>
-<summary>Solution</summary>
-
-**Setup:**
-
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Terminal 1: Launch dashboard</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web
+<p>The immediate feedback reinforces the behavior.</p>
+<h3 id="2-keep-goals-achievable">2. Keep Goals Achievable<a class="headerlink" href="#2-keep-goals-achievable" title="Permanent link">&para;</a></h3>
+<p>Start small. A goal you hit daily is better than an ambitious goal you miss:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Week 1</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Week 2 (if consistently hitting)</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">3</span>
+</code></pre></div>
+<h3 id="3-use-categories">3. Use Categories<a class="headerlink" href="#3-use-categories" title="Permanent link">&para;</a></h3>
+<p>Categories help you see patterns:</p>
+<ul>
+<li>Lots of 🔧 fix? Maybe time for some proactive work.</li>
+<li>All 💻 code and no 📝 docs? Documentation week!</li>
+<li>Heavy 👀 review? Balance with creation time.</li>
+</ul>
+<h3 id="4-check-dashboard-daily">4. Check Dashboard Daily<a class="headerlink" href="#4-check-dashboard-daily" title="Permanent link">&para;</a></h3>
+<p>Make <code>dash</code> part of your morning:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>morning<span class="w">    </span><span class="c1"># Morning routine with suggestions</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>dash<span class="w">       </span><span class="c1"># Quick dashboard check</span>
+</code></pre></div>
+<hr />
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="wins-not-showing">Wins Not Showing<a class="headerlink" href="#wins-not-showing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Check wins file exists</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>ls<span class="w"> </span>-la<span class="w"> </span>~/.local/share/flow/wins.md
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Terminal 2: Start work session</span>
-<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>work<span class="w"> </span>mediationverse
-<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>f50
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># View raw file</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>cat<span class="w"> </span>~/.local/share/flow/wins.md
 </code></pre></div>
-
-**Monitor:**
-
-1. Watch active session timer count up
-2. See duration update every second
-3. Work on project for 50 minutes
-4. Update status when done
-
-**Verify:**
-
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Terminal 2: Update when timer completes</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Session complete (+10%)&quot;</span><span class="w"> </span><span class="m">95</span>
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># Dashboard: See progress update within 5 seconds</span>
+<h3 id="streak-reset-unexpectedly">Streak Reset Unexpectedly<a class="headerlink" href="#streak-reset-unexpectedly" title="Permanent link">&para;</a></h3>
+<p>Streaks require at least one work session per day:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Check worklog for gaps</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>tail<span class="w"> </span>-20<span class="w"> </span>~/.local/share/flow/worklog
 </code></pre></div>
-
-</details>
-
-<h3 id="exercise-3-weekly-review-dashboard">Exercise 3: Weekly Review Dashboard<a class="headerlink" href="#exercise-3-weekly-review-dashboard" title="Permanent link">&para;</a></h3>
-<p>Use dashboard for weekly review process.</p>
-<details>
-<summary>Solution</summary>
-
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Launch dashboard</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web
+<h3 id="goal-not-updating">Goal Not Updating<a class="headerlink" href="#goal-not-updating" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Check global goal</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>cat<span class="w"> </span>~/.local/share/flow/goal.json
 <a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
-<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># Review each category:</span>
-<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="m">1</span>.<span class="w"> </span>Teaching:
-<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">   </span>-<span class="w"> </span>Filter:<span class="w"> </span><span class="nv">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>Teaching
-<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="w">   </span>-<span class="w"> </span>Check:<span class="w"> </span>Which<span class="w"> </span>need<span class="w"> </span>updates?
-<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="w">   </span>-<span class="w"> </span>Action:<span class="w"> </span>Update<span class="w"> </span>statuses<span class="w"> </span><span class="k">in</span><span class="w"> </span>terminal
-<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>
-<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="m">2</span>.<span class="w"> </span>Research:
-<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="w">   </span>-<span class="w"> </span>Filter:<span class="w"> </span><span class="nv">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>Research
-<a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a><span class="w">   </span>-<span class="w"> </span>Check:<span class="w"> </span>Progress<span class="w"> </span>on<span class="w"> </span>each
-<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a><span class="w">   </span>-<span class="w"> </span>Action:<span class="w"> </span>Update<span class="w"> </span>and<span class="w"> </span><span class="nb">set</span><span class="w"> </span>priorities
-<a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>
-<a id="__codelineno-28-15" name="__codelineno-28-15" href="#__codelineno-28-15"></a><span class="m">3</span>.<span class="w"> </span>Packages:
-<a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a><span class="w">   </span>-<span class="w"> </span>Filter:<span class="w"> </span><span class="nv">Category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>Packages
-<a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a><span class="w">   </span>-<span class="w"> </span>Check:<span class="w"> </span>Near<span class="w"> </span><span class="m">100</span>%?
-<a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a><span class="w">   </span>-<span class="w"> </span>Action:<span class="w"> </span>Ship<span class="w"> </span>completed<span class="w"> </span>ones
-<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a>
-<a id="__codelineno-28-20" name="__codelineno-28-20" href="#__codelineno-28-20"></a><span class="m">4</span>.<span class="w"> </span>Overall:
-<a id="__codelineno-28-21" name="__codelineno-28-21" href="#__codelineno-28-21"></a><span class="w">   </span>-<span class="w"> </span>Clear<span class="w"> </span>filters<span class="w"> </span><span class="o">(</span>show<span class="w"> </span>all<span class="o">)</span>
-<a id="__codelineno-28-22" name="__codelineno-28-22" href="#__codelineno-28-22"></a><span class="w">   </span>-<span class="w"> </span>Check:<span class="w"> </span>Statistics<span class="w"> </span>summary
-<a id="__codelineno-28-23" name="__codelineno-28-23" href="#__codelineno-28-23"></a><span class="w">   </span>-<span class="w"> </span>Note:<span class="w"> </span>Total<span class="w"> </span>progress<span class="w"> </span>this<span class="w"> </span>week
-<a id="__codelineno-28-24" name="__codelineno-28-24" href="#__codelineno-28-24"></a><span class="w">   </span>-<span class="w"> </span>Export:<span class="w"> </span>Screenshot<span class="w"> </span><span class="k">for</span><span class="w"> </span>records
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># Check project-specific goal</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>grep<span class="w"> </span>daily_goal<span class="w"> </span>.STATUS
 </code></pre></div>
-
-</details>
-
 <hr />
-<h2 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h2>
-<h3 id="dashboard-wont-open">"Dashboard won't open"<a class="headerlink" href="#dashboard-wont-open" title="Permanent link">&para;</a></h3>
-<p><strong>Cause:</strong> Port already in use or browser not opening</p>
-<p><strong>Fix:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Try different port</span>
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web<span class="w"> </span>--port<span class="w"> </span><span class="m">3001</span>
-<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
-<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># Or manually open browser</span>
-<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web
-<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="c1"># Then open: http://localhost:3000/dashboard</span>
-</code></pre></div>
-<h3 id="data-not-updating">"Data not updating"<a class="headerlink" href="#data-not-updating" title="Permanent link">&para;</a></h3>
-<p><strong>Cause:</strong> Auto-refresh paused or connection lost</p>
-<p><strong>Fix:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Press &#39;r&#39; to refresh manually</span>
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="c1"># Or restart dashboard</span>
-<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="c1"># Ctrl+C, then: flow dashboard --web</span>
-</code></pre></div>
-<h3 id="charts-look-empty">"Charts look empty"<a class="headerlink" href="#charts-look-empty" title="Permanent link">&para;</a></h3>
-<p><strong>Cause:</strong> Not enough data tracked yet</p>
-<p><strong>Fix:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Track more projects</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>status<span class="w"> </span>project1<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Task 1&quot;</span><span class="w"> </span><span class="m">50</span>
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>status<span class="w"> </span>project2<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Task 2&quot;</span><span class="w"> </span><span class="m">75</span>
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="c1"># Work on them, then refresh dashboard</span>
-</code></pre></div>
+<h2 id="whats-next">What's Next?<a class="headerlink" href="#whats-next" title="Permanent link">&para;</a></h2>
+<p>Now that you're tracking wins and building streaks:</p>
+<ol>
+<li><strong><a href="../07-sync-command/">Tutorial 7: Sync Command</a></strong> - Keep everything in sync</li>
+<li><strong><a href="../../reference/WORKFLOW-QUICK-REFERENCE/">Workflow Quick Reference</a></strong> - Full command reference</li>
+<li><strong><a href="../../guides/DOPAMINE-FEATURES-GUIDE/">Dopamine Features Guide</a></strong> - Deep dive reference</li>
+</ol>
 <hr />
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>In this tutorial, you learned:</p>
 <table>
 <thead>
 <tr>
 <th>Concept</th>
-<th>What You Did</th>
+<th>Command</th>
+<th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Launching</td>
-<td>Started web dashboard with <code>flow dashboard --web</code></td>
+<td>Log win</td>
+<td><code>win "text"</code></td>
+<td>Record accomplishment</td>
 </tr>
 <tr>
-<td>Filtering</td>
-<td>Filtered by status, category, priority</td>
+<td>View wins</td>
+<td><code>yay</code>, <code>yay --week</code></td>
+<td>See recent wins</td>
 </tr>
 <tr>
-<td>Searching</td>
-<td>Used search box for quick access</td>
+<td>Set goal</td>
+<td><code>flow goal set N</code></td>
+<td>Daily win target</td>
 </tr>
 <tr>
-<td>Sorting</td>
-<td>Sorted columns (name, progress, etc)</td>
+<td>Check goal</td>
+<td><code>flow goal</code></td>
+<td>See progress</td>
 </tr>
 <tr>
-<td>Real-time</td>
-<td>Monitored active session updates</td>
+<td>View streak</td>
+<td><code>dash</code>, <code>yay</code></td>
+<td>Consecutive days</td>
 </tr>
 <tr>
-<td>Charts</td>
-<td>Viewed bar charts and statistics</td>
-</tr>
-<tr>
-<td>Export</td>
-<td>Saved screenshots and data</td>
+<td>Categories</td>
+<td>Auto or <code>--code</code>, etc.</td>
+<td>Organize wins</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Key commands:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web<span class="w">                  </span><span class="c1"># Launch dashboard</span>
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web<span class="w"> </span>--port<span class="w"> </span><span class="m">3001</span><span class="w">      </span><span class="c1"># Custom port</span>
-<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>flow<span class="w"> </span>dashboard<span class="w"> </span>--web<span class="w"> </span>--interval<span class="w"> </span><span class="m">2000</span><span class="w">  </span><span class="c1"># Fast refresh</span>
-<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>flow<span class="w"> </span>status<span class="w"> </span>--json<span class="w"> </span>&gt;<span class="w"> </span>data.json<span class="w">        </span><span class="c1"># Export data</span>
-</code></pre></div>
-<p><strong>Dashboard sections:</strong></p>
-<ol>
-<li><strong>Active Session</strong> - Live timer and progress</li>
-<li><strong>Today's Metrics</strong> - Charts and graphs</li>
-<li><strong>All Projects</strong> - Sortable, filterable table</li>
-<li><strong>Statistics</strong> - Summary metrics</li>
-</ol>
-<hr />
-<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<p>You've completed all tutorials! Continue learning:</p>
-<ol>
-<li><strong><a href="../../commands/status/">Command Reference: status</a></strong> — Complete status command documentation</li>
-<li><strong><a href="../../commands/dashboard/">Command Reference: dashboard</a></strong> — Complete dashboard command documentation</li>
-<li><strong><a href="../../guides/WORKFLOWS-QUICK-WINS/">Workflows &amp; Quick Wins</a></strong> — Advanced productivity patterns</li>
-<li><strong><a href="../../getting-started/troubleshooting/">Troubleshooting Guide</a></strong> — Common issues and fixes</li>
-</ol>
-<hr />
-<h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>┌─────────────────────────────────────────────────────┐
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>│  WEB DASHBOARD QUICK REFERENCE                      │
-<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>├─────────────────────────────────────────────────────┤
-<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>│  Launch:                                            │
-<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>│    flow dashboard --web           Default           │
-<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>│    flow dashboard --web --port N  Custom port       │
-<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>│    flow dashboard --web --interval N  Refresh rate  │
-<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>├─────────────────────────────────────────────────────┤
-<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>│  Keyboard:                                          │
-<a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a>│    /      Focus search                              │
-<a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>│    r      Refresh now                               │
-<a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a>│    ESC    Clear filters                             │
-<a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a>│    h/?    Show help                                 │
-<a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a>│    q      Quit                                      │
-<a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a>├─────────────────────────────────────────────────────┤
-<a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a>│  Features:                                          │
-<a id="__codelineno-33-17" name="__codelineno-33-17" href="#__codelineno-33-17"></a>│    - Real-time session monitoring                   │
-<a id="__codelineno-33-18" name="__codelineno-33-18" href="#__codelineno-33-18"></a>│    - Interactive charts and graphs                  │
-<a id="__codelineno-33-19" name="__codelineno-33-19" href="#__codelineno-33-19"></a>│    - Filter/search/sort projects                    │
-<a id="__codelineno-33-20" name="__codelineno-33-20" href="#__codelineno-33-20"></a>│    - Export screenshots and data                    │
-<a id="__codelineno-33-21" name="__codelineno-33-21" href="#__codelineno-33-21"></a>│    - Auto-refresh every 5 seconds                   │
-<a id="__codelineno-33-22" name="__codelineno-33-22" href="#__codelineno-33-22"></a>└─────────────────────────────────────────────────────┘
-</code></pre></div>
+<p><strong>Remember:</strong> The goal isn't to optimize productivity metrics - it's to make work feel more rewarding so you can sustain focus and momentum.</p>
 
 
 
