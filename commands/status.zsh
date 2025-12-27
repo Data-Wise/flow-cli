@@ -365,39 +365,56 @@ setprogress() {
 # EXTENDED .STATUS FIELDS (v3.5.0)
 # ============================================================================
 
-# Read a field from .STATUS file
+# Read a field from .STATUS file (pure ZSH - no external commands)
 _flow_status_get_field() {
   local status_file="$1"
   local field="$2"
+  local value="" line
 
   [[ ! -f "$status_file" ]] && return 1
 
-  # Match ## Field: value format
-  grep -i "^## ${field}:" "$status_file" 2>/dev/null | head -1 | sed 's/^## [^:]*: *//'
+  # Read file and find matching line (case-insensitive)
+  while IFS= read -r line; do
+    # Match ## Field: value format
+    if [[ "${line:l}" == "## ${field:l}:"* ]]; then
+      value="${line#*: }"  # Remove everything up to ": "
+      value="${value#"${value%%[![:space:]]*}"}"  # Trim leading whitespace
+      echo "$value"
+      return 0
+    fi
+  done < "$status_file"
+
+  return 1
 }
 
-# Set a field in .STATUS file (create if missing)
+# Set a field in .STATUS file (pure ZSH - no external commands)
 _flow_status_set_field() {
   local status_file="$1"
   local field="$2"
   local value="$3"
+  local found=0
+  local -a new_lines=()
+  local line
 
   [[ ! -f "$status_file" ]] && return 1
 
-  # Check if field exists
-  if grep -qi "^## ${field}:" "$status_file" 2>/dev/null; then
-    # Update existing field
-    sed -i '' "s/^## ${field}:.*$/## ${field}: ${value}/i" "$status_file"
-  else
-    # Add new field after Progress line (or at end if not found)
-    if grep -q "^## Progress:" "$status_file"; then
-      sed -i '' "/^## Progress:.*/a\\
-## ${field}: ${value}
-" "$status_file"
+  # Read all lines and update matching field
+  while IFS= read -r line; do
+    if [[ "${line:l}" == "## ${field:l}:"* ]]; then
+      new_lines+=("## ${field}: ${value}")
+      found=1
     else
-      echo "## ${field}: ${value}" >> "$status_file"
+      new_lines+=("$line")
     fi
+  done < "$status_file"
+
+  # If field not found, append it
+  if (( ! found )); then
+    new_lines+=("## ${field}: ${value}")
   fi
+
+  # Write back to file (printf ensures POSIX-compliant trailing newline)
+  printf '%s\n' "${new_lines[@]}" > "$status_file"
 }
 
 # Update last_active timestamp

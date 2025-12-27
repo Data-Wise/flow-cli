@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v3.6.0)
+- **Status:** Production ready (v3.6.3)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -38,7 +38,7 @@ flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v3.5.0)
+### Dopamine Features (v3.6.3)
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
@@ -366,7 +366,7 @@ export FLOW_DEBUG=1
 
 ## Current Status (2025-12-27)
 
-### ✅ v3.5.0 Released
+### ✅ v3.6.3 Released
 
 - [x] Dopamine features (win tracking, streaks, goals)
 - [x] Win categories with auto-detection
@@ -394,7 +394,7 @@ export FLOW_DEBUG=1
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
 - **Tests:** Interactive dog feeding test (gamified)
 
-### 📋 Next: v4.0.0 Planning
+### 📋 Next: v3.6.3 Planning
 
 - [ ] Cross-tool orchestration (`flow sync all`)
 - [ ] Remote state sync (optional cloud backup)
@@ -447,6 +447,30 @@ mkdocs gh-deploy --force
 # Verify
 open https://Data-Wise.github.io/flow-cli/
 ```
+
+### Create Release
+
+```bash
+# Use the release script to bump all version files
+./scripts/release.sh 3.7.0
+
+# Review changes
+git diff
+
+# Commit and tag
+git add -A && git commit -m "chore: bump version to 3.7.0"
+git tag -a v3.6.3 -m "v3.6.3"
+
+# Push (requires PR for protected branch)
+git push origin main && git push origin v3.6.3
+```
+
+**Files updated by release script:**
+
+- `package.json` - version field
+- `README.md` - badge version
+- `CLAUDE.md` - version references
+- `docs/reference/CC-DISPATCHER-REFERENCE.md` - version
 
 ---
 

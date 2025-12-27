@@ -2,6 +2,13 @@
 # Frictionless idea and task capture for ADHD workflows
 
 # ============================================================================
+# MODULE INITIALIZATION
+# ============================================================================
+
+# Load datetime module once at startup (used by win, yay, flow goal)
+zmodload -F zsh/datetime b:strftime
+
+# ============================================================================
 # CATCH - Quick idea capture
 # ============================================================================
 
@@ -189,13 +196,11 @@ win() {
 
   local cat_icon="${FLOW_WIN_CATEGORIES[$category]:-✨}"
 
-  # Log the win with category
-  if _flow_has_atlas; then
-    _flow_atlas catch "$text" --type=win --category="$category" ${project:+--project="$project"}
-  else
-    local wins="${FLOW_DATA_DIR}/wins.md"
-    echo "- $cat_icon $text${project:+ (@$project)} #$category [$(date '+%Y-%m-%d %H:%M')]" >> "$wins"
-  fi
+  # Log the win to local file
+  # TODO: Add atlas --type=win support when available in atlas CLI
+  local wins="${FLOW_DATA_DIR}/wins.md"
+  local timestamp=$(strftime "%Y-%m-%d %H:%M" $EPOCHSECONDS)
+  echo "- $cat_icon $text${project:+ (@$project)} #$category [$timestamp]" >> "$wins"
 
   # Also update project .STATUS if in a project (v3.5.0)
   if _flow_in_project; then
@@ -238,7 +243,6 @@ yay() {
       fi
 
       # Calculate 7 days ago
-      zmodload -F zsh/datetime b:strftime
       local today=$(strftime "%Y-%m-%d" $EPOCHSECONDS)
       local week_ago=$(strftime "%Y-%m-%d" $((EPOCHSECONDS - 7 * 86400)))
       local count=0
@@ -381,7 +385,6 @@ FLOW_DEFAULT_DAILY_GOAL=3
 
 # Get today's date in consistent format
 _flow_today() {
-  zmodload -F zsh/datetime b:strftime
   strftime "%Y-%m-%d" $EPOCHSECONDS
 }
 
