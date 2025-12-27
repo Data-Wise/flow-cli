@@ -642,6 +642,11 @@ if [[ -f ~/.config/zsh/functions/bg-agents.zsh ]]; then
     source ~/.config/zsh/functions/bg-agents.zsh
 fi
 
+# Scribe CLI - Terminal-based note access (2025-12-27, Sprint 20)
+if [[ -f ~/.config/zsh/functions/scribe.zsh ]]; then
+    source ~/.config/zsh/functions/scribe.zsh
+fi
+
 # MCP Server Management Dispatcher (2025-12-19)
 # MOVED TO .zshenv 2025-12-23
 # if [[ -f ~/.config/zsh/functions/mcp-dispatcher.zsh ]]; then

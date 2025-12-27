@@ -1,0 +1,122 @@
+.TH SCRIBE 1 "December 2025" "scribe 1.1.0" "User Commands"
+.SH NAME
+scribe \- terminal-based note access for Scribe app
+.SH SYNOPSIS
+.B scribe
+.I command
+[\fIarguments\fR]
+.SH DESCRIPTION
+.B scribe
+provides terminal access to notes stored in the Scribe app database.
+Designed for ADHD-friendly quick capture and note management from the command line.
+.PP
+The CLI operates directly on the SQLite database, enabling fast note creation,
+search, and editing without launching the GUI application.
+.SH COMMANDS
+.SS Note Management
+.TP
+.B new \fItitle\fR
+Create a new note in the inbox folder.
+.TP
+.B daily\fR, \fBd
+Open or create today's daily note. Creates with template if new.
+.TP
+.B capture\fR, \fBc \fR[\fItext\fR]
+Quick capture a thought to inbox. Reads from stdin if no text provided.
+.TP
+.B open\fR, \fBo \fR[\fItitle\fR]
+Open a note in the Scribe GUI app. Without arguments, just opens Scribe.
+.TP
+.B edit\fR, \fBe \fItitle\fR
+Edit note content in $EDITOR (defaults to vim).
+.SS Search & Browse
+.TP
+.B search\fR, \fBs \fIquery\fR
+Full-text search notes using FTS5. Shows snippets with highlighted matches.
+.TP
+.B list\fR, \fBls \fR[\fIfolder\fR]
+List recent notes. Optionally filter by folder.
+.TP
+.B tags\fR, \fBt
+List all tags with note counts.
+.TP
+.B folders\fR, \fBf
+List all folders with note counts.
+.TP
+.B stats
+Show statistics (total notes, words, folders, tags).
+.SS Help
+.TP
+.B help\fR, \fB\-h\fR, \fB\-\-help
+Show usage information.
+.SH OPTIONS
+.TP
+.B \-\-project\fR, \fB\-f \fIfolder\fR
+Filter list by folder name.
+.TP
+.B \-\-limit\fR, \fB\-l \fInumber\fR
+Limit number of results (default: 20).
+.SH EXAMPLES
+.TP
+Create a new note:
+.B scribe new "Meeting Notes"
+.TP
+Open today's daily note:
+.B scribe daily
+.TP
+Quick capture from command line:
+.B scribe capture "Remember to buy milk"
+.TP
+Capture from pipe:
+.B echo "idea" | scribe capture
+.TP
+Search for notes:
+.B scribe search "ADHD focus"
+.TP
+List inbox notes:
+.B scribe list inbox
+.TP
+List with limit:
+.B scribe list --limit 5
+.SH ENVIRONMENT
+.TP
+.B EDITOR
+Editor used for \fBscribe edit\fR command. Defaults to vim.
+.SH FILES
+.TP
+.I ~/Library/Application Support/com.scribe.app/scribe.db
+SQLite database containing all notes, tags, and metadata.
+.TP
+.I ~/.config/zsh/functions/scribe.zsh
+ZSH function providing the scribe command.
+.SH ALIASES
+The following aliases are defined when scribe.zsh is sourced:
+.TP
+.B sd
+scribe daily
+.TP
+.B sc
+scribe capture
+.TP
+.B ss
+scribe search
+.TP
+.B sl
+scribe list
+.TP
+.B sn
+scribe new
+.SH EXIT STATUS
+.TP
+.B 0
+Success.
+.TP
+.B 1
+Error (database not found, invalid command, operation failed).
+.SH SEE ALSO
+.BR sqlite3 (1),
+.BR obs (1)
+.SH AUTHOR
+DT <dt@example.com>
+.SH BUGS
+Report bugs at https://github.com/dt/scribe/issues
