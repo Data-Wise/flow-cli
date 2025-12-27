@@ -137,9 +137,14 @@ nav:
       - Existing System Summary: reference/EXISTING-SYSTEM-SUMMARY.md
       - ZSH Clean Workflow: reference/ZSH-CLEAN-WORKFLOW.md
   - Commands:
+      - flow (main): commands/flow.md
       - work: commands/work.md
       - finish: commands/finish.md
+      - hop: commands/hop.md
+      - pick: commands/pick.md
       - capture (win/yay/catch): commands/capture.md
+      - timer: commands/timer.md
+      - morning: commands/morning.md
       - dash: commands/dash.md
       - status: commands/status.md
       - sync: commands/sync.md
