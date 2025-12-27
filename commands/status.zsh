@@ -413,7 +413,7 @@ _flow_status_set_field() {
     new_lines+=("## ${field}: ${value}")
   fi
 
-  # Write back to file
+  # Write back to file (printf ensures POSIX-compliant trailing newline)
   printf '%s\n' "${new_lines[@]}" > "$status_file"
 }
 
