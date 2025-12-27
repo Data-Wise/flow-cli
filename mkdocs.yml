@@ -137,9 +137,12 @@ nav:
       - Existing System Summary: reference/EXISTING-SYSTEM-SUMMARY.md
       - ZSH Clean Workflow: reference/ZSH-CLEAN-WORKFLOW.md
   - Commands:
-      - status: commands/status.md
-      - dashboard: commands/dashboard.md
+      - work: commands/work.md
+      - finish: commands/finish.md
+      - capture (win/yay/catch): commands/capture.md
       - dash: commands/dash.md
+      - status: commands/status.md
+      - sync: commands/sync.md
       - doctor: commands/doctor.md
       - config: commands/config.md
       - plugin: commands/plugin.md
@@ -147,7 +150,7 @@ nav:
       - do: commands/do.md
       - install: commands/install.md
       - upgrade: commands/upgrade.md
-      - sync: commands/sync.md
+      - dashboard: commands/dashboard.md
   - Architecture:
       - Overview: architecture/README.md
       - Architecture Diagrams: architecture/ARCHITECTURE-DIAGRAM.md
