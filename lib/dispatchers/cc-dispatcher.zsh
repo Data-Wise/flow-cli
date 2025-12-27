@@ -6,20 +6,16 @@
 # ============================================================================
 
 cc() {
-    # No arguments → pick project + launch claude in acceptEdits mode
+    # No arguments → launch Claude in current directory (acceptEdits mode)
     if [[ $# -eq 0 ]]; then
-        if (( $+functions[pick] )); then
-            pick && claude --permission-mode acceptEdits
-        else
-            claude --permission-mode acceptEdits
-        fi
+        claude --permission-mode acceptEdits
         return
     fi
 
     # Check if first arg is a known subcommand
     local is_subcommand=0
     case "$1" in
-        yolo|y|plan|p|now|n|resume|r|continue|c|ask|a|file|f|diff|d|rpkg|print|pr|opus|o|haiku|h|help|--help|-h)
+        pick|yolo|y|plan|p|now|n|resume|r|continue|c|ask|a|file|f|diff|d|rpkg|print|pr|opus|o|haiku|h|help|--help|-h)
             is_subcommand=1
             ;;
     esac
@@ -41,11 +37,31 @@ cc() {
     fi
 
     case "$1" in
+        # Pick project first, then launch
+        pick)
+            shift
+            if (( $+functions[pick] )); then
+                pick && claude --permission-mode acceptEdits "$@"
+            else
+                echo "❌ pick function not available" >&2
+                return 1
+            fi
+            ;;
+
         # Launch modes
         yolo|y)
             shift
-            # Check if next arg is a project name
-            if [[ -n "$1" && "$1" != -* ]]; then
+            # Check for 'pick' subcommand: cc yolo pick
+            if [[ "$1" == "pick" ]]; then
+                shift
+                if (( $+functions[pick] )); then
+                    pick && claude --dangerously-skip-permissions "$@"
+                else
+                    echo "❌ pick function not available" >&2
+                    return 1
+                fi
+            # Check if next arg is a project name (direct jump)
+            elif [[ -n "$1" && "$1" != -* ]]; then
                 local project_name="$1"
                 shift
                 if (( $+functions[pick] )); then
@@ -54,17 +70,24 @@ cc() {
                     claude --dangerously-skip-permissions "$@"
                 fi
             else
-                if (( $+functions[pick] )); then
-                    pick && claude --dangerously-skip-permissions "$@"
-                else
-                    claude --dangerously-skip-permissions "$@"
-                fi
+                # No args after yolo → launch in current directory
+                claude --dangerously-skip-permissions "$@"
             fi
             ;;
 
         plan|p)
             shift
-            if [[ -n "$1" && "$1" != -* ]]; then
+            # Check for 'pick' subcommand: cc plan pick
+            if [[ "$1" == "pick" ]]; then
+                shift
+                if (( $+functions[pick] )); then
+                    pick && claude --permission-mode plan "$@"
+                else
+                    echo "❌ pick function not available" >&2
+                    return 1
+                fi
+            # Check if next arg is a project name (direct jump)
+            elif [[ -n "$1" && "$1" != -* ]]; then
                 local project_name="$1"
                 shift
                 if (( $+functions[pick] )); then
@@ -73,16 +96,14 @@ cc() {
                     claude --permission-mode plan "$@"
                 fi
             else
-                if (( $+functions[pick] )); then
-                    pick && claude --permission-mode plan "$@"
-                else
-                    claude --permission-mode plan "$@"
-                fi
+                # No args after plan → launch in current directory
+                claude --permission-mode plan "$@"
             fi
             ;;
 
-        # Direct launch (no picker)
+        # Direct launch (DEPRECATED - default now does this)
         now|n)
+            echo "⚠️  'cc now' is deprecated. Just use 'cc' (default is current dir now)" >&2
             shift
             claude --permission-mode acceptEdits "$@"
             ;;
@@ -157,7 +178,17 @@ cc() {
         # Model selection
         opus|o)
             shift
-            if [[ -n "$1" && "$1" != -* ]]; then
+            # Check for 'pick' subcommand: cc opus pick
+            if [[ "$1" == "pick" ]]; then
+                shift
+                if (( $+functions[pick] )); then
+                    pick && claude --model opus --permission-mode acceptEdits "$@"
+                else
+                    echo "❌ pick function not available" >&2
+                    return 1
+                fi
+            # Check if next arg is a project name (direct jump)
+            elif [[ -n "$1" && "$1" != -* ]]; then
                 local project_name="$1"
                 shift
                 if (( $+functions[pick] )); then
@@ -166,17 +197,24 @@ cc() {
                     claude --model opus --permission-mode acceptEdits "$@"
                 fi
             else
-                if (( $+functions[pick] )); then
-                    pick && claude --model opus --permission-mode acceptEdits "$@"
-                else
-                    claude --model opus --permission-mode acceptEdits "$@"
-                fi
+                # No args after opus → launch in current directory
+                claude --model opus --permission-mode acceptEdits "$@"
             fi
             ;;
 
         haiku|h)
             shift
-            if [[ -n "$1" && "$1" != -* ]]; then
+            # Check for 'pick' subcommand: cc haiku pick
+            if [[ "$1" == "pick" ]]; then
+                shift
+                if (( $+functions[pick] )); then
+                    pick && claude --model haiku --permission-mode acceptEdits "$@"
+                else
+                    echo "❌ pick function not available" >&2
+                    return 1
+                fi
+            # Check if next arg is a project name (direct jump)
+            elif [[ -n "$1" && "$1" != -* ]]; then
                 local project_name="$1"
                 shift
                 if (( $+functions[pick] )); then
@@ -185,11 +223,8 @@ cc() {
                     claude --model haiku --permission-mode acceptEdits "$@"
                 fi
             else
-                if (( $+functions[pick] )); then
-                    pick && claude --model haiku --permission-mode acceptEdits "$@"
-                else
-                    claude --model haiku --permission-mode acceptEdits "$@"
-                fi
+                # No args after haiku → launch in current directory
+                claude --model haiku --permission-mode acceptEdits "$@"
             fi
             ;;
 
@@ -226,17 +261,18 @@ ${_C_YELLOW}║${_C_NC}  ${_C_CYAN}CC${_C_NC} - Claude Code Dispatcher          
 ${_C_YELLOW}╚════════════════════════════════════════════════════════════╝${_C_NC}
 
 ${_C_YELLOW}💡 QUICK START${_C_NC}:
-  ${_C_DIM}\$${_C_NC} cc                        ${_C_DIM}# Pick project → NEW Claude session${_C_NC}
+  ${_C_DIM}\$${_C_NC} cc                        ${_C_DIM}# Launch Claude HERE (current dir)${_C_NC}
+  ${_C_DIM}\$${_C_NC} cc pick                   ${_C_DIM}# Pick project → Claude${_C_NC}
   ${_C_DIM}\$${_C_NC} cc flow                   ${_C_DIM}# Direct jump to flow-cli → Claude${_C_NC}
-  ${_C_DIM}\$${_C_NC} cc yolo                   ${_C_DIM}# Pick project → YOLO mode${_C_NC}
 
 ${_C_BLUE}🚀 LAUNCH MODES${_C_NC}:
-  ${_C_CYAN}cc${_C_NC}                 Pick project → NEW Claude (acceptEdits)
-  ${_C_CYAN}cc <project>${_C_NC}       Direct jump → NEW Claude (no picker!)
-  ${_C_CYAN}cc yolo${_C_NC}            Pick project → YOLO mode (skip all permissions)
-  ${_C_CYAN}cc yolo <project>${_C_NC}  Direct jump → YOLO mode
-  ${_C_CYAN}cc plan${_C_NC}            Pick project → Plan mode
-  ${_C_CYAN}cc now${_C_NC}             Launch here (no picker, current dir)
+  ${_C_CYAN}cc${_C_NC}                 Launch Claude HERE (acceptEdits mode)
+  ${_C_CYAN}cc pick${_C_NC}            Pick project → Claude (acceptEdits)
+  ${_C_CYAN}cc <project>${_C_NC}       Direct jump → Claude (no picker!)
+  ${_C_CYAN}cc yolo${_C_NC}            Launch HERE in YOLO mode (skip permissions)
+  ${_C_CYAN}cc yolo pick${_C_NC}       Pick project → YOLO mode
+  ${_C_CYAN}cc plan${_C_NC}            Launch HERE in Plan mode
+  ${_C_CYAN}cc plan pick${_C_NC}       Pick project → Plan mode
 
 ${_C_BLUE}🔄 SESSION${_C_NC}:
   ${_C_CYAN}cc resume${_C_NC}          Resume with Claude session picker
@@ -249,8 +285,10 @@ ${_C_BLUE}❓ QUICK ACTIONS${_C_NC}:
   ${_C_CYAN}cc rpkg${_C_NC}            R package context helper
 
 ${_C_BLUE}🎯 MODEL SELECTION${_C_NC}:
-  ${_C_CYAN}cc opus [project]${_C_NC}  Use Opus model
-  ${_C_CYAN}cc haiku [project]${_C_NC} Use Haiku model
+  ${_C_CYAN}cc opus${_C_NC}            Launch HERE with Opus model
+  ${_C_CYAN}cc opus pick${_C_NC}       Pick project → Opus model
+  ${_C_CYAN}cc haiku${_C_NC}           Launch HERE with Haiku model
+  ${_C_CYAN}cc haiku pick${_C_NC}      Pick project → Haiku model
 
 ${_C_BLUE}📋 OTHER${_C_NC}:
   ${_C_CYAN}cc print <prompt>${_C_NC}  Print mode (non-interactive)
@@ -262,7 +300,7 @@ ${_C_MAGENTA}💡 DIRECT JUMP EXAMPLES${_C_NC}:
   cc yolo stat      Direct → stat-440 + YOLO Claude
 
 ${_C_MAGENTA}💡 SHORTCUTS${_C_NC}:
-  y = yolo, p = plan, n = now, r = resume, c = continue
+  y = yolo, p = plan, r = resume, c = continue
   a = ask, f = file, d = diff, o = opus, h = haiku, pr = print
 "
 }

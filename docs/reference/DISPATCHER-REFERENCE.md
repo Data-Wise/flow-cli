@@ -211,13 +211,15 @@ r tree            # Package structure tree
 **Common Commands:**
 
 ```bash
-# Launch modes
-cc                # Pick project → NEW Claude session (acceptEdits)
+# Launch modes (default = current directory)
+cc                # Launch Claude HERE (acceptEdits mode)
+cc pick           # Pick project → Claude (acceptEdits)
 cc flow           # Direct jump → Claude
-cc yolo           # Pick project → YOLO mode (skip permissions)
+cc yolo           # Launch HERE in YOLO mode (skip permissions)
+cc yolo pick      # Pick project → YOLO mode
 cc yolo flow      # Direct jump → YOLO mode
-cc plan           # Pick project → Plan mode
-cc now            # Current dir → Claude (no picker)
+cc plan           # Launch HERE in Plan mode
+cc plan pick      # Pick project → Plan mode
 
 # Session management
 cc resume         # Resume with Claude session picker
@@ -229,20 +231,24 @@ cc file <file>    # Analyze a file
 cc diff           # Review git changes
 cc rpkg           # R package context helper
 
-# Model selection
-cc opus           # Pick project → Opus model
-cc haiku          # Pick project → Haiku model
+# Model selection (default = current directory)
+cc opus           # Launch HERE with Opus model
+cc opus pick      # Pick project → Opus model
+cc haiku          # Launch HERE with Haiku model
+cc haiku pick     # Pick project → Haiku model
 ```
 
 **Features:**
 
-- Smart project selection via `pick` (inherits direct jump, smart resume)
+- Default launches Claude in current directory (no picker)
+- Use `pick` subcommand to select project first
+- Direct jump with project name (e.g., `cc flow`)
 - Multiple permission modes (acceptEdits, YOLO, plan)
 - Session resume with Claude's built-in picker
 - Quick actions for common tasks
 - Model selection shortcuts
 
-**Shortcuts:** `y`=yolo, `p`=plan, `n`=now, `r`=resume, `c`=continue, `a`=ask, `f`=file, `d`=diff, `o`=opus, `h`=haiku
+**Shortcuts:** `y`=yolo, `p`=plan, `r`=resume, `c`=continue, `a`=ask, `f`=file, `d`=diff, `o`=opus, `h`=haiku
 
 **See also:** [CC-DISPATCHER-REFERENCE.md](CC-DISPATCHER-REFERENCE.md)
 
