@@ -166,12 +166,59 @@ _flow() {
           _describe -t periods 'period' log_periods
           ;;
         sync)
-          local -a sync_opts
-          sync_opts=(
-            '--force:Force push'
-            '--dry-run:Show what would happen'
-          )
-          _describe -t options 'option' sync_opts
+          # Check if we're completing the first arg (target) or subsequent args (options)
+          if [[ ${#line[@]} -eq 2 ]]; then
+            local -a sync_targets
+            sync_targets=(
+              'all:Sync everything (session → status → wins → goals → git)'
+              'session:Persist current session to worklog'
+              'status:Update .STATUS timestamps and streaks'
+              'wins:Aggregate project wins to global wins.md'
+              'goals:Recalculate daily goal progress'
+              'git:Smart git push/pull with stash handling'
+              'schedule:Manage automated sync schedule'
+              'help:Show sync help'
+            )
+            local -a sync_opts
+            sync_opts=(
+              '--status:Show sync dashboard'
+              '--dry-run:Preview changes without executing'
+              '-n:Dry run (short)'
+              '--verbose:Show detailed output'
+              '-v:Verbose (short)'
+              '--quiet:Minimal output for scripts'
+              '-q:Quiet (short)'
+              '--skip-git:Skip git sync for quick local sync'
+              '--help:Show help'
+              '-h:Help (short)'
+            )
+            _describe -t targets 'sync target' sync_targets
+            _describe -t options 'option' sync_opts
+          elif [[ "${line[2]}" == "schedule" ]]; then
+            # Schedule subcommands
+            local -a schedule_cmds
+            schedule_cmds=(
+              'status:Show schedule status'
+              'enable:Enable scheduled sync (default: 30 min)'
+              'disable:Disable scheduled sync'
+              'logs:View sync schedule logs'
+              'help:Show schedule help'
+            )
+            _describe -t commands 'schedule command' schedule_cmds
+          else
+            # Completing options after target
+            local -a sync_opts
+            sync_opts=(
+              '--dry-run:Preview changes'
+              '-n:Dry run (short)'
+              '--verbose:Detailed output'
+              '-v:Verbose (short)'
+              '--quiet:Minimal output'
+              '-q:Quiet (short)'
+              '--skip-git:Skip git sync'
+            )
+            _describe -t options 'option' sync_opts
+          fi
           ;;
         help)
           # Complete command names for help
