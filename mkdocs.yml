@@ -63,6 +63,10 @@ plugins:
         - guides/MONOREPO-COMMANDS-TUTORIAL.md
         - guides/PROJECT-SCOPE.md
         - reference/ALIAS-CONFLICT-REVIEW.md
+        - proposals/*
+        - LINK-CHECK-*.md
+        - PLAN-*.md
+        - TUTORIAL-UPDATE-STATUS.md
         - '*.bak'
         - '*.tmp'
 
@@ -101,6 +105,7 @@ nav:
       - 5. AI-Powered Commands: tutorials/05-ai-commands.md
   - Guides:
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
+      - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
       - Workflows & Tips: guides/WORKFLOWS-QUICK-WINS.md
       - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
       - Enhanced Help Quick Start: guides/ENHANCED-HELP-QUICK-START.md
@@ -154,6 +159,7 @@ nav:
       - Interactive Test Guide: testing/INTERACTIVE-TEST-GUIDE.md
       - Testing Quick Ref: reference/TESTING-QUICK-REF.md
   - Development:
+      - Contributing: contributing/CONTRIBUTING.md
       - PR Workflow Guide: contributing/PR-WORKFLOW-GUIDE.md
       - ADR Process Guide: contributing/ADR-PROCESS-GUIDE.md
       - Documentation Style Guide: contributing/DOCUMENTATION-STYLE-GUIDE.md
