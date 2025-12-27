@@ -2350,6 +2350,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#scheduled-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduled Sync
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#version-history" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3892,6 +3903,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#scheduled-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduled Sync
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#version-history" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4257,6 +4279,16 @@
 <li><a href="../../reference/WORKFLOW-QUICK-REFERENCE/"><code>finish</code></a> - End work session</li>
 </ul>
 <hr />
+<h2 id="scheduled-sync">Scheduled Sync<a class="headerlink" href="#scheduled-sync" title="Permanent link">&para;</a></h2>
+<p>Enable automatic background sync using macOS launchd:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w">                 </span><span class="c1"># Show status</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span><span class="nb">enable</span><span class="w">          </span><span class="c1"># Every 30 minutes</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span><span class="nb">enable</span><span class="w"> </span><span class="m">15</span><span class="w">       </span><span class="c1"># Every 15 minutes</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span>disable<span class="w">         </span><span class="c1"># Stop scheduled sync</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span>logs<span class="w">            </span><span class="c1"># View logs</span>
+</code></pre></div>
+<p><strong>What runs:</strong> session, status, wins, goals (git is skipped - requires user interaction)</p>
+<hr />
 <h2 id="version-history">Version History<a class="headerlink" href="#version-history" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -4269,6 +4301,10 @@
 <tr>
 <td>v4.0.0</td>
 <td>Initial release with 5 sync targets</td>
+</tr>
+<tr>
+<td>v4.0.1</td>
+<td>Added <code>schedule</code> for automated background sync</td>
 </tr>
 </tbody>
 </table>
