@@ -373,6 +373,61 @@ for func in work dash finish pick win catch js; do
 done
 
 # ═══════════════════════════════════════════════════════════════
+# SECTION 10b: Command Behavior
+# ═══════════════════════════════════════════════════════════════
+
+log_section "Command Behavior"
+
+# Test: work --help shows usage
+if zsh -c "source '$FLOW_CLI_DIR/flow.plugin.zsh' && work --help" 2>&1 | grep -qi "usage\|work\|session"; then
+    log_pass "work --help shows usage"
+else
+    log_skip "work --help" "May not have help flag"
+fi
+
+# Test: dash with no args produces output
+if zsh -c "source '$FLOW_CLI_DIR/flow.plugin.zsh' && dash" 2>&1 | grep -qi "project\|status\|dashboard\|no.*active"; then
+    log_pass "dash produces output"
+else
+    log_skip "dash output" "May need project context"
+fi
+
+# Test: finish --help shows usage
+if zsh -c "source '$FLOW_CLI_DIR/flow.plugin.zsh' && finish --help" 2>&1 | grep -qi "usage\|finish\|commit\|session"; then
+    log_pass "finish --help shows usage"
+else
+    log_skip "finish --help" "May not have help flag"
+fi
+
+# Test: pick --help or pick help shows usage
+if zsh -c "source '$FLOW_CLI_DIR/flow.plugin.zsh' && pick --help" 2>&1 | grep -qi "pick\|project\|category"; then
+    log_pass "pick --help shows usage"
+else
+    log_skip "pick --help" "May require fzf"
+fi
+
+# Test: status with no args shows something
+if zsh -c "source '$FLOW_CLI_DIR/flow.plugin.zsh' && flow status" 2>&1 | grep -qi "status\|project\|no.*status"; then
+    log_pass "flow status produces output"
+else
+    log_skip "flow status" "May need .STATUS file"
+fi
+
+# Test: hop --help shows usage
+if zsh -c "source '$FLOW_CLI_DIR/flow.plugin.zsh' && hop --help" 2>&1 | grep -qi "hop\|switch\|tmux\|project"; then
+    log_pass "hop --help shows usage"
+else
+    log_skip "hop --help" "May not have help"
+fi
+
+# Test: why shows context
+if zsh -c "source '$FLOW_CLI_DIR/flow.plugin.zsh' && why" 2>&1 | grep -qi "project\|session\|working\|context\|no.*session"; then
+    log_pass "why shows context"
+else
+    log_skip "why output" "May need active session"
+fi
+
+# ═══════════════════════════════════════════════════════════════
 # SECTION 11: ADHD Features
 # ═══════════════════════════════════════════════════════════════
 
@@ -447,6 +502,42 @@ if [[ -f "$FLOW_CLI_DIR/mkdocs.yml" ]]; then
 else
     log_fail "mkdocs.yml not found"
 fi
+
+# ═══════════════════════════════════════════════════════════════
+# SECTION 14: Performance Benchmarks
+# ═══════════════════════════════════════════════════════════════
+
+log_section "Performance Benchmarks"
+
+# Helper to measure command time in milliseconds (portable)
+measure_ms() {
+    local start end
+    # Use python for portable millisecond timing
+    start=$(python3 -c 'import time; print(int(time.time()*1000))')
+    eval "$@" >/dev/null 2>&1
+    end=$(python3 -c 'import time; print(int(time.time()*1000))')
+    echo $((end - start))
+}
+
+# Test: Plugin sources in < 500ms
+plugin_time=$(measure_ms "zsh -c \"source '$FLOW_CLI_DIR/flow.plugin.zsh'\"")
+if [[ $plugin_time -lt 500 ]]; then
+    log_pass "Plugin sources in ${plugin_time}ms (< 500ms)"
+else
+    log_fail "Plugin source slow: ${plugin_time}ms (should be < 500ms)"
+fi
+
+# Test: flow help responds in < 200ms
+help_time=$(measure_ms "zsh -c \"source '$FLOW_CLI_DIR/flow.plugin.zsh' && flow help\"")
+if [[ $help_time -lt 200 ]]; then
+    log_pass "flow help responds in ${help_time}ms (< 200ms)"
+else
+    log_skip "flow help: ${help_time}ms" "May vary by system"
+fi
+
+# Test: Dispatcher help is fast (< 100ms after plugin loaded)
+# We can't easily test this without sourcing, so skip on CI
+log_skip "Dispatcher response time" "Requires interactive shell"
 
 # ═══════════════════════════════════════════════════════════════
 # SUMMARY

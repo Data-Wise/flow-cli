@@ -41,12 +41,20 @@ setup() {
     echo ""
     echo "${YELLOW}Setting up test environment...${NC}"
 
-    # Get project root
+    # Get project root (CI-compatible)
     if [[ -n "${0:A}" ]]; then
         PROJECT_ROOT="${0:A:h:h}"
     fi
+    # Fallback: try current directory or parent
     if [[ ! -f "$PROJECT_ROOT/flow.plugin.zsh" ]]; then
-        PROJECT_ROOT="/Users/dt/projects/dev-tools/flow-cli"
+        PROJECT_ROOT="$PWD"
+    fi
+    if [[ ! -f "$PROJECT_ROOT/flow.plugin.zsh" ]]; then
+        PROJECT_ROOT="${PWD:h}"
+    fi
+    if [[ ! -f "$PROJECT_ROOT/flow.plugin.zsh" ]]; then
+        echo "${RED}ERROR: Cannot find flow.plugin.zsh - run from project root${NC}"
+        exit 1
     fi
 
     echo "  Project root: $PROJECT_ROOT"

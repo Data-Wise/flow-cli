@@ -58,9 +58,10 @@ setup() {
         fi
     fi
 
-    # Method 3: Hardcoded fallback
+    # Method 3: Error if not found
     if [[ -z "$project_root" || ! -f "$project_root/commands/pick.zsh" ]]; then
-        project_root="/Users/dt/projects/dev-tools/flow-cli"
+        echo "${RED}ERROR: Cannot find project root - run from project directory${NC}"
+        exit 1
     fi
 
     echo "  Project root: $project_root"
