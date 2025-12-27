@@ -63,6 +63,16 @@ plugins:
         - guides/MONOREPO-COMMANDS-TUTORIAL.md
         - guides/PROJECT-SCOPE.md
         - reference/ALIAS-CONFLICT-REVIEW.md
+        - reference/DEVOPS-PHASE2.md
+        - reference/DEVOPS-SETUP.md
+        - reference/FILE-REORGANIZATION-VISUAL.md
+        - reference/INDEX.md
+        - reference/SYNC-SETUP.md
+        - architecture/API-DESIGN-QUICK-REFERENCE.md
+        - architecture/VENDOR-INTEGRATION-QUICK-REFERENCE.md
+        - architecture/integration/*
+        - guides/CLI-INSTALLATION.md
+        - guides/hop/*
         - proposals/*
         - LINK-CHECK-*.md
         - PLAN-*.md
@@ -110,7 +120,6 @@ nav:
       - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
       - Enhanced Help Quick Start: guides/ENHANCED-HELP-QUICK-START.md
       - Migration v1 to v2: guides/MIGRATION-v1-to-v2.md
-      - HOP Setup: guides/hop/README.md
   - Reference:
       - Command Explorer: reference/COMMAND-EXPLORER.md
       - Dispatcher Reference: reference/DISPATCHER-REFERENCE.md

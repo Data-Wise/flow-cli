@@ -130,7 +130,7 @@ glo      # git log --oneline
 - **[Testing Guide](testing/TESTING.md)** - Validate your installation 🐕
 - **[Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md)** - All 28 aliases + migration guide
 - **[Workflow Quick Reference](reference/WORKFLOW-QUICK-REFERENCE.md)** - Daily workflows
-- **[Reference Index](reference/INDEX.md)** - All reference docs
+- **[Command Quick Reference](reference/COMMAND-QUICK-REFERENCE.md)** - All commands at a glance
 
 ### Testing Your Installation
 
@@ -317,7 +317,7 @@ Before adding new aliases, ensure they meet ALL criteria:
 
 ## 📖 Additional Resources
 
-- **[Reference Index](reference/INDEX.md)** - All reference docs
+- **[Command Quick Reference](reference/COMMAND-QUICK-REFERENCE.md)** - All commands at a glance
 - **[ZSH Development Guidelines](ZSH-DEVELOPMENT-GUIDELINES.md)** - Coding standards
 - **[OMZ Git Plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git)** - Git aliases reference
 
