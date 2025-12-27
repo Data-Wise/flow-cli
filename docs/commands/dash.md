@@ -217,6 +217,46 @@ For accessibility and text-based reference:
 
 ---
 
+## 🆕 New in v3.5.0
+
+### Watch Mode
+
+Auto-refresh the dashboard:
+
+```bash
+dash --watch        # Refresh every 5 seconds
+dash --watch 10     # Custom interval (seconds)
+```
+
+### Interactive TUI
+
+Enhanced keyboard shortcuts in `dash -i`:
+
+| Key      | Action            |
+| -------- | ----------------- |
+| `Enter`  | Open project      |
+| `Ctrl-E` | Edit .STATUS file |
+| `Ctrl-S` | Show status       |
+| `Ctrl-W` | Log a win         |
+| `?`      | Show help         |
+
+### Wins Section
+
+The dashboard now shows recent wins and streak:
+
+```
+┌─ 🎉 Recent Wins ─────────────────────────────────────────────┐
+│ 🎯 Daily Goal: ██████░░░░ 2/3                                │
+│                                                              │
+│ 💻 Implemented auth service              14:20               │
+│ 🔧 Fixed login redirect bug              11:45               │
+└──────────────────────────────────────────────────────────────┘
+```
+
+See [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md) for details.
+
+---
+
 ## 💡 Usage Examples
 
 ### Example 1: View All Projects
