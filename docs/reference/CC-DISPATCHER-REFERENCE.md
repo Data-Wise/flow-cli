@@ -9,9 +9,11 @@ Claude Code workflows with smart project selection
 ## Quick Start
 
 ```bash
-cc                # Pick project → NEW Claude session (acceptEdits)
+cc                # Launch Claude HERE (current dir, acceptEdits)
+cc pick           # Pick project → Claude
 cc flow           # Direct jump to flow-cli → Claude
-cc yolo           # Pick project → YOLO mode (skip all permissions)
+cc yolo           # Launch HERE in YOLO mode (skip all permissions)
+cc yolo pick      # Pick project → YOLO mode
 cc resume         # Resume previous Claude conversation
 ```
 
@@ -33,14 +35,20 @@ cc [subcommand|project-name] [options]
 
 ## Launch Modes
 
-| Command             | Description                                  |
-| ------------------- | -------------------------------------------- |
-| `cc`                | Pick project → NEW Claude (acceptEdits mode) |
-| `cc <project>`      | Direct jump → NEW Claude                     |
-| `cc yolo`           | Pick project → YOLO mode (skip permissions)  |
-| `cc yolo <project>` | Direct jump → YOLO mode                      |
-| `cc plan`           | Pick project → Plan mode                     |
-| `cc now`            | Current directory → Claude (no picker)       |
+| Command                  | Description                                   |
+| ------------------------ | --------------------------------------------- |
+| `cc`                     | Launch Claude HERE (current dir, acceptEdits) |
+| `cc pick`                | Pick project → Claude                         |
+| `cc <project>`           | Direct jump → Claude                          |
+| `cc pick <project>`      | Direct jump via pick → Claude                 |
+| `cc yolo`                | Launch HERE in YOLO mode (skip permissions)   |
+| `cc yolo pick`           | Pick project → YOLO mode                      |
+| `cc yolo <project>`      | Direct jump → YOLO mode                       |
+| `cc yolo pick <project>` | Direct jump via pick → YOLO                   |
+| `cc plan`                | Launch HERE in Plan mode                      |
+| `cc plan pick`           | Pick project → Plan mode                      |
+| `cc plan <project>`      | Direct jump → Plan mode                       |
+| `cc plan pick <project>` | Direct jump via pick → Plan                   |
 
 ### Permission Modes
 
@@ -79,12 +87,16 @@ cc [subcommand|project-name] [options]
 
 ## Model Selection
 
-| Command              | Description                            |
-| -------------------- | -------------------------------------- |
-| `cc opus`            | Pick project → Claude with Opus model  |
-| `cc opus <project>`  | Direct jump → Opus                     |
-| `cc haiku`           | Pick project → Claude with Haiku model |
-| `cc haiku <project>` | Direct jump → Haiku                    |
+| Command                   | Description                  |
+| ------------------------- | ---------------------------- |
+| `cc opus`                 | Launch HERE with Opus model  |
+| `cc opus pick`            | Pick project → Opus model    |
+| `cc opus <project>`       | Direct jump → Opus           |
+| `cc opus pick <project>`  | Direct jump via pick → Opus  |
+| `cc haiku`                | Launch HERE with Haiku model |
+| `cc haiku pick`           | Pick project → Haiku model   |
+| `cc haiku <project>`      | Direct jump → Haiku          |
+| `cc haiku pick <project>` | Direct jump via pick → Haiku |
 
 **Shortcuts:** `cc o` = opus, `cc h` = haiku
 
@@ -163,19 +175,20 @@ cc haiku          # Pick project + Haiku model
 
 ## Shortcuts Summary
 
-| Full       | Short | Description             |
-| ---------- | ----- | ----------------------- |
-| `yolo`     | `y`   | YOLO mode               |
-| `plan`     | `p`   | Plan mode               |
-| `now`      | `n`   | Current dir (no picker) |
-| `resume`   | `r`   | Resume session picker   |
-| `continue` | `c`   | Continue most recent    |
-| `ask`      | `a`   | Quick question          |
-| `file`     | `f`   | Analyze file            |
-| `diff`     | `d`   | Review git diff         |
-| `opus`     | `o`   | Opus model              |
-| `haiku`    | `h`   | Haiku model             |
-| `print`    | `pr`  | Print mode              |
+| Full       | Short | Description           |
+| ---------- | ----- | --------------------- |
+| `yolo`     | `y`   | YOLO mode             |
+| `plan`     | `p`   | Plan mode             |
+| `resume`   | `r`   | Resume session picker |
+| `continue` | `c`   | Continue most recent  |
+| `ask`      | `a`   | Quick question        |
+| `file`     | `f`   | Analyze file          |
+| `diff`     | `d`   | Review git diff       |
+| `opus`     | `o`   | Opus model            |
+| `haiku`    | `h`   | Haiku model           |
+| `print`    | `pr`  | Print mode            |
+
+> **Note:** `cc now` is deprecated. Just use `cc` (default is current dir).
 
 ---
 
@@ -194,5 +207,6 @@ cc haiku          # Pick project + Haiku model
 
 ---
 
-**Last Updated:** 2025-12-26
+**Last Updated:** 2025-12-27
+**Version:** v3.6.2
 **Status:** ✅ Fully implemented
