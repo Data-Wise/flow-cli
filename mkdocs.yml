@@ -124,21 +124,24 @@ nav:
       - Enhanced Help Quick Start: guides/ENHANCED-HELP-QUICK-START.md
       - Migration v1 to v2: guides/MIGRATION-v1-to-v2.md
   - Reference:
-      - Command Explorer: reference/COMMAND-EXPLORER.md
-      - Dispatcher Reference: reference/DISPATCHER-REFERENCE.md
-      - CC Dispatcher Reference: reference/CC-DISPATCHER-REFERENCE.md
-      - Alias Reference Card: reference/ALIAS-REFERENCE-CARD.md
-      - Workflow Quick Reference: reference/WORKFLOW-QUICK-REFERENCE.md
-      - Pick Command Reference: reference/PICK-COMMAND-REFERENCE.md
-      - Dashboard Quick Ref: reference/DASHBOARD-QUICK-REF.md
-      - Project Detection Guide: reference/PROJECT-DETECTION-GUIDE.md
-      - Workspace Audit Guide: reference/WORKSPACE-AUDIT-GUIDE.md
-      - ADHD Helpers Map: reference/ADHD-HELPERS-FUNCTION-MAP.md
-      - Command Patterns: reference/CLI-COMMAND-PATTERNS-RESEARCH.md
-      - Command Quick Ref: reference/COMMAND-QUICK-REFERENCE.md
-      - Testing Quick Ref: reference/TESTING-QUICK-REF.md
-      - Existing System Summary: reference/EXISTING-SYSTEM-SUMMARY.md
-      - ZSH Clean Workflow: reference/ZSH-CLEAN-WORKFLOW.md
+      - Quick References:
+          - Command Cheatsheet: reference/COMMAND-QUICK-REFERENCE.md
+          - Alias Card: reference/ALIAS-REFERENCE-CARD.md
+          - Workflow Patterns: reference/WORKFLOW-QUICK-REFERENCE.md
+          - Dashboard Quick Ref: reference/DASHBOARD-QUICK-REF.md
+      - Dispatchers:
+          - All Dispatchers: reference/DISPATCHER-REFERENCE.md
+          - CC Dispatcher: reference/CC-DISPATCHER-REFERENCE.md
+      - Project Tools:
+          - Command Explorer: reference/COMMAND-EXPLORER.md
+          - Pick Reference: reference/PICK-COMMAND-REFERENCE.md
+          - Project Detection: reference/PROJECT-DETECTION-GUIDE.md
+          - Workspace Audit: reference/WORKSPACE-AUDIT-GUIDE.md
+      - Deep Dives:
+          - ADHD Helpers Map: reference/ADHD-HELPERS-FUNCTION-MAP.md
+          - Command Patterns: reference/CLI-COMMAND-PATTERNS-RESEARCH.md
+          - System Summary: reference/EXISTING-SYSTEM-SUMMARY.md
+          - ZSH Workflows: reference/ZSH-CLEAN-WORKFLOW.md
   - Commands:
       - flow (main): commands/flow.md
       - work: commands/work.md
