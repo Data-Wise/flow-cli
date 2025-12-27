@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v3.6.3)
+- **Status:** Production ready (v4.0.0)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -38,7 +38,7 @@ flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v3.6.3)
+### Dopamine Features (v4.0.0)
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
@@ -366,7 +366,7 @@ export FLOW_DEBUG=1
 
 ## Current Status (2025-12-27)
 
-### ✅ v3.6.3 Released
+### ✅ v4.0.0 Released
 
 - [x] Dopamine features (win tracking, streaks, goals)
 - [x] Win categories with auto-detection
@@ -394,7 +394,7 @@ export FLOW_DEBUG=1
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
 - **Tests:** Interactive dog feeding test (gamified)
 
-### 📋 Next: v3.6.3 Planning
+### 📋 Next: v4.0.0 Planning
 
 - [ ] Cross-tool orchestration (`flow sync all`)
 - [ ] Remote state sync (optional cloud backup)
@@ -459,10 +459,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 3.7.0"
-git tag -a v3.6.3 -m "v3.6.3"
+git tag -a v4.0.0 -m "v4.0.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v3.6.3
+git push origin main && git push origin v4.0.0
 ```
 
 **Files updated by release script:**
