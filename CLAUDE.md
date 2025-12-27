@@ -15,7 +15,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`
-- 5 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`
+- 6 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
 
@@ -50,7 +50,7 @@ flow goal set 3   # Set daily win target
 
 **Categories:** 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test, ✨ other
 
-### Active Dispatchers (5)
+### Active Dispatchers (6)
 
 ```bash
 g <cmd>       # Git workflows (g status, g push, g commit)
@@ -58,9 +58,26 @@ mcp <cmd>     # MCP server management (mcp status, mcp logs)
 obs <cmd>     # Obsidian notes (obs daily, obs search)
 qu <cmd>      # Quarto publishing (qu preview, qu render)
 r <cmd>       # R package dev (r test, r doc, r check)
+cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
 ```
 
-**Get help:** `<dispatcher> help` (e.g., `r help`, `qu help`)
+**Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`)
+
+### CC Dispatcher Quick Reference
+
+```bash
+cc                # Launch Claude HERE (current dir, acceptEdits)
+cc pick           # Pick project → Claude
+cc <project>      # Direct jump → Claude (e.g., cc flow)
+cc yolo           # Launch HERE in YOLO mode (skip permissions)
+cc yolo pick      # Pick project → YOLO mode
+cc plan           # Launch HERE in Plan mode
+cc opus           # Launch HERE with Opus model
+cc resume         # Resume Claude session picker
+cc continue       # Continue most recent conversation
+```
+
+**Alias:** `ccy` = `cc yolo`
 
 ### Deprecated (Removed 2025-12-25)
 
@@ -127,7 +144,7 @@ flow-cli/
 | `flow.plugin.zsh`                        | Plugin entry point       | Source this to load      |
 | `lib/core.zsh`                           | Core utilities           | Logging, colors, helpers |
 | `lib/atlas-bridge.zsh`                   | Atlas integration        | Optional state engine    |
-| `lib/dispatchers/*.zsh`                  | Smart dispatchers        | 5 active dispatchers     |
+| `lib/dispatchers/*.zsh`                  | Smart dispatchers        | 6 active dispatchers     |
 | `commands/*.zsh`                         | Core commands            | work, dash, finish, etc. |
 | `docs/reference/DISPATCHER-REFERENCE.md` | Complete dispatcher docs | 442 lines                |
 | `.STATUS`                                | Current progress         | Sprint tracking          |
@@ -347,7 +364,7 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2025-12-26)
+## Current Status (2025-12-27)
 
 ### ✅ v3.5.0 Released
 
@@ -359,6 +376,14 @@ export FLOW_DEBUG=1
 - [x] Watch mode (`dash --watch`)
 - [x] Documentation fully updated
 - [x] GitHub release tagged and published
+
+### ✅ CC Dispatcher (2025-12-27)
+
+- [x] `cc` dispatcher added for Claude Code workflows
+- [x] Default launches Claude in current directory
+- [x] `cc pick` subcommand for project selection
+- [x] Consistent pattern: `<mode>` = here, `<mode> pick` = picker
+- [x] `cc now` deprecated (redundant with new default)
 
 ### 🎯 Production Ready
 
@@ -433,5 +458,5 @@ open https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2025-12-25  
+**Last Updated:** 2025-12-27
 **Status:** Production Ready

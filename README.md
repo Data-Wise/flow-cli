@@ -118,7 +118,7 @@ See [tests/DOG-FEEDING-TEST-README.md](tests/DOG-FEEDING-TEST-README.md) for det
 
 ### Dispatchers (Smart Context-Aware Functions)
 
-The plugin includes 5 active dispatchers for common workflows:
+The plugin includes 6 active dispatchers for common workflows:
 
 ```zsh
 g <cmd>       # Git workflows (status, commit, push, etc.)
@@ -126,6 +126,7 @@ mcp <cmd>     # MCP server management (status, logs, restart)
 obs <cmd>     # Obsidian notes (search, daily, capture)
 qu <cmd>      # Quarto publishing (preview, render, pdf)
 r <cmd>       # R package development (test, doc, check, cycle)
+cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
 ```
 
 See [DISPATCHER-REFERENCE.md](docs/reference/DISPATCHER-REFERENCE.md) for complete documentation.
