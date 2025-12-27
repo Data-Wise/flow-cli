@@ -37,10 +37,6 @@
          <lastmod>2025-12-27</lastmod>
     </url>
     <url>
-         <loc>https://data-wise.github.io/flow-cli/architecture/API-DESIGN-QUICK-REFERENCE/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
          <loc>https://data-wise.github.io/flow-cli/architecture/API-DESIGN-REVIEW/</loc>
          <lastmod>2025-12-27</lastmod>
     </url>
@@ -70,18 +66,6 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/architecture/VENDOR-INTEGRATION-ARCHITECTURE/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/architecture/VENDOR-INTEGRATION-QUICK-REFERENCE/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/architecture/integration/ARCHITECTURE-INTEGRATION/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/architecture/integration/PROPOSAL-MERGE-OR-PORT/</loc>
          <lastmod>2025-12-27</lastmod>
     </url>
     <url>
@@ -181,10 +165,6 @@
          <lastmod>2025-12-27</lastmod>
     </url>
     <url>
-         <loc>https://data-wise.github.io/flow-cli/guides/CLI-INSTALLATION/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
          <loc>https://data-wise.github.io/flow-cli/guides/DOPAMINE-FEATURES-GUIDE/</loc>
          <lastmod>2025-12-27</lastmod>
     </url>
@@ -206,18 +186,6 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/WORKFLOWS-QUICK-WINS/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/guides/hop/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/guides/hop/COPY-INSTRUCTIONS/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/guides/hop/MASTER-INDEX/</loc>
          <lastmod>2025-12-27</lastmod>
     </url>
     <url>
@@ -249,14 +217,6 @@
          <lastmod>2025-12-27</lastmod>
     </url>
     <url>
-         <loc>https://data-wise.github.io/flow-cli/reference/DEVOPS-PHASE2/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/reference/DEVOPS-SETUP/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/DISPATCHER-REFERENCE/</loc>
          <lastmod>2025-12-27</lastmod>
     </url>
@@ -265,23 +225,11 @@
          <lastmod>2025-12-27</lastmod>
     </url>
     <url>
-         <loc>https://data-wise.github.io/flow-cli/reference/FILE-REORGANIZATION-VISUAL/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/reference/INDEX/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/PICK-COMMAND-REFERENCE/</loc>
          <lastmod>2025-12-27</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/PROJECT-DETECTION-GUIDE/</loc>
-         <lastmod>2025-12-27</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/reference/SYNC-SETUP/</loc>
          <lastmod>2025-12-27</lastmod>
     </url>
     <url>
