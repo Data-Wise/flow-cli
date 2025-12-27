@@ -544,47 +544,53 @@ _scribe_help() {
   fi
 
   echo -e "
-${_C_BOLD}╭─────────────────────────────────────────────────────────────────╮${_C_NC}
-${_C_BOLD}│ 📝 SCRIBE CLI v${SCRIBE_CLI_VERSION} - Terminal-based note access                │${_C_NC}
-${_C_BOLD}╰─────────────────────────────────────────────────────────────────╯${_C_NC}
+${_C_BOLD}╭─────────────────────────────────────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ 📝 SCRIBE CLI v${SCRIBE_CLI_VERSION} - Terminal-based note access                        │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────────────────────────────────────╯${_C_NC}
 
 ${_C_BOLD}Usage:${_C_NC} scribe <command> [arguments]
 
-${_C_GREEN}🔥 QUICK START${_C_NC} ${_C_DIM}(most common)${_C_NC}:
-  ${_C_CYAN}daily${_C_NC}, ${_C_CYAN}d${_C_NC}            Open/create today's daily note
-  ${_C_CYAN}capture${_C_NC}, ${_C_CYAN}c${_C_NC} <text>   Quick capture to inbox
-  ${_C_CYAN}search${_C_NC}, ${_C_CYAN}s${_C_NC} <query>   Full-text search (FTS5)
-  ${_C_CYAN}list${_C_NC}, ${_C_CYAN}ls${_C_NC} [folder]   List recent notes
+${_C_GREEN}🔥 QUICK START${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}daily${_C_NC}, ${_C_CYAN}d${_C_NC}              Open/create today's daily note
+  ${_C_CYAN}capture${_C_NC}, ${_C_CYAN}c${_C_NC} <text>     Quick capture to inbox
+  ${_C_CYAN}search${_C_NC}, ${_C_CYAN}s${_C_NC} <query>     Full-text search (FTS5)
+  ${_C_CYAN}list${_C_NC}, ${_C_CYAN}ls${_C_NC} [folder]     List recent notes
 
-${_C_YELLOW}💡 EXAMPLES${_C_NC}:
-  ${_C_DIM}\$${_C_NC} scribe daily                ${_C_DIM}# Open today's note${_C_NC}
-  ${_C_DIM}\$${_C_NC} scribe capture \"Buy milk\"   ${_C_DIM}# Quick capture${_C_NC}
-  ${_C_DIM}\$${_C_NC} scribe search \"ADHD focus\"  ${_C_DIM}# Search notes${_C_NC}
-  ${_C_DIM}\$${_C_NC} echo \"idea\" | scribe c      ${_C_DIM}# Pipe input${_C_NC}"
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} scribe daily                  ${_C_DIM}# Open today's note${_C_NC}
+  ${_C_DIM}\$${_C_NC} scribe c \"Buy milk\"           ${_C_DIM}# Quick capture${_C_NC}
+  ${_C_DIM}\$${_C_NC} scribe s \"ADHD focus\"         ${_C_DIM}# Search notes${_C_NC}
+  ${_C_DIM}\$${_C_NC} echo \"idea\" | scribe c        ${_C_DIM}# Pipe to capture${_C_NC}
+  ${_C_DIM}\$${_C_NC} scribe list inbox             ${_C_DIM}# Show inbox notes${_C_NC}"
 
   if [[ "$show_all" == "true" ]]; then
     echo -e "
 ${_C_BLUE}📋 NOTE MANAGEMENT${_C_NC}:
-  ${_C_CYAN}new${_C_NC} <title>         Create a new note in inbox
-  ${_C_CYAN}daily${_C_NC}, ${_C_CYAN}d${_C_NC}            Open/create today's daily note
-  ${_C_CYAN}capture${_C_NC}, ${_C_CYAN}c${_C_NC} [text]   Quick capture thought to inbox
-  ${_C_CYAN}open${_C_NC}, ${_C_CYAN}o${_C_NC} [title]     Open note in Scribe app
-  ${_C_CYAN}edit${_C_NC}, ${_C_CYAN}e${_C_NC} <title>     Edit note in \$EDITOR
+  ${_C_CYAN}new${_C_NC} <title>           Create a new note in inbox
+  ${_C_CYAN}daily${_C_NC}, ${_C_CYAN}d${_C_NC}              Open/create today's daily note
+  ${_C_CYAN}capture${_C_NC}, ${_C_CYAN}c${_C_NC} [text]     Quick capture thought to inbox
+  ${_C_CYAN}open${_C_NC}, ${_C_CYAN}o${_C_NC} [title]       Open note in Scribe app
+  ${_C_CYAN}edit${_C_NC}, ${_C_CYAN}e${_C_NC} <title>       Edit note in \$EDITOR
 
 ${_C_BLUE}🔍 SEARCH & BROWSE${_C_NC}:
-  ${_C_CYAN}search${_C_NC}, ${_C_CYAN}s${_C_NC} <query>   Full-text search (FTS5)
-  ${_C_CYAN}list${_C_NC}, ${_C_CYAN}ls${_C_NC} [folder]   List recent notes
-  ${_C_CYAN}tags${_C_NC}, ${_C_CYAN}t${_C_NC}             List all tags
-  ${_C_CYAN}folders${_C_NC}, ${_C_CYAN}f${_C_NC}          List all folders
-  ${_C_CYAN}stats${_C_NC}               Show statistics
+  ${_C_CYAN}search${_C_NC}, ${_C_CYAN}s${_C_NC} <query>     Full-text search (FTS5)
+  ${_C_CYAN}list${_C_NC}, ${_C_CYAN}ls${_C_NC} [folder]     List recent notes
+  ${_C_CYAN}tags${_C_NC}, ${_C_CYAN}t${_C_NC}               List all tags with note counts
+  ${_C_CYAN}folders${_C_NC}, ${_C_CYAN}f${_C_NC}            List all folders with note counts
+  ${_C_CYAN}stats${_C_NC}                 Show database statistics
 
 ${_C_BLUE}⚙️  OPTIONS${_C_NC}:
-  ${_C_CYAN}--project${_C_NC}, ${_C_CYAN}-f${_C_NC}       Filter list by folder
-  ${_C_CYAN}--limit${_C_NC}, ${_C_CYAN}-l${_C_NC}         Limit results (default: 20)
+  ${_C_CYAN}--project${_C_NC}, ${_C_CYAN}-f${_C_NC} <name>  Filter list by folder
+  ${_C_CYAN}--limit${_C_NC}, ${_C_CYAN}-l${_C_NC} <n>       Limit results (default: 20)
 
-${_C_MAGENTA}📁 ALIASES${_C_NC}:
-  ${_C_DIM}sd${_C_NC} = scribe daily    ${_C_DIM}sc${_C_NC} = scribe capture
-  ${_C_DIM}ss${_C_NC} = scribe search   ${_C_DIM}sl${_C_NC} = scribe list
+${_C_MAGENTA}🚀 WORKFLOWS${_C_NC}:
+  ${_C_DIM}\$${_C_NC} pbpaste | scribe c           ${_C_DIM}# Capture from clipboard${_C_NC}
+  ${_C_DIM}\$${_C_NC} scribe s \"TODO\" | head       ${_C_DIM}# Quick grep through notes${_C_NC}
+  ${_C_DIM}\$${_C_NC} scribe list | fzf            ${_C_DIM}# Interactive note picker${_C_NC}
+
+${_C_MAGENTA}📁 SHELL ALIASES${_C_NC}:
+  ${_C_DIM}sd${_C_NC} = scribe daily      ${_C_DIM}sc${_C_NC} = scribe capture
+  ${_C_DIM}ss${_C_NC} = scribe search     ${_C_DIM}sl${_C_NC} = scribe list
   ${_C_DIM}sn${_C_NC} = scribe new
 
 ${_C_DIM}Database: ~/Library/Application Support/com.scribe.app/scribe.db${_C_NC}
