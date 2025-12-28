@@ -24,7 +24,11 @@ finish             # Done for now
 **That's it.** Everything else is optional.
 
 <details>
-<summary>📺 See it in action</summary>
+<summary>📺 See it in action (click to expand)</summary>
+
+![flow-cli demo](https://data-wise.github.io/flow-cli/assets/demo.gif)
+
+**Or try the commands yourself:**
 
 ```
 $ work my-project

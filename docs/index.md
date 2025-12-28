@@ -18,6 +18,10 @@ finish             # Done
     Everything else is optional enhancement.
 
 ??? example "📺 See it in action"
+    ![flow-cli demo](assets/demo.gif)
+
+    **Expected output:**
+
     ```
     $ work my-project
     🚀 Starting session: my-project
@@ -27,21 +31,12 @@ finish             # Done
     🔧 fix: Fixed the login bug
        ✨ Win #1 today!
 
-    $ win "Added unit tests"
-    🧪 test: Added unit tests
-       ✨ Win #2 today!
-
     $ yay
-    ╭──────────────────────────────────────╮
-    │ 🏆 Today's Wins (2)                 │
-    ├──────────────────────────────────────┤
-    │ 🔧 Fixed the login bug              │
-    │ 🧪 Added unit tests                 │
-    ╰──────────────────────────────────────╯
+    🏆 Today's Wins (2)
        🔥 2-day streak!
 
     $ finish
-    ✅ Session complete (47 min, 2 wins)
+    ✅ Session complete
     ```
 
 ---
