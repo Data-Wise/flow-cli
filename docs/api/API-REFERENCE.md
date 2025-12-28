@@ -1357,7 +1357,7 @@ describe('Session Entity', () => {
 - [Architecture Overview](../architecture/README.md)
 - [ADR-002: Clean Architecture](../decisions/ADR-002-adopt-clean-architecture.md)
 - [Getting Started Guide](../getting-started/quick-start.md)
-- [CLI Commands Reference](../commands/)
+- [CLI Commands Reference](../reference/COMMAND-QUICK-REFERENCE.md)
 - [Testing Guide](../testing/TESTING.md)
 
 ---
