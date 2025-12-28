@@ -183,3 +183,34 @@ jobs:
 
       - name: Check formatting (if configured)
         run: npm run format:check --if-present || echo "Format check skipped or failed"
+
+  link-check:
+    name: Documentation Link Check
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Check links in documentation
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --exclude 'github.com'
+            --exclude 'localhost'
+            --exclude '127.0.0.1'
+            --no-progress
+            'docs/**/*.md'
+          fail: false
+
+      - name: Link Check Summary
+        if: always()
+        run: |
+          echo "## 🔗 Link Check Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f lychee/out.md ]; then
+            cat lychee/out.md >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No broken links found in docs/" >> $GITHUB_STEP_SUMMARY
+          fi
