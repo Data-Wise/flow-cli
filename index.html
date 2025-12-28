@@ -4101,8 +4101,35 @@
 </code></pre></div>
 <div class="admonition success">
 <p class="admonition-title">That's the whole workflow</p>
-</div>
 <p>Everything else is optional enhancement.</p>
+</div>
+<details class="example">
+<summary>📺 See it in action</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ work my-project
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>🚀 Starting session: my-project
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>   📍 ~/projects/my-project
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>$ win &quot;Fixed the login bug&quot;
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>🔧 fix: Fixed the login bug
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>   ✨ Win #1 today!
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>$ win &quot;Added unit tests&quot;
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>🧪 test: Added unit tests
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>   ✨ Win #2 today!
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>$ yay
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>╭──────────────────────────────────────╮
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>│ 🏆 Today&#39;s Wins (2)                 │
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>├──────────────────────────────────────┤
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>│ 🔧 Fixed the login bug              │
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>│ 🧪 Added unit tests                 │
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>╰──────────────────────────────────────╯
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>   🔥 2-day streak!
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>$ finish
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>✅ Session complete (47 min, 2 wins)
+</code></pre></div>
+</details>
 <hr />
 <h2 id="what-problem-does-this-solve">🎯 What Problem Does This Solve?<a class="headerlink" href="#what-problem-does-this-solve" title="Permanent link">&para;</a></h2>
 <table>
@@ -4138,38 +4165,38 @@
 <hr />
 <h2 id="dopamine-system">🏆 Dopamine System<a class="headerlink" href="#dopamine-system" title="Permanent link">&para;</a></h2>
 <p>Every accomplishment gets logged with a category:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>win<span class="w"> </span><span class="s2">&quot;Fixed the login bug&quot;</span><span class="w">      </span><span class="c1"># → 🔧 fix</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>win<span class="w"> </span><span class="s2">&quot;Deployed to production&quot;</span><span class="w">   </span><span class="c1"># → 🚀 ship</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>win<span class="w"> </span><span class="s2">&quot;Added unit tests&quot;</span><span class="w">         </span><span class="c1"># → 🧪 test</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>win<span class="w"> </span><span class="s2">&quot;Updated documentation&quot;</span><span class="w">    </span><span class="c1"># → 📝 docs</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>win<span class="w"> </span><span class="s2">&quot;Fixed the login bug&quot;</span><span class="w">      </span><span class="c1"># → 🔧 fix</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>win<span class="w"> </span><span class="s2">&quot;Deployed to production&quot;</span><span class="w">   </span><span class="c1"># → 🚀 ship</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>win<span class="w"> </span><span class="s2">&quot;Added unit tests&quot;</span><span class="w">         </span><span class="c1"># → 🧪 test</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>win<span class="w"> </span><span class="s2">&quot;Updated documentation&quot;</span><span class="w">    </span><span class="c1"># → 📝 docs</span>
 </code></pre></div>
 <p>Then see your progress:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>yay<span class="w">              </span><span class="c1"># Recent wins</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>yay<span class="w"> </span>--week<span class="w">       </span><span class="c1"># Weekly summary with graph</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>flow<span class="w"> </span>goal<span class="w">        </span><span class="c1"># Daily progress bar</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>yay<span class="w">              </span><span class="c1"># Recent wins</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>yay<span class="w"> </span>--week<span class="w">       </span><span class="c1"># Weekly summary with graph</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>flow<span class="w"> </span>goal<span class="w">        </span><span class="c1"># Daily progress bar</span>
 </code></pre></div>
 <h3 id="streaks">🔥 Streaks<a class="headerlink" href="#streaks" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Day 1: 🌱 Building momentum
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Day 3: 🔥 On a roll!
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Day 7: 🔥🔥 Strong week!
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Day 14: 🔥🔥🔥 Exceptional!
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Day 1: 🌱 Building momentum
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Day 3: 🔥 On a roll!
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Day 7: 🔥🔥 Strong week!
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>Day 14: 🔥🔥🔥 Exceptional!
 </code></pre></div>
 <hr />
 <h2 id="core-commands">🚀 Core Commands<a class="headerlink" href="#core-commands" title="Permanent link">&para;</a></h2>
 <h3 id="session-flow">Session Flow<a class="headerlink" href="#session-flow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>work<span class="w"> </span>myproject<span class="w">    </span><span class="c1"># Start (creates session)</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>finish<span class="w"> </span><span class="s2">&quot;done&quot;</span><span class="w">     </span><span class="c1"># End (optional commit)</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>hop<span class="w"> </span>other<span class="w">         </span><span class="c1"># Quick switch (tmux)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>work<span class="w"> </span>myproject<span class="w">    </span><span class="c1"># Start (creates session)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>finish<span class="w"> </span><span class="s2">&quot;done&quot;</span><span class="w">     </span><span class="c1"># End (optional commit)</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>hop<span class="w"> </span>other<span class="w">         </span><span class="c1"># Quick switch (tmux)</span>
 </code></pre></div>
 <h3 id="orientation">Orientation<a class="headerlink" href="#orientation" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>dash<span class="w">              </span><span class="c1"># Dashboard overview</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>why<span class="w">               </span><span class="c1"># Current context</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>pick<span class="w">              </span><span class="c1"># Project picker</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>dash<span class="w">              </span><span class="c1"># Dashboard overview</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>why<span class="w">               </span><span class="c1"># Current context</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>pick<span class="w">              </span><span class="c1"># Project picker</span>
 </code></pre></div>
 <h3 id="capture">Capture<a class="headerlink" href="#capture" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>catch<span class="w"> </span><span class="s2">&quot;idea&quot;</span><span class="w">      </span><span class="c1"># Quick capture</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>crumb<span class="w"> </span><span class="s2">&quot;note&quot;</span><span class="w">      </span><span class="c1"># Breadcrumb</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>trail<span class="w">             </span><span class="c1"># See your trail</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>catch<span class="w"> </span><span class="s2">&quot;idea&quot;</span><span class="w">      </span><span class="c1"># Quick capture</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>crumb<span class="w"> </span><span class="s2">&quot;note&quot;</span><span class="w">      </span><span class="c1"># Breadcrumb</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>trail<span class="w">             </span><span class="c1"># See your trail</span>
 </code></pre></div>
 <hr />
 <h2 id="smart-dispatchers">🔌 Smart Dispatchers<a class="headerlink" href="#smart-dispatchers" title="Permanent link">&para;</a></h2>
