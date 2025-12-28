@@ -23,6 +23,37 @@ finish             # Done for now
 
 **That's it.** Everything else is optional.
 
+<details>
+<summary>📺 See it in action</summary>
+
+```
+$ work my-project
+🚀 Starting session: my-project
+   📍 ~/projects/my-project
+
+$ win "Fixed the login bug"
+🔧 fix: Fixed the login bug
+   ✨ Win #1 today!
+
+$ win "Added unit tests"
+🧪 test: Added unit tests
+   ✨ Win #2 today!
+
+$ yay
+╭──────────────────────────────────────╮
+│ 🏆 Today's Wins (2)                 │
+├──────────────────────────────────────┤
+│ 🔧 Fixed the login bug              │
+│ 🧪 Added unit tests                 │
+╰──────────────────────────────────────╯
+   🔥 2-day streak!
+
+$ finish
+✅ Session complete (47 min, 2 wins)
+```
+
+</details>
+
 ---
 
 ## 🎯 Why This Exists
