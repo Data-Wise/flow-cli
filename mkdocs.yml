@@ -45,11 +45,6 @@ plugins:
   - search
   - exclude:
       glob:
-        - archive/*
-        - active/*
-        - planning/*
-        - ideas/*
-        - standards/*
         - doc-index.md
         - architecture/ARCHITECTURE-CHEATSHEET.md
         - architecture/ARCHITECTURE-COMMAND-REFERENCE.md
