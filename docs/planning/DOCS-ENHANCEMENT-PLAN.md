@@ -297,7 +297,7 @@ For Developers:
 
 - [x] Reorganize Reference section (PR #45)
 - [ ] Add video/GIF content
-- [ ] Create CHANGELOG page
+- [x] Create CHANGELOG page (PR #47)
 - [ ] Archive internal planning docs
 
 ---
