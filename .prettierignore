@@ -8,3 +8,6 @@ package-lock.json
 cli/node_modules
 cli/coverage
 docs/archive/2025-12-20-app-removal
+
+# MkDocs markdown - prettier breaks admonition formatting
+docs/**/*.md
