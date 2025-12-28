@@ -1,174 +1,182 @@
 # Flow CLI
 
-**Minimalist ZSH workflow tools with smart dispatchers**
+> **ZSH workflow tools designed for ADHD brains.**
 
-A streamlined system for managing development workflows. Features **28 essential aliases**, **6 smart dispatchers**, and **226+ git aliases** (via plugin). Optimized for muscle memory over memorization.
-
----
-
-## Quick Stats
-
-| Metric                | Value                                  |
-| --------------------- | -------------------------------------- |
-| **Version**           | v4.0.1                                 |
-| **Status**            | Production Ready                       |
-| **Custom aliases**    | 28 (down from 179)                     |
-| **Smart dispatchers** | 6 (`g`, `mcp`, `obs`, `qu`, `r`, `cc`) |
-| **Tests**             | 100% pass rate                         |
-| **Architecture**      | Pure ZSH plugin                        |
+Start working in 10 seconds. Stay motivated with visible wins. No configuration required.
 
 ---
 
-## What's New in v4.0
-
-- **Dopamine Features** - Win tracking, streaks, and daily goals
-- **Unified Sync** - `flow sync all` orchestrates all data
-- **CC Dispatcher** - Project-aware Claude Code launcher
-
-See the full [Changelog](CHANGELOG.md) for version history.
-
----
-
-## Quick Start
-
-### 1. Core Commands
+## ⚡ Try It Now
 
 ```bash
-work my-project   # Start session
-win "Fixed bug"   # Log accomplishment
-finish            # End session
-dash              # View dashboard
+work my-project    # Start session
+win "Fixed bug"    # Log win → dopamine hit
+finish             # Done
 ```
 
-### 2. Smart Dispatchers
+!!! success "That's the whole workflow"
+Everything else is optional enhancement.
 
-Context-aware functions that adapt to your project:
+---
+
+## 🎯 What Problem Does This Solve?
+
+| ADHD Challenge           | flow-cli Solution            |
+| ------------------------ | ---------------------------- |
+| "Where was I?"           | `why` → shows context        |
+| "What should I work on?" | `dash` → shows priorities    |
+| No visible progress      | `win` → logs accomplishments |
+| Context switching hurts  | `hop` → instant switch       |
+| Starting is hard         | `work` → removes friction    |
+
+---
+
+## 🏆 Dopamine System
+
+Every accomplishment gets logged with a category:
 
 ```bash
-cc       # Project-aware Claude Code
-gem      # Project-aware Gemini
-r        # R package development
-qu       # Quarto operations
-g        # Git workflows
-pick     # Project picker
+win "Fixed the login bug"      # → 🔧 fix
+win "Deployed to production"   # → 🚀 ship
+win "Added unit tests"         # → 🧪 test
+win "Updated documentation"    # → 📝 docs
 ```
 
-### 3. Dopamine Features
-
-Stay motivated with visible progress:
+Then see your progress:
 
 ```bash
-win "Completed feature"   # Log a win (auto-categorized)
-yay                       # See recent wins
-flow goal set 3           # Set daily target
-flow goal                 # Check progress
+yay              # Recent wins
+yay --week       # Weekly summary with graph
+flow goal        # Daily progress bar
 ```
 
-**Categories:** 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test
+### 🔥 Streaks
+
+```
+Day 1: 🌱 Building momentum
+Day 3: 🔥 On a roll!
+Day 7: 🔥🔥 Strong week!
+Day 14: 🔥🔥🔥 Exceptional!
+```
 
 ---
 
-## Essential Documentation
+## 🚀 Core Commands
 
-!!! tip "Start Here"
-**New to flow-cli?** Read the [Quick Start Guide](getting-started/quick-start.md) in 5 minutes!
-
-### Core Guides
-
-| Guide                                                     | Description              |
-| --------------------------------------------------------- | ------------------------ |
-| [Quick Start](getting-started/quick-start.md)             | Get running in 5 minutes |
-| [Your First Session](tutorials/01-first-session.md)       | Step-by-step tutorial    |
-| [Dopamine Features](tutorials/06-dopamine-features.md)    | Win tracking & goals     |
-| [Command Reference](reference/COMMAND-QUICK-REFERENCE.md) | All commands             |
-
-### Reference Cards
-
-| Reference                                                  | Description       |
-| ---------------------------------------------------------- | ----------------- |
-| [Alias Card](reference/ALIAS-REFERENCE-CARD.md)            | All 28 aliases    |
-| [Workflow Patterns](reference/WORKFLOW-QUICK-REFERENCE.md) | Daily workflows   |
-| [Dispatcher Reference](reference/DISPATCHER-REFERENCE.md)  | Smart dispatchers |
-
----
-
-## Testing Your Installation
-
-!!! success "Interactive Dog Feeding Test 🐕"
-Validate your installation with our gamified test suite!
+### Session Flow
 
 ```bash
-./tests/interactive-dog-feeding.zsh
+work myproject    # Start (creates session)
+finish "done"     # End (optional commit)
+hop other         # Quick switch (tmux)
 ```
 
-- 👀 Shows 60+ comprehensive expected patterns
-- ✅ Interactive y/n validation
-- ⭐ Earn 1-5 stars based on performance
-
-Or run the health check:
+### Orientation
 
 ```bash
-flow doctor
+dash              # Dashboard overview
+why               # Current context
+pick              # Project picker
+```
+
+### Capture
+
+```bash
+catch "idea"      # Quick capture
+crumb "note"      # Breadcrumb
+trail             # See your trail
 ```
 
 ---
 
-## Design Philosophy
+## 🔌 Smart Dispatchers
 
-### Key Principles
+Commands that adapt to your project:
 
-1. **Muscle memory over memorization** - Keep only daily-use commands
-2. **Patterns over individual** - `r*` pattern easier than 23 aliases
-3. **Standard over custom** - Use community standards (git plugin)
-4. **Functions over aliases** - Smart behavior > static shortcuts
-5. **Explicit over implicit** - Full commands > cryptic shortcuts
+| Dispatcher | Example      | What it does          |
+| ---------- | ------------ | --------------------- |
+| `cc`       | `cc`         | Claude Code here      |
+| `cc`       | `cc pick`    | Pick project → Claude |
+| `r`        | `r test`     | R package tests       |
+| `qu`       | `qu preview` | Quarto preview        |
+| `g`        | `g push`     | Git with safety       |
 
-### ADHD-Friendly Design
-
-| Feature             | Purpose                        |
-| ------------------- | ------------------------------ |
-| Sub-10ms response   | No waiting, no frustration     |
-| Smart defaults      | Works without configuration    |
-| Visual feedback     | Dopamine from visible progress |
-| Consistent patterns | Less to memorize               |
+**Get help:** `cc help`, `r help`, `qu help`
 
 ---
 
-## Architecture
+## 📦 Install in 30 Seconds
 
-```
-flow-cli/
-├── flow.plugin.zsh      # Entry point
-├── lib/                 # Core utilities
-│   ├── core.zsh         # Colors, logging
-│   ├── dispatchers/     # Smart dispatchers
-│   └── tui.zsh          # Terminal UI
-├── commands/            # Command implementations
-├── completions/         # ZSH completions
-└── tests/               # Test suite
-```
+=== "Antidote"
+`bash
+    antidote install data-wise/flow-cli
+    `
 
-See [Architecture Overview](architecture/README.md) for details.
+=== "Zinit"
+`bash
+    zinit light data-wise/flow-cli
+    `
 
----
+=== "Oh-My-Zsh"
+`bash
+    git clone https://github.com/data-wise/flow-cli.git \
+      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/flow-cli
+    # Add flow-cli to plugins in .zshrc
+    `
 
-## Contributing
+=== "Manual"
+`bash
+    git clone https://github.com/data-wise/flow-cli.git ~/.flow-cli
+    echo 'source ~/.flow-cli/flow.plugin.zsh' >> ~/.zshrc
+    `
 
-See the [Contributing Guide](contributing/CONTRIBUTING.md) for:
-
-- Adding new commands
-- Code standards
-- Testing requirements
-- PR workflow
-
----
-
-## Links
-
-- **Documentation:** [https://data-wise.github.io/flow-cli/](https://data-wise.github.io/flow-cli/)
-- **Repository:** [https://github.com/Data-Wise/flow-cli](https://github.com/Data-Wise/flow-cli)
-- **Changelog:** [Version History](CHANGELOG.md)
+**Verify:** `flow doctor`
 
 ---
 
-**Last updated:** 2025-12-27 | **Maintainer:** DT
+## 📚 Next Steps
+
+<div class="grid cards" markdown>
+
+- :material-rocket-launch: **[Quick Start](getting-started/quick-start.md)**
+
+  Get running in 5 minutes
+
+- :material-emoticon-happy: **[Dopamine Features](tutorials/06-dopamine-features.md)**
+
+  Win tracking, streaks, goals
+
+- :material-book-open: **[Your First Session](tutorials/01-first-session.md)**
+
+  Step-by-step tutorial
+
+- :material-format-list-bulleted: **[All Commands](reference/COMMAND-QUICK-REFERENCE.md)**
+
+  Complete reference
+
+</div>
+
+---
+
+## 🧠 Design Philosophy
+
+!!! abstract "Built for ADHD"
+
+    | Feature | Why It Matters |
+    |---------|----------------|
+    | **Sub-10ms response** | No waiting = no frustration |
+    | **Smart defaults** | Works without configuration |
+    | **Visible progress** | Dopamine from seeing wins |
+    | **Consistent patterns** | Less to memorize |
+
+---
+
+## 🔗 Links
+
+- **[GitHub](https://github.com/Data-Wise/flow-cli)** - Source code
+- **[Changelog](CHANGELOG.md)** - Version history
+- **[Contributing](contributing/CONTRIBUTING.md)** - Get involved
+
+---
+
+**v4.0.1** · Pure ZSH · MIT License
