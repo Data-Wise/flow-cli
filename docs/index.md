@@ -6,144 +6,93 @@ A streamlined system for managing development workflows. Features **28 essential
 
 ---
 
-## ⚡ Quick Stats
+## Quick Stats
 
-- **Version:** v4.0.1 🎉
-- **Status:** Production Ready (Updated Dec 27, 2025)
-- **Custom aliases:** 28 (down from 179 - 84% reduction)
-- **Git plugin:** 226+ standard aliases included
-- **Smart dispatchers:** 6 context-aware functions (`g`, `mcp`, `obs`, `qu`, `r`, `cc`)
-- **Tests:** 16 automated + 7 interactive (100% pass rate)
-- **Testing:** Interactive dog feeding test 🐕 (60+ comprehensive patterns)
-- **Documentation:** 214+ files, 96K+ lines, 65+ pages
-- **Architecture:** Pure ZSH plugin with optional atlas integration
-- **Last major update:** 2025-12-27 (v4.0.0 - Dopamine Features & Sync)
+| Metric                | Value                                  |
+| --------------------- | -------------------------------------- |
+| **Version**           | v4.0.1                                 |
+| **Status**            | Production Ready                       |
+| **Custom aliases**    | 28 (down from 179)                     |
+| **Smart dispatchers** | 6 (`g`, `mcp`, `obs`, `qu`, `r`, `cc`) |
+| **Tests**             | 100% pass rate                         |
+| **Architecture**      | Pure ZSH plugin                        |
 
 ---
 
-## 🎉 Recent Updates (December 2025)
+## What's New in v4.0
 
-### v4.0.1 - Sync Command & Theme (2025-12-27)
+- **Dopamine Features** - Win tracking, streaks, and daily goals
+- **Unified Sync** - `flow sync all` orchestrates all data
+- **CC Dispatcher** - Project-aware Claude Code launcher
 
-- ✅ **Unified sync command** (`flow sync all`) - sync session, status, wins, goals, git
-- ✅ **ADHD-calm theme** - warm brown/orange documentation site
-- ✅ **CI improvements** - code coverage docs, performance monitoring
-- ✅ **Test suite enhancements** - CI compatibility and benchmarks
-
-### v4.0.0 - Dopamine Features (2025-12-27)
-
-- ✅ **Win tracking** (`win <text>`) - log accomplishments with auto-categorization
-- ✅ **Streak visualization** - 🔥 consecutive days counter
-- ✅ **Daily goal tracking** (`flow goal`) - set and track daily win targets
-- ✅ **Win categories** - 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test
-- ✅ **Extended .STATUS format** - wins, streak, last_active, tags
-- ✅ **Dashboard TUI** - Ctrl-E/S/W shortcuts, watch mode (`dash --watch`)
-
-### v3.0.0 - Clean Architecture (2025-12-25)
-
-- ✅ **Pure ZSH plugin** with optional atlas integration
-- ✅ **Interactive dog feeding test** 🐕 (60+ comprehensive patterns)
-- ✅ **Clean separation** from Node.js dependencies
-
-### Phase P6 Complete - CLI Enhancements (2025-12-24)
-
-- ✅ Enhanced status command with ASCII visualizations
-- ✅ Interactive TUI dashboard (real-time monitoring)
-- ✅ 10x performance boost with caching layer
-- ✅ 4 ADHD-friendly tutorials
-- ✅ Complete API documentation (800+ lines)
-- ✅ 15 architecture diagrams (Mermaid)
-- ✅ 13 interactive code examples
-
-### Production Use Phase Started (2025-12-24) 🚀
-
-- 🔍 1-2 week validation period
-- 📝 Focus on real usage feedback
-- 📊 Systematic friction tracking
-- 🚫 Feature freeze until user validation complete
-
-### Phase P5 Complete (2025-12-21)
-
-- 📚 Architecture Documentation Sprint (6,200+ lines)
-- 🌐 Documentation site deployed (GitHub Pages)
-- 🎨 ADHD-optimized design (cyan/purple theme)
-- 📖 Contributing guide (30-minute onboarding)
+See the full [Changelog](CHANGELOG.md) for version history.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
-### 1. Learn the Core Aliases
-
-**R Package Development (23 aliases)**
-
-Master these 6 first:
+### 1. Core Commands
 
 ```bash
-rload    # Load package code
-rtest    # Run tests
-rdoc     # Generate docs
-rcheck   # R CMD check
-rbuild   # Build package
-rinstall # Install package
+work my-project   # Start session
+win "Fixed bug"   # Log accomplishment
+finish            # End session
+dash              # View dashboard
 ```
 
-**Claude Code (2 aliases)**
+### 2. Smart Dispatchers
+
+Context-aware functions that adapt to your project:
 
 ```bash
-ccp      # Claude print mode
-ccr      # Claude resume
-```
-
-**Focus Timers (2 aliases)**
-
-```bash
-f25      # 25-minute Pomodoro
-f50      # 50-minute deep work
-```
-
-### 2. Use Smart Dispatchers
-
-Instead of memorizing more aliases, use context-aware functions:
-
-```bash
-cc       # Project-aware Claude
-gm       # Project-aware Gemini
-peek     # Smart file viewer
+cc       # Project-aware Claude Code
+gem      # Project-aware Gemini
+r        # R package development
 qu       # Quarto operations
-work     # Start work session
+g        # Git workflows
 pick     # Project picker
 ```
 
-### 3. Git Plugin Aliases
+### 3. Dopamine Features
 
-Standard OMZ git plugin provides 226+ aliases:
+Stay motivated with visible progress:
 
 ```bash
-g        # git
-gst      # git status
-ga       # git add
-gcmsg    # git commit -m
-gp       # git push
-glo      # git log --oneline
+win "Completed feature"   # Log a win (auto-categorized)
+yay                       # See recent wins
+flow goal set 3           # Set daily target
+flow goal                 # Check progress
 ```
+
+**Categories:** 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test
 
 ---
 
-## 📚 Essential Documentation
+## Essential Documentation
 
 !!! tip "Start Here"
-**New to this project?** Read the [Quick Start Guide](getting-started/quick-start.md) in 5 minutes!
+**New to flow-cli?** Read the [Quick Start Guide](getting-started/quick-start.md) in 5 minutes!
 
 ### Core Guides
 
-- **[Quick Start Guide](getting-started/quick-start.md)** - Get running in 5 minutes
-- **[Testing Guide](testing/TESTING.md)** - Validate your installation 🐕
-- **[Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md)** - All 28 aliases + migration guide
-- **[Workflow Quick Reference](reference/WORKFLOW-QUICK-REFERENCE.md)** - Daily workflows
-- **[Command Quick Reference](reference/COMMAND-QUICK-REFERENCE.md)** - All commands at a glance
+| Guide                                                     | Description              |
+| --------------------------------------------------------- | ------------------------ |
+| [Quick Start](getting-started/quick-start.md)             | Get running in 5 minutes |
+| [Your First Session](tutorials/01-first-session.md)       | Step-by-step tutorial    |
+| [Dopamine Features](tutorials/06-dopamine-features.md)    | Win tracking & goals     |
+| [Command Reference](reference/COMMAND-QUICK-REFERENCE.md) | All commands             |
 
-### Testing Your Installation
+### Reference Cards
+
+| Reference                                                  | Description       |
+| ---------------------------------------------------------- | ----------------- |
+| [Alias Card](reference/ALIAS-REFERENCE-CARD.md)            | All 28 aliases    |
+| [Workflow Patterns](reference/WORKFLOW-QUICK-REFERENCE.md) | Daily workflows   |
+| [Dispatcher Reference](reference/DISPATCHER-REFERENCE.md)  | Smart dispatchers |
+
+---
+
+## Testing Your Installation
 
 !!! success "Interactive Dog Feeding Test 🐕"
 Validate your installation with our gamified test suite!
@@ -152,98 +101,19 @@ Validate your installation with our gamified test suite!
 ./tests/interactive-dog-feeding.zsh
 ```
 
-**Features:**
-
 - 👀 Shows 60+ comprehensive expected patterns
 - ✅ Interactive y/n validation
 - ⭐ Earn 1-5 stars based on performance
-- 🐕 Feed a virtual dog by confirming tests pass
 
-See [Interactive Dog Test Guide](testing/DOG-FEEDING-TEST-README.md) for details.
+Or run the health check:
 
-### Architecture & Design
-
-- **[Architecture Hub](architecture/README.md)** - Complete architecture documentation (6,200+ lines)
-- **[Architecture Quick Reference](architecture/QUICK-REFERENCE.md)** - 1-page printable desk reference
-- **[Architecture Quick Wins](architecture/ARCHITECTURE-QUICK-WINS.md)** - Practical patterns for daily use
-- **[Architecture Decisions (ADRs)](decisions/README.md)** - 3 decision records explaining "why"
-
-### Specialized Guides
-
-- **[Pick Command Reference](reference/PICK-COMMAND-REFERENCE.md)** - Project navigation
-- **[Dashboard Quick Ref](reference/DASHBOARD-QUICK-REF.md)** - Dashboard commands
-- **[Workflows & Quick Wins](guides/WORKFLOWS-QUICK-WINS.md)** - Productivity tips
+```bash
+flow doctor
+```
 
 ---
 
-## 🎯 Recent Updates
-
-### December 21, 2025 - Architecture Documentation Sprint
-
-**Completed comprehensive architecture documentation:**
-
-- ✅ **6,200+ lines** of architecture documentation across 21 files
-- ✅ **3 ADRs** (Architecture Decision Records) documenting key decisions
-- ✅ **88+ code examples** ready to copy-paste
-- ✅ **Documentation site** updated with 60+ pages
-- ✅ **Architecture Reference Suite** (5 docs, 2,567 lines) for reuse across projects
-
-**New Guides:**
-
-- [Architecture Patterns Analysis](architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md) - Clean Architecture deep dive (1,181 lines)
-- [API Design Review](architecture/API-DESIGN-REVIEW.md) - Node.js API best practices (919 lines)
-- [Code Examples](architecture/CODE-EXAMPLES.md) - Production-ready patterns (1,000+ lines)
-- [Vendor Integration Architecture](architecture/VENDOR-INTEGRATION-ARCHITECTURE.md) - External code integration (673 lines)
-
-**Live Site:** [https://Data-Wise.github.io/flow-cli/](https://Data-Wise.github.io/flow-cli/)
-
----
-
-## 📊 What Changed (2025-12-19)
-
-!!! warning "Major Cleanup"
-Reduced from **179 to 28 aliases** (84% reduction) based on user feedback about cognitive load.
-
-### The Problem
-
-User reported: "I cannot memorize that many" referring to 179 custom aliases.
-
-### The Solution
-
-Aggressive cleanup retaining only high-frequency daily-use commands.
-
-### What Was Removed
-
-**11 categories eliminated (151 aliases total):**
-
-| Category                | Count | Replacement       |
-| ----------------------- | ----- | ----------------- |
-| Typo corrections        | 13    | Type correctly    |
-| Low-frequency shortcuts | 25    | Full commands     |
-| Single-letter aliases   | 4     | Explicit names    |
-| Duplicate aliases       | 12    | Canonical names   |
-| Navigation aliases      | 10    | `pick` dispatcher |
-| Workflow shortcuts      | 30    | Full commands     |
-| Meta-aliases            | 7     | Direct calls      |
-| Peek shortcuts          | 5     | `peek` dispatcher |
-| Work shortcuts          | 10    | `work` command    |
-| Breadcrumb aliases      | 4     | Full commands     |
-| Tool replacements       | 2     | Direct commands   |
-| Git aliases             | 5     | Plugin (226+)     |
-| Emacs aliases           | 2     | Direct commands   |
-
----
-
-## 🎯 Design Philosophy
-
-### Before → After
-
-| Aspect          | Before                            | After                         |
-| --------------- | --------------------------------- | ----------------------------- |
-| **Philosophy**  | ADHD-friendly with typo tolerance | Minimalist with muscle memory |
-| **Alias count** | 179 custom aliases                | 28 essential aliases          |
-| **Git support** | 5 custom aliases                  | 226+ standard plugin          |
-| **Approach**    | Many shortcuts for everything     | Smart dispatchers + patterns  |
+## Design Philosophy
 
 ### Key Principles
 
@@ -253,87 +123,52 @@ Aggressive cleanup retaining only high-frequency daily-use commands.
 4. **Functions over aliases** - Smart behavior > static shortcuts
 5. **Explicit over implicit** - Full commands > cryptic shortcuts
 
----
+### ADHD-Friendly Design
 
-## 🔄 Migration Guide
-
-!!! info "For Existing Users"
-If you used the old 179-alias system, see the complete migration guide in [Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md).
-
-### Common Changes
-
-| Old Alias  | New Approach                        |
-| ---------- | ----------------------------------- |
-| `e` / `ec` | `emacs` or `emacsclient -c -a ''`   |
-| `find`     | `fd` (direct command)               |
-| `grep`     | `rg` (direct command)               |
-| `cdrpkg`   | `pick` or `cd ~rpkg`                |
-| `ccplan`   | `claude --permission-mode plan`     |
-| `peekr`    | `peek <file>` or `bat --language=r` |
-| `stuck`    | `just-start`                        |
-| `wn`       | `what-next`                         |
-| All typos  | Type correctly!                     |
-
-### Git Workflow
-
-- **Before:** 5 custom git aliases
-- **After:** 226+ standard OMZ git plugin aliases
-- **Benefit:** Standard across all OMZ users, better documentation
+| Feature             | Purpose                        |
+| ------------------- | ------------------------------ |
+| Sub-10ms response   | No waiting, no frustration     |
+| Smart defaults      | Works without configuration    |
+| Visual feedback     | Dopamine from visible progress |
+| Consistent patterns | Less to memorize               |
 
 ---
 
-## 🎓 Learning Path
+## Architecture
 
-### Day 1: Essentials
+```
+flow-cli/
+├── flow.plugin.zsh      # Entry point
+├── lib/                 # Core utilities
+│   ├── core.zsh         # Colors, logging
+│   ├── dispatchers/     # Smart dispatchers
+│   └── tui.zsh          # Terminal UI
+├── commands/            # Command implementations
+├── completions/         # ZSH completions
+└── tests/               # Test suite
+```
 
-1. Read [Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md)
-2. Master 6 core R aliases (rload, rtest, rdoc, rcheck, rbuild, rinstall)
-3. Learn 2 Claude aliases (ccp, ccr)
-4. Try dispatchers (cc, pick, peek)
-
-### Week 1: Workflows
-
-1. Read [Workflow Quick Reference](reference/WORKFLOW-QUICK-REFERENCE.md)
-2. Practice daily workflows
-3. Learn git plugin aliases (gst, ga, gcmsg, gp)
-4. Set up focus timers (f25, f50)
-
-### Month 1: Mastery
-
-1. Customize for your workflow
-2. Add aliases only if >10 uses/day
-3. Share feedback for improvements
+See [Architecture Overview](architecture/README.md) for details.
 
 ---
 
-## 🛠️ Contributing
+## Contributing
 
-### Reporting Issues
+See the [Contributing Guide](contributing/CONTRIBUTING.md) for:
 
-Create `.md` files in root or `docs/` directory with issue details.
-
-### Adding New Aliases
-
-!!! warning "Think Before Adding"
-Before adding new aliases, ensure they meet ALL criteria:
-
-**Checklist:**
-
-- [ ] Used 10+ times per day?
-- [ ] Saves significant typing (10+ characters)?
-- [ ] Follows clear pattern (`r*`, `cc*`, `f*`)?
-- [ ] Can't be handled by dispatcher function?
+- Adding new commands
+- Code standards
+- Testing requirements
+- PR workflow
 
 ---
 
-## 📖 Additional Resources
+## Links
 
-- **[Command Quick Reference](reference/COMMAND-QUICK-REFERENCE.md)** - All commands at a glance
-- **[ZSH Development Guidelines](ZSH-DEVELOPMENT-GUIDELINES.md)** - Coding standards
-- **[OMZ Git Plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git)** - Git aliases reference
+- **Documentation:** [https://data-wise.github.io/flow-cli/](https://data-wise.github.io/flow-cli/)
+- **Repository:** [https://github.com/Data-Wise/flow-cli](https://github.com/Data-Wise/flow-cli)
+- **Changelog:** [Version History](CHANGELOG.md)
 
 ---
 
-**Last updated:** 2025-12-19
-**Maintainer:** DT
-**Repository:** [GitHub](https://github.com/Data-Wise/flow-cli)
+**Last updated:** 2025-12-27 | **Maintainer:** DT
