@@ -369,7 +369,7 @@ The `doctor` command follows these principles:
 ## See Also
 
 - [Setup Guide](../getting-started/quick-start.md) - First-time setup
-- [Brewfile](../../setup/Brewfile) - All recommended tools
+- [Brewfile](https://github.com/Data-Wise/flow-cli/blob/main/setup/Brewfile) - All recommended tools
 - [DISPATCHER-REFERENCE.md](../reference/DISPATCHER-REFERENCE.md) - Command reference
 
 ---
