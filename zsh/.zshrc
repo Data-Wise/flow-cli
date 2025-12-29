@@ -1060,3 +1060,17 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # Nexus Desktop - Quick Launcher
 alias nexus='cd ~/projects/dev-tools/nexus/nexus-desktop && npm start'
+
+# ============================================
+# GIT WORKTREE ALIASES
+# ============================================
+alias wt='cd ~/.git-worktrees'
+alias wtl='git worktree list'
+
+# Scribe project worktrees
+alias scribe-hud='cd ~/.git-worktrees/scribe/mission-control-hud'
+alias scribe-alt='cd ~/.git-worktrees/scribe/wonderful-wilson'
+
+# aiterm project worktrees
+alias aiterm-ghost='cd ~/.git-worktrees/aiterm/feature-ghostty-support'
+
