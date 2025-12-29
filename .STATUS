@@ -319,7 +319,21 @@ FLOW_QUIET=1               # Disable welcome message
 - [x] Documentation updated (DISPATCHER-REFERENCE.md)
 - [x] See: docs/decisions/PROPOSAL-GIT-FEATURE-WORKFLOW.md
 
-### v4.2.0 - Team & Remote (Future)
+### v4.2.0 - Git Workflow Enhancements (Future)
+- [ ] Hotfix workflow
+  - [ ] `g hotfix start <name>` - Create hotfix from main
+  - [ ] `g hotfix finish` - Merge to main AND dev
+  - [ ] Cherry-pick support for urgent fixes
+- [ ] Branch cleanup
+  - [ ] Auto-delete feature branches after merge
+  - [ ] `g feature prune` - Clean merged feature branches
+  - [ ] Integration with `wt clean` for worktrees
+- [ ] Worktree + Claude integration
+  - [ ] `cc wt <branch>` - Launch Claude in worktree
+  - [ ] Worktree-aware project detection
+  - [ ] Session isolation per worktree
+
+### v4.3.0 - Team & Remote (Future)
 - [ ] Remote state sync
   - [ ] Optional cloud backup
   - [ ] Multi-device support
@@ -414,6 +428,8 @@ FLOW_QUIET=1               # Disable welcome message
 ## last_active: 2025-12-29 12:45
 
 ## Session Log (continued)
+- 2025-12-29: PLAN - Added v4.2.0 roadmap (hotfix, branch cleanup, worktree+claude)
+- 2025-12-29: DOCS - Site updated for v4.1.0 (PR #66), deployed to GitHub Pages
 - 2025-12-29: v4.1.0 RELEASE - Git Feature Branch Workflow
 - 2025-12-29: FEAT - Added `g feature` commands (start, sync, list, finish)
 - 2025-12-29: FEAT - Added `g promote` (PR: feature → dev) and `g release` (PR: dev → main)
