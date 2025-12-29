@@ -730,19 +730,28 @@ Full documentation for the wt dispatcher.
 | Create docs/commands/wt.md | P2 | 🔲 |
 | Add ZSH completions for new commands | P3 | 🔲 |
 
-### v4.2.0 (PLANNED)
+### v4.2.0 (IN PROGRESS)
 
 | Task | Priority | Status |
 |------|----------|--------|
-| Add `g feature prune` for branch cleanup | P0 | 🔲 |
-| Add `g feature prune --all` for remote cleanup | P0 | 🔲 |
-| Integrate prune with `wt clean` | P1 | 🔲 |
+| Add `g feature prune` for branch cleanup | P0 | ✅ |
+| Add `g feature prune --all` for remote cleanup | P0 | ✅ |
+| Add `g feature prune -n` dry run mode | P0 | ✅ |
+| Create `tests/test-g-feature-prune.zsh` | P1 | ✅ |
+| Update DISPATCHER-REFERENCE.md | P1 | ✅ |
 | Add `cc wt <branch>` to cc-dispatcher.zsh | P1 | 🔲 |
 | Update project-detector for worktree paths | P2 | 🔲 |
-| Create `tests/test-g-feature-prune.zsh` | P2 | 🔲 |
-| Update DISPATCHER-REFERENCE.md | P2 | 🔲 |
 
 *Note: Hotfix workflow removed - see "Why No Hotfix Workflow?" section*
+
+### Future Enhancements (v4.2.0+)
+
+| Enhancement | Purpose | Priority |
+|-------------|---------|----------|
+| `g feature prune --force` | Skip confirmation for automation/scripts | P2 |
+| `wt prune` alias | Combined branch + worktree cleanup | P2 |
+| `g feature prune --older-than 30d` | Age-based branch filtering | P3 |
+| `g feature status` | Show stale branches needing cleanup | P3 |
 
 ---
 
@@ -817,7 +826,44 @@ cc wt auth              # → Opens Claude in ~/.git-worktrees/project/feature-a
 | v4.1.0 Foundation | v4.2.0 Enhancement |
 |-------------------|---------------------|
 | `wt create` | `cc wt` (Claude integration) |
-| `wt clean` | `g feature prune` (branch cleanup) |
+| `wt clean` | `g feature prune` (branch cleanup) ✅ |
+
+## Planned Future Enhancements
+
+### 1. `g feature prune --force` (P2)
+**Use case:** CI/CD pipelines and automation scripts that need non-interactive cleanup.
+```bash
+# In a cron job or CI pipeline
+g feature prune --force  # No confirmation prompt
+```
+
+### 2. `wt prune` Alias (P2)
+**Use case:** Combined cleanup of branches AND worktrees in one command.
+```bash
+wt prune                  # Prune stale worktrees + merged branches
+wt prune --branches-only  # Only prune branches
+wt prune --worktrees-only # Only prune worktrees
+```
+
+### 3. `g feature prune --older-than` (P3)
+**Use case:** Age-based filtering for more surgical cleanup.
+```bash
+g feature prune --older-than 30d   # Only prune branches older than 30 days
+g feature prune --older-than 1w    # Only prune branches older than 1 week
+```
+
+### 4. `g feature status` (P3)
+**Use case:** Preview stale branches before cleanup.
+```bash
+g feature status          # Show branches that would be pruned
+# Output:
+# 🧹 Stale branches (merged to dev):
+#   feature/old-auth (14 days)
+#   bugfix/login (7 days)
+#
+# ⚠️  Unmerged branches:
+#   feature/new-ui (3 days, 5 commits ahead)
+```
 
 ### Why No Hotfix Workflow?
 

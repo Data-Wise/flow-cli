@@ -325,12 +325,17 @@ FLOW_QUIET=1               # Disable welcome message
   - [x] `g feature prune --all` - Also clean remote tracking branches
   - [x] `g feature prune -n` - Dry run preview
   - [x] 18 tests in test-g-feature-prune.zsh
-  - [ ] Integration with `wt clean` for worktrees (future)
   - [ ] Note: Rich interactive cleanup → aiterm (`ait feature cleanup`)
 - [ ] Worktree + Claude integration
   - [ ] `cc wt <branch>` - Launch Claude in worktree (creates if needed)
   - [ ] Worktree-aware project detection
   - [ ] Session isolation per worktree
+
+### v4.2.0+ Future Enhancements
+- [ ] `g feature prune --force` - Skip confirmation for automation scripts
+- [ ] `wt prune` alias - Integrate branch + worktree cleanup in one command
+- [ ] `g feature prune --older-than 30d` - Age-based branch filtering
+- [ ] `g feature status` - Show stale branches that need pruning
 
 ### v4.3.0 - Team & Remote (Future)
 - [ ] Remote state sync
