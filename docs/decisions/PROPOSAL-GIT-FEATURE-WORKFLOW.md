@@ -1,8 +1,8 @@
 # Proposal: Git Feature Branch Workflow
 
 **Date:** 2025-12-29
-**Status:** Proposed (Enhanced)
-**Version:** 2.0
+**Status:** ✅ IMPLEMENTED (v4.1.0)
+**Version:** 2.1
 **Related:** aiterm FEATURE-BRANCH-WORKFLOW.md
 
 ---
@@ -711,22 +711,38 @@ Full documentation for the wt dispatcher.
 
 ## Implementation Checklist
 
+### v4.1.0 (COMPLETE ✅)
+
 | Task | Priority | Status |
 |------|----------|--------|
-| Add `_g_feature()` to g-dispatcher.zsh | P0 | 🔲 |
-| Add `_g_promote()` with validation | P0 | 🔲 |
-| Add `_g_release()` with validation | P0 | 🔲 |
-| Add `_g_check_workflow()` guard | P0 | 🔲 |
-| Wire guard into `g push` case | P0 | 🔲 |
-| Update `_g_help()` with FEATURE WORKFLOW section | P0 | 🔲 |
-| Create `lib/dispatchers/wt-dispatcher.zsh` | P1 | 🔲 |
-| Source wt-dispatcher in flow.plugin.zsh | P1 | 🔲 |
-| Create `tests/test-g-feature.zsh` | P1 | 🔲 |
-| Create `tests/test-wt-dispatcher.zsh` | P1 | 🔲 |
-| Update DISPATCHER-REFERENCE.md | P2 | 🔲 |
-| Update CLAUDE.md Quick Reference | P2 | 🔲 |
+| Add `_g_feature()` to g-dispatcher.zsh | P0 | ✅ |
+| Add `_g_promote()` with validation | P0 | ✅ |
+| Add `_g_release()` with validation | P0 | ✅ |
+| Add `_g_check_workflow()` guard | P0 | ✅ |
+| Wire guard into `g push` case | P0 | ✅ |
+| Update `_g_help()` with FEATURE WORKFLOW section | P0 | ✅ |
+| Create `lib/dispatchers/wt-dispatcher.zsh` | P1 | ✅ |
+| Source wt-dispatcher in flow.plugin.zsh | P1 | ✅ |
+| Create `tests/test-g-feature.zsh` | P1 | ✅ |
+| Create `tests/test-wt-dispatcher.zsh` | P1 | ✅ |
+| Update DISPATCHER-REFERENCE.md | P2 | ✅ |
+| Update CLAUDE.md Quick Reference | P2 | ✅ |
 | Create docs/commands/wt.md | P2 | 🔲 |
 | Add ZSH completions for new commands | P3 | 🔲 |
+
+### v4.2.0 (PLANNED)
+
+| Task | Priority | Status |
+|------|----------|--------|
+| Add `_g_hotfix()` to g-dispatcher.zsh | P0 | 🔲 |
+| Add `_g_hotfix_finish()` with dual-merge | P0 | 🔲 |
+| Update workflow guard for hotfix branches | P0 | 🔲 |
+| Add `g feature prune` for branch cleanup | P1 | 🔲 |
+| Integrate prune with `wt clean` | P1 | 🔲 |
+| Add `cc wt <branch>` to cc-dispatcher.zsh | P1 | 🔲 |
+| Update project-detector for worktree paths | P2 | 🔲 |
+| Create `tests/test-g-hotfix.zsh` | P2 | 🔲 |
+| Update DISPATCHER-REFERENCE.md | P2 | 🔲 |
 
 ---
 
@@ -759,6 +775,73 @@ Full documentation for the wt dispatcher.
 
 ---
 
+---
+
+## Future Enhancements (v4.2.0 Roadmap)
+
+Building on v4.1.0's foundation, the following enhancements are planned:
+
+### 1. Hotfix Workflow 🚨
+
+**Why it fits:** The current workflow handles features well (`feature/* → dev → main`), but urgent production fixes need a faster path. Hotfixes should go directly to main AND be merged back to dev.
+
+```bash
+g hotfix start <name>   # Create hotfix/* from main
+g hotfix finish         # Merge to main AND cherry-pick to dev
+```
+
+**Flow diagram:**
+```
+main ◄─── hotfix/urgent ───► dev (cherry-pick)
+  │                            │
+  └──────── normal flow ───────┘
+```
+
+### 2. Branch Cleanup 🧹
+
+**Why it fits:** After PRs merge, stale branches accumulate. This automates cleanup.
+
+```bash
+g feature prune         # Delete local branches merged to dev
+g feature prune --all   # Also delete remote tracking branches
+```
+
+**Integration with existing tools:**
+- Coordinates with `wt clean` for worktree cleanup
+- Respects protected branches (main, dev)
+- Safe by default (only merged branches)
+
+### 3. Worktree + Claude Integration 🤖
+
+**Why it fits:** You use worktrees for parallel development and Claude for coding. Combining them enables seamless context switching.
+
+```bash
+cc wt <branch>          # Launch Claude in worktree (creates if needed)
+cc wt auth              # → Opens Claude in ~/.git-worktrees/project/feature-auth
+```
+
+**Benefits:**
+- **ADHD-friendly:** One command to switch context entirely
+- **Session isolation:** Each worktree gets its own Claude session
+- **Worktree-aware detection:** `_flow_detect_project_type` recognizes worktree paths
+
+---
+
+## How v4.2.0 Builds on v4.1.0
+
+| v4.1.0 Foundation | v4.2.0 Enhancement |
+|-------------------|---------------------|
+| `g feature start` | `g hotfix start` (same pattern, different base) |
+| `g feature finish` → dev | `g hotfix finish` → main + dev |
+| `wt create` | `cc wt` (Claude integration) |
+| `wt clean` | `g feature prune` (branch cleanup) |
+| Workflow guards | Extended for hotfix branches |
+
+**Design principle:** v4.2.0 fills gaps in the workflow without changing the core patterns.
+
+---
+
 *Created: 2025-12-28*
 *Enhanced: 2025-12-29*
+*v4.2.0 Roadmap: 2025-12-29*
 *Author: Claude Code*
