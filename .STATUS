@@ -319,17 +319,14 @@ FLOW_QUIET=1               # Disable welcome message
 - [x] Documentation updated (DISPATCHER-REFERENCE.md)
 - [x] See: docs/decisions/PROPOSAL-GIT-FEATURE-WORKFLOW.md
 
-### v4.2.0 - Git Workflow Enhancements (Future)
-- [ ] Hotfix workflow
-  - [ ] `g hotfix start <name>` - Create hotfix from main
-  - [ ] `g hotfix finish` - Merge to main AND dev
-  - [ ] Cherry-pick support for urgent fixes
+### v4.2.0 - Workflow Polish (Future)
 - [ ] Branch cleanup
-  - [ ] Auto-delete feature branches after merge
-  - [ ] `g feature prune` - Clean merged feature branches
+  - [ ] `g feature prune` - Delete merged feature branches
+  - [ ] `g feature prune --all` - Also clean remote tracking branches
   - [ ] Integration with `wt clean` for worktrees
+  - [ ] Note: Rich interactive cleanup → aiterm (`ait feature cleanup`)
 - [ ] Worktree + Claude integration
-  - [ ] `cc wt <branch>` - Launch Claude in worktree
+  - [ ] `cc wt <branch>` - Launch Claude in worktree (creates if needed)
   - [ ] Worktree-aware project detection
   - [ ] Session isolation per worktree
 
