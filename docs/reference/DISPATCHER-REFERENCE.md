@@ -1,7 +1,7 @@
 # Dispatcher Reference - flow-cli
 
-**Last Updated:** December 26, 2025
-**Version:** flow-cli v3.1.0
+**Last Updated:** December 29, 2025
+**Version:** flow-cli v4.1.0
 
 ---
 
@@ -13,28 +13,58 @@ Dispatchers are smart command routers that provide context-aware workflows for s
 
 ---
 
-## Active Dispatchers (6)
+## Active Dispatchers (7)
 
 ### 1. `g` - Git Workflows
 
-**File:** `g-dispatcher.zsh`  
-**Purpose:** Smart Git command shortcuts
+**File:** `g-dispatcher.zsh`
+**Purpose:** Smart Git command shortcuts with feature branch workflow
+**Updated:** December 29, 2025 (v4.1.0)
 
 **Common Commands:**
 
 ```bash
 g status          # Git status
 g commit "msg"    # Git commit with message
-g push            # Git push
+g push            # Git push (with workflow guard)
 g pull            # Git pull
 g log             # Git log
 g help            # Show help
+```
+
+**Feature Branch Workflow (v4.1.0):**
+
+```bash
+# Feature development
+g feature start <name>   # Create feature/<name> from dev
+g feature sync           # Rebase feature onto dev
+g feature list           # List feature/hotfix branches
+g feature finish         # Push + create PR to dev
+
+# Promotion flow
+g promote                # Create PR: feature → dev
+g release                # Create PR: dev → main
+```
+
+**Workflow Guard:**
+
+- Blocks direct push to `main` and `dev` branches
+- Shows helpful message with correct workflow
+- Override with `GIT_WORKFLOW_SKIP=1 g push`
+
+**Workflow Diagram:**
+
+```
+feature/* ──► dev ──► main
+     └── g promote    └── g release
 ```
 
 **Features:**
 
 - Smart defaults for common operations
 - ADHD-friendly quick commands
+- Feature branch workflow enforcement
+- Workflow guards for protected branches
 - Context-aware suggestions
 
 ---
@@ -251,6 +281,57 @@ cc haiku pick     # Pick project → Haiku model
 **Shortcuts:** `y`=yolo, `p`=plan, `r`=resume, `c`=continue, `a`=ask, `f`=file, `d`=diff, `o`=opus, `h`=haiku
 
 **See also:** [CC-DISPATCHER-REFERENCE.md](CC-DISPATCHER-REFERENCE.md)
+
+---
+
+### 7. `wt` - Git Worktree Management
+
+**File:** `wt-dispatcher.zsh`
+**Purpose:** Git worktree management for parallel development
+**Added:** December 29, 2025 (v4.1.0)
+
+**Common Commands:**
+
+```bash
+wt                    # Navigate to worktrees folder
+wt list               # List all worktrees
+wt create <branch>    # Create worktree for branch
+wt move               # Move current branch to worktree
+wt remove <path>      # Remove a worktree
+wt clean              # Prune stale worktrees
+wt help               # Show help
+```
+
+**Aliases:**
+
+- `wt ls` → `wt list`
+- `wt add` / `wt c` → `wt create`
+- `wt mv` → `wt move`
+- `wt rm` → `wt remove`
+- `wt prune` → `wt clean`
+
+**Configuration:**
+
+```bash
+# Set custom worktree directory (default: ~/.git-worktrees)
+export FLOW_WORKTREE_DIR="$HOME/worktrees"
+```
+
+**Passthrough:**
+
+Unknown commands pass through to `git worktree`:
+
+```bash
+wt lock <path>     # → git worktree lock <path>
+wt unlock <path>   # → git worktree unlock <path>
+```
+
+**Features:**
+
+- Organized worktree storage by project
+- Protected branch validation (can't move main/dev)
+- Smart branch detection (creates new or uses existing)
+- Automatic directory structure creation
 
 ---
 
@@ -501,10 +582,17 @@ source ~/projects/dev-tools/flow-cli/lib/dispatchers/<name>.zsh
 
 ## Summary
 
-**Active Dispatchers:** 6 (g, mcp, obs, qu, r, cc)
+**Active Dispatchers:** 7 (g, mcp, obs, qu, r, cc, wt)
 **Removed:** 2 (v, vibe)
 **Not Restored:** 3 (gm, note, timer - alternatives available)
-**Total Commands:** ~100+ subcommands across all dispatchers
+**Total Commands:** ~120+ subcommands across all dispatchers
+
+**New in v4.1.0:**
+
+- `g feature` - Feature branch workflow commands
+- `g promote` / `g release` - PR creation helpers
+- Workflow guards for protected branches
+- `wt` dispatcher for git worktree management
 
 **Philosophy:** Each dispatcher provides a unified, ADHD-friendly interface for complex tool workflows with smart defaults and common operations.
 
