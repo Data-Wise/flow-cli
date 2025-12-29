@@ -429,6 +429,10 @@ _g_feature() {
             gh pr create --base dev --fill
             ;;
 
+        prune|clean)
+            _g_feature_prune "$@"
+            ;;
+
         help|--help|-h|*)
             _g_feature_help
             ;;
@@ -454,6 +458,164 @@ ${_C_YELLOW}EXAMPLES${_C_NC}:
   ${_C_DIM}\$${_C_NC} g feature start auth     ${_C_DIM}# → feature/auth from dev${_C_NC}
   ${_C_DIM}\$${_C_NC} g feature sync           ${_C_DIM}# Rebase onto dev${_C_NC}
   ${_C_DIM}\$${_C_NC} g feature finish         ${_C_DIM}# Push + PR to dev${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune          ${_C_DIM}# Delete merged branches${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune --all    ${_C_DIM}# Also clean remotes${_C_NC}
+"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# FEATURE PRUNE
+# ═══════════════════════════════════════════════════════════════════
+
+_g_feature_prune() {
+    local all_flag=false
+    local dry_run=false
+
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --all|-a) all_flag=true ;;
+            --dry-run|-n) dry_run=true ;;
+            --help|-h) _g_feature_prune_help; return 0 ;;
+            *) echo -e "${_C_RED}✗ Unknown option: $1${_C_NC}"; return 1 ;;
+        esac
+        shift
+    done
+
+    # Get current branch to avoid deleting it
+    local current_branch=$(git branch --show-current 2>/dev/null)
+
+    # Protected branches that should never be deleted
+    local protected="main master dev develop"
+
+    # Find merged feature/bugfix/hotfix branches
+    local merged_branches=()
+    local branch
+
+    # Get branches merged to dev (or main if dev doesn't exist)
+    local base_branch="dev"
+    if ! git show-ref --verify --quiet refs/heads/dev 2>/dev/null; then
+        base_branch="main"
+    fi
+
+    # Collect merged local branches
+    while IFS= read -r branch; do
+        # Skip empty lines
+        [[ -z "$branch" ]] && continue
+        # Remove leading asterisk (current branch marker)
+        branch="${branch#\* }"
+        # Remove all leading/trailing whitespace
+        branch="${branch#"${branch%%[![:space:]]*}"}"
+        branch="${branch%"${branch##*[![:space:]]}"}"
+        # Skip protected branches
+        [[ " $protected " == *" $branch "* ]] && continue
+        # Skip current branch
+        [[ "$branch" == "$current_branch" ]] && continue
+        # Only include feature/bugfix/hotfix branches
+        if [[ "$branch" == feature/* || "$branch" == bugfix/* || "$branch" == hotfix/* ]]; then
+            merged_branches+=("$branch")
+        fi
+    done < <(git branch --merged "$base_branch" 2>/dev/null)
+
+    # Report what we found
+    if [[ ${#merged_branches[@]} -eq 0 ]]; then
+        echo -e "${_C_GREEN}✓ No merged feature branches to prune${_C_NC}"
+    else
+        echo -e "${_C_BOLD}Merged branches to delete:${_C_NC}"
+        for branch in "${merged_branches[@]}"; do
+            echo -e "  ${_C_DIM}•${_C_NC} $branch"
+        done
+        echo ""
+
+        if [[ "$dry_run" == true ]]; then
+            echo -e "${_C_YELLOW}Dry run - no branches deleted${_C_NC}"
+        else
+            # Delete local branches
+            local deleted=0
+            for branch in "${merged_branches[@]}"; do
+                if git branch -d "$branch" 2>/dev/null; then
+                    echo -e "${_C_GREEN}✓ Deleted${_C_NC} $branch"
+                    ((deleted++))
+                else
+                    echo -e "${_C_RED}✗ Failed to delete${_C_NC} $branch"
+                fi
+            done
+            echo -e "\n${_C_GREEN}Deleted $deleted local branch(es)${_C_NC}"
+        fi
+    fi
+
+    # Handle remote branches if --all flag
+    if [[ "$all_flag" == true ]]; then
+        echo -e "\n${_C_BOLD}Checking remote branches...${_C_NC}"
+
+        # Prune stale remote tracking references first
+        git remote prune origin 2>/dev/null
+
+        # Find remote branches that are merged
+        local remote_merged=()
+        while IFS= read -r branch; do
+            [[ -z "$branch" ]] && continue
+            # Remove 'origin/' prefix
+            local short_branch="${branch#origin/}"
+            # Skip protected
+            [[ " $protected " == *" $short_branch "* ]] && continue
+            # Only feature/bugfix/hotfix
+            if [[ "$short_branch" == feature/* || "$short_branch" == bugfix/* || "$short_branch" == hotfix/* ]]; then
+                remote_merged+=("$short_branch")
+            fi
+        done < <(git branch -r --merged "$base_branch" 2>/dev/null | grep "origin/" | sed 's/^[[:space:]]*//')
+
+        if [[ ${#remote_merged[@]} -eq 0 ]]; then
+            echo -e "${_C_GREEN}✓ No merged remote branches to prune${_C_NC}"
+        else
+            echo -e "${_C_BOLD}Remote branches to delete:${_C_NC}"
+            for branch in "${remote_merged[@]}"; do
+                echo -e "  ${_C_DIM}•${_C_NC} origin/$branch"
+            done
+            echo ""
+
+            if [[ "$dry_run" == true ]]; then
+                echo -e "${_C_YELLOW}Dry run - no remote branches deleted${_C_NC}"
+            else
+                local remote_deleted=0
+                for branch in "${remote_merged[@]}"; do
+                    if git push origin --delete "$branch" 2>/dev/null; then
+                        echo -e "${_C_GREEN}✓ Deleted${_C_NC} origin/$branch"
+                        ((remote_deleted++))
+                    else
+                        echo -e "${_C_RED}✗ Failed to delete${_C_NC} origin/$branch"
+                    fi
+                done
+                echo -e "\n${_C_GREEN}Deleted $remote_deleted remote branch(es)${_C_NC}"
+            fi
+        fi
+    fi
+}
+
+_g_feature_prune_help() {
+    echo -e "
+${_C_BOLD}g feature prune${_C_NC} - Clean up merged feature branches
+
+${_C_YELLOW}USAGE${_C_NC}:
+  ${_C_CYAN}g feature prune${_C_NC}           Delete local merged branches
+  ${_C_CYAN}g feature prune --all${_C_NC}     Also delete remote branches
+  ${_C_CYAN}g feature prune --dry-run${_C_NC} Show what would be deleted
+
+${_C_YELLOW}OPTIONS${_C_NC}:
+  ${_C_CYAN}--all, -a${_C_NC}       Also prune remote branches
+  ${_C_CYAN}--dry-run, -n${_C_NC}   Show what would be deleted without deleting
+  ${_C_CYAN}--help, -h${_C_NC}      Show this help
+
+${_C_YELLOW}SAFE BY DEFAULT${_C_NC}:
+  • Only deletes branches merged to dev (or main)
+  • Never deletes: main, master, dev, develop
+  • Never deletes current branch
+  • Only targets: feature/*, bugfix/*, hotfix/*
+
+${_C_YELLOW}EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} g feature prune          ${_C_DIM}# Clean local merged branches${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune -n       ${_C_DIM}# Preview what would be deleted${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune --all    ${_C_DIM}# Also clean remote branches${_C_NC}
 "
 }
 
