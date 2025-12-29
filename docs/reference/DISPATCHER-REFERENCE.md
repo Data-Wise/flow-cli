@@ -32,7 +32,7 @@ g log             # Git log
 g help            # Show help
 ```
 
-**Feature Branch Workflow (v4.1.0):**
+**Feature Branch Workflow (v4.1.0+):**
 
 ```bash
 # Feature development
@@ -44,6 +44,11 @@ g feature finish         # Push + create PR to dev
 # Promotion flow
 g promote                # Create PR: feature → dev
 g release                # Create PR: dev → main
+
+# Cleanup (v4.2.0)
+g feature prune          # Delete merged feature branches
+g feature prune --all    # Also delete remote branches
+g feature prune -n       # Dry run (preview only)
 ```
 
 **Workflow Guard:**
@@ -59,6 +64,14 @@ feature/* ──► dev ──► main
      └── g promote    └── g release
 ```
 
+**Branch Cleanup (v4.2.0):**
+
+The `g feature prune` command safely cleans up merged branches:
+- Only deletes branches merged to dev (or main)
+- Never deletes: main, master, dev, develop
+- Never deletes current branch
+- Only targets: feature/\*, bugfix/\*, hotfix/\*
+
 **Features:**
 
 - Smart defaults for common operations
@@ -66,6 +79,7 @@ feature/* ──► dev ──► main
 - Feature branch workflow enforcement
 - Workflow guards for protected branches
 - Context-aware suggestions
+- Safe branch cleanup with prune
 
 ---
 
