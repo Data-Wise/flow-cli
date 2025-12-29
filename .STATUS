@@ -331,11 +331,115 @@ FLOW_QUIET=1               # Disable welcome message
   - [ ] Worktree-aware project detection
   - [ ] Session isolation per worktree
 
+#### Implementation Suggestions: cc wt <branch>
+
+**Approach 1: Add to cc-dispatcher.zsh**
+```zsh
+# In cc() dispatcher, add case:
+wt|worktree)
+    shift
+    _cc_worktree "$@"
+    ;;
+
+_cc_worktree() {
+    local branch="${1:-}"
+    if [[ -z "$branch" ]]; then
+        # No branch → list worktrees and pick
+        wt list
+        return
+    fi
+
+    # Get or create worktree path
+    local wt_path=$(_wt_get_path "$branch")
+    if [[ -z "$wt_path" ]]; then
+        wt create "$branch"
+        wt_path=$(_wt_get_path "$branch")
+    fi
+
+    # Launch Claude in worktree
+    cd "$wt_path" && claude
+}
+```
+
+**Approach 2: Integrate with wt dispatcher**
+```zsh
+# In wt() dispatcher, add case:
+claude|cc)
+    shift
+    local branch="${1:-$(git branch --show-current)}"
+    _wt_create "$branch"
+    cd "$(_wt_get_path "$branch")" && claude
+    ;;
+```
+
+**Recommendation:** Approach 1 (cc wt) - keeps Claude commands in cc dispatcher.
+
+**Files to modify:**
+- `lib/dispatchers/cc-dispatcher.zsh` - Add wt case
+- `lib/dispatchers/wt-dispatcher.zsh` - Add `_wt_get_path()` helper
+- `tests/test-cc-wt.zsh` - New test file
+
 ### v4.2.0+ Future Enhancements
-- [ ] `g feature prune --force` - Skip confirmation for automation scripts
-- [ ] `wt prune` alias - Integrate branch + worktree cleanup in one command
-- [ ] `g feature prune --older-than 30d` - Age-based branch filtering
-- [ ] `g feature status` - Show stale branches that need pruning
+
+#### 1. `g feature prune --force` (P2, ~30 min)
+**Implementation:** Add `--force|-f` flag parsing, skip confirmation when set.
+```zsh
+# In _g_feature_prune(), add:
+local force=false
+case "$1" in
+    --force|-f) force=true; shift ;;
+esac
+# Then skip interactive confirmation if $force is true
+```
+
+#### 2. `wt prune` (P2, ~1 hour)
+**Implementation:** Combine `wt clean` + `g feature prune` in sequence.
+```zsh
+# In wt(), add:
+prune)
+    shift
+    case "$1" in
+        --branches-only) g feature prune "$@" ;;
+        --worktrees-only) git worktree prune ;;
+        *) git worktree prune && g feature prune "$@" ;;
+    esac
+    ;;
+```
+
+#### 3. `g feature prune --older-than` (P3, ~1 hour)
+**Implementation:** Parse duration, filter by commit date.
+```zsh
+# Parse: 30d → 30 days, 1w → 7 days
+local max_age_days=0
+if [[ "$1" == --older-than ]]; then
+    local duration="$2"
+    case "$duration" in
+        *d) max_age_days="${duration%d}" ;;
+        *w) max_age_days=$((${duration%w} * 7)) ;;
+    esac
+fi
+# Filter: git log -1 --format=%ct "$branch" → compare to now
+```
+
+#### 4. `g feature status` (P3, ~45 min)
+**Implementation:** Show merged + unmerged branches with age info.
+```zsh
+_g_feature_status() {
+    echo "🧹 Stale branches (merged to dev):"
+    git branch --merged dev | while read branch; do
+        [[ "$branch" == feature/* ]] || continue
+        local age=$(git log -1 --format="%cr" "$branch")
+        echo "  $branch ($age)"
+    done
+
+    echo "\n⚠️  Unmerged branches:"
+    git branch --no-merged dev | while read branch; do
+        [[ "$branch" == feature/* ]] || continue
+        local commits=$(git rev-list --count dev.."$branch")
+        echo "  $branch ($commits commits ahead)"
+    done
+}
+```
 
 ### v4.3.0 - Team & Remote (Future)
 - [ ] Remote state sync
