@@ -157,6 +157,10 @@ g() {
         # ─────────────────────────────────────────────────────────────
         push|p)
             shift
+            # Check workflow guard (unless GIT_WORKFLOW_SKIP=1)
+            if [[ -z "$GIT_WORKFLOW_SKIP" ]]; then
+                _g_check_workflow || return 1
+            fi
             git push "$@"
             ;;
 
@@ -245,6 +249,22 @@ g() {
         merge|mg)
             shift
             git merge "$@"
+            ;;
+
+        # ─────────────────────────────────────────────────────────────
+        # FEATURE WORKFLOW
+        # ─────────────────────────────────────────────────────────────
+        feature|feat)
+            shift
+            _g_feature "$@"
+            ;;
+
+        promote)
+            _g_promote
+            ;;
+
+        release|rel)
+            _g_release
             ;;
 
         # ─────────────────────────────────────────────────────────────
@@ -338,8 +358,187 @@ ${_C_BLUE}🔀 REBASE & MERGE${_C_NC}:
   ${_C_CYAN}g rba${_C_NC}             Rebase abort
   ${_C_CYAN}g mg${_C_NC}              Merge
 
+${_C_BLUE}🌳 FEATURE WORKFLOW${_C_NC}:
+  ${_C_CYAN}g feature start <n>${_C_NC}  Create feature branch from dev
+  ${_C_CYAN}g feature sync${_C_NC}       Rebase feature onto dev
+  ${_C_CYAN}g feature list${_C_NC}       List feature/hotfix branches
+  ${_C_CYAN}g feature finish${_C_NC}     Push + create PR to dev
+  ${_C_CYAN}g promote${_C_NC}            PR: feature → dev
+  ${_C_CYAN}g release${_C_NC}            PR: dev → main
+
 ${_C_MAGENTA}💡 TIP${_C_NC}: Unknown commands pass through to git
   ${_C_DIM}g remote -v        → git remote -v${_C_NC}
   ${_C_DIM}g cherry-pick xxx  → git cherry-pick xxx${_C_NC}
 "
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# FEATURE WORKFLOW
+# ═══════════════════════════════════════════════════════════════════
+
+_g_feature() {
+    local action="${1:-help}"
+    shift 2>/dev/null
+
+    case "$action" in
+        start|s)
+            local name="$1"
+            if [[ -z "$name" ]]; then
+                echo -e "${_C_RED}✗ Feature name required${_C_NC}"
+                echo "Usage: g feature start <name>"
+                return 1
+            fi
+            # Ensure clean state
+            if ! git diff --quiet HEAD 2>/dev/null; then
+                echo -e "${_C_YELLOW}⚠ You have uncommitted changes. Stash or commit first.${_C_NC}"
+                return 1
+            fi
+            git checkout dev && git pull origin dev
+            git checkout -b "feature/$name"
+            echo -e "${_C_GREEN}✓ Created feature/$name from dev${_C_NC}"
+            ;;
+
+        sync)
+            local branch=$(git branch --show-current)
+            if [[ "$branch" != feature/* ]]; then
+                echo -e "${_C_RED}✗ Not on a feature branch (current: $branch)${_C_NC}"
+                return 1
+            fi
+            git fetch origin
+            git rebase origin/dev
+            echo -e "${_C_GREEN}✓ Rebased $branch onto dev${_C_NC}"
+            ;;
+
+        list|ls)
+            echo -e "${_C_BOLD}Feature branches:${_C_NC}"
+            git branch --list 'feature/*' 2>/dev/null | sed 's/^/  /' || echo "  (none)"
+            echo -e "\n${_C_BOLD}Hotfix branches:${_C_NC}"
+            git branch --list 'hotfix/*' 2>/dev/null | sed 's/^/  /' || echo "  (none)"
+            echo -e "\n${_C_BOLD}Bugfix branches:${_C_NC}"
+            git branch --list 'bugfix/*' 2>/dev/null | sed 's/^/  /' || echo "  (none)"
+            ;;
+
+        finish|done)
+            local branch=$(git branch --show-current)
+            if [[ "$branch" != feature/* && "$branch" != bugfix/* ]]; then
+                echo -e "${_C_RED}✗ Not on a feature/bugfix branch${_C_NC}"
+                return 1
+            fi
+            echo -e "${_C_BLUE}ℹ Creating PR: $branch → dev${_C_NC}"
+            git push -u origin HEAD
+            gh pr create --base dev --fill
+            ;;
+
+        help|--help|-h|*)
+            _g_feature_help
+            ;;
+    esac
+}
+
+_g_feature_help() {
+    echo -e "
+${_C_BOLD}g feature${_C_NC} - Feature branch workflow
+
+${_C_YELLOW}COMMANDS${_C_NC}:
+  ${_C_CYAN}g feature start <name>${_C_NC}   Create feature branch from dev
+  ${_C_CYAN}g feature sync${_C_NC}           Rebase feature onto dev
+  ${_C_CYAN}g feature list${_C_NC}           List feature/hotfix/bugfix branches
+  ${_C_CYAN}g feature finish${_C_NC}         Push and create PR to dev
+
+${_C_YELLOW}WORKFLOW${_C_NC}:
+  ${_C_DIM}feature/*${_C_NC} ──► ${_C_CYAN}dev${_C_NC} ──► ${_C_GREEN}main${_C_NC}
+  ${_C_DIM}hotfix/*${_C_NC}  ────┴───────┘
+  ${_C_DIM}bugfix/*${_C_NC}  ────┘
+
+${_C_YELLOW}EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} g feature start auth     ${_C_DIM}# → feature/auth from dev${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature sync           ${_C_DIM}# Rebase onto dev${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature finish         ${_C_DIM}# Push + PR to dev${_C_NC}
+"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# PROMOTE & RELEASE
+# ═══════════════════════════════════════════════════════════════════
+
+_g_promote() {
+    local branch=$(git branch --show-current)
+
+    # Validate branch type
+    if [[ "$branch" != feature/* && "$branch" != bugfix/* && "$branch" != hotfix/* ]]; then
+        echo -e "${_C_RED}✗ Not on a promotable branch (feature/*, bugfix/*, hotfix/*)${_C_NC}"
+        echo -e "${_C_BLUE}ℹ Current branch: $branch${_C_NC}"
+        return 1
+    fi
+
+    # Check for uncommitted changes
+    if ! git diff --quiet HEAD 2>/dev/null; then
+        echo -e "${_C_YELLOW}⚠ Uncommitted changes. Commit or stash first.${_C_NC}"
+        return 1
+    fi
+
+    git push -u origin HEAD
+    gh pr create --base dev --fill
+    echo -e "${_C_GREEN}✓ Created PR: $branch → dev${_C_NC}"
+}
+
+_g_release() {
+    local branch=$(git branch --show-current)
+
+    if [[ "$branch" != "dev" ]]; then
+        echo -e "${_C_RED}✗ Must be on 'dev' branch to create release PR${_C_NC}"
+        echo -e "${_C_BLUE}ℹ Run: git checkout dev${_C_NC}"
+        return 1
+    fi
+
+    # Ensure dev is up to date
+    git fetch origin
+    local behind=$(git rev-list --count HEAD..origin/dev 2>/dev/null || echo "0")
+    if (( behind > 0 )); then
+        echo -e "${_C_YELLOW}⚠ dev is $behind commits behind origin. Pull first.${_C_NC}"
+        return 1
+    fi
+
+    gh pr create --base main --fill
+    echo -e "${_C_GREEN}✓ Created PR: dev → main${_C_NC}"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# WORKFLOW GUARD
+# ═══════════════════════════════════════════════════════════════════
+
+_g_check_workflow() {
+    local branch=$(git branch --show-current 2>/dev/null)
+    [[ -z "$branch" ]] && return 0  # Detached HEAD, allow
+
+    # Allow hotfix to main
+    [[ "$branch" == hotfix/* ]] && return 0
+
+    # Block direct push to main/dev
+    if [[ "$branch" == "main" || "$branch" == "master" || "$branch" == "dev" ]]; then
+        echo -e "${_C_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+        echo -e "${_C_RED}⛔ Direct push to '${branch}' blocked${_C_NC}"
+        echo -e "${_C_YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+        echo ""
+        echo -e "Workflow: ${_C_CYAN}feature/*${_C_NC} → ${_C_CYAN}dev${_C_NC} → ${_C_CYAN}main${_C_NC}"
+        echo ""
+        echo -e "${_C_BOLD}Use instead:${_C_NC}"
+        if [[ "$branch" == "dev" ]]; then
+            echo -e "  ${_C_CYAN}g release${_C_NC}     Create PR: dev → main"
+        else
+            echo -e "  ${_C_CYAN}g feature start <name>${_C_NC}  Start feature branch"
+            echo -e "  ${_C_CYAN}g promote${_C_NC}               Create PR: feature → dev"
+        fi
+        echo ""
+        echo -e "${_C_DIM}Override: GIT_WORKFLOW_SKIP=1 git push${_C_NC}"
+
+        # Log violation (optional, for tracking)
+        local log_file="${HOME}/.claude/workflow-violations.log"
+        [[ -d "${HOME}/.claude" ]] && \
+            echo "$(date +%Y-%m-%d\ %H:%M:%S) | push blocked | $branch | $(pwd)" >> "$log_file"
+
+        return 1
+    fi
+
+    return 0
 }
