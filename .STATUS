@@ -295,10 +295,25 @@ FLOW_QUIET=1               # Disable welcome message
   - [x] Live refresh option (`dash --watch`)
   - [x] Project preview pane with extended status and git log
 
-### v4.0.0 - Ecosystem Integration
-- [ ] Cross-tool orchestration
-  - [ ] `flow sync all` - Sync everything
-  - [ ] Unified status across tools
+### v4.0.0 - Ecosystem Integration ✅ COMPLETE
+- [x] Cross-tool orchestration
+  - [x] `flow sync all` - Sync everything
+  - [x] Unified status across tools
+
+### v4.1.0 - Git Feature Workflow (PROPOSED)
+- [ ] Feature branch workflow
+  - [ ] `g feature start <name>` - Create feature from dev
+  - [ ] `g feature sync` - Rebase onto dev
+  - [ ] `g promote` - PR feature → dev
+  - [ ] `g release` - PR dev → main
+- [ ] Worktree management (`wt` dispatcher)
+  - [ ] `wt list` - List worktrees
+  - [ ] `wt create <branch>` - Create worktree
+  - [ ] `wt clean` - Remove merged worktrees
+- [ ] Quick aliases (gfs, gfp, gfr)
+- [ ] See: docs/decisions/PROPOSAL-GIT-FEATURE-WORKFLOW.md
+
+### v4.2.0 - Team & Remote (Future)
 - [ ] Remote state sync
   - [ ] Optional cloud backup
   - [ ] Multi-device support
