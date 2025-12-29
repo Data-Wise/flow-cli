@@ -812,12 +812,61 @@ g feature prune --all   # Also delete remote tracking branches
 ```bash
 cc wt <branch>          # Launch Claude in worktree (creates if needed)
 cc wt auth              # → Opens Claude in ~/.git-worktrees/project/feature-auth
+cc wt                   # List worktrees (no branch = list mode)
 ```
 
 **Benefits:**
 - **ADHD-friendly:** One command to switch context entirely
 - **Session isolation:** Each worktree gets its own Claude session
 - **Worktree-aware detection:** `_flow_detect_project_type` recognizes worktree paths
+
+#### Implementation Details
+
+**Approach 1: Add to cc-dispatcher.zsh (Recommended)**
+```zsh
+# In cc() dispatcher, add case:
+wt|worktree)
+    shift
+    _cc_worktree "$@"
+    ;;
+
+_cc_worktree() {
+    local branch="${1:-}"
+    if [[ -z "$branch" ]]; then
+        # No branch → list worktrees
+        wt list
+        return
+    fi
+
+    # Get or create worktree path
+    local wt_path=$(_wt_get_path "$branch")
+    if [[ -z "$wt_path" ]]; then
+        wt create "$branch"
+        wt_path=$(_wt_get_path "$branch")
+    fi
+
+    # Launch Claude in worktree
+    cd "$wt_path" && claude
+}
+```
+
+**Helper function for wt-dispatcher.zsh:**
+```zsh
+_wt_get_path() {
+    local branch="$1"
+    local project=$(basename "$(git rev-parse --show-toplevel)")
+    local folder=$(echo "$branch" | tr '/' '-')
+    local path="$FLOW_WORKTREE_DIR/$project/$folder"
+    [[ -d "$path" ]] && echo "$path"
+}
+```
+
+**Files to modify:**
+- `lib/dispatchers/cc-dispatcher.zsh` - Add wt case + `_cc_worktree()`
+- `lib/dispatchers/wt-dispatcher.zsh` - Add `_wt_get_path()` helper
+- `tests/test-cc-wt.zsh` - New test file (~10 tests)
+
+**Effort estimate:** ~1.5 hours
 
 ---
 
@@ -830,14 +879,34 @@ cc wt auth              # → Opens Claude in ~/.git-worktrees/project/feature-a
 
 ## Planned Future Enhancements
 
-### 1. `g feature prune --force` (P2)
+### 1. `g feature prune --force` (P2, ~30 min)
 **Use case:** CI/CD pipelines and automation scripts that need non-interactive cleanup.
 ```bash
 # In a cron job or CI pipeline
 g feature prune --force  # No confirmation prompt
 ```
 
-### 2. `wt prune` Alias (P2)
+**Implementation:**
+```zsh
+# In _g_feature_prune(), add flag parsing:
+local force=false
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --force|-f) force=true ;;
+        # ... existing flags
+    esac
+    shift
+done
+
+# Skip confirmation when force=true
+if [[ "$force" == true ]] || $dry_run; then
+    # Delete without asking
+fi
+```
+
+**Effort:** ~30 min (add flag, update tests, update help)
+
+### 2. `wt prune` Alias (P2, ~1 hour)
 **Use case:** Combined cleanup of branches AND worktrees in one command.
 ```bash
 wt prune                  # Prune stale worktrees + merged branches
@@ -845,14 +914,66 @@ wt prune --branches-only  # Only prune branches
 wt prune --worktrees-only # Only prune worktrees
 ```
 
-### 3. `g feature prune --older-than` (P3)
+**Implementation:**
+```zsh
+# In wt() dispatcher, add case:
+prune)
+    shift
+    local mode="${1:-all}"
+    case "$mode" in
+        --branches-only|-b)
+            g feature prune "${@:2}"
+            ;;
+        --worktrees-only|-w)
+            git worktree prune
+            _flow_log_success "Pruned stale worktrees"
+            ;;
+        *)
+            git worktree prune
+            _flow_log_success "Pruned stale worktrees"
+            g feature prune "$@"
+            ;;
+    esac
+    ;;
+```
+
+**Effort:** ~1 hour (add case, tests, help update)
+
+### 3. `g feature prune --older-than` (P3, ~1 hour)
 **Use case:** Age-based filtering for more surgical cleanup.
 ```bash
 g feature prune --older-than 30d   # Only prune branches older than 30 days
 g feature prune --older-than 1w    # Only prune branches older than 1 week
 ```
 
-### 4. `g feature status` (P3)
+**Implementation:**
+```zsh
+# Duration parsing helper
+_parse_duration() {
+    local duration="$1"
+    case "$duration" in
+        *d) echo "${duration%d}" ;;           # 30d → 30
+        *w) echo "$((${duration%w} * 7))" ;;  # 1w → 7
+        *m) echo "$((${duration%m} * 30))" ;; # 1m → 30
+        *) echo "0" ;;
+    esac
+}
+
+# In _g_feature_prune(), filter by age:
+local max_age_days=0
+if [[ "$1" == --older-than ]]; then
+    max_age_days=$(_parse_duration "$2")
+    shift 2
+fi
+
+# For each branch, check age:
+local branch_age_days=$(( ($(date +%s) - $(git log -1 --format=%ct "$branch")) / 86400 ))
+(( branch_age_days >= max_age_days )) || continue
+```
+
+**Effort:** ~1 hour (duration parsing, filtering logic, tests)
+
+### 4. `g feature status` (P3, ~45 min)
 **Use case:** Preview stale branches before cleanup.
 ```bash
 g feature status          # Show branches that would be pruned
@@ -864,6 +985,39 @@ g feature status          # Show branches that would be pruned
 # ⚠️  Unmerged branches:
 #   feature/new-ui (3 days, 5 commits ahead)
 ```
+
+**Implementation:**
+```zsh
+_g_feature_status() {
+    local base_branch="dev"
+    git show-ref --verify --quiet refs/heads/dev || base_branch="main"
+
+    echo -e "${_C_BOLD}🧹 Stale branches (merged to $base_branch):${_C_NC}"
+    local count=0
+    while IFS= read -r branch; do
+        branch="${branch#"${branch%%[![:space:]]*}"}"
+        [[ "$branch" == feature/* || "$branch" == bugfix/* || "$branch" == hotfix/* ]] || continue
+        local age=$(git log -1 --format="%cr" "$branch" 2>/dev/null)
+        echo -e "  ${_C_DIM}$branch${_C_NC} ($age)"
+        ((count++))
+    done < <(git branch --merged "$base_branch" 2>/dev/null)
+    [[ $count -eq 0 ]] && echo -e "  ${_C_GREEN}✓ No stale branches${_C_NC}"
+
+    echo ""
+    echo -e "${_C_BOLD}⚠️  Unmerged branches:${_C_NC}"
+    count=0
+    while IFS= read -r branch; do
+        branch="${branch#"${branch%%[![:space:]]*}"}"
+        [[ "$branch" == feature/* || "$branch" == bugfix/* || "$branch" == hotfix/* ]] || continue
+        local commits=$(git rev-list --count "$base_branch".."$branch" 2>/dev/null || echo "?")
+        echo -e "  ${_C_YELLOW}$branch${_C_NC} ($commits commits ahead)"
+        ((count++))
+    done < <(git branch --no-merged "$base_branch" 2>/dev/null)
+    [[ $count -eq 0 ]] && echo -e "  ${_C_GREEN}✓ All branches merged${_C_NC}"
+}
+```
+
+**Effort:** ~45 min (status display, age formatting, tests)
 
 ### Why No Hotfix Workflow?
 
