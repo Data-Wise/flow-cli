@@ -154,7 +154,41 @@
 
 ## 📋 Next Actions
 
-### Priority 0: v3.1.0 Dashboard UX Improvements ⭐ CURRENT
+### Priority 0: Workflow Enforcement ⭐ NEW - HIGH PRIORITY
+
+**Goal:** Enforce `feature/* → dev → main` workflow with smart guards
+
+**g dispatcher commands:**
+
+- [ ] `g feature <name>` - Start feature branch from dev
+- [ ] `g promote` - Create PR: feature/\* → dev
+- [ ] `g release` - Create PR: dev → main
+- [ ] `_g_check_workflow()` - Guard function for push (block main/dev)
+
+**Branch patterns to support:**
+
+- `feature/*` → dev
+- `hotfix/*` → dev, main
+- `bugfix/*` → dev
+- `release/*` → main
+
+**Smart features:**
+
+- Warn by default (not block)
+- Show exact fix command
+- Allow override: `GIT_WORKFLOW_SKIP=1 git push`
+- Detect worktree context
+
+**Integration:**
+
+- Shared pre-push hook with aiterm (Phase 1d)
+- aiterm provides: `ait workflows enforce/branch-status/violations`
+
+**See:** `/Users/dt/.claude/plans/refactored-growing-riddle.md` for full proposal
+
+---
+
+### Priority 1: v3.1.0 Dashboard UX Improvements
 
 **Goal:** Implement ADHD-friendly dashboard enhancements
 
@@ -182,7 +216,7 @@
 
 **See:** `docs/planning/DASHBOARD-UX-IMPROVEMENTS.md` for full design
 
-### Priority 1: Production Use & Feedback
+### Priority 2: Production Use & Feedback
 
 **Goal:** Use v3.0.0 in actual daily workflow
 
@@ -207,13 +241,13 @@
 - Feature requests prioritized by actual need
 - No breaking bugs discovered
 
-### Priority 1: Bug Fixes (If Discovered)
+### Priority 3: Bug Fixes (If Discovered)
 
 - [ ] Fix any bugs discovered during production use
 - [ ] Address performance issues
 - [ ] Improve error messages based on real usage
 
-### Priority 2: Documentation Improvements (As Needed)
+### Priority 4: Documentation Improvements (As Needed)
 
 - [ ] Update docs based on user feedback
 - [ ] Add FAQs based on common questions

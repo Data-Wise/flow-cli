@@ -61,6 +61,67 @@
 
 ---
 
+## 🚀 HIGH PRIORITY - Workflow Enforcement (NEW 2025-12-29)
+
+### Smart Branch Workflow Guards
+
+**Problem:** Nothing prevents pushing directly to main/dev, breaking the feature branch workflow.
+
+**Solution:** Smart guards in g dispatcher + shared pre-push hook with aiterm.
+
+**Branch Flow:**
+
+```
+feature/* ──► dev ──► main
+hotfix/*  ────┴───────┘
+bugfix/*  ────┘
+release/* ────────────┘
+```
+
+**New g dispatcher commands:**
+
+| Command            | Description                   |
+| ------------------ | ----------------------------- |
+| `g feature <name>` | Start feature branch from dev |
+| `g promote`        | Create PR: feature/\* → dev   |
+| `g release`        | Create PR: dev → main         |
+| `g push`           | Modified with workflow guard  |
+
+**Smart Features:**
+
+1. **Warn by default** - Educational, not frustrating
+2. **Show exact fix** - "Use: g promote" instead of just "blocked"
+3. **Override available** - `GIT_WORKFLOW_SKIP=1 git push`
+4. **Worktree aware** - Detects if in worktree context
+5. **Violation tracking** - Log to `~/.claude/workflow-violations.log`
+
+**Example Output:**
+
+```
+$ g push  (on main branch)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⛔ Direct push to 'main' blocked
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Workflow: feature/* → dev → main
+
+Commands:
+  g promote    Create PR: feature → dev
+  g release    Create PR: dev → main
+
+Override: GIT_WORKFLOW_SKIP=1 git push
+```
+
+**Integration with aiterm:**
+
+- flow-cli: Shell commands (instant, zero overhead)
+- aiterm: Rich CLI (`ait workflows enforce/branch-status/violations`)
+- Shared: pre-push hook (installed by either tool)
+
+**See:** `/Users/dt/.claude/plans/refactored-growing-riddle.md` for full proposal
+
+---
+
 ## 🔮 FUTURE ENHANCEMENTS (From 2025-12-26 Sessions)
 
 ### ⚡ Quick Wins (< 1hr each)
