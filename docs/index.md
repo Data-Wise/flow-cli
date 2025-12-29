@@ -201,4 +201,4 @@ Commands that adapt to your project:
 
 ---
 
-**v4.0.1** · Pure ZSH · MIT License
+**v4.1.0** · Pure ZSH · MIT License

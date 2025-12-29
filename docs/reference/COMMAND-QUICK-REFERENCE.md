@@ -29,7 +29,7 @@ g                   # Status (short)
 g status            # Full status
 g add .             # Stage all
 g commit "msg"      # Commit with message
-g push              # Push to remote
+g push              # Push to remote (with workflow guard)
 g pull              # Pull from remote
 g log               # Pretty log (20 lines)
 g branch            # List branches
@@ -38,6 +38,29 @@ g stash             # Stash changes
 g stash pop         # Pop stash
 g undo              # Undo last commit (keep changes)
 g help              # Show all commands
+```
+
+**Feature Workflow (v4.1.0):**
+
+```bash
+g feature start <n> # Create feature/<n> from dev
+g feature sync      # Rebase feature onto dev
+g feature list      # List feature/hotfix branches
+g feature finish    # Push + create PR to dev
+g promote           # Create PR: feature → dev
+g release           # Create PR: dev → main
+```
+
+### Git Worktrees: `wt`
+
+```bash
+wt                  # Navigate to worktrees folder
+wt list             # List all worktrees
+wt create <branch>  # Create worktree for branch
+wt move             # Move current branch to worktree
+wt remove <path>    # Remove a worktree
+wt clean            # Prune stale worktrees
+wt help             # Show all commands
 ```
 
 ### Quarto Publishing: `qu`
