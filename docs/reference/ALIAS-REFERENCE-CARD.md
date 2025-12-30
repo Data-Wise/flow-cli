@@ -2,7 +2,7 @@
 
 > **Quick Access:** Type `als` to list all aliases by category
 
-**Last Updated:** 2025-12-26 | **Total:** 28 custom aliases + 226+ git aliases (from plugin)
+**Last Updated:** 2025-12-29 | **Total:** 31 custom aliases + 226+ git aliases (from plugin)
 
 **Philosophy:** Minimalist, high-frequency only. Removed 151 aliases (2025-12-19) to reduce memory load.
 
@@ -200,6 +200,7 @@ These smart functions provide context-aware workflows:
 | `qu`    | Quarto publishing  | Preview/render/check (15+ commands)     |
 | `r`     | R package dev      | Test/doc/check cycle (25+ commands)     |
 | `cc`    | Claude Code        | Project picker + Claude sessions        |
+| `wt`    | Git worktrees      | Worktree creation, navigation           |
 | `peek`  | File viewer        | File type, uses bat with correct syntax |
 | `work`  | Work session       | Project type, sets up environment       |
 | `pick`  | Project picker     | Shows all projects with fzf             |
@@ -214,6 +215,12 @@ These smart functions provide context-aware workflows:
 **Added 2025-12-26:**
 
 - `cc` - Claude Code dispatcher with project picker + multiple modes (yolo, plan, resume)
+
+**Added 2025-12-29 (v4.2.0):**
+
+- `wt` - Git worktree dispatcher for worktree management
+- `cc wt` - Worktree + Claude integration (launch Claude in worktrees)
+- Aliases: `ccw` (cc wt), `ccwy` (cc wt yolo), `ccwp` (cc wt pick)
 
 See [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) for complete documentation.
 
