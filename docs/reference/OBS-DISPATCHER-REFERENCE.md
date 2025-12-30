@@ -245,7 +245,19 @@ obs version
 ## Related
 
 - [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) - All dispatchers
-- [obsidian-cli-ops documentation](https://data-wise.github.io/obsidian-cli-ops/)
+
+## Full Documentation
+
+The `obs` dispatcher is part of the **obsidian-cli-ops** project. For comprehensive documentation:
+
+| Resource | URL |
+|----------|-----|
+| **User Guide** | [data-wise.github.io/obsidian-cli-ops](https://data-wise.github.io/obsidian-cli-ops/) |
+| **AI Setup** | See `obs ai setup` for configuration wizard |
+| **Graph Analysis** | Deep dive in obsidian-cli-ops docs |
+| **Source Code** | [github.com/data-wise/obsidian-cli-ops](https://github.com/data-wise/obsidian-cli-ops) |
+
+**Note:** This reference covers the flow-cli dispatcher integration. For advanced features, vault management strategies, and AI configuration, refer to the obsidian-cli-ops documentation.
 
 ---
 
