@@ -167,6 +167,8 @@ nav:
       - ADR-002 Clean Architecture: decisions/ADR-002-adopt-clean-architecture.md
       - ADR-003 Bridge Pattern: decisions/ADR-003-bridge-pattern.md
       - ADR-004 Module API: decisions/ADR-004-module-api-not-rest.md
+  - Planning:
+      - v4.3.0+ Roadmap: planning/V4.3-ROADMAP.md
   # Project Status files removed - they're root-level project tracking docs
   # with internal links that break in mkdocs context
 
