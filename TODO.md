@@ -1,8 +1,8 @@
 # TODO - Flow CLI Project
 
-**Last Updated:** 2025-12-26
-**Current Version:** v3.0.0
-**Status:** 🟢 Active Development - v3.1.0 Dashboard UX + Doctor Command
+**Last Updated:** 2025-12-29
+**Current Version:** v4.2.0
+**Status:** 🟢 Production Ready - v4.3.0 Planning
 
 ---
 
@@ -143,18 +143,99 @@
 
 ## 🎯 Current Status
 
-**Version:** v3.0.0 (Clean Architecture)
-**Current Sprint:** v3.1.0 - Dashboard UX Improvements
+**Version:** v4.2.0 (Worktree + Claude Integration)
+**Current Sprint:** v4.3.0 Planning
 **Architecture:** Pure ZSH plugin with optional Atlas integration
 
-**Phase:** Active Development
-**Focus:** ADHD-friendly dashboard enhancements
+**Phase:** Production Ready
+**Focus:** Stability and user feedback collection
 
 ---
 
-## 📋 Next Actions
+## 🚀 v4.2.0 Released (2025-12-29)
 
-### Priority 0: Workflow Enforcement ⭐ NEW - HIGH PRIORITY
+### Worktree + Claude Integration ✅
+
+- [x] `cc wt <branch>` - Launch Claude in worktree (creates if needed)
+- [x] `cc wt pick` - fzf picker for existing worktrees
+- [x] `cc wt yolo|plan|opus|haiku <branch>` - Mode chaining
+- [x] Aliases: `ccw`, `ccwy`, `ccwp`
+- [x] `_wt_get_path()` helper in wt-dispatcher.zsh
+- [x] 20 unit tests in test-cc-wt.zsh
+- [x] 19 E2E tests in test-cc-wt-e2e.zsh
+- [x] 8 interactive dogfooding tests
+
+### Branch Cleanup ✅
+
+- [x] `g feature prune` - Delete merged feature branches
+- [x] `g feature prune --all` - Also clean remote tracking
+- [x] `g feature prune -n` - Dry run preview
+- [x] 18 tests in test-g-feature-prune.zsh
+
+### Bug Fixes ✅
+
+- [x] Fixed ZSH path array conflict (`local path` → `local result_path`)
+- [x] Fixed broken docs/user/ path references
+
+---
+
+## 📋 v4.3.0+ Future Enhancements
+
+### Priority 1: CC Worktree Enhancements
+
+**cc wt status** (~1 hour)
+
+- [ ] Show all worktrees with Claude session info
+- [ ] Display last active time, model used
+- [ ] Integration with `claude tasks` for running sessions
+
+**cc wt clean** (~45 min)
+
+- [ ] Remove worktrees for merged branches
+- [ ] Combine with `g feature prune` logic
+- [ ] Interactive confirmation with preview
+
+### Priority 2: Branch Management
+
+**g feature prune --force** (~30 min)
+
+- [ ] Skip confirmation for non-interactive use
+- [ ] Useful for CI/automation
+
+**g feature prune --older-than** (~1 hour)
+
+- [ ] Filter by age: `30d`, `1w`, `2m`
+- [ ] Compare against last commit date
+
+**g feature status** (~45 min)
+
+- [ ] Show merged + unmerged feature branches
+- [ ] Display age and commit count ahead/behind
+
+### Priority 3: Worktree Improvements
+
+**wt prune** (~1 hour)
+
+- [ ] Combined cleanup: worktrees + branches
+- [ ] `--branches-only` and `--worktrees-only` flags
+
+**wt status** (~30 min)
+
+- [ ] Show worktree health and disk usage
+- [ ] Detect stale worktrees
+
+### Priority 4: Remote & Team Features (Future)
+
+- [ ] Remote state sync (optional cloud backup)
+- [ ] Multi-device support
+- [ ] Shared project templates
+- [ ] Team dashboards
+
+---
+
+## 📋 Archived - Completed Priorities
+
+### Priority 0: Workflow Enforcement ✅ COMPLETE (v4.1.0)
 
 **Goal:** Enforce `feature/* → dev → main` workflow with smart guards
 
