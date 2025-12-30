@@ -369,6 +369,8 @@ wt unlock <path>   # → git worktree unlock <path>
 - Smart branch detection (creates new or uses existing)
 - Automatic directory structure creation
 
+**See also:** [WT-DISPATCHER-REFERENCE.md](WT-DISPATCHER-REFERENCE.md)
+
 ---
 
 ### 8. `tm` - Terminal Manager
