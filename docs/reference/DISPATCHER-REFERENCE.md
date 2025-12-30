@@ -111,6 +111,8 @@ mcp help          # Show help
 - Test and validate servers
 - Interactive selection
 
+**See also:** [MCP-DISPATCHER-REFERENCE.md](MCP-DISPATCHER-REFERENCE.md)
+
 ---
 
 ### 3. `obs` - Obsidian Integration
@@ -135,6 +137,8 @@ obs analyze       # Analyze vault
 - Vault statistics
 - Integration with AI tools
 - Vault analysis
+
+**See also:** [OBS-DISPATCHER-REFERENCE.md](OBS-DISPATCHER-REFERENCE.md)
 
 ---
 

@@ -107,6 +107,8 @@ nav:
           - All Dispatchers: reference/DISPATCHER-REFERENCE.md
           - CC Dispatcher: reference/CC-DISPATCHER-REFERENCE.md
           - G Dispatcher: reference/G-DISPATCHER-REFERENCE.md
+          - MCP Dispatcher: reference/MCP-DISPATCHER-REFERENCE.md
+          - OBS Dispatcher: reference/OBS-DISPATCHER-REFERENCE.md
           - QU Dispatcher: reference/QU-DISPATCHER-REFERENCE.md
           - R Dispatcher: reference/R-DISPATCHER-REFERENCE.md
           - TM Dispatcher: reference/TM-DISPATCHER-REFERENCE.md

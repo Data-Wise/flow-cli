@@ -111,19 +111,20 @@ flow goal set 3   # Set daily win target
 
 **Categories:** 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test, ✨ other
 
-### Active Dispatchers (7)
+### Active Dispatchers (8)
 
 ```bash
 g <cmd>       # Git workflows (g status, g push, g commit)
 mcp <cmd>     # MCP server management (mcp status, mcp logs)
-obs <cmd>     # Obsidian notes (obs daily, obs search)
+obs <cmd>     # Obsidian notes (obs vaults, obs stats)
 qu <cmd>      # Quarto publishing (qu preview, qu render)
 r <cmd>       # R package dev (r test, r doc, r check)
 cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
 tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
+wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 ```
 
-**Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `tm help`)
+**Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `wt help`)
 
 ### CC Dispatcher Quick Reference
 
@@ -444,6 +445,14 @@ export FLOW_DEBUG=1
 ---
 
 ## Current Status (2025-12-30)
+
+### ✅ v4.4.1 Released (Documentation)
+
+- [x] 9 dedicated dispatcher reference pages:
+  - CC, G, MCP, OBS, QU, R, TM, WT dispatchers
+  - Plus main DISPATCHER-REFERENCE.md overview
+- [x] All reference pages cross-linked with "See also"
+- [x] Tutorial 11: TM Dispatcher
 
 ### ✅ v4.4.0 Released
 
