@@ -162,7 +162,6 @@
 
 - [Documentation Home](../index.md) - Everything organized
 - [Dopamine Features](../guides/DOPAMINE-FEATURES-GUIDE.md) - Win tracking, streaks
-- [ADR Summary](../decisions/ADR-SUMMARY.md) - Historical decisions
 
 ---
 
