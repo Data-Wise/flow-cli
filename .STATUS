@@ -502,11 +502,14 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: v4.4.2 RELEASED - Complete dispatcher test coverage (2025-12-30)
+## wins: CI automation - All 8 dispatchers in test workflow (2025-12-30)
 ## streak: 3
-## last_active: 2025-12-30 11:30
+## last_active: 2025-12-30 12:25
 
 ## Session Log (continued)
+- 2025-12-30: CI - Added all 8 dispatcher tests to CI workflow (PR #107)
+- 2025-12-30: CI - Split tm tests on macOS for continue-on-error handling
+- 2025-12-30: CI - TM tests gracefully skip when aiterm not installed
 - 2025-12-30: v4.4.2 RELEASE - Complete dispatcher test coverage
 - 2025-12-30: TEST - Created 85 new dispatcher tests (r, qu, mcp, tm, obs)
 - 2025-12-30: DOCS - Updated CHANGELOG.md for v4.4.2
