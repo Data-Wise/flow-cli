@@ -84,6 +84,8 @@ The `g feature prune` command safely cleans up merged branches:
 - Context-aware suggestions
 - Safe branch cleanup with prune
 
+**See also:** [G-DISPATCHER-REFERENCE.md](G-DISPATCHER-REFERENCE.md)
+
 ---
 
 ### 2. `mcp` - MCP Server Management

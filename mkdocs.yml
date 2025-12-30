@@ -106,6 +106,7 @@ nav:
       - Dispatchers:
           - All Dispatchers: reference/DISPATCHER-REFERENCE.md
           - CC Dispatcher: reference/CC-DISPATCHER-REFERENCE.md
+          - G Dispatcher: reference/G-DISPATCHER-REFERENCE.md
           - TM Dispatcher: reference/TM-DISPATCHER-REFERENCE.md
           - WT Dispatcher: reference/WT-DISPATCHER-REFERENCE.md
       - Project Tools:
