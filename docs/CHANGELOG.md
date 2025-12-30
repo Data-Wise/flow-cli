@@ -6,6 +6,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.4.3] - 2025-12-30
+
+### Added
+
+- **CI automation** - All 8 dispatcher tests now run in GitHub Actions
+  - Ubuntu: 8 individual test steps for granular feedback
+  - macOS: 7 combined + 1 separate (tm) step
+  - TM tests use `continue-on-error` (requires aiterm)
+
+### Changed
+
+- Split tm dispatcher tests on macOS for graceful handling
+
+---
+
 ## [4.4.2] - 2025-12-30
 
 ### Added
