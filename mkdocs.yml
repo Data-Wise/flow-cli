@@ -105,6 +105,7 @@ nav:
       - Dispatchers:
           - All Dispatchers: reference/DISPATCHER-REFERENCE.md
           - CC Dispatcher: reference/CC-DISPATCHER-REFERENCE.md
+          - TM Dispatcher: reference/TM-DISPATCHER-REFERENCE.md
       - Project Tools:
           - Command Explorer: reference/COMMAND-EXPLORER.md
           - Pick Reference: reference/PICK-COMMAND-REFERENCE.md

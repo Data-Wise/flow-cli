@@ -429,6 +429,8 @@ Automatically detects: iTerm2, Ghostty, WezTerm, Kitty, Alacritty, VS Code, Term
 - Auto-detects terminal emulator
 - chpwd hook integration for auto-context switching
 
+**See also:** [TM-DISPATCHER-REFERENCE.md](TM-DISPATCHER-REFERENCE.md)
+
 ---
 
 ## Removed Dispatchers
