@@ -88,6 +88,7 @@ nav:
       - 7. Sync Command: tutorials/07-sync-command.md
       - 8. Git Feature Workflow: tutorials/08-git-feature-workflow.md
       - 9. Worktrees: tutorials/09-worktrees.md
+      - 10. CC Dispatcher: tutorials/10-cc-dispatcher.md
   - Guides:
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
