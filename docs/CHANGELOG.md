@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.3.1] - 2025-12-30
+
+### Fixed
+
+- **wt status** - Fixed color rendering (use `%b` format for ANSI escape sequences)
+
+---
+
 ## [4.3.0] - 2025-12-30
 
 ### Added
