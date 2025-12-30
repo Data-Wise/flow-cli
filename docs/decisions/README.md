@@ -1,5 +1,13 @@
 # Architecture Decision Records (ADRs)
 
+> **Note:** These ADRs document the **archived Node.js CLI** architecture (v2.0.0-beta).
+> flow-cli is now a **pure ZSH plugin** (v4.x). These records are preserved for
+> historical context but do not reflect current architecture.
+>
+> **Current architecture:** See [CLAUDE.md](../../CLAUDE.md) for the ZSH plugin structure.
+
+---
+
 This directory contains Architecture Decision Records for the flow-cli system.
 
 ## What is an ADR?

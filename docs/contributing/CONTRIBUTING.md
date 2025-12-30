@@ -1,18 +1,6 @@
-# Contributing to ZSH Configuration
+# Contributing to flow-cli
 
 Thank you for your interest in contributing! This guide will help you get started.
-
----
-
-## 📋 Table of Contents
-
-- [Quick Start](#quick-start)
-- [Project Structure](#project-structure)
-- [Development Workflow](#development-workflow)
-- [Documentation](#documentation)
-- [Testing](#testing)
-- [Code Style](#code-style)
-- [Submitting Changes](#submitting-changes)
 
 ---
 
@@ -20,32 +8,32 @@ Thank you for your interest in contributing! This guide will help you get starte
 
 ### Prerequisites
 
-- **ZSH** (already installed if you're using this project)
-- **Node.js** 18+ (for CLI tools)
+- **ZSH** (default shell on macOS)
 - **Git** (for version control)
-- **Text editor** (VS Code recommended for TypeScript support)
+- **fzf** (optional, for interactive features)
 
 ### Setup
 
-1. **Clone or navigate to project:**
+1. **Clone the repository:**
 
    ```bash
-   cd ~/projects/dev-tools/flow-cli
+   git clone https://github.com/Data-Wise/flow-cli.git
+   cd flow-cli
    ```
 
-2. **Install dependencies:**
+2. **Source the plugin:**
 
    ```bash
-   npm install
+   source flow.plugin.zsh
    ```
 
 3. **Run tests:**
 
    ```bash
-   npm test
+   zsh tests/test-cc-dispatcher.zsh
    ```
 
-4. **Build documentation site (optional):**
+4. **Build documentation (optional):**
    ```bash
    mkdocs serve
    # Visit http://127.0.0.1:8000
@@ -57,28 +45,26 @@ Thank you for your interest in contributing! This guide will help you get starte
 
 ```
 flow-cli/
-├── cli/                      # Node.js CLI integration
-│   ├── adapters/             # Adapters for ZSH functions
-│   ├── lib/                  # Shared library code
-│   └── README.md             # CLI documentation
-│
-├── docs/                     # All documentation
-│   ├── architecture/         # Architecture docs
-│   ├── user/                 # User guides
-│   ├── api/                  # API documentation
-│   ├── planning/             # Planning documents
-│   ├── implementation/       # Implementation tracking
-│   ├── reference/            # Reference materials
-│   └── archive/              # Historical documents
-│
-├── config/                   # Configuration files
-├── scripts/                  # Utility scripts
-├── test/                     # CLI tests
-│
-└── mkdocs.yml               # Documentation site config
+├── flow.plugin.zsh           # Plugin entry point
+├── lib/
+│   ├── core.zsh              # Colors, logging, utilities
+│   ├── atlas-bridge.zsh      # Optional Atlas integration
+│   ├── project-detector.zsh  # Project type detection
+│   ├── tui.zsh               # Terminal UI components
+│   └── dispatchers/          # Smart command dispatchers
+│       ├── cc-dispatcher.zsh     # Claude Code
+│       ├── g-dispatcher.zsh      # Git workflows
+│       ├── wt-dispatcher.zsh     # Worktrees
+│       ├── mcp-dispatcher.zsh    # MCP servers
+│       ├── r-dispatcher.zsh      # R packages
+│       ├── qu-dispatcher.zsh     # Quarto
+│       ├── tm-dispatcher.zsh     # Terminal
+│       └── obs.zsh               # Obsidian
+├── commands/                 # Core command implementations
+├── completions/              # ZSH completions
+├── tests/                    # Test suite
+└── docs/                     # Documentation (MkDocs)
 ```
-
-**Important:** The actual ZSH configuration files live in `~/.config/zsh/` (not in this repo).
 
 ---
 
@@ -89,30 +75,27 @@ flow-cli/
 1. **Create a feature branch:**
 
    ```bash
-   git checkout -b feature/your-feature-name
+   g feature start my-feature
+   # or: git checkout -b feature/my-feature
    ```
 
 2. **Make your changes:**
-   - ZSH functions: Edit files in `~/.config/zsh/functions/`
-   - CLI adapters: Edit files in `cli/adapters/`
-   - Documentation: Edit files in `docs/`
+   - Dispatchers: `lib/dispatchers/<name>-dispatcher.zsh`
+   - Commands: `commands/<name>.zsh`
+   - Core utilities: `lib/core.zsh`
 
 3. **Test your changes:**
 
    ```bash
-   # CLI tests
-   npm test
+   # Source and test manually
+   source flow.plugin.zsh
+   my_command help
 
-   # ZSH function tests
-   ~/.config/zsh/tests/test-adhd-helpers.zsh
+   # Run automated tests
+   zsh tests/test-<name>-dispatcher.zsh
    ```
 
-4. **Update documentation:**
-   - If adding features, update relevant docs in `docs/`
-   - If changing APIs, update `docs/api/`
-   - Keep `CLAUDE.md` in sync with major changes
-
-5. **Commit your changes:**
+4. **Commit your changes:**
    ```bash
    git add .
    git commit -m "feat: add new feature"
@@ -124,10 +107,6 @@ We use conventional commits:
 
 ```
 <type>(<scope>): <description>
-
-[optional body]
-
-[optional footer]
 ```
 
 **Types:**
@@ -142,78 +121,11 @@ We use conventional commits:
 **Examples:**
 
 ```
-feat(cli): add project detector adapter
-fix(validation): handle empty paths correctly
-docs(architecture): add quick wins guide
+feat(cc): add worktree integration
+fix(g): handle missing dev branch
+docs(reference): update dispatcher docs
+test(mcp): add validation tests
 ```
-
----
-
-## Documentation
-
-### Adding New Documentation
-
-1. **Choose the right location:**
-
-   | Content Type            | Directory                                              |
-   | ----------------------- | ------------------------------------------------------ |
-   | User guides             | `docs/guides/`                                         |
-   | Architecture            | `docs/architecture/`                                   |
-   | API docs                | `docs/api/`                                            |
-   | Planning                | `docs/planning/current/` or `docs/planning/proposals/` |
-   | Implementation tracking | `docs/implementation/`                                 |
-   | Completed work          | `docs/archive/`                                        |
-
-2. **Follow naming conventions:**
-   - Use CAPS for visibility: `PROPOSAL-feature-name.md`
-   - Use descriptive names: `ALIAS-REFERENCE-CARD.md`
-   - Add dates for planning: `SPRINT-REVIEW-2025-12-21.md`
-
-3. **Use consistent format:**
-
-   ```markdown
-   # Title
-
-   **TL;DR:** Brief summary in 3-5 bullet points
-
-   **Last Updated:** YYYY-MM-DD
-
-   ---
-
-   ## Section 1
-
-   Content...
-
-   ---
-
-   **Last Updated:** YYYY-MM-DD
-   **See Also:** [Related Doc](link.md)
-   ```
-
-4. **Add to mkdocs.yml navigation:**
-
-   ```yaml
-   nav:
-     - Section Name:
-         - Page Title: path/to/file.md
-   ```
-
-### Documentation Guidelines
-
-**ADHD-Friendly Writing:**
-
-- ✅ Use visual hierarchy (headers, bullets, tables)
-- ✅ Keep sections short (< 200 words)
-- ✅ Add TL;DR at top of major sections
-- ✅ Use examples liberally
-- ✅ Provide quick wins vs long-term items
-
-**Technical Writing:**
-
-- ✅ Code examples should be copy-paste ready
-- ✅ Include file paths and line numbers
-- ✅ Link to related documents
-- ✅ Keep language clear and direct
 
 ---
 
@@ -222,146 +134,176 @@ docs(architecture): add quick wins guide
 ### Running Tests
 
 ```bash
-# CLI tests (Node.js)
-npm test
+# Run specific dispatcher test
+zsh tests/test-cc-dispatcher.zsh
 
-# Specific test file
-npm test -- test/test-project-detector.js
+# Run all dispatcher tests
+for f in tests/test-*-dispatcher.zsh; do zsh "$f"; done
 
-# ZSH function tests
-~/.config/zsh/tests/test-adhd-helpers.zsh
+# Interactive validation (fun!)
+./tests/interactive-dog-feeding.zsh
 ```
 
 ### Writing Tests
 
-**CLI Tests (Node.js):**
-
-```javascript
-// test/test-your-feature.js
-
-import { strict as assert } from 'assert';
-import { yourFunction } from '../lib/your-module.js';
-
-describe('Your Feature', () => {
-  it('should do what it's supposed to do', async () => {
-    // Arrange
-    const input = 'test input';
-
-    // Act
-    const result = await yourFunction(input);
-
-    // Assert
-    assert.strictEqual(result, 'expected output');
-  });
-});
-```
-
-**ZSH Function Tests:**
+Create `tests/test-<name>.zsh`:
 
 ```zsh
-# ~/.config/zsh/tests/test-your-feature.zsh
+#!/usr/bin/env zsh
 
-source ~/.config/zsh/functions/your-feature.zsh
+# Test framework
+TESTS_PASSED=0
+TESTS_FAILED=0
 
-test_your_function() {
-  local result
-  result=$(your_function "test input")
-
-  if [[ "$result" == "expected output" ]]; then
-    echo "✅ your_function: PASS"
-    return 0
-  else
-    echo "❌ your_function: FAIL (got: $result)"
-    return 1
-  fi
+pass() {
+    echo "✓ PASS"
+    ((TESTS_PASSED++))
 }
 
-# Run test
-test_your_function
+fail() {
+    echo "✗ FAIL - $1"
+    ((TESTS_FAILED++))
+}
+
+# Setup
+setup() {
+    local project_root="${0:A:h:h}"
+    source "$project_root/lib/dispatchers/my-dispatcher.zsh"
+}
+
+# Tests
+test_help_shows_usage() {
+    echo -n "Testing: help shows usage ... "
+    local output=$(my_command help 2>&1)
+    if [[ "$output" == *"Usage:"* ]]; then
+        pass
+    else
+        fail "Usage not found"
+    fi
+}
+
+# Run
+setup
+test_help_shows_usage
+
+# Summary
+echo "Passed: $TESTS_PASSED, Failed: $TESTS_FAILED"
+[[ $TESTS_FAILED -eq 0 ]] && exit 0 || exit 1
 ```
 
-**Test Guidelines:**
+### Test Guidelines
 
-- Write tests for all new features
-- Test happy path + error cases
-- Use descriptive test names: `should...`
-- Follow AAA pattern: Arrange, Act, Assert
+- Test function existence, help output, error handling
+- Follow existing test patterns
+- Add to CI workflow when ready
 
 ---
 
 ## Code Style
 
-### JavaScript/Node.js
-
-**General:**
-
-- ES6 modules (`import`/`export`)
-- Async/await over callbacks
-- Descriptive variable names
-- JSDoc comments for public APIs
-
-**Example:**
-
-```javascript
-/**
- * Detect project type from directory
- *
- * @param {string} projectPath - Absolute path to project directory
- * @returns {Promise<string>} - Project type (e.g., 'r-package', 'node')
- * @throws {ValidationError} - If path is invalid
- */
-export async function detectProjectType(projectPath) {
-  validateAbsolutePath(projectPath)
-
-  const result = await executeShellFunction(detectorScript, 'get_project_type', [projectPath])
-
-  return mapProjectType(result)
-}
-```
-
 ### ZSH Functions
 
 **General:**
 
-- Follow conventions in [ZSH-DEVELOPMENT-GUIDELINES.md](../ZSH-DEVELOPMENT-GUIDELINES.md)
 - Use `local` for all variables
-- Add `--help` support
-- Error messages to stderr
+- Add `help` subcommand to dispatchers
+- Error messages to stderr (`>&2`)
+- Follow naming: `_dispatcher_action()`
 
-**Example:**
+**Dispatcher Pattern:**
 
 ```zsh
-# Load R package and run tests
-# Usage: rload-test [options]
-rload-test() {
-  # Help text
-  if [[ "$1" == "--help" ]]; then
+# Main dispatcher function
+mydisp() {
+    case "$1" in
+        action1) shift; _mydisp_action1 "$@" ;;
+        action2) shift; _mydisp_action2 "$@" ;;
+        help|--help|-h) _mydisp_help ;;
+        *) _mydisp_help ;;
+    esac
+}
+
+# Action implementation
+_mydisp_action1() {
+    # Implementation
+}
+
+# Help function
+_mydisp_help() {
     cat << 'EOF'
-Usage: rload-test [options]
+mydisp - Description
 
-Load R package and run tests
+Usage: mydisp <command> [options]
 
-Options:
-  --filter PATTERN  Run tests matching pattern
-  --help            Show this help
+Commands:
+  action1     Do something
+  action2     Do something else
+  help        Show this help
+
+Examples:
+  mydisp action1
+  mydisp action2 --flag
 EOF
-    return 0
-  fi
-
-  # Validate we're in R package
-  if [[ ! -f "DESCRIPTION" ]]; then
-    echo "Error: Not in R package directory" >&2
-    return 1
-  fi
-
-  # Load and test
-  local filter=""
-  [[ "$1" == "--filter" ]] && filter="$2"
-
-  devtools::load_all()
-  devtools::test(filter = "$filter")
 }
 ```
+
+**Avoid:**
+
+- Global variables (use `local`)
+- External dependencies where ZSH builtins work
+- `eval` unless absolutely necessary
+- Bash-specific syntax (`[[ ]]` is fine, `$'...'` is fine)
+
+---
+
+## Adding a New Dispatcher
+
+1. **Create the file:**
+   ```bash
+   touch lib/dispatchers/mydisp-dispatcher.zsh
+   ```
+
+2. **Implement the pattern:**
+   - Main function: `mydisp()`
+   - Help function: `_mydisp_help()`
+   - Action functions: `_mydisp_action()`
+
+3. **Create tests:**
+   ```bash
+   touch tests/test-mydisp-dispatcher.zsh
+   ```
+
+4. **Add to CI:**
+   Edit `.github/workflows/test.yml`
+
+5. **Document:**
+   Create `docs/reference/MYDISP-DISPATCHER-REFERENCE.md`
+
+---
+
+## Documentation
+
+### Adding Documentation
+
+1. **Create markdown file in `docs/`**
+2. **Add to `mkdocs.yml` navigation**
+3. **Test locally:** `mkdocs serve`
+4. **Deploy:** `mkdocs gh-deploy --force`
+
+### Documentation Guidelines
+
+**ADHD-Friendly Writing:**
+
+- Use visual hierarchy (headers, bullets, tables)
+- Keep sections short (< 200 words)
+- Add examples liberally
+- Provide quick reference tables
+
+**File Naming:**
+
+- Reference docs: `NAME-REFERENCE.md` (CAPS)
+- Tutorials: `01-tutorial-name.md` (numbered)
+- Guides: `GUIDE-NAME.md`
 
 ---
 
@@ -369,99 +311,43 @@ EOF
 
 ### Pull Request Process
 
-1. **Ensure all tests pass:**
-
+1. **Ensure tests pass:**
    ```bash
-   npm test
-   ~/.config/zsh/tests/test-adhd-helpers.zsh
+   zsh tests/test-<name>-dispatcher.zsh
    ```
 
-2. **Update documentation:**
-   - Update relevant docs in `docs/`
-   - Add entry to changelog if major change
-   - Update `.STATUS` with your work
-
-3. **Create pull request:**
-
+2. **Create PR to `dev` branch:**
    ```bash
-   git push origin feature/your-feature-name
+   g feature finish
+   # or: git push && gh pr create
    ```
+
+3. **Wait for CI checks**
 
 4. **PR description should include:**
    - What changed and why
-   - Link to related issues/proposals
-   - Screenshots (if UI changes)
    - Testing instructions
+   - Related issues
 
-### Code Review
-
-**Reviewers will check:**
-
-- ✅ Tests pass
-- ✅ Code follows style guidelines
-- ✅ Documentation updated
-- ✅ No breaking changes (or properly documented)
-- ✅ ADHD-friendly (if user-facing)
-
----
-
-## Architecture Guidelines
-
-When adding features that touch architecture, follow these patterns:
-
-### 1. Error Handling
-
-- Use semantic error classes (see [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md#error-handling))
-- Throw errors at boundaries
-- Log errors with context
-
-### 2. Validation
-
-- Validate at API entry points
-- Fail fast with clear messages
-- Use reusable validation functions
-
-### 3. Layer Organization
+### Merge Flow
 
 ```
-lib/domain/      # Business logic (no external dependencies)
-lib/use-cases/   # Application logic
-lib/adapters/    # External integrations (file system, shell, etc)
-lib/utils/       # Shared utilities
+feature/* → dev → main
 ```
 
-### 4. Testing
-
-- Unit tests for domain/use-cases (fast, no I/O)
-- Integration tests for adapters (with real dependencies)
-- Use in-memory adapters for testing
-
-**For full details, see:**
-
-- [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md)
-- [Architecture Patterns](../architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md)
+- Feature branches merge to `dev`
+- `dev` merges to `main` for releases
+- Direct pushes to `main` are blocked
 
 ---
 
 ## Questions?
 
-- **Architecture:** See [Architecture Hub](../architecture/README.md)
-- **ZSH Functions:** See [Development Guidelines](../ZSH-DEVELOPMENT-GUIDELINES.md)
-- **Issues:** Create a `.md` file in the root or `docs/` directory
+- **Testing:** See [TESTING.md](../testing/TESTING.md)
+- **Dispatchers:** See [DISPATCHER-REFERENCE.md](../reference/DISPATCHER-REFERENCE.md)
+- **Issues:** https://github.com/Data-Wise/flow-cli/issues
 
 ---
 
-## Recognition
-
-Contributors who make significant improvements will be recognized in:
-
-- Project README
-- Documentation
-- Changelog
-
-Thank you for contributing! 🎉
-
----
-
-**Last Updated:** 2025-12-21
-**Maintainer:** DT
+**Last Updated:** 2025-12-30
+**Version:** v4.4.3
