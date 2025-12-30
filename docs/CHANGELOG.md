@@ -6,6 +6,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.4.2] - 2025-12-30
+
+### Added
+
+- **Complete dispatcher test coverage** - 85 new tests across 5 files
+  - `test-r-dispatcher.zsh` (16 tests) - R package dev commands
+  - `test-qu-dispatcher.zsh` (17 tests) - Quarto publishing
+  - `test-mcp-dispatcher.zsh` (21 tests) - MCP server management
+  - `test-tm-dispatcher.zsh` (19 tests) - Terminal manager
+  - `test-obs-dispatcher.zsh` (12 tests) - Obsidian integration
+
+### Changed
+
+- All 8 dispatchers now have test coverage (cc, g, wt, mcp, r, qu, tm, obs)
+
+---
+
 ## [4.4.1] - 2025-12-30
 
 ### Added
