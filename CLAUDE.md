@@ -485,6 +485,17 @@ export FLOW_DEBUG=1
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
 - **Tests:** 100+ tests across all features
 
+### 📋 Next: v4.5.0 - Installation Improvements
+
+**Priority:** Immediate | **Plan:** `docs/planning/INSTALL-IMPROVEMENTS.md`
+
+- [ ] Create `install.sh` (curl one-liner, auto-detect plugin manager)
+- [ ] Add install methods comparison table to README
+- [ ] Update `docs/getting-started/installation.md` to match aiterm quality
+- [ ] Test on fresh environment
+
+**Reference:** aiterm's installation approach (`/Users/dt/projects/dev-tools/aiterm/install.sh`)
+
 ### 📋 Future Roadmap
 
 **Remote & Team Features**
