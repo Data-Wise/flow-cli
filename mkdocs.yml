@@ -89,6 +89,7 @@ nav:
       - 8. Git Feature Workflow: tutorials/08-git-feature-workflow.md
       - 9. Worktrees: tutorials/09-worktrees.md
       - 10. CC Dispatcher: tutorials/10-cc-dispatcher.md
+      - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
   - Guides:
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
