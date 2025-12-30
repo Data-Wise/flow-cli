@@ -308,7 +308,8 @@ _wt_status() {
                         short_path="...${short_path: -37}"
                     fi
 
-                    printf "  %-35s %-20s %-8s %s\n" \
+                    # Use %b for fields with escape sequences
+                    printf "  %-35s %-20b %-8s %b\n" \
                         "${wt_branch:-unknown}" \
                         "$wt_status" \
                         "$wt_size" \
