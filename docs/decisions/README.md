@@ -204,4 +204,4 @@ Future decisions to document:
 
 **Last Updated:** 2025-12-26
 **Part of:** Architecture Enhancement Plan
-**See Also:** [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md)
+**See Also:** [Contributing Guide](../contributing/CONTRIBUTING.md)

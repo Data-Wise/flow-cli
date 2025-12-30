@@ -321,18 +321,10 @@ Future architectural decisions to document:
 
 ## Related Documentation
 
-### Architecture Documentation
-
-- [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md) - Practical patterns
-- [Code Examples](../architecture/CODE-EXAMPLES.md) - Copy-paste ready examples
-
-### Implementation Guides
-
-- [Vendor Integration Architecture](../architecture/VENDOR-INTEGRATION-ARCHITECTURE.md) - Integration patterns
-
 ### Process
 
 - [ADR Index](README.md) - Full ADR index with template
+- [Contributing Guide](../contributing/CONTRIBUTING.md) - Development patterns
 
 ---
 

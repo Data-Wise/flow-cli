@@ -551,8 +551,8 @@ async function runBuild(projectPath) {
 
 ### Documentation
 
-- [API Reference](../api/PROJECT-DETECTOR-API.md) - Complete API documentation
-- [Architecture](../architecture/VENDOR-INTEGRATION-ARCHITECTURE.md) - How it works
+- [Dispatcher Reference](./DISPATCHER-REFERENCE.md) - All dispatchers
+- [Contributing Guide](../contributing/CONTRIBUTING.md) - Development patterns
 
 ### Issues & Questions
 

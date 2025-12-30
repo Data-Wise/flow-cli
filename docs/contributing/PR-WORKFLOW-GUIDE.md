@@ -63,7 +63,6 @@ git push origin feature/your-feature-name
 
 - [Documentation Home](../index.md) - Project overview
 - [CONTRIBUTING.md](../contributing/CONTRIBUTING.md) - Contribution guidelines
-- [Architecture Overview](../architecture/README.md) - System design
 - [Testing Guide](../testing/TESTING.md) - Test requirements
 
 ### 3. Understand the Architecture
@@ -78,7 +77,7 @@ Use Cases Layer (Business Logic)
 Adapters Layer (Controllers, Repositories, UI)
 ```
 
-**Read:** [Architecture Diagrams](../architecture/ARCHITECTURE-DIAGRAM.md)
+**Read:** [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md)
 
 ### 4. Set Up Development Environment
 
@@ -607,7 +606,6 @@ git push origin --delete feature/name
 
 - [Contributing Guide](../contributing/CONTRIBUTING.md) - High-level contribution guidelines
 - [Testing Guide](../testing/TESTING.md) - How to write and run tests
-- [Architecture Overview](../architecture/README.md) - System design principles
 - [ADR Process Guide](ADR-PROCESS-GUIDE.md) - Writing architecture decisions
 
 ---
