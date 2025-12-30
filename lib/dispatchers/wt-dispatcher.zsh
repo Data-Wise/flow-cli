@@ -552,5 +552,8 @@ ${_C_BLUE}⚙️ CONFIGURATION${_C_NC}:
 
 ${_C_MAGENTA}💡 TIP${_C_NC}: Unknown commands pass through to git worktree
   ${_C_DIM}wt lock <path>  → git worktree lock <path>${_C_NC}
+
+${_C_CYAN}🔗 See also${_C_NC}: ${_C_DIM}ait feature status${_C_NC} for rich pipeline visualization
+            ${_C_DIM}ait feature start -w${_C_NC} for full automation with deps
 "
 }

@@ -185,6 +185,8 @@ qu commit         # Render and commit changes
 - Project scaffolding
 - Integrated commit workflow
 
+**See also:** [QU-DISPATCHER-REFERENCE.md](QU-DISPATCHER-REFERENCE.md)
+
 ---
 
 ### 5. `r` - R Package Development
@@ -248,6 +250,8 @@ r tree            # Package structure tree
 - Automated version bumping
 - Multiple cleanup levels
 - Integrated documentation
+
+**See also:** [R-DISPATCHER-REFERENCE.md](R-DISPATCHER-REFERENCE.md)
 
 ---
 
