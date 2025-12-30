@@ -502,11 +502,15 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: TESTING.md rewrite - Pure ZSH test documentation (2025-12-30)
+## wins: Docs cleanup - Removed stale Node.js references (2025-12-30)
 ## streak: 3
-## last_active: 2025-12-30 14:15
+## last_active: 2025-12-30 15:30
 
 ## Session Log (continued)
+- 2025-12-30: DOCS - Fixed stale Node.js references across docs (PR #113)
+- 2025-12-30: DOCS - Rewrote CONTRIBUTING.md for pure ZSH development
+- 2025-12-30: DOCS - Added deprecation notice to ADRs (archived Node.js CLI)
+- 2025-12-30: DOCS - Updated troubleshooting.md (removed npm/node dependencies)
 - 2025-12-30: DOCS - Rewrote TESTING.md for ZSH test suite (PR #111)
 - 2025-12-30: DOCS - Removed 736 lines of outdated Node.js/Jest docs
 - 2025-12-30: DOCS - Added ZSH test framework, CI integration docs
