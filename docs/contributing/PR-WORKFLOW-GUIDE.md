@@ -2,8 +2,9 @@
 
 **Complete guide to contributing code to flow-cli**
 
-**Last Updated:** 2025-12-24
+**Last Updated:** 2025-12-30
 **Target Audience:** Contributors and maintainers
+**Architecture:** Pure ZSH plugin (v4.4.x)
 
 ---
 
@@ -29,9 +30,9 @@ cd flow-cli
 # 2. Create feature branch
 git checkout -b feature/your-feature-name
 
-# 3. Make changes and test
-npm install
-npm test
+# 3. Load plugin and test
+source flow.plugin.zsh
+zsh tests/run-tests.zsh
 
 # 4. Commit with conventional commits
 git commit -m "feat: add new feature"
@@ -61,39 +62,48 @@ git push origin feature/your-feature-name
 
 **Essential reading:**
 
-- [Documentation Home](../index.md) - Project overview
+- [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md) - Architecture overview
 - [CONTRIBUTING.md](../contributing/CONTRIBUTING.md) - Contribution guidelines
 - [Testing Guide](../testing/TESTING.md) - Test requirements
 
 ### 3. Understand the Architecture
 
-**flow-cli uses Clean Architecture (3 layers):**
+**flow-cli is a pure ZSH plugin with this structure:**
 
 ```
-Domain Layer (Entities)
-   ↓
-Use Cases Layer (Business Logic)
-   ↓
-Adapters Layer (Controllers, Repositories, UI)
+flow-cli/
+├── flow.plugin.zsh       # Plugin entry point
+├── lib/
+│   ├── core.zsh          # Core utilities
+│   ├── atlas-bridge.zsh  # Atlas integration
+│   ├── project-detector.zsh
+│   ├── tui.zsh           # Terminal UI
+│   └── dispatchers/      # Smart dispatchers
+├── commands/             # Command implementations
+├── completions/          # ZSH completions
+├── hooks/                # ZSH hooks
+└── tests/                # Test suite
 ```
 
-**Read:** [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md)
+**Key principles:**
+
+- Pure ZSH (no external runtime)
+- Sub-10ms response time
+- ADHD-friendly design
 
 ### 4. Set Up Development Environment
 
 ```bash
-# Install dependencies
-npm install
+# Load the plugin in your current shell
+source flow.plugin.zsh
 
 # Run tests to verify setup
-npm test
+zsh tests/run-tests.zsh
 
-# Install pre-commit hooks
-# (Husky is installed automatically via npm install)
-
-# Verify CLI works
-npm run build
-./cli/bin/flow.js --help
+# Verify commands work
+work --help
+dash --help
+r help
 ```
 
 ---
@@ -112,7 +122,7 @@ git checkout -b feature/add-dashboard-widget
 git checkout -b fix/session-timeout-bug
 
 # Documentation
-git checkout -b docs/update-api-reference
+git checkout -b docs/update-dispatcher-reference
 
 # Refactoring
 git checkout -b refactor/simplify-cache-logic
@@ -124,20 +134,19 @@ git checkout -b refactor/simplify-cache-logic
 
 **Follow coding standards:**
 
-1. **Clean Architecture principles**
-   - Domain logic in `cli/domain/`
-   - Use cases in `cli/use-cases/`
-   - Adapters in `cli/adapters/`
+1. **ZSH plugin patterns**
+   - Commands in `commands/`
+   - Dispatchers in `lib/dispatchers/`
+   - Utilities in `lib/core.zsh`
 
 2. **Code style**
-   - ESLint will check on commit
-   - Prettier formatting is automatic
-   - Use JSDoc comments for public APIs
+   - Use `_flow_` prefix for internal functions
+   - Use `_<dispatcher>_` prefix for dispatcher internals
+   - Add inline comments for complex logic
 
 3. **Testing required**
-   - Unit tests for domain logic
-   - Integration tests for file I/O
-   - E2E tests for CLI commands
+   - Add tests to `tests/`
+   - Use the existing test framework
    - Aim for 100% pass rate
 
 ### Step 3: Write Tests
@@ -146,19 +155,19 @@ git checkout -b refactor/simplify-cache-logic
 
 ```bash
 # 1. Write failing test
-npm test -- --watch
-
 # 2. Implement feature
 # 3. Test passes
 # 4. Refactor if needed
+
+# Run tests
+zsh tests/run-tests.zsh
 ```
 
 **Test requirements:**
 
-- [ ] Unit tests for new domain entities
-- [ ] Integration tests for repositories
-- [ ] E2E tests for new CLI commands
-- [ ] All tests pass: `npm test`
+- [ ] Unit tests for new functions
+- [ ] Integration tests for commands
+- [ ] All tests pass
 
 **See:** [Testing Guide](../testing/TESTING.md)
 
@@ -174,7 +183,7 @@ git commit -m "feat: add dashboard auto-refresh"
 git commit -m "fix: resolve session timeout race condition"
 
 # Documentation
-git commit -m "docs: update API reference for new methods"
+git commit -m "docs: update dispatcher reference for new commands"
 
 # Tests
 git commit -m "test: add integration tests for project scanning"
@@ -183,12 +192,12 @@ git commit -m "test: add integration tests for project scanning"
 git commit -m "refactor: simplify cache invalidation logic"
 
 # Performance
-git commit -m "perf: optimize project scanning with parallelization"
+git commit -m "perf: optimize project scanning with caching"
 
 # Breaking change
-git commit -m "feat!: change session API to async
+git commit -m "feat!: change session API signature
 
-BREAKING CHANGE: Session.create() now returns Promise"
+BREAKING CHANGE: work command now requires project name"
 ```
 
 **Commit message format:**
@@ -238,24 +247,24 @@ gh pr create --title "Add dashboard auto-refresh" --body "Closes #123"
 
 **1. Code Quality**
 
-- [ ] Follows Clean Architecture principles
+- [ ] Follows ZSH plugin patterns
 - [ ] Clear, readable code with good naming
 - [ ] Appropriate comments for complex logic
 - [ ] No unnecessary complexity
 
 **2. Testing**
 
-- [ ] All tests pass (`npm test`)
+- [ ] All tests pass
 - [ ] New tests added for new functionality
 - [ ] Tests are clear and maintainable
 - [ ] Edge cases covered
 
 **3. Documentation**
 
-- [ ] API documentation updated (JSDoc)
+- [ ] CLAUDE.md updated if architecture changed
 - [ ] User-facing docs updated if needed
-- [ ] Architecture diagrams updated if structure changed
-- [ ] CHANGELOG.md updated (for releases)
+- [ ] Help functions updated (`_<cmd>_help`)
+- [ ] Completions updated if commands changed
 
 **4. Breaking Changes**
 
@@ -266,8 +275,8 @@ gh pr create --title "Add dashboard auto-refresh" --body "Closes #123"
 **5. Performance**
 
 - [ ] No performance regressions
-- [ ] Benchmark tests if claiming performance improvement
-- [ ] Efficient algorithms and data structures
+- [ ] Maintains sub-10ms response time for core commands
+- [ ] Efficient ZSH patterns
 
 ### Responding to Review Comments
 
@@ -277,13 +286,13 @@ gh pr create --title "Add dashboard auto-refresh" --body "Closes #123"
 # Good response
 
 Thanks for catching that! I've updated the implementation to use
-the repository pattern as you suggested. See commit abc123.
+the dispatcher pattern as you suggested. See commit abc123.
 
 # Address each comment
 
-- ✅ Fixed variable naming in Session.js
-- ✅ Added edge case test for empty project list
-- ⏳ Still working on the performance optimization - will update soon
+- Fixed variable naming in work.zsh
+- Added edge case test for empty project list
+- Still working on the performance optimization - will update soon
 ```
 
 **Iterate quickly:**
@@ -301,11 +310,11 @@ git push origin feature/your-feature-name
 
 **Merge criteria:**
 
-1. ✅ All tests passing
-2. ✅ At least one approval from maintainer
-3. ✅ All review comments addressed
-4. ✅ No merge conflicts
-5. ✅ CI/CD checks passing
+1. All tests passing
+2. At least one approval from maintainer
+3. All review comments addressed
+4. No merge conflicts
+5. CI/CD checks passing
 
 **Merge strategies:**
 
@@ -342,7 +351,7 @@ git merge upstream/main
 git push origin main
 ```
 
-### 3. Celebrate! 🎉
+### 3. Celebrate!
 
 Your contribution is now part of flow-cli! Thank you for contributing.
 
@@ -350,29 +359,39 @@ Your contribution is now part of flow-cli! Thank you for contributing.
 
 ## Common Scenarios
 
-### Scenario 1: Adding a New Feature
+### Scenario 1: Adding a New Command
 
 ```bash
 # 1. Create issue first (discuss approach)
 # 2. Get approval/feedback
 # 3. Create branch
-git checkout -b feature/new-visualization
+git checkout -b feature/new-command
 
-# 4. Implement with tests
-# - Add domain entity if needed
-# - Create use case
-# - Add adapter/controller
-# - Write comprehensive tests
+# 4. Implement
+# - Add command to commands/yourcommand.zsh
+# - Add help function _yourcommand_help()
+# - Add completion to completions/_yourcommand
+# - Write tests
 
 # 5. Update documentation
-# - API docs (JSDoc)
-# - User guides
-# - Architecture diagrams
+# - Add to COMMAND-QUICK-REFERENCE.md
+# - Update CLAUDE.md if significant
 
 # 6. Create PR with clear description
 ```
 
-### Scenario 2: Fixing a Bug
+### Scenario 2: Adding a Dispatcher Subcommand
+
+```bash
+# 1. Edit lib/dispatchers/<name>-dispatcher.zsh
+# 2. Add case in main function
+# 3. Add implementation function _<name>_<action>()
+# 4. Update _<name>_help() function
+# 5. Add tests
+# 6. Update DISPATCHER-REFERENCE.md
+```
+
+### Scenario 3: Fixing a Bug
 
 ```bash
 # 1. Reproduce the bug
@@ -383,18 +402,18 @@ git checkout -b fix/session-timeout-issue
 
 # 4. Fix the bug
 # 5. Verify test now passes
-npm test
+zsh tests/run-tests.zsh
 
 # 6. Create PR
 # - Reference issue number: "Fixes #123"
 # - Explain root cause and solution
 ```
 
-### Scenario 3: Updating Documentation
+### Scenario 4: Updating Documentation
 
 ```bash
 # 1. Create docs branch
-git checkout -b docs/improve-api-reference
+git checkout -b docs/improve-dispatcher-reference
 
 # 2. Make documentation changes
 # - Update markdown files
@@ -409,26 +428,6 @@ mkdocs build --strict
 # - Show improvement
 ```
 
-### Scenario 4: Refactoring
-
-```bash
-# 1. Ensure tests exist for code being refactored
-npm test -- --coverage
-
-# 2. Create refactor branch
-git checkout -b refactor/simplify-cache-layer
-
-# 3. Refactor incrementally
-# - Make small changes
-# - Run tests after each change
-# - Commit often
-
-# 4. Create PR
-# - Explain why refactoring improves codebase
-# - Show before/after comparisons
-# - Emphasize no behavior changes
-```
-
 ---
 
 ## Troubleshooting
@@ -437,33 +436,20 @@ git checkout -b refactor/simplify-cache-layer
 
 ```bash
 # Run tests to see failures
-npm test
+zsh tests/run-tests.zsh
 
 # Run specific test file
-npm test -- tests/unit/domain/entities/Session.test.js
+zsh tests/unit/test-core.zsh
 
-# Run in watch mode
-npm test -- --watch
-
-# Check for open handles (resource leaks)
-npm test -- --detectOpenHandles
+# Check for syntax errors
+zsh -n lib/core.zsh
 ```
 
 **Common causes:**
 
 - Forgot to update tests after code change
-- Missing dependencies: `npm install`
-- Race conditions (use isolated temp directories)
-
-### Pre-commit Hook Failing
-
-```bash
-# Pre-commit runs tests automatically
-# Fix failing tests before committing
-
-# Bypass hook (use sparingly)
-git commit --no-verify -m "message"
-```
+- Missing source statement in flow.plugin.zsh
+- ZSH syntax error (different from bash)
 
 ### Merge Conflicts
 
@@ -489,8 +475,8 @@ git push origin feature/your-feature-name
 1. Check Actions tab for detailed logs
 2. Common issues:
    - Tests pass locally but fail in CI (environment differences)
-   - Node version mismatch (CI uses Node 20)
    - Missing files (ensure all changes committed)
+   - ZSH version differences
 
 3. Fix and push:
    ```bash
@@ -506,13 +492,12 @@ git push origin feature/your-feature-name
 - Comment on your PR: "I'm stuck on X, any suggestions?"
 - Tag a maintainer: `@Data-Wise could you review this approach?`
 - Open a discussion: GitHub Discussions tab
-- Check Discord/Slack (if project has one)
 
 ---
 
 ## Best Practices
 
-### DO ✅
+### DO
 
 1. **Keep PRs focused**
    - One feature/fix per PR
@@ -522,7 +507,7 @@ git push origin feature/your-feature-name
 2. **Write clear descriptions**
    - Explain what and why
    - Link to relevant issues
-   - Add screenshots for UI changes
+   - Add examples for new commands
 
 3. **Test thoroughly**
    - Write tests for new code
@@ -532,14 +517,14 @@ git push origin feature/your-feature-name
 4. **Update documentation**
    - Keep docs in sync with code
    - Add examples for new features
-   - Update architecture diagrams
+   - Update help functions
 
 5. **Respond to reviews promptly**
    - Address comments quickly
    - Ask questions if unclear
    - Be open to feedback
 
-### DON'T ❌
+### DON'T
 
 1. **Large PRs**
    - Hard to review
@@ -575,12 +560,13 @@ git push origin feature/your-feature-name
 ```bash
 # Setup
 git clone <fork-url>
-npm install
-npm test
+source flow.plugin.zsh
+zsh tests/run-tests.zsh
 
 # Development
 git checkout -b feature/name
-npm test -- --watch
+# edit files
+zsh tests/run-tests.zsh
 git commit -m "type: message"
 git push origin feature/name
 
@@ -606,10 +592,10 @@ git push origin --delete feature/name
 
 - [Contributing Guide](../contributing/CONTRIBUTING.md) - High-level contribution guidelines
 - [Testing Guide](../testing/TESTING.md) - How to write and run tests
-- [ADR Process Guide](ADR-PROCESS-GUIDE.md) - Writing architecture decisions
+- [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md) - Architecture overview
 
 ---
 
-**Last Updated:** 2025-12-24
-**Version:** v2.0.0-beta.1
+**Last Updated:** 2025-12-30
+**Version:** v4.4.x
 **Questions?** Open an issue or discussion on GitHub

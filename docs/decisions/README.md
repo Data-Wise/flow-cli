@@ -4,7 +4,7 @@
 > flow-cli is now a **pure ZSH plugin** (v4.x). These records are preserved for
 > historical context but do not reflect current architecture.
 >
-> **Current architecture:** See [CLAUDE.md](../../CLAUDE.md) for the ZSH plugin structure.
+> **Current architecture:** See [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md) for the ZSH plugin structure.
 
 ---
 
