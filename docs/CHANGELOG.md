@@ -6,6 +6,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.4.0] - 2025-12-30
+
+### Added
+
+- **tm dispatcher** - Terminal manager (aiterm integration)
+  - `tm title <text>` - Set tab/window title (instant, shell-native)
+  - `tm profile <name>` - Switch iTerm2 profile
+  - `tm ghost` - Ghostty theme/font management
+  - `tm switch` - Apply terminal context
+  - `tm detect` - Detect project context
+  - Aliases: `tmt`, `tmp`, `tmg`, `tms`, `tmd`
+
+---
+
 ## [4.3.1] - 2025-12-30
 
 ### Fixed
