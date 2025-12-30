@@ -4431,7 +4431,7 @@
 
 <h1 id="dispatcher-reference-flow-cli">Dispatcher Reference - flow-cli<a class="headerlink" href="#dispatcher-reference-flow-cli" title="Permanent link">&para;</a></h1>
 <p><strong>Last Updated:</strong> December 29, 2025
-<strong>Version:</strong> flow-cli v4.1.0</p>
+<strong>Version:</strong> flow-cli v4.2.0</p>
 <hr />
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>Dispatchers are smart command routers that provide context-aware workflows for specific tools. Each dispatcher provides a unified interface with smart defaults and common subcommands.</p>
@@ -4450,7 +4450,7 @@
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>g<span class="w"> </span>log<span class="w">             </span><span class="c1"># Git log</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>g<span class="w"> </span><span class="nb">help</span><span class="w">            </span><span class="c1"># Show help</span>
 </code></pre></div>
-<p><strong>Feature Branch Workflow (v4.1.0):</strong></p>
+<p><strong>Feature Branch Workflow (v4.1.0+):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Feature development</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>g<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span>&lt;name&gt;<span class="w">   </span><span class="c1"># Create feature/&lt;name&gt; from dev</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>g<span class="w"> </span>feature<span class="w"> </span>sync<span class="w">           </span><span class="c1"># Rebase feature onto dev</span>
@@ -4460,6 +4460,11 @@
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Promotion flow</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>g<span class="w"> </span>promote<span class="w">                </span><span class="c1"># Create PR: feature → dev</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>g<span class="w"> </span>release<span class="w">                </span><span class="c1"># Create PR: dev → main</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># Cleanup (v4.2.0)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>g<span class="w"> </span>feature<span class="w"> </span>prune<span class="w">          </span><span class="c1"># Delete merged feature branches</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>g<span class="w"> </span>feature<span class="w"> </span>prune<span class="w"> </span>--all<span class="w">    </span><span class="c1"># Also delete remote branches</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>g<span class="w"> </span>feature<span class="w"> </span>prune<span class="w"> </span>-n<span class="w">       </span><span class="c1"># Dry run (preview only)</span>
 </code></pre></div>
 <p><strong>Workflow Guard:</strong></p>
 <ul>
@@ -4471,6 +4476,12 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>feature/* ──► dev ──► main
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>     └── g promote    └── g release
 </code></pre></div>
+<p><strong>Branch Cleanup (v4.2.0):</strong></p>
+<p>The <code>g feature prune</code> command safely cleans up merged branches:
+- Only deletes branches merged to dev (or main)
+- Never deletes: main, master, dev, develop
+- Never deletes current branch
+- Only targets: feature/*, bugfix/*, hotfix/*</p>
 <p><strong>Features:</strong></p>
 <ul>
 <li>Smart defaults for common operations</li>
@@ -4478,6 +4489,7 @@
 <li>Feature branch workflow enforcement</li>
 <li>Workflow guards for protected branches</li>
 <li>Context-aware suggestions</li>
+<li>Safe branch cleanup with prune</li>
 </ul>
 <hr />
 <h3 id="2-mcp-mcp-server-management">2. <code>mcp</code> - MCP Server Management<a class="headerlink" href="#2-mcp-mcp-server-management" title="Permanent link">&para;</a></h3>
@@ -4622,7 +4634,8 @@
 <h3 id="6-cc-claude-code-workflows">6. <code>cc</code> - Claude Code Workflows<a class="headerlink" href="#6-cc-claude-code-workflows" title="Permanent link">&para;</a></h3>
 <p><strong>File:</strong> <code>cc-dispatcher.zsh</code>
 <strong>Purpose:</strong> Smart Claude Code project workflows
-<strong>Added:</strong> December 26, 2025</p>
+<strong>Added:</strong> December 26, 2025
+<strong>Updated:</strong> December 29, 2025 (v4.2.0 - worktree integration)</p>
 <p><strong>Common Commands:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Launch modes (default = current directory)</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>cc<span class="w">                </span><span class="c1"># Launch Claude HERE (acceptEdits mode)</span>
@@ -4649,6 +4662,14 @@
 <a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>cc<span class="w"> </span>opus<span class="w"> </span>pick<span class="w">      </span><span class="c1"># Pick project → Opus model</span>
 <a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>cc<span class="w"> </span>haiku<span class="w">          </span><span class="c1"># Launch HERE with Haiku model</span>
 <a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>cc<span class="w"> </span>haiku<span class="w"> </span>pick<span class="w">     </span><span class="c1"># Pick project → Haiku model</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="c1"># Worktree integration (v4.2.0)</span>
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>cc<span class="w"> </span>wt<span class="w">                   </span><span class="c1"># List current worktrees</span>
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>cc<span class="w"> </span>wt<span class="w"> </span>&lt;branch&gt;<span class="w">          </span><span class="c1"># Launch Claude in worktree</span>
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>cc<span class="w"> </span>wt<span class="w"> </span>pick<span class="w">              </span><span class="c1"># Pick worktree → Claude (fzf)</span>
+<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>cc<span class="w"> </span>wt<span class="w"> </span>yolo<span class="w"> </span>&lt;branch&gt;<span class="w">     </span><span class="c1"># Worktree + YOLO mode</span>
+<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a>cc<span class="w"> </span>wt<span class="w"> </span>plan<span class="w"> </span>&lt;branch&gt;<span class="w">     </span><span class="c1"># Worktree + Plan mode</span>
+<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>cc<span class="w"> </span>wt<span class="w"> </span>opus<span class="w"> </span>&lt;branch&gt;<span class="w">     </span><span class="c1"># Worktree + Opus model</span>
 </code></pre></div>
 <p><strong>Features:</strong></p>
 <ul>
@@ -4659,8 +4680,10 @@
 <li>Session resume with Claude's built-in picker</li>
 <li>Quick actions for common tasks</li>
 <li>Model selection shortcuts</li>
+<li>Worktree integration for parallel development (v4.2.0)</li>
 </ul>
-<p><strong>Shortcuts:</strong> <code>y</code>=yolo, <code>p</code>=plan, <code>r</code>=resume, <code>c</code>=continue, <code>a</code>=ask, <code>f</code>=file, <code>d</code>=diff, <code>o</code>=opus, <code>h</code>=haiku</p>
+<p><strong>Shortcuts:</strong> <code>y</code>=yolo, <code>p</code>=plan, <code>r</code>=resume, <code>c</code>=continue, <code>a</code>=ask, <code>f</code>=file, <code>d</code>=diff, <code>o</code>=opus, <code>h</code>=haiku, <code>w</code>=wt</p>
+<p><strong>Aliases:</strong> <code>ccy</code>, <code>ccp</code>, <code>ccr</code>, <code>ccc</code>, <code>cca</code>, <code>ccf</code>, <code>ccd</code>, <code>cco</code>, <code>cch</code>, <code>ccw</code>, <code>ccwy</code>, <code>ccwp</code></p>
 <p><strong>See also:</strong> <a href="../CC-DISPATCHER-REFERENCE/">CC-DISPATCHER-REFERENCE.md</a></p>
 <hr />
 <h3 id="7-wt-git-worktree-management">7. <code>wt</code> - Git Worktree Management<a class="headerlink" href="#7-wt-git-worktree-management" title="Permanent link">&para;</a></h3>

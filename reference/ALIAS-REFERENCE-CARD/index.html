@@ -4321,7 +4321,7 @@
 <blockquote>
 <p><strong>Quick Access:</strong> Type <code>als</code> to list all aliases by category</p>
 </blockquote>
-<p><strong>Last Updated:</strong> 2025-12-26 | <strong>Total:</strong> 28 custom aliases + 226+ git aliases (from plugin)</p>
+<p><strong>Last Updated:</strong> 2025-12-29 | <strong>Total:</strong> 31 custom aliases + 226+ git aliases (from plugin)</p>
 <p><strong>Philosophy:</strong> Minimalist, high-frequency only. Removed 151 aliases (2025-12-19) to reduce memory load.</p>
 <blockquote>
 <p><strong>✨ New in v3.1.0 (2025-12-26):</strong></p>
@@ -4751,6 +4751,11 @@
 <td>Project picker + Claude sessions</td>
 </tr>
 <tr>
+<td><code>wt</code></td>
+<td>Git worktrees</td>
+<td>Worktree creation, navigation</td>
+</tr>
+<tr>
 <td><code>peek</code></td>
 <td>File viewer</td>
 <td>File type, uses bat with correct syntax</td>
@@ -4776,6 +4781,12 @@
 <p><strong>Added 2025-12-26:</strong></p>
 <ul>
 <li><code>cc</code> - Claude Code dispatcher with project picker + multiple modes (yolo, plan, resume)</li>
+</ul>
+<p><strong>Added 2025-12-29 (v4.2.0):</strong></p>
+<ul>
+<li><code>wt</code> - Git worktree dispatcher for worktree management</li>
+<li><code>cc wt</code> - Worktree + Claude integration (launch Claude in worktrees)</li>
+<li>Aliases: <code>ccw</code> (cc wt), <code>ccwy</code> (cc wt yolo), <code>ccwp</code> (cc wt pick)</li>
 </ul>
 <p>See <a href="../DISPATCHER-REFERENCE/">DISPATCHER-REFERENCE.md</a> for complete documentation.</p>
 <hr />
@@ -4915,7 +4926,7 @@
 <h2 id="additional-resources">📖 ADDITIONAL RESOURCES<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Workflow Quick Reference:</strong> <code>~/projects/dev-tools/flow-cli/docs/reference/WORKFLOW-QUICK-REFERENCE.md</code></li>
-<li><strong>Pick Command Guide:</strong> <code>~/projects/dev-tools/flow-cli/docs/user/PICK-COMMAND-REFERENCE.md</code></li>
+<li><strong>Pick Command Guide:</strong> <code>~/projects/dev-tools/flow-cli/docs/reference/PICK-COMMAND-REFERENCE.md</code></li>
 <li><strong>ZSH Development Guidelines:</strong> <code>~/projects/dev-tools/flow-cli/docs/ZSH-DEVELOPMENT-GUIDELINES.md</code></li>
 </ul>
 <hr />

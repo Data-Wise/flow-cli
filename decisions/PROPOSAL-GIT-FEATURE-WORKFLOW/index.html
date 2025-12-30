@@ -3920,10 +3920,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-create-docscommandswtmd" class="md-nav__link">
+  <a href="#2-worktree-claude-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Create docs/commands/wt.md
+        2. Worktree + Claude Integration 🤖
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Worktree + Claude Integration 🤖">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-details_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Details
       
     </span>
   </a>
@@ -3934,12 +3946,17 @@
     </nav>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#effort-estimate-updated" class="md-nav__link">
+  <a href="#how-v420-builds-on-v410" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Effort Estimate (Updated)
+        How v4.2.0 Builds on v4.1.0
       
     </span>
   </a>
@@ -3947,35 +3964,74 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#implementation-checklist" class="md-nav__link">
+  <a href="#planned-future-enhancements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Implementation Checklist
+        Planned Future Enhancements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Planned Future Enhancements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-g-feature-prune-force-p2-30-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. g feature prune --force (P2, ~30 min)
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#decision" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#2-wt-prune-alias-p2-1-hour" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Decision
+        2. wt prune Alias (P2, ~1 hour)
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#relationship-to-other-tools" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#3-g-feature-prune-older-than-p3-1-hour" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relationship to Other Tools
+        3. g feature prune --older-than (P3, ~1 hour)
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-g-feature-status-p3-45-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. g feature status (P3, ~45 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-no-hotfix-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why No Hotfix Workflow?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4006,8 +4062,8 @@
 
 <h1 id="proposal-git-feature-branch-workflow">Proposal: Git Feature Branch Workflow<a class="headerlink" href="#proposal-git-feature-branch-workflow" title="Permanent link">&para;</a></h1>
 <p><strong>Date:</strong> 2025-12-29
-<strong>Status:</strong> Proposed (Enhanced)
-<strong>Version:</strong> 2.0
+<strong>Status:</strong> ✅ IMPLEMENTED (v4.1.0)
+<strong>Version:</strong> 2.1
 <strong>Related:</strong> aiterm FEATURE-BRANCH-WORKFLOW.md</p>
 <hr />
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
@@ -4636,196 +4692,322 @@
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>wt<span class="w"> </span>move<span class="w">                  </span><span class="c1"># Move current branch to worktree</span>
 <a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>wt<span class="w"> </span>clean<span class="w">                 </span><span class="c1"># Prune stale worktrees</span>
 </code></pre></div>
-```</p>
-<h3 id="3-create-docscommandswtmd">3. Create <code>docs/commands/wt.md</code><a class="headerlink" href="#3-create-docscommandswtmd" title="Permanent link">&para;</a></h3>
-<p>Full documentation for the wt dispatcher.</p>
-<hr />
-<h2 id="effort-estimate-updated">Effort Estimate (Updated)<a class="headerlink" href="#effort-estimate-updated" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Effort</th>
-<th>Lines</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>g dispatcher extensions</td>
-<td>1.5 hours</td>
-<td>~150</td>
-</tr>
-<tr>
-<td>Workflow guard</td>
-<td>30 min</td>
-<td>~40</td>
-</tr>
-<tr>
-<td>wt dispatcher (full file)</td>
-<td>1 hour</td>
-<td>~180</td>
-</tr>
-<tr>
-<td>Tests</td>
-<td>1 hour</td>
-<td>~80</td>
-</tr>
-<tr>
-<td>Documentation</td>
-<td>30 min</td>
-<td>~100</td>
-</tr>
-<tr>
-<td><strong>Total</strong></td>
-<td><strong>~4.5 hours</strong></td>
-<td><strong>~550</strong></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="implementation-checklist">Implementation Checklist<a class="headerlink" href="#implementation-checklist" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Task</th>
-<th>Priority</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Add <code>_g_feature()</code> to g-dispatcher.zsh</td>
-<td>P0</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Add <code>_g_promote()</code> with validation</td>
-<td>P0</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Add <code>_g_release()</code> with validation</td>
-<td>P0</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Add <code>_g_check_workflow()</code> guard</td>
-<td>P0</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Wire guard into <code>g push</code> case</td>
-<td>P0</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Update <code>_g_help()</code> with FEATURE WORKFLOW section</td>
-<td>P0</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Create <code>lib/dispatchers/wt-dispatcher.zsh</code></td>
-<td>P1</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Source wt-dispatcher in flow.plugin.zsh</td>
-<td>P1</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Create <code>tests/test-g-feature.zsh</code></td>
-<td>P1</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Create <code>tests/test-wt-dispatcher.zsh</code></td>
-<td>P1</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Update DISPATCHER-REFERENCE.md</td>
-<td>P2</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Update CLAUDE.md Quick Reference</td>
-<td>P2</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Create docs/commands/wt.md</td>
-<td>P2</td>
-<td>🔲</td>
-</tr>
-<tr>
-<td>Add ZSH completions for new commands</td>
-<td>P3</td>
-<td>🔲</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
-<p><strong>Recommended:</strong> Implement Option A + C Hybrid with workflow guards</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>### 3. Create `docs/commands/wt.md`
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>Full documentation for the wt dispatcher.
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>---
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>## Effort Estimate (Updated)
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>| Component | Effort | Lines |
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>|-----------|--------|-------|
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>| g dispatcher extensions | 1.5 hours | ~150 |
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>| Workflow guard | 30 min | ~40 |
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>| wt dispatcher (full file) | 1 hour | ~180 |
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>| Tests | 1 hour | ~80 |
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>| Documentation | 30 min | ~100 |
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>| **Total** | **~4.5 hours** | **~550** |
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>---
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>## Implementation Checklist
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>### v4.1.0 (COMPLETE ✅)
+<a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>
+<a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>| Task | Priority | Status |
+<a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a>|------|----------|--------|
+<a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a>| Add `_g_feature()` to g-dispatcher.zsh | P0 | ✅ |
+<a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a>| Add `_g_promote()` with validation | P0 | ✅ |
+<a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a>| Add `_g_release()` with validation | P0 | ✅ |
+<a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a>| Add `_g_check_workflow()` guard | P0 | ✅ |
+<a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a>| Wire guard into `g push` case | P0 | ✅ |
+<a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a>| Update `_g_help()` with FEATURE WORKFLOW section | P0 | ✅ |
+<a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a>| Create `lib/dispatchers/wt-dispatcher.zsh` | P1 | ✅ |
+<a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a>| Source wt-dispatcher in flow.plugin.zsh | P1 | ✅ |
+<a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a>| Create `tests/test-g-feature.zsh` | P1 | ✅ |
+<a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a>| Create `tests/test-wt-dispatcher.zsh` | P1 | ✅ |
+<a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a>| Update DISPATCHER-REFERENCE.md | P2 | ✅ |
+<a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a>| Update CLAUDE.md Quick Reference | P2 | ✅ |
+<a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a>| Create docs/commands/wt.md | P2 | 🔲 |
+<a id="__codelineno-12-39" name="__codelineno-12-39" href="#__codelineno-12-39"></a>| Add ZSH completions for new commands | P3 | 🔲 |
+<a id="__codelineno-12-40" name="__codelineno-12-40" href="#__codelineno-12-40"></a>
+<a id="__codelineno-12-41" name="__codelineno-12-41" href="#__codelineno-12-41"></a>### v4.2.0 (IN PROGRESS)
+<a id="__codelineno-12-42" name="__codelineno-12-42" href="#__codelineno-12-42"></a>
+<a id="__codelineno-12-43" name="__codelineno-12-43" href="#__codelineno-12-43"></a>| Task | Priority | Status |
+<a id="__codelineno-12-44" name="__codelineno-12-44" href="#__codelineno-12-44"></a>|------|----------|--------|
+<a id="__codelineno-12-45" name="__codelineno-12-45" href="#__codelineno-12-45"></a>| Add `g feature prune` for branch cleanup | P0 | ✅ |
+<a id="__codelineno-12-46" name="__codelineno-12-46" href="#__codelineno-12-46"></a>| Add `g feature prune --all` for remote cleanup | P0 | ✅ |
+<a id="__codelineno-12-47" name="__codelineno-12-47" href="#__codelineno-12-47"></a>| Add `g feature prune -n` dry run mode | P0 | ✅ |
+<a id="__codelineno-12-48" name="__codelineno-12-48" href="#__codelineno-12-48"></a>| Create `tests/test-g-feature-prune.zsh` | P1 | ✅ |
+<a id="__codelineno-12-49" name="__codelineno-12-49" href="#__codelineno-12-49"></a>| Update DISPATCHER-REFERENCE.md | P1 | ✅ |
+<a id="__codelineno-12-50" name="__codelineno-12-50" href="#__codelineno-12-50"></a>| Add `cc wt &lt;branch&gt;` to cc-dispatcher.zsh | P1 | 🔲 |
+<a id="__codelineno-12-51" name="__codelineno-12-51" href="#__codelineno-12-51"></a>| Update project-detector for worktree paths | P2 | 🔲 |
+<a id="__codelineno-12-52" name="__codelineno-12-52" href="#__codelineno-12-52"></a>
+<a id="__codelineno-12-53" name="__codelineno-12-53" href="#__codelineno-12-53"></a>*Note: Hotfix workflow removed - see &quot;Why No Hotfix Workflow?&quot; section*
+<a id="__codelineno-12-54" name="__codelineno-12-54" href="#__codelineno-12-54"></a>
+<a id="__codelineno-12-55" name="__codelineno-12-55" href="#__codelineno-12-55"></a>### Future Enhancements (v4.2.0+)
+<a id="__codelineno-12-56" name="__codelineno-12-56" href="#__codelineno-12-56"></a>
+<a id="__codelineno-12-57" name="__codelineno-12-57" href="#__codelineno-12-57"></a>| Enhancement | Purpose | Priority |
+<a id="__codelineno-12-58" name="__codelineno-12-58" href="#__codelineno-12-58"></a>|-------------|---------|----------|
+<a id="__codelineno-12-59" name="__codelineno-12-59" href="#__codelineno-12-59"></a>| `g feature prune --force` | Skip confirmation for automation/scripts | P2 |
+<a id="__codelineno-12-60" name="__codelineno-12-60" href="#__codelineno-12-60"></a>| `wt prune` alias | Combined branch + worktree cleanup | P2 |
+<a id="__codelineno-12-61" name="__codelineno-12-61" href="#__codelineno-12-61"></a>| `g feature prune --older-than 30d` | Age-based branch filtering | P3 |
+<a id="__codelineno-12-62" name="__codelineno-12-62" href="#__codelineno-12-62"></a>| `g feature status` | Show stale branches needing cleanup | P3 |
+<a id="__codelineno-12-63" name="__codelineno-12-63" href="#__codelineno-12-63"></a>
+<a id="__codelineno-12-64" name="__codelineno-12-64" href="#__codelineno-12-64"></a>---
+<a id="__codelineno-12-65" name="__codelineno-12-65" href="#__codelineno-12-65"></a>
+<a id="__codelineno-12-66" name="__codelineno-12-66" href="#__codelineno-12-66"></a>## Decision
+<a id="__codelineno-12-67" name="__codelineno-12-67" href="#__codelineno-12-67"></a>
+<a id="__codelineno-12-68" name="__codelineno-12-68" href="#__codelineno-12-68"></a>**Recommended:** Implement Option A + C Hybrid with workflow guards
+<a id="__codelineno-12-69" name="__codelineno-12-69" href="#__codelineno-12-69"></a>
+<a id="__codelineno-12-70" name="__codelineno-12-70" href="#__codelineno-12-70"></a>**Benefits:**
+<a id="__codelineno-12-71" name="__codelineno-12-71" href="#__codelineno-12-71"></a>- Low effort, high impact
+<a id="__codelineno-12-72" name="__codelineno-12-72" href="#__codelineno-12-72"></a>- Fits existing patterns
+<a id="__codelineno-12-73" name="__codelineno-12-73" href="#__codelineno-12-73"></a>- ADHD-friendly (instant feedback)
+<a id="__codelineno-12-74" name="__codelineno-12-74" href="#__codelineno-12-74"></a>- Prevents accidental pushes to protected branches
+<a id="__codelineno-12-75" name="__codelineno-12-75" href="#__codelineno-12-75"></a>- Complements aiterm&#39;s rich visualization
+<a id="__codelineno-12-76" name="__codelineno-12-76" href="#__codelineno-12-76"></a>
+<a id="__codelineno-12-77" name="__codelineno-12-77" href="#__codelineno-12-77"></a>---
+<a id="__codelineno-12-78" name="__codelineno-12-78" href="#__codelineno-12-78"></a>
+<a id="__codelineno-12-79" name="__codelineno-12-79" href="#__codelineno-12-79"></a>## Relationship to Other Tools
+<a id="__codelineno-12-80" name="__codelineno-12-80" href="#__codelineno-12-80"></a>
+<a id="__codelineno-12-81" name="__codelineno-12-81" href="#__codelineno-12-81"></a>| Capability | flow-cli | aiterm |
+<a id="__codelineno-12-82" name="__codelineno-12-82" href="#__codelineno-12-82"></a>|------------|----------|--------|
+<a id="__codelineno-12-83" name="__codelineno-12-83" href="#__codelineno-12-83"></a>| Quick branch creation | ✅ `g feature start` | - |
+<a id="__codelineno-12-84" name="__codelineno-12-84" href="#__codelineno-12-84"></a>| Quick PR creation | ✅ `g promote`, `g release` | - |
+<a id="__codelineno-12-85" name="__codelineno-12-85" href="#__codelineno-12-85"></a>| Quick worktree ops | ✅ `wt create` | - |
+<a id="__codelineno-12-86" name="__codelineno-12-86" href="#__codelineno-12-86"></a>| Workflow guards | ✅ `_g_check_workflow` | - |
+<a id="__codelineno-12-87" name="__codelineno-12-87" href="#__codelineno-12-87"></a>| Pipeline visualization | - | ✅ `ait feature status` |
+<a id="__codelineno-12-88" name="__codelineno-12-88" href="#__codelineno-12-88"></a>| Full feature setup | - | ✅ `ait feature start` |
+<a id="__codelineno-12-89" name="__codelineno-12-89" href="#__codelineno-12-89"></a>| Interactive cleanup | - | ✅ `ait feature cleanup` |
+<a id="__codelineno-12-90" name="__codelineno-12-90" href="#__codelineno-12-90"></a>
+<a id="__codelineno-12-91" name="__codelineno-12-91" href="#__codelineno-12-91"></a>**Principle:** flow-cli for speed, aiterm for power.
+<a id="__codelineno-12-92" name="__codelineno-12-92" href="#__codelineno-12-92"></a>
+<a id="__codelineno-12-93" name="__codelineno-12-93" href="#__codelineno-12-93"></a>---
+<a id="__codelineno-12-94" name="__codelineno-12-94" href="#__codelineno-12-94"></a>
+<a id="__codelineno-12-95" name="__codelineno-12-95" href="#__codelineno-12-95"></a>---
+<a id="__codelineno-12-96" name="__codelineno-12-96" href="#__codelineno-12-96"></a>
+<a id="__codelineno-12-97" name="__codelineno-12-97" href="#__codelineno-12-97"></a>## Future Enhancements (v4.2.0 Roadmap)
+<a id="__codelineno-12-98" name="__codelineno-12-98" href="#__codelineno-12-98"></a>
+<a id="__codelineno-12-99" name="__codelineno-12-99" href="#__codelineno-12-99"></a>Building on v4.1.0&#39;s foundation, these enhancements are planned:
+<a id="__codelineno-12-100" name="__codelineno-12-100" href="#__codelineno-12-100"></a>
+<a id="__codelineno-12-101" name="__codelineno-12-101" href="#__codelineno-12-101"></a>### 1. Branch Cleanup 🧹
+<a id="__codelineno-12-102" name="__codelineno-12-102" href="#__codelineno-12-102"></a>
+<a id="__codelineno-12-103" name="__codelineno-12-103" href="#__codelineno-12-103"></a>**Why it fits:** After PRs merge, stale branches accumulate. This automates cleanup.
+<a id="__codelineno-12-104" name="__codelineno-12-104" href="#__codelineno-12-104"></a>
+<a id="__codelineno-12-105" name="__codelineno-12-105" href="#__codelineno-12-105"></a>```bash
+<a id="__codelineno-12-106" name="__codelineno-12-106" href="#__codelineno-12-106"></a>g feature prune         # Delete local branches merged to dev
+<a id="__codelineno-12-107" name="__codelineno-12-107" href="#__codelineno-12-107"></a>g feature prune --all   # Also delete remote tracking branches
+</code></pre></div></p>
+<p><strong>Integration with existing tools:</strong>
+- Coordinates with <code>wt clean</code> for worktree cleanup
+- Respects protected branches (main, dev)
+- Safe by default (only merged branches)
+- Note: Rich interactive cleanup → aiterm (<code>ait feature cleanup</code>)</p>
+<h3 id="2-worktree-claude-integration">2. Worktree + Claude Integration 🤖<a class="headerlink" href="#2-worktree-claude-integration" title="Permanent link">&para;</a></h3>
+<p><strong>Why it fits:</strong> You use worktrees for parallel development and Claude for coding. Combining them enables seamless context switching.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>cc<span class="w"> </span>wt<span class="w"> </span>&lt;branch&gt;<span class="w">          </span><span class="c1"># Launch Claude in worktree (creates if needed)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>cc<span class="w"> </span>wt<span class="w"> </span>auth<span class="w">              </span><span class="c1"># → Opens Claude in ~/.git-worktrees/project/feature-auth</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>cc<span class="w"> </span>wt<span class="w">                   </span><span class="c1"># List worktrees (no branch = list mode)</span>
+</code></pre></div>
 <p><strong>Benefits:</strong>
-- Low effort, high impact
-- Fits existing patterns
-- ADHD-friendly (instant feedback)
-- Prevents accidental pushes to protected branches
-- Complements aiterm's rich visualization</p>
+- <strong>ADHD-friendly:</strong> One command to switch context entirely
+- <strong>Session isolation:</strong> Each worktree gets its own Claude session
+- <strong>Worktree-aware detection:</strong> <code>_flow_detect_project_type</code> recognizes worktree paths</p>
+<h4 id="implementation-details_1">Implementation Details<a class="headerlink" href="#implementation-details_1" title="Permanent link">&para;</a></h4>
+<p><strong>Approach 1: Add to cc-dispatcher.zsh (Recommended)</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># In cc() dispatcher, add case:</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>wt<span class="p">|</span>worktree<span class="o">)</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="nb">shift</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span>_cc_worktree<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="p">;;</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>_cc_worktree<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">branch</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">        </span><span class="c1"># No branch → list worktrees</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">        </span>wt<span class="w"> </span>list
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">        </span><span class="k">return</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="w">    </span><span class="c1"># Get or create worktree path</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">wt_path</span><span class="o">=</span><span class="k">$(</span>_wt_get_path<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="k">)</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$wt_path</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="w">        </span>wt<span class="w"> </span>create<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span>
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="w">        </span><span class="nv">wt_path</span><span class="o">=</span><span class="k">$(</span>_wt_get_path<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="k">)</span>
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="w">    </span><span class="c1"># Launch Claude in worktree</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$wt_path</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>claude
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="o">}</span>
+</code></pre></div></p>
+<p><strong>Helper function for wt-dispatcher.zsh:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>_wt_get_path<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">branch</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">project</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>git<span class="w"> </span>rev-parse<span class="w"> </span>--show-toplevel<span class="k">)</span><span class="s2">&quot;</span><span class="k">)</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">folder</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;/&#39;</span><span class="w"> </span><span class="s1">&#39;-&#39;</span><span class="k">)</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">path</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$FLOW_WORKTREE_DIR</span><span class="s2">/</span><span class="nv">$project</span><span class="s2">/</span><span class="nv">$folder</span><span class="s2">&quot;</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="o">[[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$path</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$path</span><span class="s2">&quot;</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="o">}</span>
+</code></pre></div></p>
+<p><strong>Files to modify:</strong>
+- <code>lib/dispatchers/cc-dispatcher.zsh</code> - Add wt case + <code>_cc_worktree()</code>
+- <code>lib/dispatchers/wt-dispatcher.zsh</code> - Add <code>_wt_get_path()</code> helper
+- <code>tests/test-cc-wt.zsh</code> - New test file (~10 tests)</p>
+<p><strong>Effort estimate:</strong> ~1.5 hours</p>
 <hr />
-<h2 id="relationship-to-other-tools">Relationship to Other Tools<a class="headerlink" href="#relationship-to-other-tools" title="Permanent link">&para;</a></h2>
+<h2 id="how-v420-builds-on-v410">How v4.2.0 Builds on v4.1.0<a class="headerlink" href="#how-v420-builds-on-v410" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Capability</th>
-<th>flow-cli</th>
-<th>aiterm</th>
+<th>v4.1.0 Foundation</th>
+<th>v4.2.0 Enhancement</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Quick branch creation</td>
-<td>✅ <code>g feature start</code></td>
-<td>-</td>
+<td><code>wt create</code></td>
+<td><code>cc wt</code> (Claude integration)</td>
 </tr>
 <tr>
-<td>Quick PR creation</td>
-<td>✅ <code>g promote</code>, <code>g release</code></td>
-<td>-</td>
-</tr>
-<tr>
-<td>Quick worktree ops</td>
-<td>✅ <code>wt create</code></td>
-<td>-</td>
-</tr>
-<tr>
-<td>Workflow guards</td>
-<td>✅ <code>_g_check_workflow</code></td>
-<td>-</td>
-</tr>
-<tr>
-<td>Pipeline visualization</td>
-<td>-</td>
-<td>✅ <code>ait feature status</code></td>
-</tr>
-<tr>
-<td>Full feature setup</td>
-<td>-</td>
-<td>✅ <code>ait feature start</code></td>
-</tr>
-<tr>
-<td>Interactive cleanup</td>
-<td>-</td>
-<td>✅ <code>ait feature cleanup</code></td>
+<td><code>wt clean</code></td>
+<td><code>g feature prune</code> (branch cleanup) ✅</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Principle:</strong> flow-cli for speed, aiterm for power.</p>
+<h2 id="planned-future-enhancements">Planned Future Enhancements<a class="headerlink" href="#planned-future-enhancements" title="Permanent link">&para;</a></h2>
+<h3 id="1-g-feature-prune-force-p2-30-min">1. <code>g feature prune --force</code> (P2, ~30 min)<a class="headerlink" href="#1-g-feature-prune-force-p2-30-min" title="Permanent link">&para;</a></h3>
+<p><strong>Use case:</strong> CI/CD pipelines and automation scripts that need non-interactive cleanup.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># In a cron job or CI pipeline</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>g<span class="w"> </span>feature<span class="w"> </span>prune<span class="w"> </span>--force<span class="w">  </span><span class="c1"># No confirmation prompt</span>
+</code></pre></div></p>
+<p><strong>Implementation:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># In _g_feature_prune(), add flag parsing:</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nb">local</span><span class="w"> </span><span class="nv">force</span><span class="o">=</span><span class="nb">false</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">while</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$#</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">        </span>--force<span class="p">|</span>-f<span class="o">)</span><span class="w"> </span><span class="nv">force</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="p">;;</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">        </span><span class="c1"># ... existing flags</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">    </span><span class="k">esac</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">    </span><span class="nb">shift</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="k">done</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="c1"># Skip confirmation when force=true</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$force</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nv">$dry_run</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">    </span><span class="c1"># Delete without asking</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="k">fi</span>
+</code></pre></div></p>
+<p><strong>Effort:</strong> ~30 min (add flag, update tests, update help)</p>
+<h3 id="2-wt-prune-alias-p2-1-hour">2. <code>wt prune</code> Alias (P2, ~1 hour)<a class="headerlink" href="#2-wt-prune-alias-p2-1-hour" title="Permanent link">&para;</a></h3>
+<p><strong>Use case:</strong> Combined cleanup of branches AND worktrees in one command.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>wt<span class="w"> </span>prune<span class="w">                  </span><span class="c1"># Prune stale worktrees + merged branches</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>wt<span class="w"> </span>prune<span class="w"> </span>--branches-only<span class="w">  </span><span class="c1"># Only prune branches</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>wt<span class="w"> </span>prune<span class="w"> </span>--worktrees-only<span class="w"> </span><span class="c1"># Only prune worktrees</span>
+</code></pre></div></p>
+<p><strong>Implementation:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># In wt() dispatcher, add case:</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>prune<span class="o">)</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="nb">shift</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">mode</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">all</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mode</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">        </span>--branches-only<span class="p">|</span>-b<span class="o">)</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">            </span>g<span class="w"> </span>feature<span class="w"> </span>prune<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="p">@:</span><span class="nv">2</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">        </span>--worktrees-only<span class="p">|</span>-w<span class="o">)</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="w">            </span>git<span class="w"> </span>worktree<span class="w"> </span>prune
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">            </span>_flow_log_success<span class="w"> </span><span class="s2">&quot;Pruned stale worktrees&quot;</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="w">        </span>*<span class="o">)</span>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="w">            </span>git<span class="w"> </span>worktree<span class="w"> </span>prune
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="w">            </span>_flow_log_success<span class="w"> </span><span class="s2">&quot;Pruned stale worktrees&quot;</span>
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="w">            </span>g<span class="w"> </span>feature<span class="w"> </span>prune<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a><span class="w">    </span><span class="k">esac</span>
+<a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a><span class="w">    </span><span class="p">;;</span>
+</code></pre></div></p>
+<p><strong>Effort:</strong> ~1 hour (add case, tests, help update)</p>
+<h3 id="3-g-feature-prune-older-than-p3-1-hour">3. <code>g feature prune --older-than</code> (P3, ~1 hour)<a class="headerlink" href="#3-g-feature-prune-older-than-p3-1-hour" title="Permanent link">&para;</a></h3>
+<p><strong>Use case:</strong> Age-based filtering for more surgical cleanup.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>g<span class="w"> </span>feature<span class="w"> </span>prune<span class="w"> </span>--older-than<span class="w"> </span>30d<span class="w">   </span><span class="c1"># Only prune branches older than 30 days</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>g<span class="w"> </span>feature<span class="w"> </span>prune<span class="w"> </span>--older-than<span class="w"> </span>1w<span class="w">    </span><span class="c1"># Only prune branches older than 1 week</span>
+</code></pre></div></p>
+<p><strong>Implementation:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Duration parsing helper</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>_parse_duration<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">duration</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$duration</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">        </span>*d<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">duration</span><span class="p">%d</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;;</span><span class="w">           </span><span class="c1"># 30d → 30</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">        </span>*w<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$((</span><span class="si">${</span><span class="nv">duration</span><span class="p">%w</span><span class="si">}</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">7</span><span class="k">))</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;;</span><span class="w">  </span><span class="c1"># 1w → 7</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">        </span>*m<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$((</span><span class="si">${</span><span class="nv">duration</span><span class="p">%m</span><span class="si">}</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">30</span><span class="k">))</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;;</span><span class="w"> </span><span class="c1"># 1m → 30</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">        </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="p">;;</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">    </span><span class="k">esac</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="o">}</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="c1"># In _g_feature_prune(), filter by age:</span>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="nb">local</span><span class="w"> </span><span class="nv">max_age_days</span><span class="o">=</span><span class="m">0</span>
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span>--older-than<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="w">    </span><span class="nv">max_age_days</span><span class="o">=</span><span class="k">$(</span>_parse_duration<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span><span class="k">)</span>
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a><span class="w">    </span><span class="nb">shift</span><span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a><span class="k">fi</span>
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>
+<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a><span class="c1"># For each branch, check age:</span>
+<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a><span class="nb">local</span><span class="w"> </span><span class="nv">branch_age_days</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="o">(</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">$(</span>git<span class="w"> </span>log<span class="w"> </span>-1<span class="w"> </span>--format<span class="o">=</span>%ct<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="k">)</span><span class="o">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">86400</span><span class="w"> </span><span class="k">))</span>
+<a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a><span class="o">((</span><span class="w"> </span>branch_age_days<span class="w"> </span>&gt;<span class="o">=</span><span class="w"> </span>max_age_days<span class="w"> </span><span class="o">))</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">continue</span>
+</code></pre></div></p>
+<p><strong>Effort:</strong> ~1 hour (duration parsing, filtering logic, tests)</p>
+<h3 id="4-g-feature-status-p3-45-min">4. <code>g feature status</code> (P3, ~45 min)<a class="headerlink" href="#4-g-feature-status-p3-45-min" title="Permanent link">&para;</a></h3>
+<p><strong>Use case:</strong> Preview stale branches before cleanup.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>g<span class="w"> </span>feature<span class="w"> </span>status<span class="w">          </span><span class="c1"># Show branches that would be pruned</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="c1"># Output:</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1"># 🧹 Stale branches (merged to dev):</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1">#   feature/old-auth (14 days)</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="c1">#   bugfix/login (7 days)</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="c1">#</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="c1"># ⚠️  Unmerged branches:</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="c1">#   feature/new-ui (3 days, 5 commits ahead)</span>
+</code></pre></div></p>
+<p><strong>Implementation:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>_g_feature_status<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">base_branch</span><span class="o">=</span><span class="s2">&quot;dev&quot;</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span>git<span class="w"> </span>show-ref<span class="w"> </span>--verify<span class="w"> </span>--quiet<span class="w"> </span>refs/heads/dev<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nv">base_branch</span><span class="o">=</span><span class="s2">&quot;main&quot;</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">_C_BOLD</span><span class="si">}</span><span class="s2">🧹 Stale branches (merged to </span><span class="nv">$base_branch</span><span class="s2">):</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">count</span><span class="o">=</span><span class="m">0</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="nv">IFS</span><span class="o">=</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>branch<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="w">        </span><span class="nv">branch</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">branch</span><span class="p">#</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">branch</span><span class="p">%%[![:</span><span class="nv">space</span><span class="p">:]]*</span><span class="si">}</span><span class="s2">&quot;</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="w">        </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span>feature/*<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span>bugfix/*<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span>hotfix/*<span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">continue</span>
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="w">        </span><span class="nb">local</span><span class="w"> </span><span class="nv">age</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>log<span class="w"> </span>-1<span class="w"> </span>--format<span class="o">=</span><span class="s2">&quot;%cr&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span>
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;  </span><span class="si">${</span><span class="nv">_C_DIM</span><span class="si">}</span><span class="nv">$branch</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2"> (</span><span class="nv">$age</span><span class="s2">)&quot;</span>
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a><span class="w">        </span><span class="o">((</span>count++<span class="o">))</span>
+<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="w">    </span><span class="k">done</span><span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span>git<span class="w"> </span>branch<span class="w"> </span>--merged<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$base_branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="o">)</span>
+<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="w">    </span><span class="o">[[</span><span class="w"> </span><span class="nv">$count</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;  </span><span class="si">${</span><span class="nv">_C_GREEN</span><span class="si">}</span><span class="s2">✓ No stale branches</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>
+<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">_C_BOLD</span><span class="si">}</span><span class="s2">⚠️  Unmerged branches:</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a><span class="w">    </span><span class="nv">count</span><span class="o">=</span><span class="m">0</span>
+<a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="nv">IFS</span><span class="o">=</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>branch<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-23-20" name="__codelineno-23-20" href="#__codelineno-23-20"></a><span class="w">        </span><span class="nv">branch</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">branch</span><span class="p">#</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">branch</span><span class="p">%%[![:</span><span class="nv">space</span><span class="p">:]]*</span><span class="si">}</span><span class="s2">&quot;</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-23-21" name="__codelineno-23-21" href="#__codelineno-23-21"></a><span class="w">        </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span>feature/*<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span>bugfix/*<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span>hotfix/*<span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">continue</span>
+<a id="__codelineno-23-22" name="__codelineno-23-22" href="#__codelineno-23-22"></a><span class="w">        </span><span class="nb">local</span><span class="w"> </span><span class="nv">commits</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>rev-list<span class="w"> </span>--count<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$base_branch</span><span class="s2">&quot;</span>..<span class="s2">&quot;</span><span class="nv">$branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;?&quot;</span><span class="k">)</span>
+<a id="__codelineno-23-23" name="__codelineno-23-23" href="#__codelineno-23-23"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;  </span><span class="si">${</span><span class="nv">_C_YELLOW</span><span class="si">}</span><span class="nv">$branch</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2"> (</span><span class="nv">$commits</span><span class="s2"> commits ahead)&quot;</span>
+<a id="__codelineno-23-24" name="__codelineno-23-24" href="#__codelineno-23-24"></a><span class="w">        </span><span class="o">((</span>count++<span class="o">))</span>
+<a id="__codelineno-23-25" name="__codelineno-23-25" href="#__codelineno-23-25"></a><span class="w">    </span><span class="k">done</span><span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span>git<span class="w"> </span>branch<span class="w"> </span>--no-merged<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$base_branch</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="o">)</span>
+<a id="__codelineno-23-26" name="__codelineno-23-26" href="#__codelineno-23-26"></a><span class="w">    </span><span class="o">[[</span><span class="w"> </span><span class="nv">$count</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;  </span><span class="si">${</span><span class="nv">_C_GREEN</span><span class="si">}</span><span class="s2">✓ All branches merged</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-23-27" name="__codelineno-23-27" href="#__codelineno-23-27"></a><span class="o">}</span>
+</code></pre></div></p>
+<p><strong>Effort:</strong> ~45 min (status display, age formatting, tests)</p>
+<h3 id="why-no-hotfix-workflow">Why No Hotfix Workflow?<a class="headerlink" href="#why-no-hotfix-workflow" title="Permanent link">&para;</a></h3>
+<p>Hotfix workflows (<code>g hotfix start/finish</code>) were considered but <strong>removed</strong> because:
+- flow-cli is a personal dev tool, not production software
+- No urgent production pressure requiring faster paths
+- Normal feature workflow is already fast (~2 minutes end-to-end)
+- Adds complexity without clear benefit for solo development</p>
+<p><strong>Design principle:</strong> v4.2.0 fills gaps in the workflow without changing the core patterns.</p>
 <hr />
 <p><em>Created: 2025-12-28</em>
 <em>Enhanced: 2025-12-29</em>
+<em>v4.2.0 Roadmap: 2025-12-29</em>
 <em>Author: Claude Code</em></p>
 
 

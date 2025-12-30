@@ -1731,6 +1731,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#worktree-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worktree Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Worktree Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aliases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#smart-project-selection" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1781,7 +1831,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#examples_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Examples
@@ -1849,6 +1899,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aliases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aliases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4106,6 +4173,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#worktree-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worktree Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Worktree Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aliases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#smart-project-selection" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4156,7 +4273,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#examples_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Examples
@@ -4224,6 +4341,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aliases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aliases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4472,11 +4606,99 @@
 </table>
 <p><strong>Shortcuts:</strong> <code>cc o</code> = opus, <code>cc h</code> = haiku</p>
 <hr />
+<h2 id="worktree-integration">Worktree Integration<a class="headerlink" href="#worktree-integration" title="Permanent link">&para;</a></h2>
+<p>Launch Claude in isolated git worktrees for parallel development.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cc wt</code></td>
+<td>List current worktrees</td>
+</tr>
+<tr>
+<td><code>cc wt &lt;branch&gt;</code></td>
+<td>Launch Claude in worktree for branch</td>
+</tr>
+<tr>
+<td><code>cc wt pick</code></td>
+<td>Pick worktree → Claude (fzf)</td>
+</tr>
+<tr>
+<td><code>cc wt yolo &lt;branch&gt;</code></td>
+<td>Worktree → YOLO mode</td>
+</tr>
+<tr>
+<td><code>cc wt plan &lt;branch&gt;</code></td>
+<td>Worktree → Plan mode</td>
+</tr>
+<tr>
+<td><code>cc wt opus &lt;branch&gt;</code></td>
+<td>Worktree → Opus model</td>
+</tr>
+<tr>
+<td><code>cc wt haiku &lt;branch&gt;</code></td>
+<td>Worktree → Haiku model</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Shortcuts:</strong> <code>cc w</code> = wt, <code>cc worktree</code> = wt</p>
+<h3 id="aliases">Aliases<a class="headerlink" href="#aliases" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Alias</th>
+<th>Expands To</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ccw</code></td>
+<td><code>cc wt</code></td>
+<td>Quick worktree access</td>
+</tr>
+<tr>
+<td><code>ccwy</code></td>
+<td><code>cc wt yolo</code></td>
+<td>Worktree + YOLO mode</td>
+</tr>
+<tr>
+<td><code>ccwp</code></td>
+<td><code>cc wt pick</code></td>
+<td>Worktree picker</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Create/use worktree and launch Claude</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>cc<span class="w"> </span>wt<span class="w"> </span>feature/auth<span class="w">       </span><span class="c1"># Creates worktree if needed, launches Claude</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Use fzf to pick existing worktree</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>cc<span class="w"> </span>wt<span class="w"> </span>pick<span class="w">               </span><span class="c1"># Interactive selection</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Worktree with YOLO mode</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>cc<span class="w"> </span>wt<span class="w"> </span>yolo<span class="w"> </span>bugfix/issue-42
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Worktree with specific model</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>cc<span class="w"> </span>wt<span class="w"> </span>opus<span class="w"> </span>feature/refactor
+</code></pre></div>
+<h3 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h3>
+<ol>
+<li>If worktree exists for branch → cd to it → launch Claude</li>
+<li>If no worktree → create one using <code>wt create</code> → launch Claude</li>
+<li>Mode flags (yolo, plan, opus, haiku) apply to the Claude session</li>
+</ol>
+<hr />
 <h2 id="smart-project-selection">Smart Project Selection<a class="headerlink" href="#smart-project-selection" title="Permanent link">&para;</a></h2>
 <p>The <code>cc</code> dispatcher inherits all of <code>pick</code>'s smart behaviors:</p>
 <h3 id="direct-jump">Direct Jump<a class="headerlink" href="#direct-jump" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cc<span class="w"> </span>flow<span class="w">           </span><span class="c1"># → cd to flow-cli → NEW Claude session</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>cc<span class="w"> </span>med<span class="w">            </span><span class="c1"># → cd to mediationverse → NEW Claude session</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>cc<span class="w"> </span>flow<span class="w">           </span><span class="c1"># → cd to flow-cli → NEW Claude session</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cc<span class="w"> </span>med<span class="w">            </span><span class="c1"># → cd to mediationverse → NEW Claude session</span>
 </code></pre></div>
 <h3 id="smart-resume-via-pick">Smart Resume (via pick)<a class="headerlink" href="#smart-resume-via-pick" title="Permanent link">&para;</a></h3>
 <p>When you run <code>cc</code> with no args:</p>
@@ -4486,40 +4708,40 @@
 <li>After selection, Claude launches in NEW session</li>
 </ol>
 <h3 id="explicit-claude-resume">Explicit Claude Resume<a class="headerlink" href="#explicit-claude-resume" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>cc<span class="w"> </span>resume<span class="w">         </span><span class="c1"># Resume previous Claude conversation (with picker)</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cc<span class="w"> </span><span class="k">continue</span><span class="w">       </span><span class="c1"># Resume most recent Claude conversation</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>cc<span class="w"> </span>resume<span class="w">         </span><span class="c1"># Resume previous Claude conversation (with picker)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>cc<span class="w"> </span><span class="k">continue</span><span class="w">       </span><span class="c1"># Resume most recent Claude conversation</span>
 </code></pre></div>
 <hr />
-<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h2 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h2>
 <h3 id="daily-workflow">Daily Workflow<a class="headerlink" href="#daily-workflow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Start fresh session in a project</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>cc<span class="w"> </span>flow<span class="w">           </span><span class="c1"># Direct jump → Claude</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Continue where you left off (Claude conversation)</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>cc<span class="w"> </span>resume<span class="w">         </span><span class="c1"># Pick previous conversation</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Quick question without full session</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>cc<span class="w"> </span>ask<span class="w"> </span><span class="s2">&quot;how do I handle NA values in R?&quot;</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># Review changes before committing</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>cc<span class="w"> </span>diff
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Start fresh session in a project</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>cc<span class="w"> </span>flow<span class="w">           </span><span class="c1"># Direct jump → Claude</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Continue where you left off (Claude conversation)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>cc<span class="w"> </span>resume<span class="w">         </span><span class="c1"># Pick previous conversation</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Quick question without full session</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>cc<span class="w"> </span>ask<span class="w"> </span><span class="s2">&quot;how do I handle NA values in R?&quot;</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Review changes before committing</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>cc<span class="w"> </span>diff
 </code></pre></div>
 <h3 id="different-modes">Different Modes<a class="headerlink" href="#different-modes" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Careful mode (default)</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>cc<span class="w">                </span><span class="c1"># acceptEdits - confirms changes</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># YOLO mode for trusted tasks</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>cc<span class="w"> </span>yolo<span class="w">           </span><span class="c1"># Skip all confirmations</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Planning mode</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>cc<span class="w"> </span>plan<span class="w">           </span><span class="c1"># No code execution</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Careful mode (default)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>cc<span class="w">                </span><span class="c1"># acceptEdits - confirms changes</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># YOLO mode for trusted tasks</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>cc<span class="w"> </span>yolo<span class="w">           </span><span class="c1"># Skip all confirmations</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Planning mode</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>cc<span class="w"> </span>plan<span class="w">           </span><span class="c1"># No code execution</span>
 </code></pre></div>
 <h3 id="model-selection_1">Model Selection<a class="headerlink" href="#model-selection_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Use Opus for complex tasks</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>cc<span class="w"> </span>opus<span class="w"> </span>flow<span class="w">      </span><span class="c1"># flow-cli + Opus model</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Use Haiku for quick tasks</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>cc<span class="w"> </span>haiku<span class="w">          </span><span class="c1"># Pick project + Haiku model</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Use Opus for complex tasks</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>cc<span class="w"> </span>opus<span class="w"> </span>flow<span class="w">      </span><span class="c1"># flow-cli + Opus model</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Use Haiku for quick tasks</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>cc<span class="w"> </span>haiku<span class="w">          </span><span class="c1"># Pick project + Haiku model</span>
 </code></pre></div>
 <hr />
 <h2 id="shortcuts-summary">Shortcuts Summary<a class="headerlink" href="#shortcuts-summary" title="Permanent link">&para;</a></h2>
@@ -4582,6 +4804,11 @@
 <td><code>pr</code></td>
 <td>Print mode</td>
 </tr>
+<tr>
+<td><code>wt</code></td>
+<td><code>w</code></td>
+<td>Worktree mode</td>
+</tr>
 </tbody>
 </table>
 <blockquote>
@@ -4592,8 +4819,80 @@
 <ul>
 <li>Uses <code>pick</code> for project selection (inherits direct jump, smart resume)</li>
 <li>Uses Claude CLI (<code>claude</code>) for all operations</li>
-<li>Works with <code>ccy</code> alias (shortcut for <code>cc yolo</code>)</li>
+<li>Works with <code>wt</code> dispatcher for worktree management</li>
 </ul>
+<h3 id="aliases_1">Aliases<a class="headerlink" href="#aliases_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Alias</th>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ccy</code></td>
+<td><code>cc yolo</code></td>
+<td>YOLO mode</td>
+</tr>
+<tr>
+<td><code>ccp</code></td>
+<td><code>cc plan</code></td>
+<td>Plan mode</td>
+</tr>
+<tr>
+<td><code>ccr</code></td>
+<td><code>cc resume</code></td>
+<td>Resume picker</td>
+</tr>
+<tr>
+<td><code>ccc</code></td>
+<td><code>cc continue</code></td>
+<td>Continue recent</td>
+</tr>
+<tr>
+<td><code>cca</code></td>
+<td><code>cc ask</code></td>
+<td>Quick question</td>
+</tr>
+<tr>
+<td><code>ccf</code></td>
+<td><code>cc file</code></td>
+<td>Analyze file</td>
+</tr>
+<tr>
+<td><code>ccd</code></td>
+<td><code>cc diff</code></td>
+<td>Review changes</td>
+</tr>
+<tr>
+<td><code>cco</code></td>
+<td><code>cc opus</code></td>
+<td>Opus model</td>
+</tr>
+<tr>
+<td><code>cch</code></td>
+<td><code>cc haiku</code></td>
+<td>Haiku model</td>
+</tr>
+<tr>
+<td><code>ccw</code></td>
+<td><code>cc wt</code></td>
+<td>Worktree mode</td>
+</tr>
+<tr>
+<td><code>ccwy</code></td>
+<td><code>cc wt yolo</code></td>
+<td>Worktree + YOLO</td>
+</tr>
+<tr>
+<td><code>ccwp</code></td>
+<td><code>cc wt pick</code></td>
+<td>Worktree picker</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
@@ -4601,8 +4900,8 @@
 <li><a href="../DISPATCHER-REFERENCE/">DISPATCHER-REFERENCE.md</a> - All dispatchers</li>
 </ul>
 <hr />
-<p><strong>Last Updated:</strong> 2025-12-27
-<strong>Version:</strong> v3.6.2
+<p><strong>Last Updated:</strong> 2025-12-29
+<strong>Version:</strong> v4.2.0
 <strong>Status:</strong> ✅ Fully implemented</p>
 
 
