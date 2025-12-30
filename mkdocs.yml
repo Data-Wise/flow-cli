@@ -96,7 +96,6 @@ nav:
       - Workflows & Tips: guides/WORKFLOWS-QUICK-WINS.md
       - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
       - Enhanced Help Quick Start: guides/ENHANCED-HELP-QUICK-START.md
-      - Migration v1 to v2: guides/MIGRATION-v1-to-v2.md
   - Reference:
       - Quick References:
           - Command Cheatsheet: reference/COMMAND-QUICK-REFERENCE.md
