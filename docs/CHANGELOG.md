@@ -6,6 +6,60 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.2.0] - 2025-12-29
+
+### Added
+
+- **Worktree + Claude Integration** - `cc wt` commands
+  - `cc wt <branch>` - Launch Claude in worktree (creates if needed)
+  - `cc wt pick` - fzf picker for existing worktrees
+  - `cc wt yolo|plan|opus|haiku <branch>` - Mode chaining
+  - Aliases: `ccw`, `ccwy`, `ccwp`
+  - `_wt_get_path()` helper in wt-dispatcher
+
+- **Branch Cleanup** - `g feature prune`
+  - Delete merged feature branches safely
+  - `--all` flag to also clean remote tracking branches
+  - `-n` dry run to preview changes
+  - Never deletes main, master, dev, develop, or current branch
+
+### Fixed
+
+- ZSH path array conflict in tests (renamed `local path` → `local result_path`)
+
+---
+
+## [4.1.0] - 2025-12-29
+
+### Added
+
+- **Git Feature Branch Workflow**
+  - `g feature start <name>` - Create feature branch from dev
+  - `g feature sync` - Rebase feature onto dev
+  - `g feature list` - List feature/hotfix branches
+  - `g feature finish` - Push and create PR to dev
+  - `g promote` - Create PR: feature → dev
+  - `g release` - Create PR: dev → main
+
+- **Workflow Guard**
+  - Blocks direct push to main/dev branches
+  - Shows helpful message with correct workflow
+  - Override: `GIT_WORKFLOW_SKIP=1 g push`
+
+- **Git Worktree Dispatcher** - `wt`
+  - `wt` - Navigate to worktrees folder
+  - `wt list` - List all worktrees
+  - `wt create <branch>` - Create worktree for branch
+  - `wt move` - Move current branch to worktree
+  - `wt remove <path>` - Remove a worktree
+  - `wt clean` - Prune stale worktrees
+
+### Changed
+
+- Established feature → dev → main branching workflow
+
+---
+
 ## [4.0.1] - 2025-12-27
 
 ### Added

@@ -157,7 +157,7 @@ docs(architecture): add quick wins guide
 
    | Content Type            | Directory                                              |
    | ----------------------- | ------------------------------------------------------ |
-   | User guides             | `docs/user/`                                           |
+   | User guides             | `docs/guides/`                                         |
    | Architecture            | `docs/architecture/`                                   |
    | API docs                | `docs/api/`                                            |
    | Planning                | `docs/planning/current/` or `docs/planning/proposals/` |

@@ -4,11 +4,11 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v4.1.0 Released
+## Phase: v4.2.0 Released
 ## Priority: 1
 ## Progress: 100
 
-## Focus: v4.1.0 RELEASED - Git Feature Branch Workflow
+## Focus: v4.2.0 RELEASED - Worktree + Claude Integration
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -319,67 +319,38 @@ FLOW_QUIET=1               # Disable welcome message
 - [x] Documentation updated (DISPATCHER-REFERENCE.md)
 - [x] See: docs/decisions/PROPOSAL-GIT-FEATURE-WORKFLOW.md
 
-### v4.2.0 - Workflow Polish (IN PROGRESS)
+### v4.2.0 - Workflow Polish ✅ COMPLETE
 - [x] Branch cleanup
   - [x] `g feature prune` - Delete merged feature branches
   - [x] `g feature prune --all` - Also clean remote tracking branches
   - [x] `g feature prune -n` - Dry run preview
   - [x] 18 tests in test-g-feature-prune.zsh
   - [ ] Note: Rich interactive cleanup → aiterm (`ait feature cleanup`)
-- [ ] Worktree + Claude integration
-  - [ ] `cc wt <branch>` - Launch Claude in worktree (creates if needed)
-  - [ ] Worktree-aware project detection
-  - [ ] Session isolation per worktree
+- [x] Worktree + Claude integration ✅ COMPLETE
+  - [x] `cc wt <branch>` - Launch Claude in worktree (creates if needed)
+  - [x] `cc wt pick` - fzf picker for existing worktrees
+  - [x] `cc wt yolo|plan|opus <branch>` - Mode chaining support
+  - [x] Aliases: `ccw`, `ccwy`, `ccwp`
+  - [x] `_wt_get_path()` helper function in wt-dispatcher.zsh
+  - [x] tests/test-cc-wt.zsh (20 tests, all passing)
+  - [x] Bug fix: Renamed `local path` → `local result_path` (zsh path array conflict)
+  - [x] Docs: CC-DISPATCHER-REFERENCE.md, DISPATCHER-REFERENCE.md
+  - [x] See: docs/decisions/BRAINSTORM-cc-wt-2025-12-29.md
 
-#### Implementation Suggestions: cc wt <branch>
+#### Implementation Notes: cc wt (Completed)
 
-**Approach 1: Add to cc-dispatcher.zsh**
-```zsh
-# In cc() dispatcher, add case:
-wt|worktree)
-    shift
-    _cc_worktree "$@"
-    ;;
+Implementation in cc-dispatcher.zsh:
+- Added `wt|worktree|w)` case to cc() dispatcher
+- `_cc_worktree()` handles mode parsing (yolo/plan/opus/haiku) + branch
+- `_cc_worktree_pick()` uses fzf for worktree selection
+- `_cc_worktree_help()` provides formatted help
+- Helper `_wt_get_path()` in wt-dispatcher.zsh
 
-_cc_worktree() {
-    local branch="${1:-}"
-    if [[ -z "$branch" ]]; then
-        # No branch → list worktrees and pick
-        wt list
-        return
-    fi
+Key learnings:
+- In zsh, `local path` shadows the `path` array (tied to `PATH`)
+- Use `local result_path` or similar to avoid PATH corruption
 
-    # Get or create worktree path
-    local wt_path=$(_wt_get_path "$branch")
-    if [[ -z "$wt_path" ]]; then
-        wt create "$branch"
-        wt_path=$(_wt_get_path "$branch")
-    fi
-
-    # Launch Claude in worktree
-    cd "$wt_path" && claude
-}
-```
-
-**Approach 2: Integrate with wt dispatcher**
-```zsh
-# In wt() dispatcher, add case:
-claude|cc)
-    shift
-    local branch="${1:-$(git branch --show-current)}"
-    _wt_create "$branch"
-    cd "$(_wt_get_path "$branch")" && claude
-    ;;
-```
-
-**Recommendation:** Approach 1 (cc wt) - keeps Claude commands in cc dispatcher.
-
-**Files to modify:**
-- `lib/dispatchers/cc-dispatcher.zsh` - Add wt case
-- `lib/dispatchers/wt-dispatcher.zsh` - Add `_wt_get_path()` helper
-- `tests/test-cc-wt.zsh` - New test file
-
-### v4.2.0+ Future Enhancements
+### v4.3.0+ Future Enhancements
 
 #### 1. `g feature prune --force` (P2, ~30 min)
 **Implementation:** Add `--force|-f` flag parsing, skip confirmation when set.
@@ -536,6 +507,14 @@ _g_feature_status() {
 ## last_active: 2025-12-29 12:45
 
 ## Session Log (continued)
+- 2025-12-29: v4.2.0 RELEASE - Worktree + Claude Integration
+- 2025-12-29: FEAT - Added `cc wt <branch>` for Claude in worktrees
+- 2025-12-29: FEAT - Added `cc wt pick` (fzf picker), mode chaining (yolo/plan/opus/haiku)
+- 2025-12-29: FEAT - Added `_wt_get_path()` helper to wt-dispatcher
+- 2025-12-29: FEAT - Added aliases: ccw, ccwy, ccwp
+- 2025-12-29: TEST - Created tests/test-cc-wt.zsh (20 tests)
+- 2025-12-29: FIX - Renamed `local path` → `local result_path` (zsh path array conflict)
+- 2025-12-29: DOCS - Updated CC-DISPATCHER-REFERENCE.md, DISPATCHER-REFERENCE.md
 - 2025-12-29: PLAN - Added v4.2.0 roadmap (hotfix, branch cleanup, worktree+claude)
 - 2025-12-29: DOCS - Site updated for v4.1.0 (PR #66), deployed to GitHub Pages
 - 2025-12-29: v4.1.0 RELEASE - Git Feature Branch Workflow

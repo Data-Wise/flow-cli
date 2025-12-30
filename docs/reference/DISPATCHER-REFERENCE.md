@@ -1,7 +1,7 @@
 # Dispatcher Reference - flow-cli
 
 **Last Updated:** December 29, 2025
-**Version:** flow-cli v4.1.0
+**Version:** flow-cli v4.2.0
 
 ---
 
@@ -251,6 +251,7 @@ r tree            # Package structure tree
 **File:** `cc-dispatcher.zsh`
 **Purpose:** Smart Claude Code project workflows
 **Added:** December 26, 2025
+**Updated:** December 29, 2025 (v4.2.0 - worktree integration)
 
 **Common Commands:**
 
@@ -280,6 +281,14 @@ cc opus           # Launch HERE with Opus model
 cc opus pick      # Pick project → Opus model
 cc haiku          # Launch HERE with Haiku model
 cc haiku pick     # Pick project → Haiku model
+
+# Worktree integration (v4.2.0)
+cc wt                   # List current worktrees
+cc wt <branch>          # Launch Claude in worktree
+cc wt pick              # Pick worktree → Claude (fzf)
+cc wt yolo <branch>     # Worktree + YOLO mode
+cc wt plan <branch>     # Worktree + Plan mode
+cc wt opus <branch>     # Worktree + Opus model
 ```
 
 **Features:**
@@ -291,8 +300,11 @@ cc haiku pick     # Pick project → Haiku model
 - Session resume with Claude's built-in picker
 - Quick actions for common tasks
 - Model selection shortcuts
+- Worktree integration for parallel development (v4.2.0)
 
-**Shortcuts:** `y`=yolo, `p`=plan, `r`=resume, `c`=continue, `a`=ask, `f`=file, `d`=diff, `o`=opus, `h`=haiku
+**Shortcuts:** `y`=yolo, `p`=plan, `r`=resume, `c`=continue, `a`=ask, `f`=file, `d`=diff, `o`=opus, `h`=haiku, `w`=wt
+
+**Aliases:** `ccy`, `ccp`, `ccr`, `ccc`, `cca`, `ccf`, `ccd`, `cco`, `cch`, `ccw`, `ccwy`, `ccwp`
 
 **See also:** [CC-DISPATCHER-REFERENCE.md](CC-DISPATCHER-REFERENCE.md)
 

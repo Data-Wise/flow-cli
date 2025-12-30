@@ -15,7 +15,7 @@ cc() {
     # Check if first arg is a known subcommand
     local is_subcommand=0
     case "$1" in
-        pick|yolo|y|plan|p|now|n|resume|r|continue|c|ask|a|file|f|diff|d|rpkg|print|pr|opus|o|haiku|h|help|--help|-h)
+        pick|yolo|y|plan|p|now|n|resume|r|continue|c|ask|a|file|f|diff|d|rpkg|print|pr|opus|o|haiku|h|wt|worktree|w|help|--help|-h)
             is_subcommand=1
             ;;
     esac
@@ -233,6 +233,12 @@ cc() {
             fi
             ;;
 
+        # Worktree integration
+        wt|worktree|w)
+            shift
+            _cc_worktree "$@"
+            ;;
+
         # Help
         help|--help|-h)
             _cc_help
@@ -304,8 +310,165 @@ ${_C_MAGENTA}💡 DIRECT JUMP EXAMPLES${_C_NC}:
   cc med            Direct → mediationverse + Claude
   cc yolo stat      Direct → stat-440 + YOLO Claude
 
+${_C_BLUE}🌳 WORKTREE${_C_NC}:
+  ${_C_CYAN}cc wt <branch>${_C_NC}      Launch Claude in worktree (creates if needed)
+  ${_C_CYAN}cc wt${_C_NC}               List worktrees
+  ${_C_CYAN}cc wt pick${_C_NC}          Pick existing worktree → Claude
+  ${_C_CYAN}cc wt yolo <branch>${_C_NC} Worktree + YOLO mode
+  ${_C_CYAN}cc wt plan <branch>${_C_NC} Worktree + Plan mode
+  ${_C_CYAN}cc wt opus <branch>${_C_NC} Worktree + Opus model
+
 ${_C_MAGENTA}💡 SHORTCUTS${_C_NC}:
   y = yolo, p = plan, r = resume, c = continue
   a = ask, f = file, d = diff, o = opus, h = haiku, pr = print
+  w = wt (worktree)
+
+${_C_MAGENTA}💡 WORKTREE ALIASES${_C_NC}:
+  ccw = cc wt, ccwy = cc wt yolo, ccwp = cc wt pick
 "
 }
+
+# ============================================================================
+# WORKTREE INTEGRATION
+# ============================================================================
+
+_cc_worktree() {
+    local mode=""
+    local mode_args=""
+    local branch=""
+
+    # Parse mode if provided (yolo, plan, opus, haiku)
+    case "$1" in
+        yolo|y)
+            mode="yolo"
+            mode_args="--dangerously-skip-permissions"
+            shift
+            ;;
+        plan|p)
+            mode="plan"
+            mode_args="--permission-mode plan"
+            shift
+            ;;
+        opus|o)
+            mode="opus"
+            mode_args="--model opus --permission-mode acceptEdits"
+            shift
+            ;;
+        haiku|h)
+            mode="haiku"
+            mode_args="--model haiku --permission-mode acceptEdits"
+            shift
+            ;;
+        pick)
+            shift
+            _cc_worktree_pick "$@"
+            return
+            ;;
+        help|--help|-h)
+            _cc_worktree_help
+            return
+            ;;
+    esac
+
+    branch="$1"
+
+    # No branch = list worktrees
+    if [[ -z "$branch" ]]; then
+        echo -e "${_C_BLUE}📋 Current worktrees:${_C_NC}"
+        wt list
+        echo ""
+        echo -e "${_C_DIM}Usage: cc wt <branch> or cc wt pick${_C_NC}"
+        return
+    fi
+
+    # Get or create worktree
+    local wt_path
+    wt_path=$(_wt_get_path "$branch")
+
+    if [[ -z "$wt_path" ]]; then
+        echo -e "${_C_BLUE}ℹ Creating worktree for $branch...${_C_NC}"
+        wt create "$branch"
+        wt_path=$(_wt_get_path "$branch")
+    fi
+
+    if [[ -z "$wt_path" ]]; then
+        echo -e "${_C_RED}✗ Failed to get/create worktree for $branch${_C_NC}"
+        return 1
+    fi
+
+    # Launch Claude in worktree
+    echo -e "${_C_GREEN}✓ Launching Claude in $wt_path${_C_NC}"
+    if [[ -n "$mode" ]]; then
+        echo -e "${_C_DIM}Mode: $mode${_C_NC}"
+    fi
+    cd "$wt_path" && eval "claude $mode_args"
+}
+
+_cc_worktree_pick() {
+    # Check for fzf
+    if ! command -v fzf >/dev/null 2>&1; then
+        echo -e "${_C_RED}✗ fzf required for pick mode${_C_NC}"
+        echo ""
+        echo -e "${_C_DIM}Install: brew install fzf${_C_NC}"
+        echo ""
+        echo "Current worktrees:"
+        wt list
+        return 1
+    fi
+
+    # Get worktrees in fzf-friendly format
+    local selected
+    selected=$(git worktree list --porcelain 2>/dev/null | \
+        grep "^worktree " | \
+        cut -d' ' -f2- | \
+        fzf --prompt="Select worktree: " --height=40% --reverse)
+
+    if [[ -n "$selected" ]]; then
+        echo -e "${_C_GREEN}✓ Launching Claude in $selected${_C_NC}"
+        cd "$selected" && claude --permission-mode acceptEdits
+    else
+        echo -e "${_C_DIM}No worktree selected${_C_NC}"
+    fi
+}
+
+_cc_worktree_help() {
+    echo -e "
+${_C_YELLOW}╔════════════════════════════════════════════════════════════╗${_C_NC}
+${_C_YELLOW}║${_C_NC}  ${_C_CYAN}CC WT${_C_NC} - Claude Code in Worktrees                        ${_C_YELLOW}║${_C_NC}
+${_C_YELLOW}╚════════════════════════════════════════════════════════════╝${_C_NC}
+
+${_C_YELLOW}💡 QUICK START${_C_NC}:
+  ${_C_DIM}\$${_C_NC} cc wt feature/auth       ${_C_DIM}# Claude in worktree (creates if needed)${_C_NC}
+  ${_C_DIM}\$${_C_NC} cc wt pick               ${_C_DIM}# Pick existing worktree → Claude${_C_NC}
+  ${_C_DIM}\$${_C_NC} cc wt                    ${_C_DIM}# List worktrees${_C_NC}
+
+${_C_BLUE}📋 COMMANDS${_C_NC}:
+  ${_C_CYAN}cc wt <branch>${_C_NC}       Launch Claude in worktree
+  ${_C_CYAN}cc wt${_C_NC}                List worktrees
+  ${_C_CYAN}cc wt pick${_C_NC}           fzf picker for worktrees
+
+${_C_BLUE}🚀 MODE CHAINING${_C_NC}:
+  ${_C_CYAN}cc wt yolo <branch>${_C_NC}  Worktree + YOLO mode
+  ${_C_CYAN}cc wt plan <branch>${_C_NC}  Worktree + Plan mode
+  ${_C_CYAN}cc wt opus <branch>${_C_NC}  Worktree + Opus model
+  ${_C_CYAN}cc wt haiku <branch>${_C_NC} Worktree + Haiku model
+
+${_C_MAGENTA}💡 ALIASES${_C_NC}:
+  ccw   = cc wt
+  ccwy  = cc wt yolo
+  ccwp  = cc wt pick
+
+${_C_MAGENTA}💡 EXAMPLES${_C_NC}:
+  ccw feature/auth     Launch in worktree
+  ccwy feature/auth    YOLO mode in worktree
+  ccwp                 Pick from existing worktrees
+"
+}
+
+# ============================================================================
+# ALIASES
+# ============================================================================
+
+alias ccw='cc wt'
+alias ccwy='cc wt yolo'
+alias ccwp='cc wt pick'
