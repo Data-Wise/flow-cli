@@ -239,14 +239,23 @@ mcp cd statistical-research
 cc                    # Claude in MCP server dir
 ```
 
-### With aiterm
+### With aiterm (Rich Features)
 
-For richer output:
+For advanced MCP management, aiterm provides enhanced capabilities:
 
 ```bash
-ait mcp list          # Rich table output
-ait mcp validate      # Detailed config validation
+ait mcp list          # Rich table view with status indicators
+ait mcp validate      # Full JSON validation with error details
+ait mcp test-all      # Batch health checking with timing
+ait mcp info <name>   # Detailed config with masked secrets
 ```
+
+**When to use aiterm:**
+- Validating MCP configuration before deployment
+- Debugging server connection issues
+- Getting detailed timing and health metrics
+
+**Documentation:** [aiterm MCP Integration Guide](https://github.com/data-wise/aiterm/blob/main/docs/MCP-INTEGRATION.md)
 
 ---
 
