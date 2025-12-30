@@ -77,27 +77,12 @@ docs/
 │   ├── ALIAS-REFERENCE-CARD.md
 │   └── WORKFLOW-QUICK-REFERENCE.md
 │
-├── api/                   # API documentation
-│   ├── API-REFERENCE.md
-│   ├── INTERACTIVE-EXAMPLES.md
-│   └── API-OVERVIEW.md
-│
-├── architecture/          # System design
-│   ├── README.md
-│   ├── ARCHITECTURE-DIAGRAM.md
-│   └── QUICK-REFERENCE.md
-│
 ├── testing/               # Testing guides
 │   └── TESTING.md
 │
-├── contributing/          # Contributor guides
-│   ├── PR-WORKFLOW-GUIDE.md
-│   ├── ADR-PROCESS-GUIDE.md
-│   └── DOCUMENTATION-STYLE-GUIDE.md (this file)
-│
-└── decisions/             # Architecture decisions
-    ├── README.md
-    └── ADR-*.md
+└── contributing/          # Contributor guides
+    ├── PR-WORKFLOW-GUIDE.md
+    └── DOCUMENTATION-STYLE-GUIDE.md (this file)
 ```
 
 ### File Naming
