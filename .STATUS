@@ -502,11 +502,13 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: Updated PR workflow docs for ZSH (2025-12-30)
-## streak: 4
-## last_active: 2025-12-30 17:45
+## wins: Archived all Node.js ADRs (2025-12-30)
+## streak: 5
+## last_active: 2025-12-30 18:00
 
 ## Session Log (continued)
+- 2025-12-30: DOCS - Archived all 7 ADR files (obsolete Node.js architecture) (PR #119)
+- 2025-12-30: DOCS - Removed Decisions section from mkdocs navigation
 - 2025-12-30: DOCS - Archived MIGRATION-v1-to-v2.md (obsolete - v4.4.x) (PR #117)
 - 2025-12-30: DOCS - Rewrote PR-WORKFLOW-GUIDE.md for pure ZSH plugin architecture
 - 2025-12-30: DOCS - Replaced all npm/Node.js references with ZSH patterns
