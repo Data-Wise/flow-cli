@@ -117,6 +117,32 @@ wt() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
+# WORKTREE UTILITIES
+# ═══════════════════════════════════════════════════════════════════
+
+# Get the path for a worktree given a branch name
+# Returns empty string if worktree doesn't exist
+_wt_get_path() {
+    local branch="$1"
+    [[ -z "$branch" ]] && return 1
+
+    local git_root=$(git rev-parse --show-toplevel 2>/dev/null)
+    [[ -z "$git_root" ]] && return 1
+
+    local project=$(basename "$git_root")
+    local folder=$(echo "$branch" | tr '/' '-')
+    local wt_path="$FLOW_WORKTREE_DIR/$project/$folder"
+
+    # Return path if it exists
+    if [[ -d "$wt_path" ]]; then
+        echo "$wt_path"
+        return 0
+    fi
+
+    return 1
+}
+
+# ═══════════════════════════════════════════════════════════════════
 # WORKTREE OPERATIONS
 # ═══════════════════════════════════════════════════════════════════
 

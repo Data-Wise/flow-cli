@@ -102,6 +102,54 @@ cc [subcommand|project-name] [options]
 
 ---
 
+## Worktree Integration
+
+Launch Claude in isolated git worktrees for parallel development.
+
+| Command                     | Description                             |
+| --------------------------- | --------------------------------------- |
+| `cc wt`                     | List current worktrees                  |
+| `cc wt <branch>`            | Launch Claude in worktree for branch    |
+| `cc wt pick`                | Pick worktree → Claude (fzf)            |
+| `cc wt yolo <branch>`       | Worktree → YOLO mode                    |
+| `cc wt plan <branch>`       | Worktree → Plan mode                    |
+| `cc wt opus <branch>`       | Worktree → Opus model                   |
+| `cc wt haiku <branch>`      | Worktree → Haiku model                  |
+
+**Shortcuts:** `cc w` = wt, `cc worktree` = wt
+
+### Aliases
+
+| Alias  | Expands To    | Description           |
+| ------ | ------------- | --------------------- |
+| `ccw`  | `cc wt`       | Quick worktree access |
+| `ccwy` | `cc wt yolo`  | Worktree + YOLO mode  |
+| `ccwp` | `cc wt pick`  | Worktree picker       |
+
+### Examples
+
+```bash
+# Create/use worktree and launch Claude
+cc wt feature/auth       # Creates worktree if needed, launches Claude
+
+# Use fzf to pick existing worktree
+cc wt pick               # Interactive selection
+
+# Worktree with YOLO mode
+cc wt yolo bugfix/issue-42
+
+# Worktree with specific model
+cc wt opus feature/refactor
+```
+
+### How It Works
+
+1. If worktree exists for branch → cd to it → launch Claude
+2. If no worktree → create one using `wt create` → launch Claude
+3. Mode flags (yolo, plan, opus, haiku) apply to the Claude session
+
+---
+
 ## Smart Project Selection
 
 The `cc` dispatcher inherits all of `pick`'s smart behaviors:
@@ -187,6 +235,7 @@ cc haiku          # Pick project + Haiku model
 | `opus`     | `o`   | Opus model            |
 | `haiku`    | `h`   | Haiku model           |
 | `print`    | `pr`  | Print mode            |
+| `wt`       | `w`   | Worktree mode         |
 
 > **Note:** `cc now` is deprecated. Just use `cc` (default is current dir).
 
@@ -196,7 +245,24 @@ cc haiku          # Pick project + Haiku model
 
 - Uses `pick` for project selection (inherits direct jump, smart resume)
 - Uses Claude CLI (`claude`) for all operations
-- Works with `ccy` alias (shortcut for `cc yolo`)
+- Works with `wt` dispatcher for worktree management
+
+### Aliases
+
+| Alias  | Command       | Description          |
+| ------ | ------------- | -------------------- |
+| `ccy`  | `cc yolo`     | YOLO mode            |
+| `ccp`  | `cc plan`     | Plan mode            |
+| `ccr`  | `cc resume`   | Resume picker        |
+| `ccc`  | `cc continue` | Continue recent      |
+| `cca`  | `cc ask`      | Quick question       |
+| `ccf`  | `cc file`     | Analyze file         |
+| `ccd`  | `cc diff`     | Review changes       |
+| `cco`  | `cc opus`     | Opus model           |
+| `cch`  | `cc haiku`    | Haiku model          |
+| `ccw`  | `cc wt`       | Worktree mode        |
+| `ccwy` | `cc wt yolo`  | Worktree + YOLO      |
+| `ccwp` | `cc wt pick`  | Worktree picker      |
 
 ---
 
@@ -207,6 +273,6 @@ cc haiku          # Pick project + Haiku model
 
 ---
 
-**Last Updated:** 2025-12-27
-**Version:** v3.6.2
+**Last Updated:** 2025-12-29
+**Version:** v4.2.0
 **Status:** ✅ Fully implemented
