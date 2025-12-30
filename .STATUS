@@ -502,11 +502,20 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: Archived all Node.js ADRs (2025-12-30)
-## streak: 5
-## last_active: 2025-12-30 18:00
+## wins: Created install improvements plan (2025-12-30)
+## streak: 6
+## last_active: 2025-12-30 18:30
+
+## Next: v4.5.0 - Installation Improvements
+- [ ] Create install.sh (curl one-liner, auto-detect plugin manager)
+- [ ] Add install methods comparison table to README
+- [ ] Update docs/getting-started/installation.md
+- [ ] Test on fresh environment
+Plan: docs/planning/INSTALL-IMPROVEMENTS.md
 
 ## Session Log (continued)
+- 2025-12-30: PLAN - Created INSTALL-IMPROVEMENTS.md (aiterm-style installation)
+- 2025-12-30: DOCS - Updated CLAUDE.md with v4.5.0 roadmap
 - 2025-12-30: DOCS - Archived all 7 ADR files (obsolete Node.js architecture) (PR #119)
 - 2025-12-30: DOCS - Removed Decisions section from mkdocs navigation
 - 2025-12-30: DOCS - Archived MIGRATION-v1-to-v2.md (obsolete - v4.4.x) (PR #117)

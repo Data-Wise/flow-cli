@@ -156,6 +156,7 @@ nav:
       - Philosophy: PHILOSOPHY.md
   - Planning:
       - v4.3.0+ Roadmap: planning/V4.3-ROADMAP.md
+      - Install Improvements: planning/INSTALL-IMPROVEMENTS.md
   # Project Status files removed - they're root-level project tracking docs
   # with internal links that break in mkdocs context
 
