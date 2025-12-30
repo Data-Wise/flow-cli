@@ -470,12 +470,14 @@ ${_C_YELLOW}EXAMPLES${_C_NC}:
 _g_feature_prune() {
     local all_flag=false
     local dry_run=false
+    local force_flag=false
 
     # Parse arguments
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --all|-a) all_flag=true ;;
             --dry-run|-n) dry_run=true ;;
+            --force|-f) force_flag=true ;;
             --help|-h) _g_feature_prune_help; return 0 ;;
             *) echo -e "${_C_RED}✗ Unknown option: $1${_C_NC}"; return 1 ;;
         esac
@@ -530,6 +532,16 @@ _g_feature_prune() {
         if [[ "$dry_run" == true ]]; then
             echo -e "${_C_YELLOW}Dry run - no branches deleted${_C_NC}"
         else
+            # Confirm unless --force
+            if [[ "$force_flag" != true ]]; then
+                echo -n "Delete ${#merged_branches[@]} branch(es)? [y/N] "
+                read -r confirm
+                if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+                    echo -e "${_C_YELLOW}Cancelled${_C_NC}"
+                    return 0
+                fi
+            fi
+
             # Delete local branches
             local deleted=0
             for branch in "${merged_branches[@]}"; do
@@ -577,6 +589,16 @@ _g_feature_prune() {
             if [[ "$dry_run" == true ]]; then
                 echo -e "${_C_YELLOW}Dry run - no remote branches deleted${_C_NC}"
             else
+                # Confirm unless --force
+                if [[ "$force_flag" != true ]]; then
+                    echo -n "Delete ${#remote_merged[@]} remote branch(es)? [y/N] "
+                    read -r confirm
+                    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+                        echo -e "${_C_YELLOW}Cancelled${_C_NC}"
+                        return 0
+                    fi
+                fi
+
                 local remote_deleted=0
                 for branch in "${remote_merged[@]}"; do
                     if git push origin --delete "$branch" 2>/dev/null; then
@@ -597,25 +619,30 @@ _g_feature_prune_help() {
 ${_C_BOLD}g feature prune${_C_NC} - Clean up merged feature branches
 
 ${_C_YELLOW}USAGE${_C_NC}:
-  ${_C_CYAN}g feature prune${_C_NC}           Delete local merged branches
+  ${_C_CYAN}g feature prune${_C_NC}           Delete local merged branches (with confirmation)
+  ${_C_CYAN}g feature prune --force${_C_NC}   Skip confirmation prompts
   ${_C_CYAN}g feature prune --all${_C_NC}     Also delete remote branches
   ${_C_CYAN}g feature prune --dry-run${_C_NC} Show what would be deleted
 
 ${_C_YELLOW}OPTIONS${_C_NC}:
+  ${_C_CYAN}--force, -f${_C_NC}     Skip confirmation prompts
   ${_C_CYAN}--all, -a${_C_NC}       Also prune remote branches
   ${_C_CYAN}--dry-run, -n${_C_NC}   Show what would be deleted without deleting
   ${_C_CYAN}--help, -h${_C_NC}      Show this help
 
 ${_C_YELLOW}SAFE BY DEFAULT${_C_NC}:
+  • Asks for confirmation before deleting
   • Only deletes branches merged to dev (or main)
   • Never deletes: main, master, dev, develop
   • Never deletes current branch
   • Only targets: feature/*, bugfix/*, hotfix/*
 
 ${_C_YELLOW}EXAMPLES${_C_NC}:
-  ${_C_DIM}\$${_C_NC} g feature prune          ${_C_DIM}# Clean local merged branches${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune          ${_C_DIM}# Clean local (with confirmation)${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune -f       ${_C_DIM}# Clean local (no confirmation)${_C_NC}
   ${_C_DIM}\$${_C_NC} g feature prune -n       ${_C_DIM}# Preview what would be deleted${_C_NC}
   ${_C_DIM}\$${_C_NC} g feature prune --all    ${_C_DIM}# Also clean remote branches${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune -af      ${_C_DIM}# Clean all without confirmation${_C_NC}
 "
 }
 
