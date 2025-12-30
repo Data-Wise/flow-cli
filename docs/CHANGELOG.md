@@ -6,6 +6,31 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.4.1] - 2025-12-30
+
+### Added
+
+- **9 dispatcher reference pages** - Complete documentation for all dispatchers
+  - CC-DISPATCHER-REFERENCE.md - Claude Code launcher
+  - G-DISPATCHER-REFERENCE.md - Git workflows (452 lines)
+  - MCP-DISPATCHER-REFERENCE.md - MCP server management
+  - OBS-DISPATCHER-REFERENCE.md - Obsidian integration
+  - QU-DISPATCHER-REFERENCE.md - Quarto publishing
+  - R-DISPATCHER-REFERENCE.md - R package development
+  - TM-DISPATCHER-REFERENCE.md - Terminal manager
+  - WT-DISPATCHER-REFERENCE.md - Worktree management
+  - Plus main DISPATCHER-REFERENCE.md overview
+
+- **Tutorial 11** - TM Dispatcher tutorial
+
+### Changed
+
+- **CLAUDE.md** - Updated Active Dispatchers to 8 (added wt)
+- **Cross-references** - All dispatcher pages linked with "See also"
+- **aiterm integration** - Added links to aiterm MCP and flow-cli docs
+
+---
+
 ## [4.4.0] - 2025-12-30
 
 ### Added
