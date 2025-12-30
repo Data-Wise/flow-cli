@@ -364,42 +364,60 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2025-12-27)
+## Current Status (2025-12-29)
+
+### ✅ v4.2.0 Released
+
+- [x] Worktree + Claude Integration (`cc wt`)
+  - `cc wt <branch>` - Launch Claude in worktree (creates if needed)
+  - `cc wt pick` - fzf picker for existing worktrees
+  - `cc wt yolo|plan|opus|haiku <branch>` - Mode chaining
+  - Aliases: `ccw`, `ccwy`, `ccwp`
+- [x] Branch cleanup (`g feature prune`)
+- [x] 57 new tests (20 unit + 19 E2E + 18 prune)
+- [x] Documentation sync and validation
 
 ### ✅ v4.1.0 Released
 
-- [x] Unified sync command (`flow sync all`)
-- [x] Dopamine features (win tracking, streaks, goals)
-- [x] Win categories with auto-detection
-- [x] Daily goal tracking (global + per-project)
-- [x] Extended .STATUS format (wins, streak, last_active, tags)
-- [x] Dashboard TUI enhancements (Ctrl-E/S/W shortcuts)
-- [x] Watch mode (`dash --watch`)
-- [x] ADHD-calm theme for documentation site
-- [x] CI improvements and test suite enhancements
-
-### ✅ CC Dispatcher (2025-12-27)
-
-- [x] `cc` dispatcher added for Claude Code workflows
-- [x] Default launches Claude in current directory
-- [x] `cc pick` subcommand for project selection
-- [x] Consistent pattern: `<mode>` = here, `<mode> pick` = picker
-- [x] `cc now` deprecated (redundant with new default)
+- [x] Git feature branch workflow (`g feature start/sync/list/finish`)
+- [x] Workflow guard for protected branches
+- [x] `wt` dispatcher for git worktrees
+- [x] `g promote` and `g release` for PRs
 
 ### 🎯 Production Ready
 
-- **Version:** 4.0.1
-- **Released:** 2025-12-27
+- **Version:** 4.2.0
+- **Released:** 2025-12-29
 - **Status:** Production use phase
 - **Performance:** Sub-10ms for core commands
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
-- **Tests:** Interactive dog feeding test (gamified)
+- **Tests:** 100+ tests across all features
 
-### 📋 Next: v4.1.0 Planning
+### 📋 v4.3.0+ Roadmap
+
+See `docs/planning/V4.3-ROADMAP.md` for detailed implementation plans.
+
+**Priority 1: CC Worktree Enhancements**
+
+- [ ] `cc wt status` - Show worktrees with Claude session info
+- [ ] `cc wt clean` - Remove worktrees for merged branches
+
+**Priority 2: Branch Management**
+
+- [ ] `g feature prune --force` - Skip confirmation
+- [ ] `g feature prune --older-than` - Filter by age
+- [ ] `g feature status` - Show merged/unmerged branches
+
+**Priority 3: Worktree Improvements**
+
+- [ ] `wt prune` - Combined cleanup (worktrees + branches)
+- [ ] `wt status` - Show worktree health
+
+**Priority 4: Remote & Team (Future)**
 
 - [ ] Remote state sync (optional cloud backup)
-- [ ] Team features (shared templates)
-- [ ] Multi-device sync
+- [ ] Multi-device support
+- [ ] Shared templates
 
 ---
 

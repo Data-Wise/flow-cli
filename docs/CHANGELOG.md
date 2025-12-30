@@ -267,8 +267,31 @@ cc yolo     # YOLO mode
 
 ---
 
+## What's Next (v4.3.0+)
+
+See [V4.3-ROADMAP.md](planning/V4.3-ROADMAP.md) for detailed implementation plans.
+
+**Planned Features:**
+
+- `cc wt status` - Show worktrees with Claude session info
+- `cc wt clean` - Remove worktrees for merged branches
+- `g feature prune --force` - Skip confirmation
+- `g feature prune --older-than` - Filter by age
+- `g feature status` - Show merged/unmerged branches
+- `wt prune` - Combined cleanup (worktrees + branches)
+- `wt status` - Show worktree health
+
+**Future Considerations:**
+
+- Remote state sync
+- Multi-device support
+- Shared templates
+
+---
+
 ## Links
 
 - **Documentation:** https://data-wise.github.io/flow-cli/
 - **Repository:** https://github.com/Data-Wise/flow-cli
 - **Issues:** https://github.com/Data-Wise/flow-cli/issues
+- **Roadmap:** [V4.3-ROADMAP.md](planning/V4.3-ROADMAP.md)
