@@ -248,7 +248,7 @@ result = process_data()
 
 ```markdown
 ✅ See [Testing Guide](../testing/TESTING.md)
-✅ Read the [API Reference](../api/API-REFERENCE.md)
+✅ Read the [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)
 ❌ See [Testing Guide](https://data-wise.github.io/flow-cli/testing/TESTING/)
 ````
 

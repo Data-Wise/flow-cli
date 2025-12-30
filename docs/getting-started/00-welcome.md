@@ -14,10 +14,10 @@
 
 **What you'll do:**
 
-1. Install flow-cli (`npm install && npm run install:cli`)
-2. Run `flow status` to see your first dashboard
-3. Try `flow dashboard` for real-time monitoring
-4. See what Phase P6 delivered (enhanced status, TUI, 10x performance)
+1. Install flow-cli (source the plugin)
+2. Run `dash` to see your project dashboard
+3. Try `work <project>` to start a session
+4. Use `win "text"` to log accomplishments
 
 **Time investment:** 5 minutes
 **Outcome:** Working installation + first successful command
@@ -40,7 +40,7 @@
 
 - Create and manage work sessions
 - Track time and context
-- Understand flow state (15-minute threshold)
+- Understand flow state
 - End sessions with outcome tracking
 
 **Outcome:** Comfortable with session management
@@ -51,10 +51,10 @@
 
 **What you'll learn:**
 
-- Scan multiple project directories
+- Use the project picker (`pick`)
 - Filter by project type and status
 - Track recent activity
-- Use project rankings (MRU - Most Recently Used)
+- Use dispatchers for domain-specific workflows
 
 **Outcome:** Efficiently switch between projects
 
@@ -64,47 +64,39 @@
 
 **What you'll learn:**
 
-- Read ASCII progress bars and sparklines
-- Interpret productivity metrics (flow %, completion rate, streak)
-- Use quick actions menu
-- Understand verbose mode (`flow status -v`)
+- Read dashboard visualizations
+- Interpret productivity metrics (streaks, wins)
+- Use interactive mode (`dash -i`)
+- Understand .STATUS file format
 
-**Outcome:** Master the status command features
+**Outcome:** Master the dashboard features
 
 **Time investment:** 30 minutes
 **Outcome:** Complete workflow mastery
 
 ---
 
-## 🔬 Deep Dive (2-4 hours)
+## 🔬 Deep Dive (1-2 hours)
 
-**Perfect if you:** Want to master the system and understand how it works internally.
+**Perfect if you:** Want to master the system and contribute.
 
-**You'll learn:** Architecture, customization, testing, and contribution.
+**You'll learn:** Dispatchers, customization, testing, and contribution.
 
 **Learning path:**
 
 ### Phase 1: Advanced Features (30 min)
 
-1. [Web Dashboard Tutorial](../tutorials/04-web-dashboard.md) - Real-time monitoring
-2. [Command Reference](../reference/ALIAS-REFERENCE-CARD.md) - All 28 aliases
-3. [Workflow Quick Wins](../guides/WORKFLOWS-QUICK-WINS.md) - Pro tips
+1. [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) - All 8 dispatchers
+2. [Command Reference](../reference/COMMAND-QUICK-REFERENCE.md) - Complete command list
+3. [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common patterns
 
-### Phase 2: Architecture Understanding (1 hour)
-
-1. [Architecture Overview](../architecture/README.md) - System design
-2. [Clean Architecture Guide](../architecture/ARCHITECTURE-DIAGRAM.md) - 15 diagrams
-3. [API Reference](../api/API-REFERENCE.md) - Domain, Use Cases, Adapters
-4. [Interactive Examples](../api/INTERACTIVE-EXAMPLES.md) - 13 runnable patterns
-
-### Phase 3: Customization & Extension (1-2 hours)
+### Phase 2: Customization & Extension (30-60 min)
 
 1. [Contributing Guide](../contributing/CONTRIBUTING.md) - How to contribute
-2. [Testing Guide](../testing/TESTING.md) - 559 tests explained
-3. [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md) - Copy-paste patterns
-4. [ZSH Development Guidelines](../ZSH-DEVELOPMENT-GUIDELINES.md) - Shell scripting
+2. [Testing Guide](../testing/TESTING.md) - 150+ ZSH tests
+3. [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md) - Project overview
 
-**Time investment:** 2-4 hours
+**Time investment:** 1-2 hours
 **Outcome:** Expert-level understanding + ability to customize/contribute
 
 ---
@@ -115,7 +107,7 @@
 
 1. Read: [Quick Start](quick-start.md) (5 min)
 2. Do: [Tutorial 1: First Session](../tutorials/01-first-session.md) (10 min)
-3. Use: `flow status` daily
+3. Use: `dash` and `win` daily
 
 **Total time:** 15 minutes
 
@@ -123,8 +115,8 @@
 
 1. Read: [Quick Start](quick-start.md) (5 min)
 2. Do: [Tutorial 2: Multiple Projects](../tutorials/02-multiple-projects.md) (10 min)
-3. Learn: Project filters and rankings
-4. Use: `pick` command for project switching
+3. Learn: Project filters and `pick` command
+4. Use: Dispatchers (`cc`, `g`, `r`, `qu`)
 
 **Total time:** 20 minutes
 
@@ -132,29 +124,28 @@
 
 1. Read: [Quick Start](quick-start.md) (5 min)
 2. Do: [Tutorial 3: Status Visualizations](../tutorials/03-status-visualizations.md) (10 min)
-3. Do: [Tutorial 4: Web Dashboard](../tutorials/04-web-dashboard.md) (15 min)
-4. Try: `flow dashboard` for real-time TUI
+3. Try: `dash -i` for interactive mode
+4. Try: `dash --watch` for live updates
 
-**Total time:** 30 minutes
+**Total time:** 20 minutes
 
 ### "I'm a Developer - Show Me the Code"
 
-1. Read: [API Reference](../api/API-REFERENCE.md) (15 min)
-2. Browse: [Interactive Examples](../api/INTERACTIVE-EXAMPLES.md) (15 min)
-3. Study: [Architecture Diagrams](../architecture/ARCHITECTURE-DIAGRAM.md) (20 min)
-4. Review: [Testing Guide](../testing/TESTING.md) (20 min)
+1. Read: [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md) (10 min)
+2. Browse: [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) (15 min)
+3. Review: [Testing Guide](../testing/TESTING.md) (15 min)
+4. Run: `flow doctor` to check your setup
 
-**Total time:** 1 hour 10 minutes
+**Total time:** 45 minutes
 
 ### "I Want to Contribute"
 
 1. Read: [Contributing Guide](../contributing/CONTRIBUTING.md) (15 min)
-2. Study: [Architecture Overview](../architecture/README.md) (30 min)
-3. Review: [Testing Guide](../testing/TESTING.md) (20 min)
-4. Practice: [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md) (30 min)
-5. Build: Pick a [good first issue](https://github.com/Data-Wise/flow-cli/labels/good%20first%20issue)
+2. Review: [Testing Guide](../testing/TESTING.md) (15 min)
+3. Run: `zsh tests/test-cc-dispatcher.zsh` (5 min)
+4. Build: Pick a [good first issue](https://github.com/Data-Wise/flow-cli/labels/good%20first%20issue)
 
-**Total time:** 2 hours (+ implementation time)
+**Total time:** 1 hour (+ implementation time)
 
 ---
 
@@ -162,17 +153,16 @@
 
 ### Quick References (Keep These Handy)
 
-- [Command Reference Card](../reference/ALIAS-REFERENCE-CARD.md) - All commands on one page
+- [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md) - All commands
+- [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) - All 8 dispatchers
 - [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common patterns
-- [Architecture Quick Reference](../architecture/QUICK-REFERENCE.md) - System design
-- [Dashboard Quick Ref](../reference/DASHBOARD-QUICK-REF.md) - Dashboard commands
+- [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) - Shortcuts
 
-### Comprehensive Guides (Deep Reading)
+### Comprehensive Guides
 
 - [Documentation Home](../index.md) - Everything organized
-- [API Overview](../api/API-OVERVIEW.md) - System modules
-- [Architecture Patterns](../architecture/ARCHITECTURE-PATTERNS-ANALYSIS.md) - Design patterns
-- [ADR Summary](../decisions/ADR-SUMMARY.md) - Architectural decisions
+- [Dopamine Features](../guides/DOPAMINE-FEATURES-GUIDE.md) - Win tracking, streaks
+- [ADR Summary](../decisions/ADR-SUMMARY.md) - Historical decisions
 
 ---
 
@@ -181,51 +171,43 @@
 ### Common Questions
 
 **"Which commands do I use daily?"**
-→ See [Workflow Quick Wins](../guides/WORKFLOWS-QUICK-WINS.md)
+→ `work`, `dash`, `win`, `finish` - See [Quick Start](quick-start.md)
 
 **"How do I switch between projects?"**
-→ See [Tutorial 2: Multiple Projects](../tutorials/02-multiple-projects.md)
+→ Use `pick` or `hop` - See [Tutorial 2](../tutorials/02-multiple-projects.md)
 
-**"What are these ASCII visualizations?"**
-→ See [Tutorial 3: Status Visualizations](../tutorials/03-status-visualizations.md)
+**"What are the dispatchers?"**
+→ `cc`, `g`, `mcp`, `obs`, `qu`, `r`, `tm`, `wt` - See [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)
 
-**"Can I customize the dashboard?"**
-→ See [Web Dashboard Tutorial](../tutorials/04-web-dashboard.md)
-
-**"How does Clean Architecture work here?"**
-→ See [Architecture Diagrams](../architecture/ARCHITECTURE-DIAGRAM.md)
-
-**"Where are the tests?"**
-→ See [Testing Guide](../testing/TESTING.md) - 559 tests documented
+**"How do I check my setup?"**
+→ Run `flow doctor` - See [Installation](installation.md)
 
 ### Still Stuck?
 
-1. **Check troubleshooting:** [Troubleshooting Guide](troubleshooting.md)
-2. **Search the docs:** Use Cmd+F on the [documentation site](https://Data-Wise.github.io/flow-cli/)
-3. **Ask for help:** [GitHub Issues](https://github.com/Data-Wise/flow-cli/issues)
+1. **Run health check:** `flow doctor`
+2. **Check troubleshooting:** [Troubleshooting Guide](troubleshooting.md)
+3. **Search the docs:** Use the [documentation site](https://Data-Wise.github.io/flow-cli/)
+4. **Ask for help:** [GitHub Issues](https://github.com/Data-Wise/flow-cli/issues)
 
 ---
 
-## 🎉 What's New (v2.0.0-beta.1)
+## 🎉 What's New (v4.4.x)
 
-### Phase P6 Complete (Dec 24, 2025)
+### Latest Features
 
-- ✅ **559 tests** (100% passing, zero flakes)
-- ✅ **Enhanced status** - ASCII visualizations, progress bars, sparklines
-- ✅ **Interactive TUI** - Real-time dashboard with auto-refresh
-- ✅ **10x performance** - Caching layer for project scanning
-- ✅ **4 tutorials** - ADHD-friendly step-by-step guides
-- ✅ **Complete API docs** - 800+ lines with code examples
-- ✅ **15 diagrams** - Visual architecture documentation
+- ✅ **8 dispatchers** - `cc`, `g`, `mcp`, `obs`, `qu`, `r`, `tm`, `wt`
+- ✅ **150+ tests** - Full ZSH test suite with CI
+- ✅ **Worktree integration** - `cc wt <branch>` for Claude in worktrees
+- ✅ **Git feature workflow** - `g feature start/sync/finish`
+- ✅ **Dopamine features** - Win tracking, streaks, daily goals
 
-### Production Use Phase (Started Dec 24, 2025)
+### Pure ZSH Architecture
 
-- 🔍 **1-2 week validation** - Gathering real usage feedback
-- 📝 **Friction tracking** - Systematic issue reporting
-- 🚫 **Feature freeze** - No new features until validation complete
-- 🎯 **Focus on polish** - Fix real problems, not hypothetical ones
+- 🚀 **Sub-10ms response** - No Node.js runtime
+- 📦 **Zero dependencies** - Just ZSH and Git
+- 🔌 **Plugin manager support** - antidote, zinit, oh-my-zsh
 
-**Current status:** v2.0.0-beta.1 is production-ready and stable.
+**Current status:** v4.4.x is production-ready and actively maintained.
 
 ---
 
@@ -233,9 +215,8 @@
 
 ### For ADHD-Friendly Learning
 
-- ✅ **Visual learners:** Start with [Architecture Diagrams](../architecture/ARCHITECTURE-DIAGRAM.md)
 - ✅ **Hands-on learners:** Jump straight to [Tutorial 1](../tutorials/01-first-session.md)
-- ✅ **Reference learners:** Bookmark [Command Reference](../reference/ALIAS-REFERENCE-CARD.md)
+- ✅ **Reference learners:** Bookmark [Command Reference](../reference/COMMAND-QUICK-REFERENCE.md)
 - ✅ **Speed learners:** Use the [5-Minute Quick Start](#5-minute-quick-start)
 
 ### Best Practices
@@ -248,9 +229,9 @@
 ### Progressive Mastery
 
 1. **Week 1:** Basic workflow (Quick Start + Tutorial 1)
-2. **Week 2:** Multiple projects (Tutorial 2 + Command Reference)
-3. **Week 3:** Advanced features (Tutorials 3-4 + Dashboard)
-4. **Month 2+:** Customization (Architecture + Contributing)
+2. **Week 2:** Multiple projects (Tutorial 2 + Dispatchers)
+3. **Week 3:** Advanced features (Dashboard modes + Dopamine)
+4. **Month 2+:** Customization (Contributing + Testing)
 
 ---
 
@@ -258,6 +239,5 @@
 
 **Questions?** See the [Getting Help](#getting-help) section.
 
-**Version:** v2.0.0-beta.1
-**Last updated:** 2025-12-24
-**Status:** Production Use Phase
+**Version:** v4.4.x
+**Last updated:** 2025-12-30

@@ -266,7 +266,7 @@ Format:
 
 ## See Also
 
-- [Plugin Architecture](../architecture/PLUGIN-ARCHITECTURE.md)
+- [Contributing Guide](../contributing/CONTRIBUTING.md)
 - [Example Plugin](https://github.com/data-wise/flow-cli/tree/main/plugins/example)
 
 ---

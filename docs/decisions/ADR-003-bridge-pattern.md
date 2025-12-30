@@ -292,4 +292,4 @@ if (!path.isAbsolute(projectPath)) {
 
 **Last Updated:** 2025-12-26
 **Part of:** Architecture Documentation
-**See Also:** [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md)
+**See Also:** [Contributing Guide](../contributing/CONTRIBUTING.md)

@@ -741,7 +741,6 @@ docs/decisions/ADR-004-module-api-not-rest.md
 
 - [Contributing Guide](../contributing/CONTRIBUTING.md) - General contribution guidelines
 - [PR Workflow Guide](PR-WORKFLOW-GUIDE.md) - How to create pull requests
-- [Architecture Overview](../architecture/README.md) - Current architecture
 - [Existing ADRs](../decisions/README.md) - Browse all ADRs
 
 ---

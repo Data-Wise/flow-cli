@@ -366,12 +366,6 @@ flow dashboard
 - [Tutorial 3: Status Visualizations](../tutorials/03-status-visualizations.md)
 - [Tutorial 4: Web Dashboard](../tutorials/04-web-dashboard.md)
 
-### Architecture
-
-- [API Reference](../api/API-REFERENCE.md) - Complete system API
-- [Interactive Examples](../api/INTERACTIVE-EXAMPLES.md) - 13 runnable patterns
-- [Architecture Diagrams](../architecture/ARCHITECTURE-DIAGRAM.md) - 15 Mermaid diagrams
-
 ---
 
 ## 💡 Tips for Efficient Usage

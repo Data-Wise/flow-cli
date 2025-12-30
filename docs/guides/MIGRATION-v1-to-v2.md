@@ -516,11 +516,6 @@ https://github.com/Data-Wise/flow-cli/issues
 - [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) - Complete alias list
 - [Workflow Tutorial](WORKFLOW-TUTORIAL.md) - Step-by-step guide
 
-**Architecture:**
-
-- [Architecture Overview](../architecture/README.md)
-- [Architecture Quick Wins](../architecture/ARCHITECTURE-QUICK-WINS.md)
-
 **Support:**
 
 - [GitHub Issues](https://github.com/Data-Wise/flow-cli/issues)
