@@ -2070,10 +2070,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#with-aiterm" class="md-nav__link">
+  <a href="#with-aiterm-rich-features" class="md-nav__link">
     <span class="md-ellipsis">
       
-        With aiterm
+        With aiterm (Rich Features)
       
     </span>
   </a>
@@ -4769,10 +4769,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#with-aiterm" class="md-nav__link">
+  <a href="#with-aiterm-rich-features" class="md-nav__link">
     <span class="md-ellipsis">
       
-        With aiterm
+        With aiterm (Rich Features)
       
     </span>
   </a>
@@ -5153,11 +5153,18 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>mcp<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>statistical-research
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>cc<span class="w">                    </span><span class="c1"># Claude in MCP server dir</span>
 </code></pre></div>
-<h3 id="with-aiterm">With aiterm<a class="headerlink" href="#with-aiterm" title="Permanent link">&para;</a></h3>
-<p>For richer output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>ait<span class="w"> </span>mcp<span class="w"> </span>list<span class="w">          </span><span class="c1"># Rich table output</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>ait<span class="w"> </span>mcp<span class="w"> </span>validate<span class="w">      </span><span class="c1"># Detailed config validation</span>
+<h3 id="with-aiterm-rich-features">With aiterm (Rich Features)<a class="headerlink" href="#with-aiterm-rich-features" title="Permanent link">&para;</a></h3>
+<p>For advanced MCP management, aiterm provides enhanced capabilities:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>ait<span class="w"> </span>mcp<span class="w"> </span>list<span class="w">          </span><span class="c1"># Rich table view with status indicators</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>ait<span class="w"> </span>mcp<span class="w"> </span>validate<span class="w">      </span><span class="c1"># Full JSON validation with error details</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>ait<span class="w"> </span>mcp<span class="w"> </span>test-all<span class="w">      </span><span class="c1"># Batch health checking with timing</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>ait<span class="w"> </span>mcp<span class="w"> </span>info<span class="w"> </span>&lt;name&gt;<span class="w">   </span><span class="c1"># Detailed config with masked secrets</span>
 </code></pre></div>
+<p><strong>When to use aiterm:</strong>
+- Validating MCP configuration before deployment
+- Debugging server connection issues
+- Getting detailed timing and health metrics</p>
+<p><strong>Documentation:</strong> <a href="https://github.com/data-wise/aiterm/blob/main/docs/MCP-INTEGRATION.md">aiterm MCP Integration Guide</a></p>
 <hr />
 <h2 id="troubleshooting_1">Troubleshooting<a class="headerlink" href="#troubleshooting_1" title="Permanent link">&para;</a></h2>
 <h3 id="mcp-servers-directory-not-found">"MCP servers directory not found"<a class="headerlink" href="#mcp-servers-directory-not-found" title="Permanent link">&para;</a></h3>
