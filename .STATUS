@@ -502,11 +502,15 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: Archived stale Node.js architecture docs (2025-12-30)
-## streak: 3
-## last_active: 2025-12-30 16:15
+## wins: Updated PR workflow docs for ZSH (2025-12-30)
+## streak: 4
+## last_active: 2025-12-30 17:45
 
 ## Session Log (continued)
+- 2025-12-30: DOCS - Archived MIGRATION-v1-to-v2.md (obsolete - v4.4.x) (PR #117)
+- 2025-12-30: DOCS - Rewrote PR-WORKFLOW-GUIDE.md for pure ZSH plugin architecture
+- 2025-12-30: DOCS - Replaced all npm/Node.js references with ZSH patterns
+- 2025-12-30: DOCS - Fixed broken CLAUDE.md link in ADRs README
 - 2025-12-30: DOCS - Archived docs/architecture/ and docs/api/ (PR #115)
 - 2025-12-30: DOCS - Moved 13 Node.js architecture files to .archive/
 - 2025-12-30: DOCS - Rewrote 00-welcome.md for v4.4.x ZSH plugin
