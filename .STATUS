@@ -502,11 +502,16 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: CI automation - All 8 dispatchers in test workflow (2025-12-30)
+## wins: TESTING.md rewrite - Pure ZSH test documentation (2025-12-30)
 ## streak: 3
-## last_active: 2025-12-30 12:25
+## last_active: 2025-12-30 14:15
 
 ## Session Log (continued)
+- 2025-12-30: DOCS - Rewrote TESTING.md for ZSH test suite (PR #111)
+- 2025-12-30: DOCS - Removed 736 lines of outdated Node.js/Jest docs
+- 2025-12-30: DOCS - Added ZSH test framework, CI integration docs
+- 2025-12-30: v4.4.3 RELEASE - CI automation improvements (PR #109)
+- 2025-12-30: TAG - v4.4.3 tagged and pushed
 - 2025-12-30: CI - Added all 8 dispatcher tests to CI workflow (PR #107)
 - 2025-12-30: CI - Split tm tests on macOS for continue-on-error handling
 - 2025-12-30: CI - TM tests gracefully skip when aiterm not installed
