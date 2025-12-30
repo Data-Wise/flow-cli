@@ -20,6 +20,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
   - `--branches` flag to also delete the merged branches
   - `--force` to skip confirmation, `--dry-run` to preview
 
+- **wt status** - Show worktree health and disk usage
+  - Shows all worktrees with status (active/merged/stale)
+  - Displays disk usage per worktree
+  - Provides cleanup suggestions
+
+- **g feature status** - Show merged vs active branches
+  - Lists stale branches (merged to dev)
+  - Lists active branches with commit count
+  - Shows age of each branch
+
+- **g feature prune --older-than** - Filter by branch age
+  - `--older-than 30d` - Only branches older than 30 days
+  - `--older-than 1w` - Only branches older than 1 week
+  - `--older-than 2m` - Only branches older than 2 months
+
 ### Changed
 
 - **g feature prune** - Now asks for confirmation before deleting

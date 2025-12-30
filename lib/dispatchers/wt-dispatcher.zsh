@@ -101,6 +101,13 @@ wt() {
             ;;
 
         # ─────────────────────────────────────────────────────────────
+        # STATUS (health and disk usage)
+        # ─────────────────────────────────────────────────────────────
+        status|st)
+            _wt_status
+            ;;
+
+        # ─────────────────────────────────────────────────────────────
         # REMOVE
         # ─────────────────────────────────────────────────────────────
         remove|rm)
@@ -228,6 +235,99 @@ _wt_remove() {
     git worktree remove "$path"
     if [[ $? -eq 0 ]]; then
         echo -e "${_C_GREEN}✓ Removed worktree: $path${_C_NC}"
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# WORKTREE STATUS
+# ═══════════════════════════════════════════════════════════════════
+
+_wt_status() {
+    echo -e "${_C_BOLD}🌳 Worktree Status${_C_NC}"
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+
+    # Determine base branch
+    local base_branch="dev"
+    if ! git show-ref --verify --quiet refs/heads/dev 2>/dev/null; then
+        base_branch="main"
+    fi
+
+    local total_count=0
+    local active_count=0
+    local merged_count=0
+    local stale_count=0
+
+    printf "\n  ${_C_BOLD}%-35s %-12s %-8s %s${_C_NC}\n" "BRANCH" "STATUS" "SIZE" "PATH"
+    echo -e "  ${_C_DIM}───────────────────────────────── ──────────── ──────── ─────────────────────${_C_NC}"
+
+    # Parse worktree list
+    local wt_path wt_branch wt_status wt_size
+    while IFS= read -r line; do
+        case "$line" in
+            "worktree "*)
+                wt_path="${line#worktree }"
+                ;;
+            "branch "*)
+                wt_branch="${line#branch refs/heads/}"
+                ;;
+            "detached")
+                wt_branch="(detached)"
+                ;;
+            "")
+                if [[ -n "$wt_path" ]]; then
+                    ((total_count++))
+
+                    # Calculate size
+                    wt_size=$(du -sh "$wt_path" 2>/dev/null | cut -f1)
+                    [[ -z "$wt_size" ]] && wt_size="?"
+
+                    # Determine status
+                    if [[ ! -d "$wt_path/.git" && ! -f "$wt_path/.git" ]]; then
+                        wt_status="${_C_RED}⚠️  stale${_C_NC}"
+                        ((stale_count++))
+                    elif [[ "$wt_branch" == "main" || "$wt_branch" == "master" || "$wt_branch" == "dev" || "$wt_branch" == "develop" ]]; then
+                        wt_status="${_C_BLUE}🏠 main${_C_NC}"
+                        ((active_count++))
+                    elif [[ "$wt_branch" == feature/* || "$wt_branch" == bugfix/* || "$wt_branch" == hotfix/* ]]; then
+                        # Check if merged
+                        if git branch --merged "$base_branch" 2>/dev/null | grep -q "^\s*$wt_branch$"; then
+                            wt_status="${_C_YELLOW}🧹 merged${_C_NC}"
+                            ((merged_count++))
+                        else
+                            wt_status="${_C_GREEN}✅ active${_C_NC}"
+                            ((active_count++))
+                        fi
+                    else
+                        wt_status="${_C_GREEN}✅ active${_C_NC}"
+                        ((active_count++))
+                    fi
+
+                    # Shorten path for display
+                    local short_path="${wt_path/#$HOME/~}"
+                    if [[ ${#short_path} -gt 40 ]]; then
+                        short_path="...${short_path: -37}"
+                    fi
+
+                    printf "  %-35s %-20s %-8s %s\n" \
+                        "${wt_branch:-unknown}" \
+                        "$wt_status" \
+                        "$wt_size" \
+                        "${_C_DIM}$short_path${_C_NC}"
+                fi
+                wt_path="" wt_branch=""
+                ;;
+        esac
+    done < <(git worktree list --porcelain 2>/dev/null; echo "")
+
+    # Summary
+    echo -e "\n${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+    echo -e "${_C_BOLD}Summary:${_C_NC} $total_count worktree(s) | ${_C_GREEN}$active_count active${_C_NC} | ${_C_YELLOW}$merged_count merged${_C_NC} | ${_C_RED}$stale_count stale${_C_NC}"
+
+    # Tips
+    if [[ $merged_count -gt 0 || $stale_count -gt 0 ]]; then
+        echo ""
+        [[ $merged_count -gt 0 ]] && echo -e "${_C_MAGENTA}💡 Tip:${_C_NC} Run ${_C_CYAN}wt prune${_C_NC} to clean up merged worktrees"
+        [[ $stale_count -gt 0 ]] && echo -e "${_C_MAGENTA}💡 Tip:${_C_NC} Run ${_C_CYAN}wt clean${_C_NC} to prune stale references"
     fi
 }
 
@@ -438,6 +538,7 @@ ${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
 ${_C_BLUE}📋 COMMANDS${_C_NC}:
   ${_C_CYAN}wt${_C_NC}               Navigate to ~/.git-worktrees
   ${_C_CYAN}wt list${_C_NC}          List all worktrees
+  ${_C_CYAN}wt status${_C_NC}        Show health, disk usage, merge status
   ${_C_CYAN}wt create <b>${_C_NC}    Create worktree for branch
   ${_C_CYAN}wt move${_C_NC}          Move current branch to worktree
   ${_C_CYAN}wt remove <path>${_C_NC} Remove a worktree

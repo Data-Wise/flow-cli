@@ -433,6 +433,10 @@ _g_feature() {
             _g_feature_prune "$@"
             ;;
 
+        status|st)
+            _g_feature_status "$@"
+            ;;
+
         help|--help|-h|*)
             _g_feature_help
             ;;
@@ -448,6 +452,8 @@ ${_C_YELLOW}COMMANDS${_C_NC}:
   ${_C_CYAN}g feature sync${_C_NC}           Rebase feature onto dev
   ${_C_CYAN}g feature list${_C_NC}           List feature/hotfix/bugfix branches
   ${_C_CYAN}g feature finish${_C_NC}         Push and create PR to dev
+  ${_C_CYAN}g feature status${_C_NC}         Show merged vs active branches
+  ${_C_CYAN}g feature prune${_C_NC}          Delete merged branches
 
 ${_C_YELLOW}WORKFLOW${_C_NC}:
   ${_C_DIM}feature/*${_C_NC} ──► ${_C_CYAN}dev${_C_NC} ──► ${_C_GREEN}main${_C_NC}
@@ -455,12 +461,84 @@ ${_C_YELLOW}WORKFLOW${_C_NC}:
   ${_C_DIM}bugfix/*${_C_NC}  ────┘
 
 ${_C_YELLOW}EXAMPLES${_C_NC}:
-  ${_C_DIM}\$${_C_NC} g feature start auth     ${_C_DIM}# → feature/auth from dev${_C_NC}
-  ${_C_DIM}\$${_C_NC} g feature sync           ${_C_DIM}# Rebase onto dev${_C_NC}
-  ${_C_DIM}\$${_C_NC} g feature finish         ${_C_DIM}# Push + PR to dev${_C_NC}
-  ${_C_DIM}\$${_C_NC} g feature prune          ${_C_DIM}# Delete merged branches${_C_NC}
-  ${_C_DIM}\$${_C_NC} g feature prune --all    ${_C_DIM}# Also clean remotes${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature start auth       ${_C_DIM}# → feature/auth from dev${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature sync             ${_C_DIM}# Rebase onto dev${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature finish           ${_C_DIM}# Push + PR to dev${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature status           ${_C_DIM}# Show stale vs active${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune            ${_C_DIM}# Delete merged branches${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune --all      ${_C_DIM}# Also clean remotes${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune --older-than 30d  ${_C_DIM}# Only old branches${_C_NC}
 "
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# FEATURE STATUS
+# ═══════════════════════════════════════════════════════════════════
+
+_g_feature_status() {
+    # Determine base branch
+    local base_branch="dev"
+    if ! git show-ref --verify --quiet refs/heads/dev 2>/dev/null; then
+        base_branch="main"
+    fi
+
+    echo -e "${_C_BOLD}📊 Feature Branch Status${_C_NC}"
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+
+    # Stale (merged) branches
+    echo -e "\n${_C_GREEN}🧹 Stale branches${_C_NC} ${_C_DIM}(merged to $base_branch)${_C_NC}:"
+    local stale_count=0
+    local branch age
+    while IFS= read -r branch; do
+        branch="${branch#\* }"
+        branch="${branch#"${branch%%[![:space:]]*}"}"
+        branch="${branch%"${branch##*[![:space:]]}"}"
+        [[ -z "$branch" ]] && continue
+        [[ "$branch" == feature/* || "$branch" == bugfix/* || "$branch" == hotfix/* ]] || continue
+        age=$(git log -1 --format="%cr" "$branch" 2>/dev/null)
+        printf "  ${_C_DIM}•${_C_NC} %-40s ${_C_DIM}(%s)${_C_NC}\n" "$branch" "$age"
+        ((stale_count++))
+    done < <(git branch --merged "$base_branch" 2>/dev/null)
+    [[ $stale_count -eq 0 ]] && echo -e "  ${_C_DIM}(none)${_C_NC}"
+
+    # Active (unmerged) branches
+    echo -e "\n${_C_YELLOW}⚠️  Active branches${_C_NC} ${_C_DIM}(not merged to $base_branch)${_C_NC}:"
+    local active_count=0
+    local commits
+    while IFS= read -r branch; do
+        branch="${branch#\* }"
+        branch="${branch#"${branch%%[![:space:]]*}"}"
+        branch="${branch%"${branch##*[![:space:]]}"}"
+        [[ -z "$branch" ]] && continue
+        [[ "$branch" == feature/* || "$branch" == bugfix/* || "$branch" == hotfix/* ]] || continue
+        commits=$(git rev-list --count "$base_branch".."$branch" 2>/dev/null || echo "?")
+        age=$(git log -1 --format="%cr" "$branch" 2>/dev/null)
+        printf "  ${_C_DIM}•${_C_NC} %-40s ${_C_CYAN}%s commits ahead${_C_NC} ${_C_DIM}(%s)${_C_NC}\n" "$branch" "$commits" "$age"
+        ((active_count++))
+    done < <(git branch --no-merged "$base_branch" 2>/dev/null)
+    [[ $active_count -eq 0 ]] && echo -e "  ${_C_DIM}(none)${_C_NC}"
+
+    # Summary and tip
+    echo -e "\n${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+    echo -e "${_C_BOLD}Summary:${_C_NC} $stale_count stale, $active_count active"
+    if [[ $stale_count -gt 0 ]]; then
+        echo -e "${_C_MAGENTA}💡 Tip:${_C_NC} Run ${_C_CYAN}g feature prune${_C_NC} to clean up merged branches"
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# DURATION PARSER
+# ═══════════════════════════════════════════════════════════════════
+
+# Parse duration string to days: 30d → 30, 1w → 7, 2m → 60
+_g_parse_duration() {
+    local duration="$1"
+    case "$duration" in
+        *d) echo "${duration%d}" ;;
+        *w) echo "$((${duration%w} * 7))" ;;
+        *m) echo "$((${duration%m} * 30))" ;;
+        *) echo "0" ;;
+    esac
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -471,6 +549,7 @@ _g_feature_prune() {
     local all_flag=false
     local dry_run=false
     local force_flag=false
+    local older_than=""
 
     # Parse arguments
     while [[ $# -gt 0 ]]; do
@@ -478,6 +557,14 @@ _g_feature_prune() {
             --all|-a) all_flag=true ;;
             --dry-run|-n) dry_run=true ;;
             --force|-f) force_flag=true ;;
+            --older-than)
+                shift
+                older_than="$1"
+                if [[ -z "$older_than" ]]; then
+                    echo -e "${_C_RED}✗ --older-than requires a duration (e.g., 30d, 1w, 2m)${_C_NC}"
+                    return 1
+                fi
+                ;;
             --help|-h) _g_feature_prune_help; return 0 ;;
             *) echo -e "${_C_RED}✗ Unknown option: $1${_C_NC}"; return 1 ;;
         esac
@@ -500,6 +587,20 @@ _g_feature_prune() {
         base_branch="main"
     fi
 
+    # Calculate age cutoff if --older-than specified
+    local max_age_days=0
+    local cutoff_time=0
+    if [[ -n "$older_than" ]]; then
+        max_age_days=$(_g_parse_duration "$older_than")
+        if [[ $max_age_days -eq 0 ]]; then
+            echo -e "${_C_RED}✗ Invalid duration format: $older_than${_C_NC}"
+            echo "Use: 30d (days), 1w (weeks), 2m (months)"
+            return 1
+        fi
+        cutoff_time=$(($(date +%s) - max_age_days * 86400))
+        echo -e "${_C_BLUE}ℹ Filtering branches older than $older_than${_C_NC}\n"
+    fi
+
     # Collect merged local branches
     while IFS= read -r branch; do
         # Skip empty lines
@@ -515,6 +616,11 @@ _g_feature_prune() {
         [[ "$branch" == "$current_branch" ]] && continue
         # Only include feature/bugfix/hotfix branches
         if [[ "$branch" == feature/* || "$branch" == bugfix/* || "$branch" == hotfix/* ]]; then
+            # Apply age filter if specified
+            if [[ $cutoff_time -gt 0 ]]; then
+                local commit_time=$(git log -1 --format=%ct "$branch" 2>/dev/null || echo "0")
+                [[ $commit_time -ge $cutoff_time ]] && continue  # Skip if too recent
+            fi
             merged_branches+=("$branch")
         fi
     done < <(git branch --merged "$base_branch" 2>/dev/null)
@@ -573,6 +679,11 @@ _g_feature_prune() {
             [[ " $protected " == *" $short_branch "* ]] && continue
             # Only feature/bugfix/hotfix
             if [[ "$short_branch" == feature/* || "$short_branch" == bugfix/* || "$short_branch" == hotfix/* ]]; then
+                # Apply age filter if specified
+                if [[ $cutoff_time -gt 0 ]]; then
+                    local commit_time=$(git log -1 --format=%ct "origin/$short_branch" 2>/dev/null || echo "0")
+                    [[ $commit_time -ge $cutoff_time ]] && continue  # Skip if too recent
+                fi
                 remote_merged+=("$short_branch")
             fi
         done < <(git branch -r --merged "$base_branch" 2>/dev/null | grep "origin/" | sed 's/^[[:space:]]*//')
@@ -619,16 +730,23 @@ _g_feature_prune_help() {
 ${_C_BOLD}g feature prune${_C_NC} - Clean up merged feature branches
 
 ${_C_YELLOW}USAGE${_C_NC}:
-  ${_C_CYAN}g feature prune${_C_NC}           Delete local merged branches (with confirmation)
-  ${_C_CYAN}g feature prune --force${_C_NC}   Skip confirmation prompts
-  ${_C_CYAN}g feature prune --all${_C_NC}     Also delete remote branches
-  ${_C_CYAN}g feature prune --dry-run${_C_NC} Show what would be deleted
+  ${_C_CYAN}g feature prune${_C_NC}                   Delete local merged branches (with confirmation)
+  ${_C_CYAN}g feature prune --force${_C_NC}           Skip confirmation prompts
+  ${_C_CYAN}g feature prune --all${_C_NC}             Also delete remote branches
+  ${_C_CYAN}g feature prune --dry-run${_C_NC}         Show what would be deleted
+  ${_C_CYAN}g feature prune --older-than 30d${_C_NC}  Only branches older than 30 days
 
 ${_C_YELLOW}OPTIONS${_C_NC}:
-  ${_C_CYAN}--force, -f${_C_NC}     Skip confirmation prompts
-  ${_C_CYAN}--all, -a${_C_NC}       Also prune remote branches
-  ${_C_CYAN}--dry-run, -n${_C_NC}   Show what would be deleted without deleting
-  ${_C_CYAN}--help, -h${_C_NC}      Show this help
+  ${_C_CYAN}--force, -f${_C_NC}         Skip confirmation prompts
+  ${_C_CYAN}--all, -a${_C_NC}           Also prune remote branches
+  ${_C_CYAN}--dry-run, -n${_C_NC}       Show what would be deleted without deleting
+  ${_C_CYAN}--older-than <d>${_C_NC}    Only prune branches older than duration
+  ${_C_CYAN}--help, -h${_C_NC}          Show this help
+
+${_C_YELLOW}DURATION FORMAT${_C_NC}:
+  ${_C_DIM}30d${_C_NC}  → 30 days
+  ${_C_DIM}1w${_C_NC}   → 1 week (7 days)
+  ${_C_DIM}2m${_C_NC}   → 2 months (60 days)
 
 ${_C_YELLOW}SAFE BY DEFAULT${_C_NC}:
   • Asks for confirmation before deleting
@@ -638,11 +756,12 @@ ${_C_YELLOW}SAFE BY DEFAULT${_C_NC}:
   • Only targets: feature/*, bugfix/*, hotfix/*
 
 ${_C_YELLOW}EXAMPLES${_C_NC}:
-  ${_C_DIM}\$${_C_NC} g feature prune          ${_C_DIM}# Clean local (with confirmation)${_C_NC}
-  ${_C_DIM}\$${_C_NC} g feature prune -f       ${_C_DIM}# Clean local (no confirmation)${_C_NC}
-  ${_C_DIM}\$${_C_NC} g feature prune -n       ${_C_DIM}# Preview what would be deleted${_C_NC}
-  ${_C_DIM}\$${_C_NC} g feature prune --all    ${_C_DIM}# Also clean remote branches${_C_NC}
-  ${_C_DIM}\$${_C_NC} g feature prune -af      ${_C_DIM}# Clean all without confirmation${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune               ${_C_DIM}# Clean local (with confirmation)${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune -f            ${_C_DIM}# Clean local (no confirmation)${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune -n            ${_C_DIM}# Preview what would be deleted${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune --all         ${_C_DIM}# Also clean remote branches${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune --older-than 30d  ${_C_DIM}# Only >30 days old${_C_NC}
+  ${_C_DIM}\$${_C_NC} g feature prune --older-than 1w   ${_C_DIM}# Only >1 week old${_C_NC}
 "
 }
 
