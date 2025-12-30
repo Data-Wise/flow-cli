@@ -1,7 +1,7 @@
 # Dispatcher Reference - flow-cli
 
-**Last Updated:** December 29, 2025
-**Version:** flow-cli v4.1.0
+**Last Updated:** December 30, 2025
+**Version:** flow-cli v4.4.0
 
 ---
 
@@ -13,7 +13,7 @@ Dispatchers are smart command routers that provide context-aware workflows for s
 
 ---
 
-## Active Dispatchers (7)
+## Active Dispatchers (8)
 
 ### 1. `g` - Git Workflows
 
@@ -45,10 +45,13 @@ g feature finish         # Push + create PR to dev
 g promote                # Create PR: feature → dev
 g release                # Create PR: dev → main
 
-# Cleanup (v4.2.0)
-g feature prune          # Delete merged feature branches
-g feature prune --all    # Also delete remote branches
-g feature prune -n       # Dry run (preview only)
+# Status & cleanup (v4.2.0+)
+g feature status             # Show merged vs active branches
+g feature prune              # Delete merged feature branches
+g feature prune --all        # Also delete remote branches
+g feature prune -n           # Dry run (preview only)
+g feature prune --force      # Skip confirmation (v4.3.0)
+g feature prune --older-than 30d  # Only branches older than 30 days (v4.3.0)
 ```
 
 **Workflow Guard:**
@@ -81,6 +84,8 @@ The `g feature prune` command safely cleans up merged branches:
 - Context-aware suggestions
 - Safe branch cleanup with prune
 
+**See also:** [G-DISPATCHER-REFERENCE.md](G-DISPATCHER-REFERENCE.md)
+
 ---
 
 ### 2. `mcp` - MCP Server Management
@@ -106,6 +111,8 @@ mcp help          # Show help
 - Test and validate servers
 - Interactive selection
 
+**See also:** [MCP-DISPATCHER-REFERENCE.md](MCP-DISPATCHER-REFERENCE.md)
+
 ---
 
 ### 3. `obs` - Obsidian Integration
@@ -130,6 +137,8 @@ obs analyze       # Analyze vault
 - Vault statistics
 - Integration with AI tools
 - Vault analysis
+
+**See also:** [OBS-DISPATCHER-REFERENCE.md](OBS-DISPATCHER-REFERENCE.md)
 
 ---
 
@@ -179,6 +188,8 @@ qu commit         # Render and commit changes
 - Format-specific rendering (PDF, HTML, DOCX)
 - Project scaffolding
 - Integrated commit workflow
+
+**See also:** [QU-DISPATCHER-REFERENCE.md](QU-DISPATCHER-REFERENCE.md)
 
 ---
 
@@ -244,6 +255,8 @@ r tree            # Package structure tree
 - Multiple cleanup levels
 - Integrated documentation
 
+**See also:** [R-DISPATCHER-REFERENCE.md](R-DISPATCHER-REFERENCE.md)
+
 ---
 
 ### 6. `cc` - Claude Code Workflows
@@ -251,6 +264,7 @@ r tree            # Package structure tree
 **File:** `cc-dispatcher.zsh`
 **Purpose:** Smart Claude Code project workflows
 **Added:** December 26, 2025
+**Updated:** December 29, 2025 (v4.2.0 - worktree integration)
 
 **Common Commands:**
 
@@ -280,6 +294,14 @@ cc opus           # Launch HERE with Opus model
 cc opus pick      # Pick project → Opus model
 cc haiku          # Launch HERE with Haiku model
 cc haiku pick     # Pick project → Haiku model
+
+# Worktree integration (v4.2.0)
+cc wt                   # List current worktrees
+cc wt <branch>          # Launch Claude in worktree
+cc wt pick              # Pick worktree → Claude (fzf)
+cc wt yolo <branch>     # Worktree + YOLO mode
+cc wt plan <branch>     # Worktree + Plan mode
+cc wt opus <branch>     # Worktree + Opus model
 ```
 
 **Features:**
@@ -291,8 +313,11 @@ cc haiku pick     # Pick project → Haiku model
 - Session resume with Claude's built-in picker
 - Quick actions for common tasks
 - Model selection shortcuts
+- Worktree integration for parallel development (v4.2.0)
 
-**Shortcuts:** `y`=yolo, `p`=plan, `r`=resume, `c`=continue, `a`=ask, `f`=file, `d`=diff, `o`=opus, `h`=haiku
+**Shortcuts:** `y`=yolo, `p`=plan, `r`=resume, `c`=continue, `a`=ask, `f`=file, `d`=diff, `o`=opus, `h`=haiku, `w`=wt
+
+**Aliases:** `ccy`, `ccp`, `ccr`, `ccc`, `cca`, `ccf`, `ccd`, `cco`, `cch`, `ccw`, `ccwy`, `ccwp`
 
 **See also:** [CC-DISPATCHER-REFERENCE.md](CC-DISPATCHER-REFERENCE.md)
 
@@ -314,6 +339,13 @@ wt move               # Move current branch to worktree
 wt remove <path>      # Remove a worktree
 wt clean              # Prune stale worktrees
 wt help               # Show help
+
+# Status & cleanup (v4.3.0)
+wt status             # Show worktree health and disk usage
+wt prune              # Comprehensive cleanup (worktrees + merged branches)
+wt prune --branches   # Also delete merged feature branches
+wt prune --force      # Skip confirmation
+wt prune --dry-run    # Preview only
 ```
 
 **Aliases:**
@@ -322,7 +354,7 @@ wt help               # Show help
 - `wt add` / `wt c` → `wt create`
 - `wt mv` → `wt move`
 - `wt rm` → `wt remove`
-- `wt prune` → `wt clean`
+- `wt st` → `wt status`
 
 **Configuration:**
 
@@ -346,6 +378,70 @@ wt unlock <path>   # → git worktree unlock <path>
 - Protected branch validation (can't move main/dev)
 - Smart branch detection (creates new or uses existing)
 - Automatic directory structure creation
+
+**See also:** [WT-DISPATCHER-REFERENCE.md](WT-DISPATCHER-REFERENCE.md)
+
+---
+
+### 8. `tm` - Terminal Manager
+
+**File:** `tm-dispatcher.zsh`
+**Purpose:** Terminal management via aiterm integration
+**Added:** December 30, 2025 (v4.4.0)
+
+**Common Commands:**
+
+```bash
+# Shell-native (instant, no Python)
+tm title <text>       # Set tab/window title (OSC 2)
+tm profile <name>     # Switch iTerm2 profile
+tm var <key> <val>    # Set iTerm2 status bar variable
+tm which              # Show detected terminal
+
+# Aiterm delegation
+tm ghost              # Ghostty status
+tm ghost theme        # List/set Ghostty themes
+tm ghost font         # Get/set Ghostty font
+tm switch             # Apply terminal context
+tm detect             # Detect project context
+tm doctor             # Check terminal health
+tm compare            # Compare terminal features
+tm features           # Show terminal features
+tm help               # Show help
+```
+
+**Shortcuts:**
+
+- `t` = title, `p` = profile, `v` = var, `w` = which
+- `g` = ghost, `s` = switch, `d` = detect
+
+**Aliases:**
+
+- `tmt` → `tm title`
+- `tmp` → `tm profile`
+- `tmv` → `tm var`
+- `tmw` → `tm which`
+- `tmg` → `tm ghost`
+- `tms` → `tm switch`
+- `tmd` → `tm detect`
+
+**Terminal Detection:**
+
+Automatically detects: iTerm2, Ghostty, WezTerm, Kitty, Alacritty, VS Code, Terminal.app
+
+**Requirements:**
+
+- **aiterm** (`ait`) for rich features (optional for shell-native commands)
+- Install: `brew install data-wise/tap/aiterm` or `pip install aiterm-dev`
+
+**Features:**
+
+- Shell-native commands for instant response (no Python overhead)
+- Delegates complex operations to aiterm Python CLI
+- Auto-detects terminal emulator
+- chpwd hook integration for auto-context switching
+
+**See also:** [TM-DISPATCHER-REFERENCE.md](TM-DISPATCHER-REFERENCE.md)
 
 ---
 
@@ -596,10 +692,23 @@ source ~/projects/dev-tools/flow-cli/lib/dispatchers/<name>.zsh
 
 ## Summary
 
-**Active Dispatchers:** 7 (g, mcp, obs, qu, r, cc, wt)
+**Active Dispatchers:** 8 (g, mcp, obs, qu, r, cc, wt, tm)
 **Removed:** 2 (v, vibe)
 **Not Restored:** 3 (gm, note, timer - alternatives available)
-**Total Commands:** ~120+ subcommands across all dispatchers
+**Total Commands:** ~130+ subcommands across all dispatchers
+
+**New in v4.4.0:**
+
+- `tm` dispatcher - Terminal manager (aiterm integration)
+- Shell-native commands for instant terminal control
+
+**New in v4.3.0:**
+
+- `g feature status` - Show merged vs active branches
+- `g feature prune --older-than` - Filter by branch age
+- `g feature prune --force` - Skip confirmation
+- `wt status` - Show worktree health and disk usage
+- `wt prune` - Comprehensive cleanup with branch deletion
 
 **New in v4.1.0:**
 

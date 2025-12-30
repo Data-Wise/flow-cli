@@ -86,6 +86,10 @@ nav:
       - 5. AI-Powered Commands: tutorials/05-ai-commands.md
       - 6. Dopamine Features: tutorials/06-dopamine-features.md
       - 7. Sync Command: tutorials/07-sync-command.md
+      - 8. Git Feature Workflow: tutorials/08-git-feature-workflow.md
+      - 9. Worktrees: tutorials/09-worktrees.md
+      - 10. CC Dispatcher: tutorials/10-cc-dispatcher.md
+      - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
   - Guides:
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
@@ -102,6 +106,13 @@ nav:
       - Dispatchers:
           - All Dispatchers: reference/DISPATCHER-REFERENCE.md
           - CC Dispatcher: reference/CC-DISPATCHER-REFERENCE.md
+          - G Dispatcher: reference/G-DISPATCHER-REFERENCE.md
+          - MCP Dispatcher: reference/MCP-DISPATCHER-REFERENCE.md
+          - OBS Dispatcher: reference/OBS-DISPATCHER-REFERENCE.md
+          - QU Dispatcher: reference/QU-DISPATCHER-REFERENCE.md
+          - R Dispatcher: reference/R-DISPATCHER-REFERENCE.md
+          - TM Dispatcher: reference/TM-DISPATCHER-REFERENCE.md
+          - WT Dispatcher: reference/WT-DISPATCHER-REFERENCE.md
       - Project Tools:
           - Command Explorer: reference/COMMAND-EXPLORER.md
           - Pick Reference: reference/PICK-COMMAND-REFERENCE.md
@@ -167,6 +178,8 @@ nav:
       - ADR-002 Clean Architecture: decisions/ADR-002-adopt-clean-architecture.md
       - ADR-003 Bridge Pattern: decisions/ADR-003-bridge-pattern.md
       - ADR-004 Module API: decisions/ADR-004-module-api-not-rest.md
+  - Planning:
+      - v4.3.0+ Roadmap: planning/V4.3-ROADMAP.md
   # Project Status files removed - they're root-level project tracking docs
   # with internal links that break in mkdocs context
 

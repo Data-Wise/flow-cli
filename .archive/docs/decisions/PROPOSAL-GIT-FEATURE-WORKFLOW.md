@@ -10,11 +10,13 @@
 ## Summary
 
 Add shell commands for the `feature → dev → main` git workflow pattern, including:
+
 - Feature branch commands in `g` dispatcher
 - Workflow guards to prevent accidental pushes to protected branches
 - New `wt` dispatcher for worktree management
 
 **This is flow-cli's portion of a split workflow:**
+
 - **flow-cli** → Shell-native operations (fast, zero overhead)
 - **aiterm** → Rich visualization and automation
 - **craft** → AI-assisted workflows
@@ -257,7 +259,7 @@ _g_check_workflow() {
 }
 ```
 
-#### Update _g_help()
+#### Update \_g_help()
 
 Add this section to the existing `_g_help()` function:
 
@@ -668,7 +670,7 @@ Add section for feature workflow and wt dispatcher.
 
 ### 2. Update `CLAUDE.md` Quick Reference
 
-```markdown
+````markdown
 ### G Dispatcher - Feature Workflow
 
 ```bash
@@ -678,6 +680,7 @@ g feature list           # List feature/hotfix branches
 g promote                # PR: feature → dev
 g release                # PR: dev → main
 ```
+````
 
 ### WT Dispatcher - Worktrees
 
@@ -688,7 +691,8 @@ wt create <branch>       # Create worktree for branch
 wt move                  # Move current branch to worktree
 wt clean                 # Prune stale worktrees
 ```
-```
+
+````
 
 ### 3. Create `docs/commands/wt.md`
 
@@ -797,9 +801,10 @@ Building on v4.1.0's foundation, these enhancements are planned:
 ```bash
 g feature prune         # Delete local branches merged to dev
 g feature prune --all   # Also delete remote tracking branches
-```
+````
 
 **Integration with existing tools:**
+
 - Coordinates with `wt clean` for worktree cleanup
 - Respects protected branches (main, dev)
 - Safe by default (only merged branches)
@@ -816,6 +821,7 @@ cc wt                   # List worktrees (no branch = list mode)
 ```
 
 **Benefits:**
+
 - **ADHD-friendly:** One command to switch context entirely
 - **Session isolation:** Each worktree gets its own Claude session
 - **Worktree-aware detection:** `_flow_detect_project_type` recognizes worktree paths
@@ -823,6 +829,7 @@ cc wt                   # List worktrees (no branch = list mode)
 #### Implementation Details
 
 **Approach 1: Add to cc-dispatcher.zsh (Recommended)**
+
 ```zsh
 # In cc() dispatcher, add case:
 wt|worktree)
@@ -851,6 +858,7 @@ _cc_worktree() {
 ```
 
 **Helper function for wt-dispatcher.zsh:**
+
 ```zsh
 _wt_get_path() {
     local branch="$1"
@@ -862,6 +870,7 @@ _wt_get_path() {
 ```
 
 **Files to modify:**
+
 - `lib/dispatchers/cc-dispatcher.zsh` - Add wt case + `_cc_worktree()`
 - `lib/dispatchers/wt-dispatcher.zsh` - Add `_wt_get_path()` helper
 - `tests/test-cc-wt.zsh` - New test file (~10 tests)
@@ -872,21 +881,24 @@ _wt_get_path() {
 
 ## How v4.2.0 Builds on v4.1.0
 
-| v4.1.0 Foundation | v4.2.0 Enhancement |
-|-------------------|---------------------|
-| `wt create` | `cc wt` (Claude integration) |
-| `wt clean` | `g feature prune` (branch cleanup) ✅ |
+| v4.1.0 Foundation | v4.2.0 Enhancement                    |
+| ----------------- | ------------------------------------- |
+| `wt create`       | `cc wt` (Claude integration)          |
+| `wt clean`        | `g feature prune` (branch cleanup) ✅ |
 
 ## Planned Future Enhancements
 
 ### 1. `g feature prune --force` (P2, ~30 min)
+
 **Use case:** CI/CD pipelines and automation scripts that need non-interactive cleanup.
+
 ```bash
 # In a cron job or CI pipeline
 g feature prune --force  # No confirmation prompt
 ```
 
 **Implementation:**
+
 ```zsh
 # In _g_feature_prune(), add flag parsing:
 local force=false
@@ -907,7 +919,9 @@ fi
 **Effort:** ~30 min (add flag, update tests, update help)
 
 ### 2. `wt prune` Alias (P2, ~1 hour)
+
 **Use case:** Combined cleanup of branches AND worktrees in one command.
+
 ```bash
 wt prune                  # Prune stale worktrees + merged branches
 wt prune --branches-only  # Only prune branches
@@ -915,6 +929,7 @@ wt prune --worktrees-only # Only prune worktrees
 ```
 
 **Implementation:**
+
 ```zsh
 # In wt() dispatcher, add case:
 prune)
@@ -940,13 +955,16 @@ prune)
 **Effort:** ~1 hour (add case, tests, help update)
 
 ### 3. `g feature prune --older-than` (P3, ~1 hour)
+
 **Use case:** Age-based filtering for more surgical cleanup.
+
 ```bash
 g feature prune --older-than 30d   # Only prune branches older than 30 days
 g feature prune --older-than 1w    # Only prune branches older than 1 week
 ```
 
 **Implementation:**
+
 ```zsh
 # Duration parsing helper
 _parse_duration() {
@@ -974,7 +992,9 @@ local branch_age_days=$(( ($(date +%s) - $(git log -1 --format=%ct "$branch")) /
 **Effort:** ~1 hour (duration parsing, filtering logic, tests)
 
 ### 4. `g feature status` (P3, ~45 min)
+
 **Use case:** Preview stale branches before cleanup.
+
 ```bash
 g feature status          # Show branches that would be pruned
 # Output:
@@ -987,6 +1007,7 @@ g feature status          # Show branches that would be pruned
 ```
 
 **Implementation:**
+
 ```zsh
 _g_feature_status() {
     local base_branch="dev"
@@ -1022,6 +1043,7 @@ _g_feature_status() {
 ### Why No Hotfix Workflow?
 
 Hotfix workflows (`g hotfix start/finish`) were considered but **removed** because:
+
 - flow-cli is a personal dev tool, not production software
 - No urgent production pressure requiring faster paths
 - Normal feature workflow is already fast (~2 minutes end-to-end)
@@ -1031,7 +1053,7 @@ Hotfix workflows (`g hotfix start/finish`) were considered but **removed** becau
 
 ---
 
-*Created: 2025-12-28*
-*Enhanced: 2025-12-29*
-*v4.2.0 Roadmap: 2025-12-29*
-*Author: Claude Code*
+_Created: 2025-12-28_
+_Enhanced: 2025-12-29_
+_v4.2.0 Roadmap: 2025-12-29_
+_Author: Claude Code_

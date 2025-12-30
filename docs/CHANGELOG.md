@@ -6,6 +6,144 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.4.1] - 2025-12-30
+
+### Added
+
+- **9 dispatcher reference pages** - Complete documentation for all dispatchers
+  - CC-DISPATCHER-REFERENCE.md - Claude Code launcher
+  - G-DISPATCHER-REFERENCE.md - Git workflows (452 lines)
+  - MCP-DISPATCHER-REFERENCE.md - MCP server management
+  - OBS-DISPATCHER-REFERENCE.md - Obsidian integration
+  - QU-DISPATCHER-REFERENCE.md - Quarto publishing
+  - R-DISPATCHER-REFERENCE.md - R package development
+  - TM-DISPATCHER-REFERENCE.md - Terminal manager
+  - WT-DISPATCHER-REFERENCE.md - Worktree management
+  - Plus main DISPATCHER-REFERENCE.md overview
+
+- **Tutorial 11** - TM Dispatcher tutorial
+
+### Changed
+
+- **CLAUDE.md** - Updated Active Dispatchers to 8 (added wt)
+- **Cross-references** - All dispatcher pages linked with "See also"
+- **aiterm integration** - Added links to aiterm MCP and flow-cli docs
+
+---
+
+## [4.4.0] - 2025-12-30
+
+### Added
+
+- **tm dispatcher** - Terminal manager (aiterm integration)
+  - `tm title <text>` - Set tab/window title (instant, shell-native)
+  - `tm profile <name>` - Switch iTerm2 profile
+  - `tm ghost` - Ghostty theme/font management
+  - `tm switch` - Apply terminal context
+  - `tm detect` - Detect project context
+  - Aliases: `tmt`, `tmp`, `tmg`, `tms`, `tmd`
+
+---
+
+## [4.3.1] - 2025-12-30
+
+### Fixed
+
+- **wt status** - Fixed color rendering (use `%b` format for ANSI escape sequences)
+
+---
+
+## [4.3.0] - 2025-12-30
+
+### Added
+
+- **cc wt status** - Show worktrees with Claude session info
+  - 🟢 Recent session (< 24h), 🟡 Old session, ⚪ No session
+  - Shows branch name and last session timestamp
+
+- **wt prune** - Comprehensive worktree cleanup
+  - Prunes stale worktree references
+  - Removes worktrees for merged feature branches
+  - `--branches` flag to also delete the merged branches
+  - `--force` to skip confirmation, `--dry-run` to preview
+
+- **wt status** - Show worktree health and disk usage
+  - Shows all worktrees with status (active/merged/stale)
+  - Displays disk usage per worktree
+  - Provides cleanup suggestions
+
+- **g feature status** - Show merged vs active branches
+  - Lists stale branches (merged to dev)
+  - Lists active branches with commit count
+  - Shows age of each branch
+
+- **g feature prune --older-than** - Filter by branch age
+  - `--older-than 30d` - Only branches older than 30 days
+  - `--older-than 1w` - Only branches older than 1 week
+  - `--older-than 2m` - Only branches older than 2 months
+
+### Changed
+
+- **g feature prune** - Now asks for confirmation before deleting
+  - `--force` flag to skip confirmation (for scripting)
+  - Safer default behavior
+
+---
+
+## [4.2.0] - 2025-12-29
+
+### Added
+
+- **Worktree + Claude Integration** - `cc wt` commands
+  - `cc wt <branch>` - Launch Claude in worktree (creates if needed)
+  - `cc wt pick` - fzf picker for existing worktrees
+  - `cc wt yolo|plan|opus|haiku <branch>` - Mode chaining
+  - Aliases: `ccw`, `ccwy`, `ccwp`
+  - `_wt_get_path()` helper in wt-dispatcher
+
+- **Branch Cleanup** - `g feature prune`
+  - Delete merged feature branches safely
+  - `--all` flag to also clean remote tracking branches
+  - `-n` dry run to preview changes
+  - Never deletes main, master, dev, develop, or current branch
+
+### Fixed
+
+- ZSH path array conflict in tests (renamed `local path` → `local result_path`)
+
+---
+
+## [4.1.0] - 2025-12-29
+
+### Added
+
+- **Git Feature Branch Workflow**
+  - `g feature start <name>` - Create feature branch from dev
+  - `g feature sync` - Rebase feature onto dev
+  - `g feature list` - List feature/hotfix branches
+  - `g feature finish` - Push and create PR to dev
+  - `g promote` - Create PR: feature → dev
+  - `g release` - Create PR: dev → main
+
+- **Workflow Guard**
+  - Blocks direct push to main/dev branches
+  - Shows helpful message with correct workflow
+  - Override: `GIT_WORKFLOW_SKIP=1 g push`
+
+- **Git Worktree Dispatcher** - `wt`
+  - `wt` - Navigate to worktrees folder
+  - `wt list` - List all worktrees
+  - `wt create <branch>` - Create worktree for branch
+  - `wt move` - Move current branch to worktree
+  - `wt remove <path>` - Remove a worktree
+  - `wt clean` - Prune stale worktrees
+
+### Changed
+
+- Established feature → dev → main branching workflow
+
+---
+
 ## [4.0.1] - 2025-12-27
 
 ### Added
@@ -213,8 +351,31 @@ cc yolo     # YOLO mode
 
 ---
 
+## What's Next (v4.3.0+)
+
+See [V4.3-ROADMAP.md](planning/V4.3-ROADMAP.md) for detailed implementation plans.
+
+**Planned Features:**
+
+- `cc wt status` - Show worktrees with Claude session info
+- `cc wt clean` - Remove worktrees for merged branches
+- `g feature prune --force` - Skip confirmation
+- `g feature prune --older-than` - Filter by age
+- `g feature status` - Show merged/unmerged branches
+- `wt prune` - Combined cleanup (worktrees + branches)
+- `wt status` - Show worktree health
+
+**Future Considerations:**
+
+- Remote state sync
+- Multi-device support
+- Shared templates
+
+---
+
 ## Links
 
 - **Documentation:** https://data-wise.github.io/flow-cli/
 - **Repository:** https://github.com/Data-Wise/flow-cli
 - **Issues:** https://github.com/Data-Wise/flow-cli/issues
+- **Roadmap:** [V4.3-ROADMAP.md](planning/V4.3-ROADMAP.md)

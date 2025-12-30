@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v4.1.0)
+- **Status:** Production ready (v4.4.1)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -15,9 +15,70 @@ This file provides guidance to Claude Code when working with code in this reposi
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`
-- 6 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`
+- 8 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
+
+---
+
+## Layered Architecture (flow-cli + aiterm + craft)
+
+flow-cli is part of a 3-layer developer tooling stack:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  Layer 3: craft plugin (Claude Code)                            │
+│  /craft:git:feature - AI-assisted, tests, changelog             │
+├─────────────────────────────────────────────────────────────────┤
+│  Layer 2: aiterm (Python CLI)                                   │
+│  ait feature - rich visualization, complex automation           │
+├─────────────────────────────────────────────────────────────────┤
+│  Layer 1: flow-cli (Pure ZSH) ← YOU ARE HERE                    │
+│  g, wt, cc - instant (<10ms), zero overhead, ADHD-friendly      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### When to Use flow-cli vs aiterm
+
+| Need                      | Use      | Command                  |
+| ------------------------- | -------- | ------------------------ |
+| **Quick branch creation** | flow-cli | `g feature start <name>` |
+| **Quick worktree**        | flow-cli | `wt create <branch>`     |
+| **Quick cleanup**         | flow-cli | `g feature prune`        |
+| Full feature setup (deps) | aiterm   | `ait feature start -w`   |
+| Pipeline visualization    | aiterm   | `ait feature status`     |
+| Interactive cleanup       | aiterm   | `ait feature cleanup`    |
+| **Quick MCP check**       | flow-cli | `mcp test <name>`        |
+| Full MCP validation       | aiterm   | `ait mcp validate`       |
+| **Launch Claude**         | flow-cli | `cc`, `cc yolo`          |
+| Configure Claude settings | aiterm   | `ait claude settings`    |
+
+### Delegation to aiterm
+
+The `tm` dispatcher delegates to aiterm for rich operations:
+
+- `tm ghost` → `ait ghost` (Ghostty terminal status)
+- `tm detect` → `ait detect` (project context detection)
+- `tm switch` → `ait switch` (apply context to terminal)
+
+### flow-cli Owns:
+
+1. **Instant operations** (<10ms response, pure ZSH)
+2. **Session management** (work/finish/hop)
+3. **ADHD motivation** (win/yay/streaks/goals)
+4. **Quick navigation** (pick/dash)
+5. **Simple dispatchers** (g/cc/mcp/r/qu/obs/wt/tm)
+
+### aiterm Owns:
+
+1. **Rich visualization** (tables, panels, trees via Rich)
+2. **Complex automation** (deps install, multi-step workflows)
+3. **Claude Code integration** (settings, hooks, approvals, MCP)
+4. **Terminal configuration** (profiles, themes, fonts)
+5. **Session tracking** (live sessions, conflicts, history)
+6. **Workflow templates** (full workflow management)
+
+**Repo:** https://github.com/Data-Wise/aiterm
 
 ---
 
@@ -38,7 +99,7 @@ flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v4.1.0)
+### Dopamine Features (v4.4.1)
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
@@ -50,18 +111,20 @@ flow goal set 3   # Set daily win target
 
 **Categories:** 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test, ✨ other
 
-### Active Dispatchers (6)
+### Active Dispatchers (8)
 
 ```bash
 g <cmd>       # Git workflows (g status, g push, g commit)
 mcp <cmd>     # MCP server management (mcp status, mcp logs)
-obs <cmd>     # Obsidian notes (obs daily, obs search)
+obs <cmd>     # Obsidian notes (obs vaults, obs stats)
 qu <cmd>      # Quarto publishing (qu preview, qu render)
 r <cmd>       # R package dev (r test, r doc, r check)
 cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
+tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
+wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 ```
 
-**Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`)
+**Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `wt help`)
 
 ### CC Dispatcher Quick Reference
 
@@ -78,6 +141,23 @@ cc continue       # Continue most recent conversation
 ```
 
 **Alias:** `ccy` = `cc yolo`
+
+### TM Dispatcher Quick Reference
+
+```bash
+# Shell-native (instant, no Python)
+tm title <text>       # Set tab/window title
+tm profile <name>     # Switch iTerm2 profile
+tm which              # Show detected terminal
+
+# Aiterm delegation
+tm ghost              # Ghostty status
+tm ghost theme        # List/set Ghostty themes
+tm switch             # Apply terminal context
+tm detect             # Detect project context
+```
+
+**Aliases:** `tmt` = title, `tmp` = profile, `tmg` = ghost, `tms` = switch
 
 ### Deprecated (Removed 2025-12-25)
 
@@ -364,42 +444,54 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2025-12-27)
+## Current Status (2025-12-30)
 
-### ✅ v4.1.0 Released
+### ✅ v4.4.1 Released (Documentation)
 
-- [x] Unified sync command (`flow sync all`)
-- [x] Dopamine features (win tracking, streaks, goals)
-- [x] Win categories with auto-detection
-- [x] Daily goal tracking (global + per-project)
-- [x] Extended .STATUS format (wins, streak, last_active, tags)
-- [x] Dashboard TUI enhancements (Ctrl-E/S/W shortcuts)
-- [x] Watch mode (`dash --watch`)
-- [x] ADHD-calm theme for documentation site
-- [x] CI improvements and test suite enhancements
+- [x] 9 dedicated dispatcher reference pages:
+  - CC, G, MCP, OBS, QU, R, TM, WT dispatchers
+  - Plus main DISPATCHER-REFERENCE.md overview
+- [x] All reference pages cross-linked with "See also"
+- [x] Tutorial 11: TM Dispatcher
 
-### ✅ CC Dispatcher (2025-12-27)
+### ✅ v4.4.1 Released
 
-- [x] `cc` dispatcher added for Claude Code workflows
-- [x] Default launches Claude in current directory
-- [x] `cc pick` subcommand for project selection
-- [x] Consistent pattern: `<mode>` = here, `<mode> pick` = picker
-- [x] `cc now` deprecated (redundant with new default)
+- [x] `tm` dispatcher - Terminal manager (aiterm integration)
+  - Shell-native: `tm title`, `tm profile`, `tm which`
+  - Aiterm delegation: `tm ghost`, `tm switch`, `tm detect`
+  - Aliases: `tmt`, `tmp`, `tmg`, `tms`, `tmd`
+
+### ✅ v4.4.1 Released
+
+- [x] `g feature status` - Show merged vs active branches
+- [x] `g feature prune --older-than` - Filter by branch age
+- [x] `g feature prune --force` - Skip confirmation
+- [x] `wt status` - Show worktree health and disk usage
+- [x] `wt prune` - Comprehensive cleanup with branch deletion
+- [x] `cc wt status` - Show worktrees with Claude session info
+
+### ✅ v4.4.1 Released
+
+- [x] Worktree + Claude Integration (`cc wt`)
+- [x] Branch cleanup (`g feature prune`)
+- [x] 57 new tests
 
 ### 🎯 Production Ready
 
-- **Version:** 4.0.1
-- **Released:** 2025-12-27
+- **Version:** 4.4.0
+- **Released:** 2025-12-30
 - **Status:** Production use phase
 - **Performance:** Sub-10ms for core commands
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
-- **Tests:** Interactive dog feeding test (gamified)
+- **Tests:** 100+ tests across all features
 
-### 📋 Next: v4.1.0 Planning
+### 📋 Future Roadmap
+
+**Remote & Team Features**
 
 - [ ] Remote state sync (optional cloud backup)
-- [ ] Team features (shared templates)
-- [ ] Multi-device sync
+- [ ] Multi-device support
+- [ ] Shared templates
 
 ---
 
@@ -460,10 +552,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 3.7.0"
-git tag -a v4.1.0 -m "v4.1.0"
+git tag -a v4.4.1 -m "v4.4.1"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v4.1.0
+git push origin main && git push origin v4.4.1
 ```
 
 **Files updated by release script:**
@@ -483,5 +575,5 @@ git push origin main && git push origin v4.1.0
 
 ---
 
-**Last Updated:** 2025-12-27
+**Last Updated:** 2025-12-30
 **Status:** Production Ready

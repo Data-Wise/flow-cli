@@ -21,6 +21,8 @@
 | 8   | [Focus Mode](#8-focus-mode-deep-work)                      | setup  | 🟢   | Need concentration     |
 | 9   | [Start Feature](#9-start-new-feature)                      | 2 min  | 🟢   | Beginning new work     |
 | 10  | [Emergency Recovery](#what-did-i-break-emergency-recovery) | varies | 🔴   | Something broke        |
+| 11  | [Git Feature Workflow](#11-git-feature-branch-workflow-v410) | 2 min  | 🟢 | Feature branches       |
+| 12  | [Worktrees](#12-parallel-development-with-worktrees-v410)    | 1 min  | 🟢 | Parallel development   |
 
 **Cognitive Load:** 🟢 Easy | 🟡 Medium | 🔴 Hard
 
@@ -793,16 +795,148 @@ rtest → git commit -m "wip: progress on X" → Update .STATUS for tomorrow
 
 ---
 
+## 1️⃣1️⃣ Git Feature Branch Workflow (v4.1.0+)
+
+**When:** Working on new features, hotfixes, or any code changes
+**Time:** ~2 minutes | **Load:** 🟢 Easy | **Safety:** 🟢 Safe
+
+### Commands
+
+```bash
+# Start a feature
+g feature start auth-improvements
+
+# Work on your feature...
+g add . && g commit "Add OAuth2 support"
+
+# Stay synced with dev
+g feature sync
+
+# Finish: push + create PR
+g feature finish
+```
+
+### Visual Flow
+
+```
+Start → feature start → code → commit → sync → finish → PR → merge
+```
+
+### Quick Reference
+
+| Command                    | What It Does                    |
+|----------------------------|---------------------------------|
+| `g feature start <name>`   | Create feature branch from dev  |
+| `g feature sync`           | Rebase feature onto dev         |
+| `g feature list`           | List feature/hotfix branches    |
+| `g feature finish`         | Push + create PR to dev         |
+| `g promote`                | Create PR: feature → dev        |
+| `g release`                | Create PR: dev → main           |
+| `g feature prune`          | Delete merged branches          |
+
+### Workflow Guard
+
+The workflow guard blocks direct pushes to protected branches:
+
+```bash
+# Blocked ❌
+git checkout main && g push   # Direct push to main blocked
+
+# Allowed ✅
+g feature start my-fix        # Create feature branch
+g push                        # Push feature branch OK
+g promote                     # Create PR instead
+```
+
+### Pro Tips
+
+💡 Run `g feature sync` daily to avoid merge conflicts
+💡 Use `g feature finish` to push + create PR in one step
+💡 Clean up with `g feature prune` weekly
+
+---
+
+## 1️⃣2️⃣ Parallel Development with Worktrees (v4.1.0+)
+
+**When:** Need to work on multiple features simultaneously
+**Time:** ~1 minute | **Load:** 🟢 Easy | **Safety:** 🟢 Safe
+
+### Commands
+
+```bash
+# Create worktree for a branch
+wt create feature/auth
+
+# List all worktrees
+wt list
+
+# Navigate to worktrees folder
+wt
+
+# Clean up stale worktrees
+wt clean
+```
+
+### Visual Flow
+
+```
+Main work → wt create feature/b → Parallel work → wt clean
+```
+
+### Claude Code + Worktrees
+
+Launch Claude in a dedicated worktree:
+
+```bash
+# Launch Claude in worktree (creates if needed)
+cc wt feature/auth
+
+# Pick from existing worktrees
+cc wt pick
+
+# Worktree + YOLO mode
+cc wt yolo feature/risky
+
+# Worktree + Plan mode
+cc wt plan feature/complex
+```
+
+### Aliases
+
+| Alias  | Expands To     | Description           |
+|--------|----------------|-----------------------|
+| `ccw`  | `cc wt`        | Worktree + Claude     |
+| `ccwy` | `cc wt yolo`   | Worktree + YOLO mode  |
+| `ccwp` | `cc wt pick`   | Worktree picker       |
+
+### When to Use Worktrees
+
+- 🔀 **Parallel features** - Work on feature-a while feature-b runs tests
+- 👀 **Code review** - Review PR in isolated directory
+- 🧪 **Experiments** - Try risky changes without affecting main work
+- ⚡ **Quick fixes** - Hotfix while feature work continues
+
+### Pro Tips
+
+💡 Each worktree is completely isolated - no stashing needed
+💡 Worktrees persist after Claude exits
+💡 Use `wt clean` regularly to remove stale worktrees
+
+---
+
 ## 📖 Related Documentation
 
-- **ALIAS-REFERENCE-CARD.md** - All 28 core aliases
+- **[Git Feature Workflow Tutorial](../tutorials/08-git-feature-workflow.md)** - Full tutorial
+- **[Worktrees Tutorial](../tutorials/09-worktrees.md)** - Parallel development guide
+- **[Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)** - All dispatchers
+- **ALIAS-REFERENCE-CARD.md** - All core aliases
 - **WORKFLOW-TUTORIAL.md** - Complete tutorial
 - **PROJECT-HUB.md** - Strategic overview
 
 ---
 
-**Last Updated:** 2025-12-21
-**Version:** 2.0 (Updated for 28-alias system)
+**Last Updated:** 2025-12-30
+**Version:** 2.1 (Added Git Feature Workflow and Worktrees)
 **Time to Master:** Practice each workflow 3-5 times
 
 💡 **Pro Tip:** Bookmark this guide for quick reference!

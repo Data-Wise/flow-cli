@@ -2,6 +2,7 @@
 
 > **Pattern:** `command + keyword + options`
 > **Philosophy:** One command per domain, discoverable with `help`
+> **Version:** v4.2.0 (2025-12-29)
 
 ---
 
@@ -133,10 +134,41 @@ stuck --ai "tests failing"      # AI help with specific problem
 next --ai                       # AI-powered task suggestion
 ```
 
+### Claude Code: `cc`
+
+```bash
+cc                  # Launch Claude HERE (current dir)
+cc pick             # Pick project → Claude
+cc <project>        # Direct jump → Claude
+cc yolo             # Launch HERE in YOLO mode (skip permissions)
+cc yolo pick        # Pick project → YOLO mode
+cc plan             # Launch HERE in Plan mode
+cc opus             # Launch HERE with Opus model
+cc haiku            # Launch HERE with Haiku model
+cc resume           # Resume Claude session picker
+cc continue         # Resume most recent conversation
+cc ask "query"      # Quick question (print mode)
+cc file <file>      # Analyze a file
+cc diff             # Review git changes
+cc help             # Show all commands
+```
+
+**Worktree Integration (v4.2.0):**
+
+```bash
+cc wt               # List current worktrees
+cc wt <branch>      # Launch Claude in worktree (creates if needed)
+cc wt pick          # Pick worktree → Claude (fzf)
+cc wt yolo <branch> # Worktree + YOLO mode
+cc wt plan <branch> # Worktree + Plan mode
+cc wt opus <branch> # Worktree + Opus model
+```
+
+**Aliases:** `ccy` (yolo), `ccw` (wt), `ccwy` (wt yolo), `ccwp` (wt pick)
+
 ### External AI Tools
 
 ```bash
-ccy                 # Project picker → Claude Code (function in .zshrc)
 gem                 # Gemini (see 13 gem* aliases)
 gemf                # Gemini Flash
 gemp                # Gemini Pro
