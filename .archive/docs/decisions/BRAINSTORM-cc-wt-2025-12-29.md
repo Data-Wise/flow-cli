@@ -12,28 +12,28 @@ Add worktree support to the `cc` dispatcher, enabling Claude Code sessions in is
 
 ## Current CC Aliases
 
-| Alias | Command | Description |
-|-------|---------|-------------|
-| `ccy` | `cc yolo` | Skip permissions |
-| `ccp` | `cc plan` | Plan mode |
-| `ccr` | `cc resume` | Session picker |
-| `ccc` | `cc continue` | Most recent |
-| `cca` | `cc ask` | Quick question |
-| `ccf` | `cc file` | Analyze file |
-| `ccd` | `cc diff` | Review changes |
-| `cco` | `cc opus` | Opus model |
-| `cch` | `cc haiku` | Haiku model |
+| Alias | Command       | Description      |
+| ----- | ------------- | ---------------- |
+| `ccy` | `cc yolo`     | Skip permissions |
+| `ccp` | `cc plan`     | Plan mode        |
+| `ccr` | `cc resume`   | Session picker   |
+| `ccc` | `cc continue` | Most recent      |
+| `cca` | `cc ask`      | Quick question   |
+| `ccf` | `cc file`     | Analyze file     |
+| `ccd` | `cc diff`     | Review changes   |
+| `cco` | `cc opus`     | Opus model       |
+| `cch` | `cc haiku`    | Haiku model      |
 
 ## Proposed New Commands
 
-| Command | Alias | Description |
-|---------|-------|-------------|
-| `cc wt <branch>` | `ccw` | Launch Claude in worktree |
-| `cc wt` | - | List worktrees |
-| `cc wt pick` | `ccwp` | fzf picker for worktrees |
-| `cc wt yolo <branch>` | `ccwy` | Worktree + yolo mode |
-| `cc wt plan <branch>` | - | Worktree + plan mode |
-| `cc wt opus <branch>` | - | Worktree + opus model |
+| Command               | Alias  | Description               |
+| --------------------- | ------ | ------------------------- |
+| `cc wt <branch>`      | `ccw`  | Launch Claude in worktree |
+| `cc wt`               | -      | List worktrees            |
+| `cc wt pick`          | `ccwp` | fzf picker for worktrees  |
+| `cc wt yolo <branch>` | `ccwy` | Worktree + yolo mode      |
+| `cc wt plan <branch>` | -      | Worktree + plan mode      |
+| `cc wt opus <branch>` | -      | Worktree + opus model     |
 
 ## Implementation Plan
 
@@ -139,8 +139,9 @@ _cc_worktree_pick() {
 ### Phase 5: Tests (~30 min)
 
 Create `tests/test-cc-wt.zsh` with:
+
 - Help text tests
-- _wt_get_path() tests
+- \_wt_get_path() tests
 - cc wt <branch> creates worktree
 - cc wt lists worktrees
 - Mode chaining tests (yolo, plan, opus)
@@ -149,6 +150,7 @@ Create `tests/test-cc-wt.zsh` with:
 ### Phase 6: Documentation (~15 min)
 
 Update:
+
 - `docs/reference/CC-DISPATCHER-REFERENCE.md`
 - `docs/reference/DISPATCHER-REFERENCE.md`
 - `.STATUS` session log
@@ -175,17 +177,17 @@ Update:
 
 ## Effort Estimate
 
-| Task | Time |
-|------|------|
-| _wt_get_path() helper | 10 min |
-| cc wt case + mode support | 25 min |
-| Aliases (ccw, ccwy, ccwp) | 10 min |
-| cc wt pick (fzf) | 15 min |
-| Tests | 30 min |
-| Docs + PR | 15 min |
-| **Total** | **~1.75 hours** |
+| Task                      | Time            |
+| ------------------------- | --------------- |
+| \_wt_get_path() helper    | 10 min          |
+| cc wt case + mode support | 25 min          |
+| Aliases (ccw, ccwy, ccwp) | 10 min          |
+| cc wt pick (fzf)          | 15 min          |
+| Tests                     | 30 min          |
+| Docs + PR                 | 15 min          |
+| **Total**                 | **~1.75 hours** |
 
 ---
 
-*Generated: 2025-12-29*
-*Author: Claude Code*
+_Generated: 2025-12-29_
+_Author: Claude Code_
