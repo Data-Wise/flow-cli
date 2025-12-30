@@ -337,8 +337,13 @@ _cc_worktree() {
     local mode_args=""
     local branch=""
 
-    # Parse mode if provided (yolo, plan, opus, haiku)
+    # Parse mode if provided (yolo, plan, opus, haiku, status)
     case "$1" in
+        status|st)
+            shift
+            _cc_worktree_status "$@"
+            return
+            ;;
         yolo|y)
             mode="yolo"
             mode_args="--dangerously-skip-permissions"
@@ -431,6 +436,92 @@ _cc_worktree_pick() {
     fi
 }
 
+_cc_worktree_status() {
+    # Color definitions (use flow-cli colors if available)
+    local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+    local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+    local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
+    local _C_DIM="${_C_DIM:-\033[2m}"
+    local _C_BOLD="${_C_BOLD:-\033[1m}"
+    local _C_NC="${_C_NC:-\033[0m}"
+
+    echo -e "${_C_BOLD}Worktrees with Claude Session Info${_C_NC}"
+    echo -e "${_C_DIM}────────────────────────────────────────${_C_NC}"
+    echo ""
+
+    # Get worktrees
+    local wt_path wt_branch wt_commit
+    local has_worktrees=false
+
+    while IFS= read -r line; do
+        case "$line" in
+            "worktree "*)
+                wt_path="${line#worktree }"
+                ;;
+            "HEAD "*)
+                wt_commit="${line#HEAD }"
+                wt_commit="${wt_commit:0:7}"
+                ;;
+            "branch "*)
+                wt_branch="${line#branch refs/heads/}"
+                ;;
+            "")
+                if [[ -n "$wt_path" ]]; then
+                    has_worktrees=true
+                    _cc_worktree_status_line "$wt_path" "$wt_branch" "$wt_commit"
+                fi
+                wt_path="" wt_branch="" wt_commit=""
+                ;;
+        esac
+    done < <(git worktree list --porcelain 2>/dev/null; echo "")
+
+    if [[ "$has_worktrees" == false ]]; then
+        echo -e "${_C_DIM}No worktrees found${_C_NC}"
+    fi
+
+    echo ""
+    echo -e "${_C_DIM}Legend: 🟢 Recent session (< 24h) | 🟡 Old session | ⚪ No session${_C_NC}"
+}
+
+_cc_worktree_status_line() {
+    local wt_path="$1"
+    local wt_branch="${2:-detached}"
+    local wt_commit="$3"
+
+    local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+    local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+    local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
+    local _C_DIM="${_C_DIM:-\033[2m}"
+    local _C_NC="${_C_NC:-\033[0m}"
+
+    # Check for Claude session in this worktree
+    local session_indicator="⚪"
+    local session_info=""
+    local claude_dir="$wt_path/.claude"
+
+    if [[ -d "$claude_dir" ]]; then
+        # Look for recent session files
+        local latest_session=$(find "$claude_dir" -name "*.json" -type f -mtime -1 2>/dev/null | head -1)
+        if [[ -n "$latest_session" ]]; then
+            session_indicator="🟢"
+            local session_time=$(stat -f "%Sm" -t "%Y-%m-%d %H:%M" "$latest_session" 2>/dev/null || \
+                                 stat -c "%y" "$latest_session" 2>/dev/null | cut -d' ' -f1-2)
+            session_info="${_C_DIM}(${session_time})${_C_NC}"
+        else
+            # Check for older sessions
+            local any_session=$(find "$claude_dir" -name "*.json" -type f 2>/dev/null | head -1)
+            if [[ -n "$any_session" ]]; then
+                session_indicator="🟡"
+                session_info="${_C_DIM}(old session)${_C_NC}"
+            fi
+        fi
+    fi
+
+    # Format output
+    local short_path="${wt_path/#$HOME/~}"
+    printf "${session_indicator} ${_C_CYAN}%-30s${_C_NC} ${_C_DIM}[${wt_branch}]${_C_NC} ${session_info}\n" "$short_path"
+}
+
 _cc_worktree_help() {
     echo -e "
 ${_C_YELLOW}╔════════════════════════════════════════════════════════════╗${_C_NC}
@@ -440,12 +531,13 @@ ${_C_YELLOW}╚═════════════════════�
 ${_C_YELLOW}💡 QUICK START${_C_NC}:
   ${_C_DIM}\$${_C_NC} cc wt feature/auth       ${_C_DIM}# Claude in worktree (creates if needed)${_C_NC}
   ${_C_DIM}\$${_C_NC} cc wt pick               ${_C_DIM}# Pick existing worktree → Claude${_C_NC}
-  ${_C_DIM}\$${_C_NC} cc wt                    ${_C_DIM}# List worktrees${_C_NC}
+  ${_C_DIM}\$${_C_NC} cc wt status             ${_C_DIM}# Show worktrees with session info${_C_NC}
 
 ${_C_BLUE}📋 COMMANDS${_C_NC}:
   ${_C_CYAN}cc wt <branch>${_C_NC}       Launch Claude in worktree
   ${_C_CYAN}cc wt${_C_NC}                List worktrees
   ${_C_CYAN}cc wt pick${_C_NC}           fzf picker for worktrees
+  ${_C_CYAN}cc wt status${_C_NC}         Show worktrees with Claude session info
 
 ${_C_BLUE}🚀 MODE CHAINING${_C_NC}:
   ${_C_CYAN}cc wt yolo <branch>${_C_NC}  Worktree + YOLO mode
@@ -462,6 +554,7 @@ ${_C_MAGENTA}💡 EXAMPLES${_C_NC}:
   ccw feature/auth     Launch in worktree
   ccwy feature/auth    YOLO mode in worktree
   ccwp                 Pick from existing worktrees
+  cc wt status         See which worktrees have sessions
 "
 }
 

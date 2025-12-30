@@ -6,6 +6,28 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.3.0] - 2025-12-30
+
+### Added
+
+- **cc wt status** - Show worktrees with Claude session info
+  - 🟢 Recent session (< 24h), 🟡 Old session, ⚪ No session
+  - Shows branch name and last session timestamp
+
+- **wt prune** - Comprehensive worktree cleanup
+  - Prunes stale worktree references
+  - Removes worktrees for merged feature branches
+  - `--branches` flag to also delete the merged branches
+  - `--force` to skip confirmation, `--dry-run` to preview
+
+### Changed
+
+- **g feature prune** - Now asks for confirmation before deleting
+  - `--force` flag to skip confirmation (for scripting)
+  - Safer default behavior
+
+---
+
 ## [4.2.0] - 2025-12-29
 
 ### Added
