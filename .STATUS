@@ -502,11 +502,15 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: Docs cleanup - Removed stale Node.js references (2025-12-30)
+## wins: Archived stale Node.js architecture docs (2025-12-30)
 ## streak: 3
-## last_active: 2025-12-30 15:30
+## last_active: 2025-12-30 16:15
 
 ## Session Log (continued)
+- 2025-12-30: DOCS - Archived docs/architecture/ and docs/api/ (PR #115)
+- 2025-12-30: DOCS - Moved 13 Node.js architecture files to .archive/
+- 2025-12-30: DOCS - Rewrote 00-welcome.md for v4.4.x ZSH plugin
+- 2025-12-30: DOCS - Fixed 12 files with broken architecture/API links
 - 2025-12-30: DOCS - Fixed stale Node.js references across docs (PR #113)
 - 2025-12-30: DOCS - Rewrote CONTRIBUTING.md for pure ZSH development
 - 2025-12-30: DOCS - Added deprecation notice to ADRs (archived Node.js CLI)
