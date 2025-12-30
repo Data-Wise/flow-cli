@@ -421,6 +421,9 @@ ${_C_BLUE}📍 LOCATIONS${_C_NC}:
   Symlinks: ${_C_DIM}~/mcp-servers/<name>${_C_NC}
   Desktop:  ${_C_DIM}~/.claude/settings.json${_C_NC}
   Browser:  ${_C_DIM}~/projects/dev-tools/claude-mcp/MCP_SERVER_CONFIG.json${_C_NC}
+
+${_C_CYAN}🔗 See also${_C_NC}: ${_C_DIM}ait mcp list${_C_NC} for rich table output
+            ${_C_DIM}ait mcp validate${_C_NC} for detailed config validation
 "
 }
 

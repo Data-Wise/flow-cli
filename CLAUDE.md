@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v4.2.0)
+- **Status:** Production ready (v4.4.0)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -15,9 +15,70 @@ This file provides guidance to Claude Code when working with code in this reposi
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`
-- 6 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`
+- 8 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
+
+---
+
+## Layered Architecture (flow-cli + aiterm + craft)
+
+flow-cli is part of a 3-layer developer tooling stack:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  Layer 3: craft plugin (Claude Code)                            │
+│  /craft:git:feature - AI-assisted, tests, changelog             │
+├─────────────────────────────────────────────────────────────────┤
+│  Layer 2: aiterm (Python CLI)                                   │
+│  ait feature - rich visualization, complex automation           │
+├─────────────────────────────────────────────────────────────────┤
+│  Layer 1: flow-cli (Pure ZSH) ← YOU ARE HERE                    │
+│  g, wt, cc - instant (<10ms), zero overhead, ADHD-friendly      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### When to Use flow-cli vs aiterm
+
+| Need                      | Use      | Command                  |
+| ------------------------- | -------- | ------------------------ |
+| **Quick branch creation** | flow-cli | `g feature start <name>` |
+| **Quick worktree**        | flow-cli | `wt create <branch>`     |
+| **Quick cleanup**         | flow-cli | `g feature prune`        |
+| Full feature setup (deps) | aiterm   | `ait feature start -w`   |
+| Pipeline visualization    | aiterm   | `ait feature status`     |
+| Interactive cleanup       | aiterm   | `ait feature cleanup`    |
+| **Quick MCP check**       | flow-cli | `mcp test <name>`        |
+| Full MCP validation       | aiterm   | `ait mcp validate`       |
+| **Launch Claude**         | flow-cli | `cc`, `cc yolo`          |
+| Configure Claude settings | aiterm   | `ait claude settings`    |
+
+### Delegation to aiterm
+
+The `tm` dispatcher delegates to aiterm for rich operations:
+
+- `tm ghost` → `ait ghost` (Ghostty terminal status)
+- `tm detect` → `ait detect` (project context detection)
+- `tm switch` → `ait switch` (apply context to terminal)
+
+### flow-cli Owns:
+
+1. **Instant operations** (<10ms response, pure ZSH)
+2. **Session management** (work/finish/hop)
+3. **ADHD motivation** (win/yay/streaks/goals)
+4. **Quick navigation** (pick/dash)
+5. **Simple dispatchers** (g/cc/mcp/r/qu/obs/wt/tm)
+
+### aiterm Owns:
+
+1. **Rich visualization** (tables, panels, trees via Rich)
+2. **Complex automation** (deps install, multi-step workflows)
+3. **Claude Code integration** (settings, hooks, approvals, MCP)
+4. **Terminal configuration** (profiles, themes, fonts)
+5. **Session tracking** (live sessions, conflicts, history)
+6. **Workflow templates** (full workflow management)
+
+**Repo:** https://github.com/Data-Wise/aiterm
 
 ---
 
