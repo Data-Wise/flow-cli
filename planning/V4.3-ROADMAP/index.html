@@ -3916,6 +3916,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v430-completed-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.3.0 Completed Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -4208,6 +4225,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v430-completed-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.3.0 Completed Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -4476,8 +4510,8 @@
 
 <h1 id="v430-roadmap">v4.3.0+ Roadmap<a class="headerlink" href="#v430-roadmap" title="Permanent link">&para;</a></h1>
 <p><strong>Created:</strong> 2025-12-29
-<strong>Status:</strong> Planning
-<strong>Last Updated:</strong> 2025-12-29</p>
+<strong>Status:</strong> In Progress
+<strong>Last Updated:</strong> 2025-12-30</p>
 <p>This document contains detailed implementation plans for future flow-cli enhancements.</p>
 <hr />
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
@@ -4489,6 +4523,7 @@
 <th>Feature</th>
 <th>Effort</th>
 <th>Value</th>
+<th>Status</th>
 </tr>
 </thead>
 <tbody>
@@ -4497,51 +4532,65 @@
 <td>cc wt status</td>
 <td>~1 hour</td>
 <td>High</td>
+<td>✅ Done</td>
 </tr>
 <tr>
 <td>P1</td>
 <td>cc wt clean</td>
 <td>~45 min</td>
 <td>High</td>
+<td>See wt prune</td>
 </tr>
 <tr>
 <td>P2</td>
 <td>g feature prune --force</td>
 <td>~30 min</td>
 <td>Medium</td>
+<td>✅ Done</td>
 </tr>
 <tr>
 <td>P2</td>
 <td>g feature prune --older-than</td>
 <td>~1 hour</td>
 <td>Medium</td>
+<td>Pending</td>
 </tr>
 <tr>
 <td>P2</td>
 <td>g feature status</td>
 <td>~45 min</td>
 <td>Medium</td>
+<td>Pending</td>
 </tr>
 <tr>
 <td>P3</td>
 <td>wt prune</td>
 <td>~1 hour</td>
 <td>Medium</td>
+<td>✅ Done</td>
 </tr>
 <tr>
 <td>P3</td>
 <td>wt status</td>
 <td>~30 min</td>
 <td>Low</td>
+<td>Pending</td>
 </tr>
 <tr>
 <td>P4</td>
 <td>Remote sync</td>
 <td>TBD</td>
 <td>Future</td>
+<td>Pending</td>
 </tr>
 </tbody>
 </table>
+<h3 id="v430-completed-features">v4.3.0 Completed Features<a class="headerlink" href="#v430-completed-features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>cc wt status</strong> - Shows worktrees with Claude session info (green/yellow/white indicators)</li>
+<li><strong>g feature prune --force</strong> - Adds confirmation prompt by default, <code>--force</code> to skip</li>
+<li><strong>wt prune</strong> - Comprehensive cleanup: prunes stale refs + removes merged worktrees + optionally deletes branches</li>
+</ul>
 <hr />
 <h2 id="priority-1-cc-worktree-enhancements">Priority 1: CC Worktree Enhancements<a class="headerlink" href="#priority-1-cc-worktree-enhancements" title="Permanent link">&para;</a></h2>
 <h3 id="cc-wt-status-1-hour">cc wt status (~1 hour)<a class="headerlink" href="#cc-wt-status-1-hour" title="Permanent link">&para;</a></h3>
