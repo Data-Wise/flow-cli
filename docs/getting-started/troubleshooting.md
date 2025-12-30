@@ -125,24 +125,27 @@ echo 'source ~/.config/zsh/functions/adhd-helpers.zsh' >> ~/.config/zsh/.zshrc
 
 ### "flow: command not found"
 
-**Cause:** CLI not installed or not in PATH
+**Cause:** Plugin not sourced in shell
 
 **Solution:**
 
 ```bash
-# Check if CLI exists
-ls ~/projects/dev-tools/flow-cli/cli/
+# Check if flow function exists
+type flow
 
-# Option 1: Use npm link (recommended)
-cd ~/projects/dev-tools/flow-cli
-npm link
+# If not found, ensure plugin is sourced in .zshrc:
 
-# Option 2: Add to PATH
-echo 'export PATH="$PATH:~/projects/dev-tools/flow-cli/cli"' >> ~/.zshrc
+# Via antidote (recommended)
+antidote bundle data-wise/flow-cli
+
+# Or manual source
+source /path/to/flow-cli/flow.plugin.zsh
+
+# Reload shell
 source ~/.zshrc
 
 # Verify
-which flow
+type flow
 ```
 
 ### "just-start: command not found"
@@ -171,29 +174,27 @@ type just-start
 **Symptoms:**
 
 ```bash
-flow dashboard --web
-# Error: Cannot start server
+dash
+# Error or blank output
 ```
 
 **Solutions:**
 
 ```bash
-# 1. Check if port in use
-lsof -ti:3000
+# 1. Check terminal supports required features
+echo $TERM  # Should be xterm-256color or similar
 
-# If output shows PID, kill it:
-lsof -ti:3000 | xargs kill -9
+# 2. Check fzf is installed (for interactive mode)
+which fzf
+brew install fzf  # If missing
 
-# 2. Try different port
-flow dashboard --web --port 8080
+# 3. Reload plugin
+source ~/.zshrc
 
-# 3. Check Node.js version
-node --version
-# Should be v18+ or v20+
-
-# 4. Reinstall dependencies
-cd ~/projects/dev-tools/flow-cli
-npm install
+# 4. Try different modes
+dash          # Terminal dashboard
+dash -i       # Interactive (requires fzf)
+dash --fast   # Quick mode
 ```
 
 ### "Dashboard shows no projects"
@@ -214,38 +215,24 @@ flow status your-project --show
 dash
 ```
 
-### "Dashboard not auto-refreshing"
+### "Dashboard not refreshing"
 
-**Symptoms:** Data doesn't update in web dashboard
+**Symptoms:** Data doesn't update after changes
 
 **Solutions:**
 
 ```bash
-# 1. Manual refresh
-# Press 'r' in dashboard
+# 1. Press 'r' to refresh in dashboard
 
-# 2. Check refresh interval
-flow dashboard --web --interval 5000
+# 2. Use watch mode for live updates
+dash --watch
 
-# 3. Check browser console for errors
-# Open DevTools (F12), check Console tab
+# 3. Check .STATUS files are being updated
+cat ~/projects/category/project/.STATUS
 
-# 4. Restart dashboard
-# Ctrl+C, then relaunch
-```
-
-### "Browser doesn't open automatically"
-
-**Cause:** Browser opening mechanism failed
-
-**Solution:**
-
-```bash
-# Dashboard still works, manually open:
-open http://localhost:3000/dashboard
-
-# Or visit in any browser:
-http://localhost:3000/dashboard
+# 4. Restart terminal and reload
+source ~/.zshrc
+dash
 ```
 
 ---
@@ -387,23 +374,24 @@ flow status project active P1 "Task" 80
 
 ### "Dashboard slow to load"
 
-**Symptoms:** Web dashboard takes >5 seconds to load
+**Symptoms:** Dashboard takes >2 seconds to load
 
 **Solutions:**
 
 ```bash
-# 1. Reduce refresh rate
-flow dashboard --web --interval 10000
+# 1. Use fast mode
+dash --fast
 
-# 2. Filter to category
-flow dashboard --web --category teaching
+# 2. Filter to specific category
+dash teaching
+dash active
 
 # 3. Check number of projects
 ls -d ~/projects/*/* | wc -l
 # If >50 projects, consider archiving old ones
 
-# 4. Clear browser cache
-# Cmd+Shift+R (Mac) or Ctrl+Shift+R (Windows/Linux)
+# 4. Use targeted commands
+dash active    # Only active projects
 ```
 
 ### "Commands feel laggy"
@@ -428,19 +416,19 @@ df -h ~
 
 ### "High CPU usage"
 
-**Symptoms:** Dashboard consuming >10% CPU
+**Symptoms:** Shell processes consuming high CPU
 
 **Solutions:**
 
 ```bash
-# 1. Use slower refresh
-flow dashboard --web --interval 30000
+# 1. Use fast mode for quick checks
+dash --fast
 
-# 2. Use terminal dashboard instead
-flow dashboard  # TUI uses less resources
+# 2. Avoid watch mode unless needed
+# dash --watch runs continuously
 
-# 3. Close when not viewing
-# Ctrl+C to stop
+# 3. Check for runaway processes
+ps aux | grep zsh
 ```
 
 ---
@@ -560,28 +548,29 @@ echo 'export TZ="America/New_York"' >> ~/.zshrc
 ### Check Logs
 
 ```bash
-# Terminal output when running commands
-flow dashboard --web 2>&1 | tee dashboard.log
+# Enable debug mode
+export FLOW_DEBUG=1
+source ~/.zshrc
 
-# Check system logs (macOS)
-log show --predicate 'process == "node"' --last 1h
+# Run command with debug output
+dash 2>&1 | tee debug.log
 
-# Check system logs (Linux)
-journalctl -u flow-cli -n 50
+# Check for shell errors
+zsh -x -c 'source flow.plugin.zsh' 2>&1 | head -50
 ```
 
 ### Verify Installation
 
 ```bash
-# Check all components
-ls ~/.config/zsh/functions/adhd-helpers.zsh
-ls ~/projects/dev-tools/flow-cli/cli/
-node --version
-npm --version
-which flow
+# Run health check
+flow doctor
 
-# Check sourcing
-grep -r "adhd-helpers" ~/.zshrc ~/.config/zsh/
+# Check all components
+type flow work dash pick
+type cc g mcp r qu
+
+# Check plugin is sourced
+grep -r "flow-cli" ~/.zshrc ~/.config/zsh/
 ```
 
 ### Reset to Defaults
@@ -593,10 +582,11 @@ cp ~/.config/zsh/.zshrc ~/.config/zsh/.zshrc.backup
 # Re-source clean config
 source ~/.config/zsh/.zshrc
 
-# If still broken, reinstall:
-cd ~/projects/dev-tools/flow-cli
-npm install
-npm link
+# If still broken, re-source the plugin:
+source /path/to/flow-cli/flow.plugin.zsh
+
+# Or reinstall via antidote:
+antidote update data-wise/flow-cli
 ```
 
 ### Report Issues
@@ -615,11 +605,10 @@ If you can't solve the issue:
    echo "OS: $(uname -a)"
    echo "Shell: $SHELL"
    echo "ZSH: $ZSH_VERSION"
-   echo "Node: $(node --version)"
 
    # Flow CLI info
-   which flow
-   flow --version 2>&1
+   flow doctor
+   type flow
    ls -la ~/.config/zsh/functions/
    ```
 
@@ -638,8 +627,8 @@ If you can't solve the issue:
 
    ## Environment
    OS: $(uname -a)
-   Shell: $SHELL ($ZSH_VERSION)
-   Node: $(node --version)
+   Shell: $SHELL
+   ZSH Version: $ZSH_VERSION
 
    ## Error Output
    [Paste error messages]
@@ -662,18 +651,17 @@ source ~/.zshrc
 
 # 2. Check function exists
 type dash
-type just-start
+type flow
 
-# 3. Manually source functions
-source ~/.config/zsh/functions/adhd-helpers.zsh
+# 3. Manually source plugin
+source /path/to/flow-cli/flow.plugin.zsh
 
-# 4. Reinstall CLI
-cd ~/projects/dev-tools/flow-cli
-npm install && npm link
+# 4. Run health check
+flow doctor
 
 # 5. Reset dashboard
-# Ctrl+C to stop, then:
-flow dashboard --web
+dash          # Terminal dashboard
+dash --fast   # Quick mode
 ```
 
 ---
@@ -688,4 +676,4 @@ flow dashboard --web
 
 ---
 
-**Last updated:** 2025-12-24
+**Last updated:** 2025-12-30
