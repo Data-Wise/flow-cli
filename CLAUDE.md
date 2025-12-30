@@ -50,7 +50,7 @@ flow goal set 3   # Set daily win target
 
 **Categories:** 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test, ✨ other
 
-### Active Dispatchers (6)
+### Active Dispatchers (7)
 
 ```bash
 g <cmd>       # Git workflows (g status, g push, g commit)
@@ -79,6 +79,23 @@ cc continue       # Continue most recent conversation
 ```
 
 **Alias:** `ccy` = `cc yolo`
+
+### TM Dispatcher Quick Reference
+
+```bash
+# Shell-native (instant, no Python)
+tm title <text>       # Set tab/window title
+tm profile <name>     # Switch iTerm2 profile
+tm which              # Show detected terminal
+
+# Aiterm delegation
+tm ghost              # Ghostty status
+tm ghost theme        # List/set Ghostty themes
+tm switch             # Apply terminal context
+tm detect             # Detect project context
+```
+
+**Aliases:** `tmt` = title, `tmp` = profile, `tmg` = ghost, `tms` = switch
 
 ### Deprecated (Removed 2025-12-25)
 
@@ -365,56 +382,42 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2025-12-29)
+## Current Status (2025-12-30)
+
+### ✅ v4.4.0 Released
+
+- [x] `tm` dispatcher - Terminal manager (aiterm integration)
+  - Shell-native: `tm title`, `tm profile`, `tm which`
+  - Aiterm delegation: `tm ghost`, `tm switch`, `tm detect`
+  - Aliases: `tmt`, `tmp`, `tmg`, `tms`, `tmd`
+
+### ✅ v4.3.0 Released
+
+- [x] `g feature status` - Show merged vs active branches
+- [x] `g feature prune --older-than` - Filter by branch age
+- [x] `g feature prune --force` - Skip confirmation
+- [x] `wt status` - Show worktree health and disk usage
+- [x] `wt prune` - Comprehensive cleanup with branch deletion
+- [x] `cc wt status` - Show worktrees with Claude session info
 
 ### ✅ v4.2.0 Released
 
 - [x] Worktree + Claude Integration (`cc wt`)
-  - `cc wt <branch>` - Launch Claude in worktree (creates if needed)
-  - `cc wt pick` - fzf picker for existing worktrees
-  - `cc wt yolo|plan|opus|haiku <branch>` - Mode chaining
-  - Aliases: `ccw`, `ccwy`, `ccwp`
 - [x] Branch cleanup (`g feature prune`)
-- [x] 57 new tests (20 unit + 19 E2E + 18 prune)
-- [x] Documentation sync and validation
-
-### ✅ v4.1.0 Released
-
-- [x] Git feature branch workflow (`g feature start/sync/list/finish`)
-- [x] Workflow guard for protected branches
-- [x] `wt` dispatcher for git worktrees
-- [x] `g promote` and `g release` for PRs
+- [x] 57 new tests
 
 ### 🎯 Production Ready
 
-- **Version:** 4.2.0
-- **Released:** 2025-12-29
+- **Version:** 4.4.0
+- **Released:** 2025-12-30
 - **Status:** Production use phase
 - **Performance:** Sub-10ms for core commands
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
 - **Tests:** 100+ tests across all features
 
-### 📋 v4.3.0+ Roadmap
+### 📋 Future Roadmap
 
-See `docs/planning/V4.3-ROADMAP.md` for detailed implementation plans.
-
-**Priority 1: CC Worktree Enhancements**
-
-- [ ] `cc wt status` - Show worktrees with Claude session info
-- [ ] `cc wt clean` - Remove worktrees for merged branches
-
-**Priority 2: Branch Management**
-
-- [ ] `g feature prune --force` - Skip confirmation
-- [ ] `g feature prune --older-than` - Filter by age
-- [ ] `g feature status` - Show merged/unmerged branches
-
-**Priority 3: Worktree Improvements**
-
-- [ ] `wt prune` - Combined cleanup (worktrees + branches)
-- [ ] `wt status` - Show worktree health
-
-**Priority 4: Remote & Team (Future)**
+**Remote & Team Features**
 
 - [ ] Remote state sync (optional cloud backup)
 - [ ] Multi-device support
@@ -502,5 +505,5 @@ git push origin main && git push origin v4.1.0
 
 ---
 
-**Last Updated:** 2025-12-27
+**Last Updated:** 2025-12-30
 **Status:** Production Ready
