@@ -360,4 +360,12 @@
          <loc>https://data-wise.github.io/flow-cli/tutorials/07-sync-command/</loc>
          <lastmod>2025-12-30</lastmod>
     </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/tutorials/08-git-feature-workflow/</loc>
+         <lastmod>2025-12-30</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/tutorials/09-worktrees/</loc>
+         <lastmod>2025-12-30</lastmod>
+    </url>
 </urlset>

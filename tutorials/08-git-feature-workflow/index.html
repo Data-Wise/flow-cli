@@ -12,13 +12,13 @@
         <meta name="author" content="DT">
       
       
-        <link rel="canonical" href="https://data-wise.github.io/flow-cli/tutorials/05-ai-commands/">
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/tutorials/08-git-feature-workflow/">
       
       
-        <link rel="prev" href="../04-web-dashboard/">
+        <link rel="prev" href="../07-sync-command/">
       
       
-        <link rel="next" href="../06-dopamine-features/">
+        <link rel="next" href="../09-worktrees/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>5. AI-Powered Commands - Flow CLI Documentation</title>
+        <title>8. Git Feature Workflow - Flow CLI Documentation</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tutorial-5-ai-powered-commands" class="md-skip">
+        <a href="#tutorial-git-feature-branch-workflow" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              5. AI-Powered Commands
+              8. Git Feature Workflow
             
           </span>
         </div>
@@ -950,37 +950,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5. AI-Powered Commands
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../05-ai-commands/" class="md-nav__link">
         
   
   
@@ -996,342 +969,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-1-check-prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 1: Check Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-2-ask-ai-questions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 2: Ask AI Questions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Step 2: Ask AI Questions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#basic-query" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Basic Query
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#explain-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Explain Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fix-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fix Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#suggest-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Suggest Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-3-natural-language-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 3: Natural Language Commands
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Step 3: Natural Language Commands">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#try-these-examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Try These Examples
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dry-run-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dry Run Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#safety-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Safety Features
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-4-adhd-helpers-with-ai" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 4: ADHD Helpers with AI
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Step 4: ADHD Helpers with AI">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#when-youre-stuck" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        When You're Stuck
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#what-to-work-on-next" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What to Work on Next
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-5-advanced-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 5: Advanced Usage
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Step 5: Advanced Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#include-extra-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Include Extra Context
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#verbose-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verbose Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#combine-modes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Combine Modes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Reference
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tips-for-adhd-brains" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Tips for ADHD Brains
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#claude-cli-not-found" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        "Claude CLI not found"
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ai-responses-are-slow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        AI responses are slow
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#commands-not-translating-correctly" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Commands not translating correctly
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#whats-next" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What's Next?
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1397,10 +1034,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../08-git-feature-workflow/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Git Feature Workflow
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1416,6 +1080,387 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What You'll Learn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-workflow-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Workflow Pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-starting-a-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Starting a Feature
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Starting a Feature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-11-create-a-feature-branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1.1: Create a Feature Branch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-12-verify-your-branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1.2: Verify Your Branch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-working-on-your-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2: Working on Your Feature
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2: Working on Your Feature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-21-make-changes-and-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2.1: Make Changes and Commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-22-keep-in-sync-with-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2.2: Keep in Sync with Dev
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-23-push-your-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2.3: Push Your Feature
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-creating-pull-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3: Creating Pull Requests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3: Creating Pull Requests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-31-pr-to-dev-promote" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3.1: PR to Dev (Promote)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-32-pr-to-main-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3.2: PR to Main (Release)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-4-finishing-and-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 4: Finishing and Cleanup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 4: Finishing and Cleanup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-41-finish-a-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.1: Finish a Feature
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-42-clean-up-merged-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.2: Clean Up Merged Branches
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-the-workflow-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 5: The Workflow Guard
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 5: The Workflow Guard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#override-when-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Override When Needed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Scenarios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-starting-new-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 1: Starting New Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-hotfix-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 2: Hotfix Needed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-weekly-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 3: Weekly Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#branch-already-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Branch already exists"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rebase-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Rebase conflicts"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pr-creation-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "PR creation failed"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -4240,10 +4285,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Prerequisites
       
     </span>
   </a>
@@ -4251,10 +4296,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-1-check-prerequisites" class="md-nav__link">
+  <a href="#what-youll-learn" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1: Check Prerequisites
+        What You'll Learn
       
     </span>
   </a>
@@ -4262,22 +4307,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-2-ask-ai-questions" class="md-nav__link">
+  <a href="#the-workflow-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2: Ask AI Questions
+        The Workflow Pattern
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 2: Ask AI Questions">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-starting-a-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1: Starting a Feature
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1: Starting a Feature">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#basic-query" class="md-nav__link">
+  <a href="#step-11-create-a-feature-branch" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Basic Query
+        Step 1.1: Create a Feature Branch
       
     </span>
   </a>
@@ -4285,43 +4341,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#explain-mode" class="md-nav__link">
+  <a href="#step-12-verify-your-branch" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Explain Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fix-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fix Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#suggest-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Suggest Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create Mode
+        Step 1.2: Verify Your Branch
       
     </span>
   </a>
@@ -4334,22 +4357,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-3-natural-language-commands" class="md-nav__link">
+  <a href="#part-2-working-on-your-feature" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3: Natural Language Commands
+        Part 2: Working on Your Feature
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 3: Natural Language Commands">
+    <nav class="md-nav" aria-label="Part 2: Working on Your Feature">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#try-these-examples" class="md-nav__link">
+  <a href="#step-21-make-changes-and-commit" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Try These Examples
+        Step 2.1: Make Changes and Commit
       
     </span>
   </a>
@@ -4357,10 +4380,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dry-run-mode" class="md-nav__link">
+  <a href="#step-22-keep-in-sync-with-dev" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dry Run Mode
+        Step 2.2: Keep in Sync with Dev
       
     </span>
   </a>
@@ -4368,10 +4391,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#safety-features" class="md-nav__link">
+  <a href="#step-23-push-your-feature" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Safety Features
+        Step 2.3: Push Your Feature
       
     </span>
   </a>
@@ -4384,22 +4407,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-4-adhd-helpers-with-ai" class="md-nav__link">
+  <a href="#part-3-creating-pull-requests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 4: ADHD Helpers with AI
+        Part 3: Creating Pull Requests
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 4: ADHD Helpers with AI">
+    <nav class="md-nav" aria-label="Part 3: Creating Pull Requests">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#when-youre-stuck" class="md-nav__link">
+  <a href="#step-31-pr-to-dev-promote" class="md-nav__link">
     <span class="md-ellipsis">
       
-        When You're Stuck
+        Step 3.1: PR to Dev (Promote)
       
     </span>
   </a>
@@ -4407,10 +4430,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#what-to-work-on-next" class="md-nav__link">
+  <a href="#step-32-pr-to-main-release" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What to Work on Next
+        Step 3.2: PR to Main (Release)
       
     </span>
   </a>
@@ -4423,22 +4446,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-5-advanced-usage" class="md-nav__link">
+  <a href="#part-4-finishing-and-cleanup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 5: Advanced Usage
+        Part 4: Finishing and Cleanup
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 5: Advanced Usage">
+    <nav class="md-nav" aria-label="Part 4: Finishing and Cleanup">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#include-extra-context" class="md-nav__link">
+  <a href="#step-41-finish-a-feature" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Include Extra Context
+        Step 4.1: Finish a Feature
       
     </span>
   </a>
@@ -4446,10 +4469,38 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#verbose-mode" class="md-nav__link">
+  <a href="#step-42-clean-up-merged-branches" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verbose Mode
+        Step 4.2: Clean Up Merged Branches
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-5-the-workflow-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 5: The Workflow Guard
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 5: The Workflow Guard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Does
       
     </span>
   </a>
@@ -4457,10 +4508,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#combine-modes" class="md-nav__link">
+  <a href="#override-when-needed" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Combine Modes
+        Override When Needed
       
     </span>
   </a>
@@ -4484,13 +4535,52 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tips-for-adhd-brains" class="md-nav__link">
+  <a href="#common-scenarios" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Tips for ADHD Brains
+        Common Scenarios
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Common Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-starting-new-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 1: Starting New Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-hotfix-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 2: Hotfix Needed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-weekly-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 3: Weekly Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4507,10 +4597,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#claude-cli-not-found" class="md-nav__link">
+  <a href="#branch-already-exists" class="md-nav__link">
     <span class="md-ellipsis">
       
-        "Claude CLI not found"
+        "Branch already exists"
       
     </span>
   </a>
@@ -4518,10 +4608,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ai-responses-are-slow" class="md-nav__link">
+  <a href="#rebase-conflicts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        AI responses are slow
+        "Rebase conflicts"
       
     </span>
   </a>
@@ -4529,10 +4619,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#commands-not-translating-correctly" class="md-nav__link">
+  <a href="#pr-creation-failed" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Commands not translating correctly
+        "PR creation failed"
       
     </span>
   </a>
@@ -4572,7 +4662,7 @@
 
 
   
-    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/tutorials/05-ai-commands.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/tutorials/08-git-feature-workflow.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -4580,149 +4670,181 @@
   
 
 
-<h1 id="tutorial-5-ai-powered-commands">Tutorial 5: AI-Powered Commands<a class="headerlink" href="#tutorial-5-ai-powered-commands" title="Permanent link">&para;</a></h1>
+<h1 id="tutorial-git-feature-branch-workflow">Tutorial: Git Feature Branch Workflow<a class="headerlink" href="#tutorial-git-feature-branch-workflow" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p><strong>Time:</strong> 10 minutes
-<strong>Prerequisites:</strong> flow-cli installed, Claude CLI (<code>claude</code>) available
-<strong>Goal:</strong> Use AI to accelerate your workflow</p>
+<p><strong>What you'll learn:</strong> Use the feature branch workflow to safely develop and merge changes</p>
+<p><strong>Time:</strong> ~15 minutes | <strong>Level:</strong> Intermediate
+<strong>Version:</strong> v4.1.0+</p>
 </blockquote>
 <hr />
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>flow-cli v3.2.0 introduces AI-powered commands that use Claude to help you:</p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<p>Before starting, you should:</p>
 <ul>
-<li>Ask questions with project context (<code>flow ai</code>)</li>
-<li>Translate natural language to shell commands (<code>flow do</code>)</li>
-<li>Get unstuck with AI assistance (<code>stuck --ai</code>)</li>
-<li>Get smart task suggestions (<code>next --ai</code>)</li>
+<li>[ ] Completed: <a href="../01-first-session/">Tutorial 1: Your First Flow Session</a></li>
+<li>[ ] Have a git repository with <code>main</code> and <code>dev</code> branches</li>
+<li>[ ] Understand basic git concepts (branches, commits, PRs)</li>
 </ul>
-<hr />
-<h2 id="step-1-check-prerequisites">Step 1: Check Prerequisites<a class="headerlink" href="#step-1-check-prerequisites" title="Permanent link">&para;</a></h2>
-<p>First, verify Claude CLI is installed:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>claude<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✅ Claude CLI found&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;❌ Install: npm i -g @anthropic-ai/claude-code&quot;</span>
+<p><strong>Verify your setup:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check g dispatcher is available</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>g<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Check you have main and dev branches</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>git<span class="w"> </span>branch<span class="w"> </span>-a<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;main|dev&quot;</span>
 </code></pre></div>
 <hr />
-<h2 id="step-2-ask-ai-questions">Step 2: Ask AI Questions<a class="headerlink" href="#step-2-ask-ai-questions" title="Permanent link">&para;</a></h2>
-<h3 id="basic-query">Basic Query<a class="headerlink" href="#basic-query" title="Permanent link">&para;</a></h3>
-<p>Ask AI anything about your project:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="s2">&quot;what testing framework should I use for this project?&quot;</span>
-</code></pre></div>
-<p>The AI receives context about:</p>
-<ul>
-<li>Your current directory</li>
-<li>Project type (ZSH plugin, R package, etc.)</li>
-<li>Git branch and status</li>
-<li>Active flow session</li>
-</ul>
-<h3 id="explain-mode">Explain Mode<a class="headerlink" href="#explain-mode" title="Permanent link">&para;</a></h3>
-<p>Get explanations of code or concepts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span><span class="s2">&quot;what does this regex do: ^##\s*Focus:&quot;</span>
-</code></pre></div>
-<h3 id="fix-mode">Fix Mode<a class="headerlink" href="#fix-mode" title="Permanent link">&para;</a></h3>
-<p>Get help fixing problems:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--fix<span class="w"> </span><span class="s2">&quot;my tests are failing with &#39;command not found&#39;&quot;</span>
-</code></pre></div>
-<h3 id="suggest-mode">Suggest Mode<a class="headerlink" href="#suggest-mode" title="Permanent link">&para;</a></h3>
-<p>Get improvement suggestions:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--suggest<span class="w"> </span><span class="s2">&quot;make this function more efficient&quot;</span>
-</code></pre></div>
-<h3 id="create-mode">Create Mode<a class="headerlink" href="#create-mode" title="Permanent link">&para;</a></h3>
-<p>Generate code from descriptions:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--create<span class="w"> </span><span class="s2">&quot;a function that validates email addresses&quot;</span>
-</code></pre></div>
-<hr />
-<h2 id="step-3-natural-language-commands">Step 3: Natural Language Commands<a class="headerlink" href="#step-3-natural-language-commands" title="Permanent link">&para;</a></h2>
-<p>The <code>flow do</code> command translates plain English into shell commands.</p>
-<h3 id="try-these-examples">Try These Examples<a class="headerlink" href="#try-these-examples" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Show recent git activity</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;show commits from last week&quot;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Find files</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;find all markdown files modified today&quot;</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Count code</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;count lines of code in zsh files&quot;</span>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># Check disk usage</span>
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;show largest files in current directory&quot;</span>
-</code></pre></div>
-<h3 id="dry-run-mode">Dry Run Mode<a class="headerlink" href="#dry-run-mode" title="Permanent link">&para;</a></h3>
-<p>See what command would run without executing:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;delete all .bak files&quot;</span>
-</code></pre></div>
-<p>Output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>🔍 Translating: &quot;delete all .bak files&quot;
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>📝 Command: find . -name &quot;*.bak&quot; -delete
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>⚠️  DRY RUN - command not executed
-</code></pre></div>
-<h3 id="safety-features">Safety Features<a class="headerlink" href="#safety-features" title="Permanent link">&para;</a></h3>
-<p>Dangerous commands require confirmation:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;remove all files&quot;</span>
-</code></pre></div>
-<p>Output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>⚠️  DANGEROUS COMMAND DETECTED
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>📝 Command: rm -rf *
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>This command could cause data loss.
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>Execute anyway? [y/N]:
-</code></pre></div>
-<hr />
-<h2 id="step-4-adhd-helpers-with-ai">Step 4: ADHD Helpers with AI<a class="headerlink" href="#step-4-adhd-helpers-with-ai" title="Permanent link">&para;</a></h2>
-<h3 id="when-youre-stuck">When You're Stuck<a class="headerlink" href="#when-youre-stuck" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Get general unstuck tips</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>stuck
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Get AI-powered help</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>stuck<span class="w"> </span>--ai
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Describe your specific problem</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>stuck<span class="w"> </span>--ai<span class="w"> </span><span class="s2">&quot;can&#39;t figure out why the tests pass locally but fail in CI&quot;</span>
-</code></pre></div>
-<p>The AI will:</p>
+<h2 id="what-youll-learn">What You'll Learn<a class="headerlink" href="#what-youll-learn" title="Permanent link">&para;</a></h2>
+<p>By the end of this tutorial, you will:</p>
 <ol>
-<li>Break down the problem into tiny steps</li>
-<li>Suggest ONE specific action to start</li>
-<li>Offer to capture the problem for later</li>
+<li>Create feature branches from dev</li>
+<li>Keep features synced with dev</li>
+<li>Create PRs using the proper workflow</li>
+<li>Clean up merged branches</li>
 </ol>
-<h3 id="what-to-work-on-next">What to Work on Next<a class="headerlink" href="#what-to-work-on-next" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># See your active projects</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>next
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Get AI-powered suggestion</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>next<span class="w"> </span>--ai
+<hr />
+<h2 id="the-workflow-pattern">The Workflow Pattern<a class="headerlink" href="#the-workflow-pattern" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>feature/* ──► dev ──► main
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    │          │        │
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    └── PR ────┘        │
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>               └── PR ──┘
 </code></pre></div>
-<p>The AI considers:</p>
+<p><strong>Key Rules:</strong></p>
 <ul>
-<li>Your active projects and their focus</li>
-<li>Inbox items waiting</li>
-<li>Energy management for ADHD</li>
+<li>Never push directly to <code>main</code> or <code>dev</code></li>
+<li>All work happens on <code>feature/*</code>, <code>hotfix/*</code>, or <code>bugfix/*</code> branches</li>
+<li>Use PRs to merge changes up the chain</li>
 </ul>
 <hr />
-<h2 id="step-5-advanced-usage">Step 5: Advanced Usage<a class="headerlink" href="#step-5-advanced-usage" title="Permanent link">&para;</a></h2>
-<h3 id="include-extra-context">Include Extra Context<a class="headerlink" href="#include-extra-context" title="Permanent link">&para;</a></h3>
-<p>Force context inclusion even for simple queries:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--context<span class="w"> </span><span class="s2">&quot;should I use async here?&quot;</span>
+<h2 id="part-1-starting-a-feature">Part 1: Starting a Feature<a class="headerlink" href="#part-1-starting-a-feature" title="Permanent link">&para;</a></h2>
+<h3 id="step-11-create-a-feature-branch">Step 1.1: Create a Feature Branch<a class="headerlink" href="#step-11-create-a-feature-branch" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Start a new feature from dev</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>g<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span>auth-improvements
 </code></pre></div>
-<h3 id="verbose-mode">Verbose Mode<a class="headerlink" href="#verbose-mode" title="Permanent link">&para;</a></h3>
-<p>See what context is being sent to AI:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--verbose<span class="w"> </span><span class="s2">&quot;how do I add a new command?&quot;</span>
+<p><strong>What happened:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>✅ Created feature/auth-improvements from dev
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>📍 Now on: feature/auth-improvements
 </code></pre></div>
-<p>Output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>📋 Context being sent:
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>Directory: /Users/dt/projects/dev-tools/flow-cli
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>Project type: zsh-plugin
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>Git branch: main
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>Changed files: 3
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>...
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>🤖 Asking AI...
+<p>This:</p>
+<ul>
+<li>Fetches latest <code>dev</code></li>
+<li>Creates <code>feature/auth-improvements</code> from <code>dev</code></li>
+<li>Switches to the new branch</li>
+</ul>
+<h3 id="step-12-verify-your-branch">Step 1.2: Verify Your Branch<a class="headerlink" href="#step-12-verify-your-branch" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Check current branch</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>g
 </code></pre></div>
-<h3 id="combine-modes">Combine Modes<a class="headerlink" href="#combine-modes" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Explain with context</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span>--context<span class="w"> </span><span class="s2">&quot;the _flow_detect_type function&quot;</span>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>On branch feature/auth-improvements
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>nothing to commit, working tree clean
+</code></pre></div>
+<hr />
+<h2 id="part-2-working-on-your-feature">Part 2: Working on Your Feature<a class="headerlink" href="#part-2-working-on-your-feature" title="Permanent link">&para;</a></h2>
+<h3 id="step-21-make-changes-and-commit">Step 2.1: Make Changes and Commit<a class="headerlink" href="#step-21-make-changes-and-commit" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Make your changes...</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># Then commit</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>g<span class="w"> </span>add<span class="w"> </span>.
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>g<span class="w"> </span>commit<span class="w"> </span><span class="s2">&quot;Add OAuth2 support&quot;</span>
+</code></pre></div>
+<h3 id="step-22-keep-in-sync-with-dev">Step 2.2: Keep in Sync with Dev<a class="headerlink" href="#step-22-keep-in-sync-with-dev" title="Permanent link">&para;</a></h3>
+<p>While you work, <code>dev</code> may have new changes. Stay synced:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Rebase your feature onto latest dev</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>g<span class="w"> </span>feature<span class="w"> </span>sync
+</code></pre></div>
+<p><strong>What happened:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>✅ Rebased feature/auth-improvements onto dev
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>📊 Your branch is 3 commits ahead of dev
+</code></pre></div>
+<p><strong>Tip:</strong> Run <code>g feature sync</code> daily to avoid big merge conflicts!</p>
+<h3 id="step-23-push-your-feature">Step 2.3: Push Your Feature<a class="headerlink" href="#step-23-push-your-feature" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Push to remote</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>g<span class="w"> </span>push
+</code></pre></div>
+<p>The workflow guard will let this through because you're on a feature branch.</p>
+<hr />
+<h2 id="part-3-creating-pull-requests">Part 3: Creating Pull Requests<a class="headerlink" href="#part-3-creating-pull-requests" title="Permanent link">&para;</a></h2>
+<h3 id="step-31-pr-to-dev-promote">Step 3.1: PR to Dev (Promote)<a class="headerlink" href="#step-31-pr-to-dev-promote" title="Permanent link">&para;</a></h3>
+<p>When your feature is ready:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Create PR: feature → dev</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>g<span class="w"> </span>promote
+</code></pre></div>
+<p><strong>What happened:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Creating PR: feature/auth-improvements → dev
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>✅ PR #42 created
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>   https://github.com/user/repo/pull/42
+</code></pre></div>
+<h3 id="step-32-pr-to-main-release">Step 3.2: PR to Main (Release)<a class="headerlink" href="#step-32-pr-to-main-release" title="Permanent link">&para;</a></h3>
+<p>Once changes are tested in dev:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># First, switch to dev</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>dev
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Create PR: dev → main</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>g<span class="w"> </span>release
+</code></pre></div>
+<p><strong>What happened:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Creating PR: dev → main
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>✅ PR #43 created
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>   https://github.com/user/repo/pull/43
+</code></pre></div>
+<hr />
+<h2 id="part-4-finishing-and-cleanup">Part 4: Finishing and Cleanup<a class="headerlink" href="#part-4-finishing-and-cleanup" title="Permanent link">&para;</a></h2>
+<h3 id="step-41-finish-a-feature">Step 4.1: Finish a Feature<a class="headerlink" href="#step-41-finish-a-feature" title="Permanent link">&para;</a></h3>
+<p>Push and create PR in one command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Push + create PR to dev</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>g<span class="w"> </span>feature<span class="w"> </span>finish
+</code></pre></div>
+<p><strong>What happened:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>📤 Pushing feature/auth-improvements...
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>✅ Created PR #42: feature/auth-improvements → dev
+</code></pre></div>
+<h3 id="step-42-clean-up-merged-branches">Step 4.2: Clean Up Merged Branches<a class="headerlink" href="#step-42-clean-up-merged-branches" title="Permanent link">&para;</a></h3>
+<p>After your PRs are merged:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># See what would be deleted</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>g<span class="w"> </span>feature<span class="w"> </span>prune<span class="w"> </span>-n
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Fix with verbose output</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>flow<span class="w"> </span>ai<span class="w"> </span>--fix<span class="w"> </span>--verbose<span class="w"> </span><span class="s2">&quot;completion not working&quot;</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Actually delete merged branches</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>g<span class="w"> </span>feature<span class="w"> </span>prune
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># Also clean remote tracking branches</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>g<span class="w"> </span>feature<span class="w"> </span>prune<span class="w"> </span>--all
+</code></pre></div>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>🧹 Cleaning merged feature branches...
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>Will delete:
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>  feature/auth-improvements (merged to dev)
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>  feature/old-feature (merged to dev)
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>Delete 2 branches? [y/N] y
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>✅ Deleted 2 merged branches
+</code></pre></div>
+<hr />
+<h2 id="part-5-the-workflow-guard">Part 5: The Workflow Guard<a class="headerlink" href="#part-5-the-workflow-guard" title="Permanent link">&para;</a></h2>
+<h3 id="what-it-does">What It Does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h3>
+<p>The workflow guard protects <code>main</code> and <code>dev</code> from direct pushes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Try to push to main (blocked)</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>main
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>g<span class="w"> </span>push
+</code></pre></div>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>⛔ Direct push to &#39;main&#39; blocked
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>Workflow: feature/* → dev → main
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>Commands:
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>  g promote    Create PR: feature → dev
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>  g release    Create PR: dev → main
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>Override: GIT_WORKFLOW_SKIP=1 git push
+</code></pre></div>
+<h3 id="override-when-needed">Override When Needed<a class="headerlink" href="#override-when-needed" title="Permanent link">&para;</a></h3>
+<p>For emergencies only:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Skip the guard (use sparingly!)</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nv">GIT_WORKFLOW_SKIP</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>git<span class="w"> </span>push
 </code></pre></div>
 <hr />
 <h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
@@ -4730,102 +4852,87 @@
 <thead>
 <tr>
 <th>Command</th>
-<th>Purpose</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>flow ai "query"</code></td>
-<td>Ask AI anything</td>
+<td><code>g feature start &lt;name&gt;</code></td>
+<td>Create feature branch from dev</td>
 </tr>
 <tr>
-<td><code>flow ai --explain</code></td>
-<td>Explain code/concepts</td>
+<td><code>g feature sync</code></td>
+<td>Rebase feature onto dev</td>
 </tr>
 <tr>
-<td><code>flow ai --fix</code></td>
-<td>Get fix suggestions</td>
+<td><code>g feature list</code></td>
+<td>List feature/hotfix branches</td>
 </tr>
 <tr>
-<td><code>flow ai --suggest</code></td>
-<td>Get improvements</td>
+<td><code>g feature finish</code></td>
+<td>Push + create PR to dev</td>
 </tr>
 <tr>
-<td><code>flow ai --create</code></td>
-<td>Generate code</td>
+<td><code>g feature prune</code></td>
+<td>Delete merged branches</td>
 </tr>
 <tr>
-<td><code>flow do "..."</code></td>
-<td>Natural language → shell</td>
+<td><code>g promote</code></td>
+<td>Create PR: feature → dev</td>
 </tr>
 <tr>
-<td><code>flow do --dry-run</code></td>
-<td>Preview without executing</td>
-</tr>
-<tr>
-<td><code>stuck --ai</code></td>
-<td>AI help when blocked</td>
-</tr>
-<tr>
-<td><code>next --ai</code></td>
-<td>AI task suggestion</td>
+<td><code>g release</code></td>
+<td>Create PR: dev → main</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="tips-for-adhd-brains">Tips for ADHD Brains<a class="headerlink" href="#tips-for-adhd-brains" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Use <code>flow do</code> for commands you can't remember</strong></li>
-<li>Don't waste mental energy on syntax</li>
-<li>
-<p>Just describe what you want</p>
-</li>
-<li>
-<p><strong><code>stuck --ai</code> is your rubber duck</strong></p>
-</li>
-<li>Describing the problem often reveals the solution</li>
-<li>
-<p>AI breaks it into manageable pieces</p>
-</li>
-<li>
-<p><strong><code>next --ai</code> helps with decision paralysis</strong></p>
-</li>
-<li>When everything feels equally important</li>
-<li>
-<p>Get ONE clear recommendation</p>
-</li>
-<li>
-<p><strong>Dry run everything dangerous</strong></p>
-</li>
-<li><code>flow do --dry-run</code> before destructive operations</li>
-<li>Builds confidence before executing</li>
-</ol>
+<h2 id="common-scenarios">Common Scenarios<a class="headerlink" href="#common-scenarios" title="Permanent link">&para;</a></h2>
+<h3 id="scenario-1-starting-new-work">Scenario 1: Starting New Work<a class="headerlink" href="#scenario-1-starting-new-work" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>g<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span>new-feature<span class="w">    </span><span class="c1"># Create branch</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="c1"># ... make changes ...</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>g<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>g<span class="w"> </span>commit<span class="w"> </span><span class="s2">&quot;message&quot;</span><span class="w">  </span><span class="c1"># Commit</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>g<span class="w"> </span>feature<span class="w"> </span>finish<span class="w">               </span><span class="c1"># Push + PR</span>
+</code></pre></div>
+<h3 id="scenario-2-hotfix-needed">Scenario 2: Hotfix Needed<a class="headerlink" href="#scenario-2-hotfix-needed" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>g<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span>hotfix/urgent-fix<span class="w">  </span><span class="c1"># Use hotfix/ prefix</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="c1"># ... fix the issue ...</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>g<span class="w"> </span>promote<span class="w">                          </span><span class="c1"># PR to dev</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>g<span class="w"> </span>release<span class="w">                          </span><span class="c1"># PR to main (after dev merge)</span>
+</code></pre></div>
+<h3 id="scenario-3-weekly-cleanup">Scenario 3: Weekly Cleanup<a class="headerlink" href="#scenario-3-weekly-cleanup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>g<span class="w"> </span>feature<span class="w"> </span>list<span class="w">                 </span><span class="c1"># See all feature branches</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>g<span class="w"> </span>feature<span class="w"> </span>prune<span class="w"> </span>--all<span class="w">          </span><span class="c1"># Clean merged + remote</span>
+</code></pre></div>
 <hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<h3 id="claude-cli-not-found">"Claude CLI not found"<a class="headerlink" href="#claude-cli-not-found" title="Permanent link">&para;</a></h3>
-<p>Install with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>@anthropic-ai/claude-code
+<h3 id="branch-already-exists">"Branch already exists"<a class="headerlink" href="#branch-already-exists" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Delete old branch first</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>git<span class="w"> </span>branch<span class="w"> </span>-d<span class="w"> </span>feature/old-name
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>g<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span>new-name
 </code></pre></div>
-<h3 id="ai-responses-are-slow">AI responses are slow<a class="headerlink" href="#ai-responses-are-slow" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Claude CLI makes API calls - expect 1-3 seconds</li>
-<li>Use <code>--verbose</code> to see progress</li>
-</ul>
-<h3 id="commands-not-translating-correctly">Commands not translating correctly<a class="headerlink" href="#commands-not-translating-correctly" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Be more specific in your description</li>
-<li>Use <code>--dry-run</code> to see what it would do</li>
-<li>Adjust and try again</li>
-</ul>
+<h3 id="rebase-conflicts">"Rebase conflicts"<a class="headerlink" href="#rebase-conflicts" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># During g feature sync, if conflicts:</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="c1"># 1. Fix conflicts in files</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="c1"># 2. git add &lt;fixed-files&gt;</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># 3. git rebase --continue</span>
+</code></pre></div>
+<h3 id="pr-creation-failed">"PR creation failed"<a class="headerlink" href="#pr-creation-failed" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Check gh is authenticated</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>gh<span class="w"> </span>auth<span class="w"> </span>status
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Re-authenticate if needed</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>gh<span class="w"> </span>auth<span class="w"> </span>login
+</code></pre></div>
 <hr />
 <h2 id="whats-next">What's Next?<a class="headerlink" href="#whats-next" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Tutorial 6:</strong> Custom workflows (coming soon)</li>
-<li><strong>Reference:</strong> <a href="../../reference/COMMAND-QUICK-REFERENCE/">COMMAND-QUICK-REFERENCE.md</a></li>
-<li><strong>Help:</strong> <code>flow ai --help</code>, <code>flow do --help</code></li>
+<li><strong><a href="../09-worktrees/">Tutorial 9: Worktrees</a></strong> - Parallel development with worktrees</li>
+<li><strong><a href="../../reference/DISPATCHER-REFERENCE/#1-g-git-workflows">Git Dispatcher Reference</a></strong> - All g commands</li>
+<li><strong><a href="../../planning/V4.3-ROADMAP/">V4.3 Roadmap</a></strong> - Upcoming features</li>
 </ul>
 <hr />
-<p><em>Tutorial created: 2025-12-26 (v3.2.0)</em></p>
+<p><strong>Tip:</strong> Start with <code>g feature start</code> for every new piece of work. It keeps your branches organized and your workflow clean!</p>
 
 
 
