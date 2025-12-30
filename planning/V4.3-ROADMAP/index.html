@@ -4510,7 +4510,7 @@
 
 <h1 id="v430-roadmap">v4.3.0+ Roadmap<a class="headerlink" href="#v430-roadmap" title="Permanent link">&para;</a></h1>
 <p><strong>Created:</strong> 2025-12-29
-<strong>Status:</strong> In Progress
+<strong>Status:</strong> ✅ Complete
 <strong>Last Updated:</strong> 2025-12-30</p>
 <p>This document contains detailed implementation plans for future flow-cli enhancements.</p>
 <hr />
@@ -4553,14 +4553,14 @@
 <td>g feature prune --older-than</td>
 <td>~1 hour</td>
 <td>Medium</td>
-<td>Pending</td>
+<td>✅ Done</td>
 </tr>
 <tr>
 <td>P2</td>
 <td>g feature status</td>
 <td>~45 min</td>
 <td>Medium</td>
-<td>Pending</td>
+<td>✅ Done</td>
 </tr>
 <tr>
 <td>P3</td>
@@ -4574,7 +4574,7 @@
 <td>wt status</td>
 <td>~30 min</td>
 <td>Low</td>
-<td>Pending</td>
+<td>✅ Done</td>
 </tr>
 <tr>
 <td>P4</td>
@@ -4589,7 +4589,10 @@
 <ul>
 <li><strong>cc wt status</strong> - Shows worktrees with Claude session info (green/yellow/white indicators)</li>
 <li><strong>g feature prune --force</strong> - Adds confirmation prompt by default, <code>--force</code> to skip</li>
+<li><strong>g feature prune --older-than</strong> - Filter branches by age (30d, 1w, 2m)</li>
+<li><strong>g feature status</strong> - Show merged vs active branches with age info</li>
 <li><strong>wt prune</strong> - Comprehensive cleanup: prunes stale refs + removes merged worktrees + optionally deletes branches</li>
+<li><strong>wt status</strong> - Show worktree health, disk usage, and merge status</li>
 </ul>
 <hr />
 <h2 id="priority-1-cc-worktree-enhancements">Priority 1: CC Worktree Enhancements<a class="headerlink" href="#priority-1-cc-worktree-enhancements" title="Permanent link">&para;</a></h2>

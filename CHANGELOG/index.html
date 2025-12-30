@@ -5108,7 +5108,31 @@
 <li>Prunes stale worktree references</li>
 <li>Removes worktrees for merged feature branches</li>
 <li><code>--branches</code> flag to also delete the merged branches</li>
-<li><code>--force</code> to skip confirmation, <code>--dry-run</code> to preview</li>
+<li>
+<p><code>--force</code> to skip confirmation, <code>--dry-run</code> to preview</p>
+</li>
+<li>
+<p><strong>wt status</strong> - Show worktree health and disk usage</p>
+</li>
+<li>Shows all worktrees with status (active/merged/stale)</li>
+<li>Displays disk usage per worktree</li>
+<li>
+<p>Provides cleanup suggestions</p>
+</li>
+<li>
+<p><strong>g feature status</strong> - Show merged vs active branches</p>
+</li>
+<li>Lists stale branches (merged to dev)</li>
+<li>Lists active branches with commit count</li>
+<li>
+<p>Shows age of each branch</p>
+</li>
+<li>
+<p><strong>g feature prune --older-than</strong> - Filter by branch age</p>
+</li>
+<li><code>--older-than 30d</code> - Only branches older than 30 days</li>
+<li><code>--older-than 1w</code> - Only branches older than 1 week</li>
+<li><code>--older-than 2m</code> - Only branches older than 2 months</li>
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
