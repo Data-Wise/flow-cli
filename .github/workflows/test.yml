@@ -47,6 +47,42 @@ jobs:
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-cc-dispatcher.zsh
 
+      - name: Run g dispatcher tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-g-feature.zsh
+
+      - name: Run wt dispatcher tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-wt-dispatcher.zsh
+
+      - name: Run r dispatcher tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-r-dispatcher.zsh
+
+      - name: Run qu dispatcher tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-qu-dispatcher.zsh
+
+      - name: Run mcp dispatcher tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-mcp-dispatcher.zsh
+
+      - name: Run tm dispatcher tests
+        continue-on-error: true # Requires aiterm which may not be installed
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-tm-dispatcher.zsh
+
+      - name: Run obs dispatcher tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-obs-dispatcher.zsh
+
       - name: Run AI features tests
         continue-on-error: true
         run: |
@@ -110,6 +146,23 @@ jobs:
         run: |
           cd ~/projects/dev-tools/flow-cli
           bash ./tests/cli/automated-tests.sh
+
+      - name: Run dispatcher tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-cc-dispatcher.zsh
+          zsh ./tests/test-g-feature.zsh
+          zsh ./tests/test-wt-dispatcher.zsh
+          zsh ./tests/test-r-dispatcher.zsh
+          zsh ./tests/test-qu-dispatcher.zsh
+          zsh ./tests/test-mcp-dispatcher.zsh
+          zsh ./tests/test-obs-dispatcher.zsh
+
+      - name: Run tm dispatcher tests
+        continue-on-error: true # Requires aiterm which may not be installed
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-tm-dispatcher.zsh
 
       - name: Run sync unit tests
         continue-on-error: true
