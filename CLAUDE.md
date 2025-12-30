@@ -59,9 +59,10 @@ obs <cmd>     # Obsidian notes (obs daily, obs search)
 qu <cmd>      # Quarto publishing (qu preview, qu render)
 r <cmd>       # R package dev (r test, r doc, r check)
 cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
+tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
 ```
 
-**Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`)
+**Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `tm help`)
 
 ### CC Dispatcher Quick Reference
 
