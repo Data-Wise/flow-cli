@@ -572,7 +572,7 @@ EOF
 
     if [[ "$category" == "wt" ]]; then
         is_worktree_mode=1
-        # Worktrees: wider format for "project (branch)" names + session status
+        # Worktrees only: wider format for "project (branch)" names + session status
         while IFS='|' read -r name type icon dir session; do
             if [[ -n "$session" ]]; then
                 printf "%-30s %s %-4s  %s\n" "$name" "$icon" "$type" "$session"
@@ -580,10 +580,28 @@ EOF
                 printf "%-30s %s %-4s\n" "$name" "$icon" "$type"
             fi
         done < <(_proj_list_worktrees "$wt_project_filter") > "$tmpfile"
+    elif [[ -z "$category" ]]; then
+        # No category filter: show BOTH projects AND worktrees
+        {
+            # Regular projects first
+            while IFS='|' read -r name type icon dir; do
+                printf "%-30s %s %-4s\n" "$name" "$icon" "$type"
+            done < <(_proj_list_all "")
+            # Then worktrees (if directory exists)
+            if [[ -d "$PROJ_WORKTREE_DIR" ]]; then
+                while IFS='|' read -r name type icon dir session; do
+                    if [[ -n "$session" ]]; then
+                        printf "%-30s %s %-4s  %s\n" "$name" "$icon" "$type" "$session"
+                    else
+                        printf "%-30s %s %-4s\n" "$name" "$icon" "$type"
+                    fi
+                done < <(_proj_list_worktrees "")
+            fi
+        } > "$tmpfile"
     else
-        # Regular projects
+        # Category filter: show only matching projects
         while IFS='|' read -r name type icon dir; do
-            printf "%-20s %s %-4s\n" "$name" "$icon" "$type"
+            printf "%-30s %s %-4s\n" "$name" "$icon" "$type"
         done < <(_proj_list_all "$category") > "$tmpfile"
     fi
 
@@ -690,8 +708,14 @@ EOF
 
     # Extract project/worktree name from selection and find directory
     local proj_name proj_dir
+    local selected_is_worktree=0
 
-    if [[ $is_worktree_mode -eq 1 ]]; then
+    # Detect if selection is a worktree (has 🌳 icon)
+    if [[ "$selection" == *"🌳"* ]]; then
+        selected_is_worktree=1
+    fi
+
+    if [[ $is_worktree_mode -eq 1 || $selected_is_worktree -eq 1 ]]; then
         # For worktrees: extract "project (branch)" format
         # The selection looks like: "project (branch)    🌳 wt"
         proj_name=$(echo "$selection" | sed 's/[[:space:]]*🌳.*//' | xargs)
@@ -751,7 +775,7 @@ EOF
             _proj_save_session "$proj_dir"
             echo ""
             echo "  📂 Changed to: $proj_dir"
-            if [[ $is_worktree_mode -eq 1 ]]; then
+            if [[ $is_worktree_mode -eq 1 || $selected_is_worktree -eq 1 ]]; then
                 _proj_show_git_status "$proj_dir"
             fi
             echo ""
@@ -764,7 +788,7 @@ EOF
             _proj_save_session "$proj_dir"
             echo ""
             echo "  📂 Changed to: $proj_dir"
-            if [[ $is_worktree_mode -eq 1 ]]; then
+            if [[ $is_worktree_mode -eq 1 || $selected_is_worktree -eq 1 ]]; then
                 _proj_show_git_status "$proj_dir"
             fi
             echo ""
@@ -777,7 +801,7 @@ EOF
             echo ""
             echo "  📂 Changed to: $proj_dir"
             # Show git status for worktrees (extra context helpful)
-            if [[ $is_worktree_mode -eq 1 ]]; then
+            if [[ $is_worktree_mode -eq 1 || $selected_is_worktree -eq 1 ]]; then
                 _proj_show_git_status "$proj_dir"
             fi
             echo ""
