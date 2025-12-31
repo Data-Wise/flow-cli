@@ -67,6 +67,48 @@ When you run `pick` with no args and have a recent session:
 
 Sessions expire after 24 hours.
 
+### Worktree Integration (v4.6.1)
+
+By default, `pick` shows **both projects AND worktrees**:
+
+```text
+flow-cli             🔧 dev
+mediationverse       📦 r
+medrobust            📦 r
+flow-cli (feature-x) 🌳 wt   🟢 2h
+aiterm (bugfix)      🌳 wt   🟡 old
+```
+
+**Key features:**
+
+- **🌳 icon** indicates a git worktree
+- **Session indicators** show Claude Code activity:
+  - 🟢 Recent session (within 24h) with time since last activity
+  - 🟡 Old session (>24h ago)
+- **Sorted by recency** - most recently used worktrees appear first
+
+**Worktree-only view:**
+
+```bash
+pick wt              # Show only worktrees
+pick wt flow         # Filter worktrees for "flow" project
+```
+
+**Requirements:**
+
+Worktrees must be organized under `~/.git-worktrees` (default):
+
+```
+~/.git-worktrees/
+├── flow-cli/
+│   ├── feature-x/       # worktree for feature-x branch
+│   └── bugfix/          # worktree for bugfix branch
+└── aiterm/
+    └── develop/         # worktree for develop branch
+```
+
+To create a worktree: `wt create <branch>` or `git worktree add ~/.git-worktrees/<project>/<branch> <branch>`
+
 ### Categories
 
 All category names are case-insensitive and support multiple aliases:
@@ -79,6 +121,7 @@ All category names are case-insensitive and support multiple aliases:
 | **teach** | `teach`, `teaching`                  | Teaching courses  |
 | **rs**    | `rs`, `research`, `res`              | Research projects |
 | **app**   | `app`, `apps`                        | Applications      |
+| **wt**    | `wt`, `worktree`, `worktrees`        | Git worktrees     |
 
 ---
 
@@ -115,6 +158,7 @@ apple-notes-sync     🔧 dev
 - 📚 - Teaching courses (`teach`)
 - 🔬 - Research projects (`rs`)
 - 📱 - Applications (`app`)
+- 🌳 - Git worktrees (`wt`)
 
 ---
 
@@ -250,5 +294,5 @@ printf '\033[32m✅\033[0m'  # Single quotes don't interpret escapes
 
 ---
 
-**Last Updated:** 2025-12-26
-**Status:** ✅ Fully implemented (v2.0 - smart defaults)
+**Last Updated:** 2025-12-31
+**Status:** ✅ Fully implemented (v4.6.1 - worktree integration)
