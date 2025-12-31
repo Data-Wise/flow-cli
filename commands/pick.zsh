@@ -334,6 +334,15 @@ _proj_show_git_status() {
     local modified=$(git -C "$dir" diff --name-only 2>/dev/null | wc -l | tr -d ' ')
     local untracked=$(git -C "$dir" ls-files --others --exclude-standard 2>/dev/null | wc -l | tr -d ' ')
 
+    # Ensure numeric values (sanitize any potential non-numeric output)
+    # Strip whitespace and default to 0 if empty or non-numeric
+    modified="${modified##*( )}"    # Remove leading spaces
+    modified="${modified%%*( )}"    # Remove trailing spaces
+    untracked="${untracked##*( )}"
+    untracked="${untracked%%*( )}"
+    [[ "$modified" =~ ^[0-9]+$ ]] || modified=0
+    [[ "$untracked" =~ ^[0-9]+$ ]] || untracked=0
+
     echo ""
     echo "  🌿 Branch: $branch"
     if [[ $modified -gt 0 || $untracked -gt 0 ]]; then

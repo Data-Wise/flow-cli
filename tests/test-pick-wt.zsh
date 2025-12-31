@@ -327,6 +327,41 @@ test_git_status_handles_non_git() {
     fi
 }
 
+test_git_status_sanitizes_malformed_input() {
+    log_test "_proj_show_git_status sanitizes malformed wc output"
+
+    # Create a temporary git repo for testing
+    local test_dir="/tmp/test-git-status-$$"
+    mkdir -p "$test_dir"
+    (cd "$test_dir" && git init -q)
+
+    # Override wc to simulate malformed output (this is what could happen
+    # if terminal control codes or other garbage gets mixed into the output)
+    function wc() {
+        # Simulate malformed output with non-numeric data
+        if [[ "$*" == *"-l"* ]]; then
+            echo "Terminal Running..."
+        else
+            command wc "$@"
+        fi
+    }
+
+    # Test that the function doesn't crash with malformed input
+    local output=$(_proj_show_git_status "$test_dir" 2>&1)
+    local exit_code=$?
+
+    # Cleanup
+    unfunction wc
+    rm -rf "$test_dir"
+
+    # Should not produce errors about "bad math expression"
+    if [[ $exit_code -eq 0 && "$output" != *"bad math expression"* ]]; then
+        pass
+    else
+        fail "Function crashed or produced math errors: $output"
+    fi
+}
+
 # ============================================================================
 # TESTS: pick() category handling
 # ============================================================================
@@ -445,6 +480,7 @@ main() {
     echo ""
     echo "${CYAN}--- _proj_show_git_status() tests ---${NC}"
     test_git_status_handles_non_git
+    test_git_status_sanitizes_malformed_input
 
     echo ""
     echo "${CYAN}--- pick() category handling tests ---${NC}"
