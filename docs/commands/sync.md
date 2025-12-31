@@ -31,6 +31,7 @@ flow sync [target] [options]
 | `wins`    | Aggregate project wins to global wins.md    | ~15ms  |
 | `goals`   | Recalculate daily goal progress             | ~5ms   |
 | `git`     | Smart git push/pull with stash handling     | ~1.2s  |
+| `remote`  | iCloud sync for multi-device access         | ~10ms  |
 | `all`     | Run all targets in dependency order         | ~1.4s  |
 | (none)    | Smart sync - auto-detect what needs syncing | ~50ms  |
 
@@ -133,6 +134,36 @@ Recalculates daily goal progress based on wins.
 - **Reads:** `$FLOW_DATA_DIR/goal.json` (for target)
 - **Writes:** Updated `$FLOW_DATA_DIR/goal.json`
 - **Output:** Progress (e.g., "5/3 (100%)")
+
+### `flow sync remote`
+
+iCloud sync for multi-device access (v4.7.0+).
+
+```bash
+flow sync remote              # Show sync status
+flow sync remote init         # Set up iCloud sync
+flow sync remote disable      # Revert to local storage
+```
+
+**Setup:**
+
+1. Run `flow sync remote init` to migrate core data to iCloud
+2. Add `source ~/.config/flow/remote.conf` to your `~/.zshrc`
+3. Restart shell - Apple handles sync automatically
+
+**Synced data:**
+
+- `wins.md` - Daily accomplishments
+- `goal.json` - Daily goal progress
+- `sync-state.json` - Last sync metadata
+
+**Multi-device:**
+
+- Same iCloud account = automatic sync across devices
+- Works offline (syncs when connected)
+- No conflicts with local-only data (worklog, inbox)
+
+**iCloud path:** `~/Library/Mobile Documents/com~apple~CloudDocs/flow-cli/`
 
 ### `flow sync git`
 
@@ -325,6 +356,7 @@ flow sync schedule logs            # View logs
 | ------- | ---------------------------------------------- |
 | v4.0.0  | Initial release with 5 sync targets            |
 | v4.0.1  | Added `schedule` for automated background sync |
+| v4.7.0  | Added `remote` for iCloud multi-device sync    |
 
 ---
 
