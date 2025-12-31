@@ -180,12 +180,35 @@ _proj_list_all() {
 # List all worktrees from PROJ_WORKTREE_DIR
 # Format: display_name|wt|🌳|path|session_status
 # Display name format: project (branch)
+# Get session mtime for sorting (returns timestamp or 0)
+_proj_get_session_mtime() {
+    local dir="$1"
+    local claude_dir="$dir/.claude"
+
+    [[ -d "$claude_dir" ]] || { echo "0"; return; }
+
+    local newest_file=$(find "$claude_dir" -type f -name "*.json" 2>/dev/null | head -1)
+    [[ -n "$newest_file" ]] || { echo "0"; return; }
+
+    local file_mtime
+    if [[ "$(uname)" == "Darwin" ]]; then
+        file_mtime=$(stat -f %m "$newest_file" 2>/dev/null)
+    else
+        file_mtime=$(stat -c %Y "$newest_file" 2>/dev/null)
+    fi
+
+    echo "${file_mtime:-0}"
+}
+
 _proj_list_worktrees() {
     local project_filter="${1:-}"
 
     [[ -d "$PROJ_WORKTREE_DIR" ]] || return
 
     setopt local_options nullglob
+
+    # Collect all worktrees with their mtimes for sorting
+    local worktree_data=()
 
     # Scan project directories (first level under PROJ_WORKTREE_DIR)
     for project_dir in "$PROJ_WORKTREE_DIR"/*/; do
@@ -206,11 +229,16 @@ _proj_list_worktrees() {
 
             local branch_name=$(basename "$wt_dir")
             local display_name="$project_name ($branch_name)"
+            local session_mtime=$(_proj_get_session_mtime "${wt_dir%/}")
             local session_status=$(_proj_get_claude_session_status "${wt_dir%/}")
 
-            echo "$display_name|wt|🌳|${wt_dir%/}|${session_status}"
+            # Store with mtime prefix for sorting (mtime|data)
+            worktree_data+=("${session_mtime}|${display_name}|wt|🌳|${wt_dir%/}|${session_status}")
         done
     done
+
+    # Sort by mtime (descending - newest first) and output without mtime prefix
+    printf '%s\n' "${worktree_data[@]}" | sort -t'|' -k1 -rn | cut -d'|' -f2-
 }
 
 # Find worktree by display name (project (branch) format)
