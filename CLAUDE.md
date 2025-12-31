@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v4.5.1)
+- **Status:** Production ready (v4.5.5)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -99,7 +99,7 @@ flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v4.5.1)
+### Dopamine Features (v4.5.5)
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
