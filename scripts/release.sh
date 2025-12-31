@@ -35,7 +35,11 @@ sed -i '' "s/releases\/tag\/v[0-9]*\.[0-9]*\.[0-9]*/releases\/tag\/v$VERSION/" R
 echo "📝 Updating CLAUDE.md..."
 sed -i '' "s/v[0-9]*\.[0-9]*\.[0-9]*/v$VERSION/g" CLAUDE.md
 
-# 4. Update CC-DISPATCHER-REFERENCE.md
+# 4. Update flow.plugin.zsh
+echo "🔌 Updating flow.plugin.zsh..."
+sed -i '' "s/FLOW_VERSION=\"[^\"]*\"/FLOW_VERSION=\"$VERSION\"/" flow.plugin.zsh
+
+# 5. Update CC-DISPATCHER-REFERENCE.md
 echo "📖 Updating CC-DISPATCHER-REFERENCE.md..."
 sed -i '' "s/Version: v[0-9]*\.[0-9]*\.[0-9]*/Version: v$VERSION/" docs/reference/CC-DISPATCHER-REFERENCE.md
 
