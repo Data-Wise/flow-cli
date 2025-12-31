@@ -1608,6 +1608,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#multi-device-sync-v470" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ☁️ Multi-Device Sync (v4.7.0)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3552,6 +3563,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#multi-device-sync-v470" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ☁️ Multi-Device Sync (v4.7.0)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3578,22 +3600,25 @@
 
 
 <h1 id="workflow-quick-reference">Workflow Quick Reference<a class="headerlink" href="#workflow-quick-reference" title="Permanent link">&para;</a></h1>
-<p><strong>Date:</strong> 2025-12-14 (Updated 2025-12-26)
-<strong>Version:</strong> 3.1 - Doctor Command &amp; Man Pages</p>
+<p><strong>Date:</strong> 2025-12-14 (Updated 2025-12-31)
+<strong>Version:</strong> 4.7.0 - iCloud Remote Sync</p>
 <blockquote>
-<p><strong>✨ New in v3.1.0 (2025-12-26):</strong></p>
+<p><strong>✨ New in v4.7.0 (2025-12-31):</strong></p>
 <ul>
-<li><code>flow doctor</code> - Dependency verification with --fix, --fix -y, --ai modes</li>
-<li>Comprehensive man pages: <code>man flow</code>, <code>man r</code>, <code>man g</code>, <code>man qu</code>, <code>man mcp</code>, <code>man obs</code></li>
-<li>6 active dispatchers (added <code>cc</code> for Claude Code workflows)</li>
+<li><code>flow sync remote</code> - iCloud sync for multi-device access</li>
+<li><code>flow sync remote init</code> - Set up iCloud sync (migrates wins, goals)</li>
+<li>Apple handles sync automatically - zero new dependencies</li>
 </ul>
-<p><strong>Previous (v2.0):</strong></p>
+<p><strong>v4.5.x-4.6.x (2025-12-30):</strong></p>
 <ul>
-<li><code>flow status</code> - ASCII visualizations, worklog integration, productivity metrics</li>
-<li><code>flow dashboard</code> - Interactive real-time TUI with keyboard shortcuts</li>
-<li>Removed deprecated <code>v</code>/<code>vibe</code> dispatcher - use <code>flow</code> command directly</li>
-<li>See <code>ALIAS-REFERENCE-CARD.md</code> for current aliases (28 total)</li>
-<li>See <code>DISPATCHER-REFERENCE.md</code> for active dispatchers (6 total: g, mcp, obs, qu, r, cc)</li>
+<li><code>tm</code> dispatcher - Terminal manager (iTerm2, Ghostty)</li>
+<li><code>pick wt</code> - Worktree picker with session indicators</li>
+<li>Frecency sorting for projects and worktrees</li>
+</ul>
+<p><strong>Previous:</strong></p>
+<ul>
+<li>8 active dispatchers: g, mcp, obs, qu, r, cc, tm, wt</li>
+<li>See <code>DISPATCHER-REFERENCE.md</code> for complete dispatcher guide</li>
 </ul>
 </blockquote>
 <hr />
@@ -3649,7 +3674,19 @@
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>flow<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># Verify installation</span>
 </code></pre></div>
 <hr />
-<p><strong>Full guide:</strong> <code>WORKFLOW-ANALYSIS-2025-12-14.md</code>
+<h2 id="multi-device-sync-v470">☁️ Multi-Device Sync (v4.7.0)<a class="headerlink" href="#multi-device-sync-v470" title="Permanent link">&para;</a></h2>
+<p><strong>Set up once:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>flow<span class="w"> </span>sync<span class="w"> </span>remote<span class="w"> </span>init<span class="w">        </span><span class="c1"># Migrates wins.md, goal.json</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># Add to ~/.zshrc: source ~/.config/flow/remote.conf</span>
+</code></pre></div>
+<p><strong>Daily sync:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>flow<span class="w"> </span>sync<span class="w">                    </span><span class="c1"># Smart sync (auto-detect)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>all<span class="w">                </span><span class="c1"># Full sync</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>flow<span class="w"> </span>sync<span class="w"> </span>--status<span class="w">           </span><span class="c1"># View dashboard</span>
+</code></pre></div>
+<p><strong>What syncs:</strong> wins.md, goal.json, sync-state.json (via iCloud)</p>
+<hr />
+<p><strong>Full guide:</strong> See <code>docs/commands/sync.md</code>
 <strong>Man pages:</strong> <code>man flow</code>, <code>man r</code>, <code>man g</code>, <code>man qu</code>, <code>man mcp</code>, <code>man obs</code></p>
 
 
