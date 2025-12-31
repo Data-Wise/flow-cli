@@ -465,6 +465,13 @@ export FLOW_DEBUG=1
 
 ## Current Status (2025-12-31)
 
+### ✅ v4.7.0 Released - Bug Fix: Pick Command Crash
+
+- [x] Fixed "bad math expression" error in `_proj_show_git_status()` (#155)
+- [x] Added input sanitization for `wc` output (handles terminal control codes)
+- [x] Added regression test to prevent future occurrences
+- [x] All 23 tests passing
+
 ### ✅ v4.7.0 Released - Frecency & Session Indicators
 
 - [x] Frecency decay scoring (time-based priority decay)
