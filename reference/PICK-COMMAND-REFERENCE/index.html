@@ -2065,6 +2065,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#worktree-integration-v461" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worktree Integration (v4.6.1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#categories" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3771,6 +3782,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#worktree-integration-v461" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worktree Integration (v4.6.1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#categories" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4114,6 +4136,36 @@
 </tbody>
 </table>
 <p>Sessions expire after 24 hours.</p>
+<h3 id="worktree-integration-v461">Worktree Integration (v4.6.1)<a class="headerlink" href="#worktree-integration-v461" title="Permanent link">&para;</a></h3>
+<p>By default, <code>pick</code> shows <strong>both projects AND worktrees</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>flow-cli             🔧 dev
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>mediationverse       📦 r
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>medrobust            📦 r
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>flow-cli (feature-x) 🌳 wt   🟢 2h
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>aiterm (bugfix)      🌳 wt   🟡 old
+</code></pre></div>
+<p><strong>Key features:</strong></p>
+<ul>
+<li><strong>🌳 icon</strong> indicates a git worktree</li>
+<li><strong>Session indicators</strong> show Claude Code activity:</li>
+<li>🟢 Recent session (within 24h) with time since last activity</li>
+<li>🟡 Old session (&gt;24h ago)</li>
+<li><strong>Sorted by recency</strong> - most recently used worktrees appear first</li>
+</ul>
+<p><strong>Worktree-only view:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pick<span class="w"> </span>wt<span class="w">              </span><span class="c1"># Show only worktrees</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>pick<span class="w"> </span>wt<span class="w"> </span>flow<span class="w">         </span><span class="c1"># Filter worktrees for &quot;flow&quot; project</span>
+</code></pre></div>
+<p><strong>Requirements:</strong></p>
+<p>Worktrees must be organized under <code>~/.git-worktrees</code> (default):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>~/.git-worktrees/
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├── flow-cli/
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>│   ├── feature-x/       # worktree for feature-x branch
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>│   └── bugfix/          # worktree for bugfix branch
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>└── aiterm/
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    └── develop/         # worktree for develop branch
+</code></pre></div>
+<p>To create a worktree: <code>wt create &lt;branch&gt;</code> or <code>git worktree add ~/.git-worktrees/&lt;project&gt;/&lt;branch&gt; &lt;branch&gt;</code></p>
 <h3 id="categories">Categories<a class="headerlink" href="#categories" title="Permanent link">&para;</a></h3>
 <p>All category names are case-insensitive and support multiple aliases:</p>
 <table>
@@ -4154,6 +4206,11 @@
 <td><strong>app</strong></td>
 <td><code>app</code>, <code>apps</code></td>
 <td>Applications</td>
+</tr>
+<tr>
+<td><strong>wt</strong></td>
+<td><code>wt</code>, <code>worktree</code>, <code>worktrees</code></td>
+<td>Git worktrees</td>
 </tr>
 </tbody>
 </table>
@@ -4197,12 +4254,12 @@
 </table>
 <hr />
 <h2 id="display-format">Display Format<a class="headerlink" href="#display-format" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>project-name         icon type
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>────────────────────────────────
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>flow-cli    🔧 dev
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>mediationverse       📦 r
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>medrobust            📦 r
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>apple-notes-sync     🔧 dev
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>project-name         icon type
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>────────────────────────────────
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>flow-cli    🔧 dev
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>mediationverse       📦 r
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>medrobust            📦 r
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>apple-notes-sync     🔧 dev
 </code></pre></div>
 <p><strong>Note:</strong> Git status display was removed for simplicity and reliability. A <code>--git</code> flag may be added in future versions to optionally show branch and status information.</p>
 <h3 id="icons-by-category">Icons by Category<a class="headerlink" href="#icons-by-category" title="Permanent link">&para;</a></h3>
@@ -4213,46 +4270,47 @@
 <li>📚 - Teaching courses (<code>teach</code>)</li>
 <li>🔬 - Research projects (<code>rs</code>)</li>
 <li>📱 - Applications (<code>app</code>)</li>
+<li>🌳 - Git worktrees (<code>wt</code>)</li>
 </ul>
 <hr />
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="direct-jump-new">Direct Jump (NEW)<a class="headerlink" href="#direct-jump-new" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Jump to project by name (fuzzy match)</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>pick<span class="w"> </span>flow<span class="w">         </span><span class="c1"># → flow-cli</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>pick<span class="w"> </span>med<span class="w">          </span><span class="c1"># → mediationverse</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>pick<span class="w"> </span>stat<span class="w">         </span><span class="c1"># → Multiple matches? Shows filtered picker</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Force full picker even with name</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>pick<span class="w"> </span>-a<span class="w"> </span>flow<span class="w">      </span><span class="c1"># Shows picker, pre-filtered to &quot;flow&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Jump to project by name (fuzzy match)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>pick<span class="w"> </span>flow<span class="w">         </span><span class="c1"># → flow-cli</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>pick<span class="w"> </span>med<span class="w">          </span><span class="c1"># → mediationverse</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>pick<span class="w"> </span>stat<span class="w">         </span><span class="c1"># → Multiple matches? Shows filtered picker</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1"># Force full picker even with name</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>pick<span class="w"> </span>-a<span class="w"> </span>flow<span class="w">      </span><span class="c1"># Shows picker, pre-filtered to &quot;flow&quot;</span>
 </code></pre></div>
 <h3 id="smart-resume-new">Smart Resume (NEW)<a class="headerlink" href="#smart-resume-new" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># If you were recently in flow-cli:</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>pick<span class="w">              </span><span class="c1"># Shows: &quot;💡 Last: flow-cli (2h ago)&quot;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">                  </span><span class="c1"># Press Enter to resume, Space to browse</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># If you were recently in flow-cli:</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>pick<span class="w">              </span><span class="c1"># Shows: &quot;💡 Last: flow-cli (2h ago)&quot;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">                  </span><span class="c1"># Press Enter to resume, Space to browse</span>
 </code></pre></div>
 <h3 id="category-filtering">Category Filtering<a class="headerlink" href="#category-filtering" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Filter by category</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>pick<span class="w"> </span>r<span class="w">            </span><span class="c1"># R packages only</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>pick<span class="w"> </span>dev<span class="w">          </span><span class="c1"># Dev tools only</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>pick<span class="w"> </span>DEV<span class="w">          </span><span class="c1"># Case-insensitive</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># Fast mode with filter</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>pick<span class="w"> </span>--fast<span class="w"> </span>r
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Filter by category</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>pick<span class="w"> </span>r<span class="w">            </span><span class="c1"># R packages only</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>pick<span class="w"> </span>dev<span class="w">          </span><span class="c1"># Dev tools only</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>pick<span class="w"> </span>DEV<span class="w">          </span><span class="c1"># Case-insensitive</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># Fast mode with filter</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>pick<span class="w"> </span>--fast<span class="w"> </span>r
 </code></pre></div>
 <h3 id="interactive-actions">Interactive Actions<a class="headerlink" href="#interactive-actions" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># In the picker:</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1">#   - Type to filter projects</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1">#   - Press Enter to cd (or resume last)</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1">#   - Press Space to bypass resume and browse all</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1">#   - Press Ctrl-S to view .STATUS file</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1">#   - Press Ctrl-L to view git log</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># In the picker:</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1">#   - Type to filter projects</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1">#   - Press Enter to cd (or resume last)</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1">#   - Press Space to bypass resume and browse all</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1">#   - Press Ctrl-S to view .STATUS file</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1">#   - Press Ctrl-L to view git log</span>
 </code></pre></div>
 <hr />
 <h2 id="aliases">Aliases<a class="headerlink" href="#aliases" title="Permanent link">&para;</a></h2>
 <p>Shortcuts available for common categories:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>pickr<span class="w">             </span><span class="c1"># Expands to: pick r</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>pickdev<span class="w">           </span><span class="c1"># Expands to: pick dev</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>pickq<span class="w">             </span><span class="c1"># Expands to: pick q</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>pickr<span class="w">             </span><span class="c1"># Expands to: pick r</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>pickdev<span class="w">           </span><span class="c1"># Expands to: pick dev</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>pickq<span class="w">             </span><span class="c1"># Expands to: pick q</span>
 </code></pre></div>
 <hr />
 <h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
@@ -4299,19 +4357,19 @@
 <p>Make sure your terminal supports ANSI colors and fzf has the <code>--ansi</code> flag.</p>
 <h3 id="parse-error-at-line-49">Parse error at line 49?<a class="headerlink" href="#parse-error-at-line-49" title="Permanent link">&para;</a></h3>
 <p>Reload the function:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">source</span><span class="w"> </span>~/.config/zsh/functions/adhd-helpers.zsh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">source</span><span class="w"> </span>~/.config/zsh/functions/adhd-helpers.zsh
 </code></pre></div>
 <h3 id="formatting-broken">Formatting broken?<a class="headerlink" href="#formatting-broken" title="Permanent link">&para;</a></h3>
 <p>Check that ANSI escape codes use <strong>double quotes</strong> in printf:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Correct:</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;\033[32m✅\033[0m&quot;</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Incorrect:</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nb">printf</span><span class="w"> </span><span class="s1">&#39;\033[32m✅\033[0m&#39;</span><span class="w">  </span><span class="c1"># Single quotes don&#39;t interpret escapes</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Correct:</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;\033[32m✅\033[0m&quot;</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Incorrect:</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nb">printf</span><span class="w"> </span><span class="s1">&#39;\033[32m✅\033[0m&#39;</span><span class="w">  </span><span class="c1"># Single quotes don&#39;t interpret escapes</span>
 </code></pre></div>
 <hr />
-<p><strong>Last Updated:</strong> 2025-12-26
-<strong>Status:</strong> ✅ Fully implemented (v2.0 - smart defaults)</p>
+<p><strong>Last Updated:</strong> 2025-12-31
+<strong>Status:</strong> ✅ Fully implemented (v4.6.1 - worktree integration)</p>
 
 
 
