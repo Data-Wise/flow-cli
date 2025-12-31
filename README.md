@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-4.5.3-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
+[![Version](https://img.shields.io/badge/version-4.5.4-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -168,6 +168,7 @@ FLOW_VERSION=v4.5.0 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-
 | Method            | Command                                        | Best For       |
 | ----------------- | ---------------------------------------------- | -------------- |
 | **Quick Install** | `curl -fsSL .../install.sh \| bash`            | New users      |
+| **Homebrew**      | `brew install Data-Wise/tap/flow-cli`          | macOS users    |
 | **Antidote**      | Add `Data-Wise/flow-cli` to `.zsh_plugins.txt` | Antidote users |
 | **Zinit**         | `zinit light Data-Wise/flow-cli`               | Zinit users    |
 | **Oh-My-Zsh**     | Clone to `$ZSH_CUSTOM/plugins/`                | OMZ users      |
@@ -210,6 +211,12 @@ echo 'source ~/.flow-cli/flow.plugin.zsh' >> ~/.zshrc
 
 ```bash
 flow doctor        # Health check
+```
+
+### Uninstall
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/uninstall.sh | bash
 ```
 
 ---
