@@ -6,6 +6,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.5.2] - 2025-12-31
+
+### Added
+
+- **Version pinning** - Install specific versions with `FLOW_VERSION`
+  - `FLOW_VERSION=v4.5.1 curl -fsSL .../install.sh | bash`
+  - Works with oh-my-zsh and manual install methods
+  - Graceful error if version tag not found
+- **Alpine Linux support** - Docker tests now include Alpine 3.19/3.20
+  - Smaller containers for faster CI
+  - Package manager detection (apk vs apt-get)
+- **26 unit tests** - Added 4 FLOW_VERSION tests
+
+---
+
 ## [4.5.1] - 2025-12-31
 
 ### Added

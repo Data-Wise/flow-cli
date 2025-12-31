@@ -24,6 +24,8 @@ IMAGES=(
     "ubuntu:24.04"
     "debian:bookworm"
     "debian:bullseye"
+    "alpine:3.19"
+    "alpine:3.20"
 )
 
 # Get script directory
@@ -70,12 +72,18 @@ test_install() {
 
     # Create test script to run inside container
     local test_script=$(cat <<'INNERSCRIPT'
-#!/bin/bash
+#!/bin/sh
 set -e
 
-# Install dependencies
-apt-get update -qq
-apt-get install -y -qq git zsh curl >/dev/null 2>&1
+# Install dependencies based on OS
+if command -v apk >/dev/null 2>&1; then
+    # Alpine Linux
+    apk add --no-cache git zsh curl bash >/dev/null 2>&1
+elif command -v apt-get >/dev/null 2>&1; then
+    # Debian/Ubuntu
+    apt-get update -qq
+    apt-get install -y -qq git zsh curl >/dev/null 2>&1
+fi
 
 # Setup test environment
 export HOME=/root
