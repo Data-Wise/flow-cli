@@ -7,6 +7,92 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [4.7.0] - 2025-12-31
+
+### ✨ Added
+
+- **iCloud Remote Sync** - Multi-device sync support
+  - `flow sync remote` - Show sync status
+  - `flow sync remote init` - Set up iCloud sync (migrates wins.md, goal.json, sync-state.json)
+  - `flow sync remote disable` - Revert to local storage
+  - Apple handles sync automatically - zero new dependencies
+  - Works offline (syncs when connected)
+
+### 📖 Documentation
+
+- Updated `docs/commands/sync.md` with remote sync section
+
+---
+
+## [4.6.5] - 2025-12-31
+
+### ✨ Added
+
+- **Frecency sorting for worktrees** - Most recently used worktrees appear first
+
+### 🔧 Changed
+
+- Updated CLAUDE.md with v4.6.5 status
+
+---
+
+## [4.6.4] - 2025-12-31
+
+### ✨ Added
+
+- **Frecency decay algorithm** - Time-based priority scoring for projects
+  - < 1 hour: 1000 points
+  - < 24 hours: 520-980 points (decays ~20/hour)
+  - < 7 days: 150-450 points (decays ~50/day)
+  - > 7 days: 1-90 points (decays ~10/week)
+- **Session indicators on projects** - 🟢 recent / 🟡 old based on `.claude` directory activity
+
+---
+
+## [4.6.3] - 2025-12-31
+
+### ✨ Added
+
+- **`pick --recent` flag** - Filter to show only projects with Claude sessions
+- **Frecency sorting** - Projects sorted by recent usage, not alphabetically
+
+### ⚡ Performance
+
+- CI apt package caching - Tests now run in ~17 seconds
+
+---
+
+## [4.6.2] - 2025-12-31
+
+### ⚡ Performance
+
+- **CI smoke tests** - Reduced from full suite to smoke tests (~30s)
+- Created `tests/run-all.sh` for comprehensive local testing
+
+---
+
+## [4.6.1] - 2025-12-31
+
+### ✨ Added
+
+- **Worktrees in pick** - `pick` now shows both projects AND worktrees
+- **Session indicators** - 🟢/🟡 icons show Claude Code activity status
+
+### ⚡ Performance
+
+- Streamlined CI from 4 jobs to 1 (Ubuntu only, ZSH is cross-platform)
+
+---
+
+## [4.6.0] - 2025-12-31
+
+### ✨ Added
+
+- **Worktree-aware pick** - `pick wt` subcommand for worktree navigation
+- **Session age sorting** - Worktrees sorted by most recent Claude session
+
+---
+
 ## [2.0.0-beta.1] - 2025-12-24
 
 ### 🎉 Production-Ready CLI with Clean Architecture
