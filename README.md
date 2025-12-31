@@ -62,13 +62,14 @@ $ finish
 
 ## 🎯 Why This Exists
 
-| ADHD Challenge         | flow-cli Solution            |
-| ---------------------- | ---------------------------- |
-| "Where was I?"         | `why` shows your context     |
-| "What should I do?"    | `dash` shows priorities      |
-| No visible progress    | `win` logs accomplishments   |
-| Context switching pain | `hop` instant project switch |
-| Starting is hard       | `work` removes friction      |
+| ADHD Challenge         | flow-cli Solution             |
+| ---------------------- | ----------------------------- |
+| "Where was I?"         | `why` shows your context      |
+| "What should I do?"    | `dash` shows priorities       |
+| No visible progress    | `win` logs accomplishments    |
+| Context switching pain | `hop` instant project switch  |
+| Starting is hard       | `work` removes friction       |
+| Multiple devices       | `flow sync` keeps wins synced |
 
 ---
 
@@ -129,19 +130,31 @@ dash -i           # Interactive picker
 dash --watch      # Live updates
 ```
 
+### ☁️ Multi-Device Sync (v4.7.0)
+
+Sync your wins and goals across devices via iCloud:
+
+```bash
+flow sync remote init    # Set up once
+flow sync                # Auto-sync daily
+```
+
+Works offline, syncs when connected. Zero config after setup.
+
 ---
 
 ## 🔌 Smart Dispatchers
 
 Context-aware commands that adapt to your project:
 
-| Command      | What it does            |
-| ------------ | ----------------------- |
-| `cc`         | Launch Claude Code here |
-| `cc pick`    | Pick project → Claude   |
-| `r test`     | Run R package tests     |
-| `qu preview` | Preview Quarto doc      |
-| `g push`     | Git push with safety    |
+| Command      | What it does             |
+| ------------ | ------------------------ |
+| `cc`         | Launch Claude Code here  |
+| `cc pick`    | Pick project → Claude    |
+| `r test`     | Run R package tests      |
+| `qu preview` | Preview Quarto doc       |
+| `g push`     | Git push with safety     |
+| `flow sync`  | Sync data across devices |
 
 Each dispatcher has built-in help: `cc help`, `r help`, etc.
 
@@ -160,7 +173,7 @@ Auto-detects your plugin manager and installs accordingly.
 **Install specific version:**
 
 ```bash
-FLOW_VERSION=v4.5.0 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
+FLOW_VERSION=v4.7.0 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
 ```
 
 ### Installation Methods
@@ -249,6 +262,7 @@ export FLOW_QUIET=1                         # Skip welcome message
 
 - **[Quick Start](https://data-wise.github.io/flow-cli/getting-started/quick-start/)** - 5 minutes
 - **[Dopamine Features](https://data-wise.github.io/flow-cli/tutorials/06-dopamine-features/)** - Win tracking
+- **[Sync Command](https://data-wise.github.io/flow-cli/commands/sync/)** - Multi-device sync
 - **[All Commands](https://data-wise.github.io/flow-cli/reference/COMMAND-QUICK-REFERENCE/)** - Reference
 
 ---
