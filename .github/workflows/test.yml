@@ -98,81 +98,8 @@ jobs:
           echo "| Platform | Ubuntu (linux) |" >> $GITHUB_STEP_SUMMARY
           echo "| Date | $(date -u +%Y-%m-%d) |" >> $GITHUB_STEP_SUMMARY
 
-  macos-tests:
-    name: macOS Tests
-    runs-on: macos-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Record start time
-        id: start
-        run: echo "time=$(date +%s)" >> $GITHUB_OUTPUT
-
-      - name: Create mock project structure
-        run: |
-          mkdir -p ~/projects/dev-tools/flow-cli
-          # Use rsync to handle symlinks gracefully
-          rsync -a --copy-links . ~/projects/dev-tools/flow-cli/ || cp -rL . ~/projects/dev-tools/flow-cli/ || true
-
-      - name: Run automated CLI tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          bash ./tests/cli/automated-tests.sh
-
-      - name: Run all dispatcher tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-cc-dispatcher.zsh
-          zsh ./tests/test-g-feature.zsh
-          zsh ./tests/test-wt-dispatcher.zsh
-          zsh ./tests/test-r-dispatcher.zsh
-          zsh ./tests/test-qu-dispatcher.zsh
-          zsh ./tests/test-mcp-dispatcher.zsh
-          zsh ./tests/test-obs-dispatcher.zsh
-
-      - name: Run all core command tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-dash.zsh
-          zsh ./tests/test-work.zsh
-          zsh ./tests/test-doctor.zsh
-          zsh ./tests/test-capture.zsh
-          zsh ./tests/test-pick-wt.zsh
-          zsh ./tests/test-adhd.zsh
-          zsh ./tests/test-flow.zsh
-          zsh ./tests/test-timer.zsh
-
-      - name: Run tm dispatcher tests
-        continue-on-error: true # Requires aiterm which may not be installed
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-tm-dispatcher.zsh
-
-      - name: Run optional tests
-        continue-on-error: true
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-sync.zsh 2>/dev/null || true
-
-      - name: Run install.sh tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          bash ./tests/test-install.sh
-
-      - name: Performance Summary
-        if: always()
-        run: |
-          END_TIME=$(date +%s)
-          DURATION=$((END_TIME - ${{ steps.start.outputs.time }}))
-          echo "## 🍎 macOS Tests Performance" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
-          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Total Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
-          echo "| Platform | macOS |" >> $GITHUB_STEP_SUMMARY
-          echo "| Date | $(date -u +%Y-%m-%d) |" >> $GITHUB_STEP_SUMMARY
+  # macOS tests removed (2025-12-31) - ZSH is cross-platform, Ubuntu coverage sufficient
+  # Saves ~5 minutes per PR by avoiding slow macOS runner startup
 
   # Node.js tests are optional - flow-cli is now a pure ZSH plugin
   # These tests only run if npm test script exists

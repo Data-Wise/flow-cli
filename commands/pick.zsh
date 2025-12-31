@@ -592,10 +592,18 @@ EOF
         if [[ "$category" == "wt" ]]; then
             if [[ -n "$wt_project_filter" ]]; then
                 echo "❌ No worktrees found for project '$wt_project_filter'" >&2
+            elif [[ ! -d "$PROJ_WORKTREE_DIR" ]]; then
+                echo "❌ Worktree directory does not exist: $PROJ_WORKTREE_DIR" >&2
+                echo "" >&2
+                echo "💡 To set up git worktrees:" >&2
+                echo "   1. Create directory:  mkdir -p ~/.git-worktrees" >&2
+                echo "   2. Add a worktree:    git worktree add ~/.git-worktrees/<project>/<branch> <branch>" >&2
+                echo "" >&2
+                echo "   Or use the wt dispatcher: wt create <branch>" >&2
             else
                 echo "❌ No worktrees found in $PROJ_WORKTREE_DIR" >&2
+                echo "💡 Create worktrees with: wt create <branch>" >&2
             fi
-            echo "💡 Create worktrees with: wt create <branch>" >&2
         else
             echo "❌ No projects found${category:+ in category '$category'}" >&2
         fi
