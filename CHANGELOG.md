@@ -18,9 +18,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Apple handles sync automatically - zero new dependencies
   - Works offline (syncs when connected)
 
+### 🐛 Fixed
+
+- **pick command crash** - Fixed "bad math expression" error when `wc` output contains non-numeric data (#155)
+  - Added input sanitization in `_proj_show_git_status()` to handle terminal control codes
+  - Strip whitespace and validate numeric format with fallback to `0`
+  - Added regression test to prevent future occurrences
+  - Affects: `pick`, `pick wt`, worktree navigation with Ctrl-O/Ctrl-Y keybindings
+
 ### 📖 Documentation
 
 - Updated `docs/commands/sync.md` with remote sync section
+- Added `BUG-FIX-git-status-math-error.md` with technical details
 
 ---
 
