@@ -275,8 +275,13 @@ _proj_get_claude_session_status() {
     local newest_file=$(find "$claude_dir" -type f -name "*.json" 2>/dev/null | head -1)
     [[ -n "$newest_file" ]] || return
 
-    # Get file modification time
-    local file_mtime=$(stat -f %m "$newest_file" 2>/dev/null)
+    # Get file modification time (cross-platform)
+    local file_mtime
+    if [[ "$(uname)" == "Darwin" ]]; then
+        file_mtime=$(stat -f %m "$newest_file" 2>/dev/null)
+    else
+        file_mtime=$(stat -c %Y "$newest_file" 2>/dev/null)
+    fi
     [[ -n "$file_mtime" ]] || return
 
     local now=$(date +%s)
