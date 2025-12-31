@@ -4,11 +4,11 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v4.6.5 Released
+## Phase: v4.7.0 Released
 ## Priority: 1
 ## Progress: 100
 
-## Focus: v4.6.5 RELEASED - Frecency & Session Indicators
+## Focus: v4.7.0 RELEASED - iCloud Remote Sync
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -502,18 +502,19 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: v4.6.5 Released (2025-12-31), 6 releases today (v4.6.0-v4.6.5), CI 5min→14s, Frecency sorting, Session indicators
-## streak: 3
-## last_active: 2025-12-31 14:00
+## wins: v4.7.0 Released (2025-12-31), 7 releases today (v4.6.0-v4.7.0), iCloud remote sync, CI 5min→11s
+## streak: 4
+## last_active: 2025-12-31 17:30
 
-## Next: v4.7.0 - Future Enhancements
+## Next: v4.8.0 - Future Enhancements
 - [ ] `pickr` alias for `pick --recent`
-- [ ] Deploy docs to GitHub Pages
-- [ ] Remote state sync (optional cloud backup)
+- [ ] Add worklog to remote sync scope
 - [ ] Team features (shared templates)
-- [ ] Multi-device sync
 
 ## Session Log (continued)
+- 2025-12-31: v4.7.0 RELEASE - iCloud remote sync (`flow sync remote init/disable/status`)
+- 2025-12-31: DOCS - Deployed v4.7.0 docs to GitHub Pages
+- 2025-12-31: HOMEBREW - Updated formula to v4.7.0
 - 2025-12-31: v4.6.5 RELEASE - Worktree frecency scoring, CLAUDE.md updates
 - 2025-12-31: v4.6.4 RELEASE - Frecency decay scoring, session indicators on projects
 - 2025-12-31: v4.6.3 RELEASE - Frecency sorting, --recent flag, CI apt caching (~17s)
