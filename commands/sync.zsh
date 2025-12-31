@@ -46,6 +46,7 @@ flow_sync() {
     wins)       _flow_sync_wins "$@" ;;
     goals)      _flow_sync_goals "$@" ;;
     session)    _flow_sync_session "$@" ;;
+    remote)     _flow_sync_remote "$@" ;;
     schedule)   _flow_sync_schedule "$@" ;;
     --status)   _flow_sync_dashboard ;;
     help|--help|-h) _flow_sync_help ;;
@@ -775,6 +776,175 @@ _flow_sync_schedule_help() {
 }
 
 # ============================================================================
+# REMOTE SYNC - iCloud Integration
+# ============================================================================
+
+# Remote sync dispatcher
+_flow_sync_remote() {
+    local action="${1:-status}"
+    case "$action" in
+        init)           _flow_sync_remote_init ;;
+        disable)        _flow_sync_remote_disable ;;
+        help|--help|-h) _flow_sync_remote_help ;;
+        status|*)       _flow_sync_remote_status ;;
+    esac
+}
+
+# Get iCloud path (returns empty if not available)
+_flow_sync_remote_icloud_path() {
+    local icloud_base="$HOME/Library/Mobile Documents/com~apple~CloudDocs"
+    [[ -d "$icloud_base" ]] || return 1
+    echo "$icloud_base/flow-cli"
+}
+
+# Show remote sync status
+_flow_sync_remote_status() {
+    local icloud_path
+    icloud_path=$(_flow_sync_remote_icloud_path)
+
+    echo ""
+    echo "  ${FLOW_COLORS[header]}☁️  Remote Sync Status${FLOW_COLORS[reset]}"
+    echo ""
+
+    if [[ -z "$icloud_path" ]]; then
+        echo "  iCloud: ${FLOW_COLORS[error]}Not available${FLOW_COLORS[reset]}"
+        echo ""
+        echo "  ${FLOW_COLORS[muted]}iCloud Drive not detected on this system${FLOW_COLORS[reset]}"
+        echo ""
+        return 1
+    fi
+
+    # Check if currently syncing to iCloud
+    if [[ "$FLOW_DATA_DIR" == "$icloud_path" ]]; then
+        echo "  Status: ${FLOW_COLORS[success]}Syncing to iCloud${FLOW_COLORS[reset]}"
+        echo "  Path: $icloud_path"
+        echo ""
+
+        # Show synced files with sizes
+        echo "  ${FLOW_COLORS[accent]}Synced files:${FLOW_COLORS[reset]}"
+        for f in wins.md goal.json sync-state.json; do
+            if [[ -f "$icloud_path/$f" ]]; then
+                local size=$(wc -c < "$icloud_path/$f" 2>/dev/null | tr -d ' ')
+                echo "    ✓ $f (${size}B)"
+            fi
+        done
+    elif [[ -d "$icloud_path" ]]; then
+        echo "  Status: ${FLOW_COLORS[warning]}Configured but not active${FLOW_COLORS[reset]}"
+        echo "  Path: $icloud_path"
+        echo ""
+        echo "  ${FLOW_COLORS[muted]}Set FLOW_DATA_DIR to activate:${FLOW_COLORS[reset]}"
+        echo "    export FLOW_DATA_DIR=\"$icloud_path\""
+    else
+        echo "  Status: ${FLOW_COLORS[muted]}Local only${FLOW_COLORS[reset]}"
+        echo "  iCloud: ${FLOW_COLORS[success]}Available${FLOW_COLORS[reset]}"
+        echo ""
+        echo "  Run: ${FLOW_COLORS[accent]}flow sync remote init${FLOW_COLORS[reset]} to enable"
+    fi
+    echo ""
+}
+
+# Initialize iCloud sync
+_flow_sync_remote_init() {
+    local icloud_path
+    icloud_path=$(_flow_sync_remote_icloud_path)
+
+    if [[ -z "$icloud_path" ]]; then
+        _flow_log_error "iCloud Drive not available on this system"
+        return 1
+    fi
+
+    echo ""
+    echo "  ${FLOW_COLORS[header]}☁️  Setting up iCloud Sync${FLOW_COLORS[reset]}"
+    echo ""
+
+    # Create iCloud directory
+    if [[ ! -d "$icloud_path" ]]; then
+        mkdir -p "$icloud_path"
+        echo "  Created: $icloud_path"
+    fi
+
+    # Migrate existing files (core only)
+    local local_dir="${FLOW_DATA_DIR:-$HOME/.local/share/flow}"
+    local migrated=0
+
+    for f in wins.md goal.json sync-state.json; do
+        if [[ -f "$local_dir/$f" && ! -f "$icloud_path/$f" ]]; then
+            cp "$local_dir/$f" "$icloud_path/"
+            echo "  Migrated: $f"
+            ((migrated++))
+        elif [[ -f "$icloud_path/$f" ]]; then
+            echo "  Exists: $f (skipped)"
+        fi
+    done
+
+    # Create config file
+    local config_dir="$HOME/.config/flow"
+    local config_file="$config_dir/remote.conf"
+    mkdir -p "$config_dir"
+    echo "export FLOW_DATA_DIR=\"$icloud_path\"" > "$config_file"
+
+    echo ""
+    echo "  ${FLOW_COLORS[success]}✓ iCloud sync configured${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}To activate, add to ~/.zshrc:${FLOW_COLORS[reset]}"
+    echo ""
+    echo "    ${FLOW_COLORS[accent]}source ~/.config/flow/remote.conf${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  Then restart your shell or run: source ~/.zshrc"
+    echo ""
+}
+
+# Disable iCloud sync
+_flow_sync_remote_disable() {
+    local config_file="$HOME/.config/flow/remote.conf"
+
+    echo ""
+    echo "  ${FLOW_COLORS[header]}☁️  Disabling iCloud Sync${FLOW_COLORS[reset]}"
+    echo ""
+
+    if [[ -f "$config_file" ]]; then
+        rm "$config_file"
+        echo "  ${FLOW_COLORS[success]}✓ Config file removed${FLOW_COLORS[reset]}"
+        echo ""
+        echo "  ${FLOW_COLORS[muted]}Also remove from ~/.zshrc:${FLOW_COLORS[reset]}"
+        echo "    source ~/.config/flow/remote.conf"
+        echo ""
+        echo "  ${FLOW_COLORS[muted]}Your data remains in iCloud at:${FLOW_COLORS[reset]}"
+        echo "    ~/Library/Mobile Documents/com~apple~CloudDocs/flow-cli/"
+    else
+        echo "  ${FLOW_COLORS[muted]}Remote sync not configured${FLOW_COLORS[reset]}"
+    fi
+    echo ""
+}
+
+# Remote sync help
+_flow_sync_remote_help() {
+    echo ""
+    echo "  ${FLOW_COLORS[header]}☁️  FLOW SYNC REMOTE - iCloud Sync${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+    echo "    flow sync remote            Show sync status"
+    echo "    flow sync remote init       Set up iCloud sync"
+    echo "    flow sync remote disable    Revert to local storage"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}SYNCED DATA${FLOW_COLORS[reset]}"
+    echo "    wins.md         Daily accomplishments"
+    echo "    goal.json       Daily goal progress"
+    echo "    sync-state.json Last sync metadata"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}HOW IT WORKS${FLOW_COLORS[reset]}"
+    echo "    1. Run 'flow sync remote init' to migrate data"
+    echo "    2. Add 'source ~/.config/flow/remote.conf' to ~/.zshrc"
+    echo "    3. Apple handles sync automatically"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}MULTI-DEVICE${FLOW_COLORS[reset]}"
+    echo "    Same iCloud account = automatic sync"
+    echo "    Works offline (syncs when connected)"
+    echo "    No conflicts with local-only data"
+    echo ""
+}
+
+# ============================================================================
 # HELP
 # ============================================================================
 
@@ -793,6 +963,7 @@ _flow_sync_help() {
   echo "    wins       Aggregate project wins to global wins.md"
   echo "    goals      Recalculate daily goal progress"
   echo "    git        Smart git push/pull with stash handling"
+  echo "    remote     iCloud sync for multi-device access"
   echo "    schedule   Manage automated background sync"
   echo ""
   echo "  ${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
