@@ -6,6 +6,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.5.5] - 2025-12-31
+
+### Fixed
+
+- **FLOW_VERSION sync** - `flow --version` now shows correct version (was stuck at 3.6.0)
+- **Release script** - Now updates `flow.plugin.zsh` version automatically
+- **Docs CI** - Added missing `mkdocs-exclude` plugin to workflow
+
+### Changed
+
+- **Homebrew formula** updated to v4.5.5
+- **awesome-zsh-plugins PR** - [#2058](https://github.com/unixorn/awesome-zsh-plugins/pull/2058) submitted (all checks pass)
+
+---
+
 ## [4.5.4] - 2025-12-31
 
 ### Added
