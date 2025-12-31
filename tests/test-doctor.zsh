@@ -103,12 +103,12 @@ test_doctor_check_cmd_exists() {
 }
 
 test_doctor_check_plugin_exists() {
-    log_test "_doctor_check_plugin function exists"
+    log_test "_doctor_check_zsh_plugin function exists"
 
-    if type _doctor_check_plugin &>/dev/null; then
+    if type _doctor_check_zsh_plugin &>/dev/null; then
         pass
     else
-        fail "_doctor_check_plugin not found"
+        fail "_doctor_check_zsh_plugin not found"
     fi
 }
 
@@ -307,11 +307,14 @@ test_check_cmd_with_missing() {
 
     # Test with a command we know doesn't exist
     local output=$(_doctor_check_cmd "nonexistent_cmd_xyz_123" "brew" "optional" 2>&1)
+    local exit_code=$?
 
-    if [[ "$output" == *"✗"* || "$output" == *"missing"* || "$output" == *"-"* ]]; then
+    # Missing commands show ○ (optional) or ✗ (required) and have exit code 1
+    # They also show hint like "← brew install"
+    if [[ $exit_code -ne 0 ]] || [[ "$output" == *"○"* || "$output" == *"←"* ]]; then
         pass
     else
-        fail "Should indicate missing command"
+        fail "Should indicate missing command (exit code: $exit_code)"
     fi
 }
 
@@ -342,8 +345,10 @@ test_doctor_check_no_install() {
 
     local output=$(doctor 2>&1)
 
-    # Should NOT contain installation commands
-    if [[ "$output" != *"brew install"* && "$output" != *"npm install"* && "$output" != *"Installing"* ]]; then
+    # Output may show "brew install" as HINTS for missing tools
+    # But should NOT show "Installing..." (actual installation progress)
+    # or "Successfully installed" (completion message)
+    if [[ "$output" != *"Installing..."* && "$output" != *"Successfully installed"* ]]; then
         pass
     else
         fail "Check mode should not install anything"
