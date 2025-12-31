@@ -6,6 +6,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.5.0] - 2025-12-31
+
+### Added
+
+- **One-liner installer** - `curl -fsSL .../install.sh | bash`
+  - Auto-detects plugin manager (antidote → zinit → oh-my-zsh → manual)
+  - Idempotent installation (safe to run multiple times)
+  - Color-coded output with quick start guide
+- **Installation methods table** in README for easy comparison
+- **Improved installation docs** with time estimates, checkpoints, and tabs
+
+### Changed
+
+- Rewrote `docs/getting-started/installation.md` with MkDocs Material tabs
+- Added troubleshooting and uninstalling sections
+
+---
+
 ## [4.4.3] - 2025-12-30
 
 ### Added
