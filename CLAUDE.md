@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v4.5.0)
+- **Status:** Production ready (v4.5.1)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -99,7 +99,7 @@ flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v4.5.0)
+### Dopamine Features (v4.5.1)
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
@@ -446,7 +446,7 @@ export FLOW_DEBUG=1
 
 ## Current Status (2025-12-30)
 
-### ✅ v4.5.0 Released (Documentation)
+### ✅ v4.5.1 Released (Documentation)
 
 - [x] 9 dedicated dispatcher reference pages:
   - CC, G, MCP, OBS, QU, R, TM, WT dispatchers
@@ -454,14 +454,14 @@ export FLOW_DEBUG=1
 - [x] All reference pages cross-linked with "See also"
 - [x] Tutorial 11: TM Dispatcher
 
-### ✅ v4.5.0 Released
+### ✅ v4.5.1 Released
 
 - [x] `tm` dispatcher - Terminal manager (aiterm integration)
   - Shell-native: `tm title`, `tm profile`, `tm which`
   - Aiterm delegation: `tm ghost`, `tm switch`, `tm detect`
   - Aliases: `tmt`, `tmp`, `tmg`, `tms`, `tmd`
 
-### ✅ v4.5.0 Released
+### ✅ v4.5.1 Released
 
 - [x] `g feature status` - Show merged vs active branches
 - [x] `g feature prune --older-than` - Filter by branch age
@@ -470,7 +470,7 @@ export FLOW_DEBUG=1
 - [x] `wt prune` - Comprehensive cleanup with branch deletion
 - [x] `cc wt status` - Show worktrees with Claude session info
 
-### ✅ v4.5.0 Released
+### ✅ v4.5.1 Released
 
 - [x] Worktree + Claude Integration (`cc wt`)
 - [x] Branch cleanup (`g feature prune`)
@@ -485,7 +485,7 @@ export FLOW_DEBUG=1
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
 - **Tests:** 100+ tests across all features
 
-### 📋 Next: v4.5.0 - Installation Improvements
+### 📋 Next: v4.5.1 - Installation Improvements
 
 **Priority:** Immediate | **Plan:** `docs/planning/INSTALL-IMPROVEMENTS.md`
 
@@ -563,10 +563,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 3.7.0"
-git tag -a v4.5.0 -m "v4.5.0"
+git tag -a v4.5.1 -m "v4.5.1"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v4.5.0
+git push origin main && git push origin v4.5.1
 ```
 
 **Files updated by release script:**

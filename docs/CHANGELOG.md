@@ -6,6 +6,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.5.1] - 2025-12-31
+
+### Added
+
+- **Install script tests** - 22 unit tests for `install.sh`
+  - Detection tests for all 4 plugin managers
+  - Idempotency tests
+  - Script validation tests
+- **Docker integration tests** - End-to-end install testing
+  - Ubuntu 22.04, 24.04
+  - Debian Bookworm, Bullseye
+  - Full plugin sourcing and command verification
+- **CI improvements**
+  - Install tests run on Ubuntu and macOS
+  - Release workflow requires install tests to pass
+
+---
+
 ## [4.5.0] - 2025-12-31
 
 ### Added
