@@ -1,0 +1,45 @@
+#compdef pick
+
+# Completion for pick command - interactive project picker
+
+_pick() {
+  local -a categories options
+
+  categories=(
+    'r:R packages'
+    'dev:Development tools'
+    'q:Quarto projects'
+    'teach:Teaching courses'
+    'rs:Research projects'
+    'app:Applications'
+    'wt:Git worktrees'
+    'help:Show help'
+  )
+
+  options=(
+    '--fast[Skip git status checks (faster loading)]'
+    '-a[Force full picker (skip direct jump)]'
+    '--all[Force full picker (skip direct jump)]'
+    '--no-claude[Disable Ctrl-O/Y Claude keybindings (used by cc dispatcher)]'
+    '-h[Show help]'
+    '--help[Show help]'
+  )
+
+  _arguments -s \
+    $options \
+    '1:category or project:->first_arg' \
+    '2:project filter (for wt category):->second_arg' \
+  && return 0
+
+  case "$state" in
+    first_arg)
+      _describe -t categories 'category' categories
+      # Also allow any project name for direct jump
+      ;;
+    second_arg)
+      # Second arg only used for 'wt' category (project filter)
+      ;;
+  esac
+}
+
+_pick "$@"

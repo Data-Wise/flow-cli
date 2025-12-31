@@ -159,6 +159,25 @@ tm detect             # Detect project context
 
 **Aliases:** `tmt` = title, `tmp` = profile, `tmg` = ghost, `tms` = switch
 
+### Pick - Project Picker (v4.6.0)
+
+```bash
+pick                # FZF picker (all projects)
+pick r              # R packages only
+pick dev            # Dev tools only
+pick wt             # All worktrees
+pick wt scribe      # Scribe's worktrees only
+pick flow           # Direct jump to flow-cli
+```
+
+**Categories:** `r`, `dev`, `q`, `teach`, `rs`, `app`, `wt`
+
+**Interactive Keys:** Enter (cd), Ctrl-O (cc), Ctrl-Y (ccy), Ctrl-S (status), Ctrl-L (log)
+
+**Worktree Session Indicators:** 🟢 recent (< 24h), 🟡 old, (none) = no session
+
+**Aliases:** `pickr`, `pickdev`, `pickq`, `pickwt`
+
 ### Deprecated (Removed 2025-12-25)
 
 ```bash
@@ -445,6 +464,18 @@ export FLOW_DEBUG=1
 ---
 
 ## Current Status (2025-12-30)
+
+### 🚧 v4.6.0 In Progress - Worktree-Aware Pick
+
+- [x] `pick wt` - List all worktrees from `~/.git-worktrees/`
+- [x] `pick wt <project>` - Filter worktrees by project name
+- [x] Session indicators: 🟢 recent / 🟡 old / (none)
+- [x] Ctrl-O - cd + launch Claude (cc mode)
+- [x] Ctrl-Y - cd + launch Claude YOLO (ccy mode)
+- [x] `--no-claude` flag for cc dispatcher integration
+- [x] `pickwt` alias
+- [x] Updated completions (`_pick`)
+- [x] Tests for new pick wt functionality (22 tests in `test-pick-wt.zsh`)
 
 ### ✅ v4.5.1 Released (Documentation)
 

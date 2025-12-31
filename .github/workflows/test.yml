@@ -83,6 +83,46 @@ jobs:
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-obs-dispatcher.zsh
 
+      - name: Run dash command tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-dash.zsh
+
+      - name: Run work command tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-work.zsh
+
+      - name: Run doctor command tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-doctor.zsh
+
+      - name: Run capture commands tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-capture.zsh
+
+      - name: Run pick worktree tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-pick-wt.zsh
+
+      - name: Run ADHD helper tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-adhd.zsh
+
+      - name: Run flow command tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-flow.zsh
+
+      - name: Run timer command tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-timer.zsh
+
       - name: Run AI features tests
         continue-on-error: true
         run: |
@@ -162,6 +202,18 @@ jobs:
           zsh ./tests/test-qu-dispatcher.zsh
           zsh ./tests/test-mcp-dispatcher.zsh
           zsh ./tests/test-obs-dispatcher.zsh
+
+      - name: Run core command tests
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          zsh ./tests/test-dash.zsh
+          zsh ./tests/test-work.zsh
+          zsh ./tests/test-doctor.zsh
+          zsh ./tests/test-capture.zsh
+          zsh ./tests/test-pick-wt.zsh
+          zsh ./tests/test-adhd.zsh
+          zsh ./tests/test-flow.zsh
+          zsh ./tests/test-timer.zsh
 
       - name: Run tm dispatcher tests
         continue-on-error: true # Requires aiterm which may not be installed
