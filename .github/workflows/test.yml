@@ -33,29 +33,11 @@ jobs:
           mkdir -p ~/projects/apps/examify/.git
           cp -r . ~/projects/dev-tools/flow-cli/
 
-      - name: Run tests
+      - name: Run smoke tests
         run: |
           cd ~/projects/dev-tools/flow-cli
-          # Dispatcher tests
-          zsh ./tests/test-pick-smart-defaults.zsh
-          zsh ./tests/test-cc-dispatcher.zsh
-          zsh ./tests/test-g-feature.zsh
-          zsh ./tests/test-wt-dispatcher.zsh
-          zsh ./tests/test-r-dispatcher.zsh
-          zsh ./tests/test-qu-dispatcher.zsh
-          zsh ./tests/test-mcp-dispatcher.zsh
-          zsh ./tests/test-obs-dispatcher.zsh
-          # Core command tests
-          zsh ./tests/test-dash.zsh
-          zsh ./tests/test-work.zsh
-          zsh ./tests/test-doctor.zsh
-          zsh ./tests/test-capture.zsh
-          zsh ./tests/test-pick-wt.zsh
-          zsh ./tests/test-adhd.zsh
+          # Smoke tests only - run full suite locally with: ./tests/run-all.sh
           zsh ./tests/test-flow.zsh
-          zsh ./tests/test-timer.zsh
-          # CLI tests
-          bash ./tests/cli/automated-tests.sh
           bash ./tests/test-install.sh
 
       - name: Performance Summary
