@@ -10,10 +10,22 @@ set -euo pipefail
 # Options:
 #   INSTALL_METHOD=antidote|zinit|omz|manual  (default: auto-detect)
 #   FLOW_INSTALL_DIR=/custom/path             (default: ~/.flow-cli)
+#   FLOW_VERSION=v4.5.1                       (default: latest)
+#
+# Examples:
+#   # Install latest
+#   curl -fsSL .../install.sh | bash
+#
+#   # Install specific version
+#   FLOW_VERSION=v4.5.1 curl -fsSL .../install.sh | bash
+#
+#   # Install with manual method
+#   INSTALL_METHOD=manual curl -fsSL .../install.sh | bash
 
 REPO="Data-Wise/flow-cli"
 PLUGIN_NAME="flow-cli"
 INSTALL_DIR="${FLOW_INSTALL_DIR:-$HOME/.flow-cli}"
+VERSION="${FLOW_VERSION:-}"
 
 # Colors
 RED='\033[0;31m'
@@ -109,6 +121,13 @@ install_omz() {
         success "Installed to $plugin_dir"
     fi
 
+    # Checkout specific version if requested
+    if [[ -n "$VERSION" ]]; then
+        info "Checking out version $VERSION..."
+        git -C "$plugin_dir" checkout --quiet "$VERSION" || error "Version $VERSION not found"
+        success "Using version $VERSION"
+    fi
+
     # Check if plugin is in plugins list
     local zshrc="${ZDOTDIR:-$HOME}/.zshrc"
     if grep -q "plugins=.*$PLUGIN_NAME" "$zshrc" 2>/dev/null; then
@@ -133,6 +152,13 @@ install_manual() {
         info "Cloning repository..."
         git clone --quiet "https://github.com/$REPO.git" "$INSTALL_DIR"
         success "Installed to $INSTALL_DIR"
+    fi
+
+    # Checkout specific version if requested
+    if [[ -n "$VERSION" ]]; then
+        info "Checking out version $VERSION..."
+        git -C "$INSTALL_DIR" checkout --quiet "$VERSION" || error "Version $VERSION not found"
+        success "Using version $VERSION"
     fi
 
     local zshrc="${ZDOTDIR:-$HOME}/.zshrc"

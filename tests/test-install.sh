@@ -495,6 +495,55 @@ test_default_install_dir() {
 }
 
 # ============================================================================
+# FLOW_VERSION TESTS
+# ============================================================================
+
+test_version_variable_defined() {
+    log_test "VERSION variable is defined in install.sh"
+
+    if grep -q 'VERSION="${FLOW_VERSION:-}"' "$INSTALL_SCRIPT"; then
+        pass
+    else
+        fail "VERSION variable not found"
+    fi
+}
+
+test_version_checkout_in_omz() {
+    log_test "install_omz has version checkout logic"
+
+    if grep -A5 "install_omz" "$INSTALL_SCRIPT" | grep -q "Checking out version"; then
+        pass
+    else
+        # Check full file for version checkout in omz context
+        if grep -B5 "Check if plugin is in plugins list" "$INSTALL_SCRIPT" | grep -q "VERSION"; then
+            pass
+        else
+            fail "version checkout not found in install_omz"
+        fi
+    fi
+}
+
+test_version_checkout_in_manual() {
+    log_test "install_manual has version checkout logic"
+
+    if grep -A20 "install_manual()" "$INSTALL_SCRIPT" | grep -q "Checking out version"; then
+        pass
+    else
+        fail "version checkout not found in install_manual"
+    fi
+}
+
+test_version_env_documented() {
+    log_test "FLOW_VERSION is documented in header"
+
+    if grep -q "FLOW_VERSION=" "$INSTALL_SCRIPT"; then
+        pass
+    else
+        fail "FLOW_VERSION not documented in header"
+    fi
+}
+
+# ============================================================================
 # RUN ALL TESTS
 # ============================================================================
 
@@ -544,6 +593,14 @@ run_tests() {
     echo "------------------------"
     test_custom_install_dir
     test_default_install_dir
+
+    echo ""
+    echo -e "${YELLOW}FLOW_VERSION Tests${NC}"
+    echo "-------------------"
+    test_version_variable_defined
+    test_version_checkout_in_omz
+    test_version_checkout_in_manual
+    test_version_env_documented
 
     # Summary
     echo ""
