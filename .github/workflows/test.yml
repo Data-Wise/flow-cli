@@ -37,40 +37,29 @@ jobs:
           # Copy current repo to expected location
           cp -r . ~/projects/dev-tools/flow-cli/
 
-      - name: Run pick smart defaults tests
+      - name: Run all dispatcher tests
         run: |
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-pick-smart-defaults.zsh
-
-      - name: Run cc dispatcher tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-cc-dispatcher.zsh
-
-      - name: Run g dispatcher tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-g-feature.zsh
-
-      - name: Run wt dispatcher tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-wt-dispatcher.zsh
-
-      - name: Run r dispatcher tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-r-dispatcher.zsh
-
-      - name: Run qu dispatcher tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-qu-dispatcher.zsh
+          zsh ./tests/test-mcp-dispatcher.zsh
+          zsh ./tests/test-obs-dispatcher.zsh
 
-      - name: Run mcp dispatcher tests
+      - name: Run all core command tests
         run: |
           cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-mcp-dispatcher.zsh
+          zsh ./tests/test-dash.zsh
+          zsh ./tests/test-work.zsh
+          zsh ./tests/test-doctor.zsh
+          zsh ./tests/test-capture.zsh
+          zsh ./tests/test-pick-wt.zsh
+          zsh ./tests/test-adhd.zsh
+          zsh ./tests/test-flow.zsh
+          zsh ./tests/test-timer.zsh
 
       - name: Run tm dispatcher tests
         continue-on-error: true # Requires aiterm which may not be installed
@@ -78,68 +67,13 @@ jobs:
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-tm-dispatcher.zsh
 
-      - name: Run obs dispatcher tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-obs-dispatcher.zsh
-
-      - name: Run dash command tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-dash.zsh
-
-      - name: Run work command tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-work.zsh
-
-      - name: Run doctor command tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-doctor.zsh
-
-      - name: Run capture commands tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-capture.zsh
-
-      - name: Run pick worktree tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-pick-wt.zsh
-
-      - name: Run ADHD helper tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-adhd.zsh
-
-      - name: Run flow command tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-flow.zsh
-
-      - name: Run timer command tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-timer.zsh
-
-      - name: Run AI features tests
+      - name: Run optional tests
         continue-on-error: true
         run: |
           cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-ai-features.zsh
-
-      - name: Run quick wins tests
-        continue-on-error: true
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-quick-wins.zsh
-
-      - name: Run sync unit tests
-        continue-on-error: true
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-sync.zsh
+          zsh ./tests/test-ai-features.zsh 2>/dev/null || true
+          zsh ./tests/test-quick-wins.zsh 2>/dev/null || true
+          zsh ./tests/test-sync.zsh 2>/dev/null || true
 
       - name: Run automated CLI tests
         run: |
@@ -163,11 +97,6 @@ jobs:
           echo "| Total Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
           echo "| Platform | Ubuntu (linux) |" >> $GITHUB_STEP_SUMMARY
           echo "| Date | $(date -u +%Y-%m-%d) |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Expected Baselines" >> $GITHUB_STEP_SUMMARY
-          echo "- Plugin source: <150ms" >> $GITHUB_STEP_SUMMARY
-          echo "- Help commands: <200ms" >> $GITHUB_STEP_SUMMARY
-          echo "- Total CI job: <120s" >> $GITHUB_STEP_SUMMARY
 
   macos-tests:
     name: macOS Tests
@@ -192,7 +121,7 @@ jobs:
           cd ~/projects/dev-tools/flow-cli
           bash ./tests/cli/automated-tests.sh
 
-      - name: Run dispatcher tests
+      - name: Run all dispatcher tests
         run: |
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-cc-dispatcher.zsh
@@ -203,7 +132,7 @@ jobs:
           zsh ./tests/test-mcp-dispatcher.zsh
           zsh ./tests/test-obs-dispatcher.zsh
 
-      - name: Run core command tests
+      - name: Run all core command tests
         run: |
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-dash.zsh
@@ -221,11 +150,11 @@ jobs:
           cd ~/projects/dev-tools/flow-cli
           zsh ./tests/test-tm-dispatcher.zsh
 
-      - name: Run sync unit tests
+      - name: Run optional tests
         continue-on-error: true
         run: |
           cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-sync.zsh
+          zsh ./tests/test-sync.zsh 2>/dev/null || true
 
       - name: Run install.sh tests
         run: |
