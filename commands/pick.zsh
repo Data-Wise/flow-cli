@@ -146,9 +146,13 @@ _proj_find_all() {
     printf '%s\n' "${matches[@]}"
 }
 
-# List all projects
+# List all projects (sorted by frecency - most recently used first)
 _proj_list_all() {
     local category="${1:-}"
+    local recent_only="${2:-}"  # If "recent", only show projects with sessions
+
+    # Collect all projects with their mtimes for sorting
+    local project_data=()
 
     for cat_info in "${PROJ_CATEGORIES[@]}"; do
         local cat_path="${cat_info%%:*}"
@@ -167,10 +171,21 @@ _proj_list_all() {
             for proj_dir in "$full_path"/*/; do
                 [[ -d "$proj_dir/.git" ]] || continue
                 local proj_name=$(basename "$proj_dir")
-                echo "$proj_name|$cat_type|$cat_icon|$proj_dir"
+                local session_mtime=$(_proj_get_session_mtime "${proj_dir%/}")
+
+                # If recent_only, skip projects without sessions
+                if [[ "$recent_only" == "recent" && "$session_mtime" == "0" ]]; then
+                    continue
+                fi
+
+                # Store with mtime prefix for sorting
+                project_data+=("${session_mtime}|${proj_name}|${cat_type}|${cat_icon}|${proj_dir}")
             done
         fi
     done
+
+    # Sort by mtime (descending - newest first) and output without mtime prefix
+    printf '%s\n' "${project_data[@]}" | sort -t'|' -k1 -rn | cut -d'|' -f2-
 }
 
 # ============================================================================
@@ -343,6 +358,7 @@ pick() {
     local fast_mode=0
     local force_picker=0
     local no_claude_keys=0
+    local recent_only=0
 
     # Parse --no-claude flag (used by cc dispatcher to prevent double-launch)
     if [[ "$1" == "--no-claude" ]]; then
@@ -368,6 +384,7 @@ ARGUMENTS:
 OPTIONS:
   --fast         Skip git status checks (faster loading)
   -a, --all      Force full picker (skip direct jump)
+  -r, --recent   Show only recently-used projects (with Claude sessions)
 
 CATEGORIES (case-insensitive, multiple aliases):
   r              R packages (r, R, rpack, rpkg)
@@ -432,6 +449,12 @@ EOF
 
     if [[ "$1" == "-a" || "$1" == "--all" ]]; then
         force_picker=1
+        shift
+        category="${1:-}"
+    fi
+
+    if [[ "$1" == "-r" || "$1" == "--recent" ]]; then
+        recent_only=1
         shift
         category="${1:-}"
     fi
@@ -610,14 +633,20 @@ EOF
         done < <(_proj_list_worktrees "$wt_project_filter") > "$tmpfile"
     elif [[ -z "$category" ]]; then
         # No category filter: show BOTH projects AND worktrees
+        local recent_filter=""
+        [[ $recent_only -eq 1 ]] && recent_filter="recent"
         {
-            # Regular projects first
+            # Regular projects first (frecency sorted)
             while IFS='|' read -r name type icon dir; do
                 printf "%-30s %s %-4s\n" "$name" "$icon" "$type"
-            done < <(_proj_list_all "")
-            # Then worktrees (if directory exists)
+            done < <(_proj_list_all "" "$recent_filter")
+            # Then worktrees (if directory exists and not recent-only, or if recent-only include all worktrees with sessions)
             if [[ -d "$PROJ_WORKTREE_DIR" ]]; then
                 while IFS='|' read -r name type icon dir session; do
+                    # In recent mode, only show worktrees with sessions
+                    if [[ $recent_only -eq 1 && -z "$session" ]]; then
+                        continue
+                    fi
                     if [[ -n "$session" ]]; then
                         printf "%-30s %s %-4s  %s\n" "$name" "$icon" "$type" "$session"
                     else
@@ -628,9 +657,11 @@ EOF
         } > "$tmpfile"
     else
         # Category filter: show only matching projects
+        local recent_filter=""
+        [[ $recent_only -eq 1 ]] && recent_filter="recent"
         while IFS='|' read -r name type icon dir; do
             printf "%-30s %s %-4s\n" "$name" "$icon" "$type"
-        done < <(_proj_list_all "$category") > "$tmpfile"
+        done < <(_proj_list_all "$category" "$recent_filter") > "$tmpfile"
     fi
 
     # Check if we have any projects/worktrees
