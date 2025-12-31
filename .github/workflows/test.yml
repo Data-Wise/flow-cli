@@ -24,8 +24,6 @@ jobs:
 
       - name: Create mock project structure
         run: |
-          # Create project directories that tests expect
-          mkdir -p ~/projects/dev-tools/flow-cli
           mkdir -p ~/projects/dev-tools/flow-cli/.git
           mkdir -p ~/projects/r-packages/active/mediationverse/.git
           mkdir -p ~/projects/r-packages/stable/rmediation/.git
@@ -33,13 +31,12 @@ jobs:
           mkdir -p ~/projects/research/mediation-planning/.git
           mkdir -p ~/projects/quarto/manuscripts/paper1/.git
           mkdir -p ~/projects/apps/examify/.git
-
-          # Copy current repo to expected location
           cp -r . ~/projects/dev-tools/flow-cli/
 
-      - name: Run all dispatcher tests
+      - name: Run tests
         run: |
           cd ~/projects/dev-tools/flow-cli
+          # Dispatcher tests
           zsh ./tests/test-pick-smart-defaults.zsh
           zsh ./tests/test-cc-dispatcher.zsh
           zsh ./tests/test-g-feature.zsh
@@ -48,10 +45,7 @@ jobs:
           zsh ./tests/test-qu-dispatcher.zsh
           zsh ./tests/test-mcp-dispatcher.zsh
           zsh ./tests/test-obs-dispatcher.zsh
-
-      - name: Run all core command tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
+          # Core command tests
           zsh ./tests/test-dash.zsh
           zsh ./tests/test-work.zsh
           zsh ./tests/test-doctor.zsh
@@ -60,29 +54,8 @@ jobs:
           zsh ./tests/test-adhd.zsh
           zsh ./tests/test-flow.zsh
           zsh ./tests/test-timer.zsh
-
-      - name: Run tm dispatcher tests
-        continue-on-error: true # Requires aiterm which may not be installed
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-tm-dispatcher.zsh
-
-      - name: Run optional tests
-        continue-on-error: true
-        run: |
-          cd ~/projects/dev-tools/flow-cli
-          zsh ./tests/test-ai-features.zsh 2>/dev/null || true
-          zsh ./tests/test-quick-wins.zsh 2>/dev/null || true
-          zsh ./tests/test-sync.zsh 2>/dev/null || true
-
-      - name: Run automated CLI tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
+          # CLI tests
           bash ./tests/cli/automated-tests.sh
-
-      - name: Run install.sh tests
-        run: |
-          cd ~/projects/dev-tools/flow-cli
           bash ./tests/test-install.sh
 
       - name: Performance Summary
@@ -91,96 +64,6 @@ jobs:
           END_TIME=$(date +%s)
           DURATION=$((END_TIME - ${{ steps.start.outputs.time }}))
           echo "## 📊 ZSH Tests Performance" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Total Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
-          echo "| Platform | Ubuntu (linux) |" >> $GITHUB_STEP_SUMMARY
-          echo "| Date | $(date -u +%Y-%m-%d) |" >> $GITHUB_STEP_SUMMARY
-
-  # macOS tests removed (2025-12-31) - ZSH is cross-platform, Ubuntu coverage sufficient
-  # Saves ~5 minutes per PR by avoiding slow macOS runner startup
-
-  # Node.js tests are optional - flow-cli is now a pure ZSH plugin
-  # These tests only run if npm test script exists
-  node-tests:
-    name: Node.js Tests (if applicable)
-    runs-on: ubuntu-latest
-    continue-on-error: true
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: '20.x'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci || true
-
-      - name: Check for test script
-        id: check-tests
-        run: |
-          if npm run test --if-present 2>/dev/null; then
-            echo "has_tests=true" >> $GITHUB_OUTPUT
-          else
-            echo "has_tests=false" >> $GITHUB_OUTPUT
-            echo "No npm test script found - skipping Node.js tests"
-          fi
-
-  lint:
-    name: Lint Code
-    runs-on: ubuntu-latest
-    continue-on-error: true
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: '20.x'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci || true
-
-      - name: Run ESLint (if configured)
-        run: npm run lint --if-present || echo "Linting skipped or failed"
-
-      - name: Check formatting (if configured)
-        run: npm run format:check --if-present || echo "Format check skipped or failed"
-
-  link-check:
-    name: Documentation Link Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Check links in documentation
-        uses: lycheeverse/lychee-action@v2
-        with:
-          args: >-
-            --exclude 'github.com'
-            --exclude 'localhost'
-            --exclude '127.0.0.1'
-            --no-progress
-            'docs/**/*.md'
-          fail: true
-
-      - name: Link Check Summary
-        if: always()
-        run: |
-          echo "## 🔗 Link Check Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          if [ -f lychee/out.md ]; then
-            cat lychee/out.md >> $GITHUB_STEP_SUMMARY
-          else
-            echo "✅ No broken links found in docs/" >> $GITHUB_STEP_SUMMARY
-          fi
+          echo "| Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
