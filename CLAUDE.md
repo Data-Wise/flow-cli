@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v4.6.1)
+- **Status:** Production ready (v4.6.4)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -99,7 +99,7 @@ flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v4.6.1)
+### Dopamine Features (v4.6.4)
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
@@ -159,7 +159,7 @@ tm detect             # Detect project context
 
 **Aliases:** `tmt` = title, `tmp` = profile, `tmg` = ghost, `tms` = switch
 
-### Pick - Project Picker (v4.6.0)
+### Pick - Project Picker (v4.6.4)
 
 ```bash
 pick                # FZF picker (all projects)
@@ -465,28 +465,41 @@ export FLOW_DEBUG=1
 
 ## Current Status (2025-12-31)
 
+### ✅ v4.6.4 Released - Frecency & Session Indicators
+
+- [x] Frecency decay scoring (time-based priority decay)
+- [x] Session indicators (🟢/🟡) on regular projects, not just worktrees
+- [x] Projects sorted by recent Claude activity
+
+### ✅ v4.6.3 Released - Frecency Sorting
+
+- [x] `pick --recent` / `pick -r` - Show only projects with Claude sessions
+- [x] Frecency sorting (most recently used first)
+- [x] CI apt caching (~17s vs 5+ min)
+
+### ✅ v4.6.2 Released - CI Optimization
+
+- [x] CI reduced to smoke tests (~30s)
+- [x] `./tests/run-all.sh` for local full test suite
+- [x] Pick worktree docs and session-age sorting
+
 ### ✅ v4.6.1 Released
 
-- [x] `pick` shows worktrees in default view (🌳 icons + session indicators)
-- [x] CI streamlined: 4 jobs → 1 job, ~60s (was 5+ min)
+- [x] `pick` shows worktrees in default view (🌳 icons)
+- [x] CI streamlined: 4 jobs → 1 job
 
 ### ✅ v4.6.0 Released - Worktree-Aware Pick
 
 - [x] `pick wt` - List all worktrees from `~/.git-worktrees/`
-- [x] `pick wt <project>` - Filter worktrees by project name
-- [x] Session indicators: 🟢 recent / 🟡 old / (none)
-- [x] Ctrl-O - cd + launch Claude (cc mode)
-- [x] Ctrl-Y - cd + launch Claude YOLO (ccy mode)
-- [x] `--no-claude` flag for cc dispatcher integration
-- [x] `pickwt` alias
-- [x] Tests for new pick wt functionality (22 tests)
+- [x] Session indicators: 🟢 recent / 🟡 old
+- [x] Ctrl-O/Y - cd + launch Claude
 
 ### 🎯 Production Ready
 
-- **Version:** 4.6.1
+- **Version:** 4.6.4
 - **Released:** 2025-12-31
 - **Status:** Production use phase
-- **Performance:** Sub-10ms for core commands
+- **Performance:** Sub-10ms for core commands, CI ~17s
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
 - **Tests:** 100+ tests across all features
 

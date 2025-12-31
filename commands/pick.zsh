@@ -282,12 +282,15 @@ _proj_list_worktrees() {
             local session_mtime=$(_proj_get_session_mtime "${wt_dir%/}")
             local session_status=$(_proj_get_claude_session_status "${wt_dir%/}")
 
-            # Store with mtime prefix for sorting (mtime|data)
-            worktree_data+=("${session_mtime}|${display_name}|wt|🌳|${wt_dir%/}|${session_status}")
+            # Calculate frecency score for sorting (same decay as projects)
+            local frecency=$(_proj_frecency_score "$session_mtime")
+
+            # Store with frecency prefix for sorting
+            worktree_data+=("${frecency}|${display_name}|wt|🌳|${wt_dir%/}|${session_status}")
         done
     done
 
-    # Sort by mtime (descending - newest first) and output without mtime prefix
+    # Sort by frecency (descending - newest first) and output without score prefix
     printf '%s\n' "${worktree_data[@]}" | sort -t'|' -k1 -rn | cut -d'|' -f2-
 }
 
