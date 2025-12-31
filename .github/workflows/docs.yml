@@ -34,6 +34,7 @@ jobs:
           pip install mkdocs
           pip install mkdocs-material
           pip install mkdocs-mermaid2-plugin
+          pip install mkdocs-exclude
 
       - name: Build and deploy docs
         run: mkdocs gh-deploy --force --clean --verbose
