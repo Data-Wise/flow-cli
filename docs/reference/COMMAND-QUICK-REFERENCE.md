@@ -258,11 +258,41 @@ here                # Quick context (pwd + status + ls)
 pb                  # Build (auto-detects type)
 pv                  # Preview/view
 pt                  # Test
-pick                # FZF picker
 dash                # Master dashboard
 dash -i             # Interactive TUI
 dash --watch        # Live refresh
 ```
+
+### Pick - Project Picker (v4.6.0)
+
+```bash
+pick                # FZF picker (all projects)
+pick r              # R packages only
+pick dev            # Dev tools only
+pick wt             # All worktrees (new!)
+pick wt scribe      # Scribe's worktrees only
+pick flow           # Direct jump to flow-cli
+```
+
+**Categories:** `r`, `dev`, `q`, `teach`, `rs`, `app`, `wt`
+
+**Interactive Keys:**
+
+| Key | Action |
+|-----|--------|
+| Enter | cd to selection |
+| Ctrl-O | cd + launch Claude (`cc` mode) |
+| Ctrl-Y | cd + launch Claude YOLO (`ccy` mode) |
+| Ctrl-S | View .STATUS file |
+| Ctrl-L | View git log |
+| Space | Force full picker (bypass resume) |
+
+**Worktree Session Indicators:**
+- 🟢 Xh/m - Recent Claude session (< 24h)
+- 🟡 old - Older Claude session
+- (none) - No session
+
+**Aliases:** `pickr`, `pickdev`, `pickq`, `pickwt`
 
 ### Dopamine Features (v3.5.0)
 

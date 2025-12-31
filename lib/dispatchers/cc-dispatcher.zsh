@@ -26,7 +26,8 @@ cc() {
         shift
         if (( $+functions[pick] )); then
             # Use pick's direct jump, then launch Claude
-            if pick "$project_name"; then
+            # --no-claude prevents pick's Ctrl-O/Y keybindings (we handle Claude)
+            if pick --no-claude "$project_name"; then
                 claude --permission-mode acceptEdits "$@"
             fi
         else
@@ -42,7 +43,8 @@ cc() {
             shift
             if (( $+functions[pick] )); then
                 # Pass remaining args to pick (for filtering), not claude
-                pick "$@" && claude --permission-mode acceptEdits
+                # --no-claude prevents pick's Ctrl-O/Y keybindings (we handle Claude)
+                pick --no-claude "$@" && claude --permission-mode acceptEdits
             else
                 echo "❌ pick function not available" >&2
                 return 1
@@ -57,7 +59,8 @@ cc() {
                 shift
                 if (( $+functions[pick] )); then
                     # Pass remaining args to pick (for filtering), not claude
-                    pick "$@" && claude --dangerously-skip-permissions
+                    # --no-claude prevents pick's Ctrl-O/Y keybindings (we handle Claude)
+                    pick --no-claude "$@" && claude --dangerously-skip-permissions
                 else
                     echo "❌ pick function not available" >&2
                     return 1
@@ -67,7 +70,7 @@ cc() {
                 local project_name="$1"
                 shift
                 if (( $+functions[pick] )); then
-                    pick "$project_name" && claude --dangerously-skip-permissions "$@"
+                    pick --no-claude "$project_name" && claude --dangerously-skip-permissions "$@"
                 else
                     claude --dangerously-skip-permissions "$@"
                 fi
@@ -84,7 +87,8 @@ cc() {
                 shift
                 if (( $+functions[pick] )); then
                     # Pass remaining args to pick (for filtering), not claude
-                    pick "$@" && claude --permission-mode plan
+                    # --no-claude prevents pick's Ctrl-O/Y keybindings (we handle Claude)
+                    pick --no-claude "$@" && claude --permission-mode plan
                 else
                     echo "❌ pick function not available" >&2
                     return 1
@@ -94,7 +98,7 @@ cc() {
                 local project_name="$1"
                 shift
                 if (( $+functions[pick] )); then
-                    pick "$project_name" && claude --permission-mode plan "$@"
+                    pick --no-claude "$project_name" && claude --permission-mode plan "$@"
                 else
                     claude --permission-mode plan "$@"
                 fi
@@ -186,7 +190,8 @@ cc() {
                 shift
                 if (( $+functions[pick] )); then
                     # Pass remaining args to pick (for filtering), not claude
-                    pick "$@" && claude --model opus --permission-mode acceptEdits
+                    # --no-claude prevents pick's Ctrl-O/Y keybindings (we handle Claude)
+                    pick --no-claude "$@" && claude --model opus --permission-mode acceptEdits
                 else
                     echo "❌ pick function not available" >&2
                     return 1
@@ -196,7 +201,7 @@ cc() {
                 local project_name="$1"
                 shift
                 if (( $+functions[pick] )); then
-                    pick "$project_name" && claude --model opus --permission-mode acceptEdits "$@"
+                    pick --no-claude "$project_name" && claude --model opus --permission-mode acceptEdits "$@"
                 else
                     claude --model opus --permission-mode acceptEdits "$@"
                 fi
@@ -213,7 +218,8 @@ cc() {
                 shift
                 if (( $+functions[pick] )); then
                     # Pass remaining args to pick (for filtering), not claude
-                    pick "$@" && claude --model haiku --permission-mode acceptEdits
+                    # --no-claude prevents pick's Ctrl-O/Y keybindings (we handle Claude)
+                    pick --no-claude "$@" && claude --model haiku --permission-mode acceptEdits
                 else
                     echo "❌ pick function not available" >&2
                     return 1
@@ -223,7 +229,7 @@ cc() {
                 local project_name="$1"
                 shift
                 if (( $+functions[pick] )); then
-                    pick "$project_name" && claude --model haiku --permission-mode acceptEdits "$@"
+                    pick --no-claude "$project_name" && claude --model haiku --permission-mode acceptEdits "$@"
                 else
                     claude --model haiku --permission-mode acceptEdits "$@"
                 fi
