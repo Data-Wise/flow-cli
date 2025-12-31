@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v4.5.5)
+- **Status:** Production ready (v4.6.1)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -99,7 +99,7 @@ flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v4.5.5)
+### Dopamine Features (v4.6.1)
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
@@ -463,9 +463,14 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2025-12-30)
+## Current Status (2025-12-31)
 
-### 🚧 v4.6.0 In Progress - Worktree-Aware Pick
+### ✅ v4.6.1 Released
+
+- [x] `pick` shows worktrees in default view (🌳 icons + session indicators)
+- [x] CI streamlined: 4 jobs → 1 job, ~60s (was 5+ min)
+
+### ✅ v4.6.0 Released - Worktree-Aware Pick
 
 - [x] `pick wt` - List all worktrees from `~/.git-worktrees/`
 - [x] `pick wt <project>` - Filter worktrees by project name
@@ -474,51 +479,18 @@ export FLOW_DEBUG=1
 - [x] Ctrl-Y - cd + launch Claude YOLO (ccy mode)
 - [x] `--no-claude` flag for cc dispatcher integration
 - [x] `pickwt` alias
-- [x] Updated completions (`_pick`)
-- [x] Tests for new pick wt functionality (22 tests in `test-pick-wt.zsh`)
-
-### ✅ v4.5.1 Released (Documentation)
-
-- [x] 9 dedicated dispatcher reference pages:
-  - CC, G, MCP, OBS, QU, R, TM, WT dispatchers
-  - Plus main DISPATCHER-REFERENCE.md overview
-- [x] All reference pages cross-linked with "See also"
-- [x] Tutorial 11: TM Dispatcher
-
-### ✅ v4.5.1 Released
-
-- [x] `tm` dispatcher - Terminal manager (aiterm integration)
-  - Shell-native: `tm title`, `tm profile`, `tm which`
-  - Aiterm delegation: `tm ghost`, `tm switch`, `tm detect`
-  - Aliases: `tmt`, `tmp`, `tmg`, `tms`, `tmd`
-
-### ✅ v4.5.1 Released
-
-- [x] `g feature status` - Show merged vs active branches
-- [x] `g feature prune --older-than` - Filter by branch age
-- [x] `g feature prune --force` - Skip confirmation
-- [x] `wt status` - Show worktree health and disk usage
-- [x] `wt prune` - Comprehensive cleanup with branch deletion
-- [x] `cc wt status` - Show worktrees with Claude session info
-
-### ✅ v4.5.1 Released
-
-- [x] Worktree + Claude Integration (`cc wt`)
-- [x] Branch cleanup (`g feature prune`)
-- [x] 57 new tests
+- [x] Tests for new pick wt functionality (22 tests)
 
 ### 🎯 Production Ready
 
-- **Version:** 4.4.0
-- **Released:** 2025-12-30
+- **Version:** 4.6.1
+- **Released:** 2025-12-31
 - **Status:** Production use phase
 - **Performance:** Sub-10ms for core commands
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
 - **Tests:** 100+ tests across all features
 
-### 📋 Next: v4.5.1 - Installation Improvements
-
-**Priority:** Immediate | **Plan:** `docs/planning/INSTALL-IMPROVEMENTS.md`
+### 📋 Future: Installation Improvements
 
 - [ ] Create `install.sh` (curl one-liner, auto-detect plugin manager)
 - [ ] Add install methods comparison table to README
