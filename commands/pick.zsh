@@ -146,12 +146,43 @@ _proj_find_all() {
     printf '%s\n' "${matches[@]}"
 }
 
+# Calculate frecency score with decay
+# Recent activity scores higher, older activity decays
+_proj_frecency_score() {
+    local mtime="$1"
+    [[ "$mtime" == "0" ]] && { echo "0"; return; }
+
+    local now=$(date +%s)
+    local age=$((now - mtime))
+    local hours=$((age / 3600))
+
+    # Scoring: recent = high, older = decayed
+    # Within 1 hour: 1000 points
+    # Within 24 hours: 500-999 points
+    # Within 7 days: 100-499 points
+    # Older: 1-99 points
+    if [[ $hours -lt 1 ]]; then
+        echo "1000"
+    elif [[ $hours -lt 24 ]]; then
+        echo "$((1000 - hours * 20))"  # 980 to 520
+    elif [[ $hours -lt 168 ]]; then  # 7 days
+        local days=$((hours / 24))
+        echo "$((500 - days * 50))"  # 450 to 150
+    else
+        local weeks=$((hours / 168))
+        local score=$((100 - weeks * 10))
+        [[ $score -lt 1 ]] && score=1
+        echo "$score"
+    fi
+}
+
 # List all projects (sorted by frecency - most recently used first)
+# Output format: name|type|icon|dir|session_status
 _proj_list_all() {
     local category="${1:-}"
     local recent_only="${2:-}"  # If "recent", only show projects with sessions
 
-    # Collect all projects with their mtimes for sorting
+    # Collect all projects with their frecency scores for sorting
     local project_data=()
 
     for cat_info in "${PROJ_CATEGORIES[@]}"; do
@@ -172,19 +203,23 @@ _proj_list_all() {
                 [[ -d "$proj_dir/.git" ]] || continue
                 local proj_name=$(basename "$proj_dir")
                 local session_mtime=$(_proj_get_session_mtime "${proj_dir%/}")
+                local session_status=$(_proj_get_claude_session_status "${proj_dir%/}")
 
                 # If recent_only, skip projects without sessions
                 if [[ "$recent_only" == "recent" && "$session_mtime" == "0" ]]; then
                     continue
                 fi
 
-                # Store with mtime prefix for sorting
-                project_data+=("${session_mtime}|${proj_name}|${cat_type}|${cat_icon}|${proj_dir}")
+                # Calculate frecency score for sorting
+                local frecency=$(_proj_frecency_score "$session_mtime")
+
+                # Store with frecency prefix for sorting
+                project_data+=("${frecency}|${proj_name}|${cat_type}|${cat_icon}|${proj_dir}|${session_status}")
             done
         fi
     done
 
-    # Sort by mtime (descending - newest first) and output without mtime prefix
+    # Sort by frecency (descending) and output without score prefix
     printf '%s\n' "${project_data[@]}" | sort -t'|' -k1 -rn | cut -d'|' -f2-
 }
 
@@ -636,11 +671,15 @@ EOF
         local recent_filter=""
         [[ $recent_only -eq 1 ]] && recent_filter="recent"
         {
-            # Regular projects first (frecency sorted)
-            while IFS='|' read -r name type icon dir; do
-                printf "%-30s %s %-4s\n" "$name" "$icon" "$type"
+            # Regular projects first (frecency sorted, with session indicators)
+            while IFS='|' read -r name type icon dir session; do
+                if [[ -n "$session" ]]; then
+                    printf "%-30s %s %-4s  %s\n" "$name" "$icon" "$type" "$session"
+                else
+                    printf "%-30s %s %-4s\n" "$name" "$icon" "$type"
+                fi
             done < <(_proj_list_all "" "$recent_filter")
-            # Then worktrees (if directory exists and not recent-only, or if recent-only include all worktrees with sessions)
+            # Then worktrees (if directory exists)
             if [[ -d "$PROJ_WORKTREE_DIR" ]]; then
                 while IFS='|' read -r name type icon dir session; do
                     # In recent mode, only show worktrees with sessions
@@ -656,11 +695,15 @@ EOF
             fi
         } > "$tmpfile"
     else
-        # Category filter: show only matching projects
+        # Category filter: show only matching projects (with session indicators)
         local recent_filter=""
         [[ $recent_only -eq 1 ]] && recent_filter="recent"
-        while IFS='|' read -r name type icon dir; do
-            printf "%-30s %s %-4s\n" "$name" "$icon" "$type"
+        while IFS='|' read -r name type icon dir session; do
+            if [[ -n "$session" ]]; then
+                printf "%-30s %s %-4s  %s\n" "$name" "$icon" "$type" "$session"
+            else
+                printf "%-30s %s %-4s\n" "$name" "$icon" "$type"
+            fi
         done < <(_proj_list_all "$category" "$recent_filter") > "$tmpfile"
     fi
 
