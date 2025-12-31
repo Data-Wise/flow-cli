@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-4.5.1-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
+[![Version](https://img.shields.io/badge/version-4.5.2-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -156,6 +156,12 @@ curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh 
 ```
 
 Auto-detects your plugin manager and installs accordingly.
+
+**Install specific version:**
+
+```bash
+FLOW_VERSION=v4.5.0 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
+```
 
 ### Installation Methods
 

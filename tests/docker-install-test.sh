@@ -137,21 +137,21 @@ export HOME=/tmp/test1
 mkdir -p $HOME
 touch $HOME/.zshrc
 
-source /root/.flow-cli/install.sh 2>/dev/null <<< "" || true
+# Detection tests - manually test the logic (install.sh uses bash, not sh)
 
-# Just test the detection function
+# Just test the detection function (using POSIX [ ] for Alpine compatibility)
 detect_result=""
-if [[ -f "${ZDOTDIR:-$HOME}/.zsh_plugins.txt" ]]; then
+if [ -f "${ZDOTDIR:-$HOME}/.zsh_plugins.txt" ]; then
     detect_result="antidote"
-elif [[ -d "$HOME/.zinit" ]]; then
+elif [ -d "$HOME/.zinit" ]; then
     detect_result="zinit"
-elif [[ -d "$HOME/.oh-my-zsh" ]]; then
+elif [ -d "$HOME/.oh-my-zsh" ]; then
     detect_result="omz"
 else
     detect_result="manual"
 fi
 
-if [[ "$detect_result" == "manual" ]]; then
+if [ "$detect_result" = "manual" ]; then
     echo "✓ Clean environment: detected 'manual'"
 else
     echo "✗ Clean environment: expected 'manual', got '$detect_result'"
@@ -164,13 +164,13 @@ mkdir -p $HOME
 touch $HOME/.zshrc
 touch $HOME/.zsh_plugins.txt
 
-if [[ -f "${ZDOTDIR:-$HOME}/.zsh_plugins.txt" ]]; then
+if [ -f "${ZDOTDIR:-$HOME}/.zsh_plugins.txt" ]; then
     detect_result="antidote"
 else
     detect_result="other"
 fi
 
-if [[ "$detect_result" == "antidote" ]]; then
+if [ "$detect_result" = "antidote" ]; then
     echo "✓ With .zsh_plugins.txt: detected 'antidote'"
 else
     echo "✗ With .zsh_plugins.txt: expected 'antidote', got '$detect_result'"
@@ -183,13 +183,13 @@ mkdir -p $HOME
 mkdir -p $HOME/.zinit
 touch $HOME/.zshrc
 
-if [[ -d "$HOME/.zinit" ]]; then
+if [ -d "$HOME/.zinit" ]; then
     detect_result="zinit"
 else
     detect_result="other"
 fi
 
-if [[ "$detect_result" == "zinit" ]]; then
+if [ "$detect_result" = "zinit" ]; then
     echo "✓ With .zinit: detected 'zinit'"
 else
     echo "✗ With .zinit: expected 'zinit', got '$detect_result'"
@@ -202,13 +202,13 @@ mkdir -p $HOME
 mkdir -p $HOME/.oh-my-zsh
 touch $HOME/.zshrc
 
-if [[ -d "$HOME/.oh-my-zsh" ]]; then
+if [ -d "$HOME/.oh-my-zsh" ]; then
     detect_result="omz"
 else
     detect_result="other"
 fi
 
-if [[ "$detect_result" == "omz" ]]; then
+if [ "$detect_result" = "omz" ]; then
     echo "✓ With .oh-my-zsh: detected 'omz'"
 else
     echo "✗ With .oh-my-zsh: expected 'omz', got '$detect_result'"
@@ -220,12 +220,18 @@ echo "=== All tests passed! ==="
 INNERSCRIPT
 )
 
+    # Use /bin/sh for Alpine (no bash by default), /bin/bash for others
+    local shell="/bin/bash"
+    if [[ "$image" == alpine:* ]]; then
+        shell="/bin/sh"
+    fi
+
     # Run container with test script
     if docker run --rm \
         -v "$PROJECT_ROOT:/workspace:ro" \
         --name "$container_name" \
         "$image" \
-        /bin/bash -c "$test_script" 2>&1; then
+        $shell -c "$test_script" 2>&1; then
         pass "$image - all tests passed"
         return 0
     else
