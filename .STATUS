@@ -4,11 +4,11 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v4.6.1 Released
+## Phase: v4.6.5 Released
 ## Priority: 1
 ## Progress: 100
 
-## Focus: v4.5.5 RELEASED - Public Release
+## Focus: v4.6.5 RELEASED - Frecency & Session Indicators
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -502,17 +502,28 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: v4.5.5 Released (2025-12-31), awesome-zsh-plugins PR (2025-12-31), Fixed version sync (2025-12-31), Updated docs (2025-12-30)
-## streak: 2
-## last_active: 2025-12-31 03:00
+## wins: v4.6.5 Released (2025-12-31), 6 releases today (v4.6.0-v4.6.5), CI 5min→14s, Frecency sorting, Session indicators
+## streak: 3
+## last_active: 2025-12-31 14:00
 
-## Next: v4.6.0 - Future Enhancements
+## Next: v4.7.0 - Future Enhancements
+- [ ] `pickr` alias for `pick --recent`
+- [ ] Deploy docs to GitHub Pages
 - [ ] Remote state sync (optional cloud backup)
 - [ ] Team features (shared templates)
 - [ ] Multi-device sync
-- [ ] GitHub Discussions for user questions
 
 ## Session Log (continued)
+- 2025-12-31: v4.6.5 RELEASE - Worktree frecency scoring, CLAUDE.md updates
+- 2025-12-31: v4.6.4 RELEASE - Frecency decay scoring, session indicators on projects
+- 2025-12-31: v4.6.3 RELEASE - Frecency sorting, --recent flag, CI apt caching (~17s)
+- 2025-12-31: v4.6.2 RELEASE - CI smoke tests (~30s), tests/run-all.sh
+- 2025-12-31: v4.6.1 RELEASE - Pick shows worktrees, CI streamlined (4→1 jobs)
+- 2025-12-31: v4.6.0 RELEASE - Worktree-aware pick, session indicators, pick wt
+- 2025-12-31: CI - Optimized from 5+ minutes to 14 seconds (apt caching + smoke tests)
+- 2025-12-31: FEAT - Frecency decay algorithm (time-based priority scoring)
+- 2025-12-31: FEAT - Session indicators (🟢/🟡) on regular projects
+- 2025-12-31: FEAT - `pick --recent` flag for Claude session filtering
 - 2025-12-31: v4.5.5 RELEASE - Fixed FLOW_VERSION sync (was 3.6.0 → 4.5.5)
 - 2025-12-31: FIX - Updated release.sh to include flow.plugin.zsh version
 - 2025-12-31: CI - Fixed docs workflow (added mkdocs-exclude plugin)
