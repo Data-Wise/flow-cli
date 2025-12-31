@@ -1,21 +1,24 @@
 # Workflow Quick Reference
 
-**Date:** 2025-12-14 (Updated 2025-12-26)
-**Version:** 3.1 - Doctor Command & Man Pages
+**Date:** 2025-12-14 (Updated 2025-12-31)
+**Version:** 4.7.0 - iCloud Remote Sync
 
-> **✨ New in v3.1.0 (2025-12-26):**
+> **✨ New in v4.7.0 (2025-12-31):**
 >
-> - `flow doctor` - Dependency verification with --fix, --fix -y, --ai modes
-> - Comprehensive man pages: `man flow`, `man r`, `man g`, `man qu`, `man mcp`, `man obs`
-> - 6 active dispatchers (added `cc` for Claude Code workflows)
+> - `flow sync remote` - iCloud sync for multi-device access
+> - `flow sync remote init` - Set up iCloud sync (migrates wins, goals)
+> - Apple handles sync automatically - zero new dependencies
 >
-> **Previous (v2.0):**
+> **v4.5.x-4.6.x (2025-12-30):**
 >
-> - `flow status` - ASCII visualizations, worklog integration, productivity metrics
-> - `flow dashboard` - Interactive real-time TUI with keyboard shortcuts
-> - Removed deprecated `v`/`vibe` dispatcher - use `flow` command directly
-> - See `ALIAS-REFERENCE-CARD.md` for current aliases (28 total)
-> - See `DISPATCHER-REFERENCE.md` for active dispatchers (6 total: g, mcp, obs, qu, r, cc)
+> - `tm` dispatcher - Terminal manager (iTerm2, Ghostty)
+> - `pick wt` - Worktree picker with session indicators
+> - Frecency sorting for projects and worktrees
+>
+> **Previous:**
+>
+> - 8 active dispatchers: g, mcp, obs, qu, r, cc, tm, wt
+> - See `DISPATCHER-REFERENCE.md` for complete dispatcher guide
 
 ---
 
@@ -113,5 +116,26 @@ flow doctor              # Verify installation
 
 ---
 
-**Full guide:** `WORKFLOW-ANALYSIS-2025-12-14.md`
+## ☁️ Multi-Device Sync (v4.7.0)
+
+**Set up once:**
+
+```bash
+flow sync remote init        # Migrates wins.md, goal.json
+# Add to ~/.zshrc: source ~/.config/flow/remote.conf
+```
+
+**Daily sync:**
+
+```bash
+flow sync                    # Smart sync (auto-detect)
+flow sync all                # Full sync
+flow sync --status           # View dashboard
+```
+
+**What syncs:** wins.md, goal.json, sync-state.json (via iCloud)
+
+---
+
+**Full guide:** See `docs/commands/sync.md`
 **Man pages:** `man flow`, `man r`, `man g`, `man qu`, `man mcp`, `man obs`
