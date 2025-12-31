@@ -1,7 +1,7 @@
 # Dispatcher Reference - flow-cli
 
-**Last Updated:** December 30, 2025
-**Version:** flow-cli v4.4.0
+**Last Updated:** December 31, 2025
+**Version:** flow-cli v4.7.0
 
 ---
 

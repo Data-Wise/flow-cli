@@ -2,7 +2,7 @@
 
 > **Pattern:** `command + keyword + options`
 > **Philosophy:** One command per domain, discoverable with `help`
-> **Version:** v4.2.0 (2025-12-29)
+> **Version:** v4.7.0 (2025-12-31)
 
 ---
 
@@ -95,6 +95,54 @@ obs search <term>   # Search notes
 obs daily           # Open daily note
 obs help            # Show all commands
 ```
+
+### Terminal Manager: `tm`
+
+```bash
+tm                  # Show terminal info
+tm title <text>     # Set tab/window title
+tm profile <name>   # Switch iTerm2 profile
+tm which            # Show detected terminal
+tm ghost            # Ghostty status (via aiterm)
+tm switch           # Apply terminal context
+tm detect           # Detect project context
+tm help             # Show all commands
+```
+
+**Aliases:** `tmt` (title), `tmp` (profile), `tmg` (ghost), `tms` (switch)
+
+---
+
+## Sync & Data Management (v4.7.0)
+
+### Sync: `flow sync`
+
+```bash
+flow sync           # Smart sync (auto-detect what needs syncing)
+flow sync all       # Sync everything
+flow sync status    # Update .STATUS timestamps
+flow sync wins      # Aggregate wins to global file
+flow sync goals     # Recalculate goal progress
+flow sync git       # Smart git push/pull
+flow sync --status  # View sync dashboard
+flow sync --dry-run # Preview changes
+```
+
+**Remote Sync (v4.7.0):**
+
+```bash
+flow sync remote            # Show iCloud sync status
+flow sync remote init       # Set up iCloud sync
+flow sync remote disable    # Revert to local storage
+```
+
+**Synced to iCloud:** wins.md, goal.json, sync-state.json
+
+**Setup:**
+
+1. `flow sync remote init` - Migrates core data
+2. Add `source ~/.config/flow/remote.conf` to ~/.zshrc
+3. Restart shell - Apple handles sync automatically
 
 ---
 
@@ -353,9 +401,12 @@ reload              # Reload zshrc
 | -------------- | -------------- | ------------------------------ |
 | R Package      | `r`            | `r <action> [args]`            |
 | Git            | `g`            | `g <action> [args]`            |
+| Git Worktrees  | `wt`           | `wt <action> [branch]`         |
 | Quarto         | `qu`           | `qu <action> [args]`           |
 | MCP Servers    | `mcp`          | `mcp <action> [srv]`           |
 | Obsidian Notes | `obs`          | `obs <action> [arg]`           |
+| Terminal       | `tm`           | `tm <action> [arg]`            |
+| Sync (v4.7.0)  | `flow sync`    | `flow sync [target] [opts]`    |
 | AI Assistant   | `flow ai`      | `flow ai [--mode] "query"`     |
 | Natural Lang   | `flow do`      | `flow do "command in English"` |
 | Health Check   | `flow doctor`  | `flow doctor [--fix\|--ai]`    |
@@ -363,7 +414,7 @@ reload              # Reload zshrc
 | Upgrade        | `flow upgrade` | `flow upgrade [target]`        |
 | Wins (v3.5.0)  | `win`          | `win [--category] "text"`      |
 | Goals (v3.5.0) | `flow goal`    | `flow goal [set N]`            |
-| Claude         | `ccy`          | Function (no args)             |
+| Claude         | `cc`           | `cc [mode] [project]`          |
 | Gemini         | `gem*`         | See aliases in .zshrc          |
 
 **Get help:** Any command + `help` or `--help` (e.g., `r help`, `flow ai --help`)
@@ -391,4 +442,4 @@ reload              # Reload zshrc
 
 ---
 
-_Updated: 2025-12-26 (v3.2.0)_
+_Updated: 2025-12-31 (v4.7.0)_
