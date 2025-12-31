@@ -2744,6 +2744,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#flow-sync-remote" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync remote
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#flow-sync-git" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3895,6 +3906,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#flow-sync-remote" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        flow sync remote
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#flow-sync-git" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4178,6 +4200,11 @@
 <td>~1.2s</td>
 </tr>
 <tr>
+<td><code>remote</code></td>
+<td>iCloud sync for multi-device access</td>
+<td>~10ms</td>
+</tr>
+<tr>
 <td><code>all</code></td>
 <td>Run all targets in dependency order</td>
 <td>~1.4s</td>
@@ -4300,6 +4327,31 @@
 <li><strong>Writes:</strong> Updated <code>$FLOW_DATA_DIR/goal.json</code></li>
 <li><strong>Output:</strong> Progress (e.g., "5/3 (100%)")</li>
 </ul>
+<h3 id="flow-sync-remote"><code>flow sync remote</code><a class="headerlink" href="#flow-sync-remote" title="Permanent link">&para;</a></h3>
+<p>iCloud sync for multi-device access (v4.7.0+).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>flow<span class="w"> </span>sync<span class="w"> </span>remote<span class="w">              </span><span class="c1"># Show sync status</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>remote<span class="w"> </span>init<span class="w">         </span><span class="c1"># Set up iCloud sync</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>flow<span class="w"> </span>sync<span class="w"> </span>remote<span class="w"> </span>disable<span class="w">      </span><span class="c1"># Revert to local storage</span>
+</code></pre></div>
+<p><strong>Setup:</strong></p>
+<ol>
+<li>Run <code>flow sync remote init</code> to migrate core data to iCloud</li>
+<li>Add <code>source ~/.config/flow/remote.conf</code> to your <code>~/.zshrc</code></li>
+<li>Restart shell - Apple handles sync automatically</li>
+</ol>
+<p><strong>Synced data:</strong></p>
+<ul>
+<li><code>wins.md</code> - Daily accomplishments</li>
+<li><code>goal.json</code> - Daily goal progress</li>
+<li><code>sync-state.json</code> - Last sync metadata</li>
+</ul>
+<p><strong>Multi-device:</strong></p>
+<ul>
+<li>Same iCloud account = automatic sync across devices</li>
+<li>Works offline (syncs when connected)</li>
+<li>No conflicts with local-only data (worklog, inbox)</li>
+</ul>
+<p><strong>iCloud path:</strong> <code>~/Library/Mobile Documents/com~apple~CloudDocs/flow-cli/</code></p>
 <h3 id="flow-sync-git"><code>flow sync git</code><a class="headerlink" href="#flow-sync-git" title="Permanent link">&para;</a></h3>
 <p>Smart git synchronization with safety features.</p>
 <p><strong>Workflow:</strong></p>
@@ -4319,9 +4371,9 @@
 <hr />
 <h2 id="execution-order">Execution Order<a class="headerlink" href="#execution-order" title="Permanent link">&para;</a></h2>
 <p>When running <code>flow sync all</code>, targets execute in dependency order:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>session → status → wins → goals → git
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>   ↓         ↓        ↓       ↓      ↓
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a> (2ms)    (120ms)  (15ms)  (5ms)  (1.2s)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>session → status → wins → goals → git
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>   ↓         ↓        ↓       ↓      ↓
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a> (2ms)    (120ms)  (15ms)  (5ms)  (1.2s)
 </code></pre></div>
 <ul>
 <li><strong>Session</strong> must run first (captures current state)</li>
@@ -4333,42 +4385,42 @@
 <hr />
 <h2 id="output-format">Output Format<a class="headerlink" href="#output-format" title="Permanent link">&para;</a></h2>
 <h3 id="standard-output">Standard Output<a class="headerlink" href="#standard-output" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>🔄 Syncing flow-cli
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>━━━━━━━━━━━━━━━━━━━━
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  [1/5] session... done (45m on flow-cli)
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  [2/5] status... done (2 projects updated)
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  [3/5] wins... done (3 new wins aggregated)
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  [4/5] goals... done (5/3 (100%))
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  [5/5] git... done (pushed 2 commits)
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>✓ Sync complete (1.4s)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>🔄 Syncing flow-cli
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>━━━━━━━━━━━━━━━━━━━━
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  [1/5] session... done (45m on flow-cli)
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  [2/5] status... done (2 projects updated)
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>  [3/5] wins... done (3 new wins aggregated)
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>  [4/5] goals... done (5/3 (100%))
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>  [5/5] git... done (pushed 2 commits)
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>✓ Sync complete (1.4s)
 </code></pre></div>
 <h3 id="quiet-output">Quiet Output<a class="headerlink" href="#quiet-output" title="Permanent link">&para;</a></h3>
 <p>With <code>--quiet</code>, only errors are shown.</p>
 <h3 id="dry-run-output">Dry Run Output<a class="headerlink" href="#dry-run-output" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>🔍 Dry run - no changes will be made
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  [1/5] session... Would log: 45m on flow-cli
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  [2/5] status... Would update: 2 projects
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>  ...
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>Run without --dry-run to execute
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>🔍 Dry run - no changes will be made
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>  [1/5] session... Would log: 45m on flow-cli
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>  [2/5] status... Would update: 2 projects
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>  ...
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>Run without --dry-run to execute
 </code></pre></div>
 <hr />
 <h2 id="state-file">State File<a class="headerlink" href="#state-file" title="Permanent link">&para;</a></h2>
 <p>Sync state is stored in <code>$FLOW_DATA_DIR/sync-state.json</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">&quot;last_sync&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">&quot;all&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-27T14:07:57Z&quot;</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="p">},</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="nt">&quot;session&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="nt">&quot;wins&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="nt">&quot;goals&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="nt">&quot;git&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;skipped&quot;</span>
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="p">}</span>
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;last_sync&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="nt">&quot;all&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-27T14:07:57Z&quot;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nt">&quot;session&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nt">&quot;wins&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nt">&quot;goals&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nt">&quot;git&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;skipped&quot;</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">}</span>
 </code></pre></div>
 <p>View with <code>flow sync --status</code>.</p>
 <hr />
@@ -4401,31 +4453,31 @@
 </table>
 <h3 id="recovery">Recovery<a class="headerlink" href="#recovery" title="Permanent link">&para;</a></h3>
 <p>If git sync fails with a conflict:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># View conflict</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>git<span class="w"> </span>status
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Option 1: Abort and sync again later</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>git<span class="w"> </span>rebase<span class="w"> </span>--abort
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Option 2: Resolve and continue</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>git<span class="w"> </span>add<span class="w"> </span>&lt;resolved-files&gt;
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>git<span class="w"> </span>rebase<span class="w"> </span>--continue
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>git<span class="w"> </span>push
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># View conflict</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>git<span class="w"> </span>status
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Option 1: Abort and sync again later</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>git<span class="w"> </span>rebase<span class="w"> </span>--abort
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Option 2: Resolve and continue</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>git<span class="w"> </span>add<span class="w"> </span>&lt;resolved-files&gt;
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>git<span class="w"> </span>rebase<span class="w"> </span>--continue
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>git<span class="w"> </span>push
 </code></pre></div>
 <hr />
 <h2 id="integration">Integration<a class="headerlink" href="#integration" title="Permanent link">&para;</a></h2>
 <h3 id="with-finish-command">With <code>finish</code> Command<a class="headerlink" href="#with-finish-command" title="Permanent link">&para;</a></h3>
 <p>The <code>finish</code> command can optionally sync before ending a session:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>finish<span class="w"> </span><span class="s2">&quot;Completed feature&quot;</span><span class="w">  </span><span class="c1"># Commits and optionally syncs</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>finish<span class="w"> </span><span class="s2">&quot;Completed feature&quot;</span><span class="w">  </span><span class="c1"># Commits and optionally syncs</span>
 </code></pre></div>
 <h3 id="with-dash-command">With <code>dash</code> Command<a class="headerlink" href="#with-dash-command" title="Permanent link">&para;</a></h3>
 <p>The dashboard shows sync status:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>dash<span class="w">          </span><span class="c1"># Shows last sync time</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>dash<span class="w"> </span>--watch<span class="w">  </span><span class="c1"># Auto-refreshes with sync status</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>dash<span class="w">          </span><span class="c1"># Shows last sync time</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>dash<span class="w"> </span>--watch<span class="w">  </span><span class="c1"># Auto-refreshes with sync status</span>
 </code></pre></div>
 <h3 id="with-cicd">With CI/CD<a class="headerlink" href="#with-cicd" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># In a pre-push hook</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>all<span class="w"> </span>--quiet<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># In a pre-push hook</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>all<span class="w"> </span>--quiet<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
 </code></pre></div>
 <hr />
 <h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
@@ -4461,11 +4513,11 @@
 <hr />
 <h2 id="scheduled-sync">Scheduled Sync<a class="headerlink" href="#scheduled-sync" title="Permanent link">&para;</a></h2>
 <p>Enable automatic background sync using macOS launchd:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w">                 </span><span class="c1"># Show status</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span><span class="nb">enable</span><span class="w">          </span><span class="c1"># Every 30 minutes</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span><span class="nb">enable</span><span class="w"> </span><span class="m">15</span><span class="w">       </span><span class="c1"># Every 15 minutes</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span>disable<span class="w">         </span><span class="c1"># Stop scheduled sync</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span>logs<span class="w">            </span><span class="c1"># View logs</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w">                 </span><span class="c1"># Show status</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span><span class="nb">enable</span><span class="w">          </span><span class="c1"># Every 30 minutes</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span><span class="nb">enable</span><span class="w"> </span><span class="m">15</span><span class="w">       </span><span class="c1"># Every 15 minutes</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span>disable<span class="w">         </span><span class="c1"># Stop scheduled sync</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>flow<span class="w"> </span>sync<span class="w"> </span>schedule<span class="w"> </span>logs<span class="w">            </span><span class="c1"># View logs</span>
 </code></pre></div>
 <p><strong>What runs:</strong> session, status, wins, goals (git is skipped - requires user interaction)</p>
 <hr />
@@ -4485,6 +4537,10 @@
 <tr>
 <td>v4.0.1</td>
 <td>Added <code>schedule</code> for automated background sync</td>
+</tr>
+<tr>
+<td>v4.7.0</td>
+<td>Added <code>remote</code> for iCloud multi-device sync</td>
 </tr>
 </tbody>
 </table>
