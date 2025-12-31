@@ -1,0 +1,57 @@
+name: Homebrew Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 4.5.5)'
+        required: true
+        type: string
+      auto_merge:
+        description: 'Auto-merge the formula PR'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  prepare:
+    name: Prepare Release Info
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+      sha256: ${{ steps.release.outputs.sha256 }}
+
+    steps:
+      - name: Get version and calculate SHA
+        id: release
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION="${GITHUB_REF#refs/tags/}"
+            VERSION="${VERSION#v}"
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          TARBALL_URL="https://github.com/Data-Wise/flow-cli/archive/refs/tags/v${VERSION}.tar.gz"
+          SHA256=$(curl -sL "$TARBALL_URL" | shasum -a 256 | cut -d' ' -f1)
+
+          echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+          echo "SHA256: $SHA256"
+
+  update-homebrew:
+    name: Update Homebrew Formula
+    needs: prepare
+    uses: Data-Wise/homebrew-tap/.github/workflows/update-formula.yml@main
+    with:
+      formula_name: flow-cli
+      version: ${{ needs.prepare.outputs.version }}
+      sha256: ${{ needs.prepare.outputs.sha256 }}
+      source_type: github
+      auto_merge: ${{ github.event.inputs.auto_merge == 'true' || github.event_name == 'release' }}
+    secrets:
+      tap_token: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
