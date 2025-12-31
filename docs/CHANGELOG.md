@@ -6,6 +6,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.5.4] - 2025-12-31
+
+### Added
+
+- **Repo is now public** - curl install works for everyone
+- **Homebrew formula** - `brew install Data-Wise/tap/flow-cli`
+- **Uninstall script** - `curl .../uninstall.sh | bash`
+- **awesome-zsh-plugins entry** - Ready to submit PR
+
+---
+
 ## [4.5.3] - 2025-12-31
 
 ### Added
