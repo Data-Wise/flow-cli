@@ -73,11 +73,18 @@ install_antidote() {
         touch "$plugins_file"
     fi
 
+    # Build plugin entry (with optional version tag)
+    local plugin_entry="$REPO"
+    if [[ -n "$VERSION" ]]; then
+        plugin_entry="${REPO}@${VERSION}"
+        info "Pinning to version $VERSION"
+    fi
+
     if ! grep -q "$REPO" "$plugins_file" 2>/dev/null; then
         echo "" >> "$plugins_file"
         echo "# flow-cli - ZSH workflow tools" >> "$plugins_file"
-        echo "$REPO" >> "$plugins_file"
-        success "Added $REPO to $plugins_file"
+        echo "$plugin_entry" >> "$plugins_file"
+        success "Added $plugin_entry to $plugins_file"
     else
         success "Already in $plugins_file"
     fi
@@ -89,12 +96,20 @@ install_antidote() {
 install_zinit() {
     info "Installing with zinit..."
     local zshrc="${ZDOTDIR:-$HOME}/.zshrc"
-    local zinit_line="zinit light $REPO"
+
+    # Build zinit command (with optional version ice)
+    local zinit_cmd
+    if [[ -n "$VERSION" ]]; then
+        zinit_cmd="zinit ice ver\"$VERSION\"; zinit light $REPO"
+        info "Pinning to version $VERSION"
+    else
+        zinit_cmd="zinit light $REPO"
+    fi
 
     if ! grep -q "zinit.*$PLUGIN_NAME" "$zshrc" 2>/dev/null; then
         echo "" >> "$zshrc"
         echo "# flow-cli - ZSH workflow tools" >> "$zshrc"
-        echo "$zinit_line" >> "$zshrc"
+        echo "$zinit_cmd" >> "$zshrc"
         success "Added zinit configuration to $zshrc"
     else
         success "Already configured in $zshrc"
