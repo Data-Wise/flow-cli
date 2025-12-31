@@ -543,6 +543,28 @@ test_version_env_documented() {
     fi
 }
 
+test_version_pinning_antidote() {
+    log_test "antidote version pinning uses @tag syntax"
+
+    # Check that install_antidote has VERSION handling with @ syntax
+    if grep -A15 "install_antidote()" "$INSTALL_SCRIPT" | grep -q '@\${VERSION}'; then
+        pass
+    else
+        fail "antidote version pinning not found"
+    fi
+}
+
+test_version_pinning_zinit() {
+    log_test "zinit version pinning uses ice ver syntax"
+
+    # Check that install_zinit has VERSION handling with ver ice
+    if grep -A15 "install_zinit()" "$INSTALL_SCRIPT" | grep -q 'ver\\"'; then
+        pass
+    else
+        fail "zinit version pinning not found"
+    fi
+}
+
 # ============================================================================
 # RUN ALL TESTS
 # ============================================================================
@@ -601,6 +623,8 @@ run_tests() {
     test_version_checkout_in_omz
     test_version_checkout_in_manual
     test_version_env_documented
+    test_version_pinning_antidote
+    test_version_pinning_zinit
 
     # Summary
     echo ""

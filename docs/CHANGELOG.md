@@ -6,6 +6,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.5.3] - 2025-12-31
+
+### Added
+
+- **Version pinning for all install methods**
+  - Antidote: `FLOW_VERSION=v4.5.0` → adds `Data-Wise/flow-cli@v4.5.0`
+  - Zinit: `FLOW_VERSION=v4.5.0` → uses `zinit ice ver"v4.5.0"`
+  - Oh-my-zsh/Manual: Git checkout after clone
+- **28 unit tests** - Added 2 plugin manager version tests
+
+---
+
 ## [4.5.2] - 2025-12-31
 
 ### Added
