@@ -149,28 +149,58 @@ Each dispatcher has built-in help: `cc help`, `r help`, etc.
 
 ## 📦 Installation
 
-### Plugin Manager (Recommended)
+### Quick Install (Recommended)
 
 ```bash
-# Antidote
-antidote install data-wise/flow-cli
-
-# Zinit
-zinit light data-wise/flow-cli
-
-# Oh-My-Zsh
-git clone https://github.com/data-wise/flow-cli.git \
-  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/flow-cli
+curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
 ```
 
-### Manual
+Auto-detects your plugin manager and installs accordingly.
+
+### Installation Methods
+
+| Method            | Command                                        | Best For       |
+| ----------------- | ---------------------------------------------- | -------------- |
+| **Quick Install** | `curl -fsSL .../install.sh \| bash`            | New users      |
+| **Antidote**      | Add `Data-Wise/flow-cli` to `.zsh_plugins.txt` | Antidote users |
+| **Zinit**         | `zinit light Data-Wise/flow-cli`               | Zinit users    |
+| **Oh-My-Zsh**     | Clone to `$ZSH_CUSTOM/plugins/`                | OMZ users      |
+| **Manual**        | `git clone` + source                           | Full control   |
+
+<details>
+<summary>📋 Manual installation commands</summary>
+
+**Antidote:**
 
 ```bash
-git clone https://github.com/data-wise/flow-cli.git ~/.flow-cli
+echo "Data-Wise/flow-cli" >> ~/.zsh_plugins.txt
+antidote update
+```
+
+**Zinit:**
+
+```bash
+zinit light Data-Wise/flow-cli
+```
+
+**Oh-My-Zsh:**
+
+```bash
+git clone https://github.com/Data-Wise/flow-cli.git \
+  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/flow-cli
+# Then add 'flow-cli' to plugins=(...) in ~/.zshrc
+```
+
+**Manual:**
+
+```bash
+git clone https://github.com/Data-Wise/flow-cli.git ~/.flow-cli
 echo 'source ~/.flow-cli/flow.plugin.zsh' >> ~/.zshrc
 ```
 
-### Verify It Works
+</details>
+
+### Verify Installation
 
 ```bash
 flow doctor        # Health check

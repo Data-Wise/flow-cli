@@ -1,287 +1,300 @@
 # Installation
 
-The Flow CLI configuration is already installed and running. This guide explains the setup for reference.
+> **Time:** ~5 minutes | **Level:** Beginner
+
+This guide walks you through installing flow-cli and verifying it works.
 
 ---
 
-## Current Setup
+## Prerequisites
 
-### Configuration Files
+Before starting, verify you have:
 
-The configuration is located in `~/.config/zsh/`:
+```bash
+# Check ZSH (required)
+zsh --version
+# Expected: zsh 5.8 or higher
 
+# Check Git (required)
+git --version
+# Expected: any recent version
 ```
-~/.config/zsh/
-├── .zshrc                    # Main config file
-├── .zsh_plugins.txt          # Plugin list for antidote
-├── .zsh_plugins.zsh          # Generated plugin config
-├── functions/                # Function libraries
-│   ├── adhd-helpers.zsh      # Workflow helpers
-│   ├── smart-dispatchers.zsh # cc, gm, peek, qu dispatchers
-│   ├── work.zsh              # Work session manager
-│   └── claude-response-viewer.zsh
-├── tests/                    # Test suite
-│   └── test-anti-patterns.zsh
-└── scripts/                  # Lint scripts
-    ├── lint-zsh.sh
-    └── quick-lint.sh
-```
-
-### Plugin Manager
-
-**Antidote** manages ZSH plugins:
-
-- Configuration: `~/.config/zsh/.zsh_plugins.txt`
-- Enabled plugins include:
-  - `ohmyzsh/ohmyzsh path:plugins/git` (226+ git aliases)
-  - `romkatv/powerlevel10k` (theme)
-  - `zsh-users/zsh-autosuggestions`
-  - `zsh-users/zsh-syntax-highlighting`
 
 ---
 
-## Verification
+## Part 1: Install flow-cli (~2 min)
 
-### Quick Health Check
+### Quick Install (Recommended)
 
-The fastest way to verify your installation:
+The easiest way to install:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
+```
+
+This auto-detects your plugin manager (antidote, zinit, oh-my-zsh) and installs accordingly.
+
+### Manual Installation
+
+Choose your plugin manager:
+
+=== "Antidote"
+    ```bash
+    # Add to your plugins file
+    echo "Data-Wise/flow-cli" >> ~/.zsh_plugins.txt
+
+    # Regenerate plugins
+    antidote update
+    ```
+
+=== "Zinit"
+    ```bash
+    # Add to ~/.zshrc
+    zinit light Data-Wise/flow-cli
+    ```
+
+=== "Oh-My-Zsh"
+    ```bash
+    # Clone to custom plugins
+    git clone https://github.com/Data-Wise/flow-cli.git \
+      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/flow-cli
+
+    # Add to plugins in ~/.zshrc
+    plugins=(... flow-cli)
+    ```
+
+=== "Manual"
+    ```bash
+    # Clone repository
+    git clone https://github.com/Data-Wise/flow-cli.git ~/.flow-cli
+
+    # Add to ~/.zshrc
+    echo 'source ~/.flow-cli/flow.plugin.zsh' >> ~/.zshrc
+    ```
+
+### Reload Shell
+
+```bash
+source ~/.zshrc
+# Or just restart your terminal
+```
+
+### Checkpoint
+
+- [ ] `flow --version` shows version number
+- [ ] `flow doctor` runs without errors
+
+---
+
+## Part 2: Verify Installation (~1 min)
+
+### Health Check
+
+Run the built-in doctor command:
 
 ```bash
 flow doctor
 ```
 
-This shows all dependencies, what's installed, and what's missing.
+Expected output:
+```
+flow doctor - Health Check
 
-**Fix any issues:**
+Core Commands:
+  ✓ work     - Start work session
+  ✓ finish   - End session
+  ✓ dash     - Project dashboard
+  ✓ win      - Log accomplishment
+  ✓ pick     - Project picker
 
-```bash
-flow doctor --fix      # Interactive install
-flow doctor --fix -y   # Auto-install all
+Dispatchers:
+  ✓ cc       - Claude Code
+  ✓ g        - Git workflows
+  ✓ r        - R package dev
+  ...
+
+Optional Tools:
+  ✓ fzf      - Interactive picker
+  ✓ bat      - Syntax highlighting
+  ...
+
+All checks passed!
 ```
 
-### 1. Check Aliases
+### Fix Missing Dependencies
 
-Count current aliases:
-
-```bash
-# Custom aliases in .zshrc
-grep -E "^alias [a-zA-Z]" ~/.config/zsh/.zshrc | grep -v "^#" | wc -l
-
-# Should show: 23
-
-# Custom aliases in adhd-helpers.zsh
-grep -E "^alias [a-zA-Z]" ~/.config/zsh/functions/adhd-helpers.zsh | grep -v "^#" | wc -l
-
-# Should show: 2
-
-# Total: 28 (not including git plugin's 226+)
-```
-
-### 2. Check Git Plugin
-
-Verify git plugin is enabled:
+If any optional tools are missing:
 
 ```bash
-grep "ohmyzsh/ohmyzsh path:plugins/git" ~/.config/zsh/.zsh_plugins.txt
+# Interactive install
+flow doctor --fix
 
-# Should show:
-# ohmyzsh/ohmyzsh path:plugins/git
+# Auto-install all
+flow doctor --fix -y
 ```
 
-Test git aliases:
+### Checkpoint
 
-```bash
-alias gst
-# Should show: alias gst='git status'
-```
-
-### 3. Check Dispatchers
-
-Test smart dispatchers:
-
-```bash
-type cc gm peek qu work pick
-
-# All should show: "cc is a shell function"
-```
-
-### 4. Run Tests
-
-Execute test suite:
-
-```bash
-~/.config/zsh/tests/test-anti-patterns.zsh
-
-# Should show: 9/9 tests passing
-```
+- [ ] `flow doctor` shows "All checks passed"
+- [ ] Core commands are available
 
 ---
 
-## Fresh Installation (If Needed)
+## Part 3: Quick Test (~1 min)
 
-If you need to set up on a new machine:
-
-### 1. Install Prerequisites
+Try the core commands:
 
 ```bash
-# Homebrew (if not installed)
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Start a work session
+work my-project
 
-# Antidote plugin manager
-brew install antidote
+# Log a win
+win "Installed flow-cli"
 
-# All recommended CLI tools via Brewfile (recommended)
-brew bundle --file=~/projects/dev-tools/flow-cli/setup/Brewfile
+# See your wins
+yay
 
-# Or install manually:
-# brew install fzf eza bat zoxide fd ripgrep
+# End session
+finish
 ```
 
-### 2. Copy Configuration
+### Checkpoint
 
-```bash
-# Create config directory
-mkdir -p ~/.config/zsh
-
-# Copy all files from this repo
-cp -r {.zshrc,.zsh_plugins.txt,functions,tests,scripts} ~/.config/zsh/
-
-# Set ZSH to use this config
-echo 'export ZDOTDIR="$HOME/.config/zsh"' >> ~/.zshenv
-```
-
-### 3. Initialize Antidote
-
-```bash
-# Generate plugin configuration
-source ~/.config/zsh/.zshrc
-
-# This will:
-# 1. Load antidote
-# 2. Generate .zsh_plugins.zsh from .zsh_plugins.txt
-# 3. Load all plugins (including git plugin)
-```
-
-### 4. Configure Powerlevel10k
-
-```bash
-# Run p10k configuration wizard
-p10k configure
-
-# Or copy existing config:
-cp ~/.config/zsh/.p10k.zsh ~/
-```
+- [ ] `work` starts a session
+- [ ] `win` logs accomplishments
+- [ ] `yay` shows your wins
 
 ---
 
-## Updating
+## Installation Methods Comparison
 
-### Update Plugins
+| Method | Command | Best For |
+|--------|---------|----------|
+| **Quick Install** | `curl ... \| bash` | New users, auto-detection |
+| **Antidote** | Add to `.zsh_plugins.txt` | Antidote users |
+| **Zinit** | `zinit light ...` | Zinit users |
+| **Oh-My-Zsh** | Clone to `$ZSH_CUSTOM` | OMZ users |
+| **Manual** | `git clone` + source | Full control |
 
-```bash
-# Regenerate plugin cache
-antidote update
-```
+---
 
-### Update Git Plugin
+## Optional: Install Recommended Tools
 
-The git plugin updates automatically with antidote. To manually update:
-
-```bash
-cd ~/.cache/antidote/https-COLON--SLASH--SLASH-github.com-SLASH-ohmyzsh-SLASH-ohmyzsh
-git pull
-```
-
-### Update Custom Functions
-
-Custom functions are in this repo. Pull latest:
+For the best experience, install these CLI tools:
 
 ```bash
-cd ~/projects/dev-tools/flow-cli
-git pull
+# Using Homebrew (macOS)
+brew install fzf eza bat zoxide fd ripgrep
 
-# Copy updated functions
-cp -r functions/* ~/.config/zsh/functions/
+# Or install from Brewfile
+brew bundle --file=~/.flow-cli/setup/Brewfile
 ```
+
+| Tool | Purpose | Used By |
+|------|---------|---------|
+| `fzf` | Interactive picker | `pick`, `dash -i` |
+| `bat` | Syntax highlighting | File previews |
+| `eza` | Better `ls` | Dashboard |
+| `zoxide` | Smart `cd` | Project navigation |
+| `fd` | Better `find` | File search |
+| `ripgrep` | Fast grep | Content search |
 
 ---
 
 ## Troubleshooting
 
-### Plugin Load Errors
+### "command not found: flow"
 
-If you see `command not found: antidote`:
+Shell hasn't reloaded. Try:
 
 ```bash
-# Reinstall antidote
-brew install antidote
+source ~/.zshrc
+# Or restart your terminal
+```
 
-# Source zshrc again
+### "command not found: work"
+
+Plugin not loaded. Verify installation:
+
+```bash
+# Check if plugin file exists
+ls ~/.flow-cli/flow.plugin.zsh  # Manual install
+# or
+ls ~/.oh-my-zsh/custom/plugins/flow-cli/  # OMZ install
+
+# Re-source
 source ~/.zshrc
 ```
 
-### Git Aliases Not Working
+### Plugin Manager Not Detected
 
-Verify git plugin is loaded:
+Force a specific method:
 
 ```bash
-# Check plugin list
-cat ~/.config/zsh/.zsh_plugins.txt | grep git
-
-# Regenerate plugins
-rm ~/.config/zsh/.zsh_plugins.zsh
-source ~/.zshrc
+INSTALL_METHOD=manual curl -fsSL .../install.sh | bash
 ```
 
-### Function Not Found
+Options: `antidote`, `zinit`, `omz`, `manual`
 
-Ensure functions are sourced in .zshrc:
+---
+
+## Updating
+
+### Quick Update
 
 ```bash
-grep "source.*functions" ~/.config/zsh/.zshrc
+# If installed via plugin manager
+antidote update  # or zinit update
 
-# Should show multiple source lines for each function file
+# If manual install
+cd ~/.flow-cli && git pull
+```
+
+### Check for Updates
+
+```bash
+flow --version
+# Compare with: https://github.com/Data-Wise/flow-cli/releases
 ```
 
 ---
 
-## Configuration Files Reference
+## Uninstalling
 
-### `.zshrc`
+### Remove Plugin
 
-Main configuration file containing:
+=== "Antidote"
+    ```bash
+    # Remove from ~/.zsh_plugins.txt
+    # Then: antidote update
+    ```
 
-- Environment variables
-- Modern CLI tool aliases (bat, fd, etc.)
-- R package development aliases (23)
-- Claude Code aliases (2)
-- Path configurations
-- Function sourcing
+=== "Zinit"
+    ```bash
+    # Remove zinit line from ~/.zshrc
+    zinit delete Data-Wise/flow-cli
+    ```
 
-### `.zsh_plugins.txt`
+=== "Oh-My-Zsh"
+    ```bash
+    rm -rf ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/flow-cli
+    # Remove from plugins=(...) in ~/.zshrc
+    ```
 
-Antidote plugin list:
-
-- Theme (powerlevel10k)
-- OMZ git plugin
-- Fish-like features (autosuggestions, syntax highlighting)
-- Additional completions
-
-### Functions
-
-- `adhd-helpers.zsh` - Focus timers, workflow helpers
-- `smart-dispatchers.zsh` - cc, gm, peek, qu dispatchers
-- `work.zsh` - Work session management
-- `claude-response-viewer.zsh` - Glow integration
+=== "Manual"
+    ```bash
+    rm -rf ~/.flow-cli
+    # Remove source line from ~/.zshrc
+    ```
 
 ---
 
 ## Next Steps
 
-1. **Quick Start**: Follow [Quick Start Guide](quick-start.md)
-2. **Learn Aliases**: Read [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md)
-3. **Master Workflows**: Review [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
+1. **Quick Start**: Follow [Quick Start Guide](quick-start.md) for a 5-minute tutorial
+2. **Learn Commands**: See [Command Reference](../reference/COMMAND-QUICK-REFERENCE.md)
+3. **Explore Dispatchers**: Read [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)
 
 ---
 
-**Questions?** See [Documentation Home](../index.md)
+**Questions?** See [Troubleshooting](troubleshooting.md) or [FAQ](faq.md)
