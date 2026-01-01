@@ -4,13 +4,5 @@
             "path": "."
         }
     ],
-    "settings": {
-        // Claude Code Settings
-        "claude-code.yoloMode": true,
-        "claude-code.acceptEdits": true,
-
-        // Optional: Customize behavior
-        "claude-code.autoSave": true,
-        "claude-code.showTokenCount": true
-    }
+    "settings": {}
 }
