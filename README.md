@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-4.7.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
+[![Version](https://img.shields.io/badge/version-4.8.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -147,16 +147,19 @@ Works offline, syncs when connected. Zero config after setup.
 
 Context-aware commands that adapt to your project:
 
-| Command      | What it does             |
-| ------------ | ------------------------ |
-| `cc`         | Launch Claude Code here  |
-| `cc pick`    | Pick project → Claude    |
-| `r test`     | Run R package tests      |
-| `qu preview` | Preview Quarto doc       |
-| `g push`     | Git push with safety     |
-| `flow sync`  | Sync data across devices |
+| Command           | What it does                    |
+| ----------------- | ------------------------------- |
+| `cc`              | Launch Claude Code here         |
+| `cc yolo wt <br>` | YOLO mode in worktree (v4.8.0+) |
+| `cc pick`         | Pick project → Claude           |
+| `r test`          | Run R package tests             |
+| `qu preview`      | Preview Quarto doc              |
+| `g push`          | Git push with safety            |
+| `flow sync`       | Sync data across devices        |
 
 Each dispatcher has built-in help: `cc help`, `r help`, etc.
+
+**New in v4.8.0:** Unified "mode first" pattern - `cc yolo wt <branch>` now works!
 
 ---
 
@@ -173,7 +176,7 @@ Auto-detects your plugin manager and installs accordingly.
 **Install specific version:**
 
 ```bash
-FLOW_VERSION=v4.7.0 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
+FLOW_VERSION=v4.8.0 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
 ```
 
 ### Installation Methods

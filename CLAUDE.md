@@ -12,6 +12,11 @@ This file provides guidance to Claude Code when working with code in this reposi
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
 
+### User Environment
+
+- **ZSH Config:** `~/.config/zsh/` (not `~/.zshrc`)
+- **Main file:** `~/.config/zsh/.zshrc`
+
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`

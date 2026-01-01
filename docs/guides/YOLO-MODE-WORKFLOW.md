@@ -172,34 +172,77 @@ For **truly unattended** Claude Code in VS Code:
 
 ## flow-cli Integration
 
-### Current: Auto-Accept Edits
+### CLI YOLO Mode (Implemented)
 
-The `cc` dispatcher can launch Claude in VS Code:
-
-```bash
-# Launch Claude HERE (current directory)
-cc
-
-# Launch Claude with project picker
-cc pick
-
-# Aliases
-ccy         # Short for: cc yolo (currently same as cc)
-```
-
-**Note:** These currently launch the VS Code extension. You'll still need to press `Shift+Tab` manually to enable auto-accept edits.
-
-### Proposed: CLI Integration
-
-We could update flow-cli to support CLI-based YOLO mode:
+The `cc` dispatcher supports **true YOLO mode** via CLI:
 
 ```bash
-# Proposed new behavior
-cc yolo           # Launches: claude --dangerously-skip-permissions
-cc yolo pick      # Pick project, then CLI YOLO
+# Launch Claude CLI with YOLO mode
+cc yolo                     # HERE (current directory)
+cc yolo pick                # Pick project → YOLO
+cc yolo <project>           # Direct jump → YOLO
+cc yolo wt <branch>         # Worktree → YOLO (NEW!)
+cc yolo wt pick             # Pick worktree → YOLO (NEW!)
+
+# Alias
+ccy                         # Short for: cc yolo
 ```
 
-**Status:** Not yet implemented. Would you like this feature?
+**What it does:** Launches `claude --dangerously-skip-permissions` for true permission bypass.
+
+### Worktree Integration (Unified Pattern)
+
+Combine YOLO mode with worktrees for **safe experimentation**:
+
+```bash
+# Mode-first pattern (NEW!)
+cc yolo wt feature/refactor     # YOLO mode in worktree
+cc plan wt feature/refactor     # Plan mode in worktree
+cc opus wt experiment/new-ui    # Opus model in worktree
+
+# Pick existing worktree
+cc yolo wt pick                 # FZF picker → YOLO mode
+cc plan wt pick                 # FZF picker → Plan mode
+
+# Backward compatible (still works)
+cc wt yolo feature/refactor     # Old pattern
+ccwy feature/refactor           # Alias: cc wt yolo
+```
+
+**Why worktrees?** Isolated environments with easy cleanup:
+
+- Experiment fails? Delete the worktree
+- Main codebase stays clean
+- No branch switching needed
+
+### Complete Worktree + YOLO Workflow
+
+```bash
+# 1. Create worktree with YOLO mode
+cc yolo wt experiment/commands-refactor
+
+# Claude launches in isolated worktree with full permissions
+# Location: ~/.git-worktrees/flow-cli-experiment-commands-refactor/
+
+# 2. Monitor from main project (separate terminal)
+cd ~/projects/flow-cli
+watch -n 2 'git -C ~/.git-worktrees/flow-cli-experiment-commands-refactor diff --stat'
+
+# 3. Review when done
+cd ~/.git-worktrees/flow-cli-experiment-commands-refactor
+git diff
+git log
+
+# 4. Merge if good, delete if bad
+# Good: Merge to main
+git checkout main
+git merge experiment/commands-refactor
+
+# Bad: Just delete worktree
+wt remove experiment/commands-refactor
+```
+
+**Safest approach:** Worktree + YOLO gives isolation AND speed.
 
 ---
 
@@ -527,5 +570,5 @@ This guide is based on official documentation and community research:
 
 ---
 
-**Last Updated:** 2026-01-01 (Corrected)
-**Flow-CLI Version:** v4.7.0+
+**Last Updated:** 2026-01-01
+**Flow-CLI Version:** v4.8.0+

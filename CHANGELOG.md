@@ -7,6 +7,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [4.8.0] - 2026-01-01
+
+### ✨ Added
+
+- **Unified "mode first" pattern for CC dispatcher** - All modes now support consistent syntax
+  - `cc yolo wt <branch>` - Mode before target (NEW!)
+  - `cc plan wt pick` - Plan mode with worktree picker (NEW!)
+  - `cc opus wt <branch>` - Opus model in worktree (NEW!)
+  - `cc haiku wt <branch>` - Haiku model in worktree (NEW!)
+  - New central `_cc_dispatch_with_mode()` dispatcher function
+  - Backward compatible - old syntax still works (`cc wt yolo <branch>`)
+
+- **`ccy` alias** - Short for `cc yolo` (kept per user request)
+
+- **Comprehensive worktree guide** - New `docs/guides/WORKTREE-WORKFLOW.md` (650 lines)
+  - Complete workflows for experimentation, parallel development, and hotfixes
+  - Session tracking documentation
+  - Safety practices and best practices
+  - Advanced patterns and troubleshooting
+
+### 🔧 Changed
+
+- **CC dispatcher refactored** - Cleaner architecture with unified pattern
+  - `_cc_worktree()` now accepts mode as first parameter
+  - `_cc_worktree_pick()` updated to accept mode/mode_args
+  - All help text updated with (NEW!) markers for unified pattern
+  - Mode detection happens before target detection
+
+### 📖 Documentation
+
+- Updated `docs/guides/YOLO-MODE-WORKFLOW.md` with worktree integration section
+- Updated `docs/reference/CC-DISPATCHER-REFERENCE.md` with unified pattern documentation
+- Updated `README.md` version badge and smart dispatchers table
+- Added `WORKTREE-WORKFLOW.md` to mkdocs navigation
+
+### ⚡ Performance
+
+- Negligible overhead (< 1ms per command)
+- Single additional case statement check for modes
+- Pure ZSH implementation, no external processes
+
+### 🔒 Compatibility
+
+- **No breaking changes** - Fully backward compatible
+- All existing workflows preserved
+- All existing aliases maintained (including new `ccy`)
+- Works with ZSH 5.0+
+
+---
+
 ## [4.7.0] - 2025-12-31
 
 ### ✨ Added
