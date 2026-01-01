@@ -93,6 +93,7 @@ nav:
   - Guides:
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - YOLO Mode Workflow: guides/YOLO-MODE-WORKFLOW.md
+      - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
       - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
       - Workflows & Tips: guides/WORKFLOWS-QUICK-WINS.md
       - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
