@@ -495,15 +495,7 @@ Congratulations! You now know:
 
 ### If you want to learn more:
 
-1. **Read the full audit:**
-   - [MONOREPO-AUDIT-2025-12-20.md](MONOREPO-AUDIT-2025-12-20.md)
-   - More technical details about the setup
-
-2. **Read the implementation summary:**
-   - [OPTION-A-IMPLEMENTATION-2025-12-20.md](OPTION-A-IMPLEMENTATION-2025-12-20.md)
-   - See what changed and why
-
-3. **Explore the workspaces:**
+1. **Explore the workspaces:**
    - `app/README.md` - Desktop app documentation
    - `cli/README.md` - CLI integration documentation
 
