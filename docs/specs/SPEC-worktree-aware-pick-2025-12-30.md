@@ -1,8 +1,7 @@
 # SPEC: Worktree-Aware Pick
 
-**Status:** draft
+**Status:** implemented
 **Created:** 2025-12-30
-**From Brainstorm:** [BRAINSTORM-worktree-aware-pick-2025-12-30.md](../../BRAINSTORM-worktree-aware-pick-2025-12-30.md)
 
 ---
 
