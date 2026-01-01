@@ -208,8 +208,6 @@ Fast fuzzy finder for switching between projects.
 └─────────────────────────────────────────────────────────┘
 ```
 
-See [ARCHITECTURE-INTEGRATION.md](ARCHITECTURE-INTEGRATION.md) for complete details.
-
 ---
 
 ## Integration with Existing Dev-Tools
@@ -276,8 +274,6 @@ See [ARCHITECTURE-INTEGRATION.md](ARCHITECTURE-INTEGRATION.md) for complete deta
 **Goal:** Set up architecture and port essential functions
 
 - [x] Create PROJECT-SCOPE.md (this document)
-- [x] Create ARCHITECTURE-INTEGRATION.md
-- [x] Create PROPOSAL-MERGE-OR-PORT.md (decided to port)
 - [x] Update documents to reflect porting approach
 - [ ] Create directory structure (cli/core, cli/vendor, data/sessions)
 - [ ] Port zsh-claude-workflow functions (~300 lines, 3 hours)
