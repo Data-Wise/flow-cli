@@ -18,7 +18,7 @@
         <link rel="prev" href="../DOPAMINE-FEATURES-GUIDE/">
       
       
-        <link rel="next" href="../MERMAID-DIAGRAMS-QUICK-START/">
+        <link rel="next" href="../WORKTREE-WORKFLOW/">
       
       
         
@@ -1450,10 +1450,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#current-auto-accept-edits" class="md-nav__link">
+  <a href="#cli-yolo-mode-implemented" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current: Auto-Accept Edits
+        CLI YOLO Mode (Implemented)
       
     </span>
   </a>
@@ -1461,10 +1461,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#proposed-cli-integration" class="md-nav__link">
+  <a href="#worktree-integration-unified-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Proposed: CLI Integration
+        Worktree Integration (Unified Pattern)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-worktree-yolo-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Worktree + YOLO Workflow
       
     </span>
   </a>
@@ -1774,6 +1785,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../WORKTREE-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Worktree Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -4146,10 +4185,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#current-auto-accept-edits" class="md-nav__link">
+  <a href="#cli-yolo-mode-implemented" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current: Auto-Accept Edits
+        CLI YOLO Mode (Implemented)
       
     </span>
   </a>
@@ -4157,10 +4196,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#proposed-cli-integration" class="md-nav__link">
+  <a href="#worktree-integration-unified-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Proposed: CLI Integration
+        Worktree Integration (Unified Pattern)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-worktree-yolo-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Worktree + YOLO Workflow
       
     </span>
   </a>
@@ -4665,56 +4715,96 @@
 <p><strong>Reference:</strong> <a href="https://x.com/bantg/status/1932765435109290079">Dev Container YOLO Setup</a></p>
 <hr />
 <h2 id="flow-cli-integration">flow-cli Integration<a class="headerlink" href="#flow-cli-integration" title="Permanent link">&para;</a></h2>
-<h3 id="current-auto-accept-edits">Current: Auto-Accept Edits<a class="headerlink" href="#current-auto-accept-edits" title="Permanent link">&para;</a></h3>
-<p>The <code>cc</code> dispatcher can launch Claude in VS Code:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Launch Claude HERE (current directory)</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cc
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Launch Claude with project picker</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>cc<span class="w"> </span>pick
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Aliases</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>ccy<span class="w">         </span><span class="c1"># Short for: cc yolo (currently same as cc)</span>
+<h3 id="cli-yolo-mode-implemented">CLI YOLO Mode (Implemented)<a class="headerlink" href="#cli-yolo-mode-implemented" title="Permanent link">&para;</a></h3>
+<p>The <code>cc</code> dispatcher supports <strong>true YOLO mode</strong> via CLI:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Launch Claude CLI with YOLO mode</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cc<span class="w"> </span>yolo<span class="w">                     </span><span class="c1"># HERE (current directory)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>cc<span class="w"> </span>yolo<span class="w"> </span>pick<span class="w">                </span><span class="c1"># Pick project → YOLO</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>cc<span class="w"> </span>yolo<span class="w"> </span>&lt;project&gt;<span class="w">           </span><span class="c1"># Direct jump → YOLO</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>cc<span class="w"> </span>yolo<span class="w"> </span>wt<span class="w"> </span>&lt;branch&gt;<span class="w">         </span><span class="c1"># Worktree → YOLO (NEW!)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>cc<span class="w"> </span>yolo<span class="w"> </span>wt<span class="w"> </span>pick<span class="w">             </span><span class="c1"># Pick worktree → YOLO (NEW!)</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># Alias</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>ccy<span class="w">                         </span><span class="c1"># Short for: cc yolo</span>
 </code></pre></div>
-<p><strong>Note:</strong> These currently launch the VS Code extension. You'll still need to press <code>Shift+Tab</code> manually to enable auto-accept edits.</p>
-<h3 id="proposed-cli-integration">Proposed: CLI Integration<a class="headerlink" href="#proposed-cli-integration" title="Permanent link">&para;</a></h3>
-<p>We could update flow-cli to support CLI-based YOLO mode:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Proposed new behavior</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>cc<span class="w"> </span>yolo<span class="w">           </span><span class="c1"># Launches: claude --dangerously-skip-permissions</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>cc<span class="w"> </span>yolo<span class="w"> </span>pick<span class="w">      </span><span class="c1"># Pick project, then CLI YOLO</span>
+<p><strong>What it does:</strong> Launches <code>claude --dangerously-skip-permissions</code> for true permission bypass.</p>
+<h3 id="worktree-integration-unified-pattern">Worktree Integration (Unified Pattern)<a class="headerlink" href="#worktree-integration-unified-pattern" title="Permanent link">&para;</a></h3>
+<p>Combine YOLO mode with worktrees for <strong>safe experimentation</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Mode-first pattern (NEW!)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>cc<span class="w"> </span>yolo<span class="w"> </span>wt<span class="w"> </span>feature/refactor<span class="w">     </span><span class="c1"># YOLO mode in worktree</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>cc<span class="w"> </span>plan<span class="w"> </span>wt<span class="w"> </span>feature/refactor<span class="w">     </span><span class="c1"># Plan mode in worktree</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>cc<span class="w"> </span>opus<span class="w"> </span>wt<span class="w"> </span>experiment/new-ui<span class="w">    </span><span class="c1"># Opus model in worktree</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># Pick existing worktree</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>cc<span class="w"> </span>yolo<span class="w"> </span>wt<span class="w"> </span>pick<span class="w">                 </span><span class="c1"># FZF picker → YOLO mode</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>cc<span class="w"> </span>plan<span class="w"> </span>wt<span class="w"> </span>pick<span class="w">                 </span><span class="c1"># FZF picker → Plan mode</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># Backward compatible (still works)</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>cc<span class="w"> </span>wt<span class="w"> </span>yolo<span class="w"> </span>feature/refactor<span class="w">     </span><span class="c1"># Old pattern</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>ccwy<span class="w"> </span>feature/refactor<span class="w">           </span><span class="c1"># Alias: cc wt yolo</span>
 </code></pre></div>
-<p><strong>Status:</strong> Not yet implemented. Would you like this feature?</p>
+<p><strong>Why worktrees?</strong> Isolated environments with easy cleanup:</p>
+<ul>
+<li>Experiment fails? Delete the worktree</li>
+<li>Main codebase stays clean</li>
+<li>No branch switching needed</li>
+</ul>
+<h3 id="complete-worktree-yolo-workflow">Complete Worktree + YOLO Workflow<a class="headerlink" href="#complete-worktree-yolo-workflow" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 1. Create worktree with YOLO mode</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>cc<span class="w"> </span>yolo<span class="w"> </span>wt<span class="w"> </span>experiment/commands-refactor
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Claude launches in isolated worktree with full permissions</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Location: ~/.git-worktrees/flow-cli-experiment-commands-refactor/</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># 2. Monitor from main project (separate terminal)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="nb">cd</span><span class="w"> </span>~/projects/flow-cli
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>watch<span class="w"> </span>-n<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="s1">&#39;git -C ~/.git-worktrees/flow-cli-experiment-commands-refactor diff --stat&#39;</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># 3. Review when done</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="nb">cd</span><span class="w"> </span>~/.git-worktrees/flow-cli-experiment-commands-refactor
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>git<span class="w"> </span>diff
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>git<span class="w"> </span>log
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="c1"># 4. Merge if good, delete if bad</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1"># Good: Merge to main</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>git<span class="w"> </span>checkout<span class="w"> </span>main
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>git<span class="w"> </span>merge<span class="w"> </span>experiment/commands-refactor
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="c1"># Bad: Just delete worktree</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>wt<span class="w"> </span>remove<span class="w"> </span>experiment/commands-refactor
+</code></pre></div>
+<p><strong>Safest approach:</strong> Worktree + YOLO gives isolation AND speed.</p>
 <hr />
 <h2 id="safety-practices">Safety Practices<a class="headerlink" href="#safety-practices" title="Permanent link">&para;</a></h2>
 <h3 id="1-git-is-your-safety-net">1. Git is Your Safety Net<a class="headerlink" href="#1-git-is-your-safety-net" title="Permanent link">&para;</a></h3>
 <p><strong>Always work in a git repository:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Before YOLO session</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>git<span class="w"> </span>status<span class="w">                    </span><span class="c1"># Ensure clean</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>yolo-test<span class="w">     </span><span class="c1"># Separate branch</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># During YOLO session</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>watch<span class="w"> </span>-n<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="s1">&#39;git diff --stat&#39;</span><span class="w">  </span><span class="c1"># Monitor changes</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># After YOLO session</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>git<span class="w"> </span>diff<span class="w">                      </span><span class="c1"># Review all changes</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>git<span class="w"> </span>add<span class="w"> </span>-p<span class="w">                    </span><span class="c1"># Stage selectively</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>git<span class="w"> </span>commit<span class="w">                    </span><span class="c1"># Save good changes</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># If things go wrong</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD<span class="w">         </span><span class="c1"># Nuclear option</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Before YOLO session</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>git<span class="w"> </span>status<span class="w">                    </span><span class="c1"># Ensure clean</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>yolo-test<span class="w">     </span><span class="c1"># Separate branch</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># During YOLO session</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>watch<span class="w"> </span>-n<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="s1">&#39;git diff --stat&#39;</span><span class="w">  </span><span class="c1"># Monitor changes</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># After YOLO session</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>git<span class="w"> </span>diff<span class="w">                      </span><span class="c1"># Review all changes</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>git<span class="w"> </span>add<span class="w"> </span>-p<span class="w">                    </span><span class="c1"># Stage selectively</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>git<span class="w"> </span>commit<span class="w">                    </span><span class="c1"># Save good changes</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1"># If things go wrong</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD<span class="w">         </span><span class="c1"># Nuclear option</span>
 </code></pre></div>
 <h3 id="2-use-worktrees-for-isolation">2. Use Worktrees for Isolation<a class="headerlink" href="#2-use-worktrees-for-isolation" title="Permanent link">&para;</a></h3>
 <p>Keep main codebase safe:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Create isolated worktree</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>wt<span class="w"> </span>create<span class="w"> </span>yolo-experiment
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Claude works here</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">cd</span><span class="w"> </span>~/projects/.git-worktrees/flow-cli-yolo-experiment
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>claude<span class="w"> </span>--dangerously-skip-permissions
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># Experiment fails? Just delete</span>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nb">cd</span><span class="w"> </span>~/projects/flow-cli
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>wt<span class="w"> </span>remove<span class="w"> </span>yolo-experiment
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Create isolated worktree</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>wt<span class="w"> </span>create<span class="w"> </span>yolo-experiment
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Claude works here</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nb">cd</span><span class="w"> </span>~/projects/.git-worktrees/flow-cli-yolo-experiment
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>claude<span class="w"> </span>--dangerously-skip-permissions
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># Experiment fails? Just delete</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="nb">cd</span><span class="w"> </span>~/projects/flow-cli
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>wt<span class="w"> </span>remove<span class="w"> </span>yolo-experiment
 </code></pre></div>
 <h3 id="3-start-small">3. Start Small<a class="headerlink" href="#3-start-small" title="Permanent link">&para;</a></h3>
 <p>First YOLO session? Start with low-risk tasks:</p>
@@ -4729,45 +4819,45 @@
 - Modify deployment configs</p>
 <h3 id="4-review-frequently">4. Review Frequently<a class="headerlink" href="#4-review-frequently" title="Permanent link">&para;</a></h3>
 <p>Don't let Claude make 100 changes unchecked:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Review every 5-10 operations</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>git<span class="w"> </span>diff<span class="w"> </span>--stat<span class="w">               </span><span class="c1"># See what changed</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>git<span class="w"> </span>diff<span class="w"> </span>lib/core.zsh<span class="w">         </span><span class="c1"># Review specific file</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Review every 5-10 operations</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>git<span class="w"> </span>diff<span class="w"> </span>--stat<span class="w">               </span><span class="c1"># See what changed</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>git<span class="w"> </span>diff<span class="w"> </span>lib/core.zsh<span class="w">         </span><span class="c1"># Review specific file</span>
 </code></pre></div>
 <h3 id="5-backup-critical-state">5. Backup Critical State<a class="headerlink" href="#5-backup-critical-state" title="Permanent link">&para;</a></h3>
 <p>Before risky changes:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Create backup branch</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>backup-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>git<span class="w"> </span>checkout<span class="w"> </span>main
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># Or stash current state</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>git<span class="w"> </span>stash<span class="w"> </span>save<span class="w"> </span><span class="s2">&quot;pre-yolo-</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d-%H%M<span class="k">)</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Create backup branch</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>backup-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>git<span class="w"> </span>checkout<span class="w"> </span>main
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># Or stash current state</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>git<span class="w"> </span>stash<span class="w"> </span>save<span class="w"> </span><span class="s2">&quot;pre-yolo-</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d-%H%M<span class="k">)</span><span class="s2">&quot;</span>
 </code></pre></div>
 <hr />
 <h2 id="what-doesnt-work-myths-debunked">What Doesn't Work (Myths Debunked)<a class="headerlink" href="#what-doesnt-work-myths-debunked" title="Permanent link">&para;</a></h2>
 <h3 id="myth-vs-code-settings-for-yolo-mode">❌ Myth: VS Code Settings for YOLO Mode<a class="headerlink" href="#myth-vs-code-settings-for-yolo-mode" title="Permanent link">&para;</a></h3>
 <p>These settings <strong>do not exist</strong> in the official extension:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;claude-code.yoloMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">          </span><span class="c1">// ❌ Fake</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&quot;claude-code.acceptEdits&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">       </span><span class="c1">// ❌ Fake</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">&quot;claude-code.autoSave&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">          </span><span class="c1">// ❌ Fake</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">&quot;claude-code.showTokenCount&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">     </span><span class="c1">// ❌ Fake</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">&quot;claude-code.yoloMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">          </span><span class="c1">// ❌ Fake</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">&quot;claude-code.acceptEdits&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">       </span><span class="c1">// ❌ Fake</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">&quot;claude-code.autoSave&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">          </span><span class="c1">// ❌ Fake</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="nt">&quot;claude-code.showTokenCount&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">     </span><span class="c1">// ❌ Fake</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">}</span>
 </code></pre></div>
 <p><strong>Why the confusion?</strong> These were incorrectly documented earlier. The VS Code extension doesn't have these settings.</p>
 <h3 id="myth-workspace-files-enable-yolo">❌ Myth: Workspace Files Enable YOLO<a class="headerlink" href="#myth-workspace-files-enable-yolo" title="Permanent link">&para;</a></h3>
 <p>Creating a <code>.code-workspace</code> file with fake settings <strong>does nothing</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">&quot;folders&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">}],</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="nt">&quot;claude-code.yoloMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">  </span><span class="c1">// ❌ Has no effect</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="p">}</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">&quot;folders&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">}],</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="nt">&quot;claude-code.yoloMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">  </span><span class="c1">// ❌ Has no effect</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="p">}</span>
 </code></pre></div>
 <p><strong>Reality:</strong> The VS Code extension ignores these settings.</p>
 <h3 id="myth-dangerously-skip-permissions-works-in-vs-code">❌ Myth: --dangerously-skip-permissions Works in VS Code<a class="headerlink" href="#myth-dangerously-skip-permissions-works-in-vs-code" title="Permanent link">&para;</a></h3>
 <p>The CLI flag <strong>does not work</strong> when using the VS Code extension:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># This only works in CLI, not VS Code extension</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>claude<span class="w"> </span>--dangerously-skip-permissions
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># This only works in CLI, not VS Code extension</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>claude<span class="w"> </span>--dangerously-skip-permissions
 </code></pre></div>
 <p><strong>Why?</strong> The VS Code extension has its own separate permission system.</p>
 <hr />
@@ -4822,76 +4912,76 @@
 <h2 id="complete-example-session">Complete Example Session<a class="headerlink" href="#complete-example-session" title="Permanent link">&para;</a></h2>
 <h3 id="scenario-refactor-project-structure">Scenario: Refactor Project Structure<a class="headerlink" href="#scenario-refactor-project-structure" title="Permanent link">&para;</a></h3>
 <p><strong>Setup:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nb">cd</span><span class="w"> </span>~/projects/flow-cli
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>git<span class="w"> </span>status<span class="w">                    </span><span class="c1"># Clean working tree</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>refactor-cmds
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">cd</span><span class="w"> </span>~/projects/flow-cli
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>git<span class="w"> </span>status<span class="w">                    </span><span class="c1"># Clean working tree</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>refactor-cmds
 </code></pre></div></p>
 <p><strong>Option A: VS Code (Auto-Accept Edits)</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># 1. Open in VS Code</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>code<span class="w"> </span>.
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># 2. Start Claude Code chat</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># 3. Enable auto-accept</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>Press<span class="w"> </span>Shift+Tab<span class="w"> </span>→<span class="w"> </span><span class="s2">&quot;Auto-accept edits: ON&quot;</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="c1"># 4. Give instructions</span>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>Ask:<span class="w"> </span><span class="s2">&quot;Refactor commands/*.zsh to use consistent error handling&quot;</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="c1"># 5. Review as it works</span>
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>Open<span class="w"> </span>Source<span class="w"> </span>Control<span class="w"> </span>panel
-<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>Watch<span class="w"> </span>files<span class="w"> </span>change<span class="w"> </span><span class="k">in</span><span class="w"> </span>real-time
-<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>
-<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="c1"># 6. Commit</span>
-<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>git<span class="w"> </span>add<span class="w"> </span>-A
-<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refactor: consistent error handling&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># 1. Open in VS Code</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>code<span class="w"> </span>.
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># 2. Start Claude Code chat</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="c1"># 3. Enable auto-accept</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>Press<span class="w"> </span>Shift+Tab<span class="w"> </span>→<span class="w"> </span><span class="s2">&quot;Auto-accept edits: ON&quot;</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="c1"># 4. Give instructions</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>Ask:<span class="w"> </span><span class="s2">&quot;Refactor commands/*.zsh to use consistent error handling&quot;</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="c1"># 5. Review as it works</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>Open<span class="w"> </span>Source<span class="w"> </span>Control<span class="w"> </span>panel
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>Watch<span class="w"> </span>files<span class="w"> </span>change<span class="w"> </span><span class="k">in</span><span class="w"> </span>real-time
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="c1"># 6. Commit</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>git<span class="w"> </span>add<span class="w"> </span>-A
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refactor: consistent error handling&quot;</span>
 </code></pre></div></p>
 <p><strong>Option B: CLI (True YOLO)</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># 1. Terminal 1: Launch Claude</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>claude<span class="w"> </span>--dangerously-skip-permissions
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>Ask:<span class="w"> </span><span class="s2">&quot;Refactor commands/*.zsh to use consistent error handling&quot;</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="c1"># 2. Terminal 2: Monitor</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>watch<span class="w"> </span>-n<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="s1">&#39;git diff --stat&#39;</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="c1"># 3. Review when done</span>
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>git<span class="w"> </span>diff
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>
-<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="c1"># 4. Commit or discard</span>
-<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>git<span class="w"> </span>add<span class="w"> </span>-A<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refactor: error handling&quot;</span>
-<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="c1"># OR</span>
-<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># 1. Terminal 1: Launch Claude</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>claude<span class="w"> </span>--dangerously-skip-permissions
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>Ask:<span class="w"> </span><span class="s2">&quot;Refactor commands/*.zsh to use consistent error handling&quot;</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="c1"># 2. Terminal 2: Monitor</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>watch<span class="w"> </span>-n<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="s1">&#39;git diff --stat&#39;</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="c1"># 3. Review when done</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>git<span class="w"> </span>diff
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="c1"># 4. Commit or discard</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>git<span class="w"> </span>add<span class="w"> </span>-A<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refactor: error handling&quot;</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="c1"># OR</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD
 </code></pre></div></p>
 <hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="auto-accept-not-working-in-vs-code">Auto-Accept Not Working in VS Code?<a class="headerlink" href="#auto-accept-not-working-in-vs-code" title="Permanent link">&para;</a></h3>
 <p><strong>Check 1:</strong> Are you using Claude Code extension?
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Extensions → Search &quot;Claude Code&quot; → Should be installed
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Extensions → Search &quot;Claude Code&quot; → Should be installed
 </code></pre></div></p>
 <p><strong>Check 2:</strong> Is mode actually toggled?
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Look for indicator: &quot;Auto-accept edits: ON&quot; in chat
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>Try pressing Shift+Tab again
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Look for indicator: &quot;Auto-accept edits: ON&quot; in chat
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>Try pressing Shift+Tab again
 </code></pre></div></p>
 <p><strong>Check 3:</strong> Are you asking for edits?
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Auto-accept only works for file edits
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>Reads/writes/executes still prompt
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Auto-accept only works for file edits
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>Reads/writes/executes still prompt
 </code></pre></div></p>
 <h3 id="cli-mode-not-bypassing-permissions">CLI Mode Not Bypassing Permissions?<a class="headerlink" href="#cli-mode-not-bypassing-permissions" title="Permanent link">&para;</a></h3>
 <p><strong>Check 1:</strong> Using correct flag?
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Correct</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>claude<span class="w"> </span>--dangerously-skip-permissions
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Wrong</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>claude<span class="w"> </span>--yolo<span class="w">               </span><span class="c1"># ❌ Not a real flag</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>claude<span class="w"> </span>--skip-permissions<span class="w">   </span><span class="c1"># ❌ Missing &quot;dangerously&quot;</span>
-</code></pre></div></p>
-<p><strong>Check 2:</strong> Using CLI, not extension?
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Run from terminal</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Correct</span>
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>claude<span class="w"> </span>--dangerously-skip-permissions
 <a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Not from VS Code</span>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="s2">&quot;Claude Code&quot;</span><span class="w"> </span>extension<span class="w"> </span>panel<span class="w"> </span>❌
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Wrong</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>claude<span class="w"> </span>--yolo<span class="w">               </span><span class="c1"># ❌ Not a real flag</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>claude<span class="w"> </span>--skip-permissions<span class="w">   </span><span class="c1"># ❌ Missing &quot;dangerously&quot;</span>
+</code></pre></div></p>
+<p><strong>Check 2:</strong> Using CLI, not extension?
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Run from terminal</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>claude<span class="w"> </span>--dangerously-skip-permissions
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Not from VS Code</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="s2">&quot;Claude Code&quot;</span><span class="w"> </span>extension<span class="w"> </span>panel<span class="w"> </span>❌
 </code></pre></div></p>
 <h3 id="still-getting-prompts">Still Getting Prompts?<a class="headerlink" href="#still-getting-prompts" title="Permanent link">&para;</a></h3>
 <p><strong>VS Code Extension:</strong> This is normal
@@ -4970,8 +5060,8 @@
 <li><a href="https://smartscope.blog/en/generative-ai/claude/claude-code-auto-permission-guide/">Auto Approval Guide</a></li>
 </ul>
 <hr />
-<p><strong>Last Updated:</strong> 2026-01-01 (Corrected)
-<strong>Flow-CLI Version:</strong> v4.7.0+</p>
+<p><strong>Last Updated:</strong> 2026-01-01
+<strong>Flow-CLI Version:</strong> v4.8.0+</p>
 
 
 
