@@ -1,454 +1,408 @@
-# Claude Code Rapid Development Workflow
+# YOLO Mode Workflow Tutorial
 
 **Level:** Intermediate
 **Time:** 10 minutes
-**Goal:** Minimize permission prompts for faster development with Claude Code
+**Goal:** Learn to use YOLO mode for rapid development with Claude Code
 
 ---
 
-## What This Guide Covers
+## What is YOLO Mode?
 
-This guide explains how to reduce interruptions when working with Claude Code, including:
+YOLO (You Only Live Once) mode is a Claude Code VS Code extension setting that **skips all permission prompts**, allowing Claude to:
 
-- ✅ **Auto-Accept Edits** in VS Code (Shift+Tab method)
-- ✅ **CLI YOLO Mode** with `--dangerously-skip-permissions`
-- ✅ **Safety practices** with git
-- ✅ **flow-cli integration** for rapid workflows
+- ✅ Read files instantly (no "Allow read?" prompts)
+- ✅ Write files directly (no "Allow write?" prompts)
+- ✅ Edit files automatically (no "Accept changes?" dialogs)
+- ✅ Execute operations without interruption
 
-**Important:** There is **no "YOLO mode" setting** in the VS Code extension. The methods here are the actual working approaches.
+**Trade-off:** Speed vs Safety
+- **Pro:** Maximum development velocity, no interruptions
+- **Con:** Claude can modify/delete files without confirmation
 
----
-
-## The Reality: Two Different Permission Models
-
-### VS Code Extension: Limited Auto-Accept
-
-The VS Code Claude Code extension has its **own permission system**:
-
-- ✅ Can auto-accept **file edits** (Shift+Tab toggle)
-- ❌ Still prompts for **read permissions**
-- ❌ Still prompts for **execute permissions**
-- ❌ Still prompts for **tool usage**
-
-### CLI: True YOLO Mode
-
-The Claude Code CLI has **full permission bypass**:
-
-- ✅ Bypasses **all permissions** (read, write, execute)
-- ✅ Uses `--dangerously-skip-permissions` flag
-- ⚠️ **Only available via command line**, not VS Code extension
+**Best for:** Trusted projects, rapid prototyping, refactoring sessions
 
 ---
 
-## Method 1: Auto-Accept Edits in VS Code
+## When to Use YOLO Mode
 
-### How to Enable
+### ✅ Good Use Cases
 
-The VS Code extension has a built-in mode toggle:
+- **Active development** - You're actively working and watching changes
+- **Trusted projects** - Your own code you're comfortable with Claude modifying
+- **Refactoring sessions** - Large-scale code changes across many files
+- **Rapid prototyping** - Iterating quickly on features
+- **Testing/experimentation** - Temporary code you can easily discard
 
-**Step 1:** Open Claude Code chat in VS Code
+### ❌ Avoid YOLO Mode When
 
-**Step 2:** Press `Shift+Tab` to cycle through modes:
-- Normal mode
-- **Auto-accept edits** ← Stop here
-- Plan mode
+- **Reviewing unfamiliar code** - First time seeing the codebase
+- **Production deployments** - Critical code that needs careful review
+- **Shared repositories** - Code with multiple contributors
+- **Stepping away** - You won't be monitoring Claude's actions
+- **Complex migrations** - High-risk operations you want to review carefully
 
-**Step 3:** Verify mode indicator shows "Auto-accept edits: ON"
+---
 
-### What It Does
+## Setup: Enable YOLO Mode
 
-| Permission Type | Auto-Accepted? |
-|----------------|----------------|
-| File edits | ✅ Yes |
-| File reads | ❌ No - still prompts |
-| File writes (new) | ❌ No - still prompts |
-| Execute commands | ❌ No - still prompts |
-| Tool usage | ❌ No - still prompts |
+### Method 1: Workspace Settings (Project-Specific) ⭐ Recommended
 
-### When to Use
+This keeps YOLO mode contained to specific trusted projects.
 
-**Good for:**
-- ✅ Refactoring existing files
-- ✅ Code cleanup across multiple files
-- ✅ Iterative development where you review frequently
+**Step 1:** Open your workspace file (e.g., `flow-cli.code-workspace`)
 
-**Not good for:**
-- ❌ Reading many files (still prompts)
-- ❌ Running tests/commands (still prompts)
-- ❌ Truly unattended workflows (use CLI instead)
+```json
+{
+    "folders": [{"path": "."}],
+    "settings": {
+        // Claude Code YOLO Configuration
+        "claude-code.yoloMode": true,        // Skip permission prompts
+        "claude-code.acceptEdits": true,     // Auto-accept edits
 
-### Example Workflow
-
-```
-1. Open VS Code with your project
-2. Start Claude Code chat
-3. Press Shift+Tab until "Auto-accept edits: ON"
-4. Ask: "Refactor commands/work.zsh to use modern ZSH patterns"
-5. Claude edits files automatically (no confirmation per edit)
-6. Review changes with: git diff
-7. Commit or revert as needed
+        // Optional enhancements
+        "claude-code.autoSave": true,        // Auto-save after edits
+        "claude-code.showTokenCount": true   // Show token usage
+    }
+}
 ```
 
----
-
-## Method 2: CLI YOLO Mode (True Bypass)
-
-### How to Enable
-
-The **real** YOLO mode only exists in the command-line interface:
+**Step 2:** Open the workspace
 
 ```bash
-# This bypasses ALL permissions
-claude --dangerously-skip-permissions
+# From terminal
+code flow-cli.code-workspace
+
+# Or double-click in Finder/Explorer
 ```
 
-### What It Does
+**Step 3:** Verify YOLO mode is active
 
-| Permission Type | Bypassed? |
-|----------------|-----------|
-| File edits | ✅ Yes |
-| File reads | ✅ Yes |
-| File writes | ✅ Yes |
-| Execute commands | ✅ Yes |
-| Tool usage | ✅ Yes |
+VS Code title bar should show: `flow-cli (Workspace)`
 
-**This is the closest to "YOLO mode"** - Claude can do anything without asking.
+### Method 2: Global Settings (All Projects)
 
-### Safety Requirements
+⚠️ **Warning:** This enables YOLO mode for ALL projects in VS Code.
 
-⚠️ **CRITICAL:** Only use in isolated environments
+1. Open Settings: `Cmd+,` (Mac) or `Ctrl+,` (Windows/Linux)
+2. Search: `claude code yolo`
+3. Enable: `Claude Code: YOLO Mode`
+4. Enable: `Claude Code: Accept Edits`
 
-**Required safeguards:**
-1. Git repository (for rollback)
-2. Clean working tree (can discard changes)
-3. Separate branch (not main/production)
-4. OR: Dev container/VM (isolated environment)
+### Method 3: Command Palette (Temporary Toggle)
 
-### Example Workflow
+Quick enable/disable without changing settings:
 
-```bash
-# 1. Ensure clean git state
-git status
-git checkout -b experiment-refactor
-
-# 2. Launch Claude Code CLI with YOLO mode
-claude --dangerously-skip-permissions
-
-# 3. Give instructions
-> Refactor the entire commands/ directory to use modern ZSH patterns
-
-# 4. Monitor with watch command (separate terminal)
-watch -n 2 'git diff --stat'
-
-# 5. Review when done
-git diff --stat
-git diff commands/
-
-# 6. Commit or discard
-git add -A && git commit -m "refactor: modernize commands"
-# OR
-git reset --hard HEAD  # Discard everything
-```
+1. Press: `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows/Linux)
+2. Type: `Claude Code: Toggle YOLO Mode`
+3. Press: Enter
 
 ---
 
-## Method 3: Dev Container Setup (Advanced)
+## Workflow: YOLO Mode in Action
 
-For **truly unattended** Claude Code in VS Code:
+### Scenario 1: Quick Bug Fix
 
-### Setup Steps
+**Without YOLO Mode:**
 
-1. **Create .devcontainer** configuration
-2. **Disable firewall** (remove postCreateCommand)
-3. **Enable passwordless sudo** (optional)
-4. **Reopen in container**
-5. **Run CLI** with `--dangerously-skip-permissions`
+1. You: "Fix the typo in README.md line 42"
+2. Claude: "I'll read README.md first"
+3. 🛑 **Prompt:** "Allow Claude to read README.md?"
+4. You: Click "Allow"
+5. Claude: Shows the fix
+6. 🛑 **Prompt:** "Accept changes?"
+7. You: Click "Accept"
+8. **Total:** 4 interactions
 
-**Why containers?** Isolates Claude's actions from your main system.
+**With YOLO Mode:**
 
-**Reference:** [Dev Container YOLO Setup](https://x.com/bantg/status/1932765435109290079)
+1. You: "Fix the typo in README.md line 42"
+2. Claude: Reads file → Fixes typo → Saves file
+3. **Total:** 1 interaction ✅
+
+### Scenario 2: Refactoring Session
+
+**Task:** Rename function across 10 files
+
+**Without YOLO Mode:**
+
+- 10 "Allow read?" prompts
+- 10 "Accept changes?" prompts
+- **Total:** 20+ interruptions 😫
+
+**With YOLO Mode:**
+
+- Claude reads all files silently
+- Claude makes all edits automatically
+- You review the git diff when done
+- **Total:** 0 interruptions ✅
+
+### Scenario 3: New Feature Implementation
+
+**Task:** Add authentication system
+
+**YOLO Mode Workflow:**
+
+```
+1. You: "Add JWT authentication to the API"
+
+2. Claude (automatically):
+   ✅ Reads current auth.js
+   ✅ Creates new jwt-utils.js
+   ✅ Updates routes.js
+   ✅ Creates tests/auth.test.js
+   ✅ Updates package.json
+
+3. You: Review changes with git
+   git diff --stat
+   git diff auth.js
+
+4. You: Test the implementation
+   npm test
+
+5. You: Commit or ask for adjustments
+```
+
+**Key:** You stay in "flow state" without permission interruptions.
 
 ---
 
-## flow-cli Integration
+## Safety Practices with YOLO Mode
 
-### Current: Auto-Accept Edits
+### 1. Use Git as Your Safety Net
 
-The `cc` dispatcher can launch Claude in VS Code:
-
-```bash
-# Launch Claude HERE (current directory)
-cc
-
-# Launch Claude with project picker
-cc pick
-
-# Aliases
-ccy         # Short for: cc yolo (currently same as cc)
-```
-
-**Note:** These currently launch the VS Code extension. You'll still need to press `Shift+Tab` manually to enable auto-accept edits.
-
-### Proposed: CLI Integration
-
-We could update flow-cli to support CLI-based YOLO mode:
+Always work in a git repository with YOLO mode:
 
 ```bash
-# Proposed new behavior
-cc yolo           # Launches: claude --dangerously-skip-permissions
-cc yolo pick      # Pick project, then CLI YOLO
-```
-
-**Status:** Not yet implemented. Would you like this feature?
-
----
-
-## Safety Practices
-
-### 1. Git is Your Safety Net
-
-**Always work in a git repository:**
-
-```bash
-# Before YOLO session
-git status                    # Ensure clean
-git checkout -b yolo-test     # Separate branch
+# Before starting YOLO session
+git status                    # Ensure clean working tree
+git checkout -b feature-name  # Work on a branch
 
 # During YOLO session
-watch -n 2 'git diff --stat'  # Monitor changes
+git diff                      # Review Claude's changes frequently
+git diff --stat               # See which files changed
 
 # After YOLO session
-git diff                      # Review all changes
-git add -p                    # Stage selectively
-git commit                    # Save good changes
+git add -p                    # Stage changes selectively
+git commit -m "message"       # Commit reviewed changes
 
-# If things go wrong
-git reset --hard HEAD         # Nuclear option
+# If something goes wrong
+git checkout -- file.js       # Discard changes to specific file
+git reset --hard HEAD         # Nuclear option: discard ALL changes
 ```
 
-### 2. Use Worktrees for Isolation
+### 2. Review Changes Frequently
 
-Keep main codebase safe:
+Don't let Claude make 50 changes before checking. Review every 5-10 edits:
 
 ```bash
-# Create isolated worktree
-wt create yolo-experiment
-
-# Claude works here
-cd ~/projects/.git-worktrees/flow-cli-yolo-experiment
-claude --dangerously-skip-permissions
-
-# Experiment fails? Just delete
-cd ~/projects/flow-cli
-wt remove yolo-experiment
+# Quick review workflow
+git diff --stat               # See what files changed
+git diff lib/core.js          # Review specific file
 ```
 
 ### 3. Start Small
 
 First YOLO session? Start with low-risk tasks:
 
-✅ **Good first tasks:**
-- Update documentation
-- Add unit tests
-- Refactor a single module
-- Format code
+- ✅ Update documentation
+- ✅ Add unit tests
+- ✅ Refactor a single module
+- ❌ Rewrite entire authentication system
 
-❌ **Avoid initially:**
-- Rewrite authentication
-- Change database schema
-- Modify deployment configs
+### 4. Keep Backups
 
-### 4. Review Frequently
-
-Don't let Claude make 100 changes unchecked:
+For critical changes:
 
 ```bash
-# Review every 5-10 operations
-git diff --stat               # See what changed
-git diff lib/core.zsh         # Review specific file
+# Create a backup branch
+git checkout -b backup-before-yolo
+git checkout feature-name
+
+# Now safe to YOLO
 ```
 
-### 5. Backup Critical State
+### 5. Use Worktrees for Isolation
 
-Before risky changes:
+Keep main codebase safe while experimenting:
 
 ```bash
-# Create backup branch
-git checkout -b backup-$(date +%Y%m%d)
-git checkout main
+# Create worktree for YOLO experiments
+wt create experiment-yolo
 
-# Or stash current state
-git stash save "pre-yolo-$(date +%Y%m%d-%H%M)"
+# Claude works in isolated directory
+cd ~/projects/.git-worktrees/flow-cli-experiment-yolo
+
+# If experiment fails, just delete the worktree
+wt remove experiment-yolo
 ```
 
 ---
 
-## What Doesn't Work (Myths Debunked)
+## Shell Integration: flow-cli Commands
 
-### ❌ Myth: VS Code Settings for YOLO Mode
+If you have flow-cli installed, you can launch Claude in YOLO mode from the terminal:
 
-These settings **do not exist** in the official extension:
+### Quick YOLO Launch
+
+```bash
+# Launch Claude HERE in YOLO mode
+cc yolo
+
+# Alias (shorter)
+ccy
+
+# Pick project, then YOLO
+cc yolo pick
+
+# YOLO + Plan mode
+cc yolo plan
+```
+
+### Worktree + YOLO Combo
+
+Perfect for experimental features:
+
+```bash
+# Create worktree + launch Claude in YOLO mode
+wt create feature-auth
+cd ~/projects/.git-worktrees/flow-cli-feature-auth
+cc yolo
+
+# Or combined:
+cc wt yolo feature-auth    # Create worktree + launch in YOLO
+```
+
+### Session Workflow
+
+```bash
+# 1. Start session
+work flow-cli
+
+# 2. Create feature branch
+g feature start yolo-experiment
+
+# 3. Launch Claude in YOLO
+cc yolo
+
+# 4. Work with Claude (no interruptions)
+# ...
+
+# 5. Review changes
+git diff --stat
+
+# 6. Commit if good
+g commit -m "feat: add feature"
+
+# 7. End session
+finish "Added feature with YOLO mode"
+```
+
+---
+
+## Advanced: YOLO Mode Settings Reference
+
+### Workspace Settings (.code-workspace)
 
 ```json
 {
-  "claude-code.yoloMode": true,          // ❌ Fake
-  "claude-code.acceptEdits": true,       // ❌ Fake
-  "claude-code.autoSave": true,          // ❌ Fake
-  "claude-code.showTokenCount": true     // ❌ Fake
+    "folders": [{"path": "."}],
+    "settings": {
+        // Core YOLO settings
+        "claude-code.yoloMode": true,
+        "claude-code.acceptEdits": true,
+
+        // Productivity enhancements
+        "claude-code.autoSave": true,           // Save after each edit
+        "claude-code.showTokenCount": true,     // Track token usage
+
+        // Optional: Customize Claude behavior
+        "claude-code.contextFiles": [           // Always include these files
+            "README.md",
+            "ARCHITECTURE.md"
+        ],
+
+        // Editor settings for YOLO sessions
+        "files.autoSave": "afterDelay",         // Auto-save all files
+        "files.autoSaveDelay": 1000,            // 1 second delay
+
+        // Git integration
+        "git.autofetch": true,                  // Keep git up to date
+        "git.confirmSync": false                // Skip git sync confirmations
+    }
 }
 ```
 
-**Why the confusion?** These were incorrectly documented earlier. The VS Code extension doesn't have these settings.
+### Global Settings (settings.json)
 
-### ❌ Myth: Workspace Files Enable YOLO
-
-Creating a `.code-workspace` file with fake settings **does nothing**:
+For YOLO mode across all projects:
 
 ```json
 {
-  "folders": [{"path": "."}],
-  "settings": {
-    "claude-code.yoloMode": true  // ❌ Has no effect
-  }
+    // Claude Code
+    "claude-code.yoloMode": true,
+    "claude-code.acceptEdits": true,
+
+    // Git safety
+    "git.confirmSync": true,        // Keep this true for global!
+    "git.autofetch": true
 }
-```
-
-**Reality:** The VS Code extension ignores these settings.
-
-### ❌ Myth: --dangerously-skip-permissions Works in VS Code
-
-The CLI flag **does not work** when using the VS Code extension:
-
-```bash
-# This only works in CLI, not VS Code extension
-claude --dangerously-skip-permissions
-```
-
-**Why?** The VS Code extension has its own separate permission system.
-
----
-
-## Comparison: VS Code vs CLI
-
-| Feature | VS Code Extension | CLI |
-|---------|-------------------|-----|
-| **Auto-accept edits** | ✅ Shift+Tab | ✅ --dangerously-skip-permissions |
-| **Auto-accept reads** | ❌ No | ✅ Yes |
-| **Auto-accept writes** | ❌ No | ✅ Yes |
-| **Auto-accept execute** | ❌ No | ✅ Yes |
-| **GUI integration** | ✅ Native VS Code | ❌ Terminal only |
-| **Safety model** | Built-in prompts | User responsibility |
-| **Best for** | Interactive development | Automated workflows |
-
----
-
-## Complete Example Session
-
-### Scenario: Refactor Project Structure
-
-**Setup:**
-```bash
-cd ~/projects/flow-cli
-git status                    # Clean working tree
-git checkout -b refactor-cmds
-```
-
-**Option A: VS Code (Auto-Accept Edits)**
-```bash
-# 1. Open in VS Code
-code .
-
-# 2. Start Claude Code chat
-
-# 3. Enable auto-accept
-Press Shift+Tab → "Auto-accept edits: ON"
-
-# 4. Give instructions
-Ask: "Refactor commands/*.zsh to use consistent error handling"
-
-# 5. Review as it works
-Open Source Control panel
-Watch files change in real-time
-
-# 6. Commit
-git add -A
-git commit -m "refactor: consistent error handling"
-```
-
-**Option B: CLI (True YOLO)**
-```bash
-# 1. Terminal 1: Launch Claude
-claude --dangerously-skip-permissions
-
-Ask: "Refactor commands/*.zsh to use consistent error handling"
-
-# 2. Terminal 2: Monitor
-watch -n 2 'git diff --stat'
-
-# 3. Review when done
-git diff
-
-# 4. Commit or discard
-git add -A && git commit -m "refactor: error handling"
-# OR
-git reset --hard HEAD
 ```
 
 ---
 
 ## Troubleshooting
 
-### Auto-Accept Not Working in VS Code?
+### YOLO Mode Not Working?
 
-**Check 1:** Are you using Claude Code extension?
-```
-Extensions → Search "Claude Code" → Should be installed
-```
+**Check 1:** Verify settings are active
 
-**Check 2:** Is mode actually toggled?
-```
-Look for indicator: "Auto-accept edits: ON" in chat
-Try pressing Shift+Tab again
-```
-
-**Check 3:** Are you asking for edits?
-```
-Auto-accept only works for file edits
-Reads/writes/executes still prompt
-```
-
-### CLI Mode Not Bypassing Permissions?
-
-**Check 1:** Using correct flag?
 ```bash
-# Correct
-claude --dangerously-skip-permissions
+# Open workspace file
+cat flow-cli.code-workspace | grep yoloMode
 
-# Wrong
-claude --yolo               # ❌ Not a real flag
-claude --skip-permissions   # ❌ Missing "dangerously"
+# Should show: "claude-code.yoloMode": true
 ```
 
-**Check 2:** Using CLI, not extension?
+**Check 2:** Reload VS Code window
+
+1. `Cmd+Shift+P` → "Reload Window"
+2. Or restart VS Code
+
+**Check 3:** Ensure using workspace file
+
+VS Code title bar should show: `project-name (Workspace)`
+
+If it just shows `project-name`, you're in folder mode, not workspace mode.
+
+**Fix:**
+
 ```bash
-# Run from terminal
-claude --dangerously-skip-permissions
-
-# Not from VS Code
-"Claude Code" extension panel ❌
+# Open with workspace file explicitly
+code flow-cli.code-workspace
 ```
 
-### Still Getting Prompts?
+### Claude Still Asking for Permissions?
 
-**VS Code Extension:** This is normal
-- Only edits are auto-accepted
-- Reads, writes, executes still prompt
-- This is by design for safety
+**Possible causes:**
 
-**CLI:** Check environment
-- Are you in a container?
-- Are permissions locked down?
-- Try in a fresh directory
+1. **Wrong setting name** - Check spelling: `claude-code.yoloMode` (not `claudeCode.yoloMode`)
+2. **JSON syntax error** - Validate JSON in workspace file
+3. **Extension not installed** - Install "Claude Code" extension
+4. **Extension disabled** - Enable in Extensions panel
+
+### Changes Not Auto-Saving?
+
+Add to workspace settings:
+
+```json
+{
+    "settings": {
+        "claude-code.autoSave": true,
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 1000
+    }
+}
+```
 
 ---
 
@@ -456,76 +410,96 @@ claude --dangerously-skip-permissions
 
 ### ✅ DO
 
-- ✅ Use git repositories (required safety net)
-- ✅ Work on separate branches
+- ✅ Use git branches for YOLO sessions
 - ✅ Review changes frequently (`git diff`)
 - ✅ Start with small, low-risk tasks
-- ✅ Use worktrees for experiments
-- ✅ Keep backups before risky changes
+- ✅ Keep workspace file in version control
 - ✅ Test changes before committing
+- ✅ Use worktrees for experiments
 
 ### ❌ DON'T
 
-- ❌ Use on production branches
-- ❌ Walk away during YOLO sessions
-- ❌ Skip reviewing changes
-- ❌ Work without git
-- ❌ Trust fake VS Code settings
-- ❌ Expect full YOLO in VS Code extension
-- ❌ Use YOLO mode with untrusted code
+- ❌ Enable YOLO globally without understanding risks
+- ❌ Walk away during YOLO session
+- ❌ Skip reviewing changes before commit
+- ❌ Use YOLO on production branches
+- ❌ Disable git confirmations globally
+- ❌ Work without git (YOLO needs safety net)
 
 ---
 
-## Summary
+## Example Session: Start to Finish
 
-**What Actually Works:**
+### Complete YOLO Workflow
 
-1. **VS Code: Shift+Tab** → Auto-accept edits only
-2. **CLI: --dangerously-skip-permissions** → True YOLO mode
-3. **Dev Container + CLI** → Isolated YOLO environment
+```bash
+# 1. Preparation
+cd ~/projects/flow-cli
+git checkout -b feature-yolo-demo
+git status                          # Ensure clean
 
-**What Doesn't Work:**
+# 2. Open workspace with YOLO enabled
+code flow-cli.code-workspace
 
-1. ❌ `claude-code.yoloMode` setting (doesn't exist)
-2. ❌ Workspace file settings (no effect)
-3. ❌ `--dangerously-skip-permissions` in VS Code extension
+# 3. Start Claude Code chat
+# Ask: "Refactor commands/work.zsh to use modern ZSH patterns"
 
-**Recommended Approach:**
+# 4. Monitor progress (in separate terminal)
+watch -n 2 'git diff --stat'        # Auto-refresh every 2 seconds
 
-- **Interactive work:** Use VS Code with `Shift+Tab`
-- **Automated work:** Use CLI with `--dangerously-skip-permissions`
-- **Experiments:** Use worktrees + CLI for safety
+# 5. After Claude finishes
+git diff --stat                     # Review what changed
+git diff commands/work.zsh          # Detailed review
+
+# 6. Test changes
+source flow.plugin.zsh
+work test-project                   # Test the refactored command
+
+# 7. Commit if good
+git add commands/work.zsh
+git commit -m "refactor: modernize work command patterns"
+
+# 8. Or revert if bad
+git checkout -- commands/work.zsh
+
+# 9. Continue iterating or finish
+g push                              # Push to remote
+finish "Refactored work command"    # End session
+```
+
+---
+
+## Keyboard Shortcuts
+
+Speed up your YOLO workflow with these shortcuts:
+
+| Action | Mac | Windows/Linux |
+|--------|-----|---------------|
+| Toggle YOLO Mode | `Cmd+Shift+P` → "Toggle YOLO" | `Ctrl+Shift+P` → "Toggle YOLO" |
+| Show Git Changes | `Ctrl+Shift+G` | `Ctrl+Shift+G` |
+| Quick Git Diff | `Cmd+K Cmd+D` | `Ctrl+K Ctrl+D` |
+| Reload Window | `Cmd+Shift+P` → "Reload" | `Ctrl+Shift+P` → "Reload" |
+| Source Control | `Ctrl+Shift+G` | `Ctrl+Shift+G` |
 
 ---
 
 ## Next Steps
 
-1. **Try Shift+Tab** in VS Code (safe, limited)
-2. **Experiment with CLI** in a test branch (more powerful)
-3. **Set up worktrees** for isolated experiments
-4. **Build habits** around git safety practices
+1. **Try it:** Create a workspace file with YOLO settings
+2. **Test safely:** Use a git branch for first YOLO session
+3. **Build habit:** Review changes frequently with `git diff`
+4. **Optimize:** Add YOLO to your daily development workflow
+5. **Share:** Add workspace file to project for team members
 
 ---
 
 ## Related Documentation
 
-- [CC Dispatcher Reference](../reference/CC-DISPATCHER-REFERENCE.md) - Claude Code launcher
-- [Git Feature Workflow](../tutorials/08-git-feature-workflow.md) - Branch management
-- [Worktree Guide](../tutorials/09-worktrees.md) - Isolated development
+- [CC Dispatcher Reference](../reference/CC-DISPATCHER-REFERENCE.md) - Claude Code launcher commands
+- [Worktree Workflows](WORKTREE-WORKFLOWS.md) - Isolated development environments
+- [Git Feature Workflow](GIT-FEATURE-WORKFLOW.md) - Branch management
 
 ---
 
-## Sources
-
-This guide is based on official documentation and community research:
-
-- [Claude Code VS Code Docs](https://code.claude.com/docs/en/vs-code)
-- [YOLO Mode Guide](https://apidog.com/blog/claude-code-gemini-yolo-mode/)
-- [Permission Model](https://skywork.ai/blog/permission-model-claude-code-vs-code-jetbrains-cli/)
-- [VS Code Extension Issue #8539](https://github.com/anthropics/claude-code/issues/8539)
-- [Auto Approval Guide](https://smartscope.blog/en/generative-ai/claude/claude-code-auto-permission-guide/)
-
----
-
-**Last Updated:** 2026-01-01 (Corrected)
+**Last Updated:** 2026-01-01
 **Flow-CLI Version:** v4.7.0+
