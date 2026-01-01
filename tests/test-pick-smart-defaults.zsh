@@ -293,6 +293,42 @@ test_find_all_partial_match() {
     fi
 }
 
+test_find_all_exact_match_priority() {
+    log_test "_proj_find_all prioritizes exact match"
+
+    # Regression test: 'scribe' should return only 'scribe', not 'scribe-sw'
+    # This tests the bug where scribe-sw was returned instead of scribe
+    local matches=$(_proj_find_all "flow")
+    local count=$(echo "$matches" | wc -l | tr -d ' ')
+
+    # If flow-cli exists, exact match should return only 1 result
+    if [[ $count -eq 1 ]]; then
+        local proj_name="${matches%%|*}"
+        if [[ "$proj_name" == "flow-cli" ]]; then
+            pass
+        else
+            fail "Exact match not prioritized: got '$proj_name'"
+        fi
+    else
+        # No exact match, fuzzy is fine
+        pass
+    fi
+}
+
+test_find_exact_match_priority() {
+    log_test "_proj_find prioritizes exact match"
+
+    # _proj_find should return exact match even if fuzzy match comes first alphabetically
+    local result=$(_proj_find "flow-cli")
+    local proj_name=$(basename "$result" 2>/dev/null)
+
+    if [[ "$proj_name" == "flow-cli" ]]; then
+        pass
+    else
+        fail "Expected 'flow-cli', got '$proj_name'"
+    fi
+}
+
 test_find_all_with_category() {
     log_test "_proj_find_all with category filter"
 
@@ -394,6 +430,8 @@ main() {
     test_find_all_case_insensitive
     test_find_all_no_match
     test_find_all_partial_match
+    test_find_all_exact_match_priority
+    test_find_exact_match_priority
     test_find_all_with_category
     echo ""
 

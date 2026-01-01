@@ -78,9 +78,11 @@ _proj_get_session() {
 # ============================================================================
 
 # Find project by fuzzy name (returns first match)
+# Prioritizes exact matches over fuzzy matches
 _proj_find() {
     local query="$1"
     local category="${2:-}"
+    local first_fuzzy=""  # Track first fuzzy match as fallback
 
     for cat_info in "${PROJ_CATEGORIES[@]}"; do
         local cat_path="${cat_info%%:*}"
@@ -99,23 +101,37 @@ _proj_find() {
                 [[ -d "$proj_dir/.git" ]] || continue
                 local proj_name=$(basename "$proj_dir")
 
-                # Fuzzy match
-                if [[ "$proj_name" == *"$query"* ]]; then
+                # EXACT match - return immediately (case-insensitive)
+                if [[ "${proj_name:l}" == "${query:l}" ]]; then
                     echo "$proj_dir"
                     return 0
+                fi
+
+                # Fuzzy match - save first one as fallback
+                if [[ -z "$first_fuzzy" && "${proj_name:l}" == *"${query:l}"* ]]; then
+                    first_fuzzy="$proj_dir"
                 fi
             done
         fi
     done
 
+    # No exact match found, return fuzzy match if we have one
+    if [[ -n "$first_fuzzy" ]]; then
+        echo "$first_fuzzy"
+        return 0
+    fi
+
     return 1
 }
 
 # Find ALL projects matching fuzzy name (for direct jump)
+# If an EXACT match exists, returns only that match (no picker needed)
+# Otherwise returns all fuzzy matches
 _proj_find_all() {
     local query="$1"
     local category="${2:-}"
     local -a matches=()
+    local exact_match=""
 
     for cat_info in "${PROJ_CATEGORIES[@]}"; do
         local cat_path="${cat_info%%:*}"
@@ -133,6 +149,11 @@ _proj_find_all() {
             for proj_dir in "$full_path"/*/; do
                 [[ -d "$proj_dir/.git" ]] || continue
                 local proj_name=$(basename "$proj_dir")
+
+                # Check for EXACT match (case-insensitive)
+                if [[ "${proj_name:l}" == "${query:l}" ]]; then
+                    exact_match="$proj_name|$cat_type|$proj_dir"
+                fi
 
                 # Fuzzy match (case-insensitive)
                 if [[ "${proj_name:l}" == *"${query:l}"* ]]; then
@@ -142,7 +163,13 @@ _proj_find_all() {
         fi
     done
 
-    # Return matches (one per line)
+    # If we have an exact match, return ONLY that (enables direct jump)
+    if [[ -n "$exact_match" ]]; then
+        echo "$exact_match"
+        return 0
+    fi
+
+    # Return all fuzzy matches (one per line)
     printf '%s\n' "${matches[@]}"
 }
 
