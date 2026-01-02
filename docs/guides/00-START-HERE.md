@@ -103,7 +103,6 @@ Example: `cc help`, `r help`, `qu help`
 ### Alias & Shortcut References
 
 - **[Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md)** - All 28 aliases
-- **[Git Alias Reference](../reference/GIT-ALIAS-REFERENCE.md)** - Git shortcuts
 
 ---
 

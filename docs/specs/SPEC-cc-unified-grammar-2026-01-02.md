@@ -1,8 +1,8 @@
 # SPEC: CC Unified Grammar
 
-**Status:** Draft
+**Status:** Implemented
 **Created:** 2026-01-02
-**From Brainstorm:** [BRAINSTORM-cc-pick-placement-2026-01-02.md](../../BRAINSTORM-cc-pick-placement-2026-01-02.md)
+**Released:** v4.8.0
 **Target Version:** v4.8.0
 
 ---
