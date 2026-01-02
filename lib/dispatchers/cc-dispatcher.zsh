@@ -12,7 +12,7 @@ cc() {
         return
     fi
 
-    # Check if first arg is a mode (unified pattern: cc [mode] [target])
+    # Check if first arg is a mode (mode-first pattern: cc [mode] [target])
     case "$1" in
         yolo|y|plan|p|opus|o|haiku|h)
             _cc_dispatch_with_mode "$@"
@@ -20,17 +20,34 @@ cc() {
             ;;
     esac
 
-    # Check if first arg is a known subcommand
+    # Check if first arg is a known subcommand/target
     local is_subcommand=0
-    case "$1" in
-        pick|now|n|resume|r|continue|c|ask|a|file|f|diff|d|rpkg|print|pr|wt|worktree|w|help|--help|-h)
+    local first_arg="$1"
+    case "$first_arg" in
+        pick|.|here|now|n|resume|r|continue|c|ask|a|file|f|diff|d|rpkg|print|pr|wt|worktree|w|help|--help|-h)
             is_subcommand=1
             ;;
     esac
 
+    # Check if second arg is a mode (target-first pattern: cc [target] [mode])
+    if [[ $# -ge 2 ]]; then
+        local second_arg="$2"
+        case "$second_arg" in
+            yolo|y|plan|p|opus|o|haiku|h)
+                # Target-first pattern detected: cc [target] [mode]
+                # Reorder to mode-first and dispatch
+                local mode="$second_arg"
+                local target="$first_arg"
+                shift 2  # Remove both first and second args
+                _cc_dispatch_with_mode "$mode" "$target" "$@"
+                return
+                ;;
+        esac
+    fi
+
     # If not a subcommand, assume it's a project name (direct jump)
     if [[ $is_subcommand -eq 0 ]]; then
-        local project_name="$1"
+        local project_name="$first_arg"
         shift
         if (( $+functions[pick] )); then
             # Use pick's direct jump, then launch Claude
@@ -57,6 +74,12 @@ cc() {
                 echo "❌ pick function not available" >&2
                 return 1
             fi
+            ;;
+
+        # Explicit HERE (new in v4.8.0)
+        .|here)
+            shift
+            claude --permission-mode acceptEdits "$@"
             ;;
 
         # Direct launch (DEPRECATED - default now does this)
@@ -187,7 +210,7 @@ _cc_dispatch_with_mode() {
 
     # No target → launch HERE with mode
     if [[ $# -eq 0 ]]; then
-        claude $mode_args
+        eval "claude $mode_args"
         return
     fi
 
@@ -197,11 +220,17 @@ _cc_dispatch_with_mode() {
             # cc [mode] pick → pick project with mode
             shift
             if (( $+functions[pick] )); then
-                pick --no-claude "$@" && claude $mode_args
+                pick --no-claude "$@" && eval "claude $mode_args"
             else
                 echo "❌ pick function not available" >&2
                 return 1
             fi
+            ;;
+
+        .|here)
+            # cc [mode] . → explicit HERE with mode
+            shift
+            eval "claude $mode_args" "$@"
             ;;
 
         wt|worktree|w)
@@ -212,7 +241,7 @@ _cc_dispatch_with_mode() {
 
         -*)
             # Starts with dash → pass as args to Claude
-            claude $mode_args "$@"
+            eval "claude $mode_args" "$@"
             ;;
 
         *)
@@ -220,9 +249,9 @@ _cc_dispatch_with_mode() {
             local project_name="$1"
             shift
             if (( $+functions[pick] )); then
-                pick --no-claude "$project_name" && claude $mode_args "$@"
+                pick --no-claude "$project_name" && eval "claude $mode_args" "$@"
             else
-                claude $mode_args "$@"
+                eval "claude $mode_args" "$@"
             fi
             ;;
     esac
@@ -251,16 +280,20 @@ ${_C_YELLOW}💡 QUICK START${_C_NC}:
   ${_C_DIM}\$${_C_NC} cc pick                   ${_C_DIM}# Pick project → Claude${_C_NC}
   ${_C_DIM}\$${_C_NC} cc flow                   ${_C_DIM}# Direct jump to flow-cli → Claude${_C_NC}
 
-${_C_BLUE}🚀 LAUNCH MODES${_C_NC} (Unified Pattern: cc [mode] [target]):
+${_C_BLUE}🚀 LAUNCH MODES${_C_NC} (Unified Grammar - Both Orders Work!):
   ${_C_CYAN}cc${_C_NC}                 Launch Claude HERE (acceptEdits mode)
+  ${_C_CYAN}cc .${_C_NC}                Explicit HERE ${_C_DIM}(NEW v4.8.0!)${_C_NC}
+  ${_C_CYAN}cc here${_C_NC}             Explicit HERE (readable) ${_C_DIM}(NEW v4.8.0!)${_C_NC}
   ${_C_CYAN}cc pick${_C_NC}            Pick project → Claude (acceptEdits)
   ${_C_CYAN}cc <project>${_C_NC}       Direct jump → Claude (no picker!)
   ${_C_CYAN}cc yolo${_C_NC}            Launch HERE in YOLO mode (skip permissions)
   ${_C_CYAN}cc yolo pick${_C_NC}       Pick project → YOLO mode
-  ${_C_CYAN}cc yolo wt <branch>${_C_NC} Worktree → YOLO mode ${_C_DIM}(NEW!)${_C_NC}
+  ${_C_CYAN}cc pick yolo${_C_NC}       Pick → YOLO mode ${_C_DIM}(both orders work!)${_C_NC}
+  ${_C_CYAN}cc yolo wt <branch>${_C_NC} Worktree → YOLO mode
   ${_C_CYAN}cc plan${_C_NC}            Launch HERE in Plan mode
   ${_C_CYAN}cc plan pick${_C_NC}       Pick project → Plan mode
-  ${_C_CYAN}cc plan wt pick${_C_NC}    Pick worktree → Plan mode ${_C_DIM}(NEW!)${_C_NC}
+  ${_C_CYAN}cc pick plan${_C_NC}       Pick → Plan mode ${_C_DIM}(both orders work!)${_C_NC}
+  ${_C_CYAN}cc plan wt pick${_C_NC}    Pick worktree → Plan mode
 
 ${_C_BLUE}🔄 SESSION${_C_NC}:
   ${_C_CYAN}cc resume${_C_NC}          Resume with Claude session picker
@@ -272,12 +305,16 @@ ${_C_BLUE}❓ QUICK ACTIONS${_C_NC}:
   ${_C_CYAN}cc diff${_C_NC}            Review uncommitted changes
   ${_C_CYAN}cc rpkg${_C_NC}            R package context helper
 
-${_C_BLUE}🎯 MODEL SELECTION${_C_NC} (Unified Pattern):
+${_C_BLUE}🎯 MODEL SELECTION${_C_NC} (Unified Grammar - Both Orders Work!):
   ${_C_CYAN}cc opus${_C_NC}            Launch HERE with Opus model
   ${_C_CYAN}cc opus pick${_C_NC}       Pick project → Opus model
-  ${_C_CYAN}cc opus wt <branch>${_C_NC} Worktree → Opus model ${_C_DIM}(NEW!)${_C_NC}
+  ${_C_CYAN}cc pick opus${_C_NC}       Pick → Opus model ${_C_DIM}(both orders work!)${_C_NC}
+  ${_C_CYAN}cc opus .${_C_NC}           Explicit HERE → Opus ${_C_DIM}(NEW v4.8.0!)${_C_NC}
+  ${_C_CYAN}cc . opus${_C_NC}           HERE → Opus ${_C_DIM}(both orders work!)${_C_NC}
+  ${_C_CYAN}cc opus wt <branch>${_C_NC} Worktree → Opus model
   ${_C_CYAN}cc haiku${_C_NC}           Launch HERE with Haiku model
   ${_C_CYAN}cc haiku pick${_C_NC}      Pick project → Haiku model
+  ${_C_CYAN}cc pick haiku${_C_NC}      Pick → Haiku model ${_C_DIM}(both orders work!)${_C_NC}
 
 ${_C_BLUE}📋 OTHER${_C_NC}:
   ${_C_CYAN}cc print <prompt>${_C_NC}  Print mode (non-interactive)
@@ -288,13 +325,14 @@ ${_C_MAGENTA}💡 DIRECT JUMP EXAMPLES${_C_NC}:
   cc med            Direct → mediationverse + Claude
   cc yolo stat      Direct → stat-440 + YOLO Claude
 
-${_C_BLUE}🌳 WORKTREE${_C_NC}:
+${_C_BLUE}🌳 WORKTREE${_C_NC} (Unified Pattern):
   ${_C_CYAN}cc wt <branch>${_C_NC}      Launch Claude in worktree (creates if needed)
   ${_C_CYAN}cc wt${_C_NC}               List worktrees
   ${_C_CYAN}cc wt pick${_C_NC}          Pick existing worktree → Claude
-  ${_C_CYAN}cc wt yolo <branch>${_C_NC} Worktree + YOLO mode
-  ${_C_CYAN}cc wt plan <branch>${_C_NC} Worktree + Plan mode
-  ${_C_CYAN}cc wt opus <branch>${_C_NC} Worktree + Opus model
+  ${_C_CYAN}cc yolo wt <branch>${_C_NC} Worktree + YOLO mode ${_C_DIM}(unified!)${_C_NC}
+  ${_C_CYAN}cc plan wt <branch>${_C_NC} Worktree + Plan mode ${_C_DIM}(unified!)${_C_NC}
+  ${_C_CYAN}cc opus wt <branch>${_C_NC} Worktree + Opus model ${_C_DIM}(unified!)${_C_NC}
+  ${_C_CYAN}cc haiku wt <branch>${_C_NC} Worktree + Haiku model ${_C_DIM}(unified!)${_C_NC}
 
 ${_C_MAGENTA}💡 SHORTCUTS${_C_NC}:
   y = yolo, p = plan, r = resume, c = continue
@@ -305,10 +343,11 @@ ${_C_MAGENTA}💡 WORKTREE ALIASES${_C_NC}:
   ccw = cc wt, ccwy = cc wt yolo, ccwp = cc wt pick
   ccy = cc yolo (kept by user request!)
 
-${_C_YELLOW}★ Unified Pattern${_C_NC}: Modes always come first!
-  ${_C_CYAN}cc yolo wt <branch>${_C_NC}   ${_C_DIM}# Mode → target (NOW WORKS!)${_C_NC}
-  ${_C_CYAN}cc plan wt pick${_C_NC}       ${_C_DIM}# Mode → target (NOW WORKS!)${_C_NC}
-  ${_C_CYAN}cc opus wt <branch>${_C_NC}   ${_C_DIM}# Mode → target (NOW WORKS!)${_C_NC}
+${_C_YELLOW}★ Unified Grammar (v4.8.0)${_C_NC}: Both mode-first AND target-first work!
+  ${_C_CYAN}cc yolo pick${_C_NC}          ${_C_DIM}# Mode → target${_C_NC}
+  ${_C_CYAN}cc pick yolo${_C_NC}          ${_C_DIM}# Target → mode (both work!)${_C_NC}
+  ${_C_CYAN}cc opus flow${_C_NC}          ${_C_DIM}# Mode → project${_C_NC}
+  ${_C_CYAN}cc flow opus${_C_NC}          ${_C_DIM}# Project → mode (both work!)${_C_NC}
 "
 }
 
@@ -341,6 +380,7 @@ _cc_worktree() {
 
     # Parse old-style mode prefix (cc wt yolo <branch>) for backward compatibility
     # This maintains support for existing workflows
+    # DEPRECATED: Use unified pattern instead: cc yolo wt <branch>
     case "$1" in
         status|st)
             shift
@@ -348,22 +388,29 @@ _cc_worktree() {
             return
             ;;
         yolo|y)
-            # Override mode if provided
+            # DEPRECATED: Use 'cc yolo wt <branch>' instead
+            echo -e "${_C_YELLOW}⚠️  Deprecated: Use 'cc yolo wt <branch>' instead of 'cc wt yolo <branch>'${_C_NC}" >&2
             mode="yolo"
             mode_args="--dangerously-skip-permissions"
             shift
             ;;
         plan|p)
+            # DEPRECATED: Use 'cc plan wt <branch>' instead
+            echo -e "${_C_YELLOW}⚠️  Deprecated: Use 'cc plan wt <branch>' instead of 'cc wt plan <branch>'${_C_NC}" >&2
             mode="plan"
             mode_args="--permission-mode plan"
             shift
             ;;
         opus|o)
+            # DEPRECATED: Use 'cc opus wt <branch>' instead
+            echo -e "${_C_YELLOW}⚠️  Deprecated: Use 'cc opus wt <branch>' instead of 'cc wt opus <branch>'${_C_NC}" >&2
             mode="opus"
             mode_args="--model opus --permission-mode acceptEdits"
             shift
             ;;
         haiku|h)
+            # DEPRECATED: Use 'cc haiku wt <branch>' instead
+            echo -e "${_C_YELLOW}⚠️  Deprecated: Use 'cc haiku wt <branch>' instead of 'cc wt haiku <branch>'${_C_NC}" >&2
             mode="haiku"
             mode_args="--model haiku --permission-mode acceptEdits"
             shift
@@ -550,28 +597,33 @@ ${_C_BLUE}📋 COMMANDS${_C_NC}:
   ${_C_CYAN}cc wt pick${_C_NC}           fzf picker for worktrees
   ${_C_CYAN}cc wt status${_C_NC}         Show worktrees with Claude session info
 
-${_C_BLUE}🚀 MODE CHAINING${_C_NC} (Two patterns - both work!):
-  ${_C_CYAN}cc wt yolo <branch>${_C_NC}  Worktree + YOLO mode ${_C_DIM}(backward compatible)${_C_NC}
-  ${_C_CYAN}cc yolo wt <branch>${_C_NC}  Worktree + YOLO mode ${_C_DIM}(unified pattern - NEW!)${_C_NC}
-  ${_C_CYAN}cc wt plan <branch>${_C_NC}  Worktree + Plan mode
-  ${_C_CYAN}cc plan wt pick${_C_NC}      Pick worktree + Plan mode ${_C_DIM}(NEW!)${_C_NC}
-  ${_C_CYAN}cc opus wt <branch>${_C_NC}  Worktree + Opus model ${_C_DIM}(NEW!)${_C_NC}
+${_C_BLUE}🚀 MODE CHAINING${_C_NC} (Unified Pattern - Mode First!):
+  ${_C_CYAN}cc yolo wt <branch>${_C_NC}  Worktree + YOLO mode ${_C_DIM}(recommended!)${_C_NC}
+  ${_C_CYAN}cc plan wt <branch>${_C_NC}  Worktree + Plan mode
+  ${_C_CYAN}cc plan wt pick${_C_NC}      Pick worktree + Plan mode
+  ${_C_CYAN}cc opus wt <branch>${_C_NC}  Worktree + Opus model
+  ${_C_CYAN}cc haiku wt <branch>${_C_NC} Worktree + Haiku model
+
+${_C_YELLOW}⚠️  DEPRECATED (still works, but shows warning):${_C_NC}
+  ${_C_DIM}cc wt yolo <branch>${_C_NC}  ${_C_DIM}→ Use: cc yolo wt <branch>${_C_NC}
+  ${_C_DIM}cc wt plan <branch>${_C_NC}  ${_C_DIM}→ Use: cc plan wt <branch>${_C_NC}
+  ${_C_DIM}cc wt opus <branch>${_C_NC}  ${_C_DIM}→ Use: cc opus wt <branch>${_C_NC}
 
 ${_C_MAGENTA}💡 ALIASES${_C_NC}:
-  ccw   = cc wt
-  ccwy  = cc wt yolo
-  ccwp  = cc wt pick
-  ccy   = cc yolo ${_C_DIM}(kept by user request!)${_C_NC}
+  ccw   = cc wt              ${_C_DIM}# Launch in worktree${_C_NC}
+  ccwp  = cc wt pick         ${_C_DIM}# Pick worktree${_C_NC}
+  ccy   = cc yolo            ${_C_DIM}# YOLO mode (kept by user request!)${_C_NC}
 
-${_C_MAGENTA}💡 EXAMPLES${_C_NC}:
-  ccw feature/auth     Launch in worktree
-  ccwy feature/auth    YOLO mode in worktree
-  ccwp                 Pick from existing worktrees
-  cc wt status         See which worktrees have sessions
+${_C_YELLOW}⚠️  DEPRECATED ALIAS:${_C_NC}
+  ${_C_DIM}ccwy  = cc wt yolo${_C_NC}  ${_C_DIM}→ Use: ccy wt <branch> instead${_C_NC}
 
-  ${_C_YELLOW}# New unified pattern:${_C_NC}
-  cc yolo wt feature/auth    ${_C_DIM}# Mode first (NEW!)${_C_NC}
-  cc plan wt pick            ${_C_DIM}# Mode first (NEW!)${_C_NC}
+${_C_MAGENTA}💡 EXAMPLES${_C_NC} (Unified Pattern):
+  ccw feature/auth           Launch in worktree
+  ccy wt feature/auth        YOLO mode in worktree ${_C_DIM}(recommended!)${_C_NC}
+  ccwp                       Pick from existing worktrees
+  cc opus wt feature/auth    Opus model in worktree
+  cc plan wt pick            Plan mode + pick worktree
+  cc wt status               See which worktrees have sessions
 "
 }
 

@@ -131,21 +131,35 @@ wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `wt help`)
 
-### CC Dispatcher Quick Reference
+### CC Dispatcher Quick Reference (v4.8.0)
+
+**✨ Unified Grammar:** Both mode-first AND target-first orders work!
 
 ```bash
+# Basic
 cc                # Launch Claude HERE (current dir, acceptEdits)
+cc .              # Explicit HERE (NEW!)
 cc pick           # Pick project → Claude
 cc <project>      # Direct jump → Claude (e.g., cc flow)
+
+# Modes (both orders work!)
 cc yolo           # Launch HERE in YOLO mode (skip permissions)
-cc yolo pick      # Pick project → YOLO mode
+cc yolo pick      # Pick → YOLO mode (mode-first)
+cc pick yolo      # Pick → YOLO mode (target-first) ✨
 cc plan           # Launch HERE in Plan mode
+cc plan pick      # Pick → Plan (mode-first)
+cc pick plan      # Pick → Plan (target-first) ✨
 cc opus           # Launch HERE with Opus model
+cc opus pick      # Pick → Opus (mode-first)
+cc pick opus      # Pick → Opus (target-first) ✨
+
+# Session
 cc resume         # Resume Claude session picker
 cc continue       # Continue most recent conversation
 ```
 
 **Alias:** `ccy` = `cc yolo`
+**Shortcuts:** `o` = opus, `h` = haiku, `y` = yolo, `p` = plan
 
 ### TM Dispatcher Quick Reference
 
@@ -468,7 +482,37 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2025-12-31)
+## Current Status (2026-01-02)
+
+### 🚀 v4.8.0 Development - CC Unified Grammar
+
+**Status:** Phase 2 in progress (Documentation)
+**Progress:** 75%
+
+**Completed:**
+
+- [x] Phase 1: Core parsing logic (30 tests passing)
+- [x] Mode vs target detection in `cc()` function
+- [x] Support for both `cc [mode] [target]` and `cc [target] [mode]` patterns
+- [x] Added `.` and `here` as explicit HERE targets
+- [x] Updated `_cc_help()` function with unified grammar examples
+- [x] Updated CC-DISPATCHER-REFERENCE.md with both-order examples
+- [x] Updated CLAUDE.md quick reference section
+
+**In Progress:**
+
+- [ ] Update README.md with new patterns
+- [ ] Phase 3: Shell completions
+- [ ] Phase 4: Final testing & release
+
+**Key Features:**
+
+- ✨ Both `cc opus pick` and `cc pick opus` work identically
+- ✨ Explicit HERE: `cc .` and `cc here`
+- ✨ Natural reading: `cc flow opus` (jump to flow → launch Opus)
+- 📝 Zero breaking changes - all v4.7.0 patterns still work
+
+---
 
 ### ✅ v4.7.0 Released - Bug Fix: Pick Command Crash
 

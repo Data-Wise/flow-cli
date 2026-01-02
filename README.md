@@ -147,19 +147,19 @@ Works offline, syncs when connected. Zero config after setup.
 
 Context-aware commands that adapt to your project:
 
-| Command           | What it does                    |
-| ----------------- | ------------------------------- |
-| `cc`              | Launch Claude Code here         |
-| `cc yolo wt <br>` | YOLO mode in worktree (v4.8.0+) |
-| `cc pick`         | Pick project → Claude           |
-| `r test`          | Run R package tests             |
-| `qu preview`      | Preview Quarto doc              |
-| `g push`          | Git push with safety            |
-| `flow sync`       | Sync data across devices        |
+| Command           | What it does                 |
+| ----------------- | ---------------------------- |
+| `cc`              | Launch Claude Code here      |
+| `cc pick`         | Pick project → Claude        |
+| `cc pick opus` ✨ | Pick → Opus (natural order!) |
+| `r test`          | Run R package tests          |
+| `qu preview`      | Preview Quarto doc           |
+| `g push`          | Git push with safety         |
+| `flow sync`       | Sync data across devices     |
 
 Each dispatcher has built-in help: `cc help`, `r help`, etc.
 
-**New in v4.8.0:** Unified "mode first" pattern - `cc yolo wt <branch>` now works!
+**✨ New in v4.8.0:** Unified grammar - both `cc opus pick` AND `cc pick opus` work identically!
 
 ---
 

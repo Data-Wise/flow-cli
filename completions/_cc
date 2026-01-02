@@ -1,0 +1,143 @@
+#compdef cc
+
+# Completion for cc command - Claude Code launcher with unified grammar
+# Supports both mode-first (cc opus pick) and target-first (cc pick opus)
+
+_cc() {
+  local -a modes targets subcommands projects
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  # Mode keywords (HOW to launch)
+  modes=(
+    'yolo:Skip all permissions (YOLO mode)'
+    'y:Skip all permissions (short for yolo)'
+    'plan:Plan mode'
+    'p:Plan mode (short)'
+    'opus:Opus model (most capable)'
+    'o:Opus model (short)'
+    'haiku:Haiku model (fast)'
+    'h:Haiku model (short)'
+  )
+
+  # Target keywords (WHERE to launch)
+  targets=(
+    '.:Explicit HERE (current directory)'
+    'here:Explicit HERE (readable)'
+    'pick:Project picker (fzf)'
+    'wt:Worktree'
+  )
+
+  # Subcommands
+  subcommands=(
+    'resume:Resume Claude session picker'
+    'r:Resume (short)'
+    'continue:Continue most recent conversation'
+    'c:Continue (short)'
+    'ask:Quick question (print mode)'
+    'a:Ask (short)'
+    'file:Analyze a file'
+    'f:File (short)'
+    'diff:Review uncommitted changes'
+    'd:Diff (short)'
+    'rpkg:R package context helper'
+    'print:Print mode (non-interactive)'
+    'pr:Print (short)'
+    'help:Show help'
+  )
+
+  # Get project list
+  _cc_get_projects() {
+    local search_paths=(
+      "$HOME/projects/r-packages/active"
+      "$HOME/projects/r-packages/stable"
+      "$HOME/projects/dev-tools"
+      "$HOME/projects/research"
+      "$HOME/projects/teaching"
+      "$HOME/projects/quarto"
+    )
+
+    for dir in $search_paths; do
+      if [[ -d "$dir" ]]; then
+        for p in "$dir"/*(N/); do
+          projects+=("${p:t}:Jump to ${p:t}")
+        done
+      fi
+    done
+  }
+
+  # First argument: mode, target, subcommand, or project
+  if (( CURRENT == 2 )); then
+    _alternative \
+      'modes:mode:_describe -t modes "launch mode" modes' \
+      'targets:target:_describe -t targets "launch target" targets' \
+      'subcommands:subcommand:_describe -t subcommands "subcommand" subcommands' \
+      'projects:project:_cc_get_projects; _describe -t projects "project" projects'
+    return 0
+  fi
+
+  # Second argument: depends on first
+  if (( CURRENT == 3 )); then
+    local first_arg="${words[2]}"
+
+    case "$first_arg" in
+      # If first arg is a mode → suggest targets and projects
+      yolo|y|plan|p|opus|o|haiku|h)
+        _alternative \
+          'targets:target:_describe -t targets "launch target" targets' \
+          'projects:project:_cc_get_projects; _describe -t projects "project" projects'
+        return 0
+        ;;
+
+      # If first arg is pick → suggest modes
+      pick)
+        _describe -t modes "launch mode" modes
+        return 0
+        ;;
+
+      # If first arg is . or here → suggest modes
+      .|here)
+        _describe -t modes "launch mode" modes
+        return 0
+        ;;
+
+      # If first arg is wt → suggest modes or branch names
+      wt)
+        # Could add branch name completion here
+        _describe -t modes "launch mode" modes
+        return 0
+        ;;
+
+      # If first arg is ask/file/print → suggest file paths or text
+      ask|a|file|f|print|pr)
+        _files
+        return 0
+        ;;
+
+      # If first arg is a project name → suggest modes
+      *)
+        _describe -t modes "launch mode" modes
+        return 0
+        ;;
+    esac
+  fi
+
+  # Third argument: for mode + wt + branch pattern
+  if (( CURRENT == 4 )); then
+    local first_arg="${words[2]}"
+    local second_arg="${words[3]}"
+
+    case "$first_arg|$second_arg" in
+      # cc [mode] wt [branch]
+      yolo|wt|y|wt|plan|wt|p|wt|opus|wt|o|wt|haiku|wt|h|wt)
+        # Could add branch name completion here
+        _message "branch name"
+        return 0
+        ;;
+    esac
+  fi
+
+  return 1
+}
+
+_cc "$@"

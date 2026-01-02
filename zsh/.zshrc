@@ -1074,3 +1074,9 @@ alias scribe-alt='cd ~/.git-worktrees/scribe/wonderful-wilson'
 # aiterm project worktrees
 alias aiterm-ghost='cd ~/.git-worktrees/aiterm/feature-ghostty-support'
 
+# ============================================
+# CLAUDE SKILLS MANAGEMENT - Added 2025-01-02
+# ============================================
+[[ -f ~/.config/zsh/functions/skill-helpers.zsh ]] && \
+    source ~/.config/zsh/functions/skill-helpers.zsh
+
