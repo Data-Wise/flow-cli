@@ -1,451 +1,304 @@
-# 🎉 Dispatcher Consolidation - Complete!
+# Getting Started with flow-cli
 
-**Date:** 2025-12-19
-**Status:** ✅ **ALL 5 AGENTS COMPLETE** (100%)
-**Total Time:** ~2 hours (parallel execution)
+**Welcome to flow-cli!** This guide will help you get started with ZSH workflow tools designed for ADHD brains.
 
 ---
 
-## 📊 Quick Results
+## 🚀 Quick Start
 
-### ✅ What Was Delivered
+### Installation
 
-| Component | Status | Details |
-|-----------|--------|---------|
-| **New Dispatchers** | ✅ Created | timer (9 keywords), peek (10 keywords) |
-| **Enhanced Dispatchers** | ✅ LIVE | r (+4), qu (+6), v (+5), cc (verified), gm (+1) |
-| **Cleanup Plan** | ✅ Ready | 10 items to remove (from 54 checked) |
-| **Reorganization** | ✅ Ready | 65 functions mapped, script created |
-| **Documentation** | ✅ Complete | 17 files, 100+ KB |
-| **Tests** | ✅ Passed | 22/22 (100%) |
-
-### 📈 Impact
-
-- **34 total keywords** across 8 dispatchers
-- **15 new keywords** live and tested
-- **2 new dispatchers** ready to implement
-- **1 conflict resolved** (focus() function)
-- **100% test pass rate**
-
----
-
-## 📁 Navigation - Start Here!
-
-### 🚀 Quick Start
-
-**Want the full story?** → Read the [Final Completion Dashboard](#final-dashboard) below
-
-**Need specific info?** → Pick from these master documents:
-
-1. **[DISPATCHER-CONSOLIDATION-PROGRESS.md](DISPATCHER-CONSOLIDATION-PROGRESS.md)**
-   - Detailed progress tracking
-   - All completed and pending work
-   - Statistics and next steps
-
-2. **[ALIAS-CLEANUP-INDEX.md](ALIAS-CLEANUP-INDEX.md)**
-   - Complete cleanup navigation hub
-   - 5 comprehensive sub-documents
-   - Ready to execute (5-10 min)
-
-3. **[AGENT4-COMPLETION-REPORT.md](AGENT4-COMPLETION-REPORT.md)**
-   - File reorganization blueprint
-   - 65 functions mapped
-   - Automated extraction script
-
-4. **[DISPATCHER-ENHANCEMENTS-SUMMARY.md](DISPATCHER-ENHANCEMENTS-SUMMARY.md)**
-   - All live enhancements
-   - 22/22 tests passed
-   - Usage examples
-
-5. **[ADDITIONAL-KEYWORDS-POSITRON.md](ADDITIONAL-KEYWORDS-POSITRON.md)**
-   - Prompt flag integration
-   - cc/gm pick integration
-   - Corrected from "Positron mode"
-
----
-
-## 🤖 Agent Deliverables
-
-### ✅ Agent 1: Dispatcher Creator (COMPLETE)
-
-**Created:** `/tmp/dispatcher_additions.zsh`
-
-**Contents:**
-- `timer()` dispatcher - 9 keywords (focus, deep, break, long, stop, status, pom, help)
-- `peek()` dispatcher - 10 keywords (r, rd, qu, md, desc, news, status, log, help, auto-detect)
-
-**Solves:** `focus()` conflict (was defined 3 times)
-
-**Status:** Ready to add to `~/.config/zsh/functions/smart-dispatchers.zsh`
-
----
-
-### ✅ Agent 2: Dispatcher Enhancer (COMPLETE)
-
-**Report:** [DISPATCHER-ENHANCEMENTS-SUMMARY.md](DISPATCHER-ENHANCEMENTS-SUMMARY.md)
-
-**Enhancements LIVE in ~/.config/zsh:**
-
-1. **r dispatcher** (+4 keywords)
-   - `clean|cl` - Remove .Rhistory, .RData
-   - `deep|deepclean` - Remove man/, NAMESPACE, docs/
-   - `tex|latex` - Clean LaTeX artifacts
-   - `commit|save` - Doc → test → commit
-
-2. **qu dispatcher** (+6 keywords)
-   - `pdf`, `html`, `docx` - Format-specific rendering
-   - `article`, `present` - Project creation
-   - `commit` - Render and commit
-
-3. **v dispatcher** (+5 keywords)
-   - `start|begin`, `end|stop` - Session management
-   - `morning|gm`, `night|gn` - Daily routines
-   - `progress|prog|p` - Progress check
-
-4. **cc dispatcher** (verified 7 existing keywords)
-   - All keywords already present: latest, haiku, sonnet, opus, plan, auto, yolo
-
-5. **pick function** (cleaned up)
-   - Removed Ctrl-W (work) and Ctrl-O (code) keybinds
-   - Simplified to essential navigation
-
-**Tests:** 22/22 passed (100%)
-
----
-
-### ✅ Agent 3: Alias Cleaner (COMPLETE)
-
-**Documentation:** 5 comprehensive files
-
-1. [ALIAS-CLEANUP-INDEX.md](ALIAS-CLEANUP-INDEX.md) - Navigation hub
-2. [ALIAS-CLEANUP-SUMMARY.md](ALIAS-CLEANUP-SUMMARY.md) - Quick overview
-3. [ALIAS-CLEANUP-PLAN.md](ALIAS-CLEANUP-PLAN.md) - Step-by-step execution
-4. [ALIAS-CLEANUP-FINDINGS.md](ALIAS-CLEANUP-FINDINGS.md) - Detailed analysis
-5. [ALIAS-CLEANUP-BEFORE-AFTER.md](ALIAS-CLEANUP-BEFORE-AFTER.md) - Visual comparison
-
-**Key Finding:** Of 54 requested removals, only **10 items actually exist**
-
-**Items to Remove:**
-- 5 pick aliases (pickr, pickdev, pickq, pickteach, pickrs)
-- 2 R functions (rcycle, rquick)
-- 3 commented lines from .zshrc
-
-**Time to Execute:** 5-10 minutes
-
----
-
-### ✅ Agent 4: File Organizer (COMPLETE)
-
-**Report:** [AGENT4-COMPLETION-REPORT.md](AGENT4-COMPLETION-REPORT.md)
-
-**Deliverables:**
-
-1. [PROPOSAL-FILE-REORGANIZATION.md](PROPOSAL-FILE-REORGANIZATION.md)
-   - Complete target structure (dispatchers/ + helpers/)
-   - Step-by-step execution plan
-   - 3 implementation options (Conservative/Aggressive/Incremental)
-
-2. [docs/reference/ADHD-HELPERS-FUNCTION-MAP.md](docs/reference/ADHD-HELPERS-FUNCTION-MAP.md)
-   - Complete inventory of 65 functions
-   - Line numbers and categorization
-   - Extraction targets
-
-3. [scripts/reorganize-functions.sh](scripts/reorganize-functions.sh)
-   - 7 phases automated
-   - Dry-run mode supported
-   - Phase-specific execution
-
-**Status:** Ready for 5-6 hour phased execution
-
----
-
-### ✅ Agent 5: Documentation Updater (COMPLETE)
-
-**Analysis:** Current vs proposed state documented
-
-**Approach:** Create future-state documentation to guide implementation
-
-**Next:** Create STANDARDS.md and update reference docs
-
----
-
-## 🎯 Recommended Implementation Path
-
-### Phase 1: Review & Approve (15 min)
+See the [Installation Guide](../getting-started/installation.md) for detailed setup instructions.
 
 ```bash
-# View dispatcher code
-cat /tmp/dispatcher_additions.zsh
+# Via plugin manager (recommended)
+antidote install data-wise/flow-cli
 
-# View enhancement summary
-cat DISPATCHER-ENHANCEMENTS-SUMMARY.md
-
-# View cleanup plan
-cat ALIAS-CLEANUP-INDEX.md
-
-# View reorganization
-cat AGENT4-COMPLETION-REPORT.md
+# Via Homebrew
+brew install data-wise/tap/flow-cli
 ```
 
-### Phase 2: Alias Cleanup (10 min)
-
-1. Read ALIAS-CLEANUP-SUMMARY.md
-2. Create backups
-3. Remove 10 items
-4. Test functionality
-
-**Risk:** Very Low
-
-### Phase 3: Add New Dispatchers (5 min)
+### First Steps
 
 ```bash
-# Add to smart-dispatchers.zsh
-cat /tmp/dispatcher_additions.zsh >> ~/.config/zsh/functions/smart-dispatchers.zsh
+# Start a session
+work my-project
 
-# Test
-zsh -c 'source ~/.zshrc && timer help'
-zsh -c 'source ~/.zshrc && peek help'
+# Log accomplishments
+win "Fixed bug"
+win "Added tests"
+
+# End session
+finish
 ```
 
-**Risk:** Very Low
+---
 
-### Phase 4: File Reorganization (5-6 hours)
+## 📚 Essential Guides
 
-Choose implementation approach:
-- **Conservative (Recommended):** 3 weeks, very low risk
-- **Aggressive:** 2 sessions, medium risk
-- **Incremental:** 3-4 weeks, minimal risk
+### For New Users
+
+1. **[Quick Start](../getting-started/quick-start.md)**
+   - 5-minute tutorial
+   - Core commands
+   - Basic workflow
+
+2. **[Workflow Tutorial](WORKFLOW-TUTORIAL.md)**
+   - Session management
+   - Project switching
+   - ADHD-friendly tips
+
+3. **[Dopamine Features Guide](DOPAMINE-FEATURES-GUIDE.md)**
+   - Win tracking
+   - Streak system
+   - Goal setting
+
+### For Power Users
+
+4. **[YOLO Mode Workflow](YOLO-MODE-WORKFLOW.md)**
+   - Zero-friction Claude launching
+   - Skip all confirmations
+   - When to use (and not use)
+
+5. **[Worktree Workflow](WORKTREE-WORKFLOW.md)**
+   - Parallel development
+   - Feature branches
+   - Quick context switching
+
+6. **[Workflows Quick Wins](WORKFLOWS-QUICK-WINS.md)**
+   - Time-saving tips
+   - Advanced patterns
+   - Pro shortcuts
+
+---
+
+## 🔌 Smart Dispatchers
+
+flow-cli uses **dispatchers** - context-aware commands that adapt to your project:
+
+| Dispatcher | Purpose | Example |
+|------------|---------|---------|
+| `cc` | Launch Claude Code | `cc pick opus` |
+| `r` | R package development | `r test`, `r doc` |
+| `qu` | Quarto publishing | `qu preview`, `qu render` |
+| `g` | Git workflows | `g push`, `g commit` |
+| `wt` | Worktree management | `wt create feature` |
+| `mcp` | MCP server management | `mcp status`, `mcp logs` |
+
+**Get help:** Every dispatcher has built-in help via `<dispatcher> help`
+
+Example: `cc help`, `r help`, `qu help`
+
+---
+
+## 📖 Reference Documentation
+
+### Command References
+
+- **[Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)** - All commands at a glance
+- **[CC Dispatcher Reference](../reference/CC-DISPATCHER-REFERENCE.md)** - Complete `cc` command guide
+- **[Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)** - All 8 dispatchers
+- **[Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)** - Common workflows
+
+### Alias & Shortcut References
+
+- **[Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md)** - All 28 aliases
+- **[Git Alias Reference](../reference/GIT-ALIAS-REFERENCE.md)** - Git shortcuts
+
+---
+
+## 🎯 Common Tasks
+
+### Start Working
 
 ```bash
-# Dry-run first
-./scripts/reorganize-functions.sh --dry-run
+# Start a session
+work my-project
 
-# Execute
-./scripts/reorganize-functions.sh
+# Or pick interactively
+pick
 ```
 
----
-
-## 📈 Statistics
-
-### Code Changes
-
-- **Dispatchers Created:** 2 (timer, peek)
-- **Dispatchers Enhanced:** 3 (r, qu, v)
-- **Keywords Added:** 34 total
-- **Lines Added:** ~125
-- **Lines Removed:** ~17
-- **Net Change:** +108 lines
-
-### Quality Metrics
-
-- **Tests Written:** 22
-- **Tests Passed:** 22 (100%)
-- **Test Failures:** 0
-- **Conflicts Resolved:** 1 (focus)
-
-### Organization
-
-- **Functions Mapped:** 65
-- **Files Analyzed:** 3 (3,200+ lines)
-- **New Directories:** 2
-- **Extraction Phases:** 7 automated + 8 manual
-- **Documentation Created:** 17 files (100+ KB)
-
----
-
-## <a name="final-dashboard"></a>Final Completion Dashboard
-
-```
-╔═══════════════════════════════════════════════════════════════════════╗
-║         🎉 DISPATCHER CONSOLIDATION - COMPLETE 🎉                     ║
-╚═══════════════════════════════════════════════════════════════════════╝
-
-📅 Completion Date: 2025-12-19 15:19:58
-🎯 Project: ZSH Workflow Manager - Dispatcher Consolidation
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📊 OVERALL PROGRESS: 5/5 agents completed (100%)
-
-[██████████████████████████████████████████████████] 100%
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🤖 AGENT COMPLETION STATUS:
-
-  ✅ Agent 1: Dispatcher Creator              [COMPLETED]
-     ├─ Created timer() dispatcher (9 keywords)
-     ├─ Created peek() dispatcher (10 keywords)
-     ├─ Resolved focus() conflict
-     └─ Status: Ready to add to smart-dispatchers.zsh
-
-  ✅ Agent 2: Dispatcher Enhancer             [COMPLETED]
-     ├─ Enhanced r dispatcher (4 new keywords)
-     ├─ Enhanced qu dispatcher (6 new keywords)
-     ├─ Enhanced v dispatcher (5 new keywords)
-     ├─ Verified cc dispatcher (7 existing keywords)
-     ├─ Updated pick function (removed 2 keybinds)
-     ├─ Tests: 22/22 passed (100%)
-     └─ Status: All changes live in ~/.config/zsh
-
-  ✅ Agent 3: Alias Cleaner                   [COMPLETED]
-     ├─ Analyzed 54 requested removals
-     ├─ Found 10 actual items to remove
-     ├─ Created comprehensive documentation (5 files)
-     ├─ Created backup plan
-     └─ Status: Ready for execution (5-10 min)
-
-  ✅ Agent 4: File Organizer                  [COMPLETED]
-     ├─ Analyzed 3198 lines in adhd-helpers.zsh
-     ├─ Mapped 65 functions to new structure
-     ├─ Created automated extraction script
-     ├─ Designed dispatchers/ + helpers/ structure
-     └─ Status: Ready for execution (5-6 hours total)
-
-  ✅ Agent 5: Documentation Updater           [COMPLETED]
-     ├─ Analyzed current vs proposed state
-     ├─ Determined future-state documentation approach
-     └─ Status: Ready to create STANDARDS.md
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📈 FINAL STATISTICS:
-
-  Dispatchers:
-    • Created:       2 new (timer, peek)
-    • Enhanced:      3 existing (r, qu, v)
-    • Verified:      1 existing (cc)
-    • Total:         6 dispatchers
-
-  Keywords:
-    • timer:         9 keywords
-    • peek:          10 keywords
-    • r enhancements: 4 keywords
-    • qu enhancements: 6 keywords
-    • v enhancements: 5 keywords
-    • Total:         34 keywords
-
-  Cleanup:
-    • Aliases to remove: 10 items
-    • Keybinds removed:  2 (pick Ctrl-W, Ctrl-O)
-    • Conflicts resolved: 1 (focus() function)
-
-  Organization:
-    • Functions mapped:  65
-    • New directories:   2 (dispatchers/, helpers/)
-    • Extraction phases: 7 automated + 8 manual
-
-  Testing:
-    • Tests written:    22
-    • Tests passed:     22 (100%)
-    • Test failures:    0
-
-  Documentation:
-    • Files created:    15+
-    • Total KB:         ~100 KB
-    • Script created:   1 (reorganize-functions.sh)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-✨ ALL AGENTS COMPLETED SUCCESSFULLY! ✨
-
-Total execution time: ~2 hours (5 parallel agents)
-Total deliverables: 17 files + 1 script
-Quality assurance: 22/22 tests passed
-
-💡 TIP: Start with Phase 1 (review timer/peek code) to verify quality
-```
-
----
-
-## 💡 Key Insights
-
-**★ Insight 1: Parallel Execution Works**
-Running 5 agents in parallel reduced 10+ hours of sequential work to just 2 hours. Each agent worked independently without blocking others.
-
-**★ Insight 2: Most "Redundant" Aliases Don't Exist**
-Of 54 requested removals, only 10 actually exist. This means previous cleanup efforts were successful, but planning documents may be outdated.
-
-**★ Insight 3: Testing Builds Confidence**
-Agent 2's 22/22 test pass rate provides confidence that all enhancements work correctly. Automated testing for shell code is possible and valuable.
-
----
-
-## ⚠️ Important Notes
-
-### Function Conflict Resolved
-
-**Problem:** `focus()` was defined 3 times
-**Solution:** Created `timer()` dispatcher that supersedes all focus() implementations
-
-**Migration:**
-```bash
-focus → timer focus
-unfocus → timer stop
-```
-
-### Prompt Flag Clarified
-
-**Corrected:** `-p` is for short prompts, NOT Positron mode
+### Track Progress
 
 ```bash
-cc p "analyze this" # Passes prompt to Claude
-gm p "explain this" # Passes prompt to Gemini
+# Log a win
+win "Implemented feature"
+
+# See today's wins
+yay
+
+# Check weekly progress
+yay --week
 ```
 
-### Pick Integration
-
-Both cc and gm use pick when called with no arguments:
+### Launch Claude Code
 
 ```bash
-cc  # Shows picker, then launches Claude
-gm  # Shows picker, then launches Gemini
+# Launch HERE
+cc
+
+# Pick project first
+cc pick
+
+# Jump directly
+cc flow
+
+# With specific model
+cc opus pick
+
+# Target-first (NEW v4.8.0!)
+cc pick opus
 ```
 
----
-
-## 📞 Quick Commands
+### Switch Projects
 
 ```bash
-# View live dashboard
-/tmp/final_dashboard.sh
+# Quick switch
+hop other-project
 
-# View progress report
-cat DISPATCHER-CONSOLIDATION-PROGRESS.md
+# Interactive picker
+pick
 
-# View cleanup plan
-cat ALIAS-CLEANUP-INDEX.md
-
-# View reorganization
-cat AGENT4-COMPLETION-REPORT.md
-
-# View dispatcher code
-cat /tmp/dispatcher_additions.zsh
-
-# View enhancements
-cat DISPATCHER-ENHANCEMENTS-SUMMARY.md
+# Recent sessions only
+pick --recent
 ```
 
 ---
 
-## ✅ Success Criteria - All Met!
+## 💡 ADHD-Friendly Features
 
-- [x] Created 2 new dispatchers
-- [x] Enhanced 3 existing dispatchers
-- [x] Documented cleanup for 10 aliases
-- [x] Mapped 65 functions for reorganization
-- [x] Created automated extraction script
-- [x] Achieved 100% test pass rate
-- [x] Provided multiple implementation paths
-- [x] Delivered comprehensive documentation
-- [x] Resolved function conflicts
-- [x] Maintained backward compatibility
+### Visible Progress
+
+- **Win tracking** - Every accomplishment logged
+- **Streak system** - See your consistency
+- **Goal setting** - Daily win targets
+- **Progress bars** - Visual feedback
+
+### Zero Friction
+
+- **Smart defaults** - Minimal typing needed
+- **Direct jumps** - Skip pickers when you know what you want
+- **Muscle memory** - Consistent patterns across all commands
+- **Sub-10ms** - Instant response time
+
+### Stay Oriented
+
+```bash
+dash           # What's happening?
+why            # Where was I?
+pick           # Choose a project
+flow goal      # Daily progress
+```
 
 ---
 
-**Generated:** 2025-12-19
-**Status:** ✅ COMPLETE
-**Total Agent Time:** ~2 hours
-**Test Pass Rate:** 100%
-**Next:** Review and implement in phases
+## 🔧 Configuration
+
+### Environment Variables
+
+Set in `.zshrc` before sourcing flow-cli:
+
+```bash
+# Project root
+export FLOW_PROJECTS_ROOT="$HOME/projects"
+
+# Atlas integration (optional)
+export FLOW_ATLAS_ENABLED="auto"
+
+# Quiet mode
+export FLOW_QUIET=1
+```
+
+### Plugin Setup
+
+```bash
+# antidote (~/.zsh_plugins.txt)
+data-wise/flow-cli
+
+# zinit (~/.zshrc)
+zinit light data-wise/flow-cli
+
+# oh-my-zsh (custom/plugins/)
+plugins=(... flow-cli)
+```
+
+---
+
+## 🆘 Getting Help
+
+### Built-in Help
+
+Every command has help:
+
+```bash
+flow help              # Main help
+cc help                # CC dispatcher
+r help                 # R dispatcher
+pick help              # Pick command
+```
+
+### Documentation
+
+- **Website:** https://data-wise.github.io/flow-cli/
+- **GitHub:** https://github.com/Data-Wise/flow-cli
+- **Issues:** https://github.com/Data-Wise/flow-cli/issues
+
+### Health Check
+
+```bash
+flow doctor            # Check dependencies
+flow doctor --fix      # Install missing tools
+```
+
+---
+
+## 🎓 Learning Path
+
+### Week 1: Core Workflow
+
+1. Learn `work`, `finish`, `hop`
+2. Start tracking wins with `win` and `yay`
+3. Use `dash` to stay oriented
+
+### Week 2: Smart Dispatchers
+
+1. Master `cc` for Claude launches
+2. Learn project-specific dispatchers (`r`, `qu`, `g`)
+3. Explore `pick` for project switching
+
+### Week 3: Advanced Features
+
+1. Try YOLO mode for rapid iteration
+2. Set up worktrees for parallel work
+3. Customize with environment variables
+
+---
+
+## 📊 What's New
+
+### v4.8.0 - CC Unified Grammar (2026-01-02)
+
+✨ **Flexible command ordering:**
+- Both `cc opus pick` AND `cc pick opus` work!
+- Explicit HERE: `cc .` and `cc here`
+- Natural project jumping: `cc flow opus`
+
+See [Release Notes](https://github.com/Data-Wise/flow-cli/releases/tag/v4.8.0)
+
+---
+
+## 🚦 Next Steps
+
+1. ✅ Install flow-cli
+2. ✅ Read this guide
+3. → Try the [Quick Start Tutorial](../getting-started/quick-start.md)
+4. → Explore [Dopamine Features](DOPAMINE-FEATURES-GUIDE.md)
+5. → Master the [CC Dispatcher](../reference/CC-DISPATCHER-REFERENCE.md)
+
+**Ready to get started?** Pick a guide above and dive in! 🎯
+
+---
+
+**Last Updated:** 2026-01-02
+**Version:** v4.8.0
