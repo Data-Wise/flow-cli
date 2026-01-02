@@ -8,7 +8,27 @@
 ## Priority: 1
 ## Progress: 100
 
-## Focus: v4.8.0 - CC Unified Grammar (COMPLETE - Ready for Release!)
+## Focus: v4.8.0 - SHIPPED! 🚀 Post-release Documentation Complete
+
+## ✅ Just Completed (2026-01-02):
+- **v4.8.0 Release** - CC Unified Grammar shipped same-day
+  - Both command orders work: `cc opus pick` AND `cc pick opus`
+  - Shell completions (_cc) with context-aware suggestions (134 lines)
+  - 30 comprehensive tests (100% passing)
+  - Fixed `cc haiku` eval bug
+  - GitHub release created with full release notes
+
+- **Post-release Documentation** - Zero warnings achieved
+  - Rewrote START-HERE guide (complete overhaul from 2025-12-19 content)
+  - Added v4.9.0 roadmap (5 enhancement options, phased approach)
+  - Fixed all broken documentation links (13 → 0 warnings)
+  - Spec archived: SPEC-cc-unified-grammar-2026-01-02.md → _archive/
+  - Deployed clean docs to GitHub Pages
+
+- **Release Automation**
+  - Homebrew formula updated (automated PR #9)
+  - 3 PRs merged: #162 (feature), #163 (docs), #164 (final fixes)
+  - All CI tests passing (11-16 seconds)
 
 ## Quick Context
 Pure ZSH workflow plugin with optional atlas integration for state management.
@@ -227,39 +247,22 @@ FLOW_QUIET=1               # Disable welcome message
 
 ## Roadmap
 
-### v4.8.0 - CC Unified Grammar ✅ COMPLETE
-**Status:** 100% complete (2026-01-02)
-**Spec:** `docs/specs/SPEC-cc-unified-grammar-2026-01-02.md`
+### v4.8.0 - CC Unified Grammar ✅ SHIPPED (2026-01-02)
+**Status:** Released and deployed
+**Spec:** `docs/specs/_archive/SPEC-cc-unified-grammar-2026-01-02.md` (archived)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v4.8.0
 **Release Notes:** `RELEASE-v4.8.0.md`
 
-#### Bug Fixes (Priority 1) ✅ COMPLETE
-- [x] Fixed `cc haiku` error (eval statement for mode_args) (#162)
-- [x] Added deprecation warnings for legacy `cc wt [mode]` pattern
-- [x] Updated help text to show unified pattern first
+#### Summary
+Same-day release cycle: 0% → Design → Implement → Test → Release → Deploy → Document
+- ✅ Both command orders work (`cc opus pick` AND `cc pick opus`)
+- ✅ Shell completions with context-aware suggestions
+- ✅ 54 tests passing (30 unified grammar + 24 cc-dispatcher)
+- ✅ Zero breaking changes
+- ✅ Documentation deployed with zero warnings
+- ✅ Homebrew formula updated
 
-#### Unified Grammar Implementation ✅ COMPLETE
-- [x] Phase 1: Core parsing logic ✅ COMPLETE (2026-01-02)
-  - [x] Add mode vs target detection in `cc()`
-  - [x] Support both orders: `cc opus flow` AND `cc flow opus`
-  - [x] Add `.` and `here` as explicit HERE targets
-  - [x] Handle three-arg combinations (mode + target + args)
-  - [x] Created test-cc-unified-grammar.zsh (30 tests, all passing)
-- [x] Phase 2: Documentation ✅ COMPLETE (2026-01-02)
-  - [x] Update CC-DISPATCHER-REFERENCE.md with both-order examples
-  - [x] Update CLAUDE.md quick reference
-  - [x] Update README.md with new patterns
-  - [x] Update `_cc_help()` function
-- [x] Phase 3: Completions ✅ COMPLETE (2026-01-02)
-  - [x] Created `completions/_cc` for both orders
-  - [x] Suggest modes after targets
-  - [x] Suggest targets after modes
-- [x] Phase 4: Final testing & release ✅ COMPLETE (2026-01-02)
-  - [x] Unit tests for all combinations (30 tests, 100% passing)
-  - [x] Verified cc-dispatcher tests (24 tests, 100% passing)
-  - [x] Created release notes (RELEASE-v4.8.0.md)
-  - [x] Ready for tag v4.8.0
-
-**Completed:** 2026-01-02 (same day!)
+**Shipped:** 2026-01-02
 
 ### v3.3.0 - Configuration & Plugin System ✅ COMPLETE
 - [x] `flow config` - Interactive configuration
@@ -536,16 +539,53 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: v4.7.0 Released (2025-12-31), 7 releases today (v4.6.0-v4.7.0), iCloud remote sync, CI 5min→11s
-## streak: 4
-## last_active: 2025-12-31 17:30
+## wins: v4.8.0 SHIPPED (2026-01-02), Same-day release cycle, Zero doc warnings, Spec archived
+## streak: 5
+## last_active: 2026-01-02
 
-## Next: v4.8.0 - Future Enhancements
+## 🎯 Next Action:
+**Focus:** v4.9.0 Planning → v4.9.0 Implementation (Pick one enhancement option)
+
+**Recommendations (from V4.9-ROADMAP.md):**
+A) **Installation & Onboarding** (High priority, 2-3 days) ⚡ RECOMMENDED
+   - One-liner install script (curl installer)
+   - Enhanced `flow doctor --fix` (interactive mode)
+   - First-run wizard (`flow setup`)
+   - Zero-friction new user experience
+
+B) **MCP Integration** (High priority, 2 days)
+   - `mcp validate --fix` (auto-restart failed servers)
+   - Dashboard integration (MCP status in `dash`)
+   - Quick troubleshooting (`mcp doctor`)
+
+C) **ADHD Features** (High priority, 3 days)
+   - Focus mode (`focus on/off`)
+   - Break reminders (`pom` enhancements)
+   - Daily review (`yay --today`)
+   - Motivational messages
+
+**Quick Wins (< 1 day each):**
 - [ ] `pickr` alias for `pick --recent`
 - [ ] Add worklog to remote sync scope
-- [ ] Team features (shared templates)
+- [ ] Progress bars in `flow goal`
+- [ ] `mcp logs --tail` command
+
+**Decision Needed:** Pick enhancement option or quick win to start next session
 
 ## Session Log (continued)
+- 2026-01-02: v4.8.0 RELEASE - CC Unified Grammar shipped! 🚀
+- 2026-01-02: FEAT - Both command orders work (cc opus pick AND cc pick opus)
+- 2026-01-02: FEAT - Shell completions (_cc) with context-aware suggestions (134 lines)
+- 2026-01-02: FIX - cc haiku eval bug fixed
+- 2026-01-02: TEST - 30 unified grammar tests + 24 cc-dispatcher tests (100% pass)
+- 2026-01-02: DOCS - Rewrote START-HERE guide (complete overhaul)
+- 2026-01-02: DOCS - Added V4.9-ROADMAP.md (5 enhancement options, 616 lines)
+- 2026-01-02: DOCS - Fixed all broken documentation links (13 → 0 warnings)
+- 2026-01-02: DOCS - Deployed clean docs to GitHub Pages (zero warnings)
+- 2026-01-02: SPEC - Archived SPEC-cc-unified-grammar-2026-01-02.md (status: Done)
+- 2026-01-02: TAG - v4.8.0 tagged and released on GitHub
+- 2026-01-02: HOMEBREW - Formula updated via automated PR #9
+- 2026-01-02: PRs - #162 (feature), #163 (docs), #164 (final fixes) merged
 - 2025-12-31: v4.7.0 RELEASE - iCloud remote sync (`flow sync remote init/disable/status`)
 - 2025-12-31: DOCS - Deployed v4.7.0 docs to GitHub Pages
 - 2025-12-31: HOMEBREW - Updated formula to v4.7.0

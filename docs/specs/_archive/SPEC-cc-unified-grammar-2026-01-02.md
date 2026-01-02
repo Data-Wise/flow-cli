@@ -1,9 +1,17 @@
 # SPEC: CC Unified Grammar
 
-**Status:** Implemented
+**Status:** Done ✅
 **Created:** 2026-01-02
 **Released:** v4.8.0
+**Completed:** 2026-01-02
 **Target Version:** v4.8.0
+
+**Implementation:**
+- PR #162: feat: CC unified grammar - both command orders work (v4.8.0)
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v4.8.0
+- Docs: https://Data-Wise.github.io/flow-cli/
+
+**Outcome:** Shipped same-day (0% → 100% → Released). Both mode-first (`cc opus pick`) and target-first (`cc pick opus`) patterns now work identically. Zero breaking changes. 30 comprehensive tests passing.
 
 ---
 
