@@ -10,12 +10,16 @@ Claude Code workflows with smart project selection
 
 ```bash
 cc                # Launch Claude HERE (current dir, acceptEdits)
+cc .              # Explicit HERE (NEW v4.8.0!)
 cc pick           # Pick project → Claude
 cc flow           # Direct jump to flow-cli → Claude
 cc yolo           # Launch HERE in YOLO mode (skip all permissions)
 cc yolo pick      # Pick project → YOLO mode
+cc pick yolo      # Pick → YOLO mode (both orders work!)
 cc resume         # Resume previous Claude conversation
 ```
+
+**✨ NEW in v4.8.0:** Unified grammar supports both mode-first (`cc yolo pick`) AND target-first (`cc pick yolo`) patterns! Use whichever feels natural.
 
 ---
 
@@ -33,22 +37,57 @@ cc [subcommand|project-name] [options]
 
 ---
 
+## Unified Grammar (v4.8.0+)
+
+**Both command orders work identically!**
+
+```bash
+cc [mode] [target]    # Mode-first (unified pattern)
+cc [target] [mode]    # Target-first (natural reading)
+```
+
+### Modes (HOW to launch)
+- `yolo`, `y` - Skip all permissions
+- `plan`, `p` - Planning mode
+- `opus`, `o` - Opus model
+- `haiku`, `h` - Haiku model
+
+### Targets (WHERE to launch)
+- *(empty)* - HERE (current directory)
+- `.`, `here` - Explicit HERE
+- `pick` - Project picker (fzf)
+- `<project>` - Direct jump to project
+- `wt <branch>` - Worktree
+
+### Examples (Both Orders Work!)
+
+| Mode-First (Unified Pattern) | Target-First (Natural Reading) | Result |
+|------------------------------|--------------------------------|--------|
+| `cc opus pick` | `cc pick opus` | Pick project → Opus model |
+| `cc yolo flow` | `cc flow yolo` | Jump to flow → YOLO mode |
+| `cc plan .` | `cc . plan` | HERE → Plan mode |
+| `cc haiku wt feat` | - | Worktree → Haiku (mode-first only for 3+ args) |
+
+**Note:** For 3+ arguments (e.g., `cc yolo wt <branch>`), mode-first is required.
+
+---
+
 ## Launch Modes
 
-| Command                  | Description                                   |
-| ------------------------ | --------------------------------------------- |
-| `cc`                     | Launch Claude HERE (current dir, acceptEdits) |
-| `cc pick`                | Pick project → Claude                         |
-| `cc <project>`           | Direct jump → Claude                          |
-| `cc pick <project>`      | Direct jump via pick → Claude                 |
-| `cc yolo`                | Launch HERE in YOLO mode (skip permissions)   |
-| `cc yolo pick`           | Pick project → YOLO mode                      |
-| `cc yolo <project>`      | Direct jump → YOLO mode                       |
-| `cc yolo pick <project>` | Direct jump via pick → YOLO                   |
-| `cc plan`                | Launch HERE in Plan mode                      |
-| `cc plan pick`           | Pick project → Plan mode                      |
-| `cc plan <project>`      | Direct jump → Plan mode                       |
-| `cc plan pick <project>` | Direct jump via pick → Plan                   |
+| Command | Also Works As | Description |
+|---------|---------------|-------------|
+| `cc` | - | Launch Claude HERE (current dir, acceptEdits) |
+| `cc .` | `cc here` | Explicit HERE (NEW v4.8.0!) |
+| `cc pick` | - | Pick project → Claude |
+| `cc <project>` | - | Direct jump → Claude |
+| **YOLO Mode** |||
+| `cc yolo` | - | Launch HERE in YOLO mode (skip permissions) |
+| `cc yolo pick` | `cc pick yolo` ✨ | Pick project → YOLO mode |
+| `cc yolo <project>` | `cc <project> yolo` ✨ | Direct jump → YOLO mode |
+| **Plan Mode** |||
+| `cc plan` | - | Launch HERE in Plan mode |
+| `cc plan pick` | `cc pick plan` ✨ | Pick project → Plan mode |
+| `cc plan <project>` | `cc <project> plan` ✨ | Direct jump → Plan mode |
 
 ### Permission Modes
 
@@ -87,18 +126,21 @@ cc [subcommand|project-name] [options]
 
 ## Model Selection
 
-| Command                   | Description                  |
-| ------------------------- | ---------------------------- |
-| `cc opus`                 | Launch HERE with Opus model  |
-| `cc opus pick`            | Pick project → Opus model    |
-| `cc opus <project>`       | Direct jump → Opus           |
-| `cc opus pick <project>`  | Direct jump via pick → Opus  |
-| `cc haiku`                | Launch HERE with Haiku model |
-| `cc haiku pick`           | Pick project → Haiku model   |
-| `cc haiku <project>`      | Direct jump → Haiku          |
-| `cc haiku pick <project>` | Direct jump via pick → Haiku |
+| Command | Also Works As | Description |
+|---------|---------------|-------------|
+| **Opus Model** |||
+| `cc opus` | - | Launch HERE with Opus model |
+| `cc opus pick` | `cc pick opus` ✨ | Pick project → Opus model |
+| `cc opus <project>` | `cc <project> opus` ✨ | Direct jump → Opus |
+| `cc opus .` | `cc . opus` ✨ | Explicit HERE → Opus |
+| **Haiku Model** |||
+| `cc haiku` | - | Launch HERE with Haiku model |
+| `cc haiku pick` | `cc pick haiku` ✨ | Pick project → Haiku model |
+| `cc haiku <project>` | `cc <project> haiku` ✨ | Direct jump → Haiku |
+| `cc haiku .` | `cc . haiku` ✨ | Explicit HERE → Haiku |
 
 **Shortcuts:** `cc o` = opus, `cc h` = haiku
+**✨ NEW in v4.8.0:** Both mode-first and target-first orders work!
 
 ---
 
@@ -106,28 +148,26 @@ cc [subcommand|project-name] [options]
 
 Launch Claude in isolated git worktrees for parallel development.
 
-### Unified "Mode First" Pattern (v4.8.0+)
+### Unified Grammar (v4.8.0+)
 
-**Pattern:** `cc [mode] [target]`
+**Pattern:** `cc [mode] [target]` - Mode-first required for 3+ arguments
 
-All modes now support consistent "mode first" syntax:
+**Note:** For worktree commands with branches (3+ arguments), mode-first order is required.
 
-| Command                     | Description                             |
-| --------------------------- | --------------------------------------- |
-| `cc wt`                     | List current worktrees                  |
-| `cc wt <branch>`            | Launch Claude in worktree for branch    |
-| `cc wt pick`                | Pick worktree → Claude (fzf)            |
-| `cc yolo wt <branch>`       | **Mode first** → YOLO in worktree       |
-| `cc yolo wt pick`           | **Mode first** → YOLO with picker       |
-| `cc plan wt <branch>`       | **Mode first** → Plan in worktree       |
-| `cc plan wt pick`           | **Mode first** → Plan with picker       |
-| `cc opus wt <branch>`       | **Mode first** → Opus in worktree       |
-| `cc haiku wt <branch>`      | **Mode first** → Haiku in worktree      |
+| Command | Description |
+|---------|-------------|
+| `cc wt` | List current worktrees |
+| `cc wt <branch>` | Launch Claude in worktree for branch |
+| `cc wt pick` | Pick worktree → Claude (fzf) |
+| `cc yolo wt <branch>` | YOLO mode in worktree (mode-first) |
+| `cc yolo wt pick` | YOLO with picker (mode-first) |
+| `cc plan wt <branch>` | Plan mode in worktree (mode-first) |
+| `cc plan wt pick` | Plan with picker (mode-first) |
+| `cc opus wt <branch>` | Opus model in worktree (mode-first) |
+| `cc haiku wt <branch>` | Haiku model in worktree (mode-first) |
 
-**Backward Compatible:** Old syntax still works:
-
-- `cc wt yolo <branch>` ✅ (target first)
-- `cc yolo wt <branch>` ✅ (mode first - NEW!)
+**For 2-argument commands,** both orders work:
+- `cc wt pick` and `cc pick wt` ✅ (not recommended - use wt first)
 
 **Shortcuts:** `cc w` = wt, `cc worktree` = wt
 
@@ -149,15 +189,15 @@ cc wt feature/auth       # Creates worktree if needed, launches Claude
 # Use fzf to pick existing worktree
 cc wt pick               # Interactive selection
 
-# Mode-first pattern (NEW!)
+# With modes (mode-first required for 3+ args)
 cc yolo wt bugfix/issue-42       # YOLO mode in worktree
 cc plan wt feature/refactor      # Plan mode in worktree
 cc opus wt experiment/new-ui     # Opus model in worktree
 cc yolo wt pick                  # Pick worktree → YOLO
 
-# Backward compatible (still works)
-cc wt yolo bugfix/issue-42       # Target first
-cc wt opus feature/refactor      # Target first
+# 2-argument: both orders work
+cc wt pick               # Recommended
+cc pick wt               # Also works (target-first)
 ```
 
 ### How It Works
@@ -165,7 +205,7 @@ cc wt opus feature/refactor      # Target first
 1. If worktree exists for branch → cd to it → launch Claude
 2. If no worktree → create one using `wt create` → launch Claude
 3. Mode flags (yolo, plan, opus, haiku) apply to the Claude session
-4. **NEW:** Modes can be specified before OR after `wt` (unified pattern)
+4. **v4.8.0:** Mode-first required for 3+ argument commands (e.g., `cc yolo wt <branch>`)
 
 ---
 
