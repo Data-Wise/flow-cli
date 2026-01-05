@@ -6,6 +6,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [Unreleased]
+
+### Changed
+
+- **Documentation overhaul** - Homebrew now the primary installation method (#165)
+  - README.md: Homebrew moved to top with ⭐ designation
+  - docs/index.md: Homebrew tab added first with "No shell config needed!" note
+  - docs/getting-started/installation.md: Complete rewrite
+    - Homebrew as first method with benefits list
+    - "No reload needed" note for Homebrew users
+    - Added Homebrew sections to Updating and Uninstalling
+    - Added Homebrew-specific troubleshooting
+  - docs/getting-started/faq.md: Added "How do I install flow-cli?" with Homebrew first
+  - Better onboarding: One command (`brew install`) vs plugin manager configuration
+  - Faster time-to-first-command: ~30 seconds vs ~5-10 minutes
+
+---
+
 ## [4.5.5] - 2025-12-31
 
 ### Fixed
