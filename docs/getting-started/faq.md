@@ -6,6 +6,21 @@ Common questions and solutions for Flow CLI.
 
 ## Installation & Setup
 
+### How do I install flow-cli?
+
+**Recommended: Homebrew (macOS)**
+
+```bash
+brew tap data-wise/tap
+brew install flow-cli
+```
+
+No shell configuration needed! Commands work immediately.
+
+**Alternative: Plugin Manager**
+
+See the [Installation Guide](installation.md) for antidote, zinit, oh-my-zsh, or manual installation.
+
 ### Command not found: work / dash / flow
 
 **Problem:** You get "command not found" when running flow-cli commands.

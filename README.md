@@ -165,7 +165,19 @@ Each dispatcher has built-in help: `cc help`, `r help`, etc.
 
 ## 📦 Installation
 
-### Quick Install (Recommended)
+### Homebrew (Recommended for macOS)
+
+```bash
+# Tap the repository
+brew tap data-wise/tap
+
+# Install flow-cli
+brew install flow-cli
+```
+
+**That's it!** Homebrew handles everything. No plugin manager needed.
+
+### Alternative: Quick Install Script
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
@@ -179,12 +191,12 @@ Auto-detects your plugin manager and installs accordingly.
 FLOW_VERSION=v4.8.0 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
 ```
 
-### Installation Methods
+### Installation Methods Comparison
 
 | Method            | Command                                        | Best For       |
 | ----------------- | ---------------------------------------------- | -------------- |
-| **Quick Install** | `curl -fsSL .../install.sh \| bash`            | New users      |
-| **Homebrew**      | `brew install Data-Wise/tap/flow-cli`          | macOS users    |
+| **Homebrew**      | `brew tap data-wise/tap && brew install ...`   | macOS users ⭐ |
+| **Quick Install** | `curl -fsSL .../install.sh \| bash`            | Auto-detection |
 | **Antidote**      | Add `Data-Wise/flow-cli` to `.zsh_plugins.txt` | Antidote users |
 | **Zinit**         | `zinit light Data-Wise/flow-cli`               | Zinit users    |
 | **Oh-My-Zsh**     | Clone to `$ZSH_CUSTOM/plugins/`                | OMZ users      |
