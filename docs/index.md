@@ -129,28 +129,35 @@ Commands that adapt to your project:
 
 ## 📦 Install in 30 Seconds
 
+=== "Homebrew ⭐"
+    ```bash
+    brew tap data-wise/tap
+    brew install flow-cli
+    ```
+    **No shell config needed!** Commands work immediately.
+
 === "Antidote"
-`bash
+    ```bash
     antidote install data-wise/flow-cli
-    `
+    ```
 
 === "Zinit"
-`bash
+    ```bash
     zinit light data-wise/flow-cli
-    `
+    ```
 
 === "Oh-My-Zsh"
-`bash
+    ```bash
     git clone https://github.com/data-wise/flow-cli.git \
       ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/flow-cli
     # Add flow-cli to plugins in .zshrc
-    `
+    ```
 
 === "Manual"
-`bash
+    ```bash
     git clone https://github.com/data-wise/flow-cli.git ~/.flow-cli
     echo 'source ~/.flow-cli/flow.plugin.zsh' >> ~/.zshrc
-    `
+    ```
 
 **Verify:** `flow doctor`
 

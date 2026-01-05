@@ -24,9 +24,29 @@ git --version
 
 ## Part 1: Install flow-cli (~2 min)
 
-### Quick Install (Recommended)
+### Homebrew (Recommended for macOS)
 
-The easiest way to install:
+The easiest installation method for macOS users:
+
+```bash
+# 1. Tap the repository
+brew tap data-wise/tap
+
+# 2. Install flow-cli
+brew install flow-cli
+```
+
+**That's it!** Homebrew manages the installation and keeps flow-cli updated.
+
+**Benefits:**
+- ✅ No plugin manager configuration needed
+- ✅ Automatic PATH setup
+- ✅ Easy updates: `brew upgrade flow-cli`
+- ✅ Clean uninstall: `brew uninstall flow-cli`
+
+### Alternative: Quick Install Script
+
+For auto-detection of your plugin manager:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
@@ -34,9 +54,9 @@ curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh 
 
 This auto-detects your plugin manager (antidote, zinit, oh-my-zsh) and installs accordingly.
 
-### Manual Installation
+### Plugin Manager Installation
 
-Choose your plugin manager:
+Choose your plugin manager if not using Homebrew:
 
 === "Antidote"
     ```bash
@@ -73,6 +93,10 @@ Choose your plugin manager:
     ```
 
 ### Reload Shell
+
+**If using Homebrew:** No reload needed! Commands are immediately available.
+
+**If using plugin manager or manual install:**
 
 ```bash
 source ~/.zshrc
@@ -170,7 +194,8 @@ finish
 
 | Method | Command | Best For |
 |--------|---------|----------|
-| **Quick Install** | `curl ... \| bash` | New users, auto-detection |
+| **Homebrew** ⭐ | `brew tap data-wise/tap && brew install flow-cli` | macOS users (easiest!) |
+| **Quick Install** | `curl ... \| bash` | Auto-detection |
 | **Antidote** | Add to `.zsh_plugins.txt` | Antidote users |
 | **Zinit** | `zinit light ...` | Zinit users |
 | **Oh-My-Zsh** | Clone to `$ZSH_CUSTOM` | OMZ users |
@@ -185,9 +210,19 @@ For the best experience, install these CLI tools:
 ```bash
 # Using Homebrew (macOS)
 brew install fzf eza bat zoxide fd ripgrep
+```
 
-# Or install from Brewfile
+**If you installed flow-cli via Homebrew, you likely already have Homebrew installed.**
+
+**Alternative: Use the included Brewfile:**
+
+```bash
+# From flow-cli directory (plugin manager install)
 brew bundle --file=~/.flow-cli/setup/Brewfile
+
+# Or if installed via Homebrew, download the Brewfile first
+curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/setup/Brewfile -o /tmp/Brewfile
+brew bundle --file=/tmp/Brewfile
 ```
 
 | Tool | Purpose | Used By |
@@ -203,7 +238,37 @@ brew bundle --file=~/.flow-cli/setup/Brewfile
 
 ## Troubleshooting
 
-### "command not found: flow"
+### Homebrew Issues
+
+**"command not found: flow" (after Homebrew install)**
+
+Check installation status:
+
+```bash
+# Verify flow-cli is installed
+brew list flow-cli
+
+# Check installation location
+brew --prefix flow-cli
+
+# Reinstall if needed
+brew reinstall flow-cli
+```
+
+**Homebrew not installed:**
+
+```bash
+# Install Homebrew first
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Then install flow-cli
+brew tap data-wise/tap
+brew install flow-cli
+```
+
+### Plugin Manager Issues
+
+**"command not found: flow" (plugin manager install)**
 
 Shell hasn't reloaded. Try:
 
@@ -212,7 +277,7 @@ source ~/.zshrc
 # Or restart your terminal
 ```
 
-### "command not found: work"
+**"command not found: work"**
 
 Plugin not loaded. Verify installation:
 
@@ -226,7 +291,7 @@ ls ~/.oh-my-zsh/custom/plugins/flow-cli/  # OMZ install
 source ~/.zshrc
 ```
 
-### Plugin Manager Not Detected
+**Plugin Manager Not Detected**
 
 Force a specific method:
 
@@ -240,17 +305,35 @@ Options: `antidote`, `zinit`, `omz`, `manual`
 
 ## Updating
 
-### Quick Update
+### Update to Latest Version
 
-```bash
-# If installed via plugin manager
-antidote update  # or zinit update
+=== "Homebrew"
+    ```bash
+    # Update Homebrew first
+    brew update
 
-# If manual install
-cd ~/.flow-cli && git pull
-```
+    # Upgrade flow-cli
+    brew upgrade flow-cli
 
-### Check for Updates
+    # Or upgrade all packages
+    brew upgrade
+    ```
+
+=== "Plugin Manager"
+    ```bash
+    # Antidote
+    antidote update
+
+    # Zinit
+    zinit update Data-Wise/flow-cli
+    ```
+
+=== "Manual"
+    ```bash
+    cd ~/.flow-cli && git pull
+    ```
+
+### Check Current Version
 
 ```bash
 flow --version
@@ -261,7 +344,16 @@ flow --version
 
 ## Uninstalling
 
-### Remove Plugin
+### Remove flow-cli
+
+=== "Homebrew"
+    ```bash
+    # Uninstall flow-cli
+    brew uninstall flow-cli
+
+    # Optional: Remove tap
+    brew untap data-wise/tap
+    ```
 
 === "Antidote"
     ```bash
