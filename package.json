@@ -1,6 +1,6 @@
 {
   "name": "flow-cli",
-  "version": "4.7.0",
+  "version": "4.8.1",
   "description": "ADHD-optimized ZSH workflow plugin",
   "private": true,
   "scripts": {
