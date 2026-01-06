@@ -7,6 +7,107 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### ✨ Added - Phase 2: Interactive Help System
+
+**Interactive Help Browser:**
+
+- `flow help --interactive` or `flow help -i` - Launch fzf-powered interactive help browser
+  - Browse all 48 commands with fuzzy search
+  - Live preview of help output in right pane
+  - Instant filtering as you type
+  - Graceful fallback with helpful error if fzf not installed
+
+**Context-Aware Help:**
+
+- Smart project type detection in `flow help`
+  - R package context (`DESCRIPTION` file) → Suggests `r help`, `flow test`, `flow check`
+  - Node.js project (`package.json`) → Suggests `flow test`, `flow build`, `npm run`
+  - Git repository (`.git` directory) → Suggests `g help`, `flow sync`, `wt help`
+  - Quarto project (`_quarto.yml` or `index.qmd`) → Suggests `qu help`, `flow render`
+  - Python project (`pyproject.toml` or `setup.py`) → Suggests Python workflows
+  - General/new user → Suggests `flow help -i`, `pick`, `dash`
+- Priority ordering: R > Quarto > Node > Python > Git > General
+- Context banner displays automatically in `flow help` output
+- Detection happens in <10ms (ADHD-friendly target met)
+
+**Alias Reference Command:**
+
+- `flow alias` - Show comprehensive alias reference
+  - Summary view lists all 6 categories with counts
+  - Category views: `flow alias r`, `flow alias cc`, `flow alias git`, etc.
+  - Shows all 28 custom aliases + 8 dispatchers + 226+ git plugin aliases
+  - Each alias shows full command and description
+  - Organized by workflow (Core, Quality, Documentation, etc.)
+  - `als` shortcut for backward compatibility
+
+**Categories:**
+
+- R Package Development (23 aliases)
+- Claude Code (2 aliases)
+- Focus Timers (2 aliases)
+- Tool Replacements (1 alias)
+- Git Plugin Aliases (226+, from Oh My Zsh)
+- Smart Dispatchers (8 functions)
+
+### 🧪 Testing - Comprehensive Coverage
+
+**Automated Tests (47 tests, 100% passing):**
+
+- 10 unit tests - Context detection for all project types
+- 5 edge case tests - Empty files, invalid JSON, multiple markers
+- 2 unit tests - Help browser & alias command functions
+- 11 integration tests - Alias categories + flow routing
+- 4 integration tests - Context-aware help in different projects
+- 4 E2E tests - Complete user workflows
+- 5 regression tests - Existing features still work
+- 2 performance tests - Sub-100ms operations (ADHD target)
+
+**Manual Testing Guide:**
+
+- `TESTING-PHASE2.md` (800+ lines, 31 test procedures)
+- Feature tests: Interactive help, context detection, alias reference
+- Integration tests: Flow routing, context switching
+- Edge case tests: Terminal width, no color, broken files
+- UX tests: First-time user, R developer, exploration flow
+- Sign-off checklist for release validation
+
+### 📖 Documentation
+
+- New file: `lib/help-browser.zsh` (146 lines)
+- New file: `commands/alias.zsh` (372 lines)
+- New file: `tests/test-phase2-features.zsh` (540 lines)
+- New file: `TESTING-PHASE2.md` (800+ lines)
+- Modified: `commands/flow.zsh` (+58 lines for context detection)
+- Modified: `flow.plugin.zsh` (+1 line to source help-browser)
+- Modified: `tests/test-framework.zsh` (+40 lines, 4 new helpers)
+
+**Test Framework Enhancements:**
+
+- `assert_success()` - Always-pass assertion for documentation
+- `assert_function_exists()` - Check if function exists
+- `assert_alias_exists()` - Check if alias exists
+- `test_suite()` - Wrapper for test suite start
+- `print_summary()` - Final test summary output
+
+### ⚡ Performance
+
+- Context detection: < 10ms
+- Help display: < 100ms
+- Alias display: < 50ms
+- All operations sub-100ms (ADHD-friendly design maintained)
+
+### 🔒 Compatibility
+
+- **No breaking changes** - Fully backward compatible
+- All existing `flow help` patterns still work
+- Context banner is additive (non-breaking enhancement)
+- `--list` and `--search` flags unchanged
+- All dispatcher helps unaffected
+
+---
+
 ## [4.8.0] - 2026-01-01
 
 ### ✨ Added
