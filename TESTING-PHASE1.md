@@ -1,12 +1,25 @@
 # Phase 1 Manual Testing Guide
 
-**Version:** v4.9.0 Phase 1
-**Date:** 2026-01-05
-**Time Required:** ~10 minutes
+**Version:** v4.9.0 Phase 1 + Critical Bug Fixes
+**Date:** 2026-01-05 (Updated)
+**Time Required:** ~15 minutes
+**Bug Fixes:** PRs #175, #176, #177
+
+## ⚠️ IMPORTANT: Recent Bug Fixes
+
+**Three critical bugs were fixed today that affect Phase 1 testing:**
+
+1. **PR #175**: Missing `_flow_log_muted` function
+2. **PR #176**: ZSH builtin 'r' shadowing R dispatcher
+3. **PR #177**: OMZ aliases breaking command substitutions (grep, cut, sort, bat)
+
+These fixes are essential for Phase 1 to work correctly, especially if you use Oh-My-Zsh plugins.
+
+---
 
 ## Quick Setup
 
-1. **Reload your shell** to get the latest flow-cli:
+1. **Reload your shell** to get the latest fixes:
 
    ```bash
    source ~/.zshrc
@@ -16,10 +29,122 @@
    ```
 
 2. **Verify you have the latest version:**
+
    ```bash
    flow --version
-   # Should show: flow-cli v4.7.0 or higher
+   # Should show: flow-cli v4.8.1 or higher
    ```
+
+3. **Verify bug fixes are applied:**
+   ```bash
+   cd ~/projects/dev-tools/flow-cli
+   git log --oneline -3
+   # Should show:
+   # 7fa4879 fix: bypass OMZ aliases in command substitutions (#177)
+   # 770015c fix: disable ZSH builtin 'r' to allow R dispatcher to work (#176)
+   # 66e712a fix: add missing _flow_log_muted function (#175)
+   ```
+
+---
+
+## 🔧 Bug Fix Verification (NEW)
+
+**Test these FIRST to ensure the critical bugs are fixed:**
+
+### Bug Fix 1: R Dispatcher Works (PR #176)
+
+**Issue:** ZSH builtin `r` command was shadowing the R package dispatcher.
+
+**Test:**
+
+```bash
+r help
+```
+
+**✅ Should display:** R dispatcher help (NOT "event not found: help" error)
+
+**❌ If you see error:** The builtin 'r' is still active. Run `disable r` manually.
+
+---
+
+### Bug Fix 2: Dashboard & Commands Work (PR #177)
+
+**Issue:** OMZ aliases (grep, cut, sort, bat) were breaking command substitutions.
+
+**Test 1: Dashboard displays without errors**
+
+```bash
+dash
+```
+
+**✅ Should display:** Project dashboard
+**❌ Should NOT show:** "command not found: grep", "command not found: cut"
+
+**Test 2: Reference card displays without errors**
+
+```bash
+ref
+```
+
+**✅ Should display:** Command quick reference
+**❌ Should NOT show:** "command not found: bat"
+
+**Test 3: Terminal manager works**
+
+```bash
+tm help
+```
+
+**✅ Should display:** Terminal manager help
+**❌ Should NOT show:** "command not found: sort", "command not found: atuin"
+
+**Test 4: Quarto dispatcher works**
+
+```bash
+qu help
+```
+
+**✅ Should display:** Quarto help
+**❌ Should NOT show:** "command not found" errors
+
+---
+
+### Bug Fix 3: Work Command (PR #175)
+
+**Issue:** Missing `_flow_log_muted` function caused errors in work command.
+
+**Test:**
+
+```bash
+work flow-cli
+```
+
+**✅ Should display:** Welcome message (first time) or session start
+**❌ Should NOT show:** "command not found: \_flow_log_muted"
+
+---
+
+## 🎯 If Bug Fixes Don't Work
+
+If you see any of the errors above after reloading:
+
+1. **Verify you're on main branch with latest commits:**
+
+   ```bash
+   cd ~/projects/dev-tools/flow-cli
+   git status
+   git pull origin main
+   ```
+
+2. **Reload flow-cli directly:**
+
+   ```bash
+   source ~/projects/dev-tools/flow-cli/flow.plugin.zsh
+   ```
+
+3. **Try the commands again** - they should work now
+
+4. **If still broken:** Report the issue with exact error message
 
 ---
 
@@ -324,6 +449,17 @@ EXAMPLES:
 
 Complete this checklist as you test:
 
+### Bug Fixes (Test FIRST)
+
+- [ ] **Bug Fix #176:** `r help` works (no "event not found" error)
+- [ ] **Bug Fix #177:** `dash` works (no "command not found: grep/cut" errors)
+- [ ] **Bug Fix #177:** `ref` works (no "command not found: bat" error)
+- [ ] **Bug Fix #177:** `tm help` works (no "command not found: sort" error)
+- [ ] **Bug Fix #177:** `qu help` works (no errors)
+- [ ] **Bug Fix #175:** `work flow-cli` works (no "\_flow_log_muted" error)
+
+### Phase 1 Features
+
 - [ ] **Feature 1:** Welcome message shown on first work command
 - [ ] **Feature 1:** Welcome message NOT shown on second work command
 - [ ] **Feature 2:** `g help` has "See also" section
@@ -362,6 +498,17 @@ If you find any issues:
 ## 🎉 Success Criteria
 
 **Phase 1 is working correctly if:**
+
+### Bug Fixes
+
+- ✅ No "command not found" errors for grep, cut, sort, bat, atuin
+- ✅ R dispatcher (`r help`) works without errors
+- ✅ Dashboard (`dash`) displays without errors
+- ✅ Reference card (`ref`) displays without errors
+- ✅ All dispatcher helps work (r, qu, tm, g, cc)
+- ✅ Work command (`work`) doesn't show "\_flow_log_muted" error
+
+### Phase 1 Features
 
 - ✅ Welcome message shows exactly once
 - ✅ All 5 dispatcher helps have "See also" sections
