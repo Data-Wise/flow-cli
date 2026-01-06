@@ -4,13 +4,23 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v4.8.0 Development
+## Phase: v4.8.1 Complete → v4.9.0 Planning
 ## Priority: 1
 ## Progress: 100
 
-## Focus: v4.8.0 - SHIPPED! 🚀 Post-release Documentation Complete
+## Focus: v4.8.1 - SHIPPED! 🚀 Homebrew Documentation Overhaul Complete
 
-## ✅ Just Completed (2026-01-02):
+## ✅ Just Completed (2026-01-05):
+- **v4.8.1 Release** - Homebrew installation now primary method
+  - README.md: Homebrew moved to top with ⭐ designation
+  - docs/index.md: Homebrew tab added first ("No shell config needed!")
+  - docs/getting-started/installation.md: Complete Homebrew lifecycle docs
+  - docs/getting-started/faq.md: Added "How do I install?" with Homebrew
+  - Better onboarding: ~30 seconds vs ~5-10 minutes
+  - PR #165 (Homebrew docs), #166 (CHANGELOG), #167 (version bump) - all merged
+  - GitHub Release: https://github.com/Data-Wise/flow-cli/releases/tag/v4.8.1
+  - Homebrew formula updated (cc9b569)
+
 - **v4.8.0 Release** - CC Unified Grammar shipped same-day
   - Both command orders work: `cc opus pick` AND `cc pick opus`
   - Shell completions (_cc) with context-aware suggestions (134 lines)
@@ -539,9 +549,9 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: v4.8.0 SHIPPED (2026-01-02), Same-day release cycle, Zero doc warnings, Spec archived
-## streak: 5
-## last_active: 2026-01-02
+## wins: v4.8.1 SHIPPED (2026-01-05), Homebrew-first docs, Same-day release, 3 PRs merged
+## streak: 6
+## last_active: 2026-01-05
 
 ## 🎯 Next Action:
 **Focus:** v4.9.0 Planning → v4.9.0 Implementation (Pick one enhancement option)
@@ -573,6 +583,15 @@ C) **ADHD Features** (High priority, 3 days)
 **Decision Needed:** Pick enhancement option or quick win to start next session
 
 ## Session Log (continued)
+- 2026-01-05: v4.8.1 RELEASE - Homebrew installation documentation overhaul 🚀
+- 2026-01-05: DOCS - Homebrew now primary installation method across all docs
+- 2026-01-05: DOCS - Updated README.md, index.md, installation.md, faq.md
+- 2026-01-05: DOCS - Added Homebrew sections: install, update, uninstall, troubleshooting
+- 2026-01-05: DOCS - Better onboarding: ~30 seconds vs ~5-10 minutes
+- 2026-01-05: PR - #165 (Homebrew docs), #166 (CHANGELOG), #167 (version bump) merged
+- 2026-01-05: TAG - v4.8.1 tagged and released on GitHub
+- 2026-01-05: HOMEBREW - Formula updated to v4.8.1 (SHA256: eac1196...)
+- 2026-01-05: STATUS - Updated .STATUS for v4.8.1 completion
 - 2026-01-02: v4.8.0 RELEASE - CC Unified Grammar shipped! 🚀
 - 2026-01-02: FEAT - Both command orders work (cc opus pick AND cc pick opus)
 - 2026-01-02: FEAT - Shell completions (_cc) with context-aware suggestions (134 lines)
