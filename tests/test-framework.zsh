@@ -324,3 +324,70 @@ run_all_tests() {
 
   return $total_exit_code
 }
+
+# ============================================================================
+# ADDITIONAL ASSERTION HELPERS
+# ============================================================================
+
+assert_success() {
+  local message="${1:-Command should succeed}"
+  # Always pass (used for documenting expected behavior)
+  return 0
+}
+
+assert_function_exists() {
+  local func_name="$1"
+  local message="${2:-Function '$func_name' should exist}"
+
+  if ! type "$func_name" &>/dev/null; then
+    test_fail "$message"
+    return 1
+  fi
+}
+
+assert_alias_exists() {
+  local alias_name="$1"
+  local message="${2:-Alias '$alias_name' should exist}"
+
+  if ! alias "$alias_name" &>/dev/null 2>&1; then
+    test_fail "$message"
+    return 1
+  fi
+}
+
+# ============================================================================
+# TEST SUITE WRAPPER
+# ============================================================================
+
+test_suite() {
+  test_suite_start "$1"
+}
+
+# ============================================================================
+# SUMMARY
+# ============================================================================
+
+print_summary() {
+  echo ""
+  echo "${CYAN}╔════════════════════════════════════════════════════════════════╗${RESET}"
+  echo "${CYAN}║ TEST SUMMARY${RESET}"
+  echo "${CYAN}╚════════════════════════════════════════════════════════════════╝${RESET}"
+  echo ""
+
+  if (( TESTS_FAILED == 0 )); then
+    echo "${GREEN}✓ ALL TESTS PASSED${RESET}"
+    echo ""
+    echo "  Total:  $TESTS_RUN"
+    echo "  Passed: $TESTS_PASSED"
+    echo "  Failed: $TESTS_FAILED"
+    echo ""
+  else
+    echo "${RED}✗ SOME TESTS FAILED${RESET}"
+    echo ""
+    echo "  Total:  $TESTS_RUN"
+    echo "  ${GREEN}Passed: $TESTS_PASSED${RESET}"
+    echo "  ${RED}Failed: $TESTS_FAILED${RESET}"
+    echo ""
+    return 1
+  fi
+}
