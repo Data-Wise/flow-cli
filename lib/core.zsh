@@ -46,6 +46,7 @@ _flow_log_success() { _flow_log success "✓ $*" }
 _flow_log_warning() { _flow_log warning "⚠ $*" }
 _flow_log_error()   { _flow_log error "✗ $*" }
 _flow_log_info()    { _flow_log info "ℹ $*" }
+_flow_log_muted()   { echo -e "${FLOW_COLORS[muted]}$*${FLOW_COLORS[reset]}" }
 
 _flow_log_debug() {
   [[ -n "$FLOW_DEBUG" ]] && echo -e "${FLOW_COLORS[muted]}[debug] $*${FLOW_COLORS[reset]}"
