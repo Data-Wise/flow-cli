@@ -141,6 +141,11 @@ flow() {
       flow_config "$@"
       ;;
 
+    # ── Alias Reference (Phase 2 feature) ──────────────────────────────────
+    alias|aliases)
+      flow_alias "$@"
+      ;;
+
     # ── Unknown ─────────────────────────────────────────────────────────────
     *)
       echo "Unknown command: $cmd"
@@ -156,6 +161,12 @@ flow() {
 
 _flow_help() {
   local topic="${1:-}"
+
+  # Handle --interactive option (Phase 2 feature)
+  if [[ "$topic" == "--interactive" || "$topic" == "-i" ]]; then
+    _flow_help_browser
+    return
+  fi
 
   # Handle --list option
   if [[ "$topic" == "--list" || "$topic" == "-l" ]]; then
@@ -198,12 +209,45 @@ _flow_help() {
   local _C_BLUE="${_C_BLUE:-\033[0;34m}"
   local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
   local _C_DIM="${_C_DIM:-\033[2m}"
+  local _C_MAGENTA="${_C_MAGENTA:-\033[0;35m}"
+
+  # Context detection (Phase 2 feature)
+  local context=$(_flow_detect_context)
+  local context_hint=""
+
+  case "$context" in
+    r-package)
+      context_hint="${_C_MAGENTA}📦 R Package Context${_C_NC} - Try: ${_C_CYAN}r help${_C_NC}, ${_C_CYAN}flow test${_C_NC}, ${_C_CYAN}flow check${_C_NC}"
+      ;;
+    git-repo)
+      context_hint="${_C_MAGENTA}📂 Git Repository${_C_NC} - Try: ${_C_CYAN}g help${_C_NC}, ${_C_CYAN}flow sync${_C_NC}, ${_C_CYAN}wt help${_C_NC}"
+      ;;
+    quarto)
+      context_hint="${_C_MAGENTA}📝 Quarto Project${_C_NC} - Try: ${_C_CYAN}qu help${_C_NC}, ${_C_CYAN}flow build${_C_NC}, ${_C_CYAN}flow preview${_C_NC}"
+      ;;
+    node)
+      context_hint="${_C_MAGENTA}📦 Node.js Project${_C_NC} - Try: ${_C_CYAN}flow test${_C_NC}, ${_C_CYAN}flow build${_C_NC}, ${_C_CYAN}npm run${_C_NC}"
+      ;;
+    new-user)
+      context_hint="${_C_GREEN}👋 New to flow-cli?${_C_NC} Start with: ${_C_CYAN}flow learn${_C_NC}, ${_C_CYAN}flow setup${_C_NC}, ${_C_CYAN}flow doctor${_C_NC}"
+      ;;
+  esac
+
+  # Build context-specific banner
+  local context_banner=""
+  if [[ -n "$context_hint" ]]; then
+    context_banner="
+${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}
+$context_hint
+${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}
+"
+  fi
 
   echo -e "
 ${_C_BOLD}╭─────────────────────────────────────────────────────────────────────────────╮${_C_NC}
 ${_C_BOLD}│ 🌊 FLOW - ADHD-Friendly Workflow CLI                                        │${_C_NC}
 ${_C_BOLD}╰─────────────────────────────────────────────────────────────────────────────╯${_C_NC}
-
+$context_banner
 ${_C_BOLD}Usage:${_C_NC} flow <command> [args]
 
 ${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
@@ -263,6 +307,7 @@ ${_C_BLUE}📚 LEARNING${_C_NC}:
   ${_C_CYAN}learn medium${_C_NC}       Productivity tools
   ${_C_CYAN}learn advanced${_C_NC}     Power features
   ${_C_CYAN}help${_C_NC} [command]     Show help (this or specific command)
+  ${_C_CYAN}help -i${_C_NC}            Interactive help browser with fzf
 
 ${_C_BLUE}🔧 SETUP & DIAGNOSTICS${_C_NC}:
   ${_C_CYAN}doctor${_C_NC}             Check dependencies & health
@@ -960,6 +1005,54 @@ EOF
       git log --oneline -20
       ;;
   esac
+}
+
+# ============================================================================
+# CONTEXT DETECTION (Phase 2 feature)
+# ============================================================================
+
+_flow_detect_context() {
+  local pwd_cached="${PWD:-$(pwd)}"
+
+  # Check if new user (no session history)
+  if [[ ! -d "${FLOW_CONFIG_DIR:-$HOME/.config/flow-cli}" ]] && \
+     [[ ! -f "$HOME/.config/flow-cli/.welcomed" ]]; then
+    echo "new-user"
+    return
+  fi
+
+  # Check for R package (highest priority for dev work)
+  if [[ -f "$pwd_cached/DESCRIPTION" ]] && grep -q "^Package:" "$pwd_cached/DESCRIPTION" 2>/dev/null; then
+    echo "r-package"
+    return
+  fi
+
+  # Check for Quarto project
+  if [[ -f "$pwd_cached/_quarto.yml" ]] || [[ -f "$pwd_cached/index.qmd" ]]; then
+    echo "quarto"
+    return
+  fi
+
+  # Check for Node.js project
+  if [[ -f "$pwd_cached/package.json" ]]; then
+    echo "node"
+    return
+  fi
+
+  # Check for Python project
+  if [[ -f "$pwd_cached/pyproject.toml" ]] || [[ -f "$pwd_cached/setup.py" ]]; then
+    echo "python"
+    return
+  fi
+
+  # Check for Git repository (lowest priority, most common)
+  if git rev-parse --git-dir &>/dev/null; then
+    echo "git-repo"
+    return
+  fi
+
+  # Default: no specific context
+  echo "general"
 }
 
 # ============================================================================
