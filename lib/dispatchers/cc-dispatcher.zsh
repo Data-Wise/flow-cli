@@ -146,7 +146,7 @@ cc() {
                 echo "Error: Not in an R package directory (no DESCRIPTION file)"
                 return 1
             fi
-            local pkg_name=$(grep "^Package:" DESCRIPTION | cut -d' ' -f2)
+            local pkg_name=$(command grep "^Package:" DESCRIPTION | command cut -d' ' -f2)
             claude "I'm working on the R package '$pkg_name'. $*"
             ;;
 

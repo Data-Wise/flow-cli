@@ -101,7 +101,7 @@ next() {
     if [[ -n "$info" ]]; then
       eval "$info"
       if [[ -n "$path" ]] && [[ -f "$path/.STATUS" ]]; then
-        focus=$(grep -m1 "^## Focus:" "$path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
+        focus=$(command grep -m1 "^## Focus:" "$path/.STATUS" 2>/dev/null | command cut -d: -f2- | sed 's/^ *//')
       fi
     fi
 
@@ -287,7 +287,7 @@ focus() {
     else
       local root=$(_flow_find_project_root)
       if [[ -n "$root" ]] && [[ -f "$root/.STATUS" ]]; then
-        local focus=$(grep -m1 "^## Focus:" "$root/.STATUS" | cut -d: -f2-)
+        local focus=$(command grep -m1 "^## Focus:" "$root/.STATUS" | command cut -d: -f2-)
         if [[ -n "$focus" ]]; then
           echo "🎯 Focus:$focus"
         else

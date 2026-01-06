@@ -1383,7 +1383,7 @@ _dash_interactive() {
 
   # Create enhanced preview script (v3.5.0)
   local preview_cmd='
-    project=$(echo {} | sed "s/.*[🔧📦🔬🎓📝📱] [🟢🟡🔴🟠⚫⚪] //" | cut -d: -f1 | xargs)
+    project=$(echo {} | sed "s/.*[🔧📦🔬🎓📝📱] [🟢🟡🔴🟠⚫⚪] //" | command cut -d: -f1 | xargs)
     path=$(find ~/projects -maxdepth 4 -type d -name "$project" 2>/dev/null | head -1)
     if [[ -f "$path/.STATUS" ]]; then
       echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -1462,7 +1462,7 @@ _dash_interactive() {
   elif [[ "$selected" == "WINS "* ]]; then
     # Ctrl-W: Show project wins
     if [[ -f "$proj_path/.STATUS" ]]; then
-      local wins=$(grep -i "^## wins:" "$proj_path/.STATUS" 2>/dev/null | sed 's/^## wins: *//')
+      local wins=$(command grep -i "^## wins:" "$proj_path/.STATUS" 2>/dev/null | sed 's/^## wins: *//')
       if [[ -n "$wins" ]]; then
         echo ""
         echo "  ${FLOW_COLORS[header]}🎉 Wins for $project_name${FLOW_COLORS[reset]}"

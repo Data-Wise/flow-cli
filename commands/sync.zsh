@@ -241,7 +241,7 @@ _flow_sync_goals() {
   # Read target goal
   local target=3  # Default
   if [[ -f "$goal_file" ]]; then
-    local file_target=$(grep -o '"target":[0-9]*' "$goal_file" 2>/dev/null | cut -d: -f2)
+    local file_target=$(command grep -o '"target":[0-9]*' "$goal_file" 2>/dev/null | command cut -d: -f2)
     [[ -n "$file_target" ]] && target=$file_target
   fi
 
@@ -477,7 +477,7 @@ _flow_sync_smart() {
   local goal_file="${FLOW_DATA_DIR}/goal.json"
   local target=3
   if [[ -f "$goal_file" ]]; then
-    local file_target=$(grep -o '"target":[0-9]*' "$goal_file" 2>/dev/null | cut -d: -f2)
+    local file_target=$(command grep -o '"target":[0-9]*' "$goal_file" 2>/dev/null | command cut -d: -f2)
     [[ -n "$file_target" ]] && target=$file_target
   fi
 
@@ -505,7 +505,7 @@ _flow_sync_dashboard() {
   echo ""
 
   if [[ -f "$state_file" ]]; then
-    local last_sync=$(grep -o '"all":"[^"]*"' "$state_file" 2>/dev/null | cut -d'"' -f4)
+    local last_sync=$(command grep -o '"all":"[^"]*"' "$state_file" 2>/dev/null | command cut -d'"' -f4)
     if [[ -n "$last_sync" ]]; then
       echo "  Last full sync: ${FLOW_COLORS[accent]}$last_sync${FLOW_COLORS[reset]}"
     fi
@@ -600,7 +600,7 @@ _flow_sync_schedule_status() {
       echo "  Status: ${FLOW_COLORS[success]}Active${FLOW_COLORS[reset]}"
 
       # Parse interval from plist
-      local interval=$(grep -A1 'StartInterval' "$plist_path" 2>/dev/null | tail -1 | sed 's/[^0-9]//g')
+      local interval=$(command grep -A1 'StartInterval' "$plist_path" 2>/dev/null | tail -1 | sed 's/[^0-9]//g')
       if [[ -n "$interval" ]]; then
         local minutes=$((interval / 60))
         echo "  Interval: ${FLOW_COLORS[accent]}Every ${minutes} minutes${FLOW_COLORS[reset]}"
@@ -609,7 +609,7 @@ _flow_sync_schedule_status() {
       # Last run from log
       local log_file="${FLOW_DATA_DIR}/sync-schedule.log"
       if [[ -f "$log_file" ]]; then
-        local last_run=$(tail -1 "$log_file" 2>/dev/null | cut -d' ' -f1-2)
+        local last_run=$(tail -1 "$log_file" 2>/dev/null | command cut -d' ' -f1-2)
         [[ -n "$last_run" ]] && echo "  Last run: ${FLOW_COLORS[muted]}$last_run${FLOW_COLORS[reset]}"
       fi
     else

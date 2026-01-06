@@ -189,7 +189,7 @@ _flow_get_config() {
   local default="$3"
   
   if [[ -f "$file" ]]; then
-    local value=$(grep "^${key}=" "$file" 2>/dev/null | cut -d'=' -f2-)
+    local value=$(command grep "^${key}=" "$file" 2>/dev/null | command cut -d'=' -f2-)
     echo "${value:-$default}"
   else
     echo "$default"

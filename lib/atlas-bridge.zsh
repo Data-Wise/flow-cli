@@ -225,7 +225,7 @@ _flow_session_end() {
     local elapsed=$((EPOCHSECONDS - FLOW_SESSION_START))
     duration_mins=$((elapsed / 60))
   elif [[ -f "$_FLOW_SESSION_FILE" ]]; then
-    local start_time=$(grep "^start=" "$_FLOW_SESSION_FILE" | cut -d= -f2)
+    local start_time=$(command grep "^start=" "$_FLOW_SESSION_FILE" | command cut -d= -f2)
     if [[ -n "$start_time" ]]; then
       local elapsed=$((EPOCHSECONDS - start_time))
       duration_mins=$((elapsed / 60))
@@ -253,8 +253,8 @@ _flow_session_end() {
 # Get current session info
 _flow_session_current() {
   if [[ -f "$_FLOW_SESSION_FILE" ]]; then
-    local project=$(grep "^project=" "$_FLOW_SESSION_FILE" | cut -d= -f2)
-    local start_time=$(grep "^start=" "$_FLOW_SESSION_FILE" | cut -d= -f2)
+    local project=$(command grep "^project=" "$_FLOW_SESSION_FILE" | command cut -d= -f2)
+    local start_time=$(command grep "^start=" "$_FLOW_SESSION_FILE" | command cut -d= -f2)
 
     if [[ -n "$project" && -n "$start_time" ]]; then
       local elapsed=$((EPOCHSECONDS - start_time))
@@ -286,8 +286,8 @@ _flow_today_session_time() {
 
   # Add current session if active
   if [[ -f "$_FLOW_SESSION_FILE" ]]; then
-    local start_time=$(grep "^start=" "$_FLOW_SESSION_FILE" | cut -d= -f2)
-    local session_date=$(grep "^date=" "$_FLOW_SESSION_FILE" | cut -d= -f2)
+    local start_time=$(command grep "^start=" "$_FLOW_SESSION_FILE" | command cut -d= -f2)
+    local session_date=$(command grep "^date=" "$_FLOW_SESSION_FILE" | command cut -d= -f2)
     if [[ "$session_date" == "$today" && -n "$start_time" ]]; then
       local elapsed=$((EPOCHSECONDS - start_time))
       ((total_mins += elapsed / 60))
@@ -376,8 +376,8 @@ _flow_where_fallback() {
   done
   
   if [[ -f "$status_file" ]]; then
-    local status=$(grep -m1 "^## Status:" "$status_file" | cut -d: -f2 | tr -d ' ')
-    local focus=$(grep -m1 "^## Focus:" "$status_file" | cut -d: -f2-)
+    local status=$(command grep -m1 "^## Status:" "$status_file" | command cut -d: -f2 | tr -d ' ')
+    local focus=$(command grep -m1 "^## Focus:" "$status_file" | command cut -d: -f2-)
     
     [[ -n "$status" ]] && echo "   Status: $status"
     [[ -n "$focus" ]] && echo "   Focus: $focus"

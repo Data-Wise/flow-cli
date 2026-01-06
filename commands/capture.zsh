@@ -403,7 +403,7 @@ _flow_read_goal() {
     local root=$(_flow_find_project_root)
     local status_file="$root/.STATUS"
     if [[ -f "$status_file" ]]; then
-      local project_goal=$(grep -i "^## daily_goal:" "$status_file" 2>/dev/null | head -1 | sed 's/^## [^:]*: *//')
+      local project_goal=$(command grep -i "^## daily_goal:" "$status_file" 2>/dev/null | head -1 | sed 's/^## [^:]*: *//')
       if [[ -n "$project_goal" ]] && [[ "$project_goal" =~ ^[0-9]+$ ]]; then
         echo "$project_goal"
         return
@@ -413,8 +413,8 @@ _flow_read_goal() {
 
   # Second: Check global goal.json
   if [[ -f "$goal_file" ]]; then
-    local file_date=$(grep -o '"date":"[^"]*"' "$goal_file" 2>/dev/null | cut -d'"' -f4)
-    local target=$(grep -o '"target":[0-9]*' "$goal_file" 2>/dev/null | cut -d: -f2)
+    local file_date=$(command grep -o '"date":"[^"]*"' "$goal_file" 2>/dev/null | command cut -d'"' -f4)
+    local target=$(command grep -o '"target":[0-9]*' "$goal_file" 2>/dev/null | command cut -d: -f2)
 
     # Check if goal is from today
     if [[ "$file_date" == "$today" ]]; then
