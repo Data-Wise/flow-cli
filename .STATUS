@@ -554,33 +554,45 @@ _g_feature_status() {
 ## last_active: 2026-01-05
 
 ## 🎯 Next Action:
-**Focus:** v4.9.0 Planning → v4.9.0 Implementation (Pick one enhancement option)
+**Focus:** v4.9.0 Installation & Onboarding → Phased Implementation
 
-**Recommendations (from V4.9-ROADMAP.md):**
-A) **Installation & Onboarding** (High priority, 2-3 days) ⚡ RECOMMENDED
-   - One-liner install script (curl installer)
-   - Enhanced `flow doctor --fix` (interactive mode)
-   - First-run wizard (`flow setup`)
-   - Zero-friction new user experience
+**Brainstorm Complete (2026-01-05):**
+- ✅ Analyzed existing installation & help documentation
+- ✅ Identified gaps: Discoverability & first-run experience
+- ✅ Current docs are EXCELLENT (v4.8.1 Homebrew success!)
+- ✅ Created 3-phase implementation plan
 
-B) **MCP Integration** (High priority, 2 days)
-   - `mcp validate --fix` (auto-restart failed servers)
-   - Dashboard integration (MCP status in `dash`)
-   - Quick troubleshooting (`mcp doctor`)
+**Implementation Options:**
 
-C) **ADHD Features** (High priority, 3 days)
-   - Focus mode (`focus on/off`)
-   - Break reminders (`pom` enhancements)
-   - Daily review (`yay --today`)
-   - Motivational messages
+**A) Quick Wins Sprint** (RECOMMENDED ⚡, ~2-3 hours)
+   - First-run welcome message (30 min)
+   - "See also" cross-references in help (20 min)
+   - Random tips in dashboard (15 min)
+   - Quick reference card `flow ref` (25 min)
+   - Command usage examples (60 min)
+   **Impact:** Immediate UX improvement, low effort
 
-**Quick Wins (< 1 day each):**
-- [ ] `pickr` alias for `pick --recent`
-- [ ] Add worklog to remote sync scope
-- [ ] Progress bars in `flow goal`
-- [ ] `mcp logs --tail` command
+**B) Interactive Help Focus** (~3 hours)
+   - Interactive help browser with fzf (90 min)
+   - Context-aware help (60 min)
+   - Command aliases reference (30 min)
+   **Impact:** Much better discoverability
 
-**Decision Needed:** Pick enhancement option or quick win to start next session
+**C) v4.9.0 Full Onboarding** (2-3 days)
+   - install.sh script (6 hours)
+   - Enhanced `flow doctor --fix` (4 hours)
+   - First-run wizard (8 hours)
+   - Testing & polish (4 hours)
+   **Impact:** Transformative onboarding experience
+
+**Recommended Path:** A → B → C (Progressive enhancement)
+
+**Decision Needed:** Start with Quick Wins Sprint (Option A)?
+
+**Reference:**
+- **IMPLEMENTATION-PLAN-v4.9.0.md** - Consolidated roadmap (3 phases, tasks, timelines)
+- BRAINSTORM-installation-help-docs-2026-01-05.md - Analysis & insights
+- SPEC-v4.9.0-installation-onboarding.md - Full onboarding spec (Phase 3)
 
 ## Session Log (continued)
 - 2026-01-05: v4.8.1 RELEASE - Homebrew installation documentation overhaul 🚀
