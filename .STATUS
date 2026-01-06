@@ -554,40 +554,31 @@ _g_feature_status() {
 ## last_active: 2026-01-05
 
 ## 🎯 Next Action:
-**Focus:** v4.9.0 Installation & Onboarding → Phased Implementation
+**Focus:** v4.9.0 Phase 1 COMPLETE ✅ → Phase 2 Ready
 
-**Brainstorm Complete (2026-01-05):**
-- ✅ Analyzed existing installation & help documentation
-- ✅ Identified gaps: Discoverability & first-run experience
-- ✅ Current docs are EXCELLENT (v4.8.1 Homebrew success!)
-- ✅ Created 3-phase implementation plan
+**Phase 1: Quick Wins Sprint** (COMPLETED 2026-01-05, PR #170)
+✅ All 5 tasks complete in ~2 hours:
+   - ✅ First-run welcome message (commands/work.zsh)
+   - ✅ "See also" cross-references (8 dispatcher helps)
+   - ✅ Random tips in dashboard (~20% frequency)
+   - ✅ Quick reference card `flow ref` command (NEW)
+   - ✅ EXAMPLES sections (r, qu, tm dispatchers)
+   **Result:** 9 files changed, 203 insertions, immediate UX improvement
 
-**Implementation Options:**
-
-**A) Quick Wins Sprint** (RECOMMENDED ⚡, ~2-3 hours)
-   - First-run welcome message (30 min)
-   - "See also" cross-references in help (20 min)
-   - Random tips in dashboard (15 min)
-   - Quick reference card `flow ref` (25 min)
-   - Command usage examples (60 min)
-   **Impact:** Immediate UX improvement, low effort
-
-**B) Interactive Help Focus** (~3 hours)
+**Phase 2: Interactive Help Focus** (READY TO START ⚡, ~3 hours)
    - Interactive help browser with fzf (90 min)
    - Context-aware help (60 min)
    - Command aliases reference (30 min)
-   **Impact:** Much better discoverability
+   **Impact:** Much better discoverability, interactive exploration
 
-**C) v4.9.0 Full Onboarding** (2-3 days)
+**Phase 3: v4.9.0 Full Onboarding** (FUTURE, 2-3 days)
    - install.sh script (6 hours)
    - Enhanced `flow doctor --fix` (4 hours)
    - First-run wizard (8 hours)
    - Testing & polish (4 hours)
    **Impact:** Transformative onboarding experience
 
-**Recommended Path:** A → B → C (Progressive enhancement)
-
-**Decision Needed:** Start with Quick Wins Sprint (Option A)?
+**Recommended:** Continue with Phase 2 (Interactive Help) or pause and test Phase 1 in production
 
 **Reference:**
 - **IMPLEMENTATION-PLAN-v4.9.0.md** - Consolidated roadmap (3 phases, tasks, timelines)
@@ -604,6 +595,18 @@ _g_feature_status() {
 - 2026-01-05: TAG - v4.8.1 tagged and released on GitHub
 - 2026-01-05: HOMEBREW - Formula updated to v4.8.1 (SHA256: eac1196...)
 - 2026-01-05: STATUS - Updated .STATUS for v4.8.1 completion
+- 2026-01-05: v4.9.0 PHASE 1 COMPLETE - Quick Wins Sprint (PR #170) ✅
+- 2026-01-05: FEAT - First-run welcome message (work command)
+- 2026-01-05: FEAT - "See also" cross-references (8 dispatcher helps)
+- 2026-01-05: FEAT - Random tips in dashboard (~20% frequency)
+- 2026-01-05: FEAT - Quick reference card `ref` command (NEW)
+- 2026-01-05: FEAT - EXAMPLES sections (r, qu, tm dispatchers)
+- 2026-01-05: PR - #170 merged (9 files, 203 insertions, ~2 hours)
+- 2026-01-05: PLANNING - Created v4.9.0 implementation plan (3 phases)
+- 2026-01-05: DOCS - BRAINSTORM-installation-help-docs-2026-01-05.md
+- 2026-01-05: DOCS - IMPLEMENTATION-PLAN-v4.9.0.md
+- 2026-01-05: DOCS - SPEC-v4.9.0-installation-onboarding.md
+- 2026-01-05: PR - #169 (planning docs) merged
 - 2026-01-02: v4.8.0 RELEASE - CC Unified Grammar shipped! 🚀
 - 2026-01-02: FEAT - Both command orders work (cc opus pick AND cc pick opus)
 - 2026-01-02: FEAT - Shell completions (_cc) with context-aware suggestions (134 lines)
