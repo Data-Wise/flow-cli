@@ -49,6 +49,9 @@ done
 # ============================================================================
 
 if [[ "$FLOW_LOAD_DISPATCHERS" == "yes" ]]; then
+  # Disable ZSH builtin 'r' (history repeat) to allow R dispatcher
+  disable r
+
   for disp_file in "$FLOW_PLUGIN_DIR/lib/dispatchers/"*.zsh(N); do
     source "$disp_file"
   done

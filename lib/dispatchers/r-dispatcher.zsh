@@ -1,5 +1,9 @@
 # r-dispatcher.zsh - R Package Development Dispatcher
 # Smart R package workflows for ADHD-optimized development
+#
+# NOTE: The ZSH builtin 'r' command (history repeat / fc -e -) is disabled
+#       in flow.plugin.zsh to allow this dispatcher to work correctly.
+#       Without 'disable r', the builtin shadows this function.
 
 # ============================================================================
 # R PACKAGE DISPATCHER
