@@ -35,6 +35,7 @@ source "$FLOW_PLUGIN_DIR/lib/tui.zsh"
 source "$FLOW_PLUGIN_DIR/lib/plugin-loader.zsh"
 source "$FLOW_PLUGIN_DIR/lib/ai-recipes.zsh"
 source "$FLOW_PLUGIN_DIR/lib/ai-usage.zsh"
+source "$FLOW_PLUGIN_DIR/lib/help-browser.zsh"
 
 # ============================================================================
 # COMMANDS
