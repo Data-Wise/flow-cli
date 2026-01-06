@@ -1017,6 +1017,35 @@ _dash_all_projects() {
 # FOOTER
 # ============================================================================
 
+# ============================================================================
+# RANDOM TIPS
+# ============================================================================
+
+_dash_random_tip() {
+  # Show tips ~20% of the time
+  (( RANDOM % 5 != 0 )) && return
+
+  local -a tips
+  tips=(
+    "Use ${FLOW_COLORS[cmd]}pick --recent${FLOW_COLORS[reset]} to see projects with Claude sessions"
+    "Try ${FLOW_COLORS[cmd]}cc yolo pick${FLOW_COLORS[reset]} for quick Claude launch without prompts"
+    "Run ${FLOW_COLORS[cmd]}flow doctor --fix${FLOW_COLORS[reset]} to install missing tools interactively"
+    "Use ${FLOW_COLORS[cmd]}wt create <branch>${FLOW_COLORS[reset]} for clean git worktrees"
+    "Log wins with ${FLOW_COLORS[cmd]}win \"text\"${FLOW_COLORS[reset]} - they auto-categorize!"
+    "Set daily goals: ${FLOW_COLORS[cmd]}flow goal set 3${FLOW_COLORS[reset]} for motivation"
+    "Try ${FLOW_COLORS[cmd]}dash -i${FLOW_COLORS[reset]} for interactive project picker"
+    "Use ${FLOW_COLORS[cmd]}g feature start <name>${FLOW_COLORS[reset]} for clean feature branches"
+    "Run ${FLOW_COLORS[cmd]}yay --week${FLOW_COLORS[reset]} to see your weekly accomplishments graph"
+    "Quick commit: ${FLOW_COLORS[cmd]}g commit \"msg\"${FLOW_COLORS[reset]} combines add & commit"
+    "Check streaks with ${FLOW_COLORS[cmd]}flow goal${FLOW_COLORS[reset]} - consistency builds momentum!"
+    "Use ${FLOW_COLORS[cmd]}hop <project>${FLOW_COLORS[reset]} for instant tmux session switching"
+  )
+
+  local tip_index=$(( RANDOM % ${#tips[@]} + 1 ))
+  echo "  💡 ${FLOW_COLORS[muted]}Tip: ${tips[$tip_index]}${FLOW_COLORS[reset]}"
+  echo ""
+}
+
 _dash_footer() {
   local inbox_count=0
 
@@ -1076,6 +1105,9 @@ _dash_footer() {
   if (( inbox_count > 0 )); then
     echo "  📥 ${FLOW_COLORS[warning]}Inbox: $inbox_count items${FLOW_COLORS[reset]}"
   fi
+
+  # Show random tip (~20% of the time)
+  _dash_random_tip
 
   echo ""
   echo "  ${FLOW_COLORS[muted]}$suggestion${FLOW_COLORS[reset]}"

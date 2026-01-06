@@ -137,5 +137,17 @@ ${_C_BLUE}ℹ️  SMART DEFAULT WORKFLOW${_C_NC}:
   ${_C_DIM}4. Skips preview if render fails${_C_NC}
 
 ${_C_MAGENTA}💡 TIP${_C_NC}: Run ${_C_CYAN}qu${_C_NC} to see your work instantly!
+
+${_C_YELLOW}EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} qu                  ${_C_DIM}# Render + preview in browser${_C_NC}
+  ${_C_DIM}\$${_C_NC} qu r                ${_C_DIM}# Just render (no preview)${_C_NC}
+  ${_C_DIM}\$${_C_NC} qu p                ${_C_DIM}# Just preview (assumes rendered)${_C_NC}
+  ${_C_DIM}\$${_C_NC} qu render article.qmd    ${_C_DIM}# Render specific file${_C_NC}
+  ${_C_DIM}\$${_C_NC} qu preview --port 8080   ${_C_DIM}# Custom preview port${_C_NC}
+
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}r${_C_NC} - R package development
+  ${_C_CYAN}cc${_C_NC} - Launch Claude for Quarto projects
+  ${_C_CYAN}g${_C_NC} - Git commands for versioning
 "
 }

@@ -369,6 +369,11 @@ ${_C_BLUE}🌳 FEATURE WORKFLOW${_C_NC}:
 ${_C_MAGENTA}💡 TIP${_C_NC}: Unknown commands pass through to git
   ${_C_DIM}g remote -v        → git remote -v${_C_NC}
   ${_C_DIM}g cherry-pick xxx  → git cherry-pick xxx${_C_NC}
+
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}wt${_C_NC} - Manage git worktrees
+  ${_C_CYAN}cc wt${_C_NC} - Launch Claude in worktree
+  ${_C_CYAN}flow sync${_C_NC} - Sync project state & git
 "
 }
 
