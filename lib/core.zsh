@@ -28,6 +28,7 @@ FLOW_COLORS=(
   [header]='\033[38;5;147m'     # Soft purple
   [accent]='\033[38;5;216m'     # Soft orange
   [muted]='\033[38;5;245m'      # Gray
+  [cmd]='\033[38;5;117m'        # Calm blue (for command names)
 )
 
 # ============================================================================

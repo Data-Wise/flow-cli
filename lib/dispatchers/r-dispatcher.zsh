@@ -165,5 +165,17 @@ ${_C_BLUE}ℹ️  INFO${_C_NC}:
   ${_C_CYAN}r tree${_C_NC}             Package structure tree
 
 ${_C_MAGENTA}💡 TIP${_C_NC}: Run ${_C_CYAN}r${_C_NC} with no arguments to launch R console
+
+${_C_YELLOW}EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} r test              ${_C_DIM}# Run all package tests${_C_NC}
+  ${_C_DIM}\$${_C_NC} r doc               ${_C_DIM}# Update documentation${_C_NC}
+  ${_C_DIM}\$${_C_NC} r cycle             ${_C_DIM}# Full dev cycle: doc → test → check${_C_NC}
+  ${_C_DIM}\$${_C_NC} r quick             ${_C_DIM}# Quick test: load → test${_C_NC}
+  ${_C_DIM}\$${_C_NC} r cran              ${_C_DIM}# CRAN submission check${_C_NC}
+
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}qu${_C_NC} - Quarto publishing (integrates with R)
+  ${_C_CYAN}cc rpkg${_C_NC} - Launch Claude with R package context
+  ${_C_CYAN}flow doctor${_C_NC} - Check R development tools
 "
 }

@@ -5,10 +5,46 @@
 # WORK COMMAND
 # ============================================================================
 
+# Show first-run welcome message
+_flow_first_run_welcome() {
+  local config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/flow-cli"
+  local welcomed_marker="$config_dir/.welcomed"
+
+  # Only show once
+  [[ -f "$welcomed_marker" ]] && return 0
+
+  echo ""
+  echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[bold]}👋 Welcome to flow-cli!${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+  echo ""
+  echo "${FLOW_COLORS[bold]}Quick Start:${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[cmd]}work <project>${FLOW_COLORS[reset]}  Start working on a project"
+  echo "  ${FLOW_COLORS[cmd]}dash${FLOW_COLORS[reset]}            Project dashboard"
+  echo "  ${FLOW_COLORS[cmd]}pick${FLOW_COLORS[reset]}            Pick project with fzf"
+  echo "  ${FLOW_COLORS[cmd]}win \"text\"${FLOW_COLORS[reset]}      Log an accomplishment"
+  echo "  ${FLOW_COLORS[cmd]}finish${FLOW_COLORS[reset]}          End session"
+  echo ""
+  echo "${FLOW_COLORS[bold]}Get Help:${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[cmd]}flow help${FLOW_COLORS[reset]}       Show all commands"
+  echo "  ${FLOW_COLORS[cmd]}<cmd> help${FLOW_COLORS[reset]}      Command-specific help (e.g., ${FLOW_COLORS[cmd]}g help${FLOW_COLORS[reset]})"
+  echo ""
+  echo "${FLOW_COLORS[muted]}Tip: Run ${FLOW_COLORS[cmd]}flow doctor${FLOW_COLORS[reset]}${FLOW_COLORS[muted]} to check your installation${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Create marker file
+  mkdir -p "$config_dir"
+  touch "$welcomed_marker"
+}
+
 work() {
+  # Show welcome message on first run
+  _flow_first_run_welcome
+
   local project="$1"
   local editor="${2:-${EDITOR:-code}}"
-  
+
   # Check for existing session (avoid conflicts)
   if _flow_has_atlas; then
     local current_session=$(atlas session status --format=json 2>/dev/null | grep -o '"project":"[^"]*"' | cut -d'"' -f4)

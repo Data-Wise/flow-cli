@@ -348,6 +348,12 @@ ${_C_YELLOW}★ Unified Grammar (v4.8.0)${_C_NC}: Both mode-first AND target-fir
   ${_C_CYAN}cc pick yolo${_C_NC}          ${_C_DIM}# Target → mode (both work!)${_C_NC}
   ${_C_CYAN}cc opus flow${_C_NC}          ${_C_DIM}# Mode → project${_C_NC}
   ${_C_CYAN}cc flow opus${_C_NC}          ${_C_DIM}# Project → mode (both work!)${_C_NC}
+
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}pick${_C_NC} - Project picker with Claude sessions
+  ${_C_CYAN}work${_C_NC} - Start working on a project
+  ${_C_CYAN}wt${_C_NC} - Manage git worktrees
+  ${_C_CYAN}g${_C_NC} - Git commands
 "
 }
 

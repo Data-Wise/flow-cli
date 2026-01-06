@@ -270,6 +270,18 @@ ${_C_MAGENTA}SHORTCUTS${_C_NC}:
 ${_C_MAGENTA}ALIASES${_C_NC}:
   tmt = tm title, tmp = tm profile, tmg = tm ghost, tms = tm switch
 
+${_C_YELLOW}EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} tm title "Feature XYZ"    ${_C_DIM}# Set window title${_C_NC}
+  ${_C_DIM}\$${_C_NC} tm profile dev            ${_C_DIM}# Switch to dev profile (iTerm2)${_C_NC}
+  ${_C_DIM}\$${_C_NC} tm which                  ${_C_DIM}# Detect current terminal${_C_NC}
+  ${_C_DIM}\$${_C_NC} tm ghost theme catppuccin ${_C_DIM}# Set Ghostty theme${_C_NC}
+  ${_C_DIM}\$${_C_NC} tm switch                 ${_C_DIM}# Apply project terminal context${_C_NC}
+
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}work${_C_NC} - Start working (auto-sets terminal context)
+  ${_C_CYAN}pick${_C_NC} - Project picker
+  ${_C_CYAN}cc${_C_NC} - Launch Claude Code
+
 ${_C_DIM}Full docs: ait --help${_C_NC}
 "
 }
