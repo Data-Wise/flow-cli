@@ -43,7 +43,7 @@ ref() {
   # Display with best available tool
   if command -v bat &>/dev/null; then
     # Use bat for syntax highlighting
-    bat --style=plain --paging=always --language=markdown "$full_path"
+    command bat --style=plain --paging=always --language=markdown "$full_path"
   elif command -v glow &>/dev/null; then
     # Use glow for rendered markdown
     glow -p "$full_path"

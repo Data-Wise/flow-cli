@@ -138,7 +138,7 @@ _flow_plugin_metadata() {
     type="file"
 
     # Try to extract version from file header
-    local header_version=$(grep -m1 "^# Version:" "$plugin_path" 2>/dev/null | cut -d: -f2 | tr -d ' ')
+    local header_version=$(command grep -m1 "^# Version:" "$plugin_path" 2>/dev/null | command cut -d: -f2 | tr -d ' ')
     [[ -n "$header_version" ]] && version="$header_version"
 
   elif [[ -d "$plugin_path" ]]; then

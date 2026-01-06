@@ -711,7 +711,7 @@ flow_ai_chat() {
   local conversation=""
   if [[ -f "$FLOW_CHAT_FILE" ]]; then
     conversation=$(cat "$FLOW_CHAT_FILE")
-    local msg_count=$(grep -c "^## " "$FLOW_CHAT_FILE" 2>/dev/null || echo "0")
+    local msg_count=$(command grep -c "^## " "$FLOW_CHAT_FILE" 2>/dev/null || echo "0")
     if [[ $msg_count -gt 0 ]]; then
       echo "${FLOW_COLORS[muted]}(Resuming session with $msg_count messages. /clear to start fresh)${FLOW_COLORS[reset]}"
       echo ""
@@ -827,7 +827,7 @@ _flow_chat_history() {
     echo "${FLOW_COLORS[muted]}─────────────────────────────────────────────${FLOW_COLORS[reset]}"
     cat "$FLOW_CHAT_FILE"
     echo "${FLOW_COLORS[muted]}─────────────────────────────────────────────${FLOW_COLORS[reset]}"
-    local msg_count=$(grep -c "^## " "$FLOW_CHAT_FILE" 2>/dev/null || echo "0")
+    local msg_count=$(command grep -c "^## " "$FLOW_CHAT_FILE" 2>/dev/null || echo "0")
     echo "${FLOW_COLORS[muted]}Total messages: $msg_count${FLOW_COLORS[reset]}"
   else
     echo "${FLOW_COLORS[muted]}No chat history. Start a conversation with: flow ai chat${FLOW_COLORS[reset]}"
