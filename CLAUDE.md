@@ -98,6 +98,7 @@ hop <project>     # Quick switch (tmux)
 dash [category]   # Project dashboard
 dash -i           # Interactive TUI (fzf)
 dash --watch      # Live refresh mode
+dash --inventory  # Auto-generated tool inventory (from .STATUS files)
 catch <text>      # Quick capture
 js                # Just start (auto-picks project)
 flow doctor       # Health check (verify dependencies)
@@ -221,6 +222,7 @@ flow-cli/
 │   ├── atlas-bridge.zsh      # Atlas integration
 │   ├── project-detector.zsh  # Project type detection
 │   ├── tui.zsh               # Terminal UI components
+│   ├── inventory.zsh         # Tool inventory generator
 │   └── dispatchers/          # Smart command dispatchers
 │       ├── g-dispatcher.zsh      # Git workflows
 │       ├── mcp-dispatcher.zsh    # MCP servers
@@ -247,7 +249,8 @@ flow-cli/
 │   ├── reference/          # Reference cards
 │   ├── tutorials/          # Step-by-step guides
 │   ├── guides/             # How-to guides
-│   └── commands/           # Command docs
+│   ├── commands/           # Command docs
+│   └── conventions/        # Standards (migrated from dev-planning)
 ├── tests/                   # Test suite
 ├── zsh/functions/          # Legacy (backward compat)
 └── .archive/               # Archived Node.js CLI
