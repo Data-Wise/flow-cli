@@ -90,14 +90,22 @@ nav:
       - 9. Worktrees: tutorials/09-worktrees.md
       - 10. CC Dispatcher: tutorials/10-cc-dispatcher.md
       - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
-  - Guides:
-      - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
-      - YOLO Mode Workflow: guides/YOLO-MODE-WORKFLOW.md
+  - Workflows:
+      - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
+      - Git Feature Flow: tutorials/08-git-feature-workflow.md
       - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
-      - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
-      - Workflows & Tips: guides/WORKFLOWS-QUICK-WINS.md
+      - YOLO Mode: guides/YOLO-MODE-WORKFLOW.md
       - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
-      - Enhanced Help Quick Start: guides/ENHANCED-HELP-QUICK-START.md
+  - Guides:
+      - Start Here: guides/00-START-HERE.md
+      - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
+      - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
+      - Enhanced Help: guides/ENHANCED-HELP-QUICK-START.md
+      - Monorepo Commands: guides/MONOREPO-COMMANDS-TUTORIAL.md
+      - Project Scope: guides/PROJECT-SCOPE.md
+  - Visuals:
+      - Documentation Templates: conventions/adhd/README.md
+      - GIF Creation Guide: conventions/adhd/GIF-GUIDELINES.md
   - Reference:
       - Quick References:
           - Command Cheatsheet: reference/COMMAND-QUICK-REFERENCE.md
