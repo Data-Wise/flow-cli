@@ -16,10 +16,20 @@ flow <command> [args]
 
 ```bash
 flow help              # Show all commands
+flow help -i           # Interactive help browser (fzf) - NEW in v4.9.0
 flow help <command>    # Help for specific command
 flow help --list       # List all commands
 flow help --search <term>  # Search commands
 ```
+
+## Aliases
+
+```bash
+flow alias             # Show all custom aliases (29 total)
+flow alias <category>  # Show category aliases (e.g., flow alias cc)
+```
+
+**Categories:** `git`, `cc` (Claude Code), `pick`, `dash`, `work`, `capture`, `mcp`, `quarto`, `r`, `obs`
 
 ---
 
