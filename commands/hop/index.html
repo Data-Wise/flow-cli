@@ -2778,6 +2778,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#synopsis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synopsis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3942,6 +3953,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#synopsis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synopsis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4123,12 +4145,27 @@
 
 <h1 id="hop">hop<a class="headerlink" href="#hop" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p>Quick project switch with tmux session management</p>
+<p><strong>Quick project switch with tmux session management and interactive picker</strong></p>
 </blockquote>
 <p>The <code>hop</code> command provides fast project switching, especially powerful when using tmux. It creates or switches to project-specific tmux sessions.</p>
 <hr />
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hop<span class="w"> </span><span class="o">[</span>project<span class="o">]</span>
+</code></pre></div>
+<p><strong>Quick examples:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Switch to a project</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hop<span class="w"> </span>flow-cli
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Interactive picker</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>hop
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># With tmux (creates/switches session)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>hop<span class="w"> </span>my-project
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># ✓ Hopped to: my-project</span>
+</code></pre></div></p>
+<hr />
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hop<span class="w"> </span><span class="o">[</span>project<span class="o">]</span>
 </code></pre></div>
 <h2 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link">&para;</a></h2>
 <table>
@@ -4163,31 +4200,31 @@
 <hr />
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="basic-switch">Basic Switch<a class="headerlink" href="#basic-switch" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Switch to a project</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hop<span class="w"> </span>flow-cli
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Interactive picker (if no project specified)</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>hop
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Switch to a project</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>hop<span class="w"> </span>flow-cli
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Interactive picker (if no project specified)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>hop
 </code></pre></div>
 <h3 id="with-tmux">With Tmux<a class="headerlink" href="#with-tmux" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Creates/switches to &#39;flow_cli&#39; tmux session</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>hop<span class="w"> </span>flow-cli
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># View all tmux sessions</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>tmux<span class="w"> </span>list-sessions
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Creates/switches to &#39;flow_cli&#39; tmux session</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>hop<span class="w"> </span>flow-cli
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># View all tmux sessions</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>tmux<span class="w"> </span>list-sessions
 </code></pre></div>
 <h3 id="without-tmux">Without Tmux<a class="headerlink" href="#without-tmux" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Simply changes to project directory</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>hop<span class="w"> </span>my-project
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Changed to: my-project (start tmux for session management)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Simply changes to project directory</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>hop<span class="w"> </span>my-project
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Changed to: my-project (start tmux for session management)</span>
 </code></pre></div>
 <hr />
 <h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
 <p>With tmux:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>✓ Hopped to: flow-cli
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>✓ Hopped to: flow-cli
 </code></pre></div>
 <p>Without tmux:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ℹ Changed to: my-project (start tmux for session management)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ℹ Changed to: my-project (start tmux for session management)
 </code></pre></div>
 <hr />
 <h2 id="hop-vs-work">hop vs work<a class="headerlink" href="#hop-vs-work" title="Permanent link">&para;</a></h2>
@@ -4282,10 +4319,15 @@ tmux kill-session -t session_name
 <hr />
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../work/"><code>work</code></a> - Start a full work session</li>
-<li><a href="../pick/"><code>pick</code></a> - Interactive project picker</li>
-<li><a href="../../reference/WORKFLOW-QUICK-REFERENCE/">Workflow Quick Reference</a></li>
+<li><strong>Command:</strong> <a href="../work/">work</a> - Start a full work session with editor</li>
+<li><strong>Command:</strong> <a href="../pick/">pick</a> - Interactive project picker with categories</li>
+<li><strong>Command:</strong> <a href="../finish/">finish</a> - End session cleanly</li>
+<li><strong>Reference:</strong> <a href="../../reference/WORKFLOW-QUICK-REFERENCE/">Workflow Quick Reference</a> - Common workflows</li>
 </ul>
+<hr />
+<p><strong>Last Updated:</strong> 2026-01-07
+<strong>Command Version:</strong> v4.8.0
+<strong>Status:</strong> ✅ Production ready with tmux integration</p>
 
 
 

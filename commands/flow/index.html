@@ -2694,6 +2694,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#synopsis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synopsis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2937,10 +2948,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
+  <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related
+        See Also
       
     </span>
   </a>
@@ -4041,6 +4052,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#synopsis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synopsis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4284,10 +4306,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
+  <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related
+        See Also
       
     </span>
   </a>
@@ -4321,23 +4343,43 @@
 
 <h1 id="flow">flow<a class="headerlink" href="#flow" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p>Unified CLI dispatcher for all flow-cli commands</p>
+<p><strong>Unified CLI dispatcher for all flow-cli commands with ADHD-friendly helpers</strong></p>
 </blockquote>
 <p>The <code>flow</code> command is the main entry point for the flow-cli plugin. It provides access to all subcommands through a unified namespace.</p>
 <hr />
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>flow<span class="w"> </span>&lt;command&gt;<span class="w"> </span><span class="o">[</span>args<span class="o">]</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span><span class="o">[</span>command<span class="o">]</span>
+</code></pre></div>
+<p><strong>Quick examples:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Get help</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w">                      </span><span class="c1"># Show all commands</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>work<span class="w">                 </span><span class="c1"># Help for specific command</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Core workflow</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>flow<span class="w"> </span>work<span class="w"> </span>my-project<span class="w">           </span><span class="c1"># Start session (or just: work my-project)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>flow<span class="w"> </span>dash<span class="w">                      </span><span class="c1"># Dashboard (or just: dash)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>flow<span class="w"> </span>finish<span class="w"> </span><span class="s2">&quot;Done!&quot;</span><span class="w">            </span><span class="c1"># End session (or just: finish &quot;Done!&quot;)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># ADHD helpers</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>flow<span class="w"> </span>start<span class="w">                     </span><span class="c1"># Just start (picks for you)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>flow<span class="w"> </span>stuck<span class="w">                     </span><span class="c1"># Get unstuck</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>flow<span class="w"> </span>win<span class="w"> </span><span class="s2">&quot;Did the thing&quot;</span><span class="w">       </span><span class="c1"># Log a win</span>
+</code></pre></div></p>
+<hr />
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>flow<span class="w"> </span>&lt;command&gt;<span class="w"> </span><span class="o">[</span>args<span class="o">]</span>
 </code></pre></div>
 <h2 id="getting-help">Getting Help<a class="headerlink" href="#getting-help" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w">              </span><span class="c1"># Show all commands</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>-i<span class="w">           </span><span class="c1"># Interactive help browser (fzf) - NEW in v4.9.0</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>&lt;command&gt;<span class="w">    </span><span class="c1"># Help for specific command</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>--list<span class="w">       </span><span class="c1"># List all commands</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>--search<span class="w"> </span>&lt;term&gt;<span class="w">  </span><span class="c1"># Search commands</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w">              </span><span class="c1"># Show all commands</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>-i<span class="w">           </span><span class="c1"># Interactive help browser (fzf) - NEW in v4.9.0</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>&lt;command&gt;<span class="w">    </span><span class="c1"># Help for specific command</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>--list<span class="w">       </span><span class="c1"># List all commands</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>--search<span class="w"> </span>&lt;term&gt;<span class="w">  </span><span class="c1"># Search commands</span>
 </code></pre></div>
 <h2 id="aliases">Aliases<a class="headerlink" href="#aliases" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w">             </span><span class="c1"># Show all custom aliases (29 total)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>&lt;category&gt;<span class="w">  </span><span class="c1"># Show category aliases (e.g., flow alias cc)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w">             </span><span class="c1"># Show all custom aliases (29 total)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>&lt;category&gt;<span class="w">  </span><span class="c1"># Show category aliases (e.g., flow alias cc)</span>
 </code></pre></div>
 <p><strong>Categories:</strong> <code>git</code>, <code>cc</code> (Claude Code), <code>pick</code>, <code>dash</code>, <code>work</code>, <code>capture</code>, <code>mcp</code>, <code>quarto</code>, <code>r</code>, <code>obs</code></p>
 <hr />
@@ -4577,59 +4619,59 @@
 <hr />
 <h2 id="direct-command-access">Direct Command Access<a class="headerlink" href="#direct-command-access" title="Permanent link">&para;</a></h2>
 <p>Most commands work directly without the <code>flow</code> prefix:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># These are equivalent:</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>flow<span class="w"> </span>work<span class="w"> </span>my-project
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>work<span class="w"> </span>my-project
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># Direct access commands:</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>work,<span class="w"> </span>pick,<span class="w"> </span>dash,<span class="w"> </span>finish,<span class="w"> </span>hop,<span class="w"> </span>why
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>catch,<span class="w"> </span>crumb,<span class="w"> </span>inbox,<span class="w"> </span>win
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>timer,<span class="w"> </span>morning
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>doctor,<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># These are equivalent:</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>flow<span class="w"> </span>work<span class="w"> </span>my-project
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>work<span class="w"> </span>my-project
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Direct access commands:</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>work,<span class="w"> </span>pick,<span class="w"> </span>dash,<span class="w"> </span>finish,<span class="w"> </span>hop,<span class="w"> </span>why
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>catch,<span class="w"> </span>crumb,<span class="w"> </span>inbox,<span class="w"> </span>win
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>timer,<span class="w"> </span>morning
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>doctor,<span class="w"> </span>status
 </code></pre></div>
 <hr />
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="starting-your-day">Starting Your Day<a class="headerlink" href="#starting-your-day" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Morning routine</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>flow<span class="w"> </span>morning
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Or quick version</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>am
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Start working</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>flow<span class="w"> </span>work<span class="w"> </span>my-project
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1"># or just</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>work<span class="w"> </span>my-project
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Morning routine</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>flow<span class="w"> </span>morning
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Or quick version</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>am
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Start working</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>flow<span class="w"> </span>work<span class="w"> </span>my-project
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1"># or just</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>work<span class="w"> </span>my-project
 </code></pre></div>
 <h3 id="during-work">During Work<a class="headerlink" href="#during-work" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Log wins as you go</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>flow<span class="w"> </span>win<span class="w"> </span><span class="s2">&quot;Fixed the auth bug&quot;</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Check progress</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>flow<span class="w"> </span>status
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Take a break</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>flow<span class="w"> </span><span class="k">break</span><span class="w"> </span><span class="m">5</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Log wins as you go</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>flow<span class="w"> </span>win<span class="w"> </span><span class="s2">&quot;Fixed the auth bug&quot;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Check progress</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>flow<span class="w"> </span>status
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Take a break</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>flow<span class="w"> </span><span class="k">break</span><span class="w"> </span><span class="m">5</span>
 </code></pre></div>
 <h3 id="context-aware-actions_1">Context-Aware Actions<a class="headerlink" href="#context-aware-actions_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Run tests (auto-detects R/Node/Python)</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>flow<span class="w"> </span><span class="nb">test</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Build project (auto-detects Quarto/npm/R CMD)</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>flow<span class="w"> </span>build
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Preview output</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>flow<span class="w"> </span>preview
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Run tests (auto-detects R/Node/Python)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>flow<span class="w"> </span><span class="nb">test</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Build project (auto-detects Quarto/npm/R CMD)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>flow<span class="w"> </span>build
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Preview output</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>flow<span class="w"> </span>preview
 </code></pre></div>
 <h3 id="getting-help_1">Getting Help<a class="headerlink" href="#getting-help_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Search for git-related commands</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>--search<span class="w"> </span>git
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Get help on sync</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>sync
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># List all available commands</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>--list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Search for git-related commands</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>--search<span class="w"> </span>git
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Get help on sync</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>sync
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># List all available commands</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>--list
 </code></pre></div>
 <hr />
 <h2 id="dispatchers">Dispatchers<a class="headerlink" href="#dispatchers" title="Permanent link">&para;</a></h2>
@@ -4678,8 +4720,8 @@
 <p>Get help for any dispatcher with <code>&lt;dispatcher&gt; help</code>.</p>
 <hr />
 <h2 id="version">Version<a class="headerlink" href="#version" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>flow<span class="w"> </span>version
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># flow-cli v4.0.1</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>flow<span class="w"> </span>version
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># flow-cli v4.0.1</span>
 </code></pre></div>
 <hr />
 <h2 id="tips">Tips<a class="headerlink" href="#tips" title="Permanent link">&para;</a></h2>
@@ -4696,12 +4738,16 @@
 </div>
 <p>If you have completions installed, <code>flow &lt;Tab&gt;</code> shows available commands.</p>
 <hr />
-<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
+<h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../../reference/COMMAND-QUICK-REFERENCE/">Command Quick Reference</a></li>
-<li><a href="../../reference/DISPATCHER-REFERENCE/">Dispatcher Reference</a></li>
-<li><a href="../../getting-started/quick-start/">Getting Started</a></li>
+<li><strong>Reference:</strong> <a href="../../reference/COMMAND-QUICK-REFERENCE/">Command Quick Reference</a> - All commands at a glance</li>
+<li><strong>Reference:</strong> <a href="../../reference/DISPATCHER-REFERENCE/">Dispatcher Reference</a> - Domain-specific dispatchers</li>
+<li><strong>Guide:</strong> <a href="../../getting-started/quick-start/">Getting Started</a> - 5-minute quick start</li>
 </ul>
+<hr />
+<p><strong>Last Updated:</strong> 2026-01-07
+<strong>Command Version:</strong> v4.8.0
+<strong>Status:</strong> ✅ Production ready with unified namespace</p>
 
 
 
