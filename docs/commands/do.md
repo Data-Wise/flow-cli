@@ -162,4 +162,6 @@ flow do "list all TODO comments" | head -20
 
 ---
 
-_Added in v3.2.0_
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0 (do v3.2.0)
+**Status:** ✅ Production ready with dangerous command detection
