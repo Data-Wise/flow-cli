@@ -1,6 +1,6 @@
 # TM Dispatcher Reference
 
-Terminal management via aiterm integration
+> **Terminal management with instant shell-native commands and aiterm integration**
 
 **Location:** `lib/dispatchers/tm-dispatcher.zsh`
 
@@ -284,14 +284,15 @@ brew upgrade aiterm
 
 ---
 
-## Related
+## See Also
 
-- [aiterm Documentation](https://github.com/Data-Wise/aiterm) - Full aiterm docs
-- [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) - All dispatchers
-- [PyPI Package](https://pypi.org/project/aiterm-dev/) - aiterm on PyPI
+- **Command:** [work](../commands/work.md) - Start sessions with terminal context
+- **Reference:** [Dispatcher Reference](DISPATCHER-REFERENCE.md) - All dispatchers
+- **External:** [aiterm Documentation](https://github.com/Data-Wise/aiterm) - Full aiterm feature guide
+- **External:** [aiterm on PyPI](https://pypi.org/project/aiterm-dev/) - Install via pip
 
 ---
 
-**Last Updated:** 2025-12-30
-**Version:** v4.4.0
-**Status:** ✅ Fully implemented
+**Last Updated:** 2026-01-07
+**Version:** v4.8.0
+**Status:** ✅ Production ready with shell-native commands

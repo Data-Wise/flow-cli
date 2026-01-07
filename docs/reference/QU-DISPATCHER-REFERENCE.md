@@ -1,6 +1,6 @@
 # QU Dispatcher Reference
 
-Quarto publishing workflows with smart defaults
+> **Quarto publishing workflows with smart defaults and one-command preview**
 
 **Location:** `lib/dispatchers/qu-dispatcher.zsh`
 
@@ -281,14 +281,16 @@ Common issues:
 
 ---
 
-## Related
+## See Also
 
-- [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) - All dispatchers
-- [G-DISPATCHER-REFERENCE.md](G-DISPATCHER-REFERENCE.md) - Git workflows
-- [R-DISPATCHER-REFERENCE.md](R-DISPATCHER-REFERENCE.md) - R package development
+- **Dispatcher:** [g](G-DISPATCHER-REFERENCE.md) - Git workflows for version control
+- **Dispatcher:** [r](R-DISPATCHER-REFERENCE.md) - R package development integration
+- **Dispatcher:** [cc](CC-DISPATCHER-REFERENCE.md) - Launch Claude for Quarto help
+- **Reference:** [Dispatcher Reference](DISPATCHER-REFERENCE.md) - All dispatchers
+- **External:** [Quarto Documentation](https://quarto.org/) - Official Quarto guide
 
 ---
 
-**Last Updated:** 2025-12-30
-**Version:** v4.4.0+
-**Status:** Fully implemented
+**Last Updated:** 2026-01-07
+**Version:** v4.8.0
+**Status:** ✅ Production ready with smart defaults

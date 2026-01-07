@@ -1,6 +1,6 @@
 # OBS Dispatcher Reference
 
-Obsidian vault management with AI-powered graph analysis
+> **Obsidian vault management with AI-powered graph analysis and vault discovery**
 
 **Location:** `lib/dispatchers/obs.zsh`
 
@@ -230,37 +230,17 @@ obs ai test           # Verify connection
 
 ---
 
-## Version
+## See Also
 
-Current version: 3.0.0-dev
+- **Dispatcher:** [cc](CC-DISPATCHER-REFERENCE.md) - Launch Claude with Obsidian context
+- **Reference:** [Dispatcher Reference](DISPATCHER-REFERENCE.md) - All dispatchers
+- **External:** [Obsidian CLI Ops Documentation](https://data-wise.github.io/obsidian-cli-ops/) - Full feature guide
+- **External:** [Obsidian CLI Ops Source](https://github.com/data-wise/obsidian-cli-ops) - GitHub repository
 
-Check version:
-
-```bash
-obs version
-```
-
----
-
-## Related
-
-- [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) - All dispatchers
-
-## Full Documentation
-
-The `obs` dispatcher is part of the **obsidian-cli-ops** project. For comprehensive documentation:
-
-| Resource | URL |
-|----------|-----|
-| **User Guide** | [data-wise.github.io/obsidian-cli-ops](https://data-wise.github.io/obsidian-cli-ops/) |
-| **AI Setup** | See `obs ai setup` for configuration wizard |
-| **Graph Analysis** | Deep dive in obsidian-cli-ops docs |
-| **Source Code** | [github.com/data-wise/obsidian-cli-ops](https://github.com/data-wise/obsidian-cli-ops) |
-
-**Note:** This reference covers the flow-cli dispatcher integration. For advanced features, vault management strategies, and AI configuration, refer to the obsidian-cli-ops documentation.
+**Note:** This reference covers the flow-cli dispatcher integration. For advanced features, vault management strategies, AI configuration, and graph analysis deep dives, refer to the [Obsidian CLI Ops documentation](https://data-wise.github.io/obsidian-cli-ops/).
 
 ---
 
-**Last Updated:** 2025-12-30
-**Version:** v4.4.0+
-**Status:** Fully implemented
+**Last Updated:** 2026-01-07
+**Version:** v4.8.0 (CLI: 3.0.0-dev)
+**Status:** ✅ Production ready with AI features

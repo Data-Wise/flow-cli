@@ -1,6 +1,6 @@
 # G Dispatcher Reference
 
-Smart Git command shortcuts with feature branch workflow
+> **Smart Git command shortcuts with feature branch workflow and protected branch guards**
 
 **Location:** `lib/dispatchers/g-dispatcher.zsh`
 
@@ -439,14 +439,15 @@ g aa && g commit "WIP"
 
 ---
 
-## Related
+## See Also
 
-- [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) - All dispatchers
-- [WT-DISPATCHER-REFERENCE.md](WT-DISPATCHER-REFERENCE.md) - Worktree management
-- [Tutorial: Git Feature Workflow](../tutorials/08-git-feature-workflow.md)
+- **Dispatcher:** [wt](WT-DISPATCHER-REFERENCE.md) - Worktree management for parallel development
+- **Dispatcher:** [cc](CC-DISPATCHER-REFERENCE.md) - Launch Claude in feature branches
+- **Reference:** [Dispatcher Reference](DISPATCHER-REFERENCE.md) - All dispatchers
+- **Tutorial:** [Git Feature Workflow](../tutorials/08-git-feature-workflow.md) - Learn by doing
 
 ---
 
-**Last Updated:** 2025-12-30
-**Version:** v4.3.0+
-**Status:** ✅ Fully implemented
+**Last Updated:** 2026-01-07
+**Version:** v4.8.0
+**Status:** ✅ Production ready with feature workflow
