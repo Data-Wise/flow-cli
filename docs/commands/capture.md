@@ -1,8 +1,39 @@
 # capture
 
-> Frictionless idea and accomplishment capture for ADHD workflows
+> **Frictionless idea and accomplishment capture for ADHD workflows with dopamine tracking**
 
 The capture commands provide instant, low-friction ways to log ideas, breadcrumbs, and accomplishments. They're designed for ADHD minds that need to capture thoughts before they disappear.
+
+---
+
+## Synopsis
+
+```bash
+win <text>              # Log an accomplishment
+catch <idea>            # Quick capture to inbox
+crumb <note>            # Leave a breadcrumb
+yay                     # Show recent wins
+```
+
+**Quick examples:**
+```bash
+# Log wins
+win "Fixed authentication bug"
+win --ship "Deployed v2.0"
+
+# Capture ideas
+catch "Add dark mode feature"
+catch "Research better error handling"
+
+# Leave breadcrumbs
+crumb "Working on user auth"
+crumb "About to refactor database layer"
+
+# Review
+yay                     # Recent wins
+yay --week              # Weekly summary
+inbox                   # View captured ideas
+```
 
 ---
 
@@ -283,5 +314,13 @@ When you get interrupted, drop a quick `crumb` so you can pick up where you left
 
 ## See Also
 
-- [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md)
-- [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
+- **Guide:** [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md) - Win streaks and goals
+- **Reference:** [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
+- **Command:** [work](work.md) - Start sessions
+- **Command:** [finish](finish.md) - End sessions
+
+---
+
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0
+**Status:** ✅ Production ready with dopamine tracking

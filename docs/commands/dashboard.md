@@ -673,4 +673,6 @@ flow status your-project active P1 "First task" 25
 
 ---
 
-**Last updated:** 2025-12-24
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0 (dashboard v1.2)
+**Status:** ✅ Production ready with web interface and live refresh

@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v4.8.1)
+- **Status:** Production ready (v4.9.1)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -98,13 +98,14 @@ hop <project>     # Quick switch (tmux)
 dash [category]   # Project dashboard
 dash -i           # Interactive TUI (fzf)
 dash --watch      # Live refresh mode
+dash --inventory  # Auto-generated tool inventory (from .STATUS files)
 catch <text>      # Quick capture
 js                # Just start (auto-picks project)
 flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v4.8.1)
+### Dopamine Features (v4.9.1)
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
@@ -131,7 +132,7 @@ wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `wt help`)
 
-### CC Dispatcher Quick Reference (v4.8.1)
+### CC Dispatcher Quick Reference (v4.9.1)
 
 **✨ Unified Grammar:** Both mode-first AND target-first orders work!
 
@@ -178,7 +179,7 @@ tm detect             # Detect project context
 
 **Aliases:** `tmt` = title, `tmp` = profile, `tmg` = ghost, `tms` = switch
 
-### Pick - Project Picker (v4.8.1)
+### Pick - Project Picker (v4.9.1)
 
 ```bash
 pick                # FZF picker (all projects)
@@ -221,6 +222,7 @@ flow-cli/
 │   ├── atlas-bridge.zsh      # Atlas integration
 │   ├── project-detector.zsh  # Project type detection
 │   ├── tui.zsh               # Terminal UI components
+│   ├── inventory.zsh         # Tool inventory generator
 │   └── dispatchers/          # Smart command dispatchers
 │       ├── g-dispatcher.zsh      # Git workflows
 │       ├── mcp-dispatcher.zsh    # MCP servers
@@ -247,7 +249,8 @@ flow-cli/
 │   ├── reference/          # Reference cards
 │   ├── tutorials/          # Step-by-step guides
 │   ├── guides/             # How-to guides
-│   └── commands/           # Command docs
+│   ├── commands/           # Command docs
+│   └── conventions/        # Standards (migrated from dev-planning)
 ├── tests/                   # Test suite
 ├── zsh/functions/          # Legacy (backward compat)
 └── .archive/               # Archived Node.js CLI
@@ -484,7 +487,7 @@ export FLOW_DEBUG=1
 
 ## Current Status (2026-01-02)
 
-### 🚀 v4.8.1 Development - CC Unified Grammar
+### 🚀 v4.9.1 Development - CC Unified Grammar
 
 **Status:** Phase 2 in progress (Documentation)
 **Progress:** 75%
@@ -510,41 +513,41 @@ export FLOW_DEBUG=1
 - ✨ Both `cc opus pick` and `cc pick opus` work identically
 - ✨ Explicit HERE: `cc .` and `cc here`
 - ✨ Natural reading: `cc flow opus` (jump to flow → launch Opus)
-- 📝 Zero breaking changes - all v4.8.1 patterns still work
+- 📝 Zero breaking changes - all v4.9.1 patterns still work
 
 ---
 
-### ✅ v4.8.1 Released - Bug Fix: Pick Command Crash
+### ✅ v4.9.1 Released - Bug Fix: Pick Command Crash
 
 - [x] Fixed "bad math expression" error in `_proj_show_git_status()` (#155)
 - [x] Added input sanitization for `wc` output (handles terminal control codes)
 - [x] Added regression test to prevent future occurrences
 - [x] All 23 tests passing
 
-### ✅ v4.8.1 Released - Frecency & Session Indicators
+### ✅ v4.9.1 Released - Frecency & Session Indicators
 
 - [x] Frecency decay scoring (time-based priority decay)
 - [x] Session indicators (🟢/🟡) on regular projects, not just worktrees
 - [x] Projects sorted by recent Claude activity
 
-### ✅ v4.8.1 Released - Frecency Sorting
+### ✅ v4.9.1 Released - Frecency Sorting
 
 - [x] `pick --recent` / `pick -r` - Show only projects with Claude sessions
 - [x] Frecency sorting (most recently used first)
 - [x] CI apt caching (~17s vs 5+ min)
 
-### ✅ v4.8.1 Released - CI Optimization
+### ✅ v4.9.1 Released - CI Optimization
 
 - [x] CI reduced to smoke tests (~30s)
 - [x] `./tests/run-all.sh` for local full test suite
 - [x] Pick worktree docs and session-age sorting
 
-### ✅ v4.8.1 Released
+### ✅ v4.9.1 Released
 
 - [x] `pick` shows worktrees in default view (🌳 icons)
 - [x] CI streamlined: 4 jobs → 1 job
 
-### ✅ v4.8.1 Released - Worktree-Aware Pick
+### ✅ v4.9.1 Released - Worktree-Aware Pick
 
 - [x] `pick wt` - List all worktrees from `~/.git-worktrees/`
 - [x] Session indicators: 🟢 recent / 🟡 old
@@ -635,10 +638,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 3.7.0"
-git tag -a v4.8.1 -m "v4.8.1"
+git tag -a v4.9.1 -m "v4.9.1"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v4.8.1
+git push origin main && git push origin v4.9.1
 ```
 
 **Files updated by release script:**

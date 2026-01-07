@@ -1,6 +1,6 @@
 # R Dispatcher Reference
 
-R package development workflows with devtools integration
+> **R package development workflows with devtools integration and full CRAN check support**
 
 **Location:** `lib/dispatchers/r-dispatcher.zsh`
 
@@ -318,14 +318,16 @@ r cov                 # Then run coverage
 
 ---
 
-## Related
+## See Also
 
-- [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) - All dispatchers
-- [G-DISPATCHER-REFERENCE.md](G-DISPATCHER-REFERENCE.md) - Git workflows
-- [CC-DISPATCHER-REFERENCE.md](CC-DISPATCHER-REFERENCE.md) - Claude Code launcher
+- **Dispatcher:** [g](G-DISPATCHER-REFERENCE.md) - Git workflows for R packages
+- **Dispatcher:** [qu](QU-DISPATCHER-REFERENCE.md) - Quarto for R Markdown workflows
+- **Dispatcher:** [cc](CC-DISPATCHER-REFERENCE.md) - Launch Claude for R help
+- **Reference:** [Dispatcher Reference](DISPATCHER-REFERENCE.md) - All dispatchers
+- **External:** [devtools Package](https://devtools.r-lib.org/) - Official devtools documentation
 
 ---
 
-**Last Updated:** 2025-12-30
-**Version:** v4.4.0+
-**Status:** Fully implemented
+**Last Updated:** 2026-01-07
+**Version:** v4.8.0
+**Status:** ✅ Production ready with devtools integration

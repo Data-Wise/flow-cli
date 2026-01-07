@@ -1,6 +1,6 @@
 # MCP Dispatcher Reference
 
-MCP (Model Context Protocol) server management
+> **MCP (Model Context Protocol) server management with interactive navigation and testing**
 
 **Location:** `lib/dispatchers/mcp-dispatcher.zsh`
 
@@ -293,13 +293,14 @@ brew install uv
 
 ---
 
-## Related
+## See Also
 
-- [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) - All dispatchers
-- [CC-DISPATCHER-REFERENCE.md](CC-DISPATCHER-REFERENCE.md) - Claude Code launcher
+- **Dispatcher:** [cc](CC-DISPATCHER-REFERENCE.md) - Launch Claude with MCP context
+- **Reference:** [Dispatcher Reference](DISPATCHER-REFERENCE.md) - All dispatchers
+- **External:** [aiterm MCP Integration](https://github.com/data-wise/aiterm) - Advanced MCP management
 
 ---
 
-**Last Updated:** 2025-12-30
-**Version:** v4.4.0+
-**Status:** Fully implemented
+**Last Updated:** 2026-01-07
+**Version:** v4.8.0
+**Status:** ✅ Production ready with interactive picker

@@ -1,6 +1,6 @@
 # WT Dispatcher Reference
 
-Git worktree management for parallel development
+> **Git worktree management for parallel development with comprehensive cleanup**
 
 **Location:** `lib/dispatchers/wt-dispatcher.zsh`
 
@@ -363,14 +363,16 @@ wt create feature/x
 
 ---
 
-## Related
+## See Also
 
-- [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) - All dispatchers
-- [CC-DISPATCHER-REFERENCE.md](CC-DISPATCHER-REFERENCE.md) - Claude + worktrees
-- [Tutorial: Worktrees](../tutorials/09-worktrees.md) - Step-by-step guide
+- **Dispatcher:** [cc](CC-DISPATCHER-REFERENCE.md) - Launch Claude in worktrees
+- **Dispatcher:** [g](G-DISPATCHER-REFERENCE.md) - Git feature workflow integration
+- **Reference:** [Dispatcher Reference](DISPATCHER-REFERENCE.md) - All dispatchers
+- **Tutorial:** [Worktrees Tutorial](../tutorials/09-worktrees.md) - Step-by-step guide
+- **Guide:** [Worktree Workflow](../guides/WORKTREE-WORKFLOW.md) - Practical patterns
 
 ---
 
-**Last Updated:** 2025-12-30
-**Version:** v4.3.0+
-**Status:** ✅ Fully implemented
+**Last Updated:** 2026-01-07
+**Version:** v4.8.0
+**Status:** ✅ Production ready with parallel development

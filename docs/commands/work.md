@@ -1,16 +1,42 @@
 # work
 
-> Start a focused work session on a project
-
-The `work` command is the **primary entry point** for flow-cli. It sets up your entire development context in one command.
+> **Start a focused work session on a project with full context setup**
 
 ---
 
-## Usage
+## Synopsis
 
 ```bash
-work [project] [editor]
+work [PROJECT] [EDITOR]
 ```
+
+**Quick examples:**
+```bash
+# Interactive project selection
+work
+
+# Start working on specific project
+work flow-cli
+
+# With specific editor
+work flow-cli cursor
+```
+
+---
+
+## Description
+
+The `work` command is the **primary entry point** for flow-cli. It sets up your entire development context in one command - checking for existing sessions, locating the project, changing directory, recording session start, displaying context, and opening your editor.
+
+**Use cases:**
+- Starting focused work sessions
+- Switching between projects with session tracking
+- Opening projects in preferred editors
+- Maintaining work context and history
+
+---
+
+## Options
 
 ## Arguments
 
@@ -150,6 +176,11 @@ flow-cli automatically detects your project type (R package, Node.js, Python, ZS
 
 ## See Also
 
-- [First Session Tutorial](../tutorials/01-first-session.md)
-- [Multiple Projects Tutorial](../tutorials/02-multiple-projects.md)
-- [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
+- **Tutorial:** [First Session Tutorial](../tutorials/01-first-session.md)
+- **Tutorial:** [Multiple Projects Tutorial](../tutorials/02-multiple-projects.md)
+- **Reference:** [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
+
+---
+
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0

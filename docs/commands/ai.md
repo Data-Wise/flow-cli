@@ -230,4 +230,6 @@ flow ai "quick question"
 
 ---
 
-_Added in v3.2.0, enhanced in v3.4.0 (recipes, chat, usage, model)_
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0 (ai v3.4.0)
+**Status:** ✅ Production ready with recipes, chat, usage tracking

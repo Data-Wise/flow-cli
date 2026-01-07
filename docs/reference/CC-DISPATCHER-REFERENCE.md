@@ -1,6 +1,6 @@
 # CC Dispatcher Reference
 
-Claude Code workflows with smart project selection
+> **Claude Code workflows with smart project selection and unified grammar**
 
 **Location:** `lib/dispatchers/cc-dispatcher.zsh`
 
@@ -319,13 +319,15 @@ cc haiku          # Pick project + Haiku model
 
 ---
 
-## Related
+## See Also
 
-- [PICK-COMMAND-REFERENCE.md](PICK-COMMAND-REFERENCE.md) - Project picker details
-- [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) - All dispatchers
+- **Command:** [work](../commands/work.md) - Start work sessions
+- **Command:** [pick](../commands/pick.md) - Project picker details
+- **Reference:** [Dispatcher Reference](DISPATCHER-REFERENCE.md) - All dispatchers
+- **Tutorial:** [CC Dispatcher Tutorial](../tutorials/10-cc-dispatcher.md) - Learn by doing
 
 ---
 
-**Last Updated:** 2026-01-01
+**Last Updated:** 2026-01-07
 **Version:** v4.8.0
-**Status:** ✅ Unified pattern implemented
+**Status:** ✅ Production ready with unified grammar

@@ -143,4 +143,6 @@ flow upgrade all --force
 
 ---
 
-_Added in v3.2.0_
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0 (upgrade v3.2.0)
+**Status:** ✅ Production ready with unified update interface

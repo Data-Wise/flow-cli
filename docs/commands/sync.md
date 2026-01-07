@@ -1,6 +1,8 @@
 # flow sync
 
-**Unified sync orchestration for flow-cli v4.0.0**
+> **Unified sync orchestration across all flow-cli components with smart detection and safe defaults**
+
+**Version:** v4.7.0
 
 Synchronize workflow data across all flow-cli components with a single command. Designed for ADHD-friendly operation with smart detection, clear feedback, and safe defaults.
 
@@ -360,4 +362,14 @@ flow sync schedule logs            # View logs
 
 ---
 
-**See also:** [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md) for win tracking and goals.
+## See Also
+
+- **Guide:** [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md) - Win tracking and goals
+- **Command:** [status](status.md) - Update project status
+- **Reference:** [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
+
+---
+
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0 (sync v4.7.0)
+**Status:** ✅ Production ready with remote iCloud sync

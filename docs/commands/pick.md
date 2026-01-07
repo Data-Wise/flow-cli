@@ -1,138 +1,256 @@
 # pick
 
-> Interactive project picker with fzf
-
-The `pick` command provides an interactive, ADHD-friendly way to select and navigate to projects. It supports category filtering, fuzzy matching, and smart session resume.
+> **Interactive project picker with FZF interface for quick navigation**
 
 ---
 
-## Usage
+## Synopsis
 
 ```bash
-pick [options] [category|project-name]
+pick [CATEGORY] [OPTIONS]
+pick [PROJECT-NAME]
 ```
 
-## Arguments
-
-| Argument       | Description                          |
-| -------------- | ------------------------------------ |
-| `category`     | Filter by category (r, dev, q, etc.) |
-| `project-name` | Fuzzy match for direct jump          |
-
-## Options
-
-| Flag        | Description                             |
-| ----------- | --------------------------------------- |
-| `--fast`    | Skip git status checks (faster loading) |
-| `-a, --all` | Force full picker (skip direct jump)    |
-
----
-
-## Categories
-
-| Shortcut            | Category          | Icon |
-| ------------------- | ----------------- | ---- |
-| `r`, `R`, `rpkg`    | R packages        | 📦   |
-| `dev`, `DEV`        | Development tools | 🔧   |
-| `q`, `qu`, `quarto` | Quarto projects   | 📝   |
-| `teach`, `teaching` | Teaching courses  | 🎓   |
-| `rs`, `research`    | Research projects | 🔬   |
-| `app`, `apps`       | Applications      | 📱   |
-
----
-
-## Examples
-
-### Interactive Picker
-
+**Quick examples:**
 ```bash
 # Show all projects
 pick
 
 # Filter by category
-pick dev         # Development tools only
-pick r           # R packages only
-pick teach       # Teaching courses only
+pick dev
+
+# Jump directly to project
+pick flow
 ```
 
-### Direct Jump
+---
+
+## Description
+
+The `pick` command provides an interactive, ADHD-friendly way to select and navigate to projects using FZF. It scans your project directories, detects project types, and presents them in a searchable list with smart filtering and session resume capabilities.
+
+**Use cases:**
+- Quick navigation between projects
+- Discovering forgotten projects
+- Filtering projects by category (R, dev, quarto, etc.)
+- Resuming recent work sessions
+
+**What it does:**
+- Scans `$FLOW_PROJECTS_ROOT` for projects
+- Detects project types (.STATUS files, DESCRIPTION, package.json)
+- Displays icon-decorated project list
+- Filters by category if specified
+- Changes directory on selection
+- Tracks recent sessions for quick resume
+
+---
+
+### Optional Arguments
+
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `[category]` | `all` | Filter by category: `r`, `dev`, `q`, `teach`, `rs`, `app` |
+| `[project-name]` | none | Fuzzy match for direct jump to project |
+
+### Flags
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--fast` | none | Skip git status checks (faster loading) |
+| `--all` | `-a` | Force full picker (skip direct jump) |
+| `--recent` | `-r` | Show only projects with Claude sessions |
+| `--help` | `-h` | Show help message |
+
+### Category Shortcuts
+
+| Category | Code | Icon | Projects |
+|----------|------|------|----------|
+| R Packages | `r`, `R`, `rpkg` | 📦 | r-packages/active, r-packages/stable |
+| Dev Tools | `dev`, `DEV` | 🔧 | dev-tools/ |
+| Quarto | `q`, `qu`, `quarto` | 📝 | quarto/manuscripts, quarto/presentations |
+| Teaching | `teach`, `teaching` | 🎓 | teaching/ courses |
+| Research | `rs`, `research` | 🔬 | research/ projects |
+| Applications | `app`, `apps` | 📱 | apps/ |
+| Worktrees | `wt` | 🌳 | All git worktrees from ~/.git-worktrees/ |
+
+---
+
+## Usage Examples
+
+### Basic Usage
+
+**Scenario:** Navigate to any project interactively
 
 ```bash
-# Jump directly to matching project
-pick flow        # → cd to flow-cli (if unique match)
-pick med         # → cd to mediationverse
-
-# If multiple matches, shows filtered picker
-pick stat        # Shows all projects containing "stat"
+# Open picker with all projects
+pick
 ```
 
-### Category Aliases
+**Output:**
+```
+📦 rmediation
+📦 medfit
+🔧 flow-cli
+🔧 atlas
+📝 product-of-three
+> _
+```
+
+### Intermediate Usage
+
+**Scenario:** Filter to specific category before picking
 
 ```bash
+# Show only dev-tools projects
+pick dev
+```
+
+**Output:**
+```
+🔧 flow-cli
+🔧 atlas
+🔧 aiterm
+🔧 nexus-cli
+> _
+```
+
+### Advanced Usage
+
+**Scenario:** Jump directly to a project without picker
+
+```bash
+# Direct jump (no FZF interface)
+pick flow
+```
+
+**Output:**
+```
+📁 /Users/dt/projects/dev-tools/flow-cli
+```
+
+---
+
+## Common Patterns
+
+### Pattern 1: Daily Project Rotation
+
+**Use when:** Switching between active projects during day
+
+```bash
+# Morning: Research
+pick rs
+
+# Afternoon: Dev work
+pick dev
+
+# Evening: Teaching prep
+pick teach
+```
+
+### Pattern 2: Category Aliases
+
+**Use when:** Frequent category filtering
+
+```bash
+# Shortcut aliases
 pickr            # pick r
 pickdev          # pick dev
 pickq            # pick q
+pickteach        # pick teach
+pickrs           # pick rs
+```
+
+### Pattern 3: Recent Projects Only
+
+**Use when:** Resuming work from recent sessions
+
+```bash
+# Show only projects with Claude sessions
+pick --recent
+# or
+pick -r
 ```
 
 ---
 
-## Smart Resume
+## Combining with Other Commands
 
-When you run `pick` without arguments and have a recent session (< 24 hours), you'll see:
+### With Claude Code Launcher
+
+```bash
+# Pick project, then launch Claude
+pick && cc
+
+# Or use CC dispatcher's built-in pick
+cc pick
+```
+
+### With Work Command
+
+```bash
+# Pick project, then start work session
+pick && work
+```
+
+---
+
+## Interactive Features
+
+### Keybindings
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Navigate to selected project |
+| `Ctrl-C` | Cancel (stay in current directory) |
+| `Ctrl-O` | cd to project + launch Claude |
+| `Ctrl-Y` | cd to project + launch Claude YOLO mode |
+| `Ctrl-S` | View project .STATUS file |
+| `Ctrl-L` | View project git log |
+
+### FZF Search
+
+| Input | Behavior |
+|-------|----------|
+| `flow` | Filter to projects matching "flow" |
+| `^flow` | Match beginning: projects starting with "flow" |
+| `flow$` | Match end: projects ending with "flow" |
+| `!test` | Exclude: all projects except "test" |
+
+### Smart Resume
+
+When you run `pick` without arguments and have a recent session (< 24 hours):
 
 ```
-╔════════════════════════════════════════════════════════════╗
-║  🔍 PROJECT PICKER                                          ║
-╚════════════════════════════════════════════════════════════╝
-
-  💡 Last: flow-cli (2h ago)
-  [Enter] Resume  │  [Space] Browse all  │  Type to search...
+💡 Last: flow-cli (2h ago)
+[Enter] Resume  │  [Space] Browse all  │  Type to search...
 ```
 
-| Key   | Action                          |
-| ----- | ------------------------------- |
-| Enter | Resume last project             |
+| Key | Action |
+|-----|--------|
+| Enter | Resume last project |
 | Space | Bypass resume, show full picker |
-| Type  | Search/filter projects          |
-
----
-
-## Interactive Keys
-
-While in the fzf picker:
-
-| Key    | Action                  |
-| ------ | ----------------------- |
-| Enter  | Go to project directory |
-| Ctrl-S | View .STATUS file       |
-| Ctrl-L | View git log            |
-| Ctrl-C | Exit without action     |
-
----
-
-## Output
-
-When selecting a project:
-
-```
-  📂 /Users/dt/projects/dev-tools/flow-cli
-```
-
-When viewing .STATUS (Ctrl-S):
-
-```
-  📊 .STATUS file for: flow-cli
-
-  ## Status: Active
-  ## Phase: v4.0.1 Released
-  ## Focus: Documentation enhancement
-```
+| Type | Search/filter projects |
 
 ---
 
 ## Configuration
 
-Projects are discovered from `$FLOW_PROJECTS_ROOT` (default: `~/projects`). Categories are defined in:
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `FLOW_PROJECTS_ROOT` | `$HOME/projects` | Root directory to scan for projects |
+| `FZF_DEFAULT_OPTS` | (various) | Custom FZF options |
+
+**Example:**
+```bash
+export FLOW_PROJECTS_ROOT="$HOME/work"
+pick
+```
+
+### Project Categories
+
+Categories are defined in `PROJ_CATEGORIES`:
 
 ```bash
 PROJ_CATEGORIES=(
@@ -149,31 +267,101 @@ PROJ_CATEGORIES=(
 
 ---
 
-## Tips
+## Exit Codes
 
-!!! tip "Direct Jump for Speed"
-If you know your project name, use direct jump: `pick flow` is faster than browsing the full picker.
+| Code | Meaning |
+|------|---------|
+| `0` | Success (project selected) |
+| `1` | No project selected (Ctrl-C) |
+| `130` | Interrupted (Ctrl-C) |
 
-!!! tip "Category Filtering"
-When you have many projects, filter by category first: `pick dev` shows only dev tools.
+---
 
-!!! tip "Resume Your Session"
-Just press Enter when the resume hint appears to continue where you left off.
+## Troubleshooting
+
+### Issue 1: "No projects found"
+
+**Symptoms:**
+- Empty FZF picker
+- Message: "No projects found in /Users/dt/projects"
+
+**Cause:** `FLOW_PROJECTS_ROOT` not set or points to wrong directory
+
+**Solution:**
+```bash
+# Check current setting
+echo $FLOW_PROJECTS_ROOT
+
+# Set in .zshrc
+export FLOW_PROJECTS_ROOT="$HOME/projects"
+```
+
+### Issue 2: Projects missing from list
+
+**Symptoms:**
+- Some projects don't appear in picker
+- Expected 10 projects, only see 5
+
+**Cause:** Projects lack detection markers (.STATUS, DESCRIPTION, package.json, etc.)
+
+**Solution:**
+```bash
+# Add .STATUS file to project
+cd missing-project
+echo "status: active" > .STATUS
+```
+
+### Issue 3: Keybindings don't work
+
+**Symptoms:**
+- Ctrl-O, Ctrl-Y don't launch Claude
+- Ctrl-S doesn't show .STATUS
+
+**Cause:** FZF version too old or custom FZF_DEFAULT_OPTS conflict
+
+**Solution:**
+```bash
+# Update FZF
+brew upgrade fzf
+
+# Check for conflicting options
+echo $FZF_DEFAULT_OPTS
+```
+
+---
+
+## Best Practices
+
+**Do:**
+- ✅ Use category filters for faster navigation (`pick dev`)
+- ✅ Add .STATUS files to all projects (improves detection)
+- ✅ Use `pick --recent` to resume work quickly
+- ✅ Learn keybindings (Ctrl-O for quick Claude launch)
+
+**Don't:**
+- ❌ Type full project names when `pick` is faster
+- ❌ Navigate manually with `cd` between known projects
+- ❌ Ignore session indicators (🟢/🟡) on worktrees
+- ❌ Use `ls` when `pick` provides better UX
 
 ---
 
 ## Related Commands
 
-| Command           | Description                   |
-| ----------------- | ----------------------------- |
-| [`work`](work.md) | Start session (includes pick) |
-| [`hop`](hop.md)   | Quick switch (tmux)           |
-| [`dash`](dash.md) | View all projects dashboard   |
+- **hop** — Quick switch to last project
+- **work** — Start work session (can use pick for project selection)
+- **dash** — Project dashboard (shows all projects in table)
+- **cc pick** — Launch Claude with project picker (combines both)
 
 ---
 
 ## See Also
 
-- [`work`](work.md) - Start a full work session
-- [`hop`](hop.md) - Quick project switch with tmux
-- [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
+- **Tutorial:** [Tutorial 2: Multiple Projects](../tutorials/02-multiple-projects.md)
+- **Reference:** [Pick Command Reference](../reference/PICK-COMMAND-REFERENCE.md)
+- **Guide:** [Project Detection Guide](../reference/PROJECT-DETECTION-GUIDE.md)
+
+---
+
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0 (worktree-aware)

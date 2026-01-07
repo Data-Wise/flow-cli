@@ -1,8 +1,30 @@
 # finish
 
-> End your current work session with an optional commit
+> **End your current work session with optional commit and session tracking**
 
 The `finish` command cleanly ends your work session and optionally commits your changes.
+
+---
+
+## Synopsis
+
+```bash
+finish [note]
+```
+
+**Quick examples:**
+```bash
+# End session with a note
+finish "Completed auth feature"
+
+# End session without note
+finish
+
+# With commit confirmation
+finish "Fixed bug #123"
+# ✓ Session ended
+# Commit 3 change(s)? [y/N] y
+```
 
 ---
 
@@ -142,6 +164,13 @@ Use descriptive notes - they become your commit messages and help you remember w
 
 ## See Also
 
-- [`work`](work.md) - Start a session
-- [`capture`](capture.md) - Log wins and ideas
-- [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
+- **Command:** [work](work.md) - Start a work session
+- **Command:** [hop](hop.md) - Switch projects
+- **Command:** [capture](capture.md) - Log wins and ideas
+- **Reference:** [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
+
+---
+
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0
+**Status:** ✅ Production ready with session tracking

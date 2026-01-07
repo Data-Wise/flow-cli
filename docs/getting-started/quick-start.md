@@ -1,6 +1,24 @@
 # Quick Start Guide
 
-Get up and running with Flow CLI in 5 minutes.
+> **TL;DR:** Get up and running with Flow CLI in 5 minutes - install, start a session, log wins, finish.
+
+---
+
+## 30-Second Setup
+
+```bash
+# 1. Verify installation
+flow --version
+
+# 2. Start a session
+work
+
+# 3. Log a win
+win "Set up flow-cli"
+
+# 4. End session
+finish
+```
 
 ---
 

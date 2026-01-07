@@ -271,4 +271,6 @@ Format:
 
 ---
 
-_Added in v3.3.0_
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0 (plugin v3.3.0)
+**Status:** ✅ Production ready with hook system

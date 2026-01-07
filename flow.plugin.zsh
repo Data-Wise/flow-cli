@@ -36,6 +36,7 @@ source "$FLOW_PLUGIN_DIR/lib/plugin-loader.zsh"
 source "$FLOW_PLUGIN_DIR/lib/ai-recipes.zsh"
 source "$FLOW_PLUGIN_DIR/lib/ai-usage.zsh"
 source "$FLOW_PLUGIN_DIR/lib/help-browser.zsh"
+source "$FLOW_PLUGIN_DIR/lib/inventory.zsh"
 
 # ============================================================================
 # COMMANDS
@@ -124,7 +125,7 @@ _flow_plugin_init
 
 # Export loaded marker
 export FLOW_PLUGIN_LOADED=1
-export FLOW_VERSION="4.8.1"
+export FLOW_VERSION="4.9.1"
 
 # Register exit hook for plugin cleanup
 add-zsh-hook zshexit _flow_plugin_cleanup

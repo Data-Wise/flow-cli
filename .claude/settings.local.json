@@ -121,7 +121,9 @@
       "Bash(./tests/test-phase2-features.zsh)",
       "Bash(flow help:*)",
       "Bash(_flow_detect_context)",
-      "Bash(git -C /Users/dt/projects/dev-tools/flow-cli status --short)"
+      "Bash(git -C /Users/dt/projects/dev-tools/flow-cli status --short)",
+      "Bash(gh release create:*)",
+      "Bash(shasum:*)"
     ]
   }
 }

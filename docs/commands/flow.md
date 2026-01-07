@@ -1,8 +1,34 @@
 # flow
 
-> Unified CLI dispatcher for all flow-cli commands
+> **Unified CLI dispatcher for all flow-cli commands with ADHD-friendly helpers**
 
 The `flow` command is the main entry point for the flow-cli plugin. It provides access to all subcommands through a unified namespace.
+
+---
+
+## Synopsis
+
+```bash
+flow <command> [args]
+flow help [command]
+```
+
+**Quick examples:**
+```bash
+# Get help
+flow help                      # Show all commands
+flow help work                 # Help for specific command
+
+# Core workflow
+flow work my-project           # Start session (or just: work my-project)
+flow dash                      # Dashboard (or just: dash)
+flow finish "Done!"            # End session (or just: finish "Done!")
+
+# ADHD helpers
+flow start                     # Just start (picks for you)
+flow stuck                     # Get unstuck
+flow win "Did the thing"       # Log a win
+```
 
 ---
 
@@ -228,8 +254,14 @@ If you have completions installed, `flow <Tab>` shows available commands.
 
 ---
 
-## Related
+## See Also
 
-- [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)
-- [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)
-- [Getting Started](../getting-started/quick-start.md)
+- **Reference:** [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md) - All commands at a glance
+- **Reference:** [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) - Domain-specific dispatchers
+- **Guide:** [Getting Started](../getting-started/quick-start.md) - 5-minute quick start
+
+---
+
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0
+**Status:** ✅ Production ready with unified namespace

@@ -48,6 +48,12 @@ dash() {
       _dash_watch "$interval"
       return
       ;;
+    --inventory)
+      # Generate tool inventory from .STATUS files
+      local format="${2:-table}"
+      _flow_generate_inventory "$format"
+      return
+      ;;
     -f|--full)
       # Full TUI mode
       if _flow_has_atlas; then

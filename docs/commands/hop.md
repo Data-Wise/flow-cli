@@ -1,8 +1,29 @@
 # hop
 
-> Quick project switch with tmux session management
+> **Quick project switch with tmux session management and interactive picker**
 
 The `hop` command provides fast project switching, especially powerful when using tmux. It creates or switches to project-specific tmux sessions.
+
+---
+
+## Synopsis
+
+```bash
+hop [project]
+```
+
+**Quick examples:**
+```bash
+# Switch to a project
+hop flow-cli
+
+# Interactive picker
+hop
+
+# With tmux (creates/switches session)
+hop my-project
+# ✓ Hopped to: my-project
+```
 
 ---
 
@@ -132,6 +153,13 @@ tmux ls
 
 ## See Also
 
-- [`work`](work.md) - Start a full work session
-- [`pick`](pick.md) - Interactive project picker
-- [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
+- **Command:** [work](work.md) - Start a full work session with editor
+- **Command:** [pick](pick.md) - Interactive project picker with categories
+- **Command:** [finish](finish.md) - End session cleanly
+- **Reference:** [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
+
+---
+
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0
+**Status:** ✅ Production ready with tmux integration
