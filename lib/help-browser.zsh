@@ -5,6 +5,26 @@
 # INTERACTIVE HELP BROWSER
 # ============================================================================
 
+# Preview helper function for fzf
+_flow_show_help_preview() {
+  local cmd="$1"
+
+  # Command is available in current shell (plugin loaded)
+  if type "${cmd}" >/dev/null 2>&1; then
+    if [[ "$cmd" =~ ^(g|cc|wt|mcp|r|qu|obs|tm)$ ]]; then
+      # Dispatcher - call with help
+      $cmd help 2>/dev/null || echo "Help not available for $cmd"
+    else
+      # Regular command - check for --help or help subcommand
+      $cmd --help 2>/dev/null || $cmd help 2>/dev/null || echo "Help not available for $cmd"
+    fi
+  else
+    echo "Command not found: $cmd"
+    echo ""
+    echo "Note: This command requires flow-cli to be loaded."
+  fi
+}
+
 _flow_help_browser() {
   # Check for fzf
   if ! command -v fzf &>/dev/null; then
@@ -84,18 +104,8 @@ _flow_help_browser() {
       # Strip ANSI codes from cmd
       cmd=$(echo "$cmd" | sed "s/\x1b\[[0-9;]*m//g")
 
-      # Try different help invocations
-      if type "${cmd}" >/dev/null 2>&1; then
-        if [[ "$cmd" =~ ^(g|cc|wt|mcp|r|qu|obs|tm)$ ]]; then
-          # Dispatcher - call with help
-          $cmd help 2>/dev/null || echo "Help not available for $cmd"
-        else
-          # Regular command - check for --help or help subcommand
-          $cmd --help 2>/dev/null || $cmd help 2>/dev/null || echo "Help not available for $cmd"
-        fi
-      else
-        echo "Command not found: $cmd"
-      fi
+      # Use helper function (available in current shell environment)
+      _flow_show_help_preview "$cmd"
     ' \
     --border=rounded \
     --color="header:bold,prompt:cyan,pointer:cyan,marker:green" \

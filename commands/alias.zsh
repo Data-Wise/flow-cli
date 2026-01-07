@@ -56,7 +56,7 @@ _flow_alias_help() {
   echo ""
   echo "${FLOW_COLORS[bold]}Categories:${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[cmd]}r${FLOW_COLORS[reset]}                   R package development (23 aliases)"
-  echo "  ${FLOW_COLORS[cmd]}cc${FLOW_COLORS[reset]}                  Claude Code (2 aliases)"
+  echo "  ${FLOW_COLORS[cmd]}cc${FLOW_COLORS[reset]}                  Claude Code (3 aliases)"
   echo "  ${FLOW_COLORS[cmd]}focus${FLOW_COLORS[reset]}               Focus timers (2 aliases)"
   echo "  ${FLOW_COLORS[cmd]}tools${FLOW_COLORS[reset]}               Tool replacements (1 alias)"
   echo "  ${FLOW_COLORS[cmd]}git${FLOW_COLORS[reset]}                 Git plugin aliases (226+)"
@@ -81,7 +81,7 @@ _flow_alias_show_all() {
   echo "${FLOW_COLORS[bold]}⚡ Flow CLI Alias Reference${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
   echo ""
-  echo "${FLOW_COLORS[bold]}Total:${FLOW_COLORS[reset]} 28 custom aliases + 8 dispatchers + 226+ git aliases"
+  echo "${FLOW_COLORS[bold]}Total:${FLOW_COLORS[reset]} 29 custom aliases + 8 dispatchers + 226+ git aliases"
   echo ""
 
   echo "${FLOW_COLORS[success]}📦 R Package Development${FLOW_COLORS[reset]} (23 aliases)"
@@ -89,7 +89,8 @@ _flow_alias_show_all() {
   echo "  ${FLOW_COLORS[cmd]}flow alias r${FLOW_COLORS[reset]} for full list"
   echo ""
 
-  echo "${FLOW_COLORS[success]}🤖 Claude Code${FLOW_COLORS[reset]} (2 aliases)"
+  echo "${FLOW_COLORS[success]}🤖 Claude Code${FLOW_COLORS[reset]} (3 aliases)"
+  echo "  ${FLOW_COLORS[muted]}ccy → cc yolo (YOLO mode - skip permissions)${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}ccp → claude -p (print mode)${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}ccr → claude -r (resume session)${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[cmd]}flow alias cc${FLOW_COLORS[reset]} for details"
@@ -191,6 +192,8 @@ _flow_alias_show_claude() {
   echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
   echo ""
 
+  printf "  ${FLOW_COLORS[cmd]}%-6s${FLOW_COLORS[reset]} → %-20s ${FLOW_COLORS[muted]}%s${FLOW_COLORS[reset]}\n" \
+    "ccy" "cc yolo" "YOLO mode (skip permissions)"
   printf "  ${FLOW_COLORS[cmd]}%-6s${FLOW_COLORS[reset]} → %-20s ${FLOW_COLORS[muted]}%s${FLOW_COLORS[reset]}\n" \
     "ccp" "claude -p" "Print mode (non-interactive)"
   printf "  ${FLOW_COLORS[cmd]}%-6s${FLOW_COLORS[reset]} → %-20s ${FLOW_COLORS[muted]}%s${FLOW_COLORS[reset]}\n" \

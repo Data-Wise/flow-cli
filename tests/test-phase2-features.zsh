@@ -257,6 +257,7 @@ test_case "Alias: R category view" && {
 test_case "Alias: Claude category view" && {
   local output=$(flow_alias cc 2>&1)
   assert_contains "$output" "Claude Code Aliases" "Should show CC header"
+  assert_contains "$output" "ccy" "Should list ccy alias (cc yolo)"
   assert_contains "$output" "ccp" "Should list ccp alias"
   assert_contains "$output" "ccr" "Should list ccr alias"
 }

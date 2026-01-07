@@ -1064,7 +1064,8 @@ alias nexus='cd ~/projects/dev-tools/nexus/nexus-desktop && npm start'
 # ============================================
 # GIT WORKTREE ALIASES
 # ============================================
-alias wt='cd ~/.git-worktrees'
+# NOTE: 'wt' is now provided by flow-cli wt dispatcher (no-args → cd to worktrees)
+# alias wt='cd ~/.git-worktrees'  # REMOVED - conflicts with wt() dispatcher
 alias wtl='git worktree list'
 
 # Scribe project worktrees
