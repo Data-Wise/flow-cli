@@ -130,6 +130,7 @@ nav:
       - finish: commands/finish.md
       - hop: commands/hop.md
       - pick: commands/pick.md
+      - alias: commands/alias.md
       - capture (win/yay/catch): commands/capture.md
       - timer: commands/timer.md
       - morning: commands/morning.md
