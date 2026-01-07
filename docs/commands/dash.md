@@ -1,8 +1,36 @@
 # `dash` - Master Project Dashboard
 
+> **Unified project dashboard with smart categorization and .STATUS file sync**
+
 **Command:** `dash [category]`
 **Purpose:** Unified view of all active work across projects
 **Type:** Display/Reporting
+
+---
+
+## Synopsis
+
+```bash
+dash [category]
+dash -i          # Interactive TUI mode
+dash --watch     # Live refresh mode
+```
+
+**Quick examples:**
+```bash
+# Show all projects
+dash
+
+# Filter by category
+dash teaching
+dash research
+
+# Interactive mode with fzf
+dash -i
+
+# Live dashboard (refreshes every 5s)
+dash --watch
+```
 
 ---
 
@@ -567,6 +595,6 @@ pwd
 
 ---
 
-**Last Updated:** 2025-12-22
-**Version:** 1.0
-**Status:** ✅ Production ready
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0
+**Status:** ✅ Production ready with interactive TUI

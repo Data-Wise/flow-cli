@@ -1,5 +1,7 @@
 # Command Reference: flow status
 
+> **Update and query project status with interactive prompts and .STATUS file management**
+
 Complete reference for the `flow status` command - update and query project status.
 
 ---
@@ -499,12 +501,6 @@ Choose based on whether you want to share status with collaborators.
 
 ---
 
-## History
-
-- **v1.0** (2025-12-14) - Initial implementation
-- **v1.1** (2025-12-21) - Added --json flag
-- **v1.2** (2025-12-24) - Added interactive mode improvements
-
----
-
-**Last updated:** 2025-12-24
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0 (status v1.2)
+**Status:** ✅ Production ready with interactive mode
