@@ -113,7 +113,15 @@
       "Bash(gh run view:*)",
       "Bash(# Fix common broken link patterns cd /Users/dt/projects/dev-tools/flow-cli/docs # user/ → reference/ or guides/ \\(check which exists\\) find . -name \"\"*.md\"\" -exec grep -l \"\"user/WORKFLOW-QUICK-REFERENCE\"\" {} \\\\;)",
       "Bash(./tests/test-cc-unified-grammar.zsh)",
-      "Bash(./tests/run-all.sh:*)"
+      "Bash(./tests/run-all.sh:*)",
+      "Bash(_flow_show_help_preview \"dash\")",
+      "Bash(_flow_show_help_preview \"r\")",
+      "Bash(./tests/test-help-browser-preview.zsh)",
+      "Bash(flow alias:*)",
+      "Bash(./tests/test-phase2-features.zsh)",
+      "Bash(flow help:*)",
+      "Bash(_flow_detect_context)",
+      "Bash(git -C /Users/dt/projects/dev-tools/flow-cli status --short)"
     ]
   }
 }

@@ -158,16 +158,33 @@ r help
 
 ---
 
-## What's Coming Next (Phase 2)
+## Phase 2 Features (v4.9.0) ✅ NOW AVAILABLE
 
-The "More Help" section hints at future modes:
+### Interactive Help Browser
 
 ```bash
-# Coming soon:
-r help full                # Complete reference
-r help examples            # More examples
-r ?                        # Interactive picker (fzf)
+flow help -i              # Interactive fzf picker for all commands
+r help -i                 # Works with any dispatcher
+cc help -i                # Browse Claude Code commands
 ```
+
+**Features:**
+
+- Full-text preview pane showing help for each command
+- Fuzzy search through all available commands
+- Real-time help display as you navigate
+- Works with all dispatchers and flow commands
+
+### Alias Reference
+
+```bash
+flow alias                # Show all custom aliases (29 total)
+flow alias cc             # Claude Code aliases (ccy, ccp, ccr)
+flow alias git            # Git aliases
+flow alias <category>     # Any category
+```
+
+**Categories:** `git`, `cc`, `pick`, `dash`, `work`, `capture`, `mcp`, `quarto`, `r`, `obs`
 
 ---
 

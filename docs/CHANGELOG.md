@@ -6,6 +6,39 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [4.9.1] - 2026-01-06
+
+### Fixed
+
+**Two critical UX bugs discovered during Phase 2 dogfooding:**
+
+1. **Help Browser Preview Pane** - Fixed "command not found" errors
+   - **Problem:** `flow help -i` preview pane showed "command not found: dash" instead of help text
+   - **Root Cause:** fzf `--preview` runs in isolated subshell without plugin loaded
+   - **Solution:** Created `_flow_show_help_preview()` helper function following existing pattern from `lib/tui.zsh`
+   - **Files Changed:** `lib/help-browser.zsh` (+18 lines, -13 lines simplified)
+   - **Tests Added:** `tests/test-help-browser-preview.zsh` (6 tests, all passing)
+   - **Pattern:** Helper functions run in current shell, avoiding subshell isolation
+
+2. **Missing `ccy` Alias** - Added to alias reference command
+   - **Problem:** `flow alias cc` didn't show `ccy` (shortcut for `cc yolo`)
+   - **Root Cause:** Alias defined in `cc-dispatcher.zsh` but not added to `alias.zsh`
+   - **Solution:** Added `ccy` to both summary and detailed views, updated counts
+   - **Files Changed:** `commands/alias.zsh` (updated counts 2→3, 28→29)
+   - **Tests Added:** Updated Test 22 in `test-phase2-features.zsh`
+   - **Prevention:** Added checklist for new alias additions
+
+**Test Results:**
+- All 47 tests passing
+- 6 new preview tests + 1 updated alias test
+- Full regression coverage maintained
+
+**Documentation:**
+- `BUG-FIX-help-browser-preview.md` (168 lines)
+- `BUG-FIX-ccy-alias-missing.md` (171 lines)
+
+---
+
 ## [4.8.1] - 2026-01-05
 
 ### Changed
