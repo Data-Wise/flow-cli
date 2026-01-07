@@ -273,4 +273,6 @@ export FLOW_PROJECTS_ROOT=~/projects
 
 ---
 
-_Added in v3.3.0_
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0 (config v3.3.0)
+**Status:** ✅ Production ready with profiles

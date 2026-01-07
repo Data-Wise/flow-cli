@@ -1,9 +1,37 @@
 # `doctor` - Health Check & Dependency Manager
 
+> **Comprehensive dependency checker with interactive installation and health diagnostics**
+
 **Command:** `flow doctor [options]`
 **Purpose:** Check installed dependencies and optionally fix issues
 **Type:** Setup/Diagnostics
 **Added:** v3.1.0 (2025-12-26)
+
+---
+
+## Synopsis
+
+```bash
+flow doctor                 # Check all dependencies
+flow doctor --fix           # Interactive fix mode
+flow doctor --fix --auto    # Auto-install everything
+flow doctor --category <cat> # Check specific category
+```
+
+**Quick examples:**
+```bash
+# Check health
+flow doctor
+
+# Interactive install
+flow doctor --fix
+
+# Auto-install all missing
+flow doctor --fix --auto
+
+# Check only required dependencies
+flow doctor --category required
+```
 
 ---
 
@@ -374,6 +402,6 @@ The `doctor` command follows these principles:
 
 ---
 
-**Last Updated:** 2025-12-26
-**Version:** 1.0
-**Status:** Production ready
+**Last Updated:** 2026-01-07
+**Command Version:** v4.8.0 (doctor v1.0)
+**Status:** ✅ Production ready with interactive install
