@@ -4,8 +4,8 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # File:         lib/dispatchers/dot-dispatcher.zsh
-# Version:      1.0.0 (Phase 1 - Foundation)
-# Date:         2026-01-08
+# Version:      1.2.0 (Phase 3 - Secret Management)
+# Date:         2026-01-09
 # Pattern:      command + keyword + options
 #
 # Usage:        dot <action> [args]
@@ -246,7 +246,7 @@ _dot_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Phase 1: Status & help${FLOW_COLORS[reset]}                      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Phase 2: Edit/sync workflows${FLOW_COLORS[reset]}                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}○ Phase 3: Secret management (coming soon)${FLOW_COLORS[reset]}    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Phase 3: Secret management${FLOW_COLORS[reset]}                  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
   echo ""
@@ -257,7 +257,7 @@ _dot_help() {
 # ═══════════════════════════════════════════════════════════════════
 
 _dot_version() {
-  echo "dot dispatcher v1.1.0 (Phase 2 - Core Workflows)"
+  echo "dot dispatcher v1.2.0 (Phase 3 - Secret Management)"
   echo "Part of flow-cli v5.0.0"
   echo ""
   echo "Tools:"
@@ -674,14 +674,191 @@ _dot_undo() {
   _flow_log_info "For now, use: chezmoi diff && chezmoi apply --dry-run"
 }
 
+# ═══════════════════════════════════════════════════════════════════
+# PHASE 3: SECRET MANAGEMENT (Bitwarden Integration)
+# ═══════════════════════════════════════════════════════════════════
+
 _dot_unlock() {
-  _flow_log_warning "Phase 3: Bitwarden unlock not yet implemented"
-  _flow_log_info "Coming in Phase 3 (Secret Management)"
+  if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
+    return 1
+  fi
+
+  # Check current status
+  local bw_status=$(_dot_bw_get_status)
+
+  case "$bw_status" in
+    unlocked)
+      _flow_log_success "Bitwarden vault is already unlocked"
+      _flow_log_muted "BW_SESSION is active in this shell"
+      return 0
+      ;;
+    locked)
+      _flow_log_info "Unlocking Bitwarden vault..."
+      ;;
+    unauthenticated)
+      _flow_log_error "Bitwarden not authenticated"
+      _flow_log_info "Run: bw login"
+      return 1
+      ;;
+    not-installed)
+      _flow_log_error "Bitwarden CLI not found"
+      _flow_log_info "Install: brew install bitwarden-cli"
+      return 1
+      ;;
+    *)
+      _flow_log_error "Unknown Bitwarden status: $bw_status"
+      return 1
+      ;;
+  esac
+
+  # Unlock and capture session token (suppress echo for security)
+  echo ""
+  _flow_log_info "Enter your Bitwarden master password:"
+  local session_token
+  session_token=$(bw unlock --raw 2>&1)
+  local unlock_status=$?
+
+  if [[ $unlock_status -ne 0 ]]; then
+    _flow_log_error "Failed to unlock vault"
+    # Don't echo the error output (may contain sensitive info)
+    return 1
+  fi
+
+  # Validate session token format (should be a UUID-like string)
+  if [[ -z "$session_token" ]] || [[ ${#session_token} -lt 20 ]]; then
+    _flow_log_error "Invalid session token received"
+    return 1
+  fi
+
+  # Export session token to current shell
+  export BW_SESSION="$session_token"
+
+  # Verify session works
+  if bw unlock --check &>/dev/null; then
+    echo ""
+    _flow_log_success "Vault unlocked successfully"
+    echo ""
+    _flow_log_muted "Session active in this shell only (not persistent)"
+    _flow_log_info "Use 'dot secret <name>' to retrieve secrets"
+
+    # Security reminder
+    echo ""
+    _flow_log_warning "Security reminder:"
+    echo "  • Session expires when shell closes"
+    echo "  • Don't export BW_SESSION globally"
+    echo "  • Lock vault when done: ${FLOW_COLORS[cmd]}bw lock${FLOW_COLORS[reset]}"
+    echo ""
+
+    return 0
+  else
+    _flow_log_error "Session validation failed"
+    unset BW_SESSION
+    return 1
+  fi
 }
 
 _dot_secret() {
-  _flow_log_warning "Phase 3: Secret management not yet implemented"
-  _flow_log_info "Coming in Phase 3 (Secret Management)"
+  local subcommand="$1"
+  shift
+
+  # List secrets
+  if [[ "$subcommand" == "list" ]]; then
+    _dot_secret_list "$@"
+    return
+  fi
+
+  # Retrieve specific secret
+  if [[ -z "$subcommand" ]]; then
+    _flow_log_error "Usage: dot secret <name>"
+    _flow_log_info "       dot secret list"
+    echo ""
+    echo "Examples:"
+    echo "  dot secret github-token"
+    echo "  dot secret list"
+    return 1
+  fi
+
+  if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
+    return 1
+  fi
+
+  # Check if session is active
+  if ! _dot_bw_session_valid; then
+    _flow_log_error "Bitwarden vault is locked"
+    _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  local item_name="$subcommand"
+
+  # Retrieve secret (redirect stderr to prevent leaks)
+  local secret_value
+  secret_value=$(bw get password "$item_name" 2>/dev/null)
+  local get_status=$?
+
+  if [[ $get_status -ne 0 ]]; then
+    _flow_log_error "Failed to retrieve secret: $item_name"
+    _flow_log_info "Item not found or access denied"
+    _flow_log_muted "Tip: Use 'dot secret list' to see available items"
+    return 1
+  fi
+
+  # Return value WITHOUT echoing to terminal (security)
+  # Caller can capture: TOKEN=$(dot secret github-token)
+  echo "$secret_value"
+}
+
+_dot_secret_list() {
+  if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
+    return 1
+  fi
+
+  # Check if session is active
+  if ! _dot_bw_session_valid; then
+    _flow_log_error "Bitwarden vault is locked"
+    _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  _flow_log_info "Retrieving items from vault..."
+  echo ""
+
+  # Get items (suppress sensitive output)
+  local items_json
+  items_json=$(bw list items --session "$BW_SESSION" 2>/dev/null)
+  local list_status=$?
+
+  if [[ $list_status -ne 0 ]]; then
+    _flow_log_error "Failed to retrieve items"
+    return 1
+  fi
+
+  # Parse and format items (using jq if available, otherwise basic parsing)
+  if command -v jq &>/dev/null; then
+    # Pretty format with jq
+    echo "$items_json" | jq -r '.[] |
+      "\(.type |
+        if . == 1 then "🔑"
+        elif . == 2 then "📝"
+        elif . == 3 then "💳"
+        else "📦" end
+      ) \(.name)\t\(.folder // "No folder")"' | \
+    while IFS=$'\t' read -r item folder; do
+      echo "${FLOW_COLORS[accent]}$item${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}($folder)${FLOW_COLORS[reset]}"
+    done
+  else
+    # Fallback: basic parsing without jq
+    echo "$items_json" | \
+    command grep -o '"name":"[^"]*"' | \
+    command cut -d'"' -f4 | \
+    while read -r name; do
+      echo "${FLOW_COLORS[accent]}🔑 $name${FLOW_COLORS[reset]}"
+    done
+  fi
+
+  echo ""
+  _flow_log_info "Usage: ${FLOW_COLORS[cmd]}dot secret <name>${FLOW_COLORS[reset]}"
+  echo ""
 }
 
 _dot_doctor() {

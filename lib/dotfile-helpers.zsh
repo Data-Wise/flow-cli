@@ -243,6 +243,95 @@ _dot_format_status() {
 }
 
 # ============================================================================
+# DASHBOARD INTEGRATION
+# ============================================================================
+
+# Get one-line status for dashboard display
+# Returns formatted string with status icon, state, time/details, and file count
+_dot_get_status_line() {
+  if ! _dot_has_chezmoi; then
+    return 1
+  fi
+
+  # Get status components (with timeout to keep it fast)
+  local sync_status=$(_dot_get_sync_status)
+  local tracked_count=$(_dot_get_tracked_count)
+  local last_sync=$(_dot_get_last_sync_time)
+  local modified_count=$(_dot_get_modified_count)
+
+  # Format based on status
+  local status_icon=""
+  local status_text=""
+  local detail_text=""
+
+  case "$sync_status" in
+    synced)
+      status_icon="🟢"
+      status_text="${FLOW_COLORS[success]}Synced${FLOW_COLORS[reset]}"
+      detail_text="($last_sync)"
+      ;;
+    modified)
+      status_icon="🟡"
+      status_text="${FLOW_COLORS[warning]}Modified${FLOW_COLORS[reset]}"
+      if [[ $modified_count -gt 0 ]]; then
+        detail_text="($modified_count file$([ $modified_count -gt 1 ] && echo 's') pending)"
+      else
+        detail_text="(pending)"
+      fi
+      ;;
+    behind)
+      status_icon="🔴"
+      status_text="${FLOW_COLORS[error]}Behind${FLOW_COLORS[reset]}"
+      # Get commit count if possible
+      local behind_count=""
+      local chezmoi_dir="${HOME}/.local/share/chezmoi"
+      if [[ -d "$chezmoi_dir/.git" ]]; then
+        behind_count=$(cd "$chezmoi_dir" && git rev-list HEAD..@{u} 2>/dev/null | wc -l | tr -d ' ')
+        if [[ -n "$behind_count" ]] && [[ $behind_count -gt 0 ]]; then
+          detail_text="($behind_count commit$([ $behind_count -gt 1 ] && echo 's'))"
+        else
+          detail_text="(needs pull)"
+        fi
+      else
+        detail_text="(needs pull)"
+      fi
+      ;;
+    ahead)
+      status_icon="🔵"
+      status_text="${FLOW_COLORS[info]}Ahead${FLOW_COLORS[reset]}"
+      # Get commit count if possible
+      local ahead_count=""
+      local chezmoi_dir="${HOME}/.local/share/chezmoi"
+      if [[ -d "$chezmoi_dir/.git" ]]; then
+        ahead_count=$(cd "$chezmoi_dir" && git rev-list @{u}..HEAD 2>/dev/null | wc -l | tr -d ' ')
+        if [[ -n "$ahead_count" ]] && [[ $ahead_count -gt 0 ]]; then
+          detail_text="($ahead_count commit$([ $ahead_count -gt 1 ] && echo 's'))"
+        else
+          detail_text="(needs push)"
+        fi
+      else
+        detail_text="(needs push)"
+      fi
+      ;;
+    not-initialized)
+      status_icon="⚪"
+      status_text="${FLOW_COLORS[muted]}Not initialized${FLOW_COLORS[reset]}"
+      detail_text=""
+      ;;
+    *)
+      # Don't show line for error states
+      return 1
+      ;;
+  esac
+
+  # Format tracked count
+  local tracked_text="${FLOW_COLORS[muted]}$tracked_count file$([ $tracked_count -gt 1 ] && echo 's') tracked${FLOW_COLORS[reset]}"
+
+  # Build final line
+  echo "  📝 ${FLOW_COLORS[bold]}Dotfiles:${FLOW_COLORS[reset]} $status_icon $status_text $detail_text · $tracked_text"
+}
+
+# ============================================================================
 # PATH RESOLUTION (fuzzy matching for file names)
 # ============================================================================
 
@@ -319,6 +408,54 @@ _dot_bw_get_status() {
     echo "$bw_status"
   fi
 }
+
+# ============================================================================
+# SECURITY HELPERS (Phase 3)
+# ============================================================================
+
+# Ensure sensitive commands are not stored in history
+_dot_security_init() {
+  # Add Bitwarden commands to history exclusion
+  # This prevents BW_SESSION tokens from being stored in history
+  if [[ -z "$HISTIGNORE" ]]; then
+    export HISTIGNORE="*bw unlock*:*bw get*:*BW_SESSION*:*dot secret*"
+  else
+    # Append if not already present
+    if [[ ! "$HISTIGNORE" =~ "bw unlock" ]]; then
+      export HISTIGNORE="${HISTIGNORE}:*bw unlock*:*bw get*:*BW_SESSION*:*dot secret*"
+    fi
+  fi
+}
+
+# Check if BW_SESSION is exported globally (security risk)
+_dot_security_check_bw_session() {
+  # Check if BW_SESSION is in shell startup files
+  local config_files=(
+    "$HOME/.zshrc"
+    "$HOME/.zshenv"
+    "$HOME/.zprofile"
+    "$HOME/.config/zsh/.zshrc"
+  )
+
+  local found_global=false
+  for file in "${config_files[@]}"; do
+    if [[ -f "$file" ]] && grep -q "export BW_SESSION" "$file" 2>/dev/null; then
+      found_global=true
+      _flow_log_error "Security issue: BW_SESSION exported in $file"
+    fi
+  done
+
+  if $found_global; then
+    _flow_log_warning "BW_SESSION should NOT be exported globally"
+    _flow_log_info "Remove 'export BW_SESSION' from startup files"
+    return 1
+  fi
+
+  return 0
+}
+
+# Initialize security settings when helpers are loaded
+_dot_security_init
 
 # ============================================================================
 # FORMATTING HELPERS
