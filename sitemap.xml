@@ -2,506 +2,566 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://data-wise.github.io/flow-cli/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/AWESOME-ZSH-PLUGINS-ENTRY/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/CHANGELOG/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/CONVENTIONS/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/DOT-DISPATCHER-DOCUMENTATION-SUMMARY/</loc>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/PHASE3-IMPLEMENTATION-SUMMARY/</loc>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/PHASE4-SUMMARY/</loc>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/PHILOSOPHY/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/SECRET-MANAGEMENT/</loc>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/ZSH-DEVELOPMENT-GUIDELINES/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/ai/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/alias/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/capture/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/config/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/dash/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/dashboard/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/do/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/doctor/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/finish/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/flow/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/hop/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/install/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/morning/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/pick/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/plugin/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/status/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/sync/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/timer/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/upgrade/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/commands/work/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/contributing/CONTRIBUTING/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/contributing/DOCUMENTATION-STYLE-GUIDE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/contributing/PR-WORKFLOW-GUIDE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/DOCUMENTATION-MAKING-GUIDE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/adhd/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/adhd/GETTING-STARTED-TEMPLATE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/adhd/GIF-GUIDELINES/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/adhd/HELP-PAGE-TEMPLATE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/adhd/QUICK-START-TEMPLATE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/adhd/REFCARD-TEMPLATE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/adhd/TUTORIAL-TEMPLATE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/adhd/WORKFLOW-TEMPLATE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/code/COMMIT-MESSAGES/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/code/R-STYLE-GUIDE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/code/ZSH-COMMANDS-HELP/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/documentation/WEBSITE-DESIGN-GUIDE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/project/COORDINATION-GUIDE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/project/PROJECT-MANAGEMENT-STANDARDS/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/conventions/project/PROJECT-STRUCTURE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/getting-started/00-welcome/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/getting-started/faq/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/getting-started/installation/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/getting-started/quick-start/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/getting-started/troubleshooting/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/00-START-HERE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/DOPAMINE-FEATURES-GUIDE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/guides/DOTFILE-MANAGEMENT/</loc>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/ENHANCED-HELP-QUICK-START/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/MERMAID-DIAGRAMS-QUICK-START/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/MONOREPO-COMMANDS-TUTORIAL/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/PROJECT-SCOPE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/WORKFLOW-TUTORIAL/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/WORKFLOWS-QUICK-WINS/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/WORKTREE-WORKFLOW/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/YOLO-MODE-WORKFLOW/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/BRAINSTORM-website-standardization-2026-01-07/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/INSTALL-IMPROVEMENTS/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/PHASE-3-CONTENT-AUDIT/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/V4.3-ROADMAP/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/V4.9-ROADMAP/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/BRAINSTORM-worktree-aware-pick-2025-12-30/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/BUG-FIX-git-status-math-error/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/implementations/DOCUMENTATION-GENERATION-SUMMARY/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/implementations/OPTION-A-IMPLEMENTATION-COMPLETE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/legacy-zsh/ALIAS-REFERENCE-CARD/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/legacy-zsh/COMMAND-INTEGRATION-ANALYSIS/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/legacy-zsh/ENHANCEMENTS-QUICKSTART/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/legacy-zsh/FINAL-ADHD-FRIENDLY-COMMAND-PLAN/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/legacy-zsh/PHASE1-V-DISPATCHER-COMPLETE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/legacy-zsh/PROJECT-HUB/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/legacy-zsh/PROPOSAL-ADHD-FRIENDLY-COMMANDS/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/legacy-zsh/SESSION-2025-12-16-SUMMARY/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/legacy-zsh/VERB-BRAINSTORM-COMPREHENSIVE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/legacy-zsh/WORKFLOWS-QUICK-WINS/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/PROPOSAL-dependency-management/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/PROPOSAL-flow-command-integration/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/PROPOSAL-flow-namespace/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/ADHD-HELPERS-FUNCTION-MAP/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/ALIAS-REFERENCE-CARD/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/CC-DISPATCHER-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/CLI-COMMAND-PATTERNS-RESEARCH/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/COMMAND-EXPLORER/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/COMMAND-QUICK-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/DASHBOARD-QUICK-REF/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/DISPATCHER-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/DOT-DISPATCHER-REFERENCE/</loc>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/EXISTING-SYSTEM-SUMMARY/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/FILE-REORGANIZATION-VISUAL/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/G-DISPATCHER-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/INDEX/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/MCP-DISPATCHER-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/OBS-DISPATCHER-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/PICK-COMMAND-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/PROJECT-DETECTION-GUIDE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/QU-DISPATCHER-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/R-DISPATCHER-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-DOT/</loc>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/SYNC-SETUP/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/TESTING-QUICK-REF/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/TM-DISPATCHER-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/WORKFLOW-QUICK-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/WORKSPACE-AUDIT-GUIDE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/WT-DISPATCHER-REFERENCE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/ZSH-CLEAN-WORKFLOW/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/</loc>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/DOTFILE-INTEGRATION-SUMMARY/</loc>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-ci-optimization-pick-wt-2025-12-31/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-dotfile-integration-2026-01-08/</loc>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-v4.9.0-installation-onboarding/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-worktree-aware-pick-2025-12-30/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/dot-dispatcher-implementation-checklist/</loc>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/dot-dispatcher-refcard/</loc>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/dot-dispatcher-visual-mockups/</loc>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/dotfile-management-plan_1/</loc>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/dotfile-ux-design/</loc>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/_archive/SPEC-cc-unified-grammar-2026-01-02/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/testing/DOG-FEEDING-TEST-README/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/testing/INTERACTIVE-TEST-GUIDE/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/testing/TESTING/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/01-first-session/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/02-multiple-projects/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/03-status-visualizations/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/04-web-dashboard/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/05-ai-commands/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/06-dopamine-features/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/07-sync-command/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/08-git-feature-workflow/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/09-worktrees/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/10-cc-dispatcher/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/11-tm-dispatcher/</loc>
-         <lastmod>2026-01-07</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
 </urlset>
