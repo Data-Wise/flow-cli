@@ -30,6 +30,7 @@ FLOW_PLUGIN_DIR=${0:A:h}
 source "$FLOW_PLUGIN_DIR/lib/core.zsh"
 source "$FLOW_PLUGIN_DIR/lib/config.zsh"
 source "$FLOW_PLUGIN_DIR/lib/atlas-bridge.zsh"
+source "$FLOW_PLUGIN_DIR/lib/dotfile-helpers.zsh"
 source "$FLOW_PLUGIN_DIR/lib/project-detector.zsh"
 source "$FLOW_PLUGIN_DIR/lib/tui.zsh"
 source "$FLOW_PLUGIN_DIR/lib/plugin-loader.zsh"
@@ -125,7 +126,7 @@ _flow_plugin_init
 
 # Export loaded marker
 export FLOW_PLUGIN_LOADED=1
-export FLOW_VERSION="4.9.2"
+export FLOW_VERSION="5.0.0"
 
 # Register exit hook for plugin cleanup
 add-zsh-hook zshexit _flow_plugin_cleanup
