@@ -76,6 +76,7 @@ dash() {
   _dash_header
   _dash_right_now
   _dash_current
+  _dash_dotfiles
   _dash_quick_wins
   _dash_quick_access
   _dash_recent_wins
@@ -565,6 +566,26 @@ _dash_current() {
     fi
     
     echo "  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
+    echo ""
+  fi
+}
+
+# ============================================================================
+# DOTFILES STATUS - Show dotfile sync status (Phase 4)
+# ============================================================================
+
+_dash_dotfiles() {
+  # Only show if chezmoi is available
+  if ! _dot_has_chezmoi; then
+    return 0
+  fi
+
+  # Get status line from helper
+  local dotfile_status=$(_dot_get_status_line 2>/dev/null)
+
+  # Only show if we got a valid status
+  if [[ -n "$dotfile_status" ]]; then
+    echo "$dotfile_status"
     echo ""
   fi
 }
