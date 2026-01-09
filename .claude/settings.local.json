@@ -123,7 +123,12 @@
       "Bash(_flow_detect_context)",
       "Bash(git -C /Users/dt/projects/dev-tools/flow-cli status --short)",
       "Bash(gh release create:*)",
-      "Bash(shasum:*)"
+      "Bash(shasum:*)",
+      "Bash(git worktree:*)",
+      "Bash(whence:*)",
+      "Bash(/Users/dt/.git-worktrees/flow-cli-dot-dispatcher/scripts/validate-dot-docs.sh:*)",
+      "Bash(./scripts/validate-dot-docs.sh:*)",
+      "Bash(./scripts/release.sh:*)"
     ]
   }
 }
