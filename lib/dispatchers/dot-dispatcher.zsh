@@ -244,9 +244,9 @@ _dot_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot sync${FLOW_COLORS[reset]}                  Pull from iMac         ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret github-token${FLOW_COLORS[reset]}   Get GitHub token       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Phase 1 (Foundation): Status & help only${FLOW_COLORS[reset]}       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Phase 2: Edit/sync workflows${FLOW_COLORS[reset]}                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Phase 3: Secret management & troubleshooting${FLOW_COLORS[reset]}   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Phase 1: Status & help${FLOW_COLORS[reset]}                      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Phase 2: Edit/sync workflows${FLOW_COLORS[reset]}                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}○ Phase 3: Secret management (coming soon)${FLOW_COLORS[reset]}    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
   echo ""
@@ -257,7 +257,7 @@ _dot_help() {
 # ═══════════════════════════════════════════════════════════════════
 
 _dot_version() {
-  echo "dot dispatcher v1.0.0 (Phase 1 - Foundation)"
+  echo "dot dispatcher v1.1.0 (Phase 2 - Core Workflows)"
   echo "Part of flow-cli v5.0.0"
   echo ""
   echo "Tools:"
@@ -284,32 +284,394 @@ _dot_version() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# PLACEHOLDER FUNCTIONS (Phase 2 & 3)
+# PHASE 2: CORE WORKFLOWS
 # ═══════════════════════════════════════════════════════════════════
 
+# Edit workflow: edit file → show diff → apply
 _dot_edit() {
-  _flow_log_warning "Phase 2: Edit workflow not yet implemented"
-  _flow_log_info "Coming in Phase 2 (Core Workflows)"
+  if ! _dot_require_tool "chezmoi" "brew install chezmoi"; then
+    return 1
+  fi
+
+  local file_arg="$1"
+  if [[ -z "$file_arg" ]]; then
+    _flow_log_error "Usage: dot edit <file>"
+    _flow_log_info "Examples:"
+    echo "  dot edit .zshrc"
+    echo "  dot edit zshrc     (fuzzy match)"
+    return 1
+  fi
+
+  # Resolve file path (supports fuzzy matching)
+  local resolved_path
+  resolved_path=$(_dot_resolve_file_path "$file_arg")
+  local resolve_status=$?
+
+  if [[ $resolve_status -eq 1 ]]; then
+    _flow_log_error "File not found in managed dotfiles: $file_arg"
+    _flow_log_info "Use 'chezmoi add <file>' to start tracking a new file"
+    return 1
+  elif [[ $resolve_status -eq 2 ]]; then
+    # Multiple matches - show selection
+    _flow_log_warning "Multiple matches found:"
+    echo "$resolved_path"
+    _flow_log_info "Please be more specific"
+    return 1
+  fi
+
+  # Get source file path in chezmoi repo
+  local source_path
+  source_path=$(chezmoi source-path "$resolved_path" 2>/dev/null)
+  if [[ -z "$source_path" ]]; then
+    _flow_log_error "Could not determine source path for: $resolved_path"
+    return 1
+  fi
+
+  # Get file modification time before editing
+  local before_mtime
+  if [[ -f "$source_path" ]]; then
+    before_mtime=$(stat -f "%m" "$source_path" 2>/dev/null || echo "0")
+  else
+    before_mtime="0"
+  fi
+
+  # Open in editor
+  local editor="${EDITOR:-vim}"
+  _flow_log_info "Opening in $editor: ${source_path:t}"
+  echo ""
+
+  $editor "$source_path"
+  local edit_status=$?
+
+  if [[ $edit_status -ne 0 ]]; then
+    _flow_log_error "Editor exited with error"
+    return 1
+  fi
+
+  # Check if file was modified
+  local after_mtime
+  if [[ -f "$source_path" ]]; then
+    after_mtime=$(stat -f "%m" "$source_path" 2>/dev/null || echo "0")
+  else
+    after_mtime="0"
+  fi
+
+  if [[ "$before_mtime" == "$after_mtime" ]]; then
+    _flow_log_muted "No changes made"
+    return 0
+  fi
+
+  # Show diff preview
+  echo ""
+  _flow_log_success "Changes detected!"
+  _dot_show_file_diff "$resolved_path"
+
+  # Prompt to apply
+  echo ""
+  _flow_log_info "Apply changes?"
+  echo "  ${FLOW_COLORS[cmd]}y${FLOW_COLORS[reset]} - Apply now"
+  echo "  ${FLOW_COLORS[cmd]}d${FLOW_COLORS[reset]} - Show detailed diff"
+  echo "  ${FLOW_COLORS[cmd]}n${FLOW_COLORS[reset]} - Keep in staging"
+  echo ""
+  read -q "?Apply? [Y/n/d] " response
+  echo ""
+
+  case "$response" in
+    d)
+      # Show detailed diff
+      chezmoi diff "$resolved_path"
+      echo ""
+      read -q "?Apply now? [Y/n] " apply_response
+      echo ""
+      [[ "$apply_response" == "y" ]] && _dot_apply_changes "$resolved_path"
+      ;;
+    n)
+      _flow_log_muted "Changes kept in staging. Run 'dot apply' to apply later"
+      ;;
+    *)
+      _dot_apply_changes "$resolved_path"
+      ;;
+  esac
 }
 
-_dot_sync() {
-  _flow_log_warning "Phase 2: Sync workflow not yet implemented"
-  _flow_log_info "Coming in Phase 2 (Core Workflows)"
+# Show diff for a single file
+_dot_show_file_diff() {
+  local file="$1"
+  echo ""
+  echo "${FLOW_COLORS[header]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+  chezmoi diff "$file" 2>/dev/null | head -20
+  local line_count=$(chezmoi diff "$file" 2>/dev/null | wc -l | tr -d ' ')
+  if [[ $line_count -gt 20 ]]; then
+    echo "${FLOW_COLORS[muted]}... (${line_count} lines total, showing first 20)${FLOW_COLORS[reset]}"
+  fi
+  echo "${FLOW_COLORS[header]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
 }
 
-_dot_push() {
-  _flow_log_warning "Phase 2: Push workflow not yet implemented"
-  _flow_log_info "Coming in Phase 2 (Core Workflows)"
+# Apply changes for a specific file
+_dot_apply_changes() {
+  local file="$1"
+  _flow_log_info "Applying changes..."
+
+  if chezmoi apply "$file" 2>/dev/null; then
+    _flow_log_success "Applied: $file"
+  else
+    _flow_log_error "Failed to apply changes"
+    return 1
+  fi
 }
+
+# ───────────────────────────────────────────────────────────────────
+# DIFF COMMAND
+# ───────────────────────────────────────────────────────────────────
 
 _dot_diff() {
-  _flow_log_warning "Phase 2: Diff command not yet implemented"
-  _flow_log_info "Coming in Phase 2 (Core Workflows)"
+  if ! _dot_require_tool "chezmoi" "brew install chezmoi"; then
+    return 1
+  fi
+
+  local file="$1"
+
+  if [[ -n "$file" ]]; then
+    # Show diff for specific file
+    local resolved_path
+    resolved_path=$(_dot_resolve_file_path "$file")
+    local resolve_status=$?
+
+    if [[ $resolve_status -ne 0 ]]; then
+      _flow_log_error "File not found: $file"
+      return 1
+    fi
+
+    _dot_show_file_diff "$resolved_path"
+  else
+    # Show all diffs
+    local status_output
+    status_output=$(chezmoi status 2>/dev/null)
+
+    if [[ -z "$status_output" ]]; then
+      _flow_log_success "No pending changes"
+      return 0
+    fi
+
+    _flow_log_info "Pending changes:"
+    echo ""
+    chezmoi diff 2>/dev/null
+  fi
 }
 
+# ───────────────────────────────────────────────────────────────────
+# APPLY COMMAND
+# ───────────────────────────────────────────────────────────────────
+
 _dot_apply() {
-  _flow_log_warning "Phase 2: Apply command not yet implemented"
-  _flow_log_info "Coming in Phase 2 (Core Workflows)"
+  if ! _dot_require_tool "chezmoi" "brew install chezmoi"; then
+    return 1
+  fi
+
+  local file="$1"
+
+  # Check if there are any changes
+  local status_output
+  status_output=$(chezmoi status 2>/dev/null)
+
+  if [[ -z "$status_output" ]]; then
+    _flow_log_success "No pending changes"
+    return 0
+  fi
+
+  if [[ -n "$file" ]]; then
+    # Apply specific file
+    local resolved_path
+    resolved_path=$(_dot_resolve_file_path "$file")
+    local resolve_status=$?
+
+    if [[ $resolve_status -ne 0 ]]; then
+      _flow_log_error "File not found: $file"
+      return 1
+    fi
+
+    _dot_apply_changes "$resolved_path"
+  else
+    # Apply all changes
+    _flow_log_info "Applying all pending changes..."
+    echo ""
+
+    # Show summary
+    local modified_count=$(_dot_get_modified_count)
+    _flow_log_info "Files to update: $modified_count"
+    echo ""
+    chezmoi status 2>/dev/null
+    echo ""
+
+    read -q "?Apply all changes? [Y/n] " response
+    echo ""
+
+    if [[ "$response" != "n" ]]; then
+      if chezmoi apply 2>/dev/null; then
+        _flow_log_success "Applied all changes"
+      else
+        _flow_log_error "Failed to apply changes"
+        return 1
+      fi
+    else
+      _flow_log_muted "Cancelled"
+    fi
+  fi
+}
+
+# ───────────────────────────────────────────────────────────────────
+# SYNC COMMAND (Pull from remote)
+# ───────────────────────────────────────────────────────────────────
+
+_dot_sync() {
+  if ! _dot_require_tool "chezmoi" "brew install chezmoi"; then
+    return 1
+  fi
+
+  local chezmoi_dir="${HOME}/.local/share/chezmoi"
+  if [[ ! -d "$chezmoi_dir/.git" ]]; then
+    _flow_log_error "Chezmoi not initialized or not using git"
+    _flow_log_info "Run: chezmoi init <repo-url>"
+    return 1
+  fi
+
+  _flow_log_info "Fetching from remote..."
+
+  # Fetch updates (in chezmoi directory)
+  (
+    cd "$chezmoi_dir" || exit 1
+    git fetch --quiet 2>/dev/null
+  )
+
+  # Check if behind
+  if ! _dot_is_behind_remote; then
+    _flow_log_success "Already up to date"
+    return 0
+  fi
+
+  # Show what will change
+  _flow_log_info "Remote has updates:"
+  echo ""
+  (
+    cd "$chezmoi_dir" || exit 1
+    git log --oneline HEAD..@{u} 2>/dev/null | head -5
+  )
+  echo ""
+
+  # Check for local changes
+  local has_local_changes=false
+  if [[ -n "$(chezmoi status 2>/dev/null)" ]]; then
+    has_local_changes=true
+    _flow_log_warning "You have local uncommitted changes"
+    chezmoi status 2>/dev/null
+    echo ""
+  fi
+
+  read -q "?Pull updates? [Y/n] " response
+  echo ""
+
+  if [[ "$response" == "n" ]]; then
+    _flow_log_muted "Cancelled"
+    return 0
+  fi
+
+  # Pull updates
+  _flow_log_info "Pulling updates..."
+  if chezmoi update 2>/dev/null; then
+    _flow_log_success "Synced with remote"
+
+    # Show what changed
+    local modified_count=$(_dot_get_modified_count)
+    if [[ $modified_count -gt 0 ]]; then
+      _flow_log_info "Run 'dot apply' to apply changes"
+    fi
+  else
+    _flow_log_error "Failed to sync"
+    return 1
+  fi
+}
+
+# ───────────────────────────────────────────────────────────────────
+# PUSH COMMAND (Push to remote)
+# ───────────────────────────────────────────────────────────────────
+
+_dot_push() {
+  if ! _dot_require_tool "chezmoi" "brew install chezmoi"; then
+    return 1
+  fi
+
+  local chezmoi_dir="${HOME}/.local/share/chezmoi"
+  if [[ ! -d "$chezmoi_dir/.git" ]]; then
+    _flow_log_error "Chezmoi not initialized or not using git"
+    return 1
+  fi
+
+  # Check for changes to commit
+  local git_status
+  git_status=$(cd "$chezmoi_dir" && git status --porcelain 2>/dev/null)
+
+  if [[ -z "$git_status" ]]; then
+    # No uncommitted changes, check if ahead
+    if _dot_is_ahead_of_remote; then
+      _flow_log_info "Pushing committed changes..."
+      (
+        cd "$chezmoi_dir" || exit 1
+        git push 2>&1
+      )
+      if [[ $? -eq 0 ]]; then
+        _flow_log_success "Pushed to remote"
+      else
+        _flow_log_error "Failed to push"
+        return 1
+      fi
+    else
+      _flow_log_success "Nothing to push"
+    fi
+    return 0
+  fi
+
+  # Has uncommitted changes - show them
+  _flow_log_info "Uncommitted changes:"
+  echo ""
+  (
+    cd "$chezmoi_dir" || exit 1
+    git status --short 2>/dev/null
+  )
+  echo ""
+
+  # Prompt for commit message
+  echo "${FLOW_COLORS[info]}Commit message:${FLOW_COLORS[reset]}"
+  read "?> " commit_msg
+
+  if [[ -z "$commit_msg" ]]; then
+    _flow_log_error "Commit message required"
+    return 1
+  fi
+
+  # Commit and push
+  _flow_log_info "Committing and pushing..."
+  (
+    cd "$chezmoi_dir" || exit 1
+    git add -A &&
+    git commit -m "$commit_msg" &&
+    git push 2>&1
+  )
+
+  if [[ $? -eq 0 ]]; then
+    _flow_log_success "Committed and pushed"
+  else
+    _flow_log_error "Failed to commit/push"
+    return 1
+  fi
+}
+
+# ───────────────────────────────────────────────────────────────────
+# UNDO COMMAND (Rollback last apply)
+# ───────────────────────────────────────────────────────────────────
+
+_dot_undo() {
+  _flow_log_warning "Phase 2: Undo command not yet implemented"
+  _flow_log_info "For now, use: chezmoi diff && chezmoi apply --dry-run"
 }
 
 _dot_unlock() {
