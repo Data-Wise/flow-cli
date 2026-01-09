@@ -152,14 +152,17 @@ Context-aware commands that adapt to your project:
 | `cc`              | Launch Claude Code here      |
 | `cc pick`         | Pick project → Claude        |
 | `cc pick opus` ✨ | Pick → Opus (natural order!) |
+| `dot`             | Manage dotfiles & secrets    |
+| `dot edit .zshrc` | Edit dotfile with preview    |
 | `r test`          | Run R package tests          |
 | `qu preview`      | Preview Quarto doc           |
 | `g push`          | Git push with safety         |
 | `flow sync`       | Sync data across devices     |
 
-Each dispatcher has built-in help: `cc help`, `r help`, etc.
+Each dispatcher has built-in help: `cc help`, `dot help`, `r help`, etc.
 
 **✨ New in v4.8.0:** Unified grammar - both `cc opus pick` AND `cc pick opus` work identically!
+**✨ New in v5.0.0:** Dotfile management with `dot` dispatcher
 
 ---
 

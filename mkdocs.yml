@@ -98,6 +98,7 @@ nav:
       - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
   - Guides:
       - Start Here: guides/00-START-HERE.md
+      - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
       - Enhanced Help: guides/ENHANCED-HELP-QUICK-START.md
@@ -115,6 +116,7 @@ nav:
       - Dispatchers:
           - All Dispatchers: reference/DISPATCHER-REFERENCE.md
           - CC Dispatcher: reference/CC-DISPATCHER-REFERENCE.md
+          - DOT Dispatcher: reference/DOT-DISPATCHER-REFERENCE.md
           - G Dispatcher: reference/G-DISPATCHER-REFERENCE.md
           - MCP Dispatcher: reference/MCP-DISPATCHER-REFERENCE.md
           - OBS Dispatcher: reference/OBS-DISPATCHER-REFERENCE.md
@@ -122,6 +124,8 @@ nav:
           - R Dispatcher: reference/R-DISPATCHER-REFERENCE.md
           - TM Dispatcher: reference/TM-DISPATCHER-REFERENCE.md
           - WT Dispatcher: reference/WT-DISPATCHER-REFERENCE.md
+      - Quick Reference Cards:
+          - DOT Quick Ref: reference/REFCARD-DOT.md
       - Project Tools:
           - Command Explorer: reference/COMMAND-EXPLORER.md
           - Pick Reference: reference/PICK-COMMAND-REFERENCE.md
