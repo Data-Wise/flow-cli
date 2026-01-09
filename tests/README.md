@@ -47,6 +47,27 @@ zsh tests/test-doctor.zsh
 | `test-r-dispatcher.zsh`    | -     | R package development |
 | `test-tm-dispatcher.zsh`   | -     | Terminal manager      |
 | `test-wt-dispatcher.zsh`   | -     | Worktree management   |
+| `test-dot-dispatcher.zsh`  | 50+   | Dotfile management    |
+
+### Dot Dispatcher Test Suite (NEW)
+
+| File                          | Tests | Coverage                                      |
+| ----------------------------- | ----- | --------------------------------------------- |
+| `test-dot-dispatcher.zsh`     | 52    | Core functionality, helpers, formatting       |
+| `test-integration.zsh`        | 35    | Chezmoi, Bitwarden, dashboard, doctor         |
+| `test-phase3-secrets.zsh`     | 15    | Secret management (Bitwarden)                 |
+| `test-phase4.sh`              | 10    | Dashboard integration                         |
+| `run-all-tests.zsh`           | -     | Test orchestrator (runs all dot tests)        |
+
+**Quick Start:**
+```bash
+# Run all dot dispatcher tests
+./tests/run-all-tests.zsh
+
+# Or run individual suites
+./tests/test-dot-dispatcher.zsh   # Core functionality
+./tests/test-integration.zsh      # Integration tests
+```
 
 ### Integration Tests
 

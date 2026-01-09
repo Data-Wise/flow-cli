@@ -96,6 +96,38 @@ obs daily           # Open daily note
 obs help            # Show all commands
 ```
 
+### Dotfile Management: `dot`
+
+```bash
+dot                 # Status overview
+dot status          # Show sync status
+dot edit FILE       # Edit with preview & apply
+dot sync            # Pull from remote
+dot push            # Push to remote
+dot diff            # Show pending changes
+dot apply           # Apply changes
+dot unlock          # Unlock Bitwarden vault
+dot secret NAME     # Retrieve secret (no echo)
+dot secret list     # List available secrets
+dot doctor          # Run diagnostics
+dot help            # Show all commands
+```
+
+**Quick Workflows:**
+
+```bash
+# Edit dotfile
+dot edit .zshrc     # Edit → Preview → Apply
+
+# Sync from remote
+dot sync            # Pull → Preview → Apply
+
+# Use secret in template
+dot unlock
+dot edit .gitconfig
+# Add: {{ bitwarden "item" "github-token" }}
+```
+
 ### Terminal Manager: `tm`
 
 ```bash
