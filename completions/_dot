@@ -1,0 +1,91 @@
+#compdef dot
+
+# Completion for dot command - dotfile management dispatcher
+
+_dot() {
+  local -a subcommands
+  local -a files
+  local -a secrets
+
+  # Subcommands
+  subcommands=(
+    'status:Show dotfile sync status'
+    's:Show dotfile sync status (alias)'
+    'help:Show help message'
+    'version:Show version information'
+    'edit:Edit a dotfile with preview'
+    'e:Edit a dotfile (alias)'
+    'sync:Pull changes from remote'
+    'pull:Pull changes from remote (alias)'
+    'push:Push changes to remote'
+    'p:Push changes to remote (alias)'
+    'diff:Show pending changes'
+    'd:Show pending changes (alias)'
+    'apply:Apply pending changes'
+    'a:Apply pending changes (alias)'
+    'unlock:Unlock Bitwarden vault'
+    'u:Unlock Bitwarden vault (alias)'
+    'secret:Retrieve or list secrets'
+    'doctor:Run diagnostics'
+    'dr:Run diagnostics (alias)'
+    'undo:Rollback last apply'
+    'init:Initialize dotfile management'
+  )
+
+  # Get managed files if chezmoi is available
+  if command -v chezmoi &>/dev/null; then
+    local managed_files
+    managed_files=(${(f)"$(chezmoi managed 2>/dev/null)"})
+    for f in $managed_files; do
+      # Add both full path and basename for fuzzy matching
+      files+=("${f:t}:${f}")
+    done
+  fi
+
+  # Get Bitwarden items if vault is unlocked
+  if command -v bw &>/dev/null && [[ -n "$BW_SESSION" ]]; then
+    local items_output
+    items_output=$(bw list items --session "$BW_SESSION" 2>/dev/null)
+    if [[ $? -eq 0 ]] && command -v jq &>/dev/null; then
+      secrets=(${(f)"$(echo "$items_output" | jq -r '.[].name' 2>/dev/null)"})
+    fi
+  fi
+
+  _arguments -C \
+    '1:subcommand:->subcommand' \
+    '*::arg:->args' \
+  && return 0
+
+  case "$state" in
+    subcommand)
+      _describe -t subcommands 'dot subcommand' subcommands
+      ;;
+    args)
+      case "$line[1]" in
+        edit|e)
+          _describe -t files 'managed file' files
+          ;;
+        diff|d|apply|a)
+          _describe -t files 'managed file' files
+          ;;
+        secret)
+          # First arg after 'secret' can be 'list' or a secret name
+          if [[ ${#line[@]} -eq 1 ]]; then
+            local -a secret_cmds
+            secret_cmds=(
+              'list:List all available secrets'
+            )
+            if [[ ${#secrets[@]} -gt 0 ]]; then
+              for s in $secrets; do
+                secret_cmds+=("$s:Retrieve secret")
+              done
+            fi
+            _describe -t secrets 'secret name or command' secret_cmds
+          fi
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_dot "$@"
