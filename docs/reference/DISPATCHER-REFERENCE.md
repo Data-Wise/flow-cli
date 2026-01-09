@@ -13,7 +13,7 @@ Dispatchers are smart command routers that provide context-aware workflows for s
 
 ---
 
-## Active Dispatchers (8)
+## Active Dispatchers (9)
 
 ### 1. `g` - Git Workflows
 
@@ -442,6 +442,109 @@ Automatically detects: iTerm2, Ghostty, WezTerm, Kitty, Alacritty, VS Code, Term
 - chpwd hook integration for auto-context switching
 
 **See also:** [TM-DISPATCHER-REFERENCE.md](TM-DISPATCHER-REFERENCE.md)
+
+---
+
+### 9. `dot` - Dotfile Management
+
+**File:** `dot-dispatcher.zsh`
+**Purpose:** Dotfile sync via chezmoi + secret management via Bitwarden
+**Added:** January 9, 2026 (v5.0.0)
+**Version:** 1.2.0 (Phase 4 - Dashboard Integration)
+
+**Common Commands:**
+
+```bash
+# Status & Info
+dot                   # Show status
+dot status            # Show detailed status
+dot help              # Show help
+
+# Dotfile Management
+dot edit <file>       # Edit dotfile (with preview & apply)
+dot sync              # Pull from remote (with preview)
+dot push              # Commit & push to remote
+dot diff              # Show pending changes
+dot apply             # Apply pending changes
+
+# Secret Management (Bitwarden)
+dot unlock            # Unlock Bitwarden vault
+dot secret <name>     # Retrieve secret (no echo)
+dot secret list       # List available secrets
+
+# Troubleshooting
+dot doctor            # Run diagnostics
+dot undo              # Rollback last apply
+dot init              # Initialize dotfile management
+```
+
+**Shortcuts:**
+
+- `s` = status, `e` = edit, `d` = diff, `a` = apply
+- `p` = push, `u` = unlock, `dr` = doctor
+
+**Key Features:**
+
+- **ADHD-friendly:** Smart defaults, clear status, progressive disclosure
+- **Fast:** < 500ms for most operations
+- **Secure:** Session-scoped secrets, no terminal echo
+- **Safe:** Preview before apply, easy undo
+- **Optional:** Graceful degradation if tools not installed
+
+**Dashboard Integration:**
+
+Shows status automatically in `dash` command:
+
+```
+📝 Dotfiles: 🟢 Synced (2h ago) · 12 files tracked
+```
+
+Status icons: 🟢 Synced, 🟡 Modified, 🔴 Behind, 🔵 Ahead
+
+**Doctor Integration:**
+
+Included in `flow doctor` health checks:
+
+```
+📁 DOTFILES
+  ✓ chezmoi v2.45.0
+  ✓ Bitwarden CLI v2024.1.0
+  ✓ Chezmoi initialized with git
+  ✓ Remote configured
+  ✓ Synced with remote
+```
+
+**Requirements:**
+
+- **chezmoi** (brew install chezmoi) - for dotfile management
+- **bitwarden-cli** (brew install bitwarden-cli) - for secret management
+- **jq** (brew install jq) - optional, for pretty secret listing
+
+**Security:**
+
+- BW_SESSION only in current shell (not persistent)
+- Secrets never echoed to terminal
+- History exclusion patterns for sensitive commands
+- Security checks in `flow doctor`
+
+**Template Support:**
+
+Use Bitwarden secrets in chezmoi templates:
+
+```go
+# In ~/.local/share/chezmoi/dot_gitconfig.tmpl
+[github]
+    token = {{ bitwarden "item" "github-token" }}
+```
+
+**Workflow:**
+
+1. Edit dotfiles with `dot edit` (shows diff, prompts to apply)
+2. Sync across machines with `dot sync` / `dot push`
+3. Manage secrets with `dot unlock` / `dot secret`
+4. Check health with `dot doctor`
+
+**See also:** [DOT-DISPATCHER-REFERENCE.md](DOT-DISPATCHER-REFERENCE.md), [SECRET-MANAGEMENT.md](../SECRET-MANAGEMENT.md)
 
 ---
 
