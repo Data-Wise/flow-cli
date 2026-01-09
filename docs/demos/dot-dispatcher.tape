@@ -9,7 +9,7 @@ Set FontSize 14
 Set Width 1200
 Set Height 600
 Set Padding 20
-Set Theme "Monokai"
+Set Theme "Molokai"
 
 # Title card
 Type "# Dot Dispatcher Demo - Dotfile Management"
@@ -73,9 +73,7 @@ Type "TOKEN=$(dot secret github-token)"
 Sleep 500ms
 Enter
 Sleep 1s
-Type "echo \"Token retrieved: ${TOKEN:0:10}...\""
-Sleep 500ms
-Enter
+Type@50ms "# Token retrieved successfully (no echo to terminal)"
 Sleep 2s
 
 # Scene 6: Sync from remote
