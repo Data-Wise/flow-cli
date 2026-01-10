@@ -327,12 +327,12 @@ _dot_edit() {
     return 1
   fi
 
-  # Get file modification time before editing
-  local before_mtime
+  # Get file hash before editing (more reliable than mtime)
+  local before_hash
   if [[ -f "$source_path" ]]; then
-    before_mtime=$(stat -f "%m" "$source_path" 2>/dev/null || echo "0")
+    before_hash=$(shasum -a 256 "$source_path" 2>/dev/null | cut -d' ' -f1 || echo "0")
   else
-    before_mtime="0"
+    before_hash="0"
   fi
 
   # Open in editor
@@ -348,15 +348,15 @@ _dot_edit() {
     return 1
   fi
 
-  # Check if file was modified
-  local after_mtime
+  # Check if file was modified (compare hashes)
+  local after_hash
   if [[ -f "$source_path" ]]; then
-    after_mtime=$(stat -f "%m" "$source_path" 2>/dev/null || echo "0")
+    after_hash=$(shasum -a 256 "$source_path" 2>/dev/null | cut -d' ' -f1 || echo "0")
   else
-    after_mtime="0"
+    after_hash="0"
   fi
 
-  if [[ "$before_mtime" == "$after_mtime" ]]; then
+  if [[ "$before_hash" == "$after_hash" ]]; then
     _flow_log_muted "No changes made"
     return 0
   fi
