@@ -443,74 +443,82 @@ pick() {
 
     # Show help if requested
     if [[ "$1" == "help" || "$1" == "--help" || "$1" == "-h" ]]; then
-        cat << 'EOF'
-╔════════════════════════════════════════════════════════════╗
-║  🔍 PICK - Interactive Project Picker                      ║
-╚════════════════════════════════════════════════════════════╝
+        # Use flow-cli colors if available, otherwise define fallbacks
+        local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+        local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
+        local _C_BLUE="${_C_BLUE:-\033[0;34m}"
+        local _C_MAGENTA="${_C_MAGENTA:-\033[0;35m}"
+        local _C_DIM="${_C_DIM:-\033[2m}"
+        local _C_NC="${_C_NC:-\033[0m}"
 
-USAGE:
-  pick [options] [category|project-name]
+        echo "
+${_C_YELLOW}╔════════════════════════════════════════════════════════════╗${_C_NC}
+${_C_YELLOW}║${_C_NC}  ${_C_CYAN}PICK${_C_NC} - Interactive Project Picker                      ${_C_YELLOW}║${_C_NC}
+${_C_YELLOW}╚════════════════════════════════════════════════════════════╝${_C_NC}
 
-ARGUMENTS:
-  category       Filter by category (r, dev, q, teach, rs, app)
-  project-name   Direct jump to matching project (fuzzy)
+${_C_BLUE}USAGE${_C_NC}:
+  ${_C_CYAN}pick${_C_NC} [options] [category|project-name]
 
-OPTIONS:
-  --fast         Skip git status checks (faster loading)
-  -a, --all      Force full picker (skip direct jump)
-  -r, --recent   Show only recently-used projects (with Claude sessions)
+${_C_BLUE}ARGUMENTS${_C_NC}:
+  ${_C_MAGENTA}category${_C_NC}       Filter by category (r, dev, q, teach, rs, app)
+  ${_C_MAGENTA}project-name${_C_NC}   Direct jump to matching project (fuzzy)
 
-CATEGORIES (case-insensitive, multiple aliases):
-  r              R packages (r, R, rpack, rpkg)
-  dev            Development tools (dev, DEV, tool, tools)
-  q              Quarto projects (q, Q, qu, quarto)
-  teach          Teaching courses (teach, teaching)
-  rs             Research projects (rs, research, res)
-  app            Applications (app, apps)
-  wt             Git worktrees (wt, worktree, worktrees)
+${_C_BLUE}OPTIONS${_C_NC}:
+  ${_C_CYAN}--fast${_C_NC}         Skip git status checks (faster loading)
+  ${_C_CYAN}-a, --all${_C_NC}      Force full picker (skip direct jump)
+  ${_C_CYAN}-r, --recent${_C_NC}   Show only recently-used projects (with Claude sessions)
 
-DIRECT JUMP:
-  pick flow      → Direct cd to flow-cli (no picker)
-  pick med       → Direct cd to mediationverse
-  pick stat      → If multiple matches, shows filtered picker
+${_C_BLUE}CATEGORIES${_C_NC} ${_C_DIM}(case-insensitive, multiple aliases)${_C_NC}:
+  ${_C_CYAN}r${_C_NC}              R packages (r, R, rpack, rpkg)
+  ${_C_CYAN}dev${_C_NC}            Development tools (dev, DEV, tool, tools)
+  ${_C_CYAN}q${_C_NC}              Quarto projects (q, Q, qu, quarto)
+  ${_C_CYAN}teach${_C_NC}          Teaching courses (teach, teaching)
+  ${_C_CYAN}rs${_C_NC}             Research projects (rs, research, res)
+  ${_C_CYAN}app${_C_NC}            Applications (app, apps)
+  ${_C_CYAN}wt${_C_NC}             Git worktrees (wt, worktree, worktrees)
 
-SMART RESUME (no args):
-  pick           → Shows resume prompt if recent session exists
-  Enter          → Resume last project (if shown)
-  Space          → Force full picker (bypass resume)
+${_C_BLUE}DIRECT JUMP${_C_NC}:
+  ${_C_CYAN}pick flow${_C_NC}      → Direct cd to flow-cli (no picker)
+  ${_C_CYAN}pick med${_C_NC}       → Direct cd to mediationverse
+  ${_C_CYAN}pick stat${_C_NC}      → If multiple matches, shows filtered picker
 
-INTERACTIVE KEYS:
-  Enter          cd to project directory
-  Space          Force full picker (bypass resume prompt)
-  Ctrl-O         cd + launch Claude (cc mode)
-  Ctrl-Y         cd + launch Claude YOLO (ccy mode)
-  Ctrl-S         View .STATUS file (bat/cat)
-  Ctrl-L         View git log (tig/git)
-  Ctrl-C         Exit without action
+${_C_BLUE}SMART RESUME${_C_NC} ${_C_DIM}(no args)${_C_NC}:
+  ${_C_CYAN}pick${_C_NC}           → Shows resume prompt if recent session exists
+  ${_C_DIM}Enter${_C_NC}          → Resume last project (if shown)
+  ${_C_DIM}Space${_C_NC}          → Force full picker (bypass resume)
 
-SESSION INDICATORS (worktree mode):
+${_C_BLUE}INTERACTIVE KEYS${_C_NC}:
+  ${_C_CYAN}Enter${_C_NC}          cd to project directory
+  ${_C_CYAN}Space${_C_NC}          Force full picker (bypass resume prompt)
+  ${_C_CYAN}Ctrl-O${_C_NC}         cd + launch Claude (cc mode)
+  ${_C_CYAN}Ctrl-Y${_C_NC}         cd + launch Claude YOLO (ccy mode)
+  ${_C_CYAN}Ctrl-S${_C_NC}         View .STATUS file (bat/cat)
+  ${_C_CYAN}Ctrl-L${_C_NC}         View git log (tig/git)
+  ${_C_CYAN}Ctrl-C${_C_NC}         Exit without action
+
+${_C_BLUE}SESSION INDICATORS${_C_NC} ${_C_DIM}(worktree mode)${_C_NC}:
   🟢 Xh/m        Recent Claude session (< 24h)
   🟡 old         Older Claude session (> 24h)
   (none)         No Claude session
 
-EXAMPLES:
-  pick              # Show all projects
-  pick flow         # Direct jump to flow-cli
-  pick r            # Show only R packages
-  pick --fast dev   # Fast mode, dev tools only
-  pick -a flow      # Force picker, pre-filter "flow"
+${_C_YELLOW}EXAMPLES${_C_NC}:
+  ${_C_CYAN}pick${_C_NC}              ${_C_DIM}# Show all projects${_C_NC}
+  ${_C_CYAN}pick flow${_C_NC}         ${_C_DIM}# Direct jump to flow-cli${_C_NC}
+  ${_C_CYAN}pick r${_C_NC}            ${_C_DIM}# Show only R packages${_C_NC}
+  ${_C_CYAN}pick --fast dev${_C_NC}   ${_C_DIM}# Fast mode, dev tools only${_C_NC}
+  ${_C_CYAN}pick -a flow${_C_NC}      ${_C_DIM}# Force picker, pre-filter \"flow\"${_C_NC}
 
-WORKTREE EXAMPLES:
-  pick wt           # Show all worktrees from ~/.git-worktrees
-  pick wt scribe    # Show only scribe's worktrees
-  pickwt            # Alias for pick wt
+${_C_YELLOW}WORKTREE EXAMPLES${_C_NC}:
+  ${_C_CYAN}pick wt${_C_NC}           ${_C_DIM}# Show all worktrees from ~/.git-worktrees${_C_NC}
+  ${_C_CYAN}pick wt scribe${_C_NC}    ${_C_DIM}# Show only scribe's worktrees${_C_NC}
+  ${_C_CYAN}pickwt${_C_NC}            ${_C_DIM}# Alias for pick wt${_C_NC}
 
-ALIASES:
-  pickr            pick r
-  pickdev          pick dev
-  pickq            pick q
-  pickwt           pick wt
-EOF
+${_C_BLUE}ALIASES${_C_NC}:
+  ${_C_CYAN}pickr${_C_NC}            pick r
+  ${_C_CYAN}pickdev${_C_NC}          pick dev
+  ${_C_CYAN}pickq${_C_NC}            pick q
+  ${_C_CYAN}pickwt${_C_NC}           pick wt
+"
         return 0
     fi
 

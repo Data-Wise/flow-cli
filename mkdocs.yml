@@ -96,6 +96,8 @@ nav:
       - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
       - YOLO Mode: guides/YOLO-MODE-WORKFLOW.md
       - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
+      - Plugin Management: guides/PLUGIN-MANAGEMENT-WORKFLOW.md
+      - Config Management: guides/CONFIG-MANAGEMENT-WORKFLOW.md
   - Guides:
       - Start Here: guides/00-START-HERE.md
       - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
@@ -129,6 +131,8 @@ nav:
       - Project Tools:
           - Command Explorer: reference/COMMAND-EXPLORER.md
           - Pick Reference: reference/PICK-COMMAND-REFERENCE.md
+          - Pick Project Discovery: reference/PICK-PROJECT-DISCOVERY.md
+          - Project Status Guide: reference/PROJECT-STATUS-GUIDE.md
           - Project Detection: reference/PROJECT-DETECTION-GUIDE.md
           - Workspace Audit: reference/WORKSPACE-AUDIT-GUIDE.md
       - Deep Dives:
