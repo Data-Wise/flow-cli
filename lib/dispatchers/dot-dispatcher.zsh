@@ -228,6 +228,8 @@ _dot_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot sync${FLOW_COLORS[reset]}         Pull latest changes from remote ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot push${FLOW_COLORS[reset]}         Push local changes to remote    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot diff${FLOW_COLORS[reset]}         Show pending changes            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot apply${FLOW_COLORS[reset]}        Apply changes to home directory ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot apply -n${FLOW_COLORS[reset]}     Dry-run (preview without apply) ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}SECRET MANAGEMENT${FLOW_COLORS[reset]}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}       Unlock Bitwarden vault          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
@@ -327,12 +329,12 @@ _dot_edit() {
     return 1
   fi
 
-  # Get file modification time before editing
-  local before_mtime
+  # Get file hash before editing (more reliable than mtime)
+  local before_hash
   if [[ -f "$source_path" ]]; then
-    before_mtime=$(stat -f "%m" "$source_path" 2>/dev/null || echo "0")
+    before_hash=$(shasum -a 256 "$source_path" 2>/dev/null | cut -d' ' -f1 || echo "0")
   else
-    before_mtime="0"
+    before_hash="0"
   fi
 
   # Open in editor
@@ -348,15 +350,15 @@ _dot_edit() {
     return 1
   fi
 
-  # Check if file was modified
-  local after_mtime
+  # Check if file was modified (compare hashes)
+  local after_hash
   if [[ -f "$source_path" ]]; then
-    after_mtime=$(stat -f "%m" "$source_path" 2>/dev/null || echo "0")
+    after_hash=$(shasum -a 256 "$source_path" 2>/dev/null | cut -d' ' -f1 || echo "0")
   else
-    after_mtime="0"
+    after_hash="0"
   fi
 
-  if [[ "$before_mtime" == "$after_mtime" ]]; then
+  if [[ "$before_hash" == "$after_hash" ]]; then
     _flow_log_muted "No changes made"
     return 0
   fi
@@ -410,13 +412,25 @@ _dot_show_file_diff() {
 # Apply changes for a specific file
 _dot_apply_changes() {
   local file="$1"
-  _flow_log_info "Applying changes..."
+  local dry_run="$2"
 
-  if chezmoi apply "$file" 2>/dev/null; then
-    _flow_log_success "Applied: $file"
+  if [[ -n "$dry_run" ]]; then
+    _flow_log_info "Showing what would change (dry-run)..."
+    if chezmoi apply --dry-run --verbose "$file" 2>/dev/null; then
+      echo ""
+      _flow_log_success "Dry-run complete - no changes applied"
+    else
+      _flow_log_error "Dry-run failed"
+      return 1
+    fi
   else
-    _flow_log_error "Failed to apply changes"
-    return 1
+    _flow_log_info "Applying changes..."
+    if chezmoi apply "$file" 2>/dev/null; then
+      _flow_log_success "Applied: $file"
+    else
+      _flow_log_error "Failed to apply changes"
+      return 1
+    fi
   fi
 }
 
@@ -468,7 +482,28 @@ _dot_apply() {
     return 1
   fi
 
-  local file="$1"
+  # Parse flags
+  local dry_run=""
+  local file=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --dry-run|-n)
+        dry_run="--dry-run"
+        shift
+        ;;
+      *)
+        file="$1"
+        shift
+        ;;
+    esac
+  done
+
+  # Show dry-run mode indicator
+  if [[ -n "$dry_run" ]]; then
+    _flow_log_info "${FLOW_COLORS[warning]}DRY-RUN MODE${FLOW_COLORS[reset]} - No changes will be applied"
+    echo ""
+  fi
 
   # Check if there are any changes
   local status_output
@@ -490,10 +525,14 @@ _dot_apply() {
       return 1
     fi
 
-    _dot_apply_changes "$resolved_path"
+    _dot_apply_changes "$resolved_path" "$dry_run"
   else
     # Apply all changes
-    _flow_log_info "Applying all pending changes..."
+    if [[ -n "$dry_run" ]]; then
+      _flow_log_info "Showing what would change (dry-run)..."
+    else
+      _flow_log_info "Applying all pending changes..."
+    fi
     echo ""
 
     # Show summary
@@ -502,6 +541,18 @@ _dot_apply() {
     echo ""
     chezmoi status 2>/dev/null
     echo ""
+
+    # Skip confirmation in dry-run mode
+    if [[ -n "$dry_run" ]]; then
+      if chezmoi apply --dry-run --verbose 2>/dev/null; then
+        echo ""
+        _flow_log_success "Dry-run complete - no changes applied"
+      else
+        _flow_log_error "Dry-run failed"
+        return 1
+      fi
+      return 0
+    fi
 
     read -q "?Apply all changes? [Y/n] " response
     echo ""
@@ -791,15 +842,39 @@ _dot_secret() {
 
   local item_name="$subcommand"
 
-  # Retrieve secret (redirect stderr to prevent leaks)
+  # Retrieve secret (capture stderr for error parsing)
   local secret_value
-  secret_value=$(bw get password "$item_name" 2>/dev/null)
+  local error_output
+  local temp_err=$(mktemp)
+  secret_value=$(bw get password "$item_name" 2>"$temp_err")
   local get_status=$?
+  error_output=$(cat "$temp_err" 2>/dev/null)
+  rm -f "$temp_err"
 
   if [[ $get_status -ne 0 ]]; then
-    _flow_log_error "Failed to retrieve secret: $item_name"
-    _flow_log_info "Item not found or access denied"
-    _flow_log_muted "Tip: Use 'dot secret list' to see available items"
+    # Parse error message for specific guidance
+    case "$error_output" in
+      *"Not found"*|*"not found"*)
+        _flow_log_error "Secret not found: $item_name"
+        _flow_log_muted "Tip: Use 'dot secret list' to see available items"
+        ;;
+      *"Session key"*|*"session"*)
+        _flow_log_error "Session expired"
+        _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
+        ;;
+      *"locked"*|*"Locked"*)
+        _flow_log_error "Vault is locked"
+        _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
+        ;;
+      *"access denied"*|*"Access denied"*)
+        _flow_log_error "Access denied for: $item_name"
+        _flow_log_info "Check item permissions in Bitwarden"
+        ;;
+      *)
+        _flow_log_error "Failed to retrieve secret: $item_name"
+        _flow_log_muted "Error: $error_output"
+        ;;
+    esac
     return 1
   fi
 
