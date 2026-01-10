@@ -10,25 +10,40 @@
 
 ## Focus: v5.1.0 - Critical Improvements Implementation 🔧
 
-## 🚧 Currently Implementing (2026-01-10):
-- **v5.1.0 Critical Bug Fixes & Features** (Estimated: 1 hour)
-  1. ✅ **File Modification Detection** (15 min)
-     - Replace `stat -f "%m"` with `shasum -a 256`
-     - Prevents false negatives on fast edits
-     - Files: `lib/dispatchers/dot-dispatcher.zsh:333-362`
+## ✅ Just Completed (2026-01-10 - Later):
+- **v5.1.0 Critical Improvements** ✅ COMPLETE
+  - **Branch:** `feature/v5.1.0-critical-improvements`
+  - **Commits:** 4 commits (35e9a22, 4b55fab, cbc440e, d614328)
+  - **Implementation Time:** ~55 minutes (vs estimated 65 min)
 
-  2. ⏳ **Bitwarden Error Handling** (20 min)
-     - Parse stderr for specific error types
-     - Provide actionable guidance per error
-     - Files: `lib/dispatchers/dot-dispatcher.zsh:796-808`
+  **Features Delivered:**
 
-  3. ⏳ **Dry-Run Mode** (20 min)
-     - Add `--dry-run` flag to `dot apply`
-     - Leverage chezmoi's native dry-run
-     - Files: `lib/dispatchers/dot-dispatcher.zsh:466-520`
+  1. ✅ **File Modification Detection** (Commit: 4b55fab)
+     - Replaced `stat -f "%m"` with `shasum -a 256`
+     - SHA-256 hash comparison (deterministic, reliable)
+     - Prevents false negatives on fast edits (< 1 second)
+     - Perfect for ADHD users who edit quickly
 
-  **Approach:** TDD - Write tests first, then implement
-  **Target Branch:** `feature/v5.1.0-critical-improvements`
+  2. ✅ **Bitwarden Error Handling** (Commit: cbc440e)
+     - Parse stderr with specific error patterns
+     - Actionable guidance per error type:
+       - "Not found" → Use 'dot secret list'
+       - "Session key" → Run 'dot unlock'
+       - "locked" → Run 'dot unlock'
+       - "access denied" → Check permissions
+     - Uses temp file (mktemp) for secure stderr capture
+
+  3. ✅ **Dry-Run Mode** (Commit: d614328)
+     - Added `--dry-run/-n` flag to `dot apply`
+     - Leverages chezmoi's native `--dry-run --verbose`
+     - Clear visual feedback (DRY-RUN MODE indicator)
+     - Skips confirmation prompt in dry-run
+     - Updated help text with examples
+
+  **Impact:**
+  - Better reliability (hash-based change detection)
+  - Better UX (specific error messages)
+  - Better safety (dry-run preview mode)
 
 ## ✅ Just Completed (2026-01-10):
 - **Documentation Enhancement** 📚
