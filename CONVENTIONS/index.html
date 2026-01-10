@@ -12,9 +12,13 @@
         <meta name="author" content="DT">
       
       
-        <link rel="canonical" href="https://data-wise.github.io/flow-cli/conventions/">
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/CONVENTIONS/">
       
       
+        <link rel="prev" href="../ZSH-DEVELOPMENT-GUIDELINES/">
+      
+      
+        <link rel="next" href="../PHILOSOPHY/">
       
       
         
@@ -25,7 +29,7 @@
     
     
       
-        <title>flow-cli Conventions & Standards - Flow CLI Documentation</title>
+        <title>Conventions - Flow CLI Documentation</title>
       
     
     
@@ -80,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#flow-cli-conventions-standards" class="md-skip">
+        <a href="#zsh-configuration-conventions" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              flow-cli Conventions &amp; Standards
+              Conventions
             
           </span>
         </div>
@@ -328,7 +332,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="adhd/" class="md-tabs__link">
+        <a href="../conventions/adhd/" class="md-tabs__link">
           
   
   
@@ -414,10 +418,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../contributing/CONTRIBUTING/" class="md-tabs__link">
           
   
@@ -1695,7 +1701,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adhd/" class="md-nav__link">
+      <a href="../conventions/adhd/" class="md-nav__link">
         
   
   
@@ -1723,7 +1729,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adhd/GIF-GUIDELINES/" class="md-nav__link">
+      <a href="../conventions/adhd/GIF-GUIDELINES/" class="md-nav__link">
         
   
   
@@ -3620,28 +3626,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
-        
-          
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
             
   
   
@@ -3659,7 +3668,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3786,10 +3795,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../CONVENTIONS/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -3805,6 +3841,354 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#naming-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Naming Conventions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Naming Conventions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dispatchers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatchers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keywords-dispatcher-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keywords (Dispatcher Actions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aliases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Organization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File Organization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Directory Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-header-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Header Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispatcher-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatcher Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dispatcher Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#help-function-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Help Function Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#color-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Color Conventions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Color Conventions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#r1-no-duplicates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R1: No Duplicates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r2-functions-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R2: Functions &gt; Aliases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r3-always-provide-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R3: Always Provide Help
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r4-graceful-degradation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R4: Graceful Degradation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r5-no-blocking-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R5: No Blocking Startup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r6-document-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R6: Document Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-committing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before Committing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-file-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test File Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-for-new-dispatchers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checklist for New Dispatchers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Checklist for New Dispatchers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-dispatchers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Dispatchers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3989,44 +4373,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#philosophy" class="md-nav__link">
+  <a href="#naming-conventions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Philosophy
+        Naming Conventions
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-links" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Links
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#index" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Index
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Index">
+    <nav class="md-nav" aria-label="Naming Conventions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#adhd-guides" class="md-nav__link">
+  <a href="#dispatchers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ADHD Guides
+        Dispatchers
       
     </span>
   </a>
@@ -4034,10 +4396,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#code-style" class="md-nav__link">
+  <a href="#keywords-dispatcher-actions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Code Style
+        Keywords (Dispatcher Actions)
       
     </span>
   </a>
@@ -4045,10 +4407,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#project-standards" class="md-nav__link">
+  <a href="#files" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Project Standards
+        Files
       
     </span>
   </a>
@@ -4056,10 +4418,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#workflow" class="md-nav__link">
+  <a href="#functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Workflow
+        Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aliases
       
     </span>
   </a>
@@ -4072,22 +4445,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-to-use" class="md-nav__link">
+  <a href="#file-organization" class="md-nav__link">
     <span class="md-ellipsis">
       
-        How to Use
+        File Organization
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="How to Use">
+    <nav class="md-nav" aria-label="File Organization">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#view-standards" class="md-nav__link">
+  <a href="#directory-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        View Standards
+        Directory Structure
       
     </span>
   </a>
@@ -4095,10 +4468,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#access-from-flow-cli" class="md-nav__link">
+  <a href="#file-header-template" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Access from flow-cli
+        File Header Template
       
     </span>
   </a>
@@ -4111,24 +4484,219 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-here" class="md-nav__link">
+  <a href="#dispatcher-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why Here?
+        Dispatcher Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dispatcher Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#related-documentation" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#help-function-template" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related Documentation
+        Help Function Template
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#color-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Color Conventions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Color Conventions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#r1-no-duplicates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R1: No Duplicates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r2-functions-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R2: Functions &gt; Aliases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r3-always-provide-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R3: Always Provide Help
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r4-graceful-degradation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R4: Graceful Degradation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r5-no-blocking-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R5: No Blocking Startup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r6-document-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R6: Document Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-committing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before Committing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-file-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test File Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-for-new-dispatchers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checklist for New Dispatchers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Checklist for New Dispatchers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-dispatchers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Dispatchers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4149,7 +4717,7 @@
 
 
   
-    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/conventions/README.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/CONVENTIONS.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -4157,116 +4725,382 @@
   
 
 
-<h1 id="flow-cli-conventions-standards">flow-cli Conventions &amp; Standards<a class="headerlink" href="#flow-cli-conventions-standards" title="Permanent link">&para;</a></h1>
+<h1 id="zsh-configuration-conventions">ZSH Configuration Conventions<a class="headerlink" href="#zsh-configuration-conventions" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p><strong>TL;DR:</strong> Consistent conventions across all dev-tools projects. Less thinking, more doing.</p>
+<p>Rules and standards for maintaining the shell configuration.</p>
 </blockquote>
-<p><strong>Migrated From:</strong> dev-planning/standards/ (2026-01-07)</p>
 <hr />
-<h2 id="philosophy">Philosophy<a class="headerlink" href="#philosophy" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Copy-paste ready</strong> — Every guide has commands you can run</li>
-<li><strong>TL;DR first</strong> — Summary at the top, details below</li>
-<li><strong>Decision trees</strong> — "If X, do Y" not essays</li>
-<li><strong>One source of truth</strong> — Standards live here, nowhere else</li>
-</ol>
-<hr />
-<h2 id="quick-links">Quick Links<a class="headerlink" href="#quick-links" title="Permanent link">&para;</a></h2>
+<h2 id="naming-conventions">Naming Conventions<a class="headerlink" href="#naming-conventions" title="Permanent link">&para;</a></h2>
+<h3 id="dispatchers">Dispatchers<a class="headerlink" href="#dispatchers" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Category</th>
-<th>What's There</th>
+<th>Frequency</th>
+<th>Style</th>
+<th>Examples</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="adhd/"><strong>adhd/</strong></a></td>
-<td>ADHD-friendly templates and recovery guides</td>
+<td>Daily (50+ times)</td>
+<td>Single letter</td>
+<td><code>r</code>, <code>g</code></td>
 </tr>
 <tr>
-<td><a href="code/"><strong>code/</strong></a></td>
-<td>Style guides (R, Python, ZSH)</td>
+<td>Frequent (10-50)</td>
+<td>Two letters</td>
+<td><code>qu</code>, <code>mcp</code>, <code>obs</code></td>
 </tr>
 <tr>
-<td><a href="documentation/"><strong>documentation/</strong></a></td>
-<td>Website design, MkDocs standards</td>
-</tr>
-<tr>
-<td><a href="project/"><strong>project/</strong></a></td>
-<td>Project structure, PM system, coordination</td>
-</tr>
-<tr>
-<td><a href="workflow/"><strong>workflow/</strong></a></td>
-<td>Git workflow, releases, reviews</td>
+<td>Occasional (&lt;10)</td>
+<td>Full word</td>
+<td><code>work</code>, <code>dash</code>, <code>pick</code></td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
-<h3 id="adhd-guides">ADHD Guides<a class="headerlink" href="#adhd-guides" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>adhd/QUICK-START-TEMPLATE.md</code> — 30-second project onboarding</li>
-<li><code>adhd/GETTING-STARTED-TEMPLATE.md</code> — 10-minute user training guide</li>
-<li><code>adhd/TUTORIAL-TEMPLATE.md</code> — Step-by-step deep learning guides</li>
-<li><code>adhd/REFCARD-TEMPLATE.md</code> — One-page quick reference cards</li>
-</ul>
-<h3 id="code-style">Code Style<a class="headerlink" href="#code-style" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>code/R-STYLE-GUIDE.md</code> — R coding conventions</li>
-<li><code>code/ZSH-COMMANDS-HELP.md</code> — ZSH command help output standard</li>
-<li><code>code/COMMIT-MESSAGES.md</code> — Git commit format</li>
-</ul>
-<h3 id="project-standards">Project Standards<a class="headerlink" href="#project-standards" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>project/PROJECT-STRUCTURE.md</code> — Directory conventions</li>
-<li><code>project/PROJECT-MANAGEMENT-STANDARDS.md</code> — .STATUS + PROJECT-HUB.md system</li>
-<li><code>project/COORDINATION-GUIDE.md</code> — Cross-project coordination</li>
-</ul>
-<h3 id="workflow">Workflow<a class="headerlink" href="#workflow" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>workflow/GIT-WORKFLOW.md</code> — Branches, PRs, merges</li>
-<li><code>workflow/RELEASE-PROCESS.md</code> — How to release</li>
-</ul>
-<hr />
-<h2 id="how-to-use">How to Use<a class="headerlink" href="#how-to-use" title="Permanent link">&para;</a></h2>
-<h3 id="view-standards">View Standards<a class="headerlink" href="#view-standards" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Navigate to conventions</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>/Users/dt/projects/dev-tools/flow-cli/docs/conventions
+<p><strong>Note (2025-12-25):</strong> <code>v</code> dispatcher was deprecated. Use <code>flow</code> command directly.</p>
+<h3 id="keywords-dispatcher-actions">Keywords (Dispatcher Actions)<a class="headerlink" href="#keywords-dispatcher-actions" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Use verbs for actions</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>test,<span class="w"> </span>check,<span class="w"> </span>build,<span class="w"> </span>push,<span class="w"> </span>pull,<span class="w"> </span>add,<span class="w"> </span>commit,<span class="w"> </span>render
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Read a specific standard</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>cat<span class="w"> </span>code/COMMIT-MESSAGES.md
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Use nouns for information</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>status,<span class="w"> </span>log,<span class="w"> </span>branch,<span class="w"> </span>diff,<span class="w"> </span><span class="nb">help</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Browse all standards</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>ls<span class="w"> </span>-R
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Use abbreviations consistently</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nv">doc</span><span class="w">  </span><span class="o">=</span><span class="w"> </span>document
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nv">cov</span><span class="w">  </span><span class="o">=</span><span class="w"> </span>coverage
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nv">cob</span><span class="w">  </span><span class="o">=</span><span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span><span class="o">(</span>create<span class="w"> </span>branch<span class="o">)</span>
 </code></pre></div>
-<h3 id="access-from-flow-cli">Access from flow-cli<a class="headerlink" href="#access-from-flow-cli" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Quick reference</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>flow<span class="w"> </span><span class="nb">help</span><span class="w"> </span>conventions<span class="w">    </span><span class="c1"># (future feature)</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Check compliance</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>flow<span class="w"> </span>check<span class="w">               </span><span class="c1"># (future feature)</span>
+<h3 id="files">Files<a class="headerlink" href="#files" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Pattern</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dispatcher</td>
+<td><code>&lt;letter&gt;-dispatcher.zsh</code></td>
+<td><code>g-dispatcher.zsh</code></td>
+</tr>
+<tr>
+<td>Helper collection</td>
+<td><code>&lt;domain&gt;-helpers.zsh</code></td>
+<td><code>adhd-helpers.zsh</code></td>
+</tr>
+<tr>
+<td>Single purpose</td>
+<td><code>&lt;purpose&gt;.zsh</code></td>
+<td><code>work.zsh</code></td>
+</tr>
+<tr>
+<td>Test file</td>
+<td><code>test-&lt;name&gt;.zsh</code></td>
+<td><code>test-duplicates.zsh</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Public function (user-facing)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>g<span class="o">()</span><span class="w">           </span><span class="c1"># Dispatcher</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>work<span class="o">()</span><span class="w">        </span><span class="c1"># Helper function</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>dash<span class="o">()</span><span class="w">        </span><span class="c1"># Helper function</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Private function (internal)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>_g_help<span class="o">()</span><span class="w">           </span><span class="c1"># Help for g</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>_v_test_run<span class="o">()</span><span class="w">       </span><span class="c1"># Internal to v dispatcher</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>_c_bold<span class="o">()</span><span class="w">           </span><span class="c1"># Color helper</span>
+</code></pre></div>
+<h3 id="aliases">Aliases<a class="headerlink" href="#aliases" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Simple shortcuts only (no logic)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">alias</span><span class="w"> </span>..<span class="o">=</span><span class="s1">&#39;cd ..&#39;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">ll</span><span class="o">=</span><span class="s1">&#39;eza -lah&#39;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">reload</span><span class="o">=</span><span class="s1">&#39;source ~/.zshrc&#39;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Typo tolerance (redirect to dispatcher)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">gti</span><span class="o">=</span><span class="s1">&#39;g&#39;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">gis</span><span class="o">=</span><span class="s1">&#39;g&#39;</span>
 </code></pre></div>
 <hr />
-<h2 id="why-here">Why Here?<a class="headerlink" href="#why-here" title="Permanent link">&para;</a></h2>
-<p><strong>flow-cli owns these standards because:</strong></p>
+<h2 id="file-organization">File Organization<a class="headerlink" href="#file-organization" title="Permanent link">&para;</a></h2>
+<h3 id="directory-structure">Directory Structure<a class="headerlink" href="#directory-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>~/projects/dev-tools/flow-cli/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── flow.plugin.zsh             # Plugin entry point
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├── lib/
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   ├── dispatchers/
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│   │   ├── g-dispatcher.zsh    # Git workflows
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   │   ├── mcp-dispatcher.zsh  # MCP server management
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│   │   ├── obs.zsh             # Obsidian notes
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│   │   ├── qu-dispatcher.zsh   # Quarto publishing
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│   │   └── r-dispatcher.zsh    # R package development
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│   ├── core.zsh                # Colors, logging, utils
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>│   ├── atlas-bridge.zsh        # Atlas integration
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>│   └── tui.zsh                 # Terminal UI
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>├── commands/                   # Command implementations
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>│   ├── work.zsh                # work, finish, hop, why
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>│   ├── dash.zsh                # Dashboard
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>│   ├── capture.zsh             # catch, crumb, trail
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>│   └── adhd.zsh                # ADHD helpers
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>├── completions/                # ZSH completions
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>├── hooks/                      # ZSH hooks (chpwd, precmd)
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>└── tests/                      # Test scripts
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>~/.config/zsh/
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>├── .zshrc                      # Main config (ccy function, gem* aliases)
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>└── functions/                  # Legacy ADHD helpers
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>    └── adhd-helpers.zsh        # work, dash, pb, pv, pt
+</code></pre></div>
+<p><strong>Note (2025-12-25):</strong> Moved from ~/.config/zsh to flow-cli plugin structure. <code>v-dispatcher.zsh</code> was removed.</p>
+<h3 id="file-header-template">File Header Template<a class="headerlink" href="#file-header-template" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="ch">#!/usr/bin/env zsh</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># &lt;NAME&gt; - &lt;Brief Description&gt;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">#</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># File:         ~/.config/zsh/functions/&lt;filename&gt;.zsh</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Version:      1.0</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># Date:         YYYY-MM-DD</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1"># Pattern:      command + keyword + options</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">#</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1"># Usage:        &lt;cmd&gt; &lt;action&gt; [args]</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1">#</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># Examples:</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1">#   &lt;cmd&gt; action1           # Description</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1">#   &lt;cmd&gt; action2 arg       # Description</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1">#</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+</code></pre></div>
+<hr />
+<h2 id="dispatcher-structure">Dispatcher Structure<a class="headerlink" href="#dispatcher-structure" title="Permanent link">&para;</a></h2>
+<h3 id="template">Template<a class="headerlink" href="#template" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>&lt;cmd&gt;<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="c1"># No arguments → default action</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$#</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">        </span>&lt;default_action&gt;
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span><span class="k">return</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">        </span><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">        </span><span class="c1"># CATEGORY 1</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">        </span><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">        </span>action1<span class="p">|</span>a1<span class="o">)</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">            </span><span class="nb">shift</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">            </span>&lt;implementation&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">        </span>action2<span class="p">|</span>a2<span class="o">)</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">            </span><span class="nb">shift</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">            </span>&lt;implementation&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">        </span><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">        </span><span class="c1"># HELP</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">        </span><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">        </span>help<span class="p">|</span>h<span class="p">|</span>--help<span class="p">|</span>-h<span class="o">)</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">            </span>_&lt;cmd&gt;_help
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">        </span><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">        </span><span class="c1"># PASSTHROUGH (optional)</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="w">        </span><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="w">        </span>*<span class="o">)</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="w">            </span>&lt;underlying_command&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="w">    </span><span class="k">esac</span>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="o">}</span>
+</code></pre></div>
+<h3 id="help-function-template">Help Function Template<a class="headerlink" href="#help-function-template" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>_&lt;cmd&gt;_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="si">${</span><span class="nv">_C_BOLD</span><span class="si">}</span><span class="s2">╭─────────────────────────────────────────────╮</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="si">${</span><span class="nv">_C_BOLD</span><span class="si">}</span><span class="s2">│ &lt;cmd&gt; - &lt;Domain Description&gt;               │</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="si">${</span><span class="nv">_C_BOLD</span><span class="si">}</span><span class="s2">╰─────────────────────────────────────────────╯</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="si">${</span><span class="nv">_C_GREEN</span><span class="si">}</span><span class="s2">🔥 MOST COMMON</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">_C_DIM</span><span class="si">}</span><span class="s2">(80% of daily use)</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">:</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="s2">  </span><span class="si">${</span><span class="nv">_C_CYAN</span><span class="si">}</span><span class="s2">&lt;cmd&gt; action1</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">     Description</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="s2">  </span><span class="si">${</span><span class="nv">_C_CYAN</span><span class="si">}</span><span class="s2">&lt;cmd&gt; action2</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">     Description</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="si">${</span><span class="nv">_C_YELLOW</span><span class="si">}</span><span class="s2">💡 QUICK EXAMPLES</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">:</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="s2">  </span><span class="si">${</span><span class="nv">_C_DIM</span><span class="si">}</span><span class="s2">\$</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2"> &lt;cmd&gt; action1     </span><span class="si">${</span><span class="nv">_C_DIM</span><span class="si">}</span><span class="s2"># Comment</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="s2">  </span><span class="si">${</span><span class="nv">_C_DIM</span><span class="si">}</span><span class="s2">\$</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2"> &lt;cmd&gt; action2     </span><span class="si">${</span><span class="nv">_C_DIM</span><span class="si">}</span><span class="s2"># Comment</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="si">${</span><span class="nv">_C_BLUE</span><span class="si">}</span><span class="s2">📋 ALL ACTIONS</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">:</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="s2">  </span><span class="si">${</span><span class="nv">_C_CYAN</span><span class="si">}</span><span class="s2">&lt;cmd&gt; action1</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">     Description</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="s2">  </span><span class="si">${</span><span class="nv">_C_CYAN</span><span class="si">}</span><span class="s2">&lt;cmd&gt; action2</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">     Description</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="s2">  </span><span class="si">${</span><span class="nv">_C_CYAN</span><span class="si">}</span><span class="s2">&lt;cmd&gt; action3</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">     Description</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="si">${</span><span class="nv">_C_MAGENTA</span><span class="si">}</span><span class="s2">💡 TIP</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">: Unknown commands pass through</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="s2">  </span><span class="si">${</span><span class="nv">_C_DIM</span><span class="si">}</span><span class="s2">&lt;cmd&gt; anything → &lt;underlying&gt; anything</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="s2">&quot;</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="o">}</span>
+</code></pre></div>
+<hr />
+<h2 id="color-conventions">Color Conventions<a class="headerlink" href="#color-conventions" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Standard colors (define once, use everywhere)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">_C_BOLD</span><span class="o">=</span><span class="s1">&#39;\033[1m&#39;</span><span class="w">      </span><span class="c1"># Headers, emphasis</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nv">_C_DIM</span><span class="o">=</span><span class="s1">&#39;\033[2m&#39;</span><span class="w">       </span><span class="c1"># Comments, less important</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nv">_C_NC</span><span class="o">=</span><span class="s1">&#39;\033[0m&#39;</span><span class="w">        </span><span class="c1"># Reset</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nv">_C_GREEN</span><span class="o">=</span><span class="s1">&#39;\033[32m&#39;</span><span class="w">    </span><span class="c1"># Success, most common</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="nv">_C_YELLOW</span><span class="o">=</span><span class="s1">&#39;\033[33m&#39;</span><span class="w">   </span><span class="c1"># Examples, warnings</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="nv">_C_BLUE</span><span class="o">=</span><span class="s1">&#39;\033[34m&#39;</span><span class="w">     </span><span class="c1"># Categories, info</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="nv">_C_CYAN</span><span class="o">=</span><span class="s1">&#39;\033[36m&#39;</span><span class="w">     </span><span class="c1"># Commands, actions</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="nv">_C_MAGENTA</span><span class="o">=</span><span class="s1">&#39;\033[35m&#39;</span><span class="w">  </span><span class="c1"># Tips, related info</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="nv">_C_RED</span><span class="o">=</span><span class="s1">&#39;\033[31m&#39;</span><span class="w">      </span><span class="c1"># Errors</span>
+</code></pre></div>
+<h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">_C_GREEN</span><span class="si">}</span><span class="s2">Success!</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">_C_RED</span><span class="si">}</span><span class="s2">Error:</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2"> Something went wrong&quot;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">_C_CYAN</span><span class="si">}</span><span class="s2">g push</span><span class="si">${</span><span class="nv">_C_NC</span><span class="si">}</span><span class="s2">  Push to remote&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="rules">Rules<a class="headerlink" href="#rules" title="Permanent link">&para;</a></h2>
+<h3 id="r1-no-duplicates">R1: No Duplicates<a class="headerlink" href="#r1-no-duplicates" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># WRONG: Same alias in multiple places</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># .zshrc:         alias gst=&#39;git status&#39;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># g-dispatcher:   g status → git status</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># RIGHT: Single source of truth</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1"># g-dispatcher:   g status → git status</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># .zshrc:         (no gst alias)</span>
+</code></pre></div>
+<p><strong>Check before adding:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>grep<span class="w"> </span>-rn<span class="w"> </span><span class="s2">&quot;alias &lt;name&gt;=&quot;</span><span class="w"> </span>~/.config/zsh/
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>grep<span class="w"> </span>-rn<span class="w"> </span><span class="s2">&quot;^&lt;name&gt;()&quot;</span><span class="w"> </span>~/.config/zsh/
+</code></pre></div>
+<h3 id="r2-functions-aliases">R2: Functions &gt; Aliases<a class="headerlink" href="#r2-functions-aliases" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># WRONG: Complex alias</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">deploy</span><span class="o">=</span><span class="s1">&#39;git push &amp;&amp; ssh server &quot;cd /app &amp;&amp; pull &amp;&amp; restart&quot;&#39;</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># RIGHT: Function with logic</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>deploy<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Pushing to remote...&quot;</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span>git<span class="w"> </span>push<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deploying to server...&quot;</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span>ssh<span class="w"> </span>server<span class="w"> </span><span class="s2">&quot;cd /app &amp;&amp; git pull &amp;&amp; ./restart.sh&quot;</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="o">}</span>
+</code></pre></div>
+<h3 id="r3-always-provide-help">R3: Always Provide Help<a class="headerlink" href="#r3-always-provide-help" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># WRONG: No help available</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>mycmd<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">        </span>action1<span class="o">)</span><span class="w"> </span>...<span class="w"> </span><span class="p">;;</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">        </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Unknown&quot;</span><span class="w"> </span><span class="p">;;</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="k">esac</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="o">}</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1"># RIGHT: Help is always available</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>mycmd<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">        </span>action1<span class="o">)</span><span class="w"> </span>...<span class="w"> </span><span class="p">;;</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">        </span>help<span class="p">|</span>h<span class="o">)</span><span class="w"> </span>_mycmd_help<span class="w"> </span><span class="p">;;</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">        </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Unknown. Run: mycmd help&quot;</span><span class="w"> </span><span class="p">;;</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">    </span><span class="k">esac</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="o">}</span>
+</code></pre></div>
+<h3 id="r4-graceful-degradation">R4: Graceful Degradation<a class="headerlink" href="#r4-graceful-degradation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># WRONG: Assumes tool exists</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">ls</span><span class="o">=</span><span class="s1">&#39;eza --icons&#39;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># RIGHT: Check first</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="k">if</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>eza<span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nb">alias</span><span class="w"> </span><span class="nv">ls</span><span class="o">=</span><span class="s1">&#39;eza --icons&#39;</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="k">else</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="nb">alias</span><span class="w"> </span><span class="nv">ls</span><span class="o">=</span><span class="s1">&#39;ls -G&#39;</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="k">fi</span>
+</code></pre></div>
+<h3 id="r5-no-blocking-startup">R5: No Blocking Startup<a class="headerlink" href="#r5-no-blocking-startup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># WRONG: Blocking call in .zshrc</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nv">WEATHER</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>wttr.in/<span class="se">\?</span><span class="nv">format</span><span class="o">=</span><span class="m">3</span><span class="k">)</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># RIGHT: Lazy function</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>weather<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;wttr.in/?format=3&quot;</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="o">}</span>
+</code></pre></div>
+<h3 id="r6-document-changes">R6: Document Changes<a class="headerlink" href="#r6-document-changes" title="Permanent link">&para;</a></h3>
+<p>When modifying configuration:</p>
 <ol>
-<li><strong>Natural fit</strong> - flow-cli implements shell workflow conventions</li>
-<li><strong>Authority</strong> - What flow-cli does becomes the standard</li>
-<li><strong>Enforcement</strong> - Future <code>flow check</code> will validate compliance</li>
-<li><strong>Documentation</strong> - Standards live with the tool that uses them</li>
+<li>Update relevant help functions</li>
+<li>Add entry to decision log (if significant)</li>
+<li>Update COMMAND-QUICK-REFERENCE.md</li>
+<li>Run tests before committing</li>
 </ol>
 <hr />
-<h2 id="related-documentation">Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Integration maps</strong>: <code>atlas/docs/INTEGRATIONS.md</code></li>
-<li><strong>flow-cli docs</strong>: https://data-wise.github.io/flow-cli/</li>
-<li><strong>Tool inventory</strong>: <code>flow dash --inventory</code></li>
-</ul>
+<h2 id="testing-requirements">Testing Requirements<a class="headerlink" href="#testing-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="before-committing">Before Committing<a class="headerlink" href="#before-committing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># 1. Syntax check</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>shellcheck<span class="w"> </span>~/.config/zsh/functions/*.zsh
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># 2. Duplicate check</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>./tests/test-duplicates.zsh
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># 3. Dispatcher test</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>./tests/test-dispatchers.zsh
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1"># 4. Load test (optional)</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="nb">time</span><span class="w"> </span>zsh<span class="w"> </span>-ic<span class="w"> </span><span class="nb">exit</span>
+</code></pre></div>
+<h3 id="test-file-template">Test File Template<a class="headerlink" href="#test-file-template" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="ch">#!/usr/bin/env zsh</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="c1"># test-&lt;name&gt;.zsh - &lt;Description&gt;</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nb">source</span><span class="w"> </span>~/.config/zsh/functions/&lt;file&gt;.zsh
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="c1"># Test cases</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>test_&lt;<span class="k">function</span>&gt;<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">    </span><span class="c1"># Setup</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span>result
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">    </span><span class="c1"># Execute</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>&lt;<span class="k">function</span>&gt;<span class="w"> </span>&lt;args&gt;<span class="k">)</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">    </span><span class="c1"># Assert</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;expected&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ &lt;function&gt;: passed&quot;</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="w">    </span><span class="k">else</span>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✗ &lt;function&gt;: FAILED&quot;</span>
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  Expected: expected&quot;</span>
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  Got: </span><span class="nv">$result</span><span class="s2">&quot;</span>
+<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="o">}</span>
+<a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>
+<a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="c1"># Run tests</span>
+<a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>test_&lt;<span class="k">function</span>&gt;
+</code></pre></div>
 <hr />
-<p><strong>Maintained by:</strong> flow-cli project
-<strong>Last Updated:</strong> 2026-01-07
-<strong>Migrated from:</strong> dev-planning/standards/</p>
+<h2 id="checklist-for-new-dispatchers">Checklist for New Dispatchers<a class="headerlink" href="#checklist-for-new-dispatchers" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] Single file: <code>&lt;letter&gt;-dispatcher.zsh</code></li>
+<li>[ ] Function named: <code>&lt;letter&gt;()</code></li>
+<li>[ ] Help function: <code>_&lt;letter&gt;_help()</code></li>
+<li>[ ] Default action (no args)</li>
+<li>[ ] Passthrough for unknown commands (if applicable)</li>
+<li>[ ] Sourced in <code>.zshrc</code></li>
+<li>[ ] Added to quick-reference.md</li>
+<li>[ ] Tests written</li>
+</ul>
+<h3 id="example-dispatchers">Example Dispatchers<a class="headerlink" href="#example-dispatchers" title="Permanent link">&para;</a></h3>
+<p><strong>Existing implementations:</strong></p>
+<ul>
+<li><code>g-dispatcher.zsh</code> - Git commands (<code>g status</code>, <code>g push</code>)</li>
+<li><code>r-dispatcher.zsh</code> - R development (<code>r test</code>, <code>r check</code>)</li>
+<li><code>v-dispatcher.zsh</code> - Vibe/vibrant (<code>v build</code>, <code>v preview</code>)</li>
+<li><code>mcp-dispatcher.zsh</code> - MCP server management (<code>mcp list</code>, <code>mcp test</code>)</li>
+</ul>
+<p><strong>Pattern consistency:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># All follow same pattern: cmd + keyword</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>g<span class="w"> </span>status<span class="w">      </span><span class="c1"># Git</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>r<span class="w"> </span><span class="nb">test</span><span class="w">        </span><span class="c1"># R</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>v<span class="w"> </span>build<span class="w">       </span><span class="c1"># Vibe</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>mcp<span class="w"> </span>list<span class="w">      </span><span class="c1"># MCP servers</span>
+</code></pre></div>
+<hr />
+<p><em>Last Updated: 2025-12-19</em></p>
 
 
 
