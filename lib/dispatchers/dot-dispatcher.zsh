@@ -228,6 +228,8 @@ _dot_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot sync${FLOW_COLORS[reset]}         Pull latest changes from remote ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot push${FLOW_COLORS[reset]}         Push local changes to remote    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot diff${FLOW_COLORS[reset]}         Show pending changes            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot apply${FLOW_COLORS[reset]}        Apply changes to home directory ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot apply -n${FLOW_COLORS[reset]}     Dry-run (preview without apply) ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}SECRET MANAGEMENT${FLOW_COLORS[reset]}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}       Unlock Bitwarden vault          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
@@ -410,13 +412,25 @@ _dot_show_file_diff() {
 # Apply changes for a specific file
 _dot_apply_changes() {
   local file="$1"
-  _flow_log_info "Applying changes..."
+  local dry_run="$2"
 
-  if chezmoi apply "$file" 2>/dev/null; then
-    _flow_log_success "Applied: $file"
+  if [[ -n "$dry_run" ]]; then
+    _flow_log_info "Showing what would change (dry-run)..."
+    if chezmoi apply --dry-run --verbose "$file" 2>/dev/null; then
+      echo ""
+      _flow_log_success "Dry-run complete - no changes applied"
+    else
+      _flow_log_error "Dry-run failed"
+      return 1
+    fi
   else
-    _flow_log_error "Failed to apply changes"
-    return 1
+    _flow_log_info "Applying changes..."
+    if chezmoi apply "$file" 2>/dev/null; then
+      _flow_log_success "Applied: $file"
+    else
+      _flow_log_error "Failed to apply changes"
+      return 1
+    fi
   fi
 }
 
@@ -468,7 +482,28 @@ _dot_apply() {
     return 1
   fi
 
-  local file="$1"
+  # Parse flags
+  local dry_run=""
+  local file=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --dry-run|-n)
+        dry_run="--dry-run"
+        shift
+        ;;
+      *)
+        file="$1"
+        shift
+        ;;
+    esac
+  done
+
+  # Show dry-run mode indicator
+  if [[ -n "$dry_run" ]]; then
+    _flow_log_info "${FLOW_COLORS[warning]}DRY-RUN MODE${FLOW_COLORS[reset]} - No changes will be applied"
+    echo ""
+  fi
 
   # Check if there are any changes
   local status_output
@@ -490,10 +525,14 @@ _dot_apply() {
       return 1
     fi
 
-    _dot_apply_changes "$resolved_path"
+    _dot_apply_changes "$resolved_path" "$dry_run"
   else
     # Apply all changes
-    _flow_log_info "Applying all pending changes..."
+    if [[ -n "$dry_run" ]]; then
+      _flow_log_info "Showing what would change (dry-run)..."
+    else
+      _flow_log_info "Applying all pending changes..."
+    fi
     echo ""
 
     # Show summary
@@ -502,6 +541,18 @@ _dot_apply() {
     echo ""
     chezmoi status 2>/dev/null
     echo ""
+
+    # Skip confirmation in dry-run mode
+    if [[ -n "$dry_run" ]]; then
+      if chezmoi apply --dry-run --verbose 2>/dev/null; then
+        echo ""
+        _flow_log_success "Dry-run complete - no changes applied"
+      else
+        _flow_log_error "Dry-run failed"
+        return 1
+      fi
+      return 0
+    fi
 
     read -q "?Apply all changes? [Y/n] " response
     echo ""
