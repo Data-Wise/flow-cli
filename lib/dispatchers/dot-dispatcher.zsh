@@ -791,15 +791,39 @@ _dot_secret() {
 
   local item_name="$subcommand"
 
-  # Retrieve secret (redirect stderr to prevent leaks)
+  # Retrieve secret (capture stderr for error parsing)
   local secret_value
-  secret_value=$(bw get password "$item_name" 2>/dev/null)
+  local error_output
+  local temp_err=$(mktemp)
+  secret_value=$(bw get password "$item_name" 2>"$temp_err")
   local get_status=$?
+  error_output=$(cat "$temp_err" 2>/dev/null)
+  rm -f "$temp_err"
 
   if [[ $get_status -ne 0 ]]; then
-    _flow_log_error "Failed to retrieve secret: $item_name"
-    _flow_log_info "Item not found or access denied"
-    _flow_log_muted "Tip: Use 'dot secret list' to see available items"
+    # Parse error message for specific guidance
+    case "$error_output" in
+      *"Not found"*|*"not found"*)
+        _flow_log_error "Secret not found: $item_name"
+        _flow_log_muted "Tip: Use 'dot secret list' to see available items"
+        ;;
+      *"Session key"*|*"session"*)
+        _flow_log_error "Session expired"
+        _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
+        ;;
+      *"locked"*|*"Locked"*)
+        _flow_log_error "Vault is locked"
+        _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
+        ;;
+      *"access denied"*|*"Access denied"*)
+        _flow_log_error "Access denied for: $item_name"
+        _flow_log_info "Check item permissions in Bitwarden"
+        ;;
+      *)
+        _flow_log_error "Failed to retrieve secret: $item_name"
+        _flow_log_muted "Error: $error_output"
+        ;;
+    esac
     return 1
   fi
 
