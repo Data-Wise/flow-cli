@@ -145,7 +145,39 @@ count="${count%%*( )}"    # Remove trailing spaces
 
 ---
 
+## Additional Fix: Path Resolution (2026-01-10)
+
+**Issue:** `dot edit .test-dotfile` fails with "Could not determine source path"
+
+**Root Cause:** `_dot_resolve_file_path()` returned relative paths (`.test-dotfile-for-e2e`) but `chezmoi source-path` requires absolute paths (`~/.test-dotfile-for-e2e`).
+
+### Fix Applied
+
+```zsh
+# Before:
+echo "$matched_files"  # Returns: .test-dotfile-for-e2e
+
+# After:
+echo "$HOME/$matched_files"  # Returns: /Users/dt/.test-dotfile-for-e2e
+```
+
+### Verification
+
+```bash
+# Before fix:
+$ dot edit test-dotfile
+✗ Could not determine source path for: .test-dotfile-for-e2e
+
+# After fix:
+$ _dot_resolve_file_path "test-dotfile"
+/Users/dt/.test-dotfile-for-e2e
+$ chezmoi source-path /Users/dt/.test-dotfile-for-e2e
+/Users/dt/.local/share/chezmoi/dot_test-dotfile-for-e2e
+```
+
+---
+
 **Fixed:** 2026-01-10
-**Files changed:** 2
-**Lines added:** 20 (15 fixes + 5 test lines)
+**Files changed:** 2 → 1 additional (dotfile-helpers.zsh)
+**Lines added:** 20 → 23 (+3 lines for path fix)
 **Tests added:** 4

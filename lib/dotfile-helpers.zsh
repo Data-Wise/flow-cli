@@ -391,12 +391,14 @@ _dot_resolve_file_path() {
   [[ "$match_count" =~ ^[0-9]+$ ]] || match_count=0
 
   if [[ $match_count -eq 1 ]]; then
-    # Single match - return it
-    echo "$matched_files"
+    # Single match - return absolute path (chezmoi managed returns relative paths)
+    echo "$HOME/$matched_files"
     return 0
   else
-    # Multiple matches - return all for selection
-    echo "$matched_files"
+    # Multiple matches - return all as absolute paths for selection
+    echo "$matched_files" | while read -r file; do
+      echo "$HOME/$file"
+    done
     return 2  # Signal multiple matches
   fi
 }
