@@ -13,7 +13,8 @@ _dot() {
     's:Show dotfile sync status (alias)'
     'help:Show help message'
     'version:Show version information'
-    'edit:Edit a dotfile with preview'
+    'add:Add file to chezmoi'
+    'edit:Edit a dotfile with preview (auto-add/create)'
     'e:Edit a dotfile (alias)'
     'sync:Pull changes from remote'
     'pull:Pull changes from remote (alias)'
@@ -62,8 +63,15 @@ _dot() {
       ;;
     args)
       case "$line[1]" in
+        add)
+          # Complete file paths (for files not yet tracked)
+          _files
+          ;;
         edit|e)
-          _describe -t files 'managed file' files
+          # Complete both managed files AND file paths (for auto-add/create)
+          _alternative \
+            'files:managed file:_describe -t files managed\ file files' \
+            'paths:file path:_files'
           ;;
         diff|d|apply|a)
           _describe -t files 'managed file' files
