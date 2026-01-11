@@ -4,6 +4,57 @@
 
 Start working in 10 seconds. Stay motivated with visible wins. No configuration required.
 
+!!! tldr "⚡ TL;DR - Get Started in 30 Seconds"
+    ```bash
+    brew tap data-wise/tap && brew install flow-cli
+    dash                    # See your projects
+    work my-project         # Start working
+    win "tried flow-cli!"   # Log your first win
+    ```
+    **That's it!** [Want to learn more? →](#try-it-now)
+
+---
+
+## 🎯 Choose Your Path
+
+Not sure where to start? Pick what fits you best:
+
+<div class="grid cards" markdown>
+
+-   :rocket:{ .lg .middle } **Quick Start**
+
+    ---
+
+    Get up and running in 5 minutes
+
+    [→ Quick Start](getting-started/quick-start.md)
+
+-   :books:{ .lg .middle } **Learn Step-by-Step**
+
+    ---
+
+    30-minute guided tutorial path
+
+    [→ Tutorials](tutorials/01-first-session.md)
+
+-   :target:{ .lg .middle } **Solve a Problem**
+
+    ---
+
+    Find the workflow you need now
+
+    [→ Workflows](guides/WORKFLOWS-QUICK-WINS.md)
+
+-   :mag:{ .lg .middle } **Look Up a Command**
+
+    ---
+
+    Quick reference for commands
+
+    [→ Reference](reference/COMMAND-QUICK-REFERENCE.md)
+
+</div>
+
 ---
 
 ## ⚡ Try It Now

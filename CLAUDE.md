@@ -26,6 +26,42 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 ---
 
+## Development Workflow Protocol
+
+**CRITICAL:** When working on new features, follow this workflow:
+
+### Planning Phase (on `dev` branch)
+
+1. Start on dev: `git checkout dev && git pull origin dev`
+2. Plan and design with user
+3. Create/update planning documents (specs, proposals)
+4. Get user approval
+
+### Commit Planning Docs (on `dev` branch)
+
+5. **Update planning document** with approved decisions
+6. **Commit to dev**: `git add docs/specs/... && git commit && git push`
+
+### Create Worktree (from `dev` branch)
+
+7. **Create feature worktree**: `g feature start feature-name`
+
+### Implementation (NEW SESSION)
+
+8. **Do NOT continue in same session**
+9. **Ask user to start new session:**
+
+   ```
+   ✅ Worktree created at ~/.git-worktrees/flow-cli-feature-name
+
+   To start implementation, please start a new session:
+   cd ~/.git-worktrees/flow-cli-feature-name && claude
+   ```
+
+**See:** `.claude/WORKFLOW-PROTOCOL.md` for complete details
+
+---
+
 ## Layered Architecture (flow-cli + aiterm + craft)
 
 flow-cli is part of a 3-layer developer tooling stack:

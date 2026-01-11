@@ -4,13 +4,54 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.2.0 COMPLETE - Secret Management v2.0 Final 🚀
+## Phase: Planning - Teaching Workflow Feature
 ## Priority: 1
-## Progress: 100
+## Progress: 15
 
-## Focus: Secret Management v2.0 COMPLETE (All SPEC Features) ✅
+## Focus: Teaching Workflow Specification & Workflow Protocol ✅
 
-## ✅ Just Completed (2026-01-11):
+## ✅ Just Completed (2026-01-11 - Later):
+- **Teaching Workflow Planning & Workflow Protocol** ✅ COMPLETE
+  - **Specs:** SPEC-teaching-workflow.md (911 lines, approved)
+  - **Documentation:** 3 workflow documents (821 lines total)
+
+  **Branch Workflow Established:**
+  - Created `dev` branch (three-tier: feature/* → dev → main)
+  - `BRANCH-WORKFLOW.md` (323 lines) - Complete workflow guide
+  - Updated `PR-WORKFLOW-GUIDE.md` with dev branch strategy
+  - Workflow guard blocks direct pushes to main/dev
+
+  **Workflow Protocol:**
+  - `.claude/WORKFLOW-PROTOCOL.md` (197 lines) - 4-phase protocol
+  - Phase 1: Planning on dev branch
+  - Phase 2: Commit plan before worktree
+  - Phase 3: Create worktree from dev
+  - Phase 4: NEW session for implementation (critical!)
+
+  **Teaching Workflow Spec:**
+  - Universal teaching system (STAT 545 first)
+  - Teaching-aware `work` command
+  - Per-course `.flow/teach-config.yml` configuration
+  - 3-tier automation (scripts + flow-cli + GitHub Actions)
+  - Scholar integration (direct calls to /teaching:*)
+  - Nexus integration (parallel tracking)
+  - 7 new template files planned
+  - 3 files to modify in flow-cli
+  - Estimated: 22 hours over 3 weeks
+
+  **Worktree Created:**
+  - `~/.git-worktrees/flow-cli-teaching-workflow`
+  - Branch: `feature/teaching-workflow` (from dev)
+  - Status: Ready for NEW session per protocol
+
+  **Maintenance:**
+  - Branch cleanup: 9 orphaned local, 4 remote (11 days old)
+  - v5.3.0 roadmap updated (3 new features)
+  - PRs: #207 (roadmap), #208 (branch workflow) - merged
+
+  **Session Time:** ~2.5 hours (planning, docs, setup)
+
+## ✅ Just Completed (2026-01-11 - Earlier):
 - **Secret Management v2.0 Integration Features** ✅ COMPLETE
   - **PR:** #202 (feature/secret-management-v2-sync → main)
   - **Implementation:** ~608 lines of new functionality
@@ -1081,46 +1122,56 @@ _g_feature_status() {
 ## last_active: 2026-01-11
 
 ## 🎯 Next Action:
-**Focus:** v5.2.0 RELEASED! Secret Management v2.0 Complete 🎉
+**Focus:** Teaching Workflow Implementation ⚡
 
-**v5.2.0 Released:** ✅
-- **Tag:** v5.2.0 (pushed to remote)
-- **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.2.0
-- **Documentation:** https://Data-Wise.github.io/flow-cli/ (deployed)
-- **Tests:** 134 total unit tests (100% passing)
-- **PRs:** #198-#205 all merged
+**Worktree Ready:**
+- Location: `~/.git-worktrees/flow-cli-teaching-workflow`
+- Branch: `feature/teaching-workflow` (from dev)
+- Spec: `docs/specs/SPEC-teaching-workflow.md` (911 lines, approved)
 
-**All Enhancements Verified Complete:**
-- ✅ ZDOTDIR support (lib/dotfile-helpers.zsh:587-589)
-- ✅ Auto-add untracked files (dot edit prompts to add)
-- ✅ Create new files (dot edit with mkdir -p)
-- ✅ Template auto-unlock (BW prompt for .tmpl files)
-- ✅ Standalone `dot add` command
-- ✅ Minimal summary with tips
+**Critical - Follow Workflow Protocol:**
+```bash
+# Do NOT continue in this session
+# Start NEW session for implementation:
+
+cd ~/.git-worktrees/flow-cli-teaching-workflow
+claude
+```
+
+**Implementation Tasks (from spec):**
+
+**Week 1: Core Framework** (~9 hours)
+- Teaching project detection enhancement
+- Per-course `.flow/teach-config.yml` config
+- Enhanced `work` command with teaching session
+- Teaching context display
+- Branch safety checks
+
+**Week 2: STAT 545 Migration** (~8 hours)
+- Automation script templates (4 files)
+- `teach-init` command scaffolding
+- GitHub Actions workflow
+- Scholar integration for quiz/exam generation
+
+**Week 3: Polish & Documentation** (~5 hours)
+- Comprehensive testing (unit + integration)
+- Documentation and tutorials
+- Reference implementation
 
 **Options for Next Session:**
 
-**1. Performance Optimizations** (v5.3.0)
-```bash
-# From enhancement plan:
-- Dashboard status line caching (30s TTL)
-- Git operation batching
-```
+A) **Implement Teaching Workflow** (recommended) ⚡
+   - Start NEW session in worktree
+   - Follow spec implementation plan
+   - Begin with Week 1 core framework
 
-**2. Plan Next DOT Enhancements**
-```bash
-# Potential future features:
-- dot secrets sync gitlab       # GitLab CI secrets
-- dot secrets sync aws          # AWS Secrets Manager
-- dot publish npm/pypi          # Publishing automation
-- dot undo                      # Rollback last apply
-```
+B) **Work on v5.3.0 Enhancements**
+   - Secret clipboard integration
+   - Interactive secrets dashboard
+   - Template validation
 
-**3. Other Projects**
-```bash
-# Move to different work
-work <other-project>
-```
+C) **Other Projects**
+   - Switch to different work
 
 **✅ v5.0.0 Release Complete (2026-01-09):**
 - **Status:** Released and deployed
@@ -1443,3 +1494,18 @@ dot help               # Verify new dispatcher
 - 2026-01-11: VERIFY - All enhancements 1-4 verified complete (already implemented)
 - 2026-01-11: ARCHIVE - Archived plan file (jolly-leaping-naur-COMPLETED-2026-01-11.md)
 - 2026-01-11: STATUS - Updated .STATUS to mark v5.2.0 fully complete
+- 2026-01-11: CLEANUP - Deleted 9 orphaned local branches, 4 remote branches (11 days old)
+- 2026-01-11: ROADMAP - Updated v5.3.0 with 3 new features (PR #207)
+- 2026-01-11: WORKFLOW - Created dev branch, established feature → dev → main (PR #208)
+- 2026-01-11: DOCS - Created BRANCH-WORKFLOW.md (323 lines, comprehensive guide)
+- 2026-01-11: DOCS - Updated PR-WORKFLOW-GUIDE.md with dev branch strategy
+- 2026-01-11: DOCS - Created .claude/WORKFLOW-PROTOCOL.md (197 lines, 4-phase protocol)
+- 2026-01-11: DOCS - Updated CLAUDE.md with workflow protocol section
+- 2026-01-11: PLANNING - Deep brainstorm for teaching workflow (16 questions, user decisions)
+- 2026-01-11: SPEC - Created SPEC-teaching-workflow.md (911 lines, approved plan)
+- 2026-01-11: SPEC - STAT 545 first implementation, work command extension, 3-tier automation
+- 2026-01-11: SPEC - Scholar integration (direct calls), Nexus integration (parallel)
+- 2026-01-11: GIT - Committed teaching workflow spec to dev branch (b805c2e)
+- 2026-01-11: WORKTREE - Created flow-cli-teaching-workflow worktree from dev
+- 2026-01-11: PROTOCOL - Ready for NEW session per workflow protocol (no same-session impl)
+- 2026-01-11: SESSION - 2.5 hours (branch cleanup, workflow setup, teaching spec)
