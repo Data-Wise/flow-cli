@@ -1134,13 +1134,13 @@ else
   test_fail "dot help includes --refresh command"
 fi
 
-# Test 15.8: Version shows v2.1.0
+# Test 15.8: Version shows v2.x.x (Phase 3+)
 output=$(dot version 2>&1)
 ((TESTS_RUN++))
-if [[ "$output" == *"2.1"* ]]; then
-  test_pass "dot version shows v2.1.x"
+if [[ "$output" == *"v2."* ]] || [[ "$output" == *"2.1"* ]] || [[ "$output" == *"2.2"* ]]; then
+  test_pass "dot version shows v2.x.x"
 else
-  test_fail "dot version shows v2.1.x"
+  test_fail "dot version shows v2.x.x"
 fi
 
 # Test 15.9: dot token -r is recognized as refresh flag
@@ -1162,6 +1162,131 @@ if [[ "$output" == *"not found"* ]] || [[ "$output" == *"DOT metadata"* ]] || [[
   test_pass "Token rotation validates DOT metadata requirement"
 else
   test_fail "Token rotation validates DOT metadata requirement"
+fi
+
+echo ""
+
+# ============================================================================
+# TEST SUITE 16: Integration Features (Phase 3 - v2.2.0)
+# ============================================================================
+
+echo ""
+echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
+echo "${fg[cyan]}TEST SUITE 16: Integration Features (Phase 3)${reset_color}"
+echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
+echo ""
+
+# Test 16.1: _dot_secrets_sync function exists
+((TESTS_RUN++))
+if typeset -f _dot_secrets_sync > /dev/null; then
+  test_pass "_dot_secrets_sync function exists"
+else
+  test_fail "_dot_secrets_sync function exists"
+fi
+
+# Test 16.2: _dot_secrets_sync_github function exists
+((TESTS_RUN++))
+if typeset -f _dot_secrets_sync_github > /dev/null; then
+  test_pass "_dot_secrets_sync_github function exists"
+else
+  test_fail "_dot_secrets_sync_github function exists"
+fi
+
+# Test 16.3: _dot_env function exists
+((TESTS_RUN++))
+if typeset -f _dot_env > /dev/null; then
+  test_pass "_dot_env function exists"
+else
+  test_fail "_dot_env function exists"
+fi
+
+# Test 16.4: _dot_env_init function exists
+((TESTS_RUN++))
+if typeset -f _dot_env_init > /dev/null; then
+  test_pass "_dot_env_init function exists"
+else
+  test_fail "_dot_env_init function exists"
+fi
+
+# Test 16.5: dot help includes INTEGRATION section
+output=$(dot help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"INTEGRATION"* ]]; then
+  test_pass "dot help includes INTEGRATION section"
+else
+  test_fail "dot help includes INTEGRATION section"
+fi
+
+# Test 16.6: dot help includes dot secrets sync
+output=$(dot help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"secrets sync"* ]]; then
+  test_pass "dot help includes secrets sync command"
+else
+  test_fail "dot help includes secrets sync command"
+fi
+
+# Test 16.7: dot help includes dot env init
+output=$(dot help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"env init"* ]]; then
+  test_pass "dot help includes env init command"
+else
+  test_fail "dot help includes env init command"
+fi
+
+# Test 16.8: dot secrets sync without target shows usage
+output=$(dot secrets sync 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"Usage"* ]] || [[ "$output" == *"sync"* ]]; then
+  test_pass "dot secrets sync without target shows help"
+else
+  test_fail "dot secrets sync without target shows help"
+fi
+
+# Test 16.9: dot secrets sync unknown shows error
+output=$(dot secrets sync unknown 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"Unknown"* ]] || [[ "$output" == *"not supported"* ]]; then
+  test_pass "dot secrets sync unknown shows error"
+else
+  test_fail "dot secrets sync unknown shows error"
+fi
+
+# Test 16.10: dot env without subcommand shows help
+output=$(dot env 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"Usage"* ]] || [[ "$output" == *"init"* ]]; then
+  test_pass "dot env without subcommand shows help"
+else
+  test_fail "dot env without subcommand shows help"
+fi
+
+# Test 16.11: dot env help shows usage
+output=$(dot env help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"init"* ]] || [[ "$output" == *".envrc"* ]]; then
+  test_pass "dot env help shows init info"
+else
+  test_fail "dot env help shows init info"
+fi
+
+# Test 16.12: dot secrets help exists
+output=$(dot secrets help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"sync"* ]] || [[ "$output" == *"dashboard"* ]]; then
+  test_pass "dot secrets help shows subcommands"
+else
+  test_fail "dot secrets help shows subcommands"
+fi
+
+# Test 16.13: Version shows v2.2.x
+output=$(dot version 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"2.2"* ]]; then
+  test_pass "dot version shows v2.2.x"
+else
+  test_fail "dot version shows v2.2.x"
 fi
 
 echo ""
