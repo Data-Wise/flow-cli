@@ -2,7 +2,7 @@
 
 **Command:** `dot`
 **Purpose:** Dotfile management via chezmoi and Bitwarden
-**Version:** 1.2.0 (Phase 4 - Dashboard Integration)
+**Version:** v5.1.0 (Critical Improvements)
 
 ---
 
@@ -18,6 +18,11 @@ The `dot` dispatcher provides a unified interface for managing dotfiles with che
 - ⚡ **Fast** (< 500ms for most operations)
 - 🔌 **Optional** (graceful degradation if tools not installed)
 
+**✨ New in v5.1.0:**
+- 🔍 **Hash-based change detection** - SHA-256 comparison catches all edits (even < 1s)
+- 🎯 **Smart error handling** - Specific guidance for each Bitwarden error type
+- 👀 **Dry-run mode** - Preview changes safely with `--dry-run` / `-n` flag
+
 ---
 
 ## Quick Start
@@ -28,6 +33,9 @@ dot
 
 # Edit a dotfile (with preview & apply)
 dot edit .zshrc
+
+# Preview changes without applying (v5.1.0+)
+dot apply --dry-run
 
 # Sync from remote
 dot sync
@@ -85,7 +93,7 @@ Edit a dotfile with preview and apply workflow.
 
 **Features:**
 - Opens file in `$EDITOR`
-- Detects changes on save
+- **Hash-based change detection** (v5.1.0) - SHA-256 comparison catches ALL edits
 - Shows diff preview
 - Prompts to apply changes
 - Fuzzy path matching (e.g., `dot edit zshrc` finds `.zshrc`)
@@ -98,11 +106,17 @@ dot e gitconfig          # Short alias
 ```
 
 **Workflow:**
-1. Opens file in editor
-2. You make changes and save
-3. Shows diff: `Modified: ~/.zshrc`
-4. Prompts: `Apply changes? [Y/n/d(iff)]`
-5. If yes: Runs `chezmoi apply`
+1. Calculates SHA-256 hash of file before editing
+2. Opens file in editor
+3. You make changes and save (even quick edits < 1s are detected!)
+4. Compares hash after saving - detects ANY content change
+5. Shows diff: `Modified: ~/.zshrc`
+6. Prompts: `Apply changes? [Y/n/d(iff)]`
+7. If yes: Runs `chezmoi apply`
+
+**Why hash-based detection? (v5.1.0)**
+
+Traditional `mtime` (modification time) has ~1 second granularity, causing false negatives on quick edits—especially problematic for ADHD users who edit rapidly. SHA-256 hash comparison is deterministic and catches ALL changes, regardless of timing.
 
 #### `dot sync` / `dot pull`
 
@@ -171,13 +185,47 @@ Apply pending changes to home directory.
 - Applies templated changes
 - Shows files being updated
 - Safe operation (creates backups)
+- **Dry-run mode** (v5.1.0) - Preview without applying
 
 **Examples:**
 ```bash
 dot apply                # Apply all pending changes
 dot a                    # Short alias
 dot apply .zshrc         # Apply specific file
+
+# v5.1.0: Dry-run mode (preview only)
+dot apply --dry-run      # Preview all changes (no apply)
+dot apply -n             # Short flag
+dot apply -n .zshrc      # Preview specific file
 ```
+
+**Dry-Run Mode (v5.1.0):**
+
+Preview exactly what would change WITHOUT actually applying:
+
+```bash
+$ dot apply --dry-run
+
+DRY-RUN MODE - No changes will be applied
+
+Showing what would change (dry-run)...
+
+Files to update: 2
+
+M .zshrc
+M .gitconfig
+
+[Shows verbose diff of what would change]
+
+✓ Dry-run complete - no changes applied
+```
+
+**Use cases for dry-run:**
+- ✅ Preview changes before applying
+- ✅ Verify template expansions look correct
+- ✅ Check Bitwarden secret substitutions
+- ✅ Safe exploration (no risk of breaking configs)
+- ✅ ADHD-friendly (see before you commit)
 
 ---
 
@@ -245,13 +293,39 @@ if dot secret github-token >/dev/null 2>&1; then
 fi
 ```
 
-**Error Handling:**
+**Error Handling (v5.1.0 - Improved):**
+
+Smart error detection with specific guidance for each error type:
+
 ```bash
-$ dot secret nonexistent
-✗ Failed to retrieve secret: nonexistent
-ℹ Item not found or access denied
-  Tip: Use 'dot secret list' to see available items
+# Secret not found
+$ dot secret nonexistent-item
+✗ Secret not found: nonexistent-item
+Tip: Use 'dot secret list' to see available items
+
+# Session expired
+$ dot secret github-token
+✗ Session expired
+Run: dot unlock
+
+# Vault locked
+$ dot secret api-key
+✗ Vault is locked
+Run: dot unlock
+
+# Access denied (permissions)
+$ dot secret protected-item
+✗ Access denied for secret: protected-item
+Check Bitwarden permissions for this item
 ```
+
+**How it works (v5.1.0):**
+
+Instead of generic "failed to retrieve" messages, the dispatcher now:
+1. Captures `stderr` from Bitwarden CLI securely (using `mktemp`)
+2. Parses error patterns ("Not found", "Session key", "locked", "access denied")
+3. Provides specific, actionable guidance for each error type
+4. Cleans up temp files automatically (no data leaks)
 
 #### `dot secret list`
 
@@ -495,6 +569,8 @@ brew install chezmoi bitwarden-cli jq
 |-----------|------|-------|
 | `dot` / `dot status` | < 500ms | Runs chezmoi status |
 | `dot edit <file>` | instant | Opens editor immediately |
+| `dot edit <file>` (hash calc) | +1-2ms | SHA-256 overhead (v5.1.0) |
+| `dot apply --dry-run` | same as apply | Uses chezmoi native dry-run |
 | `dot sync` | 1-3s | Fetches from remote |
 | `dot push` | 1-3s | Pushes to remote |
 | `dot secret <name>` | < 200ms | Retrieves from vault |
@@ -506,6 +582,7 @@ brew install chezmoi bitwarden-cli jq
 - **Dashboard caching:** Status cached for fast display
 - **Lazy loading:** dot dispatcher only loaded when called
 - **Conditional checks:** Operations skip if tools not installed
+- **Hash detection** (v5.1.0): SHA-256 is extremely fast (~1ms for typical dotfiles) - the deterministic accuracy far outweighs the negligible overhead
 
 ---
 
@@ -531,18 +608,37 @@ chezmoi init https://github.com/user/dotfiles  # Clone existing
 dot unlock
 ```
 
-### "Item not found or access denied"
+### "Secret not found" (v5.1.0)
 
-**Cause:** Item name doesn't match or doesn't exist.
+**Cause:** Item name doesn't exist in vault.
 
 **Solution:**
 ```bash
-# List all items
+# List all items to find correct name
 dot secret list
 
 # Check exact name (case-sensitive)
 bw get item github-token
 ```
+
+### "Session expired" (v5.1.0)
+
+**Cause:** `BW_SESSION` environment variable is invalid or expired.
+
+**Solution:**
+```bash
+# Simply unlock again
+dot unlock
+```
+
+### "Access denied for secret" (v5.1.0)
+
+**Cause:** Bitwarden permissions restrict access to this item.
+
+**Solution:**
+- Check if item is in a collection you don't have access to
+- Verify item permissions in Bitwarden web vault
+- Contact vault administrator if using org vault
 
 ### "Bitwarden not authenticated"
 
@@ -595,5 +691,5 @@ dot dr         # doctor
 
 ---
 
-**Version:** 1.2.0 (Phase 4 - Dashboard Integration)
-**Last Updated:** 2026-01-09
+**Version:** v5.1.0 (Critical Improvements)
+**Last Updated:** 2026-01-10
