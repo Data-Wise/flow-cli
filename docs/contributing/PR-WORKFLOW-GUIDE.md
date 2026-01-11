@@ -27,8 +27,13 @@
 git clone https://github.com/YOUR-USERNAME/flow-cli.git
 cd flow-cli
 
-# 2. Create feature branch
+# 2. Create feature branch from dev
+git checkout dev
+git pull origin dev
 git checkout -b feature/your-feature-name
+
+# Or use the g dispatcher:
+g feature start your-feature-name
 
 # 3. Load plugin and test
 source flow.plugin.zsh
@@ -37,10 +42,21 @@ zsh tests/run-tests.zsh
 # 4. Commit with conventional commits
 git commit -m "feat: add new feature"
 
-# 5. Push and create PR
+# 5. Push and create PR to dev (NOT main)
 git push origin feature/your-feature-name
-# Then create PR on GitHub
+gh pr create --base dev --title "Add new feature"
 ```
+
+**Branch Workflow (v4.1.0+):**
+```
+feature/* ──► dev ──► main
+    │          │        │
+    └── PR ────┘        │
+               └── PR ──┘
+```
+
+- **feature/\*** → **dev**: All development work
+- **dev** → **main**: Releases only
 
 ---
 
@@ -108,24 +124,98 @@ r help
 
 ---
 
+## Branch Workflow (v4.1.0+)
+
+### Three-Tier Branch Strategy
+
+```
+feature/* ──► dev ──► main
+hotfix/*       │        │
+    │          │        │
+    └── PR ────┘        │
+               └── PR ──┘
+```
+
+**Branch Roles:**
+
+| Branch | Purpose | Who Can Push |
+|--------|---------|--------------|
+| `main` | Production releases only | Maintainers via PR from dev |
+| `dev` | Integration branch for all features | Maintainers via PR from feature/* |
+| `feature/*` | Development work | Contributors |
+| `hotfix/*` | Urgent production fixes | Maintainers (branch from main) |
+
+**Key Rules:**
+
+1. **Never push directly to `main` or `dev`** - Always use PRs
+2. **All features branch from `dev`** - Not from main
+3. **All feature PRs target `dev`** - Not main
+4. **Only release PRs go `dev → main`** - After testing
+5. **Use `g` dispatcher commands** - Enforces workflow automatically
+
+**Workflow Guard:**
+
+The `g` dispatcher will **block** direct pushes to protected branches:
+
+```bash
+g push  # On main or dev
+✗ Cannot push directly to protected branch: main
+ℹ Use PRs: feature → dev → main
+```
+
+### When to Use Each Branch
+
+**For new features/improvements:**
+```bash
+g feature start my-feature    # Creates from dev
+# ... work on feature ...
+g feature finish              # PR to dev
+```
+
+**For urgent production fixes:**
+```bash
+git checkout main
+git checkout -b hotfix/critical-bug
+# ... fix bug ...
+git push origin hotfix/critical-bug
+gh pr create --base main      # Hotfix goes directly to main
+```
+
+---
+
 ## Creating a Pull Request
 
 ### Step 1: Create Feature Branch
+
+**IMPORTANT:** Always branch from `dev`, not `main`
+
+```bash
+# Use the g dispatcher (recommended)
+g feature start add-dashboard-widget
+
+# Or manually:
+git checkout dev
+git pull origin dev
+git checkout -b feature/add-dashboard-widget
+```
 
 **Branch naming convention:**
 
 ```bash
 # Features
-git checkout -b feature/add-dashboard-widget
+feature/add-dashboard-widget
 
 # Bug fixes
-git checkout -b fix/session-timeout-bug
+fix/session-timeout-bug
 
 # Documentation
-git checkout -b docs/update-dispatcher-reference
+docs/update-dispatcher-reference
 
 # Refactoring
-git checkout -b refactor/simplify-cache-logic
+refactor/simplify-cache-logic
+
+# Hotfixes (branch from main for urgent production fixes)
+hotfix/critical-security-patch
 ```
 
 **Pattern:** `type/short-description-kebab-case`
@@ -222,14 +312,30 @@ BREAKING CHANGE: work command now requires project name"
 
 ### Step 5: Push and Create PR
 
+**CRITICAL:** Create PR to `dev`, NOT `main`
+
 ```bash
 # Push your branch
 git push origin feature/your-feature-name
 
-# GitHub CLI (optional)
-gh pr create --title "Add dashboard auto-refresh" --body "Closes #123"
+# Use g dispatcher (recommended)
+g feature finish
+
+# Or GitHub CLI with explicit base:
+gh pr create --base dev --title "Add dashboard auto-refresh" --body "Closes #123"
 
 # Or create PR via GitHub web interface
+# ⚠️ IMPORTANT: Change base branch from main to dev
+```
+
+**PR workflow:**
+
+```
+feature/your-feature → dev (PR #1)
+           ↓
+      (After merge)
+           ↓
+    dev → main (PR #2, releases only)
 ```
 
 **PR template will guide you through:**
@@ -345,7 +451,14 @@ git push origin --delete feature/your-feature-name
 # Add upstream remote (one-time setup)
 git remote add upstream https://github.com/Data-Wise/flow-cli.git
 
-# Fetch and merge
+# Keep dev updated (most important)
+git checkout dev
+git fetch upstream
+git merge upstream/dev
+git push origin dev
+
+# Keep main updated (for releases)
+git checkout main
 git fetch upstream
 git merge upstream/main
 git push origin main
@@ -364,8 +477,8 @@ Your contribution is now part of flow-cli! Thank you for contributing.
 ```bash
 # 1. Create issue first (discuss approach)
 # 2. Get approval/feedback
-# 3. Create branch
-git checkout -b feature/new-command
+# 3. Create branch from dev
+g feature start new-command
 
 # 4. Implement
 # - Add command to commands/yourcommand.zsh
@@ -377,7 +490,8 @@ git checkout -b feature/new-command
 # - Add to COMMAND-QUICK-REFERENCE.md
 # - Update CLAUDE.md if significant
 
-# 6. Create PR with clear description
+# 6. Create PR to dev
+g feature finish
 ```
 
 ### Scenario 2: Adding a Dispatcher Subcommand
@@ -454,9 +568,12 @@ zsh -n lib/core.zsh
 ### Merge Conflicts
 
 ```bash
-# Update your branch with latest main
+# Update your branch with latest dev
 git fetch origin
-git merge origin/main
+git merge origin/dev
+
+# Or use g dispatcher:
+g feature sync
 
 # Resolve conflicts manually
 # Edit conflicted files
@@ -464,7 +581,7 @@ git merge origin/main
 
 # Mark as resolved
 git add .
-git commit -m "resolve merge conflicts"
+git commit -m "resolve merge conflicts with dev"
 git push origin feature/your-feature-name
 ```
 
@@ -563,18 +680,30 @@ git clone <fork-url>
 source flow.plugin.zsh
 zsh tests/run-tests.zsh
 
-# Development
-git checkout -b feature/name
+# Development (use g dispatcher)
+g feature start name       # Create from dev
 # edit files
 zsh tests/run-tests.zsh
 git commit -m "type: message"
+g feature finish           # Push and create PR to dev
+
+# Or manual workflow:
+git checkout dev
+git pull origin dev
+git checkout -b feature/name
+# edit files
 git push origin feature/name
+gh pr create --base dev
 
 # Keep updated
-git fetch upstream
-git merge upstream/main
+g feature sync             # Sync with dev
 
-# Cleanup
+# Or manually:
+git fetch upstream
+git merge upstream/dev
+
+# Cleanup (after merge)
+git checkout dev
 git branch -d feature/name
 git push origin --delete feature/name
 ```
@@ -596,6 +725,7 @@ git push origin --delete feature/name
 
 ---
 
-**Last Updated:** 2025-12-30
-**Version:** v4.4.x
+**Last Updated:** 2026-01-11
+**Version:** v5.2.0+
+**Branch Workflow:** v4.1.0+ (feature → dev → main)
 **Questions?** Open an issue or discussion on GitHub
