@@ -4,11 +4,52 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.1.0 RELEASED - Critical Improvements + Documentation 🚀
+## Phase: v5.2.0 IN PROGRESS - Secret Management v2.0 Phase 2 🚀
 ## Priority: 1
-## Progress: 100
+## Progress: 90
 
-## Focus: Secret Management v2.0 Phase 1 Complete ✅
+## Focus: Secret Management v2.0 Phase 2 Complete ✅
+
+## ✅ Just Completed (2026-01-10):
+- **Secret Management v2.0 Phase 2** ✅ COMPLETE
+  - **Branch:** `feature/secret-management-v2-phase2`
+  - **Implementation:** ~765 lines of new functionality
+
+  **Token Wizards:**
+  - `dot token github` - GitHub PAT creation wizard
+    - Classic vs Fine-grained token selection
+    - Recommended scopes based on project type
+    - Opens browser to token creation page
+    - Token format validation (ghp_ / github_pat_)
+    - API validation against GitHub
+  - `dot token npm` - NPM token wizard
+    - Automation/Read-only/Granular token types
+    - Token format validation (npm_)
+    - API validation
+  - `dot token pypi` - PyPI token wizard
+    - Account-wide vs Project-scoped tokens
+    - Token format validation (pypi-)
+    - Trusted Publishing recommendation
+
+  **Secrets Dashboard:**
+  - `dot secrets` - Overview of all secrets
+    - Token type, status, expiration display
+    - Color-coded: ✓ Valid, ⚠ Expiring, ❌ Expired
+    - Vault status with time remaining
+    - Actionable tips for expiring tokens
+
+  **Features:**
+  - Guided wizard flow with type selection
+  - Browser opening via AppleScript (reliable)
+  - Hidden input for token entry
+  - Token validation against provider APIs
+  - JSON metadata storage in Bitwarden
+  - Expiration tracking with reminders
+  - Usage examples shown after creation
+
+  **Tests:**
+  - Test Suite 14: 18 new tests for Phase 2 features
+  - Total: 111 unit tests (100% passing)
 
 ## ✅ Just Completed (2026-01-11):
 - **Secret Management v2.0 Phase 1** ✅ COMPLETE
@@ -965,27 +1006,26 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: Secret Management v2.0 Phase 1, 93 unit tests + 14 E2E tests, Session cache with 15-min timeout
-## streak: 11
-## last_active: 2026-01-11
+## wins: Secret Management v2.0 Phase 2, Token wizards (github/npm/pypi), Secrets dashboard
+## streak: 12
+## last_active: 2026-01-10
 
 ## 🎯 Next Action:
-**Focus:** Secret Management v2.0 Phase 2 🎯
+**Focus:** Create PR and Release v5.2.0 🎯
 
-**Phase 1 Complete:** ✅
-- `dot secret add`, `dot secret check`, `dot lock`
-- 15-min session cache with auto-lock
-- 22 new tests (Test Suite 13)
+**Phase 2 Complete:** ✅
+- `dot token github/npm/pypi` - Token creation wizards
+- `dot secrets` - Dashboard of all secrets
+- 18 new tests (Test Suite 14)
+- 111 total unit tests (100% passing)
 
 **Options:**
 
-**1. Implement Secret Management v2.0 Phase 2** (~3-4 hours)
+**1. Create PR and Merge Phase 2** (~15 min)
 ```bash
-# Token wizards from spec:
-- dot token github    # GitHub PAT creation wizard
-- dot token npm       # NPM token wizard
-- dot token pypi      # PyPI token wizard
-- dot secrets         # Dashboard of all secrets
+gh pr create --title "feat(dot): Secret Management v2.0 Phase 2 - Token Wizards" \
+  --body "..."
+gh pr merge
 ```
 
 **2. Implement Phase 3** (~2-3 hours)
@@ -1287,3 +1327,13 @@ dot help               # Verify new dispatcher
 - 2026-01-11: TEST - Added Test Suite 13 with 22 new tests (93 total unit tests)
 - 2026-01-11: DOCS - Updated help text with new secret commands
 - 2026-01-11: PR - Created #198 (feature/secret-management-v2-phase1 → main)
+- 2026-01-10: FEAT - Implemented Secret Management v2.0 Phase 2 (Token Wizards)
+- 2026-01-10: FEAT - Added `dot token github` wizard (classic/fine-grained PAT)
+- 2026-01-10: FEAT - Added `dot token npm` wizard (automation/read-only/granular)
+- 2026-01-10: FEAT - Added `dot token pypi` wizard (account/project-scoped)
+- 2026-01-10: FEAT - Added `dot secrets` dashboard with expiration tracking
+- 2026-01-10: TEST - Added Test Suite 14 with 18 new tests (111 total unit tests)
+- 2026-01-10: DOCS - Updated dot help with TOKEN WIZARDS section
+- 2026-01-10: VERSION - Bumped dot dispatcher to v2.0.0
+- 2026-01-10: GIT - Created feature/secret-management-v2-phase2 branch
+- 2026-01-10: GIT - Pushed Phase 2 implementation
