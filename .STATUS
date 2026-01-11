@@ -1062,43 +1062,50 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: Secret Management v2.0 Complete, GitHub sync, direnv integration
-## streak: 14
+## wins: v5.2.0 Released, All enhancements verified, Docs deployed
+## streak: 15
 ## last_active: 2026-01-11
 
 ## 🎯 Next Action:
-**Focus:** Secret Management v2.0 FULLY COMPLETE! 🎉
+**Focus:** v5.2.0 RELEASED! Secret Management v2.0 Complete 🎉
 
-**All SPEC Features Delivered:** ✅
-- **Phase 1:** `dot secret add`, `dot secret check`, `dot lock`, 15-min cache
-- **Phase 2:** Token wizards (`dot token github/npm/pypi`), `dot secrets` dashboard
-- **Phase 3:** Token rotation (`dot token <name> --refresh`)
-- **Integration:** `dot secrets sync github`, `dot env init`
+**v5.2.0 Released:** ✅
+- **Tag:** v5.2.0 (pushed to remote)
+- **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.2.0
+- **Documentation:** https://Data-Wise.github.io/flow-cli/ (deployed)
 - **Tests:** 134 total unit tests (100% passing)
-- **PRs:** #198, #199, #200, #202 - all merged
+- **PRs:** #198-#205 all merged
 
-**Options:**
+**All Enhancements Verified Complete:**
+- ✅ ZDOTDIR support (lib/dotfile-helpers.zsh:587-589)
+- ✅ Auto-add untracked files (dot edit prompts to add)
+- ✅ Create new files (dot edit with mkdir -p)
+- ✅ Template auto-unlock (BW prompt for .tmpl files)
+- ✅ Standalone `dot add` command
+- ✅ Minimal summary with tips
 
-**1. Release v5.2.0** (~15 min) 🎯
-```bash
-# Create release with all Secret Management features
-./scripts/release.sh 5.2.0
-gh release create v5.2.0
-```
+**Options for Next Session:**
 
-**2. Performance Optimizations** (v5.3.0)
+**1. Performance Optimizations** (v5.3.0)
 ```bash
 # From enhancement plan:
 - Dashboard status line caching (30s TTL)
 - Git operation batching
 ```
 
-**3. Plan Next DOT Enhancements**
+**2. Plan Next DOT Enhancements**
 ```bash
 # Potential future features:
 - dot secrets sync gitlab       # GitLab CI secrets
 - dot secrets sync aws          # AWS Secrets Manager
 - dot publish npm/pypi          # Publishing automation
+- dot undo                      # Rollback last apply
+```
+
+**3. Other Projects**
+```bash
+# Move to different work
+work <other-project>
 ```
 
 **✅ v5.0.0 Release Complete (2026-01-09):**
@@ -1415,3 +1422,10 @@ dot help               # Verify new dispatcher
 - 2026-01-11: PR - Created #202 (feature/secret-management-v2-sync → main)
 - 2026-01-11: PR - Merged #202 (Integration features, 608 lines added)
 - 2026-01-11: COMPLETE - Secret Management v2.0 ALL SPEC FEATURES DONE!
+- 2026-01-11: RELEASE - v5.2.0 released (PR #204, tag pushed)
+- 2026-01-11: DOCS - Updated all DOT documentation for v5.2.0 (PR #205)
+- 2026-01-11: DOCS - Tutorial, workflow guide, management guide updated (+968 lines)
+- 2026-01-11: DOCS - Deployed to GitHub Pages (all v5.2.0 features documented)
+- 2026-01-11: VERIFY - All enhancements 1-4 verified complete (already implemented)
+- 2026-01-11: ARCHIVE - Archived plan file (jolly-leaping-naur-COMPLETED-2026-01-11.md)
+- 2026-01-11: STATUS - Updated .STATUS to mark v5.2.0 fully complete
