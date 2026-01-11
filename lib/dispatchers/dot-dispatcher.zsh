@@ -4,7 +4,7 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # File:         lib/dispatchers/dot-dispatcher.zsh
-# Version:      2.1.0 (Secret Management v2.0 - Phase 3)
+# Version:      2.2.0 (Secret Management v2.0 - Complete)
 # Date:         2026-01-10
 # Pattern:      command + keyword + options
 #
@@ -132,6 +132,12 @@ dot() {
     init)
       shift
       _dot_init "$@"
+      ;;
+
+    # Direnv integration (Phase 3 - v2.2.0)
+    env)
+      shift
+      _dot_env "$@"
       ;;
 
     # ─────────────────────────────────────────────────────────────
@@ -279,6 +285,10 @@ _dot_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token pypi${FLOW_COLORS[reset]}   PyPI token creation wizard      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token <name> --refresh${FLOW_COLORS[reset]} Rotate token       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}INTEGRATION${FLOW_COLORS[reset]}                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secrets sync github${FLOW_COLORS[reset]}  Sync to GitHub repo    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot env init${FLOW_COLORS[reset]}         Generate .envrc for direnv  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}TROUBLESHOOTING${FLOW_COLORS[reset]}                               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot doctor${FLOW_COLORS[reset]}       Run diagnostics                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot undo${FLOW_COLORS[reset]}         Rollback last apply             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
@@ -304,7 +314,7 @@ _dot_help() {
 # ═══════════════════════════════════════════════════════════════════
 
 _dot_version() {
-  echo "dot dispatcher v2.1.0 (Secret Management v2.0 - Phase 3)"
+  echo "dot dispatcher v2.2.0 (Secret Management v2.0 - Complete)"
   echo "Part of flow-cli v5.1.0"
   echo ""
   echo "Tools:"
@@ -2392,10 +2402,33 @@ EOF
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# PHASE 2: SECRETS DASHBOARD
+# PHASE 2: SECRETS DASHBOARD + SYNC
 # ═══════════════════════════════════════════════════════════════════
 
 _dot_secrets() {
+  local subcommand="$1"
+
+  case "$subcommand" in
+    sync)
+      shift
+      _dot_secrets_sync "$@"
+      return $?
+      ;;
+    help|--help|-h)
+      _dot_secrets_help
+      return 0
+      ;;
+    ""|dashboard)
+      # Default: show dashboard
+      ;;
+    *)
+      _flow_log_error "Unknown subcommand: $subcommand"
+      _dot_secrets_help
+      return 1
+      ;;
+  esac
+
+  # Dashboard implementation
   if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
     return 1
   fi
@@ -2538,5 +2571,448 @@ _dot_secrets() {
   fi
 
   echo "${FLOW_COLORS[header]}╰────────────────────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+_dot_secrets_help() {
+  echo ""
+  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔐 DOT SECRETS - Secret Management${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Commands:${FLOW_COLORS[reset]}                                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secrets${FLOW_COLORS[reset]}              Dashboard          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secrets sync github${FLOW_COLORS[reset]}  Sync to repo       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}See also:${FLOW_COLORS[reset]}                                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]}   Create new token       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret add${FLOW_COLORS[reset]}     Add custom secret      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot env init${FLOW_COLORS[reset]}       Generate .envrc        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# ───────────────────────────────────────────────────────────────────
+# SECRETS SYNC - Sync to GitHub repo secrets (Phase 3 - v2.2.0)
+# ───────────────────────────────────────────────────────────────────
+
+_dot_secrets_sync() {
+  local target="$1"
+
+  if [[ -z "$target" ]]; then
+    _flow_log_error "Sync target required"
+    echo ""
+    echo "Usage: ${FLOW_COLORS[cmd]}dot secrets sync github${FLOW_COLORS[reset]}"
+    echo ""
+    echo "Supported targets:"
+    echo "  ${FLOW_COLORS[cmd]}github${FLOW_COLORS[reset]}  - Sync to GitHub repository secrets"
+    return 1
+  fi
+
+  case "$target" in
+    github|gh)
+      _dot_secrets_sync_github "$@"
+      ;;
+    *)
+      _flow_log_error "Unknown sync target: $target"
+      _flow_log_info "Supported: github"
+      return 1
+      ;;
+  esac
+}
+
+_dot_secrets_sync_github() {
+  # Require gh CLI
+  if ! command -v gh &>/dev/null; then
+    _flow_log_error "GitHub CLI (gh) is required for sync"
+    _flow_log_info "Install: ${FLOW_COLORS[cmd]}brew install gh${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  # Check gh auth
+  if ! gh auth status &>/dev/null 2>&1; then
+    _flow_log_error "Not authenticated with GitHub CLI"
+    _flow_log_info "Run: ${FLOW_COLORS[cmd]}gh auth login${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  # Require bw
+  if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
+    return 1
+  fi
+
+  # Check session
+  if ! _dot_bw_session_valid; then
+    _flow_log_info "Bitwarden vault is locked. Unlocking..."
+    _dot_unlock || return 1
+  fi
+
+  # Check if in a git repo
+  if ! git rev-parse --is-inside-work-tree &>/dev/null 2>&1; then
+    _flow_log_error "Not in a git repository"
+    return 1
+  fi
+
+  # Get repo info
+  local repo_url=$(git remote get-url origin 2>/dev/null)
+  local repo_name=""
+
+  if [[ "$repo_url" =~ github\.com[:/]([^/]+/[^/.]+) ]]; then
+    repo_name="${match[1]%.git}"
+  else
+    _flow_log_error "Could not determine GitHub repository"
+    _flow_log_info "Make sure origin points to a GitHub repo"
+    return 1
+  fi
+
+  echo ""
+  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔄 Sync Secrets to GitHub${FLOW_COLORS[reset]}                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Repository: ${FLOW_COLORS[accent]}${repo_name}${FLOW_COLORS[reset]}                      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Get secrets from Bitwarden
+  _flow_log_info "Loading secrets from vault..."
+
+  local items_json
+  items_json=$(bw list items --session "$BW_SESSION" 2>/dev/null)
+
+  if [[ -z "$items_json" || "$items_json" == "[]" ]]; then
+    _flow_log_muted "No secrets found in vault"
+    return 0
+  fi
+
+  # Filter DOT-managed secrets
+  local secrets=()
+  local names=()
+
+  while IFS=$'\t' read -r name notes; do
+    [[ -z "$name" ]] && continue
+
+    # Only include secrets with DOT metadata
+    if [[ "$notes" == *'"dot_version"'* ]]; then
+      local secret_type=$(echo "$notes" | jq -r '.type // "custom"' 2>/dev/null)
+      names+=("$name ($secret_type)")
+      secrets+=("$name")
+    fi
+  done < <(echo "$items_json" | jq -r '.[] | select(.type == 1) | [.name, (.notes // "")] | @tsv' 2>/dev/null)
+
+  if [[ ${#secrets[@]} -eq 0 ]]; then
+    _flow_log_muted "No DOT-managed secrets found"
+    _flow_log_info "Use 'dot token' or 'dot secret add' to create secrets"
+    return 0
+  fi
+
+  echo "Available secrets:"
+  echo ""
+  local i=1
+  for name in "${names[@]}"; do
+    echo "  ${FLOW_COLORS[cmd]}$i${FLOW_COLORS[reset]} - $name"
+    ((i++))
+  done
+  echo "  ${FLOW_COLORS[cmd]}a${FLOW_COLORS[reset]} - Sync all"
+  echo "  ${FLOW_COLORS[cmd]}q${FLOW_COLORS[reset]} - Cancel"
+  echo ""
+
+  read "?Select secrets to sync (e.g., 1,2 or a): " selection
+
+  if [[ "$selection" == "q" ]]; then
+    _flow_log_muted "Cancelled"
+    return 0
+  fi
+
+  local selected_secrets=()
+
+  if [[ "$selection" == "a" ]]; then
+    selected_secrets=("${secrets[@]}")
+  else
+    # Parse comma-separated selection
+    IFS=',' read -ra indices <<< "$selection"
+    for idx in "${indices[@]}"; do
+      idx="${idx// /}"  # Trim whitespace
+      if [[ "$idx" =~ ^[0-9]+$ ]] && [[ $idx -ge 1 ]] && [[ $idx -le ${#secrets[@]} ]]; then
+        selected_secrets+=("${secrets[$idx]}")
+      fi
+    done
+  fi
+
+  if [[ ${#selected_secrets[@]} -eq 0 ]]; then
+    _flow_log_error "No valid secrets selected"
+    return 1
+  fi
+
+  echo ""
+  echo "Will sync ${#selected_secrets[@]} secret(s) to ${repo_name}:"
+  for name in "${selected_secrets[@]}"; do
+    # Convert to SCREAMING_SNAKE_CASE for GitHub
+    local gh_name=$(echo "${name}" | tr '[:lower:]-' '[:upper:]_')
+    echo "  ${FLOW_COLORS[muted]}${name}${FLOW_COLORS[reset]} → ${FLOW_COLORS[accent]}${gh_name}${FLOW_COLORS[reset]}"
+  done
+  echo ""
+
+  read -q "?Proceed? [y/n] " confirm
+  echo ""
+
+  if [[ "$confirm" != "y" ]]; then
+    _flow_log_muted "Cancelled"
+    return 0
+  fi
+
+  echo ""
+  local success_count=0
+  local fail_count=0
+
+  for name in "${selected_secrets[@]}"; do
+    # Get secret value
+    local secret_value
+    secret_value=$(bw get password "$name" --session "$BW_SESSION" 2>/dev/null)
+
+    if [[ -z "$secret_value" ]]; then
+      _flow_log_error "Failed to retrieve: $name"
+      ((fail_count++))
+      continue
+    fi
+
+    # Convert to SCREAMING_SNAKE_CASE
+    local gh_name=$(echo "${name}" | tr '[:lower:]-' '[:upper:]_')
+
+    # Set GitHub secret
+    if echo "$secret_value" | gh secret set "$gh_name" --repo "$repo_name" 2>/dev/null; then
+      _flow_log_success "Synced: $name → $gh_name"
+      ((success_count++))
+    else
+      _flow_log_error "Failed to sync: $name"
+      ((fail_count++))
+    fi
+  done
+
+  echo ""
+  if [[ $fail_count -eq 0 ]]; then
+    _flow_log_success "All ${success_count} secret(s) synced successfully!"
+  else
+    _flow_log_warning "${success_count} synced, ${fail_count} failed"
+  fi
+
+  echo ""
+  echo "💡 Use in GitHub Actions:"
+  echo "   ${FLOW_COLORS[muted]}\${{ secrets.YOUR_SECRET_NAME }}${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# DOT ENV - Direnv Integration (Phase 3 - v2.2.0)
+# ═══════════════════════════════════════════════════════════════════
+
+_dot_env() {
+  local subcommand="$1"
+
+  case "$subcommand" in
+    init)
+      shift
+      _dot_env_init "$@"
+      ;;
+    help|--help|-h)
+      _dot_env_help
+      ;;
+    "")
+      _dot_env_help
+      ;;
+    *)
+      _flow_log_error "Unknown subcommand: $subcommand"
+      _dot_env_help
+      return 1
+      ;;
+  esac
+}
+
+_dot_env_help() {
+  echo ""
+  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔧 DOT ENV - Direnv Integration${FLOW_COLORS[reset]}                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Commands:${FLOW_COLORS[reset]}                                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot env init${FLOW_COLORS[reset]}   Generate .envrc             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}What it does:${FLOW_COLORS[reset]}                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    Creates .envrc that loads secrets from        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    Bitwarden when you enter the directory.       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Requirements:${FLOW_COLORS[reset]}                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    • direnv installed (brew install direnv)      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    • direnv hook in shell config                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+_dot_env_init() {
+  # Check for direnv
+  if ! command -v direnv &>/dev/null; then
+    _flow_log_error "direnv is not installed"
+    _flow_log_info "Install: ${FLOW_COLORS[cmd]}brew install direnv${FLOW_COLORS[reset]}"
+    echo ""
+    echo "Then add to your shell config:"
+    echo "  ${FLOW_COLORS[muted]}eval \"\$(direnv hook zsh)\"${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  # Require bw
+  if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
+    return 1
+  fi
+
+  # Check session
+  if ! _dot_bw_session_valid; then
+    _flow_log_info "Bitwarden vault is locked. Unlocking..."
+    _dot_unlock || return 1
+  fi
+
+  # Check if .envrc already exists
+  if [[ -f ".envrc" ]]; then
+    _flow_log_warning ".envrc already exists"
+    read -q "?Overwrite? [y/n] " confirm
+    echo ""
+    if [[ "$confirm" != "y" ]]; then
+      _flow_log_muted "Cancelled"
+      return 0
+    fi
+  fi
+
+  echo ""
+  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔧 Generate .envrc${FLOW_COLORS[reset]}                              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Select secrets to include in .envrc             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Get secrets from Bitwarden
+  _flow_log_info "Loading secrets from vault..."
+
+  local items_json
+  items_json=$(bw list items --session "$BW_SESSION" 2>/dev/null)
+
+  if [[ -z "$items_json" || "$items_json" == "[]" ]]; then
+    _flow_log_muted "No secrets found in vault"
+    return 0
+  fi
+
+  # Filter DOT-managed secrets
+  local secrets=()
+  local names=()
+
+  while IFS=$'\t' read -r name notes; do
+    [[ -z "$name" ]] && continue
+
+    # Only include secrets with DOT metadata
+    if [[ "$notes" == *'"dot_version"'* ]]; then
+      local secret_type=$(echo "$notes" | jq -r '.type // "custom"' 2>/dev/null)
+      names+=("$name ($secret_type)")
+      secrets+=("$name")
+    fi
+  done < <(echo "$items_json" | jq -r '.[] | select(.type == 1) | [.name, (.notes // "")] | @tsv' 2>/dev/null)
+
+  if [[ ${#secrets[@]} -eq 0 ]]; then
+    _flow_log_muted "No DOT-managed secrets found"
+    _flow_log_info "Use 'dot token' or 'dot secret add' to create secrets"
+    return 0
+  fi
+
+  echo "Available secrets:"
+  echo ""
+  local i=1
+  for name in "${names[@]}"; do
+    echo "  ${FLOW_COLORS[cmd]}$i${FLOW_COLORS[reset]} - $name"
+    ((i++))
+  done
+  echo "  ${FLOW_COLORS[cmd]}a${FLOW_COLORS[reset]} - Include all"
+  echo "  ${FLOW_COLORS[cmd]}q${FLOW_COLORS[reset]} - Cancel"
+  echo ""
+
+  read "?Select secrets (e.g., 1,2 or a): " selection
+
+  if [[ "$selection" == "q" ]]; then
+    _flow_log_muted "Cancelled"
+    return 0
+  fi
+
+  local selected_secrets=()
+
+  if [[ "$selection" == "a" ]]; then
+    selected_secrets=("${secrets[@]}")
+  else
+    # Parse comma-separated selection
+    IFS=',' read -ra indices <<< "$selection"
+    for idx in "${indices[@]}"; do
+      idx="${idx// /}"  # Trim whitespace
+      if [[ "$idx" =~ ^[0-9]+$ ]] && [[ $idx -ge 1 ]] && [[ $idx -le ${#secrets[@]} ]]; then
+        selected_secrets+=("${secrets[$idx]}")
+      fi
+    done
+  fi
+
+  if [[ ${#selected_secrets[@]} -eq 0 ]]; then
+    _flow_log_error "No valid secrets selected"
+    return 1
+  fi
+
+  # Generate .envrc content
+  local envrc_content="# Generated by dot env init
+# Secrets are fetched from Bitwarden vault
+# Requires: direnv, bitwarden-cli, flow-cli
+
+# Ensure Bitwarden is unlocked
+if ! dot unlock --check 2>/dev/null; then
+  echo \"⚠ Bitwarden vault is locked. Run: dot unlock\"
+  return 1
+fi
+
+# Load secrets
+"
+
+  for name in "${selected_secrets[@]}"; do
+    # Convert to SCREAMING_SNAKE_CASE
+    local env_name=$(echo "${name}" | tr '[:lower:]-' '[:upper:]_')
+    envrc_content+="export ${env_name}=\$(dot secret ${name})
+"
+  done
+
+  # Write .envrc
+  echo "$envrc_content" > .envrc
+
+  # Add to .gitignore if needed
+  if [[ -f ".gitignore" ]]; then
+    if ! grep -q "^\.envrc$" .gitignore 2>/dev/null; then
+      echo "" >> .gitignore
+      echo "# Local environment (secrets)" >> .gitignore
+      echo ".envrc" >> .gitignore
+      _flow_log_muted "Added .envrc to .gitignore"
+    fi
+  else
+    echo "# Local environment (secrets)" > .gitignore
+    echo ".envrc" >> .gitignore
+    _flow_log_muted "Created .gitignore with .envrc"
+  fi
+
+  echo ""
+  _flow_log_success "Created .envrc with ${#selected_secrets[@]} secret(s)"
+  echo ""
+  echo "Environment variables:"
+  for name in "${selected_secrets[@]}"; do
+    local env_name=$(echo "${name}" | tr '[:lower:]-' '[:upper:]_')
+    echo "  ${FLOW_COLORS[accent]}\$${env_name}${FLOW_COLORS[reset]}"
+  done
+  echo ""
+  echo "Next steps:"
+  echo "  1. ${FLOW_COLORS[cmd]}direnv allow${FLOW_COLORS[reset]}  - Trust this .envrc"
+  echo "  2. ${FLOW_COLORS[muted]}cd . ${FLOW_COLORS[reset]}        - Reload environment"
   echo ""
 }
