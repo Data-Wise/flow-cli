@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v5.0.0)
+- **Status:** Production ready (v5.2.0)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -105,7 +105,7 @@ flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v5.0.0)
+### Dopamine Features (v5.2.0)
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
@@ -132,7 +132,7 @@ wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `wt help`)
 
-### CC Dispatcher Quick Reference (v5.0.0)
+### CC Dispatcher Quick Reference (v5.2.0)
 
 **✨ Unified Grammar:** Both mode-first AND target-first orders work!
 
@@ -179,7 +179,7 @@ tm detect             # Detect project context
 
 **Aliases:** `tmt` = title, `tmp` = profile, `tmg` = ghost, `tms` = switch
 
-### Pick - Project Picker (v5.0.0)
+### Pick - Project Picker (v5.2.0)
 
 ```bash
 pick                # FZF picker (all projects)
@@ -487,7 +487,7 @@ export FLOW_DEBUG=1
 
 ## Current Status (2026-01-09)
 
-### ✅ v5.0.0 Just Completed - Dot Dispatcher
+### ✅ v5.2.0 Just Completed - Dot Dispatcher
 
 **Feature:** Dotfile Management with Bitwarden Secrets
 **Status:** Implementation complete, ready for PR
@@ -518,7 +518,7 @@ dot secret github-token  # Retrieve secret (no echo)
 - Fuzzy file path matching
 - Session-scoped Bitwarden secrets
 
-### 🚀 v5.0.0 Development - CC Unified Grammar
+### 🚀 v5.2.0 Development - CC Unified Grammar
 
 **Status:** Phase 2 in progress (Documentation)
 **Progress:** 75%
@@ -544,41 +544,41 @@ dot secret github-token  # Retrieve secret (no echo)
 - ✨ Both `cc opus pick` and `cc pick opus` work identically
 - ✨ Explicit HERE: `cc .` and `cc here`
 - ✨ Natural reading: `cc flow opus` (jump to flow → launch Opus)
-- 📝 Zero breaking changes - all v5.0.0 patterns still work
+- 📝 Zero breaking changes - all v5.2.0 patterns still work
 
 ---
 
-### ✅ v5.0.0 Released - Bug Fix: Pick Command Crash
+### ✅ v5.2.0 Released - Bug Fix: Pick Command Crash
 
 - [x] Fixed "bad math expression" error in `_proj_show_git_status()` (#155)
 - [x] Added input sanitization for `wc` output (handles terminal control codes)
 - [x] Added regression test to prevent future occurrences
 - [x] All 23 tests passing
 
-### ✅ v5.0.0 Released - Frecency & Session Indicators
+### ✅ v5.2.0 Released - Frecency & Session Indicators
 
 - [x] Frecency decay scoring (time-based priority decay)
 - [x] Session indicators (🟢/🟡) on regular projects, not just worktrees
 - [x] Projects sorted by recent Claude activity
 
-### ✅ v5.0.0 Released - Frecency Sorting
+### ✅ v5.2.0 Released - Frecency Sorting
 
 - [x] `pick --recent` / `pick -r` - Show only projects with Claude sessions
 - [x] Frecency sorting (most recently used first)
 - [x] CI apt caching (~17s vs 5+ min)
 
-### ✅ v5.0.0 Released - CI Optimization
+### ✅ v5.2.0 Released - CI Optimization
 
 - [x] CI reduced to smoke tests (~30s)
 - [x] `./tests/run-all.sh` for local full test suite
 - [x] Pick worktree docs and session-age sorting
 
-### ✅ v5.0.0 Released
+### ✅ v5.2.0 Released
 
 - [x] `pick` shows worktrees in default view (🌳 icons)
 - [x] CI streamlined: 4 jobs → 1 job
 
-### ✅ v5.0.0 Released - Worktree-Aware Pick
+### ✅ v5.2.0 Released - Worktree-Aware Pick
 
 - [x] `pick wt` - List all worktrees from `~/.git-worktrees/`
 - [x] Session indicators: 🟢 recent / 🟡 old
@@ -669,10 +669,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 3.7.0"
-git tag -a v5.0.0 -m "v5.0.0"
+git tag -a v5.2.0 -m "v5.2.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v5.0.0
+git push origin main && git push origin v5.2.0
 ```
 
 **Files updated by release script:**
