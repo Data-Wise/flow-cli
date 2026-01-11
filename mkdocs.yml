@@ -72,12 +72,14 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting Started:
+      - 🎯 Choose Your Path: getting-started/choose-your-path.md
+      - ⚡ Quick Start (5-min): getting-started/quick-start.md
+      - 📦 Installation: getting-started/installation.md
+      - 🆘 I'm Stuck: getting-started/im-stuck.md
       - Welcome: getting-started/00-welcome.md
-      - Quick Start: getting-started/quick-start.md
-      - Installation: getting-started/installation.md
-      - Troubleshooting: getting-started/troubleshooting.md
-      - FAQ: getting-started/faq.md
-      - Changelog: CHANGELOG.md
+      - ❓ FAQ: getting-started/faq.md
+      - 🔄 Troubleshooting: getting-started/troubleshooting.md
+      - 📜 Changelog: CHANGELOG.md
   - Tutorials:
       - 1. Your First Session: tutorials/01-first-session.md
       - 2. Multiple Projects: tutorials/02-multiple-projects.md
@@ -112,6 +114,7 @@ nav:
       - Documentation Templates: conventions/adhd/README.md
       - GIF Creation Guide: conventions/adhd/GIF-GUIDELINES.md
   - Reference:
+      - 📋 Quick Reference Card: quick-reference-card.md
       - Quick References:
           - Command Cheatsheet: reference/COMMAND-QUICK-REFERENCE.md
           - Alias Card: reference/ALIAS-REFERENCE-CARD.md
