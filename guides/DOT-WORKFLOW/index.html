@@ -12,13 +12,13 @@
         <meta name="author" content="DT">
       
       
-        <link rel="canonical" href="https://data-wise.github.io/flow-cli/guides/DOTFILE-MANAGEMENT/">
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/guides/DOT-WORKFLOW/">
       
       
-        <link rel="prev" href="../00-START-HERE/">
+        <link rel="prev" href="../WORKTREE-WORKFLOW/">
       
       
-        <link rel="next" href="../DOPAMINE-FEATURES-GUIDE/">
+        <link rel="next" href="../YOLO-MODE-WORKFLOW/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Dotfile Management - Flow CLI Documentation</title>
+        <title>Dotfile Workflow - Flow CLI Documentation</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#dotfile-management-guide" class="md-skip">
+        <a href="#dotfile-management-workflow" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Dotfile Management
+              Dotfile Workflow
             
           </span>
         </div>
@@ -288,10 +288,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../WORKFLOWS-QUICK-WINS/" class="md-tabs__link">
           
   
@@ -308,12 +310,10 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../00-START-HERE/" class="md-tabs__link">
           
   
@@ -1130,28 +1130,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -1169,7 +1172,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1268,10 +1271,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../DOT-WORKFLOW/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dotfile Workflow
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1287,6 +1317,548 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-guide-covers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Guide Covers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-use-the-dot-dispatcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Use the dot Dispatcher?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why Use the dot Dispatcher?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-problem-with-manual-dotfile-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem with Manual Dotfile Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-dot-dispatcher-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The dot Dispatcher Solution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-1-quick-edit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 1: Quick Edit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Workflow 1: Quick Edit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-Step
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-dry-run-v510" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Dry-Run (v5.1.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-hash-based-detection-matters-v510" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Hash-Based Detection Matters (v5.1.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-2-sync-across-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 2: Sync Across Machines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Workflow 2: Sync Across Machines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initial-setup-first-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Setup (First Time)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-sync-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Sync Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-3-secret-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 3: Secret Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Workflow 3: Secret Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-bitwarden-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup Bitwarden Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-secrets-in-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Secrets in Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retrieve-secrets-in-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retrieve Secrets in Scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-available-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        List Available Secrets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smart-error-handling-v510" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smart Error Handling (v5.1.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-4-safe-experimentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 4: Safe Experimentation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Workflow 4: Safe Experimentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preview-before-applying" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview Before Applying
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollback-last-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rollback Last Change
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-5-dashboard-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 5: Dashboard Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Workflow 5: Dashboard Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-status-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Status Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pattern-1-add-new-dotfile-to-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 1: Add New Dotfile to Tracking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pattern-2-quick-status-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 2: Quick Status Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pattern-3-batch-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 3: Batch Preview
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changes-not-detected-after-quick-edit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Changes not detected after quick edit"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret-substitution-not-working" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Secret substitution not working"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applied-broken-config-terminal-wont-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Applied broken config, terminal won't work"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adhd-friendly-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADHD-Friendly Tips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ADHD-Friendly Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-use-dry-run-liberally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Use Dry-Run Liberally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-quick-session-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Quick Session Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dashboard-for-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Dashboard for Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-safety-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Safety First
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hash-detection-overhead-v510" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hash Detection Overhead (v5.1.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-status-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboard Status Caching
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1415,31 +1987,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   
@@ -1457,7 +2026,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1500,37 +2069,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Dotfile Management
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../DOTFILE-MANAGEMENT/" class="md-nav__link">
         
   
   
@@ -1546,580 +2088,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Start
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Quick Start">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-install-tools" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Install Tools
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-initialize-chezmoi" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Initialize Chezmoi
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-authenticate-bitwarden" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Authenticate Bitwarden
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-start-using" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Start Using
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Architecture
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#common-workflows" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Workflows
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common Workflows">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#workflow-1-edit-dotfile-most-common" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Workflow 1: Edit Dotfile (Most Common)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#workflow-2-sync-from-another-machine" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Workflow 2: Sync from Another Machine
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#workflow-3-push-local-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Workflow 3: Push Local Changes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#workflow-4-use-secret-in-template" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Workflow 4: Use Secret in Template
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#chezmoi-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chezmoi Setup
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Chezmoi Setup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Directory Structure
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#naming-convention" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Naming Convention
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adding-new-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Adding New Files
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#removing-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Removing Files
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bitwarden-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Bitwarden Setup
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Bitwarden Setup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#initial-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Initial Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#creating-items" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating Items
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#organizing-items" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Organizing Items
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#item-types" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Item Types
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#template-examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Template Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Template Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-1-git-config-with-token" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 1: Git Config with Token
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-2-zsh-with-api-keys" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 2: ZSH with API Keys
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-3-environment-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 3: Environment File
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-4-ssh-config" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 4: SSH Config
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dashboard-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dashboard Integration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#doctor-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Doctor Integration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#chezmoi-not-initialized" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        "Chezmoi not initialized"
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bitwarden-vault-is-locked" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        "Bitwarden vault is locked"
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#item-not-found-or-access-denied" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        "Item not found or access denied"
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#changes-not-applied" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Changes Not Applied
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#session-token-in-history" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Session Token in History
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#security-best-practices" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Security Best Practices
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Security Best Practices">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#do" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ✅ DO
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dont" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ❌ DON'T
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#security-checklist" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Security Checklist
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Advanced Usage
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Advanced Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#multiple-machines" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multiple Machines
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#conditional-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Conditional Templates
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Custom Fields
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#secret-rotation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Secret Rotation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#command-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Command Reference
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See Also
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -4627,10 +4595,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#what-this-guide-covers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        What This Guide Covers
       
     </span>
   </a>
@@ -4638,22 +4606,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#why-use-the-dot-dispatcher" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick Start
+        Why Use the dot Dispatcher?
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Quick Start">
+    <nav class="md-nav" aria-label="Why Use the dot Dispatcher?">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-install-tools" class="md-nav__link">
+  <a href="#the-problem-with-manual-dotfile-management" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Install Tools
+        The Problem with Manual Dotfile Management
       
     </span>
   </a>
@@ -4661,32 +4629,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-initialize-chezmoi" class="md-nav__link">
+  <a href="#the-dot-dispatcher-solution" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Initialize Chezmoi
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-authenticate-bitwarden" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Authenticate Bitwarden
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-start-using" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Start Using
+        The dot Dispatcher Solution
       
     </span>
   </a>
@@ -4699,33 +4645,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
+  <a href="#workflow-1-quick-edit" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture
+        Workflow 1: Quick Edit
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#common-workflows" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Workflows
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common Workflows">
+    <nav class="md-nav" aria-label="Workflow 1: Quick Edit">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#workflow-1-edit-dotfile-most-common" class="md-nav__link">
+  <a href="#step-by-step" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Workflow 1: Edit Dotfile (Most Common)
+        Step-by-Step
       
     </span>
   </a>
@@ -4733,10 +4668,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#workflow-2-sync-from-another-machine" class="md-nav__link">
+  <a href="#with-dry-run-v510" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Workflow 2: Sync from Another Machine
+        With Dry-Run (v5.1.0)
       
     </span>
   </a>
@@ -4744,21 +4679,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#workflow-3-push-local-changes" class="md-nav__link">
+  <a href="#why-hash-based-detection-matters-v510" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Workflow 3: Push Local Changes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#workflow-4-use-secret-in-template" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Workflow 4: Use Secret in Template
+        Why Hash-Based Detection Matters (v5.1.0)
       
     </span>
   </a>
@@ -4771,22 +4695,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#chezmoi-setup" class="md-nav__link">
+  <a href="#workflow-2-sync-across-machines" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Chezmoi Setup
+        Workflow 2: Sync Across Machines
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Chezmoi Setup">
+    <nav class="md-nav" aria-label="Workflow 2: Sync Across Machines">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
+  <a href="#initial-setup-first-time" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Directory Structure
+        Initial Setup (First Time)
       
     </span>
   </a>
@@ -4794,32 +4718,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#naming-convention" class="md-nav__link">
+  <a href="#daily-sync-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Naming Convention
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adding-new-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Adding New Files
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#removing-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Removing Files
+        Daily Sync Workflow
       
     </span>
   </a>
@@ -4832,22 +4734,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#bitwarden-setup" class="md-nav__link">
+  <a href="#workflow-3-secret-management" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bitwarden Setup
+        Workflow 3: Secret Management
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Bitwarden Setup">
+    <nav class="md-nav" aria-label="Workflow 3: Secret Management">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#initial-configuration" class="md-nav__link">
+  <a href="#setup-bitwarden-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Initial Configuration
+        Setup Bitwarden Integration
       
     </span>
   </a>
@@ -4855,10 +4757,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#creating-items" class="md-nav__link">
+  <a href="#using-secrets-in-templates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating Items
+        Using Secrets in Templates
       
     </span>
   </a>
@@ -4866,10 +4768,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#organizing-items" class="md-nav__link">
+  <a href="#retrieve-secrets-in-scripts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Organizing Items
+        Retrieve Secrets in Scripts
       
     </span>
   </a>
@@ -4877,10 +4779,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#item-types" class="md-nav__link">
+  <a href="#list-available-secrets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Item Types
+        List Available Secrets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smart-error-handling-v510" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smart Error Handling (v5.1.0)
       
     </span>
   </a>
@@ -4893,22 +4806,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#template-examples" class="md-nav__link">
+  <a href="#workflow-4-safe-experimentation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Template Examples
+        Workflow 4: Safe Experimentation
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Template Examples">
+    <nav class="md-nav" aria-label="Workflow 4: Safe Experimentation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-1-git-config-with-token" class="md-nav__link">
+  <a href="#preview-before-applying" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 1: Git Config with Token
+        Preview Before Applying
       
     </span>
   </a>
@@ -4916,32 +4829,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-2-zsh-with-api-keys" class="md-nav__link">
+  <a href="#rollback-last-change" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 2: ZSH with API Keys
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-3-environment-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 3: Environment File
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-4-ssh-config" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 4: SSH Config
+        Rollback Last Change
       
     </span>
   </a>
@@ -4954,44 +4845,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dashboard-integration" class="md-nav__link">
+  <a href="#workflow-5-dashboard-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dashboard Integration
+        Workflow 5: Dashboard Integration
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#doctor-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Doctor Integration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
+    <nav class="md-nav" aria-label="Workflow 5: Dashboard Integration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#chezmoi-not-initialized" class="md-nav__link">
+  <a href="#quick-status-check" class="md-nav__link">
     <span class="md-ellipsis">
       
-        "Chezmoi not initialized"
+        Quick Status Check
       
     </span>
   </a>
@@ -4999,43 +4868,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bitwarden-vault-is-locked" class="md-nav__link">
+  <a href="#health-check" class="md-nav__link">
     <span class="md-ellipsis">
       
-        "Bitwarden vault is locked"
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#item-not-found-or-access-denied" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        "Item not found or access denied"
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#changes-not-applied" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Changes Not Applied
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#session-token-in-history" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Session Token in History
+        Health Check
       
     </span>
   </a>
@@ -5048,22 +4884,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#security-best-practices" class="md-nav__link">
+  <a href="#common-patterns" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Security Best Practices
+        Common Patterns
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Security Best Practices">
+    <nav class="md-nav" aria-label="Common Patterns">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#do" class="md-nav__link">
+  <a href="#pattern-1-add-new-dotfile-to-tracking" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ✅ DO
+        Pattern 1: Add New Dotfile to Tracking
       
     </span>
   </a>
@@ -5071,10 +4907,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dont" class="md-nav__link">
+  <a href="#pattern-2-quick-status-check" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ❌ DON'T
+        Pattern 2: Quick Status Check
       
     </span>
   </a>
@@ -5082,10 +4918,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security-checklist" class="md-nav__link">
+  <a href="#pattern-3-batch-preview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Security Checklist
+        Pattern 3: Batch Preview
       
     </span>
   </a>
@@ -5098,22 +4934,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#advanced-usage" class="md-nav__link">
+  <a href="#troubleshooting-workflows" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Advanced Usage
+        Troubleshooting Workflows
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Advanced Usage">
+    <nav class="md-nav" aria-label="Troubleshooting Workflows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#multiple-machines" class="md-nav__link">
+  <a href="#changes-not-detected-after-quick-edit" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Multiple Machines
+        "Changes not detected after quick edit"
       
     </span>
   </a>
@@ -5121,10 +4957,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#conditional-templates" class="md-nav__link">
+  <a href="#secret-substitution-not-working" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Conditional Templates
+        "Secret substitution not working"
       
     </span>
   </a>
@@ -5132,21 +4968,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#custom-fields" class="md-nav__link">
+  <a href="#applied-broken-config-terminal-wont-work" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Custom Fields
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#secret-rotation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Secret Rotation
+        "Applied broken config, terminal won't work"
       
     </span>
   </a>
@@ -5159,10 +4984,121 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#command-reference" class="md-nav__link">
+  <a href="#adhd-friendly-tips" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Command Reference
+        ADHD-Friendly Tips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ADHD-Friendly Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-use-dry-run-liberally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Use Dry-Run Liberally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-quick-session-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Quick Session Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dashboard-for-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Dashboard for Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-safety-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Safety First
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hash-detection-overhead-v510" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hash Detection Overhead (v5.1.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-status-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboard Status Caching
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
       
     </span>
   </a>
@@ -5197,7 +5133,7 @@
 
 
   
-    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/guides/DOTFILE-MANAGEMENT.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/guides/DOT-WORKFLOW.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -5205,686 +5141,489 @@
   
 
 
-<h1 id="dotfile-management-guide">Dotfile Management Guide<a class="headerlink" href="#dotfile-management-guide" title="Permanent link">&para;</a></h1>
-<p><strong>Manage your dotfiles across machines with chezmoi and Bitwarden secrets</strong></p>
-<p><strong>Last Updated:</strong> 2026-01-09
-<strong>Version:</strong> v1.2.0
-<strong>Target Audience:</strong> Users wanting to synchronize dotfiles and manage secrets securely</p>
+<h1 id="dotfile-management-workflow">Dotfile Management Workflow<a class="headerlink" href="#dotfile-management-workflow" title="Permanent link">&para;</a></h1>
+<p><strong>Level:</strong> Beginner to Intermediate
+<strong>Time:</strong> 20 minutes
+<strong>Goal:</strong> Master dotfile management with chezmoi and Bitwarden secrets</p>
 <hr />
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>The <code>dot</code> dispatcher provides a unified interface for managing your dotfiles with chezmoi and secrets with Bitwarden CLI. It's designed to be ADHD-friendly with smart defaults, clear status displays, and progressive disclosure of complexity.</p>
-<p><strong>Key Benefits:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Feature</th>
-<th>Benefit</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Sync dotfiles</strong></td>
-<td>Keep configs consistent across machines</td>
-</tr>
-<tr>
-<td><strong>Secure secrets</strong></td>
-<td>Store API keys/tokens in Bitwarden</td>
-</tr>
-<tr>
-<td><strong>Safe edits</strong></td>
-<td>Preview changes before applying</td>
-</tr>
-<tr>
-<td><strong>Fast operations</strong></td>
-<td>&lt; 500ms for most commands</td>
-</tr>
-<tr>
-<td><strong>Optional tools</strong></td>
-<td>Works even if tools not installed</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
-<h3 id="1-install-tools">1. Install Tools<a class="headerlink" href="#1-install-tools" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Required for dotfile sync</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>brew<span class="w"> </span>install<span class="w"> </span>chezmoi
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Required for secret management</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>brew<span class="w"> </span>install<span class="w"> </span>bitwarden-cli
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Optional (for pretty secret listings)</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>brew<span class="w"> </span>install<span class="w"> </span>jq
-</code></pre></div>
-<h3 id="2-initialize-chezmoi">2. Initialize Chezmoi<a class="headerlink" href="#2-initialize-chezmoi" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Option A: Start fresh</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>chezmoi<span class="w"> </span>init
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Option B: Clone existing dotfiles</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>chezmoi<span class="w"> </span>init<span class="w"> </span>https://github.com/yourusername/dotfiles
-</code></pre></div>
-<h3 id="3-authenticate-bitwarden">3. Authenticate Bitwarden<a class="headerlink" href="#3-authenticate-bitwarden" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># One-time login</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>bw<span class="w"> </span>login
-</code></pre></div>
-<h3 id="4-start-using">4. Start Using<a class="headerlink" href="#4-start-using" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Check status</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>dot
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Edit a dotfile</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Unlock secrets</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>dot<span class="w"> </span>unlock
-</code></pre></div>
-<hr />
-<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
-<pre class="mermaid"><code>flowchart TD
-    A[User] --&gt; B{dot command}
-
-    B --&gt;|dot status| C[Show Status]
-    B --&gt;|dot edit| D[Edit Workflow]
-    B --&gt;|dot sync| E[Sync Workflow]
-    B --&gt;|dot unlock| F[Unlock Bitwarden]
-    B --&gt;|dot secret| G[Retrieve Secret]
-
-    D --&gt; D1[Open in $EDITOR]
-    D1 --&gt; D2{Modified?}
-    D2 --&gt;|Yes| D3[Show Diff]
-    D3 --&gt; D4{Apply?}
-    D4 --&gt;|Yes| D5[chezmoi apply]
-    D2 --&gt;|No| D6[No changes]
-
-    E --&gt; E1[git fetch]
-    E1 --&gt; E2{Behind?}
-    E2 --&gt;|Yes| E3[Show commits]
-    E3 --&gt; E4{Pull?}
-    E4 --&gt;|Yes| E5[chezmoi update]
-    E2 --&gt;|No| E6[Up to date]
-
-    F --&gt; F1[Prompt password]
-    F1 --&gt; F2[bw unlock --raw]
-    F2 --&gt; F3[Export BW_SESSION]
-    F3 --&gt; F4[Validate session]
-
-    G --&gt; G1{Session valid?}
-    G1 --&gt;|Yes| G2[bw get password]
-    G1 --&gt;|No| G3[Error: vault locked]
-    G2 --&gt; G4[Return value no echo]
-
-    C --&gt; C1[chezmoi status]
-    C1 --&gt; C2[Check git status]
-    C2 --&gt; C3[Format display]
-
-    style D5 fill:#90EE90
-    style E5 fill:#90EE90
-    style F4 fill:#90EE90
-    style G4 fill:#90EE90
-    style D6 fill:#FFD700
-    style E6 fill:#FFD700
-    style G3 fill:#FF6B6B</code></pre>
-<p><strong>Key Components:</strong></p>
+<h2 id="what-this-guide-covers">What This Guide Covers<a class="headerlink" href="#what-this-guide-covers" title="Permanent link">&para;</a></h2>
+<p>Learn practical workflows for managing dotfiles with the <code>dot</code> dispatcher:</p>
 <ul>
-<li><strong>Chezmoi:</strong> Dotfile source control &amp; templating</li>
-<li><strong>Bitwarden CLI:</strong> Secret management</li>
-<li><strong>Git:</strong> Version control &amp; sync</li>
-<li><strong>Flow-CLI:</strong> Unified interface</li>
+<li>✅ <strong>Quick edit workflow</strong> - Edit, preview, and apply dotfile changes</li>
+<li>✅ <strong>Sync workflow</strong> - Keep dotfiles synchronized across machines</li>
+<li>✅ <strong>Secret management</strong> - Safely handle API keys and tokens with Bitwarden</li>
+<li>✅ <strong>Dry-run previews</strong> (v5.1.0) - Preview changes before applying</li>
+<li>✅ <strong>Error recovery</strong> - Handle common issues with smart error messages</li>
+<li>✅ <strong>ADHD-friendly patterns</strong> - Quick, safe, reversible workflows</li>
 </ul>
 <hr />
-<h2 id="common-workflows">Common Workflows<a class="headerlink" href="#common-workflows" title="Permanent link">&para;</a></h2>
-<h3 id="workflow-1-edit-dotfile-most-common">Workflow 1: Edit Dotfile (Most Common)<a class="headerlink" href="#workflow-1-edit-dotfile-most-common" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 1. Check current status</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>dot
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 2. Edit a file</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># 3. Preview changes (automatic)</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># Shows: Modified: ~/.zshrc</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># 4. Apply changes</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1"># Prompt: Apply changes? [Y/n/d(iff)]</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1"># Press: y</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1"># 5. Changes applied to home directory</span>
+<h2 id="why-use-the-dot-dispatcher">Why Use the dot Dispatcher?<a class="headerlink" href="#why-use-the-dot-dispatcher" title="Permanent link">&para;</a></h2>
+<h3 id="the-problem-with-manual-dotfile-management">The Problem with Manual Dotfile Management<a class="headerlink" href="#the-problem-with-manual-dotfile-management" title="Permanent link">&para;</a></h3>
+<p><strong>Traditional approach:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Edit dotfile directly</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>vim<span class="w"> </span>~/.zshrc
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Oops, broke something - how do I revert?</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># No version history</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># No backup</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># No sync across machines</span>
+</code></pre></div></p>
+<p><strong>Issues:</strong>
+- ⚠️ No version control
+- ⚠️ Easy to break configs
+- ⚠️ Hard to sync across machines
+- ⚠️ Secrets scattered everywhere
+- ⚠️ No preview before applying changes</p>
+<h3 id="the-dot-dispatcher-solution">The dot Dispatcher Solution<a class="headerlink" href="#the-dot-dispatcher-solution" title="Permanent link">&para;</a></h3>
+<p><strong>Centralized, versioned, secure:</strong>
+- ✅ All dotfiles in git repository
+- ✅ Changes previewed before applying
+- ✅ Secrets stored securely in Bitwarden
+- ✅ Automatic sync across machines
+- ✅ Easy rollback with <code>dot undo</code>
+- ✅ Fast, sub-second operations</p>
+<hr />
+<h2 id="workflow-1-quick-edit">Workflow 1: Quick Edit<a class="headerlink" href="#workflow-1-quick-edit" title="Permanent link">&para;</a></h2>
+<p><strong>Goal:</strong> Edit a dotfile, preview changes, and apply.</p>
+<h3 id="step-by-step">Step-by-Step<a class="headerlink" href="#step-by-step" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># 1. Edit a dotfile</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Your editor opens...</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Make changes and save</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># 2. dot automatically detects changes (v5.1.0 hash-based detection)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># Shows diff preview:</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>───────────────────────────────────────────
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>Modified:<span class="w"> </span>~/.zshrc
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>───────────────────────────────────────────
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>@@<span class="w"> </span>-10,0<span class="w"> </span>+11<span class="w"> </span>@@
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>+export<span class="w"> </span><span class="nv">NEW_VAR</span><span class="o">=</span><span class="s2">&quot;test&quot;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>───────────────────────────────────────────
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1"># 3. Prompt to apply</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>Apply<span class="w"> </span>changes?<span class="w"> </span><span class="o">[</span>Y/n/d<span class="o">(</span>iff<span class="o">)]</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1"># Press:</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="c1"># - Y: Apply changes to ~/.zshrc</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="c1"># - n: Cancel (keep source, don&#39;t apply)</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="c1"># - d: Show full diff again</span>
 </code></pre></div>
-<p><strong>Time:</strong> &lt; 30 seconds
-<strong>Commands:</strong> 2 (<code>dot</code>, <code>dot edit .zshrc</code>)</p>
-<h3 id="workflow-2-sync-from-another-machine">Workflow 2: Sync from Another Machine<a class="headerlink" href="#workflow-2-sync-from-another-machine" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 1. Pull latest changes</span>
+<h3 id="with-dry-run-v510">With Dry-Run (v5.1.0)<a class="headerlink" href="#with-dry-run-v510" title="Permanent link">&para;</a></h3>
+<p><strong>Preview without committing:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Make multiple edits</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Save but press &#39;n&#39; (don&#39;t apply yet)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>dot<span class="w"> </span>edit<span class="w"> </span>.gitconfig
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Save but press &#39;n&#39;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># Preview all pending changes</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># Output:</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>DRY-RUN<span class="w"> </span>MODE<span class="w"> </span>-<span class="w"> </span>No<span class="w"> </span>changes<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>applied
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>Files<span class="w"> </span>to<span class="w"> </span>update:<span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>M<span class="w"> </span>.zshrc
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>M<span class="w"> </span>.gitconfig
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="o">[</span>Shows<span class="w"> </span>full<span class="w"> </span>diff<span class="w"> </span>of<span class="w"> </span>both<span class="w"> </span>files<span class="o">]</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>✓<span class="w"> </span>Dry-run<span class="w"> </span><span class="nb">complete</span><span class="w"> </span>-<span class="w"> </span>no<span class="w"> </span>changes<span class="w"> </span>applied
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="c1"># Safe! Now apply for real:</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>dot<span class="w"> </span>apply
+</code></pre></div>
+<h3 id="why-hash-based-detection-matters-v510">Why Hash-Based Detection Matters (v5.1.0)<a class="headerlink" href="#why-hash-based-detection-matters-v510" title="Permanent link">&para;</a></h3>
+<p><strong>ADHD-friendly change detection:</strong></p>
+<p>Traditional <code>mtime</code> has ~1 second granularity. If you:
+1. Open file
+2. Make quick change
+3. Save within 1 second
+4. Exit</p>
+<p>...the old detector would say "No changes made" (false negative).</p>
+<p><strong>v5.1.0 uses SHA-256 hash comparison</strong> - catches ALL edits, even sub-second changes. Perfect for rapid editing patterns.</p>
+<hr />
+<h2 id="workflow-2-sync-across-machines">Workflow 2: Sync Across Machines<a class="headerlink" href="#workflow-2-sync-across-machines" title="Permanent link">&para;</a></h2>
+<p><strong>Goal:</strong> Keep dotfiles synchronized between home and work machines.</p>
+<h3 id="initial-setup-first-time">Initial Setup (First Time)<a class="headerlink" href="#initial-setup-first-time" title="Permanent link">&para;</a></h3>
+<p><strong>On your first machine:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Initialize chezmoi with your dotfiles repo</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>dot<span class="w"> </span>init<span class="w"> </span>https://github.com/username/dotfiles.git
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Verify</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>dot<span class="w"> </span>status
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Output:</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>Dotfile<span class="w"> </span>Status:<span class="w"> </span>🟢<span class="w"> </span>Synced
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>Last<span class="w"> </span>sync:<span class="w">     </span>just<span class="w"> </span>now
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>Tracked<span class="w"> </span>files:<span class="w"> </span><span class="m">12</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>Remote:<span class="w">        </span>git@github.com:username/dotfiles.git
+</code></pre></div>
+<p><strong>On subsequent machines:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Clone your existing dotfiles</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>dot<span class="w"> </span>init<span class="w"> </span>https://github.com/username/dotfiles.git
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Apply to this machine</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>dot<span class="w"> </span>apply
+</code></pre></div>
+<h3 id="daily-sync-workflow">Daily Sync Workflow<a class="headerlink" href="#daily-sync-workflow" title="Permanent link">&para;</a></h3>
+<p><strong>Pull changes from remote (e.g., from work machine):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># On home machine</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>dot<span class="w"> </span>sync
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># 2. Review what changed</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Shows: Remote has updates: [commit list]</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Shows what changed:</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Fetching<span class="w"> </span>from<span class="w"> </span>remote...
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># 3. Confirm pull</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># Prompt: Pull updates? [Y/n]</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># Press: y</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>Changes<span class="w"> </span>from<span class="w"> </span>remote:
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>M<span class="w"> </span>.zshrc<span class="w">          </span><span class="c1"># Updated ZSH config</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>M<span class="w"> </span>.gitconfig<span class="w">      </span><span class="c1"># Updated git settings</span>
 <a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># 4. Apply changes (if needed)</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>dot<span class="w"> </span>apply
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>Apply<span class="w"> </span>updates?<span class="w"> </span><span class="o">[</span>Y/n/d<span class="o">(</span>iff<span class="o">)]</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># Press Y to apply</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>✓<span class="w"> </span>Applied<span class="w"> </span><span class="m">2</span><span class="w"> </span>files
 </code></pre></div>
-<p><strong>Time:</strong> 10-30 seconds
-<strong>Commands:</strong> 2 (<code>dot sync</code>, <code>dot apply</code>)</p>
-<h3 id="workflow-3-push-local-changes">Workflow 3: Push Local Changes<a class="headerlink" href="#workflow-3-push-local-changes" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 1. Check what&#39;s modified</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>dot<span class="w"> </span>diff
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># 2. Push changes</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>dot<span class="w"> </span>push
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># 3. Enter commit message</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># Prompt: Commit message:</span>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1"># Type: &quot;Update ZSH aliases&quot;</span>
+<p><strong>Push changes to remote (share with other machines):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Made local changes</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># Apply changes...</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Push to remote</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>dot<span class="w"> </span>push
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># Prompts for commit message:</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>Commit<span class="w"> </span>message:<span class="w"> </span>Add<span class="w"> </span>new<span class="w"> </span>aliases<span class="w"> </span><span class="k">for</span><span class="w"> </span>project<span class="w"> </span>navigation
 <a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1"># 4. Committed and pushed</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1"># Pushes to GitHub</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>✓<span class="w"> </span>Pushed<span class="w"> </span>to<span class="w"> </span>remote
 </code></pre></div>
-<p><strong>Time:</strong> 20-40 seconds
-<strong>Commands:</strong> 2-3 (<code>dot diff</code>, <code>dot push</code>)</p>
-<h3 id="workflow-4-use-secret-in-template">Workflow 4: Use Secret in Template<a class="headerlink" href="#workflow-4-use-secret-in-template" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># 1. Unlock Bitwarden</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>dot<span class="w"> </span>unlock
+<hr />
+<h2 id="workflow-3-secret-management">Workflow 3: Secret Management<a class="headerlink" href="#workflow-3-secret-management" title="Permanent link">&para;</a></h2>
+<p><strong>Goal:</strong> Securely handle API keys and tokens in dotfiles.</p>
+<h3 id="setup-bitwarden-integration">Setup Bitwarden Integration<a class="headerlink" href="#setup-bitwarden-integration" title="Permanent link">&para;</a></h3>
+<p><strong>One-time setup:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Install Bitwarden CLI</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>brew<span class="w"> </span>install<span class="w"> </span>bitwarden-cli
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># 2. Edit template file</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>dot<span class="w"> </span>edit<span class="w"> </span>.gitconfig
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Login to Bitwarden</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>bw<span class="w"> </span>login
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># 3. Add secret reference in template</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># {{ bitwarden &quot;item&quot; &quot;github-token&quot; }}</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Unlock vault for this session</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>dot<span class="w"> </span>unlock
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># 4. Apply template (automatic)</span>
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># Result: ~/.gitconfig contains actual token</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># Output:</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w"> </span>ℹ<span class="w"> </span>Enter<span class="w"> </span>your<span class="w"> </span>Bitwarden<span class="w"> </span>master<span class="w"> </span>password:
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="o">[</span>password<span class="w"> </span>prompt<span class="o">]</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>✓<span class="w"> </span>Vault<span class="w"> </span>unlocked<span class="w"> </span>successfully
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">  </span>Session<span class="w"> </span>active<span class="w"> </span><span class="k">in</span><span class="w"> </span>this<span class="w"> </span>shell<span class="w"> </span>only<span class="w"> </span><span class="o">(</span>not<span class="w"> </span>persistent<span class="o">)</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w"> </span>ℹ<span class="w"> </span>Use<span class="w"> </span><span class="s1">&#39;dot secret &lt;name&gt;&#39;</span><span class="w"> </span>to<span class="w"> </span>retrieve<span class="w"> </span>secrets
 </code></pre></div>
-<p><strong>Time:</strong> 1-2 minutes
-<strong>Commands:</strong> 2-3 (<code>dot unlock</code>, <code>dot edit</code>)</p>
-<hr />
-<h2 id="chezmoi-setup">Chezmoi Setup<a class="headerlink" href="#chezmoi-setup" title="Permanent link">&para;</a></h2>
-<h3 id="directory-structure">Directory Structure<a class="headerlink" href="#directory-structure" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>~/.local/share/chezmoi/          # Source files (templates)
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>├── .git/                        # Git repository
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>├── dot_zshrc.tmpl               # Template → ~/.zshrc
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>├── dot_gitconfig.tmpl           # Template → ~/.gitconfig
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>├── private_env.sh.tmpl          # Private → ~/.env.sh
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>└── ...
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>~/                               # Applied files
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>├── .zshrc                       # Generated from template
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>├── .gitconfig                   # Generated from template
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>└── ...
+<h3 id="using-secrets-in-templates">Using Secrets in Templates<a class="headerlink" href="#using-secrets-in-templates" title="Permanent link">&para;</a></h3>
+<p><strong>Example: Add GitHub token to .gitconfig</strong></p>
+<p><strong>1. Store token in Bitwarden:</strong>
+- Open Bitwarden app
+- Create new "Login" item named "github-token"
+- Paste token in password field
+- Save</p>
+<p><strong>2. Create chezmoi template:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Edit .gitconfig as template</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.gitconfig
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Add template syntax:</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="o">[</span>github<span class="o">]</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="nv">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>yourusername
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nv">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{{</span><span class="w"> </span>bitwarden<span class="w"> </span><span class="s2">&quot;item&quot;</span><span class="w"> </span><span class="s2">&quot;github-token&quot;</span><span class="w"> </span><span class="o">}}</span>
 </code></pre></div>
-<h3 id="naming-convention">Naming Convention<a class="headerlink" href="#naming-convention" title="Permanent link">&para;</a></h3>
-<p>Chezmoi uses special prefixes for file transformations:</p>
-<table>
-<thead>
-<tr>
-<th>Prefix</th>
-<th>Result</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>dot_</code></td>
-<td>Adds leading <code>.</code></td>
-<td><code>dot_zshrc</code> → <code>.zshrc</code></td>
-</tr>
-<tr>
-<td><code>.tmpl</code></td>
-<td>Template processing</td>
-<td><code>dot_gitconfig.tmpl</code> → <code>.gitconfig</code></td>
-</tr>
-<tr>
-<td><code>private_</code></td>
-<td>Executable only by you</td>
-<td><code>private_env.sh</code> → <code>.env.sh</code> (0600)</td>
-</tr>
-<tr>
-<td><code>executable_</code></td>
-<td>Executable file</td>
-<td><code>executable_script.sh</code> → <code>script.sh</code> (0755)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="adding-new-files">Adding New Files<a class="headerlink" href="#adding-new-files" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Add file to chezmoi (starts tracking)</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>chezmoi<span class="w"> </span>add<span class="w"> </span>~/.zshrc
+<p><strong>3. Apply with secret substitution:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Unlock vault first</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>dot<span class="w"> </span>unlock
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Add as template (for variable substitution)</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>chezmoi<span class="w"> </span>add<span class="w"> </span>--template<span class="w"> </span>~/.gitconfig
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Preview with dry-run (v5.1.0)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Verify token is substituted correctly in preview</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c1"># Then apply:</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>dot<span class="w"> </span>apply
 </code></pre></div>
-<h3 id="removing-files">Removing Files<a class="headerlink" href="#removing-files" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Stop tracking a file</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>chezmoi<span class="w"> </span>forget<span class="w"> </span>~/.old_config
+<p><strong>Your actual ~/.gitconfig now contains the real token</strong> (not the template).</p>
+<h3 id="retrieve-secrets-in-scripts">Retrieve Secrets in Scripts<a class="headerlink" href="#retrieve-secrets-in-scripts" title="Permanent link">&para;</a></h3>
+<p><strong>Capture secret without echo:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Safe - no terminal output</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Remove from chezmoi directory</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>rm<span class="w"> </span>~/.local/share/chezmoi/dot_old_config
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Use in command</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span>https://api.github.com/user
 </code></pre></div>
-<hr />
-<h2 id="bitwarden-setup">Bitwarden Setup<a class="headerlink" href="#bitwarden-setup" title="Permanent link">&para;</a></h2>
-<h3 id="initial-configuration">Initial Configuration<a class="headerlink" href="#initial-configuration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># 1. Login (one-time)</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>bw<span class="w"> </span>login
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># 2. Test authentication</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>bw<span class="w"> </span>status
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1"># Output: {&quot;status&quot;:&quot;locked&quot;,...}</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="c1"># 3. Unlock vault (per-session)</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>dot<span class="w"> </span>unlock
+<h3 id="list-available-secrets">List Available Secrets<a class="headerlink" href="#list-available-secrets" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>dot<span class="w"> </span>secret<span class="w"> </span>list
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1"># Output:</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w"> </span>ℹ<span class="w"> </span>Retrieving<span class="w"> </span>items<span class="w"> </span>from<span class="w"> </span>vault...
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>🔑<span class="w"> </span>github-token<span class="w"> </span><span class="o">(</span>Work/GitHub<span class="o">)</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>🔑<span class="w"> </span>npm-token<span class="w"> </span><span class="o">(</span>Work/Node<span class="o">)</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>🔑<span class="w"> </span>anthropic-api-key<span class="w"> </span><span class="o">(</span>AI/API<span class="w"> </span>Keys<span class="o">)</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>📝<span class="w"> </span>ssh-passphrase<span class="w"> </span><span class="o">(</span>Personal<span class="o">)</span>
 <a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="c1"># 4. Verify unlock</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>dot<span class="w"> </span>secret<span class="w"> </span>list
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w"> </span>ℹ<span class="w"> </span>Usage:<span class="w"> </span>dot<span class="w"> </span>secret<span class="w"> </span>&lt;name&gt;
 </code></pre></div>
-<h3 id="creating-items">Creating Items<a class="headerlink" href="#creating-items" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Option A: Via CLI</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>bw<span class="w"> </span>create<span class="w"> </span>item<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;github-token&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span>--username<span class="w"> </span><span class="s2">&quot;youruser&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span>--password<span class="w"> </span><span class="s2">&quot;ghp_...&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span>--folder<span class="w"> </span><span class="s2">&quot;Work/GitHub&quot;</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># Option B: Via web vault</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1"># 1. Go to vault.bitwarden.com</span>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1"># 2. Add item → Login</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="c1"># 3. Name: github-token</span>
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="c1"># 4. Password: ghp_...</span>
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="c1"># 5. Save</span>
-</code></pre></div>
-<h3 id="organizing-items">Organizing Items<a class="headerlink" href="#organizing-items" title="Permanent link">&para;</a></h3>
-<p>Use folders for organization:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Work/
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>├── GitHub
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>│   ├── github-token
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>│   └── github-ssh-key
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>├── Node
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>│   ├── npm-token
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>│   └── npmrc-auth
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>└── Cloud
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    ├── aws-key
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>    └── do-token
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>Personal/
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>├── ssh-passphrase
-<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>└── gpg-key
-</code></pre></div>
-<h3 id="item-types">Item Types<a class="headerlink" href="#item-types" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Icon</th>
-<th>Use Case</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Login</td>
-<td>🔑</td>
-<td>API tokens, passwords</td>
-<td>GitHub token</td>
-</tr>
-<tr>
-<td>Secure Note</td>
-<td>📝</td>
-<td>SSH keys, certificates</td>
-<td>Private key</td>
-</tr>
-<tr>
-<td>Card</td>
-<td>💳</td>
-<td>Stripe test keys</td>
-<td>Payment API</td>
-</tr>
-</tbody>
-</table>
+<h3 id="smart-error-handling-v510">Smart Error Handling (v5.1.0)<a class="headerlink" href="#smart-error-handling-v510" title="Permanent link">&para;</a></h3>
+<p><strong>Before v5.1.0:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>$<span class="w"> </span>dot<span class="w"> </span>secret<span class="w"> </span>wrong-name
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>✗<span class="w"> </span>Failed<span class="w"> </span>to<span class="w"> </span>retrieve<span class="w"> </span>secret
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w"> </span>ℹ<span class="w"> </span>Item<span class="w"> </span>not<span class="w"> </span>found<span class="w"> </span>or<span class="w"> </span>access<span class="w"> </span>denied
+</code></pre></div></p>
+<p><strong>After v5.1.0:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Secret doesn&#39;t exist</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>$<span class="w"> </span>dot<span class="w"> </span>secret<span class="w"> </span>wrong-name
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>✗<span class="w"> </span>Secret<span class="w"> </span>not<span class="w"> </span>found:<span class="w"> </span>wrong-name
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>Tip:<span class="w"> </span>Use<span class="w"> </span><span class="s1">&#39;dot secret list&#39;</span><span class="w"> </span>to<span class="w"> </span>see<span class="w"> </span>available<span class="w"> </span>items
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># Session expired</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>$<span class="w"> </span>dot<span class="w"> </span>secret<span class="w"> </span>github-token
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>✗<span class="w"> </span>Session<span class="w"> </span>expired
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>Run:<span class="w"> </span>dot<span class="w"> </span>unlock
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="c1"># Vault locked</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>$<span class="w"> </span>dot<span class="w"> </span>secret<span class="w"> </span>api-key
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>✗<span class="w"> </span>Vault<span class="w"> </span>is<span class="w"> </span>locked
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>Run:<span class="w"> </span>dot<span class="w"> </span>unlock
+</code></pre></div></p>
+<p><strong>Each error type gets specific, actionable guidance.</strong></p>
 <hr />
-<h2 id="template-examples">Template Examples<a class="headerlink" href="#template-examples" title="Permanent link">&para;</a></h2>
-<h3 id="example-1-git-config-with-token">Example 1: Git Config with Token<a class="headerlink" href="#example-1-git-config-with-token" title="Permanent link">&para;</a></h3>
-<p><strong>File:</strong> <code>~/.local/share/chezmoi/dot_gitconfig.tmpl</code></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">[user]</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Your Name</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="na">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">your@email.com</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">[github]</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="na">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">youruser</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="na">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">{{ bitwarden &quot;item&quot; &quot;github-token&quot; }}</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="k">[core]</span>
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">    </span><span class="na">editor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">vim</span>
+<h2 id="workflow-4-safe-experimentation">Workflow 4: Safe Experimentation<a class="headerlink" href="#workflow-4-safe-experimentation" title="Permanent link">&para;</a></h2>
+<p><strong>Goal:</strong> Try risky config changes safely with preview and rollback.</p>
+<h3 id="preview-before-applying">Preview Before Applying<a class="headerlink" href="#preview-before-applying" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Edit config file</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Make experimental changes</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="c1"># Save but press &#39;n&#39; (don&#39;t apply yet)</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Use dry-run to preview</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run<span class="w"> </span>.zshrc
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1"># Review the diff carefully</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="c1"># If it looks safe:</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>dot<span class="w"> </span>apply<span class="w"> </span>.zshrc
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="c1"># If something breaks:</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>dot<span class="w"> </span>undo
 </code></pre></div>
-<p><strong>Apply:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>dot<span class="w"> </span>unlock
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.gitconfig
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1"># Changes applied → ~/.gitconfig has actual token</span>
+<h3 id="rollback-last-change">Rollback Last Change<a class="headerlink" href="#rollback-last-change" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Applied bad config</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>dot<span class="w"> </span>apply
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Oops, terminal broken!</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="c1"># Rollback:</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>dot<span class="w"> </span>undo
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="c1"># Restores previous state</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>✓<span class="w"> </span>Rolled<span class="w"> </span>back<span class="w"> </span>to<span class="w"> </span>previous<span class="w"> </span>version
 </code></pre></div>
-<h3 id="example-2-zsh-with-api-keys">Example 2: ZSH with API Keys<a class="headerlink" href="#example-2-zsh-with-api-keys" title="Permanent link">&para;</a></h3>
-<p><strong>File:</strong> <code>~/.local/share/chezmoi/dot_zshrc.tmpl</code></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># API Keys (from Bitwarden)</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;{{ bitwarden &quot;</span>item<span class="s2">&quot; &quot;</span>openai-key<span class="s2">&quot; }}&quot;</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span><span class="s2">&quot;{{ bitwarden &quot;</span>item<span class="s2">&quot; &quot;</span>anthropic-key<span class="s2">&quot; }}&quot;</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;{{ bitwarden &quot;</span>item<span class="s2">&quot; &quot;</span>github-token<span class="s2">&quot; }}&quot;</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="c1"># Regular config</span>
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<hr />
+<h2 id="workflow-5-dashboard-integration">Workflow 5: Dashboard Integration<a class="headerlink" href="#workflow-5-dashboard-integration" title="Permanent link">&para;</a></h2>
+<p><strong>Goal:</strong> Monitor dotfile status at a glance.</p>
+<h3 id="quick-status-check">Quick Status Check<a class="headerlink" href="#quick-status-check" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Run dashboard</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>dash
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Shows dotfile status:</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>╭──────────────────────────────────────────────────────────────╮
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>│<span class="w">  </span>🌊<span class="w"> </span>FLOW<span class="w"> </span>DASHBOARD<span class="w"> </span>✓<span class="w">                  </span>Jan<span class="w"> </span><span class="m">10</span>,<span class="w"> </span><span class="m">2026</span><span class="w">  </span>🕐<span class="w"> </span><span class="m">14</span>:30<span class="w"> </span>│
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>╰──────────────────────────────────────────────────────────────╯
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">  </span>📝<span class="w"> </span>Dotfiles:<span class="w"> </span>🟢<span class="w"> </span>Synced<span class="w"> </span><span class="o">(</span>2h<span class="w"> </span>ago<span class="o">)</span><span class="w"> </span>·<span class="w"> </span><span class="m">12</span><span class="w"> </span>files<span class="w"> </span>tracked
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">  </span>...
 </code></pre></div>
-<p><strong>Apply:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>dot<span class="w"> </span>unlock
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nb">source</span><span class="w"> </span>~/.zshrc
+<p><strong>Status indicators:</strong>
+- 🟢 <strong>Synced</strong> - Everything up to date
+- 🟡 <strong>Modified</strong> - Local changes pending
+- 🔴 <strong>Behind</strong> - Remote has new commits
+- 🔵 <strong>Ahead</strong> - Local commits not pushed</p>
+<h3 id="health-check">Health Check<a class="headerlink" href="#health-check" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Run doctor command</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>flow<span class="w"> </span>doctor
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Dotfile health checks:</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>📁<span class="w"> </span>DOTFILES
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">  </span>✓<span class="w"> </span>chezmoi<span class="w"> </span>v2.45.0
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span>✓<span class="w"> </span>Bitwarden<span class="w"> </span>CLI<span class="w"> </span>v2024.1.0
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span>✓<span class="w"> </span>Chezmoi<span class="w"> </span>initialized<span class="w"> </span>with<span class="w"> </span>git
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">  </span>✓<span class="w"> </span>Remote<span class="w"> </span>configured:<span class="w"> </span>git@github.com:user/dotfiles.git
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">  </span>✓<span class="w"> </span>No<span class="w"> </span>uncommitted<span class="w"> </span>changes
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">  </span>✓<span class="w"> </span>Synced<span class="w"> </span>with<span class="w"> </span>remote
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">  </span>✓<span class="w"> </span>Bitwarden<span class="w"> </span>vault<span class="w"> </span>unlocked
 </code></pre></div>
-<h3 id="example-3-environment-file">Example 3: Environment File<a class="headerlink" href="#example-3-environment-file" title="Permanent link">&para;</a></h3>
-<p><strong>File:</strong> <code>~/.local/share/chezmoi/private_env.sh.tmpl</code></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="ch">#!/bin/bash</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># Auto-generated from Bitwarden secrets</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="c1"># Source: source ~/.env.sh</span>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;{{ bitwarden &quot;</span>item<span class="s2">&quot; &quot;</span>openai-key<span class="s2">&quot; }}&quot;</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span><span class="s2">&quot;{{ bitwarden &quot;</span>item<span class="s2">&quot; &quot;</span>anthropic-key<span class="s2">&quot; }}&quot;</span>
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;{{ bitwarden &quot;</span>item<span class="s2">&quot; &quot;</span>github-token<span class="s2">&quot; }}&quot;</span>
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">NPM_TOKEN</span><span class="o">=</span><span class="s2">&quot;{{ bitwarden &quot;</span>item<span class="s2">&quot; &quot;</span>npm-token<span class="s2">&quot; }}&quot;</span>
+<hr />
+<h2 id="common-patterns">Common Patterns<a class="headerlink" href="#common-patterns" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-add-new-dotfile-to-tracking">Pattern 1: Add New Dotfile to Tracking<a class="headerlink" href="#pattern-1-add-new-dotfile-to-tracking" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Add file to chezmoi</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>chezmoi<span class="w"> </span>add<span class="w"> </span>~/.tmux.conf
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Verify it&#39;s tracked</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>dot<span class="w"> </span>status
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Edit via dot dispatcher</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>dot<span class="w"> </span>edit<span class="w"> </span>.tmux.conf
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="c1"># Push to remote</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>dot<span class="w"> </span>push
 </code></pre></div>
-<p><strong>Apply:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>dot<span class="w"> </span>unlock
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>chezmoi<span class="w"> </span>apply<span class="w"> </span>~/.env.sh
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="nb">source</span><span class="w"> </span>~/.env.sh
+<h3 id="pattern-2-quick-status-check">Pattern 2: Quick Status Check<a class="headerlink" href="#pattern-2-quick-status-check" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Minimal status</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>dot
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Or verbose</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>dot<span class="w"> </span>status
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="c1"># Or via dashboard</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>dash
 </code></pre></div>
-<h3 id="example-4-ssh-config">Example 4: SSH Config<a class="headerlink" href="#example-4-ssh-config" title="Permanent link">&para;</a></h3>
-<p><strong>File:</strong> <code>~/.local/share/chezmoi/private_dot_ssh/config.tmpl</code></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>Host github.com
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>    User git
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>    IdentityFile ~/.ssh/github_ed25519
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>    IdentitiesOnly yes
+<h3 id="pattern-3-batch-preview">Pattern 3: Batch Preview<a class="headerlink" href="#pattern-3-batch-preview" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Make multiple changes</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc<span class="w">      </span><span class="c1"># Edit, save, press &#39;n&#39;</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>dot<span class="w"> </span>edit<span class="w"> </span>.gitconfig<span class="w">  </span><span class="c1"># Edit, save, press &#39;n&#39;</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>dot<span class="w"> </span>edit<span class="w"> </span>.tmux.conf<span class="w">  </span><span class="c1"># Edit, save, press &#39;n&#39;</span>
 <a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>Host bitbucket.org
-<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>    User git
-<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>    IdentityFile ~/.ssh/bitbucket_rsa
-</code></pre></div>
-<p><strong>Apply:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>dot<span class="w"> </span>edit<span class="w"> </span>.ssh/config
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="c1"># Preview all at once</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="c1"># Apply all at once</span>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>dot<span class="w"> </span>apply
 </code></pre></div>
 <hr />
-<h2 id="dashboard-integration">Dashboard Integration<a class="headerlink" href="#dashboard-integration" title="Permanent link">&para;</a></h2>
-<p>The <code>dash</code> command automatically shows dotfile status:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>╭──────────────────────────────────────────────────────────────╮
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>│  🌊 FLOW DASHBOARD ✓                  Jan 09, 2026  🕐 14:30 │
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>╰──────────────────────────────────────────────────────────────╯
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>  ...
-<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
-<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>  📝 Dotfiles: 🟢 Synced (2h ago) · 12 files tracked
+<h2 id="troubleshooting-workflows">Troubleshooting Workflows<a class="headerlink" href="#troubleshooting-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="changes-not-detected-after-quick-edit">"Changes not detected after quick edit"<a class="headerlink" href="#changes-not-detected-after-quick-edit" title="Permanent link">&para;</a></h3>
+<p><strong>Before v5.1.0:</strong> This happened with sub-second edits (mtime granularity issue).</p>
+<p><strong>Solution:</strong> Upgrade to v5.1.0+ with hash-based detection. All edits are now detected regardless of timing.</p>
+<h3 id="secret-substitution-not-working">"Secret substitution not working"<a class="headerlink" href="#secret-substitution-not-working" title="Permanent link">&para;</a></h3>
+<p><strong>Checklist:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># 1. Vault unlocked?</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>dot<span class="w"> </span>unlock
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># 2. Secret exists?</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>dot<span class="w"> </span>secret<span class="w"> </span>list
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="c1"># 3. Template syntax correct?</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="c1"># ✅ Correct: {{ bitwarden &quot;item&quot; &quot;secret-name&quot; }}</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="c1"># ❌ Wrong:   {{ bitwarden &quot;secret-name&quot; }}</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="c1"># 4. Dry-run to preview</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run
+</code></pre></div>
+<h3 id="applied-broken-config-terminal-wont-work">"Applied broken config, terminal won't work"<a class="headerlink" href="#applied-broken-config-terminal-wont-work" title="Permanent link">&para;</a></h3>
+<p><strong>Recovery:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Option 1: Rollback last change</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>dot<span class="w"> </span>undo
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># Option 2: Edit source and re-apply</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="c1"># Fix the issue</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="c1"># Apply corrected version</span>
 <a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>
-<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>  ...
-</code></pre></div>
-<p><strong>Status Icons:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Icon</th>
-<th>State</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>🟢</td>
-<td>Synced</td>
-<td>Everything up to date</td>
-</tr>
-<tr>
-<td>🟡</td>
-<td>Modified</td>
-<td>Local changes pending</td>
-</tr>
-<tr>
-<td>🔴</td>
-<td>Behind</td>
-<td>Remote has new commits</td>
-</tr>
-<tr>
-<td>🔵</td>
-<td>Ahead</td>
-<td>Local commits not pushed</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Performance:</strong> &lt; 100ms (uses cached values)</p>
-<hr />
-<h2 id="doctor-integration">Doctor Integration<a class="headerlink" href="#doctor-integration" title="Permanent link">&para;</a></h2>
-<p>The <code>flow doctor</code> command includes dotfile health checks:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>📁 DOTFILES
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>  ✓ chezmoi v2.45.0
-<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>  ✓ Bitwarden CLI v2024.1.0
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>  ✓ Chezmoi initialized with git
-<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>  ✓ Remote configured: git@github.com:user/dotfiles.git
-<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>  ✓ No uncommitted changes
-<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>  ✓ Synced with remote
-<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>  ✓ Bitwarden vault unlocked
-</code></pre></div>
-<p><strong>Run diagnostics:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Via dot dispatcher</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>dot<span class="w"> </span>doctor
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Via flow doctor</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>flow<span class="w"> </span>doctor
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="c1"># Option 3: Nuclear option (restore from repo)</span>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="nb">cd</span><span class="w"> </span>~/.local/share/chezmoi
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>origin/main
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>dot<span class="w"> </span>apply
 </code></pre></div>
 <hr />
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<h3 id="chezmoi-not-initialized">"Chezmoi not initialized"<a class="headerlink" href="#chezmoi-not-initialized" title="Permanent link">&para;</a></h3>
-<p><strong>Symptoms:</strong>
-- <code>dot status</code> shows "Not initialized"
-- Commands fail with errors</p>
-<p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Option A: Start fresh</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>chezmoi<span class="w"> </span>init
-<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
-<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Option B: Clone existing repo</span>
-<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>chezmoi<span class="w"> </span>init<span class="w"> </span>https://github.com/yourusername/dotfiles
+<h2 id="adhd-friendly-tips">ADHD-Friendly Tips<a class="headerlink" href="#adhd-friendly-tips" title="Permanent link">&para;</a></h2>
+<h3 id="1-use-dry-run-liberally">1. Use Dry-Run Liberally<a class="headerlink" href="#1-use-dry-run-liberally" title="Permanent link">&para;</a></h3>
+<p><strong>Reduce anxiety about breaking things:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Always preview first</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># If it looks good, apply</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>dot<span class="w"> </span>apply
 </code></pre></div>
-<h3 id="bitwarden-vault-is-locked">"Bitwarden vault is locked"<a class="headerlink" href="#bitwarden-vault-is-locked" title="Permanent link">&para;</a></h3>
-<p><strong>Symptoms:</strong>
-- <code>dot secret</code> fails
-- Template processing fails</p>
-<p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Unlock vault</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>dot<span class="w"> </span>unlock
-<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Try again</span>
-<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>dot<span class="w"> </span>secret<span class="w"> </span>github-token
+<h3 id="2-quick-session-pattern">2. Quick Session Pattern<a class="headerlink" href="#2-quick-session-pattern" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># One-liner: edit → preview → apply</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>dot<span class="w"> </span>apply
 </code></pre></div>
-<h3 id="item-not-found-or-access-denied">"Item not found or access denied"<a class="headerlink" href="#item-not-found-or-access-denied" title="Permanent link">&para;</a></h3>
-<p><strong>Symptoms:</strong>
-- <code>dot secret &lt;name&gt;</code> fails
-- Template shows error</p>
-<p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># List all items (check exact name)</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>list
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># Check item exists</span>
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>bw<span class="w"> </span>get<span class="w"> </span>item<span class="w"> </span>github-token
+<h3 id="3-dashboard-for-context">3. Dashboard for Context<a class="headerlink" href="#3-dashboard-for-context" title="Permanent link">&para;</a></h3>
+<p><strong>Forgot what you were doing?</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>dash
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="c1"># Shows:</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># - Pending dotfile changes (🟡 Modified)</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="c1"># - Last sync time</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="c1"># - Current session</span>
 </code></pre></div>
-<h3 id="changes-not-applied">Changes Not Applied<a class="headerlink" href="#changes-not-applied" title="Permanent link">&para;</a></h3>
-<p><strong>Symptoms:</strong>
-- <code>dot edit</code> succeeds but file unchanged
-- Templates not processing</p>
-<p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Check pending changes</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>dot<span class="w"> </span>diff
-<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
-<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># Apply manually</span>
-<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>dot<span class="w"> </span>apply
-<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>
-<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="c1"># For templates, ensure vault unlocked</span>
-<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>dot<span class="w"> </span>unlock
-<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>dot<span class="w"> </span>apply
-</code></pre></div>
-<h3 id="session-token-in-history">Session Token in History<a class="headerlink" href="#session-token-in-history" title="Permanent link">&para;</a></h3>
-<p><strong>Concern:</strong>
-- Worried about BW_SESSION in shell history</p>
-<p><strong>Solution:</strong></p>
-<p>The <code>dot unlock</code> command safely captures tokens without exposing them. History exclusion patterns prevent storage:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Verify history settings</span>
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$HISTIGNORE</span>
-<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
-<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># Should include: *bw unlock*:*bw get*:*BW_SESSION*</span>
-</code></pre></div>
-<p>This is automatically configured when dotfile helpers load.</p>
+<h3 id="4-safety-first">4. Safety First<a class="headerlink" href="#4-safety-first" title="Permanent link">&para;</a></h3>
+<p><strong>Rules:</strong>
+1. <strong>Always <code>dot edit</code></strong> - Never edit ~/.zshrc directly
+2. <strong>Preview with dry-run</strong> - Especially for complex templates
+3. <strong>Small commits</strong> - One logical change per push
+4. <strong>Lock vault when done</strong> - <code>bw lock</code> after template work</p>
 <hr />
-<h2 id="security-best-practices">Security Best Practices<a class="headerlink" href="#security-best-practices" title="Permanent link">&para;</a></h2>
-<h3 id="do">✅ DO<a class="headerlink" href="#do" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Unlock per-session:</strong> Run <code>dot unlock</code> in each shell where you need secrets</li>
-<li><strong>Lock when done:</strong> Run <code>bw lock</code> after template operations</li>
-<li><strong>Use templates:</strong> Store templates in chezmoi, not plain files with secrets</li>
-<li><strong>Capture securely:</strong> Use <code>VAR=$(dot secret name)</code> to capture without echo</li>
-<li><strong>Validate items:</strong> Use <code>dot secret list</code> to verify item names before using</li>
-<li><strong>Review templates:</strong> Check templates before applying to ensure no leaks</li>
-</ul>
-<h3 id="dont">❌ DON'T<a class="headerlink" href="#dont" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Don't export globally:</strong> Never add <code>export BW_SESSION=...</code> to <code>.zshrc</code></li>
-<li><strong>Don't commit secrets:</strong> Never commit files with actual secret values</li>
-<li><strong>Don't echo secrets:</strong> Avoid <code>echo $(dot secret name)</code> in scripts</li>
-<li><strong>Don't log secrets:</strong> Ensure secrets aren't written to logs/history</li>
-<li><strong>Don't share sessions:</strong> Each user should unlock their own vault</li>
-<li><strong>Don't hardcode tokens:</strong> Use templates and Bitwarden instead</li>
-</ul>
-<h3 id="security-checklist">Security Checklist<a class="headerlink" href="#security-checklist" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># 1. Check for global BW_SESSION exports (should find nothing)</span>
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>grep<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;export BW_SESSION&quot;</span><span class="w"> </span>~/.config/zsh<span class="w"> </span>~/.zshrc<span class="w"> </span>~/.zshenv<span class="w"> </span><span class="m">2</span>&gt;/dev/null
-<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
-<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># 2. Verify history exclusion</span>
-<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$HISTIGNORE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;bw unlock&quot;</span>
-<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>
-<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="c1"># 3. Check for committed secrets (in chezmoi repo)</span>
-<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="nb">cd</span><span class="w"> </span>~/.local/share/chezmoi
-<a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>git<span class="w"> </span>log<span class="w"> </span>-p<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;token\|password\|secret&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;bitwarden&quot;</span>
-<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a>
-<a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a><span class="c1"># 4. Audit applied files (should contain actual secrets, not templates)</span>
-<a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a>grep<span class="w"> </span><span class="s2">&quot;bitwarden&quot;</span><span class="w"> </span>~/.gitconfig<span class="w"> </span>~/.zshrc<span class="w"> </span><span class="m">2</span>&gt;/dev/null
-<a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a><span class="c1"># Should return nothing (templates are processed)</span>
+<h2 id="performance-notes">Performance Notes<a class="headerlink" href="#performance-notes" title="Permanent link">&para;</a></h2>
+<h3 id="hash-detection-overhead-v510">Hash Detection Overhead (v5.1.0)<a class="headerlink" href="#hash-detection-overhead-v510" title="Permanent link">&para;</a></h3>
+<p><strong>Trade-off:</strong>
+- <strong>Cost:</strong> ~1-2ms per edit (SHA-256 calculation)
+- <strong>Benefit:</strong> 100% reliable change detection</p>
+<p><strong>For typical dotfiles:</strong>
+- .zshrc: 1ms
+- .gitconfig: &lt;1ms
+- .tmux.conf: &lt;1ms</p>
+<p><strong>ADHD perspective:</strong> Deterministic detection (never misses edits) is worth 1ms delay.</p>
+<h3 id="dashboard-status-caching">Dashboard Status Caching<a class="headerlink" href="#dashboard-status-caching" title="Permanent link">&para;</a></h3>
+<p><strong>Dashboard caches dotfile status</strong> to keep <code>dash</code> fast:
+- First load: ~500ms (runs chezmoi status)
+- Subsequent: &lt;100ms (cached)
+- Cache invalidated after: 5 minutes</p>
+<hr />
+<h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Status</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>dot<span class="w">                      </span><span class="c1"># Quick status</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>dot<span class="w"> </span>status<span class="w">               </span><span class="c1"># Verbose status</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="c1"># Edit workflows</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc<span class="w">          </span><span class="c1"># Edit with preview</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run<span class="w">      </span><span class="c1"># Preview pending changes</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>dot<span class="w"> </span>apply<span class="w">                </span><span class="c1"># Apply all pending</span>
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>dot<span class="w"> </span>apply<span class="w"> </span>.zshrc<span class="w">         </span><span class="c1"># Apply specific file</span>
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="c1"># Sync workflows</span>
+<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>dot<span class="w"> </span>sync<span class="w">                 </span><span class="c1"># Pull from remote</span>
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>dot<span class="w"> </span>push<span class="w">                 </span><span class="c1"># Push to remote</span>
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>dot<span class="w"> </span>diff<span class="w">                 </span><span class="c1"># Show pending changes</span>
+<a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a>
+<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a><span class="c1"># Secret workflows</span>
+<a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a>dot<span class="w"> </span>unlock<span class="w">               </span><span class="c1"># Unlock Bitwarden vault</span>
+<a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a>dot<span class="w"> </span>secret<span class="w"> </span>&lt;name&gt;<span class="w">        </span><span class="c1"># Get secret (no echo)</span>
+<a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a>dot<span class="w"> </span>secret<span class="w"> </span>list<span class="w">          </span><span class="c1"># List all secrets</span>
+<a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a>
+<a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a><span class="c1"># Troubleshooting</span>
+<a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a>dot<span class="w"> </span>doctor<span class="w">               </span><span class="c1"># Health check</span>
+<a id="__codelineno-26-23" name="__codelineno-26-23" href="#__codelineno-26-23"></a>dot<span class="w"> </span>undo<span class="w">                 </span><span class="c1"># Rollback last apply</span>
 </code></pre></div>
 <hr />
-<h2 id="advanced-usage">Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permanent link">&para;</a></h2>
-<h3 id="multiple-machines">Multiple Machines<a class="headerlink" href="#multiple-machines" title="Permanent link">&para;</a></h3>
-<p>Keep dotfiles synced across machines:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Machine A (iMac): Make changes</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>dot<span class="w"> </span>push
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="c1"># Machine B (MacBook): Pull changes</span>
-<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>dot<span class="w"> </span>sync
-<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>dot<span class="w"> </span>apply
-</code></pre></div>
-<h3 id="conditional-templates">Conditional Templates<a class="headerlink" href="#conditional-templates" title="Permanent link">&para;</a></h3>
-<p>Use chezmoi's template syntax for machine-specific config:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="o">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span>eq<span class="w"> </span>.chezmoi.hostname<span class="w"> </span><span class="s2">&quot;imac&quot;</span><span class="w"> </span><span class="o">}}</span>
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">WORK_MODE</span><span class="o">=</span><span class="nb">true</span>
-<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="o">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="o">}}</span>
-<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">WORK_MODE</span><span class="o">=</span><span class="nb">false</span>
-<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="o">{{</span><span class="w"> </span>end<span class="w"> </span><span class="o">}}</span>
-</code></pre></div>
-<h3 id="custom-fields">Custom Fields<a class="headerlink" href="#custom-fields" title="Permanent link">&para;</a></h3>
-<p>Access custom fields in Bitwarden items:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># In template</span>
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="o">{{</span><span class="w"> </span>bitwardenFields<span class="w"> </span><span class="s2">&quot;item&quot;</span><span class="w"> </span><span class="s2">&quot;api-key&quot;</span><span class="w"> </span><span class="s2">&quot;custom-field-name&quot;</span><span class="w"> </span><span class="o">}}</span>
-</code></pre></div>
-<h3 id="secret-rotation">Secret Rotation<a class="headerlink" href="#secret-rotation" title="Permanent link">&para;</a></h3>
-<p>When rotating secrets:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># 1. Update in Bitwarden</span>
-<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>bw<span class="w"> </span>edit<span class="w"> </span>item<span class="w"> </span>github-token
-<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
-<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="c1"># 2. Re-apply templates</span>
-<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>dot<span class="w"> </span>unlock
-<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>dot<span class="w"> </span>apply
-<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>
-<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="c1"># 3. Verify new secret</span>
-<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>grep<span class="w"> </span>github-token<span class="w"> </span>~/.gitconfig
-</code></pre></div>
-<hr />
-<h2 id="command-reference">Command Reference<a class="headerlink" href="#command-reference" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Alias</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>dot</code></td>
-<td>-</td>
-<td>Show status (default)</td>
-</tr>
-<tr>
-<td><code>dot status</code></td>
-<td><code>dot s</code></td>
-<td>Show sync status</td>
-</tr>
-<tr>
-<td><code>dot edit FILE</code></td>
-<td><code>dot e FILE</code></td>
-<td>Edit dotfile with preview</td>
-</tr>
-<tr>
-<td><code>dot sync</code></td>
-<td>-</td>
-<td>Pull from remote</td>
-</tr>
-<tr>
-<td><code>dot push</code></td>
-<td><code>dot p</code></td>
-<td>Push to remote</td>
-</tr>
-<tr>
-<td><code>dot diff</code></td>
-<td><code>dot d</code></td>
-<td>Show pending changes</td>
-</tr>
-<tr>
-<td><code>dot apply</code></td>
-<td><code>dot a</code></td>
-<td>Apply changes</td>
-</tr>
-<tr>
-<td><code>dot unlock</code></td>
-<td><code>dot u</code></td>
-<td>Unlock Bitwarden vault</td>
-</tr>
-<tr>
-<td><code>dot secret NAME</code></td>
-<td>-</td>
-<td>Retrieve secret</td>
-</tr>
-<tr>
-<td><code>dot secret list</code></td>
-<td>-</td>
-<td>List all secrets</td>
-</tr>
-<tr>
-<td><code>dot doctor</code></td>
-<td><code>dot dr</code></td>
-<td>Run diagnostics</td>
-</tr>
-<tr>
-<td><code>dot help</code></td>
-<td>-</td>
-<td>Show help</td>
-</tr>
-</tbody>
-</table>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Set up chezmoi:</strong> <code>dot init https://github.com/username/dotfiles</code></li>
+<li><strong>Add a dotfile:</strong> <code>chezmoi add ~/.zshrc</code></li>
+<li><strong>Try dry-run workflow:</strong> Edit → Preview → Apply</li>
+<li><strong>Set up Bitwarden:</strong> Store API keys securely</li>
+<li><strong>Automate sync:</strong> Add <code>dot sync</code> to daily routine</li>
+</ol>
 <hr />
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../reference/DOT-DISPATCHER-REFERENCE/">DOT-DISPATCHER-REFERENCE.md</a> - Complete command reference</li>
-<li><a href="../../SECRET-MANAGEMENT/">SECRET-MANAGEMENT.md</a> - Deep dive into Bitwarden integration</li>
+<li><a href="../../SECRET-MANAGEMENT/">SECRET-MANAGEMENT.md</a> - Deep dive on Bitwarden integration</li>
 <li><a href="https://www.chezmoi.io/">Chezmoi Documentation</a> - Official chezmoi docs</li>
-<li><a href="https://bitwarden.com/help/cli/">Bitwarden CLI Documentation</a> - Official Bitwarden CLI docs</li>
+<li><a href="https://bitwarden.com/help/cli/">Bitwarden CLI Guide</a> - Official Bitwarden CLI docs</li>
 </ul>
 <hr />
-<p><strong>Version:</strong> 1.2.0
-<strong>Last Updated:</strong> 2026-01-09
-<strong>Status:</strong> Production Ready</p>
+<p><strong>Version:</strong> v5.1.0
+<strong>Last Updated:</strong> 2026-01-10</p>
 
 
 
