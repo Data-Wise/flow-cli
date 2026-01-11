@@ -4,13 +4,44 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.2.0 IN PROGRESS - Secret Management v2.0 Phase 2 🚀
+## Phase: v5.2.0 COMPLETE - Secret Management v2.0 Phase 3 🚀
 ## Priority: 1
-## Progress: 90
+## Progress: 100
 
-## Focus: Secret Management v2.0 Phase 2 Complete ✅
+## Focus: Secret Management v2.0 Phase 3 Complete ✅
 
 ## ✅ Just Completed (2026-01-10):
+- **Secret Management v2.0 Phase 3** ✅ COMPLETE
+  - **PR:** #200 (feature/secret-management-v2-phase3 → main)
+  - **Implementation:** ~390 lines of new functionality
+
+  **Token Rotation:**
+  - `dot token <name> --refresh` - Rotate existing tokens
+  - Automatic type detection from metadata (github/npm/pypi)
+  - Opens browser to create new token based on type
+  - Validates new token against provider API
+  - Updates stored token with new value + metadata
+  - Records rotation history (`rotated_from` field)
+  - Reminds user to revoke old token
+
+  **Syntax Options:**
+  - `dot token github-token --refresh`
+  - `dot token github-token -r`
+  - `dot token refresh github-token`
+
+  **Features:**
+  - Parses --refresh/-r/refresh flags anywhere in args
+  - Requires DOT metadata (dot_version) in token
+  - Validates token format before storing
+  - Updates expiration date on rotation
+  - Shows reminder to revoke old token
+
+  **Tests:**
+  - Test Suite 15: 10 new tests for Phase 3 features
+  - Total: 121 unit tests (100% passing)
+
+  **Version:** DOT Dispatcher 2.1.0
+
 - **Secret Management v2.0 Phase 2** ✅ COMPLETE
   - **Branch:** `feature/secret-management-v2-phase2`
   - **Implementation:** ~765 lines of new functionality
@@ -1006,41 +1037,41 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: Secret Management v2.0 Phase 2, Token wizards (github/npm/pypi), Secrets dashboard
-## streak: 12
+## wins: Secret Management v2.0 Phase 3, Token rotation, All phases complete
+## streak: 13
 ## last_active: 2026-01-10
 
 ## 🎯 Next Action:
-**Focus:** Create PR and Release v5.2.0 🎯
+**Focus:** Secret Management v2.0 Complete! 🎉
 
-**Phase 2 Complete:** ✅
-- `dot token github/npm/pypi` - Token creation wizards
-- `dot secrets` - Dashboard of all secrets
-- 18 new tests (Test Suite 14)
-- 111 total unit tests (100% passing)
+**All 3 Phases Complete:** ✅
+- **Phase 1:** `dot secret add`, `dot secret check`, `dot lock`, 15-min cache
+- **Phase 2:** Token wizards (`dot token github/npm/pypi`), `dot secrets` dashboard
+- **Phase 3:** Token rotation (`dot token <name> --refresh`)
+- **Tests:** 121 total unit tests (100% passing)
+- **PRs:** #198, #199, #200 - all merged
 
 **Options:**
 
-**1. Create PR and Merge Phase 2** (~15 min)
+**1. Remaining SPEC Features** (~2-3 hours)
 ```bash
-gh pr create --title "feat(dot): Secret Management v2.0 Phase 2 - Token Wizards" \
-  --body "..."
-gh pr merge
-```
-
-**2. Implement Phase 3** (~2-3 hours)
-```bash
-# Advanced features:
-- dot token <name> --refresh    # Token rotation
+# Not yet implemented:
 - dot secrets sync github       # Sync to GitHub repo secrets
 - dot env init                  # Generate .envrc for direnv
 ```
 
-**3. Performance Optimizations** (v5.2.0)
+**2. Performance Optimizations** (v5.2.0)
 ```bash
 # From enhancement plan:
 - Dashboard status line caching (30s TTL)
 - Git operation batching
+```
+
+**3. Release v5.2.0** (~15 min)
+```bash
+# Create release with all Phase 1-3 features
+./scripts/release.sh 5.2.0
+gh release create v5.2.0
 ```
 
 **✅ v5.0.0 Release Complete (2026-01-09):**
@@ -1337,3 +1368,14 @@ dot help               # Verify new dispatcher
 - 2026-01-10: VERSION - Bumped dot dispatcher to v2.0.0
 - 2026-01-10: GIT - Created feature/secret-management-v2-phase2 branch
 - 2026-01-10: GIT - Pushed Phase 2 implementation
+- 2026-01-10: FEAT - Implemented Secret Management v2.0 Phase 3 (Token Rotation)
+- 2026-01-10: FEAT - Added `dot token <name> --refresh` for rotating tokens
+- 2026-01-10: FEAT - Added _dot_token_refresh() function with full rotation flow
+- 2026-01-10: FEAT - Added --refresh/-r/refresh flag parsing to _dot_token()
+- 2026-01-10: FEAT - Added rotation history tracking (rotated_from metadata)
+- 2026-01-10: TEST - Added Test Suite 15 with 10 new tests (121 total unit tests)
+- 2026-01-10: DOCS - Updated dot help with TOKEN MANAGEMENT section
+- 2026-01-10: VERSION - Bumped dot dispatcher to v2.1.0
+- 2026-01-10: PR - Created #200 (feature/secret-management-v2-phase3 → main)
+- 2026-01-10: PR - Merged #200 (Token Rotation, 391 lines added)
+- 2026-01-10: COMPLETE - Secret Management v2.0 all 3 phases complete!
