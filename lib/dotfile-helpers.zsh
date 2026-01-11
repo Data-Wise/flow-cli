@@ -407,7 +407,117 @@ _dot_resolve_file_path() {
 # BITWARDEN HELPERS
 # ============================================================================
 
-# Check if Bitwarden session is valid
+# Session cache configuration
+typeset -g DOT_SESSION_CACHE_DIR="${HOME}/.cache/dot"
+typeset -g DOT_SESSION_CACHE_FILE="${DOT_SESSION_CACHE_DIR}/session"
+typeset -g DOT_SESSION_IDLE_TIMEOUT=${DOT_SESSION_IDLE_TIMEOUT:-900}  # 15 min default
+
+# Initialize session cache directory
+_dot_session_cache_init() {
+  if [[ ! -d "$DOT_SESSION_CACHE_DIR" ]]; then
+    mkdir -p "$DOT_SESSION_CACHE_DIR" 2>/dev/null
+    chmod 700 "$DOT_SESSION_CACHE_DIR"  # Secure permissions
+  fi
+}
+
+# Save session to cache (call after successful unlock)
+_dot_session_cache_save() {
+  _dot_session_cache_init
+  local now=$(date +%s)
+  cat > "$DOT_SESSION_CACHE_FILE" << EOF
+UNLOCK_TIME=$now
+LAST_ACTIVITY=$now
+IDLE_TIMEOUT=$DOT_SESSION_IDLE_TIMEOUT
+EOF
+  chmod 600 "$DOT_SESSION_CACHE_FILE"  # Secure permissions
+}
+
+# Update last activity time (call on each operation)
+_dot_session_cache_touch() {
+  if [[ -f "$DOT_SESSION_CACHE_FILE" ]]; then
+    local now=$(date +%s)
+    # Update LAST_ACTIVITY line
+    if [[ "$(uname)" == "Darwin" ]]; then
+      sed -i '' "s/^LAST_ACTIVITY=.*/LAST_ACTIVITY=$now/" "$DOT_SESSION_CACHE_FILE" 2>/dev/null
+    else
+      sed -i "s/^LAST_ACTIVITY=.*/LAST_ACTIVITY=$now/" "$DOT_SESSION_CACHE_FILE" 2>/dev/null
+    fi
+  fi
+}
+
+# Check if session has timed out (15 min idle)
+_dot_session_cache_expired() {
+  if [[ ! -f "$DOT_SESSION_CACHE_FILE" ]]; then
+    return 0  # No cache = expired
+  fi
+
+  # Read cache values
+  local unlock_time=0
+  local last_activity=0
+  local idle_timeout=$DOT_SESSION_IDLE_TIMEOUT
+
+  source "$DOT_SESSION_CACHE_FILE" 2>/dev/null
+
+  # Check if variables were read
+  if [[ -z "$LAST_ACTIVITY" || "$LAST_ACTIVITY" == "0" ]]; then
+    return 0  # Invalid cache = expired
+  fi
+
+  local now=$(date +%s)
+  local idle_seconds=$((now - LAST_ACTIVITY))
+
+  if [[ $idle_seconds -ge $idle_timeout ]]; then
+    return 0  # Expired
+  fi
+
+  return 1  # Not expired
+}
+
+# Clear session cache (call on lock)
+_dot_session_cache_clear() {
+  if [[ -f "$DOT_SESSION_CACHE_FILE" ]]; then
+    rm -f "$DOT_SESSION_CACHE_FILE"
+  fi
+  unset BW_SESSION
+}
+
+# Get session time remaining (for display)
+_dot_session_time_remaining() {
+  if [[ ! -f "$DOT_SESSION_CACHE_FILE" ]]; then
+    echo "0"
+    return
+  fi
+
+  source "$DOT_SESSION_CACHE_FILE" 2>/dev/null
+
+  local now=$(date +%s)
+  local idle_seconds=$((now - LAST_ACTIVITY))
+  local remaining=$((DOT_SESSION_IDLE_TIMEOUT - idle_seconds))
+
+  if [[ $remaining -lt 0 ]]; then
+    echo "0"
+  else
+    echo "$remaining"
+  fi
+}
+
+# Format remaining time as "X min Y sec"
+_dot_session_time_remaining_fmt() {
+  local remaining=$(_dot_session_time_remaining)
+  if [[ $remaining -le 0 ]]; then
+    echo "expired"
+  else
+    local minutes=$((remaining / 60))
+    local seconds=$((remaining % 60))
+    if [[ $minutes -gt 0 ]]; then
+      echo "${minutes} min"
+    else
+      echo "${seconds} sec"
+    fi
+  fi
+}
+
+# Check if Bitwarden session is valid (with cache timeout)
 _dot_bw_session_valid() {
   if ! _dot_has_bw; then
     return 1
@@ -417,8 +527,21 @@ _dot_bw_session_valid() {
     return 1
   fi
 
-  # Validate session
-  bw unlock --check &>/dev/null
+  # Check cache timeout (15 min idle)
+  if _dot_session_cache_expired; then
+    _dot_session_cache_clear
+    return 1
+  fi
+
+  # Validate session with Bitwarden
+  if ! bw unlock --check &>/dev/null; then
+    _dot_session_cache_clear
+    return 1
+  fi
+
+  # Update activity time on successful check
+  _dot_session_cache_touch
+  return 0
 }
 
 # Get Bitwarden status
@@ -459,11 +582,11 @@ _dot_security_init() {
 # Check if BW_SESSION is exported globally (security risk)
 _dot_security_check_bw_session() {
   # Check if BW_SESSION is in shell startup files
+  # Use ZDOTDIR if set, otherwise fall back to HOME
   local config_files=(
-    "$HOME/.zshrc"
-    "$HOME/.zshenv"
-    "$HOME/.zprofile"
-    "$HOME/.config/zsh/.zshrc"
+    "${ZDOTDIR:-$HOME}/.zshrc"
+    "${ZDOTDIR:-$HOME}/.zshenv"
+    "${ZDOTDIR:-$HOME}/.zprofile"
   )
 
   local found_global=false

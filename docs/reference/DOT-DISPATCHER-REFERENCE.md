@@ -2,7 +2,7 @@
 
 **Command:** `dot`
 **Purpose:** Dotfile management via chezmoi and Bitwarden
-**Version:** v5.1.0 (Critical Improvements)
+**Version:** v5.1.1 (Auto-Add & Template Enhancements)
 
 ---
 
@@ -18,6 +18,14 @@ The `dot` dispatcher provides a unified interface for managing dotfiles with che
 - ⚡ **Fast** (< 500ms for most operations)
 - 🔌 **Optional** (graceful degradation if tools not installed)
 
+**✨ New in v5.1.1:**
+- ➕ **`dot add`** - Standalone command to add files to chezmoi
+- 🆕 **Auto-add in edit** - `dot edit` offers to add untracked files
+- 📁 **File creation** - `dot edit ~/.newrc` creates new files with `mkdir -p`
+- 🔐 **Template auto-unlock** - Auto-prompts for BW vault when editing `.tmpl` files
+- 📋 **Summary with tips** - Shows next step hints after operations
+- 🏠 **ZDOTDIR support** - Uses standard `${ZDOTDIR:-$HOME}` for shell config paths
+
 **✨ New in v5.1.0:**
 - 🔍 **Hash-based change detection** - SHA-256 comparison catches all edits (even < 1s)
 - 🎯 **Smart error handling** - Specific guidance for each Bitwarden error type
@@ -31,8 +39,17 @@ The `dot` dispatcher provides a unified interface for managing dotfiles with che
 # Check dotfile status
 dot
 
+# Add a file to chezmoi (v5.1.1+)
+dot add ~/.bashrc
+
 # Edit a dotfile (with preview & apply)
 dot edit .zshrc
+
+# Edit untracked file (prompts to add - v5.1.1+)
+dot edit ~/.bashrc
+
+# Create new file (auto-creates parent dirs - v5.1.1+)
+dot edit ~/.config/newapp/config.zsh
 
 # Preview changes without applying (v5.1.0+)
 dot apply --dry-run
@@ -87,6 +104,31 @@ Show version information.
 
 ### Dotfile Management
 
+#### `dot add FILE` (v5.1.1+)
+
+Add a file to chezmoi for tracking.
+
+**Features:**
+- Adds existing files to chezmoi
+- Shows source path in chezmoi directory
+- Provides next step hint
+
+**Examples:**
+```bash
+dot add ~/.bashrc        # Add bash config
+dot add ~/.config/app/config.toml  # Add nested config
+```
+
+**Output:**
+```
+✓ Added ~/.bashrc to chezmoi
+  Source: ~/.local/share/chezmoi/dot_bashrc
+
+💡 Tip: dot edit .bashrc to make changes
+```
+
+---
+
 #### `dot edit FILE` / `dot e FILE`
 
 Edit a dotfile with preview and apply workflow.
@@ -97,15 +139,21 @@ Edit a dotfile with preview and apply workflow.
 - Shows diff preview
 - Prompts to apply changes
 - Fuzzy path matching (e.g., `dot edit zshrc` finds `.zshrc`)
+- **Auto-add untracked files** (v5.1.1) - Offers to add existing files not yet tracked
+- **Create new files** (v5.1.1) - Creates non-existent files with `mkdir -p`
+- **Template auto-unlock** (v5.1.1) - Prompts to unlock BW vault for `.tmpl` files
+- **Summary with tips** (v5.1.1) - Shows next step hint after operation
 
 **Examples:**
 ```bash
 dot edit .zshrc          # Edit ZSH config
 dot edit zshrc           # Fuzzy match works too
 dot e gitconfig          # Short alias
+dot edit ~/.bashrc       # Auto-add if untracked (v5.1.1+)
+dot edit ~/.config/new/app.zsh  # Create new file (v5.1.1+)
 ```
 
-**Workflow:**
+**Workflow for tracked files:**
 1. Calculates SHA-256 hash of file before editing
 2. Opens file in editor
 3. You make changes and save (even quick edits < 1s are detected!)
@@ -113,6 +161,90 @@ dot e gitconfig          # Short alias
 5. Shows diff: `Modified: ~/.zshrc`
 6. Prompts: `Apply changes? [Y/n/d(iff)]`
 7. If yes: Runs `chezmoi apply`
+8. Shows summary with next step tip
+
+**Workflow for untracked files (v5.1.1+):**
+```
+$ dot edit ~/.bashrc
+
+⚠ File not tracked: ~/.bashrc
+
+  a - Add to chezmoi and edit
+  n - Cancel
+
+Add? [a/n] a
+
+✓ Added ~/.bashrc to chezmoi
+ℹ Opening in vim: dot_bashrc
+
+[editor opens, you make changes]
+
+✓ Changes detected!
+─────────────────────────────────────────────────
+[diff preview]
+─────────────────────────────────────────────────
+
+Apply? [Y/n/d] y
+
+✓ Applied changes
+
+📋 ~/.bashrc | Added + Applied
+💡 Tip: dot push to sync to remote
+```
+
+**Workflow for new files (v5.1.1+):**
+```
+$ dot edit ~/.config/newapp/config.zsh
+
+⚠ File does not exist: ~/.config/newapp/config.zsh
+
+  c - Create, add to chezmoi, and edit
+  n - Cancel
+
+Create? [c/n] c
+
+⊙ Created directory: ~/.config/newapp
+✓ Created ~/.config/newapp/config.zsh
+✓ Added ~/.config/newapp/config.zsh to chezmoi
+ℹ Opening in vim: dot_config/newapp/config.zsh
+```
+
+**Template auto-unlock (v5.1.1+):**
+
+When editing `.tmpl` files that contain `{{ bitwarden ... }}` syntax:
+```
+$ dot edit .env.tmpl
+
+[editor opens, you make changes]
+
+✓ Changes detected!
+
+🔐 This template uses Bitwarden secrets.
+   Unlock vault to preview expanded values?
+
+  y - Unlock and preview
+  s - Skip preview (show raw template)
+  n - Cancel
+
+Unlock? [y/s/n] y
+
+ℹ Unlocking Bitwarden vault...
+[password prompt]
+✓ Vault unlocked
+
+─────────────────────────────────────────────────
+[diff preview with secrets expanded]
+─────────────────────────────────────────────────
+
+Apply? [Y/n] y
+
+✓ Applied changes
+
+📋 .env.tmpl | Edited (secrets expanded) + Applied
+💡 Tip: dot push to sync to remote
+```
+
+If you skip unlock, the diff shows raw template syntax like `{{ bitwarden "item" "field" }}`.
 
 **Why hash-based detection? (v5.1.0)**
 

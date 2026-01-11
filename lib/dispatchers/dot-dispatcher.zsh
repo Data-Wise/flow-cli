@@ -54,8 +54,13 @@ dot() {
       ;;
 
     # ─────────────────────────────────────────────────────────────
-    # DOTFILE MANAGEMENT (Phase 2 - placeholders)
+    # DOTFILE MANAGEMENT (Phase 2)
     # ─────────────────────────────────────────────────────────────
+    add)
+      shift
+      _dot_add "$@"
+      ;;
+
     edit|e)
       shift
       _dot_edit "$@"
@@ -87,6 +92,11 @@ dot() {
     unlock|u)
       shift
       _dot_unlock "$@"
+      ;;
+
+    lock|l)
+      shift
+      _dot_lock "$@"
       ;;
 
     secret)
@@ -184,6 +194,16 @@ _dot_status() {
     echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}Modified: ${modified_count} files${FLOW_COLORS[reset]}                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   fi
 
+  # Bitwarden vault status (if installed)
+  if _dot_has_bw; then
+    if _dot_bw_session_valid; then
+      local time_remaining=$(_dot_session_time_remaining_fmt)
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Vault: ${FLOW_COLORS[success]}🔓 Unlocked${FLOW_COLORS[reset]} (${time_remaining} remaining)         ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    else
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Vault: ${FLOW_COLORS[muted]}🔒 Locked${FLOW_COLORS[reset]}                               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    fi
+  fi
+
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
 
   # Show quick actions based on status
@@ -224,7 +244,8 @@ _dot_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}COMMON COMMANDS${FLOW_COLORS[reset]}                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot${FLOW_COLORS[reset]}              Show status + quick actions     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot edit FILE${FLOW_COLORS[reset]}    Edit dotfile (preview changes)  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot add FILE${FLOW_COLORS[reset]}     Add file to chezmoi             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot edit FILE${FLOW_COLORS[reset]}    Edit dotfile (auto-add/create)  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot sync${FLOW_COLORS[reset]}         Pull latest changes from remote ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot push${FLOW_COLORS[reset]}         Push local changes to remote    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot diff${FLOW_COLORS[reset]}         Show pending changes            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
@@ -232,9 +253,12 @@ _dot_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot apply -n${FLOW_COLORS[reset]}     Dry-run (preview without apply) ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}SECRET MANAGEMENT${FLOW_COLORS[reset]}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}       Unlock Bitwarden vault          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}       Unlock vault (15m timeout)      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot lock${FLOW_COLORS[reset]}         Lock vault immediately          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret NAME${FLOW_COLORS[reset]}  Retrieve secret (no echo)       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret list${FLOW_COLORS[reset]}  Show available secrets          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret add${FLOW_COLORS[reset]}   Store new secret                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret check${FLOW_COLORS[reset]} Show expiring secrets           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}TROUBLESHOOTING${FLOW_COLORS[reset]}                               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot doctor${FLOW_COLORS[reset]}       Run diagnostics                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
@@ -243,7 +267,9 @@ _dot_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}EXAMPLES${FLOW_COLORS[reset]}                                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot edit .zshrc${FLOW_COLORS[reset]}           Edit shell config      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot sync${FLOW_COLORS[reset]}                  Pull from iMac         ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot edit ~/.newrc${FLOW_COLORS[reset]}         Create + add new file  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot add ~/.bashrc${FLOW_COLORS[reset]}         Start tracking file    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot sync${FLOW_COLORS[reset]}                  Pull from remote       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret github-token${FLOW_COLORS[reset]}   Get GitHub token       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Phase 1: Status & help${FLOW_COLORS[reset]}                      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
@@ -301,8 +327,14 @@ _dot_edit() {
     _flow_log_info "Examples:"
     echo "  dot edit .zshrc"
     echo "  dot edit zshrc     (fuzzy match)"
+    echo "  dot edit ~/.newrc  (create new)"
     return 1
   fi
+
+  # Track state for summary
+  local was_added=false
+  local was_created=false
+  local action_type="Edited"
 
   # Resolve file path (supports fuzzy matching)
   local resolved_path
@@ -310,9 +342,64 @@ _dot_edit() {
   local resolve_status=$?
 
   if [[ $resolve_status -eq 1 ]]; then
-    _flow_log_error "File not found in managed dotfiles: $file_arg"
-    _flow_log_info "Use 'chezmoi add <file>' to start tracking a new file"
-    return 1
+    # File not tracked - check if it exists or needs creation
+    local full_path="${file_arg/#\~/$HOME}"
+    [[ "$full_path" != /* ]] && full_path="$HOME/$full_path"
+
+    if [[ -f "$full_path" ]]; then
+      # File exists but not tracked - offer to add
+      echo ""
+      _flow_log_warning "File not tracked: $file_arg"
+      echo ""
+      echo "  ${FLOW_COLORS[cmd]}a${FLOW_COLORS[reset]} - Add to chezmoi and edit"
+      echo "  ${FLOW_COLORS[cmd]}n${FLOW_COLORS[reset]} - Cancel"
+      echo ""
+      read -q "?Add? [a/n] " add_response
+      echo ""
+
+      if [[ "$add_response" == "a" ]]; then
+        _dot_add_file "$full_path" || return 1
+        was_added=true
+        action_type="Added"
+        resolved_path="$full_path"
+      else
+        _flow_log_muted "Cancelled"
+        return 0
+      fi
+    else
+      # File doesn't exist - offer to create
+      echo ""
+      _flow_log_warning "File does not exist: $file_arg"
+      echo ""
+      echo "  ${FLOW_COLORS[cmd]}c${FLOW_COLORS[reset]} - Create, add to chezmoi, and edit"
+      echo "  ${FLOW_COLORS[cmd]}n${FLOW_COLORS[reset]} - Cancel"
+      echo ""
+      read -q "?Create? [c/n] " create_response
+      echo ""
+
+      if [[ "$create_response" == "c" ]]; then
+        # Create parent directories if needed
+        local parent_dir="${full_path:h}"
+        if [[ ! -d "$parent_dir" ]]; then
+          mkdir -p "$parent_dir" || { _flow_log_error "Failed to create directory: $parent_dir"; return 1; }
+          _flow_log_muted "Created directory: $parent_dir"
+        fi
+
+        # Create empty file
+        touch "$full_path" || { _flow_log_error "Failed to create file"; return 1; }
+        _flow_log_success "Created ${file_arg}"
+
+        # Add to chezmoi
+        _dot_add_file "$full_path" || return 1
+        was_added=true
+        was_created=true
+        action_type="Created"
+        resolved_path="$full_path"
+      else
+        _flow_log_muted "Cancelled"
+        return 0
+      fi
+    fi
   elif [[ $resolve_status -eq 2 ]]; then
     # Multiple matches - show selection
     _flow_log_warning "Multiple matches found:"
@@ -360,12 +447,55 @@ _dot_edit() {
 
   if [[ "$before_hash" == "$after_hash" ]]; then
     _flow_log_muted "No changes made"
+    # Show summary for add/create even without edits
+    if $was_added || $was_created; then
+      _dot_print_summary "${file_arg}" "$action_type" "Applied"
+    fi
     return 0
+  fi
+
+  # Check if this is a Bitwarden template
+  local is_bw_template=false
+  local bw_unlocked=false
+  if _dot_has_bitwarden_template "$source_path"; then
+    is_bw_template=true
+
+    if ! _dot_bw_session_valid; then
+      echo ""
+      _flow_log_info "🔐 This template uses Bitwarden secrets."
+      echo "   Unlock vault to preview expanded values?"
+      echo ""
+      echo "  ${FLOW_COLORS[cmd]}y${FLOW_COLORS[reset]} - Unlock and preview"
+      echo "  ${FLOW_COLORS[cmd]}s${FLOW_COLORS[reset]} - Skip preview (show raw template)"
+      echo "  ${FLOW_COLORS[cmd]}n${FLOW_COLORS[reset]} - Cancel"
+      echo ""
+      read -q "?Unlock? [y/s/n] " unlock_response
+      echo ""
+
+      case "$unlock_response" in
+        y)
+          _dot_unlock || { _flow_log_warning "Continuing without secrets..."; }
+          _dot_bw_session_valid && bw_unlocked=true
+          ;;
+        s)
+          _flow_log_muted "Showing raw template diff"
+          ;;
+        n)
+          _flow_log_muted "Cancelled"
+          return 0
+          ;;
+      esac
+    else
+      bw_unlocked=true
+    fi
   fi
 
   # Show diff preview
   echo ""
   _flow_log_success "Changes detected!"
+  if $is_bw_template && ! $bw_unlocked; then
+    _flow_log_muted "(Raw template - secrets shown as {{ bitwarden ... }})"
+  fi
   _dot_show_file_diff "$resolved_path"
 
   # Prompt to apply
@@ -378,6 +508,9 @@ _dot_edit() {
   read -q "?Apply? [Y/n/d] " response
   echo ""
 
+  # Track final status for summary
+  local final_status="Staging"
+
   case "$response" in
     d)
       # Show detailed diff
@@ -385,15 +518,27 @@ _dot_edit() {
       echo ""
       read -q "?Apply now? [Y/n] " apply_response
       echo ""
-      [[ "$apply_response" == "y" ]] && _dot_apply_changes "$resolved_path"
+      if [[ "$apply_response" == "y" ]]; then
+        _dot_apply_changes "$resolved_path"
+        final_status="Applied"
+      fi
       ;;
     n)
       _flow_log_muted "Changes kept in staging. Run 'dot apply' to apply later"
+      final_status="Staging"
       ;;
     *)
       _dot_apply_changes "$resolved_path"
+      final_status="Applied"
       ;;
   esac
+
+  # Show summary with tip
+  local summary_action="$action_type"
+  if $is_bw_template && $bw_unlocked; then
+    summary_action="$action_type (secrets expanded)"
+  fi
+  _dot_print_summary "${file_arg}" "$summary_action" "$final_status"
 }
 
 # Show diff for a single file
@@ -432,6 +577,103 @@ _dot_apply_changes() {
       return 1
     fi
   fi
+}
+
+# ───────────────────────────────────────────────────────────────────
+# ADD HELPERS
+# ───────────────────────────────────────────────────────────────────
+
+# Internal helper to add a file to chezmoi
+_dot_add_file() {
+  local file="$1"
+  local full_path="${file/#\~/$HOME}"
+  [[ "$full_path" != /* ]] && full_path="$HOME/$full_path"
+
+  if [[ ! -f "$full_path" ]]; then
+    _flow_log_error "File does not exist: $full_path"
+    return 1
+  fi
+
+  if chezmoi add "$full_path" 2>/dev/null; then
+    _flow_log_success "Added ${file} to chezmoi"
+    return 0
+  else
+    _flow_log_error "Failed to add ${file}"
+    return 1
+  fi
+}
+
+# Standalone dot add command
+_dot_add() {
+  if ! _dot_require_tool "chezmoi" "brew install chezmoi"; then
+    return 1
+  fi
+
+  local file_arg="$1"
+  if [[ -z "$file_arg" ]]; then
+    _flow_log_error "Usage: dot add <file>"
+    _flow_log_info "Example: dot add ~/.bashrc"
+    return 1
+  fi
+
+  # Expand path
+  local full_path="${file_arg/#\~/$HOME}"
+  [[ "$full_path" != /* ]] && full_path="$HOME/$full_path"
+
+  # Check file exists
+  if [[ ! -f "$full_path" ]]; then
+    _flow_log_error "File does not exist: $full_path"
+    return 1
+  fi
+
+  # Check if already tracked
+  if chezmoi managed 2>/dev/null | grep -qF "${full_path#$HOME/}"; then
+    _flow_log_muted "Already tracked: $file_arg"
+    return 0
+  fi
+
+  # Add to chezmoi
+  if chezmoi add "$full_path" 2>/dev/null; then
+    local source_path=$(chezmoi source-path "$full_path" 2>/dev/null)
+    _flow_log_success "Added ${file_arg} to chezmoi"
+    echo "  Source: ${source_path}"
+    echo ""
+    echo "💡 Tip: ${FLOW_COLORS[cmd]}dot edit ${file_arg##*/}${FLOW_COLORS[reset]} to make changes"
+    return 0
+  else
+    _flow_log_error "Failed to add ${file_arg}"
+    return 1
+  fi
+}
+
+# Detect if source file is a Bitwarden template
+_dot_has_bitwarden_template() {
+  local source_path="$1"
+  # Check if file is .tmpl and contains bitwarden function
+  if [[ "$source_path" == *.tmpl ]] && grep -q '{{ *bitwarden' "$source_path" 2>/dev/null; then
+    return 0
+  fi
+  return 1
+}
+
+# Print minimal summary with contextual tip
+_dot_print_summary() {
+  local file="$1"
+  local action="$2"       # Added | Created | Edited
+  local apply_status="$3" # Applied | Staging | No changes
+
+  echo ""
+  echo "📋 ${file} | ${action} + ${apply_status}"
+
+  # Show contextual next step
+  case "$apply_status" in
+    Applied)
+      echo "💡 Tip: ${FLOW_COLORS[cmd]}dot push${FLOW_COLORS[reset]} to sync to remote"
+      ;;
+    Staging)
+      echo "💡 Tip: ${FLOW_COLORS[cmd]}dot apply${FLOW_COLORS[reset]} to apply, or ${FLOW_COLORS[cmd]}dot diff${FLOW_COLORS[reset]} to review"
+      ;;
+  esac
 }
 
 # ───────────────────────────────────────────────────────────────────
@@ -786,18 +1028,22 @@ _dot_unlock() {
 
   # Verify session works
   if bw unlock --check &>/dev/null; then
+    # Save session cache (15-min idle timeout)
+    _dot_session_cache_save
+    local timeout_min=$((DOT_SESSION_IDLE_TIMEOUT / 60))
+
     echo ""
     _flow_log_success "Vault unlocked successfully"
     echo ""
-    _flow_log_muted "Session active in this shell only (not persistent)"
+    _flow_log_muted "Session will auto-lock after ${timeout_min} min idle"
     _flow_log_info "Use 'dot secret <name>' to retrieve secrets"
 
     # Security reminder
     echo ""
     _flow_log_warning "Security reminder:"
-    echo "  • Session expires when shell closes"
+    echo "  • Session expires after ${timeout_min} min of inactivity"
     echo "  • Don't export BW_SESSION globally"
-    echo "  • Lock vault when done: ${FLOW_COLORS[cmd]}bw lock${FLOW_COLORS[reset]}"
+    echo "  • Lock vault manually: ${FLOW_COLORS[cmd]}dot lock${FLOW_COLORS[reset]}"
     echo ""
 
     return 0
@@ -808,26 +1054,60 @@ _dot_unlock() {
   fi
 }
 
+# ═══════════════════════════════════════════════════════════════════
+# LOCK - Lock Bitwarden vault and clear session cache
+# ═══════════════════════════════════════════════════════════════════
+
+_dot_lock() {
+  # Clear session cache first
+  _dot_session_cache_clear
+
+  # Lock Bitwarden vault
+  if command -v bw &>/dev/null; then
+    bw lock &>/dev/null
+  fi
+
+  _flow_log_success "Vault locked"
+  _flow_log_muted "Session cache cleared"
+}
+
 _dot_secret() {
   local subcommand="$1"
-  shift
+  shift 2>/dev/null  # Safe shift even if no args
 
-  # List secrets
-  if [[ "$subcommand" == "list" ]]; then
-    _dot_secret_list "$@"
-    return
-  fi
+  case "$subcommand" in
+    # List secrets
+    list|ls)
+      _dot_secret_list "$@"
+      return
+      ;;
 
-  # Retrieve specific secret
-  if [[ -z "$subcommand" ]]; then
-    _flow_log_error "Usage: dot secret <name>"
-    _flow_log_info "       dot secret list"
-    echo ""
-    echo "Examples:"
-    echo "  dot secret github-token"
-    echo "  dot secret list"
-    return 1
-  fi
+    # Add new secret (Phase 1 - v2.0)
+    add|new)
+      _dot_secret_add "$@"
+      return
+      ;;
+
+    # Check expiring secrets (Phase 1 - v2.0)
+    check|expiring)
+      _dot_secret_check "$@"
+      return
+      ;;
+
+    # Help
+    help|--help|-h)
+      _dot_secret_help
+      return
+      ;;
+
+    # Empty - show help
+    "")
+      _dot_secret_help
+      return 1
+      ;;
+  esac
+
+  # Default: retrieve specific secret by name
 
   if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
     return 1
@@ -933,6 +1213,292 @@ _dot_secret_list() {
 
   echo ""
   _flow_log_info "Usage: ${FLOW_COLORS[cmd]}dot secret <name>${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# SECRET ADD - Store new secret (Phase 1 - v2.0)
+# ═══════════════════════════════════════════════════════════════════
+
+_dot_secret_add() {
+  local secret_name="$1"
+  local expires_days=""
+  local notes=""
+
+  # Parse arguments
+  shift 2>/dev/null
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --expires|-e)
+        expires_days="$2"
+        shift 2
+        ;;
+      --notes|-n)
+        notes="$2"
+        shift 2
+        ;;
+      *)
+        shift
+        ;;
+    esac
+  done
+
+  # Validate name
+  if [[ -z "$secret_name" ]]; then
+    _flow_log_error "Usage: dot secret add <name> [--expires <days>] [--notes <text>]"
+    echo ""
+    echo "Examples:"
+    echo "  ${FLOW_COLORS[cmd]}dot secret add github-token${FLOW_COLORS[reset]}"
+    echo "  ${FLOW_COLORS[cmd]}dot secret add npm-token --expires 90${FLOW_COLORS[reset]}"
+    echo "  ${FLOW_COLORS[cmd]}dot secret add api-key --notes 'Production API key'${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  # Validate name format (alphanumeric, hyphens, underscores only)
+  if [[ ! "$secret_name" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+    _flow_log_error "Invalid secret name: $secret_name"
+    _flow_log_info "Name must contain only letters, numbers, hyphens, and underscores"
+    return 1
+  fi
+
+  if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
+    return 1
+  fi
+
+  # Check if session is active
+  if ! _dot_bw_session_valid; then
+    _flow_log_error "Bitwarden vault is locked"
+    _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  # Check if secret already exists
+  local existing
+  existing=$(bw get item "$secret_name" --session "$BW_SESSION" 2>/dev/null)
+  if [[ -n "$existing" ]]; then
+    _flow_log_warning "Secret '$secret_name' already exists"
+    echo ""
+    echo "  ${FLOW_COLORS[cmd]}u${FLOW_COLORS[reset]} - Update existing secret"
+    echo "  ${FLOW_COLORS[cmd]}n${FLOW_COLORS[reset]} - Cancel"
+    echo ""
+    read -q "?Update? [u/n] " update_response
+    echo ""
+    if [[ "$update_response" != "u" ]]; then
+      _flow_log_muted "Cancelled"
+      return 0
+    fi
+  fi
+
+  # Prompt for secret value (hidden input)
+  echo ""
+  echo -n "${FLOW_COLORS[bold]}Enter secret value:${FLOW_COLORS[reset]} "
+  local secret_value
+  read -s secret_value
+  echo ""
+
+  if [[ -z "$secret_value" ]]; then
+    _flow_log_error "Secret value cannot be empty"
+    return 1
+  fi
+
+  # Build metadata JSON
+  local metadata="{\"dot_version\":\"2.0\",\"created\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\""
+  if [[ -n "$expires_days" ]]; then
+    local expire_date
+    expire_date=$(date -v+${expires_days}d +%Y-%m-%d 2>/dev/null || date -d "+${expires_days} days" +%Y-%m-%d 2>/dev/null)
+    metadata="${metadata},\"expires\":\"${expire_date}\""
+  fi
+  if [[ -n "$notes" ]]; then
+    metadata="${metadata},\"notes\":\"${notes}\""
+  fi
+  metadata="${metadata}}"
+
+  # Create or update item in Bitwarden
+  _flow_log_info "Storing secret in vault..."
+
+  if [[ -n "$existing" ]]; then
+    # Update existing item
+    local item_id
+    item_id=$(echo "$existing" | jq -r '.id' 2>/dev/null)
+    if [[ -n "$item_id" && "$item_id" != "null" ]]; then
+      # Get current item, update password and notes
+      local updated_item
+      updated_item=$(echo "$existing" | jq --arg pw "$secret_value" --arg notes "$metadata" \
+        '.login.password = $pw | .notes = $notes')
+      echo "$updated_item" | bw encode | bw edit item "$item_id" --session "$BW_SESSION" >/dev/null 2>&1
+      local edit_status=$?
+      if [[ $edit_status -eq 0 ]]; then
+        _flow_log_success "Updated secret: $secret_name"
+      else
+        _flow_log_error "Failed to update secret"
+        return 1
+      fi
+    else
+      _flow_log_error "Failed to get item ID for update"
+      return 1
+    fi
+  else
+    # Create new login item
+    local new_item
+    new_item=$(cat <<EOF
+{
+  "type": 1,
+  "name": "$secret_name",
+  "notes": "$metadata",
+  "login": {
+    "username": "",
+    "password": "$secret_value"
+  }
+}
+EOF
+)
+    echo "$new_item" | bw encode | bw create item --session "$BW_SESSION" >/dev/null 2>&1
+    local create_status=$?
+    if [[ $create_status -eq 0 ]]; then
+      _flow_log_success "Added secret: $secret_name"
+    else
+      _flow_log_error "Failed to create secret"
+      return 1
+    fi
+  fi
+
+  # Sync vault
+  bw sync --session "$BW_SESSION" >/dev/null 2>&1
+
+  echo ""
+  if [[ -n "$expires_days" ]]; then
+    _flow_log_muted "Expires: $expire_date ($expires_days days)"
+  fi
+  echo ""
+  echo "💡 Usage: ${FLOW_COLORS[cmd]}TOKEN=\$(dot secret $secret_name)${FLOW_COLORS[reset]}"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# SECRET CHECK - Show expiring secrets (Phase 1 - v2.0)
+# ═══════════════════════════════════════════════════════════════════
+
+_dot_secret_check() {
+  local warn_days="${1:-30}"  # Default: warn for secrets expiring within 30 days
+
+  if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
+    return 1
+  fi
+
+  if ! command -v jq &>/dev/null; then
+    _flow_log_error "jq is required for expiration checking"
+    _flow_log_info "Install: ${FLOW_COLORS[cmd]}brew install jq${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  # Check if session is active
+  if ! _dot_bw_session_valid; then
+    _flow_log_error "Bitwarden vault is locked"
+    _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  _flow_log_info "Checking secret expirations..."
+  echo ""
+
+  # Get all items
+  local items_json
+  items_json=$(bw list items --session "$BW_SESSION" 2>/dev/null)
+
+  if [[ -z "$items_json" || "$items_json" == "[]" ]]; then
+    _flow_log_muted "No secrets found in vault"
+    return 0
+  fi
+
+  local today_epoch
+  today_epoch=$(date +%s)
+  local warn_epoch=$((today_epoch + warn_days * 86400))
+
+  local expiring_count=0
+  local valid_count=0
+  local no_expiry_count=0
+
+  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔐 Secret Expiration Status${FLOW_COLORS[reset]}                      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+
+  # Parse items and check expiration
+  echo "$items_json" | jq -r '.[] | select(.type == 1) | "\(.name)\t\(.notes // "")"' | \
+  while IFS=$'\t' read -r name notes; do
+    # Try to parse expiration from notes (dot metadata format)
+    local expires=""
+    if [[ "$notes" == *'"expires"'* ]]; then
+      expires=$(echo "$notes" | jq -r '.expires // empty' 2>/dev/null)
+    fi
+
+    if [[ -n "$expires" && "$expires" != "null" ]]; then
+      # Parse expiration date
+      local expire_epoch
+      expire_epoch=$(date -j -f "%Y-%m-%d" "$expires" +%s 2>/dev/null || date -d "$expires" +%s 2>/dev/null)
+
+      if [[ -n "$expire_epoch" ]]; then
+        local days_left=$(( (expire_epoch - today_epoch) / 86400 ))
+
+        if [[ $expire_epoch -lt $today_epoch ]]; then
+          # Expired
+          printf "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[error]}❌ %-20s${FLOW_COLORS[reset]} EXPIRED (%d days ago)     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}\n" "$name" "$((-days_left))"
+          ((expiring_count++))
+        elif [[ $expire_epoch -lt $warn_epoch ]]; then
+          # Expiring soon
+          printf "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠️  %-20s${FLOW_COLORS[reset]} expires in %d days      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}\n" "$name" "$days_left"
+          ((expiring_count++))
+        else
+          # Valid
+          printf "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ %-20s${FLOW_COLORS[reset]} expires in %d days      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}\n" "$name" "$days_left"
+          ((valid_count++))
+        fi
+      fi
+    else
+      # No expiration set
+      printf "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}○ %-20s${FLOW_COLORS[reset]} no expiration          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}\n" "$name"
+      ((no_expiry_count++))
+    fi
+  done
+
+  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+
+  if [[ $expiring_count -gt 0 ]]; then
+    _flow_log_warning "$expiring_count secret(s) expiring or expired"
+    echo "💡 Tip: ${FLOW_COLORS[cmd]}dot token <name> --refresh${FLOW_COLORS[reset]} to rotate"
+  else
+    _flow_log_success "No secrets expiring within $warn_days days"
+  fi
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# SECRET HELP - Show secret subcommands
+# ═══════════════════════════════════════════════════════════════════
+
+_dot_secret_help() {
+  echo ""
+  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔐 DOT SECRET - Bitwarden Secret Management${FLOW_COLORS[reset]}     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Retrieve:${FLOW_COLORS[reset]}                                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret <name>${FLOW_COLORS[reset]}      Get secret value        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret list${FLOW_COLORS[reset]}        List all secrets        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Manage:${FLOW_COLORS[reset]}                                         ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret add <name>${FLOW_COLORS[reset]}  Store new secret        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret check${FLOW_COLORS[reset]}       Check expirations       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Options for add:${FLOW_COLORS[reset]}                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[muted]}--expires, -e <days>${FLOW_COLORS[reset]}  Set expiration          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[muted]}--notes, -n <text>${FLOW_COLORS[reset]}    Add notes               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Examples:${FLOW_COLORS[reset]}                                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[example]}TOKEN=\$(dot secret github-token)${FLOW_COLORS[reset]}          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[example]}dot secret add npm-token --expires 90${FLOW_COLORS[reset]}     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[example]}dot secret check${FLOW_COLORS[reset]}                           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
   echo ""
 }
 

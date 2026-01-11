@@ -573,6 +573,333 @@ fi
 echo ""
 
 # ============================================================================
+# TEST SUITE 12: New Features (Auto-Add, Create, Templates, Summary)
+# ============================================================================
+
+echo ""
+echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
+echo "${fg[cyan]}│${reset_color}  Test Suite 12: New Features (Auto-Add, Templates, Summary)"
+echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
+echo ""
+
+# Test 12.1: _dot_add_file helper exists
+test_assert_function_exists "_dot_add_file" "_dot_add_file helper function exists"
+
+# Test 12.2: _dot_add function exists
+test_assert_function_exists "_dot_add" "_dot_add standalone command exists"
+
+# Test 12.3: _dot_has_bitwarden_template function exists
+test_assert_function_exists "_dot_has_bitwarden_template" "_dot_has_bitwarden_template helper exists"
+
+# Test 12.4: _dot_print_summary function exists
+test_assert_function_exists "_dot_print_summary" "_dot_print_summary helper exists"
+
+# Test 12.5: dot add fails without file argument
+output=$(_dot_add 2>&1)
+exit_code=$?
+((TESTS_RUN++))
+if [[ $exit_code -ne 0 ]] && [[ "$output" == *"Usage: dot add"* ]]; then
+  test_pass "_dot_add shows usage when called without argument"
+else
+  test_fail "_dot_add shows usage when called without argument" "Exit: $exit_code, Output: $output"
+fi
+
+# Test 12.6: dot add fails for non-existent file
+output=$(_dot_add "/nonexistent/file/that/does/not/exist.txt" 2>&1)
+exit_code=$?
+((TESTS_RUN++))
+if [[ $exit_code -ne 0 ]] && [[ "$output" == *"does not exist"* ]]; then
+  test_pass "_dot_add fails for non-existent file"
+else
+  test_fail "_dot_add fails for non-existent file" "Exit: $exit_code, Output: $output"
+fi
+
+# Test 12.7: _dot_has_bitwarden_template returns false for non-tmpl file
+test_file="/tmp/test-not-tmpl.txt"
+echo "some content" > "$test_file"
+if _dot_has_bitwarden_template "$test_file"; then
+  ((TESTS_RUN++))
+  test_fail "_dot_has_bitwarden_template returns false for non-tmpl"
+else
+  ((TESTS_RUN++))
+  test_pass "_dot_has_bitwarden_template returns false for non-tmpl"
+fi
+rm -f "$test_file"
+
+# Test 12.8: _dot_has_bitwarden_template returns false for tmpl without bitwarden
+test_file="/tmp/test-no-bw.tmpl"
+echo "some {{ other }} template" > "$test_file"
+if _dot_has_bitwarden_template "$test_file"; then
+  ((TESTS_RUN++))
+  test_fail "_dot_has_bitwarden_template returns false for tmpl without bitwarden"
+else
+  ((TESTS_RUN++))
+  test_pass "_dot_has_bitwarden_template returns false for tmpl without bitwarden"
+fi
+rm -f "$test_file"
+
+# Test 12.9: _dot_has_bitwarden_template returns true for tmpl with bitwarden
+test_file="/tmp/test-with-bw.tmpl"
+echo 'export TOKEN="{{ bitwarden "myitem" "notes" }}"' > "$test_file"
+if _dot_has_bitwarden_template "$test_file"; then
+  ((TESTS_RUN++))
+  test_pass "_dot_has_bitwarden_template detects {{ bitwarden }}"
+else
+  ((TESTS_RUN++))
+  test_fail "_dot_has_bitwarden_template detects {{ bitwarden }}"
+fi
+rm -f "$test_file"
+
+# Test 12.10: _dot_print_summary outputs expected format
+output=$(_dot_print_summary ".zshrc" "Edited" "Applied" 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *".zshrc"* ]] && [[ "$output" == *"Edited"* ]] && [[ "$output" == *"Applied"* ]]; then
+  test_pass "_dot_print_summary outputs file, action, and status"
+else
+  test_fail "_dot_print_summary outputs file, action, and status" "Output: $output"
+fi
+
+# Test 12.11: _dot_print_summary shows push tip for Applied status
+output=$(_dot_print_summary ".zshrc" "Edited" "Applied" 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"dot push"* ]]; then
+  test_pass "_dot_print_summary shows push tip for Applied"
+else
+  test_fail "_dot_print_summary shows push tip for Applied" "Output: $output"
+fi
+
+# Test 12.12: _dot_print_summary shows apply tip for Staging status
+output=$(_dot_print_summary ".zshrc" "Edited" "Staging" 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"dot apply"* ]]; then
+  test_pass "_dot_print_summary shows apply tip for Staging"
+else
+  test_fail "_dot_print_summary shows apply tip for Staging" "Output: $output"
+fi
+
+# Test 12.13: dot help includes add command
+output=$(dot help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"dot add"* ]]; then
+  test_pass "dot help includes add command"
+else
+  test_fail "dot help includes add command" "Output didn't mention 'dot add'"
+fi
+
+# Test 12.14: dot help shows auto-add/create in edit description
+output=$(dot help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"auto-add"* ]] || [[ "$output" == *"Create"* ]]; then
+  test_pass "dot help shows create capability in edit"
+else
+  test_fail "dot help shows create capability in edit" "Output didn't mention create feature"
+fi
+
+# Test 12.15: ZDOTDIR is respected in security check
+# This test verifies the variable pattern is correct
+((TESTS_RUN++))
+# Check that _dot_security_check_bw_session uses ZDOTDIR
+# Find the script directory (same directory as this test file)
+local test_dir="${0:A:h}"
+local helpers_file="${test_dir:h}/lib/dotfile-helpers.zsh"
+if [[ -f "$helpers_file" ]]; then
+  source_code=$(< "$helpers_file")
+  if [[ "$source_code" == *'${ZDOTDIR:-$HOME}'* ]]; then
+    test_pass "ZDOTDIR pattern used in security check"
+  else
+    test_fail "ZDOTDIR pattern used in security check" "Expected \${ZDOTDIR:-\$HOME} pattern"
+  fi
+else
+  test_fail "ZDOTDIR pattern used in security check" "Helper file not found: $helpers_file"
+fi
+
+echo ""
+
+# ============================================================================
+# Test Suite 13: Secret Management v2.0 Phase 1
+# ============================================================================
+
+echo ""
+echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
+echo "${fg[cyan]}│${reset_color}  Test Suite 13: Secret Management v2.0 Phase 1"
+echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
+echo ""
+
+# Test 13.1: Session cache functions exist
+((TESTS_RUN++))
+if typeset -f _dot_session_cache_init &>/dev/null; then
+  test_pass "_dot_session_cache_init exists"
+else
+  test_fail "_dot_session_cache_init exists"
+fi
+
+((TESTS_RUN++))
+if typeset -f _dot_session_cache_save &>/dev/null; then
+  test_pass "_dot_session_cache_save exists"
+else
+  test_fail "_dot_session_cache_save exists"
+fi
+
+((TESTS_RUN++))
+if typeset -f _dot_session_cache_touch &>/dev/null; then
+  test_pass "_dot_session_cache_touch exists"
+else
+  test_fail "_dot_session_cache_touch exists"
+fi
+
+((TESTS_RUN++))
+if typeset -f _dot_session_cache_expired &>/dev/null; then
+  test_pass "_dot_session_cache_expired exists"
+else
+  test_fail "_dot_session_cache_expired exists"
+fi
+
+((TESTS_RUN++))
+if typeset -f _dot_session_cache_clear &>/dev/null; then
+  test_pass "_dot_session_cache_clear exists"
+else
+  test_fail "_dot_session_cache_clear exists"
+fi
+
+((TESTS_RUN++))
+if typeset -f _dot_session_time_remaining &>/dev/null; then
+  test_pass "_dot_session_time_remaining exists"
+else
+  test_fail "_dot_session_time_remaining exists"
+fi
+
+((TESTS_RUN++))
+if typeset -f _dot_session_time_remaining_fmt &>/dev/null; then
+  test_pass "_dot_session_time_remaining_fmt exists"
+else
+  test_fail "_dot_session_time_remaining_fmt exists"
+fi
+
+# Test 13.2: Lock command exists
+((TESTS_RUN++))
+if typeset -f _dot_lock &>/dev/null; then
+  test_pass "_dot_lock function exists"
+else
+  test_fail "_dot_lock function exists"
+fi
+
+# Test 13.3: New secret subcommands exist
+((TESTS_RUN++))
+if typeset -f _dot_secret_add &>/dev/null; then
+  test_pass "_dot_secret_add function exists"
+else
+  test_fail "_dot_secret_add function exists"
+fi
+
+((TESTS_RUN++))
+if typeset -f _dot_secret_check &>/dev/null; then
+  test_pass "_dot_secret_check function exists"
+else
+  test_fail "_dot_secret_check function exists"
+fi
+
+((TESTS_RUN++))
+if typeset -f _dot_secret_help &>/dev/null; then
+  test_pass "_dot_secret_help function exists"
+else
+  test_fail "_dot_secret_help function exists"
+fi
+
+# Test 13.4: Session cache configuration variables exist
+((TESTS_RUN++))
+if [[ -n "$DOT_SESSION_CACHE_DIR" ]]; then
+  test_pass "DOT_SESSION_CACHE_DIR is set"
+else
+  test_fail "DOT_SESSION_CACHE_DIR is set"
+fi
+
+((TESTS_RUN++))
+if [[ -n "$DOT_SESSION_CACHE_FILE" ]]; then
+  test_pass "DOT_SESSION_CACHE_FILE is set"
+else
+  test_fail "DOT_SESSION_CACHE_FILE is set"
+fi
+
+((TESTS_RUN++))
+if [[ -n "$DOT_SESSION_IDLE_TIMEOUT" ]]; then
+  test_pass "DOT_SESSION_IDLE_TIMEOUT is set"
+else
+  test_fail "DOT_SESSION_IDLE_TIMEOUT is set"
+fi
+
+# Test 13.5: Default timeout is 15 minutes (900 seconds)
+((TESTS_RUN++))
+if [[ "$DOT_SESSION_IDLE_TIMEOUT" == "900" ]]; then
+  test_pass "DOT_SESSION_IDLE_TIMEOUT default is 15 min (900s)"
+else
+  test_fail "DOT_SESSION_IDLE_TIMEOUT default is 15 min (900s)" "Got: $DOT_SESSION_IDLE_TIMEOUT"
+fi
+
+# Test 13.6: dot help includes lock command
+output=$(dot help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"dot lock"* ]]; then
+  test_pass "dot help includes lock command"
+else
+  test_fail "dot help includes lock command" "Output didn't mention 'dot lock'"
+fi
+
+# Test 13.7: dot help includes secret add command
+((TESTS_RUN++))
+if [[ "$output" == *"secret add"* ]]; then
+  test_pass "dot help includes secret add command"
+else
+  test_fail "dot help includes secret add command" "Output didn't mention 'secret add'"
+fi
+
+# Test 13.8: dot help includes secret check command
+((TESTS_RUN++))
+if [[ "$output" == *"secret check"* ]]; then
+  test_pass "dot help includes secret check command"
+else
+  test_fail "dot help includes secret check command" "Output didn't mention 'secret check'"
+fi
+
+# Test 13.9: dot secret help shows usage info
+output=$(dot secret help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"DOT SECRET"* ]]; then
+  test_pass "dot secret help shows header"
+else
+  test_fail "dot secret help shows header" "Output: $output"
+fi
+
+# Test 13.10: Session expired returns true when no cache file
+# Clear any existing cache first for this test
+rm -f "$DOT_SESSION_CACHE_FILE" 2>/dev/null
+((TESTS_RUN++))
+if _dot_session_cache_expired; then
+  test_pass "Session expired returns true when no cache"
+else
+  test_fail "Session expired returns true when no cache"
+fi
+
+# Test 13.11: _dot_session_time_remaining returns 0 when no cache
+output=$(_dot_session_time_remaining)
+((TESTS_RUN++))
+if [[ "$output" == "0" ]]; then
+  test_pass "_dot_session_time_remaining returns 0 when no cache"
+else
+  test_fail "_dot_session_time_remaining returns 0 when no cache" "Got: $output"
+fi
+
+# Test 13.12: _dot_session_time_remaining_fmt returns 'expired' when no cache
+output=$(_dot_session_time_remaining_fmt)
+((TESTS_RUN++))
+if [[ "$output" == "expired" ]]; then
+  test_pass "_dot_session_time_remaining_fmt returns 'expired' when no cache"
+else
+  test_fail "_dot_session_time_remaining_fmt returns 'expired' when no cache" "Got: $output"
+fi
+
+echo ""
+
+# ============================================================================
 # TEST SUMMARY
 # ============================================================================
 
