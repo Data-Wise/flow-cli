@@ -4,8 +4,8 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # File:         lib/dispatchers/dot-dispatcher.zsh
-# Version:      2.0.0 (Secret Management v2.0 - Phase 2)
-# Date:         2026-01-09
+# Version:      2.1.0 (Secret Management v2.0 - Phase 3)
+# Date:         2026-01-10
 # Pattern:      command + keyword + options
 #
 # Usage:        dot <action> [args]
@@ -273,10 +273,11 @@ _dot_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret check${FLOW_COLORS[reset]} Show expiring secrets           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secrets${FLOW_COLORS[reset]}      Dashboard of all secrets        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}TOKEN WIZARDS${FLOW_COLORS[reset]}                                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}TOKEN MANAGEMENT${FLOW_COLORS[reset]}                              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]} GitHub PAT creation wizard      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token npm${FLOW_COLORS[reset]}    NPM token creation wizard       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token pypi${FLOW_COLORS[reset]}   PyPI token creation wizard      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token <name> --refresh${FLOW_COLORS[reset]} Rotate token       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}TROUBLESHOOTING${FLOW_COLORS[reset]}                               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot doctor${FLOW_COLORS[reset]}       Run diagnostics                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
@@ -303,7 +304,7 @@ _dot_help() {
 # ═══════════════════════════════════════════════════════════════════
 
 _dot_version() {
-  echo "dot dispatcher v2.0.0 (Secret Management v2.0)"
+  echo "dot dispatcher v2.1.0 (Secret Management v2.0 - Phase 3)"
   echo "Part of flow-cli v5.1.0"
   echo ""
   echo "Tools:"
@@ -1543,6 +1544,36 @@ _dot_token() {
   local subcommand="$1"
   shift 2>/dev/null  # Safe shift even if no args
 
+  # Check for --refresh flag anywhere in arguments
+  local refresh_mode=false
+  local token_name=""
+  local remaining_args=()
+
+  for arg in "$subcommand" "$@"; do
+    case "$arg" in
+      --refresh|-r|refresh)
+        refresh_mode=true
+        ;;
+      *)
+        remaining_args+=("$arg")
+        ;;
+    esac
+  done
+
+  # If refresh mode, first non-flag arg is the token name
+  if [[ "$refresh_mode" == true ]]; then
+    if [[ ${#remaining_args[@]} -gt 0 ]]; then
+      token_name="${remaining_args[1]}"
+      _dot_token_refresh "$token_name"
+      return $?
+    else
+      _flow_log_error "Usage: dot token <name> --refresh"
+      _flow_log_info "Example: dot token github-token --refresh"
+      return 1
+    fi
+  fi
+
+  # Normal mode - handle wizards
   case "$subcommand" in
     # Token wizards
     github|gh)
@@ -1566,8 +1597,28 @@ _dot_token() {
       ;;
 
     *)
+      # Could be a token name for refresh (without --refresh flag)
+      # Check if it exists in vault
+      if _dot_bw_session_valid 2>/dev/null; then
+        local existing
+        existing=$(bw get item "$subcommand" --session "$BW_SESSION" 2>/dev/null)
+        if [[ -n "$existing" ]]; then
+          # Token exists - check if they want to refresh
+          local notes=$(echo "$existing" | jq -r '.notes // ""' 2>/dev/null)
+          if echo "$notes" | grep -q '"dot_version"'; then
+            _flow_log_info "Token '$subcommand' found in vault"
+            echo ""
+            echo "  ${FLOW_COLORS[cmd]}--refresh${FLOW_COLORS[reset]}  Rotate this token"
+            echo ""
+            echo "Example: ${FLOW_COLORS[cmd]}dot token $subcommand --refresh${FLOW_COLORS[reset]}"
+            return 0
+          fi
+        fi
+      fi
+
       _flow_log_error "Unknown token provider: $subcommand"
       _flow_log_info "Supported: github, npm, pypi"
+      _flow_log_muted "Or use: dot token <name> --refresh"
       echo ""
       _dot_token_help
       return 1
@@ -1578,25 +1629,239 @@ _dot_token() {
 _dot_token_help() {
   echo ""
   echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔐 DOT TOKEN - Token Creation Wizards${FLOW_COLORS[reset]}            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔐 DOT TOKEN - Token Management${FLOW_COLORS[reset]}                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Wizards:${FLOW_COLORS[reset]}                                        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Create New Token:${FLOW_COLORS[reset]}                               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]}   GitHub PAT wizard           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token npm${FLOW_COLORS[reset]}      NPM token wizard            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token pypi${FLOW_COLORS[reset]}     PyPI token wizard           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Each wizard will:${FLOW_COLORS[reset]}                               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    1. Guide you through token type selection      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    2. Open browser to create token                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    3. Validate the token                          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    4. Store securely in Bitwarden                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    5. Track expiration date                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Rotate Existing Token:${FLOW_COLORS[reset]}                          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token <name> --refresh${FLOW_COLORS[reset]}                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    Example:                                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token github-token --refresh${FLOW_COLORS[reset]}               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Wizards will:${FLOW_COLORS[reset]}                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    1. Open browser to create token                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    2. Validate the token                          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    3. Store securely in Bitwarden                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    4. Track expiration date                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}See also:${FLOW_COLORS[reset]}                                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret add${FLOW_COLORS[reset]}     Store arbitrary secret      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secrets${FLOW_COLORS[reset]}        Dashboard of all secrets    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret check${FLOW_COLORS[reset]}   Show expiring secrets       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# ───────────────────────────────────────────────────────────────────
+# TOKEN REFRESH - Rotate existing token (Phase 3 - v2.1.0)
+# ───────────────────────────────────────────────────────────────────
+
+_dot_token_refresh() {
+  local token_name="$1"
+
+  if [[ -z "$token_name" ]]; then
+    _flow_log_error "Token name required"
+    _flow_log_info "Usage: dot token <name> --refresh"
+    return 1
+  fi
+
+  if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
+    return 1
+  fi
+
+  # Check if session is active
+  if ! _dot_bw_session_valid; then
+    _flow_log_info "Bitwarden vault is locked. Unlocking..."
+    _dot_unlock || return 1
+  fi
+
+  # Look up existing token
+  _flow_log_info "Looking up token: $token_name"
+
+  local existing
+  existing=$(bw get item "$token_name" --session "$BW_SESSION" 2>/dev/null)
+
+  if [[ -z "$existing" ]]; then
+    _flow_log_error "Token not found: $token_name"
+    _flow_log_info "Use 'dot secrets' to see available tokens"
+    return 1
+  fi
+
+  # Parse metadata to determine token type
+  local notes=$(echo "$existing" | jq -r '.notes // ""' 2>/dev/null)
+
+  if ! echo "$notes" | grep -q '"dot_version"'; then
+    _flow_log_error "Token '$token_name' doesn't have DOT metadata"
+    _flow_log_muted "This token wasn't created with 'dot token' wizard"
+    _flow_log_info "Use the wizard to create a new token: dot token github"
+    return 1
+  fi
+
+  local token_type=$(echo "$notes" | jq -r '.type // "unknown"' 2>/dev/null)
+  local token_subtype=$(echo "$notes" | jq -r '.token_type // ""' 2>/dev/null)
+  local old_expires=$(echo "$notes" | jq -r '.expires // ""' 2>/dev/null)
+
+  echo ""
+  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔄 Token Rotation${FLOW_COLORS[reset]}                                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Token: ${FLOW_COLORS[accent]}${token_name}${FLOW_COLORS[reset]}                              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Type:  ${token_type}${token_subtype:+ ($token_subtype)}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  if [[ -n "$old_expires" && "$old_expires" != "null" ]]; then
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Was expiring: ${old_expires}                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  fi
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Determine browser URL based on type
+  local token_url=""
+  local validation_fn=""
+
+  case "$token_type" in
+    github)
+      if [[ "$token_subtype" == "fine-grained" ]]; then
+        token_url="https://github.com/settings/personal-access-tokens/new"
+      else
+        token_url="https://github.com/settings/tokens/new"
+      fi
+      validation_fn="_dot_token_validate_github"
+      ;;
+    npm)
+      token_url="https://www.npmjs.com/settings/~/tokens/new"
+      validation_fn="_dot_token_validate_npm"
+      ;;
+    pypi)
+      token_url="https://pypi.org/manage/account/token/"
+      validation_fn="_dot_token_validate_pypi"
+      ;;
+    *)
+      _flow_log_error "Unknown token type: $token_type"
+      _flow_log_info "Cannot auto-refresh this token type"
+      return 1
+      ;;
+  esac
+
+  # Confirm rotation
+  read -q "?Rotate this token? [y/n] " confirm
+  echo ""
+  [[ "$confirm" != "y" ]] && { _flow_log_muted "Cancelled"; return 0; }
+
+  echo ""
+  _flow_log_info "Press Enter to open browser..."
+  read
+
+  # Open browser
+  osascript -e "open location \"$token_url\"" 2>/dev/null || open "$token_url" 2>/dev/null
+
+  echo ""
+  echo -n "${FLOW_COLORS[bold]}Paste your new token:${FLOW_COLORS[reset]} "
+  local new_token
+  read -s new_token
+  echo ""
+
+  if [[ -z "$new_token" ]]; then
+    _flow_log_error "Token cannot be empty"
+    return 1
+  fi
+
+  # Validate token based on type
+  case "$token_type" in
+    github)
+      _flow_log_info "Validating token..."
+      local api_response
+      api_response=$(curl -s -H "Authorization: token $new_token" \
+        -H "Accept: application/vnd.github.v3+json" \
+        "https://api.github.com/user" 2>/dev/null)
+
+      if echo "$api_response" | grep -q '"login"'; then
+        local username=$(echo "$api_response" | grep -o '"login":"[^"]*"' | cut -d'"' -f4)
+        _flow_log_success "Token validated for user: $username"
+      else
+        _flow_log_warning "Token validation failed - continue anyway?"
+        read -q "?Continue? [y/n] " continue_response
+        echo ""
+        [[ "$continue_response" != "y" ]] && return 1
+      fi
+      ;;
+    npm)
+      _flow_log_info "Validating token..."
+      local whoami_response
+      whoami_response=$(npm whoami --registry=https://registry.npmjs.org 2>&1)
+      # Note: npm whoami uses .npmrc, so we'll do a basic format check
+      if [[ "$new_token" =~ ^npm_ ]]; then
+        _flow_log_success "Token format valid (npm_*)"
+      else
+        _flow_log_warning "Token doesn't start with 'npm_'"
+      fi
+      ;;
+    pypi)
+      if [[ "$new_token" =~ ^pypi- ]]; then
+        _flow_log_success "Token format valid (pypi-*)"
+      else
+        _flow_log_warning "Token doesn't start with 'pypi-'"
+      fi
+      ;;
+  esac
+
+  # Ask for new expiration
+  echo ""
+  read "?New expiration (days, 0=never) [90]: " expire_days
+  [[ -z "$expire_days" ]] && expire_days=90
+
+  # Build new metadata
+  local new_expires=""
+  if [[ "$expire_days" -gt 0 ]]; then
+    new_expires=$(date -v+${expire_days}d +%Y-%m-%d 2>/dev/null || date -d "+${expire_days} days" +%Y-%m-%d 2>/dev/null)
+  fi
+
+  local new_metadata="{\"dot_version\":\"2.1\",\"type\":\"${token_type}\""
+  [[ -n "$token_subtype" ]] && new_metadata="${new_metadata},\"token_type\":\"${token_subtype}\""
+  new_metadata="${new_metadata},\"created\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\""
+  [[ -n "$new_expires" ]] && new_metadata="${new_metadata},\"expires\":\"${new_expires}\""
+  new_metadata="${new_metadata},\"rotated_from\":\"${old_expires:-never}\"}"
+
+  # Update token in Bitwarden
+  _flow_log_info "Updating token in Bitwarden..."
+
+  local item_id=$(echo "$existing" | jq -r '.id' 2>/dev/null)
+  if [[ -z "$item_id" || "$item_id" == "null" ]]; then
+    _flow_log_error "Failed to get item ID"
+    return 1
+  fi
+
+  local updated_item=$(echo "$existing" | jq --arg pw "$new_token" --arg notes "$new_metadata" \
+    '.login.password = $pw | .notes = $notes')
+  echo "$updated_item" | bw encode | bw edit item "$item_id" --session "$BW_SESSION" >/dev/null 2>&1
+
+  if [[ $? -ne 0 ]]; then
+    _flow_log_error "Failed to update token"
+    return 1
+  fi
+
+  # Sync vault
+  bw sync --session "$BW_SESSION" >/dev/null 2>&1
+
+  echo ""
+  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Token rotated successfully${FLOW_COLORS[reset]}                    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Token: ${token_name}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Type:  ${token_type}${token_subtype:+ ($token_subtype)}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  if [[ -n "$new_expires" ]]; then
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Expires: ${new_expires} (${expire_days} days)                  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  else
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Expires: never                                  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  fi
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Old token has been replaced${FLOW_COLORS[reset]}                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠ Revoke old token in provider settings${FLOW_COLORS[reset]}        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
   echo ""

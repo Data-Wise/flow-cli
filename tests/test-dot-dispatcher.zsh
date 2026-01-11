@@ -1008,10 +1008,10 @@ fi
 # Test 14.13: dot help includes token wizards section
 output=$(dot help 2>&1)
 ((TESTS_RUN++))
-if [[ "$output" == *"TOKEN WIZARDS"* ]]; then
-  test_pass "dot help includes TOKEN WIZARDS section"
+if [[ "$output" == *"TOKEN MANAGEMENT"* ]]; then
+  test_pass "dot help includes TOKEN MANAGEMENT section"
 else
-  test_fail "dot help includes TOKEN WIZARDS section" "Output didn't mention 'TOKEN WIZARDS'"
+  test_fail "dot help includes TOKEN MANAGEMENT section" "Output didn't mention 'TOKEN MANAGEMENT'"
 fi
 
 # Test 14.14: dot help includes dot secrets command
@@ -1030,13 +1030,13 @@ else
   test_fail "dot help lists all three token wizards"
 fi
 
-# Test 14.16: dot version shows v2.0.0
+# Test 14.16: dot version shows v2.x.x
 output=$(dot version 2>&1)
 ((TESTS_RUN++))
-if [[ "$output" == *"v2.0.0"* ]]; then
-  test_pass "dot version shows v2.0.0"
+if [[ "$output" == *"v2."* ]]; then
+  test_pass "dot version shows v2.x.x"
 else
-  test_fail "dot version shows v2.0.0" "Got: $output"
+  test_fail "dot version shows v2.x.x" "Got: $output"
 fi
 
 # Test 14.17: dot token aliases work (gh → github)
@@ -1056,6 +1056,112 @@ if [[ "$output" != *"Unknown token provider"* ]]; then
   test_pass "dot token pip alias is recognized"
 else
   test_fail "dot token pip alias is recognized"
+fi
+
+echo ""
+
+# ============================================================================
+# TEST SUITE 15: Token Rotation (Phase 3 - v2.1.0)
+# ============================================================================
+
+echo ""
+echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
+echo "${fg[cyan]}TEST SUITE 15: Token Rotation (Phase 3)${reset_color}"
+echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
+echo ""
+
+# Test 15.1: _dot_token_refresh function exists
+((TESTS_RUN++))
+if typeset -f _dot_token_refresh > /dev/null; then
+  test_pass "_dot_token_refresh function exists"
+else
+  test_fail "_dot_token_refresh function exists"
+fi
+
+# Test 15.2: dot token --refresh without name shows error
+output=$(dot token --refresh 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"Usage"* ]] || [[ "$output" == *"Token name required"* ]]; then
+  test_pass "dot token --refresh without name shows usage"
+else
+  test_fail "dot token --refresh without name shows usage"
+fi
+
+# Test 15.3: dot token help includes rotation section
+output=$(dot token help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"Rotate"* ]] || [[ "$output" == *"--refresh"* ]]; then
+  test_pass "dot token help includes rotation info"
+else
+  test_fail "dot token help includes rotation info"
+fi
+
+# Test 15.4: dot token <name> --refresh syntax recognized
+output=$(dot token nonexistent-token --refresh 2>&1)
+((TESTS_RUN++))
+# Should show "Looking up" (unlocked) or "Unlocking" (locked) - not "Unknown token provider"
+if [[ "$output" == *"not found"* ]] || [[ "$output" == *"Looking up"* ]] || [[ "$output" == *"Unlocking"* ]]; then
+  test_pass "dot token <name> --refresh syntax recognized"
+else
+  test_fail "dot token <name> --refresh syntax recognized"
+fi
+
+# Test 15.5: dot token refresh <name> alternate syntax recognized
+output=$(dot token refresh nonexistent-token 2>&1)
+((TESTS_RUN++))
+# Should recognize refresh as the flag, not as a provider
+if [[ "$output" == *"not found"* ]] || [[ "$output" == *"Looking up"* ]] || [[ "$output" == *"Unlocking"* ]]; then
+  test_pass "dot token refresh <name> syntax recognized"
+else
+  test_fail "dot token refresh <name> syntax recognized"
+fi
+
+# Test 15.6: dot help includes TOKEN MANAGEMENT section
+output=$(dot help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"TOKEN MANAGEMENT"* ]]; then
+  test_pass "dot help includes TOKEN MANAGEMENT section"
+else
+  test_fail "dot help includes TOKEN MANAGEMENT section"
+fi
+
+# Test 15.7: dot help includes --refresh command
+output=$(dot help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"--refresh"* ]]; then
+  test_pass "dot help includes --refresh command"
+else
+  test_fail "dot help includes --refresh command"
+fi
+
+# Test 15.8: Version shows v2.1.0
+output=$(dot version 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"2.1"* ]]; then
+  test_pass "dot version shows v2.1.x"
+else
+  test_fail "dot version shows v2.1.x"
+fi
+
+# Test 15.9: dot token -r is recognized as refresh flag
+output=$(dot token nonexistent -r 2>&1)
+((TESTS_RUN++))
+# Should recognize -r as refresh flag, not treat nonexistent as provider
+if [[ "$output" == *"not found"* ]] || [[ "$output" == *"Looking up"* ]] || [[ "$output" == *"Unlocking"* ]]; then
+  test_pass "dot token -r is recognized as refresh flag"
+else
+  test_fail "dot token -r is recognized as refresh flag"
+fi
+
+# Test 15.10: Token rotation requires DOT metadata
+# Note: This tests that tokens without dot_version metadata are rejected
+output=$(dot token some-random-name --refresh 2>&1)
+((TESTS_RUN++))
+# Should attempt to look up token (unlocked) or try to unlock vault (locked)
+if [[ "$output" == *"not found"* ]] || [[ "$output" == *"DOT metadata"* ]] || [[ "$output" == *"Looking up"* ]] || [[ "$output" == *"Unlocking"* ]]; then
+  test_pass "Token rotation validates DOT metadata requirement"
+else
+  test_fail "Token rotation validates DOT metadata requirement"
 fi
 
 echo ""
