@@ -41,6 +41,10 @@
          <lastmod>2026-01-11</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/quick-reference-card/</loc>
+         <lastmod>2026-01-11</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/commands/ai/</loc>
          <lastmod>2026-01-11</lastmod>
     </url>
@@ -209,7 +213,15 @@
          <lastmod>2026-01-11</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/getting-started/choose-your-path/</loc>
+         <lastmod>2026-01-11</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/getting-started/faq/</loc>
+         <lastmod>2026-01-11</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/getting-started/im-stuck/</loc>
          <lastmod>2026-01-11</lastmod>
     </url>
     <url>
@@ -493,6 +505,14 @@
          <lastmod>2026-01-11</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-Flow-CLI-Documentation-Enhancement%20-%20Complete-Implementation/</loc>
+         <lastmod>2026-01-11</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-STAT-545-COMPREHENSIVE-PLAN/</loc>
+         <lastmod>2026-01-11</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-ci-optimization-pick-wt-2025-12-31/</loc>
          <lastmod>2026-01-11</lastmod>
     </url>
@@ -502,6 +522,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-dotfile-integration-2026-01-08/</loc>
+         <lastmod>2026-01-11</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-teaching-workflow/</loc>
          <lastmod>2026-01-11</lastmod>
     </url>
     <url>
