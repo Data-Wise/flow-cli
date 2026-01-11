@@ -897,6 +897,167 @@ else
   test_fail "_dot_session_time_remaining_fmt returns 'expired' when no cache" "Got: $output"
 fi
 
+# ============================================================================
+# TEST SUITE 14: SECRET MANAGEMENT V2.0 PHASE 2 (Token Wizards)
+# ============================================================================
+echo ""
+echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
+echo "${fg_bold[white]}Test Suite 14: Token Wizards & Secrets Dashboard${reset_color}"
+echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
+echo ""
+
+# Test 14.1: _dot_token function exists
+((TESTS_RUN++))
+if typeset -f _dot_token &>/dev/null; then
+  test_pass "_dot_token function exists"
+else
+  test_fail "_dot_token function exists"
+fi
+
+# Test 14.2: _dot_token_help function exists
+((TESTS_RUN++))
+if typeset -f _dot_token_help &>/dev/null; then
+  test_pass "_dot_token_help function exists"
+else
+  test_fail "_dot_token_help function exists"
+fi
+
+# Test 14.3: _dot_token_github function exists
+((TESTS_RUN++))
+if typeset -f _dot_token_github &>/dev/null; then
+  test_pass "_dot_token_github function exists"
+else
+  test_fail "_dot_token_github function exists"
+fi
+
+# Test 14.4: _dot_token_npm function exists
+((TESTS_RUN++))
+if typeset -f _dot_token_npm &>/dev/null; then
+  test_pass "_dot_token_npm function exists"
+else
+  test_fail "_dot_token_npm function exists"
+fi
+
+# Test 14.5: _dot_token_pypi function exists
+((TESTS_RUN++))
+if typeset -f _dot_token_pypi &>/dev/null; then
+  test_pass "_dot_token_pypi function exists"
+else
+  test_fail "_dot_token_pypi function exists"
+fi
+
+# Test 14.6: _dot_secrets function exists
+((TESTS_RUN++))
+if typeset -f _dot_secrets &>/dev/null; then
+  test_pass "_dot_secrets function exists"
+else
+  test_fail "_dot_secrets function exists"
+fi
+
+# Test 14.7: dot token help shows header
+output=$(dot token help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"DOT TOKEN"* ]]; then
+  test_pass "dot token help shows header"
+else
+  test_fail "dot token help shows header" "Output: $output"
+fi
+
+# Test 14.8: dot token help lists github wizard
+((TESTS_RUN++))
+if [[ "$output" == *"dot token github"* ]]; then
+  test_pass "dot token help lists github wizard"
+else
+  test_fail "dot token help lists github wizard"
+fi
+
+# Test 14.9: dot token help lists npm wizard
+((TESTS_RUN++))
+if [[ "$output" == *"dot token npm"* ]]; then
+  test_pass "dot token help lists npm wizard"
+else
+  test_fail "dot token help lists npm wizard"
+fi
+
+# Test 14.10: dot token help lists pypi wizard
+((TESTS_RUN++))
+if [[ "$output" == *"dot token pypi"* ]]; then
+  test_pass "dot token help lists pypi wizard"
+else
+  test_fail "dot token help lists pypi wizard"
+fi
+
+# Test 14.11: dot token with no args shows help (not error)
+output=$(dot token 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"DOT TOKEN"* ]]; then
+  test_pass "dot token with no args shows help"
+else
+  test_fail "dot token with no args shows help" "Output: $output"
+fi
+
+# Test 14.12: dot token with invalid provider shows error + help
+output=$(dot token invalid 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"Unknown token provider"* && "$output" == *"github, npm, pypi"* ]]; then
+  test_pass "dot token invalid shows error with supported providers"
+else
+  test_fail "dot token invalid shows error with supported providers"
+fi
+
+# Test 14.13: dot help includes token wizards section
+output=$(dot help 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"TOKEN WIZARDS"* ]]; then
+  test_pass "dot help includes TOKEN WIZARDS section"
+else
+  test_fail "dot help includes TOKEN WIZARDS section" "Output didn't mention 'TOKEN WIZARDS'"
+fi
+
+# Test 14.14: dot help includes dot secrets command
+((TESTS_RUN++))
+if [[ "$output" == *"dot secrets"* ]]; then
+  test_pass "dot help includes dot secrets command"
+else
+  test_fail "dot help includes dot secrets command"
+fi
+
+# Test 14.15: dot help lists all three token wizards
+((TESTS_RUN++))
+if [[ "$output" == *"dot token github"* && "$output" == *"dot token npm"* && "$output" == *"dot token pypi"* ]]; then
+  test_pass "dot help lists all three token wizards"
+else
+  test_fail "dot help lists all three token wizards"
+fi
+
+# Test 14.16: dot version shows v2.0.0
+output=$(dot version 2>&1)
+((TESTS_RUN++))
+if [[ "$output" == *"v2.0.0"* ]]; then
+  test_pass "dot version shows v2.0.0"
+else
+  test_fail "dot version shows v2.0.0" "Got: $output"
+fi
+
+# Test 14.17: dot token aliases work (gh → github)
+output=$(dot token gh 2>&1)
+((TESTS_RUN++))
+# Should not say "Unknown token provider" for gh alias
+if [[ "$output" != *"Unknown token provider"* ]]; then
+  test_pass "dot token gh alias is recognized"
+else
+  test_fail "dot token gh alias is recognized"
+fi
+
+# Test 14.18: dot token aliases work (pip → pypi)
+output=$(dot token pip 2>&1)
+((TESTS_RUN++))
+if [[ "$output" != *"Unknown token provider"* ]]; then
+  test_pass "dot token pip alias is recognized"
+else
+  test_fail "dot token pip alias is recognized"
+fi
+
 echo ""
 
 # ============================================================================
