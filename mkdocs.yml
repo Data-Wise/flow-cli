@@ -90,6 +90,7 @@ nav:
       - 9. Worktrees: tutorials/09-worktrees.md
       - 10. CC Dispatcher: tutorials/10-cc-dispatcher.md
       - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
+      - 12. DOT Dispatcher: tutorials/12-dot-dispatcher.md
   - Workflows:
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
       - Git Feature Flow: tutorials/08-git-feature-workflow.md
