@@ -170,7 +170,14 @@ _dot_get_modified_count() {
     return
   fi
 
-  chezmoi status 2>/dev/null | wc -l | tr -d ' '
+  local count=$(chezmoi status 2>/dev/null | wc -l | tr -d ' ')
+
+  # Sanitize: strip whitespace and validate numeric format
+  count="${count##*( )}"    # Remove leading spaces
+  count="${count%%*( )}"    # Remove trailing spaces
+  [[ "$count" =~ ^[0-9]+$ ]] || count=0
+
+  echo "$count"
 }
 
 # Get last sync time (from git commit in chezmoi dir)
@@ -204,7 +211,14 @@ _dot_get_tracked_count() {
     return
   fi
 
-  chezmoi managed 2>/dev/null | wc -l | tr -d ' '
+  local count=$(chezmoi managed 2>/dev/null | wc -l | tr -d ' ')
+
+  # Sanitize: strip whitespace and validate numeric format
+  count="${count##*( )}"    # Remove leading spaces
+  count="${count%%*( )}"    # Remove trailing spaces
+  [[ "$count" =~ ^[0-9]+$ ]] || count=0
+
+  echo "$count"
 }
 
 # Format status for display (with icon and color)
@@ -287,7 +301,11 @@ _dot_get_status_line() {
       local chezmoi_dir="${HOME}/.local/share/chezmoi"
       if [[ -d "$chezmoi_dir/.git" ]]; then
         behind_count=$(cd "$chezmoi_dir" && git rev-list HEAD..@{u} 2>/dev/null | wc -l | tr -d ' ')
-        if [[ -n "$behind_count" ]] && [[ $behind_count -gt 0 ]]; then
+        # Sanitize: strip whitespace and validate numeric format
+        behind_count="${behind_count##*( )}"
+        behind_count="${behind_count%%*( )}"
+        [[ "$behind_count" =~ ^[0-9]+$ ]] || behind_count=0
+        if [[ $behind_count -gt 0 ]]; then
           detail_text="($behind_count commit$([ $behind_count -gt 1 ] && echo 's'))"
         else
           detail_text="(needs pull)"
@@ -304,7 +322,11 @@ _dot_get_status_line() {
       local chezmoi_dir="${HOME}/.local/share/chezmoi"
       if [[ -d "$chezmoi_dir/.git" ]]; then
         ahead_count=$(cd "$chezmoi_dir" && git rev-list @{u}..HEAD 2>/dev/null | wc -l | tr -d ' ')
-        if [[ -n "$ahead_count" ]] && [[ $ahead_count -gt 0 ]]; then
+        # Sanitize: strip whitespace and validate numeric format
+        ahead_count="${ahead_count##*( )}"
+        ahead_count="${ahead_count%%*( )}"
+        [[ "$ahead_count" =~ ^[0-9]+$ ]] || ahead_count=0
+        if [[ $ahead_count -gt 0 ]]; then
           detail_text="($ahead_count commit$([ $ahead_count -gt 1 ] && echo 's'))"
         else
           detail_text="(needs push)"
@@ -362,6 +384,11 @@ _dot_resolve_file_path() {
   # Count matches
   local match_count
   match_count=$(echo "$matched_files" | wc -l | tr -d ' ')
+
+  # Sanitize: strip whitespace and validate numeric format
+  match_count="${match_count##*( )}"
+  match_count="${match_count%%*( )}"
+  [[ "$match_count" =~ ^[0-9]+$ ]] || match_count=0
 
   if [[ $match_count -eq 1 ]]; then
     # Single match - return it
