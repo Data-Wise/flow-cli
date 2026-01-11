@@ -370,26 +370,40 @@ All v5.1.0 features implemented, tested, released, and documented:
 
 ---
 
-### **v5.3.0 - Feature Enhancements** (Target: v5.3.0, ~2.5 hours)
+### **v5.3.0 - Feature Enhancements** (Target: v5.3.0, ~3.5 hours)
 
 **Priority 3: New Features**
-1. **Undo Implementation** (dispatcher:869-872) - 1 hour
+1. **Secret Clipboard Integration** (NEW) - 30 min
+   - `dot secret copy <name>` - Copy secret to clipboard
+   - Auto-clear after 30 seconds (security)
+   - Uses `pbcopy` on macOS, `xclip` on Linux
+   - Add 5 tests
+
+2. **Interactive Secrets Dashboard** (NEW) - 1 hour
+   - `dot secrets -i` / `dot secrets --interactive` - fzf picker
+   - Preview: token type, expiration, last rotated
+   - Actions: copy, refresh, delete
+   - Keyboard shortcuts (Ctrl-C copy, Ctrl-R refresh)
+   - Add 8 tests
+
+3. **Template Validation** (NEW) - 30 min
+   - `dot validate` - Check templates before apply
+   - Validates Bitwarden references exist
+   - Dry-run template expansion
+   - Reports missing secrets
+   - Add 6 tests
+
+4. **Undo Implementation** (dispatcher:869-872) - 1 hour
    - Replace placeholder with actual git revert
    - Show last commit, confirm, revert + re-apply
    - Add 8 tests for undo scenarios
 
-2. **Template Helper** (NEW function) - 30 min
+5. **Template Helper** (existing) - 30 min
    - `dot template <file>` - Preview template with secrets
    - Uses `chezmoi execute-template` for local preview
    - Add help section, 5 tests
 
-3. **Publishing Helpers** (NEW feature) - 1 hour
-   - `dot publish npm` - Publish to npm with Bitwarden token
-   - `dot publish pypi` - Publish to PyPI with Bitwarden token
-   - Local publishing workflow automation
-   - Note: CI/CD should use GitHub Secrets / Trusted Publishing
-
-**Estimated Total:** 2.5 hours
+**Estimated Total:** 3.5 hours
 
 ---
 
