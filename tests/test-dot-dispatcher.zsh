@@ -252,18 +252,18 @@ echo ""
 
 if _dot_has_bw; then
   # Test: Get Bitwarden status
-  status=$(_dot_bw_get_status)
+  bw_status=$(_dot_bw_get_status)
 
-  if [[ -n "$status" ]]; then
+  if [[ -n "$bw_status" ]]; then
     test_pass "Bitwarden status retrieval works"
 
     # Verify it's a valid status
-    case "$status" in
+    case "$bw_status" in
       unlocked|locked|unauthenticated)
-        test_pass "Bitwarden status is valid: $status"
+        test_pass "Bitwarden status is valid: $bw_status"
         ;;
       *)
-        test_fail "Bitwarden status is valid" "Got unexpected status: $status"
+        test_fail "Bitwarden status is valid" "Got unexpected status: $bw_status"
         ;;
     esac
   else
@@ -272,7 +272,7 @@ if _dot_has_bw; then
   ((TESTS_RUN+=2))
 
   # Test: Session validation
-  if [[ "$status" == "unlocked" ]]; then
+  if [[ "$bw_status" == "unlocked" ]]; then
     if _dot_bw_session_valid; then
       test_pass "Bitwarden session validation works (valid session)"
     else
@@ -501,6 +501,74 @@ test_assert_function_exists "_dot_format_file_count" "Format: _dot_format_file_c
 
 # Test: Format time ago
 test_assert_function_exists "_dot_format_time_ago" "Format: _dot_format_time_ago exists"
+
+echo ""
+
+# ============================================================================
+# TEST SUITE 11: WC OUTPUT SANITIZATION (Regression Test)
+# ============================================================================
+
+echo "${fg_bold[white]}Test Suite 11: WC Output Sanitization${reset_color}"
+echo "${fg[cyan]}────────────────────────────────────────────────────────────${reset_color}"
+echo ""
+
+# This tests the fix for the "bad math expression" error when wc output
+# contains non-numeric data (terminal control codes, etc.)
+# Ref: Similar to PR #155 fix for pick command
+
+if _dot_has_chezmoi; then
+  # Override wc to simulate malformed output
+  function wc() {
+    # Simulate malformed output with non-numeric data
+    if [[ "$*" == *"-l"* ]]; then
+      echo "Terminal Running..."
+    else
+      command wc "$@"
+    fi
+  }
+
+  # Test: _dot_get_modified_count handles malformed input
+  count=$(_dot_get_modified_count 2>&1)
+  exit_code=$?
+
+  if [[ $exit_code -eq 0 ]]; then
+    test_pass "_dot_get_modified_count doesn't crash with malformed wc output"
+
+    # Should default to 0 for non-numeric input
+    if [[ "$count" == "0" ]]; then
+      test_pass "_dot_get_modified_count returns 0 for malformed input"
+    else
+      test_fail "_dot_get_modified_count returns 0 for malformed input" "Got: $count"
+    fi
+  else
+    test_fail "_dot_get_modified_count doesn't crash with malformed wc output" "Exit code: $exit_code"
+  fi
+  ((TESTS_RUN+=2))
+
+  # Test: _dot_get_tracked_count handles malformed input
+  count=$(_dot_get_tracked_count 2>&1)
+  exit_code=$?
+
+  if [[ $exit_code -eq 0 ]]; then
+    test_pass "_dot_get_tracked_count doesn't crash with malformed wc output"
+
+    # Should default to 0 for non-numeric input
+    if [[ "$count" == "0" ]]; then
+      test_pass "_dot_get_tracked_count returns 0 for malformed input"
+    else
+      test_fail "_dot_get_tracked_count returns 0 for malformed input" "Got: $count"
+    fi
+  else
+    test_fail "_dot_get_tracked_count doesn't crash with malformed wc output" "Exit code: $exit_code"
+  fi
+  ((TESTS_RUN+=2))
+
+  # Clean up override
+  unfunction wc
+else
+  echo "${fg[yellow]}⊘${reset_color} Chezmoi not installed - skipping sanitization tests"
+  echo ""
+fi
 
 echo ""
 
