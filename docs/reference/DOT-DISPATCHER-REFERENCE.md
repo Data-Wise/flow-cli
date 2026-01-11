@@ -2,7 +2,7 @@
 
 **Command:** `dot`
 **Purpose:** Dotfile management via chezmoi and Bitwarden
-**Version:** v5.1.1 (Auto-Add & Template Enhancements)
+**Version:** v5.2.0 (Secret Management v2.0 Complete)
 
 ---
 
@@ -14,9 +14,21 @@ The `dot` dispatcher provides a unified interface for managing dotfiles with che
 
 - 📝 **Dotfile sync** (chezmoi integration)
 - 🔐 **Secret management** (Bitwarden integration)
+- 🧙 **Token wizards** (GitHub, NPM, PyPI token creation)
+- 🔄 **Token rotation** (refresh tokens with `--refresh`)
+- 📊 **Secrets dashboard** (expiration tracking)
+- 🔗 **CI/CD integration** (GitHub secrets sync, direnv)
 - 🎯 **ADHD-friendly** (smart defaults, clear status, progressive disclosure)
 - ⚡ **Fast** (< 500ms for most operations)
 - 🔌 **Optional** (graceful degradation if tools not installed)
+
+**✨ New in v5.2.0 - Secret Management v2.0:**
+- 🧙 **Token wizards** - `dot token github/npm/pypi` guided creation
+- 🔄 **Token rotation** - `dot token <name> --refresh` to rotate tokens
+- 📊 **Secrets dashboard** - `dot secrets` shows all tokens with expiration
+- ⏱️ **Session cache** - 15-minute auto-lock for security
+- 🔗 **GitHub sync** - `dot secrets sync github` syncs to repo secrets
+- 📁 **Direnv integration** - `dot env init` generates `.envrc`
 
 **✨ New in v5.1.1:**
 - ➕ **`dot add`** - Standalone command to add files to chezmoi
@@ -39,29 +51,42 @@ The `dot` dispatcher provides a unified interface for managing dotfiles with che
 # Check dotfile status
 dot
 
-# Add a file to chezmoi (v5.1.1+)
+# Add a file to chezmoi
 dot add ~/.bashrc
 
 # Edit a dotfile (with preview & apply)
 dot edit .zshrc
 
-# Edit untracked file (prompts to add - v5.1.1+)
-dot edit ~/.bashrc
-
-# Create new file (auto-creates parent dirs - v5.1.1+)
-dot edit ~/.config/newapp/config.zsh
-
-# Preview changes without applying (v5.1.0+)
-dot apply --dry-run
-
 # Sync from remote
 dot sync
 
-# Unlock Bitwarden vault
+# Preview changes without applying
+dot apply --dry-run
+
+# === Secret Management (v5.2.0) ===
+
+# Unlock Bitwarden vault (15-min session)
 dot unlock
 
 # Get a secret (no terminal echo)
 TOKEN=$(dot secret github-token)
+
+# Create token with guided wizard
+dot token github          # GitHub PAT wizard
+dot token npm             # NPM token wizard
+dot token pypi            # PyPI token wizard
+
+# Rotate an existing token
+dot token github-token --refresh
+
+# View all secrets with expiration
+dot secrets
+
+# Sync secrets to GitHub repo
+dot secrets sync github
+
+# Generate .envrc for direnv
+dot env init
 ```
 
 ---
@@ -484,6 +509,376 @@ dot secret list
 💳 stripe-test-key (Work/Stripe)
 
 ℹ Usage: dot secret <name>
+```
+
+#### `dot secret add <name>`
+
+Store a new secret with hidden input and optional expiration tracking.
+
+**Features:**
+- Hidden input (no terminal echo)
+- Expiration tracking with `--expires <days>`
+- Optional notes with `--notes <text>`
+- JSON metadata stored in Bitwarden notes field
+
+**Examples:**
+```bash
+# Add a secret (prompts for value)
+dot secret add api-key
+
+# Add with expiration (90 days)
+dot secret add github-token --expires 90
+
+# Add with notes
+dot secret add npm-token --notes "Automation token for CI"
+```
+
+**Output:**
+```
+🔐 Add Secret: api-key
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Enter secret value: ········
+
+✓ Secret 'api-key' stored in Bitwarden
+  Expires: never
+
+💡 Usage: $(dot secret api-key)
+```
+
+#### `dot secret check`
+
+Show expiring and expired secrets.
+
+**Features:**
+- Color-coded status (✓ valid, ⚠ expiring, ❌ expired)
+- Shows days remaining
+- Configurable warning threshold (default 30 days)
+
+**Examples:**
+```bash
+dot secret check
+```
+
+**Output:**
+```
+🔐 Secret Status Check
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ⚠ npm-token         Expiring in 12 days
+  ✓ github-token      Valid (45 days)
+  ❌ old-api-key       Expired 5 days ago
+
+💡 Run: dot token <name> --refresh to rotate
+```
+
+#### `dot lock`
+
+Lock Bitwarden vault immediately.
+
+**Examples:**
+```bash
+dot lock    # Lock vault and clear session
+```
+
+---
+
+### Token Wizards (v5.2.0)
+
+Guided token creation with validation and secure storage.
+
+#### `dot token github`
+
+GitHub Personal Access Token creation wizard.
+
+**Features:**
+- Classic vs Fine-grained token selection
+- Recommended scopes based on project type
+- Opens browser to token creation page
+- Token format validation (ghp_ / github_pat_)
+- API validation against GitHub
+- Stores with expiration metadata
+
+**Examples:**
+```bash
+dot token github                          # Interactive wizard
+dot token github --type fine-grained      # Skip type selection
+dot token gh                              # Alias
+```
+
+**Flow:**
+```
+🔐 GitHub Token Setup
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Token type:
+  [1] Classic PAT (broad permissions)
+  [2] Fine-grained PAT (recommended)
+
+Select [1/2]: 2
+
+Recommended scopes for this project (flow-cli):
+  ✓ Contents (read/write) - push code
+  ✓ Workflows - GitHub Actions
+  ✓ Metadata (read) - basic repo info
+
+Press Enter to open github.com...
+[browser opens]
+
+Paste your new token: ········
+
+Expiration (days, 0=never) [90]: 90
+
+✓ Token validated (scopes: repo, workflow)
+✓ Stored in Bitwarden as "github-token"
+✓ Expires: 2026-04-10 (90 days)
+
+💡 Usage: GITHUB_TOKEN=$(dot secret github-token)
+```
+
+#### `dot token npm`
+
+NPM token creation wizard.
+
+**Features:**
+- Automation/Read-only/Granular token types
+- Token format validation (npm_)
+- API validation against NPM registry
+- Stores with scope metadata
+
+**Examples:**
+```bash
+dot token npm           # Interactive wizard
+```
+
+#### `dot token pypi`
+
+PyPI token creation wizard.
+
+**Features:**
+- Account-wide vs Project-scoped tokens
+- Token format validation (pypi-)
+- Trusted Publishing recommendation
+- Stores with scope metadata
+
+**Examples:**
+```bash
+dot token pypi          # Interactive wizard
+```
+
+---
+
+### Token Rotation (v5.2.0)
+
+Rotate existing tokens with full lifecycle tracking.
+
+#### `dot token <name> --refresh`
+
+Rotate an existing DOT-managed token.
+
+**Features:**
+- Automatic type detection from metadata
+- Opens browser for new token creation
+- Validates new token against provider API
+- Updates stored token with new value
+- Records rotation history in metadata
+- Reminds to revoke old token
+
+**Syntax Options:**
+```bash
+dot token github-token --refresh     # Flag after name
+dot token github-token -r            # Short flag
+dot token refresh github-token       # Keyword before name
+```
+
+**Flow:**
+```
+🔄 Rotating Token: github-token
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Looking up token metadata...
+
+  Token Type: github (fine-grained)
+  Created: 2026-01-10
+  Expires: 2026-04-10 (in 45 days)
+
+  Opening browser to create new token...
+  [browser opens]
+
+  Paste new token: ········
+
+  Expiration (days) [90]: 90
+
+✓ Token validated against GitHub API
+✓ Token updated in Bitwarden
+✓ Expiration: 2026-04-11 (90 days)
+
+⚠ Remember to revoke the old token at:
+  https://github.com/settings/tokens
+```
+
+**Requirements:**
+- Token must have DOT metadata (`dot_version` in notes)
+- Tokens created with `dot token` wizards have this automatically
+- Manually-added tokens need metadata to use `--refresh`
+
+---
+
+### Secrets Dashboard (v5.2.0)
+
+Overview of all DOT-managed secrets.
+
+#### `dot secrets`
+
+Show dashboard of all secrets with status and expiration.
+
+**Features:**
+- Token type, status, and expiration display
+- Color-coded: ✓ Valid, ⚠ Expiring, ❌ Expired
+- Vault unlock status with time remaining
+- Actionable tips for expiring tokens
+
+**Examples:**
+```bash
+dot secrets             # Show dashboard
+dot secrets help        # Show subcommand help
+```
+
+**Output:**
+```
+🔐 Secret Status
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Token              Type      Status      Expires
+  ─────────────────────────────────────────────────
+  github-token       github    ✓ Valid     in 45 days
+  npm-token          npm       ⚠ Expiring  in 12 days
+  pypi-flow-cli      pypi      ✓ Valid     in 180 days
+  anthropic-key      api       ✓ Valid     never
+
+  Vault: 🔓 Unlocked (12 min remaining)
+
+  ⚠ 1 token expiring soon
+  💡 Run: dot token npm --refresh
+```
+
+---
+
+### Session Cache (v5.2.0)
+
+Automatic session management with 15-minute idle timeout.
+
+**Features:**
+- File-based cache at `~/.cache/dot/session`
+- Tracks unlock time and last activity
+- Auto-locks after 15 minutes of inactivity
+- Configurable via `DOT_SESSION_IDLE_TIMEOUT`
+- Status shown in `dot` command output
+
+**How it works:**
+1. When you run `dot unlock`, session timestamp is cached
+2. Each `dot` command updates the activity timestamp
+3. After 15 minutes of no `dot` commands, session expires
+4. Next `dot secret` command prompts for unlock
+
+**Configuration:**
+```bash
+# Set custom timeout (in seconds)
+export DOT_SESSION_IDLE_TIMEOUT=1800  # 30 minutes
+```
+
+**Status in `dot` output:**
+```
+📁 Dotfiles Status
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  State: 🟢 Synced
+
+  🔐 Vault: 🔓 Unlocked (12 min remaining)
+```
+
+---
+
+### CI/CD Integration (v5.2.0)
+
+Sync secrets to CI/CD systems and generate environment files.
+
+#### `dot secrets sync github`
+
+Sync DOT-managed secrets to GitHub repository secrets.
+
+**Features:**
+- Interactive selection of which secrets to sync
+- Uses `gh secret set` for secure sync
+- Shows confirmation with secret names (not values)
+- Supports filtering by type
+
+**Examples:**
+```bash
+dot secrets sync github         # Interactive selection
+```
+
+**Flow:**
+```
+🔄 Sync Secrets to GitHub
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Repository: Data-Wise/flow-cli
+
+  Available secrets:
+    [1] github-token (github)
+    [2] npm-token (npm)
+    [3] anthropic-key (api)
+
+  Select secrets to sync (1,2,3 or 'all'): 2,3
+
+  Syncing 2 secrets...
+
+✓ NPM_TOKEN synced to Data-Wise/flow-cli
+✓ ANTHROPIC_KEY synced to Data-Wise/flow-cli
+
+💡 These secrets are now available in GitHub Actions
+```
+
+#### `dot env init`
+
+Generate `.envrc` file for direnv integration.
+
+**Features:**
+- Interactive selection of secrets to include
+- Converts secret names to SCREAMING_SNAKE_CASE
+- Auto-adds `.envrc` to `.gitignore` if not present
+- Uses `dot secret` for secure retrieval
+
+**Examples:**
+```bash
+dot env init            # Interactive selection
+```
+
+**Flow:**
+```
+📁 Generate .envrc
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Available secrets:
+    [1] github-token
+    [2] npm-token
+    [3] anthropic-key
+
+  Select secrets for .envrc (1,2,3 or 'all'): 1,3
+
+  Generating .envrc...
+
+✓ Created .envrc with 2 secrets
+✓ Added .envrc to .gitignore
+
+  Generated file:
+  ─────────────────────────────
+  export GITHUB_TOKEN=$(dot secret github-token)
+  export ANTHROPIC_KEY=$(dot secret anthropic-key)
+  ─────────────────────────────
+
+💡 Run: direnv allow
 ```
 
 ---

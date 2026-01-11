@@ -485,66 +485,48 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2026-01-09)
+## Current Status (2026-01-11)
 
-### ✅ v5.2.0 Just Completed - Dot Dispatcher
+### ✅ v5.2.0 RELEASED - Secret Management v2.0 Complete
 
-**Feature:** Dotfile Management with Bitwarden Secrets
-**Status:** Implementation complete, ready for PR
-**Grade:** A- (91/100)
+**Feature:** Complete Secret Management Lifecycle
+**Status:** Released and deployed
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.2.0
 
 **What Was Delivered:**
 
-- [x] 16 new files (450+ lines of dispatcher code)
-- [x] 4 modified files (dashboard + doctor integration)
-- [x] 112+ tests (100% passing)
-- [x] Complete documentation (guide, reference, refcard, demo tape)
-- [x] Security audit (no secrets in history/logs)
+- [x] Phase 1: Foundation (dot secret add/check, dot lock, 15-min cache)
+- [x] Phase 2: Token Wizards (dot token github/npm/pypi, dot secrets)
+- [x] Phase 3: Token Rotation (dot token <name> --refresh)
+- [x] Integration: CI/CD sync (dot secrets sync github, dot env init)
+- [x] 134 unit tests (100% passing)
+- [x] Complete documentation (guide, reference, refcard)
 
-**Key Commands:**
+**Key Commands (v5.2.0):**
 
 ```bash
-dot                      # Status overview
-dot edit .zshrc          # Edit with preview
-dot sync                 # Pull from remote
-dot unlock               # Unlock Bitwarden
-dot secret github-token  # Retrieve secret (no echo)
+# Token Wizards
+dot token github              # GitHub PAT creation wizard
+dot token npm                 # NPM token wizard
+dot token pypi                # PyPI token wizard
+
+# Token Rotation
+dot token github-token --refresh    # Rotate existing token
+
+# Secrets Dashboard
+dot secrets                   # View all secrets with expiration
+
+# CI/CD Integration
+dot secrets sync github       # Sync to GitHub repo secrets
+dot env init                  # Generate .envrc for direnv
 ```
 
 **Integration:**
 
-- Dashboard shows dotfile status (< 100ms)
-- Doctor includes dotfile health checks
-- Fuzzy file path matching
-- Session-scoped Bitwarden secrets
-
-### 🚀 v5.2.0 Development - CC Unified Grammar
-
-**Status:** Phase 2 in progress (Documentation)
-**Progress:** 75%
-
-**Completed:**
-
-- [x] Phase 1: Core parsing logic (30 tests passing)
-- [x] Mode vs target detection in `cc()` function
-- [x] Support for both `cc [mode] [target]` and `cc [target] [mode]` patterns
-- [x] Added `.` and `here` as explicit HERE targets
-- [x] Updated `_cc_help()` function with unified grammar examples
-- [x] Updated CC-DISPATCHER-REFERENCE.md with both-order examples
-- [x] Updated CLAUDE.md quick reference section
-
-**In Progress:**
-
-- [ ] Update README.md with new patterns
-- [ ] Phase 3: Shell completions
-- [ ] Phase 4: Final testing & release
-
-**Key Features:**
-
-- ✨ Both `cc opus pick` and `cc pick opus` work identically
-- ✨ Explicit HERE: `cc .` and `cc here`
-- ✨ Natural reading: `cc flow opus` (jump to flow → launch Opus)
-- 📝 Zero breaking changes - all v5.2.0 patterns still work
+- 15-minute session cache with auto-lock
+- Dashboard shows vault status with time remaining
+- Token expiration tracking and warnings
+- Metadata stored in Bitwarden notes field
 
 ---
 
