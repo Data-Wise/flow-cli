@@ -2,8 +2,8 @@
 
 **Manage your dotfiles across machines with chezmoi and Bitwarden secrets**
 
-**Last Updated:** 2026-01-09
-**Version:** v1.2.0
+**Last Updated:** 2026-01-11
+**Version:** v2.0.0
 **Target Audience:** Users wanting to synchronize dotfiles and manage secrets securely
 
 ---
@@ -332,6 +332,159 @@ Personal/
 
 ---
 
+## Token Management (v5.2.0)
+
+### Token Wizards
+
+Create tokens with guided wizards that handle validation and storage:
+
+```bash
+# GitHub Personal Access Token
+dot token github
+
+# NPM automation token
+dot token npm
+
+# PyPI project token
+dot token pypi
+```
+
+**Example wizard session:**
+
+```
+🧙 GitHub Token Wizard
+
+Select token type:
+  1. Classic Personal Access Token
+  2. Fine-grained Token (recommended)
+
+Choice [1/2]: 2
+
+ℹ Opening GitHub token creation page...
+
+Paste your new token: ghp_xxxxxxxxxxxx
+
+✓ Token validated!
+  User: youruser
+  Scopes: repo, workflow
+
+✓ Stored as 'github-token' in Bitwarden
+  Expires: 2026-04-10 (90 days)
+```
+
+### Session Cache (15-minute)
+
+Bitwarden sessions are cached for 15 minutes to reduce password prompts:
+
+```bash
+dot unlock     # Unlocks for 15 minutes
+dot secret x   # Works without re-prompting
+# ... 14 minutes later ...
+dot secret y   # Still works (cached)
+# ... 16 minutes later ...
+dot secret z   # Prompts to unlock again
+```
+
+### Secrets Dashboard
+
+View all tokens with expiration status:
+
+```bash
+dot secrets
+```
+
+**Dashboard output:**
+
+```
+╭───────────────────────────────────────────────────────────────╮
+│  🔐 Secrets Dashboard                                          │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  🔑 github-token                                              │
+│     Expires: 2026-04-10 (89 days)                            │
+│     Scopes: repo, workflow                                    │
+│                                                               │
+│  🔑 npm-token                                                 │
+│     Expires: 2026-07-10 (180 days)                           │
+│     Type: automation                                          │
+│                                                               │
+│  ⚠️  pypi-token                                               │
+│     Expires: 2026-01-20 (9 days) ← EXPIRING SOON             │
+│     Scope: project:mypackage                                  │
+│                                                               │
+╰───────────────────────────────────────────────────────────────╯
+```
+
+### Token Rotation
+
+Rotate expiring tokens with a single command:
+
+```bash
+# Rotate a specific token
+dot token pypi-token --refresh
+
+# Short form
+dot token pypi-token -r
+```
+
+**Rotation output:**
+
+```
+🔄 Rotating token: pypi-token
+
+ℹ Current token expires: 2026-01-20 (9 days)
+
+ℹ Opening PyPI token creation page...
+
+Paste your new token: pypi-xxxxxxxx
+
+✓ Token validated!
+✓ Updated in Bitwarden
+  New expiration: 2026-04-10 (90 days)
+
+⚠️  Remember to revoke old token at:
+   https://pypi.org/manage/account/token/
+```
+
+### CI/CD Integration
+
+**Sync to GitHub Actions:**
+
+```bash
+dot secrets sync github
+```
+
+```
+ℹ Syncing secrets to: Data-Wise/flow-cli
+
+Select secrets to sync:
+  [x] GITHUB_TOKEN
+  [x] NPM_TOKEN
+  [ ] PYPI_TOKEN
+
+✓ 2 secrets synced to repository
+```
+
+**Generate .envrc for direnv:**
+
+```bash
+dot env init
+```
+
+```
+✓ Generated .envrc with 3 secrets
+
+  Contents:
+  ─────────────────────────────
+  export GITHUB_TOKEN="$(dot secret github-token)"
+  export NPM_TOKEN="$(dot secret npm-token)"
+  ─────────────────────────────
+
+💡 Run 'direnv allow' to activate
+```
+
+---
+
 ## Template Examples
 
 ### Example 1: Git Config with Token
@@ -652,7 +805,17 @@ Access custom fields in Bitwarden items:
 
 ### Secret Rotation
 
-When rotating secrets:
+**Method 1: Use Token Wizard (Recommended - v5.2.0)**
+
+```bash
+# Rotate with guided wizard
+dot token github-token --refresh
+
+# This opens browser, validates new token, updates Bitwarden
+# and reminds you to revoke the old token
+```
+
+**Method 2: Manual Update**
 
 ```bash
 # 1. Update in Bitwarden
@@ -679,9 +842,17 @@ grep github-token ~/.gitconfig
 | `dot push` | `dot p` | Push to remote |
 | `dot diff` | `dot d` | Show pending changes |
 | `dot apply` | `dot a` | Apply changes |
-| `dot unlock` | `dot u` | Unlock Bitwarden vault |
+| `dot unlock` | `dot u` | Unlock Bitwarden vault (15-min session) |
+| `dot lock` | `dot l` | Lock Bitwarden vault |
 | `dot secret NAME` | - | Retrieve secret |
 | `dot secret list` | - | List all secrets |
+| `dot secrets` | - | Dashboard with expiration |
+| `dot token github` | `dot token gh` | GitHub PAT wizard |
+| `dot token npm` | - | NPM token wizard |
+| `dot token pypi` | `dot token pip` | PyPI token wizard |
+| `dot token NAME --refresh` | `dot token NAME -r` | Rotate existing token |
+| `dot secrets sync github` | - | Sync to GitHub Actions |
+| `dot env init` | - | Generate .envrc for direnv |
 | `dot doctor` | `dot dr` | Run diagnostics |
 | `dot help` | - | Show help |
 
@@ -696,6 +867,6 @@ grep github-token ~/.gitconfig
 
 ---
 
-**Version:** 1.2.0
-**Last Updated:** 2026-01-09
+**Version:** 2.0.0
+**Last Updated:** 2026-01-11
 **Status:** Production Ready

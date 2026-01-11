@@ -242,6 +242,124 @@ dot apply            # Apply
 
 ---
 
+## Workflow 5: Token Management (v5.2.0)
+
+### Create Tokens with Wizards
+
+```bash
+# GitHub Personal Access Token
+dot token github
+
+# NPM automation token
+dot token npm
+
+# PyPI project token
+dot token pypi
+```
+
+**Wizard output:**
+```
+🧙 GitHub Token Wizard
+
+Select token type:
+  1. Classic Personal Access Token
+  2. Fine-grained Token (recommended)
+
+Choice [1/2]: 2
+
+ℹ Opening GitHub token creation page...
+
+Paste your new token: ghp_xxxxxxxxxxxx
+
+✓ Token validated!
+✓ Stored as 'github-token' in Bitwarden
+```
+
+### Check Token Status
+
+```bash
+dot secrets
+```
+
+**Dashboard output:**
+```
+╭───────────────────────────────────────────────────────────────╮
+│  🔐 Secrets Dashboard                                          │
+├───────────────────────────────────────────────────────────────┤
+│  🔑 github-token       Expires: 89 days                       │
+│  🔑 npm-token          Expires: 180 days                      │
+│  ⚠️  pypi-token         Expires: 9 days  ← EXPIRING SOON      │
+╰───────────────────────────────────────────────────────────────╯
+```
+
+### Rotate Expiring Tokens
+
+```bash
+# Rotate a specific token
+dot token pypi-token --refresh
+
+# Short form
+dot token pypi-token -r
+```
+
+**Rotation output:**
+```
+🔄 Rotating token: pypi-token
+
+ℹ Opening PyPI token creation page...
+
+Paste your new token: pypi-xxxxxxxx
+
+✓ Token validated!
+✓ Updated in Bitwarden
+
+⚠️  Remember to revoke old token at:
+   https://pypi.org/manage/account/token/
+```
+
+---
+
+## Workflow 6: CI/CD Integration (v5.2.0)
+
+### Sync Secrets to GitHub Actions
+
+```bash
+dot secrets sync github
+```
+
+**Output:**
+```
+ℹ Syncing secrets to: Data-Wise/flow-cli
+
+Select secrets to sync:
+  [x] GITHUB_TOKEN
+  [x] NPM_TOKEN
+  [ ] PYPI_TOKEN
+
+✓ 2 secrets synced to repository
+```
+
+### Generate .envrc for direnv
+
+```bash
+dot env init
+```
+
+**Output:**
+```
+✓ Generated .envrc with 3 secrets
+
+  Contents:
+  ─────────────────────────────
+  export GITHUB_TOKEN="$(dot secret github-token)"
+  export NPM_TOKEN="$(dot secret npm-token)"
+  ─────────────────────────────
+
+💡 Run 'direnv allow' to activate
+```
+
+---
+
 ## Common Patterns
 
 ### Quick Config Change
@@ -316,9 +434,16 @@ Run: dot unlock
 | `dot apply -n` | Dry-run preview |
 | `dot sync` | Pull from remote |
 | `dot push` | Push to remote |
-| `dot unlock` | Unlock Bitwarden |
+| `dot unlock` | Unlock Bitwarden (15-min session) |
 | `dot secret <name>` | Retrieve secret |
 | `dot secret list` | List secrets |
+| `dot secrets` | Dashboard with expiration |
+| `dot token github` | GitHub PAT wizard |
+| `dot token npm` | NPM token wizard |
+| `dot token pypi` | PyPI token wizard |
+| `dot token <n> --refresh` | Rotate existing token |
+| `dot secrets sync github` | Sync to GitHub Actions |
+| `dot env init` | Generate .envrc |
 | `dot doctor` | Run diagnostics |
 | `dot help` | Show help |
 
@@ -334,5 +459,5 @@ Run: dot unlock
 
 ---
 
-**Version:** v5.1.0
+**Version:** v5.2.0
 **See Also:** [DOT Dispatcher Reference](../reference/DOT-DISPATCHER-REFERENCE.md) | [Tutorial](../tutorials/12-dot-dispatcher.md)

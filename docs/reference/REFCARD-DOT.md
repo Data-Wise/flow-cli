@@ -1,6 +1,6 @@
 # Dot Dispatcher Quick Reference Card
 
-**Version:** 1.2.0 | **Updated:** 2026-01-09
+**Version:** 2.2.0 | **Updated:** 2026-01-11
 
 ---
 
@@ -12,8 +12,11 @@
 | `dot edit FILE` | Edit with preview | instant |
 | `dot sync` | Pull from remote | 1-3s |
 | `dot push` | Push to remote | 1-3s |
-| `dot unlock` | Unlock secrets | 2-5s |
+| `dot unlock` | Unlock secrets (15m session) | 2-5s |
 | `dot secret NAME` | Get secret | < 200ms |
+| `dot secrets` | Dashboard of all secrets | < 1s |
+| `dot token github` | GitHub PAT wizard | 1-2 min |
+| `dot token <name> --refresh` | Rotate token | 1-2 min |
 
 ---
 
@@ -47,7 +50,32 @@ dot unlock                    # Unlock vault
 TOKEN=$(dot secret api-key)   # Capture secret
 ```
 
-### 5. Edit Template (2 min)
+### 5. Create Token (2 min)
+
+```bash
+dot token github              # Run wizard
+# → Select type (classic/fine-grained)
+# → Open browser, paste token
+# → Validates and stores with expiration
+```
+
+### 6. Rotate Token (1 min)
+
+```bash
+dot token github-token --refresh
+# → Opens browser for new token
+# → Validates and updates
+# → Reminds to revoke old token
+```
+
+### 7. Sync to CI/CD (1 min)
+
+```bash
+dot secrets sync github       # Select secrets → sync to repo
+dot env init                  # Generate .envrc for direnv
+```
+
+### 8. Edit Template (2 min)
 
 ```bash
 dot unlock                    # Unlock vault
@@ -79,7 +107,11 @@ dot edit .gitconfig           # Edit template
 | `dot apply` | `dot a` | `dot a` |
 | `dot push` | `dot p` | `dot p` |
 | `dot unlock` | `dot u` | `dot u` |
+| `dot lock` | `dot l` | `dot l` |
 | `dot doctor` | `dot dr` | `dot dr` |
+| `dot token github` | `dot token gh` | `dot token gh` |
+| `dot token pypi` | `dot token pip` | `dot token pip` |
+| `dot token <n> --refresh` | `dot token <n> -r` | `dot token gh-token -r` |
 
 ---
 
@@ -97,12 +129,12 @@ dot edit .config/zsh/.zshrc
 
 ---
 
-## Bitwarden Secrets
+## Secret Management (v5.2.0)
 
 ### Quick Reference
 
 ```bash
-# Unlock (per-session)
+# Unlock (15-min session cache)
 dot unlock
 
 # List items
@@ -111,8 +143,37 @@ dot secret list
 # Get secret (no echo)
 TOKEN=$(dot secret github-token)
 
-# Use in command
-curl -H "Authorization: Bearer $(dot secret api-key)" https://api.example.com
+# Add a secret with expiration
+dot secret add api-key --expires 90
+
+# Check expiring tokens
+dot secret check
+
+# View all secrets dashboard
+dot secrets
+```
+
+### Token Wizards
+
+```bash
+# Create tokens with guided wizards
+dot token github              # GitHub PAT
+dot token npm                 # NPM token
+dot token pypi                # PyPI token
+
+# Rotate existing token
+dot token github-token --refresh
+dot token npm-token -r        # Short flag
+```
+
+### CI/CD Integration
+
+```bash
+# Sync secrets to GitHub repo secrets
+dot secrets sync github
+
+# Generate .envrc for direnv
+dot env init
 ```
 
 ### Template Syntax
@@ -137,6 +198,8 @@ curl -H "Authorization: Bearer $(dot secret api-key)" https://api.example.com
 | "Not initialized" | `chezmoi init` |
 | "Vault locked" | `dot unlock` |
 | "Item not found" | `dot secret list` |
+| "Session expired" | `dot unlock` (15-min cache) |
+| Token expiring | `dot token <name> --refresh` |
 | Changes not applied | `dot apply` |
 | Session in history | Auto-prevented by HISTIGNORE |
 
