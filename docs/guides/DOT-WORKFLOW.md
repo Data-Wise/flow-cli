@@ -1,630 +1,338 @@
 # Dotfile Management Workflow
 
 **Level:** Beginner to Intermediate
-**Time:** 20 minutes
-**Goal:** Master dotfile management with chezmoi and Bitwarden secrets
+**Time:** 15 minutes
+**Goal:** Master dotfile management with chezmoi and the DOT dispatcher
 
 ---
 
-## What This Guide Covers
+## Quick Start
 
-Learn practical workflows for managing dotfiles with the `dot` dispatcher:
-
-- ✅ **Quick edit workflow** - Edit, preview, and apply dotfile changes
-- ✅ **Sync workflow** - Keep dotfiles synchronized across machines
-- ✅ **Secret management** - Safely handle API keys and tokens with Bitwarden
-- ✅ **Dry-run previews** (v5.1.0) - Preview changes before applying
-- ✅ **Error recovery** - Handle common issues with smart error messages
-- ✅ **ADHD-friendly patterns** - Quick, safe, reversible workflows
-
----
-
-## Why Use the dot Dispatcher?
-
-### The Problem with Manual Dotfile Management
-
-**Traditional approach:**
 ```bash
-# Edit dotfile directly
-vim ~/.zshrc
+# Check status
+dot
 
-# Oops, broke something - how do I revert?
-# No version history
-# No backup
-# No sync across machines
+# Edit a dotfile (must be tracked first)
+dot edit .zshrc
+
+# Pull updates from remote
+dot sync
+
+# Push your changes
+dot push
 ```
 
-**Issues:**
-- ⚠️ No version control
-- ⚠️ Easy to break configs
-- ⚠️ Hard to sync across machines
-- ⚠️ Secrets scattered everywhere
-- ⚠️ No preview before applying changes
+---
 
-### The dot Dispatcher Solution
+## Prerequisites
 
-**Centralized, versioned, secure:**
-- ✅ All dotfiles in git repository
-- ✅ Changes previewed before applying
-- ✅ Secrets stored securely in Bitwarden
-- ✅ Automatic sync across machines
-- ✅ Easy rollback with `dot undo`
-- ✅ Fast, sub-second operations
+### Required: Chezmoi
+
+```bash
+# Install
+brew install chezmoi
+
+# Initialize (creates ~/.local/share/chezmoi/)
+chezmoi init
+
+# Track your first file
+chezmoi add ~/.zshrc
+```
+
+### Optional: Bitwarden (for secrets)
+
+```bash
+brew install bitwarden-cli
+bw login
+```
 
 ---
 
 ## Workflow 1: Quick Edit
 
-**Goal:** Edit a dotfile, preview changes, and apply.
+Edit a dotfile with preview and apply workflow.
 
-### Step-by-Step
+### Steps
 
 ```bash
-# 1. Edit a dotfile
+# 1. Edit (opens $EDITOR with source file)
 dot edit .zshrc
+```
 
-# Your editor opens...
-# Make changes and save
+**Output:**
+```
+ℹ Opening in vim: dot_zshrc
 
-# 2. dot automatically detects changes (v5.1.0 hash-based detection)
-# Shows diff preview:
+[Make changes, save, exit editor]
+
+✓ Changes detected!
 ───────────────────────────────────────────
-Modified: ~/.zshrc
-───────────────────────────────────────────
-@@ -10,0 +11 @@
+@@ -5,0 +6 @@
 +export NEW_VAR="test"
 ───────────────────────────────────────────
 
-# 3. Prompt to apply
-Apply changes? [Y/n/d(iff)]
+ℹ Apply changes?
+  y - Apply now
+  d - Show detailed diff
+  n - Keep in staging
 
-# Press:
-# - Y: Apply changes to ~/.zshrc
-# - n: Cancel (keep source, don't apply)
-# - d: Show full diff again
+Apply? [Y/n/d]
 ```
 
-### With Dry-Run (v5.1.0)
+**Options:**
 
-**Preview without committing:**
+| Key | Action |
+|-----|--------|
+| **y** | Apply changes to `~/.zshrc` now |
+| **d** | Show full diff, then prompt again |
+| **n** | Keep in chezmoi source (apply later with `dot apply`) |
+
+### Apply Later
+
+If you pressed 'n', changes are in chezmoi but not yet in your home directory:
 
 ```bash
-# Make multiple edits
-dot edit .zshrc
-# Save but press 'n' (don't apply yet)
+# See pending changes
+dot diff
 
-dot edit .gitconfig
-# Save but press 'n'
-
-# Preview all pending changes
-dot apply --dry-run
-
-# Output:
-DRY-RUN MODE - No changes will be applied
-
-Files to update: 2
-
-M .zshrc
-M .gitconfig
-
-[Shows full diff of both files]
-
-✓ Dry-run complete - no changes applied
-
-# Safe! Now apply for real:
+# Apply all pending
 dot apply
+
+# Preview first
+dot apply --dry-run
 ```
-
-### Why Hash-Based Detection Matters (v5.1.0)
-
-**ADHD-friendly change detection:**
-
-Traditional `mtime` has ~1 second granularity. If you:
-1. Open file
-2. Make quick change
-3. Save within 1 second
-4. Exit
-
-...the old detector would say "No changes made" (false negative).
-
-**v5.1.0 uses SHA-256 hash comparison** - catches ALL edits, even sub-second changes. Perfect for rapid editing patterns.
 
 ---
 
-## Workflow 2: Sync Across Machines
+## Workflow 2: Dry-Run Preview
 
-**Goal:** Keep dotfiles synchronized between home and work machines.
-
-### Initial Setup (First Time)
-
-**On your first machine:**
+Preview changes without applying them.
 
 ```bash
-# Initialize chezmoi with your dotfiles repo
-dot init https://github.com/username/dotfiles.git
-
-# Verify
-dot status
-
-# Output:
-Dotfile Status: 🟢 Synced
-Last sync:     just now
-Tracked files: 12
-Remote:        git@github.com:username/dotfiles.git
+dot apply --dry-run
+# or
+dot apply -n
 ```
 
-**On subsequent machines:**
+**Output (no changes):**
+```
+ℹ DRY-RUN MODE - No changes will be applied
 
-```bash
-# Clone your existing dotfiles
-dot init https://github.com/username/dotfiles.git
-
-# Apply to this machine
-dot apply
+✓ No pending changes
 ```
 
-### Daily Sync Workflow
+**Output (with changes):**
+```
+ℹ DRY-RUN MODE - No changes will be applied
 
-**Pull changes from remote (e.g., from work machine):**
+ℹ Showing what would change (dry-run)...
+[chezmoi verbose diff]
 
-```bash
-# On home machine
-dot sync
-
-# Shows what changed:
-Fetching from remote...
-
-Changes from remote:
-M .zshrc          # Updated ZSH config
-M .gitconfig      # Updated git settings
-
-Apply updates? [Y/n/d(iff)]
-
-# Press Y to apply
-✓ Applied 2 files
+✓ Dry-run complete - no changes applied
 ```
 
-**Push changes to remote (share with other machines):**
+### When to Use
+
+- After `dot sync` to see incoming changes
+- Before applying templates with secrets
+- To verify changes are correct
+
+---
+
+## Workflow 3: Cross-Machine Sync
+
+### First Machine Setup
 
 ```bash
-# Made local changes
-dot edit .zshrc
-# Apply changes...
+# Initialize with remote
+chezmoi init https://github.com/user/dotfiles.git
+
+# Add files
+chezmoi add ~/.zshrc
+chezmoi add ~/.gitconfig
+chezmoi add ~/.tmux.conf
 
 # Push to remote
 dot push
+```
 
-# Prompts for commit message:
-Commit message: Add new aliases for project navigation
+### On Other Machines
 
-# Pushes to GitHub
-✓ Pushed to remote
+```bash
+# Clone and initialize
+chezmoi init https://github.com/user/dotfiles.git
+
+# Apply dotfiles
+dot apply
+```
+
+### Daily Sync
+
+```bash
+# Pull from remote
+dot sync
+
+# Output if updates exist:
+# ℹ Fetching from remote...
+# ℹ Remote has updates:
+# abc1234 Add new alias
+# Apply updates? [Y/n/d]
+
+# Push local changes
+dot push
 ```
 
 ---
 
-## Workflow 3: Secret Management
+## Workflow 4: Secret Management
 
-**Goal:** Securely handle API keys and tokens in dotfiles.
-
-### Setup Bitwarden Integration
-
-**One-time setup:**
+### Setup Bitwarden
 
 ```bash
-# Install Bitwarden CLI
+# Install CLI
 brew install bitwarden-cli
 
-# Login to Bitwarden
+# Login (first time)
 bw login
 
-# Unlock vault for this session
+# Unlock vault (each shell session)
 dot unlock
-
-# Output:
- ℹ Enter your Bitwarden master password:
-[password prompt]
-
-✓ Vault unlocked successfully
-
-  Session active in this shell only (not persistent)
- ℹ Use 'dot secret <name>' to retrieve secrets
 ```
 
-### Using Secrets in Templates
+### Store Secrets
 
-**Example: Add GitHub token to .gitconfig**
+1. Open Bitwarden app or web vault
+2. Create Login item with name like `github-token`
+3. Put secret in password field
+4. Save
 
-**1. Store token in Bitwarden:**
-- Open Bitwarden app
-- Create new "Login" item named "github-token"
-- Paste token in password field
-- Save
-
-**2. Create chezmoi template:**
+### Retrieve Secrets
 
 ```bash
-# Edit .gitconfig as template
-dot edit .gitconfig
-
-# Add template syntax:
-[github]
-    user = yourusername
-    token = {{ bitwarden "item" "github-token" }}
-```
-
-**3. Apply with secret substitution:**
-
-```bash
-# Unlock vault first
-dot unlock
-
-# Preview with dry-run (v5.1.0)
-dot apply --dry-run
-
-# Verify token is substituted correctly in preview
-# Then apply:
-dot apply
-```
-
-**Your actual ~/.gitconfig now contains the real token** (not the template).
-
-### Retrieve Secrets in Scripts
-
-**Capture secret without echo:**
-
-```bash
-# Safe - no terminal output
-TOKEN=$(dot secret github-token)
-
-# Use in command
-curl -H "Authorization: Bearer $TOKEN" https://api.github.com/user
-```
-
-### List Available Secrets
-
-```bash
+# List available secrets
 dot secret list
 
 # Output:
- ℹ Retrieving items from vault...
+# ℹ Retrieving items from vault...
+# 🔑 github-token (Work/GitHub)
+# 🔑 anthropic-api-key (AI/Keys)
 
-🔑 github-token (Work/GitHub)
-🔑 npm-token (Work/Node)
-🔑 anthropic-api-key (AI/API Keys)
-📝 ssh-passphrase (Personal)
-
- ℹ Usage: dot secret <name>
+# Retrieve (no echo)
+TOKEN=$(dot secret github-token)
 ```
 
-### Smart Error Handling (v5.1.0)
+### Use in Templates
 
-**Before v5.1.0:**
+**Create template:** `~/.local/share/chezmoi/dot_zshrc.tmpl`
+
 ```bash
-$ dot secret wrong-name
-✗ Failed to retrieve secret
- ℹ Item not found or access denied
+# Regular content
+export PATH=$HOME/bin:$PATH
+
+# Secrets from Bitwarden
+export GITHUB_TOKEN="{{ bitwarden "item" "github-token" }}"
 ```
 
-**After v5.1.0:**
+**Apply with secrets:**
 ```bash
-# Secret doesn't exist
-$ dot secret wrong-name
-✗ Secret not found: wrong-name
-Tip: Use 'dot secret list' to see available items
-
-# Session expired
-$ dot secret github-token
-✗ Session expired
-Run: dot unlock
-
-# Vault locked
-$ dot secret api-key
-✗ Vault is locked
-Run: dot unlock
-```
-
-**Each error type gets specific, actionable guidance.**
-
----
-
-## Workflow 4: Safe Experimentation
-
-**Goal:** Try risky config changes safely with preview and rollback.
-
-### Preview Before Applying
-
-```bash
-# Edit config file
-dot edit .zshrc
-
-# Make experimental changes
-# Save but press 'n' (don't apply yet)
-
-# Use dry-run to preview
-dot apply --dry-run .zshrc
-
-# Review the diff carefully
-# If it looks safe:
-dot apply .zshrc
-
-# If something breaks:
-dot undo
-```
-
-### Rollback Last Change
-
-```bash
-# Applied bad config
-dot apply
-
-# Oops, terminal broken!
-# Rollback:
-dot undo
-
-# Restores previous state
-✓ Rolled back to previous version
-```
-
----
-
-## Workflow 5: Dashboard Integration
-
-**Goal:** Monitor dotfile status at a glance.
-
-### Quick Status Check
-
-```bash
-# Run dashboard
-dash
-
-# Shows dotfile status:
-╭──────────────────────────────────────────────────────────────╮
-│  🌊 FLOW DASHBOARD ✓                  Jan 10, 2026  🕐 14:30 │
-╰──────────────────────────────────────────────────────────────╯
-
-  📝 Dotfiles: 🟢 Synced (2h ago) · 12 files tracked
-
-  ...
-```
-
-**Status indicators:**
-- 🟢 **Synced** - Everything up to date
-- 🟡 **Modified** - Local changes pending
-- 🔴 **Behind** - Remote has new commits
-- 🔵 **Ahead** - Local commits not pushed
-
-### Health Check
-
-```bash
-# Run doctor command
-flow doctor
-
-# Dotfile health checks:
-📁 DOTFILES
-  ✓ chezmoi v2.45.0
-  ✓ Bitwarden CLI v2024.1.0
-  ✓ Chezmoi initialized with git
-  ✓ Remote configured: git@github.com:user/dotfiles.git
-  ✓ No uncommitted changes
-  ✓ Synced with remote
-  ✓ Bitwarden vault unlocked
+dot unlock
+dot apply --dry-run  # Preview
+dot apply            # Apply
 ```
 
 ---
 
 ## Common Patterns
 
-### Pattern 1: Add New Dotfile to Tracking
+### Quick Config Change
 
 ```bash
-# Add file to chezmoi
-chezmoi add ~/.tmux.conf
-
-# Verify it's tracked
-dot status
-
-# Edit via dot dispatcher
-dot edit .tmux.conf
-
-# Push to remote
-dot push
+dot edit .gitconfig  # Edit, apply immediately
 ```
 
-### Pattern 2: Quick Status Check
+### Safe Batch Changes
 
 ```bash
-# Minimal status
-dot
-
-# Or verbose
-dot status
-
-# Or via dashboard
-dash
+dot edit .zshrc      # Press 'n' to defer
+dot edit .gitconfig  # Press 'n' to defer
+dot diff             # Review all
+dot apply --dry-run  # Preview
+dot apply            # Apply all
 ```
 
-### Pattern 3: Batch Preview
+### Emergency Rollback
 
 ```bash
-# Make multiple changes
-dot edit .zshrc      # Edit, save, press 'n'
-dot edit .gitconfig  # Edit, save, press 'n'
-dot edit .tmux.conf  # Edit, save, press 'n'
+# Restore from chezmoi source
+chezmoi apply --force
 
-# Preview all at once
-dot apply --dry-run
-
-# Apply all at once
-dot apply
-```
-
----
-
-## Troubleshooting Workflows
-
-### "Changes not detected after quick edit"
-
-**Before v5.1.0:** This happened with sub-second edits (mtime granularity issue).
-
-**Solution:** Upgrade to v5.1.0+ with hash-based detection. All edits are now detected regardless of timing.
-
-### "Secret substitution not working"
-
-**Checklist:**
-
-```bash
-# 1. Vault unlocked?
-dot unlock
-
-# 2. Secret exists?
-dot secret list
-
-# 3. Template syntax correct?
-# ✅ Correct: {{ bitwarden "item" "secret-name" }}
-# ❌ Wrong:   {{ bitwarden "secret-name" }}
-
-# 4. Dry-run to preview
-dot apply --dry-run
-```
-
-### "Applied broken config, terminal won't work"
-
-**Recovery:**
-
-```bash
-# Option 1: Rollback last change
-dot undo
-
-# Option 2: Edit source and re-apply
-dot edit .zshrc
-# Fix the issue
-# Apply corrected version
-
-# Option 3: Nuclear option (restore from repo)
+# Or revert chezmoi source to remote
 cd ~/.local/share/chezmoi
-git reset --hard origin/main
+git checkout -- .
 dot apply
 ```
 
 ---
 
-## ADHD-Friendly Tips
+## Error Handling
 
-### 1. Use Dry-Run Liberally
+### File Not Tracked
 
-**Reduce anxiety about breaking things:**
-
-```bash
-# Always preview first
-dot apply --dry-run
-
-# If it looks good, apply
-dot apply
+```
+✗ File not found in managed dotfiles: .zshrc
+ℹ Use 'chezmoi add <file>' to start tracking a new file
 ```
 
-### 2. Quick Session Pattern
+**Fix:** `chezmoi add ~/.zshrc`
 
-```bash
-# One-liner: edit → preview → apply
-dot edit .zshrc && dot apply --dry-run && dot apply
+### Vault Locked
+
+```
+✗ Bitwarden vault is locked
+ℹ Run: dot unlock
 ```
 
-### 3. Dashboard for Context
+**Fix:** `dot unlock`
 
-**Forgot what you were doing?**
+### Session Expired
 
-```bash
-dash
-
-# Shows:
-# - Pending dotfile changes (🟡 Modified)
-# - Last sync time
-# - Current session
+```
+✗ Session expired
+Run: dot unlock
 ```
 
-### 4. Safety First
-
-**Rules:**
-1. **Always `dot edit`** - Never edit ~/.zshrc directly
-2. **Preview with dry-run** - Especially for complex templates
-3. **Small commits** - One logical change per push
-4. **Lock vault when done** - `bw lock` after template work
+**Fix:** `dot unlock` (re-enter master password)
 
 ---
 
-## Performance Notes
+## Command Reference
 
-### Hash Detection Overhead (v5.1.0)
-
-**Trade-off:**
-- **Cost:** ~1-2ms per edit (SHA-256 calculation)
-- **Benefit:** 100% reliable change detection
-
-**For typical dotfiles:**
-- .zshrc: 1ms
-- .gitconfig: <1ms
-- .tmux.conf: <1ms
-
-**ADHD perspective:** Deterministic detection (never misses edits) is worth 1ms delay.
-
-### Dashboard Status Caching
-
-**Dashboard caches dotfile status** to keep `dash` fast:
-- First load: ~500ms (runs chezmoi status)
-- Subsequent: <100ms (cached)
-- Cache invalidated after: 5 minutes
+| Command | Description |
+|---------|-------------|
+| `dot` | Show status |
+| `dot edit <file>` | Edit with preview |
+| `dot diff` | Show pending changes |
+| `dot apply` | Apply pending changes |
+| `dot apply -n` | Dry-run preview |
+| `dot sync` | Pull from remote |
+| `dot push` | Push to remote |
+| `dot unlock` | Unlock Bitwarden |
+| `dot secret <name>` | Retrieve secret |
+| `dot secret list` | List secrets |
+| `dot doctor` | Run diagnostics |
+| `dot help` | Show help |
 
 ---
 
-## Quick Reference
+## Best Practices
 
-```bash
-# Status
-dot                      # Quick status
-dot status               # Verbose status
-
-# Edit workflows
-dot edit .zshrc          # Edit with preview
-dot apply --dry-run      # Preview pending changes
-dot apply                # Apply all pending
-dot apply .zshrc         # Apply specific file
-
-# Sync workflows
-dot sync                 # Pull from remote
-dot push                 # Push to remote
-dot diff                 # Show pending changes
-
-# Secret workflows
-dot unlock               # Unlock Bitwarden vault
-dot secret <name>        # Get secret (no echo)
-dot secret list          # List all secrets
-
-# Troubleshooting
-dot doctor               # Health check
-dot undo                 # Rollback last apply
-```
-
----
-
-## Next Steps
-
-1. **Set up chezmoi:** `dot init https://github.com/username/dotfiles`
-2. **Add a dotfile:** `chezmoi add ~/.zshrc`
-3. **Try dry-run workflow:** Edit → Preview → Apply
-4. **Set up Bitwarden:** Store API keys securely
-5. **Automate sync:** Add `dot sync` to daily routine
-
----
-
-## See Also
-
-- [DOT-DISPATCHER-REFERENCE.md](../reference/DOT-DISPATCHER-REFERENCE.md) - Complete command reference
-- [SECRET-MANAGEMENT.md](../SECRET-MANAGEMENT.md) - Deep dive on Bitwarden integration
-- [Chezmoi Documentation](https://www.chezmoi.io/) - Official chezmoi docs
-- [Bitwarden CLI Guide](https://bitwarden.com/help/cli/) - Official Bitwarden CLI docs
+1. **Track files first** - `chezmoi add` before `dot edit`
+2. **Use dry-run** - Preview before applying templates
+3. **Small commits** - One logical change per `dot push`
+4. **Lock vault** - `bw lock` when done with secrets
+5. **Check status** - Run `dot` to see current state
 
 ---
 
 **Version:** v5.1.0
-**Last Updated:** 2026-01-10
+**See Also:** [DOT Dispatcher Reference](../reference/DOT-DISPATCHER-REFERENCE.md) | [Tutorial](../tutorials/12-dot-dispatcher.md)
