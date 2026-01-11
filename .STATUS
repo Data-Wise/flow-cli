@@ -8,7 +8,63 @@
 ## Priority: 1
 ## Progress: 100
 
-## Focus: v5.1.0 Bug Fixes Complete ✅
+## Focus: Secret Management v2.0 Phase 1 Complete ✅
+
+## ✅ Just Completed (2026-01-11):
+- **Secret Management v2.0 Phase 1** ✅ COMPLETE
+  - **PR:** #198 (feature/secret-management-v2-phase1 → main)
+  - **Implementation:** ~350 lines of new functionality
+
+  **New Commands:**
+  - `dot secret add <name>` - Store secrets with hidden input
+    - `--expires <days>` for expiration tracking
+    - `--notes <text>` for metadata
+    - JSON metadata in Bitwarden notes field
+  - `dot secret check` - Dashboard showing expiring/expired secrets
+    - Color-coded: ✓ valid, ⚠ expiring, ❌ expired
+    - Configurable warning threshold (default 30 days)
+  - `dot secret help` - Help text for all secret subcommands
+  - `dot lock` - Lock vault and clear session cache
+
+  **Session Cache (15-min idle timeout):**
+  - File-based cache at `~/.cache/dot/session`
+  - Tracks unlock time and last activity
+  - Auto-locks after 15 min inactivity
+  - Configurable via `DOT_SESSION_IDLE_TIMEOUT`
+  - `dot` status shows vault state + time remaining
+  - 7 helper functions: `_dot_session_cache_{init,save,touch,expired,clear}`, `_dot_session_time_remaining{,_fmt}`
+
+  **Tests:**
+  - Test Suite 13: 22 new tests for Phase 1 features
+  - Total: 93 unit tests + 14 E2E tests (all passing)
+
+## ✅ Just Completed (2026-01-10):
+- **DOT v5.1.1 Test Suite Created** ✅ COMPLETE
+  - **Unit Tests:** `test-dot-v5.1.1-unit.zsh` (19 tests, 100% passing)
+  - **E2E Tests:** `test-dot-v5.1.1-e2e.zsh` (14 tests, 100% passing)
+  - **Interactive Dogfooding:** `interactive-dot-dogfooding.zsh` (8 dishes, "Dotfile Chef" theme)
+  - **Total DOT Tests:** 104 automated tests (71 + 19 + 14)
+
+  **Test Coverage:**
+  - `_dot_add_file()` helper function
+  - `_dot_add()` standalone command
+  - `_dot_has_bitwarden_template()` detection
+  - `_dot_print_summary()` with contextual tips
+  - ZDOTDIR support in security checks
+  - Path resolution (full paths, tilde, fuzzy)
+  - File creation with mkdir -p
+  - Template detection for Bitwarden secrets
+
+- **DOT Secret Management v2.0 SPEC** 📋 DRAFTED
+  - **File:** `docs/specs/SPEC-dot-secret-management-v2-2026-01-10.md`
+  - **Scope:** Full token lifecycle (create, store, use, rotate, revoke)
+  - **Features:**
+    - Phase 1: `dot secret add`, expiry check, 15-min cache
+    - Phase 2: Token wizards (github, npm, pypi), dashboard
+    - Phase 3: Refresh/rotate, direnv integration, CI sync
+  - **User Story:** Developer managing GH tokens, NPM tokens, PyPI for CI/CD
+  - **Acceptance:** Full token lifecycle works end-to-end
+  - **Security:** Time-based 15-min cache, no secrets in history
 
 ## ✅ Just Completed (2026-01-11):
 - **DOT Dispatcher Bug Fixes** ✅ COMPLETE
@@ -909,12 +965,43 @@ _g_feature_status() {
 - 2025-12-25: Legacy 140KB functions archived
 - 2025-12-25: Symlink-only external integrations
 
-## wins: v5.0.0 RELEASED (2026-01-09) 🚀, DOT DISPATCHER v1.2.0 SHIPPED, 112+ tests passing, Documentation deployed, Enhancement roadmap ready
-## streak: 9
-## last_active: 2026-01-09
+## wins: Secret Management v2.0 Phase 1, 93 unit tests + 14 E2E tests, Session cache with 15-min timeout
+## streak: 11
+## last_active: 2026-01-11
 
 ## 🎯 Next Action:
-**Focus:** v5.0.0 Released - Monitor Homebrew & Plan v5.1.0 🎯
+**Focus:** Secret Management v2.0 Phase 2 🎯
+
+**Phase 1 Complete:** ✅
+- `dot secret add`, `dot secret check`, `dot lock`
+- 15-min session cache with auto-lock
+- 22 new tests (Test Suite 13)
+
+**Options:**
+
+**1. Implement Secret Management v2.0 Phase 2** (~3-4 hours)
+```bash
+# Token wizards from spec:
+- dot token github    # GitHub PAT creation wizard
+- dot token npm       # NPM token wizard
+- dot token pypi      # PyPI token wizard
+- dot secrets         # Dashboard of all secrets
+```
+
+**2. Implement Phase 3** (~2-3 hours)
+```bash
+# Advanced features:
+- dot token <name> --refresh    # Token rotation
+- dot secrets sync github       # Sync to GitHub repo secrets
+- dot env init                  # Generate .envrc for direnv
+```
+
+**3. Performance Optimizations** (v5.2.0)
+```bash
+# From enhancement plan:
+- Dashboard status line caching (30s TTL)
+- Git operation batching
+```
 
 **✅ v5.0.0 Release Complete (2026-01-09):**
 - **Status:** Released and deployed
@@ -1181,3 +1268,22 @@ dot help               # Verify new dispatcher
 - 2026-01-09: DOCS - Live at https://Data-Wise.github.io/flow-cli/
 - 2026-01-09: STATUS - Updated .STATUS with v5.0.0 release completion
 - 2026-01-09: COMPLETE - v5.0.0 fully released (tag, release, docs deployed)
+- 2026-01-10: TEST - Created test-dot-v5.1.1-unit.zsh (19 unit tests for new DOT features)
+- 2026-01-10: TEST - Created test-dot-v5.1.1-e2e.zsh (14 E2E tests with real chezmoi)
+- 2026-01-10: TEST - Created interactive-dot-dogfooding.zsh (8 dishes, "Dotfile Chef" theme)
+- 2026-01-10: TEST - Fixed nullglob for cleanup (no matches error)
+- 2026-01-10: TEST - Fixed read-only variable `status` → `resolve_status`
+- 2026-01-10: TEST - Fixed ask_confirmation Enter handling (newline as default)
+- 2026-01-10: TEST - Total DOT test coverage: 104 automated tests (71 + 19 + 14)
+- 2026-01-10: SPEC - Created SPEC-dot-secret-management-v2-2026-01-10.md
+- 2026-01-10: SPEC - Deep brainstorm: 8 questions, full lifecycle features
+- 2026-01-10: SPEC - Phases: Foundation → Token Wizards → Lifecycle
+- 2026-01-10: SPEC - Features: dot secret add, dot token github/npm/pypi, dot secrets dashboard
+- 2026-01-10: SPEC - Security: 15-min cache, expiration tracking, no secrets in history
+- 2026-01-10: STATUS - Updated .STATUS with test suite and spec completion
+- 2026-01-11: FEAT - Implemented Secret Management v2.0 Phase 1 (dot secret add/check, dot lock)
+- 2026-01-11: FEAT - Added 15-min session cache with auto-lock (7 helper functions)
+- 2026-01-11: FEAT - Added vault status to `dot` status display (time remaining)
+- 2026-01-11: TEST - Added Test Suite 13 with 22 new tests (93 total unit tests)
+- 2026-01-11: DOCS - Updated help text with new secret commands
+- 2026-01-11: PR - Created #198 (feature/secret-management-v2-phase1 → main)
