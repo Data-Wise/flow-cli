@@ -341,6 +341,71 @@ feature/* → dev → main
 
 ---
 
+## CI/CD Automation
+
+### GitHub Actions Workflows
+
+| Workflow | File | Trigger | Purpose |
+|----------|------|---------|---------|
+| **CI Tests** | `test.yml` | Push/PR to any branch | Run ZSH plugin tests |
+| **Deploy Docs** | `docs.yml` | Push to `main` (docs/**) | Auto-deploy to GitHub Pages |
+| **Homebrew Release** | `homebrew-release.yml` | GitHub release published | Update Homebrew formula |
+| **Release** | `release.yml` | Push to `main` | Semantic release + install tests |
+
+### What Happens Automatically
+
+**On PR/Push:**
+- ZSH plugin tests run (~10-15s)
+- Must pass before merge to protected branches
+
+**On Merge to `main`:**
+- Documentation auto-deploys to https://data-wise.github.io/flow-cli/
+- Only triggers if `docs/**` or `mkdocs.yml` changed
+- Install script tests run in Docker (ubuntu, debian, alpine)
+
+**On GitHub Release Published:**
+- Homebrew formula auto-updates in `homebrew-tap` repo
+- Creates PR to update version and SHA256
+- PR is auto-merged (configurable)
+
+### Creating a Release
+
+```bash
+# 1. Merge dev to main via PR
+gh pr create --base main --head dev --title "Release vX.Y.Z"
+gh pr merge <PR_NUMBER> --merge --admin
+
+# 2. Tag the release
+git checkout main && git pull
+git tag -a vX.Y.Z -m "vX.Y.Z - Description"
+git push origin vX.Y.Z
+
+# 3. Create GitHub release (triggers Homebrew update)
+gh release create vX.Y.Z --title "vX.Y.Z - Title" --notes "Release notes"
+```
+
+### Manual Deployment (if needed)
+
+```bash
+# Documentation
+mkdocs gh-deploy --force
+
+# Homebrew (via workflow dispatch)
+gh workflow run homebrew-release.yml -f version=X.Y.Z
+```
+
+### CI Files Location
+
+```
+.github/workflows/
+├── test.yml              # ZSH plugin tests
+├── docs.yml              # MkDocs deployment
+├── homebrew-release.yml  # Homebrew formula updates
+└── release.yml           # Semantic release + install tests
+```
+
+---
+
 ## Questions?
 
 - **Testing:** See [TESTING.md](../testing/TESTING.md)
@@ -349,5 +414,5 @@ feature/* → dev → main
 
 ---
 
-**Last Updated:** 2025-12-30
-**Version:** v4.4.3
+**Last Updated:** 2026-01-12
+**Version:** v5.4.0
