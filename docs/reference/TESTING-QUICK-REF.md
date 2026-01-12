@@ -5,24 +5,73 @@
 ## Quick Commands
 
 ```bash
+# Run all test suites (Recommended)
+./tests/run-all.sh
+
+# Core test suites (v5.0.0+)
+./tests/test-pick-command.zsh      # Pick: 39 tests
+./tests/test-cc-dispatcher.zsh     # CC: 37 tests
+./tests/test-dot-v5.1.1-unit.zsh   # DOT: 112+ tests
+
 # Interactive Dog Feeding Test (Most Fun!) 🐕
 ./tests/interactive-dog-feeding.zsh
 
-# Automated Test Suite (Fast)
+# Legacy automated test
 ./tests/automated-test.zsh
 
 # ZSH Configuration Tests
 zsh/tests/run-all-tests.zsh
-
-# Quick check (no performance test)
-zsh/tests/run-all-tests.zsh --quick
 ```
+
+**Coverage:** 76+ tests across 8 test suites (100% passing)
 
 ---
 
 ## Test Suites
 
-### 1. Interactive Dog Feeding Test 🐕⭐
+### 1. Core Test Suites (v5.0.0+) ⭐
+
+**Location:** `tests/test-*.zsh`
+
+**Purpose:** Comprehensive automated testing with 100% coverage
+
+**Test Files:**
+
+| File | Tests | Coverage |
+|------|-------|----------|
+| test-pick-command.zsh | 39 | Pick command functionality |
+| test-cc-dispatcher.zsh | 37 | CC dispatcher + unified grammar |
+| test-dot-v5.1.1-unit.zsh | 112+ | DOT dispatcher |
+| test-cc-unified-grammar.zsh | - | CC grammar patterns |
+| test-pick-smart-defaults.zsh | - | Pick defaults |
+| test-pick-wt.zsh | - | Pick worktrees |
+
+**Total:** 76+ tests (100% passing)
+
+**Run All:**
+```bash
+./tests/run-all.sh
+```
+
+**Run Individual:**
+```bash
+./tests/test-pick-command.zsh
+./tests/test-cc-dispatcher.zsh
+```
+
+**Features:**
+- Fast execution (< 10 seconds total)
+- Isolated test environments (mocks)
+- Clear pass/fail output with colors
+- Comprehensive coverage of core functionality
+
+**Best For:** CI/CD, pre-commit checks, regression testing
+
+**Guide:** See [Testing Guide](../guides/TESTING.md) for writing tests
+
+---
+
+### 2. Interactive Dog Feeding Test 🐕⭐
 
 **Location:** `tests/interactive-dog-feeding.zsh`
 
@@ -57,7 +106,7 @@ zsh/tests/run-all-tests.zsh --quick
 
 ---
 
-### 2. Automated Test Suite
+### 3. Automated Test Suite (Legacy)
 
 **Location:** `tests/automated-test.zsh`
 
@@ -88,7 +137,7 @@ zsh/tests/run-all-tests.zsh --quick
 
 ---
 
-### 3. ZSH Configuration Tests
+### 4. ZSH Configuration Tests
 
 **Location:** `zsh/tests/run-all-tests.zsh`
 
