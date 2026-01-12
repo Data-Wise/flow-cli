@@ -80,6 +80,15 @@ course:
   year: 2026
   instructor: "Your Name"
 
+# Increment 2: Semester scheduling for week calculation
+semester_info:
+  start_date: "2026-01-13"            # YYYY-MM-DD format
+  end_date: "2026-05-05"              # Auto-calculated: 16 weeks
+  breaks:
+    - name: "Spring Break"
+      start: "2026-03-10"
+      end: "2026-03-17"
+
 deployment:
   web:
     type: "github-pages"
@@ -329,7 +338,16 @@ work my-r-package
 
 # Teaching work (has .flow/teach-config.yml)
 work stat-545
-# → Teaching session (branch check + shortcuts)
+# → Teaching session (branch check + shortcuts + context)
+#
+# 📚 STAT 545 - Design of Experiments
+#   Branch: draft
+#   Semester: Spring 2026
+#   Current Week: Week 8
+#
+#   Recent Changes:
+#     Add week 8 lecture notes
+#     Update assignment rubric
 ```
 
 ---
@@ -393,5 +411,5 @@ https://github.com/Data-Wise/flow-cli/issues
 
 ---
 
-**Version:** Teaching Workflow v2.0 (Increment 1)
+**Version:** Teaching Workflow v2.0 (Increment 2 - Course Context)
 **Status:** Production Ready ✅
