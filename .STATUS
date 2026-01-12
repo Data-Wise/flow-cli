@@ -88,6 +88,111 @@
   **Session Time:** ~1 hour (code review + spec writing + planning docs update)
 
 ## ✅ Just Completed (2026-01-11 - Latest):
+- **Scholar Plugin Teaching Features - Deep Brainstorm & Spec** ✅ COMPLETE
+  - **Session Type:** Deep feature brainstorm (8 expert questions) + automatic spec capture
+  - **Files:** BRAINSTORM-scholar-teaching-2026-01-11.md (450+ lines), SPEC-scholar-teaching-2026-01-11.md (850+ lines)
+  - **Status:** Planning complete, ready for implementation in scholar repo
+  - **Commit:** 2ec3b41 (pushed to origin/dev)
+
+  **Context:**
+  - Parallel development with flow-cli teaching-workflow
+  - Scholar plugin currently has 14 research commands, 17 research skills
+  - Teaching keywords in package.json but ZERO teaching commands implemented
+  - Need to expand scholar to support teaching workflows
+
+  **8 Expert Questions Answered:**
+  1. **Primary purpose:** Parallel development with flow-cli teaching-workflow
+  2. **Teaching priorities:** ALL 4 (exam, quiz, lecture, assignment)
+  3. **Integration model:** flow-cli wrapper (scholar called by flow-cli)
+  4. **Output formats:** ALL 4 (markdown, quarto, LaTeX, JSON/YAML)
+  5. **Generation method:** Hybrid (AI + templates)
+  6. **Context storage:** Read from .flow/teach-config.yml
+  7. **Post-generation workflow:** Edit, commit to git, deploy to website
+  8. **Quality validation:** Critical - must validate before save
+
+  **Critical Architecture Decisions:**
+  - **Namespace:** `/teaching:*` parallel to `/research:*` (not merged, not separate plugin)
+  - **Implementation:** Node.js (match examark tool, was shell for research)
+  - **Integration:** flow-cli → `/teaching:exam` → scholar generates → flow-cli processes
+  - **Commands:** 5 total (exam, quiz, lecture, assignment, syllabus)
+  - **Validation:** JSON schema + format-specific (LaTeX, markdown) validation
+
+  **5 Teaching Commands to Implement:**
+  - `/teaching:exam` - Generate exams with answer keys
+  - `/teaching:quiz` - Generate shorter quizzes
+  - `/teaching:lecture` - Generate lecture outlines
+  - `/teaching:assignment` - Generate problem sets
+  - `/teaching:syllabus` - Generate course syllabi
+
+  **Output Formats (All 4 Required):**
+  - Markdown (.md) - Version control friendly, works with examark
+  - Quarto (.qmd) - Course websites with executable code
+  - LaTeX (.tex) - High-quality PDF exams
+  - JSON/YAML - Programmatic/automation use
+
+  **Quality Validation Requirements:**
+  - Schema compliance (JSON schema validation)
+  - Answer key completeness (all questions have answers)
+  - LaTeX syntax validation (balanced delimiters)
+  - Format-specific checks (markdown, quarto, LaTeX)
+  - `--no-validate` flag for experienced users
+
+  **Integration with flow-cli:**
+  ```bash
+  flow-cli (ZSH)
+    └── teach-exam command
+        └── calls scholar /teaching:exam
+            └── scholar generates content
+                └── returns to flow-cli
+                    └── flow-cli handles workflow (edit, convert, deploy)
+  ```
+
+  **Course Configuration (.flow/teach-config.yml extension):**
+  ```yaml
+  scholar:
+    course_info:
+      level: "undergraduate"  # or "graduate"
+      field: "statistics"
+      difficulty: "intermediate"
+    defaults:
+      exam_format: "markdown"
+      lecture_format: "quarto"
+    style:
+      tone: "formal"  # or "conversational"
+      notation: "statistical"
+  ```
+
+  **Implementation Timeline (5 Weeks, 28-38 hours):**
+  - Week 1 (6-8h): `/teaching:exam` pilot (markdown only)
+  - Week 2 (6-8h): All formats + comprehensive validation
+  - Week 3 (8-10h): `/teaching:quiz`, `/teaching:lecture` + docs
+  - Week 4 (4-6h): Teaching skills (auto-activating)
+  - Week 5 (4-6h): `/teaching:assignment`, `/teaching:syllabus`, polish
+
+  **Success Metrics:**
+  - Generation time: < 30s for 10-question exam
+  - Validation accuracy: 100% catch rate for errors
+  - Quality score: > 8/10 user rating
+  - Edit time: < 10 min from generation to finalized material
+  - Integration: 100% success flow-cli → scholar → examark pipeline
+
+  **Dependencies:**
+  - Required: Node.js >= 18.0.0, Claude API, js-yaml, ajv (JSON schema)
+  - Optional: examark (QTI conversion), quarto (rendering), texlive (PDF)
+  - Dev: jest, eslint, prettier
+
+  **Next Steps:**
+  - Create feature branch in scholar repo (not flow-cli!)
+  - Start Week 1: `/teaching:exam` pilot implementation
+  - Test integration with flow-cli teaching-workflow
+
+  **Related Specs:**
+  - SPEC-teaching-workflow-v2.md (flow-cli side, deployment-focused)
+  - Both specs support parallel development model
+
+  **Session Time:** ~3 hours (8 questions + brainstorm synthesis + comprehensive spec)
+
+## ✅ Just Completed (2026-01-11 - Earlier):
 - **Teaching Workflow v2.0 - Deep Brainstorm & Spec Revision** ✅ COMPLETE
   - **Session Type:** Deep brainstorm (8 expert questions)
   - **Specs:** SPEC-teaching-workflow.md (v1.0, kept), SPEC-teaching-workflow-v2.md (v2.0, 1,460 lines)
