@@ -1,17 +1,28 @@
 # flow alias
 
-> Display all flow-cli custom aliases organized by category
+> Display, manage, and validate shell aliases
 
-The `flow alias` command shows all 29 custom aliases defined by flow-cli, organized by category for easy discovery.
+The `flow alias` command provides complete alias lifecycle management - from viewing and searching to creating, testing, and safely removing aliases.
+
+**New in v5.4.0:** Full management suite with validation, health checking, and safe operations.
 
 ---
 
 ## Usage
 
 ```bash
+# View aliases
 flow alias              # Show all aliases (summary view)
 flow alias <category>   # Show specific category aliases
-flow alias help         # Show help
+
+# Manage aliases (v5.4.0)
+flow alias doctor       # Health check all aliases
+flow alias find <pat>   # Search by name or command
+flow alias add          # Create new alias (interactive)
+flow alias rm <name>    # Safe removal (backup + comment out)
+flow alias test <name>  # Validate and dry-run
+flow alias edit         # Open .zshrc at alias section
+flow alias help         # Show all commands
 ```
 
 ---
@@ -171,15 +182,87 @@ Most commonly used:
 
 ---
 
-## Related
+## Management Commands (v5.4.0)
 
-- [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) - Complete alias list
-- [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md) - All commands
-- [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) - All dispatchers
-- [Enhanced Help Quick Start](../guides/ENHANCED-HELP-QUICK-START.md) - Phase 2 features
+### Doctor - Health Check
+
+```bash
+flow alias doctor
+```
+
+Scans all aliases and reports:
+
+- **Shadows** - Aliases that hide system commands (e.g., `cat='bat'`)
+- **Broken targets** - Aliases pointing to non-existent commands
+- **Statistics** - Total count, healthy/warning/error counts
+
+```
+⚡ ALIAS HEALTH CHECK
+
+📊 SUMMARY
+  Total: 45 aliases
+  Healthy: 42 (93%)
+  Shadows: 2 (cat, gem)
+  Broken: 1 (oldcmd)
+```
+
+### Find - Search Aliases
+
+```bash
+flow alias find git        # All git-related aliases
+flow alias find --exact gst # Exact match only
+```
+
+### Add - Create Alias
+
+**One-liner mode:**
+```bash
+flow alias add myalias='echo hello'
+```
+
+**Interactive mode:**
+```bash
+flow alias add
+# Prompts for name and command with validation
+```
+
+**Safety checks:**
+
+- Duplicate detection
+- Shadow warning (system command conflicts)
+- Target validation (command exists?)
+
+### Remove - Safe Deletion
+
+```bash
+flow alias rm myalias
+```
+
+**What happens:**
+
+1. Creates backup (`~/.zshrc.alias-backup`)
+2. Comments out the line (doesn't delete)
+3. Shows confirmation
+
+### Test - Validate & Execute
+
+```bash
+flow alias test gst           # Show definition + validation
+flow alias test gst --dry-run # Show what would run
+flow alias test gst --exec    # Actually execute it
+```
 
 ---
 
-**Last Updated:** 2026-01-07
-**Command Version:** v4.8.0 (alias v4.9.0)
-**Status:** ✅ Production ready with interactive help system
+## Related
+
+- [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) - Complete alias list
+- [Alias Management Workflow](../guides/ALIAS-MANAGEMENT-WORKFLOW.md) - Workflow guide
+- [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md) - All commands
+- [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) - All dispatchers
+
+---
+
+**Last Updated:** 2026-01-12
+**Command Version:** v5.4.0
+**Status:** ✅ Production ready with full management suite

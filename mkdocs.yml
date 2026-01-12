@@ -98,6 +98,7 @@ nav:
       - Git Feature Flow: tutorials/08-git-feature-workflow.md
       - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
       - Dotfile Workflow: guides/DOT-WORKFLOW.md
+      - Alias Management: guides/ALIAS-MANAGEMENT-WORKFLOW.md
       - YOLO Mode: guides/YOLO-MODE-WORKFLOW.md
       - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
       - Plugin Management: guides/PLUGIN-MANAGEMENT-WORKFLOW.md
