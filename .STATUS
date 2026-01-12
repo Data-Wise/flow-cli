@@ -4,13 +4,39 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: Production Ready - Documentation Enhanced
+## Phase: Production Ready - Performance Planning
 ## Priority: 1
-## Progress: 18
+## Progress: 19
 
-## Focus: ADHD-Friendly Documentation Enhancement ✅
+## Focus: Project Performance & Extensibility Planning ✅
 
 ## ✅ Just Completed (2026-01-11 - Latest):
+- **Code Review & Enhancement Planning** ✅ COMPLETE
+  - **Code Review:** Project detection & worktree picker systems
+  - **Files Reviewed:** `lib/project-detector.zsh` (131 lines), `commands/pick.zsh` (974 lines)
+  - **Overall Rating:** 8.5/10
+  - **Spec Created:** `docs/specs/SPEC-project-cache-auto-discovery.md` (450 lines)
+
+  **Findings:**
+  - ✅ Excellent frecency sorting and session awareness
+  - ✅ Smart direct jump intelligence
+  - ✅ Well-designed worktree integration
+  - ❌ No caching (performance bottleneck at scale)
+  - ❌ Hardcoded categories (not extensible)
+  - ⚠️ Duplicate type detection logic
+
+  **3-Phase Enhancement Plan:**
+  - Phase 1 (v5.6.0): Caching layer - 40x performance gain (<10ms pick)
+  - Phase 2 (v5.7.0): Auto-discovery - zero config for categories
+  - Phase 3 (v5.8.0): Unified type detection - single source of truth
+
+  **Total Effort:** ~14 hours across 3 releases
+  **Impact:** High (performance + extensibility + maintainability)
+  **Risk:** Low (opt-in rollout, extensive testing)
+
+  **Session Time:** ~1 hour (code review + spec writing + planning docs update)
+
+## ✅ Just Completed (2026-01-11 - Earlier):
 - **Documentation Enhancement (Plan B)** ✅ SHIPPED TO PRODUCTION
   - **PRs:** #209 (docs → dev), #210 (dev → main) - MERGED & DEPLOYED
   - **Implementation:** 6 files, 674 lines added (2.5 hours)
@@ -1198,17 +1224,23 @@ claude
 
 **Options for Next Session:**
 
-A) **Implement Teaching Workflow** (recommended) ⚡
+A) **Implement Teaching Workflow** ⚡
    - Start NEW session in worktree
    - Follow spec implementation plan
    - Begin with Week 1 core framework
 
-B) **Work on v5.3.0 Enhancements**
+B) **Work on v5.6.0 Project Cache** (NEW) 🚀
+   - High impact: 40x performance improvement
+   - Low risk: Opt-in initially, extensive testing
+   - Begin with Phase 1 caching layer (~5 hours)
+   - Spec: `docs/specs/SPEC-project-cache-auto-discovery.md`
+
+C) **Work on v5.3.0 DOT Enhancements**
    - Secret clipboard integration
    - Interactive secrets dashboard
    - Template validation
 
-C) **Other Projects**
+D) **Other Projects**
    - Switch to different work
 
 **✅ v5.0.0 Release Complete (2026-01-09):**
@@ -1273,7 +1305,130 @@ dot help               # Verify new dispatcher
 - Performance metrics tracking
 - **Target:** 1 week after v5.4.0
 
-**Total Enhancement Effort:** ~9 hours across 5 releases
+---
+
+### **Sprint 6: v5.6.0-v5.8.0 - Project Cache & Auto-Discovery** (~14 hours) 🆕
+
+**Status:** Planning Complete ✅
+**Spec:** `docs/specs/SPEC-project-cache-auto-discovery.md` (comprehensive 3-phase plan)
+**Created:** 2026-01-11
+**Code Review Completed:** Project detection & worktree picker systems
+
+#### Phase 1: v5.6.0 - Caching Layer (~5 hours)
+
+**Goal:** Sub-10ms `pick` response (currently ~200ms with 100+ projects)
+
+**Implementation:**
+- `lib/project-cache.zsh` (100 lines) - Cache management system
+- Cache file: `~/.cache/flow-cli/projects.cache`
+- TTL: 5 minutes (configurable via `PROJ_CACHE_TTL`)
+- Auto-refresh on stale cache
+
+**New Commands:**
+- `flow cache refresh` - Manual cache regeneration
+- `flow cache clear` - Delete cache file
+- `flow cache status` - Show cache age and stats
+
+**Performance Target:**
+- Cache hit: <10ms (40x faster than current)
+- Cache miss: ~200ms (same as current)
+- Auto-refresh every 5 minutes
+
+**Files Modified:**
+- `commands/pick.zsh` - Use cached list instead of direct scan
+- `flow.plugin.zsh` - Source project-cache.zsh
+
+**Testing:**
+- `tests/test-project-cache.zsh` - 8 unit tests
+- `tests/benchmark-pick.sh` - Performance benchmarks
+
+**Rollout:**
+- v5.6.0-alpha: Cache enabled by default
+- Feature flag: `FLOW_CACHE_ENABLED=1` (default)
+- Monitor for issues via GitHub discussions
+
+**Target:** 2 weeks after v5.5.0
+
+---
+
+#### Phase 2: v5.7.0 - Auto-Discovery (~6 hours)
+
+**Goal:** Zero configuration for project categories (currently hardcoded)
+
+**Implementation:**
+- `lib/project-auto-discover.zsh` (150 lines) - Auto-discovery system
+- Scans `$FLOW_PROJECTS_ROOT` for git repos (1-2 levels deep)
+- Guesses category type from directory name
+- User config overrides via `~/.config/flow-cli/project-categories.conf`
+
+**User Configuration File:**
+```bash
+# ~/.config/flow-cli/project-categories.conf
+# Format: path:type:icon
+
+# Custom work category
+work/clients:work:💼
+work/internal:work:🏢
+
+# Override default icon
+dev-tools:dev:⚙️
+```
+
+**Discovery Algorithm:**
+1. Scan top-level directories in `~/projects`
+2. Check for git repos (2 levels deep)
+3. Guess type from directory name (r-package, dev, quarto, teach, research, app, work, misc)
+4. Merge with user config (user > discovered > hardcoded defaults)
+
+**New Commands:**
+- `flow discover` - Show discovered categories
+- `flow discover refresh` - Re-scan filesystem
+
+**Files Modified:**
+- `commands/pick.zsh` - Remove hardcoded `PROJ_CATEGORIES` array
+- `flow.plugin.zsh` - Source auto-discover.zsh, init categories
+
+**Testing:**
+- `tests/test-auto-discover.zsh` - 6 unit tests
+- E2E workflow testing
+
+**Rollout:**
+- v5.7.0-beta: Auto-discovery opt-in (`FLOW_AUTO_DISCOVER=1`)
+- v5.7.1-stable: Auto-discovery enabled by default
+- Hardcoded categories remain as fallback
+
+**Target:** 1 week after v5.6.0
+
+---
+
+#### Phase 3: v5.8.0 - Integration (~3 hours)
+
+**Goal:** Unified type detection across all commands
+
+**Implementation:**
+- Integrate `project-detector.zsh` into `pick.zsh`
+- Single source of truth for project types
+- Automatic icon detection based on project content
+
+**Changes:**
+- `commands/pick.zsh` - Use `_flow_detect_project_type()` for accurate icons
+- `lib/project-detector.zsh` - Add new types (generic, worktree)
+
+**Benefits:**
+- Quarto in dev-tools → shows 📝 (not 🔧)
+- Teaching in research → shows 🎓 (not 🔬)
+- Consistent icons across `pick`, `work`, `dash`
+
+**Testing:**
+- Integration tests across all commands
+- Performance benchmarking
+
+**Target:** 1 week after v5.7.0
+
+---
+
+**Total Enhancement Effort (Caching Track):** ~14 hours across 3 releases (v5.6.0-v5.8.0)
+**Total Enhancement Effort (All Tracks):** ~23 hours across 8 releases (v5.1.0-v5.8.0)
 
 ---
 
