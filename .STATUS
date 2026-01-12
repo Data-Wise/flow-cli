@@ -4,17 +4,49 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: Production Ready - Post v5.3.0 Release
+## Phase: Production Ready - v5.4.0 Released
 ## Priority: 1
-## Progress: 95
+## Progress: 98
 
-## Focus: Teaching Workflow v2.0 Merged to dev 🎓
+## Focus: v5.4.0 Released - Alias Management Suite 🎉
 
 ## 🚧 In Progress (2026-01-12 - Current):
 - **No active development**
-  - Ready for production testing and v5.4.0 release planning
+  - v5.4.0 released with alias management
+  - Ready for production testing of teach-init migration
 
 ## ✅ Just Completed (2026-01-12 - Latest):
+
+- **v5.4.0 Released** 🎉
+  - **Tag:** v5.4.0
+  - **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.4.0
+  - **Features:** Alias management suite (doctor, find, edit, add, rm, test)
+
+- **Alias Management Suite - PR #221 MERGED** ✅
+  - **PR:** #221 - https://github.com/Data-Wise/flow-cli/pull/221
+  - **Merged:** 2026-01-12 to dev, then main
+  - **Changes:** 6 new commands, 42 tests, comprehensive docs
+  - **Commands Added:**
+    - `flow alias doctor` - Health check all aliases
+    - `flow alias find <pattern>` - Search aliases
+    - `flow alias edit` - Open .zshrc at alias section
+    - `flow alias add [def]` - Create validated aliases
+    - `flow alias rm <name>` - Safe removal (comment out)
+    - `flow alias test <name>` - Validate and dry-run
+  - **Tests:** 42/42 passing (tests/test-alias-management.zsh)
+  - **Docs:** ALIAS-MANAGEMENT-WORKFLOW.md, updated alias.md
+
+- **CI/CD Fixes - PRs #223-225 MERGED** ✅
+  - **PR #223:** Fixed install script bash syntax (`shell: bash`)
+  - **PR #224:** Updated CONTRIBUTING.md with CI/CD documentation
+  - **PR #225:** Commented out npm test (no test script in package.json)
+  - **Result:** All CI workflows passing (test, docs, homebrew-release, release)
+
+- **Documentation Updates** ✅
+  - Updated docs/contributing/CONTRIBUTING.md with CI/CD section
+  - Archived teach-init planning documents (brainstorm + spec)
+
+## ✅ Previously Completed (2026-01-12):
 - **teach-init Migration Automation - Phase 1+2+3** ✅ PR #220 MERGED TO DEV
   - **PR:** #220 - https://github.com/Data-Wise/flow-cli/pull/220
   - **Merged:** 2026-01-12T07:50:46Z to dev branch
