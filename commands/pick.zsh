@@ -205,7 +205,8 @@ _proj_frecency_score() {
 
 # List all projects (sorted by frecency - most recently used first)
 # Output format: name|type|icon|dir|session_status
-_proj_list_all() {
+# NOTE: This is the UNCACHED version - use _proj_list_all_cached for cache support
+_proj_list_all_uncached() {
     local category="${1:-}"
     local recent_only="${2:-}"  # If "recent", only show projects with sessions
 
@@ -248,6 +249,12 @@ _proj_list_all() {
 
     # Sort by frecency (descending) and output without score prefix
     printf '%s\n' "${project_data[@]}" | sort -t'|' -k1 -rn | cut -d'|' -f2-
+}
+
+# List all projects WITH CACHING (public API)
+# Delegates to _proj_list_all_cached from lib/project-cache.zsh
+_proj_list_all() {
+    _proj_list_all_cached "$@"
 }
 
 # ============================================================================

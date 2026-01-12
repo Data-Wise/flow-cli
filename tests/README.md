@@ -15,6 +15,11 @@ zsh tests/test-doctor.zsh
 
 # Run interactive dogfooding tests
 ./tests/interactive-dog-feeding.zsh
+
+# Run project cache tests (NEW!)
+./tests/run-unit-tests.zsh                    # All unit tests (64 tests)
+./tests/interactive-cache-dogfeeding.zsh      # Interactive cache tests (15 tests)
+zsh tests/test-project-cache.zsh              # Comprehensive cache test
 ```
 
 ## Test Categories
@@ -48,6 +53,43 @@ zsh tests/test-doctor.zsh
 | `test-tm-dispatcher.zsh`   | -     | Terminal manager      |
 | `test-wt-dispatcher.zsh`   | -     | Worktree management   |
 | `test-dot-dispatcher.zsh`  | 50+   | Dotfile management    |
+
+### Project Cache Tests (NEW - v5.3.0)
+
+| File                                 | Tests | Coverage                              |
+| ------------------------------------ | ----- | ------------------------------------- |
+| `unit/test-cache-generation.zsh`    | 10    | Cache file creation & content         |
+| `unit/test-cache-validation.zsh`    | 17    | TTL logic, validity checking          |
+| `unit/test-cache-access.zsh`        | 18    | Cached access, auto-regeneration      |
+| `unit/test-cache-invalidation.zsh`  | 5     | Cache clearing functionality          |
+| `unit/test-cache-stats.zsh`         | 6     | Statistics display & calculation      |
+| `unit/test-user-commands.zsh`       | 8     | flow cache commands (CLI)             |
+| `integration/test-pick-integration.zsh` | 6  | End-to-end pick + cache              |
+| `test-project-cache.zsh`             | 11    | Comprehensive cache test              |
+| `interactive-cache-dogfeeding.zsh`   | 15    | ADHD-friendly interactive test        |
+| `run-unit-tests.zsh`                 | -     | Unit test orchestrator                |
+
+**Total:** 64 unit tests + 6 integration tests + 11 comprehensive + 15 interactive = **96 cache tests**
+
+**Quick Start:**
+```bash
+# Run all cache unit tests
+./tests/run-unit-tests.zsh
+
+# Run interactive dog-feeding test (ADHD-friendly!)
+./tests/interactive-cache-dogfeeding.zsh
+
+# Run comprehensive cache test
+zsh tests/test-project-cache.zsh
+
+# See complete test plan
+cat tests/TEST-PLAN.md
+```
+
+**Documentation:**
+- 📋 **Test Plan:** `tests/TEST-PLAN.md` - Complete test strategy
+- 📖 **Interactive Guide:** `tests/INTERACTIVE-CACHE-TEST-README.md` - How to use dog-feeding test
+- 🔧 **Test Utils:** `tests/test-utils.zsh` - 20+ assertions & helpers
 
 ### Dot Dispatcher Test Suite (NEW)
 
@@ -83,6 +125,7 @@ zsh tests/test-doctor.zsh
 | File                               | Purpose                          |
 | ---------------------------------- | -------------------------------- |
 | `interactive-dog-feeding.zsh`      | Gamified testing (ADHD-friendly) |
+| `interactive-cache-dogfeeding.zsh` | Cache testing (ADHD-friendly) 🆕 |
 | `interactive-test.zsh`             | Manual verification              |
 | `interactive-cc-wt-dogfooding.zsh` | CC worktree dogfooding           |
 

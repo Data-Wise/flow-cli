@@ -141,6 +141,18 @@ flow sync                # Auto-sync daily
 
 Works offline, syncs when connected. Zero config after setup.
 
+### ⚡ Performance Optimization (v5.3.0)
+
+Sub-10ms project picker with intelligent caching:
+
+```bash
+pick              # < 10ms (cached)
+flow cache status # Check cache age
+flow cache refresh # Force rebuild
+```
+
+**40x faster** than v5.2.0 for large project sets (100+ repos). Transparent 5-minute cache with automatic refresh.
+
 ---
 
 ## 🔌 Smart Dispatchers
