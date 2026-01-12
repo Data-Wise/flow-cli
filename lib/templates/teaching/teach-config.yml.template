@@ -1,5 +1,5 @@
 # {{COURSE_NAME}} Teaching Configuration
-# Version: 1.0 (Increment 1 - Core Deployment)
+# Version: 2.0 (Increment 2 - Course Context)
 # Generated: {{GENERATED_DATE}}
 
 course:
@@ -8,6 +8,12 @@ course:
   semester: "{{SEMESTER}}"
   year: {{YEAR}}
   instructor: "{{INSTRUCTOR}}"
+
+# Semester schedule (Increment 2)
+semester_info:
+  start_date: "{{START_DATE}}"  # YYYY-MM-DD format
+  end_date: "{{END_DATE}}"      # YYYY-MM-DD format (auto-calculated: 16 weeks)
+{{BREAKS_CONFIG}}
 
 branches:
   draft: "draft"

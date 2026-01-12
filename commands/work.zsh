@@ -267,12 +267,8 @@ _work_teaching_session() {
   # 4. Load shortcuts for current session
   _load_teaching_shortcuts "$config_file"
 
-  # 5. Show minimal context
-  local course_name=$(yq -r '.course.name' "$config_file" 2>/dev/null)
-  echo ""
-  echo "${FLOW_COLORS[bold]}📚 $course_name${FLOW_COLORS[reset]}"
-  echo "  ${FLOW_COLORS[info]}Branch:${FLOW_COLORS[reset]} $current_branch"
-  echo ""
+  # 5. Show enhanced context (Increment 2)
+  _display_teaching_context "$project_dir" "$config_file" "$current_branch"
 }
 
 # Load teaching shortcuts into current session
@@ -285,6 +281,50 @@ _load_teaching_shortcuts() {
   # Show loaded shortcuts
   echo "${FLOW_COLORS[bold]}Shortcuts loaded:${FLOW_COLORS[reset]}"
   yq -r '.shortcuts | to_entries[] | "  \(.key) → \(.value)"' "$config_file" 2>/dev/null
+  echo ""
+}
+
+# Display enhanced teaching context (Increment 2: Course Context)
+_display_teaching_context() {
+  local project_dir="$1"
+  local config_file="$2"
+  local current_branch="$3"
+
+  # Get basic course info
+  local course_name=$(yq -r '.course.name' "$config_file" 2>/dev/null)
+  local semester=$(yq -r '.course.semester // empty' "$config_file" 2>/dev/null)
+  local year=$(yq -r '.course.year // empty' "$config_file" 2>/dev/null)
+
+  # Display course header
+  echo ""
+  echo "${FLOW_COLORS[bold]}📚 $course_name${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[info]}Branch:${FLOW_COLORS[reset]} $current_branch"
+
+  # Display semester info if available
+  if [[ -n "$semester" && "$semester" != "null" ]]; then
+    echo "  ${FLOW_COLORS[info]}Semester:${FLOW_COLORS[reset]} $semester $year"
+  fi
+
+  # Calculate and display current week
+  local current_week=$(_calculate_current_week "$config_file")
+  if [[ -n "$current_week" && "$current_week" != "0" ]]; then
+    # Check if it's a break week
+    local break_name=$(_is_break_week "$config_file" "$current_week")
+    if [[ $? -eq 0 && -n "$break_name" ]]; then
+      echo "  ${FLOW_COLORS[warning]}Current Week:${FLOW_COLORS[reset]} Week $current_week ($break_name)"
+    else
+      echo "  ${FLOW_COLORS[info]}Current Week:${FLOW_COLORS[reset]} Week $current_week"
+    fi
+  fi
+
+  # Show recent git activity (last 3 commits)
+  local recent_commits=$(git -C "$project_dir" log --oneline -3 --format="%s" 2>/dev/null)
+  if [[ -n "$recent_commits" ]]; then
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}Recent Changes:${FLOW_COLORS[reset]}"
+    echo "$recent_commits" | sed 's/^/    /' | head -3
+  fi
+
   echo ""
 }
 
