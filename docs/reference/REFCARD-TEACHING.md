@@ -30,6 +30,8 @@ work course-name
 | `work <course>` | Start teaching session | `work stat-545` |
 | `./scripts/quick-deploy.sh` | Deploy draft → production | `./scripts/quick-deploy.sh` |
 | `./scripts/semester-archive.sh` | Archive semester | `./scripts/semester-archive.sh` |
+| `teach-exam <topic>` | Create exam template (optional) | `teach-exam "Midterm 1"` |
+| `./scripts/exam-to-qti.sh <file>` | Convert to Canvas QTI (optional) | `./scripts/exam-to-qti.sh exams/midterm1.md` |
 
 ---
 
@@ -231,6 +233,32 @@ $EDITOR .flow/teach-config.yml
 git add .flow/teach-config.yml
 git commit -m "Update for Fall 2026"
 ./scripts/quick-deploy.sh
+```
+
+---
+
+### Create Exam (Optional)
+
+**Requires:** `npm install -g examark`
+
+```bash
+# Enable exam workflow
+yq -i '.examark.enabled = true' .flow/teach-config.yml
+
+# Create exam
+teach-exam "Midterm 1"
+# Duration: 90
+# Points: 100
+# Filename: midterm1
+
+# Edit exam
+$EDITOR exams/midterm1.md
+
+# Convert to Canvas QTI
+./scripts/exam-to-qti.sh exams/midterm1.md
+
+# Upload to Canvas:
+# Quizzes → Import → QTI 1.2 format → exams/midterm1.zip
 ```
 
 ---
