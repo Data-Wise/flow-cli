@@ -160,7 +160,77 @@ source flow.plugin.zsh
 
 ---
 
-### 1.3 Run All Existing Tests (Regression Check)
+### 1.3 Run Increment 2 Test Suite (Course Context)
+
+```bash
+./tests/test-teaching-workflow-increment-2.zsh
+```
+
+**Expected Output:**
+```
+╔════════════════════════════════════════════════════════════╗
+║  Teaching Workflow Increment 2 - Test Suite               ║
+╚════════════════════════════════════════════════════════════╝
+
+━━━ Week Calculation Tests ━━━
+✓ Week 1: First day should be week 1
+✓ Week 8-9: 56 days after start is week 8
+✓ Before start: Week < 1 correctly handled
+✓ After end: Week > 16 detected (would cap to 16)
+✓ Missing semester_info: Returns empty
+
+━━━ Break Detection Tests ━━━
+✓ Break detection: Week X should be Spring Break
+✓ Not a break: Week 5 returns non-zero
+✓ No breaks config: Returns non-zero
+
+━━━ Date Validation Tests ━━━
+✓ Valid date: 2026-01-12 passes validation
+✓ Invalid format: 'not-a-date' fails validation
+✓ Invalid date: 2026-13-01 fails validation
+✓ Wrong format: 01/12/2026 fails validation
+
+━━━ Semester End Calculation Tests ━━━
+✓ Semester end: 16 weeks from 2026-01-12 is in May
+✓ Semester end: 16 weeks from 2025-08-20
+
+━━━ Semester Start Suggestion Tests ━━━
+✓ Semester start suggestion: Returns non-empty value
+✓ Semester start format: Matches YYYY-MM-DD
+
+━━━ Date to Week Conversion Tests ━━━
+✓ Date to week: 2026-03-09 is week 8 (expected 8-9)
+
+╔════════════════════════════════════════════════════════════╗
+║  Test Summary                                              ║
+╚════════════════════════════════════════════════════════════╝
+
+  Tests run:    17
+  Passed:       17
+  Failed:       0
+
+✓ All tests passed!
+```
+
+**✅ Pass Criteria:** All 17 tests passing, 0 failures
+
+**What This Tests:**
+- Week calculation from semester start date
+- Break week detection (e.g., Spring Break)
+- Date format validation (YYYY-MM-DD)
+- Semester end auto-calculation (16 weeks)
+- Smart semester start suggestions
+- Date-to-week conversion utilities
+
+**❌ Fail Actions:**
+- Check if teaching-utils.zsh is sourced correctly
+- Verify date command compatibility (macOS BSD date)
+- Check config file format (semester_info section)
+- Report with test name and error
+
+---
+
+### 1.4 Run All Existing Tests (Regression Check)
 
 ```bash
 ./tests/run-all.sh
