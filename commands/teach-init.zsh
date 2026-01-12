@@ -425,7 +425,7 @@ _teach_quarto_inplace_conversion() {
 
   echo ""
   echo "✅ Migration complete"
-  _teach_show_next_steps "$course_name"
+  _teach_show_completion_summary "$course_name" "$rollback_tag" "$current_branch"
 }
 
 # Strategy 2: Create parallel branches
@@ -486,7 +486,7 @@ _teach_quarto_parallel_branches() {
 
   echo ""
   echo "✅ Migration complete"
-  _teach_show_next_steps "$course_name"
+  _teach_show_completion_summary "$course_name" "$rollback_tag" "$current_branch"
 }
 
 # Strategy 3: Fresh start
@@ -549,7 +549,7 @@ _teach_quarto_fresh_start() {
   echo ""
   echo "✅ Migration complete (fresh start)"
   echo "💡 Original history preserved in tag: $archive_tag"
-  _teach_show_next_steps "$course_name"
+  _teach_show_completion_summary "$course_name" "$archive_tag" "$current_branch"
 }
 
 # Generic migration for non-Quarto projects
@@ -592,7 +592,8 @@ _teach_inplace_conversion() {
   # Tag current state
   local semester=$(date +"%B" | sed 's/January\|February\|March\|April\|May/spring/; s/June\|July/summer/; s/August\|September\|October\|November\|December/fall/')
   local year=$(date +%Y)
-  git tag -a "$semester-$year-pre-migration" -m "Pre-migration snapshot"
+  local rollback_tag="$semester-$year-pre-migration"
+  git tag -a "$rollback_tag" -m "Pre-migration snapshot"
 
   # Rename to production
   git branch -m "$current_branch" production
@@ -607,11 +608,12 @@ _teach_inplace_conversion() {
 
   echo ""
   echo "✅ Migration complete"
-  _teach_show_next_steps "$course_name"
+  _teach_show_completion_summary "$course_name" "$rollback_tag" "$current_branch"
 }
 
 _teach_two_branch_setup() {
   local course_name="$1"
+  local current_branch=$(git branch --show-current)
 
   # Create production and draft branches
   git checkout -b production
@@ -625,7 +627,8 @@ _teach_two_branch_setup() {
 
   echo ""
   echo "✅ Two-branch setup complete"
-  _teach_show_next_steps "$course_name"
+  # No rollback tag for two-branch setup (existing branch preserved)
+  _teach_show_completion_summary "$course_name" "" "$current_branch"
 }
 
 # ============================================================================
@@ -970,40 +973,115 @@ EOF
 }
 
 # ============================================================================
-# NEXT STEPS
+# COMPLETION SUMMARY (ADHD-Friendly)
 # ============================================================================
 
-_teach_show_next_steps() {
+# Show comprehensive completion summary with rollback instructions
+# Usage: _teach_show_completion_summary <course_name> [rollback_tag] [original_branch]
+_teach_show_completion_summary() {
   local course_name="$1"
+  local rollback_tag="${2:-}"
+  local original_branch="${3:-main}"
+
+  # Auto-detect rollback tag if not provided
+  if [[ -z "$rollback_tag" ]]; then
+    rollback_tag=$(git tag -l "*pre-migration" 2>/dev/null | tail -1)
+  fi
+
+  # Get course slug for work command
+  local course_slug=$(echo "$course_name" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+  local current_branch=$(git branch --show-current 2>/dev/null)
 
   echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "🎉 Teaching workflow initialized!"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "┌─────────────────────────────────────────────────────────────┐"
+  echo "│ 🎉 TEACHING WORKFLOW INITIALIZED!                           │"
+  echo "├─────────────────────────────────────────────────────────────┤"
+  echo "│                                                             │"
+  echo "│ ${FLOW_COLORS[bold]}📋 What Just Happened:${FLOW_COLORS[reset]}                                      │"
+  echo "│                                                             │"
+
+  # Show rollback tag info
+  if [[ -n "$rollback_tag" ]]; then
+    echo "│   ✅ Created rollback tag: ${FLOW_COLORS[info]}$rollback_tag${FLOW_COLORS[reset]}"
+    echo "│      └─ Your safety net! See \"How to Rollback\" below        │"
+    echo "│                                                             │"
+  fi
+
+  # Show branch changes
+  if [[ "$original_branch" != "production" ]]; then
+    echo "│   ✅ Renamed $original_branch → production                  │"
+    echo "│      └─ This is what students see (deployed site)           │"
+    echo "│                                                             │"
+  fi
+
+  echo "│   ✅ Created draft branch (you're on it now)                │"
+  echo "│      └─ Safe to edit - students won't see until you deploy  │"
+  echo "│                                                             │"
+
+  # Show created files
+  echo "│   ✅ Created files:                                         │"
+  [[ -f ".flow/teach-config.yml" ]] && \
+    echo "│      • .flow/teach-config.yml    (course settings)          │"
+  [[ -f "scripts/quick-deploy.sh" ]] && \
+    echo "│      • scripts/quick-deploy.sh   (deploy draft→production)  │"
+  [[ -f "scripts/semester-archive.sh" ]] && \
+    echo "│      • scripts/semester-archive.sh (end-of-semester)        │"
+  [[ -f ".github/workflows/deploy.yml" ]] && \
+    echo "│      • .github/workflows/deploy.yml (GitHub Actions)        │"
+  [[ -f "MIGRATION-COMPLETE.md" ]] && \
+    echo "│      • MIGRATION-COMPLETE.md     (this summary)             │"
+
+  echo "│                                                             │"
+
+  # Rollback instructions section
+  if [[ -n "$rollback_tag" ]]; then
+    echo "├─────────────────────────────────────────────────────────────┤"
+    echo "│ ${FLOW_COLORS[bold]}🏷️  HOW TO ROLLBACK${FLOW_COLORS[reset]} (if anything goes wrong):              │"
+    echo "│                                                             │"
+    echo "│   The tag '$rollback_tag' is your safety net.   │"
+    echo "│   If migration caused issues:                               │"
+    echo "│                                                             │"
+    echo "│   ${FLOW_COLORS[dim]}# See what the tag contains:${FLOW_COLORS[reset]}                              │"
+    echo "│   ${FLOW_COLORS[cmd]}git log $rollback_tag --oneline -5${FLOW_COLORS[reset]}"
+    echo "│                                                             │"
+    echo "│   ${FLOW_COLORS[dim]}# Completely undo migration:${FLOW_COLORS[reset]}                              │"
+    echo "│   ${FLOW_COLORS[cmd]}git checkout $rollback_tag${FLOW_COLORS[reset]}"
+    echo "│   ${FLOW_COLORS[cmd]}git checkout -b $original_branch${FLOW_COLORS[reset]}"
+    echo "│   ${FLOW_COLORS[cmd]}rm -rf .flow scripts MIGRATION-COMPLETE.md${FLOW_COLORS[reset]}"
+    echo "│                                                             │"
+  fi
+
+  # Next steps section
+  echo "├─────────────────────────────────────────────────────────────┤"
+  echo "│ ${FLOW_COLORS[bold]}🚀 NEXT STEPS:${FLOW_COLORS[reset]}                                              │"
+  echo "│                                                             │"
+  echo "│   1. Start working (safe on draft branch):                  │"
+  echo "│      ${FLOW_COLORS[cmd]}work $course_slug${FLOW_COLORS[reset]}"
+  echo "│                                                             │"
+  echo "│   2. Make edits, commit as usual                            │"
+  echo "│                                                             │"
+  echo "│   3. Deploy when ready:                                     │"
+  echo "│      ${FLOW_COLORS[cmd]}./scripts/quick-deploy.sh${FLOW_COLORS[reset]}"
+  echo "│                                                             │"
+
+  # Optional exam workflow
+  echo "│   ${FLOW_COLORS[dim]}(Optional) Enable exam workflow:${FLOW_COLORS[reset]}                          │"
+  echo "│      ${FLOW_COLORS[cmd]}npm install -g examark${FLOW_COLORS[reset]}"
+  echo "│      ${FLOW_COLORS[cmd]}teach-exam \"Midterm 1\"${FLOW_COLORS[reset]}"
+  echo "│                                                             │"
+
+  # Documentation link
+  echo "├─────────────────────────────────────────────────────────────┤"
+  echo "│ 📚 Learn more: https://data-wise.github.io/flow-cli/        │"
+  echo "│                guides/teaching-workflow/                    │"
+  echo "└─────────────────────────────────────────────────────────────┘"
   echo ""
-  echo "Next steps:"
-  echo ""
-  echo "  1. Review config:"
-  echo "     ${FLOW_COLORS[cmd]}\$EDITOR .flow/teach-config.yml${FLOW_COLORS[reset]}"
-  echo ""
-  echo "  2. Update GitHub repo settings:"
-  echo "     - Enable GitHub Pages from 'production' branch"
-  echo "     - Set Pages source: / (root)"
-  echo ""
-  echo "  3. Test deployment:"
-  echo "     ${FLOW_COLORS[cmd]}./scripts/quick-deploy.sh${FLOW_COLORS[reset]}"
-  echo ""
-  echo "  4. Start working:"
-  echo "     ${FLOW_COLORS[cmd]}work $course_name${FLOW_COLORS[reset]}"
-  echo ""
-  echo "  ${FLOW_COLORS[bold]}5. (Optional) Enable exam workflow:${FLOW_COLORS[reset]}"
-  echo "     ${FLOW_COLORS[cmd]}npm install -g examark${FLOW_COLORS[reset]}"
-  echo "     ${FLOW_COLORS[cmd]}yq -i '.examark.enabled = true' .flow/teach-config.yml${FLOW_COLORS[reset]}"
-  echo "     ${FLOW_COLORS[cmd]}teach-exam \"Midterm 1\"${FLOW_COLORS[reset]}"
-  echo ""
-  echo "📚 Documentation:"
-  echo "   https://data-wise.github.io/flow-cli/guides/teaching-workflow/"
-  echo ""
+}
+
+# Legacy wrapper for backward compatibility
+_teach_show_next_steps() {
+  local course_name="$1"
+  _teach_show_completion_summary "$course_name"
 }
 
 _teach_create_fresh_repo() {
