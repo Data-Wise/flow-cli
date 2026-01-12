@@ -37,12 +37,44 @@ teach-init() {
   if [[ "$dry_run" == "true" ]]; then
     echo "🔍 DRY RUN MODE - No changes will be made"
     echo ""
+    # Check if already initialized
+    if _teach_is_already_initialized; then
+      echo "┌────────────────────────────────────────────────────────────┐"
+      echo "│ ✅ Teaching workflow already initialized!"
+      echo "├────────────────────────────────────────────────────────────┤"
+      echo "│"
+      echo "│ Status:"
+      echo "│   ✅ .flow/teach-config.yml exists"
+      echo "│   ✅ draft branch exists"
+      echo "│   ✅ production branch exists"
+      echo "│"
+      echo "│ No migration needed. To start working:"
+      echo "│   work $(basename "$PWD" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
+      echo "│"
+      echo "└────────────────────────────────────────────────────────────┘"
+      return 0
+    fi
     _teach_show_migration_plan "$course_name"
     return 0
   fi
 
   echo "🎓 Initializing teaching workflow for: $course_name"
   echo ""
+
+  # Check if already initialized
+  if _teach_is_already_initialized; then
+    _flow_log_warning "Teaching workflow already initialized!"
+    echo ""
+    echo "  ✅ .flow/teach-config.yml exists"
+    echo "  ✅ draft and production branches exist"
+    echo ""
+    echo "To reconfigure, manually edit:"
+    echo "  \$EDITOR .flow/teach-config.yml"
+    echo ""
+    echo "To start working:"
+    echo "  work $(basename "$PWD" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
+    return 0
+  fi
 
   # Check dependencies
   if ! command -v yq &>/dev/null; then
@@ -62,6 +94,22 @@ teach-init() {
 # ============================================================================
 # PHASE 1: DETECTION AND VALIDATION (v5.4.0)
 # ============================================================================
+
+# Check if teaching workflow is already initialized
+# Returns 0 if already initialized, 1 otherwise
+_teach_is_already_initialized() {
+  # Check for config file
+  [[ ! -f ".flow/teach-config.yml" ]] && return 1
+
+  # Check for both branches (only if in git repo)
+  if [[ -d .git ]]; then
+    local has_draft=$(git branch --list draft 2>/dev/null)
+    local has_production=$(git branch --list production 2>/dev/null)
+    [[ -z "$has_draft" || -z "$has_production" ]] && return 1
+  fi
+
+  return 0
+}
 
 # Detect project type based on presence of config files
 _teach_detect_project_type() {
