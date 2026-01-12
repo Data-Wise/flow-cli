@@ -352,22 +352,22 @@ _teach_quarto_inplace_conversion() {
   fi
 
   # Execute migration with error trapping
-  {
+  (
     echo "Renaming $current_branch → production..."
-    git branch -m "$current_branch" production &&
+    git branch -m "$current_branch" production || exit 1
 
     echo "Creating draft branch..."
-    git checkout -b draft production &&
+    git checkout -b draft production || exit 1
 
     echo "Installing templates..."
-    _teach_install_templates "$course_name" &&
+    _teach_install_templates "$course_name" || exit 1
 
     echo "Offering GitHub push..."
-    _teach_offer_github_push &&
+    _teach_offer_github_push || exit 1
 
     echo "Generating documentation..."
-    _teach_generate_migration_docs "$course_name"
-  } || {
+    _teach_generate_migration_docs "$course_name" || exit 1
+  ) || {
     # ROLLBACK on any error
     echo ""
     _flow_log_error "Migration failed at step above"
@@ -413,22 +413,22 @@ _teach_quarto_parallel_branches() {
   fi
 
   # Execute migration with error trapping
-  {
+  (
     echo "Creating production branch..."
-    git checkout -b production &&
+    git checkout -b production || exit 1
 
     echo "Creating draft branch..."
-    git checkout -b draft &&
+    git checkout -b draft || exit 1
 
     echo "Installing templates..."
-    _teach_install_templates "$course_name" &&
+    _teach_install_templates "$course_name" || exit 1
 
     echo "Offering GitHub push..."
-    _teach_offer_github_push &&
+    _teach_offer_github_push || exit 1
 
     echo "Generating documentation..."
-    _teach_generate_migration_docs "$course_name"
-  } || {
+    _teach_generate_migration_docs "$course_name" || exit 1
+  ) || {
     # ROLLBACK on any error
     echo ""
     _flow_log_error "Migration failed at step above"
@@ -473,22 +473,22 @@ _teach_quarto_fresh_start() {
   fi
 
   # Execute migration with error trapping
-  {
+  (
     echo "Creating orphan production branch..."
-    git checkout --orphan production &&
+    git checkout --orphan production || exit 1
 
     echo "Creating draft branch..."
-    git checkout -b draft production &&
+    git checkout -b draft production || exit 1
 
     echo "Installing templates..."
-    _teach_install_templates "$course_name" &&
+    _teach_install_templates "$course_name" || exit 1
 
     echo "Offering GitHub push..."
-    _teach_offer_github_push &&
+    _teach_offer_github_push || exit 1
 
     echo "Generating documentation..."
-    _teach_generate_migration_docs "$course_name"
-  } || {
+    _teach_generate_migration_docs "$course_name" || exit 1
+  ) || {
     # ROLLBACK on any error
     echo ""
     _flow_log_error "Migration failed at step above"
@@ -588,18 +588,41 @@ _teach_install_templates() {
   local course_name="$1"
 
   # Create directory structure
-  mkdir -p .flow scripts .github/workflows
+  mkdir -p .flow scripts .github/workflows || {
+    _flow_log_error "Failed to create directory structure"
+    return 1
+  }
 
   # Get template directory from flow-cli
   local template_dir="${FLOW_PLUGIN_DIR}/lib/templates/teaching"
 
-  # Copy script templates
-  cp "$template_dir/quick-deploy.sh" scripts/
-  cp "$template_dir/semester-archive.sh" scripts/
-  chmod +x scripts/*.sh
+  # Verify template directory exists
+  if [[ ! -d "$template_dir" ]]; then
+    _flow_log_error "Template directory not found: $template_dir"
+    return 1
+  fi
+
+  # Copy script templates with error checking
+  cp "$template_dir/quick-deploy.sh" scripts/ || {
+    _flow_log_error "Failed to copy quick-deploy.sh"
+    return 1
+  }
+
+  cp "$template_dir/semester-archive.sh" scripts/ || {
+    _flow_log_error "Failed to copy semester-archive.sh"
+    return 1
+  }
+
+  chmod +x scripts/*.sh || {
+    _flow_log_error "Failed to set script permissions"
+    return 1
+  }
 
   # Copy GitHub Actions workflow
-  cp "$template_dir/deploy.yml.template" .github/workflows/deploy.yml
+  cp "$template_dir/deploy.yml.template" .github/workflows/deploy.yml || {
+    _flow_log_error "Failed to copy deploy.yml template"
+    return 1
+  }
 
   # Generate config (Increment 2: Course Context)
   local course_slug=$(echo "$course_name" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
@@ -661,7 +684,10 @@ _teach_install_templates() {
   fi
 
   # Read template and substitute variables
-  local config_template=$(cat "$template_dir/teach-config.yml.template")
+  local config_template=$(cat "$template_dir/teach-config.yml.template" 2>/dev/null) || {
+    _flow_log_error "Failed to read config template"
+    return 1
+  }
 
   # Perform substitutions
   echo "$config_template" | \
@@ -674,19 +700,32 @@ _teach_install_templates() {
     sed "s/{{GENERATED_DATE}}/$generated_date/g" | \
     sed "s/{{START_DATE}}/$start_date/g" | \
     sed "s/{{END_DATE}}/$end_date/g" \
-    > .flow/teach-config.yml
+    > .flow/teach-config.yml || {
+    _flow_log_error "Failed to generate config file"
+    return 1
+  }
 
   # Handle breaks config (multiline replacement)
   if [[ -n "$breaks_config" ]]; then
     # Replace placeholder with actual breaks config
-    sed -i '' "s|{{BREAKS_CONFIG}}|$breaks_config|" .flow/teach-config.yml
+    sed -i '' "s|{{BREAKS_CONFIG}}|$breaks_config|" .flow/teach-config.yml || {
+      _flow_log_error "Failed to add breaks config"
+      return 1
+    }
   else
     # Remove the breaks placeholder line if no breaks
-    sed -i '' '/{{BREAKS_CONFIG}}/d' .flow/teach-config.yml
+    sed -i '' '/{{BREAKS_CONFIG}}/d' .flow/teach-config.yml || {
+      _flow_log_error "Failed to remove breaks placeholder"
+      return 1
+    }
   fi
 
   # Commit setup
-  git add .flow scripts .github
+  git add .flow scripts .github || {
+    _flow_log_error "Failed to stage files"
+    return 1
+  }
+
   git commit -m "chore: Initialize teaching workflow
 
 - Add .flow/teach-config.yml (Increment 2)
@@ -696,12 +735,14 @@ _teach_install_templates() {
 - Semester schedule: $start_date to $end_date
 - Week calculation configured
 
-Generated by flow-cli teach-init"
-
-  git push origin draft
+Generated by flow-cli teach-init" || {
+    _flow_log_error "Failed to commit workflow files"
+    return 1
+  }
 
   echo ""
   echo "✅ Templates installed"
+  return 0
 }
 
 # ============================================================================
