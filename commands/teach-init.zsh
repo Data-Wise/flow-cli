@@ -137,6 +137,7 @@ _teach_install_templates() {
   # Copy script templates
   cp "$template_dir/quick-deploy.sh" scripts/
   cp "$template_dir/semester-archive.sh" scripts/
+  cp "$template_dir/exam-to-qti.sh" scripts/
   chmod +x scripts/*.sh
 
   # Copy GitHub Actions workflow
@@ -269,6 +270,11 @@ _teach_show_next_steps() {
   echo ""
   echo "  4. Start working:"
   echo "     ${FLOW_COLORS[cmd]}work $course_name${FLOW_COLORS[reset]}"
+  echo ""
+  echo "  ${FLOW_COLORS[bold]}5. (Optional) Enable exam workflow:${FLOW_COLORS[reset]}"
+  echo "     ${FLOW_COLORS[cmd]}npm install -g examark${FLOW_COLORS[reset]}"
+  echo "     ${FLOW_COLORS[cmd]}yq -i '.examark.enabled = true' .flow/teach-config.yml${FLOW_COLORS[reset]}"
+  echo "     ${FLOW_COLORS[cmd]}teach-exam \"Midterm 1\"${FLOW_COLORS[reset]}"
   echo ""
   echo "📚 Documentation:"
   echo "   https://data-wise.github.io/flow-cli/guides/teaching-workflow/"
