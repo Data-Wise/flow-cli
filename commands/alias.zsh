@@ -89,7 +89,7 @@ _flow_alias_help() {
   echo "  ${FLOW_COLORS[cmd]}doctor${FLOW_COLORS[reset]}              Health check all aliases (shadows, broken, etc.)"
   echo "  ${FLOW_COLORS[cmd]}find <pattern>${FLOW_COLORS[reset]}      Search aliases by name or command"
   echo "  ${FLOW_COLORS[cmd]}edit${FLOW_COLORS[reset]}                Open .zshrc at alias section"
-  echo "  ${FLOW_COLORS[cmd]}add [name=cmd]${FLOW_COLORS[reset]}      Create new alias (coming soon)"
+  echo "  ${FLOW_COLORS[cmd]}add [name=cmd]${FLOW_COLORS[reset]}      Create new alias (interactive or one-liner)"
   echo "  ${FLOW_COLORS[cmd]}rm <name>${FLOW_COLORS[reset]}           Remove alias safely (coming soon)"
   echo "  ${FLOW_COLORS[cmd]}test <name>${FLOW_COLORS[reset]}         Test alias (coming soon)"
   echo ""
@@ -97,6 +97,8 @@ _flow_alias_help() {
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias              ${FLOW_COLORS[muted]}# Show all aliases${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias doctor       ${FLOW_COLORS[muted]}# Check for issues${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias find brew    ${FLOW_COLORS[muted]}# Find brew aliases${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias add          ${FLOW_COLORS[muted]}# Interactive create${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias add gp='git push'  ${FLOW_COLORS[muted]}# One-liner create${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias edit         ${FLOW_COLORS[muted]}# Edit .zshrc${FLOW_COLORS[reset]}"
   echo ""
   echo "${FLOW_COLORS[muted]}📚 See also:${FLOW_COLORS[reset]}"
@@ -535,10 +537,140 @@ _flow_alias_edit() {
   fi
 }
 
-# Add: Create new alias (stub for Phase 3)
+# Add: Create new alias
+# Usage: flow alias add              (interactive)
+#        flow alias add name='cmd'   (one-liner)
 _flow_alias_add() {
-  echo "${FLOW_COLORS[muted]}Coming soon: flow alias add${FLOW_COLORS[reset]}"
-  echo "For now, use: ${FLOW_COLORS[cmd]}flow alias edit${FLOW_COLORS[reset]} to add aliases manually"
+  local zshrc="${ZDOTDIR:-$HOME}/.zshrc"
+  [[ -f "$zshrc" ]] || zshrc="$HOME/.config/zsh/.zshrc"
+
+  local alias_name=""
+  local alias_value=""
+
+  # Check if one-liner format provided: name='command' or name="command"
+  if [[ -n "$1" && "$1" == *"="* ]]; then
+    alias_name="${1%%=*}"
+    alias_value="${1#*=}"
+    # Remove surrounding quotes
+    alias_value="${alias_value#[\'\"]}"
+    alias_value="${alias_value%[\'\"]}"
+  else
+    # Interactive mode
+    echo ""
+    echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[bold]}➕ Create New Alias${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+    echo ""
+
+    # Get alias name
+    printf "${FLOW_COLORS[bold]}Alias name:${FLOW_COLORS[reset]} "
+    read -r alias_name
+    if [[ -z "$alias_name" ]]; then
+      echo "${FLOW_COLORS[error]}Error: Alias name cannot be empty${FLOW_COLORS[reset]}"
+      return 1
+    fi
+
+    # Get alias command
+    printf "${FLOW_COLORS[bold]}Command:${FLOW_COLORS[reset]} "
+    read -r alias_value
+    if [[ -z "$alias_value" ]]; then
+      echo "${FLOW_COLORS[error]}Error: Command cannot be empty${FLOW_COLORS[reset]}"
+      return 1
+    fi
+  fi
+
+  # Validate alias name (alphanumeric, underscore, dash only)
+  if [[ ! "$alias_name" =~ ^[a-zA-Z_][a-zA-Z0-9_-]*$ ]]; then
+    echo "${FLOW_COLORS[error]}Error: Invalid alias name '$alias_name'${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[muted]}Use only letters, numbers, underscores, and dashes${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  echo ""
+  echo "${FLOW_COLORS[bold]}Validating...${FLOW_COLORS[reset]}"
+
+  local has_issues=0
+
+  # Check 1: Does alias already exist?
+  if grep -q "^alias $alias_name=" "$zshrc" 2>/dev/null; then
+    echo "  ${FLOW_COLORS[error]}❌ Duplicate: '$alias_name' already defined in .zshrc${FLOW_COLORS[reset]}"
+    has_issues=1
+  fi
+
+  # Check 2: Does it shadow a system command?
+  local shadow_path
+  shadow_path=$(_flow_alias_check_shadow "$alias_name" 2>/dev/null)
+  if [[ -n "$shadow_path" ]]; then
+    echo "  ${FLOW_COLORS[warning]}⚠️  Shadow: '$alias_name' shadows $shadow_path${FLOW_COLORS[reset]}"
+    # Warning only, not blocking
+  fi
+
+  # Check 3: Does target command exist?
+  local target_cmd="${alias_value%% *}"
+  if ! _flow_alias_check_target "$target_cmd"; then
+    echo "  ${FLOW_COLORS[error]}❌ Target not found: '$target_cmd'${FLOW_COLORS[reset]}"
+    has_issues=1
+  fi
+
+  # Check 4: Is it too long? (warning only)
+  if [[ ${#alias_value} -gt 60 ]]; then
+    echo "  ${FLOW_COLORS[warning]}⚠️  Long command (${#alias_value} chars) - consider a function${FLOW_COLORS[reset]}"
+  fi
+
+  # If no blocking issues, show success
+  if [[ $has_issues -eq 0 ]]; then
+    echo "  ${FLOW_COLORS[success]}✅ Validation passed${FLOW_COLORS[reset]}"
+  fi
+
+  echo ""
+
+  # Show preview
+  echo "${FLOW_COLORS[bold]}Preview:${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[cmd]}alias $alias_name='$alias_value'${FLOW_COLORS[reset]}"
+  echo ""
+
+  # If there were blocking issues, ask to proceed anyway
+  if [[ $has_issues -eq 1 ]]; then
+    printf "${FLOW_COLORS[warning]}Add anyway? [y/N]:${FLOW_COLORS[reset]} "
+    read -r confirm
+    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+      echo "${FLOW_COLORS[muted]}Cancelled${FLOW_COLORS[reset]}"
+      return 1
+    fi
+  else
+    # Confirm
+    printf "${FLOW_COLORS[bold]}Add this alias? [Y/n]:${FLOW_COLORS[reset]} "
+    read -r confirm
+    if [[ "$confirm" =~ ^[Nn]$ ]]; then
+      echo "${FLOW_COLORS[muted]}Cancelled${FLOW_COLORS[reset]}"
+      return 0
+    fi
+  fi
+
+  # Find the best place to insert (after last alias, or at end)
+  local last_alias_line
+  last_alias_line=$(grep -n "^alias " "$zshrc" | tail -1 | cut -d: -f1)
+
+  if [[ -n "$last_alias_line" ]]; then
+    # Insert after last alias line using sed
+    # Create temp file for safe editing
+    local tmpfile=$(mktemp)
+    sed "${last_alias_line}a\\
+alias $alias_name='$alias_value'" "$zshrc" > "$tmpfile"
+    mv "$tmpfile" "$zshrc"
+    echo "${FLOW_COLORS[success]}✅ Added after line $last_alias_line${FLOW_COLORS[reset]}"
+  else
+    # Append to end of file
+    echo "" >> "$zshrc"
+    echo "# Custom alias added $(date +%Y-%m-%d)" >> "$zshrc"
+    echo "alias $alias_name='$alias_value'" >> "$zshrc"
+    echo "${FLOW_COLORS[success]}✅ Added at end of file${FLOW_COLORS[reset]}"
+  fi
+
+  echo ""
+  echo "${FLOW_COLORS[muted]}Reload with:${FLOW_COLORS[reset]} ${FLOW_COLORS[cmd]}source $zshrc${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[muted]}Or run:${FLOW_COLORS[reset]} ${FLOW_COLORS[cmd]}exec zsh${FLOW_COLORS[reset]}"
+  echo ""
 }
 
 # Remove: Safe alias removal (stub for Phase 4)
