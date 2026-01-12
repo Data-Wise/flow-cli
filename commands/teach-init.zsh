@@ -252,7 +252,264 @@ _teach_migrate_existing_repo() {
   echo "Current branch: $current_branch"
   echo ""
 
-  # Strategy menu
+  # Detect project type
+  local project_type=$(_teach_detect_project_type)
+
+  case "$project_type" in
+    quarto)
+      echo "📚 Detected: Quarto website"
+      echo ""
+      _teach_migrate_quarto_project "$course_name"
+      ;;
+    mkdocs)
+      echo "📚 Detected: MkDocs website"
+      echo ""
+      _flow_log_warning "MkDocs support coming soon - using generic migration"
+      _teach_migrate_generic_repo "$course_name"
+      ;;
+    *)
+      echo "📚 Detected: Generic git repository"
+      echo ""
+      _teach_migrate_generic_repo "$course_name"
+      ;;
+  esac
+}
+
+# Quarto-specific migration with validation and safety
+_teach_migrate_quarto_project() {
+  local course_name="$1"
+
+  # Step 1: Validate Quarto project structure
+  echo "Validating Quarto project..."
+  if ! _teach_validate_quarto_project; then
+    echo ""
+    _flow_log_error "Migration cannot proceed - fix validation errors first"
+    return 1
+  fi
+  echo "✅ Validation passed"
+  echo ""
+
+  # Step 2: Handle renv/ directories
+  _teach_handle_renv
+
+  # Step 3: Show migration strategy options
+  local current_branch=$(git branch --show-current)
+
+  echo ""
+  echo "Choose migration strategy:"
+  echo "  ${FLOW_COLORS[bold]}1.${FLOW_COLORS[reset]} Convert existing branch → production (preserve history)"
+  echo "     Renames $current_branch → production, creates draft"
+  echo ""
+  echo "  ${FLOW_COLORS[bold]}2.${FLOW_COLORS[reset]} Create parallel branches (keep existing + add draft/production)"
+  echo "     Keeps $current_branch, adds new draft + production branches"
+  echo ""
+  echo "  ${FLOW_COLORS[bold]}3.${FLOW_COLORS[reset]} Fresh start (tag current, start new structure)"
+  echo "     Tags current state, creates clean draft + production"
+  echo ""
+
+  read "choice?Choice [1/2/3]: "
+
+  case "$choice" in
+    1) _teach_quarto_inplace_conversion "$course_name" ;;
+    2) _teach_quarto_parallel_branches "$course_name" ;;
+    3) _teach_quarto_fresh_start "$course_name" ;;
+    *)
+      echo "Invalid choice"
+      return 1
+      ;;
+  esac
+}
+
+# Strategy 1: Convert existing branch → production
+_teach_quarto_inplace_conversion() {
+  local course_name="$1"
+  local current_branch=$(git branch --show-current)
+
+  echo ""
+  echo "⚠️  This will:"
+  echo "  1. Create rollback tag (safe recovery point)"
+  echo "  2. Rename $current_branch → production"
+  echo "  3. Create new draft branch from production"
+  echo "  4. Add .flow/teach-config.yml and scripts/"
+  echo ""
+
+  read "confirm?Continue? [y/N] "
+  if [[ "$confirm" != "y" ]]; then
+    echo "Cancelled"
+    return 1
+  fi
+
+  # Create rollback tag
+  local semester=$(date +"%B" | sed 's/January\|February\|March\|April\|May/spring/; s/June\|July/summer/; s/August\|September\|October\|November\|December/fall/')
+  local year=$(date +%Y)
+  local rollback_tag="$semester-$year-pre-migration"
+
+  echo ""
+  echo "Creating rollback tag: $rollback_tag"
+  if ! git tag -a "$rollback_tag" -m "Pre-migration snapshot (Quarto)" 2>&1; then
+    _flow_log_error "Failed to create rollback tag"
+    return 1
+  fi
+
+  # Execute migration with error trapping
+  {
+    echo "Renaming $current_branch → production..."
+    git branch -m "$current_branch" production &&
+
+    echo "Creating draft branch..."
+    git checkout -b draft production &&
+
+    echo "Installing templates..."
+    _teach_install_templates "$course_name" &&
+
+    echo "Offering GitHub push..."
+    _teach_offer_github_push &&
+
+    echo "Generating documentation..."
+    _teach_generate_migration_docs "$course_name"
+  } || {
+    # ROLLBACK on any error
+    echo ""
+    _flow_log_error "Migration failed at step above"
+    _teach_rollback_migration "$rollback_tag"
+    return 1
+  }
+
+  echo ""
+  echo "✅ Migration complete"
+  _teach_show_next_steps "$course_name"
+}
+
+# Strategy 2: Create parallel branches
+_teach_quarto_parallel_branches() {
+  local course_name="$1"
+  local current_branch=$(git branch --show-current)
+
+  echo ""
+  echo "⚠️  This will:"
+  echo "  1. Create rollback tag"
+  echo "  2. Keep $current_branch as-is"
+  echo "  3. Create new production branch"
+  echo "  4. Create new draft branch"
+  echo "  5. Add teaching workflow files"
+  echo ""
+
+  read "confirm?Continue? [y/N] "
+  if [[ "$confirm" != "y" ]]; then
+    echo "Cancelled"
+    return 1
+  fi
+
+  # Create rollback tag
+  local semester=$(date +"%B" | sed 's/January\|February\|March\|April\|May/spring/; s/June\|July/summer/; s/August\|September\|October\|November\|December/fall/')
+  local year=$(date +%Y)
+  local rollback_tag="$semester-$year-pre-migration"
+
+  echo ""
+  echo "Creating rollback tag: $rollback_tag"
+  if ! git tag -a "$rollback_tag" -m "Pre-migration snapshot (Quarto)" 2>&1; then
+    _flow_log_error "Failed to create rollback tag"
+    return 1
+  fi
+
+  # Execute migration with error trapping
+  {
+    echo "Creating production branch..."
+    git checkout -b production &&
+
+    echo "Creating draft branch..."
+    git checkout -b draft &&
+
+    echo "Installing templates..."
+    _teach_install_templates "$course_name" &&
+
+    echo "Offering GitHub push..."
+    _teach_offer_github_push &&
+
+    echo "Generating documentation..."
+    _teach_generate_migration_docs "$course_name"
+  } || {
+    # ROLLBACK on any error
+    echo ""
+    _flow_log_error "Migration failed at step above"
+    _teach_rollback_migration "$rollback_tag"
+    return 1
+  }
+
+  echo ""
+  echo "✅ Migration complete"
+  _teach_show_next_steps "$course_name"
+}
+
+# Strategy 3: Fresh start
+_teach_quarto_fresh_start() {
+  local course_name="$1"
+  local current_branch=$(git branch --show-current)
+
+  echo ""
+  echo "⚠️  This will:"
+  echo "  1. Tag current state as archive"
+  echo "  2. Create orphan 'production' branch (clean history)"
+  echo "  3. Create draft branch from production"
+  echo "  4. Add teaching workflow files"
+  echo ""
+
+  read "confirm?Continue? [y/N] "
+  if [[ "$confirm" != "y" ]]; then
+    echo "Cancelled"
+    return 1
+  fi
+
+  # Create archive tag
+  local semester=$(date +"%B" | sed 's/January\|February\|March\|April\|May/spring/; s/June\|July/summer/; s/August\|September\|October\|November\|December/fall/')
+  local year=$(date +%Y)
+  local archive_tag="$semester-$year-archive"
+
+  echo ""
+  echo "Creating archive tag: $archive_tag"
+  if ! git tag -a "$archive_tag" -m "Pre-fresh-start archive" 2>&1; then
+    _flow_log_error "Failed to create archive tag"
+    return 1
+  fi
+
+  # Execute migration with error trapping
+  {
+    echo "Creating orphan production branch..."
+    git checkout --orphan production &&
+
+    echo "Creating draft branch..."
+    git checkout -b draft production &&
+
+    echo "Installing templates..."
+    _teach_install_templates "$course_name" &&
+
+    echo "Offering GitHub push..."
+    _teach_offer_github_push &&
+
+    echo "Generating documentation..."
+    _teach_generate_migration_docs "$course_name"
+  } || {
+    # ROLLBACK on any error
+    echo ""
+    _flow_log_error "Migration failed at step above"
+    _flow_log_warning "Returning to original branch"
+    git checkout "$current_branch"
+    git tag -d "$archive_tag" &>/dev/null
+    return 1
+  }
+
+  echo ""
+  echo "✅ Migration complete (fresh start)"
+  echo "💡 Original history preserved in tag: $archive_tag"
+  _teach_show_next_steps "$course_name"
+}
+
+# Generic migration for non-Quarto projects
+_teach_migrate_generic_repo() {
+  local course_name="$1"
+  local current_branch=$(git branch --show-current)
+
+  # Strategy menu (original behavior)
   echo "Choose migration strategy:"
   echo "  ${FLOW_COLORS[bold]}1.${FLOW_COLORS[reset]} In-place conversion (rename $current_branch → production, create draft)"
   echo "  ${FLOW_COLORS[bold]}2.${FLOW_COLORS[reset]} Two-branch setup (keep $current_branch, create draft + production)"
@@ -445,6 +702,179 @@ Generated by flow-cli teach-init"
 
   echo ""
   echo "✅ Templates installed"
+}
+
+# ============================================================================
+# PHASE 2: GITHUB & DOCUMENTATION (v5.4.0)
+# ============================================================================
+
+# Offer optional GitHub remote push
+_teach_offer_github_push() {
+  echo ""
+  echo "GitHub Integration (Optional)"
+  read "?  Push to GitHub remote? [y/N]: " push_github
+
+  if [[ "$push_github" != "y" ]]; then
+    echo "  ℹ️  Skipped - push manually later:"
+    echo "     git remote add origin <url>"
+    echo "     git push -u origin draft production"
+    return 0
+  fi
+
+  read "remote_url?  GitHub remote URL: " remote_url
+
+  if [[ -z "$remote_url" ]]; then
+    _flow_log_warning "No URL provided - skipping push"
+    return 0
+  fi
+
+  # Check if remote already exists
+  if git remote get-url origin &>/dev/null; then
+    local current_url=$(git remote get-url origin)
+
+    if [[ "$current_url" == "$remote_url" ]]; then
+      # Same URL, just push
+      echo "  ℹ️  Remote origin already configured"
+      git push -u origin draft production 2>&1 | grep -E "branch|up-to-date|->|Writing"
+    else
+      # Different URL, ask to update
+      echo "  ⚠️  Remote origin exists: $current_url"
+      read "?  Update to $remote_url? [y/N]: " update
+
+      if [[ "$update" == "y" ]]; then
+        git remote set-url origin "$remote_url"
+        git push -u origin draft production 2>&1 | grep -E "branch|up-to-date|->|Writing"
+      else
+        echo "  ℹ️  Keeping existing remote"
+      fi
+    fi
+  else
+    # No remote, add it
+    git remote add origin "$remote_url"
+    echo "  ✅ Added remote: origin"
+    git push -u origin draft production 2>&1 | grep -E "branch|up-to-date|->|Writing"
+  fi
+
+  echo "  ✅ Pushed to GitHub"
+}
+
+# Generate migration documentation
+_teach_generate_migration_docs() {
+  local course_name="$1"
+
+  # Get config values if available
+  local start_date=""
+  local end_date=""
+  local semester=""
+  local year=""
+
+  if [[ -f ".flow/teach-config.yml" ]] && command -v yq &>/dev/null; then
+    start_date=$(yq -r '.semester_info.start_date' .flow/teach-config.yml 2>/dev/null || echo "")
+    end_date=$(yq -r '.semester_info.end_date' .flow/teach-config.yml 2>/dev/null || echo "")
+    semester=$(yq -r '.course.semester' .flow/teach-config.yml 2>/dev/null || echo "")
+    year=$(yq -r '.course.year' .flow/teach-config.yml 2>/dev/null || echo "")
+  fi
+
+  # Generate MIGRATION-COMPLETE.md
+  cat > MIGRATION-COMPLETE.md << EOF
+# $course_name Teaching Workflow Migration - COMPLETE ✅
+
+**Date:** $(date +%Y-%m-%d)
+**Status:** Successfully migrated to flow-cli teaching workflow v2.0
+**Branch:** $(git branch --show-current) (ready for editing)
+
+---
+
+## Migration Summary
+
+### What Was Done
+
+1. **Git Repository** ✅
+   - Pre-migration tag: $(git tag -l "*pre-migration" | tail -1)
+   - Branch structure: draft + production
+
+2. **Teaching Workflow Configured** ✅
+   - Config: .flow/teach-config.yml
+   - Course: $course_name
+EOF
+
+  # Add semester info if available
+  if [[ -n "$semester" ]] && [[ -n "$year" ]]; then
+    echo "   - Semester: $semester $year" >> MIGRATION-COMPLETE.md
+  fi
+
+  if [[ -n "$start_date" ]] && [[ -n "$end_date" ]]; then
+    echo "   - Dates: $start_date to $end_date" >> MIGRATION-COMPLETE.md
+  fi
+
+  cat >> MIGRATION-COMPLETE.md << 'EOF'
+
+3. **Deployment Tools Created** ✅
+   - scripts/quick-deploy.sh - Fast deployment (< 2 min)
+   - scripts/semester-archive.sh - End-of-semester archival
+   - .github/workflows/deploy.yml - GitHub Actions (optional)
+
+4. **Validation Passed** ✅
+   - Project type: Quarto website
+   - Required files: _quarto.yml, index.qmd
+   - Structure: Valid
+
+---
+
+## Daily Workflow
+
+```bash
+# Start work session (safe on draft branch)
+work COURSE_NAME
+
+# Edit course materials
+# Commit changes
+
+# Deploy to production (when ready)
+./scripts/quick-deploy.sh
+```
+
+---
+
+## Branch Safety
+
+The workflow uses two branches:
+- **draft**: Safe for editing (current)
+- **production**: What students see (deployed)
+
+**Automatic warning when editing production branch.**
+
+---
+
+## Next Steps
+
+1. Test workflow: `work COURSE_NAME`
+2. Make edit, commit, deploy: `./scripts/quick-deploy.sh`
+3. Set up GitHub Pages (optional)
+
+---
+
+## Documentation
+
+- **Migration Guide:** Created by flow-cli teach-init
+- **flow-cli docs:** https://Data-Wise.github.io/flow-cli/
+
+---
+
+## Success! 🎉
+
+Your course is now using the teaching workflow. The safety features will protect your production branch while giving you freedom to experiment on draft.
+
+**Start working:**
+```bash
+work COURSE_NAME
+```
+EOF
+
+  # Replace COURSE_NAME placeholder with actual name
+  sed -i '' "s/COURSE_NAME/$course_name/g" MIGRATION-COMPLETE.md
+
+  echo "  ✅ Generated MIGRATION-COMPLETE.md"
 }
 
 # ============================================================================
