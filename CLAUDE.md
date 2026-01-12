@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v5.0.0+, active development)
+- **Status:** Production ready (v5.3.0+, active development)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -235,7 +235,7 @@ flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v5.2.0)
+### Dopamine Features (v5.3.0)
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
@@ -262,7 +262,7 @@ wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `wt help`)
 
-### CC Dispatcher Quick Reference (v5.2.0)
+### CC Dispatcher Quick Reference (v5.3.0)
 
 **✨ Unified Grammar:** Both mode-first AND target-first orders work!
 
@@ -309,7 +309,7 @@ tm detect             # Detect project context
 
 **Aliases:** `tmt` = title, `tmp` = profile, `tmg` = ghost, `tms` = switch
 
-### Pick - Project Picker (v5.2.0)
+### Pick - Project Picker (v5.3.0)
 
 ```bash
 pick                # FZF picker (all projects)
@@ -517,10 +517,10 @@ qu preview          # Quarto: preview document
 **Documentation:** [Complete Testing Guide](docs/guides/TESTING.md)
 
 ```bash
-# Core test suites (v5.0.0+)
+# Core test suites (v5.3.0+)
 tests/test-pick-command.zsh         # Pick: 39 tests (556 lines)
 tests/test-cc-dispatcher.zsh        # CC: 37 tests (722 lines)
-tests/test-dot-v5.1.1-unit.zsh      # DOT: 112+ tests
+tests/test-dot-v5.3.0-unit.zsh      # DOT: 112+ tests
 tests/test-cc-unified-grammar.zsh   # CC unified grammar
 tests/test-pick-smart-defaults.zsh  # Pick defaults
 tests/test-pick-wt.zsh              # Pick worktrees
@@ -554,7 +554,7 @@ cc help              # CC dispatcher works
 | -------------- | ------------------------ | ------- | -------- |
 | Pick command   | test-pick-command.zsh    | 39      | ✅ 100%  |
 | CC dispatcher  | test-cc-dispatcher.zsh   | 37      | ✅ 100%  |
-| DOT dispatcher | test-dot-v5.1.1-unit.zsh | 112+    | ✅ 100%  |
+| DOT dispatcher | test-dot-v5.3.0-unit.zsh | 112+    | ✅ 100%  |
 | **Total**      | **8 suites**             | **76+** | **100%** |
 
 ### Writing Tests
@@ -653,6 +653,7 @@ export FLOW_DEBUG=1
 **What Was Delivered:**
 
 Phase 1: Caching Layer (v5.3.0) ✅
+
 - [x] Created `lib/project-cache.zsh` (~170 lines)
 - [x] TTL-based cache validation (5-minute default)
 - [x] XDG-compliant cache location (`~/.cache/flow-cli/`)
@@ -665,11 +666,13 @@ Phase 1: Caching Layer (v5.3.0) ✅
 - [x] README updated with performance section
 
 **Performance Improvement:**
+
 ```bash
 pick command: 200ms → <10ms (40x faster)
 ```
 
 **New Commands:**
+
 ```bash
 flow cache status    # Check cache age/validity
 flow cache refresh   # Force regeneration
@@ -677,24 +680,26 @@ flow cache clear     # Delete cache file
 ```
 
 **Configuration:**
+
 ```bash
 export FLOW_CACHE_ENABLED=1      # Enable/disable (default: 1)
 export PROJ_CACHE_TTL=300        # TTL in seconds (default: 300)
 ```
 
 **Next Steps:**
+
 - [ ] Merge to dev branch
 - [ ] Test on production environment
 - [ ] Release v5.3.0-alpha
-- [ ] Phase 2: Auto-discovery (v5.4.0)
+- [ ] Phase 2: Auto-discovery (v5.3.0)
 
 ---
 
-### ✅ v5.2.0 RELEASED - Secret Management v2.0 Complete
+### ✅ v5.3.0 RELEASED - Secret Management v2.0 Complete
 
 **Feature:** Complete Secret Management Lifecycle
 **Status:** Released and deployed
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.2.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.3.0
 
 **What Was Delivered:**
 
@@ -705,7 +710,7 @@ export PROJ_CACHE_TTL=300        # TTL in seconds (default: 300)
 - [x] 134 unit tests (100% passing)
 - [x] Complete documentation (guide, reference, refcard)
 
-**Key Commands (v5.2.0):**
+**Key Commands (v5.3.0):**
 
 ```bash
 # Token Wizards
@@ -733,37 +738,37 @@ dot env init                  # Generate .envrc for direnv
 
 ---
 
-### ✅ v5.2.0 Released - Bug Fix: Pick Command Crash
+### ✅ v5.3.0 Released - Bug Fix: Pick Command Crash
 
 - [x] Fixed "bad math expression" error in `_proj_show_git_status()` (#155)
 - [x] Added input sanitization for `wc` output (handles terminal control codes)
 - [x] Added regression test to prevent future occurrences
 - [x] All 23 tests passing
 
-### ✅ v5.2.0 Released - Frecency & Session Indicators
+### ✅ v5.3.0 Released - Frecency & Session Indicators
 
 - [x] Frecency decay scoring (time-based priority decay)
 - [x] Session indicators (🟢/🟡) on regular projects, not just worktrees
 - [x] Projects sorted by recent Claude activity
 
-### ✅ v5.2.0 Released - Frecency Sorting
+### ✅ v5.3.0 Released - Frecency Sorting
 
 - [x] `pick --recent` / `pick -r` - Show only projects with Claude sessions
 - [x] Frecency sorting (most recently used first)
 - [x] CI apt caching (~17s vs 5+ min)
 
-### ✅ v5.2.0 Released - CI Optimization
+### ✅ v5.3.0 Released - CI Optimization
 
 - [x] CI reduced to smoke tests (~30s)
 - [x] `./tests/run-all.sh` for local full test suite
 - [x] Pick worktree docs and session-age sorting
 
-### ✅ v5.2.0 Released
+### ✅ v5.3.0 Released
 
 - [x] `pick` shows worktrees in default view (🌳 icons)
 - [x] CI streamlined: 4 jobs → 1 job
 
-### ✅ v5.2.0 Released - Worktree-Aware Pick
+### ✅ v5.3.0 Released - Worktree-Aware Pick
 
 - [x] `pick wt` - List all worktrees from `~/.git-worktrees/`
 - [x] Session indicators: 🟢 recent / 🟡 old
@@ -854,10 +859,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 3.7.0"
-git tag -a v5.2.0 -m "v5.2.0"
+git tag -a v5.3.0 -m "v5.3.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v5.2.0
+git push origin main && git push origin v5.3.0
 ```
 
 **Files updated by release script:**
