@@ -91,7 +91,7 @@ _flow_alias_help() {
   echo "  ${FLOW_COLORS[cmd]}edit${FLOW_COLORS[reset]}                Open .zshrc at alias section"
   echo "  ${FLOW_COLORS[cmd]}add [name=cmd]${FLOW_COLORS[reset]}      Create new alias (interactive or one-liner)"
   echo "  ${FLOW_COLORS[cmd]}rm <name>${FLOW_COLORS[reset]}           Remove alias safely (comment + backup)"
-  echo "  ${FLOW_COLORS[cmd]}test <name>${FLOW_COLORS[reset]}         Test alias (coming soon)"
+  echo "  ${FLOW_COLORS[cmd]}test <name>${FLOW_COLORS[reset]}         Test alias (validate + dry-run + execute)"
   echo ""
   echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias              ${FLOW_COLORS[muted]}# Show all aliases${FLOW_COLORS[reset]}"
@@ -100,6 +100,7 @@ _flow_alias_help() {
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias add          ${FLOW_COLORS[muted]}# Interactive create${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias add gp='git push'  ${FLOW_COLORS[muted]}# One-liner create${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias rm gp        ${FLOW_COLORS[muted]}# Remove (comment out)${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias test ll      ${FLOW_COLORS[muted]}# Test + optional execute${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias edit         ${FLOW_COLORS[muted]}# Edit .zshrc${FLOW_COLORS[reset]}"
   echo ""
   echo "${FLOW_COLORS[muted]}📚 See also:${FLOW_COLORS[reset]}"
@@ -742,15 +743,117 @@ _flow_alias_remove() {
   echo ""
 }
 
-# Test: Validate and dry-run alias (stub for Phase 5)
+# Test: Validate and dry-run alias
+# Usage: flow alias test <name>
 _flow_alias_test() {
-  local name="$1"
-  if [[ -z "$name" ]]; then
+  local alias_name="$1"
+
+  if [[ -z "$alias_name" ]]; then
     echo "Usage: flow alias test <alias_name>"
+    echo "Example: flow alias test ll"
     return 1
   fi
-  echo "${FLOW_COLORS[muted]}Coming soon: flow alias test${FLOW_COLORS[reset]}"
-  echo "For now, use: ${FLOW_COLORS[cmd]}type $name${FLOW_COLORS[reset]} to see alias definition"
+
+  local zshrc="${ZDOTDIR:-$HOME}/.zshrc"
+  [[ -f "$zshrc" ]] || zshrc="$HOME/.config/zsh/.zshrc"
+
+  echo ""
+  echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[bold]}🧪 Test Alias: $alias_name${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Step 1: Check if alias exists (in shell or file)
+  local alias_value=""
+  local source_info=""
+
+  # Check current shell first
+  if alias "$alias_name" &>/dev/null; then
+    alias_value=$(alias "$alias_name" 2>/dev/null | sed "s/^[^=]*='\\?//;s/'\\?$//")
+    source_info="loaded in shell"
+  fi
+
+  # Also check .zshrc file
+  local file_match
+  file_match=$(grep -n "^alias $alias_name=" "$zshrc" 2>/dev/null)
+  if [[ -n "$file_match" ]]; then
+    local line_num="${file_match%%:*}"
+    local file_value="${file_match#*=}"
+    file_value="${file_value#[\'\"]}"
+    file_value="${file_value%[\'\"]}"
+    if [[ -z "$alias_value" ]]; then
+      alias_value="$file_value"
+      source_info=".zshrc line $line_num (not yet loaded)"
+    else
+      source_info="$source_info + .zshrc line $line_num"
+    fi
+  fi
+
+  if [[ -z "$alias_value" ]]; then
+    echo "${FLOW_COLORS[error]}❌ Alias '$alias_name' not found${FLOW_COLORS[reset]}"
+    echo ""
+    echo "${FLOW_COLORS[muted]}Tip: Use ${FLOW_COLORS[cmd]}flow alias find $alias_name${FLOW_COLORS[muted]} to search${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  echo "${FLOW_COLORS[bold]}Definition:${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[cmd]}$alias_name${FLOW_COLORS[reset]} → ${FLOW_COLORS[muted]}$alias_value${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[muted]}Source: $source_info${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Step 2: Validate
+  echo "${FLOW_COLORS[bold]}Validation:${FLOW_COLORS[reset]}"
+  local has_errors=0
+  local has_warnings=0
+
+  # Check shadow
+  local shadow_path
+  shadow_path=$(_flow_alias_check_shadow "$alias_name" 2>/dev/null)
+  if [[ -n "$shadow_path" ]]; then
+    echo "  ${FLOW_COLORS[warning]}⚠️  Shadows: $shadow_path${FLOW_COLORS[reset]}"
+    ((has_warnings++))
+  fi
+
+  # Check target exists
+  local target_cmd="${alias_value%% *}"
+  if ! _flow_alias_check_target "$target_cmd"; then
+    echo "  ${FLOW_COLORS[error]}❌ Target not found: $target_cmd${FLOW_COLORS[reset]}"
+    ((has_errors++))
+  else
+    echo "  ${FLOW_COLORS[success]}✅ Target exists: $target_cmd${FLOW_COLORS[reset]}"
+  fi
+
+  # Check length
+  if [[ ${#alias_value} -gt 60 ]]; then
+    echo "  ${FLOW_COLORS[warning]}⚠️  Long command (${#alias_value} chars)${FLOW_COLORS[reset]}"
+    ((has_warnings++))
+  fi
+
+  if [[ $has_errors -eq 0 && $has_warnings -eq 0 ]]; then
+    echo "  ${FLOW_COLORS[success]}✅ All checks passed${FLOW_COLORS[reset]}"
+  fi
+  echo ""
+
+  # Step 3: Dry-run (show expansion)
+  echo "${FLOW_COLORS[bold]}Dry-run:${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[muted]}Would execute:${FLOW_COLORS[reset]} ${FLOW_COLORS[cmd]}$alias_value${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Step 4: Offer to execute
+  if [[ $has_errors -eq 0 ]]; then
+    printf "${FLOW_COLORS[bold]}Execute now? [y/N]:${FLOW_COLORS[reset]} "
+    read -r confirm
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+      echo ""
+      echo "${FLOW_COLORS[muted]}─── Output ───${FLOW_COLORS[reset]}"
+      eval "$alias_value"
+      local exit_code=$?
+      echo "${FLOW_COLORS[muted]}─── End (exit: $exit_code) ───${FLOW_COLORS[reset]}"
+    fi
+  else
+    echo "${FLOW_COLORS[warning]}Cannot execute: validation errors found${FLOW_COLORS[reset]}"
+  fi
+  echo ""
 }
 
 # ============================================================================
