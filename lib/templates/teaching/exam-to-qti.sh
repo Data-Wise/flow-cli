@@ -73,6 +73,22 @@ OUTPUT_FILE="${EXAM_FILE%.md}.zip"
 echo "Output: $OUTPUT_FILE"
 echo ""
 
+# Validate before conversion
+echo -e "${BLUE}Validating exam format...${NC}"
+if ! examark check "$EXAM_FILE" 2>&1; then
+  echo ""
+  echo -e "${YELLOW}⚠️  Warning: Exam has validation errors${NC}"
+  echo "Continue with conversion anyway? [y/N]"
+  read -r continue
+  if [[ "$continue" != "y" ]]; then
+    echo "Cancelled"
+    exit 1
+  fi
+fi
+
+echo ""
+echo -e "${BLUE}Converting to Canvas QTI format...${NC}"
+
 # Run examark conversion
 # examark uses Canvas QTI 1.2 format by default
 if examark "$EXAM_FILE" 2>&1; then
@@ -88,6 +104,17 @@ if examark "$EXAM_FILE" 2>&1; then
 
     if [[ "$QUESTION_COUNT" != "?" ]]; then
       echo "Questions:   ~$QUESTION_COUNT"
+    fi
+
+    # Test Canvas compatibility
+    echo ""
+    echo -e "${BLUE}Testing Canvas compatibility...${NC}"
+    if examark emulate-canvas "$OUTPUT_FILE" 2>&1 | head -10; then
+      echo ""
+      echo -e "${GREEN}✅ Canvas compatibility check passed${NC}"
+    else
+      echo ""
+      echo -e "${YELLOW}⚠️  Canvas compatibility check had warnings${NC}"
     fi
 
     echo ""
