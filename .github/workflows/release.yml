@@ -43,6 +43,7 @@ jobs:
         run: bash ./tests/test-install.sh
 
       - name: Test curl install (dry run simulation)
+        shell: bash
         run: |
           # Test that install.sh can be executed standalone
           bash -n ./install.sh
