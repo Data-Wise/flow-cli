@@ -205,6 +205,9 @@ pick
 
 **What happened:** Interactive fuzzy finder shows all projects. Type to filter:
 
+!!! tip "⚡ Instant Performance"
+    The `pick` command is cached (5-minute TTL) for 40x faster response (<10ms). You won't notice any delay even with 100+ projects.
+
 ```
 > med_
   📦 mediationverse
