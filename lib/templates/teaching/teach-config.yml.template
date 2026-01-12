@@ -1,5 +1,5 @@
 # {{COURSE_NAME}} Teaching Configuration
-# Version: 2.0 (Increment 2 - Course Context)
+# Version: 2.0 (Increment 3 - Exam Workflow)
 # Generated: {{GENERATED_DATE}}
 
 course:
@@ -27,6 +27,16 @@ deployment:
 
 automation:
   quick_deploy: "scripts/quick-deploy.sh"
+
+# Exam Workflow (Increment 3 - Optional)
+# Install examark: npm install -g examark
+# Enable: yq -i '.examark.enabled = true' .flow/teach-config.yml
+examark:
+  enabled: false              # Set to true after installing examark
+  exam_dir: "exams"
+  question_bank: "exams/questions"
+  default_duration: 120       # Minutes
+  default_points: 100
 
 shortcuts:
   {{COURSE_SLUG}}: "work {{COURSE_SLUG}}"
