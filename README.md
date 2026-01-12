@@ -178,6 +178,37 @@ Each dispatcher has built-in help: `cc help`, `dot help`, `r help`, etc.
 
 ---
 
+## 🎓 Teaching Workflow (v5.3.0)
+
+**Deployment-focused workflow for course websites.** Solve the 5-15 minute deployment pain point.
+
+```bash
+# Initialize teaching workflow
+cd ~/teaching/my-course
+teach-init "STAT 545"
+
+# Start session (auto-checks branch safety)
+work stat-545
+# ⚠️  Warns if on production branch!
+
+# Deploy (typo to live in < 2 min)
+./scripts/quick-deploy.sh
+```
+
+**Key Features:**
+- ✅ **Fast Deployment** - < 2 minute typo-to-live workflow
+- ✅ **Branch Safety** - Warns when editing production (students see this!)
+- ✅ **Automation Scripts** - One-command deployment and archival
+- ✅ **Course Context** - Teaching-aware work sessions with shortcuts
+- ✅ **Semester Management** - Easy semester transitions
+
+**Learn More:**
+- [Complete Guide](https://data-wise.github.io/flow-cli/guides/TEACHING-WORKFLOW/)
+- [Quick Reference](https://data-wise.github.io/flow-cli/reference/REFCARD-TEACHING/)
+- [Demo Walkthrough](https://data-wise.github.io/flow-cli/demos/)
+
+---
+
 ## 📦 Installation
 
 ### Homebrew (Recommended for macOS)

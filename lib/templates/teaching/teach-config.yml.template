@@ -1,0 +1,33 @@
+# {{COURSE_NAME}} Teaching Configuration
+# Version: 2.0 (Increment 2 - Course Context)
+# Generated: {{GENERATED_DATE}}
+
+course:
+  name: "{{COURSE_NAME}}"
+  full_name: "{{COURSE_FULL_NAME}}"
+  semester: "{{SEMESTER}}"
+  year: {{YEAR}}
+  instructor: "{{INSTRUCTOR}}"
+
+# Semester schedule (Increment 2)
+semester_info:
+  start_date: "{{START_DATE}}"  # YYYY-MM-DD format
+  end_date: "{{END_DATE}}"      # YYYY-MM-DD format (auto-calculated: 16 weeks)
+{{BREAKS_CONFIG}}
+
+branches:
+  draft: "draft"
+  production: "production"
+
+deployment:
+  web:
+    type: "github-pages"
+    branch: "production"
+    url: "https://data-wise.github.io/{{COURSE_SLUG}}"
+
+automation:
+  quick_deploy: "scripts/quick-deploy.sh"
+
+shortcuts:
+  {{COURSE_SLUG}}: "work {{COURSE_SLUG}}"
+  {{COURSE_SLUG}}d: "./scripts/quick-deploy.sh"

@@ -134,7 +134,9 @@
       "Bash(pick invalid-category-xyz)",
       "Bash(./tests/run-unit-tests.zsh:*)",
       "Bash(./tests/interactive-cache-dogfeeding.zsh)",
-      "Bash(tee:*)"
+      "Bash(tee:*)",
+      "Bash(./tests/test-teach-init.zsh)",
+      "Bash(./tests/test-teaching-workflow-comprehensive.zsh)"
     ]
   }
 }
