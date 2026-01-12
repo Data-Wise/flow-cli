@@ -394,7 +394,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../testing/TESTING/" class="md-tabs__link">
+        <a href="../../guides/TESTING/" class="md-tabs__link">
           
   
   
@@ -3643,14 +3643,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../testing/TESTING/" class="md-nav__link">
+      <a href="../../guides/TESTING/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Testing Guide
+    🧪 Testing Guide
   
 
     
@@ -3810,10 +3810,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-interactive-dog-feeding-test" class="md-nav__link">
+  <a href="#1-core-test-suites-v500" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Interactive Dog Feeding Test 🐕⭐
+        1. Core Test Suites (v5.0.0+) ⭐
       
     </span>
   </a>
@@ -3821,10 +3821,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-automated-test-suite" class="md-nav__link">
+  <a href="#2-interactive-dog-feeding-test" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Automated Test Suite
+        2. Interactive Dog Feeding Test 🐕⭐
       
     </span>
   </a>
@@ -3832,10 +3832,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-zsh-configuration-tests" class="md-nav__link">
+  <a href="#3-automated-test-suite-legacy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. ZSH Configuration Tests
+        3. Automated Test Suite (Legacy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-zsh-configuration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. ZSH Configuration Tests
       
     </span>
   </a>
@@ -4453,10 +4464,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-interactive-dog-feeding-test" class="md-nav__link">
+  <a href="#1-core-test-suites-v500" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Interactive Dog Feeding Test 🐕⭐
+        1. Core Test Suites (v5.0.0+) ⭐
       
     </span>
   </a>
@@ -4464,10 +4475,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-automated-test-suite" class="md-nav__link">
+  <a href="#2-interactive-dog-feeding-test" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Automated Test Suite
+        2. Interactive Dog Feeding Test 🐕⭐
       
     </span>
   </a>
@@ -4475,10 +4486,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-zsh-configuration-tests" class="md-nav__link">
+  <a href="#3-automated-test-suite-legacy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. ZSH Configuration Tests
+        3. Automated Test Suite (Legacy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-zsh-configuration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. ZSH Configuration Tests
       
     </span>
   </a>
@@ -4712,21 +4734,88 @@
 <h1 id="testing-quick-reference">Testing Quick Reference<a class="headerlink" href="#testing-quick-reference" title="Permanent link">&para;</a></h1>
 <p><strong>flow-cli Test Suite Overview</strong></p>
 <h2 id="quick-commands">Quick Commands<a class="headerlink" href="#quick-commands" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Interactive Dog Feeding Test (Most Fun!) 🐕</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>./tests/interactive-dog-feeding.zsh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Run all test suites (Recommended)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>./tests/run-all.sh
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Automated Test Suite (Fast)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>./tests/automated-test.zsh
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># ZSH Configuration Tests</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>zsh/tests/run-all-tests.zsh
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Quick check (no performance test)</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>zsh/tests/run-all-tests.zsh<span class="w"> </span>--quick
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Core test suites (v5.0.0+)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>./tests/test-pick-command.zsh<span class="w">      </span><span class="c1"># Pick: 39 tests</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>./tests/test-cc-dispatcher.zsh<span class="w">     </span><span class="c1"># CC: 37 tests</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>./tests/test-dot-v5.1.1-unit.zsh<span class="w">   </span><span class="c1"># DOT: 112+ tests</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># Interactive Dog Feeding Test (Most Fun!) 🐕</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>./tests/interactive-dog-feeding.zsh
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># Legacy automated test</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>./tests/automated-test.zsh
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1"># ZSH Configuration Tests</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>zsh/tests/run-all-tests.zsh
 </code></pre></div>
+<p><strong>Coverage:</strong> 76+ tests across 8 test suites (100% passing)</p>
 <hr />
 <h2 id="test-suites">Test Suites<a class="headerlink" href="#test-suites" title="Permanent link">&para;</a></h2>
-<h3 id="1-interactive-dog-feeding-test">1. Interactive Dog Feeding Test 🐕⭐<a class="headerlink" href="#1-interactive-dog-feeding-test" title="Permanent link">&para;</a></h3>
+<h3 id="1-core-test-suites-v500">1. Core Test Suites (v5.0.0+) ⭐<a class="headerlink" href="#1-core-test-suites-v500" title="Permanent link">&para;</a></h3>
+<p><strong>Location:</strong> <code>tests/test-*.zsh</code></p>
+<p><strong>Purpose:</strong> Comprehensive automated testing with 100% coverage</p>
+<p><strong>Test Files:</strong></p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Tests</th>
+<th>Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-pick-command.zsh</td>
+<td>39</td>
+<td>Pick command functionality</td>
+</tr>
+<tr>
+<td>test-cc-dispatcher.zsh</td>
+<td>37</td>
+<td>CC dispatcher + unified grammar</td>
+</tr>
+<tr>
+<td>test-dot-v5.1.1-unit.zsh</td>
+<td>112+</td>
+<td>DOT dispatcher</td>
+</tr>
+<tr>
+<td>test-cc-unified-grammar.zsh</td>
+<td>-</td>
+<td>CC grammar patterns</td>
+</tr>
+<tr>
+<td>test-pick-smart-defaults.zsh</td>
+<td>-</td>
+<td>Pick defaults</td>
+</tr>
+<tr>
+<td>test-pick-wt.zsh</td>
+<td>-</td>
+<td>Pick worktrees</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total:</strong> 76+ tests (100% passing)</p>
+<p><strong>Run All:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>./tests/run-all.sh
+</code></pre></div></p>
+<p><strong>Run Individual:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>./tests/test-pick-command.zsh
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>./tests/test-cc-dispatcher.zsh
+</code></pre></div></p>
+<p><strong>Features:</strong>
+- Fast execution (&lt; 10 seconds total)
+- Isolated test environments (mocks)
+- Clear pass/fail output with colors
+- Comprehensive coverage of core functionality</p>
+<p><strong>Best For:</strong> CI/CD, pre-commit checks, regression testing</p>
+<p><strong>Guide:</strong> See <a href="../../guides/TESTING/">Testing Guide</a> for writing tests</p>
+<hr />
+<h3 id="2-interactive-dog-feeding-test">2. Interactive Dog Feeding Test 🐕⭐<a class="headerlink" href="#2-interactive-dog-feeding-test" title="Permanent link">&para;</a></h3>
 <p><strong>Location:</strong> <code>tests/interactive-dog-feeding.zsh</code></p>
 <p><strong>Purpose:</strong> Gamified manual validation of all core commands</p>
 <p><strong>Features:</strong></p>
@@ -4756,7 +4845,7 @@
 </ul>
 <p><strong>Time:</strong> ~3-5 minutes (interactive)</p>
 <hr />
-<h3 id="2-automated-test-suite">2. Automated Test Suite<a class="headerlink" href="#2-automated-test-suite" title="Permanent link">&para;</a></h3>
+<h3 id="3-automated-test-suite-legacy">3. Automated Test Suite (Legacy)<a class="headerlink" href="#3-automated-test-suite-legacy" title="Permanent link">&para;</a></h3>
 <p><strong>Location:</strong> <code>tests/automated-test.zsh</code></p>
 <p><strong>Purpose:</strong> Non-interactive automated validation</p>
 <p><strong>What It Tests:</strong></p>
@@ -4781,7 +4870,7 @@
 <li>Pre-commit checks</li>
 </ul>
 <hr />
-<h3 id="3-zsh-configuration-tests">3. ZSH Configuration Tests<a class="headerlink" href="#3-zsh-configuration-tests" title="Permanent link">&para;</a></h3>
+<h3 id="4-zsh-configuration-tests">4. ZSH Configuration Tests<a class="headerlink" href="#4-zsh-configuration-tests" title="Permanent link">&para;</a></h3>
 <p><strong>Location:</strong> <code>zsh/tests/run-all-tests.zsh</code></p>
 <p><strong>Purpose:</strong> Validate ZSH plugin structure</p>
 <p><strong>What It Tests:</strong></p>
@@ -4791,11 +4880,11 @@
 <li>Startup performance</li>
 </ul>
 <p><strong>Options:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Full suite (includes performance test)</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>zsh/tests/run-all-tests.zsh
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Quick (skip performance)</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>zsh/tests/run-all-tests.zsh<span class="w"> </span>--quick
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Full suite (includes performance test)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>zsh/tests/run-all-tests.zsh
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Quick (skip performance)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>zsh/tests/run-all-tests.zsh<span class="w"> </span>--quick
 </code></pre></div>
 <p><strong>Best For:</strong></p>
 <ul>
@@ -4806,23 +4895,23 @@
 <hr />
 <h2 id="test-results">Test Results<a class="headerlink" href="#test-results" title="Permanent link">&para;</a></h2>
 <h3 id="interactive-dog-feeding">Interactive Dog Feeding<a class="headerlink" href="#interactive-dog-feeding" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Tasks Confirmed: 7 / 7
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Final Happiness: 98%
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Grade:           PERFECT!
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Stars:           ⭐⭐⭐⭐⭐
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>🐕 The dog is ECSTATIC! All tests confirmed! 😊⭐
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Tasks Confirmed: 7 / 7
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Final Happiness: 98%
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Grade:           PERFECT!
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>Stars:           ⭐⭐⭐⭐⭐
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>🐕 The dog is ECSTATIC! All tests confirmed! 😊⭐
 </code></pre></div>
 <h3 id="automated-test">Automated Test<a class="headerlink" href="#automated-test" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Tests run:    16
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Passed:       16
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Failed:       0
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>✓ All tests passed!
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Tests run:    16
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Passed:       16
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Failed:       0
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>✓ All tests passed!
 </code></pre></div>
 <h3 id="zsh-tests">ZSH Tests<a class="headerlink" href="#zsh-tests" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Passed:  2
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Failed:  0
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Skipped: 1
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>OVERALL: PASS
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Passed:  2
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Failed:  0
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Skipped: 1
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>OVERALL: PASS
 </code></pre></div>
 <hr />
 <h2 id="grading-system-dog-feeding-test">Grading System (Dog Feeding Test)<a class="headerlink" href="#grading-system-dog-feeding-test" title="Permanent link">&para;</a></h2>
@@ -4865,18 +4954,18 @@
 <hr />
 <h2 id="common-test-scenarios">Common Test Scenarios<a class="headerlink" href="#common-test-scenarios" title="Permanent link">&para;</a></h2>
 <h3 id="after-fresh-install">After Fresh Install<a class="headerlink" href="#after-fresh-install" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/data-wise/flow-cli.git
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">cd</span><span class="w"> </span>flow-cli
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>./tests/interactive-dog-feeding.zsh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/data-wise/flow-cli.git
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">cd</span><span class="w"> </span>flow-cli
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>./tests/interactive-dog-feeding.zsh
 </code></pre></div>
 <h3 id="quick-ci-check">Quick CI Check<a class="headerlink" href="#quick-ci-check" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>./tests/automated-test.zsh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;CI: PASS&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>./tests/automated-test.zsh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;CI: PASS&quot;</span>
 </code></pre></div>
 <h3 id="after-code-changes">After Code Changes<a class="headerlink" href="#after-code-changes" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Full validation</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>./tests/automated-test.zsh
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>zsh/tests/run-all-tests.zsh<span class="w"> </span>--quick
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>./tests/interactive-dog-feeding.zsh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Full validation</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>./tests/automated-test.zsh
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>zsh/tests/run-all-tests.zsh<span class="w"> </span>--quick
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>./tests/interactive-dog-feeding.zsh
 </code></pre></div>
 <hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
@@ -4884,7 +4973,7 @@
 <p><strong>Fixed in v3.0.0!</strong> Parameter parsing bug resolved.</p>
 <h3 id="command-not-found-errors">Command Not Found Errors<a class="headerlink" href="#command-not-found-errors" title="Permanent link">&para;</a></h3>
 <p>Make sure plugin is loaded:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">source</span><span class="w"> </span>flow.plugin.zsh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">source</span><span class="w"> </span>flow.plugin.zsh
 </code></pre></div>
 <h3 id="tests-fail-but-commands-work">Tests Fail But Commands Work<a class="headerlink" href="#tests-fail-but-commands-work" title="Permanent link">&para;</a></h3>
 <p>Check for external command dependencies (grep, head, etc.)</p>

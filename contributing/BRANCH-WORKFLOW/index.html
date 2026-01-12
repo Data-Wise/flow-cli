@@ -388,7 +388,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../testing/TESTING/" class="md-tabs__link">
+        <a href="../../guides/TESTING/" class="md-tabs__link">
           
   
   
@@ -3634,14 +3634,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../testing/TESTING/" class="md-nav__link">
+      <a href="../../guides/TESTING/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Testing Guide
+    🧪 Testing Guide
   
 
     
@@ -4491,6 +4491,139 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#mandatory-workflow-protocol-claude-code-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mandatory Workflow Protocol (Claude Code Development)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mandatory Workflow Protocol (Claude Code Development)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-planning-phase-always-on-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Planning Phase (Always on dev)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-worktree-creation-isolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Worktree Creation (Isolation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-atomic-development-in-worktree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Atomic Development (In Worktree)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-integration-feature-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Integration (feature/* → dev)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-release-dev-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Release (dev → main)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tool-usage-constraints-claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool Usage Constraints (Claude Code)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tool Usage Constraints (Claude Code)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-command-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Command Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abort-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abort Conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#override-emergency-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Override (Emergency Only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-validation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow Validation Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#related-documentation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4782,6 +4915,257 @@
 <a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># Check function exists</span>
 <a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="nb">type</span><span class="w"> </span>_g_check_workflow
 </code></pre></div>
+<hr />
+<h2 id="mandatory-workflow-protocol-claude-code-development">Mandatory Workflow Protocol (Claude Code Development)<a class="headerlink" href="#mandatory-workflow-protocol-claude-code-development" title="Permanent link">&para;</a></h2>
+<p>When working with Claude Code on flow-cli, follow these <strong>strict</strong> steps to maintain code quality and branch integrity.</p>
+<h3 id="1-planning-phase-always-on-dev">1. Planning Phase (Always on <code>dev</code>)<a class="headerlink" href="#1-planning-phase-always-on-dev" title="Permanent link">&para;</a></h3>
+<p><strong>Location:</strong> Main repository on <code>dev</code> branch</p>
+<p><strong>Steps:</strong>
+1. Analyze requirements and existing code on <code>dev</code> branch
+2. Create comprehensive implementation plan
+3. Document plan in spec file (<code>docs/specs/SPEC-*.md</code>)
+4. <strong>Wait for user approval</strong> before proceeding
+5. Commit approved plan to <code>dev</code> branch</p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Ensure you&#39;re on dev</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>dev
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>dev
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1"># Create spec file</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="c1"># [Claude analyzes code, writes plan]</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1"># Commit plan to dev</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>git<span class="w"> </span>add<span class="w"> </span>docs/specs/SPEC-feature-name.md
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: add feature X implementation plan&quot;</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>dev
+</code></pre></div></p>
+<p><strong>Critical Rule:</strong> ❌ <strong>Never start coding during planning phase</strong></p>
+<hr />
+<h3 id="2-worktree-creation-isolation">2. Worktree Creation (Isolation)<a class="headerlink" href="#2-worktree-creation-isolation" title="Permanent link">&para;</a></h3>
+<p><strong>After plan approval</strong>, create an isolated worktree for implementation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Create worktree from dev</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>git<span class="w"> </span>worktree<span class="w"> </span>add<span class="w"> </span>~/.git-worktrees/flow-cli-&lt;feature-name&gt;<span class="w"> </span>-b<span class="w"> </span>feature/&lt;feature-name&gt;<span class="w"> </span>dev
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Verify creation</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>git<span class="w"> </span>worktree<span class="w"> </span>list
+</code></pre></div>
+<p><strong>Worktree Location Convention:</strong>
+- Standard: <code>~/.git-worktrees/flow-cli-&lt;feature-name&gt;</code>
+- Project-specific: <code>~/.git-worktrees/&lt;project&gt;-&lt;feature&gt;</code></p>
+<p><strong>Critical Rules:</strong>
+- ✅ Create worktree from <code>dev</code> branch
+- ✅ Verify worktree was created successfully
+- ❌ <strong>DO NOT start working in the worktree from the planning session</strong>
+- ✅ Tell user to start <strong>NEW Claude session</strong> in worktree directory</p>
+<p><strong>Correct Pattern:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># In planning session (dev branch)</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>git<span class="w"> </span>worktree<span class="w"> </span>add<span class="w"> </span>~/.git-worktrees/flow-cli-cache<span class="w"> </span>-b<span class="w"> </span>feature/cache<span class="w"> </span>dev
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># STOP HERE - Do not continue working</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="c1"># Tell user:</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="s2">&quot;Worktree created at ~/.git-worktrees/flow-cli-cache</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="s2">To start implementation, please start a new session:</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="s2">  cd ~/.git-worktrees/flow-cli-cache</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="s2">  claude&quot;</span>
+</code></pre></div></p>
+<p><strong>Why?</strong> Fresh session ensures:
+- Clean context (no planning session baggage)
+- Correct working directory
+- Proper git state verification
+- Isolated focus on implementation</p>
+<hr />
+<h3 id="3-atomic-development-in-worktree">3. Atomic Development (In Worktree)<a class="headerlink" href="#3-atomic-development-in-worktree" title="Permanent link">&para;</a></h3>
+<p><strong>Location:</strong> Worktree directory (<code>~/.git-worktrees/flow-cli-&lt;feature&gt;</code>)</p>
+<p><strong>Commit Standards:</strong>
+- Use <strong>Conventional Commits</strong> format
+- Keep commits small and functional
+- Each commit must build successfully</p>
+<p><strong>Conventional Commit Types:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>feat:<span class="w">      </span>New<span class="w"> </span>feature
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>fix:<span class="w">       </span>Bug<span class="w"> </span>fix
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>refactor:<span class="w">  </span>Code<span class="w"> </span>restructure<span class="w"> </span><span class="o">(</span>no<span class="w"> </span>behavior<span class="w"> </span>change<span class="o">)</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>docs:<span class="w">      </span>Documentation<span class="w"> </span>only
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>test:<span class="w">      </span>Add/modify<span class="w"> </span>tests
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>chore:<span class="w">     </span>Maintenance<span class="w"> </span><span class="o">(</span>deps,<span class="w"> </span>config<span class="o">)</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>perf:<span class="w">      </span>Performance<span class="w"> </span>improvement
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>style:<span class="w">     </span>Formatting,<span class="w"> </span>whitespace
+</code></pre></div></p>
+<p><strong>Examples:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Good commits</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add project cache layer with 5min TTL&quot;</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;test: add 8 unit tests for cache validation&quot;</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: update CLAUDE.md with cache architecture&quot;</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="c1"># Bad commits (avoid)</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;WIP&quot;</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fixes stuff&quot;</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;updated files&quot;</span>
+</code></pre></div></p>
+<p><strong>Before Each Commit:</strong>
+1. Run tests: <code>./tests/run-all.sh</code> or specific test suite
+2. Check linting: <code>shellcheck</code> for zsh files (if applicable)
+3. Verify builds: <code>source flow.plugin.zsh</code> (no errors)</p>
+<hr />
+<h3 id="4-integration-feature-dev">4. Integration (feature/* → dev)<a class="headerlink" href="#4-integration-feature-dev" title="Permanent link">&para;</a></h3>
+<p><strong>Location:</strong> Still in worktree</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Rebase onto latest dev</strong> (linear history)
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Fetch latest dev</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>git<span class="w"> </span>fetch<span class="w"> </span>origin<span class="w"> </span>dev
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># Rebase feature onto dev</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>git<span class="w"> </span>rebase<span class="w"> </span>origin/dev
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="c1"># Resolve conflicts if any</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="c1"># Then: git rebase --continue</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Run full test suite</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>./tests/run-all.sh
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="c1"># All tests must pass</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Push feature branch</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>feature/&lt;feature-name&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Create PR to dev</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Using gh CLI (recommended)</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>gh<span class="w"> </span>pr<span class="w"> </span>create<span class="w"> </span>--base<span class="w"> </span>dev<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;feat: feature name&quot;</span><span class="w"> </span>--body<span class="w"> </span><span class="s2">&quot;...&quot;</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Or use g dispatcher</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>g<span class="w"> </span>feature<span class="w"> </span>finish
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>After PR merge, cleanup</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Remove worktree</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>git<span class="w"> </span>worktree<span class="w"> </span>remove<span class="w"> </span>~/.git-worktrees/flow-cli-&lt;feature-name&gt;
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Delete local branch (if merged)</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>git<span class="w"> </span>branch<span class="w"> </span>-d<span class="w"> </span>feature/&lt;feature-name&gt;
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="c1"># Delete remote branch (usually auto-deleted by GitHub)</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>--delete<span class="w"> </span>feature/&lt;feature-name&gt;
+</code></pre></div></p>
+</li>
+</ol>
+<hr />
+<h3 id="5-release-dev-main">5. Release (dev → main)<a class="headerlink" href="#5-release-dev-main" title="Permanent link">&para;</a></h3>
+<p><strong>Who:</strong> Maintainers only</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Verify dev stability</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>dev
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>dev
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># Run full test suite on dev</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>./tests/run-all.sh
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="c1"># Verify documentation is up to date</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>mkdocs<span class="w"> </span>build
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Create release PR</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Using gh CLI</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>gh<span class="w"> </span>pr<span class="w"> </span>create<span class="w"> </span>--base<span class="w"> </span>main<span class="w"> </span>--head<span class="w"> </span>dev<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="w">  </span>--title<span class="w"> </span><span class="s2">&quot;Release v5.X.0&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="w">  </span>--body<span class="w"> </span><span class="s2">&quot;Release notes...&quot;</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="c1"># Or use g dispatcher</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>g<span class="w"> </span>release
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>After PR approval and merge</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Tag release</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span>v5.X.0<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Release v5.X.0&quot;</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>git<span class="w"> </span>push<span class="w"> </span>--tags
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="c1"># Sync dev with main</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>git<span class="w"> </span>checkout<span class="w"> </span>dev
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>git<span class="w"> </span>merge<span class="w"> </span>main
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>dev
+</code></pre></div></p>
+</li>
+</ol>
+<p><strong>Critical Rule:</strong> ❌ <strong>Never merge dev → main without PR</strong></p>
+<hr />
+<h2 id="tool-usage-constraints-claude-code">Tool Usage Constraints (Claude Code)<a class="headerlink" href="#tool-usage-constraints-claude-code" title="Permanent link">&para;</a></h2>
+<h3 id="pre-command-verification">Pre-Command Verification<a class="headerlink" href="#pre-command-verification" title="Permanent link">&para;</a></h3>
+<p><strong>Always verify context before git operations:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Check current branch</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>git<span class="w"> </span>branch<span class="w"> </span>--show-current
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># Check if in worktree</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>git<span class="w"> </span>worktree<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="c1"># Check remote tracking</span>
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>git<span class="w"> </span>status
+</code></pre></div>
+<h3 id="abort-conditions">Abort Conditions<a class="headerlink" href="#abort-conditions" title="Permanent link">&para;</a></h3>
+<p>Claude Code must <strong>ABORT</strong> and redirect if:</p>
+<ol>
+<li>
+<p><strong>About to commit to main</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>⛔ ABORT: Cannot commit directly to main
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>Redirect to: Create feature branch or PR workflow
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>About to commit to dev</strong> (without explicit approval)
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>⚠️  WARNING: Committing to dev branch
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>Expected: Work should be in feature/* branch
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>Confirm: Is this a spec/planning commit? (Y/n)
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Push to main/dev without PR</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>⛔ ABORT: Direct push to protected branch blocked
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>Workflow: Use PR process instead
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>Command: gh pr create --base dev
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Working in worktree from planning session</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>⚠️  STOP: Do not implement features in planning session
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>Action: Tell user to start NEW session in worktree:
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>  cd ~/.git-worktrees/flow-cli-&lt;feature&gt;
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>  claude
+</code></pre></div></p>
+</li>
+</ol>
+<h3 id="override-emergency-only">Override (Emergency Only)<a class="headerlink" href="#override-emergency-only" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Skip workflow guards (use with extreme caution)</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="nv">GIT_WORKFLOW_SKIP</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="c1"># Logged to: ~/.claude/workflow-violations.log</span>
+</code></pre></div>
+<hr />
+<h2 id="workflow-validation-checklist">Workflow Validation Checklist<a class="headerlink" href="#workflow-validation-checklist" title="Permanent link">&para;</a></h2>
+<p>Before any merge, verify:</p>
+<ul>
+<li>[ ] All tests passing (<code>./tests/run-all.sh</code>)</li>
+<li>[ ] No linting errors (<code>shellcheck</code> if applicable)</li>
+<li>[ ] Documentation updated (CLAUDE.md, README.md, relevant guides)</li>
+<li>[ ] Conventional commits used</li>
+<li>[ ] Linear history (rebased if needed)</li>
+<li>[ ] PR created (not direct push)</li>
+<li>[ ] CI checks passing (GitHub Actions)</li>
+<li>[ ] Branch protection rules followed</li>
+</ul>
 <hr />
 <h2 id="related-documentation">Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h2>
 <ul>
