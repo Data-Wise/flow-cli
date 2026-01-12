@@ -261,7 +261,7 @@ gemp                # Gemini Pro
 ### Health Check: `flow doctor`
 
 ```bash
-flow doctor              # Check all dependencies
+flow doctor              # Check all dependencies + alias health
 flow doctor --fix        # Interactive install missing tools
 flow doctor --fix -y     # Auto-install all missing (no prompts)
 flow doctor --ai         # AI-assisted troubleshooting (Claude CLI)
@@ -275,6 +275,30 @@ flow doctor --help       # Show all options
 - Optional: dust, duf, btop, delta, gh, jq
 - Integrations: atlas, radian
 - ZSH plugins: p10k, autosuggestions, syntax-highlighting
+- **Aliases:** shadows, broken targets, health summary (v5.4.0)
+
+### Alias Management: `flow alias` (v5.4.0)
+
+```bash
+flow alias doctor           # Health check all aliases (shadows, broken targets)
+flow alias find <pattern>   # Search aliases by name or command
+flow alias find --exact gst # Exact match only
+flow alias edit             # Open .zshrc at alias section
+flow alias add name='cmd'   # Create alias (one-liner)
+flow alias add              # Create alias (interactive wizard)
+flow alias rm <name>        # Remove alias (safe: comments out, backups)
+flow alias test <name>      # Show definition + validation
+flow alias test <n> --dry   # Show what would execute
+flow alias test <n> --exec  # Actually run the alias
+flow alias help             # Show all commands
+```
+
+**Safety Features:**
+
+- Shadow detection: warns if alias shadows system command
+- Target validation: checks if target command exists
+- Safe removal: comments out instead of deleting, creates backup
+- Duplicate checking: prevents overwriting existing aliases
 
 **Quick fix all:**
 
@@ -442,6 +466,7 @@ reload              # Reload zshrc
 | AI Assistant   | `flow ai`      | `flow ai [--mode] "query"`     |
 | Natural Lang   | `flow do`      | `flow do "command in English"` |
 | Health Check   | `flow doctor`  | `flow doctor [--fix\|--ai]`    |
+| Alias Mgmt     | `flow alias`   | `flow alias <action> [arg]`    |
 | Install        | `flow install` | `flow install [--profile p]`   |
 | Upgrade        | `flow upgrade` | `flow upgrade [target]`        |
 | Wins (v3.5.0)  | `win`          | `win [--category] "text"`      |
@@ -467,6 +492,7 @@ reload              # Reload zshrc
 | `~/projects/dev-tools/flow-cli/commands/install.zsh`               | flow install (v3.2.0)       |
 | `~/projects/dev-tools/flow-cli/commands/upgrade.zsh`               | flow upgrade (v3.2.0)       |
 | `~/projects/dev-tools/flow-cli/commands/doctor.zsh`                | flow doctor (health check)  |
+| `~/projects/dev-tools/flow-cli/commands/alias.zsh`                 | flow alias (v5.4.0)         |
 | `~/projects/dev-tools/flow-cli/setup/Brewfile`                     | Homebrew bundle             |
 | `~/.config/zsh/.zshrc`                                             | ccy function, gem\* aliases |
 
@@ -474,4 +500,4 @@ reload              # Reload zshrc
 
 ---
 
-_Updated: 2025-12-31 (v4.7.0)_
+_Updated: 2026-01-12 (v5.4.0)_
