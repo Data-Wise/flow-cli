@@ -4160,6 +4160,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cicd-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI/CD Automation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CI/CD Automation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-actions-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub Actions Workflows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-automatically" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Happens Automatically
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Release
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-deployment-if-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Deployment (if needed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci-files-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI Files Location
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#questions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4726,6 +4798,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cicd-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI/CD Automation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CI/CD Automation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-actions-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub Actions Workflows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-automatically" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Happens Automatically
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Release
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-deployment-if-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Deployment (if needed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci-files-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI Files Location
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#questions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5068,6 +5212,84 @@
 <li>Direct pushes to <code>main</code> are blocked</li>
 </ul>
 <hr />
+<h2 id="cicd-automation">CI/CD Automation<a class="headerlink" href="#cicd-automation" title="Permanent link">&para;</a></h2>
+<h3 id="github-actions-workflows">GitHub Actions Workflows<a class="headerlink" href="#github-actions-workflows" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Workflow</th>
+<th>File</th>
+<th>Trigger</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CI Tests</strong></td>
+<td><code>test.yml</code></td>
+<td>Push/PR to any branch</td>
+<td>Run ZSH plugin tests</td>
+</tr>
+<tr>
+<td><strong>Deploy Docs</strong></td>
+<td><code>docs.yml</code></td>
+<td>Push to <code>main</code> (docs/**)</td>
+<td>Auto-deploy to GitHub Pages</td>
+</tr>
+<tr>
+<td><strong>Homebrew Release</strong></td>
+<td><code>homebrew-release.yml</code></td>
+<td>GitHub release published</td>
+<td>Update Homebrew formula</td>
+</tr>
+<tr>
+<td><strong>Release</strong></td>
+<td><code>release.yml</code></td>
+<td>Push to <code>main</code></td>
+<td>Semantic release + install tests</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-happens-automatically">What Happens Automatically<a class="headerlink" href="#what-happens-automatically" title="Permanent link">&para;</a></h3>
+<p><strong>On PR/Push:</strong>
+- ZSH plugin tests run (~10-15s)
+- Must pass before merge to protected branches</p>
+<p><strong>On Merge to <code>main</code>:</strong>
+- Documentation auto-deploys to https://data-wise.github.io/flow-cli/
+- Only triggers if <code>docs/**</code> or <code>mkdocs.yml</code> changed
+- Install script tests run in Docker (ubuntu, debian, alpine)</p>
+<p><strong>On GitHub Release Published:</strong>
+- Homebrew formula auto-updates in <code>homebrew-tap</code> repo
+- Creates PR to update version and SHA256
+- PR is auto-merged (configurable)</p>
+<h3 id="creating-a-release">Creating a Release<a class="headerlink" href="#creating-a-release" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># 1. Merge dev to main via PR</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>gh<span class="w"> </span>pr<span class="w"> </span>create<span class="w"> </span>--base<span class="w"> </span>main<span class="w"> </span>--head<span class="w"> </span>dev<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;Release vX.Y.Z&quot;</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>gh<span class="w"> </span>pr<span class="w"> </span>merge<span class="w"> </span>&lt;PR_NUMBER&gt;<span class="w"> </span>--merge<span class="w"> </span>--admin
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># 2. Tag the release</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>git<span class="w"> </span>checkout<span class="w"> </span>main<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>pull
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span>vX.Y.Z<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;vX.Y.Z - Description&quot;</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>vX.Y.Z
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="c1"># 3. Create GitHub release (triggers Homebrew update)</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>gh<span class="w"> </span>release<span class="w"> </span>create<span class="w"> </span>vX.Y.Z<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;vX.Y.Z - Title&quot;</span><span class="w"> </span>--notes<span class="w"> </span><span class="s2">&quot;Release notes&quot;</span>
+</code></pre></div>
+<h3 id="manual-deployment-if-needed">Manual Deployment (if needed)<a class="headerlink" href="#manual-deployment-if-needed" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Documentation</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>mkdocs<span class="w"> </span>gh-deploy<span class="w"> </span>--force
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Homebrew (via workflow dispatch)</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>gh<span class="w"> </span>workflow<span class="w"> </span>run<span class="w"> </span>homebrew-release.yml<span class="w"> </span>-f<span class="w"> </span><span class="nv">version</span><span class="o">=</span>X.Y.Z
+</code></pre></div>
+<h3 id="ci-files-location">CI Files Location<a class="headerlink" href="#ci-files-location" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>.github/workflows/
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>├── test.yml              # ZSH plugin tests
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>├── docs.yml              # MkDocs deployment
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>├── homebrew-release.yml  # Homebrew formula updates
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>└── release.yml           # Semantic release + install tests
+</code></pre></div>
+<hr />
 <h2 id="questions">Questions?<a class="headerlink" href="#questions" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Testing:</strong> See <a href="../../testing/TESTING/">TESTING.md</a></li>
@@ -5075,8 +5297,8 @@
 <li><strong>Issues:</strong> https://github.com/Data-Wise/flow-cli/issues</li>
 </ul>
 <hr />
-<p><strong>Last Updated:</strong> 2025-12-30
-<strong>Version:</strong> v4.4.3</p>
+<p><strong>Last Updated:</strong> 2026-01-12
+<strong>Version:</strong> v5.4.0</p>
 
 
 
