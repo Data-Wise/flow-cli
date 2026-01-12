@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v5.2.0)
+- **Status:** Production ready (v5.0.0+, active development)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -26,39 +26,133 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 ---
 
-## Development Workflow Protocol
+## Git Workflow & Standards
 
-**CRITICAL:** When working on new features, follow this workflow:
+**CRITICAL:** Follow these mandatory workflow rules when developing for flow-cli.
 
-### Planning Phase (on `dev` branch)
+### Branch Architecture
 
-1. Start on dev: `git checkout dev && git pull origin dev`
-2. Plan and design with user
-3. Create/update planning documents (specs, proposals)
-4. Get user approval
+- **main**: Production. PROTECTED. No direct commits. Only merges from `dev`.
+- **dev**: Planning & Integration Hub. All features start here.
+- **feature/**: Isolated implementation branches (via worktrees).
 
-### Commit Planning Docs (on `dev` branch)
+### Mandatory Workflow Steps
 
-5. **Update planning document** with approved decisions
-6. **Commit to dev**: `git add docs/specs/... && git commit && git push`
+#### 1. Plan on `dev` Branch
 
-### Create Worktree (from `dev` branch)
+**Before writing any code:**
 
-7. **Create feature worktree**: `g feature start feature-name`
+```bash
+git checkout dev && git pull origin dev
+```
 
-### Implementation (NEW SESSION)
+- Analyze requirements on `dev` branch
+- Create comprehensive implementation plan
+- Document in `docs/specs/SPEC-*.md`
+- **Wait for user approval**
+- Commit approved plan to `dev`
 
-8. **Do NOT continue in same session**
-9. **Ask user to start new session:**
+**Constraint:** ❌ Never write feature code on `dev` branch
 
-   ```
-   ✅ Worktree created at ~/.git-worktrees/flow-cli-feature-name
+#### 2. Create Worktree (Isolation)
 
-   To start implementation, please start a new session:
-   cd ~/.git-worktrees/flow-cli-feature-name && claude
-   ```
+**After plan approval:**
 
-**See:** `.claude/WORKFLOW-PROTOCOL.md` for complete details
+```bash
+# Create worktree from dev
+git worktree add ~/.git-worktrees/flow-cli-<feature> -b feature/<feature> dev
+
+# Verify creation
+git worktree list
+```
+
+#### 3. STOP - NEW Session Required
+
+**CRITICAL:** Do NOT start working in the worktree from the planning session.
+
+**Tell user:**
+
+```
+✅ Worktree created at ~/.git-worktrees/flow-cli-<feature>
+
+To start implementation, please start a NEW session:
+  cd ~/.git-worktrees/flow-cli-<feature>
+  claude
+```
+
+**Why?** Fresh session ensures:
+
+- Clean context (no planning baggage)
+- Correct working directory
+- Proper git state verification
+- Isolated focus on implementation
+
+#### 4. Atomic Development (In Worktree)
+
+**Use Conventional Commits:**
+
+- `feat:` - New feature
+- `fix:` - Bug fix
+- `refactor:` - Code restructure
+- `docs:` - Documentation only
+- `test:` - Add/modify tests
+- `chore:` - Maintenance
+
+**Before each commit:**
+
+- Run tests: `./tests/run-all.sh`
+- Verify builds: `source flow.plugin.zsh`
+- Keep commits small and functional
+
+#### 5. Integration (feature → dev)
+
+```bash
+# Rebase onto latest dev (linear history)
+git fetch origin dev
+git rebase origin/dev
+
+# Run full test suite
+./tests/run-all.sh
+
+# Create PR to dev
+gh pr create --base dev
+
+# After merge, cleanup worktree
+git worktree remove ~/.git-worktrees/flow-cli-<feature>
+git branch -d feature/<feature>
+```
+
+#### 6. Release (dev → main)
+
+**Maintainers only:**
+
+```bash
+# Create release PR
+gh pr create --base main --head dev --title "Release v5.X.0"
+
+# After merge, tag release
+git tag -a v5.X.0 -m "Release v5.X.0"
+git push --tags
+```
+
+### Tool Usage Constraints
+
+**Always verify before git operations:**
+
+```bash
+# Check current branch/worktree
+git branch --show-current
+git worktree list | grep $(pwd)
+```
+
+**ABORT conditions:**
+
+1. ⛔ **About to commit to main** → Redirect to PR workflow
+2. ⚠️ **About to commit to dev** → Confirm if spec/planning commit
+3. ⛔ **Push to main/dev without PR** → Block, require PR
+4. ⚠️ **Working in worktree from planning session** → Stop, tell user to start NEW session
+
+**See:** `docs/contributing/BRANCH-WORKFLOW.md` for complete workflow documentation
 
 ---
 
