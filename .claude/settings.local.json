@@ -131,7 +131,10 @@
       "Bash(./scripts/release.sh:*)",
       "Bash(exec zsh)",
       "Bash(./tests/test-pick-command.zsh)",
-      "Bash(pick invalid-category-xyz)"
+      "Bash(pick invalid-category-xyz)",
+      "Bash(./tests/run-unit-tests.zsh:*)",
+      "Bash(./tests/interactive-cache-dogfeeding.zsh)",
+      "Bash(tee:*)"
     ]
   }
 }
