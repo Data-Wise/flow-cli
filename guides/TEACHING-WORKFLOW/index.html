@@ -15,6 +15,10 @@
         <link rel="canonical" href="https://data-wise.github.io/flow-cli/guides/TEACHING-WORKFLOW/">
       
       
+        <link rel="prev" href="../WORKFLOWS-QUICK-WINS/">
+      
+      
+        <link rel="next" href="../../tutorials/08-git-feature-workflow/">
       
       
         
@@ -25,7 +29,7 @@
     
     
       
-        <title>Teaching Workflow Guide - Flow CLI Documentation</title>
+        <title>Teaching Workflow - Flow CLI Documentation</title>
       
     
     
@@ -114,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Teaching Workflow Guide
+              Teaching Workflow
             
           </span>
         </div>
@@ -284,10 +288,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../WORKFLOWS-QUICK-WINS/" class="md-tabs__link">
           
   
@@ -1198,28 +1204,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -1237,7 +1246,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1271,6 +1280,785 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Workflow
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-initialize-teaching-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Initialize Teaching Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-start-working" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Start Working
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-deploy-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Deploy Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#branch-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branch Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#work-session-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Work Session Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#teach-init" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        teach-init
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#work-teaching-aware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        work (Teaching-Aware)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flowteach-configyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        .flow/teach-config.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automation-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation Scripts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Automation Scripts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-deploysh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        quick-deploy.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semester-archivesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        semester-archive.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initial-setup-new-course" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Setup (New Course)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-existing-course" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration (Existing Course)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daily-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daily Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weekly-lecture-publishing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weekly Lecture Publishing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semester-transition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Semester Transition
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#yq-is-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "yq is required"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#must-be-on-draft-branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Must be on draft branch"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merge-conflict-during-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merge Conflict During Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-branch-warning-appears-every-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Production Branch Warning Appears Every Time
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shortcuts-not-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shortcuts Not Loading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-pages-not-deploying" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub Pages Not Deploying
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-with-existing-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration with Existing Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration with Existing Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-regular-work-sessions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Regular Work Sessions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-project-picker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Project Picker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-dash-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Dash Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FAQ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#can-i-use-different-branch-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can I use different branch names?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-i-have-multiple-courses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can I have multiple courses?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#do-i-need-github-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Do I need GitHub Pages?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-if-i-want-to-edit-on-production-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What if I want to edit on production directly?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-i-customize-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can I customize shortcuts?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#increment-2-course-context-implemented" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Increment 2: Course Context ✅ Implemented
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#increment-3-exam-workflow-implemented-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Increment 3: Exam Workflow ✅ Implemented (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-an-exam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating an Exam
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exam-template-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exam Template Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exam Template Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-frontmatter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Frontmatter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-multiple-choice-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Multiple Choice Section
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-short-answer-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Short Answer Section
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-computational-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Computational Problems
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-answer-key-instructor-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Answer Key (Instructor Only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#converting-to-canvas-qti" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Converting to Canvas QTI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organizing-question-banks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Organizing Question Banks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tips-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips &amp; Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2561,6 +3349,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/REFCARD-TEACHING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3189,6 +4005,34 @@
     
   
     alias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/teach-init/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    teach-init
   
 
     
