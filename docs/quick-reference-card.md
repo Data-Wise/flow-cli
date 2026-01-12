@@ -19,7 +19,7 @@ description: Essential commands on one page - print friendly
 | `why` | 📍 Show current context | `why` |
 | `win "message"` | ✅ Log accomplishment | `win "Fixed bug"` |
 | `finish` | 🏁 End session | `finish` |
-| `pick` | 🔍 Search/pick project | `pick` |
+| `pick` | 🔍 Search/pick project (cached for speed) | `pick` |
 
 ---
 

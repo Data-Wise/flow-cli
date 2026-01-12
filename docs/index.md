@@ -244,7 +244,7 @@ Commands that adapt to your project:
 
     | Feature | Why It Matters |
     |---------|----------------|
-    | **Sub-10ms response** | No waiting = no frustration |
+    | **Sub-10ms response** | No waiting = no frustration. `pick` cached (40x faster!) |
     | **Smart defaults** | Works without configuration |
     | **Visible progress** | Dopamine from seeing wins |
     | **Consistent patterns** | Less to memorize |

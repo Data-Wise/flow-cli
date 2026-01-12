@@ -141,6 +141,11 @@ flow() {
       flow_config "$@"
       ;;
 
+    # ── Project Cache Management ────────────────────────────────────────────
+    cache)
+      flow_cache "$@"
+      ;;
+
     # ── Alias Reference (Phase 2 feature) ──────────────────────────────────
     alias|aliases)
       flow_alias "$@"
@@ -1053,6 +1058,78 @@ _flow_detect_context() {
 
   # Default: no specific context
   echo "general"
+}
+
+# ============================================================================
+# PROJECT CACHE MANAGEMENT
+# ============================================================================
+
+flow_cache() {
+  local cmd="${1:-}"
+  shift 2>/dev/null || true
+
+  case "$cmd" in
+    refresh)
+      flow-cache-refresh "$@"
+      ;;
+    clear)
+      flow-cache-clear "$@"
+      ;;
+    status)
+      flow-cache-status "$@"
+      ;;
+    help|--help|-h|"")
+      _flow_cache_help
+      ;;
+    *)
+      echo "Unknown cache command: $cmd"
+      echo "Run 'flow cache help' for usage"
+      return 1
+      ;;
+  esac
+}
+
+_flow_cache_help() {
+  local _C_BOLD="${_C_BOLD:-\033[1m}"
+  local _C_NC="${_C_NC:-\033[0m}"
+  local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+  local _C_DIM="${_C_DIM:-\033[2m}"
+  local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+
+  cat << EOF
+${_C_BOLD}flow cache - Project List Cache Management${_C_NC}
+
+${_C_GREEN}COMMANDS:${_C_NC}
+  ${_C_CYAN}refresh${_C_NC}     Manually invalidate and regenerate cache
+  ${_C_CYAN}clear${_C_NC}       Delete cache file
+  ${_C_CYAN}status${_C_NC}      Show cache age and statistics
+
+${_C_GREEN}DESCRIPTION:${_C_NC}
+  The project cache improves 'pick' performance from ~200ms to <10ms by
+  caching the project list for 5 minutes (configurable via PROJ_CACHE_TTL).
+
+${_C_GREEN}CONFIGURATION:${_C_NC}
+  ${_C_DIM}# Disable cache (use direct filesystem scan)${_C_NC}
+  export FLOW_CACHE_ENABLED=0
+
+  ${_C_DIM}# Set custom TTL (in seconds, default: 300 = 5 minutes)${_C_NC}
+  export PROJ_CACHE_TTL=600
+
+${_C_GREEN}CACHE LOCATION:${_C_NC}
+  ${XDG_CACHE_HOME:-$HOME/.cache}/flow-cli/projects.cache
+
+${_C_GREEN}EXAMPLES:${_C_NC}
+  ${_C_DIM}\$${_C_NC} flow cache status        ${_C_DIM}# Check cache age and validity${_C_NC}
+  ${_C_DIM}\$${_C_NC} flow cache refresh       ${_C_DIM}# Force regenerate now${_C_NC}
+  ${_C_DIM}\$${_C_NC} flow cache clear         ${_C_DIM}# Delete cache file${_C_NC}
+
+${_C_GREEN}WHEN TO USE:${_C_NC}
+  - Run ${_C_CYAN}refresh${_C_NC} after cloning new repos in another terminal
+  - Run ${_C_CYAN}status${_C_NC} to check if cache is stale
+  - Run ${_C_CYAN}clear${_C_NC} to force rebuild on next 'pick' invocation
+
+${_C_DIM}See also: flow help, pick help${_C_NC}
+EOF
 }
 
 # ============================================================================
