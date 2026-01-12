@@ -1373,6 +1373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../guides/ALIAS-MANAGEMENT-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../guides/YOLO-MODE-WORKFLOW/" class="md-nav__link">
         
   
@@ -2289,6 +2317,17 @@
     <span class="md-ellipsis">
       
         Health Check: flow doctor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alias-management-flow-alias-v540" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alias Management: flow alias (v5.4.0)
       
     </span>
   </a>
@@ -4800,6 +4839,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#alias-management-flow-alias-v540" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alias Management: flow alias (v5.4.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#install-tools-flow-install" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5173,7 +5223,7 @@
 <hr />
 <h2 id="setup-diagnostics">Setup &amp; Diagnostics<a class="headerlink" href="#setup-diagnostics" title="Permanent link">&para;</a></h2>
 <h3 id="health-check-flow-doctor">Health Check: <code>flow doctor</code><a class="headerlink" href="#health-check-flow-doctor" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>flow<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># Check all dependencies</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>flow<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># Check all dependencies + alias health</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w">        </span><span class="c1"># Interactive install missing tools</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w"> </span>-y<span class="w">     </span><span class="c1"># Auto-install all missing (no prompts)</span>
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--ai<span class="w">         </span><span class="c1"># AI-assisted troubleshooting (Claude CLI)</span>
@@ -5186,21 +5236,42 @@
 <li>Optional: dust, duf, btop, delta, gh, jq</li>
 <li>Integrations: atlas, radian</li>
 <li>ZSH plugins: p10k, autosuggestions, syntax-highlighting</li>
+<li><strong>Aliases:</strong> shadows, broken targets, health summary (v5.4.0)</li>
+</ul>
+<h3 id="alias-management-flow-alias-v540">Alias Management: <code>flow alias</code> (v5.4.0)<a class="headerlink" href="#alias-management-flow-alias-v540" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>doctor<span class="w">           </span><span class="c1"># Health check all aliases (shadows, broken targets)</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>find<span class="w"> </span>&lt;pattern&gt;<span class="w">   </span><span class="c1"># Search aliases by name or command</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>find<span class="w"> </span>--exact<span class="w"> </span>gst<span class="w"> </span><span class="c1"># Exact match only</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>edit<span class="w">             </span><span class="c1"># Open .zshrc at alias section</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>add<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s1">&#39;cmd&#39;</span><span class="w">   </span><span class="c1"># Create alias (one-liner)</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>add<span class="w">              </span><span class="c1"># Create alias (interactive wizard)</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>rm<span class="w"> </span>&lt;name&gt;<span class="w">        </span><span class="c1"># Remove alias (safe: comments out, backups)</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>&lt;name&gt;<span class="w">      </span><span class="c1"># Show definition + validation</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>&lt;n&gt;<span class="w"> </span>--dry<span class="w">   </span><span class="c1"># Show what would execute</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>&lt;n&gt;<span class="w"> </span>--exec<span class="w">  </span><span class="c1"># Actually run the alias</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">help</span><span class="w">             </span><span class="c1"># Show all commands</span>
+</code></pre></div>
+<p><strong>Safety Features:</strong></p>
+<ul>
+<li>Shadow detection: warns if alias shadows system command</li>
+<li>Target validation: checks if target command exists</li>
+<li>Safe removal: comments out instead of deleting, creates backup</li>
+<li>Duplicate checking: prevents overwriting existing aliases</li>
 </ul>
 <p><strong>Quick fix all:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>brew<span class="w"> </span>bundle<span class="w"> </span>--file<span class="o">=</span><span class="nv">$FLOW_PLUGIN_DIR</span>/setup/Brewfile
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>brew<span class="w"> </span>bundle<span class="w"> </span>--file<span class="o">=</span><span class="nv">$FLOW_PLUGIN_DIR</span>/setup/Brewfile
 </code></pre></div>
 <h3 id="install-tools-flow-install">Install Tools: <code>flow install</code><a class="headerlink" href="#install-tools-flow-install" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>flow<span class="w"> </span>install<span class="w">                        </span><span class="c1"># Interactive installer</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>minimal<span class="w">      </span><span class="c1"># Essential: fzf, zoxide, bat</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>developer<span class="w">    </span><span class="c1"># Full dev: + fd, rg, gh, delta, jq</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>researcher<span class="w">   </span><span class="c1"># Academic: + quarto</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>writer<span class="w">       </span><span class="c1"># Publishing: + pandoc, quarto</span>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>full<span class="w">         </span><span class="c1"># Everything</span>
-<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>flow<span class="w"> </span>install<span class="w"> </span>--category<span class="w"> </span>core<span class="w">        </span><span class="c1"># Just core tools</span>
-<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>flow<span class="w"> </span>install<span class="w"> </span>--dry-run<span class="w">              </span><span class="c1"># Show what would install</span>
-<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>flow<span class="w"> </span>install<span class="w"> </span>--list<span class="w">                 </span><span class="c1"># List all profiles</span>
-<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>flow<span class="w"> </span>install<span class="w"> </span>--help<span class="w">                 </span><span class="c1"># Show all options</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>flow<span class="w"> </span>install<span class="w">                        </span><span class="c1"># Interactive installer</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>minimal<span class="w">      </span><span class="c1"># Essential: fzf, zoxide, bat</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>developer<span class="w">    </span><span class="c1"># Full dev: + fd, rg, gh, delta, jq</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>researcher<span class="w">   </span><span class="c1"># Academic: + quarto</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>writer<span class="w">       </span><span class="c1"># Publishing: + pandoc, quarto</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>full<span class="w">         </span><span class="c1"># Everything</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>flow<span class="w"> </span>install<span class="w"> </span>--category<span class="w"> </span>core<span class="w">        </span><span class="c1"># Just core tools</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>flow<span class="w"> </span>install<span class="w"> </span>--dry-run<span class="w">              </span><span class="c1"># Show what would install</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>flow<span class="w"> </span>install<span class="w"> </span>--list<span class="w">                 </span><span class="c1"># List all profiles</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>flow<span class="w"> </span>install<span class="w"> </span>--help<span class="w">                 </span><span class="c1"># Show all options</span>
 </code></pre></div>
 <p><strong>Profiles:</strong></p>
 <table>
@@ -5234,37 +5305,37 @@
 </tbody>
 </table>
 <h3 id="upgrade-flow-upgrade">Upgrade: <code>flow upgrade</code><a class="headerlink" href="#upgrade-flow-upgrade" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>self<span class="w">               </span><span class="c1"># Update flow-cli via git pull</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>tools<span class="w">              </span><span class="c1"># Update Homebrew packages</span>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>plugins<span class="w">            </span><span class="c1"># Update ZSH plugins (antidote)</span>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>all<span class="w">                </span><span class="c1"># Update everything</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--check<span class="w">            </span><span class="c1"># Check for updates (no install)</span>
-<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--changelog<span class="w">        </span><span class="c1"># Show what&#39;s new</span>
-<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--force<span class="w">            </span><span class="c1"># Skip confirmations</span>
-<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--help<span class="w">             </span><span class="c1"># Show all options</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>self<span class="w">               </span><span class="c1"># Update flow-cli via git pull</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>tools<span class="w">              </span><span class="c1"># Update Homebrew packages</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>plugins<span class="w">            </span><span class="c1"># Update ZSH plugins (antidote)</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>all<span class="w">                </span><span class="c1"># Update everything</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--check<span class="w">            </span><span class="c1"># Check for updates (no install)</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--changelog<span class="w">        </span><span class="c1"># Show what&#39;s new</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--force<span class="w">            </span><span class="c1"># Skip confirmations</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--help<span class="w">             </span><span class="c1"># Show all options</span>
 </code></pre></div>
 <hr />
 <h2 id="workflow-functions">Workflow Functions<a class="headerlink" href="#workflow-functions" title="Permanent link">&para;</a></h2>
 <h3 id="session-management">Session Management<a class="headerlink" href="#session-management" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>work<span class="w"> </span>&lt;project&gt;<span class="w">      </span><span class="c1"># Start work session</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>finish<span class="w"> </span><span class="o">[</span>msg<span class="o">]</span><span class="w">        </span><span class="c1"># End session (commit + push)</span>
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>here<span class="w">                </span><span class="c1"># Quick context (pwd + status + ls)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>work<span class="w"> </span>&lt;project&gt;<span class="w">      </span><span class="c1"># Start work session</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>finish<span class="w"> </span><span class="o">[</span>msg<span class="o">]</span><span class="w">        </span><span class="c1"># End session (commit + push)</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>here<span class="w">                </span><span class="c1"># Quick context (pwd + status + ls)</span>
 </code></pre></div>
 <h3 id="project-operations">Project Operations<a class="headerlink" href="#project-operations" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>pb<span class="w">                  </span><span class="c1"># Build (auto-detects type)</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>pv<span class="w">                  </span><span class="c1"># Preview/view</span>
-<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>pt<span class="w">                  </span><span class="c1"># Test</span>
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>dash<span class="w">                </span><span class="c1"># Master dashboard</span>
-<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>dash<span class="w"> </span>-i<span class="w">             </span><span class="c1"># Interactive TUI</span>
-<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>dash<span class="w"> </span>--watch<span class="w">        </span><span class="c1"># Live refresh</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>pb<span class="w">                  </span><span class="c1"># Build (auto-detects type)</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>pv<span class="w">                  </span><span class="c1"># Preview/view</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>pt<span class="w">                  </span><span class="c1"># Test</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>dash<span class="w">                </span><span class="c1"># Master dashboard</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>dash<span class="w"> </span>-i<span class="w">             </span><span class="c1"># Interactive TUI</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>dash<span class="w"> </span>--watch<span class="w">        </span><span class="c1"># Live refresh</span>
 </code></pre></div>
 <h3 id="pick-project-picker-v460">Pick - Project Picker (v4.6.0)<a class="headerlink" href="#pick-project-picker-v460" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>pick<span class="w">                </span><span class="c1"># FZF picker (all projects)</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>pick<span class="w"> </span>r<span class="w">              </span><span class="c1"># R packages only</span>
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>pick<span class="w"> </span>dev<span class="w">            </span><span class="c1"># Dev tools only</span>
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>pick<span class="w"> </span>wt<span class="w">             </span><span class="c1"># All worktrees (new!)</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>pick<span class="w"> </span>wt<span class="w"> </span>scribe<span class="w">      </span><span class="c1"># Scribe&#39;s worktrees only</span>
-<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>pick<span class="w"> </span>flow<span class="w">           </span><span class="c1"># Direct jump to flow-cli</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>pick<span class="w">                </span><span class="c1"># FZF picker (all projects)</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>pick<span class="w"> </span>r<span class="w">              </span><span class="c1"># R packages only</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>pick<span class="w"> </span>dev<span class="w">            </span><span class="c1"># Dev tools only</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>pick<span class="w"> </span>wt<span class="w">             </span><span class="c1"># All worktrees (new!)</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>pick<span class="w"> </span>wt<span class="w"> </span>scribe<span class="w">      </span><span class="c1"># Scribe&#39;s worktrees only</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>pick<span class="w"> </span>flow<span class="w">           </span><span class="c1"># Direct jump to flow-cli</span>
 </code></pre></div>
 <p><strong>Categories:</strong> <code>r</code>, <code>dev</code>, <code>q</code>, <code>teach</code>, <code>rs</code>, <code>app</code>, <code>wt</code></p>
 <p><strong>Interactive Keys:</strong></p>
@@ -5308,38 +5379,38 @@
 - (none) - No session</p>
 <p><strong>Aliases:</strong> <code>pickr</code>, <code>pickdev</code>, <code>pickq</code>, <code>pickwt</code></p>
 <h3 id="dopamine-features-v350">Dopamine Features (v3.5.0)<a class="headerlink" href="#dopamine-features-v350" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>win<span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="w">          </span><span class="c1"># Log accomplishment (auto-categorized)</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>win<span class="w"> </span>--category<span class="w"> </span>fix<span class="w">  </span><span class="c1"># Log with explicit category</span>
-<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>yay<span class="w">                 </span><span class="c1"># Show recent wins</span>
-<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>yay<span class="w"> </span>--week<span class="w">          </span><span class="c1"># Weekly summary + graph</span>
-<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>flow<span class="w"> </span>goal<span class="w">           </span><span class="c1"># Show daily goal progress</span>
-<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">3</span><span class="w">     </span><span class="c1"># Set daily win target</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>win<span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="w">          </span><span class="c1"># Log accomplishment (auto-categorized)</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>win<span class="w"> </span>--category<span class="w"> </span>fix<span class="w">  </span><span class="c1"># Log with explicit category</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>yay<span class="w">                 </span><span class="c1"># Show recent wins</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>yay<span class="w"> </span>--week<span class="w">          </span><span class="c1"># Weekly summary + graph</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>flow<span class="w"> </span>goal<span class="w">           </span><span class="c1"># Show daily goal progress</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">3</span><span class="w">     </span><span class="c1"># Set daily win target</span>
 </code></pre></div>
 <p><strong>Categories:</strong> 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test, ✨ other</p>
 <h3 id="capture-breadcrumbs">Capture &amp; Breadcrumbs<a class="headerlink" href="#capture-breadcrumbs" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>catch<span class="w"> </span><span class="s2">&quot;idea&quot;</span><span class="w">        </span><span class="c1"># Quick capture</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>inbox<span class="w">               </span><span class="c1"># View captured items</span>
-<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>crumb<span class="w"> </span><span class="s2">&quot;note&quot;</span><span class="w">        </span><span class="c1"># Leave breadcrumb</span>
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>trail<span class="w">               </span><span class="c1"># Show breadcrumb trail</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>catch<span class="w"> </span><span class="s2">&quot;idea&quot;</span><span class="w">        </span><span class="c1"># Quick capture</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>inbox<span class="w">               </span><span class="c1"># View captured items</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>crumb<span class="w"> </span><span class="s2">&quot;note&quot;</span><span class="w">        </span><span class="c1"># Leave breadcrumb</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>trail<span class="w">               </span><span class="c1"># Show breadcrumb trail</span>
 </code></pre></div>
 <h3 id="teaching">Teaching<a class="headerlink" href="#teaching" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>tst<span class="w">                 </span><span class="c1"># Teaching status</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>tweek<span class="w">               </span><span class="c1"># Current week</span>
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>tlec<span class="w"> </span><span class="o">[</span>N<span class="o">]</span><span class="w">            </span><span class="c1"># Open lecture N</span>
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>tpublish<span class="w">            </span><span class="c1"># Deploy to GitHub Pages</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>tst<span class="w">                 </span><span class="c1"># Teaching status</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>tweek<span class="w">               </span><span class="c1"># Current week</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>tlec<span class="w"> </span><span class="o">[</span>N<span class="o">]</span><span class="w">            </span><span class="c1"># Open lecture N</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>tpublish<span class="w">            </span><span class="c1"># Deploy to GitHub Pages</span>
 </code></pre></div>
 <h3 id="research">Research<a class="headerlink" href="#research" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>rst<span class="w">                 </span><span class="c1"># Research status</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>rms<span class="w">                 </span><span class="c1"># Open manuscript</span>
-<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>rsim<span class="w">                </span><span class="c1"># Run simulation</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>rst<span class="w">                 </span><span class="c1"># Research status</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>rms<span class="w">                 </span><span class="c1"># Open manuscript</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>rsim<span class="w">                </span><span class="c1"># Run simulation</span>
 </code></pre></div>
 <hr />
 <h2 id="utility-aliases">Utility Aliases<a class="headerlink" href="#utility-aliases" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>..<span class="w">                  </span><span class="c1"># cd ..</span>
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>...<span class="w">                 </span><span class="c1"># cd ../..</span>
-<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>ll<span class="w">                  </span><span class="c1"># Long listing (eza)</span>
-<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>la<span class="w">                  </span><span class="c1"># All files</span>
-<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>reload<span class="w">              </span><span class="c1"># Reload zshrc</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>..<span class="w">                  </span><span class="c1"># cd ..</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>...<span class="w">                 </span><span class="c1"># cd ../..</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>ll<span class="w">                  </span><span class="c1"># Long listing (eza)</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>la<span class="w">                  </span><span class="c1"># All files</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>reload<span class="w">              </span><span class="c1"># Reload zshrc</span>
 </code></pre></div>
 <hr />
 <h2 id="pattern-summary">Pattern Summary<a class="headerlink" href="#pattern-summary" title="Permanent link">&para;</a></h2>
@@ -5406,6 +5477,11 @@
 <td>Health Check</td>
 <td><code>flow doctor</code></td>
 <td><code>flow doctor [--fix\|--ai]</code></td>
+</tr>
+<tr>
+<td>Alias Mgmt</td>
+<td><code>flow alias</code></td>
+<td><code>flow alias &lt;action&gt; [arg]</code></td>
 </tr>
 <tr>
 <td>Install</td>
@@ -5491,6 +5567,10 @@
 <td>flow doctor (health check)</td>
 </tr>
 <tr>
+<td><code>~/projects/dev-tools/flow-cli/commands/alias.zsh</code></td>
+<td>flow alias (v5.4.0)</td>
+</tr>
+<tr>
 <td><code>~/projects/dev-tools/flow-cli/setup/Brewfile</code></td>
 <td>Homebrew bundle</td>
 </tr>
@@ -5502,7 +5582,7 @@
 </table>
 <p><strong>Removed:</strong> <code>v-dispatcher.zsh</code> (deprecated, use <code>flow</code> command instead)</p>
 <hr />
-<p><em>Updated: 2025-12-31 (v4.7.0)</em></p>
+<p><em>Updated: 2026-01-12 (v5.4.0)</em></p>
 
 
 

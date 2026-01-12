@@ -1373,6 +1373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../guides/ALIAS-MANAGEMENT-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../guides/YOLO-MODE-WORKFLOW/" class="md-nav__link">
         
   
@@ -3416,6 +3444,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#management-commands-v540" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Management Commands (v5.4.0)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Management Commands (v5.4.0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#doctor-health-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Doctor - Health Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find-search-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Find - Search Aliases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-create-alias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add - Create Alias
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-safe-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remove - Safe Deletion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-validate-execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test - Validate &amp; Execute
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4574,6 +4674,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#management-commands-v540" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Management Commands (v5.4.0)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Management Commands (v5.4.0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#doctor-health-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Doctor - Health Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find-search-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Find - Search Aliases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-create-alias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add - Create Alias
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-safe-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remove - Safe Deletion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-validate-execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test - Validate &amp; Execute
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4611,14 +4783,24 @@
 
 <h1 id="flow-alias">flow alias<a class="headerlink" href="#flow-alias" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p>Display all flow-cli custom aliases organized by category</p>
+<p>Display, manage, and validate shell aliases</p>
 </blockquote>
-<p>The <code>flow alias</code> command shows all 29 custom aliases defined by flow-cli, organized by category for easy discovery.</p>
+<p>The <code>flow alias</code> command provides complete alias lifecycle management - from viewing and searching to creating, testing, and safely removing aliases.</p>
+<p><strong>New in v5.4.0:</strong> Full management suite with validation, health checking, and safe operations.</p>
 <hr />
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w">              </span><span class="c1"># Show all aliases (summary view)</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>&lt;category&gt;<span class="w">   </span><span class="c1"># Show specific category aliases</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">help</span><span class="w">         </span><span class="c1"># Show help</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># View aliases</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w">              </span><span class="c1"># Show all aliases (summary view)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>&lt;category&gt;<span class="w">   </span><span class="c1"># Show specific category aliases</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Manage aliases (v5.4.0)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>doctor<span class="w">       </span><span class="c1"># Health check all aliases</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>find<span class="w"> </span>&lt;pat&gt;<span class="w">   </span><span class="c1"># Search by name or command</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>add<span class="w">          </span><span class="c1"># Create new alias (interactive)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>rm<span class="w"> </span>&lt;name&gt;<span class="w">    </span><span class="c1"># Safe removal (backup + comment out)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>&lt;name&gt;<span class="w">  </span><span class="c1"># Validate and dry-run</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>edit<span class="w">         </span><span class="c1"># Open .zshrc at alias section</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">help</span><span class="w">         </span><span class="c1"># Show all commands</span>
 </code></pre></div>
 <hr />
 <h2 id="categories">Categories<a class="headerlink" href="#categories" title="Permanent link">&para;</a></h2>
@@ -4827,17 +5009,68 @@ Example: <code>flow alias cc</code> → <code>cc help</code></p>
 <p>All aliases are carefully chosen to avoid conflicts with system commands.</p>
 </div>
 <hr />
+<h2 id="management-commands-v540">Management Commands (v5.4.0)<a class="headerlink" href="#management-commands-v540" title="Permanent link">&para;</a></h2>
+<h3 id="doctor-health-check">Doctor - Health Check<a class="headerlink" href="#doctor-health-check" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>doctor
+</code></pre></div>
+<p>Scans all aliases and reports:</p>
+<ul>
+<li><strong>Shadows</strong> - Aliases that hide system commands (e.g., <code>cat='bat'</code>)</li>
+<li><strong>Broken targets</strong> - Aliases pointing to non-existent commands</li>
+<li><strong>Statistics</strong> - Total count, healthy/warning/error counts</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>⚡ ALIAS HEALTH CHECK
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>📊 SUMMARY
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  Total: 45 aliases
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  Healthy: 42 (93%)
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  Shadows: 2 (cat, gem)
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  Broken: 1 (oldcmd)
+</code></pre></div>
+<h3 id="find-search-aliases">Find - Search Aliases<a class="headerlink" href="#find-search-aliases" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>find<span class="w"> </span>git<span class="w">        </span><span class="c1"># All git-related aliases</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>find<span class="w"> </span>--exact<span class="w"> </span>gst<span class="w"> </span><span class="c1"># Exact match only</span>
+</code></pre></div>
+<h3 id="add-create-alias">Add - Create Alias<a class="headerlink" href="#add-create-alias" title="Permanent link">&para;</a></h3>
+<p><strong>One-liner mode:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>add<span class="w"> </span><span class="nv">myalias</span><span class="o">=</span><span class="s1">&#39;echo hello&#39;</span>
+</code></pre></div></p>
+<p><strong>Interactive mode:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>add
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># Prompts for name and command with validation</span>
+</code></pre></div></p>
+<p><strong>Safety checks:</strong></p>
+<ul>
+<li>Duplicate detection</li>
+<li>Shadow warning (system command conflicts)</li>
+<li>Target validation (command exists?)</li>
+</ul>
+<h3 id="remove-safe-deletion">Remove - Safe Deletion<a class="headerlink" href="#remove-safe-deletion" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>rm<span class="w"> </span>myalias
+</code></pre></div>
+<p><strong>What happens:</strong></p>
+<ol>
+<li>Creates backup (<code>~/.zshrc.alias-backup</code>)</li>
+<li>Comments out the line (doesn't delete)</li>
+<li>Shows confirmation</li>
+</ol>
+<h3 id="test-validate-execute">Test - Validate &amp; Execute<a class="headerlink" href="#test-validate-execute" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>gst<span class="w">           </span><span class="c1"># Show definition + validation</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>gst<span class="w"> </span>--dry-run<span class="w"> </span><span class="c1"># Show what would run</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>gst<span class="w"> </span>--exec<span class="w">    </span><span class="c1"># Actually execute it</span>
+</code></pre></div>
+<hr />
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../reference/ALIAS-REFERENCE-CARD/">Alias Reference Card</a> - Complete alias list</li>
+<li><a href="../../guides/ALIAS-MANAGEMENT-WORKFLOW/">Alias Management Workflow</a> - Workflow guide</li>
 <li><a href="../../reference/COMMAND-QUICK-REFERENCE/">Command Quick Reference</a> - All commands</li>
 <li><a href="../../reference/DISPATCHER-REFERENCE/">Dispatcher Reference</a> - All dispatchers</li>
-<li><a href="../../guides/ENHANCED-HELP-QUICK-START/">Enhanced Help Quick Start</a> - Phase 2 features</li>
 </ul>
 <hr />
-<p><strong>Last Updated:</strong> 2026-01-07
-<strong>Command Version:</strong> v4.8.0 (alias v4.9.0)
-<strong>Status:</strong> ✅ Production ready with interactive help system</p>
+<p><strong>Last Updated:</strong> 2026-01-12
+<strong>Command Version:</strong> v5.4.0
+<strong>Status:</strong> ✅ Production ready with full management suite</p>
 
 
 

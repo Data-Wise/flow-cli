@@ -209,6 +209,10 @@
          <lastmod>2026-01-12</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/demos/</loc>
+         <lastmod>2026-01-12</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/getting-started/00-welcome/</loc>
          <lastmod>2026-01-12</lastmod>
     </url>
@@ -241,6 +245,10 @@
          <lastmod>2026-01-12</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/guides/ALIAS-MANAGEMENT-WORKFLOW/</loc>
+         <lastmod>2026-01-12</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/guides/CONFIG-MANAGEMENT-WORKFLOW/</loc>
          <lastmod>2026-01-12</lastmod>
     </url>
@@ -261,6 +269,10 @@
          <lastmod>2026-01-12</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/guides/EXAMARK-INTEGRATION/</loc>
+         <lastmod>2026-01-12</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/guides/MERMAID-DIAGRAMS-QUICK-START/</loc>
          <lastmod>2026-01-12</lastmod>
     </url>
@@ -278,6 +290,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/PROJECT-SCOPE/</loc>
+         <lastmod>2026-01-12</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/guides/TEACHING-WORKFLOW/</loc>
          <lastmod>2026-01-12</lastmod>
     </url>
     <url>
@@ -481,6 +497,10 @@
          <lastmod>2026-01-12</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-TEACHING/</loc>
+         <lastmod>2026-01-12</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/SYNC-SETUP/</loc>
          <lastmod>2026-01-12</lastmod>
     </url>
@@ -517,6 +537,14 @@
          <lastmod>2026-01-12</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/PLAN-teaching-workflow-increment-2/</loc>
+         <lastmod>2026-01-12</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/PLAN-teaching-workflow-increment-3/</loc>
+         <lastmod>2026-01-12</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-Flow-CLI-Documentation-Enhancement%20-%20Complete-Implementation/</loc>
          <lastmod>2026-01-12</lastmod>
     </url>
@@ -537,7 +565,19 @@
          <lastmod>2026-01-12</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-flow-alias-enhancement-2026-01-12/</loc>
+         <lastmod>2026-01-12</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-project-cache-auto-discovery/</loc>
+         <lastmod>2026-01-12</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-scholar-teaching-2026-01-11/</loc>
+         <lastmod>2026-01-12</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-teaching-workflow-v2/</loc>
          <lastmod>2026-01-12</lastmod>
     </url>
     <url>
