@@ -1,6 +1,6 @@
 # Teaching Workflow Guide
 
-**Version:** 2.0 (Increment 1 - Core Deployment)
+**Version:** 2.0 (Increment 2 - Course Context)
 **Status:** Production Ready
 **Last Updated:** 2026-01-11
 
@@ -223,23 +223,52 @@ work <course-name>
    - Loads course-specific shortcuts from config
    - Available for current session only
 
-3. **Course Context Display**
+3. **Course Context Display** (Increment 2)
    - Shows course name
    - Shows current branch
+   - **Shows current semester and year**
+   - **Shows current week number**
+   - **Detects and labels break weeks**
+   - **Shows recent git activity (last 3 commits)**
    - Lists loaded shortcuts
 
 **Example (Safe - On Draft Branch):**
 ```bash
 $ work stat-545
 
-📚 STAT 545
+📚 STAT 545 - Design of Experiments
   Branch: draft
+  Semester: Spring 2026
+  Current Week: Week 8
+
+  Recent Changes:
+    Add week 8 lecture notes
+    Update assignment 3 rubric
+    Fix typo in syllabus
 
 Shortcuts loaded:
   s545 → work stat-545
   s545d → ./scripts/quick-deploy.sh
 
 [Editor opens]
+```
+
+**Example (During Break Week):**
+```bash
+$ work stat-545
+
+📚 STAT 545 - Design of Experiments
+  Branch: draft
+  Semester: Spring 2026
+  Current Week: Week 8 (Spring Break)
+
+  Recent Changes:
+    Prepare week 9 materials
+    Grade midterm exams
+
+Shortcuts loaded:
+  s545 → work stat-545
+  s545d → ./scripts/quick-deploy.sh
 ```
 
 **Example (Warning - On Production Branch):**
@@ -854,26 +883,68 @@ Shortcuts load when you run `work stat-545`.
 
 ---
 
-## Next Steps
+## Advanced Features
 
-### Increment 2: Course Context (Planned)
+### Increment 2: Course Context ✅ Implemented
 
-Future enhancements:
+**Features:**
 
-- **Current week calculation** - Auto-detect week from semester start date
-- **Semester progress** - Show progress through term
-- **Recent activity** - Display recent commits in context
+- ✅ **Current week calculation** - Auto-calculates week number from semester start date
+- ✅ **Semester progress** - Shows which week you're in (1-16)
+- ✅ **Break detection** - Automatically labels break weeks (e.g., "Week 8 (Spring Break)")
+- ✅ **Recent activity** - Displays last 3 git commits in work session
+- ✅ **Smart date prompts** - Suggests semester start dates based on current month
+- ✅ **Auto-calculated end date** - Automatically sets semester end (16 weeks from start)
 
-**Config addition:**
+**Configuration:**
+
+When you run `teach-init`, you'll be prompted for semester dates:
+
+```bash
+$ teach-init "STAT 545"
+
+Semester Schedule
+  Configure semester start/end dates for week calculation
+
+  Start date (YYYY-MM-DD) [2026-01-15]: 2026-01-13
+  ℹ Calculated end date: 2026-05-05 (16 weeks)
+
+  Add spring/fall break? [y/N]: y
+  Break name [Spring Break]:
+  Break start [2026-03-10]:
+  Break end [2026-03-17]:
+```
+
+**Generated Config:**
 ```yaml
 semester_info:
-  start_date: "2026-01-13"  # ISO 8601
-  weeks: 16
+  start_date: "2026-01-13"  # YYYY-MM-DD format
+  end_date: "2026-05-05"    # Auto-calculated: 16 weeks
   breaks:
-    - start: "2026-03-10"
-      end: "2026-03-14"
-      name: "Spring Break"
+    - name: "Spring Break"
+      start: "2026-03-10"
+      end: "2026-03-17"
 ```
+
+**Result in Work Session:**
+```bash
+$ work stat-545
+
+📚 STAT 545 - Design of Experiments
+  Branch: draft
+  Semester: Spring 2026
+  Current Week: Week 8 (Spring Break)
+
+  Recent Changes:
+    Add week 8 lecture notes
+    Update assignment rubric
+```
+
+**Edge Cases Handled:**
+- Before semester start → Shows no week
+- After semester end → Caps at week 16
+- Missing semester_info → Gracefully degrades (shows course without week)
+- Invalid dates → Validation with clear error messages
 
 ### Increment 3: Exam Workflow (Optional)
 
