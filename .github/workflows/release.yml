@@ -100,8 +100,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npm test
+      # NOTE: npm test commented out - no test script in package.json
+      # ZSH tests run in install-test job above
+      # - name: Run tests
+      #   run: npm test
 
       - name: Semantic Release
         env:
