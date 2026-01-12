@@ -8,12 +8,17 @@
 teach-init() {
   local course_name=""
   local dry_run=false
+  local interactive=true
 
   # Parse flags
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --dry-run)
         dry_run=true
+        shift
+        ;;
+      -y|--yes)
+        interactive=false
         shift
         ;;
       *)
@@ -23,14 +28,27 @@ teach-init() {
     esac
   done
 
+  # Export for child functions
+  export TEACH_INTERACTIVE="$interactive"
+
   if [[ -z "$course_name" ]]; then
-    _flow_log_error "Usage: teach-init [--dry-run] <course-name>"
+    _flow_log_error "Usage: teach-init [OPTIONS] <course-name>"
+    echo ""
+    echo "Options:"
+    echo "  --dry-run    Preview migration plan without making changes"
+    echo "  -y, --yes    Non-interactive mode (accept safe defaults)"
     echo ""
     echo "Examples:"
-    echo "  teach-init \"STAT 545\""
-    echo "  teach-init \"STAT 440\""
-    echo "  teach-init --dry-run \"STAT 545\"  # Preview migration plan"
+    echo "  teach-init \"STAT 545\"              # Interactive (default)"
+    echo "  teach-init -y \"STAT 545\"           # Non-interactive, safe defaults"
+    echo "  teach-init --dry-run \"STAT 545\"    # Preview migration plan"
     return 1
+  fi
+
+  # Show mode indicator for non-interactive
+  if [[ "$interactive" == "false" ]]; then
+    echo "🤖 Non-interactive mode: using safe defaults"
+    echo ""
   fi
 
   # Dry-run mode: show plan and exit
@@ -142,14 +160,20 @@ _teach_validate_quarto_project() {
 }
 
 # Handle renv/ directories interactively
-# Prompts user to exclude from git if detected
+# Prompts user to exclude from git if detected (auto-excludes in non-interactive mode)
 _teach_handle_renv() {
   if [[ -d "renv" ]]; then
     echo ""
     echo "  ${FLOW_COLORS[warning]}⚠️  Detected renv/ directory${FLOW_COLORS[reset]}"
     echo "  R package management with symlinks (not suitable for git)"
-    echo ""
-    read "?  Exclude renv/ from git? [Y/n]: " exclude_renv
+
+    local exclude_renv="y"
+    if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+      echo ""
+      read "?  Exclude renv/ from git? [Y/n]: " exclude_renv
+    else
+      echo "  → Auto-excluding renv/ (non-interactive mode)"
+    fi
 
     if [[ "$exclude_renv" != "n" ]]; then
       # Check if already in .gitignore
@@ -342,20 +366,28 @@ _teach_migrate_quarto_project() {
 
   # Step 3: Show migration strategy options
   local current_branch=$(git branch --show-current)
+  local choice=""
 
-  echo ""
-  echo "Choose migration strategy:"
-  echo "  ${FLOW_COLORS[bold]}1.${FLOW_COLORS[reset]} Convert existing branch → production (preserve history)"
-  echo "     Renames $current_branch → production, creates draft"
-  echo ""
-  echo "  ${FLOW_COLORS[bold]}2.${FLOW_COLORS[reset]} Create parallel branches (keep existing + add draft/production)"
-  echo "     Keeps $current_branch, adds new draft + production branches"
-  echo ""
-  echo "  ${FLOW_COLORS[bold]}3.${FLOW_COLORS[reset]} Fresh start (tag current, start new structure)"
-  echo "     Tags current state, creates clean draft + production"
-  echo ""
+  if [[ "$TEACH_INTERACTIVE" == "false" ]]; then
+    # Non-interactive: auto-select strategy 1 (safest - preserves history)
+    echo ""
+    echo "→ Auto-selecting strategy 1: Convert existing → production (non-interactive mode)"
+    choice="1"
+  else
+    echo ""
+    echo "Choose migration strategy:"
+    echo "  ${FLOW_COLORS[bold]}1.${FLOW_COLORS[reset]} Convert existing branch → production (preserve history)"
+    echo "     Renames $current_branch → production, creates draft"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}2.${FLOW_COLORS[reset]} Create parallel branches (keep existing + add draft/production)"
+    echo "     Keeps $current_branch, adds new draft + production branches"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}3.${FLOW_COLORS[reset]} Fresh start (tag current, start new structure)"
+    echo "     Tags current state, creates clean draft + production"
+    echo ""
 
-  read "choice?Choice [1/2/3]: "
+    read "choice?Choice [1/2/3]: "
+  fi
 
   case "$choice" in
     1) _teach_quarto_inplace_conversion "$course_name" ;;
@@ -381,10 +413,14 @@ _teach_quarto_inplace_conversion() {
   echo "  4. Add .flow/teach-config.yml and scripts/"
   echo ""
 
-  read "confirm?Continue? [y/N] "
-  if [[ "$confirm" != "y" ]]; then
-    echo "Cancelled"
-    return 1
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+    read "confirm?Continue? [y/N] "
+    if [[ "$confirm" != "y" ]]; then
+      echo "Cancelled"
+      return 1
+    fi
+  else
+    echo "→ Proceeding automatically (non-interactive mode)"
   fi
 
   # Create rollback tag
@@ -442,10 +478,14 @@ _teach_quarto_parallel_branches() {
   echo "  5. Add teaching workflow files"
   echo ""
 
-  read "confirm?Continue? [y/N] "
-  if [[ "$confirm" != "y" ]]; then
-    echo "Cancelled"
-    return 1
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+    read "confirm?Continue? [y/N] "
+    if [[ "$confirm" != "y" ]]; then
+      echo "Cancelled"
+      return 1
+    fi
+  else
+    echo "→ Proceeding automatically (non-interactive mode)"
   fi
 
   # Create rollback tag
@@ -502,10 +542,14 @@ _teach_quarto_fresh_start() {
   echo "  4. Add teaching workflow files"
   echo ""
 
-  read "confirm?Continue? [y/N] "
-  if [[ "$confirm" != "y" ]]; then
-    echo "Cancelled"
-    return 1
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+    read "confirm?Continue? [y/N] "
+    if [[ "$confirm" != "y" ]]; then
+      echo "Cancelled"
+      return 1
+    fi
+  else
+    echo "→ Proceeding automatically (non-interactive mode)"
   fi
 
   # Create archive tag
@@ -556,14 +600,21 @@ _teach_quarto_fresh_start() {
 _teach_migrate_generic_repo() {
   local course_name="$1"
   local current_branch=$(git branch --show-current)
+  local choice=""
 
-  # Strategy menu (original behavior)
-  echo "Choose migration strategy:"
-  echo "  ${FLOW_COLORS[bold]}1.${FLOW_COLORS[reset]} In-place conversion (rename $current_branch → production, create draft)"
-  echo "  ${FLOW_COLORS[bold]}2.${FLOW_COLORS[reset]} Two-branch setup (keep $current_branch, create draft + production)"
-  echo ""
+  if [[ "$TEACH_INTERACTIVE" == "false" ]]; then
+    # Non-interactive: auto-select strategy 1 (in-place conversion)
+    echo "→ Auto-selecting strategy 1: In-place conversion (non-interactive mode)"
+    choice="1"
+  else
+    # Strategy menu (original behavior)
+    echo "Choose migration strategy:"
+    echo "  ${FLOW_COLORS[bold]}1.${FLOW_COLORS[reset]} In-place conversion (rename $current_branch → production, create draft)"
+    echo "  ${FLOW_COLORS[bold]}2.${FLOW_COLORS[reset]} Two-branch setup (keep $current_branch, create draft + production)"
+    echo ""
 
-  read "choice?Choice [1/2]: "
+    read "choice?Choice [1/2]: "
+  fi
 
   case "$choice" in
     1) _teach_inplace_conversion "$course_name" ;;
@@ -583,10 +634,14 @@ _teach_inplace_conversion() {
   echo "  3. Add .flow/teach-config.yml and scripts/"
   echo ""
 
-  read "confirm?Continue? [y/N] "
-  if [[ "$confirm" != "y" ]]; then
-    echo "Cancelled"
-    return 1
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+    read "confirm?Continue? [y/N] "
+    if [[ "$confirm" != "y" ]]; then
+      echo "Cancelled"
+      return 1
+    fi
+  else
+    echo "→ Proceeding automatically (non-interactive mode)"
   fi
 
   # Tag current state
@@ -690,18 +745,26 @@ _teach_install_templates() {
   echo ""
   echo "${FLOW_COLORS[bold]}Semester Schedule${FLOW_COLORS[reset]}"
   echo "  Configure semester start/end dates for week calculation"
-  echo ""
 
   # Suggest start date based on current month
   local suggested_start=$(_suggest_semester_start)
+  local start_date=""
+  local add_break=""
 
-  read "start_date?  Start date (YYYY-MM-DD) [$suggested_start]: "
-  start_date="${start_date:-$suggested_start}"
+  if [[ "$TEACH_INTERACTIVE" == "false" ]]; then
+    # Non-interactive: use suggested defaults
+    echo "  → Using default start date: $suggested_start (non-interactive mode)"
+    start_date="$suggested_start"
+  else
+    echo ""
+    read "start_date?  Start date (YYYY-MM-DD) [$suggested_start]: "
+    start_date="${start_date:-$suggested_start}"
 
-  # Validate date format
-  if ! _validate_date_format "$start_date"; then
-    _flow_log_error "Invalid date format. Please use YYYY-MM-DD"
-    return 1
+    # Validate date format
+    if ! _validate_date_format "$start_date"; then
+      _flow_log_error "Invalid date format. Please use YYYY-MM-DD"
+      return 1
+    fi
   fi
 
   # Calculate semester end (16 weeks from start)
@@ -709,28 +772,33 @@ _teach_install_templates() {
 
   echo "  ${FLOW_COLORS[info]}Calculated end date: $end_date (16 weeks)${FLOW_COLORS[reset]}"
 
-  # Ask about breaks
-  echo ""
-  read "?  Add spring/fall break? [y/N]: " add_break
-
+  # Ask about breaks (skip in non-interactive mode)
   local breaks_config=""
-  if [[ "$add_break" == "y" ]]; then
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
     echo ""
-    read "break_name?  Break name [Spring Break]: "
-    break_name="${break_name:-Spring Break}"
+    read "?  Add spring/fall break? [y/N]: " add_break
 
-    # Calculate week 8 as suggested break time
-    local start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s")
-    local break_start_epoch=$((start_epoch + (7 * 7 * 86400)))
-    local break_end_epoch=$((break_start_epoch + (7 * 86400)))
-    local suggested_break_start=$(date -j -f "%s" "$break_start_epoch" "+%Y-%m-%d")
-    local suggested_break_end=$(date -j -f "%s" "$break_end_epoch" "+%Y-%m-%d")
+    if [[ "$add_break" == "y" ]]; then
+      echo ""
+      read "break_name?  Break name [Spring Break]: "
+      break_name="${break_name:-Spring Break}"
 
-    read "break_start?  Break start [$suggested_break_start]: "
-    break_start="${break_start:-$suggested_break_start}"
+      # Calculate week 8 as suggested break time
+      local start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s")
+      local break_start_epoch=$((start_epoch + (7 * 7 * 86400)))
+      local break_end_epoch=$((break_start_epoch + (7 * 86400)))
+      local suggested_break_start=$(date -j -f "%s" "$break_start_epoch" "+%Y-%m-%d")
+      local suggested_break_end=$(date -j -f "%s" "$break_end_epoch" "+%Y-%m-%d")
 
-    read "break_end?  Break end [$suggested_break_end]: "
-    break_end="${break_end:-$suggested_break_end}"
+      read "break_start?  Break start [$suggested_break_start]: "
+      break_start="${break_start:-$suggested_break_start}"
+
+      read "break_end?  Break end [$suggested_break_end]: "
+      break_end="${break_end:-$suggested_break_end}"
+    fi
+  else
+    echo "  → Skipping break configuration (non-interactive mode)"
+    add_break="n"
   fi
 
   # Read template and substitute variables
@@ -807,6 +875,15 @@ Generated by flow-cli teach-init" || {
 _teach_offer_github_push() {
   echo ""
   echo "GitHub Integration (Optional)"
+
+  # Non-interactive mode: skip GitHub push (safe default)
+  if [[ "$TEACH_INTERACTIVE" == "false" ]]; then
+    echo "  → Skipped in non-interactive mode"
+    echo "  ℹ️  Push manually later:"
+    echo "     git push -u origin draft production"
+    return 0
+  fi
+
   read "?  Push to GitHub remote? [y/N]: " push_github
 
   if [[ "$push_github" != "y" ]]; then
