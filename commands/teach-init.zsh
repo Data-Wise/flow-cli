@@ -6,15 +6,39 @@
 # ============================================================================
 
 teach-init() {
-  local course_name="$1"
+  local course_name=""
+  local dry_run=false
+
+  # Parse flags
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --dry-run)
+        dry_run=true
+        shift
+        ;;
+      *)
+        course_name="$1"
+        shift
+        ;;
+    esac
+  done
 
   if [[ -z "$course_name" ]]; then
-    _flow_log_error "Usage: teach-init <course-name>"
+    _flow_log_error "Usage: teach-init [--dry-run] <course-name>"
     echo ""
     echo "Examples:"
     echo "  teach-init \"STAT 545\""
     echo "  teach-init \"STAT 440\""
+    echo "  teach-init --dry-run \"STAT 545\"  # Preview migration plan"
     return 1
+  fi
+
+  # Dry-run mode: show plan and exit
+  if [[ "$dry_run" == "true" ]]; then
+    echo "🔍 DRY RUN MODE - No changes will be made"
+    echo ""
+    _teach_show_migration_plan "$course_name"
+    return 0
   fi
 
   echo "🎓 Initializing teaching workflow for: $course_name"
@@ -33,6 +57,184 @@ teach-init() {
   else
     _teach_create_fresh_repo "$course_name"
   fi
+}
+
+# ============================================================================
+# PHASE 1: DETECTION AND VALIDATION (v5.4.0)
+# ============================================================================
+
+# Detect project type based on presence of config files
+_teach_detect_project_type() {
+  if [[ -f "_quarto.yml" ]]; then
+    echo "quarto"
+  elif [[ -f "mkdocs.yml" ]]; then
+    echo "mkdocs"
+  else
+    echo "unknown"
+  fi
+}
+
+# Validate Quarto project structure
+# Returns 0 on success, 1 on failure
+_teach_validate_quarto_project() {
+  local errors=()
+
+  # Check required files
+  [[ ! -f "_quarto.yml" ]] && errors+=("Missing _quarto.yml")
+  [[ ! -f "index.qmd" ]] && errors+=("Missing index.qmd (homepage)")
+
+  # Report errors if any
+  if (( ${#errors[@]} > 0 )); then
+    _flow_log_error "Project validation failed:"
+    printf '  %s\n' "${errors[@]}"
+    return 1
+  fi
+
+  return 0
+}
+
+# Handle renv/ directories interactively
+# Prompts user to exclude from git if detected
+_teach_handle_renv() {
+  if [[ -d "renv" ]]; then
+    echo ""
+    echo "  ${FLOW_COLORS[warning]}⚠️  Detected renv/ directory${FLOW_COLORS[reset]}"
+    echo "  R package management with symlinks (not suitable for git)"
+    echo ""
+    read "?  Exclude renv/ from git? [Y/n]: " exclude_renv
+
+    if [[ "$exclude_renv" != "n" ]]; then
+      # Check if already in .gitignore
+      if [[ -f ".gitignore" ]] && grep -q "^renv/$" .gitignore; then
+        echo "  ℹ️  renv/ already in .gitignore"
+      else
+        echo "renv/" >> .gitignore
+        echo "  ✅ Added renv/ to .gitignore"
+      fi
+    else
+      echo "  ⚠️  Warning: renv/ will be included in git (may cause backup issues)"
+    fi
+  fi
+}
+
+# Rollback failed migration to pre-migration tag
+# Usage: _teach_rollback_migration <tag_name>
+_teach_rollback_migration() {
+  local tag="$1"
+
+  if [[ -z "$tag" ]]; then
+    _flow_log_error "Rollback failed: no tag specified"
+    return 1
+  fi
+
+  _flow_log_error "Migration failed - rolling back to $tag"
+  echo ""
+
+  # Reset to tag
+  if git reset --hard "$tag" 2>/dev/null; then
+    echo "  ✅ Reset to tag: $tag"
+  else
+    _flow_log_error "Failed to reset to tag: $tag"
+    return 1
+  fi
+
+  # Remove created files
+  if [[ -d ".flow" ]]; then
+    rm -rf .flow
+    echo "  ✅ Removed .flow/ directory"
+  fi
+
+  if [[ -d "scripts" ]]; then
+    rm -rf scripts
+    echo "  ✅ Removed scripts/ directory"
+  fi
+
+  if [[ -f ".github/workflows/deploy.yml" ]]; then
+    rm -f .github/workflows/deploy.yml
+    echo "  ✅ Removed .github/workflows/deploy.yml"
+  fi
+
+  # Delete rollback tag
+  if git tag -d "$tag" &>/dev/null; then
+    echo "  ✅ Deleted rollback tag"
+  fi
+
+  echo ""
+  echo "Your repository is back to its original state."
+  return 0
+}
+
+# Show migration plan for dry-run mode
+_teach_show_migration_plan() {
+  local course_name="$1"
+
+  echo "┌────────────────────────────────────────────────────────────┐"
+  echo "│ Migration Plan for: $course_name"
+  echo "├────────────────────────────────────────────────────────────┤"
+  echo "│"
+
+  # Detection
+  echo "│ Detection:"
+  if [[ -d .git ]]; then
+    echo "│   ✅ Git repository found"
+    local current_branch=$(git branch --show-current 2>/dev/null)
+    echo "│   ✅ Current branch: $current_branch"
+
+    local project_type=$(_teach_detect_project_type)
+    case "$project_type" in
+      quarto)
+        echo "│   ✅ Project type: Quarto website"
+        ;;
+      mkdocs)
+        echo "│   ✅ Project type: MkDocs website"
+        ;;
+      *)
+        echo "│   ℹ️  Project type: Generic git repository"
+        ;;
+    esac
+  else
+    echo "│   ❌ No git repository - would initialize"
+  fi
+
+  # Validation (if Quarto)
+  echo "│"
+  echo "│ Validation:"
+  local project_type=$(_teach_detect_project_type)
+  if [[ "$project_type" == "quarto" ]]; then
+    [[ -f "_quarto.yml" ]] && echo "│   ✅ _quarto.yml found" || echo "│   ❌ _quarto.yml missing"
+    [[ -f "index.qmd" ]] && echo "│   ✅ index.qmd found" || echo "│   ❌ index.qmd missing"
+    [[ -d "renv" ]] && echo "│   ⚠️  renv/ detected (will prompt to exclude)"
+  else
+    echo "│   ℹ️  Standard migration (not Quarto-specific)"
+  fi
+
+  # Actions
+  echo "│"
+  echo "│ Actions that would be taken:"
+  echo "│   1. Create rollback tag: $(date +'%B' | tr '[:upper:]' '[:lower:]')-$(date +'%Y')-pre-migration"
+
+  if [[ -d .git ]]; then
+    local current_branch=$(git branch --show-current 2>/dev/null)
+    echo "│   2. Rename $current_branch → production"
+  else
+    echo "│   2. Initialize git repository"
+  fi
+
+  echo "│   3. Create draft branch from production"
+  echo "│   4. Add .flow/teach-config.yml"
+  echo "│   5. Add scripts/quick-deploy.sh"
+  echo "│   6. Add scripts/semester-archive.sh"
+  echo "│   7. Add .github/workflows/deploy.yml"
+  echo "│   8. Prompt for semester dates"
+  echo "│   9. Prompt for GitHub push (optional)"
+  echo "│  10. Generate MIGRATION-COMPLETE.md"
+  echo "│"
+  echo "│ Estimated time: ~3 minutes"
+  echo "│"
+  echo "│ To execute for real:"
+  echo "│   teach-init \"$course_name\""
+  echo "│"
+  echo "└────────────────────────────────────────────────────────────┘"
 }
 
 # ============================================================================
