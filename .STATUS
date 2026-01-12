@@ -4,13 +4,237 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: Production Ready - Performance Planning
+## Phase: Production Ready - Post v5.3.0 Release
 ## Priority: 1
-## Progress: 19
+## Progress: 95
 
-## Focus: Project Performance & Extensibility Planning ✅
+## Focus: Teaching Workflow v2.0 Merged to dev 🎓
 
-## ✅ Just Completed (2026-01-11 - Latest):
+## 🚧 In Progress (2026-01-12 - Current):
+- **No active development**
+  - Ready for production testing and v5.4.0 release planning
+
+## ✅ Just Completed (2026-01-12 - Latest):
+- **teach-init Migration Automation - Phase 1+2+3** ✅ PR #220 MERGED TO DEV
+  - **PR:** #220 - https://github.com/Data-Wise/flow-cli/pull/220
+  - **Merged:** 2026-01-12T07:50:46Z to dev branch
+  - **Squash Commit:** 261c4b3
+  - **Changes:** +2,509 lines, -18 lines (4 files)
+  - **Implementation:** 2026-01-12 (~4 hour session)
+  - **Spec:** docs/specs/SPEC-teach-init-migration-2026-01-12.md (711 lines)
+  - **Brainstorm:** BRAINSTORM-teach-init-migration-2026-01-12.md (905 lines)
+  - **Validation:** VALIDATION-SUMMARY.md (380 lines)
+
+  **Phase 1 - Foundation (✅ Complete):**
+  - **Commit:** a497f97 "feat(teach-init): add Phase 1 migration functions"
+  - **Functions Added:** 5 core functions (537 lines)
+    - `_teach_detect_project_type()`: Auto-detect Quarto/MkDocs/generic
+    - `_teach_validate_quarto_project()`: Validate required files
+    - `_teach_handle_renv()`: Interactive renv/ exclusion
+    - `_teach_rollback_migration()`: Git tag-based error recovery
+    - `_teach_show_migration_plan()`: Dry-run preview
+  - **Flag Support:** `teach-init --dry-run <course-name>`
+  - **Tests:** 13/13 passing (tests/test-teach-init-phase1.zsh)
+
+  **Phase 2 - Migration Logic (✅ Complete):**
+  - **Commit:** 40b6f4c "feat(teach-init): add Phase 2 Quarto migration workflow"
+  - **Functions Added:** 8 new functions (431 lines)
+    - `_teach_migrate_quarto_project()`: Quarto-specific migration
+    - `_teach_quarto_inplace_conversion()`: Strategy 1 - Convert existing
+    - `_teach_quarto_parallel_branches()`: Strategy 2 - Parallel branches
+    - `_teach_quarto_fresh_start()`: Strategy 3 - Fresh start (orphan)
+    - `_teach_migrate_generic_repo()`: Generic fallback
+    - `_teach_offer_github_push()`: Smart remote detection
+    - `_teach_generate_migration_docs()`: Auto-documentation
+  - **Total Lines:** 1,000 lines in commands/teach-init.zsh (after Phase 3)
+  - **Manual Tests:** 18 tests documented (tests/MANUAL-TESTING-PHASE2.md, 1,101 lines)
+
+  **Phase 3 - Polish (✅ Complete):**
+  - **Commit:** e7cee68 "fix(teach-init): add proper error handling to migration strategies"
+  - **Bug Fixed:** Rollback not triggered on template installation failure
+  - **Root Cause:** Shell error propagation in compound command blocks
+  - **Solution:** Subshell with explicit `|| exit 1` after each command
+  - **Changes:** +76, -35 lines in commands/teach-init.zsh
+  - **Testing:** Rollback now triggers correctly, Phase 1 tests passing (no regression)
+
+  **Validation Testing Results (2026-01-12):**
+  - ✅ **Dry-run on STAT 545:** Detected Quarto, showed full plan, no changes
+  - ✅ **Strategy 1 Migration:** Branches created (draft/production), files installed, tag created
+  - ✅ **Config Generation:** Valid YAML with semester dates, course info
+  - ✅ **Documentation:** MIGRATION-COMPLETE.md generated with full details
+  - ✅ **Rollback:** Triggers correctly on template failure (Phase 3 fix)
+  - ✅ **Error Messages:** Clear and actionable
+  - ✅ **Repository State:** Clean after rollback
+
+  **Key Features Implemented:**
+  - 3 migration strategies (convert, parallel, fresh start)
+  - Auto-detection: Quarto vs MkDocs vs generic
+  - Validation: Strict checks for required files
+  - renv handling: Interactive prompt with skip if already excluded
+  - GitHub integration: Smart remote URL handling
+  - Auto-documentation: MIGRATION-COMPLETE.md with workflow guide
+  - Dry-run mode: Preview without changes
+  - Comprehensive error handling: Automatic rollback on failure
+
+  **Commits (5 total):**
+  - a497f97: Phase 1 foundation (5 functions, 13 tests)
+  - 40b6f4c: Phase 2 migration logic (8 functions, 3 strategies)
+  - 30ce4c7: Phase 2 manual testing guide
+  - e7cee68: Phase 3 bug fix (error handling)
+  - b536372: Updated validation summary
+
+  **Session Time:** ~4 hours (brainstorm → Phase 1 → Phase 2 → validation → Phase 3 fix)
+  **Target:** v5.4.0 release
+  **Related:** MIGRATION-GUIDE-teaching-workflow.md (previously used for STAT 545)
+
+- **Teaching Workflow v2.0 - PR #217 Merged to dev** 🎓 MERGED & TESTED
+  - **PR:** #217 - Teaching Workflow v2.0 (Increment 1 + 2)
+  - **Merged:** 2026-01-12T06:07:13Z to dev branch
+  - **Changes:** +6,268 lines (23 files, 10 commits)
+  - **Status:** All 58 tests passing (100% coverage), ready for production testing
+
+  **Code Review Process:**
+  - Manual code review identified critical config template bug
+  - Automated tests: 41/41 passing (didn't catch integration issue)
+  - Manual integration tests: BLOCKED by invalid YAML config
+  - Root cause: Increment 2 placeholders not filled ({{START_DATE}}, {{END_DATE}}, {{BREAKS_CONFIG}})
+  - Impact: Teaching detection, validation, branch safety ALL broken
+
+  **Bug Fix (commit 372bcca):**
+  - Identified version mismatch (template v2.0 but incomplete Increment 2 code)
+  - Note: Increment 2 was later fully implemented and reverted fix
+  - Final state: Full Increment 1 + 2 implementation with all placeholders filled
+  - Verified: Config generates valid YAML, all features working
+
+  **Manual Testing Results (Post-Fix):**
+  - ✅ teach-init: Successfully creates files and branches
+  - ✅ Project detection: Teaching projects detected correctly
+  - ✅ Config validation: YAML parses correctly
+  - ✅ Branch safety: Production warnings trigger correctly
+  - ✅ Draft branch: No warnings (as expected)
+  - ✅ Config values: All readable by deployment scripts
+  - ✅ Script permissions: All scripts executable
+
+  **Features Merged (Increment 1 + 2):**
+
+  **Increment 1 - Core Deployment:**
+  - teach-init command: Course scaffolding (292 lines)
+  - Branch safety warnings: Prevent accidental production edits
+  - Quick deployment: Sub-2-minute automation script
+  - Template system: 5 automation templates
+  - Enhanced work command: Teaching-aware sessions
+  - Project detection: Config-based with validation
+
+  **Increment 2 - Course Context:**
+  - Week calculation: Automatic from semester start date
+  - Break detection: Label break weeks
+  - Semester management: Start/end date handling
+  - Context display: Enhanced teaching session info
+  - Teaching utilities: `lib/teaching-utils.zsh` (172 lines)
+
+  **Test Coverage (58 total tests):**
+  - Basic suite: 9/9 passing ✓
+  - Comprehensive: 32/32 passing ✓
+  - Increment 2: 17/17 passing ✓
+  - Coverage: Project detection, validation, templates, edge cases, regressions
+
+  **Documentation (3,225 lines):**
+  - User guide: `docs/guides/TEACHING-WORKFLOW.md` (899 lines)
+  - Quick reference: `docs/reference/REFCARD-TEACHING.md` (397 lines)
+  - Testing guide: `TESTING-INSTRUCTIONS.md` (929 lines)
+  - VHS demo: `docs/demos/teaching-workflow.tape` (325 lines)
+  - Test coverage: `tests/TEACHING-WORKFLOW-TEST-COVERAGE.md` (352 lines)
+  - Increment 2 plan: `docs/specs/PLAN-teaching-workflow-increment-2.md` (892 lines)
+
+  **New Files Created (23 files):**
+  - Commands: `commands/teach-init.zsh` (292 lines)
+  - Utilities: `lib/teaching-utils.zsh` (172 lines)
+  - Templates: 5 files (deploy, archive, exam conversion, workflow, config)
+  - Tests: 3 test suites (695 + 240 + 452 lines)
+  - Documentation: 6 files
+
+  **Integration Points:**
+  - Enhanced work command: 135 new lines for teaching sessions
+  - Project detector: 45 new lines for teaching detection
+  - Plugin loader: Added teaching-utils.zsh
+
+  **Architecture Decisions:**
+  - Two-branch workflow: draft (editing) + production (live site)
+  - Config-based detection: .flow/teach-config.yml for teaching projects
+  - Template-driven setup: Consistent course structure
+  - YAML validation: Required fields enforced
+  - Graceful degradation: Works without yq (limited features)
+
+  **Success Metrics:**
+  - Deployment time: < 2 min (via quick-deploy.sh) ✓
+  - Branch safety: 100% (production warning always shown) ✓
+  - Config validation: 100% (malformed configs rejected) ✓
+  - Test coverage: 100% (58/58 tests passing) ✓
+  - Week calculation: Accurate with break detection ✓
+
+  **Next Steps:**
+  1. Test on real course (STAT 545 or causal-inference)
+  2. Gather feedback from actual teaching workflow
+  3. Consider Increment 3: Exam workflow (optional)
+  4. Merge dev → main when production-validated
+  5. Release as part of v5.4.0 or standalone v6.0.0
+
+  **Session Time:** ~4 hours (review → testing → bug fix → manual tests → merge)
+  **Total Effort:** ~20 hours (planning → implementation → testing → docs → review → merge)
+  **Related:** SPEC-teaching-workflow-v2.md, BRAINSTORM-scholar-teaching-2026-01-11.md
+
+## ✅ Just Completed (2026-01-12):
+- **v5.3.0 Release - Project Cache & Performance** 🚀 SHIPPED TO PRODUCTION
+  - **PRs:** #215 (release merge), #216 (version bump), #213 (changelog) - ALL MERGED
+  - **Tag:** v5.3.0 created and pushed
+  - **GitHub Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.3.0
+  - **Docs Deployed:** https://Data-Wise.github.io/flow-cli/
+
+  **Features Shipped:**
+  - 🚀 **Project Cache:** 40x performance improvement (200ms → <10ms)
+  - 🧪 **Test Infrastructure:** 98 tests (100% passing)
+  - 📚 **Documentation:** 1,300+ lines (guides + quick refs)
+  - ✨ **Site Updates:** Performance highlights in 3 locations
+
+  **Implementation:**
+  - **Files Changed:** 24 files (+4,247, -4 lines)
+  - **Cache Module:** `lib/project-cache.zsh` (210 lines)
+  - **Tests:** 9 test files (2,500+ lines)
+  - **Docs:** 4 new guide/reference files
+
+  **Test Coverage:**
+  - Cache unit tests: 42 tests (3 suites)
+  - Pick command tests: 39 tests
+  - Integration tests: 17 tests
+  - All tests: 100% passing
+
+  **Bug Fixes:**
+  - Cache filtering architecture fix (cache-all, filter-after)
+  - 3 failing tests → all 98 passing
+
+  **Release Process:**
+  - Code review & PR merge (#214, #215)
+  - Version bump script (5.2.0 → 5.3.0)
+  - Documentation site deployment
+  - GitHub release with comprehensive notes
+  - All automation successful
+
+  **Performance:**
+  - pick command: <10ms (was ~200ms)
+  - Cached with 5-minute TTL
+  - Zero configuration required
+  - XDG-compliant cache storage
+
+  **Documentation Updates:**
+  - Cache guide (439 lines)
+  - Cache quick reference (84 lines)
+  - Testing guide (710 lines)
+  - Site performance mentions
+
+  **Session Time:** ~5 hours (post-merge → release → deployment)
+  **Total Effort:** ~15 hours (planning → implementation → testing → docs → release)
+
+## ✅ Just Completed (2026-01-11):
 - **Code Review & Enhancement Planning** ✅ COMPLETE
   - **Code Review:** Project detection & worktree picker systems
   - **Files Reviewed:** `lib/project-detector.zsh` (131 lines), `commands/pick.zsh` (974 lines)
@@ -35,6 +259,189 @@
   **Risk:** Low (opt-in rollout, extensive testing)
 
   **Session Time:** ~1 hour (code review + spec writing + planning docs update)
+
+## ✅ Just Completed (2026-01-11 - Latest):
+- **Scholar Plugin Teaching Features - Deep Brainstorm & Spec** ✅ COMPLETE
+  - **Session Type:** Deep feature brainstorm (8 expert questions) + automatic spec capture
+  - **Files:** BRAINSTORM-scholar-teaching-2026-01-11.md (450+ lines), SPEC-scholar-teaching-2026-01-11.md (850+ lines)
+  - **Status:** Planning complete, ready for implementation in scholar repo
+  - **Commit:** 2ec3b41 (pushed to origin/dev)
+
+  **Context:**
+  - Parallel development with flow-cli teaching-workflow
+  - Scholar plugin currently has 14 research commands, 17 research skills
+  - Teaching keywords in package.json but ZERO teaching commands implemented
+  - Need to expand scholar to support teaching workflows
+
+  **8 Expert Questions Answered:**
+  1. **Primary purpose:** Parallel development with flow-cli teaching-workflow
+  2. **Teaching priorities:** ALL 4 (exam, quiz, lecture, assignment)
+  3. **Integration model:** flow-cli wrapper (scholar called by flow-cli)
+  4. **Output formats:** ALL 4 (markdown, quarto, LaTeX, JSON/YAML)
+  5. **Generation method:** Hybrid (AI + templates)
+  6. **Context storage:** Read from .flow/teach-config.yml
+  7. **Post-generation workflow:** Edit, commit to git, deploy to website
+  8. **Quality validation:** Critical - must validate before save
+
+  **Critical Architecture Decisions:**
+  - **Namespace:** `/teaching:*` parallel to `/research:*` (not merged, not separate plugin)
+  - **Implementation:** Node.js (match examark tool, was shell for research)
+  - **Integration:** flow-cli → `/teaching:exam` → scholar generates → flow-cli processes
+  - **Commands:** 5 total (exam, quiz, lecture, assignment, syllabus)
+  - **Validation:** JSON schema + format-specific (LaTeX, markdown) validation
+
+  **5 Teaching Commands to Implement:**
+  - `/teaching:exam` - Generate exams with answer keys
+  - `/teaching:quiz` - Generate shorter quizzes
+  - `/teaching:lecture` - Generate lecture outlines
+  - `/teaching:assignment` - Generate problem sets
+  - `/teaching:syllabus` - Generate course syllabi
+
+  **Output Formats (All 4 Required):**
+  - Markdown (.md) - Version control friendly, works with examark
+  - Quarto (.qmd) - Course websites with executable code
+  - LaTeX (.tex) - High-quality PDF exams
+  - JSON/YAML - Programmatic/automation use
+
+  **Quality Validation Requirements:**
+  - Schema compliance (JSON schema validation)
+  - Answer key completeness (all questions have answers)
+  - LaTeX syntax validation (balanced delimiters)
+  - Format-specific checks (markdown, quarto, LaTeX)
+  - `--no-validate` flag for experienced users
+
+  **Integration with flow-cli:**
+  ```bash
+  flow-cli (ZSH)
+    └── teach-exam command
+        └── calls scholar /teaching:exam
+            └── scholar generates content
+                └── returns to flow-cli
+                    └── flow-cli handles workflow (edit, convert, deploy)
+  ```
+
+  **Course Configuration (.flow/teach-config.yml extension):**
+  ```yaml
+  scholar:
+    course_info:
+      level: "undergraduate"  # or "graduate"
+      field: "statistics"
+      difficulty: "intermediate"
+    defaults:
+      exam_format: "markdown"
+      lecture_format: "quarto"
+    style:
+      tone: "formal"  # or "conversational"
+      notation: "statistical"
+  ```
+
+  **Implementation Timeline (5 Weeks, 28-38 hours):**
+  - Week 1 (6-8h): `/teaching:exam` pilot (markdown only)
+  - Week 2 (6-8h): All formats + comprehensive validation
+  - Week 3 (8-10h): `/teaching:quiz`, `/teaching:lecture` + docs
+  - Week 4 (4-6h): Teaching skills (auto-activating)
+  - Week 5 (4-6h): `/teaching:assignment`, `/teaching:syllabus`, polish
+
+  **Success Metrics:**
+  - Generation time: < 30s for 10-question exam
+  - Validation accuracy: 100% catch rate for errors
+  - Quality score: > 8/10 user rating
+  - Edit time: < 10 min from generation to finalized material
+  - Integration: 100% success flow-cli → scholar → examark pipeline
+
+  **Dependencies:**
+  - Required: Node.js >= 18.0.0, Claude API, js-yaml, ajv (JSON schema)
+  - Optional: examark (QTI conversion), quarto (rendering), texlive (PDF)
+  - Dev: jest, eslint, prettier
+
+  **Next Steps:**
+  - Create feature branch in scholar repo (not flow-cli!)
+  - Start Week 1: `/teaching:exam` pilot implementation
+  - Test integration with flow-cli teaching-workflow
+
+  **Related Specs:**
+  - SPEC-teaching-workflow-v2.md (flow-cli side, deployment-focused)
+  - Both specs support parallel development model
+
+  **Session Time:** ~3 hours (8 questions + brainstorm synthesis + comprehensive spec)
+
+## ✅ Just Completed (2026-01-11 - Earlier):
+- **Teaching Workflow v2.0 - Deep Brainstorm & Spec Revision** ✅ COMPLETE
+  - **Session Type:** Deep brainstorm (8 expert questions)
+  - **Specs:** SPEC-teaching-workflow.md (v1.0, kept), SPEC-teaching-workflow-v2.md (v2.0, 1,460 lines)
+  - **Status:** Planning complete, ready for implementation
+
+  **Major Discoveries (8 Expert Questions):**
+  - ❌ v1.0 Focus: Quiz/exam automation (50% of spec)
+  - ✅ v2.0 Focus: Fast deployment (80% of effort)
+  - Current pain: 5-15 min manual git workflow
+  - Target: < 2 min typo-to-live deployment
+  - Assessment frequency: 2-3 exams/semester (not weekly quizzes)
+  - Canvas API: Not needed (manual upload acceptable)
+  - Scholar skills: Build alongside (optional Phase 1.5)
+  - Scope: STAT 545 only in Phase 1
+
+  **Critical Pivot:**
+  - From: Assessment-first (quiz workflow focus)
+  - To: Deployment-first (branch safety + fast deploy)
+  - Assessment tools moved to optional Increment 3
+
+  **Incremental Shipping Strategy (v2.0):**
+  - **Increment 1 (4-6h):** Core Deployment (MVP)
+    - Branch safety guard in `work` command
+    - `scripts/quick-deploy.sh` with time tracking
+    - Teaching project detection + validation
+    - Basic `.flow/teach-config.yml`
+    - Success: Typo deployment < 2 min
+
+  - **Increment 2 (4-6h):** Course Context
+    - `work stat-545` shows current week, semester
+    - Course shortcuts loaded per-session
+    - Semester date calculation with breaks
+    - Recent activity display
+    - Success: Terminal shows course context
+
+  - **Increment 3 (8-10h):** Exam Workflow - OPTIONAL
+    - `teach-exam` command for guided creation
+    - examark integration (MD → Canvas QTI)
+    - Scholar skill integration (if ready)
+    - Success: E2E exam in < 30 min
+
+  **Total Effort:** 16-22 hours (was 22h monolithic)
+  **Risk Level:** Low (incremental shipping, proven patterns)
+
+  **Updated Success Criteria (All 4 Selected):**
+  - ⚡ Typo fix deploys in < 2 min (Priority 1)
+  - 🛡️ Branch safety prevents production edits (Priority 1)
+  - 📚 Course-aware terminal context (Priority 2)
+  - 📝 One-command exam generation + conversion (Priority 3, optional)
+
+  **Implementation Files:**
+  - New: `commands/teach-init.zsh` (~300 lines) - Scaffolding
+  - New: `commands/teach-exam.zsh` (~150 lines) - Exam workflow (Increment 3)
+  - New: `lib/templates/teaching/quick-deploy.sh` (~120 lines)
+  - New: `lib/templates/teaching/semester-archive.sh` (~50 lines)
+  - New: `lib/templates/teaching/exam-to-qti.sh` (~40 lines)
+  - New: `lib/templates/teaching/deploy.yml.template` (~50 lines)
+  - Modified: `commands/work.zsh` (+130 lines) - Teaching session + context
+  - Modified: `lib/project-detector.zsh` (+40 lines) - Enhanced detection
+
+  **Dependencies:**
+  - Required: yq (✅ installed), git, quarto
+  - Optional: examark (❌ not installed, npm install -g examark)
+  - Optional: scholar skills (build alongside)
+
+  **Testing Strategy:**
+  - Increment 1: 5 unit tests, E2E deployment test
+  - Increment 2: Week calculation, context display tests
+  - Increment 3: examark conversion, E2E exam workflow
+
+  **Next Steps:**
+  - Create feature branch worktree
+  - Start NEW session for Increment 1 implementation
+  - Ship incrementally (test each increment before next)
+
+  **Session Time:** ~2 hours (deep questions + spec revision + worktree prep)
 
 ## ✅ Just Completed (2026-01-11 - Earlier):
 - **Documentation Enhancement (Plan B)** ✅ SHIPPED TO PRODUCTION

@@ -1,0 +1,43 @@
+# {{COURSE_NAME}} Teaching Configuration
+# Version: 2.0 (Increment 3 - Exam Workflow)
+# Generated: {{GENERATED_DATE}}
+
+course:
+  name: "{{COURSE_NAME}}"
+  full_name: "{{COURSE_FULL_NAME}}"
+  semester: "{{SEMESTER}}"
+  year: {{YEAR}}
+  instructor: "{{INSTRUCTOR}}"
+
+# Semester schedule (Increment 2)
+semester_info:
+  start_date: "{{START_DATE}}"  # YYYY-MM-DD format
+  end_date: "{{END_DATE}}"      # YYYY-MM-DD format (auto-calculated: 16 weeks)
+{{BREAKS_CONFIG}}
+
+branches:
+  draft: "draft"
+  production: "production"
+
+deployment:
+  web:
+    type: "github-pages"
+    branch: "production"
+    url: "https://data-wise.github.io/{{COURSE_SLUG}}"
+
+automation:
+  quick_deploy: "scripts/quick-deploy.sh"
+
+# Exam Workflow (Increment 3 - Optional)
+# Install examark: npm install -g examark
+# Enable: yq -i '.examark.enabled = true' .flow/teach-config.yml
+examark:
+  enabled: false              # Set to true after installing examark
+  exam_dir: "exams"
+  question_bank: "exams/questions"
+  default_duration: 120       # Minutes
+  default_points: 100
+
+shortcuts:
+  {{COURSE_SLUG}}: "work {{COURSE_SLUG}}"
+  {{COURSE_SLUG}}d: "./scripts/quick-deploy.sh"

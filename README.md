@@ -178,6 +178,46 @@ Each dispatcher has built-in help: `cc help`, `dot help`, `r help`, etc.
 
 ---
 
+## 🎓 Teaching Workflow (v5.3.0)
+
+**Deployment-focused workflow for course websites.** Solve the 5-15 minute deployment pain point.
+
+```bash
+# Initialize teaching workflow (with semester scheduling)
+cd ~/teaching/my-course
+teach-init "STAT 545"
+# Prompts for: semester dates, break weeks, auto-calculates end date
+
+# Start session (shows semester context)
+work stat-545
+📚 STAT 545 - Design of Experiments
+  Branch: draft
+  Semester: Spring 2026
+  Current Week: Week 8
+
+  Recent Changes:
+    Add week 8 lecture notes
+    Update assignment rubric
+
+# Deploy (typo to live in < 2 min)
+./scripts/quick-deploy.sh
+```
+
+**Key Features:**
+- ✅ **Fast Deployment** - < 2 minute typo-to-live workflow
+- ✅ **Branch Safety** - Warns when editing production (students see this!)
+- ✅ **Semester Context** - Shows current week, detects breaks, displays recent commits
+- ✅ **Week Calculation** - Auto-calculates week number from semester start date
+- ✅ **Automation Scripts** - One-command deployment and archival
+- ✅ **Semester Management** - Easy semester transitions with archival tags
+
+**Learn More:**
+- [Complete Guide](https://data-wise.github.io/flow-cli/guides/TEACHING-WORKFLOW/)
+- [Quick Reference](https://data-wise.github.io/flow-cli/reference/REFCARD-TEACHING/)
+- [Demo Walkthrough](https://data-wise.github.io/flow-cli/demos/)
+
+---
+
 ## 📦 Installation
 
 ### Homebrew (Recommended for macOS)

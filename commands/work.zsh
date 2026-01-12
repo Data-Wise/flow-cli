@@ -96,10 +96,16 @@ work() {
   
   # Start session in atlas (non-blocking)
   _flow_session_start "$project"
-  
-  # Show context
-  _flow_show_work_context "$project" "$path"
-  
+
+  # Check if teaching project and handle specially
+  local project_type=$(_flow_detect_project_type "$path")
+  if [[ "$project_type" == "teaching" && -f "$path/.flow/teach-config.yml" ]]; then
+    _work_teaching_session "$path"
+  else
+    # Show context
+    _flow_show_work_context "$project" "$path"
+  fi
+
   # Open editor
   _flow_open_editor "$editor" "$path"
 }
@@ -199,6 +205,127 @@ _flow_open_editor() {
       fi
       ;;
   esac
+}
+
+# ============================================================================
+# TEACHING WORKFLOW SUPPORT
+# ============================================================================
+
+# Teaching-specific work session (Increment 1: Branch Safety)
+_work_teaching_session() {
+  local project_dir="$1"
+  local config_file="$project_dir/.flow/teach-config.yml"
+
+  # 1. Validate config exists
+  if [[ ! -f "$config_file" ]]; then
+    _flow_log_error "Teaching config not found: $config_file"
+    _flow_log_info "Run 'teach-init' to create configuration"
+    return 1
+  fi
+
+  # 2. Validate yq available
+  if ! command -v yq &>/dev/null; then
+    _flow_log_warning "yq not found - teaching features limited"
+    # Fall back to regular context display
+    _flow_show_work_context "$(basename "$project_dir")" "$project_dir"
+    return 0
+  fi
+
+  # 3. Branch safety check
+  local current_branch=$(git -C "$project_dir" branch --show-current 2>/dev/null)
+  local production_branch=$(yq -r '.branches.production' "$config_file" 2>/dev/null)
+  local draft_branch=$(yq -r '.branches.draft' "$config_file" 2>/dev/null)
+
+  if [[ "$current_branch" == "$production_branch" ]]; then
+    echo ""
+    echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[error]}⚠️  WARNING: You are on PRODUCTION branch${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}Branch:${FLOW_COLORS[reset]} $production_branch"
+    echo "  ${FLOW_COLORS[error]}Students see this branch!${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  ${FLOW_COLORS[info]}Recommended: Switch to draft branch for edits${FLOW_COLORS[reset]}"
+    echo "  ${FLOW_COLORS[info]}Draft branch: $draft_branch${FLOW_COLORS[reset]}"
+    echo ""
+    echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+    echo ""
+
+    # Prompt to switch (with timeout for non-interactive contexts)
+    if [[ -z "$FLOW_TEACHING_ALLOW_PRODUCTION" ]]; then
+      read -t 30 "?Continue on production anyway? [y/N] " continue_anyway
+      echo ""
+
+      if [[ "$continue_anyway" != "y" ]]; then
+        _flow_log_info "Switching to draft branch: $draft_branch"
+        git -C "$project_dir" checkout "$draft_branch"
+        current_branch="$draft_branch"
+      fi
+    fi
+  fi
+
+  # 4. Load shortcuts for current session
+  _load_teaching_shortcuts "$config_file"
+
+  # 5. Show enhanced context (Increment 2)
+  _display_teaching_context "$project_dir" "$config_file" "$current_branch"
+}
+
+# Load teaching shortcuts into current session
+_load_teaching_shortcuts() {
+  local config_file="$1"
+
+  # Create aliases for current session
+  eval "$(yq -r '.shortcuts | to_entries[] | "alias \(.key)=\"\(.value)\""' "$config_file" 2>/dev/null)"
+
+  # Show loaded shortcuts
+  echo "${FLOW_COLORS[bold]}Shortcuts loaded:${FLOW_COLORS[reset]}"
+  yq -r '.shortcuts | to_entries[] | "  \(.key) → \(.value)"' "$config_file" 2>/dev/null
+  echo ""
+}
+
+# Display enhanced teaching context (Increment 2: Course Context)
+_display_teaching_context() {
+  local project_dir="$1"
+  local config_file="$2"
+  local current_branch="$3"
+
+  # Get basic course info
+  local course_name=$(yq -r '.course.name' "$config_file" 2>/dev/null)
+  local semester=$(yq -r '.course.semester // empty' "$config_file" 2>/dev/null)
+  local year=$(yq -r '.course.year // empty' "$config_file" 2>/dev/null)
+
+  # Display course header
+  echo ""
+  echo "${FLOW_COLORS[bold]}📚 $course_name${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[info]}Branch:${FLOW_COLORS[reset]} $current_branch"
+
+  # Display semester info if available
+  if [[ -n "$semester" && "$semester" != "null" ]]; then
+    echo "  ${FLOW_COLORS[info]}Semester:${FLOW_COLORS[reset]} $semester $year"
+  fi
+
+  # Calculate and display current week
+  local current_week=$(_calculate_current_week "$config_file")
+  if [[ -n "$current_week" && "$current_week" != "0" ]]; then
+    # Check if it's a break week
+    local break_name=$(_is_break_week "$config_file" "$current_week")
+    if [[ $? -eq 0 && -n "$break_name" ]]; then
+      echo "  ${FLOW_COLORS[warning]}Current Week:${FLOW_COLORS[reset]} Week $current_week ($break_name)"
+    else
+      echo "  ${FLOW_COLORS[info]}Current Week:${FLOW_COLORS[reset]} Week $current_week"
+    fi
+  fi
+
+  # Show recent git activity (last 3 commits)
+  local recent_commits=$(git -C "$project_dir" log --oneline -3 --format="%s" 2>/dev/null)
+  if [[ -n "$recent_commits" ]]; then
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}Recent Changes:${FLOW_COLORS[reset]}"
+    echo "$recent_commits" | sed 's/^/    /' | head -3
+  fi
+
+  echo ""
 }
 
 # ============================================================================
