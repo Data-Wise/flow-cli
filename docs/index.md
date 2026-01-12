@@ -53,6 +53,14 @@ Not sure where to start? Pick what fits you best:
 
     [→ Reference](reference/COMMAND-QUICK-REFERENCE.md)
 
+-   :mortar_board:{ .lg .middle } **Teaching Workflow**
+
+    ---
+
+    Deploy course websites in < 2 min
+
+    [→ Teaching Guide](guides/TEACHING-WORKFLOW.md)
+
 </div>
 
 ---
@@ -166,13 +174,14 @@ trail             # See your trail
 
 Commands that adapt to your project:
 
-| Dispatcher | Example      | What it does          |
-| ---------- | ------------ | --------------------- |
-| `cc`       | `cc`         | Claude Code here      |
-| `cc`       | `cc pick`    | Pick project → Claude |
-| `r`        | `r test`     | R package tests       |
-| `qu`       | `qu preview` | Quarto preview        |
-| `g`        | `g push`     | Git with safety       |
+| Dispatcher    | Example          | What it does                   |
+| ------------- | ---------------- | ------------------------------ |
+| `cc`          | `cc`             | Claude Code here               |
+| `cc`          | `cc pick`        | Pick project → Claude          |
+| `r`           | `r test`         | R package tests                |
+| `qu`          | `qu preview`     | Quarto preview                 |
+| `g`           | `g push`         | Git with safety                |
+| `teach-init`  | `teach-init "Course"` | Initialize teaching workflow   |
 
 **Get help:** `cc help`, `r help`, `qu help`
 
@@ -233,6 +242,10 @@ Commands that adapt to your project:
 - :material-format-list-bulleted: **[All Commands](reference/COMMAND-QUICK-REFERENCE.md)**
 
   Complete reference
+
+- :material-school: **[Teaching Workflow](guides/TEACHING-WORKFLOW.md)**
+
+  Course deployment in < 2 min
 
 </div>
 

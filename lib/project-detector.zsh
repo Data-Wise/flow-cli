@@ -27,8 +27,19 @@ _flow_detect_project_type() {
     return 0
   fi
   
-  # Check for teaching project
-  if [[ -f "$dir/syllabus.qmd" ]] || [[ -d "$dir/lectures" ]]; then
+  # Check for teaching project (enhanced for teaching workflow v2)
+  if [[ -f "$dir/syllabus.qmd" ]] ||
+     [[ -d "$dir/lectures" ]] ||
+     [[ -f "$dir/.flow/teach-config.yml" ]]; then
+
+    # Validate config if present
+    if [[ -f "$dir/.flow/teach-config.yml" ]]; then
+      if ! _flow_validate_teaching_config "$dir/.flow/teach-config.yml"; then
+        _flow_log_error "Invalid teaching config: $dir/.flow/teach-config.yml"
+        return 1
+      fi
+    fi
+
     echo "teaching"
     return 0
   fi
@@ -127,4 +138,34 @@ _flow_project_icon() {
     obsidian)   echo "💎" ;;
     *)          echo "📁" ;;
   esac
+}
+
+# Validate teaching configuration file
+# Returns 0 if valid, 1 if invalid
+_flow_validate_teaching_config() {
+  local config="$1"
+
+  # Check yq is available
+  if ! command -v yq &>/dev/null; then
+    _flow_log_warning "yq not found - cannot validate teaching config"
+    return 0  # Don't fail, just warn
+  fi
+
+  # Check required fields
+  yq -e '.course.name' "$config" &>/dev/null || {
+    _flow_log_error "Missing required field: course.name"
+    return 1
+  }
+
+  yq -e '.branches.draft' "$config" &>/dev/null || {
+    _flow_log_error "Missing required field: branches.draft"
+    return 1
+  }
+
+  yq -e '.branches.production' "$config" &>/dev/null || {
+    _flow_log_error "Missing required field: branches.production"
+    return 1
+  }
+
+  return 0
 }
