@@ -613,6 +613,11 @@ _teach_install_templates() {
     return 1
   }
 
+  cp "$template_dir/exam-to-qti.sh" scripts/ || {
+    _flow_log_error "Failed to copy exam-to-qti.sh"
+    return 1
+  }
+
   chmod +x scripts/*.sh || {
     _flow_log_error "Failed to set script permissions"
     return 1
@@ -675,12 +680,6 @@ _teach_install_templates() {
 
     read "break_end?  Break end [$suggested_break_end]: "
     break_end="${break_end:-$suggested_break_end}"
-
-    # Build breaks config section
-    breaks_config="  breaks:
-    - name: \"$break_name\"
-      start: \"$break_start\"
-      end: \"$break_end\""
   fi
 
   # Read template and substitute variables
@@ -706,9 +705,13 @@ _teach_install_templates() {
   }
 
   # Handle breaks config (multiline replacement)
-  if [[ -n "$breaks_config" ]]; then
-    # Replace placeholder with actual breaks config
-    sed -i '' "s|{{BREAKS_CONFIG}}|$breaks_config|" .flow/teach-config.yml || {
+  # Fix for macOS sed: use backslash-escaped newlines instead of literal newlines
+  if [[ "$add_break" == "y" ]]; then
+    # Replace placeholder with actual breaks config (escaped newlines for macOS sed)
+    sed -i '' "s|{{BREAKS_CONFIG}}|  breaks:\\
+    - name: \"$break_name\"\\
+      start: \"$break_start\"\\
+      end: \"$break_end\"|" .flow/teach-config.yml || {
       _flow_log_error "Failed to add breaks config"
       return 1
     }
@@ -944,6 +947,11 @@ _teach_show_next_steps() {
   echo ""
   echo "  4. Start working:"
   echo "     ${FLOW_COLORS[cmd]}work $course_name${FLOW_COLORS[reset]}"
+  echo ""
+  echo "  ${FLOW_COLORS[bold]}5. (Optional) Enable exam workflow:${FLOW_COLORS[reset]}"
+  echo "     ${FLOW_COLORS[cmd]}npm install -g examark${FLOW_COLORS[reset]}"
+  echo "     ${FLOW_COLORS[cmd]}yq -i '.examark.enabled = true' .flow/teach-config.yml${FLOW_COLORS[reset]}"
+  echo "     ${FLOW_COLORS[cmd]}teach-exam \"Midterm 1\"${FLOW_COLORS[reset]}"
   echo ""
   echo "📚 Documentation:"
   echo "   https://data-wise.github.io/flow-cli/guides/teaching-workflow/"

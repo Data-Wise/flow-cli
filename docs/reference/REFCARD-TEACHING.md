@@ -30,6 +30,8 @@ work course-name
 | `work <course>` | Start teaching session | `work stat-545` |
 | `./scripts/quick-deploy.sh` | Deploy draft → production | `./scripts/quick-deploy.sh` |
 | `./scripts/semester-archive.sh` | Archive semester | `./scripts/semester-archive.sh` |
+| `teach-exam <topic>` | Create exam template (optional) | `teach-exam "Midterm 1"` |
+| `./scripts/exam-to-qti.sh <file>` | Convert to Canvas QTI (optional) | `./scripts/exam-to-qti.sh exams/midterm1.md` |
 
 ---
 
@@ -79,6 +81,15 @@ course:
   semester: "spring"                  # spring|summer|fall
   year: 2026
   instructor: "Your Name"
+
+# Increment 2: Semester scheduling for week calculation
+semester_info:
+  start_date: "2026-01-13"            # YYYY-MM-DD format
+  end_date: "2026-05-05"              # Auto-calculated: 16 weeks
+  breaks:
+    - name: "Spring Break"
+      start: "2026-03-10"
+      end: "2026-03-17"
 
 deployment:
   web:
@@ -226,6 +237,32 @@ git commit -m "Update for Fall 2026"
 
 ---
 
+### Create Exam (Optional)
+
+**Requires:** `npm install -g examark`
+
+```bash
+# Enable exam workflow
+yq -i '.examark.enabled = true' .flow/teach-config.yml
+
+# Create exam
+teach-exam "Midterm 1"
+# Duration: 90
+# Points: 100
+# Filename: midterm1
+
+# Edit exam
+$EDITOR exams/midterm1.md
+
+# Convert to Canvas QTI
+./scripts/exam-to-qti.sh exams/midterm1.md
+
+# Upload to Canvas:
+# Quizzes → Import → QTI 1.2 format → exams/midterm1.zip
+```
+
+---
+
 ## 🛠️ Scripts Reference
 
 ### quick-deploy.sh
@@ -329,7 +366,16 @@ work my-r-package
 
 # Teaching work (has .flow/teach-config.yml)
 work stat-545
-# → Teaching session (branch check + shortcuts)
+# → Teaching session (branch check + shortcuts + context)
+#
+# 📚 STAT 545 - Design of Experiments
+#   Branch: draft
+#   Semester: Spring 2026
+#   Current Week: Week 8
+#
+#   Recent Changes:
+#     Add week 8 lecture notes
+#     Update assignment rubric
 ```
 
 ---
@@ -393,5 +439,5 @@ https://github.com/Data-Wise/flow-cli/issues
 
 ---
 
-**Version:** Teaching Workflow v2.0 (Increment 1)
+**Version:** Teaching Workflow v2.0 (Increment 2 - Course Context)
 **Status:** Production Ready ✅

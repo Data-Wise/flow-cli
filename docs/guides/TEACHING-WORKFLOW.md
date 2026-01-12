@@ -1,6 +1,6 @@
 # Teaching Workflow Guide
 
-**Version:** 2.0 (Increment 1 - Core Deployment)
+**Version:** 2.0 (Increment 2 - Course Context)
 **Status:** Production Ready
 **Last Updated:** 2026-01-11
 
@@ -223,23 +223,52 @@ work <course-name>
    - Loads course-specific shortcuts from config
    - Available for current session only
 
-3. **Course Context Display**
+3. **Course Context Display** (Increment 2)
    - Shows course name
    - Shows current branch
+   - **Shows current semester and year**
+   - **Shows current week number**
+   - **Detects and labels break weeks**
+   - **Shows recent git activity (last 3 commits)**
    - Lists loaded shortcuts
 
 **Example (Safe - On Draft Branch):**
 ```bash
 $ work stat-545
 
-📚 STAT 545
+📚 STAT 545 - Design of Experiments
   Branch: draft
+  Semester: Spring 2026
+  Current Week: Week 8
+
+  Recent Changes:
+    Add week 8 lecture notes
+    Update assignment 3 rubric
+    Fix typo in syllabus
 
 Shortcuts loaded:
   s545 → work stat-545
   s545d → ./scripts/quick-deploy.sh
 
 [Editor opens]
+```
+
+**Example (During Break Week):**
+```bash
+$ work stat-545
+
+📚 STAT 545 - Design of Experiments
+  Branch: draft
+  Semester: Spring 2026
+  Current Week: Week 8 (Spring Break)
+
+  Recent Changes:
+    Prepare week 9 materials
+    Grade midterm exams
+
+Shortcuts loaded:
+  s545 → work stat-545
+  s545d → ./scripts/quick-deploy.sh
 ```
 
 **Example (Warning - On Production Branch):**
@@ -854,34 +883,361 @@ Shortcuts load when you run `work stat-545`.
 
 ---
 
-## Next Steps
+## Advanced Features
 
-### Increment 2: Course Context (Planned)
+### Increment 2: Course Context ✅ Implemented
 
-Future enhancements:
+**Features:**
 
-- **Current week calculation** - Auto-detect week from semester start date
-- **Semester progress** - Show progress through term
-- **Recent activity** - Display recent commits in context
+- ✅ **Current week calculation** - Auto-calculates week number from semester start date
+- ✅ **Semester progress** - Shows which week you're in (1-16)
+- ✅ **Break detection** - Automatically labels break weeks (e.g., "Week 8 (Spring Break)")
+- ✅ **Recent activity** - Displays last 3 git commits in work session
+- ✅ **Smart date prompts** - Suggests semester start dates based on current month
+- ✅ **Auto-calculated end date** - Automatically sets semester end (16 weeks from start)
 
-**Config addition:**
-```yaml
-semester_info:
-  start_date: "2026-01-13"  # ISO 8601
-  weeks: 16
-  breaks:
-    - start: "2026-03-10"
-      end: "2026-03-14"
-      name: "Spring Break"
+**Configuration:**
+
+When you run `teach-init`, you'll be prompted for semester dates:
+
+```bash
+$ teach-init "STAT 545"
+
+Semester Schedule
+  Configure semester start/end dates for week calculation
+
+  Start date (YYYY-MM-DD) [2026-01-15]: 2026-01-13
+  ℹ Calculated end date: 2026-05-05 (16 weeks)
+
+  Add spring/fall break? [y/N]: y
+  Break name [Spring Break]:
+  Break start [2026-03-10]:
+  Break end [2026-03-17]:
 ```
 
-### Increment 3: Exam Workflow (Optional)
+**Generated Config:**
+```yaml
+semester_info:
+  start_date: "2026-01-13"  # YYYY-MM-DD format
+  end_date: "2026-05-05"    # Auto-calculated: 16 weeks
+  breaks:
+    - name: "Spring Break"
+      start: "2026-03-10"
+      end: "2026-03-17"
+```
 
-Optional exam automation:
+**Result in Work Session:**
+```bash
+$ work stat-545
 
-- `teach-exam` command - Guided exam creation
-- examark integration - Markdown → Canvas QTI
-- Scholar skill integration - AI-powered exam generation
+📚 STAT 545 - Design of Experiments
+  Branch: draft
+  Semester: Spring 2026
+  Current Week: Week 8 (Spring Break)
+
+  Recent Changes:
+    Add week 8 lecture notes
+    Update assignment rubric
+```
+
+**Edge Cases Handled:**
+- Before semester start → Shows no week
+- After semester end → Caps at week 16
+- Missing semester_info → Gracefully degrades (shows course without week)
+- Invalid dates → Validation with clear error messages
+
+### Increment 3: Exam Workflow ✅ Implemented (Optional)
+
+**Goal:** Streamlined exam creation and Canvas integration
+
+**Features:**
+- ✅ **`teach-exam` command** - Guided exam template creation
+- ✅ **Markdown authoring** - Write exams in familiar format
+- ✅ **examark integration** - Convert markdown to Canvas QTI format
+- ✅ **Canvas import** - Direct upload to Canvas quizzes
+- ✅ **Question bank** - Organize reusable questions by topic
+
+**Dependencies:**
+- examark installed: `npm install -g examark`
+
+---
+
+### Installation
+
+Exam workflow is optional and requires examark:
+
+```bash
+# Install examark
+npm install -g examark
+
+# Enable in config
+yq -i '.examark.enabled = true' .flow/teach-config.yml
+```
+
+---
+
+### Creating an Exam
+
+```bash
+$ teach-exam "Midterm 1: Weeks 1-8"
+
+📝 Creating exam: Midterm 1: Weeks 1-8
+
+Exam Details
+
+  Duration (minutes) [120]: 90
+  Total points [100]:
+  Filename (without .md): midterm1
+
+✅ Exam template created: exams/midterm1.md
+
+Next steps:
+
+  1. Edit exam:
+     $EDITOR exams/midterm1.md
+
+  2. Convert to Canvas QTI:
+     ./scripts/exam-to-qti.sh exams/midterm1.md
+
+  3. Upload to Canvas:
+     Quizzes → Import → QTI 1.2 format
+```
+
+---
+
+### Exam Template Structure
+
+Generated exam includes:
+
+#### 1. Frontmatter
+```markdown
+---
+title: Midterm 1: Weeks 1-8
+course: STAT 545
+duration: 90 minutes
+points: 100
+---
+```
+
+#### 2. Multiple Choice Section
+```markdown
+## Section 1: Multiple Choice (30 points)
+
+1. [3 pts] Question text here?
+   - [ ] Option A
+   - [ ] Option B
+   - [x] Option C (correct answer)
+   - [ ] Option D
+```
+
+#### 3. Short Answer Section
+```markdown
+## Section 2: Short Answer (40 points)
+
+1. [10 pts] Question text here?
+
+   **Answer:**
+   <!-- Student writes answer here -->
+```
+
+#### 4. Computational Problems
+```markdown
+## Section 3: Problems (30 points)
+
+1. [15 pts] Problem description here?
+
+   **Solution:**
+   <!-- Student shows work here -->
+```
+
+#### 5. Answer Key (Instructor Only)
+```markdown
+## Answer Key (Instructor Only)
+
+### Section 1: Multiple Choice
+1. **C** - Explanation with rubric
+
+### Section 2: Short Answer
+1. Expected answer with point breakdown
+```
+
+**Note:** Remove answer key before distributing to students
+
+---
+
+### Converting to Canvas QTI
+
+```bash
+$ ./scripts/exam-to-qti.sh exams/midterm1.md
+
+🔄 Converting exam to Canvas QTI...
+
+Input:  exams/midterm1.md
+Output: exams/midterm1.zip
+
+✅ Converted successfully
+
+Output file: exams/midterm1.zip
+Questions:   ~15
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Upload to Canvas:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Go to your Canvas course
+2. Navigate to: Quizzes
+3. Click: Import
+4. Select: QTI 1.2/1.1 Package
+5. Upload: exams/midterm1.zip
+6. Click: Import
+
+Note: Review and edit questions in Canvas after import
+```
+
+---
+
+### Configuration
+
+Exam workflow settings in `.flow/teach-config.yml`:
+
+```yaml
+# Exam Workflow (Increment 3 - Optional)
+examark:
+  enabled: true               # Set after installing examark
+  exam_dir: "exams"          # Where to create exams
+  question_bank: "exams/questions"  # Reusable questions
+  default_duration: 120       # Default exam duration (minutes)
+  default_points: 100         # Default total points
+```
+
+---
+
+### Organizing Question Banks
+
+Create reusable questions by topic:
+
+```
+exams/
+├── midterm1.md              # Full exam
+├── final.md                 # Full exam
+└── questions/               # Question bank
+    ├── regression.md        # Regression questions
+    ├── anova.md             # ANOVA questions
+    └── inference.md         # Inference questions
+```
+
+**Reusing questions:**
+```bash
+# Copy questions from bank to exam
+cat exams/questions/regression.md >> exams/midterm1.md
+```
+
+---
+
+### Example Workflow
+
+**Complete exam creation workflow:**
+
+```bash
+# 1. Create exam
+teach-exam "Final Exam"
+
+# 2. Edit exam in your editor
+code exams/final.md
+
+# 3. Add questions from question bank (optional)
+cat exams/questions/anova.md >> exams/final.md
+cat exams/questions/regression.md >> exams/final.md
+
+# 4. Convert to Canvas QTI
+./scripts/exam-to-qti.sh exams/final.md
+
+# 5. Upload exams/final.zip to Canvas
+# (Manual: Canvas → Quizzes → Import)
+
+# 6. Review and publish in Canvas
+# (Manual: Edit point values, time limits, etc.)
+```
+
+**Time:** Create exam in markdown (30 min) → Convert and upload (2 min)
+
+---
+
+### Troubleshooting
+
+**Problem:** `examark not installed`
+
+**Solution:**
+```bash
+npm install -g examark
+```
+
+**Problem:** Conversion fails with "Invalid markdown format"
+
+**Causes:**
+- Missing frontmatter (---, title, ---)
+- Incorrect question syntax
+- Missing [pts] in questions
+
+**Solution:**
+Check examark documentation: https://github.com/daveagp/examark
+
+**Example valid question:**
+```markdown
+1. [5 pts] Question text?
+   - [ ] Option A
+   - [x] Option B (correct)
+   - [ ] Option C
+```
+
+**Problem:** Questions not importing correctly to Canvas
+
+**Solution:**
+- Review exam in Canvas after import
+- Adjust point values if needed
+- Set time limits and availability
+- Shuffle answers if desired
+
+**Problem:** Answer key visible to students
+
+**Solution:**
+Remove the "Answer Key (Instructor Only)" section before generating QTI:
+```bash
+# Remove answer key section before conversion
+sed -i '' '/## Answer Key/,$d' exams/midterm1.md
+
+# Then convert
+./scripts/exam-to-qti.sh exams/midterm1.md
+```
+
+---
+
+### Tips & Best Practices
+
+**1. Start with Template**
+- Use `teach-exam` to generate structure
+- Customize sections as needed
+- Keep consistent point values
+
+**2. Build Question Banks**
+- Organize by topic or concept
+- Reuse questions across semesters
+- Include rubrics in answer keys
+
+**3. Review in Canvas**
+- Always review imported questions
+- Adjust settings (shuffle, time limit)
+- Test quiz before publishing
+
+**4. Version Control**
+- Commit exams to git (on draft branch)
+- Tag semester versions
+- Track changes over time
+
+**5. Answer Key Management**
+- Keep detailed rubrics
+- Store separately from student version
+- Use for grading consistency
 
 ---
 

@@ -10,7 +10,84 @@
 
 ## Focus: Teaching Workflow v2.0 Merged to dev 🎓
 
+## 🚧 In Progress (2026-01-12 - Current):
+- **Awaiting PR Review:**
+  - PR #220: teach-init Migration Automation (Phase 1+2+3)
+  - Waiting for code review and merge to dev branch
+  - No action required until review is complete
+
 ## ✅ Just Completed (2026-01-12 - Latest):
+- **teach-init Migration Automation - Phase 1+2+3 Complete** ✅ PR #220 CREATED
+  - **Branch:** feature/teach-init-migration (worktree)
+  - **Location:** ~/.git-worktrees/flow-cli-teach-init-migration
+  - **PR:** #220 - https://github.com/Data-Wise/flow-cli/pull/220
+  - **Completed:** 2026-01-12 (~4 hour session)
+  - **Spec:** docs/specs/SPEC-teach-init-migration-2026-01-12.md (711 lines)
+  - **Brainstorm:** BRAINSTORM-teach-init-migration-2026-01-12.md (905 lines)
+  - **Validation:** VALIDATION-SUMMARY.md (380 lines)
+
+  **Phase 1 - Foundation (✅ Complete):**
+  - **Commit:** a497f97 "feat(teach-init): add Phase 1 migration functions"
+  - **Functions Added:** 5 core functions (537 lines)
+    - `_teach_detect_project_type()`: Auto-detect Quarto/MkDocs/generic
+    - `_teach_validate_quarto_project()`: Validate required files
+    - `_teach_handle_renv()`: Interactive renv/ exclusion
+    - `_teach_rollback_migration()`: Git tag-based error recovery
+    - `_teach_show_migration_plan()`: Dry-run preview
+  - **Flag Support:** `teach-init --dry-run <course-name>`
+  - **Tests:** 13/13 passing (tests/test-teach-init-phase1.zsh)
+
+  **Phase 2 - Migration Logic (✅ Complete):**
+  - **Commit:** 40b6f4c "feat(teach-init): add Phase 2 Quarto migration workflow"
+  - **Functions Added:** 8 new functions (431 lines)
+    - `_teach_migrate_quarto_project()`: Quarto-specific migration
+    - `_teach_quarto_inplace_conversion()`: Strategy 1 - Convert existing
+    - `_teach_quarto_parallel_branches()`: Strategy 2 - Parallel branches
+    - `_teach_quarto_fresh_start()`: Strategy 3 - Fresh start (orphan)
+    - `_teach_migrate_generic_repo()`: Generic fallback
+    - `_teach_offer_github_push()`: Smart remote detection
+    - `_teach_generate_migration_docs()`: Auto-documentation
+  - **Total Lines:** 1,000 lines in commands/teach-init.zsh (after Phase 3)
+  - **Manual Tests:** 18 tests documented (tests/MANUAL-TESTING-PHASE2.md, 1,101 lines)
+
+  **Phase 3 - Polish (✅ Complete):**
+  - **Commit:** e7cee68 "fix(teach-init): add proper error handling to migration strategies"
+  - **Bug Fixed:** Rollback not triggered on template installation failure
+  - **Root Cause:** Shell error propagation in compound command blocks
+  - **Solution:** Subshell with explicit `|| exit 1` after each command
+  - **Changes:** +76, -35 lines in commands/teach-init.zsh
+  - **Testing:** Rollback now triggers correctly, Phase 1 tests passing (no regression)
+
+  **Validation Testing Results (2026-01-12):**
+  - ✅ **Dry-run on STAT 545:** Detected Quarto, showed full plan, no changes
+  - ✅ **Strategy 1 Migration:** Branches created (draft/production), files installed, tag created
+  - ✅ **Config Generation:** Valid YAML with semester dates, course info
+  - ✅ **Documentation:** MIGRATION-COMPLETE.md generated with full details
+  - ✅ **Rollback:** Triggers correctly on template failure (Phase 3 fix)
+  - ✅ **Error Messages:** Clear and actionable
+  - ✅ **Repository State:** Clean after rollback
+
+  **Key Features Implemented:**
+  - 3 migration strategies (convert, parallel, fresh start)
+  - Auto-detection: Quarto vs MkDocs vs generic
+  - Validation: Strict checks for required files
+  - renv handling: Interactive prompt with skip if already excluded
+  - GitHub integration: Smart remote URL handling
+  - Auto-documentation: MIGRATION-COMPLETE.md with workflow guide
+  - Dry-run mode: Preview without changes
+  - Comprehensive error handling: Automatic rollback on failure
+
+  **Commits (5 total):**
+  - a497f97: Phase 1 foundation (5 functions, 13 tests)
+  - 40b6f4c: Phase 2 migration logic (8 functions, 3 strategies)
+  - 30ce4c7: Phase 2 manual testing guide
+  - e7cee68: Phase 3 bug fix (error handling)
+  - b536372: Updated validation summary
+
+  **Session Time:** ~4 hours (brainstorm → Phase 1 → Phase 2 → validation → Phase 3 fix)
+  **Target:** v5.4.0 release
+  **Related:** MIGRATION-GUIDE-teaching-workflow.md (previously used for STAT 545)
+
 - **Teaching Workflow v2.0 - PR #217 Merged to dev** 🎓 MERGED & TESTED
   - **PR:** #217 - Teaching Workflow v2.0 (Increment 1 + 2)
   - **Merged:** 2026-01-12T06:07:13Z to dev branch

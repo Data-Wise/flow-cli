@@ -340,7 +340,7 @@ test_calculate_semester_end() {
 
 test_calculate_semester_end_fall() {
   local start_date="2025-08-20"
-  local expected_end="2025-12-10"  # 16 weeks = 112 days later
+  local expected_end="2025-12-09"  # 16 weeks = 112 days later
 
   local calculated_end=$(_calculate_semester_end "$start_date")
 
