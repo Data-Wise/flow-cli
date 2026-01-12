@@ -8,14 +8,29 @@
 ## Priority: 1
 ## Progress: 98
 
-## Focus: v5.4.0 Released - Alias Management Suite 🎉
+## Focus: teach-init UX Enhancement 🎓
 
 ## 🚧 In Progress (2026-01-12 - Current):
-- **No active development**
-  - v5.4.0 released with alias management
-  - Ready for production testing of teach-init migration
+- **teach-init UX Enhancement** (feature/teach-init-ux)
+  - **Brainstorm:** BRAINSTORM-teach-init-ux-2026-01-12.md
+  - **Scope (Phase 1):**
+    - Add `-y`/`--yes` flag for non-interactive mode
+    - Add ADHD-friendly completion summary
+    - Include rollback tag explanation in summary
+  - **Postponed:** Interactive wizard mode, presets, TUI
+  - **Estimated:** ~35 min
 
 ## ✅ Just Completed (2026-01-12 - Latest):
+
+- **teach-init Already-Initialized Detection - PR #228 MERGED** ✅
+  - Added `_teach_is_already_initialized()` function
+  - Prevents re-migration errors on initialized projects
+  - Shows helpful status message instead of trying to re-migrate
+
+- **Teaching Workflow Docs Added to Website - PR #227 MERGED** ✅
+  - Added Teaching Workflow to Workflows navigation
+  - Created docs/commands/teach-init.md
+  - Added REFCARD-TEACHING to Quick Reference Cards
 
 - **v5.4.0 Released** 🎉
   - **Tag:** v5.4.0
