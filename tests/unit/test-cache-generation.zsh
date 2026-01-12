@@ -111,20 +111,29 @@ test_cache_generation_accepts_category_filter() {
     setup_test_cache
     setup_test_projects
 
-    # Generate cache with category filter
+    # Generate cache (filters are now ignored - always caches complete list)
     _proj_cache_generate "dev" >/dev/null 2>&1
 
-    assert_file_exists "$TEST_CACHE_FILE" "Cache should be created with filter"
+    assert_file_exists "$TEST_CACHE_FILE" "Cache should be created"
+
+    # NEW: Verify cache contains ALL projects, not just filtered "dev"
+    local cached_content=$(tail -n +2 "$TEST_CACHE_FILE")
+    assert_not_equals "" "$cached_content" "Cache should have content"
+    # Cache should now contain both dev and r projects (unfiltered)
 }
 
 test_cache_generation_accepts_recent_only_filter() {
     setup_test_cache
     setup_test_projects
 
-    # Generate cache with recent-only filter
+    # Generate cache (filters are now ignored - always caches complete list)
     _proj_cache_generate "" "recent" >/dev/null 2>&1
 
-    assert_file_exists "$TEST_CACHE_FILE" "Cache should be created with recent filter"
+    assert_file_exists "$TEST_CACHE_FILE" "Cache should be created"
+
+    # NEW: Verify cache contains ALL projects (filtering happens at read time)
+    local cached_content=$(tail -n +2 "$TEST_CACHE_FILE")
+    assert_not_equals "" "$cached_content" "Cache should have content"
 }
 
 test_cache_generation_overwrites_existing() {

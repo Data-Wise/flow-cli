@@ -19,7 +19,8 @@ FLOW_CACHE_ENABLED="${FLOW_CACHE_ENABLED:-1}"
 # ============================================================================
 
 # Generate cache from filesystem scan
-# Calls the uncached version of _proj_list_all and stores result with timestamp
+# ALWAYS generates COMPLETE unfiltered list - filters applied at read time
+# This ensures one cache serves all filter combinations (dev, r, recent, etc.)
 _proj_cache_generate() {
     local cache_dir=$(dirname "$PROJ_CACHE_FILE")
     mkdir -p "$cache_dir" 2>/dev/null || {
@@ -28,9 +29,10 @@ _proj_cache_generate() {
     }
 
     # Write cache with timestamp header
+    # NOTE: No filters passed - always cache complete project list
     {
         echo "# Generated: $(date +%s)"
-        _proj_list_all_uncached "$@"
+        _proj_list_all_uncached  # No "$@" - cache everything
     } > "$PROJ_CACHE_FILE" 2>/dev/null || {
         _flow_log_error "Failed to write cache file: $PROJ_CACHE_FILE"
         return 1
@@ -65,7 +67,11 @@ _proj_cache_is_valid() {
 
 # Get cached project list (or regenerate if stale)
 # This is the public API that replaces _proj_list_all
+# Cache stores COMPLETE unfiltered list, filters applied here at read time
 _proj_list_all_cached() {
+    local category="${1:-}"
+    local recent_only="${2:-}"
+
     # If cache disabled, use direct scan
     if [[ "$FLOW_CACHE_ENABLED" != "1" ]]; then
         _proj_list_all_uncached "$@"
@@ -74,18 +80,33 @@ _proj_list_all_cached() {
 
     # Check if cache is valid
     if ! _proj_cache_is_valid; then
-        _proj_cache_generate "$@" || {
+        _proj_cache_generate || {  # No filters - cache everything
             # Fallback to uncached if generation fails
             _proj_list_all_uncached "$@"
             return
         }
     fi
 
-    # Return cached data (skip timestamp line)
-    tail -n +2 "$PROJ_CACHE_FILE" 2>/dev/null || {
+    # Read complete cached data (skip timestamp line)
+    local cached_data=$(tail -n +2 "$PROJ_CACHE_FILE" 2>/dev/null) || {
         # Fallback to uncached if read fails
         _proj_list_all_uncached "$@"
+        return
     }
+
+    # Apply category filter if specified
+    # Format: name|type|icon|dir|session_status
+    if [[ -n "$category" ]]; then
+        cached_data=$(echo "$cached_data" | grep "|${category}|")
+    fi
+
+    # Apply recent-only filter if specified
+    # Session status: 🟢 (recent) or 🟡 (old) or empty (no session)
+    if [[ "$recent_only" == "recent" ]]; then
+        cached_data=$(echo "$cached_data" | grep -E '\|[🟢🟡]')
+    fi
+
+    echo "$cached_data"
 }
 
 # ============================================================================
