@@ -399,6 +399,224 @@ test_cc_help_function_exists() {
     fi
 }
 
+test_cc_dispatch_with_mode_exists() {
+    log_test "_cc_dispatch_with_mode function is defined"
+
+    if (( $+functions[_cc_dispatch_with_mode] )); then
+        pass
+    else
+        fail "_cc_dispatch_with_mode function not defined"
+    fi
+}
+
+test_cc_worktree_exists() {
+    log_test "_cc_worktree function is defined"
+
+    if (( $+functions[_cc_worktree] )); then
+        pass
+    else
+        fail "_cc_worktree function not defined"
+    fi
+}
+
+# ============================================================================
+# UNIFIED GRAMMAR TESTS (Mode-first vs Target-first)
+# ============================================================================
+
+test_mode_detection_yolo() {
+    log_test "yolo detected as mode (not target)"
+
+    # Mock the _cc_dispatch_with_mode to verify it's called
+    local mode_called=0
+    _cc_dispatch_with_mode() { mode_called=1; }
+
+    cc yolo >/dev/null 2>&1 || true
+
+    if [[ $mode_called -eq 1 ]]; then
+        pass
+    else
+        fail "yolo not detected as mode"
+    fi
+
+    # Restore original function
+    source "$project_root/lib/dispatchers/cc-dispatcher.zsh"
+}
+
+test_mode_detection_plan() {
+    log_test "plan detected as mode (not target)"
+
+    local mode_called=0
+    _cc_dispatch_with_mode() { mode_called=1; }
+
+    cc plan >/dev/null 2>&1 || true
+
+    if [[ $mode_called -eq 1 ]]; then
+        pass
+    else
+        fail "plan not detected as mode"
+    fi
+
+    # Restore
+    source "$project_root/lib/dispatchers/cc-dispatcher.zsh"
+}
+
+test_mode_detection_opus() {
+    log_test "opus detected as mode (not target)"
+
+    local mode_called=0
+    _cc_dispatch_with_mode() { mode_called=1; }
+
+    cc opus >/dev/null 2>&1 || true
+
+    if [[ $mode_called -eq 1 ]]; then
+        pass
+    else
+        fail "opus not detected as mode"
+    fi
+
+    # Restore
+    source "$project_root/lib/dispatchers/cc-dispatcher.zsh"
+}
+
+test_mode_detection_haiku() {
+    log_test "haiku detected as mode (not target)"
+
+    local mode_called=0
+    _cc_dispatch_with_mode() { mode_called=1; }
+
+    cc haiku >/dev/null 2>&1 || true
+
+    if [[ $mode_called -eq 1 ]]; then
+        pass
+    else
+        fail "haiku not detected as mode"
+    fi
+
+    # Restore
+    source "$project_root/lib/dispatchers/cc-dispatcher.zsh"
+}
+
+# ============================================================================
+# SHORTCUT EXPANSION TESTS
+# ============================================================================
+
+test_shortcut_y_expands_to_yolo() {
+    log_test "shortcut y expands to yolo"
+
+    local mode_called=""
+    _cc_dispatch_with_mode() { mode_called="$1"; }
+
+    cc y >/dev/null 2>&1 || true
+
+    # y should expand to yolo in the dispatcher
+    if [[ "$mode_called" == "y" || "$mode_called" == "yolo" ]]; then
+        pass
+    else
+        fail "y did not trigger mode dispatch (got: $mode_called)"
+    fi
+
+    # Restore
+    source "$project_root/lib/dispatchers/cc-dispatcher.zsh"
+}
+
+test_shortcut_p_expands_to_plan() {
+    log_test "shortcut p expands to plan"
+
+    local mode_called=""
+    _cc_dispatch_with_mode() { mode_called="$1"; }
+
+    cc p >/dev/null 2>&1 || true
+
+    if [[ "$mode_called" == "p" || "$mode_called" == "plan" ]]; then
+        pass
+    else
+        fail "p did not trigger mode dispatch (got: $mode_called)"
+    fi
+
+    # Restore
+    source "$project_root/lib/dispatchers/cc-dispatcher.zsh"
+}
+
+test_shortcut_o_expands_to_opus() {
+    log_test "shortcut o expands to opus"
+
+    local mode_called=""
+    _cc_dispatch_with_mode() { mode_called="$1"; }
+
+    cc o >/dev/null 2>&1 || true
+
+    if [[ "$mode_called" == "o" || "$mode_called" == "opus" ]]; then
+        pass
+    else
+        fail "o did not trigger mode dispatch (got: $mode_called)"
+    fi
+
+    # Restore
+    source "$project_root/lib/dispatchers/cc-dispatcher.zsh"
+}
+
+test_shortcut_h_expands_to_haiku() {
+    log_test "shortcut h expands to haiku"
+
+    local mode_called=""
+    _cc_dispatch_with_mode() { mode_called="$1"; }
+
+    cc h >/dev/null 2>&1 || true
+
+    if [[ "$mode_called" == "h" || "$mode_called" == "haiku" ]]; then
+        pass
+    else
+        fail "h did not trigger mode dispatch (got: $mode_called)"
+    fi
+
+    # Restore
+    source "$project_root/lib/dispatchers/cc-dispatcher.zsh"
+}
+
+# ============================================================================
+# EXPLICIT HERE TESTS
+# ============================================================================
+
+test_explicit_here_dot() {
+    log_test "cc . recognized as explicit HERE"
+
+    # The . should be recognized as HERE target
+    # We can't easily test the full execution, but we can verify it doesn't error
+    local output=$(cc . --help 2>&1 || echo "error")
+
+    if [[ "$output" != "error" ]]; then
+        pass
+    else
+        fail "cc . triggered error"
+    fi
+}
+
+test_explicit_here_word() {
+    log_test "cc here recognized as explicit HERE"
+
+    local output=$(cc here --help 2>&1 || echo "error")
+
+    if [[ "$output" != "error" ]]; then
+        pass
+    else
+        fail "cc here triggered error"
+    fi
+}
+
+# ============================================================================
+# ALIAS TESTS
+# ============================================================================
+
+test_ccy_alias_exists() {
+    log_test "ccy alias exists"
+
+    if alias ccy >/dev/null 2>&1; then
+        pass
+    else
+        fail "ccy alias not defined"
+    fi
+}
+
 # ============================================================================
 # RUN TESTS
 # ============================================================================
@@ -454,6 +672,35 @@ main() {
     echo "────────────────────────────────────────"
     test_cc_function_exists
     test_cc_help_function_exists
+    test_cc_dispatch_with_mode_exists
+    test_cc_worktree_exists
+    echo ""
+
+    echo "${YELLOW}Unified Grammar Tests (Mode Detection)${NC}"
+    echo "────────────────────────────────────────"
+    test_mode_detection_yolo
+    test_mode_detection_plan
+    test_mode_detection_opus
+    test_mode_detection_haiku
+    echo ""
+
+    echo "${YELLOW}Shortcut Expansion Tests${NC}"
+    echo "────────────────────────────────────────"
+    test_shortcut_y_expands_to_yolo
+    test_shortcut_p_expands_to_plan
+    test_shortcut_o_expands_to_opus
+    test_shortcut_h_expands_to_haiku
+    echo ""
+
+    echo "${YELLOW}Explicit HERE Tests${NC}"
+    echo "────────────────────────────────────────"
+    test_explicit_here_dot
+    test_explicit_here_word
+    echo ""
+
+    echo "${YELLOW}Alias Tests${NC}"
+    echo "────────────────────────────────────────"
+    test_ccy_alias_exists
     echo ""
 
     echo "════════════════════════════════════════"

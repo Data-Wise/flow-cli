@@ -129,7 +129,9 @@
       "Bash(/Users/dt/.git-worktrees/flow-cli-dot-dispatcher/scripts/validate-dot-docs.sh:*)",
       "Bash(./scripts/validate-dot-docs.sh:*)",
       "Bash(./scripts/release.sh:*)",
-      "Bash(exec zsh)"
+      "Bash(exec zsh)",
+      "Bash(./tests/test-pick-command.zsh)",
+      "Bash(pick invalid-category-xyz)"
     ]
   }
 }
