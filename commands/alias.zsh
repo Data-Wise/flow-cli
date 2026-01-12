@@ -90,7 +90,7 @@ _flow_alias_help() {
   echo "  ${FLOW_COLORS[cmd]}find <pattern>${FLOW_COLORS[reset]}      Search aliases by name or command"
   echo "  ${FLOW_COLORS[cmd]}edit${FLOW_COLORS[reset]}                Open .zshrc at alias section"
   echo "  ${FLOW_COLORS[cmd]}add [name=cmd]${FLOW_COLORS[reset]}      Create new alias (interactive or one-liner)"
-  echo "  ${FLOW_COLORS[cmd]}rm <name>${FLOW_COLORS[reset]}           Remove alias safely (coming soon)"
+  echo "  ${FLOW_COLORS[cmd]}rm <name>${FLOW_COLORS[reset]}           Remove alias safely (comment + backup)"
   echo "  ${FLOW_COLORS[cmd]}test <name>${FLOW_COLORS[reset]}         Test alias (coming soon)"
   echo ""
   echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
@@ -99,6 +99,7 @@ _flow_alias_help() {
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias find brew    ${FLOW_COLORS[muted]}# Find brew aliases${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias add          ${FLOW_COLORS[muted]}# Interactive create${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias add gp='git push'  ${FLOW_COLORS[muted]}# One-liner create${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias rm gp        ${FLOW_COLORS[muted]}# Remove (comment out)${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow alias edit         ${FLOW_COLORS[muted]}# Edit .zshrc${FLOW_COLORS[reset]}"
   echo ""
   echo "${FLOW_COLORS[muted]}📚 See also:${FLOW_COLORS[reset]}"
@@ -673,10 +674,72 @@ alias $alias_name='$alias_value'" "$zshrc" > "$tmpfile"
   echo ""
 }
 
-# Remove: Safe alias removal (stub for Phase 4)
+# Remove: Safe alias removal (comment out + backup)
+# Usage: flow alias rm <name>
 _flow_alias_remove() {
-  echo "${FLOW_COLORS[muted]}Coming soon: flow alias rm${FLOW_COLORS[reset]}"
-  echo "For now, use: ${FLOW_COLORS[cmd]}flow alias edit${FLOW_COLORS[reset]} to remove aliases manually"
+  local alias_name="$1"
+
+  if [[ -z "$alias_name" ]]; then
+    echo "Usage: flow alias rm <alias_name>"
+    echo "Example: flow alias rm myalias"
+    return 1
+  fi
+
+  local zshrc="${ZDOTDIR:-$HOME}/.zshrc"
+  [[ -f "$zshrc" ]] || zshrc="$HOME/.config/zsh/.zshrc"
+
+  echo ""
+  echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[bold]}🗑️  Remove Alias${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Find the alias in .zshrc
+  local match
+  match=$(grep -n "^alias $alias_name=" "$zshrc" 2>/dev/null)
+
+  if [[ -z "$match" ]]; then
+    echo "${FLOW_COLORS[error]}Error: Alias '$alias_name' not found in .zshrc${FLOW_COLORS[reset]}"
+    echo ""
+    echo "${FLOW_COLORS[muted]}Tip: Use ${FLOW_COLORS[cmd]}flow alias find $alias_name${FLOW_COLORS[muted]} to search${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  local line_num="${match%%:*}"
+  local alias_def="${match#*:}"
+
+  echo "${FLOW_COLORS[bold]}Found:${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[cmd]}$alias_def${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[muted]}Line $line_num in $zshrc${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Confirm removal
+  printf "${FLOW_COLORS[warning]}Remove this alias? [y/N]:${FLOW_COLORS[reset]} "
+  read -r confirm
+  if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+    echo "${FLOW_COLORS[muted]}Cancelled${FLOW_COLORS[reset]}"
+    return 0
+  fi
+
+  # Create backup
+  local backup_file="${zshrc}.alias-backup"
+  cp "$zshrc" "$backup_file"
+  echo ""
+  echo "${FLOW_COLORS[muted]}Backup created: $backup_file${FLOW_COLORS[reset]}"
+
+  # Comment out the line (safer than deletion)
+  local tmpfile=$(mktemp)
+  sed "${line_num}s/^alias /# REMOVED $(date +%Y-%m-%d): alias /" "$zshrc" > "$tmpfile"
+  mv "$tmpfile" "$zshrc"
+
+  echo "${FLOW_COLORS[success]}✅ Alias '$alias_name' commented out${FLOW_COLORS[reset]}"
+  echo ""
+  echo "${FLOW_COLORS[bold]}To undo:${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[cmd]}flow alias edit${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}# Remove '# REMOVED...' prefix${FLOW_COLORS[reset]}"
+  echo "  ${FLOW_COLORS[muted]}Or restore from backup: cp $backup_file $zshrc${FLOW_COLORS[reset]}"
+  echo ""
+  echo "${FLOW_COLORS[muted]}Reload with:${FLOW_COLORS[reset]} ${FLOW_COLORS[cmd]}exec zsh${FLOW_COLORS[reset]}"
+  echo ""
 }
 
 # Test: Validate and dry-run alias (stub for Phase 5)
