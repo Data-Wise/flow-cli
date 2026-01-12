@@ -145,6 +145,48 @@ Modern CLI tools with better UX:
 
 ---
 
+## ⚙️ ALIAS MANAGEMENT (6)
+
+**New in v5.4.0:** Complete alias lifecycle management via `flow alias`.
+
+| Command | Description | Use Case |
+| ------- | ----------- | -------- |
+| `flow alias doctor` | Health check all aliases | Find shadows & broken targets |
+| `flow alias find <pattern>` | Search aliases by name/command | Quick lookup |
+| `flow alias edit` | Open .zshrc at alias section | Direct editing |
+| `flow alias add [name='cmd']` | Create new alias (interactive or one-liner) | Safe creation with validation |
+| `flow alias rm <name>` | Remove alias (comments out, creates backup) | Safe removal |
+| `flow alias test <name>` | Validate, dry-run, optionally execute | Debug aliases |
+
+**Quick Reference:**
+
+```bash
+# Health check
+flow alias doctor              # Show shadows, broken targets, stats
+
+# Search
+flow alias find git            # Find all git-related aliases
+flow alias find --exact gst    # Exact match only
+
+# Create (two ways)
+flow alias add myalias='echo hello'   # One-liner
+flow alias add                        # Interactive wizard
+
+# Remove safely
+flow alias rm myalias          # Comments out, keeps backup
+
+# Test before using
+flow alias test gst            # Show definition + validation
+flow alias test gst --dry-run  # Show what would execute
+flow alias test gst --exec     # Actually run it
+```
+
+**Integration with `flow doctor`:**
+
+Running `flow doctor` now includes a quick alias health summary showing total count, shadows, and broken targets.
+
+---
+
 ## 🚫 WHAT WAS REMOVED (2025-12-19)
 
 ### Categories Eliminated (151 aliases)

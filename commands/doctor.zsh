@@ -130,6 +130,11 @@ doctor() {
   echo ""
 
   # ──────────────────────────────────────────────────────────────
+  # ALIAS HEALTH
+  # ──────────────────────────────────────────────────────────────
+  _doctor_check_aliases
+
+  # ──────────────────────────────────────────────────────────────
   # SUMMARY & ACTIONS
   # ──────────────────────────────────────────────────────────────
   local total_missing=$((${#_doctor_missing_brew[@]} + ${#_doctor_missing_npm[@]} + ${#_doctor_missing_pip[@]}))
@@ -692,6 +697,67 @@ _doctor_help() {
   echo ""
   echo "${FLOW_COLORS[bold]}INSTALL ALL AT ONCE${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[accent]}brew bundle --file=\$FLOW_PLUGIN_DIR/setup/Brewfile${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# Check aliases health (quick summary for doctor)
+_doctor_check_aliases() {
+  echo "${FLOW_COLORS[bold]}⚡ ALIASES${FLOW_COLORS[reset]}"
+
+  local zshrc="${ZDOTDIR:-$HOME}/.zshrc"
+  [[ -f "$zshrc" ]] || zshrc="$HOME/.config/zsh/.zshrc"
+
+  if [[ ! -f "$zshrc" ]]; then
+    echo "  ${FLOW_COLORS[warning]}△${FLOW_COLORS[reset]} .zshrc not found"
+    echo ""
+    return
+  fi
+
+  # Quick count of aliases
+  local total_aliases=0
+  local shadow_count=0
+  local broken_count=0
+
+  while IFS= read -r line; do
+    local alias_def="${line#*:}"
+    alias_def="${alias_def#alias }"
+    local alias_name="${alias_def%%=*}"
+    local alias_value="${alias_def#*=}"
+    alias_value="${alias_value#[\'\"]}"
+    alias_value="${alias_value%[\'\"]}"
+
+    [[ -z "$alias_name" ]] && continue
+    ((total_aliases++))
+
+    # Quick shadow check (suppress any debug output)
+    local shadow_path=""
+    shadow_path=$(command -v "$alias_name" 2>/dev/null) || true
+    if [[ -n "$shadow_path" && -x "$shadow_path" ]]; then
+      ((shadow_count++))
+    fi
+
+    # Quick target check
+    local target_cmd="${alias_value%% *}"
+    if ! command -v "$target_cmd" &>/dev/null && ! type "$target_cmd" &>/dev/null 2>&1; then
+      ((broken_count++))
+    fi
+  done < <(grep -n "^alias " "$zshrc" 2>/dev/null)
+
+  # Show summary
+  if [[ $total_aliases -eq 0 ]]; then
+    echo "  ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} No aliases found in .zshrc"
+  elif [[ $shadow_count -eq 0 && $broken_count -eq 0 ]]; then
+    echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} $total_aliases aliases ${FLOW_COLORS[muted]}(all healthy)${FLOW_COLORS[reset]}"
+  else
+    local issues=""
+    [[ $shadow_count -gt 0 ]] && issues="$shadow_count shadows"
+    [[ $broken_count -gt 0 ]] && {
+      [[ -n "$issues" ]] && issues+=", "
+      issues+="$broken_count broken"
+    }
+    echo "  ${FLOW_COLORS[warning]}△${FLOW_COLORS[reset]} $total_aliases aliases ${FLOW_COLORS[muted]}($issues)${FLOW_COLORS[reset]}"
+    echo "    ${FLOW_COLORS[muted]}Run ${FLOW_COLORS[accent]}flow alias doctor${FLOW_COLORS[muted]} for details${FLOW_COLORS[reset]}"
+  fi
   echo ""
 }
 
