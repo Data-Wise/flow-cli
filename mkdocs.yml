@@ -167,7 +167,7 @@ nav:
       - upgrade: commands/upgrade.md
       - dashboard: commands/dashboard.md
   - Testing:
-      - Testing Guide: testing/TESTING.md
+      - 🧪 Testing Guide: guides/TESTING.md
       - Interactive Dog Test: testing/DOG-FEEDING-TEST-README.md
       - Interactive Test Guide: testing/INTERACTIVE-TEST-GUIDE.md
       - Testing Quick Ref: reference/TESTING-QUICK-REF.md

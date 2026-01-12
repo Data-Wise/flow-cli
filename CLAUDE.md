@@ -511,35 +511,62 @@ qu preview          # Quarto: preview document
 
 ## Testing
 
-### Test Suite Locations
+### Test Suite Overview
+
+**Status:** ✅ 76+ tests passing (100%)
+**Documentation:** [Complete Testing Guide](docs/guides/TESTING.md)
 
 ```bash
-# Integration tests (Atlas + flow-cli)
-tests/integration/atlas-flow-integration.zsh
-
-# Unit tests (ZSH only)
-tests/unit/**/*.test.zsh
-
-# E2E tests (require Atlas)
-tests/test-atlas-e2e.zsh
+# Core test suites (v5.0.0+)
+tests/test-pick-command.zsh         # Pick: 39 tests (556 lines)
+tests/test-cc-dispatcher.zsh        # CC: 37 tests (722 lines)
+tests/test-dot-v5.1.1-unit.zsh      # DOT: 112+ tests
+tests/test-cc-unified-grammar.zsh   # CC unified grammar
+tests/test-pick-smart-defaults.zsh  # Pick defaults
+tests/test-pick-wt.zsh              # Pick worktrees
 
 # Interactive tests
-tests/interactive-dog-feeding.zsh      # Gamified testing
+tests/interactive-dog-feeding.zsh   # Gamified testing (ADHD-friendly)
 tests/interactive-test.zsh
 ```
 
 ### Running Tests
 
 ```bash
-# Quick test: Load plugin
+# Run all test suites
+./tests/run-all.sh
+
+# Run specific suite
+./tests/test-pick-command.zsh
+./tests/test-cc-dispatcher.zsh
+
+# Quick verification
 source flow.plugin.zsh
-
-# Unit tests
-zsh tests/unit/test-project-detector.zsh
-
-# Interactive (recommended for ADHD)
-./tests/interactive-dog-feeding.zsh
+work <Tab>           # Completions work
+dash                 # Dashboard displays
+pick help            # Help system works
+cc help              # CC dispatcher works
 ```
+
+### Test Coverage
+
+| Component      | File                     | Tests   | Coverage |
+| -------------- | ------------------------ | ------- | -------- |
+| Pick command   | test-pick-command.zsh    | 39      | ✅ 100%  |
+| CC dispatcher  | test-cc-dispatcher.zsh   | 37      | ✅ 100%  |
+| DOT dispatcher | test-dot-v5.1.1-unit.zsh | 112+    | ✅ 100%  |
+| **Total**      | **8 suites**             | **76+** | **100%** |
+
+### Writing Tests
+
+See [Testing Guide](docs/guides/TESTING.md) for:
+
+- Test file structure and patterns
+- Mock environment setup
+- ANSI code handling
+- Assertion helpers
+- Debugging test failures
+- TDD workflow
 
 ---
 
