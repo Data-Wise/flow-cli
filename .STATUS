@@ -87,6 +87,84 @@
 
   **Session Time:** ~1 hour (code review + spec writing + planning docs update)
 
+## ✅ Just Completed (2026-01-11 - Latest):
+- **Teaching Workflow v2.0 - Deep Brainstorm & Spec Revision** ✅ COMPLETE
+  - **Session Type:** Deep brainstorm (8 expert questions)
+  - **Specs:** SPEC-teaching-workflow.md (v1.0, kept), SPEC-teaching-workflow-v2.md (v2.0, 1,460 lines)
+  - **Status:** Planning complete, ready for implementation
+
+  **Major Discoveries (8 Expert Questions):**
+  - ❌ v1.0 Focus: Quiz/exam automation (50% of spec)
+  - ✅ v2.0 Focus: Fast deployment (80% of effort)
+  - Current pain: 5-15 min manual git workflow
+  - Target: < 2 min typo-to-live deployment
+  - Assessment frequency: 2-3 exams/semester (not weekly quizzes)
+  - Canvas API: Not needed (manual upload acceptable)
+  - Scholar skills: Build alongside (optional Phase 1.5)
+  - Scope: STAT 545 only in Phase 1
+
+  **Critical Pivot:**
+  - From: Assessment-first (quiz workflow focus)
+  - To: Deployment-first (branch safety + fast deploy)
+  - Assessment tools moved to optional Increment 3
+
+  **Incremental Shipping Strategy (v2.0):**
+  - **Increment 1 (4-6h):** Core Deployment (MVP)
+    - Branch safety guard in `work` command
+    - `scripts/quick-deploy.sh` with time tracking
+    - Teaching project detection + validation
+    - Basic `.flow/teach-config.yml`
+    - Success: Typo deployment < 2 min
+
+  - **Increment 2 (4-6h):** Course Context
+    - `work stat-545` shows current week, semester
+    - Course shortcuts loaded per-session
+    - Semester date calculation with breaks
+    - Recent activity display
+    - Success: Terminal shows course context
+
+  - **Increment 3 (8-10h):** Exam Workflow - OPTIONAL
+    - `teach-exam` command for guided creation
+    - examark integration (MD → Canvas QTI)
+    - Scholar skill integration (if ready)
+    - Success: E2E exam in < 30 min
+
+  **Total Effort:** 16-22 hours (was 22h monolithic)
+  **Risk Level:** Low (incremental shipping, proven patterns)
+
+  **Updated Success Criteria (All 4 Selected):**
+  - ⚡ Typo fix deploys in < 2 min (Priority 1)
+  - 🛡️ Branch safety prevents production edits (Priority 1)
+  - 📚 Course-aware terminal context (Priority 2)
+  - 📝 One-command exam generation + conversion (Priority 3, optional)
+
+  **Implementation Files:**
+  - New: `commands/teach-init.zsh` (~300 lines) - Scaffolding
+  - New: `commands/teach-exam.zsh` (~150 lines) - Exam workflow (Increment 3)
+  - New: `lib/templates/teaching/quick-deploy.sh` (~120 lines)
+  - New: `lib/templates/teaching/semester-archive.sh` (~50 lines)
+  - New: `lib/templates/teaching/exam-to-qti.sh` (~40 lines)
+  - New: `lib/templates/teaching/deploy.yml.template` (~50 lines)
+  - Modified: `commands/work.zsh` (+130 lines) - Teaching session + context
+  - Modified: `lib/project-detector.zsh` (+40 lines) - Enhanced detection
+
+  **Dependencies:**
+  - Required: yq (✅ installed), git, quarto
+  - Optional: examark (❌ not installed, npm install -g examark)
+  - Optional: scholar skills (build alongside)
+
+  **Testing Strategy:**
+  - Increment 1: 5 unit tests, E2E deployment test
+  - Increment 2: Week calculation, context display tests
+  - Increment 3: examark conversion, E2E exam workflow
+
+  **Next Steps:**
+  - Create feature branch worktree
+  - Start NEW session for Increment 1 implementation
+  - Ship incrementally (test each increment before next)
+
+  **Session Time:** ~2 hours (deep questions + spec revision + worktree prep)
+
 ## ✅ Just Completed (2026-01-11 - Earlier):
 - **Documentation Enhancement (Plan B)** ✅ SHIPPED TO PRODUCTION
   - **PRs:** #209 (docs → dev), #210 (dev → main) - MERGED & DEPLOYED
