@@ -193,12 +193,6 @@ _teach_install_templates() {
 
     read "break_end?  Break end [$suggested_break_end]: "
     break_end="${break_end:-$suggested_break_end}"
-
-    # Build breaks config section
-    breaks_config="  breaks:
-    - name: \"$break_name\"
-      start: \"$break_start\"
-      end: \"$break_end\""
   fi
 
   # Read template and substitute variables
@@ -218,9 +212,13 @@ _teach_install_templates() {
     > .flow/teach-config.yml
 
   # Handle breaks config (multiline replacement)
-  if [[ -n "$breaks_config" ]]; then
-    # Replace placeholder with actual breaks config
-    sed -i '' "s|{{BREAKS_CONFIG}}|$breaks_config|" .flow/teach-config.yml
+  # Fix for macOS sed: use backslash-escaped newlines instead of literal newlines
+  if [[ "$add_break" == "y" ]]; then
+    # Replace placeholder with actual breaks config (escaped newlines for macOS sed)
+    sed -i '' "s|{{BREAKS_CONFIG}}|  breaks:\\
+    - name: \"$break_name\"\\
+      start: \"$break_start\"\\
+      end: \"$break_end\"|" .flow/teach-config.yml
   else
     # Remove the breaks placeholder line if no breaks
     sed -i '' '/{{BREAKS_CONFIG}}/d' .flow/teach-config.yml
