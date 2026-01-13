@@ -1033,18 +1033,22 @@ _dot_unlock() {
       ;;
   esac
 
-  # Unlock and capture session token (suppress echo for security)
+  # Unlock and capture session token (separate stdout/stderr to avoid contamination)
   echo ""
   _flow_log_info "Enter your Bitwarden master password:"
   local session_token
-  session_token=$(bw unlock --raw 2>&1)
+  local temp_err=$(mktemp)
+  session_token=$(bw unlock --raw 2>"$temp_err")
   local unlock_status=$?
 
   if [[ $unlock_status -ne 0 ]]; then
     _flow_log_error "Failed to unlock vault"
-    # Don't echo the error output (may contain sensitive info)
+    # Show stderr if unlock failed (helpful for debugging)
+    [[ -s "$temp_err" ]] && cat "$temp_err" >&2
+    rm -f "$temp_err"
     return 1
   fi
+  rm -f "$temp_err"
 
   # Validate session token format (should be a UUID-like string)
   if [[ -z "$session_token" ]] || [[ ${#session_token} -lt 20 ]]; then
