@@ -3708,6 +3708,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/teach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    teach (dispatcher)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/teach-init/" class="md-nav__link">
         
   
@@ -5071,18 +5099,21 @@
 
 
 <h1 id="teaching-workflow-quick-reference-card">Teaching Workflow - Quick Reference Card<a class="headerlink" href="#teaching-workflow-quick-reference-card" title="Permanent link">&para;</a></h1>
-<p><strong>Version:</strong> 2.0 | <strong>Last Updated:</strong> 2026-01-11</p>
+<p><strong>Version:</strong> 2.1 | <strong>Last Updated:</strong> 2026-01-12</p>
 <hr />
 <h2 id="quick-start-3-steps">🚀 Quick Start (3 Steps)<a class="headerlink" href="#quick-start-3-steps" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 1. Initialize</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 1. Initialize (interactive)</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>~/teaching/my-course
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>teach-init<span class="w"> </span><span class="s2">&quot;Course Name&quot;</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># 2. Start working</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>work<span class="w"> </span>course-name
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># 1b. Or non-interactive (accept defaults)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>teach-init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;Course Name&quot;</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># 3. Deploy</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>./scripts/quick-deploy.sh
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># 2. Start working</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>work<span class="w"> </span>course-name
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1"># 3. Deploy</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>./scripts/quick-deploy.sh
 </code></pre></div>
 <p><strong>Result:</strong> Typo to live in &lt; 2 minutes</p>
 <hr />
@@ -5100,6 +5131,16 @@
 <td><code>teach-init &lt;name&gt;</code></td>
 <td>Initialize teaching workflow</td>
 <td><code>teach-init "STAT 545"</code></td>
+</tr>
+<tr>
+<td><code>teach-init -y &lt;name&gt;</code></td>
+<td>Initialize (non-interactive)</td>
+<td><code>teach-init -y "STAT 545"</code></td>
+</tr>
+<tr>
+<td><code>teach-init --dry-run &lt;name&gt;</code></td>
+<td>Preview migration plan</td>
+<td><code>teach-init --dry-run "STAT 545"</code></td>
 </tr>
 <tr>
 <td><code>work &lt;course&gt;</code></td>
@@ -5486,8 +5527,9 @@
 <p><strong>Need more help?</strong>
 https://github.com/Data-Wise/flow-cli/issues</p>
 <hr />
-<p><strong>Version:</strong> Teaching Workflow v2.0 (Increment 2 - Course Context)
-<strong>Status:</strong> Production Ready ✅</p>
+<p><strong>Version:</strong> Teaching Workflow v2.1 (UX Enhancements)
+<strong>Status:</strong> Production Ready ✅
+<strong>New in 2.1:</strong> <code>-y</code>/<code>--yes</code> flag, ADHD-friendly completion summary</p>
 
 
 

@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://data-wise.github.io/flow-cli/commands/teach-init/">
       
       
-        <link rel="prev" href="../alias/">
+        <link rel="prev" href="../teach/">
       
       
         <link rel="next" href="../capture/">
@@ -3271,6 +3271,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../teach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    teach (dispatcher)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -3378,6 +3406,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#non-interactive-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Non-Interactive Mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#migration-strategies" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3478,6 +3517,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#completion-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Completion Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3516,6 +3566,17 @@
     <span class="md-ellipsis">
       
         With renv (R Package Management)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-interactive-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Non-Interactive (Automation)
       
     </span>
   </a>
@@ -4569,6 +4630,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#non-interactive-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Non-Interactive Mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#migration-strategies" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4669,6 +4741,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#completion-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Completion Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4707,6 +4790,17 @@
     <span class="md-ellipsis">
       
         With renv (R Package Management)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-interactive-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Non-Interactive (Automation)
       
     </span>
   </a>
@@ -4796,12 +4890,15 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/teaching/my-course
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>teach-init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Preview migration plan (existing Quarto project)</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>teach-init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Non-interactive mode (accept safe defaults)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>teach-init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Preview migration plan (existing Quarto project)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>teach-init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
 </code></pre></div>
 <hr />
 <h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>teach-init<span class="w"> </span><span class="o">[</span>--dry-run<span class="o">]</span><span class="w"> </span>&lt;course-name&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>teach-init<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;course-name&gt;
 </code></pre></div>
 <hr />
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
@@ -4828,6 +4925,46 @@
 <td><code>--dry-run</code></td>
 <td>Preview migration plan without making changes</td>
 </tr>
+<tr>
+<td><code>-y</code>, <code>--yes</code></td>
+<td>Non-interactive mode (accept safe defaults)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="non-interactive-mode">Non-Interactive Mode<a class="headerlink" href="#non-interactive-mode" title="Permanent link">&para;</a></h2>
+<p>Use <code>-y</code> or <code>--yes</code> for automation or when you want to accept safe defaults:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>teach-init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+</code></pre></div>
+<p><strong>Safe defaults in non-interactive mode:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Migration strategy</td>
+<td>Option 1 (in-place conversion, preserves history)</td>
+</tr>
+<tr>
+<td>renv/ handling</td>
+<td>Auto-exclude from git</td>
+</tr>
+<tr>
+<td>GitHub push</td>
+<td>Skip (push manually later)</td>
+</tr>
+<tr>
+<td>Semester dates</td>
+<td>Use auto-suggested start date</td>
+</tr>
+<tr>
+<td>Break configuration</td>
+<td>Skip (add later via config)</td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -4835,8 +4972,8 @@
 <p>For existing repositories, <code>teach-init</code> offers three strategies:</p>
 <h3 id="strategy-1-convert-existing-recommended">Strategy 1: Convert Existing (Recommended)<a class="headerlink" href="#strategy-1-convert-existing-recommended" title="Permanent link">&para;</a></h3>
 <p>Renames your current branch to <code>production</code> and creates <code>draft</code> for editing.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>main → production (students see this)
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>     └→ draft (you edit here)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>main → production (students see this)
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>     └→ draft (you edit here)
 </code></pre></div>
 <h3 id="strategy-2-parallel-branches">Strategy 2: Parallel Branches<a class="headerlink" href="#strategy-2-parallel-branches" title="Permanent link">&para;</a></h3>
 <p>Keeps existing branch, adds <code>draft</code> and <code>production</code> alongside.</p>
@@ -4861,57 +4998,93 @@
 </ol>
 <h3 id="rollback-tag">Rollback Tag<a class="headerlink" href="#rollback-tag" title="Permanent link">&para;</a></h3>
 <p>A lightweight git tag is created before migration:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>spring-2026-pre-migration
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>spring-2026-pre-migration
 </code></pre></div>
 <p>This allows manual recovery if needed.</p>
 <hr />
+<h2 id="completion-summary">Completion Summary<a class="headerlink" href="#completion-summary" title="Permanent link">&para;</a></h2>
+<p>After successful migration, <code>teach-init</code> displays an ADHD-friendly summary box:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>┌─────────────────────────────────────────────────────────────┐
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>│ 🎉 TEACHING WORKFLOW INITIALIZED!                           │
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>├─────────────────────────────────────────────────────────────┤
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│                                                             │
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│ 📋 What Just Happened:                                      │
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│   ✅ Created rollback tag: spring-2026-pre-migration        │
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>│   ✅ Renamed main → production                              │
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>│   ✅ Created draft branch (you&#39;re on it now)                │
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>│   ✅ Created files: .flow/, scripts/, MIGRATION-COMPLETE.md │
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>│                                                             │
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>├─────────────────────────────────────────────────────────────┤
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>│ 🏷️  HOW TO ROLLBACK (if anything goes wrong):              │
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>│   git checkout spring-2026-pre-migration                    │
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>│   git checkout -b main                                      │
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>│   rm -rf .flow scripts MIGRATION-COMPLETE.md                │
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>│                                                             │
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>├─────────────────────────────────────────────────────────────┤
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>│ 🚀 NEXT STEPS:                                              │
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>│   1. work stat-545                                          │
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>│   2. Make edits, commit as usual                            │
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>│   3. ./scripts/quick-deploy.sh                              │
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>└─────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<hr />
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="new-course">New Course<a class="headerlink" href="#new-course" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mkdir<span class="w"> </span>~/teaching/stat-579
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>~/teaching/stat-579
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>git<span class="w"> </span>init
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>teach-init<span class="w"> </span><span class="s2">&quot;STAT 579 - Causal Inference&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mkdir<span class="w"> </span>~/teaching/stat-579
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">cd</span><span class="w"> </span>~/teaching/stat-579
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>git<span class="w"> </span>init
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>teach-init<span class="w"> </span><span class="s2">&quot;STAT 579 - Causal Inference&quot;</span>
 </code></pre></div>
 <h3 id="existing-quarto-course">Existing Quarto Course<a class="headerlink" href="#existing-quarto-course" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">cd</span><span class="w"> </span>~/teaching/stat-545
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>teach-init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w">  </span><span class="c1"># Preview first</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>teach-init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w">             </span><span class="c1"># Execute migration</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">cd</span><span class="w"> </span>~/teaching/stat-545
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>teach-init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w">  </span><span class="c1"># Preview first</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>teach-init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w">             </span><span class="c1"># Execute migration</span>
 </code></pre></div>
 <h3 id="with-renv-r-package-management">With renv (R Package Management)<a class="headerlink" href="#with-renv-r-package-management" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">cd</span><span class="w"> </span>~/teaching/my-r-course
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>teach-init<span class="w"> </span><span class="s2">&quot;My R Course&quot;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># Prompts: &quot;Exclude renv/ from git? [Y/n]&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>~/teaching/my-r-course
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>teach-init<span class="w"> </span><span class="s2">&quot;My R Course&quot;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># Prompts: &quot;Exclude renv/ from git? [Y/n]&quot;</span>
+</code></pre></div>
+<h3 id="non-interactive-automation">Non-Interactive (Automation)<a class="headerlink" href="#non-interactive-automation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># CI/CD or scripted setup</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>teach-init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 440&quot;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Uses safe defaults:</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># - Strategy 1 (in-place conversion)</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1"># - Auto-exclude renv/</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># - Skip GitHub push</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c1"># - Use suggested semester dates</span>
 </code></pre></div>
 <hr />
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <p>After initialization, edit <code>.flow/teach-config.yml</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">course</span><span class="p">:</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STAT</span><span class="nv"> </span><span class="s">545&quot;</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">slug</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stat-545</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Spring 2026</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nt">semester</span><span class="p">:</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-01-13&quot;</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-05-06&quot;</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span><span class="nt">breaks</span><span class="p">:</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring</span><span class="nv"> </span><span class="s">Break&quot;</span>
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">      </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-03-09&quot;</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">      </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-03-13&quot;</span>
-<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
-<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="nt">shortcuts</span><span class="p">:</span>
-<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">  </span><span class="nt">quick</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stat</span>
-<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">  </span><span class="nt">deploy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">statd</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">course</span><span class="p">:</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STAT</span><span class="nv"> </span><span class="s">545&quot;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">slug</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stat-545</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Spring 2026</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="nt">semester</span><span class="p">:</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-01-13&quot;</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-05-06&quot;</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span><span class="nt">breaks</span><span class="p">:</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring</span><span class="nv"> </span><span class="s">Break&quot;</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">      </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-03-09&quot;</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">      </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-03-13&quot;</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="nt">shortcuts</span><span class="p">:</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">  </span><span class="nt">quick</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stat</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">  </span><span class="nt">deploy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">statd</span>
 </code></pre></div>
 <hr />
 <h2 id="workflow-after-initialization">Workflow After Initialization<a class="headerlink" href="#workflow-after-initialization" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># 1. Start session (safe on draft)</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>work<span class="w"> </span>stat-545
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># 2. Edit course materials</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># (you&#39;re on draft branch - safe!)</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># 3. Deploy when ready</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>./scripts/quick-deploy.sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># 1. Start session (safe on draft)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>work<span class="w"> </span>stat-545
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># 2. Edit course materials</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1"># (you&#39;re on draft branch - safe!)</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># 3. Deploy when ready</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>./scripts/quick-deploy.sh
 </code></pre></div>
 <hr />
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
