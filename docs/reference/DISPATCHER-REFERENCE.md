@@ -1,7 +1,7 @@
 # Dispatcher Reference - flow-cli
 
-**Last Updated:** December 31, 2025
-**Version:** flow-cli v4.7.0
+**Last Updated:** January 12, 2026
+**Version:** flow-cli v5.4.1
 
 ---
 
@@ -13,7 +13,7 @@ Dispatchers are smart command routers that provide context-aware workflows for s
 
 ---
 
-## Active Dispatchers (9)
+## Active Dispatchers (10)
 
 ### 1. `g` - Git Workflows
 
@@ -545,6 +545,57 @@ Use Bitwarden secrets in chezmoi templates:
 4. Check health with `dot doctor`
 
 **See also:** [DOT-DISPATCHER-REFERENCE.md](DOT-DISPATCHER-REFERENCE.md), [SECRET-MANAGEMENT.md](../SECRET-MANAGEMENT.md)
+
+---
+
+### 10. `teach` - Teaching Workflow
+
+**File:** `teach-dispatcher.zsh`
+**Purpose:** Unified teaching workflow for course websites
+**Added:** January 12, 2026 (v5.4.1)
+
+**Common Commands:**
+
+```bash
+teach init "STAT 545"     # Initialize teaching workflow
+teach init -y "STAT 440"  # Non-interactive mode
+teach exam "Midterm 1"    # Create exam/quiz
+teach deploy              # Deploy draft → production
+teach archive             # Archive semester
+teach config              # Edit teach-config.yml
+teach status              # Show project status
+teach week                # Show current week number
+teach help                # Show help
+```
+
+**Shortcuts:**
+
+| Short | Full | Description |
+|-------|------|-------------|
+| `i` | `init` | Initialize course |
+| `e` | `exam` | Create exam |
+| `d` | `deploy` | Deploy to production |
+| `a` | `archive` | Archive semester |
+| `c` | `config` | Edit config |
+| `s` | `status` | Show status |
+| `w` | `week` | Show week |
+
+**Non-Interactive Mode:**
+
+The `-y` / `--yes` flag accepts safe defaults:
+- Strategy 1: In-place conversion (preserves history)
+- Auto-exclude renv/ from git
+- Skip GitHub push (push manually later)
+- Use auto-suggested semester dates
+- Skip break configuration
+
+**Workflow:**
+
+```
+teach init → work course → teach deploy → teach archive
+```
+
+**See also:** [teach-init.md](../commands/teach-init.md), [TEACHING-WORKFLOW.md](../guides/TEACHING-WORKFLOW.md)
 
 ---
 

@@ -155,6 +155,7 @@ nav:
       - hop: commands/hop.md
       - pick: commands/pick.md
       - alias: commands/alias.md
+      - teach (dispatcher): commands/teach.md
       - teach-init: commands/teach-init.md
       - capture (win/yay/catch): commands/capture.md
       - timer: commands/timer.md
