@@ -144,13 +144,30 @@ _wt_get_path() {
     local git_root=$(git rev-parse --show-toplevel 2>/dev/null)
     [[ -z "$git_root" ]] && return 1
 
+    # First, check git worktree list for existing worktree with this branch
+    # This handles any naming convention (flat or hierarchical)
+    local wt_path
+    wt_path=$(git worktree list --porcelain 2>/dev/null | \
+        awk -v branch="$branch" '
+            /^worktree / { path = substr($0, 10) }
+            /^branch refs\/heads\// {
+                sub(/^branch refs\/heads\//, "")
+                if ($0 == branch) { print path; exit }
+            }
+        ')
+
+    if [[ -n "$wt_path" && -d "$wt_path" ]]; then
+        echo "$wt_path"
+        return 0
+    fi
+
+    # Fallback: check expected hierarchical path
     local project=$(basename "$git_root")
     local folder=$(echo "$branch" | tr '/' '-')
-    local wt_path="$FLOW_WORKTREE_DIR/$project/$folder"
+    local expected_path="$FLOW_WORKTREE_DIR/$project/$folder"
 
-    # Return path if it exists
-    if [[ -d "$wt_path" ]]; then
-        echo "$wt_path"
+    if [[ -d "$expected_path" ]]; then
+        echo "$expected_path"
         return 0
     fi
 
