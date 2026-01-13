@@ -91,31 +91,31 @@ work() {
     return 1
   fi
   
-  # Parse project info
+  # Parse project info (uses project_path to avoid ZSH's path/PATH conflict)
   eval "$project_info"
-  
+
   # Change to project directory
-  if [[ -d "$path" ]]; then
-    cd "$path" || return 1
+  if [[ -d "$project_path" ]]; then
+    cd "$project_path" || return 1
   else
-    _flow_log_error "Project path not found: $path"
+    _flow_log_error "Project path not found: $project_path"
     return 1
   fi
-  
+
   # Start session in atlas (non-blocking)
   _flow_session_start "$project"
 
   # Check if teaching project and handle specially
-  local project_type=$(_flow_detect_project_type "$path")
-  if [[ "$project_type" == "teaching" && -f "$path/.flow/teach-config.yml" ]]; then
-    _work_teaching_session "$path"
+  local project_type=$(_flow_detect_project_type "$project_path")
+  if [[ "$project_type" == "teaching" && -f "$project_path/.flow/teach-config.yml" ]]; then
+    _work_teaching_session "$project_path"
   else
     # Show context
-    _flow_show_work_context "$project" "$path"
+    _flow_show_work_context "$project" "$project_path"
   fi
 
   # Open editor
-  _flow_open_editor "$editor" "$path"
+  _flow_open_editor "$editor" "$project_path"
 }
 
 # Help function for work command
@@ -427,24 +427,24 @@ hop() {
   fi
   
   eval "$project_info"
-  
+
   # If in tmux, create/switch to project session
   if [[ -n "$TMUX" ]]; then
     local session_name="${project//[^a-zA-Z0-9]/_}"
-    
+
     # Check if session exists
     if tmux has-session -t "$session_name" 2>/dev/null; then
       tmux switch-client -t "$session_name"
     else
       # Create new session
-      tmux new-session -d -s "$session_name" -c "$path"
+      tmux new-session -d -s "$session_name" -c "$project_path"
       tmux switch-client -t "$session_name"
     fi
-    
+
     _flow_log_success "Hopped to: $project"
   else
     # Not in tmux, just cd
-    cd "$path" || return 1
+    cd "$project_path" || return 1
     _flow_log_info "Changed to: $project (start tmux for session management)"
   fi
 }
