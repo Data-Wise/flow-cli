@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v5.3.0+, active development)
+- **Status:** Production ready (v5.4.1, active development)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -247,7 +247,7 @@ flow goal set 3   # Set daily win target
 
 **Categories:** 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test, ✨ other
 
-### Active Dispatchers (8)
+### Active Dispatchers (10)
 
 ```bash
 g <cmd>       # Git workflows (g status, g push, g commit)
@@ -258,9 +258,11 @@ r <cmd>       # R package dev (r test, r doc, r check)
 cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
 tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
 wt <cmd>      # Worktree management (wt create, wt status, wt prune)
+dot <cmd>     # Dotfile management (dot edit, dot sync, dot secret)
+teach <cmd>   # Teaching workflow (teach init, teach deploy, teach exam)
 ```
 
-**Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `wt help`)
+**Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
 
 ### CC Dispatcher Quick Reference (v5.3.0)
 
@@ -642,56 +644,41 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2026-01-11)
+## Current Status (2026-01-12)
 
-### 🚧 v5.3.0 IN PROGRESS - Project Cache & Performance
+### ✅ v5.4.1 RELEASED - Teaching Workflow & UX Enhancements
 
-**Feature:** Sub-10ms Pick Command (Phase 1: Caching Layer)
-**Status:** Implementation complete, testing in progress
-**Branch:** `feature/project-cache-auto-discovery`
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.4.1
+**PR:** #230
 
 **What Was Delivered:**
 
-Phase 1: Caching Layer (v5.3.0) ✅
-
-- [x] Created `lib/project-cache.zsh` (~170 lines)
-- [x] TTL-based cache validation (5-minute default)
-- [x] XDG-compliant cache location (`~/.cache/flow-cli/`)
-- [x] Feature flag support (`FLOW_CACHE_ENABLED`)
-- [x] Graceful degradation on errors
-- [x] Modified `pick.zsh` to use cache
-- [x] Added `flow cache` commands (refresh, clear, status)
-- [x] Comprehensive test suite (18 tests)
-- [x] Complete documentation (guide + quick reference)
-- [x] README updated with performance section
-
-**Performance Improvement:**
-
-```bash
-pick command: 200ms → <10ms (40x faster)
-```
+- [x] `teach` dispatcher - unified teaching commands
+- [x] Non-interactive mode (`-y`/`--yes`) for teach-init
+- [x] ADHD-friendly completion summary with rollback instructions
+- [x] Help flags (`-h`/`--help`/`help`) for work, hop, teach-init
+- [x] Already-initialized project detection
+- [x] 19 new tests for teach-init UX
+- [x] Complete documentation (teach.md, DISPATCHER-REFERENCE.md)
 
 **New Commands:**
 
 ```bash
-flow cache status    # Check cache age/validity
-flow cache refresh   # Force regeneration
-flow cache clear     # Delete cache file
+teach init "STAT 545"     # Initialize teaching workflow
+teach init -y "STAT 440"  # Non-interactive mode
+teach exam "Midterm"      # Create exam
+teach deploy              # Deploy draft → production
+teach status              # Show project status
+teach week                # Show current week
 ```
 
-**Configuration:**
+**Help Flags Now Work:**
 
 ```bash
-export FLOW_CACHE_ENABLED=1      # Enable/disable (default: 1)
-export PROJ_CACHE_TTL=300        # TTL in seconds (default: 300)
+work --help               # Show work command help
+hop -h                    # Show hop command help
+teach-init help           # Show teach-init help
 ```
-
-**Next Steps:**
-
-- [ ] Merge to dev branch
-- [ ] Test on production environment
-- [ ] Release v5.3.0-alpha
-- [ ] Phase 2: Auto-discovery (v5.3.0)
 
 ---
 
@@ -882,5 +869,5 @@ git push origin main && git push origin v5.3.0
 
 ---
 
-**Last Updated:** 2025-12-30
+**Last Updated:** 2026-01-12
 **Status:** Production Ready

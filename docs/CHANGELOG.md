@@ -6,6 +6,50 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [5.4.1] - 2026-01-12
+
+### Added
+
+- **`teach` dispatcher** - Unified teaching workflow commands (#230)
+  - `teach init` - Initialize teaching workflow (wraps teach-init)
+  - `teach exam` - Create exam/quiz (wraps teach-exam)
+  - `teach deploy` - Deploy draft → production
+  - `teach archive` - Archive semester
+  - `teach config` - Edit teach-config.yml
+  - `teach status` - Show project status
+  - `teach week` - Show current week number
+  - Shortcuts: `i`, `e`, `d`, `a`, `c`, `s`, `w`
+
+- **Non-interactive mode for teach-init** (`-y`/`--yes` flag)
+  - Accept safe defaults without prompts
+  - Strategy 1: In-place conversion (preserves history)
+  - Auto-exclude renv/ from git
+  - Skip GitHub push (push manually later)
+  - Use auto-suggested semester dates
+
+- **ADHD-friendly completion summary**
+  - Visual box showing "What Just Happened"
+  - Rollback instructions with exact commands
+  - "Next Steps" section with work/deploy workflow
+
+- **Help flags for workflow commands**
+  - `work -h`, `work --help`, `work help`
+  - `hop -h`, `hop --help`, `hop help`
+  - `teach-init -h`, `teach-init --help`, `teach-init help`
+
+### Fixed
+
+- **Already-initialized detection** - `teach-init` now detects already-initialized projects and prevents re-migration errors (#228)
+
+### Documentation
+
+- New `docs/commands/teach.md` command reference
+- Updated DISPATCHER-REFERENCE.md with teach dispatcher (#10)
+- Updated REFCARD-TEACHING.md to v2.1
+- 19 new tests for teach-init UX enhancements
+
+---
+
 ## [4.9.1] - 2026-01-06
 
 ### Fixed
