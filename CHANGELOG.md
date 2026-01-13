@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Bug Fixes
 
+- **Fixed `dot unlock` stderr contamination** - The `bw unlock --raw 2>&1` command was capturing both stdout AND stderr, causing error messages to mix with the session token. Now uses temp file for stderr separation, showing errors only on failure.
+
 - **Fixed PATH corruption in `work` command** - The `work` and `hop` commands were breaking `$PATH` due to ZSH's special `path` variable. In ZSH, `path` (lowercase) is tied to `PATH` (uppercase), so setting `path="..."` overwrites the entire PATH. Renamed internal variable to `project_path` to avoid the collision. This fixes:
   - "zsh: command not found: zoxide add --" errors
   - "yq not found" warnings in teaching workflow
