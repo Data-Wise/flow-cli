@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 🐛 Bug Fixes
+
+- **Fixed PATH corruption in `work` command** - The `work` and `hop` commands were breaking `$PATH` due to ZSH's special `path` variable. In ZSH, `path` (lowercase) is tied to `PATH` (uppercase), so setting `path="..."` overwrites the entire PATH. Renamed internal variable to `project_path` to avoid the collision. This fixes:
+  - "zsh: command not found: zoxide add --" errors
+  - "yq not found" warnings in teaching workflow
+  - Other PATH-dependent commands failing after `work`
+
 ---
 
 ## [5.3.0] - 2026-01-11
