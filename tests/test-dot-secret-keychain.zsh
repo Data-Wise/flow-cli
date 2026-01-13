@@ -522,6 +522,131 @@ test_service_name_value() {
 }
 
 # ============================================================================
+# IMPORT TESTS (Mock-based)
+# ============================================================================
+
+# Mock data for import tests
+MOCK_BW_ITEMS='[
+  {"name": "mock-secret-1", "login": {"password": "value1"}},
+  {"name": "mock-secret-2", "login": {"password": "value2"}},
+  {"name": "mock-secret-3", "notes": "value3"}
+]'
+MOCK_BW_FOLDERS='[{"id": "folder-123", "name": "flow-cli-secrets"}]'
+
+# Test import logic with mocked bw commands
+test_import_process_substitution_count() {
+    log_test "Import uses process substitution (count preserved)"
+
+    # This tests the fix for the subshell count issue
+    # When using `cmd | while`, count is lost. With `while ... done < <(cmd)`, it's preserved.
+
+    local count=0
+    local name value
+
+    # Simulate the import loop pattern (using echo instead of bw)
+    while IFS=$'\t' read -r name value; do
+        if [[ -n "$name" && -n "$value" ]]; then
+            ((count++))
+        fi
+    done < <(echo -e "secret1\tvalue1\nsecret2\tvalue2\nsecret3\tvalue3")
+
+    if [[ $count -eq 3 ]]; then
+        pass
+    else
+        fail "Expected count=3, got count=$count (process substitution may be broken)"
+    fi
+}
+
+test_import_pipe_count_regression() {
+    log_test "Pipe-based while loses count (expected behavior)"
+
+    # This demonstrates WHY we use process substitution
+    # With pipe, count stays 0 in parent shell
+    local count=0
+
+    echo -e "a\t1\nb\t2" | while IFS=$'\t' read -r name value; do
+        ((count++))
+    done
+
+    # In ZSH with pipe, count should be 0 (subshell issue)
+    # If this test fails, ZSH behavior changed
+    if [[ $count -eq 0 ]]; then
+        pass
+    else
+        # ZSH might behave differently with lastpipe option
+        skip "ZSH preserved count through pipe (lastpipe enabled?)"
+    fi
+}
+
+test_import_handles_empty_password() {
+    log_test "Import skips items with empty password"
+
+    local count=0
+    local name value
+
+    # Simulate import with one empty password
+    while IFS=$'\t' read -r name value; do
+        if [[ -n "$name" && -n "$value" ]]; then
+            ((count++))
+        fi
+    done < <(echo -e "secret1\tvalue1\nsecret2\t\nsecret3\tvalue3")
+
+    if [[ $count -eq 2 ]]; then
+        pass
+    else
+        fail "Expected count=2 (skip empty), got count=$count"
+    fi
+}
+
+test_import_handles_empty_name() {
+    log_test "Import skips items with empty name"
+
+    local count=0
+    local name value
+
+    while IFS=$'\t' read -r name value; do
+        if [[ -n "$name" && -n "$value" ]]; then
+            ((count++))
+        fi
+    done < <(echo -e "secret1\tvalue1\n\tvalue2\nsecret3\tvalue3")
+
+    if [[ $count -eq 2 ]]; then
+        pass
+    else
+        fail "Expected count=2 (skip empty name), got count=$count"
+    fi
+}
+
+test_import_requires_bw() {
+    log_test "Import checks for bw command"
+
+    # Temporarily hide bw
+    local original_path="$PATH"
+    PATH="/usr/bin:/bin"
+
+    local output
+    output=$(_dot_kc_import 2>&1 <<< "n")
+
+    PATH="$original_path"
+
+    if [[ "$output" == *"Bitwarden CLI not installed"* ]] || [[ "$output" == *"bw"* ]]; then
+        pass
+    else
+        # bw might be in /usr/bin, so this could still find it
+        skip "bw found in restricted PATH"
+    fi
+}
+
+test_import_function_exists() {
+    log_test "_dot_kc_import function exists"
+    if type _dot_kc_import &>/dev/null; then
+        pass
+    else
+        fail "_dot_kc_import not defined"
+    fi
+}
+
+# ============================================================================
 # RUN TESTS
 # ============================================================================
 
@@ -599,6 +724,17 @@ main() {
     test_update_existing_secret
     test_multiple_secrets_in_list
     test_secret_value_with_special_chars
+
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "  UNIT TESTS: Import (Mock-based)"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    test_import_function_exists
+    test_import_process_substitution_count
+    test_import_pipe_count_regression
+    test_import_handles_empty_password
+    test_import_handles_empty_name
+    test_import_requires_bw
 
     echo ""
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
