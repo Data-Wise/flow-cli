@@ -11,7 +11,17 @@
 ## Focus: Ready for next feature 🚀
 
 ## 🚧 In Progress:
-- None - clean slate after v5.4.3 release
+
+- **macOS Keychain Secret Management (Plan E)**
+  - **Spec:** `docs/specs/SPEC-macos-keychain-secrets-2026-01-13.md`
+  - **Branch:** `feature/keychain-secrets`
+  - **Worktree:** `~/.git-worktrees/flow-cli-keychain-secrets`
+  - **Status:** Spec approved, ready for implementation
+  - **Features:**
+    - `dot secret add/get/list/delete` - Native Keychain storage
+    - `dot secret import` - One-time Bitwarden import
+    - Touch ID / Apple Watch unlock support
+    - Zero session management
 
 ## ✅ Just Completed (2026-01-13 - Latest):
 
