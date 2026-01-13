@@ -51,7 +51,7 @@ work() {
   _flow_first_run_welcome
 
   local project="$1"
-  local editor="${2:-${EDITOR:-code}}"
+  local editor="${2:-${EDITOR:-nvim}}"
 
   # Check for existing session (avoid conflicts)
   if _flow_has_atlas; then
@@ -127,7 +127,7 @@ _work_help() {
   echo ""
   echo "${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}"
   echo "  project    Project name or partial match (uses picker if omitted)"
-  echo "  editor     Editor to open (default: \$EDITOR or code)"
+  echo "  editor     Editor to open (default: \$EDITOR or nvim)"
   echo ""
   echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
   echo "  -h, --help    Show this help message"
