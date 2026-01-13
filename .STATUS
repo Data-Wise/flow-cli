@@ -4,16 +4,29 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: Production Ready - v5.4.0 Released
+## Phase: Production Ready - v5.4.1 Released
 ## Priority: 1
-## Progress: 98
+## Progress: 100
 
-## Focus: teach-init UX Enhancement 🎓
+## Focus: Ready for next feature 🚀
 
-## 🚧 In Progress (2026-01-12 - Current):
-- Ready to push and create PR
+## 🚧 In Progress:
+- None - clean slate after v5.4.1 release
 
 ## ✅ Just Completed (2026-01-12 - Latest):
+
+- **v5.4.1 RELEASED** 🎉
+  - **Tag:** v5.4.1
+  - **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.4.1
+  - **PRs:** #229 (teach-init UX), #230 (release), #231 (docs)
+  - **Features:**
+    - `teach` dispatcher - unified teaching commands
+    - Non-interactive mode (`-y`/`--yes`) for teach-init
+    - ADHD-friendly completion summary with rollback instructions
+    - Help flags (`-h`/`--help`/`help`) for work, hop, teach-init
+  - **Fixes:** Already-initialized project detection
+  - **Docs:** teach.md, DISPATCHER-REFERENCE.md, CHANGELOG.md, CLAUDE.md
+  - **Cleanup:** 8 merged branches deleted, brainstorm archived
 
 - **teach-init UX Enhancement - IMPLEMENTED** ✅ (feature/teach-init-ux)
   - **Brainstorm:** BRAINSTORM-teach-init-ux-2026-01-12.md

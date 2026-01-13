@@ -141,7 +141,7 @@ _flow_get_project_fallback() {
   
   if [[ -n "$path" ]]; then
     echo "name=\"$name\""
-    echo "path=\"$path\""
+    echo "project_path=\"$path\""  # Avoid 'path' - conflicts with ZSH's PATH-tied variable
     echo "proj_status=\"active\""  # Avoid 'status' - conflicts with ZSH builtin
     return 0
   fi
