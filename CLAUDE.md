@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v5.4.1, active development)
+- **Status:** Production ready (v5.4.3 released, v5.5.0 on dev)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -20,9 +20,10 @@ This file provides guidance to Claude Code when working with code in this reposi
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`
-- 8 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`
+- 10 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dot`, `teach`
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
+- macOS Keychain secret management (v5.5.0)
 
 ---
 
@@ -355,12 +356,18 @@ flow-cli/
 │   ├── project-detector.zsh  # Project type detection
 │   ├── tui.zsh               # Terminal UI components
 │   ├── inventory.zsh         # Tool inventory generator
-│   └── dispatchers/          # Smart command dispatchers
+│   ├── keychain-helpers.zsh  # macOS Keychain secrets (v5.5.0)
+│   └── dispatchers/          # Smart command dispatchers (10)
+│       ├── cc-dispatcher.zsh     # Claude Code
+│       ├── dot-dispatcher.zsh    # Dotfiles + Secrets
 │       ├── g-dispatcher.zsh      # Git workflows
 │       ├── mcp-dispatcher.zsh    # MCP servers
 │       ├── obs.zsh               # Obsidian
 │       ├── qu-dispatcher.zsh     # Quarto
-│       └── r-dispatcher.zsh      # R packages
+│       ├── r-dispatcher.zsh      # R packages
+│       ├── teach-dispatcher.zsh  # Teaching workflow
+│       ├── tm-dispatcher.zsh     # Terminal manager
+│       └── wt-dispatcher.zsh     # Worktrees
 ├── commands/                 # Command implementations
 │   ├── work.zsh             # work, finish, hop, why
 │   ├── dash.zsh             # Dashboard
@@ -373,17 +380,17 @@ flow-cli/
 │   ├── Brewfile             # Recommended Homebrew packages
 │   └── README.md            # Setup instructions
 ├── completions/             # ZSH completions
-│   ├── _work, _dash, _flow, _hop, _pick
+│   ├── _work, _dash, _flow, _hop, _pick, _dot
 ├── hooks/                   # ZSH hooks
 │   ├── chpwd.zsh           # Directory change
 │   └── precmd.zsh          # Pre-command
 ├── docs/                    # Documentation (MkDocs)
-│   ├── reference/          # Reference cards
+│   ├── reference/          # Reference cards + ARCHITECTURE.md
 │   ├── tutorials/          # Step-by-step guides
 │   ├── guides/             # How-to guides
 │   ├── commands/           # Command docs
-│   └── conventions/        # Standards (migrated from dev-planning)
-├── tests/                   # Test suite
+│   └── conventions/        # Standards
+├── tests/                   # Test suite (39 keychain tests)
 ├── zsh/functions/          # Legacy (backward compat)
 └── .archive/               # Archived Node.js CLI
 ```
@@ -397,9 +404,11 @@ flow-cli/
 | `flow.plugin.zsh`                        | Plugin entry point       | Source this to load      |
 | `lib/core.zsh`                           | Core utilities           | Logging, colors, helpers |
 | `lib/atlas-bridge.zsh`                   | Atlas integration        | Optional state engine    |
-| `lib/dispatchers/*.zsh`                  | Smart dispatchers        | 6 active dispatchers     |
+| `lib/keychain-helpers.zsh`               | macOS Keychain secrets   | v5.5.0 - Touch ID        |
+| `lib/dispatchers/*.zsh`                  | Smart dispatchers        | 10 active dispatchers    |
 | `commands/*.zsh`                         | Core commands            | work, dash, finish, etc. |
-| `docs/reference/DISPATCHER-REFERENCE.md` | Complete dispatcher docs | 442 lines                |
+| `docs/reference/DISPATCHER-REFERENCE.md` | Complete dispatcher docs | All dispatchers          |
+| `docs/reference/ARCHITECTURE.md`         | System architecture      | Mermaid diagrams         |
 | `.STATUS`                                | Current progress         | Sprint tracking          |
 
 ---
@@ -644,7 +653,68 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2026-01-12)
+## Current Status (2026-01-13)
+
+### 🚀 v5.5.0 READY FOR RELEASE - macOS Keychain Secrets
+
+**Branch:** dev (merged, ready for main)
+**PR:** #234 (merged)
+
+**What's New:**
+
+- [x] `dot secret add/get/list/delete` - Native macOS Keychain storage
+- [x] `dot secret import` - One-time Bitwarden migration
+- [x] Touch ID / Apple Watch authentication support
+- [x] Zero session management (no `dot unlock` needed)
+- [x] 39 tests for keychain helpers (100% passing)
+- [x] Complete documentation (tutorial, reference, architecture)
+
+**New Commands:**
+
+```bash
+# Store secret in Keychain (Touch ID enabled)
+dot secret add github-token
+
+# Get secret instantly (no unlock!)
+TOKEN=$(dot secret github-token)
+
+# List all Keychain secrets
+dot secret list
+
+# Import from Bitwarden (one-time)
+dot secret import
+```
+
+**Architecture:**
+
+- Primary: macOS Keychain (instant, offline, biometric)
+- Fallback: Bitwarden via `dot secret bw <name>` (cloud, team sharing)
+
+**Documentation Added:**
+
+- `docs/tutorials/12-dot-dispatcher.md` - Updated with Keychain workflow
+- `docs/reference/ARCHITECTURE.md` - System architecture with Mermaid diagrams
+- `docs/reference/TEACH-DISPATCHER-REFERENCE.md` - Complete teach reference
+
+**To Release:**
+
+```bash
+gh pr create --base main --head dev --title "Release v5.5.0"
+# After merge:
+git tag -a v5.5.0 -m "v5.5.0 - macOS Keychain Secrets"
+git push --tags
+```
+
+---
+
+### ✅ v5.4.3 RELEASED - Bug Fixes
+
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.4.3
+
+- [x] Fixed `dot unlock` stderr contamination
+- [x] Fixed `cc wt` worktree path detection (flat naming support)
+
+---
 
 ### ✅ v5.4.1 RELEASED - Teaching Workflow & UX Enhancements
 
@@ -763,12 +833,12 @@ dot env init                  # Generate .envrc for direnv
 
 ### 🎯 Production Ready
 
-- **Version:** 4.6.4
-- **Released:** 2025-12-31
+- **Version:** v5.4.3 (v5.5.0 on dev)
+- **Released:** 2026-01-13
 - **Status:** Production use phase
 - **Performance:** Sub-10ms for core commands, CI ~17s
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
-- **Tests:** 100+ tests across all features
+- **Tests:** 150+ tests across all features (39 keychain tests)
 
 ### 📋 Future: Installation Improvements
 
@@ -869,5 +939,5 @@ git push origin main && git push origin v5.3.0
 
 ---
 
-**Last Updated:** 2026-01-12
+**Last Updated:** 2026-01-13
 **Status:** Production Ready
