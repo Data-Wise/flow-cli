@@ -1109,53 +1109,130 @@ _dot_secret() {
   shift 2>/dev/null  # Safe shift even if no args
 
   case "$subcommand" in
-    # List secrets
-    list|ls)
-      _dot_secret_list "$@"
-      return
-      ;;
+    # ─────────────────────────────────────────────────────────────
+    # KEYCHAIN OPERATIONS (Default - instant, local, Touch ID)
+    # ─────────────────────────────────────────────────────────────
 
-    # Add new secret (Phase 1 - v2.0)
+    # Add secret to Keychain
     add|new)
-      _dot_secret_add "$@"
+      _dot_kc_add "$@"
       return
       ;;
 
-    # Check expiring secrets (Phase 1 - v2.0)
-    check|expiring)
-      _dot_secret_check "$@"
+    # Get secret from Keychain
+    get)
+      _dot_kc_get "$@"
       return
       ;;
 
-    # Help
+    # List Keychain secrets
+    list|ls)
+      _dot_kc_list
+      return
+      ;;
+
+    # Delete from Keychain
+    delete|rm|remove)
+      _dot_kc_delete "$@"
+      return
+      ;;
+
+    # Import from Bitwarden to Keychain
+    import)
+      _dot_kc_import
+      return
+      ;;
+
+    # ─────────────────────────────────────────────────────────────
+    # BITWARDEN FALLBACK (for cloud-synced secrets)
+    # ─────────────────────────────────────────────────────────────
+    bw)
+      # Delegate to Bitwarden-specific operations
+      _dot_secret_bw "$@"
+      return
+      ;;
+
+    # ─────────────────────────────────────────────────────────────
+    # HELP
+    # ─────────────────────────────────────────────────────────────
     help|--help|-h)
-      _dot_secret_help
+      _dot_kc_help
       return
       ;;
 
     # Empty - show help
     "")
-      _dot_secret_help
+      _dot_kc_help
       return 1
       ;;
-  esac
 
-  # Default: retrieve specific secret by name
+    *)
+      # Default: treat as secret name (get operation from Keychain)
+      _dot_kc_get "$subcommand"
+      return
+      ;;
+  esac
+}
+
+# Bitwarden fallback for cloud-synced secrets
+# Usage: dot secret bw <name|list|add|check>
+_dot_secret_bw() {
+  local subcommand="$1"
+  shift 2>/dev/null
+
+  case "$subcommand" in
+    list|ls)
+      _dot_secret_bw_list "$@"
+      return
+      ;;
+
+    add|new)
+      _dot_secret_bw_add "$@"
+      return
+      ;;
+
+    check|expiring)
+      _dot_secret_bw_check "$@"
+      return
+      ;;
+
+    help|--help|-h)
+      _dot_secret_bw_help
+      return
+      ;;
+
+    "")
+      _dot_secret_bw_help
+      return 1
+      ;;
+
+    *)
+      # Retrieve specific secret from Bitwarden
+      _dot_secret_bw_get "$subcommand"
+      return
+      ;;
+  esac
+}
+
+# Get secret from Bitwarden
+_dot_secret_bw_get() {
+  local item_name="$1"
+
+  if [[ -z "$item_name" ]]; then
+    _flow_log_error "Usage: dot secret bw <name>"
+    return 1
+  fi
 
   if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
     return 1
   fi
 
-  # Check if session is active
   if ! _dot_bw_session_valid; then
     _flow_log_error "Bitwarden vault is locked"
     _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
     return 1
   fi
 
-  local item_name="$subcommand"
-
-  # Retrieve secret (capture stderr for error parsing)
   local secret_value
   local error_output
   local temp_err=$(mktemp)
@@ -1165,11 +1242,10 @@ _dot_secret() {
   rm -f "$temp_err"
 
   if [[ $get_status -ne 0 ]]; then
-    # Parse error message for specific guidance
     case "$error_output" in
       *"Not found"*|*"not found"*)
         _flow_log_error "Secret not found: $item_name"
-        _flow_log_muted "Tip: Use 'dot secret list' to see available items"
+        _flow_log_muted "Tip: Use 'dot secret bw list' to see Bitwarden items"
         ;;
       *"Session key"*|*"session"*)
         _flow_log_error "Session expired"
@@ -1179,10 +1255,6 @@ _dot_secret() {
         _flow_log_error "Vault is locked"
         _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
         ;;
-      *"access denied"*|*"Access denied"*)
-        _flow_log_error "Access denied for: $item_name"
-        _flow_log_info "Check item permissions in Bitwarden"
-        ;;
       *)
         _flow_log_error "Failed to retrieve secret: $item_name"
         _flow_log_muted "Error: $error_output"
@@ -1191,12 +1263,26 @@ _dot_secret() {
     return 1
   fi
 
-  # Return value WITHOUT echoing to terminal (security)
-  # Caller can capture: TOKEN=$(dot secret github-token)
   echo "$secret_value"
 }
 
-_dot_secret_list() {
+# Bitwarden help
+_dot_secret_bw_help() {
+  echo ""
+  echo "${FLOW_COLORS[header]}dot secret bw${FLOW_COLORS[reset]} - Bitwarden cloud secrets (requires unlock)"
+  echo ""
+  echo "${FLOW_COLORS[warning]}Commands:${FLOW_COLORS[reset]}"
+  echo "  dot secret bw <name>      Get secret from Bitwarden"
+  echo "  dot secret bw list        List Bitwarden items"
+  echo "  dot secret bw add <name>  Add to Bitwarden (with expiration)"
+  echo "  dot secret bw check       Check expiring secrets"
+  echo ""
+  echo "${FLOW_COLORS[muted]}Note: Bitwarden requires 'dot unlock' first${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[muted]}For instant local access, use: dot secret <name>${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+_dot_secret_bw_list() {
   if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
     return 1
   fi
@@ -1253,7 +1339,7 @@ _dot_secret_list() {
 # SECRET ADD - Store new secret (Phase 1 - v2.0)
 # ═══════════════════════════════════════════════════════════════════
 
-_dot_secret_add() {
+_dot_secret_bw_add() {
   local secret_name="$1"
   local expires_days=""
   local notes=""
@@ -1410,7 +1496,7 @@ EOF
 # SECRET CHECK - Show expiring secrets (Phase 1 - v2.0)
 # ═══════════════════════════════════════════════════════════════════
 
-_dot_secret_check() {
+_dot_secret_bw_check() {
   local warn_days="${1:-30}"  # Default: warn for secrets expiring within 30 days
 
   if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
@@ -1507,7 +1593,7 @@ _dot_secret_check() {
 # SECRET HELP - Show secret subcommands
 # ═══════════════════════════════════════════════════════════════════
 
-_dot_secret_help() {
+_dot_secret_bw_help_detailed() {
   echo ""
   echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔐 DOT SECRET - Bitwarden Secret Management${FLOW_COLORS[reset]}     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"

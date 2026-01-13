@@ -26,7 +26,7 @@ _dot() {
     'a:Apply pending changes (alias)'
     'unlock:Unlock Bitwarden vault'
     'u:Unlock Bitwarden vault (alias)'
-    'secret:Retrieve or list secrets'
+    'secret:macOS Keychain secret management'
     'doctor:Run diagnostics'
     'dr:Run diagnostics (alias)'
     'undo:Rollback last apply'
@@ -77,18 +77,33 @@ _dot() {
           _describe -t files 'managed file' files
           ;;
         secret)
-          # First arg after 'secret' can be 'list' or a secret name
+          # Keychain secret commands
           if [[ ${#line[@]} -eq 1 ]]; then
             local -a secret_cmds
             secret_cmds=(
-              'list:List all available secrets'
+              'add:Store a secret in Keychain'
+              'get:Retrieve a secret from Keychain'
+              'list:List all Keychain secrets'
+              'delete:Remove a secret from Keychain'
+              'import:Import secrets from Bitwarden'
+              'bw:Access Bitwarden cloud secrets (fallback)'
+              'help:Show help'
+            )
+            _describe -t secrets 'secret command' secret_cmds
+          elif [[ "$line[2]" == "bw" ]]; then
+            # Bitwarden subcommands
+            local -a bw_cmds
+            bw_cmds=(
+              'list:List Bitwarden items'
+              'add:Add to Bitwarden'
+              'check:Check expiring secrets'
             )
             if [[ ${#secrets[@]} -gt 0 ]]; then
               for s in $secrets; do
-                secret_cmds+=("$s:Retrieve secret")
+                bw_cmds+=("$s:Retrieve from Bitwarden")
               done
             fi
-            _describe -t secrets 'secret name or command' secret_cmds
+            _describe -t secrets 'bw command or secret name' bw_cmds
           fi
           ;;
       esac
