@@ -13,6 +13,9 @@ Initialize the teaching workflow for course websites.
 cd ~/projects/teaching/my-course
 teach-init "STAT 545"
 
+# Non-interactive mode (accept safe defaults)
+teach-init -y "STAT 545"
+
 # Preview migration plan (existing Quarto project)
 teach-init --dry-run "STAT 545"
 ```
@@ -22,7 +25,7 @@ teach-init --dry-run "STAT 545"
 ## Synopsis
 
 ```bash
-teach-init [--dry-run] <course-name>
+teach-init [OPTIONS] <course-name>
 ```
 
 ---
@@ -46,6 +49,27 @@ teach-init [--dry-run] <course-name>
 | Flag | Description |
 |------|-------------|
 | `--dry-run` | Preview migration plan without making changes |
+| `-y`, `--yes` | Non-interactive mode (accept safe defaults) |
+
+---
+
+## Non-Interactive Mode
+
+Use `-y` or `--yes` for automation or when you want to accept safe defaults:
+
+```bash
+teach-init -y "STAT 545"
+```
+
+**Safe defaults in non-interactive mode:**
+
+| Setting | Default |
+|---------|---------|
+| Migration strategy | Option 1 (in-place conversion, preserves history) |
+| renv/ handling | Auto-exclude from git |
+| GitHub push | Skip (push manually later) |
+| Semester dates | Use auto-suggested start date |
+| Break configuration | Skip (add later via config) |
 
 ---
 
@@ -105,6 +129,37 @@ This allows manual recovery if needed.
 
 ---
 
+## Completion Summary
+
+After successful migration, `teach-init` displays an ADHD-friendly summary box:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ 🎉 TEACHING WORKFLOW INITIALIZED!                           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 📋 What Just Happened:                                      │
+│   ✅ Created rollback tag: spring-2026-pre-migration        │
+│   ✅ Renamed main → production                              │
+│   ✅ Created draft branch (you're on it now)                │
+│   ✅ Created files: .flow/, scripts/, MIGRATION-COMPLETE.md │
+│                                                             │
+├─────────────────────────────────────────────────────────────┤
+│ 🏷️  HOW TO ROLLBACK (if anything goes wrong):              │
+│   git checkout spring-2026-pre-migration                    │
+│   git checkout -b main                                      │
+│   rm -rf .flow scripts MIGRATION-COMPLETE.md                │
+│                                                             │
+├─────────────────────────────────────────────────────────────┤
+│ 🚀 NEXT STEPS:                                              │
+│   1. work stat-545                                          │
+│   2. Make edits, commit as usual                            │
+│   3. ./scripts/quick-deploy.sh                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## Examples
 
 ### New Course
@@ -130,6 +185,19 @@ teach-init "STAT 545"             # Execute migration
 cd ~/teaching/my-r-course
 teach-init "My R Course"
 # Prompts: "Exclude renv/ from git? [Y/n]"
+```
+
+### Non-Interactive (Automation)
+
+```bash
+# CI/CD or scripted setup
+teach-init -y "STAT 440"
+
+# Uses safe defaults:
+# - Strategy 1 (in-place conversion)
+# - Auto-exclude renv/
+# - Skip GitHub push
+# - Use suggested semester dates
 ```
 
 ---

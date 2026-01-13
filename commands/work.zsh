@@ -39,6 +39,14 @@ _flow_first_run_welcome() {
 }
 
 work() {
+  # Handle help flags
+  case "$1" in
+    -h|--help|help)
+      _work_help
+      return 0
+      ;;
+  esac
+
   # Show welcome message on first run
   _flow_first_run_welcome
 
@@ -108,6 +116,33 @@ work() {
 
   # Open editor
   _flow_open_editor "$editor" "$path"
+}
+
+# Help function for work command
+_work_help() {
+  echo "${FLOW_COLORS[bold]}work${FLOW_COLORS[reset]} - Start working on a project"
+  echo ""
+  echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "  work [project] [editor]"
+  echo ""
+  echo "${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}"
+  echo "  project    Project name or partial match (uses picker if omitted)"
+  echo "  editor     Editor to open (default: \$EDITOR or code)"
+  echo ""
+  echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+  echo "  -h, --help    Show this help message"
+  echo ""
+  echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+  echo "  work                    # Pick project with fzf"
+  echo "  work flow               # Start working on flow-cli"
+  echo "  work stat-545           # Start working on STAT 545 course"
+  echo "  work flow nvim          # Open in neovim"
+  echo ""
+  echo "${FLOW_COLORS[bold]}RELATED COMMANDS${FLOW_COLORS[reset]}"
+  echo "  finish      End current session"
+  echo "  hop         Quick switch projects (tmux)"
+  echo "  pick        Interactive project picker"
+  echo "  dash        Project dashboard"
 }
 
 # Show work context when starting
@@ -363,8 +398,16 @@ finish() {
 # ============================================================================
 
 hop() {
+  # Handle help flags
+  case "$1" in
+    -h|--help|help)
+      _hop_help
+      return 0
+      ;;
+  esac
+
   local project="$1"
-  
+
   # If no project, show picker
   if [[ -z "$project" ]]; then
     if _flow_has_fzf; then
@@ -404,6 +447,33 @@ hop() {
     cd "$path" || return 1
     _flow_log_info "Changed to: $project (start tmux for session management)"
   fi
+}
+
+# Help function for hop command
+_hop_help() {
+  echo "${FLOW_COLORS[bold]}hop${FLOW_COLORS[reset]} - Quick project switch with tmux"
+  echo ""
+  echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "  hop [project]"
+  echo ""
+  echo "${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}"
+  echo "  project    Project name or partial match (uses picker if omitted)"
+  echo ""
+  echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+  echo "  -h, --help    Show this help message"
+  echo ""
+  echo "${FLOW_COLORS[bold]}BEHAVIOR${FLOW_COLORS[reset]}"
+  echo "  In tmux:     Creates/switches to project session"
+  echo "  Not in tmux: Changes to project directory"
+  echo ""
+  echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+  echo "  hop                     # Pick project with fzf"
+  echo "  hop flow                # Switch to flow-cli project"
+  echo "  hop aiterm              # Switch to aiterm project"
+  echo ""
+  echo "${FLOW_COLORS[bold]}RELATED COMMANDS${FLOW_COLORS[reset]}"
+  echo "  work        Start working (full context setup)"
+  echo "  pick        Interactive project picker"
 }
 
 # ============================================================================

@@ -8,12 +8,21 @@
 teach-init() {
   local course_name=""
   local dry_run=false
+  local interactive=true
 
   # Parse flags
   while [[ $# -gt 0 ]]; do
     case "$1" in
+      -h|--help|help)
+        _teach_init_help
+        return 0
+        ;;
       --dry-run)
         dry_run=true
+        shift
+        ;;
+      -y|--yes)
+        interactive=false
         shift
         ;;
       *)
@@ -23,14 +32,27 @@ teach-init() {
     esac
   done
 
+  # Export for child functions
+  export TEACH_INTERACTIVE="$interactive"
+
   if [[ -z "$course_name" ]]; then
-    _flow_log_error "Usage: teach-init [--dry-run] <course-name>"
+    _flow_log_error "Usage: teach-init [OPTIONS] <course-name>"
+    echo ""
+    echo "Options:"
+    echo "  --dry-run    Preview migration plan without making changes"
+    echo "  -y, --yes    Non-interactive mode (accept safe defaults)"
     echo ""
     echo "Examples:"
-    echo "  teach-init \"STAT 545\""
-    echo "  teach-init \"STAT 440\""
-    echo "  teach-init --dry-run \"STAT 545\"  # Preview migration plan"
+    echo "  teach-init \"STAT 545\"              # Interactive (default)"
+    echo "  teach-init -y \"STAT 545\"           # Non-interactive, safe defaults"
+    echo "  teach-init --dry-run \"STAT 545\"    # Preview migration plan"
     return 1
+  fi
+
+  # Show mode indicator for non-interactive
+  if [[ "$interactive" == "false" ]]; then
+    echo "🤖 Non-interactive mode: using safe defaults"
+    echo ""
   fi
 
   # Dry-run mode: show plan and exit
@@ -91,6 +113,34 @@ teach-init() {
   fi
 }
 
+# Help function for teach-init
+_teach_init_help() {
+  echo "${FLOW_COLORS[bold]}teach-init${FLOW_COLORS[reset]} - Initialize teaching workflow for course websites"
+  echo ""
+  echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "  teach-init [OPTIONS] <course-name>"
+  echo ""
+  echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+  echo "  -h, --help     Show this help message"
+  echo "  --dry-run      Preview migration plan without making changes"
+  echo "  -y, --yes      Non-interactive mode (accept safe defaults)"
+  echo ""
+  echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+  echo "  teach-init \"STAT 545\"              # Interactive (default)"
+  echo "  teach-init -y \"STAT 545\"           # Non-interactive, safe defaults"
+  echo "  teach-init --dry-run \"STAT 545\"    # Preview migration plan"
+  echo ""
+  echo "${FLOW_COLORS[bold]}SAFE DEFAULTS (non-interactive)${FLOW_COLORS[reset]}"
+  echo "  • Strategy 1: In-place conversion (preserves history)"
+  echo "  • Auto-exclude renv/ from git"
+  echo "  • Skip GitHub push (push manually later)"
+  echo "  • Use auto-suggested semester start date"
+  echo "  • Skip break configuration"
+  echo ""
+  echo "${FLOW_COLORS[bold]}DOCUMENTATION${FLOW_COLORS[reset]}"
+  echo "  https://data-wise.github.io/flow-cli/commands/teach-init/"
+}
+
 # ============================================================================
 # PHASE 1: DETECTION AND VALIDATION (v5.4.0)
 # ============================================================================
@@ -142,14 +192,20 @@ _teach_validate_quarto_project() {
 }
 
 # Handle renv/ directories interactively
-# Prompts user to exclude from git if detected
+# Prompts user to exclude from git if detected (auto-excludes in non-interactive mode)
 _teach_handle_renv() {
   if [[ -d "renv" ]]; then
     echo ""
     echo "  ${FLOW_COLORS[warning]}⚠️  Detected renv/ directory${FLOW_COLORS[reset]}"
     echo "  R package management with symlinks (not suitable for git)"
-    echo ""
-    read "?  Exclude renv/ from git? [Y/n]: " exclude_renv
+
+    local exclude_renv="y"
+    if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+      echo ""
+      read "?  Exclude renv/ from git? [Y/n]: " exclude_renv
+    else
+      echo "  → Auto-excluding renv/ (non-interactive mode)"
+    fi
 
     if [[ "$exclude_renv" != "n" ]]; then
       # Check if already in .gitignore
@@ -342,20 +398,28 @@ _teach_migrate_quarto_project() {
 
   # Step 3: Show migration strategy options
   local current_branch=$(git branch --show-current)
+  local choice=""
 
-  echo ""
-  echo "Choose migration strategy:"
-  echo "  ${FLOW_COLORS[bold]}1.${FLOW_COLORS[reset]} Convert existing branch → production (preserve history)"
-  echo "     Renames $current_branch → production, creates draft"
-  echo ""
-  echo "  ${FLOW_COLORS[bold]}2.${FLOW_COLORS[reset]} Create parallel branches (keep existing + add draft/production)"
-  echo "     Keeps $current_branch, adds new draft + production branches"
-  echo ""
-  echo "  ${FLOW_COLORS[bold]}3.${FLOW_COLORS[reset]} Fresh start (tag current, start new structure)"
-  echo "     Tags current state, creates clean draft + production"
-  echo ""
+  if [[ "$TEACH_INTERACTIVE" == "false" ]]; then
+    # Non-interactive: auto-select strategy 1 (safest - preserves history)
+    echo ""
+    echo "→ Auto-selecting strategy 1: Convert existing → production (non-interactive mode)"
+    choice="1"
+  else
+    echo ""
+    echo "Choose migration strategy:"
+    echo "  ${FLOW_COLORS[bold]}1.${FLOW_COLORS[reset]} Convert existing branch → production (preserve history)"
+    echo "     Renames $current_branch → production, creates draft"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}2.${FLOW_COLORS[reset]} Create parallel branches (keep existing + add draft/production)"
+    echo "     Keeps $current_branch, adds new draft + production branches"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}3.${FLOW_COLORS[reset]} Fresh start (tag current, start new structure)"
+    echo "     Tags current state, creates clean draft + production"
+    echo ""
 
-  read "choice?Choice [1/2/3]: "
+    read "choice?Choice [1/2/3]: "
+  fi
 
   case "$choice" in
     1) _teach_quarto_inplace_conversion "$course_name" ;;
@@ -381,10 +445,14 @@ _teach_quarto_inplace_conversion() {
   echo "  4. Add .flow/teach-config.yml and scripts/"
   echo ""
 
-  read "confirm?Continue? [y/N] "
-  if [[ "$confirm" != "y" ]]; then
-    echo "Cancelled"
-    return 1
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+    read "confirm?Continue? [y/N] "
+    if [[ "$confirm" != "y" ]]; then
+      echo "Cancelled"
+      return 1
+    fi
+  else
+    echo "→ Proceeding automatically (non-interactive mode)"
   fi
 
   # Create rollback tag
@@ -425,7 +493,7 @@ _teach_quarto_inplace_conversion() {
 
   echo ""
   echo "✅ Migration complete"
-  _teach_show_next_steps "$course_name"
+  _teach_show_completion_summary "$course_name" "$rollback_tag" "$current_branch"
 }
 
 # Strategy 2: Create parallel branches
@@ -442,10 +510,14 @@ _teach_quarto_parallel_branches() {
   echo "  5. Add teaching workflow files"
   echo ""
 
-  read "confirm?Continue? [y/N] "
-  if [[ "$confirm" != "y" ]]; then
-    echo "Cancelled"
-    return 1
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+    read "confirm?Continue? [y/N] "
+    if [[ "$confirm" != "y" ]]; then
+      echo "Cancelled"
+      return 1
+    fi
+  else
+    echo "→ Proceeding automatically (non-interactive mode)"
   fi
 
   # Create rollback tag
@@ -486,7 +558,7 @@ _teach_quarto_parallel_branches() {
 
   echo ""
   echo "✅ Migration complete"
-  _teach_show_next_steps "$course_name"
+  _teach_show_completion_summary "$course_name" "$rollback_tag" "$current_branch"
 }
 
 # Strategy 3: Fresh start
@@ -502,10 +574,14 @@ _teach_quarto_fresh_start() {
   echo "  4. Add teaching workflow files"
   echo ""
 
-  read "confirm?Continue? [y/N] "
-  if [[ "$confirm" != "y" ]]; then
-    echo "Cancelled"
-    return 1
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+    read "confirm?Continue? [y/N] "
+    if [[ "$confirm" != "y" ]]; then
+      echo "Cancelled"
+      return 1
+    fi
+  else
+    echo "→ Proceeding automatically (non-interactive mode)"
   fi
 
   # Create archive tag
@@ -549,21 +625,28 @@ _teach_quarto_fresh_start() {
   echo ""
   echo "✅ Migration complete (fresh start)"
   echo "💡 Original history preserved in tag: $archive_tag"
-  _teach_show_next_steps "$course_name"
+  _teach_show_completion_summary "$course_name" "$archive_tag" "$current_branch"
 }
 
 # Generic migration for non-Quarto projects
 _teach_migrate_generic_repo() {
   local course_name="$1"
   local current_branch=$(git branch --show-current)
+  local choice=""
 
-  # Strategy menu (original behavior)
-  echo "Choose migration strategy:"
-  echo "  ${FLOW_COLORS[bold]}1.${FLOW_COLORS[reset]} In-place conversion (rename $current_branch → production, create draft)"
-  echo "  ${FLOW_COLORS[bold]}2.${FLOW_COLORS[reset]} Two-branch setup (keep $current_branch, create draft + production)"
-  echo ""
+  if [[ "$TEACH_INTERACTIVE" == "false" ]]; then
+    # Non-interactive: auto-select strategy 1 (in-place conversion)
+    echo "→ Auto-selecting strategy 1: In-place conversion (non-interactive mode)"
+    choice="1"
+  else
+    # Strategy menu (original behavior)
+    echo "Choose migration strategy:"
+    echo "  ${FLOW_COLORS[bold]}1.${FLOW_COLORS[reset]} In-place conversion (rename $current_branch → production, create draft)"
+    echo "  ${FLOW_COLORS[bold]}2.${FLOW_COLORS[reset]} Two-branch setup (keep $current_branch, create draft + production)"
+    echo ""
 
-  read "choice?Choice [1/2]: "
+    read "choice?Choice [1/2]: "
+  fi
 
   case "$choice" in
     1) _teach_inplace_conversion "$course_name" ;;
@@ -583,16 +666,21 @@ _teach_inplace_conversion() {
   echo "  3. Add .flow/teach-config.yml and scripts/"
   echo ""
 
-  read "confirm?Continue? [y/N] "
-  if [[ "$confirm" != "y" ]]; then
-    echo "Cancelled"
-    return 1
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+    read "confirm?Continue? [y/N] "
+    if [[ "$confirm" != "y" ]]; then
+      echo "Cancelled"
+      return 1
+    fi
+  else
+    echo "→ Proceeding automatically (non-interactive mode)"
   fi
 
   # Tag current state
   local semester=$(date +"%B" | sed 's/January\|February\|March\|April\|May/spring/; s/June\|July/summer/; s/August\|September\|October\|November\|December/fall/')
   local year=$(date +%Y)
-  git tag -a "$semester-$year-pre-migration" -m "Pre-migration snapshot"
+  local rollback_tag="$semester-$year-pre-migration"
+  git tag -a "$rollback_tag" -m "Pre-migration snapshot"
 
   # Rename to production
   git branch -m "$current_branch" production
@@ -607,11 +695,12 @@ _teach_inplace_conversion() {
 
   echo ""
   echo "✅ Migration complete"
-  _teach_show_next_steps "$course_name"
+  _teach_show_completion_summary "$course_name" "$rollback_tag" "$current_branch"
 }
 
 _teach_two_branch_setup() {
   local course_name="$1"
+  local current_branch=$(git branch --show-current)
 
   # Create production and draft branches
   git checkout -b production
@@ -625,7 +714,8 @@ _teach_two_branch_setup() {
 
   echo ""
   echo "✅ Two-branch setup complete"
-  _teach_show_next_steps "$course_name"
+  # No rollback tag for two-branch setup (existing branch preserved)
+  _teach_show_completion_summary "$course_name" "" "$current_branch"
 }
 
 # ============================================================================
@@ -687,18 +777,26 @@ _teach_install_templates() {
   echo ""
   echo "${FLOW_COLORS[bold]}Semester Schedule${FLOW_COLORS[reset]}"
   echo "  Configure semester start/end dates for week calculation"
-  echo ""
 
   # Suggest start date based on current month
   local suggested_start=$(_suggest_semester_start)
+  local start_date=""
+  local add_break=""
 
-  read "start_date?  Start date (YYYY-MM-DD) [$suggested_start]: "
-  start_date="${start_date:-$suggested_start}"
+  if [[ "$TEACH_INTERACTIVE" == "false" ]]; then
+    # Non-interactive: use suggested defaults
+    echo "  → Using default start date: $suggested_start (non-interactive mode)"
+    start_date="$suggested_start"
+  else
+    echo ""
+    read "start_date?  Start date (YYYY-MM-DD) [$suggested_start]: "
+    start_date="${start_date:-$suggested_start}"
 
-  # Validate date format
-  if ! _validate_date_format "$start_date"; then
-    _flow_log_error "Invalid date format. Please use YYYY-MM-DD"
-    return 1
+    # Validate date format
+    if ! _validate_date_format "$start_date"; then
+      _flow_log_error "Invalid date format. Please use YYYY-MM-DD"
+      return 1
+    fi
   fi
 
   # Calculate semester end (16 weeks from start)
@@ -706,28 +804,33 @@ _teach_install_templates() {
 
   echo "  ${FLOW_COLORS[info]}Calculated end date: $end_date (16 weeks)${FLOW_COLORS[reset]}"
 
-  # Ask about breaks
-  echo ""
-  read "?  Add spring/fall break? [y/N]: " add_break
-
+  # Ask about breaks (skip in non-interactive mode)
   local breaks_config=""
-  if [[ "$add_break" == "y" ]]; then
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
     echo ""
-    read "break_name?  Break name [Spring Break]: "
-    break_name="${break_name:-Spring Break}"
+    read "?  Add spring/fall break? [y/N]: " add_break
 
-    # Calculate week 8 as suggested break time
-    local start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s")
-    local break_start_epoch=$((start_epoch + (7 * 7 * 86400)))
-    local break_end_epoch=$((break_start_epoch + (7 * 86400)))
-    local suggested_break_start=$(date -j -f "%s" "$break_start_epoch" "+%Y-%m-%d")
-    local suggested_break_end=$(date -j -f "%s" "$break_end_epoch" "+%Y-%m-%d")
+    if [[ "$add_break" == "y" ]]; then
+      echo ""
+      read "break_name?  Break name [Spring Break]: "
+      break_name="${break_name:-Spring Break}"
 
-    read "break_start?  Break start [$suggested_break_start]: "
-    break_start="${break_start:-$suggested_break_start}"
+      # Calculate week 8 as suggested break time
+      local start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s")
+      local break_start_epoch=$((start_epoch + (7 * 7 * 86400)))
+      local break_end_epoch=$((break_start_epoch + (7 * 86400)))
+      local suggested_break_start=$(date -j -f "%s" "$break_start_epoch" "+%Y-%m-%d")
+      local suggested_break_end=$(date -j -f "%s" "$break_end_epoch" "+%Y-%m-%d")
 
-    read "break_end?  Break end [$suggested_break_end]: "
-    break_end="${break_end:-$suggested_break_end}"
+      read "break_start?  Break start [$suggested_break_start]: "
+      break_start="${break_start:-$suggested_break_start}"
+
+      read "break_end?  Break end [$suggested_break_end]: "
+      break_end="${break_end:-$suggested_break_end}"
+    fi
+  else
+    echo "  → Skipping break configuration (non-interactive mode)"
+    add_break="n"
   fi
 
   # Read template and substitute variables
@@ -804,6 +907,15 @@ Generated by flow-cli teach-init" || {
 _teach_offer_github_push() {
   echo ""
   echo "GitHub Integration (Optional)"
+
+  # Non-interactive mode: skip GitHub push (safe default)
+  if [[ "$TEACH_INTERACTIVE" == "false" ]]; then
+    echo "  → Skipped in non-interactive mode"
+    echo "  ℹ️  Push manually later:"
+    echo "     git push -u origin draft production"
+    return 0
+  fi
+
   read "?  Push to GitHub remote? [y/N]: " push_github
 
   if [[ "$push_github" != "y" ]]; then
@@ -970,40 +1082,115 @@ EOF
 }
 
 # ============================================================================
-# NEXT STEPS
+# COMPLETION SUMMARY (ADHD-Friendly)
 # ============================================================================
 
-_teach_show_next_steps() {
+# Show comprehensive completion summary with rollback instructions
+# Usage: _teach_show_completion_summary <course_name> [rollback_tag] [original_branch]
+_teach_show_completion_summary() {
   local course_name="$1"
+  local rollback_tag="${2:-}"
+  local original_branch="${3:-main}"
+
+  # Auto-detect rollback tag if not provided
+  if [[ -z "$rollback_tag" ]]; then
+    rollback_tag=$(git tag -l "*pre-migration" 2>/dev/null | tail -1)
+  fi
+
+  # Get course slug for work command
+  local course_slug=$(echo "$course_name" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+  local current_branch=$(git branch --show-current 2>/dev/null)
 
   echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "🎉 Teaching workflow initialized!"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "┌─────────────────────────────────────────────────────────────┐"
+  echo "│ 🎉 TEACHING WORKFLOW INITIALIZED!                           │"
+  echo "├─────────────────────────────────────────────────────────────┤"
+  echo "│                                                             │"
+  echo "│ ${FLOW_COLORS[bold]}📋 What Just Happened:${FLOW_COLORS[reset]}                                      │"
+  echo "│                                                             │"
+
+  # Show rollback tag info
+  if [[ -n "$rollback_tag" ]]; then
+    echo "│   ✅ Created rollback tag: ${FLOW_COLORS[info]}$rollback_tag${FLOW_COLORS[reset]}"
+    echo "│      └─ Your safety net! See \"How to Rollback\" below        │"
+    echo "│                                                             │"
+  fi
+
+  # Show branch changes
+  if [[ "$original_branch" != "production" ]]; then
+    echo "│   ✅ Renamed $original_branch → production                  │"
+    echo "│      └─ This is what students see (deployed site)           │"
+    echo "│                                                             │"
+  fi
+
+  echo "│   ✅ Created draft branch (you're on it now)                │"
+  echo "│      └─ Safe to edit - students won't see until you deploy  │"
+  echo "│                                                             │"
+
+  # Show created files
+  echo "│   ✅ Created files:                                         │"
+  [[ -f ".flow/teach-config.yml" ]] && \
+    echo "│      • .flow/teach-config.yml    (course settings)          │"
+  [[ -f "scripts/quick-deploy.sh" ]] && \
+    echo "│      • scripts/quick-deploy.sh   (deploy draft→production)  │"
+  [[ -f "scripts/semester-archive.sh" ]] && \
+    echo "│      • scripts/semester-archive.sh (end-of-semester)        │"
+  [[ -f ".github/workflows/deploy.yml" ]] && \
+    echo "│      • .github/workflows/deploy.yml (GitHub Actions)        │"
+  [[ -f "MIGRATION-COMPLETE.md" ]] && \
+    echo "│      • MIGRATION-COMPLETE.md     (this summary)             │"
+
+  echo "│                                                             │"
+
+  # Rollback instructions section
+  if [[ -n "$rollback_tag" ]]; then
+    echo "├─────────────────────────────────────────────────────────────┤"
+    echo "│ ${FLOW_COLORS[bold]}🏷️  HOW TO ROLLBACK${FLOW_COLORS[reset]} (if anything goes wrong):              │"
+    echo "│                                                             │"
+    echo "│   The tag '$rollback_tag' is your safety net.   │"
+    echo "│   If migration caused issues:                               │"
+    echo "│                                                             │"
+    echo "│   ${FLOW_COLORS[dim]}# See what the tag contains:${FLOW_COLORS[reset]}                              │"
+    echo "│   ${FLOW_COLORS[cmd]}git log $rollback_tag --oneline -5${FLOW_COLORS[reset]}"
+    echo "│                                                             │"
+    echo "│   ${FLOW_COLORS[dim]}# Completely undo migration:${FLOW_COLORS[reset]}                              │"
+    echo "│   ${FLOW_COLORS[cmd]}git checkout $rollback_tag${FLOW_COLORS[reset]}"
+    echo "│   ${FLOW_COLORS[cmd]}git checkout -b $original_branch${FLOW_COLORS[reset]}"
+    echo "│   ${FLOW_COLORS[cmd]}rm -rf .flow scripts MIGRATION-COMPLETE.md${FLOW_COLORS[reset]}"
+    echo "│                                                             │"
+  fi
+
+  # Next steps section
+  echo "├─────────────────────────────────────────────────────────────┤"
+  echo "│ ${FLOW_COLORS[bold]}🚀 NEXT STEPS:${FLOW_COLORS[reset]}                                              │"
+  echo "│                                                             │"
+  echo "│   1. Start working (safe on draft branch):                  │"
+  echo "│      ${FLOW_COLORS[cmd]}work $course_slug${FLOW_COLORS[reset]}"
+  echo "│                                                             │"
+  echo "│   2. Make edits, commit as usual                            │"
+  echo "│                                                             │"
+  echo "│   3. Deploy when ready:                                     │"
+  echo "│      ${FLOW_COLORS[cmd]}./scripts/quick-deploy.sh${FLOW_COLORS[reset]}"
+  echo "│                                                             │"
+
+  # Optional exam workflow
+  echo "│   ${FLOW_COLORS[dim]}(Optional) Enable exam workflow:${FLOW_COLORS[reset]}                          │"
+  echo "│      ${FLOW_COLORS[cmd]}npm install -g examark${FLOW_COLORS[reset]}"
+  echo "│      ${FLOW_COLORS[cmd]}teach-exam \"Midterm 1\"${FLOW_COLORS[reset]}"
+  echo "│                                                             │"
+
+  # Documentation link
+  echo "├─────────────────────────────────────────────────────────────┤"
+  echo "│ 📚 Learn more: https://data-wise.github.io/flow-cli/        │"
+  echo "│                guides/teaching-workflow/                    │"
+  echo "└─────────────────────────────────────────────────────────────┘"
   echo ""
-  echo "Next steps:"
-  echo ""
-  echo "  1. Review config:"
-  echo "     ${FLOW_COLORS[cmd]}\$EDITOR .flow/teach-config.yml${FLOW_COLORS[reset]}"
-  echo ""
-  echo "  2. Update GitHub repo settings:"
-  echo "     - Enable GitHub Pages from 'production' branch"
-  echo "     - Set Pages source: / (root)"
-  echo ""
-  echo "  3. Test deployment:"
-  echo "     ${FLOW_COLORS[cmd]}./scripts/quick-deploy.sh${FLOW_COLORS[reset]}"
-  echo ""
-  echo "  4. Start working:"
-  echo "     ${FLOW_COLORS[cmd]}work $course_name${FLOW_COLORS[reset]}"
-  echo ""
-  echo "  ${FLOW_COLORS[bold]}5. (Optional) Enable exam workflow:${FLOW_COLORS[reset]}"
-  echo "     ${FLOW_COLORS[cmd]}npm install -g examark${FLOW_COLORS[reset]}"
-  echo "     ${FLOW_COLORS[cmd]}yq -i '.examark.enabled = true' .flow/teach-config.yml${FLOW_COLORS[reset]}"
-  echo "     ${FLOW_COLORS[cmd]}teach-exam \"Midterm 1\"${FLOW_COLORS[reset]}"
-  echo ""
-  echo "📚 Documentation:"
-  echo "   https://data-wise.github.io/flow-cli/guides/teaching-workflow/"
-  echo ""
+}
+
+# Legacy wrapper for backward compatibility
+_teach_show_next_steps() {
+  local course_name="$1"
+  _teach_show_completion_summary "$course_name"
 }
 
 _teach_create_fresh_repo() {

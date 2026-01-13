@@ -1,15 +1,18 @@
 # Teaching Workflow - Quick Reference Card
 
-**Version:** 2.0 | **Last Updated:** 2026-01-11
+**Version:** 2.1 | **Last Updated:** 2026-01-12
 
 ---
 
 ## 🚀 Quick Start (3 Steps)
 
 ```bash
-# 1. Initialize
+# 1. Initialize (interactive)
 cd ~/teaching/my-course
 teach-init "Course Name"
+
+# 1b. Or non-interactive (accept defaults)
+teach-init -y "Course Name"
 
 # 2. Start working
 work course-name
@@ -27,6 +30,8 @@ work course-name
 | Command | Purpose | Example |
 |---------|---------|---------|
 | `teach-init <name>` | Initialize teaching workflow | `teach-init "STAT 545"` |
+| `teach-init -y <name>` | Initialize (non-interactive) | `teach-init -y "STAT 545"` |
+| `teach-init --dry-run <name>` | Preview migration plan | `teach-init --dry-run "STAT 545"` |
 | `work <course>` | Start teaching session | `work stat-545` |
 | `./scripts/quick-deploy.sh` | Deploy draft → production | `./scripts/quick-deploy.sh` |
 | `./scripts/semester-archive.sh` | Archive semester | `./scripts/semester-archive.sh` |
@@ -439,5 +444,6 @@ https://github.com/Data-Wise/flow-cli/issues
 
 ---
 
-**Version:** Teaching Workflow v2.0 (Increment 2 - Course Context)
+**Version:** Teaching Workflow v2.1 (UX Enhancements)
 **Status:** Production Ready ✅
+**New in 2.1:** `-y`/`--yes` flag, ADHD-friendly completion summary
