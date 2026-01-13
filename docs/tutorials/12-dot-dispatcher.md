@@ -14,7 +14,9 @@ By the end of this tutorial, you'll know how to:
 - ✅ Edit dotfiles with automatic change detection
 - ✅ Sync dotfiles across multiple machines
 - ✅ Use dry-run mode to preview changes safely
-- ✅ Manage secrets securely with Bitwarden
+- ✅ **Store secrets in macOS Keychain** (Touch ID, instant access)
+- ✅ **Import secrets from Bitwarden** to Keychain
+- ✅ Manage cloud secrets with Bitwarden (team sharing)
 - ✅ Create tokens with guided wizards (GitHub, NPM, PyPI)
 - ✅ Rotate tokens safely with `--refresh`
 - ✅ Sync secrets to GitHub Actions
@@ -245,7 +247,94 @@ Commit message: [enter your message]
 
 ---
 
-## Part 5: Secret Management
+## Part 5: macOS Keychain Secrets (v5.5.0)
+
+The recommended way to manage secrets is using macOS Keychain. It provides:
+
+- ⚡ **Instant access** - No unlock step needed
+- 🍎 **Touch ID / Apple Watch** - Biometric authentication
+- 🔒 **Auto-lock** - Locks with screen lock
+- 📡 **Works offline** - No internet required
+
+### Store a Secret
+
+```bash
+dot secret add github-token
+```
+
+**Output:**
+```
+Enter secret value: [hidden input]
+
+✓ Secret 'github-token' stored in Keychain
+```
+
+### Retrieve a Secret
+
+```bash
+# Get a secret (Touch ID prompt may appear)
+TOKEN=$(dot secret github-token)
+
+# Use in a command
+gh auth login --with-token <<< $(dot secret github-token)
+```
+
+### List Keychain Secrets
+
+```bash
+dot secret list
+```
+
+**Output:**
+```
+ℹ Secrets in Keychain (flow-cli):
+  • github-token
+  • npm-token
+  • anthropic-api-key
+```
+
+### Delete a Secret
+
+```bash
+dot secret delete old-token
+```
+
+**Output:**
+```
+✓ Secret 'old-token' deleted
+```
+
+### Import from Bitwarden (One-Time Migration)
+
+If you have secrets in Bitwarden, you can import them to Keychain:
+
+```bash
+# Unlock Bitwarden first
+dot unlock
+
+# Import all secrets from 'flow-cli-secrets' folder
+dot secret import
+```
+
+**Output:**
+```
+ℹ Import secrets from Bitwarden folder 'flow-cli-secrets'?
+Continue? [y/N] y
+
+✓ Imported: github-token
+✓ Imported: npm-token
+✓ Imported: anthropic-api-key
+
+✓ Imported 3 secret(s) to Keychain
+```
+
+After import, secrets are in Keychain and no longer need Bitwarden unlock.
+
+---
+
+## Part 6: Bitwarden Cloud Secrets (Alternative)
+
+If you need cloud-synced secrets (team sharing, multiple devices), use Bitwarden:
 
 ### Prerequisites
 
@@ -327,7 +416,7 @@ dot apply
 
 ---
 
-## Part 6: Token Management (v5.2.0)
+## Part 7: Token Management (v5.2.0)
 
 ### Create a GitHub Token
 
@@ -465,7 +554,7 @@ dot env init
 
 ---
 
-## Part 7: Error Handling
+## Part 8: Error Handling
 
 ### Common Errors
 
@@ -514,12 +603,21 @@ dot sync             # Pull from remote
 dot push             # Push to remote
 ```
 
-### Secret Commands
+### Keychain Secrets (v5.5.0 - Recommended)
+
+```bash
+dot secret add <name>       # Store secret in Keychain
+dot secret <name>           # Get secret (Touch ID)
+dot secret list             # List Keychain secrets
+dot secret delete <name>    # Remove secret
+dot secret import           # Import from Bitwarden
+```
+
+### Bitwarden Secrets (Cloud)
 
 ```bash
 dot unlock           # Unlock Bitwarden vault
-dot secret <name>    # Retrieve secret (no echo)
-dot secret list      # List all secrets
+dot secret bw <name> # Get Bitwarden secret
 dot secrets          # Dashboard with expiration
 ```
 
@@ -569,5 +667,5 @@ dot help             # Show all commands
 
 ---
 
-**Version:** v5.2.0
-**Last Updated:** 2026-01-11
+**Version:** v5.5.0
+**Last Updated:** 2026-01-13
