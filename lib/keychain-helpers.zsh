@@ -183,12 +183,10 @@ _dot_kc_import() {
         return 1
     fi
 
-    # Import each item
+    # Import each item (use process substitution to avoid subshell count loss)
     local count=0
     local name password
 
-    bw list items --folderid "$folder_id" --session "$BW_SESSION" 2>/dev/null | \
-        jq -r '.[] | "\(.name)\t\(.login.password // .notes)"' | \
     while IFS=$'\t' read -r name password; do
         if [[ -n "$name" && -n "$password" ]]; then
             security add-generic-password \
@@ -199,9 +197,14 @@ _dot_kc_import() {
             _flow_log_success "Imported: $name"
             ((count++))
         fi
-    done
+    done < <(bw list items --folderid "$folder_id" --session "$BW_SESSION" 2>/dev/null | \
+        jq -r '.[] | "\(.name)\t\(.login.password // .notes)"')
 
-    _flow_log_success "Import complete"
+    if [[ $count -gt 0 ]]; then
+        _flow_log_success "Imported $count secret(s) to Keychain"
+    else
+        _flow_log_warning "No secrets found to import"
+    fi
 }
 
 # Show help for keychain secret commands
