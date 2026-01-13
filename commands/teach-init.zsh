@@ -13,6 +13,10 @@ teach-init() {
   # Parse flags
   while [[ $# -gt 0 ]]; do
     case "$1" in
+      -h|--help|help)
+        _teach_init_help
+        return 0
+        ;;
       --dry-run)
         dry_run=true
         shift
@@ -107,6 +111,34 @@ teach-init() {
   else
     _teach_create_fresh_repo "$course_name"
   fi
+}
+
+# Help function for teach-init
+_teach_init_help() {
+  echo "${FLOW_COLORS[bold]}teach-init${FLOW_COLORS[reset]} - Initialize teaching workflow for course websites"
+  echo ""
+  echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "  teach-init [OPTIONS] <course-name>"
+  echo ""
+  echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+  echo "  -h, --help     Show this help message"
+  echo "  --dry-run      Preview migration plan without making changes"
+  echo "  -y, --yes      Non-interactive mode (accept safe defaults)"
+  echo ""
+  echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+  echo "  teach-init \"STAT 545\"              # Interactive (default)"
+  echo "  teach-init -y \"STAT 545\"           # Non-interactive, safe defaults"
+  echo "  teach-init --dry-run \"STAT 545\"    # Preview migration plan"
+  echo ""
+  echo "${FLOW_COLORS[bold]}SAFE DEFAULTS (non-interactive)${FLOW_COLORS[reset]}"
+  echo "  • Strategy 1: In-place conversion (preserves history)"
+  echo "  • Auto-exclude renv/ from git"
+  echo "  • Skip GitHub push (push manually later)"
+  echo "  • Use auto-suggested semester start date"
+  echo "  • Skip break configuration"
+  echo ""
+  echo "${FLOW_COLORS[bold]}DOCUMENTATION${FLOW_COLORS[reset]}"
+  echo "  https://data-wise.github.io/flow-cli/commands/teach-init/"
 }
 
 # ============================================================================
