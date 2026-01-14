@@ -175,6 +175,7 @@ Each dispatcher has built-in help: `cc help`, `dot help`, `r help`, etc.
 
 **✨ New in v4.8.0:** Unified grammar - both `cc opus pick` AND `cc pick opus` work identically!
 **✨ New in v5.0.0:** Dotfile management with `dot` dispatcher
+**✨ New in v5.5.0:** macOS Keychain secrets with Touch ID - instant access, no unlock needed!
 
 ---
 
@@ -204,6 +205,7 @@ work stat-545
 ```
 
 **Key Features:**
+
 - ✅ **Fast Deployment** - < 2 minute typo-to-live workflow
 - ✅ **Branch Safety** - Warns when editing production (students see this!)
 - ✅ **Semester Context** - Shows current week, detects breaks, displays recent commits
@@ -212,6 +214,7 @@ work stat-545
 - ✅ **Semester Management** - Easy semester transitions with archival tags
 
 **Learn More:**
+
 - [Complete Guide](https://data-wise.github.io/flow-cli/guides/TEACHING-WORKFLOW/)
 - [Quick Reference](https://data-wise.github.io/flow-cli/reference/REFCARD-TEACHING/)
 - [Demo Walkthrough](https://data-wise.github.io/flow-cli/demos/)

@@ -81,9 +81,18 @@ g help            # Show all commands
 
 ### Claude Code: `cc`
 ```bash
+cc                # Launch Claude HERE
 cc pick           # Open project in Claude
-cc ask "query"    # Ask Claude
+cc wt pick        # Pick worktree → Claude
 cc help           # Show all commands
+```
+
+### Dotfiles & Secrets: `dot`
+```bash
+dot               # Show dotfile status
+dot secret NAME   # Get Keychain secret (Touch ID)
+dot secret add X  # Store in Keychain
+dot help          # Show all commands
 ```
 
 ---
@@ -131,4 +140,4 @@ status my-project active P0 "Next task description"
 
 ---
 
-<small>Flow CLI v5.2.0 | MIT License | [github.com/data-wise/flow-cli](https://github.com/data-wise/flow-cli)</small>
+<small>Flow CLI v5.5.0 | MIT License | [github.com/data-wise/flow-cli](https://github.com/data-wise/flow-cli)</small>

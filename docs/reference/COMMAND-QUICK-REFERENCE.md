@@ -107,8 +107,10 @@ dot push            # Push to remote
 dot diff            # Show pending changes
 dot apply           # Apply changes
 dot unlock          # Unlock Bitwarden vault
-dot secret NAME     # Retrieve secret (no echo)
+dot secret NAME     # Retrieve Keychain secret (v5.5.0)
+dot secret add NAME # Store in Keychain (v5.5.0)
 dot secret list     # List available secrets
+dot secret delete   # Remove from Keychain
 dot doctor          # Run diagnostics
 dot help            # Show all commands
 ```
@@ -122,7 +124,10 @@ dot edit .zshrc     # Edit → Preview → Apply
 # Sync from remote
 dot sync            # Pull → Preview → Apply
 
-# Use secret in template
+# Use Keychain secret (v5.5.0 - instant, Touch ID)
+TOKEN=$(dot secret api-key)
+
+# Use Bitwarden secret (cross-device)
 dot unlock
 dot edit .gitconfig
 # Add: {{ bitwarden "item" "github-token" }}
