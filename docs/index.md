@@ -28,7 +28,8 @@ Not sure where to start? Pick what fits you best:
 
 <div class="grid cards" markdown>
 
--   :rocket:{ .lg .middle } **Quick Start**
+-   :rocket: { .lg .middle }
+    **Quick Start**
 
     ---
 
@@ -36,7 +37,8 @@ Not sure where to start? Pick what fits you best:
 
     [→ Quick Start](getting-started/quick-start.md)
 
--   :books:{ .lg .middle } **Learn Step-by-Step**
+-   :books: { .lg .middle }
+    **Learn Step-by-Step**
 
     ---
 
@@ -44,7 +46,8 @@ Not sure where to start? Pick what fits you best:
 
     [→ Tutorials](tutorials/01-first-session.md)
 
--   :target:{ .lg .middle } **Solve a Problem**
+-   :target: { .lg .middle }
+    **Solve a Problem**
 
     ---
 
@@ -52,7 +55,8 @@ Not sure where to start? Pick what fits you best:
 
     [→ Workflows](guides/WORKFLOWS-QUICK-WINS.md)
 
--   :mag:{ .lg .middle } **Look Up a Command**
+-   :mag: { .lg .middle }
+    **Look Up a Command**
 
     ---
 
@@ -60,7 +64,8 @@ Not sure where to start? Pick what fits you best:
 
     [→ Reference](reference/COMMAND-QUICK-REFERENCE.md)
 
--   :mortar_board:{ .lg .middle } **Teaching System**
+-   :mortar_board: { .lg .middle }
+    **Teaching System**
 
     ---
 
@@ -234,7 +239,8 @@ Commands that adapt to your project:
 
 <div class="grid cards" markdown>
 
--   :rocket:{ .lg .middle } **Quick Start**
+-   :rocket: { .lg .middle }
+    **Quick Start**
 
     ---
 
@@ -242,7 +248,8 @@ Commands that adapt to your project:
 
     [→ Quick Start](getting-started/quick-start.md)
 
--   :fire:{ .lg .middle } **Dopamine Features**
+-   :fire: { .lg .middle }
+    **Dopamine Features**
 
     ---
 
@@ -258,7 +265,8 @@ Commands that adapt to your project:
 
     [→ Tutorial](tutorials/01-first-session.md)
 
--   :compass:{ .lg .middle } **All Commands**
+-   :compass: { .lg .middle }
+    **All Commands**
 
     ---
 
@@ -266,7 +274,8 @@ Commands that adapt to your project:
 
     [→ Reference](reference/COMMAND-QUICK-REFERENCE.md)
 
--   :teacher:{ .lg .middle } **Teaching Commands**
+-   :teacher: { .lg .middle }
+    **Teaching Commands**
 
     ---
 
@@ -274,7 +283,8 @@ Commands that adapt to your project:
 
     [→ Commands](guides/TEACHING-COMMANDS-DETAILED.md)
 
--   :chart_with_upwards_trend:{ .lg .middle } **Teaching Workflows**
+-   :chart_with_upwards_trend: { .lg .middle }
+    **Teaching Workflows**
 
     ---
 
