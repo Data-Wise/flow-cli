@@ -301,8 +301,15 @@ _prompt_switch() {
 
     _flow_log_success "Switched to ${display_name}"
 
-    # Reload shell with new prompt engine
-    exec zsh -i
+    # Note: In interactive shell, this would exec zsh -i
+    # But for testing/non-interactive, we just set the variable
+    # The .zshenv/.zshrc will pick it up on next shell
+
+    # If in interactive shell, reload it
+    if [[ -o interactive ]]; then
+        echo "Reloading shell..."
+        exec zsh -i
+    fi
 }
 
 # _prompt_toggle - Interactive menu to switch engines
@@ -318,11 +325,26 @@ _prompt_toggle() {
 
     # Show interactive menu
     echo "Which prompt engine would you like to use?"
+    echo
+
     local choice
-    select choice in "${alternatives[@]/@/}"; do
-        if [[ -n "$choice" && " ${alternatives[@]} " =~ " ${choice} " ]]; then
-            _prompt_switch "$choice"
-            return 0
+    local REPLY
+
+    # Use select for interactive menu
+    select choice in "${alternatives[@]}"; do
+        # Check if user provided valid selection
+        if [[ -n "$choice" ]]; then
+            # Validate the selected engine before switching
+            if _prompt_validate "$choice" 2>/dev/null; then
+                _prompt_switch "$choice"
+                return 0
+            else
+                # Engine validation failed, but still try to switch
+                # (might be config missing which is recoverable)
+                _flow_log_warn "Engine may not be fully configured"
+                _prompt_switch "$choice"
+                return 0
+            fi
         else
             _flow_log_error "Invalid selection"
             return 1

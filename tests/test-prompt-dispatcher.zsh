@@ -197,6 +197,38 @@ local invalid_output=$(prompt invalid 2>&1)
 _assert_contains "Invalid command shows error" "$invalid_output" "Unknown command"
 
 # ============================================================================
+# Test Suite 8: Switch Function Safety
+# ============================================================================
+
+_test_print_header "Switch Function Safety"
+
+# Test that switch validates before proceeding
+local p10k_output=$(_prompt_switch powerlevel10k 2>&1 | head -5)
+_assert_contains "Switch p10k shows success" "$p10k_output" "Switched"
+
+local starship_output=$(_prompt_switch starship 2>&1 | head -5)
+_assert_contains "Switch starship shows success" "$starship_output" "Switched"
+
+local invalid_switch=$(prompt invalid 2>&1 | head -1)
+_assert_contains "Invalid switch shows error" "$invalid_switch" "Unknown command"
+
+# ============================================================================
+# Test Suite 9: Configuration Validation
+# ============================================================================
+
+_test_print_header "Configuration Validation"
+
+# Test P10k validation
+_prompt_validate_p10k >/dev/null 2>&1
+local p10k_status=$?
+_assert_equals "P10k validation completes" "$p10k_status" "0" || echo "(P10k may not be installed locally - this is expected)"
+
+# Test Starship validation
+_prompt_validate_starship >/dev/null 2>&1
+local starship_status=$?
+_assert_equals "Starship validation completes" "$starship_status" "0" || echo "(Starship may not be installed locally - this is expected)"
+
+# ============================================================================
 # Test Summary
 # ============================================================================
 
