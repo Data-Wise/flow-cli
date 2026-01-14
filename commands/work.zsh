@@ -120,29 +120,50 @@ work() {
 
 # Help function for work command
 _work_help() {
-  echo "${FLOW_COLORS[bold]}work${FLOW_COLORS[reset]} - Start working on a project"
-  echo ""
-  echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
-  echo "  work [project] [editor]"
-  echo ""
-  echo "${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}"
-  echo "  project    Project name or partial match (uses picker if omitted)"
-  echo "  editor     Editor to open (default: \$EDITOR or nvim)"
-  echo ""
-  echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
-  echo "  -h, --help    Show this help message"
-  echo ""
-  echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
-  echo "  work                    # Pick project with fzf"
-  echo "  work flow               # Start working on flow-cli"
-  echo "  work stat-545           # Start working on STAT 545 course"
-  echo "  work flow nvim          # Open in neovim"
-  echo ""
-  echo "${FLOW_COLORS[bold]}RELATED COMMANDS${FLOW_COLORS[reset]}"
-  echo "  finish      End current session"
-  echo "  hop         Quick switch projects (tmux)"
-  echo "  pick        Interactive project picker"
-  echo "  dash        Project dashboard"
+  # Colors (ANSI codes for consistent formatting)
+  local _C_BOLD="${_C_BOLD:-\033[1m}"
+  local _C_NC="${_C_NC:-\033[0m}"
+  local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+  local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+  local _C_BLUE="${_C_BLUE:-\033[0;34m}"
+  local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
+  local _C_DIM="${_C_DIM:-\033[2m}"
+
+  echo -e "
+${_C_BOLD}╭──────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ 🚀 WORK - Start Working on a Project        │${_C_NC}
+${_C_BOLD}╰──────────────────────────────────────────────╯${_C_NC}
+
+${_C_BOLD}Usage:${_C_NC} work [project] [editor]
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}work${_C_NC}                Start working (pick project with fzf)
+  ${_C_CYAN}work flow${_C_NC}           Start working on flow-cli
+  ${_C_CYAN}work stat-545${_C_NC}       Start working on STAT 545 course
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} work                    ${_C_DIM}# Pick project with fzf${_C_NC}
+  ${_C_DIM}\$${_C_NC} work flow               ${_C_DIM}# Start on flow-cli${_C_NC}
+  ${_C_DIM}\$${_C_NC} work stat-545           ${_C_DIM}# Start on teaching course${_C_NC}
+  ${_C_DIM}\$${_C_NC} work flow nvim          ${_C_DIM}# Open in neovim${_C_NC}
+
+${_C_BLUE}📋 ARGUMENTS${_C_NC}:
+  ${_C_CYAN}[project]${_C_NC}           Project name or partial match (optional)
+  ${_C_CYAN}[editor]${_C_NC}            Editor to open (default: \$EDITOR or nvim)
+
+${_C_BLUE}⚙️  OPTIONS${_C_NC}:
+  ${_C_CYAN}-h, --help${_C_NC}          Show this help message
+
+${_C_BLUE}📝 SPECIAL BEHAVIOR${_C_NC}:
+  ${_C_DIM}Teaching projects:${_C_NC}    Auto-detects teaching config
+                       Branch safety check before starting
+                       Auto-loads teaching shortcuts
+
+  ${_C_DIM}Current directory:${_C_NC}    If in a project, uses current dir
+                       Falls back to fzf picker otherwise
+
+${_C_DIM}See also:${_C_NC} finish help, hop help, pick help, dash help
+"
 }
 
 # Show work context when starting
@@ -368,17 +389,25 @@ _display_teaching_context() {
 # ============================================================================
 
 finish() {
+  # Handle help flags
+  case "$1" in
+    -h|--help|help)
+      _finish_help
+      return 0
+      ;;
+  esac
+
   local note="$1"
-  
+
   # Check if in a project
   local root=$(_flow_find_project_root)
   if [[ -z "$root" ]]; then
     _flow_log_warning "Not in a project directory"
   fi
-  
+
   # End session
   _flow_session_end "$note"
-  
+
   # Optional: Stage and commit changes
   if [[ -d ".git" ]]; then
     local changes=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
@@ -391,6 +420,56 @@ finish() {
       fi
     fi
   fi
+}
+
+# Help function for finish command
+_finish_help() {
+  # Colors (ANSI codes for consistent formatting)
+  local _C_BOLD="${_C_BOLD:-\033[1m}"
+  local _C_NC="${_C_NC:-\033[0m}"
+  local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+  local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+  local _C_BLUE="${_C_BLUE:-\033[0;34m}"
+  local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
+  local _C_DIM="${_C_DIM:-\033[2m}"
+
+  echo -e "
+${_C_BOLD}╭──────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ 🏁 FINISH - End Work Session                │${_C_NC}
+${_C_BOLD}╰──────────────────────────────────────────────╯${_C_NC}
+
+${_C_BOLD}Usage:${_C_NC} finish [note]
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(end work)${_C_NC}:
+  ${_C_CYAN}finish${_C_NC}               End session (no message)
+  ${_C_CYAN}finish \"note\"${_C_NC}       End session with commit message
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} finish                       ${_C_DIM}# End session${_C_NC}
+  ${_C_DIM}\$${_C_NC} finish \"Fixed login bug\"     ${_C_DIM}# End + commit with message${_C_NC}
+  ${_C_DIM}\$${_C_NC} finish \"WIP: New feature\"    ${_C_DIM}# End + commit WIP changes${_C_NC}
+
+${_C_BLUE}📋 ARGUMENTS${_C_NC}:
+  ${_C_CYAN}[note]${_C_NC}              Optional message for git commit
+
+${_C_BLUE}⚙️  OPTIONS${_C_NC}:
+  ${_C_CYAN}-h, --help${_C_NC}          Show this help message
+
+${_C_BLUE}📝 BEHAVIOR${_C_NC}:
+  ${_C_DIM}Always:${_C_NC}              Ends current flow-cli session
+
+  ${_C_DIM}If changes exist:${_C_NC}     Prompts to commit changes to git
+                          Uses [note] as commit message
+
+  ${_C_DIM}If no changes:${_C_NC}       Just ends session cleanly
+
+${_C_BLUE}⚡ TIPS${_C_NC}:
+  ${_C_DIM}Always include a message - helps track what you did${_C_NC}
+  ${_C_DIM}Use descriptive verbs: \"Fixed\", \"Added\", \"Updated\"${_C_NC}
+  ${_C_DIM}No message? finish will auto-prompt for commit confirmation${_C_NC}
+
+${_C_DIM}See also:${_C_NC} work help, catch help
+"
 }
 
 # ============================================================================
@@ -451,29 +530,52 @@ hop() {
 
 # Help function for hop command
 _hop_help() {
-  echo "${FLOW_COLORS[bold]}hop${FLOW_COLORS[reset]} - Quick project switch with tmux"
-  echo ""
-  echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
-  echo "  hop [project]"
-  echo ""
-  echo "${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}"
-  echo "  project    Project name or partial match (uses picker if omitted)"
-  echo ""
-  echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
-  echo "  -h, --help    Show this help message"
-  echo ""
-  echo "${FLOW_COLORS[bold]}BEHAVIOR${FLOW_COLORS[reset]}"
-  echo "  In tmux:     Creates/switches to project session"
-  echo "  Not in tmux: Changes to project directory"
-  echo ""
-  echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
-  echo "  hop                     # Pick project with fzf"
-  echo "  hop flow                # Switch to flow-cli project"
-  echo "  hop aiterm              # Switch to aiterm project"
-  echo ""
-  echo "${FLOW_COLORS[bold]}RELATED COMMANDS${FLOW_COLORS[reset]}"
-  echo "  work        Start working (full context setup)"
-  echo "  pick        Interactive project picker"
+  # Colors (ANSI codes for consistent formatting)
+  local _C_BOLD="${_C_BOLD:-\033[1m}"
+  local _C_NC="${_C_NC:-\033[0m}"
+  local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+  local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+  local _C_BLUE="${_C_BLUE:-\033[0;34m}"
+  local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
+  local _C_DIM="${_C_DIM:-\033[2m}"
+
+  echo -e "
+${_C_BOLD}╭──────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ 🐰 HOP - Quick Project Switch               │${_C_NC}
+${_C_BOLD}╰──────────────────────────────────────────────╯${_C_NC}
+
+${_C_BOLD}Usage:${_C_NC} hop [project]
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(for tmux workflow)${_C_NC}:
+  ${_C_CYAN}hop${_C_NC}                Pick project with fzf
+  ${_C_CYAN}hop flow${_C_NC}           Switch to flow-cli session
+  ${_C_CYAN}hop aiterm${_C_NC}         Switch to aiterm session
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} hop                     ${_C_DIM}# Pick project with fzf${_C_NC}
+  ${_C_DIM}\$${_C_NC} hop flow                ${_C_DIM}# Switch to flow-cli${_C_NC}
+  ${_C_DIM}\$${_C_NC} hop aiterm              ${_C_DIM}# Switch to aiterm${_C_NC}
+
+${_C_BLUE}📋 ARGUMENTS${_C_NC}:
+  ${_C_CYAN}[project]${_C_NC}           Project name or partial match (optional)
+
+${_C_BLUE}⚙️  OPTIONS${_C_NC}:
+  ${_C_CYAN}-h, --help${_C_NC}          Show this help message
+
+${_C_BLUE}📝 BEHAVIOR${_C_NC}:
+  ${_C_DIM}In tmux:${_C_NC}            Creates/switches to tmux session
+                       Fast project switching
+
+  ${_C_DIM}Not in tmux:${_C_NC}        Just changes to project directory
+                       For non-tmux environments
+
+${_C_BLUE}⚡ TIPS${_C_NC}:
+  ${_C_DIM}Hop is FAST - great for quick context switching${_C_NC}
+  ${_C_DIM}Use 'work' for full project setup with editor${_C_NC}
+  ${_C_DIM}Use 'hop' for quick directory changes in tmux${_C_NC}
+
+${_C_DIM}See also:${_C_NC} work help, pick help, dash help
+"
 }
 
 # ============================================================================
