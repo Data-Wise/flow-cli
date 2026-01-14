@@ -20,6 +20,36 @@
 
 ---
 
+## Navigation
+
+- [Why TWO Systems?](#why-two-systems) - Rationale behind the design
+- [Architecture](#architecture) - System components and layers
+- [Integration Model](#integration-model) - Real-world usage scenarios
+- [Key Distinctions](#key-distinctions) - What's implemented vs planned
+- [Using This Documentation](#using-this-documentation) - Guide to the guides
+- [Timeline](#timeline) - Release history and roadmap
+
+---
+
+## Why TWO Systems?
+
+### Separation of Concerns
+
+| Concern        | Tool        | Why                                                            |
+| -------------- | ----------- | -------------------------------------------------------------- |
+| **Deployment** | flow-cli    | Pure ZSH = instant, no dependencies, <10ms response            |
+| **Generation** | Scholar     | Node.js + Claude API = sophisticated AI, templates, validation |
+| **Editing**    | Your editor | Manual refinement, quality control, personalization            |
+
+### Benefits
+
+1. **Modularity** - Use flow-cli without Scholar, or Scholar for other purposes
+2. **Performance** - flow-cli runs in shell without external calls
+3. **Flexibility** - Scholar can generate content for non-teaching contexts
+4. **Composition** - flow-cli wraps Scholar when both are needed
+
+---
+
 ## Architecture
 
 ### Layer 1: flow-cli Teaching Workflow (Deployment Focus)
@@ -69,8 +99,6 @@ teach exam "Midterm"      # Create exam (placeholder for Scholar integration)
 └─────────────────────────────────────────┘
 ```
 
-**Does NOT require Scholar** - Works standalone
-
 ---
 
 ### Layer 2: Scholar Plugin Teaching Features (Content Generation)
@@ -91,13 +119,13 @@ teach exam "Midterm"      # Create exam (placeholder for Scholar integration)
 /teaching:syllabus "Data"   # Generate course syllabus
 ```
 
-**Key Features:**
+**Key Features (Planned):**
 
-- ✅ AI-powered content generation
-- ✅ Template-based structure (ensures quality)
-- ✅ Multiple output formats (Markdown, Quarto, LaTeX, JSON)
-- ✅ Validation before save
-- ✅ Context-aware (reads `.flow/teach-config.yml`)
+- 🎯 AI-powered content generation
+- 🎯 Template-based structure (ensures quality)
+- 🎯 Multiple output formats (Markdown, Quarto, LaTeX, JSON)
+- 🎯 Validation before save
+- 🎯 Context-aware (reads `.flow/teach-config.yml`)
 
 **System Architecture:**
 
@@ -129,13 +157,11 @@ teach exam "Midterm"      # Create exam (placeholder for Scholar integration)
 └─────────────────────────────────────────┘
 ```
 
-**Does NOT require flow-cli** - Works standalone
-
 ---
 
 ## Integration Model
 
-### Scenario 1: Using ONLY flow-cli (Current State)
+### Scenario 1: Using ONLY flow-cli ✅ AVAILABLE NOW
 
 ```bash
 # 1. Initialize teaching repo
@@ -153,7 +179,7 @@ teach deploy
 
 ---
 
-### Scenario 2: Using flow-cli WITH Scholar (Future State)
+### Scenario 2: Using flow-cli WITH Scholar 🎯 PLANNED (Not Yet Implemented)
 
 ```bash
 # 1. Initialize teaching repo
@@ -256,25 +282,6 @@ teach deploy
 
 ---
 
-## Why TWO Systems?
-
-### Separation of Concerns
-
-| Concern        | Tool        | Why                                                            |
-| -------------- | ----------- | -------------------------------------------------------------- |
-| **Deployment** | flow-cli    | Pure ZSH = instant, no dependencies, <10ms response            |
-| **Generation** | Scholar     | Node.js + Claude API = sophisticated AI, templates, validation |
-| **Editing**    | Your editor | Manual refinement, quality control, personalization            |
-
-### Benefits
-
-1. **Modularity** - Use flow-cli without Scholar, or Scholar for other purposes
-2. **Performance** - flow-cli runs in shell without external calls
-3. **Flexibility** - Scholar can generate content for non-teaching contexts
-4. **Composition** - flow-cli wraps Scholar when both are needed
-
----
-
 ## Using This Documentation
 
 ### For Users Following Teaching Documentation (2026-01-13)
@@ -346,33 +353,20 @@ See these planning documents:
 
 ## Summary
 
-**To clarify the brainstorm request:**
+**flow-cli teaching** ✅ **Production Ready:**
 
-> "make it clear if teach uses scholar or something else"
+- Standalone ZSH workflow automation
+- Commands: `teach init`, `teach deploy`, `teach status`, `teach week`, `teach archive`, `teach config`
+- Fully documented in 3 comprehensive guides (1,995 lines)
+- Tested and deployed in v5.4.1 and v5.5.0
 
-**Answer:**
+**Scholar teaching** 🎯 **Planned (Not Yet Implemented):**
 
-**flow-cli teaching does NOT use Scholar.** It is a standalone ZSH-based workflow automation system for:
+- Optional Node.js content generation plugin
+- Commands: `/teaching:exam`, `/teaching:quiz`, `/teaching:lecture`, `/teaching:assignment`, `/teaching:syllabus`
+- Spec written, implementation pending
 
-- Managing course repositories
-- Deploying materials to students
-- Tracking semesters
-- Creating archives
+**They work together but function independently:**
 
-**Scholar teaching is a COMPLEMENTARY system** (planned, not implemented) that would:
-
-- Generate content (exams, lectures, assignments)
-- Validate quality
-- Integrate with flow-cli workflows
-
-**They are designed to work together** but function independently:
-
-- flow-cli teaching = deployment engine (pure ZSH)
-- Scholar teaching = content generation engine (Node.js + AI)
-
----
-
-**Documentation Status:**
-
-- ✅ flow-cli teaching: Fully documented, production ready
-- 🎯 Scholar teaching: Spec written, implementation pending
+- **flow-cli** = deployment engine (pure ZSH, <10ms, always available)
+- **Scholar** = content generator (AI-powered, optional enhancement)
