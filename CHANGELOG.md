@@ -9,7 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### ✨ New Features
+
+- **macOS Keychain Secret Management (v5.5.0)** - New `dot secret` commands for Touch ID-protected secrets:
+  - `dot secret add <name>` - Store secret in Keychain
+  - `dot secret <name>` - Retrieve secret (instant, Touch ID prompt)
+  - `dot secret list` - List all flow-cli secrets
+  - `dot secret delete <name>` - Remove secret
+  - Sub-50ms access vs 2-5s for Bitwarden
+  - Auto-locks with screen lock, no manual unlock needed
+  - Perfect for shell startup scripts and local development
+
 ### 🐛 Bug Fixes
+
+- **Fixed `cc wt pick` PATH corruption** - Complex ZSH parameter expansion inside while-read loops with file redirects was corrupting PATH. Replaced with awk-based parsing for reliability.
+
+- **Fixed `cc wt pick` session status matching** - The case statement was matching against "recent"/"old" but the actual values contained emoji prefixes like "🟢 3h". Fixed with glob patterns.
+
+- **Fixed `cc wt pick` showing only current repo's worktrees** - Now scans `~/.git-worktrees/` globally instead of using repo-scoped `git worktree list`.
 
 - **Fixed `dot unlock` stderr contamination** - The `bw unlock --raw 2>&1` command was capturing both stdout AND stderr, causing error messages to mix with the session token. Now uses temp file for stderr separation, showing errors only on failure.
 

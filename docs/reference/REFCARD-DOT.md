@@ -1,6 +1,6 @@
 # Dot Dispatcher Quick Reference Card
 
-**Version:** 2.2.0 | **Updated:** 2026-01-11
+**Version:** 2.3.0 | **Updated:** 2026-01-13
 
 ---
 
@@ -12,8 +12,9 @@
 | `dot edit FILE` | Edit with preview | instant |
 | `dot sync` | Pull from remote | 1-3s |
 | `dot push` | Push to remote | 1-3s |
-| `dot unlock` | Unlock secrets (15m session) | 2-5s |
-| `dot secret NAME` | Get secret | < 200ms |
+| `dot unlock` | Unlock Bitwarden (15m) | 2-5s |
+| `dot secret NAME` | Get Keychain secret | < 50ms |
+| `dot secret add NAME` | Store in Keychain | < 1s |
 | `dot secrets` | Dashboard of all secrets | < 1s |
 | `dot token github` | GitHub PAT wizard | 1-2 min |
 | `dot token <name> --refresh` | Rotate token | 1-2 min |
@@ -129,7 +130,47 @@ dot edit .config/zsh/.zshrc
 
 ---
 
-## Secret Management (v5.2.0)
+## macOS Keychain Secrets (v5.5.0) ⭐ NEW
+
+### Quick Reference
+
+```bash
+# Store secret (Touch ID protected)
+dot secret add api-key
+> Enter secret value: ••••••••
+
+# Retrieve (Touch ID prompt)
+TOKEN=$(dot secret api-key)
+
+# List all secrets
+dot secret list
+
+# Delete
+dot secret delete api-key
+```
+
+### Why Keychain?
+
+| Feature | Keychain | Bitwarden |
+|---------|----------|-----------|
+| Speed | < 50ms | 2-5s |
+| Auth | Touch ID | Master password |
+| Unlock | Auto with screen | Manual unlock |
+| Best for | Local dev | Cross-device sync |
+
+### Script Usage
+
+```bash
+# In scripts - instant, no unlock needed
+export GITHUB_TOKEN=$(dot secret github-token)
+export NPM_TOKEN=$(dot secret npm-token)
+
+# Works in .zshrc for shell startup
+```
+
+---
+
+## Bitwarden Secrets (v5.2.0)
 
 ### Quick Reference
 
@@ -202,6 +243,8 @@ dot env init
 | Token expiring | `dot token <name> --refresh` |
 | Changes not applied | `dot apply` |
 | Session in history | Auto-prevented by HISTIGNORE |
+| Keychain "not found" | Check secret name: `dot secret list` |
+| Touch ID not working | Check System Settings > Privacy > Accessibility |
 
 ---
 
@@ -259,6 +302,8 @@ chezmoi init https://github.com/user/dotfiles
 
 # Authenticate Bitwarden
 bw login
+
+# Keychain: No setup needed (built into macOS)
 ```
 
 ---
