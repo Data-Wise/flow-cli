@@ -193,7 +193,6 @@ branches:
 | Command | Purpose |
 |---------|---------|
 | [teach-init](teach-init.md) | Full initialization docs |
-| [teach-exam](teach-exam.md) | Create exams |
 | [work](work.md) | Start work session |
 | [finish](finish.md) | End work session |
 
@@ -203,4 +202,4 @@ branches:
 
 - [Teaching Workflow Guide](../guides/TEACHING-WORKFLOW.md)
 - [Teaching Reference Card](../reference/REFCARD-TEACHING.md)
-- [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md#10-teach---teaching-workflow)
+- [TEACH Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE.md)

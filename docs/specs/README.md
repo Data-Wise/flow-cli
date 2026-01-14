@@ -86,7 +86,7 @@ A complete UX design for integrating dotfile management (chezmoi + Bitwarden) in
 ## Related Documents
 
 ### Architecture
-- [CLAUDE.md](../CLAUDE.md) - Project guidance for AI assistants
+- [ARCHITECTURE.md](../reference/ARCHITECTURE.md) - System architecture
 - [DISPATCHER-REFERENCE.md](../reference/DISPATCHER-REFERENCE.md) - Existing dispatcher patterns
 
 ### Background Research
@@ -236,8 +236,7 @@ When adding new specifications:
 ## Contact
 
 For questions about these specifications:
-- See: [CLAUDE.md](../CLAUDE.md) for project context
-- See: [CONTRIBUTING.md](../../CONTRIBUTING.md) for development guidelines
+- See: [CONTRIBUTING Guide](../contributing/CONTRIBUTING.md) for development guidelines
 - Issues: https://github.com/Data-Wise/flow-cli/issues
 
 ---

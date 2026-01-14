@@ -43,7 +43,7 @@ description: Find the right starting point for your goals
 ### I need to...
 
 === "Track my work sessions"
-    **Solution:** [Session Tracking Workflow](../guides/WORKFLOWS-QUICK-WINS.md#quick-test-cycle)
+    **Solution:** [Session Tracking Workflow](../guides/WORKFLOWS-QUICK-WINS.md)
     ```bash
     work my-project
     win "Completed feature X"

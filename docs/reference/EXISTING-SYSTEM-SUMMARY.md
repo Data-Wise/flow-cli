@@ -1,6 +1,6 @@
 # Existing System Summary - Flow CLI
 
-> **⚠️ Historical Snapshot:** This document reflects the system as of 2025-12-19, before the dev-planning migration (2026-01-07). References to `dev-planning/` are now archived. See [dev-planning/MIGRATION.md](../../../dev-planning/MIGRATION.md) for current locations.
+> **⚠️ Historical Snapshot:** This document reflects the system as of 2025-12-19, before the dev-planning migration (2026-01-07). References to `dev-planning/` are now archived.
 
 **Generated:** 2025-12-19 14:20
 **Purpose:** Comprehensive overview + interactive cleanup tool

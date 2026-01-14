@@ -682,7 +682,6 @@ new_command() {
 
 - [CONVENTIONS.md](../CONVENTIONS.md) - Code standards
 - [BRANCH-WORKFLOW.md](../contributing/BRANCH-WORKFLOW.md) - Git workflow
-- [CLAUDE.md](../../CLAUDE.md) - Project overview
 
 ### Tools
 
