@@ -46,8 +46,23 @@ declare -ga PROMPT_ENGINE_NAMES=(powerlevel10k starship ohmyposh)
 # Main Dispatcher
 # ============================================================================
 
+# Global dry-run mode flag
+declare -g PROMPT_DRY_RUN=false
+
 prompt() {
-    case "${1:-help}" in
+    local cmd="${1:-help}"
+    local dry_run=false
+
+    # Check for --dry-run flag before main command
+    if [[ "$cmd" == "--dry-run" ]]; then
+        dry_run=true
+        cmd="${2:-help}"
+    fi
+
+    # Store in global for use in subfunctions
+    PROMPT_DRY_RUN=$dry_run
+
+    case "$cmd" in
         status)
             _prompt_status
             ;;
@@ -73,11 +88,14 @@ prompt() {
             _prompt_help
             ;;
         *)
-            _flow_log_error "Unknown command: $1"
+            _flow_log_error "Unknown command: $cmd"
             _prompt_help
             return 1
             ;;
     esac
+
+    # Reset flag
+    PROMPT_DRY_RUN=false
 }
 
 # ============================================================================
@@ -146,7 +164,10 @@ _prompt_help() {
    Manage multiple prompt engines: Powerlevel10k, Starship, OhMyPosh
 
 USAGE:
-   prompt [subcommand]
+   prompt [OPTIONS] [subcommand]
+
+OPTIONS:
+   --dry-run           Show what would happen without making changes
 
 SUBCOMMANDS:
    status              Show current engine and alternatives
@@ -161,11 +182,13 @@ SETUP & CONFIGURATION:
    setup-ohmyposh      Interactive wizard for Oh My Posh configuration
 
 EXAMPLES:
-   prompt status               # See what's active
-   prompt toggle               # Choose engine from menu
-   prompt starship             # Go straight to Starship
-   prompt list                 # See all engines
-   prompt setup-ohmyposh       # Configure Oh My Posh
+   prompt status                    # See what's active
+   prompt toggle                    # Choose engine from menu
+   prompt starship                  # Go straight to Starship
+   prompt --dry-run toggle          # Preview toggle without switching
+   prompt --dry-run starship        # Preview Starship switch
+   prompt list                      # See all engines
+   prompt setup-ohmyposh            # Configure Oh My Posh
 
 For more info:
    https://data-wise.github.io/flow-cli/dispatchers/prompt/
@@ -297,11 +320,28 @@ _prompt_switch() {
         return 1
     fi
 
-    # Update the environment variable
-    export FLOW_PROMPT_ENGINE="$target_engine"
-
     # Get display name
     local display_name="${PROMPT_ENGINES[${target_engine}_display]}"
+
+    if [[ "$PROMPT_DRY_RUN" == true ]]; then
+        echo ""
+        echo "🔍 DRY RUN MODE - No changes will be made"
+        echo ""
+        echo "Would perform the following actions:"
+        echo "  1. Set environment variable: FLOW_PROMPT_ENGINE=\"$target_engine\""
+        echo "  2. Switch prompt engine to: ${display_name}"
+        echo "  3. Reload shell with new configuration"
+        echo ""
+        echo "Config file: ${PROMPT_ENGINES[${target_engine}_config]}"
+        echo ""
+        echo "To apply these changes, run:"
+        echo "  prompt ${target_engine}"
+        echo ""
+        return 0
+    fi
+
+    # Update the environment variable
+    export FLOW_PROMPT_ENGINE="$target_engine"
 
     _flow_log_success "Switched to ${display_name}"
 
@@ -328,14 +368,34 @@ _prompt_setup_ohmyposh() {
         return 1
     fi
 
-    # Create config directory
     local config_dir="$HOME/.config/ohmyposh"
+    local config_file="$config_dir/config.json"
+
+    if [[ "$PROMPT_DRY_RUN" == true ]]; then
+        echo ""
+        echo "🔍 DRY RUN MODE - No changes will be made"
+        echo ""
+        echo "Would perform the following actions:"
+        echo "  1. Create directory: $config_dir"
+        echo "  2. Create config file: $config_file"
+        echo ""
+
+        if [[ -f "$config_file" ]]; then
+            echo "  ⚠️  Note: Config file already exists (would ask for confirmation)"
+        fi
+
+        echo ""
+        echo "To apply these changes, run:"
+        echo "  prompt setup-ohmyposh"
+        echo ""
+        return 0
+    fi
+
+    # Create config directory
     if [[ ! -d "$config_dir" ]]; then
         mkdir -p "$config_dir"
         _flow_log_success "Created $config_dir"
     fi
-
-    local config_file="$config_dir/config.json"
 
     # Check if config already exists
     if [[ -f "$config_file" ]]; then
@@ -413,6 +473,25 @@ _prompt_toggle() {
     if [[ ${#alternatives[@]} -eq 0 ]]; then
         _flow_log_error "No alternative engines available"
         return 1
+    fi
+
+    if [[ "$PROMPT_DRY_RUN" == true ]]; then
+        echo ""
+        echo "🔍 DRY RUN MODE - No changes will be made"
+        echo ""
+        echo "Current engine: ${PROMPT_ENGINES[${current}_display]}"
+        echo ""
+        echo "Available alternatives to switch to:"
+        local idx=1
+        for engine in "${alternatives[@]}"; do
+            echo "  $idx) ${PROMPT_ENGINES[${engine}_display]}"
+            ((idx++))
+        done
+        echo ""
+        echo "To switch engines, run:"
+        echo "  prompt toggle"
+        echo ""
+        return 0
     fi
 
     # Show interactive menu
