@@ -18,6 +18,7 @@
 
 - **v5.5.0 RELEASED** 🎉
   - **Tag:** v5.5.0
+  - **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.5.0
   - **PR:** #235
   - **New Features:**
     - macOS Keychain Secret Management
