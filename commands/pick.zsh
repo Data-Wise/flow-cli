@@ -377,20 +377,16 @@ _proj_pick_worktree_path() {
     }
 
     # Build worktree list
+    # Note: Using awk to parse pipe-delimited data avoids ZSH parameter expansion
+    # quirks that can break PATH in complex while-read-redirect scenarios
     local tmpfile=$(mktemp)
-    while IFS='|' read -r name type icon path session_status; do
-        [[ -n "$name" ]] || continue
-        # Format: "display_name    session_indicator    path"
-        # session_status comes pre-formatted from _proj_get_claude_session_status:
-        #   "🟢 Xh" / "🟢 Xm" / "🟢 now" (recent) or "🟡 old" (older)
-        local indicator=""
-        case "$session_status" in
-            🟢*) indicator="🟢" ;;   # Recent sessions (< 24h)
-            🟡*) indicator="🟡" ;;   # Older sessions
-            *) indicator="⚪" ;;      # No session
-        esac
-        printf "%-35s %s  %s\n" "$name" "$indicator" "$path"
-    done < <(_proj_list_worktrees "$project_filter") > "$tmpfile"
+    _proj_list_worktrees "$project_filter" | /usr/bin/awk -F'|' '{
+        name=$1; path=$4; session=$5
+        indicator="⚪"
+        if (session ~ /^🟢/) indicator="🟢"
+        if (session ~ /^🟡/) indicator="🟡"
+        printf "%-35s %s  %s\n", name, indicator, path
+    }' > "$tmpfile"
 
     # Check if we have any worktrees
     if [[ ! -s "$tmpfile" ]]; then
@@ -401,20 +397,20 @@ _proj_pick_worktree_path() {
 
     # Show picker
     local selection
-    selection=$(cat "$tmpfile" | fzf \
+    selection=$(/bin/cat "$tmpfile" | fzf \
         --height=50% \
         --reverse \
         --header="🌳 Select worktree (Enter=select, Esc=cancel)" \
         --preview-window=hidden)
 
-    rm -f "$tmpfile"
+    /bin/rm -f "$tmpfile"
 
     if [[ -z "$selection" ]]; then
         return 1
     fi
 
     # Extract path (last field after spaces)
-    local wt_path=$(echo "$selection" | awk '{print $NF}')
+    local wt_path=$(echo "$selection" | /usr/bin/awk '{print $NF}')
 
     if [[ -n "$wt_path" && -d "$wt_path" ]]; then
         echo "$wt_path"
