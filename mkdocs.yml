@@ -131,6 +131,7 @@ nav:
           - OBS Dispatcher: reference/OBS-DISPATCHER-REFERENCE.md
           - QU Dispatcher: reference/QU-DISPATCHER-REFERENCE.md
           - R Dispatcher: reference/R-DISPATCHER-REFERENCE.md
+          - TEACH Dispatcher: reference/TEACH-DISPATCHER-REFERENCE.md
           - TM Dispatcher: reference/TM-DISPATCHER-REFERENCE.md
           - WT Dispatcher: reference/WT-DISPATCHER-REFERENCE.md
       - Quick Reference Cards:
@@ -144,6 +145,7 @@ nav:
           - Project Detection: reference/PROJECT-DETECTION-GUIDE.md
           - Workspace Audit: reference/WORKSPACE-AUDIT-GUIDE.md
       - Deep Dives:
+          - Architecture: reference/ARCHITECTURE.md
           - ADHD Helpers Map: reference/ADHD-HELPERS-FUNCTION-MAP.md
           - Command Patterns: reference/CLI-COMMAND-PATTERNS-RESEARCH.md
           - System Summary: reference/EXISTING-SYSTEM-SUMMARY.md

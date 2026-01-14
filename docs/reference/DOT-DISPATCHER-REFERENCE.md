@@ -1,19 +1,20 @@
 # Dot Dispatcher Reference
 
 **Command:** `dot`
-**Purpose:** Dotfile management via chezmoi and Bitwarden
-**Version:** v5.2.0 (Secret Management v2.0 Complete)
+**Purpose:** Dotfile management via chezmoi, secrets via Keychain/Bitwarden
+**Version:** v5.5.0 (macOS Keychain Integration)
 
 ---
 
 ## Overview
 
-The `dot` dispatcher provides a unified interface for managing dotfiles with chezmoi and secrets with Bitwarden CLI. It integrates seamlessly with flow-cli's dashboard and doctor commands.
+The `dot` dispatcher provides a unified interface for managing dotfiles with chezmoi and secrets via macOS Keychain (local, instant) or Bitwarden (cloud, synced). It integrates seamlessly with flow-cli's dashboard and doctor commands.
 
 ### Key Features
 
 - 📝 **Dotfile sync** (chezmoi integration)
-- 🔐 **Secret management** (Bitwarden integration)
+- 🍎 **macOS Keychain** (instant secrets, Touch ID, offline)
+- 🔐 **Bitwarden integration** (cloud secrets, team sharing)
 - 🧙 **Token wizards** (GitHub, NPM, PyPI token creation)
 - 🔄 **Token rotation** (refresh tokens with `--refresh`)
 - 📊 **Secrets dashboard** (expiration tracking)
@@ -22,7 +23,15 @@ The `dot` dispatcher provides a unified interface for managing dotfiles with che
 - ⚡ **Fast** (< 500ms for most operations)
 - 🔌 **Optional** (graceful degradation if tools not installed)
 
-**✨ New in v5.2.0 - Secret Management v2.0:**
+**✨ New in v5.5.0 - macOS Keychain Integration:**
+- 🔐 **Native Keychain** - `dot secret` uses macOS Keychain by default
+- ⚡ **Instant access** - No unlock step needed, Touch ID support
+- 🍎 **Touch ID / Apple Watch** - Biometric authentication
+- 🔒 **Auto-lock** - Locks with screen lock, works offline
+- 🔄 **Bitwarden fallback** - `dot secret bw <cmd>` for cloud secrets
+- 📥 **Import** - `dot secret import` migrates from Bitwarden
+
+**✨ v5.2.0 - Secret Management v2.0:**
 - 🧙 **Token wizards** - `dot token github/npm/pypi` guided creation
 - 🔄 **Token rotation** - `dot token <name> --refresh` to rotate tokens
 - 📊 **Secrets dashboard** - `dot secrets` shows all tokens with expiration
@@ -63,13 +72,30 @@ dot sync
 # Preview changes without applying
 dot apply --dry-run
 
-# === Secret Management (v5.2.0) ===
+# === Keychain Secrets (v5.5.0 - Recommended) ===
+
+# Store a secret (prompts for value, Touch ID enabled)
+dot secret add github-token
+
+# Get a secret instantly (no unlock needed!)
+TOKEN=$(dot secret github-token)
+
+# List all Keychain secrets
+dot secret list
+
+# Delete a secret
+dot secret delete old-token
+
+# Import from Bitwarden (one-time migration)
+dot secret import
+
+# === Bitwarden Cloud Secrets (fallback) ===
 
 # Unlock Bitwarden vault (15-min session)
 dot unlock
 
-# Get a secret (no terminal echo)
-TOKEN=$(dot secret github-token)
+# Access Bitwarden secrets directly
+TOKEN=$(dot secret bw github-token)
 
 # Create token with guided wizard
 dot token github          # GitHub PAT wizard
@@ -386,7 +412,121 @@ M .gitconfig
 
 ---
 
-### Secret Management
+### macOS Keychain Secrets (v5.5.0+)
+
+The default secret storage uses macOS Keychain for instant, session-free access with Touch ID support.
+
+#### `dot secret add <name>`
+
+Store a secret in macOS Keychain.
+
+**Features:**
+- Hidden input (no terminal echo)
+- Touch ID / Apple Watch support
+- Auto-updates existing secrets
+- No unlock step required
+
+**Examples:**
+```bash
+dot secret add github-token     # Store a GitHub token
+dot secret add api-key          # Store any secret
+```
+
+**Output:**
+```
+Enter secret value: ········
+✓ Secret 'github-token' stored in Keychain
+```
+
+#### `dot secret <name>` / `dot secret get <name>`
+
+Retrieve a secret from Keychain (instant, no unlock needed).
+
+**Features:**
+- Instant access (no session required)
+- Touch ID authentication
+- Silent output (safe for scripts)
+- Works offline
+
+**Examples:**
+```bash
+# Capture in variable
+TOKEN=$(dot secret github-token)
+
+# Use in command
+gh auth login --with-token <<< $(dot secret github-token)
+
+# Use in curl
+curl -H "Authorization: Bearer $(dot secret api-key)" https://api.example.com
+```
+
+#### `dot secret list`
+
+List all secrets stored in Keychain.
+
+**Examples:**
+```bash
+dot secret list
+```
+
+**Output:**
+```
+ℹ Secrets in Keychain (flow-cli):
+  • github-token
+  • npm-token
+  • pypi-token
+```
+
+#### `dot secret delete <name>`
+
+Remove a secret from Keychain.
+
+**Examples:**
+```bash
+dot secret delete old-token
+```
+
+**Output:**
+```
+✓ Secret 'old-token' deleted
+```
+
+#### `dot secret import`
+
+One-time import from Bitwarden to Keychain.
+
+**Features:**
+- Imports from Bitwarden folder `flow-cli-secrets`
+- Requires Bitwarden unlocked first
+- Confirmation prompt before import
+
+**Examples:**
+```bash
+dot unlock                    # Unlock Bitwarden first
+dot secret import             # Import to Keychain
+```
+
+#### `dot secret bw <cmd>`
+
+Access Bitwarden cloud secrets directly (backwards compatibility).
+
+**Commands:**
+```bash
+dot secret bw <name>          # Get secret from Bitwarden
+dot secret bw list            # List Bitwarden items
+dot secret bw add <name>      # Add to Bitwarden
+dot secret bw check           # Check expiring secrets
+```
+
+**When to use Bitwarden:**
+- Cloud-synced secrets across devices
+- Team shared secrets
+- Token expiration tracking
+- CI/CD integration (`dot secrets sync github`)
+
+---
+
+### Bitwarden Secret Management
 
 #### `dot unlock` / `dot u`
 

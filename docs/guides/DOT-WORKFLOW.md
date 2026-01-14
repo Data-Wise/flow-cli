@@ -186,7 +186,40 @@ dot push
 
 ## Workflow 4: Secret Management
 
-### Setup Bitwarden
+### Choose Your Backend
+
+| Feature | macOS Keychain (v5.5.0) | Bitwarden |
+|---------|-------------------------|-----------|
+| Speed | < 50ms | 2-5s |
+| Auth | Touch ID | Master password |
+| Unlock | Auto with screen | Manual (`dot unlock`) |
+| Best for | Local dev, scripts | Cross-device sync |
+| Setup | None (built-in) | Install + login |
+
+### Option A: macOS Keychain (Recommended for Local Dev)
+
+```bash
+# Store a secret (Touch ID protected)
+dot secret add github-token
+> Enter secret value: ••••••••
+✓ Secret 'github-token' stored in Keychain
+
+# Retrieve (instant, Touch ID prompt)
+TOKEN=$(dot secret github-token)
+
+# List all secrets
+dot secret list
+
+# Delete when done
+dot secret delete github-token
+```
+
+**Perfect for:**
+- Shell startup scripts (instant, no unlock)
+- Local development tokens
+- API keys you use frequently
+
+### Option B: Bitwarden (For Cross-Device Sync)
 
 ```bash
 # Install CLI
@@ -199,14 +232,14 @@ bw login
 dot unlock
 ```
 
-### Store Secrets
+**Store Secrets:**
 
 1. Open Bitwarden app or web vault
 2. Create Login item with name like `github-token`
 3. Put secret in password field
 4. Save
 
-### Retrieve Secrets
+**Retrieve Secrets:**
 
 ```bash
 # List available secrets

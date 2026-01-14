@@ -359,6 +359,67 @@ _proj_find_worktree() {
     return 1
 }
 
+# Pick a worktree and return its path (for use by other commands like cc wt pick)
+# Usage: path=$(_proj_pick_worktree_path [project_filter])
+# Returns: worktree path on stdout, exit 0 on success, 1 on cancel/error
+_proj_pick_worktree_path() {
+    local project_filter="${1:-}"
+
+    # Check for fzf
+    if ! command -v fzf &>/dev/null; then
+        echo "fzf required" >&2
+        return 1
+    fi
+
+    [[ -d "$PROJ_WORKTREE_DIR" ]] || {
+        echo "No worktree directory: $PROJ_WORKTREE_DIR" >&2
+        return 1
+    }
+
+    # Build worktree list
+    # Note: Using awk to parse pipe-delimited data avoids ZSH parameter expansion
+    # quirks that can break PATH in complex while-read-redirect scenarios
+    local tmpfile=$(mktemp)
+    _proj_list_worktrees "$project_filter" | /usr/bin/awk -F'|' '{
+        name=$1; path=$4; session=$5
+        indicator="⚪"
+        if (session ~ /^🟢/) indicator="🟢"
+        if (session ~ /^🟡/) indicator="🟡"
+        printf "%-35s %s  %s\n", name, indicator, path
+    }' > "$tmpfile"
+
+    # Check if we have any worktrees
+    if [[ ! -s "$tmpfile" ]]; then
+        rm -f "$tmpfile"
+        echo "No worktrees found" >&2
+        return 1
+    fi
+
+    # Show picker
+    local selection
+    selection=$(/bin/cat "$tmpfile" | fzf \
+        --height=50% \
+        --reverse \
+        --header="🌳 Select worktree (Enter=select, Esc=cancel)" \
+        --preview-window=hidden)
+
+    /bin/rm -f "$tmpfile"
+
+    if [[ -z "$selection" ]]; then
+        return 1
+    fi
+
+    # Extract path (last field after spaces)
+    local wt_path=$(echo "$selection" | /usr/bin/awk '{print $NF}')
+
+    if [[ -n "$wt_path" && -d "$wt_path" ]]; then
+        echo "$wt_path"
+        return 0
+    fi
+
+    return 1
+}
+
 # Show git status summary for a directory
 _proj_show_git_status() {
     local dir="$1"

@@ -1,8 +1,63 @@
-# Secret Management with Bitwarden
+# Secret Management
 
-The `dot` dispatcher integrates with Bitwarden CLI for secure secret management in dotfiles.
+The `dot` dispatcher provides two backends for secure secret management:
 
-## Quick Start
+| Backend | Speed | Auth | Best For |
+|---------|-------|------|----------|
+| **macOS Keychain** (v5.5.0) | < 50ms | Touch ID | Local dev, scripts |
+| **Bitwarden** | 2-5s | Master password | Cross-device sync |
+
+---
+
+## macOS Keychain (v5.5.0) ⭐ NEW
+
+Instant access to secrets with Touch ID authentication. No setup required.
+
+### Quick Start
+
+```bash
+# Store a secret
+dot secret add api-key
+> Enter secret value: ••••••••
+
+# Retrieve (Touch ID prompt)
+TOKEN=$(dot secret api-key)
+
+# List all secrets
+dot secret list
+
+# Delete
+dot secret delete api-key
+```
+
+### Why Keychain?
+
+- **Instant** (< 50ms vs 2-5s for Bitwarden)
+- **Touch ID** - No typing master password
+- **Auto-locks** with screen lock
+- **No unlock step** - Just use it
+- **Perfect for scripts** - Works in `.zshrc` startup
+
+### Use Cases
+
+```bash
+# In .zshrc (instant, no unlock)
+export GITHUB_TOKEN=$(dot secret github-token)
+export NPM_TOKEN=$(dot secret npm-token)
+
+# In scripts
+#!/bin/bash
+API_KEY=$(dot secret my-api-key)
+curl -H "Authorization: Bearer $API_KEY" https://api.example.com
+```
+
+---
+
+## Bitwarden (Cross-Device)
+
+For secrets that need to sync across devices.
+
+### Quick Start
 
 ```bash
 # 1. Unlock Bitwarden vault
@@ -15,7 +70,7 @@ dot secret list
 TOKEN=$(dot secret github-token)
 ```
 
-## Prerequisites
+### Prerequisites
 
 Install Bitwarden CLI:
 

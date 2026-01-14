@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-5.3.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
+[![Version](https://img.shields.io/badge/version-5.5.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -175,6 +175,7 @@ Each dispatcher has built-in help: `cc help`, `dot help`, `r help`, etc.
 
 **✨ New in v4.8.0:** Unified grammar - both `cc opus pick` AND `cc pick opus` work identically!
 **✨ New in v5.0.0:** Dotfile management with `dot` dispatcher
+**✨ New in v5.5.0:** macOS Keychain secrets with Touch ID - instant access, no unlock needed!
 
 ---
 
@@ -204,6 +205,7 @@ work stat-545
 ```
 
 **Key Features:**
+
 - ✅ **Fast Deployment** - < 2 minute typo-to-live workflow
 - ✅ **Branch Safety** - Warns when editing production (students see this!)
 - ✅ **Semester Context** - Shows current week, detects breaks, displays recent commits
@@ -212,6 +214,7 @@ work stat-545
 - ✅ **Semester Management** - Easy semester transitions with archival tags
 
 **Learn More:**
+
 - [Complete Guide](https://data-wise.github.io/flow-cli/guides/TEACHING-WORKFLOW/)
 - [Quick Reference](https://data-wise.github.io/flow-cli/reference/REFCARD-TEACHING/)
 - [Demo Walkthrough](https://data-wise.github.io/flow-cli/demos/)

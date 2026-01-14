@@ -207,6 +207,26 @@ cc pick wt               # Also works (target-first)
 3. Mode flags (yolo, plan, opus, haiku) apply to the Claude session
 4. **v4.8.0:** Mode-first required for 3+ argument commands (e.g., `cc yolo wt <branch>`)
 
+### Worktree Picker (v5.5.0)
+
+`cc wt pick` shows **all** worktrees from `~/.git-worktrees/` with session indicators:
+
+```
+┌─────────────────────────────────────────────────────┐
+│ 🌳 Select worktree (Enter=select, Esc=cancel)       │
+├─────────────────────────────────────────────────────┤
+│ scribe (quarto-v115)             🟡  ~/.git-worktrees/scribe/quarto-v115    │
+│ scribe (latex-v2)                🟡  ~/.git-worktrees/scribe/latex-v2       │
+│ rmediation (condescending-shamir) 🟢  ~/.git-worktrees/rmediation/...       │
+│ medfit (hardcore-cerf)           ⚪  ~/.git-worktrees/medfit/hardcore-cerf  │
+└─────────────────────────────────────────────────────┘
+```
+
+**Session indicators:**
+- 🟢 Recent session (< 24h)
+- 🟡 Older session
+- ⚪ No Claude session
+
 ---
 
 ## Smart Project Selection
@@ -329,5 +349,5 @@ cc haiku          # Pick project + Haiku model
 ---
 
 **Last Updated:** 2026-01-07
-**Version:** v4.8.0
+**Version:** v5.5.0
 **Status:** ✅ Production ready with unified grammar
