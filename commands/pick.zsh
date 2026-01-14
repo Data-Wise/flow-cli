@@ -380,12 +380,14 @@ _proj_pick_worktree_path() {
     local tmpfile=$(mktemp)
     while IFS='|' read -r name type icon path session_status; do
         [[ -n "$name" ]] || continue
-        # Format: "display_name    session_indicator"
+        # Format: "display_name    session_indicator    path"
+        # session_status comes pre-formatted from _proj_get_claude_session_status:
+        #   "🟢 Xh" / "🟢 Xm" / "🟢 now" (recent) or "🟡 old" (older)
         local indicator=""
         case "$session_status" in
-            recent) indicator="🟢" ;;
-            old) indicator="🟡" ;;
-            *) indicator="⚪" ;;
+            🟢*) indicator="🟢" ;;   # Recent sessions (< 24h)
+            🟡*) indicator="🟡" ;;   # Older sessions
+            *) indicator="⚪" ;;      # No session
         esac
         printf "%-35s %s  %s\n" "$name" "$indicator" "$path"
     done < <(_proj_list_worktrees "$project_filter") > "$tmpfile"
