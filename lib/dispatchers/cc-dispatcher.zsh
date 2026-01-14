@@ -471,25 +471,12 @@ _cc_worktree_pick() {
     local mode_args="${2:---permission-mode acceptEdits}"
     shift 2
 
-    # Check for fzf
-    if ! command -v fzf >/dev/null 2>&1; then
-        echo -e "${_C_RED}✗ fzf required for pick mode${_C_NC}"
-        echo ""
-        echo -e "${_C_DIM}Install: brew install fzf${_C_NC}"
-        echo ""
-        echo "Current worktrees:"
-        wt list
-        return 1
-    fi
-
-    # Get worktrees in fzf-friendly format
+    # Use the pick command's worktree picker (scans ~/.git-worktrees/)
+    # This shows ALL worktrees with session indicators, sorted by frecency
     local selected
-    selected=$(git worktree list --porcelain 2>/dev/null | \
-        grep "^worktree " | \
-        cut -d' ' -f2- | \
-        fzf --prompt="Select worktree: " --height=40% --reverse)
+    selected=$(_proj_pick_worktree_path 2>/dev/null)
 
-    if [[ -n "$selected" ]]; then
+    if [[ -n "$selected" && -d "$selected" ]]; then
         echo -e "${_C_GREEN}✓ Launching Claude in $selected${_C_NC}"
         if [[ "$mode" != "acceptEdits" ]]; then
             echo -e "${_C_DIM}Mode: $mode${_C_NC}"
@@ -497,6 +484,8 @@ _cc_worktree_pick() {
         cd "$selected" && eval "claude $mode_args"
     else
         echo -e "${_C_DIM}No worktree selected${_C_NC}"
+        echo ""
+        echo -e "${_C_DIM}Tip: Create worktrees with: wt create <branch>${_C_NC}"
     fi
 }
 
