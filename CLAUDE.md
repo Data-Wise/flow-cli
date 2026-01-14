@@ -655,10 +655,64 @@ export FLOW_DEBUG=1
 
 ## Current Status (2026-01-13)
 
-### 🚀 v5.5.0 READY FOR RELEASE - macOS Keychain Secrets
+### ✅ v5.6.0 RELEASED - Comprehensive Documentation & Roadmap
 
-**Branch:** dev (merged, ready for main)
-**PR:** #234 (merged)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.6.0
+**PRs:** #237, #238, #239, #240, #241 (all merged to main)
+
+**What's New:**
+
+- [x] **Comprehensive Teaching Documentation** (1,995+ lines)
+  - TEACHING-COMMANDS-DETAILED.md (850 lines) - Deep dive into each teach command
+  - TEACHING-WORKFLOW-VISUAL.md (700 lines) - 5 visual step-by-step workflows
+  - TEACHING-DEMO-GUIDE.md (400 lines) - GIF recording instructions + demo scripts
+  - TEACHING-SYSTEM-ARCHITECTURE.md - Clarifies flow-cli vs Scholar distinction
+
+- [x] **Help Output Standardization**
+  - Updated work, hop, finish, teach command help with rich ANSI colors
+  - Consistent emoji (🚀, 🏁, 🎓) and color coding across all commands
+  - Improved readability for ADHD-friendly design
+
+- [x] **Homepage Updates (docs/index.md)**
+  - Version updated: v4.1.0 → v5.6.0
+  - Standardized grid card formatting to Material Design syntax
+  - Added links to new teaching guides
+  - Fixed dispatcher examples (teach-init → teach)
+
+- [x] **Future Roadmap Documented in .STATUS**
+  - 🎬 Recording Teaching GIFs (30-45 min, ready to execute)
+  - 📖 Interactive Tutorials (planned)
+  - 🚀 Installation Improvements (planned)
+  - 🤖 Scholar Teaching Features Phase 2 (planned, not implemented)
+
+**Key Improvements:**
+
+- Documentation website passes strict mkdocs validation (0 warnings)
+- Teaching documentation complete with 45+ terminal output examples
+- Clear distinction between implemented (flow-cli) and planned (Scholar) features
+- ADHD-friendly navigation and consistent visual hierarchy
+
+**Files Changed:**
+
+- docs/index.md (homepage)
+- docs/guides/ (3 new comprehensive guides)
+- docs/mkdocs.yml (navigation)
+- .STATUS (updated with v5.6.0 and future roadmap)
+- CLAUDE.md (upcoming - you are here)
+
+**v5.6.0 Metrics:**
+
+- 1,995+ new lines of documentation
+- 45+ terminal output examples
+- 13 complete workflows documented
+- 0 mkdocs build warnings
+
+---
+
+### ✅ v5.5.0 RELEASED - macOS Keychain Secrets
+
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.5.0
+**PR:** #235 (merged)
 
 **What's New:**
 
@@ -667,43 +721,11 @@ export FLOW_DEBUG=1
 - [x] Touch ID / Apple Watch authentication support
 - [x] Zero session management (no `dot unlock` needed)
 - [x] 39 tests for keychain helpers (100% passing)
-- [x] Complete documentation (tutorial, reference, architecture)
-
-**New Commands:**
-
-```bash
-# Store secret in Keychain (Touch ID enabled)
-dot secret add github-token
-
-# Get secret instantly (no unlock!)
-TOKEN=$(dot secret github-token)
-
-# List all Keychain secrets
-dot secret list
-
-# Import from Bitwarden (one-time)
-dot secret import
-```
 
 **Architecture:**
 
 - Primary: macOS Keychain (instant, offline, biometric)
 - Fallback: Bitwarden via `dot secret bw <name>` (cloud, team sharing)
-
-**Documentation Added:**
-
-- `docs/tutorials/12-dot-dispatcher.md` - Updated with Keychain workflow
-- `docs/reference/ARCHITECTURE.md` - System architecture with Mermaid diagrams
-- `docs/reference/TEACH-DISPATCHER-REFERENCE.md` - Complete teach reference
-
-**To Release:**
-
-```bash
-gh pr create --base main --head dev --title "Release v5.5.0"
-# After merge:
-git tag -a v5.5.0 -m "v5.5.0 - macOS Keychain Secrets"
-git push --tags
-```
 
 ---
 
@@ -849,13 +871,39 @@ dot env init                  # Generate .envrc for direnv
 
 **Reference:** aiterm's installation approach (`/Users/dt/projects/dev-tools/aiterm/install.sh`)
 
-### 📋 Future Roadmap
+### 📋 Future Roadmap (v5.7.0+)
 
-**Remote & Team Features**
+**Immediate (Ready to Start)**
+
+- [ ] **🎬 Recording Teaching GIFs** (30-45 minutes)
+  - Status: Ready - TEACHING-DEMO-GUIDE.md complete with scripts
+  - 4 demo GIFs: teach init, status, deploy, archive
+  - Tools: asciinema, svg-term-cli
+
+**Planned (v5.7.0)**
+
+- [ ] **📖 Interactive Tutorials**
+  - Enhanced visual learning paths for new users
+  - Step-by-step code-along examples with embedded output
+  - Visual workflow diagrams with Mermaid
+
+- [ ] **🚀 Installation Improvements**
+  - Curl one-liner installer (like aiterm quality)
+  - Auto-detect plugin manager (antidote, zinit, oh-my-zsh)
+  - Installation methods comparison table
+
+- [ ] **🤖 Scholar Teaching Features (Phase 2)**
+  - AI-powered content generation (planned, not yet implemented)
+  - Commands: `/teaching:exam`, `/teaching:quiz`, `/teaching:lecture`, `/teaching:assignment`, `/teaching:syllabus`
+  - Integration: Works alongside flow-cli teaching workflow
+
+**Future (Post v5.7.0)**
 
 - [ ] Remote state sync (optional cloud backup)
 - [ ] Multi-device support
 - [ ] Shared templates
+- [ ] User profile system
+- [ ] Team collaboration features
 
 ---
 
