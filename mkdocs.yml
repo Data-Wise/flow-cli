@@ -107,6 +107,7 @@ nav:
       - Config Management: guides/CONFIG-MANAGEMENT-WORKFLOW.md
   - Guides:
       - Start Here: guides/00-START-HERE.md
+      - Teaching System Architecture: TEACHING-SYSTEM-ARCHITECTURE.md
       - Teaching Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md
       - Teaching Demo & GIFs: guides/TEACHING-DEMO-GUIDE.md
       - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
