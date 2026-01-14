@@ -349,5 +349,5 @@ cc haiku          # Pick project + Haiku model
 ---
 
 **Last Updated:** 2026-01-07
-**Version:** v4.8.0
+**Version:** v5.5.0
 **Status:** ✅ Production ready with unified grammar
