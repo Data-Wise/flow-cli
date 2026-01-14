@@ -53,13 +53,13 @@ Not sure where to start? Pick what fits you best:
 
     [→ Reference](reference/COMMAND-QUICK-REFERENCE.md)
 
--   :mortar_board:{ .lg .middle } **Teaching Workflow**
+-   :mortar_board:{ .lg .middle } **Teaching System**
 
     ---
 
-    Deploy course websites in < 2 min
+    Deploy course materials in < 2 minutes
 
-    [→ Teaching Guide](guides/TEACHING-WORKFLOW.md)
+    [→ Architecture](guides/TEACHING-SYSTEM-ARCHITECTURE.md)
 
 </div>
 
@@ -181,7 +181,7 @@ Commands that adapt to your project:
 | `r`           | `r test`         | R package tests                |
 | `qu`          | `qu preview`     | Quarto preview                 |
 | `g`           | `g push`         | Git with safety                |
-| `teach-init`  | `teach-init "Course"` | Initialize teaching workflow   |
+| `teach`       | `teach init "STAT 545"` | Teaching workflow commands     |
 
 **Get help:** `cc help`, `r help`, `qu help`
 
@@ -227,25 +227,53 @@ Commands that adapt to your project:
 
 <div class="grid cards" markdown>
 
-- :material-rocket-launch: **[Quick Start](getting-started/quick-start.md)**
+-   :rocket:{ .lg .middle } **Quick Start**
 
-  Get running in 5 minutes
+    ---
 
-- :material-emoticon-happy: **[Dopamine Features](tutorials/06-dopamine-features.md)**
+    Get running in 5 minutes
 
-  Win tracking, streaks, goals
+    [→ Quick Start](getting-started/quick-start.md)
 
-- :material-book-open: **[Your First Session](tutorials/01-first-session.md)**
+-   :fire:{ .lg .middle } **Dopamine Features**
 
-  Step-by-step tutorial
+    ---
 
-- :material-format-list-bulleted: **[All Commands](reference/COMMAND-QUICK-REFERENCE.md)**
+    Win tracking, streaks, and goals
 
-  Complete reference
+    [→ Dopamine](tutorials/06-dopamine-features.md)
 
-- :material-school: **[Teaching Workflow](guides/TEACHING-WORKFLOW.md)**
+-   :books:{ .lg .middle } **Your First Session**
 
-  Course deployment in < 2 min
+    ---
+
+    Step-by-step tutorial for beginners
+
+    [→ Tutorial](tutorials/01-first-session.md)
+
+-   :compass:{ .lg .middle } **All Commands**
+
+    ---
+
+    Complete command reference
+
+    [→ Reference](reference/COMMAND-QUICK-REFERENCE.md)
+
+-   :teacher:{ .lg .middle } **Teaching Commands**
+
+    ---
+
+    Comprehensive command guide (850 lines)
+
+    [→ Commands](guides/TEACHING-COMMANDS-DETAILED.md)
+
+-   :chart_with_upwards_trend:{ .lg .middle } **Teaching Workflows**
+
+    ---
+
+    Step-by-step visual examples
+
+    [→ Workflows](guides/TEACHING-WORKFLOW-VISUAL.md)
 
 </div>
 
@@ -272,4 +300,4 @@ Commands that adapt to your project:
 
 ---
 
-**v4.1.0** · Pure ZSH · MIT License
+**v5.6.0** · Pure ZSH · MIT License
