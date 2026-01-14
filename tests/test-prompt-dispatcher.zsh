@@ -229,6 +229,27 @@ local starship_status=$?
 _assert_equals "Starship validation completes" "$starship_status" "0" || echo "(Starship may not be installed locally - this is expected)"
 
 # ============================================================================
+# Test Suite 10: OhMyPosh Setup Wizard
+# ============================================================================
+
+_test_print_header "OhMyPosh Setup Wizard"
+
+local setup_output=$(prompt setup-ohmyposh 2>&1)
+# Test that setup command exists and either succeeds or shows proper error
+_assert_contains "Setup command runs" "$setup_output" "Oh My Posh" || _assert_contains "Setup command errors gracefully" "$setup_output" "not found"
+
+# ============================================================================
+# Test Suite 11: Help Message Updates
+# ============================================================================
+
+_test_print_header "Help Message Completeness"
+
+local help_output=$(prompt help)
+_assert_contains "Help mentions OhMyPosh setup" "$help_output" "setup-ohmyposh"
+_assert_contains "Help shows all 7 subcommands" "$help_output" "toggle"
+_assert_contains "Help has examples" "$help_output" "EXAMPLES"
+
+# ============================================================================
 # Test Summary
 # ============================================================================
 

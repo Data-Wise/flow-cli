@@ -66,6 +66,9 @@ prompt() {
         list)
             _prompt_list
             ;;
+        setup-ohmyposh)
+            _prompt_setup_ohmyposh
+            ;;
         help|--help|-h)
             _prompt_help
             ;;
@@ -154,14 +157,15 @@ SUBCOMMANDS:
    list                List all available engines with details
    help                Show this help
 
+SETUP & CONFIGURATION:
+   setup-ohmyposh      Interactive wizard for Oh My Posh configuration
+
 EXAMPLES:
    prompt status               # See what's active
    prompt toggle               # Choose engine from menu
    prompt starship             # Go straight to Starship
    prompt list                 # See all engines
-
-SETUP:
-   prompt setup-ohmyposh       # Configure Oh My Posh for first time
+   prompt setup-ohmyposh       # Configure Oh My Posh
 
 For more info:
    https://data-wise.github.io/flow-cli/dispatchers/prompt/
@@ -310,6 +314,94 @@ _prompt_switch() {
         echo "Reloading shell..."
         exec zsh -i
     fi
+}
+
+# _prompt_setup_ohmyposh - Interactive setup wizard for Oh My Posh
+_prompt_setup_ohmyposh() {
+    _flow_log_info "Oh My Posh Configuration Wizard"
+    echo
+
+    # Check if Oh My Posh is installed
+    if ! command -v oh-my-posh &>/dev/null; then
+        _flow_log_error "Oh My Posh not found in PATH"
+        echo "Install with: brew install oh-my-posh"
+        return 1
+    fi
+
+    # Create config directory
+    local config_dir="$HOME/.config/ohmyposh"
+    if [[ ! -d "$config_dir" ]]; then
+        mkdir -p "$config_dir"
+        _flow_log_success "Created $config_dir"
+    fi
+
+    local config_file="$config_dir/config.json"
+
+    # Check if config already exists
+    if [[ -f "$config_file" ]]; then
+        _flow_log_warn "Configuration already exists at $config_file"
+        echo "Would you like to overwrite it? (y/n)"
+        read -r response
+        if [[ "$response" != "y" ]]; then
+            echo "Keeping existing configuration"
+            return 0
+        fi
+    fi
+
+    # Create default configuration
+    cat > "$config_file" <<'EOF'
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 3,
+  "terminal_background": "#0B1022",
+  "accent_color": "#FFB86C",
+  "profiles": [
+    {
+      "name": "default",
+      "template": " {{ if .Code }}{{ else }}{{ end }}{{ .Shell }} ",
+      "segments": [
+        {
+          "type": "session",
+          "style": "diamond",
+          "leading_diamond": "\ue0b6",
+          "trailing_diamond": "\ue0b0",
+          "template": " {{ .UserName }} ",
+          "background": "#0077be",
+          "foreground": "#ffffff"
+        },
+        {
+          "type": "path",
+          "style": "diamond",
+          "leading_diamond": "\ue0b0",
+          "trailing_diamond": "\ue0b0",
+          "template": " {{ path .Path .Location }} ",
+          "background": "#00a4ef",
+          "foreground": "#ffffff",
+          "properties": {
+            "style": "folder"
+          }
+        },
+        {
+          "type": "git",
+          "style": "diamond",
+          "leading_diamond": "\ue0b0",
+          "trailing_diamond": "\ue0b0",
+          "template": " {{ .Branch }} ",
+          "background": "#009900",
+          "foreground": "#ffffff"
+        }
+      ]
+    }
+  ]
+}
+EOF
+
+    _flow_log_success "Configuration created at $config_file"
+    echo
+    echo "Next steps:"
+    echo "  1. Customize your config: nano $config_file"
+    echo "  2. Validate: oh-my-posh config"
+    echo "  3. Switch to OhMyPosh: prompt ohmyposh"
 }
 
 # _prompt_toggle - Interactive menu to switch engines
