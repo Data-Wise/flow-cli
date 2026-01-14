@@ -2905,6 +2905,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../TEACH-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TEACH Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../TM-DISPATCHER-REFERENCE/" class="md-nav__link">
         
   
@@ -3372,6 +3400,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -5224,10 +5280,12 @@
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>dot<span class="w"> </span>diff<span class="w">            </span><span class="c1"># Show pending changes</span>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>dot<span class="w"> </span>apply<span class="w">           </span><span class="c1"># Apply changes</span>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>dot<span class="w"> </span>unlock<span class="w">          </span><span class="c1"># Unlock Bitwarden vault</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>dot<span class="w"> </span>secret<span class="w"> </span>NAME<span class="w">     </span><span class="c1"># Retrieve secret (no echo)</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>dot<span class="w"> </span>secret<span class="w"> </span>list<span class="w">     </span><span class="c1"># List available secrets</span>
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>dot<span class="w"> </span>doctor<span class="w">          </span><span class="c1"># Run diagnostics</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>dot<span class="w"> </span><span class="nb">help</span><span class="w">            </span><span class="c1"># Show all commands</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>dot<span class="w"> </span>secret<span class="w"> </span>NAME<span class="w">     </span><span class="c1"># Retrieve Keychain secret (v5.5.0)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>dot<span class="w"> </span>secret<span class="w"> </span>add<span class="w"> </span>NAME<span class="w"> </span><span class="c1"># Store in Keychain (v5.5.0)</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>dot<span class="w"> </span>secret<span class="w"> </span>list<span class="w">     </span><span class="c1"># List available secrets</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w">   </span><span class="c1"># Remove from Keychain</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>dot<span class="w"> </span>doctor<span class="w">          </span><span class="c1"># Run diagnostics</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>dot<span class="w"> </span><span class="nb">help</span><span class="w">            </span><span class="c1"># Show all commands</span>
 </code></pre></div>
 <p><strong>Quick Workflows:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Edit dotfile</span>
@@ -5236,10 +5294,13 @@
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Sync from remote</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>dot<span class="w"> </span>sync<span class="w">            </span><span class="c1"># Pull → Preview → Apply</span>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Use secret in template</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>dot<span class="w"> </span>unlock
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>dot<span class="w"> </span>edit<span class="w"> </span>.gitconfig
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># Add: {{ bitwarden &quot;item&quot; &quot;github-token&quot; }}</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Use Keychain secret (v5.5.0 - instant, Touch ID)</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>api-key<span class="k">)</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># Use Bitwarden secret (cross-device)</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>dot<span class="w"> </span>unlock
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>dot<span class="w"> </span>edit<span class="w"> </span>.gitconfig
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c1"># Add: {{ bitwarden &quot;item&quot; &quot;github-token&quot; }}</span>
 </code></pre></div>
 <h3 id="terminal-manager-tm">Terminal Manager: <code>tm</code><a class="headerlink" href="#terminal-manager-tm" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>tm<span class="w">                  </span><span class="c1"># Show terminal info</span>

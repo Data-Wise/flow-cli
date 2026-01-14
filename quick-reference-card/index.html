@@ -2155,6 +2155,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#dotfiles-secrets-dot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dotfiles &amp; Secrets: dot
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2678,6 +2689,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../reference/TEACH-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TEACH Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reference/TM-DISPATCHER-REFERENCE/" class="md-nav__link">
         
   
@@ -3145,6 +3184,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4612,6 +4679,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#dotfiles-secrets-dot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dotfiles &amp; Secrets: dot
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4799,9 +4877,16 @@
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>g<span class="w"> </span><span class="nb">help</span><span class="w">            </span><span class="c1"># Show all commands</span>
 </code></pre></div>
 <h3 id="claude-code-cc">Claude Code: <code>cc</code><a class="headerlink" href="#claude-code-cc" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cc<span class="w"> </span>pick<span class="w">           </span><span class="c1"># Open project in Claude</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>cc<span class="w"> </span>ask<span class="w"> </span><span class="s2">&quot;query&quot;</span><span class="w">    </span><span class="c1"># Ask Claude</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>cc<span class="w"> </span><span class="nb">help</span><span class="w">           </span><span class="c1"># Show all commands</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cc<span class="w">                </span><span class="c1"># Launch Claude HERE</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>cc<span class="w"> </span>pick<span class="w">           </span><span class="c1"># Open project in Claude</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>cc<span class="w"> </span>wt<span class="w"> </span>pick<span class="w">        </span><span class="c1"># Pick worktree → Claude</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>cc<span class="w"> </span><span class="nb">help</span><span class="w">           </span><span class="c1"># Show all commands</span>
+</code></pre></div>
+<h3 id="dotfiles-secrets-dot">Dotfiles &amp; Secrets: <code>dot</code><a class="headerlink" href="#dotfiles-secrets-dot" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>dot<span class="w">               </span><span class="c1"># Show dotfile status</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>NAME<span class="w">   </span><span class="c1"># Get Keychain secret (Touch ID)</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>dot<span class="w"> </span>secret<span class="w"> </span>add<span class="w"> </span>X<span class="w">  </span><span class="c1"># Store in Keychain</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>dot<span class="w"> </span><span class="nb">help</span><span class="w">          </span><span class="c1"># Show all commands</span>
 </code></pre></div>
 <hr />
 <h2 id="timers-focus">🔥 Timers &amp; Focus<a class="headerlink" href="#timers-focus" title="Permanent link">&para;</a></h2>
@@ -4864,7 +4949,7 @@
 <p><strong>State:</strong> <code>active</code>, <code>paused</code>, <code>blocked</code>, <code>ready</code>, <code>done</code></p>
 <p><strong>Priority:</strong> <code>P0</code> (urgent) → <code>P4</code> (someday)</p>
 <p><strong>Update status:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>status<span class="w"> </span>my-project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Next task description&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>status<span class="w"> </span>my-project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Next task description&quot;</span>
 </code></pre></div></p>
 <hr />
 <h2 id="get-more-help">📚 Get More Help<a class="headerlink" href="#get-more-help" title="Permanent link">&para;</a></h2>
@@ -4875,7 +4960,7 @@
 <li><strong>Community:</strong> <a href="https://github.com/data-wise/flow-cli/discussions">GitHub Discussions</a></li>
 </ul>
 <hr />
-<p><small>Flow CLI v5.2.0 | MIT License | <a href="https://github.com/data-wise/flow-cli">github.com/data-wise/flow-cli</a></small></p>
+<p><small>Flow CLI v5.5.0 | MIT License | <a href="https://github.com/data-wise/flow-cli">github.com/data-wise/flow-cli</a></small></p>
 
 
 

@@ -1615,10 +1615,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#setup-bitwarden" class="md-nav__link">
+  <a href="#choose-your-backend" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Setup Bitwarden
+        Choose Your Backend
       
     </span>
   </a>
@@ -1626,10 +1626,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#store-secrets" class="md-nav__link">
+  <a href="#option-a-macos-keychain-recommended-for-local-dev" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Store Secrets
+        Option A: macOS Keychain (Recommended for Local Dev)
       
     </span>
   </a>
@@ -1637,10 +1637,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#retrieve-secrets" class="md-nav__link">
+  <a href="#option-b-bitwarden-for-cross-device-sync" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Retrieve Secrets
+        Option B: Bitwarden (For Cross-Device Sync)
       
     </span>
   </a>
@@ -2945,6 +2945,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/TEACH-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TEACH Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/TM-DISPATCHER-REFERENCE/" class="md-nav__link">
         
   
@@ -3403,6 +3431,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4933,10 +4989,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#setup-bitwarden" class="md-nav__link">
+  <a href="#choose-your-backend" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Setup Bitwarden
+        Choose Your Backend
       
     </span>
   </a>
@@ -4944,10 +5000,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#store-secrets" class="md-nav__link">
+  <a href="#option-a-macos-keychain-recommended-for-local-dev" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Store Secrets
+        Option A: macOS Keychain (Recommended for Local Dev)
       
     </span>
   </a>
@@ -4955,10 +5011,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#retrieve-secrets" class="md-nav__link">
+  <a href="#option-b-bitwarden-for-cross-device-sync" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Retrieve Secrets
+        Option B: Bitwarden (For Cross-Device Sync)
       
     </span>
   </a>
@@ -5372,173 +5428,229 @@
 </code></pre></div>
 <hr />
 <h2 id="workflow-4-secret-management">Workflow 4: Secret Management<a class="headerlink" href="#workflow-4-secret-management" title="Permanent link">&para;</a></h2>
-<h3 id="setup-bitwarden">Setup Bitwarden<a class="headerlink" href="#setup-bitwarden" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Install CLI</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>brew<span class="w"> </span>install<span class="w"> </span>bitwarden-cli
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Login (first time)</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>bw<span class="w"> </span>login
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># Unlock vault (each shell session)</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>dot<span class="w"> </span>unlock
+<h3 id="choose-your-backend">Choose Your Backend<a class="headerlink" href="#choose-your-backend" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>macOS Keychain (v5.5.0)</th>
+<th>Bitwarden</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Speed</td>
+<td>&lt; 50ms</td>
+<td>2-5s</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td>Touch ID</td>
+<td>Master password</td>
+</tr>
+<tr>
+<td>Unlock</td>
+<td>Auto with screen</td>
+<td>Manual (<code>dot unlock</code>)</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Local dev, scripts</td>
+<td>Cross-device sync</td>
+</tr>
+<tr>
+<td>Setup</td>
+<td>None (built-in)</td>
+<td>Install + login</td>
+</tr>
+</tbody>
+</table>
+<h3 id="option-a-macos-keychain-recommended-for-local-dev">Option A: macOS Keychain (Recommended for Local Dev)<a class="headerlink" href="#option-a-macos-keychain-recommended-for-local-dev" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Store a secret (Touch ID protected)</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>add<span class="w"> </span>github-token
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>&gt;<span class="w"> </span>Enter<span class="w"> </span>secret<span class="w"> </span>value:<span class="w"> </span>••••••••
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>✓<span class="w"> </span>Secret<span class="w"> </span><span class="s1">&#39;github-token&#39;</span><span class="w"> </span>stored<span class="w"> </span><span class="k">in</span><span class="w"> </span>Keychain
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1"># Retrieve (instant, Touch ID prompt)</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1"># List all secrets</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>dot<span class="w"> </span>secret<span class="w"> </span>list
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="c1"># Delete when done</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w"> </span>github-token
 </code></pre></div>
-<h3 id="store-secrets">Store Secrets<a class="headerlink" href="#store-secrets" title="Permanent link">&para;</a></h3>
+<p><strong>Perfect for:</strong>
+- Shell startup scripts (instant, no unlock)
+- Local development tokens
+- API keys you use frequently</p>
+<h3 id="option-b-bitwarden-for-cross-device-sync">Option B: Bitwarden (For Cross-Device Sync)<a class="headerlink" href="#option-b-bitwarden-for-cross-device-sync" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Install CLI</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>brew<span class="w"> </span>install<span class="w"> </span>bitwarden-cli
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Login (first time)</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>bw<span class="w"> </span>login
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Unlock vault (each shell session)</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>dot<span class="w"> </span>unlock
+</code></pre></div>
+<p><strong>Store Secrets:</strong></p>
 <ol>
 <li>Open Bitwarden app or web vault</li>
 <li>Create Login item with name like <code>github-token</code></li>
 <li>Put secret in password field</li>
 <li>Save</li>
 </ol>
-<h3 id="retrieve-secrets">Retrieve Secrets<a class="headerlink" href="#retrieve-secrets" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># List available secrets</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>list
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Output:</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1"># ℹ Retrieving items from vault...</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># 🔑 github-token (Work/GitHub)</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># 🔑 anthropic-api-key (AI/Keys)</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="c1"># Retrieve (no echo)</span>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span>
+<p><strong>Retrieve Secrets:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># List available secrets</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>list
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Output:</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="c1"># ℹ Retrieving items from vault...</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="c1"># 🔑 github-token (Work/GitHub)</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># 🔑 anthropic-api-key (AI/Keys)</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="c1"># Retrieve (no echo)</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span>
 </code></pre></div>
 <h3 id="use-in-templates">Use in Templates<a class="headerlink" href="#use-in-templates" title="Permanent link">&para;</a></h3>
 <p><strong>Create template:</strong> <code>~/.local/share/chezmoi/dot_zshrc.tmpl</code></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Regular content</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/bin:<span class="nv">$PATH</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Secrets from Bitwarden</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;{{ bitwarden &quot;</span>item<span class="s2">&quot; &quot;</span>github-token<span class="s2">&quot; }}&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Regular content</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/bin:<span class="nv">$PATH</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Secrets from Bitwarden</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;{{ bitwarden &quot;</span>item<span class="s2">&quot; &quot;</span>github-token<span class="s2">&quot; }}&quot;</span>
 </code></pre></div>
 <p><strong>Apply with secrets:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>dot<span class="w"> </span>unlock
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run<span class="w">  </span><span class="c1"># Preview</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>dot<span class="w"> </span>apply<span class="w">            </span><span class="c1"># Apply</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>dot<span class="w"> </span>unlock
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run<span class="w">  </span><span class="c1"># Preview</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>dot<span class="w"> </span>apply<span class="w">            </span><span class="c1"># Apply</span>
 </code></pre></div></p>
 <hr />
 <h2 id="workflow-5-token-management-v520">Workflow 5: Token Management (v5.2.0)<a class="headerlink" href="#workflow-5-token-management-v520" title="Permanent link">&para;</a></h2>
 <h3 id="create-tokens-with-wizards">Create Tokens with Wizards<a class="headerlink" href="#create-tokens-with-wizards" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># GitHub Personal Access Token</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>dot<span class="w"> </span>token<span class="w"> </span>github
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># NPM automation token</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>dot<span class="w"> </span>token<span class="w"> </span>npm
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># PyPI project token</span>
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>dot<span class="w"> </span>token<span class="w"> </span>pypi
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># GitHub Personal Access Token</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>dot<span class="w"> </span>token<span class="w"> </span>github
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># NPM automation token</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>dot<span class="w"> </span>token<span class="w"> </span>npm
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># PyPI project token</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>dot<span class="w"> </span>token<span class="w"> </span>pypi
 </code></pre></div>
 <p><strong>Wizard output:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>🧙 GitHub Token Wizard
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>Select token type:
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>  1. Classic Personal Access Token
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>  2. Fine-grained Token (recommended)
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>Choice [1/2]: 2
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>ℹ Opening GitHub token creation page...
-<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
-<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>Paste your new token: ghp_xxxxxxxxxxxx
-<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>
-<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>✓ Token validated!
-<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>✓ Stored as &#39;github-token&#39; in Bitwarden
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>🧙 GitHub Token Wizard
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>Select token type:
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>  1. Classic Personal Access Token
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>  2. Fine-grained Token (recommended)
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>Choice [1/2]: 2
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>ℹ Opening GitHub token creation page...
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>Paste your new token: ghp_xxxxxxxxxxxx
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>✓ Token validated!
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>✓ Stored as &#39;github-token&#39; in Bitwarden
 </code></pre></div></p>
 <h3 id="check-token-status">Check Token Status<a class="headerlink" href="#check-token-status" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>dot<span class="w"> </span>secrets
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>dot<span class="w"> </span>secrets
 </code></pre></div>
 <p><strong>Dashboard output:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>╭───────────────────────────────────────────────────────────────╮
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>│  🔐 Secrets Dashboard                                          │
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>├───────────────────────────────────────────────────────────────┤
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>│  🔑 github-token       Expires: 89 days                       │
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>│  🔑 npm-token          Expires: 180 days                      │
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>│  ⚠️  pypi-token         Expires: 9 days  ← EXPIRING SOON      │
-<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>╰───────────────────────────────────────────────────────────────╯
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>╭───────────────────────────────────────────────────────────────╮
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>│  🔐 Secrets Dashboard                                          │
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>├───────────────────────────────────────────────────────────────┤
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>│  🔑 github-token       Expires: 89 days                       │
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>│  🔑 npm-token          Expires: 180 days                      │
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>│  ⚠️  pypi-token         Expires: 9 days  ← EXPIRING SOON      │
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>╰───────────────────────────────────────────────────────────────╯
 </code></pre></div></p>
 <h3 id="rotate-expiring-tokens">Rotate Expiring Tokens<a class="headerlink" href="#rotate-expiring-tokens" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Rotate a specific token</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>dot<span class="w"> </span>token<span class="w"> </span>pypi-token<span class="w"> </span>--refresh
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Short form</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>dot<span class="w"> </span>token<span class="w"> </span>pypi-token<span class="w"> </span>-r
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Rotate a specific token</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>dot<span class="w"> </span>token<span class="w"> </span>pypi-token<span class="w"> </span>--refresh
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Short form</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>dot<span class="w"> </span>token<span class="w"> </span>pypi-token<span class="w"> </span>-r
 </code></pre></div>
 <p><strong>Rotation output:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>🔄 Rotating token: pypi-token
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>ℹ Opening PyPI token creation page...
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>Paste your new token: pypi-xxxxxxxx
-<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
-<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>✓ Token validated!
-<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>✓ Updated in Bitwarden
-<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>
-<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>⚠️  Remember to revoke old token at:
-<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>   https://pypi.org/manage/account/token/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>🔄 Rotating token: pypi-token
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>ℹ Opening PyPI token creation page...
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>Paste your new token: pypi-xxxxxxxx
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>✓ Token validated!
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>✓ Updated in Bitwarden
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>⚠️  Remember to revoke old token at:
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>   https://pypi.org/manage/account/token/
 </code></pre></div></p>
 <hr />
 <h2 id="workflow-6-cicd-integration-v520">Workflow 6: CI/CD Integration (v5.2.0)<a class="headerlink" href="#workflow-6-cicd-integration-v520" title="Permanent link">&para;</a></h2>
 <h3 id="sync-secrets-to-github-actions">Sync Secrets to GitHub Actions<a class="headerlink" href="#sync-secrets-to-github-actions" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>dot<span class="w"> </span>secrets<span class="w"> </span>sync<span class="w"> </span>github
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>dot<span class="w"> </span>secrets<span class="w"> </span>sync<span class="w"> </span>github
 </code></pre></div>
 <p><strong>Output:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>ℹ Syncing secrets to: Data-Wise/flow-cli
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
-<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>Select secrets to sync:
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>  [x] GITHUB_TOKEN
-<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>  [x] NPM_TOKEN
-<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>  [ ] PYPI_TOKEN
-<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>
-<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>✓ 2 secrets synced to repository
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>ℹ Syncing secrets to: Data-Wise/flow-cli
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>Select secrets to sync:
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>  [x] GITHUB_TOKEN
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>  [x] NPM_TOKEN
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>  [ ] PYPI_TOKEN
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>✓ 2 secrets synced to repository
 </code></pre></div></p>
 <h3 id="generate-envrc-for-direnv">Generate .envrc for direnv<a class="headerlink" href="#generate-envrc-for-direnv" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>dot<span class="w"> </span>env<span class="w"> </span>init
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>dot<span class="w"> </span>env<span class="w"> </span>init
 </code></pre></div>
 <p><strong>Output:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>✓ Generated .envrc with 3 secrets
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
-<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>  Contents:
-<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>  ─────────────────────────────
-<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>  export GITHUB_TOKEN=&quot;$(dot secret github-token)&quot;
-<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>  export NPM_TOKEN=&quot;$(dot secret npm-token)&quot;
-<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>  ─────────────────────────────
-<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>
-<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>💡 Run &#39;direnv allow&#39; to activate
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>✓ Generated .envrc with 3 secrets
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>  Contents:
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>  ─────────────────────────────
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>  export GITHUB_TOKEN=&quot;$(dot secret github-token)&quot;
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>  export NPM_TOKEN=&quot;$(dot secret npm-token)&quot;
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>  ─────────────────────────────
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>💡 Run &#39;direnv allow&#39; to activate
 </code></pre></div></p>
 <hr />
 <h2 id="common-patterns">Common Patterns<a class="headerlink" href="#common-patterns" title="Permanent link">&para;</a></h2>
 <h3 id="quick-config-change">Quick Config Change<a class="headerlink" href="#quick-config-change" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>dot<span class="w"> </span>edit<span class="w"> </span>.gitconfig<span class="w">  </span><span class="c1"># Edit, apply immediately</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>dot<span class="w"> </span>edit<span class="w"> </span>.gitconfig<span class="w">  </span><span class="c1"># Edit, apply immediately</span>
 </code></pre></div>
 <h3 id="safe-batch-changes">Safe Batch Changes<a class="headerlink" href="#safe-batch-changes" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc<span class="w">      </span><span class="c1"># Press &#39;n&#39; to defer</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.gitconfig<span class="w">  </span><span class="c1"># Press &#39;n&#39; to defer</span>
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>dot<span class="w"> </span>diff<span class="w">             </span><span class="c1"># Review all</span>
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run<span class="w">  </span><span class="c1"># Preview</span>
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>dot<span class="w"> </span>apply<span class="w">            </span><span class="c1"># Apply all</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>dot<span class="w"> </span>edit<span class="w"> </span>.zshrc<span class="w">      </span><span class="c1"># Press &#39;n&#39; to defer</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>.gitconfig<span class="w">  </span><span class="c1"># Press &#39;n&#39; to defer</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>dot<span class="w"> </span>diff<span class="w">             </span><span class="c1"># Review all</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>dot<span class="w"> </span>apply<span class="w"> </span>--dry-run<span class="w">  </span><span class="c1"># Preview</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>dot<span class="w"> </span>apply<span class="w">            </span><span class="c1"># Apply all</span>
 </code></pre></div>
 <h3 id="emergency-rollback">Emergency Rollback<a class="headerlink" href="#emergency-rollback" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Restore from chezmoi source</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>chezmoi<span class="w"> </span>apply<span class="w"> </span>--force
-<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
-<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># Or revert chezmoi source to remote</span>
-<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="nb">cd</span><span class="w"> </span>~/.local/share/chezmoi
-<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span>.
-<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>dot<span class="w"> </span>apply
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Restore from chezmoi source</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>chezmoi<span class="w"> </span>apply<span class="w"> </span>--force
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># Or revert chezmoi source to remote</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="nb">cd</span><span class="w"> </span>~/.local/share/chezmoi
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span>.
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>dot<span class="w"> </span>apply
 </code></pre></div>
 <hr />
 <h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
 <h3 id="file-not-tracked">File Not Tracked<a class="headerlink" href="#file-not-tracked" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>✗ File not found in managed dotfiles: .zshrc
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>ℹ Use &#39;chezmoi add &lt;file&gt;&#39; to start tracking a new file
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>✗ File not found in managed dotfiles: .zshrc
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>ℹ Use &#39;chezmoi add &lt;file&gt;&#39; to start tracking a new file
 </code></pre></div>
 <p><strong>Fix:</strong> <code>chezmoi add ~/.zshrc</code></p>
 <h3 id="vault-locked">Vault Locked<a class="headerlink" href="#vault-locked" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>✗ Bitwarden vault is locked
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>ℹ Run: dot unlock
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>✗ Bitwarden vault is locked
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>ℹ Run: dot unlock
 </code></pre></div>
 <p><strong>Fix:</strong> <code>dot unlock</code></p>
 <h3 id="session-expired">Session Expired<a class="headerlink" href="#session-expired" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>✗ Session expired
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>Run: dot unlock
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>✗ Session expired
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>Run: dot unlock
 </code></pre></div>
 <p><strong>Fix:</strong> <code>dot unlock</code> (re-enter master password)</p>
 <hr />
