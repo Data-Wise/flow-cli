@@ -1,10 +1,9 @@
 # SPEC: Dotfile Management Integration via dot Dispatcher
 
-**Status:** Draft (Updated for `dot` command)
+**Status:** Completed (Implemented in v5.3.0)
 **Created:** 2026-01-08
-**Updated:** 2026-01-08 (Changed from `dot` to `dot` per user preference)
-**From Brainstorm:** [BRAINSTORM-dotfile-integration-2026-01-08.md](../../BRAINSTORM-dotfile-integration-2026-01-08.md)
-**Target Release:** v5.0.0
+**Updated:** 2026-01-13 (Documentation cleanup)
+**Target Release:** v5.0.0 (Delivered in v5.3.0)
 **Estimated Effort:** 26 hours over 3-4 weeks
 
 ---
@@ -608,14 +607,11 @@ N/A - CLI only (no web interface)
 
 ## Related Documents
 
-- [Brainstorm Output](../../BRAINSTORM-dotfile-integration-2026-01-08.md)
-- [UX Design Document](dotfile-ux-design.md)
-- [Visual Mockups](dot-dispatcher-visual-mockups.md)
-- [Implementation Checklist](dot-dispatcher-implementation-checklist.md)
-- [Quick Reference Card](dot-dispatcher-refcard.md)
-- [Executive Summary](DOTFILE-INTEGRATION-SUMMARY.md)
-- [Original Infrastructure Plan](dotfile-management-plan_1.md)
+- [DOT Dispatcher Reference](../reference/DOT-DISPATCHER-REFERENCE.md)
+- [DOT Dispatcher Tutorial](../tutorials/12-dot-dispatcher.md)
+- [Implementation Checklist](dot-dispatcher-implementation-checklist.md) (archived)
+- [Quick Reference Card](dot-dispatcher-refcard.md) (archived)
 
 ---
 
-**Next Step:** Review and approve this spec, then begin Phase 1 implementation
+**Implementation Complete:** v5.3.0 - See [DOT Dispatcher Reference](../reference/DOT-DISPATCHER-REFERENCE.md) for current documentation.

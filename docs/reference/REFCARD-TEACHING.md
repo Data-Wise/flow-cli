@@ -408,9 +408,8 @@ work stat-545
 ## 📚 See Also
 
 - [Complete Guide](../guides/TEACHING-WORKFLOW.md) - Comprehensive documentation
-- [Demo Walkthrough](../demos/teaching-workflow.tape) - Visual tutorial
-- [Test Coverage](../../tests/TEACHING-WORKFLOW-TEST-COVERAGE.md) - Testing docs
-- [Implementation Spec](../specs/SPEC-teaching-workflow-v2.md) - Technical details
+- [TEACH Dispatcher Reference](./TEACH-DISPATCHER-REFERENCE.md) - Full command reference
+- [teach-init Command](../commands/teach-init.md) - Initialize teaching projects
 
 ---
 

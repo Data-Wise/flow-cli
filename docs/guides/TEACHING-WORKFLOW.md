@@ -1243,11 +1243,9 @@ sed -i '' '/## Answer Key/,$d' exams/midterm1.md
 
 ## See Also
 
-- [Test Coverage Report](../../tests/TEACHING-WORKFLOW-TEST-COVERAGE.md) - Comprehensive testing documentation
 - [Quick Reference Card](../reference/REFCARD-TEACHING.md) - Command cheat sheet
-- [Demo Walkthrough](../demos/teaching-workflow.tape) - Visual tutorial
-- [Spec v2.0](../specs/SPEC-teaching-workflow-v2.md) - Implementation specification
-- [CLAUDE.md](../../CLAUDE.md#teaching-workflow-support) - AI assistant context
+- [TEACH Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE.md) - Full command reference
+- [teach-init Command](../commands/teach-init.md) - Initialize teaching projects
 
 ---
 

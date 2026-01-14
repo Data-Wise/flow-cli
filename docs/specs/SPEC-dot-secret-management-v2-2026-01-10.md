@@ -397,5 +397,5 @@ IDLE_TIMEOUT=900
 ## Related Documents
 
 - [DOT-DISPATCHER-REFERENCE.md](../reference/DOT-DISPATCHER-REFERENCE.md) - Current implementation
-- [BRAINSTORM-dot-secrets-2026-01-10.md](../../BRAINSTORM-flow-cli-workflow-review-2026-01-09.md) - Original brainstorm
+- [DOT Dispatcher Tutorial](../tutorials/12-dot-dispatcher.md) - Usage guide
 

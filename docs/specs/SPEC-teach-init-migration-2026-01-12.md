@@ -1,9 +1,9 @@
 # SPEC: Intelligent Migration Workflow for teach-init
 
-**Status:** draft
+**Status:** Completed (Implemented in v5.4.1)
 **Created:** 2026-01-12
-**From Brainstorm:** [BRAINSTORM-teach-init-migration-2026-01-12.md](../../BRAINSTORM-teach-init-migration-2026-01-12.md)
-**Target Release:** v5.4.0
+**Updated:** 2026-01-13 (Documentation cleanup)
+**Target Release:** v5.4.0 (Delivered in v5.4.1)
 **Estimated Effort:** 10-12 hours over 2 weeks
 
 ---
@@ -697,15 +697,11 @@ fi
 ## Related Documentation
 
 - [Teaching Workflow v2.0 Spec](SPEC-teaching-workflow-v2.md)
-- [STAT 545 Migration Guide](../../teaching/stat-545/MIGRATION-GUIDE-teaching-workflow.md)
-- [STAT 545 Migration Complete](../../teaching/stat-545/MIGRATION-COMPLETE.md)
-- [flow-cli Architecture](../ARCHITECTURE.md)
+- [TEACH Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE.md)
+- [DOT Dispatcher Tutorial](../tutorials/12-dot-dispatcher.md)
+- [Architecture Reference](../reference/ARCHITECTURE.md)
 - [Testing Guide](../guides/TESTING.md)
 
 ---
 
-**Ready for implementation?** Start with Phase 1 (Foundation).
-
-**Questions?** See Open Questions section above.
-
-**Approvals:** Pending review by DT.
+**Implementation Complete:** v5.4.1 - See [TEACH Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE.md) for current documentation.

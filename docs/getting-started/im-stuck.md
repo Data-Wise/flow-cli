@@ -153,7 +153,7 @@ tree ~/projects/ -L 2
 Use the search bar (top right) to find specific commands or concepts.
 
 ### Common Issues Database
-- [Installation Problems](troubleshooting.md#installation)
+- [Installation Problems](troubleshooting.md#installation-issues)
 - [Project Detection Issues](../reference/PROJECT-DETECTION-GUIDE.md)
 - [Command Reference](../reference/COMMAND-QUICK-REFERENCE.md)
 

@@ -677,8 +677,8 @@ The `work` command is the **primary entry point** for flow-cli. It sets up your 
 ## See Also
 
 - **Tutorial:** [First Session Tutorial](../tutorials/01-first-session.md)
-- **Command:** [finish](finish.md) - End work session
-- **Command:** [hop](hop.md) - Quick project switch
+- **Command:** [finish](../commands/finish.md) - End work session
+- **Command:** [hop](../commands/hop.md) - Quick project switch
 
 ---
 
@@ -759,7 +759,7 @@ cc here         # Explicit HERE target
 
 - **Command:** [pick](../commands/pick.md) - Project picker
 - **Tutorial:** [CC Dispatcher Tutorial](../tutorials/10-cc-dispatcher.md)
-- **Reference:** [DISPATCHER-REFERENCE.md](DISPATCHER-REFERENCE.md) - All dispatchers
+- **Reference:** [DISPATCHER-REFERENCE.md](../reference/DISPATCHER-REFERENCE.md) - All dispatchers
 
 ---
 

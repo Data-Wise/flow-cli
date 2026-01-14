@@ -428,10 +428,8 @@ echo 'export FLOW_CACHE_ENABLED=0' >> ~/.zshrc
 
 ## See Also
 
-- [pick Command Reference](../reference/COMMAND-QUICK-REFERENCE.md#pick)
-- [Performance Tuning Guide](./PERFORMANCE-TUNING.md)
-- [Project Configuration](./PROJECT-CONFIGURATION.md)
-- [Enhancement Spec](../specs/SPEC-project-cache-auto-discovery.md)
+- [pick Command Reference](../reference/PICK-COMMAND-REFERENCE.md)
+- [flow doctor](../commands/doctor.md) - Verify project configuration
 
 ---
 

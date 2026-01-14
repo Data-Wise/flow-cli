@@ -452,5 +452,4 @@ examark:
 **Related:**
 - [Teaching Workflow Guide](TEACHING-WORKFLOW.md)
 - [Quick Reference Card](../reference/REFCARD-TEACHING.md)
-- [Exam Template](../../lib/templates/teaching/exam-template.md)
 - [examark Documentation](https://data-wise.github.io/examark/)
