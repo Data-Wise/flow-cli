@@ -143,30 +143,58 @@ _teach_show_week() {
 
 # Help function
 _teach_dispatcher_help() {
-    echo "${FLOW_COLORS[bold]}teach${FLOW_COLORS[reset]} - Teaching workflow dispatcher"
-    echo ""
-    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
-    echo "  teach <command> [args]"
-    echo ""
-    echo "${FLOW_COLORS[bold]}COMMANDS${FLOW_COLORS[reset]}"
-    echo "  ${FLOW_COLORS[cmd]}init${FLOW_COLORS[reset]}    [name]    Initialize teaching workflow (teach-init)"
-    echo "  ${FLOW_COLORS[cmd]}exam${FLOW_COLORS[reset]}    [name]    Create exam/quiz (teach-exam)"
-    echo "  ${FLOW_COLORS[cmd]}deploy${FLOW_COLORS[reset]}            Deploy draft → production"
-    echo "  ${FLOW_COLORS[cmd]}archive${FLOW_COLORS[reset]}           Archive semester"
-    echo "  ${FLOW_COLORS[cmd]}config${FLOW_COLORS[reset]}            Edit teach-config.yml"
-    echo "  ${FLOW_COLORS[cmd]}status${FLOW_COLORS[reset]}            Show teaching project status"
-    echo "  ${FLOW_COLORS[cmd]}week${FLOW_COLORS[reset]}              Show current week number"
-    echo ""
-    echo "${FLOW_COLORS[bold]}SHORTCUTS${FLOW_COLORS[reset]}"
-    echo "  i=init, e=exam, d=deploy, a=archive, c=config, s=status, w=week"
-    echo ""
-    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
-    echo "  teach init \"STAT 545\"     # Initialize new course"
-    echo "  teach init -y \"STAT 440\"  # Non-interactive mode"
-    echo "  teach exam \"Midterm 1\"    # Create exam"
-    echo "  teach deploy              # Deploy to production"
-    echo "  teach status              # Check project status"
-    echo ""
-    echo "${FLOW_COLORS[bold]}DOCUMENTATION${FLOW_COLORS[reset]}"
-    echo "  https://data-wise.github.io/flow-cli/guides/teaching-workflow/"
+    # Colors (ANSI codes for consistent formatting)
+    local _C_BOLD="${_C_BOLD:-\033[1m}"
+    local _C_NC="${_C_NC:-\033[0m}"
+    local _C_GREEN="${_C_GREEN:-\033[0;32m}"
+    local _C_CYAN="${_C_CYAN:-\033[0;36m}"
+    local _C_BLUE="${_C_BLUE:-\033[0;34m}"
+    local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
+    local _C_DIM="${_C_DIM:-\033[2m}"
+
+    echo -e "
+${_C_BOLD}╭──────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ 🎓 TEACH - Teaching Workflow Dispatcher      │${_C_NC}
+${_C_BOLD}╰──────────────────────────────────────────────╯${_C_NC}
+
+${_C_BOLD}Usage:${_C_NC} teach <command> [args]
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach init \"Course Name\"${_C_NC}  Initialize new course
+  ${_C_CYAN}teach deploy${_C_NC}             Deploy draft → production
+  ${_C_CYAN}teach status${_C_NC}             Show course status
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach init \"STAT 545\"      ${_C_DIM}# Interactive setup${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach init -y \"STAT 440\"   ${_C_DIM}# Non-interactive (defaults)${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach exam \"Midterm 1\"     ${_C_DIM}# Create exam${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach deploy                 ${_C_DIM}# Deploy to students${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach status                 ${_C_DIM}# Show project status${_C_NC}
+
+${_C_BLUE}📋 COMMANDS${_C_NC}:
+  ${_C_CYAN}teach init [name]${_C_NC}         Initialize teaching workflow
+  ${_C_CYAN}teach init -y [name]${_C_NC}      Non-interactive mode (accept defaults)
+  ${_C_CYAN}teach exam [name]${_C_NC}         Create exam/quiz template
+  ${_C_CYAN}teach deploy${_C_NC}              Deploy draft → production branch
+  ${_C_CYAN}teach archive${_C_NC}             Archive semester & create tag
+  ${_C_CYAN}teach config${_C_NC}              Edit .flow/teach-config.yml
+  ${_C_CYAN}teach status${_C_NC}              Show teaching project status
+  ${_C_CYAN}teach week${_C_NC}                Show current week number
+
+${_C_BLUE}⌨️  SHORTCUTS${_C_NC}:
+  ${_C_CYAN}i${_C_NC}                         init
+  ${_C_CYAN}e${_C_NC}                         exam
+  ${_C_CYAN}d${_C_NC}                         deploy
+  ${_C_CYAN}a${_C_NC}                         archive
+  ${_C_CYAN}c${_C_NC}                         config
+  ${_C_CYAN}s${_C_NC}                         status
+  ${_C_CYAN}w${_C_NC}                         week
+
+${_C_BLUE}📝 BRANCH WORKFLOW${_C_NC}:
+  ${_C_DIM}draft:${_C_NC}          Where you make edits (default branch)
+  ${_C_DIM}production:${_C_NC}    What students see (auto-deployed)
+
+${_C_DIM}See also:${_C_NC} work help, dash teach
+${_C_DIM}Docs:${_C_NC}} https://data-wise.github.io/flow-cli/guides/teaching-workflow/
+"
 }
