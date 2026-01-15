@@ -15,6 +15,10 @@
         <link rel="canonical" href="https://data-wise.github.io/flow-cli/contributing/BRANCH-WORKFLOW/">
       
       
+        <link rel="prev" href="../CONTRIBUTING/">
+      
+      
+        <link rel="next" href="../PR-WORKFLOW-GUIDE/">
       
       
         
@@ -25,7 +29,7 @@
     
     
       
-        <title>Branch Workflow - flow-cli - Flow CLI Documentation</title>
+        <title>Branch Workflow - Flow CLI Documentation</title>
       
     
     
@@ -114,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Branch Workflow - flow-cli
+              Branch Workflow
             
           </span>
         </div>
@@ -404,10 +408,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../CONTRIBUTING/" class="md-tabs__link">
           
   
@@ -3196,6 +3202,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
         
   
@@ -4082,6 +4116,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../guides/SAFE-TESTING-v5.9.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Safe Testing (v5.9.0)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../testing/DOG-FEEDING-TEST-README/" class="md-nav__link">
         
   
@@ -4170,28 +4232,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
-        
-          
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
             
   
   
@@ -4209,7 +4274,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
@@ -4243,6 +4308,597 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Branch Workflow
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Branch Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branch-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branch Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Branch Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-main-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. main - Production
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-dev-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. dev - Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-feature-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. feature/* - Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-hotfix-emergency-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. hotfix/* - Emergency Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Workflow Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#starting-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#during-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        During Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#finishing-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Finishing Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow Guard
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Workflow Guard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#protected-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protected Branches
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bypass-use-carefully" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bypass (Use Carefully)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-new-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. New Feature
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bug-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bug Fix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-hotfix-maintainers-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Hotfix (Maintainers Only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branch-protection-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branch Protection Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Branch Protection Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-setup-2026-01-11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Setup (2026-01-11)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-github-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended GitHub Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-branch-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup Branch Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-workflow-is-enforced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check Workflow is Enforced
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitor-violations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitor Violations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cannot-fast-forward-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "Cannot fast-forward" Error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accidentally-committed-to-maindev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accidentally Committed to main/dev
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-guard-not-working" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow Guard Not Working
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mandatory-workflow-protocol-claude-code-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mandatory Workflow Protocol (Claude Code Development)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mandatory Workflow Protocol (Claude Code Development)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-planning-phase-always-on-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Planning Phase (Always on dev)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-worktree-creation-isolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Worktree Creation (Isolation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-atomic-development-in-worktree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Atomic Development (In Worktree)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-integration-feature-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Integration (feature/* → dev)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-release-dev-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Release (dev → main)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tool-usage-constraints-claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool Usage Constraints (Claude Code)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tool Usage Constraints (Claude Code)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-command-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Command Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abort-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abort Conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#override-emergency-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Override (Emergency Only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-validation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow Validation Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 

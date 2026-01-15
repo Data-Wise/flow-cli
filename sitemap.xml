@@ -313,6 +313,10 @@
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/guides/SAFE-TESTING-v5.9.0/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/guides/SCHOLAR-INTEGRATION/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
@@ -454,6 +458,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/ALIAS-REFERENCE-CARD/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/API-REFERENCE/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
@@ -613,6 +621,10 @@
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/RFC-flow-scholar-config-protocol/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-Flow-CLI-Documentation-Enhancement%20-%20Complete-Implementation/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
@@ -634,6 +646,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-flow-alias-enhancement-2026-01-12/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-flow-scholar-integration-improvements-2026-01-14/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>

@@ -18,7 +18,7 @@
         <link rel="prev" href="../WORKSPACE-AUDIT-GUIDE/">
       
       
-        <link rel="next" href="../ADHD-HELPERS-FUNCTION-MAP/">
+        <link rel="next" href="../API-REFERENCE/">
       
       
         
@@ -3347,6 +3347,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#config-validation-architecture-v590" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config Validation Architecture (v5.9.0)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Config Validation Architecture (v5.9.0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validation-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config-ownership-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config Ownership Protocol
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#command-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3416,6 +3455,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -4314,6 +4381,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../guides/SAFE-TESTING-v5.9.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Safe Testing (v5.9.0)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../testing/DOG-FEEDING-TEST-README/" class="md-nav__link">
         
   
@@ -4467,6 +4562,34 @@
     
   
     Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/BRANCH-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Branch Workflow
   
 
     
@@ -4866,6 +4989,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#config-validation-architecture-v590" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config Validation Architecture (v5.9.0)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Config Validation Architecture (v5.9.0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validation-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config-ownership-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config Ownership Protocol
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#command-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4957,8 +5119,8 @@
 
 
 <h1 id="flow-cli-architecture">flow-cli Architecture<a class="headerlink" href="#flow-cli-architecture" title="Permanent link">&para;</a></h1>
-<p><strong>Version:</strong> v5.5.0
-<strong>Last Updated:</strong> 2026-01-13</p>
+<p><strong>Version:</strong> v5.9.0
+<strong>Last Updated:</strong> 2026-01-14</p>
 <hr />
 <h2 id="system-overview">System Overview<a class="headerlink" href="#system-overview" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>graph TB
@@ -5191,6 +5353,98 @@
 </tr>
 </tbody>
 </table>
+<hr />
+<h2 id="config-validation-architecture-v590">Config Validation Architecture (v5.9.0)<a class="headerlink" href="#config-validation-architecture-v590" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>graph TB
+    subgraph "Config Files"
+        YAML[teach-config.yml]
+        Schema[teach-config.schema.json]
+    end
+
+    subgraph "Validation Layer"
+        Validator[_teach_validate_config]
+        HashCheck[_flow_config_hash]
+        Cache[Hash Cache]
+    end
+
+    subgraph "Validation Rules"
+        Required[Required Fields]
+        Enum[Enum Validation]
+        Range[Range Validation]
+        Sum[Grading Sum Check]
+    end
+
+    subgraph "Consumers"
+        Status[teach status]
+        Exam[teach exam]
+        Quiz[teach quiz]
+    end
+
+    YAML --&gt; Validator
+    Schema --&gt; Validator
+    Validator --&gt; Required
+    Validator --&gt; Enum
+    Validator --&gt; Range
+    Validator --&gt; Sum
+
+    YAML --&gt; HashCheck
+    HashCheck --&gt; Cache
+
+    Status --&gt; Validator
+    Exam --&gt; Validator
+    Quiz --&gt; Validator</code></pre>
+<h3 id="validation-flow">Validation Flow<a class="headerlink" href="#validation-flow" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant User
+    participant teach
+    participant Validator
+    participant Schema
+    participant Cache
+
+    User-&gt;&gt;teach: teach exam "Topic"
+    teach-&gt;&gt;Validator: _teach_validate_config()
+    Validator-&gt;&gt;Cache: _flow_config_changed()
+    alt Config Changed
+        Cache--&gt;&gt;Validator: changed (0)
+        Validator-&gt;&gt;Schema: Validate against schema
+        Schema--&gt;&gt;Validator: validation result
+        Validator-&gt;&gt;Cache: Update hash
+    else Config Unchanged
+        Cache--&gt;&gt;Validator: unchanged (1)
+        Validator--&gt;&gt;teach: Use cached result
+    end
+    teach-&gt;&gt;User: Proceed or show errors</code></pre>
+<h3 id="config-ownership-protocol">Config Ownership Protocol<a class="headerlink" href="#config-ownership-protocol" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph LR
+    subgraph "flow-cli Owns"
+        Course[course]
+        Semester[semester_info]
+        Branches[branches]
+        Deploy[deployment]
+    end
+
+    subgraph "Scholar Owns"
+        ScholarInfo[scholar.course_info]
+        Style[scholar.style]
+        Topics[scholar.topics]
+        Grading[scholar.grading]
+    end
+
+    subgraph "Shared"
+        Examark[examark]
+        Shortcuts[shortcuts]
+    end
+
+    Course --&gt; Config[teach-config.yml]
+    Semester --&gt; Config
+    Branches --&gt; Config
+    Deploy --&gt; Config
+    ScholarInfo --&gt; Config
+    Style --&gt; Config
+    Topics --&gt; Config
+    Grading --&gt; Config
+    Examark --&gt; Config
+    Shortcuts --&gt; Config</code></pre>
 <hr />
 <h2 id="command-flow">Command Flow<a class="headerlink" href="#command-flow" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>sequenceDiagram
