@@ -4,39 +4,53 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: Production Ready (v5.5.0) + v5.8.0 Scholar Wrappers In Progress
+## Phase: Production Ready (v5.5.0) + v5.8.0 Scholar Wrappers Complete
 ## Priority: 1
-## Progress: 95
+## Progress: 100
 
-## Focus: v5.8.0 Teaching Scholar Wrappers (Implementation)
+## Focus: v5.8.0 Teaching Scholar Wrappers (Complete, Awaiting Merge)
 
 ## 🚧 In Progress:
-
-- **v5.8.0 Teaching Scholar Wrappers** - Implementation Complete ✅
-  - Specification: SPEC-teach-scholar-wrappers.md (implemented)
-  - Branch: feature/teach-scholar-wrappers
-  - Status: Ready for PR to dev
-
-  **Delivered:**
-  - 9 Scholar wrapper commands (exam, quiz, slides, lecture, assignment, syllabus, rubric, feedback, demo)
-  - Preflight validation (config, Claude CLI checks)
-  - Universal flags (--dry-run, --format, --output, --verbose)
-  - Lesson Plan → Lecture workflow (--from-plan) with slides workaround
-  - Tab completion for all commands and flags
-  - 28 tests (all passing)
-
-  **Note:** `/teaching:lecture` awaiting Scholar v2.1.0
-
-  **Future (v2.1.0 Integration):**
-  - Add sync hook when Scholar releases dual YAML/JSON config system
-  - Auto-trigger config sync before Scholar commands
-  - File watcher integration (< 100ms latency)
 
 - **v5.7.0 Prompt Dispatcher** - Planning Phase Complete ✅
   - Planning: 100% complete
   - Specification: SPEC-prompt-dispatcher-v2.md (900+ lines)
   - Implementation: Ready to start (Phase 1: 1 hour)
   - Status: Feature branch created, ready for implementation
+
+## ✅ Just Completed (2026-01-14 - v5.8.0 Scholar Wrappers):
+
+### Teaching Scholar Wrappers v5.8.0 - Implementation Complete ✅
+
+**Branch:** `feature/teach-scholar-wrappers` (4 commits, ready for merge)
+**Specification:** `docs/specs/SPEC-teach-scholar-wrappers.md` (implemented)
+
+**Delivered:**
+- [x] 9 Scholar wrapper commands via Claude + Scholar plugin:
+  - `teach exam "Topic"` → `/teaching:exam`
+  - `teach quiz "Topic"` → `/teaching:quiz`
+  - `teach slides "Topic"` → `/teaching:slides`
+  - `teach lecture "Topic"` → `/teaching:lecture` (awaiting Scholar)
+  - `teach assignment "Topic"` → `/teaching:assignment`
+  - `teach syllabus` → `/teaching:syllabus`
+  - `teach rubric "Name"` → `/teaching:rubric`
+  - `teach feedback "Work"` → `/teaching:feedback`
+  - `teach demo` → `/teaching:demo`
+- [x] Preflight validation (`_teach_preflight`) - config + Claude CLI checks
+- [x] Command builder (`_teach_build_command`) - maps to Scholar commands
+- [x] Universal flags: `--dry-run`, `--format`, `--output`, `--verbose`
+- [x] Lesson Plan workflow (`--from-plan`) with slides workaround
+- [x] Tab completion (`completions/_teach`) - all commands + flags
+- [x] 28 tests (all passing)
+
+**Files Changed:**
+- `lib/dispatchers/teach-dispatcher.zsh` (+397 lines)
+- `completions/_teach` (new, 147 lines)
+- `tests/test-teach-scholar-wrappers.zsh` (new, 28 tests)
+
+**Note:** `/teaching:lecture` awaiting Scholar v2.1.0 implementation
+
+---
 
 ## ✅ Just Completed (2026-01-14 - v5.7.0 Planning):
 
@@ -153,7 +167,21 @@
 
 ## 📋 Future Roadmap
 
-### v5.7.0 (Prompt Dispatcher Integration) 🎯 NEXT
+### v5.8.0 (Teaching Scholar Wrappers) 🎯 READY
+- [x] Specification complete ✅
+- [x] Implementation complete ✅
+- [x] Tests passing (28/28) ✅
+- [x] Tab completion added ✅
+- [ ] Merge to dev (awaiting user approval)
+- [ ] Release v5.8.0
+
+**Features:**
+- 9 Scholar wrapper commands (exam, quiz, slides, lecture, assignment, syllabus, rubric, feedback, demo)
+- Unified `teach` CLI experience
+- Preflight validation + error handling
+- Universal flags (--dry-run, --format, --output, --verbose)
+
+### v5.7.0 (Prompt Dispatcher Integration)
 - [x] Planning & specification complete (2026-01-14) ✅
 - [ ] Phase 1: Core dispatcher implementation (Session 2, 1h)
 - [ ] Phase 2: OhMyPosh support + setup wizard (Session 2, 30m)
@@ -175,7 +203,14 @@
 - [ ] Organize orphaned spec files (optional)
 - [ ] Add CI documentation validation (optional)
 
-### Future Releases (v5.8.0+)
+### Future: Scholar v2.1.0 Integration
+When Scholar releases dual YAML/JSON config system:
+- [ ] Add `_teach_sync_config()` hook to preflight
+- [ ] Auto-trigger config sync before Scholar commands
+- [ ] File watcher integration (< 100ms latency)
+- [ ] 4-layer teaching style support (Global → Course → Command → Lesson)
+
+### Future Releases (v5.9.0+)
 - [ ] Prompt themes management
 - [ ] Prompt performance analytics
 - [ ] Installation improvements (curl one-liner)
