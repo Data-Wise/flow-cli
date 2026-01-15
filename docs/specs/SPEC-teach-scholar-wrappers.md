@@ -1,8 +1,9 @@
 # SPEC: flow-cli Teaching Wrappers for Scholar
 
 **Feature:** Unified teaching commands that wrap Scholar plugin
-**Status:** draft
+**Status:** implemented
 **Created:** 2026-01-14
+**Implemented:** 2026-01-14
 **Target:** flow-cli v5.8.0
 
 ---
