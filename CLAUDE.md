@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v5.4.3 released, v5.5.0 on dev)
+- **Status:** Production ready (v5.5.0 released, v5.8.0 on dev)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -248,7 +248,7 @@ flow goal set 3   # Set daily win target
 
 **Categories:** 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test, ✨ other
 
-### Active Dispatchers (10)
+### Active Dispatchers (11)
 
 ```bash
 g <cmd>       # Git workflows (g status, g push, g commit)
@@ -261,6 +261,7 @@ tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
 wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 dot <cmd>     # Dotfile management (dot edit, dot sync, dot secret)
 teach <cmd>   # Teaching workflow (teach init, teach deploy, teach exam)
+prompt <cmd>  # Prompt engine switcher (prompt status, prompt toggle) [v5.7.0]
 ```
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
@@ -653,79 +654,87 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2026-01-13)
+## Current Status (2026-01-15)
 
-### ✅ v5.6.0 RELEASED - Comprehensive Documentation & Roadmap
+### 🚀 v5.8.0 ON DEV - Scholar Teaching Wrappers
 
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.6.0
-**PRs:** #237, #238, #239, #240, #241 (all merged to main)
+**Branch:** dev (merged, ready for release)
+**PR:** #246 (merged)
 
 **What's New:**
 
-- [x] **Comprehensive Teaching Documentation** (1,995+ lines)
-  - TEACHING-COMMANDS-DETAILED.md (850 lines) - Deep dive into each teach command
-  - TEACHING-WORKFLOW-VISUAL.md (700 lines) - 5 visual step-by-step workflows
-  - TEACHING-DEMO-GUIDE.md (400 lines) - GIF recording instructions + demo scripts
-  - TEACHING-SYSTEM-ARCHITECTURE.md - Clarifies flow-cli vs Scholar distinction
+- [x] 9 Scholar wrapper commands via `teach` dispatcher
+- [x] `teach exam/quiz/slides/lecture/assignment/syllabus/rubric/feedback/demo`
+- [x] Preflight validation (checks config + Claude CLI)
+- [x] Universal flags: `--dry-run`, `--format`, `--output`, `--verbose`
+- [x] Tab completion for all commands and flags
+- [x] 28 tests (100% passing)
 
-- [x] **Help Output Standardization**
-  - Updated work, hop, finish, teach command help with rich ANSI colors
-  - Consistent emoji (🚀, 🏁, 🎓) and color coding across all commands
-  - Improved readability for ADHD-friendly design
+**New Commands:**
 
-- [x] **Homepage Updates (docs/index.md)**
-  - Version updated: v4.1.0 → v5.6.0
-  - Standardized grid card formatting to Material Design syntax
-  - Added links to new teaching guides
-  - Fixed dispatcher examples (teach-init → teach)
+```bash
+# Generate exam via Scholar (AI-powered)
+teach exam "Hypothesis Testing" --format quarto
 
-- [x] **Future Roadmap Documented in .STATUS**
-  - 🎬 Recording Teaching GIFs (30-45 min, ready to execute)
-  - 📖 Interactive Tutorials (planned)
-  - 🚀 Installation Improvements (planned)
-  - 🤖 Scholar Teaching Features Phase 2 (planned, not implemented)
+# Generate quiz
+teach quiz "Chapter 5 Review" --questions 10
 
-**Key Improvements:**
+# Generate slides from topic
+teach slides "Introduction to Regression"
 
-- Documentation website passes strict mkdocs validation (0 warnings)
-- Teaching documentation complete with 45+ terminal output examples
-- Clear distinction between implemented (flow-cli) and planned (Scholar) features
-- ADHD-friendly navigation and consistent visual hierarchy
+# All commands support --dry-run preview
+teach exam "Topic" --dry-run --verbose
+```
 
-**Files Changed:**
+---
 
-- docs/index.md (homepage)
-- docs/guides/ (3 new comprehensive guides)
-- docs/mkdocs.yml (navigation)
-- .STATUS (updated with v5.6.0 and future roadmap)
-- CLAUDE.md (upcoming - you are here)
+### 🚀 v5.7.0 ON DEV - Prompt Engine Dispatcher
 
-**v5.6.0 Metrics:**
+**Branch:** dev (merged, ready for release)
+**PR:** #245 (merged)
 
-- 1,995+ new lines of documentation
-- 45+ terminal output examples
-- 13 complete workflows documented
-- 0 mkdocs build warnings
+**What's New:**
+
+- [x] New `prompt` dispatcher with 8 subcommands
+- [x] Support for 3 engines: Powerlevel10k, Starship, OhMyPosh
+- [x] Interactive toggle menu for switching engines
+- [x] OhMyPosh setup wizard
+- [x] `--dry-run` flag for safe preview
+- [x] 224+ tests (97% passing)
+- [x] Comprehensive guides and reference documentation
+
+**New Commands:**
+
+```bash
+# Check current prompt engine
+prompt status
+
+# Interactive switch menu
+prompt toggle
+
+# Direct switch
+prompt starship
+prompt p10k
+prompt ohmyposh
+
+# Preview switch without making changes
+prompt --dry-run toggle
+
+# Setup wizard for OhMyPosh
+prompt setup-ohmyposh
+```
 
 ---
 
 ### ✅ v5.5.0 RELEASED - macOS Keychain Secrets
 
 **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.5.0
-**PR:** #235 (merged)
-
-**What's New:**
 
 - [x] `dot secret add/get/list/delete` - Native macOS Keychain storage
 - [x] `dot secret import` - One-time Bitwarden migration
 - [x] Touch ID / Apple Watch authentication support
 - [x] Zero session management (no `dot unlock` needed)
 - [x] 39 tests for keychain helpers (100% passing)
-
-**Architecture:**
-
-- Primary: macOS Keychain (instant, offline, biometric)
-- Fallback: Bitwarden via `dot secret bw <name>` (cloud, team sharing)
 
 ---
 
@@ -855,12 +864,12 @@ dot env init                  # Generate .envrc for direnv
 
 ### 🎯 Production Ready
 
-- **Version:** v5.4.3 (v5.5.0 on dev)
-- **Released:** 2026-01-13
+- **Version:** v5.5.0 released (v5.7.0 + v5.8.0 on dev)
+- **Released:** 2026-01-15
 - **Status:** Production use phase
 - **Performance:** Sub-10ms for core commands, CI ~17s
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
-- **Tests:** 150+ tests across all features (39 keychain tests)
+- **Tests:** 300+ tests across all features (224 prompt tests, 28 Scholar tests)
 
 ### 📋 Future: Installation Improvements
 
@@ -871,39 +880,13 @@ dot env init                  # Generate .envrc for direnv
 
 **Reference:** aiterm's installation approach (`/Users/dt/projects/dev-tools/aiterm/install.sh`)
 
-### 📋 Future Roadmap (v5.7.0+)
+### 📋 Future Roadmap
 
-**Immediate (Ready to Start)**
-
-- [ ] **🎬 Recording Teaching GIFs** (30-45 minutes)
-  - Status: Ready - TEACHING-DEMO-GUIDE.md complete with scripts
-  - 4 demo GIFs: teach init, status, deploy, archive
-  - Tools: asciinema, svg-term-cli
-
-**Planned (v5.7.0)**
-
-- [ ] **📖 Interactive Tutorials**
-  - Enhanced visual learning paths for new users
-  - Step-by-step code-along examples with embedded output
-  - Visual workflow diagrams with Mermaid
-
-- [ ] **🚀 Installation Improvements**
-  - Curl one-liner installer (like aiterm quality)
-  - Auto-detect plugin manager (antidote, zinit, oh-my-zsh)
-  - Installation methods comparison table
-
-- [ ] **🤖 Scholar Teaching Features (Phase 2)**
-  - AI-powered content generation (planned, not yet implemented)
-  - Commands: `/teaching:exam`, `/teaching:quiz`, `/teaching:lecture`, `/teaching:assignment`, `/teaching:syllabus`
-  - Integration: Works alongside flow-cli teaching workflow
-
-**Future (Post v5.7.0)**
+**Remote & Team Features**
 
 - [ ] Remote state sync (optional cloud backup)
 - [ ] Multi-device support
 - [ ] Shared templates
-- [ ] User profile system
-- [ ] Team collaboration features
 
 ---
 
@@ -987,5 +970,5 @@ git push origin main && git push origin v5.3.0
 
 ---
 
-**Last Updated:** 2026-01-13
+**Last Updated:** 2026-01-15
 **Status:** Production Ready
