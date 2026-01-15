@@ -2,7 +2,7 @@
 
 > **Pattern:** `command + keyword + options`
 > **Philosophy:** One command per domain, discoverable with `help`
-> **Version:** v4.7.0 (2025-12-31)
+> **Version:** v5.8.0 (2026-01-14)
 
 ---
 
@@ -147,6 +147,56 @@ tm help             # Show all commands
 ```
 
 **Aliases:** `tmt` (title), `tmp` (profile), `tmg` (ghost), `tms` (switch)
+
+### Prompt Engine Manager: `prompt` (v5.7.0)
+
+```bash
+prompt              # Show help
+prompt status       # Show current engine + alternatives
+prompt list         # Table view of all engines
+prompt toggle       # Interactive menu to pick engine
+prompt starship     # Switch to Starship
+prompt p10k         # Switch to Powerlevel10k
+prompt ohmyposh     # Switch to Oh My Posh
+prompt setup-ohmyposh  # Interactive Oh My Posh wizard
+prompt help         # Show all commands
+```
+
+**Options:**
+
+```bash
+prompt --dry-run toggle     # Preview changes without applying
+prompt --dry-run starship   # Preview Starship switch
+```
+
+**Supported Engines:** Powerlevel10k, Starship, Oh My Posh
+
+### Teaching Workflow: `teach` (v5.4.1+)
+
+```bash
+teach init "STAT 545"     # Initialize teaching workflow
+teach init -y "STAT 440"  # Non-interactive mode
+teach status              # Show project status
+teach week                # Show current week number
+teach config              # Edit teach-config.yml
+teach deploy              # Deploy draft → production
+teach archive             # Archive semester
+teach help                # Show all commands
+```
+
+**Scholar Wrappers (v5.8.0):**
+
+```bash
+teach exam "Midterm"      # Create exam via Scholar plugin
+teach quiz "Topic"        # Create quiz via Scholar plugin
+teach slides "Topic"      # Generate slides via Scholar plugin
+teach syllabus            # Generate syllabus via Scholar plugin
+teach rubric "Name"       # Generate rubric via Scholar plugin
+teach feedback "Work"     # Generate feedback via Scholar plugin
+teach demo                # Demo teaching workflow
+```
+
+**Universal Flags:** `--dry-run`, `--format`, `--output`, `--verbose`
 
 ---
 
@@ -467,6 +517,8 @@ reload              # Reload zshrc
 | MCP Servers    | `mcp`          | `mcp <action> [srv]`           |
 | Obsidian Notes | `obs`          | `obs <action> [arg]`           |
 | Terminal       | `tm`           | `tm <action> [arg]`            |
+| Prompt (v5.7)  | `prompt`       | `prompt <action> [engine]`     |
+| Teaching       | `teach`        | `teach <action> [args]`        |
 | Sync (v4.7.0)  | `flow sync`    | `flow sync [target] [opts]`    |
 | AI Assistant   | `flow ai`      | `flow ai [--mode] "query"`     |
 | Natural Lang   | `flow do`      | `flow do "command in English"` |
@@ -485,24 +537,26 @@ reload              # Reload zshrc
 
 ## Files
 
-| File                                                               | Purpose                     |
-| ------------------------------------------------------------------ | --------------------------- |
-| `~/projects/dev-tools/flow-cli/lib/dispatchers/`                   | All dispatchers             |
-| `~/projects/dev-tools/flow-cli/lib/dispatchers/r-dispatcher.zsh`   | r (R package dev)           |
-| `~/projects/dev-tools/flow-cli/lib/dispatchers/g-dispatcher.zsh`   | g (git workflows)           |
-| `~/projects/dev-tools/flow-cli/lib/dispatchers/qu-dispatcher.zsh`  | qu (Quarto publishing)      |
-| `~/projects/dev-tools/flow-cli/lib/dispatchers/mcp-dispatcher.zsh` | mcp (MCP servers)           |
-| `~/projects/dev-tools/flow-cli/lib/dispatchers/obs.zsh`            | obs (Obsidian notes)        |
-| `~/projects/dev-tools/flow-cli/commands/ai.zsh`                    | flow ai, flow do (v3.2.0)   |
-| `~/projects/dev-tools/flow-cli/commands/install.zsh`               | flow install (v3.2.0)       |
-| `~/projects/dev-tools/flow-cli/commands/upgrade.zsh`               | flow upgrade (v3.2.0)       |
-| `~/projects/dev-tools/flow-cli/commands/doctor.zsh`                | flow doctor (health check)  |
-| `~/projects/dev-tools/flow-cli/commands/alias.zsh`                 | flow alias (v5.4.0)         |
-| `~/projects/dev-tools/flow-cli/setup/Brewfile`                     | Homebrew bundle             |
-| `~/.config/zsh/.zshrc`                                             | ccy function, gem\* aliases |
+| File                                                                | Purpose                      |
+| ------------------------------------------------------------------- | ---------------------------- |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/`                    | All dispatchers              |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/r-dispatcher.zsh`    | r (R package dev)            |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/g-dispatcher.zsh`    | g (git workflows)            |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/qu-dispatcher.zsh`   | qu (Quarto publishing)       |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/mcp-dispatcher.zsh`  | mcp (MCP servers)            |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/obs.zsh`             | obs (Obsidian notes)         |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/prompt-dispatcher.zsh` | prompt (engines, v5.7.0)   |
+| `~/projects/dev-tools/flow-cli/lib/dispatchers/teach-dispatcher.zsh` | teach (teaching, v5.4.1)    |
+| `~/projects/dev-tools/flow-cli/commands/ai.zsh`                     | flow ai, flow do (v3.2.0)    |
+| `~/projects/dev-tools/flow-cli/commands/install.zsh`                | flow install (v3.2.0)        |
+| `~/projects/dev-tools/flow-cli/commands/upgrade.zsh`                | flow upgrade (v3.2.0)        |
+| `~/projects/dev-tools/flow-cli/commands/doctor.zsh`                 | flow doctor (health check)   |
+| `~/projects/dev-tools/flow-cli/commands/alias.zsh`                  | flow alias (v5.4.0)          |
+| `~/projects/dev-tools/flow-cli/setup/Brewfile`                      | Homebrew bundle              |
+| `~/.config/zsh/.zshrc`                                              | ccy function, gem\* aliases  |
 
 **Removed:** `v-dispatcher.zsh` (deprecated, use `flow` command instead)
 
 ---
 
-_Updated: 2026-01-12 (v5.4.0)_
+_Updated: 2026-01-14 (v5.8.0)_

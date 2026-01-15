@@ -93,6 +93,7 @@ nav:
       - 10. CC Dispatcher: tutorials/10-cc-dispatcher.md
       - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
       - 12. DOT Dispatcher: tutorials/12-dot-dispatcher.md
+      - 13. Prompt Dispatcher: tutorials/13-prompt-dispatcher.md
   - Workflows:
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
       - Teaching Workflow: guides/TEACHING-WORKFLOW.md
@@ -133,6 +134,7 @@ nav:
           - G Dispatcher: reference/G-DISPATCHER-REFERENCE.md
           - MCP Dispatcher: reference/MCP-DISPATCHER-REFERENCE.md
           - OBS Dispatcher: reference/OBS-DISPATCHER-REFERENCE.md
+          - PROMPT Dispatcher: reference/PROMPT-DISPATCHER-REFERENCE.md
           - QU Dispatcher: reference/QU-DISPATCHER-REFERENCE.md
           - R Dispatcher: reference/R-DISPATCHER-REFERENCE.md
           - TEACH Dispatcher: reference/TEACH-DISPATCHER-REFERENCE.md
@@ -140,6 +142,7 @@ nav:
           - WT Dispatcher: reference/WT-DISPATCHER-REFERENCE.md
       - Quick Reference Cards:
           - DOT Quick Ref: reference/REFCARD-DOT.md
+          - Prompt Quick Ref: reference/PROMPT-DISPATCHER-REFCARD.md
           - Teaching Quick Ref: reference/REFCARD-TEACHING.md
       - Project Tools:
           - Command Explorer: reference/COMMAND-EXPLORER.md

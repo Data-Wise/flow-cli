@@ -1,7 +1,7 @@
 # Dispatcher Reference - flow-cli
 
-**Last Updated:** January 12, 2026
-**Version:** flow-cli v5.4.1
+**Last Updated:** January 14, 2026
+**Version:** flow-cli v5.8.0
 
 ---
 
@@ -13,7 +13,7 @@ Dispatchers are smart command routers that provide context-aware workflows for s
 
 ---
 
-## Active Dispatchers (10)
+## Active Dispatchers (11)
 
 ### 1. `g` - Git Workflows
 
@@ -142,7 +142,63 @@ obs analyze       # Analyze vault
 
 ---
 
-### 4. `qu` - Quarto Publishing
+### 4. `prompt` - Prompt Engine Manager
+
+**File:** `prompt-dispatcher.zsh`
+**Purpose:** Unified management of prompt themes (Powerlevel10k, Starship, Oh My Posh)
+**Added:** January 14, 2026 (v5.7.0)
+
+**Common Commands:**
+
+```bash
+# Status & info
+prompt                    # Show help (default)
+prompt status             # Show current engine + alternatives
+prompt list               # Table view of all engines
+
+# Engine switching
+prompt toggle             # Interactive menu to pick engine
+prompt starship           # Switch to Starship
+prompt p10k               # Switch to Powerlevel10k
+prompt ohmyposh           # Switch to Oh My Posh
+
+# Setup & configuration
+prompt setup-ohmyposh     # Interactive Oh My Posh wizard
+prompt help               # Show help
+
+# Options
+prompt --dry-run toggle   # Preview changes without applying
+```
+
+**Supported Engines:**
+
+| Engine | Config Path | Description |
+|--------|-------------|-------------|
+| Powerlevel10k | `~/.config/zsh/.p10k.zsh` | Feature-rich, highly customizable |
+| Starship | `~/.config/starship.toml` | Minimal, fast Rust-based |
+| Oh My Posh | `~/.config/ohmyposh/config.json` | Modular with extensive themes |
+
+**Environment Variable:**
+
+```bash
+# Control which engine is active
+export FLOW_PROMPT_ENGINE="starship"  # Valid: powerlevel10k, starship, ohmyposh
+```
+
+**Features:**
+
+- One-command engine switching with validation
+- Interactive toggle menu for quick switching
+- Dry-run mode to preview changes
+- Automatic shell reload after switch
+- Setup wizard for Oh My Posh
+- Integration with `flow doctor` for health checks
+
+**See also:** [PROMPT-DISPATCHER-REFERENCE.md](PROMPT-DISPATCHER-REFERENCE.md)
+
+---
+
+### 5. `qu` - Quarto Publishing
 
 **File:** `qu-dispatcher.zsh`  
 **Purpose:** Quarto document and presentation workflows  
@@ -193,7 +249,7 @@ qu commit         # Render and commit changes
 
 ---
 
-### 5. `r` - R Package Development
+### 6. `r` - R Package Development
 
 **File:** `r-dispatcher.zsh`  
 **Purpose:** R package development workflows  
@@ -259,7 +315,7 @@ r tree            # Package structure tree
 
 ---
 
-### 6. `cc` - Claude Code Workflows
+### 7. `cc` - Claude Code Workflows
 
 **File:** `cc-dispatcher.zsh`
 **Purpose:** Smart Claude Code project workflows
@@ -323,7 +379,7 @@ cc wt opus <branch>     # Worktree + Opus model
 
 ---
 
-### 7. `wt` - Git Worktree Management
+### 8. `wt` - Git Worktree Management
 
 **File:** `wt-dispatcher.zsh`
 **Purpose:** Git worktree management for parallel development
@@ -383,7 +439,7 @@ wt unlock <path>   # → git worktree unlock <path>
 
 ---
 
-### 8. `tm` - Terminal Manager
+### 9. `tm` - Terminal Manager
 
 **File:** `tm-dispatcher.zsh`
 **Purpose:** Terminal management via aiterm integration
@@ -445,7 +501,7 @@ Automatically detects: iTerm2, Ghostty, WezTerm, Kitty, Alacritty, VS Code, Term
 
 ---
 
-### 9. `dot` - Dotfile Management
+### 10. `dot` - Dotfile Management
 
 **File:** `dot-dispatcher.zsh`
 **Purpose:** Dotfile sync via chezmoi + secret management via Bitwarden
@@ -548,7 +604,7 @@ Use Bitwarden secrets in chezmoi templates:
 
 ---
 
-### 10. `teach` - Teaching Workflow
+### 11. `teach` - Teaching Workflow
 
 **File:** `teach-dispatcher.zsh`
 **Purpose:** Unified teaching workflow for course websites
@@ -846,10 +902,27 @@ source ~/projects/dev-tools/flow-cli/lib/dispatchers/<name>.zsh
 
 ## Summary
 
-**Active Dispatchers:** 8 (g, mcp, obs, qu, r, cc, wt, tm)
+**Active Dispatchers:** 11 (g, mcp, obs, prompt, qu, r, cc, wt, tm, dot, teach)
 **Removed:** 2 (v, vibe)
 **Not Restored:** 3 (gm, note, timer - alternatives available)
-**Total Commands:** ~130+ subcommands across all dispatchers
+**Total Commands:** ~150+ subcommands across all dispatchers
+
+**New in v5.7.0:**
+
+- `prompt` dispatcher - Prompt engine manager (Powerlevel10k, Starship, Oh My Posh)
+- Interactive engine switching with validation
+- Dry-run mode for previewing changes
+- Setup wizard for Oh My Posh
+
+**New in v5.4.1:**
+
+- `teach` dispatcher - Teaching workflow for course websites
+- Non-interactive mode with `-y` flag
+
+**New in v5.0.0:**
+
+- `dot` dispatcher - Dotfile management + secret management
+- macOS Keychain integration (v5.5.0)
 
 **New in v4.4.0:**
 
