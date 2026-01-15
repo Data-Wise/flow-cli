@@ -64,7 +64,35 @@
 
 ---
 
-## ✅ Previously Completed (2026-01-15):
+## ✅ Completed (2026-01-15 - Afternoon):
+
+### Scholar RFC - Config Flag Integration
+
+**Issue:** https://github.com/Data-Wise/scholar/issues/18
+**RFC Document:** `docs/specs/RFC-scholar-config-flag.md`
+
+**Proposal:** Add `--config` flag to Scholar teaching commands for bidirectional integration
+
+**Key Features:**
+- Scholar reads teach-config.yml for course context
+- Shared JSON Schema validation
+- Config ownership protocol (flow-cli owns `course`, Scholar owns `scholar`)
+- Enhanced content generation with course-aware context
+
+**Timeline:** Scholar v2.2.0 (after RFC approval)
+
+**Deliverables:**
+- [x] Comprehensive RFC document written
+- [x] GitHub issue created in Scholar repository (#18)
+- [x] Implementation plan with 4 phases
+- [x] Schema ownership protocol defined
+- [x] Benefits and migration path documented
+
+**Next:** Wait for Scholar team feedback
+
+---
+
+## ✅ Previously Completed (2026-01-15 - Morning):
 
 ### Tutorial Enhancement - v5.9.0 Documentation
 
@@ -188,19 +216,14 @@
 
 ## 🎯 Next Action
 
-**Current:** Test the fix and prepare v5.9.1 release
+**Current:** Release v5.10.0 or start installation improvements
 
-```bash
-# Test the fix
-pick wt              # Should show scholar-github-actions
-pick wt scholar      # Should filter correctly
-
-# Verify all tests pass
-./tests/test-flat-worktree-detection.zsh
-```
+**Completed Today:**
+- ✅ Phase 1: Flat worktree detection (PR #253)
+- ✅ Phase 2: Cache invalidation (commit 104484ea)
+- ✅ Scholar RFC issue created (#18)
 
 **Options:**
-- A) Release v5.9.1 (bug fix release) [15 min]
-- B) Add cache invalidation to `wt create` (Phase 2) [10 min]
+- A) Release v5.10.0 (worktree detection + cache invalidation) [15 min]
 - C) Start v5.10.0 installation improvements [2-4 hours]
-- D) Create Scholar issue for --config flag RFC [15 min]
+- E) Wait for Scholar team feedback on RFC #18
