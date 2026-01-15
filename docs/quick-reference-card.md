@@ -95,6 +95,23 @@ dot secret add X  # Store in Keychain
 dot help          # Show all commands
 ```
 
+### Prompt Engines: `prompt` (v5.7.0)
+```bash
+prompt status     # Show current engine
+prompt toggle     # Switch engines (menu)
+prompt starship   # Switch to Starship
+prompt p10k       # Switch to Powerlevel10k
+prompt help       # Show all commands
+```
+
+### Teaching: `teach` (v5.8.0)
+```bash
+teach status      # Show course status
+teach exam "Name" # Create exam (Scholar)
+teach deploy      # Push to production
+teach help        # Show all commands
+```
+
 ---
 
 ## 🔥 Timers & Focus
@@ -140,4 +157,4 @@ status my-project active P0 "Next task description"
 
 ---
 
-<small>Flow CLI v5.5.0 | MIT License | [github.com/data-wise/flow-cli](https://github.com/data-wise/flow-cli)</small>
+<small>Flow CLI v5.8.0 | MIT License | [github.com/data-wise/flow-cli](https://github.com/data-wise/flow-cli)</small>
