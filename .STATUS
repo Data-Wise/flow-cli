@@ -12,19 +12,25 @@
 
 ## 🚧 In Progress:
 
-- **v5.8.0 Teaching Scholar Wrappers** - Implementation Phase 🔧
-  - Specification: SPEC-teach-scholar-wrappers.md (complete)
+- **v5.8.0 Teaching Scholar Wrappers** - Implementation Complete ✅
+  - Specification: SPEC-teach-scholar-wrappers.md (implemented)
   - Branch: feature/teach-scholar-wrappers
-  - Target: Unified `teach` CLI wrapping Scholar plugin commands
-  - Status: Implementation in progress
+  - Status: Ready for PR to dev
 
-  **Features:**
+  **Delivered:**
   - 9 Scholar wrapper commands (exam, quiz, slides, lecture, assignment, syllabus, rubric, feedback, demo)
   - Preflight validation (config, Claude CLI checks)
   - Universal flags (--dry-run, --format, --output, --verbose)
-  - Lesson Plan → Lecture workflow (--from-plan)
+  - Lesson Plan → Lecture workflow (--from-plan) with slides workaround
+  - Tab completion for all commands and flags
+  - 28 tests (all passing)
 
-  **Note:** `/teaching:lecture` awaiting Scholar implementation
+  **Note:** `/teaching:lecture` awaiting Scholar v2.1.0
+
+  **Future (v2.1.0 Integration):**
+  - Add sync hook when Scholar releases dual YAML/JSON config system
+  - Auto-trigger config sync before Scholar commands
+  - File watcher integration (< 100ms latency)
 
 - **v5.7.0 Prompt Dispatcher** - Planning Phase Complete ✅
   - Planning: 100% complete
