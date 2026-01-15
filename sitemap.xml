@@ -637,10 +637,6 @@
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
-         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-dot-secret-management-v2-2026-01-10/</loc>
-         <lastmod>2026-01-15</lastmod>
-    </url>
-    <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-dotfile-integration-2026-01-08/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
@@ -649,23 +645,7 @@
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
-         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-flow-scholar-integration-improvements-2026-01-14/</loc>
-         <lastmod>2026-01-15</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-macos-keychain-secrets-2026-01-13/</loc>
-         <lastmod>2026-01-15</lastmod>
-    </url>
-    <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-project-cache-auto-discovery/</loc>
-         <lastmod>2026-01-15</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-prompt-dispatcher-integration/</loc>
-         <lastmod>2026-01-15</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-prompt-dispatcher-v2/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
@@ -674,10 +654,6 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-teach-init-migration-2026-01-12/</loc>
-         <lastmod>2026-01-15</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-teach-scholar-wrappers/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
@@ -734,6 +710,30 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/_archive/SPEC-cc-unified-grammar-2026-01-02/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/_archive/SPEC-dot-secret-management-v2-2026-01-10/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/_archive/SPEC-flow-scholar-integration-improvements-2026-01-14/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/_archive/SPEC-macos-keychain-secrets-2026-01-13/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/_archive/SPEC-prompt-dispatcher-integration/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/_archive/SPEC-prompt-dispatcher-v2/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/_archive/SPEC-teach-scholar-wrappers/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
