@@ -94,6 +94,7 @@ nav:
       - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
       - 12. DOT Dispatcher: tutorials/12-dot-dispatcher.md
       - 13. Prompt Dispatcher: tutorials/13-prompt-dispatcher.md
+      - 14. Teach Dispatcher: tutorials/14-teach-dispatcher.md
   - Workflows:
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
       - Teaching Workflow: guides/TEACHING-WORKFLOW.md

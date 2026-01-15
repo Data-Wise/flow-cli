@@ -3,7 +3,7 @@
 > **What you'll learn:** Launch Claude Code efficiently with smart project selection and mode chaining
 >
 > **Time:** ~15 minutes | **Level:** Beginner to Intermediate
-> **Version:** v3.6.0+
+> **Version:** v5.8.0+
 
 ---
 
@@ -48,12 +48,17 @@ The simplest way to start Claude:
 ```bash
 # Launch Claude in current directory
 cc
+
+# Explicit HERE (same as above, more explicit)
+cc .
 ```
 
 **What happens:**
 - Claude starts with `--permission-mode acceptEdits`
 - You'll confirm file edits before they're applied
 - Safe for everyday work
+
+**Tip:** Use `cc .` when you want to be explicit about launching in the current directory.
 
 ### Step 1.2: YOLO Mode (Skip Permissions)
 
@@ -140,6 +145,29 @@ cc plan med
 ```
 
 **Pattern:** `cc [mode] [project|pick]`
+
+### Step 2.4: Unified Grammar (Both Orders Work!)
+
+As of v5.3.0, the CC dispatcher supports **unified grammar** - both mode-first AND target-first orders work identically:
+
+```bash
+# These are equivalent:
+cc yolo pick     # mode-first
+cc pick yolo     # target-first ✨
+
+# These are equivalent:
+cc plan pick     # mode-first
+cc pick plan     # target-first ✨
+
+# These are equivalent:
+cc opus pick     # mode-first
+cc pick opus     # target-first ✨
+```
+
+**Why this matters:**
+- Type in whatever order feels natural
+- No more remembering "does mode come first?"
+- ADHD-friendly - reduce cognitive load
 
 ---
 
