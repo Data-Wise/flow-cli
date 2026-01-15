@@ -537,6 +537,10 @@
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/PROMPT-DISPATCHER-REFERENCE/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/QU-DISPATCHER-REFERENCE/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
@@ -774,6 +778,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/12-dot-dispatcher/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/tutorials/13-prompt-dispatcher/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
 </urlset>

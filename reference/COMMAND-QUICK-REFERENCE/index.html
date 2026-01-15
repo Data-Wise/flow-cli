@@ -1193,6 +1193,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/13-prompt-dispatcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Prompt Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2335,6 +2363,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#prompt-engine-manager-prompt-v570" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompt Engine Manager: prompt (v5.7.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teaching-workflow-teach-v541" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teaching Workflow: teach (v5.4.1+)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2961,6 +3011,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../PROMPT-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PROMPT Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../QU-DISPATCHER-REFERENCE/" class="md-nav__link">
         
   
@@ -3174,6 +3252,34 @@
     
   
     DOT Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PROMPT-DISPATCHER-REFCARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Quick Ref
   
 
     
@@ -4990,6 +5096,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#prompt-engine-manager-prompt-v570" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompt Engine Manager: prompt (v5.7.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teaching-workflow-teach-v541" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teaching Workflow: teach (v5.4.1+)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -5312,7 +5440,7 @@
 <blockquote>
 <p><strong>Pattern:</strong> <code>command + keyword + options</code>
 <strong>Philosophy:</strong> One command per domain, discoverable with <code>help</code>
-<strong>Version:</strong> v4.7.0 (2025-12-31)</p>
+<strong>Version:</strong> v5.8.0 (2026-01-14)</p>
 </blockquote>
 <hr />
 <h2 id="dispatchers">Dispatchers<a class="headerlink" href="#dispatchers" title="Permanent link">&para;</a></h2>
@@ -5425,22 +5553,58 @@
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>tm<span class="w"> </span><span class="nb">help</span><span class="w">             </span><span class="c1"># Show all commands</span>
 </code></pre></div>
 <p><strong>Aliases:</strong> <code>tmt</code> (title), <code>tmp</code> (profile), <code>tmg</code> (ghost), <code>tms</code> (switch)</p>
+<h3 id="prompt-engine-manager-prompt-v570">Prompt Engine Manager: <code>prompt</code> (v5.7.0)<a class="headerlink" href="#prompt-engine-manager-prompt-v570" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>prompt<span class="w">              </span><span class="c1"># Show help</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>prompt<span class="w"> </span>status<span class="w">       </span><span class="c1"># Show current engine + alternatives</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>prompt<span class="w"> </span>list<span class="w">         </span><span class="c1"># Table view of all engines</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>prompt<span class="w"> </span>toggle<span class="w">       </span><span class="c1"># Interactive menu to pick engine</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>prompt<span class="w"> </span>starship<span class="w">     </span><span class="c1"># Switch to Starship</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>prompt<span class="w"> </span>p10k<span class="w">         </span><span class="c1"># Switch to Powerlevel10k</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>prompt<span class="w"> </span>ohmyposh<span class="w">     </span><span class="c1"># Switch to Oh My Posh</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>prompt<span class="w"> </span>setup-ohmyposh<span class="w">  </span><span class="c1"># Interactive Oh My Posh wizard</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>prompt<span class="w"> </span><span class="nb">help</span><span class="w">         </span><span class="c1"># Show all commands</span>
+</code></pre></div>
+<p><strong>Options:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>prompt<span class="w"> </span>--dry-run<span class="w"> </span>toggle<span class="w">     </span><span class="c1"># Preview changes without applying</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>prompt<span class="w"> </span>--dry-run<span class="w"> </span>starship<span class="w">   </span><span class="c1"># Preview Starship switch</span>
+</code></pre></div>
+<p><strong>Supported Engines:</strong> Powerlevel10k, Starship, Oh My Posh</p>
+<h3 id="teaching-workflow-teach-v541">Teaching Workflow: <code>teach</code> (v5.4.1+)<a class="headerlink" href="#teaching-workflow-teach-v541" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w">     </span><span class="c1"># Initialize teaching workflow</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 440&quot;</span><span class="w">  </span><span class="c1"># Non-interactive mode</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>teach<span class="w"> </span>status<span class="w">              </span><span class="c1"># Show project status</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>teach<span class="w"> </span>week<span class="w">                </span><span class="c1"># Show current week number</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>teach<span class="w"> </span>config<span class="w">              </span><span class="c1"># Edit teach-config.yml</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>teach<span class="w"> </span>deploy<span class="w">              </span><span class="c1"># Deploy draft → production</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>teach<span class="w"> </span>archive<span class="w">             </span><span class="c1"># Archive semester</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>teach<span class="w"> </span><span class="nb">help</span><span class="w">                </span><span class="c1"># Show all commands</span>
+</code></pre></div>
+<p><strong>Scholar Wrappers (v5.8.0):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm&quot;</span><span class="w">      </span><span class="c1"># Create exam via Scholar plugin</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">        </span><span class="c1"># Create quiz via Scholar plugin</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">      </span><span class="c1"># Generate slides via Scholar plugin</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>teach<span class="w"> </span>syllabus<span class="w">            </span><span class="c1"># Generate syllabus via Scholar plugin</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>teach<span class="w"> </span>rubric<span class="w"> </span><span class="s2">&quot;Name&quot;</span><span class="w">       </span><span class="c1"># Generate rubric via Scholar plugin</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>teach<span class="w"> </span>feedback<span class="w"> </span><span class="s2">&quot;Work&quot;</span><span class="w">     </span><span class="c1"># Generate feedback via Scholar plugin</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>teach<span class="w"> </span>demo<span class="w">                </span><span class="c1"># Demo teaching workflow</span>
+</code></pre></div>
+<p><strong>Universal Flags:</strong> <code>--dry-run</code>, <code>--format</code>, <code>--output</code>, <code>--verbose</code></p>
 <hr />
 <h2 id="sync-data-management-v470">Sync &amp; Data Management (v4.7.0)<a class="headerlink" href="#sync-data-management-v470" title="Permanent link">&para;</a></h2>
 <h3 id="sync-flow-sync">Sync: <code>flow sync</code><a class="headerlink" href="#sync-flow-sync" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>flow<span class="w"> </span>sync<span class="w">           </span><span class="c1"># Smart sync (auto-detect what needs syncing)</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>all<span class="w">       </span><span class="c1"># Sync everything</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>flow<span class="w"> </span>sync<span class="w"> </span>status<span class="w">    </span><span class="c1"># Update .STATUS timestamps</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>flow<span class="w"> </span>sync<span class="w"> </span>wins<span class="w">      </span><span class="c1"># Aggregate wins to global file</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>flow<span class="w"> </span>sync<span class="w"> </span>goals<span class="w">     </span><span class="c1"># Recalculate goal progress</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>flow<span class="w"> </span>sync<span class="w"> </span>git<span class="w">       </span><span class="c1"># Smart git push/pull</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>flow<span class="w"> </span>sync<span class="w"> </span>--status<span class="w">  </span><span class="c1"># View sync dashboard</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>flow<span class="w"> </span>sync<span class="w"> </span>--dry-run<span class="w"> </span><span class="c1"># Preview changes</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>flow<span class="w"> </span>sync<span class="w">           </span><span class="c1"># Smart sync (auto-detect what needs syncing)</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>all<span class="w">       </span><span class="c1"># Sync everything</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>flow<span class="w"> </span>sync<span class="w"> </span>status<span class="w">    </span><span class="c1"># Update .STATUS timestamps</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>flow<span class="w"> </span>sync<span class="w"> </span>wins<span class="w">      </span><span class="c1"># Aggregate wins to global file</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>flow<span class="w"> </span>sync<span class="w"> </span>goals<span class="w">     </span><span class="c1"># Recalculate goal progress</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>flow<span class="w"> </span>sync<span class="w"> </span>git<span class="w">       </span><span class="c1"># Smart git push/pull</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>flow<span class="w"> </span>sync<span class="w"> </span>--status<span class="w">  </span><span class="c1"># View sync dashboard</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>flow<span class="w"> </span>sync<span class="w"> </span>--dry-run<span class="w"> </span><span class="c1"># Preview changes</span>
 </code></pre></div>
 <p><strong>Remote Sync (v4.7.0):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>flow<span class="w"> </span>sync<span class="w"> </span>remote<span class="w">            </span><span class="c1"># Show iCloud sync status</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>remote<span class="w"> </span>init<span class="w">       </span><span class="c1"># Set up iCloud sync</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>flow<span class="w"> </span>sync<span class="w"> </span>remote<span class="w"> </span>disable<span class="w">    </span><span class="c1"># Revert to local storage</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>flow<span class="w"> </span>sync<span class="w"> </span>remote<span class="w">            </span><span class="c1"># Show iCloud sync status</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>flow<span class="w"> </span>sync<span class="w"> </span>remote<span class="w"> </span>init<span class="w">       </span><span class="c1"># Set up iCloud sync</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>flow<span class="w"> </span>sync<span class="w"> </span>remote<span class="w"> </span>disable<span class="w">    </span><span class="c1"># Revert to local storage</span>
 </code></pre></div>
 <p><strong>Synced to iCloud:</strong> wins.md, goal.json, sync-state.json</p>
 <p><strong>Setup:</strong></p>
@@ -5452,67 +5616,67 @@
 <hr />
 <h2 id="ai-powered-commands-v320">AI-Powered Commands (v3.2.0)<a class="headerlink" href="#ai-powered-commands-v320" title="Permanent link">&para;</a></h2>
 <h3 id="ask-ai-flow-ai">Ask AI: <code>flow ai</code><a class="headerlink" href="#ask-ai-flow-ai" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="s2">&quot;how do I...&quot;</span><span class="w">           </span><span class="c1"># Ask anything with project context</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span>&lt;code&gt;<span class="w">        </span><span class="c1"># Explain code or concepts</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>flow<span class="w"> </span>ai<span class="w"> </span>--fix<span class="w"> </span>&lt;problem&gt;<span class="w">         </span><span class="c1"># Get fix suggestions</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>flow<span class="w"> </span>ai<span class="w"> </span>--suggest<span class="w"> </span>&lt;goal&gt;<span class="w">        </span><span class="c1"># Get improvement ideas</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>flow<span class="w"> </span>ai<span class="w"> </span>--create<span class="w"> </span>&lt;spec&gt;<span class="w">         </span><span class="c1"># Generate code from description</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>flow<span class="w"> </span>ai<span class="w"> </span>--context<span class="w"> </span><span class="s2">&quot;query&quot;</span><span class="w">       </span><span class="c1"># Force include project context</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>flow<span class="w"> </span>ai<span class="w"> </span>--verbose<span class="w"> </span><span class="s2">&quot;query&quot;</span><span class="w">       </span><span class="c1"># Show context being sent</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>flow<span class="w"> </span>ai<span class="w"> </span>--help<span class="w">                  </span><span class="c1"># Show all options</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="s2">&quot;how do I...&quot;</span><span class="w">           </span><span class="c1"># Ask anything with project context</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span>&lt;code&gt;<span class="w">        </span><span class="c1"># Explain code or concepts</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>flow<span class="w"> </span>ai<span class="w"> </span>--fix<span class="w"> </span>&lt;problem&gt;<span class="w">         </span><span class="c1"># Get fix suggestions</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>flow<span class="w"> </span>ai<span class="w"> </span>--suggest<span class="w"> </span>&lt;goal&gt;<span class="w">        </span><span class="c1"># Get improvement ideas</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>flow<span class="w"> </span>ai<span class="w"> </span>--create<span class="w"> </span>&lt;spec&gt;<span class="w">         </span><span class="c1"># Generate code from description</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>flow<span class="w"> </span>ai<span class="w"> </span>--context<span class="w"> </span><span class="s2">&quot;query&quot;</span><span class="w">       </span><span class="c1"># Force include project context</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>flow<span class="w"> </span>ai<span class="w"> </span>--verbose<span class="w"> </span><span class="s2">&quot;query&quot;</span><span class="w">       </span><span class="c1"># Show context being sent</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>flow<span class="w"> </span>ai<span class="w"> </span>--help<span class="w">                  </span><span class="c1"># Show all options</span>
 </code></pre></div>
 <h3 id="natural-language-flow-do">Natural Language: <code>flow do</code><a class="headerlink" href="#natural-language-flow-do" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;show git log&quot;</span><span class="w">          </span><span class="c1"># Translates to: git log --oneline -20</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;find large files&quot;</span><span class="w">      </span><span class="c1"># Translates to: find . -size +10M</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;count lines of code&quot;</span><span class="w">   </span><span class="c1"># Translates to: find . -name &quot;*.zsh&quot; | xargs wc -l</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w">         </span><span class="c1"># Show command without executing</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--verbose<span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w">         </span><span class="c1"># Show AI reasoning</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--help<span class="w">                  </span><span class="c1"># Show all options</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;show git log&quot;</span><span class="w">          </span><span class="c1"># Translates to: git log --oneline -20</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;find large files&quot;</span><span class="w">      </span><span class="c1"># Translates to: find . -size +10M</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;count lines of code&quot;</span><span class="w">   </span><span class="c1"># Translates to: find . -name &quot;*.zsh&quot; | xargs wc -l</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w">         </span><span class="c1"># Show command without executing</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--verbose<span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w">         </span><span class="c1"># Show AI reasoning</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--help<span class="w">                  </span><span class="c1"># Show all options</span>
 </code></pre></div>
 <p><strong>Safety:</strong> Dangerous commands (rm -rf, etc.) require confirmation.</p>
 <h3 id="adhd-helpers-with-ai">ADHD Helpers with AI<a class="headerlink" href="#adhd-helpers-with-ai" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>stuck<span class="w"> </span>--ai<span class="w">                      </span><span class="c1"># AI help when blocked</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>stuck<span class="w"> </span>--ai<span class="w"> </span><span class="s2">&quot;tests failing&quot;</span><span class="w">      </span><span class="c1"># AI help with specific problem</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>next<span class="w"> </span>--ai<span class="w">                       </span><span class="c1"># AI-powered task suggestion</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>stuck<span class="w"> </span>--ai<span class="w">                      </span><span class="c1"># AI help when blocked</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>stuck<span class="w"> </span>--ai<span class="w"> </span><span class="s2">&quot;tests failing&quot;</span><span class="w">      </span><span class="c1"># AI help with specific problem</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>next<span class="w"> </span>--ai<span class="w">                       </span><span class="c1"># AI-powered task suggestion</span>
 </code></pre></div>
 <h3 id="claude-code-cc">Claude Code: <code>cc</code><a class="headerlink" href="#claude-code-cc" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>cc<span class="w">                  </span><span class="c1"># Launch Claude HERE (current dir)</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>cc<span class="w"> </span>pick<span class="w">             </span><span class="c1"># Pick project → Claude</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>cc<span class="w"> </span>&lt;project&gt;<span class="w">        </span><span class="c1"># Direct jump → Claude</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>cc<span class="w"> </span>yolo<span class="w">             </span><span class="c1"># Launch HERE in YOLO mode (skip permissions)</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>cc<span class="w"> </span>yolo<span class="w"> </span>pick<span class="w">        </span><span class="c1"># Pick project → YOLO mode</span>
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>cc<span class="w"> </span>plan<span class="w">             </span><span class="c1"># Launch HERE in Plan mode</span>
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>cc<span class="w"> </span>opus<span class="w">             </span><span class="c1"># Launch HERE with Opus model</span>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>cc<span class="w"> </span>haiku<span class="w">            </span><span class="c1"># Launch HERE with Haiku model</span>
-<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>cc<span class="w"> </span>resume<span class="w">           </span><span class="c1"># Resume Claude session picker</span>
-<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>cc<span class="w"> </span><span class="k">continue</span><span class="w">         </span><span class="c1"># Resume most recent conversation</span>
-<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>cc<span class="w"> </span>ask<span class="w"> </span><span class="s2">&quot;query&quot;</span><span class="w">      </span><span class="c1"># Quick question (print mode)</span>
-<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>cc<span class="w"> </span>file<span class="w"> </span>&lt;file&gt;<span class="w">      </span><span class="c1"># Analyze a file</span>
-<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>cc<span class="w"> </span>diff<span class="w">             </span><span class="c1"># Review git changes</span>
-<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>cc<span class="w"> </span><span class="nb">help</span><span class="w">             </span><span class="c1"># Show all commands</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>cc<span class="w">                  </span><span class="c1"># Launch Claude HERE (current dir)</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>cc<span class="w"> </span>pick<span class="w">             </span><span class="c1"># Pick project → Claude</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>cc<span class="w"> </span>&lt;project&gt;<span class="w">        </span><span class="c1"># Direct jump → Claude</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>cc<span class="w"> </span>yolo<span class="w">             </span><span class="c1"># Launch HERE in YOLO mode (skip permissions)</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>cc<span class="w"> </span>yolo<span class="w"> </span>pick<span class="w">        </span><span class="c1"># Pick project → YOLO mode</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>cc<span class="w"> </span>plan<span class="w">             </span><span class="c1"># Launch HERE in Plan mode</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>cc<span class="w"> </span>opus<span class="w">             </span><span class="c1"># Launch HERE with Opus model</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>cc<span class="w"> </span>haiku<span class="w">            </span><span class="c1"># Launch HERE with Haiku model</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>cc<span class="w"> </span>resume<span class="w">           </span><span class="c1"># Resume Claude session picker</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>cc<span class="w"> </span><span class="k">continue</span><span class="w">         </span><span class="c1"># Resume most recent conversation</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>cc<span class="w"> </span>ask<span class="w"> </span><span class="s2">&quot;query&quot;</span><span class="w">      </span><span class="c1"># Quick question (print mode)</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>cc<span class="w"> </span>file<span class="w"> </span>&lt;file&gt;<span class="w">      </span><span class="c1"># Analyze a file</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>cc<span class="w"> </span>diff<span class="w">             </span><span class="c1"># Review git changes</span>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>cc<span class="w"> </span><span class="nb">help</span><span class="w">             </span><span class="c1"># Show all commands</span>
 </code></pre></div>
 <p><strong>Worktree Integration (v4.2.0):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>cc<span class="w"> </span>wt<span class="w">               </span><span class="c1"># List current worktrees</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>cc<span class="w"> </span>wt<span class="w"> </span>&lt;branch&gt;<span class="w">      </span><span class="c1"># Launch Claude in worktree (creates if needed)</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>cc<span class="w"> </span>wt<span class="w"> </span>pick<span class="w">          </span><span class="c1"># Pick worktree → Claude (fzf)</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>cc<span class="w"> </span>wt<span class="w"> </span>yolo<span class="w"> </span>&lt;branch&gt;<span class="w"> </span><span class="c1"># Worktree + YOLO mode</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>cc<span class="w"> </span>wt<span class="w"> </span>plan<span class="w"> </span>&lt;branch&gt;<span class="w"> </span><span class="c1"># Worktree + Plan mode</span>
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>cc<span class="w"> </span>wt<span class="w"> </span>opus<span class="w"> </span>&lt;branch&gt;<span class="w"> </span><span class="c1"># Worktree + Opus model</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>cc<span class="w"> </span>wt<span class="w">               </span><span class="c1"># List current worktrees</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>cc<span class="w"> </span>wt<span class="w"> </span>&lt;branch&gt;<span class="w">      </span><span class="c1"># Launch Claude in worktree (creates if needed)</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>cc<span class="w"> </span>wt<span class="w"> </span>pick<span class="w">          </span><span class="c1"># Pick worktree → Claude (fzf)</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>cc<span class="w"> </span>wt<span class="w"> </span>yolo<span class="w"> </span>&lt;branch&gt;<span class="w"> </span><span class="c1"># Worktree + YOLO mode</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>cc<span class="w"> </span>wt<span class="w"> </span>plan<span class="w"> </span>&lt;branch&gt;<span class="w"> </span><span class="c1"># Worktree + Plan mode</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>cc<span class="w"> </span>wt<span class="w"> </span>opus<span class="w"> </span>&lt;branch&gt;<span class="w"> </span><span class="c1"># Worktree + Opus model</span>
 </code></pre></div>
 <p><strong>Aliases:</strong> <code>ccy</code> (yolo), <code>ccw</code> (wt), <code>ccwy</code> (wt yolo), <code>ccwp</code> (wt pick)</p>
 <h3 id="external-ai-tools">External AI Tools<a class="headerlink" href="#external-ai-tools" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>gem<span class="w">                 </span><span class="c1"># Gemini (see 13 gem* aliases)</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>gemf<span class="w">                </span><span class="c1"># Gemini Flash</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>gemp<span class="w">                </span><span class="c1"># Gemini Pro</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>gem<span class="w">                 </span><span class="c1"># Gemini (see 13 gem* aliases)</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>gemf<span class="w">                </span><span class="c1"># Gemini Flash</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>gemp<span class="w">                </span><span class="c1"># Gemini Pro</span>
 </code></pre></div>
 <hr />
 <h2 id="setup-diagnostics">Setup &amp; Diagnostics<a class="headerlink" href="#setup-diagnostics" title="Permanent link">&para;</a></h2>
 <h3 id="health-check-flow-doctor">Health Check: <code>flow doctor</code><a class="headerlink" href="#health-check-flow-doctor" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>flow<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># Check all dependencies + alias health</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w">        </span><span class="c1"># Interactive install missing tools</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w"> </span>-y<span class="w">     </span><span class="c1"># Auto-install all missing (no prompts)</span>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--ai<span class="w">         </span><span class="c1"># AI-assisted troubleshooting (Claude CLI)</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--help<span class="w">       </span><span class="c1"># Show all options</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>flow<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># Check all dependencies + alias health</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w">        </span><span class="c1"># Interactive install missing tools</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w"> </span>-y<span class="w">     </span><span class="c1"># Auto-install all missing (no prompts)</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--ai<span class="w">         </span><span class="c1"># AI-assisted troubleshooting (Claude CLI)</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--help<span class="w">       </span><span class="c1"># Show all options</span>
 </code></pre></div>
 <p><strong>What it checks:</strong></p>
 <ul>
@@ -5524,17 +5688,17 @@
 <li><strong>Aliases:</strong> shadows, broken targets, health summary (v5.4.0)</li>
 </ul>
 <h3 id="alias-management-flow-alias-v540">Alias Management: <code>flow alias</code> (v5.4.0)<a class="headerlink" href="#alias-management-flow-alias-v540" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>doctor<span class="w">           </span><span class="c1"># Health check all aliases (shadows, broken targets)</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>find<span class="w"> </span>&lt;pattern&gt;<span class="w">   </span><span class="c1"># Search aliases by name or command</span>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>find<span class="w"> </span>--exact<span class="w"> </span>gst<span class="w"> </span><span class="c1"># Exact match only</span>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>edit<span class="w">             </span><span class="c1"># Open .zshrc at alias section</span>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>add<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s1">&#39;cmd&#39;</span><span class="w">   </span><span class="c1"># Create alias (one-liner)</span>
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>add<span class="w">              </span><span class="c1"># Create alias (interactive wizard)</span>
-<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>rm<span class="w"> </span>&lt;name&gt;<span class="w">        </span><span class="c1"># Remove alias (safe: comments out, backups)</span>
-<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>&lt;name&gt;<span class="w">      </span><span class="c1"># Show definition + validation</span>
-<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>&lt;n&gt;<span class="w"> </span>--dry<span class="w">   </span><span class="c1"># Show what would execute</span>
-<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>&lt;n&gt;<span class="w"> </span>--exec<span class="w">  </span><span class="c1"># Actually run the alias</span>
-<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">help</span><span class="w">             </span><span class="c1"># Show all commands</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>doctor<span class="w">           </span><span class="c1"># Health check all aliases (shadows, broken targets)</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>find<span class="w"> </span>&lt;pattern&gt;<span class="w">   </span><span class="c1"># Search aliases by name or command</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>find<span class="w"> </span>--exact<span class="w"> </span>gst<span class="w"> </span><span class="c1"># Exact match only</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>edit<span class="w">             </span><span class="c1"># Open .zshrc at alias section</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>add<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s1">&#39;cmd&#39;</span><span class="w">   </span><span class="c1"># Create alias (one-liner)</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>add<span class="w">              </span><span class="c1"># Create alias (interactive wizard)</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>rm<span class="w"> </span>&lt;name&gt;<span class="w">        </span><span class="c1"># Remove alias (safe: comments out, backups)</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>&lt;name&gt;<span class="w">      </span><span class="c1"># Show definition + validation</span>
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>&lt;n&gt;<span class="w"> </span>--dry<span class="w">   </span><span class="c1"># Show what would execute</span>
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>&lt;n&gt;<span class="w"> </span>--exec<span class="w">  </span><span class="c1"># Actually run the alias</span>
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>flow<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">help</span><span class="w">             </span><span class="c1"># Show all commands</span>
 </code></pre></div>
 <p><strong>Safety Features:</strong></p>
 <ul>
@@ -5544,19 +5708,19 @@
 <li>Duplicate checking: prevents overwriting existing aliases</li>
 </ul>
 <p><strong>Quick fix all:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>brew<span class="w"> </span>bundle<span class="w"> </span>--file<span class="o">=</span><span class="nv">$FLOW_PLUGIN_DIR</span>/setup/Brewfile
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>brew<span class="w"> </span>bundle<span class="w"> </span>--file<span class="o">=</span><span class="nv">$FLOW_PLUGIN_DIR</span>/setup/Brewfile
 </code></pre></div>
 <h3 id="install-tools-flow-install">Install Tools: <code>flow install</code><a class="headerlink" href="#install-tools-flow-install" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>flow<span class="w"> </span>install<span class="w">                        </span><span class="c1"># Interactive installer</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>minimal<span class="w">      </span><span class="c1"># Essential: fzf, zoxide, bat</span>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>developer<span class="w">    </span><span class="c1"># Full dev: + fd, rg, gh, delta, jq</span>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>researcher<span class="w">   </span><span class="c1"># Academic: + quarto</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>writer<span class="w">       </span><span class="c1"># Publishing: + pandoc, quarto</span>
-<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>full<span class="w">         </span><span class="c1"># Everything</span>
-<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>flow<span class="w"> </span>install<span class="w"> </span>--category<span class="w"> </span>core<span class="w">        </span><span class="c1"># Just core tools</span>
-<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>flow<span class="w"> </span>install<span class="w"> </span>--dry-run<span class="w">              </span><span class="c1"># Show what would install</span>
-<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>flow<span class="w"> </span>install<span class="w"> </span>--list<span class="w">                 </span><span class="c1"># List all profiles</span>
-<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>flow<span class="w"> </span>install<span class="w"> </span>--help<span class="w">                 </span><span class="c1"># Show all options</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>flow<span class="w"> </span>install<span class="w">                        </span><span class="c1"># Interactive installer</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>minimal<span class="w">      </span><span class="c1"># Essential: fzf, zoxide, bat</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>developer<span class="w">    </span><span class="c1"># Full dev: + fd, rg, gh, delta, jq</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>researcher<span class="w">   </span><span class="c1"># Academic: + quarto</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>writer<span class="w">       </span><span class="c1"># Publishing: + pandoc, quarto</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>flow<span class="w"> </span>install<span class="w"> </span>--profile<span class="w"> </span>full<span class="w">         </span><span class="c1"># Everything</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>flow<span class="w"> </span>install<span class="w"> </span>--category<span class="w"> </span>core<span class="w">        </span><span class="c1"># Just core tools</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>flow<span class="w"> </span>install<span class="w"> </span>--dry-run<span class="w">              </span><span class="c1"># Show what would install</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>flow<span class="w"> </span>install<span class="w"> </span>--list<span class="w">                 </span><span class="c1"># List all profiles</span>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>flow<span class="w"> </span>install<span class="w"> </span>--help<span class="w">                 </span><span class="c1"># Show all options</span>
 </code></pre></div>
 <p><strong>Profiles:</strong></p>
 <table>
@@ -5590,37 +5754,37 @@
 </tbody>
 </table>
 <h3 id="upgrade-flow-upgrade">Upgrade: <code>flow upgrade</code><a class="headerlink" href="#upgrade-flow-upgrade" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>self<span class="w">               </span><span class="c1"># Update flow-cli via git pull</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>tools<span class="w">              </span><span class="c1"># Update Homebrew packages</span>
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>plugins<span class="w">            </span><span class="c1"># Update ZSH plugins (antidote)</span>
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>all<span class="w">                </span><span class="c1"># Update everything</span>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--check<span class="w">            </span><span class="c1"># Check for updates (no install)</span>
-<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--changelog<span class="w">        </span><span class="c1"># Show what&#39;s new</span>
-<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--force<span class="w">            </span><span class="c1"># Skip confirmations</span>
-<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--help<span class="w">             </span><span class="c1"># Show all options</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>self<span class="w">               </span><span class="c1"># Update flow-cli via git pull</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>tools<span class="w">              </span><span class="c1"># Update Homebrew packages</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>plugins<span class="w">            </span><span class="c1"># Update ZSH plugins (antidote)</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>all<span class="w">                </span><span class="c1"># Update everything</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--check<span class="w">            </span><span class="c1"># Check for updates (no install)</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--changelog<span class="w">        </span><span class="c1"># Show what&#39;s new</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--force<span class="w">            </span><span class="c1"># Skip confirmations</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>flow<span class="w"> </span>upgrade<span class="w"> </span>--help<span class="w">             </span><span class="c1"># Show all options</span>
 </code></pre></div>
 <hr />
 <h2 id="workflow-functions">Workflow Functions<a class="headerlink" href="#workflow-functions" title="Permanent link">&para;</a></h2>
 <h3 id="session-management">Session Management<a class="headerlink" href="#session-management" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>work<span class="w"> </span>&lt;project&gt;<span class="w">      </span><span class="c1"># Start work session</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>finish<span class="w"> </span><span class="o">[</span>msg<span class="o">]</span><span class="w">        </span><span class="c1"># End session (commit + push)</span>
-<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>here<span class="w">                </span><span class="c1"># Quick context (pwd + status + ls)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>work<span class="w"> </span>&lt;project&gt;<span class="w">      </span><span class="c1"># Start work session</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>finish<span class="w"> </span><span class="o">[</span>msg<span class="o">]</span><span class="w">        </span><span class="c1"># End session (commit + push)</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>here<span class="w">                </span><span class="c1"># Quick context (pwd + status + ls)</span>
 </code></pre></div>
 <h3 id="project-operations">Project Operations<a class="headerlink" href="#project-operations" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>pb<span class="w">                  </span><span class="c1"># Build (auto-detects type)</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>pv<span class="w">                  </span><span class="c1"># Preview/view</span>
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>pt<span class="w">                  </span><span class="c1"># Test</span>
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>dash<span class="w">                </span><span class="c1"># Master dashboard</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>dash<span class="w"> </span>-i<span class="w">             </span><span class="c1"># Interactive TUI</span>
-<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>dash<span class="w"> </span>--watch<span class="w">        </span><span class="c1"># Live refresh</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>pb<span class="w">                  </span><span class="c1"># Build (auto-detects type)</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>pv<span class="w">                  </span><span class="c1"># Preview/view</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>pt<span class="w">                  </span><span class="c1"># Test</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>dash<span class="w">                </span><span class="c1"># Master dashboard</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>dash<span class="w"> </span>-i<span class="w">             </span><span class="c1"># Interactive TUI</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>dash<span class="w"> </span>--watch<span class="w">        </span><span class="c1"># Live refresh</span>
 </code></pre></div>
 <h3 id="pick-project-picker-v460">Pick - Project Picker (v4.6.0)<a class="headerlink" href="#pick-project-picker-v460" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>pick<span class="w">                </span><span class="c1"># FZF picker (all projects)</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>pick<span class="w"> </span>r<span class="w">              </span><span class="c1"># R packages only</span>
-<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>pick<span class="w"> </span>dev<span class="w">            </span><span class="c1"># Dev tools only</span>
-<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>pick<span class="w"> </span>wt<span class="w">             </span><span class="c1"># All worktrees (new!)</span>
-<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>pick<span class="w"> </span>wt<span class="w"> </span>scribe<span class="w">      </span><span class="c1"># Scribe&#39;s worktrees only</span>
-<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>pick<span class="w"> </span>flow<span class="w">           </span><span class="c1"># Direct jump to flow-cli</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>pick<span class="w">                </span><span class="c1"># FZF picker (all projects)</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>pick<span class="w"> </span>r<span class="w">              </span><span class="c1"># R packages only</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>pick<span class="w"> </span>dev<span class="w">            </span><span class="c1"># Dev tools only</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>pick<span class="w"> </span>wt<span class="w">             </span><span class="c1"># All worktrees (new!)</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>pick<span class="w"> </span>wt<span class="w"> </span>scribe<span class="w">      </span><span class="c1"># Scribe&#39;s worktrees only</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>pick<span class="w"> </span>flow<span class="w">           </span><span class="c1"># Direct jump to flow-cli</span>
 </code></pre></div>
 <p><strong>Categories:</strong> <code>r</code>, <code>dev</code>, <code>q</code>, <code>teach</code>, <code>rs</code>, <code>app</code>, <code>wt</code></p>
 <p><strong>Interactive Keys:</strong></p>
@@ -5664,38 +5828,38 @@
 - (none) - No session</p>
 <p><strong>Aliases:</strong> <code>pickr</code>, <code>pickdev</code>, <code>pickq</code>, <code>pickwt</code></p>
 <h3 id="dopamine-features-v350">Dopamine Features (v3.5.0)<a class="headerlink" href="#dopamine-features-v350" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>win<span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="w">          </span><span class="c1"># Log accomplishment (auto-categorized)</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>win<span class="w"> </span>--category<span class="w"> </span>fix<span class="w">  </span><span class="c1"># Log with explicit category</span>
-<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>yay<span class="w">                 </span><span class="c1"># Show recent wins</span>
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>yay<span class="w"> </span>--week<span class="w">          </span><span class="c1"># Weekly summary + graph</span>
-<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>flow<span class="w"> </span>goal<span class="w">           </span><span class="c1"># Show daily goal progress</span>
-<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">3</span><span class="w">     </span><span class="c1"># Set daily win target</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>win<span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="w">          </span><span class="c1"># Log accomplishment (auto-categorized)</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>win<span class="w"> </span>--category<span class="w"> </span>fix<span class="w">  </span><span class="c1"># Log with explicit category</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>yay<span class="w">                 </span><span class="c1"># Show recent wins</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>yay<span class="w"> </span>--week<span class="w">          </span><span class="c1"># Weekly summary + graph</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>flow<span class="w"> </span>goal<span class="w">           </span><span class="c1"># Show daily goal progress</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">3</span><span class="w">     </span><span class="c1"># Set daily win target</span>
 </code></pre></div>
 <p><strong>Categories:</strong> 💻 code, 📝 docs, 👀 review, 🚀 ship, 🔧 fix, 🧪 test, ✨ other</p>
 <h3 id="capture-breadcrumbs">Capture &amp; Breadcrumbs<a class="headerlink" href="#capture-breadcrumbs" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>catch<span class="w"> </span><span class="s2">&quot;idea&quot;</span><span class="w">        </span><span class="c1"># Quick capture</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>inbox<span class="w">               </span><span class="c1"># View captured items</span>
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>crumb<span class="w"> </span><span class="s2">&quot;note&quot;</span><span class="w">        </span><span class="c1"># Leave breadcrumb</span>
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>trail<span class="w">               </span><span class="c1"># Show breadcrumb trail</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>catch<span class="w"> </span><span class="s2">&quot;idea&quot;</span><span class="w">        </span><span class="c1"># Quick capture</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>inbox<span class="w">               </span><span class="c1"># View captured items</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>crumb<span class="w"> </span><span class="s2">&quot;note&quot;</span><span class="w">        </span><span class="c1"># Leave breadcrumb</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>trail<span class="w">               </span><span class="c1"># Show breadcrumb trail</span>
 </code></pre></div>
 <h3 id="teaching">Teaching<a class="headerlink" href="#teaching" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>tst<span class="w">                 </span><span class="c1"># Teaching status</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>tweek<span class="w">               </span><span class="c1"># Current week</span>
-<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>tlec<span class="w"> </span><span class="o">[</span>N<span class="o">]</span><span class="w">            </span><span class="c1"># Open lecture N</span>
-<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>tpublish<span class="w">            </span><span class="c1"># Deploy to GitHub Pages</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>tst<span class="w">                 </span><span class="c1"># Teaching status</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>tweek<span class="w">               </span><span class="c1"># Current week</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>tlec<span class="w"> </span><span class="o">[</span>N<span class="o">]</span><span class="w">            </span><span class="c1"># Open lecture N</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>tpublish<span class="w">            </span><span class="c1"># Deploy to GitHub Pages</span>
 </code></pre></div>
 <h3 id="research">Research<a class="headerlink" href="#research" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>rst<span class="w">                 </span><span class="c1"># Research status</span>
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>rms<span class="w">                 </span><span class="c1"># Open manuscript</span>
-<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>rsim<span class="w">                </span><span class="c1"># Run simulation</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>rst<span class="w">                 </span><span class="c1"># Research status</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>rms<span class="w">                 </span><span class="c1"># Open manuscript</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>rsim<span class="w">                </span><span class="c1"># Run simulation</span>
 </code></pre></div>
 <hr />
 <h2 id="utility-aliases">Utility Aliases<a class="headerlink" href="#utility-aliases" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>..<span class="w">                  </span><span class="c1"># cd ..</span>
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>...<span class="w">                 </span><span class="c1"># cd ../..</span>
-<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>ll<span class="w">                  </span><span class="c1"># Long listing (eza)</span>
-<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>la<span class="w">                  </span><span class="c1"># All files</span>
-<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>reload<span class="w">              </span><span class="c1"># Reload zshrc</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>..<span class="w">                  </span><span class="c1"># cd ..</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>...<span class="w">                 </span><span class="c1"># cd ../..</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>ll<span class="w">                  </span><span class="c1"># Long listing (eza)</span>
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>la<span class="w">                  </span><span class="c1"># All files</span>
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>reload<span class="w">              </span><span class="c1"># Reload zshrc</span>
 </code></pre></div>
 <hr />
 <h2 id="pattern-summary">Pattern Summary<a class="headerlink" href="#pattern-summary" title="Permanent link">&para;</a></h2>
@@ -5742,6 +5906,16 @@
 <td>Terminal</td>
 <td><code>tm</code></td>
 <td><code>tm &lt;action&gt; [arg]</code></td>
+</tr>
+<tr>
+<td>Prompt (v5.7)</td>
+<td><code>prompt</code></td>
+<td><code>prompt &lt;action&gt; [engine]</code></td>
+</tr>
+<tr>
+<td>Teaching</td>
+<td><code>teach</code></td>
+<td><code>teach &lt;action&gt; [args]</code></td>
 </tr>
 <tr>
 <td>Sync (v4.7.0)</td>
@@ -5836,6 +6010,14 @@
 <td>obs (Obsidian notes)</td>
 </tr>
 <tr>
+<td><code>~/projects/dev-tools/flow-cli/lib/dispatchers/prompt-dispatcher.zsh</code></td>
+<td>prompt (engines, v5.7.0)</td>
+</tr>
+<tr>
+<td><code>~/projects/dev-tools/flow-cli/lib/dispatchers/teach-dispatcher.zsh</code></td>
+<td>teach (teaching, v5.4.1)</td>
+</tr>
+<tr>
 <td><code>~/projects/dev-tools/flow-cli/commands/ai.zsh</code></td>
 <td>flow ai, flow do (v3.2.0)</td>
 </tr>
@@ -5867,7 +6049,7 @@
 </table>
 <p><strong>Removed:</strong> <code>v-dispatcher.zsh</code> (deprecated, use <code>flow</code> command instead)</p>
 <hr />
-<p><em>Updated: 2026-01-12 (v5.4.0)</em></p>
+<p><em>Updated: 2026-01-14 (v5.8.0)</em></p>
 
 
 
