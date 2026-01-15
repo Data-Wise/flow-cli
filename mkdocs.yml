@@ -133,6 +133,7 @@ nav:
           - G Dispatcher: reference/G-DISPATCHER-REFERENCE.md
           - MCP Dispatcher: reference/MCP-DISPATCHER-REFERENCE.md
           - OBS Dispatcher: reference/OBS-DISPATCHER-REFERENCE.md
+          - PROMPT Dispatcher: reference/PROMPT-DISPATCHER-REFERENCE.md
           - QU Dispatcher: reference/QU-DISPATCHER-REFERENCE.md
           - R Dispatcher: reference/R-DISPATCHER-REFERENCE.md
           - TEACH Dispatcher: reference/TEACH-DISPATCHER-REFERENCE.md
@@ -140,6 +141,7 @@ nav:
           - WT Dispatcher: reference/WT-DISPATCHER-REFERENCE.md
       - Quick Reference Cards:
           - DOT Quick Ref: reference/REFCARD-DOT.md
+          - Prompt Quick Ref: reference/PROMPT-DISPATCHER-REFCARD.md
           - Teaching Quick Ref: reference/REFCARD-TEACHING.md
       - Project Tools:
           - Command Explorer: reference/COMMAND-EXPLORER.md
