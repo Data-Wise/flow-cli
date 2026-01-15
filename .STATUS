@@ -4,102 +4,137 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.9.0 Scholar Deep Integration Ready
+## Phase: v5.9.0 Released
 ## Priority: 1
-## Progress: 95
+## Progress: 100
 
-## Focus: v5.9.0 Scholar Deep Integration (Ready for Release)
+## Focus: Documentation Complete - Ready for Next Phase
 
-## 🚧 In Progress:
+## ✅ Completed (2026-01-15):
 
-- **v5.9.0 Scholar Deep Integration** - Implementation Complete ✅
-  - All features implemented on `dev` branch
-  - Dogfeeding tests: 31/31 passing
-  - Ready for release after final testing
+### Tutorial Enhancement - v5.9.0 Documentation
 
-## ✅ Just Completed (2026-01-14 - v5.9.0 Scholar Deep Integration):
+**Branch:** `feature/tutorial-enhancement`
+**Worktree:** `~/.git-worktrees/flow-cli-tutorial-enhancement`
 
-### Scholar Deep Integration v5.9.0 - Implementation Complete ✅
+**Completed Tasks:**
+- [x] Update Tutorial 14 (teach dispatcher) with v5.9.0 config validation
+  - Added Part 3: Config Validation section
+  - Documented validation rules, hash-based caching, config ownership
+  - Added troubleshooting for validation errors
+- [x] Create learning path Mermaid diagram
+  - Flowchart showing tutorial progression
+  - Color-coded by difficulty (beginner/intermediate/optional)
+  - Clickable links to each tutorial
+- [x] Add tutorial index with progression overview
+  - Created `docs/tutorials/index.md`
+  - Quick paths for different user goals
+  - All 14 tutorials with time estimates and levels
+- [x] Generate VHS tapes for key tutorials
+  - `docs/demos/first-session.tape` (Tutorial 1)
+  - `docs/demos/dopamine-features.tape` (Tutorial 6)
+  - `docs/demos/cc-dispatcher.tape` (Tutorial 10)
 
-**Branch:** `dev` (2 commits: feat + fix)
-**RFC:** `docs/specs/RFC-flow-scholar-config-protocol.md`
+**New Files:**
+- `docs/tutorials/index.md` - Tutorial index with Mermaid learning path
+- `docs/demos/first-session.tape` - VHS demo for Tutorial 1
+- `docs/demos/dopamine-features.tape` - VHS demo for Tutorial 6
+- `docs/demos/cc-dispatcher.tape` - VHS demo for Tutorial 10
+
+**Updated Files:**
+- `docs/tutorials/14-teach-dispatcher.md` - Added v5.9.0 config validation
+- `mkdocs.yml` - Added tutorial index to navigation
+
+**Status:** Merged to dev (PR #251, 2026-01-15)
+
+---
+
+## ✅ Just Completed (2026-01-14 - v5.9.0 Released):
+
+### v5.9.0 Scholar Deep Integration - Released ✅
+
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.9.0
+**PR:** #249 (merged to main)
 
 **Delivered:**
 - [x] JSON Schema for teach-config.yml validation
 - [x] Hash-based change detection (SHA-256)
 - [x] Config validator with graceful yq fallback
-- [x] Spinner/progress indicator with time estimates
 - [x] Flag validation before Scholar invocation
-- [x] Enhanced `teach status` with full inventory
-- [x] Post-generation hooks (auto-stage, .STATUS update)
-- [x] Scholar RFC document for coordination
+- [x] Enhanced `teach status` with validation summary
 - [x] Bug fix: grading sum calculation for mikefarah/yq
+- [x] API Reference documentation
+- [x] Safe Testing guide with sandbox approach
+- [x] Interactive dogfeeding test suite (31/31 passing)
 
-**Files Added/Modified:**
-- `lib/templates/teaching/teach-config.schema.json` (+251 lines) - JSON Schema
-- `lib/config-validator.zsh` (+297 lines) - Validation + hash detection
-- `lib/tui.zsh` (+80 lines) - Spinner functions
-- `lib/dispatchers/teach-dispatcher.zsh` (+309 lines) - Enhanced dispatcher
-- `docs/specs/RFC-flow-scholar-config-protocol.md` (+287 lines) - Scholar RFC
+**New Files:**
+- `lib/config-validator.zsh` - Validation + hash detection
+- `lib/templates/teaching/teach-config.schema.json` - JSON Schema
+- `docs/reference/API-REFERENCE.md` - Complete API reference
+- `docs/guides/SAFE-TESTING-v5.9.0.md` - Safe testing guide
+- `tests/interactive-dogfeed-v5.9.0.zsh` - Interactive test suite
 
-**Dogfeeding Tests (scholar-demo-course):**
-- Test script: `~/projects/teaching/scholar-demo-course/tests/dogfeed-v5.9.0.zsh`
-- Report: `~/projects/teaching/scholar-demo-course/DOGFEED-REPORT-2026-01-14.md`
-- Results: 31/31 tests passing ✅
-
-**Commits:**
-- `737ca6f6` fix(config): fix grading sum calculation for mikefarah/yq
-- `65cd4382` feat(teach): add Scholar deep integration with config validation
+**Release Checklist - All Complete:**
+- [x] Implementation complete
+- [x] Bug fixes committed
+- [x] Dogfeeding tests passing (31/31)
+- [x] Interactive testing on real courses
+- [x] PR #249: dev → main (merged)
+- [x] Tag release: v5.9.0
+- [x] Homebrew formula auto-updated
+- [x] Documentation deployed to GitHub Pages
+- [x] Specs archived to docs/specs/_archive/
 
 ---
 
 ## ✅ Previously Completed (2026-01-14):
 
-### Teaching Scholar Wrappers v5.8.0 - Merged ✅
+### v5.8.0 Scholar Teaching Wrappers - Bundled in v5.9.0 ✅
 
-**Branch:** Merged to `dev`
-
-**Delivered:**
-- [x] 9 Scholar wrapper commands via Claude + Scholar plugin
-- [x] Preflight validation (`_teach_preflight`)
-- [x] Command builder (`_teach_build_command`)
+- [x] 9 Scholar wrapper commands via teach dispatcher
+- [x] Preflight validation
 - [x] Universal flags: `--dry-run`, `--format`, `--output`, `--verbose`
-- [x] Tab completion (`completions/_teach`)
+- [x] Tab completion
 - [x] 28 tests (all passing)
+
+### v5.7.0 Prompt Engine Dispatcher - Bundled in v5.9.0 ✅
+
+- [x] New `prompt` dispatcher with 8 subcommands
+- [x] Support for Powerlevel10k, Starship, OhMyPosh
+- [x] Interactive toggle menu
+- [x] 224+ tests
 
 ---
 
 ## 📊 Metrics
 
-- **Current Version:** 5.5.0 (Released 2026-01-13)
-- **Next Version:** 5.9.0 (Scholar Deep Integration) - Ready for release
-- **Dispatchers:** 10 active
+- **Current Version:** 5.9.0 (Released 2026-01-14)
+- **Dispatchers:** 11 active (including prompt)
 - **Commands:** 15+ core commands
-- **Tests:** 100+ (31 new dogfeeding tests)
+- **Tests:** 300+ across all features
 - **Performance:** Sub-10ms for core commands
-
-## 📋 Release Checklist for v5.9.0
-
-- [x] Implementation complete
-- [x] Bug fixes committed
-- [x] Dogfeeding tests passing (31/31)
-- [ ] Test with real course (stat-440 or stat-545)
-- [ ] Create PR: dev → main
-- [ ] Tag release: v5.9.0
-- [ ] Update Homebrew formula
+- **Documentation:** https://Data-Wise.github.io/flow-cli/
 
 ## 📋 Future Roadmap
 
-### v5.7.0 (Prompt Dispatcher Integration) - On Hold
-- Specification complete: `SPEC-prompt-dispatcher-v2.md`
-- Ready for implementation when prioritized
+### v5.10.0 (Planned)
+- [ ] Installation improvements (curl one-liner)
+- [ ] Install script auto-detection of plugin manager
+- [ ] Installation docs matching aiterm quality
 
-### Scholar v2.2.0 Integration (After RFC Approval)
+### Scholar Integration v2.2.0 (After RFC Approval)
 - [ ] Scholar team implements `--config` flag
 - [ ] Scholar adds JSON Schema validation
 - [ ] Bidirectional config sync
 
-### Future Releases (v5.10.0+)
-- [ ] Prompt themes management
-- [ ] Installation improvements (curl one-liner)
+### Future Releases
 - [ ] Remote state sync (optional cloud backup)
+- [ ] Multi-device support
+- [ ] Shared templates
+
+## 🎯 Next Action
+
+**Options:**
+- A) Start v5.10.0 installation improvements [2-4 hours]
+- B) Create Scholar issue for --config flag RFC [15 min]
+- C) Work on different project - flow-cli is stable! ✅
