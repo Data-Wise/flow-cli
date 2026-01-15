@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v5.5.0 released, v5.8.0 on dev)
+- **Status:** Production ready (v5.9.0 released)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -406,10 +406,12 @@ flow-cli/
 | `lib/core.zsh`                           | Core utilities           | Logging, colors, helpers |
 | `lib/atlas-bridge.zsh`                   | Atlas integration        | Optional state engine    |
 | `lib/keychain-helpers.zsh`               | macOS Keychain secrets   | v5.5.0 - Touch ID        |
-| `lib/dispatchers/*.zsh`                  | Smart dispatchers        | 10 active dispatchers    |
+| `lib/config-validator.zsh`               | Config validation        | v5.9.0 - Schema + hash   |
+| `lib/dispatchers/*.zsh`                  | Smart dispatchers        | 11 active dispatchers    |
 | `commands/*.zsh`                         | Core commands            | work, dash, finish, etc. |
 | `docs/reference/DISPATCHER-REFERENCE.md` | Complete dispatcher docs | All dispatchers          |
 | `docs/reference/ARCHITECTURE.md`         | System architecture      | Mermaid diagrams         |
+| `docs/reference/API-REFERENCE.md`        | API reference            | v5.9.0 - All functions   |
 | `.STATUS`                                | Current progress         | Sprint tracking          |
 
 ---
@@ -656,9 +658,42 @@ export FLOW_DEBUG=1
 
 ## Current Status (2026-01-15)
 
-### 🚀 v5.8.0 ON DEV - Scholar Teaching Wrappers
+### ✅ v5.9.0 RELEASED - Config Validation & Scholar Deep Integration
 
-**Branch:** dev (merged, ready for release)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.9.0
+**PR:** #249 (merged)
+
+**What's New:**
+
+- [x] Schema-based config validation for teach-config.yml
+- [x] Hash-based change detection (SHA-256 caching)
+- [x] Flag validation before Scholar invocation
+- [x] Config ownership protocol (flow-cli vs Scholar sections)
+- [x] New `lib/config-validator.zsh` module
+- [x] API Reference documentation
+- [x] Safe Testing guide with sandbox approach
+- [x] Interactive dogfeeding test suite
+
+**Validation Features:**
+
+```bash
+# Auto-validates on teach status/exam/quiz/etc
+teach status              # Shows validation summary
+teach status --verbose    # Shows validation details
+
+# Validates:
+# - Required field: course.name
+# - Enum: semester (Spring|Summer|Fall|Winter)
+# - Range: year (2020-2100)
+# - Date format: YYYY-MM-DD
+# - Grading sum (~100%)
+```
+
+---
+
+### ✅ v5.8.0 RELEASED - Scholar Teaching Wrappers
+
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.9.0 (bundled)
 **PR:** #246 (merged)
 
 **What's New:**
@@ -688,9 +723,9 @@ teach exam "Topic" --dry-run --verbose
 
 ---
 
-### 🚀 v5.7.0 ON DEV - Prompt Engine Dispatcher
+### ✅ v5.7.0 RELEASED - Prompt Engine Dispatcher
 
-**Branch:** dev (merged, ready for release)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.9.0 (bundled)
 **PR:** #245 (merged)
 
 **What's New:**
@@ -864,12 +899,12 @@ dot env init                  # Generate .envrc for direnv
 
 ### 🎯 Production Ready
 
-- **Version:** v5.5.0 released (v5.7.0 + v5.8.0 on dev)
-- **Released:** 2026-01-15
+- **Version:** v5.9.0 released
+- **Released:** 2026-01-14
 - **Status:** Production use phase
 - **Performance:** Sub-10ms for core commands, CI ~17s
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
-- **Tests:** 300+ tests across all features (224 prompt tests, 28 Scholar tests)
+- **Tests:** 300+ tests across all features (224 prompt tests, 28 Scholar tests, 31 config validation tests)
 
 ### 📋 Future: Installation Improvements
 
