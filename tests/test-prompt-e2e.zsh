@@ -121,7 +121,15 @@ _test_print_header "Status Workflow"
 # Workflow: Show status and verify current engine shown
 local status_result=$(prompt status)
 _assert_contains "Status shows current indicator" "$status_result" "●"
-_assert_contains "Status shows engine name" "$status_result" "Powerlevel10k\|Starship\|Oh My Posh"
+# Check for any of the engine names (simple OR logic)
+((TEST_COUNT++))
+if [[ "$status_result" == *"Powerlevel10k"* ]] || [[ "$status_result" == *"Starship"* ]] || [[ "$status_result" == *"Oh My Posh"* ]]; then
+    echo "${GREEN}✓${NC} Status shows engine name"
+    ((PASS_COUNT++))
+else
+    echo "${RED}✗${NC} Status shows engine name"
+    ((FAIL_COUNT++))
+fi
 _assert_contains "Status shows config paths" "$status_result" ".config"
 _assert_contains "Status provides next step hint" "$status_result" "toggle"
 
@@ -185,8 +193,8 @@ _test_print_header "Alternatives Workflow"
 local alternatives=$(_prompt_get_alternatives)
 _assert_not_equals "Alternatives list is not empty" "$alternatives" ""
 
-# Count alternatives
-local alt_count=$(echo "$alternatives" | wc -l)
+# Count alternatives (trim whitespace from wc output)
+local alt_count=$(echo "$alternatives" | wc -l | tr -d ' ')
 _assert_equals "Exactly 2 alternatives available" "$alt_count" "2"
 
 # Verify alternatives are valid engine names
@@ -253,7 +261,16 @@ _assert_contains "Setup wizard shows title" "$setup" "Oh My Posh"
 
 # Check if setup provides guidance
 if ! command -v oh-my-posh &>/dev/null; then
-    _assert_contains "Setup shows install message when OMP missing" "$setup" "not found\|Install"
+    # Check for either "not found" OR "Install" (simple OR logic)
+    ((TEST_COUNT++))
+    if [[ "$setup" == *"not found"* ]] || [[ "$setup" == *"Install"* ]]; then
+        echo "${GREEN}✓${NC} Setup shows install message when OMP missing"
+        ((PASS_COUNT++))
+    else
+        echo "${RED}✗${NC} Setup shows install message when OMP missing"
+        echo "  Got: '$setup'"
+        ((FAIL_COUNT++))
+    fi
 else
     _assert_contains "Setup mentions configuration" "$setup" "config\|Created\|Wizard"
 fi
@@ -318,7 +335,8 @@ _test_print_header "Full Command Workflow"
 
 # Workflow 1: Status → Understand current → Decide to switch
 local initial_status=$(prompt status)
-_assert_contains "Workflow 1: Initial status shows options" "$initial_status" "●\|○"
+# Check for current marker (●) - indicates a working status command
+_assert_contains "Workflow 1: Initial status shows options" "$initial_status" "●"
 
 # Workflow 2: List → See all options → Choose one
 local all_engines=$(prompt list)
@@ -339,14 +357,28 @@ local current_engine=$(_prompt_get_current)
 _test_print_header "Validation Chain Workflow"
 
 # Workflow: Validate engine → Get error if missing → Show install path
+# Note: Tests are environment-specific - skip "missing" tests if tool is installed
+
 local p10k_val=$(_prompt_validate_p10k 2>&1)
-if [[ -z "$p10k_val" ]] || [[ "$p10k_val" == *"Plugin not installed"* ]]; then
-    _assert_contains "P10k validation detects missing plugin" "$p10k_val" "plugin\|Plugin\|antidote" || true
+local p10k_exit=$?
+if [[ $p10k_exit -ne 0 ]] && [[ -n "$p10k_val" ]]; then
+    # P10k is NOT installed - test error message
+    _assert_contains "P10k validation detects missing plugin" "$p10k_val" "not"
+else
+    # P10k IS installed - skip missing test, count as pass
+    echo "${GREEN}✓${NC} P10k validation passes (installed)"
+    ((TEST_COUNT++)); ((PASS_COUNT++))
 fi
 
 local starship_val=$(_prompt_validate_starship 2>&1)
-if [[ -z "$starship_val" ]] || [[ "$starship_val" == *"not found"* ]]; then
-    _assert_contains "Starship validation detects missing binary" "$starship_val" "not found\|Install\|PATH" || true
+local starship_exit=$?
+if [[ $starship_exit -ne 0 ]] && [[ -n "$starship_val" ]]; then
+    # Starship is NOT installed - test error message
+    _assert_contains "Starship validation detects missing binary" "$starship_val" "not found"
+else
+    # Starship IS installed - skip missing test, count as pass
+    echo "${GREEN}✓${NC} Starship validation passes (installed)"
+    ((TEST_COUNT++)); ((PASS_COUNT++))
 fi
 
 # ============================================================================

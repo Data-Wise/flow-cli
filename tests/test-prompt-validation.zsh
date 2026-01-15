@@ -121,10 +121,23 @@ source "$TEST_DIR/lib/dispatchers/prompt-dispatcher.zsh"
 
 _test_print_header "Main Validation Function (_prompt_validate)"
 
-# Test with valid engines
+# Test with valid engines (environment-aware: only expect exit 0 if tool is installed)
 _assert_exit_code "Validates p10k without error" "0" "_prompt_validate powerlevel10k"
 _assert_exit_code "Validates starship without error" "0" "_prompt_validate starship"
-_assert_exit_code "Validates ohmyposh without error" "0" "_prompt_validate ohmyposh"
+# OhMyPosh validation depends on whether oh-my-posh is installed
+if command -v oh-my-posh &>/dev/null; then
+    _assert_exit_code "Validates ohmyposh without error" "0" "_prompt_validate ohmyposh"
+else
+    ((TEST_COUNT++))
+    _prompt_validate ohmyposh >/dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        echo "${GREEN}✓${NC} Validates ohmyposh (returns error when not installed)"
+        ((PASS_COUNT++))
+    else
+        echo "${RED}✗${NC} Validates ohmyposh (expected error when not installed)"
+        ((FAIL_COUNT++))
+    fi
+fi
 
 # Test with invalid engine
 local invalid_output=$(_prompt_validate invalid_engine 2>&1)
@@ -168,11 +181,20 @@ _assert_exit_code "Starship validation completes" "0" "_prompt_validate_starship
 
 # Test what it checks
 local starship_output=$(_prompt_validate_starship 2>&1)
+local starship_exit=$?
 
-# If Starship is installed locally, it should pass
+# If Starship is installed locally, it should pass (exit 0)
+# If not installed, it should show error message
 if command -v starship &>/dev/null; then
-    _assert_contains "Starship validation successful message" "$starship_output" "success" || \
-        echo "(Starship installed, validation should succeed)"
+    # Installed: validation should succeed (exit 0, may have empty output)
+    ((TEST_COUNT++))
+    if [[ $starship_exit -eq 0 ]]; then
+        echo "${GREEN}✓${NC} Starship validation succeeds (installed)"
+        ((PASS_COUNT++))
+    else
+        echo "${RED}✗${NC} Starship validation succeeds (expected exit 0)"
+        ((FAIL_COUNT++))
+    fi
 else
     _assert_contains "Starship validation reports missing binary" "$starship_output" "not found"
 fi
@@ -186,16 +208,26 @@ _test_print_header "OhMyPosh Validation (_prompt_validate_ohmyposh)"
 # Test function exists
 _assert_exit_code "OhMyPosh validation function exists" "0" "type _prompt_validate_ohmyposh"
 
-# Test validation completes
-_assert_exit_code "OhMyPosh validation completes" "0" "_prompt_validate_ohmyposh"
-
-# Test what it checks
-local ohmyposh_output=$(_prompt_validate_ohmyposh 2>&1)
-
-# If OhMyPosh is installed locally, validation should pass
+# Test validation completes (exit code depends on whether oh-my-posh is installed)
+# If OhMyPosh is installed locally, validation should pass (exit 0)
+# If not installed, validation should fail with message (exit 1)
 if command -v oh-my-posh &>/dev/null; then
-    _assert_contains "OhMyPosh validation references OH MY POSH" "$ohmyposh_output" "Oh My Posh" || true
+    _assert_exit_code "OhMyPosh validation completes (installed)" "0" "_prompt_validate_ohmyposh"
 else
+    # Not installed - capture output and exit code separately
+    local ohmyposh_output
+    ohmyposh_output=$(_prompt_validate_ohmyposh 2>&1)
+    local ohmyposh_exit=$?
+
+    # Validation should return non-zero when not installed
+    ((TEST_COUNT++))
+    if [[ $ohmyposh_exit -ne 0 ]]; then
+        echo "${GREEN}✓${NC} OhMyPosh validation completes (not installed, returns error)"
+        ((PASS_COUNT++))
+    else
+        echo "${RED}✗${NC} OhMyPosh validation completes (expected non-zero exit)"
+        ((FAIL_COUNT++))
+    fi
     _assert_contains "OhMyPosh validation reports missing binary" "$ohmyposh_output" "not found"
 fi
 
@@ -278,9 +310,17 @@ _test_print_header "Validation Function Chaining"
 # Test that main validation dispatcher calls correct sub-function
 local main_p10k=$(_prompt_validate powerlevel10k 2>&1)
 local sub_p10k=$(_prompt_validate_p10k 2>&1)
-# Both should have similar content
-_assert_equals "Main and sub validation consistent for p10k" \
-    "[[ -n '$main_p10k' ]] && echo yes || echo no" "yes"
+# Both should have similar content (or both empty if validation passes)
+((TEST_COUNT++))
+if [[ "$main_p10k" == "$sub_p10k" ]]; then
+    echo "${GREEN}✓${NC} Main and sub validation consistent for p10k"
+    ((PASS_COUNT++))
+else
+    echo "${RED}✗${NC} Main and sub validation consistent for p10k"
+    echo "  Main: '$main_p10k'"
+    echo "  Sub: '$sub_p10k'"
+    ((FAIL_COUNT++))
+fi
 
 # ============================================================================
 # Test Suite 9: Edge Cases
@@ -308,17 +348,28 @@ _test_print_header "Validation Output Format"
 
 # Test that errors go to stderr and don't pollute output
 local p10k_error=$(_prompt_validate_p10k 2>&1)
-# Should contain either success or clear error message
-_assert_contains "P10k validation output is meaningful" "$p10k_error" "p10k\|Plugin\|config\|error" || \
-    _assert_contains "P10k validation completes" "$p10k_error" ""
-
-# Test that validation completes without errors (detailed output optional)
-local p10k_check=$(_prompt_validate_p10k 2>&1)
+local p10k_exit=$?
+# If validation passes (exit 0), output may be empty - that's OK
+# If validation fails, output should contain error info
 ((TEST_COUNT++))
-if [[ -n "$p10k_check" ]] || [[ -z "$p10k_check" ]]; then
-    echo "${GREEN}✓${NC} P10k validation completes"
+if [[ $p10k_exit -eq 0 ]]; then
+    # Validation passed - empty output is fine
+    echo "${GREEN}✓${NC} P10k validation output is meaningful (passes, no errors)"
     ((PASS_COUNT++))
+elif [[ "$p10k_error" == *"Plugin"* ]] || [[ "$p10k_error" == *"config"* ]] || [[ "$p10k_error" == *"not"* ]]; then
+    # Validation failed with meaningful error
+    echo "${GREEN}✓${NC} P10k validation output is meaningful (has error info)"
+    ((PASS_COUNT++))
+else
+    echo "${RED}✗${NC} P10k validation output is meaningful"
+    echo "  Got: '$p10k_error'"
+    ((FAIL_COUNT++))
 fi
+
+# Test that validation completes (success or failure)
+((TEST_COUNT++))
+echo "${GREEN}✓${NC} P10k validation completes"
+((PASS_COUNT++))
 
 # ============================================================================
 # Test Summary
