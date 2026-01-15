@@ -171,10 +171,14 @@ _teach_validate_config() {
     fi
 
     # Validate grading sums to ~100 (if present and complete)
-    local grading_sum=$(yq -r '[.scholar.grading | to_entries | .[].value] | add // 0' "$config_file" 2>/dev/null)
-    if [[ "$grading_sum" != "0" && "$grading_sum" != "null" ]]; then
-        if [[ "$grading_sum" -lt 95 || "$grading_sum" -gt 105 ]]; then
-            errors+=("Grading percentages sum to $grading_sum% - should be ~100%")
+    # Note: mikefarah/yq doesn't have 'add', use awk instead
+    local grading_values=$(yq -r '.scholar.grading | to_entries | .[].value' "$config_file" 2>/dev/null)
+    if [[ -n "$grading_values" && "$grading_values" != "null" ]]; then
+        local grading_sum=$(echo "$grading_values" | awk '{sum += $1} END {print sum}')
+        if [[ -n "$grading_sum" && "$grading_sum" -gt 0 ]]; then
+            if [[ "$grading_sum" -lt 95 || "$grading_sum" -gt 105 ]]; then
+                errors+=("Grading percentages sum to $grading_sum% - should be ~100%")
+            fi
         fi
     fi
 
