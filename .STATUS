@@ -4,216 +4,102 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: Production Ready (v5.5.0) + v5.8.0 Scholar Wrappers Complete
+## Phase: v5.9.0 Scholar Deep Integration Ready
 ## Priority: 1
-## Progress: 100
+## Progress: 95
 
-## Focus: v5.8.0 Teaching Scholar Wrappers (Complete, Awaiting Merge)
+## Focus: v5.9.0 Scholar Deep Integration (Ready for Release)
 
 ## 🚧 In Progress:
 
-- **v5.7.0 Prompt Dispatcher** - Planning Phase Complete ✅
-  - Planning: 100% complete
-  - Specification: SPEC-prompt-dispatcher-v2.md (900+ lines)
-  - Implementation: Ready to start (Phase 1: 1 hour)
-  - Status: Feature branch created, ready for implementation
+- **v5.9.0 Scholar Deep Integration** - Implementation Complete ✅
+  - All features implemented on `dev` branch
+  - Dogfeeding tests: 31/31 passing
+  - Ready for release after final testing
 
-## ✅ Just Completed (2026-01-14 - v5.8.0 Scholar Wrappers):
+## ✅ Just Completed (2026-01-14 - v5.9.0 Scholar Deep Integration):
 
-### Teaching Scholar Wrappers v5.8.0 - Implementation Complete ✅
+### Scholar Deep Integration v5.9.0 - Implementation Complete ✅
 
-**Branch:** `feature/teach-scholar-wrappers` (4 commits, ready for merge)
-**Specification:** `docs/specs/SPEC-teach-scholar-wrappers.md` (implemented)
+**Branch:** `dev` (2 commits: feat + fix)
+**RFC:** `docs/specs/RFC-flow-scholar-config-protocol.md`
 
 **Delivered:**
-- [x] 9 Scholar wrapper commands via Claude + Scholar plugin:
-  - `teach exam "Topic"` → `/teaching:exam`
-  - `teach quiz "Topic"` → `/teaching:quiz`
-  - `teach slides "Topic"` → `/teaching:slides`
-  - `teach lecture "Topic"` → `/teaching:lecture` (awaiting Scholar)
-  - `teach assignment "Topic"` → `/teaching:assignment`
-  - `teach syllabus` → `/teaching:syllabus`
-  - `teach rubric "Name"` → `/teaching:rubric`
-  - `teach feedback "Work"` → `/teaching:feedback`
-  - `teach demo` → `/teaching:demo`
-- [x] Preflight validation (`_teach_preflight`) - config + Claude CLI checks
-- [x] Command builder (`_teach_build_command`) - maps to Scholar commands
+- [x] JSON Schema for teach-config.yml validation
+- [x] Hash-based change detection (SHA-256)
+- [x] Config validator with graceful yq fallback
+- [x] Spinner/progress indicator with time estimates
+- [x] Flag validation before Scholar invocation
+- [x] Enhanced `teach status` with full inventory
+- [x] Post-generation hooks (auto-stage, .STATUS update)
+- [x] Scholar RFC document for coordination
+- [x] Bug fix: grading sum calculation for mikefarah/yq
+
+**Files Added/Modified:**
+- `lib/templates/teaching/teach-config.schema.json` (+251 lines) - JSON Schema
+- `lib/config-validator.zsh` (+297 lines) - Validation + hash detection
+- `lib/tui.zsh` (+80 lines) - Spinner functions
+- `lib/dispatchers/teach-dispatcher.zsh` (+309 lines) - Enhanced dispatcher
+- `docs/specs/RFC-flow-scholar-config-protocol.md` (+287 lines) - Scholar RFC
+
+**Dogfeeding Tests (scholar-demo-course):**
+- Test script: `~/projects/teaching/scholar-demo-course/tests/dogfeed-v5.9.0.zsh`
+- Report: `~/projects/teaching/scholar-demo-course/DOGFEED-REPORT-2026-01-14.md`
+- Results: 31/31 tests passing ✅
+
+**Commits:**
+- `737ca6f6` fix(config): fix grading sum calculation for mikefarah/yq
+- `65cd4382` feat(teach): add Scholar deep integration with config validation
+
+---
+
+## ✅ Previously Completed (2026-01-14):
+
+### Teaching Scholar Wrappers v5.8.0 - Merged ✅
+
+**Branch:** Merged to `dev`
+
+**Delivered:**
+- [x] 9 Scholar wrapper commands via Claude + Scholar plugin
+- [x] Preflight validation (`_teach_preflight`)
+- [x] Command builder (`_teach_build_command`)
 - [x] Universal flags: `--dry-run`, `--format`, `--output`, `--verbose`
-- [x] Lesson Plan workflow (`--from-plan`) with slides workaround
-- [x] Tab completion (`completions/_teach`) - all commands + flags
+- [x] Tab completion (`completions/_teach`)
 - [x] 28 tests (all passing)
-
-**Files Changed:**
-- `lib/dispatchers/teach-dispatcher.zsh` (+397 lines)
-- `completions/_teach` (new, 147 lines)
-- `tests/test-teach-scholar-wrappers.zsh` (new, 28 tests)
-
-**Note:** `/teaching:lecture` awaiting Scholar v2.1.0 implementation
-
----
-
-## ✅ Just Completed (2026-01-14 - v5.7.0 Planning):
-
-### Prompt Dispatcher v5.7.0 - Planning Complete ✅
-
-**Comprehensive Planning Session:**
-- [x] E2E testing: 75/75 tests passing (dual-mode system validated)
-- [x] Interactive brainstorming: 15+ user questions answered
-- [x] Formal specification: SPEC-prompt-dispatcher-v2.md (900+ lines)
-- [x] Flow doctor integration: Complete dependency checking design
-- [x] Implementation roadmap: 5 phases, ~4-5 hours to release
-
-**Design Summary:**
-- Dispatcher: `prompt` with 7 subcommands
-- Engines: Powerlevel10k, Starship, OhMyPosh (3-way support)
-- Behavior: Interactive toggle menu, validation before switches
-- Installation: Smart flow doctor integration
-- Testing: 50+ comprehensive tests planned
-
-**Files Created:**
-- `docs/specs/SPEC-prompt-dispatcher-v2.md` (production-ready)
-- `BRAINSTORM-prompt-dispatcher-FINAL.md` (decisions)
-- `PLANNING-COMPLETE-prompt-dispatcher-v5.7.0.md` (roadmap)
-
-**Branch Created:**
-- Feature branch: `feature/prompt-dispatcher-v5.7.0`
-- Worktree: `~/.git-worktrees/flow-cli-prompt-dispatcher`
-- Status: **Ready for implementation**
-
----
-
-## ✅ Just Completed (2026-01-13 - Documentation Cleanup):
-
-### Documentation Validation Complete
-**Health Score:** 85/100 → 100/100
-
-**Fixed:**
-- [x] Fixed broken SPEC reference links (3 files)
-  - Updated `specs/SPEC-dotfile-integration-2026-01-08.md`
-  - Updated `specs/SPEC-teach-init-migration-2026-01-12.md`
-- [x] Fixed broken file links (17 files)
-  - Updated teach.md, BRANCH-WORKFLOW.md, im-stuck.md, choose-your-path.md
-  - Updated PROJECT-CACHE.md, SECRET-MANAGEMENT.md, TEACHING-WORKFLOW.md
-  - Updated TESTING.md, REFCARD-TEACHING.md, specs/README.md
-  - Updated DOCUMENTATION-MAKING-GUIDE.md, EXAMARK-INTEGRATION.md
-  - Updated EXISTING-SYSTEM-SUMMARY.md, SPEC-dot-secret-management-v2
-- [x] Verified: `mkdocs build --strict` with **0 warnings**
-
-**Before:** 23 warnings (build aborted in strict mode)
-**After:** 0 warnings (build passes strict mode)
-
-**Remaining (Low Priority):**
-- INFO-level anchor issues in legacy archive docs (non-blocking)
-
-## ✅ Just Completed (2026-01-13 - Latest):
-
-- **v5.5.0 RELEASED** 🎉
-  - **Tag:** v5.5.0
-  - **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.5.0
-  - **PR:** #235
-  - **New Features:**
-    - macOS Keychain Secret Management
-    - `dot secret add/get/list/delete` - Native Keychain storage
-    - Touch ID / Apple Watch unlock support
-    - Zero session management (no `dot unlock` needed)
-    - Sub-50ms access (vs 2-5s for Bitwarden)
-  - **Bug Fixes:**
-    - Fixed `cc wt pick` PATH corruption (ZSH parameter expansion quirk)
-    - Fixed `cc wt pick` session status pattern matching
-    - Fixed `cc wt pick` to scan `~/.git-worktrees/` globally
-    - Fixed `dot unlock` stderr contamination
-    - Fixed `work` command PATH corruption (ZSH path/PATH collision)
-  - **Documentation:**
-    - Updated tutorials, workflows, and reference docs
-    - Added worktree picker session indicators docs
-    - Comprehensive CHANGELOG updates
-  - **Tests:** Interactive dogfooding test for Keychain secrets
-
-## ✅ Previously Completed (2026-01-13):
-
-- **v5.4.3 RELEASED** 🎉
-  - **Tag:** v5.4.3
-  - **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.4.3
-  - **PR:** #233
-  - **Bug Fixes:**
-    - Fixed `dot unlock` stderr contamination
-
-- **v5.4.2 RELEASED** 🎉
-  - **Tag:** v5.4.2
-  - **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.4.2
-  - **PR:** #232
-  - **Bug Fixes:**
-    - Fixed PATH corruption in `work`/`hop` commands
-
-## ✅ Previously Completed (2026-01-12):
-
-- **v5.4.1 RELEASED** 🎉
-  - **Tag:** v5.4.1
-  - **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.4.1
-  - **Features:**
-    - `teach` dispatcher - unified teaching commands
-    - Non-interactive mode (`-y`/`--yes`) for teach-init
 
 ---
 
 ## 📊 Metrics
 
 - **Current Version:** 5.5.0 (Released 2026-01-13)
-- **Next Version:** 5.7.0 (Prompt Dispatcher) - Planning complete, implementation ready
-- **Dispatchers:** 10 current → 11 planned (adding `prompt`)
+- **Next Version:** 5.9.0 (Scholar Deep Integration) - Ready for release
+- **Dispatchers:** 10 active
 - **Commands:** 15+ core commands
-- **Tests:** 76+ (100% pass) → 130+ planned (adding 50+ prompt tests)
+- **Tests:** 100+ (31 new dogfeeding tests)
 - **Performance:** Sub-10ms for core commands
+
+## 📋 Release Checklist for v5.9.0
+
+- [x] Implementation complete
+- [x] Bug fixes committed
+- [x] Dogfeeding tests passing (31/31)
+- [ ] Test with real course (stat-440 or stat-545)
+- [ ] Create PR: dev → main
+- [ ] Tag release: v5.9.0
+- [ ] Update Homebrew formula
 
 ## 📋 Future Roadmap
 
-### v5.8.0 (Teaching Scholar Wrappers) 🎯 READY
-- [x] Specification complete ✅
-- [x] Implementation complete ✅
-- [x] Tests passing (28/28) ✅
-- [x] Tab completion added ✅
-- [ ] Merge to dev (awaiting user approval)
-- [ ] Release v5.8.0
+### v5.7.0 (Prompt Dispatcher Integration) - On Hold
+- Specification complete: `SPEC-prompt-dispatcher-v2.md`
+- Ready for implementation when prioritized
 
-**Features:**
-- 9 Scholar wrapper commands (exam, quiz, slides, lecture, assignment, syllabus, rubric, feedback, demo)
-- Unified `teach` CLI experience
-- Preflight validation + error handling
-- Universal flags (--dry-run, --format, --output, --verbose)
+### Scholar v2.2.0 Integration (After RFC Approval)
+- [ ] Scholar team implements `--config` flag
+- [ ] Scholar adds JSON Schema validation
+- [ ] Bidirectional config sync
 
-### v5.7.0 (Prompt Dispatcher Integration)
-- [x] Planning & specification complete (2026-01-14) ✅
-- [ ] Phase 1: Core dispatcher implementation (Session 2, 1h)
-- [ ] Phase 2: OhMyPosh support + setup wizard (Session 2, 30m)
-- [ ] Phase 3: Tests (50+) + tab completion (Session 3, 1h)
-- [ ] Phase 4: Documentation + flow doctor integration (Session 4, 45m)
-- [ ] Phase 5: Release v5.7.0 (Session 5, 30m)
-
-**Features:**
-- `prompt` dispatcher with 7 subcommands
-- 3-engine support (P10k, Starship, OhMyPosh)
-- Interactive engine switching
-- Full flow doctor integration
-- 50+ comprehensive tests
-
-**Estimate:** ~4-5 hours total
-
-### v5.5.1 (Minor Polish) ✅
-- [x] Fix 23 mkdocs build warnings ✅ (completed 2026-01-13)
-- [ ] Organize orphaned spec files (optional)
-- [ ] Add CI documentation validation (optional)
-
-### Future: Scholar v2.1.0 Integration
-When Scholar releases dual YAML/JSON config system:
-- [ ] Add `_teach_sync_config()` hook to preflight
-- [ ] Auto-trigger config sync before Scholar commands
-- [ ] File watcher integration (< 100ms latency)
-- [ ] 4-layer teaching style support (Global → Course → Command → Lesson)
-
-### Future Releases (v5.9.0+)
+### Future Releases (v5.10.0+)
 - [ ] Prompt themes management
-- [ ] Prompt performance analytics
 - [ ] Installation improvements (curl one-liner)
 - [ ] Remote state sync (optional cloud backup)
-- [ ] Multi-device support
-- [ ] Shared templates
