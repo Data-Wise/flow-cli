@@ -4,15 +4,15 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.9.1 Ready for Release
+## Phase: v5.10.0 Ready for Release
 ## Priority: 1
 ## Progress: 100
 
-## Focus: Worktree Detection Fix - Complete
+## Focus: Worktree Detection + Cache Invalidation - Complete
 
 ## ✅ Completed (2026-01-15):
 
-### Worktree Detection Fix - v5.9.1
+### Worktree Detection + Cache Invalidation - v5.10.0
 
 **PR:** #253 (merged to dev)
 **Commit:** f6b521a5
@@ -28,6 +28,8 @@
 - Fall back to level-2 scan (hierarchical)
 
 **Completed Tasks:**
+
+**Phase 1: Flat Worktree Detection**
 - [x] Root cause analysis complete
 - [x] Deep brainstorm with 8 requirements questions
 - [x] Solution design (Hybrid Scanner selected)
@@ -38,18 +40,27 @@
 - [x] Update documentation
 - [x] PR merged to dev
 
+**Phase 2: Cache Invalidation**
+- [x] Add `_proj_cache_invalidate()` to `wt create`
+- [x] Add `_proj_cache_invalidate()` to `wt remove`
+- [x] Test immediate worktree visibility
+- [x] Commit 104484ea pushed to dev
+
 **Acceptance Criteria (All Met):**
-- [x] `pick wt` shows `scholar-github-actions`
+- [x] `pick wt` shows flat worktrees (e.g., `scholar-test-flat`)
 - [x] All hierarchical worktrees still detected
 - [x] 24/24 tests passing
 - [x] Performance < 100ms
+- [x] New worktrees appear immediately (no cache delay)
+- [x] Removed worktrees disappear immediately
 
 **Modified Files:**
 - `commands/pick.zsh` - Hybrid detection algorithm
+- `lib/dispatchers/wt-dispatcher.zsh` - Cache invalidation
 - `docs/reference/PICK-COMMAND-REFERENCE.md` - Updated docs
 - `tests/test-flat-worktree-detection.zsh` - New test suite (24 tests)
 
-**Status:** Merged to dev (2026-01-15 20:30 UTC)
+**Status:** Ready for v5.10.0 release
 
 ---
 
