@@ -217,6 +217,11 @@ _wt_create() {
         echo -e "${_C_GREEN}✓ Created worktree: $target_dir${_C_NC}"
         echo ""
         echo -e "${_C_DIM}Navigate: cd $target_dir${_C_NC}"
+
+        # Invalidate project cache so new worktree appears immediately in pick
+        if type _proj_cache_invalidate &>/dev/null; then
+            _proj_cache_invalidate
+        fi
     fi
 }
 
@@ -252,6 +257,11 @@ _wt_remove() {
     git worktree remove "$path"
     if [[ $? -eq 0 ]]; then
         echo -e "${_C_GREEN}✓ Removed worktree: $path${_C_NC}"
+
+        # Invalidate project cache so removed worktree disappears immediately
+        if type _proj_cache_invalidate &>/dev/null; then
+            _proj_cache_invalidate
+        fi
     fi
 }
 
