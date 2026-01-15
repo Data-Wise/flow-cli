@@ -233,6 +233,84 @@ _flow_widget_timer() {
   local start_time="$1"
   local now=$(date +%s)
   local elapsed=$(( now - start_time ))
-  
+
   printf "⏱️  %s" "$(_flow_format_duration $elapsed)"
+}
+
+# ============================================================================
+# SPINNER / LOADING INDICATOR
+# ============================================================================
+
+# Spinner frames (Braille dots - smooth animation)
+typeset -g FLOW_SPINNER_FRAMES=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
+typeset -g FLOW_SPINNER_PID=""
+
+# Start a spinner with message
+# Usage: _flow_spinner_start "Loading..."
+_flow_spinner_start() {
+    local message="${1:-Working...}"
+    local estimate="${2:-}"  # Optional: "~30-60s"
+
+    # Don't start if already running
+    [[ -n "$FLOW_SPINNER_PID" ]] && return
+
+    # Build display message
+    local display="$message"
+    [[ -n "$estimate" ]] && display="$message (${estimate})"
+
+    # Start spinner in background
+    {
+        local i=0
+        local count=${#FLOW_SPINNER_FRAMES[@]}
+        while true; do
+            printf "\r${FLOW_COLORS[info]}%s${FLOW_COLORS[reset]} %s" \
+                "${FLOW_SPINNER_FRAMES[$(( i % count + 1 ))]}" "$display"
+            sleep 0.1
+            ((i++))
+        done
+    } &
+    FLOW_SPINNER_PID=$!
+    disown $FLOW_SPINNER_PID 2>/dev/null
+}
+
+# Stop the spinner
+# Usage: _flow_spinner_stop [success_message]
+_flow_spinner_stop() {
+    local message="${1:-}"
+
+    if [[ -n "$FLOW_SPINNER_PID" ]]; then
+        kill $FLOW_SPINNER_PID 2>/dev/null
+        wait $FLOW_SPINNER_PID 2>/dev/null
+        FLOW_SPINNER_PID=""
+    fi
+
+    # Clear the spinner line
+    printf "\r\033[K"
+
+    # Show success message if provided
+    [[ -n "$message" ]] && echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} $message"
+}
+
+# Run a command with spinner
+# Usage: _flow_with_spinner "message" "estimate" command args...
+# Returns: exit code of command
+_flow_with_spinner() {
+    local message="$1"
+    local estimate="$2"
+    shift 2
+
+    _flow_spinner_start "$message" "$estimate"
+
+    # Run command and capture output and exit code
+    local output
+    local exit_code
+    output=$("$@" 2>&1)
+    exit_code=$?
+
+    _flow_spinner_stop
+
+    # Print output
+    [[ -n "$output" ]] && echo "$output"
+
+    return $exit_code
 }

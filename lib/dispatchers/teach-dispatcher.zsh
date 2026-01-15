@@ -1,10 +1,115 @@
 # teach-dispatcher.zsh - Teaching Workflow Dispatcher
 # Smart teaching workflows for course websites
 # Wraps Scholar plugin for unified teaching CLI experience
+#
+# v5.9.0+ Deep Integration Features:
+#   - Config validation with JSON Schema
+#   - Hash-based change detection
+#   - Progress indicator (spinner + estimate)
+#   - Flag validation before Scholar calls
+#   - Post-generation hooks (auto-stage, .STATUS, notify)
+
+# Source config validator if not already loaded
+if [[ -z "$_FLOW_CONFIG_VALIDATOR_LOADED" ]]; then
+    local validator_path="${0:A:h:h}/config-validator.zsh"
+    [[ -f "$validator_path" ]] && source "$validator_path"
+    typeset -g _FLOW_CONFIG_VALIDATOR_LOADED=1
+fi
 
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
+
+# ============================================================================
+# FLAG VALIDATION
+# ============================================================================
+
+# Known flags per Scholar command
+typeset -gA TEACH_EXAM_FLAGS=(
+    [questions]="number"
+    [duration]="number"
+    [types]="string"
+    [format]="quarto|qti|markdown"
+    [dry-run]="flag"
+    [verbose]="flag"
+)
+
+typeset -gA TEACH_QUIZ_FLAGS=(
+    [questions]="number"
+    [time-limit]="number"
+    [format]="quarto|qti|markdown"
+    [dry-run]="flag"
+    [verbose]="flag"
+)
+
+typeset -gA TEACH_SLIDES_FLAGS=(
+    [theme]="default|academic|minimal"
+    [from-lecture]="string"
+    [format]="quarto|markdown"
+    [dry-run]="flag"
+    [verbose]="flag"
+)
+
+typeset -gA TEACH_ASSIGNMENT_FLAGS=(
+    [due-date]="date"
+    [points]="number"
+    [format]="quarto|markdown"
+    [dry-run]="flag"
+    [verbose]="flag"
+)
+
+typeset -gA TEACH_SYLLABUS_FLAGS=(
+    [format]="quarto|markdown|pdf"
+    [dry-run]="flag"
+    [verbose]="flag"
+)
+
+typeset -gA TEACH_RUBRIC_FLAGS=(
+    [criteria]="number"
+    [format]="quarto|markdown"
+    [dry-run]="flag"
+    [verbose]="flag"
+)
+
+# Validate flags for a Scholar command
+# Usage: _teach_validate_flags <command> [flags...]
+# Returns: 0 if valid, 1 if invalid
+_teach_validate_flags() {
+    local cmd="$1"
+    shift
+    local -A valid_flags
+
+    # Get valid flags for this command
+    case "$cmd" in
+        exam)       valid_flags=("${(@kv)TEACH_EXAM_FLAGS}") ;;
+        quiz)       valid_flags=("${(@kv)TEACH_QUIZ_FLAGS}") ;;
+        slides)     valid_flags=("${(@kv)TEACH_SLIDES_FLAGS}") ;;
+        assignment) valid_flags=("${(@kv)TEACH_ASSIGNMENT_FLAGS}") ;;
+        syllabus)   valid_flags=("${(@kv)TEACH_SYLLABUS_FLAGS}") ;;
+        rubric)     valid_flags=("${(@kv)TEACH_RUBRIC_FLAGS}") ;;
+        *)          return 0 ;;  # Unknown command, skip validation
+    esac
+
+    # Check each argument
+    for arg in "$@"; do
+        if [[ "$arg" == --* ]]; then
+            local flag="${arg%%=*}"
+            flag="${flag#--}"
+
+            # Skip known wrapper flags
+            [[ "$flag" == "help" || "$flag" == "verbose" ]] && continue
+
+            if [[ -z "${valid_flags[$flag]}" ]]; then
+                _teach_error "Unknown flag: --$flag for 'teach $cmd'"
+                echo "  Valid flags: ${(k)valid_flags}" >&2
+                echo "  Run 'teach $cmd --help' for details" >&2
+                return 1
+            fi
+        fi
+    done
+
+    return 0
+}
 
 # ============================================================================
 # SCHOLAR WRAPPER INFRASTRUCTURE
@@ -30,20 +135,35 @@ _teach_warn() {
 
 # Preflight checks before Scholar invocation
 _teach_preflight() {
+    local config_file=".flow/teach-config.yml"
+
     # 1. Check config exists
-    if [[ ! -f ".flow/teach-config.yml" ]]; then
+    if [[ ! -f "$config_file" ]]; then
         _teach_error "No .flow/teach-config.yml found" \
             "Run 'teach init' first or create config manually"
         return 1
     fi
 
-    # 2. Check Scholar section exists (warning only - Scholar will use defaults)
-    if ! grep -q "^scholar:" .flow/teach-config.yml 2>/dev/null; then
+    # 2. Validate config structure (if validator available)
+    if typeset -f _teach_validate_config >/dev/null 2>&1; then
+        _teach_validate_config "$config_file" --quiet || {
+            _teach_warn "Config has validation issues" \
+                "Run 'teach status' for details"
+        }
+    fi
+
+    # 3. Check Scholar section exists (warning only - Scholar will use defaults)
+    if typeset -f _teach_has_scholar_config >/dev/null 2>&1; then
+        if ! _teach_has_scholar_config "$config_file"; then
+            _teach_warn "No 'scholar:' section in config" \
+                "Scholar commands will use defaults"
+        fi
+    elif ! grep -q "^scholar:" "$config_file" 2>/dev/null; then
         _teach_warn "No 'scholar:' section in config" \
             "Scholar commands will use defaults"
     fi
 
-    # 3. Check Claude Code available
+    # 4. Check Claude Code available
     if ! command -v claude &>/dev/null; then
         _teach_error "Claude Code CLI not found" \
             "Install: https://claude.ai/code"
@@ -82,17 +202,112 @@ _teach_build_command() {
 }
 
 # Execute Scholar command via Claude
+# Usage: _teach_execute <scholar_cmd> [verbose] [subcommand]
 _teach_execute() {
     local scholar_cmd="$1"
     local verbose="${2:-false}"
+    local subcommand="${3:-}"
 
     if [[ "$verbose" == "true" ]]; then
         echo "🔧 Executing: claude --print \"$scholar_cmd\""
         echo ""
     fi
 
-    # Run Claude with the Scholar command
-    claude --print "$scholar_cmd"
+    # Estimate times for different commands
+    local estimate=""
+    case "$subcommand" in
+        exam)       estimate="~30-60s" ;;
+        syllabus)   estimate="~45-90s" ;;
+        slides)     estimate="~20-40s" ;;
+        quiz)       estimate="~15-30s" ;;
+        assignment) estimate="~20-40s" ;;
+        rubric)     estimate="~15-25s" ;;
+        *)          estimate="~15-30s" ;;
+    esac
+
+    # Run with spinner if available
+    local output
+    local exit_code
+
+    if typeset -f _flow_spinner_start >/dev/null 2>&1; then
+        _flow_spinner_start "Generating ${subcommand:-content}..." "$estimate"
+        output=$(claude --print "$scholar_cmd" 2>&1)
+        exit_code=$?
+        _flow_spinner_stop
+    else
+        # Fallback: no spinner
+        output=$(claude --print "$scholar_cmd" 2>&1)
+        exit_code=$?
+    fi
+
+    # Print output
+    echo "$output"
+
+    # Run post-generation hooks if successful
+    if [[ $exit_code -eq 0 ]]; then
+        _teach_post_generation_hooks "$subcommand" "$output"
+    fi
+
+    return $exit_code
+}
+
+# ============================================================================
+# POST-GENERATION HOOKS (Full Auto)
+# ============================================================================
+
+# Run after Scholar generates content
+# - Auto-stage generated files
+# - Update .STATUS file
+# - Show summary notification
+_teach_post_generation_hooks() {
+    local subcommand="$1"
+    local output="$2"
+
+    # Extract generated file paths from output (if Scholar outputs them)
+    local -a generated_files=()
+
+    # Look for common patterns in output like:
+    # "Created: exams/midterm.md" or "Saved to: quizzes/quiz-1.qmd"
+    while IFS= read -r line; do
+        if [[ "$line" =~ (Created|Saved|Generated|Wrote)[:\s]+(.+\.(md|qmd|yml|yaml))$ ]]; then
+            generated_files+=("${match[2]}")
+        fi
+    done <<< "$output"
+
+    # Auto-stage generated files
+    if [[ ${#generated_files[@]} -gt 0 ]]; then
+        for file in "${generated_files[@]}"; do
+            if [[ -f "$file" ]]; then
+                git add "$file" 2>/dev/null && \
+                    echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Staged: $file"
+            fi
+        done
+    fi
+
+    # Update .STATUS if it exists
+    local status_file=".STATUS"
+    if [[ -f "$status_file" ]]; then
+        local today=$(date +%Y-%m-%d)
+        local update_line="# Last teach ${subcommand}: ${today}"
+
+        # Append or update the last teach line
+        if grep -q "^# Last teach" "$status_file" 2>/dev/null; then
+            # Update existing line (macOS sed)
+            sed -i '' "s/^# Last teach.*$/${update_line}/" "$status_file" 2>/dev/null || \
+            sed -i "s/^# Last teach.*$/${update_line}/" "$status_file" 2>/dev/null
+        else
+            # Append new line
+            echo "" >> "$status_file"
+            echo "$update_line" >> "$status_file"
+        fi
+    fi
+
+    # Show summary
+    if [[ ${#generated_files[@]} -gt 0 ]]; then
+        echo ""
+        echo "${FLOW_COLORS[success]}📝 Generated ${#generated_files[@]} file(s)${FLOW_COLORS[reset]}"
+        echo "  Next: Review and 'teach deploy' when ready"
+    fi
 }
 
 # Main Scholar wrapper function
@@ -142,14 +357,18 @@ _teach_scholar_wrapper() {
         fi
     fi
 
-    # Run preflight checks
+    # Validate flags BEFORE preflight (fail fast with helpful message)
+    _teach_validate_flags "$subcommand" "${args[@]}" || return 1
+
+    # Run preflight checks (includes config validation)
     _teach_preflight || return 1
 
     # Build and execute Scholar command
     local scholar_cmd
     scholar_cmd=$(_teach_build_command "$subcommand" "${args[@]}") || return 1
 
-    _teach_execute "$scholar_cmd" "$verbose"
+    # Execute with subcommand for spinner message
+    _teach_execute "$scholar_cmd" "$verbose" "$subcommand"
 }
 
 # Lecture from lesson plan (special workflow)
@@ -409,7 +628,7 @@ teach() {
     esac
 }
 
-# Show teaching project status
+# Show teaching project status (Full Inventory)
 _teach_show_status() {
     local config_file=".flow/teach-config.yml"
 
@@ -426,8 +645,9 @@ _teach_show_status() {
     if command -v yq >/dev/null 2>&1; then
         local course=$(yq '.course.name // "Unknown"' "$config_file" 2>/dev/null)
         local semester=$(yq '.course.semester // "Unknown"' "$config_file" 2>/dev/null)
+        local year=$(yq '.course.year // ""' "$config_file" 2>/dev/null)
         echo "  Course:   $course"
-        echo "  Semester: $semester"
+        [[ -n "$year" && "$year" != "null" ]] && echo "  Term:     $semester $year" || echo "  Semester: $semester"
     fi
 
     # Show current branch
@@ -439,6 +659,86 @@ _teach_show_status() {
         echo "  ${FLOW_COLORS[success]}✓ Safe to edit (draft branch)${FLOW_COLORS[reset]}"
     elif [[ "$branch" == "production" ]]; then
         echo "  ${FLOW_COLORS[warning]}⚠ On production - changes are live!${FLOW_COLORS[reset]}"
+    fi
+
+    # Config validation status
+    if typeset -f _teach_validate_config >/dev/null 2>&1; then
+        if _teach_validate_config "$config_file" --quiet; then
+            echo "  Config:   ${FLOW_COLORS[success]}✓ valid${FLOW_COLORS[reset]}"
+        else
+            echo "  Config:   ${FLOW_COLORS[warning]}⚠ has issues${FLOW_COLORS[reset]}"
+        fi
+    fi
+
+    # Scholar integration status
+    if typeset -f _teach_has_scholar_config >/dev/null 2>&1; then
+        if _teach_has_scholar_config "$config_file"; then
+            echo "  Scholar:  ${FLOW_COLORS[success]}✓ configured${FLOW_COLORS[reset]}"
+        else
+            echo "  Scholar:  ${FLOW_COLORS[muted]}not configured${FLOW_COLORS[reset]}"
+        fi
+    fi
+
+    # ============================================
+    # CONTENT INVENTORY (Full)
+    # ============================================
+    echo ""
+    echo "${FLOW_COLORS[bold]}📝 Generated Content${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}────────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    local -A content_dirs=(
+        [exams]="📄 Exams"
+        [quizzes]="❓ Quizzes"
+        [assignments]="📋 Assignments"
+        [lectures]="🎓 Lectures"
+        [slides]="📊 Slides"
+        [rubrics]="📏 Rubrics"
+    )
+
+    local found_content=false
+    for dir label in "${(@kv)content_dirs}"; do
+        if [[ -d "$dir" ]]; then
+            local count=$(find "$dir" -maxdepth 2 -name "*.md" -o -name "*.qmd" 2>/dev/null | wc -l | tr -d ' ')
+            if [[ "$count" -gt 0 ]]; then
+                printf "  %-20s %s files\n" "$label:" "$count"
+                found_content=true
+            fi
+        fi
+    done
+
+    if ! $found_content; then
+        echo "  ${FLOW_COLORS[muted]}No generated content yet${FLOW_COLORS[reset]}"
+        echo "  ${FLOW_COLORS[muted]}Run 'teach exam \"Topic\"' to get started${FLOW_COLORS[reset]}"
+    fi
+
+    # ============================================
+    # RECENT ACTIVITY
+    # ============================================
+    echo ""
+    echo "${FLOW_COLORS[bold]}🕐 Recent Activity${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}────────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    # Find recent .md/.qmd files
+    local -a recent_files=()
+    while IFS= read -r file; do
+        [[ -n "$file" ]] && recent_files+=("$file")
+    done < <(find . -maxdepth 3 \( -name "*.md" -o -name "*.qmd" \) -newer "$config_file" -type f 2>/dev/null | head -5)
+
+    if [[ ${#recent_files[@]} -gt 0 ]]; then
+        for file in "${recent_files[@]}"; do
+            local basename=$(basename "$file")
+            local mtime=$(stat -f '%Sm' -t '%Y-%m-%d %H:%M' "$file" 2>/dev/null || stat -c '%y' "$file" 2>/dev/null | cut -d. -f1)
+            printf "  %-30s %s\n" "$basename" "${FLOW_COLORS[muted]}$mtime${FLOW_COLORS[reset]}"
+        done
+    else
+        echo "  ${FLOW_COLORS[muted]}No recent changes${FLOW_COLORS[reset]}"
+    fi
+
+    # Show last teach command from .STATUS
+    if [[ -f ".STATUS" ]] && grep -q "^# Last teach" ".STATUS" 2>/dev/null; then
+        local last_teach=$(grep "^# Last teach" ".STATUS" | tail -1)
+        echo ""
+        echo "  ${FLOW_COLORS[muted]}${last_teach#\# }${FLOW_COLORS[reset]}"
     fi
 
     echo ""
