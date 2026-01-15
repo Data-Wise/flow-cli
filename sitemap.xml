@@ -17,6 +17,10 @@
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/DOC-INDEX/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/DOT-DISPATCHER-DOCUMENTATION-SUMMARY/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
@@ -225,6 +229,10 @@
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/diagrams/ARCHITECTURE-DIAGRAMS/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/getting-started/00-welcome/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
@@ -262,6 +270,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/CONFIG-MANAGEMENT-WORKFLOW/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/guides/DEVELOPER-GUIDE/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
@@ -461,6 +473,10 @@
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/API-COMPLETE/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/API-REFERENCE/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
@@ -622,6 +638,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/RFC-flow-scholar-config-protocol/</loc>
+         <lastmod>2026-01-15</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/RFC-scholar-config-flag/</loc>
          <lastmod>2026-01-15</lastmod>
     </url>
     <url>
