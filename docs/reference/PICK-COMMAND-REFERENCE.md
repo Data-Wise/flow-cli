@@ -67,7 +67,7 @@ When you run `pick` with no args and have a recent session:
 
 Sessions expire after 24 hours.
 
-### Worktree Integration (v4.6.1)
+### Worktree Integration (v4.6.1+)
 
 By default, `pick` shows **both projects AND worktrees**:
 
@@ -76,7 +76,7 @@ flow-cli             🔧 dev
 mediationverse       📦 r
 medrobust            📦 r
 flow-cli (feature-x) 🌳 wt   🟢 2h
-aiterm (bugfix)      🌳 wt   🟡 old
+scholar (gh-actions) 🌳 wt   🟡 old
 ```
 
 **Key features:**
@@ -92,22 +92,44 @@ aiterm (bugfix)      🌳 wt   🟡 old
 ```bash
 pick wt              # Show only worktrees
 pick wt flow         # Filter worktrees for "flow" project
+pick wt scholar      # Filter worktrees for "scholar" project
 ```
 
-**Requirements:**
+**Supported Structures (v5.9.1+):**
 
-Worktrees must be organized under `~/.git-worktrees` (default):
+Pick detects **both** worktree naming conventions:
+
+| Structure | Path Example | Display Name |
+|-----------|--------------|--------------|
+| **Hierarchical** | `~/.git-worktrees/flow-cli/feature-x/` | `flow-cli (feature-x)` |
+| **Flat** | `~/.git-worktrees/scholar-gh-actions/` | `scholar (gh-actions)` |
 
 ```
 ~/.git-worktrees/
-├── flow-cli/
-│   ├── feature-x/       # worktree for feature-x branch
-│   └── bugfix/          # worktree for bugfix branch
+├── flow-cli/                      # HIERARCHICAL: project directory
+│   ├── feature-x/                 # └─ branch worktree (has .git file)
+│   └── bugfix/                    # └─ branch worktree (has .git file)
+├── scholar-gh-actions/            # FLAT: worktree at level-1 (has .git file)
 └── aiterm/
-    └── develop/         # worktree for develop branch
+    └── develop/                   # HIERARCHICAL: branch worktree
 ```
 
-To create a worktree: `wt create <branch>` or `git worktree add ~/.git-worktrees/<project>/<branch> <branch>`
+**How detection works:**
+
+1. **Flat worktrees** have a `.git` FILE at level-1 containing `gitdir: /path/to/PROJECT/.git/worktrees/BRANCH`
+2. **Hierarchical worktrees** have a `.git` file/directory at level-2
+
+The project and branch names are parsed from the `gitdir:` path for flat worktrees, ensuring correct display names regardless of the directory naming.
+
+To create a worktree:
+```bash
+# Hierarchical (recommended)
+wt create <branch>
+git worktree add ~/.git-worktrees/<project>/<branch> <branch>
+
+# Flat (also supported)
+git worktree add ~/.git-worktrees/<any-name> <branch>
+```
 
 ### Categories
 
@@ -294,5 +316,5 @@ printf '\033[32m✅\033[0m'  # Single quotes don't interpret escapes
 
 ---
 
-**Last Updated:** 2025-12-31
-**Status:** ✅ Fully implemented (v4.6.1 - worktree integration)
+**Last Updated:** 2026-01-15
+**Status:** ✅ Fully implemented (v5.9.1 - flat worktree detection)
