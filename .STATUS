@@ -10,24 +10,42 @@
 
 ## Focus: Tutorial Enhancement for v5.9.0
 
-## 🚧 In Progress:
+## ✅ Completed (2026-01-14):
 
 ### Tutorial Enhancement - v5.9.0 Documentation
 
 **Branch:** `feature/tutorial-enhancement`
 **Worktree:** `~/.git-worktrees/flow-cli-tutorial-enhancement`
 
-**Tasks:**
-- [ ] Update Tutorial 14 (teach dispatcher) with v5.9.0 config validation
-- [ ] Create learning path Mermaid diagram
-- [ ] Generate VHS tapes for key tutorials
-- [ ] Add tutorial index with progression overview
+**Completed Tasks:**
+- [x] Update Tutorial 14 (teach dispatcher) with v5.9.0 config validation
+  - Added Part 3: Config Validation section
+  - Documented validation rules, hash-based caching, config ownership
+  - Added troubleshooting for validation errors
+- [x] Create learning path Mermaid diagram
+  - Flowchart showing tutorial progression
+  - Color-coded by difficulty (beginner/intermediate/optional)
+  - Clickable links to each tutorial
+- [x] Add tutorial index with progression overview
+  - Created `docs/tutorials/index.md`
+  - Quick paths for different user goals
+  - All 14 tutorials with time estimates and levels
+- [x] Generate VHS tapes for key tutorials
+  - `docs/demos/first-session.tape` (Tutorial 1)
+  - `docs/demos/dopamine-features.tape` (Tutorial 6)
+  - `docs/demos/cc-dispatcher.tape` (Tutorial 10)
 
-**Gap Analysis:**
-- 14 tutorials exist, good coverage
-- Only 2 GIF demos (need more visual content)
-- No learning path visualization
-- Tutorial 14 missing v5.9.0 validation features
+**New Files:**
+- `docs/tutorials/index.md` - Tutorial index with Mermaid learning path
+- `docs/demos/first-session.tape` - VHS demo for Tutorial 1
+- `docs/demos/dopamine-features.tape` - VHS demo for Tutorial 6
+- `docs/demos/cc-dispatcher.tape` - VHS demo for Tutorial 10
+
+**Updated Files:**
+- `docs/tutorials/14-teach-dispatcher.md` - Added v5.9.0 config validation
+- `mkdocs.yml` - Added tutorial index to navigation
+
+**Status:** Ready for PR to dev
 
 ---
 
