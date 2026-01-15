@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v5.8.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.8.0)
+[![Version](https://img.shields.io/badge/version-v5.10.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.10.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -19,6 +19,21 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
     win "tried flow-cli!"   # Log your first win
     ```
     **That's it!** [Want to learn more? →](#try-it-now)
+
+---
+
+## ✨ What's New in v5.10.0
+
+!!! success "Major Documentation Overhaul"
+    Complete API reference, architecture diagrams, and developer guide added
+
+- **📘 Complete API Reference** - 400+ lines covering all functions ([→ API Docs](reference/API-COMPLETE.md))
+- **🎨 Architecture Diagrams** - 15 Mermaid diagrams showing system design ([→ Diagrams](diagrams/ARCHITECTURE-DIAGRAMS.md))
+- **🛠️ Developer Guide** - 600+ line contributor's handbook ([→ Dev Guide](guides/DEVELOPER-GUIDE.md))
+- **🌳 Enhanced Worktree Support** - Flat worktree detection + auto cache invalidation
+- **📚 Documentation Hub** - Central index for all 100+ docs ([→ Doc Index](DOC-INDEX.md))
+
+[View Full Changelog →](CHANGELOG.md){ .md-button }
 
 ---
 
@@ -317,4 +332,4 @@ Commands that adapt to your project:
 
 ---
 
-**v5.6.0** · Pure ZSH · MIT License
+**v5.10.0** · Pure ZSH · MIT License

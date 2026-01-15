@@ -112,6 +112,15 @@ teach deploy      # Push to production
 teach help        # Show all commands
 ```
 
+### Worktrees: `wt` (v5.10.0)
+```bash
+wt list           # List all worktrees
+wt create <branch> # Create worktree for branch
+wt remove <path>  # Remove worktree
+wt status         # Health & merge status
+wt help           # Show all commands
+```
+
 ---
 
 ## 🔥 Timers & Focus
@@ -157,4 +166,4 @@ status my-project active P0 "Next task description"
 
 ---
 
-<small>Flow CLI v5.8.0 | MIT License | [github.com/data-wise/flow-cli](https://github.com/data-wise/flow-cli)</small>
+<small>Flow CLI v5.10.0 | MIT License | [github.com/data-wise/flow-cli](https://github.com/data-wise/flow-cli)</small>

@@ -396,6 +396,6 @@ IDLE_TIMEOUT=900
 
 ## Related Documents
 
-- [DOT-DISPATCHER-REFERENCE.md](../reference/DOT-DISPATCHER-REFERENCE.md) - Current implementation
-- [DOT Dispatcher Tutorial](../tutorials/12-dot-dispatcher.md) - Usage guide
+- [DOT-DISPATCHER-REFERENCE.md](../../reference/DOT-DISPATCHER-REFERENCE.md) - Current implementation
+- [DOT Dispatcher Tutorial](../../tutorials/12-dot-dispatcher.md) - Usage guide
 

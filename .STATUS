@@ -4,11 +4,24 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.10.0 Ready for Release
+## Phase: v5.10.0 Released ✅
 ## Priority: 1
 ## Progress: 100
 
-## Focus: Worktree Detection + Cache Invalidation - Complete
+## Focus: Planning Next Release
+
+## ✅ v5.10.0 RELEASED (2026-01-15):
+
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.10.0
+**PR:** #254 (merged to main)
+**Homebrew:** Auto-updated to v5.10.0 via PR #35
+
+**What Was Released:**
+- Worktree Detection + Cache Invalidation
+- Comprehensive Documentation Suite (~1,800 lines)
+- Scholar RFC for --config flag integration
+
+---
 
 ## ✅ Completed (2026-01-15):
 
@@ -221,40 +234,334 @@
 
 ## 📊 Metrics
 
-- **Current Version:** 5.9.0 (Released 2026-01-14)
+- **Current Version:** 5.10.0 (Released 2026-01-15) ✅
 - **Dispatchers:** 11 active (including prompt)
 - **Commands:** 15+ core commands
-- **Tests:** 300+ across all features
-- **Performance:** Sub-10ms for core commands
+- **Tests:** 324+ across all features (24 new worktree tests)
+- **Performance:** Sub-10ms for core commands, < 100ms for worktree scanning
 - **Documentation:** https://Data-Wise.github.io/flow-cli/
+  - API Complete Reference (~400 lines)
+  - Architecture Diagrams (15 Mermaid diagrams)
+  - Developer Guide (~600 lines)
+  - Documentation Hub (~300 lines)
 
 ## 📋 Future Roadmap
 
-### v5.10.0 (Planned)
-- [ ] Installation improvements (curl one-liner)
-- [ ] Install script auto-detection of plugin manager
-- [ ] Installation docs matching aiterm quality
+### v5.11.0 (Next - Installation Improvements) [2-4 hours]
 
-### Scholar Integration v2.2.0 (After RFC Approval)
+**Priority:** High | **Effort:** Medium | **Impact:** High
+
+**Installation Experience:**
+- [ ] Create curl one-liner install script
+  - Auto-detect OS (macOS, Linux)
+  - Auto-detect plugin manager (zinit, antidote, oh-my-zsh)
+  - Interactive vs non-interactive modes
+  - Reference: aiterm's install.sh
+- [ ] Update installation docs
+  - Quick start guide (30 seconds to running)
+  - Comparison table (Homebrew vs manual vs git clone)
+  - Troubleshooting section (common issues)
+  - Video walkthrough
+- [ ] Add `flow doctor --fix` interactive mode
+  - Offer to install missing dependencies
+  - Guide through setup steps
+  - Verify installation success
+
+**Benefits:**
+- Lower barrier to entry for new users
+- Reduce installation support burden
+- Improve first-time experience
+
+---
+
+### v5.12.0 (Future - Error Messages & UX) [3-5 hours]
+
+**Priority:** Medium | **Effort:** Medium | **Impact:** High
+
+**Enhanced Error Handling:**
+- [ ] Standardize error messages across all commands
+  - Clear problem description
+  - Suggested fix with exact command
+  - Link to relevant documentation
+  - Example: "Error: fzf not found → Run: brew install fzf"
+- [ ] Add `--verbose` flag support to all dispatchers
+  - Show what command will be executed
+  - Display intermediate steps
+  - Useful for debugging
+- [ ] Implement error recovery suggestions
+  - Auto-suggest `flow doctor` on dependency errors
+  - Offer to create missing config files
+  - Suggest alternative workflows
+
+**Better Feedback:**
+- [ ] Add progress indicators for slow operations
+  - Project scanning (dash --watch)
+  - Cache building
+  - Git operations
+- [ ] Success messages with next steps
+  - After `work`: "✓ Session started. Run 'finish' when done."
+  - After `wt create`: "✓ Worktree created. Run 'cd $(wt path)' to switch."
+
+**Benefits:**
+- Reduced user frustration
+- Self-service troubleshooting
+- Better ADHD-friendly experience
+
+---
+
+### v5.13.0 (Future - Testing Infrastructure) [4-6 hours]
+
+**Priority:** Medium | **Effort:** High | **Impact:** Medium
+
+**Test Coverage:**
+- [ ] Increase test coverage to 100%
+  - Edge cases for all dispatchers
+  - Error handling paths
+  - Integration tests for workflows
+- [ ] Add mutation testing
+  - Ensure tests catch actual bugs
+  - Identify weak test assertions
+- [ ] Create performance regression tests
+  - Benchmark core commands
+  - Alert on >10% slowdown
+  - Track over time
+
+**Test Infrastructure:**
+- [ ] Add GitHub Actions test matrix
+  - macOS (multiple versions)
+  - Linux (Ubuntu, Fedora)
+  - ZSH (5.8, 5.9, latest)
+- [ ] Create test fixtures library
+  - Mock git repositories
+  - Sample project structures
+  - Reusable test data
+- [ ] Add snapshot testing for outputs
+  - Dashboard output format
+  - Help messages
+  - Error messages
+
+**Benefits:**
+- Prevent regressions
+- Confidence in refactoring
+- Better contributor experience
+
+---
+
+### v5.14.0 (Future - Performance Optimization) [3-5 hours]
+
+**Priority:** Low | **Effort:** Medium | **Impact:** Medium
+
+**Startup Performance:**
+- [ ] Profile plugin load time
+  - Identify slow initializers
+  - Lazy-load heavy functions
+  - Defer non-critical setup
+- [ ] Optimize cache system
+  - Parallel cache building
+  - Incremental updates
+  - Background refresh
+- [ ] Reduce dependency checks
+  - Cache `command -v` results
+  - Skip checks for frequently-used commands
+
+**Runtime Performance:**
+- [ ] Optimize `pick` command
+  - Pre-filter before fzf
+  - Limit results to top 100
+  - Background project scanning
+- [ ] Optimize `dash` command
+  - Parallel git status checks
+  - Cache expensive operations
+  - Smart refresh (only changed projects)
+- [ ] Profile hot paths
+  - `work` / `finish` cycle
+  - Dispatcher routing
+  - Completion generation
+
+**Metrics:**
+- [ ] Add performance telemetry (optional)
+  - Command execution time
+  - Cache hit rates
+  - User opt-in only
+
+**Benefits:**
+- Faster command response
+- Better multi-project performance
+- Improved user experience
+
+---
+
+### Scholar Integration v2.2.0 (After RFC Approval) [1-2 weeks]
+
+**Priority:** High | **Effort:** High | **Impact:** High
+
+**Phase 1: Scholar Implementation**
 - [ ] Scholar team implements `--config` flag
 - [ ] Scholar adds JSON Schema validation
-- [ ] Bidirectional config sync
+- [ ] Scholar respects config ownership protocol
 
-### Future Releases
+**Phase 2: flow-cli Integration**
+- [ ] Update `teach` dispatcher to pass config
+- [ ] Remove individual flag passing
+- [ ] Test bidirectional sync
+- [ ] Update documentation
+
+**Phase 3: Enhanced Features**
+- [ ] Config migration tool (v5.9.0 → v2.2.0)
+- [ ] Validation improvements
+- [ ] Config templates for common courses
+
+**Dependencies:**
+- Waiting on Scholar issue #18 approval
+- Scholar v2.2.0 development timeline
+- Testing with real courses
+
+---
+
+### v6.0.0 (Major - Plugin System) [2-3 weeks]
+
+**Priority:** Low | **Effort:** Very High | **Impact:** Very High
+
+**Plugin Architecture:**
+- [ ] Design plugin API
+  - Hooks (pre/post command execution)
+  - Custom dispatchers
+  - Custom commands
+  - Theme system
+- [ ] Create plugin registry
+  - Discover plugins automatically
+  - Version compatibility checking
+  - Dependency resolution
+- [ ] Plugin development kit
+  - Scaffold generator
+  - Testing utilities
+  - Documentation generator
+
+**Example Plugins:**
+- GitHub integration (issues, PRs)
+- Jira integration (ticket tracking)
+- Slack integration (status updates)
+- Custom project templates
+
+**Breaking Changes:**
+- Plugin system may require config changes
+- Deprecate some built-in commands in favor of plugins
+- May require ZSH 5.9+
+
+---
+
+### Long-Term Vision (6+ months)
+
+**Remote & Team Features:**
 - [ ] Remote state sync (optional cloud backup)
-- [ ] Multi-device support
-- [ ] Shared templates
+  - Encrypted session data
+  - Multi-device support
+  - Conflict resolution
+- [ ] Team collaboration
+  - Shared project templates
+  - Team dashboards
+  - Activity feed
+- [ ] Analytics & insights
+  - Productivity trends
+  - Time tracking
+  - Project health metrics
+
+**Developer Experience:**
+- [ ] VS Code extension
+  - Inline project switching
+  - Dashboard in sidebar
+  - Command palette integration
+- [ ] Alfred/Raycast workflow
+  - Quick project search
+  - Session management
+  - Command execution
+
+**Advanced Features:**
+- [ ] AI-powered suggestions
+  - Smart project recommendations
+  - Automated workflow detection
+  - Context-aware help
+- [ ] Custom workflows
+  - YAML-based workflow definitions
+  - Conditional execution
+  - Parallel task execution
 
 ## 🎯 Next Action
 
-**Current:** Release v5.10.0 or start installation improvements
+**Current:** Plan v5.11.0 or await Scholar feedback
 
-**Completed Today:**
-- ✅ Phase 1: Flat worktree detection (PR #253)
-- ✅ Phase 2: Cache invalidation (commit 104484ea)
-- ✅ Scholar RFC issue created (#18)
+**✅ v5.10.0 Released (2026-01-15):**
+- ✅ Worktree detection + cache invalidation
+- ✅ Comprehensive documentation (~1,800 lines)
+- ✅ Scholar RFC created
+- ✅ GitHub release published
+- ✅ Homebrew formula auto-updated
+- ✅ Documentation deployed
 
-**Options:**
-- A) Release v5.10.0 (worktree detection + cache invalidation) [15 min]
-- C) Start v5.10.0 installation improvements [2-4 hours]
-- E) Wait for Scholar team feedback on RFC #18
+**Recommended Next Steps (Priority Order):**
+
+**A) v5.11.0 - Installation Improvements** [2-4 hours, High Priority]
+- Create curl one-liner: `curl -fsSL https://flow-cli.sh | zsh`
+- Auto-detect plugin manager (zinit, antidote, oh-my-zsh)
+- Update installation docs to match aiterm quality
+- Add `flow doctor --fix` interactive mode
+- **Impact:** Lower barrier to entry, better first-time experience
+- **Effort:** Medium
+- **Reference:** `~/projects/dev-tools/aiterm/install.sh`
+
+**B) v5.12.0 - Enhanced Error Messages & UX** [3-5 hours, Medium Priority]
+- Standardize error messages with suggested fixes
+- Add `--verbose` flag to all dispatchers
+- Progress indicators for slow operations
+- Success messages with next steps
+- **Impact:** Better ADHD-friendly experience, reduced frustration
+- **Effort:** Medium
+- **Quick Win:** Start with top 5 most common errors
+
+**C) Scholar Integration (Waiting)** [Low Effort, High Impact when ready]
+- Monitor Scholar issue #18 for team response
+- Iterate on RFC based on feedback
+- Plan integration timeline for v2.2.0
+- **Status:** Waiting on Scholar team approval
+- **Next Check:** Weekly follow-up on issue
+
+**D) v5.13.0 - Testing Infrastructure** [4-6 hours, Medium Priority]
+- Increase test coverage to 100%
+- Add GitHub Actions test matrix (macOS, Linux, ZSH versions)
+- Create test fixtures library
+- **Impact:** Prevent regressions, better contributor experience
+- **Effort:** High
+- **Long-term benefit:** Confidence in refactoring
+
+**E) Documentation Enhancements** [1-2 hours, Low Priority]
+- Add video walkthroughs (loom or VHS)
+- Create more tutorials (7-day onboarding series)
+- Improve search functionality (algolia)
+- **Impact:** Better onboarding
+- **Effort:** Low-Medium
+- **Quick Win:** Record 3 core workflows
+
+**F) v5.14.0 - Performance Optimization** [3-5 hours, Low Priority]
+- Profile plugin load time
+- Optimize `pick` and `dash` commands
+- Add optional performance telemetry
+- **Impact:** Faster response times
+- **Effort:** Medium
+- **When:** After v5.11.0 and v5.12.0
+
+---
+
+**Immediate Next Step (Recommended):**
+
+→ **Start v5.11.0 Installation Improvements**
+
+**Why:**
+- High impact for new users
+- Referenced as planned in v5.10.0 release
+- Completes the "polish" phase (docs + install)
+- Builds on aiterm's proven approach
+- Can be completed in one focused session
+
+**Alternative:**
+- If waiting for inspiration: Work on v5.12.0 error messages (incremental)
+- If blocked: Check Scholar RFC feedback and iterate
