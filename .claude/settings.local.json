@@ -137,7 +137,13 @@
       "Bash(tee:*)",
       "Bash(./tests/test-teach-init.zsh)",
       "Bash(./tests/test-teaching-workflow-comprehensive.zsh)",
-      "Bash(gh release view:*)"
+      "Bash(gh release view:*)",
+      "Bash(_proj_list_worktrees \"\")",
+      "Bash(git -C /Users/dt/projects/dev-tools/flow-cli log --oneline --all --grep=\"worktree\")",
+      "Bash(git -C /Users/dt/projects/dev-tools/flow-cli show de947ef7 --stat)",
+      "Bash(gh pr diff:*)",
+      "Bash(./tests/test-flat-worktree-detection.zsh:*)",
+      "Bash(_proj_find_worktree \"scholar\")"
     ]
   }
 }

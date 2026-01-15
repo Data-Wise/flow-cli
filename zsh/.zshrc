@@ -823,25 +823,15 @@ gemd() {
 # ============================================
 alias oc='opencode'
 
-# emacs-plus@30 (Homebrew) — make emacs-plus the default Emacs and set editor vars
-# Adjust the path to match the installed version if different.
-export PATH="/opt/homebrew/opt/emacs-plus@30/bin:$PATH"
+# Emacs (Homebrew)
+export PATH="/opt/homebrew/opt/emacs/bin:$PATH"
 
-# Use emacsclient as the default editor (starts a frame with the daemon if available)
-export EDITOR="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient"
-export VISUAL="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient"
-
-# Convenience alias to open a new GUI frame (falls back to starting Emacs if no daemon)
-# REMOVED 2025-12-19: Use 'emacs' or 'emacsclient' directly
-# alias e="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient -c -a ''"
-# alias ec="/opt/homebrew/opt/emacs-plus@30/bin/emacsclient -c -a ''"
-
-# The emacs-plus formula injects your shell PATH into Finder-launched Emacs.app by default.
-# To disable that behavior (not usually recommended), uncomment the following line:
-# export EMACS_PLUS_NO_PATH_INJECTION=1
+# Use emacs directly as editor (simplest approach)
+export EDITOR="nvim"
+export VISUAL="emacs"
 
 # Optional: start emacs daemon on login via brew services (uncomment to enable)
-# brew services start d12frosted/emacs-plus/emacs-plus@30 >/dev/null 2>&1 || true
+# brew services start emacs >/dev/null 2>&1 || true
 export PATH="/opt/homebrew/bin:$PATH"
 
 # ============================================
@@ -1061,19 +1051,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # Nexus Desktop - Quick Launcher
 alias nexus='cd ~/projects/dev-tools/nexus/nexus-desktop && npm start'
 
-# ============================================
-# GIT WORKTREE ALIASES
-# ============================================
-# NOTE: 'wt' is now provided by flow-cli wt dispatcher (no-args → cd to worktrees)
-# alias wt='cd ~/.git-worktrees'  # REMOVED - conflicts with wt() dispatcher
-alias wtl='git worktree list'
-
-# Scribe project worktrees
-alias scribe-hud='cd ~/.git-worktrees/scribe/mission-control-hud'
-alias scribe-alt='cd ~/.git-worktrees/scribe/wonderful-wilson'
-
-# aiterm project worktrees
-alias aiterm-ghost='cd ~/.git-worktrees/aiterm/feature-ghostty-support'
 
 # ============================================
 # CLAUDE SKILLS MANAGEMENT - Added 2025-01-02
@@ -1081,3 +1058,13 @@ alias aiterm-ghost='cd ~/.git-worktrees/aiterm/feature-ghostty-support'
 [[ -f ~/.config/zsh/functions/skill-helpers.zsh ]] && \
     source ~/.config/zsh/functions/skill-helpers.zsh
 
+
+# ============================================
+# Ghostty config shortcuts - Added 2026-01-15
+# ============================================
+# Ghostty config shortcuts
+export GHOSTTY_CONFIG="$HOME/.config/ghostty/config"
+alias gconf='$EDITOR $GHOSTTY_CONFIG'
+
+# Quick open
+alias gconfv='subl ~/.config/ghostty/config'

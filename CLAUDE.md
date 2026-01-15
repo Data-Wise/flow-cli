@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v5.9.0 released)
+- **Status:** Production ready (v5.10.0 released)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -23,7 +23,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 - 10 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dot`, `teach`
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
-- macOS Keychain secret management (v5.5.0)
+- macOS Keychain secret management (v5.10.0)
 
 ---
 
@@ -236,7 +236,7 @@ flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v5.3.0)
+### Dopamine Features (v5.10.0)
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
@@ -261,12 +261,12 @@ tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
 wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 dot <cmd>     # Dotfile management (dot edit, dot sync, dot secret)
 teach <cmd>   # Teaching workflow (teach init, teach deploy, teach exam)
-prompt <cmd>  # Prompt engine switcher (prompt status, prompt toggle) [v5.7.0]
+prompt <cmd>  # Prompt engine switcher (prompt status, prompt toggle) [v5.10.0]
 ```
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
 
-### CC Dispatcher Quick Reference (v5.3.0)
+### CC Dispatcher Quick Reference (v5.10.0)
 
 **✨ Unified Grammar:** Both mode-first AND target-first orders work!
 
@@ -313,7 +313,7 @@ tm detect             # Detect project context
 
 **Aliases:** `tmt` = title, `tmp` = profile, `tmg` = ghost, `tms` = switch
 
-### Pick - Project Picker (v5.3.0)
+### Pick - Project Picker (v5.10.0)
 
 ```bash
 pick                # FZF picker (all projects)
@@ -357,7 +357,7 @@ flow-cli/
 │   ├── project-detector.zsh  # Project type detection
 │   ├── tui.zsh               # Terminal UI components
 │   ├── inventory.zsh         # Tool inventory generator
-│   ├── keychain-helpers.zsh  # macOS Keychain secrets (v5.5.0)
+│   ├── keychain-helpers.zsh  # macOS Keychain secrets (v5.10.0)
 │   └── dispatchers/          # Smart command dispatchers (10)
 │       ├── cc-dispatcher.zsh     # Claude Code
 │       ├── dot-dispatcher.zsh    # Dotfiles + Secrets
@@ -405,13 +405,13 @@ flow-cli/
 | `flow.plugin.zsh`                        | Plugin entry point       | Source this to load      |
 | `lib/core.zsh`                           | Core utilities           | Logging, colors, helpers |
 | `lib/atlas-bridge.zsh`                   | Atlas integration        | Optional state engine    |
-| `lib/keychain-helpers.zsh`               | macOS Keychain secrets   | v5.5.0 - Touch ID        |
-| `lib/config-validator.zsh`               | Config validation        | v5.9.0 - Schema + hash   |
+| `lib/keychain-helpers.zsh`               | macOS Keychain secrets   | v5.10.0 - Touch ID       |
+| `lib/config-validator.zsh`               | Config validation        | v5.10.0 - Schema + hash  |
 | `lib/dispatchers/*.zsh`                  | Smart dispatchers        | 11 active dispatchers    |
 | `commands/*.zsh`                         | Core commands            | work, dash, finish, etc. |
 | `docs/reference/DISPATCHER-REFERENCE.md` | Complete dispatcher docs | All dispatchers          |
 | `docs/reference/ARCHITECTURE.md`         | System architecture      | Mermaid diagrams         |
-| `docs/reference/API-REFERENCE.md`        | API reference            | v5.9.0 - All functions   |
+| `docs/reference/API-REFERENCE.md`        | API reference            | v5.10.0 - All functions  |
 | `.STATUS`                                | Current progress         | Sprint tracking          |
 
 ---
@@ -531,10 +531,10 @@ qu preview          # Quarto: preview document
 **Documentation:** [Complete Testing Guide](docs/guides/TESTING.md)
 
 ```bash
-# Core test suites (v5.3.0+)
+# Core test suites (v5.10.0+)
 tests/test-pick-command.zsh         # Pick: 39 tests (556 lines)
 tests/test-cc-dispatcher.zsh        # CC: 37 tests (722 lines)
-tests/test-dot-v5.3.0-unit.zsh      # DOT: 112+ tests
+tests/test-dot-v5.10.0-unit.zsh      # DOT: 112+ tests
 tests/test-cc-unified-grammar.zsh   # CC unified grammar
 tests/test-pick-smart-defaults.zsh  # Pick defaults
 tests/test-pick-wt.zsh              # Pick worktrees
@@ -564,12 +564,12 @@ cc help              # CC dispatcher works
 
 ### Test Coverage
 
-| Component      | File                     | Tests   | Coverage |
-| -------------- | ------------------------ | ------- | -------- |
-| Pick command   | test-pick-command.zsh    | 39      | ✅ 100%  |
-| CC dispatcher  | test-cc-dispatcher.zsh   | 37      | ✅ 100%  |
-| DOT dispatcher | test-dot-v5.3.0-unit.zsh | 112+    | ✅ 100%  |
-| **Total**      | **8 suites**             | **76+** | **100%** |
+| Component      | File                      | Tests   | Coverage |
+| -------------- | ------------------------- | ------- | -------- |
+| Pick command   | test-pick-command.zsh     | 39      | ✅ 100%  |
+| CC dispatcher  | test-cc-dispatcher.zsh    | 37      | ✅ 100%  |
+| DOT dispatcher | test-dot-v5.10.0-unit.zsh | 112+    | ✅ 100%  |
+| **Total**      | **8 suites**              | **76+** | **100%** |
 
 ### Writing Tests
 
@@ -658,9 +658,9 @@ export FLOW_DEBUG=1
 
 ## Current Status (2026-01-15)
 
-### ✅ v5.9.0 RELEASED - Config Validation & Scholar Deep Integration
+### ✅ v5.10.0 RELEASED - Config Validation & Scholar Deep Integration
 
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.9.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.10.0
 **PR:** #249 (merged)
 
 **What's New:**
@@ -691,9 +691,9 @@ teach status --verbose    # Shows validation details
 
 ---
 
-### ✅ v5.8.0 RELEASED - Scholar Teaching Wrappers
+### ✅ v5.10.0 RELEASED - Scholar Teaching Wrappers
 
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.9.0 (bundled)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.10.0 (bundled)
 **PR:** #246 (merged)
 
 **What's New:**
@@ -723,9 +723,9 @@ teach exam "Topic" --dry-run --verbose
 
 ---
 
-### ✅ v5.7.0 RELEASED - Prompt Engine Dispatcher
+### ✅ v5.10.0 RELEASED - Prompt Engine Dispatcher
 
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.9.0 (bundled)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.10.0 (bundled)
 **PR:** #245 (merged)
 
 **What's New:**
@@ -761,9 +761,9 @@ prompt setup-ohmyposh
 
 ---
 
-### ✅ v5.5.0 RELEASED - macOS Keychain Secrets
+### ✅ v5.10.0 RELEASED - macOS Keychain Secrets
 
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.5.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.10.0
 
 - [x] `dot secret add/get/list/delete` - Native macOS Keychain storage
 - [x] `dot secret import` - One-time Bitwarden migration
@@ -773,18 +773,18 @@ prompt setup-ohmyposh
 
 ---
 
-### ✅ v5.4.3 RELEASED - Bug Fixes
+### ✅ v5.10.0 RELEASED - Bug Fixes
 
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.4.3
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.10.0
 
 - [x] Fixed `dot unlock` stderr contamination
 - [x] Fixed `cc wt` worktree path detection (flat naming support)
 
 ---
 
-### ✅ v5.4.1 RELEASED - Teaching Workflow & UX Enhancements
+### ✅ v5.10.0 RELEASED - Teaching Workflow & UX Enhancements
 
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.4.1
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.10.0
 **PR:** #230
 
 **What Was Delivered:**
@@ -818,11 +818,11 @@ teach-init help           # Show teach-init help
 
 ---
 
-### ✅ v5.3.0 RELEASED - Secret Management v2.0 Complete
+### ✅ v5.10.0 RELEASED - Secret Management v2.0 Complete
 
 **Feature:** Complete Secret Management Lifecycle
 **Status:** Released and deployed
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.3.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.10.0
 
 **What Was Delivered:**
 
@@ -833,7 +833,7 @@ teach-init help           # Show teach-init help
 - [x] 134 unit tests (100% passing)
 - [x] Complete documentation (guide, reference, refcard)
 
-**Key Commands (v5.3.0):**
+**Key Commands (v5.10.0):**
 
 ```bash
 # Token Wizards
@@ -861,37 +861,37 @@ dot env init                  # Generate .envrc for direnv
 
 ---
 
-### ✅ v5.3.0 Released - Bug Fix: Pick Command Crash
+### ✅ v5.10.0 Released - Bug Fix: Pick Command Crash
 
 - [x] Fixed "bad math expression" error in `_proj_show_git_status()` (#155)
 - [x] Added input sanitization for `wc` output (handles terminal control codes)
 - [x] Added regression test to prevent future occurrences
 - [x] All 23 tests passing
 
-### ✅ v5.3.0 Released - Frecency & Session Indicators
+### ✅ v5.10.0 Released - Frecency & Session Indicators
 
 - [x] Frecency decay scoring (time-based priority decay)
 - [x] Session indicators (🟢/🟡) on regular projects, not just worktrees
 - [x] Projects sorted by recent Claude activity
 
-### ✅ v5.3.0 Released - Frecency Sorting
+### ✅ v5.10.0 Released - Frecency Sorting
 
 - [x] `pick --recent` / `pick -r` - Show only projects with Claude sessions
 - [x] Frecency sorting (most recently used first)
 - [x] CI apt caching (~17s vs 5+ min)
 
-### ✅ v5.3.0 Released - CI Optimization
+### ✅ v5.10.0 Released - CI Optimization
 
 - [x] CI reduced to smoke tests (~30s)
 - [x] `./tests/run-all.sh` for local full test suite
 - [x] Pick worktree docs and session-age sorting
 
-### ✅ v5.3.0 Released
+### ✅ v5.10.0 Released
 
 - [x] `pick` shows worktrees in default view (🌳 icons)
 - [x] CI streamlined: 4 jobs → 1 job
 
-### ✅ v5.3.0 Released - Worktree-Aware Pick
+### ✅ v5.10.0 Released - Worktree-Aware Pick
 
 - [x] `pick wt` - List all worktrees from `~/.git-worktrees/`
 - [x] Session indicators: 🟢 recent / 🟡 old
@@ -899,7 +899,7 @@ dot env init                  # Generate .envrc for direnv
 
 ### 🎯 Production Ready
 
-- **Version:** v5.9.0 released
+- **Version:** v5.10.0 released
 - **Released:** 2026-01-14
 - **Status:** Production use phase
 - **Performance:** Sub-10ms for core commands, CI ~17s
@@ -982,10 +982,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 3.7.0"
-git tag -a v5.3.0 -m "v5.3.0"
+git tag -a v5.10.0 -m "v5.10.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v5.3.0
+git push origin main && git push origin v5.10.0
 ```
 
 **Files updated by release script:**

@@ -294,10 +294,55 @@ _proj_list_worktrees() {
     # Collect all worktrees with their mtimes for sorting
     local worktree_data=()
 
-    # Scan project directories (first level under PROJ_WORKTREE_DIR)
-    for project_dir in "$PROJ_WORKTREE_DIR"/*/; do
-        [[ -d "$project_dir" ]] || continue
-        local project_name=$(basename "$project_dir")
+    # Scan directories under PROJ_WORKTREE_DIR
+    local dir_name project_name branch_name display_name
+    local gitdir_line gitdir_path session_mtime session_status frecency
+
+    for dir in "$PROJ_WORKTREE_DIR"/*/; do
+        [[ -d "$dir" ]] || continue
+        dir_name=$(basename "$dir")
+
+        # =================================================================
+        # CHECK FOR FLAT WORKTREE (level-1 has .git FILE)
+        # =================================================================
+        if [[ -f "$dir/.git" ]]; then
+            # Flat worktree: .git is a FILE containing gitdir pointer
+            # Format: gitdir: /path/to/PROJECT/.git/worktrees/BRANCH
+            gitdir_line=$(head -1 "$dir/.git" 2>/dev/null)
+
+            if [[ "$gitdir_line" == gitdir:* ]]; then
+                gitdir_path="${gitdir_line#gitdir: }"
+
+                # Extract project name from path: .../PROJECT/.git/worktrees/BRANCH
+                # Pattern: */<project>/.git/worktrees/<branch>
+                if [[ "$gitdir_path" =~ /([^/]+)/\.git/worktrees/([^/]+)$ ]]; then
+                    project_name="${match[1]}"
+                    branch_name="${match[2]}"
+                else
+                    # Fallback: use directory name
+                    project_name="$dir_name"
+                    branch_name="$dir_name"
+                fi
+
+                # Apply project filter (fuzzy match on project name)
+                if [[ -n "$project_filter" && "${project_name:l}" != *"${project_filter:l}"* ]]; then
+                    continue
+                fi
+
+                display_name="$project_name ($branch_name)"
+                session_mtime=$(_proj_get_session_mtime "${dir%/}")
+                session_status=$(_proj_get_claude_session_status "${dir%/}")
+                frecency=$(_proj_frecency_score "$session_mtime")
+
+                worktree_data+=("${frecency}|${display_name}|wt|🌳|${dir%/}|${session_status}")
+            fi
+            continue  # Already processed as flat worktree
+        fi
+
+        # =================================================================
+        # CHECK FOR HIERARCHICAL WORKTREES (level-2 has .git)
+        # =================================================================
+        project_name="$dir_name"
 
         # Skip if project filter doesn't match (case-insensitive fuzzy)
         if [[ -n "$project_filter" && "${project_name:l}" != *"${project_filter:l}"* ]]; then
@@ -305,19 +350,19 @@ _proj_list_worktrees() {
         fi
 
         # Scan worktree directories (second level)
-        for wt_dir in "${project_dir%/}"/*/; do
+        for wt_dir in "${dir%/}"/*/; do
             [[ -d "$wt_dir" ]] || continue
 
             # Verify it's a valid worktree (has .git file or directory)
             [[ -e "$wt_dir/.git" ]] || continue
 
-            local branch_name=$(basename "$wt_dir")
-            local display_name="$project_name ($branch_name)"
-            local session_mtime=$(_proj_get_session_mtime "${wt_dir%/}")
-            local session_status=$(_proj_get_claude_session_status "${wt_dir%/}")
+            branch_name=$(basename "$wt_dir")
+            display_name="$project_name ($branch_name)"
+            session_mtime=$(_proj_get_session_mtime "${wt_dir%/}")
+            session_status=$(_proj_get_claude_session_status "${wt_dir%/}")
 
             # Calculate frecency score for sorting (same decay as projects)
-            local frecency=$(_proj_frecency_score "$session_mtime")
+            frecency=$(_proj_frecency_score "$session_mtime")
 
             # Store with frecency prefix for sorting
             worktree_data+=("${frecency}|${display_name}|wt|🌳|${wt_dir%/}|${session_status}")
@@ -337,16 +382,53 @@ _proj_find_worktree() {
 
     setopt local_options nullglob
 
-    for project_dir in "$PROJ_WORKTREE_DIR"/*/; do
-        [[ -d "$project_dir" ]] || continue
-        local project_name=$(basename "$project_dir")
+    local dir_name project_name branch_name display_name
+    local gitdir_line gitdir_path
 
-        for wt_dir in "${project_dir%/}"/*/; do
+    for dir in "$PROJ_WORKTREE_DIR"/*/; do
+        [[ -d "$dir" ]] || continue
+        dir_name=$(basename "$dir")
+
+        # =================================================================
+        # CHECK FOR FLAT WORKTREE (level-1 has .git FILE)
+        # =================================================================
+        if [[ -f "$dir/.git" ]]; then
+            gitdir_line=$(head -1 "$dir/.git" 2>/dev/null)
+
+            if [[ "$gitdir_line" == gitdir:* ]]; then
+                gitdir_path="${gitdir_line#gitdir: }"
+
+                # Extract project name from path
+                if [[ "$gitdir_path" =~ /([^/]+)/\.git/worktrees/([^/]+)$ ]]; then
+                    project_name="${match[1]}"
+                    branch_name="${match[2]}"
+                else
+                    project_name="$dir_name"
+                    branch_name="$dir_name"
+                fi
+
+                display_name="$project_name ($branch_name)"
+
+                # Match on display name, project name, or branch name
+                if [[ "$display_name" == "$query"* || "$project_name" == "$query"* || "$branch_name" == "$query"* ]]; then
+                    echo "${dir%/}"
+                    return 0
+                fi
+            fi
+            continue
+        fi
+
+        # =================================================================
+        # CHECK FOR HIERARCHICAL WORKTREES (level-2 has .git)
+        # =================================================================
+        project_name="$dir_name"
+
+        for wt_dir in "${dir%/}"/*/; do
             [[ -d "$wt_dir" ]] || continue
             [[ -e "$wt_dir/.git" ]] || continue
 
-            local branch_name=$(basename "$wt_dir")
-            local display_name="$project_name ($branch_name)"
+            branch_name=$(basename "$wt_dir")
+            display_name="$project_name ($branch_name)"
 
             # Match on display name or just project name
             if [[ "$display_name" == "$query"* || "$project_name" == "$query"* ]]; then
