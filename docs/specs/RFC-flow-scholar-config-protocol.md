@@ -228,7 +228,7 @@ fi
 
 ## References
 
-- [SPEC-flow-scholar-integration-improvements-2026-01-14.md](SPEC-flow-scholar-integration-improvements-2026-01-14.md)
+- [SPEC-scholar-teaching-2026-01-11.md](SPEC-scholar-teaching-2026-01-11.md)
 - [JSON Schema spec](https://json-schema.org/specification.html)
 - [Turborepo config patterns](https://turborepo.dev/docs/reference/package-configurations)
 

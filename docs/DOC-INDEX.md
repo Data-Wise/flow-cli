@@ -10,7 +10,7 @@
 ### 🚀 Getting Started
 - [Quick Start](getting-started/quick-start.md) - 5-minute tutorial
 - [Installation](getting-started/installation.md) - Installation guide
-- [First Steps](getting-started/first-steps.md) - Your first workflow
+- [Your First Session](tutorials/01-first-session.md) - Your first workflow
 
 ### 📚 Reference Documentation
 - **[API Complete Reference](reference/API-COMPLETE.md)** - Complete API documentation ⭐ **NEW**
@@ -33,8 +33,8 @@
 - [Tutorials Index](tutorials/index.md) - Learning path
 
 ### 🔧 Configuration
-- [Configuration Guide](configuration/README.md) - All config options
-- [Environment Variables](configuration/environment.md) - Env var reference
+- [Environment Variables](getting-started/installation.md#environment-variables) - Env var reference
+- [Flow Command Options](commands/flow.md) - Configuration options
 
 ### 🎓 Teaching System
 - [Teaching System Architecture](TEACHING-SYSTEM-ARCHITECTURE.md) - Full system overview
