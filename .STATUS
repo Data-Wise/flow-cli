@@ -23,7 +23,67 @@
 
 ---
 
-## ✅ Completed (2026-01-15):
+## ✅ Completed (2026-01-15 - Evening):
+
+### Documentation Site Deployment & Branch Sync - v5.10.0 Post-Release
+
+**Session Duration:** ~1 hour
+**Commits:** c60cc24a, bff0205d, b7cf3c1c
+**PR:** #255 (merged to main)
+
+**Accomplishments:**
+
+**Phase 1: Documentation Site Update**
+- [x] Updated version badges to v5.10.0 (index.md, quick-reference-card.md)
+- [x] Added "What's New in v5.10.0" section to homepage
+  - Complete API Reference (400+ lines)
+  - Architecture Diagrams (15 Mermaid diagrams)
+  - Developer Guide (600+ lines)
+  - Enhanced Worktree Support
+  - Documentation Hub
+- [x] Documented worktree dispatcher commands (wt list/create/remove/status)
+- [x] Fixed 6 broken links across documentation
+  - DOC-INDEX.md: 3 broken links fixed
+  - RFC and archived specs: 3 relative path corrections
+
+**Phase 2: GitHub Pages Deployment**
+- [x] Built site with mkdocs (8.27 seconds)
+- [x] Deployed to gh-pages branch (commit: 0a115b6e)
+- [x] Verified site live at https://Data-Wise.github.io/flow-cli/
+- [x] All v5.10.0 features now visible to users
+
+**Phase 3: Branch Synchronization**
+- [x] Committed documentation updates to dev (c60cc24a)
+- [x] Created PR #255 (dev → main sync)
+- [x] Resolved merge conflicts in .STATUS and DOC-INDEX.md
+- [x] Merged main into dev for conflict-free state (bff0205d)
+- [x] CI tests passed (ZSH Plugin Tests × 2)
+- [x] PR auto-merged to main (b7cf3c1c)
+- [x] Updated local main branch to match remote
+
+**Files Modified:**
+- `docs/index.md` - v5.10.0 version badges + "What's New" section
+- `docs/quick-reference-card.md` - wt dispatcher section + version
+- `docs/DOC-INDEX.md` - fixed 3 broken navigation links
+- `docs/specs/RFC-flow-scholar-config-protocol.md` - corrected file reference
+- `docs/specs/_archive/SPEC-dot-secret-management-v2-2026-01-10.md` - fixed 2 relative paths
+- `.STATUS` - this update documenting the session
+
+**Current State:**
+- ✅ Documentation site fully deployed with v5.10.0 content
+- ✅ Both dev and main branches synchronized
+- ✅ No uncommitted changes
+- ✅ All changes pushed to remote
+- ✅ PR #255 merged successfully
+
+**Impact:**
+- Users can now see v5.10.0 features on the live documentation site
+- Site prominently displays new API docs, architecture diagrams, and developer guide
+- Branch sync ensures main reflects all post-release documentation improvements
+
+---
+
+## ✅ Completed (2026-01-15 - Afternoon):
 
 ### Worktree Detection + Cache Invalidation - v5.10.0
 
