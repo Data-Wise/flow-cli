@@ -1,9 +1,9 @@
 # Tutorial: Teaching Workflow with Teach Dispatcher
 
-> **What you'll learn:** Manage course websites with fast deployment and AI-assisted content creation
+> **What you'll learn:** Manage course websites with fast deployment, config validation, and AI-assisted content creation
 >
-> **Time:** ~15 minutes | **Level:** Beginner
-> **Version:** v5.8.0+
+> **Time:** ~20 minutes | **Level:** Beginner
+> **Version:** v5.9.0+
 
 ---
 
@@ -32,10 +32,11 @@ pwd
 By the end of this tutorial, you will:
 
 1. Initialize a teaching workflow for your course
-2. Deploy changes to production in < 2 minutes
-3. Use the branch-based draft/production workflow
-4. Generate teaching content with Scholar integration
-5. Archive semesters for future reference
+2. Understand config validation and fix common errors
+3. Deploy changes to production in < 2 minutes
+4. Use the branch-based draft/production workflow
+5. Generate teaching content with Scholar integration
+6. Archive semesters for future reference
 
 ---
 
@@ -116,9 +117,92 @@ Quick Commands:
 
 ---
 
-## Part 3: Daily Workflow
+## Part 3: Config Validation (v5.9.0+)
 
-### Step 3.1: Start Working
+Flow-cli automatically validates your `teach-config.yml` to catch errors early.
+
+### Step 3.1: Understanding Validation
+
+When you run `teach status` or any Scholar command, flow-cli validates:
+
+| Check | Example | Valid Values |
+|-------|---------|--------------|
+| **Required field** | `course.name` | Any non-empty string |
+| **Semester** | `course.semester` | `Spring`, `Summer`, `Fall`, `Winter` |
+| **Year** | `course.year` | 2020-2100 |
+| **Date format** | `semester_info.start_date` | `YYYY-MM-DD` |
+| **Level** | `scholar.course_info.level` | `undergraduate`, `graduate`, `both` |
+| **Difficulty** | `scholar.course_info.difficulty` | `beginner`, `intermediate`, `advanced` |
+| **Tone** | `scholar.style.tone` | `formal`, `conversational` |
+| **Grading** | `scholar.grading.*` | Must sum to ~100% |
+
+### Step 3.2: Check Validation Status
+
+```bash
+teach status
+```
+
+**When config is valid:**
+```
+📚 STAT 545
+📅 Spring 2026
+🎓 Level: graduate
+🔗 Scholar: configured
+✅ Config: valid
+```
+
+**When config has issues:**
+```
+📚 STAT 545
+⚠️  Config: has issues
+```
+
+### Step 3.3: See Validation Details
+
+For verbose output with specific errors:
+
+```bash
+teach status --verbose
+```
+
+**Example with errors:**
+```
+❌ Config validation failed:
+  • Invalid semester 'fall' - must be Spring, Summer, Fall, or Winter
+  • Invalid year '25' - must be between 2020 and 2100
+  • Grading percentages sum to 80% - should be ~100%
+```
+
+### Step 3.4: Hash-Based Change Detection
+
+Flow-cli uses SHA-256 hashing to skip re-validation when your config hasn't changed:
+
+```
+teach status          # First run: validates config
+teach status          # Second run: skips validation (unchanged)
+# Edit teach-config.yml
+teach status          # Re-validates (change detected)
+```
+
+This keeps commands fast even with complex validation rules.
+
+### Step 3.5: Config Ownership
+
+Your `teach-config.yml` has two owners:
+
+| Section | Owner | Purpose |
+|---------|-------|---------|
+| `course`, `semester_info`, `branches`, `deployment` | **flow-cli** | Workflow automation |
+| `scholar` | **Scholar** | AI content generation |
+| `examark`, `shortcuts` | **Shared** | Both tools can read |
+
+**Tip:** Don't manually edit `scholar` sections unless you understand Scholar's expectations.
+
+---
+
+## Part 4: Daily Workflow
+
+### Step 4.1: Start Working
 
 ```bash
 work stat-545
@@ -130,11 +214,11 @@ work stat-545
 - Loads course context
 - Opens your editor
 
-### Step 3.2: Make Edits
+### Step 4.2: Make Edits
 
 Edit your lecture notes, slides, or assignments as usual.
 
-### Step 3.3: Deploy to Production
+### Step 4.3: Deploy to Production
 
 When you're ready for students to see your changes:
 
@@ -149,7 +233,7 @@ teach deploy
 4. GitHub Actions builds the site
 5. Students see updates in < 2 minutes
 
-### Step 3.4: Check Current Week
+### Step 4.4: Check Current Week
 
 ```bash
 teach week
@@ -165,11 +249,11 @@ teach week
 
 ---
 
-## Part 4: Scholar Integration (AI Content)
+## Part 5: Scholar Integration (AI Content)
 
 The teach dispatcher wraps Scholar commands for AI-assisted content creation.
 
-### Step 4.1: Generate Exam Questions
+### Step 5.1: Generate Exam Questions
 
 ```bash
 teach exam "Midterm 1" --questions 25
@@ -180,19 +264,19 @@ teach exam "Midterm 1" --questions 25
 - Generates questions based on your course config
 - Outputs to `exams/midterm-1.md`
 
-### Step 4.2: Create Quiz
+### Step 5.2: Create Quiz
 
 ```bash
 teach quiz "Week 3" --questions 10
 ```
 
-### Step 4.3: Generate Lecture Outline
+### Step 5.3: Generate Lecture Outline
 
 ```bash
 teach lecture "Data Wrangling"
 ```
 
-### Step 4.4: Create Assignment
+### Step 5.4: Create Assignment
 
 ```bash
 teach assignment "Homework 3" --due-date "2026-01-31"
@@ -212,9 +296,9 @@ teach assignment "Homework 3" --due-date "2026-01-31"
 
 ---
 
-## Part 5: Semester Management
+## Part 6: Semester Management
 
-### Step 5.1: Archive Current Semester
+### Step 6.1: Archive Current Semester
 
 At the end of the semester:
 
@@ -227,7 +311,7 @@ teach archive
 - Preserves the semester snapshot
 - You can restore later if needed
 
-### Step 5.2: Prepare for New Semester
+### Step 6.2: Prepare for New Semester
 
 ```bash
 teach config
@@ -242,7 +326,8 @@ Update semester dates, week count, and topics for the new term.
 | Command | Purpose |
 |---------|---------|
 | `teach init "Course"` | Initialize teaching workflow |
-| `teach status` | Show course dashboard |
+| `teach status` | Show course dashboard + validation |
+| `teach status --verbose` | Show detailed validation errors |
 | `teach deploy` | Push to production |
 | `teach week` | Current week info |
 | `teach archive` | Snapshot semester |
@@ -290,6 +375,19 @@ teach config           # Update for next semester
 ---
 
 ## Troubleshooting
+
+### "Config validation failed"
+
+```bash
+# Check what's wrong
+teach status --verbose
+
+# Common fixes:
+# 1. Semester must be capitalized: Fall, not fall
+# 2. Year must be 4 digits: 2026, not 26
+# 3. Dates must be YYYY-MM-DD: 2026-01-15
+# 4. Grading percentages should sum to ~100%
+```
 
 ### "Not a teaching project"
 
