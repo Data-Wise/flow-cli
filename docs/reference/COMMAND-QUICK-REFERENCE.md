@@ -2,7 +2,7 @@
 
 > **Pattern:** `command + keyword + options`
 > **Philosophy:** One command per domain, discoverable with `help`
-> **Version:** v5.8.0 (2026-01-14)
+> **Version:** v5.9.0 (2026-01-14)
 
 ---
 
@@ -176,7 +176,8 @@ prompt --dry-run starship   # Preview Starship switch
 ```bash
 teach init "STAT 545"     # Initialize teaching workflow
 teach init -y "STAT 440"  # Non-interactive mode
-teach status              # Show project status
+teach status              # Show project status (validates config)
+teach status --verbose    # Show validation details
 teach week                # Show current week number
 teach config              # Edit teach-config.yml
 teach deploy              # Deploy draft → production
@@ -197,6 +198,23 @@ teach demo                # Demo teaching workflow
 ```
 
 **Universal Flags:** `--dry-run`, `--format`, `--output`, `--verbose`
+
+**Config Validation (v5.9.0):**
+
+```bash
+# Auto-validates teach-config.yml on:
+# - teach status (with summary)
+# - teach exam/quiz/etc (before Scholar invocation)
+
+# Validates:
+# - Required field: course.name
+# - Enum values: semester (Spring|Summer|Fall|Winter)
+# - Range: year (2020-2100)
+# - Date format: YYYY-MM-DD
+# - Grading sum (~100%)
+
+# Hash-based caching - only re-validates when config changes
+```
 
 ---
 
@@ -518,7 +536,7 @@ reload              # Reload zshrc
 | Obsidian Notes | `obs`          | `obs <action> [arg]`           |
 | Terminal       | `tm`           | `tm <action> [arg]`            |
 | Prompt (v5.7)  | `prompt`       | `prompt <action> [engine]`     |
-| Teaching       | `teach`        | `teach <action> [args]`        |
+| Teaching (v5.9)| `teach`        | `teach <action> [args]`        |
 | Sync (v4.7.0)  | `flow sync`    | `flow sync [target] [opts]`    |
 | AI Assistant   | `flow ai`      | `flow ai [--mode] "query"`     |
 | Natural Lang   | `flow do`      | `flow do "command in English"` |
@@ -547,6 +565,7 @@ reload              # Reload zshrc
 | `~/projects/dev-tools/flow-cli/lib/dispatchers/obs.zsh`             | obs (Obsidian notes)         |
 | `~/projects/dev-tools/flow-cli/lib/dispatchers/prompt-dispatcher.zsh` | prompt (engines, v5.7.0)   |
 | `~/projects/dev-tools/flow-cli/lib/dispatchers/teach-dispatcher.zsh` | teach (teaching, v5.4.1)    |
+| `~/projects/dev-tools/flow-cli/lib/config-validator.zsh`            | Config validation (v5.9.0)   |
 | `~/projects/dev-tools/flow-cli/commands/ai.zsh`                     | flow ai, flow do (v3.2.0)    |
 | `~/projects/dev-tools/flow-cli/commands/install.zsh`                | flow install (v3.2.0)        |
 | `~/projects/dev-tools/flow-cli/commands/upgrade.zsh`                | flow upgrade (v3.2.0)        |
@@ -559,4 +578,4 @@ reload              # Reload zshrc
 
 ---
 
-_Updated: 2026-01-14 (v5.8.0)_
+_Updated: 2026-01-14 (v5.9.0)_

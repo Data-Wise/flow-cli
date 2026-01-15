@@ -1,7 +1,7 @@
 # flow-cli Architecture
 
-**Version:** v5.5.0
-**Last Updated:** 2026-01-13
+**Version:** v5.9.0
+**Last Updated:** 2026-01-14
 
 ---
 
@@ -194,6 +194,111 @@ graph TB
 | Team Sharing | No | Yes |
 | Cross-device | iCloud Keychain | Cloud sync |
 | Session timeout | None (auto-lock) | 15 minutes |
+
+---
+
+## Config Validation Architecture (v5.9.0)
+
+```mermaid
+graph TB
+    subgraph "Config Files"
+        YAML[teach-config.yml]
+        Schema[teach-config.schema.json]
+    end
+
+    subgraph "Validation Layer"
+        Validator[_teach_validate_config]
+        HashCheck[_flow_config_hash]
+        Cache[Hash Cache]
+    end
+
+    subgraph "Validation Rules"
+        Required[Required Fields]
+        Enum[Enum Validation]
+        Range[Range Validation]
+        Sum[Grading Sum Check]
+    end
+
+    subgraph "Consumers"
+        Status[teach status]
+        Exam[teach exam]
+        Quiz[teach quiz]
+    end
+
+    YAML --> Validator
+    Schema --> Validator
+    Validator --> Required
+    Validator --> Enum
+    Validator --> Range
+    Validator --> Sum
+
+    YAML --> HashCheck
+    HashCheck --> Cache
+
+    Status --> Validator
+    Exam --> Validator
+    Quiz --> Validator
+```
+
+### Validation Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant teach
+    participant Validator
+    participant Schema
+    participant Cache
+
+    User->>teach: teach exam "Topic"
+    teach->>Validator: _teach_validate_config()
+    Validator->>Cache: _flow_config_changed()
+    alt Config Changed
+        Cache-->>Validator: changed (0)
+        Validator->>Schema: Validate against schema
+        Schema-->>Validator: validation result
+        Validator->>Cache: Update hash
+    else Config Unchanged
+        Cache-->>Validator: unchanged (1)
+        Validator-->>teach: Use cached result
+    end
+    teach->>User: Proceed or show errors
+```
+
+### Config Ownership Protocol
+
+```mermaid
+graph LR
+    subgraph "flow-cli Owns"
+        Course[course]
+        Semester[semester_info]
+        Branches[branches]
+        Deploy[deployment]
+    end
+
+    subgraph "Scholar Owns"
+        ScholarInfo[scholar.course_info]
+        Style[scholar.style]
+        Topics[scholar.topics]
+        Grading[scholar.grading]
+    end
+
+    subgraph "Shared"
+        Examark[examark]
+        Shortcuts[shortcuts]
+    end
+
+    Course --> Config[teach-config.yml]
+    Semester --> Config
+    Branches --> Config
+    Deploy --> Config
+    ScholarInfo --> Config
+    Style --> Config
+    Topics --> Config
+    Grading --> Config
+    Examark --> Config
+    Shortcuts --> Config
+```
 
 ---
 

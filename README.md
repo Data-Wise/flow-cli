@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-5.5.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
+[![Version](https://img.shields.io/badge/version-5.9.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -176,12 +176,15 @@ Each dispatcher has built-in help: `cc help`, `dot help`, `r help`, etc.
 **✨ New in v4.8.0:** Unified grammar - both `cc opus pick` AND `cc pick opus` work identically!
 **✨ New in v5.0.0:** Dotfile management with `dot` dispatcher
 **✨ New in v5.5.0:** macOS Keychain secrets with Touch ID - instant access, no unlock needed!
+**✨ New in v5.9.0:** Schema-based config validation with hash-based caching for teaching workflows!
 
 ---
 
-## 🎓 Teaching Workflow (v5.3.0)
+## 🎓 Teaching Workflow (v5.3.0+)
 
 **Deployment-focused workflow for course websites.** Solve the 5-15 minute deployment pain point.
+
+**v5.9.0:** Now with schema-based config validation and Scholar AI integration!
 
 ```bash
 # Initialize teaching workflow (with semester scheduling)
@@ -212,6 +215,17 @@ work stat-545
 - ✅ **Week Calculation** - Auto-calculates week number from semester start date
 - ✅ **Automation Scripts** - One-command deployment and archival
 - ✅ **Semester Management** - Easy semester transitions with archival tags
+- ✅ **Config Validation** (v5.9.0) - Schema-based validation with hash caching
+- ✅ **Scholar Integration** (v5.8.0+) - AI-powered exam/quiz/slides generation
+
+**Scholar AI Commands (v5.8.0+):**
+
+```bash
+teach exam "Hypothesis Testing"  # Generate exam via Scholar plugin
+teach quiz "Chapter Review"      # Generate quiz
+teach slides "Regression"        # Generate lecture slides
+teach --dry-run exam "Topic"     # Preview without writing files
+```
 
 **Learn More:**
 
