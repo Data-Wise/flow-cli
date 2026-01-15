@@ -71,6 +71,7 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - 📚 Documentation Hub: DOC-INDEX.md
   - Getting Started:
       - 🎯 Choose Your Path: getting-started/choose-your-path.md
       - ⚡ Quick Start (5-min): getting-started/quick-start.md
@@ -155,6 +156,8 @@ nav:
           - Workspace Audit: reference/WORKSPACE-AUDIT-GUIDE.md
       - Deep Dives:
           - Architecture: reference/ARCHITECTURE.md
+          - 🎨 Architecture Diagrams: diagrams/ARCHITECTURE-DIAGRAMS.md
+          - 📘 API Complete Reference: reference/API-COMPLETE.md
           - API Reference: reference/API-REFERENCE.md
           - ADHD Helpers Map: reference/ADHD-HELPERS-FUNCTION-MAP.md
           - Command Patterns: reference/CLI-COMMAND-PATTERNS-RESEARCH.md
@@ -190,6 +193,7 @@ nav:
       - Interactive Test Guide: testing/INTERACTIVE-TEST-GUIDE.md
       - Testing Quick Ref: reference/TESTING-QUICK-REF.md
   - Development:
+      - 🛠️ Developer Guide: guides/DEVELOPER-GUIDE.md
       - Contributing: contributing/CONTRIBUTING.md
       - Branch Workflow: contributing/BRANCH-WORKFLOW.md
       - PR Workflow Guide: contributing/PR-WORKFLOW-GUIDE.md
