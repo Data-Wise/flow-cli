@@ -1,0 +1,147 @@
+#compdef teach
+
+# Completion for teach command - teaching workflow dispatcher
+# Includes Scholar wrapper commands for AI-assisted content generation
+
+_teach() {
+  local -a subcommands
+  local -a scholar_flags
+  local -a formats
+
+  # All subcommands (Scholar wrappers + local commands)
+  subcommands=(
+    # Scholar wrapper commands (invoke Claude + Scholar plugin)
+    'exam:Generate exam questions via Scholar'
+    'e:Generate exam (alias)'
+    'quiz:Generate quiz questions via Scholar'
+    'q:Generate quiz (alias)'
+    'slides:Generate presentation slides via Scholar'
+    'sl:Generate slides (alias)'
+    'lecture:Generate lecture notes via Scholar'
+    'lec:Generate lecture (alias)'
+    'assignment:Generate homework assignment via Scholar'
+    'hw:Generate assignment (alias)'
+    'syllabus:Generate course syllabus via Scholar'
+    'syl:Generate syllabus (alias)'
+    'rubric:Generate grading rubric via Scholar'
+    'rb:Generate rubric (alias)'
+    'feedback:Generate student feedback via Scholar'
+    'fb:Generate feedback (alias)'
+    'demo:Create demo course materials via Scholar'
+    # Local commands (no Claude needed)
+    'init:Initialize teaching workflow'
+    'i:Initialize (alias)'
+    'deploy:Deploy draft → production branch'
+    'd:Deploy (alias)'
+    'archive:Archive semester and create tag'
+    'a:Archive (alias)'
+    'config:Edit .flow/teach-config.yml'
+    'c:Config (alias)'
+    'status:Show teaching project status'
+    's:Status (alias)'
+    'week:Show current week number'
+    'w:Week (alias)'
+    'help:Show help message'
+  )
+
+  # Universal flags for Scholar commands
+  scholar_flags=(
+    '--dry-run[Preview output without saving]'
+    '--format[Output format]:format:(markdown quarto latex qti json)'
+    '--output[Custom output path]:path:_files'
+    '--verbose[Show Scholar command being executed]'
+    '--help[Show command help]'
+  )
+
+  # Output formats
+  formats=(markdown quarto latex qti json)
+
+  _arguments -C \
+    '1:subcommand:->subcommand' \
+    '*::arg:->args' \
+  && return 0
+
+  case "$state" in
+    subcommand)
+      _describe -t subcommands 'teach subcommand' subcommands
+      ;;
+    args)
+      case "$line[1]" in
+        # Scholar commands with topic argument
+        exam|e)
+          _arguments \
+            '1:topic:' \
+            '--questions[Number of questions]:number:' \
+            '--duration[Time limit in minutes]:minutes:' \
+            '--types[Question types (mc,sa,essay,calc)]:types:' \
+            $scholar_flags
+          ;;
+        quiz|q)
+          _arguments \
+            '1:topic:' \
+            '--questions[Number of questions]:number:' \
+            '--time-limit[Time limit in minutes]:minutes:' \
+            $scholar_flags
+          ;;
+        slides|sl)
+          _arguments \
+            '1:topic:' \
+            '--theme[Slide theme]:theme:(default academic minimal)' \
+            '--from-lecture[Generate from lecture file]:file:_files' \
+            $scholar_flags
+          ;;
+        lecture|lec)
+          _arguments \
+            '1:topic:' \
+            '--outline[Generate outline only]' \
+            '--notes[Include speaker notes]' \
+            '--from-plan[Generate from lesson plan]:week:' \
+            $scholar_flags
+          ;;
+        assignment|hw)
+          _arguments \
+            '1:topic:' \
+            '--due-date[Due date (YYYY-MM-DD)]:date:' \
+            '--points[Total points]:points:' \
+            $scholar_flags
+          ;;
+        syllabus|syl)
+          _arguments \
+            $scholar_flags
+          ;;
+        rubric|rb)
+          _arguments \
+            '1:assignment name:' \
+            '--criteria[Number of criteria]:number:' \
+            $scholar_flags
+          ;;
+        feedback|fb)
+          _arguments \
+            '1:student work:_files' \
+            '--tone[Feedback tone]:tone:(supportive direct detailed)' \
+            $scholar_flags
+          ;;
+        demo)
+          _arguments \
+            '--course-name[Course name]:name:' \
+            '--force[Overwrite existing demo files]'
+          ;;
+        # Local commands
+        init|i)
+          _arguments \
+            '1:course name:' \
+            '-y[Non-interactive mode]' \
+            '--yes[Non-interactive mode]'
+          ;;
+        deploy|d|archive|a)
+          # No additional arguments
+          ;;
+        config|c|status|s|week|w|help)
+          # No additional arguments
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_teach "$@"

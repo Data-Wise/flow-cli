@@ -1,0 +1,21 @@
+#compdef prompt
+
+# Tab completion for prompt dispatcher
+# Usage: prompt [subcommand]
+
+_prompt_completions() {
+    local -a subcommands
+    subcommands=(
+        "status:Show current engine and alternatives"
+        "toggle:Switch to another engine (interactive)"
+        "starship:Switch to Starship"
+        "p10k:Switch to Powerlevel10k"
+        "ohmyposh:Switch to Oh My Posh"
+        "list:List all available engines"
+        "help:Display help information"
+    )
+
+    _describe 'prompt subcommand' subcommands
+}
+
+_prompt_completions

@@ -1,6 +1,10 @@
 # {{COURSE_NAME}} Teaching Configuration
-# Version: 2.0 (Increment 3 - Exam Workflow)
+# Version: 3.0 (Scholar Integration)
 # Generated: {{GENERATED_DATE}}
+
+# =============================================================================
+# COURSE INFORMATION (flow-cli)
+# =============================================================================
 
 course:
   name: "{{COURSE_NAME}}"
@@ -9,11 +13,15 @@ course:
   year: {{YEAR}}
   instructor: "{{INSTRUCTOR}}"
 
-# Semester schedule (Increment 2)
+# Semester schedule
 semester_info:
   start_date: "{{START_DATE}}"  # YYYY-MM-DD format
   end_date: "{{END_DATE}}"      # YYYY-MM-DD format (auto-calculated: 16 weeks)
 {{BREAKS_CONFIG}}
+
+# =============================================================================
+# DEPLOYMENT (flow-cli)
+# =============================================================================
 
 branches:
   draft: "draft"
@@ -28,15 +36,58 @@ deployment:
 automation:
   quick_deploy: "scripts/quick-deploy.sh"
 
-# Exam Workflow (Increment 3 - Optional)
-# Install examark: npm install -g examark
+# =============================================================================
+# SCHOLAR INTEGRATION (for AI-powered content generation)
+# Used by: /teaching:exam, /teaching:quiz, /teaching:slides, etc.
+# Docs: https://github.com/Data-Wise/scholar
+# =============================================================================
+
+scholar:
+  # Course metadata for content generation
+  course_info:
+    level: "{{COURSE_LEVEL}}"           # undergraduate / graduate / both
+    field: "{{FIELD}}"                   # statistics / mathematics / computer-science / etc.
+    difficulty: "{{DIFFICULTY}}"         # beginner / intermediate / advanced
+    credits: {{CREDITS}}                 # Number of credit hours
+
+  # Teaching style preferences
+  style:
+    tone: "formal"                       # formal / conversational
+    notation: "statistical"              # statistical / mathematical / standard
+    examples: true                       # Include worked examples in generated content
+
+  # Course topics (used for exam scope auto-population)
+  topics:
+    - "{{TOPIC_1}}"
+    - "{{TOPIC_2}}"
+    - "{{TOPIC_3}}"
+    # Add more topics as needed
+
+  # Grade distribution (for syllabus generation)
+  grading:
+    homework: 20
+    quizzes: 15
+    midterm1: 15
+    midterm2: 15
+    final: 25
+    participation: 10
+
+# =============================================================================
+# EXAMARK (Optional - for exam rendering)
+# Install: npm install -g examark
 # Enable: yq -i '.examark.enabled = true' .flow/teach-config.yml
+# =============================================================================
+
 examark:
   enabled: false              # Set to true after installing examark
   exam_dir: "exams"
   question_bank: "exams/questions"
   default_duration: 120       # Minutes
   default_points: 100
+
+# =============================================================================
+# SHORTCUTS
+# =============================================================================
 
 shortcuts:
   {{COURSE_SLUG}}: "work {{COURSE_SLUG}}"
