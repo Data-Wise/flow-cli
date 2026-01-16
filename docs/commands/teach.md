@@ -20,6 +20,76 @@ teach deploy
 
 ---
 
+## Git Workflow Overview (v5.12.0)
+
+The teaching workflow integrates with Git across 5 phases:
+
+```mermaid
+flowchart TD
+    A[Phase 1: Generate Content] --> B{Post-Generation Menu}
+    B -->|Option 1| C[Review in Editor]
+    B -->|Option 2| D[Auto-Commit Now]
+    B -->|Option 3| E[Skip Commit]
+
+    C --> F[Manual Commit]
+    D --> G[Git Committed]
+    F --> G
+
+    G --> H[Phase 3: Check Status]
+    H --> I{Uncommitted Files?}
+    I -->|Yes| J[Commit/Stash/Diff]
+    I -->|No| K[Phase 2: Deploy]
+
+    J --> K
+    K --> L[Create PR: draft → main]
+
+    M[Phase 4: Teaching Mode] -.->|auto_commit=true| D
+    N[Phase 5: Git Init] -.->|Setup| A
+
+    style D fill:#90EE90
+    style M fill:#FFD700
+    style N fill:#87CEEB
+```
+
+**Key Integration Points:**
+
+- **Phase 1**: Smart post-generation workflow (3-option menu)
+- **Phase 2**: Deployment automation (PR creation)
+- **Phase 3**: Git-aware status (uncommitted file tracking)
+- **Phase 4**: Teaching mode (streamlined auto-commit)
+- **Phase 5**: Repository initialization (complete git setup)
+
+**Workflow Diagram:**
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant teach
+    participant Git
+    participant GitHub
+
+    User->>teach: teach exam "Midterm 1"
+    teach->>teach: Generate exams/midterm1.qmd
+    teach->>User: Show 3-option menu
+    User->>teach: Choose option 2 (commit now)
+    teach->>Git: Commit with message
+    Git-->>teach: Committed successfully
+
+    User->>teach: teach status
+    teach->>Git: Check uncommitted files
+    Git-->>teach: List uncommitted files
+    teach-->>User: Show status + menu
+
+    User->>teach: teach deploy
+    teach->>Git: Pre-flight checks
+    Git-->>teach: All checks passed
+    teach->>GitHub: Create PR (draft → main)
+    GitHub-->>teach: PR created
+    teach-->>User: PR URL
+```
+
+---
+
 ## Synopsis
 
 ```bash
