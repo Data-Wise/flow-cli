@@ -1323,6 +1323,118 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/15-nvim-quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Nvim Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/16-vim-motions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Vim Motions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/17-lazyvim-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. LazyVim Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/18-lazyvim-showcase/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. LazyVim Showcase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2900,6 +3012,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/NVIM-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nvim Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/PROMPT-DISPATCHER-REFCARD/" class="md-nav__link">
         
   
@@ -3792,6 +3932,17 @@
     <span class="md-ellipsis">
       
         Custom Editor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#learning-nvim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning Nvim
       
     </span>
   </a>
@@ -5208,6 +5359,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#learning-nvim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning Nvim
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -5317,7 +5479,7 @@
 <tr>
 <td><code>editor</code></td>
 <td>Editor to open</td>
-<td><code>$EDITOR</code> or <code>code</code></td>
+<td><code>$EDITOR</code> or <code>nvim</code></td>
 </tr>
 </tbody>
 </table>
@@ -5329,7 +5491,7 @@
 <li><strong>Changes to project directory</strong> - <code>cd</code> to the project root</li>
 <li><strong>Starts a session</strong> - Records session start time in atlas</li>
 <li><strong>Shows context</strong> - Displays project type, status, and focus</li>
-<li><strong>Opens your editor</strong> - Launches VS Code, Cursor, Vim, Emacs, etc.</li>
+<li><strong>Opens your editor</strong> - Launches nvim by default, or your configured editor (VS Code, Cursor, Emacs, etc.)</li>
 </ol>
 <hr />
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
@@ -5390,19 +5552,24 @@
 </thead>
 <tbody>
 <tr>
+<td><strong>Nvim</strong></td>
+<td><code>nvim</code></td>
+<td><strong>Default if <code>$EDITOR</code> not set</strong> (recommended)</td>
+</tr>
+<tr>
+<td>Vim</td>
+<td><code>vim</code></td>
+<td>Classic vi-compatible editor</td>
+</tr>
+<tr>
 <td>VS Code</td>
 <td><code>code</code></td>
-<td>Default if <code>$EDITOR</code> not set</td>
+<td>Microsoft Visual Studio Code</td>
 </tr>
 <tr>
 <td>Cursor</td>
 <td><code>cursor</code></td>
 <td>AI-powered VS Code fork</td>
-</tr>
-<tr>
-<td>Vim/Neovim</td>
-<td><code>vim</code>, <code>nvim</code></td>
-<td>Opens in terminal</td>
 </tr>
 <tr>
 <td>Emacs</td>
@@ -5423,6 +5590,61 @@
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Or specify per-session</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>work<span class="w"> </span>my-project<span class="w"> </span><span class="s2">&quot;code-insiders&quot;</span>
 </code></pre></div>
+<h3 id="learning-nvim">Learning Nvim<a class="headerlink" href="#learning-nvim" title="Permanent link">&para;</a></h3>
+<p><strong>New to nvim?</strong> Flow-cli uses nvim as the default editor, and we've created a comprehensive learning path for beginners:</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Time</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../tutorials/15-nvim-quick-start/">Tutorial 15: Nvim Quick Start</a></td>
+<td>10 min</td>
+<td>Survival guide - essential commands to get started</td>
+</tr>
+<tr>
+<td><a href="../../tutorials/16-vim-motions/">Tutorial 16: Vim Motions</a></td>
+<td>15 min</td>
+<td>Efficient navigation and editing</td>
+</tr>
+<tr>
+<td><a href="../../tutorials/17-lazyvim-basics/">Tutorial 17: LazyVim Basics</a></td>
+<td>15 min</td>
+<td>Essential plugins (Neo-tree, Telescope, splits)</td>
+</tr>
+<tr>
+<td><a href="../../tutorials/18-lazyvim-showcase/">Tutorial 18: LazyVim Showcase</a></td>
+<td>30 min</td>
+<td>Full feature tour (LSP, Mason, customization)</td>
+</tr>
+<tr>
+<td><a href="../../reference/NVIM-QUICK-REFERENCE/">Nvim Quick Reference</a></td>
+<td>-</td>
+<td>1-page printable reference card</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interactive tutorial:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Hands-on guided practice with checkpoints</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>flow<span class="w"> </span>nvim-tutorial
+</code></pre></div>
+<p><strong>Total learning time:</strong> ~70 minutes from zero to productive</p>
+<div class="admonition tip">
+<p class="admonition-title">Why Nvim?</p>
+<p>Nvim integrates seamlessly with flow-cli commands:</p>
+<ul>
+<li><code>mcp edit &lt;server&gt;</code> - Edit MCP configs</li>
+<li><code>dot edit &lt;file&gt;</code> - Edit dotfiles</li>
+<li><code>r edit</code> - Edit R package files</li>
+<li>Works in SSH, tmux, and terminal sessions</li>
+<li>Extremely fast and lightweight</li>
+<li>LazyVim provides modern IDE features</li>
+</ul>
+</div>
 <hr />
 <h2 id="related-commands">Related Commands<a class="headerlink" href="#related-commands" title="Permanent link">&para;</a></h2>
 <table>
