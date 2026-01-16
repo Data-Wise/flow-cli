@@ -16,6 +16,13 @@ if [[ -z "$_FLOW_CONFIG_VALIDATOR_LOADED" ]]; then
     typeset -g _FLOW_CONFIG_VALIDATOR_LOADED=1
 fi
 
+# Source git helpers for teaching workflow integration (v5.11.0+)
+if [[ -z "$_FLOW_GIT_HELPERS_LOADED" ]]; then
+    local git_helpers_path="${0:A:h:h}/git-helpers.zsh"
+    [[ -f "$git_helpers_path" ]] && source "$git_helpers_path"
+    typeset -g _FLOW_GIT_HELPERS_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -202,11 +209,13 @@ _teach_build_command() {
 }
 
 # Execute Scholar command via Claude
-# Usage: _teach_execute <scholar_cmd> [verbose] [subcommand]
+# Usage: _teach_execute <scholar_cmd> [verbose] [subcommand] [topic] [full_command]
 _teach_execute() {
     local scholar_cmd="$1"
     local verbose="${2:-false}"
     local subcommand="${3:-}"
+    local topic="${4:-}"
+    local full_command="${5:-}"
 
     if [[ "$verbose" == "true" ]]; then
         echo "🔧 Executing: claude --print \"$scholar_cmd\""
@@ -245,7 +254,7 @@ _teach_execute() {
 
     # Run post-generation hooks if successful
     if [[ $exit_code -eq 0 ]]; then
-        _teach_post_generation_hooks "$subcommand" "$output"
+        _teach_post_generation_hooks "$subcommand" "$output" "$topic" "$full_command"
     fi
 
     return $exit_code
@@ -258,10 +267,12 @@ _teach_execute() {
 # Run after Scholar generates content
 # - Auto-stage generated files
 # - Update .STATUS file
-# - Show summary notification
+# - Interactive commit workflow (Phase 1 - v5.11.0+)
 _teach_post_generation_hooks() {
     local subcommand="$1"
     local output="$2"
+    local topic="${3:-}"
+    local full_command="${4:-}"
 
     # Extract generated file paths from output (if Scholar outputs them)
     local -a generated_files=()
@@ -306,7 +317,170 @@ _teach_post_generation_hooks() {
     if [[ ${#generated_files[@]} -gt 0 ]]; then
         echo ""
         echo "${FLOW_COLORS[success]}📝 Generated ${#generated_files[@]} file(s)${FLOW_COLORS[reset]}"
-        echo "  Next: Review and 'teach deploy' when ready"
+
+        # Phase 1 (v5.11.0+): Interactive commit workflow
+        # Only prompt if we're in a git repo and have files staged
+        if _git_in_repo && [[ ${#generated_files[@]} -gt 0 ]]; then
+            _teach_interactive_commit_workflow "$subcommand" "$topic" "$full_command" "${generated_files[@]}"
+        else
+            echo "  Next: Review and 'teach deploy' when ready"
+        fi
+    fi
+}
+
+# ============================================================================
+# INTERACTIVE COMMIT WORKFLOW (Phase 1 - v5.11.0+)
+# ============================================================================
+
+# Interactive commit workflow after content generation
+# Usage: _teach_interactive_commit_workflow <subcommand> <topic> <full_command> <file1> [file2...]
+_teach_interactive_commit_workflow() {
+    local subcommand="$1"
+    local topic="$2"
+    local full_command="$3"
+    shift 3
+    local -a files=("$@")
+
+    # Get course info from teach-config.yml
+    local course_name semester year
+    course_name=$(yq '.course.name // ""' teach-config.yml 2>/dev/null)
+    semester=$(yq '.course.semester // ""' teach-config.yml 2>/dev/null)
+    year=$(yq '.course.year // ""' teach-config.yml 2>/dev/null)
+
+    # Fallback if config doesn't exist or yq not available
+    [[ -z "$course_name" ]] && course_name="Teaching Project"
+    [[ -z "$semester" ]] && semester="N/A"
+    [[ -z "$year" ]] && year=$(date +%Y)
+
+    # Show next steps prompt
+    echo ""
+    echo "${FLOW_COLORS[info]}📝 Next steps:${FLOW_COLORS[reset]}"
+    echo "   1. Review content (opens in \$EDITOR)"
+    echo "   2. Commit to git"
+    echo ""
+
+    # Use AskUserQuestion for interactive prompt
+    # Note: This is implemented using read for now, will be enhanced with proper AskUserQuestion integration
+    echo "${FLOW_COLORS[prompt]}Review and commit this content?${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  ${FLOW_COLORS[dim]}[1]${FLOW_COLORS[reset]} Review in editor first (Recommended)"
+    echo "  ${FLOW_COLORS[dim]}[2]${FLOW_COLORS[reset]} Commit now with auto-generated message"
+    echo "  ${FLOW_COLORS[dim]}[3]${FLOW_COLORS[reset]} Skip commit (I'll do it manually)"
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}Your choice [1-3]:${FLOW_COLORS[reset]} "
+
+    read -r choice
+
+    case "$choice" in
+        1)
+            # Review in editor workflow
+            _teach_review_then_commit "$subcommand" "$topic" "$full_command" "$course_name" "$semester" "$year" "${files[@]}"
+            ;;
+        2)
+            # Commit now workflow
+            _teach_commit_now "$subcommand" "$topic" "$full_command" "$course_name" "$semester" "$year" "${files[@]}"
+            ;;
+        3|*)
+            # Skip commit
+            echo ""
+            echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} File(s) staged. Commit manually when ready."
+            echo "  ${FLOW_COLORS[dim]}Tip: Use 'g commit' or standard git commands${FLOW_COLORS[reset]}"
+            ;;
+    esac
+}
+
+# Review in editor then commit workflow
+_teach_review_then_commit() {
+    local subcommand="$1"
+    local topic="$2"
+    local full_command="$3"
+    local course_name="$4"
+    local semester="$5"
+    local year="$6"
+    shift 6
+    local -a files=("$@")
+
+    echo ""
+    echo "${FLOW_COLORS[info]}Opening file(s) in editor...${FLOW_COLORS[reset]}"
+
+    # Determine editor (respect $EDITOR, fallback to nvim/vim/nano)
+    local editor="${EDITOR:-nvim}"
+    command -v "$editor" &>/dev/null || editor="vim"
+    command -v "$editor" &>/dev/null || editor="nano"
+
+    # Open first file in editor (blocking)
+    "$editor" "${files[1]}"
+
+    # After editor closes, re-prompt for commit
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}Ready to commit? [Y/n]:${FLOW_COLORS[reset]} "
+    read -r confirm
+
+    case "$confirm" in
+        n|N|no|No|NO)
+            echo ""
+            echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} File(s) staged. Commit manually when ready."
+            ;;
+        *)
+            # Proceed with commit
+            _teach_commit_now "$subcommand" "$topic" "$full_command" "$course_name" "$semester" "$year" "${files[@]}"
+            ;;
+    esac
+}
+
+# Commit now with auto-generated message workflow
+_teach_commit_now() {
+    local subcommand="$1"
+    local topic="$2"
+    local full_command="$3"
+    local course_name="$4"
+    local semester="$5"
+    local year="$6"
+    shift 6
+    local -a files=("$@")
+
+    # Generate commit message using git-helpers
+    local commit_msg
+    commit_msg=$(_git_teaching_commit_message "$subcommand" "$topic" "$full_command" "$course_name" "$semester" "$year")
+
+    # Show commit message preview
+    echo ""
+    echo "${FLOW_COLORS[info]}Commit message:${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo "$commit_msg"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo ""
+
+    # Commit the staged changes
+    if _git_commit_teaching_content "$commit_msg"; then
+        echo ""
+
+        # Ask about pushing to remote
+        echo -n "${FLOW_COLORS[prompt]}Push to remote? [y/N]:${FLOW_COLORS[reset]} "
+        read -r push_confirm
+
+        case "$push_confirm" in
+            y|Y|yes|Yes|YES)
+                echo ""
+                if _git_push_current_branch; then
+                    echo ""
+                    echo "${FLOW_COLORS[success]}✅ Changes committed and pushed!${FLOW_COLORS[reset]}"
+                else
+                    echo ""
+                    echo "${FLOW_COLORS[warn]}⚠️  Committed locally but push failed${FLOW_COLORS[reset]}"
+                    echo "  ${FLOW_COLORS[dim]}Run 'g push' manually when ready${FLOW_COLORS[reset]}"
+                fi
+                ;;
+            *)
+                echo ""
+                echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Committed locally"
+                echo "  ${FLOW_COLORS[dim]}Run 'g push' to push to remote${FLOW_COLORS[reset]}"
+                ;;
+        esac
+    else
+        echo ""
+        echo "${FLOW_COLORS[error]}✗ Failed to commit${FLOW_COLORS[reset]}"
+        echo "  ${FLOW_COLORS[dim]}Check git status and try again${FLOW_COLORS[reset]}"
     fi
 }
 
@@ -367,8 +541,11 @@ _teach_scholar_wrapper() {
     local scholar_cmd
     scholar_cmd=$(_teach_build_command "$subcommand" "${args[@]}") || return 1
 
+    # Build full command string for commit message (v5.11.0+)
+    local full_command="teach $subcommand ${args[*]}"
+
     # Execute with subcommand for spinner message
-    _teach_execute "$scholar_cmd" "$verbose" "$subcommand"
+    _teach_execute "$scholar_cmd" "$verbose" "$subcommand" "$topic" "$full_command"
 }
 
 # Lecture from lesson plan (special workflow)
