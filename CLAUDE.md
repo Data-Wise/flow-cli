@@ -786,7 +786,68 @@ workflow:
 ✓ Conflicts detected before PR creation
 ✓ Interactive prompts for all critical decisions
 
-**Next Phase:** Phase 3 - Git-Aware teach status (1-2 hours)
+---
+
+#### ✅ Phase 3 Complete: Git-Aware teach status (1-2 hours)
+
+**What Was Delivered:**
+
+- [x] Enhanced `teach status` with git status section
+- [x] Smart filtering of teaching-related files (exams/, slides/, etc.)
+- [x] Color-coded status indicators (M/A/D/??)
+- [x] Interactive cleanup workflow (4 options)
+- [x] Auto-generated commit messages with course context
+- [x] Stash support with timestamps
+- [x] View diff before deciding
+- [x] All syntax tests passing
+
+**New Functions:**
+
+```bash
+# Git Cleanup (lib/dispatchers/teach-dispatcher.zsh)
+_teach_git_cleanup_prompt()      # Interactive menu (4 options)
+_teach_git_commit_files()        # Commit with auto-message
+_teach_git_stash_files()         # Stash with timestamp
+_teach_git_view_diff()           # Show diff for files
+```
+
+**Interactive Workflow:**
+
+```
+teach status
+  ↓
+🔧 Git Status
+  ⚠️ 3 uncommitted changes (teaching content)
+    M  exams/exam01.qmd
+    A  slides/week03-slides.qmd
+    M  assignments/hw02.md
+  ↓
+❓ Clean up uncommitted changes?
+  [1] Commit teaching files (Recommended)
+  [2] Stash teaching files
+  [3] View diff first
+  [4] Leave as-is
+```
+
+**Commit Message Example:**
+
+```
+teach: update teaching content
+
+Modified files: exams/exam01.qmd, slides/week03-slides.qmd
+Course: STAT 545 (Fall 2024)
+
+Generated via: teach status cleanup
+```
+
+**Success Criteria:**
+
+✓ teach status shows uncommitted teaching files
+✓ Interactive prompts guide cleanup (4 options)
+✓ Zero manual git commands needed
+✓ Smart filtering (teaching content only)
+
+**Next Phase:** Phase 4 - Teaching Mode (3-4 hours)
 
 ---
 
