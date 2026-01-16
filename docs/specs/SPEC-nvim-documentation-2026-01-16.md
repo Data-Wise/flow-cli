@@ -5,6 +5,7 @@
 **Target Release:** v5.11.0
 **Effort Estimate:** 18-22 hours
 **Priority:** High
+**Worktree:** `~/.git-worktrees/flow-cli/nvim-documentation`
 
 ---
 

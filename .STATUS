@@ -15,7 +15,8 @@
 ### Nvim/LazyVim Documentation & Integration - v5.11.0
 
 **Spec:** `docs/specs/SPEC-nvim-documentation-2026-01-16.md`
-**Branch:** `feature/nvim-documentation` (to be created)
+**Branch:** `feature/nvim-documentation`
+**Worktree:** `~/.git-worktrees/flow-cli/nvim-documentation`
 **Effort:** 18-22 hours
 
 **Goal:** Comprehensive nvim/LazyVim documentation for complete beginners
