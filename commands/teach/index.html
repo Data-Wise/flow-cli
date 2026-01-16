@@ -3968,10 +3968,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#daily-workflow" class="md-nav__link">
+  <a href="#daily-workflow-with-git-integration-v5120" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Daily Workflow
+        Daily Workflow with Git Integration (v5.12.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teaching-mode-workflow-v5120" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teaching Mode Workflow (v5.12.0)
       
     </span>
   </a>
@@ -3990,10 +4001,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#create-exam" class="md-nav__link">
+  <a href="#content-creation-examples-v5120" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Create Exam
+        Content Creation Examples (v5.12.0)
       
     </span>
   </a>
@@ -5243,10 +5254,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#daily-workflow" class="md-nav__link">
+  <a href="#daily-workflow-with-git-integration-v5120" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Daily Workflow
+        Daily Workflow with Git Integration (v5.12.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teaching-mode-workflow-v5120" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teaching Mode Workflow (v5.12.0)
       
     </span>
   </a>
@@ -5265,10 +5287,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#create-exam" class="md-nav__link">
+  <a href="#content-creation-examples-v5120" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Create Exam
+        Content Creation Examples (v5.12.0)
       
     </span>
   </a>
@@ -5454,17 +5476,37 @@
 <tr>
 <td><code>init [name]</code></td>
 <td><code>i</code></td>
-<td>Initialize teaching workflow</td>
+<td>Initialize teaching workflow (with git)</td>
 </tr>
 <tr>
 <td><code>exam [name]</code></td>
 <td><code>e</code></td>
-<td>Create exam/quiz</td>
+<td>Create exam (with auto-commit)</td>
+</tr>
+<tr>
+<td><code>quiz [name]</code></td>
+<td><code>q</code></td>
+<td>Create quiz (with auto-commit)</td>
+</tr>
+<tr>
+<td><code>slides [name]</code></td>
+<td><code>sl</code></td>
+<td>Create slides (with auto-commit)</td>
+</tr>
+<tr>
+<td><code>lecture [name]</code></td>
+<td><code>l</code></td>
+<td>Create lecture notes (with auto-commit)</td>
+</tr>
+<tr>
+<td><code>assignment [name]</code></td>
+<td><code>as</code></td>
+<td>Create assignment (with auto-commit)</td>
 </tr>
 <tr>
 <td><code>deploy</code></td>
 <td><code>d</code></td>
-<td>Deploy draft → production</td>
+<td>Deploy draft → production (creates PR)</td>
 </tr>
 <tr>
 <td><code>archive</code></td>
@@ -5479,7 +5521,7 @@
 <tr>
 <td><code>status</code></td>
 <td><code>s</code></td>
-<td>Show project status</td>
+<td>Show project status + git changes</td>
 </tr>
 <tr>
 <td><code>week</code></td>
@@ -5496,38 +5538,102 @@
 <hr />
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="initialize-a-new-course">Initialize a New Course<a class="headerlink" href="#initialize-a-new-course" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Interactive mode (prompts for options)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Interactive mode (prompts for options, initializes git)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Non-interactive mode (uses safe defaults)</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Preview migration plan without changes</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>teach<span class="w"> </span>init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Skip git initialization (v5.12.0)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>teach<span class="w"> </span>init<span class="w"> </span>--no-git<span class="w"> </span><span class="s2">&quot;TEST 101&quot;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Preview migration plan without changes</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>teach<span class="w"> </span>init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
 </code></pre></div>
-<h3 id="daily-workflow">Daily Workflow<a class="headerlink" href="#daily-workflow" title="Permanent link">&para;</a></h3>
+<h3 id="daily-workflow-with-git-integration-v5120">Daily Workflow with Git Integration (v5.12.0)<a class="headerlink" href="#daily-workflow-with-git-integration-v5120" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Start working</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>work<span class="w"> </span>stat-545
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Check current week</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>teach<span class="w"> </span>week
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Make edits...</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># Deploy when ready</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>teach<span class="w"> </span>deploy
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Create exam (auto-commit prompt)</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm 1&quot;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># ✓ Generated exams/midterm1.qmd</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1">#</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># 📝 Teaching content created</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1">#</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># What would you like to do?</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1">#   1) Review in editor, then commit</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c1">#   2) Commit now with auto-generated message</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="c1">#   3) Skip commit (do it manually later)</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="c1"># Choice: 2</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="c1"># ✓ Committed: teach: add exam for Midterm 1</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="c1"># Check status (shows uncommitted files)</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>teach<span class="w"> </span>status
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="c1"># Course: STAT 545 (Fall 2024)</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="c1"># Week: 8 of 15</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="c1">#</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="c1"># 📝 Uncommitted Teaching Files:</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="c1">#   • slides/week08.qmd</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="c1"># Deploy when ready (creates PR)</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>teach<span class="w"> </span>deploy
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="c1"># Pre-flight checks:</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="c1">#   ✓ On draft branch</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="c1">#   ✓ No uncommitted changes</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="c1">#   ✓ No unpushed commits</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="c1">#   ✓ No production conflicts</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="c1">#</span>
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="c1"># Creating PR: draft → main</span>
+</code></pre></div>
+<h3 id="teaching-mode-workflow-v5120">Teaching Mode Workflow (v5.12.0)<a class="headerlink" href="#teaching-mode-workflow-v5120" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Enable teaching mode for streamlined auto-commit</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>teach<span class="w"> </span>config
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Edit workflow section:</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">#   teaching_mode: true</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">#   auto_commit: true</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1">#   auto_push: false</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># Now content auto-commits without prompts</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm&quot;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># ✓ Generated exams/midterm.qmd</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1"># 🎓 Teaching Mode: Auto-committing...</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1"># ✓ Committed: teach: add exam for Midterm</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Chapter 5&quot;</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1"># ✓ Generated quizzes/quiz05.qmd</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1"># 🎓 Teaching Mode: Auto-committing...</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="c1"># ✓ Committed: teach: add quiz for Chapter 5</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="c1"># Deploy all commits at once</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>teach<span class="w"> </span>deploy
 </code></pre></div>
 <h3 id="end-of-semester">End of Semester<a class="headerlink" href="#end-of-semester" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Archive the semester</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>teach<span class="w"> </span>archive
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># This creates a tagged snapshot and prepares for next semester</span>
-</code></pre></div>
-<h3 id="create-exam">Create Exam<a class="headerlink" href="#create-exam" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Create a new exam</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm 1&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Archive the semester</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>teach<span class="w"> </span>archive
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Uses examark if installed</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># This creates a tagged snapshot and prepares for next semester</span>
+</code></pre></div>
+<h3 id="content-creation-examples-v5120">Content Creation Examples (v5.12.0)<a class="headerlink" href="#content-creation-examples-v5120" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Create exam with Scholar</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm 1&quot;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Create quiz</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Chapter 5 Review&quot;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Create slides</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Introduction to Regression&quot;</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># Create lecture notes</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Week 3 - Linear Models&quot;</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1"># Create assignment</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">&quot;Homework 1&quot;</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="c1"># All commands support --dry-run preview</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w"> </span>--dry-run<span class="w"> </span>--verbose
 </code></pre></div>
 <hr />
 <h2 id="subcommand-details">Subcommand Details<a class="headerlink" href="#subcommand-details" title="Permanent link">&para;</a></h2>
@@ -5536,63 +5642,127 @@
 - <code>.flow/teach-config.yml</code> - Course configuration
 - <code>scripts/quick-deploy.sh</code> - Deployment script
 - <code>scripts/semester-archive.sh</code> - Archive script
-- Branch structure (<code>draft</code> / <code>production</code>)</p>
+- Git repository (if not exists) - v5.12.0
+- Branch structure (<code>draft</code> / <code>main</code>) - v5.12.0
+- Teaching-specific <code>.gitignore</code> - v5.12.0</p>
 <p><strong>Flags:</strong>
 - <code>-y</code>, <code>--yes</code> - Non-interactive mode (accept safe defaults)
 - <code>--dry-run</code> - Preview migration plan without changes
+- <code>--no-git</code> - Skip git initialization (v5.12.0)
 - <code>-h</code>, <code>--help</code> - Show help</p>
+<p><strong>Git Integration (v5.12.0):</strong>
+- Auto-initializes git repository for fresh projects
+- Creates <code>draft</code> and <code>main</code> branches
+- Copies teaching-specific <code>.gitignore</code> template
+- Makes initial commit with conventional commits format
+- Offers GitHub repo creation via <code>gh</code> CLI</p>
 <p><strong>See:</strong> <a href="../teach-init/">teach-init</a> for full documentation.</p>
 <h3 id="teach-deploy"><code>teach deploy</code><a class="headerlink" href="#teach-deploy" title="Permanent link">&para;</a></h3>
-<p>Deploy changes from <code>draft</code> branch to <code>production</code> branch.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>teach<span class="w"> </span>deploy
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># Runs ./scripts/quick-deploy.sh</span>
+<p>Deploy changes from <code>draft</code> branch to <code>main</code> branch. (v5.12.0: Creates GitHub PR)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>teach<span class="w"> </span>deploy
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># Pre-flight checks:</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1">#   ✓ On draft branch</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1">#   ✓ No uncommitted changes</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1">#   ✓ No unpushed commits</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1">#   ✓ No production conflicts</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1">#</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># Creating PR: draft → main</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># → Auto-generated PR body with commit list</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># → Deploy checklist included</span>
 </code></pre></div>
+<p><strong>Pre-flight checks:</strong>
+- Verifies on <code>draft</code> branch
+- Ensures no uncommitted changes
+- Detects unpushed commits
+- Checks for production branch conflicts</p>
+<p><strong>Interactive rebase support:</strong>
+- Offers to rebase if production has new commits
+- Prevents merge conflicts during deployment</p>
 <h3 id="teach-archive"><code>teach archive</code><a class="headerlink" href="#teach-archive" title="Permanent link">&para;</a></h3>
 <p>Archive the current semester before starting a new one.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>teach<span class="w"> </span>archive
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># Runs ./scripts/semester-archive.sh</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>teach<span class="w"> </span>archive
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># Runs ./scripts/semester-archive.sh</span>
 </code></pre></div>
 <h3 id="teach-status"><code>teach status</code><a class="headerlink" href="#teach-status" title="Permanent link">&para;</a></h3>
 <p>Show teaching project status including:
 - Course name and semester
 - Current branch
-- Safety warnings (if on production)</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>teach<span class="w"> </span>status
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># 📚 Teaching Project Status</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># ━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1">#   Course:   STAT 545</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1">#   Semester: Spring 2026</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1">#   Branch:   draft</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1">#   ✓ Safe to edit (draft branch)</span>
+- Safety warnings (if on production)
+- <strong>Uncommitted teaching files (v5.12.0)</strong>
+- <strong>Interactive cleanup workflow (v5.12.0)</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>teach<span class="w"> </span>status
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># 📚 Teaching Project Status</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># ━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1">#   Course:   STAT 545</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1">#   Semester: Spring 2026</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1">#   Branch:   draft</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1">#   ✓ Safe to edit (draft branch)</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c1">#</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># 📝 Uncommitted Teaching Files:</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1">#   • exams/exam02.qmd</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="c1">#   • slides/week08.qmd</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="c1">#</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="c1"># What would you like to do?</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1">#   1) Commit all teaching files</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="c1">#   2) Stash changes</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="c1">#   3) View diff</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="c1">#   4) Skip</span>
 </code></pre></div>
+<p><strong>Git Integration (v5.12.0):</strong>
+- Detects uncommitted teaching content (exams, slides, assignments, etc.)
+- Filters non-teaching files (shows only relevant content)
+- Interactive cleanup workflow:
+  - Commit with auto-generated message
+  - Stash with timestamp
+  - View diff
+  - Skip (manual handling)</p>
 <h3 id="teach-week"><code>teach week</code><a class="headerlink" href="#teach-week" title="Permanent link">&para;</a></h3>
 <p>Show current week number based on semester start date.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>teach<span class="w"> </span>week
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># 📅 Week 8</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1">#   Semester started: 2026-01-13</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1">#   Days elapsed: 52</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>teach<span class="w"> </span>week
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># 📅 Week 8</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1">#   Semester started: 2026-01-13</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1">#   Days elapsed: 52</span>
 </code></pre></div>
 <h3 id="teach-config"><code>teach config</code><a class="headerlink" href="#teach-config" title="Permanent link">&para;</a></h3>
 <p>Open the teaching configuration file in your editor.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>teach<span class="w"> </span>config
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># Opens .flow/teach-config.yml in $EDITOR</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>teach<span class="w"> </span>config
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1"># Opens .flow/teach-config.yml in $EDITOR</span>
 </code></pre></div>
 <hr />
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <p>Teaching projects use <code>.flow/teach-config.yml</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">course</span><span class="p">:</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">STAT 545</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">code</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stat-545</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Spring 2026</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="nt">semester</span><span class="p">:</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-01-13</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-05-08</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="nt">branches</span><span class="p">:</span>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">  </span><span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">draft</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">  </span><span class="nt">production</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">course</span><span class="p">:</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">STAT 545</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">code</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stat-545</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Spring 2026</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nt">semester</span><span class="p">:</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-01-13</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-05-08</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1"># Git configuration (v5.12.0)</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="nt">git</span><span class="p">:</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">  </span><span class="nt">draft_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">draft</span><span class="w">           </span><span class="c1"># Development branch</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">  </span><span class="nt">production_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">       </span><span class="c1"># Deployment branch</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">  </span><span class="nt">auto_pr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                 </span><span class="c1"># Auto-create PRs</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">  </span><span class="nt">require_clean</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">           </span><span class="c1"># Block deploy if uncommitted changes</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="c1"># Workflow configuration (v5.12.0)</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="nt">workflow</span><span class="p">:</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="w">  </span><span class="nt">teaching_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">          </span><span class="c1"># Streamlined auto-commit workflow</span>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="w">  </span><span class="nt">auto_commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">            </span><span class="c1"># Auto-commit after content generation</span>
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="w">  </span><span class="nt">auto_push</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">              </span><span class="c1"># Auto-push commits (safety: false)</span>
 </code></pre></div>
+<p><strong>Git Settings (v5.12.0):</strong>
+- <code>draft_branch</code> - Branch for development work (default: "draft")
+- <code>production_branch</code> - Branch for deployed content (default: "main")
+- <code>auto_pr</code> - Auto-create PRs during deployment (default: true)
+- <code>require_clean</code> - Block deploy if uncommitted changes (default: true)</p>
+<p><strong>Workflow Settings (v5.12.0):</strong>
+- <code>teaching_mode</code> - Enable streamlined auto-commit workflow (default: false)
+- <code>auto_commit</code> - Auto-commit after content generation (default: false)
+- <code>auto_push</code> - Auto-push commits to remote (default: false - safety)</p>
+<p>All settings are backward compatible and default to false for safety.</p>
 <hr />
 <h2 id="related-commands">Related Commands<a class="headerlink" href="#related-commands" title="Permanent link">&para;</a></h2>
 <table>
