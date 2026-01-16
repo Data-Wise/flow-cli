@@ -929,7 +929,117 @@ Teaching Mode:
 
 ---
 
-### ✅ v5.11.0 RELEASED - Config Validation & Scholar Deep Integration
+#### ✅ Phase 5 Complete: Git Integration in teach init (1-2 hours)
+
+**What Was Delivered:**
+
+- [x] Git initialization for fresh repositories (auto-detect or create)
+- [x] `--no-git` flag to skip git setup
+- [x] Teaching-specific .gitignore template
+- [x] Automatic draft/main branch creation
+- [x] Initial commit with course structure
+- [x] Optional GitHub repository creation via gh CLI
+- [x] Git user configuration (interactive mode only)
+- [x] All syntax tests passing (7 tests, 100% coverage)
+- [x] Documentation and integration
+
+**New Features:**
+
+```bash
+# Git initialization for fresh repos
+_teach_create_fresh_repo()           # Full git setup wizard
+_teach_create_github_repo()          # GitHub repo creation helper
+_teach_show_git_setup_summary()      # Post-setup summary
+```
+
+**Configuration:**
+
+```bash
+# Skip git setup
+teach-init --no-git "STAT 545"
+
+# Auto-initialize git (interactive)
+teach-init "STAT 545"
+
+# Auto-initialize git (non-interactive)
+teach-init -y "STAT 545"
+```
+
+**Git Setup Workflow:**
+
+```
+teach-init "STAT 545" (fresh directory)
+  ↓
+📋 No git repository detected
+  ↓
+❓ Initialize git repository for teaching workflow?
+  ↓
+✅ Git repository initialized
+✅ .gitignore created from template
+✅ Teaching workflow installed
+✅ Initial commit created
+✅ Renamed master → main
+✅ Created draft branch
+  ↓
+❓ Create GitHub repository? [y/N]
+  ↓
+(Optional GitHub setup)
+  ↓
+✅ Git initialization complete!
+```
+
+**.gitignore Template:**
+
+Includes patterns for:
+- Quarto (`/.quarto/`, `/_site/`, `/_freeze/`)
+- R/RStudio (`.Rhistory`, `.RData`, `.Rproj.user`)
+- Python (`__pycache__/`, `venv/`, `*.pyc`)
+- MkDocs (`site/`)
+- macOS (`.DS_Store`, `._*`)
+- IDEs (`.vscode/`, `.idea/`)
+- Teaching-specific (`**/solutions/`, `**/answer-keys/`, `submissions/`)
+
+**Branch Structure:**
+
+- **main**: Production/deployment branch (matches schema default)
+- **draft**: Working branch (default branch for development)
+
+**Initial Commit Format:**
+
+```
+feat: initialize teaching workflow for STAT 545
+
+Generated via: teach init "STAT 545"
+
+Initial setup includes:
+- .flow/teach-config.yml (course configuration)
+- .gitignore (teaching-specific patterns)
+- scripts/ (automation helpers)
+
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+```
+
+**GitHub Integration:**
+
+- Automatically detects gh CLI availability
+- Creates public repository with course description
+- Pushes both draft and main branches
+- Sets up origin remote
+- Shows repository URL after creation
+
+**Success Criteria:**
+
+✓ Fresh repos can initialize git in one command
+✓ `--no-git` flag allows skipping git setup
+✓ .gitignore includes all common teaching patterns
+✓ Branch structure matches schema defaults (draft/main)
+✓ Initial commit follows conventional commits format
+✓ GitHub integration is optional but seamless
+✓ All tests passing (7 tests, 100%)
+
+---
+
+### ✅ v5.10.0 RELEASED - Config Validation & Scholar Deep Integration
 
 **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.11.0
 **PR:** #249 (merged)

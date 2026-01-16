@@ -9,6 +9,7 @@ teach-init() {
   local course_name=""
   local dry_run=false
   local interactive=true
+  local skip_git=false  # Phase 5 - v5.11.0
 
   # Parse flags
   while [[ $# -gt 0 ]]; do
@@ -25,6 +26,10 @@ teach-init() {
         interactive=false
         shift
         ;;
+      --no-git)  # Phase 5 - v5.11.0
+        skip_git=true
+        shift
+        ;;
       *)
         course_name="$1"
         shift
@@ -34,6 +39,7 @@ teach-init() {
 
   # Export for child functions
   export TEACH_INTERACTIVE="$interactive"
+  export TEACH_SKIP_GIT="$skip_git"  # Phase 5 - v5.11.0
 
   if [[ -z "$course_name" ]]; then
     _flow_log_error "Usage: teach-init [OPTIONS] <course-name>"
@@ -41,11 +47,13 @@ teach-init() {
     echo "Options:"
     echo "  --dry-run    Preview migration plan without making changes"
     echo "  -y, --yes    Non-interactive mode (accept safe defaults)"
+    echo "  --no-git     Skip git initialization (Phase 5 - v5.11.0)"
     echo ""
     echo "Examples:"
     echo "  teach-init \"STAT 545\"              # Interactive (default)"
     echo "  teach-init -y \"STAT 545\"           # Non-interactive, safe defaults"
     echo "  teach-init --dry-run \"STAT 545\"    # Preview migration plan"
+    echo "  teach-init --no-git \"STAT 545\"     # Skip git setup"
     return 1
   fi
 
@@ -124,11 +132,13 @@ _teach_init_help() {
   echo "  -h, --help     Show this help message"
   echo "  --dry-run      Preview migration plan without making changes"
   echo "  -y, --yes      Non-interactive mode (accept safe defaults)"
+  echo "  --no-git       Skip git initialization (Phase 5 - v5.11.0)"
   echo ""
   echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
   echo "  teach-init \"STAT 545\"              # Interactive (default)"
   echo "  teach-init -y \"STAT 545\"           # Non-interactive, safe defaults"
   echo "  teach-init --dry-run \"STAT 545\"    # Preview migration plan"
+  echo "  teach-init --no-git \"STAT 545\"     # Skip git setup"
   echo ""
   echo "${FLOW_COLORS[bold]}SAFE DEFAULTS (non-interactive)${FLOW_COLORS[reset]}"
   echo "  • Strategy 1: In-place conversion (preserves history)"
@@ -1193,16 +1203,271 @@ _teach_show_next_steps() {
   _teach_show_completion_summary "$course_name"
 }
 
+# Phase 5 (v5.11.0): Git Initialization for Fresh Repos
+# Creates git repo, draft/production branches, and initial commit
 _teach_create_fresh_repo() {
   local course_name="$1"
 
   echo "📋 No git repository detected"
   echo ""
-  echo "Initialize git repository first:"
-  echo "  git init"
-  echo "  git add ."
-  echo "  git commit -m 'Initial commit'"
+
+  # Check if --no-git flag was used
+  if [[ "$TEACH_SKIP_GIT" == "true" ]]; then
+    echo "${FLOW_COLORS[info]}--no-git flag detected: Skipping git initialization${FLOW_COLORS[reset]}"
+    echo ""
+    echo "To initialize git later:"
+    echo "  git init"
+    echo "  git add ."
+    echo "  git commit -m 'Initial commit'"
+    echo ""
+    echo "Then run teach-init again to set up branches"
+    return 0
+  fi
+
+  # Offer to initialize git
+  local should_init_git="y"
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+    echo "${FLOW_COLORS[prompt]}Initialize git repository for teaching workflow?${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  This will:"
+    echo "    • Create git repository (git init)"
+    echo "    • Add teaching .gitignore"
+    echo "    • Create draft and production branches"
+    echo "    • Make initial commit with teach-config.yml"
+    echo ""
+    read "should_init_git?Initialize git? [Y/n]: "
+    echo ""
+  else
+    echo "${FLOW_COLORS[info]}Auto-initializing git repository (non-interactive mode)${FLOW_COLORS[reset]}"
+    echo ""
+  fi
+
+  case "$should_init_git" in
+    n|N|no|No|NO)
+      echo "Git initialization skipped"
+      echo ""
+      echo "To initialize git manually:"
+      echo "  git init"
+      echo "  git add ."
+      echo "  git commit -m 'Initial commit'"
+      echo ""
+      echo "Then run teach-init again"
+      return 0
+      ;;
+  esac
+
+  # Initialize git
+  echo "${FLOW_COLORS[info]}Initializing git repository...${FLOW_COLORS[reset]}"
+  if ! git init 2>&1; then
+    _flow_log_error "Failed to initialize git repository"
+    return 1
+  fi
+  echo "✅ Git repository initialized"
   echo ""
-  echo "Then run teach-init again"
-  return 1
+
+  # Configure git user if not already set (only in interactive mode)
+  if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+    local git_user_name=$(git config user.name 2>/dev/null)
+    local git_user_email=$(git config user.email 2>/dev/null)
+
+    if [[ -z "$git_user_name" || -z "$git_user_email" ]]; then
+      echo "${FLOW_COLORS[warning]}⚠️  Git user not configured${FLOW_COLORS[reset]}"
+      echo ""
+      echo "Configure git user (required for commits):"
+      read "git_user_name?  Name: "
+      read "git_user_email?  Email: "
+
+      git config user.name "$git_user_name"
+      git config user.email "$git_user_email"
+      echo ""
+      echo "✅ Git user configured"
+      echo ""
+    fi
+  fi
+
+  # Copy .gitignore template
+  echo "${FLOW_COLORS[info]}Creating .gitignore...${FLOW_COLORS[reset]}"
+  local gitignore_template="${0:A:h}/../lib/templates/teaching/teaching.gitignore"
+  if [[ -f "$gitignore_template" ]]; then
+    cp "$gitignore_template" .gitignore
+    echo "✅ .gitignore created from template"
+  else
+    # Fallback: create minimal .gitignore
+    cat > .gitignore <<'EOF'
+# Teaching Project .gitignore
+/.quarto/
+/_site/
+.DS_Store
+.Rhistory
+__pycache__/
+EOF
+    echo "✅ .gitignore created (minimal)"
+  fi
+  echo ""
+
+  # Install teaching workflow templates
+  echo "${FLOW_COLORS[info]}Installing teaching workflow...${FLOW_COLORS[reset]}"
+  if ! _teach_install_templates "$course_name"; then
+    _flow_log_error "Failed to install teaching templates"
+    return 1
+  fi
+  echo "✅ Teaching workflow installed"
+  echo ""
+
+  # Make initial commit (on main/master branch)
+  echo "${FLOW_COLORS[info]}Creating initial commit...${FLOW_COLORS[reset]}"
+  git add .
+  if ! git commit -m "$(cat <<EOF
+feat: initialize teaching workflow for $course_name
+
+Generated via: teach init "$course_name"
+
+Initial setup includes:
+- .flow/teach-config.yml (course configuration)
+- .gitignore (teaching-specific patterns)
+- scripts/ (automation helpers)
+
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+EOF
+)" 2>&1; then
+    _flow_log_error "Failed to create initial commit"
+    return 1
+  fi
+  echo "✅ Initial commit created"
+  echo ""
+
+  # Create production branch from current branch (use "main" per schema default)
+  local default_branch=$(git branch --show-current)
+  echo "${FLOW_COLORS[info]}Creating branch structure...${FLOW_COLORS[reset]}"
+
+  # Rename current branch to main (production branch)
+  if ! git branch -m "$default_branch" main 2>&1; then
+    _flow_log_error "Failed to rename branch to main"
+    return 1
+  fi
+  echo "✅ Renamed $default_branch → main"
+
+  # Create draft branch from main
+  if ! git checkout -b draft main 2>&1; then
+    _flow_log_error "Failed to create draft branch"
+    return 1
+  fi
+  echo "✅ Created draft branch"
+  echo ""
+
+  # Switch back to draft for working
+  git checkout draft 2>/dev/null
+
+  # Offer to create GitHub repository
+  if command -v gh &>/dev/null; then
+    local create_github="n"
+    if [[ "$TEACH_INTERACTIVE" != "false" ]]; then
+      echo "${FLOW_COLORS[prompt]}Create GitHub repository?${FLOW_COLORS[reset]}"
+      echo ""
+      echo "  This will:"
+      echo "    • Create a new repository on GitHub"
+      echo "    • Set up origin remote"
+      echo "    • Push draft and production branches"
+      echo ""
+      read "create_github?Create GitHub repo? [y/N]: "
+      echo ""
+    fi
+
+    case "$create_github" in
+      y|Y|yes|Yes|YES)
+        _teach_create_github_repo "$course_name"
+        ;;
+      *)
+        echo "${FLOW_COLORS[dim]}Skipped GitHub repository creation${FLOW_COLORS[reset]}"
+        echo ""
+        echo "To create GitHub repo later:"
+        echo "  gh repo create --source=. --public"
+        echo "  git push -u origin draft main"
+        ;;
+    esac
+  else
+    echo "${FLOW_COLORS[dim]}gh CLI not found - skipping GitHub setup${FLOW_COLORS[reset]}"
+    echo ""
+    echo "Install gh CLI to create GitHub repos:"
+    echo "  brew install gh && gh auth login"
+  fi
+
+  echo ""
+  echo "✅ ${FLOW_COLORS[success]}Git initialization complete!${FLOW_COLORS[reset]}"
+  echo ""
+  _teach_show_git_setup_summary "$course_name"
+}
+
+# Helper: Create GitHub repository (Phase 5 - v5.11.0)
+_teach_create_github_repo() {
+  local course_name="$1"
+
+  echo "${FLOW_COLORS[info]}Creating GitHub repository...${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Generate repo name from course name (e.g., "STAT 545" -> "stat-545")
+  local repo_name=$(echo "$course_name" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+
+  # Check if gh is authenticated
+  if ! gh auth status &>/dev/null; then
+    _flow_log_error "gh CLI not authenticated"
+    echo ""
+    echo "Authenticate with: gh auth login"
+    return 1
+  fi
+
+  # Create repository
+  if gh repo create "$repo_name" --source=. --public --description "Course website for $course_name" 2>&1; then
+    echo "✅ GitHub repository created"
+    echo ""
+
+    # Push both branches
+    echo "${FLOW_COLORS[info]}Pushing branches to GitHub...${FLOW_COLORS[reset]}"
+    if git push -u origin draft main 2>&1; then
+      echo "✅ Branches pushed to GitHub"
+      echo ""
+      echo "Repository URL: $(gh repo view --json url -q .url)"
+    else
+      _flow_log_error "Failed to push branches"
+      return 1
+    fi
+  else
+    _flow_log_error "Failed to create GitHub repository"
+    echo ""
+    echo "Create manually with:"
+    echo "  gh repo create --source=. --public"
+    return 1
+  fi
+}
+
+# Helper: Show git setup summary (Phase 5 - v5.11.0)
+_teach_show_git_setup_summary() {
+  local course_name="$1"
+
+  echo "┌────────────────────────────────────────────────────────────┐"
+  echo "│ ${FLOW_COLORS[bold]}Git Setup Summary${FLOW_COLORS[reset]}"
+  echo "├────────────────────────────────────────────────────────────┤"
+  echo "│"
+  echo "│ ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Repository initialized"
+  echo "│ ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} .gitignore created (teaching patterns)"
+  echo "│ ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Initial commit: feat: initialize teaching workflow"
+  echo "│ ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Branch structure:"
+  echo "│     ${FLOW_COLORS[dim]}•${FLOW_COLORS[reset]} main (production/deployment branch)"
+  echo "│     ${FLOW_COLORS[dim]}•${FLOW_COLORS[reset]} draft (working branch) ${FLOW_COLORS[dim]}← current${FLOW_COLORS[reset]}"
+  echo "│"
+  echo "│ ${FLOW_COLORS[bold]}Next Steps:${FLOW_COLORS[reset]}"
+  echo "│"
+  echo "│ 1. Start creating content:"
+  echo "│    ${FLOW_COLORS[dim]}teach exam \"Midterm Exam\"${FLOW_COLORS[reset]}"
+  echo "│    ${FLOW_COLORS[dim]}teach quiz \"Week 3 Quiz\"${FLOW_COLORS[reset]}"
+  echo "│    ${FLOW_COLORS[dim]}teach slides \"Lecture 1\"${FLOW_COLORS[reset]}"
+  echo "│"
+  echo "│ 2. Deploy to production (creates PR):"
+  echo "│    ${FLOW_COLORS[dim]}teach deploy${FLOW_COLORS[reset]}"
+  echo "│"
+  echo "│ 3. Check status:"
+  echo "│    ${FLOW_COLORS[dim]}teach status${FLOW_COLORS[reset]}"
+  echo "│"
+  echo "└────────────────────────────────────────────────────────────┘"
+  echo ""
 }
