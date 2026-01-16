@@ -6,6 +6,8 @@
 **Target Release:** v5.11.0
 **Effort Estimate:** 11-16 hours (5 phases)
 **Priority:** High
+**Worktree:** `~/.git-worktrees/flow-cli/teaching-git-integration`
+**Branch:** `feature/teaching-git-integration`
 
 ---
 
