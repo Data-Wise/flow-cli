@@ -609,7 +609,7 @@ Use Bitwarden secrets in chezmoi templates:
 **File:** `teach-dispatcher.zsh`
 **Purpose:** Unified teaching workflow for course websites with Git integration
 **Added:** January 12, 2026 (v5.4.1)
-**Git Integration:** January 16, 2026 (v5.11.0)
+**Git Integration:** January 16, 2026 (v5.12.0)
 
 **Common Commands:**
 
@@ -617,7 +617,7 @@ Use Bitwarden secrets in chezmoi templates:
 # Initialization
 teach init "STAT 545"          # Initialize teaching workflow
 teach init -y "STAT 440"       # Non-interactive mode
-teach init --no-git "TEST 101" # Skip git initialization (v5.11.0)
+teach init --no-git "TEST 101" # Skip git initialization (v5.12.0)
 
 # Content Creation (Scholar wrappers)
 teach exam "Midterm 1"         # Create exam/quiz
@@ -627,7 +627,7 @@ teach lecture "Week 3"         # Create lecture notes
 teach assignment "HW 1"        # Create assignment
 teach syllabus                 # Generate syllabus
 
-# Git & Deployment (v5.11.0)
+# Git & Deployment (v5.12.0)
 teach deploy                   # Deploy draft → production (with PR creation)
 teach status                   # Show project status + uncommitted files
 
@@ -638,7 +638,7 @@ teach week                     # Show current week number
 teach help                     # Show help
 ```
 
-**Git Integration Features (v5.11.0):**
+**Git Integration Features (v5.12.0):**
 
 **Phase 1 - Post-Generation Commit:**
 ```bash
@@ -739,14 +739,14 @@ teach init --no-git "TEST 101"
 **Configuration (teach-config.yml):**
 
 ```yaml
-# Git settings (v5.11.0)
+# Git settings (v5.12.0)
 git:
   draft_branch: "draft"          # Development branch
   production_branch: "main"      # Deployment branch
   auto_pr: true                  # Auto-create PRs
   require_clean: true            # Block deploy if uncommitted changes
 
-# Workflow settings (v5.11.0)
+# Workflow settings (v5.12.0)
 workflow:
   teaching_mode: false           # Streamlined workflow
   auto_commit: false             # Auto-commit after generation

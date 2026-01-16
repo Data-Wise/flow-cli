@@ -9,6 +9,155 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [5.12.0] - 2026-01-17
+
+### ✨ New Features - Teaching + Git Integration (Track B)
+
+**Complete 5-phase git workflow integration for teaching courses:**
+
+**Phase 1: Smart Post-Generation Workflow**
+
+- 3-option interactive menu after generating teaching content:
+  1. Review in editor, then commit
+  2. Commit now with auto-generated message
+  3. Skip commit (manual later)
+- Smart conventional commit messages (e.g., "teach: add exam for Midterm 1")
+- Co-authored-by attribution for Scholar integration
+
+**Phase 2: Git Deployment Workflow**
+
+- New `teach deploy` command for draft → production deployment
+- Pre-flight validation (clean working tree, no unpushed commits, no conflicts)
+- Auto-generated PR creation with commit list and deploy checklist
+- Branch-aware deployment using configured branches
+
+**Phase 3: Git-Aware Status**
+
+- Enhanced `teach status` command shows uncommitted teaching files
+- Interactive prompts: commit all / stash / view diff / skip
+- Real-time git status integration in project dashboard
+
+**Phase 4: Teaching Mode**
+
+- New `workflow.teaching_mode` config option for streamlined workflow
+- Auto-commit after generation when enabled
+- Safety: auto-commit only, never auto-push
+- Perfect for rapid content creation workflows
+
+**Phase 5: Git Initialization**
+
+- Enhanced `teach init` with complete git repository setup
+- Teaching-specific .gitignore template (95 lines, 18 patterns)
+- Automatic draft/production branch creation
+- Initial commit with project structure
+- Optional GitHub repository creation integration
+- `--no-git` flag to skip git setup for existing repos
+
+### 🔧 Technical Implementation
+
+**New Module: `lib/git-helpers.zsh` (311 lines)**
+
+- 20+ reusable git helper functions
+- Conventional commit message generation
+- Repository status checks
+- Branch validation and switching
+- Clean working tree verification
+
+**Enhanced Dispatcher: `lib/dispatchers/teach-dispatcher.zsh` (+757 lines)**
+
+- All 5 phases integrated into existing commands
+- Backward compatible with non-git workflows
+- Graceful degradation when git unavailable
+
+**Enhanced Init: `commands/teach-init.zsh` (+287 lines)**
+
+- Complete git initialization wizard
+- GitHub integration (optional)
+- Template-based .gitignore generation
+- Branch structure setup
+
+**Configuration Schema Extended:**
+
+```yaml
+git:
+  draft_branch: draft
+  production_branch: main
+  auto_pr: true
+  require_clean: true
+
+workflow:
+  teaching_mode: false
+  auto_commit: false
+  auto_push: false
+```
+
+### 🧪 Testing
+
+**New Test Suites (12 tests, 100% passing):**
+
+- `tests/test-teaching-mode.zsh` (225 lines, 5 tests) - Phase 4 testing
+- `tests/test-teach-init-git.zsh` (251 lines, 7 tests) - Phase 5 testing
+- `tests/integration-test-suite.zsh` (476 lines) - Full workflow testing
+- `tests/simple-integration-test.zsh` (239 lines) - Core functionality
+
+### 📖 Documentation
+
+**Updated Documentation:**
+
+- `docs/commands/teach.md` - Git workflow examples
+- `docs/reference/DISPATCHER-REFERENCE.md` - All 5 phases documented
+- `CLAUDE.md` - Complete Track B implementation details
+
+**Files Changed:** 13 files (+3,451 lines, -58 lines)
+
+---
+
+## [5.11.0] - 2026-01-16
+
+### 📖 Documentation - Nvim/LazyVim (Track A)
+
+**Complete nvim/LazyVim documentation for beginners:**
+
+- **Tutorial 15: Nvim Quick Start** (334 lines, ~10 min)
+  - Absolute survival: ESC, i, :wq, :q!
+  - Basic insert mode editing
+  - Integration with flow commands
+
+- **Tutorial 16: Vim Motions** (489 lines, ~15 min)
+  - Efficient navigation: word motions, jumps, search
+  - Text objects: ciw, di", yap, vit
+  - Practice exercises
+
+- **Tutorial 17: LazyVim Basics** (588 lines, ~15 min)
+  - File navigation: Neo-tree, Telescope
+  - Window management and splits
+  - Git integration basics
+
+- **Tutorial 18: LazyVim Showcase** (809 lines, ~30 min)
+  - Comprehensive LazyVim tour
+  - LSP features and auto-completion
+  - Plugin ecosystem overview
+  - Customization guide
+
+**Quick Reference:**
+
+- `docs/reference/NVIM-QUICK-REFERENCE.md` (411 lines)
+  - 1-page printable landscape reference card
+  - All essential commands grouped by task
+
+**Installation Guide:**
+
+- `docs/getting-started/installation.md` - Nvim/LazyVim setup guide
+- `docs/commands/work.md` - Fixed default editor documentation
+
+**Total:** ~2,900 lines of nvim documentation, 70-minute progressive learning path
+
+---
+
+## [5.10.0] - 2026-01-15
+
 ### ✨ New Features
 
 - **macOS Keychain Secret Management (v5.5.0)** - New `dot secret` commands for Touch ID-protected secrets:

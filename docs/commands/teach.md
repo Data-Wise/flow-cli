@@ -58,14 +58,14 @@ teach init "STAT 545"
 # Non-interactive mode (uses safe defaults)
 teach init -y "STAT 545"
 
-# Skip git initialization (v5.11.0)
+# Skip git initialization (v5.12.0)
 teach init --no-git "TEST 101"
 
 # Preview migration plan without changes
 teach init --dry-run "STAT 545"
 ```
 
-### Daily Workflow with Git Integration (v5.11.0)
+### Daily Workflow with Git Integration (v5.12.0)
 
 ```bash
 # Start working
@@ -106,7 +106,7 @@ teach deploy
 # Creating PR: draft → main
 ```
 
-### Teaching Mode Workflow (v5.11.0)
+### Teaching Mode Workflow (v5.12.0)
 
 ```bash
 # Enable teaching mode for streamlined auto-commit
@@ -140,7 +140,7 @@ teach archive
 # This creates a tagged snapshot and prepares for next semester
 ```
 
-### Content Creation Examples (v5.11.0)
+### Content Creation Examples (v5.12.0)
 
 ```bash
 # Create exam with Scholar
@@ -172,17 +172,17 @@ Initialize teaching workflow for a course repository. Creates:
 - `.flow/teach-config.yml` - Course configuration
 - `scripts/quick-deploy.sh` - Deployment script
 - `scripts/semester-archive.sh` - Archive script
-- Git repository (if not exists) - v5.11.0
-- Branch structure (`draft` / `main`) - v5.11.0
-- Teaching-specific `.gitignore` - v5.11.0
+- Git repository (if not exists) - v5.12.0
+- Branch structure (`draft` / `main`) - v5.12.0
+- Teaching-specific `.gitignore` - v5.12.0
 
 **Flags:**
 - `-y`, `--yes` - Non-interactive mode (accept safe defaults)
 - `--dry-run` - Preview migration plan without changes
-- `--no-git` - Skip git initialization (v5.11.0)
+- `--no-git` - Skip git initialization (v5.12.0)
 - `-h`, `--help` - Show help
 
-**Git Integration (v5.11.0):**
+**Git Integration (v5.12.0):**
 - Auto-initializes git repository for fresh projects
 - Creates `draft` and `main` branches
 - Copies teaching-specific `.gitignore` template
@@ -193,7 +193,7 @@ Initialize teaching workflow for a course repository. Creates:
 
 ### `teach deploy`
 
-Deploy changes from `draft` branch to `main` branch. (v5.11.0: Creates GitHub PR)
+Deploy changes from `draft` branch to `main` branch. (v5.12.0: Creates GitHub PR)
 
 ```bash
 teach deploy
@@ -233,8 +233,8 @@ Show teaching project status including:
 - Course name and semester
 - Current branch
 - Safety warnings (if on production)
-- **Uncommitted teaching files (v5.11.0)**
-- **Interactive cleanup workflow (v5.11.0)**
+- **Uncommitted teaching files (v5.12.0)**
+- **Interactive cleanup workflow (v5.12.0)**
 
 ```bash
 teach status
@@ -256,7 +256,7 @@ teach status
 #   4) Skip
 ```
 
-**Git Integration (v5.11.0):**
+**Git Integration (v5.12.0):**
 - Detects uncommitted teaching content (exams, slides, assignments, etc.)
 - Filters non-teaching files (shows only relevant content)
 - Interactive cleanup workflow:
@@ -301,27 +301,27 @@ semester:
   start_date: 2026-01-13
   end_date: 2026-05-08
 
-# Git configuration (v5.11.0)
+# Git configuration (v5.12.0)
 git:
   draft_branch: draft           # Development branch
   production_branch: main       # Deployment branch
   auto_pr: true                 # Auto-create PRs
   require_clean: true           # Block deploy if uncommitted changes
 
-# Workflow configuration (v5.11.0)
+# Workflow configuration (v5.12.0)
 workflow:
   teaching_mode: false          # Streamlined auto-commit workflow
   auto_commit: false            # Auto-commit after content generation
   auto_push: false              # Auto-push commits (safety: false)
 ```
 
-**Git Settings (v5.11.0):**
+**Git Settings (v5.12.0):**
 - `draft_branch` - Branch for development work (default: "draft")
 - `production_branch` - Branch for deployed content (default: "main")
 - `auto_pr` - Auto-create PRs during deployment (default: true)
 - `require_clean` - Block deploy if uncommitted changes (default: true)
 
-**Workflow Settings (v5.11.0):**
+**Workflow Settings (v5.12.0):**
 - `teaching_mode` - Enable streamlined auto-commit workflow (default: false)
 - `auto_commit` - Auto-commit after content generation (default: false)
 - `auto_push` - Auto-push commits to remote (default: false - safety)
