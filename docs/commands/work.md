@@ -43,7 +43,7 @@ The `work` command is the **primary entry point** for flow-cli. It sets up your 
 | Argument  | Description          | Default                                          |
 | --------- | -------------------- | ------------------------------------------------ |
 | `project` | Project name or path | Interactive picker (if fzf) or current directory |
-| `editor`  | Editor to open       | `$EDITOR` or `code`                              |
+| `editor`  | Editor to open       | `$EDITOR` or `nvim`                              |
 
 ---
 
@@ -54,7 +54,7 @@ The `work` command is the **primary entry point** for flow-cli. It sets up your 
 3. **Changes to project directory** - `cd` to the project root
 4. **Starts a session** - Records session start time in atlas
 5. **Shows context** - Displays project type, status, and focus
-6. **Opens your editor** - Launches VS Code, Cursor, Vim, Emacs, etc.
+6. **Opens your editor** - Launches nvim by default, or your configured editor (VS Code, Cursor, Emacs, etc.)
 
 ---
 
@@ -131,9 +131,10 @@ The `work` command supports these editors out of the box:
 
 | Editor     | Command                | Notes                         |
 | ---------- | ---------------------- | ----------------------------- |
-| VS Code    | `code`                 | Default if `$EDITOR` not set  |
+| **Nvim**   | `nvim`                 | **Default if `$EDITOR` not set** (recommended) |
+| Vim        | `vim`                  | Classic vi-compatible editor  |
+| VS Code    | `code`                 | Microsoft Visual Studio Code  |
 | Cursor     | `cursor`               | AI-powered VS Code fork       |
-| Vim/Neovim | `vim`, `nvim`          | Opens in terminal             |
 | Emacs      | `emacs`, `emacsclient` | Uses emacsclient if available |
 | Positron   | `positron`             | RStudio-based IDE (macOS)     |
 
@@ -146,6 +147,37 @@ export EDITOR="nvim"
 # Or specify per-session
 work my-project "code-insiders"
 ```
+
+### Learning Nvim
+
+**New to nvim?** Flow-cli uses nvim as the default editor, and we've created a comprehensive learning path for beginners:
+
+| Resource | Time | Description |
+|----------|------|-------------|
+| [Tutorial 15: Nvim Quick Start](../tutorials/15-nvim-quick-start.md) | 10 min | Survival guide - essential commands to get started |
+| [Tutorial 16: Vim Motions](../tutorials/16-vim-motions.md) | 15 min | Efficient navigation and editing |
+| [Tutorial 17: LazyVim Basics](../tutorials/17-lazyvim-basics.md) | 15 min | Essential plugins (Neo-tree, Telescope, splits) |
+| [Tutorial 18: LazyVim Showcase](../tutorials/18-lazyvim-showcase.md) | 30 min | Full feature tour (LSP, Mason, customization) |
+| [Nvim Quick Reference](../reference/NVIM-QUICK-REFERENCE.md) | - | 1-page printable reference card |
+
+**Interactive tutorial:**
+
+```bash
+# Hands-on guided practice with checkpoints
+flow nvim-tutorial
+```
+
+**Total learning time:** ~70 minutes from zero to productive
+
+!!! tip "Why Nvim?"
+    Nvim integrates seamlessly with flow-cli commands:
+
+    - `mcp edit <server>` - Edit MCP configs
+    - `dot edit <file>` - Edit dotfiles
+    - `r edit` - Edit R package files
+    - Works in SSH, tmux, and terminal sessions
+    - Extremely fast and lightweight
+    - LazyVim provides modern IDE features
 
 ---
 

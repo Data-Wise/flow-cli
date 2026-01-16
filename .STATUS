@@ -4,11 +4,217 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.10.0 Released ✅
+## Phase: v5.11.0 Ready for Release ✅
 ## Priority: 1
-## Progress: 100
+## Progress: 95
 
-## Focus: Planning Next Release
+## Focus: v5.11.0 - Track A Complete, Tracks B & C In Progress
+
+## ✅ Completed (2026-01-16):
+
+### Track A: Nvim/LazyVim Documentation - v5.11.0
+
+**Branch:** `feature/nvim-documentation`
+**Worktree:** `~/.git-worktrees/flow-cli/nvim-documentation`
+**Session Duration:** ~3 hours
+**Commits:** 6 commits (eecfc147 → a0bde8ec)
+
+**Goal:** Comprehensive nvim/LazyVim documentation for complete beginners
+
+**Completed Deliverables:**
+
+**Phase 1-2: Tutorial Series (4 tutorials, ~2,900 lines)**
+- [x] Tutorial 15: Nvim Quick Start (10 min survival guide)
+- [x] Tutorial 16: Vim Motions (15 min efficient navigation)
+- [x] Tutorial 17: LazyVim Basics (15 min essential plugins)
+- [x] Tutorial 18: LazyVim Showcase (30 min comprehensive tour)
+
+**Phase 3: Reference Documentation (~410 lines)**
+- [x] NVIM-QUICK-REFERENCE.md (1-page printable landscape card)
+  - All essential commands, LazyVim features, flow-cli integration
+  - Covers survival mode, navigation, editing, text objects
+  - LazyVim files/windows/LSP/Git/terminal sections
+
+**Phase 4: Documentation Integration**
+- [x] work.md - Fixed default editor (nvim, not VS Code)
+  - Added "Learning Nvim" section with tutorial roadmap
+  - Updated editor support table highlighting nvim as default
+- [x] installation.md - Added nvim/LazyVim installation guide (~180 lines)
+  - Neovim installation (macOS/Ubuntu/Arch)
+  - LazyVim starter setup with prerequisites
+  - Nerd Font installation and configuration
+  - Learning resources and troubleshooting
+- [x] mkdocs.yml - Added navigation for tutorials + reference
+- [x] Documentation site built and verified
+
+**Infrastructure:**
+- [x] GIF directory structure (`docs/assets/gifs/nvim/`)
+- [x] GIF specifications documented (14 planned GIFs with details)
+- [x] Spec committed (`docs/specs/SPEC-nvim-documentation-2026-01-16.md`)
+
+**Statistics:**
+- Files created: 7 (4 tutorials, 1 reference, 1 GIF README, 1 spec)
+- Files modified: 3 (work.md, installation.md, mkdocs.yml)
+- Lines of documentation: ~3,500+
+- Learning path: 70 minutes from zero to productive
+
+**Status:** ✅ Ready to merge to dev
+
+---
+
+## 🚧 Work In Progress (2026-01-16):
+
+---
+
+### Track B: Teaching + Git Integration - v5.11.0
+
+**Spec:** `docs/specs/SPEC-teaching-git-integration-2026-01-16.md`
+**Brainstorm:** `BRAINSTORM-teaching-git-integration-2026-01-16.md`
+**Branch:** `feature/teaching-git-integration`
+**Worktree:** `~/.git-worktrees/flow-cli/teaching-git-integration`
+**Effort:** 11-16 hours (5 phases)
+**Status:** ⏳ Ready for implementation (worktree created)
+
+**Goal:** Seamless git integration for teaching workflow with smart automation and PR-based deployments
+
+**Key Insight:** Teaching content creation has natural "generate → review → commit → deploy" rhythm. Current manual git operations break flow state.
+
+**User Research (8 expert questions):**
+- Primary pain: Disconnect between teach commands and git workflow
+- All user types benefit (instructors, TAs, git novices)
+- Desired workflow: Generate → Review → Commit → Deploy
+- Deploy strategy: PR-based (never direct push to production)
+- Teaching mode: Yes, with confirmations (not silent automation)
+
+**Deliverables:**
+
+**Sprint 1 - Quick Wins (5-6 hours):**
+- Phase 1: Smart post-generation workflow (2-3h)
+  - Interactive: Review → Commit → Push?
+  - Auto-generated commit messages
+  - 80% of git friction eliminated
+- Phase 3: Git-aware teach status (1-2h)
+  - Show uncommitted teaching files
+  - Offer to commit/stash interactively
+- Phase 5: Git integration in teach init (1h)
+  - Auto-create draft/main branches
+  - One command full structure
+
+**Sprint 2 - Power Features (7-10 hours):**
+- Phase 2: Branch-aware deployment (4-6h)
+  - PR-based workflow (draft → main)
+  - Conflict detection before deploy
+- Phase 4: Teaching mode (3-4h)
+  - Streamlined auto-commit workflow
+  - Configurable per-project
+
+**Files to Create/Modify:**
+- NEW: `lib/git-helpers.zsh` (8 functions)
+- NEW: `tests/test-teaching-git-integration.zsh`
+- MODIFIED: `lib/dispatchers/teach-dispatcher.zsh`
+- MODIFIED: `commands/teach-init.zsh`
+- MODIFIED: `lib/config-validator.zsh`
+- MODIFIED: `lib/templates/teaching/teach-config.schema.json`
+
+**Success Metrics:**
+- Reduce git commands per content generation: 5 → 0
+- Time to deploy: 3 min → 30 sec
+- Forgotten commits: 30% → 0%
+
+---
+
+### Track C: Teaching Dates Automation - v5.11.0
+
+**Spec:** `docs/specs/SPEC-teach-dates-automation-2026-01-16.md`
+**Brainstorm:** `BRAINSTORM-teach-dates-automation-2026-01-16.md`
+**Command Naming:** `BRAINSTORM-teach-dates-command-naming-2026-01-16.md`
+**Branch:** `feature/teach-dates-automation`
+**Worktree:** `~/.git-worktrees/flow-cli/teach-dates-automation`
+**Effort:** 12-17 hours (5 phases)
+**Status:** ⏳ Ready for implementation (worktree created)
+
+**Goal:** Automated date/deadline management for teaching materials with centralized config and smart sync
+
+**Key Insight:** Instructors manually update dates across 10+ files when semester changes. One config file should be the source of truth for all dates.
+
+**User Research (8 expert questions):**
+- Pain points: Manual updates, inconsistencies across files, semester rollover
+- Source of truth: teach-config.yml + external calendar support
+- Date types: Week starts, assignment deadlines, exams, holidays
+- UX: File-by-file prompts (interactive, not silent)
+- File formats: Quarto YAML frontmatter + Markdown inline dates
+- Conflict resolution: Ask user (never auto-overwrite)
+- Relative dates: Support "week + offset" syntax (e.g., week: 3, offset: +2 days)
+- Triggers: Manual command + semester rollover wizard
+
+**Deliverables:**
+
+**Phase 1: Extended Config Schema (2-3 hours)**
+- Extend teach-config.yml with:
+  - `semester_info.weeks[]` (week number, start_date, topic)
+  - `semester_info.holidays[]` (name, date, type: break/exam/special)
+  - `semester_info.deadlines{}` (assignment → week/offset or absolute date)
+  - `semester_info.exams[]` (name, date, time, location)
+- Update teach-config.schema.json
+- Add validation rules
+
+**Phase 2: Date Parser Module (3-4 hours)**
+- NEW: `lib/date-parser.zsh` (8 functions)
+  - `_date_parse_quarto_yaml()` - Extract YAML frontmatter dates
+  - `_date_parse_markdown_inline()` - Find inline markdown dates
+  - `_date_normalize()` - Convert any format to YYYY-MM-DD
+  - `_date_compute_from_week()` - Calculate week + offset
+  - `_date_find_teaching_files()` - Find all teaching files
+  - `_teach_dates_sync()` - Main sync command
+  - `_teach_semester_new()` - Semester rollover wizard
+  - `_date_format()` - Format dates for display
+
+**Phase 3: teach dates sync Command (4-6 hours)**
+- Interactive file-by-file sync
+- Preview changes before applying
+- Conflict resolution (ask user)
+- Support for:
+  - Quarto YAML frontmatter (date:, due_date:, exam_date:)
+  - Markdown inline dates (Week 3: January 22, Due: Feb 5)
+- Dry-run mode (`--dry-run`)
+- Selective sync by file type (`--assignments`, `--lectures`, etc.)
+
+**Phase 4: teach semester new Command (2-3 hours)**
+- One-command semester rollover
+- Wizard prompts:
+  - New semester name
+  - Start/end dates
+  - Shift all dates by N weeks
+  - Preserve relative spacing
+- Validation before applying
+- Backup old config
+
+**Phase 5: Integration & Documentation (1-2 hours)**
+- Integrate with `teach init` (offer to set dates)
+- Update `teach status` to show upcoming deadlines
+- Comprehensive docs:
+  - Tutorial: Setting up semester dates
+  - Guide: Date sync workflows
+  - Reference: Date format support
+- 30+ tests
+
+**Files to Create/Modify:**
+- NEW: `lib/date-parser.zsh` (8 functions)
+- NEW: `tests/test-date-parser.zsh` (30+ tests)
+- NEW: `docs/guides/TEACHING-DATES-GUIDE.md`
+- MODIFIED: `lib/dispatchers/teach-dispatcher.zsh` (add dates subcommand)
+- MODIFIED: `lib/templates/teaching/teach-config.schema.json` (extend schema)
+- MODIFIED: `commands/teach-init.zsh` (optional date setup)
+
+**Success Metrics:**
+- Time to update all dates: 30 min → 2 min
+- Date inconsistencies: 20% → 0%
+- Semester rollover time: 2 hours → 5 minutes
+
+**Command Naming (To Be Decided):**
+- Pending brainstorm with user on command structure and keywords
+
+---
 
 ## ✅ v5.10.0 RELEASED (2026-01-15):
 
@@ -23,7 +229,67 @@
 
 ---
 
-## ✅ Completed (2026-01-15):
+## ✅ Completed (2026-01-15 - Evening):
+
+### Documentation Site Deployment & Branch Sync - v5.10.0 Post-Release
+
+**Session Duration:** ~1 hour
+**Commits:** c60cc24a, bff0205d, b7cf3c1c
+**PR:** #255 (merged to main)
+
+**Accomplishments:**
+
+**Phase 1: Documentation Site Update**
+- [x] Updated version badges to v5.10.0 (index.md, quick-reference-card.md)
+- [x] Added "What's New in v5.10.0" section to homepage
+  - Complete API Reference (400+ lines)
+  - Architecture Diagrams (15 Mermaid diagrams)
+  - Developer Guide (600+ lines)
+  - Enhanced Worktree Support
+  - Documentation Hub
+- [x] Documented worktree dispatcher commands (wt list/create/remove/status)
+- [x] Fixed 6 broken links across documentation
+  - DOC-INDEX.md: 3 broken links fixed
+  - RFC and archived specs: 3 relative path corrections
+
+**Phase 2: GitHub Pages Deployment**
+- [x] Built site with mkdocs (8.27 seconds)
+- [x] Deployed to gh-pages branch (commit: 0a115b6e)
+- [x] Verified site live at https://Data-Wise.github.io/flow-cli/
+- [x] All v5.10.0 features now visible to users
+
+**Phase 3: Branch Synchronization**
+- [x] Committed documentation updates to dev (c60cc24a)
+- [x] Created PR #255 (dev → main sync)
+- [x] Resolved merge conflicts in .STATUS and DOC-INDEX.md
+- [x] Merged main into dev for conflict-free state (bff0205d)
+- [x] CI tests passed (ZSH Plugin Tests × 2)
+- [x] PR auto-merged to main (b7cf3c1c)
+- [x] Updated local main branch to match remote
+
+**Files Modified:**
+- `docs/index.md` - v5.10.0 version badges + "What's New" section
+- `docs/quick-reference-card.md` - wt dispatcher section + version
+- `docs/DOC-INDEX.md` - fixed 3 broken navigation links
+- `docs/specs/RFC-flow-scholar-config-protocol.md` - corrected file reference
+- `docs/specs/_archive/SPEC-dot-secret-management-v2-2026-01-10.md` - fixed 2 relative paths
+- `.STATUS` - this update documenting the session
+
+**Current State:**
+- ✅ Documentation site fully deployed with v5.10.0 content
+- ✅ Both dev and main branches synchronized
+- ✅ No uncommitted changes
+- ✅ All changes pushed to remote
+- ✅ PR #255 merged successfully
+
+**Impact:**
+- Users can now see v5.10.0 features on the live documentation site
+- Site prominently displays new API docs, architecture diagrams, and developer guide
+- Branch sync ensures main reflects all post-release documentation improvements
+
+---
+
+## ✅ Completed (2026-01-15 - Afternoon):
 
 ### Worktree Detection + Cache Invalidation - v5.10.0
 
@@ -488,7 +754,7 @@
 
 ## 🎯 Next Action
 
-**Current:** Plan v5.11.0 or await Scholar feedback
+**Current:** Nvim/LazyVim Documentation Implementation (v5.11.0)
 
 **✅ v5.10.0 Released (2026-01-15):**
 - ✅ Worktree detection + cache invalidation
