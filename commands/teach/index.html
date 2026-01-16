@@ -1435,6 +1435,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/19-teaching-git-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Teaching + Git Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3089,6 +3117,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/TEACHING-GIT-WORKFLOW-REFCARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Git Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3916,6 +3972,17 @@
     <span class="md-ellipsis">
       
         Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-workflow-overview-v5120" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git Workflow Overview (v5.12.0)
       
     </span>
   </a>
@@ -5209,6 +5276,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#git-workflow-overview-v5120" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git Workflow Overview (v5.12.0)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#synopsis" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5458,6 +5536,66 @@
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Deploy changes to production</span>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>teach<span class="w"> </span>deploy
 </code></pre></div>
+<hr />
+<h2 id="git-workflow-overview-v5120">Git Workflow Overview (v5.12.0)<a class="headerlink" href="#git-workflow-overview-v5120" title="Permanent link">&para;</a></h2>
+<p>The teaching workflow integrates with Git across 5 phases:</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Phase 1: Generate Content] --&gt; B{Post-Generation Menu}
+    B --&gt;|Option 1| C[Review in Editor]
+    B --&gt;|Option 2| D[Auto-Commit Now]
+    B --&gt;|Option 3| E[Skip Commit]
+
+    C --&gt; F[Manual Commit]
+    D --&gt; G[Git Committed]
+    F --&gt; G
+
+    G --&gt; H[Phase 3: Check Status]
+    H --&gt; I{Uncommitted Files?}
+    I --&gt;|Yes| J[Commit/Stash/Diff]
+    I --&gt;|No| K[Phase 2: Deploy]
+
+    J --&gt; K
+    K --&gt; L[Create PR: draft → main]
+
+    M[Phase 4: Teaching Mode] -.-&gt;|auto_commit=true| D
+    N[Phase 5: Git Init] -.-&gt;|Setup| A
+
+    style D fill:#90EE90
+    style M fill:#FFD700
+    style N fill:#87CEEB</code></pre>
+<p><strong>Key Integration Points:</strong></p>
+<ul>
+<li><strong>Phase 1</strong>: Smart post-generation workflow (3-option menu)</li>
+<li><strong>Phase 2</strong>: Deployment automation (PR creation)</li>
+<li><strong>Phase 3</strong>: Git-aware status (uncommitted file tracking)</li>
+<li><strong>Phase 4</strong>: Teaching mode (streamlined auto-commit)</li>
+<li><strong>Phase 5</strong>: Repository initialization (complete git setup)</li>
+</ul>
+<p><strong>Workflow Diagram:</strong></p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant User
+    participant teach
+    participant Git
+    participant GitHub
+
+    User-&gt;&gt;teach: teach exam "Midterm 1"
+    teach-&gt;&gt;teach: Generate exams/midterm1.qmd
+    teach-&gt;&gt;User: Show 3-option menu
+    User-&gt;&gt;teach: Choose option 2 (commit now)
+    teach-&gt;&gt;Git: Commit with message
+    Git--&gt;&gt;teach: Committed successfully
+
+    User-&gt;&gt;teach: teach status
+    teach-&gt;&gt;Git: Check uncommitted files
+    Git--&gt;&gt;teach: List uncommitted files
+    teach--&gt;&gt;User: Show status + menu
+
+    User-&gt;&gt;teach: teach deploy
+    teach-&gt;&gt;Git: Pre-flight checks
+    Git--&gt;&gt;teach: All checks passed
+    teach-&gt;&gt;GitHub: Create PR (draft → main)
+    GitHub--&gt;&gt;teach: PR created
+    teach--&gt;&gt;User: PR URL</code></pre>
 <hr />
 <h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>teach<span class="w"> </span>&lt;command&gt;<span class="w"> </span><span class="o">[</span>args<span class="o">]</span>

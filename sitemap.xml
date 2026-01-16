@@ -597,6 +597,10 @@
          <lastmod>2026-01-16</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/TEACHING-GIT-WORKFLOW-REFCARD/</loc>
+         <lastmod>2026-01-16</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/TESTING-QUICK-REF/</loc>
          <lastmod>2026-01-16</lastmod>
     </url>
@@ -862,6 +866,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/18-lazyvim-showcase/</loc>
+         <lastmod>2026-01-16</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/tutorials/19-teaching-git-integration/</loc>
          <lastmod>2026-01-16</lastmod>
     </url>
 </urlset>
