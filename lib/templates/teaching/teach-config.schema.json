@@ -95,6 +95,116 @@
             }
           },
           "description": "Break periods (spring break, etc.)"
+        },
+        "weeks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["number", "start_date"],
+            "properties": {
+              "number": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 52,
+                "description": "Week number (1-52)"
+              },
+              "start_date": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "description": "Week start date (YYYY-MM-DD)"
+              },
+              "topic": {
+                "type": "string",
+                "description": "Week topic or title"
+              }
+            }
+          },
+          "description": "Weekly schedule with topics"
+        },
+        "holidays": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "date"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Holiday name"
+              },
+              "date": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "description": "Holiday date (YYYY-MM-DD)"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["break", "holiday", "no_class"],
+                "description": "Holiday type"
+              }
+            }
+          },
+          "description": "Holidays and no-class days"
+        },
+        "deadlines": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "oneOf": [
+              {
+                "required": ["due_date"],
+                "properties": {
+                  "due_date": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "description": "Absolute due date (YYYY-MM-DD)"
+                  }
+                }
+              },
+              {
+                "required": ["week", "offset_days"],
+                "properties": {
+                  "week": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 52,
+                    "description": "Week number (1-52)"
+                  },
+                  "offset_days": {
+                    "type": "integer",
+                    "description": "Days offset from week start (can be negative)"
+                  }
+                }
+              }
+            ]
+          },
+          "description": "Assignment deadlines (absolute or relative)"
+        },
+        "exams": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "date"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Exam name"
+              },
+              "date": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "description": "Exam date (YYYY-MM-DD)"
+              },
+              "time": {
+                "type": "string",
+                "description": "Exam time"
+              },
+              "location": {
+                "type": "string",
+                "description": "Exam location"
+              }
+            }
+          },
+          "description": "Exam schedule"
         }
       }
     },

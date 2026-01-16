@@ -622,6 +622,31 @@ teach config              # Edit teach-config.yml
 teach status              # Show project status
 teach week                # Show current week number
 teach help                # Show help
+
+### Date Management (v5.11.0+)
+
+Centralize semester dates in teach-config.yml and auto-sync to all files.
+
+```bash
+# Initialize dates
+teach dates init           # Wizard: create 15 weeks from start date
+
+# Sync dates from config to files
+teach dates sync           # Interactive sync
+teach dates sync --dry-run # Preview changes only
+teach dates sync --force   # Auto-apply all
+
+# Status & validation
+teach dates status         # Show date summary
+teach dates validate       # Validate config
+
+# Selective sync
+teach dates sync --assignments  # Assignments only
+teach dates sync --lectures     # Lectures only
+teach dates sync --file hw3.qmd # Single file
+```
+
+**See:** [Teaching Dates Guide](../guides/TEACHING-DATES-GUIDE.md) | [Quick Reference](TEACH-DATES-QUICK-REFERENCE.md)
 ```
 
 **Shortcuts:**
