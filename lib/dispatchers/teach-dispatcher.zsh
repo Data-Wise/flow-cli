@@ -318,10 +318,22 @@ _teach_post_generation_hooks() {
         echo ""
         echo "${FLOW_COLORS[success]}📝 Generated ${#generated_files[@]} file(s)${FLOW_COLORS[reset]}"
 
-        # Phase 1 (v5.11.0+): Interactive commit workflow
-        # Only prompt if we're in a git repo and have files staged
+        # Phase 4 (v5.11.0+): Check for teaching mode
+        # If teaching mode is enabled, use streamlined auto-commit workflow
+        # Otherwise, use Phase 1 interactive workflow
         if _git_in_repo && [[ ${#generated_files[@]} -gt 0 ]]; then
-            _teach_interactive_commit_workflow "$subcommand" "$topic" "$full_command" "${generated_files[@]}"
+            # Read teaching mode config
+            local teaching_mode auto_commit
+            teaching_mode=$(yq '.workflow.teaching_mode // false' teach-config.yml 2>/dev/null)
+            auto_commit=$(yq '.workflow.auto_commit // false' teach-config.yml 2>/dev/null)
+
+            if [[ "$teaching_mode" == "true" && "$auto_commit" == "true" ]]; then
+                # Teaching mode: Streamlined auto-commit workflow
+                _teach_auto_commit_workflow "$subcommand" "$topic" "$full_command" "${generated_files[@]}"
+            else
+                # Standard mode: Interactive workflow (Phase 1)
+                _teach_interactive_commit_workflow "$subcommand" "$topic" "$full_command" "${generated_files[@]}"
+            fi
         else
             echo "  Next: Review and 'teach deploy' when ready"
         fi
@@ -485,6 +497,79 @@ _teach_commit_now() {
 }
 
 # ============================================================================
+# TEACHING MODE AUTO-COMMIT WORKFLOW (Phase 4 - v5.11.0+)
+# ============================================================================
+
+# Auto-commit workflow for teaching mode (streamlined, no prompts)
+# Usage: _teach_auto_commit_workflow <subcommand> <topic> <full_command> <file1> [file2...]
+_teach_auto_commit_workflow() {
+    local subcommand="$1"
+    local topic="$2"
+    local full_command="$3"
+    shift 3
+    local -a files=("$@")
+
+    # Get course info from teach-config.yml
+    local course_name semester year
+    course_name=$(yq '.course.name // ""' teach-config.yml 2>/dev/null)
+    semester=$(yq '.course.semester // ""' teach-config.yml 2>/dev/null)
+    year=$(yq '.course.year // ""' teach-config.yml 2>/dev/null)
+
+    # Fallback if config doesn't exist or yq not available
+    [[ -z "$course_name" ]] && course_name="Teaching Project"
+    [[ -z "$semester" ]] && semester="N/A"
+    [[ -z "$year" ]] && year=$(date +%Y)
+
+    # Generate commit message using git-helpers
+    local commit_msg
+    commit_msg=$(_git_teaching_commit_message "$subcommand" "$topic" "$full_command" "$course_name" "$semester" "$year")
+
+    # Show teaching mode indicator
+    echo ""
+    echo "${FLOW_COLORS[success]}🎓 Teaching Mode: Auto-committing...${FLOW_COLORS[reset]}"
+
+    # Commit the staged changes
+    if _git_commit_teaching_content "$commit_msg"; then
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Committed: ${FLOW_COLORS[dim]}${subcommand} for ${topic}${FLOW_COLORS[reset]}"
+
+        # Check auto_push setting
+        local auto_push
+        auto_push=$(yq '.workflow.auto_push // false' teach-config.yml 2>/dev/null)
+
+        if [[ "$auto_push" == "true" ]]; then
+            # Auto-push is enabled, but still ask for confirmation (safety)
+            echo ""
+            echo -n "${FLOW_COLORS[prompt]}Push to remote? [Y/n]:${FLOW_COLORS[reset]} "
+            read -r push_confirm
+
+            case "$push_confirm" in
+                n|N|no|No|NO)
+                    echo ""
+                    echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Committed locally"
+                    echo "  ${FLOW_COLORS[dim]}Run 'g push' to push to remote${FLOW_COLORS[reset]}"
+                    ;;
+                *)
+                    if _git_push_current_branch; then
+                        echo ""
+                        echo "${FLOW_COLORS[success]}✅ Committed and pushed!${FLOW_COLORS[reset]}"
+                    else
+                        echo ""
+                        echo "${FLOW_COLORS[warn]}⚠️  Committed locally but push failed${FLOW_COLORS[reset]}"
+                    fi
+                    ;;
+            esac
+        else
+            # auto_push is false (default), don't ask
+            echo "  ${FLOW_COLORS[dim]}Run 'teach deploy' when ready${FLOW_COLORS[reset]}"
+        fi
+    else
+        echo ""
+        echo "${FLOW_COLORS[error]}✗ Failed to auto-commit${FLOW_COLORS[reset]}"
+        echo "  ${FLOW_COLORS[dim]}Falling back to manual workflow${FLOW_COLORS[reset]}"
+    fi
+}
+
+# ============================================================================
 # TEACH DEPLOY - BRANCH-AWARE PR WORKFLOW (Phase 2 - v5.11.0+)
 # ============================================================================
 
@@ -524,6 +609,11 @@ _teach_deploy() {
     prod_branch=$(yq '.git.production_branch // "main"' teach-config.yml 2>/dev/null)
     auto_pr=$(yq '.git.auto_pr // true' teach-config.yml 2>/dev/null)
     require_clean=$(yq '.git.require_clean // true' teach-config.yml 2>/dev/null)
+
+    # Read workflow configuration (Phase 4 - v5.11.0+)
+    local teaching_mode auto_push
+    teaching_mode=$(yq '.workflow.teaching_mode // false' teach-config.yml 2>/dev/null)
+    auto_push=$(yq '.workflow.auto_push // false' teach-config.yml 2>/dev/null)
 
     # Read course info for PR title
     local course_name
@@ -570,25 +660,37 @@ _teach_deploy() {
         fi
     fi
 
-    # Check 3: Check for unpushed commits
+    # Check 3: Check for unpushed commits (Phase 4 - teaching mode aware)
     if _git_has_unpushed_commits; then
         echo "${FLOW_COLORS[warn]}⚠️  ${FLOW_COLORS[reset]} Unpushed commits detected"
         echo ""
-        echo -n "${FLOW_COLORS[prompt]}Push to origin/$draft_branch first? [Y/n]:${FLOW_COLORS[reset]} "
-        read -r push_confirm
 
-        case "$push_confirm" in
-            n|N|no|No|NO)
-                echo "${FLOW_COLORS[warn]}Continuing without push...${FLOW_COLORS[reset]}"
-                ;;
-            *)
-                if _git_push_current_branch; then
-                    echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
-                else
-                    return 1
-                fi
-                ;;
-        esac
+        # Teaching mode: auto-push if enabled, otherwise prompt
+        if [[ "$teaching_mode" == "true" && "$auto_push" == "true" ]]; then
+            echo "${FLOW_COLORS[info]}🎓 Teaching mode: Auto-pushing...${FLOW_COLORS[reset]}"
+            if _git_push_current_branch; then
+                echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+            else
+                return 1
+            fi
+        else
+            # Standard mode or teaching mode without auto_push: prompt user
+            echo -n "${FLOW_COLORS[prompt]}Push to origin/$draft_branch first? [Y/n]:${FLOW_COLORS[reset]} "
+            read -r push_confirm
+
+            case "$push_confirm" in
+                n|N|no|No|NO)
+                    echo "${FLOW_COLORS[warn]}Continuing without push...${FLOW_COLORS[reset]}"
+                    ;;
+                *)
+                    if _git_push_current_branch; then
+                        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+                    else
+                        return 1
+                    fi
+                    ;;
+            esac
+        fi
     else
         echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Remote is up-to-date"
     fi
@@ -1251,6 +1353,20 @@ _teach_show_status() {
             echo "  Scholar:  ${FLOW_COLORS[success]}✓ configured${FLOW_COLORS[reset]}"
         else
             echo "  Scholar:  ${FLOW_COLORS[muted]}not configured${FLOW_COLORS[reset]}"
+        fi
+    fi
+
+    # Teaching mode indicator (Phase 4 - v5.11.0+)
+    if command -v yq >/dev/null 2>&1; then
+        local teaching_mode=$(yq '.workflow.teaching_mode // false' "$config_file" 2>/dev/null)
+        local auto_commit=$(yq '.workflow.auto_commit // false' "$config_file" 2>/dev/null)
+
+        if [[ "$teaching_mode" == "true" ]]; then
+            if [[ "$auto_commit" == "true" ]]; then
+                echo "  Mode:     ${FLOW_COLORS[success]}🎓 Teaching mode enabled (auto-commit)${FLOW_COLORS[reset]}"
+            else
+                echo "  Mode:     ${FLOW_COLORS[success]}🎓 Teaching mode enabled${FLOW_COLORS[reset]}"
+            fi
         fi
     fi
 
