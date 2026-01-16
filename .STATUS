@@ -8,16 +8,17 @@
 ## Priority: 1
 ## Progress: 100
 
-## Focus: Nvim/LazyVim Documentation
+## Focus: Dual-track v5.11.0 Development
 
-## 🚧 In Planning (2026-01-16):
+## 🚧 Work In Progress (2026-01-16):
 
-### Nvim/LazyVim Documentation & Integration - v5.11.0
+### Track A: Nvim/LazyVim Documentation - v5.11.0
 
 **Spec:** `docs/specs/SPEC-nvim-documentation-2026-01-16.md`
 **Branch:** `feature/nvim-documentation`
 **Worktree:** `~/.git-worktrees/flow-cli/nvim-documentation`
 **Effort:** 18-22 hours
+**Status:** ⏳ Ready for implementation (worktree created)
 
 **Goal:** Comprehensive nvim/LazyVim documentation for complete beginners
 
@@ -30,7 +31,68 @@
 - 14 GIF demonstrations
 - Documentation updates (work.md, installation.md, mkdocs.yml)
 
-**Status:** Planning complete, awaiting worktree creation for implementation
+**Implementation Phases:**
+- Phase 1: Tutorial 15 (Proof of Concept) - 3-4 hours
+- Phase 2: Complete Tutorial Series - 4-6 hours
+- Phase 3: Reference Card & Interactive Tutorial - 5-7 hours
+- Phase 4: Documentation Updates & Deployment - 2-3 hours
+
+---
+
+### Track B: Teaching + Git Integration - v5.11.0
+
+**Spec:** `docs/specs/SPEC-teaching-git-integration-2026-01-16.md`
+**Brainstorm:** `BRAINSTORM-teaching-git-integration-2026-01-16.md`
+**Branch:** `feature/teaching-git-integration`
+**Worktree:** `~/.git-worktrees/flow-cli/teaching-git-integration`
+**Effort:** 11-16 hours (5 phases)
+**Status:** ⏳ Ready for implementation (worktree created)
+
+**Goal:** Seamless git integration for teaching workflow with smart automation and PR-based deployments
+
+**Key Insight:** Teaching content creation has natural "generate → review → commit → deploy" rhythm. Current manual git operations break flow state.
+
+**User Research (8 expert questions):**
+- Primary pain: Disconnect between teach commands and git workflow
+- All user types benefit (instructors, TAs, git novices)
+- Desired workflow: Generate → Review → Commit → Deploy
+- Deploy strategy: PR-based (never direct push to production)
+- Teaching mode: Yes, with confirmations (not silent automation)
+
+**Deliverables:**
+
+**Sprint 1 - Quick Wins (5-6 hours):**
+- Phase 1: Smart post-generation workflow (2-3h)
+  - Interactive: Review → Commit → Push?
+  - Auto-generated commit messages
+  - 80% of git friction eliminated
+- Phase 3: Git-aware teach status (1-2h)
+  - Show uncommitted teaching files
+  - Offer to commit/stash interactively
+- Phase 5: Git integration in teach init (1h)
+  - Auto-create draft/main branches
+  - One command full structure
+
+**Sprint 2 - Power Features (7-10 hours):**
+- Phase 2: Branch-aware deployment (4-6h)
+  - PR-based workflow (draft → main)
+  - Conflict detection before deploy
+- Phase 4: Teaching mode (3-4h)
+  - Streamlined auto-commit workflow
+  - Configurable per-project
+
+**Files to Create/Modify:**
+- NEW: `lib/git-helpers.zsh` (8 functions)
+- NEW: `tests/test-teaching-git-integration.zsh`
+- MODIFIED: `lib/dispatchers/teach-dispatcher.zsh`
+- MODIFIED: `commands/teach-init.zsh`
+- MODIFIED: `lib/config-validator.zsh`
+- MODIFIED: `lib/templates/teaching/teach-config.schema.json`
+
+**Success Metrics:**
+- Reduce git commands per content generation: 5 → 0
+- Time to deploy: 3 min → 30 sec
+- Forgotten commits: 30% → 0%
 
 ---
 
