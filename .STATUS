@@ -100,10 +100,11 @@
 
 **Spec:** `docs/specs/SPEC-teach-dates-automation-2026-01-16.md`
 **Brainstorm:** `BRAINSTORM-teach-dates-automation-2026-01-16.md`
+**Command Naming:** `BRAINSTORM-teach-dates-command-naming-2026-01-16.md`
 **Branch:** `feature/teach-dates-automation`
-**Worktree:** TBD (to be created)
+**Worktree:** `~/.git-worktrees/flow-cli/teach-dates-automation`
 **Effort:** 12-17 hours (5 phases)
-**Status:** ⏳ Planning complete, ready for worktree creation
+**Status:** ⏳ Ready for implementation (worktree created)
 
 **Goal:** Automated date/deadline management for teaching materials with centralized config and smart sync
 
