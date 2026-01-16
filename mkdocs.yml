@@ -97,6 +97,10 @@ nav:
       - 12. DOT Dispatcher: tutorials/12-dot-dispatcher.md
       - 13. Prompt Dispatcher: tutorials/13-prompt-dispatcher.md
       - 14. Teach Dispatcher: tutorials/14-teach-dispatcher.md
+      - 15. Nvim Quick Start: tutorials/15-nvim-quick-start.md
+      - 16. Vim Motions: tutorials/16-vim-motions.md
+      - 17. LazyVim Basics: tutorials/17-lazyvim-basics.md
+      - 18. LazyVim Showcase: tutorials/18-lazyvim-showcase.md
   - Workflows:
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
       - Teaching Workflow: guides/TEACHING-WORKFLOW.md
@@ -145,6 +149,7 @@ nav:
           - WT Dispatcher: reference/WT-DISPATCHER-REFERENCE.md
       - Quick Reference Cards:
           - DOT Quick Ref: reference/REFCARD-DOT.md
+          - Nvim Quick Ref: reference/NVIM-QUICK-REFERENCE.md
           - Prompt Quick Ref: reference/PROMPT-DISPATCHER-REFCARD.md
           - Teaching Quick Ref: reference/REFCARD-TEACHING.md
       - Project Tools:
