@@ -1215,6 +1215,16 @@ _teach_create_fresh_repo() {
   if [[ "$TEACH_SKIP_GIT" == "true" ]]; then
     echo "${FLOW_COLORS[info]}--no-git flag detected: Skipping git initialization${FLOW_COLORS[reset]}"
     echo ""
+
+    # Still install teaching templates (config, scripts, etc.)
+    echo "${FLOW_COLORS[info]}Installing teaching workflow...${FLOW_COLORS[reset]}"
+    if ! _teach_install_templates "$course_name"; then
+      _flow_log_error "Failed to install teaching templates"
+      return 1
+    fi
+    echo "✅ Teaching workflow installed"
+    echo ""
+
     echo "To initialize git later:"
     echo "  git init"
     echo "  git add ."

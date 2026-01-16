@@ -56,9 +56,13 @@ _git_teaching_files() {
     local pattern=$(printf '%s|' "${paths[@]}" | sed 's/|$//')
 
     # Get uncommitted files matching teaching paths
-    git status --porcelain 2>/dev/null | \
-        grep -E "$pattern" | \
-        awk '{print $2}'
+    # Use ls-files for untracked to get individual files, not just directories
+    {
+        # Modified/staged files
+        git status --porcelain 2>/dev/null | grep -E "$pattern" | awk '{print $2}'
+        # Untracked files in teaching directories
+        git ls-files --others --exclude-standard 2>/dev/null | grep -E "$pattern"
+    } | sort -u
 }
 
 # Interactive commit workflow for teaching content
