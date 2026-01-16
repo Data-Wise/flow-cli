@@ -713,7 +713,80 @@ Co-Authored-By: Scholar <scholar@example.com>
 ✓ Commit messages are descriptive and searchable
 ✓ Zero git commands typed manually
 
-**Next Phase:** Phase 2 - Branch-Aware Deployment (PR workflow)
+---
+
+#### ✅ Phase 2 Complete: Branch-Aware Deployment (4-6 hours)
+
+**What Was Delivered:**
+
+- [x] Enhanced `teach deploy` command with PR-based workflow
+- [x] Pre-flight checks (branch, clean state, unpushed commits, conflicts)
+- [x] Conflict detection with interactive rebase option
+- [x] Auto-generated PR with commit list and deploy checklist
+- [x] Configuration via `git` and `workflow` sections in teach-config.yml
+- [x] Direct push bypass for advanced users (`--direct-push`)
+- [x] All syntax tests passing
+
+**New Functions:**
+
+```bash
+# PR Workflow (lib/git-helpers.zsh)
+_git_create_deploy_pr()           # Create PR via gh CLI
+_git_detect_production_conflicts() # Check for production updates
+_git_get_commit_count()           # Count commits between branches
+_git_get_commit_list()            # Format commit list for PR
+_git_generate_pr_body()           # Auto-generate PR description
+_git_rebase_onto_production()     # Interactive rebase
+_git_has_unpushed_commits()       # Check for unpushed work
+
+# Deploy Command (lib/dispatchers/teach-dispatcher.zsh)
+_teach_deploy()                   # Main deployment workflow
+_teach_deploy_help()              # Help documentation
+```
+
+**Configuration Example:**
+
+```yaml
+# teach-config.yml
+git:
+  draft_branch: draft
+  production_branch: main
+  auto_pr: true
+  require_clean: true
+
+workflow:
+  teaching_mode: false
+  auto_commit: false
+  auto_push: false
+```
+
+**Workflow:**
+
+1. **Pre-flight Checks**
+   - ✓ Verify on draft branch (auto-switch if needed)
+   - ✓ Check for uncommitted changes
+   - ✓ Detect unpushed commits (offer to push)
+   - ✓ Detect production conflicts (offer to rebase)
+
+2. **PR Creation**
+   - Auto-generate title: "Deploy: [Course Name] Updates"
+   - Include commit list and count
+   - Add deploy checklist
+   - Label with "teaching,deploy"
+
+3. **Conflict Resolution**
+   - Detect if production has new commits
+   - Offer interactive rebase
+   - Continue anyway or cancel
+
+**Success Criteria:**
+
+✓ teach deploy creates PR from draft → production
+✓ Never pushes directly to main (unless --direct-push)
+✓ Conflicts detected before PR creation
+✓ Interactive prompts for all critical decisions
+
+**Next Phase:** Phase 3 - Git-Aware teach status (1-2 hours)
 
 ---
 
