@@ -8,11 +8,11 @@
 ## Priority: 1
 ## Progress: 95
 
-## Focus: Nvim/LazyVim Documentation Complete
+## Focus: v5.11.0 - Track A Complete, Tracks B & C In Progress
 
 ## ✅ Completed (2026-01-16):
 
-### Nvim/LazyVim Documentation - v5.11.0 Core Deliverables
+### Track A: Nvim/LazyVim Documentation - v5.11.0
 
 **Branch:** `feature/nvim-documentation`
 **Worktree:** `~/.git-worktrees/flow-cli/nvim-documentation`
@@ -52,23 +52,167 @@
 - [x] GIF specifications documented (14 planned GIFs with details)
 - [x] Spec committed (`docs/specs/SPEC-nvim-documentation-2026-01-16.md`)
 
-**Commits:**
-```
-eecfc147 docs: add nvim tutorials to MkDocs navigation
-0956644c docs: add nvim/LazyVim installation guide
-4dd6f9f8 docs: fix work.md to reflect nvim as default editor
-a0786400 docs: add comprehensive nvim/LazyVim quick reference card
-4ef31092 docs: add 4 comprehensive nvim/LazyVim tutorials
-a0bde8ec docs: add nvim/LazyVim documentation spec
-```
-
 **Statistics:**
 - Files created: 7 (4 tutorials, 1 reference, 1 GIF README, 1 spec)
 - Files modified: 3 (work.md, installation.md, mkdocs.yml)
 - Lines of documentation: ~3,500+
 - Learning path: 70 minutes from zero to productive
 
-**Status:** Ready for v5.11.0 release (core documentation complete)
+**Status:** ✅ Ready to merge to dev
+
+---
+
+## 🚧 Work In Progress (2026-01-16):
+
+---
+
+### Track B: Teaching + Git Integration - v5.11.0
+
+**Spec:** `docs/specs/SPEC-teaching-git-integration-2026-01-16.md`
+**Brainstorm:** `BRAINSTORM-teaching-git-integration-2026-01-16.md`
+**Branch:** `feature/teaching-git-integration`
+**Worktree:** `~/.git-worktrees/flow-cli/teaching-git-integration`
+**Effort:** 11-16 hours (5 phases)
+**Status:** ⏳ Ready for implementation (worktree created)
+
+**Goal:** Seamless git integration for teaching workflow with smart automation and PR-based deployments
+
+**Key Insight:** Teaching content creation has natural "generate → review → commit → deploy" rhythm. Current manual git operations break flow state.
+
+**User Research (8 expert questions):**
+- Primary pain: Disconnect between teach commands and git workflow
+- All user types benefit (instructors, TAs, git novices)
+- Desired workflow: Generate → Review → Commit → Deploy
+- Deploy strategy: PR-based (never direct push to production)
+- Teaching mode: Yes, with confirmations (not silent automation)
+
+**Deliverables:**
+
+**Sprint 1 - Quick Wins (5-6 hours):**
+- Phase 1: Smart post-generation workflow (2-3h)
+  - Interactive: Review → Commit → Push?
+  - Auto-generated commit messages
+  - 80% of git friction eliminated
+- Phase 3: Git-aware teach status (1-2h)
+  - Show uncommitted teaching files
+  - Offer to commit/stash interactively
+- Phase 5: Git integration in teach init (1h)
+  - Auto-create draft/main branches
+  - One command full structure
+
+**Sprint 2 - Power Features (7-10 hours):**
+- Phase 2: Branch-aware deployment (4-6h)
+  - PR-based workflow (draft → main)
+  - Conflict detection before deploy
+- Phase 4: Teaching mode (3-4h)
+  - Streamlined auto-commit workflow
+  - Configurable per-project
+
+**Files to Create/Modify:**
+- NEW: `lib/git-helpers.zsh` (8 functions)
+- NEW: `tests/test-teaching-git-integration.zsh`
+- MODIFIED: `lib/dispatchers/teach-dispatcher.zsh`
+- MODIFIED: `commands/teach-init.zsh`
+- MODIFIED: `lib/config-validator.zsh`
+- MODIFIED: `lib/templates/teaching/teach-config.schema.json`
+
+**Success Metrics:**
+- Reduce git commands per content generation: 5 → 0
+- Time to deploy: 3 min → 30 sec
+- Forgotten commits: 30% → 0%
+
+---
+
+### Track C: Teaching Dates Automation - v5.11.0
+
+**Spec:** `docs/specs/SPEC-teach-dates-automation-2026-01-16.md`
+**Brainstorm:** `BRAINSTORM-teach-dates-automation-2026-01-16.md`
+**Command Naming:** `BRAINSTORM-teach-dates-command-naming-2026-01-16.md`
+**Branch:** `feature/teach-dates-automation`
+**Worktree:** `~/.git-worktrees/flow-cli/teach-dates-automation`
+**Effort:** 12-17 hours (5 phases)
+**Status:** ⏳ Ready for implementation (worktree created)
+
+**Goal:** Automated date/deadline management for teaching materials with centralized config and smart sync
+
+**Key Insight:** Instructors manually update dates across 10+ files when semester changes. One config file should be the source of truth for all dates.
+
+**User Research (8 expert questions):**
+- Pain points: Manual updates, inconsistencies across files, semester rollover
+- Source of truth: teach-config.yml + external calendar support
+- Date types: Week starts, assignment deadlines, exams, holidays
+- UX: File-by-file prompts (interactive, not silent)
+- File formats: Quarto YAML frontmatter + Markdown inline dates
+- Conflict resolution: Ask user (never auto-overwrite)
+- Relative dates: Support "week + offset" syntax (e.g., week: 3, offset: +2 days)
+- Triggers: Manual command + semester rollover wizard
+
+**Deliverables:**
+
+**Phase 1: Extended Config Schema (2-3 hours)**
+- Extend teach-config.yml with:
+  - `semester_info.weeks[]` (week number, start_date, topic)
+  - `semester_info.holidays[]` (name, date, type: break/exam/special)
+  - `semester_info.deadlines{}` (assignment → week/offset or absolute date)
+  - `semester_info.exams[]` (name, date, time, location)
+- Update teach-config.schema.json
+- Add validation rules
+
+**Phase 2: Date Parser Module (3-4 hours)**
+- NEW: `lib/date-parser.zsh` (8 functions)
+  - `_date_parse_quarto_yaml()` - Extract YAML frontmatter dates
+  - `_date_parse_markdown_inline()` - Find inline markdown dates
+  - `_date_normalize()` - Convert any format to YYYY-MM-DD
+  - `_date_compute_from_week()` - Calculate week + offset
+  - `_date_find_teaching_files()` - Find all teaching files
+  - `_teach_dates_sync()` - Main sync command
+  - `_teach_semester_new()` - Semester rollover wizard
+  - `_date_format()` - Format dates for display
+
+**Phase 3: teach dates sync Command (4-6 hours)**
+- Interactive file-by-file sync
+- Preview changes before applying
+- Conflict resolution (ask user)
+- Support for:
+  - Quarto YAML frontmatter (date:, due_date:, exam_date:)
+  - Markdown inline dates (Week 3: January 22, Due: Feb 5)
+- Dry-run mode (`--dry-run`)
+- Selective sync by file type (`--assignments`, `--lectures`, etc.)
+
+**Phase 4: teach semester new Command (2-3 hours)**
+- One-command semester rollover
+- Wizard prompts:
+  - New semester name
+  - Start/end dates
+  - Shift all dates by N weeks
+  - Preserve relative spacing
+- Validation before applying
+- Backup old config
+
+**Phase 5: Integration & Documentation (1-2 hours)**
+- Integrate with `teach init` (offer to set dates)
+- Update `teach status` to show upcoming deadlines
+- Comprehensive docs:
+  - Tutorial: Setting up semester dates
+  - Guide: Date sync workflows
+  - Reference: Date format support
+- 30+ tests
+
+**Files to Create/Modify:**
+- NEW: `lib/date-parser.zsh` (8 functions)
+- NEW: `tests/test-date-parser.zsh` (30+ tests)
+- NEW: `docs/guides/TEACHING-DATES-GUIDE.md`
+- MODIFIED: `lib/dispatchers/teach-dispatcher.zsh` (add dates subcommand)
+- MODIFIED: `lib/templates/teaching/teach-config.schema.json` (extend schema)
+- MODIFIED: `commands/teach-init.zsh` (optional date setup)
+
+**Success Metrics:**
+- Time to update all dates: 30 min → 2 min
+- Date inconsistencies: 20% → 0%
+- Semester rollover time: 2 hours → 5 minutes
+
+**Command Naming (To Be Decided):**
+- Pending brainstorm with user on command structure and keywords
 
 ---
 
@@ -369,39 +513,7 @@ a0bde8ec docs: add nvim/LazyVim documentation spec
 
 ## 📋 Future Roadmap
 
-### v5.11.1 (Future - Nvim Enhancements) [8-12 hours, Optional]
-
-**Priority:** Low | **Effort:** Medium-High | **Impact:** Medium
-
-**Deferred from v5.11.0:**
-- [ ] Create 14 GIF demonstrations (VHS)
-  - Tutorial 15: 3 GIFs (opening, basic editing, panic exit)
-  - Tutorial 16: 3 GIFs (word motions, text objects, search/jump)
-  - Tutorial 17: 4 GIFs (neo-tree, telescope, splits, lazygit)
-  - Tutorial 18: 4 GIFs (which-key, LSP, mason, customization)
-  - **Effort:** 4-6 hours
-  - **Infrastructure ready:** `docs/assets/gifs/nvim/README.md` with specs
-- [ ] Implement interactive tutorial command
-  - **Command:** `flow nvim-tutorial`
-  - **Features:** 5 lessons, honor system checkpoints, progress tracking
-  - **File:** `commands/nvim-tutorial.zsh`
-  - **Effort:** 6-8 hours
-  - **Design complete:** Spec in `docs/specs/SPEC-nvim-documentation-2026-01-16.md`
-
-**Rationale for Deferral:**
-- Core documentation (tutorials + reference) is complete and sufficient
-- Written tutorials are comprehensive (~3,500 lines, 70-minute learning path)
-- GIFs and interactive tutorial are enhancements, not blockers
-- v5.11.0 can ship with excellent nvim documentation already
-
-**Benefits When Implemented:**
-- Visual learning aids (GIFs)
-- Hands-on practice (interactive tutorial)
-- Lower learning curve for complete beginners
-
----
-
-### v5.12.0 (Next - Installation Improvements) [2-4 hours]
+### v5.11.0 (Next - Installation Improvements) [2-4 hours]
 
 **Priority:** High | **Effort:** Medium | **Impact:** High
 
@@ -642,15 +754,7 @@ a0bde8ec docs: add nvim/LazyVim documentation spec
 
 ## 🎯 Next Action
 
-**Current:** Ready to merge feature/nvim-documentation → dev for v5.11.0 release
-
-**✅ v5.11.0 Core Complete (2026-01-16):**
-- ✅ 4 comprehensive nvim/LazyVim tutorials (~2,900 lines)
-- ✅ Quick reference card (~410 lines)
-- ✅ Installation guide with LazyVim setup
-- ✅ Documentation integration (work.md, mkdocs.yml)
-- ✅ Site built and verified
-- ✅ 6 commits ready for merge
+**Current:** Nvim/LazyVim Documentation Implementation (v5.11.0)
 
 **✅ v5.10.0 Released (2026-01-15):**
 - ✅ Worktree detection + cache invalidation
@@ -662,18 +766,7 @@ a0bde8ec docs: add nvim/LazyVim documentation spec
 
 **Recommended Next Steps (Priority Order):**
 
-**A) Merge & Release v5.11.0** [30 min, Immediate]
-- Merge feature/nvim-documentation → dev
-- Test tutorials with a beginner
-- Create release PR (dev → main)
-- Tag v5.11.0
-- Update Homebrew formula
-- Deploy documentation
-- **Impact:** Nvim documentation available to all users
-- **Effort:** Low
-- **Status:** Ready for merge (6 commits, site verified)
-
-**B) v5.12.0 - Installation Improvements** [2-4 hours, High Priority]
+**A) v5.11.0 - Installation Improvements** [2-4 hours, High Priority]
 - Create curl one-liner: `curl -fsSL https://flow-cli.sh | zsh`
 - Auto-detect plugin manager (zinit, antidote, oh-my-zsh)
 - Update installation docs to match aiterm quality
@@ -682,7 +775,7 @@ a0bde8ec docs: add nvim/LazyVim documentation spec
 - **Effort:** Medium
 - **Reference:** `~/projects/dev-tools/aiterm/install.sh`
 
-**C) v5.13.0 - Enhanced Error Messages & UX** [3-5 hours, Medium Priority]
+**B) v5.12.0 - Enhanced Error Messages & UX** [3-5 hours, Medium Priority]
 - Standardize error messages with suggested fixes
 - Add `--verbose` flag to all dispatchers
 - Progress indicators for slow operations
@@ -691,14 +784,14 @@ a0bde8ec docs: add nvim/LazyVim documentation spec
 - **Effort:** Medium
 - **Quick Win:** Start with top 5 most common errors
 
-**D) Scholar Integration (Waiting)** [Low Effort, High Impact when ready]
+**C) Scholar Integration (Waiting)** [Low Effort, High Impact when ready]
 - Monitor Scholar issue #18 for team response
 - Iterate on RFC based on feedback
 - Plan integration timeline for v2.2.0
 - **Status:** Waiting on Scholar team approval
 - **Next Check:** Weekly follow-up on issue
 
-**E) v5.14.0 - Testing Infrastructure** [4-6 hours, Medium Priority]
+**D) v5.13.0 - Testing Infrastructure** [4-6 hours, Medium Priority]
 - Increase test coverage to 100%
 - Add GitHub Actions test matrix (macOS, Linux, ZSH versions)
 - Create test fixtures library
@@ -706,14 +799,7 @@ a0bde8ec docs: add nvim/LazyVim documentation spec
 - **Effort:** High
 - **Long-term benefit:** Confidence in refactoring
 
-**F) v5.11.1 - Nvim Enhancements (Optional)** [8-12 hours, Low Priority]
-- Create 14 GIF demonstrations with VHS
-- Implement interactive tutorial command
-- **Impact:** Enhanced learning experience
-- **Effort:** High
-- **Status:** Deferred, infrastructure ready
-
-**G) Documentation Enhancements** [1-2 hours, Low Priority]
+**E) Documentation Enhancements** [1-2 hours, Low Priority]
 - Add video walkthroughs (loom or VHS)
 - Create more tutorials (7-day onboarding series)
 - Improve search functionality (algolia)
@@ -721,7 +807,7 @@ a0bde8ec docs: add nvim/LazyVim documentation spec
 - **Effort:** Low-Medium
 - **Quick Win:** Record 3 core workflows
 
-**H) v5.15.0 - Performance Optimization** [3-5 hours, Low Priority]
+**F) v5.14.0 - Performance Optimization** [3-5 hours, Low Priority]
 - Profile plugin load time
 - Optimize `pick` and `dash` commands
 - Add optional performance telemetry
@@ -733,22 +819,15 @@ a0bde8ec docs: add nvim/LazyVim documentation spec
 
 **Immediate Next Step (Recommended):**
 
-→ **Merge feature/nvim-documentation and release v5.11.0**
+→ **Start v5.11.0 Installation Improvements**
 
 **Why:**
-- Core documentation complete and verified (~3,500 lines)
-- 6 commits ready for merge
-- High impact for nvim beginners
-- Closes major onboarding gap (nvim undocumented despite being default)
-- Clean worktree, all changes committed
-- Site successfully builds
-
-**After v5.11.0 Release:**
-- Start v5.12.0 Installation Improvements
-- Consider v5.11.1 for GIFs/interactive tutorial (optional)
-- Monitor user feedback on nvim tutorials
+- High impact for new users
+- Referenced as planned in v5.10.0 release
+- Completes the "polish" phase (docs + install)
+- Builds on aiterm's proven approach
+- Can be completed in one focused session
 
 **Alternative:**
-- If want to add GIFs first: Implement 3 GIFs for Tutorial 15 (~1-2 hours)
-- If want interactive tutorial: Start `commands/nvim-tutorial.zsh` (~6 hours)
-- Recommended: Ship core docs now, iterate later based on feedback
+- If waiting for inspiration: Work on v5.12.0 error messages (incremental)
+- If blocked: Check Scholar RFC feedback and iterate
