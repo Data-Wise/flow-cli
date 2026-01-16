@@ -484,6 +484,265 @@ _teach_commit_now() {
     fi
 }
 
+# ============================================================================
+# TEACH DEPLOY - BRANCH-AWARE PR WORKFLOW (Phase 2 - v5.11.0+)
+# ============================================================================
+
+# Deploy teaching content from draft to production via PR
+# Usage: _teach_deploy [--direct-push]
+_teach_deploy() {
+    local direct_push=false
+
+    # Parse flags
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --direct-push)
+                direct_push=true
+                shift
+                ;;
+            --help|-h|help)
+                _teach_deploy_help
+                return 0
+                ;;
+            *)
+                _teach_error "Unknown flag: $1" "Run 'teach deploy --help' for usage"
+                return 1
+                ;;
+        esac
+    done
+
+    # Check if in git repo
+    if ! _git_in_repo; then
+        _teach_error "Not in a git repository" \
+            "Initialize git first with: git init"
+        return 1
+    fi
+
+    # Read git configuration from teach-config.yml
+    local draft_branch prod_branch auto_pr require_clean
+    draft_branch=$(yq '.git.draft_branch // "draft"' teach-config.yml 2>/dev/null)
+    prod_branch=$(yq '.git.production_branch // "main"' teach-config.yml 2>/dev/null)
+    auto_pr=$(yq '.git.auto_pr // true' teach-config.yml 2>/dev/null)
+    require_clean=$(yq '.git.require_clean // true' teach-config.yml 2>/dev/null)
+
+    # Read course info for PR title
+    local course_name
+    course_name=$(yq '.course.name // "Teaching Project"' teach-config.yml 2>/dev/null)
+
+    echo ""
+    echo "${FLOW_COLORS[info]}🔍 Pre-flight Checks${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    # Check 1: Verify we're on draft branch
+    local current_branch=$(_git_current_branch)
+    if [[ "$current_branch" != "$draft_branch" ]]; then
+        echo "${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Not on $draft_branch branch (currently on: $current_branch)"
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}Switch to $draft_branch branch? [Y/n]:${FLOW_COLORS[reset]} "
+        read -r switch_confirm
+
+        case "$switch_confirm" in
+            n|N|no|No|NO)
+                return 1
+                ;;
+            *)
+                git checkout "$draft_branch" || {
+                    _teach_error "Failed to switch to $draft_branch"
+                    return 1
+                }
+                echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Switched to $draft_branch"
+                ;;
+        esac
+    else
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} On $draft_branch branch"
+    fi
+
+    # Check 2: Verify no uncommitted changes (if required)
+    if [[ "$require_clean" == "true" ]]; then
+        if ! _git_is_clean; then
+            echo "${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Uncommitted changes detected"
+            echo ""
+            echo "  ${FLOW_COLORS[dim]}Commit or stash changes before deploying${FLOW_COLORS[reset]}"
+            echo "  ${FLOW_COLORS[dim]}Or disable with: git.require_clean: false${FLOW_COLORS[reset]}"
+            return 1
+        else
+            echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} No uncommitted changes"
+        fi
+    fi
+
+    # Check 3: Check for unpushed commits
+    if _git_has_unpushed_commits; then
+        echo "${FLOW_COLORS[warn]}⚠️  ${FLOW_COLORS[reset]} Unpushed commits detected"
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}Push to origin/$draft_branch first? [Y/n]:${FLOW_COLORS[reset]} "
+        read -r push_confirm
+
+        case "$push_confirm" in
+            n|N|no|No|NO)
+                echo "${FLOW_COLORS[warn]}Continuing without push...${FLOW_COLORS[reset]}"
+                ;;
+            *)
+                if _git_push_current_branch; then
+                    echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+                else
+                    return 1
+                fi
+                ;;
+        esac
+    else
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Remote is up-to-date"
+    fi
+
+    # Check 4: Conflict detection
+    if _git_detect_production_conflicts "$draft_branch" "$prod_branch"; then
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} No conflicts with production"
+    else
+        local commits_ahead=$(git rev-list --count "origin/${prod_branch}..origin/${draft_branch}" 2>/dev/null || echo 0)
+        echo "${FLOW_COLORS[warn]}⚠️  ${FLOW_COLORS[reset]} Production ($prod_branch) has new commits"
+        echo ""
+        echo "${FLOW_COLORS[prompt]}Production branch has updates. Rebase first?${FLOW_COLORS[reset]}"
+        echo ""
+        echo "  ${FLOW_COLORS[dim]}[1]${FLOW_COLORS[reset]} Yes - Rebase $draft_branch onto $prod_branch (Recommended)"
+        echo "  ${FLOW_COLORS[dim]}[2]${FLOW_COLORS[reset]} No - Continue anyway (may have merge conflicts in PR)"
+        echo "  ${FLOW_COLORS[dim]}[3]${FLOW_COLORS[reset]} Cancel deployment"
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}Your choice [1-3]:${FLOW_COLORS[reset]} "
+        read -r rebase_choice
+
+        case "$rebase_choice" in
+            1)
+                if _git_rebase_onto_production "$draft_branch" "$prod_branch"; then
+                    echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Rebase successful"
+                else
+                    return 1
+                fi
+                ;;
+            2)
+                echo "${FLOW_COLORS[warn]}Continuing without rebase...${FLOW_COLORS[reset]}"
+                ;;
+            3|*)
+                echo "Deployment cancelled"
+                return 1
+                ;;
+        esac
+    fi
+
+    echo ""
+
+    # Generate PR details
+    local commit_count=$(_git_get_commit_count "$draft_branch" "$prod_branch")
+    local pr_title="Deploy: $course_name Updates"
+    local pr_body=$(_git_generate_pr_body "$draft_branch" "$prod_branch")
+
+    # Show PR preview
+    echo "${FLOW_COLORS[info]}📋 Pull Request Preview${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo ""
+    echo "${FLOW_COLORS[bold]}Title:${FLOW_COLORS[reset]} $pr_title"
+    echo "${FLOW_COLORS[bold]}From:${FLOW_COLORS[reset]} $draft_branch → $prod_branch"
+    echo "${FLOW_COLORS[bold]}Commits:${FLOW_COLORS[reset]} $commit_count"
+    echo ""
+
+    # Decide whether to create PR or direct push
+    if [[ "$direct_push" == "true" ]]; then
+        echo "${FLOW_COLORS[warn]}⚠️  Direct push mode (bypassing PR)${FLOW_COLORS[reset]}"
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}Push directly to $prod_branch? [y/N]:${FLOW_COLORS[reset]} "
+        read -r direct_confirm
+
+        case "$direct_confirm" in
+            y|Y|yes|Yes|YES)
+                git push origin "$draft_branch:$prod_branch" && \
+                    echo "${FLOW_COLORS[success]}✅ Pushed to $prod_branch${FLOW_COLORS[reset]}" || \
+                    return 1
+                ;;
+            *)
+                echo "Direct push cancelled"
+                return 1
+                ;;
+        esac
+    elif [[ "$auto_pr" == "true" ]]; then
+        # Create PR workflow
+        echo "${FLOW_COLORS[prompt]}Create pull request?${FLOW_COLORS[reset]}"
+        echo ""
+        echo "  ${FLOW_COLORS[dim]}[1]${FLOW_COLORS[reset]} Yes - Create PR (Recommended)"
+        echo "  ${FLOW_COLORS[dim]}[2]${FLOW_COLORS[reset]} Push to $draft_branch only (no PR)"
+        echo "  ${FLOW_COLORS[dim]}[3]${FLOW_COLORS[reset]} Cancel"
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}Your choice [1-3]:${FLOW_COLORS[reset]} "
+        read -r pr_choice
+
+        case "$pr_choice" in
+            1)
+                echo ""
+                if _git_create_deploy_pr "$draft_branch" "$prod_branch" "$pr_title" "$pr_body"; then
+                    echo ""
+                    echo "${FLOW_COLORS[success]}✅ Pull Request Created${FLOW_COLORS[reset]}"
+                    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+                    echo ""
+                    echo "  Next steps:"
+                    echo "  1. Review PR on GitHub"
+                    echo "  2. Merge when ready"
+                    echo "  3. Site will auto-deploy after merge"
+                    echo ""
+                else
+                    return 1
+                fi
+                ;;
+            2)
+                if _git_push_current_branch; then
+                    echo ""
+                    echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+                    echo "  ${FLOW_COLORS[dim]}Create PR manually on GitHub when ready${FLOW_COLORS[reset]}"
+                else
+                    return 1
+                fi
+                ;;
+            3|*)
+                echo "Deployment cancelled"
+                return 1
+                ;;
+        esac
+    else
+        # auto_pr is false - just push to draft
+        if _git_push_current_branch; then
+            echo ""
+            echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+            echo "  ${FLOW_COLORS[dim]}Create PR manually on GitHub${FLOW_COLORS[reset]}"
+        else
+            return 1
+        fi
+    fi
+}
+
+# Help for teach deploy
+_teach_deploy_help() {
+    echo "teach deploy - Deploy teaching content via PR workflow"
+    echo ""
+    echo "Usage: teach deploy [options]"
+    echo ""
+    echo "Options:"
+    echo "  --direct-push    Bypass PR and push directly to production (advanced)"
+    echo "  --help, -h       Show this help message"
+    echo ""
+    echo "Workflow:"
+    echo "  1. Verify on draft branch"
+    echo "  2. Check for uncommitted changes"
+    echo "  3. Detect conflicts with production"
+    echo "  4. Create pull request (draft → production)"
+    echo ""
+    echo "Configuration (teach-config.yml):"
+    echo "  git:"
+    echo "    draft_branch: draft          # Development branch"
+    echo "    production_branch: main      # Production branch"
+    echo "    auto_pr: true                # Auto-create PR"
+    echo "    require_clean: true          # Require clean state"
+    echo ""
+    echo "Examples:"
+    echo "  teach deploy                   # Standard PR workflow"
+    echo "  teach deploy --direct-push     # Bypass PR (not recommended)"
+}
+
 # Main Scholar wrapper function
 _teach_scholar_wrapper() {
     local subcommand="$1"
@@ -759,12 +1018,8 @@ teach() {
 
         # Shortcuts for common operations
         deploy|d)
-            if [[ -f "./scripts/quick-deploy.sh" ]]; then
-                ./scripts/quick-deploy.sh "$@"
-            else
-                _teach_error "No quick-deploy.sh found" "Run 'teach init' first"
-                return 1
-            fi
+            # Phase 2 (v5.11.0+): Branch-aware deployment with PR workflow
+            _teach_deploy "$@"
             ;;
 
         archive|a)

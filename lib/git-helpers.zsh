@@ -82,26 +82,44 @@ _git_interactive_commit() {
     return 0
 }
 
-# Create deployment pull request (Phase 2 - stub for now)
-# Usage: _git_create_deploy_pr <title> <body>
+# Create deployment pull request (Phase 2 - v5.11.0+)
+# Usage: _git_create_deploy_pr <draft_branch> <prod_branch> <title> <body>
 # Returns: 0 on success, 1 on error
 _git_create_deploy_pr() {
-    local title="$1"
-    local body="$2"
+    local draft_branch="$1"
+    local prod_branch="$2"
+    local title="$3"
+    local body="$4"
+
+    # Source core helpers for logging
+    source "${0:A:h}/core.zsh" 2>/dev/null || return 1
 
     # Check if gh CLI is available
     if ! command -v gh &>/dev/null; then
         _flow_log_error "gh CLI not found. Install with: brew install gh"
+        _flow_log_info "  Run: brew install gh && gh auth login"
         return 1
     fi
 
-    # Create PR from draft to main (default branches)
-    gh pr create \
-        --base main \
-        --head draft \
+    # Check if gh is authenticated
+    if ! gh auth status &>/dev/null; then
+        _flow_log_error "gh CLI not authenticated"
+        _flow_log_info "  Run: gh auth login"
+        return 1
+    fi
+
+    # Create PR from draft to production branch
+    if gh pr create \
+        --base "$prod_branch" \
+        --head "$draft_branch" \
         --title "$title" \
         --body "$body" \
-        --label "teaching,deploy"
+        --label "teaching,deploy" 2>&1; then
+        return 0
+    else
+        _flow_log_error "Failed to create pull request"
+        return 1
+    fi
 }
 
 # Detect if we're in a git repository
@@ -163,4 +181,127 @@ _git_push_current_branch() {
         _flow_log_error "Failed to push to origin/$branch"
         return 1
     fi
+}
+
+# ============================================================================
+# PHASE 2: BRANCH-AWARE DEPLOYMENT (v5.11.0+)
+# ============================================================================
+
+# Check if production branch has new commits (conflict detection)
+# Usage: _git_detect_production_conflicts <draft_branch> <prod_branch>
+# Returns: 0 if no conflicts, 1 if production has new commits
+_git_detect_production_conflicts() {
+    local draft_branch="$1"
+    local prod_branch="$2"
+
+    # Fetch latest from remote
+    git fetch origin "$prod_branch" --quiet 2>/dev/null || return 1
+
+    # Get merge base (common ancestor)
+    local merge_base=$(git merge-base "$draft_branch" "origin/$prod_branch" 2>/dev/null)
+
+    # Check if production branch has commits ahead of merge base
+    local commits_ahead=$(git rev-list --count "${merge_base}..origin/${prod_branch}" 2>/dev/null || echo 0)
+
+    if [[ $commits_ahead -gt 0 ]]; then
+        return 1  # Conflicts detected (production has new commits)
+    else
+        return 0  # No conflicts
+    fi
+}
+
+# Get commit count between draft and production
+# Usage: _git_get_commit_count <draft_branch> <prod_branch>
+# Returns: Number of commits in draft ahead of production
+_git_get_commit_count() {
+    local draft_branch="$1"
+    local prod_branch="$2"
+
+    git rev-list --count "origin/${prod_branch}..${draft_branch}" 2>/dev/null || echo 0
+}
+
+# Get list of commits for PR body
+# Usage: _git_get_commit_list <draft_branch> <prod_branch>
+# Returns: Formatted commit list (one per line)
+_git_get_commit_list() {
+    local draft_branch="$1"
+    local prod_branch="$2"
+
+    git log "origin/${prod_branch}..${draft_branch}" \
+        --pretty=format:"- %s" \
+        --no-merges 2>/dev/null || echo ""
+}
+
+# Generate PR body for deployment
+# Usage: _git_generate_pr_body <draft_branch> <prod_branch>
+# Returns: Formatted PR body with commits and metadata
+_git_generate_pr_body() {
+    local draft_branch="$1"
+    local prod_branch="$2"
+
+    local commit_count=$(_git_get_commit_count "$draft_branch" "$prod_branch")
+    local commit_list=$(_git_get_commit_list "$draft_branch" "$prod_branch")
+
+    cat <<EOF
+## Changes
+
+${commit_list}
+
+## Commits ($commit_count)
+
+**From:** \`$draft_branch\`
+**To:** \`$prod_branch\`
+
+## Deploy Checklist
+
+- [ ] Content reviewed for accuracy
+- [ ] Links tested
+- [ ] Build passes locally
+- [ ] No broken references
+
+---
+
+🤖 Generated via: \`teach deploy\`
+EOF
+}
+
+# Rebase draft onto production branch
+# Usage: _git_rebase_onto_production <draft_branch> <prod_branch>
+# Returns: 0 on success, 1 on error/conflicts
+_git_rebase_onto_production() {
+    local draft_branch="$1"
+    local prod_branch="$2"
+
+    # Source core helpers for logging
+    source "${0:A:h}/core.zsh" 2>/dev/null || return 1
+
+    _flow_log_info "Rebasing $draft_branch onto origin/$prod_branch..."
+
+    # Fetch latest
+    git fetch origin "$prod_branch" --quiet 2>/dev/null || {
+        _flow_log_error "Failed to fetch origin/$prod_branch"
+        return 1
+    }
+
+    # Attempt rebase
+    if git rebase "origin/$prod_branch" 2>&1; then
+        _flow_log_success "Rebase successful"
+        return 0
+    else
+        _flow_log_error "Rebase failed - conflicts detected"
+        _flow_log_info "Resolve conflicts and run: git rebase --continue"
+        _flow_log_info "Or abort with: git rebase --abort"
+        return 1
+    fi
+}
+
+# Check if current branch has unpushed commits
+# Returns: 0 if has unpushed commits, 1 if all pushed
+_git_has_unpushed_commits() {
+    local branch=$(_git_current_branch)
+
+    # Get commits ahead of remote
+    local ahead=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo 0)
+
+    [[ $ahead -gt 0 ]]
 }
