@@ -743,6 +743,149 @@ _teach_deploy_help() {
     echo "  teach deploy --direct-push     # Bypass PR (not recommended)"
 }
 
+# ============================================================================
+# GIT CLEANUP WORKFLOW (Phase 3 - v5.11.0+)
+# ============================================================================
+
+# Interactive cleanup prompt for uncommitted teaching files
+# Usage: _teach_git_cleanup_prompt <file1> [file2...]
+_teach_git_cleanup_prompt() {
+    local -a files=("$@")
+
+    echo "${FLOW_COLORS[prompt]}Clean up uncommitted changes?${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  ${FLOW_COLORS[dim]}[1]${FLOW_COLORS[reset]} Commit teaching files (Recommended)"
+    echo "  ${FLOW_COLORS[dim]}[2]${FLOW_COLORS[reset]} Stash teaching files"
+    echo "  ${FLOW_COLORS[dim]}[3]${FLOW_COLORS[reset]} View diff first"
+    echo "  ${FLOW_COLORS[dim]}[4]${FLOW_COLORS[reset]} Leave as-is"
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}Your choice [1-4]:${FLOW_COLORS[reset]} "
+
+    read -r choice
+
+    case "$choice" in
+        1)
+            # Commit teaching files
+            _teach_git_commit_files "${files[@]}"
+            ;;
+        2)
+            # Stash teaching files
+            _teach_git_stash_files "${files[@]}"
+            ;;
+        3)
+            # View diff then re-prompt
+            _teach_git_view_diff "${files[@]}"
+            echo ""
+            _teach_git_cleanup_prompt "${files[@]}"
+            ;;
+        4|*)
+            # Leave as-is
+            echo ""
+            echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Files left uncommitted"
+            echo "  ${FLOW_COLORS[dim]}Commit manually when ready${FLOW_COLORS[reset]}"
+            ;;
+    esac
+}
+
+# Commit teaching files with auto-generated message
+_teach_git_commit_files() {
+    local -a files=("$@")
+
+    # Get course info
+    local course_name semester year
+    course_name=$(yq '.course.name // "Teaching Project"' teach-config.yml 2>/dev/null)
+    semester=$(yq '.course.semester // ""' teach-config.yml 2>/dev/null)
+    year=$(yq '.course.year // ""' teach-config.yml 2>/dev/null)
+    [[ -z "$year" || "$year" == "null" ]] && year=$(date +%Y)
+
+    # Stage files
+    for file in "${files[@]}"; do
+        git add "$file" 2>/dev/null
+    done
+
+    # Generate commit message
+    local file_list=$(printf ", %s" "${files[@]}")
+    file_list=${file_list:2}  # Remove leading ", "
+
+    local commit_msg="teach: update teaching content
+
+Modified files: $file_list
+Course: $course_name ($semester $year)
+
+Generated via: teach status cleanup"
+
+    # Show commit message
+    echo ""
+    echo "${FLOW_COLORS[info]}Commit message:${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo "$commit_msg"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo ""
+
+    # Commit
+    if git commit -m "$commit_msg" 2>/dev/null; then
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Committed ${#files[@]} file(s)"
+
+        # Offer to push
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}Push to remote? [y/N]:${FLOW_COLORS[reset]} "
+        read -r push_confirm
+
+        case "$push_confirm" in
+            y|Y|yes|Yes|YES)
+                if _git_push_current_branch; then
+                    echo ""
+                    echo "${FLOW_COLORS[success]}✅ Changes committed and pushed!${FLOW_COLORS[reset]}"
+                else
+                    echo ""
+                    echo "${FLOW_COLORS[warn]}⚠️  Committed locally but push failed${FLOW_COLORS[reset]}"
+                fi
+                ;;
+            *)
+                echo ""
+                echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Committed locally"
+                echo "  ${FLOW_COLORS[dim]}Run 'g push' to push to remote${FLOW_COLORS[reset]}"
+                ;;
+        esac
+    else
+        echo ""
+        echo "${FLOW_COLORS[error]}✗ Failed to commit${FLOW_COLORS[reset]}"
+    fi
+}
+
+# Stash teaching files
+_teach_git_stash_files() {
+    local -a files=("$@")
+
+    local stash_msg="Teaching WIP: $(date +%Y-%m-%d)"
+
+    echo ""
+    echo "${FLOW_COLORS[info]}Stashing ${#files[@]} file(s)...${FLOW_COLORS[reset]}"
+
+    # Use git stash push with specific files
+    if git stash push -m "$stash_msg" -- "${files[@]}" 2>&1; then
+        echo ""
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Files stashed: $stash_msg"
+        echo "  ${FLOW_COLORS[dim]}Restore with: git stash pop${FLOW_COLORS[reset]}"
+    else
+        echo ""
+        echo "${FLOW_COLORS[error]}✗ Failed to stash files${FLOW_COLORS[reset]}"
+    fi
+}
+
+# View diff for teaching files
+_teach_git_view_diff() {
+    local -a files=("$@")
+
+    echo ""
+    echo "${FLOW_COLORS[info]}Diff for teaching files:${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    git diff -- "${files[@]}"
+
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+}
+
 # Main Scholar wrapper function
 _teach_scholar_wrapper() {
     local subcommand="$1"
@@ -1108,6 +1251,50 @@ _teach_show_status() {
             echo "  Scholar:  ${FLOW_COLORS[success]}✓ configured${FLOW_COLORS[reset]}"
         else
             echo "  Scholar:  ${FLOW_COLORS[muted]}not configured${FLOW_COLORS[reset]}"
+        fi
+    fi
+
+    # ============================================
+    # GIT STATUS (Phase 3 - v5.11.0+)
+    # ============================================
+    if _git_in_repo; then
+        echo ""
+        echo "${FLOW_COLORS[bold]}🔧 Git Status${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}────────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+        # Get teaching-related uncommitted files
+        local -a teaching_files=()
+        while IFS= read -r file; do
+            [[ -n "$file" ]] && teaching_files+=("$file")
+        done < <(_git_teaching_files)
+
+        if [[ ${#teaching_files[@]} -gt 0 ]]; then
+            echo "  ${FLOW_COLORS[warn]}⚠️  ${teaching_files[@]} uncommitted changes (teaching content)${FLOW_COLORS[reset]}"
+            echo ""
+            for file in "${teaching_files[@]}"; do
+                # Get file status (M/A/D etc)
+                local status=$(git status --porcelain "$file" 2>/dev/null | awk '{print $1}')
+                local status_label
+                case "$status" in
+                    M) status_label="${FLOW_COLORS[warn]}M${FLOW_COLORS[reset]}" ;;
+                    A) status_label="${FLOW_COLORS[success]}A${FLOW_COLORS[reset]}" ;;
+                    D) status_label="${FLOW_COLORS[error]}D${FLOW_COLORS[reset]}" ;;
+                    ??) status_label="${FLOW_COLORS[muted]}??${FLOW_COLORS[reset]}" ;;
+                    *) status_label="$status" ;;
+                esac
+                printf "    %s  %s\n" "$status_label" "$file"
+            done
+
+            # Offer interactive cleanup
+            echo ""
+            _teach_git_cleanup_prompt "${teaching_files[@]}"
+        else
+            if _git_is_clean; then
+                echo "  ${FLOW_COLORS[success]}✓ No uncommitted changes${FLOW_COLORS[reset]}"
+            else
+                echo "  ${FLOW_COLORS[muted]}No teaching content changes${FLOW_COLORS[reset]}"
+                echo "  ${FLOW_COLORS[dim]}(Other files modified - use 'g status' to see all)${FLOW_COLORS[reset]}"
+            fi
         fi
     fi
 
