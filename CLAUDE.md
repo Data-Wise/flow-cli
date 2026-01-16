@@ -656,7 +656,66 @@ export FLOW_DEBUG=1
 
 ---
 
-## Current Status (2026-01-15)
+## Current Status (2026-01-16)
+
+### 🚧 v5.11.0 IN DEVELOPMENT - Teaching + Git Integration
+
+**Feature Branch:** `feature/teaching-git-integration`
+**Spec:** `docs/specs/SPEC-teaching-git-integration-2026-01-16.md`
+**Target Release:** v5.11.0
+
+#### ✅ Phase 1 Complete: Smart Post-Generation Workflow (2-3 hours)
+
+**What Was Delivered:**
+
+- [x] New `lib/git-helpers.zsh` module with git integration functions
+- [x] Interactive commit workflow after teaching content generation
+- [x] Three workflow options:
+  1. Review in editor first (opens $EDITOR, then prompts to commit)
+  2. Commit now with auto-generated message
+  3. Skip commit (manual git later)
+- [x] Auto-generated commit messages with conventional commits format
+- [x] Course context included in commit messages (from teach-config.yml)
+- [x] Co-authored-by Scholar attribution
+- [x] Optional push to remote after commit
+- [x] All syntax tests passing
+
+**New Functions:**
+
+```bash
+# Git Helpers (lib/git-helpers.zsh)
+_git_teaching_commit_message()     # Generate commit message
+_git_in_repo()                      # Check if in git repo
+_git_current_branch()               # Get current branch
+_git_commit_teaching_content()      # Commit with message
+_git_push_current_branch()          # Push to remote
+
+# Interactive Workflows (lib/dispatchers/teach-dispatcher.zsh)
+_teach_interactive_commit_workflow()  # Main interactive prompt
+_teach_review_then_commit()           # Review → Commit workflow
+_teach_commit_now()                   # Direct commit workflow
+```
+
+**Commit Message Example:**
+
+```
+teach: add exam for Hypothesis Testing
+
+Generated via: teach exam "Hypothesis Testing" --questions 20
+Course: STAT 545 (Fall 2024)
+
+Co-Authored-By: Scholar <scholar@example.com>
+```
+
+**Success Criteria:**
+
+✓ Generated content can be reviewed and committed in < 30 seconds
+✓ Commit messages are descriptive and searchable
+✓ Zero git commands typed manually
+
+**Next Phase:** Phase 2 - Branch-Aware Deployment (PR workflow)
+
+---
 
 ### ✅ v5.11.0 RELEASED - Config Validation & Scholar Deep Integration
 
