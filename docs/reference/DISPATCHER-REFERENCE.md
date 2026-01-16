@@ -607,21 +607,119 @@ Use Bitwarden secrets in chezmoi templates:
 ### 11. `teach` - Teaching Workflow
 
 **File:** `teach-dispatcher.zsh`
-**Purpose:** Unified teaching workflow for course websites
+**Purpose:** Unified teaching workflow for course websites with Git integration
 **Added:** January 12, 2026 (v5.4.1)
+**Git Integration:** January 16, 2026 (v5.12.0)
 
 **Common Commands:**
 
 ```bash
-teach init "STAT 545"     # Initialize teaching workflow
-teach init -y "STAT 440"  # Non-interactive mode
-teach exam "Midterm 1"    # Create exam/quiz
-teach deploy              # Deploy draft → production
-teach archive             # Archive semester
-teach config              # Edit teach-config.yml
-teach status              # Show project status
-teach week                # Show current week number
-teach help                # Show help
+# Initialization
+teach init "STAT 545"          # Initialize teaching workflow
+teach init -y "STAT 440"       # Non-interactive mode
+teach init --no-git "TEST 101" # Skip git initialization (v5.12.0)
+
+# Content Creation (Scholar wrappers)
+teach exam "Midterm 1"         # Create exam/quiz
+teach quiz "Chapter 5"         # Create quiz
+teach slides "Introduction"    # Create slides
+teach lecture "Week 3"         # Create lecture notes
+teach assignment "HW 1"        # Create assignment
+teach syllabus                 # Generate syllabus
+
+# Git & Deployment (v5.12.0)
+teach deploy                   # Deploy draft → production (with PR creation)
+teach status                   # Show project status + uncommitted files
+
+# Course Management
+teach archive                  # Archive semester
+teach config                   # Edit teach-config.yml
+teach week                     # Show current week number
+teach help                     # Show help
+```
+
+**Git Integration Features (v5.12.0):**
+
+**Phase 1 - Post-Generation Commit:**
+```bash
+# After generating content (exam/quiz/slides):
+# → Interactive prompt: Review | Commit | Skip
+# → Auto-generated commit messages with Scholar co-authorship
+# → Optional push to remote
+
+teach exam "Midterm 1"
+# ✓ Generated exams/midterm1.qmd
+#
+# 📝 Teaching content created
+#
+# What would you like to do?
+#   1) Review in editor, then commit
+#   2) Commit now with auto-generated message
+#   3) Skip commit (do it manually later)
+```
+
+**Phase 2 - Branch-Aware Deployment:**
+```bash
+teach deploy
+# Pre-flight checks:
+#   ✓ On draft branch
+#   ✓ No uncommitted changes
+#   ✓ No unpushed commits
+#   ✓ No production conflicts
+#
+# Creating PR: draft → main
+# → Auto-generated PR body with commit list
+# → Deploy checklist included
+```
+
+**Phase 3 - Git-Aware Status:**
+```bash
+teach status
+# Course: STAT 545 (Fall 2024)
+# Week: 8 of 15
+#
+# 📝 Uncommitted Teaching Files:
+#   • exams/exam02.qmd
+#   • slides/week08.qmd
+#
+# What would you like to do?
+#   1) Commit all teaching files
+#   2) Stash changes
+#   3) View diff
+#   4) Skip
+```
+
+**Phase 4 - Teaching Mode:**
+```bash
+# Enable streamlined auto-commit workflow
+# In .flow/teach-config.yml:
+workflow:
+  teaching_mode: true      # Enable streamlined workflow
+  auto_commit: true        # Auto-commit after generation
+  auto_push: false         # Safety: don't auto-push
+
+# With teaching mode enabled:
+teach exam "Midterm"
+# ✓ Generated exams/midterm.qmd
+# 🎓 Teaching Mode: Auto-committing...
+# ✓ Committed: teach: add exam for Midterm
+```
+
+**Phase 5 - Git Initialization:**
+```bash
+# For fresh repositories:
+teach init "STAT 545"
+# → Initializes git repository
+# → Copies .gitignore template (teaching-specific)
+# → Creates draft and main branches
+# → Makes initial commit
+# → Offers GitHub repo creation
+
+# Skip git initialization:
+teach init --no-git "TEST 101"
+# → Installs teach-config.yml and scripts
+# → Skip all git operations
+# → Manual git setup instructions provided
 ```
 
 **Shortcuts:**
@@ -630,28 +728,58 @@ teach help                # Show help
 |-------|------|-------------|
 | `i` | `init` | Initialize course |
 | `e` | `exam` | Create exam |
+| `q` | `quiz` | Create quiz |
+| `sl` | `slides` | Create slides |
 | `d` | `deploy` | Deploy to production |
 | `a` | `archive` | Archive semester |
 | `c` | `config` | Edit config |
 | `s` | `status` | Show status |
 | `w` | `week` | Show week |
 
-**Non-Interactive Mode:**
+**Configuration (teach-config.yml):**
 
-The `-y` / `--yes` flag accepts safe defaults:
-- Strategy 1: In-place conversion (preserves history)
-- Auto-exclude renv/ from git
-- Skip GitHub push (push manually later)
-- Use auto-suggested semester dates
-- Skip break configuration
+```yaml
+# Git settings (v5.12.0)
+git:
+  draft_branch: "draft"          # Development branch
+  production_branch: "main"      # Deployment branch
+  auto_pr: true                  # Auto-create PRs
+  require_clean: true            # Block deploy if uncommitted changes
 
-**Workflow:**
-
+# Workflow settings (v5.12.0)
+workflow:
+  teaching_mode: false           # Streamlined workflow
+  auto_commit: false             # Auto-commit after generation
+  auto_push: false               # Auto-push commits (safety: false)
 ```
-teach init → work course → teach deploy → teach archive
+
+**Workflow Examples:**
+
+```bash
+# Basic workflow
+teach init "STAT 545"            # Initialize with git
+work stat-545                    # Start session
+teach exam "Midterm 1"           # Generate → Auto-prompt to commit
+teach deploy                     # Create PR to production
+
+# Teaching mode workflow (streamlined)
+teach init "STAT 545"
+# Edit .flow/teach-config.yml → teaching_mode: true, auto_commit: true
+teach exam "Midterm 1"           # Auto-commits with message
+teach quiz "Chapter 5"           # Auto-commits
+teach deploy                     # Create PR with all commits
+
+# Fresh repo without git
+teach init --no-git "TEST 101"   # Skip git
+# ... manual work ...
+git init && git add . && git commit -m "Initial commit"
+teach init "TEST 101"            # Run again to set up branches
 ```
 
-**See also:** [teach-init.md](../commands/teach-init.md), [TEACHING-WORKFLOW.md](../guides/TEACHING-WORKFLOW.md)
+**See also:**
+- [teach-init.md](../commands/teach-init.md) - Full initialization reference
+- [TEACHING-WORKFLOW.md](../guides/TEACHING-WORKFLOW.md) - Complete workflow guide
+- [git-helpers.zsh](../../lib/git-helpers.zsh) - Git integration functions
 
 ---
 

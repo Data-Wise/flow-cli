@@ -8,11 +8,11 @@
 ## Priority: 1
 ## Progress: 95
 
-## Focus: v5.11.0 - Track A Complete, Tracks B & C In Progress
+## Focus: v5.12.0 - Tracks A & B Complete, Track C In Progress
 
 ## ✅ Completed (2026-01-16):
 
-### Track A: Nvim/LazyVim Documentation - v5.11.0
+### Track A: Nvim/LazyVim Documentation - v5.11.0 (Released)
 
 **Branch:** `feature/nvim-documentation`
 **Worktree:** `~/.git-worktrees/flow-cli/nvim-documentation`
@@ -58,68 +58,107 @@
 - Lines of documentation: ~3,500+
 - Learning path: 70 minutes from zero to productive
 
-**Status:** ✅ Ready to merge to dev
+**Status:** ✅ Released in v5.11.0
 
 ---
 
-## 🚧 Work In Progress (2026-01-16):
-
----
-
-### Track B: Teaching + Git Integration - v5.11.0
+### Track B: Teaching + Git Integration - v5.11.0 (Released)
 
 **Spec:** `docs/specs/SPEC-teaching-git-integration-2026-01-16.md`
 **Brainstorm:** `BRAINSTORM-teaching-git-integration-2026-01-16.md`
-**Branch:** `feature/teaching-git-integration`
-**Worktree:** `~/.git-worktrees/flow-cli/teaching-git-integration`
-**Effort:** 11-16 hours (5 phases)
-**Status:** ⏳ Ready for implementation (worktree created)
+**Branch:** `feature/teaching-git-integration` (merged)
+**Worktree:** `~/.git-worktrees/flow-cli/teaching-git-integration` (removed)
+**PR:** #257 (merged to dev)
+**Commits:** 5 commits (a730e305 → 6722a1fe, then 1768289b, 82de2f54)
+**Merge Commit:** 89f41b05
 
 **Goal:** Seamless git integration for teaching workflow with smart automation and PR-based deployments
 
 **Key Insight:** Teaching content creation has natural "generate → review → commit → deploy" rhythm. Current manual git operations break flow state.
 
-**User Research (8 expert questions):**
-- Primary pain: Disconnect between teach commands and git workflow
-- All user types benefit (instructors, TAs, git novices)
-- Desired workflow: Generate → Review → Commit → Deploy
-- Deploy strategy: PR-based (never direct push to production)
-- Teaching mode: Yes, with confirmations (not silent automation)
+**Completed Deliverables:**
 
-**Deliverables:**
+**Phase 1: Smart Post-Generation Workflow**
+- [x] New `lib/git-helpers.zsh` module (311 lines, 20+ functions)
+- [x] Interactive 3-option menu after content generation:
+  1. Review in editor then commit
+  2. Commit now with auto-generated message
+  3. Skip for now (manual git later)
+- [x] Auto-generated commit messages with conventional commits format
+- [x] Course context included (from teach-config.yml)
+- [x] Co-authored-by Scholar attribution
+- [x] Optional push to remote after commit
 
-**Sprint 1 - Quick Wins (5-6 hours):**
-- Phase 1: Smart post-generation workflow (2-3h)
-  - Interactive: Review → Commit → Push?
-  - Auto-generated commit messages
-  - 80% of git friction eliminated
-- Phase 3: Git-aware teach status (1-2h)
-  - Show uncommitted teaching files
-  - Offer to commit/stash interactively
-- Phase 5: Git integration in teach init (1h)
-  - Auto-create draft/main branches
-  - One command full structure
+**Phase 2: Branch-Aware Deployment**
+- [x] Enhanced `teach deploy` command with PR-based workflow
+- [x] 4 pre-flight checks (branch, clean state, unpushed, conflicts)
+- [x] Conflict detection with interactive rebase option
+- [x] Auto-generated PR with commit list and deploy checklist
+- [x] Configuration via `git` and `workflow` sections in teach-config.yml
+- [x] Direct push bypass for advanced users (`--direct-push`)
 
-**Sprint 2 - Power Features (7-10 hours):**
-- Phase 2: Branch-aware deployment (4-6h)
-  - PR-based workflow (draft → main)
-  - Conflict detection before deploy
-- Phase 4: Teaching mode (3-4h)
-  - Streamlined auto-commit workflow
-  - Configurable per-project
+**Phase 3: Git-Aware teach status**
+- [x] Enhanced `teach status` with git status section
+- [x] Smart filtering of teaching-related files
+- [x] Color-coded status indicators (M/A/D/??)
+- [x] Interactive cleanup workflow (4 options):
+  1. Commit teaching files (Recommended)
+  2. Stash teaching files
+  3. View diff first
+  4. Leave as-is
+- [x] Auto-generated commit messages with course context
 
-**Files to Create/Modify:**
-- NEW: `lib/git-helpers.zsh` (8 functions)
-- NEW: `tests/test-teaching-git-integration.zsh`
-- MODIFIED: `lib/dispatchers/teach-dispatcher.zsh`
-- MODIFIED: `commands/teach-init.zsh`
-- MODIFIED: `lib/config-validator.zsh`
-- MODIFIED: `lib/templates/teaching/teach-config.schema.json`
+**Phase 4: Teaching Mode Auto-Commit**
+- [x] Configuration-driven teaching mode (workflow.teaching_mode)
+- [x] Auto-commit workflow (skips interactive prompts)
+- [x] Teaching mode indicator in `teach status` output
+- [x] Enhanced `teach deploy` with auto-push support
+- [x] Streamlined "generate → commit → push → deploy" workflow
+- [x] 5 tests (100% passing)
 
-**Success Metrics:**
-- Reduce git commands per content generation: 5 → 0
-- Time to deploy: 3 min → 30 sec
-- Forgotten commits: 30% → 0%
+**Phase 5: Git Integration in teach init**
+- [x] Git initialization wizard for fresh repos
+- [x] `--no-git` flag to skip git setup
+- [x] Teaching-specific .gitignore template (95 lines)
+- [x] Automatic draft/main branch creation
+- [x] Initial commit with course structure
+- [x] Optional GitHub repository creation via gh CLI
+- [x] 7 tests (100% passing)
+
+**Files Created:**
+- `lib/git-helpers.zsh` (311 lines)
+- `lib/templates/teaching/teaching.gitignore` (95 lines)
+- `tests/test-teaching-mode.zsh` (225 lines, 5 tests)
+- `tests/test-teach-init-git.zsh` (251 lines, 7 tests)
+- `tests/integration-test-suite.zsh` (476 lines)
+- `tests/simple-integration-test.zsh` (239 lines)
+
+**Files Modified:**
+- `lib/dispatchers/teach-dispatcher.zsh` (+757 lines)
+- `commands/teach-init.zsh` (+287 lines)
+- `CLAUDE.md` (+385 lines)
+- `docs/CHANGELOG.md` (+78 lines)
+- `docs/commands/teach.md` (+176 lines)
+- `docs/reference/DISPATCHER-REFERENCE.md` (+172 lines)
+- `lib/templates/teaching/teach-config.schema.json` (+57 lines)
+
+**Statistics:**
+- Files changed: 13 (+3,451 lines, -58 lines)
+- Total tests: 12 (100% passing)
+- Functions added: 20+
+- Documentation: ~500 lines
+
+**Success Metrics Achieved:**
+- ✅ Reduce git commands per content generation: 5 → 0
+- ✅ Interactive confirmations maintain safety
+- ✅ Teaching mode enables 0-prompt workflow
+- ✅ PR-based deployment prevents direct pushes to production
+
+**Status:** ✅ Merged to dev, ready for v5.12.0 release
+
+---
+
+## 🚧 Work In Progress (2026-01-16):
 
 ---
 
