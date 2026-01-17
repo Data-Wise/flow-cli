@@ -2012,6 +2012,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../guides/TEACHING-DATES-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Dates Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../guides/DOTFILE-MANAGEMENT/" class="md-nav__link">
         
   
@@ -2733,10 +2761,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-1-pick-basic-usage" class="md-nav__link">
+  <a href="#example-1-teaching-git-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 1: Pick Basic Usage
+        Example 1: Teaching Git Workflow
       
     </span>
   </a>
@@ -2744,10 +2772,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-2-cc-unified-grammar" class="md-nav__link">
+  <a href="#example-2-dot-dispatcher-demo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 2: CC Unified Grammar
+        Example 2: DOT Dispatcher Demo
       
     </span>
   </a>
@@ -3721,6 +3749,34 @@
     
   
     Teaching Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/TEACH-DATES-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Dates Quick Ref
   
 
     
@@ -6001,10 +6057,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-1-pick-basic-usage" class="md-nav__link">
+  <a href="#example-1-teaching-git-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 1: Pick Basic Usage
+        Example 1: Teaching Git Workflow
       
     </span>
   </a>
@@ -6012,10 +6068,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-2-cc-unified-grammar" class="md-nav__link">
+  <a href="#example-2-dot-dispatcher-demo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 2: CC Unified Grammar
+        Example 2: DOT Dispatcher Demo
       
     </span>
   </a>
@@ -6563,58 +6619,37 @@
 - [ ] Markdown image syntax correct</p>
 <hr />
 <h2 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h2>
-<h3 id="example-1-pick-basic-usage">Example 1: Pick Basic Usage<a class="headerlink" href="#example-1-pick-basic-usage" title="Permanent link">&para;</a></h3>
-<p><strong>File:</strong> <code>docs/assets/gifs/commands/pick-basic-usage.gif</code></p>
+<h3 id="example-1-teaching-git-workflow">Example 1: Teaching Git Workflow<a class="headerlink" href="#example-1-teaching-git-workflow" title="Permanent link">&para;</a></h3>
+<p><strong>File:</strong> <code>docs/assets/gifs/teaching-git-workflow.gif</code></p>
 <p><strong>Recording:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Setup</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>clear
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;</span>$<span class="s2"> &quot;</span>
+Demonstrates the complete teaching + git integration workflow including:
+- Initializing teaching structure with <code>teach init</code>
+- Auto-commit after content generation
+- Branch-aware deployment with PR creation
+- Git status cleanup workflow</p>
+<p><strong>In documentation:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="gu">### Teaching Workflow with Git Integration</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>![<span class="nt">Teaching Git Workflow</span>](<span class="na">../../assets/gifs/teaching-git-workflow.gif</span>)
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># Record this workflow</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>pick
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># [Type &quot;flow&quot;]</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c1"># [Press Enter]</span>
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="nb">pwd</span>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># Shows: /Users/dt/projects/dev-tools/flow-cli</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="ge">*Complete teaching workflow from initialization to deployment*</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>The teaching system integrates with Git to provide automated commit
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>workflows, branch-aware deployment, and interactive cleanup prompts.
 </code></pre></div></p>
-<p><strong>In documentation:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gu">### Using Pick to Navigate Projects</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>![<span class="nt">Pick basic usage</span>](<span class="na">../../assets/gifs/commands/pick-basic-usage.gif</span>)
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="ge">*Using `pick` to filter and navigate to flow-cli project*</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>The <span class="sb">`pick`</span> command provides an interactive FZF interface for navigating
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>between projects. Type to filter, use arrow keys to select, and press
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>Enter to navigate.
-</code></pre></div></p>
-<h3 id="example-2-cc-unified-grammar">Example 2: CC Unified Grammar<a class="headerlink" href="#example-2-cc-unified-grammar" title="Permanent link">&para;</a></h3>
-<p><strong>File:</strong> <code>docs/assets/gifs/dispatchers/cc-unified-grammar.gif</code></p>
+<h3 id="example-2-dot-dispatcher-demo">Example 2: DOT Dispatcher Demo<a class="headerlink" href="#example-2-dot-dispatcher-demo" title="Permanent link">&para;</a></h3>
+<p><strong>File:</strong> <code>docs/demos/dot-dispatcher.gif</code></p>
 <p><strong>Recording:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Show both orders work</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>clear
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Mode-first (traditional)</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> cc opus pick&quot;</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>cc<span class="w"> </span>opus<span class="w"> </span>pick
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># [Select project]</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1"># [Close Claude window]</span>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1"># Target-first (new!)</span>
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> cc pick opus&quot;</span>
-<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>cc<span class="w"> </span>pick<span class="w"> </span>opus
-<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="c1"># [Select same project]</span>
-<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="c1"># [Shows identical behavior]</span>
-</code></pre></div></p>
+Demonstrates the dot dispatcher functionality for managing dotfiles and secrets.</p>
 <p><strong>In documentation:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="gu">### Unified Grammar (v4.8.0)</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>![<span class="nt">CC unified grammar</span>](<span class="na">../../assets/gifs/dispatchers/cc-unified-grammar.gif</span>)
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="ge">*Both `cc opus pick` and `cc pick opus` work identically*</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>The CC dispatcher now supports flexible command ordering. Whether you
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>specify the mode first or the target first, the result is the same.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gu">### DOT Dispatcher Usage</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>![<span class="nt">DOT Dispatcher Demo</span>](<span class="na">../../demos/dot-dispatcher.gif</span>)
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="ge">*Managing dotfiles and secrets with the dot dispatcher*</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>The dot dispatcher provides streamlined access to dotfile management
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>and secret storage using macOS Keychain integration.
 </code></pre></div></p>
 <hr />
 <h2 id="maintenance">Maintenance<a class="headerlink" href="#maintenance" title="Permanent link">&para;</a></h2>
@@ -6631,16 +6666,16 @@
 4. Git commit with message: "docs: update GIF for [feature]"
 5. Verify docs render correctly</p>
 <h3 id="archiving-old-gifs">Archiving Old GIFs<a class="headerlink" href="#archiving-old-gifs" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># If replacing significantly different GIF</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>mv<span class="w"> </span>docs/assets/gifs/pick-old-ui.gif<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">   </span>docs/assets/gifs/archive/pick-old-ui-v1.0.gif
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># Document in git commit</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: update pick GIF for v4.8 UI changes</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="s2">- New GIF reflects unified grammar</span>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="s2">- Old GIF archived for reference&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># If replacing significantly different GIF</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>mv<span class="w"> </span>docs/assets/gifs/pick-old-ui.gif<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">   </span>docs/assets/gifs/archive/pick-old-ui-v1.0.gif
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># Document in git commit</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>git<span class="w"> </span>add<span class="w"> </span>.
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: update pick GIF for v4.8 UI changes</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="s2">- New GIF reflects unified grammar</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="s2">- Old GIF archived for reference&quot;</span>
 </code></pre></div>
 <hr />
 <h2 id="future-enhancements">Future Enhancements<a class="headerlink" href="#future-enhancements" title="Permanent link">&para;</a></h2>
@@ -6654,10 +6689,10 @@
 - <strong>YouTube</strong> — Hosted video tutorials
 - <strong>Vimeo</strong> — Higher quality, no ads</p>
 <p><strong>Embedding asciinema:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>&lt;script id=&quot;asciicast-123456&quot;
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>  src=&quot;https://asciinema.org/a/123456.js&quot;
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>  async&gt;
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>&lt;/script&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>&lt;script id=&quot;asciicast-123456&quot;
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>  src=&quot;https://asciinema.org/a/123456.js&quot;
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>  async&gt;
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>&lt;/script&gt;
 </code></pre></div></p>
 <h3 id="interactive-demos">Interactive Demos<a class="headerlink" href="#interactive-demos" title="Permanent link">&para;</a></h3>
 <p><strong>Future consideration:</strong>
@@ -6667,51 +6702,51 @@
 <hr />
 <h2 id="tools-installation">Tools Installation<a class="headerlink" href="#tools-installation" title="Permanent link">&para;</a></h2>
 <h3 id="macos">macOS<a class="headerlink" href="#macos" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Install gifsicle for optimization</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>brew<span class="w"> </span>install<span class="w"> </span>gifsicle
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Install ffmpeg for video conversion</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>brew<span class="w"> </span>install<span class="w"> </span>ffmpeg
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Install Kap for recording (optional)</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>brew<span class="w"> </span>install<span class="w"> </span>--cask<span class="w"> </span>kap
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1"># Install peek alternative (optional)</span>
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>brew<span class="w"> </span>install<span class="w"> </span>--cask<span class="w"> </span>licecap
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Install gifsicle for optimization</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>brew<span class="w"> </span>install<span class="w"> </span>gifsicle
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Install ffmpeg for video conversion</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>brew<span class="w"> </span>install<span class="w"> </span>ffmpeg
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># Install Kap for recording (optional)</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>brew<span class="w"> </span>install<span class="w"> </span>--cask<span class="w"> </span>kap
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1"># Install peek alternative (optional)</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>brew<span class="w"> </span>install<span class="w"> </span>--cask<span class="w"> </span>licecap
 </code></pre></div>
 <h3 id="linux">Linux<a class="headerlink" href="#linux" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Install gifsicle</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gifsicle
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Install ffmpeg</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ffmpeg
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># Install peek</span>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>peek
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Install gifsicle</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gifsicle
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Install ffmpeg</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ffmpeg
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Install peek</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>peek
 </code></pre></div>
 <hr />
 <h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>┌─────────────────────────────────────────────────────────┐
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>│  GIF CREATION QUICK REFERENCE                           │
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>├─────────────────────────────────────────────────────────┤
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>│                                                         │
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>│  SPECIFICATIONS                                         │
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>│  Duration:      5-15 seconds                            │
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>│  Size:          ≤ 2MB                                   │
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>│  Resolution:    800-1200px width                        │
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>│  FPS:           10-15                                   │
-<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>│  Colors:        ≤ 128                                   │
-<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>│                                                         │
-<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>│  NAMING                                                 │
-<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>│  Format:        &lt;feature&gt;-&lt;action&gt;-&lt;variant&gt;.gif        │
-<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>│  Example:       pick-basic-usage.gif                    │
-<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>│                                                         │
-<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>│  OPTIMIZATION                                           │
-<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>│  gifsicle -O3 --colors 128 input.gif -o output.gif      │
-<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>│                                                         │
-<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>├─────────────────────────────────────────────────────────┤
-<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>│  WORKFLOW: record → trim → optimize → embed → verify    │
-<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>└─────────────────────────────────────────────────────────┘
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>┌─────────────────────────────────────────────────────────┐
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>│  GIF CREATION QUICK REFERENCE                           │
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>├─────────────────────────────────────────────────────────┤
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>│                                                         │
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>│  SPECIFICATIONS                                         │
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>│  Duration:      5-15 seconds                            │
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>│  Size:          ≤ 2MB                                   │
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>│  Resolution:    800-1200px width                        │
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>│  FPS:           10-15                                   │
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>│  Colors:        ≤ 128                                   │
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>│                                                         │
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>│  NAMING                                                 │
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>│  Format:        &lt;feature&gt;-&lt;action&gt;-&lt;variant&gt;.gif        │
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>│  Example:       pick-basic-usage.gif                    │
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>│                                                         │
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>│  OPTIMIZATION                                           │
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>│  gifsicle -O3 --colors 128 input.gif -o output.gif      │
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>│                                                         │
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>├─────────────────────────────────────────────────────────┤
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>│  WORKFLOW: record → trim → optimize → embed → verify    │
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>└─────────────────────────────────────────────────────────┘
 </code></pre></div>
 <hr />
 <h2 id="related-resources">Related Resources<a class="headerlink" href="#related-resources" title="Permanent link">&para;</a></h2>
