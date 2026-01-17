@@ -3,9 +3,9 @@
 
 Output tutorial-20-dates-init.gif
 
-Set FontSize 14
-Set Width 1200
-Set Height 700
+Set FontSize 18
+Set Width 1400
+Set Height 900
 Set Theme "Dracula"
 Set TypingSpeed 50ms
 Set PlaybackSpeed 0.8

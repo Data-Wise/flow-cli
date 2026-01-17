@@ -3,9 +3,9 @@
 
 Output tutorial-14-teach-workflow.gif
 
-Set FontSize 14
-Set Width 1200
-Set Height 800
+Set FontSize 18
+Set Width 1400
+Set Height 1000
 Set Theme "Dracula"
 Set TypingSpeed 50ms
 Set PlaybackSpeed 0.8
