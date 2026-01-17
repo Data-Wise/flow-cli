@@ -12,12 +12,13 @@
 
 ## 🚧 In Progress (2026-01-17):
 
-### Teach/Scholar Enhancement - WIP
+### Teach/Scholar Enhancement - WIP 🚧
 
 **Spec:** `docs/specs/SPEC-teach-scholar-enhancement-2026-01-17.md`
-**Branch:** `feature/teaching-flags`
+**Branch:** `feature/teaching-flags` ← WIP
 **Worktree:** `~/.git-worktrees/flow-cli/feature/teaching-flags`
 **Estimated Effort:** 20-24 hours across 6 phases
+**Started:** 2026-01-17
 
 **Goal:** Comprehensive teach dispatcher enhancement with Scholar plugin integration
 
