@@ -102,6 +102,7 @@ nav:
       - 17. LazyVim Basics: tutorials/17-lazyvim-basics.md
       - 18. LazyVim Showcase: tutorials/18-lazyvim-showcase.md
       - 19. Teaching + Git Integration: tutorials/19-teaching-git-integration.md
+      - 20. Teaching Dates Automation: tutorials/20-teaching-dates-automation.md
   - Workflows:
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
       - Teaching Workflow: guides/TEACHING-WORKFLOW.md
