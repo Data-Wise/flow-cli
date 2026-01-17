@@ -340,7 +340,7 @@ _proj_list_worktrees() {
         fi
 
         # =================================================================
-        # CHECK FOR HIERARCHICAL WORKTREES (level-2 has .git)
+        # CHECK FOR HIERARCHICAL WORKTREES (level-2 or level-3 has .git)
         # =================================================================
         project_name="$dir_name"
 
@@ -353,19 +353,31 @@ _proj_list_worktrees() {
         for wt_dir in "${dir%/}"/*/; do
             [[ -d "$wt_dir" ]] || continue
 
-            # Verify it's a valid worktree (has .git file or directory)
-            [[ -e "$wt_dir/.git" ]] || continue
+            # Check if this is a valid worktree (has .git file or directory)
+            if [[ -e "$wt_dir/.git" ]]; then
+                branch_name=$(basename "$wt_dir")
+                display_name="$project_name ($branch_name)"
+                session_mtime=$(_proj_get_session_mtime "${wt_dir%/}")
+                session_status=$(_proj_get_claude_session_status "${wt_dir%/}")
+                frecency=$(_proj_frecency_score "$session_mtime")
+                worktree_data+=("${frecency}|${display_name}|wt|🌳|${wt_dir%/}|${session_status}")
+            else
+                # Check for nested worktrees (level-3, e.g., feature/teaching-flags)
+                # This handles branches with / in the name like feature/foo
+                local nested_prefix=$(basename "$wt_dir")
+                for nested_wt in "${wt_dir%/}"/*/; do
+                    [[ -d "$nested_wt" ]] || continue
+                    [[ -e "$nested_wt/.git" ]] || continue
 
-            branch_name=$(basename "$wt_dir")
-            display_name="$project_name ($branch_name)"
-            session_mtime=$(_proj_get_session_mtime "${wt_dir%/}")
-            session_status=$(_proj_get_claude_session_status "${wt_dir%/}")
-
-            # Calculate frecency score for sorting (same decay as projects)
-            frecency=$(_proj_frecency_score "$session_mtime")
-
-            # Store with frecency prefix for sorting
-            worktree_data+=("${frecency}|${display_name}|wt|🌳|${wt_dir%/}|${session_status}")
+                    local nested_name=$(basename "$nested_wt")
+                    branch_name="${nested_prefix}/${nested_name}"
+                    display_name="$project_name ($branch_name)"
+                    session_mtime=$(_proj_get_session_mtime "${nested_wt%/}")
+                    session_status=$(_proj_get_claude_session_status "${nested_wt%/}")
+                    frecency=$(_proj_frecency_score "$session_mtime")
+                    worktree_data+=("${frecency}|${display_name}|wt|🌳|${nested_wt%/}|${session_status}")
+                done
+            fi
         done
     done
 
@@ -419,21 +431,39 @@ _proj_find_worktree() {
         fi
 
         # =================================================================
-        # CHECK FOR HIERARCHICAL WORKTREES (level-2 has .git)
+        # CHECK FOR HIERARCHICAL WORKTREES (level-2 or level-3 has .git)
         # =================================================================
         project_name="$dir_name"
 
         for wt_dir in "${dir%/}"/*/; do
             [[ -d "$wt_dir" ]] || continue
-            [[ -e "$wt_dir/.git" ]] || continue
 
-            branch_name=$(basename "$wt_dir")
-            display_name="$project_name ($branch_name)"
+            if [[ -e "$wt_dir/.git" ]]; then
+                branch_name=$(basename "$wt_dir")
+                display_name="$project_name ($branch_name)"
 
-            # Match on display name or just project name
-            if [[ "$display_name" == "$query"* || "$project_name" == "$query"* ]]; then
-                echo "${wt_dir%/}"
-                return 0
+                # Match on display name or just project name
+                if [[ "$display_name" == "$query"* || "$project_name" == "$query"* ]]; then
+                    echo "${wt_dir%/}"
+                    return 0
+                fi
+            else
+                # Check for nested worktrees (level-3, e.g., feature/teaching-flags)
+                local nested_prefix=$(basename "$wt_dir")
+                for nested_wt in "${wt_dir%/}"/*/; do
+                    [[ -d "$nested_wt" ]] || continue
+                    [[ -e "$nested_wt/.git" ]] || continue
+
+                    local nested_name=$(basename "$nested_wt")
+                    branch_name="${nested_prefix}/${nested_name}"
+                    display_name="$project_name ($branch_name)"
+
+                    # Match on display name, project name, or branch name
+                    if [[ "$display_name" == "$query"* || "$project_name" == "$query"* || "$branch_name" == "$query"* ]]; then
+                        echo "${nested_wt%/}"
+                        return 0
+                    fi
+                done
             fi
         done
     done
