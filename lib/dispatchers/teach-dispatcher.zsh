@@ -30,6 +30,13 @@ if [[ -z "$_FLOW_GIT_HELPERS_LOADED" ]]; then
     typeset -g _FLOW_GIT_HELPERS_LOADED=1
 fi
 
+# Source git helpers for teaching workflow integration (v5.11.0+)
+if [[ -z "$_FLOW_GIT_HELPERS_LOADED" ]]; then
+    local git_helpers_path="${0:A:h:h}/git-helpers.zsh"
+    [[ -f "$git_helpers_path" ]] && source "$git_helpers_path"
+    typeset -g _FLOW_GIT_HELPERS_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
