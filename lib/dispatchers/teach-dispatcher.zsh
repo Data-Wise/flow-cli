@@ -406,6 +406,305 @@ _teach_build_content_instructions() {
 }
 
 # ============================================================================
+# LESSON PLAN INTEGRATION (Phase 3 - v5.13.0+)
+# ============================================================================
+
+# Load lesson plan from YAML file (Phase 3 - v5.13.0+)
+# Usage: _teach_load_lesson_plan <week_number>
+# Sets: TEACH_PLAN_TOPIC, TEACH_PLAN_STYLE, TEACH_PLAN_OBJECTIVES,
+#       TEACH_PLAN_SUBTOPICS, TEACH_PLAN_KEY_CONCEPTS, TEACH_PLAN_PREREQUISITES
+# Returns: 0 if loaded, 1 if not found or invalid
+_teach_load_lesson_plan() {
+    local week="$1"
+    local plan_file=".flow/lesson-plans/week-${week}.yml"
+
+    # Clear previous plan data
+    typeset -g TEACH_PLAN_TOPIC=""
+    typeset -g TEACH_PLAN_STYLE=""
+    typeset -g TEACH_PLAN_OBJECTIVES=""
+    typeset -g TEACH_PLAN_SUBTOPICS=""
+    typeset -g TEACH_PLAN_KEY_CONCEPTS=""
+    typeset -g TEACH_PLAN_PREREQUISITES=""
+
+    # Check if plan file exists
+    if [[ ! -f "$plan_file" ]]; then
+        return 1
+    fi
+
+    # Check yq availability
+    if ! command -v yq &>/dev/null; then
+        _teach_warn "yq not available for lesson plan parsing" \
+            "Install: brew install yq"
+        return 1
+    fi
+
+    # Parse lesson plan fields
+    TEACH_PLAN_TOPIC=$(yq '.topic // ""' "$plan_file" 2>/dev/null)
+    TEACH_PLAN_STYLE=$(yq '.style // ""' "$plan_file" 2>/dev/null)
+
+    # Parse array fields (objectives, subtopics, key_concepts, prerequisites)
+    TEACH_PLAN_OBJECTIVES=$(yq '.objectives[] // ""' "$plan_file" 2>/dev/null | paste -sd '|' -)
+    TEACH_PLAN_SUBTOPICS=$(yq '.subtopics[] // ""' "$plan_file" 2>/dev/null | paste -sd '|' -)
+    TEACH_PLAN_KEY_CONCEPTS=$(yq '.key_concepts[] // ""' "$plan_file" 2>/dev/null | paste -sd '|' -)
+    TEACH_PLAN_PREREQUISITES=$(yq '.prerequisites[] // ""' "$plan_file" 2>/dev/null | paste -sd '|' -)
+
+    # Validate required fields
+    if [[ -z "$TEACH_PLAN_TOPIC" ]]; then
+        _teach_warn "Lesson plan missing required 'topic' field: $plan_file"
+        return 1
+    fi
+
+    return 0
+}
+
+# Look up topic from semester_info.weeks (fallback) (Phase 3 - v5.13.0+)
+# Usage: _teach_lookup_topic <week_number>
+# Returns: topic string if found, empty if not found
+_teach_lookup_topic() {
+    local week="$1"
+    local config_file=".flow/teach-config.yml"
+
+    # Check config exists
+    if [[ ! -f "$config_file" ]]; then
+        return 1
+    fi
+
+    # Check yq availability
+    if ! command -v yq &>/dev/null; then
+        return 1
+    fi
+
+    # Look up topic from semester_info.weeks
+    local topic
+    topic=$(yq ".semester_info.weeks[] | select(.number == $week) | .topic // \"\"" "$config_file" 2>/dev/null)
+
+    echo "$topic"
+}
+
+# Prompt user when lesson plan is missing (Phase 3 - v5.13.0+)
+# Usage: _teach_prompt_missing_plan <week> <topic>
+# Returns: 0 if user confirms, 1 if user cancels
+_teach_prompt_missing_plan() {
+    local week="$1"
+    local topic="$2"
+
+    echo ""
+    echo "${FLOW_COLORS[warn]}⚠️  No lesson plan found for Week $week${FLOW_COLORS[reset]}"
+    echo ""
+
+    if [[ -n "$topic" ]]; then
+        echo "Topic from config: \"$topic\""
+    else
+        echo "No topic found in config either"
+    fi
+
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}Continue with this topic? [Y/n]:${FLOW_COLORS[reset]} "
+    read -r confirm
+
+    case "$confirm" in
+        n|N|no|No|NO)
+            echo ""
+            echo "${FLOW_COLORS[info]}Cancelled${FLOW_COLORS[reset]}"
+            return 1
+            ;;
+        *)
+            echo ""
+            echo "${FLOW_COLORS[dim]}Hint: Create a lesson plan with: teach plan create $week${FLOW_COLORS[reset]}"
+            echo ""
+            return 0
+            ;;
+    esac
+}
+
+# Integrate lesson plan into Scholar wrapper (Phase 3 - v5.13.0+)
+# Usage: _teach_integrate_lesson_plan <week>
+# Sets: TEACH_TOPIC (from plan), style (if not specified)
+# Returns: 0 if integrated, 1 if cancelled
+_teach_integrate_lesson_plan() {
+    local week="$1"
+    local style_override="$2"  # Style from command line (if any)
+
+    # Try to load lesson plan
+    if _teach_load_lesson_plan "$week"; then
+        # Lesson plan loaded successfully
+
+        # Use topic from lesson plan
+        typeset -g TEACH_TOPIC="$TEACH_PLAN_TOPIC"
+
+        # Use style from lesson plan if not overridden
+        if [[ -z "$style_override" && -n "$TEACH_PLAN_STYLE" ]]; then
+            # Set global style variable for content resolution
+            typeset -g TEACH_RESOLVED_STYLE="$TEACH_PLAN_STYLE"
+        else
+            typeset -g TEACH_RESOLVED_STYLE="$style_override"
+        fi
+
+        return 0
+    else
+        # Lesson plan not found, try fallback
+        local fallback_topic
+        fallback_topic=$(_teach_lookup_topic "$week")
+
+        if [[ -n "$fallback_topic" ]]; then
+            # Found topic in config, prompt user
+            if _teach_prompt_missing_plan "$week" "$fallback_topic"; then
+                typeset -g TEACH_TOPIC="$fallback_topic"
+                typeset -g TEACH_RESOLVED_STYLE="$style_override"
+                return 0
+            else
+                return 1  # User cancelled
+            fi
+        else
+            # No topic found anywhere
+            _teach_error "No topic found for Week $week" \
+                "Add topic to teach-config.yml or create lesson plan"
+            return 1
+        fi
+    fi
+}
+
+# ============================================================================
+# INTERACTIVE MODE (Phase 4 - v5.13.0+)
+# ============================================================================
+
+# Interactive style selection wizard (Phase 4 - v5.13.0+)
+# Usage: _teach_select_style_interactive
+# Returns: Selected style name (conceptual, computational, rigorous, applied)
+_teach_select_style_interactive() {
+    echo ""
+    echo "${FLOW_COLORS[info]}📚 Content Style${FLOW_COLORS[reset]}"
+    echo ""
+    echo "What style should this content use?"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}[1]${FLOW_COLORS[reset]} conceptual    Explanation + definitions + examples"
+    echo "  ${FLOW_COLORS[bold]}[2]${FLOW_COLORS[reset]} computational Explanation + examples + code + practice"
+    echo "  ${FLOW_COLORS[bold]}[3]${FLOW_COLORS[reset]} rigorous      Definitions + explanation + math + proofs"
+    echo "  ${FLOW_COLORS[bold]}[4]${FLOW_COLORS[reset]} applied       Explanation + examples + code + practice"
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}Your choice [1-4]:${FLOW_COLORS[reset]} "
+
+    read -r choice
+
+    case "$choice" in
+        1) echo "conceptual" ;;
+        2) echo "computational" ;;
+        3) echo "rigorous" ;;
+        4) echo "applied" ;;
+        *)
+            echo ""
+            echo "${FLOW_COLORS[warn]}Invalid choice, using default: computational${FLOW_COLORS[reset]}"
+            echo "computational"
+            ;;
+    esac
+}
+
+# Interactive topic selection from schedule (Phase 4 - v5.13.0+)
+# Usage: _teach_select_topic_interactive
+# Returns: Selected week number
+_teach_select_topic_interactive() {
+    local config_file=".flow/teach-config.yml"
+
+    # Check config exists
+    if [[ ! -f "$config_file" ]]; then
+        _teach_error "No teach-config.yml found" \
+            "Run 'teach init' first"
+        return 1
+    fi
+
+    # Check yq available
+    if ! command -v yq &>/dev/null; then
+        _teach_error "yq required for topic selection" \
+            "Install: brew install yq"
+        return 1
+    fi
+
+    # Get weeks from config
+    local -a weeks=()
+    local -a topics=()
+
+    # Read weeks and topics
+    local week_count
+    week_count=$(yq '.semester_info.weeks | length' "$config_file" 2>/dev/null)
+
+    if [[ -z "$week_count" || "$week_count" == "0" || "$week_count" == "null" ]]; then
+        _teach_error "No weeks found in teach-config.yml" \
+            "Add semester_info.weeks to config"
+        return 1
+    fi
+
+    # Build week and topic arrays
+    for ((i=0; i<week_count; i++)); do
+        local week_num
+        local week_topic
+        week_num=$(yq ".semester_info.weeks[$i].number // \"\"" "$config_file" 2>/dev/null)
+        week_topic=$(yq ".semester_info.weeks[$i].topic // \"\"" "$config_file" 2>/dev/null)
+
+        if [[ -n "$week_num" && -n "$week_topic" ]]; then
+            weeks+=("$week_num")
+            topics+=("$week_topic")
+        fi
+    done
+
+    # Display topic selection menu
+    echo ""
+    echo "${FLOW_COLORS[info]}📅 Select Week/Topic${FLOW_COLORS[reset]}"
+    echo ""
+
+    for ((i=1; i<=${#weeks[@]}; i++)); do
+        printf "  ${FLOW_COLORS[bold]}[%2d]${FLOW_COLORS[reset]} Week %-2s  %s\n" \
+            "$i" "${weeks[$i]}" "${topics[$i]}"
+    done
+
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}Your choice [1-${#weeks[@]}]:${FLOW_COLORS[reset]} "
+
+    read -r choice
+
+    # Validate choice
+    if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#weeks[@]} )); then
+        echo "${weeks[$choice]}"
+        return 0
+    else
+        echo ""
+        echo "${FLOW_COLORS[error]}Invalid choice${FLOW_COLORS[reset]}"
+        return 1
+    fi
+}
+
+# Interactive wizard for content generation (Phase 4 - v5.13.0+)
+# Usage: _teach_interactive_wizard <subcommand> <week_or_topic> <style>
+# Returns: 0 if successful, 1 if cancelled
+_teach_interactive_wizard() {
+    local subcommand="$1"
+    local week_or_topic="$2"  # Can be empty
+    local style="$3"          # Can be empty
+
+    echo ""
+    echo "${FLOW_COLORS[bold]}╭────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[bold]}│ 🎓 Interactive Teaching Content Generator     │${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[bold]}╰────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+
+    # Step 1: Select week/topic if not provided
+    if [[ -z "$week_or_topic" ]]; then
+        local selected_week
+        selected_week=$(_teach_select_topic_interactive) || return 1
+
+        typeset -g TEACH_WEEK="$selected_week"
+        typeset -g TEACH_TOPIC=""  # Will be set by lesson plan integration
+    fi
+
+    # Step 2: Select style if not provided
+    if [[ -z "$style" ]]; then
+        style=$(_teach_select_style_interactive)
+    fi
+
+    # Return the selected style
+    echo "$style"
+    return 0
+}
+
+# ============================================================================
 # SCHOLAR WRAPPER INFRASTRUCTURE
 # ============================================================================
 
@@ -1343,6 +1642,55 @@ _teach_scholar_wrapper() {
 
     # 2. Parse topic and week selection flags
     _teach_parse_topic_week "${args[@]}" || return 1
+
+    # ==================================================================
+    # PHASE 4: Interactive Mode (v5.13.0+)
+    # ==================================================================
+
+    # Check if interactive mode was requested
+    local interactive=false
+    for arg in "${args[@]}"; do
+        if [[ "$arg" == "--interactive" || "$arg" == "-i" ]]; then
+            interactive=true
+            break
+        fi
+    done
+
+    # Run interactive wizard if requested
+    if [[ "$interactive" == "true" ]]; then
+        # Run wizard (it will set TEACH_WEEK and return style)
+        local wizard_style
+        wizard_style=$(_teach_interactive_wizard "$subcommand" "$topic" "$style") || return 1
+
+        # Use wizard result
+        if [[ -z "$style" ]]; then
+            style="$wizard_style"
+        fi
+    fi
+
+    # ==================================================================
+    # END PHASE 4
+    # ==================================================================
+
+    # ==================================================================
+    # PHASE 3: Lesson Plan Integration (v5.13.0+)
+    # ==================================================================
+
+    # If week was specified, integrate lesson plan
+    if [[ -n "$TEACH_WEEK" ]]; then
+        _teach_integrate_lesson_plan "$TEACH_WEEK" "$style" || return 1
+
+        # Use resolved style from lesson plan
+        style="$TEACH_RESOLVED_STYLE"
+
+        # topic is already set in TEACH_TOPIC by integrate function
+        # but we also want to update the local variable
+        topic="$TEACH_TOPIC"
+    fi
+
+    # ==================================================================
+    # END PHASE 3
+    # ==================================================================
 
     # 3. Resolve content from style preset + overrides
     _teach_resolve_content "$style" "${args[@]}" || return 1
