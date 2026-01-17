@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Status:** Production ready (v5.12.0 released)
+- **Current Version:** v5.12.0 (Production Ready)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -20,10 +20,11 @@ This file provides guidance to Claude Code when working with code in this reposi
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`
-- 10 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dot`, `teach`
+- 11 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dot`, `teach`, `prompt`
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
-- macOS Keychain secret management (v5.12.0)
+- Teaching workflow with Scholar integration
+- macOS Keychain secret management
 
 ---
 
@@ -61,7 +62,7 @@ git checkout dev && git pull origin dev
 
 ```bash
 # Create worktree from dev
-git worktree add ~/.git-worktrees/flow-cli-<feature> -b feature/<feature> dev
+git worktree add ~/.git-worktrees/flow-cli/<feature> -b feature/<feature> dev
 
 # Verify creation
 git worktree list
@@ -74,10 +75,10 @@ git worktree list
 **Tell user:**
 
 ```
-✅ Worktree created at ~/.git-worktrees/flow-cli-<feature>
+✅ Worktree created at ~/.git-worktrees/flow-cli/<feature>
 
 To start implementation, please start a NEW session:
-  cd ~/.git-worktrees/flow-cli-<feature>
+  cd ~/.git-worktrees/flow-cli/<feature>
   claude
 ```
 
@@ -119,7 +120,7 @@ git rebase origin/dev
 gh pr create --base dev
 
 # After merge, cleanup worktree
-git worktree remove ~/.git-worktrees/flow-cli-<feature>
+git worktree remove ~/.git-worktrees/flow-cli/<feature>
 git branch -d feature/<feature>
 ```
 
@@ -189,21 +190,13 @@ flow-cli is part of a 3-layer developer tooling stack:
 | **Launch Claude**         | flow-cli | `cc`, `cc yolo`          |
 | Configure Claude settings | aiterm   | `ait claude settings`    |
 
-### Delegation to aiterm
-
-The `tm` dispatcher delegates to aiterm for rich operations:
-
-- `tm ghost` → `ait ghost` (Ghostty terminal status)
-- `tm detect` → `ait detect` (project context detection)
-- `tm switch` → `ait switch` (apply context to terminal)
-
 ### flow-cli Owns:
 
 1. **Instant operations** (<10ms response, pure ZSH)
 2. **Session management** (work/finish/hop)
 3. **ADHD motivation** (win/yay/streaks/goals)
 4. **Quick navigation** (pick/dash)
-5. **Simple dispatchers** (g/cc/mcp/r/qu/obs/wt/tm)
+5. **Simple dispatchers** (g/cc/mcp/r/qu/obs/wt/tm/dot/teach/prompt)
 
 ### aiterm Owns:
 
@@ -229,14 +222,14 @@ hop <project>     # Quick switch (tmux)
 dash [category]   # Project dashboard
 dash -i           # Interactive TUI (fzf)
 dash --watch      # Live refresh mode
-dash --inventory  # Auto-generated tool inventory (from .STATUS files)
+dash --inventory  # Auto-generated tool inventory
 catch <text>      # Quick capture
 js                # Just start (auto-picks project)
 flow doctor       # Health check (verify dependencies)
 flow doctor --fix # Interactive install missing tools
 ```
 
-### Dopamine Features (v5.12.0)
+### Dopamine Features
 
 ```bash
 win <text>        # Log accomplishment (auto-categorized)
@@ -261,88 +254,10 @@ tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
 wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 dot <cmd>     # Dotfile management (dot edit, dot sync, dot secret)
 teach <cmd>   # Teaching workflow (teach init, teach deploy, teach exam)
-prompt <cmd>  # Prompt engine switcher (prompt status, prompt toggle) [v5.12.0]
+prompt <cmd>  # Prompt engine switcher (prompt status, prompt toggle)
 ```
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
-
-### CC Dispatcher Quick Reference (v5.12.0)
-
-**✨ Unified Grammar:** Both mode-first AND target-first orders work!
-
-```bash
-# Basic
-cc                # Launch Claude HERE (current dir, acceptEdits)
-cc .              # Explicit HERE (NEW!)
-cc pick           # Pick project → Claude
-cc <project>      # Direct jump → Claude (e.g., cc flow)
-
-# Modes (both orders work!)
-cc yolo           # Launch HERE in YOLO mode (skip permissions)
-cc yolo pick      # Pick → YOLO mode (mode-first)
-cc pick yolo      # Pick → YOLO mode (target-first) ✨
-cc plan           # Launch HERE in Plan mode
-cc plan pick      # Pick → Plan (mode-first)
-cc pick plan      # Pick → Plan (target-first) ✨
-cc opus           # Launch HERE with Opus model
-cc opus pick      # Pick → Opus (mode-first)
-cc pick opus      # Pick → Opus (target-first) ✨
-
-# Session
-cc resume         # Resume Claude session picker
-cc continue       # Continue most recent conversation
-```
-
-**Alias:** `ccy` = `cc yolo`
-**Shortcuts:** `o` = opus, `h` = haiku, `y` = yolo, `p` = plan
-
-### TM Dispatcher Quick Reference
-
-```bash
-# Shell-native (instant, no Python)
-tm title <text>       # Set tab/window title
-tm profile <name>     # Switch iTerm2 profile
-tm which              # Show detected terminal
-
-# Aiterm delegation
-tm ghost              # Ghostty status
-tm ghost theme        # List/set Ghostty themes
-tm switch             # Apply terminal context
-tm detect             # Detect project context
-```
-
-**Aliases:** `tmt` = title, `tmp` = profile, `tmg` = ghost, `tms` = switch
-
-### Pick - Project Picker (v5.12.0)
-
-```bash
-pick                # FZF picker (all projects)
-pick r              # R packages only
-pick dev            # Dev tools only
-pick wt             # All worktrees
-pick wt scribe      # Scribe's worktrees only
-pick flow           # Direct jump to flow-cli
-```
-
-**Categories:** `r`, `dev`, `q`, `teach`, `rs`, `app`, `wt`
-
-**Interactive Keys:** Enter (cd), Ctrl-O (cc), Ctrl-Y (ccy), Ctrl-S (status), Ctrl-L (log)
-
-**Worktree Session Indicators:** 🟢 recent (< 24h), 🟡 old, (none) = no session
-
-**Aliases:** `pickr`, `pickdev`, `pickq`, `pickwt`
-
-### Deprecated (Removed 2025-12-25)
-
-```bash
-v / vibe      → Use 'flow' command instead
-d             → Use 'dash' command
-f             → Use 'flow' command
-pp            → Use 'pick' command
-ah            → Use 'aliashelp' command
-```
-
-**Note:** The `r` dispatcher no longer conflicts with `alias r=` - the alias was removed from ~/.config/zsh/.zshrc
 
 ---
 
@@ -357,8 +272,10 @@ flow-cli/
 │   ├── project-detector.zsh  # Project type detection
 │   ├── tui.zsh               # Terminal UI components
 │   ├── inventory.zsh         # Tool inventory generator
-│   ├── keychain-helpers.zsh  # macOS Keychain secrets (v5.12.0)
-│   └── dispatchers/          # Smart command dispatchers (10)
+│   ├── keychain-helpers.zsh  # macOS Keychain secrets
+│   ├── config-validator.zsh  # Config validation
+│   ├── git-helpers.zsh       # Git integration utilities
+│   └── dispatchers/          # Smart command dispatchers (11)
 │       ├── cc-dispatcher.zsh     # Claude Code
 │       ├── dot-dispatcher.zsh    # Dotfiles + Secrets
 │       ├── g-dispatcher.zsh      # Git workflows
@@ -368,7 +285,8 @@ flow-cli/
 │       ├── r-dispatcher.zsh      # R packages
 │       ├── teach-dispatcher.zsh  # Teaching workflow
 │       ├── tm-dispatcher.zsh     # Terminal manager
-│       └── wt-dispatcher.zsh     # Worktrees
+│       ├── wt-dispatcher.zsh     # Worktrees
+│       └── prompt-dispatcher.zsh # Prompt engine
 ├── commands/                 # Command implementations
 │   ├── work.zsh             # work, finish, hop, why
 │   ├── dash.zsh             # Dashboard
@@ -378,21 +296,10 @@ flow-cli/
 │   ├── doctor.zsh           # Health check & dependency management
 │   └── pick.zsh             # Project picker
 ├── setup/                    # Installation & setup
-│   ├── Brewfile             # Recommended Homebrew packages
-│   └── README.md            # Setup instructions
 ├── completions/             # ZSH completions
-│   ├── _work, _dash, _flow, _hop, _pick, _dot
 ├── hooks/                   # ZSH hooks
-│   ├── chpwd.zsh           # Directory change
-│   └── precmd.zsh          # Pre-command
 ├── docs/                    # Documentation (MkDocs)
-│   ├── reference/          # Reference cards + ARCHITECTURE.md
-│   ├── tutorials/          # Step-by-step guides
-│   ├── guides/             # How-to guides
-│   ├── commands/           # Command docs
-│   └── conventions/        # Standards
-├── tests/                   # Test suite (39 keychain tests)
-├── zsh/functions/          # Legacy (backward compat)
+├── tests/                   # Test suite (300+ tests)
 └── .archive/               # Archived Node.js CLI
 ```
 
@@ -405,13 +312,14 @@ flow-cli/
 | `flow.plugin.zsh`                        | Plugin entry point       | Source this to load      |
 | `lib/core.zsh`                           | Core utilities           | Logging, colors, helpers |
 | `lib/atlas-bridge.zsh`                   | Atlas integration        | Optional state engine    |
-| `lib/keychain-helpers.zsh`               | macOS Keychain secrets   | v5.12.0 - Touch ID       |
-| `lib/config-validator.zsh`               | Config validation        | v5.12.0 - Schema + hash  |
+| `lib/keychain-helpers.zsh`               | macOS Keychain secrets   | Touch ID support         |
+| `lib/config-validator.zsh`               | Config validation        | Schema + hash validation |
+| `lib/git-helpers.zsh`                    | Git integration          | Teaching workflow        |
 | `lib/dispatchers/*.zsh`                  | Smart dispatchers        | 11 active dispatchers    |
 | `commands/*.zsh`                         | Core commands            | work, dash, finish, etc. |
 | `docs/reference/DISPATCHER-REFERENCE.md` | Complete dispatcher docs | All dispatchers          |
 | `docs/reference/ARCHITECTURE.md`         | System architecture      | Mermaid diagrams         |
-| `docs/reference/API-REFERENCE.md`        | API reference            | v5.12.0 - All functions  |
+| `docs/reference/API-REFERENCE.md`        | API reference            | All functions            |
 | `.STATUS`                                | Current progress         | Sprint tracking          |
 
 ---
@@ -428,7 +336,7 @@ source flow.plugin.zsh
 work <Tab>           # Completions work
 dash                 # Dashboard displays
 r help               # Dispatcher help
-qu help              # Dispatcher help
+teach help           # Teaching dispatcher help
 ```
 
 ### Adding New Commands
@@ -507,6 +415,7 @@ qu help              # Dispatcher help
 r test              # R package: run tests
 g push              # Git: push to remote
 qu preview          # Quarto: preview document
+teach exam "Topic"  # Generate exam via Scholar
 ```
 
 **Benefits:**
@@ -527,21 +436,19 @@ qu preview          # Quarto: preview document
 
 ### Test Suite Overview
 
-**Status:** ✅ 76+ tests passing (100%)
+**Status:** ✅ 300+ tests passing (100%)
 **Documentation:** [Complete Testing Guide](docs/guides/TESTING.md)
 
 ```bash
-# Core test suites (v5.12.0+)
-tests/test-pick-command.zsh         # Pick: 39 tests (556 lines)
-tests/test-cc-dispatcher.zsh        # CC: 37 tests (722 lines)
-tests/test-dot-v5.12.0-unit.zsh      # DOT: 112+ tests
-tests/test-cc-unified-grammar.zsh   # CC unified grammar
-tests/test-pick-smart-defaults.zsh  # Pick defaults
-tests/test-pick-wt.zsh              # Pick worktrees
+# Core test suites
+tests/test-pick-command.zsh         # Pick: 39 tests
+tests/test-cc-dispatcher.zsh        # CC: 37 tests
+tests/test-dot-v5.12.0-unit.zsh     # DOT: 112+ tests
+tests/test-teach-dates-unit.zsh     # Teaching dates: 33 tests
+tests/test-teach-dates-integration.zsh  # Integration: 16 tests
 
 # Interactive tests
 tests/interactive-dog-feeding.zsh   # Gamified testing (ADHD-friendly)
-tests/interactive-test.zsh
 ```
 
 ### Running Tests
@@ -559,17 +466,8 @@ source flow.plugin.zsh
 work <Tab>           # Completions work
 dash                 # Dashboard displays
 pick help            # Help system works
-cc help              # CC dispatcher works
+teach help           # Teaching dispatcher works
 ```
-
-### Test Coverage
-
-| Component      | File                      | Tests   | Coverage |
-| -------------- | ------------------------- | ------- | -------- |
-| Pick command   | test-pick-command.zsh     | 39      | ✅ 100%  |
-| CC dispatcher  | test-cc-dispatcher.zsh    | 37      | ✅ 100%  |
-| DOT dispatcher | test-dot-v5.12.0-unit.zsh | 112+    | ✅ 100%  |
-| **Total**      | **8 suites**              | **76+** | **100%** |
 
 ### Writing Tests
 
@@ -588,8 +486,8 @@ See [Testing Guide](docs/guides/TESTING.md) for:
 
 ### Website
 
-**URL:** https://Data-Wise.github.io/flow-cli/  
-**Build:** `mkdocs build`  
+**URL:** https://Data-Wise.github.io/flow-cli/
+**Build:** `mkdocs build`
 **Deploy:** `mkdocs gh-deploy --force`
 
 ### Key Docs
@@ -598,7 +496,7 @@ See [Testing Guide](docs/guides/TESTING.md) for:
 | -------------------------------------------- | ------------------------- |
 | `docs/guides/DOPAMINE-FEATURES-GUIDE.md`     | Win/streak/goal features  |
 | `docs/reference/DISPATCHER-REFERENCE.md`     | Complete dispatcher guide |
-| `docs/reference/ALIAS-REFERENCE-CARD.md`     | All 28 aliases            |
+| `docs/reference/ALIAS-REFERENCE-CARD.md`     | All aliases               |
 | `docs/reference/COMMAND-QUICK-REFERENCE.md`  | Quick command lookup      |
 | `docs/reference/WORKFLOW-QUICK-REFERENCE.md` | Common workflows          |
 | `docs/getting-started/quick-start.md`        | 5-minute tutorial         |
@@ -636,674 +534,37 @@ export FLOW_QUIET=1
 export FLOW_DEBUG=1
 ```
 
-### User Preferences (2025-12-25)
-
-- **Explicit commands** over shortcuts
-- **No single-letter aliases** (too ambiguous)
-- **Full command names** (dash, flow, pick, not d, f, pp)
-- **Dispatchers** for domain-specific workflows
-
 ---
 
-## Integration Points
-
-| Project                  | Integration                              | Status             |
-| ------------------------ | ---------------------------------------- | ------------------ |
-| **atlas**                | Optional state engine (@data-wise/atlas) | Optional           |
-| **zsh-claude-workflow**  | Shared project patterns                  | Active             |
-| **claude-mcp**           | Browser extension MCP                    | Complementary      |
-| **statistical-research** | MCP server (R, Zotero)                   | Via mcp dispatcher |
-
----
-
-## Current Status (2026-01-16)
-
-### 🚧 v5.12.0 IN DEVELOPMENT - Teaching + Git Integration
-
-**Feature Branch:** `feature/teaching-git-integration`
-**Spec:** `docs/specs/SPEC-teaching-git-integration-2026-01-16.md`
-**Target Release:** v5.12.0
-
-#### ✅ Phase 1 Complete: Smart Post-Generation Workflow (2-3 hours)
-
-**What Was Delivered:**
-
-- [x] New `lib/git-helpers.zsh` module with git integration functions
-- [x] Interactive commit workflow after teaching content generation
-- [x] Three workflow options:
-  1. Review in editor first (opens $EDITOR, then prompts to commit)
-  2. Commit now with auto-generated message
-  3. Skip commit (manual git later)
-- [x] Auto-generated commit messages with conventional commits format
-- [x] Course context included in commit messages (from teach-config.yml)
-- [x] Co-authored-by Scholar attribution
-- [x] Optional push to remote after commit
-- [x] All syntax tests passing
-
-**New Functions:**
-
-```bash
-# Git Helpers (lib/git-helpers.zsh)
-_git_teaching_commit_message()     # Generate commit message
-_git_in_repo()                      # Check if in git repo
-_git_current_branch()               # Get current branch
-_git_commit_teaching_content()      # Commit with message
-_git_push_current_branch()          # Push to remote
-
-# Interactive Workflows (lib/dispatchers/teach-dispatcher.zsh)
-_teach_interactive_commit_workflow()  # Main interactive prompt
-_teach_review_then_commit()           # Review → Commit workflow
-_teach_commit_now()                   # Direct commit workflow
-```
-
-**Commit Message Example:**
-
-```
-teach: add exam for Hypothesis Testing
-
-Generated via: teach exam "Hypothesis Testing" --questions 20
-Course: STAT 545 (Fall 2024)
-
-Co-Authored-By: Scholar <scholar@example.com>
-```
-
-**Success Criteria:**
-
-✓ Generated content can be reviewed and committed in < 30 seconds
-✓ Commit messages are descriptive and searchable
-✓ Zero git commands typed manually
-
----
-
-#### ✅ Phase 2 Complete: Branch-Aware Deployment (4-6 hours)
-
-**What Was Delivered:**
-
-- [x] Enhanced `teach deploy` command with PR-based workflow
-- [x] Pre-flight checks (branch, clean state, unpushed commits, conflicts)
-- [x] Conflict detection with interactive rebase option
-- [x] Auto-generated PR with commit list and deploy checklist
-- [x] Configuration via `git` and `workflow` sections in teach-config.yml
-- [x] Direct push bypass for advanced users (`--direct-push`)
-- [x] All syntax tests passing
-
-**New Functions:**
-
-```bash
-# PR Workflow (lib/git-helpers.zsh)
-_git_create_deploy_pr()           # Create PR via gh CLI
-_git_detect_production_conflicts() # Check for production updates
-_git_get_commit_count()           # Count commits between branches
-_git_get_commit_list()            # Format commit list for PR
-_git_generate_pr_body()           # Auto-generate PR description
-_git_rebase_onto_production()     # Interactive rebase
-_git_has_unpushed_commits()       # Check for unpushed work
-
-# Deploy Command (lib/dispatchers/teach-dispatcher.zsh)
-_teach_deploy()                   # Main deployment workflow
-_teach_deploy_help()              # Help documentation
-```
-
-**Configuration Example:**
-
-```yaml
-# teach-config.yml
-git:
-  draft_branch: draft
-  production_branch: main
-  auto_pr: true
-  require_clean: true
-
-workflow:
-  teaching_mode: false
-  auto_commit: false
-  auto_push: false
-```
-
-**Workflow:**
-
-1. **Pre-flight Checks**
-   - ✓ Verify on draft branch (auto-switch if needed)
-   - ✓ Check for uncommitted changes
-   - ✓ Detect unpushed commits (offer to push)
-   - ✓ Detect production conflicts (offer to rebase)
-
-2. **PR Creation**
-   - Auto-generate title: "Deploy: [Course Name] Updates"
-   - Include commit list and count
-   - Add deploy checklist
-   - Label with "teaching,deploy"
-
-3. **Conflict Resolution**
-   - Detect if production has new commits
-   - Offer interactive rebase
-   - Continue anyway or cancel
-
-**Success Criteria:**
-
-✓ teach deploy creates PR from draft → production
-✓ Never pushes directly to main (unless --direct-push)
-✓ Conflicts detected before PR creation
-✓ Interactive prompts for all critical decisions
-
----
-
-#### ✅ Phase 3 Complete: Git-Aware teach status (1-2 hours)
-
-**What Was Delivered:**
-
-- [x] Enhanced `teach status` with git status section
-- [x] Smart filtering of teaching-related files (exams/, slides/, etc.)
-- [x] Color-coded status indicators (M/A/D/??)
-- [x] Interactive cleanup workflow (4 options)
-- [x] Auto-generated commit messages with course context
-- [x] Stash support with timestamps
-- [x] View diff before deciding
-- [x] All syntax tests passing
-
-**New Functions:**
-
-```bash
-# Git Cleanup (lib/dispatchers/teach-dispatcher.zsh)
-_teach_git_cleanup_prompt()      # Interactive menu (4 options)
-_teach_git_commit_files()        # Commit with auto-message
-_teach_git_stash_files()         # Stash with timestamp
-_teach_git_view_diff()           # Show diff for files
-```
-
-**Interactive Workflow:**
-
-```
-teach status
-  ↓
-🔧 Git Status
-  ⚠️ 3 uncommitted changes (teaching content)
-    M  exams/exam01.qmd
-    A  slides/week03-slides.qmd
-    M  assignments/hw02.md
-  ↓
-❓ Clean up uncommitted changes?
-  [1] Commit teaching files (Recommended)
-  [2] Stash teaching files
-  [3] View diff first
-  [4] Leave as-is
-```
-
-**Commit Message Example:**
-
-```
-teach: update teaching content
-
-Modified files: exams/exam01.qmd, slides/week03-slides.qmd
-Course: STAT 545 (Fall 2024)
-
-Generated via: teach status cleanup
-```
-
-**Success Criteria:**
-
-✓ teach status shows uncommitted teaching files
-✓ Interactive prompts guide cleanup (4 options)
-✓ Zero manual git commands needed
-✓ Smart filtering (teaching content only)
-
----
-
-#### ✅ Phase 4 Complete: Teaching Mode Auto-Commit (2-3 hours)
-
-**What Was Delivered:**
-
-- [x] Configuration-driven teaching mode (workflow.teaching_mode)
-- [x] Auto-commit workflow (skips interactive prompts)
-- [x] Teaching mode indicator in `teach status` output
-- [x] Enhanced `teach deploy` with auto-push support
-- [x] Streamlined "generate → commit → push → deploy" workflow
-- [x] All syntax tests passing (5 tests, 100% coverage)
-- [x] Documentation and integration testing
-
-**New Functions:**
-
-```bash
-# Teaching Mode Workflow (lib/dispatchers/teach-dispatcher.zsh)
-_teach_auto_commit_workflow()    # Streamlined auto-commit (no prompts)
-```
-
-**Configuration Example:**
-
-```yaml
-# teach-config.yml
-workflow:
-  teaching_mode: true # Enable streamlined workflow
-  auto_commit: true # Auto-commit after generation
-  auto_push: false # Prompt before push (safety)
-```
-
-**Teaching Mode Behavior:**
-
-1. **Post-Generation (Phase 1 Enhancement)**
-   - Standard mode: Interactive 3-option menu (review/commit/skip)
-   - Teaching mode: Auto-commit with generated message (no prompts)
-
-2. **Status Display (Phase 3 Enhancement)**
-   - Shows "🎓 Teaching mode enabled" indicator
-   - Shows "(auto-commit)" when auto_commit is enabled
-
-3. **Deployment (Phase 2 Enhancement)**
-   - Standard mode: Prompt before pushing unpushed commits
-   - Teaching mode + auto_push: Auto-push without prompts
-   - Teaching mode without auto_push: Still prompts (safety)
-
-**Workflow Comparison:**
-
-```
-Standard Mode:
-  teach exam "Topic"
-    ↓
-  📝 Content generated
-    ↓
-  ❓ What would you like to do?
-    [1] Review then commit
-    [2] Commit now
-    [3] Skip for now
-  → [User selects option]
-    ↓
-  ✅ Committed
-
-Teaching Mode:
-  teach exam "Topic"
-    ↓
-  📝 Content generated
-    ↓
-  🎓 Teaching Mode: Auto-committing...
-    ↓
-  ✅ Committed (no prompts)
-```
-
-**Success Criteria:**
-
-✓ Teaching mode reduces post-generation steps from 3→0
-✓ Configuration-driven behavior (no code changes needed)
-✓ Safety preserved (auto_push defaults to false)
-✓ Backward compatible (teaching_mode defaults to false)
-✓ Clear visual indicators of teaching mode status
-
----
-
-#### ✅ Phase 5 Complete: Git Integration in teach init (1-2 hours)
-
-**What Was Delivered:**
-
-- [x] Git initialization for fresh repositories (auto-detect or create)
-- [x] `--no-git` flag to skip git setup
-- [x] Teaching-specific .gitignore template
-- [x] Automatic draft/main branch creation
-- [x] Initial commit with course structure
-- [x] Optional GitHub repository creation via gh CLI
-- [x] Git user configuration (interactive mode only)
-- [x] All syntax tests passing (7 tests, 100% coverage)
-- [x] Documentation and integration
-
-**New Features:**
-
-```bash
-# Git initialization for fresh repos
-_teach_create_fresh_repo()           # Full git setup wizard
-_teach_create_github_repo()          # GitHub repo creation helper
-_teach_show_git_setup_summary()      # Post-setup summary
-```
-
-**Configuration:**
-
-```bash
-# Skip git setup
-teach-init --no-git "STAT 545"
-
-# Auto-initialize git (interactive)
-teach-init "STAT 545"
-
-# Auto-initialize git (non-interactive)
-teach-init -y "STAT 545"
-```
-
-**Git Setup Workflow:**
-
-```
-teach-init "STAT 545" (fresh directory)
-  ↓
-📋 No git repository detected
-  ↓
-❓ Initialize git repository for teaching workflow?
-  ↓
-✅ Git repository initialized
-✅ .gitignore created from template
-✅ Teaching workflow installed
-✅ Initial commit created
-✅ Renamed master → main
-✅ Created draft branch
-  ↓
-❓ Create GitHub repository? [y/N]
-  ↓
-(Optional GitHub setup)
-  ↓
-✅ Git initialization complete!
-```
-
-**.gitignore Template:**
-
-Includes patterns for:
-
-- Quarto (`/.quarto/`, `/_site/`, `/_freeze/`)
-- R/RStudio (`.Rhistory`, `.RData`, `.Rproj.user`)
-- Python (`__pycache__/`, `venv/`, `*.pyc`)
-- MkDocs (`site/`)
-- macOS (`.DS_Store`, `._*`)
-- IDEs (`.vscode/`, `.idea/`)
-- Teaching-specific (`**/solutions/`, `**/answer-keys/`, `submissions/`)
-
-**Branch Structure:**
-
-- **main**: Production/deployment branch (matches schema default)
-- **draft**: Working branch (default branch for development)
-
-**Initial Commit Format:**
-
-```
-feat: initialize teaching workflow for STAT 545
-
-Generated via: teach init "STAT 545"
-
-Initial setup includes:
-- .flow/teach-config.yml (course configuration)
-- .gitignore (teaching-specific patterns)
-- scripts/ (automation helpers)
-
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
-```
-
-**GitHub Integration:**
-
-- Automatically detects gh CLI availability
-- Creates public repository with course description
-- Pushes both draft and main branches
-- Sets up origin remote
-- Shows repository URL after creation
-
-**Success Criteria:**
-
-✓ Fresh repos can initialize git in one command
-✓ `--no-git` flag allows skipping git setup
-✓ .gitignore includes all common teaching patterns
-✓ Branch structure matches schema defaults (draft/main)
-✓ Initial commit follows conventional commits format
-✓ GitHub integration is optional but seamless
-✓ All tests passing (7 tests, 100%)
-
----
-
-### ✅ v5.12.0 RELEASED - Config Validation & Scholar Deep Integration
-
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.12.0
-**PR:** #249 (merged)
-
-**What's New:**
-
-- [x] Schema-based config validation for teach-config.yml
-- [x] Hash-based change detection (SHA-256 caching)
-- [x] Flag validation before Scholar invocation
-- [x] Config ownership protocol (flow-cli vs Scholar sections)
-- [x] New `lib/config-validator.zsh` module
-- [x] API Reference documentation
-- [x] Safe Testing guide with sandbox approach
-- [x] Interactive dogfeeding test suite
-
-**Validation Features:**
-
-```bash
-# Auto-validates on teach status/exam/quiz/etc
-teach status              # Shows validation summary
-teach status --verbose    # Shows validation details
-
-# Validates:
-# - Required field: course.name
-# - Enum: semester (Spring|Summer|Fall|Winter)
-# - Range: year (2020-2100)
-# - Date format: YYYY-MM-DD
-# - Grading sum (~100%)
-```
-
----
-
-### ✅ v5.12.0 RELEASED - Scholar Teaching Wrappers
-
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.12.0 (bundled)
-**PR:** #246 (merged)
-
-**What's New:**
-
-- [x] 9 Scholar wrapper commands via `teach` dispatcher
-- [x] `teach exam/quiz/slides/lecture/assignment/syllabus/rubric/feedback/demo`
-- [x] Preflight validation (checks config + Claude CLI)
-- [x] Universal flags: `--dry-run`, `--format`, `--output`, `--verbose`
-- [x] Tab completion for all commands and flags
-- [x] 28 tests (100% passing)
-
-**New Commands:**
-
-```bash
-# Generate exam via Scholar (AI-powered)
-teach exam "Hypothesis Testing" --format quarto
-
-# Generate quiz
-teach quiz "Chapter 5 Review" --questions 10
-
-# Generate slides from topic
-teach slides "Introduction to Regression"
-
-# All commands support --dry-run preview
-teach exam "Topic" --dry-run --verbose
-```
-
----
-
-### ✅ v5.12.0 RELEASED - Prompt Engine Dispatcher
-
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.12.0 (bundled)
-**PR:** #245 (merged)
-
-**What's New:**
-
-- [x] New `prompt` dispatcher with 8 subcommands
-- [x] Support for 3 engines: Powerlevel10k, Starship, OhMyPosh
-- [x] Interactive toggle menu for switching engines
-- [x] OhMyPosh setup wizard
-- [x] `--dry-run` flag for safe preview
-- [x] 224+ tests (97% passing)
-- [x] Comprehensive guides and reference documentation
-
-**New Commands:**
-
-```bash
-# Check current prompt engine
-prompt status
-
-# Interactive switch menu
-prompt toggle
-
-# Direct switch
-prompt starship
-prompt p10k
-prompt ohmyposh
-
-# Preview switch without making changes
-prompt --dry-run toggle
-
-# Setup wizard for OhMyPosh
-prompt setup-ohmyposh
-```
-
----
-
-### ✅ v5.12.0 RELEASED - macOS Keychain Secrets
-
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.12.0
-
-- [x] `dot secret add/get/list/delete` - Native macOS Keychain storage
-- [x] `dot secret import` - One-time Bitwarden migration
-- [x] Touch ID / Apple Watch authentication support
-- [x] Zero session management (no `dot unlock` needed)
-- [x] 39 tests for keychain helpers (100% passing)
-
----
-
-### ✅ v5.12.0 RELEASED - Bug Fixes
-
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.12.0
-
-- [x] Fixed `dot unlock` stderr contamination
-- [x] Fixed `cc wt` worktree path detection (flat naming support)
-
----
-
-### ✅ v5.12.0 RELEASED - Teaching Workflow & UX Enhancements
-
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.12.0
-**PR:** #230
-
-**What Was Delivered:**
-
-- [x] `teach` dispatcher - unified teaching commands
-- [x] Non-interactive mode (`-y`/`--yes`) for teach-init
-- [x] ADHD-friendly completion summary with rollback instructions
-- [x] Help flags (`-h`/`--help`/`help`) for work, hop, teach-init
-- [x] Already-initialized project detection
-- [x] 19 new tests for teach-init UX
-- [x] Complete documentation (teach.md, DISPATCHER-REFERENCE.md)
-
-**New Commands:**
-
-```bash
-teach init "STAT 545"     # Initialize teaching workflow
-teach init -y "STAT 440"  # Non-interactive mode
-teach exam "Midterm"      # Create exam
-teach deploy              # Deploy draft → production
-teach status              # Show project status
-teach week                # Show current week
-```
-
-**Help Flags Now Work:**
-
-```bash
-work --help               # Show work command help
-hop -h                    # Show hop command help
-teach-init help           # Show teach-init help
-```
-
----
-
-### ✅ v5.12.0 RELEASED - Secret Management v2.0 Complete
-
-**Feature:** Complete Secret Management Lifecycle
-**Status:** Released and deployed
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.12.0
-
-**What Was Delivered:**
-
-- [x] Phase 1: Foundation (dot secret add/check, dot lock, 15-min cache)
-- [x] Phase 2: Token Wizards (dot token github/npm/pypi, dot secrets)
-- [x] Phase 3: Token Rotation (dot token <name> --refresh)
-- [x] Integration: CI/CD sync (dot secrets sync github, dot env init)
-- [x] 134 unit tests (100% passing)
-- [x] Complete documentation (guide, reference, refcard)
-
-**Key Commands (v5.12.0):**
-
-```bash
-# Token Wizards
-dot token github              # GitHub PAT creation wizard
-dot token npm                 # NPM token wizard
-dot token pypi                # PyPI token wizard
-
-# Token Rotation
-dot token github-token --refresh    # Rotate existing token
-
-# Secrets Dashboard
-dot secrets                   # View all secrets with expiration
-
-# CI/CD Integration
-dot secrets sync github       # Sync to GitHub repo secrets
-dot env init                  # Generate .envrc for direnv
-```
-
-**Integration:**
-
-- 15-minute session cache with auto-lock
-- Dashboard shows vault status with time remaining
-- Token expiration tracking and warnings
-- Metadata stored in Bitwarden notes field
-
----
-
-### ✅ v5.12.0 Released - Bug Fix: Pick Command Crash
-
-- [x] Fixed "bad math expression" error in `_proj_show_git_status()` (#155)
-- [x] Added input sanitization for `wc` output (handles terminal control codes)
-- [x] Added regression test to prevent future occurrences
-- [x] All 23 tests passing
-
-### ✅ v5.12.0 Released - Frecency & Session Indicators
-
-- [x] Frecency decay scoring (time-based priority decay)
-- [x] Session indicators (🟢/🟡) on regular projects, not just worktrees
-- [x] Projects sorted by recent Claude activity
-
-### ✅ v5.12.0 Released - Frecency Sorting
-
-- [x] `pick --recent` / `pick -r` - Show only projects with Claude sessions
-- [x] Frecency sorting (most recently used first)
-- [x] CI apt caching (~17s vs 5+ min)
-
-### ✅ v5.12.0 Released - CI Optimization
-
-- [x] CI reduced to smoke tests (~30s)
-- [x] `./tests/run-all.sh` for local full test suite
-- [x] Pick worktree docs and session-age sorting
-
-### ✅ v5.12.0 Released
-
-- [x] `pick` shows worktrees in default view (🌳 icons)
-- [x] CI streamlined: 4 jobs → 1 job
-
-### ✅ v5.12.0 Released - Worktree-Aware Pick
-
-- [x] `pick wt` - List all worktrees from `~/.git-worktrees/`
-- [x] Session indicators: 🟢 recent / 🟡 old
-- [x] Ctrl-O/Y - cd + launch Claude
-
-### 🎯 Production Ready
-
-- **Version:** v5.12.0 released
-- **Released:** 2026-01-14
-- **Status:** Production use phase
-- **Performance:** Sub-10ms for core commands, CI ~17s
-- **Documentation:** https://Data-Wise.github.io/flow-cli/
-- **Tests:** 300+ tests across all features (224 prompt tests, 28 Scholar tests, 31 config validation tests)
-
-### 📋 Future: Installation Improvements
-
-- [ ] Create `install.sh` (curl one-liner, auto-detect plugin manager)
-- [ ] Add install methods comparison table to README
-- [ ] Update `docs/getting-started/installation.md` to match aiterm quality
-- [ ] Test on fresh environment
-
-**Reference:** aiterm's installation approach (`/Users/dt/projects/dev-tools/aiterm/install.sh`)
-
-### 📋 Future Roadmap
-
-**Remote & Team Features**
-
-- [ ] Remote state sync (optional cloud backup)
-- [ ] Multi-device support
-- [ ] Shared templates
+## Current Status
+
+**Version:** v5.12.0 (Released 2026-01-14)
+**Status:** Production Ready
+**Performance:** Sub-10ms for core commands, CI ~17s
+**Documentation:** https://Data-Wise.github.io/flow-cli/
+**Tests:** 300+ tests across all features (100% passing)
+
+### Recent Features (v5.12.0)
+
+- ✅ Teaching + Git Integration (5 phases complete)
+- ✅ Scholar teaching wrappers (9 commands)
+- ✅ Config validation with schema + hash caching
+- ✅ Prompt engine dispatcher (Powerlevel10k, Starship, OhMyPosh)
+- ✅ macOS Keychain secret management
+- ✅ Teaching dates automation with YAML sync
+- ✅ Pick worktree support with session indicators
+- ✅ Frecency sorting for recent projects
+
+### Next Up
+
+See `.STATUS` file for current sprint and planning.
+
+**Future Roadmap:**
+
+- Installation improvements (curl one-liner)
+- Remote state sync (optional cloud backup)
+- Multi-device support
+- Shared templates
 
 ---
 
@@ -1315,30 +576,6 @@ dot env init                  # Generate .envrc for direnv
 2. Update help function `_<name>_help()`
 3. Test: `source flow.plugin.zsh && <name> help`
 4. Update docs: `docs/reference/DISPATCHER-REFERENCE.md`
-
-### Add Alias
-
-1. Check frequency: Only if used 10+ times/day
-2. Add to appropriate section in .zshrc (NOT in flow-cli)
-3. Update `docs/reference/ALIAS-REFERENCE-CARD.md`
-4. Avoid conflicts with system commands
-
-### Fix Startup Error
-
-Common issues:
-
-```bash
-# Alias/function conflict
-# Fix: Remove alias, keep function
-unalias <name>
-
-# Missing dependency
-# Fix: Add conditional check
-command -v <tool> >/dev/null || return
-
-# Syntax error
-# Fix: Check ZSH syntax (not bash)
-```
 
 ### Deploy Documentation
 
@@ -1357,17 +594,17 @@ open https://Data-Wise.github.io/flow-cli/
 
 ```bash
 # Use the release script to bump all version files
-./scripts/release.sh 3.7.0
+./scripts/release.sh 5.13.0
 
 # Review changes
 git diff
 
 # Commit and tag
-git add -A && git commit -m "chore: bump version to 3.7.0"
-git tag -a v5.12.0 -m "v5.12.0"
+git add -A && git commit -m "chore: bump version to 5.13.0"
+git tag -a v5.13.0 -m "v5.13.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v5.12.0
+git push origin main && git push origin v5.13.0
 ```
 
 **Files updated by release script:**
@@ -1387,5 +624,5 @@ git push origin main && git push origin v5.12.0
 
 ---
 
-**Last Updated:** 2026-01-15
+**Last Updated:** 2026-01-16
 **Status:** Production Ready
