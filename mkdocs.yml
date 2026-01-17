@@ -119,6 +119,7 @@ nav:
       - Teaching System Architecture: guides/TEACHING-SYSTEM-ARCHITECTURE.md
       - Teaching Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md
       - Teaching Demo & GIFs: guides/TEACHING-DEMO-GUIDE.md
+      - Teaching Dates Guide: guides/TEACHING-DATES-GUIDE.md
       - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
@@ -153,6 +154,7 @@ nav:
           - Nvim Quick Ref: reference/NVIM-QUICK-REFERENCE.md
           - Prompt Quick Ref: reference/PROMPT-DISPATCHER-REFCARD.md
           - Teaching Quick Ref: reference/REFCARD-TEACHING.md
+          - Teaching Dates Quick Ref: reference/TEACH-DATES-QUICK-REFERENCE.md
           - Teaching Git Workflow: reference/TEACHING-GIT-WORKFLOW-REFCARD.md
       - Project Tools:
           - Command Explorer: reference/COMMAND-EXPLORER.md

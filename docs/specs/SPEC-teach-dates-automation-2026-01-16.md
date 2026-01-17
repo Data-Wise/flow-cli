@@ -641,6 +641,38 @@ mismatches:
 
 ## History
 
+### 2026-01-16 - Command Naming Decision
+
+**Decision:** Use `teach dates` subcommand hierarchy (Option A)
+
+**Rationale:**
+1. **Discoverability**: Natural fit under existing `teach` dispatcher
+2. **Clarity**: `dates` clearly indicates the domain (date management)
+3. **Consistency**: Matches existing patterns (`teach status`, `teach deploy`, `teach exam`)
+4. **Extensibility**: Easy to add new date operations without breaking changes
+5. **ADHD-Friendly**: Clear, predictable structure with safe defaults
+
+**Command Structure:**
+```bash
+teach dates sync              # Main sync command (interactive)
+teach dates sync --dry-run    # Preview changes (safe mode)
+teach dates status            # Check date consistency
+teach dates rollover          # Semester rollover wizard
+teach dates init              # Initial setup wizard
+teach dates validate          # Validate date config
+```
+
+**Alternatives Considered:**
+- **Option B** (`teach semester`): Less clear about date management focus
+- **Option C** (`teach sync dates`): Action-first, but doesn't scale well for non-sync operations
+- **Option D** (`dates` dispatcher): Shorter, but breaks flow-cli convention and less discoverable
+
+**References:**
+- [Command naming brainstorm](../../BRAINSTORM-teach-dates-command-naming-2026-01-16.md)
+- [Dispatcher reference](../reference/DISPATCHER-REFERENCE.md)
+
+---
+
 ### 2026-01-16 - Initial Draft
 - **Created by:** Claude Code (Deep Feature Brainstorm)
 - **Reviewed by:** (pending)
@@ -659,4 +691,3 @@ mismatches:
 2. Get approval for Phase 1 (Date schema)
 3. Create feature branch for implementation
 4. Begin Phase 1 development (2-3 hours)
-
