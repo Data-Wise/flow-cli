@@ -4,11 +4,73 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.11.0 Ready for Release ✅
+## Phase: v5.13.0 - Claude Code Plugin Integration
 ## Priority: 1
-## Progress: 95
+## Progress: 40
 
-## Focus: v5.13.0 - Tracks A, B, C Complete + Documentation Health Check
+## Focus: v5.13.0 - Claude Code Plugin Integration (Scholar & Craft Dispatchers)
+
+## 🚧 In Progress (2026-01-17):
+
+### Teach/Scholar Enhancement - WIP
+
+**Spec:** `docs/specs/SPEC-teach-scholar-enhancement-2026-01-17.md`
+**Branch:** `feature/teaching-flags`
+**Worktree:** `~/.git-worktrees/flow-cli/feature/teaching-flags`
+**Estimated Effort:** 20-24 hours across 6 phases
+
+**Goal:** Comprehensive teach dispatcher enhancement with Scholar plugin integration
+
+**Key Features:**
+
+- Smart defaults (--week, --topic) with lesson plan integration
+- Interactive mode (-i) for step-by-step wizard
+- Revision workflow (--revise) for iterating on content
+- Context integration (--context) for course materials
+- Content customization: 4 style presets + 9 content flags
+
+**Implementation Phases:**
+
+- [ ] Phase 1: Flag Infrastructure (3h)
+- [ ] Phase 2: Preset System (2h)
+- [ ] Phase 3: Lesson Plan Integration (3h)
+- [ ] Phase 4: Interactive Mode (4h)
+- [ ] Phase 5: Revision Workflow (4h)
+- [ ] Phase 6: Context & Polish (4h)
+
+**Status:** Spec complete (merged from 2 specs), worktree ready
+
+---
+
+### Claude Code Plugin Integration - Planning Complete
+
+**Main Spec:** `docs/specs/SPEC-claude-code-plugin-integration-2026-01-17.md`
+**Target Release:** flow-cli v5.13.0
+**Estimated Effort:** 18-24 hours over 2-3 weeks
+
+**Goal:** CLI wrappers for scholar and craft Claude Code plugins (108 combined commands)
+
+**Completed Planning:**
+- [x] Main specification with technical validation
+- [x] Claude CLI capabilities verified (v2.1.12)
+- [x] Error handling section added
+- [x] Phased brainstorming approach defined
+
+**Sub-Specs:**
+
+1. [x] Teach/Scholar Enhancement: `SPEC-teach-scholar-enhancement-2026-01-17.md` (20-24h) - MERGED
+2. [ ] Research/Literature: Pending (after teaching implementation)
+3. [ ] Craft Commands: Pending (after research implementation)
+
+**Implementation Order:**
+
+1. Teach/Scholar enhancement (WIP)
+2. Research/literature integration
+3. Craft commands
+
+**Status:** Planning complete, teach/scholar enhancement implementation next
+
+---
 
 ## ✅ Completed (2026-01-17):
 

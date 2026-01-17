@@ -120,6 +120,207 @@ done
 
 ---
 
+## Technical Validation
+
+### Claude Code CLI Capabilities (Verified 2026-01-17)
+
+**CLI Version:** 2.1.12
+
+**Print Mode (`-p, --print`):**
+```bash
+# Basic usage - outputs to stdout
+claude -p "prompt text"
+
+# With slash commands (skills)
+claude -p "/hub"
+claude -p "/scholar:teaching:quiz 'Linear Regression'"
+
+# Output formats
+claude -p "prompt" --output-format text   # Default: plain text
+claude -p "prompt" --output-format json   # Structured JSON with metadata
+claude -p "prompt" --output-format stream-json  # Realtime streaming
+```
+
+**JSON Output Structure:**
+```json
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "duration_ms": 28561,
+  "num_turns": 4,
+  "result": "... output content ...",
+  "session_id": "uuid",
+  "total_cost_usd": 0.14,
+  "usage": { /* token counts */ }
+}
+```
+
+**Key Flags for Automation:**
+| Flag | Purpose | Use Case |
+|------|---------|----------|
+| `-p, --print` | Non-interactive mode | Required for scripting |
+| `--output-format json` | Structured output | Parse results programmatically |
+| `--output-format text` | Plain text (default) | Piping to files |
+| `--dangerously-skip-permissions` | Bypass confirmations | Sandboxed automation only |
+| `--max-budget-usd <amount>` | Cost limit | Prevent runaway costs |
+| `--model <model>` | Model selection | `haiku` for fast/cheap |
+| `--fallback-model <model>` | Auto-fallback | Handle overload |
+
+**Execution Characteristics:**
+- **Latency:** 5-30 seconds typical (depends on task complexity)
+- **Exit codes:** 0 on success, non-zero on failure
+- **Stderr:** Error messages, debug info (with `--debug`)
+- **Multi-turn:** Print mode completes full task before returning
+
+### Dispatcher Implementation Pattern
+
+```zsh
+# Core execution function (shared by both dispatchers)
+_flow_claude_exec() {
+    local cmd="$1"
+    local args="$2"
+    local output_format="${3:-text}"
+
+    # Build command - arguments are passed as a single quoted string
+    local full_cmd="/$cmd $args"
+
+    # Execute with appropriate flags
+    # Note: Using ZSH arrays prevents shell injection
+    local -a claude_args=(
+        -p "$full_cmd"
+        --output-format "$output_format"
+        --max-budget-usd 0.50
+    )
+    claude "${claude_args[@]}" 2>&1
+}
+
+# Example scholar wrapper
+scholar() {
+    case "$1" in
+        quiz)    shift; _flow_claude_exec "scholar:teaching:quiz" "$*" ;;
+        arxiv)   shift; _flow_claude_exec "scholar:literature:arxiv" "$*" ;;
+        help)    _scholar_help ;;
+        *)       _scholar_help ;;
+    esac
+}
+```
+
+---
+
+## Error Handling
+
+### Error Categories
+
+| Category | Detection | Recovery |
+|----------|-----------|----------|
+| **Claude not installed** | `command -v claude` fails | Show install instructions |
+| **Plugin not available** | Output contains "unknown command" | List available commands |
+| **Network failure** | Exit code non-zero + timeout | Retry with backoff |
+| **Rate limit** | Output contains "rate limit" | Wait and retry |
+| **Permission denied** | Output contains "permission" | Suggest `--dangerously-skip-permissions` |
+| **Timeout** | Command exceeds threshold | Increase timeout or switch to interactive |
+| **Invalid arguments** | Output contains "invalid" | Show command help |
+| **Cost exceeded** | JSON `total_cost_usd` > budget | Warn user, abort |
+
+### Implementation
+
+```zsh
+# Error handling wrapper
+_flow_claude_safe_exec() {
+    local cmd="$1"
+    shift
+
+    # Pre-flight checks
+    if ! command -v claude &>/dev/null; then
+        _flow_log_error "Claude Code not installed"
+        _flow_log_info "Install: npm install -g @anthropic-ai/claude-code"
+        return 1
+    fi
+
+    # Build safe argument array (prevents injection)
+    local -a args=("$@")
+    local full_prompt="/$cmd ${args[*]}"
+
+    # Execute with timeout
+    local output exit_code
+    output=$(timeout 120 claude -p "$full_prompt" 2>&1)
+    exit_code=$?
+
+    # Handle timeout
+    if [[ $exit_code -eq 124 ]]; then
+        _flow_log_error "Command timed out after 120s"
+        _flow_log_info "Try: claude \"/$cmd ${args[*]}\" (interactive mode)"
+        return 124
+    fi
+
+    # Handle other errors
+    if [[ $exit_code -ne 0 ]]; then
+        _flow_log_error "Command failed (exit $exit_code)"
+        print -u2 "$output"
+        return $exit_code
+    fi
+
+    # Check for known error patterns
+    if [[ "$output" == *"unknown command"* ]]; then
+        _flow_log_error "Plugin command not found: $cmd"
+        _flow_log_info "Ensure scholar/craft plugins are installed"
+        return 1
+    fi
+
+    # Success - output result
+    print "$output"
+}
+```
+
+### Timeout Strategy
+
+| Command Type | Default Timeout | Rationale |
+|--------------|-----------------|-----------|
+| Quick lookup (doi, bib) | 30s | Simple retrieval |
+| Search (arxiv, lit-gap) | 60s | API calls + processing |
+| Generation (quiz, exam) | 120s | AI generation time |
+| Complex (analysis-plan) | 180s | Multi-step reasoning |
+| Interactive fallback | None | User controls |
+
+### User Feedback
+
+```zsh
+# Progress indication for long-running commands
+_flow_claude_with_spinner() {
+    local cmd="$1"
+    shift
+    local -a args=("$@")
+
+    _flow_log_info "Running: $cmd..."
+
+    # Create temp file for output
+    local tmpfile=$(mktemp)
+    trap "rm -f $tmpfile" EXIT
+
+    # Run in background
+    claude -p "/$cmd ${args[*]}" > "$tmpfile" 2>&1 &
+    local pid=$!
+
+    # Show spinner for commands > 5s
+    local i=0
+    local spin='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+    while kill -0 $pid 2>/dev/null; do
+        printf "\r  ${spin:i++%10:1} Generating..."
+        sleep 0.1
+    done
+    printf "\r"
+
+    wait $pid
+    local exit_code=$?
+
+    cat "$tmpfile"
+    return $exit_code
+}
+```
+
+---
+
 ## Implementation Plan
 
 ### Phase 1: Foundation (Week 1, 6h)
@@ -208,15 +409,58 @@ win "Literature review complete"
 
 ---
 
-## Next Steps
+## Phased Brainstorming Plan
 
-1. ✅ Specification complete
-2. Review with stakeholders  
-3. Approve command structure
-4. Begin Phase 1
-5. Weekly progress reviews
+This spec uses a **phased brainstorming approach** - detailed specs are created for each domain before implementation:
+
+| Domain | Spec Status | Implementation |
+|--------|-------------|----------------|
+| **Teaching/Scholar Enhancement** | ✅ Complete | [SPEC-teach-scholar-enhancement-2026-01-17.md](SPEC-teach-scholar-enhancement-2026-01-17.md) |
+| **Research/Literature** | 🔜 Pending | Brainstorm after teaching implementation |
+| **Craft Commands** | 🔜 Pending | Brainstorm after research implementation |
+
+### Teaching/Scholar Enhancement (Complete)
+
+Deep brainstorm completed with expert agent analysis (merged from 2 original specs):
+- **UX Agent:** CLI user experience, progress indicators, ADHD-friendly design
+- **Backend Architect:** Config schema, context handling, error strategies
+
+**Key Features:**
+
+- Smart defaults auto-detect current week's topic (`--week`, `--topic`)
+- Interactive mode (`-i`) for step-by-step wizard
+- Revision workflow (`--revise`) for iterating on content
+- Context integration (`--context`) for course materials
+- Content customization: 4 style presets + 9 content flags
+- Lesson plan integration with YAML schema
+
+**Implementation:** 6 phases, 20-24 hours total
+
+### Research/Literature (Pending)
+
+To brainstorm after teaching implementation:
+- `/scholar:literature:arxiv`, `/scholar:literature:doi`
+- `/scholar:research:lit-gap`, `/scholar:research:hypothesis`
+- Integration with Zotero/bibliography workflows
+
+### Craft Commands (Pending)
+
+To brainstorm after research implementation:
+- `/craft:do`, `/craft:check`, `/craft:hub`
+- Site management, testing, quality commands
 
 ---
 
-**Contact:**  
-Issues: https://github.com/Data-Wise/flow-cli/issues
+## Next Steps
+
+1. ✅ Main specification complete
+2. ✅ Teaching/Scholar enhancement spec complete (merged from 2 specs)
+3. ⏳ Begin teaching Phase 1 implementation (Flag Infrastructure)
+4. 🔜 Complete teaching Phases 2-6
+5. 🔜 Brainstorm research/literature after teaching complete
+6. 🔜 Brainstorm craft commands after research complete
+
+---
+
+**Contact:**
+Issues: [github.com/Data-Wise/flow-cli/issues](https://github.com/Data-Wise/flow-cli/issues)
