@@ -480,7 +480,7 @@ graph LR
 **How to include:**
 
 ```markdown
-![Dashboard Screenshot](../images/dashboard-example.png)
+![Dashboard Screenshot](../assets/dashboard-example.png)
 ```
 
 ---
