@@ -3,46 +3,62 @@
 
 Output docs/demos/tutorials/tutorial-20-dates-init.gif
 
-Require flow-cli
-
-Set FontSize 16
-Set Width 1000
-Set Height 600
-Set Theme "Catppuccin Mocha"
+Set FontSize 14
+Set Width 1200
+Set Height 700
+Set Theme "Dracula"
 Set TypingSpeed 50ms
+Set PlaybackSpeed 0.8
 
-# Setup: Navigate to example course directory
-Type "cd /tmp/demo-course"
-Enter
+# Title
+Type "Tutorial 20: Teaching Dates Automation - Part 1" Sleep 1s Enter
 Sleep 1s
 
-Type "# Initialize date configuration"
-Enter
+# Setup: Navigate to course directory
+Type "# Step 1: Navigate to course directory" Enter
 Sleep 500ms
+Type "cd ~/projects/teaching/stat-545" Enter
+Sleep 1s
 
-Type "teach dates init"
-Enter
+Type "" Enter
+Type "# Step 2: Initialize date configuration" Enter
+Sleep 500ms
+Type "teach dates init" Enter
 Sleep 1.5s
 
-# Wizard prompt
-Type "2025-01-13"
-Enter
+# Simulate wizard prompt
+Type "Semester start date (YYYY-MM-DD): " Sleep 800ms
+Type "2025-01-13" Enter
 Sleep 2s
 
-# Show success message
+# Simulate output
+Type "" Enter
+Type "✓ Created .flow/teach-config.yml" Sleep 500ms Enter
+Type "✓ Generated 15 weeks (2025-01-13 → 2025-04-28)" Sleep 500ms Enter
+Type "✓ Date configuration initialized" Sleep 500ms Enter
 Sleep 1s
 
-Type "# Verify config was created"
-Enter
+# Verify config
+Type "" Enter
+Type "# Step 3: Verify config was created" Enter
+Sleep 500ms
+Type "cat .flow/teach-config.yml | head -20" Enter
 Sleep 500ms
 
-Type "cat .flow/teach-config.yml | head -20"
-Enter
-Sleep 3s
+# Simulate YAML output
+Type "semester_info:" Sleep 300ms Enter
+Type "  start_date: \"2025-01-13\"" Sleep 300ms Enter
+Type "  end_date: \"2025-04-28\"" Sleep 300ms Enter
+Type "  weeks:" Sleep 300ms Enter
+Type "    - number: 1" Sleep 300ms Enter
+Type "      start_date: \"2025-01-13\"" Sleep 300ms Enter
+Type "      topic: \"\"" Sleep 300ms Enter
+Type "    - number: 2" Sleep 300ms Enter
+Type "      start_date: \"2025-01-20\"" Sleep 300ms Enter
+Type "      topic: \"\"" Sleep 300ms Enter
+Sleep 2s
 
-# Cleanup note
-Type ""
-Sleep 500ms
-Type "# ✅ Date configuration initialized!"
-Enter
+# Success message
+Type "" Enter
+Type "# ✅ Date configuration initialized!" Enter
 Sleep 2s
