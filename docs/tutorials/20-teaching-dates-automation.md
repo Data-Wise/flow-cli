@@ -168,6 +168,10 @@ semester_info:
   exams: []
 ```
 
+**Demo:**
+
+![Initialize date configuration](../demos/tutorials/tutorial-20-dates-init.gif)
+
 !!! success "Checkpoint"
     You now have a centralized date configuration! Next, we'll add deadlines and exams.
 
@@ -356,6 +360,10 @@ DRY RUN MODE - No changes applied
 Run without --dry-run to apply changes
 ```
 
+**Demo:**
+
+![Preview date changes with dry-run](../demos/tutorials/tutorial-20-dates-sync-dry-run.gif)
+
 !!! warning "Check Before Applying"
     The dry-run shows exactly what will change. Review carefully!
 
@@ -414,6 +422,10 @@ Applied changes to 3 files:
 
 Skipped: 0 files
 ```
+
+**Demo:**
+
+![Apply changes interactively](../demos/tutorials/tutorial-20-dates-sync-interactive.gif)
 
 !!! success "Changes Applied"
     All dates are now consistent across your course! 🎉
