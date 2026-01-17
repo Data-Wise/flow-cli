@@ -66,6 +66,10 @@ draft branch              production branch
                                    [Students see it!]
 ```
 
+**Demo:**
+
+![Teaching Workflow Demo](../demos/tutorials/tutorial-14-teach-workflow.gif)
+
 ---
 
 ## Part 2: Initialize Your Course
