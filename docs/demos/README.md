@@ -34,7 +34,7 @@ vhs teaching-workflow.tape
 **Use in documentation:**
 
 ```markdown
-![Teaching Workflow Demo](../demos/teaching-workflow.gif)
+![Teaching Workflow Demo](../assets/gifs/teaching-git-workflow.gif)
 ```
 
 ---

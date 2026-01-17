@@ -330,14 +330,14 @@ another command
 ## 📚 Documentation
 
 !!! tip "Start Here"
-    **New to this project?** Read [Guide Name](link) first!
+    **New to this project?** Read [Quick Start](getting-started/quick-start.md) first!
 
 ### Core Guides
-- **[Guide 1](link)** - Description
-- **[Guide 2](link)** - Description
+- **[Installation](getting-started/installation.md)** - Setup and configuration
+- **[Quick Start](getting-started/quick-start.md)** - 5-minute introduction
 
 ### Specialized Guides
-- **[Guide 3](link)** - Description
+- **[API Reference](reference/api-complete.md)** - Complete function documentation
 
 ---
 
@@ -347,9 +347,9 @@ Brief explanation of approach/principles.
 
 ---
 
-**Last updated:** Date
-**Maintainer:** Name
-**Repository:** [GitHub](link)
+**Last updated:** 2026-01-16
+**Maintainer:** Data-Wise
+**Repository:** [GitHub](https://github.com/Data-Wise/flow-cli)
 ```
 
 ### Key Elements
@@ -497,8 +497,8 @@ command
 \`\`\`
 
 ## What's Next?
-- [Full Guide](link)
-- [Tutorials](link)
+- [Command Reference](reference/command-quick-reference.md)
+- [Tutorials](tutorials/index.md)
 ```
 
 ### Reference Page
@@ -651,7 +651,7 @@ rtest    # Run tests
 \`\`\`
 
 !!! tip "Start Here"
-    Read [Alias Reference](link) first!
+    Read [Alias Reference](reference/alias-reference-card.md) first!
 ```
 
 ### Bad Home Page

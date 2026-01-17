@@ -14,6 +14,20 @@ if [[ -z "$_FLOW_CONFIG_VALIDATOR_LOADED" ]]; then
     local validator_path="${0:A:h:h}/config-validator.zsh"
     [[ -f "$validator_path" ]] && source "$validator_path"
     typeset -g _FLOW_CONFIG_VALIDATOR_LOADED=1
+
+# Source date management dispatcher if not already loaded
+if [[ -z "$_FLOW_TEACH_DATES_LOADED" ]]; then
+    local dates_path="${0:A:h}/teach-dates.zsh"
+    [[ -f "$dates_path" ]] && source "$dates_path"
+    typeset -g _FLOW_TEACH_DATES_LOADED=1
+fi
+fi
+
+# Source git helpers for teaching workflow integration (v5.11.0+)
+if [[ -z "$_FLOW_GIT_HELPERS_LOADED" ]]; then
+    local git_helpers_path="${0:A:h:h}/git-helpers.zsh"
+    [[ -f "$git_helpers_path" ]] && source "$git_helpers_path"
+    typeset -g _FLOW_GIT_HELPERS_LOADED=1
 fi
 
 # Source git helpers for teaching workflow integration (v5.11.0+)
@@ -1294,6 +1308,11 @@ teach() {
 
         week|w)
             _teach_show_week "$@"
+            ;;
+
+        # Date management
+        dates)
+            _teach_dates_dispatcher "$@"
             ;;
 
         *)

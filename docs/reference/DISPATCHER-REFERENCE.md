@@ -631,6 +631,11 @@ teach syllabus                 # Generate syllabus
 teach deploy                   # Deploy draft → production (with PR creation)
 teach status                   # Show project status + uncommitted files
 
+# Date Management (v5.13.0)
+teach dates init               # Initialize semester dates
+teach dates sync               # Sync dates from config to files
+teach dates status             # Show date consistency
+
 # Course Management
 teach archive                  # Archive semester
 teach config                   # Edit teach-config.yml
@@ -720,6 +725,32 @@ teach init --no-git "TEST 101"
 # → Installs teach-config.yml and scripts
 # → Skip all git operations
 # → Manual git setup instructions provided
+```
+
+### Date Management (v5.13.0+)
+
+Centralize semester dates in teach-config.yml and auto-sync to all files.
+
+```bash
+# Initialize dates
+teach dates init           # Wizard: create 15 weeks from start date
+
+# Sync dates from config to files
+teach dates sync           # Interactive sync
+teach dates sync --dry-run # Preview changes only
+teach dates sync --force   # Auto-apply all
+
+# Status & validation
+teach dates status         # Show date summary
+teach dates validate       # Validate config
+
+# Selective sync
+teach dates sync --assignments  # Assignments only
+teach dates sync --lectures     # Lectures only
+teach dates sync --file hw3.qmd # Single file
+```
+
+**See:** [Teaching Dates Guide](../guides/TEACHING-DATES-GUIDE.md) | [Quick Reference](TEACH-DATES-QUICK-REFERENCE.md)
 ```
 
 **Shortcuts:**

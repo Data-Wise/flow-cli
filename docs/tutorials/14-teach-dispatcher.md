@@ -296,6 +296,138 @@ teach assignment "Homework 3" --due-date "2026-01-31"
 
 ---
 
+## Part 7: Date Management (v5.11.0+)
+
+Flow-cli can centralize all semester dates in `teach-config.yml` and automatically sync them across your entire course repository.
+
+### Step 7.1: Initialize Date Configuration
+
+```bash
+teach dates init
+```
+
+**Interactive wizard:**
+```
+Semester start date (YYYY-MM-DD): 2025-01-13
+
+Generating 15 weeks starting from 2025-01-13...
+✓ Date configuration initialized!
+  Start: 2025-01-13
+  End:   2025-05-02
+  Weeks: 15
+```
+
+### Step 7.2: Configure Dates
+
+Edit `teach-config.yml` to add deadlines:
+
+```yaml
+semester_info:
+  start_date: "2025-01-13"
+  end_date: "2025-05-02"
+
+  weeks:
+    - number: 1
+      start_date: "2025-01-13"
+      topic: "Introduction to R"
+    # ... weeks 2-15
+
+  deadlines:
+    hw1:
+      week: 2              # Week 2 start date
+      offset_days: 4       # + 4 days = Friday
+
+    final_project:
+      due_date: "2025-05-08"  # Absolute date
+
+  exams:
+    - name: "Midterm"
+      date: "2025-03-05"
+      time: "2:00 PM - 3:50 PM"
+```
+
+### Step 7.3: Sync Dates to Files
+
+Preview changes first:
+
+```bash
+teach dates sync --dry-run
+```
+
+**Output:**
+```
+⚠️  Date Mismatches Found
+1. assignments/hw1.qmd (1 mismatch)
+   due: 2025-01-20 → 2025-01-22
+
+ℹ  Dry-run mode: No changes made
+```
+
+Apply changes:
+
+```bash
+teach dates sync
+```
+
+**Interactive prompts:**
+```
+File: assignments/hw1.qmd
+│ YAML Frontmatter:
+│   due: 2025-01-20 → 2025-01-22
+Apply changes? [y/n/d/q] y
+✓ Updated: assignments/hw1.qmd
+```
+
+### Step 7.4: Selective Sync
+
+Sync only specific file types:
+
+```bash
+# Assignments only
+teach dates sync --assignments
+
+# Lectures only
+teach dates sync --lectures
+
+# Single file
+teach dates sync --file assignments/hw3.qmd
+```
+
+### Step 7.5: Check Date Status
+
+```bash
+teach dates status
+```
+
+**Output:**
+```
+📅 Date Status
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Config Dates Loaded: 23
+Teaching Files Found: 18
+Date Sync Status: ✅ All files in sync
+```
+
+### Why Use Date Automation?
+
+**Problem:** Teaching involves dates in many places:
+- Syllabus: "Homework 1 due Jan 22"
+- Assignment file: `due: "2025-01-20"`  ← Mismatch!
+- Schedule: "Week 2: January 22, 2025"
+
+**Solution:** Define once in config, sync everywhere automatically.
+
+**Benefits:**
+- ✅ Consistency: All dates match
+- ✅ Speed: Semester rollover in 5 minutes (vs 2 hours)
+- ✅ Safety: Preview changes with --dry-run
+
+**See:** [Teaching Dates Guide](../guides/TEACHING-DATES-GUIDE.md) for complete documentation.
+
+---
+
+
 ## Part 6: Semester Management
 
 ### Step 6.1: Archive Current Semester

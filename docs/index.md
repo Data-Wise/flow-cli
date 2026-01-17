@@ -24,14 +24,26 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ## ✨ What's New in v5.12.0
 
-!!! success "Teaching + Git Integration"
-    Complete 5-phase git workflow integration for teaching courses
+!!! success "Teaching System Complete + Documentation Quality"
+    Complete teaching workflow with dates automation, testing, and polished documentation
 
-- **📝 Smart Post-Generation Workflow** - 3-option menu after content generation (review/commit/skip)
-- **🚀 Git Deployment Workflow** - Deploy teaching content from draft → production with PR automation
-- **📊 Git-Aware Status** - See uncommitted teaching files with commit/stash/diff options
-- **🎓 Teaching Mode** - Streamlined auto-commit workflow for rapid content creation
-- **🔧 Git Initialization Wizard** - Complete repository setup with teaching-specific .gitignore
+**Teaching Dates Automation (Track C)**
+- **📅 Centralized Date Management** - `teach dates sync` updates all course dates from single config
+- **🔄 Semester Rollover** - `teach dates init` wizard for quick semester setup
+- **✅ Validation & Status** - Check date consistency across all course materials
+- **📖 Comprehensive Guides** - 5,000+ lines of documentation for teaching workflow
+
+**Quality & Performance Improvements**
+- **📊 Complete Test Coverage** - 94 tests covering all teaching features (100% passing)
+- **📸 Visual Documentation** - Dashboard screenshot, optimized GIFs (73% size reduction)
+- **🔗 Link Health Check** - All broken documentation links identified and fixed
+- **📝 CLAUDE.md Optimization** - Streamlined from 1,392 → 627 lines (55% reduction)
+
+**Teaching + Git Integration (Track A+B)**
+- **📝 Smart Post-Generation Workflow** - 3-option menu after content generation
+- **🚀 Git Deployment** - Deploy from draft → production with PR automation
+- **📊 Git-Aware Status** - See uncommitted files with commit/stash/diff options
+- **🔧 Git Initialization** - Complete repository setup with teaching .gitignore
 
 ### Previous Release: v5.11.0
 

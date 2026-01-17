@@ -34,6 +34,14 @@ dash --watch
 
 ---
 
+## 📸 Example Output
+
+![Dashboard Example](../assets/dashboard-example.png)
+
+*The flow-cli dashboard showing active session, quick access projects, and category breakdown*
+
+---
+
 ## 🎯 Quick Summary
 
 The `dash` command scans all `.STATUS` files across your projects, categorizes them by status (active/ready/paused/blocked), and displays a formatted dashboard. When run with "all" category, it also syncs status files to a central project-hub for coordination.

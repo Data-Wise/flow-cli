@@ -143,6 +143,118 @@ _teach_validate_config() {
         fi
     fi
 
+    # Validate weeks array (if present)
+    local week_count=$(yq -r '.semester_info.weeks // [] | length' "$config_file" 2>/dev/null)
+    if [[ -n "$week_count" && "$week_count" != "null" && "$week_count" -gt 0 ]]; then
+        for ((i=0; i<week_count; i++)); do
+            local week_num=$(yq -r ".semester_info.weeks[$i].number // 0" "$config_file" 2>/dev/null)
+            local week_date=$(yq -r ".semester_info.weeks[$i].start_date // \"\"" "$config_file" 2>/dev/null)
+
+            # Validate week number
+            if [[ "$week_num" == "0" || "$week_num" == "null" ]]; then
+                errors+=("Week $i: missing required field 'number'")
+            elif ! [[ "$week_num" =~ ^[0-9]+$ ]] || [[ "$week_num" -lt 1 || "$week_num" -gt 52 ]]; then
+                errors+=("Week $i: invalid number '$week_num' - must be between 1 and 52")
+            fi
+
+            # Validate week start_date
+            if [[ -z "$week_date" || "$week_date" == "null" ]]; then
+                errors+=("Week $i: missing required field 'start_date'")
+            elif ! [[ "$week_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+                errors+=("Week $i: invalid start_date format '$week_date' - use YYYY-MM-DD")
+            fi
+        done
+    fi
+
+    # Validate holidays array (if present)
+    local holiday_count=$(yq -r '.semester_info.holidays // [] | length' "$config_file" 2>/dev/null)
+    if [[ -n "$holiday_count" && "$holiday_count" != "null" && "$holiday_count" -gt 0 ]]; then
+        for ((i=0; i<holiday_count; i++)); do
+            local holiday_name=$(yq -r ".semester_info.holidays[$i].name // \"\"" "$config_file" 2>/dev/null)
+            local holiday_date=$(yq -r ".semester_info.holidays[$i].date // \"\"" "$config_file" 2>/dev/null)
+            local holiday_type=$(yq -r ".semester_info.holidays[$i].type // \"\"" "$config_file" 2>/dev/null)
+
+            # Validate required fields
+            if [[ -z "$holiday_name" || "$holiday_name" == "null" ]]; then
+                errors+=("Holiday $i: missing required field 'name'")
+            fi
+
+            if [[ -z "$holiday_date" || "$holiday_date" == "null" ]]; then
+                errors+=("Holiday $i: missing required field 'date'")
+            elif ! [[ "$holiday_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+                errors+=("Holiday $i: invalid date format '$holiday_date' - use YYYY-MM-DD")
+            fi
+
+            # Validate type enum (if present)
+            if [[ -n "$holiday_type" && "$holiday_type" != "null" ]]; then
+                case "$holiday_type" in
+                    break|holiday|no_class) ;;
+                    *) errors+=("Holiday $i: invalid type '$holiday_type' - must be break, holiday, or no_class") ;;
+                esac
+            fi
+        done
+    fi
+
+    # Validate deadlines (if present)
+    local deadline_keys=$(yq -r '.semester_info.deadlines // {} | keys | .[]' "$config_file" 2>/dev/null)
+    if [[ -n "$deadline_keys" ]]; then
+        while IFS= read -r key; do
+            [[ -z "$key" || "$key" == "null" ]] && continue
+
+            local due_date=$(yq -r ".semester_info.deadlines[\"$key\"].due_date // \"\"" "$config_file" 2>/dev/null)
+            local week=$(yq -r ".semester_info.deadlines[\"$key\"].week // \"\"" "$config_file" 2>/dev/null)
+            local offset=$(yq -r ".semester_info.deadlines[\"$key\"].offset_days // \"\"" "$config_file" 2>/dev/null)
+
+            # Must have either due_date OR (week AND offset_days)
+            local has_due_date=false
+            local has_relative=false
+
+            if [[ -n "$due_date" && "$due_date" != "null" ]]; then
+                has_due_date=true
+                if ! [[ "$due_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+                    errors+=("Deadline '$key': invalid due_date format '$due_date' - use YYYY-MM-DD")
+                fi
+            fi
+
+            if [[ -n "$week" && "$week" != "null" ]] && [[ -n "$offset" && "$offset" != "null" ]]; then
+                has_relative=true
+                if ! [[ "$week" =~ ^[0-9]+$ ]] || [[ "$week" -lt 1 || "$week" -gt 52 ]]; then
+                    errors+=("Deadline '$key': invalid week '$week' - must be between 1 and 52")
+                fi
+                if ! [[ "$offset" =~ ^-?[0-9]+$ ]]; then
+                    errors+=("Deadline '$key': invalid offset_days '$offset' - must be an integer")
+                fi
+            fi
+
+            # Validate oneOf constraint
+            if ! $has_due_date && ! $has_relative; then
+                errors+=("Deadline '$key': must have either 'due_date' OR both 'week' and 'offset_days'")
+            elif $has_due_date && $has_relative; then
+                errors+=("Deadline '$key': cannot have both 'due_date' AND 'week'/'offset_days' - choose one")
+            fi
+        done <<< "$deadline_keys"
+    fi
+
+    # Validate exams array (if present)
+    local exam_count=$(yq -r '.semester_info.exams // [] | length' "$config_file" 2>/dev/null)
+    if [[ -n "$exam_count" && "$exam_count" != "null" && "$exam_count" -gt 0 ]]; then
+        for ((i=0; i<exam_count; i++)); do
+            local exam_name=$(yq -r ".semester_info.exams[$i].name // \"\"" "$config_file" 2>/dev/null)
+            local exam_date=$(yq -r ".semester_info.exams[$i].date // \"\"" "$config_file" 2>/dev/null)
+
+            # Validate required fields
+            if [[ -z "$exam_name" || "$exam_name" == "null" ]]; then
+                errors+=("Exam $i: missing required field 'name'")
+            fi
+
+            if [[ -z "$exam_date" || "$exam_date" == "null" ]]; then
+                errors+=("Exam $i: missing required field 'date'")
+            elif ! [[ "$exam_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+                errors+=("Exam $i: invalid date format '$exam_date' - use YYYY-MM-DD")
+            fi
+        done
+    fi
+
     # Validate scholar.course_info.level (if present)
     local level=$(yq -r '.scholar.course_info.level // ""' "$config_file" 2>/dev/null)
     if [[ -n "$level" && "$level" != "null" ]]; then
