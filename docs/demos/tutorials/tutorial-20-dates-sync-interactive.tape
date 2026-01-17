@@ -1,7 +1,7 @@
 # Tutorial 20 Demo 3: teach dates sync (interactive)
 # Shows interactive file-by-file sync with user prompts
 
-Output docs/demos/tutorials/tutorial-20-dates-sync-interactive.gif
+Output tutorial-20-dates-sync-interactive.gif
 
 Set FontSize 14
 Set Width 1200
@@ -60,9 +60,9 @@ Type "File: syllabus.qmd (3 mismatches)" Sleep 300ms Enter
 Type "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" Sleep 300ms Enter
 Sleep 500ms
 Type "" Enter
-Type "Line 42: \"Homework 1 due Jan 20\" → \"Homework 1 due Jan 22\"" Sleep 300ms Enter
-Type "Line 48: \"Homework 2 due Feb 5\" → \"Homework 2 due Feb 7\"" Sleep 300ms Enter
-Type "Line 67: \"Midterm: March 5\" → \"Midterm: March 7\"" Sleep 300ms Enter
+Type "Line 42: 'Homework 1 due Jan 20' → 'Homework 1 due Jan 22'" Sleep 300ms Enter
+Type "Line 48: 'Homework 2 due Feb 5' → 'Homework 2 due Feb 7'" Sleep 300ms Enter
+Type "Line 67: 'Midterm: March 5' → 'Midterm: March 7'" Sleep 300ms Enter
 Sleep 800ms
 Type "" Enter
 Type "Apply changes to this file? [y/n/d/q]" Sleep 500ms

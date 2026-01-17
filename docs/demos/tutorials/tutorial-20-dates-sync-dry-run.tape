@@ -1,7 +1,7 @@
 # Tutorial 20 Demo 2: teach dates sync --dry-run
 # Shows preview of date changes before applying
 
-Output docs/demos/tutorials/tutorial-20-dates-sync-dry-run.gif
+Output tutorial-20-dates-sync-dry-run.gif
 
 Set FontSize 14
 Set Width 1200
@@ -45,9 +45,9 @@ Sleep 800ms
 # File 2
 Type "" Enter
 Type "2. syllabus.qmd (3 mismatches)" Sleep 400ms Enter
-Type "   Line 42: \"Homework 1 due Jan 20\" → \"Homework 1 due Jan 22\"" Sleep 400ms Enter
-Type "   Line 48: \"Homework 2 due Feb 5\" → \"Homework 2 due Feb 7\"" Sleep 400ms Enter
-Type "   Line 67: \"Midterm: March 5\" → \"Midterm: March 7\"" Sleep 400ms Enter
+Type "   Line 42: 'Homework 1 due Jan 20' → 'Homework 1 due Jan 22'" Sleep 400ms Enter
+Type "   Line 48: 'Homework 2 due Feb 5' → 'Homework 2 due Feb 7'" Sleep 400ms Enter
+Type "   Line 67: 'Midterm: March 5' → 'Midterm: March 7'" Sleep 400ms Enter
 Sleep 800ms
 
 # File 3

@@ -1,7 +1,7 @@
 # Tutorial 20 Demo 1: teach dates init
 # Shows the interactive wizard for initializing date configuration
 
-Output docs/demos/tutorials/tutorial-20-dates-init.gif
+Output tutorial-20-dates-init.gif
 
 Set FontSize 14
 Set Width 1200
@@ -47,15 +47,15 @@ Sleep 500ms
 
 # Simulate YAML output
 Type "semester_info:" Sleep 300ms Enter
-Type "  start_date: \"2025-01-13\"" Sleep 300ms Enter
-Type "  end_date: \"2025-04-28\"" Sleep 300ms Enter
+Type "  start_date: 2025-01-13" Sleep 300ms Enter
+Type "  end_date: 2025-04-28" Sleep 300ms Enter
 Type "  weeks:" Sleep 300ms Enter
 Type "    - number: 1" Sleep 300ms Enter
-Type "      start_date: \"2025-01-13\"" Sleep 300ms Enter
-Type "      topic: \"\"" Sleep 300ms Enter
+Type "      start_date: 2025-01-13" Sleep 300ms Enter
+Type "      topic: ''" Sleep 300ms Enter
 Type "    - number: 2" Sleep 300ms Enter
-Type "      start_date: \"2025-01-20\"" Sleep 300ms Enter
-Type "      topic: \"\"" Sleep 300ms Enter
+Type "      start_date: 2025-01-20" Sleep 300ms Enter
+Type "      topic: ''" Sleep 300ms Enter
 Sleep 2s
 
 # Success message
