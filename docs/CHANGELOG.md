@@ -6,6 +6,84 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [5.11.0] - 2026-01-16
+
+### Added
+
+- **Teaching + Git Integration** - Complete 5-phase git workflow for teaching projects (#257)
+
+  **Phase 1 - Smart Post-Generation Workflow:**
+  - Interactive commit prompts after content generation
+  - Auto-generated commit messages with Scholar co-authorship
+  - Three workflow options: Review in editor | Commit now | Skip
+  - Optional push to remote
+
+  **Phase 2 - Branch-Aware Deployment:**
+  - `teach deploy` creates PRs from draft → main
+  - Pre-flight checks (clean state, no conflicts, no unpushed commits)
+  - Auto-generated PR bodies with commit lists and deploy checklists
+  - Interactive rebase support for production conflicts
+
+  **Phase 3 - Git-Aware teach status:**
+  - `teach status` displays uncommitted teaching files
+  - Interactive cleanup workflow (commit/stash/diff/skip)
+  - Smart filtering of teaching content paths only
+
+  **Phase 4 - Teaching Mode Configuration:**
+  - New `workflow` section in teach-config.yml
+  - `teaching_mode: true` - Streamlined auto-commit workflow
+  - `auto_commit: true` - Auto-commit after content generation
+  - `auto_push: false` - Safety: manual push control
+  - Backward compatible (defaults to false)
+
+  **Phase 5 - Git Initialization for Fresh Repos:**
+  - `teach init --no-git` - Skip git initialization
+  - Auto-initializes git repository for fresh projects
+  - Creates teaching-specific .gitignore template
+  - Sets up draft and main branches
+  - Makes initial commit with conventional commits format
+  - Offers GitHub repo creation via gh CLI
+
+- **New git-helpers.zsh library** - 15+ git integration functions
+  - `_git_teaching_commit_message()` - Generate conventional commits
+  - `_git_teaching_files()` - Detect uncommitted teaching content
+  - `_git_create_deploy_pr()` - Create deployment PRs
+  - `_git_detect_production_conflicts()` - Conflict detection
+  - `_git_generate_pr_body()` - Auto-generate PR descriptions
+
+- **New .gitignore template** - Teaching-specific patterns
+  - Quarto output directories (`/.quarto/`, `/_site/`)
+  - Solution directories (`**/solutions/`, `**/answer-keys/`)
+  - Student work (`submissions/`, `grades/`)
+  - R/Python environments (renv, venv, __pycache__)
+  - macOS artifacts (.DS_Store)
+
+- **Configuration schema updates** - teach-config.yml
+  - New `git` section (draft_branch, production_branch, auto_pr, require_clean)
+  - New `workflow` section (teaching_mode, auto_commit, auto_push)
+  - Full JSON schema validation support
+
+### Fixed
+
+- **teach-init --no-git template installation** - Now installs templates even when git is skipped
+- **Teaching file detection** - `_git_teaching_files()` now detects individual untracked files (not just directories)
+
+### Tests
+
+- 16 integration tests (100% passing)
+- `tests/simple-integration-test.zsh` - Fast verification suite
+- `tests/integration-test-suite.zsh` - Comprehensive test suite
+- Tests cover all 5 phases of git integration
+
+### Documentation
+
+- Updated `docs/reference/DISPATCHER-REFERENCE.md` - Complete teach dispatcher git features
+- Added Phase 1-5 examples and workflows
+- Added git configuration reference
+- Updated CLAUDE.md with all phase completion statuses
+
+---
+
 ## [5.4.1] - 2026-01-12
 
 ### Added

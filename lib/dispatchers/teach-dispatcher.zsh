@@ -23,6 +23,13 @@ if [[ -z "$_FLOW_TEACH_DATES_LOADED" ]]; then
 fi
 fi
 
+# Source git helpers for teaching workflow integration (v5.11.0+)
+if [[ -z "$_FLOW_GIT_HELPERS_LOADED" ]]; then
+    local git_helpers_path="${0:A:h:h}/git-helpers.zsh"
+    [[ -f "$git_helpers_path" ]] && source "$git_helpers_path"
+    typeset -g _FLOW_GIT_HELPERS_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -209,11 +216,13 @@ _teach_build_command() {
 }
 
 # Execute Scholar command via Claude
-# Usage: _teach_execute <scholar_cmd> [verbose] [subcommand]
+# Usage: _teach_execute <scholar_cmd> [verbose] [subcommand] [topic] [full_command]
 _teach_execute() {
     local scholar_cmd="$1"
     local verbose="${2:-false}"
     local subcommand="${3:-}"
+    local topic="${4:-}"
+    local full_command="${5:-}"
 
     if [[ "$verbose" == "true" ]]; then
         echo "🔧 Executing: claude --print \"$scholar_cmd\""
@@ -252,7 +261,7 @@ _teach_execute() {
 
     # Run post-generation hooks if successful
     if [[ $exit_code -eq 0 ]]; then
-        _teach_post_generation_hooks "$subcommand" "$output"
+        _teach_post_generation_hooks "$subcommand" "$output" "$topic" "$full_command"
     fi
 
     return $exit_code
@@ -265,10 +274,12 @@ _teach_execute() {
 # Run after Scholar generates content
 # - Auto-stage generated files
 # - Update .STATUS file
-# - Show summary notification
+# - Interactive commit workflow (Phase 1 - v5.11.0+)
 _teach_post_generation_hooks() {
     local subcommand="$1"
     local output="$2"
+    local topic="${3:-}"
+    local full_command="${4:-}"
 
     # Extract generated file paths from output (if Scholar outputs them)
     local -a generated_files=()
@@ -313,8 +324,675 @@ _teach_post_generation_hooks() {
     if [[ ${#generated_files[@]} -gt 0 ]]; then
         echo ""
         echo "${FLOW_COLORS[success]}📝 Generated ${#generated_files[@]} file(s)${FLOW_COLORS[reset]}"
-        echo "  Next: Review and 'teach deploy' when ready"
+
+        # Phase 4 (v5.11.0+): Check for teaching mode
+        # If teaching mode is enabled, use streamlined auto-commit workflow
+        # Otherwise, use Phase 1 interactive workflow
+        if _git_in_repo && [[ ${#generated_files[@]} -gt 0 ]]; then
+            # Read teaching mode config
+            local teaching_mode auto_commit
+            teaching_mode=$(yq '.workflow.teaching_mode // false' teach-config.yml 2>/dev/null)
+            auto_commit=$(yq '.workflow.auto_commit // false' teach-config.yml 2>/dev/null)
+
+            if [[ "$teaching_mode" == "true" && "$auto_commit" == "true" ]]; then
+                # Teaching mode: Streamlined auto-commit workflow
+                _teach_auto_commit_workflow "$subcommand" "$topic" "$full_command" "${generated_files[@]}"
+            else
+                # Standard mode: Interactive workflow (Phase 1)
+                _teach_interactive_commit_workflow "$subcommand" "$topic" "$full_command" "${generated_files[@]}"
+            fi
+        else
+            echo "  Next: Review and 'teach deploy' when ready"
+        fi
     fi
+}
+
+# ============================================================================
+# INTERACTIVE COMMIT WORKFLOW (Phase 1 - v5.11.0+)
+# ============================================================================
+
+# Interactive commit workflow after content generation
+# Usage: _teach_interactive_commit_workflow <subcommand> <topic> <full_command> <file1> [file2...]
+_teach_interactive_commit_workflow() {
+    local subcommand="$1"
+    local topic="$2"
+    local full_command="$3"
+    shift 3
+    local -a files=("$@")
+
+    # Get course info from teach-config.yml
+    local course_name semester year
+    course_name=$(yq '.course.name // ""' teach-config.yml 2>/dev/null)
+    semester=$(yq '.course.semester // ""' teach-config.yml 2>/dev/null)
+    year=$(yq '.course.year // ""' teach-config.yml 2>/dev/null)
+
+    # Fallback if config doesn't exist or yq not available
+    [[ -z "$course_name" ]] && course_name="Teaching Project"
+    [[ -z "$semester" ]] && semester="N/A"
+    [[ -z "$year" ]] && year=$(date +%Y)
+
+    # Show next steps prompt
+    echo ""
+    echo "${FLOW_COLORS[info]}📝 Next steps:${FLOW_COLORS[reset]}"
+    echo "   1. Review content (opens in \$EDITOR)"
+    echo "   2. Commit to git"
+    echo ""
+
+    # Use AskUserQuestion for interactive prompt
+    # Note: This is implemented using read for now, will be enhanced with proper AskUserQuestion integration
+    echo "${FLOW_COLORS[prompt]}Review and commit this content?${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  ${FLOW_COLORS[dim]}[1]${FLOW_COLORS[reset]} Review in editor first (Recommended)"
+    echo "  ${FLOW_COLORS[dim]}[2]${FLOW_COLORS[reset]} Commit now with auto-generated message"
+    echo "  ${FLOW_COLORS[dim]}[3]${FLOW_COLORS[reset]} Skip commit (I'll do it manually)"
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}Your choice [1-3]:${FLOW_COLORS[reset]} "
+
+    read -r choice
+
+    case "$choice" in
+        1)
+            # Review in editor workflow
+            _teach_review_then_commit "$subcommand" "$topic" "$full_command" "$course_name" "$semester" "$year" "${files[@]}"
+            ;;
+        2)
+            # Commit now workflow
+            _teach_commit_now "$subcommand" "$topic" "$full_command" "$course_name" "$semester" "$year" "${files[@]}"
+            ;;
+        3|*)
+            # Skip commit
+            echo ""
+            echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} File(s) staged. Commit manually when ready."
+            echo "  ${FLOW_COLORS[dim]}Tip: Use 'g commit' or standard git commands${FLOW_COLORS[reset]}"
+            ;;
+    esac
+}
+
+# Review in editor then commit workflow
+_teach_review_then_commit() {
+    local subcommand="$1"
+    local topic="$2"
+    local full_command="$3"
+    local course_name="$4"
+    local semester="$5"
+    local year="$6"
+    shift 6
+    local -a files=("$@")
+
+    echo ""
+    echo "${FLOW_COLORS[info]}Opening file(s) in editor...${FLOW_COLORS[reset]}"
+
+    # Determine editor (respect $EDITOR, fallback to nvim/vim/nano)
+    local editor="${EDITOR:-nvim}"
+    command -v "$editor" &>/dev/null || editor="vim"
+    command -v "$editor" &>/dev/null || editor="nano"
+
+    # Open first file in editor (blocking)
+    "$editor" "${files[1]}"
+
+    # After editor closes, re-prompt for commit
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}Ready to commit? [Y/n]:${FLOW_COLORS[reset]} "
+    read -r confirm
+
+    case "$confirm" in
+        n|N|no|No|NO)
+            echo ""
+            echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} File(s) staged. Commit manually when ready."
+            ;;
+        *)
+            # Proceed with commit
+            _teach_commit_now "$subcommand" "$topic" "$full_command" "$course_name" "$semester" "$year" "${files[@]}"
+            ;;
+    esac
+}
+
+# Commit now with auto-generated message workflow
+_teach_commit_now() {
+    local subcommand="$1"
+    local topic="$2"
+    local full_command="$3"
+    local course_name="$4"
+    local semester="$5"
+    local year="$6"
+    shift 6
+    local -a files=("$@")
+
+    # Generate commit message using git-helpers
+    local commit_msg
+    commit_msg=$(_git_teaching_commit_message "$subcommand" "$topic" "$full_command" "$course_name" "$semester" "$year")
+
+    # Show commit message preview
+    echo ""
+    echo "${FLOW_COLORS[info]}Commit message:${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo "$commit_msg"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo ""
+
+    # Commit the staged changes
+    if _git_commit_teaching_content "$commit_msg"; then
+        echo ""
+
+        # Ask about pushing to remote
+        echo -n "${FLOW_COLORS[prompt]}Push to remote? [y/N]:${FLOW_COLORS[reset]} "
+        read -r push_confirm
+
+        case "$push_confirm" in
+            y|Y|yes|Yes|YES)
+                echo ""
+                if _git_push_current_branch; then
+                    echo ""
+                    echo "${FLOW_COLORS[success]}✅ Changes committed and pushed!${FLOW_COLORS[reset]}"
+                else
+                    echo ""
+                    echo "${FLOW_COLORS[warn]}⚠️  Committed locally but push failed${FLOW_COLORS[reset]}"
+                    echo "  ${FLOW_COLORS[dim]}Run 'g push' manually when ready${FLOW_COLORS[reset]}"
+                fi
+                ;;
+            *)
+                echo ""
+                echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Committed locally"
+                echo "  ${FLOW_COLORS[dim]}Run 'g push' to push to remote${FLOW_COLORS[reset]}"
+                ;;
+        esac
+    else
+        echo ""
+        echo "${FLOW_COLORS[error]}✗ Failed to commit${FLOW_COLORS[reset]}"
+        echo "  ${FLOW_COLORS[dim]}Check git status and try again${FLOW_COLORS[reset]}"
+    fi
+}
+
+# ============================================================================
+# TEACHING MODE AUTO-COMMIT WORKFLOW (Phase 4 - v5.11.0+)
+# ============================================================================
+
+# Auto-commit workflow for teaching mode (streamlined, no prompts)
+# Usage: _teach_auto_commit_workflow <subcommand> <topic> <full_command> <file1> [file2...]
+_teach_auto_commit_workflow() {
+    local subcommand="$1"
+    local topic="$2"
+    local full_command="$3"
+    shift 3
+    local -a files=("$@")
+
+    # Get course info from teach-config.yml
+    local course_name semester year
+    course_name=$(yq '.course.name // ""' teach-config.yml 2>/dev/null)
+    semester=$(yq '.course.semester // ""' teach-config.yml 2>/dev/null)
+    year=$(yq '.course.year // ""' teach-config.yml 2>/dev/null)
+
+    # Fallback if config doesn't exist or yq not available
+    [[ -z "$course_name" ]] && course_name="Teaching Project"
+    [[ -z "$semester" ]] && semester="N/A"
+    [[ -z "$year" ]] && year=$(date +%Y)
+
+    # Generate commit message using git-helpers
+    local commit_msg
+    commit_msg=$(_git_teaching_commit_message "$subcommand" "$topic" "$full_command" "$course_name" "$semester" "$year")
+
+    # Show teaching mode indicator
+    echo ""
+    echo "${FLOW_COLORS[success]}🎓 Teaching Mode: Auto-committing...${FLOW_COLORS[reset]}"
+
+    # Commit the staged changes
+    if _git_commit_teaching_content "$commit_msg"; then
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Committed: ${FLOW_COLORS[dim]}${subcommand} for ${topic}${FLOW_COLORS[reset]}"
+
+        # Check auto_push setting
+        local auto_push
+        auto_push=$(yq '.workflow.auto_push // false' teach-config.yml 2>/dev/null)
+
+        if [[ "$auto_push" == "true" ]]; then
+            # Auto-push is enabled, but still ask for confirmation (safety)
+            echo ""
+            echo -n "${FLOW_COLORS[prompt]}Push to remote? [Y/n]:${FLOW_COLORS[reset]} "
+            read -r push_confirm
+
+            case "$push_confirm" in
+                n|N|no|No|NO)
+                    echo ""
+                    echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Committed locally"
+                    echo "  ${FLOW_COLORS[dim]}Run 'g push' to push to remote${FLOW_COLORS[reset]}"
+                    ;;
+                *)
+                    if _git_push_current_branch; then
+                        echo ""
+                        echo "${FLOW_COLORS[success]}✅ Committed and pushed!${FLOW_COLORS[reset]}"
+                    else
+                        echo ""
+                        echo "${FLOW_COLORS[warn]}⚠️  Committed locally but push failed${FLOW_COLORS[reset]}"
+                    fi
+                    ;;
+            esac
+        else
+            # auto_push is false (default), don't ask
+            echo "  ${FLOW_COLORS[dim]}Run 'teach deploy' when ready${FLOW_COLORS[reset]}"
+        fi
+    else
+        echo ""
+        echo "${FLOW_COLORS[error]}✗ Failed to auto-commit${FLOW_COLORS[reset]}"
+        echo "  ${FLOW_COLORS[dim]}Falling back to manual workflow${FLOW_COLORS[reset]}"
+    fi
+}
+
+# ============================================================================
+# TEACH DEPLOY - BRANCH-AWARE PR WORKFLOW (Phase 2 - v5.11.0+)
+# ============================================================================
+
+# Deploy teaching content from draft to production via PR
+# Usage: _teach_deploy [--direct-push]
+_teach_deploy() {
+    local direct_push=false
+
+    # Parse flags
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --direct-push)
+                direct_push=true
+                shift
+                ;;
+            --help|-h|help)
+                _teach_deploy_help
+                return 0
+                ;;
+            *)
+                _teach_error "Unknown flag: $1" "Run 'teach deploy --help' for usage"
+                return 1
+                ;;
+        esac
+    done
+
+    # Check if in git repo
+    if ! _git_in_repo; then
+        _teach_error "Not in a git repository" \
+            "Initialize git first with: git init"
+        return 1
+    fi
+
+    # Read git configuration from teach-config.yml
+    local draft_branch prod_branch auto_pr require_clean
+    draft_branch=$(yq '.git.draft_branch // "draft"' teach-config.yml 2>/dev/null)
+    prod_branch=$(yq '.git.production_branch // "main"' teach-config.yml 2>/dev/null)
+    auto_pr=$(yq '.git.auto_pr // true' teach-config.yml 2>/dev/null)
+    require_clean=$(yq '.git.require_clean // true' teach-config.yml 2>/dev/null)
+
+    # Read workflow configuration (Phase 4 - v5.11.0+)
+    local teaching_mode auto_push
+    teaching_mode=$(yq '.workflow.teaching_mode // false' teach-config.yml 2>/dev/null)
+    auto_push=$(yq '.workflow.auto_push // false' teach-config.yml 2>/dev/null)
+
+    # Read course info for PR title
+    local course_name
+    course_name=$(yq '.course.name // "Teaching Project"' teach-config.yml 2>/dev/null)
+
+    echo ""
+    echo "${FLOW_COLORS[info]}🔍 Pre-flight Checks${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    # Check 1: Verify we're on draft branch
+    local current_branch=$(_git_current_branch)
+    if [[ "$current_branch" != "$draft_branch" ]]; then
+        echo "${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Not on $draft_branch branch (currently on: $current_branch)"
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}Switch to $draft_branch branch? [Y/n]:${FLOW_COLORS[reset]} "
+        read -r switch_confirm
+
+        case "$switch_confirm" in
+            n|N|no|No|NO)
+                return 1
+                ;;
+            *)
+                git checkout "$draft_branch" || {
+                    _teach_error "Failed to switch to $draft_branch"
+                    return 1
+                }
+                echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Switched to $draft_branch"
+                ;;
+        esac
+    else
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} On $draft_branch branch"
+    fi
+
+    # Check 2: Verify no uncommitted changes (if required)
+    if [[ "$require_clean" == "true" ]]; then
+        if ! _git_is_clean; then
+            echo "${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Uncommitted changes detected"
+            echo ""
+            echo "  ${FLOW_COLORS[dim]}Commit or stash changes before deploying${FLOW_COLORS[reset]}"
+            echo "  ${FLOW_COLORS[dim]}Or disable with: git.require_clean: false${FLOW_COLORS[reset]}"
+            return 1
+        else
+            echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} No uncommitted changes"
+        fi
+    fi
+
+    # Check 3: Check for unpushed commits (Phase 4 - teaching mode aware)
+    if _git_has_unpushed_commits; then
+        echo "${FLOW_COLORS[warn]}⚠️  ${FLOW_COLORS[reset]} Unpushed commits detected"
+        echo ""
+
+        # Teaching mode: auto-push if enabled, otherwise prompt
+        if [[ "$teaching_mode" == "true" && "$auto_push" == "true" ]]; then
+            echo "${FLOW_COLORS[info]}🎓 Teaching mode: Auto-pushing...${FLOW_COLORS[reset]}"
+            if _git_push_current_branch; then
+                echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+            else
+                return 1
+            fi
+        else
+            # Standard mode or teaching mode without auto_push: prompt user
+            echo -n "${FLOW_COLORS[prompt]}Push to origin/$draft_branch first? [Y/n]:${FLOW_COLORS[reset]} "
+            read -r push_confirm
+
+            case "$push_confirm" in
+                n|N|no|No|NO)
+                    echo "${FLOW_COLORS[warn]}Continuing without push...${FLOW_COLORS[reset]}"
+                    ;;
+                *)
+                    if _git_push_current_branch; then
+                        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+                    else
+                        return 1
+                    fi
+                    ;;
+            esac
+        fi
+    else
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Remote is up-to-date"
+    fi
+
+    # Check 4: Conflict detection
+    if _git_detect_production_conflicts "$draft_branch" "$prod_branch"; then
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} No conflicts with production"
+    else
+        local commits_ahead=$(git rev-list --count "origin/${prod_branch}..origin/${draft_branch}" 2>/dev/null || echo 0)
+        echo "${FLOW_COLORS[warn]}⚠️  ${FLOW_COLORS[reset]} Production ($prod_branch) has new commits"
+        echo ""
+        echo "${FLOW_COLORS[prompt]}Production branch has updates. Rebase first?${FLOW_COLORS[reset]}"
+        echo ""
+        echo "  ${FLOW_COLORS[dim]}[1]${FLOW_COLORS[reset]} Yes - Rebase $draft_branch onto $prod_branch (Recommended)"
+        echo "  ${FLOW_COLORS[dim]}[2]${FLOW_COLORS[reset]} No - Continue anyway (may have merge conflicts in PR)"
+        echo "  ${FLOW_COLORS[dim]}[3]${FLOW_COLORS[reset]} Cancel deployment"
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}Your choice [1-3]:${FLOW_COLORS[reset]} "
+        read -r rebase_choice
+
+        case "$rebase_choice" in
+            1)
+                if _git_rebase_onto_production "$draft_branch" "$prod_branch"; then
+                    echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Rebase successful"
+                else
+                    return 1
+                fi
+                ;;
+            2)
+                echo "${FLOW_COLORS[warn]}Continuing without rebase...${FLOW_COLORS[reset]}"
+                ;;
+            3|*)
+                echo "Deployment cancelled"
+                return 1
+                ;;
+        esac
+    fi
+
+    echo ""
+
+    # Generate PR details
+    local commit_count=$(_git_get_commit_count "$draft_branch" "$prod_branch")
+    local pr_title="Deploy: $course_name Updates"
+    local pr_body=$(_git_generate_pr_body "$draft_branch" "$prod_branch")
+
+    # Show PR preview
+    echo "${FLOW_COLORS[info]}📋 Pull Request Preview${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo ""
+    echo "${FLOW_COLORS[bold]}Title:${FLOW_COLORS[reset]} $pr_title"
+    echo "${FLOW_COLORS[bold]}From:${FLOW_COLORS[reset]} $draft_branch → $prod_branch"
+    echo "${FLOW_COLORS[bold]}Commits:${FLOW_COLORS[reset]} $commit_count"
+    echo ""
+
+    # Decide whether to create PR or direct push
+    if [[ "$direct_push" == "true" ]]; then
+        echo "${FLOW_COLORS[warn]}⚠️  Direct push mode (bypassing PR)${FLOW_COLORS[reset]}"
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}Push directly to $prod_branch? [y/N]:${FLOW_COLORS[reset]} "
+        read -r direct_confirm
+
+        case "$direct_confirm" in
+            y|Y|yes|Yes|YES)
+                git push origin "$draft_branch:$prod_branch" && \
+                    echo "${FLOW_COLORS[success]}✅ Pushed to $prod_branch${FLOW_COLORS[reset]}" || \
+                    return 1
+                ;;
+            *)
+                echo "Direct push cancelled"
+                return 1
+                ;;
+        esac
+    elif [[ "$auto_pr" == "true" ]]; then
+        # Create PR workflow
+        echo "${FLOW_COLORS[prompt]}Create pull request?${FLOW_COLORS[reset]}"
+        echo ""
+        echo "  ${FLOW_COLORS[dim]}[1]${FLOW_COLORS[reset]} Yes - Create PR (Recommended)"
+        echo "  ${FLOW_COLORS[dim]}[2]${FLOW_COLORS[reset]} Push to $draft_branch only (no PR)"
+        echo "  ${FLOW_COLORS[dim]}[3]${FLOW_COLORS[reset]} Cancel"
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}Your choice [1-3]:${FLOW_COLORS[reset]} "
+        read -r pr_choice
+
+        case "$pr_choice" in
+            1)
+                echo ""
+                if _git_create_deploy_pr "$draft_branch" "$prod_branch" "$pr_title" "$pr_body"; then
+                    echo ""
+                    echo "${FLOW_COLORS[success]}✅ Pull Request Created${FLOW_COLORS[reset]}"
+                    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+                    echo ""
+                    echo "  Next steps:"
+                    echo "  1. Review PR on GitHub"
+                    echo "  2. Merge when ready"
+                    echo "  3. Site will auto-deploy after merge"
+                    echo ""
+                else
+                    return 1
+                fi
+                ;;
+            2)
+                if _git_push_current_branch; then
+                    echo ""
+                    echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+                    echo "  ${FLOW_COLORS[dim]}Create PR manually on GitHub when ready${FLOW_COLORS[reset]}"
+                else
+                    return 1
+                fi
+                ;;
+            3|*)
+                echo "Deployment cancelled"
+                return 1
+                ;;
+        esac
+    else
+        # auto_pr is false - just push to draft
+        if _git_push_current_branch; then
+            echo ""
+            echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+            echo "  ${FLOW_COLORS[dim]}Create PR manually on GitHub${FLOW_COLORS[reset]}"
+        else
+            return 1
+        fi
+    fi
+}
+
+# Help for teach deploy
+_teach_deploy_help() {
+    echo "teach deploy - Deploy teaching content via PR workflow"
+    echo ""
+    echo "Usage: teach deploy [options]"
+    echo ""
+    echo "Options:"
+    echo "  --direct-push    Bypass PR and push directly to production (advanced)"
+    echo "  --help, -h       Show this help message"
+    echo ""
+    echo "Workflow:"
+    echo "  1. Verify on draft branch"
+    echo "  2. Check for uncommitted changes"
+    echo "  3. Detect conflicts with production"
+    echo "  4. Create pull request (draft → production)"
+    echo ""
+    echo "Configuration (teach-config.yml):"
+    echo "  git:"
+    echo "    draft_branch: draft          # Development branch"
+    echo "    production_branch: main      # Production branch"
+    echo "    auto_pr: true                # Auto-create PR"
+    echo "    require_clean: true          # Require clean state"
+    echo ""
+    echo "Examples:"
+    echo "  teach deploy                   # Standard PR workflow"
+    echo "  teach deploy --direct-push     # Bypass PR (not recommended)"
+}
+
+# ============================================================================
+# GIT CLEANUP WORKFLOW (Phase 3 - v5.11.0+)
+# ============================================================================
+
+# Interactive cleanup prompt for uncommitted teaching files
+# Usage: _teach_git_cleanup_prompt <file1> [file2...]
+_teach_git_cleanup_prompt() {
+    local -a files=("$@")
+
+    echo "${FLOW_COLORS[prompt]}Clean up uncommitted changes?${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  ${FLOW_COLORS[dim]}[1]${FLOW_COLORS[reset]} Commit teaching files (Recommended)"
+    echo "  ${FLOW_COLORS[dim]}[2]${FLOW_COLORS[reset]} Stash teaching files"
+    echo "  ${FLOW_COLORS[dim]}[3]${FLOW_COLORS[reset]} View diff first"
+    echo "  ${FLOW_COLORS[dim]}[4]${FLOW_COLORS[reset]} Leave as-is"
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}Your choice [1-4]:${FLOW_COLORS[reset]} "
+
+    read -r choice
+
+    case "$choice" in
+        1)
+            # Commit teaching files
+            _teach_git_commit_files "${files[@]}"
+            ;;
+        2)
+            # Stash teaching files
+            _teach_git_stash_files "${files[@]}"
+            ;;
+        3)
+            # View diff then re-prompt
+            _teach_git_view_diff "${files[@]}"
+            echo ""
+            _teach_git_cleanup_prompt "${files[@]}"
+            ;;
+        4|*)
+            # Leave as-is
+            echo ""
+            echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Files left uncommitted"
+            echo "  ${FLOW_COLORS[dim]}Commit manually when ready${FLOW_COLORS[reset]}"
+            ;;
+    esac
+}
+
+# Commit teaching files with auto-generated message
+_teach_git_commit_files() {
+    local -a files=("$@")
+
+    # Get course info
+    local course_name semester year
+    course_name=$(yq '.course.name // "Teaching Project"' teach-config.yml 2>/dev/null)
+    semester=$(yq '.course.semester // ""' teach-config.yml 2>/dev/null)
+    year=$(yq '.course.year // ""' teach-config.yml 2>/dev/null)
+    [[ -z "$year" || "$year" == "null" ]] && year=$(date +%Y)
+
+    # Stage files
+    for file in "${files[@]}"; do
+        git add "$file" 2>/dev/null
+    done
+
+    # Generate commit message
+    local file_list=$(printf ", %s" "${files[@]}")
+    file_list=${file_list:2}  # Remove leading ", "
+
+    local commit_msg="teach: update teaching content
+
+Modified files: $file_list
+Course: $course_name ($semester $year)
+
+Generated via: teach status cleanup"
+
+    # Show commit message
+    echo ""
+    echo "${FLOW_COLORS[info]}Commit message:${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo "$commit_msg"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo ""
+
+    # Commit
+    if git commit -m "$commit_msg" 2>/dev/null; then
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Committed ${#files[@]} file(s)"
+
+        # Offer to push
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}Push to remote? [y/N]:${FLOW_COLORS[reset]} "
+        read -r push_confirm
+
+        case "$push_confirm" in
+            y|Y|yes|Yes|YES)
+                if _git_push_current_branch; then
+                    echo ""
+                    echo "${FLOW_COLORS[success]}✅ Changes committed and pushed!${FLOW_COLORS[reset]}"
+                else
+                    echo ""
+                    echo "${FLOW_COLORS[warn]}⚠️  Committed locally but push failed${FLOW_COLORS[reset]}"
+                fi
+                ;;
+            *)
+                echo ""
+                echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Committed locally"
+                echo "  ${FLOW_COLORS[dim]}Run 'g push' to push to remote${FLOW_COLORS[reset]}"
+                ;;
+        esac
+    else
+        echo ""
+        echo "${FLOW_COLORS[error]}✗ Failed to commit${FLOW_COLORS[reset]}"
+    fi
+}
+
+# Stash teaching files
+_teach_git_stash_files() {
+    local -a files=("$@")
+
+    local stash_msg="Teaching WIP: $(date +%Y-%m-%d)"
+
+    echo ""
+    echo "${FLOW_COLORS[info]}Stashing ${#files[@]} file(s)...${FLOW_COLORS[reset]}"
+
+    # Use git stash push with specific files
+    if git stash push -m "$stash_msg" -- "${files[@]}" 2>&1; then
+        echo ""
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Files stashed: $stash_msg"
+        echo "  ${FLOW_COLORS[dim]}Restore with: git stash pop${FLOW_COLORS[reset]}"
+    else
+        echo ""
+        echo "${FLOW_COLORS[error]}✗ Failed to stash files${FLOW_COLORS[reset]}"
+    fi
+}
+
+# View diff for teaching files
+_teach_git_view_diff() {
+    local -a files=("$@")
+
+    echo ""
+    echo "${FLOW_COLORS[info]}Diff for teaching files:${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    git diff -- "${files[@]}"
+
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
 }
 
 # Main Scholar wrapper function
@@ -374,8 +1052,11 @@ _teach_scholar_wrapper() {
     local scholar_cmd
     scholar_cmd=$(_teach_build_command "$subcommand" "${args[@]}") || return 1
 
+    # Build full command string for commit message (v5.11.0+)
+    local full_command="teach $subcommand ${args[*]}"
+
     # Execute with subcommand for spinner message
-    _teach_execute "$scholar_cmd" "$verbose" "$subcommand"
+    _teach_execute "$scholar_cmd" "$verbose" "$subcommand" "$topic" "$full_command"
 }
 
 # Lecture from lesson plan (special workflow)
@@ -589,12 +1270,8 @@ teach() {
 
         # Shortcuts for common operations
         deploy|d)
-            if [[ -f "./scripts/quick-deploy.sh" ]]; then
-                ./scripts/quick-deploy.sh "$@"
-            else
-                _teach_error "No quick-deploy.sh found" "Run 'teach init' first"
-                return 1
-            fi
+            # Phase 2 (v5.11.0+): Branch-aware deployment with PR workflow
+            _teach_deploy "$@"
             ;;
 
         archive|a)
@@ -688,6 +1365,64 @@ _teach_show_status() {
             echo "  Scholar:  ${FLOW_COLORS[success]}✓ configured${FLOW_COLORS[reset]}"
         else
             echo "  Scholar:  ${FLOW_COLORS[muted]}not configured${FLOW_COLORS[reset]}"
+        fi
+    fi
+
+    # Teaching mode indicator (Phase 4 - v5.11.0+)
+    if command -v yq >/dev/null 2>&1; then
+        local teaching_mode=$(yq '.workflow.teaching_mode // false' "$config_file" 2>/dev/null)
+        local auto_commit=$(yq '.workflow.auto_commit // false' "$config_file" 2>/dev/null)
+
+        if [[ "$teaching_mode" == "true" ]]; then
+            if [[ "$auto_commit" == "true" ]]; then
+                echo "  Mode:     ${FLOW_COLORS[success]}🎓 Teaching mode enabled (auto-commit)${FLOW_COLORS[reset]}"
+            else
+                echo "  Mode:     ${FLOW_COLORS[success]}🎓 Teaching mode enabled${FLOW_COLORS[reset]}"
+            fi
+        fi
+    fi
+
+    # ============================================
+    # GIT STATUS (Phase 3 - v5.11.0+)
+    # ============================================
+    if _git_in_repo; then
+        echo ""
+        echo "${FLOW_COLORS[bold]}🔧 Git Status${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}────────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+        # Get teaching-related uncommitted files
+        local -a teaching_files=()
+        while IFS= read -r file; do
+            [[ -n "$file" ]] && teaching_files+=("$file")
+        done < <(_git_teaching_files)
+
+        if [[ ${#teaching_files[@]} -gt 0 ]]; then
+            echo "  ${FLOW_COLORS[warn]}⚠️  ${teaching_files[@]} uncommitted changes (teaching content)${FLOW_COLORS[reset]}"
+            echo ""
+            for file in "${teaching_files[@]}"; do
+                # Get file status (M/A/D etc)
+                local status=$(git status --porcelain "$file" 2>/dev/null | awk '{print $1}')
+                local status_label
+                case "$status" in
+                    M) status_label="${FLOW_COLORS[warn]}M${FLOW_COLORS[reset]}" ;;
+                    A) status_label="${FLOW_COLORS[success]}A${FLOW_COLORS[reset]}" ;;
+                    D) status_label="${FLOW_COLORS[error]}D${FLOW_COLORS[reset]}" ;;
+                    ??) status_label="${FLOW_COLORS[muted]}??${FLOW_COLORS[reset]}" ;;
+                    *) status_label="$status" ;;
+                esac
+                printf "    %s  %s\n" "$status_label" "$file"
+            done
+
+            # Offer interactive cleanup
+            echo ""
+            _teach_git_cleanup_prompt "${teaching_files[@]}"
+        else
+            if _git_is_clean; then
+                echo "  ${FLOW_COLORS[success]}✓ No uncommitted changes${FLOW_COLORS[reset]}"
+            else
+                echo "  ${FLOW_COLORS[muted]}No teaching content changes${FLOW_COLORS[reset]}"
+                echo "  ${FLOW_COLORS[dim]}(Other files modified - use 'g status' to see all)${FLOW_COLORS[reset]}"
+            fi
         fi
     fi
 

@@ -38,6 +38,14 @@
       "type": "object",
       "description": "Custom shell shortcuts",
       "additionalProperties": { "type": "string" }
+    },
+    "git": {
+      "$ref": "#/definitions/git",
+      "description": "Git workflow configuration (flow-cli owns, v5.11.0+)"
+    },
+    "workflow": {
+      "$ref": "#/definitions/workflow",
+      "description": "Workflow automation settings (flow-cli owns, v5.11.0+)"
     }
   },
   "definitions": {
@@ -353,6 +361,55 @@
           "maximum": 500,
           "default": 100,
           "description": "Default total points"
+        }
+      }
+    },
+    "git": {
+      "type": "object",
+      "description": "Git workflow configuration (v5.11.0+)",
+      "properties": {
+        "draft_branch": {
+          "type": "string",
+          "default": "draft",
+          "pattern": "^[a-zA-Z0-9_/-]+$",
+          "description": "Branch for content development"
+        },
+        "production_branch": {
+          "type": "string",
+          "default": "main",
+          "pattern": "^[a-zA-Z0-9_/-]+$",
+          "description": "Branch for site deployment (GitHub Pages)"
+        },
+        "auto_pr": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically create PR on teach deploy"
+        },
+        "require_clean": {
+          "type": "boolean",
+          "default": true,
+          "description": "Abort operations if uncommitted changes exist"
+        }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "description": "Workflow automation settings (v5.11.0+)",
+      "properties": {
+        "teaching_mode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable streamlined teaching workflow (auto-commit after generation)"
+        },
+        "auto_commit": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically commit after content generation (teaching mode only)"
+        },
+        "auto_push": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically push commits to remote (not recommended)"
         }
       }
     }

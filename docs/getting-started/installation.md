@@ -236,6 +236,185 @@ brew bundle --file=/tmp/Brewfile
 
 ---
 
+## Optional: Install Nvim/LazyVim (Default Editor)
+
+Flow-cli uses **nvim** as the default editor. If you're new to nvim, we recommend installing **LazyVim** - a pre-configured nvim distribution with modern IDE features.
+
+### Install Neovim
+
+=== "macOS (Homebrew)"
+    ```bash
+    brew install neovim
+    ```
+
+=== "Ubuntu/Debian"
+    ```bash
+    sudo apt install neovim
+    ```
+
+=== "Arch Linux"
+    ```bash
+    sudo pacman -S neovim
+    ```
+
+**Verify installation:**
+
+```bash
+nvim --version
+# Expected: v0.9.0 or higher
+```
+
+### Install LazyVim (Optional but Recommended)
+
+LazyVim provides 58+ plugins out-of-the-box with sensible defaults:
+
+**Prerequisites:**
+- Neovim 0.9.0+
+- Git
+- A [Nerd Font](https://www.nerdfonts.com/) (optional but recommended)
+- A C compiler (for Treesitter)
+
+**Installation:**
+
+```bash
+# Backup existing nvim config (if any)
+mv ~/.config/nvim{,.bak}
+mv ~/.local/share/nvim{,.bak}
+mv ~/.local/state/nvim{,.bak}
+mv ~/.cache/nvim{,.bak}
+
+# Install LazyVim starter
+git clone https://github.com/LazyVim/starter ~/.config/nvim
+
+# Remove .git folder to make it your own
+rm -rf ~/.config/nvim/.git
+
+# Start nvim and plugins will auto-install
+nvim
+```
+
+**Wait for installation:** First launch will install all plugins (~2-3 minutes). Watch the progress at the bottom of the screen.
+
+### Install Nerd Font (Recommended)
+
+Nerd Fonts provide icons for file types in Neo-tree and other plugins:
+
+=== "macOS (Homebrew)"
+    ```bash
+    # Install JetBrains Mono Nerd Font
+    brew tap homebrew/cask-fonts
+    brew install font-jetbrains-mono-nerd-font
+
+    # Or Fira Code Nerd Font
+    brew install font-fira-code-nerd-font
+    ```
+
+=== "Linux"
+    ```bash
+    # Download and install manually
+    mkdir -p ~/.local/share/fonts
+    cd ~/.local/share/fonts
+    curl -fLo "JetBrains Mono Nerd Font.ttf" \
+      https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFont-Regular.ttf
+    fc-cache -f -v
+    ```
+
+**Configure your terminal:**
+1. Open terminal preferences
+2. Change font to "JetBrains Mono Nerd Font" or "FiraCode Nerd Font"
+3. Font size: 14pt recommended
+4. Restart terminal
+
+### Verify LazyVim Installation
+
+```bash
+# Open nvim
+nvim
+
+# Check plugin manager (wait for it to load)
+# Type: :Lazy
+# You should see ~58 plugins installed
+
+# Quit nvim
+# Press: ESC → :q → ENTER
+```
+
+### Learning Nvim
+
+**New to nvim?** Start here:
+
+| Tutorial | Time | Description |
+|----------|------|-------------|
+| [Tutorial 15: Nvim Quick Start](../tutorials/15-nvim-quick-start.md) | 10 min | Survival guide |
+| [Tutorial 16: Vim Motions](../tutorials/16-vim-motions.md) | 15 min | Efficient editing |
+| [Tutorial 17: LazyVim Basics](../tutorials/17-lazyvim-basics.md) | 15 min | Essential plugins |
+| [Tutorial 18: LazyVim Showcase](../tutorials/18-lazyvim-showcase.md) | 30 min | Full feature tour |
+| [Nvim Quick Reference](../reference/NVIM-QUICK-REFERENCE.md) | - | Printable reference card |
+
+**Interactive tutorial:**
+
+```bash
+# Hands-on practice with checkpoints
+flow nvim-tutorial
+```
+
+**Total learning time:** ~70 minutes from zero to productive
+
+### Configure as Default Editor
+
+Make nvim your permanent default editor:
+
+```bash
+# Add to ~/.zshrc
+echo 'export EDITOR="nvim"' >> ~/.zshrc
+
+# Reload
+source ~/.zshrc
+
+# Verify
+echo $EDITOR
+# Expected: nvim
+```
+
+Now `work`, `mcp edit`, `dot edit`, and other flow-cli commands will use nvim!
+
+### Troubleshooting Nvim Installation
+
+**"nvim: command not found"**
+
+Check installation:
+```bash
+which nvim
+# If empty, nvim is not in PATH
+```
+
+**LazyVim plugins not installing:**
+
+Check internet connection and try:
+```bash
+# Inside nvim, run:
+:Lazy sync
+```
+
+**No icons showing in Neo-tree:**
+
+Install a Nerd Font and configure your terminal (see above).
+
+**"checkhealth" shows errors:**
+
+Inside nvim, run:
+```bash
+:checkhealth
+```
+
+This diagnoses issues with clipboard, Python, Node.js, etc.
+
+**Want vanilla nvim instead of LazyVim?**
+
+Just install nvim without the LazyVim starter. You'll have a minimal config and can configure plugins yourself.
+
+---
+
 ## Troubleshooting
 
 ### Homebrew Issues
@@ -384,8 +563,9 @@ flow --version
 ## Next Steps
 
 1. **Quick Start**: Follow [Quick Start Guide](quick-start.md) for a 5-minute tutorial
-2. **Learn Commands**: See [Command Reference](../reference/COMMAND-QUICK-REFERENCE.md)
-3. **Explore Dispatchers**: Read [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)
+2. **Learn Nvim**: Start with [Tutorial 15: Nvim Quick Start](../tutorials/15-nvim-quick-start.md) (10 min)
+3. **Learn Commands**: See [Command Reference](../reference/COMMAND-QUICK-REFERENCE.md)
+4. **Explore Dispatchers**: Read [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)
 
 ---
 
