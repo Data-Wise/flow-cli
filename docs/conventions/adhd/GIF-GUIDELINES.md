@@ -369,69 +369,46 @@ Before adding GIF to documentation:
 
 ## Examples
 
-### Example 1: Pick Basic Usage
+### Example 1: Teaching Git Workflow
 
-**File:** `docs/assets/gifs/commands/pick-basic-usage.gif`
+**File:** `docs/assets/gifs/teaching-git-workflow.gif`
 
 **Recording:**
-```bash
-# Setup
-clear
-export PS1="$ "
-
-# Record this workflow
-pick
-# [Type "flow"]
-# [Press Enter]
-pwd
-# Shows: /Users/dt/projects/dev-tools/flow-cli
-```
+Demonstrates the complete teaching + git integration workflow including:
+- Initializing teaching structure with `teach init`
+- Auto-commit after content generation
+- Branch-aware deployment with PR creation
+- Git status cleanup workflow
 
 **In documentation:**
 ```markdown
-### Using Pick to Navigate Projects
+### Teaching Workflow with Git Integration
 
-![Pick basic usage](../../assets/gifs/commands/pick-basic-usage.gif)
+![Teaching Git Workflow](../../assets/gifs/teaching-git-workflow.gif)
 
-*Using `pick` to filter and navigate to flow-cli project*
+*Complete teaching workflow from initialization to deployment*
 
-The `pick` command provides an interactive FZF interface for navigating
-between projects. Type to filter, use arrow keys to select, and press
-Enter to navigate.
+The teaching system integrates with Git to provide automated commit
+workflows, branch-aware deployment, and interactive cleanup prompts.
 ```
 
-### Example 2: CC Unified Grammar
+### Example 2: DOT Dispatcher Demo
 
-**File:** `docs/assets/gifs/dispatchers/cc-unified-grammar.gif`
+**File:** `docs/demos/dot-dispatcher.gif`
 
 **Recording:**
-```bash
-# Show both orders work
-clear
-
-# Mode-first (traditional)
-echo "$ cc opus pick"
-cc opus pick
-# [Select project]
-# [Close Claude window]
-
-# Target-first (new!)
-echo "$ cc pick opus"
-cc pick opus
-# [Select same project]
-# [Shows identical behavior]
-```
+Demonstrates the dot dispatcher functionality for managing dotfiles and secrets.
 
 **In documentation:**
 ```markdown
-### Unified Grammar (v4.8.0)
+### DOT Dispatcher Usage
 
-![CC unified grammar](../../assets/gifs/dispatchers/cc-unified-grammar.gif)
+![DOT Dispatcher Demo](../../demos/dot-dispatcher.gif)
 
-*Both `cc opus pick` and `cc pick opus` work identically*
+*Managing dotfiles and secrets with the dot dispatcher*
 
-The CC dispatcher now supports flexible command ordering. Whether you
-specify the mode first or the target first, the result is the same.
+The dot dispatcher provides streamlined access to dotfile management
+and secret storage using macOS Keychain integration.
 ```
 
 ---

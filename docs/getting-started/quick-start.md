@@ -137,6 +137,12 @@ yay
 yay --week
 ```
 
+**What you'll see:**
+
+![Dashboard Example](../assets/dashboard-example.png)
+
+*The dashboard shows your active session, quick access to recent projects, wins tracker, and category breakdown*
+
 ---
 
 ## Step 5: End Your Session
