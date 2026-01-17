@@ -1,7 +1,7 @@
 # flow-cli Documentation Index
 
-**Version:** 5.10.0
-**Last Updated:** 2026-01-15
+**Version:** 5.12.0
+**Last Updated:** 2026-01-16
 
 ---
 
@@ -137,43 +137,58 @@
 
 ---
 
-## Recent Documentation Updates (v5.10.0)
+## Recent Documentation Updates (v5.12.0)
 
-### New Documentation (2026-01-15)
+### New Documentation (2026-01-16)
+
+**1. Teaching Dates Automation**
+- [TEACHING-DATES-GUIDE.md](guides/TEACHING-DATES-GUIDE.md) - 1,885 lines, complete workflow guide
+- [TEACHING-DATES-ARCHITECTURE.md](architecture/TEACHING-DATES-ARCHITECTURE.md) - 960 lines, system design
+- [DATE-PARSER-API-REFERENCE.md](reference/DATE-PARSER-API-REFERENCE.md) - 1,256 lines, API docs
+- [TEACH-CONFIG-DATES-SCHEMA.md](reference/TEACH-CONFIG-DATES-SCHEMA.md) - 603 lines, config reference
+- [TEACH-DATES-QUICK-REFERENCE.md](reference/TEACH-DATES-QUICK-REFERENCE.md) - 250 lines, command reference
+
+**2. Quality Assurance**
+- [DOCS-HEALTH-CHECK-REPORT.md](DOCS-HEALTH-CHECK-REPORT.md) - Complete link validation report
+- [TEST-COVERAGE-COMPLETE.md](TEST-COVERAGE-COMPLETE.md) - 94 tests, 100% passing
+- [TEST-COVERAGE-ANALYSIS.md](TEST-COVERAGE-ANALYSIS.md) - Coverage analysis
+
+**3. Visual Documentation**
+- Dashboard screenshot (102KB) - Added to commands/dash.md and quick-start.md
+- Optimized teaching-git-workflow.gif (7.5MB → 2.0MB, 73% reduction)
+- VHS regeneration scripts for reproducible screenshots
+
+### Updated Documentation (2026-01-16)
+
+**1. Documentation Quality**
+- Fixed all high-priority broken links
+- Updated GIF-GUIDELINES.md with real examples
+- Corrected DOCUMENTATION-STYLE-GUIDE.md image paths
+- CLAUDE.md optimization (1,392 → 627 lines, 55% reduction)
+
+**2. Teaching System**
+- Enhanced teach dispatcher tutorial
+- Added dates automation workflows
+- Complete config validation documentation
+
+**3. Test Coverage**
+- 33 unit tests for teach-dates dispatcher
+- 16 integration tests for date synchronization
+- 45 tests for date-parser module
+
+### Previous Release (v5.10.0 - 2026-01-15)
 
 **1. [API-COMPLETE.md](reference/API-COMPLETE.md)**
 - Complete API reference for all functions
 - 100% function coverage
-- Detailed parameter documentation
-- Usage examples for every function
-- Type definitions and exit codes
 
 **2. [ARCHITECTURE-DIAGRAMS.md](diagrams/ARCHITECTURE-DIAGRAMS.md)**
 - 15 comprehensive Mermaid diagrams
 - System overview and component architecture
-- Worktree detection flow
-- Cache invalidation flow
-- Teaching system integration
-- All major subsystems visualized
 
 **3. [DEVELOPER-GUIDE.md](guides/DEVELOPER-GUIDE.md)**
 - Complete development setup guide
-- Step-by-step feature addition tutorial
 - Testing best practices
-- Code style guide
-- Release process documentation
-
-### Updated Documentation
-
-**1. Scholar Integration**
-- Added RFC for `--config` flag
-- Updated config ownership protocol
-- Enhanced integration diagrams
-
-**2. Worktree System**
-- Documented flat vs hierarchical naming
-- Added detection algorithm details
-- Cache invalidation documentation
 
 ---
 
@@ -337,6 +352,6 @@ All documentation contributions welcome!
 
 ---
 
-**Last Updated:** 2026-01-15
-**Version:** 5.10.0
+**Last Updated:** 2026-01-16
+**Version:** 5.12.0
 **Maintainer:** Data-Wise
