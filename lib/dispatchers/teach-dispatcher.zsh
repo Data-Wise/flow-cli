@@ -45,6 +45,62 @@ fi
 # FLAG VALIDATION
 # ============================================================================
 
+# Universal content flags (v5.13.0+)
+# These can be added to any Scholar command for content customization
+typeset -gA TEACH_CONTENT_FLAGS=(
+    # Content flags with short forms
+    [explanation]="flag"
+    [e]="flag"  # short for --explanation
+    [no-explanation]="flag"
+
+    [proof]="flag"
+    [no-proof]="flag"
+
+    [math]="flag"
+    [m]="flag"  # short for --math
+    [no-math]="flag"
+
+    [examples]="flag"
+    [x]="flag"  # short for --examples
+    [no-examples]="flag"
+
+    [code]="flag"
+    [c]="flag"  # short for --code
+    [no-code]="flag"
+
+    [diagrams]="flag"
+    [d]="flag"  # short for --diagrams
+    [no-diagrams]="flag"
+
+    [practice-problems]="flag"
+    [p]="flag"  # short for --practice-problems
+    [no-practice-problems]="flag"
+
+    [definitions]="flag"
+    [no-definitions]="flag"
+
+    [references]="flag"
+    [r]="flag"  # short for --references
+    [no-references]="flag"
+)
+
+# Universal selection flags (v5.13.0+)
+typeset -gA TEACH_SELECTION_FLAGS=(
+    [topic]="string"
+    [t]="string"  # short for --topic
+
+    [week]="number"
+    [w]="number"  # short for --week
+
+    [style]="conceptual|computational|rigorous|applied"
+
+    [interactive]="flag"
+    [i]="flag"  # short for --interactive
+
+    [revise]="string"
+    [context]="flag"
+)
+
 # Known flags per Scholar command
 typeset -gA TEACH_EXAM_FLAGS=(
     [questions]="number"
@@ -130,6 +186,223 @@ _teach_validate_flags() {
     done
 
     return 0
+}
+
+# Validate content flags for conflicts (v5.13.0+)
+# Usage: _teach_validate_content_flags [flags...]
+# Returns: 0 if valid, 1 if conflicts detected
+_teach_validate_content_flags() {
+    local -a args=("$@")
+    local -A seen_base_flags
+
+    # Check for conflicting flag pairs (--foo vs --no-foo)
+    for arg in "${args[@]}"; do
+        if [[ "$arg" =~ ^--(no-)?(.+)$ ]]; then
+            local negation="${match[1]}"
+            local base_flag="${match[2]}"
+
+            # Skip if not a content flag
+            [[ -z "${TEACH_CONTENT_FLAGS[$base_flag]}" ]] && continue
+
+            # Check if we've seen the opposite form
+            if [[ -n "$negation" ]]; then
+                # This is --no-X, check if we saw --X
+                if [[ -n "${seen_base_flags[$base_flag]}" && "${seen_base_flags[$base_flag]}" == "positive" ]]; then
+                    _teach_error "Conflicting flags" \
+                        "Both --${base_flag} and --no-${base_flag} specified. These are mutually exclusive."
+                    echo ""
+                    echo "Fix: Keep one or the other"
+                    echo "  teach slides -w 8 --${base_flag}        # Include ${base_flag}"
+                    echo "  teach slides -w 8 --no-${base_flag}     # Exclude ${base_flag}"
+                    return 1
+                fi
+                seen_base_flags[$base_flag]="negative"
+            else
+                # This is --X, check if we saw --no-X
+                if [[ -n "${seen_base_flags[$base_flag]}" && "${seen_base_flags[$base_flag]}" == "negative" ]]; then
+                    _teach_error "Conflicting flags" \
+                        "Both --${base_flag} and --no-${base_flag} specified. These are mutually exclusive."
+                    echo ""
+                    echo "Fix: Keep one or the other"
+                    echo "  teach slides -w 8 --${base_flag}        # Include ${base_flag}"
+                    echo "  teach slides -w 8 --no-${base_flag}     # Exclude ${base_flag}"
+                    return 1
+                fi
+                seen_base_flags[$base_flag]="positive"
+            fi
+        fi
+    done
+
+    return 0
+}
+
+# Parse topic and week from arguments (v5.13.0+)
+# Usage: _teach_parse_topic_week [flags...]
+# Sets: TEACH_TOPIC, TEACH_WEEK
+# Returns: 0 if valid, 1 if invalid
+_teach_parse_topic_week() {
+    local -a args=("$@")
+    typeset -g TEACH_TOPIC=""
+    typeset -g TEACH_WEEK=""
+    local topic_specified=false
+    local week_specified=false
+
+    # Parse flags
+    for ((i=1; i<=${#args[@]}; i++)); do
+        local arg="${args[$i]}"
+
+        case "$arg" in
+            --topic=*|--t=*)
+                TEACH_TOPIC="${arg#*=}"
+                topic_specified=true
+                ;;
+            --topic|--t|-t)
+                # Next arg is the value
+                ((i++))
+                TEACH_TOPIC="${args[$i]}"
+                topic_specified=true
+                ;;
+            --week=*|--w=*)
+                TEACH_WEEK="${arg#*=}"
+                week_specified=true
+                ;;
+            --week|--w|-w)
+                # Next arg is the value
+                ((i++))
+                TEACH_WEEK="${args[$i]}"
+                week_specified=true
+                ;;
+        esac
+    done
+
+    # Validation: Check for conflicts
+    if [[ "$topic_specified" == "true" && "$week_specified" == "true" ]]; then
+        _teach_warn "Both --topic and --week specified" \
+            "Using --topic (--week will be ignored)"
+        TEACH_WEEK=""  # Clear week if topic takes precedence
+    fi
+
+    # If neither specified, that's OK - caller will handle defaults
+    return 0
+}
+
+# ============================================================================
+# CONTENT PRESET SYSTEM (Phase 2 - v5.13.0+)
+# ============================================================================
+
+# Style preset definitions
+# Maps style names to their included content flags
+typeset -gA TEACH_STYLE_PRESETS=(
+    # Conceptual: Intuition-focused, theory introduction
+    [conceptual]="explanation definitions examples"
+
+    # Computational: Hands-on, lab-style
+    [computational]="explanation examples code practice-problems"
+
+    # Rigorous: Graduate level, formal treatment
+    [rigorous]="definitions explanation math proof"
+
+    # Applied: Real-world applications
+    [applied]="explanation examples code practice-problems"
+)
+
+# Resolve content flags from style preset + overrides (v5.13.0+)
+# Usage: _teach_resolve_content <style> [flags...]
+# Sets: TEACH_CONTENT_RESOLVED (space-separated list of enabled content flags)
+# Returns: 0 if valid, 1 if invalid style
+_teach_resolve_content() {
+    local style="$1"
+    shift
+    local -a args=("$@")
+    typeset -g TEACH_CONTENT_RESOLVED=""
+
+    # Start with preset if style specified
+    local -A enabled_flags
+    if [[ -n "$style" ]]; then
+        local preset_content="${TEACH_STYLE_PRESETS[$style]}"
+        if [[ -z "$preset_content" ]]; then
+            _teach_error "Unknown style preset: $style" \
+                "Valid styles: conceptual, computational, rigorous, applied"
+            return 1
+        fi
+
+        # Initialize enabled flags from preset
+        for flag in ${(s: :)preset_content}; do
+            enabled_flags[$flag]=1
+        done
+    fi
+
+    # Process explicit content flags (additions and removals)
+    for arg in "${args[@]}"; do
+        if [[ "$arg" =~ ^--(no-)?(.+)$ ]]; then
+            local negation="${match[1]}"
+            local flag_name="${match[2]}"
+
+            # Skip if not a content flag
+            [[ -z "${TEACH_CONTENT_FLAGS[$flag_name]}" ]] && continue
+
+            if [[ -n "$negation" ]]; then
+                # --no-X: Remove from enabled set
+                unset "enabled_flags[$flag_name]"
+            else
+                # --X: Add to enabled set
+                enabled_flags[$flag_name]=1
+            fi
+        # Check for short form flags (-e, -m, -x, etc)
+        elif [[ "$arg" =~ ^-([emxcdpr])$ ]]; then
+            local short="${match[1]}"
+            local long_flag=""
+
+            # Map short form to long form
+            case "$short" in
+                e) long_flag="explanation" ;;
+                m) long_flag="math" ;;
+                x) long_flag="examples" ;;
+                c) long_flag="code" ;;
+                d) long_flag="diagrams" ;;
+                p) long_flag="practice-problems" ;;
+                r) long_flag="references" ;;
+            esac
+
+            [[ -n "$long_flag" ]] && enabled_flags[$long_flag]=1
+        fi
+    done
+
+    # Build resolved content string
+    TEACH_CONTENT_RESOLVED="${(k)enabled_flags}"
+    return 0
+}
+
+# Build Scholar prompt instructions from resolved content flags (v5.13.0+)
+# Usage: _teach_build_content_instructions
+# Requires: TEACH_CONTENT_RESOLVED to be set
+# Returns: Content instruction string for Scholar prompt
+_teach_build_content_instructions() {
+    [[ -z "$TEACH_CONTENT_RESOLVED" ]] && return 0
+
+    local -a instructions=()
+
+    # Map content flags to Scholar instructions
+    local -A content_instructions=(
+        [explanation]="Include conceptual explanations"
+        [definitions]="Include formal definitions"
+        [math]="Use formal mathematical notation"
+        [proof]="Include mathematical proofs"
+        [examples]="Include worked numerical examples"
+        [code]="Include code demonstrations (R/Python)"
+        [diagrams]="Include visual diagrams and plots"
+        [practice-problems]="Include practice exercises"
+        [references]="Include citations and references"
+    )
+
+    # Build instructions array
+    for flag in ${(s: :)TEACH_CONTENT_RESOLVED}; do
+        local instruction="${content_instructions[$flag]}"
+        [[ -n "$instruction" ]] && instructions+=("$instruction")
+    done
+
+    # Return as newline-separated string
+    printf "%s\n" "${instructions[@]}"
 }
 
 # ============================================================================
@@ -1009,6 +1282,7 @@ _teach_scholar_wrapper() {
     local -a args=()
     local verbose=false
     local topic=""
+    local style=""
 
     # Parse wrapper-specific flags vs Scholar flags
     while [[ $# -gt 0 ]]; do
@@ -1021,6 +1295,17 @@ _teach_scholar_wrapper() {
                 # Show Scholar command help
                 _teach_scholar_help "$subcommand"
                 return 0
+                ;;
+            --style)
+                # Extract style preset
+                shift
+                style="$1"
+                shift
+                ;;
+            --style=*)
+                # Extract style preset (--style=computational)
+                style="${1#*=}"
+                shift
                 ;;
             *)
                 # First non-flag arg is typically the topic
@@ -1049,6 +1334,26 @@ _teach_scholar_wrapper() {
         fi
     fi
 
+    # ==================================================================
+    # PHASE 1-2: Enhanced Flag Processing (v5.13.0+)
+    # ==================================================================
+
+    # 1. Validate content flags for conflicts
+    _teach_validate_content_flags "${args[@]}" || return 1
+
+    # 2. Parse topic and week selection flags
+    _teach_parse_topic_week "${args[@]}" || return 1
+
+    # 3. Resolve content from style preset + overrides
+    _teach_resolve_content "$style" "${args[@]}" || return 1
+
+    # 4. Build content instructions for Scholar prompt
+    local content_instructions=$(_teach_build_content_instructions)
+
+    # ==================================================================
+    # END PHASE 1-2
+    # ==================================================================
+
     # Validate flags BEFORE preflight (fail fast with helpful message)
     _teach_validate_flags "$subcommand" "${args[@]}" || return 1
 
@@ -1058,6 +1363,12 @@ _teach_scholar_wrapper() {
     # Build and execute Scholar command
     local scholar_cmd
     scholar_cmd=$(_teach_build_command "$subcommand" "${args[@]}") || return 1
+
+    # Append content instructions to Scholar command if present
+    if [[ -n "$content_instructions" ]]; then
+        # Add content instructions as additional context
+        scholar_cmd="$scholar_cmd --instructions \"$content_instructions\""
+    fi
 
     # Build full command string for commit message (v5.11.0+)
     local full_command="teach $subcommand ${args[*]}"
