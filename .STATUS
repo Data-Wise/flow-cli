@@ -22,6 +22,33 @@
 
 **Goal:** Comprehensive teach dispatcher enhancement with Scholar plugin integration
 
+---
+
+### WT Workflow Enhancement - WIP 🚧
+
+**Spec:** `docs/specs/SPEC-wt-workflow-enhancement-2026-01-17.md`
+**Brainstorm:** `docs/specs/BRAINSTORM-wt-workflow-enhancement-2026-01-17.md`
+**Branch:** `feature/wt-enhancement` ← WIP
+**Worktree:** `~/.git-worktrees/flow-cli/feature-wt-enhancement`
+**Estimated Effort:** 6-8 hours across 3 phases
+**Started:** 2026-01-17
+
+**Goal:** Enhanced worktree listing and pick wt delete/update actions
+
+**Key Features:**
+- Better `wt` default (formatted overview with status icons, session indicators)
+- `wt <filter>` support for filtered listing
+- `pick wt` keybindings: ctrl-x (delete), ctrl-r (refresh)
+- Multi-select with Tab for batch operations
+- Interactive delete confirmation with optional branch cleanup
+
+**Implementation Phases:**
+- [ ] Phase 1: Enhanced `wt` Default (2h)
+- [ ] Phase 2: pick wt Actions (3-4h)
+- [ ] Phase 3: Testing & Polish (1-2h)
+
+**Status:** Spec complete, worktree ready
+
 **Key Features:**
 
 - Smart defaults (--week, --topic) with lesson plan integration
