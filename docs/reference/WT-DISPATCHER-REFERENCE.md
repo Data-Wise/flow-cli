@@ -9,10 +9,12 @@
 ## Quick Start
 
 ```bash
-wt                    # Navigate to worktrees folder
-wt list               # List all worktrees
+wt                    # Formatted overview (status icons + session indicators)
+wt flow               # Filter to show only flow-cli worktrees
+wt list               # Raw git worktree list output
 wt create feature/x   # Create worktree for branch
 wt status             # Show health and disk usage
+pick wt               # Interactive worktree picker with actions
 ```
 
 ---
@@ -34,13 +36,15 @@ wt [command] [args]
 
 ## Core Commands
 
-### Navigation
+### Overview & Navigation
 
 | Command | Description |
 |---------|-------------|
-| `wt` | Navigate to worktrees folder (`~/.git-worktrees`) |
-| `wt list` | List all worktrees with their branches |
-| `wt status` | Show health, disk usage, and merge status |
+| `wt` | **Formatted overview** with status icons and session indicators |
+| `wt <project>` | **Filter overview** to show only matching worktrees |
+| `wt list` | Raw git worktree list output |
+| `wt status` | Detailed health, disk usage, and merge status |
+| `pick wt` | **Interactive picker** with delete/refresh actions |
 
 ### Creation
 
@@ -60,6 +64,64 @@ wt [command] [args]
 ---
 
 ## Detailed Commands
+
+### wt (default overview)
+
+**NEW in v5.13.0** - Enhanced default behavior with formatted table display.
+
+Show formatted overview of all worktrees:
+
+```bash
+wt
+```
+
+**Output includes:**
+- **Status icons:**
+  - ✅ **active** - Unmerged feature/bugfix/hotfix branches
+  - 🧹 **merged** - Merged to dev/main
+  - ⚠️ **stale** - Missing .git directory
+  - 🏠 **main** - Main/master/dev/develop branches
+- **Session indicators:**
+  - 🟢 **active** - Claude session active (< 30 min)
+  - 🟡 **recent** - Recent activity (< 24h)
+  - ⚪ **none** - No session or old
+- Formatted table with BRANCH | STATUS | SESSION | PATH columns
+- Total worktree count
+- Helpful tip footer
+
+**Sample output:**
+```
+🌳 Worktrees (4 total)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  BRANCH                              STATUS         SESSION   PATH
+  ─────────────────────────────────── ────────────── ───────── ─────────────────────
+  dev                                 🏠 main        🟡         ~/projects/dev-tools/flow-cli
+  feature/wt-enhancement              ✅ active      🟢         ~/.git-worktrees/flow-cli/feature-wt-enhancement
+  feature/teaching-flags              ✅ active      🟡         ~/.git-worktrees/flow-cli/feature/teaching-flags
+  feature/teach-dates-automation      ✅ active      ⚪         ~/.git-worktrees/flow-cli/teach-dates-automation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💡 Tip: wt <project> to filter | pick wt for interactive
+```
+
+### wt <filter>
+
+**NEW in v5.13.0** - Filter overview by project name.
+
+Show only worktrees matching filter:
+
+```bash
+wt flow               # Show only flow-cli worktrees
+wt scholar            # Show only scholar-related worktrees
+wt feature            # Show worktrees with 'feature' in path
+```
+
+**Behavior:**
+- Matches against project name (parent directory of worktree)
+- Case-sensitive partial matching
+- Same formatted output as `wt`
+- Shows filtered count in header
 
 ### wt create
 
@@ -239,16 +301,41 @@ Worktrees are organized by project:
 
 ## Examples
 
+### Quick Overview Workflow (NEW)
+
+```bash
+# Check all worktrees with status
+wt
+# → Shows formatted table with status icons and sessions
+
+# Filter to specific project
+wt flow
+# → Shows only flow-cli worktrees
+
+# Interactive cleanup
+pick wt
+# → Use Tab to select old worktrees, Ctrl-X to delete
+```
+
 ### Daily Workflow
 
 ```bash
+# Check what's active
+wt
+# → See status icons: ✅ active, 🟢 session active
+
 # Start feature in worktree
 wt create feature/auth
 cd ~/.git-worktrees/flow-cli/feature-auth
 
 # Work on it...
-# When done, clean up
-wt prune
+# Check status again
+wt
+# → See your new worktree with 🟢 active session
+
+# When done, clean up interactively
+pick wt
+# → Select merged worktrees, Ctrl-X to delete
 ```
 
 ### Parallel Development
@@ -291,7 +378,100 @@ wt move
 
 ---
 
+## Interactive Worktree Picker
+
+**NEW in v5.13.0** - Enhanced `pick wt` with delete and refresh actions.
+
+### pick wt
+
+Launch interactive worktree picker with fzf:
+
+```bash
+pick wt
+```
+
+**Features:**
+- Multi-select worktrees with **Tab** key
+- **Ctrl-X** - Delete selected worktree(s)
+- **Ctrl-R** - Refresh cache and show updated overview
+- Session indicators (🟢🟡⚪) in selection list
+- Enter to navigate to selected worktree
+
+**Keybindings:**
+
+| Key | Action | Description |
+|-----|--------|-------------|
+| `Tab` | **Multi-select** | Select multiple worktrees |
+| `Ctrl-X` | **Delete** | Remove selected worktree(s) with confirmation |
+| `Ctrl-R` | **Refresh** | Clear cache and show updated overview |
+| `Enter` | **Navigate** | cd to selected worktree |
+| `Esc` | **Cancel** | Exit without action |
+
+### Delete Workflow (Ctrl-X)
+
+When you press `Ctrl-X` on selected worktrees:
+
+1. **Confirmation prompt** for each worktree
+   ```
+   Delete worktree: ~/.git-worktrees/flow-cli/feature-old [feature/old]?
+     [y] Yes, delete worktree
+     [n] No, skip this one
+     [a] Yes to all remaining
+     [q] Quit (cancel all)
+   ```
+
+2. **Branch deletion prompt** after each removal
+   ```
+   Also delete branch 'feature/old'? [y/N]:
+   ```
+
+3. **Cache invalidation** after completion
+   ```
+   ✓ Removed 2 worktree(s)
+   ```
+
+**Safe by default:**
+- Requires explicit confirmation for each worktree
+- Separate prompt for branch deletion
+- Can skip individual worktrees
+- Can quit at any time
+
+### Refresh Workflow (Ctrl-R)
+
+When you press `Ctrl-R`:
+
+1. **Cache cleared** message
+   ```
+   ⟳ Refreshing worktree cache...
+   ✓ Cache cleared
+   ```
+
+2. **Updated overview** displayed
+   ```
+   🌳 Worktrees (4 total)
+   [... formatted overview ...]
+   ```
+
+**Use cases:**
+- After creating worktrees externally
+- After cleaning up manually
+- To see latest session indicators
+- To refresh status icons
+
+---
+
 ## Integration
+
+### With Pick Command
+
+The worktree picker integrates seamlessly with the pick command:
+
+```bash
+pick wt               # Interactive worktree picker
+pick wt --help        # Show worktree-specific keybindings
+```
+
+See [PICK-COMMAND-REFERENCE.md](PICK-COMMAND-REFERENCE.md) for full pick documentation.
 
 ### With CC Dispatcher
 
@@ -373,6 +553,14 @@ wt create feature/x
 
 ---
 
-**Last Updated:** 2026-01-07
-**Version:** v4.8.0
-**Status:** ✅ Production ready with parallel development
+**Last Updated:** 2026-01-17
+**Version:** v5.13.0
+**Status:** ✅ Production ready with enhanced overview and interactive actions
+
+**New in v5.13.0:**
+- ✅ Enhanced `wt` default: Formatted overview with status icons
+- ✅ Filter support: `wt <project>` to filter by project name
+- ✅ Session indicators: 🟢 active, 🟡 recent, ⚪ none
+- ✅ Interactive picker: `pick wt` with Ctrl-X delete and Ctrl-R refresh
+- ✅ Multi-select support: Tab key to select multiple worktrees
+- ✅ Safe deletion: Confirmation prompts and branch cleanup options
