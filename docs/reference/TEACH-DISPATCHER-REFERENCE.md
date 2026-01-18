@@ -2,7 +2,7 @@
 
 **Command:** `teach`
 **Purpose:** Teaching workflow management for course websites
-**Version:** v5.4.1
+**Version:** v5.13.0
 
 ---
 
@@ -83,13 +83,43 @@ teach exam "Final Exam"
 
 ### `teach deploy` / `teach d`
 
-Deploy course website to production.
+Deploy course website to production via PR workflow.
 
 ```bash
-teach deploy
+teach deploy              # Standard PR workflow
+teach deploy --direct-push # Bypass PR (advanced)
 ```
 
-Runs `./scripts/quick-deploy.sh` if available.
+**Requirements:**
+- Must be in a git repository
+- Config file must exist at `.flow/teach-config.yml`
+- Must be on the draft branch (or will prompt to switch)
+
+**Pre-flight Checks:**
+1. Verifies you're on the draft branch
+2. Checks for uncommitted changes
+3. Verifies remote is up-to-date
+4. Checks if production has new commits (offers rebase)
+
+**Branch Configuration:**
+The deploy command reads branch names from `.flow/teach-config.yml`:
+
+```yaml
+# Format 1: Under 'branches' key
+branches:
+  draft: draft
+  production: main
+
+# Format 2: Under 'git' key (legacy)
+git:
+  draft_branch: draft
+  production_branch: main
+```
+
+**Troubleshooting:**
+- "`.flow/teach-config.yml` not found" → Run `teach init` first
+- "Not on draft branch" → Switch to draft or let the command switch for you
+- "Uncommitted changes" → Commit or stash changes first
 
 ### `teach archive` / `teach a`
 
@@ -156,26 +186,52 @@ teach -h
 
 ## Configuration
 
-Teaching projects use `.flow/teach-config.yml`:
+Teaching projects use `.flow/teach-config.yml` (created by `teach init`):
 
 ```yaml
+# Course information
 course:
   name: "STAT 440"
-  title: "Regression Analysis"
-  semester: "Spring 2026"
+  full_name: "Regression Analysis"
+  semester: Spring
+  year: 2026
+  instructor: "Dr. Smith"
 
-schedule:
+# Semester schedule
+semester_info:
   start_date: "2026-01-13"
-  weeks: 15
-  breaks:
-    - week: 9
-      name: "Spring Break"
+  end_date: "2026-05-01"
+  weeks:
+    - number: 1
+      start_date: "2026-01-13"
+      topic: "Course Introduction"
+  holidays:
+    - name: "Spring Break"
+      date: "2026-03-16"
+      type: break
 
-deployment:
-  draft_branch: "draft"
-  production_branch: "main"
-  auto_deploy: false
+# Branch configuration (used by teach deploy)
+branches:
+  draft: draft
+  production: main
+
+# Git workflow settings
+git:
+  require_clean: true
+  auto_pr: true
+
+# Workflow settings
+workflow:
+  teaching_mode: false
+  auto_push: false
 ```
+
+**Config File Location:**
+- **Standard:** `.flow/teach-config.yml` (inside project)
+- Created automatically by `teach init`
+- Edit with `teach config` command
+
+**Important:** The `teach deploy` command requires this file to exist. If you see "`.flow/teach-config.yml` not found", run `teach init` first.
 
 ---
 
@@ -241,5 +297,5 @@ teach status
 
 ---
 
-**Version:** v5.4.1
-**Last Updated:** 2026-01-13
+**Version:** v5.13.0
+**Last Updated:** 2026-01-18

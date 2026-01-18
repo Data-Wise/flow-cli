@@ -1,14 +1,81 @@
 # Teaching Commands - Detailed Guide
 
-**Version:** 1.0
+**Version:** 1.2
 **Status:** Production Ready
-**Last Updated:** 2026-01-13
+**Last Updated:** 2026-01-18
 
 ---
 
 ## Overview
 
 This guide provides comprehensive, step-by-step explanations of each teaching command, what it does, why you'd use it, and real-world workflows.
+
+### Teaching Workflow Architecture
+
+The teaching workflow follows a **draft → production** pattern that keeps your work safe while giving students a stable experience:
+
+```mermaid
+flowchart TB
+    subgraph Setup["🎓 One-Time Setup"]
+        init["teach init"]
+    end
+
+    subgraph Daily["📝 Daily Workflow"]
+        work["work course-name"]
+        edit["Edit materials"]
+        commit["git commit"]
+        deploy["teach deploy"]
+    end
+
+    subgraph Monitor["👀 Monitoring"]
+        status["teach status"]
+        week["teach week"]
+    end
+
+    subgraph Semester["📦 End of Semester"]
+        archive["teach archive"]
+        config["teach config"]
+    end
+
+    init --> work
+    work --> edit
+    edit --> commit
+    commit --> deploy
+    deploy --> status
+
+    status -.-> week
+    week -.-> edit
+
+    deploy --> archive
+    archive --> config
+    config --> work
+
+    style init fill:#4CAF50,color:#fff
+    style deploy fill:#2196F3,color:#fff
+    style archive fill:#FF9800,color:#fff
+```
+
+### Branch Strategy
+
+```mermaid
+gitGraph
+    commit id: "Initial"
+    branch draft
+    checkout draft
+    commit id: "Week 1 materials"
+    commit id: "Week 2 materials"
+    checkout main
+    merge draft id: "Deploy v1" tag: "live"
+    checkout draft
+    commit id: "Fix typo"
+    commit id: "Week 3 materials"
+    checkout main
+    merge draft id: "Deploy v2" tag: "live"
+    checkout draft
+    commit id: "Week 4 materials"
+```
+
+**Key Principle:** You always work on `draft`. Students always see `production`. The `teach deploy` command safely moves changes between them.
 
 ---
 
@@ -18,6 +85,52 @@ This guide provides comprehensive, step-by-step explanations of each teaching co
 
 **What it does:**
 Sets up a complete teaching workflow for a course repository. This one-time setup creates all the infrastructure needed for course website management.
+
+#### Process Flowchart
+
+```mermaid
+flowchart TD
+    Start([teach init "Course"]) --> CheckGit{Git repo?}
+    CheckGit -->|No| InitGit[git init]
+    CheckGit -->|Yes| CheckFlags{Check flags}
+    InitGit --> CheckFlags
+
+    CheckFlags -->|--dry-run| DryRun[Show plan only]
+    CheckFlags -->|-y/--yes| SafeDefaults[Use safe defaults]
+    CheckFlags -->|none| Interactive[Interactive prompts]
+
+    DryRun --> End([Done])
+
+    SafeDefaults --> CreateConfig
+    Interactive --> PromptSemester[Prompt: Semester?]
+    PromptSemester --> PromptDates[Prompt: Start/End dates?]
+    PromptDates --> PromptBreaks[Prompt: Include breaks?]
+    PromptBreaks --> PromptPush[Prompt: Push to GitHub?]
+    PromptPush --> CreateConfig
+
+    CreateConfig[Create .flow/teach-config.yml] --> CreateScripts[Create scripts/]
+    CreateScripts --> CreateWorkflows[Create .github/workflows/]
+    CreateWorkflows --> SetupBranches[Setup draft/production branches]
+    SetupBranches --> GitCommit[Create initial commit]
+    GitCommit --> CheckPush{Push to GitHub?}
+
+    CheckPush -->|Yes| GitPush[git push -u origin draft production]
+    CheckPush -->|No| ShowNext[Show next steps]
+    GitPush --> ShowNext
+    ShowNext --> End
+
+    style Start fill:#4CAF50,color:#fff
+    style CreateConfig fill:#2196F3,color:#fff
+    style End fill:#9E9E9E,color:#fff
+```
+
+#### Decision Tree
+
+| Flag | Behavior | Use Case |
+|------|----------|----------|
+| (none) | Interactive prompts | First-time setup, custom config |
+| `-y` / `--yes` | Safe defaults, no prompts | Quick setup, CI/CD |
+| `--dry-run` | Preview only, no changes | See what would happen |
 
 **Syntax:**
 ```bash
@@ -134,12 +247,94 @@ teach init -y "STAT 440"
 ### 2. `teach deploy` - Deploy Changes to Production
 
 **What it does:**
-Moves your changes from the `draft` branch (where you edit) to the `production` branch (what students see). Safely merges, handles conflicts, and triggers GitHub Pages deployment.
+Moves your changes from the `draft` branch (where you edit) to the `production` branch (what students see) via a PR workflow. Safely handles pre-flight checks, branch switching, and triggers GitHub Pages deployment.
+
+#### Process Flowchart
+
+```mermaid
+flowchart TD
+    Start([teach deploy]) --> CheckGit{In git repo?}
+    CheckGit -->|No| ErrorGit[❌ Not a git repository]
+    CheckGit -->|Yes| CheckConfig{Config exists?}
+
+    CheckConfig -->|No| ErrorConfig[❌ .flow/teach-config.yml not found]
+    CheckConfig -->|Yes| LoadConfig[Load branch configuration]
+
+    ErrorGit --> End([Exit])
+    ErrorConfig --> HintInit[💡 Run 'teach init' first]
+    HintInit --> End
+
+    LoadConfig --> CheckBranch{On draft branch?}
+    CheckBranch -->|No| PromptSwitch{Switch to draft?}
+    PromptSwitch -->|Yes| SwitchBranch[git checkout draft]
+    PromptSwitch -->|No| Cancel[Cancelled]
+    Cancel --> End
+    SwitchBranch --> CheckClean
+
+    CheckBranch -->|Yes| CheckClean{Clean working tree?}
+    CheckClean -->|No| ErrorDirty[❌ Uncommitted changes]
+    ErrorDirty --> HintCommit[💡 Commit or stash first]
+    HintCommit --> End
+
+    CheckClean -->|Yes| CheckRemote{Remote up-to-date?}
+    CheckRemote -->|No| WarnRemote[⚠️ Remote has changes]
+    WarnRemote --> PromptRebase{Rebase first?}
+    PromptRebase -->|Yes| Rebase[git rebase origin/draft]
+    PromptRebase -->|No| Continue
+    Rebase --> Continue
+
+    CheckRemote -->|Yes| Continue[Continue deployment]
+
+    Continue --> CheckProd{Production has updates?}
+    CheckProd -->|Yes| PromptMerge{Rebase onto production?}
+    PromptMerge -->|Yes| RebaseProd[git rebase origin/production]
+    PromptMerge -->|No| SkipRebase[Continue anyway]
+    RebaseProd --> CreatePR
+    SkipRebase --> CreatePR
+
+    CheckProd -->|No| CreatePR{--direct-push?}
+
+    CreatePR -->|Yes| DirectMerge[Merge draft → production]
+    CreatePR -->|No| PRWorkflow[Create PR: draft → production]
+
+    DirectMerge --> Push[git push origin production]
+    PRWorkflow --> Push
+
+    Push --> Trigger[🚀 GitHub Actions triggered]
+    Trigger --> Deploy[📦 Deploy to GitHub Pages]
+    Deploy --> Success[✅ Deployment complete]
+    Success --> ShowURL[🌐 Show live URL]
+    ShowURL --> End
+
+    style Start fill:#2196F3,color:#fff
+    style Success fill:#4CAF50,color:#fff
+    style ErrorGit fill:#f44336,color:#fff
+    style ErrorConfig fill:#f44336,color:#fff
+    style ErrorDirty fill:#f44336,color:#fff
+    style End fill:#9E9E9E,color:#fff
+```
+
+#### Pre-flight Checks Summary
+
+| Check | Pass | Fail | Recovery |
+|-------|------|------|----------|
+| Git repository | ✓ Continue | ❌ Exit | `git init` |
+| Config file | ✓ Continue | ❌ Exit | `teach init` |
+| On draft branch | ✓ Continue | ⚠️ Prompt | Auto-switch or manual |
+| Clean working tree | ✓ Continue | ❌ Exit | Commit or stash |
+| Remote synced | ✓ Continue | ⚠️ Warn | Optional rebase |
+| Production updated | ✓ Continue | ⚠️ Prompt | Optional rebase |
 
 **Syntax:**
 ```bash
-teach deploy
+teach deploy              # Standard PR workflow
+teach deploy --direct-push # Bypass PR (advanced users only)
 ```
+
+**Requirements:**
+- Must be in a git repository
+- Config file must exist at `.flow/teach-config.yml`
+- Must be on the draft branch (or will prompt to switch)
 
 **When to use:**
 - After making changes to lectures, assignments, solutions
@@ -149,38 +344,54 @@ teach deploy
 
 **What happens step-by-step:**
 
-1. **Safety Checks**
-   - Verifies you're on `draft` branch
+1. **Pre-flight Checks** (v5.13.0+)
+   - Verifies `.flow/teach-config.yml` exists
+   - Reads branch configuration from config
+   - Verifies you're on `draft` branch (offers to switch if not)
    - Checks for uncommitted changes
-   - Ensures no conflicts with production
-   - Prevents accidental overwrites
+   - Checks if remote is up-to-date
+   - Checks if production has new commits (offers rebase)
 
-2. **Branch Merge**
+2. **Branch Configuration**
+   The deploy command reads branch names from `.flow/teach-config.yml`:
+   ```yaml
+   # Preferred format (v5.11.0+)
+   branches:
+     draft: draft
+     production: main
+
+   # Legacy format (still supported)
+   git:
+     draft_branch: draft
+     production_branch: main
+   ```
+
+3. **Branch Merge**
    ```
    draft (your edits)
       ↓
    production (students see this)
       ↓
-   GitHub
+   GitHub (via PR or direct push)
       ↓
    GitHub Pages (automatic deployment)
       ↓
    Live website
    ```
 
-3. **Git Operations**
-   - Commits any staged changes
-   - Merges `draft` → `production`
+4. **Git Operations**
+   - Creates PR from `draft` → `production` (default)
+   - Or direct merge with `--direct-push`
    - Returns to `draft` branch
    - Shows merge summary
 
-4. **Deployment Trigger**
+5. **Deployment Trigger**
    - Pushes to GitHub
    - GitHub Actions workflow starts automatically
    - Site rebuilds and deploys to GitHub Pages
    - Usually takes 1-2 minutes
 
-5. **Completion Status**
+6. **Completion Status**
    - Shows successful deployment message
    - URL to live site
    - Suggestion to verify changes
@@ -245,6 +456,54 @@ $ git commit -m "your message"
 
 **What it does:**
 Shows a dashboard of your current course including semester info, week number, branch status, and safety indicators.
+
+#### Process Flowchart
+
+```mermaid
+flowchart TD
+    Start([teach status]) --> CheckConfig{Config exists?}
+    CheckConfig -->|No| ErrorConfig[❌ No teaching config found]
+    CheckConfig -->|Yes| LoadConfig[Load .flow/teach-config.yml]
+
+    ErrorConfig --> End([Exit])
+
+    LoadConfig --> GetCourse[Read course info]
+    GetCourse --> GetSemester[Calculate semester dates]
+    GetSemester --> GetWeek[Calculate current week]
+    GetWeek --> GetBranch[Check current git branch]
+    GetBranch --> GetDirty[Check uncommitted changes]
+    GetDirty --> GetDeploy[Check last deployment]
+
+    GetDeploy --> RenderDashboard[Render Dashboard]
+
+    subgraph Dashboard["📊 Dashboard Output"]
+        CourseInfo["📚 Course name & semester"]
+        WeekInfo["📅 Week X of Y"]
+        BranchStatus["🔀 Branch status"]
+        SafetyIndicator["🚦 Safety indicator"]
+        DeployStatus["🚀 Deploy status"]
+    end
+
+    RenderDashboard --> CourseInfo
+    CourseInfo --> WeekInfo
+    WeekInfo --> BranchStatus
+    BranchStatus --> SafetyIndicator
+    SafetyIndicator --> DeployStatus
+    DeployStatus --> End
+
+    style Start fill:#9C27B0,color:#fff
+    style RenderDashboard fill:#2196F3,color:#fff
+    style End fill:#9E9E9E,color:#fff
+```
+
+#### Status Indicators
+
+| Indicator | Meaning | Action Needed |
+|-----------|---------|---------------|
+| 🟢 Safe | On draft branch, clean | None - ready to work |
+| 🟡 Warning | On production branch | Switch to draft |
+| 🔴 Attention | Uncommitted changes | Commit or stash |
+| ⚡ Pending | Undeployed changes | Run `teach deploy` |
 
 **Syntax:**
 ```bash
@@ -316,6 +575,60 @@ teach status
 **What it does:**
 Displays the current week number in your semester, useful for checking course progress and scheduling.
 
+#### Process Flowchart
+
+```mermaid
+flowchart TD
+    Start([teach week]) --> CheckArgs{Week number provided?}
+
+    CheckArgs -->|Yes| ValidateWeek{Valid week number?}
+    CheckArgs -->|No| UseToday[Use today's date]
+
+    ValidateWeek -->|Invalid| ErrorWeek[❌ Invalid week number]
+    ValidateWeek -->|Valid| SpecificWeek[Show week N info]
+    ErrorWeek --> End([Exit])
+
+    UseToday --> LoadConfig[Load .flow/teach-config.yml]
+    SpecificWeek --> LoadConfig
+
+    LoadConfig --> GetDates[Get semester start/end dates]
+    GetDates --> CalcWeek[Calculate week number]
+    CalcWeek --> GetBreaks[Check for breaks]
+
+    GetBreaks --> CheckBreak{During a break?}
+    CheckBreak -->|Yes| ShowBreak[⏸️ Show break info]
+    CheckBreak -->|No| ShowWeek[📅 Show week info]
+
+    ShowBreak --> ShowTimeline
+    ShowWeek --> ShowTimeline[Show semester timeline]
+    ShowTimeline --> ShowUpcoming[Show upcoming events]
+    ShowUpcoming --> End
+
+    style Start fill:#FF9800,color:#fff
+    style ShowWeek fill:#4CAF50,color:#fff
+    style ShowBreak fill:#9C27B0,color:#fff
+    style End fill:#9E9E9E,color:#fff
+```
+
+#### Week Calculation
+
+```mermaid
+flowchart LR
+    Today[Today's Date] --> Diff[Days since start]
+    Diff --> Divide[÷ 7]
+    Divide --> Floor[Floor + 1]
+    Floor --> WeekNum[Week Number]
+
+    subgraph Example
+        Jan13["Jan 13 (Start)"]
+        Jan27["Jan 27"]
+        Result["Week 3"]
+    end
+
+    Jan13 --> |14 days| Jan27
+    Jan27 --> |14 ÷ 7 + 1| Result
+```
+
 **Syntax:**
 ```bash
 teach week           # Current week
@@ -354,6 +667,83 @@ Creates a permanent snapshot of your semester at its completion. Useful for:
 - Starting fresh for next semester
 - Comparing changes between years
 - Regulatory/institutional requirements
+
+#### Process Flowchart
+
+```mermaid
+flowchart TD
+    Start([teach archive]) --> LoadConfig[Load .flow/teach-config.yml]
+    LoadConfig --> GetInfo[Get course & semester info]
+    GetInfo --> GenerateTag[Generate tag name]
+
+    GenerateTag --> ShowPlan["Show archive plan:<br/>• Tag name<br/>• Semester dates<br/>• File count"]
+
+    ShowPlan --> Confirm{Confirm archive?}
+    Confirm -->|No| Cancel[Cancelled]
+    Cancel --> End([Exit])
+
+    Confirm -->|Yes| CheckDirty{Clean working tree?}
+    CheckDirty -->|No| WarnDirty[⚠️ Uncommitted changes]
+    WarnDirty --> PromptCommit{Commit first?}
+    PromptCommit -->|Yes| AutoCommit[git commit -m 'final semester state']
+    PromptCommit -->|No| Cancel
+    AutoCommit --> CreateTag
+
+    CheckDirty -->|Yes| CreateTag[Create annotated git tag]
+
+    CreateTag --> PushTag{Push tag to remote?}
+    PushTag -->|Yes| GitPush[git push origin --tags]
+    PushTag -->|No| LocalOnly[Tag created locally]
+
+    GitPush --> ShowNext
+    LocalOnly --> ShowNext[Show next steps]
+
+    ShowNext --> NextSteps["💡 Next steps:<br/>1. Update teach-config.yml<br/>2. Change semester/year<br/>3. Commit & deploy"]
+
+    NextSteps --> End
+
+    style Start fill:#FF9800,color:#fff
+    style CreateTag fill:#4CAF50,color:#fff
+    style ShowNext fill:#2196F3,color:#fff
+    style End fill:#9E9E9E,color:#fff
+```
+
+#### Archive Tag Naming
+
+```mermaid
+flowchart LR
+    subgraph Config
+        Semester[semester: spring]
+        Year[year: 2026]
+    end
+
+    Semester --> Combine
+    Year --> Combine[Combine]
+    Combine --> Tag["spring-2026-final"]
+
+    subgraph Examples
+        E1["fall-2025-final"]
+        E2["spring-2026-final"]
+        E3["summer-2026-final"]
+    end
+```
+
+#### Semester Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Setup: teach init
+    Setup --> Active: Start semester
+    Active --> Active: teach deploy (weekly)
+    Active --> Archive: teach archive
+    Archive --> NextSemester: Update config
+    NextSemester --> Active: New semester begins
+
+    note right of Archive
+        Creates immutable snapshot
+        spring-2026-final
+    end note
+```
 
 **Syntax:**
 ```bash
@@ -719,19 +1109,39 @@ teach deploy
 
 ## Troubleshooting
 
-### "Must be on draft branch" error
+### ".flow/teach-config.yml not found" error
 
-**Problem:** You tried to deploy but you're on production branch
+**Problem:** The teaching configuration file doesn't exist
 
 **Solution:**
 ```bash
-# Check current branch
-git branch --show-current
+# Initialize teaching workflow for this course
+teach init "Course Name"
 
-# Switch to draft
+# Or with non-interactive mode
+teach init -y "Course Name"
+```
+
+**What this creates:**
+- `.flow/teach-config.yml` - Configuration file
+- `scripts/quick-deploy.sh` - Deployment script
+- Branch structure (draft/production)
+
+---
+
+### "Not on draft branch" error
+
+**Problem:** You tried to deploy but you're on the wrong branch
+
+**Solution:**
+```bash
+# Option 1: Let teach deploy switch for you
+teach deploy
+# → Will prompt: "Switch to draft branch? [Y/n]"
+# → Type 'y' to switch automatically
+
+# Option 2: Switch manually
 git checkout draft
-
-# Now try deploy
 teach deploy
 ```
 

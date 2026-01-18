@@ -1049,7 +1049,7 @@ fpath=(~/.zsh/completions $fpath)
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # Nexus Desktop - Quick Launcher
-# REMOVED 2026-01-17: alias nexus='cd ~/projects/dev-tools/nexus/nexus-desktop && npm start'
+alias nexus='cd ~/projects/dev-tools/nexus/nexus-desktop && npm start'
 
 
 # ============================================
