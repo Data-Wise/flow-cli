@@ -80,7 +80,13 @@ sequenceDiagram
 4. **Applies** selected revision with Scholar
 5. **Saves** improved version
 
-![Revision Workflow](../../demos/tutorials/scholar-07-revision.gif)
+<div align="center">
+
+![Demo: Revision Workflow](../../demos/tutorials/scholar-06-revision.gif)
+
+*Figure 7: Using `teach slides --revise slides-v1.md --feedback "Add more practical examples"` to iteratively improve existing content - Shows content analysis, gap identification, and targeted improvements (v1 → v2)*
+
+</div>
 
 ---
 
@@ -297,7 +303,13 @@ Week 6 and prepare for time series in Week 12.
 This lecture covers multiple regression analysis.
 ```
 
-![Context Integration](../../demos/tutorials/scholar-08-context.gif)
+<div align="center">
+
+![Demo: Context Integration](../../demos/tutorials/scholar-08-context.gif)
+
+*Figure 8: Using `teach assignment "Hypothesis Testing Practice" --with-readings` to integrate course materials - Shows reading citations, dataset integration, lecture references, and prerequisite tracking*
+
+</div>
 
 ---
 

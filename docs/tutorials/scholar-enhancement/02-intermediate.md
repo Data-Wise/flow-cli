@@ -76,7 +76,13 @@ prerequisites:
 EOF
 ```
 
-![Create Lesson Plan](../../demos/tutorials/scholar-04-lesson-plan.gif)
+<div align="center">
+
+![Demo: YAML-Driven Lesson Plans](../../demos/tutorials/scholar-04-lesson.gif)
+
+*Figure 4: Using `teach lecture --lesson week03.yml` to generate structured content from a lesson plan with learning objectives, activities, and teaching methods*
+
+</div>
 
 **File Location:** `.flow/lesson-plans/week-{NN}.yml`
 **Naming Convention:** Use week number with leading zero (week-08.yml)
@@ -109,7 +115,13 @@ teach slides -w 8
 
 Same result, but lesson plan is faster and more consistent!
 
-![Generate from Plan](../../demos/tutorials/scholar-05-week-based.gif)
+<div align="center">
+
+![Demo: Week-Based Generation](../../demos/tutorials/scholar-07-week.gif)
+
+*Figure 5: Using `teach quiz --week 5` to auto-detect topic from semester schedule and generate aligned quiz content with prerequisite tracking*
+
+</div>
 
 ---
 
@@ -245,7 +257,13 @@ Your choice [1-4]: 2
 → Generating slides for Week 8 with computational style
 ```
 
-![Interactive Mode](../../demos/tutorials/scholar-06-interactive.gif)
+<div align="center">
+
+![Demo: Interactive Wizard Mode](../../demos/tutorials/scholar-05-interactive.gif)
+
+*Figure 6: Using `teach exam --interactive` to walk through a step-by-step wizard for exam generation - Shows topic selection, style preset choice, question count, duration, and difficulty level configuration*
+
+</div>
 
 **Result:** Same as `teach slides -w 8 --style computational`, but guided!
 

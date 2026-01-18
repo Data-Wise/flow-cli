@@ -43,7 +43,13 @@ teach slides --help
 **Expected Output:**
 You should see a help message with a "Universal Flags" section listing style presets and content flags.
 
-![Check Installation](../../demos/tutorials/scholar-01-help.gif)
+<div align="center">
+
+![Demo: Help System - Discovering Available Flags](../../demos/tutorials/scholar-01-help.gif)
+
+*Figure 1: Using `teach slides --help`, `teach quiz --help`, and `teach lecture --help` to discover all available flags and style presets*
+
+</div>
 
 **Troubleshooting:**
 - If you don't see "Universal Flags", you may be on an older version
@@ -70,7 +76,13 @@ teach slides "Linear Regression" --style computational
 
 **Wait Time:** 30-60 seconds (Claude Code processing)
 
-![Generate Slides](../../demos/tutorials/scholar-02-generate.gif)
+<div align="center">
+
+![Demo: Basic Content Generation](../../demos/tutorials/scholar-02-generate.gif)
+
+*Figure 2: Generating slides with `teach slides "Introduction to Statistics" --style conceptual` - Shows the generation workflow, content structure, and output summary*
+
+</div>
 
 **Success Indicators:**
 - ✅ "Generating slides..." message
@@ -126,7 +138,13 @@ teach exam "Regression" --style rigorous --no-proof
 teach slides "Topic" --style computational --no-practice-problems
 ```
 
-![Customize Content](../../demos/tutorials/scholar-03-customize.gif)
+<div align="center">
+
+![Demo: Style Customization with Flags](../../demos/tutorials/scholar-03-customize.gif)
+
+*Figure 3: Combining `--style rigorous` with `--technical-depth high` to generate graduate-level quiz content with heavy mathematical notation and proof-based questions*
+
+</div>
 
 **9 Content Flags:**
 - `--explanation` / `-e` - Conceptual explanations
