@@ -149,6 +149,8 @@ All category names are case-insensitive and support multiple aliases:
 
 ## Interactive Keys
 
+### General Keys
+
 | Key        | Action | Description                              |
 | ---------- | ------ | ---------------------------------------- |
 | **Enter**  | cd     | Change to selected project (or resume)   |
@@ -156,6 +158,29 @@ All category names are case-insensitive and support multiple aliases:
 | **Ctrl-S** | status | View .STATUS file (with bat/cat)         |
 | **Ctrl-L** | log    | View git log (with tig/git)              |
 | **Ctrl-C** | cancel | Exit without action                      |
+
+### Worktree Actions (v5.13.0+)
+
+**NEW in v5.13.0** - When using `pick wt`, additional keybindings are available:
+
+| Key        | Action   | Description                                    |
+| ---------- | -------- | ---------------------------------------------- |
+| **Tab**    | multi-select | Select multiple worktrees for batch operations |
+| **Ctrl-X** | delete   | Delete selected worktree(s) with confirmation  |
+| **Ctrl-R** | refresh  | Clear cache and show updated overview          |
+
+**Delete Workflow (Ctrl-X):**
+1. Confirmation prompt for each worktree ([y/n/a/q])
+2. Optional branch deletion after worktree removal
+3. Cache invalidation
+4. Summary of deleted worktrees
+
+**Refresh Workflow (Ctrl-R):**
+1. Cache cleared message
+2. Updated overview with current status icons and sessions
+3. Immediate feedback
+
+See [WT-DISPATCHER-REFERENCE.md](WT-DISPATCHER-REFERENCE.md) for complete worktree action documentation.
 
 ---
 
