@@ -922,8 +922,9 @@ _teach_build_context() {
     local -a context_files=()
     local context_text=""
 
-    # Check for common course materials
+    # Check for common course materials (v5.14.0 - Task 9: Added lesson-plan.yml)
     local -a potential_files=(
+        "lesson-plan.yml"           # Primary lesson plan (Task 9)
         ".flow/teach-config.yml"
         "syllabus.md"
         "syllabus.qmd"
@@ -1902,6 +1903,7 @@ _teach_scholar_wrapper() {
     local verbose=false
     local topic=""
     local style=""
+    local template=""      # v5.14.0 - Task 9: Template selection
 
     # Parse wrapper-specific flags vs Scholar flags
     while [[ $# -gt 0 ]]; do
@@ -1924,6 +1926,17 @@ _teach_scholar_wrapper() {
             --style=*)
                 # Extract style preset (--style=computational)
                 style="${1#*=}"
+                shift
+                ;;
+            --template)
+                # Extract template selection (v5.14.0 - Task 9)
+                shift
+                template="$1"
+                shift
+                ;;
+            --template=*)
+                # Extract template selection (--template=detailed)
+                template="${1#*=}"
                 shift
                 ;;
             *)
@@ -1982,7 +1995,7 @@ _teach_scholar_wrapper() {
     # ==================================================================
 
     # ==================================================================
-    # PHASE 6: Context Integration (v5.13.0+)
+    # PHASE 6: Context Integration (v5.13.0+ / v5.14.0 Task 9)
     # ==================================================================
 
     # Check for --context flag
@@ -1994,7 +2007,12 @@ _teach_scholar_wrapper() {
         fi
     done
 
-    # Build context if requested
+    # Auto-load context if lesson-plan.yml exists (v5.14.0 - Task 9)
+    if [[ -f "lesson-plan.yml" ]]; then
+        use_context=true
+    fi
+
+    # Build context if requested or if lesson-plan.yml exists
     local course_context=""
     if [[ "$use_context" == "true" ]]; then
         course_context=$(_teach_build_context)
@@ -2098,6 +2116,11 @@ _teach_scholar_wrapper() {
     # Append course context (Phase 6)
     if [[ -n "$course_context" ]]; then
         scholar_cmd="$scholar_cmd --context \"$course_context\""
+    fi
+
+    # Append template selection (v5.14.0 - Task 9)
+    if [[ -n "$template" ]]; then
+        scholar_cmd="$scholar_cmd --template \"$template\""
     fi
 
     # Build full command string for commit message (v5.11.0+)
