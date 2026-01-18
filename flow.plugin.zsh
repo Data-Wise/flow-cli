@@ -41,6 +41,7 @@ source "$FLOW_PLUGIN_DIR/lib/help-browser.zsh"
 source "$FLOW_PLUGIN_DIR/lib/inventory.zsh"
 source "$FLOW_PLUGIN_DIR/lib/teaching-utils.zsh"
 source "$FLOW_PLUGIN_DIR/lib/keychain-helpers.zsh"
+source "$FLOW_PLUGIN_DIR/lib/backup-helpers.zsh"
 
 # ============================================================================
 # COMMANDS

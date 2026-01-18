@@ -2084,6 +2084,82 @@ _teach_lecture_from_plan() {
     _teach_execute "$scholar_cmd" "true"
 }
 
+# Archive semester backups (v5.14.0 - Task 5)
+_teach_archive_command() {
+    local config_file=".flow/teach-config.yml"
+
+    # Help check
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        _teach_archive_help
+        return 0
+    fi
+
+    if [[ ! -f "$config_file" ]]; then
+        _flow_log_error "Not a teaching project (no .flow/teach-config.yml)"
+        return 1
+    fi
+
+    # Get semester name from config
+    local semester year semester_name
+    if command -v yq &>/dev/null; then
+        semester=$(yq '.course.semester // ""' "$config_file" 2>/dev/null)
+        year=$(yq '.course.year // ""' "$config_file" 2>/dev/null)
+
+        if [[ -n "$semester" && -n "$year" ]]; then
+            semester_name="${semester,,}-${year}"  # e.g., "spring-2026"
+        else
+            semester_name=$(date +%Y-%m)
+        fi
+    else
+        semester_name=$(date +%Y-%m)
+    fi
+
+    # Allow override via argument
+    if [[ -n "$1" ]]; then
+        semester_name="$1"
+    fi
+
+    echo ""
+    echo "${FLOW_COLORS[bold]}📦 Archiving Semester Backups${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  Semester: $semester_name"
+    echo ""
+
+    _teach_archive_semester "$semester_name"
+}
+
+# Help for teach archive command (v5.14.0 - Task 5)
+_teach_archive_help() {
+    echo "${FLOW_COLORS[bold]}teach archive${FLOW_COLORS[reset]} - Archive semester backups"
+    echo ""
+    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+    echo "  teach archive [SEMESTER_NAME]"
+    echo ""
+    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
+    echo "  Archives backups at the end of a semester based on retention policies:"
+    echo "    • Assessments (exams, quizzes, assignments) → archive"
+    echo "    • Syllabi & rubrics → archive"
+    echo "    • Lectures & slides → delete (semester retention)"
+    echo ""
+    echo "  Archived backups are moved to .flow/archives/<semester>/"
+    echo ""
+    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+    echo "  teach archive                    # Archive current semester"
+    echo "  teach archive spring-2026        # Archive specific semester"
+    echo "  teach a                          # Short alias"
+    echo ""
+    echo "${FLOW_COLORS[bold]}RETENTION POLICIES${FLOW_COLORS[reset]}"
+    echo "  Configure in .flow/teach-config.yml:"
+    echo ""
+    echo "  backups:"
+    echo "    retention:"
+    echo "      assessments: archive    # Keep forever"
+    echo "      syllabi: archive        # Keep forever"
+    echo "      lectures: semester      # Delete at semester end"
+    echo ""
+}
+
 # Help for teach status command (v5.14.0 - Task 3)
 _teach_status_help() {
     echo "${FLOW_COLORS[bold]}teach status${FLOW_COLORS[reset]} - Show teaching project status"
@@ -2387,12 +2463,8 @@ teach() {
             ;;
 
         archive|a)
-            if [[ -f "./scripts/semester-archive.sh" ]]; then
-                ./scripts/semester-archive.sh "$@"
-            else
-                _teach_error "No semester-archive.sh found" "Run 'teach init' first"
-                return 1
-            fi
+            # v5.14.0 (Task 5): Use new backup system
+            _teach_archive_command "$@"
             ;;
 
         # Config management
