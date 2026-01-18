@@ -262,10 +262,11 @@ Track your progress:
 - [Architecture Guide](../../architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md) - System design
 
 **Implementation Details:**
-- [Phases 1-2](../../IMPLEMENTATION-PHASES-1-2.md) - Flag infrastructure
-- [Phases 3-4](../../IMPLEMENTATION-PHASES-3-4.md) - Lesson plans & interactive
-- [Phases 5-6](../../IMPLEMENTATION-PHASES-5-6.md) - Revision & polish
-- [Complete Summary](../../SCHOLAR-ENHANCEMENT-COMPLETE.md) - Feature overview
+
+- [Phases 1-2](../../reports/IMPLEMENTATION-PHASES-1-2.md) - Flag infrastructure
+- [Phases 3-4](../../reports/IMPLEMENTATION-PHASES-3-4.md) - Lesson plans & interactive
+- [Phases 5-6](../../reports/IMPLEMENTATION-PHASES-5-6.md) - Revision & polish
+- [Complete Summary](../../reports/SCHOLAR-ENHANCEMENT-COMPLETE.md) - Feature overview
 
 ### Community
 

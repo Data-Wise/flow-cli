@@ -11,15 +11,15 @@
 
 ## Metadata
 
-| Field | Value |
-|-------|-------|
-| **Status** | Draft |
-| **Priority** | High (enables 10x faster course material creation) |
-| **Complexity** | Medium-High (20-24 hours) |
-| **Risk Level** | Low (enhances existing teach dispatcher) |
-| **Dependencies** | Claude Code CLI 2.1.12+, Scholar plugin, yq 4.0+ |
-| **Target Users** | Academic instructors (ADHD-friendly required) |
-| **Branch Strategy** | feature/teach-scholar-enhancement → dev → main |
+| Field               | Value                                              |
+| ------------------- | -------------------------------------------------- |
+| **Status**          | Draft                                              |
+| **Priority**        | High (enables 10x faster course material creation) |
+| **Complexity**      | Medium-High (20-24 hours)                          |
+| **Risk Level**      | Low (enhances existing teach dispatcher)           |
+| **Dependencies**    | Claude Code CLI 2.1.12+, Scholar plugin, yq 4.0+   |
+| **Target Users**    | Academic instructors (ADHD-friendly required)      |
+| **Branch Strategy** | feature/teach-scholar-enhancement → dev → main     |
 
 ---
 
@@ -58,10 +58,12 @@ The teach dispatcher already has solid infrastructure (config validation, post-g
 ### Secondary Stories
 
 **Story 2: Content Customization**
+
 - As an instructor, I want to specify content style (conceptual, computational, rigorous, applied)
 - So that generated materials match my teaching approach
 
 **Story 3: Iterative Refinement**
+
 - As an instructor reviewing content, I want to refine materials through revision
 - So that I get content matching my teaching style
 
@@ -124,39 +126,40 @@ The teach dispatcher already has solid infrastructure (config validation, post-g
 
 ### New Flags Summary
 
-| Flag | Short | Purpose | Example |
-|------|-------|---------|---------|
-| `--topic` | `-t` | Explicit topic (bypasses lesson plan) | `teach slides --topic "Regression"` |
-| `--week` | `-w` | Week number (uses lesson plan if exists) | `teach slides -w 8` |
-| `--style` | | Content style preset | `teach slides -w 8 --style rigorous` |
-| `--interactive` | `-i` | Step-by-step wizard | `teach slides -i` |
-| `--revise` | | Improve existing file | `teach slides --revise slides/w8.qmd` |
-| `--context` | | Include course context | `teach exam "Midterm" --context` |
+| Flag            | Short | Purpose                                  | Example                               |
+| --------------- | ----- | ---------------------------------------- | ------------------------------------- |
+| `--topic`       | `-t`  | Explicit topic (bypasses lesson plan)    | `teach slides --topic "Regression"`   |
+| `--week`        | `-w`  | Week number (uses lesson plan if exists) | `teach slides -w 8`                   |
+| `--style`       |       | Content style preset                     | `teach slides -w 8 --style rigorous`  |
+| `--interactive` | `-i`  | Step-by-step wizard                      | `teach slides -i`                     |
+| `--revise`      |       | Improve existing file                    | `teach slides --revise slides/w8.qmd` |
+| `--context`     |       | Include course context                   | `teach exam "Midterm" --context`      |
 
 ### Content Flags (9 total)
 
-| Flag | Short | Negation | Description |
-|------|-------|----------|-------------|
-| `--explanation` | `-e` | `--no-explanation` | Conceptual explanations |
-| `--proof` | | `--no-proof` | Mathematical proofs |
-| `--math` | `-m` | `--no-math` | Formal math notation |
-| `--examples` | `-x` | `--no-examples` | Worked numerical examples |
-| `--code` | `-c` | `--no-code` | Code demonstrations (R/Python) |
-| `--diagrams` | `-d` | `--no-diagrams` | Visual diagrams/plots (always opt-in) |
-| `--practice-problems` | `-p` | `--no-practice-problems` | Practice exercises |
-| `--definitions` | | `--no-definitions` | Formal definitions |
-| `--references` | `-r` | `--no-references` | Citations (always opt-in) |
+| Flag                  | Short | Negation                 | Description                           |
+| --------------------- | ----- | ------------------------ | ------------------------------------- |
+| `--explanation`       | `-e`  | `--no-explanation`       | Conceptual explanations               |
+| `--proof`             |       | `--no-proof`             | Mathematical proofs                   |
+| `--math`              | `-m`  | `--no-math`              | Formal math notation                  |
+| `--examples`          | `-x`  | `--no-examples`          | Worked numerical examples             |
+| `--code`              | `-c`  | `--no-code`              | Code demonstrations (R/Python)        |
+| `--diagrams`          | `-d`  | `--no-diagrams`          | Visual diagrams/plots (always opt-in) |
+| `--practice-problems` | `-p`  | `--no-practice-problems` | Practice exercises                    |
+| `--definitions`       |       | `--no-definitions`       | Formal definitions                    |
+| `--references`        | `-r`  | `--no-references`        | Citations (always opt-in)             |
 
 ### Style Presets (4 total)
 
-| Preset | Includes | Use Case |
-|--------|----------|----------|
-| **conceptual** | explanation, definitions, examples | Intuition-focused, theory introduction |
-| **computational** | explanation, examples, code, practice-problems | Hands-on, lab-style |
-| **rigorous** | definitions, explanation, math, proof | Graduate level, formal treatment |
-| **applied** | explanation, examples, code, practice-problems | Real-world applications |
+| Preset            | Includes                                       | Use Case                               |
+| ----------------- | ---------------------------------------------- | -------------------------------------- |
+| **conceptual**    | explanation, definitions, examples             | Intuition-focused, theory introduction |
+| **computational** | explanation, examples, code, practice-problems | Hands-on, lab-style                    |
+| **rigorous**      | definitions, explanation, math, proof          | Graduate level, formal treatment       |
+| **applied**       | explanation, examples, code, practice-problems | Real-world applications                |
 
 **Notes:**
+
 - `diagrams` and `references` are always opt-in (never preset-included)
 - Use `--no-*` to remove from preset: `--style rigorous --no-proof`
 
@@ -424,12 +427,12 @@ test_teach_slides_revision_workflow()
 
 ## Dependencies
 
-| Dependency | Version | Purpose |
-|------------|---------|---------|
-| Claude Code CLI | 2.1.12+ | AI generation via `claude -p` |
-| Scholar plugin | 2.3.0+ | Teaching commands |
-| yq | 4.0+ | YAML parsing |
-| fzf | Optional | Interactive selection |
+| Dependency      | Version  | Purpose                       |
+| --------------- | -------- | ----------------------------- |
+| Claude Code CLI | 2.1.12+  | AI generation via `claude -p` |
+| Scholar plugin  | 2.3.0+   | Teaching commands             |
+| yq              | 4.0+     | YAML parsing                  |
+| fzf             | Optional | Interactive selection         |
 
 ---
 
@@ -449,6 +452,7 @@ test_teach_slides_revision_workflow()
 ## Supersedes
 
 This spec supersedes and merges:
+
 - `SPEC-teaching-integration-2026-01-17.md`
 - `SPEC-teaching-flags-enhancement-2026-01-17.md`
 
@@ -458,8 +462,8 @@ These files should be archived after this spec is approved.
 
 ## History
 
-| Date | Change | Author |
-|------|--------|--------|
+| Date       | Change                                                  | Author      |
+| ---------- | ------------------------------------------------------- | ----------- |
 | 2026-01-17 | Merged from teaching-integration + teaching-flags specs | Claude + DT |
 
 ---

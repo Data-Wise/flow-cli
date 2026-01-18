@@ -651,9 +651,10 @@ You've mastered advanced Scholar Enhancement!
 - [Architecture Guide](../../architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md) - How it works
 
 **Implementation Details:**
-- [Phases 1-2](../../IMPLEMENTATION-PHASES-1-2.md) - Flag system
-- [Phases 3-4](../../IMPLEMENTATION-PHASES-3-4.md) - Lesson plans
-- [Phases 5-6](../../IMPLEMENTATION-PHASES-5-6.md) - Revision & polish
+
+- [Phases 1-2](../../reports/IMPLEMENTATION-PHASES-1-2.md) - Flag system
+- [Phases 3-4](../../reports/IMPLEMENTATION-PHASES-3-4.md) - Lesson plans
+- [Phases 5-6](../../reports/IMPLEMENTATION-PHASES-5-6.md) - Revision & polish
 
 ### Contribute
 

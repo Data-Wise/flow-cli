@@ -529,8 +529,8 @@ test_teach_slides_conflict_error()
 ## Related Documents
 
 - [Teaching Integration Spec](SPEC-teaching-integration-2026-01-17.md) - Parent spec
-- [Main Plugin Integration Spec](SPEC-claude-code-plugin-integration-2026-01-17.md) - Overview
-- [Teach Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE.md) - Current implementation
+- [Main Plugin Integration Spec](../SPEC-claude-code-plugin-integration-2026-01-17.md) - Overview
+- [Teach Dispatcher Reference](../../reference/TEACH-DISPATCHER-REFERENCE.md) - Current implementation
 
 ---
 
