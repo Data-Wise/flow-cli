@@ -46,19 +46,24 @@ FLOW_WORKTREE_DIR="${FLOW_WORKTREE_DIR:-$HOME/.git-worktrees}"
 # ═══════════════════════════════════════════════════════════════════
 
 wt() {
-    # No arguments → navigate to worktrees folder
+    # No arguments → show formatted overview
     if [[ $# -eq 0 ]]; then
-        if [[ -d "$FLOW_WORKTREE_DIR" ]]; then
-            cd "$FLOW_WORKTREE_DIR"
-            echo -e "${_C_BLUE}ℹ Changed to: $FLOW_WORKTREE_DIR${_C_NC}"
-            ls -la
-        else
-            mkdir -p "$FLOW_WORKTREE_DIR"
-            cd "$FLOW_WORKTREE_DIR"
-            echo -e "${_C_GREEN}✓ Created and changed to: $FLOW_WORKTREE_DIR${_C_NC}"
-        fi
+        _wt_overview
         return
     fi
+
+    # Check if first arg looks like a project filter (not a known command)
+    # Known commands: list, ls, l, create, add, c, move, mv, clean, prune, status, st, remove, rm, help, h
+    case "$1" in
+        list|ls|l|create|add|c|move|mv|clean|prune|status|st|remove|rm|help|h|--help|-h)
+            # Known command - proceed to case below
+            ;;
+        *)
+            # Unknown command - treat as filter
+            _wt_overview "$1"
+            return
+            ;;
+    esac
 
     case "$1" in
         # ─────────────────────────────────────────────────────────────
@@ -129,6 +134,142 @@ wt() {
             git worktree "$@"
             ;;
     esac
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# WORKTREE OVERVIEW (Phase 1: Enhanced default)
+# ═══════════════════════════════════════════════════════════════════
+
+# Display formatted overview of all worktrees
+# Usage: _wt_overview [filter]
+_wt_overview() {
+    local filter="${1:-}"
+
+    # Get base branch for merge detection
+    local base_branch="dev"
+    if ! git show-ref --verify --quiet refs/heads/dev 2>/dev/null; then
+        base_branch="main"
+    fi
+
+    # Count worktrees
+    local total_count=0
+    local worktrees_data=()
+
+    # Parse worktree list
+    local wt_path wt_branch
+    setopt local_options NO_xtrace  # Suppress debug output
+    while IFS= read -r line; do
+        case "$line" in
+            "worktree "*)
+                wt_path="${line#worktree }"
+                ;;
+            "branch "*)
+                wt_branch="${line#branch refs/heads/}"
+                ;;
+            "detached")
+                wt_branch="(detached)"
+                ;;
+            "")
+                if [[ -n "$wt_path" && -n "$wt_branch" ]]; then
+                    # Apply filter if provided
+                    if [[ -n "$filter" ]]; then
+                        # Extract project name from path
+                        local project=$(basename "$(dirname "$wt_path")")
+                        if [[ ! "$project" =~ "$filter" ]]; then
+                            wt_path="" wt_branch=""
+                            continue
+                        fi
+                    fi
+
+                    ((total_count++))
+
+                    # Detect status
+                    local wt_status_icon wt_status_text
+                    if [[ ! -d "$wt_path/.git" && ! -f "$wt_path/.git" ]]; then
+                        wt_status_icon="⚠️ "
+                        wt_status_text="stale"
+                    elif [[ "$wt_branch" == "main" || "$wt_branch" == "master" || "$wt_branch" == "dev" || "$wt_branch" == "develop" ]]; then
+                        wt_status_icon="🏠"
+                        wt_status_text="main"
+                    elif git branch --merged "$base_branch" 2>/dev/null | grep -q "^\s*$wt_branch$"; then
+                        wt_status_icon="🧹"
+                        wt_status_text="merged"
+                    else
+                        wt_status_icon="✅"
+                        wt_status_text="active"
+                    fi
+
+                    # Detect session status
+                    local wt_session_icon=""
+                    if [[ -d "$wt_path/.claude" ]]; then
+                        local session_age=$(find "$wt_path/.claude" -type f -mtime -1 2>/dev/null | wc -l | tr -d ' ')
+                        if [[ "$session_age" -gt 0 ]]; then
+                            # Active session (< 24h)
+                            local active_count=$(find "$wt_path/.claude" -type f -mmin -30 2>/dev/null | wc -l | tr -d ' ')
+                            if [[ "$active_count" -gt 0 ]]; then
+                                wt_session_icon="🟢"
+                            else
+                                wt_session_icon="🟡"
+                            fi
+                        else
+                            wt_session_icon="⚪"
+                        fi
+                    else
+                        wt_session_icon="⚪"
+                    fi
+
+                    # Shorten path for display
+                    local short_path="${wt_path/#$HOME/~}"
+
+                    # Store data for table
+                    worktrees_data+=("$wt_branch|$wt_status_icon $wt_status_text|$wt_session_icon|$short_path")
+                fi
+                wt_path="" wt_branch=""
+                ;;
+        esac
+    done < <(git worktree list --porcelain 2>/dev/null; echo "")
+
+    # Display header
+    echo ""
+    echo -e "${_C_BOLD}🌳 Worktrees${_C_NC} ${_C_DIM}($total_count total)${_C_NC}"
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+    echo ""
+
+    # Column headers
+    printf "  ${_C_BOLD}%-35s %-14s %-9s %s${_C_NC}\n" "BRANCH" "STATUS" "SESSION" "PATH"
+    echo -e "  ${_C_DIM}─────────────────────────────────── ────────────── ───────── ─────────────────────${_C_NC}"
+
+    # Display worktrees
+    for entry in "${worktrees_data[@]}"; do
+        IFS='|' read -r branch wt_status_str session path <<< "$entry"
+
+        # Apply color to status
+        local colored_status
+        case "$wt_status_str" in
+            "✅"*) colored_status="${_C_GREEN}$wt_status_str${_C_NC}" ;;
+            "🧹"*) colored_status="${_C_YELLOW}$wt_status_str${_C_NC}" ;;
+            "⚠️ "*) colored_status="${_C_RED}$wt_status_str${_C_NC}" ;;
+            "🏠"*) colored_status="${_C_BLUE}$wt_status_str${_C_NC}" ;;
+            *) colored_status="$wt_status_str" ;;
+        esac
+
+        # Shorten path if too long
+        if [[ ${#path} -gt 40 ]]; then
+            path="...${path: -37}"
+        fi
+
+        printf "  %-35s %-22b %-9s %b\n" \
+            "$branch" \
+            "$colored_status" \
+            "$session" \
+            "${_C_DIM}$path${_C_NC}"
+    done
+
+    # Footer
+    echo ""
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+    echo -e "${_C_MAGENTA}💡 Tip:${_C_NC} ${_C_CYAN}wt <project>${_C_NC} to filter | ${_C_CYAN}pick wt${_C_NC} for interactive"
+    echo ""
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -553,20 +694,22 @@ ${_C_BOLD}╰──────────────────────�
 ${_C_BOLD}Usage:${_C_NC} wt [subcommand] [args]
 
 ${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
-  ${_C_CYAN}wt${_C_NC}                 Navigate to worktrees folder
-  ${_C_CYAN}wt list${_C_NC}            List all worktrees
+  ${_C_CYAN}wt${_C_NC}                 Formatted overview with status
+  ${_C_CYAN}wt <project>${_C_NC}       Filter by project name
   ${_C_CYAN}wt create <branch>${_C_NC} Create worktree for branch
 
 ${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} wt                       ${_C_DIM}# Show formatted overview${_C_NC}
+  ${_C_DIM}\$${_C_NC} wt flow                  ${_C_DIM}# Show only flow-cli worktrees${_C_NC}
   ${_C_DIM}\$${_C_NC} wt create feature/auth   ${_C_DIM}# Create worktree${_C_NC}
-  ${_C_DIM}\$${_C_NC} wt list                  ${_C_DIM}# Show all worktrees${_C_NC}
   ${_C_DIM}\$${_C_NC} wt clean                 ${_C_DIM}# Prune stale${_C_NC}
   ${_C_DIM}\$${_C_NC} wt move                  ${_C_DIM}# Move current branch${_C_NC}
 
 ${_C_BLUE}📋 COMMANDS${_C_NC}:
-  ${_C_CYAN}wt${_C_NC}               Navigate to ~/.git-worktrees
-  ${_C_CYAN}wt list${_C_NC}          List all worktrees
-  ${_C_CYAN}wt status${_C_NC}        Show health, disk usage, merge status
+  ${_C_CYAN}wt${_C_NC}               Formatted overview (branch, status, session)
+  ${_C_CYAN}wt <filter>${_C_NC}      Show only worktrees matching filter
+  ${_C_CYAN}wt list${_C_NC}          Raw git worktree list output
+  ${_C_CYAN}wt status${_C_NC}        Detailed health, disk usage, merge status
   ${_C_CYAN}wt create <b>${_C_NC}    Create worktree for branch
   ${_C_CYAN}wt move${_C_NC}          Move current branch to worktree
   ${_C_CYAN}wt remove <path>${_C_NC} Remove a worktree
@@ -580,7 +723,7 @@ ${_C_BLUE}⚙️ CONFIGURATION${_C_NC}:
 ${_C_MAGENTA}💡 TIP${_C_NC}: Unknown commands pass through to git worktree
   ${_C_DIM}wt lock <path>  → git worktree lock <path>${_C_NC}
 
-${_C_CYAN}🔗 See also${_C_NC}: ${_C_DIM}ait feature status${_C_NC} for rich pipeline visualization
-            ${_C_DIM}ait feature start -w${_C_NC} for full automation with deps
+${_C_CYAN}🔗 See also${_C_NC}: ${_C_DIM}pick wt${_C_NC} for interactive selection
+            ${_C_DIM}ait feature status${_C_NC} for rich pipeline visualization
 "
 }
