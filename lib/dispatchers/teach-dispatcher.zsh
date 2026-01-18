@@ -2596,14 +2596,14 @@ _teach_show_status() {
             echo ""
             for file in "${teaching_files[@]}"; do
                 # Get file status (M/A/D etc)
-                local status=$(git status --porcelain "$file" 2>/dev/null | awk '{print $1}')
+                local file_status=$(git status --porcelain "$file" 2>/dev/null | awk '{print $1}')
                 local status_label
-                case "$status" in
+                case "$file_status" in
                     M) status_label="${FLOW_COLORS[warn]}M${FLOW_COLORS[reset]}" ;;
                     A) status_label="${FLOW_COLORS[success]}A${FLOW_COLORS[reset]}" ;;
                     D) status_label="${FLOW_COLORS[error]}D${FLOW_COLORS[reset]}" ;;
                     ??) status_label="${FLOW_COLORS[muted]}??${FLOW_COLORS[reset]}" ;;
-                    *) status_label="$status" ;;
+                    *) status_label="$file_status" ;;
                 esac
                 printf "    %s  %s\n" "$status_label" "$file"
             done
@@ -2619,6 +2619,104 @@ _teach_show_status() {
                 echo "  ${FLOW_COLORS[dim]}(Other files modified - use 'g status' to see all)${FLOW_COLORS[reset]}"
             fi
         fi
+    fi
+
+    # ============================================
+    # DEPLOYMENT STATUS (v5.14.0 - Task 7)
+    # ============================================
+    echo ""
+    echo "${FLOW_COLORS[bold]}🚀 Deployment Status${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}────────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    # Check for last deployment commit
+    if _git_in_repo; then
+        local last_deploy=$(git log --all --grep="deploy" --grep="Publish" -i --format="%h %s (%cr)" --max-count=1 2>/dev/null)
+        if [[ -n "$last_deploy" ]]; then
+            echo "  Last Deploy:  $last_deploy"
+        else
+            echo "  Last Deploy:  ${FLOW_COLORS[muted]}No deployments found${FLOW_COLORS[reset]}"
+        fi
+
+        # Check for open PRs (requires gh CLI)
+        if command -v gh >/dev/null 2>&1; then
+            local pr_count=$(gh pr list --state open 2>/dev/null | wc -l | tr -d ' ')
+            if [[ "$pr_count" -gt 0 ]]; then
+                echo "  Open PRs:     ${FLOW_COLORS[warning]}$pr_count pending${FLOW_COLORS[reset]}"
+                # Show first PR details
+                local pr_info=$(gh pr list --state open --limit 1 --json number,title,headRefName 2>/dev/null | \
+                    command -v jq >/dev/null 2>&1 && jq -r '.[0] | "#\(.number): \(.title) (\(.headRefName))"' 2>/dev/null || echo "")
+                [[ -n "$pr_info" ]] && echo "                $pr_info"
+            else
+                echo "  Open PRs:     ${FLOW_COLORS[success]}None${FLOW_COLORS[reset]}"
+            fi
+        fi
+    fi
+
+    # ============================================
+    # BACKUP SUMMARY (v5.14.0 - Task 7)
+    # ============================================
+    echo ""
+    echo "${FLOW_COLORS[bold]}💾 Backup Summary${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}────────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    local -A backup_counts=()
+    local total_backups=0
+    local latest_backup=""
+    local latest_backup_time=0
+
+    # Count backups for each content type
+    for dir in exams lectures slides assignments quizzes syllabi rubrics; do
+        if [[ -d "$dir" ]]; then
+            # Find all content folders in this directory
+            for content_dir in "$dir"/*(/N); do
+                if [[ -d "$content_dir" ]]; then
+                    local count=$(_teach_count_backups "$content_dir")
+                    if [[ "$count" -gt 0 ]]; then
+                        backup_counts[$dir]=$((${backup_counts[$dir]:-0} + count))
+                        ((total_backups += count))
+
+                        # Find most recent backup
+                        local recent=$(_teach_list_backups "$content_dir" | head -1)
+                        if [[ -n "$recent" ]]; then
+                            local backup_time=$(stat -f %m "$recent" 2>/dev/null || stat -c %Y "$recent" 2>/dev/null)
+                            if [[ "$backup_time" -gt "$latest_backup_time" ]]; then
+                                latest_backup_time=$backup_time
+                                latest_backup=$(basename "$recent")
+                            fi
+                        fi
+                    fi
+                fi
+            done
+        fi
+    done
+
+    # Display summary
+    if [[ $total_backups -gt 0 ]]; then
+        echo "  Total Backups:  $total_backups"
+
+        # Show last backup time
+        if [[ -n "$latest_backup" && "$latest_backup_time" -gt 0 ]]; then
+            # Convert timestamp to readable date (macOS/Linux compatible)
+            local time_ago
+            time_ago=$(date -r "$latest_backup_time" '+%Y-%m-%d %H:%M' 2>/dev/null || \
+                       date -d "@$latest_backup_time" '+%Y-%m-%d %H:%M' 2>/dev/null || \
+                       echo "$latest_backup")
+            echo "  Last Backup:    $time_ago"
+        fi
+
+        # Breakdown by type
+        if [[ ${#backup_counts[@]} -gt 0 ]]; then
+            echo ""
+            echo "  ${FLOW_COLORS[dim]}By Content Type:${FLOW_COLORS[reset]}"
+            for dir in exams lectures slides assignments quizzes syllabi rubrics; do
+                if [[ -n "${backup_counts[$dir]}" && "${backup_counts[$dir]}" -gt 0 ]]; then
+                    printf "    %-15s %s backups\n" "$dir:" "${backup_counts[$dir]}"
+                fi
+            done
+        fi
+    else
+        echo "  ${FLOW_COLORS[muted]}No backups yet${FLOW_COLORS[reset]}"
+        echo "  ${FLOW_COLORS[dim]}Backups are created automatically when regenerating content${FLOW_COLORS[reset]}"
     fi
 
     # ============================================
