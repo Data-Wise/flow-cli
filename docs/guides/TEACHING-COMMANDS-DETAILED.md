@@ -1,8 +1,8 @@
 # Teaching Commands - Detailed Guide
 
-**Version:** 1.0
+**Version:** 1.1
 **Status:** Production Ready
-**Last Updated:** 2026-01-13
+**Last Updated:** 2026-01-18
 
 ---
 
@@ -134,12 +134,18 @@ teach init -y "STAT 440"
 ### 2. `teach deploy` - Deploy Changes to Production
 
 **What it does:**
-Moves your changes from the `draft` branch (where you edit) to the `production` branch (what students see). Safely merges, handles conflicts, and triggers GitHub Pages deployment.
+Moves your changes from the `draft` branch (where you edit) to the `production` branch (what students see) via a PR workflow. Safely handles pre-flight checks, branch switching, and triggers GitHub Pages deployment.
 
 **Syntax:**
 ```bash
-teach deploy
+teach deploy              # Standard PR workflow
+teach deploy --direct-push # Bypass PR (advanced users only)
 ```
+
+**Requirements:**
+- Must be in a git repository
+- Config file must exist at `.flow/teach-config.yml`
+- Must be on the draft branch (or will prompt to switch)
 
 **When to use:**
 - After making changes to lectures, assignments, solutions
@@ -149,38 +155,54 @@ teach deploy
 
 **What happens step-by-step:**
 
-1. **Safety Checks**
-   - Verifies you're on `draft` branch
+1. **Pre-flight Checks** (v5.13.0+)
+   - Verifies `.flow/teach-config.yml` exists
+   - Reads branch configuration from config
+   - Verifies you're on `draft` branch (offers to switch if not)
    - Checks for uncommitted changes
-   - Ensures no conflicts with production
-   - Prevents accidental overwrites
+   - Checks if remote is up-to-date
+   - Checks if production has new commits (offers rebase)
 
-2. **Branch Merge**
+2. **Branch Configuration**
+   The deploy command reads branch names from `.flow/teach-config.yml`:
+   ```yaml
+   # Preferred format (v5.11.0+)
+   branches:
+     draft: draft
+     production: main
+
+   # Legacy format (still supported)
+   git:
+     draft_branch: draft
+     production_branch: main
+   ```
+
+3. **Branch Merge**
    ```
    draft (your edits)
       ↓
    production (students see this)
       ↓
-   GitHub
+   GitHub (via PR or direct push)
       ↓
    GitHub Pages (automatic deployment)
       ↓
    Live website
    ```
 
-3. **Git Operations**
-   - Commits any staged changes
-   - Merges `draft` → `production`
+4. **Git Operations**
+   - Creates PR from `draft` → `production` (default)
+   - Or direct merge with `--direct-push`
    - Returns to `draft` branch
    - Shows merge summary
 
-4. **Deployment Trigger**
+5. **Deployment Trigger**
    - Pushes to GitHub
    - GitHub Actions workflow starts automatically
    - Site rebuilds and deploys to GitHub Pages
    - Usually takes 1-2 minutes
 
-5. **Completion Status**
+6. **Completion Status**
    - Shows successful deployment message
    - URL to live site
    - Suggestion to verify changes
@@ -719,19 +741,39 @@ teach deploy
 
 ## Troubleshooting
 
-### "Must be on draft branch" error
+### ".flow/teach-config.yml not found" error
 
-**Problem:** You tried to deploy but you're on production branch
+**Problem:** The teaching configuration file doesn't exist
 
 **Solution:**
 ```bash
-# Check current branch
-git branch --show-current
+# Initialize teaching workflow for this course
+teach init "Course Name"
 
-# Switch to draft
+# Or with non-interactive mode
+teach init -y "Course Name"
+```
+
+**What this creates:**
+- `.flow/teach-config.yml` - Configuration file
+- `scripts/quick-deploy.sh` - Deployment script
+- Branch structure (draft/production)
+
+---
+
+### "Not on draft branch" error
+
+**Problem:** You tried to deploy but you're on the wrong branch
+
+**Solution:**
+```bash
+# Option 1: Let teach deploy switch for you
+teach deploy
+# → Will prompt: "Switch to draft branch? [Y/n]"
+# → Type 'y' to switch automatically
+
+# Option 2: Switch manually
 git checkout draft
-
-# Now try deploy
 teach deploy
 ```
 
