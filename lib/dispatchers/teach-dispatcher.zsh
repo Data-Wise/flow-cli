@@ -1587,6 +1587,70 @@ _teach_deploy() {
     echo "${FLOW_COLORS[bold]}Commits:${FLOW_COLORS[reset]} $commit_count"
     echo ""
 
+    # ============================================
+    # DEPLOYMENT PREVIEW (v5.14.0 - Task 8)
+    # ============================================
+    echo ""
+    echo "${FLOW_COLORS[info]}📋 Changes Preview${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    # Show files changed summary
+    local files_changed=$(git diff --name-status "$prod_branch"..."$draft_branch" 2>/dev/null)
+    if [[ -n "$files_changed" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[dim]}Files Changed:${FLOW_COLORS[reset]}"
+        while IFS=$'\t' read -r file_status file; do
+            case "$file_status" in
+                M)  echo "  ${FLOW_COLORS[warn]}M${FLOW_COLORS[reset]}  $file" ;;
+                A)  echo "  ${FLOW_COLORS[success]}A${FLOW_COLORS[reset]}  $file" ;;
+                D)  echo "  ${FLOW_COLORS[error]}D${FLOW_COLORS[reset]}  $file" ;;
+                R*) echo "  ${FLOW_COLORS[info]}R${FLOW_COLORS[reset]}  $file" ;;
+                *)  echo "  ${FLOW_COLORS[muted]}$file_status${FLOW_COLORS[reset]}  $file" ;;
+            esac
+        done <<< "$files_changed"
+
+        # Count changes by type
+        local modified=$(echo "$files_changed" | grep -c "^M" || echo 0)
+        local added=$(echo "$files_changed" | grep -c "^A" || echo 0)
+        local deleted=$(echo "$files_changed" | grep -c "^D" || echo 0)
+        local total=$(echo "$files_changed" | wc -l | tr -d ' ')
+
+        echo ""
+        echo "${FLOW_COLORS[dim]}Summary: $total files ($added added, $modified modified, $deleted deleted)${FLOW_COLORS[reset]}"
+    else
+        echo "${FLOW_COLORS[muted]}No changes detected${FLOW_COLORS[reset]}"
+    fi
+
+    # Offer to view full diff
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}View full diff? [y/N]:${FLOW_COLORS[reset]} "
+    read -r view_diff
+
+    case "$view_diff" in
+        y|Y|yes|Yes|YES)
+            echo ""
+            echo "${FLOW_COLORS[info]}Showing diff...${FLOW_COLORS[reset]}"
+            echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+            # Show colorized diff (if available)
+            if command -v delta >/dev/null 2>&1; then
+                git diff "$prod_branch"..."$draft_branch" | delta
+            elif git config --get core.pager >/dev/null 2>&1; then
+                git diff "$prod_branch"..."$draft_branch"
+            else
+                git --no-pager diff --color=always "$prod_branch"..."$draft_branch" | less -R
+            fi
+
+            echo ""
+            echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+            ;;
+        *)
+            # Skip viewing diff
+            ;;
+    esac
+
+    echo ""
+
     # Decide whether to create PR or direct push
     if [[ "$direct_push" == "true" ]]; then
         echo "${FLOW_COLORS[warn]}⚠️  Direct push mode (bypassing PR)${FLOW_COLORS[reset]}"
