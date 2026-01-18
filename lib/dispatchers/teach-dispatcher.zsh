@@ -2084,6 +2084,46 @@ _teach_lecture_from_plan() {
     _teach_execute "$scholar_cmd" "true"
 }
 
+# Help for teach status command (v5.14.0 - Task 3)
+_teach_status_help() {
+    echo "${FLOW_COLORS[bold]}teach status${FLOW_COLORS[reset]} - Show teaching project status"
+    echo ""
+    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+    echo "  teach status"
+    echo ""
+    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
+    echo "  Displays comprehensive status of your teaching project including:"
+    echo "    • Course information (name, semester, year)"
+    echo "    • Current branch and git status"
+    echo "    • Config validation status"
+    echo "    • Content inventory (lectures, exams, assignments)"
+    echo ""
+    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+    echo "  teach status                    # Show full project status"
+    echo "  teach s                         # Short alias"
+    echo ""
+}
+
+# Help for teach week command (v5.14.0 - Task 3)
+_teach_week_help() {
+    echo "${FLOW_COLORS[bold]}teach week${FLOW_COLORS[reset]} - Show current week information"
+    echo ""
+    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+    echo "  teach week [WEEK_NUMBER]"
+    echo ""
+    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
+    echo "  Shows information about the current week or a specific week:"
+    echo "    • Week number calculation from semester start"
+    echo "    • Topics from lesson plan (if available)"
+    echo "    • Content deadlines for the week"
+    echo ""
+    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+    echo "  teach week                      # Show current week"
+    echo "  teach week 8                    # Show week 8 info"
+    echo "  teach w                         # Short alias"
+    echo ""
+}
+
 # Help for Scholar commands
 _teach_scholar_help() {
     local cmd="$1"
@@ -2136,6 +2176,12 @@ _teach_scholar_help() {
             echo "  --format FORMAT   Output format (quarto, markdown)"
             echo "  --dry-run         Preview without saving"
             echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach lecture \"Linear Regression\"              # Basic lecture"
+            echo "  teach lecture \"ANOVA\" --week 8                 # From lesson plan week 8"
+            echo "  teach lecture \"PCA\" --style computational      # Code-heavy style"
+            echo "  teach lecture \"Hypothesis Testing\" --notes     # Include speaker notes"
+            echo ""
             echo "${FLOW_COLORS[dim]}Note: /teaching:lecture awaiting Scholar implementation${FLOW_COLORS[reset]}"
             ;;
         slides)
@@ -2148,6 +2194,12 @@ _teach_scholar_help() {
             echo "  --from-lecture FILE  Generate from lecture file"
             echo "  --format FORMAT    Output format (quarto, markdown)"
             echo "  --dry-run          Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach slides \"Multiple Regression\"             # Basic slides"
+            echo "  teach slides \"Logistic Regression\" --week 10   # From lesson plan"
+            echo "  teach slides \"GLMs\" --theme minimal            # Minimal theme"
+            echo "  teach slides \"Bayesian Stats\" -x -c            # Examples + code"
             ;;
         exam)
             echo "teach exam - Generate exam questions"
@@ -2160,6 +2212,12 @@ _teach_scholar_help() {
             echo "  --types TYPES     Question types (mc,sa,essay,calc)"
             echo "  --format FORMAT   Output format (quarto, qti, markdown)"
             echo "  --dry-run         Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach exam \"Midterm 1\"                         # Standard exam"
+            echo "  teach exam \"Final Exam\" --questions 30         # 30 questions"
+            echo "  teach exam \"Quiz 3\" --week 6 --duration 30     # Short quiz from week 6"
+            echo "  teach exam \"Comprehensive Final\" --format qti  # QTI format for LMS"
             ;;
         quiz)
             echo "teach quiz - Generate quiz questions"
@@ -2171,6 +2229,12 @@ _teach_scholar_help() {
             echo "  --time-limit MIN   Time limit in minutes (default: 15)"
             echo "  --format FORMAT    Output format (quarto, qti, markdown)"
             echo "  --dry-run          Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach quiz \"Week 3 Concepts\"                   # Basic quiz"
+            echo "  teach quiz \"Correlation\" --questions 5         # Short 5-question quiz"
+            echo "  teach quiz \"Regression\" --week 7               # From lesson plan week 7"
+            echo "  teach quiz \"ANOVA\" --time-limit 20 --format qti # 20-min QTI quiz"
             ;;
         assignment)
             echo "teach assignment - Generate homework assignment"
@@ -2182,6 +2246,12 @@ _teach_scholar_help() {
             echo "  --points N        Total points (default: 100)"
             echo "  --format FORMAT   Output format (quarto, markdown)"
             echo "  --dry-run         Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach assignment \"Homework 3\"                  # Basic assignment"
+            echo "  teach assignment \"Problem Set 5\" --points 50   # 50-point assignment"
+            echo "  teach assignment \"Data Analysis\" --week 9 -c   # Week 9, with code"
+            echo "  teach assignment \"Project\" --due-date 2026-04-15 # Custom due date"
             ;;
         syllabus)
             echo "teach syllabus - Generate course syllabus"
@@ -2191,6 +2261,11 @@ _teach_scholar_help() {
             echo "${FLOW_COLORS[info]}Syllabus-Specific Options:${FLOW_COLORS[reset]}"
             echo "  --format FORMAT   Output format (quarto, markdown, pdf)"
             echo "  --dry-run         Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach syllabus                                   # Generate from config"
+            echo "  teach syllabus --format pdf                      # PDF output"
+            echo "  teach syllabus --dry-run                         # Preview first"
             echo ""
             echo "${FLOW_COLORS[dim]}Note: Uses course info from .flow/teach-config.yml${FLOW_COLORS[reset]}"
             ;;
@@ -2203,6 +2278,11 @@ _teach_scholar_help() {
             echo "  --criteria N      Number of criteria"
             echo "  --format FORMAT   Output format (quarto, markdown)"
             echo "  --dry-run         Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach rubric \"Final Project\"                   # Project rubric"
+            echo "  teach rubric \"Lab Report\" --criteria 4         # 4 criteria rubric"
+            echo "  teach rubric \"Homework 5\" --week 10            # From lesson plan"
             ;;
         feedback)
             echo "teach feedback - Generate student feedback"
@@ -2213,6 +2293,11 @@ _teach_scholar_help() {
             echo "  --tone TONE       Feedback tone (supportive, direct, detailed)"
             echo "  --format FORMAT   Output format (markdown, text)"
             echo "  --dry-run         Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach feedback \"homework3-smith.pdf\"           # Review homework"
+            echo "  teach feedback \"project.R\" --tone supportive   # Supportive tone"
+            echo "  teach feedback \"essay.docx\" --tone detailed    # Detailed feedback"
             ;;
         demo)
             echo "teach demo - Create demo course materials"
@@ -2323,7 +2408,7 @@ teach() {
 
         # Status/info
         status|s)
-            _teach_show_status
+            _teach_show_status "$@"
             ;;
 
         week|w)
@@ -2351,6 +2436,12 @@ teach() {
 
 # Show teaching project status (Full Inventory)
 _teach_show_status() {
+    # Help check
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        _teach_status_help
+        return 0
+    fi
+
     local config_file=".flow/teach-config.yml"
 
     if [[ ! -f "$config_file" ]]; then
@@ -2525,6 +2616,12 @@ _teach_show_status() {
 
 # Show current week info
 _teach_show_week() {
+    # Help check
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        _teach_week_help
+        return 0
+    fi
+
     local config_file=".flow/teach-config.yml"
 
     if [[ ! -f "$config_file" ]]; then
