@@ -1430,28 +1430,29 @@ _teach_deploy() {
         return 1
     fi
 
-    # Check if config file exists first
-    if [[ ! -f "teach-config.yml" ]]; then
-        _teach_error "teach-config.yml not found" \
+    # Check if config file exists first (standard location: .flow/teach-config.yml)
+    local config_file=".flow/teach-config.yml"
+    if [[ ! -f "$config_file" ]]; then
+        _teach_error ".flow/teach-config.yml not found" \
             "Run 'teach init' to create the configuration"
         return 1
     fi
 
     # Read git configuration from teach-config.yml with fallback values
     local draft_branch prod_branch auto_pr require_clean
-    draft_branch=$(yq '.git.draft_branch // "draft"' teach-config.yml 2>/dev/null) || draft_branch="draft"
-    prod_branch=$(yq '.git.production_branch // "main"' teach-config.yml 2>/dev/null) || prod_branch="main"
-    auto_pr=$(yq '.git.auto_pr // true' teach-config.yml 2>/dev/null) || auto_pr="true"
-    require_clean=$(yq '.git.require_clean // true' teach-config.yml 2>/dev/null) || require_clean="true"
+    draft_branch=$(yq '.git.draft_branch // .branches.draft // "draft"' "$config_file" 2>/dev/null) || draft_branch="draft"
+    prod_branch=$(yq '.git.production_branch // .branches.production // "main"' "$config_file" 2>/dev/null) || prod_branch="main"
+    auto_pr=$(yq '.git.auto_pr // true' "$config_file" 2>/dev/null) || auto_pr="true"
+    require_clean=$(yq '.git.require_clean // true' "$config_file" 2>/dev/null) || require_clean="true"
 
     # Read workflow configuration (Phase 4 - v5.11.0+)
     local teaching_mode auto_push
-    teaching_mode=$(yq '.workflow.teaching_mode // false' teach-config.yml 2>/dev/null) || teaching_mode="false"
-    auto_push=$(yq '.workflow.auto_push // false' teach-config.yml 2>/dev/null) || auto_push="false"
+    teaching_mode=$(yq '.workflow.teaching_mode // false' "$config_file" 2>/dev/null) || teaching_mode="false"
+    auto_push=$(yq '.workflow.auto_push // false' "$config_file" 2>/dev/null) || auto_push="false"
 
     # Read course info for PR title
     local course_name
-    course_name=$(yq '.course.name // "Teaching Project"' teach-config.yml 2>/dev/null) || course_name="Teaching Project"
+    course_name=$(yq '.course.name // "Teaching Project"' "$config_file" 2>/dev/null) || course_name="Teaching Project"
 
     echo ""
     echo "${FLOW_COLORS[info]}🔍 Pre-flight Checks${FLOW_COLORS[reset]}"
