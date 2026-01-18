@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v5.12.0 (Production Ready)
+- **Current Version:** v5.13.0 (Production Ready)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -443,7 +443,7 @@ teach exam "Topic"  # Generate exam via Scholar
 # Core test suites
 tests/test-pick-command.zsh         # Pick: 39 tests
 tests/test-cc-dispatcher.zsh        # CC: 37 tests
-tests/test-dot-v5.12.0-unit.zsh     # DOT: 112+ tests
+tests/test-dot-v5.13.0-unit.zsh     # DOT: 112+ tests
 tests/test-teach-dates-unit.zsh     # Teaching dates: 33 tests
 tests/test-teach-dates-integration.zsh  # Integration: 16 tests
 
@@ -538,13 +538,13 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.12.0 (Released 2026-01-14)
+**Version:** v5.13.0 (Released 2026-01-14)
 **Status:** Production Ready
 **Performance:** Sub-10ms for core commands, CI ~17s
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 300+ tests across all features (100% passing)
 
-### Recent Features (v5.12.0)
+### Recent Features (v5.13.0)
 
 - ✅ Teaching + Git Integration (5 phases complete)
 - ✅ Scholar teaching wrappers (9 commands)

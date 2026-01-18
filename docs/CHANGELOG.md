@@ -6,6 +6,108 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [5.13.0] - 2026-01-18
+
+### Added
+
+- **WT Workflow Enhancement** - Enhanced worktree management (#267)
+
+  **Phase 1 - Enhanced wt Default:**
+  - `wt` now shows formatted table with status icons and session indicators
+  - `wt <project>` filters worktrees by project name
+  - Status icons: ✅ active, 🧹 merged, ⚠️ stale, 🏠 main
+  - Session detection: 🟢 active (<30m), 🟡 recent (<24h), ⚪ none
+
+  **Phase 2 - pick wt Actions:**
+  - Multi-select worktrees with Tab key for batch operations
+  - Ctrl-X to delete selected worktree(s) with confirmation
+  - Ctrl-R to refresh cache and show updated overview
+  - Safe branch deletion: tries `-d` first, prompts for `-D` if needed
+
+- **Teach/Scholar Enhancement** - 9 Scholar wrapper commands (#268)
+
+  **Content Generation:**
+  - `teach generate quiz` - Generate quizzes with `--style` and content flags
+  - `teach generate exam` - Create comprehensive exams
+  - `teach generate homework` - Create homework assignments
+  - `teach generate lecture` - Generate lecture notes
+  - `teach generate rubric` - Create grading rubrics
+  - `teach generate syllabus` - Generate course syllabi
+  - `teach generate slides` - Create presentation slides
+  - `teach generate feedback` - Generate student feedback
+  - `teach generate solution` - Create solution keys
+
+  **Smart Defaults:**
+  - Auto-detect current week from teach-config.yml
+  - `--content-preset` for style bundles (minimal, standard, comprehensive, exam)
+  - Content modifiers: `+math`, `-examples`, `+code`, `+diagrams`
+  - Output formats: `--format md|pdf|docx|typst`
+
+  **Interactive Features:**
+  - `--interactive` wizard mode for step-by-step generation
+  - `--revise` workflow for iterating on content
+  - `--context` integration with course materials
+  - YAML-driven lesson plans with `--lesson`
+
+### Documentation
+
+- **Scholar Enhancement Tutorial Series** - 3-part comprehensive guide
+  - Getting Started (14 sections, installation → first generation)
+  - Intermediate Guide (batch generation, revision workflow, YAML integration)
+  - Advanced Guide (custom presets, MCP integration, automation)
+- **8 GIF Demos** - Visual tutorials for all major workflows
+- **API Reference** - 1,100+ lines of technical specifications
+- **Architecture Diagrams** - Component interaction, data flow, state management
+
+### Tests
+
+- 45 teach/scholar tests (100% passing)
+- 23 wt-enhancement tests (22 passing, 1 env issue)
+- Performance fix: cached `git branch --merged` before loop
+
+---
+
+## [5.12.0] - 2026-01-17
+
+### Added
+
+- **Teaching Dates Automation** - Centralized date management (#260)
+  - `teach dates sync` - Update all course dates from single config
+  - `teach dates init` - Semester rollover wizard
+  - `teach dates status` - Check date consistency
+  - `teach dates validate` - Validate date configuration
+  - Selective sync: `--assignments`, `--lectures`, `--syllabus`, `--file`
+  - Dry-run mode for safe preview
+
+- **Date Parser Module** - 620 lines, 8 functions
+  - `_date_normalize()` - Convert any format to YYYY-MM-DD
+  - `_date_add_days()` - Date arithmetic
+  - `_date_parse_quarto_yaml()` - Extract YAML frontmatter
+  - `_date_compute_from_week()` - Week + offset calculation
+  - Cross-platform support (GNU/BSD date)
+
+- **pick wt Support** - Worktree selection in project picker
+  - Session indicators (🟢🟡⚪) in worktree list
+  - Filter by project name
+  - Frecency sorting for recent projects
+
+### Documentation
+
+- Teaching Dates Guide (1,885 lines)
+- Date Parser API Reference (1,256 lines)
+- Config Schema Reference (603 lines)
+- Architecture documentation (960 lines)
+- Updated Tutorial 14 with dates section
+
+### Tests
+
+- 94 tests total (100% passing)
+  - 45 date-parser unit tests
+  - 33 dispatcher unit tests
+  - 16 integration tests
+
+---
+
 ## [5.11.0] - 2026-01-16
 
 ### Added

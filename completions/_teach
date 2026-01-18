@@ -44,8 +44,51 @@ _teach() {
     'help:Show help message'
   )
 
-  # Universal flags for Scholar commands
+  # Universal flags for Scholar commands (v5.13.0+ with Phases 1-6)
   scholar_flags=(
+    # Selection flags
+    '--topic[Explicit topic (bypasses lesson plan)]:topic:'
+    '-t[Explicit topic (short form)]:topic:'
+    '--week[Week number (uses lesson plan if exists)]:week:'
+    '-w[Week number (short form)]:week:'
+    '--style[Content style preset]:style:(conceptual computational rigorous applied)'
+
+    # Content flags (positive)
+    '--explanation[Include conceptual explanations]'
+    '-e[Include explanations (short form)]'
+    '--definitions[Include formal definitions]'
+    '--proof[Include mathematical proofs]'
+    '--math[Include mathematical notation]'
+    '-m[Include math (short form)]'
+    '--examples[Include numerical examples]'
+    '-x[Include examples (short form)]'
+    '--code[Include code snippets]'
+    '-c[Include code (short form)]'
+    '--diagrams[Include diagrams/visualizations]'
+    '-d[Include diagrams (short form)]'
+    '--practice-problems[Include practice problems]'
+    '-p[Include practice (short form)]'
+    '--references[Include citations/references]'
+    '-r[Include references (short form)]'
+
+    # Content flags (negation)
+    '--no-explanation[Exclude conceptual explanations]'
+    '--no-definitions[Exclude formal definitions]'
+    '--no-proof[Exclude mathematical proofs]'
+    '--no-math[Exclude mathematical notation]'
+    '--no-examples[Exclude numerical examples]'
+    '--no-code[Exclude code snippets]'
+    '--no-diagrams[Exclude diagrams/visualizations]'
+    '--no-practice-problems[Exclude practice problems]'
+    '--no-references[Exclude citations/references]'
+
+    # Workflow modes
+    '--interactive[Interactive wizard mode]'
+    '-i[Interactive mode (short form)]'
+    '--revise[Revision workflow (improve existing)]:file:_files'
+    '--context[Include course context from materials]'
+
+    # Standard flags
     '--dry-run[Preview output without saving]'
     '--format[Output format]:format:(markdown quarto latex qti json)'
     '--output[Custom output path]:path:_files'

@@ -29,10 +29,6 @@ The teaching workflow in flow-cli integrates with Git across **5 phases**:
 4. **Teaching Mode** - Streamlined auto-commit for rapid creation
 5. **Git Initialization** - Complete repository setup
 
-**Demo:**
-
-![Teaching + Git Workflow Demo](../assets/gifs/teaching-git-workflow.gif)
-
 ---
 
 ## Part 1: Foundation - Initialize with Git

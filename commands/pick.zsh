@@ -340,7 +340,7 @@ _proj_list_worktrees() {
         fi
 
         # =================================================================
-        # CHECK FOR HIERARCHICAL WORKTREES (level-2 has .git)
+        # CHECK FOR HIERARCHICAL WORKTREES (level-2 or level-3 has .git)
         # =================================================================
         project_name="$dir_name"
 
@@ -353,19 +353,31 @@ _proj_list_worktrees() {
         for wt_dir in "${dir%/}"/*/; do
             [[ -d "$wt_dir" ]] || continue
 
-            # Verify it's a valid worktree (has .git file or directory)
-            [[ -e "$wt_dir/.git" ]] || continue
+            # Check if this is a valid worktree (has .git file or directory)
+            if [[ -e "$wt_dir/.git" ]]; then
+                branch_name=$(basename "$wt_dir")
+                display_name="$project_name ($branch_name)"
+                session_mtime=$(_proj_get_session_mtime "${wt_dir%/}")
+                session_status=$(_proj_get_claude_session_status "${wt_dir%/}")
+                frecency=$(_proj_frecency_score "$session_mtime")
+                worktree_data+=("${frecency}|${display_name}|wt|🌳|${wt_dir%/}|${session_status}")
+            else
+                # Check for nested worktrees (level-3, e.g., feature/teaching-flags)
+                # This handles branches with / in the name like feature/foo
+                local nested_prefix=$(basename "$wt_dir")
+                for nested_wt in "${wt_dir%/}"/*/; do
+                    [[ -d "$nested_wt" ]] || continue
+                    [[ -e "$nested_wt/.git" ]] || continue
 
-            branch_name=$(basename "$wt_dir")
-            display_name="$project_name ($branch_name)"
-            session_mtime=$(_proj_get_session_mtime "${wt_dir%/}")
-            session_status=$(_proj_get_claude_session_status "${wt_dir%/}")
-
-            # Calculate frecency score for sorting (same decay as projects)
-            frecency=$(_proj_frecency_score "$session_mtime")
-
-            # Store with frecency prefix for sorting
-            worktree_data+=("${frecency}|${display_name}|wt|🌳|${wt_dir%/}|${session_status}")
+                    local nested_name=$(basename "$nested_wt")
+                    branch_name="${nested_prefix}/${nested_name}"
+                    display_name="$project_name ($branch_name)"
+                    session_mtime=$(_proj_get_session_mtime "${nested_wt%/}")
+                    session_status=$(_proj_get_claude_session_status "${nested_wt%/}")
+                    frecency=$(_proj_frecency_score "$session_mtime")
+                    worktree_data+=("${frecency}|${display_name}|wt|🌳|${nested_wt%/}|${session_status}")
+                done
+            fi
         done
     done
 
@@ -419,21 +431,39 @@ _proj_find_worktree() {
         fi
 
         # =================================================================
-        # CHECK FOR HIERARCHICAL WORKTREES (level-2 has .git)
+        # CHECK FOR HIERARCHICAL WORKTREES (level-2 or level-3 has .git)
         # =================================================================
         project_name="$dir_name"
 
         for wt_dir in "${dir%/}"/*/; do
             [[ -d "$wt_dir" ]] || continue
-            [[ -e "$wt_dir/.git" ]] || continue
 
-            branch_name=$(basename "$wt_dir")
-            display_name="$project_name ($branch_name)"
+            if [[ -e "$wt_dir/.git" ]]; then
+                branch_name=$(basename "$wt_dir")
+                display_name="$project_name ($branch_name)"
 
-            # Match on display name or just project name
-            if [[ "$display_name" == "$query"* || "$project_name" == "$query"* ]]; then
-                echo "${wt_dir%/}"
-                return 0
+                # Match on display name or just project name
+                if [[ "$display_name" == "$query"* || "$project_name" == "$query"* ]]; then
+                    echo "${wt_dir%/}"
+                    return 0
+                fi
+            else
+                # Check for nested worktrees (level-3, e.g., feature/teaching-flags)
+                local nested_prefix=$(basename "$wt_dir")
+                for nested_wt in "${wt_dir%/}"/*/; do
+                    [[ -d "$nested_wt" ]] || continue
+                    [[ -e "$nested_wt/.git" ]] || continue
+
+                    local nested_name=$(basename "$nested_wt")
+                    branch_name="${nested_prefix}/${nested_name}"
+                    display_name="$project_name ($branch_name)"
+
+                    # Match on display name, project name, or branch name
+                    if [[ "$display_name" == "$query"* || "$project_name" == "$query"* || "$branch_name" == "$query"* ]]; then
+                        echo "${nested_wt%/}"
+                        return 0
+                    fi
+                done
             fi
         done
     done
@@ -500,6 +530,143 @@ _proj_pick_worktree_path() {
     fi
 
     return 1
+}
+
+# Delete selected worktrees with confirmation
+# Usage: _pick_wt_delete <worktree1> [worktree2] [...]
+_pick_wt_delete() {
+    local worktrees=("$@")
+    [[ ${#worktrees[@]} -eq 0 ]] && return 1
+
+    echo ""
+    echo "Selected for deletion:"
+    echo ""
+    local i=1
+    for wt in "${worktrees[@]}"; do
+        echo "  $i. ${wt/#$HOME/~}"
+        ((i++))
+    done
+    echo ""
+
+    # Confirm each worktree
+    local deleted=0
+    for wt in "${worktrees[@]}"; do
+        # Extract branch name from path
+        local git_file="$wt/.git"
+        local branch="unknown"
+        if [[ -f "$git_file" ]]; then
+            local gitdir=$(grep '^gitdir:' "$git_file" 2>/dev/null | cut -d' ' -f2)
+            if [[ -n "$gitdir" ]]; then
+                branch=$(basename "$gitdir")
+            fi
+        fi
+
+        echo "Delete worktree: ${wt/#$HOME/~} [$branch]?"
+        echo "  [y] Yes, delete worktree"
+        echo "  [n] No, skip this one"
+        echo "  [a] Yes to all remaining"
+        echo "  [q] Quit (cancel all)"
+        echo ""
+        echo -n "Your choice: "
+        read -r choice
+
+        case "$choice" in
+            a|A)
+                # Delete all remaining
+                for remaining in "${worktrees[@]:$deleted}"; do
+                    git worktree remove "$remaining" 2>/dev/null && \
+                        echo "✓ Removed: ${remaining/#$HOME/~}" || \
+                        echo "✗ Failed: ${remaining/#$HOME/~}"
+
+                    # Ask about branch deletion
+                    local rem_branch=$(git -C "$remaining" branch --show-current 2>/dev/null || basename "$(grep '^gitdir:' "$remaining/.git" 2>/dev/null | cut -d' ' -f2)")
+                    if [[ -n "$rem_branch" && "$rem_branch" != "unknown" ]]; then
+                        echo -n "Also delete branch '$rem_branch'? [y/N]: "
+                        read -r branch_choice
+                        if [[ "$branch_choice" =~ ^[Yy]$ ]]; then
+                            # Try safe delete first, then force if needed
+                            if git branch -d "$rem_branch" 2>/dev/null; then
+                                echo "✓ Deleted branch: $rem_branch"
+                            else
+                                echo "⚠️  Branch '$rem_branch' not fully merged. Force delete? [y/N]: "
+                                read -r force_choice
+                                if [[ "$force_choice" =~ ^[Yy]$ ]]; then
+                                    git branch -D "$rem_branch" 2>/dev/null && \
+                                        echo "✓ Force deleted branch: $rem_branch" || \
+                                        echo "✗ Failed to delete branch: $rem_branch"
+                                else
+                                    echo "Skipped branch deletion"
+                                fi
+                            fi
+                        fi
+                    fi
+                done
+                echo ""
+                echo "✓ Deletion complete"
+                _proj_cache_invalidate 2>/dev/null
+                return 0
+                ;;
+            y|Y)
+                git worktree remove "$wt" 2>/dev/null && \
+                    echo "✓ Removed: ${wt/#$HOME/~}" || \
+                    { echo "✗ Failed: ${wt/#$HOME/~}"; continue; }
+
+                # Ask about branch deletion
+                if [[ -n "$branch" && "$branch" != "unknown" ]]; then
+                    echo -n "Also delete branch '$branch'? [y/N]: "
+                    read -r branch_choice
+                    if [[ "$branch_choice" =~ ^[Yy]$ ]]; then
+                        # Try safe delete first, then force if needed
+                        if git branch -d "$branch" 2>/dev/null; then
+                            echo "✓ Deleted branch: $branch"
+                        else
+                            echo -n "⚠️  Branch '$branch' not fully merged. Force delete? [y/N]: "
+                            read -r force_choice
+                            if [[ "$force_choice" =~ ^[Yy]$ ]]; then
+                                git branch -D "$branch" 2>/dev/null && \
+                                    echo "✓ Force deleted branch: $branch" || \
+                                    echo "✗ Failed to delete branch: $branch"
+                            else
+                                echo "Skipped branch deletion"
+                            fi
+                        fi
+                    fi
+                fi
+                echo ""
+                ((deleted++))
+                ;;
+            q|Q)
+                echo "Cancelled"
+                [[ $deleted -gt 0 ]] && _proj_cache_invalidate 2>/dev/null
+                return 1
+                ;;
+            n|N|*)
+                echo "Skipped"
+                echo ""
+                ;;
+        esac
+    done
+
+    echo ""
+    echo "✓ Removed $deleted worktree(s)"
+    _proj_cache_invalidate 2>/dev/null
+}
+
+# Refresh worktree cache and show updated overview
+# Usage: _pick_wt_refresh
+_pick_wt_refresh() {
+    echo "⟳ Refreshing worktree cache..."
+    _proj_cache_invalidate 2>/dev/null
+    echo "✓ Cache cleared"
+    echo ""
+
+    # Call wt overview function if available
+    if type _wt_overview &>/dev/null; then
+        _wt_overview
+    else
+        # Fallback to basic git worktree list
+        git worktree list
+    fi
 }
 
 # Show git status summary for a directory
@@ -662,6 +829,11 @@ ${_C_YELLOW}WORKTREE EXAMPLES${_C_NC}:
   ${_C_CYAN}pick wt${_C_NC}           ${_C_DIM}# Show all worktrees from ~/.git-worktrees${_C_NC}
   ${_C_CYAN}pick wt scribe${_C_NC}    ${_C_DIM}# Show only scribe's worktrees${_C_NC}
   ${_C_CYAN}pickwt${_C_NC}            ${_C_DIM}# Alias for pick wt${_C_NC}
+
+${_C_MAGENTA}WORKTREE ACTIONS${_C_NC} ${_C_DIM}(pick wt mode only)${_C_NC}:
+  ${_C_CYAN}Tab${_C_NC}               ${_C_DIM}# Multi-select mode (select multiple worktrees)${_C_NC}
+  ${_C_CYAN}Ctrl-X${_C_NC}            ${_C_DIM}# Delete selected worktree(s) with confirmation${_C_NC}
+  ${_C_CYAN}Ctrl-R${_C_NC}            ${_C_DIM}# Refresh cache and show updated wt overview${_C_NC}
 
 ${_C_BLUE}ALIASES${_C_NC}:
   ${_C_CYAN}pickr${_C_NC}            pick r
@@ -930,7 +1102,10 @@ ${_C_BLUE}ALIASES${_C_NC}:
 
     # fzf with key bindings (including space for escape hatch)
     local fzf_header
-    if [[ $no_claude_keys -eq 1 ]]; then
+    if [[ $is_worktree_mode -eq 1 ]]; then
+        # Worktree mode - add delete and refresh actions
+        fzf_header="Enter=cd | Tab=multi | ^X=delete | ^R=refresh | ^C=cancel"
+    elif [[ $no_claude_keys -eq 1 ]]; then
         # Called from cc dispatcher - no Claude keybindings
         fzf_header="Enter=cd | ^S=status | ^L=log | ^C=cancel"
         if [[ $show_resume -eq 1 ]]; then
@@ -946,7 +1121,18 @@ ${_C_BLUE}ALIASES${_C_NC}:
 
     # Build fzf command with conditional Claude keybindings
     local fzf_output
-    if [[ $no_claude_keys -eq 1 ]]; then
+    if [[ $is_worktree_mode -eq 1 ]]; then
+        # Worktree mode with multi-select and actions
+        fzf_output=$(cat "$tmpfile" | fzf \
+            --height=50% \
+            --reverse \
+            --multi \
+            --print-query \
+            --expect=space \
+            --header="$fzf_header" \
+            --bind="ctrl-x:execute-silent(echo delete > $action_file)+accept" \
+            --bind="ctrl-r:execute-silent(echo refresh > $action_file)+accept")
+    elif [[ $no_claude_keys -eq 1 ]]; then
         fzf_output=$(cat "$tmpfile" | fzf \
             --height=50% \
             --reverse \
@@ -971,10 +1157,17 @@ ${_C_BLUE}ALIASES${_C_NC}:
     local fzf_exit=$?
     rm -f "$tmpfile"
 
-    # Parse fzf output (3 lines: query, key, selection)
+    # Parse fzf output (with multi-select, could be more than 3 lines)
     local query=$(echo "$fzf_output" | sed -n '1p')
     local key=$(echo "$fzf_output" | sed -n '2p')
-    local selection=$(echo "$fzf_output" | sed -n '3p')
+    local selections=()
+    local line_num=3
+    while IFS= read -r line; do
+        [[ -n "$line" ]] && selections+=("$line")
+    done < <(echo "$fzf_output" | sed -n '3,$p')
+
+    # For backward compatibility, set selection to first item
+    local selection="${selections[1]:-}"
 
     # Handle Space key - force full picker (bypass resume)
     if [[ "$key" == "space" ]]; then
@@ -1039,6 +1232,41 @@ ${_C_BLUE}ALIASES${_C_NC}:
     fi
 
     case "$action" in
+        delete)
+            # Handle delete action (worktree mode only)
+            if [[ $is_worktree_mode -ne 1 ]]; then
+                echo "❌ Delete action only available in worktree mode" >&2
+                return 1
+            fi
+
+            # Extract worktree paths from selections
+            local worktree_paths=()
+            for sel in "${selections[@]}"; do
+                local wt_name=$(echo "$sel" | sed 's/[[:space:]]*🌳.*//' | xargs)
+                local wt_path=$(_proj_find_worktree "$wt_name")
+                if [[ -n "$wt_path" && -d "$wt_path" ]]; then
+                    worktree_paths+=("$wt_path")
+                fi
+            done
+
+            if [[ ${#worktree_paths[@]} -eq 0 ]]; then
+                echo "❌ No valid worktrees selected" >&2
+                return 1
+            fi
+
+            _pick_wt_delete "${worktree_paths[@]}"
+            return $?
+            ;;
+        refresh)
+            # Handle refresh action (worktree mode only)
+            if [[ $is_worktree_mode -ne 1 ]]; then
+                echo "❌ Refresh action only available in worktree mode" >&2
+                return 1
+            fi
+
+            _pick_wt_refresh
+            return $?
+            ;;
         status)
             cd "$proj_dir"
             _proj_save_session "$proj_dir"

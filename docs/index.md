@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v5.12.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.12.0)
+[![Version](https://img.shields.io/badge/version-v5.13.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.13.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -22,32 +22,51 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ---
 
-## ✨ What's New in v5.12.0
+## ✨ What's New in v5.13.0
 
-!!! success "Teaching System Complete + Documentation Quality"
-    Complete teaching workflow with dates automation, testing, and polished documentation
+!!! success "Two Major Features: WT Enhancement + Scholar Integration"
+    Enhanced worktree management AND 9 Scholar wrapper commands for teaching content generation
 
-**Teaching Dates Automation (Track C)**
+### WT Workflow Enhancement
+
+**Phase 1: Enhanced wt Default**
+
+- **🌳 Formatted Overview** - `wt` shows formatted table with status icons
+- **🎯 Smart Filtering** - `wt <project>` filters by project name
+- **📊 Status Icons** - ✅ active, 🧹 merged, ⚠️ stale, 🏠 main
+- **🟢 Session Detection** - 🟢 active, 🟡 recent, ⚪ none
+
+**Phase 2: pick wt Actions**
+
+- **⌨️ Multi-Select** - Tab to select multiple worktrees
+- **🗑️ Interactive Delete** - Ctrl-X with confirmation
+- **🔄 Cache Refresh** - Ctrl-R to refresh overview
+
+### Teach/Scholar Enhancement
+
+**9 Scholar Wrapper Commands** for teaching content generation:
+
+```bash
+teach generate quiz "Linear Regression" --style conceptual +math
+teach generate exam --week 8 --format pdf
+teach generate homework --lesson week-05.yml
+```
+
+- `quiz`, `exam`, `homework`, `lecture`, `rubric`
+- `syllabus`, `slides`, `feedback`, `solution`
+
+**Smart Defaults:** `--content-preset`, `+math/-examples`, `--format md|pdf|docx|typst`
+
+[→ Scholar Enhancement Tutorials](tutorials/scholar-enhancement/index.md){ .md-button .md-button--primary }
+
+### Previous Release: v5.12.0
+
+**Teaching System Complete + Documentation Quality**
 - **📅 Centralized Date Management** - `teach dates sync` updates all course dates from single config
 - **🔄 Semester Rollover** - `teach dates init` wizard for quick semester setup
 - **✅ Validation & Status** - Check date consistency across all course materials
-- **📖 Comprehensive Guides** - 5,000+ lines of documentation for teaching workflow
-
-**Quality & Performance Improvements**
 - **📊 Complete Test Coverage** - 94 tests covering all teaching features (100% passing)
 - **📸 Visual Documentation** - Dashboard screenshot, optimized GIFs (73% size reduction)
-- **🔗 Link Health Check** - All broken documentation links identified and fixed
-- **📝 CLAUDE.md Optimization** - Streamlined from 1,392 → 627 lines (55% reduction)
-
-**Teaching + Git Integration (Track A+B)**
-- **📝 Smart Post-Generation Workflow** - 3-option menu after content generation
-- **🚀 Git Deployment** - Deploy from draft → production with PR automation
-- **📊 Git-Aware Status** - See uncommitted files with commit/stash/diff options
-- **🔧 Git Initialization** - Complete repository setup with teaching .gitignore
-
-### Previous Release: v5.11.0
-
-- **📖 Nvim/LazyVim Documentation** - 4 comprehensive tutorials covering survival, motions, basics, and showcase
 - **📘 Complete API Reference** - 400+ lines covering all functions ([→ API Docs](reference/API-COMPLETE.md))
 - **🎨 Architecture Diagrams** - 15 Mermaid diagrams showing system design ([→ Diagrams](diagrams/ARCHITECTURE-DIAGRAMS.md))
 

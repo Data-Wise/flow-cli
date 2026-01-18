@@ -55,13 +55,15 @@ g release           # Create PR: dev → main
 ### Git Worktrees: `wt`
 
 ```bash
-wt                  # Navigate to worktrees folder
-wt list             # List all worktrees
+wt                  # Formatted overview (status icons + sessions) [v5.13.0]
+wt flow             # Filter to show only flow-cli worktrees [v5.13.0]
+wt list             # Raw git worktree list output
 wt create <branch>  # Create worktree for branch
 wt move             # Move current branch to worktree
 wt remove <path>    # Remove a worktree
 wt clean            # Prune stale worktrees
 wt help             # Show all commands
+pick wt             # Interactive picker with Ctrl-X delete, Ctrl-R refresh [v5.13.0]
 ```
 
 ### Quarto Publishing: `qu`

@@ -4,13 +4,140 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.11.0 Ready for Release ✅
+## Phase: v5.13.0 - Claude Code Plugin Integration
 ## Priority: 1
-## Progress: 95
+## Progress: 40
 
-## Focus: v5.13.0 - Tracks A, B, C Complete + Documentation Health Check
+## Focus: v5.13.0 - Claude Code Plugin Integration (Scholar & Craft Dispatchers)
+
+## ✅ Completed (2026-01-18):
+
+### Teach/Scholar Enhancement - MERGED ✅
+
+**Spec:** `docs/specs/SPEC-teach-scholar-enhancement-2026-01-17.md`
+**PR:** #268 (merged to dev 2026-01-18)
+**Commits:** 26 commits (+12,005 lines)
+
+**Goal:** Comprehensive teach dispatcher enhancement with Scholar plugin integration
+
+**Delivered:**
+- 9 Scholar wrapper commands with full flag support
+- Content management system (--content-preset, +/- modifiers)
+- Output format flexibility (md, pdf, docx, typst)
+- Comprehensive tutorials (3-part series with 8 GIF demos)
+- API documentation (1,100+ lines)
+- 45 tests (100% passing)
+
+---
+
+### WT Workflow Enhancement - MERGED ✅
+
+**Spec:** `docs/specs/SPEC-wt-workflow-enhancement-2026-01-17.md`
+**Brainstorm:** `docs/specs/BRAINSTORM-wt-workflow-enhancement-2026-01-17.md`
+**PR:** #267 (merged to dev 2026-01-18)
+**Commits:** 10 commits (+5,590 lines)
+
+**Goal:** Enhanced worktree listing and pick wt delete/update actions
+
+**Delivered:**
+- `wt` overview with formatted table, status icons (✅🧹⚠️🏠), session indicators (🟢🟡⚪)
+- `wt <filter>` for filtered listing by project
+- `pick wt` keybindings: ctrl-x (delete), ctrl-r (refresh)
+- Multi-select with Tab for batch operations
+- Safe branch deletion (try -d first, prompt for -D)
+- Performance fix: cached git branch --merged before loop
+- 23 tests (22 passing)
+
+---
+
+### Claude Code Plugin Integration - Planning Complete
+
+**Main Spec:** `docs/specs/SPEC-claude-code-plugin-integration-2026-01-17.md`
+**Target Release:** flow-cli v5.13.0
+**Estimated Effort:** 18-24 hours over 2-3 weeks
+
+**Goal:** CLI wrappers for scholar and craft Claude Code plugins (108 combined commands)
+
+**Completed Planning:**
+- [x] Main specification with technical validation
+- [x] Claude CLI capabilities verified (v2.1.12)
+- [x] Error handling section added
+- [x] Phased brainstorming approach defined
+
+**Sub-Specs:**
+
+1. [x] Teach/Scholar Enhancement: `SPEC-teach-scholar-enhancement-2026-01-17.md` (20-24h) - MERGED ✅
+2. [x] WT Workflow Enhancement: `SPEC-wt-workflow-enhancement-2026-01-17.md` (6-8h) - MERGED ✅
+3. [ ] Research/Literature: Pending (after teaching implementation)
+4. [ ] Craft Commands: Pending (after research implementation)
+
+**Implementation Order:**
+
+1. Teach/Scholar enhancement (WIP)
+2. Research/literature integration
+3. Craft commands
+
+**Status:** Planning complete, teach/scholar enhancement implementation next
+
+---
 
 ## ✅ Completed (2026-01-17):
+
+### Teaching Documentation - GIF Readability Improvements (Session 2)
+
+**Session Duration:** ~2 hours
+**PRs Merged:** #264, #265, #266
+**Commits:** c4a5575e, 9efb7611, 2d04ee7e
+
+**Accomplishments:**
+
+**Phase 1: Found Missing GIFs**
+- [x] Identified Tutorials 14 & 19 without visual demos
+- [x] Found existing `teaching-git-workflow.gif` not embedded
+- [x] Analyzed all teaching tutorial GIF status
+
+**Phase 2: Added GIFs to All Teaching Tutorials (PR #264, #265)**
+- [x] Tutorial 19: Embedded existing teaching-git-workflow GIF (2.0MB)
+- [x] Tutorial 14: Created new simulated VHS tape (100 lines)
+- [x] Tutorial 14: Generated and optimized workflow demo GIF (1.8MB)
+- [x] Tutorial 20: Embedded 3 existing GIF demos
+- [x] All 3 teaching tutorials now have complete visual documentation
+
+**Phase 3: Fixed Readability Issues (PR #266)**
+- [x] User feedback: Font too small (14), teaching-git-workflow wrong size (960x640)
+- [x] Updated all VHS tapes: Font 14 → 18 (29% larger)
+- [x] Updated dimensions: 1200x700-900 → 1400x900-1000 (17% larger)
+- [x] Regenerated all 5 teaching GIFs with improved settings
+- [x] Optimized file sizes: 21MB → 13.6MB (36% reduction)
+- [x] Fixed teaching-git-workflow.gif to proper 1400x1000 dimensions
+
+**Phase 4: Deployment**
+- [x] Deployed to GitHub Pages (commit 44d630f2)
+- [x] All GIFs now readable with larger font and proper dimensions
+
+**Final Teaching Documentation Status:**
+- Tutorial 14: 1 GIF (3.4MB, 1400x1000, font 18) ✅
+- Tutorial 19: 1 GIF (6.2MB, 1400x1000, font 18) ✅
+- Tutorial 20: 3 GIFs (4.0MB total, 1400x900-1000, font 18) ✅
+- **Total:** 5 visual demos, 13.6MB optimized, 100% readable
+
+**Files Modified:**
+- `docs/assets/gifs/teaching-git-workflow.gif` (2.0MB → 6.2MB)
+- `docs/demos/tutorials/tutorial-14-teach-workflow.gif` (1.8MB → 3.4MB)
+- `docs/demos/tutorials/tutorial-20-dates-init.gif` (644KB → 1.1MB)
+- `docs/demos/tutorials/tutorial-20-dates-sync-dry-run.gif` (442KB → 865KB)
+- `docs/demos/tutorials/tutorial-20-dates-sync-interactive.gif` (1.1MB → 2.0MB)
+- All 5 VHS tape configs updated
+
+**Impact:**
+- ✅ All teaching tutorials now have ADHD-friendly visual documentation
+- ✅ Font size clearly readable (18 vs 14)
+- ✅ Consistent quality and dimensions across all GIFs
+- ✅ Optimized for web delivery
+
+**Status:** Teaching documentation complete with readable visual demos
+
+---
 
 ### Documentation Health Check & Test Coverage Complete
 
@@ -877,7 +1004,7 @@
 
 ## 🎯 Next Action
 
-**Current:** Nvim/LazyVim Documentation Implementation (v5.11.0)
+**Current:** Documentation Polish Complete - Ready for v5.13.0 Release
 
 **✅ v5.10.0 Released (2026-01-15):**
 - ✅ Worktree detection + cache invalidation

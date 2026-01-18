@@ -255,7 +255,9 @@ teach week
 
 ## Part 5: Scholar Integration (AI Content)
 
-The teach dispatcher wraps Scholar commands for AI-assisted content creation.
+The teach dispatcher wraps Scholar commands for AI-assisted content generation.
+
+> **📚 Want to learn more?** Check out the comprehensive [Scholar Enhancement Tutorial Series](scholar-enhancement/index.md) to master all 47 flags, style presets, lesson plans, and advanced workflows.
 
 ### Step 5.1: Generate Exam Questions
 
@@ -559,9 +561,25 @@ cat .flow/teach-config.yml
 
 ## What's Next?
 
+### Learn More About Teaching Workflow
+
 - **[Teaching Workflow Guide](../guides/TEACHING-WORKFLOW.md)** - Comprehensive workflow documentation
 - **[Teaching System Architecture](../guides/TEACHING-SYSTEM-ARCHITECTURE.md)** - How flow-cli and Scholar work together
 - **[Teach Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE.md)** - Complete command reference
+
+### Master Scholar Enhancement (AI Content Generation)
+
+The Scholar Enhancement provides powerful AI-assisted content generation with 47 flags and 4 style presets. Learn through our progressive tutorial series:
+
+- **[🎓 Scholar Enhancement Overview](scholar-enhancement/index.md)** - Start here! (~65 min total)
+  - **[Level 1: Getting Started](scholar-enhancement/01-getting-started.md)** - Style presets & content flags (10 min)
+  - **[Level 2: Intermediate](scholar-enhancement/02-intermediate.md)** - Lesson plans & interactive mode (20 min)
+  - **[Level 3: Advanced](scholar-enhancement/03-advanced.md)** - Revision workflow & context integration (35 min)
+
+### Deep Dive into Scholar
+
+- **[Scholar Enhancement API Reference](../reference/SCHOLAR-ENHANCEMENT-API.md)** - All 47 flags, 50+ examples
+- **[Scholar Enhancement Architecture](../architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md)** - System design with 15+ diagrams
 
 ---
 
