@@ -808,9 +808,10 @@ teach init "TEST 101"            # Run again to set up branches
 ```
 
 **See also:**
+
 - [teach-init.md](../commands/teach-init.md) - Full initialization reference
 - [TEACHING-WORKFLOW.md](../guides/TEACHING-WORKFLOW.md) - Complete workflow guide
-- [git-helpers.zsh](../../lib/git-helpers.zsh) - Git integration functions
+- `lib/git-helpers.zsh` - Git integration functions (source code)
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Status:** draft
 **Created:** 2026-01-16
-**From Brainstorm:** [BRAINSTORM-teach-dates-automation-2026-01-16.md](../../BRAINSTORM-teach-dates-automation-2026-01-16.md)
+**From Brainstorm:** BRAINSTORM-teach-dates-automation-2026-01-16.md (project root)
 **Target Release:** v5.12.0
 **Effort Estimate:** 12-17 hours (5 phases)
 **Priority:** High
@@ -668,7 +668,8 @@ teach dates validate          # Validate date config
 - **Option D** (`dates` dispatcher): Shorter, but breaks flow-cli convention and less discoverable
 
 **References:**
-- [Command naming brainstorm](../../BRAINSTORM-teach-dates-command-naming-2026-01-16.md)
+
+- Command naming brainstorm: BRAINSTORM-teach-dates-command-naming-2026-01-16.md (project root)
 - [Dispatcher reference](../reference/DISPATCHER-REFERENCE.md)
 
 ---

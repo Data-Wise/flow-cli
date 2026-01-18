@@ -774,9 +774,10 @@ gr             # Find references
 4. Create project-specific `.nvim.lua` files
 
 **Resources:**
+
 - [LazyVim Documentation](https://lazyvim.org)
 - [Nvim Quick Reference](../reference/NVIM-QUICK-REFERENCE.md)
-- [Interactive Tutorial](../tutorials/interactive-nvim-tutorial.md)
+- [Nvim Quick Start Tutorial](15-nvim-quick-start.md)
 
 **Troubleshooting:**
 - `:checkhealth` - diagnose issues

@@ -2,7 +2,7 @@
 
 **Version:** v5.13.0
 **Date:** 2026-01-17
-**Spec:** [SPEC-wt-workflow-enhancement-2026-01-17.md](../../docs/specs/SPEC-wt-workflow-enhancement-2026-01-17.md)
+**Spec:** [SPEC-wt-workflow-enhancement-2026-01-17.md](../specs/SPEC-wt-workflow-enhancement-2026-01-17.md)
 
 ---
 

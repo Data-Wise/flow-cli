@@ -1124,10 +1124,10 @@ teach slides "Topic" --style computational --diagrams
 ## See Also
 
 - [Teach Dispatcher Reference](TEACH-DISPATCHER-REFERENCE.md)
-- [Implementation Phases 1-2](../../IMPLEMENTATION-PHASES-1-2.md)
-- [Implementation Phases 3-4](../../IMPLEMENTATION-PHASES-3-4.md)
-- [Implementation Phases 5-6](../../IMPLEMENTATION-PHASES-5-6.md)
-- [Test Analysis](../../TEST-ANALYSIS-PHASES-1-2.md)
+- [Implementation Phases 1-2](../reports/IMPLEMENTATION-PHASES-1-2.md)
+- [Implementation Phases 3-4](../reports/IMPLEMENTATION-PHASES-3-4.md)
+- [Implementation Phases 5-6](../reports/IMPLEMENTATION-PHASES-5-6.md)
+- [Test Analysis](../reports/TEST-ANALYSIS-PHASES-1-2.md)
 
 ---
 

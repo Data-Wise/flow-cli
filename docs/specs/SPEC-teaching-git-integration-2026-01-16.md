@@ -2,7 +2,7 @@
 
 **Status:** draft
 **Created:** 2026-01-16
-**From Brainstorm:** [BRAINSTORM-teaching-git-integration-2026-01-16.md](../../BRAINSTORM-teaching-git-integration-2026-01-16.md)
+**From Brainstorm:** BRAINSTORM-teaching-git-integration-2026-01-16.md (project root)
 **Target Release:** v5.11.0
 **Effort Estimate:** 11-16 hours (5 phases)
 **Priority:** High
