@@ -143,7 +143,11 @@
       "Bash(git -C /Users/dt/projects/dev-tools/flow-cli show de947ef7 --stat)",
       "Bash(gh pr diff:*)",
       "Bash(./tests/test-flat-worktree-detection.zsh:*)",
-      "Bash(_proj_find_worktree \"scholar\")"
+      "Bash(_proj_find_worktree \"scholar\")",
+      "Bash(claude -p:*)",
+      "Bash(claude --print:*)",
+      "Bash(wt create:*)",
+      "Bash(_proj_find_worktree \"flow-cli \\(feature/teaching-flags\\)\")"
     ]
   }
 }

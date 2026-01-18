@@ -21,7 +21,7 @@ graph TB
         Cache[lib/project-cache.zsh<br/>Caching]
     end
 
-    subgraph "Dispatchers (11)"
+    subgraph Dispatchers ["Dispatchers (12)"]
         G[g - Git]
         CC[cc - Claude Code]
         MCP[mcp - MCP Servers]
@@ -33,13 +33,18 @@ graph TB
         Obs[obs - Obsidian]
         Dot[dot - Dotfiles]
         Prompt[prompt - Prompt Engine]
+        V[v - Vibe/Workflow]
     end
 
-    subgraph "Commands"
+    subgraph Commands [Commands]
         Work[work/finish/hop<br/>Session Management]
         Pick[pick<br/>Project Picker]
         Dash[dash<br/>Dashboard]
         Doctor[flow doctor<br/>Health Check]
+        ADHD[js/next/stuck<br/>ADHD Helpers]
+        Morning[morning/today<br/>Daily Routine]
+        Capture[catch/win/yay<br/>Quick Capture]
+        AI[ai/flow do<br/>AI Assistance]
     end
 
     subgraph "External Tools"
@@ -97,6 +102,7 @@ graph LR
 ```
 
 **Example Flow:**
+
 ```
 User types: g push origin main
     ↓
@@ -229,9 +235,9 @@ graph TB
     end
 
     subgraph "Scholar Layer"
-        ScholarExam[/teaching:exam]
-        ScholarQuiz[/teaching:quiz]
-        ScholarSlides[/teaching:slides]
+        ScholarExam["/teaching:exam"]
+        ScholarQuiz["/teaching:quiz"]
+        ScholarSlides["/teaching:slides"]
     end
 
     subgraph "External"
@@ -439,6 +445,7 @@ graph TB
 ```
 
 **Color Palette (ADHD-Friendly):**
+
 ```
 Success:  #729C51 (Soft Green)
 Warning:  #E5C07B (Warm Yellow)
@@ -520,6 +527,7 @@ graph TD
 ```
 
 **Priority Order:**
+
 1. Environment Variables (highest)
 2. Project `.flow-cli.yml`
 3. Global `~/.config/flow-cli/config.yml`
@@ -560,6 +568,7 @@ flowchart TD
 ```
 
 **Error Types:**
+
 - **Recoverable:** Missing dependency, config issue → Suggest `flow doctor --fix`
 - **Fatal:** Permission denied, git error → Exit with code 1
 
