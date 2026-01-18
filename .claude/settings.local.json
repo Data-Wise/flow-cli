@@ -148,7 +148,11 @@
       "Bash(claude --print:*)",
       "Bash(wt create:*)",
       "Bash(_proj_find_worktree \"flow-cli \\(feature/teaching-flags\\)\")",
-      "Bash(./tests/test-wt-enhancement-unit.zsh)"
+      "Bash(./tests/test-wt-enhancement-unit.zsh)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(/Users/dt/projects/dev-tools/flow-cli/tests/test-teach-deploy.zsh)",
+      "Bash(gh pr checks:*)"
     ]
   }
 }
