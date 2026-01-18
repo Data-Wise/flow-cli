@@ -2277,7 +2277,15 @@ teach() {
         # LOCAL COMMANDS (no Claude needed)
         # ============================================
         init|i)
-            teach-init "$@"
+            # teach init temporarily removed - being reimplemented in v5.14.0
+            # See Task 10: teach init Enhancements (--config, --github flags)
+            _flow_log_error "'teach init' temporarily unavailable"
+            echo ""
+            echo "The teach init command is being reimplemented with new features."
+            echo "Will be available in flow-cli v5.14.0"
+            echo ""
+            echo "For now, manually create .flow/teach-config.yml or use an existing teaching project."
+            return 1
             ;;
 
         # Shortcuts for common operations
