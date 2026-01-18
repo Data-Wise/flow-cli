@@ -3,7 +3,7 @@
 > **What you'll learn:** Use git worktrees to work on multiple branches simultaneously
 >
 > **Time:** ~10 minutes | **Level:** Intermediate
-> **Version:** v4.1.0+
+> **Version:** v5.13.0+
 
 ---
 
@@ -97,19 +97,58 @@ wt create feature/new-thing
 Navigate: cd ~/.git-worktrees/myproject/feature-auth
 ```
 
-### Step 1.3: Navigate to Worktrees Folder
+### Step 1.3: View Worktree Overview
+
+**NEW in v5.13.0** - Get a formatted overview with status and session indicators:
 
 ```bash
-# Go to worktrees base directory
+# View all worktrees with status icons and session indicators
 wt
 ```
 
 **Output:**
 
 ```
+🌳 Worktrees (3 total)
+
+BRANCH              STATUS   SESSION  PATH
+──────────────────────────────────────────────────────────────
+feature/auth        ✅ active  🟢 5m   ~/.git-worktrees/myproject/feature-auth
+feature/dashboard   🧹 merged  🟡 2h   ~/.git-worktrees/myproject/feature-dashboard
+main                🏠 main    ⚪      /Users/you/projects/myproject
+
+💡 Filter: wt <project> | Interactive picker: pick wt (Tab=multi-select, Ctrl-X=delete, Ctrl-R=refresh)
+```
+
+**Status Icons:**
+- ✅ **active** - Unmerged feature branch
+- 🧹 **merged** - Branch merged to base
+- ⚠️ **stale** - Missing .git directory
+- 🏠 **main** - Main/master/dev branch
+
+**Session Indicators:**
+- 🟢 **active** - Claude session running (< 30 min)
+- 🟡 **recent** - Recent activity (< 24h)
+- ⚪ **none** - No session
+
+### Step 1.4: Filter by Project
+
+```bash
+# Show only flow-cli worktrees
+wt flow
+```
+
+### Step 1.5: Navigate to Worktrees Folder
+
+```bash
+# Go to worktrees base directory (use 'cd')
+wt cd
+```
+
+**Output:**
+
+```
 ℹ Changed to: /Users/you/.git-worktrees
-total 0
-drwxr-xr-x  3 you  staff  96 Dec 29 10:00 myproject
 ```
 
 ---
@@ -182,9 +221,63 @@ ccwp                 # = cc wt pick
 
 ---
 
-## Part 4: Cleanup
+## Part 4: Interactive Worktree Management
 
-### Step 4.1: Remove a Worktree
+**NEW in v5.13.0** - Interactive picker with batch operations:
+
+### Step 4.1: Launch Interactive Picker
+
+```bash
+# Interactive worktree picker with actions
+pick wt
+```
+
+The picker shows all worktrees with status icons and session indicators. You can:
+
+- **Filter** - Type to search worktrees
+- **Tab** - Multi-select worktrees for batch operations
+- **Ctrl-X** - Delete selected worktree(s)
+- **Ctrl-R** - Refresh cache and show updated overview
+- **Enter** - Navigate to selected worktree
+
+### Step 4.2: Delete Worktrees
+
+**In the picker:**
+
+1. Select worktrees with **Tab**
+2. Press **Ctrl-X** to delete
+
+**You'll be prompted:**
+
+```
+Delete worktree: ~/.git-worktrees/myproject/feature-old? [y/n/a/q]
+```
+
+- **y** - Yes, delete this one
+- **n** - No, skip this one
+- **a** - Yes to all remaining
+- **q** - Quit, don't delete any more
+
+**After deleting worktree, you'll be asked:**
+
+```
+Also delete branch 'feature-old'? [y/N]
+```
+
+### Step 4.3: Refresh Cache
+
+Press **Ctrl-R** in the picker to:
+
+1. Clear the project cache
+2. Show updated overview with current status
+
+Useful after making git changes outside the picker.
+
+---
+
+## Part 5: Manual Cleanup
+
+### Step 5.1: Remove a Worktree
 
 ```bash
 # Remove specific worktree
@@ -197,7 +290,7 @@ wt remove ~/.git-worktrees/myproject/feature-auth
 ✓ Removed worktree: ~/.git-worktrees/myproject/feature-auth
 ```
 
-### Step 4.2: Clean Stale Worktrees
+### Step 5.2: Clean Stale Worktrees
 
 ```bash
 # Prune worktrees with missing directories
@@ -210,7 +303,7 @@ wt clean
 ✓ Pruned stale worktrees
 ```
 
-### Step 4.3: Move Current Branch to Worktree
+### Step 5.3: Move Current Branch to Worktree
 
 ```bash
 # On feature/something branch
@@ -292,17 +385,29 @@ Worktrees are organized by project:
 
 ## Quick Reference
 
-| Command                    | Description                         |
-|----------------------------|-------------------------------------|
-| `wt`                       | Navigate to worktrees folder        |
-| `wt list`                  | List all worktrees                  |
-| `wt create <branch>`       | Create worktree for branch          |
-| `wt move`                  | Move current branch to worktree     |
-| `wt remove <path>`         | Remove a worktree                   |
-| `wt clean`                 | Prune stale worktrees               |
-| `cc wt <branch>`           | Launch Claude in worktree           |
-| `cc wt pick`               | Pick worktree → Claude              |
-| `cc wt yolo <branch>`      | Worktree + YOLO mode                |
+| Command                    | Description                         | Version |
+|----------------------------|-------------------------------------|---------|
+| `wt`                       | Formatted overview (status + session) | v5.13.0 |
+| `wt <project>`             | Filter worktrees by project name    | v5.13.0 |
+| `wt cd`                    | Navigate to worktrees folder        | v5.13.0 |
+| `wt list`                  | Raw git worktree list output        |         |
+| `wt create <branch>`       | Create worktree for branch          |         |
+| `wt move`                  | Move current branch to worktree     |         |
+| `wt remove <path>`         | Remove a worktree                   |         |
+| `wt clean`                 | Prune stale worktrees               |         |
+| `pick wt`                  | Interactive picker with actions     | v5.13.0 |
+| `cc wt <branch>`           | Launch Claude in worktree           |         |
+| `cc wt pick`               | Pick worktree → Claude              |         |
+| `cc wt yolo <branch>`      | Worktree + YOLO mode                |         |
+
+**Interactive Picker Keybindings (v5.13.0):**
+
+| Key        | Action                                    |
+|------------|-------------------------------------------|
+| **Tab**    | Multi-select worktrees for batch ops      |
+| **Ctrl-X** | Delete selected worktree(s)               |
+| **Ctrl-R** | Refresh cache and show updated overview   |
+| **Enter**  | Navigate to selected worktree             |
 
 ---
 
