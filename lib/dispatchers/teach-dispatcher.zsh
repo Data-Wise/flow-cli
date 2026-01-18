@@ -705,6 +705,247 @@ _teach_interactive_wizard() {
 }
 
 # ============================================================================
+# REVISION WORKFLOW (Phase 5 - v5.13.0+)
+# ============================================================================
+
+# Analyze file to detect content type (Phase 5 - v5.13.0+)
+# Usage: _teach_analyze_file <file_path>
+# Returns: Content type (slides, exam, quiz, assignment, lecture, syllabus, rubric)
+_teach_analyze_file() {
+    local file="$1"
+
+    # Check file exists
+    if [[ ! -f "$file" ]]; then
+        _teach_error "File not found: $file"
+        return 1
+    fi
+
+    # Detect from filename patterns
+    case "$file" in
+        *slide*|*presentation*)
+            echo "slides"
+            return 0
+            ;;
+        *exam*)
+            echo "exam"
+            return 0
+            ;;
+        *quiz*)
+            echo "quiz"
+            return 0
+            ;;
+        *assignment*|*homework*|*hw*)
+            echo "assignment"
+            return 0
+            ;;
+        *lecture*|*notes*)
+            echo "lecture"
+            return 0
+            ;;
+        *syllabus*)
+            echo "syllabus"
+            return 0
+            ;;
+        *rubric*)
+            echo "rubric"
+            return 0
+            ;;
+    esac
+
+    # Fallback: analyze content
+    if grep -qi "revealjs\|beamer\|slides" "$file"; then
+        echo "slides"
+    elif grep -qi "exam\|test" "$file"; then
+        echo "exam"
+    elif grep -qi "quiz" "$file"; then
+        echo "quiz"
+    elif grep -qi "assignment\|homework" "$file"; then
+        echo "assignment"
+    else
+        echo "unknown"
+    fi
+}
+
+# Revision menu with 6 options (Phase 5 - v5.13.0+)
+# Usage: _teach_revision_menu <file_path> <content_type>
+# Returns: Revision instruction string
+_teach_revision_menu() {
+    local file="$1"
+    local content_type="$2"
+
+    echo ""
+    echo "${FLOW_COLORS[info]}📝 Revise: ${file}${FLOW_COLORS[reset]}"
+    echo ""
+    echo "What would you like to improve?"
+    echo ""
+    echo "  ${FLOW_COLORS[bold]}[1]${FLOW_COLORS[reset]} Expand content        Add more detail"
+    echo "  ${FLOW_COLORS[bold]}[2]${FLOW_COLORS[reset]} Add examples          Include practical examples"
+    echo "  ${FLOW_COLORS[bold]}[3]${FLOW_COLORS[reset]} Simplify language     Make more accessible"
+    echo "  ${FLOW_COLORS[bold]}[4]${FLOW_COLORS[reset]} Add visuals           Suggest images/diagrams"
+    echo "  ${FLOW_COLORS[bold]}[5]${FLOW_COLORS[reset]} Custom instructions   Enter specific feedback"
+    echo "  ${FLOW_COLORS[bold]}[6]${FLOW_COLORS[reset]} Full regenerate       Start fresh"
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}Your choice [1-6]:${FLOW_COLORS[reset]} "
+
+    read -r choice
+
+    case "$choice" in
+        1)
+            echo "Expand the content with more detail and depth. Add explanations for key concepts."
+            return 0
+            ;;
+        2)
+            echo "Add practical, worked examples to illustrate the concepts. Include step-by-step solutions."
+            return 0
+            ;;
+        3)
+            echo "Simplify the language and make the content more accessible. Use clearer explanations and avoid jargon."
+            return 0
+            ;;
+        4)
+            echo "Add visual elements: diagrams, charts, plots, or illustrations. Suggest where visuals would help understanding."
+            return 0
+            ;;
+        5)
+            echo ""
+            echo "${FLOW_COLORS[prompt]}Enter your revision instructions:${FLOW_COLORS[reset]}"
+            read -r custom_instructions
+            echo "$custom_instructions"
+            return 0
+            ;;
+        6)
+            echo "REGENERATE"
+            return 0
+            ;;
+        *)
+            echo ""
+            echo "${FLOW_COLORS[warn]}Invalid choice, using default: expand content${FLOW_COLORS[reset]}"
+            echo "Expand the content with more detail and depth."
+            return 0
+            ;;
+    esac
+}
+
+# Show diff preview before/after revision (Phase 5 - v5.13.0+)
+# Usage: _teach_show_diff_preview <original_file> <revised_file>
+_teach_show_diff_preview() {
+    local original="$1"
+    local revised="$2"
+
+    if [[ ! -f "$original" || ! -f "$revised" ]]; then
+        _teach_warn "Cannot show diff: file(s) missing"
+        return 1
+    fi
+
+    echo ""
+    echo "${FLOW_COLORS[info]}📊 Changes Preview:${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo ""
+
+    # Use git diff if in git repo, otherwise use diff
+    if git rev-parse --git-dir &>/dev/null; then
+        git diff --no-index --color=always "$original" "$revised" 2>/dev/null || \
+            diff -u "$original" "$revised" 2>/dev/null
+    else
+        diff -u "$original" "$revised" 2>/dev/null
+    fi
+
+    echo ""
+    echo "${FLOW_COLORS[dim]}────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+}
+
+# Main revision workflow (Phase 5 - v5.13.0+)
+# Usage: _teach_revise_workflow <file_path>
+# Returns: 0 if successful, 1 if cancelled
+_teach_revise_workflow() {
+    local file="$1"
+
+    # Validate file
+    if [[ ! -f "$file" ]]; then
+        _teach_error "File not found: $file" \
+            "Check the file path and try again"
+        return 1
+    fi
+
+    # Analyze file to detect content type
+    local content_type
+    content_type=$(_teach_analyze_file "$file")
+
+    # Show revision menu
+    local revision_instruction
+    revision_instruction=$(_teach_revision_menu "$file" "$content_type")
+
+    # Check for full regeneration
+    if [[ "$revision_instruction" == "REGENERATE" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[warn]}⚠️  Full regeneration will replace the file${FLOW_COLORS[reset]}"
+        echo -n "${FLOW_COLORS[prompt]}Continue? [y/N]:${FLOW_COLORS[reset]} "
+        read -r confirm
+
+        case "$confirm" in
+            y|Y|yes|Yes|YES)
+                # Set flag for full regeneration
+                typeset -g TEACH_REVISE_MODE="regenerate"
+                typeset -g TEACH_REVISE_FILE="$file"
+                return 0
+                ;;
+            *)
+                echo ""
+                echo "${FLOW_COLORS[info]}Cancelled${FLOW_COLORS[reset]}"
+                return 1
+                ;;
+        esac
+    else
+        # Set revision mode and instructions
+        typeset -g TEACH_REVISE_MODE="improve"
+        typeset -g TEACH_REVISE_FILE="$file"
+        typeset -g TEACH_REVISE_INSTRUCTIONS="$revision_instruction"
+        return 0
+    fi
+}
+
+# ============================================================================
+# CONTEXT INTEGRATION (Phase 6 - v5.13.0+)
+# ============================================================================
+
+# Build context from course materials (Phase 6 - v5.13.0+)
+# Usage: _teach_build_context
+# Returns: Context string with course materials
+_teach_build_context() {
+    local -a context_files=()
+    local context_text=""
+
+    # Check for common course materials
+    local -a potential_files=(
+        ".flow/teach-config.yml"
+        "syllabus.md"
+        "syllabus.qmd"
+        "README.md"
+        "COURSE-INFO.md"
+    )
+
+    # Collect existing files
+    for file in "${potential_files[@]}"; do
+        if [[ -f "$file" ]]; then
+            context_files+=("$file")
+        fi
+    done
+
+    # Build context text
+    if [[ ${#context_files[@]} -gt 0 ]]; then
+        context_text="Course context from: ${context_files[*]}"
+
+        # Add brief content from each file (first 10 lines)
+        for file in "${context_files[@]}"; do
+            context_text="${context_text}\n\nFrom ${file}:\n"
+            context_text="${context_text}$(head -10 "$file" 2>/dev/null)"
+        done
+    fi
+
+    echo "$context_text"
+}
+
+# ============================================================================
 # SCHOLAR WRAPPER INFRASTRUCTURE
 # ============================================================================
 
@@ -1634,6 +1875,57 @@ _teach_scholar_wrapper() {
     fi
 
     # ==================================================================
+    # PHASE 5: Revision Workflow (v5.13.0+)
+    # ==================================================================
+
+    # Check for --revise flag
+    local revise_file=""
+    for ((i=1; i<=${#args[@]}; i++)); do
+        if [[ "${args[$i]}" == "--revise" ]]; then
+            revise_file="${args[$((i+1))]}"
+            break
+        elif [[ "${args[$i]}" =~ ^--revise= ]]; then
+            revise_file="${args[$i]#*=}"
+            break
+        fi
+    done
+
+    # If revise mode, run revision workflow
+    if [[ -n "$revise_file" ]]; then
+        _teach_revise_workflow "$revise_file" || return 1
+
+        # Revision workflow sets TEACH_REVISE_MODE, TEACH_REVISE_FILE, TEACH_REVISE_INSTRUCTIONS
+        # These will be used when building the Scholar command
+    fi
+
+    # ==================================================================
+    # END PHASE 5
+    # ==================================================================
+
+    # ==================================================================
+    # PHASE 6: Context Integration (v5.13.0+)
+    # ==================================================================
+
+    # Check for --context flag
+    local use_context=false
+    for arg in "${args[@]}"; do
+        if [[ "$arg" == "--context" ]]; then
+            use_context=true
+            break
+        fi
+    done
+
+    # Build context if requested
+    local course_context=""
+    if [[ "$use_context" == "true" ]]; then
+        course_context=$(_teach_build_context)
+    fi
+
+    # ==================================================================
+    # END PHASE 6
+    # ==================================================================
+
+    # ==================================================================
     # PHASE 1-2: Enhanced Flag Processing (v5.13.0+)
     # ==================================================================
 
@@ -1718,6 +2010,17 @@ _teach_scholar_wrapper() {
         scholar_cmd="$scholar_cmd --instructions \"$content_instructions\""
     fi
 
+    # Append revision instructions (Phase 5)
+    if [[ -n "$TEACH_REVISE_INSTRUCTIONS" ]]; then
+        scholar_cmd="$scholar_cmd --revise-instructions \"$TEACH_REVISE_INSTRUCTIONS\""
+        scholar_cmd="$scholar_cmd --revise-file \"$TEACH_REVISE_FILE\""
+    fi
+
+    # Append course context (Phase 6)
+    if [[ -n "$course_context" ]]; then
+        scholar_cmd="$scholar_cmd --context \"$course_context\""
+    fi
+
     # Build full command string for commit message (v5.11.0+)
     local full_command="teach $subcommand ${args[*]}"
 
@@ -1770,27 +2073,62 @@ _teach_lecture_from_plan() {
 _teach_scholar_help() {
     local cmd="$1"
 
+    # Universal flags section (applies to all Scholar commands)
+    _show_universal_flags() {
+        echo ""
+        echo "${FLOW_COLORS[bold]}Universal Flags (v5.13.0+):${FLOW_COLORS[reset]}"
+        echo ""
+        echo "${FLOW_COLORS[info]}Topic Selection:${FLOW_COLORS[reset]}"
+        echo "  --topic TOPIC, -t    Explicit topic (bypasses lesson plan)"
+        echo "  --week N, -w         Week number (uses lesson plan if exists)"
+        echo ""
+        echo "${FLOW_COLORS[info]}Content Style Presets:${FLOW_COLORS[reset]}"
+        echo "  --style conceptual       Explanation + definitions + examples"
+        echo "  --style computational    Explanation + examples + code + practice"
+        echo "  --style rigorous         Definitions + explanation + math + proof"
+        echo "  --style applied          Explanation + examples + code + practice"
+        echo ""
+        echo "${FLOW_COLORS[info]}Content Customization:${FLOW_COLORS[reset]}"
+        echo "  --explanation, -e        Include conceptual explanations"
+        echo "  --definitions            Include formal definitions"
+        echo "  --proof                  Include mathematical proofs"
+        echo "  --math, -m               Include mathematical notation"
+        echo "  --examples, -x           Include numerical examples"
+        echo "  --code, -c               Include code snippets"
+        echo "  --diagrams, -d           Include diagrams/visualizations"
+        echo "  --practice-problems, -p  Include practice problems"
+        echo "  --references, -r         Include citations/references"
+        echo ""
+        echo "${FLOW_COLORS[dim]}  Negation: --no-explanation, --no-proof, etc.${FLOW_COLORS[reset]}"
+        echo ""
+        echo "${FLOW_COLORS[info]}Workflow Modes:${FLOW_COLORS[reset]}"
+        echo "  --interactive, -i        Interactive wizard (step-by-step)"
+        echo "  --revise FILE            Revision workflow (improve existing)"
+        echo "  --context                Include course context from materials"
+        echo ""
+    }
+
     case "$cmd" in
         lecture)
             echo "teach lecture - Generate lecture content from topic"
             echo ""
             echo "Usage: teach lecture \"Topic\" [options]"
-            echo ""
-            echo "Options:"
+            _show_universal_flags
+            echo "${FLOW_COLORS[info]}Lecture-Specific Options:${FLOW_COLORS[reset]}"
             echo "  --outline         Generate outline only (no full content)"
             echo "  --notes           Include speaker notes"
             echo "  --from-plan WEEK  Generate from lesson plan file"
             echo "  --format FORMAT   Output format (quarto, markdown)"
             echo "  --dry-run         Preview without saving"
             echo ""
-            echo "Note: /teaching:lecture awaiting Scholar implementation"
+            echo "${FLOW_COLORS[dim]}Note: /teaching:lecture awaiting Scholar implementation${FLOW_COLORS[reset]}"
             ;;
         slides)
             echo "teach slides - Generate presentation slides"
             echo ""
             echo "Usage: teach slides \"Topic\" [options]"
-            echo ""
-            echo "Options:"
+            _show_universal_flags
+            echo "${FLOW_COLORS[info]}Slides-Specific Options:${FLOW_COLORS[reset]}"
             echo "  --theme NAME       Slide theme (default, academic, minimal)"
             echo "  --from-lecture FILE  Generate from lecture file"
             echo "  --format FORMAT    Output format (quarto, markdown)"
@@ -1800,8 +2138,8 @@ _teach_scholar_help() {
             echo "teach exam - Generate exam questions"
             echo ""
             echo "Usage: teach exam \"Topic\" [options]"
-            echo ""
-            echo "Options:"
+            _show_universal_flags
+            echo "${FLOW_COLORS[info]}Exam-Specific Options:${FLOW_COLORS[reset]}"
             echo "  --questions N     Number of questions (default: 20)"
             echo "  --duration MIN    Time limit in minutes (default: 120)"
             echo "  --types TYPES     Question types (mc,sa,essay,calc)"
@@ -1812,8 +2150,8 @@ _teach_scholar_help() {
             echo "teach quiz - Generate quiz questions"
             echo ""
             echo "Usage: teach quiz \"Topic\" [options]"
-            echo ""
-            echo "Options:"
+            _show_universal_flags
+            echo "${FLOW_COLORS[info]}Quiz-Specific Options:${FLOW_COLORS[reset]}"
             echo "  --questions N      Number of questions (default: 10)"
             echo "  --time-limit MIN   Time limit in minutes (default: 15)"
             echo "  --format FORMAT    Output format (quarto, qti, markdown)"
@@ -1823,8 +2161,8 @@ _teach_scholar_help() {
             echo "teach assignment - Generate homework assignment"
             echo ""
             echo "Usage: teach assignment \"Topic\" [options]"
-            echo ""
-            echo "Options:"
+            _show_universal_flags
+            echo "${FLOW_COLORS[info]}Assignment-Specific Options:${FLOW_COLORS[reset]}"
             echo "  --due-date DATE   Due date (YYYY-MM-DD)"
             echo "  --points N        Total points (default: 100)"
             echo "  --format FORMAT   Output format (quarto, markdown)"
@@ -1834,19 +2172,19 @@ _teach_scholar_help() {
             echo "teach syllabus - Generate course syllabus"
             echo ""
             echo "Usage: teach syllabus [options]"
-            echo ""
-            echo "Options:"
+            _show_universal_flags
+            echo "${FLOW_COLORS[info]}Syllabus-Specific Options:${FLOW_COLORS[reset]}"
             echo "  --format FORMAT   Output format (quarto, markdown, pdf)"
             echo "  --dry-run         Preview without saving"
             echo ""
-            echo "Note: Uses course info from .flow/teach-config.yml"
+            echo "${FLOW_COLORS[dim]}Note: Uses course info from .flow/teach-config.yml${FLOW_COLORS[reset]}"
             ;;
         rubric)
             echo "teach rubric - Generate grading rubric"
             echo ""
             echo "Usage: teach rubric \"Assignment Name\" [options]"
-            echo ""
-            echo "Options:"
+            _show_universal_flags
+            echo "${FLOW_COLORS[info]}Rubric-Specific Options:${FLOW_COLORS[reset]}"
             echo "  --criteria N      Number of criteria"
             echo "  --format FORMAT   Output format (quarto, markdown)"
             echo "  --dry-run         Preview without saving"
@@ -1855,8 +2193,8 @@ _teach_scholar_help() {
             echo "teach feedback - Generate student feedback"
             echo ""
             echo "Usage: teach feedback \"Student Work\" [options]"
-            echo ""
-            echo "Options:"
+            _show_universal_flags
+            echo "${FLOW_COLORS[info]}Feedback-Specific Options:${FLOW_COLORS[reset]}"
             echo "  --tone TONE       Feedback tone (supportive, direct, detailed)"
             echo "  --format FORMAT   Output format (markdown, text)"
             echo "  --dry-run         Preview without saving"
@@ -1865,8 +2203,8 @@ _teach_scholar_help() {
             echo "teach demo - Create demo course materials"
             echo ""
             echo "Usage: teach demo [options]"
-            echo ""
-            echo "Options:"
+            _show_universal_flags
+            echo "${FLOW_COLORS[info]}Demo-Specific Options:${FLOW_COLORS[reset]}"
             echo "  --course-name NAME  Course name (default: STAT-101)"
             echo "  --force             Overwrite existing demo files"
             ;;
