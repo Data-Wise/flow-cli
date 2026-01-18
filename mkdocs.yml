@@ -102,6 +102,11 @@ nav:
       - 17. LazyVim Basics: tutorials/17-lazyvim-basics.md
       - 18. LazyVim Showcase: tutorials/18-lazyvim-showcase.md
       - 19. Teaching + Git Integration: tutorials/19-teaching-git-integration.md
+      - 🎓 Scholar Enhancement:
+          - Overview & Learning Path: tutorials/scholar-enhancement/index.md
+          - Level 1 - Getting Started: tutorials/scholar-enhancement/01-getting-started.md
+          - Level 2 - Intermediate: tutorials/scholar-enhancement/02-intermediate.md
+          - Level 3 - Advanced: tutorials/scholar-enhancement/03-advanced.md
   - Workflows:
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
       - Teaching Workflow: guides/TEACHING-WORKFLOW.md
@@ -166,6 +171,9 @@ nav:
       - Deep Dives:
           - Architecture: reference/ARCHITECTURE.md
           - 🎨 Architecture Diagrams: diagrams/ARCHITECTURE-DIAGRAMS.md
+          - 🎓 Scholar Enhancement:
+              - API Reference: reference/SCHOLAR-ENHANCEMENT-API.md
+              - Architecture Guide: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
           - 📘 API Complete Reference: reference/API-COMPLETE.md
           - API Reference: reference/API-REFERENCE.md
           - ADHD Helpers Map: reference/ADHD-HELPERS-FUNCTION-MAP.md
