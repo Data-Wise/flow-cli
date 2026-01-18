@@ -49,25 +49,6 @@
 
 **Status:** Spec complete, worktree ready
 
-**Key Features:**
-
-- Smart defaults (--week, --topic) with lesson plan integration
-- Interactive mode (-i) for step-by-step wizard
-- Revision workflow (--revise) for iterating on content
-- Context integration (--context) for course materials
-- Content customization: 4 style presets + 9 content flags
-
-**Implementation Phases:**
-
-- [ ] Phase 1: Flag Infrastructure (3h)
-- [ ] Phase 2: Preset System (2h)
-- [ ] Phase 3: Lesson Plan Integration (3h)
-- [ ] Phase 4: Interactive Mode (4h)
-- [ ] Phase 5: Revision Workflow (4h)
-- [ ] Phase 6: Context & Polish (4h)
-
-**Status:** Spec complete (merged from 2 specs), worktree ready
-
 ---
 
 ### Claude Code Plugin Integration - Planning Complete
