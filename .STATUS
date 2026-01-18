@@ -1043,9 +1043,65 @@
   - Conditional execution
   - Parallel task execution
 
+## 🔄 In Planning
+
+### Teaching Workflow v3.0 Enhancements - v5.14.0
+
+**Spec:** `docs/specs/SPEC-teaching-workflow-v3-enhancements.md` (v3.0 Approved)
+**Status:** Planning Complete, Ready for Implementation
+**Total Effort:** Phase 1: ~23 hours, Phase 2: ~9 hours
+
+#### Phase 1 - Immediate (v5.14.0) [~23 hours]
+
+**Priority:** High | **Effort:** High | **Impact:** Very High
+
+**Core Improvements:**
+1. Remove teach-init standalone command (fully integrate into teach dispatcher)
+2. Enhanced teach doctor (dependency checks + config validation + --fix + --json)
+3. Add --help flags to all teach sub-commands with examples
+4. Backup system with .backups/ folders and content-type retention policies
+5. Prompt users before deleting backups (safety improvement)
+
+**New Features:**
+6. teach status: Add deployment status + backup summary
+7. teach deploy: Add preview before PR creation
+8. Scholar wrappers: Template selection + lesson plan integration
+9. teach init: Add templates + GitHub setup (optional via --config, --github flags)
+10. Config validation integration in teach doctor
+
+**Files to Modify:**
+- `lib/dispatchers/teach-dispatcher.zsh` (~580 lines changes)
+- `commands/teach-init.zsh` (DELETE - move to dispatcher)
+- `.flow/teach-config.yml` (schema additions for backups)
+- `lib/git-helpers.zsh` (~50 lines for deploy preview)
+- Multiple test files (new + updates)
+
+**Testing Strategy:**
+- Unit tests for each task
+- Integration tests with scholar-demo-course
+- Comprehensive test suite validation
+
+**Branch:** `feature/teaching-workflow-v3` (to be created)
+**Worktree:** `~/.git-worktrees/flow-cli/teaching-workflow-v3`
+
+---
+
+#### Phase 2 - Future Enhancements (v5.15.0+) [~9 hours]
+
+**Priority:** Medium | **Effort:** Medium | **Impact:** Medium
+
+**Planned Features:**
+1. teach week: Topic preview + content checklist (~3 hours)
+2. teach dates: Holiday detection + smart sync (~4 hours)
+3. teach config: Interactive editor with live validation (~2 hours)
+
+**Status:** Deferred until Phase 1 complete
+
+---
+
 ## 🎯 Next Action
 
-**Current:** Documentation Polish Complete - Ready for v5.13.0 Release
+**Current:** Teaching Workflow v3.0 Phase 1 - Ready to Implement
 
 **✅ v5.10.0 Released (2026-01-15):**
 - ✅ Worktree detection + cache invalidation
