@@ -1,245 +1,462 @@
 # Scholar Enhancement Tutorial GIFs - Status
 
-**Last Updated:** 2026-01-17 19:30
-**Command Used:** `/craft:docs:demo`
+**Last Updated:** 2026-01-17 20:20
+**Method:** asciinema + agg (real Claude Code sessions)
+
+---
+
+## Recording Method Change
+
+**Previous:** VHS tapes with simulated output ❌
+**Current:** asciinema recordings of real Claude Code sessions ✅
+
+**Why the change?**
+- ✅ Real command output (authentic Scholar Enhancement demos)
+- ✅ Natural timing (no need to simulate pauses)
+- ✅ Easy to maintain (just re-record if features change)
+- ✅ Better compression (smaller file sizes)
+
+---
+
+## Prerequisites
+
+```bash
+# Install recording tools
+brew install asciinema agg gifsicle
+
+# Verify installation
+which asciinema agg gifsicle
+```
 
 ---
 
 ## Current Status
 
-### ✅ Successfully Created (1/8)
+### 📋 Recording Needed (8 demos)
 
-| Tape File | GIF Status | Size | Notes |
-|-----------|------------|------|-------|
-| `scholar-01-help.tape` | ✅ Generated | 384 KB | Help system demo |
+All demos use the new asciinema workflow:
 
-### ⚠️ Needs Refinement (7/8)
+| Demo | Topic | Est. Size | Recording Time |
+|------|-------|-----------|----------------|
+| scholar-01-help | Help system | ~150 KB | 2 min |
+| scholar-02-generate | Basic generation | ~250 KB | 3 min |
+| scholar-03-customize | Style presets | ~250 KB | 3 min |
+| scholar-04-lesson | Lesson plans | ~350 KB | 4 min |
+| scholar-05-interactive | Interactive mode | ~400 KB | 5 min |
+| scholar-06-revision | Revision workflow | ~350 KB | 4 min |
+| scholar-07-week | Week-based gen | ~250 KB | 3 min |
+| scholar-08-context | Context integration | ~300 KB | 4 min |
 
-| Tape File | Issue | Solution |
-|-----------|-------|----------|
-| `scholar-02-generate.tape` | Recording failed | Use simulated output (echo/heredoc) |
-| `scholar-03-customize.tape` | Recording failed | Use simulated output |
-| `scholar-04-lesson-plan.tape` | Recording failed | Use simulated output |
-| `scholar-05-week-based.tape` | Working earlier | Regenerate with refinements |
-| `scholar-06-interactive.tape` | Working earlier | Regenerate with refinements |
-| `scholar-07-revision.tape` | Recording failed | Use simulated output |
-| `scholar-08-context.tape` | Working earlier | Regenerate with refinements |
+**Total Recording Time:** ~30 minutes
+**Total Size (estimated):** ~2.3 MB optimized
 
 ---
 
-## Issue Analysis
+## Quick Start
 
-**Problem:** VHS executes commands in the tape files, and commands that don't exist or fail in the current environment cause "recording failed" errors.
-
-**Root Cause:** The development environment doesn't have a fully configured Scholar Enhancement installation, so `teach` commands fail when VHS tries to execute them.
-
-**Solutions:**
-
-### Option 1: Simulated Output (Recommended for Docs)
-
-Use `Hide`/`Show` with heredocs to simulate command output without execution:
-
-```tape
-Type "teach slides --help"
-Enter
-Sleep 500ms
-
-# Simulate output
-Hide
-Type "cat << 'EOF'"
-Enter
-Show
-Type "teach slides - Generate lecture slides"
-Enter
-Type "  --style PRESET ..."
-Enter
-Hide
-Type "EOF"
-Enter
-Show
-Sleep 2s
-```
-
-**Pros:** Works in any environment, fast to generate
-**Cons:** Not real output (but fine for documentation)
-
-### Option 2: Mock Commands
-
-Create a mock `teach` command that outputs pre-defined text:
+### Record Demo 1 (Help System)
 
 ```bash
-# Create mock
-mkdir -p /tmp/demo-bin
-cat > /tmp/demo-bin/teach <<'EOF'
-#!/bin/bash
-cat << 'HELPTEXT'
-teach slides - Generate lecture slides...
-HELPTEXT
-EOF
-chmod +x /tmp/demo-bin/teach
+cd ~/projects/dev-tools/flow-cli/docs/demos/tutorials
 
-# In tape file
-Set Shell "bash"
-Env PATH "/tmp/demo-bin:$PATH"
+# Start recording
+asciinema rec scholar-01-help.cast
+
+# In the recording terminal:
+claude
+teach slides --help
+teach quiz --help
+teach lecture --help
+exit
+
+# Recording stops automatically
+# Convert to GIF
+agg \
+  --cols 100 \
+  --rows 30 \
+  --font-size 16 \
+  --theme dracula \
+  --fps 10 \
+  scholar-01-help.cast scholar-01-help.gif
+
+# Optimize
+gifsicle -O3 --colors 128 --lossy=80 \
+  scholar-01-help.gif -o scholar-01-help.gif
+
+# Check size
+ls -lh scholar-01-help.gif
 ```
-
-**Pros:** Realistic command execution
-**Cons:** Setup overhead, environment-specific
-
-### Option 3: Real Environment
-
-Wait until Scholar Enhancement is deployed and run VHS in a fully configured environment.
-
-**Pros:** Authentic output
-**Cons:** Requires full deployment
 
 ---
 
-## Recommendations
+## Batch Recording Workflow
 
-### For Documentation (Immediate)
+### 1. Record All Sessions
 
-1. **Refine 5 failing tapes** using Option 1 (simulated output)
-2. **Regenerate 3 working tapes** (05, 06, 08) with current code
-3. **Optimize with gifsicle** to reduce file sizes
-4. **Commit all GIFs** with tutorial series
+Follow the guide in `RECORDING-GUIDE.md`:
 
-### For Production (Later)
+```bash
+# Demo 1: Help system
+asciinema rec scholar-01-help.cast
+# ... run commands in Claude Code
 
-1. **Deploy Scholar Enhancement** to production environment
-2. **Regenerate all GIFs** with real commands
-3. **Record actual workflows** showing real Scholar output
-4. **Add to CI/CD** to auto-regenerate on feature changes
+# Demo 2: Basic generation
+asciinema rec scholar-02-generate.cast
+# ... run commands
+
+# Continue for all 8 demos
+```
+
+### 2. Convert All at Once
+
+```bash
+# Use the batch conversion script
+./convert-all.sh
+```
+
+The script will:
+- Convert all `.cast` files to GIFs
+- Apply dracula theme with optimal settings
+- Optimize with gifsicle
+- Show file sizes
+
+### 3. Verify Quality
+
+```bash
+# Check sizes
+ls -lh scholar-*.gif
+
+# View in browser
+open scholar-01-help.gif
+
+# Verify all 8 exist
+ls -1 scholar-*.gif | wc -l
+# Should show: 8
+```
 
 ---
 
-## Refined Tape Template
+## Recording Guidelines
 
-**Pattern for non-failing demos:**
+### Terminal Setup
 
-```tape
-# Demo Title
-Output demo.gif
+**Before recording:**
+- Clear terminal: `clear`
+- Set consistent size: Terminal → Window → 100x30
+- Use clean shell (no custom prompt distractions)
 
-Set FontSize 14
-Set Width 1000
-Set Height 600
-Set Theme "Catppuccin Mocha"
-Set Padding 20
-Set TypingSpeed 50ms
+### During Recording
 
-# Show command
-Type "teach slides \"Topic\" --style computational"
-Sleep 800ms
-Enter
-Sleep 500ms
+**Do:**
+- ✅ Wait 2-3 seconds before starting commands
+- ✅ Let commands complete fully
+- ✅ Pause 2 seconds after output
+- ✅ Exit cleanly
 
-# Simulate output using heredoc
-Hide
-Type "cat << 'EOF'"
-Enter
-Show
+**Don't:**
+- ❌ Rush through commands
+- ❌ Make typos (can't edit easily)
+- ❌ Include sensitive information
+- ❌ Show errors (unless demonstrating error handling)
 
-Type "🎓 Scholar Enhancement"
-Sleep 200ms
-Enter
-Type "Topic: Topic"
-Sleep 200ms
-Enter
-Type "Style: computational"
-Sleep 200ms
-Enter
-Type "✅ Generated: slides.qmd"
-Sleep 200ms
-Enter
+### Conversion Settings
 
-Hide
-Type "EOF"
-Enter
-Show
-Sleep 2s
+**Recommended:**
+```bash
+agg \
+  --cols 100 \          # Consistent width
+  --rows 30 \           # Consistent height
+  --font-size 16 \      # Readable on docs site
+  --theme dracula \     # Good contrast
+  --fps 10 \            # Smooth playback
+  input.cast output.gif
 ```
 
-**Key Points:**
-- `Hide`/`Show` to conceal heredoc markers
-- `Sleep 200ms` after each line for readability
-- `Sleep 2s` at end for final viewing
-- No actual command execution (everything is typed text)
+**Alternative themes:**
+- `monokai` - Popular dark theme
+- `solarized-dark` - Lower contrast
+- `nord` - Cool blue tones
+
+**FPS trade-offs:**
+- `fps 5` - Smaller files, slightly choppy
+- `fps 10` - Good balance (recommended)
+- `fps 15` - Very smooth, larger files
+
+---
+
+## Demo Specifications
+
+### Demo 1: Help System
+**File:** `scholar-01-help.cast`
+
+**Commands:**
+```bash
+teach slides --help
+teach quiz --help
+teach lecture --help
+```
+
+**Purpose:** Show flag discovery and usage patterns
+
+---
+
+### Demo 2: Basic Generation
+**File:** `scholar-02-generate.cast`
+
+**Commands:**
+```bash
+teach slides "Introduction to Statistics" --style conceptual
+```
+
+**Purpose:** Demonstrate basic content generation
+
+---
+
+### Demo 3: Style Customization
+**File:** `scholar-03-customize.cast`
+
+**Commands:**
+```bash
+teach quiz "Hypothesis Testing" \
+  --style rigorous \
+  --technical-depth high
+```
+
+**Purpose:** Show style preset customization
+
+---
+
+### Demo 4: Lesson Plans
+**File:** `scholar-04-lesson.cast`
+
+**Commands:**
+```bash
+# Assumes week3.yml exists
+teach lecture "Regression Analysis" --lesson week3.yml
+```
+
+**Purpose:** YAML-driven content generation
+
+---
+
+### Demo 5: Interactive Mode
+**File:** `scholar-05-interactive.cast`
+
+**Commands:**
+```bash
+teach exam --interactive
+# Answer prompts:
+# Topic: Statistical Inference
+# Style: applied
+# Questions: 20
+# Duration: 60
+```
+
+**Purpose:** Interactive wizard workflow
+
+---
+
+### Demo 6: Revision Workflow
+**File:** `scholar-06-revision.cast`
+
+**Commands:**
+```bash
+teach slides "ANOVA" --output slides-v1.md
+# Edit slides-v1.md
+teach slides --revise slides-v1.md \
+  --feedback "Add more practical examples"
+```
+
+**Purpose:** Iterative refinement
+
+---
+
+### Demo 7: Week-Based Generation
+**File:** `scholar-07-week.cast`
+
+**Commands:**
+```bash
+teach quiz --week 5
+# Shows auto-detected topic from teach-config.yml
+```
+
+**Purpose:** Config-driven automation
+
+---
+
+### Demo 8: Context Integration
+**File:** `scholar-08-context.cast`
+
+**Commands:**
+```bash
+teach assignment "Homework 3" --with-readings
+# Shows integration with course materials
+```
+
+**Purpose:** Advanced context awareness
+
+---
+
+## Optimization Targets
+
+### File Size Goals
+
+| Demo | Target | Acceptable | Too Large |
+|------|--------|------------|-----------|
+| Help screens | < 200 KB | 200-300 KB | > 300 KB |
+| Simple output | < 300 KB | 300-400 KB | > 400 KB |
+| Interactive | < 500 KB | 500-600 KB | > 600 KB |
+
+**If too large:**
+1. Reduce FPS: `--fps 5` instead of `--fps 10`
+2. Increase lossy compression: `--lossy=90` instead of `--lossy=80`
+3. Reduce colors: `--colors 64` instead of `--colors 128`
+4. Trim recording duration (remove pauses)
+
+### Quality Checks
+
+```bash
+# Check GIF metadata
+gifsicle --info scholar-01-help.gif
+
+# Verify frame rate
+# Verify color count
+# Verify dimensions
+
+# Play in terminal (optional)
+gif-for-cli scholar-01-help.gif
+```
+
+---
+
+## Integration with Tutorials
+
+### Linking GIFs in Markdown
+
+**Pattern:**
+```markdown
+![Demo: Help System](../../demos/tutorials/scholar-01-help.gif)
+
+*Figure 1: Discovering Scholar Enhancement flags with --help*
+```
+
+**Placement:**
+- After introducing a feature
+- Before detailed explanation
+- In "Quick Start" sections
+
+### Tutorial Updates Needed
+
+Once GIFs are generated, update:
+
+- `docs/tutorials/scholar-enhancement/01-getting-started.md`
+- `docs/tutorials/scholar-enhancement/02-intermediate.md`
+- `docs/tutorials/scholar-enhancement/03-advanced.md`
+
+Add `![...]()` references at appropriate points.
+
+---
+
+## Troubleshooting
+
+### "command not found: teach"
+
+**Solution:** Record in a project directory with Scholar Enhancement configured:
+
+```bash
+cd ~/projects/teaching/stat-440  # Or any teaching project
+asciinema rec scholar-XX.cast
+```
+
+### GIF too large (> 500 KB)
+
+**Solution 1:** Increase compression
+```bash
+gifsicle -O3 --colors 64 --lossy=90 \
+  input.gif -o output.gif
+```
+
+**Solution 2:** Reduce FPS
+```bash
+agg --fps 5 input.cast output.gif
+```
+
+**Solution 3:** Trim duration
+```bash
+# Edit .cast file (it's JSON)
+# Remove frames at beginning/end
+```
+
+### Poor quality after optimization
+
+**Solution:** Reduce lossy compression
+```bash
+gifsicle -O3 --colors 256 --lossy=60 \
+  input.gif -o output.gif
+```
+
+---
+
+## When to Re-record
+
+Re-record demos if:
+
+1. ✅ **Feature changes** - Commands or output format changes
+2. ✅ **Errors in demo** - Typos or incorrect steps
+3. ✅ **Quality issues** - Text unreadable or poor contrast
+4. ❌ **Minor tweaks** - Don't re-record for tiny changes
 
 ---
 
 ## Next Steps
 
-### Option A: Complete GIF Generation Now (Est. 30 min)
+### Phase 1: Record (Est. 30 min)
 
 ```bash
-# 1. Refine all 8 VHS tapes with simulated output
-# 2. Regenerate all GIFs
 cd docs/demos/tutorials
-for tape in scholar-*.tape; do vhs "$tape"; done
 
-# 3. Optimize file sizes
-for gif in scholar-*.gif; do
-  gifsicle -O3 --lossy=80 "$gif" -o "${gif%.gif}-opt.gif"
-  mv "${gif%.gif}-opt.gif" "$gif"
-done
+# Record all 8 demos following RECORDING-GUIDE.md
+asciinema rec scholar-01-help.cast
+# ... continue for all 8
 
-# 4. Verify sizes
+# Verify recordings exist
+ls -1 scholar-*.cast
+# Should show 8 files
+```
+
+### Phase 2: Convert (Est. 5 min)
+
+```bash
+# Batch convert
+./convert-all.sh
+
+# Verify GIFs
 ls -lh scholar-*.gif
+```
 
-# 5. Commit
-git add scholar-*.tape scholar-*.gif
+### Phase 3: Integrate (Est. 10 min)
+
+```bash
+# Update tutorial markdown files with GIF links
+# Test in mkdocs preview
+mkdocs serve
+
+# Commit
+git add scholar-*.{cast,gif}
+git add docs/tutorials/scholar-enhancement/*.md
 git commit -m "docs: add Scholar Enhancement tutorial GIF demos"
 ```
-
-### Option B: Defer GIF Generation (Commit Templates)
-
-```bash
-# Commit VHS tape templates for later generation
-git add docs/demos/tutorials/*.tape
-git add docs/demos/tutorials/README.md
-git commit -m "docs: add VHS tape templates for tutorial GIFs
-
-GIF generation deferred until Scholar Enhancement is deployed.
-Tapes can be regenerated with: cd docs/demos/tutorials && vhs *.tape"
-```
-
-### Option C: Hybrid Approach (Commit What Works)
-
-```bash
-# Commit successful GIF + templates
-git add docs/demos/tutorials/scholar-01-help.*
-git add docs/demos/tutorials/*.tape
-git add docs/demos/tutorials/README.md
-git commit -m "docs: add tutorial GIF demo and VHS templates
-
-- Generated: scholar-01-help.gif (help system demo)
-- Templates: 8 VHS tapes for remaining demos
-- Remaining GIFs can be generated after deployment"
-```
-
----
-
-## File Sizes (Target)
-
-| Demo | Est. Size | Actual | Status |
-|------|-----------|--------|--------|
-| scholar-01-help.gif | 300-400 KB | 384 KB | ✅ Good |
-| scholar-02-generate.gif | 200-300 KB | - | ⏳ Pending |
-| scholar-03-customize.gif | 200-300 KB | - | ⏳ Pending |
-| scholar-04-lesson-plan.gif | 400-500 KB | - | ⏳ Pending |
-| scholar-05-week-based.gif | 250-350 KB | - | ⏳ Pending |
-| scholar-06-interactive.gif | 450-550 KB | - | ⏳ Pending |
-| scholar-07-revision.gif | 400-500 KB | - | ⏳ Pending |
-| scholar-08-context.gif | 300-400 KB | - | ⏳ Pending |
-
-**Total Estimated:** 2.5-3.5 MB unoptimized, ~1.5-2.5 MB after gifsicle
 
 ---
 
 ## References
 
-- **VHS Documentation:** https://github.com/charmbracelet/vhs
-- **Tutorial Files:** `docs/tutorials/scholar-enhancement/`
-- **VHS Tape Templates:** `docs/demos/tutorials/scholar-*.tape`
-- **Optimization:** `gifsicle -O3 --lossy=80 input.gif -o output.gif`
+- **Recording Guide:** `RECORDING-GUIDE.md` (complete workflow)
+- **Conversion Script:** `convert-all.sh` (batch processing)
+- **asciinema docs:** https://docs.asciinema.org/
+- **agg docs:** https://github.com/asciinema/agg
+- **gifsicle docs:** https://www.lcdf.org/gifsicle/
+
+---
+
+**Status:** Ready to record! Follow RECORDING-GUIDE.md to start.
