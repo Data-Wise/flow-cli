@@ -24,26 +24,40 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ## ✨ What's New in v5.13.0
 
-!!! success "WT Workflow Enhancement - Overview & Interactive Actions"
-    Enhanced worktree management with formatted overview, status icons, and interactive cleanup
+!!! success "Two Major Features: WT Enhancement + Scholar Integration"
+    Enhanced worktree management AND 9 Scholar wrapper commands for teaching content generation
+
+### WT Workflow Enhancement
 
 **Phase 1: Enhanced wt Default**
-- **🌳 Formatted Overview** - `wt` now shows formatted table with status icons and session indicators
-- **🎯 Smart Filtering** - `wt <project>` filters worktrees by project name
-- **📊 Status Icons** - Visual indicators: ✅ active, 🧹 merged, ⚠️ stale, 🏠 main
-- **🟢 Session Detection** - See Claude Code activity: 🟢 active, 🟡 recent, ⚪ none
+
+- **🌳 Formatted Overview** - `wt` shows formatted table with status icons
+- **🎯 Smart Filtering** - `wt <project>` filters by project name
+- **📊 Status Icons** - ✅ active, 🧹 merged, ⚠️ stale, 🏠 main
+- **🟢 Session Detection** - 🟢 active, 🟡 recent, ⚪ none
 
 **Phase 2: pick wt Actions**
-- **⌨️ Multi-Select** - Tab key to select multiple worktrees for batch operations
-- **🗑️ Interactive Delete** - Ctrl-X to delete selected worktrees with confirmation
-- **🔄 Cache Refresh** - Ctrl-R to clear cache and show updated overview
-- **✨ Smooth Workflow** - Seamless integration with existing pick command
 
-**Documentation & Testing**
-- **📖 Complete API Reference** - 800+ lines of technical specifications
-- **🎨 Architecture Diagrams** - 10 Mermaid diagrams covering all aspects
-- **✅ Test Coverage** - 48 new tests (23 unit + 25 E2E, 95.7% passing)
-- **📚 Updated Tutorials** - Tutorial 09 enhanced with new features
+- **⌨️ Multi-Select** - Tab to select multiple worktrees
+- **🗑️ Interactive Delete** - Ctrl-X with confirmation
+- **🔄 Cache Refresh** - Ctrl-R to refresh overview
+
+### Teach/Scholar Enhancement
+
+**9 Scholar Wrapper Commands** for teaching content generation:
+
+```bash
+teach generate quiz "Linear Regression" --style conceptual +math
+teach generate exam --week 8 --format pdf
+teach generate homework --lesson week-05.yml
+```
+
+- `quiz`, `exam`, `homework`, `lecture`, `rubric`
+- `syllabus`, `slides`, `feedback`, `solution`
+
+**Smart Defaults:** `--content-preset`, `+math/-examples`, `--format md|pdf|docx|typst`
+
+[→ Scholar Enhancement Tutorials](tutorials/scholar-enhancement/index.md){ .md-button .md-button--primary }
 
 ### Previous Release: v5.12.0
 
