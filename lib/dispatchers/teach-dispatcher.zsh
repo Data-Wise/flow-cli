@@ -37,6 +37,13 @@ if [[ -z "$_FLOW_GIT_HELPERS_LOADED" ]]; then
     typeset -g _FLOW_GIT_HELPERS_LOADED=1
 fi
 
+# Source teach doctor implementation (v5.14.0 - Task 2)
+if [[ -z "$_FLOW_TEACH_DOCTOR_LOADED" ]]; then
+    local doctor_path="${0:A:h}/teach-doctor-impl.zsh"
+    [[ -f "$doctor_path" ]] && source "$doctor_path"
+    typeset -g _FLOW_TEACH_DOCTOR_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -2326,6 +2333,11 @@ teach() {
         # Date management
         dates)
             _teach_dates_dispatcher "$@"
+            ;;
+
+        # Health check (v5.14.0 - Task 2)
+        doctor)
+            _teach_doctor "$@"
             ;;
 
         *)
