@@ -2,11 +2,29 @@
 
 **Command:** `teach`
 **Purpose:** Teaching workflow management for course websites
-**Version:** v5.13.0
+**Version:** v5.13.0 (Legacy) → **v5.14.0 (Current)**
+
+> **⚠️ DEPRECATION NOTICE**
+>
+> This document covers flow-cli v5.13.0 and earlier.
+>
+> **For Teaching Workflow v3.0 (flow-cli v5.14.0+), see:**
+> - **[TEACH-DISPATCHER-REFERENCE-v3.0.md](TEACH-DISPATCHER-REFERENCE-v3.0.md)** - Complete v3.0 reference
+> - **[TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md)** - v3.0 user guide
+> - **[BACKUP-SYSTEM-GUIDE.md](../guides/BACKUP-SYSTEM-GUIDE.md)** - Backup system guide
+>
+> **What's New in v3.0:**
+> - ✅ `teach doctor` - Health checks with `--fix`, `--json`, `--quiet`
+> - ✅ Enhanced `teach status` - Deployment status, backup summary
+> - ✅ Enhanced `teach deploy` - Changes preview, diff viewing
+> - ✅ Backup system - Automated backups with retention policies
+> - ✅ Scholar templates - `--template` flag for all Scholar commands
+> - ✅ Lesson plan auto-loading - Automatic context integration
+> - ✅ `teach init` flags - `--config` and `--github` options
 
 ---
 
-## Overview
+## Overview (Legacy v5.13.0)
 
 The `teach` dispatcher provides unified commands for managing teaching workflows, including course initialization, exam creation, deployment, and semester management.
 
