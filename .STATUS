@@ -10,44 +10,43 @@
 
 ## Focus: v5.13.0 - Claude Code Plugin Integration (Scholar & Craft Dispatchers)
 
-## 🚧 In Progress (2026-01-17):
+## ✅ Completed (2026-01-18):
 
-### Teach/Scholar Enhancement - WIP 🚧
+### Teach/Scholar Enhancement - MERGED ✅
 
 **Spec:** `docs/specs/SPEC-teach-scholar-enhancement-2026-01-17.md`
-**Branch:** `feature/teaching-flags` ← WIP
-**Worktree:** `~/.git-worktrees/flow-cli/feature/teaching-flags`
-**Estimated Effort:** 20-24 hours across 6 phases
-**Started:** 2026-01-17
+**PR:** #268 (merged to dev 2026-01-18)
+**Commits:** 26 commits (+12,005 lines)
 
 **Goal:** Comprehensive teach dispatcher enhancement with Scholar plugin integration
 
+**Delivered:**
+- 9 Scholar wrapper commands with full flag support
+- Content management system (--content-preset, +/- modifiers)
+- Output format flexibility (md, pdf, docx, typst)
+- Comprehensive tutorials (3-part series with 8 GIF demos)
+- API documentation (1,100+ lines)
+- 45 tests (100% passing)
+
 ---
 
-### WT Workflow Enhancement - WIP 🚧
+### WT Workflow Enhancement - MERGED ✅
 
 **Spec:** `docs/specs/SPEC-wt-workflow-enhancement-2026-01-17.md`
 **Brainstorm:** `docs/specs/BRAINSTORM-wt-workflow-enhancement-2026-01-17.md`
-**Branch:** `feature/wt-enhancement` ← WIP
-**Worktree:** `~/.git-worktrees/flow-cli/feature-wt-enhancement`
-**Estimated Effort:** 6-8 hours across 3 phases
-**Started:** 2026-01-17
+**PR:** #267 (merged to dev 2026-01-18)
+**Commits:** 10 commits (+5,590 lines)
 
 **Goal:** Enhanced worktree listing and pick wt delete/update actions
 
-**Key Features:**
-- Better `wt` default (formatted overview with status icons, session indicators)
-- `wt <filter>` support for filtered listing
+**Delivered:**
+- `wt` overview with formatted table, status icons (✅🧹⚠️🏠), session indicators (🟢🟡⚪)
+- `wt <filter>` for filtered listing by project
 - `pick wt` keybindings: ctrl-x (delete), ctrl-r (refresh)
 - Multi-select with Tab for batch operations
-- Interactive delete confirmation with optional branch cleanup
-
-**Implementation Phases:**
-- [ ] Phase 1: Enhanced `wt` Default (2h)
-- [ ] Phase 2: pick wt Actions (3-4h)
-- [ ] Phase 3: Testing & Polish (1-2h)
-
-**Status:** Spec complete, worktree ready
+- Safe branch deletion (try -d first, prompt for -D)
+- Performance fix: cached git branch --merged before loop
+- 23 tests (22 passing)
 
 ---
 
@@ -67,9 +66,10 @@
 
 **Sub-Specs:**
 
-1. [x] Teach/Scholar Enhancement: `SPEC-teach-scholar-enhancement-2026-01-17.md` (20-24h) - MERGED
-2. [ ] Research/Literature: Pending (after teaching implementation)
-3. [ ] Craft Commands: Pending (after research implementation)
+1. [x] Teach/Scholar Enhancement: `SPEC-teach-scholar-enhancement-2026-01-17.md` (20-24h) - MERGED ✅
+2. [x] WT Workflow Enhancement: `SPEC-wt-workflow-enhancement-2026-01-17.md` (6-8h) - MERGED ✅
+3. [ ] Research/Literature: Pending (after teaching implementation)
+4. [ ] Craft Commands: Pending (after research implementation)
 
 **Implementation Order:**
 
