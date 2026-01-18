@@ -1,0 +1,6 @@
+{"version":3,"term":{"cols":80,"rows":24,"type":"xterm-ghostty"},"timestamp":1768706561,"command":"./demo-02-generate.sh","env":{"SHELL":"/bin/zsh"}}
+[0.580, "o", "\u001b[3J\u001b[H\u001b[2J"]
+[1.003, "o", "❯ teach slides \"Introduction to Statistics\" --style conceptual\r\n"]
+[2.012, "o", "\r\n🎓 Scholar Enhancement - Generating Slides\r\n\r\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\r\n\r\nTopic:  Introduction to Statistics\r\nStyle:  conceptual (explanation + definitions + examples)\r\n\r\n📝 Content Structure:\r\n   ✓ Title slide\r\n   ✓ Learning objectives\r\n   ✓ Key definitions\r\n   ✓ Conceptual explanations\r\n   ✓ Practical examples\r\n   ✓ Summary & takeaways\r\n\r\n📊 Included Sections:\r\n   • What is statistics?\r\n   • Descriptive vs. inferential statistics\r\n   • Population vs. sample\r\n   • Variables and data types\r\n   • Real-world applications\r\n\r\n✅ Generated: slides/intro-statistics.qmd (1,247 words)\r\n\r\n   Duration: ~45 minutes\r\n   Slides:   15-20\r\n   Format:   Quarto reveal.js\r\n\r\n"]
+[6.008, "o", "❯ \r\n"]
+[1.011, "x", "0"]
