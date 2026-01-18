@@ -1,7 +1,7 @@
 # Scholar Enhancement Tutorial Demo 5: Week-Based Generation
 # Shows generating content from lesson plan using week number
 
-Output docs/demos/tutorials/scholar-05-week-based.gif
+Output scholar-05-week-based.gif
 
 Set FontSize 16
 Set Width 1200

@@ -1,7 +1,7 @@
 # Scholar Enhancement Tutorial Demo 8: Context Integration
 # Shows course-aware content generation
 
-Output docs/demos/tutorials/scholar-08-context.gif
+Output scholar-08-context.gif
 
 Set FontSize 16
 Set Width 1200

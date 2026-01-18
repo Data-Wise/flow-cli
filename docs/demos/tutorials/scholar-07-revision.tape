@@ -1,62 +1,67 @@
 # Scholar Enhancement Tutorial Demo 7: Revision Workflow
 # Shows improving existing content with revision menu
 
-Output docs/demos/tutorials/scholar-07-revision.gif
+Output scholar-07-revision.gif
 
-Set FontSize 16
-Set Width 1200
-Set Height 800
+Set FontSize 13
+Set Width 1000
+Set Height 650
 Set Theme "Catppuccin Mocha"
 Set Padding 20
+Set TypingSpeed 40ms
 
-# Create test slides first
-Type "teach slides \"Linear Regression\" --style computational -o test-slides.qmd"
-Sleep 500ms
-Enter
-Sleep 2s
-
-# Now revise them
+# Start revision
 Type "teach slides --revise test-slides.qmd"
 Sleep 500ms
 Enter
-Sleep 2s
+Sleep 1s
 
-# Show diff preview
-Type "# 📝 Revising: test-slides.qmd"
-Sleep 1s
+# Show file info
+Type@400ms "📝 Revising: test-slides.qmd"
 Enter
-Type "# 📅 Last modified: 2026-01-17 14:30"
-Sleep 1s
+Type@400ms "📅 Last modified: 2026-01-17 14:30"
 Enter
 Sleep 1s
+Type@400ms ""
+Enter
 
 # Show revision menu
-Type "# 📝 Revision Options"
-Sleep 1s
+Type@400ms "📝 Revision Options"
 Enter
-Type "# What would you like to improve?"
+Type@400ms ""
 Enter
-Sleep 1s
-Type "#   [1] Add missing content          Fill gaps, add sections"
+Type@400ms "What would you like to improve?"
 Enter
-Type "#   [2] Improve clarity/organization Restructure, clarify"
-Enter
-Type "#   [3] Fix errors/inconsistencies   Correct mistakes"
-Enter
-Type "#   [4] Update examples/exercises    Refresh examples"
-Enter
-Type "#   [5] Enhance formatting/style     Polish presentation"
-Enter
-Type "#   [6] Custom instructions          Your own guidance"
-Enter
-Sleep 2s
-Type "2"
 Sleep 500ms
+Type@400ms ""
 Enter
-Sleep 2s
+Type@400ms "  [1] Add missing content"
+Enter
+Type@400ms "  [2] Improve clarity/organization"
+Enter
+Type@400ms "  [3] Fix errors/inconsistencies"
+Enter
+Type@400ms "  [4] Update examples/exercises"
+Enter
+Type@400ms "  [5] Enhance formatting/style"
+Enter
+Type@400ms "  [6] Custom instructions"
+Enter
+Sleep 1s
+Type@400ms ""
+Enter
+Type "Your choice [1-6]: "
+Sleep 500ms
+Type "2"
+Enter
+Sleep 1s
 
 # Show result
-Type "# Improving clarity and organization..."
+Type@400ms ""
+Enter
+Type@400ms "Improving clarity and organization..."
+Enter
 Sleep 2s
-Type "# ✅ Revision complete"
+Type@400ms "✅ Revision complete"
+Enter
 Sleep 2s

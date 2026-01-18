@@ -1,22 +1,41 @@
 # Scholar Enhancement Tutorial Demo 2: Generate First Slides
 # Shows basic content generation with style preset
 
-Output docs/demos/tutorials/scholar-02-generate.gif
+Output scholar-02-generate.gif
 
-Set FontSize 16
-Set Width 1200
-Set Height 800
+Set FontSize 14
+Set Width 1000
+Set Height 600
 Set Theme "Catppuccin Mocha"
 Set Padding 20
+Set TypingSpeed 40ms
+Set Shell "bash"
 
-# Show the command
-Type "teach slides \"Linear Regression\" --style computational"
-Sleep 500ms
+# Show command being typed
+Type "$ teach slides \"Linear Regression\" --style computational"
+Sleep 800ms
 Enter
+Sleep 1s
 
-# Wait for Scholar to process (simulated)
+# Simulate Scholar output using echo
+Type "echo '🎓 Scholar Enhancement'"
+Enter
+Type "echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'"
+Enter
+Type "echo 'Topic: Linear Regression'"
+Enter
+Type "echo 'Style: computational'"
+Enter
+Type "echo ''"
+Enter
+Type "echo 'Content: explanation, examples, code, practice-problems'"
+Enter
+Sleep 1s
+Type "echo ''"
+Enter
+Type "echo 'Generating slides with Claude Code...'"
+Enter
 Sleep 2s
-Type "# Generating slides with computational style..."
-Sleep 2s
-Type "# ✅ Slides created: linear-regression.qmd"
+Type "echo '✅ Slides created: linear-regression.qmd'"
+Enter
 Sleep 2s

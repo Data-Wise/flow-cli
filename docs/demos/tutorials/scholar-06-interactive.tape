@@ -1,7 +1,7 @@
 # Scholar Enhancement Tutorial Demo 6: Interactive Mode
 # Shows step-by-step wizard for content generation
 
-Output docs/demos/tutorials/scholar-06-interactive.gif
+Output scholar-06-interactive.gif
 
 Set FontSize 16
 Set Width 1200
