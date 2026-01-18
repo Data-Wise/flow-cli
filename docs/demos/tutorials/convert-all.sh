@@ -49,7 +49,7 @@ for cast in scholar-*.cast; do
       --rows 30 \
       --font-size 16 \
       --theme dracula \
-      --fps 10 \
+      --fps-cap 10 \
       "$cast" "$gif" 2>/dev/null
 
     # Optimize with gifsicle

@@ -76,7 +76,7 @@ agg \
   --rows 30 \
   --font-size 16 \
   --theme dracula \
-  --fps 10 \
+  --fps-cap 10 \
   scholar-01-help.cast scholar-01-help.gif
 
 # Optimize
@@ -168,7 +168,7 @@ agg \
   --rows 30 \           # Consistent height
   --font-size 16 \      # Readable on docs site
   --theme dracula \     # Good contrast
-  --fps 10 \            # Smooth playback
+  --fps-cap 10 \            # Smooth playback
   input.cast output.gif
 ```
 
@@ -308,7 +308,7 @@ teach assignment "Homework 3" --with-readings
 | Interactive | < 500 KB | 500-600 KB | > 600 KB |
 
 **If too large:**
-1. Reduce FPS: `--fps 5` instead of `--fps 10`
+1. Reduce FPS: `--fps-cap 5` instead of `--fps-cap 10`
 2. Increase lossy compression: `--lossy=90` instead of `--lossy=80`
 3. Reduce colors: `--colors 64` instead of `--colors 128`
 4. Trim recording duration (remove pauses)
@@ -378,7 +378,7 @@ gifsicle -O3 --colors 64 --lossy=90 \
 
 **Solution 2:** Reduce FPS
 ```bash
-agg --fps 5 input.cast output.gif
+agg --fps-cap 5 input.cast output.gif
 ```
 
 **Solution 3:** Trim duration

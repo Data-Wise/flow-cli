@@ -60,7 +60,7 @@ agg \
   --rows 30 \
   --font-size 16 \
   --theme dracula \
-  --fps 10 \
+  --fps-cap 10 \
   scholar-01-help.cast scholar-01-help.gif
 ```
 
@@ -96,7 +96,7 @@ exit
 
 **Convert:**
 ```bash
-agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps 10 \
+agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-01-help.cast scholar-01-help.gif
 gifsicle -O3 --colors 128 --lossy=80 \
   scholar-01-help.gif -o scholar-01-help.gif
@@ -120,7 +120,7 @@ exit
 
 **Convert:**
 ```bash
-agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps 10 \
+agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-02-generate.cast scholar-02-generate.gif
 gifsicle -O3 --colors 128 --lossy=80 \
   scholar-02-generate.gif -o scholar-02-generate.gif
@@ -144,7 +144,7 @@ exit
 
 **Convert:**
 ```bash
-agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps 10 \
+agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-03-customize.cast scholar-03-customize.gif
 gifsicle -O3 --colors 128 --lossy=80 \
   scholar-03-customize.gif -o scholar-03-customize.gif
@@ -168,7 +168,7 @@ exit
 
 **Convert:**
 ```bash
-agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps 10 \
+agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-04-lesson.cast scholar-04-lesson.gif
 gifsicle -O3 --colors 128 --lossy=80 \
   scholar-04-lesson.gif -o scholar-04-lesson.gif
@@ -196,7 +196,7 @@ exit
 
 **Convert:**
 ```bash
-agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps 10 \
+agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-05-interactive.cast scholar-05-interactive.gif
 gifsicle -O3 --colors 128 --lossy=80 \
   scholar-05-interactive.gif -o scholar-05-interactive.gif
@@ -221,7 +221,7 @@ exit
 
 **Convert:**
 ```bash
-agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps 10 \
+agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-06-revision.cast scholar-06-revision.gif
 gifsicle -O3 --colors 128 --lossy=80 \
   scholar-06-revision.gif -o scholar-06-revision.gif
@@ -245,7 +245,7 @@ exit
 
 **Convert:**
 ```bash
-agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps 10 \
+agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-07-week.cast scholar-07-week.gif
 gifsicle -O3 --colors 128 --lossy=80 \
   scholar-07-week.gif -o scholar-07-week.gif
@@ -269,7 +269,7 @@ exit
 
 **Convert:**
 ```bash
-agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps 10 \
+agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-08-context.cast scholar-08-context.gif
 gifsicle -O3 --colors 128 --lossy=80 \
   scholar-08-context.gif -o scholar-08-context.gif
@@ -295,7 +295,7 @@ for cast in scholar-*.cast; do
       --rows 30 \
       --font-size 16 \
       --theme dracula \
-      --fps 10 \
+      --fps-cap 10 \
       "$cast" "$gif"
 
     # Optimize with gifsicle
@@ -328,9 +328,9 @@ chmod +x convert-all.sh
 - Alternatives: `monokai`, `solarized-dark`
 
 ### Frame Rate
-- `--fps 10` = smooth but large files
-- `--fps 5` = smaller files, slightly choppy
-- `--fps 15` = very smooth but very large
+- `--fps-cap 10` = smooth but large files
+- `--fps-cap 5` = smaller files, slightly choppy
+- `--fps-cap 15` = very smooth but very large
 
 ### Optimization
 - `--lossy=80` reduces size by ~40%
