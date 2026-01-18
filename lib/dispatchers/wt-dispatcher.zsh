@@ -151,13 +151,16 @@ _wt_overview() {
         base_branch="main"
     fi
 
+    # Cache merged branches list (performance: single git call instead of per-worktree)
+    local merged_branches
+    merged_branches=$(git branch --merged "$base_branch" 2>/dev/null)
+
     # Count worktrees
     local total_count=0
     local worktrees_data=()
 
     # Parse worktree list
     local wt_path wt_branch
-    setopt local_options NO_xtrace  # Suppress debug output
     while IFS= read -r line; do
         case "$line" in
             "worktree "*)
@@ -191,7 +194,7 @@ _wt_overview() {
                     elif [[ "$wt_branch" == "main" || "$wt_branch" == "master" || "$wt_branch" == "dev" || "$wt_branch" == "develop" ]]; then
                         wt_status_icon="🏠"
                         wt_status_text="main"
-                    elif git branch --merged "$base_branch" 2>/dev/null | grep -q "^\s*$wt_branch$"; then
+                    elif echo "$merged_branches" | grep -q "^\s*$wt_branch$"; then
                         wt_status_icon="🧹"
                         wt_status_text="merged"
                     else

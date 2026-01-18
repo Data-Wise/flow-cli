@@ -584,9 +584,20 @@ _pick_wt_delete() {
                         echo -n "Also delete branch '$rem_branch'? [y/N]: "
                         read -r branch_choice
                         if [[ "$branch_choice" =~ ^[Yy]$ ]]; then
-                            git branch -D "$rem_branch" 2>/dev/null && \
-                                echo "✓ Deleted branch: $rem_branch" || \
-                                echo "✗ Failed to delete branch: $rem_branch"
+                            # Try safe delete first, then force if needed
+                            if git branch -d "$rem_branch" 2>/dev/null; then
+                                echo "✓ Deleted branch: $rem_branch"
+                            else
+                                echo "⚠️  Branch '$rem_branch' not fully merged. Force delete? [y/N]: "
+                                read -r force_choice
+                                if [[ "$force_choice" =~ ^[Yy]$ ]]; then
+                                    git branch -D "$rem_branch" 2>/dev/null && \
+                                        echo "✓ Force deleted branch: $rem_branch" || \
+                                        echo "✗ Failed to delete branch: $rem_branch"
+                                else
+                                    echo "Skipped branch deletion"
+                                fi
+                            fi
                         fi
                     fi
                 done
@@ -605,9 +616,20 @@ _pick_wt_delete() {
                     echo -n "Also delete branch '$branch'? [y/N]: "
                     read -r branch_choice
                     if [[ "$branch_choice" =~ ^[Yy]$ ]]; then
-                        git branch -D "$branch" 2>/dev/null && \
-                            echo "✓ Deleted branch: $branch" || \
-                            echo "✗ Failed to delete branch: $branch"
+                        # Try safe delete first, then force if needed
+                        if git branch -d "$branch" 2>/dev/null; then
+                            echo "✓ Deleted branch: $branch"
+                        else
+                            echo -n "⚠️  Branch '$branch' not fully merged. Force delete? [y/N]: "
+                            read -r force_choice
+                            if [[ "$force_choice" =~ ^[Yy]$ ]]; then
+                                git branch -D "$branch" 2>/dev/null && \
+                                    echo "✓ Force deleted branch: $branch" || \
+                                    echo "✗ Failed to delete branch: $branch"
+                            else
+                                echo "Skipped branch deletion"
+                            fi
+                        fi
                     fi
                 fi
                 echo ""
