@@ -2478,6 +2478,189 @@ _teach_scholar_help() {
     esac
 }
 
+# ============================================================================
+# TEACH INIT - Initialize teaching project (v5.14.0 - Task 10)
+# ============================================================================
+
+# Initialize teaching project with optional external config and GitHub repo
+# Usage: _teach_init [course_name] [--config FILE] [--github]
+_teach_init() {
+    local course_name=""
+    local external_config=""
+    local create_github=false
+
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --config)
+                shift
+                external_config="$1"
+                shift
+                ;;
+            --github)
+                create_github=true
+                shift
+                ;;
+            --help|-h|help)
+                _teach_init_help
+                return 0
+                ;;
+            *)
+                if [[ -z "$course_name" && ! "$1" =~ ^-- ]]; then
+                    course_name="$1"
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    # Check if already initialized
+    if [[ -f ".flow/teach-config.yml" ]]; then
+        _flow_log_error "Teaching project already initialized"
+        echo ""
+        echo "  Config exists: .flow/teach-config.yml"
+        echo "  To reconfigure, edit the file or delete it first"
+        return 1
+    fi
+
+    echo ""
+    echo "${FLOW_COLORS[bold]}🎓 Initializing Teaching Project${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+    echo ""
+
+    # Create .flow directory
+    mkdir -p .flow
+
+    # Load from external config if specified (v5.14.0 - Task 10)
+    if [[ -n "$external_config" ]]; then
+        if [[ ! -f "$external_config" ]]; then
+            _flow_log_error "External config not found: $external_config"
+            return 1
+        fi
+
+        echo "  ${FLOW_COLORS[info]}Loading from:${FLOW_COLORS[reset]} $external_config"
+        cp "$external_config" .flow/teach-config.yml
+
+        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Config loaded from external file"
+    else
+        # Create default config
+        local semester=$(date +%B)  # e.g., "January"
+        local year=$(date +%Y)
+
+        # Use provided name or prompt
+        if [[ -z "$course_name" ]]; then
+            course_name="My Course"
+        fi
+
+        cat > .flow/teach-config.yml << EOF
+course:
+  name: "$course_name"
+  semester: "$semester $year"
+  year: $year
+
+git:
+  draft_branch: draft
+  production_branch: main
+  auto_pr: true
+  require_clean: true
+
+workflow:
+  teaching_mode: false
+  auto_commit: false
+  auto_push: false
+
+backups:
+  retention:
+    assessments: archive    # Keep exam/quiz backups forever
+    syllabi: archive        # Keep syllabus backups forever
+    lectures: semester      # Delete lecture backups at semester end
+  archive_dir: .flow/archives
+EOF
+
+        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Created .flow/teach-config.yml"
+    fi
+
+    # Initialize git if requested (v5.14.0 - Task 10)
+    if [[ "$create_github" == "true" ]]; then
+        # Check if gh is available
+        if ! command -v gh &>/dev/null; then
+            _flow_log_error "GitHub CLI (gh) required for --github flag"
+            echo "  Install: brew install gh"
+            return 1
+        fi
+
+        # Check if already in git repo
+        if ! git rev-parse --git-dir &>/dev/null 2>&1; then
+            # Initialize git
+            git init
+            echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Initialized git repository"
+        fi
+
+        # Create GitHub repo
+        echo ""
+        echo "  ${FLOW_COLORS[info]}Creating GitHub repository...${FLOW_COLORS[reset]}"
+
+        local repo_name=$(basename "$PWD")
+        if gh repo create "$repo_name" --private --source=. --push 2>&1; then
+            echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} GitHub repository created and pushed"
+        else
+            echo "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]} Failed to create GitHub repo (continuing anyway)"
+        fi
+    fi
+
+    # Create initial branches if in git repo
+    if git rev-parse --git-dir &>/dev/null 2>&1; then
+        # Commit the config
+        git add .flow/teach-config.yml
+        git commit -m "chore: initialize teaching project
+
+Course: $course_name
+Initialized via: teach init" 2>/dev/null
+
+        # Create draft branch if it doesn't exist
+        if ! git show-ref --verify --quiet refs/heads/draft 2>/dev/null; then
+            git branch draft
+            echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Created draft branch"
+        fi
+    fi
+
+    echo ""
+    echo "${FLOW_COLORS[success]}✅ Teaching project initialized!${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  Next steps:"
+    echo "    1. Review config: teach config"
+    echo "    2. Check environment: teach doctor"
+    echo "    3. Generate content: teach exam \"Topic\""
+    echo ""
+}
+
+# Help for teach init
+_teach_init_help() {
+    echo "${FLOW_COLORS[bold]}teach init${FLOW_COLORS[reset]} - Initialize teaching project"
+    echo ""
+    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+    echo "  teach init [course_name] [OPTIONS]"
+    echo ""
+    echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+    echo "  --config FILE    Load configuration from external file"
+    echo "  --github         Create GitHub repository (requires gh CLI)"
+    echo "  --help, -h       Show this help message"
+    echo ""
+    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
+    echo "  Creates .flow/teach-config.yml with default settings for:"
+    echo "    • Course information (name, semester, year)"
+    echo "    • Git workflow (draft/production branches)"
+    echo "    • Teaching mode settings (auto-commit, auto-push)"
+    echo "    • Backup retention policies"
+    echo ""
+    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+    echo "  teach init                           # Interactive setup"
+    echo "  teach init \"STAT 545\"                # With course name"
+    echo "  teach init --config ./my-config.yml  # Load external config"
+    echo "  teach init \"STAT 545\" --github       # Create GitHub repo"
+    echo ""
+}
+
 teach() {
     # Help check FIRST (all three forms)
     if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" || -z "$1" ]]; then
@@ -2532,15 +2715,8 @@ teach() {
         # LOCAL COMMANDS (no Claude needed)
         # ============================================
         init|i)
-            # teach init temporarily removed - being reimplemented in v5.14.0
-            # See Task 10: teach init Enhancements (--config, --github flags)
-            _flow_log_error "'teach init' temporarily unavailable"
-            echo ""
-            echo "The teach init command is being reimplemented with new features."
-            echo "Will be available in flow-cli v5.14.0"
-            echo ""
-            echo "For now, manually create .flow/teach-config.yml or use an existing teaching project."
-            return 1
+            # v5.14.0 - Task 10: Reimplemented with --config and --github flags
+            _teach_init "$@"
             ;;
 
         # Shortcuts for common operations
