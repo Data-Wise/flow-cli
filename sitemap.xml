@@ -81,6 +81,18 @@
          <lastmod>2026-01-19</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/bugs/BUG-FIX-ccy-alias-missing/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/bugs/BUG-FIX-dot-wc-sanitization/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/bugs/BUG-FIX-help-browser-preview/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/commands/ai/</loc>
          <lastmod>2026-01-19</lastmod>
     </url>
@@ -293,6 +305,14 @@
          <lastmod>2026-01-19</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/examples/course-planning/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/examples/course-planning/intermediate-stats/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/getting-started/00-welcome/</loc>
          <lastmod>2026-01-19</lastmod>
     </url>
@@ -334,6 +354,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/CONFIG-MANAGEMENT-WORKFLOW/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/guides/COURSE-PLANNING-BEST-PRACTICES/</loc>
          <lastmod>2026-01-19</lastmod>
     </url>
     <url>
@@ -453,10 +477,6 @@
          <lastmod>2026-01-19</lastmod>
     </url>
     <url>
-         <loc>https://data-wise.github.io/flow-cli/planning/BRAINSTORM-website-standardization-2026-01-07/</loc>
-         <lastmod>2026-01-19</lastmod>
-    </url>
-    <url>
          <loc>https://data-wise.github.io/flow-cli/planning/INSTALL-IMPROVEMENTS/</loc>
          <lastmod>2026-01-19</lastmod>
     </url>
@@ -470,10 +490,6 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/V4.9-ROADMAP/</loc>
-         <lastmod>2026-01-19</lastmod>
-    </url>
-    <url>
-         <loc>https://data-wise.github.io/flow-cli/planning/archive/BRAINSTORM-worktree-aware-pick-2025-12-30/</loc>
          <lastmod>2026-01-19</lastmod>
     </url>
     <url>
@@ -526,6 +542,58 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/planning/archive/legacy-zsh/WORKFLOWS-QUICK-WINS/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-cc-pick-wt-integration-2026-01-02/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-dotfile-integration-2026-01-08/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-flow-cli-workflow-review-2026-01-09/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-installation-help-docs-2026-01-05/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-scholar-teaching-2026-01-11/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-teach-dates-automation-2026-01-16/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-teach-dates-command-naming-2026-01-16/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-teach-init-migration-2026-01-12/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-teach-init-ux-2026-01-12/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-teaching-git-integration-2026-01-16/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-website-standardization-2026-01-07/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-worktree-aware-pick-2025-12-30/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/planning/archive/proposals/BRAINSTORM-worktree-detection-fix-2026-01-15/</loc>
          <lastmod>2026-01-19</lastmod>
     </url>
     <url>
@@ -769,7 +837,19 @@
          <lastmod>2026-01-19</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/BRAINSTORM-dashboard-workflow-deep-dive-2026-01-19/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/specs/BRAINSTORM-scholar-check-mechanism/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/BRAINSTORM-teach-config-consolidation-2026-01-19/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/BRAINSTORM-teach-dashboard-integration-2026-01-19/</loc>
          <lastmod>2026-01-19</lastmod>
     </url>
     <url>
@@ -838,6 +918,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-scholar-teaching-2026-01-11/</loc>
+         <lastmod>2026-01-19</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-teach-dashboard-2026-01-18/</loc>
          <lastmod>2026-01-19</lastmod>
     </url>
     <url>

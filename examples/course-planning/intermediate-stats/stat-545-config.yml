@@ -1,0 +1,542 @@
+# STAT 545 Teaching Configuration
+# Example: Graduate-level Exploratory Data Analysis Course
+# Demonstrates: Complete backward design implementation with flow-cli
+# Version: 3.0 (Backward Design)
+# Created: 2026-01-19
+
+# =============================================================================
+# COURSE INFORMATION
+# =============================================================================
+
+course:
+  name: 'STAT 545'
+  full_name: 'Exploratory Data Analysis'
+  semester: 'Spring'
+  year: 2026
+  instructor: 'Dr. Jane Smith'
+  department: 'Statistics'
+  university: 'State University'
+
+# Semester schedule
+semester_info:
+  start_date: '2026-01-12' # Monday, Week 1
+  end_date: '2026-04-27' # Monday, Week 16 (Finals week)
+
+  # Meeting pattern
+  meetings:
+    days: ['Monday', 'Wednesday']
+    time: '1:00 PM - 2:15 PM'
+    duration: 75 # minutes
+    location: 'Statistics Building, Room 301'
+
+  # Breaks and holidays
+  breaks:
+    - name: 'Spring Break'
+      start: '2026-03-30'
+      end: '2026-04-03'
+      no_class_weeks: [12]
+
+# Course metadata
+metadata:
+  level: 'graduate'
+  prerequisites:
+    - 'STAT 400: Introduction to Statistics'
+    - 'STAT 420: Basic R Programming (or equivalent experience)'
+  enrollment:
+    capacity: 30
+    typical: 25
+  credits: 4
+
+# =============================================================================
+# STAGE 1: DESIRED RESULTS (Backward Design)
+# What should students understand, know, and be able to do?
+# =============================================================================
+
+# Big ideas that remain after details fade
+enduring_understandings:
+  - 'Data visualization is a tool for discovery and diagnosis, not just decoration'
+  - 'All models are wrong, but some are useful - the key is knowing when and why'
+  - 'Exploratory analysis informs confirmatory analysis, but they serve different purposes'
+  - 'Effective statistical communication requires tailoring message to audience (technical vs non-technical)'
+
+# Questions that frame the course (no single right answer)
+essential_questions:
+  - 'How can we let data tell its story without imposing our own preconceptions?'
+  - 'When should we trust a pattern we see in data?'
+  - "What makes a data visualization 'good' - and good for what purpose?"
+  - 'How do we balance model complexity with interpretability?'
+
+# Course-level learning outcomes (3-5 outcomes, using action verbs)
+learning_outcomes:
+  - id: 'LO1'
+    short_name: 'Visualize'
+    description: 'Create and interpret sophisticated visualizations of multivariate data using modern graphics (ggplot2, interactive plots) to identify patterns, outliers, and relationships'
+    bloom_level: 'analyze' # Level 4
+    bloom_verb: 'create and interpret'
+    assessment_strategy: 'Multiple visualizations in homeworks and project, graded on clarity, appropriateness, and insight'
+
+  - id: 'LO2'
+    short_name: 'Model'
+    description: 'Build, diagnose, and refine regression models for real-world datasets, including assessment of assumptions, identification of influential points, and model comparison'
+    bloom_level: 'evaluate' # Level 5
+    bloom_verb: 'evaluate and refine'
+    assessment_strategy: 'Model building in homework 3-4, comprehensive modeling in final project, evaluation on exams'
+
+  - id: 'LO3'
+    short_name: 'Communicate'
+    description: 'Communicate statistical analyses effectively to both technical and non-technical audiences through written reports, visualizations, and oral presentations'
+    bloom_level: 'create' # Level 6
+    bloom_verb: 'create and communicate'
+    assessment_strategy: 'Executive summaries in project, exam questions on interpretation, presentation evaluation'
+
+  - id: 'LO4'
+    short_name: 'Wrangle'
+    description: 'Transform and prepare messy real-world data for analysis using tidy data principles and modern R tools (dplyr, tidyr)'
+    bloom_level: 'apply' # Level 3
+    bloom_verb: 'transform and prepare'
+    assessment_strategy: 'Data cleaning tasks in all homeworks, evaluated on code quality and correctness'
+
+# =============================================================================
+# STAGE 2: ASSESSMENT EVIDENCE (Backward Design)
+# How will we know if students achieved the outcomes?
+# =============================================================================
+
+# Grading schema (summative assessments)
+grading:
+  homework: 30 # HW1-4, 7.5% each
+  quizzes: 0 # Formative only (not graded)
+  midterm: 15 # Week 8, in-class
+  project: 30 # Weeks 14-16, report + presentation
+  final_exam: 30 # Week 16 (finals period)
+  participation: 0 # Tracked via exit tickets but not graded
+
+# Late policy
+policies:
+  late_work:
+    penalty: '10% per day'
+    max_days: 3
+    exceptions: 'Medical emergencies, university-approved absences (documentation required)'
+
+  homework_drops: 0 # No drops (only 4 HWs)
+
+  regrade_requests:
+    deadline: '1 week after graded work returned'
+    process: 'Submit written explanation via course website'
+
+# Assessment alignment matrix
+# Maps each learning outcome to assessments with I/R/M notation
+# I = Introduced, R = Reinforced, M = Mastered
+assessment_alignment:
+  LO1: # Visualize data
+    - assessment: 'HW1'
+      level: 'R'
+      weight: 15
+      description: 'Create 5 visualizations, write interpretive captions'
+
+    - assessment: 'HW2'
+      level: 'M'
+      weight: 20
+      description: 'Publication-quality figures, interactive viz, critique poor examples'
+
+    - assessment: 'Midterm'
+      level: 'R'
+      weight: 10
+      description: 'Interpret visualizations, identify appropriate plot types'
+
+    - assessment: 'Project'
+      level: 'M'
+      weight: 25
+      description: 'High-quality exploratory visualizations for real dataset'
+
+    - assessment: 'Final'
+      level: 'R'
+      weight: 15
+      description: 'Create and interpret diagnostic plots'
+
+  LO2: # Build and diagnose models
+    - assessment: 'HW3'
+      level: 'R'
+      weight: 20
+      description: 'Fit regression, check assumptions, identify influential points'
+
+    - assessment: 'HW4'
+      level: 'M'
+      weight: 25
+      description: 'Complex modeling with transformations, interactions, missing data'
+
+    - assessment: 'Midterm'
+      level: 'R'
+      weight: 20
+      description: 'Interpret regression output, basic diagnostics'
+
+    - assessment: 'Project'
+      level: 'M'
+      weight: 20
+      description: 'Full modeling workflow with justification and diagnostics'
+
+    - assessment: 'Final'
+      level: 'M'
+      weight: 30
+      description: 'Comprehensive model evaluation and comparison'
+
+  LO3: # Communicate findings
+    - assessment: 'HW2'
+      level: 'I'
+      weight: 5
+      description: 'Write interpretive captions for visualizations'
+
+    - assessment: 'HW4'
+      level: 'R'
+      weight: 10
+      description: 'Write methods section explaining modeling decisions'
+
+    - assessment: 'Project'
+      level: 'M'
+      weight: 10
+      description: 'Technical report + executive summary (2 audiences)'
+
+    - assessment: 'Final'
+      level: 'R'
+      weight: 15
+      description: 'Write executive summary of analysis scenario'
+
+  LO4: # Wrangle data
+    - assessment: 'HW1'
+      level: 'I'
+      weight: 10
+      description: 'Load and clean messy CSV, identify data quality issues'
+
+    - assessment: 'HW3'
+      level: 'R'
+      weight: 10
+      description: 'Prepare data for modeling (transformations, factor encoding)'
+
+    - assessment: 'Project'
+      level: 'R'
+      weight: 15
+      description: 'Handle complex real-world dataset preparation'
+
+# Detailed assessment descriptions
+assessments:
+  homework:
+    - id: 'HW1'
+      title: 'Data Visualization'
+      assigned_week: 2
+      due_week: 4
+      points: 100
+      weight_percent: 7.5
+      outcomes: ['LO1', 'LO4']
+      description: 'Load messy data, create 5 visualizations, write interpretations'
+      scaffolding: 'Template code provided with TODOs'
+
+    - id: 'HW2'
+      title: 'Advanced Visualization'
+      assigned_week: 4
+      due_week: 6
+      points: 100
+      weight_percent: 7.5
+      outcomes: ['LO1', 'LO3']
+      description: 'Publication-quality figures, interactive viz, visualization critique'
+      scaffolding: 'Minimal - students design approach'
+
+    - id: 'HW3'
+      title: 'Regression Modeling'
+      assigned_week: 7
+      due_week: 10
+      points: 100
+      weight_percent: 7.5
+      outcomes: ['LO2', 'LO4']
+      description: 'Fit models, check assumptions, handle influential points, compare models'
+      scaffolding: 'None - independent problem solving'
+
+    - id: 'HW4'
+      title: 'Model Refinement'
+      assigned_week: 11
+      due_week: 13
+      points: 100
+      weight_percent: 7.5
+      outcomes: ['LO2', 'LO3']
+      description: 'Complex modeling with transformations, interactions, missing data, methods writing'
+      scaffolding: 'None - project preparation'
+
+  exams:
+    - id: 'Midterm'
+      title: 'Midterm Exam'
+      week: 8
+      points: 100
+      weight_percent: 15
+      duration: 75 # minutes
+      format: 'In-class, partial notes allowed (1 page, both sides)'
+      outcomes: ['LO1', 'LO2', 'LO4']
+      scope: 'Weeks 1-7'
+      question_types:
+        - type: 'short_answer'
+          percent: 20
+          description: 'Interpret visualizations'
+        - type: 'problem_solving'
+          percent: 30
+          description: 'Calculate regression quantities'
+        - type: 'code_reading'
+          percent: 25
+          description: 'Debug and complete R code'
+        - type: 'conceptual'
+          percent: 25
+          description: 'Explain when methods apply'
+
+    - id: 'Final'
+      title: 'Final Exam'
+      week: 16
+      points: 100
+      weight_percent: 30
+      duration: 120 # minutes
+      format: 'In-class, full notes allowed'
+      outcomes: ['LO1', 'LO2', 'LO3', 'LO4']
+      scope: 'Comprehensive (emphasis Weeks 9-16)'
+      question_types:
+        - type: 'data_analysis'
+          percent: 40
+          description: 'Full EDA workflow on novel dataset'
+        - type: 'model_comparison'
+          percent: 30
+          description: 'Evaluate competing models'
+        - type: 'communication'
+          percent: 15
+          description: 'Write executive summary'
+        - type: 'conceptual'
+          percent: 15
+          description: 'Reflect on essential questions'
+
+  project:
+    title: 'Exploratory Data Analysis Consulting Report'
+    assigned_week: 11
+    due_week: 15 # Report due
+    presentation_week: 15
+    points: 100
+    weight_percent: 30
+    outcomes: ['LO1', 'LO2', 'LO3', 'LO4']
+
+    # GRASPS framework
+    grasps:
+      goal: 'Conduct comprehensive exploratory data analysis to inform research question and provide statistical recommendations'
+      role: 'Statistical consultant for research team'
+      audience:
+        technical: 'PhD-level researchers (data team)'
+        nontechnical: 'Funding agency program officer'
+      situation: 'Research team collected observational data but needs guidance on patterns, appropriate models, and concerns (outliers, violations, confounds)'
+      product:
+        - 'Technical report (15-20 pages): Full EDA, visualizations, model diagnostics'
+        - 'Executive summary (2 pages): Key findings in plain language'
+        - 'R code (reproducible, well-documented)'
+        - 'Oral presentation (15 minutes)'
+      standards:
+        - criterion: 'Data wrangling & preparation'
+          weight: 15
+        - criterion: 'Quality of visualizations'
+          weight: 25
+        - criterion: 'Appropriateness of statistical methods'
+          weight: 20
+        - criterion: 'Diagnostics & model evaluation'
+          weight: 20
+        - criterion: 'Technical writing clarity'
+          weight: 10
+        - criterion: 'Executive summary effectiveness'
+          weight: 10
+
+    milestones:
+      - week: 13
+        item: 'Dataset selection approved'
+        points: 0
+      - week: 14
+        item: 'Draft for peer review (optional)'
+        points: 5 # Bonus points
+      - week: 15
+        item: 'Oral presentation'
+        points: 20
+      - week: 15
+        item: 'Final report submitted'
+        points: 80
+
+# Formative assessments (not graded, but completion tracked)
+formative_assessment:
+  exit_tickets:
+    frequency: 'Every class'
+    questions:
+      - "What's the muddiest point from today?"
+      - 'Write one question you have about [topic]'
+    purpose: 'Identify gaps, adjust next lecture'
+    completion_tracking: true
+
+  peer_code_review:
+    weeks: [4, 7, 10, 13] # Before each homework due date
+    process: 'Students swap code, provide feedback using rubric'
+    purpose: "Learn from others' approaches, practice code reading"
+
+  practice_quizzes:
+    weeks: [2, 5, 9, 12]
+    questions: '5-10 multiple choice/short answer'
+    attempts: 'unlimited'
+    feedback: 'immediate with explanations'
+    purpose: 'Self-assessment, identify weak areas'
+
+# =============================================================================
+# STAGE 3: LEARNING EXPERIENCES (Backward Design)
+# What activities will help students learn?
+# See lesson-plan.yml for detailed weekly plans using WHERETO framework
+# =============================================================================
+
+# Course structure overview
+structure:
+  total_weeks: 16
+
+  units:
+    - name: 'Unit 1: Foundations'
+      weeks: [1, 2, 3, 4]
+      focus: 'Build foundational skills (visualize, wrangle)'
+      topics:
+        - 'R basics & reproducible workflow'
+        - 'Data visualization I (ggplot2 basics)'
+        - 'Data wrangling (dplyr, tidyr)'
+        - 'Data visualization II (advanced ggplot2)'
+
+    - name: 'Unit 2: Statistical Modeling'
+      weeks: [5, 6, 7, 8, 9, 10]
+      focus: 'Core regression methods'
+      topics:
+        - 'Simple linear regression'
+        - 'Model diagnostics'
+        - 'Multiple regression'
+        - 'Midterm exam'
+        - 'Model selection'
+        - 'Interactions & transformations'
+
+    - name: 'Unit 3: Integration & Advanced Topics'
+      weeks: [11, 13, 14, 15, 16] # Week 12 = Spring Break
+      focus: 'Advanced methods and synthesis'
+      topics:
+        - 'Missing data'
+        - 'Specialized regression (GLMs)'
+        - 'Project work session'
+        - 'Project presentations'
+        - 'Course synthesis & final exam'
+
+# Scaffolding strategy
+scaffolding:
+  homework_progression:
+    hw1: 'Heavy templating, guided questions'
+    hw2: 'Moderate templating, more independence'
+    hw3: 'Minimal templating, design own approach'
+    hw4: 'No templating, full independence (project prep)'
+
+  classroom_activities:
+    weeks_1_4: 'Live coding with heavy instructor guidance'
+    weeks_5_8: 'Mix of demos and independent practice'
+    weeks_9_16: 'Student-driven practice, instructor as consultant'
+
+# =============================================================================
+# SCHOLAR INTEGRATION (AI-powered content generation)
+# =============================================================================
+
+scholar:
+  # Course metadata for content generation
+  course_info:
+    level: 'graduate'
+    field: 'statistics'
+    difficulty: 'intermediate'
+    credits: 4
+
+  # Teaching style preferences
+  style:
+    tone: 'conversational' # approachable, less formal
+    notation: 'statistical' # θ, μ, σ, β notation
+    examples: true # include worked examples
+
+  # Content generation defaults
+  defaults:
+    lecture_template: 'quarto' # quarto documents
+    slides_template: 'typst' # academic paper format
+    exam_template: 'typst' # professional formatting
+    assignment_template: 'markdown' # simple markdown
+
+  # Course topics (for exam scope auto-population)
+  topics:
+    - 'R programming and reproducible workflow'
+    - 'Data visualization with ggplot2'
+    - 'Data wrangling with dplyr and tidyr'
+    - 'Tidy data principles'
+    - 'Simple linear regression'
+    - 'Regression assumptions and diagnostics'
+    - 'Multiple regression and multicollinearity'
+    - 'Model selection and comparison (AIC, BIC, cross-validation)'
+    - 'Interactions and transformations'
+    - 'Influential points and outliers'
+    - 'Missing data mechanisms and imputation'
+    - 'Generalized linear models (logistic regression)'
+    - 'Statistical communication and visualization'
+
+# =============================================================================
+# DEPLOYMENT
+# =============================================================================
+
+branches:
+  draft: 'draft'
+  production: 'production'
+
+deployment:
+  web:
+    type: 'github-pages'
+    branch: 'production'
+    url: 'https://data-wise.github.io/stat-545'
+
+  automation:
+    quick_deploy: 'scripts/quick-deploy.sh'
+    backup_on_deploy: true
+
+# Backup retention policies
+backup:
+  retention:
+    default: 'semester' # Delete at semester end
+    lectures: 'archive' # Keep forever
+    exams: 'archive'
+    solutions: 'semester'
+    drafts: 'semester'
+
+# =============================================================================
+# EXAMARK INTEGRATION (Optional)
+# =============================================================================
+
+examark:
+  enabled: false # Set to true after installing examark
+  exam_dir: 'exams'
+  question_bank: 'exams/questions'
+  default_duration: 120
+  default_points: 100
+
+# =============================================================================
+# SHORTCUTS
+# =============================================================================
+
+shortcuts:
+  s545: 'work stat-545'
+  s545d: './scripts/quick-deploy.sh'
+
+# =============================================================================
+# METADATA
+# =============================================================================
+
+meta:
+  config_version: '3.0'
+  backward_design_stages:
+    stage1: 'Complete (outcomes, essential questions)'
+    stage2: 'Complete (assessment alignment matrix)'
+    stage3: 'See lesson-plan.yml for detailed WHERETO plans'
+
+  created: '2026-01-19'
+  last_updated: '2026-01-19'
+  author: 'flow-cli development team'
+
+  notes:
+    - 'This configuration demonstrates complete backward design implementation'
+    - 'All learning outcomes aligned to multiple assessments (I/R/M progression)'
+    - 'GRASPS framework used for performance task (final project)'
+    - 'Essential questions revisited throughout semester'
+    - 'See COURSE-PLANNING-BEST-PRACTICES.md for full context'
