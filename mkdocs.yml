@@ -126,6 +126,10 @@ nav:
           - v3.0 User Guide: guides/TEACHING-WORKFLOW-V3-GUIDE.md
           - Backup System Guide: guides/BACKUP-SYSTEM-GUIDE.md
           - Migration Guide (v2 → v3): guides/TEACHING-V3-MIGRATION-GUIDE.md
+          - 📚 Course Planning Best Practices: guides/COURSE-PLANNING-BEST-PRACTICES.md
+          - 📖 Course Examples:
+              - Overview: examples/course-planning/README.md
+              - STAT 545 (Graduate): examples/course-planning/intermediate-stats/README.md
       - Teaching (Legacy):
           - System Architecture: guides/TEACHING-SYSTEM-ARCHITECTURE.md
           - Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md

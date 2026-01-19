@@ -244,12 +244,12 @@ If teaching different course, borrow specific elements:
 ## Related Documentation
 
 **Main Guide:**
-- [Course Planning Best Practices](../../guides/COURSE-PLANNING-BEST-PRACTICES.md) - Full 18,000+ line guide
+- [Course Planning Best Practices](../../../guides/COURSE-PLANNING-BEST-PRACTICES.md) - Full 18,000+ line guide
 - Section 2.5: STAT 545 Backward Design Walkthrough (detailed explanation)
 
 **flow-cli Documentation:**
-- [Teaching Workflow v3.0 Guide](../../guides/TEACHING-WORKFLOW-V3-GUIDE.md) - Implementation workflow
-- [Teach Dispatcher Reference](../../reference/TEACH-DISPATCHER-REFERENCE-v5.14.0.md) - Commands
+- [Teaching Workflow v3.0 Guide](../../../guides/TEACHING-WORKFLOW-V3-GUIDE.md) - Implementation workflow
+- [Teach Dispatcher Reference](../../../reference/TEACH-DISPATCHER-REFERENCE-v3.0.md) - Commands
 
 **Educational Research:**
 - Wiggins, G., & McTighe, J. (1998). *Understanding by Design*. ASCD.

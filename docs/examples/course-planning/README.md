@@ -200,10 +200,10 @@ Have a course using flow-cli? Share it as an example!
 
 ## Related Documentation
 
-- [Course Planning Best Practices](../guides/COURSE-PLANNING-BEST-PRACTICES.md) - Main guide (18,000+ lines)
-- [Backward Design Walkthrough](../guides/COURSE-PLANNING-BEST-PRACTICES.md#2-backward-design-principles) - Section 2
-- [Teaching Workflow v3.0 Guide](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) - Implementation workflow
-- [Teach Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE-v5.14.0.md) - Command documentation
+- [Course Planning Best Practices](../../guides/COURSE-PLANNING-BEST-PRACTICES.md) - Main guide (18,000+ lines)
+- [Backward Design Walkthrough](../../guides/COURSE-PLANNING-BEST-PRACTICES.md#2-backward-design-principles) - Section 2
+- [Teaching Workflow v3.0 Guide](../../guides/TEACHING-WORKFLOW-V3-GUIDE.md) - Implementation workflow
+- [Teach Dispatcher Reference](../../reference/TEACH-DISPATCHER-REFERENCE-v3.0.md) - Command documentation
 
 ---
 
