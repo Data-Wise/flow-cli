@@ -170,7 +170,7 @@ semester_info:
 
 **Demo:**
 
-![Initialize date configuration](../demos/tutorials/tutorial-20-dates-init.gif)
+The `teach dates init` wizard walks you through setting up your semester configuration interactively.
 
 !!! success "Checkpoint"
     You now have a centralized date configuration! Next, we'll add deadlines and exams.
@@ -362,7 +362,7 @@ Run without --dry-run to apply changes
 
 **Demo:**
 
-![Preview date changes with dry-run](../demos/tutorials/tutorial-20-dates-sync-dry-run.gif)
+The `teach dates sync --dry-run` command previews all changes before applying them, showing exactly which files and dates will be updated.
 
 !!! warning "Check Before Applying"
     The dry-run shows exactly what will change. Review carefully!
@@ -425,7 +425,7 @@ Skipped: 0 files
 
 **Demo:**
 
-![Apply changes interactively](../demos/tutorials/tutorial-20-dates-sync-interactive.gif)
+The interactive sync mode prompts you to review and approve each change before applying it.
 
 !!! success "Changes Applied"
     All dates are now consistent across your course! 🎉

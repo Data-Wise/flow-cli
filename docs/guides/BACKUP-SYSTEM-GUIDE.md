@@ -888,7 +888,7 @@ _teach_archive_semester <semester_name>
 _teach_preview_cleanup <content_path> <content_type>
 ```
 
-See [Backup Helpers API](../reference/BACKUP-HELPERS-API.md) for complete documentation.
+See `lib/backup-helpers.zsh` for implementation details.
 
 ---
 
@@ -896,8 +896,8 @@ See [Backup Helpers API](../reference/BACKUP-HELPERS-API.md) for complete docume
 
 - [Teaching Workflow v3.0 Guide](TEACHING-WORKFLOW-V3-GUIDE.md)
 - [Teach Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE-v3.0.md)
-- [Backup Helpers API](../reference/BACKUP-HELPERS-API.md)
-- [Configuration Schema](../reference/TEACH-CONFIG-SCHEMA.md)
+- [Teaching Config Dates Schema](../reference/TEACH-CONFIG-DATES-SCHEMA.md)
+- [Quick Reference Card](../reference/REFCARD-TEACHING-V3.md)
 
 ---
 

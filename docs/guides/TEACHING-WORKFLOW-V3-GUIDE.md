@@ -1176,9 +1176,9 @@ teach init --config template.yml
 ## Reference
 
 - [Teach Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE-v3.0.md)
-- [Backup System API](../reference/BACKUP-HELPERS-API.md)
-- [Doctor Implementation](../reference/TEACH-DOCTOR-API.md)
-- [Quick Reference Card](../reference/REFCARD-TEACHING.md)
+- [Backup System Guide](BACKUP-SYSTEM-GUIDE.md)
+- [Migration Guide](TEACHING-V3-MIGRATION-GUIDE.md)
+- [Quick Reference Card](../reference/REFCARD-TEACHING-V3.md)
 
 ---
 
