@@ -443,7 +443,7 @@ teach exam "Topic"  # Generate exam via Scholar
 # Core test suites
 tests/test-pick-command.zsh         # Pick: 39 tests
 tests/test-cc-dispatcher.zsh        # CC: 37 tests
-tests/test-dot-v5.13.0-unit.zsh     # DOT: 112+ tests
+tests/test-dot-v5.14.0-unit.zsh     # DOT: 112+ tests
 tests/test-teach-dates-unit.zsh     # Teaching dates: 33 tests
 tests/test-teach-dates-integration.zsh  # Integration: 16 tests
 
@@ -558,18 +558,21 @@ export FLOW_DEBUG=1
 #### Implementation Summary
 
 **Wave 1: Foundation (Tasks 1-4)**
+
 - ✅ Removed standalone teach-init command (1484 lines deleted)
 - ✅ Created teach doctor with comprehensive health checks
 - ✅ Added --help flags with EXAMPLES to all commands
 - ✅ Implemented --json, --quiet, --fix flags for doctor
 
 **Wave 2: Backup System (Tasks 5-6)**
+
 - ✅ Automated backup system with timestamped snapshots
 - ✅ Retention policies (archive vs semester)
 - ✅ Interactive delete confirmation with preview
 - ✅ 320 lines of backup helpers
 
 **Wave 3: Enhancements (Tasks 7-10)**
+
 - ✅ Enhanced teach status with deployment and backup info
 - ✅ Deploy preview showing changes before PR creation
 - ✅ Scholar template selection (--template flag)
@@ -579,6 +582,7 @@ export FLOW_DEBUG=1
 #### Key Files Created/Modified
 
 **New Files (5):**
+
 1. `lib/dispatchers/teach-doctor-impl.zsh` - 367 lines (health checks)
 2. `lib/backup-helpers.zsh` - 320 lines (backup system)
 3. `tests/teaching-workflow-v3/automated-tests.sh` - 45+ tests
@@ -586,30 +590,33 @@ export FLOW_DEBUG=1
 5. `tests/teaching-workflow-v3/README.md` - Test documentation
 
 **Modified Files (2):**
+
 1. `lib/dispatchers/teach-dispatcher.zsh` - Major enhancements (all Wave 3 features)
 2. `flow.plugin.zsh` - Source backup-helpers
 
 **Deleted Files (1):**
+
 1. `commands/teach-init.zsh` - 1484 lines (reimplemented in dispatcher)
 
 #### Documentation Generated
 
 **Reference Documentation:**
-1. `docs/reference/TEACH-DISPATCHER-REFERENCE-v3.0.md` (10,000+ lines)
+
+1. `docs/reference/TEACH-DISPATCHER-REFERENCE-v5.14.0md` (10,000+ lines)
    - Complete command reference for all v3.0 features
    - All 9 Scholar commands documented
    - teach doctor comprehensive guide
    - Backup system integration
    - Examples and troubleshooting
 
-**User Guides:**
-2. `docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md` (25,000+ lines)
-   - Complete workflow guide from setup to semester end
-   - Health checks walkthrough
-   - Content creation workflows
-   - Deployment workflows with preview
-   - Backup management
-   - Best practices and troubleshooting
+**User Guides:** 2. `docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md` (25,000+ lines)
+
+- Complete workflow guide from setup to semester end
+- Health checks walkthrough
+- Content creation workflows
+- Deployment workflows with preview
+- Backup management
+- Best practices and troubleshooting
 
 3. `docs/guides/BACKUP-SYSTEM-GUIDE.md` (18,000+ lines)
    - Automated backup system deep dive
@@ -624,6 +631,7 @@ export FLOW_DEBUG=1
 #### Features Delivered
 
 **Health Checks (teach doctor):**
+
 - Dependency validation (yq, git, quarto, gh, examark, claude)
 - Project configuration checks
 - Git setup validation (branches, remote, clean state)
@@ -632,6 +640,7 @@ export FLOW_DEBUG=1
 - Interactive --fix mode
 
 **Backup System:**
+
 - Automatic timestamped backups on content modification
 - Retention policies (archive/semester)
 - Safe deletion with confirmation
@@ -639,41 +648,45 @@ export FLOW_DEBUG=1
 - Storage-efficient incremental backups
 
 **Enhanced Status:**
+
 - Deployment status (last deploy, open PRs)
 - Backup summary (count, sizes, last backup time)
 - Comprehensive project overview
 
 **Deploy Preview:**
+
 - Show changed files before creating PR
 - Color-coded status indicators (A/M/D/R)
 - Optional full diff viewing
 - Safer deployments
 
 **Scholar Integration:**
+
 - Template selection (markdown, quarto, typst, pdf, docx)
 - Auto-load lesson-plan.yml for enhanced context
 - Better Scholar-generated content
 
 **Smart Initialization:**
+
 - --config flag to load external configurations
 - --github flag to auto-create GitHub repos
 - Department template support
 
 #### Statistics
 
-| Metric | Value |
-|--------|-------|
-| Tasks Completed | 10/10 (100%) |
-| Total Commits | 12 |
-| Lines Added | ~1,866 |
-| Lines Removed | ~1,502 |
-| Net Change | +364 lines |
-| Files Created | 5 |
-| Files Modified | 2 |
-| Files Deleted | 1 |
-| Test Coverage | 73 tests (45 automated + 28 interactive) |
-| Documentation Lines | ~53,000 (3 guides) |
-| Implementation Time | ~8 hours |
+| Metric              | Value                                    |
+| ------------------- | ---------------------------------------- |
+| Tasks Completed     | 10/10 (100%)                             |
+| Total Commits       | 12                                       |
+| Lines Added         | ~1,866                                   |
+| Lines Removed       | ~1,502                                   |
+| Net Change          | +364 lines                               |
+| Files Created       | 5                                        |
+| Files Modified      | 2                                        |
+| Files Deleted       | 1                                        |
+| Test Coverage       | 73 tests (45 automated + 28 interactive) |
+| Documentation Lines | ~53,000 (3 guides)                       |
+| Implementation Time | ~8 hours                                 |
 
 #### Next Steps
 
@@ -684,9 +697,9 @@ export FLOW_DEBUG=1
 
 ---
 
-## Recent Features (v5.13.0)
+## Recent Features (v5.14.0)
 
-### Recent Features (v5.13.0)
+### Recent Features (v5.14.0)
 
 - ✅ Teaching + Git Integration (5 phases complete)
 - ✅ Scholar teaching wrappers (9 commands)
@@ -743,10 +756,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 5.13.0"
-git tag -a v5.13.0 -m "v5.13.0"
+git tag -a v5.14.0 -m "v5.14.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v5.13.0
+git push origin main && git push origin v5.14.0
 ```
 
 **Files updated by release script:**
