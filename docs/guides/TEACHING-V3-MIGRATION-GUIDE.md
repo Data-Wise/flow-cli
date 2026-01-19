@@ -72,6 +72,10 @@ teach deploy --help           # Usage, examples, flags
 
 ### 1. teach doctor - Health Checks
 
+![teach doctor demo](../demos/tutorials/tutorial-teach-doctor.gif)
+
+*Demo: Environment health check with teach doctor*
+
 **Purpose:** Validate your teaching environment before you start working.
 
 ```bash
@@ -103,6 +107,10 @@ teach doctor --fix
 ---
 
 ### 2. Automated Backup System
+
+![Backup system demo](../demos/tutorials/tutorial-backup-system.gif)
+
+*Demo: Automated backup system with retention policies*
 
 **Purpose:** Protect your teaching content with automatic backups.
 

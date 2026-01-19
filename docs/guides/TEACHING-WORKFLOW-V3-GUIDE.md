@@ -71,6 +71,10 @@ lectures/.backups/
 
 ### 3. Enhanced Status Dashboard
 
+![teach status demo](../demos/tutorials/tutorial-teach-status.gif)
+
+*Demo: Enhanced status showing comprehensive project overview*
+
 ```bash
 teach status
 ```
@@ -110,6 +114,10 @@ View full diff? [y/N]
 **Why it matters:** No surprises. Know exactly what students will see.
 
 ### 5. Scholar Template Selection
+
+![Scholar integration demo](../demos/tutorials/tutorial-scholar-integration.gif)
+
+*Demo: Using Scholar with templates and lesson plan auto-loading*
 
 ```bash
 teach exam "Midterm" --template typst
@@ -182,6 +190,10 @@ brew install yq gh quarto
 ```
 
 ### Step 2: Initialize Course
+
+![teach init demo](../demos/tutorials/tutorial-teach-init.gif)
+
+*Demo: Initializing a new teaching project with teach init*
 
 ```bash
 # Interactive mode (recommended for first time)
@@ -259,6 +271,10 @@ Content Inventory:
 ---
 
 ## Health Checks
+
+![teach doctor demo](../demos/tutorials/tutorial-teach-doctor.gif)
+
+*Demo: Running teach doctor to validate teaching environment*
 
 ### When to Run
 
@@ -462,6 +478,10 @@ teach slides "Guest: Machine Learning in Stats" \
 
 ## Deployment Workflow
 
+![teach deploy demo](../demos/tutorials/tutorial-teach-deploy.gif)
+
+*Demo: Deploying to preview branch with teach deploy --preview*
+
 ### Overview
 
 Teaching Workflow v3.0 uses a **draft → production** PR-based workflow:
@@ -569,6 +589,10 @@ teach deploy --direct-push
 ---
 
 ## Backup Management
+
+![Backup system demo](../demos/tutorials/tutorial-backup-system.gif)
+
+*Demo: Automated backup system with retention policies*
 
 ### How Backups Work
 

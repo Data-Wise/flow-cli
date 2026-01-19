@@ -7,6 +7,10 @@
 
 ## Overview
 
+![Backup system demo](../demos/tutorials/tutorial-backup-system.gif)
+
+*Demo: Automated backup system with retention policies and teach status integration*
+
 Teaching Workflow v3.0 introduces an automated backup system that creates timestamped snapshots of your teaching content, helping you recover from accidental deletions, unwanted changes, or experiment safely.
 
 ### Key Features
