@@ -11,7 +11,7 @@
 
 - [Overview](#overview)
 - [Universal Flags](#universal-flags)
-- [Style Presets](#style-presets)
+- [Content Style Presets](#content-style-presets)
 - [Content Customization](#content-customization)
 - [Workflow Modes](#workflow-modes)
 - [Scholar Commands](#scholar-commands)
