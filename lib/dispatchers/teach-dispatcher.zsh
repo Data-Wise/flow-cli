@@ -37,6 +37,13 @@ if [[ -z "$_FLOW_GIT_HELPERS_LOADED" ]]; then
     typeset -g _FLOW_GIT_HELPERS_LOADED=1
 fi
 
+# Source teach doctor implementation (v5.14.0 - Task 2)
+if [[ -z "$_FLOW_TEACH_DOCTOR_LOADED" ]]; then
+    local doctor_path="${0:A:h}/teach-doctor-impl.zsh"
+    [[ -f "$doctor_path" ]] && source "$doctor_path"
+    typeset -g _FLOW_TEACH_DOCTOR_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -915,8 +922,9 @@ _teach_build_context() {
     local -a context_files=()
     local context_text=""
 
-    # Check for common course materials
+    # Check for common course materials (v5.14.0 - Task 9: Added lesson-plan.yml)
     local -a potential_files=(
+        "lesson-plan.yml"           # Primary lesson plan (Task 9)
         ".flow/teach-config.yml"
         "syllabus.md"
         "syllabus.qmd"
@@ -1580,6 +1588,70 @@ _teach_deploy() {
     echo "${FLOW_COLORS[bold]}Commits:${FLOW_COLORS[reset]} $commit_count"
     echo ""
 
+    # ============================================
+    # DEPLOYMENT PREVIEW (v5.14.0 - Task 8)
+    # ============================================
+    echo ""
+    echo "${FLOW_COLORS[info]}📋 Changes Preview${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    # Show files changed summary
+    local files_changed=$(git diff --name-status "$prod_branch"..."$draft_branch" 2>/dev/null)
+    if [[ -n "$files_changed" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[dim]}Files Changed:${FLOW_COLORS[reset]}"
+        while IFS=$'\t' read -r file_status file; do
+            case "$file_status" in
+                M)  echo "  ${FLOW_COLORS[warn]}M${FLOW_COLORS[reset]}  $file" ;;
+                A)  echo "  ${FLOW_COLORS[success]}A${FLOW_COLORS[reset]}  $file" ;;
+                D)  echo "  ${FLOW_COLORS[error]}D${FLOW_COLORS[reset]}  $file" ;;
+                R*) echo "  ${FLOW_COLORS[info]}R${FLOW_COLORS[reset]}  $file" ;;
+                *)  echo "  ${FLOW_COLORS[muted]}$file_status${FLOW_COLORS[reset]}  $file" ;;
+            esac
+        done <<< "$files_changed"
+
+        # Count changes by type
+        local modified=$(echo "$files_changed" | grep -c "^M" || echo 0)
+        local added=$(echo "$files_changed" | grep -c "^A" || echo 0)
+        local deleted=$(echo "$files_changed" | grep -c "^D" || echo 0)
+        local total=$(echo "$files_changed" | wc -l | tr -d ' ')
+
+        echo ""
+        echo "${FLOW_COLORS[dim]}Summary: $total files ($added added, $modified modified, $deleted deleted)${FLOW_COLORS[reset]}"
+    else
+        echo "${FLOW_COLORS[muted]}No changes detected${FLOW_COLORS[reset]}"
+    fi
+
+    # Offer to view full diff
+    echo ""
+    echo -n "${FLOW_COLORS[prompt]}View full diff? [y/N]:${FLOW_COLORS[reset]} "
+    read -r view_diff
+
+    case "$view_diff" in
+        y|Y|yes|Yes|YES)
+            echo ""
+            echo "${FLOW_COLORS[info]}Showing diff...${FLOW_COLORS[reset]}"
+            echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+            # Show colorized diff (if available)
+            if command -v delta >/dev/null 2>&1; then
+                git diff "$prod_branch"..."$draft_branch" | delta
+            elif git config --get core.pager >/dev/null 2>&1; then
+                git diff "$prod_branch"..."$draft_branch"
+            else
+                git --no-pager diff --color=always "$prod_branch"..."$draft_branch" | less -R
+            fi
+
+            echo ""
+            echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+            ;;
+        *)
+            # Skip viewing diff
+            ;;
+    esac
+
+    echo ""
+
     # Decide whether to create PR or direct push
     if [[ "$direct_push" == "true" ]]; then
         echo "${FLOW_COLORS[warn]}⚠️  Direct push mode (bypassing PR)${FLOW_COLORS[reset]}"
@@ -1831,6 +1903,7 @@ _teach_scholar_wrapper() {
     local verbose=false
     local topic=""
     local style=""
+    local template=""      # v5.14.0 - Task 9: Template selection
 
     # Parse wrapper-specific flags vs Scholar flags
     while [[ $# -gt 0 ]]; do
@@ -1853,6 +1926,17 @@ _teach_scholar_wrapper() {
             --style=*)
                 # Extract style preset (--style=computational)
                 style="${1#*=}"
+                shift
+                ;;
+            --template)
+                # Extract template selection (v5.14.0 - Task 9)
+                shift
+                template="$1"
+                shift
+                ;;
+            --template=*)
+                # Extract template selection (--template=detailed)
+                template="${1#*=}"
                 shift
                 ;;
             *)
@@ -1911,7 +1995,7 @@ _teach_scholar_wrapper() {
     # ==================================================================
 
     # ==================================================================
-    # PHASE 6: Context Integration (v5.13.0+)
+    # PHASE 6: Context Integration (v5.13.0+ / v5.14.0 Task 9)
     # ==================================================================
 
     # Check for --context flag
@@ -1923,7 +2007,12 @@ _teach_scholar_wrapper() {
         fi
     done
 
-    # Build context if requested
+    # Auto-load context if lesson-plan.yml exists (v5.14.0 - Task 9)
+    if [[ -f "lesson-plan.yml" ]]; then
+        use_context=true
+    fi
+
+    # Build context if requested or if lesson-plan.yml exists
     local course_context=""
     if [[ "$use_context" == "true" ]]; then
         course_context=$(_teach_build_context)
@@ -2029,6 +2118,11 @@ _teach_scholar_wrapper() {
         scholar_cmd="$scholar_cmd --context \"$course_context\""
     fi
 
+    # Append template selection (v5.14.0 - Task 9)
+    if [[ -n "$template" ]]; then
+        scholar_cmd="$scholar_cmd --template \"$template\""
+    fi
+
     # Build full command string for commit message (v5.11.0+)
     local full_command="teach $subcommand ${args[*]}"
 
@@ -2075,6 +2169,122 @@ _teach_lecture_from_plan() {
     [[ -n "$objectives" ]] && scholar_cmd="$scholar_cmd --objectives \"$objectives\""
 
     _teach_execute "$scholar_cmd" "true"
+}
+
+# Archive semester backups (v5.14.0 - Task 5)
+_teach_archive_command() {
+    local config_file=".flow/teach-config.yml"
+
+    # Help check
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        _teach_archive_help
+        return 0
+    fi
+
+    if [[ ! -f "$config_file" ]]; then
+        _flow_log_error "Not a teaching project (no .flow/teach-config.yml)"
+        return 1
+    fi
+
+    # Get semester name from config
+    local semester year semester_name
+    if command -v yq &>/dev/null; then
+        semester=$(yq '.course.semester // ""' "$config_file" 2>/dev/null)
+        year=$(yq '.course.year // ""' "$config_file" 2>/dev/null)
+
+        if [[ -n "$semester" && -n "$year" ]]; then
+            semester_name="${semester,,}-${year}"  # e.g., "spring-2026"
+        else
+            semester_name=$(date +%Y-%m)
+        fi
+    else
+        semester_name=$(date +%Y-%m)
+    fi
+
+    # Allow override via argument
+    if [[ -n "$1" ]]; then
+        semester_name="$1"
+    fi
+
+    echo ""
+    echo "${FLOW_COLORS[bold]}📦 Archiving Semester Backups${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  Semester: $semester_name"
+    echo ""
+
+    _teach_archive_semester "$semester_name"
+}
+
+# Help for teach archive command (v5.14.0 - Task 5)
+_teach_archive_help() {
+    echo "${FLOW_COLORS[bold]}teach archive${FLOW_COLORS[reset]} - Archive semester backups"
+    echo ""
+    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+    echo "  teach archive [SEMESTER_NAME]"
+    echo ""
+    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
+    echo "  Archives backups at the end of a semester based on retention policies:"
+    echo "    • Assessments (exams, quizzes, assignments) → archive"
+    echo "    • Syllabi & rubrics → archive"
+    echo "    • Lectures & slides → delete (semester retention)"
+    echo ""
+    echo "  Archived backups are moved to .flow/archives/<semester>/"
+    echo ""
+    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+    echo "  teach archive                    # Archive current semester"
+    echo "  teach archive spring-2026        # Archive specific semester"
+    echo "  teach a                          # Short alias"
+    echo ""
+    echo "${FLOW_COLORS[bold]}RETENTION POLICIES${FLOW_COLORS[reset]}"
+    echo "  Configure in .flow/teach-config.yml:"
+    echo ""
+    echo "  backups:"
+    echo "    retention:"
+    echo "      assessments: archive    # Keep forever"
+    echo "      syllabi: archive        # Keep forever"
+    echo "      lectures: semester      # Delete at semester end"
+    echo ""
+}
+
+# Help for teach status command (v5.14.0 - Task 3)
+_teach_status_help() {
+    echo "${FLOW_COLORS[bold]}teach status${FLOW_COLORS[reset]} - Show teaching project status"
+    echo ""
+    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+    echo "  teach status"
+    echo ""
+    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
+    echo "  Displays comprehensive status of your teaching project including:"
+    echo "    • Course information (name, semester, year)"
+    echo "    • Current branch and git status"
+    echo "    • Config validation status"
+    echo "    • Content inventory (lectures, exams, assignments)"
+    echo ""
+    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+    echo "  teach status                    # Show full project status"
+    echo "  teach s                         # Short alias"
+    echo ""
+}
+
+# Help for teach week command (v5.14.0 - Task 3)
+_teach_week_help() {
+    echo "${FLOW_COLORS[bold]}teach week${FLOW_COLORS[reset]} - Show current week information"
+    echo ""
+    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+    echo "  teach week [WEEK_NUMBER]"
+    echo ""
+    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
+    echo "  Shows information about the current week or a specific week:"
+    echo "    • Week number calculation from semester start"
+    echo "    • Topics from lesson plan (if available)"
+    echo "    • Content deadlines for the week"
+    echo ""
+    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+    echo "  teach week                      # Show current week"
+    echo "  teach week 8                    # Show week 8 info"
+    echo "  teach w                         # Short alias"
+    echo ""
 }
 
 # Help for Scholar commands
@@ -2129,6 +2339,12 @@ _teach_scholar_help() {
             echo "  --format FORMAT   Output format (quarto, markdown)"
             echo "  --dry-run         Preview without saving"
             echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach lecture \"Linear Regression\"              # Basic lecture"
+            echo "  teach lecture \"ANOVA\" --week 8                 # From lesson plan week 8"
+            echo "  teach lecture \"PCA\" --style computational      # Code-heavy style"
+            echo "  teach lecture \"Hypothesis Testing\" --notes     # Include speaker notes"
+            echo ""
             echo "${FLOW_COLORS[dim]}Note: /teaching:lecture awaiting Scholar implementation${FLOW_COLORS[reset]}"
             ;;
         slides)
@@ -2141,6 +2357,12 @@ _teach_scholar_help() {
             echo "  --from-lecture FILE  Generate from lecture file"
             echo "  --format FORMAT    Output format (quarto, markdown)"
             echo "  --dry-run          Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach slides \"Multiple Regression\"             # Basic slides"
+            echo "  teach slides \"Logistic Regression\" --week 10   # From lesson plan"
+            echo "  teach slides \"GLMs\" --theme minimal            # Minimal theme"
+            echo "  teach slides \"Bayesian Stats\" -x -c            # Examples + code"
             ;;
         exam)
             echo "teach exam - Generate exam questions"
@@ -2153,6 +2375,12 @@ _teach_scholar_help() {
             echo "  --types TYPES     Question types (mc,sa,essay,calc)"
             echo "  --format FORMAT   Output format (quarto, qti, markdown)"
             echo "  --dry-run         Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach exam \"Midterm 1\"                         # Standard exam"
+            echo "  teach exam \"Final Exam\" --questions 30         # 30 questions"
+            echo "  teach exam \"Quiz 3\" --week 6 --duration 30     # Short quiz from week 6"
+            echo "  teach exam \"Comprehensive Final\" --format qti  # QTI format for LMS"
             ;;
         quiz)
             echo "teach quiz - Generate quiz questions"
@@ -2164,6 +2392,12 @@ _teach_scholar_help() {
             echo "  --time-limit MIN   Time limit in minutes (default: 15)"
             echo "  --format FORMAT    Output format (quarto, qti, markdown)"
             echo "  --dry-run          Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach quiz \"Week 3 Concepts\"                   # Basic quiz"
+            echo "  teach quiz \"Correlation\" --questions 5         # Short 5-question quiz"
+            echo "  teach quiz \"Regression\" --week 7               # From lesson plan week 7"
+            echo "  teach quiz \"ANOVA\" --time-limit 20 --format qti # 20-min QTI quiz"
             ;;
         assignment)
             echo "teach assignment - Generate homework assignment"
@@ -2175,6 +2409,12 @@ _teach_scholar_help() {
             echo "  --points N        Total points (default: 100)"
             echo "  --format FORMAT   Output format (quarto, markdown)"
             echo "  --dry-run         Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach assignment \"Homework 3\"                  # Basic assignment"
+            echo "  teach assignment \"Problem Set 5\" --points 50   # 50-point assignment"
+            echo "  teach assignment \"Data Analysis\" --week 9 -c   # Week 9, with code"
+            echo "  teach assignment \"Project\" --due-date 2026-04-15 # Custom due date"
             ;;
         syllabus)
             echo "teach syllabus - Generate course syllabus"
@@ -2184,6 +2424,11 @@ _teach_scholar_help() {
             echo "${FLOW_COLORS[info]}Syllabus-Specific Options:${FLOW_COLORS[reset]}"
             echo "  --format FORMAT   Output format (quarto, markdown, pdf)"
             echo "  --dry-run         Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach syllabus                                   # Generate from config"
+            echo "  teach syllabus --format pdf                      # PDF output"
+            echo "  teach syllabus --dry-run                         # Preview first"
             echo ""
             echo "${FLOW_COLORS[dim]}Note: Uses course info from .flow/teach-config.yml${FLOW_COLORS[reset]}"
             ;;
@@ -2196,6 +2441,11 @@ _teach_scholar_help() {
             echo "  --criteria N      Number of criteria"
             echo "  --format FORMAT   Output format (quarto, markdown)"
             echo "  --dry-run         Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach rubric \"Final Project\"                   # Project rubric"
+            echo "  teach rubric \"Lab Report\" --criteria 4         # 4 criteria rubric"
+            echo "  teach rubric \"Homework 5\" --week 10            # From lesson plan"
             ;;
         feedback)
             echo "teach feedback - Generate student feedback"
@@ -2206,6 +2456,11 @@ _teach_scholar_help() {
             echo "  --tone TONE       Feedback tone (supportive, direct, detailed)"
             echo "  --format FORMAT   Output format (markdown, text)"
             echo "  --dry-run         Preview without saving"
+            echo ""
+            echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+            echo "  teach feedback \"homework3-smith.pdf\"           # Review homework"
+            echo "  teach feedback \"project.R\" --tone supportive   # Supportive tone"
+            echo "  teach feedback \"essay.docx\" --tone detailed    # Detailed feedback"
             ;;
         demo)
             echo "teach demo - Create demo course materials"
@@ -2221,6 +2476,189 @@ _teach_scholar_help() {
             echo "Run 'teach help' for available commands"
             ;;
     esac
+}
+
+# ============================================================================
+# TEACH INIT - Initialize teaching project (v5.14.0 - Task 10)
+# ============================================================================
+
+# Initialize teaching project with optional external config and GitHub repo
+# Usage: _teach_init [course_name] [--config FILE] [--github]
+_teach_init() {
+    local course_name=""
+    local external_config=""
+    local create_github=false
+
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --config)
+                shift
+                external_config="$1"
+                shift
+                ;;
+            --github)
+                create_github=true
+                shift
+                ;;
+            --help|-h|help)
+                _teach_init_help
+                return 0
+                ;;
+            *)
+                if [[ -z "$course_name" && ! "$1" =~ ^-- ]]; then
+                    course_name="$1"
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    # Check if already initialized
+    if [[ -f ".flow/teach-config.yml" ]]; then
+        _flow_log_error "Teaching project already initialized"
+        echo ""
+        echo "  Config exists: .flow/teach-config.yml"
+        echo "  To reconfigure, edit the file or delete it first"
+        return 1
+    fi
+
+    echo ""
+    echo "${FLOW_COLORS[bold]}🎓 Initializing Teaching Project${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+    echo ""
+
+    # Create .flow directory
+    mkdir -p .flow
+
+    # Load from external config if specified (v5.14.0 - Task 10)
+    if [[ -n "$external_config" ]]; then
+        if [[ ! -f "$external_config" ]]; then
+            _flow_log_error "External config not found: $external_config"
+            return 1
+        fi
+
+        echo "  ${FLOW_COLORS[info]}Loading from:${FLOW_COLORS[reset]} $external_config"
+        cp "$external_config" .flow/teach-config.yml
+
+        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Config loaded from external file"
+    else
+        # Create default config
+        local semester=$(date +%B)  # e.g., "January"
+        local year=$(date +%Y)
+
+        # Use provided name or prompt
+        if [[ -z "$course_name" ]]; then
+            course_name="My Course"
+        fi
+
+        cat > .flow/teach-config.yml << EOF
+course:
+  name: "$course_name"
+  semester: "$semester $year"
+  year: $year
+
+git:
+  draft_branch: draft
+  production_branch: main
+  auto_pr: true
+  require_clean: true
+
+workflow:
+  teaching_mode: false
+  auto_commit: false
+  auto_push: false
+
+backups:
+  retention:
+    assessments: archive    # Keep exam/quiz backups forever
+    syllabi: archive        # Keep syllabus backups forever
+    lectures: semester      # Delete lecture backups at semester end
+  archive_dir: .flow/archives
+EOF
+
+        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Created .flow/teach-config.yml"
+    fi
+
+    # Initialize git if requested (v5.14.0 - Task 10)
+    if [[ "$create_github" == "true" ]]; then
+        # Check if gh is available
+        if ! command -v gh &>/dev/null; then
+            _flow_log_error "GitHub CLI (gh) required for --github flag"
+            echo "  Install: brew install gh"
+            return 1
+        fi
+
+        # Check if already in git repo
+        if ! git rev-parse --git-dir &>/dev/null 2>&1; then
+            # Initialize git
+            git init
+            echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Initialized git repository"
+        fi
+
+        # Create GitHub repo
+        echo ""
+        echo "  ${FLOW_COLORS[info]}Creating GitHub repository...${FLOW_COLORS[reset]}"
+
+        local repo_name=$(basename "$PWD")
+        if gh repo create "$repo_name" --private --source=. --push 2>&1; then
+            echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} GitHub repository created and pushed"
+        else
+            echo "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]} Failed to create GitHub repo (continuing anyway)"
+        fi
+    fi
+
+    # Create initial branches if in git repo
+    if git rev-parse --git-dir &>/dev/null 2>&1; then
+        # Commit the config
+        git add .flow/teach-config.yml
+        git commit -m "chore: initialize teaching project
+
+Course: $course_name
+Initialized via: teach init" 2>/dev/null
+
+        # Create draft branch if it doesn't exist
+        if ! git show-ref --verify --quiet refs/heads/draft 2>/dev/null; then
+            git branch draft
+            echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Created draft branch"
+        fi
+    fi
+
+    echo ""
+    echo "${FLOW_COLORS[success]}✅ Teaching project initialized!${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  Next steps:"
+    echo "    1. Review config: teach config"
+    echo "    2. Check environment: teach doctor"
+    echo "    3. Generate content: teach exam \"Topic\""
+    echo ""
+}
+
+# Help for teach init
+_teach_init_help() {
+    echo "${FLOW_COLORS[bold]}teach init${FLOW_COLORS[reset]} - Initialize teaching project"
+    echo ""
+    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+    echo "  teach init [course_name] [OPTIONS]"
+    echo ""
+    echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+    echo "  --config FILE    Load configuration from external file"
+    echo "  --github         Create GitHub repository (requires gh CLI)"
+    echo "  --help, -h       Show this help message"
+    echo ""
+    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
+    echo "  Creates .flow/teach-config.yml with default settings for:"
+    echo "    • Course information (name, semester, year)"
+    echo "    • Git workflow (draft/production branches)"
+    echo "    • Teaching mode settings (auto-commit, auto-push)"
+    echo "    • Backup retention policies"
+    echo ""
+    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
+    echo "  teach init                           # Interactive setup"
+    echo "  teach init \"STAT 545\"                # With course name"
+    echo "  teach init --config ./my-config.yml  # Load external config"
+    echo "  teach init \"STAT 545\" --github       # Create GitHub repo"
+    echo ""
 }
 
 teach() {
@@ -2277,7 +2715,8 @@ teach() {
         # LOCAL COMMANDS (no Claude needed)
         # ============================================
         init|i)
-            teach-init "$@"
+            # v5.14.0 - Task 10: Reimplemented with --config and --github flags
+            _teach_init "$@"
             ;;
 
         # Shortcuts for common operations
@@ -2287,12 +2726,8 @@ teach() {
             ;;
 
         archive|a)
-            if [[ -f "./scripts/semester-archive.sh" ]]; then
-                ./scripts/semester-archive.sh "$@"
-            else
-                _teach_error "No semester-archive.sh found" "Run 'teach init' first"
-                return 1
-            fi
+            # v5.14.0 (Task 5): Use new backup system
+            _teach_archive_command "$@"
             ;;
 
         # Config management
@@ -2308,7 +2743,7 @@ teach() {
 
         # Status/info
         status|s)
-            _teach_show_status
+            _teach_show_status "$@"
             ;;
 
         week|w)
@@ -2318,6 +2753,11 @@ teach() {
         # Date management
         dates)
             _teach_dates_dispatcher "$@"
+            ;;
+
+        # Health check (v5.14.0 - Task 2)
+        doctor)
+            _teach_doctor "$@"
             ;;
 
         *)
@@ -2331,6 +2771,12 @@ teach() {
 
 # Show teaching project status (Full Inventory)
 _teach_show_status() {
+    # Help check
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        _teach_status_help
+        return 0
+    fi
+
     local config_file=".flow/teach-config.yml"
 
     if [[ ! -f "$config_file" ]]; then
@@ -2413,14 +2859,14 @@ _teach_show_status() {
             echo ""
             for file in "${teaching_files[@]}"; do
                 # Get file status (M/A/D etc)
-                local status=$(git status --porcelain "$file" 2>/dev/null | awk '{print $1}')
+                local file_status=$(git status --porcelain "$file" 2>/dev/null | awk '{print $1}')
                 local status_label
-                case "$status" in
+                case "$file_status" in
                     M) status_label="${FLOW_COLORS[warn]}M${FLOW_COLORS[reset]}" ;;
                     A) status_label="${FLOW_COLORS[success]}A${FLOW_COLORS[reset]}" ;;
                     D) status_label="${FLOW_COLORS[error]}D${FLOW_COLORS[reset]}" ;;
                     ??) status_label="${FLOW_COLORS[muted]}??${FLOW_COLORS[reset]}" ;;
-                    *) status_label="$status" ;;
+                    *) status_label="$file_status" ;;
                 esac
                 printf "    %s  %s\n" "$status_label" "$file"
             done
@@ -2436,6 +2882,104 @@ _teach_show_status() {
                 echo "  ${FLOW_COLORS[dim]}(Other files modified - use 'g status' to see all)${FLOW_COLORS[reset]}"
             fi
         fi
+    fi
+
+    # ============================================
+    # DEPLOYMENT STATUS (v5.14.0 - Task 7)
+    # ============================================
+    echo ""
+    echo "${FLOW_COLORS[bold]}🚀 Deployment Status${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}────────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    # Check for last deployment commit
+    if _git_in_repo; then
+        local last_deploy=$(git log --all --grep="deploy" --grep="Publish" -i --format="%h %s (%cr)" --max-count=1 2>/dev/null)
+        if [[ -n "$last_deploy" ]]; then
+            echo "  Last Deploy:  $last_deploy"
+        else
+            echo "  Last Deploy:  ${FLOW_COLORS[muted]}No deployments found${FLOW_COLORS[reset]}"
+        fi
+
+        # Check for open PRs (requires gh CLI)
+        if command -v gh >/dev/null 2>&1; then
+            local pr_count=$(gh pr list --state open 2>/dev/null | wc -l | tr -d ' ')
+            if [[ "$pr_count" -gt 0 ]]; then
+                echo "  Open PRs:     ${FLOW_COLORS[warning]}$pr_count pending${FLOW_COLORS[reset]}"
+                # Show first PR details
+                local pr_info=$(gh pr list --state open --limit 1 --json number,title,headRefName 2>/dev/null | \
+                    command -v jq >/dev/null 2>&1 && jq -r '.[0] | "#\(.number): \(.title) (\(.headRefName))"' 2>/dev/null || echo "")
+                [[ -n "$pr_info" ]] && echo "                $pr_info"
+            else
+                echo "  Open PRs:     ${FLOW_COLORS[success]}None${FLOW_COLORS[reset]}"
+            fi
+        fi
+    fi
+
+    # ============================================
+    # BACKUP SUMMARY (v5.14.0 - Task 7)
+    # ============================================
+    echo ""
+    echo "${FLOW_COLORS[bold]}💾 Backup Summary${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}────────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    local -A backup_counts=()
+    local total_backups=0
+    local latest_backup=""
+    local latest_backup_time=0
+
+    # Count backups for each content type
+    for dir in exams lectures slides assignments quizzes syllabi rubrics; do
+        if [[ -d "$dir" ]]; then
+            # Find all content folders in this directory
+            for content_dir in "$dir"/*(/N); do
+                if [[ -d "$content_dir" ]]; then
+                    local count=$(_teach_count_backups "$content_dir")
+                    if [[ "$count" -gt 0 ]]; then
+                        backup_counts[$dir]=$((${backup_counts[$dir]:-0} + count))
+                        ((total_backups += count))
+
+                        # Find most recent backup
+                        local recent=$(_teach_list_backups "$content_dir" | head -1)
+                        if [[ -n "$recent" ]]; then
+                            local backup_time=$(stat -f %m "$recent" 2>/dev/null || stat -c %Y "$recent" 2>/dev/null)
+                            if [[ "$backup_time" -gt "$latest_backup_time" ]]; then
+                                latest_backup_time=$backup_time
+                                latest_backup=$(basename "$recent")
+                            fi
+                        fi
+                    fi
+                fi
+            done
+        fi
+    done
+
+    # Display summary
+    if [[ $total_backups -gt 0 ]]; then
+        echo "  Total Backups:  $total_backups"
+
+        # Show last backup time
+        if [[ -n "$latest_backup" && "$latest_backup_time" -gt 0 ]]; then
+            # Convert timestamp to readable date (macOS/Linux compatible)
+            local time_ago
+            time_ago=$(date -r "$latest_backup_time" '+%Y-%m-%d %H:%M' 2>/dev/null || \
+                       date -d "@$latest_backup_time" '+%Y-%m-%d %H:%M' 2>/dev/null || \
+                       echo "$latest_backup")
+            echo "  Last Backup:    $time_ago"
+        fi
+
+        # Breakdown by type
+        if [[ ${#backup_counts[@]} -gt 0 ]]; then
+            echo ""
+            echo "  ${FLOW_COLORS[dim]}By Content Type:${FLOW_COLORS[reset]}"
+            for dir in exams lectures slides assignments quizzes syllabi rubrics; do
+                if [[ -n "${backup_counts[$dir]}" && "${backup_counts[$dir]}" -gt 0 ]]; then
+                    printf "    %-15s %s backups\n" "$dir:" "${backup_counts[$dir]}"
+                fi
+            done
+        fi
+    else
+        echo "  ${FLOW_COLORS[muted]}No backups yet${FLOW_COLORS[reset]}"
+        echo "  ${FLOW_COLORS[dim]}Backups are created automatically when regenerating content${FLOW_COLORS[reset]}"
     fi
 
     # ============================================
@@ -2505,6 +3049,12 @@ _teach_show_status() {
 
 # Show current week info
 _teach_show_week() {
+    # Help check
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        _teach_week_help
+        return 0
+    fi
+
     local config_file=".flow/teach-config.yml"
 
     if [[ ! -f "$config_file" ]]; then
