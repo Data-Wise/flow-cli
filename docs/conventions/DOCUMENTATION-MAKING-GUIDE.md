@@ -16,7 +16,7 @@
 4. [Standardization Process](#standardization-process)
 5. [Quality Standards](#quality-standards)
 6. [Implementation Workflow](#implementation-workflow)
-7. [Tools & Commands](#tools--commands)
+7. [Tools & Commands](#tools-commands)
 8. [Examples](#examples)
 9. [Troubleshooting](#troubleshooting)
 

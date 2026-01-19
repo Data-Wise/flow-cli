@@ -35,7 +35,7 @@
 5. [Semester Lifecycle](#semester-lifecycle)
 6. [Automation Tiers](#automation-tiers)
 7. [examark Integration](#examark-integration)
-8. [Transition Day Protocol](#transition-day-protocol)
+8. [Transition Day Protocol](#phase-3-transition-day-annual-event)
 9. [Implementation Plan](#implementation-plan)
 10. [Files to Generate](#files-to-generate)
 11. [Next Steps](#next-steps)

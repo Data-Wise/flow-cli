@@ -594,4 +594,4 @@ After migration, you'll have:
 **Last Updated:** 2026-01-18
 **Estimated Migration Time:** 1-2 hours per course
 
-For questions or issues, see the [Troubleshooting](#-troubleshooting) section or open an issue on GitHub.
+For questions or issues, see the [Troubleshooting](#troubleshooting) section or open an issue on GitHub.

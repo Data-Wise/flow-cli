@@ -1209,7 +1209,7 @@ rm -rf lectures/*/. backups/*2024*
 ## See Also
 
 - [Teaching Workflow Guide](../guides/TEACHING-WORKFLOW.md)
-- [Backup System Guide](../guides/BACKUP-SYSTEM.md)
+- [Backup System Guide](../guides/BACKUP-SYSTEM-GUIDE.md)
 - [Teaching Dates Guide](../guides/TEACHING-DATES-GUIDE.md)
 - [Scholar Enhancement API](SCHOLAR-ENHANCEMENT-API.md)
 - [Quick Reference Card](REFCARD-TEACHING.md)
