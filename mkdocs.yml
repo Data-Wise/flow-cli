@@ -123,8 +123,9 @@ nav:
   - Guides:
       - Start Here: guides/00-START-HERE.md
       - 🆕 Teaching v3.0:
-          - Backup System Guide: guides/BACKUP-SYSTEM-GUIDE.md
           - v3.0 User Guide: guides/TEACHING-WORKFLOW-V3-GUIDE.md
+          - Backup System Guide: guides/BACKUP-SYSTEM-GUIDE.md
+          - Migration Guide (v2 → v3): guides/TEACHING-V3-MIGRATION-GUIDE.md
       - Teaching (Legacy):
           - System Architecture: guides/TEACHING-SYSTEM-ARCHITECTURE.md
           - Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md
@@ -178,6 +179,7 @@ nav:
       - Deep Dives:
           - Architecture: reference/ARCHITECTURE.md
           - 🎨 Architecture Diagrams: diagrams/ARCHITECTURE-DIAGRAMS.md
+          - 📚 Teaching v3.0 Workflows: diagrams/TEACHING-V3-WORKFLOWS.md
           - 🎓 Scholar Enhancement:
               - API Reference: reference/SCHOLAR-ENHANCEMENT-API.md
               - Architecture Guide: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
