@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v5.13.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.13.0)
+[![Version](https://img.shields.io/badge/version-v5.14.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.14.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -22,53 +22,50 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ---
 
-## ✨ What's New in v5.13.0
+## ✨ What's New in v5.14.0
 
-!!! success "Two Major Features: WT Enhancement + Scholar Integration"
-    Enhanced worktree management AND 9 Scholar wrapper commands for teaching content generation
+!!! success "Teaching Workflow v3.0 - Complete Overhaul"
+    Complete teaching workflow redesign with 10 tasks across 3 waves + 6 comprehensive tutorial GIFs
 
-### WT Workflow Enhancement
+### 🎓 Teaching Workflow v3.0
 
-**Phase 1: Enhanced wt Default**
+**Wave 1: Foundation**
+- **🏥 teach doctor** - Comprehensive environment health check (--fix, --json, --quiet)
+- **📖 Enhanced Help** - All 10 teach commands now have --help with EXAMPLES
+- **🔄 Unified Dispatcher** - Removed standalone `teach-init`, now `teach init`
 
-- **🌳 Formatted Overview** - `wt` shows formatted table with status icons
-- **🎯 Smart Filtering** - `wt <project>` filters by project name
-- **📊 Status Icons** - ✅ active, 🧹 merged, ⚠️ stale, 🏠 main
-- **🟢 Session Detection** - 🟢 active, 🟡 recent, ⚪ none
+**Wave 2: Backup System**
+- **💾 Automated Backups** - Timestamped snapshots on every content modification
+- **📦 Retention Policies** - `archive` (keep forever) vs `semester` (auto-cleanup)
+- **🗑️ Safe Deletion** - Interactive confirmation with file preview
+- **📊 Status Integration** - Backup summary in `teach status`
 
-**Phase 2: pick wt Actions**
+**Wave 3: Enhancements**
+- **🚀 Deploy Preview** - `teach deploy --preview` shows changes before PR
+- **📚 Scholar Templates** - Template selection + automatic lesson plan loading
+- **✅ Enhanced Status** - Deployment status + backup info in `teach status`
 
-- **⌨️ Multi-Select** - Tab to select multiple worktrees
-- **🗑️ Interactive Delete** - Ctrl-X with confirmation
-- **🔄 Cache Refresh** - Ctrl-R to refresh overview
+### 📹 Visual Documentation (6 GIFs)
 
-### Teach/Scholar Enhancement
+All new features demonstrated with optimized tutorial GIFs (5.7MB total):
 
-**9 Scholar Wrapper Commands** for teaching content generation:
+- **teach doctor** - Environment validation workflow
+- **Backup system** - Automated content safety
+- **teach init** - Project initialization
+- **teach deploy** - Preview deployment flow
+- **teach status** - Enhanced dashboard
+- **Scholar integration** - Template & lesson plans
 
-```bash
-teach generate quiz "Linear Regression" --style conceptual +math
-teach generate exam --week 8 --format pdf
-teach generate homework --lesson week-05.yml
-```
+[→ Teaching Workflow v3.0 Guide](guides/TEACHING-WORKFLOW-V3-GUIDE.md){ .md-button .md-button--primary }
+[→ Backup System Guide](guides/BACKUP-SYSTEM-GUIDE.md){ .md-button }
+[→ Migration Guide (v2→v3)](guides/TEACHING-V3-MIGRATION-GUIDE.md){ .md-button }
 
-- `quiz`, `exam`, `homework`, `lecture`, `rubric`
-- `syllabus`, `slides`, `feedback`, `solution`
+### Previous Release: v5.13.0
 
-**Smart Defaults:** `--content-preset`, `+math/-examples`, `--format md|pdf|docx|typst`
-
-[→ Scholar Enhancement Tutorials](tutorials/scholar-enhancement/index.md){ .md-button .md-button--primary }
-
-### Previous Release: v5.12.0
-
-**Teaching System Complete + Documentation Quality**
-- **📅 Centralized Date Management** - `teach dates sync` updates all course dates from single config
-- **🔄 Semester Rollover** - `teach dates init` wizard for quick semester setup
-- **✅ Validation & Status** - Check date consistency across all course materials
-- **📊 Complete Test Coverage** - 94 tests covering all teaching features (100% passing)
-- **📸 Visual Documentation** - Dashboard screenshot, optimized GIFs (73% size reduction)
-- **📘 Complete API Reference** - 400+ lines covering all functions ([→ API Docs](reference/API-COMPLETE.md))
-- **🎨 Architecture Diagrams** - 15 Mermaid diagrams showing system design ([→ Diagrams](diagrams/ARCHITECTURE-DIAGRAMS.md))
+**WT Enhancement + Scholar Integration**
+- Enhanced worktree management with formatted overview and smart filtering
+- 9 Scholar wrapper commands for teaching content generation
+- Multi-select worktree actions with interactive delete
 
 [View Full Changelog →](CHANGELOG.md){ .md-button }
 
