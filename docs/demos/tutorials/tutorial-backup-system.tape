@@ -22,49 +22,52 @@ Sleep 500ms
 Type "clear" Enter
 Show
 
-# Title
-Type "# Teaching Workflow v3.0: Backup System" Enter
+# Title using echo
+Type "echo 'Teaching Workflow v3.0: Backup System'" Enter
 Sleep 1s
-Type "# Automated Content Safety" Enter
+Type "echo 'Automated Content Safety'" Enter
 Sleep 2s
+
+Type "" Enter
+Sleep 1s
 
 # Show teach status with backup info
-Type "# Enhanced status shows backup summary" Enter
+Type "echo 'Enhanced status shows backup summary:'" Enter
 Sleep 1s
 Type "teach status" Enter
-Sleep 4s
+Sleep 5s
 
 Type "" Enter
 Sleep 1s
 
-# Show retention policy configuration
-Type "# Retention policies (archive vs semester)" Enter
+# Explain backup configuration
+Type "echo 'Backup retention policies configured in:'" Enter
 Sleep 1s
-Type "yq '.backups.retention' .flow/teach-config.yml" Enter
-Sleep 3s
-
-Type "" Enter
-Sleep 1s
-
-# Show existing backups
-Type "# Check existing backups" Enter
-Sleep 1s
-Type "ls -la content/.backups/ 2>/dev/null | head -10 || echo 'Backups created automatically on content generation'" Enter
-Sleep 3s
-
-Type "" Enter
-Sleep 1s
-
-# Explain how backups work
-Type "# Backups created automatically when:" Enter
-Sleep 1s
-Type "# - teach exam, quiz, homework, etc." Enter
-Sleep 1s
-Type "# - Content is modified" Enter
-Sleep 1s
-Type "# - teach delete (with confirmation)" Enter
+Type "echo '.flow/teach-config.yml'" Enter
 Sleep 2s
 
 Type "" Enter
-Type "# ✓ Content protected with automated backups!" Enter
+Sleep 1s
+
+# Show example of where backups are stored
+Type "echo 'Backups stored in:'" Enter
+Sleep 1s
+Type "echo 'content/.backups/<name>.<timestamp>/'" Enter
+Sleep 2s
+
+Type "" Enter
+Sleep 1s
+
+# Explain when backups are created
+Type "echo 'Backups created automatically when:'" Enter
+Sleep 1s
+Type "echo '  - Generating exams, quizzes, homework'" Enter
+Sleep 1s
+Type "echo '  - Modifying existing content'" Enter
+Sleep 1s
+Type "echo '  - Before deleting files'" Enter
+Sleep 2s
+
+Type "" Enter
+Type "echo '✓ Content protected with automated backups!'" Enter
 Sleep 3s

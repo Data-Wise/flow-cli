@@ -22,10 +22,10 @@ Sleep 500ms
 Type "clear" Enter
 Show
 
-# Title
-Type "# Teaching Workflow v3.0: teach doctor" Enter
+# Title using echo
+Type "echo 'Teaching Workflow v3.0: teach doctor'" Enter
 Sleep 1s
-Type "# Environment Health Check" Enter
+Type "echo 'Environment Health Check'" Enter
 Sleep 2s
 
 # Show the help first
@@ -36,7 +36,7 @@ Type "clear" Enter
 Sleep 1s
 
 # Basic health check
-Type "# Run basic health check" Enter
+Type "echo 'Run basic health check'" Enter
 Sleep 1s
 Type "teach doctor" Enter
 Sleep 5s
@@ -44,8 +44,8 @@ Sleep 5s
 Type "" Enter
 Sleep 1s
 
-# Quiet mode (only show warnings)
-Type "# Quiet mode - only warnings/failures" Enter
+# Quiet mode
+Type "echo 'Quiet mode - only warnings/failures'" Enter
 Sleep 1s
 Type "teach doctor --quiet" Enter
 Sleep 2s
@@ -54,5 +54,5 @@ Type "" Enter
 Sleep 1s
 
 # Show completion
-Type "# ✓ Environment validated!" Enter
+Type "echo '✓ Environment validated!'" Enter
 Sleep 2s
