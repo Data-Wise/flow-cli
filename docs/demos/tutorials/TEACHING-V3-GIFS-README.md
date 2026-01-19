@@ -6,8 +6,12 @@ This directory contains VHS tapes and generated GIF demos for Teaching Workflow 
 
 | GIF | Feature | Size | Description |
 |-----|---------|------|-------------|
-| `tutorial-teach-doctor.gif` | teach doctor | 128KB | Environment health check demo |
-| `tutorial-backup-system.gif` | Backup System | 248KB | Automated content safety demo |
+| `tutorial-teach-doctor.gif` | teach doctor | 1.5MB | Environment health check demo |
+| `tutorial-backup-system.gif` | Backup System | 1.6MB | Automated content safety demo |
+| `tutorial-teach-init.gif` | teach init | 336KB | Project initialization demo |
+| `tutorial-teach-deploy.gif` | teach deploy | 1.2MB | Preview deployment workflow |
+| `tutorial-teach-status.gif` | teach status | 1.1MB | Enhanced status display |
+| `tutorial-scholar-integration.gif` | Scholar Integration | 288KB | Template and lesson plan demo |
 
 ## VHS Tapes
 
@@ -15,6 +19,10 @@ This directory contains VHS tapes and generated GIF demos for Teaching Workflow 
 |------|---------|----------|
 | `tutorial-teach-doctor.tape` | teach doctor | ~20 seconds |
 | `tutorial-backup-system.tape` | Backup System | ~25 seconds |
+| `tutorial-teach-init.tape` | teach init | ~20 seconds |
+| `tutorial-teach-deploy.tape` | teach deploy | ~30 seconds |
+| `tutorial-teach-status.tape` | teach status | ~25 seconds |
+| `tutorial-scholar-integration.tape` | Scholar Integration | ~30 seconds |
 
 ---
 
@@ -39,21 +47,35 @@ cd docs/demos/tutorials
 ```bash
 cd docs/demos/tutorials
 
-# Generate teach doctor demo
+# Generate all demos individually
 vhs tutorial-teach-doctor.tape
-
-# Generate backup system demo
 vhs tutorial-backup-system.tape
+vhs tutorial-teach-init.tape
+vhs tutorial-teach-deploy.tape
+vhs tutorial-teach-status.tape
+vhs tutorial-scholar-integration.tape
 ```
 
 ### Expected Output
 
 ```
-1/2 Generating teach doctor demo...
-  ✅ tutorial-teach-doctor.gif (128K)
+1/6 Generating teach doctor demo...
+  ✅ tutorial-teach-doctor.gif (1.5M)
 
-2/2 Generating backup system demo...
-  ✅ tutorial-backup-system.gif (248K)
+2/6 Generating backup system demo...
+  ✅ tutorial-backup-system.gif (1.6M)
+
+3/6 Generating teach init demo...
+  ✅ tutorial-teach-init.gif (336K)
+
+4/6 Generating teach deploy demo...
+  ✅ tutorial-teach-deploy.gif (1.2M)
+
+5/6 Generating teach status demo...
+  ✅ tutorial-teach-status.gif (1.1M)
+
+6/6 Generating scholar integration demo...
+  ✅ tutorial-scholar-integration.gif (288K)
 
 🎉 All GIFs generated successfully!
 ```
@@ -79,7 +101,7 @@ Demonstrates:
 
 Shows:
 - `teach status` - Enhanced status with backup summary
-- `yq '.backups.retention' .flow/teach-config.yml` - Retention policies
+- Backup retention policies
 - Backup directory structure explanation
 
 Demonstrates:
@@ -87,6 +109,63 @@ Demonstrates:
 - Retention policies (archive vs semester)
 - Backup summary in status
 - Safe deletion workflow
+
+### teach init (tutorial-teach-init.gif)
+
+Shows:
+- `teach init --help` - Help output and available options
+- `teach init` - Initialize new teaching project
+- `.flow/` directory structure
+- Generated `teach-config.yml` configuration
+
+Demonstrates:
+- Project initialization workflow
+- Configuration file generation
+- Directory structure setup
+- Course metadata configuration
+
+### teach deploy (tutorial-teach-deploy.gif)
+
+Shows:
+- `teach deploy --help` - Deployment options
+- `teach status` - Pre-deployment status check
+- `teach deploy --preview` - Preview branch deployment
+- Preview URL information
+
+Demonstrates:
+- Preview deployment workflow
+- Safe deployment testing
+- Branch-based deployment
+- Deployment status tracking
+
+### teach status (tutorial-teach-status.gif)
+
+Shows:
+- `teach status` - Comprehensive project overview
+- Course configuration and dates
+- Current week and schedule
+- Git branch and deployment status
+- Backup summary
+
+Demonstrates:
+- Enhanced status display
+- All-in-one project overview
+- Multiple information sources
+- Quick project health check
+
+### Scholar Integration (tutorial-scholar-integration.gif)
+
+Shows:
+- `teach exam --help` - Scholar command options
+- `teach exam` with template and lesson plan
+- Template selection workflow
+- Automated backup confirmation
+
+Demonstrates:
+- Scholar MCP integration
+- Template-based content generation
+- Lesson plan auto-loading
+- Integrated backup safety
 
 ---
 
