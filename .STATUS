@@ -8,7 +8,149 @@
 ## Priority: 1
 ## Progress: 100
 
-## Focus: v5.15.0 - Course Planning Documentation (Phase 1 Complete)
+## Focus: v5.15.0 - Course Planning Documentation (Phase 1 Complete, Phases 2-4 Ready)
+
+## ✅ Completed (2026-01-19):
+
+### Course Planning Phases 2-4 - Worktree & Spec Created ✅
+
+**Session Duration:** ~30 minutes
+**Worktree:** `~/.git-worktrees/flow-cli/course-planning-phases-2-4`
+**Branch:** `feature/course-planning-phases-2-4`
+**Status:** Ready for agent implementation in new session
+
+**Goal:** Create isolated development environment and comprehensive implementation specification for Phases 2-4 of Course Planning Best Practices guide.
+
+**Deliverables:**
+
+**1. Git Worktree Created**
+- ✅ Worktree path: `~/.git-worktrees/flow-cli/course-planning-phases-2-4`
+- ✅ Branch: `feature/course-planning-phases-2-4` (from dev)
+- ✅ Clean isolation from main development
+- ✅ Verified with `git worktree list`
+
+**2. Comprehensive Specification Document (18,500+ lines)**
+- ✅ File: `docs/specs/SPEC-COURSE-PLANNING-PHASES-2-4.md`
+- ✅ Complete implementation guide for all 10 remaining sections
+- ✅ Detailed subsection breakdowns with line counts
+- ✅ Educational framework requirements (40/60 theory-practice)
+- ✅ Documentation standards and style guidelines
+- ✅ Quality verification procedures
+
+**Specification Structure:**
+
+**Phase 2: Assessment & Outcomes (~10,000 lines)**
+- Section 3: Bloom's Taxonomy Integration (4,600 lines)
+  - All 6 cognitive levels with examples and action verbs
+  - Writing measurable outcomes guide
+  - Assessment alignment strategies
+- Section 4: Syllabus Design (3,200 lines)
+  - Essential components with teach-config.yml mapping
+  - Student-facing vs academic versions
+- Section 5: Assessment Design (5,500 lines)
+  - GRASPS framework for performance tasks
+  - Alignment matrix creation and validation
+  - 6 assessment types with complete examples
+  - Rubric design principles
+
+**Phase 3: Planning & Content (~10,000 lines)**
+- Section 6: Grading Schema Design (3,000 lines)
+- Section 7: Lesson Planning (6,700 lines)
+  - WHERETO framework deep dive
+  - Week-by-week workflows
+  - 3 complete STAT 545 lesson plans
+- Section 8: Content Creation with Scholar (6,500 lines)
+  - All 9 teach commands documented
+  - Quality assurance workflows
+
+**Phase 4: Workflows & Timeline (~8,000 lines)**
+- Section 9: Course Timeline (2,500 lines)
+  - 8-week pre-semester preparation
+- Section 10: Semester Maintenance (2,000 lines)
+- Section 11: Quality Assurance Checklists (1,500 lines)
+- Section 12: Continuous Improvement (2,000 lines)
+
+**Key Features of Specification:**
+
+**Complete Implementation Guidance:**
+- Exact line count targets for each subsection
+- Required content for every section
+- Examples to create (all STAT 545-based)
+- teach-config.yml integration points
+- Research citations to include
+- Mermaid diagrams to generate
+- Code examples with actual commands
+
+**Educational Standards:**
+- 40/60 theory-practice balance maintained
+- All concepts mapped to flow-cli implementation
+- 15+ research citations per phase
+- Real-world examples throughout
+- ADHD-friendly formatting
+
+**Quality Verification:**
+- Pre-implementation checklists
+- Per-section validation steps
+- Post-phase completion criteria
+- Cross-reference validation
+- Final integration checks
+
+**Agent Instructions:**
+- Critical requirements (what NOT to do)
+- Tool usage guidelines (Read tool first)
+- Documentation standards
+- Code testing requirements
+- Commit strategy (incremental, not bulk)
+
+**Implementation Approach:**
+- Phases can be done in separate sessions
+- Each phase is 2-3 hours of focused work
+- Append to existing file (don't recreate)
+- Use existing Phase 1 content as reference
+- Test examples as they're created
+
+**Success Metrics:**
+- Phase 2: +10,000 lines (Sections 3-5)
+- Phase 3: +10,000 lines (Sections 6-8)
+- Phase 4: +8,000 lines (Sections 9-12)
+- Total final: ~30,500 lines (Phase 1 + 2-4)
+- All 12 sections complete
+- Table of contents accurate
+- All internal links working
+- All examples tested
+
+**Next Steps:**
+
+**To Begin Implementation:**
+```bash
+# Start NEW session in worktree
+cd ~/.git-worktrees/flow-cli/course-planning-phases-2-4
+claude
+
+# Tell agent:
+"Read docs/specs/SPEC-COURSE-PLANNING-PHASES-2-4.md and implement Phase 2"
+```
+
+**Implementation Timeline:**
+- Phase 2: 2-3 hours (Sections 3-5)
+- Phase 3: 2-3 hours (Sections 6-8)
+- Phase 4: 2-3 hours (Sections 9-12)
+- Total: 6-9 hours across 3-4 sessions
+
+**Files Created:**
+- `docs/specs/SPEC-COURSE-PLANNING-PHASES-2-4.md` (18,500 lines)
+
+**Statistics:**
+- Specification lines: 18,500
+- Sections planned: 10
+- Subsections detailed: 40+
+- Examples specified: 50+
+- Total documentation to create: ~30,000 lines
+- Estimated completion: 3-4 focused sessions
+
+**Status:** ✅ Worktree created, comprehensive spec ready, prepared for agent implementation
+
+---
 
 ## ✅ Completed (2026-01-19):
 
