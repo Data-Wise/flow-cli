@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-5.13.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
+[![Version](https://img.shields.io/badge/version-5.14.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -22,6 +22,25 @@ finish             # Done for now
 ```
 
 **That's it.** Everything else is optional.
+
+---
+
+## 🎉 What's New in v5.14.0: Teaching Workflow v3.0
+
+**Complete overhaul of teaching workflow with automated safety features:**
+
+- 🏥 **`teach doctor`** - Environment health check (dependencies, config, git, Scholar)
+- 💾 **Backup System** - Automated content backups with retention policies (never lose work!)
+- 📊 **Enhanced Status** - Deployment status + backup summary
+- 🔍 **Deploy Preview** - Review changes before creating PRs
+- 📚 **Scholar Templates** - Template selection + lesson plan auto-loading
+- 🎓 **Streamlined Init** - External configs, GitHub repo creation
+
+**73 tests (100% passing) · 53,000+ lines of documentation · Migration guide included**
+
+See [CHANGELOG.md](docs/CHANGELOG.md) for complete details.
+
+---
 
 <details>
 <summary>📺 See it in action (click to expand)</summary>

@@ -41,6 +41,7 @@ source "$FLOW_PLUGIN_DIR/lib/help-browser.zsh"
 source "$FLOW_PLUGIN_DIR/lib/inventory.zsh"
 source "$FLOW_PLUGIN_DIR/lib/teaching-utils.zsh"
 source "$FLOW_PLUGIN_DIR/lib/keychain-helpers.zsh"
+source "$FLOW_PLUGIN_DIR/lib/backup-helpers.zsh"
 
 # ============================================================================
 # COMMANDS
@@ -129,7 +130,7 @@ _flow_plugin_init
 
 # Export loaded marker
 export FLOW_PLUGIN_LOADED=1
-export FLOW_VERSION="5.13.0"
+export FLOW_VERSION="5.14.0"
 
 # Register exit hook for plugin cleanup
 add-zsh-hook zshexit _flow_plugin_cleanup

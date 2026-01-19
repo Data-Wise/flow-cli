@@ -6,6 +6,76 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [5.14.0] - TBD
+
+### Added
+
+- **Teaching Workflow v3.0 Phase 1** - Complete teaching workflow overhaul (#272)
+
+  **Wave 1 - Foundation:**
+  - `teach doctor` - Comprehensive environment health check
+    - Dependency validation (yq, git, quarto, gh, examark, claude)
+    - Config validation with schema checking
+    - Git status verification (branch, remote, clean state)
+    - Scholar integration checks
+    - Flags: `--quiet`, `--json`, `--fix` (interactive install)
+  - Help system enhancement - All 10 sub-commands now have `--help` with EXAMPLES
+  - Removed standalone `teach-init` command (integrated into dispatcher)
+
+  **Wave 2 - Backup System:**
+  - Automated backup system with timestamped snapshots (`.backups/<name>.<YYYY-MM-DD-HHMM>/`)
+  - Content-type retention policies (archive vs semester)
+    - Assessments (exam/quiz/assignment): archive (keep forever)
+    - Syllabi/rubrics: archive (keep forever)
+    - Lectures/slides: semester (clean after semester end)
+  - Interactive delete confirmation with file preview
+  - Archive management for semester-end cleanup
+  - 343 lines of backup helper functions
+
+  **Wave 3 - Enhancements:**
+  - Enhanced `teach status` - Added deployment status and backup summary sections
+  - Deploy preview - Shows changes preview before PR creation (file list, diff viewer)
+  - Scholar template selection - `--template` flag for output customization
+  - Lesson plan auto-loading - Automatic `--context lesson-plan.yml` when present
+  - `teach init` reimplementation:
+    - `--config FILE` to load external configuration
+    - `--github` to create GitHub repository automatically
+    - Non-interactive mode for automation
+    - Default config generation improvements
+
+### Changed
+
+- **BREAKING:** `teach-init` command removed (use `teach init` instead)
+- `teach doctor` is now the primary environment validation command
+- All teach sub-commands support `--help` flag with detailed examples
+- Deploy workflow now includes preview step (can skip with `--direct-push`)
+
+### Documentation
+
+- **TEACHING-WORKFLOW-V3-GUIDE.md** - 25,000+ lines complete workflow guide
+- **BACKUP-SYSTEM-GUIDE.md** - 18,000+ lines deep dive with API reference
+- **TEACH-DISPATCHER-REFERENCE-v3.0.md** - 10,000+ lines command reference
+- **REFCARD-TEACHING-V3.md** - Quick reference card for v3.0 features
+- **TEACHING-V3-MIGRATION-GUIDE.md** - Complete v2.x → v3.0 upgrade guide
+- **TEACHING-V3-WORKFLOWS.md** - 7 comprehensive Mermaid diagrams
+
+### Tests
+
+- 73 comprehensive tests (100% passing)
+  - 45 automated tests (syntax, features, integration)
+  - 28 interactive tests (human-guided QA)
+- Test coverage: 100% of v3.0 features
+
+### Migration
+
+Users upgrading from v2.x should:
+1. Replace `teach-init` with `teach init` in all scripts
+2. Run `teach doctor` to validate environment
+3. Review backup retention policies in config
+4. See TEACHING-V3-MIGRATION-GUIDE.md for complete guide
+
+---
+
 ## [5.13.0] - 2026-01-18
 
 ### Added

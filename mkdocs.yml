@@ -109,7 +109,8 @@ nav:
           - Level 3 - Advanced: tutorials/scholar-enhancement/03-advanced.md
   - Workflows:
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
-      - Teaching Workflow: guides/TEACHING-WORKFLOW.md
+      - Teaching Workflow v3.0: guides/TEACHING-WORKFLOW-V3-GUIDE.md
+      - Teaching Workflow (Legacy): guides/TEACHING-WORKFLOW.md
       - Teaching Visual Guide: guides/TEACHING-WORKFLOW-VISUAL.md
       - Git Feature Flow: tutorials/08-git-feature-workflow.md
       - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
@@ -121,10 +122,15 @@ nav:
       - Config Management: guides/CONFIG-MANAGEMENT-WORKFLOW.md
   - Guides:
       - Start Here: guides/00-START-HERE.md
-      - Teaching System Architecture: guides/TEACHING-SYSTEM-ARCHITECTURE.md
-      - Teaching Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md
-      - Teaching Demo & GIFs: guides/TEACHING-DEMO-GUIDE.md
-      - Teaching Dates Guide: guides/TEACHING-DATES-GUIDE.md
+      - 🆕 Teaching v3.0:
+          - v3.0 User Guide: guides/TEACHING-WORKFLOW-V3-GUIDE.md
+          - Backup System Guide: guides/BACKUP-SYSTEM-GUIDE.md
+          - Migration Guide (v2 → v3): guides/TEACHING-V3-MIGRATION-GUIDE.md
+      - Teaching (Legacy):
+          - System Architecture: guides/TEACHING-SYSTEM-ARCHITECTURE.md
+          - Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md
+          - Demo & GIFs: guides/TEACHING-DEMO-GUIDE.md
+          - Dates Guide: guides/TEACHING-DATES-GUIDE.md
       - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
@@ -151,14 +157,16 @@ nav:
           - PROMPT Dispatcher: reference/PROMPT-DISPATCHER-REFERENCE.md
           - QU Dispatcher: reference/QU-DISPATCHER-REFERENCE.md
           - R Dispatcher: reference/R-DISPATCHER-REFERENCE.md
-          - TEACH Dispatcher: reference/TEACH-DISPATCHER-REFERENCE.md
+          - TEACH Dispatcher v3.0: reference/TEACH-DISPATCHER-REFERENCE-v3.0.md
+          - TEACH Dispatcher (Legacy): reference/TEACH-DISPATCHER-REFERENCE.md
           - TM Dispatcher: reference/TM-DISPATCHER-REFERENCE.md
           - WT Dispatcher: reference/WT-DISPATCHER-REFERENCE.md
       - Quick Reference Cards:
           - DOT Quick Ref: reference/REFCARD-DOT.md
           - Nvim Quick Ref: reference/NVIM-QUICK-REFERENCE.md
           - Prompt Quick Ref: reference/PROMPT-DISPATCHER-REFCARD.md
-          - Teaching Quick Ref: reference/REFCARD-TEACHING.md
+          - Teaching v3.0 Quick Ref: reference/REFCARD-TEACHING-V3.md
+          - Teaching Quick Ref (Legacy): reference/REFCARD-TEACHING.md
           - Teaching Dates Quick Ref: reference/TEACH-DATES-QUICK-REFERENCE.md
           - Teaching Git Workflow: reference/TEACHING-GIT-WORKFLOW-REFCARD.md
       - Project Tools:
@@ -171,6 +179,7 @@ nav:
       - Deep Dives:
           - Architecture: reference/ARCHITECTURE.md
           - 🎨 Architecture Diagrams: diagrams/ARCHITECTURE-DIAGRAMS.md
+          - 📚 Teaching v3.0 Workflows: diagrams/TEACHING-V3-WORKFLOWS.md
           - 🎓 Scholar Enhancement:
               - API Reference: reference/SCHOLAR-ENHANCEMENT-API.md
               - Architecture Guide: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
