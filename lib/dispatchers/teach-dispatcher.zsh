@@ -100,6 +100,13 @@ if [[ -z "$_FLOW_TEACH_PROFILES_LOADED" ]]; then
     typeset -g _FLOW_TEACH_PROFILES_LOADED=1
 fi
 
+# Source hook installer (v5.14.0 - PR #277 Task 2)
+if [[ -z "$_FLOW_HOOK_INSTALLER_LOADED" ]]; then
+    local hook_installer_path="${0:A:h:h}/hook-installer.zsh"
+    [[ -f "$hook_installer_path" ]] && source "$hook_installer_path"
+    typeset -g _FLOW_HOOK_INSTALLER_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
