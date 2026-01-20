@@ -44,6 +44,34 @@ if [[ -z "$_FLOW_TEACH_DOCTOR_LOADED" ]]; then
     typeset -g _FLOW_TEACH_DOCTOR_LOADED=1
 fi
 
+# Source validation helpers (v4.6.0 - Week 2-3: Validation Commands)
+if [[ -z "$_FLOW_VALIDATION_HELPERS_LOADED" ]]; then
+    local validation_helpers_path="${0:A:h:h}/validation-helpers.zsh"
+    [[ -f "$validation_helpers_path" ]] && source "$validation_helpers_path"
+    typeset -g _FLOW_VALIDATION_HELPERS_LOADED=1
+fi
+
+# Source teach-validate command (v4.6.0 - Week 2-3: Validation Commands)
+if [[ -z "$_FLOW_TEACH_VALIDATE_LOADED" ]]; then
+    local validate_path="${0:A:h:h}/../commands/teach-validate.zsh"
+    [[ -f "$validate_path" ]] && source "$validate_path"
+    typeset -g _FLOW_TEACH_VALIDATE_LOADED=1
+fi
+
+# Source index management helpers (v5.14.0 - Quarto Workflow Week 5-7)
+if [[ -z "$_FLOW_INDEX_HELPERS_LOADED" ]]; then
+    local index_helpers_path="${0:A:h:h}/index-helpers.zsh"
+    [[ -f "$index_helpers_path" ]] && source "$index_helpers_path"
+    typeset -g _FLOW_INDEX_HELPERS_LOADED=1
+fi
+
+# Source enhanced deploy implementation (v5.14.0 - Quarto Workflow Week 5-7)
+if [[ -z "$_FLOW_TEACH_DEPLOY_ENHANCED_LOADED" ]]; then
+    local deploy_enhanced_path="${0:A:h}/teach-deploy-enhanced.zsh"
+    [[ -f "$deploy_enhanced_path" ]] && source "$deploy_enhanced_path"
+    typeset -g _FLOW_TEACH_DEPLOY_ENHANCED_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -2721,8 +2749,8 @@ teach() {
 
         # Shortcuts for common operations
         deploy|d)
-            # Phase 2 (v5.11.0+): Branch-aware deployment with PR workflow
-            _teach_deploy "$@"
+            # v5.14.0 (Quarto Workflow Week 5-7): Enhanced with partial deploy support
+            _teach_deploy_enhanced "$@"
             ;;
 
         archive|a)
@@ -2755,11 +2783,30 @@ teach() {
             _teach_dates_dispatcher "$@"
             ;;
 
+        # Backup management (v5.14.0 - Task 5)
+        backup|bk)
+            _teach_backup_command "$@"
+            ;;
+
         # Health check (v5.14.0 - Task 2)
         doctor)
             _teach_doctor "$@"
             ;;
 
+        # Validation (Week 2-3: Validation Commands)
+        validate|val|v)
+            teach-validate "$@"
+            ;;
+
+        # Cache management (Week 3-4: Cache Management)
+        cache)
+            teach_cache "$@"
+            ;;
+
+        # Clean command (delete _freeze/ + _site/)
+        clean)
+            teach_clean "$@"
+            ;;
         *)
             _teach_error "Unknown command: $cmd"
             echo ""
@@ -2769,7 +2816,7 @@ teach() {
     esac
 }
 
-# Show teaching project status (Full Inventory)
+# Show teaching project status (Enhanced Dashboard - Week 8)
 _teach_show_status() {
     # Help check
     if [[ "$1" == "--help" || "$1" == "-h" ]]; then
@@ -2784,61 +2831,26 @@ _teach_show_status() {
         return 1
     fi
 
-    echo ""
-    echo "${FLOW_COLORS[bold]}📚 Teaching Project Status${FLOW_COLORS[reset]}"
-    echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
-
-    # Show course name from config
-    if command -v yq >/dev/null 2>&1; then
-        local course=$(yq '.course.name // "Unknown"' "$config_file" 2>/dev/null)
-        local semester=$(yq '.course.semester // "Unknown"' "$config_file" 2>/dev/null)
-        local year=$(yq '.course.year // ""' "$config_file" 2>/dev/null)
-        echo "  Course:   $course"
-        [[ -n "$year" && "$year" != "null" ]] && echo "  Term:     $semester $year" || echo "  Semester: $semester"
+    # Check for --full flag to show old detailed view
+    if [[ "$1" == "--full" ]]; then
+        _teach_show_status_full
+        return 0
     fi
 
-    # Show current branch
-    local branch=$(git branch --show-current 2>/dev/null)
-    echo "  Branch:   $branch"
-
-    # Show if on draft or production
-    if [[ "$branch" == "draft" ]]; then
-        echo "  ${FLOW_COLORS[success]}✓ Safe to edit (draft branch)${FLOW_COLORS[reset]}"
-    elif [[ "$branch" == "production" ]]; then
-        echo "  ${FLOW_COLORS[warning]}⚠ On production - changes are live!${FLOW_COLORS[reset]}"
+    # Use enhanced dashboard by default (Week 8)
+    if typeset -f _teach_show_status_dashboard >/dev/null 2>&1; then
+        _teach_show_status_dashboard
+        return $?
+    else
+        # Fallback to basic status if dashboard not loaded
+        _teach_show_status_full
+        return $?
     fi
+}
 
-    # Config validation status
-    if typeset -f _teach_validate_config >/dev/null 2>&1; then
-        if _teach_validate_config "$config_file" --quiet; then
-            echo "  Config:   ${FLOW_COLORS[success]}✓ valid${FLOW_COLORS[reset]}"
-        else
-            echo "  Config:   ${FLOW_COLORS[warning]}⚠ has issues${FLOW_COLORS[reset]}"
-        fi
-    fi
-
-    # Scholar integration status
-    if typeset -f _teach_has_scholar_config >/dev/null 2>&1; then
-        if _teach_has_scholar_config "$config_file"; then
-            echo "  Scholar:  ${FLOW_COLORS[success]}✓ configured${FLOW_COLORS[reset]}"
-        else
-            echo "  Scholar:  ${FLOW_COLORS[muted]}not configured${FLOW_COLORS[reset]}"
-        fi
-    fi
-
-    # Teaching mode indicator (Phase 4 - v5.11.0+)
-    if command -v yq >/dev/null 2>&1; then
-        local teaching_mode=$(yq '.workflow.teaching_mode // false' "$config_file" 2>/dev/null)
-        local auto_commit=$(yq '.workflow.auto_commit // false' "$config_file" 2>/dev/null)
-
-        if [[ "$teaching_mode" == "true" ]]; then
-            if [[ "$auto_commit" == "true" ]]; then
-                echo "  Mode:     ${FLOW_COLORS[success]}🎓 Teaching mode enabled (auto-commit)${FLOW_COLORS[reset]}"
-            else
-                echo "  Mode:     ${FLOW_COLORS[success]}🎓 Teaching mode enabled${FLOW_COLORS[reset]}"
-            fi
-        fi
-    fi
+# Full status (detailed view - retained for --full flag)
+_teach_show_status_full() {
+    local config_file=".flow/teach-config.yml"
 
     # ============================================
     # GIT STATUS (Phase 3 - v5.11.0+)
@@ -3047,115 +3059,425 @@ _teach_show_status() {
     echo ""
 }
 
-# Show current week info
-_teach_show_week() {
+# ==============================================================================
+# BACKUP COMMAND (v5.14.0 - Task 5)
+# ==============================================================================
+
+# Backup command dispatcher
+# Usage: teach backup <subcommand> [args]
+_teach_backup_command() {
+    local subcmd="${1:-list}"
+    shift 2>/dev/null || true
+
+    case "$subcmd" in
+        create|c)
+            _teach_backup_create "$@"
+            ;;
+        list|ls|l)
+            _teach_backup_list "$@"
+            ;;
+        restore|r)
+            _teach_backup_restore "$@"
+            ;;
+        delete|del|rm)
+            _teach_backup_delete "$@"
+            ;;
+        archive|a)
+            _teach_backup_archive "$@"
+            ;;
+        help|-h|--help)
+            _teach_backup_help
+            ;;
+        *)
+            _flow_log_error "Unknown backup subcommand: $subcmd"
+            echo ""
+            _teach_backup_help
+            return 1
+            ;;
+    esac
+}
+
+# Create backup - Main backup interface
+_teach_backup_create() {
+    local content_path="$1"
+    local backup_name="${2:-}"
+
     # Help check
-    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-        _teach_week_help
+    if [[ "$content_path" == "--help" || "$content_path" == "-h" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[bold]}teach backup create${FLOW_COLORS[reset]} - Create timestamped backup"
+        echo ""
+        echo "${FLOW_COLORS[bold]}USAGE:${FLOW_COLORS[reset]}"
+        echo "  teach backup create [content_path] [name]"
+        echo ""
+        echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
+        echo "  teach backup create lectures/week-01    # Auto timestamp"
+        echo "  teach backup create exams/midterm       # Backup exam"
+        echo "  teach backup create .                   # Backup all"
+        echo ""
         return 0
     fi
 
-    local config_file=".flow/teach-config.yml"
+    # Default to current directory
+    if [[ -z "$content_path" ]]; then
+        content_path="."
+    fi
 
-    if [[ ! -f "$config_file" ]]; then
-        _flow_log_error "Not a teaching project"
+    if [[ ! -d "$content_path" ]]; then
+        _flow_log_error "Path not found: $content_path"
         return 1
     fi
 
-    # Calculate current week (requires yq and date math)
-    if ! command -v yq >/dev/null 2>&1; then
-        _flow_log_error "yq required for week calculation"
+    # Create backup
+    local backup_path=$(_teach_backup_content "$content_path")
+
+    if [[ $? -eq 0 && -n "$backup_path" ]]; then
+        _flow_log_success "Backup created: $(basename "$backup_path")"
+
+        # Update metadata
+        _teach_backup_update_metadata "$content_path" "$backup_path"
+
+        return 0
+    else
+        _flow_log_error "Failed to create backup"
         return 1
     fi
+}
 
-    local start_date=$(yq '.semester.start_date // ""' "$config_file" 2>/dev/null)
-    if [[ -z "$start_date" ]]; then
-        _flow_log_error "No start_date in config"
-        return 1
+# List all backups
+_teach_backup_list() {
+    local content_path="${1:-.}"
+
+    # Help check
+    if [[ "$content_path" == "--help" || "$content_path" == "-h" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[bold]}teach backup list${FLOW_COLORS[reset]} - List all backups"
+        echo ""
+        echo "${FLOW_COLORS[bold]}USAGE:${FLOW_COLORS[reset]}"
+        echo "  teach backup list [content_path]"
+        echo ""
+        echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
+        echo "  teach backup list                   # List all backups"
+        echo "  teach backup list lectures/week-01  # List specific backups"
+        echo ""
+        return 0
     fi
 
-    local start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s" 2>/dev/null)
-    local now_epoch=$(date "+%s")
-    local diff_days=$(( (now_epoch - start_epoch) / 86400 ))
-    local week=$(( diff_days / 7 + 1 ))
+    local backup_dir="$content_path/.backups"
+
+    if [[ ! -d "$backup_dir" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[muted]}No backups found for: $content_path${FLOW_COLORS[reset]}"
+        echo ""
+        return 0
+    fi
+
+    local backups=$(_teach_list_backups "$content_path")
+
+    if [[ -z "$backups" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[muted]}No backups found${FLOW_COLORS[reset]}"
+        echo ""
+        return 0
+    fi
 
     echo ""
-    echo "${FLOW_COLORS[bold]}📅 Week $week${FLOW_COLORS[reset]}"
-    echo "  Semester started: $start_date"
-    echo "  Days elapsed: $diff_days"
+    echo "${FLOW_COLORS[bold]}Backups for: $(basename "$content_path")${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo ""
+
+    local count=0
+    while IFS= read -r backup; do
+        local backup_name=$(basename "$backup")
+        local size=$(du -sh "$backup" 2>/dev/null | awk '{print $1}')
+        local file_count=$(find "$backup" -type f 2>/dev/null | wc -l | tr -d ' ')
+
+        # Extract timestamp from backup name
+        local timestamp=$(echo "$backup_name" | grep -o '[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}-[0-9]\{4\}' || echo "")
+
+        echo "  ${FLOW_COLORS[accent]}${backup_name}${FLOW_COLORS[reset]}"
+        echo "    Size: ${size}  Files: ${file_count}"
+
+        if [[ -n "$timestamp" ]]; then
+            # Convert timestamp to human-readable
+            local year="${timestamp:0:4}"
+            local month="${timestamp:5:2}"
+            local day="${timestamp:8:2}"
+            local time="${timestamp:11:2}:${timestamp:13:2}"
+            echo "    Date: ${year}-${month}-${day} ${time}"
+        fi
+
+        echo ""
+        ((count++))
+    done <<< "$backups"
+
+    echo "${FLOW_COLORS[success]}Total backups: $count${FLOW_COLORS[reset]}"
     echo ""
 }
 
-# Help function
-_teach_dispatcher_help() {
-    # Colors (ANSI codes for consistent formatting)
+# Restore from backup
+_teach_backup_restore() {
+    local backup_name="$1"
+
+    # Help check
+    if [[ "$backup_name" == "--help" || "$backup_name" == "-h" || -z "$backup_name" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[bold]}teach backup restore${FLOW_COLORS[reset]} - Restore from backup"
+        echo ""
+        echo "${FLOW_COLORS[bold]}USAGE:${FLOW_COLORS[reset]}"
+        echo "  teach backup restore <backup_name>"
+        echo ""
+        echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
+        echo "  teach backup list                           # Find backup name"
+        echo "  teach backup restore lectures.2026-01-20-1430"
+        echo ""
+        echo "${FLOW_COLORS[warning]}⚠ WARNING: This will overwrite current content${FLOW_COLORS[reset]}"
+        echo ""
+        return 0
+    fi
+
+    # Search for backup in all .backups directories
+    local found_backup=""
+    local content_dirs=(lectures/* exams/* assignments/* quizzes/* slides/* syllabi/* rubrics/*)
+
+    # Enable null_glob for patterns that might not match
+    setopt local_options null_glob
+
+    for dir in "${content_dirs[@]}"; do
+        if [[ -d "$dir/.backups/$backup_name" ]]; then
+            found_backup="$dir/.backups/$backup_name"
+            break
+        fi
+    done
+
+    # Also check current directory
+    if [[ -z "$found_backup" && -d ".backups/$backup_name" ]]; then
+        found_backup=".backups/$backup_name"
+    fi
+
+    if [[ -z "$found_backup" ]]; then
+        _flow_log_error "Backup not found: $backup_name"
+        echo ""
+        echo "Use ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} to see available backups"
+        echo ""
+        return 1
+    fi
+
+    # Get content path (parent of .backups)
+    local content_path=$(dirname "$(dirname "$found_backup")")
+
+    # Confirm restore
+    echo ""
+    echo "${FLOW_COLORS[warning]}⚠ Restore Backup?${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  From:     $backup_name"
+    echo "  To:       $content_path"
+    echo ""
+    echo "${FLOW_COLORS[error]}⚠ This will overwrite current content!${FLOW_COLORS[reset]}"
+    echo ""
+
+    read -q "REPLY?Proceed with restore? [y/N] "
+    local response="$REPLY"
+    echo ""
+
+    if [[ ! "$response" =~ ^[yY]$ ]]; then
+        echo ""
+        echo "${FLOW_COLORS[info]}Cancelled - no changes made${FLOW_COLORS[reset]}"
+        echo ""
+        return 1
+    fi
+
+    # Perform restore
+    if command -v rsync &>/dev/null; then
+        rsync -a --delete "$found_backup/" "$content_path/" 2>/dev/null
+    else
+        rm -rf "$content_path"/* 2>/dev/null
+        cp -R "$found_backup"/* "$content_path/" 2>/dev/null
+    fi
+
+    if [[ $? -eq 0 ]]; then
+        _flow_log_success "Restored from backup: $backup_name"
+        return 0
+    else
+        _flow_log_error "Failed to restore backup"
+        return 1
+    fi
+}
+
+# Delete backup
+_teach_backup_delete() {
+    local backup_name="$1"
+    local force=false
+
+    if [[ "$2" == "--force" ]]; then
+        force=true
+    fi
+
+    # Help check
+    if [[ "$backup_name" == "--help" || "$backup_name" == "-h" || -z "$backup_name" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[bold]}teach backup delete${FLOW_COLORS[reset]} - Delete backup"
+        echo ""
+        echo "${FLOW_COLORS[bold]}USAGE:${FLOW_COLORS[reset]}"
+        echo "  teach backup delete <backup_name> [--force]"
+        echo ""
+        echo "${FLOW_COLORS[bold]}OPTIONS:${FLOW_COLORS[reset]}"
+        echo "  --force    Skip confirmation prompt"
+        echo ""
+        echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
+        echo "  teach backup delete lectures.2026-01-20-1430"
+        echo "  teach backup delete old-backup --force"
+        echo ""
+        return 0
+    fi
+
+    # Search for backup
+    local found_backup=""
+    local content_dirs=(lectures/* exams/* assignments/* quizzes/* slides/* syllabi/* rubrics/*)
+
+    # Enable null_glob for patterns that might not match
+    setopt local_options null_glob
+
+    for dir in "${content_dirs[@]}"; do
+        if [[ -d "$dir/.backups/$backup_name" ]]; then
+            found_backup="$dir/.backups/$backup_name"
+            break
+        fi
+    done
+
+    if [[ -z "$found_backup" && -d ".backups/$backup_name" ]]; then
+        found_backup=".backups/$backup_name"
+    fi
+
+    if [[ -z "$found_backup" ]]; then
+        _flow_log_error "Backup not found: $backup_name"
+        return 1
+    fi
+
+    # Delete with confirmation (unless --force)
+    if [[ "$force" == "false" ]]; then
+        _teach_delete_backup "$found_backup"
+    else
+        _teach_delete_backup "$found_backup" --force
+    fi
+
+    if [[ $? -eq 0 ]]; then
+        _flow_log_success "Deleted backup: $backup_name"
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Archive semester backups
+_teach_backup_archive() {
+    local semester_name="${1:-}"
+
+    # Help check
+    if [[ "$semester_name" == "--help" || "$semester_name" == "-h" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[bold]}teach backup archive${FLOW_COLORS[reset]} - Archive semester backups"
+        echo ""
+        echo "${FLOW_COLORS[bold]}USAGE:${FLOW_COLORS[reset]}"
+        echo "  teach backup archive <semester_name>"
+        echo ""
+        echo "${FLOW_COLORS[bold]}DESCRIPTION:${FLOW_COLORS[reset]}"
+        echo "  Archives all backups based on retention policies."
+        echo "  - archive policy: Keeps backups in compressed archive"
+        echo "  - semester policy: Deletes backups at semester end"
+        echo ""
+        echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
+        echo "  teach backup archive spring-2026"
+        echo "  teach backup archive fall-2025"
+        echo ""
+        return 0
+    fi
+
+    if [[ -z "$semester_name" ]]; then
+        _flow_log_error "Semester name required"
+        echo ""
+        echo "Usage: teach backup archive <semester_name>"
+        echo "Example: teach backup archive spring-2026"
+        echo ""
+        return 1
+    fi
+
+    # Call the archive function from backup-helpers
+    _teach_archive_semester "$semester_name"
+}
+
+# Backup help
+_teach_backup_help() {
     local _C_BOLD="${_C_BOLD:-\033[1m}"
     local _C_NC="${_C_NC:-\033[0m}"
-    local _C_GREEN="${_C_GREEN:-\033[0;32m}"
     local _C_CYAN="${_C_CYAN:-\033[0;36m}"
-    local _C_BLUE="${_C_BLUE:-\033[0;34m}"
     local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
     local _C_DIM="${_C_DIM:-\033[2m}"
-    local _C_MAGENTA="${_C_MAGENTA:-\033[0;35m}"
 
     echo -e "
 ${_C_BOLD}╭──────────────────────────────────────────────╮${_C_NC}
-${_C_BOLD}│ 🎓 TEACH - Teaching Workflow Dispatcher      │${_C_NC}
+${_C_BOLD}│ 💾 TEACH BACKUP - Content Backup System     │${_C_NC}
 ${_C_BOLD}╰──────────────────────────────────────────────╯${_C_NC}
 
-${_C_BOLD}Usage:${_C_NC} teach <command> [args]
+${_C_BOLD}Usage:${_C_NC} teach backup <subcommand> [args]
 
-${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
-  ${_C_CYAN}teach exam \"Topic\"${_C_NC}        Generate exam via Scholar
-  ${_C_CYAN}teach quiz \"Topic\"${_C_NC}        Generate quiz via Scholar
-  ${_C_CYAN}teach slides \"Topic\"${_C_NC}      Generate slides via Scholar
-  ${_C_CYAN}teach deploy${_C_NC}              Deploy draft → production
+${_C_BOLD}SUBCOMMANDS:${_C_NC}
+  ${_C_CYAN}create [path]${_C_NC}          Create timestamped backup
+  ${_C_CYAN}list [path]${_C_NC}            List all backups
+  ${_C_CYAN}restore <name>${_C_NC}         Restore from backup
+  ${_C_CYAN}delete <name>${_C_NC}          Delete backup (with confirmation)
+  ${_C_CYAN}archive <semester>${_C_NC}     Archive semester backups
 
-${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
-  ${_C_DIM}\$${_C_NC} teach exam \"Hypothesis Testing\" --dry-run  ${_C_DIM}# Preview exam${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach quiz \"ANOVA\" --questions 10          ${_C_DIM}# 10-question quiz${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach slides \"Regression\" --format quarto  ${_C_DIM}# Quarto slides${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach syllabus                               ${_C_DIM}# Generate syllabus${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach init \"STAT 545\"                       ${_C_DIM}# Initialize course${_C_NC}
+${_C_YELLOW}💡 EXAMPLES:${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach backup create lectures/week-01    ${_C_DIM}# Create backup${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach backup list                       ${_C_DIM}# List all backups${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach backup restore lectures.2026-01-20-1430
+  ${_C_DIM}\$${_C_NC} teach backup archive spring-2026        ${_C_DIM}# End of semester${_C_NC}
 
-${_C_MAGENTA}📚 SCHOLAR COMMANDS${_C_NC} ${_C_DIM}(via Claude + Scholar plugin)${_C_NC}:
-  ${_C_CYAN}teach exam \"Topic\"${_C_NC}        Generate exam questions
-  ${_C_CYAN}teach quiz \"Topic\"${_C_NC}        Generate quiz questions
-  ${_C_CYAN}teach slides \"Topic\"${_C_NC}      Generate presentation slides
-  ${_C_CYAN}teach lecture \"Topic\"${_C_NC}     Generate lecture notes ${_C_DIM}(awaiting Scholar)${_C_NC}
-  ${_C_CYAN}teach assignment \"Topic\"${_C_NC}  Generate homework assignment
-  ${_C_CYAN}teach syllabus${_C_NC}            Generate course syllabus
-  ${_C_CYAN}teach rubric \"Name\"${_C_NC}       Generate grading rubric
-  ${_C_CYAN}teach feedback \"Work\"${_C_NC}     Generate student feedback
-  ${_C_CYAN}teach demo${_C_NC}                Create demo course (STAT-101)
+${_C_BOLD}BACKUP STRUCTURE:${_C_NC}
+  ${_C_DIM}.backups/${_C_NC}
+  ${_C_DIM}├── lectures.2026-01-20-1430/${_C_NC}    Timestamped snapshots
+  ${_C_DIM}├── lectures.2026-01-19-0900/${_C_NC}
+  ${_C_DIM}└── metadata.json${_C_NC}                Backup metadata
 
-${_C_BLUE}🏠 LOCAL COMMANDS${_C_NC} ${_C_DIM}(no Claude needed)${_C_NC}:
-  ${_C_CYAN}teach init [name]${_C_NC}         Initialize teaching workflow
-  ${_C_CYAN}teach deploy${_C_NC}              Deploy draft → production branch
-  ${_C_CYAN}teach archive${_C_NC}             Archive semester & create tag
-  ${_C_CYAN}teach config${_C_NC}              Edit .flow/teach-config.yml
-  ${_C_CYAN}teach status${_C_NC}              Show teaching project status
-  ${_C_CYAN}teach week${_C_NC}                Show current week number
+${_C_BOLD}RETENTION POLICIES:${_C_NC}
+  ${_C_DIM}archive:${_C_NC}    Keep forever (exams, syllabi)
+  ${_C_DIM}semester:${_C_NC}   Delete at semester end (lectures)
 
-${_C_BLUE}🎛️  UNIVERSAL FLAGS${_C_NC} ${_C_DIM}(all Scholar commands)${_C_NC}:
-  ${_C_CYAN}--dry-run${_C_NC}                Preview output without saving
-  ${_C_CYAN}--format FORMAT${_C_NC}          Output: markdown, quarto, latex, qti
-  ${_C_CYAN}--output PATH${_C_NC}            Custom output path
-  ${_C_CYAN}--verbose${_C_NC}                Show Scholar command being executed
-
-${_C_BLUE}⌨️  SHORTCUTS${_C_NC}:
-  ${_C_CYAN}e${_C_NC}     exam        ${_C_CYAN}q${_C_NC}     quiz        ${_C_CYAN}sl${_C_NC}    slides
-  ${_C_CYAN}lec${_C_NC}   lecture     ${_C_CYAN}hw${_C_NC}    assignment  ${_C_CYAN}syl${_C_NC}   syllabus
-  ${_C_CYAN}rb${_C_NC}    rubric      ${_C_CYAN}fb${_C_NC}    feedback
-  ${_C_CYAN}i${_C_NC}     init        ${_C_CYAN}d${_C_NC}     deploy      ${_C_CYAN}a${_C_NC}     archive
-  ${_C_CYAN}c${_C_NC}     config      ${_C_CYAN}s${_C_NC}     status      ${_C_CYAN}w${_C_NC}     week
-
-${_C_BLUE}📝 BRANCH WORKFLOW${_C_NC}:
-  ${_C_DIM}draft:${_C_NC}          Where you make edits (default branch)
-  ${_C_DIM}production:${_C_NC}    What students see (auto-deployed)
-
-${_C_DIM}Get command help:${_C_NC} teach exam --help
-${_C_DIM}See also:${_C_NC} work help, dash teach
-${_C_DIM}Docs:${_C_NC} https://data-wise.github.io/flow-cli/guides/teaching-workflow/
+${_C_DIM}Get subcommand help:${_C_NC} teach backup <subcommand> --help
 "
+}
+
+# Update backup metadata
+_teach_backup_update_metadata() {
+    local content_path="$1"
+    local backup_path="$2"
+    local metadata_file="$content_path/.backups/metadata.json"
+
+    # Create metadata directory if needed
+    mkdir -p "$(dirname "$metadata_file")"
+
+    # Initialize metadata file if it doesn't exist
+    if [[ ! -f "$metadata_file" ]]; then
+        echo "{\"backups\":[]}" > "$metadata_file"
+    fi
+
+    # Get backup info
+    local backup_name=$(basename "$backup_path")
+    local timestamp=$(date +%s)
+    local size=$(du -sh "$backup_path" 2>/dev/null | awk '{print $1}')
+    local file_count=$(find "$backup_path" -type f 2>/dev/null | wc -l | tr -d ' ')
+
+    # Add to metadata (simplified - full JSON manipulation would need jq)
+    # For now, just append a simple entry
+    if command -v jq &>/dev/null; then
+        local tmp_file=$(mktemp)
+        jq --arg name "$backup_name" \
+           --arg ts "$timestamp" \
+           --arg size "$size" \
+           --arg files "$file_count" \
+           '.backups += [{name: $name, timestamp: ($ts|tonumber), size: $size, files: ($files|tonumber)}]' \
+           "$metadata_file" > "$tmp_file" && mv "$tmp_file" "$metadata_file"
+    fi
 }
