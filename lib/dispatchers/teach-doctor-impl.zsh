@@ -65,6 +65,14 @@ _teach_doctor() {
         echo ""
     fi
     _teach_doctor_check_scholar
+    if [[ "$json" == "false" ]]; then
+        echo ""
+    fi
+    _teach_doctor_check_hooks
+    if [[ "$json" == "false" ]]; then
+        echo ""
+    fi
+    _teach_doctor_check_cache
 
     # Output results
     if [[ "$json" == "true" ]]; then
@@ -97,6 +105,14 @@ _teach_doctor_check_dependencies() {
     # Optional dependencies
     _teach_doctor_check_dep "examark" "examark" "npm install -g examark" "false"
     _teach_doctor_check_dep "claude" "claude" "Follow: https://code.claude.com" "false"
+
+    # R packages (if R is available)
+    if command -v R &>/dev/null; then
+        _teach_doctor_check_r_packages
+    fi
+
+    # Quarto extensions
+    _teach_doctor_check_quarto_extensions
 }
 
 # Check project configuration
@@ -180,9 +196,19 @@ _teach_doctor_check_dep() {
     elif [[ "$required" == "true" ]]; then
         _teach_doctor_fail "$name (not found)" "Install: $fix_cmd"
         json_results+=("{\"check\":\"dep_$cmd\",\"status\":\"fail\",\"message\":\"not found\"}")
+
+        # Interactive fix mode
+        if [[ "$fix" == "true" ]]; then
+            _teach_doctor_interactive_fix "$name" "$fix_cmd"
+        fi
     else
         _teach_doctor_warn "$name (not found - optional)" "Install: $fix_cmd"
         json_results+=("{\"check\":\"dep_$cmd\",\"status\":\"warn\",\"message\":\"not found (optional)\"}")
+
+        # Interactive fix mode (optional deps)
+        if [[ "$fix" == "true" ]]; then
+            _teach_doctor_interactive_fix "$name" "$fix_cmd" "optional"
+        fi
     fi
 }
 
@@ -333,6 +359,243 @@ _teach_doctor_json_output() {
     echo "}"
 }
 
+# Interactive fix helper
+# Args: name, install_command, [optional]
+_teach_doctor_interactive_fix() {
+    local name="$1"
+    local install_cmd="$2"
+    local optional="${3:-}"
+
+    # Prompt user
+    if [[ -n "$optional" ]]; then
+        echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} Install $name (optional)? [y/N] "
+    else
+        echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} Install $name? [Y/n] "
+    fi
+
+    read -r response
+    response=${response:-$([ -n "$optional" ] && echo "n" || echo "y")}
+
+    if [[ "$response" =~ ^[Yy] ]]; then
+        echo "  ${FLOW_COLORS[muted]}→ $install_cmd${FLOW_COLORS[reset]}"
+
+        # Execute install command
+        if eval "$install_cmd" >/dev/null 2>&1; then
+            echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} $name installed"
+        else
+            echo "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Failed to install $name"
+            echo "  ${FLOW_COLORS[muted]}→ Try manually: $install_cmd${FLOW_COLORS[reset]}"
+        fi
+    fi
+}
+
+# Check R packages
+_teach_doctor_check_r_packages() {
+    if [[ "$json" == "false" ]]; then
+        echo ""
+        echo "R Packages:"
+    fi
+
+    # Check if R is available first
+    if ! command -v R &>/dev/null; then
+        _teach_doctor_warn "R not found" "Install R to use R packages"
+        json_results+=("{\"check\":\"r_packages\",\"status\":\"warn\",\"message\":\"R not installed\"}")
+        return
+    fi
+
+    # Get packages from all sources (teaching.yml, renv.lock, DESCRIPTION)
+    local packages
+    packages=$(_list_r_packages_from_sources 2>/dev/null)
+
+    if [[ -z "$packages" ]]; then
+        # Fall back to common teaching packages if no config found
+        packages="ggplot2
+dplyr
+tidyr
+knitr
+rmarkdown"
+        if [[ "$json" == "false" ]]; then
+            echo -e "  ${FLOW_COLORS[muted]}No R packages defined in teaching.yml or renv.lock${FLOW_COLORS[reset]}"
+            echo -e "  ${FLOW_COLORS[muted]}Checking common teaching packages...${FLOW_COLORS[reset]}"
+        fi
+    fi
+
+    # Check each package
+    local all_installed=1
+    local missing_packages=()
+
+    while IFS= read -r pkg; do
+        [[ -z "$pkg" ]] && continue
+
+        if _check_r_package_installed "$pkg"; then
+            local version
+            version=$(_get_r_package_version "$pkg")
+            _teach_doctor_pass "R package: $pkg" "$version"
+            json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"pass\",\"message\":\"installed\",\"version\":\"$version\"}")
+        else
+            _teach_doctor_warn "R package '$pkg' not found"
+            json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"warn\",\"message\":\"not installed\"}")
+            missing_packages+=("$pkg")
+            all_installed=0
+        fi
+    done <<< "$packages"
+
+    # Interactive fix for missing packages
+    if [[ "$fix" == "true" && ${#missing_packages[@]} -gt 0 ]]; then
+        echo ""
+        echo -e "${FLOW_COLORS[warning]}Missing R packages: ${missing_packages[*]}${FLOW_COLORS[reset]}"
+        echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} Install all missing packages? [Y/n] "
+        read -r response
+        response=${response:-y}
+
+        if [[ "$response" =~ ^[Yy] ]]; then
+            _flow_log_info "Installing missing R packages..."
+            _install_r_packages --yes "${missing_packages[@]}"
+
+            if [[ $? -eq 0 ]]; then
+                _flow_log_success "All R packages installed successfully"
+            else
+                _flow_log_error "Some packages failed to install"
+            fi
+        fi
+    fi
+}
+
+# Check Quarto extensions
+_teach_doctor_check_quarto_extensions() {
+    if [[ ! -d "_extensions" ]]; then
+        return 0  # No extensions directory, skip check
+    fi
+
+    if [[ "$json" == "false" ]]; then
+        echo ""
+        echo "Quarto Extensions:"
+    fi
+
+    # Count installed extensions
+    local ext_count=$(find _extensions -mindepth 2 -maxdepth 2 -type d 2>/dev/null | wc -l | tr -d ' ')
+
+    if [[ "$ext_count" -gt 0 ]]; then
+        _teach_doctor_pass "$ext_count Quarto extensions installed"
+        json_results+=("{\"check\":\"quarto_extensions\",\"status\":\"pass\",\"message\":\"$ext_count installed\"}")
+
+        # List extensions
+        if [[ "$json" == "false" && "$quiet" == "false" ]]; then
+            find _extensions -mindepth 2 -maxdepth 2 -type d 2>/dev/null | while read ext_dir; do
+                local ext_name=$(basename "$(dirname "$ext_dir")")/$(basename "$ext_dir")
+                echo "    ${FLOW_COLORS[muted]}→ $ext_name${FLOW_COLORS[reset]}"
+            done
+        fi
+    else
+        _teach_doctor_warn "No Quarto extensions found" "Install with: quarto add <extension>"
+        json_results+=("{\"check\":\"quarto_extensions\",\"status\":\"warn\",\"message\":\"none found\"}")
+    fi
+}
+
+# Check hook status
+_teach_doctor_check_hooks() {
+    if [[ "$json" == "false" ]]; then
+        echo ""
+        echo "Git Hooks:"
+    fi
+
+    local -a hooks=("pre-commit" "pre-push" "prepare-commit-msg")
+    local installed_count=0
+
+    for hook in "${hooks[@]}"; do
+        local hook_file=".git/hooks/$hook"
+
+        if [[ -x "$hook_file" ]]; then
+            ((installed_count++))
+
+            # Check if it's a flow-cli managed hook
+            if grep -q "auto-generated by teach hooks install" "$hook_file" 2>/dev/null; then
+                _teach_doctor_pass "Hook installed: $hook (flow-cli managed)"
+                json_results+=("{\"check\":\"hook_$hook\",\"status\":\"pass\",\"message\":\"installed (managed)\"}")
+            else
+                _teach_doctor_pass "Hook installed: $hook (custom)"
+                json_results+=("{\"check\":\"hook_$hook\",\"status\":\"pass\",\"message\":\"installed (custom)\"}")
+            fi
+        else
+            _teach_doctor_warn "Hook not installed: $hook" "Install with: teach hooks install"
+            json_results+=("{\"check\":\"hook_$hook\",\"status\":\"warn\",\"message\":\"not installed\"}")
+
+            # Interactive fix
+            if [[ "$fix" == "true" ]]; then
+                echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} Install $hook hook? [Y/n] "
+                read -r response
+                response=${response:-y}
+
+                if [[ "$response" =~ ^[Yy] ]]; then
+                    echo "  ${FLOW_COLORS[muted]}→ teach hooks install${FLOW_COLORS[reset]}"
+                    echo "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]} Run 'teach hooks install' to install all hooks"
+                fi
+            fi
+        fi
+    done
+}
+
+# Check cache health
+_teach_doctor_check_cache() {
+    if [[ "$json" == "false" ]]; then
+        echo ""
+        echo "Cache Health:"
+    fi
+
+    # Check if _freeze directory exists
+    if [[ -d "_freeze" ]]; then
+        # Calculate cache size
+        local cache_size=$(du -sh _freeze 2>/dev/null | cut -f1)
+        _teach_doctor_pass "Freeze cache exists ($cache_size)"
+        json_results+=("{\"check\":\"cache_exists\",\"status\":\"pass\",\"message\":\"$cache_size\"}")
+
+        # Find last render time
+        local last_render=$(find _freeze -type f -name "*.json" -exec stat -f "%m %N" {} \; 2>/dev/null | sort -rn | head -1 | cut -d' ' -f1)
+
+        if [[ -n "$last_render" ]]; then
+            local current_time=$(date +%s)
+            local age_seconds=$((current_time - last_render))
+            local age_days=$((age_seconds / 86400))
+
+            if [[ $age_days -eq 0 ]]; then
+                _teach_doctor_pass "Cache is fresh (rendered today)"
+                json_results+=("{\"check\":\"cache_freshness\",\"status\":\"pass\",\"message\":\"fresh (today)\"}")
+            elif [[ $age_days -lt 7 ]]; then
+                _teach_doctor_pass "Cache is recent ($age_days days old)"
+                json_results+=("{\"check\":\"cache_freshness\",\"status\":\"pass\",\"message\":\"$age_days days old\"}")
+            elif [[ $age_days -lt 30 ]]; then
+                _teach_doctor_warn "Cache is aging ($age_days days old)" "Consider re-rendering"
+                json_results+=("{\"check\":\"cache_freshness\",\"status\":\"warn\",\"message\":\"$age_days days old\"}")
+            else
+                _teach_doctor_warn "Cache is stale ($age_days days old)" "Run: quarto render"
+                json_results+=("{\"check\":\"cache_freshness\",\"status\":\"warn\",\"message\":\"$age_days days old (stale)\"}")
+
+                # Interactive fix
+                if [[ "$fix" == "true" ]]; then
+                    echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} Clear stale cache? [y/N] "
+                    read -r response
+                    response=${response:-n}
+
+                    if [[ "$response" =~ ^[Yy] ]]; then
+                        echo "  ${FLOW_COLORS[muted]}→ rm -rf _freeze${FLOW_COLORS[reset]}"
+                        rm -rf _freeze
+                        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Cache cleared"
+                    fi
+                fi
+            fi
+        fi
+
+        # Check cache file count
+        local cache_files=$(find _freeze -type f 2>/dev/null | wc -l | tr -d ' ')
+        if [[ "$json" == "false" && "$quiet" == "false" ]]; then
+            echo "    ${FLOW_COLORS[muted]}→ $cache_files cached files${FLOW_COLORS[reset]}"
+        fi
+    else
+        _teach_doctor_warn "No freeze cache found" "Will be created on first render"
+        json_results+=("{\"check\":\"cache_exists\",\"status\":\"warn\",\"message\":\"not found\"}")
+    fi
+}
+
 # Help function for teach doctor
 _teach_doctor_help() {
     echo "${FLOW_COLORS[bold]}teach doctor${FLOW_COLORS[reset]} - Validate teaching environment setup"
@@ -347,18 +610,43 @@ _teach_doctor_help() {
     echo "  --json         Output results as JSON"
     echo ""
     echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
-    echo "  Checks your teaching environment for:"
-    echo "    • Required dependencies (yq, git, quarto, gh)"
-    echo "    • Optional dependencies (examark, claude)"
-    echo "    • Project configuration (.flow/teach-config.yml)"
-    echo "    • Git repository status (branches, remote, clean state)"
-    echo "    • Scholar integration (Claude Code, skills, lesson plan)"
+    echo "  Comprehensive health check for teaching environment:"
+    echo ""
+    echo "  ${FLOW_COLORS[header]}1. Dependencies${FLOW_COLORS[reset]}"
+    echo "    • Required: yq, git, quarto, gh"
+    echo "    • Optional: examark, claude"
+    echo "    • R packages: ggplot2, dplyr, tidyr, knitr, rmarkdown"
+    echo "    • Quarto extensions"
+    echo ""
+    echo "  ${FLOW_COLORS[header]}2. Project Configuration${FLOW_COLORS[reset]}"
+    echo "    • .flow/teach-config.yml exists and validates"
+    echo "    • Course name, semester, dates configured"
+    echo ""
+    echo "  ${FLOW_COLORS[header]}3. Git Setup${FLOW_COLORS[reset]}"
+    echo "    • Repository initialized"
+    echo "    • Draft and production branches exist"
+    echo "    • Remote configured"
+    echo "    • Working tree clean"
+    echo ""
+    echo "  ${FLOW_COLORS[header]}4. Scholar Integration${FLOW_COLORS[reset]}"
+    echo "    • Claude Code available"
+    echo "    • Scholar skills accessible"
+    echo "    • Lesson plan file (optional)"
+    echo ""
+    echo "  ${FLOW_COLORS[header]}5. Git Hooks${FLOW_COLORS[reset]}"
+    echo "    • pre-commit, pre-push, prepare-commit-msg"
+    echo "    • Hook version tracking"
+    echo ""
+    echo "  ${FLOW_COLORS[header]}6. Cache Health${FLOW_COLORS[reset]}"
+    echo "    • _freeze/ directory size"
+    echo "    • Last render time"
+    echo "    • Cache file count"
     echo ""
     echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
     echo "  teach doctor                # Full health check"
     echo "  teach doctor --quiet        # Only show problems"
     echo "  teach doctor --fix          # Interactive fix mode"
-    echo "  teach doctor --json         # JSON output for scripts"
+    echo "  teach doctor --json         # JSON output for CI/CD"
     echo ""
     echo "${FLOW_COLORS[bold]}EXIT STATUS${FLOW_COLORS[reset]}"
     echo "  0    All checks passed (warnings OK)"

@@ -25,7 +25,23 @@ finish             # Done for now
 
 ---
 
-## 🎉 What's New in v5.14.0: Teaching Workflow v3.0
+## 🎉 What's New
+
+### v4.6.0: Quarto Workflow Phase 1 (2026-01-20)
+
+**Professional Quarto teaching workflow with automation and safety:**
+
+- 🔍 **5-Layer Validation** - Automated validation via git hooks (YAML, syntax, render, chunks, images)
+- 💾 **teach validate** - Standalone validation with watch mode + conflict detection
+- 🗄️ **teach cache** - Interactive Quarto freeze cache management with TUI
+- 🏥 **teach doctor** - Comprehensive health checks with interactive fix mode
+- 📊 **Enhanced Deploy** - Index management (ADD/UPDATE/REMOVE) + dependency tracking
+- 💾 **Retention Policies** - Daily/weekly/semester backup archival
+- 📈 **6-Section Status** - Deployment status, backup summary, and more
+
+**296 tests (99.3% passing) · 6,500+ lines of documentation · 85% time savings**
+
+### v5.14.0: Teaching Workflow v3.0 (2026-01-18)
 
 **Complete overhaul of teaching workflow with automated safety features:**
 
@@ -251,6 +267,85 @@ teach --dry-run exam "Topic"     # Preview without writing files
 - [Complete Guide](https://data-wise.github.io/flow-cli/guides/TEACHING-WORKFLOW/)
 - [Quick Reference](https://data-wise.github.io/flow-cli/reference/REFCARD-TEACHING/)
 - [Demo Walkthrough](https://data-wise.github.io/flow-cli/demos/)
+
+---
+
+## 📚 Quarto Workflow Phase 1 (v4.6.0+)
+
+**Professional teaching workflow with automated validation, caching, and deployment.**
+
+### Automated Validation
+- **Git Hooks**: Automatic validation on commit/push
+  - 5-layer validation: YAML, syntax, render, empty chunks, images
+  - Production branch protection
+  - Zero-config installation
+- **teach validate**: Standalone validation with watch mode
+  - Four modes: `--yaml`, `--syntax`, `--render`, `full`
+  - Continuous validation with file system monitoring
+  - Conflict detection with `quarto preview`
+
+### Cache Management
+- **teach cache**: Interactive Quarto freeze cache management
+  - Status, clear, rebuild, analyze, clean operations
+  - Storage analysis and diagnostics
+  - TUI menu for easy interaction
+
+### Health Monitoring
+- **teach doctor**: Comprehensive health checks
+  - 6 check categories (dependencies, config, git, scholar, hooks, cache)
+  - Interactive fix mode (`--fix` flag)
+  - JSON output for CI/CD integration
+
+### Enhanced Deployment
+- **Index Management**: Automatic ADD/UPDATE/REMOVE of links
+  - Smart week-based link insertion in index.qmd
+  - Source file and cross-reference detection
+  - Partial deployment support
+  - Preview mode before PR creation
+
+### Backup Management
+- **Retention Policies**: Daily/weekly/semester archival rules
+  - Archive support for semester-end
+  - Storage-efficient incremental backups
+  - Safe deletion with confirmation
+
+### Status Dashboard
+- **6-Section Overview**: Project, Git, Deployment, Backup, Scholar, Hooks
+  - Color-coded health indicators
+  - Comprehensive project information
+  - All information in one command
+
+**Example Workflow:**
+
+```bash
+# Check project health
+teach doctor
+teach doctor --fix  # Interactive dependency installation
+
+# Validate .qmd files
+teach validate lectures/week-01.qmd
+teach validate --watch  # Continuous validation
+
+# Manage Quarto freeze cache
+teach cache              # Interactive TUI menu
+teach cache status       # View cache size
+teach cache rebuild      # Clear and regenerate
+
+# Install git hooks (automatic validation)
+teach hooks install
+teach hooks status
+
+# Deploy with index management
+teach deploy --preview   # Preview changes first
+teach deploy             # Create PR with index updates
+
+# Check comprehensive status
+teach status             # 6-section dashboard
+```
+
+**Documentation:**
+- [Quarto Workflow Guide](docs/guides/TEACHING-QUARTO-WORKFLOW-GUIDE.md)
+- [Teach Dispatcher Reference](docs/reference/TEACH-DISPATCHER-REFERENCE-v4.6.0.md)
 
 ---
 

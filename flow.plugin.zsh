@@ -42,6 +42,8 @@ source "$FLOW_PLUGIN_DIR/lib/inventory.zsh"
 source "$FLOW_PLUGIN_DIR/lib/teaching-utils.zsh"
 source "$FLOW_PLUGIN_DIR/lib/keychain-helpers.zsh"
 source "$FLOW_PLUGIN_DIR/lib/backup-helpers.zsh"
+source "$FLOW_PLUGIN_DIR/lib/cache-helpers.zsh"
+source "$FLOW_PLUGIN_DIR/lib/status-dashboard.zsh"
 
 # ============================================================================
 # COMMANDS
