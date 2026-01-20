@@ -267,6 +267,18 @@ assert_contains "$deps" "helper.R" "Should find sourced R file"
 
 # Test 17: Find dependencies - cross-references
 test_start "Find dependencies (cross-references)"
+# Recreate week-05 with cross-reference (Test 14 overwrote it)
+cat > lectures/week-05.qmd <<'EOF'
+---
+title: "Week 5: Factorial ANOVA"
+---
+
+# Factorial ANOVA
+
+Content with cross-references.
+See @sec-introduction for background.
+EOF
+
 deps=$(_find_dependencies "lectures/week-05.qmd")
 assert_contains "$deps" "background.qmd" "Should find file with @sec-introduction"
 

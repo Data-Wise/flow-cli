@@ -69,9 +69,21 @@ _find_dependencies() {
 
         # Find files containing this reference target
         # Look for: {#sec-id}, {#fig-id}, {#tbl-id}
-        local target_files=($(grep -l "{#${ref_id}}" **/*.qmd 2>/dev/null))
+        # Use find instead of glob to ensure portability
+        local target_files=()
+        if command -v find >/dev/null 2>&1; then
+            while IFS= read -r target_file; do
+                target_files+=("$target_file")
+            done < <(find . -name "*.qmd" -type f -exec grep -l "{#${ref_id}}" {} \; 2>/dev/null)
+        else
+            # Fallback to glob (requires globstar)
+            target_files=($(grep -l "{#${ref_id}}" **/*.qmd 2>/dev/null))
+        fi
 
         for target_file in $target_files; do
+            # Remove ./ prefix if present
+            target_file="${target_file#./}"
+
             # Don't include self-reference
             if [[ "$target_file" != "$file" ]]; then
                 deps+=("$target_file")
@@ -273,14 +285,25 @@ _update_index_link() {
         local insert_line=$(_find_insertion_point "$index_file" "$week_num")
         local link_text="- [$title]($basename)"
 
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-            # macOS sed: insert before line
-            sed -i '' "${insert_line}i\\
+        # Get file line count to detect append case
+        local file_lines=$(wc -l < "$index_file" | tr -d ' ')
+
+        # If insert_line is 0 or > file_lines, append at end
+        # (sed can't insert past EOF, so use echo >> instead)
+        if [[ $insert_line -eq 0 || $insert_line -gt $file_lines ]]; then
+            # Append to end of file
+            echo "$link_text" >> "$index_file"
+        else
+            # Insert before the specified line
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                # macOS sed: insert before line
+                sed -i '' "${insert_line}i\\
 $link_text
 " "$index_file"
-        else
-            # GNU sed: insert before line
-            sed -i "${insert_line}i $link_text" "$index_file"
+            else
+                # GNU sed: insert before line
+                sed -i "${insert_line}i $link_text" "$index_file"
+            fi
         fi
 
         echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Added link to $index_file"
@@ -334,7 +357,8 @@ _find_insertion_point() {
         fi
     done < "$index_file"
 
-    # If no insertion point found, append at end
+    # If no insertion point found, return line count + 1 (append at end)
+    # Note: _update_index_link will detect this and use echo >> instead of sed
     if [[ $insert_line -eq 0 ]]; then
         insert_line=$((line_num + 1))
     fi

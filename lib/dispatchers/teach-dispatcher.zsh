@@ -2308,7 +2308,7 @@ _teach_status_help() {
     echo "${FLOW_COLORS[bold]}teach status${FLOW_COLORS[reset]} - Show teaching project status"
     echo ""
     echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
-    echo "  teach status"
+    echo "  teach status [--performance] [--full]"
     echo ""
     echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
     echo "  Displays comprehensive status of your teaching project including:"
@@ -2317,8 +2317,13 @@ _teach_status_help() {
     echo "    • Config validation status"
     echo "    • Content inventory (lectures, exams, assignments)"
     echo ""
+    echo "${FLOW_COLORS[bold]}FLAGS${FLOW_COLORS[reset]}"
+    echo "  --performance    Show performance trends and metrics (Phase 2 Wave 5)"
+    echo "  --full           Show detailed status view (legacy)"
+    echo ""
     echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
     echo "  teach status                    # Show full project status"
+    echo "  teach status --performance      # Show performance dashboard"
     echo "  teach s                         # Short alias"
     echo ""
 }
@@ -2721,6 +2726,53 @@ _teach_init_help() {
 # DISPATCHER HELP
 # ============================================================================
 
+# Help for hooks command (v5.14.0 - PR #277 Task 2)
+_teach_hooks_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]} - Git Hook Management                      ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]} <command> [options]
+
+${FLOW_COLORS[bold]}COMMANDS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}install${FLOW_COLORS[reset]}              Install git hooks for teaching workflow
+    ${FLOW_COLORS[muted]}--force, -f${FLOW_COLORS[reset]}       Force reinstall (overwrite existing)
+
+  ${FLOW_COLORS[cmd]}upgrade${FLOW_COLORS[reset]}              Upgrade hooks to latest version
+    ${FLOW_COLORS[muted]}--force, -f${FLOW_COLORS[reset]}       Force upgrade even if newer version installed
+
+  ${FLOW_COLORS[cmd]}status${FLOW_COLORS[reset]}               Check hook installation status
+
+  ${FLOW_COLORS[cmd]}uninstall${FLOW_COLORS[reset]}            Remove teaching workflow hooks
+
+${FLOW_COLORS[bold]}HOOKS INSTALLED${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}pre-commit${FLOW_COLORS[reset]}         Validate YAML, check dependencies
+  ${FLOW_COLORS[accent]}pre-push${FLOW_COLORS[reset]}           Check for uncommitted changes
+  ${FLOW_COLORS[accent]}prepare-commit-msg${FLOW_COLORS[reset]}  Auto-format commit messages
+
+${FLOW_COLORS[bold]}SHORTCUTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}i${FLOW_COLORS[reset]} → install      ${FLOW_COLORS[accent]}up, u${FLOW_COLORS[reset]} → upgrade
+  ${FLOW_COLORS[accent]}s${FLOW_COLORS[reset]} → status       ${FLOW_COLORS[accent]}rm${FLOW_COLORS[reset]} → uninstall
+
+${FLOW_COLORS[success]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Install hooks in current project${FLOW_COLORS[reset]}
+  teach hooks install
+
+  ${FLOW_COLORS[muted]}# Check hook status${FLOW_COLORS[reset]}
+  teach hooks status
+
+  ${FLOW_COLORS[muted]}# Upgrade to latest version${FLOW_COLORS[reset]}
+  teach hooks upgrade
+
+  ${FLOW_COLORS[muted]}# Force reinstall${FLOW_COLORS[reset]}
+  teach hooks install --force
+
+${FLOW_COLORS[muted]}See also: teach doctor (includes hook checks)${FLOW_COLORS[reset]}
+EOF
+}
+
 _teach_dispatcher_help() {
     cat <<EOF
 ${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
@@ -2781,6 +2833,7 @@ ${FLOW_COLORS[bold]}PROJECT MANAGEMENT${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}teach week${FLOW_COLORS[reset]}                 Current week info
   ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]}               Edit configuration
   ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]}                Date management
+  ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]}                Git hook management
 
 ${FLOW_COLORS[bold]}SHORTCUTS${FLOW_COLORS[reset]}
   ${FLOW_COLORS[accent]}val, v${FLOW_COLORS[reset]} → validate     ${FLOW_COLORS[accent]}bk${FLOW_COLORS[reset]} → backup      ${FLOW_COLORS[accent]}doc${FLOW_COLORS[reset]} → doctor
@@ -2940,6 +2993,36 @@ teach() {
         profiles|profile|prof)
             _teach_profiles "$@"
             ;;
+
+        # Git hooks management (v5.14.0 - PR #277 Task 2)
+        hooks|hook)
+            local subcmd="$1"
+            shift
+
+            case "$subcmd" in
+                install|i)
+                    _install_git_hooks "$@"
+                    ;;
+                upgrade|up|u)
+                    _upgrade_git_hooks "$@"
+                    ;;
+                uninstall|remove|rm)
+                    _uninstall_git_hooks "$@"
+                    ;;
+                status|check|s)
+                    _check_all_hooks "$@"
+                    ;;
+                help|--help|-h)
+                    _teach_hooks_help
+                    ;;
+                *)
+                    _teach_error "Unknown hooks command: $subcmd"
+                    echo ""
+                    _teach_hooks_help
+                    return 1
+                    ;;
+            esac
+            ;;
         *)
             _teach_error "Unknown command: $cmd"
             echo ""
@@ -2962,6 +3045,23 @@ _teach_show_status() {
     if [[ ! -f "$config_file" ]]; then
         _flow_log_error "Not a teaching project (no .flow/teach-config.yml)"
         return 1
+    fi
+
+    # Check for --performance flag (Phase 2 Wave 5)
+    if [[ "$1" == "--performance" ]]; then
+        # Source performance monitor if not already loaded
+        if [[ -z "$_FLOW_PERFORMANCE_MONITOR_LOADED" ]]; then
+            local perf_path="${0:A:h}/../performance-monitor.zsh"
+            [[ -f "$perf_path" ]] && source "$perf_path"
+        fi
+
+        if typeset -f _format_performance_dashboard >/dev/null 2>&1; then
+            _format_performance_dashboard 7  # Default: 7 days
+            return $?
+        else
+            _flow_log_error "Performance monitoring not available"
+            return 1
+        fi
     fi
 
     # Check for --full flag to show old detailed view
@@ -3369,27 +3469,10 @@ _teach_backup_restore() {
         return 0
     fi
 
-    # Search for backup in all .backups directories
-    local found_backup=""
-    local content_dirs=(lectures/* exams/* assignments/* quizzes/* slides/* syllabi/* rubrics/*)
+    # Use smart path resolution (PR #277 Task 3)
+    local found_backup=$(_resolve_backup_path "$backup_name")
 
-    # Enable null_glob for patterns that might not match
-    setopt local_options null_glob
-
-    for dir in "${content_dirs[@]}"; do
-        if [[ -d "$dir/.backups/$backup_name" ]]; then
-            found_backup="$dir/.backups/$backup_name"
-            break
-        fi
-    done
-
-    # Also check current directory
-    if [[ -z "$found_backup" && -d ".backups/$backup_name" ]]; then
-        found_backup=".backups/$backup_name"
-    fi
-
-    if [[ -z "$found_backup" ]]; then
-        _flow_log_error "Backup not found: $backup_name"
+    if [[ $? -ne 0 || -z "$found_backup" ]]; then
         echo ""
         echo "Use ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} to see available backups"
         echo ""
@@ -3465,26 +3548,10 @@ _teach_backup_delete() {
         return 0
     fi
 
-    # Search for backup
-    local found_backup=""
-    local content_dirs=(lectures/* exams/* assignments/* quizzes/* slides/* syllabi/* rubrics/*)
+    # Use smart path resolution (PR #277 Task 3)
+    local found_backup=$(_resolve_backup_path "$backup_name")
 
-    # Enable null_glob for patterns that might not match
-    setopt local_options null_glob
-
-    for dir in "${content_dirs[@]}"; do
-        if [[ -d "$dir/.backups/$backup_name" ]]; then
-            found_backup="$dir/.backups/$backup_name"
-            break
-        fi
-    done
-
-    if [[ -z "$found_backup" && -d ".backups/$backup_name" ]]; then
-        found_backup=".backups/$backup_name"
-    fi
-
-    if [[ -z "$found_backup" ]]; then
-        _flow_log_error "Backup not found: $backup_name"
+    if [[ $? -ne 0 || -z "$found_backup" ]]; then
         return 1
     fi
 
