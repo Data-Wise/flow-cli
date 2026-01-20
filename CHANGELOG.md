@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **teach slides/exam/quiz/assignment** - Universal flags (`--week`, `--topic`, `--style`, etc.) were incorrectly rejected by flag validation. The `_teach_validate_flags` function now includes `TEACH_CONTENT_FLAGS` and `TEACH_SELECTION_FLAGS` alongside command-specific flags.
+
 ---
 
 ## [5.14.0] - 2026-01-18
