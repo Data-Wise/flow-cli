@@ -152,7 +152,10 @@
       "Bash(git init:*)",
       "Bash(git config:*)",
       "Bash(/Users/dt/projects/dev-tools/flow-cli/tests/test-teach-deploy.zsh)",
-      "Bash(gh pr checks:*)"
+      "Bash(gh pr checks:*)",
+      "Bash(./tests/test-index-management-unit.zsh)",
+      "Bash(./tests/test-teach-deploy-unit.zsh)",
+      "Bash(teach hooks status:*)"
     ]
   }
 }
