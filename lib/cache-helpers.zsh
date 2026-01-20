@@ -147,6 +147,205 @@ _cache_clear() {
     fi
 }
 
+# Clear cache selectively (by directory or age)
+# Usage: _clear_cache_selective [project_root] [--lectures] [--assignments] [--slides] [--old] [--unused] [--force]
+# Returns: 0 on success, 1 on error or user cancellation
+_clear_cache_selective() {
+    local project_root="$PWD"
+    local force=false
+    local clear_lectures=false
+    local clear_assignments=false
+    local clear_slides=false
+    local clear_old=false
+    local clear_unused=false
+
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --force)
+                force=true
+                shift
+                ;;
+            --lectures)
+                clear_lectures=true
+                shift
+                ;;
+            --assignments)
+                clear_assignments=true
+                shift
+                ;;
+            --slides)
+                clear_slides=true
+                shift
+                ;;
+            --old)
+                clear_old=true
+                shift
+                ;;
+            --unused)
+                clear_unused=true
+                shift
+                ;;
+            *)
+                project_root="$1"
+                shift
+                ;;
+        esac
+    done
+
+    local freeze_dir="$project_root/_freeze/site"
+
+    # Check if cache exists
+    if [[ ! -d "$freeze_dir" ]]; then
+        _flow_log_warning "No freeze cache found"
+        return 1
+    fi
+
+    # Collect files to delete
+    local files_to_delete=()
+    local candidate_files=()
+
+    # Build list of candidate files based on directory filters
+    local has_dir_filter=false
+    if [[ "$clear_lectures" == "true" || "$clear_assignments" == "true" || "$clear_slides" == "true" ]]; then
+        has_dir_filter=true
+
+        if [[ "$clear_lectures" == "true" && -d "$freeze_dir/lectures" ]]; then
+            while IFS= read -r file; do
+                candidate_files+=("$file")
+            done < <(find "$freeze_dir/lectures" -type f 2>/dev/null)
+        fi
+
+        if [[ "$clear_assignments" == "true" && -d "$freeze_dir/assignments" ]]; then
+            while IFS= read -r file; do
+                candidate_files+=("$file")
+            done < <(find "$freeze_dir/assignments" -type f 2>/dev/null)
+        fi
+
+        if [[ "$clear_slides" == "true" && -d "$freeze_dir/slides" ]]; then
+            while IFS= read -r file; do
+                candidate_files+=("$file")
+            done < <(find "$freeze_dir/slides" -type f 2>/dev/null)
+        fi
+    else
+        # No directory filter - use all files in cache
+        while IFS= read -r file; do
+            candidate_files+=("$file")
+        done < <(find "$freeze_dir" -type f 2>/dev/null)
+    fi
+
+    # Apply age filter if requested
+    if [[ "$clear_old" == "true" ]]; then
+        local now=$(date +%s)
+        local thirty_days_ago=$((now - 2592000))
+
+        # Filter candidates by age
+        for file in "${candidate_files[@]}"; do
+            local mtime=$(stat -f %m "$file" 2>/dev/null || echo 0)
+
+            if [[ $mtime -lt $thirty_days_ago ]]; then
+                files_to_delete+=("$file")
+            fi
+        done
+    else
+        # No age filter - use all candidates
+        files_to_delete=("${candidate_files[@]}")
+    fi
+
+    # Clear unused files (files with 0 cache hits)
+    # This requires performance log with per-file hit tracking
+    # For now, we skip this feature (placeholder for future)
+    if [[ "$clear_unused" == "true" ]]; then
+        _flow_log_warning "--unused flag not yet implemented (requires per-file hit tracking)"
+        # Would need to:
+        # 1. Read performance log
+        # 2. Build set of "used" files
+        # 3. Find files not in that set
+    fi
+
+    # Deduplicate files
+    local unique_files=()
+    local seen_files=()
+    for file in "${files_to_delete[@]}"; do
+        if [[ ! " ${seen_files[@]} " =~ " $file " ]]; then
+            unique_files+=("$file")
+            seen_files+=("$file")
+        fi
+    done
+
+    # Check if any files to delete
+    if [[ ${#unique_files[@]} -eq 0 ]]; then
+        _flow_log_warning "No files matched the selection criteria"
+        return 1
+    fi
+
+    # Calculate total size
+    local total_size_bytes=0
+    for file in "${unique_files[@]}"; do
+        local file_size=$(stat -f %z "$file" 2>/dev/null || echo 0)
+        total_size_bytes=$((total_size_bytes + file_size))
+    done
+
+    local total_size_human=$(_cache_format_bytes "$total_size_bytes")
+    local file_count=${#unique_files[@]}
+
+    # Show what will be deleted
+    echo ""
+    echo "${FLOW_COLORS[header]}Files to be deleted:${FLOW_COLORS[reset]}"
+    echo "  Count:      $file_count files"
+    echo "  Total size: $total_size_human"
+
+    # Show breakdown by category
+    if [[ "$clear_lectures" == "true" ]]; then
+        echo "  Includes:   lectures/"
+    fi
+    if [[ "$clear_assignments" == "true" ]]; then
+        echo "  Includes:   assignments/"
+    fi
+    if [[ "$clear_slides" == "true" ]]; then
+        echo "  Includes:   slides/"
+    fi
+    if [[ "$clear_old" == "true" ]]; then
+        echo "  Includes:   files > 30 days old"
+    fi
+
+    echo ""
+
+    # Confirmation unless --force
+    if [[ "$force" != "true" ]]; then
+        if ! _flow_confirm "Delete these cache files?" "n"; then
+            _flow_log_info "Cache deletion cancelled"
+            return 1
+        fi
+    fi
+
+    # Delete files
+    local deleted_count=0
+    local failed_count=0
+
+    for file in "${unique_files[@]}"; do
+        if rm -f "$file" 2>/dev/null; then
+            ((deleted_count++))
+        else
+            ((failed_count++))
+        fi
+    done
+
+    # Clean up empty directories
+    find "$freeze_dir" -type d -empty -delete 2>/dev/null
+
+    # Report results
+    if [[ $deleted_count -gt 0 ]]; then
+        _flow_log_success "Cleared $total_size_human ($deleted_count files)"
+    fi
+
+    if [[ $failed_count -gt 0 ]]; then
+        _flow_log_warning "Failed to delete $failed_count files"
+    fi
+
+    return 0
+}
+
 # ============================================================================
 # CACHE REBUILDING
 # ============================================================================

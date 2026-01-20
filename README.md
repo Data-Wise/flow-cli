@@ -27,6 +27,18 @@ finish             # Done for now
 
 ## 🎉 What's New
 
+### v4.7.0: Quarto Workflow Phase 2 (2026-01-20)
+
+**Advanced features for professional teaching workflows:**
+
+- 🎭 **Profile Management** - Multiple Quarto profiles (draft, print, slides) + R package auto-install
+- ⚡ **Parallel Rendering** - 3-10x speedup on multi-file operations (worker pools)
+- 🔍 **Custom Validators** - Extensible validation framework (citations, links, formatting)
+- 💾 **Advanced Caching** - Smart cache analysis and selective clearing (--lectures, --old, --unused)
+- 📊 **Performance Monitoring** - Trend tracking and visualization with ASCII graphs
+
+**270+ tests · 2,900+ lines of documentation · 3-10x performance improvement**
+
 ### v4.6.0: Quarto Workflow Phase 1 (2026-01-20)
 
 **Professional Quarto teaching workflow with automation and safety:**
