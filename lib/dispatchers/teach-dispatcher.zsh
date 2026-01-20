@@ -2689,6 +2689,106 @@ _teach_init_help() {
     echo ""
 }
 
+# ============================================================================
+# DISPATCHER HELP
+# ============================================================================
+
+_teach_dispatcher_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach${FLOW_COLORS[reset]} - Teaching Workflow Commands                       ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}SCHOLAR COMMANDS${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(AI-powered content generation)${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach lecture${FLOW_COLORS[reset]} <topic>      Generate lecture notes (20-40 pages)
+  ${FLOW_COLORS[cmd]}teach slides${FLOW_COLORS[reset]} <topic>       Generate presentation slides
+  ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} <topic>         Generate comprehensive exam
+  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} <topic>         Create quiz questions
+  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} <topic>   Generate homework assignment
+  ${FLOW_COLORS[cmd]}teach syllabus${FLOW_COLORS[reset]} <course>    Create course syllabus
+  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} <assignment>  Generate grading rubric
+  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} <work>      Generate student feedback
+  ${FLOW_COLORS[cmd]}teach demo${FLOW_COLORS[reset]} <topic>         Create demo course
+
+  ${FLOW_COLORS[muted]}Flags: --template <type>  Template format (markdown, quarto, pdf, etc.)${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}VALIDATION${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]} [files]     Validate .qmd files
+    ${FLOW_COLORS[muted]}--yaml${FLOW_COLORS[reset]}                  YAML frontmatter only
+    ${FLOW_COLORS[muted]}--syntax${FLOW_COLORS[reset]}                YAML + syntax check
+    ${FLOW_COLORS[muted]}--render${FLOW_COLORS[reset]}                Full render validation
+    ${FLOW_COLORS[muted]}--watch${FLOW_COLORS[reset]}                 Watch mode
+
+${FLOW_COLORS[bold]}CACHE MANAGEMENT${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]}                Interactive cache menu
+  ${FLOW_COLORS[cmd]}teach cache status${FLOW_COLORS[reset]}         Show cache info
+  ${FLOW_COLORS[cmd]}teach cache clear${FLOW_COLORS[reset]}          Delete _freeze/
+  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]}                Delete _freeze/ + _site/
+
+${FLOW_COLORS[bold]}HEALTH CHECKS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]}               Run health checks
+    ${FLOW_COLORS[muted]}--fix${FLOW_COLORS[reset]}                   Interactive fixes
+    ${FLOW_COLORS[muted]}--json${FLOW_COLORS[reset]}                  JSON output
+    ${FLOW_COLORS[muted]}--quiet${FLOW_COLORS[reset]}                 Minimal output
+
+${FLOW_COLORS[bold]}DEPLOYMENT${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach deploy${FLOW_COLORS[reset]}               Deploy full site
+  ${FLOW_COLORS[cmd]}teach deploy${FLOW_COLORS[reset]} <files>       Partial deploy
+    ${FLOW_COLORS[muted]}--auto-commit${FLOW_COLORS[reset]}           Auto-commit changes
+    ${FLOW_COLORS[muted]}--auto-tag${FLOW_COLORS[reset]}              Tag deployment
+    ${FLOW_COLORS[muted]}--preview${FLOW_COLORS[reset]}               Show changes before PR
+
+${FLOW_COLORS[bold]}BACKUP${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup create${FLOW_COLORS[reset]}        Create backup
+  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]}          List backups
+  ${FLOW_COLORS[cmd]}teach backup restore${FLOW_COLORS[reset]}       Restore backup
+  ${FLOW_COLORS[cmd]}teach backup delete${FLOW_COLORS[reset]}        Delete backup
+  ${FLOW_COLORS[cmd]}teach archive${FLOW_COLORS[reset]}              Archive semester
+
+${FLOW_COLORS[bold]}PROJECT MANAGEMENT${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} [name]          Initialize teaching project
+    ${FLOW_COLORS[muted]}--config <file>${FLOW_COLORS[reset]}         Load external config
+    ${FLOW_COLORS[muted]}--github${FLOW_COLORS[reset]}                Create GitHub repo
+  ${FLOW_COLORS[cmd]}teach status${FLOW_COLORS[reset]}               Project dashboard
+  ${FLOW_COLORS[cmd]}teach week${FLOW_COLORS[reset]}                 Current week info
+  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]}               Edit configuration
+  ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]}                Date management
+
+${FLOW_COLORS[bold]}SHORTCUTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}val, v${FLOW_COLORS[reset]} → validate     ${FLOW_COLORS[accent]}bk${FLOW_COLORS[reset]} → backup      ${FLOW_COLORS[accent]}doc${FLOW_COLORS[reset]} → doctor
+  ${FLOW_COLORS[accent]}lec${FLOW_COLORS[reset]}    → lecture      ${FLOW_COLORS[accent]}sl${FLOW_COLORS[reset]} → slides      ${FLOW_COLORS[accent]}e${FLOW_COLORS[reset]} → exam
+  ${FLOW_COLORS[accent]}q${FLOW_COLORS[reset]}      → quiz         ${FLOW_COLORS[accent]}hw${FLOW_COLORS[reset]} → assignment  ${FLOW_COLORS[accent]}syl${FLOW_COLORS[reset]} → syllabus
+  ${FLOW_COLORS[accent]}rb${FLOW_COLORS[reset]}     → rubric       ${FLOW_COLORS[accent]}fb${FLOW_COLORS[reset]} → feedback    ${FLOW_COLORS[accent]}d${FLOW_COLORS[reset]} → deploy
+  ${FLOW_COLORS[accent]}s${FLOW_COLORS[reset]}      → status       ${FLOW_COLORS[accent]}w${FLOW_COLORS[reset]} → week         ${FLOW_COLORS[accent]}c${FLOW_COLORS[reset]} → config
+
+${FLOW_COLORS[success]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Initialize project${FLOW_COLORS[reset]}
+  teach init "STAT 440"
+  teach init --config dept-template.yml --github
+
+  ${FLOW_COLORS[muted]}# Generate content${FLOW_COLORS[reset]}
+  teach lecture "Linear Regression"
+  teach exam "Midterm" --template quarto
+  teach slides "ANOVA" --template markdown
+
+  ${FLOW_COLORS[muted]}# Validate and deploy${FLOW_COLORS[reset]}
+  teach validate lectures/*.qmd --render
+  teach deploy lectures/week-05.qmd --preview
+
+  ${FLOW_COLORS[muted]}# Maintenance${FLOW_COLORS[reset]}
+  teach doctor --fix
+  teach cache
+  teach backup create pre-deploy
+  teach status
+
+${FLOW_COLORS[muted]}📚 See also:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands (qu preview, qu render)
+  ${FLOW_COLORS[cmd]}g${FLOW_COLORS[reset]} - Git commands (g status, g push)
+  ${FLOW_COLORS[cmd]}work${FLOW_COLORS[reset]} - Session management
+
+EOF
+}
+
 teach() {
     # Help check FIRST (all three forms)
     if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" || -z "$1" ]]; then
