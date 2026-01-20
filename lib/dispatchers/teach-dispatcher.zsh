@@ -219,14 +219,18 @@ _teach_validate_flags() {
     shift
     local -A valid_flags
 
-    # Get valid flags for this command
+    # Start with universal flags (available to all Scholar commands)
+    valid_flags=("${(@kv)TEACH_CONTENT_FLAGS}")
+    valid_flags+=("${(@kv)TEACH_SELECTION_FLAGS}")
+
+    # Add command-specific flags
     case "$cmd" in
-        exam)       valid_flags=("${(@kv)TEACH_EXAM_FLAGS}") ;;
-        quiz)       valid_flags=("${(@kv)TEACH_QUIZ_FLAGS}") ;;
-        slides)     valid_flags=("${(@kv)TEACH_SLIDES_FLAGS}") ;;
-        assignment) valid_flags=("${(@kv)TEACH_ASSIGNMENT_FLAGS}") ;;
-        syllabus)   valid_flags=("${(@kv)TEACH_SYLLABUS_FLAGS}") ;;
-        rubric)     valid_flags=("${(@kv)TEACH_RUBRIC_FLAGS}") ;;
+        exam)       valid_flags+=("${(@kv)TEACH_EXAM_FLAGS}") ;;
+        quiz)       valid_flags+=("${(@kv)TEACH_QUIZ_FLAGS}") ;;
+        slides)     valid_flags+=("${(@kv)TEACH_SLIDES_FLAGS}") ;;
+        assignment) valid_flags+=("${(@kv)TEACH_ASSIGNMENT_FLAGS}") ;;
+        syllabus)   valid_flags+=("${(@kv)TEACH_SYLLABUS_FLAGS}") ;;
+        rubric)     valid_flags+=("${(@kv)TEACH_RUBRIC_FLAGS}") ;;
         *)          return 0 ;;  # Unknown command, skip validation
     esac
 
