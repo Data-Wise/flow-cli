@@ -8,7 +8,215 @@
 ## Priority: 1
 ## Progress: 100
 
-## Focus: v5.15.0 - Course Planning Documentation (Phase 1 Complete, Phases 2-4 Ready)
+## Focus: v5.15.0 - Course Planning & Quarto Workflow Planning Complete
+
+## ✅ Completed (2026-01-20):
+
+### Quarto Workflow Complete Implementation Plan - Unified Worktree Created ✅
+
+**Session Duration:** ~4 hours (brainstorming + planning + worktree setup)
+**Worktree:** `~/.git-worktrees/flow-cli/quarto-workflow`
+**Branch:** `feature/quarto-workflow`
+**Status:** Complete 16-week implementation guide ready for development
+
+**Goal:** Create comprehensive implementation plan for complete Quarto workflow integration into flow-cli's teaching system, based on production STAT 545 patterns.
+
+**Brainstorming Phase:**
+- ✅ Comprehensive 84-question deep dive across 10 topic areas
+- ✅ Multiple rounds of expert questions (Q1-8, Q9-12, Q13-17, Q18-21, Q22-31, Q32-39, Q40-53, Q54-69, Q70-74, Q75-84)
+- ✅ User-driven exploration of all edge cases and UX decisions
+- ✅ Zero ambiguity achieved on every feature
+
+**Planning Deliverables:**
+
+**1. Master Brainstorm Document (8,500+ lines)**
+- ✅ File: `BRAINSTORM-quarto-workflow-enhancements-2026-01-20.md`
+- ✅ Complete Q&A history (84 questions answered)
+- ✅ Implementation details for all features
+- ✅ Phase planning and breakdown
+
+**2. Implementation-Ready Summary (2,200+ lines)**
+- ✅ File: `IMPLEMENTATION-READY-SUMMARY.md`
+- ✅ Complete feature checklist (21 commands)
+- ✅ 84 decisions summary
+- ✅ Success metrics and definition of done
+
+**3. Deployment Deep Dive (2,800+ lines)**
+- ✅ File: `TEACH-DEPLOY-DEEP-DIVE.md`
+- ✅ Daily deployment workflow specification
+- ✅ Single-command deployment design
+- ✅ Auto-commit + auto-tag workflow
+- ✅ Rollback system design
+
+**4. Index Management Spec (4,200+ lines)**
+- ✅ File: `PARTIAL-DEPLOY-INDEX-MANAGEMENT.md`
+- ✅ ADD/UPDATE/REMOVE operations for lecture/assignment indexes
+- ✅ Auto-sorting algorithm
+- ✅ Link validation system
+
+**5. STAT 545 Analysis (3,800+ lines)**
+- ✅ File: `STAT-545-ANALYSIS-SUMMARY.md`
+- ✅ Production-validated patterns from working implementation
+- ✅ Analysis of 109-line pre-commit hook
+- ✅ 5-layer validation system documentation
+
+**6. Formal Specification (1,500+ lines)**
+- ✅ File: `docs/specs/SPEC-quarto-workflow-enhancements-2026-01-20.md`
+- ✅ User stories and acceptance criteria
+- ✅ Architecture diagrams
+- ✅ API design and data models
+
+**7. Unified Implementation Guide (25,000+ lines)**
+- ✅ File: `IMPLEMENTATION-INSTRUCTIONS.md` (in worktree)
+- ✅ Complete 16-week implementation schedule
+- ✅ Week-by-week breakdown with code examples
+- ✅ All 21 commands specified
+- ✅ 22 helper libraries detailed
+- ✅ 19 test suites defined
+- ✅ Complete file structure
+- ✅ Testing requirements
+- ✅ Definition of done
+
+**8. Quick Reference Documents**
+- ✅ File: `WORKTREE-SETUP-COMPLETE.md`
+- ✅ File: `QUARTO-WORKFLOW-QUICK-START.md`
+- ✅ Complete worktree management guide
+- ✅ Quick start instructions
+
+**Total Documentation Created:** ~53,000 lines
+
+**Implementation Structure - All Phases Combined:**
+
+**Phase 1: Core Features (Weeks 1-8)**
+- Git hook system (5-layer validation: YAML → syntax → render → chunks → images)
+- Validation commands (teach validate with --watch mode)
+- Interactive cache management (teach cache with analysis)
+- Comprehensive health checks (teach doctor with --fix)
+- Enhanced deployment (partial deploys, dependency tracking, index management)
+- Automated backup system (timestamped snapshots, retention policies)
+- Enhanced status dashboard (deployment info, backup summary, performance)
+
+**Phase 2: Enhancements (Weeks 9-12)**
+- Quarto profile management (dev/staging/production)
+- R package auto-installation (interactive prompts)
+- Parallel rendering optimization (3-10x speedup with smart queue)
+- Custom validation rules (extensible validator framework)
+- Advanced caching strategies (selective clearing, analysis)
+- Performance monitoring (tracking, trends, dashboard)
+
+**Phase 3: Advanced Features (Weeks 13-16)**
+- Template system (course initialization from built-in templates)
+- Advanced backup features (compression, differential, cloud sync)
+- Auto-rollback on CI failures (monitoring + automatic recovery)
+- Multi-environment deployment (dev/staging/production workflows)
+- Smart error recovery (auto-fix suggestions, error history)
+- Migration tools (seamless upgrade from existing projects)
+
+**Key Architectural Decisions:**
+
+**1. Hybrid Rendering Architecture**
+- Local: YAML validation + syntax check + cross-reference validation (fast: 1-5s)
+- CI: Full site render with production profile (thorough: 2-5 min)
+- Benefits: Fast feedback loop + reproducible builds
+
+**2. Dependency Tracking**
+- Parse source("path") calls
+- Extract @sec-id cross-references
+- Re-render dependent files automatically
+
+**3. Interactive Error Handling (ADHD-Friendly)**
+- Show errors with context (last 15 lines)
+- Prompt: "Commit anyway? [y/N]"
+- Allow WIP commits with informed choice
+
+**4. Index Auto-Management**
+- Detect ADD/UPDATE/REMOVE operations
+- Auto-sort by week number or custom sort_order
+- Link validation before deploy
+
+**5. Auto-Commit + Auto-Tag**
+- Uncommitted changes → prompt for message
+- Auto-tag: deploy-YYYY-MM-DD-HHMM
+- Rollback support built-in
+
+**Statistics:**
+
+**Documentation:**
+- Brainstorm: 8,500 lines
+- Implementation guide: 25,000 lines
+- Specifications: 14,500 lines
+- Total: ~53,000 lines
+
+**Features:**
+- Commands: 21 (8 Phase 1 + 6 Phase 2 + 7 Phase 3)
+- Helper libraries: 22
+- Test suites: 19
+- Total estimated: ~10,000+ lines of code
+
+**Timeline:**
+- Brainstorming: 2-3 hours (84 questions)
+- Planning: 1 hour (documentation creation)
+- Worktree setup: 30 minutes
+- Total: ~4 hours
+- Implementation: 16 weeks (~15 hours/week, 240 hours total)
+
+**Worktree Created:**
+- Location: `~/.git-worktrees/flow-cli/quarto-workflow/`
+- Branch: `feature/quarto-workflow`
+- Complete implementation guide included
+
+**Files Created/Modified:**
+- `BRAINSTORM-quarto-workflow-enhancements-2026-01-20.md` (8,500 lines)
+- `IMPLEMENTATION-READY-SUMMARY.md` (2,200 lines)
+- `TEACH-DEPLOY-DEEP-DIVE.md` (2,800 lines)
+- `PARTIAL-DEPLOY-INDEX-MANAGEMENT.md` (4,200 lines)
+- `STAT-545-ANALYSIS-SUMMARY.md` (3,800 lines)
+- `docs/specs/SPEC-quarto-workflow-enhancements-2026-01-20.md` (1,500 lines)
+- `WORKTREE-SETUP-COMPLETE.md` (complete guide)
+- `QUARTO-WORKFLOW-QUICK-START.md` (quick reference)
+- `~/.git-worktrees/flow-cli/quarto-workflow/IMPLEMENTATION-INSTRUCTIONS.md` (25,000 lines)
+
+**Success Metrics (Defined):**
+
+**Performance Targets:**
+- Pre-commit validation: < 5s per file (with freeze cache)
+- Parallel rendering: 3-10x speedup
+- teach deploy (local): < 60s
+- CI build time: 2-5 min
+- Test coverage: 100%
+
+**Feature Completeness:**
+- All 21 commands implemented
+- All 22 helper libraries created
+- All 19 test suites passing (100% coverage)
+- Documentation complete (~10,000+ lines user guides)
+
+**Next Steps:**
+
+**To Begin Implementation:**
+```bash
+# 1. Navigate to worktree
+cd ~/.git-worktrees/flow-cli/quarto-workflow/
+
+# 2. Start NEW Claude Code session
+claude
+
+# 3. Read implementation guide
+cat IMPLEMENTATION-INSTRUCTIONS.md | less
+
+# 4. Begin Week 1-2: Hook System implementation
+```
+
+**Implementation Approach:**
+- Follow week-by-week schedule (Weeks 1-16)
+- Atomic commits with Conventional Commits format
+- Test continuously (100% coverage required)
+- Sequential implementation (Phase 1 → Phase 2 → Phase 3)
+- Single PR at end with complete feature set
+
+**Status:** ✅ Planning complete, comprehensive implementation guide ready, worktree created, ready for 16-week development cycle
+
+---
 
 ## ✅ Completed (2026-01-19):
 
