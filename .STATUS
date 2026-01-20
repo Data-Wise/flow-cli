@@ -12,6 +12,47 @@
 
 ## ✅ Completed (2026-01-19):
 
+### Teach Deploy --direct Feature Request Created ✅
+
+**Session Duration:** ~3-4 hours (multiple repos)
+**Repositories:** flow-cli + stat-545
+**Status:** Feature request committed and pushed to dev
+
+**Goal:** Create comprehensive feature request for fast deployment mode based on production usage analysis.
+
+**Deliverables:**
+
+**1. Feature Request Document (472 lines)**
+- ✅ File: `FEATURE-REQUEST-teach-deploy-direct-mode.md`
+- ✅ Complete problem statement with STAT 545 case study
+- ✅ Proposed solution with code sketches (35 lines)
+- ✅ Benefits analysis (3-10x performance improvement)
+- ✅ Implementation plan (2-4 hours estimated)
+- ✅ Success metrics and risk mitigation
+- ✅ Comparison with standalone quick-deploy.sh script
+
+**2. Supporting Documentation (stat-545)**
+- ✅ DEPLOYMENT-ARCHITECTURE.md (comprehensive pipeline docs)
+- ✅ FLOW-CLI-TEACH-DEPLOY-ANALYSIS.md (comparative analysis)
+- ✅ MARKDOWN-LINT-RULES.md (course material standards)
+- ✅ Week 1 lectures formatted with consistent list style
+- ✅ Fixed unclosed div in lecture part 2
+
+**Key Insights:**
+- PR workflow: 45-90 sec deployment time
+- Direct merge: 8-15 sec deployment time
+- Solo instructors need fast mode without losing safety checks
+- Can preserve all 7 pre-flight checks in direct mode
+- Feature would enable migration from standalone scripts to flow-cli
+
+**Next Steps:**
+- Review feature request with maintainer
+- Create GitHub issue if approved
+- Implement in feature branch (~2-4 hours)
+- Pilot with STAT 545 deployment
+
+---
+
 ### Course Planning Phases 2-4 - Worktree & Spec Created ✅
 
 **Session Duration:** ~30 minutes
