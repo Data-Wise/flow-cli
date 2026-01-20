@@ -72,6 +72,34 @@ if [[ -z "$_FLOW_TEACH_DEPLOY_ENHANCED_LOADED" ]]; then
     typeset -g _FLOW_TEACH_DEPLOY_ENHANCED_LOADED=1
 fi
 
+# Source profile helpers (Phase 2 - Wave 1: Profile Management)
+if [[ -z "$_FLOW_PROFILE_HELPERS_LOADED" ]]; then
+    local profile_helpers_path="${0:A:h:h}/profile-helpers.zsh"
+    [[ -f "$profile_helpers_path" ]] && source "$profile_helpers_path"
+    typeset -g _FLOW_PROFILE_HELPERS_LOADED=1
+fi
+
+# Source R package helpers (Phase 2 - Wave 1: R Package Detection)
+if [[ -z "$_FLOW_R_HELPERS_LOADED" ]]; then
+    local r_helpers_path="${0:A:h:h}/r-helpers.zsh"
+    [[ -f "$r_helpers_path" ]] && source "$r_helpers_path"
+    typeset -g _FLOW_R_HELPERS_LOADED=1
+fi
+
+# Source renv integration (Phase 2 - Wave 1: renv Support)
+if [[ -z "$_FLOW_RENV_INTEGRATION_LOADED" ]]; then
+    local renv_path="${0:A:h:h}/renv-integration.zsh"
+    [[ -f "$renv_path" ]] && source "$renv_path"
+    typeset -g _FLOW_RENV_INTEGRATION_LOADED=1
+fi
+
+# Source teach profiles command (Phase 2 - Wave 1: Profile Management)
+if [[ -z "$_FLOW_TEACH_PROFILES_LOADED" ]]; then
+    local profiles_path="${0:A:h:h}/../commands/teach-profiles.zsh"
+    [[ -f "$profiles_path" ]] && source "$profiles_path"
+    typeset -g _FLOW_TEACH_PROFILES_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -2906,6 +2934,11 @@ teach() {
         # Clean command (delete _freeze/ + _site/)
         clean)
             teach_clean "$@"
+            ;;
+
+        # Profile management (Phase 2 - Wave 1: Profile Management)
+        profiles|profile|prof)
+            _teach_profiles "$@"
             ;;
         *)
             _teach_error "Unknown command: $cmd"

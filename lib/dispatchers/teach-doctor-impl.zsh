@@ -396,40 +396,69 @@ _teach_doctor_check_r_packages() {
         echo "R Packages:"
     fi
 
-    # Common teaching packages
-    local -a packages=(
-        "ggplot2"
-        "dplyr"
-        "tidyr"
-        "knitr"
-        "rmarkdown"
-    )
+    # Check if R is available first
+    if ! command -v R &>/dev/null; then
+        _teach_doctor_warn "R not found" "Install R to use R packages"
+        json_results+=("{\"check\":\"r_packages\",\"status\":\"warn\",\"message\":\"R not installed\"}")
+        return
+    fi
 
-    for pkg in "${packages[@]}"; do
-        if R --slave --quiet -e "if (!require('$pkg', quietly=TRUE)) quit(status=1)" &>/dev/null; then
-            _teach_doctor_pass "R package: $pkg"
-            json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"pass\",\"message\":\"installed\"}")
+    # Get packages from all sources (teaching.yml, renv.lock, DESCRIPTION)
+    local packages
+    packages=$(_list_r_packages_from_sources 2>/dev/null)
+
+    if [[ -z "$packages" ]]; then
+        # Fall back to common teaching packages if no config found
+        packages="ggplot2
+dplyr
+tidyr
+knitr
+rmarkdown"
+        if [[ "$json" == "false" ]]; then
+            echo -e "  ${FLOW_COLORS[muted]}No R packages defined in teaching.yml or renv.lock${FLOW_COLORS[reset]}"
+            echo -e "  ${FLOW_COLORS[muted]}Checking common teaching packages...${FLOW_COLORS[reset]}"
+        fi
+    fi
+
+    # Check each package
+    local all_installed=1
+    local missing_packages=()
+
+    while IFS= read -r pkg; do
+        [[ -z "$pkg" ]] && continue
+
+        if _check_r_package_installed "$pkg"; then
+            local version
+            version=$(_get_r_package_version "$pkg")
+            _teach_doctor_pass "R package: $pkg" "$version"
+            json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"pass\",\"message\":\"installed\",\"version\":\"$version\"}")
         else
-            _teach_doctor_warn "R package '$pkg' not found (optional)" "Install: install.packages('$pkg')"
-            json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"warn\",\"message\":\"not found\"}")
+            _teach_doctor_warn "R package '$pkg' not found"
+            json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"warn\",\"message\":\"not installed\"}")
+            missing_packages+=("$pkg")
+            all_installed=0
+        fi
+    done <<< "$packages"
 
-            # Interactive fix
-            if [[ "$fix" == "true" ]]; then
-                echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} Install R package '$pkg'? [y/N] "
-                read -r response
-                response=${response:-n}
+    # Interactive fix for missing packages
+    if [[ "$fix" == "true" && ${#missing_packages[@]} -gt 0 ]]; then
+        echo ""
+        echo -e "${FLOW_COLORS[warning]}Missing R packages: ${missing_packages[*]}${FLOW_COLORS[reset]}"
+        echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} Install all missing packages? [Y/n] "
+        read -r response
+        response=${response:-y}
 
-                if [[ "$response" =~ ^[Yy] ]]; then
-                    echo "  ${FLOW_COLORS[muted]}→ Rscript -e \"install.packages('$pkg')\"${FLOW_COLORS[reset]}"
-                    if Rscript -e "install.packages('$pkg', repos='https://cran.rstudio.com/')" >/dev/null 2>&1; then
-                        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} $pkg installed"
-                    else
-                        echo "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Failed to install $pkg"
-                    fi
-                fi
+        if [[ "$response" =~ ^[Yy] ]]; then
+            _flow_log_info "Installing missing R packages..."
+            _install_r_packages --yes "${missing_packages[@]}"
+
+            if [[ $? -eq 0 ]]; then
+                _flow_log_success "All R packages installed successfully"
+            else
+                _flow_log_error "Some packages failed to install"
             fi
         fi
-    done
+    fi
 }
 
 # Check Quarto extensions
