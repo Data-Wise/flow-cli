@@ -222,6 +222,9 @@ _teach_archive_semester() {
     local archived_count=0
     local deleted_count=0
 
+    # Enable null_glob for patterns that might not match
+    setopt local_options null_glob
+
     # Find all .backups folders
     local dirs=(exams/* lectures/* slides/* assignments/* quizzes/* syllabi/* rubrics/*)
     for content_dir in "${dirs[@]}"; do
