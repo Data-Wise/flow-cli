@@ -1,7 +1,7 @@
 # Teaching Workflow v3.0 - Quick Reference Card
 
 **Version:** flow-cli v5.14.0+
-**Release:** 2026-01-18
+**Release:** 2026-01-21
 
 ---
 
@@ -16,6 +16,7 @@
 | **Scholar Templates** | `--template` flag | Customize output format |
 | **Lesson Plans** | Auto-loaded | Context from `lesson-plan.yml` |
 | **Init Flags** | `--config`, `--github` | Load external config, create repo |
+| **Git Hooks** | `teach hooks install` | Auto-validate on commits, pre-push checks |
 
 ---
 
@@ -79,6 +80,195 @@ teach init --config external.yml             # Load external config
 teach init --github                          # Create GitHub repo
 teach init --config course.yml --github      # Both options
 ```
+
+### Git Hooks (NEW v3.0)
+
+#### Installation & Management
+
+```bash
+# Install all hooks
+teach hooks install
+
+# Verify installation
+teach hooks status
+# Output:
+# ✓ pre-commit: v1.0.0 (up to date)
+# ✓ pre-push: v1.0.0 (up to date)
+# ✓ prepare-commit-msg: v1.0.0 (up to date)
+
+# Force reinstall (overwrites existing)
+teach hooks install --force
+
+# Upgrade to latest version
+teach hooks upgrade
+# Prompts for confirmation, shows what will be upgraded
+
+# Remove hooks
+teach hooks uninstall
+# Safety prompt: confirms before removal
+```
+
+#### What Each Hook Does
+
+**pre-commit** (validates before commit):
+```bash
+git commit -m "Add lecture 5"
+
+# Automatically runs:
+# ✓ YAML syntax validation
+# ✓ Required fields check (title, date, week)
+# ✓ Cross-reference integrity
+# ✓ Dependency verification (sourced R files)
+# ✓ Code chunk syntax
+
+# If errors found:
+# ✗ ERROR: lectures/week-05.qmd missing field: 'date'
+# Commit aborted.
+```
+
+**pre-push** (validates before push):
+```bash
+git push origin main
+
+# Automatically checks:
+# ✓ No uncommitted changes
+# ✓ No untracked files in critical dirs
+# ✓ Working tree is clean
+
+# If issues found:
+# ✗ ERROR: Uncommitted changes:
+#   M lectures/week-05.qmd
+# Push aborted.
+```
+
+**prepare-commit-msg** (enhances commit messages):
+```bash
+git commit
+
+# Your message: "update lecture"
+#
+# Auto-enhanced to:
+# [Week 5] Update lecture
+#
+# - Modified: lectures/week-05-regression.qmd
+# - Render time: 3.2s
+#
+# Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+```
+
+#### Configuration
+
+**Development Mode** (fast iteration):
+```bash
+export QUARTO_PRE_COMMIT_RENDER=0    # Skip rendering (fast)
+export QUARTO_COMMIT_TIMING=0        # No timing info
+export QUARTO_COMMIT_SUMMARY=0       # Minimal messages
+```
+
+**Production Mode** (thorough validation):
+```bash
+export QUARTO_PRE_COMMIT_RENDER=1    # Full rendering
+export QUARTO_PARALLEL_RENDER=1      # Use parallel (fast)
+export QUARTO_MAX_PARALLEL=8         # Max workers
+export QUARTO_COMMIT_TIMING=1        # Include timing
+export QUARTO_COMMIT_SUMMARY=1       # Detailed messages
+```
+
+**CI/CD Mode** (automated workflows):
+```bash
+export QUARTO_HOOKS_QUIET=1          # Non-interactive
+export QUARTO_HOOKS_CI=1             # CI-friendly output
+```
+
+#### Common Workflows
+
+**Weekly content creation:**
+```bash
+# 1. Create content
+teach lecture "Regression" --week 5
+
+# 2. Edit
+vim lectures/week-05-regression.qmd
+
+# 3. Commit (hooks validate automatically)
+git add lectures/week-05-regression.qmd
+git commit -m "Add week 5 lecture"
+# ✓ YAML valid
+# ✓ Dependencies checked
+# ✓ Message auto-enhanced
+
+# 4. Push (pre-push validates)
+git push origin main
+# ✓ Working tree clean
+# ✓ Push successful
+```
+
+**Emergency bypass:**
+```bash
+# Skip hooks when needed (use sparingly!)
+git commit --no-verify -m "WIP: emergency fix"
+git push --no-verify
+
+# Later: validate manually
+teach validate lectures/
+```
+
+**Testing hooks without committing:**
+```bash
+# Dry-run pre-commit validation
+.git/hooks/pre-commit
+
+# Output:
+# Running pre-commit validation...
+# ✓ All checks passed
+```
+
+#### Troubleshooting
+
+**Hook not running:**
+```bash
+ls -la .git/hooks/pre-commit
+# Should be: -rwxr-xr-x (executable)
+
+# If not executable:
+chmod +x .git/hooks/pre-commit
+```
+
+**Hook too slow:**
+```bash
+# Disable full rendering
+export QUARTO_PRE_COMMIT_RENDER=0
+
+# Or use more parallel workers
+export QUARTO_MAX_PARALLEL=8
+```
+
+**Conflicts with existing hooks:**
+```bash
+# Backups are created automatically:
+# .git/hooks/pre-commit.backup-20260121-143000
+
+# View backup
+cat .git/hooks/pre-commit.backup-20260121-143000
+```
+
+#### Real-World Benefits
+
+**Without hooks:**
+```
+Push broken YAML → CI fails → Fix → Push again (15 min)
+Forget to commit file → Incomplete push → Add missing (10 min)
+Generic messages → Hard to track changes
+```
+
+**With hooks:**
+```
+YAML validated before commit → Never push broken files (0 min)
+Pre-push catches missing files → Always complete (0 min)
+Auto-formatted messages → Clear history
+```
+
+**Time saved per week:** 2-3 hours on a typical course with 15-20 commits
 
 ---
 

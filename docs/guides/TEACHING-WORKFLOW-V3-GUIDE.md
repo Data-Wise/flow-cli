@@ -1,7 +1,7 @@
 # Teaching Workflow v3.0 Guide
 
 **Version:** v5.14.0
-**Last Updated:** 2026-01-18
+**Last Updated:** 2026-01-21
 **Target Audience:** Instructors using flow-cli for course management
 
 ---
@@ -166,6 +166,372 @@ teach init "STAT 440" --github
 ```
 
 **Why it matters:** Faster setup, consistent configuration across courses.
+
+### 8. Git Hooks Integration
+
+Automated quality checks that run on git operations, catching errors before they reach GitHub.
+
+#### Installation
+
+```bash
+# Install all teaching workflow hooks
+teach hooks install
+
+# Force reinstall (overwrites existing hooks)
+teach hooks install --force
+
+# Check what's installed
+teach hooks status
+```
+
+**Example output from `teach hooks status`:**
+
+```
+Hook status:
+
+✓ pre-commit: v1.0.0 (up to date)
+✓ pre-push: v1.0.0 (up to date)
+✓ prepare-commit-msg: v1.0.0 (up to date)
+
+Summary: 3 up to date, 0 outdated, 0 missing
+```
+
+#### What Each Hook Does
+
+**1. pre-commit Hook** - Validates content before commit
+
+Runs automatically when you execute `git commit`:
+
+```bash
+# You run:
+git commit -m "Add lecture 5"
+
+# Hook automatically validates:
+✓ YAML frontmatter syntax
+✓ Required fields (title, date, week)
+✓ Cross-reference integrity
+✓ Sourced R file dependencies
+✓ Code chunk syntax
+```
+
+**Real-world example:**
+
+```bash
+$ git commit -m "Add week 5 lecture"
+
+Running pre-commit validation...
+
+✓ YAML validation passed
+✓ Dependencies verified
+✗ ERROR: lectures/week-05.qmd missing required field: 'date'
+
+Commit aborted. Fix the errors above and try again.
+```
+
+**2. pre-push Hook** - Ensures deployment readiness
+
+Runs automatically when you execute `git push`:
+
+```bash
+# You run:
+git push origin main
+
+# Hook automatically checks:
+✓ No uncommitted changes
+✓ No untracked files in critical directories
+✓ All required files present
+✓ Git working tree is clean
+```
+
+**Real-world example:**
+
+```bash
+$ git push origin main
+
+Running pre-push checks...
+
+✗ ERROR: You have uncommitted changes:
+  M lectures/week-05.qmd
+  ?? exams/midterm-draft.qmd
+
+Please commit or stash these changes before pushing.
+Push aborted.
+```
+
+**3. prepare-commit-msg Hook** - Auto-formats commit messages
+
+Runs automatically before the commit message editor opens:
+
+```bash
+# You run:
+git commit
+
+# Hook automatically adds context:
+# - Current week number
+# - Timing information (if enabled)
+# - Content type detection
+# - Change summary
+```
+
+**Real-world example:**
+
+```bash
+# Before hook:
+Your commit message: "update lecture"
+
+# After hook enhancement:
+[Week 5] Update lecture
+
+- Modified: lectures/week-05-regression.qmd
+- Render time: 3.2s
+
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+```
+
+#### Configuration Options
+
+Control hook behavior with environment variables:
+
+```bash
+# ~/.zshrc or project-specific .envrc
+
+# Enable full Quarto rendering on commit (slower but thorough)
+export QUARTO_PRE_COMMIT_RENDER=1
+
+# Use parallel rendering (default: on)
+export QUARTO_PARALLEL_RENDER=1
+export QUARTO_MAX_PARALLEL=4
+
+# Add timing information to commit messages (default: on)
+export QUARTO_COMMIT_TIMING=1
+
+# Add validation summary to commit messages
+export QUARTO_COMMIT_SUMMARY=1
+
+# Skip hooks temporarily (use sparingly!)
+git commit --no-verify -m "WIP: draft changes"
+```
+
+**Configuration Examples:**
+
+**Scenario 1: Fast iteration mode** (development phase)
+
+```bash
+# Minimal validation, fast commits
+export QUARTO_PRE_COMMIT_RENDER=0
+export QUARTO_COMMIT_TIMING=0
+export QUARTO_COMMIT_SUMMARY=0
+
+# Commits are fast, hooks only check YAML syntax
+```
+
+**Scenario 2: Production mode** (before deployment)
+
+```bash
+# Full validation, comprehensive checks
+export QUARTO_PRE_COMMIT_RENDER=1
+export QUARTO_PARALLEL_RENDER=1
+export QUARTO_MAX_PARALLEL=8
+export QUARTO_COMMIT_TIMING=1
+export QUARTO_COMMIT_SUMMARY=1
+
+# Commits are slower but catch all issues
+```
+
+**Scenario 3: CI/CD mode** (automated workflows)
+
+```bash
+# Skip interactive prompts, JSON output
+export QUARTO_HOOKS_QUIET=1
+export QUARTO_HOOKS_CI=1
+
+# Hooks run non-interactively, suitable for automation
+```
+
+#### Hook Management
+
+**Check for updates:**
+
+```bash
+teach hooks status
+
+# Output shows if upgrades available:
+⚠ pre-commit: v0.9.0 (upgrade to v1.0.0)
+⚠ pre-push: v0.9.0 (upgrade to v1.0.0)
+
+Run 'teach hooks upgrade' to update outdated hooks
+```
+
+**Upgrade hooks:**
+
+```bash
+teach hooks upgrade
+
+# Interactive confirmation:
+Hooks to upgrade: 2
+  - pre-commit (v0.9.0 → v1.0.0)
+  - pre-push (v0.9.0 → v1.0.0)
+
+Upgrade these hooks? [Y/n] y
+
+✓ Upgraded pre-commit (v1.0.0)
+✓ Upgraded pre-push (v1.0.0)
+
+All hooks upgraded successfully (2 hooks)
+```
+
+**Uninstall hooks:**
+
+```bash
+teach hooks uninstall
+
+# Safety confirmation:
+⚠ This will remove all flow-cli managed hooks
+
+Continue? [y/N] y
+
+✓ Removed pre-commit
+✓ Removed pre-push
+✓ Removed prepare-commit-msg
+
+Uninstalled 3 hook(s)
+```
+
+#### Common Workflows
+
+**Weekly content update with hooks:**
+
+```bash
+# 1. Create new lecture
+teach lecture "Multiple Regression" --week 5
+
+# 2. Edit content
+vim lectures/week-05-regression.qmd
+
+# 3. Commit (hooks run automatically)
+git add lectures/week-05-regression.qmd
+git commit -m "Add week 5 lecture on multiple regression"
+
+# Hook validates:
+✓ YAML valid
+✓ Dependencies checked
+✓ Cross-references verified
+
+[Week 5] Add week 5 lecture on multiple regression
+- Added: lectures/week-05-regression.qmd
+- Render time: 4.1s
+
+# 4. Push (pre-push hook validates)
+git push origin main
+
+✓ Working tree clean
+✓ All files committed
+Push successful!
+```
+
+**Emergency bypass (use with caution):**
+
+```bash
+# Skip hooks for urgent fixes
+git commit --no-verify -m "WIP: emergency fix"
+git push --no-verify
+
+# Later: validate manually
+teach validate lectures/
+```
+
+**Testing hooks without committing:**
+
+```bash
+# Run pre-commit validation manually
+.git/hooks/pre-commit
+
+# Output shows what would happen:
+Running pre-commit validation...
+✓ All checks passed
+```
+
+#### Troubleshooting
+
+**Hook not running:**
+
+```bash
+# Check if hooks are executable
+ls -la .git/hooks/
+
+# Should show:
+-rwxr-xr-x  pre-commit
+-rwxr-xr-x  pre-push
+-rwxr-xr-x  prepare-commit-msg
+
+# If not executable:
+chmod +x .git/hooks/pre-commit
+chmod +x .git/hooks/pre-push
+chmod +x .git/hooks/prepare-commit-msg
+```
+
+**Hook fails with "command not found":**
+
+```bash
+# Ensure dependencies are installed
+teach doctor
+
+# Install missing dependencies
+teach doctor --fix
+```
+
+**Hook takes too long:**
+
+```bash
+# Disable full rendering for faster commits
+export QUARTO_PRE_COMMIT_RENDER=0
+
+# Or use parallel rendering
+export QUARTO_PARALLEL_RENDER=1
+export QUARTO_MAX_PARALLEL=8
+```
+
+**Hook conflicts with existing hooks:**
+
+```bash
+# Check what hooks exist
+ls -la .git/hooks/
+
+# Backup existing hooks before install
+cp .git/hooks/pre-commit .git/hooks/pre-commit.backup
+
+# Install (will backup automatically)
+teach hooks install
+
+# Existing hooks are backed up as:
+# .git/hooks/pre-commit.backup-<timestamp>
+```
+
+#### Why Use Hooks?
+
+**Benefits:**
+
+1. **Catch errors early** - Find issues before pushing to GitHub
+2. **Consistent quality** - Enforce standards automatically
+3. **Save time** - No manual validation needed
+4. **Better commits** - Auto-formatted messages with context
+5. **Team consistency** - Everyone uses same validation
+
+**Real-world impact:**
+
+```
+Without hooks:
+- Push broken YAML → CI fails → Fix → Push again (15 min)
+- Forget to commit file → Incomplete push → Add missing file (10 min)
+- Generic commit messages → Hard to track changes later
+
+With hooks:
+- YAML validated before commit → Never push broken files
+- Pre-push checks catch missing files → Always complete
+- Auto-formatted messages → Clear history
+```
+
+See [Teaching Git Workflow Refcard](../reference/TEACHING-GIT-WORKFLOW-REFCARD.md) for complete hook documentation and advanced configuration.
 
 ---
 
@@ -346,7 +712,156 @@ teach doctor --json | jq '.summary.status'
 teach doctor --fix
 ```
 
-Offers to install missing dependencies interactively.
+**Real-world example - Missing dependencies:**
+
+```bash
+$ teach doctor --fix
+
+╭────────────────────────────────────────────────────────────╮
+│  📚 Teaching Environment Health Check                       │
+╰────────────────────────────────────────────────────────────╯
+
+Dependencies:
+  ✓ yq (4.35.1)
+  ✓ git (2.43.0)
+  ✗ quarto (not found)
+  ✗ gh (not found)
+  ⚠ examark (not found - optional)
+
+Found 2 missing required dependencies.
+
+Install missing dependencies? [Y/n] y
+
+Installing quarto...
+  → brew install quarto
+  ✓ Installed quarto 1.4.550
+
+Installing gh...
+  → brew install gh
+  ✓ Installed gh 2.42.1
+
+Re-running health check...
+
+Dependencies:
+  ✓ yq (4.35.1)
+  ✓ git (2.43.0)
+  ✓ quarto (1.4.550)
+  ✓ gh (2.42.1)
+  ⚠ examark (not found - optional)
+
+✓ All required dependencies installed!
+
+Summary: 4 passed, 1 warning, 0 failures
+```
+
+### Real-World Scenarios
+
+**Scenario 1: New machine setup**
+
+```bash
+# Fresh macOS installation
+teach doctor
+
+# Output shows missing: yq, quarto, gh
+teach doctor --fix
+
+# Installs everything automatically
+# Ready to start teaching!
+```
+
+**Scenario 2: Semester preparation**
+
+```bash
+# Week before classes start
+cd ~/teaching/stat-440
+
+teach doctor
+
+# Check output:
+# ✓ All dependencies present
+# ✗ ERROR: Config missing required field: 'semester'
+# ✗ ERROR: Draft branch not found
+
+# Fix configuration
+vim .flow/teach-config.yml
+# Add: semester: "Spring 2026"
+
+# Create draft branch
+git checkout -b draft
+
+# Verify fixes
+teach doctor
+# ✓ All checks passed
+```
+
+**Scenario 3: CI/CD integration**
+
+```bash
+# In GitHub Actions workflow
+- name: Validate environment
+  run: |
+    teach doctor --json > health.json
+    if [[ $(jq '.summary.failures' health.json) -gt 0 ]]; then
+      echo "Health check failed"
+      jq '.failures[]' health.json
+      exit 1
+    fi
+
+# Fails build if environment has issues
+```
+
+**Scenario 4: Troubleshooting deployment issues**
+
+```bash
+# Student reports broken website
+teach doctor --quiet
+
+# Output:
+# ✗ Working tree not clean: 3 uncommitted files
+# ✗ Remote not configured
+
+# Fix issues
+git add -A && git commit -m "Update content"
+git remote add origin https://github.com/user/stat-440
+
+# Verify
+teach doctor
+# ✓ All checks passed
+
+# Deploy successfully
+teach deploy
+```
+
+**Scenario 5: Post-system-upgrade check**
+
+```bash
+# After macOS upgrade or Homebrew update
+teach doctor
+
+# Output:
+# ⚠ quarto (1.4.550) - newer version available: 1.5.0
+# ⚠ gh (2.42.1) - newer version available: 2.43.0
+
+# Optional: update tools
+brew upgrade quarto gh
+
+# Verify
+teach doctor
+# ✓ All up to date
+```
+
+### Common Issues and Solutions
+
+| Issue | Solution |
+|-------|----------|
+| `yq: command not found` | `brew install yq` or `teach doctor --fix` |
+| `quarto: command not found` | `brew install quarto` or use installer from quarto.org |
+| `gh: command not found` | `brew install gh` and run `gh auth login` |
+| Config validation fails | Check YAML syntax: `yq eval .flow/teach-config.yml` |
+| Git errors | Ensure repo initialized: `git init` |
+| Remote not configured | Add remote: `git remote add origin <url>` |
+| Working tree not clean | Commit changes: `git add -A && git commit` |
+| Scholar skills not found | Install Scholar plugin in Claude Desktop |
 
 ---
 
@@ -360,15 +875,39 @@ Offers to install missing dependencies interactively.
 # Check current week
 teach week
 
-# View lesson plan
+# Output:
+# 📅 Current Week: 5
+# 📚 Course: STAT 440 - Regression Analysis
+# 🗓️  Date Range: Feb 10-14, 2026
+# 📝 Topic: Multiple Regression
+
+# View lesson plan details
 cat lesson-plan.yml | yq ".weeks[] | select(.number == 5)"
+
+# Output:
+# number: 5
+# topic: "Multiple Regression"
+# dates: "2026-02-10 - 2026-02-14"
+# learning_objectives:
+#   - "Understand multicollinearity"
+#   - "Interpret regression coefficients"
+#   - "Calculate adjusted R-squared"
+# key_concepts:
+#   - "VIF (Variance Inflation Factor)"
+#   - "Partial F-tests"
+#   - "Model selection criteria"
 ```
 
 **Tuesday-Thursday:** Create content
 
 ```bash
-# Create lecture
+# Create lecture with auto-loaded lesson plan context
 teach lecture "Multiple Regression" --week 5
+
+# Scholar uses lesson plan to generate targeted content:
+# ✓ Learning objectives included
+# ✓ Key concepts explained
+# ✓ Examples aligned with course level
 
 # Content is automatically backed up
 # Scholar auto-loads lesson-plan.yml for context
@@ -1106,6 +1645,396 @@ teach assignment "Practice Problems N" \
 # 4. Deploy together
 g commit "feat: complete Week N materials"
 teach deploy
+```
+
+---
+
+## Complete Real-World Examples
+
+### Example 1: First Day of Semester
+
+**Goal:** Set up course, create syllabus, initialize GitHub Pages
+
+```bash
+# Day 1: Initial setup
+cd ~/teaching
+teach init "STAT 440 - Regression Analysis" --github
+
+# Output:
+# ✓ Created project structure
+# ✓ Generated .flow/teach-config.yml
+# ✓ Initialized git repository
+# ✓ Created GitHub repository: github.com/user/stat-440
+# ✓ Set up draft and main branches
+#
+# Next steps:
+#   1. cd ~/teaching/stat-440
+#   2. teach doctor --fix (install dependencies)
+#   3. teach hooks install (enable quality checks)
+
+cd stat-440
+
+# Day 2: Install dependencies and hooks
+teach doctor --fix
+# [Interactive prompts install yq, quarto, gh]
+
+teach hooks install
+# ✓ Installed pre-commit (v1.0.0)
+# ✓ Installed pre-push (v1.0.0)
+# ✓ Installed prepare-commit-msg (v1.0.0)
+
+# Day 3: Create lesson plan
+cat > lesson-plan.yml <<EOF
+course: STAT 440
+semester: Spring 2026
+start_date: 2026-01-13
+end_date: 2026-05-01
+
+weeks:
+  - number: 1
+    topic: "Introduction to Regression"
+    dates: "2026-01-13 - 2026-01-17"
+    learning_objectives:
+      - "Understand simple linear regression"
+      - "Interpret slope and intercept"
+EOF
+
+git add lesson-plan.yml
+git commit -m "Add lesson plan for Spring 2026"
+
+# Day 4: Create syllabus
+teach syllabus
+
+# Edits and saves to syllabi/syllabus-spring-2026.qmd
+
+git add syllabi/
+git commit -m "Add course syllabus"
+# [Hook auto-formats commit message with course context]
+
+# Day 5: Deploy to GitHub Pages
+teach deploy
+
+# Output:
+# 📦 Changes Preview
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Files changed since last deployment:
+#
+#   🟢 A syllabi/syllabus-spring-2026.qmd
+#   🟢 A lesson-plan.yml
+#   🟢 A _quarto.yml
+#
+# Summary: 3 added, 0 modified, 0 deleted
+#
+# Create pull request? [Y/n] y
+#
+# ✓ Created PR #1: Initial course setup
+# ✓ URL: https://github.com/user/stat-440/pull/1
+#
+# Merge PR and site will deploy automatically!
+```
+
+### Example 2: Weekly Content Creation Cycle
+
+**Goal:** Create Week 5 content (lecture, quiz, homework)
+
+```bash
+# Monday: Check current week
+teach week
+
+# Output:
+# 📅 Current Week: 5
+# 📚 Course: STAT 440
+# 🗓️  Date Range: Feb 10-14, 2026
+# 📝 Topic: Multiple Regression
+
+# Tuesday: Create lecture
+teach lecture "Multiple Regression" --week 5
+
+# Output:
+# ✓ Generated lectures/week-05-multiple-regression.qmd
+# ✓ Auto-loaded lesson plan context
+# ✓ Backup created: lectures/.backups/week-05.20260210-0930/
+# ✓ Length: ~2500 words (45-minute lecture)
+#
+# Edit file: vim lectures/week-05-multiple-regression.qmd
+
+# Edit and customize
+vim lectures/week-05-multiple-regression.qmd
+
+# Preview locally
+quarto preview lectures/week-05-multiple-regression.qmd
+
+# Commit when done
+git add lectures/week-05-multiple-regression.qmd
+git commit -m "Add Week 5 lecture on multiple regression"
+
+# Hook output:
+# Running pre-commit validation...
+# ✓ YAML syntax valid
+# ✓ Required fields present: title, date, week
+# ✓ Dependencies verified (no sourced R files)
+# ✓ Cross-references checked
+#
+# [Week 5] Add Week 5 lecture on multiple regression
+#
+# - Added: lectures/week-05-multiple-regression.qmd
+# - Render time: 4.2s
+#
+# Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+
+# Wednesday: Create quiz
+teach quiz "Week 5 Quiz" --questions 10 --time-limit 15
+
+# Output:
+# ✓ Generated quizzes/week-05-quiz.qmd
+# ✓ 10 multiple choice questions
+# ✓ Time limit: 15 minutes
+# ✓ Topics: Multiple regression, VIF, model selection
+# ✓ Auto-graded format ready for Canvas/Moodle
+
+git add quizzes/week-05-quiz.qmd
+git commit -m "Add Week 5 quiz"
+
+# Thursday: Create homework
+teach assignment "Homework 4" \
+  --week 5 \
+  --due-date "2026-02-18" \
+  --points 100
+
+# Output:
+# ✓ Generated assignments/homework-04.qmd
+# ✓ 5 problems covering Week 5 topics
+# ✓ Due date: Feb 18, 2026
+# ✓ Points: 100
+# ✓ Solution file: assignments/homework-04-solutions.qmd
+# ✓ Rubric: assignments/homework-04-rubric.md
+
+git add assignments/
+git commit -m "Add Homework 4 with solutions and rubric"
+
+# Friday: Check status before deploy
+teach status
+
+# Output:
+# ╭────────────────────────────────────────────────────────╮
+# │  📚 STAT 440 - Regression Analysis                      │
+# │  📅 Spring 2026 (Week 5/16)                            │
+# ╰────────────────────────────────────────────────────────╯
+#
+# 🎯 Current Week:
+#   Week 5: Multiple Regression (Feb 10-14, 2026)
+#
+# 📦 Deployment Status:
+#   Last deployed: Feb 03, 2026 (7 days ago)
+#   Open PRs: 0
+#   Draft changes: 3 files modified
+#
+# 💾 Backup Summary:
+#   Total backups: 8
+#   Storage used: 2.4 MB
+#   Last backup: 1 hour ago
+
+# Deploy week's content
+teach deploy
+
+# Preview changes, create PR
+# GitHub Actions builds site, deploys to Pages
+# Students see updated content within 2 minutes
+```
+
+### Example 3: Midterm Exam Creation
+
+**Goal:** Create comprehensive midterm covering Weeks 1-7
+
+```bash
+# Week 7: Plan midterm
+teach exam "Midterm - Chapters 1-5" \
+  --questions 30 \
+  --duration 120 \
+  --types "mc,short,essay" \
+  --template typst
+
+# Output:
+# ✓ Generated exams/midterm.qmd
+# ✓ 30 questions total:
+#   - 15 multiple choice (5 points each)
+#   - 10 short answer (10 points each)
+#   - 5 essay (15 points each)
+# ✓ Duration: 120 minutes
+# ✓ Total points: 250
+# ✓ Template: Typst (academic paper format)
+# ✓ Solution key: exams/midterm-solutions.qmd
+# ✓ Rubric: exams/midterm-rubric.md
+#
+# Files created:
+#   exams/midterm.qmd           (student version)
+#   exams/midterm-solutions.qmd (answer key)
+#   exams/midterm-rubric.md     (grading guide)
+
+# Review exam questions
+vim exams/midterm.qmd
+
+# Generate PDF for printing
+quarto render exams/midterm.qmd --to pdf
+
+# Output:
+# ✓ Rendered: exams/midterm.pdf
+# ✓ Page count: 8 pages
+# ✓ Format: Letter size, 12pt font
+
+# Create solution key PDF
+quarto render exams/midterm-solutions.qmd --to pdf
+
+# Commit everything
+git add exams/
+git commit -m "Add midterm exam with solutions and rubric"
+
+# Hook output:
+# Running pre-commit validation...
+# ✓ Exam structure valid
+# ✓ Point values sum correctly (250 points)
+# ✓ Answer key complete
+# ✓ Rubric aligns with questions
+#
+# [Week 7] Add midterm exam with solutions and rubric
+#
+# - Added: exams/midterm.qmd (30 questions, 250 points)
+# - Added: exams/midterm-solutions.qmd (complete answer key)
+# - Added: exams/midterm-rubric.md (grading guide)
+# - Backup created: exams/.backups/midterm.20260224-1045/
+#
+# Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+
+# Create separate private branch for exam
+git checkout -b exam-midterm-private
+git push origin exam-midterm-private
+
+# Public branch gets version without solutions
+git checkout main
+git rm exams/midterm-solutions.qmd
+git commit -m "Remove solution key from public branch"
+```
+
+### Example 4: End of Semester Workflow
+
+**Goal:** Archive course, clean up, prepare for next semester
+
+```bash
+# Week 16: Final exam given, grades submitted
+
+# Step 1: Archive backups
+teach backup archive --semester "Spring 2026"
+
+# Output:
+# Creating semester archive...
+# ✓ Archived 47 backups → archives/spring-2026/
+# ✓ Total size: 15.3 MB
+# ✓ Retention policy applied:
+#   - Exams: Keep forever (8 backups)
+#   - Quizzes: Keep forever (16 backups)
+#   - Lectures: Deleted (16 backups)
+#   - Assignments: Keep forever (7 backups)
+# ✓ Freed: 4.8 MB
+
+# Step 2: Final deploy
+teach status
+
+# Output shows 3 uncommitted grade reports
+git add grades/
+git commit -m "Add final grade reports"
+teach deploy
+
+# Step 3: Tag final version
+git tag -a v2026-spring-final -m "Spring 2026 final version"
+git push --tags
+
+# Step 4: Clone for next semester
+cd ~/teaching
+cp -r stat-440 stat-440-fall-2026
+cd stat-440-fall-2026
+
+# Step 5: Update for fall
+vim .flow/teach-config.yml
+# Change semester: "Fall 2026"
+# Update dates: 2026-08-25 - 2026-12-10
+
+vim lesson-plan.yml
+# Update semester and dates
+
+# Step 6: Clean old content
+rm -rf lectures/* assignments/* quizzes/* exams/*
+git add -A
+git commit -m "Clean content for Fall 2026 semester"
+
+# Step 7: Verify setup
+teach doctor
+
+# Output:
+# ✓ All checks passed
+# ✓ Ready for Fall 2026!
+
+# Step 8: Create initial syllabus
+teach syllabus
+git add syllabi/
+git commit -m "Add Fall 2026 syllabus"
+teach deploy
+
+# Output:
+# ✓ Created PR #1: Fall 2026 setup
+# ✓ Course ready for new semester!
+```
+
+### Example 5: Fixing Common Issues
+
+**Scenario: Student reports broken cross-reference link**
+
+```bash
+# Student report: "Week 3 lecture link to Week 1 doesn't work"
+
+# Step 1: Verify the issue
+grep -r "@sec-introduction" lectures/week-03*.qmd
+
+# Output:
+# lectures/week-03-anova.qmd:See @sec-introduction for background.
+
+# Step 2: Find the target
+grep -r "{#sec-introduction}" lectures/
+
+# Output:
+# (nothing found - link target missing!)
+
+# Step 3: Check git history
+git log --all --grep="introduction" --oneline
+
+# Find the commit that removed it
+git show abc123:lectures/week-01-intro.qmd | grep "#sec"
+
+# Step 4: Restore from backup
+teach backup restore lectures/.backups/week-01.20260115-0930/
+
+# Output:
+# ✓ Restored: lectures/week-01-intro.qmd
+# ✓ Contains: {#sec-introduction} label
+# ✓ Backup preserved for reference
+
+# Step 5: Verify fix
+quarto render lectures/week-03-anova.qmd
+# ✓ Cross-reference resolved correctly
+
+# Step 6: Commit fix
+git add lectures/week-01-intro.qmd
+git commit -m "Restore introduction section with #sec-introduction label"
+
+# Hook validates:
+# ✓ Cross-reference integrity verified
+# ✓ All links resolve correctly
+
+# Step 7: Deploy fix
+teach deploy
+
+# Output:
+# ✓ Fix deployed in < 2 minutes
+# ✓ Student can access corrected content
 ```
 
 ---

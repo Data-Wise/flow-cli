@@ -130,6 +130,9 @@ nav:
           - 📖 Course Examples:
               - Overview: examples/course-planning/README.md
               - STAT 545 (Graduate): examples/course-planning/intermediate-stats/README.md
+      - 🚀 Quarto Workflow Phase 2:
+          - Phase 2 Complete Guide: guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md
+          - Phase 2 Quick Reference: reference/REFCARD-QUARTO-PHASE2.md
       - Teaching (Legacy):
           - System Architecture: guides/TEACHING-SYSTEM-ARCHITECTURE.md
           - Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md

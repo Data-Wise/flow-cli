@@ -1,7 +1,7 @@
 # Backup System Guide
 
 **Version:** v5.14.0 (Teaching Workflow v3.0)
-**Last Updated:** 2026-01-18
+**Last Updated:** 2026-01-21
 
 ---
 
@@ -902,4 +902,4 @@ See `lib/backup-helpers.zsh` for implementation details.
 ---
 
 **Version:** v5.14.0 (Teaching Workflow v3.0)
-**Last Updated:** 2026-01-18
+**Last Updated:** 2026-01-21
