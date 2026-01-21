@@ -1021,6 +1021,217 @@ _teach_build_context() {
 }
 
 # ============================================================================
+# NEW HELP FUNCTIONS (Tasks 1-4)
+# ============================================================================
+
+# Help for teach validate command
+_teach_validate_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]} - Validate Quarto Files                   ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach validate [files...] [options]
+  ${FLOW_COLORS[cmd]}teach validate --yaml <file>
+  ${FLOW_COLORS[cmd]}teach validate --watch
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}val${FLOW_COLORS[reset]} → validate
+
+${FLOW_COLORS[bold]}VALIDATION MODES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--yaml${FLOW_COLORS[reset]}         YAML frontmatter only (fast)
+  ${FLOW_COLORS[cmd]}--syntax${FLOW_COLORS[reset]}       YAML + syntax check
+  ${FLOW_COLORS[cmd]}--render${FLOW_COLORS[reset]}       Full render validation
+  ${FLOW_COLORS[cmd]}--custom${FLOW_COLORS[reset]}       Run custom validators
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--watch, -w${FLOW_COLORS[reset]}          Watch mode (fswatch)
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}               JSON output
+  ${FLOW_COLORS[cmd]}--quiet, -q${FLOW_COLORS[reset]}          Minimal output
+
+${FLOW_COLORS[bold]}CUSTOM VALIDATORS${FLOW_COLORS[reset]}
+  Place scripts in ${FLOW_COLORS[accent]}.teach/validators/${FLOW_COLORS[reset]}
+  Built-in: check-citations, check-links, check-formatting
+  Run: teach validate --custom
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Quick YAML check${FLOW_COLORS[reset]}
+  $ teach validate --yaml lectures/week-05/
+
+  ${FLOW_COLORS[muted]}# Full render validation${FLOW_COLORS[reset]}
+  $ teach validate --render
+
+  ${FLOW_COLORS[muted]}# Watch for changes${FLOW_COLORS[reset]}
+  $ teach validate --watch
+
+  ${FLOW_COLORS[muted]}# Run custom validators${FLOW_COLORS[reset]}
+  $ teach validate --custom
+
+${FLOW_COLORS[bold]}EXIT CODES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[success]}0${FLOW_COLORS[reset]} - All valid
+  ${FLOW_COLORS[error]}1${FLOW_COLORS[reset]} - Warnings
+  ${FLOW_COLORS[error]}2${FLOW_COLORS[reset]} - Errors
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Pre-commit hooks auto-validate on commit
+  • Use ${FLOW_COLORS[accent]}--yaml${FLOW_COLORS[reset]} for quick checks
+  • Install fswatch for --watch mode
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-QUARTO-WORKFLOW-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
+  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache management
+
+EOF
+}
+
+# Help for teach cache command
+_teach_cache_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache Management                          ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach cache <command> [options]
+
+${FLOW_COLORS[bold]}COMMANDS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}status${FLOW_COLORS[reset]}              Show cache statistics
+  ${FLOW_COLORS[cmd]}clear${FLOW_COLORS[reset]}               Clear all cache
+  ${FLOW_COLORS[cmd]}rebuild${FLOW_COLORS[reset]}             Rebuild frozen content
+  ${FLOW_COLORS[cmd]}analyze${FLOW_COLORS[reset]}             Analyze cache usage
+  ${FLOW_COLORS[cmd]}clean${FLOW_COLORS[reset]}               Clean stale entries
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--lectures${FLOW_COLORS[reset]}          Target lectures only
+  ${FLOW_COLORS[cmd]}--assignments${FLOW_COLORS[reset]}       Target assignments only
+  ${FLOW_COLORS[cmd]}--old [days]${FLOW_COLORS[reset]}        Clear entries older than N days
+  ${FLOW_COLORS[cmd]}--unused${FLOW_COLORS[reset]}            Clear unused cache
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}              JSON output
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Show cache status${FLOW_COLORS[reset]}
+  $ teach cache status
+
+  ${FLOW_COLORS[muted]}# Clear lecture cache only${FLOW_COLORS[reset]}
+  $ teach cache clear --lectures
+
+  ${FLOW_COLORS[muted]}# Rebuild frozen content${FLOW_COLORS[reset]}
+  $ teach cache rebuild
+
+  ${FLOW_COLORS[muted]}# Analyze cache usage${FLOW_COLORS[reset]}
+  $ teach cache analyze
+
+  ${FLOW_COLORS[muted]}# Clear entries older than 7 days${FLOW_COLORS[reset]}
+  $ teach cache clean --old 7
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Cache is stored in ${FLOW_COLORS[accent]}_freeze/${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}teach cache status${FLOW_COLORS[reset]} to diagnose issues
+  • Clear cache before re-rendering from scratch
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]} - Delete _freeze/ and _site/
+  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands
+
+EOF
+}
+
+# Help for teach profiles command
+_teach_profiles_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach profiles${FLOW_COLORS[reset]} - Quarto Profile Management             ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach profiles [list|switch|create] [name]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Manage Quarto profiles for different output formats:
+  • default     - Standard web output
+  • draft       - Draft mode (faster rendering)
+  • print       - Print-optimized
+  • slides      - Presentation mode
+
+${FLOW_COLORS[bold]}COMMANDS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}list, ls${FLOW_COLORS[reset]}             List available profiles
+  ${FLOW_COLORS[cmd]}switch <name>${FLOW_COLORS[reset]}        Activate profile
+  ${FLOW_COLORS[cmd]}create <name>${FLOW_COLORS[reset]}        Create new profile
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# List profiles${FLOW_COLORS[reset]}
+  $ teach profiles list
+
+  ${FLOW_COLORS[muted]}# Switch to draft mode${FLOW_COLORS[reset]}
+  $ teach profiles switch draft
+
+  ${FLOW_COLORS[muted]}# Create custom profile${FLOW_COLORS[reset]}
+  $ teach profiles create my-config
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Profiles defined in ${FLOW_COLORS[accent]}_quarto.yml${FLOW_COLORS[reset]}
+  • Draft mode renders ~2x faster
+  • Quarto profiles are separate from R package profiles
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands
+  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache management
+
+EOF
+}
+
+# Help for teach clean command
+_teach_clean_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]} - Clean Build Artifacts                   ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach clean [options]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Remove Quarto build artifacts to start fresh:
+  • _freeze/     - Cached render output
+  • _site/       - Generated website files
+  • .quarto/     - Quarto cache
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--freeze${FLOW_COLORS[reset]}             Clear _freeze/ only
+  ${FLOW_COLORS[cmd]}--site${FLOW_COLORS[reset]}               Clear _site/ only
+  ${FLOW_COLORS[cmd]}--all${FLOW_COLORS[reset]}                Clear everything (default)
+  ${FLOW_COLORS[cmd]}--dry-run${FLOW_COLORS[reset]}            Show what would be deleted
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Clear everything${FLOW_COLORS[reset]}
+  $ teach clean
+
+  ${FLOW_COLORS[muted]}# Clear cache only${FLOW_COLORS[reset]}
+  $ teach clean --freeze
+
+  ${FLOW_COLORS[muted]}# Preview what will be deleted${FLOW_COLORS[reset]}
+  $ teach clean --dry-run
+
+${FLOW_COLORS[bold]}WARNING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[error]}This action cannot be undone!${FLOW_COLORS[reset]}
+  Use ${FLOW_COLORS[accent]}--dry-run${FLOW_COLORS[reset]} first to preview.
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Run ${FLOW_COLORS[accent]}teach clean${FLOW_COLORS[reset]} before full re-render
+  • Use ${FLOW_COLORS[accent]}teach cache rebuild${FLOW_COLORS[reset]} for smarter clear
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Selective cache management
+  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands
+
+EOF
+}
+
+# ============================================================================
 # SCHOLAR WRAPPER INFRASTRUCTURE
 # ============================================================================
 
@@ -2314,49 +2525,117 @@ _teach_archive_help() {
     echo ""
 }
 
-# Help for teach status command (v5.14.0 - Task 3)
+# Help for teach status command (v5.14.0 - Task 3, upgraded to box style)
 _teach_status_help() {
-    echo "${FLOW_COLORS[bold]}teach status${FLOW_COLORS[reset]} - Show teaching project status"
-    echo ""
-    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
-    echo "  teach status [--performance] [--full]"
-    echo ""
-    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
-    echo "  Displays comprehensive status of your teaching project including:"
-    echo "    • Course information (name, semester, year)"
-    echo "    • Current branch and git status"
-    echo "    • Config validation status"
-    echo "    • Content inventory (lectures, exams, assignments)"
-    echo ""
-    echo "${FLOW_COLORS[bold]}FLAGS${FLOW_COLORS[reset]}"
-    echo "  --performance    Show performance trends and metrics (Phase 2 Wave 5)"
-    echo "  --full           Show detailed status view (legacy)"
-    echo ""
-    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
-    echo "  teach status                    # Show full project status"
-    echo "  teach status --performance      # Show performance dashboard"
-    echo "  teach s                         # Short alias"
-    echo ""
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach status${FLOW_COLORS[reset]} - Show Teaching Project Status           ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach status [options]
+  ${FLOW_COLORS[cmd]}teach status --performance    # Performance dashboard
+  ${FLOW_COLORS[cmd]}teach status --full           # Detailed legacy view
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}s${FLOW_COLORS[reset]} → status
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Displays comprehensive status of your teaching project including:
+  • Course information (name, semester, year)
+  • Current branch and git status
+  • Config validation status
+  • Content inventory (lectures, exams, assignments)
+  • Deployment status and open PRs
+  • Backup summary
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--performance${FLOW_COLORS[reset]}         Show performance trends and metrics (Phase 2 Wave 5)
+  ${FLOW_COLORS[cmd]}--full${FLOW_COLORS[reset]}                Show detailed status view (legacy)
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}                JSON output for scripting
+
+${FLOW_COLORS[bold]}PERFORMANCE DASHBOARD${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach status --performance${FLOW_COLORS[reset]}
+  Shows:
+  • Render times (last 7 days)
+  • Cache hit rates
+  • Trend analysis with ASCII graphs
+  • Optimization recommendations
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Show full project status${FLOW_COLORS[reset]}
+  $ teach status
+
+  ${FLOW_COLORS[muted]}# Performance dashboard${FLOW_COLORS[reset]}
+  $ teach status --performance
+
+  ${FLOW_COLORS[muted]}# Short alias${FLOW_COLORS[reset]}
+  $ teach s
+
+${FLOW_COLORS[bold]}EXIT CODES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[success]}0${FLOW_COLORS[reset]} - Success
+  ${FLOW_COLORS[error]}1${FLOW_COLORS[reset]} - Not a teaching project
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--performance${FLOW_COLORS[reset]} to track render times
+  • Add to CI: ${FLOW_COLORS[cmd]}teach status --json${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
+  ${FLOW_COLORS[cmd]}teach backup${FLOW_COLORS[reset]} - Backup management
+
+EOF
 }
 
-# Help for teach week command (v5.14.0 - Task 3)
+# Help for teach week command (v5.14.0 - Task 3, upgraded to box style)
 _teach_week_help() {
-    echo "${FLOW_COLORS[bold]}teach week${FLOW_COLORS[reset]} - Show current week information"
-    echo ""
-    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
-    echo "  teach week [WEEK_NUMBER]"
-    echo ""
-    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
-    echo "  Shows information about the current week or a specific week:"
-    echo "    • Week number calculation from semester start"
-    echo "    • Topics from lesson plan (if available)"
-    echo "    • Content deadlines for the week"
-    echo ""
-    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
-    echo "  teach week                      # Show current week"
-    echo "  teach week 8                    # Show week 8 info"
-    echo "  teach w                         # Short alias"
-    echo ""
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach week${FLOW_COLORS[reset]} - Show Current Week Information           ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach week [WEEK_NUMBER]
+  ${FLOW_COLORS[cmd]}teach week --current             # Show current week
+  ${FLOW_COLORS[cmd]}teach week --syllabus            # Show from syllabus
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}w${FLOW_COLORS[reset]} → week
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Shows information about the current week or a specific week:
+  • Week number calculation from semester start
+  • Topics from lesson plan (if available)
+  • Content deadlines for the week
+  • Upcoming assessments and assignments
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--current, -c${FLOW_COLORS[reset]}          Show current week (default)
+  ${FLOW_COLORS[cmd]}--syllabus, -s${FLOW_COLORS[reset]}         Extract from syllabus dates
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}                 JSON output for scripting
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Show current week${FLOW_COLORS[reset]}
+  $ teach week
+
+  ${FLOW_COLORS[muted]}# Show week 8 info${FLOW_COLORS[reset]}
+  $ teach week 8
+
+  ${FLOW_COLORS[muted]}# Short alias${FLOW_COLORS[reset]}
+  $ teach w
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Configure semester dates in ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}
+  • Create lesson plans in ${FLOW_COLORS[accent]}.flow/lesson-plans/${FLOW_COLORS[reset]} for detailed info
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach status${FLOW_COLORS[reset]} - Full project status
+  ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]} - Date management
+
+EOF
 }
 
 # Help for Scholar commands
@@ -3730,22 +4009,34 @@ teach() {
 
         # Validation (Week 2-3: Validation Commands)
         validate|val|v)
-            teach-validate "$@"
+            case "$1" in
+                --help|-h|help) _teach_validate_help; return 0 ;;
+                *) teach-validate "$@" ;;
+            esac
             ;;
 
         # Cache management (Week 3-4: Cache Management)
-        cache)
-            teach_cache "$@"
+        cache|c)
+            case "$1" in
+                --help|-h|help) _teach_cache_help; return 0 ;;
+                *) teach_cache "$@" ;;
+            esac
             ;;
 
         # Clean command (delete _freeze/ + _site/)
-        clean)
-            teach_clean "$@"
+        clean|cl)
+            case "$1" in
+                --help|-h|help) _teach_clean_help; return 0 ;;
+                *) teach_clean "$@" ;;
+            esac
             ;;
 
         # Profile management (Phase 2 - Wave 1: Profile Management)
         profiles|profile|prof)
-            _teach_profiles "$@"
+            case "$1" in
+                --help|-h|help) _teach_profiles_help; return 0 ;;
+                *) _teach_profiles "$@" ;;
+            esac
             ;;
 
         # Git hooks management (v5.14.0 - PR #277 Task 2)
@@ -4361,46 +4652,53 @@ _teach_backup_archive() {
     _teach_archive_semester "$semester_name"
 }
 
-# Backup help
+# Backup help (upgraded to FLOW_COLORS)
 _teach_backup_help() {
-    local _C_BOLD="${_C_BOLD:-\033[1m}"
-    local _C_NC="${_C_NC:-\033[0m}"
-    local _C_CYAN="${_C_CYAN:-\033[0;36m}"
-    local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
-    local _C_DIM="${_C_DIM:-\033[2m}"
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup${FLOW_COLORS[reset]} - Content Backup System                    ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
 
-    echo -e "
-${_C_BOLD}╭──────────────────────────────────────────────╮${_C_NC}
-${_C_BOLD}│ 💾 TEACH BACKUP - Content Backup System     │${_C_NC}
-${_C_BOLD}╰──────────────────────────────────────────────╯${_C_NC}
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup <subcommand> [args]
 
-${_C_BOLD}Usage:${_C_NC} teach backup <subcommand> [args]
+${FLOW_COLORS[bold]}SUBCOMMANDS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}create [path]${FLOW_COLORS[reset]}          Create timestamped backup
+  ${FLOW_COLORS[cmd]}list [path]${FLOW_COLORS[reset]}            List all backups
+  ${FLOW_COLORS[cmd]}restore <name>${FLOW_COLORS[reset]}         Restore from backup
+  ${FLOW_COLORS[cmd]}delete <name>${FLOW_COLORS[reset]}          Delete backup (with confirmation)
+  ${FLOW_COLORS[cmd]}archive <semester>${FLOW_COLORS[reset]}     Archive semester backups
 
-${_C_BOLD}SUBCOMMANDS:${_C_NC}
-  ${_C_CYAN}create [path]${_C_NC}          Create timestamped backup
-  ${_C_CYAN}list [path]${_C_NC}            List all backups
-  ${_C_CYAN}restore <name>${_C_NC}         Restore from backup
-  ${_C_CYAN}delete <name>${_C_NC}          Delete backup (with confirmation)
-  ${_C_CYAN}archive <semester>${_C_NC}     Archive semester backups
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Create backup${FLOW_COLORS[reset]}
+  $ teach backup create lectures/week-01
 
-${_C_YELLOW}💡 EXAMPLES:${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach backup create lectures/week-01    ${_C_DIM}# Create backup${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach backup list                       ${_C_DIM}# List all backups${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach backup restore lectures.2026-01-20-1430
-  ${_C_DIM}\$${_C_NC} teach backup archive spring-2026        ${_C_DIM}# End of semester${_C_NC}
+  ${FLOW_COLORS[muted]}# List all backups${FLOW_COLORS[reset]}
+  $ teach backup list
 
-${_C_BOLD}BACKUP STRUCTURE:${_C_NC}
-  ${_C_DIM}.backups/${_C_NC}
-  ${_C_DIM}├── lectures.2026-01-20-1430/${_C_NC}    Timestamped snapshots
-  ${_C_DIM}├── lectures.2026-01-19-0900/${_C_NC}
-  ${_C_DIM}└── metadata.json${_C_NC}                Backup metadata
+  ${FLOW_COLORS[muted]}# Restore from backup${FLOW_COLORS[reset]}
+  $ teach backup restore lectures.2026-01-20-1430
 
-${_C_BOLD}RETENTION POLICIES:${_C_NC}
-  ${_C_DIM}archive:${_C_NC}    Keep forever (exams, syllabi)
-  ${_C_DIM}semester:${_C_NC}   Delete at semester end (lectures)
+  ${FLOW_COLORS[muted]}# Archive semester (end of semester)${FLOW_COLORS[reset]}
+  $ teach backup archive spring-2026
 
-${_C_DIM}Get subcommand help:${_C_NC} teach backup <subcommand> --help
-"
+${FLOW_COLORS[bold]}BACKUP STRUCTURE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}.backups/${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}├── lectures.2026-01-20-1430/${FLOW_COLORS[reset]}    Timestamped snapshots
+  ${FLOW_COLORS[muted]}├── lectures.2026-01-19-0900/${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}└── metadata.json${FLOW_COLORS[reset]}                Backup metadata
+
+${FLOW_COLORS[bold]}RETENTION POLICIES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}archive${FLOW_COLORS[reset]}    Keep forever (exams, syllabi)
+  ${FLOW_COLORS[accent]}semester${FLOW_COLORS[reset]}   Delete at semester end (lectures)
+
+${FLOW_COLORS[muted]}Get subcommand help: teach backup <subcommand> --help${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}SEE ALSO${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]} - Clean build artifacts
+  ${FLOW_COLORS[cmd]}teach deploy${FLOW_COLORS[reset]} - Deploy course website
+
+EOF
 }
 
 # Update backup metadata
