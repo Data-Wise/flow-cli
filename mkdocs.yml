@@ -125,6 +125,7 @@ nav:
       - 🆕 Teaching v3.0:
           - v3.0 User Guide: guides/TEACHING-WORKFLOW-V3-GUIDE.md
           - Backup System Guide: guides/BACKUP-SYSTEM-GUIDE.md
+          - Help System Guide: guides/HELP-SYSTEM-GUIDE.md
           - Migration Guide (v2 → v3): guides/TEACHING-V3-MIGRATION-GUIDE.md
           - 📚 Course Planning Best Practices: guides/COURSE-PLANNING-BEST-PRACTICES.md
           - 📖 Course Examples:
@@ -173,6 +174,7 @@ nav:
           - Nvim Quick Ref: reference/NVIM-QUICK-REFERENCE.md
           - Prompt Quick Ref: reference/PROMPT-DISPATCHER-REFCARD.md
           - Teaching v3.0 Quick Ref: reference/REFCARD-TEACHING-V3.md
+          - Help System Quick Ref: reference/REFCARD-HELP-SYSTEM.md
           - Teaching Quick Ref (Legacy): reference/REFCARD-TEACHING.md
           - Teaching Dates Quick Ref: reference/TEACH-DATES-QUICK-REFERENCE.md
           - Teaching Git Workflow: reference/TEACHING-GIT-WORKFLOW-REFCARD.md
