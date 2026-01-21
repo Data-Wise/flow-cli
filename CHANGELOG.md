@@ -11,6 +11,106 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.15.0] - 2026-01-20
+
+### Added - Comprehensive Help System (PR #281)
+
+**Status:** ✅ Production Ready - All 77 tests passing (100%)
+
+Major documentation and UX improvements with a comprehensive help system covering all teach dispatcher commands.
+
+#### Help System Implementation
+
+- **18 Comprehensive Help Functions** - All teach commands now have detailed help
+  - Main dispatcher: `teach --help`
+  - Command-specific: `teach lecture --help`, `teach exam --help`, etc.
+  - Consistent box-style formatting with FLOW_COLORS
+  - Progressive disclosure (Quick Start → Options → Examples → Advanced)
+  - ADHD-friendly design principles
+
+#### Help Function Coverage
+
+**Scholar Commands (9):**
+
+- `teach lecture --help` - Generate lecture notes
+- `teach slides --help` - Generate presentation slides
+- `teach exam --help` - Generate exams
+- `teach quiz --help` - Generate quizzes
+- `teach assignment --help` - Generate homework assignments
+- `teach syllabus --help` - Generate course syllabus
+- `teach rubric --help` - Generate grading rubrics
+- `teach feedback --help` - Generate student feedback
+- `teach demo --help` - Generate demonstrations
+
+**System Commands (9):**
+
+- `teach doctor --help` - Health checks and diagnostics
+- `teach init --help` - Initialize course projects
+- `teach hooks --help` - Git hook management
+- `teach validate --help` - Content validation
+- `teach cache --help` - Cache management
+- `teach profiles --help` - Quarto profile management
+- `teach deploy --help` - Deployment workflows
+- `teach status --help` - Project status dashboard
+- `teach backup --help` - Backup management
+
+#### Help Structure Pattern
+
+All help functions follow consistent structure:
+
+1. **Box Header** - Command name with visual framing
+2. **Usage Line** - Clear syntax
+3. **Quick Start** - 3 most common examples
+4. **Options** - Categorized flags and parameters
+5. **Examples** - Progressive (Basic → Advanced)
+6. **Tips** - Best practices and gotchas
+7. **See Also** - Cross-references to related commands
+
+#### Progressive Disclosure
+
+Help text follows progressive complexity:
+
+- **Level 1**: Quick Start (3 examples)
+- **Level 2**: Common Options (categorized)
+- **Level 3**: Advanced Examples (real-world workflows)
+- **Level 4**: Tips & Cross-References
+
+#### ADHD-Friendly Features
+
+- Scannable structure with clear visual hierarchy
+- Examples before options (learn by doing)
+- Consistent formatting reduces cognitive load
+- Quick Start section gets you working immediately
+- Cross-references help discover related features
+
+#### Documentation
+
+- **Help System Guide** (800 lines) - Complete documentation of all 18 help functions
+- **Quick Reference Card** (450 lines) - Fast command lookup
+- **Updated mkdocs navigation** - 2 new entries in Teaching v3.0 section
+
+#### Technical Implementation
+
+- Enhanced `teach-dispatcher.zsh` (+1,686 lines)
+- Color-coded visual hierarchy using FLOW_COLORS
+- Box-style formatting with UTF-8 characters
+- Help routing for all subcommands
+- Contributors documentation with templates
+
+**Files Added:**
+
+- `docs/guides/HELP-SYSTEM-GUIDE.md` (800 lines)
+- `docs/reference/REFCARD-HELP-SYSTEM.md` (450 lines)
+
+**Files Modified:**
+
+- `lib/dispatchers/teach-dispatcher.zsh` (+1,686/-417 lines)
+- `mkdocs.yml` (2 navigation entries)
+
+**Credits:** PR #281 - Comprehensive Help System v5.14.0
+
+---
+
 ## [5.14.0] - 2026-01-21
 
 ### Added - Quarto Workflow Phase 2 Complete

@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-5.14.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
+[![Version](https://img.shields.io/badge/version-5.15.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -287,6 +287,7 @@ teach --dry-run exam "Topic"     # Preview without writing files
 **Professional teaching workflow with automated validation, caching, and deployment.**
 
 ### Automated Validation
+
 - **Git Hooks**: Automatic validation on commit/push
   - 5-layer validation: YAML, syntax, render, empty chunks, images
   - Production branch protection
@@ -297,18 +298,21 @@ teach --dry-run exam "Topic"     # Preview without writing files
   - Conflict detection with `quarto preview`
 
 ### Cache Management
+
 - **teach cache**: Interactive Quarto freeze cache management
   - Status, clear, rebuild, analyze, clean operations
   - Storage analysis and diagnostics
   - TUI menu for easy interaction
 
 ### Health Monitoring
+
 - **teach doctor**: Comprehensive health checks
   - 6 check categories (dependencies, config, git, scholar, hooks, cache)
   - Interactive fix mode (`--fix` flag)
   - JSON output for CI/CD integration
 
 ### Enhanced Deployment
+
 - **Index Management**: Automatic ADD/UPDATE/REMOVE of links
   - Smart week-based link insertion in index.qmd
   - Source file and cross-reference detection
@@ -316,12 +320,14 @@ teach --dry-run exam "Topic"     # Preview without writing files
   - Preview mode before PR creation
 
 ### Backup Management
+
 - **Retention Policies**: Daily/weekly/semester archival rules
   - Archive support for semester-end
   - Storage-efficient incremental backups
   - Safe deletion with confirmation
 
 ### Status Dashboard
+
 - **6-Section Overview**: Project, Git, Deployment, Backup, Scholar, Hooks
   - Color-coded health indicators
   - Comprehensive project information
@@ -356,6 +362,7 @@ teach status             # 6-section dashboard
 ```
 
 **Documentation:**
+
 - [Quarto Workflow Guide](docs/guides/TEACHING-QUARTO-WORKFLOW-GUIDE.md)
 - [Teach Dispatcher Reference](docs/reference/TEACH-DISPATCHER-REFERENCE-v4.6.0.md)
 
