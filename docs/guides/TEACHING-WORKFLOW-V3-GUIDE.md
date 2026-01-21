@@ -51,7 +51,41 @@ Validates your entire teaching environment:
 
 **Why it matters:** Catch setup issues before they cause problems during content creation.
 
-### 2. Automated Backup System
+### 2. Content Validation
+
+The `teach validate` command provides comprehensive content validation for your Quarto files:
+
+```bash
+# YAML frontmatter validation only
+teach validate --yaml
+
+# Syntax validation (typos, unpaired delimiters)
+teach validate --syntax
+
+# Full render validation
+teach validate --render
+
+# Custom validators (if configured)
+teach validate --custom
+
+# Watch mode (auto-validate on file changes)
+teach validate --watch
+
+# Validate specific files or directories
+teach validate lectures/week-05.qmd
+teach validate lectures/
+```
+
+**Validation modes:**
+
+| Mode | What It Checks | Speed |
+|------|----------------|-------|
+| `--yaml` | Frontmatter syntax and required fields | Fast |
+| `--syntax` | Code chunks, cross-references, links | Medium |
+| `--render` | Full Quarto render validation | Slow |
+| `--custom` | Custom validators from `.teach/validators/` | Varies |
+
+### 3. Automated Backup System
 
 Every content modification creates a timestamped backup:
 
