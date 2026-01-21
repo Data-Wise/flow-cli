@@ -4382,17 +4382,57 @@ _teach_backup_create() {
 
     # Help check
     if [[ "$content_path" == "--help" || "$content_path" == "-h" ]]; then
-        echo ""
-        echo "${FLOW_COLORS[bold]}teach backup create${FLOW_COLORS[reset]} - Create timestamped backup"
-        echo ""
-        echo "${FLOW_COLORS[bold]}USAGE:${FLOW_COLORS[reset]}"
-        echo "  teach backup create [content_path] [name]"
-        echo ""
-        echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
-        echo "  teach backup create lectures/week-01    # Auto timestamp"
-        echo "  teach backup create exams/midterm       # Backup exam"
-        echo "  teach backup create .                   # Backup all"
-        echo ""
+        cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup create${FLOW_COLORS[reset]} - Create Timestamped Backup         ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup create${FLOW_COLORS[reset]} [content_path] [name]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Creates timestamped snapshots of teaching content for recovery.
+  Backups are stored in ${FLOW_COLORS[accent]}.backups/${FLOW_COLORS[reset]} with metadata tracking.
+
+${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}content_path${FLOW_COLORS[reset]}     Path to content (default: current directory)
+  ${FLOW_COLORS[cmd]}name${FLOW_COLORS[reset]}             Optional name (auto-timestamped if omitted)
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}           JSON output for scripting
+  ${FLOW_COLORS[cmd]}--quiet, -q${FLOW_COLORS[reset]}      Minimal output
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Backup current directory (auto timestamp)${FLOW_COLORS[reset]}
+  $ teach backup create .
+
+  ${FLOW_COLORS[muted]}# Backup specific lecture${FLOW_COLORS[reset]}
+  $ teach backup create lectures/week-01
+
+  ${FLOW_COLORS[muted]}# Backup with custom name${FLOW_COLORS[reset]}
+  $ teach backup create . "Before Midterm"
+
+  ${FLOW_COLORS[muted]}# Backup exam folder${FLOW_COLORS[reset]}
+  $ teach backup create exams/midterm
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}.backups/<path>.<timestamp>/${FLOW_COLORS[reset]}
+  Updates: ${FLOW_COLORS[accent]}.backups/.metadata${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}teach backup list${FLOW_COLORS[reset]} to see all backups
+  • Run ${FLOW_COLORS[accent]}teach doctor${FLOW_COLORS[reset]} to verify backup system
+  • Backups are incremental (efficient storage)
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  Guide: docs/guides/BACKUP-SYSTEM-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} - List backups
+  ${FLOW_COLORS[cmd]}teach backup restore${FLOW_COLORS[reset]} - Restore from backup
+  ${FLOW_COLORS[cmd]}teach backup delete${FLOW_COLORS[reset]} - Delete backup
+
+EOF
         return 0
     fi
 
@@ -4428,16 +4468,63 @@ _teach_backup_list() {
 
     # Help check
     if [[ "$content_path" == "--help" || "$content_path" == "-h" ]]; then
-        echo ""
-        echo "${FLOW_COLORS[bold]}teach backup list${FLOW_COLORS[reset]} - List all backups"
-        echo ""
-        echo "${FLOW_COLORS[bold]}USAGE:${FLOW_COLORS[reset]}"
-        echo "  teach backup list [content_path]"
-        echo ""
-        echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
-        echo "  teach backup list                   # List all backups"
-        echo "  teach backup list lectures/week-01  # List specific backups"
-        echo ""
+        cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} - List All Backups                 ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} [content_path]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Displays all backups for a content directory with size, file count,
+  and timestamp information.
+
+${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}content_path${FLOW_COLORS[reset]}    Path to content (default: current directory)
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}          JSON output for scripting
+  ${FLOW_COLORS[cmd]}--short${FLOW_COLORS[reset]}         Compact output (names only)
+
+${FLOW_COLORS[bold]}SORTING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}Default${FLOW_COLORS[reset]}       Newest first (by timestamp)
+  ${FLOW_COLORS[accent]}--oldest${FLOW_COLORS[reset]}      Oldest first
+  ${FLOW_COLORS[accent]}--size${FLOW_COLORS[reset]}        Largest first
+
+${FLOW_COLORS[bold]}FILTERING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--recent N${FLOW_COLORS[reset]}      Show N most recent backups
+  ${FLOW_COLORS[cmd]}--pattern "glob"${FLOW_COLORS[reset]} Filter by name pattern
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# List all backups (current directory)${FLOW_COLORS[reset]}
+  $ teach backup list
+
+  ${FLOW_COLORS[muted]}# List backups for specific content${FLOW_COLORS[reset]}
+  $ teach backup list lectures/week-01
+
+  ${FLOW_COLORS[muted]}# Show compact output${FLOW_COLORS[reset]}
+  $ teach backup list --short
+
+  ${FLOW_COLORS[muted]}# Show only 5 most recent${FLOW_COLORS[reset]}
+  $ teach backup list --recent 5
+
+${FLOW_COLORS[bold]}OUTPUT COLUMNS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}Name${FLOW_COLORS[reset]}       Backup identifier with timestamp
+  ${FLOW_COLORS[accent]}Size${FLOW_COLORS[reset]}       Total size on disk
+  ${FLOW_COLORS[accent]}Files${FLOW_COLORS[reset]}      Number of files in backup
+  ${FLOW_COLORS[accent]}Date${FLOW_COLORS[reset]}       Creation timestamp
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}teach backup restore <name>${FLOW_COLORS[reset]} to restore
+  • Backup names include timestamps for easy identification
+  • Combine with ${FLOW_COLORS[accent]}--json${FLOW_COLORS[reset]} for scripting
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup create${FLOW_COLORS[reset]} - Create backup
+  ${FLOW_COLORS[cmd]}teach backup restore${FLOW_COLORS[reset]} - Restore from backup
+
+EOF
         return 0
     fi
 
@@ -4499,18 +4586,62 @@ _teach_backup_restore() {
 
     # Help check
     if [[ "$backup_name" == "--help" || "$backup_name" == "-h" || -z "$backup_name" ]]; then
-        echo ""
-        echo "${FLOW_COLORS[bold]}teach backup restore${FLOW_COLORS[reset]} - Restore from backup"
-        echo ""
-        echo "${FLOW_COLORS[bold]}USAGE:${FLOW_COLORS[reset]}"
-        echo "  teach backup restore <backup_name>"
-        echo ""
-        echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
-        echo "  teach backup list                           # Find backup name"
-        echo "  teach backup restore lectures.2026-01-20-1430"
-        echo ""
-        echo "${FLOW_COLORS[warning]}⚠ WARNING: This will overwrite current content${FLOW_COLORS[reset]}"
-        echo ""
+        cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup restore${FLOW_COLORS[reset]} - Restore From Backup             ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup restore${FLOW_COLORS[reset]} <backup_name>
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Restores content from a backup snapshot. Requires confirmation
+  before overwriting current content.
+
+${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}backup_name${FLOW_COLORS[reset]}    Name or partial name of backup to restore
+                          (use ${FLOW_COLORS[accent]}teach backup list${FLOW_COLORS[reset]} to see available backups)
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--force${FLOW_COLORS[reset]}        Skip confirmation prompt
+  ${FLOW_COLORS[cmd]}--dry-run${FLOW_COLORS[reset]}      Show what would be restored (no changes)
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# First, list available backups${FLOW_COLORS[reset]}
+  $ teach backup list
+
+  ${FLOW_COLORS[muted]}# Restore specific backup (with confirmation)${FLOW_COLORS[reset]}
+  $ teach backup restore lectures.2026-01-20-1430
+
+  ${FLOW_COLORS[muted]}# Restore without confirmation${FLOW_COLORS[reset]}
+  $ teach backup restore lectures.2026-01-20-1430 --force
+
+  ${FLOW_COLORS[muted]}# Preview restore (no changes)${FLOW_COLORS[reset]}
+  $ teach backup restore lectures.2026-01-20-1430 --dry-run
+
+${FLOW_COLORS[bold]}WARNING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[error]}⚠ This will OVERWRITE current content!${FLOW_COLORS[reset]}
+
+  Before restoring:
+  • Ensure you have a current backup (${FLOW_COLORS[accent]}teach backup create${FLOW_COLORS[reset]})
+  • Check what changed (${FLOW_COLORS[accent]}git diff${FLOW_COLORS[reset]})
+  • Consider using ${FLOW_COLORS[accent]}--dry-run${FLOW_COLORS[reset]} first
+
+${FLOW_COLORS[bold]}EXIT CODES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}0${FLOW_COLORS[reset]}   Success - backup restored
+  ${FLOW_COLORS[accent]}1${FLOW_COLORS[reset]}   Error - backup not found or restore failed
+  ${FLOW_COLORS[accent]}2${FLOW_COLORS[reset]}   Cancelled - user declined confirmation
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}teach backup list${FLOW_COLORS[reset]} to find exact backup name
+  • Partial names work (e.g., "lectures.2026-01-20")
+  • Backups are in ${FLOW_COLORS[accent]}.backups/<path>.<timestamp>/${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} - List available backups
+  ${FLOW_COLORS[cmd]}teach backup create${FLOW_COLORS[reset]} - Create new backup
+
+EOF
         return 0
     fi
 
@@ -4577,19 +4708,61 @@ _teach_backup_delete() {
 
     # Help check
     if [[ "$backup_name" == "--help" || "$backup_name" == "-h" || -z "$backup_name" ]]; then
-        echo ""
-        echo "${FLOW_COLORS[bold]}teach backup delete${FLOW_COLORS[reset]} - Delete backup"
-        echo ""
-        echo "${FLOW_COLORS[bold]}USAGE:${FLOW_COLORS[reset]}"
-        echo "  teach backup delete <backup_name> [--force]"
-        echo ""
-        echo "${FLOW_COLORS[bold]}OPTIONS:${FLOW_COLORS[reset]}"
-        echo "  --force    Skip confirmation prompt"
-        echo ""
-        echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
-        echo "  teach backup delete lectures.2026-01-20-1430"
-        echo "  teach backup delete old-backup --force"
-        echo ""
+        cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup delete${FLOW_COLORS[reset]} - Delete Backup                  ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup delete${FLOW_COLORS[reset]} <backup_name> [options]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Permanently deletes a backup. Use with caution - deleted backups
+  cannot be recovered.
+
+${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}backup_name${FLOW_COLORS[reset]}    Name of backup to delete
+                          (use ${FLOW_COLORS[accent]}teach backup list${FLOW_COLORS[reset]} to see backups)
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--force, -f${FLOW_COLORS[reset]}    Skip confirmation prompt
+  ${FLOW_COLORS[cmd]}--dry-run${FLOW_COLORS[reset]}      Show what would be deleted (no changes)
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Delete with confirmation (recommended)${FLOW_COLORS[reset]}
+  $ teach backup delete lectures.2026-01-20-1430
+
+  ${FLOW_COLORS[muted]}# Force delete (no confirmation)${FLOW_COLORS[reset]}
+  $ teach backup delete old-backup --force
+
+  ${FLOW_COLORS[muted]}# Preview deletion${FLOW_COLORS[reset]}
+  $ teach backup delete lectures.2026-01-20-1430 --dry-run
+
+${FLOW_COLORS[bold]}CONFIRMATION${FLOW_COLORS[reset]}
+  Without ${FLOW_COLORS[cmd]}--force${FLOW_COLORS[reset]}, you will be prompted:
+
+    Delete backup? [y/N]
+
+  Type ${FLOW_COLORS[accent]}y${FLOW_COLORS[reset]} to confirm, ${FLOW_COLORS[accent]}N${FLOW_COLORS[reset]} or ${FLOW_COLORS[accent]}Enter${FLOW_COLORS[reset]} to cancel.
+
+${FLOW_COLORS[bold]}WARNING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[error]}⚠ Deletions are permanent!${FLOW_COLORS[reset]}
+
+  Before deleting:
+  • Verify you have other backups or the content is no longer needed
+  • Use ${FLOW_COLORS[accent]}--dry-run${FLOW_COLORS[reset]} to preview
+  • Consider ${FLOW_COLORS[accent]}teach backup archive${FLOW_COLORS[reset]} for semester-end cleanup
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Partial names work (e.g., "lectures.2026-01")
+  • Combine with ${FLOW_COLORS[accent]}teach backup list --recent${FLOW_COLORS[reset]} to find old backups
+  • Run ${FLOW_COLORS[accent]}teach doctor${FLOW_COLORS[reset]} to check backup system health
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} - List backups
+  ${FLOW_COLORS[cmd]}teach backup archive${FLOW_COLORS[reset]} - Archive semester backups
+
+EOF
         return 0
     fi
 
@@ -4621,21 +4794,78 @@ _teach_backup_archive() {
 
     # Help check
     if [[ "$semester_name" == "--help" || "$semester_name" == "-h" ]]; then
-        echo ""
-        echo "${FLOW_COLORS[bold]}teach backup archive${FLOW_COLORS[reset]} - Archive semester backups"
-        echo ""
-        echo "${FLOW_COLORS[bold]}USAGE:${FLOW_COLORS[reset]}"
-        echo "  teach backup archive <semester_name>"
-        echo ""
-        echo "${FLOW_COLORS[bold]}DESCRIPTION:${FLOW_COLORS[reset]}"
-        echo "  Archives all backups based on retention policies."
-        echo "  - archive policy: Keeps backups in compressed archive"
-        echo "  - semester policy: Deletes backups at semester end"
-        echo ""
-        echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
-        echo "  teach backup archive spring-2026"
-        echo "  teach backup archive fall-2025"
-        echo ""
+        cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup archive${FLOW_COLORS[reset]} - Archive Semester Backups        ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup archive${FLOW_COLORS[reset]} <semester_name> [options]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Archives backups at the end of a semester based on retention policies.
+  Reduces storage while preserving important backups.
+
+${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}semester_name${FLOW_COLORS[reset]}    Semester identifier (e.g., spring-2026, fall-2025)
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--dry-run${FLOW_COLORS[reset]}        Preview actions without making changes
+  ${FLOW_COLORS[cmd]}--force${FLOW_COLORS[reset]}          Skip confirmation prompt
+  ${FLOW_COLORS[cmd]}--compress${FLOW_COLORS[reset]}       Create compressed archive (.tar.gz)
+
+${FLOW_COLORS[bold]}RETENTION POLICIES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}archive${FLOW_COLORS[reset]}       Keep forever - exams, syllabi, rubrics
+  ${FLOW_COLORS[accent]}semester${FLOW_COLORS[reset]}      Delete at semester end - lectures, slides
+
+  Backups are processed according to their retention policy setting.
+
+${FLOW_COLORS[bold]}SEMESTER NAMING${FLOW_COLORS[reset]}
+  Use standard semester identifiers:
+
+  ${FLOW_COLORS[cmd]}spring-YYYY${FLOW_COLORS[reset]}      Spring semester (Jan - May)
+  ${FLOW_COLORS[cmd]}summer-YYYY${FLOW_COLORS[reset]}      Summer session (May - Aug)
+  ${FLOW_COLORS[cmd]}fall-YYYY${FLOW_COLORS[reset]}        Fall semester (Aug - Dec)
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Archive spring 2026 semester (with confirmation)${FLOW_COLORS[reset]}
+  $ teach backup archive spring-2026
+
+  ${FLOW_COLORS[muted]}# Preview archive actions${FLOW_COLORS[reset]}
+  $ teach backup archive spring-2026 --dry-run
+
+  ${FLOW_COLORS[muted]}# Force archive (no confirmation)${FLOW_COLORS[reset]}
+  $ teach backup archive spring-2026 --force
+
+  ${FLOW_COLORS[muted]}# Create compressed archive${FLOW_COLORS[reset]}
+  $ teach backup archive spring-2026 --compress
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}.backups/.archive/${FLOW_COLORS[reset]}
+  • Compressed archives (.tar.gz) for long-term storage
+  • Metadata updated with archive status
+  • Original backups removed after archiving
+
+${FLOW_COLORS[bold]}WARNING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[warning]}⚠ Run after semester ends${FLOW_COLORS[reset]}
+
+  Best practices:
+  • Archive AFTER final grades are submitted
+  • Keep exams and syllabi (archive policy)
+  • Remove lectures and slides (semester policy)
+  • Use ${FLOW_COLORS[accent]}--dry-run${FLOW_COLORS[reset]} first to preview
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Combine with ${FLOW_COLORS[accent]}teach doctor --fix${FLOW_COLORS[reset]} for storage optimization
+  • Compressed archives save significant space
+  • Keep archives off-site for disaster recovery
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} - List all backups
+  ${FLOW_COLORS[cmd]}teach backup delete${FLOW_COLORS[reset]} - Delete individual backups
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Check backup system health
+
+EOF
         return 0
     fi
 
