@@ -2731,6 +2731,10 @@ _teach_init_help() {
     echo "  teach init --config ./my-config.yml  # Load external config"
     echo "  teach init \"STAT 545\" --github       # Create GitHub repo"
     echo ""
+    echo "${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}"
+    echo "  📚 Tutorial: docs/tutorials/TEACHING-QUICK-START.md"
+    echo "  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md"
+    echo ""
 }
 
 # ============================================================================
@@ -2744,8 +2748,16 @@ ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach lecture
 ${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
 
 ${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}${FLOW_COLORS[reset]} teach lecture <topic> [options]
-  ${FLOW_COLORS[cmd]}${FLOW_COLORS[reset]} teach lecture --week N --topic "title"
+  ${FLOW_COLORS[cmd]} teach lecture <topic> [options]
+  ${FLOW_COLORS[cmd]} teach lecture --week N --topic "title"
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}lec${FLOW_COLORS[reset]} → lecture
+
+${FLOW_COLORS[bold]}REQUIRED FILES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}      Course metadata (required)
+  ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} Content preferences (optional, improves output)
+  Run ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} to verify configuration
 
 ${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
   ${FLOW_COLORS[muted]}# Generate lecture for this week${FLOW_COLORS[reset]}
@@ -2801,6 +2813,21 @@ ${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
   • Preview generated content with ${FLOW_COLORS[cmd]}quarto preview${FLOW_COLORS[reset]}
   • Auto-staged for git after generation
 
+${FLOW_COLORS[bold]}TROUBLESHOOTING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[error]}"YAML parse error"${FLOW_COLORS[reset]}
+    → Run: teach validate --yaml <file>
+    → Check: .flow/teach-config.yml syntax
+
+  ${FLOW_COLORS[error]}"Scholar API timeout"${FLOW_COLORS[reset]}
+    → Check connection: teach doctor --check scholar
+    → Retry with: teach lecture "topic" --retry
+
+  ${FLOW_COLORS[error]}"File not staged"${FLOW_COLORS[reset]}
+    → Manual stage: git add lectures/week-NN/
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
 ${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}teach slides${FLOW_COLORS[reset]} - Presentation slides
   ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} - Generate assessments
@@ -2816,9 +2843,12 @@ ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach doctor$
 ${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
 
 ${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}${FLOW_COLORS[reset]} teach doctor [options]
-  ${FLOW_COLORS[cmd]}${FLOW_COLORS[reset]} teach doctor --fix          # Auto-fix issues
-  ${FLOW_COLORS[cmd]}${FLOW_COLORS[reset]} teach doctor --json         # CI/CD output
+  ${FLOW_COLORS[cmd]} teach doctor [options]
+  ${FLOW_COLORS[cmd]} teach doctor --fix          # Auto-fix issues
+  ${FLOW_COLORS[cmd]} teach doctor --json         # CI/CD output
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}doc${FLOW_COLORS[reset]} → doctor
 
 ${FLOW_COLORS[bold]}HEALTH CHECK CATEGORIES${FLOW_COLORS[reset]}
 
@@ -2873,6 +2903,9 @@ ${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
   • Use ${FLOW_COLORS[accent]}--fix${FLOW_COLORS[reset]} for automated remediation
   • Add to CI: ${FLOW_COLORS[cmd]}teach doctor --json${FLOW_COLORS[reset]}
 
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
 ${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]} - Hook management
   ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache operations
@@ -2888,9 +2921,12 @@ ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach deploy$
 ${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
 
 ${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}${FLOW_COLORS[reset]} teach deploy [files...] [options]
-  ${FLOW_COLORS[cmd]}${FLOW_COLORS[reset]} teach deploy --preview      # Preview changes only
-  ${FLOW_COLORS[cmd]}${FLOW_COLORS[reset]} teach deploy --auto-commit  # Auto-commit changes
+  ${FLOW_COLORS[cmd]} teach deploy [files...] [options]
+  ${FLOW_COLORS[cmd]} teach deploy --preview      # Preview changes only
+  ${FLOW_COLORS[cmd]} teach deploy --auto-commit  # Auto-commit changes
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}d${FLOW_COLORS[reset]} → deploy
 
 ${FLOW_COLORS[bold]}WORKFLOW${FLOW_COLORS[reset]}
 
@@ -2953,10 +2989,443 @@ ${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
   • Changes committed with descriptive messages
   • PR created automatically to main branch
 
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
 ${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}teach backup${FLOW_COLORS[reset]} - Create restore point
   ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands
   ${FLOW_COLORS[cmd]}g${FLOW_COLORS[reset]} - Git commands
+
+EOF
+}
+
+_teach_slides_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach slides${FLOW_COLORS[reset]} - Generate Presentation Slides            ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach slides <topic> [options]
+  ${FLOW_COLORS[cmd]}teach slides --week N --topic "title"
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}sl${FLOW_COLORS[reset]} → slides
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate slides for this week${FLOW_COLORS[reset]}
+  $ teach slides "Linear Regression" --week 5
+
+  ${FLOW_COLORS[muted]}# Create with Quarto revealjs (recommended)${FLOW_COLORS[reset]}
+  $ teach slides "ANOVA" --template quarto --week 6
+
+  ${FLOW_COLORS[muted]}# Customized slides with theme${FLOW_COLORS[reset]}
+  $ teach slides "ML Intro" --template quarto --theme academic --difficulty medium
+
+${FLOW_COLORS[bold]}TOPIC SELECTION${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}<topic>${FLOW_COLORS[reset]}                  Slides topic or title
+  ${FLOW_COLORS[cmd]}--week N, -w N${FLOW_COLORS[reset]}           Week number (for file naming)
+  ${FLOW_COLORS[cmd]}--topic "text", -t${FLOW_COLORS[reset]}       Override topic in prompts
+
+${FLOW_COLORS[bold]}TEMPLATE OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--template FORMAT${FLOW_COLORS[reset]}        markdown | quarto
+  ${FLOW_COLORS[cmd]}--theme NAME${FLOW_COLORS[reset]}             default | academic | minimal
+
+${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include detailed explanations
+  ${FLOW_COLORS[cmd]}--no-explanation${FLOW_COLORS[reset]}             Skip detailed explanations
+  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math notation
+  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include code examples
+  ${FLOW_COLORS[cmd]}--diagrams, -d${FLOW_COLORS[reset]}              Include diagrams
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic slides generation${FLOW_COLORS[reset]}
+  $ teach slides "Multiple Regression"
+
+  ${FLOW_COLORS[muted]}# Week-based with consistent naming${FLOW_COLORS[reset]}
+  $ teach slides "Logistic Regression" --week 8
+
+  ${FLOW_COLORS[muted]}# Full-featured slides${FLOW_COLORS[reset]}
+  $ teach slides "Neural Networks" --week 10 --template quarto --theme academic --difficulty hard --math --code
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}slides/week-NN/slides-NN-<topic>.${FLOW_COLORS[reset]}
+  Auto-backs up existing files before overwriting
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--template quarto${FLOW_COLORS[reset]} for revealjs slides
+  • Use ${FLOW_COLORS[accent]}--theme academic${FLOW_COLORS[reset]} for professional look
+  • Preview with ${FLOW_COLORS[cmd]}quarto preview${FLOW_COLORS[reset]}
+  • Auto-staged for git after generation
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach lecture${FLOW_COLORS[reset]} - Lecture notes
+  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} - Quiz questions
+
+EOF
+}
+
+_teach_exam_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} - Generate Exam Questions               ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach exam <topic> [options]
+  ${FLOW_COLORS[cmd]}teach exam --questions N --duration minutes
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}e${FLOW_COLORS[reset]} → exam
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate exam on topic${FLOW_COLORS[reset]}
+  $ teach exam "Linear Regression"
+
+  ${FLOW_COLORS[muted]}# Specific number of questions${FLOW_COLORS[reset]}
+  $ teach exam "Hypothesis Testing" --questions 10
+
+  ${FLOW_COLORS[muted]}# With time limit and question types${FLOW_COLORS[reset]}
+  $ teach exam "ANOVA" --questions 8 --duration 60 --types "short answer:5,problem:3"
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--questions N${FLOW_COLORS[reset]}            Number of questions (default: 5)
+  ${FLOW_COLORS[cmd]}--duration N${FLOW_COLORS[reset]}             Duration in minutes
+  ${FLOW_COLORS[cmd]}--types TYPES${FLOW_COLORS[reset]}            Question type breakdown
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | qti | markdown
+  ${FLOW_COLORS[cmd]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}  Content depth
+
+${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include answer explanations
+  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math notation
+  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include code problems
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic exam generation${FLOW_COLORS[reset]}
+  $ teach exam "Multiple Regression"
+
+  ${FLOW_COLORS[muted]}# Detailed exam with explanations${FLOW_COLORS[reset]}
+  $ teach exam "Logistic Regression" --questions 10 --explanation --math
+
+  ${FLOW_COLORS[muted]}# Quiz-style format${FLOW_COLORS[reset]}
+  $ teach exam "Basics Review" --questions 20 --duration 30 --format qti
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}exams/exam-<topic>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+  Auto-backs up existing files before overwriting
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--types${FLOW_COLORS[reset]} to control question mix
+  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
+  • Auto-staged for git after generation
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} - Quiz questions
+  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Grading rubric
+
+EOF
+}
+
+_teach_quiz_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} - Generate Quiz Questions                  ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach quiz <topic> [options]
+  ${FLOW_COLORS[cmd]}teach quiz --questions N --time-limit minutes
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}q${FLOW_COLORS[reset]} → quiz
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate quiz on topic${FLOW_COLORS[reset]}
+  $ teach quiz "Linear Regression"
+
+  ${FLOW_COLORS[muted]}# Specific number of questions${FLOW_COLORS[reset]}
+  $ teach quiz "Hypothesis Testing" --questions 10
+
+  ${FLOW_COLORS[muted]}# Timed quiz${FLOW_COLORS[reset]}
+  $ teach quiz "ANOVA" --questions 5 --time-limit 15
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--questions N${FLOW_COLORS[reset]}            Number of questions (default: 5)
+  ${FLOW_COLORS[cmd]}--time-limit N${FLOW_COLORS[reset]}           Time limit in minutes
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | qti | markdown
+  ${FLOW_COLORS[cmd]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}  Content depth
+
+${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include answer explanations
+  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math notation
+  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include code questions
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic quiz generation${FLOW_COLORS[reset]}
+  $ teach quiz "Multiple Regression"
+
+  ${FLOW_COLORS[muted]}# Quick check quiz${FLOW_COLORS[reset]}
+  $ teach quiz "Logistic Regression" --questions 5 --time-limit 10
+
+  ${FLOW_COLORS[muted]}# Detailed quiz with explanations${FLOW_COLORS[reset]}
+  $ teach quiz "ANOVA" --questions 10 --explanation --math
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}quizzes/quiz-<topic>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+  Auto-backs up existing files before overwriting
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--time-limit${FLOW_COLORS[reset]} for practice quizzes
+  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
+  • Auto-staged for git after generation
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} - Exam questions
+  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Homework assignments
+
+EOF
+}
+
+_teach_assignment_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Generate Homework Assignment        ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach assignment <topic> [options]
+  ${FLOW_COLORS[cmd]}teach assignment --due-date "YYYY-MM-DD" --points N
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}hw${FLOW_COLORS[reset]} → assignment
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate assignment on topic${FLOW_COLORS[reset]}
+  $ teach assignment "Linear Regression"
+
+  ${FLOW_COLORS[muted]}# Assignment with due date${FLOW_COLORS[reset]}
+  $ teach assignment "ANOVA" --due-date "2024-02-15" --points 100
+
+  ${FLOW_COLORS[muted]}# Detailed assignment${FLOW_COLORS[reset]}
+  $ teach assignment "ML Intro" --due-date "2024-02-20" --points 50 --explanation
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--due-date DATE${FLOW_COLORS[reset]}          Due date (YYYY-MM-DD or "Week N")
+  ${FLOW_COLORS[cmd]}--points N${FLOW_COLORS[reset]}               Total points
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | markdown
+  ${FLOW_COLORS[cmd]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}  Content depth
+
+${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include solution explanations
+  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math problems
+  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include programming problems
+  ${FLOW_COLORS[cmd]}--practice-problems, -p${FLOW_COLORS[reset]}     Include practice problems
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic assignment generation${FLOW_COLORS[reset]}
+  $ teach assignment "Multiple Regression"
+
+  ${FLOW_COLORS[muted]}# Complete assignment with due date${FLOW_COLORS[reset]}
+  $ teach assignment "Logistic Regression" --due-date "2024-02-15" --points 100
+
+  ${FLOW_COLORS[muted]}# Programming-focused assignment${FLOW_COLORS[reset]}
+  $ teach assignment "Data Wrangling" --code --practice-problems --points 50
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}assignments/assignment-<topic>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+  Auto-backs up existing files before overwriting
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--due-date${FLOW_COLORS[reset]} for semester planning
+  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
+  • Auto-staged for git after generation
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Grading rubric
+  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} - Student feedback
+
+EOF
+}
+
+_teach_syllabus_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach syllabus${FLOW_COLORS[reset]} - Generate Course Syllabus             ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach syllabus [course_name] [options]
+  ${FLOW_COLORS[cmd]}teach syllabus --format quarto
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}syl${FLOW_COLORS[reset]} → syllabus
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate syllabus from config${FLOW_COLORS[reset]}
+  $ teach syllabus
+
+  ${FLOW_COLORS[muted]}# Generate for specific course${FLOW_COLORS[reset]}
+  $ teach syllabus "STAT 440"
+
+  ${FLOW_COLORS[muted]}# PDF format${FLOW_COLORS[reset]}
+  $ teach syllabus --format pdf
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | markdown | pdf
+  ${FLOW_COLORS[cmd]}--template TYPE${FLOW_COLORS[reset]}          default | detailed
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic syllabus generation${FLOW_COLORS[reset]}
+  $ teach syllabus
+
+  ${FLOW_COLORS[muted]}# With course name${FLOW_COLORS[reset]}
+  $ teach syllabus "STAT 545"
+
+  ${FLOW_COLORS[muted]}# PDF format for printing${FLOW_COLORS[reset]}
+  $ teach syllabus --format pdf
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}syllabus.md${FLOW_COLORS[reset]} or ${FLOW_COLORS[accent]}syllabus.pdf${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Uses course info from ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}
+  • Run ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} first to set up config
+  • Preview with ${FLOW_COLORS[cmd]}quarto preview syllabus.${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} - Edit course configuration
+  ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]} - Date management
+
+EOF
+}
+
+_teach_rubric_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Generate Grading Rubric               ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach rubric <assignment_name> [options]
+  ${FLOW_COLORS[cmd]}teach rubric --criteria N
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}rb${FLOW_COLORS[reset]} → rubric
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate rubric for assignment${FLOW_COLORS[reset]}
+  $ teach rubric "Final Project"
+
+  ${FLOW_COLORS[muted]}# Rubric with specific criteria${FLOW_COLORS[reset]}
+  $ teach rubric "Lab Report" --criteria 4
+
+  ${FLOW_COLORS[muted]}# Week-based rubric${FLOW_COLORS[reset]}
+  $ teach rubric "Homework 5" --week 10
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--criteria N${FLOW_COLORS[reset]}             Number of criteria (default: 4)
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | markdown
+  ${FLOW_COLORS[cmd]}--week N${FLOW_COLORS[reset]}                 Week number (for lesson plan)
+
+${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include grading explanations
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic rubric generation${FLOW_COLORS[reset]}
+  $ teach rubric "Final Project"
+
+  ${FLOW_COLORS[muted]}# Custom criteria count${FLOW_COLORS[reset]}
+  $ teach rubric "Lab Report" --criteria 5
+
+  ${FLOW_COLORS[muted]}# Detailed rubric${FLOW_COLORS[reset]}
+  $ teach rubric "Research Paper" --criteria 6 --explanation
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}rubrics/rubric-<assignment_name>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+  Auto-backs up existing files before overwriting
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--criteria${FLOW_COLORS[reset]} to control rubric detail
+  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
+  • Auto-staged for git after generation
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Generate assignment
+  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} - Student feedback
+
+EOF
+}
+
+_teach_feedback_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} - Generate Student Feedback            ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach feedback <student_work> [options]
+  ${FLOW_COLORS[cmd]}teach feedback "homework3-smith.pdf"
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}fb${FLOW_COLORS[reset]} → feedback
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate feedback on student work${FLOW_COLORS[reset]}
+  $ teach feedback "homework3-smith.pdf"
+
+  ${FLOW_COLORS[muted]}# Supportive tone feedback${FLOW_COLORS[reset]}
+  $ teach feedback "project.R" --tone supportive
+
+  ${FLOW_COLORS[muted]}# Detailed feedback${FLOW_COLORS[reset]}
+  $ teach feedback "essay.docx" --tone detailed
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--tone TONE${FLOW_COLORS[reset]}              supportive | direct | detailed
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          markdown | text
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic feedback generation${FLOW_COLORS[reset]}
+  $ teach feedback "homework3-smith.pdf"
+
+  ${FLOW_COLORS[muted]}# Supportive tone${FLOW_COLORS[reset]}
+  $ teach feedback "project.R" --tone supportive
+
+  ${FLOW_COLORS[muted]}# Detailed feedback${FLOW_COLORS[reset]}
+  $ teach feedback "essay.docx" --tone detailed --format markdown
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}feedback/feedback-<student_work>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--tone${FLOW_COLORS[reset]} to match feedback style
+  • Supports PDF, DOCX, R, MD files
+  • Preview with ${FLOW_COLORS[cmd]}--format text${FLOW_COLORS[reset]} first
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Grading rubric
+  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Generate assignment
 
 EOF
 }
@@ -3005,6 +3474,10 @@ ${FLOW_COLORS[success]}EXAMPLES${FLOW_COLORS[reset]}
   teach hooks install --force
 
 ${FLOW_COLORS[muted]}See also: teach doctor (includes hook checks)${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
 EOF
 }
 
@@ -3115,6 +3588,10 @@ ${FLOW_COLORS[muted]}📚 SEE ALSO:${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}work${FLOW_COLORS[reset]} - Session management
   docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
 
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+  📚 Tutorial: docs/tutorials/TEACHING-QUICK-START.md
+
 EOF
 }
 
@@ -3140,31 +3617,52 @@ teach() {
             ;;
 
         slides|sl)
-            _teach_scholar_wrapper "slides" "$@"
+            case "$1" in
+                --help|-h|help) _teach_slides_help; return 0 ;;
+                *) _teach_scholar_wrapper "slides" "$@" ;;
+            esac
             ;;
 
         exam|e)
-            _teach_scholar_wrapper "exam" "$@"
+            case "$1" in
+                --help|-h|help) _teach_exam_help; return 0 ;;
+                *) _teach_scholar_wrapper "exam" "$@" ;;
+            esac
             ;;
 
         quiz|q)
-            _teach_scholar_wrapper "quiz" "$@"
+            case "$1" in
+                --help|-h|help) _teach_quiz_help; return 0 ;;
+                *) _teach_scholar_wrapper "quiz" "$@" ;;
+            esac
             ;;
 
         assignment|hw)
-            _teach_scholar_wrapper "assignment" "$@"
+            case "$1" in
+                --help|-h|help) _teach_assignment_help; return 0 ;;
+                *) _teach_scholar_wrapper "assignment" "$@" ;;
+            esac
             ;;
 
         syllabus|syl)
-            _teach_scholar_wrapper "syllabus" "$@"
+            case "$1" in
+                --help|-h|help) _teach_syllabus_help; return 0 ;;
+                *) _teach_scholar_wrapper "syllabus" "$@" ;;
+            esac
             ;;
 
         rubric|rb)
-            _teach_scholar_wrapper "rubric" "$@"
+            case "$1" in
+                --help|-h|help) _teach_rubric_help; return 0 ;;
+                *) _teach_scholar_wrapper "rubric" "$@" ;;
+            esac
             ;;
 
         feedback|fb)
-            _teach_scholar_wrapper "feedback" "$@"
+            case "$1" in
+                --help|-h|help) _teach_feedback_help; return 0 ;;
+                *) _teach_scholar_wrapper "feedback" "$@" ;;
+            esac
             ;;
 
         demo)
