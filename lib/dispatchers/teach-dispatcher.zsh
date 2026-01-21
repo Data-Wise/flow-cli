@@ -44,6 +44,69 @@ if [[ -z "$_FLOW_TEACH_DOCTOR_LOADED" ]]; then
     typeset -g _FLOW_TEACH_DOCTOR_LOADED=1
 fi
 
+# Source validation helpers (v4.6.0 - Week 2-3: Validation Commands)
+if [[ -z "$_FLOW_VALIDATION_HELPERS_LOADED" ]]; then
+    local validation_helpers_path="${0:A:h:h}/validation-helpers.zsh"
+    [[ -f "$validation_helpers_path" ]] && source "$validation_helpers_path"
+    typeset -g _FLOW_VALIDATION_HELPERS_LOADED=1
+fi
+
+# Source teach-validate command (v4.6.0 - Week 2-3: Validation Commands)
+if [[ -z "$_FLOW_TEACH_VALIDATE_LOADED" ]]; then
+    local validate_path="${0:A:h:h}/../commands/teach-validate.zsh"
+    [[ -f "$validate_path" ]] && source "$validate_path"
+    typeset -g _FLOW_TEACH_VALIDATE_LOADED=1
+fi
+
+# Source index management helpers (v5.14.0 - Quarto Workflow Week 5-7)
+if [[ -z "$_FLOW_INDEX_HELPERS_LOADED" ]]; then
+    local index_helpers_path="${0:A:h:h}/index-helpers.zsh"
+    [[ -f "$index_helpers_path" ]] && source "$index_helpers_path"
+    typeset -g _FLOW_INDEX_HELPERS_LOADED=1
+fi
+
+# Source enhanced deploy implementation (v5.14.0 - Quarto Workflow Week 5-7)
+if [[ -z "$_FLOW_TEACH_DEPLOY_ENHANCED_LOADED" ]]; then
+    local deploy_enhanced_path="${0:A:h}/teach-deploy-enhanced.zsh"
+    [[ -f "$deploy_enhanced_path" ]] && source "$deploy_enhanced_path"
+    typeset -g _FLOW_TEACH_DEPLOY_ENHANCED_LOADED=1
+fi
+
+# Source profile helpers (Phase 2 - Wave 1: Profile Management)
+if [[ -z "$_FLOW_PROFILE_HELPERS_LOADED" ]]; then
+    local profile_helpers_path="${0:A:h:h}/profile-helpers.zsh"
+    [[ -f "$profile_helpers_path" ]] && source "$profile_helpers_path"
+    typeset -g _FLOW_PROFILE_HELPERS_LOADED=1
+fi
+
+# Source R package helpers (Phase 2 - Wave 1: R Package Detection)
+if [[ -z "$_FLOW_R_HELPERS_LOADED" ]]; then
+    local r_helpers_path="${0:A:h:h}/r-helpers.zsh"
+    [[ -f "$r_helpers_path" ]] && source "$r_helpers_path"
+    typeset -g _FLOW_R_HELPERS_LOADED=1
+fi
+
+# Source renv integration (Phase 2 - Wave 1: renv Support)
+if [[ -z "$_FLOW_RENV_INTEGRATION_LOADED" ]]; then
+    local renv_path="${0:A:h:h}/renv-integration.zsh"
+    [[ -f "$renv_path" ]] && source "$renv_path"
+    typeset -g _FLOW_RENV_INTEGRATION_LOADED=1
+fi
+
+# Source teach profiles command (Phase 2 - Wave 1: Profile Management)
+if [[ -z "$_FLOW_TEACH_PROFILES_LOADED" ]]; then
+    local profiles_path="${0:A:h:h}/../commands/teach-profiles.zsh"
+    [[ -f "$profiles_path" ]] && source "$profiles_path"
+    typeset -g _FLOW_TEACH_PROFILES_LOADED=1
+fi
+
+# Source hook installer (v5.14.0 - PR #277 Task 2)
+if [[ -z "$_FLOW_HOOK_INSTALLER_LOADED" ]]; then
+    local hook_installer_path="${0:A:h:h}/hook-installer.zsh"
+    [[ -f "$hook_installer_path" ]] && source "$hook_installer_path"
+    typeset -g _FLOW_HOOK_INSTALLER_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -163,14 +226,18 @@ _teach_validate_flags() {
     shift
     local -A valid_flags
 
-    # Get valid flags for this command
+    # Start with universal flags (available to all Scholar commands)
+    valid_flags=("${(@kv)TEACH_CONTENT_FLAGS}")
+    valid_flags+=("${(@kv)TEACH_SELECTION_FLAGS}")
+
+    # Add command-specific flags
     case "$cmd" in
-        exam)       valid_flags=("${(@kv)TEACH_EXAM_FLAGS}") ;;
-        quiz)       valid_flags=("${(@kv)TEACH_QUIZ_FLAGS}") ;;
-        slides)     valid_flags=("${(@kv)TEACH_SLIDES_FLAGS}") ;;
-        assignment) valid_flags=("${(@kv)TEACH_ASSIGNMENT_FLAGS}") ;;
-        syllabus)   valid_flags=("${(@kv)TEACH_SYLLABUS_FLAGS}") ;;
-        rubric)     valid_flags=("${(@kv)TEACH_RUBRIC_FLAGS}") ;;
+        exam)       valid_flags+=("${(@kv)TEACH_EXAM_FLAGS}") ;;
+        quiz)       valid_flags+=("${(@kv)TEACH_QUIZ_FLAGS}") ;;
+        slides)     valid_flags+=("${(@kv)TEACH_SLIDES_FLAGS}") ;;
+        assignment) valid_flags+=("${(@kv)TEACH_ASSIGNMENT_FLAGS}") ;;
+        syllabus)   valid_flags+=("${(@kv)TEACH_SYLLABUS_FLAGS}") ;;
+        rubric)     valid_flags+=("${(@kv)TEACH_RUBRIC_FLAGS}") ;;
         *)          return 0 ;;  # Unknown command, skip validation
     esac
 
@@ -951,6 +1018,217 @@ _teach_build_context() {
     fi
 
     echo "$context_text"
+}
+
+# ============================================================================
+# NEW HELP FUNCTIONS (Tasks 1-4)
+# ============================================================================
+
+# Help for teach validate command
+_teach_validate_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]} - Validate Quarto Files                   ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach validate [files...] [options]
+  ${FLOW_COLORS[cmd]}teach validate --yaml <file>
+  ${FLOW_COLORS[cmd]}teach validate --watch
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}val${FLOW_COLORS[reset]} → validate
+
+${FLOW_COLORS[bold]}VALIDATION MODES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--yaml${FLOW_COLORS[reset]}         YAML frontmatter only (fast)
+  ${FLOW_COLORS[cmd]}--syntax${FLOW_COLORS[reset]}       YAML + syntax check
+  ${FLOW_COLORS[cmd]}--render${FLOW_COLORS[reset]}       Full render validation
+  ${FLOW_COLORS[cmd]}--custom${FLOW_COLORS[reset]}       Run custom validators
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--watch, -w${FLOW_COLORS[reset]}          Watch mode (fswatch)
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}               JSON output
+  ${FLOW_COLORS[cmd]}--quiet, -q${FLOW_COLORS[reset]}          Minimal output
+
+${FLOW_COLORS[bold]}CUSTOM VALIDATORS${FLOW_COLORS[reset]}
+  Place scripts in ${FLOW_COLORS[accent]}.teach/validators/${FLOW_COLORS[reset]}
+  Built-in: check-citations, check-links, check-formatting
+  Run: teach validate --custom
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Quick YAML check${FLOW_COLORS[reset]}
+  $ teach validate --yaml lectures/week-05/
+
+  ${FLOW_COLORS[muted]}# Full render validation${FLOW_COLORS[reset]}
+  $ teach validate --render
+
+  ${FLOW_COLORS[muted]}# Watch for changes${FLOW_COLORS[reset]}
+  $ teach validate --watch
+
+  ${FLOW_COLORS[muted]}# Run custom validators${FLOW_COLORS[reset]}
+  $ teach validate --custom
+
+${FLOW_COLORS[bold]}EXIT CODES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[success]}0${FLOW_COLORS[reset]} - All valid
+  ${FLOW_COLORS[error]}1${FLOW_COLORS[reset]} - Warnings
+  ${FLOW_COLORS[error]}2${FLOW_COLORS[reset]} - Errors
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Pre-commit hooks auto-validate on commit
+  • Use ${FLOW_COLORS[accent]}--yaml${FLOW_COLORS[reset]} for quick checks
+  • Install fswatch for --watch mode
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-QUARTO-WORKFLOW-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
+  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache management
+
+EOF
+}
+
+# Help for teach cache command
+_teach_cache_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache Management                          ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach cache <command> [options]
+
+${FLOW_COLORS[bold]}COMMANDS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}status${FLOW_COLORS[reset]}              Show cache statistics
+  ${FLOW_COLORS[cmd]}clear${FLOW_COLORS[reset]}               Clear all cache
+  ${FLOW_COLORS[cmd]}rebuild${FLOW_COLORS[reset]}             Rebuild frozen content
+  ${FLOW_COLORS[cmd]}analyze${FLOW_COLORS[reset]}             Analyze cache usage
+  ${FLOW_COLORS[cmd]}clean${FLOW_COLORS[reset]}               Clean stale entries
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--lectures${FLOW_COLORS[reset]}          Target lectures only
+  ${FLOW_COLORS[cmd]}--assignments${FLOW_COLORS[reset]}       Target assignments only
+  ${FLOW_COLORS[cmd]}--old [days]${FLOW_COLORS[reset]}        Clear entries older than N days
+  ${FLOW_COLORS[cmd]}--unused${FLOW_COLORS[reset]}            Clear unused cache
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}              JSON output
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Show cache status${FLOW_COLORS[reset]}
+  $ teach cache status
+
+  ${FLOW_COLORS[muted]}# Clear lecture cache only${FLOW_COLORS[reset]}
+  $ teach cache clear --lectures
+
+  ${FLOW_COLORS[muted]}# Rebuild frozen content${FLOW_COLORS[reset]}
+  $ teach cache rebuild
+
+  ${FLOW_COLORS[muted]}# Analyze cache usage${FLOW_COLORS[reset]}
+  $ teach cache analyze
+
+  ${FLOW_COLORS[muted]}# Clear entries older than 7 days${FLOW_COLORS[reset]}
+  $ teach cache clean --old 7
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Cache is stored in ${FLOW_COLORS[accent]}_freeze/${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}teach cache status${FLOW_COLORS[reset]} to diagnose issues
+  • Clear cache before re-rendering from scratch
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]} - Delete _freeze/ and _site/
+  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands
+
+EOF
+}
+
+# Help for teach profiles command
+_teach_profiles_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach profiles${FLOW_COLORS[reset]} - Quarto Profile Management             ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach profiles [list|switch|create] [name]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Manage Quarto profiles for different output formats:
+  • default     - Standard web output
+  • draft       - Draft mode (faster rendering)
+  • print       - Print-optimized
+  • slides      - Presentation mode
+
+${FLOW_COLORS[bold]}COMMANDS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}list, ls${FLOW_COLORS[reset]}             List available profiles
+  ${FLOW_COLORS[cmd]}switch <name>${FLOW_COLORS[reset]}        Activate profile
+  ${FLOW_COLORS[cmd]}create <name>${FLOW_COLORS[reset]}        Create new profile
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# List profiles${FLOW_COLORS[reset]}
+  $ teach profiles list
+
+  ${FLOW_COLORS[muted]}# Switch to draft mode${FLOW_COLORS[reset]}
+  $ teach profiles switch draft
+
+  ${FLOW_COLORS[muted]}# Create custom profile${FLOW_COLORS[reset]}
+  $ teach profiles create my-config
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Profiles defined in ${FLOW_COLORS[accent]}_quarto.yml${FLOW_COLORS[reset]}
+  • Draft mode renders ~2x faster
+  • Quarto profiles are separate from R package profiles
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands
+  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache management
+
+EOF
+}
+
+# Help for teach clean command
+_teach_clean_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]} - Clean Build Artifacts                   ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach clean [options]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Remove Quarto build artifacts to start fresh:
+  • _freeze/     - Cached render output
+  • _site/       - Generated website files
+  • .quarto/     - Quarto cache
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--freeze${FLOW_COLORS[reset]}             Clear _freeze/ only
+  ${FLOW_COLORS[cmd]}--site${FLOW_COLORS[reset]}               Clear _site/ only
+  ${FLOW_COLORS[cmd]}--all${FLOW_COLORS[reset]}                Clear everything (default)
+  ${FLOW_COLORS[cmd]}--dry-run${FLOW_COLORS[reset]}            Show what would be deleted
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Clear everything${FLOW_COLORS[reset]}
+  $ teach clean
+
+  ${FLOW_COLORS[muted]}# Clear cache only${FLOW_COLORS[reset]}
+  $ teach clean --freeze
+
+  ${FLOW_COLORS[muted]}# Preview what will be deleted${FLOW_COLORS[reset]}
+  $ teach clean --dry-run
+
+${FLOW_COLORS[bold]}WARNING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[error]}This action cannot be undone!${FLOW_COLORS[reset]}
+  Use ${FLOW_COLORS[accent]}--dry-run${FLOW_COLORS[reset]} first to preview.
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Run ${FLOW_COLORS[accent]}teach clean${FLOW_COLORS[reset]} before full re-render
+  • Use ${FLOW_COLORS[accent]}teach cache rebuild${FLOW_COLORS[reset]} for smarter clear
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Selective cache management
+  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands
+
+EOF
 }
 
 # ============================================================================
@@ -2247,44 +2525,117 @@ _teach_archive_help() {
     echo ""
 }
 
-# Help for teach status command (v5.14.0 - Task 3)
+# Help for teach status command (v5.14.0 - Task 3, upgraded to box style)
 _teach_status_help() {
-    echo "${FLOW_COLORS[bold]}teach status${FLOW_COLORS[reset]} - Show teaching project status"
-    echo ""
-    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
-    echo "  teach status"
-    echo ""
-    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
-    echo "  Displays comprehensive status of your teaching project including:"
-    echo "    • Course information (name, semester, year)"
-    echo "    • Current branch and git status"
-    echo "    • Config validation status"
-    echo "    • Content inventory (lectures, exams, assignments)"
-    echo ""
-    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
-    echo "  teach status                    # Show full project status"
-    echo "  teach s                         # Short alias"
-    echo ""
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach status${FLOW_COLORS[reset]} - Show Teaching Project Status           ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach status [options]
+  ${FLOW_COLORS[cmd]}teach status --performance    # Performance dashboard
+  ${FLOW_COLORS[cmd]}teach status --full           # Detailed legacy view
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}s${FLOW_COLORS[reset]} → status
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Displays comprehensive status of your teaching project including:
+  • Course information (name, semester, year)
+  • Current branch and git status
+  • Config validation status
+  • Content inventory (lectures, exams, assignments)
+  • Deployment status and open PRs
+  • Backup summary
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--performance${FLOW_COLORS[reset]}         Show performance trends and metrics (Phase 2 Wave 5)
+  ${FLOW_COLORS[cmd]}--full${FLOW_COLORS[reset]}                Show detailed status view (legacy)
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}                JSON output for scripting
+
+${FLOW_COLORS[bold]}PERFORMANCE DASHBOARD${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach status --performance${FLOW_COLORS[reset]}
+  Shows:
+  • Render times (last 7 days)
+  • Cache hit rates
+  • Trend analysis with ASCII graphs
+  • Optimization recommendations
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Show full project status${FLOW_COLORS[reset]}
+  $ teach status
+
+  ${FLOW_COLORS[muted]}# Performance dashboard${FLOW_COLORS[reset]}
+  $ teach status --performance
+
+  ${FLOW_COLORS[muted]}# Short alias${FLOW_COLORS[reset]}
+  $ teach s
+
+${FLOW_COLORS[bold]}EXIT CODES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[success]}0${FLOW_COLORS[reset]} - Success
+  ${FLOW_COLORS[error]}1${FLOW_COLORS[reset]} - Not a teaching project
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--performance${FLOW_COLORS[reset]} to track render times
+  • Add to CI: ${FLOW_COLORS[cmd]}teach status --json${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
+  ${FLOW_COLORS[cmd]}teach backup${FLOW_COLORS[reset]} - Backup management
+
+EOF
 }
 
-# Help for teach week command (v5.14.0 - Task 3)
+# Help for teach week command (v5.14.0 - Task 3, upgraded to box style)
 _teach_week_help() {
-    echo "${FLOW_COLORS[bold]}teach week${FLOW_COLORS[reset]} - Show current week information"
-    echo ""
-    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
-    echo "  teach week [WEEK_NUMBER]"
-    echo ""
-    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
-    echo "  Shows information about the current week or a specific week:"
-    echo "    • Week number calculation from semester start"
-    echo "    • Topics from lesson plan (if available)"
-    echo "    • Content deadlines for the week"
-    echo ""
-    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
-    echo "  teach week                      # Show current week"
-    echo "  teach week 8                    # Show week 8 info"
-    echo "  teach w                         # Short alias"
-    echo ""
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach week${FLOW_COLORS[reset]} - Show Current Week Information           ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach week [WEEK_NUMBER]
+  ${FLOW_COLORS[cmd]}teach week --current             # Show current week
+  ${FLOW_COLORS[cmd]}teach week --syllabus            # Show from syllabus
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}w${FLOW_COLORS[reset]} → week
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Shows information about the current week or a specific week:
+  • Week number calculation from semester start
+  • Topics from lesson plan (if available)
+  • Content deadlines for the week
+  • Upcoming assessments and assignments
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--current, -c${FLOW_COLORS[reset]}          Show current week (default)
+  ${FLOW_COLORS[cmd]}--syllabus, -s${FLOW_COLORS[reset]}         Extract from syllabus dates
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}                 JSON output for scripting
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Show current week${FLOW_COLORS[reset]}
+  $ teach week
+
+  ${FLOW_COLORS[muted]}# Show week 8 info${FLOW_COLORS[reset]}
+  $ teach week 8
+
+  ${FLOW_COLORS[muted]}# Short alias${FLOW_COLORS[reset]}
+  $ teach w
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Configure semester dates in ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}
+  • Create lesson plans in ${FLOW_COLORS[accent]}.flow/lesson-plans/${FLOW_COLORS[reset]} for detailed info
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach status${FLOW_COLORS[reset]} - Full project status
+  ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]} - Date management
+
+EOF
 }
 
 # Help for Scholar commands
@@ -2634,31 +2985,1012 @@ Initialized via: teach init" 2>/dev/null
     echo ""
 }
 
+# Help for teach config
+_teach_config_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} - Edit Course Configuration            ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} [options]
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}c${FLOW_COLORS[reset]} → config
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Opens ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]} in your default editor for editing.
+  The file is created by ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} if it doesn't exist.
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--help, -h${FLOW_COLORS[reset]}          Show this help message
+  ${FLOW_COLORS[cmd]}--edit${FLOW_COLORS[reset]}              Open in editor (default behavior)
+  ${FLOW_COLORS[cmd]}--view${FLOW_COLORS[reset]}              View config without opening editor
+  ${FLOW_COLORS[cmd]}--cat${FLOW_COLORS[reset]}               Print to stdout
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Edit config in default editor${FLOW_COLORS[reset]}
+  $ teach config
+
+  ${FLOW_COLORS[muted]}# View without editing${FLOW_COLORS[reset]}
+  $ teach config --view
+
+  ${FLOW_COLORS[muted]}# Print to terminal${FLOW_COLORS[reset]}
+  $ teach config --cat
+
+${FLOW_COLORS[bold]}CONFIG SECTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}course${FLOW_COLORS[reset]}         Course name, semester, year
+  ${FLOW_COLORS[accent]}git${FLOW_COLORS[reset]}            Branch names, auto-commit settings
+  ${FLOW_COLORS[accent]}scholar${FLOW_COLORS[reset]}        Default Scholar settings
+  ${FLOW_COLORS[accent]}backup${FLOW_COLORS[reset]}         Retention policies
+  ${FLOW_COLORS[accent]}deploy${FLOW_COLORS[reset]}         Deployment settings
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Set ${FLOW_COLORS[accent]}EDITOR${FLOW_COLORS[reset]} env var to prefer specific editor
+  • Use ${FLOW_COLORS[cmd]}yq${FLOW_COLORS[reset]} for CLI editing: yq eval '.course.name = "STAT 440"' -i
+  • Run ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} after editing to validate
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} - Initialize teaching project
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
+
+EOF
+}
+
+_teach_config_edit() {
+    local config_file=".flow/teach-config.yml"
+    if [[ -f "$config_file" ]]; then
+        ${EDITOR:-code} "$config_file"
+    else
+        _teach_error "No teach-config.yml found" "Run 'teach init' first"
+        return 1
+    fi
+}
+
+_teach_config_view() {
+    local config_file=".flow/teach-config.yml"
+    if [[ -f "$config_file" ]]; then
+        echo "${FLOW_COLORS[info]}=== .flow/teach-config.yml ===${FLOW_COLORS[reset]}"
+        cat "$config_file"
+    else
+        _teach_error "No teach-config.yml found" "Run 'teach init' first"
+        return 1
+    fi
+}
+
+_teach_config_cat() {
+    local config_file=".flow/teach-config.yml"
+    if [[ -f "$config_file" ]]; then
+        cat "$config_file"
+    else
+        _teach_error "No teach-config.yml found" "Run 'teach init' first"
+        return 1
+    fi
+}
+
 # Help for teach init
 _teach_init_help() {
-    echo "${FLOW_COLORS[bold]}teach init${FLOW_COLORS[reset]} - Initialize teaching project"
-    echo ""
-    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
-    echo "  teach init [course_name] [OPTIONS]"
-    echo ""
-    echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
-    echo "  --config FILE    Load configuration from external file"
-    echo "  --github         Create GitHub repository (requires gh CLI)"
-    echo "  --help, -h       Show this help message"
-    echo ""
-    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
-    echo "  Creates .flow/teach-config.yml with default settings for:"
-    echo "    • Course information (name, semester, year)"
-    echo "    • Git workflow (draft/production branches)"
-    echo "    • Teaching mode settings (auto-commit, auto-push)"
-    echo "    • Backup retention policies"
-    echo ""
-    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
-    echo "  teach init                           # Interactive setup"
-    echo "  teach init \"STAT 545\"                # With course name"
-    echo "  teach init --config ./my-config.yml  # Load external config"
-    echo "  teach init \"STAT 545\" --github       # Create GitHub repo"
-    echo ""
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} - Initialize Teaching Project                ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} [course_name] [options]
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} --config <file>
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} --github
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}i${FLOW_COLORS[reset]} → init
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--config FILE${FLOW_COLORS[reset]}       Load configuration from external file
+  ${FLOW_COLORS[cmd]}--github${FLOW_COLORS[reset]}            Create GitHub repository (requires gh CLI)
+  ${FLOW_COLORS[cmd]}--help, -h${FLOW_COLORS[reset]}          Show this help message
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Creates ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]} with default settings for:
+    • Course information (name, semester, year)
+    • Git workflow (draft/production branches)
+    • Teaching mode settings (auto-commit, auto-push)
+    • Backup retention policies
+
+${FLOW_COLORS[bold]}INTERACTIVE SETUP${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]}          # Interactive prompts for all settings
+  ${FLOW_COLORS[cmd]}teach init "STAT 440"${FLOW_COLORS[reset]}  # Pre-fill course name, prompt rest
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Interactive setup${FLOW_COLORS[reset]}
+  $ teach init
+
+  ${FLOW_COLORS[muted]}# With course name${FLOW_COLORS[reset]}
+  $ teach init "STAT 545"
+
+  ${FLOW_COLORS[muted]}# Load external config${FLOW_COLORS[reset]}
+  $ teach init --config ./my-config.yml
+
+  ${FLOW_COLORS[muted]}# Create GitHub repo${FLOW_COLORS[reset]}
+  $ teach init "STAT 545" --github
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} (optional template)
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Run ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} after init to verify setup
+  • Use ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} to edit settings later
+  • Configure ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} for customized Scholar output
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📚 Tutorial: docs/tutorials/TEACHING-QUICK-START.md
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} - Edit course configuration
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
+
+EOF
+}
+
+# ============================================================================
+# DISPATCHER HELP
+# ============================================================================
+
+_teach_lecture_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach lecture${FLOW_COLORS[reset]} - Generate Lecture Notes                   ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]} teach lecture <topic> [options]
+  ${FLOW_COLORS[cmd]} teach lecture --week N --topic "title"
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}lec${FLOW_COLORS[reset]} → lecture
+
+${FLOW_COLORS[bold]}REQUIRED FILES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}      Course metadata (required)
+  ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} Content preferences (optional, improves output)
+  Run ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} to verify configuration
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate lecture for this week${FLOW_COLORS[reset]}
+  $ teach lecture "Linear Regression" --week 5
+
+  ${FLOW_COLORS[muted]}# Create with Quarto template (recommended)${FLOW_COLORS[reset]}
+  $ teach lecture "ANOVA" --template quarto --week 6
+
+  ${FLOW_COLORS[muted]}# Customized for your course${FLOW_COLORS[reset]}
+  $ teach lecture "ML Intro" --template quarto --difficulty medium
+
+${FLOW_COLORS[bold]}TOPIC SELECTION${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}<topic>${FLOW_COLORS[reset]}                  Lecture topic or title
+  ${FLOW_COLORS[cmd]}--week N, -w N${FLOW_COLORS[reset]}           Week number (for file naming)
+  ${FLOW_COLORS[cmd]}--topic "text", -t${FLOW_COLORS[reset]}       Override topic in prompts
+
+${FLOW_COLORS[bold]}CONTENT STYLE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--template FORMAT${FLOW_COLORS[reset]}        markdown | quarto | typst | pdf | docx
+  ${FLOW_COLORS[cmd]}--style formal|casual${FLOW_COLORS[reset]}    Writing tone
+  ${FLOW_COLORS[cmd]}--length N${FLOW_COLORS[reset]}               Target page count (20-40)
+
+${FLOW_COLORS[bold]}DIFFICULTY & DETAIL${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}  Content depth
+  ${FLOW_COLORS[cmd]}--examples N, -e N${FLOW_COLORS[reset]}            Number of examples
+  ${FLOW_COLORS[cmd]}--math-notation LaTeX|unicode|text${FLOW_COLORS[reset]}  Math display
+
+${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include detailed explanations
+  ${FLOW_COLORS[cmd]}--no-explanation${FLOW_COLORS[reset]}             Skip detailed explanations
+  ${FLOW_COLORS[cmd]}--proof, -p${FLOW_COLORS[reset]}                 Include mathematical proofs
+  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math notation
+  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include code examples
+  ${FLOW_COLORS[cmd]}--diagrams, -d${FLOW_COLORS[reset]}              Include diagrams
+  ${FLOW_COLORS[cmd]}--practice-problems, -pp${FLOW_COLORS[reset]}    Add practice problems
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic lecture generation${FLOW_COLORS[reset]}
+  $ teach lecture "Multiple Regression"
+
+  ${FLOW_COLORS[muted]}# Week-based with consistent naming${FLOW_COLORS[reset]}
+  $ teach lecture "Logistic Regression" --week 8
+
+  ${FLOW_COLORS[muted]}# Full-featured lecture${FLOW_COLORS[reset]}
+  $ teach lecture "Neural Networks" --week 10 --template quarto --difficulty hard --examples 5 --math --code
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}lectures/week-NN/lecture-NN-<topic>.${FLOW_COLORS[reset]}
+  Auto-backs up existing files before overwriting
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Create ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} first for customized output
+  • Use ${FLOW_COLORS[accent]}--week${FLOW_COLORS[reset]} for consistent file naming
+  • Preview generated content with ${FLOW_COLORS[cmd]}quarto preview${FLOW_COLORS[reset]}
+  • Auto-staged for git after generation
+
+${FLOW_COLORS[bold]}TROUBLESHOOTING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[error]}"YAML parse error"${FLOW_COLORS[reset]}
+    → Run: teach validate --yaml <file>
+    → Check: .flow/teach-config.yml syntax
+
+  ${FLOW_COLORS[error]}"Scholar API timeout"${FLOW_COLORS[reset]}
+    → Check connection: teach doctor --check scholar
+    → Retry with: teach lecture "topic" --retry
+
+  ${FLOW_COLORS[error]}"File not staged"${FLOW_COLORS[reset]}
+    → Manual stage: git add lectures/week-NN/
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach slides${FLOW_COLORS[reset]} - Presentation slides
+  ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} - Generate assessments
+  docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+EOF
+}
+
+_teach_doctor_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health Checks & Diagnostics           ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]} teach doctor [options]
+  ${FLOW_COLORS[cmd]} teach doctor --fix          # Auto-fix issues
+  ${FLOW_COLORS[cmd]} teach doctor --json         # CI/CD output
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}doc${FLOW_COLORS[reset]} → doctor
+
+${FLOW_COLORS[bold]}HEALTH CHECK CATEGORIES${FLOW_COLORS[reset]}
+
+  ${FLOW_COLORS[accent]}1. Dependencies${FLOW_COLORS[reset]}
+     Verifies: yq, git, quarto, gh, examark, claude, fswatch
+
+  ${FLOW_COLORS[accent]}2. Project Configuration${FLOW_COLORS[reset]}
+     Checks: .flow/teach-config.yml, course.yml, lesson-plan.yml
+
+  ${FLOW_COLORS[accent]}3. Git Setup${FLOW_COLORS[reset]}
+     Validates: branches, remote, clean state, commit history
+
+  ${FLOW_COLORS[accent]}4. Scholar Integration${FLOW_COLORS[reset]}
+     Tests: API access, template availability, config loading
+
+  ${FLOW_COLORS[accent]}5. Hook Installation${FLOW_COLORS[reset]}
+     Status: pre-commit, pre-push, prepare-commit-msg hooks
+
+  ${FLOW_COLORS[accent]}6. Cache Health${FLOW_COLORS[reset]}
+     Checks: _freeze/ directory, _site/ state, cache validity
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--fix${FLOW_COLORS[reset]}                Interactive fix mode (install missing tools)
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}               JSON output for CI/CD pipelines
+  ${FLOW_COLORS[cmd]}--quiet, -q${FLOW_COLORS[reset]}          Minimal output (show only errors)
+  ${FLOW_COLORS[cmd]}--verbose, -v${FLOW_COLORS[reset]}        Detailed diagnostics
+  ${FLOW_COLORS[cmd]}--check <category>${FLOW_COLORS[reset]}   Run specific check only
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic health check${FLOW_COLORS[reset]}
+  $ teach doctor
+
+  ${FLOW_COLORS[muted]}# Auto-fix missing dependencies${FLOW_COLORS[reset]}
+  $ teach doctor --fix
+
+  ${FLOW_COLORS[muted]}# CI/CD output (no colors, machine-readable)${FLOW_COLORS[reset]}
+  $ teach doctor --json --quiet
+
+  ${FLOW_COLORS[muted]}# Verbose mode with all details${FLOW_COLORS[reset]}
+  $ teach doctor --verbose
+
+  ${FLOW_COLORS[muted]}# Check specific category${FLOW_COLORS[reset]}
+  $ teach doctor --check git
+
+${FLOW_COLORS[bold]}EXIT CODES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[success]}0${FLOW_COLORS[reset]} - All checks pass
+  ${FLOW_COLORS[warning]}1${FLOW_COLORS[reset]} - Warnings found (non-critical)
+  ${FLOW_COLORS[error]}2${FLOW_COLORS[reset]} - Critical errors (must fix)
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Run ${FLOW_COLORS[accent]}teach doctor${FLOW_COLORS[reset]} after fresh clone
+  • Use ${FLOW_COLORS[accent]}--fix${FLOW_COLORS[reset]} for automated remediation
+  • Add to CI: ${FLOW_COLORS[cmd]}teach doctor --json${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]} - Hook management
+  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache operations
+  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} - Project config
+
+EOF
+}
+
+_teach_deploy_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach deploy${FLOW_COLORS[reset]} - Deploy Course Website                ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]} teach deploy [files...] [options]
+  ${FLOW_COLORS[cmd]} teach deploy --preview      # Preview changes only
+  ${FLOW_COLORS[cmd]} teach deploy --auto-commit  # Auto-commit changes
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}d${FLOW_COLORS[reset]} → deploy
+
+${FLOW_COLORS[bold]}WORKFLOW${FLOW_COLORS[reset]}
+
+  ${FLOW_COLORS[accent]}1. Preview Changes${FLOW_COLORS[reset]}
+     $ teach deploy --preview
+     Shows all files that will change before creating PR
+
+  ${FLOW_COLORS[accent]}2. Review Output${FLOW_COLORS[reset]}
+     - Added: New files (lectures, exams, slides)
+     - Modified: Updated content with changes highlighted
+     - Removed: Deleted files with confirmation
+
+  ${FLOW_COLORS[accent]}3. Deploy${FLOW_COLORS[reset]}
+     $ teach deploy
+     Renders, commits, pushes, creates PR to main
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--preview${FLOW_COLORS[reset]}               Show changes without deploying
+  ${FLOW_COLORS[cmd]}--auto-commit${FLOW_COLORS[reset]}           Auto-commit rendered files
+  ${FLOW_COLORS[cmd]}--auto-tag${FLOW_COLORS[reset]}              Tag deployment with version
+  ${FLOW_COLORS[cmd]}--message "text"${FLOW_COLORS[reset]}        Custom commit message
+  ${FLOW_COLORS[cmd]}--branch NAME${FLOW_COLORS[reset]}           Source branch (default: draft)
+  ${FLOW_COLORS[cmd]}--target NAME${FLOW_COLORS[reset]}           Target branch (default: main)
+
+${FLOW_COLORS[bold]}PARTIAL DEPLOY${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Deploy specific lecture only${FLOW_COLORS[reset]}
+  $ teach deploy lectures/week-05/
+
+  ${FLOW_COLORS[muted]}# Deploy multiple files${FLOW_COLORS[reset]}
+  $ teach deploy lectures/week-05/ exams/midterm.qmd
+
+  ${FLOW_COLORS[muted]}# Deploy with preview first${FLOW_COLORS[reset]}
+  $ teach deploy lectures/week-05/ --preview
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Full site deploy (draft → main)${FLOW_COLORS[reset]}
+  $ teach deploy
+
+  ${FLOW_COLORS[muted]}# Preview what will change${FLOW_COLORS[reset]}
+  $ teach deploy --preview
+
+  ${FLOW_COLORS[muted]}# Deploy with auto-commit and tagging${FLOW_COLORS[reset]}
+  $ teach deploy --auto-commit --auto-tag
+
+  ${FLOW_COLORS[muted]}# Deploy single lecture${FLOW_COLORS[reset]}
+  $ teach deploy lectures/week-07/ --auto-commit
+
+  ${FLOW_COLORS[muted]}# Deploy to custom branches${FLOW_COLORS[reset]}
+  $ teach deploy --branch feature/new-content --target main
+
+${FLOW_COLORS[bold]}WHAT GETS DEPLOYED${FLOW_COLORS[reset]}
+  • Rendered Quarto files (_site/)
+  • Updated index links (index.qmd, _quarto.yml)
+  • Generated assets (images, figures)
+  • Cross-reference updates
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Always use ${FLOW_COLORS[accent]}--preview${FLOW_COLORS[reset]} before first deploy
+  • Index automatically updated with new content
+  • Changes committed with descriptive messages
+  • PR created automatically to main branch
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup${FLOW_COLORS[reset]} - Create restore point
+  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands
+  ${FLOW_COLORS[cmd]}g${FLOW_COLORS[reset]} - Git commands
+
+EOF
+}
+
+_teach_slides_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach slides${FLOW_COLORS[reset]} - Generate Presentation Slides            ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach slides <topic> [options]
+  ${FLOW_COLORS[cmd]}teach slides --week N --topic "title"
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}sl${FLOW_COLORS[reset]} → slides
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate slides for this week${FLOW_COLORS[reset]}
+  $ teach slides "Linear Regression" --week 5
+
+  ${FLOW_COLORS[muted]}# Create with Quarto revealjs (recommended)${FLOW_COLORS[reset]}
+  $ teach slides "ANOVA" --template quarto --week 6
+
+  ${FLOW_COLORS[muted]}# Customized slides with theme${FLOW_COLORS[reset]}
+  $ teach slides "ML Intro" --template quarto --theme academic --difficulty medium
+
+${FLOW_COLORS[bold]}TOPIC SELECTION${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}<topic>${FLOW_COLORS[reset]}                  Slides topic or title
+  ${FLOW_COLORS[cmd]}--week N, -w N${FLOW_COLORS[reset]}           Week number (for file naming)
+  ${FLOW_COLORS[cmd]}--topic "text", -t${FLOW_COLORS[reset]}       Override topic in prompts
+
+${FLOW_COLORS[bold]}TEMPLATE OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--template FORMAT${FLOW_COLORS[reset]}        markdown | quarto
+  ${FLOW_COLORS[cmd]}--theme NAME${FLOW_COLORS[reset]}             default | academic | minimal
+
+${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include detailed explanations
+  ${FLOW_COLORS[cmd]}--no-explanation${FLOW_COLORS[reset]}             Skip detailed explanations
+  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math notation
+  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include code examples
+  ${FLOW_COLORS[cmd]}--diagrams, -d${FLOW_COLORS[reset]}              Include diagrams
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic slides generation${FLOW_COLORS[reset]}
+  $ teach slides "Multiple Regression"
+
+  ${FLOW_COLORS[muted]}# Week-based with consistent naming${FLOW_COLORS[reset]}
+  $ teach slides "Logistic Regression" --week 8
+
+  ${FLOW_COLORS[muted]}# Full-featured slides${FLOW_COLORS[reset]}
+  $ teach slides "Neural Networks" --week 10 --template quarto --theme academic --difficulty hard --math --code
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}slides/week-NN/slides-NN-<topic>.${FLOW_COLORS[reset]}
+  Auto-backs up existing files before overwriting
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--template quarto${FLOW_COLORS[reset]} for revealjs slides
+  • Use ${FLOW_COLORS[accent]}--theme academic${FLOW_COLORS[reset]} for professional look
+  • Preview with ${FLOW_COLORS[cmd]}quarto preview${FLOW_COLORS[reset]}
+  • Auto-staged for git after generation
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach lecture${FLOW_COLORS[reset]} - Lecture notes
+  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} - Quiz questions
+
+EOF
+}
+
+_teach_exam_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} - Generate Exam Questions               ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach exam <topic> [options]
+  ${FLOW_COLORS[cmd]}teach exam --questions N --duration minutes
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}e${FLOW_COLORS[reset]} → exam
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate exam on topic${FLOW_COLORS[reset]}
+  $ teach exam "Linear Regression"
+
+  ${FLOW_COLORS[muted]}# Specific number of questions${FLOW_COLORS[reset]}
+  $ teach exam "Hypothesis Testing" --questions 10
+
+  ${FLOW_COLORS[muted]}# With time limit and question types${FLOW_COLORS[reset]}
+  $ teach exam "ANOVA" --questions 8 --duration 60 --types "short answer:5,problem:3"
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--questions N${FLOW_COLORS[reset]}            Number of questions (default: 5)
+  ${FLOW_COLORS[cmd]}--duration N${FLOW_COLORS[reset]}             Duration in minutes
+  ${FLOW_COLORS[cmd]}--types TYPES${FLOW_COLORS[reset]}            Question type breakdown
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | qti | markdown
+  ${FLOW_COLORS[cmd]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}  Content depth
+
+${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include answer explanations
+  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math notation
+  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include code problems
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic exam generation${FLOW_COLORS[reset]}
+  $ teach exam "Multiple Regression"
+
+  ${FLOW_COLORS[muted]}# Detailed exam with explanations${FLOW_COLORS[reset]}
+  $ teach exam "Logistic Regression" --questions 10 --explanation --math
+
+  ${FLOW_COLORS[muted]}# Quiz-style format${FLOW_COLORS[reset]}
+  $ teach exam "Basics Review" --questions 20 --duration 30 --format qti
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}exams/exam-<topic>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+  Auto-backs up existing files before overwriting
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--types${FLOW_COLORS[reset]} to control question mix
+  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
+  • Auto-staged for git after generation
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} - Quiz questions
+  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Grading rubric
+
+EOF
+}
+
+_teach_quiz_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} - Generate Quiz Questions                  ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach quiz <topic> [options]
+  ${FLOW_COLORS[cmd]}teach quiz --questions N --time-limit minutes
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}q${FLOW_COLORS[reset]} → quiz
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate quiz on topic${FLOW_COLORS[reset]}
+  $ teach quiz "Linear Regression"
+
+  ${FLOW_COLORS[muted]}# Specific number of questions${FLOW_COLORS[reset]}
+  $ teach quiz "Hypothesis Testing" --questions 10
+
+  ${FLOW_COLORS[muted]}# Timed quiz${FLOW_COLORS[reset]}
+  $ teach quiz "ANOVA" --questions 5 --time-limit 15
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--questions N${FLOW_COLORS[reset]}            Number of questions (default: 5)
+  ${FLOW_COLORS[cmd]}--time-limit N${FLOW_COLORS[reset]}           Time limit in minutes
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | qti | markdown
+  ${FLOW_COLORS[cmd]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}  Content depth
+
+${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include answer explanations
+  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math notation
+  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include code questions
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic quiz generation${FLOW_COLORS[reset]}
+  $ teach quiz "Multiple Regression"
+
+  ${FLOW_COLORS[muted]}# Quick check quiz${FLOW_COLORS[reset]}
+  $ teach quiz "Logistic Regression" --questions 5 --time-limit 10
+
+  ${FLOW_COLORS[muted]}# Detailed quiz with explanations${FLOW_COLORS[reset]}
+  $ teach quiz "ANOVA" --questions 10 --explanation --math
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}quizzes/quiz-<topic>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+  Auto-backs up existing files before overwriting
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--time-limit${FLOW_COLORS[reset]} for practice quizzes
+  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
+  • Auto-staged for git after generation
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} - Exam questions
+  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Homework assignments
+
+EOF
+}
+
+_teach_assignment_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Generate Homework Assignment        ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach assignment <topic> [options]
+  ${FLOW_COLORS[cmd]}teach assignment --due-date "YYYY-MM-DD" --points N
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}hw${FLOW_COLORS[reset]} → assignment
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate assignment on topic${FLOW_COLORS[reset]}
+  $ teach assignment "Linear Regression"
+
+  ${FLOW_COLORS[muted]}# Assignment with due date${FLOW_COLORS[reset]}
+  $ teach assignment "ANOVA" --due-date "2024-02-15" --points 100
+
+  ${FLOW_COLORS[muted]}# Detailed assignment${FLOW_COLORS[reset]}
+  $ teach assignment "ML Intro" --due-date "2024-02-20" --points 50 --explanation
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--due-date DATE${FLOW_COLORS[reset]}          Due date (YYYY-MM-DD or "Week N")
+  ${FLOW_COLORS[cmd]}--points N${FLOW_COLORS[reset]}               Total points
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | markdown
+  ${FLOW_COLORS[cmd]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}  Content depth
+
+${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include solution explanations
+  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math problems
+  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include programming problems
+  ${FLOW_COLORS[cmd]}--practice-problems, -p${FLOW_COLORS[reset]}     Include practice problems
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic assignment generation${FLOW_COLORS[reset]}
+  $ teach assignment "Multiple Regression"
+
+  ${FLOW_COLORS[muted]}# Complete assignment with due date${FLOW_COLORS[reset]}
+  $ teach assignment "Logistic Regression" --due-date "2024-02-15" --points 100
+
+  ${FLOW_COLORS[muted]}# Programming-focused assignment${FLOW_COLORS[reset]}
+  $ teach assignment "Data Wrangling" --code --practice-problems --points 50
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}assignments/assignment-<topic>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+  Auto-backs up existing files before overwriting
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--due-date${FLOW_COLORS[reset]} for semester planning
+  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
+  • Auto-staged for git after generation
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Grading rubric
+  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} - Student feedback
+
+EOF
+}
+
+_teach_syllabus_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach syllabus${FLOW_COLORS[reset]} - Generate Course Syllabus             ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach syllabus [course_name] [options]
+  ${FLOW_COLORS[cmd]}teach syllabus --format quarto
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}syl${FLOW_COLORS[reset]} → syllabus
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate syllabus from config${FLOW_COLORS[reset]}
+  $ teach syllabus
+
+  ${FLOW_COLORS[muted]}# Generate for specific course${FLOW_COLORS[reset]}
+  $ teach syllabus "STAT 440"
+
+  ${FLOW_COLORS[muted]}# PDF format${FLOW_COLORS[reset]}
+  $ teach syllabus --format pdf
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | markdown | pdf
+  ${FLOW_COLORS[cmd]}--template TYPE${FLOW_COLORS[reset]}          default | detailed
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic syllabus generation${FLOW_COLORS[reset]}
+  $ teach syllabus
+
+  ${FLOW_COLORS[muted]}# With course name${FLOW_COLORS[reset]}
+  $ teach syllabus "STAT 545"
+
+  ${FLOW_COLORS[muted]}# PDF format for printing${FLOW_COLORS[reset]}
+  $ teach syllabus --format pdf
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}syllabus.md${FLOW_COLORS[reset]} or ${FLOW_COLORS[accent]}syllabus.pdf${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Uses course info from ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}
+  • Run ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} first to set up config
+  • Preview with ${FLOW_COLORS[cmd]}quarto preview syllabus.${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} - Edit course configuration
+  ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]} - Date management
+
+EOF
+}
+
+_teach_rubric_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Generate Grading Rubric               ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach rubric <assignment_name> [options]
+  ${FLOW_COLORS[cmd]}teach rubric --criteria N
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}rb${FLOW_COLORS[reset]} → rubric
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate rubric for assignment${FLOW_COLORS[reset]}
+  $ teach rubric "Final Project"
+
+  ${FLOW_COLORS[muted]}# Rubric with specific criteria${FLOW_COLORS[reset]}
+  $ teach rubric "Lab Report" --criteria 4
+
+  ${FLOW_COLORS[muted]}# Week-based rubric${FLOW_COLORS[reset]}
+  $ teach rubric "Homework 5" --week 10
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--criteria N${FLOW_COLORS[reset]}             Number of criteria (default: 4)
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | markdown
+  ${FLOW_COLORS[cmd]}--week N${FLOW_COLORS[reset]}                 Week number (for lesson plan)
+
+${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include grading explanations
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic rubric generation${FLOW_COLORS[reset]}
+  $ teach rubric "Final Project"
+
+  ${FLOW_COLORS[muted]}# Custom criteria count${FLOW_COLORS[reset]}
+  $ teach rubric "Lab Report" --criteria 5
+
+  ${FLOW_COLORS[muted]}# Detailed rubric${FLOW_COLORS[reset]}
+  $ teach rubric "Research Paper" --criteria 6 --explanation
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}rubrics/rubric-<assignment_name>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+  Auto-backs up existing files before overwriting
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--criteria${FLOW_COLORS[reset]} to control rubric detail
+  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
+  • Auto-staged for git after generation
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Generate assignment
+  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} - Student feedback
+
+EOF
+}
+
+_teach_feedback_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} - Generate Student Feedback            ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach feedback <student_work> [options]
+  ${FLOW_COLORS[cmd]}teach feedback "homework3-smith.pdf"
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}fb${FLOW_COLORS[reset]} → feedback
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Generate feedback on student work${FLOW_COLORS[reset]}
+  $ teach feedback "homework3-smith.pdf"
+
+  ${FLOW_COLORS[muted]}# Supportive tone feedback${FLOW_COLORS[reset]}
+  $ teach feedback "project.R" --tone supportive
+
+  ${FLOW_COLORS[muted]}# Detailed feedback${FLOW_COLORS[reset]}
+  $ teach feedback "essay.docx" --tone detailed
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--tone TONE${FLOW_COLORS[reset]}              supportive | direct | detailed
+  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          markdown | text
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Basic feedback generation${FLOW_COLORS[reset]}
+  $ teach feedback "homework3-smith.pdf"
+
+  ${FLOW_COLORS[muted]}# Supportive tone${FLOW_COLORS[reset]}
+  $ teach feedback "project.R" --tone supportive
+
+  ${FLOW_COLORS[muted]}# Detailed feedback${FLOW_COLORS[reset]}
+  $ teach feedback "essay.docx" --tone detailed --format markdown
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}feedback/feedback-<student_work>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}--tone${FLOW_COLORS[reset]} to match feedback style
+  • Supports PDF, DOCX, R, MD files
+  • Preview with ${FLOW_COLORS[cmd]}--format text${FLOW_COLORS[reset]} first
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Grading rubric
+  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Generate assignment
+
+EOF
+}
+
+# Help for hooks command (v5.14.0 - PR #277 Task 2)
+_teach_hooks_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]} - Git Hook Management                      ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]} <command> [options]
+
+${FLOW_COLORS[bold]}COMMANDS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}install${FLOW_COLORS[reset]}              Install git hooks for teaching workflow
+    ${FLOW_COLORS[muted]}--force, -f${FLOW_COLORS[reset]}       Force reinstall (overwrite existing)
+
+  ${FLOW_COLORS[cmd]}upgrade${FLOW_COLORS[reset]}              Upgrade hooks to latest version
+    ${FLOW_COLORS[muted]}--force, -f${FLOW_COLORS[reset]}       Force upgrade even if newer version installed
+
+  ${FLOW_COLORS[cmd]}status${FLOW_COLORS[reset]}               Check hook installation status
+
+  ${FLOW_COLORS[cmd]}uninstall${FLOW_COLORS[reset]}            Remove teaching workflow hooks
+
+${FLOW_COLORS[bold]}HOOKS INSTALLED${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}pre-commit${FLOW_COLORS[reset]}         Validate YAML, check dependencies
+  ${FLOW_COLORS[accent]}pre-push${FLOW_COLORS[reset]}           Check for uncommitted changes
+  ${FLOW_COLORS[accent]}prepare-commit-msg${FLOW_COLORS[reset]}  Auto-format commit messages
+
+${FLOW_COLORS[bold]}SHORTCUTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}i${FLOW_COLORS[reset]} → install      ${FLOW_COLORS[accent]}up, u${FLOW_COLORS[reset]} → upgrade
+  ${FLOW_COLORS[accent]}s${FLOW_COLORS[reset]} → status       ${FLOW_COLORS[accent]}rm${FLOW_COLORS[reset]} → uninstall
+
+${FLOW_COLORS[success]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Install hooks in current project${FLOW_COLORS[reset]}
+  teach hooks install
+
+  ${FLOW_COLORS[muted]}# Check hook status${FLOW_COLORS[reset]}
+  teach hooks status
+
+  ${FLOW_COLORS[muted]}# Upgrade to latest version${FLOW_COLORS[reset]}
+  teach hooks upgrade
+
+  ${FLOW_COLORS[muted]}# Force reinstall${FLOW_COLORS[reset]}
+  teach hooks install --force
+
+${FLOW_COLORS[muted]}See also: teach doctor (includes hook checks)${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+EOF
+}
+
+_teach_dispatcher_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach${FLOW_COLORS[reset]} - Teaching Workflow Commands                   ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(3 commands to begin)${FLOW_COLORS[reset]}
+  $ teach init "STAT 440"           # Initialize teaching project
+  $ teach doctor --fix              # Verify and fix dependencies
+  $ teach lecture "Intro" --week 1  # Generate first lecture
+
+${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
+📋 SETUP & CONFIGURATION
+${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} [name]             Initialize teaching project
+    ${FLOW_COLORS[muted]}--config <file>${FLOW_COLORS[reset]}            Load external config
+    ${FLOW_COLORS[muted]}--github${FLOW_COLORS[reset]}                   Create GitHub repo
+  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]}                  Edit configuration
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]}                  Health checks (6 categories)
+    ${FLOW_COLORS[muted]}--fix${FLOW_COLORS[reset]}                       Auto-fix issues
+    ${FLOW_COLORS[muted]}--json${FLOW_COLORS[reset]}                      CI/CD output
+  ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]}                    Git hook management
+    ${FLOW_COLORS[muted]}install | upgrade | status${FLOW_COLORS[reset]}  Hook operations
+  ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]}                    Date management
+
+${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
+✍️ CONTENT CREATION (Scholar AI)
+${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach lecture${FLOW_COLORS[reset]} <topic>          Generate lecture notes
+    ${FLOW_COLORS[muted]}--week N${FLOW_COLORS[reset]}                    Week-based naming
+    ${FLOW_COLORS[muted]}--template FORMAT${FLOW_COLORS[reset]}           markdown | quarto | pdf
+    ${FLOW_COLORS[muted]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach slides${FLOW_COLORS[reset]} <topic>           Presentation slides
+  ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} <topic>             Comprehensive exam
+  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} <topic>             Quiz questions
+    ${FLOW_COLORS[muted]}--questions N${FLOW_COLORS[reset]}               Number of questions
+  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} <topic>       Homework assignment
+  ${FLOW_COLORS[cmd]}teach syllabus${FLOW_COLORS[reset]} <course>        Course syllabus
+  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} <assignment>      Grading rubric
+  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} <work>          Student feedback
+
+${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
+✅ VALIDATION & QUALITY
+${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]} [files]          Validate .qmd files
+    ${FLOW_COLORS[muted]}--yaml${FLOW_COLORS[reset]}                       YAML frontmatter only
+    ${FLOW_COLORS[muted]}--syntax${FLOW_COLORS[reset]}                     YAML + syntax check
+    ${FLOW_COLORS[muted]}--render${FLOW_COLORS[reset]}                     Full render validation
+    ${FLOW_COLORS[muted]}--watch${FLOW_COLORS[reset]}                      Watch mode
+  ${FLOW_COLORS[cmd]}teach profiles${FLOW_COLORS[reset]}                  Profile management
+  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]}                     Cache operations
+    ${FLOW_COLORS[muted]}status | clear | rebuild${FLOW_COLORS[reset]}    Cache management
+  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]}                     Delete _freeze/ + _site/
+
+${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
+🚀 DEPLOYMENT & MANAGEMENT
+${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach deploy${FLOW_COLORS[reset]} [files]            Deploy course website
+    ${FLOW_COLORS[muted]}--preview${FLOW_COLORS[reset]}                    Show changes before PR
+    ${FLOW_COLORS[muted]}--auto-commit${FLOW_COLORS[reset]}                Auto-commit rendered files
+    ${FLOW_COLORS[muted]}--auto-tag${FLOW_COLORS[reset]}                   Tag deployment
+  ${FLOW_COLORS[cmd]}teach status${FLOW_COLORS[reset]}                    Project dashboard
+  ${FLOW_COLORS[cmd]}teach week${FLOW_COLORS[reset]}                      Current week info
+  ${FLOW_COLORS[cmd]}teach backup${FLOW_COLORS[reset]}                    Backup management
+    ${FLOW_COLORS[muted]}create | list | restore | delete${FLOW_COLORS[reset]}  Backup operations
+  ${FLOW_COLORS[cmd]}teach archive${FLOW_COLORS[reset]}                   Archive semester
+
+${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
+🔧 ADVANCED FEATURES
+${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach demo${FLOW_COLORS[reset]} <topic>              Create demo course
+  ${FLOW_COLORS[cmd]}teach validate --custom${FLOW_COLORS[reset]}         Custom validators
+  ${FLOW_COLORS[cmd]}teach status --performance${FLOW_COLORS[reset]}      Performance metrics
+  ${FLOW_COLORS[cmd]}teach deploy --branch <name>${FLOW_COLORS[reset]}    Custom branches
+
+${FLOW_COLORS[bold]}SHORTCUTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}i${FLOW_COLORS[reset]} → init      ${FLOW_COLORS[accent]}doc${FLOW_COLORS[reset]} → doctor  ${FLOW_COLORS[accent]}val${FLOW_COLORS[reset]} → validate
+  ${FLOW_COLORS[accent]}lec${FLOW_COLORS[reset]} → lecture  ${FLOW_COLORS[accent]}sl${FLOW_COLORS[reset]} → slides   ${FLOW_COLORS[accent]}e${FLOW_COLORS[reset]} → exam
+  ${FLOW_COLORS[accent]}q${FLOW_COLORS[reset]} → quiz      ${FLOW_COLORS[accent]}hw${FLOW_COLORS[reset]} → assign   ${FLOW_COLORS[accent]}syl${FLOW_COLORS[reset]} → syllabus
+  ${FLOW_COLORS[accent]}d${FLOW_COLORS[reset]} → deploy    ${FLOW_COLORS[accent]}bk${FLOW_COLORS[reset]} → backup  ${FLOW_COLORS[accent]}s${FLOW_COLORS[reset]} → status
+  ${FLOW_COLORS[accent]}w${FLOW_COLORS[reset]} → week      ${FLOW_COLORS[accent]}c${FLOW_COLORS[reset]} → config
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Setup new course${FLOW_COLORS[reset]}
+  $ teach init "STAT 440" --github
+  $ teach doctor --fix
+  $ teach hooks install
+
+  ${FLOW_COLORS[muted]}# Create content${FLOW_COLORS[reset]}
+  $ teach lecture "Linear Regression" --week 5 --template quarto
+  $ teach quiz "Hypothesis Testing" --questions 10 --week 4
+  $ teach exam "Midterm" --template quarto
+
+  ${FLOW_COLORS[muted]}# Validate before deploy${FLOW_COLORS[reset]}
+  $ teach validate --render
+  $ teach deploy --preview
+
+  ${FLOW_COLORS[muted]}# Deploy and backup${FLOW_COLORS[reset]}
+  $ teach deploy
+  $ teach backup create "After Week 5"
+
+${FLOW_COLORS[muted]}📚 SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands (qu preview, qu render)
+  ${FLOW_COLORS[cmd]}g${FLOW_COLORS[reset]} - Git commands (g status, g push)
+  ${FLOW_COLORS[cmd]}work${FLOW_COLORS[reset]} - Session management
+  docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+  📚 Tutorial: docs/tutorials/TEACHING-QUICK-START.md
+
+EOF
 }
 
 teach() {
@@ -2676,35 +4008,59 @@ teach() {
         # SCHOLAR WRAPPERS (invoke Claude + Scholar)
         # ============================================
         lecture|lec)
-            _teach_scholar_wrapper "lecture" "$@"
+            case "$1" in
+                --help|-h|help) _teach_lecture_help; return 0 ;;
+                *) _teach_scholar_wrapper "lecture" "$@" ;;
+            esac
             ;;
 
         slides|sl)
-            _teach_scholar_wrapper "slides" "$@"
+            case "$1" in
+                --help|-h|help) _teach_slides_help; return 0 ;;
+                *) _teach_scholar_wrapper "slides" "$@" ;;
+            esac
             ;;
 
         exam|e)
-            _teach_scholar_wrapper "exam" "$@"
+            case "$1" in
+                --help|-h|help) _teach_exam_help; return 0 ;;
+                *) _teach_scholar_wrapper "exam" "$@" ;;
+            esac
             ;;
 
         quiz|q)
-            _teach_scholar_wrapper "quiz" "$@"
+            case "$1" in
+                --help|-h|help) _teach_quiz_help; return 0 ;;
+                *) _teach_scholar_wrapper "quiz" "$@" ;;
+            esac
             ;;
 
         assignment|hw)
-            _teach_scholar_wrapper "assignment" "$@"
+            case "$1" in
+                --help|-h|help) _teach_assignment_help; return 0 ;;
+                *) _teach_scholar_wrapper "assignment" "$@" ;;
+            esac
             ;;
 
         syllabus|syl)
-            _teach_scholar_wrapper "syllabus" "$@"
+            case "$1" in
+                --help|-h|help) _teach_syllabus_help; return 0 ;;
+                *) _teach_scholar_wrapper "syllabus" "$@" ;;
+            esac
             ;;
 
         rubric|rb)
-            _teach_scholar_wrapper "rubric" "$@"
+            case "$1" in
+                --help|-h|help) _teach_rubric_help; return 0 ;;
+                *) _teach_scholar_wrapper "rubric" "$@" ;;
+            esac
             ;;
 
         feedback|fb)
-            _teach_scholar_wrapper "feedback" "$@"
+            case "$1" in
+                --help|-h|help) _teach_feedback_help; return 0 ;;
+                *) _teach_scholar_wrapper "feedback" "$@" ;;
+            esac
             ;;
 
         demo)
@@ -2715,14 +4071,18 @@ teach() {
         # LOCAL COMMANDS (no Claude needed)
         # ============================================
         init|i)
-            # v5.14.0 - Task 10: Reimplemented with --config and --github flags
-            _teach_init "$@"
+            case "$1" in
+                --help|-h|help) _teach_init_help; return 0 ;;
+                *) _teach_init "$@" ;;
+            esac
             ;;
 
         # Shortcuts for common operations
         deploy|d)
-            # Phase 2 (v5.11.0+): Branch-aware deployment with PR workflow
-            _teach_deploy "$@"
+            case "$1" in
+                --help|-h|help) _teach_deploy_help; return 0 ;;
+                *) _teach_deploy_enhanced "$@" ;;
+            esac
             ;;
 
         archive|a)
@@ -2732,13 +4092,12 @@ teach() {
 
         # Config management
         config|c)
-            local config_file=".flow/teach-config.yml"
-            if [[ -f "$config_file" ]]; then
-                ${EDITOR:-code} "$config_file"
-            else
-                _teach_error "No teach-config.yml found" "Run 'teach init' first"
-                return 1
-            fi
+            case "$1" in
+                --help|-h|help) _teach_config_help; return 0 ;;
+                --view) _teach_config_view "$@" ;;
+                --cat) _teach_config_cat "$@" ;;
+                *) _teach_config_edit "$@" ;;
+            esac
             ;;
 
         # Status/info
@@ -2755,11 +4114,80 @@ teach() {
             _teach_dates_dispatcher "$@"
             ;;
 
-        # Health check (v5.14.0 - Task 2)
-        doctor)
-            _teach_doctor "$@"
+        # Backup management (v5.14.0 - Task 5)
+        backup|bk)
+            _teach_backup_command "$@"
             ;;
 
+        # Health check (v5.14.0 - Task 2)
+        doctor|doc)
+            case "$1" in
+                --help|-h|help) _teach_doctor_help; return 0 ;;
+                *) _teach_doctor "$@" ;;
+            esac
+            ;;
+
+        # Validation (Week 2-3: Validation Commands)
+        validate|val|v)
+            case "$1" in
+                --help|-h|help) _teach_validate_help; return 0 ;;
+                *) teach-validate "$@" ;;
+            esac
+            ;;
+
+        # Cache management (Week 3-4: Cache Management)
+        cache|c)
+            case "$1" in
+                --help|-h|help) _teach_cache_help; return 0 ;;
+                *) teach_cache "$@" ;;
+            esac
+            ;;
+
+        # Clean command (delete _freeze/ + _site/)
+        clean|cl)
+            case "$1" in
+                --help|-h|help) _teach_clean_help; return 0 ;;
+                *) teach_clean "$@" ;;
+            esac
+            ;;
+
+        # Profile management (Phase 2 - Wave 1: Profile Management)
+        profiles|profile|prof)
+            case "$1" in
+                --help|-h|help) _teach_profiles_help; return 0 ;;
+                *) _teach_profiles "$@" ;;
+            esac
+            ;;
+
+        # Git hooks management (v5.14.0 - PR #277 Task 2)
+        hooks|hook)
+            local subcmd="$1"
+            shift
+
+            case "$subcmd" in
+                install|i)
+                    _install_git_hooks "$@"
+                    ;;
+                upgrade|up|u)
+                    _upgrade_git_hooks "$@"
+                    ;;
+                uninstall|remove|rm)
+                    _uninstall_git_hooks "$@"
+                    ;;
+                status|check|s)
+                    _check_all_hooks "$@"
+                    ;;
+                help|--help|-h)
+                    _teach_hooks_help
+                    ;;
+                *)
+                    _teach_error "Unknown hooks command: $subcmd"
+                    echo ""
+                    _teach_hooks_help
+                    return 1
+                    ;;
+            esac
+            ;;
         *)
             _teach_error "Unknown command: $cmd"
             echo ""
@@ -2769,7 +4197,7 @@ teach() {
     esac
 }
 
-# Show teaching project status (Full Inventory)
+# Show teaching project status (Enhanced Dashboard - Week 8)
 _teach_show_status() {
     # Help check
     if [[ "$1" == "--help" || "$1" == "-h" ]]; then
@@ -2784,61 +4212,43 @@ _teach_show_status() {
         return 1
     fi
 
-    echo ""
-    echo "${FLOW_COLORS[bold]}📚 Teaching Project Status${FLOW_COLORS[reset]}"
-    echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+    # Check for --performance flag (Phase 2 Wave 5)
+    if [[ "$1" == "--performance" ]]; then
+        # Source performance monitor if not already loaded
+        if [[ -z "$_FLOW_PERFORMANCE_MONITOR_LOADED" ]]; then
+            local perf_path="${0:A:h}/../performance-monitor.zsh"
+            [[ -f "$perf_path" ]] && source "$perf_path"
+        fi
 
-    # Show course name from config
-    if command -v yq >/dev/null 2>&1; then
-        local course=$(yq '.course.name // "Unknown"' "$config_file" 2>/dev/null)
-        local semester=$(yq '.course.semester // "Unknown"' "$config_file" 2>/dev/null)
-        local year=$(yq '.course.year // ""' "$config_file" 2>/dev/null)
-        echo "  Course:   $course"
-        [[ -n "$year" && "$year" != "null" ]] && echo "  Term:     $semester $year" || echo "  Semester: $semester"
-    fi
-
-    # Show current branch
-    local branch=$(git branch --show-current 2>/dev/null)
-    echo "  Branch:   $branch"
-
-    # Show if on draft or production
-    if [[ "$branch" == "draft" ]]; then
-        echo "  ${FLOW_COLORS[success]}✓ Safe to edit (draft branch)${FLOW_COLORS[reset]}"
-    elif [[ "$branch" == "production" ]]; then
-        echo "  ${FLOW_COLORS[warning]}⚠ On production - changes are live!${FLOW_COLORS[reset]}"
-    fi
-
-    # Config validation status
-    if typeset -f _teach_validate_config >/dev/null 2>&1; then
-        if _teach_validate_config "$config_file" --quiet; then
-            echo "  Config:   ${FLOW_COLORS[success]}✓ valid${FLOW_COLORS[reset]}"
+        if typeset -f _format_performance_dashboard >/dev/null 2>&1; then
+            _format_performance_dashboard 7  # Default: 7 days
+            return $?
         else
-            echo "  Config:   ${FLOW_COLORS[warning]}⚠ has issues${FLOW_COLORS[reset]}"
+            _flow_log_error "Performance monitoring not available"
+            return 1
         fi
     fi
 
-    # Scholar integration status
-    if typeset -f _teach_has_scholar_config >/dev/null 2>&1; then
-        if _teach_has_scholar_config "$config_file"; then
-            echo "  Scholar:  ${FLOW_COLORS[success]}✓ configured${FLOW_COLORS[reset]}"
-        else
-            echo "  Scholar:  ${FLOW_COLORS[muted]}not configured${FLOW_COLORS[reset]}"
-        fi
+    # Check for --full flag to show old detailed view
+    if [[ "$1" == "--full" ]]; then
+        _teach_show_status_full
+        return 0
     fi
 
-    # Teaching mode indicator (Phase 4 - v5.11.0+)
-    if command -v yq >/dev/null 2>&1; then
-        local teaching_mode=$(yq '.workflow.teaching_mode // false' "$config_file" 2>/dev/null)
-        local auto_commit=$(yq '.workflow.auto_commit // false' "$config_file" 2>/dev/null)
-
-        if [[ "$teaching_mode" == "true" ]]; then
-            if [[ "$auto_commit" == "true" ]]; then
-                echo "  Mode:     ${FLOW_COLORS[success]}🎓 Teaching mode enabled (auto-commit)${FLOW_COLORS[reset]}"
-            else
-                echo "  Mode:     ${FLOW_COLORS[success]}🎓 Teaching mode enabled${FLOW_COLORS[reset]}"
-            fi
-        fi
+    # Use enhanced dashboard by default (Week 8)
+    if typeset -f _teach_show_status_dashboard >/dev/null 2>&1; then
+        _teach_show_status_dashboard
+        return $?
+    else
+        # Fallback to basic status if dashboard not loaded
+        _teach_show_status_full
+        return $?
     fi
+}
+
+# Full status (detailed view - retained for --full flag)
+_teach_show_status_full() {
+    local config_file=".flow/teach-config.yml"
 
     # ============================================
     # GIT STATUS (Phase 3 - v5.11.0+)
@@ -3047,115 +4457,629 @@ _teach_show_status() {
     echo ""
 }
 
-# Show current week info
-_teach_show_week() {
+# ==============================================================================
+# BACKUP COMMAND (v5.14.0 - Task 5)
+# ==============================================================================
+
+# Backup command dispatcher
+# Usage: teach backup <subcommand> [args]
+_teach_backup_command() {
+    local subcmd="${1:-list}"
+    shift 2>/dev/null || true
+
+    case "$subcmd" in
+        create|c)
+            _teach_backup_create "$@"
+            ;;
+        list|ls|l)
+            _teach_backup_list "$@"
+            ;;
+        restore|r)
+            _teach_backup_restore "$@"
+            ;;
+        delete|del|rm)
+            _teach_backup_delete "$@"
+            ;;
+        archive|a)
+            _teach_backup_archive "$@"
+            ;;
+        help|-h|--help)
+            _teach_backup_help
+            ;;
+        *)
+            _flow_log_error "Unknown backup subcommand: $subcmd"
+            echo ""
+            _teach_backup_help
+            return 1
+            ;;
+    esac
+}
+
+# Create backup - Main backup interface
+_teach_backup_create() {
+    local content_path="$1"
+    local backup_name="${2:-}"
+
     # Help check
-    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-        _teach_week_help
+    if [[ "$content_path" == "--help" || "$content_path" == "-h" ]]; then
+        cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup create${FLOW_COLORS[reset]} - Create Timestamped Backup         ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup create${FLOW_COLORS[reset]} [content_path] [name]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Creates timestamped snapshots of teaching content for recovery.
+  Backups are stored in ${FLOW_COLORS[accent]}.backups/${FLOW_COLORS[reset]} with metadata tracking.
+
+${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}content_path${FLOW_COLORS[reset]}     Path to content (default: current directory)
+  ${FLOW_COLORS[cmd]}name${FLOW_COLORS[reset]}             Optional name (auto-timestamped if omitted)
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}           JSON output for scripting
+  ${FLOW_COLORS[cmd]}--quiet, -q${FLOW_COLORS[reset]}      Minimal output
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Backup current directory (auto timestamp)${FLOW_COLORS[reset]}
+  $ teach backup create .
+
+  ${FLOW_COLORS[muted]}# Backup specific lecture${FLOW_COLORS[reset]}
+  $ teach backup create lectures/week-01
+
+  ${FLOW_COLORS[muted]}# Backup with custom name${FLOW_COLORS[reset]}
+  $ teach backup create . "Before Midterm"
+
+  ${FLOW_COLORS[muted]}# Backup exam folder${FLOW_COLORS[reset]}
+  $ teach backup create exams/midterm
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}.backups/<path>.<timestamp>/${FLOW_COLORS[reset]}
+  Updates: ${FLOW_COLORS[accent]}.backups/.metadata${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}teach backup list${FLOW_COLORS[reset]} to see all backups
+  • Run ${FLOW_COLORS[accent]}teach doctor${FLOW_COLORS[reset]} to verify backup system
+  • Backups are incremental (efficient storage)
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  Guide: docs/guides/BACKUP-SYSTEM-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} - List backups
+  ${FLOW_COLORS[cmd]}teach backup restore${FLOW_COLORS[reset]} - Restore from backup
+  ${FLOW_COLORS[cmd]}teach backup delete${FLOW_COLORS[reset]} - Delete backup
+
+EOF
         return 0
     fi
 
-    local config_file=".flow/teach-config.yml"
+    # Default to current directory
+    if [[ -z "$content_path" ]]; then
+        content_path="."
+    fi
 
-    if [[ ! -f "$config_file" ]]; then
-        _flow_log_error "Not a teaching project"
+    if [[ ! -d "$content_path" ]]; then
+        _flow_log_error "Path not found: $content_path"
         return 1
     fi
 
-    # Calculate current week (requires yq and date math)
-    if ! command -v yq >/dev/null 2>&1; then
-        _flow_log_error "yq required for week calculation"
+    # Create backup
+    local backup_path=$(_teach_backup_content "$content_path")
+
+    if [[ $? -eq 0 && -n "$backup_path" ]]; then
+        _flow_log_success "Backup created: $(basename "$backup_path")"
+
+        # Update metadata
+        _teach_backup_update_metadata "$content_path" "$backup_path"
+
+        return 0
+    else
+        _flow_log_error "Failed to create backup"
         return 1
     fi
+}
 
-    local start_date=$(yq '.semester.start_date // ""' "$config_file" 2>/dev/null)
-    if [[ -z "$start_date" ]]; then
-        _flow_log_error "No start_date in config"
-        return 1
+# List all backups
+_teach_backup_list() {
+    local content_path="${1:-.}"
+
+    # Help check
+    if [[ "$content_path" == "--help" || "$content_path" == "-h" ]]; then
+        cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} - List All Backups                 ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} [content_path]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Displays all backups for a content directory with size, file count,
+  and timestamp information.
+
+${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}content_path${FLOW_COLORS[reset]}    Path to content (default: current directory)
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}          JSON output for scripting
+  ${FLOW_COLORS[cmd]}--short${FLOW_COLORS[reset]}         Compact output (names only)
+
+${FLOW_COLORS[bold]}SORTING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}Default${FLOW_COLORS[reset]}       Newest first (by timestamp)
+  ${FLOW_COLORS[accent]}--oldest${FLOW_COLORS[reset]}      Oldest first
+  ${FLOW_COLORS[accent]}--size${FLOW_COLORS[reset]}        Largest first
+
+${FLOW_COLORS[bold]}FILTERING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--recent N${FLOW_COLORS[reset]}      Show N most recent backups
+  ${FLOW_COLORS[cmd]}--pattern "glob"${FLOW_COLORS[reset]} Filter by name pattern
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# List all backups (current directory)${FLOW_COLORS[reset]}
+  $ teach backup list
+
+  ${FLOW_COLORS[muted]}# List backups for specific content${FLOW_COLORS[reset]}
+  $ teach backup list lectures/week-01
+
+  ${FLOW_COLORS[muted]}# Show compact output${FLOW_COLORS[reset]}
+  $ teach backup list --short
+
+  ${FLOW_COLORS[muted]}# Show only 5 most recent${FLOW_COLORS[reset]}
+  $ teach backup list --recent 5
+
+${FLOW_COLORS[bold]}OUTPUT COLUMNS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}Name${FLOW_COLORS[reset]}       Backup identifier with timestamp
+  ${FLOW_COLORS[accent]}Size${FLOW_COLORS[reset]}       Total size on disk
+  ${FLOW_COLORS[accent]}Files${FLOW_COLORS[reset]}      Number of files in backup
+  ${FLOW_COLORS[accent]}Date${FLOW_COLORS[reset]}       Creation timestamp
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}teach backup restore <name>${FLOW_COLORS[reset]} to restore
+  • Backup names include timestamps for easy identification
+  • Combine with ${FLOW_COLORS[accent]}--json${FLOW_COLORS[reset]} for scripting
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup create${FLOW_COLORS[reset]} - Create backup
+  ${FLOW_COLORS[cmd]}teach backup restore${FLOW_COLORS[reset]} - Restore from backup
+
+EOF
+        return 0
     fi
 
-    local start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s" 2>/dev/null)
-    local now_epoch=$(date "+%s")
-    local diff_days=$(( (now_epoch - start_epoch) / 86400 ))
-    local week=$(( diff_days / 7 + 1 ))
+    local backup_dir="$content_path/.backups"
+
+    if [[ ! -d "$backup_dir" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[muted]}No backups found for: $content_path${FLOW_COLORS[reset]}"
+        echo ""
+        return 0
+    fi
+
+    local backups=$(_teach_list_backups "$content_path")
+
+    if [[ -z "$backups" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[muted]}No backups found${FLOW_COLORS[reset]}"
+        echo ""
+        return 0
+    fi
 
     echo ""
-    echo "${FLOW_COLORS[bold]}📅 Week $week${FLOW_COLORS[reset]}"
-    echo "  Semester started: $start_date"
-    echo "  Days elapsed: $diff_days"
+    echo "${FLOW_COLORS[bold]}Backups for: $(basename "$content_path")${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo ""
+
+    local count=0
+    while IFS= read -r backup; do
+        local backup_name=$(basename "$backup")
+        local size=$(du -sh "$backup" 2>/dev/null | awk '{print $1}')
+        local file_count=$(find "$backup" -type f 2>/dev/null | wc -l | tr -d ' ')
+
+        # Extract timestamp from backup name
+        local timestamp=$(echo "$backup_name" | grep -o '[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}-[0-9]\{4\}' || echo "")
+
+        echo "  ${FLOW_COLORS[accent]}${backup_name}${FLOW_COLORS[reset]}"
+        echo "    Size: ${size}  Files: ${file_count}"
+
+        if [[ -n "$timestamp" ]]; then
+            # Convert timestamp to human-readable
+            local year="${timestamp:0:4}"
+            local month="${timestamp:5:2}"
+            local day="${timestamp:8:2}"
+            local time="${timestamp:11:2}:${timestamp:13:2}"
+            echo "    Date: ${year}-${month}-${day} ${time}"
+        fi
+
+        echo ""
+        ((count++))
+    done <<< "$backups"
+
+    echo "${FLOW_COLORS[success]}Total backups: $count${FLOW_COLORS[reset]}"
     echo ""
 }
 
-# Help function
-_teach_dispatcher_help() {
-    # Colors (ANSI codes for consistent formatting)
-    local _C_BOLD="${_C_BOLD:-\033[1m}"
-    local _C_NC="${_C_NC:-\033[0m}"
-    local _C_GREEN="${_C_GREEN:-\033[0;32m}"
-    local _C_CYAN="${_C_CYAN:-\033[0;36m}"
-    local _C_BLUE="${_C_BLUE:-\033[0;34m}"
-    local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
-    local _C_DIM="${_C_DIM:-\033[2m}"
-    local _C_MAGENTA="${_C_MAGENTA:-\033[0;35m}"
+# Restore from backup
+_teach_backup_restore() {
+    local backup_name="$1"
 
-    echo -e "
-${_C_BOLD}╭──────────────────────────────────────────────╮${_C_NC}
-${_C_BOLD}│ 🎓 TEACH - Teaching Workflow Dispatcher      │${_C_NC}
-${_C_BOLD}╰──────────────────────────────────────────────╯${_C_NC}
+    # Help check
+    if [[ "$backup_name" == "--help" || "$backup_name" == "-h" || -z "$backup_name" ]]; then
+        cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup restore${FLOW_COLORS[reset]} - Restore From Backup             ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
 
-${_C_BOLD}Usage:${_C_NC} teach <command> [args]
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup restore${FLOW_COLORS[reset]} <backup_name>
 
-${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
-  ${_C_CYAN}teach exam \"Topic\"${_C_NC}        Generate exam via Scholar
-  ${_C_CYAN}teach quiz \"Topic\"${_C_NC}        Generate quiz via Scholar
-  ${_C_CYAN}teach slides \"Topic\"${_C_NC}      Generate slides via Scholar
-  ${_C_CYAN}teach deploy${_C_NC}              Deploy draft → production
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Restores content from a backup snapshot. Requires confirmation
+  before overwriting current content.
 
-${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
-  ${_C_DIM}\$${_C_NC} teach exam \"Hypothesis Testing\" --dry-run  ${_C_DIM}# Preview exam${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach quiz \"ANOVA\" --questions 10          ${_C_DIM}# 10-question quiz${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach slides \"Regression\" --format quarto  ${_C_DIM}# Quarto slides${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach syllabus                               ${_C_DIM}# Generate syllabus${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach init \"STAT 545\"                       ${_C_DIM}# Initialize course${_C_NC}
+${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}backup_name${FLOW_COLORS[reset]}    Name or partial name of backup to restore
+                          (use ${FLOW_COLORS[accent]}teach backup list${FLOW_COLORS[reset]} to see available backups)
 
-${_C_MAGENTA}📚 SCHOLAR COMMANDS${_C_NC} ${_C_DIM}(via Claude + Scholar plugin)${_C_NC}:
-  ${_C_CYAN}teach exam \"Topic\"${_C_NC}        Generate exam questions
-  ${_C_CYAN}teach quiz \"Topic\"${_C_NC}        Generate quiz questions
-  ${_C_CYAN}teach slides \"Topic\"${_C_NC}      Generate presentation slides
-  ${_C_CYAN}teach lecture \"Topic\"${_C_NC}     Generate lecture notes ${_C_DIM}(awaiting Scholar)${_C_NC}
-  ${_C_CYAN}teach assignment \"Topic\"${_C_NC}  Generate homework assignment
-  ${_C_CYAN}teach syllabus${_C_NC}            Generate course syllabus
-  ${_C_CYAN}teach rubric \"Name\"${_C_NC}       Generate grading rubric
-  ${_C_CYAN}teach feedback \"Work\"${_C_NC}     Generate student feedback
-  ${_C_CYAN}teach demo${_C_NC}                Create demo course (STAT-101)
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--force${FLOW_COLORS[reset]}        Skip confirmation prompt
+  ${FLOW_COLORS[cmd]}--dry-run${FLOW_COLORS[reset]}      Show what would be restored (no changes)
 
-${_C_BLUE}🏠 LOCAL COMMANDS${_C_NC} ${_C_DIM}(no Claude needed)${_C_NC}:
-  ${_C_CYAN}teach init [name]${_C_NC}         Initialize teaching workflow
-  ${_C_CYAN}teach deploy${_C_NC}              Deploy draft → production branch
-  ${_C_CYAN}teach archive${_C_NC}             Archive semester & create tag
-  ${_C_CYAN}teach config${_C_NC}              Edit .flow/teach-config.yml
-  ${_C_CYAN}teach status${_C_NC}              Show teaching project status
-  ${_C_CYAN}teach week${_C_NC}                Show current week number
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# First, list available backups${FLOW_COLORS[reset]}
+  $ teach backup list
 
-${_C_BLUE}🎛️  UNIVERSAL FLAGS${_C_NC} ${_C_DIM}(all Scholar commands)${_C_NC}:
-  ${_C_CYAN}--dry-run${_C_NC}                Preview output without saving
-  ${_C_CYAN}--format FORMAT${_C_NC}          Output: markdown, quarto, latex, qti
-  ${_C_CYAN}--output PATH${_C_NC}            Custom output path
-  ${_C_CYAN}--verbose${_C_NC}                Show Scholar command being executed
+  ${FLOW_COLORS[muted]}# Restore specific backup (with confirmation)${FLOW_COLORS[reset]}
+  $ teach backup restore lectures.2026-01-20-1430
 
-${_C_BLUE}⌨️  SHORTCUTS${_C_NC}:
-  ${_C_CYAN}e${_C_NC}     exam        ${_C_CYAN}q${_C_NC}     quiz        ${_C_CYAN}sl${_C_NC}    slides
-  ${_C_CYAN}lec${_C_NC}   lecture     ${_C_CYAN}hw${_C_NC}    assignment  ${_C_CYAN}syl${_C_NC}   syllabus
-  ${_C_CYAN}rb${_C_NC}    rubric      ${_C_CYAN}fb${_C_NC}    feedback
-  ${_C_CYAN}i${_C_NC}     init        ${_C_CYAN}d${_C_NC}     deploy      ${_C_CYAN}a${_C_NC}     archive
-  ${_C_CYAN}c${_C_NC}     config      ${_C_CYAN}s${_C_NC}     status      ${_C_CYAN}w${_C_NC}     week
+  ${FLOW_COLORS[muted]}# Restore without confirmation${FLOW_COLORS[reset]}
+  $ teach backup restore lectures.2026-01-20-1430 --force
 
-${_C_BLUE}📝 BRANCH WORKFLOW${_C_NC}:
-  ${_C_DIM}draft:${_C_NC}          Where you make edits (default branch)
-  ${_C_DIM}production:${_C_NC}    What students see (auto-deployed)
+  ${FLOW_COLORS[muted]}# Preview restore (no changes)${FLOW_COLORS[reset]}
+  $ teach backup restore lectures.2026-01-20-1430 --dry-run
 
-${_C_DIM}Get command help:${_C_NC} teach exam --help
-${_C_DIM}See also:${_C_NC} work help, dash teach
-${_C_DIM}Docs:${_C_NC} https://data-wise.github.io/flow-cli/guides/teaching-workflow/
-"
+${FLOW_COLORS[bold]}WARNING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[error]}⚠ This will OVERWRITE current content!${FLOW_COLORS[reset]}
+
+  Before restoring:
+  • Ensure you have a current backup (${FLOW_COLORS[accent]}teach backup create${FLOW_COLORS[reset]})
+  • Check what changed (${FLOW_COLORS[accent]}git diff${FLOW_COLORS[reset]})
+  • Consider using ${FLOW_COLORS[accent]}--dry-run${FLOW_COLORS[reset]} first
+
+${FLOW_COLORS[bold]}EXIT CODES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}0${FLOW_COLORS[reset]}   Success - backup restored
+  ${FLOW_COLORS[accent]}1${FLOW_COLORS[reset]}   Error - backup not found or restore failed
+  ${FLOW_COLORS[accent]}2${FLOW_COLORS[reset]}   Cancelled - user declined confirmation
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Use ${FLOW_COLORS[accent]}teach backup list${FLOW_COLORS[reset]} to find exact backup name
+  • Partial names work (e.g., "lectures.2026-01-20")
+  • Backups are in ${FLOW_COLORS[accent]}.backups/<path>.<timestamp>/${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} - List available backups
+  ${FLOW_COLORS[cmd]}teach backup create${FLOW_COLORS[reset]} - Create new backup
+
+EOF
+        return 0
+    fi
+
+    # Use smart path resolution (PR #277 Task 3)
+    local found_backup=$(_resolve_backup_path "$backup_name")
+
+    if [[ $? -ne 0 || -z "$found_backup" ]]; then
+        echo ""
+        echo "Use ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} to see available backups"
+        echo ""
+        return 1
+    fi
+
+    # Get content path (parent of .backups)
+    local content_path=$(dirname "$(dirname "$found_backup")")
+
+    # Confirm restore
+    echo ""
+    echo "${FLOW_COLORS[warning]}⚠ Restore Backup?${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  From:     $backup_name"
+    echo "  To:       $content_path"
+    echo ""
+    echo "${FLOW_COLORS[error]}⚠ This will overwrite current content!${FLOW_COLORS[reset]}"
+    echo ""
+
+    read -q "REPLY?Proceed with restore? [y/N] "
+    local response="$REPLY"
+    echo ""
+
+    if [[ ! "$response" =~ ^[yY]$ ]]; then
+        echo ""
+        echo "${FLOW_COLORS[info]}Cancelled - no changes made${FLOW_COLORS[reset]}"
+        echo ""
+        return 1
+    fi
+
+    # Perform restore
+    if command -v rsync &>/dev/null; then
+        rsync -a --delete "$found_backup/" "$content_path/" 2>/dev/null
+    else
+        rm -rf "$content_path"/* 2>/dev/null
+        cp -R "$found_backup"/* "$content_path/" 2>/dev/null
+    fi
+
+    if [[ $? -eq 0 ]]; then
+        _flow_log_success "Restored from backup: $backup_name"
+        return 0
+    else
+        _flow_log_error "Failed to restore backup"
+        return 1
+    fi
+}
+
+# Delete backup
+_teach_backup_delete() {
+    local backup_name="$1"
+    local force=false
+
+    if [[ "$2" == "--force" ]]; then
+        force=true
+    fi
+
+    # Help check
+    if [[ "$backup_name" == "--help" || "$backup_name" == "-h" || -z "$backup_name" ]]; then
+        cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup delete${FLOW_COLORS[reset]} - Delete Backup                  ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup delete${FLOW_COLORS[reset]} <backup_name> [options]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Permanently deletes a backup. Use with caution - deleted backups
+  cannot be recovered.
+
+${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}backup_name${FLOW_COLORS[reset]}    Name of backup to delete
+                          (use ${FLOW_COLORS[accent]}teach backup list${FLOW_COLORS[reset]} to see backups)
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--force, -f${FLOW_COLORS[reset]}    Skip confirmation prompt
+  ${FLOW_COLORS[cmd]}--dry-run${FLOW_COLORS[reset]}      Show what would be deleted (no changes)
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Delete with confirmation (recommended)${FLOW_COLORS[reset]}
+  $ teach backup delete lectures.2026-01-20-1430
+
+  ${FLOW_COLORS[muted]}# Force delete (no confirmation)${FLOW_COLORS[reset]}
+  $ teach backup delete old-backup --force
+
+  ${FLOW_COLORS[muted]}# Preview deletion${FLOW_COLORS[reset]}
+  $ teach backup delete lectures.2026-01-20-1430 --dry-run
+
+${FLOW_COLORS[bold]}CONFIRMATION${FLOW_COLORS[reset]}
+  Without ${FLOW_COLORS[cmd]}--force${FLOW_COLORS[reset]}, you will be prompted:
+
+    Delete backup? [y/N]
+
+  Type ${FLOW_COLORS[accent]}y${FLOW_COLORS[reset]} to confirm, ${FLOW_COLORS[accent]}N${FLOW_COLORS[reset]} or ${FLOW_COLORS[accent]}Enter${FLOW_COLORS[reset]} to cancel.
+
+${FLOW_COLORS[bold]}WARNING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[error]}⚠ Deletions are permanent!${FLOW_COLORS[reset]}
+
+  Before deleting:
+  • Verify you have other backups or the content is no longer needed
+  • Use ${FLOW_COLORS[accent]}--dry-run${FLOW_COLORS[reset]} to preview
+  • Consider ${FLOW_COLORS[accent]}teach backup archive${FLOW_COLORS[reset]} for semester-end cleanup
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Partial names work (e.g., "lectures.2026-01")
+  • Combine with ${FLOW_COLORS[accent]}teach backup list --recent${FLOW_COLORS[reset]} to find old backups
+  • Run ${FLOW_COLORS[accent]}teach doctor${FLOW_COLORS[reset]} to check backup system health
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} - List backups
+  ${FLOW_COLORS[cmd]}teach backup archive${FLOW_COLORS[reset]} - Archive semester backups
+
+EOF
+        return 0
+    fi
+
+    # Use smart path resolution (PR #277 Task 3)
+    local found_backup=$(_resolve_backup_path "$backup_name")
+
+    if [[ $? -ne 0 || -z "$found_backup" ]]; then
+        return 1
+    fi
+
+    # Delete with confirmation (unless --force)
+    if [[ "$force" == "false" ]]; then
+        _teach_delete_backup "$found_backup"
+    else
+        _teach_delete_backup "$found_backup" --force
+    fi
+
+    if [[ $? -eq 0 ]]; then
+        _flow_log_success "Deleted backup: $backup_name"
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Archive semester backups
+_teach_backup_archive() {
+    local semester_name="${1:-}"
+
+    # Help check
+    if [[ "$semester_name" == "--help" || "$semester_name" == "-h" ]]; then
+        cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup archive${FLOW_COLORS[reset]} - Archive Semester Backups        ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup archive${FLOW_COLORS[reset]} <semester_name> [options]
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Archives backups at the end of a semester based on retention policies.
+  Reduces storage while preserving important backups.
+
+${FLOW_COLORS[bold]}ARGUMENTS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}semester_name${FLOW_COLORS[reset]}    Semester identifier (e.g., spring-2026, fall-2025)
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--dry-run${FLOW_COLORS[reset]}        Preview actions without making changes
+  ${FLOW_COLORS[cmd]}--force${FLOW_COLORS[reset]}          Skip confirmation prompt
+  ${FLOW_COLORS[cmd]}--compress${FLOW_COLORS[reset]}       Create compressed archive (.tar.gz)
+
+${FLOW_COLORS[bold]}RETENTION POLICIES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}archive${FLOW_COLORS[reset]}       Keep forever - exams, syllabi, rubrics
+  ${FLOW_COLORS[accent]}semester${FLOW_COLORS[reset]}      Delete at semester end - lectures, slides
+
+  Backups are processed according to their retention policy setting.
+
+${FLOW_COLORS[bold]}SEMESTER NAMING${FLOW_COLORS[reset]}
+  Use standard semester identifiers:
+
+  ${FLOW_COLORS[cmd]}spring-YYYY${FLOW_COLORS[reset]}      Spring semester (Jan - May)
+  ${FLOW_COLORS[cmd]}summer-YYYY${FLOW_COLORS[reset]}      Summer session (May - Aug)
+  ${FLOW_COLORS[cmd]}fall-YYYY${FLOW_COLORS[reset]}        Fall semester (Aug - Dec)
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Archive spring 2026 semester (with confirmation)${FLOW_COLORS[reset]}
+  $ teach backup archive spring-2026
+
+  ${FLOW_COLORS[muted]}# Preview archive actions${FLOW_COLORS[reset]}
+  $ teach backup archive spring-2026 --dry-run
+
+  ${FLOW_COLORS[muted]}# Force archive (no confirmation)${FLOW_COLORS[reset]}
+  $ teach backup archive spring-2026 --force
+
+  ${FLOW_COLORS[muted]}# Create compressed archive${FLOW_COLORS[reset]}
+  $ teach backup archive spring-2026 --compress
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}.backups/.archive/${FLOW_COLORS[reset]}
+  • Compressed archives (.tar.gz) for long-term storage
+  • Metadata updated with archive status
+  • Original backups removed after archiving
+
+${FLOW_COLORS[bold]}WARNING${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[warning]}⚠ Run after semester ends${FLOW_COLORS[reset]}
+
+  Best practices:
+  • Archive AFTER final grades are submitted
+  • Keep exams and syllabi (archive policy)
+  • Remove lectures and slides (semester policy)
+  • Use ${FLOW_COLORS[accent]}--dry-run${FLOW_COLORS[reset]} first to preview
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Combine with ${FLOW_COLORS[accent]}teach doctor --fix${FLOW_COLORS[reset]} for storage optimization
+  • Compressed archives save significant space
+  • Keep archives off-site for disaster recovery
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup list${FLOW_COLORS[reset]} - List all backups
+  ${FLOW_COLORS[cmd]}teach backup delete${FLOW_COLORS[reset]} - Delete individual backups
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Check backup system health
+
+EOF
+        return 0
+    fi
+
+    if [[ -z "$semester_name" ]]; then
+        _flow_log_error "Semester name required"
+        echo ""
+        echo "Usage: teach backup archive <semester_name>"
+        echo "Example: teach backup archive spring-2026"
+        echo ""
+        return 1
+    fi
+
+    # Call the archive function from backup-helpers
+    _teach_archive_semester "$semester_name"
+}
+
+# Backup help (upgraded to FLOW_COLORS)
+_teach_backup_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup${FLOW_COLORS[reset]} - Content Backup System                    ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach backup <subcommand> [args]
+
+${FLOW_COLORS[bold]}SUBCOMMANDS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}create [path]${FLOW_COLORS[reset]}          Create timestamped backup
+  ${FLOW_COLORS[cmd]}list [path]${FLOW_COLORS[reset]}            List all backups
+  ${FLOW_COLORS[cmd]}restore <name>${FLOW_COLORS[reset]}         Restore from backup
+  ${FLOW_COLORS[cmd]}delete <name>${FLOW_COLORS[reset]}          Delete backup (with confirmation)
+  ${FLOW_COLORS[cmd]}archive <semester>${FLOW_COLORS[reset]}     Archive semester backups
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Create backup${FLOW_COLORS[reset]}
+  $ teach backup create lectures/week-01
+
+  ${FLOW_COLORS[muted]}# List all backups${FLOW_COLORS[reset]}
+  $ teach backup list
+
+  ${FLOW_COLORS[muted]}# Restore from backup${FLOW_COLORS[reset]}
+  $ teach backup restore lectures.2026-01-20-1430
+
+  ${FLOW_COLORS[muted]}# Archive semester (end of semester)${FLOW_COLORS[reset]}
+  $ teach backup archive spring-2026
+
+${FLOW_COLORS[bold]}BACKUP STRUCTURE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}.backups/${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}├── lectures.2026-01-20-1430/${FLOW_COLORS[reset]}    Timestamped snapshots
+  ${FLOW_COLORS[muted]}├── lectures.2026-01-19-0900/${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}└── metadata.json${FLOW_COLORS[reset]}                Backup metadata
+
+${FLOW_COLORS[bold]}RETENTION POLICIES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}archive${FLOW_COLORS[reset]}    Keep forever (exams, syllabi)
+  ${FLOW_COLORS[accent]}semester${FLOW_COLORS[reset]}   Delete at semester end (lectures)
+
+${FLOW_COLORS[muted]}Get subcommand help: teach backup <subcommand> --help${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}SEE ALSO${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]} - Clean build artifacts
+  ${FLOW_COLORS[cmd]}teach deploy${FLOW_COLORS[reset]} - Deploy course website
+
+EOF
+}
+
+# Update backup metadata
+_teach_backup_update_metadata() {
+    local content_path="$1"
+    local backup_path="$2"
+    local metadata_file="$content_path/.backups/metadata.json"
+
+    # Create metadata directory if needed
+    mkdir -p "$(dirname "$metadata_file")"
+
+    # Initialize metadata file if it doesn't exist
+    if [[ ! -f "$metadata_file" ]]; then
+        echo "{\"backups\":[]}" > "$metadata_file"
+    fi
+
+    # Get backup info
+    local backup_name=$(basename "$backup_path")
+    local timestamp=$(date +%s)
+    local size=$(du -sh "$backup_path" 2>/dev/null | awk '{print $1}')
+    local file_count=$(find "$backup_path" -type f 2>/dev/null | wc -l | tr -d ' ')
+
+    # Add to metadata (simplified - full JSON manipulation would need jq)
+    # For now, just append a simple entry
+    if command -v jq &>/dev/null; then
+        local tmp_file=$(mktemp)
+        jq --arg name "$backup_name" \
+           --arg ts "$timestamp" \
+           --arg size "$size" \
+           --arg files "$file_count" \
+           '.backups += [{name: $name, timestamp: ($ts|tonumber), size: $size, files: ($files|tonumber)}]' \
+           "$metadata_file" > "$tmp_file" && mv "$tmp_file" "$metadata_file"
+    fi
 }

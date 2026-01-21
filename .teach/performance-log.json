@@ -1,0 +1,82 @@
+{
+  "version": "1.0",
+  "entries": [
+    {
+      "timestamp": "2026-01-20T14:30:00Z",
+      "operation": "validate",
+      "files": 12,
+      "duration_sec": 45,
+      "parallel": true,
+      "workers": 8,
+      "speedup": 3.5,
+      "cache_hits": 8,
+      "cache_misses": 4,
+      "cache_hit_rate": 0.67,
+      "avg_render_time_sec": 3.8,
+      "slowest_file": "lectures/week-08.qmd",
+      "slowest_time_sec": 15.2,
+      "per_file": [
+        {"file": "lectures/week-01.qmd", "duration_sec": 3.2, "cache_hit": true},
+        {"file": "lectures/week-02.qmd", "duration_sec": 5.1, "cache_hit": false},
+        {"file": "lectures/week-03.qmd", "duration_sec": 2.9, "cache_hit": true},
+        {"file": "lectures/week-04.qmd", "duration_sec": 9.2, "cache_hit": false},
+        {"file": "lectures/week-05.qmd", "duration_sec": 3.5, "cache_hit": true},
+        {"file": "lectures/week-06.qmd", "duration_sec": 12.8, "cache_hit": false},
+        {"file": "lectures/week-07.qmd", "duration_sec": 8.9, "cache_hit": false},
+        {"file": "lectures/week-08.qmd", "duration_sec": 15.2, "cache_hit": false},
+        {"file": "assignments/hw-01.qmd", "duration_sec": 4.1, "cache_hit": true},
+        {"file": "assignments/hw-02.qmd", "duration_sec": 3.8, "cache_hit": true},
+        {"file": "assignments/hw-03.qmd", "duration_sec": 4.5, "cache_hit": true},
+        {"file": "assignments/final.qmd", "duration_sec": 11.5, "cache_hit": false}
+      ]
+    },
+    {
+      "timestamp": "2026-01-19T10:15:00Z",
+      "operation": "validate",
+      "files": 12,
+      "duration_sec": 48,
+      "parallel": true,
+      "workers": 8,
+      "speedup": 3.3,
+      "cache_hits": 7,
+      "cache_misses": 5,
+      "cache_hit_rate": 0.58,
+      "avg_render_time_sec": 4.0,
+      "slowest_file": "lectures/week-08.qmd",
+      "slowest_time_sec": 15.8,
+      "per_file": []
+    },
+    {
+      "timestamp": "2026-01-18T15:45:00Z",
+      "operation": "validate",
+      "files": 8,
+      "duration_sec": 35,
+      "parallel": true,
+      "workers": 8,
+      "speedup": 2.9,
+      "cache_hits": 6,
+      "cache_misses": 2,
+      "cache_hit_rate": 0.75,
+      "avg_render_time_sec": 4.4,
+      "slowest_file": "lectures/week-06.qmd",
+      "slowest_time_sec": 13.2,
+      "per_file": []
+    },
+    {
+      "timestamp": "2026-01-17T09:30:00Z",
+      "operation": "validate",
+      "files": 10,
+      "duration_sec": 52,
+      "parallel": false,
+      "workers": 0,
+      "speedup": 1.0,
+      "cache_hits": 5,
+      "cache_misses": 5,
+      "cache_hit_rate": 0.50,
+      "avg_render_time_sec": 5.2,
+      "slowest_file": "lectures/week-08.qmd",
+      "slowest_time_sec": 16.1,
+      "per_file": []
+    }
+  ]
+}

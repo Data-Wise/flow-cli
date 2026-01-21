@@ -12,6 +12,120 @@
 # BACKUP FUNCTIONS (Task 5)
 # ==============================================================================
 
+# Smart backup path resolution (PR #277 Task 3)
+# Resolves backup names to full paths using multiple strategies
+# Usage: _resolve_backup_path <backup_input>
+# Returns: Full path to backup directory (stdout) and exit code 0 on success
+_resolve_backup_path() {
+    local input="$1"
+
+    if [[ -z "$input" ]]; then
+        _flow_log_error "No backup name provided"
+        return 1
+    fi
+
+    # Pattern 1: Full absolute path provided
+    if [[ -d "$input" ]]; then
+        echo "$input"
+        return 0
+    fi
+
+    # Pattern 2: Relative path (e.g., "lectures/week-01/.backups/backup-name")
+    if [[ -d "$input" ]]; then
+        echo "$input"
+        return 0
+    fi
+
+    # Pattern 3: Search in common content directories with .backups folders
+    # Enable null_glob FIRST for patterns that might not match
+    setopt local_options null_glob
+
+    local content_dirs=(lectures/* exams/* assignments/* quizzes/* slides/* syllabi/* rubrics/* .)
+
+    local exact_matches=()
+    local fuzzy_matches=()
+
+    for dir in "${content_dirs[@]}"; do
+        if [[ ! -d "$dir" ]]; then
+            continue
+        fi
+
+        local backup_dir="$dir/.backups"
+        if [[ ! -d "$backup_dir" ]]; then
+            continue
+        fi
+
+        # Check for exact match
+        if [[ -d "$backup_dir/$input" ]]; then
+            exact_matches+=("$backup_dir/$input")
+            continue
+        fi
+
+        # Check for fuzzy match (contains input)
+        for backup in "$backup_dir"/*; do
+            if [[ -d "$backup" ]]; then
+                local backup_name=$(basename "$backup")
+                if [[ "$backup_name" == *"$input"* ]]; then
+                    fuzzy_matches+=("$backup")
+                fi
+            fi
+        done
+    done
+
+    # Return exact match if found (prefer first exact match)
+    if [[ ${#exact_matches[@]} -eq 1 ]]; then
+        echo "${exact_matches[1]}"
+        return 0
+    elif [[ ${#exact_matches[@]} -gt 1 ]]; then
+        _flow_log_error "Multiple exact matches for '$input':"
+        for match in "${exact_matches[@]}"; do
+            echo "  ${FLOW_COLORS[accent]}$match${FLOW_COLORS[reset]}" >&2
+        done
+        echo "" >&2
+        echo "Please use a more specific path" >&2
+        return 1
+    fi
+
+    # Return fuzzy match if exactly one found
+    if [[ ${#fuzzy_matches[@]} -eq 1 ]]; then
+        echo "${fuzzy_matches[1]}"
+        return 0
+    elif [[ ${#fuzzy_matches[@]} -gt 1 ]]; then
+        _flow_log_error "Multiple backups match '$input':"
+        for match in "${fuzzy_matches[@]}"; do
+            echo "  ${FLOW_COLORS[accent]}$(basename "$match")${FLOW_COLORS[reset]}" >&2
+        done
+        echo "" >&2
+        echo "Please use a more specific name" >&2
+        return 1
+    fi
+
+    # No matches found - list available backups
+    _flow_log_error "Backup not found: $input"
+    echo "" >&2
+    echo "${FLOW_COLORS[muted]}Available backups:${FLOW_COLORS[reset]}" >&2
+
+    local found_any=false
+    for dir in "${content_dirs[@]}"; do
+        local backup_dir="$dir/.backups"
+        if [[ -d "$backup_dir" ]]; then
+            for backup in "$backup_dir"/*; do
+                if [[ -d "$backup" ]]; then
+                    echo "  ${FLOW_COLORS[accent]}$(basename "$backup")${FLOW_COLORS[reset]} (in $(dirname "$backup_dir"))" >&2
+                    found_any=true
+                fi
+            done
+        fi
+    done
+
+    if [[ "$found_any" == "false" ]]; then
+        echo "  ${FLOW_COLORS[muted]}No backups found${FLOW_COLORS[reset]}" >&2
+    fi
+
+    echo "" >&2
+    return 1
+}
+
 # Create timestamped backup of content folder
 # Usage: _teach_backup_content <content_path>
 # Returns: Path to backup folder
@@ -221,6 +335,9 @@ _teach_archive_semester() {
 
     local archived_count=0
     local deleted_count=0
+
+    # Enable null_glob for patterns that might not match
+    setopt local_options null_glob
 
     # Find all .backups folders
     local dirs=(exams/* lectures/* slides/* assignments/* quizzes/* syllabi/* rubrics/*)

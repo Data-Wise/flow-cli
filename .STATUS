@@ -4,1313 +4,255 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.14.0 - Teaching Workflow v3.0
+## Phase: v5.15.0 - Dual Track Implementation
 ## Priority: 1
-## Progress: 100
+## Progress: 20
 
-## Focus: v5.14.0 - Teaching Workflow v3.0 - Complete ✅ (Ready for Release)
+## Focus: Intelligent Content Analysis + Comprehensive Help System
 
-## ✅ Completed (2026-01-18 - Session 4):
+## 🎯 Current Sprint (2026-01-20):
 
-### Teaching Workflow v3.0 - Visual Documentation Complete ✅
-
-**Session Duration:** ~2 hours
-**Commits:** 0bf6110c, 105983a6, 05e9b2ba
-**Branch:** dev
-
-**Goal:** Create comprehensive visual demos for all Teaching Workflow v3.0 features and integrate them into documentation
-
-**Phase 1: GIF Demo Creation**
-- ✅ Created 4 new tutorial GIFs (teach init, deploy, status, Scholar integration)
-- ✅ Optimized all 6 GIFs with gifsicle -O3 (30-40% size reduction)
-- ✅ Updated generation script to handle all 6 demos
-- ✅ Documented critical VHS tape creation guidelines
-
-**Phase 2: Documentation Integration**
-- ✅ Embedded all 6 GIFs into TEACHING-WORKFLOW-V3-GUIDE.md
-- ✅ Embedded backup GIF into BACKUP-SYSTEM-GUIDE.md
-- ✅ Embedded doctor + backup GIFs into TEACHING-V3-MIGRATION-GUIDE.md
-- ✅ Added descriptive captions for accessibility
-
-**Statistics:**
-- New GIFs created: 4 (3.9MB total)
-- Updated GIFs: 2 (optimized from 4.1MB to 3.1MB)
-- Total collection: 6 GIFs (5.7MB, all optimized)
-- VHS tapes: 6 complete tapes with echo-based titles
-- Documentation updates: 3 guides (+36 lines for GIF embeds)
-
-**Files Created:**
-- `tutorial-teach-init.tape` + `.gif` (336KB)
-- `tutorial-teach-deploy.tape` + `.gif` (1.2MB)
-- `tutorial-teach-status.tape` + `.gif` (1.1MB)
-- `tutorial-scholar-integration.tape` + `.gif` (288KB)
-
-**Critical Guidelines Documented:**
-1. Use echo for titles (prevents zsh errors with #)
-2. Source flow-cli at start of every tape
-3. Avoid escaped quotes in Type commands
-4. Optimize GIFs with gifsicle after generation
-5. Test commands before recording
-
-**Documentation Coverage:**
-- Getting Started: teach init GIF
-- Health Checks: teach doctor GIF
-- Enhanced Status: teach status GIF
-- Scholar Integration: template + lesson plan GIF
-- Deployment Workflow: teach deploy GIF
-- Backup Management: backup system GIF
-
-**Status:** ✅ Complete - Visual documentation ready for v5.14.0 release and MkDocs deployment
+### Two Parallel Implementation Tracks
 
 ---
 
-## ✅ Completed (2026-01-18 - Session 3):
-
-### Teaching Workflow v3.0 Phase 1 - MERGED ✅
-
-**PR:** #272 (merged to dev 2026-01-18)
-**Branch:** feature/teaching-workflow-v3 (deleted)
-**Worktree:** Removed from `~/.git-worktrees/flow-cli/teaching-workflow-v3`
-**Commits:** 15 commits (squash merged: 66adf281)
-**Session Duration:** PR review + merge (~15 minutes)
-
-**Goal:** Complete overhaul of teaching workflow with 10 tasks across 3 waves
-
-**Delivered:**
-
-**Wave 1: Foundation (Tasks 1-4)**
-- ✅ Removed standalone teach-init command (1,484 lines)
-- ✅ Created teach doctor with comprehensive health checks (367 lines)
-- ✅ Added --help flags with EXAMPLES to all 10 sub-commands
-- ✅ Implemented --json, --quiet, --fix flags for doctor
-
-**Wave 2: Backup System (Tasks 5-6)**
-- ✅ Automated backup system with timestamped snapshots (343 lines)
-- ✅ Retention policies (archive vs semester)
-- ✅ Interactive delete confirmation with preview
-- ✅ Archive management for semester-end
-
-**Wave 3: Enhancements (Tasks 7-10)**
-- ✅ Enhanced teach status (deployment + backup info)
-- ✅ Deploy preview before PR creation
-- ✅ Scholar template selection + lesson plan auto-load
-- ✅ Reimplemented teach init (--config, --github flags)
-
-**Statistics:**
-- Files changed: 18 (+7,294 / -1,510 lines)
-- Core implementation: +1,866 / -1,502 lines (net +364)
-- Documentation: +5,600 lines (3 comprehensive guides)
-- Tests: 73 tests (45 automated + 28 interactive)
-- Test coverage: 100% of v3.0 features
-
-**Documentation Generated:**
-- TEACHING-WORKFLOW-V3-GUIDE.md (25,000+ lines)
-- BACKUP-SYSTEM-GUIDE.md (18,000+ lines)
-- TEACH-DISPATCHER-REFERENCE-v3.0.md (10,000+ lines)
-- REFCARD-TEACHING-V3.md (quick reference)
-
-**Code Quality:**
-- ✅ No syntax errors
-- ✅ No TODO/FIXME comments
-- ✅ 100% feature coverage
-- ✅ Backward compatible
-- ✅ ADHD-friendly design
-
-**Cleanup:**
-- ✅ Worktree removed
-- ✅ Local branch deleted
-- ✅ Dev branch synchronized with remote
-
-**Status:** ✅ Merged, tested, ready for v5.14.0 release
-
----
-
-## ✅ Completed (2026-01-18 - Session 2):
-
-### Post-Release Cleanup & Documentation Fixes
-
-**Session Duration:** ~30 minutes
-**PR:** #270 (merged to main)
-
-**Accomplishments:**
-
-**Git Cleanup:**
-- [x] Removed 3 worktrees (feature-wt-enhancement, feature/teaching-flags, teach-dates-automation)
-- [x] Deleted 8 merged local branches
-- [x] Pruned 5 stale remote tracking branches
-- [x] Final state: 5 local branches, main worktree only
-
-**Documentation Link Fixes:**
-- [x] Fixed 21 broken links identified by `mkdocs build --strict`
-- [x] Files fixed:
-  - `docs/reference/SCHOLAR-ENHANCEMENT-API.md` - implementation reports links
-  - `docs/reference/WT-ENHANCEMENT-API.md` - spec link path
-  - `docs/specs/_archive/SPEC-teaching-flags-enhancement-2026-01-17.md` - relative paths
-  - `docs/specs/_archive/SPEC-teaching-integration-2026-01-17.md` - relative paths
-  - `docs/specs/SPEC-teach-dates-automation-2026-01-16.md` - brainstorm links
-  - `docs/specs/SPEC-teaching-git-integration-2026-01-16.md` - brainstorm link
-  - `docs/tutorials/18-lazyvim-showcase.md` - tutorial link
-  - `docs/tutorials/scholar-enhancement/index.md` - reports links
-  - `docs/tutorials/scholar-enhancement/03-advanced.md` - reports links
-  - `docs/reference/DISPATCHER-REFERENCE.md` - source code link
-  - `docs/architecture/TEACHING-DATES-ARCHITECTURE.md` - developer guide link
-- [x] Validation: `mkdocs build --strict` passes with 0 warnings
-- [x] Site deployed successfully
-
-**Branch Sync:**
-- [x] PR #270 merged to main
-- [x] Recreated dev branch from main (dev was deleted during PR merge)
-- [x] All branches synchronized with remote
-
-**Status:** ✅ v5.13.0 fully released, cleaned up, and documented
-
----
-
-## ✅ Completed (2026-01-18):
-
-### Teach/Scholar Enhancement - MERGED ✅
-
-**Spec:** `docs/specs/SPEC-teach-scholar-enhancement-2026-01-17.md`
-**PR:** #268 (merged to dev 2026-01-18)
-**Commits:** 26 commits (+12,005 lines)
-
-**Goal:** Comprehensive teach dispatcher enhancement with Scholar plugin integration
-
-**Delivered:**
-- 9 Scholar wrapper commands with full flag support
-- Content management system (--content-preset, +/- modifiers)
-- Output format flexibility (md, pdf, docx, typst)
-- Comprehensive tutorials (3-part series with 8 GIF demos)
-- API documentation (1,100+ lines)
-- 45 tests (100% passing)
-
----
-
-### WT Workflow Enhancement - MERGED ✅
-
-**Spec:** `docs/specs/SPEC-wt-workflow-enhancement-2026-01-17.md`
-**Brainstorm:** `docs/specs/BRAINSTORM-wt-workflow-enhancement-2026-01-17.md`
-**PR:** #267 (merged to dev 2026-01-18)
-**Commits:** 10 commits (+5,590 lines)
-
-**Goal:** Enhanced worktree listing and pick wt delete/update actions
-
-**Delivered:**
-- `wt` overview with formatted table, status icons (✅🧹⚠️🏠), session indicators (🟢🟡⚪)
-- `wt <filter>` for filtered listing by project
-- `pick wt` keybindings: ctrl-x (delete), ctrl-r (refresh)
-- Multi-select with Tab for batch operations
-- Safe branch deletion (try -d first, prompt for -D)
-- Performance fix: cached git branch --merged before loop
-- 23 tests (22 passing)
-
----
-
-### Claude Code Plugin Integration - Planning Complete
-
-**Main Spec:** `docs/specs/SPEC-claude-code-plugin-integration-2026-01-17.md`
-**Target Release:** flow-cli v5.13.0
-**Estimated Effort:** 18-24 hours over 2-3 weeks
-
-**Goal:** CLI wrappers for scholar and craft Claude Code plugins (108 combined commands)
-
-**Completed Planning:**
-- [x] Main specification with technical validation
-- [x] Claude CLI capabilities verified (v2.1.12)
-- [x] Error handling section added
-- [x] Phased brainstorming approach defined
-
-**Sub-Specs:**
-
-1. [x] Teach/Scholar Enhancement: `SPEC-teach-scholar-enhancement-2026-01-17.md` (20-24h) - MERGED ✅
-2. [x] WT Workflow Enhancement: `SPEC-wt-workflow-enhancement-2026-01-17.md` (6-8h) - MERGED ✅
-3. [ ] Research/Literature: Pending (after teaching implementation)
-4. [ ] Craft Commands: Pending (after research implementation)
-
-**Implementation Order:**
-
-1. Teach/Scholar enhancement (WIP)
-2. Research/literature integration
-3. Craft commands
-
-**Status:** Planning complete, teach/scholar enhancement implementation next
-
----
-
-## ✅ Completed (2026-01-17):
-
-### Teaching Documentation - GIF Readability Improvements (Session 2)
-
-**Session Duration:** ~2 hours
-**PRs Merged:** #264, #265, #266
-**Commits:** c4a5575e, 9efb7611, 2d04ee7e
-
-**Accomplishments:**
-
-**Phase 1: Found Missing GIFs**
-- [x] Identified Tutorials 14 & 19 without visual demos
-- [x] Found existing `teaching-git-workflow.gif` not embedded
-- [x] Analyzed all teaching tutorial GIF status
-
-**Phase 2: Added GIFs to All Teaching Tutorials (PR #264, #265)**
-- [x] Tutorial 19: Embedded existing teaching-git-workflow GIF (2.0MB)
-- [x] Tutorial 14: Created new simulated VHS tape (100 lines)
-- [x] Tutorial 14: Generated and optimized workflow demo GIF (1.8MB)
-- [x] Tutorial 20: Embedded 3 existing GIF demos
-- [x] All 3 teaching tutorials now have complete visual documentation
-
-**Phase 3: Fixed Readability Issues (PR #266)**
-- [x] User feedback: Font too small (14), teaching-git-workflow wrong size (960x640)
-- [x] Updated all VHS tapes: Font 14 → 18 (29% larger)
-- [x] Updated dimensions: 1200x700-900 → 1400x900-1000 (17% larger)
-- [x] Regenerated all 5 teaching GIFs with improved settings
-- [x] Optimized file sizes: 21MB → 13.6MB (36% reduction)
-- [x] Fixed teaching-git-workflow.gif to proper 1400x1000 dimensions
-
-**Phase 4: Deployment**
-- [x] Deployed to GitHub Pages (commit 44d630f2)
-- [x] All GIFs now readable with larger font and proper dimensions
-
-**Final Teaching Documentation Status:**
-- Tutorial 14: 1 GIF (3.4MB, 1400x1000, font 18) ✅
-- Tutorial 19: 1 GIF (6.2MB, 1400x1000, font 18) ✅
-- Tutorial 20: 3 GIFs (4.0MB total, 1400x900-1000, font 18) ✅
-- **Total:** 5 visual demos, 13.6MB optimized, 100% readable
-
-**Files Modified:**
-- `docs/assets/gifs/teaching-git-workflow.gif` (2.0MB → 6.2MB)
-- `docs/demos/tutorials/tutorial-14-teach-workflow.gif` (1.8MB → 3.4MB)
-- `docs/demos/tutorials/tutorial-20-dates-init.gif` (644KB → 1.1MB)
-- `docs/demos/tutorials/tutorial-20-dates-sync-dry-run.gif` (442KB → 865KB)
-- `docs/demos/tutorials/tutorial-20-dates-sync-interactive.gif` (1.1MB → 2.0MB)
-- All 5 VHS tape configs updated
-
-**Impact:**
-- ✅ All teaching tutorials now have ADHD-friendly visual documentation
-- ✅ Font size clearly readable (18 vs 14)
-- ✅ Consistent quality and dimensions across all GIFs
-- ✅ Optimized for web delivery
-
-**Status:** Teaching documentation complete with readable visual demos
-
----
-
-### Documentation Health Check & Test Coverage Complete
-
-**Session Duration:** ~2 hours
-**Commits:** 3b1543e9, faca7ddc
-
-**Accomplishments:**
-
-**Phase 1: Test Coverage Analysis**
-- [x] Analyzed existing test coverage (45 date-parser tests)
-- [x] Identified gaps (0 tests for teach-dates dispatcher)
-- [x] Created comprehensive test plan (3 phases)
-- [x] Documented test strategy in `docs/TEST-COVERAGE-ANALYSIS.md`
-
-**Phase 2: Unit Tests for teach-dates Dispatcher**
-- [x] Created `tests/test-teach-dates-unit.zsh` (33 tests, 100% passing)
-  - Dependency checks (3 tests)
-  - Flag parsing (3 tests)
-  - File filtering (7 tests)
-  - Dry-run mode (2 tests)
-  - Force mode (1 test)
-  - Status command (3 tests)
-  - Validate command (2 tests)
-  - Error handling (2 tests)
-  - Interactive prompts (2 tests)
-  - Help system (8 tests)
-
-**Phase 3: Integration Tests**
-- [x] Created `tests/test-teach-dates-integration.zsh` (16 tests, 100% passing)
-  - Full sync workflow (6 tests)
-  - Selective sync (4 tests)
-  - Config change propagation (1 test)
-  - Config validation integration (2 tests)
-  - Multi-file changes (2 tests)
-  - Date format consistency (1 test)
-
-**Phase 4: Documentation Health Check**
-- [x] Link validation (224 markdown files scanned)
-  - ~48 broken internal links identified
-  - Categorized by priority (HIGH/MEDIUM/LOW)
-  - Most issues in archived specs (low priority)
-- [x] Navigation consistency check
-  - ✅ mkdocs.yml: 100% valid entries
-  - ✅ No missing files in navigation
-  - 4 orphan files (specs - intentional)
-- [x] Stale documentation detection
-  - ✅ No stale docs (all updated < 30 days)
-  - Active maintenance confirmed
-- [x] Created comprehensive report: `docs/DOCS-HEALTH-CHECK-REPORT.md`
-
-**Test Coverage Summary:**
-- Total tests: 94 (all passing ✅)
-  - 45 unit tests (date-parser) ✅
-  - 33 unit tests (dispatcher) ✅
-  - 16 integration tests ✅
-- Coverage: 100% of user-facing commands
-- Performance: ~13 seconds total
-
-**Documentation Quality Metrics:**
-- Navigation Accuracy: 100% ✅
-- Documentation Fresh: 100% ✅
-- Link Accuracy: ~79% ⚠️ (48 broken links to fix)
-
-**Files Created:**
-- `tests/test-teach-dates-unit.zsh` (15K, 33 tests)
-- `tests/test-teach-dates-integration.zsh` (11K, 16 tests)
-- `docs/TEST-COVERAGE-ANALYSIS.md` (detailed analysis)
-- `docs/TEST-COVERAGE-COMPLETE.md` (summary report)
-- `docs/DOCS-HEALTH-CHECK-REPORT.md` (health check report)
+### Track A: Intelligent Content Analysis (teach analyze) - NEW ✨
+
+**Session Duration:** Brainstorm + Spec + Planning complete (~3 hours)
+**Branch:** `feature/teach-analyze` (created)
+**Worktree:** `~/.git-worktrees/flow-cli/teach-analyze`
+**Status:** Ready for Phase 0 implementation
+
+**Scope:** Phase 0 Ultra-MVP (4-5 hours implementation)
+- Concept extraction from frontmatter
+- Prerequisite validation (week ordering)
+- Violation detection and reporting
+- Zero AI dependency (heuristic-only)
+
+**Deliverables Created:**
+✅ SPEC-intelligent-content-analysis-2026-01-20.md (1,280 lines, status: ready ✅)
+✅ SPEC-REVIEW-intelligent-content-analysis.md (comprehensive review)
+✅ BRAINSTORM-intelligent-content-analysis-2026-01-20.md (deep mode + 2 agents)
+✅ PLAN-teach-analyze-phase0.md (4-5 hour implementation guide)
+✅ PLAN-teach-analyze-phase1.md (next phase reference)
+
+**Key Decisions Made:**
+✅ Resolved AI service integration (heuristic-only for Phase 0-1)
+✅ Split Phase 0 from Phase 1 (5h vs 12h)
+✅ Simplified API design (16 → 13 flags)
+✅ All open questions resolved
+
+**Implementation Roadmap:**
+- Phase 0 (4-5h): Prerequisite validation (THIS TRACK)
+- Phase 1 (6-8h): Caching + batch analysis
+- Phase 2 (8-10h): Integration (validate, deploy)
+- Phase 3 (10-12h): AI enhancement
+- Phase 4 (8-10h): Slide optimization
+- Phase 5 (6-8h): Polish + docs
+- **Total:** 42-53h across all phases
+
+**What Phase 0 Delivers:**
+```bash
+$ teach analyze lectures/week-05.qmd
+# Validates prerequisites, reports violations
+# Example: Week 5 requires concept from Week 7 → WARNING
+```
 
 **Next Steps:**
-- [ ] Fix high-priority broken links (5 todos created)
-- [ ] Generate missing teaching demo GIFs
-- [ ] Update documentation placeholders
-
-**Status:** Test coverage complete, docs health check complete, ready for doc fixes
+1. Start NEW session: `cd ~/.git-worktrees/flow-cli/teach-analyze && claude`
+2. Implement Phase 0 per PLAN-teach-analyze-phase0.md (4-5 hours)
+3. Run 25 tests (20 unit + 5 integration)
+4. Create PR: feature/teach-analyze → dev
 
 ---
 
-## ✅ Completed (2026-01-16):
+### Track B: Comprehensive Help System - Planning Complete ✅
 
-### Track A: Nvim/LazyVim Documentation - v5.11.0 (Released)
+**Session Duration:** Planning phase complete (~45 min)
+**Branch:** `feature/comprehensive-help` (created)
+**Worktree:** `~/.git-worktrees/flow-cli/comprehensive-help`
+**Status:** Ready for implementation (can proceed in parallel)
 
-**Branch:** `feature/nvim-documentation`
-**Worktree:** `~/.git-worktrees/flow-cli/nvim-documentation`
-**Session Duration:** ~3 hours
-**Commits:** 6 commits (eecfc147 → a0bde8ec)
+**Scope:** MVP (3-4 hours implementation)
+- Main dispatcher help reorganization (workflow-ordered)
+- 3 priority command helps (lecture, doctor, deploy)
+- Quick Start tutorial (8 steps, 15 minutes for users)
+- Website navigation integration
 
-**Goal:** Comprehensive nvim/LazyVim documentation for complete beginners
+**Interactive Decisions Made:**
+✅ Committed pending doc updates to dev
+✅ Selected MVP scope (fastest user value)
+✅ Prioritized: teach lecture, teach doctor, teach deploy
+✅ Tutorial: Use plan exactly (8 steps, 15 min)
+✅ Main help: Reorganize to workflow phases
 
-**Completed Deliverables:**
+**Implementation Guide:**
+- IMPLEMENTATION-NOTES.md (comprehensive task breakdown)
+- Task-by-task instructions with code templates
+- Verification checklist
+- Success criteria
 
-**Phase 1-2: Tutorial Series (4 tutorials, ~2,900 lines)**
-- [x] Tutorial 15: Nvim Quick Start (10 min survival guide)
-- [x] Tutorial 16: Vim Motions (15 min efficient navigation)
-- [x] Tutorial 17: LazyVim Basics (15 min essential plugins)
-- [x] Tutorial 18: LazyVim Showcase (30 min comprehensive tour)
+**Next Steps:**
+1. Start NEW session: `cd ~/.git-worktrees/flow-cli/comprehensive-help && claude`
+2. Implement per IMPLEMENTATION-NOTES.md (~3-4 hours)
+3. Run verification tests
+4. Create PR: feature/comprehensive-help → dev
 
-**Phase 3: Reference Documentation (~410 lines)**
-- [x] NVIM-QUICK-REFERENCE.md (1-page printable landscape card)
-  - All essential commands, LazyVim features, flow-cli integration
-  - Covers survival mode, navigation, editing, text objects
-  - LazyVim files/windows/LSP/Git/terminal sections
+---
 
-**Phase 4: Documentation Integration**
-- [x] work.md - Fixed default editor (nvim, not VS Code)
-  - Added "Learning Nvim" section with tutorial roadmap
-  - Updated editor support table highlighting nvim as default
-- [x] installation.md - Added nvim/LazyVim installation guide (~180 lines)
-  - Neovim installation (macOS/Ubuntu/Arch)
-  - LazyVim starter setup with prerequisites
-  - Nerd Font installation and configuration
-  - Learning resources and troubleshooting
-- [x] mkdocs.yml - Added navigation for tutorials + reference
-- [x] Documentation site built and verified
+### Which Track to Start First?
 
-**Infrastructure:**
-- [x] GIF directory structure (`docs/assets/gifs/nvim/`)
-- [x] GIF specifications documented (14 planned GIFs with details)
-- [x] Spec committed (`docs/specs/SPEC-nvim-documentation-2026-01-16.md`)
+**Option A: Track A (teach analyze Phase 0)**
+- Higher technical complexity
+- 4-5 hours implementation
+- Proves new concept (prerequisite validation)
+- User value: Catch ordering mistakes before deployment
+
+**Option B: Track B (comprehensive help)**
+- Lower complexity, pure documentation
+- 3-4 hours implementation
+- Immediate user value (better help text)
+- Unblocks user onboarding
+
+**Recommendation:** Either track is valuable. User chose Track A (teach analyze).
+
+---
+
+## 📦 Ready for PR (2 branches):
+
+### 1. Quarto Workflow Phase 2 - Complete ✅
+
+**Branch:** `feature/quarto-workflow`
+**Worktree:** `~/.git-worktrees/flow-cli/quarto-workflow`
+**Status:** All 6 waves complete, 597 tests passing, production-ready
+
+**Implementation:** ~10 hours (orchestrated, 80-85% time savings)
+
+**All 6 Waves Delivered:**
+1. ✅ Profile Management + R Detection (80 tests, 100%)
+2. ✅ Parallel Rendering 3-10x Speedup (74 tests, 100%)
+3. ✅ Custom Validators Framework (38/57 tests*)
+4. ✅ Advanced Caching (49 tests, 100%)
+5. ✅ Performance Monitoring (44 tests, 100%)
+6. ✅ Integration + Documentation (37 tests, 100%)
+
+*Wave 3 framework production-ready (100%). Built-in validators functional but need 2-3h refinement.
 
 **Statistics:**
-- Files created: 7 (4 tutorials, 1 reference, 1 GIF README, 1 spec)
-- Files modified: 3 (work.md, installation.md, mkdocs.yml)
-- Lines of documentation: ~3,500+
-- Learning path: 70 minutes from zero to productive
-
-**Status:** ✅ Released in v5.11.0
-
----
-
-### Track B: Teaching + Git Integration - v5.11.0 (Released)
-
-**Spec:** `docs/specs/SPEC-teaching-git-integration-2026-01-16.md`
-**Brainstorm:** `BRAINSTORM-teaching-git-integration-2026-01-16.md`
-**Branch:** `feature/teaching-git-integration` (merged)
-**Worktree:** `~/.git-worktrees/flow-cli/teaching-git-integration` (removed)
-**PR:** #257 (merged to dev)
-**Commits:** 5 commits (a730e305 → 6722a1fe, then 1768289b, 82de2f54)
-**Merge Commit:** 89f41b05
-
-**Goal:** Seamless git integration for teaching workflow with smart automation and PR-based deployments
-
-**Key Insight:** Teaching content creation has natural "generate → review → commit → deploy" rhythm. Current manual git operations break flow state.
-
-**Completed Deliverables:**
-
-**Phase 1: Smart Post-Generation Workflow**
-- [x] New `lib/git-helpers.zsh` module (311 lines, 20+ functions)
-- [x] Interactive 3-option menu after content generation:
-  1. Review in editor then commit
-  2. Commit now with auto-generated message
-  3. Skip for now (manual git later)
-- [x] Auto-generated commit messages with conventional commits format
-- [x] Course context included (from teach-config.yml)
-- [x] Co-authored-by Scholar attribution
-- [x] Optional push to remote after commit
-
-**Phase 2: Branch-Aware Deployment**
-- [x] Enhanced `teach deploy` command with PR-based workflow
-- [x] 4 pre-flight checks (branch, clean state, unpushed, conflicts)
-- [x] Conflict detection with interactive rebase option
-- [x] Auto-generated PR with commit list and deploy checklist
-- [x] Configuration via `git` and `workflow` sections in teach-config.yml
-- [x] Direct push bypass for advanced users (`--direct-push`)
-
-**Phase 3: Git-Aware teach status**
-- [x] Enhanced `teach status` with git status section
-- [x] Smart filtering of teaching-related files
-- [x] Color-coded status indicators (M/A/D/??)
-- [x] Interactive cleanup workflow (4 options):
-  1. Commit teaching files (Recommended)
-  2. Stash teaching files
-  3. View diff first
-  4. Leave as-is
-- [x] Auto-generated commit messages with course context
-
-**Phase 4: Teaching Mode Auto-Commit**
-- [x] Configuration-driven teaching mode (workflow.teaching_mode)
-- [x] Auto-commit workflow (skips interactive prompts)
-- [x] Teaching mode indicator in `teach status` output
-- [x] Enhanced `teach deploy` with auto-push support
-- [x] Streamlined "generate → commit → push → deploy" workflow
-- [x] 5 tests (100% passing)
-
-**Phase 5: Git Integration in teach init**
-- [x] Git initialization wizard for fresh repos
-- [x] `--no-git` flag to skip git setup
-- [x] Teaching-specific .gitignore template (95 lines)
-- [x] Automatic draft/main branch creation
-- [x] Initial commit with course structure
-- [x] Optional GitHub repository creation via gh CLI
-- [x] 7 tests (100% passing)
-
-**Files Created:**
-- `lib/git-helpers.zsh` (311 lines)
-- `lib/templates/teaching/teaching.gitignore` (95 lines)
-- `tests/test-teaching-mode.zsh` (225 lines, 5 tests)
-- `tests/test-teach-init-git.zsh` (251 lines, 7 tests)
-- `tests/integration-test-suite.zsh` (476 lines)
-- `tests/simple-integration-test.zsh` (239 lines)
-
-**Files Modified:**
-- `lib/dispatchers/teach-dispatcher.zsh` (+757 lines)
-- `commands/teach-init.zsh` (+287 lines)
-- `CLAUDE.md` (+385 lines)
-- `docs/CHANGELOG.md` (+78 lines)
-- `docs/commands/teach.md` (+176 lines)
-- `docs/reference/DISPATCHER-REFERENCE.md` (+172 lines)
-- `lib/templates/teaching/teach-config.schema.json` (+57 lines)
-
-**Statistics:**
-- Files changed: 13 (+3,451 lines, -58 lines)
-- Total tests: 12 (100% passing)
-- Functions added: 20+
-- Documentation: ~500 lines
-
-**Success Metrics Achieved:**
-- ✅ Reduce git commands per content generation: 5 → 0
-- ✅ Interactive confirmations maintain safety
-- ✅ Teaching mode enables 0-prompt workflow
-- ✅ PR-based deployment prevents direct pushes to production
-
-**Status:** ✅ Merged to dev, ready for v5.12.0 release
-
----
-
-### Track C: Teaching Dates Automation - v5.13.0 (Complete)
-
-**Spec:** `docs/specs/SPEC-teach-dates-automation-2026-01-16.md`
-**Branch:** `feature/teach-dates-automation` (merged to dev)
-**PR:** #260 (merged to dev on 2026-01-17)
-**Commits:** Multiple incremental commits
-**Status:** ✅ Complete with 100% test coverage
-
-**Goal:** Automated date/deadline management for teaching materials with centralized config and smart sync
-
-**Key Insight:** Instructors manually update dates across 10+ files when semester changes. One config file should be the source of truth for all dates.
-
-**Completed Deliverables:**
-
-**Phase 1: Extended Config Schema** ✅
-- [x] Extended teach-config.yml with semester_info section
-- [x] Weeks array with number, start_date, topic
-- [x] Holidays array with name, date
-- [x] Deadlines with week/offset or absolute dates
-- [x] Exams array with name, date, time
-- [x] Updated teach-config.schema.json
-- [x] Added validation rules
-
-**Phase 2: Date Parser Module** ✅
-- [x] Created `lib/date-parser.zsh` (620 lines, 8 functions)
-  - `_date_normalize()` - Convert any format to YYYY-MM-DD
-  - `_date_add_days()` - Date arithmetic
-  - `_date_parse_quarto_yaml()` - Extract YAML frontmatter
-  - `_date_parse_markdown_inline()` - Find inline dates
-  - `_date_find_teaching_files()` - File discovery
-  - `_date_load_config()` - Config loading
-  - `_date_compute_from_week()` - Week + offset calculation
-  - `_date_apply_to_file()` - Safe file modification
-
-**Phase 3: teach dates Commands** ✅
-- [x] Created `lib/dispatchers/teach-dates.zsh` (502 lines, 7 functions)
-- [x] `teach dates sync` - Interactive file-by-file sync
-  - Preview changes before applying
-  - Conflict resolution (ask user)
-  - Dry-run mode (`--dry-run`)
-  - Force mode (`--force`)
-  - Selective sync (`--assignments`, `--lectures`, `--syllabus`, `--file`)
-  - Verbose mode (`--verbose`)
-- [x] `teach dates status` - Show date consistency
-- [x] `teach dates init` - Initialize date configuration
-- [x] `teach dates validate` - Validate date config
-- [x] Support for Quarto YAML + Markdown inline dates
-
-**Phase 4: Testing & Quality** ✅
-- [x] Created `tests/test-date-parser.zsh` (454 lines, 45 tests)
-- [x] Created `tests/test-teach-dates-unit.zsh` (33 tests)
-- [x] Created `tests/test-teach-dates-integration.zsh` (16 tests)
-- [x] Total: 94 tests, 100% passing
-- [x] Test coverage: 100% of user-facing commands
-- [x] Cross-platform support (GNU/BSD date)
-
-**Phase 5: Documentation** ✅
-- [x] Created `docs/guides/TEACHING-DATES-GUIDE.md` (1,885 lines)
-- [x] Created `docs/architecture/TEACHING-DATES-ARCHITECTURE.md` (960 lines)
-- [x] Created `docs/reference/DATE-PARSER-API-REFERENCE.md` (1,256 lines)
-- [x] Created `docs/reference/TEACH-CONFIG-DATES-SCHEMA.md` (603 lines)
-- [x] Created `docs/reference/TEACH-DATES-QUICK-REFERENCE.md` (250 lines)
-- [x] Updated `docs/tutorials/14-teach-dispatcher.md` (132 lines added)
-- [x] Total documentation: ~5,000 lines
-
-**Files Created:**
-- `lib/date-parser.zsh` (620 lines)
-- `lib/dispatchers/teach-dates.zsh` (502 lines)
-- `tests/test-date-parser.zsh` (454 lines)
-- `tests/test-teach-dates-unit.zsh` (533 lines)
-- `tests/test-teach-dates-integration.zsh` (451 lines)
-- `docs/guides/TEACHING-DATES-GUIDE.md` (1,885 lines)
-- `docs/architecture/TEACHING-DATES-ARCHITECTURE.md` (960 lines)
-- `docs/reference/DATE-PARSER-API-REFERENCE.md` (1,256 lines)
-- `docs/reference/TEACH-CONFIG-DATES-SCHEMA.md` (603 lines)
-- `docs/reference/TEACH-DATES-QUICK-REFERENCE.md` (250 lines)
-- `docs/TEST-COMPLETION-REPORT.md` (244 lines)
-
-**Files Modified:**
-- `lib/config-validator.zsh` (+112 lines)
-- `lib/dispatchers/teach-dispatcher.zsh` (+12 lines)
-- `lib/templates/teaching/teach-config.schema.json` (+110 lines)
-- `docs/tutorials/14-teach-dispatcher.md` (+132 lines)
-- `mkdocs.yml` (+2 nav entries)
-
-**Statistics:**
-- Total files: 16 files created/modified
-- Lines added: +7,205
-- Tests: 94 (100% passing)
-- Documentation: ~5,000 lines
-- Test coverage: 100%
-
-**Success Metrics Achieved:**
-- ✅ Time to update all dates: 30 min → 2 min (achieved via `teach dates sync --force`)
-- ✅ Date inconsistencies: Eliminated with config-driven approach
-- ✅ Semester rollover: Streamlined with `teach dates init` wizard
-
-**Status:** ✅ Merged to dev, tested, documented, ready for v5.13.0 release
-
----
-
-## ✅ v5.10.0 RELEASED (2026-01-15):
-
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.10.0
-**PR:** #254 (merged to main)
-**Homebrew:** Auto-updated to v5.10.0 via PR #35
-
-**What Was Released:**
-- Worktree Detection + Cache Invalidation
-- Comprehensive Documentation Suite (~1,800 lines)
-- Scholar RFC for --config flag integration
-
----
-
-## ✅ Completed (2026-01-15 - Evening):
-
-### Documentation Site Deployment & Branch Sync - v5.10.0 Post-Release
-
-**Session Duration:** ~1 hour
-**Commits:** c60cc24a, bff0205d, b7cf3c1c
-**PR:** #255 (merged to main)
-
-**Accomplishments:**
-
-**Phase 1: Documentation Site Update**
-- [x] Updated version badges to v5.10.0 (index.md, quick-reference-card.md)
-- [x] Added "What's New in v5.10.0" section to homepage
-  - Complete API Reference (400+ lines)
-  - Architecture Diagrams (15 Mermaid diagrams)
-  - Developer Guide (600+ lines)
-  - Enhanced Worktree Support
-  - Documentation Hub
-- [x] Documented worktree dispatcher commands (wt list/create/remove/status)
-- [x] Fixed 6 broken links across documentation
-  - DOC-INDEX.md: 3 broken links fixed
-  - RFC and archived specs: 3 relative path corrections
-
-**Phase 2: GitHub Pages Deployment**
-- [x] Built site with mkdocs (8.27 seconds)
-- [x] Deployed to gh-pages branch (commit: 0a115b6e)
-- [x] Verified site live at https://Data-Wise.github.io/flow-cli/
-- [x] All v5.10.0 features now visible to users
-
-**Phase 3: Branch Synchronization**
-- [x] Committed documentation updates to dev (c60cc24a)
-- [x] Created PR #255 (dev → main sync)
-- [x] Resolved merge conflicts in .STATUS and DOC-INDEX.md
-- [x] Merged main into dev for conflict-free state (bff0205d)
-- [x] CI tests passed (ZSH Plugin Tests × 2)
-- [x] PR auto-merged to main (b7cf3c1c)
-- [x] Updated local main branch to match remote
-
-**Files Modified:**
-- `docs/index.md` - v5.10.0 version badges + "What's New" section
-- `docs/quick-reference-card.md` - wt dispatcher section + version
-- `docs/DOC-INDEX.md` - fixed 3 broken navigation links
-- `docs/specs/RFC-flow-scholar-config-protocol.md` - corrected file reference
-- `docs/specs/_archive/SPEC-dot-secret-management-v2-2026-01-10.md` - fixed 2 relative paths
-- `.STATUS` - this update documenting the session
-
-**Current State:**
-- ✅ Documentation site fully deployed with v5.10.0 content
-- ✅ Both dev and main branches synchronized
-- ✅ No uncommitted changes
-- ✅ All changes pushed to remote
-- ✅ PR #255 merged successfully
-
-**Impact:**
-- Users can now see v5.10.0 features on the live documentation site
-- Site prominently displays new API docs, architecture diagrams, and developer guide
-- Branch sync ensures main reflects all post-release documentation improvements
-
----
-
-## ✅ Completed (2026-01-15 - Afternoon):
-
-### Worktree Detection + Cache Invalidation - v5.10.0
-
-**PR:** #253 (merged to dev)
-**Commit:** f6b521a5
-**Brainstorm:** `BRAINSTORM-worktree-detection-fix-2026-01-15.md`
-
-**Problem:** `pick wt` failed to detect flat-named worktrees (e.g., `scholar-github-actions`)
-
-**Root Cause:** `_proj_list_worktrees()` only scanned level-2 directories, missing flat worktrees at level-1
-
-**Solution:** Hybrid Scanner
-- Check level-1 dirs for `.git` FILE (flat worktrees)
-- Parse `gitdir:` to extract project name
-- Fall back to level-2 scan (hierarchical)
-
-**Completed Tasks:**
-
-**Phase 1: Flat Worktree Detection**
-- [x] Root cause analysis complete
-- [x] Deep brainstorm with 8 requirements questions
-- [x] Solution design (Hybrid Scanner selected)
-- [x] Feature branch created
-- [x] Implement core fix in `_proj_list_worktrees()`
-- [x] Implement fix in `_proj_find_worktree()`
-- [x] Add 24 comprehensive tests
-- [x] Update documentation
-- [x] PR merged to dev
-
-**Phase 2: Cache Invalidation**
-- [x] Add `_proj_cache_invalidate()` to `wt create`
-- [x] Add `_proj_cache_invalidate()` to `wt remove`
-- [x] Test immediate worktree visibility
-- [x] Commit 104484ea pushed to dev
-
-**Acceptance Criteria (All Met):**
-- [x] `pick wt` shows flat worktrees (e.g., `scholar-test-flat`)
-- [x] All hierarchical worktrees still detected
-- [x] 24/24 tests passing
-- [x] Performance < 100ms
-- [x] New worktrees appear immediately (no cache delay)
-- [x] Removed worktrees disappear immediately
-
-**Modified Files:**
-- `commands/pick.zsh` - Hybrid detection algorithm
-- `lib/dispatchers/wt-dispatcher.zsh` - Cache invalidation
-- `docs/reference/PICK-COMMAND-REFERENCE.md` - Updated docs
-- `tests/test-flat-worktree-detection.zsh` - New test suite (24 tests)
-
-**Status:** Ready for v5.10.0 release
-
----
-
-## ✅ Completed (2026-01-15 - Afternoon):
-
-### Comprehensive Documentation Generation
-
-**Task:** Generate complete API docs, architecture diagrams, and developer guide
-
-**Deliverables:**
-- [x] `docs/reference/API-COMPLETE.md` (400+ lines)
-  - Complete API reference for all functions
-  - 100% function coverage
-  - Detailed parameters, returns, examples
-  - Type definitions and exit codes
-- [x] `docs/diagrams/ARCHITECTURE-DIAGRAMS.md` (500+ lines)
-  - 15 comprehensive Mermaid diagrams
-  - System overview, worktree detection, cache flow
-  - Teaching integration, session management
-  - Dependency graph, color system, deployment
-- [x] `docs/guides/DEVELOPER-GUIDE.md` (600+ lines)
-  - Complete development setup
-  - Step-by-step feature addition tutorial
-  - Testing best practices
-  - Code style guide and conventions
-  - Release process documentation
-- [x] `docs/DOC-INDEX.md` (300+ lines)
-  - Central documentation hub
-  - Documentation by type and feature
-  - Coverage matrix (100% core, 95% overall)
-  - Search tips and contribution guide
-
-**Total Documentation:** ~1,800 lines of comprehensive documentation
-
----
-
-### Scholar RFC - Config Flag Integration
-
-**Issue:** https://github.com/Data-Wise/scholar/issues/18
-**RFC Document:** `docs/specs/RFC-scholar-config-flag.md`
-
-**Proposal:** Add `--config` flag to Scholar teaching commands for bidirectional integration
+- Implementation Time: ~10 hours (vs 40-50 hours manual)
+- Time Savings: 80-85%
+- Files Created: 27 new files
+- Files Modified: 8 files
+- Lines Added: ~14,400 (4,500 code + 2,000 tests + 7,900 docs)
+- Tests: 322 (Phase 2) + 275 (Phase 1) = 597 total
+- Documentation: 2,931-line user guide + integration guides
+
+**Performance Achievements:**
+- Parallel Rendering: 3-10x speedup (4.0x verified)
+- Custom Validators: < 5s overhead for 3 validators
+- Performance Monitoring: < 100ms overhead
+- Cache Analysis: < 2s for 1000+ files
 
 **Key Features:**
-- Scholar reads teach-config.yml for course context
-- Shared JSON Schema validation
-- Config ownership protocol (flow-cli owns `course`, Scholar owns `scholar`)
-- Enhanced content generation with course-aware context
+- Profile Management: Multiple Quarto profiles + R auto-install
+- Parallel Rendering: Worker pools with smart queue
+- Custom Validators: Extensible framework (citations, links, formatting)
+- Advanced Caching: Selective clearing + recommendations
+- Performance Monitoring: Automatic tracking + trend visualization
 
-**Timeline:** Scholar v2.2.0 (after RFC approval)
-
-**Deliverables:**
-- [x] Comprehensive RFC document written
-- [x] GitHub issue created in Scholar repository (#18)
-- [x] Implementation plan with 4 phases
-- [x] Schema ownership protocol defined
-- [x] Benefits and migration path documented
-
-**Next:** Wait for Scholar team feedback
+**Next Steps:**
+1. Create PR: feature/quarto-workflow → dev
+2. Code review
+3. Integration testing
+4. v4.7.0 release
 
 ---
 
-## ✅ Previously Completed (2026-01-15 - Morning):
+### 2. Lecture-to-Slides Conversion (PR #280) - Complete ✅
 
-### Tutorial Enhancement - v5.9.0 Documentation
+**Branch:** `feature/lecture-to-slides`
+**Worktree:** `~/.git-worktrees/flow-cli/feature-lecture-to-slides`
+**Status:** Complete, PR #280 reviewed
 
-**Branch:** `feature/tutorial-enhancement`
-**Worktree:** `~/.git-worktrees/flow-cli-tutorial-enhancement`
+**Key Feature:**
+- `teach slides --from-lecture` conversion
+- Preserves R code chunks and LaTeX
+- Multi-part week support
+- LaTeX backslash preservation fix applied
 
-**Completed Tasks:**
-- [x] Update Tutorial 14 (teach dispatcher) with v5.9.0 config validation
-  - Added Part 3: Config Validation section
-  - Documented validation rules, hash-based caching, config ownership
-  - Added troubleshooting for validation errors
-- [x] Create learning path Mermaid diagram
-  - Flowchart showing tutorial progression
-  - Color-coded by difficulty (beginner/intermediate/optional)
-  - Clickable links to each tutorial
-- [x] Add tutorial index with progression overview
-  - Created `docs/tutorials/index.md`
-  - Quick paths for different user goals
-  - All 14 tutorials with time estimates and levels
-- [x] Generate VHS tapes for key tutorials
-  - `docs/demos/first-session.tape` (Tutorial 1)
-  - `docs/demos/dopamine-features.tape` (Tutorial 6)
-  - `docs/demos/cc-dispatcher.tape` (Tutorial 10)
+**Integration:**
+- Reviewed for compatibility with teach analyze Phase 4 (slide optimization)
+- Recommendation: Merge now, enhance in Phase 4 with `--optimize` flag
 
-**New Files:**
-- `docs/tutorials/index.md` - Tutorial index with Mermaid learning path
-- `docs/demos/first-session.tape` - VHS demo for Tutorial 1
-- `docs/demos/dopamine-features.tape` - VHS demo for Tutorial 6
-- `docs/demos/cc-dispatcher.tape` - VHS demo for Tutorial 10
-
-**Updated Files:**
-- `docs/tutorials/14-teach-dispatcher.md` - Added v5.9.0 config validation
-- `mkdocs.yml` - Added tutorial index to navigation
-
-**Status:** Merged to dev (PR #251, 2026-01-15)
+**Next Steps:**
+1. Merge PR #280 to dev (when approved)
+2. Phase 4 enhancement: Add `teach slides --optimize` flag
 
 ---
 
-## ✅ Just Completed (2026-01-14 - v5.9.0 Released):
+## 🗂️ Active Worktrees (6 total):
 
-### v5.9.0 Scholar Deep Integration - Released ✅
-
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.9.0
-**PR:** #249 (merged to main)
-
-**Delivered:**
-- [x] JSON Schema for teach-config.yml validation
-- [x] Hash-based change detection (SHA-256)
-- [x] Config validator with graceful yq fallback
-- [x] Flag validation before Scholar invocation
-- [x] Enhanced `teach status` with validation summary
-- [x] Bug fix: grading sum calculation for mikefarah/yq
-- [x] API Reference documentation
-- [x] Safe Testing guide with sandbox approach
-- [x] Interactive dogfeeding test suite (31/31 passing)
-
-**New Files:**
-- `lib/config-validator.zsh` - Validation + hash detection
-- `lib/templates/teaching/teach-config.schema.json` - JSON Schema
-- `docs/reference/API-REFERENCE.md` - Complete API reference
-- `docs/guides/SAFE-TESTING-v5.9.0.md` - Safe testing guide
-- `tests/interactive-dogfeed-v5.9.0.zsh` - Interactive test suite
-
-**Release Checklist - All Complete:**
-- [x] Implementation complete
-- [x] Bug fixes committed
-- [x] Dogfeeding tests passing (31/31)
-- [x] Interactive testing on real courses
-- [x] PR #249: dev → main (merged)
-- [x] Tag release: v5.9.0
-- [x] Homebrew formula auto-updated
-- [x] Documentation deployed to GitHub Pages
-- [x] Specs archived to docs/specs/_archive/
+| Worktree | Branch | Status |
+|----------|--------|--------|
+| Main repo | `dev` | Active (planning/coordination) |
+| `teach-analyze` | `feature/teach-analyze` | ✨ NEW - Ready for Phase 0 implementation |
+| `comprehensive-help` | `feature/comprehensive-help` | Ready for implementation |
+| `quarto-workflow` | `feature/quarto-workflow` | ✅ Complete - Ready for PR |
+| `feature-lecture-to-slides` | `feature/lecture-to-slides` | ✅ Complete - PR #280 |
+| `course-planning-phases-2-4` | `feature/course-planning-phases-2-4` | Paused/Archive |
 
 ---
 
-## ✅ Previously Completed (2026-01-14):
+## 📊 Version Roadmap:
 
-### v5.8.0 Scholar Teaching Wrappers - Bundled in v5.9.0 ✅
+**v5.15.0 (In Progress):**
+- Track A: Intelligent Content Analysis Phase 0 ← CURRENT FOCUS
+- Track B: Comprehensive Help System
+- Integration of both features
 
-- [x] 9 Scholar wrapper commands via teach dispatcher
-- [x] Preflight validation
-- [x] Universal flags: `--dry-run`, `--format`, `--output`, `--verbose`
-- [x] Tab completion
-- [x] 28 tests (all passing)
+**v4.7.0 (Ready):**
+- Quarto Workflow Phase 2 (ready for PR)
+- Lecture-to-Slides Conversion (PR #280)
 
-### v5.7.0 Prompt Engine Dispatcher - Bundled in v5.9.0 ✅
-
-- [x] New `prompt` dispatcher with 8 subcommands
-- [x] Support for Powerlevel10k, Starship, OhMyPosh
-- [x] Interactive toggle menu
-- [x] 224+ tests
-
----
-
-## 📊 Metrics
-
-- **Current Version:** 5.10.0 (Released 2026-01-15) ✅
-- **Dispatchers:** 11 active (including prompt)
-- **Commands:** 15+ core commands
-- **Tests:** 324+ across all features (24 new worktree tests)
-- **Performance:** Sub-10ms for core commands, < 100ms for worktree scanning
-- **Documentation:** https://Data-Wise.github.io/flow-cli/
-  - API Complete Reference (~400 lines)
-  - Architecture Diagrams (15 Mermaid diagrams)
-  - Developer Guide (~600 lines)
-  - Documentation Hub (~300 lines)
-
-## 📋 Future Roadmap
-
-### v5.11.0 (Next - Installation Improvements) [2-4 hours]
-
-**Priority:** High | **Effort:** Medium | **Impact:** High
-
-**Installation Experience:**
-- [ ] Create curl one-liner install script
-  - Auto-detect OS (macOS, Linux)
-  - Auto-detect plugin manager (zinit, antidote, oh-my-zsh)
-  - Interactive vs non-interactive modes
-  - Reference: aiterm's install.sh
-- [ ] Update installation docs
-  - Quick start guide (30 seconds to running)
-  - Comparison table (Homebrew vs manual vs git clone)
-  - Troubleshooting section (common issues)
-  - Video walkthrough
-- [ ] Add `flow doctor --fix` interactive mode
-  - Offer to install missing dependencies
-  - Guide through setup steps
-  - Verify installation success
-
-**Benefits:**
-- Lower barrier to entry for new users
-- Reduce installation support burden
-- Improve first-time experience
+**Future (v5.16.0+):**
+- teach analyze Phase 1: Caching + batch
+- teach analyze Phase 2: Integration
+- teach analyze Phase 3+: AI enhancement, slide optimization
 
 ---
 
-### v5.12.0 (Future - Error Messages & UX) [3-5 hours]
+## 📅 Session History (2026-01-20):
 
-**Priority:** Medium | **Effort:** Medium | **Impact:** High
+**Morning Session (~3 hours):**
+1. Reviewed PR #280 (lecture-to-slides)
+2. Deep brainstorm: Intelligent content analysis (8 interactive questions)
+3. Launched 2 background agents (backend architect + UX designer)
+4. Created comprehensive specification (~12,000 lines)
+5. Reviewed and refined spec (resolved 5 critical issues)
+6. Created Phase 0 implementation plan (Ultra-MVP, 4-5 hours)
+7. Created feature branch and worktree
+8. Updated .STATUS
 
-**Enhanced Error Handling:**
-- [ ] Standardize error messages across all commands
-  - Clear problem description
-  - Suggested fix with exact command
-  - Link to relevant documentation
-  - Example: "Error: fzf not found → Run: brew install fzf"
-- [ ] Add `--verbose` flag support to all dispatchers
-  - Show what command will be executed
-  - Display intermediate steps
-  - Useful for debugging
-- [ ] Implement error recovery suggestions
-  - Auto-suggest `flow doctor` on dependency errors
-  - Offer to create missing config files
-  - Suggest alternative workflows
+**Key Decisions:**
+- Resolved AI service integration question (heuristic-only Phase 0-1)
+- Split Phase 0 from Phase 1 (proves concept in 5h)
+- Simplified API design (13 flags, progressive disclosure)
+- Ready for immediate implementation
 
-**Better Feedback:**
-- [ ] Add progress indicators for slow operations
-  - Project scanning (dash --watch)
-  - Cache building
-  - Git operations
-- [ ] Success messages with next steps
-  - After `work`: "✓ Session started. Run 'finish' when done."
-  - After `wt create`: "✓ Worktree created. Run 'cd $(wt path)' to switch."
-
-**Benefits:**
-- Reduced user frustration
-- Self-service troubleshooting
-- Better ADHD-friendly experience
+**Next Action:** Start Phase 0 implementation in teach-analyze worktree
 
 ---
 
-### v5.13.0 (Future - Testing Infrastructure) [4-6 hours]
+## 🎯 Recommended Next Step:
 
-**Priority:** Medium | **Effort:** High | **Impact:** Medium
+```bash
+cd ~/.git-worktrees/flow-cli/teach-analyze
+claude
+```
 
-**Test Coverage:**
-- [ ] Increase test coverage to 100%
-  - Edge cases for all dispatchers
-  - Error handling paths
-  - Integration tests for workflows
-- [ ] Add mutation testing
-  - Ensure tests catch actual bugs
-  - Identify weak test assertions
-- [ ] Create performance regression tests
-  - Benchmark core commands
-  - Alert on >10% slowdown
-  - Track over time
-
-**Test Infrastructure:**
-- [ ] Add GitHub Actions test matrix
-  - macOS (multiple versions)
-  - Linux (Ubuntu, Fedora)
-  - ZSH (5.8, 5.9, latest)
-- [ ] Create test fixtures library
-  - Mock git repositories
-  - Sample project structures
-  - Reusable test data
-- [ ] Add snapshot testing for outputs
-  - Dashboard output format
-  - Help messages
-  - Error messages
-
-**Benefits:**
-- Prevent regressions
-- Confidence in refactoring
-- Better contributor experience
+Follow: `PLAN-teach-analyze-phase0.md` (4-5 hour guide)
 
 ---
 
-### v5.14.0 (Future - Performance Optimization) [3-5 hours]
-
-**Priority:** Low | **Effort:** Medium | **Impact:** Medium
-
-**Startup Performance:**
-- [ ] Profile plugin load time
-  - Identify slow initializers
-  - Lazy-load heavy functions
-  - Defer non-critical setup
-- [ ] Optimize cache system
-  - Parallel cache building
-  - Incremental updates
-  - Background refresh
-- [ ] Reduce dependency checks
-  - Cache `command -v` results
-  - Skip checks for frequently-used commands
-
-**Runtime Performance:**
-- [ ] Optimize `pick` command
-  - Pre-filter before fzf
-  - Limit results to top 100
-  - Background project scanning
-- [ ] Optimize `dash` command
-  - Parallel git status checks
-  - Cache expensive operations
-  - Smart refresh (only changed projects)
-- [ ] Profile hot paths
-  - `work` / `finish` cycle
-  - Dispatcher routing
-  - Completion generation
-
-**Metrics:**
-- [ ] Add performance telemetry (optional)
-  - Command execution time
-  - Cache hit rates
-  - User opt-in only
-
-**Benefits:**
-- Faster command response
-- Better multi-project performance
-- Improved user experience
-
----
-
-### Scholar Integration v2.2.0 (After RFC Approval) [1-2 weeks]
-
-**Priority:** High | **Effort:** High | **Impact:** High
-
-**Phase 1: Scholar Implementation**
-- [ ] Scholar team implements `--config` flag
-- [ ] Scholar adds JSON Schema validation
-- [ ] Scholar respects config ownership protocol
-
-**Phase 2: flow-cli Integration**
-- [ ] Update `teach` dispatcher to pass config
-- [ ] Remove individual flag passing
-- [ ] Test bidirectional sync
-- [ ] Update documentation
-
-**Phase 3: Enhanced Features**
-- [ ] Config migration tool (v5.9.0 → v2.2.0)
-- [ ] Validation improvements
-- [ ] Config templates for common courses
-
-**Dependencies:**
-- Waiting on Scholar issue #18 approval
-- Scholar v2.2.0 development timeline
-- Testing with real courses
-
----
-
-### v6.0.0 (Major - Plugin System) [2-3 weeks]
-
-**Priority:** Low | **Effort:** Very High | **Impact:** Very High
-
-**Plugin Architecture:**
-- [ ] Design plugin API
-  - Hooks (pre/post command execution)
-  - Custom dispatchers
-  - Custom commands
-  - Theme system
-- [ ] Create plugin registry
-  - Discover plugins automatically
-  - Version compatibility checking
-  - Dependency resolution
-- [ ] Plugin development kit
-  - Scaffold generator
-  - Testing utilities
-  - Documentation generator
-
-**Example Plugins:**
-- GitHub integration (issues, PRs)
-- Jira integration (ticket tracking)
-- Slack integration (status updates)
-- Custom project templates
-
-**Breaking Changes:**
-- Plugin system may require config changes
-- Deprecate some built-in commands in favor of plugins
-- May require ZSH 5.9+
-
----
-
-### Long-Term Vision (6+ months)
-
-**Remote & Team Features:**
-- [ ] Remote state sync (optional cloud backup)
-  - Encrypted session data
-  - Multi-device support
-  - Conflict resolution
-- [ ] Team collaboration
-  - Shared project templates
-  - Team dashboards
-  - Activity feed
-- [ ] Analytics & insights
-  - Productivity trends
-  - Time tracking
-  - Project health metrics
-
-**Developer Experience:**
-- [ ] VS Code extension
-  - Inline project switching
-  - Dashboard in sidebar
-  - Command palette integration
-- [ ] Alfred/Raycast workflow
-  - Quick project search
-  - Session management
-  - Command execution
-
-**Advanced Features:**
-- [ ] AI-powered suggestions
-  - Smart project recommendations
-  - Automated workflow detection
-  - Context-aware help
-- [ ] Custom workflows
-  - YAML-based workflow definitions
-  - Conditional execution
-  - Parallel task execution
-
-## 🔄 In Planning
-
-### Teaching Workflow v3.0 Enhancements - v5.14.0
-
-**Spec:** `docs/specs/SPEC-teaching-workflow-v3-enhancements.md` (v3.0 Approved)
-**Status:** Planning Complete, Ready for Implementation
-**Total Effort:** Phase 1: ~23 hours, Phase 2: ~9 hours
-
-#### Phase 1 - Immediate (v5.14.0) [~23 hours]
-
-**Priority:** High | **Effort:** High | **Impact:** Very High
-
-**Core Improvements:**
-1. Remove teach-init standalone command (fully integrate into teach dispatcher)
-2. Enhanced teach doctor (dependency checks + config validation + --fix + --json)
-3. Add --help flags to all teach sub-commands with examples
-4. Backup system with .backups/ folders and content-type retention policies
-5. Prompt users before deleting backups (safety improvement)
-
-**New Features:**
-6. teach status: Add deployment status + backup summary
-7. teach deploy: Add preview before PR creation
-8. Scholar wrappers: Template selection + lesson plan integration
-9. teach init: Add templates + GitHub setup (optional via --config, --github flags)
-10. Config validation integration in teach doctor
-
-**Files to Modify:**
-- `lib/dispatchers/teach-dispatcher.zsh` (~580 lines changes)
-- `commands/teach-init.zsh` (DELETE - move to dispatcher)
-- `.flow/teach-config.yml` (schema additions for backups)
-- `lib/git-helpers.zsh` (~50 lines for deploy preview)
-- Multiple test files (new + updates)
-
-**Testing Strategy:**
-- Unit tests for each task
-- Integration tests with scholar-demo-course
-- Comprehensive test suite validation
-
-**Branch:** `feature/teaching-workflow-v3` (to be created)
-**Worktree:** `~/.git-worktrees/flow-cli/teaching-workflow-v3`
-
----
-
-#### Phase 2 - Future Enhancements (v5.15.0+) [~9 hours]
-
-**Priority:** Medium | **Effort:** Medium | **Impact:** Medium
-
-**Planned Features:**
-1. teach week: Topic preview + content checklist (~3 hours)
-2. teach dates: Holiday detection + smart sync (~4 hours)
-3. teach config: Interactive editor with live validation (~2 hours)
-
-**Status:** Deferred until Phase 1 complete
-
----
-
-## 🎯 Next Action
-
-**Current:** Teaching Workflow v3.0 Phase 1 - Ready to Implement
-
-**✅ v5.10.0 Released (2026-01-15):**
-- ✅ Worktree detection + cache invalidation
-- ✅ Comprehensive documentation (~1,800 lines)
-- ✅ Scholar RFC created
-- ✅ GitHub release published
-- ✅ Homebrew formula auto-updated
-- ✅ Documentation deployed
-
-**Recommended Next Steps (Priority Order):**
-
-**A) v5.14.0 - Documentation Integration & Release** [1-2 hours, HIGHEST Priority]
-- Deploy MkDocs documentation to GitHub Pages with new GIFs
-- Verify all 6 GIFs load correctly in production
-- Prepare v5.14.0 release notes
-- Create release PR (dev → main)
-- Tag and publish v5.14.0 release
-- **Impact:** Complete Teaching Workflow v3.0 rollout, visual documentation live
-- **Effort:** Low
-- **Status:** GIFs created, integrated, optimized - ready to deploy
-- **Next:** `mkdocs build && mkdocs gh-deploy --force`
-
-**B) v5.11.0 - Installation Improvements** [2-4 hours, High Priority]
-- Create curl one-liner: `curl -fsSL https://flow-cli.sh | zsh`
-- Auto-detect plugin manager (zinit, antidote, oh-my-zsh)
-- Update installation docs to match aiterm quality
-- Add `flow doctor --fix` interactive mode
-- **Impact:** Lower barrier to entry, better first-time experience
-- **Effort:** Medium
-- **Reference:** `~/projects/dev-tools/aiterm/install.sh`
-
-**B) v5.12.0 - Enhanced Error Messages & UX** [3-5 hours, Medium Priority]
-- Standardize error messages with suggested fixes
-- Add `--verbose` flag to all dispatchers
-- Progress indicators for slow operations
-- Success messages with next steps
-- **Impact:** Better ADHD-friendly experience, reduced frustration
-- **Effort:** Medium
-- **Quick Win:** Start with top 5 most common errors
-
-**C) Scholar Integration (Waiting)** [Low Effort, High Impact when ready]
-- Monitor Scholar issue #18 for team response
-- Iterate on RFC based on feedback
-- Plan integration timeline for v2.2.0
-- **Status:** Waiting on Scholar team approval
-- **Next Check:** Weekly follow-up on issue
-
-**D) v5.13.0 - Testing Infrastructure** [4-6 hours, Medium Priority]
-- Increase test coverage to 100%
-- Add GitHub Actions test matrix (macOS, Linux, ZSH versions)
-- Create test fixtures library
-- **Impact:** Prevent regressions, better contributor experience
-- **Effort:** High
-- **Long-term benefit:** Confidence in refactoring
-
-**E) Documentation Enhancements** [1-2 hours, Low Priority]
-- Add video walkthroughs (loom or VHS)
-- Create more tutorials (7-day onboarding series)
-- Improve search functionality (algolia)
-- **Impact:** Better onboarding
-- **Effort:** Low-Medium
-- **Quick Win:** Record 3 core workflows
-
-**F) v5.14.0 - Performance Optimization** [3-5 hours, Low Priority]
-- Profile plugin load time
-- Optimize `pick` and `dash` commands
-- Add optional performance telemetry
-- **Impact:** Faster response times
-- **Effort:** Medium
-- **When:** After v5.11.0 and v5.12.0
-
----
-
-**Immediate Next Step (Recommended):**
-
-→ **Deploy v5.14.0 Documentation & Release**
-
-**Why:**
-- Teaching Workflow v3.0 is 100% complete (code + docs + visuals)
-- All 6 GIFs created, optimized, and integrated into guides
-- Ready for production deployment
-- Completes a major milestone
-- Users can immediately benefit from visual documentation
-- Can be completed in 1-2 hours
-
-**Next Actions:**
-1. Deploy MkDocs: `mkdocs build && mkdocs gh-deploy --force`
-2. Verify GIFs load in production
-3. Prepare release notes for v5.14.0
-4. Create release PR (dev → main)
-5. Tag and publish v5.14.0
-
-**After v5.14.0 Release:**
-- Option A: v5.11.0 Installation Improvements (high impact for new users)
-- Option B: v5.12.0 Error Messages & UX (incremental improvements)
-- Option C: Check Scholar integration feedback
-- If blocked: Check Scholar RFC feedback and iterate
+**Last Updated:** 2026-01-20
+**Status:** Active - Dual Track Ready for Implementation
