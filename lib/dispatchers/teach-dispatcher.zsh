@@ -2985,35 +2985,154 @@ Initialized via: teach init" 2>/dev/null
     echo ""
 }
 
+# Help for teach config
+_teach_config_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} - Edit Course Configuration            ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} [options]
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}c${FLOW_COLORS[reset]} → config
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Opens ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]} in your default editor for editing.
+  The file is created by ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} if it doesn't exist.
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--help, -h${FLOW_COLORS[reset]}          Show this help message
+  ${FLOW_COLORS[cmd]}--edit${FLOW_COLORS[reset]}              Open in editor (default behavior)
+  ${FLOW_COLORS[cmd]}--view${FLOW_COLORS[reset]}              View config without opening editor
+  ${FLOW_COLORS[cmd]}--cat${FLOW_COLORS[reset]}               Print to stdout
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Edit config in default editor${FLOW_COLORS[reset]}
+  $ teach config
+
+  ${FLOW_COLORS[muted]}# View without editing${FLOW_COLORS[reset]}
+  $ teach config --view
+
+  ${FLOW_COLORS[muted]}# Print to terminal${FLOW_COLORS[reset]}
+  $ teach config --cat
+
+${FLOW_COLORS[bold]}CONFIG SECTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}course${FLOW_COLORS[reset]}         Course name, semester, year
+  ${FLOW_COLORS[accent]}git${FLOW_COLORS[reset]}            Branch names, auto-commit settings
+  ${FLOW_COLORS[accent]}scholar${FLOW_COLORS[reset]}        Default Scholar settings
+  ${FLOW_COLORS[accent]}backup${FLOW_COLORS[reset]}         Retention policies
+  ${FLOW_COLORS[accent]}deploy${FLOW_COLORS[reset]}         Deployment settings
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Set ${FLOW_COLORS[accent]}EDITOR${FLOW_COLORS[reset]} env var to prefer specific editor
+  • Use ${FLOW_COLORS[cmd]}yq${FLOW_COLORS[reset]} for CLI editing: yq eval '.course.name = "STAT 440"' -i
+  • Run ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} after editing to validate
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} - Initialize teaching project
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
+
+EOF
+}
+
+_teach_config_edit() {
+    local config_file=".flow/teach-config.yml"
+    if [[ -f "$config_file" ]]; then
+        ${EDITOR:-code} "$config_file"
+    else
+        _teach_error "No teach-config.yml found" "Run 'teach init' first"
+        return 1
+    fi
+}
+
+_teach_config_view() {
+    local config_file=".flow/teach-config.yml"
+    if [[ -f "$config_file" ]]; then
+        echo "${FLOW_COLORS[info]}=== .flow/teach-config.yml ===${FLOW_COLORS[reset]}"
+        cat "$config_file"
+    else
+        _teach_error "No teach-config.yml found" "Run 'teach init' first"
+        return 1
+    fi
+}
+
+_teach_config_cat() {
+    local config_file=".flow/teach-config.yml"
+    if [[ -f "$config_file" ]]; then
+        cat "$config_file"
+    else
+        _teach_error "No teach-config.yml found" "Run 'teach init' first"
+        return 1
+    fi
+}
+
 # Help for teach init
 _teach_init_help() {
-    echo "${FLOW_COLORS[bold]}teach init${FLOW_COLORS[reset]} - Initialize teaching project"
-    echo ""
-    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
-    echo "  teach init [course_name] [OPTIONS]"
-    echo ""
-    echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
-    echo "  --config FILE    Load configuration from external file"
-    echo "  --github         Create GitHub repository (requires gh CLI)"
-    echo "  --help, -h       Show this help message"
-    echo ""
-    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
-    echo "  Creates .flow/teach-config.yml with default settings for:"
-    echo "    • Course information (name, semester, year)"
-    echo "    • Git workflow (draft/production branches)"
-    echo "    • Teaching mode settings (auto-commit, auto-push)"
-    echo "    • Backup retention policies"
-    echo ""
-    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
-    echo "  teach init                           # Interactive setup"
-    echo "  teach init \"STAT 545\"                # With course name"
-    echo "  teach init --config ./my-config.yml  # Load external config"
-    echo "  teach init \"STAT 545\" --github       # Create GitHub repo"
-    echo ""
-    echo "${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}"
-    echo "  📚 Tutorial: docs/tutorials/TEACHING-QUICK-START.md"
-    echo "  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md"
-    echo ""
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} - Initialize Teaching Project                ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} [course_name] [options]
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} --config <file>
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} --github
+
+${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[accent]}i${FLOW_COLORS[reset]} → init
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--config FILE${FLOW_COLORS[reset]}       Load configuration from external file
+  ${FLOW_COLORS[cmd]}--github${FLOW_COLORS[reset]}            Create GitHub repository (requires gh CLI)
+  ${FLOW_COLORS[cmd]}--help, -h${FLOW_COLORS[reset]}          Show this help message
+
+${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
+  Creates ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]} with default settings for:
+    • Course information (name, semester, year)
+    • Git workflow (draft/production branches)
+    • Teaching mode settings (auto-commit, auto-push)
+    • Backup retention policies
+
+${FLOW_COLORS[bold]}INTERACTIVE SETUP${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]}          # Interactive prompts for all settings
+  ${FLOW_COLORS[cmd]}teach init "STAT 440"${FLOW_COLORS[reset]}  # Pre-fill course name, prompt rest
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}# Interactive setup${FLOW_COLORS[reset]}
+  $ teach init
+
+  ${FLOW_COLORS[muted]}# With course name${FLOW_COLORS[reset]}
+  $ teach init "STAT 545"
+
+  ${FLOW_COLORS[muted]}# Load external config${FLOW_COLORS[reset]}
+  $ teach init --config ./my-config.yml
+
+  ${FLOW_COLORS[muted]}# Create GitHub repo${FLOW_COLORS[reset]}
+  $ teach init "STAT 545" --github
+
+${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}
+  Creates: ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} (optional template)
+
+${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
+  • Run ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} after init to verify setup
+  • Use ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} to edit settings later
+  • Configure ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} for customized Scholar output
+
+${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
+  📚 Tutorial: docs/tutorials/TEACHING-QUICK-START.md
+  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} - Edit course configuration
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
+
+EOF
 }
 
 # ============================================================================
@@ -3952,8 +4071,10 @@ teach() {
         # LOCAL COMMANDS (no Claude needed)
         # ============================================
         init|i)
-            # v5.14.0 - Task 10: Reimplemented with --config and --github flags
-            _teach_init "$@"
+            case "$1" in
+                --help|-h|help) _teach_init_help; return 0 ;;
+                *) _teach_init "$@" ;;
+            esac
             ;;
 
         # Shortcuts for common operations
@@ -3971,13 +4092,12 @@ teach() {
 
         # Config management
         config|c)
-            local config_file=".flow/teach-config.yml"
-            if [[ -f "$config_file" ]]; then
-                ${EDITOR:-code} "$config_file"
-            else
-                _teach_error "No teach-config.yml found" "Run 'teach init' first"
-                return 1
-            fi
+            case "$1" in
+                --help|-h|help) _teach_config_help; return 0 ;;
+                --view) _teach_config_view "$@" ;;
+                --cat) _teach_config_cat "$@" ;;
+                *) _teach_config_edit "$@" ;;
+            esac
             ;;
 
         # Status/info
