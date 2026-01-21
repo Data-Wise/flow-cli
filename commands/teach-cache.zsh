@@ -126,9 +126,25 @@ teach_cache_status() {
 }
 
 # Cache clear command
-# Usage: teach cache clear [--force]
+# Usage: teach cache clear [--force] [--lectures] [--assignments] [--slides] [--old] [--unused]
 teach_cache_clear() {
-    _cache_clear "$PWD" "$@"
+    # Check for selective flags
+    local has_selective=false
+    for arg in "$@"; do
+        case "$arg" in
+            --lectures|--assignments|--slides|--old|--unused)
+                has_selective=true
+                break
+                ;;
+        esac
+    done
+
+    # Use selective clear if flags present
+    if [[ "$has_selective" == "true" ]]; then
+        _clear_cache_selective "$PWD" "$@"
+    else
+        _cache_clear "$PWD" "$@"
+    fi
 }
 
 # Cache rebuild command
@@ -138,9 +154,28 @@ teach_cache_rebuild() {
 }
 
 # Cache analyze command
-# Usage: teach cache analyze
+# Usage: teach cache analyze [--recommend]
 teach_cache_analyze() {
-    _cache_analyze "$PWD"
+    local recommend=false
+
+    # Parse flags
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --recommend)
+                recommend=true
+                shift
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
+
+    if [[ "$recommend" == "true" ]]; then
+        _format_cache_report "$PWD/_freeze/site" "$PWD/.teach/performance-log.json" --recommend
+    else
+        _format_cache_report "$PWD/_freeze/site" "$PWD/.teach/performance-log.json"
+    fi
 }
 
 # ============================================================================
@@ -210,13 +245,26 @@ _teach_cache_help() {
 teach cache - Manage Quarto freeze cache
 
 USAGE:
-  teach cache                    Interactive menu
-  teach cache status             Show cache size and file count
-  teach cache clear [--force]    Delete _freeze/ directory
-  teach cache rebuild            Clear cache and re-render
-  teach cache analyze            Detailed cache breakdown
+  teach cache                              Interactive menu
+  teach cache status                       Show cache size and file count
+  teach cache clear [options]              Delete cache files
+  teach cache rebuild                      Clear cache and re-render
+  teach cache analyze [--recommend]        Detailed cache breakdown
 
-  teach clean [--force]          Delete _freeze/ + _site/
+  teach clean [--force]                    Delete _freeze/ + _site/
+
+SELECTIVE CACHE CLEARING:
+  teach cache clear --lectures             Clear lectures/ only
+  teach cache clear --assignments          Clear assignments/ only
+  teach cache clear --slides               Clear slides/ only
+  teach cache clear --old                  Clear files > 30 days old
+  teach cache clear --unused               Clear never-hit files (requires perf log)
+  teach cache clear --lectures --old       Combine multiple filters
+  teach cache clear --force                Skip confirmation prompt
+
+CACHE ANALYSIS:
+  teach cache analyze                      Show cache breakdown
+  teach cache analyze --recommend          Include optimization recommendations
 
 INTERACTIVE MENU:
   When run without arguments, opens an interactive TUI menu:
@@ -243,19 +291,26 @@ EXAMPLES:
   # Quick status check
   teach cache status
 
-  # Clear cache (with confirmation)
+  # Clear entire cache (with confirmation)
   teach cache clear
 
   # Force clear without confirmation
   teach cache clear --force
 
+  # Selective clearing
+  teach cache clear --lectures              # Clear lectures only
+  teach cache clear --old                   # Clear files > 30 days
+  teach cache clear --lectures --old        # Clear old lecture files
+  teach cache clear --assignments --slides  # Clear assignments + slides
+
   # Rebuild from scratch
   teach cache rebuild
 
-  # Detailed analysis
-  teach cache analyze
+  # Cache analysis
+  teach cache analyze                       # Basic breakdown
+  teach cache analyze --recommend           # With recommendations
 
-  # Clean everything
+  # Clean everything (_freeze/ + _site/)
   teach clean
 
 ABOUT FREEZE CACHE:
