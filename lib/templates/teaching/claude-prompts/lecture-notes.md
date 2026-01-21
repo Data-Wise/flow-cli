@@ -128,6 +128,44 @@ End sections with 2-3 reflection questions.
 | Nesting | β_j(i) subscript |
 | Sum of squares | SS_Trt, SS_E |
 
+## LaTeX Macros
+
+Use standardized macros for consistent notation (define in `macros.tex` for PDF, `mathjax-macros.html` for HTML):
+
+| Macro | Syntax | Output |
+|-------|--------|--------|
+| Expectation | `\E{X}` | E[X] |
+| Variance | `\Var{X}` | Var(X) |
+| Covariance | `\Cov{X,Y}` | Cov(X,Y) |
+| Probability | `\Prob{A}` | P(A) |
+| Vector | `\vect{y}` | **y** |
+| Normal | `\Normal` | N |
+| MSE | `\mse` | MSE |
+
+### Quarto Configuration
+
+**PDF:**
+
+```yaml
+format:
+  pdf:
+    pdf-engine: xelatex
+    include-in-header:
+      - file: path/to/macros.tex
+```
+
+**HTML:**
+
+```yaml
+format:
+  html:
+    include-in-header:
+      - file: includes/mathjax-macros.html
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+```
+
 ## Quality Checklist
 
 - [ ] 20-40 pages in length

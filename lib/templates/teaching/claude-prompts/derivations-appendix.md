@@ -122,6 +122,57 @@ Under $H_0$: $F = \frac{MS_{Trt}}{MS_E} \sim F_{a-1, N-a}$
 | ȳ_{..} | Grand mean |
 | β_{j(i)} | Nested effect |
 
+## LaTeX Macros
+
+Use standardized macros (define in `macros.tex` for PDF, `mathjax-macros.html` for HTML):
+
+### Statistical Operators
+
+| Macro | Syntax | Output |
+|-------|--------|--------|
+| Expectation | `\E{X}` | E[X] |
+| Variance | `\Var{X}` | Var(X) |
+| Covariance | `\Cov{X,Y}` | Cov(X,Y) |
+| Probability | `\Prob{A}` | P(A) |
+| Standard Error | `\SE` | SE |
+| MSE | `\mse` | MSE |
+| SSE | `\sse` | SSE |
+
+### Vectors & Matrices
+
+| Macro | Syntax | Output |
+|-------|--------|--------|
+| Vector | `\vect{y}` | **y** |
+| Trace | `\tr` | tr |
+| Diagonal | `\diag` | diag |
+| Rank | `\rank` | rank |
+
+### Distributions
+
+| Macro | Syntax | Example |
+|-------|--------|---------|
+| Normal | `\Normal` | `$Y \sim \Normal(\mu, \sigma^2)$` |
+| Binomial | `\Binom` | `$X \sim \Binom(n, p)$` |
+| Poisson | `\Poiss` | `$N \sim \Poiss(\lambda)$` |
+
+### Independence
+
+| Macro | Syntax | Output |
+|-------|--------|--------|
+| Independent | `\indep` | ⊥⊥ |
+| Not independent | `\nindep` | ⊥̸⊥ |
+
+### Example Usage
+
+```latex
+\E{MS_{Trt}} = \sigma^2 + \frac{n\sum\tau_i^2}{a-1}
+```
+
+```latex
+\vect{y} = \vect{X}\vect{\beta} + \vect{\varepsilon}, \quad
+\vect{\varepsilon} \sim \Normal(\vect{0}, \sigma^2\vect{I})
+```
+
 ## R Connection
 
 ```r

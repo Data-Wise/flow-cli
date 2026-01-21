@@ -81,6 +81,54 @@ Modify prompts for your course by adjusting:
 2. **Notation** - Match your textbook conventions
 3. **Depth** - Adjust derivation detail level
 4. **Examples** - Specify your dataset preferences
+5. **LaTeX macros** - Standardize notation (see below)
+
+## LaTeX Macros
+
+For consistent notation across PDF and HTML output, use standardized macros:
+
+### Macro Files
+
+| File | Purpose |
+|------|---------|
+| `macros.tex` | LaTeX macros for PDF output |
+| `mathjax-macros.html` | MathJax macros for HTML |
+
+### Key Macros
+
+| Category | Examples |
+|----------|----------|
+| Statistical operators | `\E{X}`, `\Var{X}`, `\Cov{X,Y}`, `\Prob{A}` |
+| Regression | `\SE`, `\mse`, `\sse`, `\Bias` |
+| Vectors/matrices | `\vect{y}`, `\tr`, `\diag` |
+| Distributions | `\Normal`, `\Binom`, `\Poiss` |
+| Independence | `\indep`, `\nindep` |
+
+### Quarto Configuration
+
+**PDF output:**
+
+```yaml
+format:
+  pdf:
+    pdf-engine: xelatex
+    include-in-header:
+      - file: path/to/macros.tex
+```
+
+**HTML output:**
+
+```yaml
+format:
+  html:
+    include-in-header:
+      - file: includes/mathjax-macros.html
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+```
+
+See `derivations-appendix.md` for the complete macro reference.
 
 ## Related Files
 
