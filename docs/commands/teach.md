@@ -113,7 +113,15 @@ teach <command> [args]
 | `config` | `c` | Edit teach-config.yml |
 | `status` | `s` | Show project status + git changes |
 | `week` | `w` | Show current week number |
-| `help` | `-h` | Show help |
+| `doctor` | `doc` | Health checks with auto-fix |
+| `hooks` | `hk` | Git hook management |
+| `dates` | `d8` | Date management |
+| `validate` | `val` | Validate .qmd files |
+| `profiles` | `pf` | Quarto profile management |
+| `cache` | `c` | Cache operations |
+| `clean` | `cl` | Delete build artifacts |
+| `backup` | `bk` | Backup management |
+| `--help` | `-h` | Show help |
 
 ---
 
@@ -208,6 +216,34 @@ teach deploy
 teach archive
 
 # This creates a tagged snapshot and prepares for next semester
+```
+
+### Additional Commands
+
+```bash
+# Health checks with auto-fix
+teach doctor --fix
+
+# Install git hooks
+teach hooks install
+
+# Validate content
+teach validate --render
+
+# Manage cache
+teach cache status
+teach cache rebuild
+
+# Backup management
+teach backup create lectures/week-05
+teach backup list
+teach backup restore lectures.2026-01-20-1430
+teach backup delete old-backup
+teach backup archive spring-2026
+
+# Quarto profiles
+teach profiles list
+teach profiles switch draft
 ```
 
 ### Content Creation Examples (v5.12.0)
@@ -353,6 +389,12 @@ Open the teaching configuration file in your editor.
 ```bash
 teach config
 # Opens .flow/teach-config.yml in $EDITOR
+
+# View config without editing
+teach config --view
+
+# Print to stdout
+teach config --cat
 ```
 
 ---

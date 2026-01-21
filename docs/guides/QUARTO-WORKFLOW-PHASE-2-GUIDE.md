@@ -1,8 +1,10 @@
 # Quarto Workflow Phase 2 Guide
 
-**Version:** 4.7.0
-**Last Updated:** 2026-01-20
+**Version:** 5.14.0
+**Last Updated:** 2026-01-21
 **Status:** Production Ready
+
+> **Quick Reference**: For command syntax and common workflows, see the [Phase 2 Quick Reference Card](../reference/REFCARD-QUARTO-PHASE2.md).
 
 ---
 
@@ -2914,11 +2916,12 @@ teach validate  # (no --custom flag)
 **Documentation:**
 - Phase 1 Guide: `docs/guides/TEACHING-WORKFLOW-GUIDE.md`
 - Phase 2 Guide: `docs/guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md` (this document)
+- **Phase 2 Quick Reference**: `docs/reference/REFCARD-QUARTO-PHASE2.md` ⭐ NEW
 - API Reference: `docs/reference/TEACH-DISPATCHER-REFERENCE-v4.6.0.md`
 
 **Issues:**
 - Report bugs: https://github.com/Data-Wise/flow-cli/issues
-- Feature requests: https://github.com/Data-Wise/flow-cli/discussions
+- Feature requests: https://github.com/Data-Wise/flow-cli/issues (use "enhancement" label)
 
 **Testing:**
 - Integration tests: `tests/test-phase2-integration.zsh`
@@ -2926,6 +2929,6 @@ teach validate  # (no --custom flag)
 
 ---
 
-**Last Updated:** 2026-01-20
-**Version:** 4.7.0
+**Last Updated:** 2026-01-21
+**Version:** 5.14.0
 **Status:** Production Ready

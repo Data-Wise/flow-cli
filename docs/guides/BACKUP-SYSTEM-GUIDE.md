@@ -1,7 +1,7 @@
 # Backup System Guide
 
 **Version:** v5.14.0 (Teaching Workflow v3.0)
-**Last Updated:** 2026-01-18
+**Last Updated:** 2026-01-21
 
 ---
 
@@ -75,6 +75,58 @@ Backups are automatically created when:
 - `.git/` folders (use git for version control)
 - Temporary files (`.tmp`, `.swp`, etc.)
 - Build artifacts (`_site/`, `.quarto/`)
+
+---
+
+## Command Reference
+
+### teach backup create
+
+Creates a timestamped backup of content.
+
+```bash
+teach backup create lectures/week-01    # Auto timestamp
+teach backup create exams/midterm       # Backup exam
+teach backup create .                   # Backup all
+```
+
+### teach backup list
+
+Lists all backups for content.
+
+```bash
+teach backup list                       # List all
+teach backup list lectures/week-01      # List specific
+teach backup list --recent 5            # Show 5 most recent
+```
+
+### teach backup restore
+
+Restores content from a backup.
+
+```bash
+teach backup restore lectures.2026-01-20-1430
+teach backup restore lectures.2026-01-20-1430 --force  # Skip confirmation
+teach backup restore lectures.2026-01-20-1430 --dry-run  # Preview only
+```
+
+### teach backup delete
+
+Permanently deletes a backup.
+
+```bash
+teach backup delete old-backup
+teach backup delete old-backup --force  # Skip confirmation
+```
+
+### teach backup archive
+
+Archives semester backups based on retention policies.
+
+```bash
+teach backup archive spring-2026
+teach backup archive spring-2026 --compress  # Create .tar.gz
+```
 
 ---
 
@@ -902,4 +954,4 @@ See `lib/backup-helpers.zsh` for implementation details.
 ---
 
 **Version:** v5.14.0 (Teaching Workflow v3.0)
-**Last Updated:** 2026-01-18
+**Last Updated:** 2026-01-21

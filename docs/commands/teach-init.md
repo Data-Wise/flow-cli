@@ -50,6 +50,7 @@ teach-init [OPTIONS] <course-name>
 |------|-------------|
 | `--dry-run` | Preview migration plan without making changes |
 | `-y`, `--yes` | Non-interactive mode (accept safe defaults) |
+| `--github` | Create GitHub repository (requires gh CLI) |
 
 ---
 
@@ -169,6 +170,16 @@ mkdir ~/teaching/stat-579
 cd ~/teaching/stat-579
 git init
 teach-init "STAT 579 - Causal Inference"
+```
+
+### Create and Push to GitHub in One Step
+
+```bash
+# Create and push to GitHub in one step
+teach-init "STAT 545" --github
+
+# With flow-cli (preferred method):
+teach init "STAT 545" --github
 ```
 
 ### Existing Quarto Course

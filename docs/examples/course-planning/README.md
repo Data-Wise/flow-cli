@@ -133,14 +133,47 @@ vim /path/to/your/course/.flow/teach-config.yml
 - Alignment matrix structure
 - Quality checklists
 
-### Step 4: Generate Content
+### Step 4: Set Up Quality Automation (NEW v3.0)
+
+```bash
+# Install git hooks for quality checks
+teach hooks install
+
+# Verify environment is ready
+teach doctor
+
+# If missing dependencies, auto-install
+teach doctor --fix
+```
+
+**What this gives you:**
+- Automatic YAML validation on commit
+- Cross-reference integrity checks
+- Dependency tracking (sourced R files)
+- Pre-deployment validation
+- Auto-formatted commit messages
+
+See [Git Hooks Integration](../../guides/TEACHING-WORKFLOW-V3-GUIDE.md#8-git-hooks-integration) for full details.
+
+### Step 5: Generate Content
 
 ```bash
 # Use Scholar with your configuration
 teach lecture "Week 1: Introduction" --template quarto
 teach exam "Midterm" --scope "Weeks 1-8"
 teach assignment "HW1: Data Exploration"
+
+# Content is automatically backed up
+# lesson-plan.yml is auto-loaded for context
 ```
+
+**Phase 2 features available:**
+- Parallel rendering (3-10x faster for large courses)
+- Custom validators (extensible quality checks)
+- Performance monitoring (track render times)
+- Cache analysis (optimize storage)
+
+See [Quarto Workflow Phase 2 Guide](../../guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md) for advanced features.
 
 ---
 
@@ -200,12 +233,25 @@ Have a course using flow-cli? Share it as an example!
 
 ## Related Documentation
 
+**Getting Started:**
 - [Course Planning Best Practices](../../guides/COURSE-PLANNING-BEST-PRACTICES.md) - Main guide (18,000+ lines)
 - [Backward Design Walkthrough](../../guides/COURSE-PLANNING-BEST-PRACTICES.md#2-backward-design-principles) - Section 2
 - [Teaching Workflow v3.0 Guide](../../guides/TEACHING-WORKFLOW-V3-GUIDE.md) - Implementation workflow
-- [Teach Dispatcher Reference](../../reference/TEACH-DISPATCHER-REFERENCE-v3.0.md) - Command documentation
+
+**Quality & Automation (NEW v3.0):**
+- [Git Hooks Integration](../../guides/TEACHING-WORKFLOW-V3-GUIDE.md#8-git-hooks-integration) - Automated quality checks
+- [Backup System Guide](../../guides/BACKUP-SYSTEM-GUIDE.md) - Protect your content
+- [Teaching v3.0 Quick Reference](../../reference/REFCARD-TEACHING-V3.md) - Command cheatsheet
+
+**Performance & Scale (Phase 2):**
+- [Quarto Workflow Phase 2 Guide](../../guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md) - Advanced features
+- [Phase 2 Quick Reference](../../reference/REFCARD-QUARTO-PHASE2.md) - Parallel rendering, validators
+
+**Command Reference:**
+- [Teach Dispatcher Reference v4.6.0](../../reference/TEACH-DISPATCHER-REFERENCE-v4.6.0.md) - Complete command docs
+- [Teaching Git Workflow Refcard](../../reference/TEACHING-GIT-WORKFLOW-REFCARD.md) - Git integration
 
 ---
 
-**Last Updated:** 2026-01-19
-**Version:** v5.14.0 (Phase 1)
+**Last Updated:** 2026-01-21
+**Version:** v5.14.0 (Phase 1 + Phase 2 complete)

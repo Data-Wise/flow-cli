@@ -9,7 +9,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
+---
+
+## [5.14.0] - 2026-01-21
+
+### Added - Quarto Workflow Phase 2 Complete
+
+**Status:** ✅ Production Ready - All 322 tests passing (100%)
+
+Phase 2 delivers substantial performance improvements and extensibility features for teaching workflow:
+
+- **3-10x Speedup**: Parallel rendering with worker pool architecture
+- **Custom Validators**: Extensible plugin system for content validation
+- **Cache Analysis**: Comprehensive cache management and optimization
+- **Performance Monitoring**: Automatic metrics tracking with trend analysis
+
+**Test Coverage:**
+
+- 322 new Phase 2 tests (100% passing)
+- 7 comprehensive test suites
+- Integration tests covering full workflows
+
+**Documentation:**
+
+- 2,931-line comprehensive guide
+- Quick reference card for Phase 2 features
+- API documentation for all new modules
+
+See `docs/guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md` for complete details.
+
+### Fixed - PR #277 (Phase 1 Integration)
+
+- **Dependency Scanning**: Fixed portability issues with glob patterns and sed operations
+  - Changed from `**/*.qmd` glob to `find` command for better compatibility
+  - Fixed macOS sed edge cases when inserting at/past EOF
+  - Added smart detection for append vs insert operations
+- **Test Isolation**: Fixed Test 17 failure due to file state pollution from Test 14
+- **Hook Integration**: Added `teach hooks` command routing to dispatcher
+  - `teach hooks install` - Install git hooks
+  - `teach hooks upgrade` - Upgrade to latest version
+  - `teach hooks status` - Check installation status
+  - `teach hooks uninstall` - Remove hooks
+- **Backup Path Resolution**: Added smart fuzzy matching for backup restoration
+  - Supports full paths, exact matches, and fuzzy matching
+  - Multiple match detection with clear errors
+  - Lists available backups when path not found
+
+### Fixed - Universal Flags Validation
 
 - **teach slides/exam/quiz/assignment** - Universal flags (`--week`, `--topic`, `--style`, etc.) were incorrectly rejected by flag validation. The `_teach_validate_flags` function now includes `TEACH_CONTENT_FLAGS` and `TEACH_SELECTION_FLAGS` alongside command-specific flags.
 
@@ -20,8 +66,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added - Quarto Workflow Phase 2 (Weeks 9-12)
 
 #### Profile Management (Week 9)
+
 - **Quarto Profiles**: Complete profile management system
-  - `teach profiles list`: Show available profiles from _quarto.yml
+  - `teach profiles list`: Show available profiles from \_quarto.yml
   - `teach profiles show <name>`: Display profile configuration details
   - `teach profiles set <name>`: Activate profile with environment setup
   - `teach profiles create <name>`: Create new profile from templates
@@ -39,6 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 88 unit tests for profile and R package features (100% passing)
 
 #### Parallel Rendering (Weeks 10-11)
+
 - **3-10x Speedup**: Worker pool architecture for parallel file processing
   - Auto-detect optimal worker count (CPU cores - 1)
   - Manual worker override: `--workers N`
@@ -58,6 +106,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 49 unit tests for parallel rendering (100% passing)
 
 #### Custom Validators (Weeks 11-12)
+
 - **Extensible Validation Framework**: Plugin API for custom checks
   - `teach validate --custom`: Run all custom validators
   - `teach validate --validators <list>`: Run specific validators
@@ -75,6 +124,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 38 unit tests for custom validators (100% passing)
 
 #### Advanced Caching (Weeks 11-12)
+
 - **Selective Cache Clearing**: Targeted cache management
   - `teach cache clear --lectures`: Clear only lecture cache
   - `teach cache clear --assignments`: Clear only assignment cache
@@ -94,6 +144,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 53 unit tests for cache analysis (100% passing)
 
 #### Performance Monitoring (Week 12)
+
 - **Automatic Performance Tracking**: Zero-config metrics collection
   - `.teach/performance-log.json`: Structured performance data
   - Track render time per file
@@ -118,6 +169,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 42 unit tests for performance monitoring (100% passing)
 
 ### Statistics
+
 - **Implementation Time**: ~10 hours (orchestrated with specialized agents)
 - **Time Savings**: ~80-85% vs manual implementation (40-50 hours)
 - **Lines Added**: ~4,500 production code + ~2,000 test code
@@ -128,6 +180,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Documentation**: 2,900+ lines (comprehensive user guide)
 
 ### Performance
+
 - **Parallel Rendering**: 3-10x speedup verified (real-world benchmarks)
   - 12 files: 120s → 35s (3.4x)
   - 20 files: 214s → 53s (4.0x)
@@ -137,9 +190,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Cache Analysis**: < 2s for 1000+ cached files
 
 ### Breaking Changes
+
 - None! Phase 2 is fully backward compatible with Phase 1
 
 ### Upgrade Notes
+
 - All Phase 2 features are opt-in (use flags to enable)
 - Existing Phase 1 workflows continue to work unchanged
 - See `docs/guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md` for migration guide
@@ -151,6 +206,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added - Quarto Workflow Phase 1 (Weeks 1-8)
 
 #### Hook System (Week 1)
+
 - **Git Hooks Integration**: Automated validation on commit/push with 3 hooks
   - `pre-commit`: 5-layer validation (YAML, syntax, render, empty chunks, images)
   - `pre-push`: Production branch protection (blocks commits to main)
@@ -162,6 +218,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 47 unit tests for hook system (100% passing)
 
 #### Validation System (Week 2)
+
 - **teach validate**: Standalone validation command with 4 modes
   - `--yaml`: YAML frontmatter validation only
   - `--syntax`: YAML + syntax checking (typos, unpaired delimiters)
@@ -175,6 +232,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 27 unit tests for validation system (100% passing)
 
 #### Cache Management (Week 3)
+
 - **teach cache**: Interactive TUI menu for Quarto freeze cache management
   - `status`: View cache size and file counts
   - `clear`: Remove all cached files
@@ -185,6 +243,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 32 unit tests for cache management (100% passing)
 
 #### Health Checks (Week 4)
+
 - **teach doctor**: Comprehensive project health validation
   - 6 check categories: dependencies, config, git, scholar, hooks, cache
   - Dependency verification with version checks (yq, git, quarto, gh, examark, claude)
@@ -198,6 +257,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 39 unit tests for health checks (100% passing)
 
 #### Deploy Enhancements (Weeks 5-6)
+
 - **Index Management**: Automatic ADD/UPDATE/REMOVE of links in teaching site
   - Smart week-based link insertion in index.qmd
   - Title extraction from YAML frontmatter
@@ -208,6 +268,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 25 unit tests for deploy enhancements (96% passing)
 
 #### Backup System Enhancements (Week 7)
+
 - **Retention Policies**: Automated archival with daily/weekly/semester rules
   - Daily backups: Keep last 7 days
   - Weekly backups: Keep last 4 weeks
@@ -218,6 +279,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 49 unit tests for backup system (100% passing)
 
 #### Status Dashboard (Week 8)
+
 - **Enhanced teach status**: 6-section comprehensive dashboard
   - Project information (name, type, path)
   - Git status (branch, commits ahead/behind, dirty state)
@@ -229,6 +291,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests**: 31 unit tests for status dashboard (97% passing)
 
 #### Documentation
+
 - **User Guide**: Comprehensive Quarto workflow guide (4,500 lines)
   - Setup and initialization
   - Validation workflows
