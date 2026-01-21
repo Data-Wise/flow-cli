@@ -4,11 +4,11 @@ Optimized prompts for generating statistics course content with Claude Code.
 
 ## Available Prompts
 
-| Prompt | Purpose | Output |
-|--------|---------|--------|
-| `lecture-notes.md` | Comprehensive lecture documents | 20-40 pages |
-| `revealjs-slides.md` | Visual presentations | 25+ slides |
-| `derivations-appendix.md` | Mathematical theory appendices | Variable |
+| Prompt                    | Purpose                         | Output      |
+| ------------------------- | ------------------------------- | ----------- |
+| `lecture-notes.md`        | Comprehensive lecture documents | 20-40 pages |
+| `revealjs-slides.md`      | Visual presentations            | 25+ slides  |
+| `derivations-appendix.md` | Mathematical theory appendices  | Variable    |
 
 ## Usage
 
@@ -45,7 +45,8 @@ Create `.claude/teaching-style.local.md` in your course repository to customize:
 - Notation conventions
 - Command-specific overrides
 
-See Scholar plugin examples: `scholar/examples/teaching-styles/`
+**Note:** Teaching style examples are located in the Scholar plugin repository (not flow-cli).
+See: [Scholar Plugin](https://github.com/Data-Wise/scholar) → `examples/teaching-styles/`
 
 ## Key Features
 
@@ -89,20 +90,20 @@ For consistent notation across PDF and HTML output, use standardized macros:
 
 ### Macro Files
 
-| File | Purpose |
-|------|---------|
-| `macros.tex` | LaTeX macros for PDF output |
-| `mathjax-macros.html` | MathJax macros for HTML |
+| File                  | Purpose                     |
+| --------------------- | --------------------------- |
+| `macros.tex`          | LaTeX macros for PDF output |
+| `mathjax-macros.html` | MathJax macros for HTML     |
 
 ### Key Macros
 
-| Category | Examples |
-|----------|----------|
+| Category              | Examples                                    |
+| --------------------- | ------------------------------------------- |
 | Statistical operators | `\E{X}`, `\Var{X}`, `\Cov{X,Y}`, `\Prob{A}` |
-| Regression | `\SE`, `\mse`, `\sse`, `\Bias` |
-| Vectors/matrices | `\vect{y}`, `\tr`, `\diag` |
-| Distributions | `\Normal`, `\Binom`, `\Poiss` |
-| Independence | `\indep`, `\nindep` |
+| Regression            | `\SE`, `\mse`, `\sse`, `\Bias`              |
+| Vectors/matrices      | `\vect{y}`, `\tr`, `\diag`                  |
+| Distributions         | `\Normal`, `\Binom`, `\Poiss`               |
+| Independence          | `\indep`, `\nindep`                         |
 
 ### Quarto Configuration
 
@@ -125,7 +126,7 @@ format:
       - file: includes/mathjax-macros.html
     html-math-method:
       method: mathjax
-      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+      url: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
 ```
 
 See `derivations-appendix.md` for the complete macro reference.
