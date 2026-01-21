@@ -2711,64 +2711,68 @@ _teach_convert_lecture_to_slides() {
         # Convert H1 to slide title (level 1 becomes title slide)
         if [[ "$line" =~ ^#\  && ! "$line" =~ ^##\  ]]; then
             # H1 becomes a section title slide
-            echo "" >> "$output_file"
-            echo "$line {.center}" >> "$output_file"
-            echo "" >> "$output_file"
+            printf '\n' >> "$output_file"
+            printf '%s {.center}\n' "$line" >> "$output_file"
+            printf '\n' >> "$output_file"
             ((slide_count++))
             continue
         fi
 
         # H2 becomes new slide
         if [[ "$line" =~ ^##\  && ! "$line" =~ ^###\  ]]; then
-            echo "" >> "$output_file"
-            echo "$line" >> "$output_file"
+            printf '\n' >> "$output_file"
+            printf '%s\n' "$line" >> "$output_file"
             ((slide_count++))
             continue
         fi
 
         # H3 with content becomes slide with incremental reveal
         if [[ "$line" =~ ^###\  ]]; then
-            echo "" >> "$output_file"
-            echo "$line" >> "$output_file"
+            printf '\n' >> "$output_file"
+            printf '%s\n' "$line" >> "$output_file"
             continue
         fi
 
         # Convert TL;DR boxes to callout-note for slides
         if [[ "$line" =~ ':::.+\{\.tldr-box\}' ]]; then
-            echo "::: {.callout-tip}" >> "$output_file"
-            echo "## Key Points" >> "$output_file"
+            printf '::: {.callout-tip}\n' >> "$output_file"
+            printf '## Key Points\n' >> "$output_file"
             continue
         fi
 
         # Convert checkpoint questions to interactive elements
         if [[ "$line" =~ "Checkpoint Question" ]]; then
-            echo "" >> "$output_file"
-            echo "::: {.callout-warning}" >> "$output_file"
-            echo "## 🤔 Checkpoint" >> "$output_file"
+            printf '\n' >> "$output_file"
+            printf '::: {.callout-warning}\n' >> "$output_file"
+            printf '## 🤔 Checkpoint\n' >> "$output_file"
             continue
         fi
 
         # Pass through code chunks (important for R examples)
+        # Use printf '%s\n' to preserve LaTeX backslashes like \tau, \beta, \alpha
         if [[ "$in_code_block" == "true" ]] || [[ "$line" =~ ^\`\`\` ]]; then
-            echo "$line" >> "$output_file"
+            printf '%s\n' "$line" >> "$output_file"
             continue
         fi
 
         # Convert columns to slide-friendly format
         if [[ "$line" =~ ':::.+\{\.columns\}' ]]; then
-            echo "" >> "$output_file"
-            echo ":::: {.columns}" >> "$output_file"
+            printf '\n' >> "$output_file"
+            printf ':::: {.columns}\n' >> "$output_file"
             continue
         fi
 
         if [[ "$line" =~ ':::.+\{\.column' ]]; then
-            echo "" >> "$output_file"
-            echo "$line" >> "$output_file"
+            printf '\n' >> "$output_file"
+            printf '%s\n' "$line" >> "$output_file"
             continue
         fi
 
         # Pass through most content
-        echo "$line" >> "$output_file"
+        # IMPORTANT: Use printf '%s\n' instead of echo to preserve LaTeX backslashes
+        # echo interprets escape sequences like \t (tab), \b (backspace), \v (vertical tab)
+        # which corrupts LaTeX commands like \tau, \beta, \varepsilon, \underbrace, \alpha
+        printf '%s\n' "$line" >> "$output_file"
 
     done < "$input_file"
 
