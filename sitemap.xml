@@ -685,6 +685,10 @@
          <lastmod>2026-01-22</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/CORE-API-REFERENCE/</loc>
+         <lastmod>2026-01-22</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/DASHBOARD-QUICK-REF/</loc>
          <lastmod>2026-01-22</lastmod>
     </url>
@@ -966,6 +970,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-claude-code-plugin-integration-2026-01-17/</loc>
+         <lastmod>2026-01-22</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-documentation-debt-2026-01-21/</loc>
          <lastmod>2026-01-22</lastmod>
     </url>
     <url>
