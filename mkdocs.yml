@@ -124,6 +124,7 @@ nav:
       - Start Here: guides/00-START-HERE.md
       - 🆕 Teaching v3.0:
           - v3.0 User Guide: guides/TEACHING-WORKFLOW-V3-GUIDE.md
+          - Concept Analysis: guides/INTELLIGENT-CONTENT-ANALYSIS.md
           - Backup System Guide: guides/BACKUP-SYSTEM-GUIDE.md
           - Help System Guide: guides/HELP-SYSTEM-GUIDE.md
           - Migration Guide (v2 → v3): guides/TEACHING-V3-MIGRATION-GUIDE.md
