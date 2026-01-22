@@ -168,7 +168,11 @@ nav:
           - TEACH Dispatcher v3.0: reference/TEACH-DISPATCHER-REFERENCE-v3.0.md
           - TEACH Dispatcher (Legacy): reference/TEACH-DISPATCHER-REFERENCE.md
           - TM Dispatcher: reference/TM-DISPATCHER-REFERENCE.md
+          - V Dispatcher: reference/V-DISPATCHER-REFERENCE.md
           - WT Dispatcher: reference/WT-DISPATCHER-REFERENCE.md
+      - Architecture:
+          - Overview: reference/ARCHITECTURE-OVERVIEW.md
+          - Documentation Coverage: reference/DOCUMENTATION-COVERAGE.md
       - Quick Reference Cards:
           - DOT Quick Ref: reference/REFCARD-DOT.md
           - Nvim Quick Ref: reference/NVIM-QUICK-REFERENCE.md

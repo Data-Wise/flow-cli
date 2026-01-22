@@ -6,7 +6,44 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
-## [5.14.0] - TBD
+## [5.15.0] - 2026-01-21
+
+### Added
+
+- **Comprehensive Help System** - Complete help system for all teach commands (#281)
+  - 18 help functions covering all teach sub-commands
+  - Progressive disclosure UX pattern
+  - ADHD-friendly design principles
+  - Contextual examples in every help message
+
+- **Teaching Prompts Templates** - Claude Code prompts for statistics courses (#283)
+  - `lecture-notes.md` - 20-40 page instructor lecture notes
+  - `revealjs-slides.md` - RevealJS presentation generation
+  - `derivations-appendix.md` - Mathematical derivation appendices
+  - `README.md` - Template usage guide
+
+- **Lecture-to-Slides Conversion** - Convert lecture notes to slides (#284)
+  - `teach slides --from-lecture FILE` - Convert specific lecture file
+  - `teach slides --week N` - Auto-detect lecture from config
+  - `teach slides --dry-run` - Preview content analysis
+  - LaTeX preservation (math expressions intact)
+  - Multi-part week support
+
+### Documentation
+
+- **HELP-SYSTEM-GUIDE.md** - 800-line comprehensive guide
+- **REFCARD-HELP-SYSTEM.md** - 450-line quick reference card
+- **V-DISPATCHER-REFERENCE.md** - V/Vibe dispatcher documentation
+- **ARCHITECTURE-OVERVIEW.md** - System architecture with Mermaid diagrams
+- **DOCUMENTATION-COVERAGE.md** - Documentation coverage report
+
+### Tests
+
+- 77 tests passing (100%)
+
+---
+
+## [5.14.0] - 2026-01-19
 
 ### Added
 
