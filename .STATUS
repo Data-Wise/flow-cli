@@ -262,13 +262,15 @@ $ teach analyze lectures/week-05.qmd
 - teach analyze Phase 2: Integration
 - teach analyze Phase 3+: AI enhancement, slide optimization
 
-**📚 Documentation Debt (Low Priority):**
-- Helper library API documentation (critical gap: 0.5% coverage)
-- 422 functions across 32 helper libraries undocumented
-- Priority files to document:
-  1. `lib/core.zsh` - Core utilities (colors, logging, project detection)
-  2. `lib/tui.zsh` - Terminal UI components (tables, boxes, progress bars)
-  3. `lib/git-helpers.zsh` - Git integration utilities
+**📚 Documentation Debt - Phase 1 Complete! ✅**
+- ✅ Phase 1: Core libraries documented (47 functions)
+  - `lib/core.zsh` - 14 functions with inline docstrings
+  - `lib/tui.zsh` - 16 functions with inline docstrings
+  - `lib/git-helpers.zsh` - 17 functions with inline docstrings
+  - `docs/reference/CORE-API-REFERENCE.md` - 1,661 lines
+- Coverage improved: 8.6% → 14.1% (+47 functions)
+- Branch: `feature/documentation-debt` (ready for PR)
+- Future phases: ~295 functions remaining across 29 libraries
 - Reference: `docs/reference/DOCUMENTATION-COVERAGE.md`
 
 ---
