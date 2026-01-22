@@ -263,18 +263,14 @@ $ teach analyze lectures/week-05.qmd
 - teach analyze Phase 2: Integration
 - teach analyze Phase 3+: AI enhancement, slide optimization
 
-**📚 Documentation Debt (Low Priority):**
-- Helper library API documentation (critical gap: 0.6% coverage)
-- 342 functions across 32 helper libraries undocumented
-- **Spec:** `docs/specs/SPEC-documentation-debt-2026-01-21.md`
-- **Branch:** `feature/documentation-debt`
-- **Worktree:** `~/.git-worktrees/flow-cli/documentation-debt`
-- **Phases:**
-  - Phase 1: Core libraries (47 funcs, 4-6h) - core.zsh, tui.zsh, git-helpers.zsh
-  - Phase 2: Teaching libraries (~60 funcs, 6-8h)
-  - Phase 3: Integration libraries (~80 funcs, 8-10h)
-  - Phase 4: Specialized libraries (~155 funcs, 10-12h)
-- **Total effort:** 28-36 hours across all phases
+**📚 Documentation Debt - Phase 1 Complete! ✅**
+- ✅ Phase 1: Core libraries documented (47 functions)
+  - `lib/core.zsh` - 14 functions with inline docstrings
+  - `lib/tui.zsh` - 16 functions with inline docstrings
+  - `lib/git-helpers.zsh` - 17 functions with inline docstrings
+  - `docs/reference/CORE-API-REFERENCE.md` - 1,661 lines
+- Coverage improved: 8.6% → 14.1% (+47 functions)
+- Future phases: ~295 functions remaining across 29 libraries
 - Reference: `docs/reference/DOCUMENTATION-COVERAGE.md`
 
 ---

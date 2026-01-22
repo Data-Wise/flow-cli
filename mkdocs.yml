@@ -150,6 +150,8 @@ nav:
       - GIF Creation Guide: conventions/adhd/GIF-GUIDELINES.md
   - Reference:
       - 📋 Quick Reference Card: quick-reference-card.md
+      - API Reference:
+          - Core Libraries: reference/CORE-API-REFERENCE.md
       - Quick References:
           - Command Cheatsheet: reference/COMMAND-QUICK-REFERENCE.md
           - Alias Card: reference/ALIAS-REFERENCE-CARD.md

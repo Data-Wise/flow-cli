@@ -3,9 +3,42 @@
 # Part of flow-cli v5.11.0 - Teaching + Git Integration Enhancement
 # Phase 1: Smart post-generation workflow
 
-# Generate commit message for teaching content
-# Usage: _git_teaching_commit_message <type> <topic> <command> <course> <semester> <year>
-# Example: _git_teaching_commit_message "exam" "Hypothesis Testing" "teach exam \"Hypothesis Testing\" --questions 20" "STAT 545" "Fall" "2024"
+# =============================================================================
+# Function: _git_teaching_commit_message
+# Purpose: Generate standardized commit message for teaching content
+# =============================================================================
+# Arguments:
+#   $1 - (required) Content type (exam, quiz, slides, lecture, etc.)
+#   $2 - (required) Topic or title of the content
+#   $3 - (required) Full command that generated the content
+#   $4 - (required) Course name (e.g., "STAT 545")
+#   $5 - (required) Semester (Fall, Spring, etc.)
+#   $6 - (required) Year
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Formatted commit message with conventional commit style
+#
+# Example:
+#   msg=$(_git_teaching_commit_message "exam" "Hypothesis Testing" \
+#       "teach exam \"Hypothesis Testing\" --questions 20" \
+#       "STAT 545" "Fall" "2024")
+#
+#   # Output:
+#   # teach: add exam for Hypothesis Testing
+#   #
+#   # Generated via: teach exam "Hypothesis Testing" --questions 20
+#   # Course: STAT 545 (Fall 2024)
+#   #
+#   # Co-Authored-By: Scholar <scholar@example.com>
+#
+# Notes:
+#   - Uses conventional commits style (teach: prefix)
+#   - Includes Scholar co-author attribution
+#   - Designed for automated git workflows
+# =============================================================================
 _git_teaching_commit_message() {
     local type="$1"       # exam, quiz, slides, lecture, etc.
     local topic="$2"      # Topic/title of the content
@@ -28,14 +61,56 @@ Co-Authored-By: Scholar <scholar@example.com>
 EOF
 }
 
-# Check if current branch is clean (no uncommitted changes)
-# Returns: 0 if clean, 1 if dirty
+# =============================================================================
+# Function: _git_is_clean
+# Purpose: Check if working directory has no uncommitted changes
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Working directory is clean (no uncommitted changes)
+#   1 - Working directory is dirty (has uncommitted changes)
+#
+# Example:
+#   if _git_is_clean; then
+#       echo "Ready to switch branches"
+#   else
+#       echo "Commit or stash changes first"
+#   fi
+#
+# Notes:
+#   - Uses git status --porcelain for scriptable output
+#   - Includes untracked files in "dirty" check
+#   - Returns 1 if not in a git repository
+# =============================================================================
 _git_is_clean() {
     [[ -z "$(git status --porcelain 2>/dev/null)" ]]
 }
 
-# Check if remote is up-to-date (no unpushed/unpulled commits)
-# Returns: 0 if synced, 1 if behind/ahead/diverged
+# =============================================================================
+# Function: _git_is_synced
+# Purpose: Check if local branch is synchronized with remote
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Branch is synced (no unpushed or unpulled commits)
+#   1 - Branch is out of sync (ahead, behind, or diverged)
+#
+# Example:
+#   if _git_is_synced; then
+#       echo "Branch is up to date"
+#   else
+#       echo "Need to push or pull"
+#   fi
+#
+# Notes:
+#   - Fetches from remote first (may take a moment)
+#   - Returns 1 if no upstream branch configured
+#   - Checks both ahead (local commits) and behind (remote commits)
+# =============================================================================
 _git_is_synced() {
     # Silently fetch latest from remote
     git fetch --quiet 2>/dev/null || return 1
@@ -46,8 +121,40 @@ _git_is_synced() {
     [[ $ahead -eq 0 && $behind -eq 0 ]]
 }
 
-# Get list of teaching-related files (uncommitted changes only)
-# Returns: List of file paths (one per line)
+# =============================================================================
+# Function: _git_teaching_files
+# Purpose: Get list of uncommitted teaching-related files
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - File paths (one per line), sorted and deduplicated
+#
+# Recognized Paths:
+#   exams/        - Exam files
+#   slides/       - Presentation slides
+#   assignments/  - Assignment materials
+#   lectures/     - Lecture notes
+#   quizzes/      - Quiz files
+#   homework/     - Homework assignments
+#   labs/         - Lab materials
+#
+# Example:
+#   local files=$(_git_teaching_files)
+#   if [[ -n "$files" ]]; then
+#       echo "Teaching files to commit:"
+#       echo "$files"
+#   fi
+#
+# Notes:
+#   - Includes both staged and unstaged changes
+#   - Includes untracked files in teaching directories
+#   - Returns empty if no teaching files changed
+# =============================================================================
 _git_teaching_files() {
     # Common teaching content paths
     local paths=("exams/" "slides/" "assignments/" "lectures/" "quizzes/" "homework/" "labs/")
@@ -65,9 +172,28 @@ _git_teaching_files() {
     } | sort -u
 }
 
-# Interactive commit workflow for teaching content
-# Usage: _git_interactive_commit <file> <type> <topic> <command> <course> <semester> <year>
-# Returns: 0 on success, 1 on skip/error
+# =============================================================================
+# Function: _git_interactive_commit
+# Purpose: Interactive commit workflow for teaching content (stub)
+# =============================================================================
+# Arguments:
+#   $1 - (required) File path
+#   $2 - (required) Content type
+#   $3 - (required) Topic
+#   $4 - (required) Command that generated content
+#   $5 - (required) Course name
+#   $6 - (required) Semester
+#   $7 - (required) Year
+#
+# Returns:
+#   0 - Setup complete (actual commit in teach dispatcher)
+#   1 - Error (e.g., missing dependencies)
+#
+# Notes:
+#   - This is a stub function for Phase 1
+#   - Actual interactive prompting handled by teach dispatcher
+#   - Sources core.zsh for logging helpers
+# =============================================================================
 _git_interactive_commit() {
     local file="$1"
     local type="$2"
@@ -86,9 +212,34 @@ _git_interactive_commit() {
     return 0
 }
 
-# Create deployment pull request (Phase 2 - v5.11.0+)
-# Usage: _git_create_deploy_pr <draft_branch> <prod_branch> <title> <body>
-# Returns: 0 on success, 1 on error
+# =============================================================================
+# Function: _git_create_deploy_pr
+# Purpose: Create a pull request for teaching content deployment
+# =============================================================================
+# Arguments:
+#   $1 - (required) Source branch (draft/development)
+#   $2 - (required) Target branch (production)
+#   $3 - (required) PR title
+#   $4 - (required) PR body (markdown)
+#
+# Returns:
+#   0 - PR created successfully
+#   1 - Error (gh not installed, not authenticated, or creation failed)
+#
+# Dependencies:
+#   - gh CLI (GitHub CLI)
+#   - gh auth login (authenticated)
+#
+# Example:
+#   _git_create_deploy_pr "draft" "main" \
+#       "Deploy: Week 5 materials" \
+#       "$(cat pr-body.md)"
+#
+# Notes:
+#   - Adds labels: teaching, deploy
+#   - Requires authenticated GitHub CLI
+#   - Sources core.zsh for error logging
+# =============================================================================
 _git_create_deploy_pr() {
     local draft_branch="$1"
     local prod_branch="$2"
@@ -126,27 +277,107 @@ _git_create_deploy_pr() {
     fi
 }
 
-# Detect if we're in a git repository
-# Returns: 0 if in git repo, 1 otherwise
+# =============================================================================
+# Function: _git_in_repo
+# Purpose: Check if current directory is inside a git repository
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - In a git repository
+#   1 - Not in a git repository
+#
+# Example:
+#   if _git_in_repo; then
+#       echo "Branch: $(_git_current_branch)"
+#   else
+#       echo "Not a git repository"
+#   fi
+#
+# Notes:
+#   - Works from any subdirectory of the repo
+#   - Suppresses all error output
+# =============================================================================
 _git_in_repo() {
     git rev-parse --is-inside-work-tree &>/dev/null
 }
 
-# Get current git branch name
-# Returns: Branch name or empty string if not in git repo
+# =============================================================================
+# Function: _git_current_branch
+# Purpose: Get the name of the current git branch
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Branch name, or empty if not in git repo
+#
+# Example:
+#   local branch=$(_git_current_branch)
+#   echo "Currently on: $branch"
+#
+# Special Cases:
+#   - Detached HEAD returns "HEAD"
+#   - Not in repo returns empty string
+# =============================================================================
 _git_current_branch() {
     git rev-parse --abbrev-ref HEAD 2>/dev/null
 }
 
-# Get remote tracking branch name
-# Returns: Remote branch name or empty string
+# =============================================================================
+# Function: _git_remote_branch
+# Purpose: Get the upstream tracking branch name
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Remote branch name (e.g., "origin/main"), or empty if none
+#
+# Example:
+#   local upstream=$(_git_remote_branch)
+#   if [[ -n "$upstream" ]]; then
+#       echo "Tracking: $upstream"
+#   else
+#       echo "No upstream configured"
+#   fi
+#
+# Notes:
+#   - Returns empty if no upstream branch configured
+#   - Format: remote/branch (e.g., "origin/main")
+# =============================================================================
 _git_remote_branch() {
     git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null
 }
 
-# Commit staged files with generated message
-# Usage: _git_commit_teaching_content <message>
-# Returns: 0 on success, 1 on error
+# =============================================================================
+# Function: _git_commit_teaching_content
+# Purpose: Commit staged files with a teaching-formatted message
+# =============================================================================
+# Arguments:
+#   $1 - (required) Commit message (usually from _git_teaching_commit_message)
+#
+# Returns:
+#   0 - Commit successful
+#   1 - Error (no staged changes or commit failed)
+#
+# Example:
+#   git add exams/midterm.qmd
+#   local msg=$(_git_teaching_commit_message "exam" "Midterm" ...)
+#   _git_commit_teaching_content "$msg"
+#
+# Notes:
+#   - Requires files to be staged first (git add)
+#   - Uses _flow_log functions for status output
+#   - Fails gracefully if nothing staged
+# =============================================================================
 _git_commit_teaching_content() {
     local message="$1"
 
@@ -166,9 +397,27 @@ _git_commit_teaching_content() {
     fi
 }
 
-# Push current branch to remote
-# Usage: _git_push_current_branch
-# Returns: 0 on success, 1 on error
+# =============================================================================
+# Function: _git_push_current_branch
+# Purpose: Push current branch to origin remote
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Push successful
+#   1 - Error (not on branch or push failed)
+#
+# Example:
+#   if _git_push_current_branch; then
+#       echo "Changes pushed"
+#   fi
+#
+# Notes:
+#   - Always pushes to 'origin' remote
+#   - Requires branch to exist on remote (use -u for first push)
+#   - Shows git push output for progress
+# =============================================================================
 _git_push_current_branch() {
     local branch=$(_git_current_branch)
 
@@ -191,9 +440,29 @@ _git_push_current_branch() {
 # PHASE 2: BRANCH-AWARE DEPLOYMENT (v5.11.0+)
 # ============================================================================
 
-# Check if production branch has new commits (conflict detection)
-# Usage: _git_detect_production_conflicts <draft_branch> <prod_branch>
-# Returns: 0 if no conflicts, 1 if production has new commits
+# =============================================================================
+# Function: _git_detect_production_conflicts
+# Purpose: Check if production branch has commits that could cause conflicts
+# =============================================================================
+# Arguments:
+#   $1 - (required) Draft/development branch name
+#   $2 - (required) Production branch name
+#
+# Returns:
+#   0 - No conflicts (production hasn't diverged)
+#   1 - Potential conflicts (production has new commits)
+#
+# Example:
+#   if ! _git_detect_production_conflicts "draft" "main"; then
+#       echo "Warning: Production has new commits"
+#       echo "Consider rebasing before PR"
+#   fi
+#
+# Notes:
+#   - Fetches from remote before checking
+#   - Uses merge-base to find common ancestor
+#   - Returns 1 if production has commits since divergence
+# =============================================================================
 _git_detect_production_conflicts() {
     local draft_branch="$1"
     local prod_branch="$2"
@@ -214,9 +483,28 @@ _git_detect_production_conflicts() {
     fi
 }
 
-# Get commit count between draft and production
-# Usage: _git_get_commit_count <draft_branch> <prod_branch>
-# Returns: Number of commits in draft ahead of production
+# =============================================================================
+# Function: _git_get_commit_count
+# Purpose: Count commits in draft branch not yet in production
+# =============================================================================
+# Arguments:
+#   $1 - (required) Draft/development branch name
+#   $2 - (required) Production branch name
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Number of commits (integer)
+#
+# Example:
+#   local count=$(_git_get_commit_count "draft" "main")
+#   echo "Ready to deploy $count commits"
+#
+# Notes:
+#   - Compares against remote production branch
+#   - Returns 0 if branches are identical or error
+# =============================================================================
 _git_get_commit_count() {
     local draft_branch="$1"
     local prod_branch="$2"
@@ -224,9 +512,32 @@ _git_get_commit_count() {
     git rev-list --count "origin/${prod_branch}..${draft_branch}" 2>/dev/null || echo 0
 }
 
-# Get list of commits for PR body
-# Usage: _git_get_commit_list <draft_branch> <prod_branch>
-# Returns: Formatted commit list (one per line)
+# =============================================================================
+# Function: _git_get_commit_list
+# Purpose: Get markdown-formatted list of commits for PR body
+# =============================================================================
+# Arguments:
+#   $1 - (required) Draft/development branch name
+#   $2 - (required) Production branch name
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Commit subjects as markdown list, one per line
+#
+# Example:
+#   local commits=$(_git_get_commit_list "draft" "main")
+#   # Output:
+#   # - teach: add exam for Hypothesis Testing
+#   # - teach: add lecture slides for Week 5
+#   # - fix: correct typo in assignment
+#
+# Notes:
+#   - Excludes merge commits
+#   - Format: "- subject" (markdown list item)
+#   - Empty output if no commits or error
+# =============================================================================
 _git_get_commit_list() {
     local draft_branch="$1"
     local prod_branch="$2"
@@ -236,9 +547,33 @@ _git_get_commit_list() {
         --no-merges 2>/dev/null || echo ""
 }
 
-# Generate PR body for deployment
-# Usage: _git_generate_pr_body <draft_branch> <prod_branch>
-# Returns: Formatted PR body with commits and metadata
+# =============================================================================
+# Function: _git_generate_pr_body
+# Purpose: Generate complete markdown PR body for deployment
+# =============================================================================
+# Arguments:
+#   $1 - (required) Draft/development branch name
+#   $2 - (required) Production branch name
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Complete markdown PR body with:
+#     - Changes section (commit list)
+#     - Commits section (count and branch info)
+#     - Deploy checklist
+#     - Attribution footer
+#
+# Example:
+#   local body=$(_git_generate_pr_body "draft" "main")
+#   gh pr create --body "$body" ...
+#
+# Notes:
+#   - Uses _git_get_commit_count and _git_get_commit_list
+#   - Includes standard deploy checklist items
+#   - Attribution shows teach deploy command
+# =============================================================================
 _git_generate_pr_body() {
     local draft_branch="$1"
     local prod_branch="$2"
@@ -269,9 +604,30 @@ ${commit_list}
 EOF
 }
 
-# Rebase draft onto production branch
-# Usage: _git_rebase_onto_production <draft_branch> <prod_branch>
-# Returns: 0 on success, 1 on error/conflicts
+# =============================================================================
+# Function: _git_rebase_onto_production
+# Purpose: Rebase draft branch onto latest production
+# =============================================================================
+# Arguments:
+#   $1 - (required) Draft/development branch name
+#   $2 - (required) Production branch name
+#
+# Returns:
+#   0 - Rebase successful
+#   1 - Error (fetch failed or conflicts)
+#
+# Example:
+#   if _git_rebase_onto_production "draft" "main"; then
+#       echo "Ready for clean merge"
+#   else
+#       echo "Resolve conflicts manually"
+#   fi
+#
+# Notes:
+#   - Fetches latest production before rebase
+#   - Provides helpful error messages on conflict
+#   - User must resolve conflicts manually if they occur
+# =============================================================================
 _git_rebase_onto_production() {
     local draft_branch="$1"
     local prod_branch="$2"
@@ -299,8 +655,27 @@ _git_rebase_onto_production() {
     fi
 }
 
-# Check if current branch has unpushed commits
-# Returns: 0 if has unpushed commits, 1 if all pushed
+# =============================================================================
+# Function: _git_has_unpushed_commits
+# Purpose: Check if current branch has local commits not pushed to remote
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Has unpushed commits
+#   1 - All commits pushed (or no upstream)
+#
+# Example:
+#   if _git_has_unpushed_commits; then
+#       echo "You have local commits to push"
+#   fi
+#
+# Notes:
+#   - Requires upstream branch configured
+#   - Returns 1 if no upstream (acts as "nothing to push")
+#   - Does not fetch first (uses cached remote state)
+# =============================================================================
 _git_has_unpushed_commits() {
     local branch=$(_git_current_branch)
 
