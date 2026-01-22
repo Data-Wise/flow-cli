@@ -197,6 +197,7 @@ nav:
       - Deep Dives:
           - Architecture: reference/ARCHITECTURE.md
           - 🎨 Architecture Diagrams: diagrams/ARCHITECTURE-DIAGRAMS.md
+          - 📦 Library Architecture: diagrams/LIBRARY-ARCHITECTURE.md
           - 📚 Teaching v3.0 Workflows: diagrams/TEACHING-V3-WORKFLOWS.md
           - 🎓 Scholar Enhancement:
               - API Reference: reference/SCHOLAR-ENHANCEMENT-API.md
