@@ -1000,6 +1000,94 @@ _slide_apply_breaks <file_path> <breaks_json>
 
 ---
 
+## Slides Integration API
+
+**File:** `lib/dispatchers/teach-dispatcher.zsh`
+
+### _teach_slides_optimized
+
+Entry point for `teach slides --optimize` with auto-analyze integration.
+
+```zsh
+_teach_slides_optimized <lecture_file> [output_dir] [preview_breaks] [apply_suggestions] [key_concepts]
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `lecture_file` | string | required | Path to .qmd lecture file |
+| `output_dir` | string | `slides/` | Output directory for generated slides |
+| `preview_breaks` | string | `"false"` | Show break preview only (no generation) |
+| `apply_suggestions` | string | `"false"` | Apply optimizations to generated slides |
+| `key_concepts` | string | `"false"` | Show/apply key concepts for callouts |
+
+**Behavior:**
+
+1. Resolves `course_dir` from lecture file path
+2. Loads concept graph from `.teach/concepts.json`
+3. If no concept graph exists, **auto-analyzes** (lazy-loads `teach-analyze.zsh`)
+4. Runs `_slide_optimize()` for structure analysis
+5. Based on flags:
+   - `preview_breaks=true`: Shows preview, exits early
+   - `key_concepts=true` (no apply): Shows concepts, exits early
+   - `key_concepts=true` + `apply=true`: Generates slides with callouts
+   - Default: Generates slides, shows suggestion count
+6. Caches optimization result to `.teach/slide-optimization-*.json`
+
+**Auto-Analyze Flow:**
+
+```mermaid
+flowchart TD
+    A[Check .teach/concepts.json] --> B{Exists?}
+    B -- Yes --> C[Load graph]
+    B -- No --> D[Source teach-analyze.zsh]
+    D --> E[Run _teach_analyze --quiet]
+    E --> F[Load generated graph]
+    F --> C
+    C --> G[Run _slide_optimize]
+```
+
+**Examples:**
+
+```zsh
+# Basic optimization (via dispatcher)
+teach slides --optimize lectures/week-05.qmd
+
+# Preview breaks only
+teach slides --optimize --preview-breaks lectures/week-05.qmd
+
+# Show key concepts for callout boxes
+teach slides --optimize --key-concepts lectures/week-05.qmd
+
+# Generate slides with optimizations applied
+teach slides --optimize --apply-suggestions lectures/week-05.qmd
+
+# Full: generate with callouts applied
+teach slides --optimize --key-concepts --apply-suggestions lectures/week-05.qmd
+```
+
+**Output (default mode):**
+```
+📐 Optimizing: lectures/week-05-regression.qmd
+  ✅ Generated: slides/week-05-regression_slides.qmd
+  💡 3 optimization suggestions available (use --apply-suggestions)
+```
+
+**Output (--key-concepts mode):**
+```
+  🔑 Key Concepts for Callout Boxes:
+  ─────────────────────────────────────
+  • regression-coefficient (concept_graph)
+  • residuals (definition)
+  • r-squared (emphasis)
+
+  3 concept(s) identified
+  ⏱️  Estimated presentation time: 28 min
+
+  To generate slides: teach slides --optimize --apply-suggestions lectures/week-05.qmd
+```
+
+---
+
 ## Configuration
 
 ### teach-config.yml
@@ -1040,5 +1128,7 @@ concepts:
 ## Related Documentation
 
 - [Intelligent Content Analysis Guide](../guides/INTELLIGENT-CONTENT-ANALYSIS.md)
-- [Teach Dispatcher Reference](TEACH-DISPATCHER-REFERENCE-v3.0.md)
+- [Architecture Documentation](TEACH-ANALYZE-ARCHITECTURE.md)
+- [Quick Reference Card](REFCARD-TEACH-ANALYZE.md)
+- [Teach Dispatcher Reference](TEACH-DISPATCHER-REFERENCE-v4.6.0.md)
 - [Teaching Workflow v3.0 Guide](../guides/TEACHING-WORKFLOW-V3-GUIDE.md)

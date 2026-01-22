@@ -1174,11 +1174,65 @@ Warning: yq not installed - prerequisite checking limited
 
 ---
 
+## Slides Integration Workflow
+
+The `teach analyze` system integrates with `teach slides --optimize` for an end-to-end slide generation workflow.
+
+### Quick Workflow
+
+```bash
+# 1. Analyze prerequisites
+teach analyze lectures/week-05-regression.qmd
+
+# 2. Check slide structure
+teach analyze --slide-breaks lectures/week-05-regression.qmd
+
+# 3. Preview where breaks are needed
+teach analyze --preview-breaks lectures/week-05-regression.qmd
+
+# 4. See key concepts for callout boxes
+teach slides --optimize --key-concepts lectures/week-05-regression.qmd
+
+# 5. Generate optimized slides with callouts
+teach slides --optimize --apply-suggestions --key-concepts lectures/week-05-regression.qmd
+```
+
+### Auto-Analyze
+
+When you run `teach slides --optimize`, the system automatically:
+1. Checks for `.teach/concepts.json`
+2. If missing, runs `teach analyze --quiet` in the background
+3. Uses the concept graph for optimization
+4. Caches results for subsequent runs
+
+This means you can skip step 1 if you just want slides.
+
+### Key Concepts for Callout Boxes
+
+The `--key-concepts` flag identifies important terms for slide callout boxes using three strategies:
+
+| Strategy | Source | Example |
+|----------|--------|---------|
+| Concept graph | `.teach/concepts.json` | Concepts this lecture introduces |
+| Definitions | `**Definition**:` patterns | Formal term definitions |
+| Emphasis | `**bold terms**` in text | Important highlighted terms |
+
+### Caching
+
+Slide optimization results are cached by content hash:
+- **Location:** `.teach/slide-optimization-<basename>.json`
+- **Invalidation:** Automatic when file content changes (SHA-256)
+- **Effect:** Instant results on unchanged files
+
+---
+
 ## Related Documentation
 
+- [Architecture Documentation](../reference/TEACH-ANALYZE-ARCHITECTURE.md)
+- [API Reference](../reference/TEACH-ANALYZE-API-REFERENCE.md)
+- [Quick Reference Card](../reference/REFCARD-TEACH-ANALYZE.md)
 - [Teaching Workflow Guide](TEACHING-WORKFLOW-V3-GUIDE.md)
-- [Teach Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE-v5.14.0.md)
-- [Configuration Schema](../../lib/templates/teaching/teach-config.schema.json)
+- [Teach Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE-v4.6.0.md)
 
 ---
 
@@ -1193,4 +1247,5 @@ Warning: yq not installed - prerequisite checking limited
 6. Generate reports with `teach analyze --report analysis.md` (Phase 2)
 7. Run `teach analyze --ai` for pedagogical insights (Phase 3)
 8. Run `teach analyze --slide-breaks` before making slides (Phase 4)
-9. Use `teach analyze --preview-breaks` for detailed break analysis (Phase 4)
+9. Use `teach slides --optimize --key-concepts` for slide callout concepts
+10. Use `teach slides --optimize --apply-suggestions` for optimized slide generation
