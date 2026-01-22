@@ -2275,6 +2275,10 @@ _teach_scholar_wrapper() {
     if [[ "$subcommand" == "slides" ]]; then
         local from_lecture=""
         local week_num=""
+        local optimize=false
+        local preview_breaks=false
+        local apply_suggestions=false
+        local key_concepts=false
         for ((i=1; i<=${#args[@]}; i++)); do
             if [[ "${args[$i]}" == "--from-lecture" ]]; then
                 from_lecture="${args[$((i+1))]}"
@@ -2286,12 +2290,28 @@ _teach_scholar_wrapper() {
                 week_num="${args[$i]#*=}"
             elif [[ "${args[$i]}" =~ ^-w= ]]; then
                 week_num="${args[$i]#*=}"
+            elif [[ "${args[$i]}" == "--optimize" ]]; then
+                optimize=true
+            elif [[ "${args[$i]}" == "--preview-breaks" ]]; then
+                preview_breaks=true
+                optimize=true
+            elif [[ "${args[$i]}" == "--apply-suggestions" ]]; then
+                apply_suggestions=true
+                optimize=true
+            elif [[ "${args[$i]}" == "--key-concepts" ]]; then
+                key_concepts=true
+                optimize=true
             fi
         done
 
         # If --from-lecture provided OR --week provided (auto-detect lecture files)
         if [[ -n "$from_lecture" ]] || [[ -n "$week_num" ]]; then
-            _teach_slides_from_lecture "$from_lecture" "$week_num" "${args[@]}"
+            # If --optimize: run slide analysis, optionally preview, then generate
+            if [[ "$optimize" == "true" ]]; then
+                _teach_slides_optimized "$from_lecture" "$week_num" "$preview_breaks" "$apply_suggestions" "$key_concepts" "${args[@]}"
+            else
+                _teach_slides_from_lecture "$from_lecture" "$week_num" "${args[@]}"
+            fi
             return $?
         fi
     fi
@@ -2633,6 +2653,133 @@ _teach_slides_from_lecture() {
         echo "   1. Review and customize the generated slides"
         echo "   2. Run: quarto preview ${generated_files[1]}"
         echo "   3. Add to _quarto.yml navigation if needed"
+    fi
+
+    return 0
+}
+
+# ============================================================================
+# SLIDES WITH OPTIMIZATION (Phase 4)
+# Runs slide optimizer before generating slides
+# ============================================================================
+
+# Generate slides with AI-powered optimization
+# Usage: _teach_slides_optimized <from_lecture> <week_num> <preview> <apply> <key_concepts> [args...]
+_teach_slides_optimized() {
+    local from_lecture="$1"
+    local week_num="$2"
+    local preview_breaks="$3"
+    local apply_suggestions="$4"
+    local key_concepts="$5"
+    shift 5
+    local -a extra_args=("$@")
+
+    # Source slide optimizer if not already loaded
+    if ! typeset -f _slide_optimize >/dev/null 2>&1; then
+        source "${0:A:h:h}/slide-optimizer.zsh" 2>/dev/null || {
+            _teach_error "Slide optimizer not available" "Ensure lib/slide-optimizer.zsh exists"
+            return 1
+        }
+    fi
+
+    # Resolve lecture files (same logic as _teach_slides_from_lecture)
+    local config_file=".flow/teach-config.yml"
+    local -a lecture_files=()
+
+    if [[ -n "$from_lecture" && -f "$from_lecture" ]]; then
+        lecture_files+=("$from_lecture")
+    elif [[ -n "$week_num" ]]; then
+        local lecture_pattern="lectures/week-$(printf '%02d' $week_num)*.qmd"
+        for f in $~lecture_pattern; do
+            [[ -f "$f" ]] && lecture_files+=("$f")
+        done
+    fi
+
+    if [[ ${#lecture_files[@]} -eq 0 ]]; then
+        _teach_error "No lecture files found" "Specify --from-lecture FILE or --week N"
+        return 1
+    fi
+
+    echo "📐 Slide Optimization Mode"
+    echo "═══════════════════════════════════════════════════"
+    echo ""
+
+    local -a generated_files=()
+
+    for lecture_file in "${lecture_files[@]}"; do
+        echo "📖 Optimizing: ${lecture_file:t}"
+
+        # Step 1: Run slide optimizer
+        local concept_graph=""
+        local course_dir="${lecture_file:h:h}"
+        if [[ -f "$course_dir/.teach/concepts.json" ]]; then
+            concept_graph=$(cat "$course_dir/.teach/concepts.json" 2>/dev/null)
+        fi
+
+        local optimization
+        optimization=$(_slide_optimize "$lecture_file" "$concept_graph" "false")
+
+        if [[ -z "$optimization" || "$optimization" == "{}" ]]; then
+            echo "  ⚠️  No optimization suggestions for this file"
+            echo ""
+            continue
+        fi
+
+        # Step 2: If preview mode, show preview and continue
+        if [[ "$preview_breaks" == "true" ]]; then
+            _slide_preview_breaks "$optimization"
+            continue
+        fi
+
+        # Step 3: Generate optimized slides
+        local output_dir="slides"
+        local basename="${lecture_file:t:r}"
+        local output_file="${output_dir}/${basename}_slides.qmd"
+        [[ ! -d "$output_dir" ]] && mkdir -p "$output_dir"
+
+        if [[ "$apply_suggestions" == "true" ]]; then
+            # Apply break suggestions directly
+            _slide_apply_breaks "$lecture_file" "$output_file" "$optimization"
+            if [[ $? -eq 0 ]]; then
+                generated_files+=("$output_file")
+                echo "  ✅ Generated (optimized): $output_file"
+            else
+                _teach_warn "Failed to apply optimizations: $lecture_file"
+            fi
+        else
+            # Generate slides normally, then show optimization suggestions
+            _teach_convert_lecture_to_slides "$lecture_file" "$output_file" "false"
+            if [[ $? -eq 0 ]]; then
+                generated_files+=("$output_file")
+                echo "  ✅ Generated: $output_file"
+
+                # Show optimization summary
+                local break_count=0
+                if command -v jq &>/dev/null; then
+                    break_count=$(echo "$optimization" | jq '.slide_breaks | length' 2>/dev/null || echo 0)
+                fi
+                echo "  💡 $break_count optimization suggestions available (use --apply-suggestions)"
+            fi
+        fi
+
+        # Cache optimization results
+        if [[ -d "$course_dir/.teach" ]]; then
+            echo "$optimization" > "$course_dir/.teach/slide-optimization-${basename}.json" 2>/dev/null
+        fi
+
+        echo ""
+    done
+
+    # Summary
+    if [[ ${#generated_files[@]} -gt 0 && "$preview_breaks" != "true" ]]; then
+        echo "═══════════════════════════════════════════════════"
+        echo "📊 Generated ${#generated_files[@]} optimized slide file(s)"
+        echo ""
+        echo "💡 Next steps:"
+        echo "   1. Review slides: quarto preview ${generated_files[1]}"
+        if [[ "$apply_suggestions" != "true" ]]; then
+            echo "   2. Apply optimizations: teach slides --week $week_num --optimize --apply-suggestions"
+        fi
     fi
 
     return 0
@@ -3534,6 +3681,8 @@ ${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}--interactive${FLOW_COLORS[reset]}, -i                 Guided interactive mode
   ${FLOW_COLORS[cmd]}--ai${FLOW_COLORS[reset]}                             AI-powered analysis (Phase 3)
   ${FLOW_COLORS[cmd]}--costs${FLOW_COLORS[reset]}                          Show AI usage costs
+  ${FLOW_COLORS[cmd]}--slide-breaks${FLOW_COLORS[reset]}                   Analyze slide structure (Phase 4)
+  ${FLOW_COLORS[cmd]}--preview-breaks${FLOW_COLORS[reset]}                 Show slide break preview (then exit)
 
 ${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
   ${FLOW_COLORS[info]}Basic analysis:${FLOW_COLORS[reset]}
@@ -3543,6 +3692,10 @@ ${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
   ${FLOW_COLORS[info]}AI-powered:${FLOW_COLORS[reset]}
     ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach analyze --ai lectures/week-05-regression.qmd
     ${FLOW_COLORS[dim]}# Adds bloom levels, cognitive load, related concepts${FLOW_COLORS[reset]}
+
+  ${FLOW_COLORS[info]}Slide optimization:${FLOW_COLORS[reset]}
+    ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach analyze --slide-breaks lectures/week-05-regression.qmd
+    ${FLOW_COLORS[dim]}# Suggests optimal slide structure, key concepts${FLOW_COLORS[reset]}
 
   ${FLOW_COLORS[info]}What gets checked:${FLOW_COLORS[reset]}
     • Concepts are defined in frontmatter
@@ -3891,9 +4044,25 @@ ${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
   Creates: ${FLOW_COLORS[accent]}slides/week-NN/slides-NN-<topic>.${FLOW_COLORS[reset]}
   Auto-backs up existing files before overwriting
 
+${FLOW_COLORS[bold]}FROM-LECTURE MODE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--from-lecture FILE${FLOW_COLORS[reset]}     Convert lecture .qmd to slides
+  ${FLOW_COLORS[cmd]}--week N${FLOW_COLORS[reset]}                 Auto-detect lecture files for week
+
+${FLOW_COLORS[bold]}OPTIMIZATION FLAGS (Phase 4)${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--optimize${FLOW_COLORS[reset]}               AI-powered slide structure analysis
+  ${FLOW_COLORS[cmd]}--preview-breaks${FLOW_COLORS[reset]}         Show suggested breaks before generating
+  ${FLOW_COLORS[cmd]}--apply-suggestions${FLOW_COLORS[reset]}      Auto-apply slide break suggestions
+  ${FLOW_COLORS[cmd]}--key-concepts${FLOW_COLORS[reset]}           Emphasize key concepts with callouts
+
+  ${FLOW_COLORS[muted]}# Convert lecture to optimized slides${FLOW_COLORS[reset]}
+  $ teach slides --from-lecture week-05.qmd --optimize
+  $ teach slides --week 5 --optimize --preview-breaks
+  $ teach slides --week 5 --optimize --apply-suggestions
+
 ${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
   • Use ${FLOW_COLORS[accent]}--template quarto${FLOW_COLORS[reset]} for revealjs slides
   • Use ${FLOW_COLORS[accent]}--theme academic${FLOW_COLORS[reset]} for professional look
+  • Use ${FLOW_COLORS[accent]}--optimize${FLOW_COLORS[reset]} for AI-powered slide structure
   • Preview with ${FLOW_COLORS[cmd]}quarto preview${FLOW_COLORS[reset]}
   • Auto-staged for git after generation
 
@@ -3902,6 +4071,7 @@ ${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
 
 ${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}teach lecture${FLOW_COLORS[reset]} - Lecture notes
+  ${FLOW_COLORS[cmd]}teach analyze --slide-breaks${FLOW_COLORS[reset]} - Slide optimization analysis
   ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} - Quiz questions
 
 EOF

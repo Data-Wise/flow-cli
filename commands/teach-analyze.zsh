@@ -7,12 +7,14 @@
 # Phase 0: Concept extraction and prerequisite validation
 # Phase 2: Report generation (--report flag)
 # Phase 3: AI-powered analysis (--ai flag)
+# Phase 4: Slide optimization (--slide-breaks flag)
 
 # Source helper libraries
 source "${0:A:h:h}/lib/concept-extraction.zsh"
 source "${0:A:h:h}/lib/prerequisite-checker.zsh"
 source "${0:A:h:h}/lib/report-generator.zsh"
 source "${0:A:h:h}/lib/ai-analysis.zsh"
+source "${0:A:h:h}/lib/slide-optimizer.zsh"
 
 # Color scheme (use FLOW_COLORS from core.zsh if available, else define)
 : ${FLOW_GREEN:='\033[38;5;154m'}
@@ -186,6 +188,50 @@ _display_ai_section() {
     fi
 }
 
+_display_slide_section() {
+    local slide_data="$1"
+
+    if [[ -z "$slide_data" || "$slide_data" == "{}" ]]; then
+        return
+    fi
+
+    local break_count=0
+    local concept_count=0
+    local total_time=0
+
+    if command -v jq &>/dev/null; then
+        break_count=$(echo "$slide_data" | jq '.slide_breaks | length' 2>/dev/null || echo 0)
+        concept_count=$(echo "$slide_data" | jq '.key_concepts_for_emphasis | length' 2>/dev/null || echo 0)
+        total_time=$(echo "$slide_data" | jq '.time_estimate.total_minutes // 0' 2>/dev/null || echo 0)
+    fi
+
+    echo ""
+    echo "${FLOW_BLUE}📐 SLIDE OPTIMIZATION${FLOW_RESET}"
+    echo "┌────────────────────────────────────────────────────┐"
+    echo "│ Metric                     | Value                 │"
+    echo "├────────────────────────────┼───────────────────────┤"
+    printf "│ %-26s │ %-21s │\n" "Suggested breaks" "$break_count"
+    printf "│ %-26s │ %-21s │\n" "Key concepts" "$concept_count"
+    printf "│ %-26s │ %-21s │\n" "Estimated time" "${total_time} min"
+    echo "└────────────────────────────────────────────────────┘"
+
+    # Show break suggestions (top 3)
+    if [[ $break_count -gt 0 ]] && command -v jq &>/dev/null; then
+        echo ""
+        echo "  ${FLOW_BOLD}Break suggestions:${FLOW_RESET}"
+        echo "$slide_data" | jq -r '.slide_breaks[:3][] | "  [\(.priority)] \(.section) → \(.suggested_sub_slides) sub-slides"' 2>/dev/null
+        [[ $break_count -gt 3 ]] && echo "  ... and $((break_count - 3)) more (use --preview-breaks for full list)"
+    fi
+
+    # Show key concepts (top 5)
+    if [[ $concept_count -gt 0 ]] && command -v jq &>/dev/null; then
+        echo ""
+        echo "  ${FLOW_BOLD}Key concepts for emphasis:${FLOW_RESET}"
+        echo "$slide_data" | jq -r '.key_concepts_for_emphasis[:5][] | "  • \(.name)"' 2>/dev/null
+        [[ $concept_count -gt 5 ]] && echo "  ... and $((concept_count - 5)) more"
+    fi
+}
+
 _display_summary_section() {
     local results_file="$1"
     local exit_code="$2"
@@ -263,6 +309,8 @@ _teach_analyze() {
     local interactive=false
     local use_ai=false
     local show_costs=false
+    local slide_breaks=false
+    local preview_breaks=false
 
     # Parse arguments
     while [[ $# -gt 0 ]]; do
@@ -297,6 +345,13 @@ _teach_analyze() {
                 ;;
             --costs)
                 show_costs=true
+                ;;
+            --slide-breaks)
+                slide_breaks=true
+                ;;
+            --preview-breaks)
+                preview_breaks=true
+                slide_breaks=true  # preview implies analysis
                 ;;
             --help|-h)
                 _teach_analyze_help
@@ -407,6 +462,34 @@ _teach_analyze() {
         fi
     fi
 
+    # Phase 4: Slide optimization (if --slide-breaks flag)
+    local slide_data=""
+    if [[ "$slide_breaks" == "true" ]]; then
+        [[ "$quiet" != "true" ]] && printf "${FLOW_BLUE}Analyzing slide structure...${FLOW_RESET} "
+
+        local concept_graph_content
+        concept_graph_content=$(cat "$results_file" 2>/dev/null)
+
+        slide_data=$(_slide_optimize "$file_path" "$concept_graph_content" "$quiet")
+
+        if [[ -n "$slide_data" && "$slide_data" != "{}" ]]; then
+            # Store slide optimization in cache alongside concepts
+            if [[ -d "$course_dir/.teach" ]]; then
+                local slide_cache_file="$course_dir/.teach/slide-optimization-${file_path:t:r}.json"
+                echo "$slide_data" > "$slide_cache_file" 2>/dev/null
+            fi
+            [[ "$quiet" != "true" ]] && echo "${FLOW_GREEN}✓${FLOW_RESET}"
+        else
+            [[ "$quiet" != "true" ]] && echo "${FLOW_YELLOW}⚠ No suggestions${FLOW_RESET}"
+        fi
+
+        # If --preview-breaks, show preview and exit
+        if [[ "$preview_breaks" == "true" && -n "$slide_data" ]]; then
+            _slide_preview_breaks "$slide_data"
+            return 0
+        fi
+    fi
+
     # Generate report if requested
     if [[ "$generate_report" == "true" ]]; then
         [[ "$quiet" != "true" ]] && printf "${FLOW_BLUE}Generating report...${FLOW_RESET} "
@@ -444,7 +527,9 @@ _teach_analyze() {
 
     # Display results
     local phase_label
-    if [[ "$ai_enhanced" == "true" ]]; then
+    if [[ "$slide_breaks" == "true" ]]; then
+        phase_label="Phase: 4 (slide-optimized)"
+    elif [[ "$ai_enhanced" == "true" ]]; then
         phase_label="Phase: 3 (AI-enhanced)"
     else
         phase_label="Phase: 0 (heuristic-only)"
@@ -456,6 +541,11 @@ _teach_analyze() {
     # Show AI-enhanced fields if available
     if [[ "$ai_enhanced" == "true" ]]; then
         _display_ai_section "$results_file"
+    fi
+
+    # Show slide optimization results if available
+    if [[ "$slide_breaks" == "true" && -n "$slide_data" && "$slide_data" != "{}" ]]; then
+        _display_slide_section "$slide_data"
     fi
 
     _display_prerequisites_section "$results_file"
@@ -511,6 +601,10 @@ AI OPTIONS (Phase 3):
   --ai                Enable AI-powered analysis (requires Claude CLI)
   --costs             Show AI analysis cost summary
 
+SLIDE OPTIONS (Phase 4):
+  --slide-breaks      Analyze for optimal slide structure
+  --preview-breaks    Show suggested slide breaks (detailed preview, then exit)
+
 EXAMPLES:
   # Basic analysis
   teach analyze lectures/week-05-regression.qmd
@@ -540,6 +634,10 @@ EXAMPLES:
 
   # Show AI cost summary only
   teach analyze --costs
+
+  # Slide optimization (Phase 4)
+  teach analyze --slide-breaks lectures/week-05-regression.qmd
+  teach analyze --preview-breaks lectures/week-05-regression.qmd
 
 INTERACTIVE MODE:
   The --interactive flag provides an ADHD-friendly guided experience:
