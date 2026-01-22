@@ -1,6 +1,6 @@
 # Teach Analyze API Reference
 
-**Version:** v5.16.0 (Phase 2)
+**Version:** v5.16.0 (Phase 5)
 **Last Updated:** 2026-01-22
 
 ---
@@ -20,6 +20,14 @@ The `teach analyze` system provides intelligent content analysis for teaching wo
 | Report Generation | Markdown/JSON reports | Phase 2 |
 | Interactive Mode | Guided ADHD-friendly prompts | Phase 2 |
 | Deep Validation | Layer 6 validation, deploy blocking | Phase 2 |
+| AI Analysis | Claude-powered pedagogical insights | Phase 3 |
+| Cost Tracking | AI usage cost monitoring | Phase 3 |
+| Slide Breaks | Heuristic slide break detection | Phase 4 |
+| Break Preview | Detailed break suggestions display | Phase 4 |
+| Key Concepts | Auto-identify concepts for callouts | Phase 4 |
+| Time Estimation | Presentation timing from content | Phase 4 |
+| Error Handling | File suggestions, extension validation | Phase 5 |
+| Slide Cache | Content-hash caching for optimization | Phase 5 |
 
 ---
 
@@ -35,37 +43,48 @@ teach analyze [OPTIONS] [FILE]
 
 #### Options
 
-| Flag | Description |
-|------|-------------|
-| `--verbose`, `-v` | Verbose output with details |
-| `--json` | Output as JSON |
-| `--quiet`, `-q` | Suppress non-error output |
-| `--interactive`, `-i` | Guided interactive mode |
-| `--report FILE` | Generate report to FILE |
-| `--format FORMAT` | Report format: `markdown` (default), `json` |
-| `--summary-only` | Report with summary only |
-| `--violations-only` | Report with violations only |
-| `--stats` | Show cache statistics |
-| `--rebuild-cache` | Force cache rebuild |
-| `--help`, `-h` | Show help |
+| Flag | Phase | Description |
+|------|-------|-------------|
+| `--mode MODE` | 0 | Strictness: `strict`, `moderate`, `relaxed` |
+| `--summary`, `-s` | 0 | Compact summary only |
+| `--quiet`, `-q` | 0 | Suppress progress indicators |
+| `--interactive`, `-i` | 2 | Guided interactive mode (ADHD-friendly) |
+| `--report [FILE]` | 2 | Generate report to FILE |
+| `--format FORMAT` | 2 | Report format: `markdown` (default), `json` |
+| `--ai` | 3 | Enable AI-powered analysis |
+| `--costs` | 3 | Show AI analysis cost summary |
+| `--slide-breaks` | 4 | Analyze slide structure and suggest breaks |
+| `--preview-breaks` | 4 | Detailed break preview (exits early) |
+| `--help`, `-h` | - | Show help |
 
 #### Examples
 
 ```bash
 # Basic analysis
-teach analyze
+teach analyze lectures/week-05-regression.qmd
 
 # Interactive mode
-teach analyze --interactive
+teach analyze --interactive lectures/week-05-regression.qmd
 
 # Generate markdown report
-teach analyze --report analysis.md
+teach analyze lectures/week-05-regression.qmd --report analysis.md
 
 # JSON report for CI
-teach analyze --report results.json --format json
+teach analyze lectures/week-05-regression.qmd --report results.json --format json
 
-# Cache statistics
-teach analyze --stats
+# AI-powered analysis (Phase 3)
+teach analyze --ai lectures/week-05-regression.qmd
+teach analyze --ai --costs lectures/week-05-regression.qmd
+
+# View AI costs only
+teach analyze --costs
+
+# Slide optimization (Phase 4)
+teach analyze --slide-breaks lectures/week-05-regression.qmd
+teach analyze --preview-breaks lectures/week-05-regression.qmd
+
+# Combine flags
+teach analyze --slide-breaks --quiet lectures/week-05.qmd --report report.md
 ```
 
 ### teach validate --deep
@@ -714,6 +733,270 @@ if ! _check_prerequisites_for_deploy; then
     exit 1
 fi
 ```
+
+---
+
+## AI Analysis API (Phase 3)
+
+**File:** `lib/ai-analysis.zsh`
+
+### Functions
+
+#### _ai_analyze_content
+
+Run Claude-powered pedagogical analysis on lecture content.
+
+```zsh
+_ai_analyze_content <file_path> [quiet]
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `file_path` | string | Lecture file to analyze |
+| `quiet` | string | "true" to suppress progress |
+
+**Returns:** JSON with pedagogical insights to stdout
+
+**Requirements:** Claude CLI must be installed and authenticated
+
+---
+
+#### _ai_format_results
+
+Format AI analysis results for display.
+
+```zsh
+_ai_format_results <analysis_json>
+```
+
+**Returns:** Formatted text output
+
+---
+
+#### _ai_track_cost
+
+Record cost of an AI analysis invocation.
+
+```zsh
+_ai_track_cost <amount>
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `amount` | float | Cost in USD |
+
+---
+
+#### _ai_get_cost_summary
+
+Get cumulative AI usage cost summary.
+
+```zsh
+_ai_get_cost_summary
+```
+
+**Returns:** Formatted cost summary to stdout
+
+---
+
+## Slide Optimizer API (Phase 4)
+
+**File:** `lib/slide-optimizer.zsh`
+
+### Architecture
+
+```mermaid
+flowchart TD
+    A[_slide_optimize] --> B[_slide_analyze_structure]
+    A --> C[_slide_suggest_breaks]
+    A --> D[_slide_identify_key_concepts]
+    A --> E[_slide_estimate_time]
+
+    B --> F[Section parsing: headings, words, code]
+    C --> G[4 heuristic rules]
+    D --> H[3 detection strategies]
+    E --> I[Time formula]
+
+    G --> G1[Rule 1: Word density >300]
+    G --> G2[Rule 2: Code chunks >=3]
+    G --> G3[Rule 3: Definition boundary]
+    G --> G4[Rule 4: Dense text >150]
+
+    H --> H1[Concept graph]
+    H --> H2[Definition patterns]
+    H --> H3[Emphasis patterns]
+```
+
+### Constants
+
+| Constant | Value | Purpose |
+|----------|-------|---------|
+| `SLIDE_MINUTES_PER_CONTENT` | 2 | Minutes per content word unit |
+| `SLIDE_MINUTES_PER_CODE` | 3 | Minutes per code block |
+| `SLIDE_MINUTES_PER_EXAMPLE` | 2 | Minutes per example |
+| `SLIDE_WORDS_PER_UNIT` | 150 | Words per timing unit |
+| `SLIDE_HIGH_DENSITY_THRESHOLD` | 300 | Word count for "high" priority |
+| `SLIDE_MEDIUM_DENSITY_THRESHOLD` | 150 | Word count for "low" priority |
+| `SLIDE_CODE_CHUNK_THRESHOLD` | 3 | Code blocks for "medium" priority |
+
+### Functions
+
+#### _slide_analyze_structure
+
+Parse lecture file into structured section data.
+
+```zsh
+_slide_analyze_structure <file_path>
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `file_path` | string | Path to .qmd file |
+
+**Returns:** JSON with sections array:
+```json
+{
+  "total_sections": 3,
+  "sections": [
+    {
+      "title": "Regression Analysis",
+      "level": 2,
+      "word_count": 312,
+      "code_chunks": 4,
+      "has_definition": true,
+      "has_example": true
+    }
+  ]
+}
+```
+
+---
+
+#### _slide_suggest_breaks
+
+Apply heuristic rules to suggest where slides need breaks.
+
+```zsh
+_slide_suggest_breaks <structure_json> <concept_graph_json>
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `structure_json` | string | Output from `_slide_analyze_structure` |
+| `concept_graph_json` | string | Concept graph content |
+
+**Returns:** JSON array of break suggestions:
+```json
+[
+  {"section": "Regression", "priority": "high", "reason": "Word density (312 words)"},
+  {"section": "Diagnostics", "priority": "medium", "reason": "Multiple code chunks (4)"}
+]
+```
+
+**Rules applied:**
+
+| # | Condition | Priority | Reason |
+|---|-----------|----------|--------|
+| 1 | word_count > 300 | high | Word density |
+| 2 | code_chunks >= 3 | medium | Multiple code chunks |
+| 3 | has_definition && has_example | medium | Definition + example boundary |
+| 4 | word_count > 150 && code_chunks == 0 | low | Dense text without code |
+
+---
+
+#### _slide_identify_key_concepts
+
+Find concepts worth highlighting as callout boxes on slides.
+
+```zsh
+_slide_identify_key_concepts <file_path> <concept_graph_json>
+```
+
+**Returns:** JSON array of key concepts with source:
+```json
+[
+  {"concept": "regression-coefficient", "source": "definition"},
+  {"concept": "residuals", "source": "concept_graph"},
+  {"concept": "r-squared", "source": "emphasis"}
+]
+```
+
+**Detection strategies:**
+1. **concept_graph** - Concepts from `.teach/concepts.json` appearing in file
+2. **definition** - Lines matching "Definition:", "**Definition**", etc.
+3. **emphasis** - Bold terms (`**term**`) in content paragraphs
+
+---
+
+#### _slide_estimate_time
+
+Estimate presentation time from content analysis.
+
+```zsh
+_slide_estimate_time <structure_json>
+```
+
+**Returns:** Estimated minutes (integer)
+
+**Formula:**
+```
+time = (total_words ÷ 150) × 2 + (code_blocks × 3) + (examples × 2)
+```
+
+---
+
+#### _slide_optimize
+
+Full optimization pipeline combining all analyses.
+
+```zsh
+_slide_optimize <file_path> <concept_graph_json> [quiet]
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `file_path` | string | Lecture file path |
+| `concept_graph_json` | string | Concept graph content |
+| `quiet` | string | "true" to suppress progress |
+
+**Returns:** Complete optimization JSON:
+```json
+{
+  "structure": {...},
+  "breaks": [...],
+  "key_concepts": [...],
+  "estimated_minutes": 28
+}
+```
+
+---
+
+#### _slide_preview_breaks
+
+Display formatted preview of break suggestions.
+
+```zsh
+_slide_preview_breaks <optimization_json>
+```
+
+**Output:** Formatted table with section, priority, and reason columns
+
+---
+
+#### _slide_apply_breaks
+
+Apply break suggestions to generate optimized slide content.
+
+```zsh
+_slide_apply_breaks <file_path> <breaks_json>
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `file_path` | string | Source lecture file |
+| `breaks_json` | string | Break suggestions array |
+
+**Returns:** Modified content with break markers inserted
 
 ---
 

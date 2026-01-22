@@ -8,6 +8,7 @@
 ## Table of Contents
 
 - [Overview](#overview)
+- [teach analyze](#teach-analyze)
 - [teach validate](#teach-validate)
 - [teach cache](#teach-cache)
 - [teach doctor](#teach-doctor)
@@ -30,6 +31,7 @@ The `teach` dispatcher provides 21 commands for Quarto teaching workflow managem
 
 | Category | Commands | Purpose |
 |----------|----------|---------|
+| **Analysis** | `analyze` | Concept extraction, slides, AI |
 | **Validation** | `validate` | YAML, syntax, render validation |
 | **Cache** | `cache`, `clean` | Freeze cache management |
 | **Deployment** | `deploy` | Git-based deployment |
@@ -43,6 +45,70 @@ The `teach` dispatcher provides 21 commands for Quarto teaching workflow managem
 All commands support:
 - `-h, --help`: Show command help
 - `--quiet, -q`: Suppress non-essential output
+
+---
+
+## teach analyze
+
+Intelligent content analysis with concept extraction, AI insights, and slide optimization.
+
+**Aliases:** `concept`, `concepts`
+
+### Synopsis
+
+```bash
+teach analyze <file> [OPTIONS]
+```
+
+### Options
+
+| Flag | Description |
+|------|-------------|
+| `--mode MODE` | Strictness: `strict`, `moderate` (default), `relaxed` |
+| `--summary`, `-s` | Compact summary only |
+| `--quiet`, `-q` | Suppress progress indicators |
+| `--interactive`, `-i` | ADHD-friendly guided mode |
+| `--report [FILE]` | Generate report (markdown or JSON) |
+| `--format FORMAT` | Report format: `markdown` (default), `json` |
+| `--ai` | Enable AI-powered pedagogical analysis |
+| `--costs` | Show AI analysis cost summary |
+| `--slide-breaks` | Analyze for optimal slide structure |
+| `--preview-breaks` | Detailed break preview (exits early) |
+
+### Examples
+
+```bash
+# Basic prerequisite analysis
+teach analyze lectures/week-05-regression.qmd
+
+# Interactive guided analysis
+teach analyze --interactive lectures/week-05-regression.qmd
+
+# Generate markdown report
+teach analyze lectures/week-05.qmd --report analysis.md
+
+# AI-powered analysis with costs
+teach analyze --ai --costs lectures/week-05.qmd
+
+# Slide optimization
+teach analyze --slide-breaks lectures/week-05.qmd
+
+# Detailed break preview
+teach analyze --preview-breaks lectures/week-05.qmd
+```
+
+### Output Phases
+
+| Phase | Triggered By | Content |
+|-------|-------------|---------|
+| 0 | Always | Concept coverage, prerequisites, summary |
+| 3 | `--ai` | Pedagogical insights, difficulty, Bloom levels |
+| 4 | `--slide-breaks` | Break suggestions, key concepts, timing |
+
+### Related
+
+- [Intelligent Content Analysis Guide](../guides/INTELLIGENT-CONTENT-ANALYSIS.md)
+- [API Reference](TEACH-ANALYZE-API-REFERENCE.md)
 
 ---
 

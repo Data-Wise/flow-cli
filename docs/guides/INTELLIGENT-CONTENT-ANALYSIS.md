@@ -1,6 +1,6 @@
 # Intelligent Content Analysis Guide
 
-**Version:** v5.16.0 (Teach Analyze Phase 2)
+**Version:** v5.16.0 (Teach Analyze Phase 5)
 **Last Updated:** 2026-01-22
 
 ---
@@ -22,6 +22,22 @@ The **Intelligent Content Analysis** system (`teach analyze`) automatically extr
 - **Report Generation**: Markdown and JSON reports for analysis results
 - **Interactive Mode**: Guided analysis with ADHD-friendly prompts
 - **Deep Validation**: Layer 6 validation with deploy blocking
+
+**AI-Powered (Phase 3):**
+- **AI Analysis**: Claude-powered pedagogical analysis (`--ai` flag)
+- **Cost Tracking**: Monitor and review AI usage costs (`--costs`)
+- **Pedagogical Insights**: Learning objective alignment, difficulty assessment
+
+**Slide Optimization (Phase 4):**
+- **Slide Break Analysis**: Detect where slides need breaks (`--slide-breaks`)
+- **Break Preview**: Detailed preview of suggested breaks (`--preview-breaks`)
+- **Key Concept Callouts**: Auto-identify concepts for slide emphasis
+- **Time Estimation**: Presentation timing from content density
+
+**Polish (Phase 5):**
+- **Improved Error Messages**: File suggestions, extension warnings
+- **Dependency Checks**: jq/yq availability with install hints
+- **Slide Cache**: SHA-256 content-hash caching for slide optimization
 
 ---
 
@@ -914,15 +930,247 @@ teach validate --exam exams/midterm1.md --concepts
 | `_teach_validate_deep` | Layer 6 deep validation |
 | `_check_prerequisites_for_deploy` | Check prereqs before deploy |
 
+### AI Functions (Phase 3)
+
+| Function | Purpose |
+|----------|---------|
+| `_ai_analyze_content` | Run AI analysis on lecture content |
+| `_ai_format_results` | Format AI analysis for display |
+| `_ai_track_cost` | Record AI usage cost |
+| `_ai_get_cost_summary` | Get cumulative cost summary |
+
+### Slide Optimizer Functions (Phase 4)
+
+| Function | Purpose |
+|----------|---------|
+| `_slide_analyze_structure` | Parse lecture structure (sections, words, code) |
+| `_slide_suggest_breaks` | Apply 4 heuristic rules for break detection |
+| `_slide_identify_key_concepts` | Find concepts for callout boxes |
+| `_slide_estimate_time` | Calculate presentation time estimate |
+| `_slide_optimize` | Full optimization pipeline |
+| `_slide_preview_breaks` | Formatted break preview display |
+| `_slide_apply_breaks` | Apply suggestions to generate slides |
+| `_slide_extract_sections` | Helper: extract sections from JSON |
+
 ### Exit Codes
 
 | Code | Meaning |
 |------|---------|
 | `0` | Success (all prerequisites satisfied) |
-| `1` | General error |
+| `1` | General error (missing file, bad args) |
 | `2+` | Number of missing prerequisites |
 | `10` | Cache error |
 | `20` | Report generation error |
+
+---
+
+## AI-Powered Analysis (Phase 3)
+
+The `--ai` flag enables Claude-powered pedagogical analysis that goes beyond heuristic checks.
+
+### Usage
+
+```bash
+# AI analysis of a specific lecture
+teach analyze --ai lectures/week-05-regression.qmd
+
+# AI analysis with cost tracking
+teach analyze --ai --costs lectures/week-05-regression.qmd
+
+# View cumulative AI costs
+teach analyze --costs
+```
+
+### What AI Analysis Provides
+
+When enabled, the AI layer examines:
+
+1. **Learning Objective Alignment** - Are content and stated objectives consistent?
+2. **Difficulty Progression** - Does complexity build appropriately?
+3. **Pedagogical Patterns** - Are definitions followed by examples?
+4. **Cognitive Load** - Is too much introduced at once?
+
+### Cost Tracking
+
+AI analysis costs are tracked per-session and cumulatively:
+
+```
+AI Analysis Costs:
+  This session: $0.03 (2 analyses)
+  Total tracked: $0.42 (28 analyses)
+  Avg per analysis: $0.015
+```
+
+### Requirements
+
+- Claude CLI must be installed and authenticated
+- Works with Claude Haiku for cost efficiency
+- Falls back gracefully if Claude unavailable
+
+---
+
+## Slide Optimization (Phase 4)
+
+The slide optimizer analyzes lecture content to suggest where to insert slide breaks for presentations.
+
+### Quick Start
+
+```bash
+# Analyze a lecture for slide break opportunities
+teach analyze --slide-breaks lectures/week-05-regression.qmd
+
+# Detailed preview of all suggested breaks
+teach analyze --preview-breaks lectures/week-05-regression.qmd
+```
+
+### How It Works
+
+The optimizer uses 4 heuristic rules to detect where slides need breaks:
+
+| Rule | Trigger | Priority |
+|------|---------|----------|
+| **Word Density** | Section has >300 words without breaks | High |
+| **Code Chunks** | Section has 3+ code blocks | Medium |
+| **Definition Boundary** | Definition followed by example | Medium |
+| **Dense Text** | >150 words without any code | Low |
+
+### Output
+
+```
+┌──────────────────────────────────────────────────────┐
+│ SLIDE OPTIMIZATION                                    │
+├──────────────────────────────────────────────────────┤
+│ Suggested breaks: 3                                   │
+│                                                       │
+│ Section          Priority   Reason                    │
+│ ─────────────────────────────────────────────────    │
+│ Regression       high       Word density (312 words)  │
+│ Diagnostics      medium     Multiple code chunks (4)  │
+│ Assumptions      low        Dense text (180 words)    │
+│                                                       │
+│ Key concepts for callout boxes:                       │
+│ • regression-coefficient (definition)                 │
+│ • residuals (concept graph)                           │
+│ • r-squared (emphasis)                                │
+│                                                       │
+│ Estimated time: 28 min                                │
+├──────────────────────────────────────────────────────┤
+│ Phase: 4 (slide-optimized)                            │
+└──────────────────────────────────────────────────────┘
+```
+
+### Key Concept Detection
+
+Three strategies identify concepts worth highlighting on slides:
+
+1. **Concept Graph** - Concepts from the `.teach/concepts.json` that appear in this lecture
+2. **Definition Patterns** - Lines with "Definition:", "**Definition**", etc.
+3. **Emphasis Patterns** - Bold terms (`**term**`) in explanatory context
+
+### Time Estimation
+
+Presentation time is estimated from content:
+
+- **Content words**: words ÷ 150 wpm × 2 min per unit
+- **Code blocks**: 3 min each (demonstration time)
+- **Examples**: 2 min each (discussion time)
+
+### Integration with `teach slides`
+
+The slide optimizer integrates with the slides dispatcher:
+
+```bash
+# Optimize an existing lecture's slides
+teach slides --optimize lectures/week-05-regression.qmd
+
+# Preview breaks before applying
+teach slides --preview-breaks lectures/week-05-regression.qmd
+
+# Apply suggestions and generate slides
+teach slides --apply-suggestions lectures/week-05-regression.qmd
+
+# Show key concepts for callout boxes
+teach slides --key-concepts lectures/week-05-regression.qmd
+```
+
+### Caching
+
+Slide optimization results are cached based on file content hash (SHA-256):
+
+- **Cache location**: `.teach/slide-optimization-<filename>.json`
+- **Invalidation**: Automatic when file content changes
+- **Cache hit**: Displays `✓ (cached)` in output
+- Second run of same file skips re-analysis
+
+---
+
+## Error Handling and Dependencies (Phase 5)
+
+### Improved Error Messages
+
+When no file is specified:
+
+```
+Error: File path required
+
+Usage: teach analyze <file> [options]
+
+Examples:
+  teach analyze lectures/week-05-regression.qmd
+  teach analyze --slide-breaks lectures/week-05.qmd
+  teach analyze --interactive
+
+Run 'teach analyze --help' for full documentation.
+```
+
+When a file is not found, alternatives are suggested:
+
+```
+Error: File not found: lectures/bad-name.qmd
+
+Available .qmd files in lectures/:
+  lectures/week-01-foundations.qmd
+  lectures/week-02-building.qmd
+  lectures/week-03-applications.qmd
+```
+
+### Extension Validation
+
+Non-.qmd files trigger a warning:
+
+```
+Warning: Expected .qmd or .md file, got .txt
+Analysis works best with Quarto (.qmd) files containing YAML frontmatter.
+```
+
+### Dependency Checks
+
+Missing tools are detected with install instructions:
+
+```
+Warning: jq not installed - some features unavailable
+  Install: brew install jq
+Warning: yq not installed - prerequisite checking limited
+  Install: brew install yq
+```
+
+---
+
+## Complete Flag Reference
+
+| Flag | Phase | Description |
+|------|-------|-------------|
+| `--mode MODE` | 0 | Strictness: strict, moderate, relaxed |
+| `--summary`, `-s` | 0 | Compact summary only |
+| `--quiet`, `-q` | 0 | Suppress progress indicators |
+| `--interactive`, `-i` | 2 | ADHD-friendly guided mode |
+| `--report [FILE]` | 2 | Generate analysis report |
+| `--format FORMAT` | 2 | Report format: markdown, json |
+| `--ai` | 3 | Enable AI-powered analysis |
+| `--costs` | 3 | Show AI usage costs |
+| `--slide-breaks` | 4 | Analyze slide structure |
+| `--preview-breaks` | 4 | Detailed break preview (exits early) |
+| `--help`, `-h` | - | Show help |
 
 ---
 
@@ -934,14 +1182,15 @@ teach validate --exam exams/midterm1.md --concepts
 
 ---
 
-**Next Steps:**
+**Getting Started:**
 1. Add `concepts:` to your lecture frontmatter
-2. Run `teach analyze` to build concept graph
+2. Run `teach analyze lectures/week-01.qmd` to build concept graph
 3. Fix any prerequisite issues
 4. Check `teach status` for summary
 
-**Phase 2 Features:**
-5. Use `teach analyze --interactive` for guided analysis
-6. Generate reports with `teach analyze --report analysis.md`
-7. Enable deep validation with `teach validate --deep`
-8. Block unsafe deploys with `teach deploy --check-prereqs`
+**Advanced Usage:**
+5. Use `teach analyze --interactive` for guided analysis (Phase 2)
+6. Generate reports with `teach analyze --report analysis.md` (Phase 2)
+7. Run `teach analyze --ai` for pedagogical insights (Phase 3)
+8. Run `teach analyze --slide-breaks` before making slides (Phase 4)
+9. Use `teach analyze --preview-breaks` for detailed break analysis (Phase 4)
