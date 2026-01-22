@@ -313,6 +313,10 @@
          <lastmod>2026-01-22</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/diagrams/LIBRARY-ARCHITECTURE/</loc>
+         <lastmod>2026-01-22</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/diagrams/TEACHING-V3-WORKFLOWS/</loc>
          <lastmod>2026-01-22</lastmod>
     </url>
@@ -725,6 +729,10 @@
          <lastmod>2026-01-22</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/INTEGRATION-API-REFERENCE/</loc>
+         <lastmod>2026-01-22</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/MCP-DISPATCHER-REFERENCE/</loc>
          <lastmod>2026-01-22</lastmod>
     </url>
@@ -793,6 +801,10 @@
          <lastmod>2026-01-22</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/SPECIALIZED-API-REFERENCE/</loc>
+         <lastmod>2026-01-22</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/SYNC-SETUP/</loc>
          <lastmod>2026-01-22</lastmod>
     </url>
@@ -818,6 +830,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/TEACH-GENERATION-QUICK-REFERENCE/</loc>
+         <lastmod>2026-01-22</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/TEACHING-API-REFERENCE/</loc>
          <lastmod>2026-01-22</lastmod>
     </url>
     <url>
