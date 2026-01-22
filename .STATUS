@@ -197,13 +197,14 @@ $ teach analyze lectures/week-05.qmd
 
 ---
 
-## 🗂️ Active Worktrees (4 total):
+## 🗂️ Active Worktrees (5 total):
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | Active (planning/coordination) |
 | `teach-analyze` | `feature/teach-analyze` | ✨ Ready for Phase 0 implementation |
 | `quarto-workflow` | `feature/quarto-workflow` | ✅ Complete - Ready for PR |
+| `documentation-debt` | `feature/documentation-debt` | 📚 Spec complete - Low priority |
 | `course-planning-phases-2-4` | `feature/course-planning-phases-2-4` | Paused/Archive |
 
 ---
@@ -263,12 +264,17 @@ $ teach analyze lectures/week-05.qmd
 - teach analyze Phase 3+: AI enhancement, slide optimization
 
 **📚 Documentation Debt (Low Priority):**
-- Helper library API documentation (critical gap: 0.5% coverage)
-- 422 functions across 32 helper libraries undocumented
-- Priority files to document:
-  1. `lib/core.zsh` - Core utilities (colors, logging, project detection)
-  2. `lib/tui.zsh` - Terminal UI components (tables, boxes, progress bars)
-  3. `lib/git-helpers.zsh` - Git integration utilities
+- Helper library API documentation (critical gap: 0.6% coverage)
+- 342 functions across 32 helper libraries undocumented
+- **Spec:** `docs/specs/SPEC-documentation-debt-2026-01-21.md`
+- **Branch:** `feature/documentation-debt`
+- **Worktree:** `~/.git-worktrees/flow-cli/documentation-debt`
+- **Phases:**
+  - Phase 1: Core libraries (47 funcs, 4-6h) - core.zsh, tui.zsh, git-helpers.zsh
+  - Phase 2: Teaching libraries (~60 funcs, 6-8h)
+  - Phase 3: Integration libraries (~80 funcs, 8-10h)
+  - Phase 4: Specialized libraries (~155 funcs, 10-12h)
+- **Total effort:** 28-36 hours across all phases
 - Reference: `docs/reference/DOCUMENTATION-COVERAGE.md`
 
 ---
