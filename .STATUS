@@ -6,7 +6,7 @@
 ## Status: active
 ## Phase: v5.16.0 - In Development
 ## Priority: 1
-## Progress: 30
+## Progress: 40
 
 ## Focus: Intelligent Content Analysis (teach analyze)
 
@@ -40,7 +40,7 @@
 
 **Branch:** `feature/teach-analyze`
 **Worktree:** `~/.git-worktrees/flow-cli/teach-analyze`
-**Status:** Ready for Phase 0 implementation
+**Status:** Phase 0 in progress (active session in worktree)
 
 **Scope:** Phase 0 Ultra-MVP
 - Concept extraction from frontmatter
@@ -53,7 +53,7 @@
 - PLAN-teach-analyze-phase0.md (implementation guide)
 
 **Implementation Roadmap:**
-- Phase 0: Prerequisite validation ← NEXT
+- Phase 0: Prerequisite validation ← IN PROGRESS
 - Phase 1: Caching + batch analysis
 - Phase 2: Integration (validate, deploy)
 - Phase 3: AI enhancement
@@ -74,7 +74,7 @@ $ teach analyze lectures/week-05.qmd
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | Planning/coordination |
-| `teach-analyze` | `feature/teach-analyze` | Ready for Phase 0 |
+| `teach-analyze` | `feature/teach-analyze` | 🔨 Phase 0 in progress |
 
 ---
 
