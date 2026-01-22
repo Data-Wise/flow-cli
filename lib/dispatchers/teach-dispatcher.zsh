@@ -2761,7 +2761,7 @@ _teach_slides_optimized() {
             echo ""
             # Also show timing estimate
             local est_time
-            est_time=$(echo "$optimization" | jq '.estimated_minutes // 0' 2>/dev/null || echo 0)
+            est_time=$(echo "$optimization" | jq '.time_estimate.total_minutes // 0' 2>/dev/null || echo 0)
             [[ "$est_time" -gt 0 ]] && echo "  ⏱️  Estimated presentation time: ${est_time} min"
             echo ""
             continue
