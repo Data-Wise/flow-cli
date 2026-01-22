@@ -6,6 +6,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [5.15.1] - 2026-01-21
+
+### Documentation
+
+- **ARCHITECTURE-OVERVIEW.md** - System architecture with Mermaid diagrams (~365 lines)
+- **V-DISPATCHER-REFERENCE.md** - V/Vibe dispatcher documentation (~275 lines)
+- **DOCUMENTATION-COVERAGE.md** - Documentation coverage report with metrics
+- Updated mkdocs.yml navigation for new reference docs
+- Added teach prompt command specs (paused for Scholar coordination)
+
+---
+
 ## [5.15.0] - 2026-01-21
 
 ### Added
