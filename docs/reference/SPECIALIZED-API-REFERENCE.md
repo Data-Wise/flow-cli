@@ -9,9 +9,9 @@ This document provides comprehensive API documentation for flow-cli's specialize
 ## Table of Contents
 
 1. [Dotfile Management](#dotfile-management)
-2. [AI & LLM Integration](#ai--llm-integration)
+2. [AI & LLM Integration](#ai-llm-integration)
 3. [Parallel Rendering](#parallel-rendering)
-4. [Date Parsing & Management](#date-parsing--management)
+4. [Date Parsing & Management](#date-parsing-management)
 5. [Performance Monitoring](#performance-monitoring)
 6. [R Package Management](#r-package-management)
 7. [Quarto Profile Management](#quarto-profile-management)
