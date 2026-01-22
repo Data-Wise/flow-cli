@@ -34,6 +34,10 @@
       "$ref": "#/definitions/examark",
       "description": "Examark rendering settings (optional)"
     },
+    "concepts": {
+      "$ref": "#/definitions/concepts",
+      "description": "Concept analysis settings (flow-cli owns, v5.16.0+)"
+    },
     "shortcuts": {
       "type": "object",
       "description": "Custom shell shortcuts",
@@ -410,6 +414,74 @@
           "type": "boolean",
           "default": false,
           "description": "Automatically push commits to remote (not recommended)"
+        }
+      }
+    },
+    "concepts": {
+      "type": "object",
+      "description": "Concept analysis settings (v5.16.0+)",
+      "properties": {
+        "auto_extract": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically extract concepts from frontmatter"
+        },
+        "analysis": {
+          "type": "object",
+          "properties": {
+            "strict_ordering": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enforce week-based prerequisite ordering"
+            },
+            "warn_orphans": {
+              "type": "boolean",
+              "default": false,
+              "description": "Warn about concepts with no prerequisites defined"
+            }
+          }
+        },
+        "weeks": {
+          "type": "object",
+          "description": "Week-level concept definitions (overrides frontmatter)",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "introduces": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Concepts introduced this week"
+              },
+              "requires": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Prerequisite concepts"
+              }
+            }
+          }
+        },
+        "global_prerequisites": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "concept": {
+                "type": "string",
+                "description": "External concept name"
+              },
+              "required_for": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Concepts that require this external prerequisite"
+              },
+              "introduced": {
+                "type": "string",
+                "const": "external",
+                "description": "Mark as external (not taught in this course)"
+              }
+            }
+          },
+          "description": "External prerequisites assumed known"
         }
       }
     }
