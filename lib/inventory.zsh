@@ -1,6 +1,36 @@
 # Tool Inventory Generator
 # Auto-generates list of all dev-tools projects from .STATUS files
 
+# =============================================================================
+# Function: _flow_generate_inventory
+# Purpose: Generate project inventory from .STATUS files in dev-tools directory
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Output format: "table" (default), "json", or "markdown"
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Formatted inventory with columns:
+#            - Project name
+#            - Status (active/stable/paused/archived with icons)
+#            - Type
+#            - Progress percentage
+#            - Next action (truncated to 40 chars)
+#            - Summary counts by status
+#
+# Example:
+#   _flow_generate_inventory              # Table format (default)
+#   _flow_generate_inventory json         # JSON format
+#   _flow_generate_inventory > inventory.md  # Save to file
+#
+# Notes:
+#   - Scans ~/projects/dev-tools/ for .STATUS files
+#   - Projects without .STATUS show "—" for missing fields
+#   - Status icons: 🟢 active, ✅ stable, ⏸️ paused, 📦 archived
+#   - JSON format delegates to _flow_generate_inventory_json
+# =============================================================================
 _flow_generate_inventory() {
     local dev_tools="$HOME/projects/dev-tools"
     local format="${1:-table}"  # table, json, or markdown
@@ -72,6 +102,36 @@ _flow_generate_inventory() {
     echo ""
 }
 
+# =============================================================================
+# Function: _flow_generate_inventory_json
+# Purpose: Generate project inventory in JSON format for programmatic use
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - JSON object with structure:
+#            {
+#              "generated": "ISO-8601 timestamp",
+#              "source": "~/projects/dev-tools/",
+#              "projects": [
+#                { "name", "path", "status", "type", "progress", "next" }
+#              ]
+#            }
+#
+# Example:
+#   _flow_generate_inventory_json | jq '.projects[] | select(.status=="active")'
+#   _flow_generate_inventory_json > inventory.json
+#
+# Notes:
+#   - Scans ~/projects/dev-tools/ for .STATUS files
+#   - Projects without .STATUS show "unknown" for missing fields
+#   - JSON special characters in "next" field are escaped
+#   - Timestamp is UTC ISO-8601 format
+# =============================================================================
 _flow_generate_inventory_json() {
     local dev_tools="$HOME/projects/dev-tools"
 

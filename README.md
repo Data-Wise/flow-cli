@@ -485,6 +485,17 @@ export FLOW_QUIET=1                         # Skip welcome message
 - **[Sync Command](https://data-wise.github.io/flow-cli/commands/sync/)** - Multi-device sync
 - **[All Commands](https://data-wise.github.io/flow-cli/reference/COMMAND-QUICK-REFERENCE/)** - Reference
 
+### API Reference
+
+**348 functions documented** across 32 library files (49.4% coverage):
+
+| Reference | Functions | Scope |
+|-----------|-----------|-------|
+| [Core API](https://data-wise.github.io/flow-cli/reference/CORE-API-REFERENCE/) | 47 | Logging, TUI, Git helpers |
+| [Teaching API](https://data-wise.github.io/flow-cli/reference/TEACHING-API-REFERENCE/) | 61 | Validation, backup, cache |
+| [Integration API](https://data-wise.github.io/flow-cli/reference/INTEGRATION-API-REFERENCE/) | 80 | Atlas, plugins, config |
+| [Specialized API](https://data-wise.github.io/flow-cli/reference/SPECIALIZED-API-REFERENCE/) | 160 | Dotfiles, AI, rendering |
+
 ---
 
 ## 🤝 Philosophy

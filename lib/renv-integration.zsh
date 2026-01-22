@@ -13,12 +13,30 @@ typeset -g _FLOW_RENV_INTEGRATION_LOADED=1
 # RENV LOCKFILE PARSING
 # ============================================================================
 
-# Read renv.lock and parse JSON structure
-# Returns: Full JSON content
-# Exit codes:
-#   0 - Success
-#   1 - File not found
-#   2 - Invalid JSON
+# =============================================================================
+# Function: _read_renv_lock
+# Purpose: Read and parse renv.lock JSON structure for R package management
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Path to renv.lock file [default: "renv.lock"]
+#
+# Returns:
+#   0 - Success, valid JSON parsed
+#   1 - File not found at specified path
+#   2 - Invalid JSON structure or jq not available
+#
+# Output:
+#   stdout - Full JSON content of the renv.lock file
+#
+# Example:
+#   json=$(_read_renv_lock)
+#   json=$(_read_renv_lock "/path/to/project/renv.lock")
+#
+# Notes:
+#   - Requires jq for JSON parsing (logs error if missing)
+#   - Validates JSON structure before returning content
+#   - Used as foundation for other renv functions
+# =============================================================================
 _read_renv_lock() {
     local lockfile="${1:-renv.lock}"
 
@@ -43,12 +61,31 @@ _read_renv_lock() {
     return 0
 }
 
-# Get package names from renv.lock
-# Returns: Array of package names (one per line)
-# Exit codes:
-#   0 - Packages found
-#   1 - No renv.lock found
-#   2 - Invalid JSON or no packages
+# =============================================================================
+# Function: _get_renv_packages
+# Purpose: Extract list of package names from renv.lock file
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Path to renv.lock file [default: "renv.lock"]
+#
+# Returns:
+#   0 - Packages found and extracted successfully
+#   1 - renv.lock file not found
+#   2 - Invalid JSON, jq not available, or no packages in lockfile
+#
+# Output:
+#   stdout - Package names, one per line (can be captured as array)
+#
+# Example:
+#   packages=$(_get_renv_packages)
+#   packages=($(_get_renv_packages "/path/to/renv.lock"))
+#   while IFS= read -r pkg; do echo "$pkg"; done <<< "$(_get_renv_packages)"
+#
+# Notes:
+#   - Parses renv.lock structure: {"Packages": {"pkg1": {...}, "pkg2": {...}}}
+#   - Requires jq for JSON parsing
+#   - Returns empty and exit 2 if Packages section is missing or empty
+# =============================================================================
 _get_renv_packages() {
     local lockfile="${1:-renv.lock}"
 
@@ -74,9 +111,32 @@ _get_renv_packages() {
     return 0
 }
 
-# Get detailed package information from renv.lock
-# Args: $1 - Package name
-# Returns: JSON object with package details
+# =============================================================================
+# Function: _get_renv_package_info
+# Purpose: Retrieve detailed JSON metadata for a specific package from renv.lock
+# =============================================================================
+# Arguments:
+#   $1 - (required) Package name to look up
+#   $2 - (optional) Path to renv.lock file [default: "renv.lock"]
+#
+# Returns:
+#   0 - Package found and info extracted
+#   1 - Package name not provided, file not found, or package not in lockfile
+#   2 - jq not available for JSON parsing
+#
+# Output:
+#   stdout - JSON object containing package details (Version, Source, Repository, etc.)
+#
+# Example:
+#   info=$(_get_renv_package_info "dplyr")
+#   info=$(_get_renv_package_info "ggplot2" "project/renv.lock")
+#   version=$(echo "$info" | jq -r '.Version')
+#
+# Notes:
+#   - Returns full package JSON object including Version, Source, Repository, Hash
+#   - Returns "null" string (and exit 1) if package not found in lockfile
+#   - Requires jq for JSON parsing
+# =============================================================================
 _get_renv_package_info() {
     local package_name="$1"
     local lockfile="${2:-renv.lock}"
@@ -105,9 +165,31 @@ _get_renv_package_info() {
     return 0
 }
 
-# Get package version from renv.lock
-# Args: $1 - Package name
-# Returns: Version string
+# =============================================================================
+# Function: _get_renv_package_version
+# Purpose: Extract version string for a specific package from renv.lock
+# =============================================================================
+# Arguments:
+#   $1 - (required) Package name to look up
+#   $2 - (optional) Path to renv.lock file [default: "renv.lock"]
+#
+# Returns:
+#   0 - Version extracted (may be empty if Version field missing)
+#   1 - Package name not provided or file not found
+#   2 - jq not available for JSON parsing
+#
+# Output:
+#   stdout - Version string (e.g., "1.1.4", "2.0.0")
+#
+# Example:
+#   version=$(_get_renv_package_version "dplyr")
+#   version=$(_get_renv_package_version "tidyr" "project/renv.lock")
+#
+# Notes:
+#   - Returns empty string if package exists but has no Version field
+#   - Used by _check_renv_sync to compare installed vs lockfile versions
+#   - Requires jq for JSON parsing
+# =============================================================================
 _get_renv_package_version() {
     local package_name="$1"
     local lockfile="${2:-renv.lock}"
@@ -131,9 +213,31 @@ _get_renv_package_version() {
     echo "$version"
 }
 
-# Get package source from renv.lock
-# Args: $1 - Package name
-# Returns: Source (Repository, CRAN, Bioconductor, GitHub, etc.)
+# =============================================================================
+# Function: _get_renv_package_source
+# Purpose: Extract installation source for a package from renv.lock
+# =============================================================================
+# Arguments:
+#   $1 - (required) Package name to look up
+#   $2 - (optional) Path to renv.lock file [default: "renv.lock"]
+#
+# Returns:
+#   0 - Source extracted (may be empty if Source field missing)
+#   1 - Package name not provided or file not found
+#   2 - jq not available for JSON parsing
+#
+# Output:
+#   stdout - Source string (e.g., "Repository", "CRAN", "Bioconductor", "GitHub")
+#
+# Example:
+#   source=$(_get_renv_package_source "dplyr")
+#   source=$(_get_renv_package_source "devtools" "project/renv.lock")
+#
+# Notes:
+#   - Common sources: "Repository" (CRAN), "Bioconductor", "GitHub", "GitLab"
+#   - Useful for determining how to install/update a package
+#   - Requires jq for JSON parsing
+# =============================================================================
 _get_renv_package_source() {
     local package_name="$1"
     local lockfile="${2:-renv.lock}"
@@ -161,11 +265,33 @@ _get_renv_package_source() {
 # RENV SYNCHRONIZATION CHECK
 # ============================================================================
 
-# Check if installed packages match renv.lock
+# =============================================================================
+# Function: _check_renv_sync
+# Purpose: Verify installed R packages match versions specified in renv.lock
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Path to renv.lock file [default: "renv.lock"]
+#   $2 - (optional) Verbose mode flag (0=quiet, 1=verbose) [default: 0]
+#
 # Returns:
-#   0 - All packages synced
-#   1 - Some packages missing or version mismatch
-#   2 - renv.lock not found
+#   0 - All packages synced (installed versions match lockfile)
+#   1 - Sync issues found (missing packages or version mismatches)
+#   2 - renv.lock not found or no packages in lockfile
+#
+# Output:
+#   stdout - When verbose=1, lists missing packages and version mismatches
+#
+# Example:
+#   _check_renv_sync && echo "All synced"
+#   _check_renv_sync "renv.lock" 1  # Verbose output
+#   if ! _check_renv_sync; then echo "Packages need restore"; fi
+#
+# Notes:
+#   - Depends on _check_r_package_installed and _get_r_package_version from r-helpers.zsh
+#   - Compares each package's installed version against lockfile version
+#   - Collects all discrepancies before reporting (not fail-fast)
+#   - Use _renv_restore to fix sync issues
+# =============================================================================
 _check_renv_sync() {
     local lockfile="${1:-renv.lock}"
     local verbose="${2:-0}"
@@ -234,15 +360,37 @@ _check_renv_sync() {
 # RENV RESTORE WRAPPER
 # ============================================================================
 
-# Restore packages from renv.lock using renv::restore()
-# Args:
-#   --prompt - Prompt before restoring (default: yes)
-#   --clean - Clean (remove) packages not in lockfile
-#   --rebuild - Rebuild packages from source
+# =============================================================================
+# Function: _renv_restore
+# Purpose: Restore R packages from renv.lock using renv::restore()
+# =============================================================================
+# Arguments:
+#   --prompt    - (optional) Prompt before restoring [default: enabled]
+#   --no-prompt - (optional) Skip confirmation prompt
+#   --clean     - (optional) Remove packages not in lockfile
+#   --rebuild   - (optional) Rebuild packages from source
+#
 # Returns:
-#   0 - Success
-#   1 - Failed
-#   2 - R or renv not available
+#   0 - Packages restored successfully
+#   1 - Restore failed or renv.lock not found
+#   2 - R not installed or renv package not available
+#
+# Output:
+#   stdout - Progress messages and R output during restore
+#
+# Example:
+#   _renv_restore                      # Interactive restore with prompt
+#   _renv_restore --no-prompt          # Non-interactive restore
+#   _renv_restore --clean --rebuild    # Full clean rebuild
+#
+# Notes:
+#   - Requires R and renv package to be installed
+#   - Must be run from directory containing renv.lock
+#   - Uses renv::restore() R function with passed options
+#   - Prompts user for confirmation by default (use --no-prompt to skip)
+#   - --clean removes packages not listed in lockfile
+#   - --rebuild forces source compilation (slower but more reliable)
+# =============================================================================
 _renv_restore() {
     local prompt=1
     local clean=0
@@ -321,10 +469,35 @@ _renv_restore() {
 # RENV STATUS
 # ============================================================================
 
-# Show renv status (packages in lockfile vs installed)
-# Args:
-#   --json - Output as JSON
-# Returns: Formatted status report
+# =============================================================================
+# Function: _show_renv_status
+# Purpose: Display comprehensive status of renv packages (synced, missing, mismatched)
+# =============================================================================
+# Arguments:
+#   --json - (optional) Output as JSON instead of human-readable format
+#
+# Returns:
+#   0 - Status displayed successfully
+#   1 - renv.lock not found in current directory
+#
+# Output:
+#   stdout - Formatted status report showing:
+#            - Synced packages (installed version matches lockfile)
+#            - Missing packages (in lockfile but not installed)
+#            - Version mismatches (different version installed)
+#   stdout (--json) - JSON object with synced, missing, version_mismatch arrays
+#
+# Example:
+#   _show_renv_status                  # Human-readable output
+#   _show_renv_status --json           # JSON output for scripting
+#   _show_renv_status --json | jq '.missing'  # Get missing packages
+#
+# Notes:
+#   - Must be run from directory containing renv.lock
+#   - Human-readable output uses color coding (green=synced, red=missing, yellow=mismatch)
+#   - Suggests running 'teach doctor --fix' when issues found
+#   - JSON output includes package names and versions for all categories
+# =============================================================================
 _show_renv_status() {
     local output_json=0
 
