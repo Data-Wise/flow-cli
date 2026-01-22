@@ -2709,11 +2709,24 @@ _teach_slides_optimized() {
     for lecture_file in "${lecture_files[@]}"; do
         echo "📖 Optimizing: ${lecture_file:t}"
 
-        # Step 1: Run slide optimizer
+        # Step 1: Build concept graph if not available (auto-analyze)
         local concept_graph=""
         local course_dir="${lecture_file:h:h}"
+        [[ "$course_dir" == "${lecture_file:t}" ]] && course_dir="."
         if [[ -f "$course_dir/.teach/concepts.json" ]]; then
             concept_graph=$(cat "$course_dir/.teach/concepts.json" 2>/dev/null)
+        else
+            # Auto-analyze: source and run _teach_analyze to build concept graph
+            if ! typeset -f _teach_analyze >/dev/null 2>&1; then
+                local analyze_cmd="${FLOW_PLUGIN_DIR:-${0:A:h:h}}/commands/teach-analyze.zsh"
+                [[ -f "$analyze_cmd" ]] && source "$analyze_cmd"
+            fi
+            if typeset -f _teach_analyze >/dev/null 2>&1; then
+                echo "  ℹ️  No concept graph found — running analysis first..."
+                (cd "$course_dir" && _teach_analyze "$lecture_file" "--quiet") >/dev/null 2>&1
+                [[ -f "$course_dir/.teach/concepts.json" ]] && \
+                    concept_graph=$(cat "$course_dir/.teach/concepts.json" 2>/dev/null)
+            fi
         fi
 
         local optimization
@@ -2728,6 +2741,29 @@ _teach_slides_optimized() {
         # Step 2: If preview mode, show preview and continue
         if [[ "$preview_breaks" == "true" ]]; then
             _slide_preview_breaks "$optimization"
+            continue
+        fi
+
+        # Step 2b: If --key-concepts only, show concepts and continue
+        if [[ "$key_concepts" == "true" && "$apply_suggestions" != "true" ]]; then
+            echo ""
+            echo "  🔑 Key Concepts for Callout Boxes:"
+            echo "  ─────────────────────────────────────"
+            if command -v jq &>/dev/null; then
+                echo "$optimization" | jq -r '.key_concepts_for_emphasis[]? | "  • \(.name) (\(.source))"' 2>/dev/null
+                local concept_count
+                concept_count=$(echo "$optimization" | jq '.key_concepts_for_emphasis | length' 2>/dev/null || echo 0)
+                echo ""
+                echo "  ${concept_count} concept(s) identified"
+            else
+                echo "  (jq required for concept display)"
+            fi
+            echo ""
+            # Also show timing estimate
+            local est_time
+            est_time=$(echo "$optimization" | jq '.estimated_minutes // 0' 2>/dev/null || echo 0)
+            [[ "$est_time" -gt 0 ]] && echo "  ⏱️  Estimated presentation time: ${est_time} min"
+            echo ""
             continue
         fi
 
@@ -2762,6 +2798,13 @@ _teach_slides_optimized() {
             fi
         fi
 
+        # Show key concepts if requested (alongside generation)
+        if [[ "$key_concepts" == "true" && "$apply_suggestions" == "true" ]] && command -v jq &>/dev/null; then
+            local concept_list
+            concept_list=$(echo "$optimization" | jq -r '.key_concepts_for_emphasis[]? | .name' 2>/dev/null | paste -sd', ' -)
+            [[ -n "$concept_list" ]] && echo "  🔑 Callout concepts: $concept_list"
+        fi
+
         # Cache optimization results
         if [[ -d "$course_dir/.teach" ]]; then
             echo "$optimization" > "$course_dir/.teach/slide-optimization-${basename}.json" 2>/dev/null
@@ -2778,8 +2821,13 @@ _teach_slides_optimized() {
         echo "💡 Next steps:"
         echo "   1. Review slides: quarto preview ${generated_files[1]}"
         if [[ "$apply_suggestions" != "true" ]]; then
-            echo "   2. Apply optimizations: teach slides --week $week_num --optimize --apply-suggestions"
+            echo "   2. Apply optimizations: teach slides --optimize --apply-suggestions --from-lecture ${lecture_files[1]}"
         fi
+        echo "   3. Key concepts: teach slides --optimize --key-concepts --from-lecture ${lecture_files[1]}"
+    elif [[ "$key_concepts" == "true" && "$preview_breaks" != "true" ]]; then
+        echo "═══════════════════════════════════════════════════"
+        echo "💡 To generate slides with these concepts as callouts:"
+        echo "   teach slides --optimize --apply-suggestions --from-lecture ${lecture_files[1]}"
     fi
 
     return 0
