@@ -18,6 +18,34 @@ PROJECT_TYPE_INDICATORS=(
   [research]="manuscript.qmd,paper.qmd"
 )
 
+# =============================================================================
+# Function: _flow_detect_project_type
+# Purpose: Detect project type based on marker files and directories present
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Directory to check [default: $PWD]
+#
+# Returns:
+#   0 - Project type detected (or generic fallback)
+#   1 - Error (invalid teaching config found)
+#
+# Output:
+#   stdout - Project type string: r-package|python|node|rust|go|quarto|
+#            obsidian|teaching|research|generic
+#
+# Example:
+#   _flow_detect_project_type                     # Check current directory
+#   _flow_detect_project_type "/path/to/project"  # Check specific path
+#   local type=$(_flow_detect_project_type)       # Capture result
+#
+# Notes:
+#   - Detection order matters: more specific types checked first
+#   - R package requires BOTH DESCRIPTION AND NAMESPACE files
+#   - Teaching detected via syllabus.qmd, lectures/, or .flow/teach-config.yml
+#   - Validates teaching config if present (returns error if invalid)
+#   - Falls back to "generic" if no markers found
+#   - Used by dashboard, project picker, and context-aware commands
+# =============================================================================
 _flow_detect_project_type() {
   local dir="${1:-$PWD}"
   
@@ -90,7 +118,35 @@ _flow_detect_project_type() {
   echo "generic"
 }
 
-# Get project-specific commands
+# =============================================================================
+# Function: _flow_project_commands
+# Purpose: Get suggested commands relevant to a project type
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Project type [default: auto-detected from $PWD]
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Space-separated list of relevant commands/tools
+#            Empty string for unrecognized project types
+#
+# Example:
+#   _flow_project_commands "r-package"
+#   # Output: devtools::check() devtools::test() devtools::document() devtools::build()
+#
+#   _flow_project_commands "python"
+#   # Output: pytest uv pip ruff
+#
+#   _flow_project_commands  # Auto-detects current project
+#
+# Notes:
+#   - Used by dashboard and context help to suggest relevant actions
+#   - Returns R function calls for r-package (devtools::*)
+#   - Returns CLI commands for other languages
+#   - Teaching and research share Quarto commands
+# =============================================================================
 _flow_project_commands() {
   local type="${1:-$(_flow_detect_project_type)}"
   
@@ -122,7 +178,31 @@ _flow_project_commands() {
   esac
 }
 
-# Get project icon based on type
+# =============================================================================
+# Function: _flow_project_icon
+# Purpose: Get emoji icon representing a project type
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Project type [default: auto-detected from $PWD]
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Single emoji character representing the project type
+#
+# Example:
+#   _flow_project_icon "r-package"    # Output: 📦
+#   _flow_project_icon "python"       # Output: 🐍
+#   _flow_project_icon "teaching"     # Output: 🎓
+#   _flow_project_icon "unknown"      # Output: 📁 (default)
+#
+# Notes:
+#   - Used in dashboard, pick list, and status displays
+#   - Icons chosen for quick visual recognition:
+#     📦 r-package, 🐍 python, 📗 node, 🦀 rust, 🐹 go
+#     📝 quarto, 🎓 teaching, 🔬 research, 💎 obsidian, 📁 generic
+# =============================================================================
 _flow_project_icon() {
   local type="${1:-$(_flow_detect_project_type)}"
   
@@ -140,8 +220,32 @@ _flow_project_icon() {
   esac
 }
 
-# Validate teaching configuration file
-# Returns 0 if valid, 1 if invalid
+# =============================================================================
+# Function: _flow_validate_teaching_config
+# Purpose: Validate a teaching workflow configuration file for required fields
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to teach-config.yml file
+#
+# Returns:
+#   0 - Configuration is valid (or yq not available - degrades gracefully)
+#   1 - Configuration is invalid (missing required fields)
+#
+# Output:
+#   stderr - Error messages for missing required fields
+#
+# Example:
+#   _flow_validate_teaching_config ".flow/teach-config.yml"
+#   if ! _flow_validate_teaching_config "$config"; then
+#       echo "Fix config before continuing"
+#   fi
+#
+# Notes:
+#   - Requires yq for YAML parsing (warns and returns 0 if not installed)
+#   - Required fields: course.name, branches.draft, branches.production
+#   - Called automatically by _flow_detect_project_type for teaching projects
+#   - Part of teaching workflow v2 validation layer
+# =============================================================================
 _flow_validate_teaching_config() {
   local config="$1"
 
