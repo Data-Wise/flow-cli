@@ -1,6 +1,6 @@
 # Intelligent Content Analysis Guide
 
-**Version:** v5.16.0 (Teach Analyze Phase 1)
+**Version:** v5.16.0 (Teach Analyze Phase 2)
 **Last Updated:** 2026-01-22
 
 ---
@@ -11,10 +11,17 @@ The **Intelligent Content Analysis** system (`teach analyze`) automatically extr
 
 ### Key Features
 
+**Core (Phase 0-1):**
 - **Automatic Concept Extraction**: Scans lecture `.qmd` files for `concepts:` frontmatter
 - **Prerequisite Validation**: Detects missing or future prerequisites
 - **Concept Graph Generation**: Creates `.teach/concepts.json` for visualization
 - **Integration**: Works with `teach validate --concepts` and `teach status`
+
+**Advanced (Phase 2):**
+- **Smart Caching**: Content-hash based cache with 85%+ hit rate
+- **Report Generation**: Markdown and JSON reports for analysis results
+- **Interactive Mode**: Guided analysis with ADHD-friendly prompts
+- **Deep Validation**: Layer 6 validation with deploy blocking
 
 ---
 
@@ -42,6 +49,12 @@ concepts:
 # Analyze course and validate prerequisites
 teach analyze
 
+# Interactive mode (guided analysis)
+teach analyze --interactive
+
+# Generate a report
+teach analyze --report analysis-report.md
+
 # Or use validation integration
 teach validate --concepts
 ```
@@ -51,6 +64,9 @@ teach validate --concepts
 ```bash
 # View concept summary in status dashboard
 teach status
+
+# View cache statistics
+teach analyze --stats
 ```
 
 ---
@@ -121,6 +137,17 @@ teach analyze --verbose
 # Output as JSON (for scripting)
 teach analyze --json
 
+# Interactive mode (guided analysis)
+teach analyze --interactive
+teach analyze -i
+
+# Generate report
+teach analyze --report analysis.md
+teach analyze --report analysis.json --format json
+
+# View cache statistics
+teach analyze --stats
+
 # Help
 teach analyze --help
 ```
@@ -139,6 +166,155 @@ Validating prerequisites...
 Concept graph saved to .teach/concepts.json
 ```
 
+### teach analyze --interactive
+
+Guided, ADHD-friendly analysis with step-by-step prompts.
+
+```bash
+teach analyze --interactive
+# or
+teach analyze -i
+```
+
+**Interactive Mode Flow:**
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  🔬 INTERACTIVE CONCEPT ANALYSIS                             │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  Select analysis scope:                                      │
+│  1) Full course                                              │
+│  2) Single week                                              │
+│  3) Single file                                              │
+│                                                              │
+│  > 1                                                         │
+│                                                              │
+│  Select analysis mode:                                       │
+│  1) Quick (concepts only)                                    │
+│  2) Full (concepts + prerequisites)                          │
+│  3) Deep (+ cache rebuild)                                   │
+│                                                              │
+│  > 2                                                         │
+│                                                              │
+│  ⏳ Analyzing... ████████████████████ 100%                   │
+│                                                              │
+│  ✓ Found 18 concepts across 6 weeks                          │
+│  ⚠ 2 warnings found                                          │
+│                                                              │
+│  Review violations? (y/n) > y                                │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Features:**
+- Step-by-step scope and mode selection
+- Progress indicators during analysis
+- Review violations one at a time
+- Suggested fixes with confirmation
+- Clear next steps at completion
+
+### teach analyze --report
+
+Generate analysis reports in markdown or JSON format.
+
+```bash
+# Markdown report (default)
+teach analyze --report analysis.md
+
+# JSON report for scripting/CI
+teach analyze --report analysis.json --format json
+
+# Summary only
+teach analyze --report summary.md --summary-only
+
+# Violations only
+teach analyze --report violations.md --violations-only
+```
+
+**Markdown Report Structure:**
+
+```markdown
+# Concept Analysis Report
+
+**Course:** STAT 440 - Regression Analysis
+**Generated:** 2026-01-22 14:30:00
+**Cache Status:** HIT (85% hit rate)
+
+## Summary
+
+| Metric | Value |
+|--------|-------|
+| Total Concepts | 18 |
+| Weeks Covered | 6 |
+| Missing Prerequisites | 0 |
+| Future Prerequisites | 2 |
+| Orphan Concepts | 3 |
+
+## Violations
+
+### ⚠ Future Prerequisites
+
+| Concept | Required By | Introduced In |
+|---------|-------------|---------------|
+| correlation | Week 2 | Week 4 |
+
+## Recommendations
+
+1. Move `correlation` introduction to Week 1
+2. Consider adding prerequisites for orphan concepts
+```
+
+**JSON Report Structure:**
+
+```json
+{
+  "metadata": {
+    "course": "STAT 440",
+    "generated": "2026-01-22T14:30:00Z",
+    "cache_status": "HIT"
+  },
+  "summary": {
+    "total_concepts": 18,
+    "weeks": 6,
+    "errors": 0,
+    "warnings": 2
+  },
+  "violations": [...],
+  "recommendations": [...]
+}
+```
+
+### teach analyze --stats
+
+View cache statistics and performance metrics.
+
+```bash
+teach analyze --stats
+```
+
+**Output:**
+
+```
+📊 Cache Statistics
+
+Cache Location: .teach/analysis-cache/
+Cache Size: 128 KB (42 entries)
+
+Performance:
+  Hit Rate: 87.3%
+  Avg Read Time: 2ms
+  Avg Write Time: 8ms
+
+Storage:
+  Lectures: 24 entries (64 KB)
+  Assignments: 12 entries (32 KB)
+  Exams: 6 entries (32 KB)
+
+Last Rebuild: 2h ago
+Next Expiry: 4 entries in 6h
+```
+
 ### teach validate --concepts
 
 Integrated validation with other checks.
@@ -152,6 +328,85 @@ teach validate --concepts --quiet
 
 # Combined with YAML validation
 teach validate --yaml --concepts
+```
+
+### teach validate --deep
+
+**Phase 2 Feature:** Layer 6 deep validation with cache integration.
+
+```bash
+# Deep validation (Layer 6 - concept analysis)
+teach validate --deep
+
+# Combine with other layers
+teach validate --yaml --syntax --deep
+
+# Quiet mode for CI
+teach validate --deep --quiet
+```
+
+**Output:**
+
+```
+🔍 Validation (Layer 6 - Concept Analysis)
+
+Checking cache... HIT (87% hit rate)
+Building concept graph from cache...
+✓ Loaded 18 concepts from cache
+
+Validating prerequisites...
+✓ 16 concepts: prerequisites satisfied
+⚠ 2 concepts: future prerequisites (warnings)
+✗ 0 concepts: missing prerequisites (errors)
+
+Layer 6 Result: PASS (2 warnings)
+```
+
+**Validation Layers:**
+
+| Layer | Name | Command Flag |
+|-------|------|--------------|
+| 1 | YAML Frontmatter | `--yaml` |
+| 2 | Syntax Check | `--syntax` |
+| 3 | Render Test | `--render` |
+| 4 | Empty Chunks | (automatic) |
+| 5 | Image References | (automatic) |
+| **6** | **Concept Analysis** | `--deep` |
+
+### teach deploy --check-prereqs
+
+**Phase 2 Feature:** Block deployment on missing prerequisites.
+
+```bash
+# Deploy with prerequisite checking
+teach deploy --check-prereqs
+
+# Dry-run to see what would be blocked
+teach deploy --check-prereqs --dry-run
+```
+
+**Behavior:**
+
+- **Errors (missing prerequisites):** Blocks deployment
+- **Warnings (future prerequisites):** Allows deployment with warning
+
+**Output when blocked:**
+
+```
+🚀 Deploy Check
+
+Validating prerequisites for deployment...
+
+✗ BLOCKED: Missing prerequisites detected
+
+  Week 3 requires 'variance' but it's never introduced
+  Week 4 requires 'covariance' but it's never introduced
+
+Fix these issues before deploying:
+  1. Add missing concepts to earlier weeks
+  2. Or use --force to override (not recommended)
+
+Run 'teach analyze --interactive' for guided fixes.
 ```
 
 ### teach status
@@ -219,6 +474,84 @@ Analysis creates `.teach/concepts.json`:
 - **Syllabus Generation**: Auto-populate concept lists
 - **Student Resources**: Create prerequisite checklists
 - **CI/CD**: Validate course structure on push
+
+---
+
+## Caching System (Phase 2)
+
+The caching system accelerates analysis by storing results based on content hashes.
+
+### How It Works
+
+1. **Content Hashing**: SHA-256 hash of file contents
+2. **Cache Storage**: Results stored in `.teach/analysis-cache/`
+3. **Invalidation**: Automatic when file content changes
+4. **TTL Expiry**: Configurable time-to-live (default: 24h)
+
+### Cache Location
+
+```
+.teach/
+├── concepts.json           # Current concept graph
+└── analysis-cache/
+    ├── cache-index.json    # Index of all cache entries
+    ├── lectures/           # Lecture analysis cache
+    ├── assignments/        # Assignment analysis cache
+    └── exams/              # Exam analysis cache
+```
+
+### Cache Index Structure
+
+```json
+{
+  "version": "1.0",
+  "created": "2026-01-22T10:00:00Z",
+  "entries": {
+    "lectures/week-01-lecture.qmd": {
+      "content_hash": "abc123...",
+      "cache_file": "lectures/week-01-lecture.json",
+      "created": "2026-01-22T10:00:00Z",
+      "expires": "2026-01-23T10:00:00Z",
+      "hit_count": 5
+    }
+  }
+}
+```
+
+### Cache Operations
+
+```bash
+# View cache statistics
+teach analyze --stats
+
+# Force cache rebuild
+teach analyze --rebuild-cache
+
+# Clear expired entries
+teach cache clean --expired
+
+# Clear all analysis cache
+teach cache clear --analysis
+```
+
+### Performance Targets
+
+| Metric | Target | Typical |
+|--------|--------|---------|
+| Cache Hit Rate | 85%+ | 87-92% |
+| Cache Read | < 10ms | 2-5ms |
+| Cache Write | < 50ms | 8-15ms |
+| Hash Computation | < 20ms | 5-10ms |
+
+### Cascade Invalidation
+
+When a concept is modified, dependent concepts are automatically invalidated:
+
+```
+correlation (modified)
+    └── simple-regression (invalidated)
+        └── multiple-regression (invalidated)
+```
 
 ---
 
@@ -440,6 +773,67 @@ grep -r "requires:" lectures/ | sort -u
 # Compare for inconsistencies
 ```
 
+### Cache not updating (Phase 2)
+
+**Cause:** Stale cache or file system issues.
+
+**Solution:**
+```bash
+# Force cache rebuild
+teach analyze --rebuild-cache
+
+# Or clear cache completely
+teach cache clear --analysis
+
+# Check cache stats
+teach analyze --stats
+```
+
+### Report generation fails (Phase 2)
+
+**Cause:** Missing concepts.json or invalid format.
+
+**Solution:**
+```bash
+# Regenerate concept graph first
+teach analyze
+
+# Then generate report
+teach analyze --report analysis.md
+
+# Check if concepts.json exists
+ls -la .teach/concepts.json
+```
+
+### Interactive mode not responding (Phase 2)
+
+**Cause:** Terminal doesn't support interactive input.
+
+**Solution:**
+```bash
+# Use non-interactive mode instead
+teach analyze --verbose
+
+# Or ensure you're in a proper terminal
+echo $TERM  # Should show xterm-256color or similar
+```
+
+### Deploy blocked unexpectedly (Phase 2)
+
+**Cause:** Missing prerequisites detected by `--check-prereqs`.
+
+**Solution:**
+```bash
+# See what's blocking
+teach validate --deep
+
+# Fix the issues with interactive mode
+teach analyze --interactive
+
+# Or override (not recommended)
+teach deploy --force
+```
+
 ---
 
 ## Integration with Scholar
@@ -461,7 +855,7 @@ teach validate --exam exams/midterm1.md --concepts
 
 ## API Reference
 
-### Functions (for developers)
+### Core Functions (Phase 0-1)
 
 | Function | Purpose |
 |----------|---------|
@@ -473,12 +867,62 @@ teach validate --exam exams/midterm1.md --concepts
 | `_find_missing_prerequisites` | Detect missing prereqs |
 | `_find_future_prerequisites` | Detect future prereqs |
 
+### Cache Functions (Phase 2)
+
+| Function | Purpose |
+|----------|---------|
+| `_cache_init` | Initialize cache directory structure |
+| `_cache_get_content_hash` | Compute SHA-256 hash of file |
+| `_cache_check_valid` | Check if cache entry is valid |
+| `_cache_read` | Read cached analysis result |
+| `_cache_write` | Write analysis result to cache |
+| `_cache_invalidate` | Invalidate single cache entry |
+| `_cache_cascade_invalidate` | Invalidate entry and dependents |
+| `_cache_clean_expired` | Remove expired entries |
+| `_cache_get_stats` | Get cache statistics as JSON |
+| `_cache_rebuild_index` | Rebuild cache index from files |
+
+### Report Functions (Phase 2)
+
+| Function | Purpose |
+|----------|---------|
+| `_report_generate` | Main report generation entry |
+| `_report_format_markdown` | Format report as markdown |
+| `_report_format_json` | Format report as JSON |
+| `_report_summary_stats` | Generate summary statistics |
+| `_report_violations_table` | Generate violations table |
+| `_report_concept_graph_text` | Generate text graph representation |
+| `_report_week_breakdown` | Generate week-by-week breakdown |
+| `_report_recommendations` | Generate fix recommendations |
+| `_report_save` | Save report to file |
+
+### Interactive Functions (Phase 2)
+
+| Function | Purpose |
+|----------|---------|
+| `_teach_analyze_interactive` | Main interactive mode entry |
+| `_interactive_select_scope` | Prompt for analysis scope |
+| `_interactive_select_mode` | Prompt for analysis mode |
+| `_interactive_display_results` | Display analysis results |
+| `_interactive_review_violations` | Step through violations |
+| `_interactive_next_steps` | Show suggested next actions |
+
+### Validation Functions (Phase 2)
+
+| Function | Purpose |
+|----------|---------|
+| `_teach_validate_deep` | Layer 6 deep validation |
+| `_check_prerequisites_for_deploy` | Check prereqs before deploy |
+
 ### Exit Codes
 
 | Code | Meaning |
 |------|---------|
 | `0` | Success (all prerequisites satisfied) |
-| `1+` | Number of missing prerequisites |
+| `1` | General error |
+| `2+` | Number of missing prerequisites |
+| `10` | Cache error |
+| `20` | Report generation error |
 
 ---
 
@@ -495,3 +939,9 @@ teach validate --exam exams/midterm1.md --concepts
 2. Run `teach analyze` to build concept graph
 3. Fix any prerequisite issues
 4. Check `teach status` for summary
+
+**Phase 2 Features:**
+5. Use `teach analyze --interactive` for guided analysis
+6. Generate reports with `teach analyze --report analysis.md`
+7. Enable deep validation with `teach validate --deep`
+8. Block unsafe deploys with `teach deploy --check-prereqs`

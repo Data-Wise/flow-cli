@@ -37,6 +37,13 @@ if [[ -z "$_FLOW_PREREQUISITE_CHECKER_LOADED" ]]; then
     typeset -g _FLOW_PREREQUISITE_CHECKER_LOADED=1
 fi
 
+# Source analysis cache (Phase 2 - caching system)
+if [[ -z "$_FLOW_ANALYSIS_CACHE_LOADED" ]]; then
+    local cache_path="${0:A:h:h}/lib/analysis-cache.zsh"
+    [[ -f "$cache_path" ]] && source "$cache_path"
+    typeset -g _FLOW_ANALYSIS_CACHE_LOADED=1
+fi
+
 # ============================================================================
 # TEACH VALIDATE COMMAND
 # ============================================================================
@@ -50,6 +57,7 @@ teach-validate() {
     local custom_validators=""
     local skip_external=0
     local concepts_mode=0
+    local deep_mode=0
 
     # Parse arguments
     while [[ $# -gt 0 ]]; do
@@ -72,6 +80,10 @@ teach-validate() {
                 ;;
             --concepts)
                 concepts_mode=1
+                shift
+                ;;
+            --deep)
+                deep_mode=1
                 shift
                 ;;
             --validators)
@@ -125,7 +137,11 @@ teach-validate() {
     fi
 
     # Execute based on mode
-    if [[ $watch_mode -eq 1 ]]; then
+    if [[ $deep_mode -eq 1 ]]; then
+        # Deep validation: Layers 1-5 + Layer 6 (Concept Analysis)
+        _teach_validate_deep "$quiet" "$stats_mode" "${files[@]}"
+        return $?
+    elif [[ $watch_mode -eq 1 ]]; then
         _teach_validate_watch "${files[@]}"
     elif [[ "$mode" == "custom" ]]; then
         # Run custom validators
@@ -255,6 +271,172 @@ _convert_graph_to_course_data() {
     ' 2>/dev/null)
 
     echo "$course_data"
+}
+
+# ============================================================================
+# DEEP VALIDATION (Layer 6: Concept Analysis)
+# ============================================================================
+
+# Deep validation runs all standard layers (1-5) plus concept prerequisite analysis
+# Uses cache if available from analysis-cache.zsh
+_teach_validate_deep() {
+    local quiet="${1:-0}"
+    local stats="${2:-0}"
+    shift 2
+    local files=("$@")
+    local course_dir="$PWD"
+    local total_errors=0
+
+    [[ $quiet -eq 0 ]] && echo ""
+    [[ $quiet -eq 0 ]] && echo "${FLOW_COLORS[bold]}Deep Validation (Layers 1-6)${FLOW_COLORS[reset]}"
+    [[ $quiet -eq 0 ]] && echo "${FLOW_COLORS[dim]}Running standard validation + concept analysis${FLOW_COLORS[reset]}"
+
+    # ========================================
+    # Layers 1-5: Standard Validation
+    # ========================================
+    [[ $quiet -eq 0 ]] && echo ""
+    [[ $quiet -eq 0 ]] && _flow_log_info "Layers 1-5: Running standard validation..."
+
+    _teach_validate_run "full" "$quiet" "$stats" "${files[@]}"
+    local standard_result=$?
+
+    if [[ $standard_result -ne 0 ]]; then
+        total_errors=$standard_result
+        [[ $quiet -eq 0 ]] && _flow_log_warning "Standard validation found $standard_result issue(s)"
+    else
+        [[ $quiet -eq 0 ]] && _flow_log_success "Layers 1-5 passed"
+    fi
+
+    # ========================================
+    # Layer 6: Concept Analysis
+    # ========================================
+    [[ $quiet -eq 0 ]] && echo ""
+    [[ $quiet -eq 0 ]] && _flow_log_info "Layer 6: Concept prerequisite analysis..."
+
+    # Check for cached analysis first (if analysis-cache.zsh is loaded)
+    local use_cache=0
+    local cached_graph=""
+
+    if typeset -f _cache_read >/dev/null 2>&1; then
+        # Try to get cached concept graph
+        local cache_key="concepts-graph"
+        cached_graph=$(_cache_read "$cache_key" "$course_dir" 2>/dev/null)
+
+        if [[ -n "$cached_graph" && "$cached_graph" != "null" ]]; then
+            use_cache=1
+            [[ $quiet -eq 0 ]] && _flow_log_info "Using cached concept graph"
+        fi
+    fi
+
+    local graph_file graph_json
+
+    if [[ $use_cache -eq 1 ]]; then
+        # Use cached graph
+        graph_json="$cached_graph"
+    else
+        # Build concept graph fresh
+        [[ $quiet -eq 0 ]] && _flow_log_info "Building concept graph..."
+        graph_file=$(_build_concept_graph "$course_dir" 2>/dev/null)
+
+        if [[ -z "$graph_file" || ! -f "$graph_file" ]]; then
+            [[ $quiet -eq 0 ]] && _flow_log_warning "No concepts found in course content"
+            [[ $quiet -eq 0 ]] && _flow_log_info "Add concepts: field to lecture frontmatter to enable validation"
+
+            # Report final status
+            if [[ $total_errors -eq 0 ]]; then
+                [[ $quiet -eq 0 ]] && echo ""
+                [[ $quiet -eq 0 ]] && _flow_log_success "Deep validation passed (no concept metadata)"
+            fi
+            return $total_errors
+        fi
+
+        graph_json=$(cat "$graph_file")
+        rm -f "$graph_file"
+
+        # Cache the graph for future use
+        if typeset -f _cache_write >/dev/null 2>&1; then
+            _cache_write "concepts-graph" "$graph_json" "$course_dir" 2>/dev/null
+        fi
+    fi
+
+    # Get concept count
+    local concept_count
+    concept_count=$(echo "$graph_json" | jq '.metadata.total_concepts // 0' 2>/dev/null)
+
+    if [[ "$concept_count" -eq 0 ]]; then
+        [[ $quiet -eq 0 ]] && _flow_log_warning "No concepts defined in frontmatter"
+        [[ $quiet -eq 0 ]] && _flow_log_info "Add concepts: field to lecture frontmatter"
+
+        if [[ $total_errors -eq 0 ]]; then
+            [[ $quiet -eq 0 ]] && echo ""
+            [[ $quiet -eq 0 ]] && _flow_log_success "Deep validation passed (no concepts)"
+        fi
+        return $total_errors
+    fi
+
+    [[ $quiet -eq 0 ]] && _flow_log_success "Found $concept_count concepts"
+
+    # Convert graph to course_data format for prerequisite checker
+    local course_data
+    course_data=$(_convert_graph_to_course_data "$graph_json")
+
+    # Check prerequisites
+    [[ $quiet -eq 0 ]] && _flow_log_info "Checking prerequisites..."
+
+    local violations_json raw_output
+    raw_output=$(_check_prerequisites "$course_data" 2>/dev/null)
+    violations_json=$(echo "$raw_output" | awk '/^\[/,/^\]/' | jq -c '.' 2>/dev/null)
+    [[ -z "$violations_json" || "$violations_json" == "null" ]] && violations_json="[]"
+
+    # Count violations by type
+    local error_count=0
+    local warning_count=0
+
+    if [[ -n "$violations_json" && "$violations_json" != "[]" ]]; then
+        error_count=$(echo "$violations_json" | jq '[.[] | select(.type == "missing")] | length' 2>/dev/null || echo "0")
+        warning_count=$(echo "$violations_json" | jq '[.[] | select(.type == "future")] | length' 2>/dev/null || echo "0")
+    fi
+
+    # Display Layer 6 results
+    echo ""
+    if [[ "$error_count" -eq 0 && "$warning_count" -eq 0 ]]; then
+        _flow_log_success "Layer 6: All prerequisites satisfied ($concept_count concepts)"
+    else
+        if [[ "$error_count" -gt 0 ]]; then
+            _flow_log_error "Layer 6: $error_count missing prerequisite(s)"
+            ((total_errors += error_count))
+        fi
+        if [[ "$warning_count" -gt 0 ]]; then
+            _flow_log_warning "Layer 6: $warning_count future prerequisite(s) (warnings)"
+        fi
+
+        # Display violations
+        echo ""
+        echo "$violations_json" | jq -r '.[] | "\(.type)|\(.concept_id)|\(.week)|\(.prerequisite_id)|\(.prerequisite_week // "")"' 2>/dev/null | \
+        while IFS='|' read -r vtype concept week prereq prereq_week; do
+            _format_prerequisite_violation "$concept" "$vtype" "$week" "$prereq" "$prereq_week"
+        done
+    fi
+
+    # Save concept graph to .teach/
+    mkdir -p "$course_dir/.teach" 2>/dev/null
+    echo "$graph_json" > "$course_dir/.teach/concepts.json" 2>/dev/null
+
+    # Final summary
+    echo ""
+    echo "${FLOW_COLORS[dim]}────────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    if [[ $total_errors -eq 0 ]]; then
+        _flow_log_success "Deep validation passed (6 layers)"
+        echo "  Layers 1-5: Standard validation"
+        echo "  Layer 6: $concept_count concepts, all prerequisites satisfied"
+    else
+        _flow_log_error "Deep validation found $total_errors error(s)"
+        echo "  Standard validation: $standard_result issue(s)"
+        echo "  Concept analysis: $error_count error(s), $warning_count warning(s)"
+    fi
+
+    return $total_errors
 }
 
 # ============================================================================

@@ -22,6 +22,7 @@ _teach_deploy_enhanced() {
     local auto_commit=false
     local auto_tag=false
     local skip_index=false
+    local check_prereqs=false
 
     # Parse flags and files
     while [[ $# -gt 0 ]]; do
@@ -40,6 +41,10 @@ _teach_deploy_enhanced() {
                 ;;
             --skip-index)
                 skip_index=true
+                shift
+                ;;
+            --check-prereqs|--check-prerequisites)
+                check_prereqs=true
                 shift
                 ;;
             --help|-h|help)
@@ -126,6 +131,26 @@ _teach_deploy_enhanced() {
         esac
     else
         echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} On $draft_branch branch"
+    fi
+
+    # ============================================
+    # PREREQUISITE CHECK (if --check-prereqs flag)
+    # ============================================
+    if [[ "$check_prereqs" == "true" ]]; then
+        echo ""
+        echo "${FLOW_COLORS[info]}🔍 Prerequisite Validation${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+        if ! _check_prerequisites_for_deploy; then
+            echo ""
+            _teach_error "Deploy blocked: Prerequisite validation failed" \
+                "Fix missing prerequisites before deploying"
+            echo ""
+            echo "${FLOW_COLORS[dim]}Tip: Run 'teach validate --deep' to see full details${FLOW_COLORS[reset]}"
+            return 1
+        fi
+
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} All prerequisites satisfied"
     fi
 
     # ============================================
@@ -501,11 +526,12 @@ _teach_deploy_enhanced_help() {
     echo "  files            Files or directories to deploy (partial deploy mode)"
     echo ""
     echo "Options:"
-    echo "  --auto-commit    Auto-commit uncommitted changes"
-    echo "  --auto-tag       Auto-tag deployment with timestamp"
-    echo "  --skip-index     Skip index management prompts"
-    echo "  --direct-push    Bypass PR and push directly to production (advanced)"
-    echo "  --help, -h       Show this help message"
+    echo "  --auto-commit       Auto-commit uncommitted changes"
+    echo "  --auto-tag          Auto-tag deployment with timestamp"
+    echo "  --skip-index        Skip index management prompts"
+    echo "  --check-prereqs     Run prerequisite validation before deploy (blocks on errors)"
+    echo "  --direct-push       Bypass PR and push directly to production (advanced)"
+    echo "  --help, -h          Show this help message"
     echo ""
     echo "Deployment Modes:"
     echo "  Full Site (default):"
@@ -532,4 +558,130 @@ _teach_deploy_enhanced_help() {
     echo ""
     echo "  # Full site deploy (traditional workflow)"
     echo "  teach deploy"
+    echo ""
+    echo "  # Deploy with prerequisite validation"
+    echo "  teach deploy --check-prereqs"
+}
+
+# ============================================================================
+# PREREQUISITE VALIDATION FOR DEPLOY
+# ============================================================================
+
+# Check prerequisites before deploy
+# Returns 0 if no errors, 1 if missing prerequisites (errors) found
+# Warnings (future prerequisites) do NOT block deploy
+_check_prerequisites_for_deploy() {
+    local course_dir="$PWD"
+
+    # Source concept extraction if not loaded
+    if ! typeset -f _build_concept_graph >/dev/null 2>&1; then
+        local concept_path="${0:A:h:h}/concept-extraction.zsh"
+        [[ -f "$concept_path" ]] && source "$concept_path"
+    fi
+
+    # Source prerequisite checker if not loaded
+    if ! typeset -f _check_prerequisites >/dev/null 2>&1; then
+        local prereq_path="${0:A:h:h}/prerequisite-checker.zsh"
+        [[ -f "$prereq_path" ]] && source "$prereq_path"
+    fi
+
+    # Source analysis cache if not loaded (for cache support)
+    if ! typeset -f _cache_read >/dev/null 2>&1; then
+        local cache_path="${0:A:h:h}/analysis-cache.zsh"
+        [[ -f "$cache_path" ]] && source "$cache_path"
+    fi
+
+    # Try to use cached concept graph first
+    local graph_json=""
+    local use_cache=0
+
+    if typeset -f _cache_read >/dev/null 2>&1; then
+        local cached_graph
+        cached_graph=$(_cache_read "concepts-graph" "$course_dir" 2>/dev/null)
+        if [[ -n "$cached_graph" && "$cached_graph" != "null" ]]; then
+            graph_json="$cached_graph"
+            use_cache=1
+            echo "${FLOW_COLORS[dim]}  Using cached concept graph${FLOW_COLORS[reset]}"
+        fi
+    fi
+
+    if [[ $use_cache -eq 0 ]]; then
+        # Build concept graph fresh
+        echo "${FLOW_COLORS[dim]}  Building concept graph...${FLOW_COLORS[reset]}"
+
+        local graph_file
+        graph_file=$(_build_concept_graph "$course_dir" 2>/dev/null)
+
+        if [[ -z "$graph_file" || ! -f "$graph_file" ]]; then
+            # No concepts found - not an error, just no validation needed
+            echo "${FLOW_COLORS[dim]}  No concept metadata found - skipping validation${FLOW_COLORS[reset]}"
+            return 0
+        fi
+
+        graph_json=$(cat "$graph_file")
+        rm -f "$graph_file"
+
+        # Cache for future use
+        if typeset -f _cache_write >/dev/null 2>&1; then
+            _cache_write "concepts-graph" "$graph_json" "$course_dir" 2>/dev/null
+        fi
+    fi
+
+    # Check concept count
+    local concept_count
+    concept_count=$(echo "$graph_json" | jq '.metadata.total_concepts // 0' 2>/dev/null)
+
+    if [[ "$concept_count" -eq 0 ]]; then
+        echo "${FLOW_COLORS[dim]}  No concepts defined - skipping validation${FLOW_COLORS[reset]}"
+        return 0
+    fi
+
+    echo "${FLOW_COLORS[dim]}  Checking $concept_count concepts...${FLOW_COLORS[reset]}"
+
+    # Convert graph to course_data format
+    local course_data
+    course_data=$(echo "$graph_json" | jq '
+        .concepts | to_entries |
+        group_by(.value.introduced_in.week) |
+        map({
+            week_num: .[0].value.introduced_in.week,
+            concepts: map({
+                id: .key,
+                prerequisites: .value.prerequisites
+            })
+        }) |
+        {weeks: sort_by(.week_num)}
+    ' 2>/dev/null)
+
+    # Check prerequisites
+    local violations_json raw_output
+    raw_output=$(_check_prerequisites "$course_data" 2>/dev/null)
+    violations_json=$(echo "$raw_output" | awk '/^\[/,/^\]/' | jq -c '.' 2>/dev/null)
+    [[ -z "$violations_json" || "$violations_json" == "null" ]] && violations_json="[]"
+
+    # Count errors (missing prerequisites) - these block deploy
+    local error_count=0
+    local warning_count=0
+
+    if [[ -n "$violations_json" && "$violations_json" != "[]" ]]; then
+        error_count=$(echo "$violations_json" | jq '[.[] | select(.type == "missing")] | length' 2>/dev/null || echo "0")
+        warning_count=$(echo "$violations_json" | jq '[.[] | select(.type == "future")] | length' 2>/dev/null || echo "0")
+    fi
+
+    # Report results
+    if [[ "$error_count" -gt 0 ]]; then
+        echo ""
+        echo "${FLOW_COLORS[error]}✗ Found $error_count missing prerequisite(s)${FLOW_COLORS[reset]}"
+
+        # Show violations
+        echo "$violations_json" | jq -r '.[] | select(.type == "missing") | "  • \(.concept_id) requires \(.prerequisite_id) (not defined)"' 2>/dev/null
+        return 1
+    fi
+
+    if [[ "$warning_count" -gt 0 ]]; then
+        echo "${FLOW_COLORS[warn]}⚠ Found $warning_count future prerequisite(s) (warnings only)${FLOW_COLORS[reset]}"
+        # Warnings do not block deploy
+    fi
+
+    return 0
 }
