@@ -23,18 +23,33 @@ if [[ -z "$_FLOW_CUSTOM_VALIDATORS_LOADED" ]]; then
     typeset -g _FLOW_CUSTOM_VALIDATORS_LOADED=1
 fi
 
+# Source concept extraction (Phase 1 - concept validation)
+if [[ -z "$_FLOW_CONCEPT_EXTRACTION_LOADED" ]]; then
+    local concept_path="${0:A:h:h}/lib/concept-extraction.zsh"
+    [[ -f "$concept_path" ]] && source "$concept_path"
+    typeset -g _FLOW_CONCEPT_EXTRACTION_LOADED=1
+fi
+
+# Source prerequisite checker (Phase 1 - concept validation)
+if [[ -z "$_FLOW_PREREQUISITE_CHECKER_LOADED" ]]; then
+    local prereq_path="${0:A:h:h}/lib/prerequisite-checker.zsh"
+    [[ -f "$prereq_path" ]] && source "$prereq_path"
+    typeset -g _FLOW_PREREQUISITE_CHECKER_LOADED=1
+fi
+
 # ============================================================================
 # TEACH VALIDATE COMMAND
 # ============================================================================
 
 teach-validate() {
-    local mode="full"        # full|yaml|syntax|render|watch|custom
+    local mode="full"        # full|yaml|syntax|render|watch|custom|concepts
     local files=()
     local watch_mode=0
     local stats_mode=0
     local quiet=0
     local custom_validators=""
     local skip_external=0
+    local concepts_mode=0
 
     # Parse arguments
     while [[ $# -gt 0 ]]; do
@@ -53,6 +68,10 @@ teach-validate() {
                 ;;
             --custom)
                 mode="custom"
+                shift
+                ;;
+            --concepts)
+                concepts_mode=1
                 shift
                 ;;
             --validators)
@@ -117,6 +136,125 @@ teach-validate() {
     else
         _teach_validate_run "$mode" "$quiet" "$stats_mode" "${files[@]}"
     fi
+
+    # Run concept validation if --concepts flag is set
+    if [[ $concepts_mode -eq 1 ]]; then
+        _teach_validate_concepts "$quiet"
+    fi
+}
+
+# ============================================================================
+# CONCEPT VALIDATION (Phase 1)
+# ============================================================================
+
+_teach_validate_concepts() {
+    local quiet="${1:-0}"
+    local course_dir="$PWD"
+    local error_count=0
+    local warning_count=0
+
+    [[ $quiet -eq 0 ]] && echo ""
+    [[ $quiet -eq 0 ]] && echo "${FLOW_COLORS[bold]}Concept Prerequisite Validation${FLOW_COLORS[reset]}"
+
+    # Build concept graph
+    [[ $quiet -eq 0 ]] && _flow_log_info "Building concept graph..."
+
+    local graph_file
+    graph_file=$(_build_concept_graph "$course_dir" 2>/dev/null)
+
+    if [[ -z "$graph_file" || ! -f "$graph_file" ]]; then
+        [[ $quiet -eq 0 ]] && _flow_log_warning "No concepts found in course content"
+        [[ $quiet -eq 0 ]] && _flow_log_info "Add concepts: field to lecture frontmatter to enable validation"
+        return 0
+    fi
+
+    # Read graph and get concept count
+    local graph_json
+    graph_json=$(cat "$graph_file")
+    local concept_count
+    concept_count=$(echo "$graph_json" | jq '.metadata.total_concepts // 0' 2>/dev/null)
+
+    if [[ "$concept_count" -eq 0 ]]; then
+        [[ $quiet -eq 0 ]] && _flow_log_warning "No concepts defined in frontmatter"
+        [[ $quiet -eq 0 ]] && _flow_log_info "Add concepts: field to lecture frontmatter"
+        rm -f "$graph_file"
+        return 0
+    fi
+
+    [[ $quiet -eq 0 ]] && _flow_log_success "Found $concept_count concepts"
+
+    # Convert graph to course_data format for prerequisite checker
+    local course_data
+    course_data=$(_convert_graph_to_course_data "$graph_json")
+
+    # Check prerequisites
+    [[ $quiet -eq 0 ]] && _flow_log_info "Checking prerequisites..."
+
+    local violations_json raw_output
+    # Suppress debug output and extract only the JSON portion
+    raw_output=$(_check_prerequisites "$course_data" 2>/dev/null)
+    # Extract JSON array from potentially mixed output (debug lines + JSON)
+    violations_json=$(echo "$raw_output" | awk '/^\[/,/^\]/' | jq -c '.' 2>/dev/null)
+
+    # If no valid JSON found, default to empty array
+    [[ -z "$violations_json" || "$violations_json" == "null" ]] && violations_json="[]"
+
+    # Count violations by type
+    if [[ -n "$violations_json" && "$violations_json" != "[]" ]]; then
+        error_count=$(echo "$violations_json" | jq '[.[] | select(.type == "missing")] | length' 2>/dev/null || echo "0")
+        warning_count=$(echo "$violations_json" | jq '[.[] | select(.type == "future")] | length' 2>/dev/null || echo "0")
+    fi
+
+    # Display results
+    echo ""
+    if [[ "$error_count" -eq 0 && "$warning_count" -eq 0 ]]; then
+        _flow_log_success "✓ All prerequisites satisfied ($concept_count concepts checked)"
+    else
+        if [[ "$error_count" -gt 0 ]]; then
+            _flow_log_error "✗ $error_count missing prerequisite(s)"
+        fi
+        if [[ "$warning_count" -gt 0 ]]; then
+            _flow_log_warning "⚠ $warning_count future prerequisite(s)"
+        fi
+
+        # Display violations
+        echo ""
+        echo "$violations_json" | jq -r '.[] | "\(.type)|\(.concept_id)|\(.week)|\(.prerequisite_id)|\(.prerequisite_week // "")"' 2>/dev/null | \
+        while IFS='|' read -r vtype concept week prereq prereq_week; do
+            _format_prerequisite_violation "$concept" "$vtype" "$week" "$prereq" "$prereq_week"
+        done
+    fi
+
+    # Save concept graph
+    mkdir -p "$course_dir/.teach" 2>/dev/null
+    cp "$graph_file" "$course_dir/.teach/concepts.json" 2>/dev/null
+    rm -f "$graph_file"
+
+    # Return error count (0 = success)
+    return $error_count
+}
+
+# Convert concept graph to course_data format expected by prerequisite checker
+_convert_graph_to_course_data() {
+    local graph_json="$1"
+
+    # Build weeks array from concepts
+    # Group concepts by their introduced_in.week
+    local course_data
+    course_data=$(echo "$graph_json" | jq '
+        .concepts | to_entries |
+        group_by(.value.introduced_in.week) |
+        map({
+            week_num: .[0].value.introduced_in.week,
+            concepts: map({
+                id: .key,
+                prerequisites: .value.prerequisites
+            })
+        }) |
+        {weeks: sort_by(.week_num)}
+    ' 2>/dev/null)
+
+    echo "$course_data"
 }
 
 # ============================================================================
@@ -393,6 +531,7 @@ OPTIONS:
   --syntax              YAML + Quarto syntax validation (~2s)
   --render              Full render validation (slow, 3-15s per file)
   --custom              Run custom validators from .teach/validators/
+  --concepts            Validate concept prerequisites (Phase 1)
   --validators <list>   Comma-separated list of validators (with --custom)
   --skip-external       Skip external URL checks (with --custom)
   --watch               Continuous validation on file changes
@@ -407,6 +546,7 @@ VALIDATION LAYERS:
   4. Chunks      - Warn about empty code chunks
   5. Images      - Check for missing image references
   6. Custom      - Run extensible custom validators
+  7. Concepts    - Validate prerequisite ordering
 
 EXAMPLES:
   # Full validation (all layers)
@@ -417,6 +557,12 @@ EXAMPLES:
 
   # Validate specific files
   teach validate lectures/week-01.qmd lectures/week-02.qmd
+
+  # Validate concept prerequisites
+  teach validate --concepts
+
+  # Combine YAML validation with concept checking
+  teach validate --yaml --concepts
 
   # Run custom validators (citations, links, formatting)
   teach validate --custom
@@ -480,7 +626,29 @@ OUTPUT:
       }
     }
 
+CONCEPT VALIDATION (--concepts):
+  Validates prerequisite ordering for concepts defined in frontmatter.
+
+  Frontmatter format:
+    ---
+    concepts:
+      introduces: [regression-assumptions, normality-test]
+      requires: [simple-regression, residuals]
+    ---
+
+  Checks:
+    - All prerequisites exist in the course
+    - Prerequisites are introduced before dependent concepts
+    - Reports missing and future (out-of-order) prerequisites
+
+  Example output:
+    ✓ All prerequisites satisfied (18 concepts checked)
+    or
+    ✗ 2 missing prerequisite(s)
+    ⚠ 1 future prerequisite(s)
+
 SEE ALSO:
+  teach analyze      - Detailed concept analysis
   teach doctor       - Check project health
   teach hooks        - Install pre-commit validation hooks
 EOF

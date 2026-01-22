@@ -64,55 +64,59 @@
 
 ---
 
-## 🎯 Current Sprint (2026-01-21):
+## 🎯 Current Sprint (2026-01-22):
 
-### Track A: Intelligent Content Analysis (teach analyze) - Ready for Implementation ✨
+### Track A: Intelligent Content Analysis (teach analyze) - Phase 1 In Progress 🚀
 
-**Session Duration:** Brainstorm + Spec + Planning complete (~3 hours)
-**Branch:** `feature/teach-analyze` (created)
+**Branch:** `feature/teach-analyze` (rebased on dev)
 **Worktree:** `~/.git-worktrees/flow-cli/teach-analyze`
-**Status:** Ready for Phase 0 implementation
+**Status:** Phase 0 Complete ✅, Phase 1 In Progress
 
-**Scope:** Phase 0 Ultra-MVP (4-5 hours implementation)
-- Concept extraction from frontmatter
-- Prerequisite validation (week ordering)
-- Violation detection and reporting
-- Zero AI dependency (heuristic-only)
+#### ✅ Phase 0 Complete (2026-01-22)
 
-**Deliverables Created:**
-✅ SPEC-intelligent-content-analysis-2026-01-20.md (1,280 lines, status: ready ✅)
-✅ SPEC-REVIEW-intelligent-content-analysis.md (comprehensive review)
-✅ BRAINSTORM-intelligent-content-analysis-2026-01-20.md (deep mode + 2 agents)
-✅ PLAN-teach-analyze-phase0.md (4-5 hour implementation guide)
-✅ PLAN-teach-analyze-phase1.md (next phase reference)
+**Duration:** ~4 hours
+**Commits:** 2 (`7a5f9c76`, `0505c044`)
+**Tests:** 25 passing (20 unit + 5 integration)
 
-**Key Decisions Made:**
-✅ Resolved AI service integration (heuristic-only for Phase 0-1)
-✅ Split Phase 0 from Phase 1 (5h vs 12h)
-✅ Simplified API design (16 → 13 flags)
-✅ All open questions resolved
+**Delivered:**
+- `lib/concept-extraction.zsh` (447 lines) - Concept graph builder
+- `lib/prerequisite-checker.zsh` (377 lines) - Prerequisite validation
+- `commands/teach-analyze.zsh` (229 lines) - Main command
+- `tests/test-teach-analyze-phase0-unit.zsh` (20 tests)
+- `tests/test-teach-analyze-phase0-integration.zsh` (5 tests)
 
-**Implementation Roadmap:**
-- Phase 0 (4-5h): Prerequisite validation (THIS TRACK)
-- Phase 1 (6-8h): Caching + batch analysis
-- Phase 2 (8-10h): Integration (validate, deploy)
-- Phase 3 (10-12h): AI enhancement
-- Phase 4 (8-10h): Slide optimization
-- Phase 5 (6-8h): Polish + docs
-- **Total:** 42-53h across all phases
+**Key Fixes Applied:**
+- ZSH word splitting (`${=var}` syntax)
+- mktemp collision (unique suffix pattern)
+- JSON path correction (`.introduced_in.week`)
+- Course directory detection
+- Routing bug in dispatcher
 
-**What Phase 0 Delivers:**
-```bash
-$ teach analyze lectures/week-05.qmd
-# Validates prerequisites, reports violations
-# Example: Week 5 requires concept from Week 7 → WARNING
-```
+#### 🚀 Phase 1 In Progress
 
-**Next Steps:**
-1. Start NEW session: `cd ~/.git-worktrees/flow-cli/teach-analyze && claude`
-2. Implement Phase 0 per PLAN-teach-analyze-phase0.md (4-5 hours)
-3. Run 25 tests (20 unit + 5 integration)
-4. Create PR: feature/teach-analyze → dev
+**Scope:** Integration + Configuration + Testing + Documentation
+**Estimated:** 8-10 hours remaining
+
+**Wave 2: Integration** (current)
+- [ ] Integrate with `teach validate --concepts`
+- [ ] Update `teach status` with concept section
+- [x] Update `teach dispatcher` (done in Phase 0)
+
+**Wave 3: Configuration**
+- [ ] Update lesson-plan.yml schema for concepts
+- [ ] Create sample content with concepts
+
+**Wave 4: Testing**
+- [ ] Expand to 60 unit tests (currently 20)
+- [ ] Add 15 more integration tests (currently 5)
+
+**Wave 5: Documentation**
+- [ ] User guide (~1,500 lines)
+- [ ] Quick reference card (~400 lines)
+
+**Wave 6: Polish**
+- [ ] Performance optimization
+- [ ] Error handling improvements
 
 ---
 
