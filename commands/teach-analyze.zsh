@@ -6,11 +6,13 @@
 #
 # Phase 0: Concept extraction and prerequisite validation
 # Phase 2: Report generation (--report flag)
+# Phase 3: AI-powered analysis (--ai flag)
 
 # Source helper libraries
 source "${0:A:h:h}/lib/concept-extraction.zsh"
 source "${0:A:h:h}/lib/prerequisite-checker.zsh"
 source "${0:A:h:h}/lib/report-generator.zsh"
+source "${0:A:h:h}/lib/ai-analysis.zsh"
 
 # Color scheme (use FLOW_COLORS from core.zsh if available, else define)
 : ${FLOW_GREEN:='\033[38;5;154m'}
@@ -120,6 +122,70 @@ _display_violations_section() {
     done
 }
 
+_display_ai_section() {
+    local results_file="$1"
+
+    if [[ ! -f "$results_file" ]] || ! command -v jq >/dev/null 2>&1; then
+        return
+    fi
+
+    # Check if AI data exists in the graph
+    local has_ai
+    has_ai=$(jq '[.concepts | to_entries[] | select(.value.bloom_level != null)] | length' "$results_file" 2>/dev/null)
+
+    if [[ "$has_ai" -eq 0 || -z "$has_ai" ]]; then
+        return
+    fi
+
+    echo ""
+    echo "${FLOW_BLUE}🤖 AI ANALYSIS${FLOW_RESET}"
+    echo "┌────────────────────────────────────────────────────┐"
+    echo "│ Concept            | Bloom    | Load | Time        │"
+    echo "├────────────────────┼──────────┼──────┼─────────────┤"
+
+    jq -r '.concepts | to_entries[] | select(.value.bloom_level != null) |
+        "\(.value.name // .key)|\(.value.bloom_level)|\(.value.cognitive_load)|\(.value.teaching_time_minutes // "?")"' \
+        "$results_file" 2>/dev/null | \
+    while IFS='|' read -r name bloom load time; do
+        # Truncate name to 18 chars
+        local short_name="${name:0:18}"
+        # Color-code cognitive load
+        local load_color="${FLOW_GREEN}"
+        if (( $(echo "$load > 0.7" | bc -l 2>/dev/null || echo 0) )); then
+            load_color="${FLOW_RED}"
+        elif (( $(echo "$load > 0.4" | bc -l 2>/dev/null || echo 0) )); then
+            load_color="${FLOW_YELLOW}"
+        fi
+        printf "│ %-18s │ %-8s │ ${load_color}%.1f${FLOW_RESET}  │ %3s min     │\n" \
+            "$short_name" "$bloom" "$load" "$time"
+    done
+
+    echo "└────────────────────────────────────────────────────┘"
+
+    # Show AI summary if available
+    local avg_load dominant_bloom total_time
+    avg_load=$(jq -r '.metadata.ai_summary.avg_cognitive_load // empty' "$results_file" 2>/dev/null)
+    dominant_bloom=$(jq -r '.metadata.ai_summary.dominant_bloom_level // empty' "$results_file" 2>/dev/null)
+    total_time=$(jq -r '.metadata.ai_summary.estimated_total_time_minutes // empty' "$results_file" 2>/dev/null)
+
+    if [[ -n "$avg_load" || -n "$dominant_bloom" ]]; then
+        echo ""
+        echo "  ${FLOW_BOLD}AI Summary:${FLOW_RESET}"
+        [[ -n "$dominant_bloom" ]] && echo "    Dominant level: ${FLOW_GREEN}$dominant_bloom${FLOW_RESET}"
+        [[ -n "$avg_load" ]] && printf "    Avg load:       %.2f\n" "$avg_load"
+        [[ -n "$total_time" ]] && echo "    Total time:     ${total_time} min"
+    fi
+
+    # Show related concepts (first 5)
+    local related
+    related=$(jq -r '[.concepts | to_entries[] | select(.value.related_concepts != null) | .value.related_concepts[]] | unique | .[0:5] | join(", ")' "$results_file" 2>/dev/null)
+
+    if [[ -n "$related" && "$related" != "null" ]]; then
+        echo ""
+        echo "  ${FLOW_BOLD}Key relationships:${FLOW_RESET} $related"
+    fi
+}
+
 _display_summary_section() {
     local results_file="$1"
     local exit_code="$2"
@@ -195,6 +261,8 @@ _teach_analyze() {
     local summary_only=false
     local quiet=false
     local interactive=false
+    local use_ai=false
+    local show_costs=false
 
     # Parse arguments
     while [[ $# -gt 0 ]]; do
@@ -224,6 +292,12 @@ _teach_analyze() {
             --interactive|-i)
                 interactive=true
                 ;;
+            --ai)
+                use_ai=true
+                ;;
+            --costs)
+                show_costs=true
+                ;;
             --help|-h)
                 _teach_analyze_help
                 return 0
@@ -248,10 +322,16 @@ _teach_analyze() {
         return $?
     fi
 
+    # If --costs only (no file needed), show cost summary
+    if [[ "$show_costs" == "true" && -z "$file_path" ]]; then
+        _ai_get_cost_summary "$PWD" "text"
+        return 0
+    fi
+
     # Validate arguments
     if [[ -z "$file_path" ]]; then
         echo "${FLOW_RED}Error: File path required${FLOW_RESET}"
-        echo "Usage: teach analyze <file> [--mode strict|moderate] [--report [FILE]]"
+        echo "Usage: teach analyze <file> [--mode strict|moderate] [--report [FILE]] [--ai]"
         return 1
     fi
 
@@ -300,6 +380,33 @@ _teach_analyze() {
         cp "$results_file" "$course_dir/.teach/concepts.json" 2>/dev/null
     fi
 
+    # Phase 3: AI-powered analysis (if --ai flag)
+    local ai_enhanced=false
+    if [[ "$use_ai" == "true" ]]; then
+        [[ "$quiet" != "true" ]] && printf "${FLOW_BLUE}Running AI analysis...${FLOW_RESET} "
+
+        local existing_concepts
+        existing_concepts=$(cat "$results_file" 2>/dev/null)
+
+        local ai_result
+        ai_result=$(_ai_analyze_file "$file_path" "$existing_concepts" "$quiet")
+
+        if [[ -n "$ai_result" && "$ai_result" != "{}" ]]; then
+            # Enhance the graph with AI data
+            local enhanced_graph
+            enhanced_graph=$(_ai_enhance_concept_graph "$(cat "$results_file")" "$ai_result")
+
+            if [[ -n "$enhanced_graph" ]]; then
+                echo "$enhanced_graph" > "$results_file"
+                cp "$results_file" "$course_dir/.teach/concepts.json" 2>/dev/null
+                ai_enhanced=true
+                [[ "$quiet" != "true" ]] && echo "${FLOW_GREEN}✓ AI enhanced${FLOW_RESET}"
+            fi
+        else
+            [[ "$quiet" != "true" ]] && echo "${FLOW_YELLOW}⚠ Heuristic-only${FLOW_RESET}"
+        fi
+    fi
+
     # Generate report if requested
     if [[ "$generate_report" == "true" ]]; then
         [[ "$quiet" != "true" ]] && printf "${FLOW_BLUE}Generating report...${FLOW_RESET} "
@@ -336,9 +443,20 @@ _teach_analyze() {
     echo ""
 
     # Display results
-    _display_analysis_header "Content Analysis Report - ${file_path:t}" "Mode: $mode | Phase: 0 (heuristic-only)"
+    local phase_label
+    if [[ "$ai_enhanced" == "true" ]]; then
+        phase_label="Phase: 3 (AI-enhanced)"
+    else
+        phase_label="Phase: 0 (heuristic-only)"
+    fi
+    _display_analysis_header "Content Analysis Report - ${file_path:t}" "Mode: $mode | $phase_label"
 
     _display_concepts_section "$results_file"
+
+    # Show AI-enhanced fields if available
+    if [[ "$ai_enhanced" == "true" ]]; then
+        _display_ai_section "$results_file"
+    fi
 
     _display_prerequisites_section "$results_file"
     local prereq_exit=$?
@@ -346,6 +464,14 @@ _teach_analyze() {
     _display_violations_section "$results_file"
 
     _display_summary_section "$results_file" "$prereq_exit"
+
+    # Show cost summary if requested
+    if [[ "$show_costs" == "true" ]]; then
+        echo ""
+        echo "${FLOW_BLUE}💰 AI ANALYSIS COSTS${FLOW_RESET}"
+        _ai_get_cost_summary "$course_dir" "text"
+    fi
+
     echo ""
 
     # Return exit code (0 for success, 1 for errors)
@@ -381,6 +507,10 @@ REPORT OPTIONS (Phase 2):
   --report [FILE]     Generate analysis report (optional: specify filename)
   --format FORMAT     Report format: markdown|json (default: markdown)
 
+AI OPTIONS (Phase 3):
+  --ai                Enable AI-powered analysis (requires Claude CLI)
+  --costs             Show AI analysis cost summary
+
 EXAMPLES:
   # Basic analysis
   teach analyze lectures/week-05-regression.qmd
@@ -403,6 +533,13 @@ EXAMPLES:
 
   # Silent analysis with report
   teach analyze lectures/week-05-regression.qmd --quiet --report analysis.md
+
+  # AI-powered analysis (Phase 3)
+  teach analyze --ai lectures/week-05-regression.qmd
+  teach analyze --ai --costs lectures/week-05-regression.qmd
+
+  # Show AI cost summary only
+  teach analyze --costs
 
 INTERACTIVE MODE:
   The --interactive flag provides an ADHD-friendly guided experience:

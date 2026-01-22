@@ -3525,21 +3525,36 @@ ${FLOW_COLORS[bold]}WHAT IT DOES${FLOW_COLORS[reset]}
   2. Builds concept graph across all lectures
   3. Validates prerequisite ordering (earlier weeks only)
   4. Reports violations with suggestions
+  5. (--ai) AI-powered concept enhancement via Claude
+
+${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--mode${FLOW_COLORS[reset]} strict|moderate|relaxed   Strictness level
+  ${FLOW_COLORS[cmd]}--report${FLOW_COLORS[reset]} [FILE]                  Generate report
+  ${FLOW_COLORS[cmd]}--format${FLOW_COLORS[reset]} markdown|json            Report format
+  ${FLOW_COLORS[cmd]}--interactive${FLOW_COLORS[reset]}, -i                 Guided interactive mode
+  ${FLOW_COLORS[cmd]}--ai${FLOW_COLORS[reset]}                             AI-powered analysis (Phase 3)
+  ${FLOW_COLORS[cmd]}--costs${FLOW_COLORS[reset]}                          Show AI usage costs
 
 ${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
   ${FLOW_COLORS[info]}Basic analysis:${FLOW_COLORS[reset]}
     ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach analyze lectures/week-05-regression.qmd
     ${FLOW_COLORS[dim]}# Checks prerequisites for Week 5${FLOW_COLORS[reset]}
 
+  ${FLOW_COLORS[info]}AI-powered:${FLOW_COLORS[reset]}
+    ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach analyze --ai lectures/week-05-regression.qmd
+    ${FLOW_COLORS[dim]}# Adds bloom levels, cognitive load, related concepts${FLOW_COLORS[reset]}
+
   ${FLOW_COLORS[info]}What gets checked:${FLOW_COLORS[reset]}
     • Concepts are defined in frontmatter
     • Prerequisites exist in earlier weeks
     • No future-week dependencies
+    • (--ai) Bloom level, cognitive load, relationships
 
 ${FLOW_COLORS[info]}💡 TIPS${FLOW_COLORS[reset]}
   • Add ${FLOW_COLORS[cmd]}concepts:${FLOW_COLORS[reset]} field to lecture frontmatter
   • Use concept IDs consistently across lectures
   • Run before deployment to catch ordering issues
+  • Use ${FLOW_COLORS[cmd]}--ai${FLOW_COLORS[reset]} for deeper analysis (requires Claude CLI)
 
 ${FLOW_COLORS[bold]}FRONTMATTER EXAMPLE${FLOW_COLORS[reset]}
   ---
@@ -4350,6 +4365,7 @@ ${FLOW_COLORS[bold]}════════════════════
 ${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}teach analyze${FLOW_COLORS[reset]} <file>            Validate content prerequisites
     ${FLOW_COLORS[muted]}--mode strict|moderate${FLOW_COLORS[reset]}      Validation strictness
+    ${FLOW_COLORS[muted]}--ai${FLOW_COLORS[reset]}                        AI-powered analysis (Phase 3)
   ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]} [files]          Validate .qmd files
     ${FLOW_COLORS[muted]}--yaml${FLOW_COLORS[reset]}                       YAML frontmatter only
     ${FLOW_COLORS[muted]}--syntax${FLOW_COLORS[reset]}                     YAML + syntax check
