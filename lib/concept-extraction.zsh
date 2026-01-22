@@ -309,17 +309,18 @@ for file in "${qmd_files[@]}"; do
     fi
     
     rel_path="${file#$course_dir/}"
-    
-    for concept in $introduced; do
+
+    # Use ${=var} to enable word splitting in ZSH
+    for concept in ${=introduced}; do
         [[ -z "$concept" ]] && continue
-        
+
         existing=$(echo "$graph" | jq -r --arg cid "$concept" '.concepts[$cid] // "null"' 2>/dev/null)
-        
+
         if [[ -z "$existing" || "$existing" == "null" ]]; then
             line_num=$(_get_concept_line_number "$file" "$concept")
-            
+
             concept_name="${(C)concept}"
-            
+
             graph=$(echo "$graph" | jq \
                 --arg cid "$concept" \
                 --arg name "$concept_name" \
@@ -327,17 +328,18 @@ for file in "${qmd_files[@]}"; do
                 --arg lec "$rel_path" \
                 --argjson ln "$line_num" \
                 '.concepts[$cid] = {id: $cid, name: $name, prerequisites: [], introduced_in: {week: $w, lecture: $lec, line_number: $ln}}' 2>/dev/null)
-            
+
             ((total_concepts++))
         fi
     done
-    
-    for prereq in $required; do
+
+    # Use ${=var} to enable word splitting in ZSH
+    for prereq in ${=required}; do
         [[ -z "$prereq" ]] && continue
-        
-        for introduced_concept in $introduced; do
+
+        for introduced_concept in ${=introduced}; do
             [[ -z "$introduced_concept" ]] && continue
-            
+
             graph=$(echo "$graph" | jq --arg cid "$introduced_concept" --arg prereq "$prereq" '.concepts[$cid].prerequisites += [$prereq]' 2>/dev/null)
         done
     done

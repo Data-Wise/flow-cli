@@ -36,13 +36,15 @@ _display_concepts_section() {
     echo "│ Concept                    | Status                │"
     echo "├────────────────────────────┼───────────────────────┤"
 
-    if command -v yq >/dev/null 2>&1; then
-        yq -r '.concepts[] | .name + " | ✓ Introduced (Week " + .week + ")"' "$results_file" 2>/dev/null | \
-        while IFS='|' read -r concept concept_status; do
-            printf "│ %-26s │ %-21s │\n" "$concept" "$concept_status"
+    if command -v jq >/dev/null 2>&1; then
+        # Use jq to iterate concepts with correct path
+        jq -r '.concepts | to_entries[] | "\(.value.name)|\(.value.introduced_in.week)"' "$results_file" 2>/dev/null | \
+        while IFS='|' read -r concept_name week_num; do
+            local concept_status="✓ Introduced (Week ${week_num})"
+            printf "│ %-26s │ %-21s │\n" "$concept_name" "$concept_status"
         done
     else
-        echo "│ (Install yq for detailed concept view)              │"
+        echo "│ (Install jq for detailed concept view)              │"
     fi
     echo "└────────────────────────────────────────────────────┘"
 }
