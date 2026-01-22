@@ -4,13 +4,13 @@
 source "${0:A:h:h}/lib/concept-extraction.zsh"
 source "${0:A:h:h}/lib/prerequisite-checker.zsh"
 
-# Color scheme (matches FLOW_COLORS from core.zsh)
-readonly FLOW_GREEN='\033[38;5;154m'
-readonly FLOW_BLUE='\033[38;5;75m'
-readonly FLOW_YELLOW='\033[38;5;221m'
-readonly FLOW_RED='\033[38;5;203m'
-readonly FLOW_BOLD='\033[1m'
-readonly FLOW_RESET='\033[0m'
+# Color scheme (use FLOW_COLORS from core.zsh if available, else define)
+: ${FLOW_GREEN:='\033[38;5;154m'}
+: ${FLOW_BLUE:='\033[38;5;75m'}
+: ${FLOW_YELLOW:='\033[38;5;221m'}
+: ${FLOW_RED:='\033[38;5;203m'}
+: ${FLOW_BOLD:='\033[1m'}
+: ${FLOW_RESET:='\033[0m'}
 
 _display_analysis_header() {
     local title="$1"
