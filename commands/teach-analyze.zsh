@@ -386,14 +386,52 @@ _teach_analyze() {
     # Validate arguments
     if [[ -z "$file_path" ]]; then
         echo "${FLOW_RED}Error: File path required${FLOW_RESET}"
-        echo "Usage: teach analyze <file> [--mode strict|moderate] [--report [FILE]] [--ai]"
+        echo ""
+        echo "Usage: teach analyze <file> [options]"
+        echo ""
+        echo "Examples:"
+        echo "  teach analyze lectures/week-05-regression.qmd"
+        echo "  teach analyze --slide-breaks lectures/week-05.qmd"
+        echo "  teach analyze --interactive"
+        echo ""
+        echo "Run 'teach analyze --help' for full documentation."
         return 1
     fi
 
     # Check file exists
     if [[ ! -f "$file_path" ]]; then
         echo "${FLOW_RED}Error: File not found: $file_path${FLOW_RESET}"
+        echo ""
+        # Suggest alternatives
+        local dir="${file_path:h}"
+        [[ "$dir" == "$file_path" ]] && dir="."
+        if [[ -d "$dir" ]]; then
+            local -a candidates=($dir/*.qmd(N))
+            if [[ ${#candidates[@]} -gt 0 ]]; then
+                echo "Available .qmd files in ${dir}:"
+                for f in "${candidates[@]:0:5}"; do
+                    echo "  ${FLOW_BLUE}$f${FLOW_RESET}"
+                done
+                [[ ${#candidates[@]} -gt 5 ]] && echo "  ... and $((${#candidates[@]} - 5)) more"
+            fi
+        fi
         return 1
+    fi
+
+    # Validate file extension
+    if [[ "${file_path:e}" != "qmd" && "${file_path:e}" != "md" ]]; then
+        echo "${FLOW_YELLOW}Warning: Expected .qmd or .md file, got .${file_path:e}${FLOW_RESET}"
+        echo "Analysis works best with Quarto (.qmd) files containing YAML frontmatter."
+    fi
+
+    # Check dependencies
+    if ! command -v jq &>/dev/null; then
+        echo "${FLOW_YELLOW}Warning: jq not installed - some features unavailable${FLOW_RESET}"
+        echo "  Install: brew install jq"
+    fi
+    if ! command -v yq &>/dev/null; then
+        echo "${FLOW_YELLOW}Warning: yq not installed - prerequisite checking limited${FLOW_RESET}"
+        echo "  Install: brew install yq"
     fi
 
     # Show progress (unless quiet)
@@ -467,20 +505,40 @@ _teach_analyze() {
     if [[ "$slide_breaks" == "true" ]]; then
         [[ "$quiet" != "true" ]] && printf "${FLOW_BLUE}Analyzing slide structure...${FLOW_RESET} "
 
-        local concept_graph_content
-        concept_graph_content=$(cat "$results_file" 2>/dev/null)
+        # Check for cached slide optimization (skip if file unchanged)
+        local slide_cache_file="$course_dir/.teach/slide-optimization-${file_path:t:r}.json"
+        local file_hash
+        file_hash=$(shasum -a 256 "$file_path" 2>/dev/null | cut -d' ' -f1)
 
-        slide_data=$(_slide_optimize "$file_path" "$concept_graph_content" "$quiet")
-
-        if [[ -n "$slide_data" && "$slide_data" != "{}" ]]; then
-            # Store slide optimization in cache alongside concepts
-            if [[ -d "$course_dir/.teach" ]]; then
-                local slide_cache_file="$course_dir/.teach/slide-optimization-${file_path:t:r}.json"
-                echo "$slide_data" > "$slide_cache_file" 2>/dev/null
+        if [[ -f "$slide_cache_file" && "$preview_breaks" != "true" ]]; then
+            local cached_hash
+            cached_hash=$(jq -r '.source_hash // ""' "$slide_cache_file" 2>/dev/null)
+            if [[ "$cached_hash" == "$file_hash" ]]; then
+                slide_data=$(cat "$slide_cache_file")
+                [[ "$quiet" != "true" ]] && echo "${FLOW_GREEN}✓ (cached)${FLOW_RESET}"
             fi
-            [[ "$quiet" != "true" ]] && echo "${FLOW_GREEN}✓${FLOW_RESET}"
-        else
-            [[ "$quiet" != "true" ]] && echo "${FLOW_YELLOW}⚠ No suggestions${FLOW_RESET}"
+        fi
+
+        # Run optimization if not cached
+        if [[ -z "$slide_data" || "$slide_data" == "{}" ]]; then
+            local concept_graph_content
+            concept_graph_content=$(cat "$results_file" 2>/dev/null)
+
+            slide_data=$(_slide_optimize "$file_path" "$concept_graph_content" "$quiet")
+
+            if [[ -n "$slide_data" && "$slide_data" != "{}" ]]; then
+                # Store slide optimization in cache with source hash
+                if [[ -d "$course_dir/.teach" ]] || mkdir -p "$course_dir/.teach" 2>/dev/null; then
+                    if command -v jq &>/dev/null; then
+                        echo "$slide_data" | jq --arg hash "$file_hash" '. + {source_hash: $hash}' > "$slide_cache_file" 2>/dev/null
+                    else
+                        echo "$slide_data" > "$slide_cache_file" 2>/dev/null
+                    fi
+                fi
+                [[ "$quiet" != "true" ]] && echo "${FLOW_GREEN}✓${FLOW_RESET}"
+            else
+                [[ "$quiet" != "true" ]] && echo "${FLOW_YELLOW}⚠ No suggestions${FLOW_RESET}"
+            fi
         fi
 
         # If --preview-breaks, show preview and exit
