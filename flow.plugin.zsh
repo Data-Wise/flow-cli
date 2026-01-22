@@ -46,6 +46,11 @@ source "$FLOW_PLUGIN_DIR/lib/cache-helpers.zsh"
 source "$FLOW_PLUGIN_DIR/lib/cache-analysis.zsh"
 source "$FLOW_PLUGIN_DIR/lib/status-dashboard.zsh"
 
+# Teaching workflow libraries
+source "$FLOW_PLUGIN_ROOT/lib/concept-extraction.zsh"
+source "$FLOW_PLUGIN_ROOT/lib/prerequisite-checker.zsh"
+source "$FLOW_PLUGIN_ROOT/commands/teach-analyze.zsh"
+
 # ============================================================================
 # COMMANDS
 # ============================================================================

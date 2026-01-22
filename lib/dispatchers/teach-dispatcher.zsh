@@ -3478,6 +3478,63 @@ EOF
 }
 
 # ============================================================================
+# HELP FOR TEACH ANALYZE COMMAND
+# ============================================================================
+
+_teach_analyze_help() {
+    cat <<EOF
+${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach analyze${FLOW_COLORS[reset]} - Intelligent Content Analysis              ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
+${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach analyze${FLOW_COLORS[reset]} <file>
+
+${FLOW_COLORS[success]}🔥 QUICK START${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach analyze lectures/week-05-regression.qmd
+  ${FLOW_COLORS[dim]}# Validates concepts and prerequisites${FLOW_COLORS[reset]}
+
+${FLOW_COLORS[bold]}WHAT IT DOES${FLOW_COLORS[reset]}
+  1. Extracts concepts from frontmatter (concepts: field)
+  2. Builds concept graph across all lectures
+  3. Validates prerequisite ordering (earlier weeks only)
+  4. Reports violations with suggestions
+
+${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[info]}Basic analysis:${FLOW_COLORS[reset]}
+    ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach analyze lectures/week-05-regression.qmd
+    ${FLOW_COLORS[dim]}# Checks prerequisites for Week 5${FLOW_COLORS[reset]}
+
+  ${FLOW_COLORS[info]}What gets checked:${FLOW_COLORS[reset]}
+    • Concepts are defined in frontmatter
+    • Prerequisites exist in earlier weeks
+    • No future-week dependencies
+
+${FLOW_COLORS[info]}💡 TIPS${FLOW_COLORS[reset]}
+  • Add ${FLOW_COLORS[cmd]}concepts:${FLOW_COLORS[reset]} field to lecture frontmatter
+  • Use concept IDs consistently across lectures
+  • Run before deployment to catch ordering issues
+
+${FLOW_COLORS[bold]}FRONTMATTER EXAMPLE${FLOW_COLORS[reset]}
+  ---
+  title: "Linear Regression"
+  week: 5
+  concepts:
+    introduces:
+      - id: simple-regression
+      - id: r-squared
+    requires:
+      - correlation  # From Week 3
+      - variance     # From Week 1
+  ---
+
+${FLOW_COLORS[dim]}📚 See also:${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]}   Run quality checks
+  ${FLOW_COLORS[dim]}docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md${FLOW_COLORS[reset]}
+EOF
+}
+
+# ============================================================================
 # DISPATCHER HELP
 # ============================================================================
 
@@ -4265,6 +4322,8 @@ ${FLOW_COLORS[bold]}════════════════════
 ${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
 ✅ VALIDATION & QUALITY
 ${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}teach analyze${FLOW_COLORS[reset]} <file>            Validate content prerequisites
+    ${FLOW_COLORS[muted]}--mode strict|moderate${FLOW_COLORS[reset]}      Validation strictness
   ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]} [files]          Validate .qmd files
     ${FLOW_COLORS[muted]}--yaml${FLOW_COLORS[reset]}                       YAML frontmatter only
     ${FLOW_COLORS[muted]}--syntax${FLOW_COLORS[reset]}                     YAML + syntax check
@@ -4474,6 +4533,19 @@ teach() {
             case "$1" in
                 --help|-h|help) _teach_validate_help; return 0 ;;
                 *) teach-validate "$@" ;;
+            esac
+            ;;
+
+        # Concept analysis (Phase 0: teach analyze)
+        analyze|concept|concepts)
+            case "$1" in
+                --help|-h|help)
+                    _teach_analyze_help
+                    return 0
+                    ;;
+                *)
+                    _teach_analyze "$@"
+                    ;;
             esac
             ;;
 
