@@ -154,6 +154,7 @@ nav:
           - Core Libraries: reference/CORE-API-REFERENCE.md
           - Teaching Libraries: reference/TEACHING-API-REFERENCE.md
           - Integration Libraries: reference/INTEGRATION-API-REFERENCE.md
+          - Specialized Libraries: reference/SPECIALIZED-API-REFERENCE.md
       - Quick References:
           - Command Cheatsheet: reference/COMMAND-QUICK-REFERENCE.md
           - Alias Card: reference/ALIAS-REFERENCE-CARD.md
