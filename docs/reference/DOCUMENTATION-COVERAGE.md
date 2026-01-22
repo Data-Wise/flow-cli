@@ -1,7 +1,7 @@
 # Documentation Coverage Report
 
-**Generated:** 2026-01-21
-**Version:** flow-cli v5.15.0
+**Generated:** 2026-01-22
+**Version:** flow-cli v5.15.1
 
 ---
 
@@ -11,9 +11,10 @@
 |--------|-------|--------|
 | **Total Functions** | 853 | - |
 | **With Help Text** | 73 | 8.6% |
-| **Documentation Files** | 306 | 161,464 lines |
+| **With Inline Docstrings** | 120 | 14.1% (+47 in v5.15.1) |
+| **Documentation Files** | 307 | 163,125 lines |
 | **User-Facing Docs** | ~79,000 lines | ✅ Good |
-| **Internal API Docs** | ~0 lines | ❌ Critical Gap |
+| **Internal API Docs** | ~1,661 lines | ✅ Phase 1 Complete |
 
 ---
 
@@ -55,18 +56,19 @@
 
 ### Helper Libraries (32 Files)
 
-| Library | Functions | Help | Doc Status |
-|---------|-----------|------|------------|
-| `core.zsh` | 14 | 0 | ❌ No API docs |
-| `atlas-bridge.zsh` | 22 | 0 | ❌ No API docs |
-| `tui.zsh` | 16 | 0 | ❌ No API docs |
-| `git-helpers.zsh` | 17 | 0 | ❌ No API docs |
-| `validation-helpers.zsh` | 19 | 0 | ❌ No API docs |
-| `cache-helpers.zsh` | 9 | 0 | ❌ No API docs |
-| `parallel-helpers.zsh` | 10 | 0 | ❌ No API docs |
-| *... (24 more)* | 315 | 2 | ❌ No API docs |
+| Library | Functions | Docstrings | Doc Status |
+|---------|-----------|------------|------------|
+| `core.zsh` | 14 | **14** | ✅ **Phase 1 Complete** |
+| `tui.zsh` | 16 | **16** | ✅ **Phase 1 Complete** |
+| `git-helpers.zsh` | 17 | **17** | ✅ **Phase 1 Complete** |
+| `atlas-bridge.zsh` | 22 | 0 | ⏳ Phase 3 |
+| `validation-helpers.zsh` | 19 | 0 | ⏳ Phase 2 |
+| `cache-helpers.zsh` | 9 | 0 | ⏳ Phase 2 |
+| `parallel-helpers.zsh` | 10 | 0 | ⏳ Phase 3 |
+| *... (24 more)* | 315 | 2 | ⏳ Phase 4 |
 
-**Library Coverage:** 0.5% (422 functions, 2 with help)
+**Library Coverage:** 11.1% (47/422 functions with inline docstrings)
+**API Reference:** `docs/reference/CORE-API-REFERENCE.md` (1,661 lines)
 
 ---
 
@@ -101,35 +103,77 @@ docs/
 
 ### 1. Helper Library API Documentation
 
-**Impact:** High - Developers must read source code
-**Scope:** 32 files, 422 functions
-**Recommendation:** Generate API reference for all public functions
+**Impact:** ~~High~~ → Medium (Phase 1 complete)
+**Scope:** ~~32 files, 422 functions~~ → 29 files, 375 functions remaining
+**Status:** Phase 1 Complete (core.zsh, tui.zsh, git-helpers.zsh)
 
-**Priority Functions to Document:**
+**✅ COMPLETED (Phase 1):**
 
 ```
-lib/core.zsh
-├── _flow_log_success()
-├── _flow_log_error()
-├── _flow_log_warning()
-├── _flow_log_info()
-├── _flow_log_header()
-├── _flow_find_project_root()
-├── _flow_detect_project_type()
-└── ... (7 more)
+lib/core.zsh (14 functions) ✅
+├── _flow_log() ✅
+├── _flow_log_success() ✅
+├── _flow_log_warning() ✅
+├── _flow_log_error() ✅
+├── _flow_log_info() ✅
+├── _flow_log_muted() ✅
+├── _flow_log_debug() ✅
+├── _flow_status_icon() ✅
+├── _flow_project_name() ✅
+├── _flow_find_project_root() ✅
+├── _flow_in_project() ✅
+├── _flow_format_duration() ✅
+├── _flow_time_ago() ✅
+├── _flow_confirm() ✅
+├── _flow_array_contains() ✅
+├── _flow_read_file() ✅
+└── _flow_get_config() ✅
 
-lib/tui.zsh
-├── _flow_table()
-├── _flow_box()
-├── _flow_progress_bar()
-└── ... (13 more)
+lib/tui.zsh (16 functions) ✅
+├── _flow_progress_bar() ✅
+├── _flow_sparkline() ✅
+├── _flow_table() ✅
+├── _flow_box() ✅
+├── _flow_has_fzf() ✅
+├── _flow_pick_project() ✅
+├── _flow_show_project_preview() ✅
+├── _flow_has_gum() ✅
+├── _flow_input() ✅
+├── _flow_confirm_styled() ✅
+├── _flow_choose() ✅
+├── _flow_widget_status() ✅
+├── _flow_widget_timer() ✅
+├── _flow_spinner_start() ✅
+├── _flow_spinner_stop() ✅
+└── _flow_with_spinner() ✅
 
-lib/git-helpers.zsh
-├── _flow_git_current_branch()
-├── _flow_git_is_dirty()
-├── _flow_git_ahead_behind()
-└── ... (14 more)
+lib/git-helpers.zsh (17 functions) ✅
+├── _git_teaching_commit_message() ✅
+├── _git_is_clean() ✅
+├── _git_is_synced() ✅
+├── _git_teaching_files() ✅
+├── _git_interactive_commit() ✅
+├── _git_create_deploy_pr() ✅
+├── _git_in_repo() ✅
+├── _git_current_branch() ✅
+├── _git_remote_branch() ✅
+├── _git_commit_teaching_content() ✅
+├── _git_push_current_branch() ✅
+├── _git_detect_production_conflicts() ✅
+├── _git_get_commit_count() ✅
+├── _git_get_commit_list() ✅
+├── _git_generate_pr_body() ✅
+├── _git_rebase_onto_production() ✅
+└── _git_has_unpushed_commits() ✅
 ```
+
+**⏳ REMAINING (Phases 2-4):**
+
+| Phase | Libraries | Functions | Priority |
+|-------|-----------|-----------|----------|
+| Phase 2 | validation-helpers, backup-helpers, cache-helpers, index-helpers, teaching-utils | ~60 | High |
+| Phase 3 | atlas-bridge, plugin-loader, config, keychain-helpers, project-detector, project-cache | ~80 | Medium |
+| Phase 4 | 24 remaining libraries | ~155 | Low |
 
 ### 2. Command Help Functions
 
@@ -153,21 +197,34 @@ lib/git-helpers.zsh
 
 ## Recommendations
 
-### Priority 1: Critical (This Session)
+### Priority 1: Critical (This Session) ✅ COMPLETE
 
 - [x] Add V-DISPATCHER-REFERENCE.md
 - [x] Add ARCHITECTURE-OVERVIEW.md
 - [x] Add to mkdocs.yml navigation
+- [x] **Phase 1 Documentation Debt: Core Libraries** (47 functions)
+  - [x] Add inline docstrings to core.zsh (14 functions)
+  - [x] Add inline docstrings to tui.zsh (16 functions)
+  - [x] Add inline docstrings to git-helpers.zsh (17 functions)
+  - [x] Create CORE-API-REFERENCE.md (1,661 lines)
+  - [x] Update mkdocs.yml with API Reference section
 
 ### Priority 2: High (Next Sprint)
 
-- [ ] Create HELPER-LIBRARY-API.md with all public functions
+- [ ] **Phase 2: Teaching Libraries** (~60 functions)
+  - [ ] validation-helpers.zsh (19 functions)
+  - [ ] backup-helpers.zsh (11 functions)
+  - [ ] cache-helpers.zsh (9 functions)
+  - [ ] index-helpers.zsh (11 functions)
+  - [ ] teaching-utils.zsh (~10 functions)
+  - [ ] Create TEACHING-API-REFERENCE.md
 - [ ] Add help functions to pick, tutorial, capture, morning
 - [ ] Update outdated command docs
 
 ### Priority 3: Medium (Future)
 
-- [ ] Generate inline docstrings for all functions
+- [ ] **Phase 3: Integration Libraries** (~80 functions)
+- [ ] **Phase 4: Specialized Libraries** (~155 functions)
 - [ ] Create function index with search
 - [ ] Add deprecation warnings system
 
@@ -208,19 +265,38 @@ _flow_example() {
 
 ## Metrics Over Time
 
-| Version | Functions | Documented | Coverage |
-|---------|-----------|------------|----------|
-| v5.10.0 | ~600 | ~50 | 8.3% |
-| v5.14.0 | ~750 | ~65 | 8.7% |
-| v5.15.0 | 853 | 73 | 8.6% |
+| Version | Functions | Documented | Coverage | Notes |
+|---------|-----------|------------|----------|-------|
+| v5.10.0 | ~600 | ~50 | 8.3% | - |
+| v5.14.0 | ~750 | ~65 | 8.7% | - |
+| v5.15.0 | 853 | 73 | 8.6% | - |
+| **v5.15.1** | **853** | **120** | **14.1%** | **+47 (Phase 1)** |
 
-**Trend:** Function count growing faster than documentation
+**Trend:** ~~Function count growing faster than documentation~~ → Documentation catching up! Phase 1 added 47 fully documented functions.
 
 ---
 
 ## Next Steps
 
-1. **Immediate:** Update mkdocs.yml to include V-DISPATCHER-REFERENCE.md
-2. **This Week:** Document core.zsh and tui.zsh helper functions
-3. **This Month:** Complete helper library API documentation
+1. ~~**Immediate:** Update mkdocs.yml to include V-DISPATCHER-REFERENCE.md~~ ✅ Done
+2. ~~**This Week:** Document core.zsh and tui.zsh helper functions~~ ✅ Done (Phase 1)
+3. **This Month:** Complete Phase 2 (Teaching libraries ~60 functions)
 4. **Ongoing:** Maintain 100% dispatcher coverage
+
+---
+
+## Phase 1 Completion Summary (2026-01-22)
+
+**Branch:** `feature/documentation-debt`
+**Deliverables:**
+- 47 functions with inline docstrings
+- 1,661-line CORE-API-REFERENCE.md
+- mkdocs.yml updated with API Reference section
+
+**Files Modified:**
+- `lib/core.zsh` - 14 functions documented
+- `lib/tui.zsh` - 16 functions documented
+- `lib/git-helpers.zsh` - 17 functions documented
+- `docs/reference/CORE-API-REFERENCE.md` - Created
+- `mkdocs.yml` - API Reference section added
+- `docs/reference/DOCUMENTATION-COVERAGE.md` - Metrics updated
