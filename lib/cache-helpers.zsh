@@ -5,9 +5,39 @@
 # CACHE STATUS & INFORMATION
 # ============================================================================
 
-# Get freeze cache status
-# Usage: _cache_status [project_root]
-# Returns: Multi-line status with size, file count, last render
+# =============================================================================
+# Function: _cache_status
+# Purpose: Get comprehensive freeze cache status information
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Project root directory [default: $PWD]
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Key=value pairs (one per line):
+#     cache_status=none|exists
+#     size=<bytes>
+#     size_human=<human-readable>
+#     file_count=<integer>
+#     last_render=<time ago string>
+#     last_render_timestamp=<unix timestamp>
+#
+# Example:
+#   info=$(_cache_status)
+#   eval "$info"
+#   echo "Cache: $size_human ($file_count files), last render: $last_render"
+#
+# Dependencies:
+#   - du (for size calculation)
+#   - stat (for modification time)
+#   - _cache_format_time_ago (internal)
+#
+# Notes:
+#   - Returns "none" status if _freeze/ directory doesn't exist
+#   - Output designed for eval to set shell variables
+# =============================================================================
 _cache_status() {
     local project_root="${1:-$PWD}"
     local freeze_dir="$project_root/_freeze"
@@ -58,8 +88,28 @@ _cache_status() {
     echo "last_render_timestamp=$last_render_timestamp"
 }
 
-# Format time ago (human-readable)
-# Usage: _cache_format_time_ago <timestamp>
+# =============================================================================
+# Function: _cache_format_time_ago
+# Purpose: Format Unix timestamp as human-readable "time ago" string
+# =============================================================================
+# Arguments:
+#   $1 - (required) Unix timestamp (seconds since epoch)
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Human-readable string (e.g., "just now", "5 minutes ago", "2 days ago")
+#
+# Example:
+#   last_modified=$(stat -f %m "$file")
+#   echo "Modified $(_cache_format_time_ago $last_modified)"
+#
+# Notes:
+#   - Outputs: "just now", "X minute(s) ago", "X hour(s) ago",
+#     "X day(s) ago", or "X week(s) ago"
+#   - Handles plural/singular correctly
+# =============================================================================
 _cache_format_time_ago() {
     local timestamp="$1"
     local now=$(date +%s)
@@ -86,9 +136,31 @@ _cache_format_time_ago() {
 # CACHE CLEARING
 # ============================================================================
 
-# Clear freeze cache with confirmation
-# Usage: _cache_clear [project_root] [--force]
-# Returns: 0 on success, 1 on error or user cancellation
+# =============================================================================
+# Function: _cache_clear
+# Purpose: Clear the entire freeze cache with optional confirmation
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Project root directory [default: $PWD]
+#   --force - Skip confirmation prompt
+#
+# Returns:
+#   0 - Cache cleared successfully
+#   1 - No cache found, deletion failed, or user cancelled
+#
+# Example:
+#   _cache_clear                          # With confirmation
+#   _cache_clear --force                  # Skip confirmation
+#   _cache_clear "/path/to/project"       # Specific project
+#
+# Dependencies:
+#   - _cache_status (internal)
+#   - _flow_confirm, _flow_log_* (from core.zsh)
+#
+# Notes:
+#   - Shows cache size and file count before confirmation
+#   - Completely removes _freeze/ directory
+# =============================================================================
 _cache_clear() {
     local project_root="$PWD"
     local force=false
@@ -147,9 +219,37 @@ _cache_clear() {
     fi
 }
 
-# Clear cache selectively (by directory or age)
-# Usage: _clear_cache_selective [project_root] [--lectures] [--assignments] [--slides] [--old] [--unused] [--force]
-# Returns: 0 on success, 1 on error or user cancellation
+# =============================================================================
+# Function: _clear_cache_selective
+# Purpose: Clear cache selectively by directory type or age
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Project root directory [default: $PWD]
+#   --lectures    - Clear only lectures/ cache
+#   --assignments - Clear only assignments/ cache
+#   --slides      - Clear only slides/ cache
+#   --old         - Clear files older than 30 days
+#   --unused      - Clear files with 0 cache hits (placeholder)
+#   --force       - Skip confirmation prompt
+#
+# Returns:
+#   0 - Files cleared successfully
+#   1 - No files matched, or user cancelled
+#
+# Example:
+#   _clear_cache_selective --lectures                # Clear lecture cache
+#   _clear_cache_selective --old --force             # Clear old files
+#   _clear_cache_selective --lectures --assignments  # Multiple types
+#
+# Dependencies:
+#   - _cache_format_bytes (internal)
+#   - _flow_confirm (from core.zsh)
+#
+# Notes:
+#   - Flags can be combined for precise selection
+#   - --unused is a placeholder for future hit tracking
+#   - Removes empty directories after clearing
+# =============================================================================
 _clear_cache_selective() {
     local project_root="$PWD"
     local force=false
@@ -350,9 +450,33 @@ _clear_cache_selective() {
 # CACHE REBUILDING
 # ============================================================================
 
-# Rebuild cache (clear + render)
-# Usage: _cache_rebuild [project_root]
-# Returns: 0 on success, 1 on error
+# =============================================================================
+# Function: _cache_rebuild
+# Purpose: Rebuild freeze cache by clearing and re-rendering
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Project root directory [default: $PWD]
+#
+# Returns:
+#   0 - Cache rebuilt successfully
+#   1 - Clear or render failed
+#
+# Example:
+#   _cache_rebuild
+#   _cache_rebuild "/path/to/project"
+#
+# Dependencies:
+#   - quarto
+#   - _cache_clear (internal)
+#   - _cache_status (internal)
+#   - _flow_with_spinner (from tui.zsh)
+#
+# Notes:
+#   - Forces clearing without confirmation
+#   - Uses quarto render with --execute-daemon restart
+#   - Shows new cache status after rebuild
+#   - Can take 30-60+ seconds for large projects
+# =============================================================================
 _cache_rebuild() {
     local project_root="${1:-$PWD}"
 
@@ -397,9 +521,36 @@ _cache_rebuild() {
 # CACHE ANALYSIS
 # ============================================================================
 
-# Analyze cache in detail
-# Usage: _cache_analyze [project_root]
-# Returns: Detailed breakdown by directory and age
+# =============================================================================
+# Function: _cache_analyze
+# Purpose: Analyze freeze cache with detailed breakdown by directory and age
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Project root directory [default: $PWD]
+#
+# Returns:
+#   0 - Always (displays analysis)
+#   1 - No cache found
+#
+# Output:
+#   stdout - Formatted analysis with:
+#     - Overall status (size, file count, last render)
+#     - Breakdown by content directory
+#     - Breakdown by file age
+#
+# Example:
+#   _cache_analyze
+#   _cache_analyze "/path/to/project"
+#
+# Dependencies:
+#   - _cache_status (internal)
+#   - du, find, stat
+#
+# Notes:
+#   - Displays in ADHD-friendly box format
+#   - Age buckets: last hour, last day, last week, older
+#   - Shows subdirectory sizes for targeted cleanup
+# =============================================================================
 _cache_analyze() {
     local project_root="${1:-$PWD}"
     local freeze_dir="$project_root/_freeze"
@@ -491,9 +642,32 @@ _cache_analyze() {
 # CLEAN COMMAND (cache + site)
 # ============================================================================
 
-# Clean both cache and site output
-# Usage: _cache_clean [project_root] [--force]
-# Returns: 0 on success, 1 on error
+# =============================================================================
+# Function: _cache_clean
+# Purpose: Clean both _freeze/ cache and _site/ output directories
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Project root directory [default: $PWD]
+#   --force - Skip confirmation prompt
+#
+# Returns:
+#   0 - Directories cleaned successfully
+#   1 - Nothing to clean, or user cancelled
+#
+# Example:
+#   _cache_clean                    # With confirmation
+#   _cache_clean --force            # Skip confirmation
+#   _cache_clean "/path/to/project" # Specific project
+#
+# Dependencies:
+#   - _cache_status (internal)
+#   - _flow_confirm, _flow_log_success (from core.zsh)
+#
+# Notes:
+#   - Removes both _freeze/ and _site/ directories
+#   - Shows size of each directory before confirmation
+#   - Useful for complete project cleanup
+# =============================================================================
 _cache_clean() {
     local project_root="$PWD"
     local force=false
@@ -589,8 +763,23 @@ _cache_clean() {
 # HELPER FUNCTIONS
 # ============================================================================
 
-# Format bytes to human-readable size
-# Usage: _cache_format_bytes <bytes>
+# =============================================================================
+# Function: _cache_format_bytes
+# Purpose: Format byte count to human-readable size
+# =============================================================================
+# Arguments:
+#   $1 - (required) Size in bytes
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Human-readable size (e.g., "256B", "12KB", "5MB", "2GB")
+#
+# Example:
+#   _cache_format_bytes 1024       # → "1KB"
+#   _cache_format_bytes 5242880    # → "5MB"
+# =============================================================================
 _cache_format_bytes() {
     local bytes="$1"
 
@@ -605,9 +794,26 @@ _cache_format_bytes() {
     fi
 }
 
-# Check if project has freeze enabled
-# Usage: _cache_is_freeze_enabled [project_root]
-# Returns: 0 if freeze is enabled, 1 otherwise
+# =============================================================================
+# Function: _cache_is_freeze_enabled
+# Purpose: Check if Quarto project has freeze caching enabled
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Project root directory [default: $PWD]
+#
+# Returns:
+#   0 - Freeze is enabled (auto or true)
+#   1 - Freeze not enabled or no _quarto.yml found
+#
+# Example:
+#   if _cache_is_freeze_enabled; then
+#       echo "Project uses freeze cache"
+#   fi
+#
+# Notes:
+#   - Checks _quarto.yml for "freeze: auto" or "freeze: true"
+#   - Returns 1 if config file doesn't exist
+# =============================================================================
 _cache_is_freeze_enabled() {
     local project_root="${1:-$PWD}"
     local config_file="$project_root/_quarto.yml"
