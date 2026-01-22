@@ -12,10 +12,33 @@
 # BACKUP FUNCTIONS (Task 5)
 # ==============================================================================
 
-# Smart backup path resolution (PR #277 Task 3)
-# Resolves backup names to full paths using multiple strategies
-# Usage: _resolve_backup_path <backup_input>
-# Returns: Full path to backup directory (stdout) and exit code 0 on success
+# =============================================================================
+# Function: _resolve_backup_path
+# Purpose: Resolve backup names to full paths using multiple strategies
+# =============================================================================
+# Arguments:
+#   $1 - (required) Backup identifier (name, partial path, or full path)
+#
+# Returns:
+#   0 - Success (path found)
+#   1 - Not found or ambiguous match
+#
+# Output:
+#   stdout - Full path to backup directory
+#   stderr - Error messages and available backups (on failure)
+#
+# Example:
+#   path=$(_resolve_backup_path "week-01.2026-01-15-1430")
+#   path=$(_resolve_backup_path "lectures/week-01/.backups/week-01.2026-01-15")
+#   path=$(_resolve_backup_path "2026-01-15")  # Fuzzy match
+#
+# Notes:
+#   - Pattern 1: Full absolute path
+#   - Pattern 2: Relative path
+#   - Pattern 3: Search common content directories
+#   - Lists available backups if not found
+#   - Errors on multiple matches (ambiguous)
+# =============================================================================
 _resolve_backup_path() {
     local input="$1"
 
@@ -126,9 +149,35 @@ _resolve_backup_path() {
     return 1
 }
 
-# Create timestamped backup of content folder
-# Usage: _teach_backup_content <content_path>
-# Returns: Path to backup folder
+# =============================================================================
+# Function: _teach_backup_content
+# Purpose: Create timestamped backup of a teaching content folder
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the content folder to backup
+#
+# Returns:
+#   0 - Success
+#   1 - Content path not found or backup failed
+#
+# Output:
+#   stdout - Full path to created backup folder
+#
+# Example:
+#   backup_path=$(_teach_backup_content "lectures/week-01")
+#   echo "Backup created at: $backup_path"
+#   # Output: lectures/week-01/.backups/week-01.2026-01-22-1430
+#
+# Dependencies:
+#   - rsync (preferred) or cp (fallback)
+#   - _flow_log_error (from core.zsh)
+#
+# Notes:
+#   - Backups stored in <content>/.backups/ directory
+#   - Timestamp format: YYYY-MM-DD-HHMM
+#   - Excludes .backups directory itself from backup
+#   - Uses rsync for efficiency if available
+# =============================================================================
 _teach_backup_content() {
     local content_path="$1"
 
@@ -164,9 +213,32 @@ _teach_backup_content() {
     fi
 }
 
-# Get retention policy for content type
-# Usage: _teach_get_retention_policy <content_type>
-# Returns: "archive" or "semester"
+# =============================================================================
+# Function: _teach_get_retention_policy
+# Purpose: Get backup retention policy for a content type
+# =============================================================================
+# Arguments:
+#   $1 - (required) Content type: exam, quiz, assignment, syllabus, rubric, lecture, slides
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Policy name: "archive" or "semester"
+#
+# Example:
+#   policy=$(_teach_get_retention_policy "exam")      # → "archive"
+#   policy=$(_teach_get_retention_policy "lecture")   # → "semester"
+#
+# Dependencies:
+#   - yq (optional, uses defaults if not installed)
+#
+# Notes:
+#   - Reads from .flow/teach-config.yml if exists
+#   - Default policies:
+#     * archive: exams, quizzes, assignments, syllabi, rubrics
+#     * semester: lectures, slides (deleted at semester end)
+# =============================================================================
 _teach_get_retention_policy() {
     local content_type="$1"
     local config_file=".flow/teach-config.yml"
@@ -212,9 +284,28 @@ _teach_get_retention_policy() {
     fi
 }
 
-# List all backups for a content folder
-# Usage: _teach_list_backups <content_path>
-# Returns: List of backup timestamps (newest first)
+# =============================================================================
+# Function: _teach_list_backups
+# Purpose: List all backups for a content folder (newest first)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the content folder
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Full paths to backups, one per line, newest first
+#
+# Example:
+#   backups=$(_teach_list_backups "lectures/week-01")
+#   echo "$backups" | head -1  # Most recent backup
+#
+# Notes:
+#   - Looks in <content_path>/.backups/
+#   - Matches backup naming pattern (*.20*)
+#   - Returns empty if no backups exist
+# =============================================================================
 _teach_list_backups() {
     local content_path="$1"
     local backup_dir="$content_path/.backups"
@@ -227,9 +318,23 @@ _teach_list_backups() {
     find "$backup_dir" -maxdepth 1 -type d -name "*.20*" 2>/dev/null | sort -r
 }
 
-# Count backups for a content folder
-# Usage: _teach_count_backups <content_path>
-# Returns: Number of backups
+# =============================================================================
+# Function: _teach_count_backups
+# Purpose: Count the number of backups for a content folder
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the content folder
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Number of backups (integer)
+#
+# Example:
+#   count=$(_teach_count_backups "lectures/week-01")
+#   echo "Found $count backups"
+# =============================================================================
 _teach_count_backups() {
     local content_path="$1"
     local backup_dir="$content_path/.backups"
@@ -242,9 +347,23 @@ _teach_count_backups() {
     find "$backup_dir" -maxdepth 1 -type d -name "*.20*" 2>/dev/null | wc -l | tr -d ' '
 }
 
-# Get size of all backups for a content folder
-# Usage: _teach_backup_size <content_path>
-# Returns: Human-readable size (e.g., "12M")
+# =============================================================================
+# Function: _teach_backup_size
+# Purpose: Get total size of all backups for a content folder
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the content folder
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Human-readable size (e.g., "12M", "256K")
+#
+# Example:
+#   size=$(_teach_backup_size "exams/midterm")
+#   echo "Backups using $size of disk space"
+# =============================================================================
 _teach_backup_size() {
     local content_path="$1"
     local backup_dir="$content_path/.backups"
@@ -257,9 +376,30 @@ _teach_backup_size() {
     du -sh "$backup_dir" 2>/dev/null | awk '{print $1}'
 }
 
-# Delete specific backup
-# Usage: _teach_delete_backup <backup_path> [--force]
-# Returns: 0 on success, 1 on failure
+# =============================================================================
+# Function: _teach_delete_backup
+# Purpose: Delete a specific backup with optional confirmation
+# =============================================================================
+# Arguments:
+#   $1 - (required) Full path to the backup directory
+#   $2 - (optional) "--force" to skip confirmation prompt
+#
+# Returns:
+#   0 - Backup deleted successfully
+#   1 - Backup not found, deletion failed, or user cancelled
+#
+# Example:
+#   _teach_delete_backup "lectures/week-01/.backups/week-01.2026-01-15"
+#   _teach_delete_backup "$backup_path" --force  # No confirmation
+#
+# Dependencies:
+#   - _teach_confirm_delete (internal)
+#   - _flow_log_error (from core.zsh)
+#
+# Notes:
+#   - Shows confirmation prompt by default (Task 6)
+#   - Use --force for scripted/batch operations
+# =============================================================================
 _teach_delete_backup() {
     local backup_path="$1"
     local force=false
@@ -288,8 +428,28 @@ _teach_delete_backup() {
     fi
 }
 
-# Clean up old backups based on retention policy
-# Usage: _teach_cleanup_backups <content_path> <content_type>
+# =============================================================================
+# Function: _teach_cleanup_backups
+# Purpose: Clean up old backups based on retention policy
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the content folder
+#   $2 - (required) Content type (exam, lecture, etc.)
+#
+# Returns:
+#   0 - Always (cleanup is advisory)
+#
+# Example:
+#   _teach_cleanup_backups "lectures/week-01" "lecture"
+#
+# Dependencies:
+#   - _teach_get_retention_policy (internal)
+#
+# Notes:
+#   - archive policy: Keep all backups forever
+#   - semester policy: Backups cleaned during "teach archive"
+#   - Currently a no-op; actual cleanup happens via teach archive
+# =============================================================================
 _teach_cleanup_backups() {
     local content_path="$1"
     local content_type="$2"
@@ -318,8 +478,32 @@ _teach_cleanup_backups() {
     esac
 }
 
-# Archive backups for semester-end
-# Usage: _teach_archive_semester <semester_name>
+# =============================================================================
+# Function: _teach_archive_semester
+# Purpose: Archive all backups for semester-end cleanup
+# =============================================================================
+# Arguments:
+#   $1 - (required) Semester name (e.g., "fall-2026", "spring-2026")
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Summary of archived and deleted content
+#
+# Example:
+#   _teach_archive_semester "fall-2026"
+#   # Creates: .flow/archives/fall-2026/
+#
+# Dependencies:
+#   - yq (optional, for config reading)
+#   - _teach_get_retention_policy (internal)
+#
+# Notes:
+#   - archive policy: Moves backups to .flow/archives/<semester>/
+#   - semester policy: Deletes backups permanently
+#   - Processes: exams, lectures, slides, assignments, quizzes, syllabi, rubrics
+# =============================================================================
 _teach_archive_semester() {
     local semester_name="$1"
     local config_file=".flow/teach-config.yml"
@@ -377,9 +561,30 @@ _teach_archive_semester() {
 # DELETE CONFIRMATION (Task 6)
 # ==============================================================================
 
-# Confirm before deleting backup
-# Usage: _teach_confirm_delete <backup_path>
-# Returns: 0 if confirmed, 1 if cancelled
+# =============================================================================
+# Function: _teach_confirm_delete
+# Purpose: Display interactive confirmation prompt before deleting backup
+# =============================================================================
+# Arguments:
+#   $1 - (required) Full path to the backup directory
+#
+# Returns:
+#   0 - User confirmed deletion
+#   1 - User cancelled
+#
+# Output:
+#   stdout - Interactive prompt with backup details (path, name, size, file count)
+#
+# Example:
+#   if _teach_confirm_delete "$backup_path"; then
+#       rm -rf "$backup_path"
+#   fi
+#
+# Notes:
+#   - Shows warning about irreversible action
+#   - Uses read -q for single-character response
+#   - ADHD-friendly design with clear visual hierarchy
+# =============================================================================
 _teach_confirm_delete() {
     local backup_path="$1"
     local backup_name=$(basename "$backup_path")
@@ -423,8 +628,32 @@ _teach_confirm_delete() {
     esac
 }
 
-# Preview what would be deleted
-# Usage: _teach_preview_cleanup <content_path> <content_type>
+# =============================================================================
+# Function: _teach_preview_cleanup
+# Purpose: Preview what would be cleaned up based on retention policy
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the content folder
+#   $2 - (required) Content type (exam, lecture, etc.)
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Preview of backup cleanup plan (no changes made)
+#
+# Example:
+#   _teach_preview_cleanup "lectures/week-01" "lecture"
+#   # Shows: Policy, backup count, and what would happen
+#
+# Dependencies:
+#   - _teach_get_retention_policy (internal)
+#   - _teach_list_backups (internal)
+#
+# Notes:
+#   - Dry-run only - makes no changes
+#   - Useful for understanding cleanup impact before running
+# =============================================================================
 _teach_preview_cleanup() {
     local content_path="$1"
     local content_type="$2"

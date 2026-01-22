@@ -11,10 +11,10 @@
 |--------|-------|--------|
 | **Total Functions** | 853 | - |
 | **With Help Text** | 73 | 8.6% |
-| **With Inline Docstrings** | 120 | 14.1% (+47 in v5.15.1) |
-| **Documentation Files** | 307 | 163,125 lines |
+| **With Inline Docstrings** | 181 | 21.2% (+61 in Phase 2) |
+| **Documentation Files** | 308 | 164,525 lines |
 | **User-Facing Docs** | ~79,000 lines | ✅ Good |
-| **Internal API Docs** | ~1,661 lines | ✅ Phase 1 Complete |
+| **Internal API Docs** | ~3,100 lines | ✅ Phase 2 Complete |
 
 ---
 
@@ -61,14 +61,17 @@
 | `core.zsh` | 14 | **14** | ✅ **Phase 1 Complete** |
 | `tui.zsh` | 16 | **16** | ✅ **Phase 1 Complete** |
 | `git-helpers.zsh` | 17 | **17** | ✅ **Phase 1 Complete** |
+| `validation-helpers.zsh` | 19 | **19** | ✅ **Phase 2 Complete** |
+| `backup-helpers.zsh` | 12 | **12** | ✅ **Phase 2 Complete** |
+| `cache-helpers.zsh` | 11 | **11** | ✅ **Phase 2 Complete** |
+| `index-helpers.zsh` | 12 | **12** | ✅ **Phase 2 Complete** |
+| `teaching-utils.zsh` | 7 | **7** | ✅ **Phase 2 Complete** |
 | `atlas-bridge.zsh` | 22 | 0 | ⏳ Phase 3 |
-| `validation-helpers.zsh` | 19 | 0 | ⏳ Phase 2 |
-| `cache-helpers.zsh` | 9 | 0 | ⏳ Phase 2 |
 | `parallel-helpers.zsh` | 10 | 0 | ⏳ Phase 3 |
-| *... (24 more)* | 315 | 2 | ⏳ Phase 4 |
+| *... (22 more)* | 293 | 2 | ⏳ Phase 4 |
 
-**Library Coverage:** 11.1% (47/422 functions with inline docstrings)
-**API Reference:** `docs/reference/CORE-API-REFERENCE.md` (1,661 lines)
+**Library Coverage:** 42.9% (181/422 functions with inline docstrings)
+**API Reference:** `docs/reference/CORE-API-REFERENCE.md` (1,661 lines) + `docs/reference/TEACHING-API-REFERENCE.md` (~1,400 lines)
 
 ---
 
@@ -103,9 +106,9 @@ docs/
 
 ### 1. Helper Library API Documentation
 
-**Impact:** ~~High~~ → Medium (Phase 1 complete)
-**Scope:** ~~32 files, 422 functions~~ → 29 files, 375 functions remaining
-**Status:** Phase 1 Complete (core.zsh, tui.zsh, git-helpers.zsh)
+**Impact:** ~~High~~ → Low (Phase 2 complete)
+**Scope:** ~~32 files, 422 functions~~ → 24 files, 314 functions remaining
+**Status:** Phase 2 Complete (8 libraries, 108 functions documented)
 
 **✅ COMPLETED (Phase 1):**
 
@@ -167,13 +170,87 @@ lib/git-helpers.zsh (17 functions) ✅
 └── _git_has_unpushed_commits() ✅
 ```
 
-**⏳ REMAINING (Phases 2-4):**
+**✅ COMPLETED (Phase 2):**
+
+```
+lib/validation-helpers.zsh (19 functions) ✅
+├── _validate_yaml() ✅
+├── _validate_yaml_batch() ✅
+├── _validate_syntax() ✅
+├── _validate_syntax_batch() ✅
+├── _validate_render() ✅
+├── _validate_render_batch() ✅
+├── _check_empty_chunks() ✅
+├── _check_images() ✅
+├── _check_freeze_staged() ✅
+├── _is_quarto_preview_running() ✅
+├── _get_validation_status() ✅
+├── _update_validation_status() ✅
+├── _debounce_validation() ✅
+├── _validate_file_full() ✅
+├── _find_quarto_files() ✅
+├── _get_staged_quarto_files() ✅
+├── _track_validation_start() ✅
+├── _track_validation_end() ✅
+└── _show_validation_stats() ✅
+
+lib/backup-helpers.zsh (12 functions) ✅
+├── _resolve_backup_path() ✅
+├── _teach_backup_content() ✅
+├── _teach_get_retention_policy() ✅
+├── _teach_list_backups() ✅
+├── _teach_count_backups() ✅
+├── _teach_backup_size() ✅
+├── _teach_delete_backup() ✅
+├── _teach_cleanup_backups() ✅
+├── _teach_archive_semester() ✅
+├── _teach_confirm_delete() ✅
+├── _teach_preview_cleanup() ✅
+└── _teach_restore_backup() ✅
+
+lib/cache-helpers.zsh (11 functions) ✅
+├── _cache_status() ✅
+├── _cache_format_time_ago() ✅
+├── _cache_clear() ✅
+├── _clear_cache_selective() ✅
+├── _cache_rebuild() ✅
+├── _cache_analyze() ✅
+├── _cache_clean() ✅
+├── _cache_format_bytes() ✅
+├── _cache_is_freeze_enabled() ✅
+├── _cache_get_config() ✅
+└── _cache_init() ✅
+
+lib/index-helpers.zsh (12 functions) ✅
+├── _find_dependencies() ✅
+├── _validate_cross_references() ✅
+├── _detect_index_changes() ✅
+├── _extract_title() ✅
+├── _parse_week_number() ✅
+├── _update_index_link() ✅
+├── _find_insertion_point() ✅
+├── _remove_index_link() ✅
+├── _prompt_index_action() ✅
+├── _get_index_file() ✅
+├── _process_index_changes() ✅
+└── _generate_link_text() ✅
+
+lib/teaching-utils.zsh (7 functions) ✅
+├── _calculate_current_week() ✅
+├── _is_break_week() ✅
+├── _date_to_week() ✅
+├── _validate_date_format() ✅
+├── _calculate_semester_end() ✅
+├── _suggest_semester_start() ✅
+└── _get_week_dates() ✅
+```
+
+**⏳ REMAINING (Phases 3-4):**
 
 | Phase | Libraries | Functions | Priority |
 |-------|-----------|-----------|----------|
-| Phase 2 | validation-helpers, backup-helpers, cache-helpers, index-helpers, teaching-utils | ~60 | High |
 | Phase 3 | atlas-bridge, plugin-loader, config, keychain-helpers, project-detector, project-cache | ~80 | Medium |
-| Phase 4 | 24 remaining libraries | ~155 | Low |
+| Phase 4 | 18 remaining libraries | ~155 | Low |
 
 ### 2. Command Help Functions
 
@@ -209,15 +286,15 @@ lib/git-helpers.zsh (17 functions) ✅
   - [x] Create CORE-API-REFERENCE.md (1,661 lines)
   - [x] Update mkdocs.yml with API Reference section
 
-### Priority 2: High (Next Sprint)
+### Priority 2: High (Next Sprint) ✅ COMPLETE
 
-- [ ] **Phase 2: Teaching Libraries** (~60 functions)
-  - [ ] validation-helpers.zsh (19 functions)
-  - [ ] backup-helpers.zsh (11 functions)
-  - [ ] cache-helpers.zsh (9 functions)
-  - [ ] index-helpers.zsh (11 functions)
-  - [ ] teaching-utils.zsh (~10 functions)
-  - [ ] Create TEACHING-API-REFERENCE.md
+- [x] **Phase 2: Teaching Libraries** (61 functions)
+  - [x] validation-helpers.zsh (19 functions)
+  - [x] backup-helpers.zsh (12 functions)
+  - [x] cache-helpers.zsh (11 functions)
+  - [x] index-helpers.zsh (12 functions)
+  - [x] teaching-utils.zsh (7 functions)
+  - [x] Create TEACHING-API-REFERENCE.md (~1,400 lines)
 - [ ] Add help functions to pick, tutorial, capture, morning
 - [ ] Update outdated command docs
 
@@ -270,9 +347,10 @@ _flow_example() {
 | v5.10.0 | ~600 | ~50 | 8.3% | - |
 | v5.14.0 | ~750 | ~65 | 8.7% | - |
 | v5.15.0 | 853 | 73 | 8.6% | - |
-| **v5.15.1** | **853** | **120** | **14.1%** | **+47 (Phase 1)** |
+| v5.15.1 | 853 | 120 | 14.1% | +47 (Phase 1) |
+| **v5.15.1** | **853** | **181** | **21.2%** | **+61 (Phase 2)** |
 
-**Trend:** ~~Function count growing faster than documentation~~ → Documentation catching up! Phase 1 added 47 fully documented functions.
+**Trend:** ~~Function count growing faster than documentation~~ → Documentation catching up! Phase 1 added 47 functions, Phase 2 added 61 more. Total: 108 fully documented functions.
 
 ---
 
@@ -280,8 +358,9 @@ _flow_example() {
 
 1. ~~**Immediate:** Update mkdocs.yml to include V-DISPATCHER-REFERENCE.md~~ ✅ Done
 2. ~~**This Week:** Document core.zsh and tui.zsh helper functions~~ ✅ Done (Phase 1)
-3. **This Month:** Complete Phase 2 (Teaching libraries ~60 functions)
-4. **Ongoing:** Maintain 100% dispatcher coverage
+3. ~~**This Month:** Complete Phase 2 (Teaching libraries ~60 functions)~~ ✅ Done (Phase 2)
+4. **Next:** Complete Phase 3 (Integration libraries ~80 functions)
+5. **Ongoing:** Maintain 100% dispatcher coverage
 
 ---
 
@@ -300,3 +379,28 @@ _flow_example() {
 - `docs/reference/CORE-API-REFERENCE.md` - Created
 - `mkdocs.yml` - API Reference section added
 - `docs/reference/DOCUMENTATION-COVERAGE.md` - Metrics updated
+
+---
+
+## Phase 2 Completion Summary (2026-01-22)
+
+**Branch:** `feature/documentation-debt`
+**Deliverables:**
+- 61 functions with inline docstrings
+- ~1,400-line TEACHING-API-REFERENCE.md
+- mkdocs.yml updated with Teaching Libraries reference
+
+**Files Modified:**
+- `lib/validation-helpers.zsh` - 19 functions documented
+- `lib/backup-helpers.zsh` - 12 functions documented
+- `lib/cache-helpers.zsh` - 11 functions documented
+- `lib/index-helpers.zsh` - 12 functions documented
+- `lib/teaching-utils.zsh` - 7 functions documented
+- `docs/reference/TEACHING-API-REFERENCE.md` - Created
+- `mkdocs.yml` - Teaching Libraries added to API Reference
+- `docs/reference/DOCUMENTATION-COVERAGE.md` - Metrics updated
+
+**Cumulative Progress (Phase 1 + 2):**
+- Total functions documented: 108 (47 + 61)
+- Total API reference lines: ~3,100 (1,661 + ~1,400)
+- Coverage increased: 8.6% → 21.2%

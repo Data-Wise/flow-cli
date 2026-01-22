@@ -16,17 +16,34 @@
 # Dependency Tracking
 # ============================================
 
+# =============================================================================
+# Function: _find_dependencies
+# Purpose: Find all file dependencies for a Quarto document
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the Quarto file
 #
-# Find all dependencies for a given file
-# Dependencies include:
-#   - Sourced R/Python files
-#   - Cross-referenced sections (@sec-id)
-#   - Cross-referenced figures (@fig-id)
-#   - Cross-referenced tables (@tbl-id)
+# Returns:
+#   0 - Always
 #
-# Usage: _find_dependencies <file>
-# Returns: List of dependent files (one per line)
+# Output:
+#   stdout - List of dependent files, one per line (unique)
 #
+# Dependency Types:
+#   - Sourced R/Python files: source("path/to/file.R")
+#   - Cross-referenced sections: @sec-id → {#sec-id}
+#   - Cross-referenced figures: @fig-id → {#fig-id}
+#   - Cross-referenced tables: @tbl-id → {#tbl-id}
+#
+# Example:
+#   deps=$(_find_dependencies "lectures/week-05.qmd")
+#   echo "Dependencies: $deps"
+#
+# Notes:
+#   - R source() paths resolved from project root and file directory
+#   - Cross-references searched in all .qmd files
+#   - Self-references excluded from output
+# =============================================================================
 _find_dependencies() {
     local file="$1"
     local deps=()
@@ -95,13 +112,29 @@ _find_dependencies() {
     printf '%s\n' "${(u)deps[@]}"
 }
 
+# =============================================================================
+# Function: _validate_cross_references
+# Purpose: Validate that all cross-references have valid targets
+# =============================================================================
+# Arguments:
+#   $@ - (required) One or more file paths to validate
 #
-# Validate cross-references in files
-# Checks if all @sec-id, @fig-id, @tbl-id references have valid targets
+# Returns:
+#   0 - All references are valid
+#   1 - One or more broken references found
 #
-# Usage: _validate_cross_references <file1> [file2 ...]
-# Returns: 0 if all valid, 1 if broken references found
+# Output:
+#   stdout - Error messages for broken references
 #
+# Example:
+#   _validate_cross_references "lectures/week-01.qmd"
+#   _validate_cross_references lectures/*.qmd
+#
+# Notes:
+#   - Checks @sec-id, @fig-id, @tbl-id references
+#   - Searches all .qmd files for target definitions
+#   - Target format: {#sec-id}, {#fig-id}, {#tbl-id}
+# =============================================================================
 _validate_cross_references() {
     local files=("$@")
     local has_errors=0
@@ -139,13 +172,33 @@ _validate_cross_references() {
 # Index Change Detection
 # ============================================
 
+# =============================================================================
+# Function: _detect_index_changes
+# Purpose: Detect what index file change is needed for a content file
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the content file
 #
-# Detect changes to index files (ADD/UPDATE/REMOVE)
-# Compares files against index files (home_lectures.qmd, home_labs.qmd, etc.)
+# Returns:
+#   0 - Always
 #
-# Usage: _detect_index_changes <file>
-# Returns: ADD|UPDATE|REMOVE|NONE
+# Output:
+#   stdout - Change type: "ADD", "UPDATE", "REMOVE", or "NONE"
 #
+# Example:
+#   change=$(_detect_index_changes "lectures/week-05.qmd")
+#   case "$change" in
+#       ADD) echo "New file needs to be added to index" ;;
+#       UPDATE) echo "Title changed, update index" ;;
+#       REMOVE) echo "File deleted, remove from index" ;;
+#       NONE) echo "No change needed" ;;
+#   esac
+#
+# Notes:
+#   - Determines content type from directory (lectures, labs, exams)
+#   - Compares file title with existing index link title
+#   - Returns NONE for unsupported directories
+# =============================================================================
 _detect_index_changes() {
     local file="$1"
     local basename="${file##*/}"
@@ -193,12 +246,30 @@ _detect_index_changes() {
     fi
 }
 
+# =============================================================================
+# Function: _extract_title
+# Purpose: Extract title from YAML frontmatter of a Quarto file
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the file
 #
-# Extract title from YAML frontmatter
+# Returns:
+#   0 - Always
 #
-# Usage: _extract_title <file>
-# Returns: Title string
+# Output:
+#   stdout - Title string (or empty if not found)
 #
+# Example:
+#   title=$(_extract_title "lectures/week-01.qmd")
+#   echo "Document title: $title"
+#
+# Dependencies:
+#   - yq (preferred) or sed (fallback)
+#
+# Notes:
+#   - Returns empty string if file doesn't exist or has no title
+#   - Works with both quoted and unquoted YAML title values
+# =============================================================================
 _extract_title() {
     local file="$1"
 
@@ -215,13 +286,32 @@ _extract_title() {
     fi
 }
 
+# =============================================================================
+# Function: _parse_week_number
+# Purpose: Parse week number from filename for sorting
+# =============================================================================
+# Arguments:
+#   $1 - (required) Filename to parse
 #
-# Parse week number from filename
-# Supports: week-05.qmd, lecture-week05.qmd, 05-topic.qmd
+# Returns:
+#   0 - Always
 #
-# Usage: _parse_week_number <filename>
-# Returns: Week number (integer) or 999 if not found
+# Output:
+#   stdout - Week number (integer), or 999 if not found
 #
+# Supported Patterns:
+#   - week-05.qmd → 5
+#   - lecture-week05.qmd → 5
+#   - 05-topic.qmd → 5
+#
+# Example:
+#   week=$(_parse_week_number "week-05-regression.qmd")  # → 5
+#   week=$(_parse_week_number "introduction.qmd")        # → 999
+#
+# Notes:
+#   - Returns 999 for files without week numbers (sorts to end)
+#   - Strips leading zeros
+# =============================================================================
 _parse_week_number() {
     local filename="$1"
     local week_num
@@ -244,13 +334,27 @@ _parse_week_number() {
 # Index Link Management
 # ============================================
 
+# =============================================================================
+# Function: _update_index_link
+# Purpose: Add or update a link in an index file (auto-sorted by week)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the content file
+#   $2 - (required) Path to the index file
 #
-# Add or update a link in an index file
-# Auto-sorts by week number
+# Returns:
+#   0 - Link added or updated successfully
+#   1 - Failure
 #
-# Usage: _update_index_link <content_file> <index_file>
-# Returns: 0 on success, 1 on failure
+# Example:
+#   _update_index_link "lectures/week-05.qmd" "home_lectures.qmd"
 #
+# Notes:
+#   - Extracts title from content file's YAML frontmatter
+#   - If link exists, updates title; otherwise inserts in week order
+#   - Uses sed with macOS/GNU compatibility
+#   - Falls back to filename (without .qmd) if no title found
+# =============================================================================
 _update_index_link() {
     local content_file="$1"
     local index_file="$2"
@@ -312,13 +416,29 @@ $link_text
     return 0
 }
 
+# =============================================================================
+# Function: _find_insertion_point
+# Purpose: Find the correct line number to insert a link (sorted by week)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the index file
+#   $2 - (required) Week number for the new link
 #
-# Find insertion point for new link based on week number
-# Links are sorted by week number in ascending order
+# Returns:
+#   0 - Always
 #
-# Usage: _find_insertion_point <index_file> <week_num>
-# Returns: Line number for insertion
+# Output:
+#   stdout - Line number for insertion
 #
+# Example:
+#   line=$(_find_insertion_point "home_lectures.qmd" 5)
+#   # Returns line number where week 5 should be inserted
+#
+# Notes:
+#   - Maintains ascending week order
+#   - Skips YAML frontmatter
+#   - Returns line_count+1 if should append at end
+# =============================================================================
 _find_insertion_point() {
     local index_file="$1"
     local target_week="$2"
@@ -366,12 +486,25 @@ _find_insertion_point() {
     echo "$insert_line"
 }
 
+# =============================================================================
+# Function: _remove_index_link
+# Purpose: Remove a link from an index file
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the content file (or its basename)
+#   $2 - (required) Path to the index file
 #
-# Remove a link from an index file
+# Returns:
+#   0 - Link removed successfully
+#   1 - Link not found
 #
-# Usage: _remove_index_link <content_file> <index_file>
-# Returns: 0 on success, 1 if not found
+# Example:
+#   _remove_index_link "lectures/week-05.qmd" "home_lectures.qmd"
 #
+# Notes:
+#   - Searches for both full path and basename matches
+#   - Uses sed with macOS/GNU compatibility
+# =============================================================================
 _remove_index_link() {
     local content_file="$1"
     local index_file="$2"
@@ -406,14 +539,30 @@ _remove_index_link() {
 # Interactive Index Management
 # ============================================
 
+# =============================================================================
+# Function: _prompt_index_action
+# Purpose: Interactive prompt for index management actions during deployment
+# =============================================================================
+# Arguments:
+#   $1 - (required) Action: "ADD", "UPDATE", or "REMOVE"
+#   $2 - (required) Path to the file
+#   $3 - (optional) Old title (for UPDATE action)
+#   $4 - (optional) New title (for ADD/UPDATE actions)
 #
-# Prompt user for index management action
-# Used during deployment to manage index links
+# Returns:
+#   0 - User confirmed the action
+#   1 - User skipped/cancelled
 #
-# Usage: _prompt_index_action <action> <file> <old_title> <new_title>
-# Actions: ADD, UPDATE, REMOVE
-# Returns: 0 if action confirmed, 1 if skipped
+# Example:
+#   if _prompt_index_action "ADD" "lectures/week-05.qmd" "" "Week 5: Regression"; then
+#       _update_index_link "$file" "$index"
+#   fi
 #
+# Notes:
+#   - ADD: Default yes, shows new content detected
+#   - UPDATE: Default no, shows old vs new title
+#   - REMOVE: Default yes, shows deleted content warning
+# =============================================================================
 _prompt_index_action() {
     local action="$1"
     local file="$2"
@@ -464,12 +613,28 @@ _prompt_index_action() {
     esac
 }
 
+# =============================================================================
+# Function: _get_index_file
+# Purpose: Get the corresponding index file for a content file
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the content file
 #
-# Get index file for content type
+# Returns:
+#   0 - Always
 #
-# Usage: _get_index_file <content_file>
-# Returns: Index file path or empty string
+# Output:
+#   stdout - Index file path or empty string if not supported
 #
+# Mapping:
+#   lectures/* → home_lectures.qmd
+#   labs/*     → home_labs.qmd
+#   exams/*    → home_exams.qmd
+#
+# Example:
+#   index=$(_get_index_file "lectures/week-05.qmd")
+#   echo "$index"  # → home_lectures.qmd
+# =============================================================================
 _get_index_file() {
     local content_file="$1"
 
@@ -485,13 +650,32 @@ _get_index_file() {
 # Deployment Integration
 # ============================================
 
+# =============================================================================
+# Function: _process_index_changes
+# Purpose: Process all index changes for a set of files during deployment
+# =============================================================================
+# Arguments:
+#   $@ - (required) List of file paths that changed
 #
-# Process index changes for deployment
-# Detects changed files and prompts for index updates
+# Returns:
+#   0 - Always
 #
-# Usage: _process_index_changes <files...>
-# Returns: 0 on success
+# Example:
+#   # During deployment, process changed files
+#   changed_files=($(git diff --name-only HEAD~1))
+#   _process_index_changes "${changed_files[@]}"
 #
+# Dependencies:
+#   - _detect_index_changes (internal)
+#   - _get_index_file (internal)
+#   - _prompt_index_action (internal)
+#   - _update_index_link, _remove_index_link (internal)
+#
+# Notes:
+#   - Interactively prompts for each ADD/UPDATE/REMOVE
+#   - Skips files that don't need index changes
+#   - Reports "No index changes needed" if nothing to do
+# =============================================================================
 _process_index_changes() {
     local files=("$@")
     local changes_made=0
