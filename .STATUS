@@ -4,19 +4,69 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.15.0 - Dual Track Implementation
+## Phase: v5.15.1 - Released! ✅
 ## Priority: 1
-## Progress: 20
+## Progress: 50
 
-## Focus: Intelligent Content Analysis + Comprehensive Help System
+## Focus: Intelligent Content Analysis (teach analyze)
 
-## 🎯 Current Sprint (2026-01-20):
+## ✅ Just Completed (2026-01-21):
 
-### Two Parallel Implementation Tracks
+### Release v5.15.0 - Comprehensive Help System ✅
+
+**Duration:** ~2 hours (release preparation + execution)
+**Status:** Successfully released and deployed
+
+**What Was Released:**
+- ✅ Comprehensive Help System (PR #281)
+  - 18 help functions for all teach commands
+  - 800-line Help System Guide
+  - 450-line Quick Reference Card
+  - Progressive disclosure UX pattern
+  - ADHD-friendly design principles
+- ✅ Version updates across 4 files (package.json, README.md, CLAUDE.md, CHANGELOG.md)
+- ✅ PR #282 merged (dev → main, 38 commits, +66,767/-1,614 lines)
+- ✅ Tag v5.15.0 created and pushed
+- ✅ GitHub release published: https://github.com/Data-Wise/flow-cli/releases/tag/v5.15.0
+- ✅ Documentation deployed to GitHub Pages (3 new pages live)
+- ✅ All 77 tests passing (100%)
+
+**Release Statistics:**
+- Commits merged: 38
+- Changes: +66,767 / -1,614 lines
+- Tests: 77/77 passing (100%)
+- Documentation: 3 new pages (Help System Guide, Quick Reference, Quick Start Tutorial)
+- Time: ~2 hours (release execution)
+
+**Track B Complete:** The comprehensive help system implementation from PR #281 has been successfully released as v5.15.0. Users can now access comprehensive help for all teach commands.
 
 ---
 
-### Track A: Intelligent Content Analysis (teach analyze) - NEW ✨
+### Release v5.15.1 - Documentation Updates ✅
+
+**Duration:** ~30 minutes
+**Status:** Successfully released and deployed
+
+**What Was Released:**
+- ✅ Architecture overview with 6 Mermaid diagrams (~365 lines)
+- ✅ V-dispatcher reference documentation (~275 lines)
+- ✅ Documentation coverage report with metrics (~227 lines)
+- ✅ teach prompt command specs (paused for Scholar coordination)
+- ✅ PR #285 merged (dev → main)
+- ✅ Tag v5.15.1 created and pushed
+- ✅ GitHub release: https://github.com/Data-Wise/flow-cli/releases/tag/v5.15.1
+- ✅ Documentation deployed to GitHub Pages
+
+**Key Finding:** Documentation coverage analysis revealed:
+- 853 total functions, only 73 (8.6%) have help text
+- 100% dispatcher coverage (all 12 documented)
+- 0.5% helper library coverage (422 functions undocumented) ← Future work
+
+---
+
+## 🎯 Current Sprint (2026-01-21):
+
+### Track A: Intelligent Content Analysis (teach analyze) - Ready for Implementation ✨
 
 **Session Duration:** Brainstorm + Spec + Planning complete (~3 hours)
 **Branch:** `feature/teach-analyze` (created)
@@ -63,58 +113,6 @@ $ teach analyze lectures/week-05.qmd
 2. Implement Phase 0 per PLAN-teach-analyze-phase0.md (4-5 hours)
 3. Run 25 tests (20 unit + 5 integration)
 4. Create PR: feature/teach-analyze → dev
-
----
-
-### Track B: Comprehensive Help System - Planning Complete ✅
-
-**Session Duration:** Planning phase complete (~45 min)
-**Branch:** `feature/comprehensive-help` (created)
-**Worktree:** `~/.git-worktrees/flow-cli/comprehensive-help`
-**Status:** Ready for implementation (can proceed in parallel)
-
-**Scope:** MVP (3-4 hours implementation)
-- Main dispatcher help reorganization (workflow-ordered)
-- 3 priority command helps (lecture, doctor, deploy)
-- Quick Start tutorial (8 steps, 15 minutes for users)
-- Website navigation integration
-
-**Interactive Decisions Made:**
-✅ Committed pending doc updates to dev
-✅ Selected MVP scope (fastest user value)
-✅ Prioritized: teach lecture, teach doctor, teach deploy
-✅ Tutorial: Use plan exactly (8 steps, 15 min)
-✅ Main help: Reorganize to workflow phases
-
-**Implementation Guide:**
-- IMPLEMENTATION-NOTES.md (comprehensive task breakdown)
-- Task-by-task instructions with code templates
-- Verification checklist
-- Success criteria
-
-**Next Steps:**
-1. Start NEW session: `cd ~/.git-worktrees/flow-cli/comprehensive-help && claude`
-2. Implement per IMPLEMENTATION-NOTES.md (~3-4 hours)
-3. Run verification tests
-4. Create PR: feature/comprehensive-help → dev
-
----
-
-### Which Track to Start First?
-
-**Option A: Track A (teach analyze Phase 0)**
-- Higher technical complexity
-- 4-5 hours implementation
-- Proves new concept (prerequisite validation)
-- User value: Catch ordering mistakes before deployment
-
-**Option B: Track B (comprehensive help)**
-- Lower complexity, pure documentation
-- 3-4 hours implementation
-- Immediate user value (better help text)
-- Unblocks user onboarding
-
-**Recommendation:** Either track is valuable. User chose Track A (teach analyze).
 
 ---
 
@@ -168,62 +166,148 @@ $ teach analyze lectures/week-05.qmd
 
 ---
 
-### 2. Lecture-to-Slides Conversion (PR #280) - Complete ✅
+### 2. Teaching Prompts - ✅ MERGED
 
-**Branch:** `feature/lecture-to-slides`
-**Worktree:** `~/.git-worktrees/flow-cli/feature-lecture-to-slides`
-**Status:** Complete, PR #280 reviewed
+**PR #283:** ✅ Merged to dev (2026-01-21)
+**Post-merge fixes:** ✅ Applied (IMPLEMENTATION.md moved, README clarified)
 
-**Key Feature:**
-- `teach slides --from-lecture` conversion
-- Preserves R code chunks and LaTeX
-- Multi-part week support
-- LaTeX backslash preservation fix applied
+**Files Added:**
+- `lib/templates/teaching/claude-prompts/lecture-notes.md`
+- `lib/templates/teaching/claude-prompts/revealjs-slides.md`
+- `lib/templates/teaching/claude-prompts/derivations-appendix.md`
+- `lib/templates/teaching/claude-prompts/README.md`
+- `docs/specs/SPEC-teaching-prompts.md` (moved from root)
 
-**Integration:**
-- Reviewed for compatibility with teach analyze Phase 4 (slide optimization)
-- Recommendation: Merge now, enhance in Phase 4 with `--optimize` flag
-
-**Next Steps:**
-1. Merge PR #280 to dev (when approved)
-2. Phase 4 enhancement: Add `teach slides --optimize` flag
+**Note:** `teach prompt` command deferred - needs Scholar plugin coordination
 
 ---
 
-## 🗂️ Active Worktrees (6 total):
+### 3. Lecture-to-Slides Conversion - ✅ MERGED
+
+**PR #284:** ✅ Merged to dev (2026-01-21)
+**Worktree:** Cleaned up
+**Branch:** Deleted
+
+**Feature Now Available:**
+- `teach slides --from-lecture FILE` - Convert specific lecture file
+- `teach slides --week N` - Auto-detect from config
+- `teach slides --dry-run` - Preview content analysis
+- LaTeX preservation (`$\beta$`, `$\tau$` intact)
+- Multi-part week support
+
+---
+
+## 🗂️ Active Worktrees (4 total):
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | Active (planning/coordination) |
-| `teach-analyze` | `feature/teach-analyze` | ✨ NEW - Ready for Phase 0 implementation |
-| `comprehensive-help` | `feature/comprehensive-help` | Ready for implementation |
+| `teach-analyze` | `feature/teach-analyze` | ✨ Ready for Phase 0 implementation |
 | `quarto-workflow` | `feature/quarto-workflow` | ✅ Complete - Ready for PR |
-| `feature-lecture-to-slides` | `feature/lecture-to-slides` | ✅ Complete - PR #280 |
 | `course-planning-phases-2-4` | `feature/course-planning-phases-2-4` | Paused/Archive |
+
+---
+
+## 📝 Specs Pending Revision:
+
+### SPEC-teach-prompt-command (Paused)
+
+**File:** `docs/specs/SPEC-teach-prompt-command-2026-01-21.md`
+**Status:** ⏸️ Needs further revision and coordination with Scholar plugin
+**Brainstorm:** `docs/specs/BRAINSTORM-pr283-improvements-2026-01-21.md`
+
+**Background:**
+- PR #283 (teaching prompts) merged to dev
+- Post-merge fixes applied (IMPLEMENTATION.md moved, README clarified)
+- `teach prompt` command spec created but needs Scholar plugin coordination
+
+**Blocking Issues:**
+- Scholar plugin owns teaching style system
+- Need to clarify prompt vs teaching-style boundaries
+- Consider if prompts should live in Scholar instead
+
+**Next Steps:**
+- Coordinate with Scholar plugin development
+- Revisit after Scholar teaching integration is clearer
 
 ---
 
 ## 📊 Version Roadmap:
 
-**v5.15.0 (In Progress):**
-- Track A: Intelligent Content Analysis Phase 0 ← CURRENT FOCUS
-- Track B: Comprehensive Help System
-- Integration of both features
+**v5.15.1 (Released! ✅):**
+- ✅ Architecture overview with Mermaid diagrams
+- ✅ V-dispatcher reference documentation
+- ✅ Documentation coverage report (853 functions, 8.6% documented)
+- ✅ teach prompt command specs (paused for Scholar)
+- Released: 2026-01-21
 
-**v4.7.0 (Ready):**
+**v5.15.0 (Released! ✅):**
+- ✅ Comprehensive Help System (18 help functions)
+- ✅ Help System Guide (800 lines)
+- ✅ Quick Reference Card (450 lines)
+- ✅ Teaching Quick Start Tutorial (419 lines)
+- Released: 2026-01-21
+
+**v5.16.0 (Next - In Planning):**
+- Intelligent Content Analysis Phase 0 ← CURRENT FOCUS
+- Prerequisite validation (heuristic-only)
+- 4-5 hour implementation
+
+**v4.7.0 (Ready for PR):**
 - Quarto Workflow Phase 2 (ready for PR)
 - Lecture-to-Slides Conversion (PR #280)
 
-**Future (v5.16.0+):**
+**Future (v5.17.0+):**
 - teach analyze Phase 1: Caching + batch
 - teach analyze Phase 2: Integration
 - teach analyze Phase 3+: AI enhancement, slide optimization
 
+**📚 Documentation Debt (Low Priority):**
+- Helper library API documentation (critical gap: 0.5% coverage)
+- 422 functions across 32 helper libraries undocumented
+- Priority files to document:
+  1. `lib/core.zsh` - Core utilities (colors, logging, project detection)
+  2. `lib/tui.zsh` - Terminal UI components (tables, boxes, progress bars)
+  3. `lib/git-helpers.zsh` - Git integration utilities
+- Reference: `docs/reference/DOCUMENTATION-COVERAGE.md`
+
 ---
 
-## 📅 Session History (2026-01-20):
+## 📅 Session History:
 
-**Morning Session (~3 hours):**
+**2026-01-21 Late Evening (~1 hour):**
+1. Reviewed PR #283 (teaching prompts) - identified 2 issues
+2. Deep brainstorm on `teach prompt` command (8 questions)
+3. Created comprehensive spec with architecture diagrams
+4. PR #283 merged to dev (accidentally before fixes)
+5. Applied post-merge fixes (IMPLEMENTATION.md moved, README Scholar path clarified)
+6. Paused `teach prompt` command - needs Scholar plugin coordination
+7. Updated .STATUS to reflect paused state
+
+**Outcome:**
+- ✅ PR #283 merged with post-merge fixes
+- ⏸️ teach prompt command spec paused (Scholar coordination needed)
+- 📄 Specs created: BRAINSTORM + SPEC-teach-prompt-command
+
+---
+
+**2026-01-21 Evening (~2 hours):**
+1. Reviewed and merged PR #281 (Comprehensive Help System)
+2. Prepared v5.15.0 release (version updates across 4 files)
+3. Created and merged PR #282 (dev → main)
+4. Created and pushed tag v5.15.0
+5. Published GitHub release with comprehensive notes
+6. Deployed documentation to GitHub Pages (3 new pages live)
+7. Verified release and documentation deployment
+8. Updated .STATUS with release completion
+
+**Release Outcome:**
+- ✅ v5.15.0 successfully released
+- ✅ All 77 tests passing
+- ✅ Documentation live at https://Data-Wise.github.io/flow-cli/
+- ✅ Track B (Comprehensive Help System) complete
+
+**2026-01-20 Morning (~3 hours):**
 1. Reviewed PR #280 (lecture-to-slides)
 2. Deep brainstorm: Intelligent content analysis (8 interactive questions)
 3. Launched 2 background agents (backend architect + UX designer)
@@ -231,13 +315,11 @@ $ teach analyze lectures/week-05.qmd
 5. Reviewed and refined spec (resolved 5 critical issues)
 6. Created Phase 0 implementation plan (Ultra-MVP, 4-5 hours)
 7. Created feature branch and worktree
-8. Updated .STATUS
 
 **Key Decisions:**
 - Resolved AI service integration question (heuristic-only Phase 0-1)
 - Split Phase 0 from Phase 1 (proves concept in 5h)
 - Simplified API design (13 flags, progressive disclosure)
-- Ready for immediate implementation
 
 **Next Action:** Start Phase 0 implementation in teach-analyze worktree
 
@@ -254,5 +336,5 @@ Follow: `PLAN-teach-analyze-phase0.md` (4-5 hour guide)
 
 ---
 
-**Last Updated:** 2026-01-20
-**Status:** Active - Dual Track Ready for Implementation
+**Last Updated:** 2026-01-21
+**Status:** Active - v5.15.0 Released, teach analyze Phase 0 Ready
