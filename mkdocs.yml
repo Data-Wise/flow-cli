@@ -102,6 +102,7 @@ nav:
       - 17. LazyVim Basics: tutorials/17-lazyvim-basics.md
       - 18. LazyVim Showcase: tutorials/18-lazyvim-showcase.md
       - 19. Teaching + Git Integration: tutorials/19-teaching-git-integration.md
+      - 21. Teach Analyze: tutorials/21-teach-analyze.md
       - 🎓 Scholar Enhancement:
           - Overview & Learning Path: tutorials/scholar-enhancement/index.md
           - Level 1 - Getting Started: tutorials/scholar-enhancement/01-getting-started.md
@@ -168,6 +169,7 @@ nav:
           - PROMPT Dispatcher: reference/PROMPT-DISPATCHER-REFERENCE.md
           - QU Dispatcher: reference/QU-DISPATCHER-REFERENCE.md
           - R Dispatcher: reference/R-DISPATCHER-REFERENCE.md
+          - TEACH Dispatcher v4.6: reference/TEACH-DISPATCHER-REFERENCE-v4.6.0.md
           - TEACH Dispatcher v3.0: reference/TEACH-DISPATCHER-REFERENCE-v3.0.md
           - TEACH Dispatcher (Legacy): reference/TEACH-DISPATCHER-REFERENCE.md
           - TM Dispatcher: reference/TM-DISPATCHER-REFERENCE.md
@@ -180,6 +182,7 @@ nav:
           - DOT Quick Ref: reference/REFCARD-DOT.md
           - Nvim Quick Ref: reference/NVIM-QUICK-REFERENCE.md
           - Prompt Quick Ref: reference/PROMPT-DISPATCHER-REFCARD.md
+          - Teach Analyze Quick Ref: reference/REFCARD-TEACH-ANALYZE.md
           - Teaching v3.0 Quick Ref: reference/REFCARD-TEACHING-V3.md
           - Help System Quick Ref: reference/REFCARD-HELP-SYSTEM.md
           - Teaching Quick Ref (Legacy): reference/REFCARD-TEACHING.md
@@ -192,6 +195,9 @@ nav:
           - Project Status Guide: reference/PROJECT-STATUS-GUIDE.md
           - Project Detection: reference/PROJECT-DETECTION-GUIDE.md
           - Workspace Audit: reference/WORKSPACE-AUDIT-GUIDE.md
+      - Teach Analyze:
+          - API Reference: reference/TEACH-ANALYZE-API-REFERENCE.md
+          - Architecture: reference/TEACH-ANALYZE-ARCHITECTURE.md
       - Deep Dives:
           - Architecture: reference/ARCHITECTURE.md
           - 🎨 Architecture Diagrams: diagrams/ARCHITECTURE-DIAGRAMS.md
