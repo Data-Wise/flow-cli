@@ -136,6 +136,35 @@
 - `docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md` - User guide
 - `flow.plugin.zsh` - Fixed sourcing paths
 
+#### 🚀 Phase 2 In Progress - Interactive + Reports + Caching
+
+**Estimated:** 6-8 hours
+**Status:** Starting
+
+**Wave 1: Caching System** (foundation)
+- [ ] Content-hash based cache invalidation
+- [ ] `.teach/analysis-cache.json` storage
+- [ ] flock for concurrent access safety
+- [ ] 85%+ cache hit rate target
+
+**Wave 2: Report Generation**
+- [ ] `teach analyze --report` flag
+- [ ] Markdown report output
+- [ ] JSON report output for scripting
+- [ ] Summary statistics
+
+**Wave 3: Interactive Mode**
+- [ ] `teach analyze --interactive` flag
+- [ ] Guided prompts for analysis options
+- [ ] Progressive disclosure of results
+- [ ] Fix suggestions with confirmation
+
+**Wave 4: Deep Validation Integration**
+- [ ] `teach validate --deep` (Layer 6)
+- [ ] `teach deploy --check-prereqs`
+- [ ] Integration with existing hooks
+- [ ] Update documentation
+
 ---
 
 ## 📦 Ready for PR (2 branches):
