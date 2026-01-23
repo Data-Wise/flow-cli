@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v5.14.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.14.0)
+[![Version](https://img.shields.io/badge/version-v5.16.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -22,12 +22,46 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ---
 
-## ✨ What's New in v5.14.0
+## ✨ What's New in v5.16.0
 
-!!! success "Teaching Workflow v3.0 - Complete Overhaul"
-    Complete teaching workflow redesign with 10 tasks across 3 waves + 6 comprehensive tutorial GIFs
+!!! success "Intelligent Content Analysis - teach analyze (All Phases Complete)"
+    AI-powered course content analysis with concept graphs, prerequisite validation, and slide optimization
 
-### 🎓 Teaching Workflow v3.0
+### 🧠 Intelligent Content Analysis (teach analyze)
+
+**Full Feature Set (Phases 0-5):**
+- **📊 Concept Graph** - Extract concepts from frontmatter, build dependency graph
+- **✅ Prerequisite Validation** - Detect circular dependencies and week ordering issues
+- **⚡ Smart Caching** - SHA-256 content hashing with flock-based parallel processing
+- **🤖 AI Analysis** - Bloom's taxonomy, cognitive load estimation, teaching time
+- **📐 Slide Optimization** - Break suggestions, key concepts for emphasis, time estimates
+- **📝 Reports** - JSON/Markdown reports for course-wide analysis
+
+**Commands:**
+```bash
+teach analyze lectures/week-05.qmd           # Single file analysis
+teach analyze --batch lectures/              # Parallel batch analysis
+teach analyze --slide-breaks                 # Slide optimization
+teach validate --deep                        # Prerequisite validation
+```
+
+[→ Intelligent Content Analysis Guide](guides/INTELLIGENT-CONTENT-ANALYSIS.md){ .md-button .md-button--primary }
+[→ teach analyze Tutorial](tutorials/21-teach-analyze.md){ .md-button }
+
+### ⚡ Plugin Optimization
+
+- **Load Guards** - Prevents double/triple-sourcing of libraries (3x startup reduction)
+- **Display Layer** - Extracted 270 lines to reusable `lib/analysis-display.zsh`
+- **Cache Fixes** - Directory-mirroring structure prevents path collisions
+- **Test Timeouts** - 30s timeouts prevent infinite hangs (13 tests pass, 5 timeout as expected)
+
+[→ Plugin Optimization Tutorial](tutorials/22-plugin-optimization.md){ .md-button }
+
+---
+
+## Previous Releases
+
+### 🎓 Teaching Workflow v3.0 (v5.14.0)
 
 **Wave 1: Foundation**
 - **🏥 teach doctor** - Comprehensive environment health check (--fix, --json, --quiet)

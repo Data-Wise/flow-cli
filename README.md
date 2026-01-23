@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-5.15.1-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
+[![Version](https://img.shields.io/badge/version-5.16.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -26,6 +26,30 @@ finish             # Done for now
 ---
 
 ## 🎉 What's New
+
+### v5.16.0: Intelligent Content Analysis (2026-01-23)
+
+**AI-powered course content analysis with concept graphs and slide optimization:**
+
+- 🧠 **teach analyze** - Full concept graph system (Phases 0-5 complete)
+  - Concept extraction from frontmatter + prerequisite validation
+  - SHA-256 caching with parallel processing (flock-based)
+  - AI analysis: Bloom's taxonomy, cognitive load, teaching time estimates
+  - Slide optimization: break suggestions, key concepts, time estimates
+- ⚡ **Plugin Optimization** - Load guards prevent double-sourcing (3x startup reduction)
+- 🎯 **Cache Fixes** - Directory-mirroring structure prevents path collisions
+- ✅ **Test Improvements** - 30s timeouts prevent infinite hangs
+
+**Commands:**
+
+```bash
+teach analyze lectures/week-05.qmd    # Single file analysis
+teach analyze --batch lectures/       # Parallel batch processing
+teach analyze --slide-breaks           # Slide optimization
+teach validate --deep                  # Prerequisite validation
+```
+
+**362+ tests (100% passing) · 7 new libraries (6,800+ lines) · 1,251-line user guide**
 
 ### v4.7.0: Quarto Workflow Phase 2 (2026-01-20)
 
@@ -489,12 +513,12 @@ export FLOW_QUIET=1                         # Skip welcome message
 
 **348 functions documented** across 32 library files (49.4% coverage):
 
-| Reference | Functions | Scope |
-|-----------|-----------|-------|
-| [Core API](https://data-wise.github.io/flow-cli/reference/CORE-API-REFERENCE/) | 47 | Logging, TUI, Git helpers |
-| [Teaching API](https://data-wise.github.io/flow-cli/reference/TEACHING-API-REFERENCE/) | 61 | Validation, backup, cache |
-| [Integration API](https://data-wise.github.io/flow-cli/reference/INTEGRATION-API-REFERENCE/) | 80 | Atlas, plugins, config |
-| [Specialized API](https://data-wise.github.io/flow-cli/reference/SPECIALIZED-API-REFERENCE/) | 160 | Dotfiles, AI, rendering |
+| Reference                                                                                    | Functions | Scope                     |
+| -------------------------------------------------------------------------------------------- | --------- | ------------------------- |
+| [Core API](https://data-wise.github.io/flow-cli/reference/CORE-API-REFERENCE/)               | 47        | Logging, TUI, Git helpers |
+| [Teaching API](https://data-wise.github.io/flow-cli/reference/TEACHING-API-REFERENCE/)       | 61        | Validation, backup, cache |
+| [Integration API](https://data-wise.github.io/flow-cli/reference/INTEGRATION-API-REFERENCE/) | 80        | Atlas, plugins, config    |
+| [Specialized API](https://data-wise.github.io/flow-cli/reference/SPECIALIZED-API-REFERENCE/) | 160       | Dotfiles, AI, rendering   |
 
 ---
 
