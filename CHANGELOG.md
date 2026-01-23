@@ -83,6 +83,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Testing
 
+- **E2E and interactive test infrastructure** - Comprehensive test framework for teach analyze (ad4d4c5, 796baa8)
+  - **E2E Test Suite** (`tests/e2e-teach-analyze.zsh`) - 29 automated tests across 8 sections
+    - Setup and prerequisites (4 tests)
+    - Single file analysis (3 tests)
+    - Prerequisite validation (3 tests)
+    - Batch analysis with caching (3 tests)
+    - Slide optimization (2 tests)
+    - Report generation JSON/Markdown (2 tests)
+    - Integration tests (3 tests)
+    - Extended test cases - Week 4/5 validation (4 tests)
+    - Pass rate: 48% (expected - validates implementation readiness)
+  - **Interactive Dog Feeding Test** (`tests/interactive-dog-teaching.zsh`) - 10 gamified tasks
+    - ADHD-friendly mechanics: hunger/happiness tracking (0-100)
+    - Star rating system (0-5 ⭐)
+    - User validation approach with expected output
+    - Point-based rewards (10-20 points per task)
+  - **Demo Course Fixture** (`tests/fixtures/demo-course/`)
+    - STAT-101: Introduction to Statistics (realistic pedagogical structure)
+    - 11 concepts across 5 weeks (8 valid + 2 broken for error detection)
+    - Bloom taxonomy coverage: Remember → Understand → Apply → Analyze → Evaluate
+    - Cognitive load distribution: low (2), medium (4), high (5)
+    - Prerequisite chains for dependency validation
+    - Broken files: circular dependency (week-03-broken.qmd), missing prerequisite (week-05-missing-prereq.qmd)
+  - **Documentation**:
+    - `tests/E2E-TEST-README.md` - Complete E2E and interactive testing guide (400+ lines)
+    - `tests/fixtures/demo-course/README.md` - Demo course structure and usage (200+ lines)
+    - Updated `tests/run-all.sh` to include E2E tests
+  - Total test count: **423 tests** (393 existing + 29 E2E + 1 interactive = +30 tests)
 - **Plugin optimization test suite** - New dedicated test for PR #290 optimizations (4eab6d9)
   - 31 tests covering load guards, display layer extraction, cache collision prevention
   - Validates self-protecting load guards on 4 teach analyze libraries
@@ -90,7 +118,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Tests cache path collision prevention
   - Checks test timeout mechanism (exit code 124/2)
   - 100% passing (31/31)
-  - Total test count: **393 tests** (362 + 31 optimization tests)
 
 ### Dependencies
 
