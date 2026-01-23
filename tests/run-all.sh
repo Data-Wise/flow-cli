@@ -79,6 +79,10 @@ run_test ./tests/cli/automated-tests.sh
 run_test ./tests/test-install.sh
 
 echo ""
+echo "Optimization tests (v5.16.0):"
+run_test ./tests/test-plugin-optimization.zsh
+
+echo ""
 echo "========================================="
 echo "  Results: $PASS passed, $FAIL failed, $TIMEOUT timeout"
 echo "========================================="
