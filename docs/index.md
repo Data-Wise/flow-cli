@@ -54,8 +54,10 @@ teach validate --deep                        # Prerequisite validation
 - **Display Layer** - Extracted 270 lines to reusable `lib/analysis-display.zsh`
 - **Cache Fixes** - Directory-mirroring structure prevents path collisions
 - **Test Timeouts** - 30s timeouts prevent infinite hangs (13 tests pass, 5 timeout as expected)
+- **Test Suite** - 31 new tests for optimization validation (100% passing)
 
 [→ Plugin Optimization Tutorial](tutorials/22-plugin-optimization.md){ .md-button }
+[→ Optimization Quick Reference](reference/REFCARD-OPTIMIZATION.md){ .md-button }
 
 ---
 

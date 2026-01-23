@@ -49,7 +49,7 @@ teach analyze --slide-breaks           # Slide optimization
 teach validate --deep                  # Prerequisite validation
 ```
 
-**362+ tests (100% passing) · 7 new libraries (6,800+ lines) · 1,251-line user guide**
+**393 tests (100% passing) · 7 new libraries (6,800+ lines) · 1,251-line user guide**
 
 ### v4.7.0: Quarto Workflow Phase 2 (2026-01-20)
 
