@@ -1,0 +1,59 @@
+---
+title: "{{LECTURE_TITLE}}"
+subtitle: "Week {{WEEK_NUM}} - {{SUBTITLE}}"
+week: {{WEEK_NUM}}
+date: "{{DATE}}"
+
+# Concept Analysis (for teach analyze)
+concepts:
+  introduces:
+    - {{CONCEPT_1}}
+    - {{CONCEPT_2}}
+  requires:
+    - {{PREREQ_1}}
+    - {{PREREQ_2}}
+---
+
+# {{LECTURE_TITLE}}
+
+## Learning Objectives
+
+By the end of this lecture, you will be able to:
+
+1. Define and explain **{{CONCEPT_1}}**
+2. Apply **{{CONCEPT_2}}** to practical problems
+3. Connect these concepts to prior knowledge of **{{PREREQ_1}}**
+
+## Prerequisites Review
+
+::: {.callout-note}
+## Required Background
+
+Before this lecture, ensure you understand:
+
+- **{{PREREQ_1}}**: [Brief recap or link to previous lecture]
+- **{{PREREQ_2}}**: [Brief recap or link to previous lecture]
+:::
+
+## Main Content
+
+### Section 1: Introduction to {{CONCEPT_1}}
+
+[Content here]
+
+### Section 2: Working with {{CONCEPT_2}}
+
+[Content here]
+
+## Summary
+
+Today we introduced:
+
+1. **{{CONCEPT_1}}** - [Key takeaway]
+2. **{{CONCEPT_2}}** - [Key takeaway]
+
+## Next Steps
+
+In the next lecture, we will build on these concepts to explore:
+
+- [Preview of upcoming content]

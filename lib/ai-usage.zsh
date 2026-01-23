@@ -15,8 +15,33 @@ FLOW_AI_STATS_FILE="${FLOW_DATA_DIR}/ai-stats.json"
 # USAGE LOGGING
 # ============================================================================
 
-# Log an AI command usage
-# Usage: _flow_ai_log_usage "command" "mode" "success" "duration_ms"
+# =============================================================================
+# Function: _flow_ai_log_usage
+# Purpose: Log an AI command execution to the usage tracking system
+# =============================================================================
+# Arguments:
+#   $1 - (required) Command name: ai, do, recipe, chat
+#   $2 - (required) Mode: default, explain, fix, suggest, create, recipe:<name>
+#   $3 - (required) Success status: "true" or "false"
+#   $4 - (required) Duration in milliseconds
+#
+# Returns:
+#   0 - Always succeeds (logging is best-effort)
+#
+# Output:
+#   None (writes to FLOW_AI_USAGE_FILE)
+#
+# Example:
+#   _flow_ai_log_usage "recipe" "recipe:review" "true" "1523"
+#   _flow_ai_log_usage "ai" "explain" "false" "450"
+#
+# Notes:
+#   - Writes JSONL format to ~/.local/share/flow/ai-usage.jsonl
+#   - Each entry includes: timestamp, command, mode, success, duration, project, type
+#   - Creates FLOW_DATA_DIR if it doesn't exist
+#   - Automatically updates aggregated stats via _flow_ai_update_stats
+#   - Silent failures to avoid disrupting user workflow
+# =============================================================================
 _flow_ai_log_usage() {
   local command="$1"      # ai, do, recipe, chat
   local mode="$2"         # default, explain, fix, suggest, create, recipe:name
@@ -39,7 +64,32 @@ EOF
   _flow_ai_update_stats "$command" "$mode" "$success"
 }
 
-# Update aggregated statistics
+# =============================================================================
+# Function: _flow_ai_update_stats
+# Purpose: Update aggregated usage statistics with new command data
+# =============================================================================
+# Arguments:
+#   $1 - (required) Command name that was executed
+#   $2 - (required) Mode or recipe name used
+#   $3 - (required) Success status: "true" or "false"
+#
+# Returns:
+#   0 - Stats updated successfully
+#
+# Output:
+#   None (writes to FLOW_AI_STATS_FILE)
+#
+# Example:
+#   _flow_ai_update_stats "recipe" "recipe:commit" "true"
+#
+# Notes:
+#   - Creates stats file with default structure if missing
+#   - Requires jq for JSON manipulation (degrades gracefully without)
+#   - Tracks: total_calls, successful, failed, commands, modes, recipes
+#   - Maintains usage streak (consecutive days of usage)
+#   - Stats file: ~/.local/share/flow/ai-stats.json
+#   - Called automatically by _flow_ai_log_usage
+# =============================================================================
 _flow_ai_update_stats() {
   local command="$1"
   local mode="$2"
@@ -99,7 +149,29 @@ EOF
 # USAGE STATISTICS
 # ============================================================================
 
-# Get usage statistics
+# =============================================================================
+# Function: _flow_ai_get_stats
+# Purpose: Retrieve raw aggregated statistics JSON data
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - JSON object with usage statistics, or "{}" if no data exists
+#
+# Example:
+#   local stats=$(_flow_ai_get_stats)
+#   echo "$stats" | jq '.total_calls'
+#
+# Notes:
+#   - Returns empty JSON object if stats file doesn't exist
+#   - Use flow_ai_stats for formatted human-readable output
+#   - Useful for programmatic access to raw statistics
+#   - Stats file location: FLOW_AI_STATS_FILE
+# =============================================================================
 _flow_ai_get_stats() {
   if [[ ! -f "$FLOW_AI_STATS_FILE" ]]; then
     echo "{}"
@@ -108,7 +180,33 @@ _flow_ai_get_stats() {
   cat "$FLOW_AI_STATS_FILE"
 }
 
-# Show usage statistics
+# =============================================================================
+# Function: flow_ai_stats
+# Purpose: Display formatted AI usage statistics dashboard
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Formatted statistics including:
+#            - Overview (total calls, successful, failed, streak days)
+#            - Top 5 commands by usage
+#            - Top 5 modes by usage
+#            - Top 5 recipes by usage (if any used)
+#
+# Example:
+#   flow_ai_stats
+#   flow ai usage stats
+#
+# Notes:
+#   - Requires jq for proper JSON formatting (shows raw file without)
+#   - Shows helpful message if no usage data exists yet
+#   - Uses FLOW_COLORS for consistent styling
+#   - Primary command: "flow ai usage stats" or "flow ai usage"
+# =============================================================================
 flow_ai_stats() {
   echo ""
   echo "${FLOW_COLORS[header]}AI USAGE STATISTICS${FLOW_COLORS[reset]}"
@@ -165,7 +263,33 @@ flow_ai_stats() {
 # PERSONALIZED SUGGESTIONS
 # ============================================================================
 
-# Get personalized AI suggestions based on usage history
+# =============================================================================
+# Function: flow_ai_suggest
+# Purpose: Provide personalized AI command suggestions based on usage and context
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Personalized suggestions including:
+#            - Project-type specific recommendations (R, Node.js, Quarto, ZSH)
+#            - Feature discovery for unused capabilities
+#            - Usage streak encouragement
+#
+# Example:
+#   flow_ai_suggest
+#   flow ai usage suggest
+#
+# Notes:
+#   - Analyzes current project type via _flow_detect_type
+#   - Suggests unused features (chat mode, recipes) if not tried
+#   - Shows quick start guide if insufficient usage data
+#   - Requires jq for full functionality
+#   - Displays streak motivation when active streak exists
+# =============================================================================
 flow_ai_suggest() {
   echo ""
   echo "${FLOW_COLORS[header]}AI SUGGESTIONS${FLOW_COLORS[reset]}"
@@ -258,7 +382,34 @@ flow_ai_suggest() {
 # RECENT ACTIVITY
 # ============================================================================
 
-# Show recent AI usage
+# =============================================================================
+# Function: flow_ai_recent
+# Purpose: Display recent AI command usage history
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Number of entries to show [default: 10]
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - List of recent AI commands with:
+#            - Timestamp (time only, HH:MM:SS)
+#            - Success indicator (checkmark or X)
+#            - Command name
+#            - Mode used
+#
+# Example:
+#   flow_ai_recent        # Show last 10 commands
+#   flow_ai_recent 5      # Show last 5 commands
+#   flow ai usage recent 20
+#
+# Notes:
+#   - Reads from JSONL usage log (tail -n limit)
+#   - Requires jq for formatted output (shows raw JSON without)
+#   - Shows message if no activity recorded yet
+#   - Useful for reviewing recent AI interactions
+# =============================================================================
 flow_ai_recent() {
   local limit="${1:-10}"
 
@@ -298,7 +449,30 @@ flow_ai_recent() {
 # CLEANUP
 # ============================================================================
 
-# Clear usage history
+# =============================================================================
+# Function: flow_ai_clear_history
+# Purpose: Delete all AI usage tracking data after confirmation
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - History cleared or user declined
+#
+# Output:
+#   stdout - Success message after deletion
+#
+# Example:
+#   flow_ai_clear_history
+#   flow ai usage clear
+#
+# Notes:
+#   - Prompts for confirmation before deletion (uses _flow_confirm)
+#   - Deletes both JSONL log file and aggregated stats JSON
+#   - Deletion is permanent (no undo)
+#   - Resets streak counter and all statistics
+#   - Useful for privacy or starting fresh
+# =============================================================================
 flow_ai_clear_history() {
   if _flow_confirm "Clear all AI usage history?"; then
     [[ -f "$FLOW_AI_USAGE_FILE" ]] && rm "$FLOW_AI_USAGE_FILE"
@@ -311,7 +485,34 @@ flow_ai_clear_history() {
 # COMMAND HANDLER
 # ============================================================================
 
-# Add to flow ai command
+# =============================================================================
+# Function: flow_ai_usage
+# Purpose: Main entry point for AI usage tracking command routing
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Action to perform [default: stats]
+#        Actions: stats, suggest, recent, clear, help
+#   $@ - Additional arguments passed to subcommand
+#
+# Returns:
+#   0 - Command executed successfully
+#   1 - Unknown action
+#
+# Output:
+#   Varies by action (see individual function documentation)
+#
+# Example:
+#   flow_ai_usage              # Show statistics
+#   flow_ai_usage stats        # Show statistics
+#   flow_ai_usage suggest      # Get personalized suggestions
+#   flow_ai_usage recent 5     # Show last 5 commands
+#   flow_ai_usage clear        # Clear all history
+#
+# Notes:
+#   - Aliases: suggestions (suggest), history (recent)
+#   - Primary interface: "flow ai usage <action>"
+#   - Default action is "stats" if no argument provided
+# =============================================================================
 flow_ai_usage() {
   local action="${1:-stats}"
 
@@ -339,6 +540,32 @@ flow_ai_usage() {
   esac
 }
 
+# =============================================================================
+# Function: _flow_ai_usage_help
+# Purpose: Display comprehensive help for the AI usage tracking system
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Formatted help text including:
+#            - Usage syntax
+#            - Available actions (stats, suggest, recent, clear)
+#            - Feature descriptions
+#
+# Example:
+#   _flow_ai_usage_help
+#   flow ai usage help
+#   flow ai usage --help
+#
+# Notes:
+#   - Uses FLOW_COLORS for consistent styling
+#   - Triggered by: help, --help, -h arguments
+#   - Documents all available usage tracking features
+# =============================================================================
 _flow_ai_usage_help() {
   echo ""
   echo "${FLOW_COLORS[header]}╭─────────────────────────────────────────────╮${FLOW_COLORS[reset]}"

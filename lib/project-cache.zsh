@@ -18,9 +18,33 @@ FLOW_CACHE_ENABLED="${FLOW_CACHE_ENABLED:-1}"
 # CACHE GENERATION
 # ============================================================================
 
-# Generate cache from filesystem scan
-# ALWAYS generates COMPLETE unfiltered list - filters applied at read time
-# This ensures one cache serves all filter combinations (dev, r, recent, etc.)
+# =============================================================================
+# Function: _proj_cache_generate
+# Purpose: Generate project cache from filesystem scan and write to cache file
+# =============================================================================
+# Arguments:
+#   None (always generates complete unfiltered list)
+#
+# Returns:
+#   0 - Cache successfully generated
+#   1 - Error (failed to create directory or write file)
+#
+# Output:
+#   Cache file written to $PROJ_CACHE_FILE with format:
+#     Line 1: "# Generated: <unix_timestamp>"
+#     Lines 2+: Project data from _proj_list_all_uncached
+#
+# Example:
+#   _proj_cache_generate           # Regenerate cache
+#   _proj_cache_generate && echo "Success"
+#
+# Notes:
+#   - ALWAYS caches complete project list (no filters)
+#   - Filters (category, recent) applied at read time by _proj_list_all_cached
+#   - Creates cache directory if it doesn't exist (~/.cache/flow-cli/)
+#   - Overwrites existing cache file
+#   - Called automatically when cache is stale or missing
+# =============================================================================
 _proj_cache_generate() {
     local cache_dir=$(dirname "$PROJ_CACHE_FILE")
     mkdir -p "$cache_dir" 2>/dev/null || {
@@ -45,8 +69,33 @@ _proj_cache_generate() {
 # CACHE VALIDATION
 # ============================================================================
 
-# Check if cache is valid (exists and within TTL)
-# Returns: 0 if valid, 1 if invalid or stale
+# =============================================================================
+# Function: _proj_cache_is_valid
+# Purpose: Check if project cache exists and is within TTL (not stale)
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Cache is valid (exists, has valid timestamp, within TTL)
+#   1 - Cache is invalid (missing, corrupt timestamp, or stale)
+#
+# Output:
+#   None
+#
+# Example:
+#   if _proj_cache_is_valid; then
+#       echo "Using cached data"
+#   else
+#       _proj_cache_generate
+#   fi
+#
+# Notes:
+#   - Reads $PROJ_CACHE_FILE and extracts timestamp from first line
+#   - Validates timestamp is numeric (rejects corrupt cache)
+#   - Compares age against $PROJ_CACHE_TTL (default: 300 seconds / 5 minutes)
+#   - Called by _proj_list_all_cached before using cache
+# =============================================================================
 _proj_cache_is_valid() {
     [[ -f "$PROJ_CACHE_FILE" ]] || return 1
 
@@ -65,9 +114,34 @@ _proj_cache_is_valid() {
 # CACHE ACCESS
 # ============================================================================
 
-# Get cached project list (or regenerate if stale)
-# This is the public API that replaces _proj_list_all
-# Cache stores COMPLETE unfiltered list, filters applied here at read time
+# =============================================================================
+# Function: _proj_list_all_cached
+# Purpose: Get project list from cache with optional filtering (main public API)
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Category filter (e.g., "dev", "r-package", "teaching")
+#   $2 - (optional) "recent" to show only projects with active/recent sessions
+#
+# Returns:
+#   0 - Always (falls back to uncached on errors)
+#
+# Output:
+#   stdout - Pipe-delimited project list: name|type|icon|dir|session_status
+#            Filtered by category and/or recent status if specified
+#
+# Example:
+#   _proj_list_all_cached                    # All projects
+#   _proj_list_all_cached "dev"              # Only dev-tools projects
+#   _proj_list_all_cached "" "recent"        # Only recent sessions
+#   _proj_list_all_cached "r-package" ""     # Only R packages
+#
+# Notes:
+#   - Primary API for project listing (replaces _proj_list_all)
+#   - Automatically regenerates cache if stale or missing
+#   - Falls back to _proj_list_all_uncached on any error
+#   - Respects FLOW_CACHE_ENABLED=0 to bypass caching
+#   - Session status: 🟢 (recent), 🟡 (old), empty (no session)
+# =============================================================================
 _proj_list_all_cached() {
     local category="${1:-}"
     local recent_only="${2:-}"
@@ -113,7 +187,30 @@ _proj_list_all_cached() {
 # CACHE INVALIDATION
 # ============================================================================
 
-# Invalidate cache (force regeneration on next access)
+# =============================================================================
+# Function: _proj_cache_invalidate
+# Purpose: Delete cache file to force regeneration on next access
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Cache invalidated (or didn't exist)
+#   Non-zero - Failed to delete cache file
+#
+# Output:
+#   None
+#
+# Example:
+#   _proj_cache_invalidate                  # Clear cache
+#   _proj_cache_invalidate && echo "Cleared"
+#
+# Notes:
+#   - Simply deletes the cache file
+#   - Next call to _proj_list_all_cached will trigger regeneration
+#   - Safe to call even if cache doesn't exist
+#   - Used by flow-cache-refresh and when project structure changes
+# =============================================================================
 _proj_cache_invalidate() {
     if [[ -f "$PROJ_CACHE_FILE" ]]; then
         rm -f "$PROJ_CACHE_FILE" 2>/dev/null
@@ -126,7 +223,37 @@ _proj_cache_invalidate() {
 # CACHE STATISTICS
 # ============================================================================
 
-# Display cache statistics
+# =============================================================================
+# Function: _proj_cache_stats
+# Purpose: Display detailed cache statistics and health status
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Cache exists and stats displayed
+#   1 - Cache file doesn't exist or is corrupt
+#
+# Output:
+#   stdout - Formatted cache status including:
+#            - Status with icon (🟢 Valid / 🟡 Stale)
+#            - Cache age in human-readable format
+#            - Number of projects cached
+#            - Cache file location
+#
+# Example:
+#   _proj_cache_stats
+#   # Output:
+#   # Cache status: 🟢 Valid
+#   # Cache age: 2m 30s (TTL: 300s)
+#   # Projects cached: 47
+#   # Location: ~/.cache/flow-cli/projects.cache
+#
+# Notes:
+#   - Used by flow-cache-status command
+#   - Shows "will regenerate" message if cache is stale
+#   - Handles corrupt cache gracefully with error message
+# =============================================================================
 _proj_cache_stats() {
     if [[ ! -f "$PROJ_CACHE_FILE" ]]; then
         echo "Cache status: No cache file exists"
@@ -163,7 +290,29 @@ _proj_cache_stats() {
     echo "Location: $PROJ_CACHE_FILE"
 }
 
-# Format duration in human-readable form
+# =============================================================================
+# Function: _proj_format_duration
+# Purpose: Convert seconds to human-readable duration string
+# =============================================================================
+# Arguments:
+#   $1 - (required) Duration in seconds
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Formatted duration string (e.g., "2m 30s" or "45s")
+#
+# Example:
+#   _proj_format_duration 150    # Output: 2m 30s
+#   _proj_format_duration 45     # Output: 45s
+#   _proj_format_duration 0      # Output: 0s
+#
+# Notes:
+#   - Only shows minutes if duration >= 60 seconds
+#   - Used by _proj_cache_stats for cache age display
+#   - Simple helper, no hours/days support (cache TTL is typically minutes)
+# =============================================================================
 _proj_format_duration() {
     local seconds=$1
     local mins=$((seconds / 60))
@@ -180,7 +329,36 @@ _proj_format_duration() {
 # PUBLIC COMMANDS
 # ============================================================================
 
-# flow cache refresh - Manually invalidate and regenerate cache
+# =============================================================================
+# Function: flow-cache-refresh
+# Purpose: Manually invalidate and regenerate the project cache
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Cache successfully refreshed
+#   1 - Cache refresh failed
+#
+# Output:
+#   stdout - Progress message and cache stats on success
+#            Error message on failure
+#
+# Example:
+#   flow-cache-refresh
+#   # Output:
+#   # Refreshing project cache...
+#   # ✅ Cache refreshed
+#   # Cache status: 🟢 Valid
+#   # Cache age: 0s (TTL: 300s)
+#   # Projects cached: 47
+#
+# Notes:
+#   - Public command for manual cache management
+#   - Useful after adding/removing projects outside normal workflow
+#   - Calls _proj_cache_invalidate then _proj_cache_generate
+#   - Shows cache stats after successful refresh
+# =============================================================================
 flow-cache-refresh() {
     echo "Refreshing project cache..."
     _proj_cache_invalidate
@@ -194,7 +372,29 @@ flow-cache-refresh() {
     fi
 }
 
-# flow cache clear - Delete cache file
+# =============================================================================
+# Function: flow-cache-clear
+# Purpose: Delete the project cache file without regenerating
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Confirmation message
+#
+# Example:
+#   flow-cache-clear
+#   # Output: ✅ Cache cleared
+#
+# Notes:
+#   - Different from flow-cache-refresh: does NOT regenerate
+#   - Next project list operation will trigger fresh scan
+#   - Useful for debugging or when cache is suspected corrupt
+#   - Safe to call even if cache doesn't exist
+# =============================================================================
 flow-cache-clear() {
     if [[ -f "$PROJ_CACHE_FILE" ]]; then
         rm -f "$PROJ_CACHE_FILE"
@@ -204,7 +404,32 @@ flow-cache-clear() {
     fi
 }
 
-# flow cache status - Show cache statistics
+# =============================================================================
+# Function: flow-cache-status
+# Purpose: Display current cache status and statistics
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   Return value from _proj_cache_stats (0 if exists, 1 if not)
+#
+# Output:
+#   stdout - Cache statistics (delegates to _proj_cache_stats)
+#
+# Example:
+#   flow-cache-status
+#   # Output:
+#   # Cache status: 🟢 Valid
+#   # Cache age: 2m 30s (TTL: 300s)
+#   # Projects cached: 47
+#   # Location: ~/.cache/flow-cli/projects.cache
+#
+# Notes:
+#   - Public command wrapper around _proj_cache_stats
+#   - Useful for debugging slow pick performance
+#   - Shows whether cache will regenerate on next access
+# =============================================================================
 flow-cache-status() {
     _proj_cache_stats
 }

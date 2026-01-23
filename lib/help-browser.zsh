@@ -5,7 +5,29 @@
 # INTERACTIVE HELP BROWSER
 # ============================================================================
 
-# Preview helper function for fzf
+# =============================================================================
+# Function: _flow_show_help_preview
+# Purpose: Generate help preview for a command (used by fzf preview window)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Command name to show help for
+#
+# Returns:
+#   0 - Help displayed successfully
+#
+# Output:
+#   stdout - Help output from the command, or error message if unavailable
+#
+# Example:
+#   _flow_show_help_preview "g"      # Shows g dispatcher help
+#   _flow_show_help_preview "work"   # Shows work command help
+#
+# Notes:
+#   - Dispatchers (g, cc, wt, mcp, r, qu, obs, tm) use: cmd help
+#   - Regular commands try: cmd --help, then cmd help
+#   - Returns helpful message if command not found/loaded
+#   - Designed for use in fzf --preview parameter
+# =============================================================================
 _flow_show_help_preview() {
   local cmd="$1"
 
@@ -25,6 +47,35 @@ _flow_show_help_preview() {
   fi
 }
 
+# =============================================================================
+# Function: _flow_help_browser
+# Purpose: Interactive help browser using fzf with live preview
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - User selected a command (or cancelled)
+#   1 - fzf not installed
+#
+# Output:
+#   stdout - Full help for selected command after selection
+#   stderr - Installation instructions if fzf missing
+#
+# Example:
+#   _flow_help_browser   # Opens interactive command browser
+#
+# Dependencies:
+#   - fzf (required for interactive selection)
+#   - FLOW_COLORS associative array for styling
+#
+# Notes:
+#   - Displays categorized list of all flow-cli commands
+#   - Categories: Core workflow, ADHD-friendly, Status, Config, Dispatchers
+#   - Preview window shows live help output (60% width, right side)
+#   - Press ENTER for full help, ESC to cancel
+#   - Selected command's full help shown after selection
+# =============================================================================
 _flow_help_browser() {
   # Check for fzf
   if ! command -v fzf &>/dev/null; then

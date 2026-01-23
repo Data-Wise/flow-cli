@@ -1,0 +1,95 @@
+---
+title: "Week 2: Probability and Inference"
+subtitle: "Building on Foundations"
+author: "Test Instructor"
+date: "2026-01-27"
+format: html
+concepts:
+  - id: probability-basics
+    name: "Probability Basics"
+    category: "core"
+    bloom_level: "understand"
+    cognitive_load: "medium"
+    teaching_time: 25
+    prerequisites:
+      - data-types
+  - id: sampling
+    name: "Sampling Methods"
+    category: "core"
+    bloom_level: "apply"
+    cognitive_load: "medium"
+    teaching_time: 20
+    prerequisites:
+      - distributions
+  - id: inference
+    name: "Statistical Inference"
+    category: "advanced"
+    bloom_level: "analyze"
+    cognitive_load: "high"
+    teaching_time: 30
+    prerequisites:
+      - probability-basics
+      - sampling
+      - distributions
+---
+
+## Learning Objectives
+
+By the end of this lecture, you will be able to:
+
+1. Calculate basic probabilities
+2. Apply different sampling methods
+3. Understand the principles of statistical inference
+
+## Probability Basics
+
+Probability quantifies the likelihood of events occurring.
+
+### Fundamental Rules
+
+- **Range**: $0 \leq P(A) \leq 1$
+- **Complement**: $P(\text{not } A) = 1 - P(A)$
+- **Addition**: $P(A \text{ or } B) = P(A) + P(B) - P(A \text{ and } B)$
+
+```{r}
+# Simulate coin flips
+set.seed(123)
+flips <- sample(c("H", "T"), 100, replace = TRUE)
+table(flips) / 100  # Empirical probability
+```
+
+## Sampling Methods
+
+How we collect data affects the validity of our conclusions.
+
+### Common Methods
+
+1. **Simple Random Sampling**: Every member has equal chance
+2. **Stratified Sampling**: Sample from subgroups
+3. **Cluster Sampling**: Sample groups, then all within groups
+
+```{r}
+# Simple random sample
+population <- 1:1000
+sample(population, size = 30)
+```
+
+## Statistical Inference
+
+Making conclusions about populations based on sample data.
+
+### Key Concepts
+
+- **Point Estimation**: Single best guess
+- **Confidence Intervals**: Range of plausible values
+- **Hypothesis Testing**: Evaluating claims
+
+```{r}
+# Confidence interval for mean
+data <- rnorm(100, mean = 50, sd = 10)
+t.test(data)$conf.int
+```
+
+## Summary
+
+This lecture connected probability theory with practical sampling and inference methods.

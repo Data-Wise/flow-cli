@@ -102,6 +102,8 @@ nav:
       - 17. LazyVim Basics: tutorials/17-lazyvim-basics.md
       - 18. LazyVim Showcase: tutorials/18-lazyvim-showcase.md
       - 19. Teaching + Git Integration: tutorials/19-teaching-git-integration.md
+      - 21. Teach Analyze: tutorials/21-teach-analyze.md
+      - 22. Plugin Optimization: tutorials/22-plugin-optimization.md
       - 🎓 Scholar Enhancement:
           - Overview & Learning Path: tutorials/scholar-enhancement/index.md
           - Level 1 - Getting Started: tutorials/scholar-enhancement/01-getting-started.md
@@ -124,6 +126,7 @@ nav:
       - Start Here: guides/00-START-HERE.md
       - 🆕 Teaching v3.0:
           - v3.0 User Guide: guides/TEACHING-WORKFLOW-V3-GUIDE.md
+          - Concept Analysis: guides/INTELLIGENT-CONTENT-ANALYSIS.md
           - Backup System Guide: guides/BACKUP-SYSTEM-GUIDE.md
           - Help System Guide: guides/HELP-SYSTEM-GUIDE.md
           - Migration Guide (v2 → v3): guides/TEACHING-V3-MIGRATION-GUIDE.md
@@ -150,11 +153,17 @@ nav:
       - GIF Creation Guide: conventions/adhd/GIF-GUIDELINES.md
   - Reference:
       - 📋 Quick Reference Card: quick-reference-card.md
+      - API Reference:
+          - Core Libraries: reference/CORE-API-REFERENCE.md
+          - Teaching Libraries: reference/TEACHING-API-REFERENCE.md
+          - Integration Libraries: reference/INTEGRATION-API-REFERENCE.md
+          - Specialized Libraries: reference/SPECIALIZED-API-REFERENCE.md
       - Quick References:
           - Command Cheatsheet: reference/COMMAND-QUICK-REFERENCE.md
           - Alias Card: reference/ALIAS-REFERENCE-CARD.md
           - Workflow Patterns: reference/WORKFLOW-QUICK-REFERENCE.md
           - Dashboard Quick Ref: reference/DASHBOARD-QUICK-REF.md
+          - Plugin Optimization: reference/REFCARD-OPTIMIZATION.md
       - Dispatchers:
           - All Dispatchers: reference/DISPATCHER-REFERENCE.md
           - CC Dispatcher: reference/CC-DISPATCHER-REFERENCE.md
@@ -165,6 +174,7 @@ nav:
           - PROMPT Dispatcher: reference/PROMPT-DISPATCHER-REFERENCE.md
           - QU Dispatcher: reference/QU-DISPATCHER-REFERENCE.md
           - R Dispatcher: reference/R-DISPATCHER-REFERENCE.md
+          - TEACH Dispatcher v4.6: reference/TEACH-DISPATCHER-REFERENCE-v4.6.0.md
           - TEACH Dispatcher v3.0: reference/TEACH-DISPATCHER-REFERENCE-v3.0.md
           - TEACH Dispatcher (Legacy): reference/TEACH-DISPATCHER-REFERENCE.md
           - TM Dispatcher: reference/TM-DISPATCHER-REFERENCE.md
@@ -177,6 +187,7 @@ nav:
           - DOT Quick Ref: reference/REFCARD-DOT.md
           - Nvim Quick Ref: reference/NVIM-QUICK-REFERENCE.md
           - Prompt Quick Ref: reference/PROMPT-DISPATCHER-REFCARD.md
+          - Teach Analyze Quick Ref: reference/REFCARD-TEACH-ANALYZE.md
           - Teaching v3.0 Quick Ref: reference/REFCARD-TEACHING-V3.md
           - Help System Quick Ref: reference/REFCARD-HELP-SYSTEM.md
           - Teaching Quick Ref (Legacy): reference/REFCARD-TEACHING.md
@@ -189,9 +200,13 @@ nav:
           - Project Status Guide: reference/PROJECT-STATUS-GUIDE.md
           - Project Detection: reference/PROJECT-DETECTION-GUIDE.md
           - Workspace Audit: reference/WORKSPACE-AUDIT-GUIDE.md
+      - Teach Analyze:
+          - API Reference: reference/TEACH-ANALYZE-API-REFERENCE.md
+          - Architecture: reference/TEACH-ANALYZE-ARCHITECTURE.md
       - Deep Dives:
           - Architecture: reference/ARCHITECTURE.md
           - 🎨 Architecture Diagrams: diagrams/ARCHITECTURE-DIAGRAMS.md
+          - 📦 Library Architecture: diagrams/LIBRARY-ARCHITECTURE.md
           - 📚 Teaching v3.0 Workflows: diagrams/TEACHING-V3-WORKFLOWS.md
           - 🎓 Scholar Enhancement:
               - API Reference: reference/SCHOLAR-ENHANCEMENT-API.md

@@ -17,7 +17,26 @@
 # - git, yq, gh CLI (optional)
 # ============================================================================
 
-# Format time ago from timestamp
+# =============================================================================
+# Function: _status_time_ago
+# Purpose: Format Unix timestamp as human-readable relative time
+# =============================================================================
+# Arguments:
+#   $1 - (required) Unix timestamp (seconds since epoch)
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Relative time string (e.g., "5m ago", "2h ago", "3d ago")
+#
+# Example:
+#   timestamp=$(date +%s)
+#   echo $(_status_time_ago $timestamp)  # "0s ago"
+#
+# Notes:
+#   - Shows seconds if < 60s, minutes if < 1h, hours if < 1d, days otherwise
+# =============================================================================
 _status_time_ago() {
     local timestamp="$1"
     local now=$(date +%s)
@@ -37,7 +56,30 @@ _status_time_ago() {
     fi
 }
 
-# Format box line with proper padding
+# =============================================================================
+# Function: _status_box_line
+# Purpose: Format a single line for the boxed dashboard display
+# =============================================================================
+# Arguments:
+#   $1 - (required) Icon/emoji for the line
+#   $2 - (required) Label text
+#   $3 - (required) Value text (can contain ANSI color codes)
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Formatted line with box borders and padding
+#            Example: "│  📁 Project: ~/projects/stat-440                    │"
+#
+# Example:
+#   _status_box_line "📁" "Project" "~/projects/stat-440"
+#
+# Notes:
+#   - Max width is 65 characters
+#   - Strips ANSI codes for length calculation
+#   - Adds proper padding to align right border
+# =============================================================================
 _status_box_line() {
     local icon="$1"
     local label="$2"
@@ -58,7 +100,49 @@ _status_box_line() {
     printf "│  %s %s %s%*s│\n" "$icon" "$label:" "$value" "$padding" ""
 }
 
-# Enhanced status dashboard
+# =============================================================================
+# Function: _teach_show_status_dashboard
+# Purpose: Display comprehensive teaching project status with boxed layout
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Dashboard displayed successfully
+#   1 - Not a teaching project (no .flow/teach-config.yml)
+#
+# Output:
+#   stdout - Formatted dashboard with:
+#            - Course info header (name, semester, year)
+#            - Project path
+#            - Quarto cache status (freeze directory info)
+#            - Git hook status (pre-commit, pre-push versions)
+#            - Deployment status (last deploy time, tags)
+#            - Content index (lecture/assignment counts)
+#            - Backup summary (count, size)
+#            - Performance metrics (render times)
+#            - Branch status with safety warnings
+#            - Health check summary
+#            - Uncommitted changes alert
+#
+# Example:
+#   cd ~/projects/teaching/stat-440
+#   _teach_show_status_dashboard
+#
+# Dependencies:
+#   - yq (optional, for config parsing)
+#   - git (for deployment/branch status)
+#   - _cache_status from lib/cache-helpers.zsh
+#   - _teach_count_backups from lib/backup-helpers.zsh
+#   - _teach_validate_config (optional)
+#   - _git_teaching_files (optional)
+#
+# Notes:
+#   - Requires .flow/teach-config.yml to exist
+#   - Gracefully handles missing optional dependencies
+#   - Uses FLOW_COLORS for consistent styling
+#   - Performance section only shown if metrics available
+# =============================================================================
 _teach_show_status_dashboard() {
     local config_file=".flow/teach-config.yml"
 
@@ -235,6 +319,29 @@ _teach_show_status_dashboard() {
     if [[ -n "$perf_label" ]]; then
         _status_box_line "⏱️ " "Performance" "$perf_label"
     fi
+
+    # Concept analysis status (Phase 1)
+    local concept_label="Not analyzed (run 'teach analyze')"
+    local concepts_file=".teach/concepts.json"
+    if [[ -f "$concepts_file" ]] && command -v jq >/dev/null 2>&1; then
+        local concept_count=$(jq '.metadata.total_concepts // 0' "$concepts_file" 2>/dev/null)
+        local week_count=$(jq '.metadata.weeks // 0' "$concepts_file" 2>/dev/null)
+        local last_updated=$(jq -r '.metadata.last_updated // ""' "$concepts_file" 2>/dev/null)
+
+        if [[ "$concept_count" -gt 0 ]]; then
+            # Calculate time since last analysis
+            local analysis_label=""
+            if [[ -n "$last_updated" && "$last_updated" != "null" ]]; then
+                local analysis_ts=$(date -jf "%Y-%m-%dT%H:%M:%SZ" "$last_updated" +%s 2>/dev/null || \
+                                   date -d "$last_updated" +%s 2>/dev/null)
+                if [[ -n "$analysis_ts" && "$analysis_ts" -gt 0 ]]; then
+                    analysis_label=" ($(_status_time_ago $analysis_ts))"
+                fi
+            fi
+            concept_label="${concept_count} concepts, ${week_count} weeks${analysis_label}"
+        fi
+    fi
+    _status_box_line "📊" "Concepts" "$concept_label"
 
     echo "└─────────────────────────────────────────────────────────────────┘"
     echo ""

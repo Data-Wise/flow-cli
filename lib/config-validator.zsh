@@ -20,8 +20,29 @@ FLOW_CONFIG_CACHE_DIR="${FLOW_DATA_DIR:-$HOME/.local/share/flow-cli}/cache"
 # Hash-Based Change Detection
 # -----------------------------------------------------------------------------
 
-# Compute SHA-256 hash of config file
-# Usage: _flow_config_hash [config_file]
+# =============================================================================
+# Function: _flow_config_hash
+# Purpose: Compute SHA-256 hash of a configuration file for change detection
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Path to config file [default: .flow/teach-config.yml]
+#
+# Returns:
+#   0 - Success, hash computed
+#   1 - File does not exist
+#
+# Output:
+#   stdout - SHA-256 hash string (64 hex chars), or file mtime as fallback
+#
+# Example:
+#   hash=$(_flow_config_hash ".flow/teach-config.yml")
+#   hash=$(_flow_config_hash)  # Uses default path
+#
+# Notes:
+#   - Uses shasum on macOS, sha256sum on Linux
+#   - Falls back to file modification time if neither available
+#   - Returns empty string and error code if file doesn't exist
+# =============================================================================
 _flow_config_hash() {
     local config_file="${1:-.flow/teach-config.yml}"
 
@@ -41,9 +62,31 @@ _flow_config_hash() {
     fi
 }
 
-# Check if config has changed since last read
-# Usage: _flow_config_changed [config_file]
-# Returns: 0 if changed, 1 if unchanged
+# =============================================================================
+# Function: _flow_config_changed
+# Purpose: Check if config file has changed since last read using hash comparison
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Path to config file [default: .flow/teach-config.yml]
+#
+# Returns:
+#   0 - Config has changed (or doesn't exist)
+#   1 - Config is unchanged
+#
+# Output:
+#   None (updates cache file as side effect)
+#
+# Example:
+#   if _flow_config_changed; then
+#       echo "Config changed, reloading..."
+#   fi
+#
+# Notes:
+#   - Creates cache directory if it doesn't exist
+#   - Stores hash in $FLOW_CONFIG_CACHE_DIR/teach-config.hash
+#   - Missing config is treated as "changed"
+#   - Updates cache on each call when config has changed
+# =============================================================================
 _flow_config_changed() {
     local config_file="${1:-.flow/teach-config.yml}"
     local cache_file="$FLOW_CONFIG_CACHE_DIR/teach-config.hash"
@@ -69,8 +112,28 @@ _flow_config_changed() {
     return 0  # Changed
 }
 
-# Force cache invalidation
-# Usage: _flow_config_invalidate
+# =============================================================================
+# Function: _flow_config_invalidate
+# Purpose: Force invalidation of the config hash cache
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   None
+#
+# Example:
+#   _flow_config_invalidate
+#   # Next call to _flow_config_changed will return 0 (changed)
+#
+# Notes:
+#   - Deletes the cached hash file
+#   - Forces next _flow_config_changed call to report change
+#   - Useful after config updates or when forcing reload
+# =============================================================================
 _flow_config_invalidate() {
     local cache_file="$FLOW_CONFIG_CACHE_DIR/teach-config.hash"
     rm -f "$cache_file" 2>/dev/null
@@ -80,9 +143,35 @@ _flow_config_invalidate() {
 # Config Validation
 # -----------------------------------------------------------------------------
 
-# Validate teach-config.yml structure
-# Usage: _teach_validate_config [config_file] [--quiet]
-# Returns: 0 if valid, 1 if invalid
+# =============================================================================
+# Function: _teach_validate_config
+# Purpose: Validate teach-config.yml structure against schema requirements
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Path to config file [default: .flow/teach-config.yml]
+#   $2 - (optional) --quiet to suppress output
+#
+# Returns:
+#   0 - Config is valid (or yq unavailable - graceful fallback)
+#   1 - Config is invalid or missing
+#
+# Output:
+#   stdout - Success/error messages (unless --quiet)
+#   stderr - None
+#
+# Example:
+#   _teach_validate_config ".flow/teach-config.yml"
+#   _teach_validate_config "" --quiet && echo "Valid"
+#
+# Notes:
+#   - Requires yq for full validation (graceful fallback if missing)
+#   - Validates: course.name (required), semester enum, year range
+#   - Validates: dates format (YYYY-MM-DD), weeks array, holidays array
+#   - Validates: deadlines (due_date XOR week+offset_days), exams array
+#   - Validates: scholar.course_info.level, difficulty, style.tone enums
+#   - Validates: grading percentages sum to ~100% (95-105 tolerance)
+#   - Uses _flow_log_* functions for colored output
+# =============================================================================
 _teach_validate_config() {
     local config_file="${1:-.flow/teach-config.yml}"
     local quiet=false
@@ -309,8 +398,30 @@ _teach_validate_config() {
     return 0
 }
 
-# Get config value with fallback
-# Usage: _teach_config_get <key> [default] [config_file]
+# =============================================================================
+# Function: _teach_config_get
+# Purpose: Get a configuration value with optional default fallback
+# =============================================================================
+# Arguments:
+#   $1 - (required) Dot-notation key path (e.g., "course.name", "scholar.style.tone")
+#   $2 - (optional) Default value if key not found [default: ""]
+#   $3 - (optional) Path to config file [default: .flow/teach-config.yml]
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Value at key path, or default if not found/empty
+#
+# Example:
+#   course_name=$(_teach_config_get "course.name" "Unknown Course")
+#   level=$(_teach_config_get "scholar.course_info.level" "undergraduate" "$config")
+#
+# Notes:
+#   - Requires yq for YAML parsing (returns default if unavailable)
+#   - Returns default for missing file, missing key, or null values
+#   - Key path uses dot notation matching yq syntax
+# =============================================================================
 _teach_config_get() {
     local key="$1"
     local default="${2:-}"
@@ -334,8 +445,30 @@ _teach_config_get() {
     fi
 }
 
-# Check if scholar section exists and is configured
-# Usage: _teach_has_scholar_config [config_file]
+# =============================================================================
+# Function: _teach_has_scholar_config
+# Purpose: Check if the scholar section exists and is configured in config
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Path to config file [default: .flow/teach-config.yml]
+#
+# Returns:
+#   0 - Scholar section exists and has content
+#   1 - Scholar section missing, empty, or file not found
+#
+# Output:
+#   None
+#
+# Example:
+#   if _teach_has_scholar_config; then
+#       echo "Scholar integration available"
+#   fi
+#
+# Notes:
+#   - Uses yq if available, falls back to grep for "^scholar:" pattern
+#   - Returns false for null or missing scholar sections
+#   - Used to determine if Scholar plugin features can be enabled
+# =============================================================================
 _teach_has_scholar_config() {
     local config_file="${1:-.flow/teach-config.yml}"
 
@@ -353,8 +486,32 @@ _teach_has_scholar_config() {
     [[ "$scholar_exists" != "none" && "$scholar_exists" != "null" ]]
 }
 
-# Get config file path (searches up directory tree)
-# Usage: _teach_find_config
+# =============================================================================
+# Function: _teach_find_config
+# Purpose: Find teach-config.yml by searching up the directory tree
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Config file found
+#   1 - Config file not found (searched to root)
+#
+# Output:
+#   stdout - Full path to teach-config.yml if found
+#
+# Example:
+#   config_path=$(_teach_find_config)
+#   if [[ -n "$config_path" ]]; then
+#       echo "Found config at: $config_path"
+#   fi
+#
+# Notes:
+#   - Starts from $PWD and searches upward
+#   - Looks for .flow/teach-config.yml in each directory
+#   - Uses ZSH ${dir:h} for parent directory traversal
+#   - Useful for commands run from subdirectories of a project
+# =============================================================================
 _teach_find_config() {
     local dir="$PWD"
 
@@ -373,8 +530,35 @@ _teach_find_config() {
 # Config Summary
 # -----------------------------------------------------------------------------
 
-# Show config summary for teach status
-# Usage: _teach_config_summary [config_file]
+# =============================================================================
+# Function: _teach_config_summary
+# Purpose: Display a formatted summary of teaching project configuration
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Path to config file [default: auto-detected via _teach_find_config]
+#
+# Returns:
+#   0 - Summary displayed successfully
+#   1 - No config found
+#
+# Output:
+#   stdout - Formatted multi-line summary with emoji icons:
+#            - Course name (bold)
+#            - Semester and year
+#            - Course level
+#            - Scholar integration status (configured/not configured)
+#            - Config validation status (valid/has issues)
+#
+# Example:
+#   _teach_config_summary
+#   _teach_config_summary ".flow/teach-config.yml"
+#
+# Notes:
+#   - Uses FLOW_COLORS for terminal styling
+#   - Calls _teach_validate_config with --quiet for status check
+#   - Designed for use in teach status dashboard
+#   - Shows "No config found" message if config missing
+# =============================================================================
 _teach_config_summary() {
     local config_file="${1:-$(_teach_find_config)}"
 

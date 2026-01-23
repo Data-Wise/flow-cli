@@ -1,0 +1,599 @@
+═══════════════════════════════════════════════════════════════
+TEACH ANALYZE DIAGNOSTIC - COMMAND OUTPUT CAPTURE
+═══════════════════════════════════════════════════════════════
+Date: 2026-01-22 21:24:37
+Demo Course: STAT-101 (Introduction to Statistics)
+Plugin: flow-cli
+═══════════════════════════════════════════════════════════════
+
+
+═══════════════════════════════════════════════════════════════
+TEST 1: Analyze Week 1 Lecture
+═══════════════════════════════════════════════════════════════
+Command: teach analyze lectures/week-01.qmd
+Expected:
+  - Concepts: descriptive-stats, data-types, distributions
+  - Categories: fundamental, core
+  - Prerequisites shown for distributions
+
+Output:
+─────────────────────────────────────────────────────────────────
+[38;5;75mAnalyzing: /Users/dt/projects/dev-tools/flow-cli/tests/fixtures/demo-course/lectures/week-01.qmd[0m
+[38;5;75mBuilding concept graph...[0m [38;5;154m✓[0m
+[38;5;75mChecking prerequisites...[0m [38;5;154m✓[0m
+
+[38;5;75m┌──────────────────────────────────────────────────────┐[0m
+[38;5;75m│[0m[1m  Content Analysis Report - week-01.qmd[0m  [38;5;75m│[0m
+[38;5;75m│[0m  Mode: moderate | Phase: 0 (heuristic-only)  [38;5;75m│[0m
+[38;5;75m╰──────────────────────────────────────────────────────╯[0m
+
+[38;5;75m📊 CONCEPT COVERAGE[0m
+┌────────────────────────────────────────────────────┐
+│ Concept                    | Status                │
+├────────────────────────────┼───────────────────────┤
+│ Descriptive-Stats          │ ✓ Introduced (Week 1) │
+│ Data-Types                 │ ✓ Introduced (Week 1) │
+│ Distributions              │ ✓ Introduced (Week 1) │
+│ Probability-Basics         │ ✓ Introduced (Week 2) │
+│ Sampling                   │ ✓ Introduced (Week 2) │
+│ Inference                  │ ✓ Introduced (Week 2) │
+│ Linear-Regression          │ ✓ Introduced (Week 3) │
+│ Correlation                │ ✓ Introduced (Week 3) │
+│ Multiple-Regression        │ ✓ Introduced (Week 4) │
+│ Model-Selection            │ ✓ Introduced (Week 4) │
+│ Assumptions-Checking       │ ✓ Introduced (Week 4) │
+│ Advanced-Modeling          │ ✓ Introduced (Week 5) │
+└────────────────────────────────────────────────────┘
+
+[38;5;75m🔗 PREREQUISITES[0m
+┌────────────────────────────────────────────────────┐
+│ Prerequisite          | Status                     │
+├───────────────────────┼────────────────────────────┤
+└────────────────────────────────────────────────────┘
+
+[38;5;75m╭─────────────────────────────────────────────────────╮[0m
+[38;5;75m│[0m[1m                      SUMMARY[0m                        [38;5;75m│[0m
+[38;5;75m╰─────────────────────────────────────────────────────╯[0m
+
+  [38;5;154mStatus: ✓ READY TO DEPLOY[0m (0 errors, 0 warnings)
+
+  [38;5;154m✓[0m All prerequisites satisfied
+  [38;5;154m✓[0m All concepts properly defined
+
+[1mNext steps:[0m
+  1. Deploy content: [38;5;75mteach dispatcher deploy --preview[0m
+  2. Or continue editing: [38;5;75mquarto preview[0m
+
+
+
+═══════════════════════════════════════════════════════════════
+TEST 2: Analyze Week 2 (With Prerequisites)
+═══════════════════════════════════════════════════════════════
+Command: teach analyze lectures/week-02.qmd
+Expected:
+  - Concepts: probability-basics, sampling, inference
+  - Prerequisites: data-types, distributions
+  - Inference requires multiple prerequisites
+
+Output:
+─────────────────────────────────────────────────────────────────
+[38;5;75mAnalyzing: /Users/dt/projects/dev-tools/flow-cli/tests/fixtures/demo-course/lectures/week-02.qmd[0m
+[38;5;75mBuilding concept graph...[0m [38;5;154m✓[0m
+[38;5;75mChecking prerequisites...[0m [38;5;154m✓[0m
+
+[38;5;75m┌──────────────────────────────────────────────────────┐[0m
+[38;5;75m│[0m[1m  Content Analysis Report - week-02.qmd[0m  [38;5;75m│[0m
+[38;5;75m│[0m  Mode: moderate | Phase: 0 (heuristic-only)  [38;5;75m│[0m
+[38;5;75m╰──────────────────────────────────────────────────────╯[0m
+
+[38;5;75m📊 CONCEPT COVERAGE[0m
+┌────────────────────────────────────────────────────┐
+│ Concept                    | Status                │
+├────────────────────────────┼───────────────────────┤
+│ Descriptive-Stats          │ ✓ Introduced (Week 1) │
+│ Data-Types                 │ ✓ Introduced (Week 1) │
+│ Distributions              │ ✓ Introduced (Week 1) │
+│ Probability-Basics         │ ✓ Introduced (Week 2) │
+│ Sampling                   │ ✓ Introduced (Week 2) │
+│ Inference                  │ ✓ Introduced (Week 2) │
+│ Linear-Regression          │ ✓ Introduced (Week 3) │
+│ Correlation                │ ✓ Introduced (Week 3) │
+│ Multiple-Regression        │ ✓ Introduced (Week 4) │
+│ Model-Selection            │ ✓ Introduced (Week 4) │
+│ Assumptions-Checking       │ ✓ Introduced (Week 4) │
+│ Advanced-Modeling          │ ✓ Introduced (Week 5) │
+└────────────────────────────────────────────────────┘
+
+[38;5;75m🔗 PREREQUISITES[0m
+┌────────────────────────────────────────────────────┐
+│ Prerequisite          | Status                     │
+├───────────────────────┼────────────────────────────┤
+└────────────────────────────────────────────────────┘
+
+[38;5;75m╭─────────────────────────────────────────────────────╮[0m
+[38;5;75m│[0m[1m                      SUMMARY[0m                        [38;5;75m│[0m
+[38;5;75m╰─────────────────────────────────────────────────────╯[0m
+
+  [38;5;154mStatus: ✓ READY TO DEPLOY[0m (0 errors, 0 warnings)
+
+  [38;5;154m✓[0m All prerequisites satisfied
+  [38;5;154m✓[0m All concepts properly defined
+
+[1mNext steps:[0m
+  1. Deploy content: [38;5;75mteach dispatcher deploy --preview[0m
+  2. Or continue editing: [38;5;75mquarto preview[0m
+
+
+
+═══════════════════════════════════════════════════════════════
+TEST 3: Batch Analyze All Lectures
+═══════════════════════════════════════════════════════════════
+Command: teach analyze --batch lectures/
+Expected:
+  - Processing: week-01.qmd, week-02.qmd, week-03.qmd
+  - Total concepts: 8
+  - Summary statistics shown
+
+Output:
+─────────────────────────────────────────────────────────────────
+[38;5;203mUnknown option: --batch[0m
+Use 'teach analyze --help' for usage information
+
+
+═══════════════════════════════════════════════════════════════
+TEST 4: Verify Cache Usage
+═══════════════════════════════════════════════════════════════
+Command: teach analyze --batch lectures/ (second run)
+Expected:
+  - Message about using cached data
+  - Or: cache hit / from cache
+  - Faster completion time
+
+Output:
+─────────────────────────────────────────────────────────────────
+[38;5;203mUnknown option: --batch[0m
+Use 'teach analyze --help' for usage information
+
+
+═══════════════════════════════════════════════════════════════
+TEST 5: Cache Directory Check
+═══════════════════════════════════════════════════════════════
+Command: ls -la .teach/analysis-cache/
+Expected:
+  - Cache directory exists
+  - Cache files present
+
+Output:
+─────────────────────────────────────────────────────────────────
+Cache directory not found
+
+═══════════════════════════════════════════════════════════════
+TEST 6: Validate Prerequisites
+═══════════════════════════════════════════════════════════════
+Command: teach validate lectures/*.qmd
+Expected:
+  - All files validate successfully
+  - Proper dependency chain confirmed
+
+Output:
+─────────────────────────────────────────────────────────────────
+[38;5;117mℹ Running full validation for 6 file(s)...[0m
+
+[38;5;117mℹ Validating: lectures/week-01.qmd[0m
+[38;5;114m✓ YAML valid: lectures/week-01.qmd[0m
+[38;5;114m✓ Syntax valid: lectures/week-01.qmd[0m
+[38;5;114m✓ Render valid: lectures/week-01.qmd (4s)[0m
+[38;5;114m✓ ✓ lectures/week-01.qmd (1769142284256ms)[0m
+
+[38;5;117mℹ Validating: lectures/week-02.qmd[0m
+[38;5;114m✓ YAML valid: lectures/week-02.qmd[0m
+[38;5;114m✓ Syntax valid: lectures/week-02.qmd[0m
+[38;5;114m✓ Render valid: lectures/week-02.qmd (3s)[0m
+duration=1769142284256
+[38;5;114m✓ ✓ lectures/week-02.qmd (1769142287441ms)[0m
+
+[38;5;117mℹ Validating: lectures/week-03-broken.qmd[0m
+[38;5;114m✓ YAML valid: lectures/week-03-broken.qmd[0m
+[38;5;114m✓ Syntax valid: lectures/week-03-broken.qmd[0m
+[38;5;114m✓ Render valid: lectures/week-03-broken.qmd (2s)[0m
+duration=1769142287441
+[38;5;114m✓ ✓ lectures/week-03-broken.qmd (1769142289641ms)[0m
+
+[38;5;117mℹ Validating: lectures/week-03.qmd[0m
+[38;5;114m✓ YAML valid: lectures/week-03.qmd[0m
+[38;5;114m✓ Syntax valid: lectures/week-03.qmd[0m
+[38;5;114m✓ Render valid: lectures/week-03.qmd (2s)[0m
+duration=1769142289641
+[38;5;114m✓ ✓ lectures/week-03.qmd (1769142292871ms)[0m
+
+[38;5;117mℹ Validating: lectures/week-04.qmd[0m
+[38;5;114m✓ YAML valid: lectures/week-04.qmd[0m
+[38;5;114m✓ Syntax valid: lectures/week-04.qmd[0m
+[38;5;114m✓ Render valid: lectures/week-04.qmd (3s)[0m
+duration=1769142292871
+[38;5;114m✓ ✓ lectures/week-04.qmd (1769142296270ms)[0m
+
+[38;5;117mℹ Validating: lectures/week-05-missing-prereq.qmd[0m
+[38;5;114m✓ YAML valid: lectures/week-05-missing-prereq.qmd[0m
+[38;5;114m✓ Syntax valid: lectures/week-05-missing-prereq.qmd[0m
+[38;5;114m✓ Render valid: lectures/week-05-missing-prereq.qmd (2s)[0m
+duration=1769142296270
+[38;5;114m✓ ✓ lectures/week-05-missing-prereq.qmd (1769142298448ms)[0m
+
+[38;5;114m✓ All 6 files passed validation (18214ms)[0m
+
+
+═══════════════════════════════════════════════════════════════
+TEST 7: Detect Circular Dependency
+═══════════════════════════════════════════════════════════════
+Command: teach validate lectures/week-03-broken.qmd
+Expected:
+  - Error or warning about circular dependency
+  - Mentions: correlation <-> linear-regression
+
+Output:
+─────────────────────────────────────────────────────────────────
+[38;5;117mℹ Running full validation for 1 file(s)...[0m
+
+[38;5;117mℹ Validating: lectures/week-03-broken.qmd[0m
+[38;5;114m✓ YAML valid: lectures/week-03-broken.qmd[0m
+[38;5;114m✓ Syntax valid: lectures/week-03-broken.qmd[0m
+[38;5;114m✓ Render valid: lectures/week-03-broken.qmd (2s)[0m
+[38;5;114m✓ ✓ lectures/week-03-broken.qmd (1769142300639ms)[0m
+
+[38;5;114m✓ All 1 files passed validation (2181ms)[0m
+
+
+═══════════════════════════════════════════════════════════════
+TEST 8: Slide Optimization
+═══════════════════════════════════════════════════════════════
+Command: teach analyze --slide-breaks lectures/week-01.qmd
+Expected:
+  - Slide break suggestions
+  - Key concepts identified
+  - Timing estimates
+
+Output:
+─────────────────────────────────────────────────────────────────
+[38;5;75mAnalyzing: /Users/dt/projects/dev-tools/flow-cli/tests/fixtures/demo-course/lectures/week-01.qmd[0m
+[38;5;75mBuilding concept graph...[0m [38;5;154m✓[0m
+[38;5;75mChecking prerequisites...[0m [38;5;154m✓[0m
+[38;5;75mAnalyzing slide structure...[0m   📐 Analyzing structure...
+  🔍 Detecting slide boundaries...
+  ⭐ Identifying key concepts...
+  ⏱️  Estimating time...
+[38;5;154m✓[0m
+
+[38;5;75m┌──────────────────────────────────────────────────────┐[0m
+[38;5;75m│[0m[1m  Content Analysis Report - week-01.qmd[0m  [38;5;75m│[0m
+[38;5;75m│[0m  Mode: moderate | Phase: 4 (slide-optimized)  [38;5;75m│[0m
+[38;5;75m╰──────────────────────────────────────────────────────╯[0m
+
+[38;5;75m📊 CONCEPT COVERAGE[0m
+┌────────────────────────────────────────────────────┐
+│ Concept                    | Status                │
+├────────────────────────────┼───────────────────────┤
+│ Descriptive-Stats          │ ✓ Introduced (Week 1) │
+│ Data-Types                 │ ✓ Introduced (Week 1) │
+│ Distributions              │ ✓ Introduced (Week 1) │
+│ Probability-Basics         │ ✓ Introduced (Week 2) │
+│ Sampling                   │ ✓ Introduced (Week 2) │
+│ Inference                  │ ✓ Introduced (Week 2) │
+│ Linear-Regression          │ ✓ Introduced (Week 3) │
+│ Correlation                │ ✓ Introduced (Week 3) │
+│ Multiple-Regression        │ ✓ Introduced (Week 4) │
+│ Model-Selection            │ ✓ Introduced (Week 4) │
+│ Assumptions-Checking       │ ✓ Introduced (Week 4) │
+│ Advanced-Modeling          │ ✓ Introduced (Week 5) │
+└────────────────────────────────────────────────────┘
+
+[38;5;75m📐 SLIDE OPTIMIZATION[0m
+┌────────────────────────────────────────────────────┐
+│ Metric                     | Value                 │
+├────────────────────────────┼───────────────────────┤
+│ Suggested breaks           │ 0                     │
+│ Key concepts               │ 0                     │
+│ Estimated time             │ 17 min                │
+└────────────────────────────────────────────────────┘
+
+[38;5;75m🔗 PREREQUISITES[0m
+┌────────────────────────────────────────────────────┐
+│ Prerequisite          | Status                     │
+├───────────────────────┼────────────────────────────┤
+└────────────────────────────────────────────────────┘
+
+[38;5;75m╭─────────────────────────────────────────────────────╮[0m
+[38;5;75m│[0m[1m                      SUMMARY[0m                        [38;5;75m│[0m
+[38;5;75m╰─────────────────────────────────────────────────────╯[0m
+
+  [38;5;154mStatus: ✓ READY TO DEPLOY[0m (0 errors, 0 warnings)
+
+  [38;5;154m✓[0m All prerequisites satisfied
+  [38;5;154m✓[0m All concepts properly defined
+
+[1mNext steps:[0m
+  1. Deploy content: [38;5;75mteach dispatcher deploy --preview[0m
+  2. Or continue editing: [38;5;75mquarto preview[0m
+
+
+
+═══════════════════════════════════════════════════════════════
+TEST 9: Analyze Week 3 (Advanced Concepts)
+═══════════════════════════════════════════════════════════════
+Command: teach analyze lectures/week-03.qmd
+Expected:
+  - Concepts: correlation, linear-regression
+  - Prerequisites: descriptive-stats, distributions, inference
+  - Advanced level concepts
+
+Output:
+─────────────────────────────────────────────────────────────────
+[38;5;75mAnalyzing: /Users/dt/projects/dev-tools/flow-cli/tests/fixtures/demo-course/lectures/week-03.qmd[0m
+[38;5;75mBuilding concept graph...[0m [38;5;154m✓[0m
+[38;5;75mChecking prerequisites...[0m [38;5;154m✓[0m
+
+[38;5;75m┌──────────────────────────────────────────────────────┐[0m
+[38;5;75m│[0m[1m  Content Analysis Report - week-03.qmd[0m  [38;5;75m│[0m
+[38;5;75m│[0m  Mode: moderate | Phase: 0 (heuristic-only)  [38;5;75m│[0m
+[38;5;75m╰──────────────────────────────────────────────────────╯[0m
+
+[38;5;75m📊 CONCEPT COVERAGE[0m
+┌────────────────────────────────────────────────────┐
+│ Concept                    | Status                │
+├────────────────────────────┼───────────────────────┤
+│ Descriptive-Stats          │ ✓ Introduced (Week 1) │
+│ Data-Types                 │ ✓ Introduced (Week 1) │
+│ Distributions              │ ✓ Introduced (Week 1) │
+│ Probability-Basics         │ ✓ Introduced (Week 2) │
+│ Sampling                   │ ✓ Introduced (Week 2) │
+│ Inference                  │ ✓ Introduced (Week 2) │
+│ Linear-Regression          │ ✓ Introduced (Week 3) │
+│ Correlation                │ ✓ Introduced (Week 3) │
+│ Multiple-Regression        │ ✓ Introduced (Week 4) │
+│ Model-Selection            │ ✓ Introduced (Week 4) │
+│ Assumptions-Checking       │ ✓ Introduced (Week 4) │
+│ Advanced-Modeling          │ ✓ Introduced (Week 5) │
+└────────────────────────────────────────────────────┘
+
+[38;5;75m🔗 PREREQUISITES[0m
+┌────────────────────────────────────────────────────┐
+│ Prerequisite          | Status                     │
+├───────────────────────┼────────────────────────────┤
+└────────────────────────────────────────────────────┘
+
+[38;5;75m╭─────────────────────────────────────────────────────╮[0m
+[38;5;75m│[0m[1m                      SUMMARY[0m                        [38;5;75m│[0m
+[38;5;75m╰─────────────────────────────────────────────────────╯[0m
+
+  [38;5;154mStatus: ✓ READY TO DEPLOY[0m (0 errors, 0 warnings)
+
+  [38;5;154m✓[0m All prerequisites satisfied
+  [38;5;154m✓[0m All concepts properly defined
+
+[1mNext steps:[0m
+  1. Deploy content: [38;5;75mteach dispatcher deploy --preview[0m
+  2. Or continue editing: [38;5;75mquarto preview[0m
+
+
+
+═══════════════════════════════════════════════════════════════
+TEST 10: View Full Concept Graph
+═══════════════════════════════════════════════════════════════
+Command: cat .teach/concepts.json
+Expected:
+  - Full concept registry
+  - All 8 concepts listed
+  - Prerequisite mappings
+
+Output:
+─────────────────────────────────────────────────────────────────
+{
+  "version": "1.0",
+  "schema_version": "concept-graph-v1",
+  "metadata": {
+    "last_updated": "2026-01-23T04:25:02Z",
+    "course_hash": "41b9010dfd6347ac801ccd191267737c91f11eb4",
+    "total_concepts": 12,
+    "weeks": 5,
+    "extraction_method": "frontmatter"
+  },
+  "concepts": {
+    "descriptive-stats": {
+      "id": "descriptive-stats",
+      "name": "Descriptive-Stats",
+      "prerequisites": [
+        "data-types",
+        "descriptive-stats"
+      ],
+      "introduced_in": {
+        "week": 1,
+        "lecture": "lectures/week-01.qmd",
+        "line_number": 0
+      }
+    },
+    "data-types": {
+      "id": "data-types",
+      "name": "Data-Types",
+      "prerequisites": [
+        "data-types",
+        "descriptive-stats"
+      ],
+      "introduced_in": {
+        "week": 1,
+        "lecture": "lectures/week-01.qmd",
+        "line_number": 0
+      }
+    },
+    "distributions": {
+      "id": "distributions",
+      "name": "Distributions",
+      "prerequisites": [
+        "data-types",
+        "descriptive-stats"
+      ],
+      "introduced_in": {
+        "week": 1,
+        "lecture": "lectures/week-01.qmd",
+        "line_number": 0
+      }
+    },
+    "probability-basics": {
+      "id": "probability-basics",
+      "name": "Probability-Basics",
+      "prerequisites": [
+        "data-types",
+        "distributions",
+        "probability-basics",
+        "sampling"
+      ],
+      "introduced_in": {
+        "week": 2,
+        "lecture": "lectures/week-02.qmd",
+        "line_number": 0
+      }
+    },
+    "sampling": {
+      "id": "sampling",
+      "name": "Sampling",
+      "prerequisites": [
+        "data-types",
+        "distributions",
+        "probability-basics",
+        "sampling"
+      ],
+      "introduced_in": {
+        "week": 2,
+        "lecture": "lectures/week-02.qmd",
+        "line_number": 0
+      }
+    },
+    "inference": {
+      "id": "inference",
+      "name": "Inference",
+      "prerequisites": [
+        "data-types",
+        "distributions",
+        "probability-basics",
+        "sampling"
+      ],
+      "introduced_in": {
+        "week": 2,
+        "lecture": "lectures/week-02.qmd",
+        "line_number": 0
+      }
+    },
+    "linear-regression": {
+      "id": "linear-regression",
+      "name": "Linear-Regression",
+      "prerequisites": [
+        "correlation",
+        "inference",
+        "linear-regression",
+        "correlation",
+        "descriptive-stats",
+        "distributions",
+        "inference"
+      ],
+      "introduced_in": {
+        "week": 3,
+        "lecture": "lectures/week-03-broken.qmd",
+        "line_number": 0
+      }
+    },
+    "correlation": {
+      "id": "correlation",
+      "name": "Correlation",
+      "prerequisites": [
+        "correlation",
+        "inference",
+        "linear-regression",
+        "correlation",
+        "descriptive-stats",
+        "distributions",
+        "inference"
+      ],
+      "introduced_in": {
+        "week": 3,
+        "lecture": "lectures/week-03-broken.qmd",
+        "line_number": 0
+      }
+    },
+    "multiple-regression": {
+      "id": "multiple-regression",
+      "name": "Multiple-Regression",
+      "prerequisites": [
+        "correlation",
+        "distributions",
+        "inference",
+        "linear-regression",
+        "multiple-regression"
+      ],
+      "introduced_in": {
+        "week": 4,
+        "lecture": "lectures/week-04.qmd",
+        "line_number": 0
+      }
+    },
+    "model-selection": {
+      "id": "model-selection",
+      "name": "Model-Selection",
+      "prerequisites": [
+        "correlation",
+        "distributions",
+        "inference",
+        "linear-regression",
+        "multiple-regression"
+      ],
+      "introduced_in": {
+        "week": 4,
+        "lecture": "lectures/week-04.qmd",
+        "line_number": 0
+      }
+    },
+    "assumptions-checking": {
+      "id": "assumptions-checking",
+      "name": "Assumptions-Checking",
+      "prerequisites": [
+        "correlation",
+        "distributions",
+        "inference",
+        "linear-regression",
+        "multiple-regression"
+      ],
+      "introduced_in": {
+        "week": 4,
+        "lecture": "lectures/week-04.qmd",
+        "line_number": 0
+      }
+    },
+    "advanced-modeling": {
+      "id": "advanced-modeling",
+      "name": "Advanced-Modeling",
+      "prerequisites": [
+        "multiple-regression",
+        "nonexistent-concept"
+      ],
+      "introduced_in": {
+        "week": 5,
+        "lecture": "lectures/week-05-missing-prereq.qmd",
+        "line_number": 0
+      }
+    }
+  }
+}
+
+
+═══════════════════════════════════════════════════════════════
+DIAGNOSTIC COMPLETE
+═══════════════════════════════════════════════════════════════
+Completed: 2026-01-22 21:25:03
+
+All command outputs have been captured above.
+Review this file to verify what teach analyze commands actually produce.
+
+Next steps:
+1. Review this log file
+2. Run interactive test: ./interactive-dog-teaching.zsh
+3. Compare expected vs actual outputs
+
+═══════════════════════════════════════════════════════════════

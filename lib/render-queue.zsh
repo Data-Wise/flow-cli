@@ -6,15 +6,31 @@
 # TIME ESTIMATION
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-# Estimate render time for a file based on history and heuristics
-# Args:
-#   $1 - File path
-# Returns: Estimated time in seconds
-# Strategy:
-#   1. Check render history cache
-#   2. Use file size heuristics
-#   3. Use content complexity heuristics
-#   4. Default estimate
+# =============================================================================
+# Function: _estimate_render_time
+# Purpose: Estimate render time for a Quarto file based on history and heuristics
+# =============================================================================
+# Arguments:
+#   $1 - (required) File path to the Quarto document
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Estimated render time in seconds (integer)
+#
+# Example:
+#   local time=$(_estimate_render_time "/path/to/document.qmd")
+#   echo "Estimated: ${time}s"
+#
+# Notes:
+#   - First checks ~/.cache/flow-cli/render-times.cache for historical data
+#   - Falls back to file size heuristics (<10KB: 5s, 10-50KB: 10s, >50KB: 20s)
+#   - Adjusts for content complexity (code chunks, R/Python, images)
+#   - Each code chunk adds 2s, R chunks add 5s total, Python 4s, images 1s
+#   - Maximum estimate capped at 120 seconds
+#   - Platform-aware: uses stat -f%z on macOS, stat -c%s on Linux
+# =============================================================================
 _estimate_render_time() {
     local file_path="$1"
     local history_file="${HOME}/.cache/flow-cli/render-times.cache"
@@ -93,10 +109,29 @@ _estimate_render_time() {
     echo "$estimated_time"
 }
 
-# Record actual render time to history cache
-# Args:
-#   $1 - File path
-#   $2 - Actual render time in seconds
+# =============================================================================
+# Function: _record_render_time
+# Purpose: Record actual render time to history cache for future estimates
+# =============================================================================
+# Arguments:
+#   $1 - (required) File path that was rendered
+#   $2 - (required) Actual render time in seconds
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   None (writes to cache file)
+#
+# Example:
+#   _record_render_time "/path/to/document.qmd" 15
+#
+# Notes:
+#   - Appends to ~/.cache/flow-cli/render-times.cache
+#   - Format: file_path|render_time|timestamp
+#   - Automatically prunes cache to last 1000 entries to prevent unbounded growth
+#   - Creates cache directory if it doesn't exist
+# =============================================================================
 _record_render_time() {
     local file_path="$1"
     local render_time="$2"
@@ -120,11 +155,30 @@ _record_render_time() {
 # QUEUE OPTIMIZATION
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-# Optimize render queue for maximum parallelism
-# Args:
-#   $@ - List of file paths
-# Returns: Optimized list of "file_path|estimated_time" lines
-# Strategy: Order by estimated time (slowest first) for better load balancing
+# =============================================================================
+# Function: _optimize_render_queue
+# Purpose: Optimize render queue ordering for maximum parallelism efficiency
+# =============================================================================
+# Arguments:
+#   $@ - (required) List of file paths to optimize
+#
+# Returns:
+#   0 - Success (including empty input)
+#
+# Output:
+#   stdout - Optimized list of "file_path|estimated_time" lines (one per line)
+#
+# Example:
+#   local -a optimized=($(_optimize_render_queue file1.qmd file2.qmd file3.qmd))
+#   for job in "${optimized[@]}"; do echo "$job"; done
+#
+# Notes:
+#   - Orders files by estimated time in DESCENDING order (slowest first)
+#   - This ensures long-running files start early and don't block completion
+#   - Uses _estimate_render_time for time predictions
+#   - Returns empty output for empty input (no error)
+#   - Critical for load balancing in parallel rendering
+# =============================================================================
 _optimize_render_queue() {
     local -a files=("$@")
     local -a categorized_files=()
@@ -151,11 +205,30 @@ _optimize_render_queue() {
 # JOB QUEUE OPERATIONS
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-# Create job queue file with optimized ordering
-# Args:
-#   $1 - Queue file path
-#   $@ - List of files to render
-# Note: Writes optimized job list to queue file
+# =============================================================================
+# Function: _create_job_queue
+# Purpose: Create job queue file with optimized ordering and job IDs
+# =============================================================================
+# Arguments:
+#   $1 - (required) Queue file path to write
+#   $@ - (required) List of files to render (remaining arguments)
+#
+# Returns:
+#   0 - Success
+#
+# Output:
+#   Writes to queue file with format: file_path|estimated_time|job_id
+#
+# Example:
+#   _create_job_queue "/tmp/render-queue.txt" file1.qmd file2.qmd file3.qmd
+#   # Queue file will contain optimized job list with sequential IDs
+#
+# Notes:
+#   - Truncates existing queue file before writing
+#   - Uses _optimize_render_queue for optimal ordering
+#   - Assigns sequential job IDs starting from 1
+#   - Job IDs used for tracking results and error logs
+# =============================================================================
 _create_job_queue() {
     local queue_file="$1"
     shift
@@ -173,11 +246,34 @@ _create_job_queue() {
     done
 }
 
-# Atomically fetch next job from queue
-# Args:
-#   $1 - Queue file path
-#   $2 - Lock file path
-# Returns: Next job line ("file_path|estimated_time|job_id") or empty if queue is empty
+# =============================================================================
+# Function: _fetch_job_atomic
+# Purpose: Atomically fetch and remove next job from queue (thread-safe)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Queue file path
+#   $2 - (required) Lock directory path (used as mutex)
+#
+# Returns:
+#   0 - Always succeeds (empty output means queue is empty)
+#
+# Output:
+#   stdout - Next job line "file_path|estimated_time|job_id" or empty string
+#
+# Example:
+#   local job=$(_fetch_job_atomic "/tmp/queue.txt" "/tmp/queue.lock")
+#   if [[ -n "$job" ]]; then
+#       local file="${job%%|*}"
+#       # Process file...
+#   fi
+#
+# Notes:
+#   - Uses mkdir-based locking for atomicity (portable across platforms)
+#   - Retries up to 10 times with 100ms delay if lock is held
+#   - Removes fetched job from queue file using sed
+#   - Platform-aware sed: uses -i '' on macOS, -i on Linux
+#   - Critical for preventing race conditions in parallel workers
+# =============================================================================
 _fetch_job_atomic() {
     local queue_file="$1"
     local lock_file="$2"
@@ -214,11 +310,31 @@ _fetch_job_atomic() {
     echo "$job"
 }
 
-# Atomically record job result
-# Args:
-#   $1 - Results file path
-#   $2 - Lock file path
-#   $3 - Result record (job_id|file|status|duration|start|end)
+# =============================================================================
+# Function: _record_job_result
+# Purpose: Atomically record job result to results file (thread-safe)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Results file path
+#   $2 - (required) Lock directory path (used as mutex)
+#   $3 - (required) Result record: "job_id|file|status|duration|start|end"
+#
+# Returns:
+#   0 - Always succeeds (retries on lock contention)
+#
+# Output:
+#   Appends result record to results file
+#
+# Example:
+#   local record="1|/path/file.qmd|0|15|1642000000|1642000015"
+#   _record_job_result "/tmp/results.txt" "/tmp/results.lock" "$record"
+#
+# Notes:
+#   - Uses mkdir-based locking for atomicity (portable across platforms)
+#   - Retries up to 10 times with 100ms delay if lock is held
+#   - Each worker calls this after completing a render job
+#   - Results used by progress monitor and final aggregation
+# =============================================================================
 _record_job_result() {
     local results_file="$1"
     local lock_file="$2"
@@ -242,11 +358,32 @@ _record_job_result() {
 # LOAD BALANCING
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-# Calculate optimal worker count for given file list
-# Args:
-#   $1 - Total number of files
-#   $2 - Average estimated time per file (optional)
-# Returns: Recommended worker count
+# =============================================================================
+# Function: _calculate_optimal_workers
+# Purpose: Calculate optimal worker count for given workload
+# =============================================================================
+# Arguments:
+#   $1 - (required) Total number of files to render
+#   $2 - (optional) Average estimated time per file [default: 10]
+#
+# Returns:
+#   0 - Success
+#   1 - Error (parallel-helpers.zsh not found)
+#
+# Output:
+#   stdout - Recommended worker count (integer)
+#
+# Example:
+#   local workers=$(_calculate_optimal_workers 20)
+#   echo "Using $workers workers"
+#
+# Notes:
+#   - Never exceeds CPU core count
+#   - Ensures at least 2 files per worker for efficiency
+#   - Minimum 1 worker, maximum = CPU count
+#   - Sources parallel-helpers.zsh if _detect_cpu_cores not available
+#   - Formula: min(cores, files/2), bounded [1, cores]
+# =============================================================================
 _calculate_optimal_workers() {
     local file_count="$1"
     local avg_time="${2:-10}"
@@ -281,14 +418,31 @@ _calculate_optimal_workers() {
     echo "$optimal_workers"
 }
 
-# Categorize files by estimated render time
-# Args:
-#   $@ - List of file paths
-# Returns: Three counts via stdout (fast|medium|slow)
-# Categories:
-#   - Fast: < 10s
-#   - Medium: 10-30s
-#   - Slow: > 30s
+# =============================================================================
+# Function: _categorize_files_by_time
+# Purpose: Categorize files by estimated render time into fast/medium/slow
+# =============================================================================
+# Arguments:
+#   $@ - (required) List of file paths to categorize
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Pipe-separated counts: "fast_count|medium_count|slow_count"
+#
+# Example:
+#   local result=$(_categorize_files_by_time *.qmd)
+#   local fast="${result%%|*}"
+#   echo "Fast files: $fast"
+#
+# Notes:
+#   - Fast: < 10 seconds estimated
+#   - Medium: 10-30 seconds estimated
+#   - Slow: > 30 seconds estimated
+#   - Useful for workload analysis and progress estimation
+#   - Uses _estimate_render_time for predictions
+# =============================================================================
 _categorize_files_by_time() {
     local -a files=("$@")
     local fast_count=0
@@ -311,10 +465,28 @@ _categorize_files_by_time() {
     echo "${fast_count}|${medium_count}|${slow_count}"
 }
 
-# Estimate total render time (serial execution)
-# Args:
-#   $@ - List of file paths
-# Returns: Total estimated time in seconds
+# =============================================================================
+# Function: _estimate_total_time
+# Purpose: Estimate total render time if files were processed serially
+# =============================================================================
+# Arguments:
+#   $@ - (required) List of file paths to estimate
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Total estimated time in seconds (integer)
+#
+# Example:
+#   local total=$(_estimate_total_time *.qmd)
+#   echo "Serial execution would take ${total}s"
+#
+# Notes:
+#   - Simply sums individual file estimates
+#   - Used as baseline for speedup calculations
+#   - Compare with _estimate_parallel_time for parallelism benefits
+# =============================================================================
 _estimate_total_time() {
     local -a files=("$@")
     local total_time=0
@@ -327,11 +499,32 @@ _estimate_total_time() {
     echo "$total_time"
 }
 
-# Estimate parallel render time
-# Args:
-#   $1 - Number of workers
-#   $@ - List of file paths (remaining args)
-# Returns: Estimated parallel time in seconds
+# =============================================================================
+# Function: _estimate_parallel_time
+# Purpose: Estimate render time with parallel execution simulation
+# =============================================================================
+# Arguments:
+#   $1 - (required) Number of workers
+#   $@ - (required) List of file paths (remaining arguments)
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Estimated parallel time in seconds (integer)
+#
+# Example:
+#   local parallel_time=$(_estimate_parallel_time 4 *.qmd)
+#   local serial_time=$(_estimate_total_time *.qmd)
+#   echo "Speedup: $(( serial_time / parallel_time ))x"
+#
+# Notes:
+#   - Simulates parallel execution with greedy job assignment
+#   - Each job assigned to worker that will be free soonest
+#   - Files sorted by estimated time (descending) for optimal scheduling
+#   - Returns time when last worker finishes
+#   - Used for ETA calculations and speedup predictions
+# =============================================================================
 _estimate_parallel_time() {
     local num_workers="$1"
     shift
@@ -380,11 +573,30 @@ _estimate_parallel_time() {
     echo "$max_time"
 }
 
-# Calculate speedup factor
-# Args:
-#   $1 - Serial time
-#   $2 - Parallel time
-# Returns: Speedup as float (e.g., "3.5")
+# =============================================================================
+# Function: _calculate_speedup
+# Purpose: Calculate speedup factor from serial vs parallel execution times
+# =============================================================================
+# Arguments:
+#   $1 - (required) Serial execution time in seconds
+#   $2 - (required) Parallel execution time in seconds
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Speedup factor as float (e.g., "3.5") or integer if bc unavailable
+#
+# Example:
+#   local speedup=$(_calculate_speedup 120 30)
+#   echo "Achieved ${speedup}x speedup"
+#
+# Notes:
+#   - Returns "1.0" if parallel_time is 0 (avoids division by zero)
+#   - Uses bc for floating point if available (scale=1)
+#   - Falls back to integer division if bc not installed
+#   - Formula: serial_time / parallel_time
+# =============================================================================
 _calculate_speedup() {
     local serial_time="$1"
     local parallel_time="$2"

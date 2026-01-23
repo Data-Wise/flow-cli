@@ -1,0 +1,31 @@
+---
+title: "Week 5: Advanced Topics (BROKEN - Missing Prerequisites)"
+subtitle: "Intentionally Broken for Testing"
+author: "Test Instructor"
+date: "2026-02-17"
+format: html
+concepts:
+  - id: advanced-modeling
+    name: "Advanced Modeling Techniques"
+    category: "advanced"
+    bloom_level: "create"
+    cognitive_load: "high"
+    teaching_time: 45
+    prerequisites:
+      - nonexistent-concept  # MISSING! This concept doesn't exist
+      - multiple-regression
+---
+
+## This file intentionally has missing prerequisites
+
+The `advanced-modeling` concept requires `nonexistent-concept`, which doesn't exist in the course.
+
+This should be detected by `teach validate --deep` as a missing prerequisite error.
+
+## Expected Error
+
+```
+ERROR: Prerequisite 'nonexistent-concept' not found in concept registry
+       Required by: advanced-modeling
+       File: lectures/week-05-missing-prereq.qmd
+```

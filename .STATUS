@@ -4,255 +4,95 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.15.0 - Dual Track Implementation
+## Phase: v5.16.0 - In Development
 ## Priority: 1
-## Progress: 20
+## Progress: 60
 
-## Focus: Intelligent Content Analysis + Comprehensive Help System
+## Focus: Intelligent Content Analysis (teach analyze)
 
-## 🎯 Current Sprint (2026-01-20):
+## ✅ Just Completed (2026-01-22):
 
-### Two Parallel Implementation Tracks
+### teach analyze - ALL PHASES COMPLETE + Optimized
 
----
+**PR #289:** Merged to dev (Phases 0-5: concept extraction, caching, reports, AI, slides, polish)
+**PR #290:** Merged to dev (post-merge optimization)
 
-### Track A: Intelligent Content Analysis (teach analyze) - NEW ✨
+**Optimization (PR #290):**
+- Added self-protecting load guards to 6 lib files (prevents double/triple-sourcing)
+- Extracted display layer to `lib/analysis-display.zsh` (7 functions, 270 lines)
+- Fixed slide cache path collisions (directory-mirroring structure)
+- Removed redundant sources from `flow.plugin.zsh` and dispatcher
 
-**Session Duration:** Brainstorm + Spec + Planning complete (~3 hours)
-**Branch:** `feature/teach-analyze` (created)
-**Worktree:** `~/.git-worktrees/flow-cli/teach-analyze`
-**Status:** Ready for Phase 0 implementation
+**Brainstorm:** Config→concept graph integration (Option D: Hybrid Enrichment for Phase 1)
+**Spec:** `docs/specs/SPEC-teach-analyze-optimization-2026-01-22.md`
 
-**Scope:** Phase 0 Ultra-MVP (4-5 hours implementation)
-- Concept extraction from frontmatter
-- Prerequisite validation (week ordering)
-- Violation detection and reporting
-- Zero AI dependency (heuristic-only)
+### Bug Fix: wt dispatcher passthrough
 
-**Deliverables Created:**
-✅ SPEC-intelligent-content-analysis-2026-01-20.md (1,280 lines, status: ready ✅)
-✅ SPEC-REVIEW-intelligent-content-analysis.md (comprehensive review)
-✅ BRAINSTORM-intelligent-content-analysis-2026-01-20.md (deep mode + 2 agents)
-✅ PLAN-teach-analyze-phase0.md (4-5 hour implementation guide)
-✅ PLAN-teach-analyze-phase1.md (next phase reference)
-
-**Key Decisions Made:**
-✅ Resolved AI service integration (heuristic-only for Phase 0-1)
-✅ Split Phase 0 from Phase 1 (5h vs 12h)
-✅ Simplified API design (16 → 13 flags)
-✅ All open questions resolved
-
-**Implementation Roadmap:**
-- Phase 0 (4-5h): Prerequisite validation (THIS TRACK)
-- Phase 1 (6-8h): Caching + batch analysis
-- Phase 2 (8-10h): Integration (validate, deploy)
-- Phase 3 (10-12h): AI enhancement
-- Phase 4 (8-10h): Slide optimization
-- Phase 5 (6-8h): Polish + docs
-- **Total:** 42-53h across all phases
-
-**What Phase 0 Delivers:**
-```bash
-$ teach analyze lectures/week-05.qmd
-# Validates prerequisites, reports violations
-# Example: Week 5 requires concept from Week 7 → WARNING
-```
-
-**Next Steps:**
-1. Start NEW session: `cd ~/.git-worktrees/flow-cli/teach-analyze && claude`
-2. Implement Phase 0 per PLAN-teach-analyze-phase0.md (4-5 hours)
-3. Run 25 tests (20 unit + 5 integration)
-4. Create PR: feature/teach-analyze → dev
+- `wt lock/unlock/repair` now correctly passes through to `git worktree`
+- Added `lock|unlock|repair` to known commands list
 
 ---
 
-### Track B: Comprehensive Help System - Planning Complete ✅
+## 🎯 Current Sprint:
 
-**Session Duration:** Planning phase complete (~45 min)
-**Branch:** `feature/comprehensive-help` (created)
-**Worktree:** `~/.git-worktrees/flow-cli/comprehensive-help`
-**Status:** Ready for implementation (can proceed in parallel)
+### v5.16.0 - Bundling for Release
 
-**Scope:** MVP (3-4 hours implementation)
-- Main dispatcher help reorganization (workflow-ordered)
-- 3 priority command helps (lecture, doctor, deploy)
-- Quick Start tutorial (8 steps, 15 minutes for users)
-- Website navigation integration
-
-**Interactive Decisions Made:**
-✅ Committed pending doc updates to dev
-✅ Selected MVP scope (fastest user value)
-✅ Prioritized: teach lecture, teach doctor, teach deploy
-✅ Tutorial: Use plan exactly (8 steps, 15 min)
-✅ Main help: Reorganize to workflow phases
-
-**Implementation Guide:**
-- IMPLEMENTATION-NOTES.md (comprehensive task breakdown)
-- Task-by-task instructions with code templates
-- Verification checklist
-- Success criteria
-
-**Next Steps:**
-1. Start NEW session: `cd ~/.git-worktrees/flow-cli/comprehensive-help && claude`
-2. Implement per IMPLEMENTATION-NOTES.md (~3-4 hours)
-3. Run verification tests
-4. Create PR: feature/comprehensive-help → dev
+**On dev (ready for release):**
+- teach analyze (Phases 0-5) — full concept graph + AI + slide optimization
+- teach analyze optimization (load guards, display extraction, cache fix)
+- Documentation debt (348 functions documented, 49.4% coverage)
+- wt dispatcher passthrough fix
 
 ---
 
-### Which Track to Start First?
-
-**Option A: Track A (teach analyze Phase 0)**
-- Higher technical complexity
-- 4-5 hours implementation
-- Proves new concept (prerequisite validation)
-- User value: Catch ordering mistakes before deployment
-
-**Option B: Track B (comprehensive help)**
-- Lower complexity, pure documentation
-- 3-4 hours implementation
-- Immediate user value (better help text)
-- Unblocks user onboarding
-
-**Recommendation:** Either track is valuable. User chose Track A (teach analyze).
-
----
-
-## 📦 Ready for PR (2 branches):
-
-### 1. Quarto Workflow Phase 2 - Complete ✅
-
-**Branch:** `feature/quarto-workflow`
-**Worktree:** `~/.git-worktrees/flow-cli/quarto-workflow`
-**Status:** All 6 waves complete, 597 tests passing, production-ready
-
-**Implementation:** ~10 hours (orchestrated, 80-85% time savings)
-
-**All 6 Waves Delivered:**
-1. ✅ Profile Management + R Detection (80 tests, 100%)
-2. ✅ Parallel Rendering 3-10x Speedup (74 tests, 100%)
-3. ✅ Custom Validators Framework (38/57 tests*)
-4. ✅ Advanced Caching (49 tests, 100%)
-5. ✅ Performance Monitoring (44 tests, 100%)
-6. ✅ Integration + Documentation (37 tests, 100%)
-
-*Wave 3 framework production-ready (100%). Built-in validators functional but need 2-3h refinement.
-
-**Statistics:**
-- Implementation Time: ~10 hours (vs 40-50 hours manual)
-- Time Savings: 80-85%
-- Files Created: 27 new files
-- Files Modified: 8 files
-- Lines Added: ~14,400 (4,500 code + 2,000 tests + 7,900 docs)
-- Tests: 322 (Phase 2) + 275 (Phase 1) = 597 total
-- Documentation: 2,931-line user guide + integration guides
-
-**Performance Achievements:**
-- Parallel Rendering: 3-10x speedup (4.0x verified)
-- Custom Validators: < 5s overhead for 3 validators
-- Performance Monitoring: < 100ms overhead
-- Cache Analysis: < 2s for 1000+ files
-
-**Key Features:**
-- Profile Management: Multiple Quarto profiles + R auto-install
-- Parallel Rendering: Worker pools with smart queue
-- Custom Validators: Extensible framework (citations, links, formatting)
-- Advanced Caching: Selective clearing + recommendations
-- Performance Monitoring: Automatic tracking + trend visualization
-
-**Next Steps:**
-1. Create PR: feature/quarto-workflow → dev
-2. Code review
-3. Integration testing
-4. v4.7.0 release
-
----
-
-### 2. Lecture-to-Slides Conversion (PR #280) - Complete ✅
-
-**Branch:** `feature/lecture-to-slides`
-**Worktree:** `~/.git-worktrees/flow-cli/feature-lecture-to-slides`
-**Status:** Complete, PR #280 reviewed
-
-**Key Feature:**
-- `teach slides --from-lecture` conversion
-- Preserves R code chunks and LaTeX
-- Multi-part week support
-- LaTeX backslash preservation fix applied
-
-**Integration:**
-- Reviewed for compatibility with teach analyze Phase 4 (slide optimization)
-- Recommendation: Merge now, enhance in Phase 4 with `--optimize` flag
-
-**Next Steps:**
-1. Merge PR #280 to dev (when approved)
-2. Phase 4 enhancement: Add `teach slides --optimize` flag
-
----
-
-## 🗂️ Active Worktrees (6 total):
+## 🗂️ Active Worktrees:
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Active (planning/coordination) |
-| `teach-analyze` | `feature/teach-analyze` | ✨ NEW - Ready for Phase 0 implementation |
-| `comprehensive-help` | `feature/comprehensive-help` | Ready for implementation |
-| `quarto-workflow` | `feature/quarto-workflow` | ✅ Complete - Ready for PR |
-| `feature-lecture-to-slides` | `feature/lecture-to-slides` | ✅ Complete - PR #280 |
-| `course-planning-phases-2-4` | `feature/course-planning-phases-2-4` | Paused/Archive |
+| Main repo | `dev` | Planning/coordination |
+
+---
+
+## 📝 Pending:
+
+### SPEC-teach-prompt-command (Paused)
+- ⏸️ Needs Scholar plugin coordination
+
+### Config→Concept Graph Integration (Phase 1 Enhancement)
+- Brainstorm complete: `docs/specs/BRAINSTORM-config-concept-graph-integration-2026-01-22.md`
+- Approach: Option D (Hybrid Enrichment) — non-breaking config cross-referencing
+- Validate week assignments against `teach-config.yml`
+- Match file titles to config topics as fallback
 
 ---
 
 ## 📊 Version Roadmap:
 
-**v5.15.0 (In Progress):**
-- Track A: Intelligent Content Analysis Phase 0 ← CURRENT FOCUS
-- Track B: Comprehensive Help System
-- Integration of both features
+**v5.16.0 (Next Release):**
+- teach analyze (all phases) ← COMPLETE
+- Documentation debt ← COMPLETE
+- wt passthrough fix ← COMPLETE
+- Ready to release from dev → main
 
-**v4.7.0 (Ready):**
-- Quarto Workflow Phase 2 (ready for PR)
-- Lecture-to-Slides Conversion (PR #280)
+**Recent Releases:**
+- v5.15.1 (2026-01-21): Architecture docs, V-dispatcher reference, coverage report
+- v5.15.0 (2026-01-21): Comprehensive Help System (18 functions, 3 guides)
 
-**Future (v5.16.0+):**
-- teach analyze Phase 1: Caching + batch
-- teach analyze Phase 2: Integration
-- teach analyze Phase 3+: AI enhancement, slide optimization
-
----
-
-## 📅 Session History (2026-01-20):
-
-**Morning Session (~3 hours):**
-1. Reviewed PR #280 (lecture-to-slides)
-2. Deep brainstorm: Intelligent content analysis (8 interactive questions)
-3. Launched 2 background agents (backend architect + UX designer)
-4. Created comprehensive specification (~12,000 lines)
-5. Reviewed and refined spec (resolved 5 critical issues)
-6. Created Phase 0 implementation plan (Ultra-MVP, 4-5 hours)
-7. Created feature branch and worktree
-8. Updated .STATUS
-
-**Key Decisions:**
-- Resolved AI service integration question (heuristic-only Phase 0-1)
-- Split Phase 0 from Phase 1 (proves concept in 5h)
-- Simplified API design (13 flags, progressive disclosure)
-- Ready for immediate implementation
-
-**Next Action:** Start Phase 0 implementation in teach-analyze worktree
+**Future (v5.17.0+):**
+- Config→concept graph integration (Phase 1)
+- teach analyze AI improvements
+- Quarto Workflow Phase 2 (already on dev via PR #279)
 
 ---
 
 ## 🎯 Recommended Next Step:
 
-```bash
-cd ~/.git-worktrees/flow-cli/teach-analyze
-claude
-```
-
-Follow: `PLAN-teach-analyze-phase0.md` (4-5 hour guide)
+Release v5.16.0 (dev → main) or start config→concept graph Phase 1.
 
 ---
 
-**Last Updated:** 2026-01-20
-**Status:** Active - Dual Track Ready for Implementation
+**Last Updated:** 2026-01-23
+**Status:** Active - v5.16.0 ready for release
+## wins: --category fix squashed the bug (2026-01-22), fixed the bug (2026-01-22), --category fix squashed the bug (2026-01-22), fixed the bug (2026-01-22), --category fix squashed the bug (2026-01-22)
+## streak: 0
+## last_active: 2026-01-22 22:26
