@@ -68,13 +68,9 @@ _display_prerequisites_section() {
 
         echo ""
         echo "${FLOW_BLUE}🔗 PREREQUISITES${FLOW_RESET}"
-        echo "┌────────────────────────────────────────────────────┐"
-        echo "│ Prerequisite          | Status                     │"
-        echo "├───────────────────────┼────────────────────────────┤"
 
         if ! command -v jq >/dev/null 2>&1; then
-            echo "│ (Install jq for detailed prerequisite view)        │"
-            echo "└────────────────────────────────────────────────────┘"
+            echo "  (Install jq for detailed prerequisite view)"
             return 0
         fi
 
@@ -86,77 +82,107 @@ _display_prerequisites_section() {
             analyzed_week="1"
         fi
 
-        # Collect all prerequisites for concepts introduced in this file
-        typeset -A prereq_status_map
-        found_prereqs=false
-
         # Get concepts introduced in the analyzed file's week
+        typeset -a introduced_concepts
         while IFS= read -r concept_id; do
-            # Get prerequisites for this concept
-            while IFS= read -r prereq_id; do
-                # Strip any quotes that may have been added
-                prereq_id="${prereq_id//\"/}"
-
-                [[ -z "$prereq_id" || "$prereq_id" == "null" ]] && continue
-
-                # Skip self-references
-                [[ "$prereq_id" == "$concept_id" ]] && continue
-
-                found_prereqs=true
-
-                # Check if prerequisite exists
-                prereq_info=$(jq -r --arg pid "$prereq_id" \
-                    '.concepts[$pid] // null' "$results_file" 2>/dev/null)
-
-                if [[ "$prereq_info" == "null" || -z "$prereq_info" ]]; then
-                    # Missing prerequisite
-                    prereq_status_map["$prereq_id"]="✗ Missing"
-                    error_count=$((error_count + 1))
-                else
-                    # Get the week it was introduced
-                    prereq_week=$(echo "$prereq_info" | jq -r '.introduced_in.week // "?"' 2>/dev/null)
-
-                    if [[ "$prereq_week" == "?" ]]; then
-                        prereq_status_map["$prereq_id"]="⚠ Unknown week"
-                        warning_count=$((warning_count + 1))
-                    elif [[ "$prereq_week" -gt "$analyzed_week" ]]; then
-                        # Future prerequisite
-                        prereq_status_map["$prereq_id"]="⚠ Week $prereq_week (future)"
-                        warning_count=$((warning_count + 1))
-                    else
-                        # Valid prerequisite
-                        prereq_status_map["$prereq_id"]="✓ Week $prereq_week"
-                    fi
-                fi
-            done < <(jq -r --arg cid "$concept_id" \
-                '.concepts[$cid].prerequisites[]? // empty' "$results_file" 2>/dev/null)
+            concept_id="${concept_id//\"/}"
+            [[ -z "$concept_id" ]] && continue
+            introduced_concepts+=("$concept_id")
         done < <(jq -r --arg week "$analyzed_week" \
             '.concepts | to_entries[] | select(.value.introduced_in.week == ($week | tonumber)) | .key' \
             "$results_file" 2>/dev/null)
 
-        # Display prerequisites
-        if [[ "$found_prereqs" == "true" ]]; then
-            for prereq_key in "${(@k)prereq_status_map}"; do
-                # Strip quotes from the key
-                prereq_id="${prereq_key//\"/}"
-
-                prereq_name=$(jq -r --arg pid "$prereq_id" \
-                    '.concepts[$pid].name // $pid' "$results_file" 2>/dev/null)
-                prereq_status="${prereq_status_map[$prereq_key]}"
-
-                # Determine color based on status symbol
-                color="${FLOW_GREEN}"
-                if [[ "$prereq_status" == ✗* ]]; then
-                    color="${FLOW_RED}"
-                elif [[ "$prereq_status" == ⚠* ]]; then
-                    color="${FLOW_YELLOW}"
-                fi
-
-                printf "│ %-21s │ ${color}%-26s${FLOW_RESET} │\n" "$prereq_name" "$prereq_status"
-            done
+        if [[ ${#introduced_concepts[@]} -eq 0 ]]; then
+            echo "  No concepts introduced this week"
+            return 0
         fi
 
-        echo "└────────────────────────────────────────────────────┘"
+        echo ""
+        echo "  ${FLOW_BOLD}For concepts introduced in Week ${analyzed_week}:${FLOW_RESET}"
+        echo ""
+
+        # Display each concept with its prerequisites
+        for concept_id in "${introduced_concepts[@]}"; do
+            concept_name=$(jq -r --arg cid "$concept_id" \
+                '.concepts[$cid].name // $cid' "$results_file" 2>/dev/null)
+
+            echo "  ${FLOW_BOLD}${concept_name}${FLOW_RESET}"
+
+            # Get direct prerequisites for this concept
+            typeset -a direct_prereqs
+            typeset -A seen_prereqs  # Track to avoid duplicates
+            while IFS= read -r prereq_id; do
+                prereq_id="${prereq_id//\"/}"
+                [[ -z "$prereq_id" || "$prereq_id" == "null" ]] && continue
+                [[ "$prereq_id" == "$concept_id" ]] && continue  # Skip self-references
+                [[ -n "${seen_prereqs[$prereq_id]}" ]] && continue  # Skip duplicates
+                seen_prereqs[$prereq_id]=1
+                direct_prereqs+=("$prereq_id")
+            done < <(jq -r --arg cid "$concept_id" \
+                '.concepts[$cid].prerequisites[]? // empty' "$results_file" 2>/dev/null)
+
+            if [[ ${#direct_prereqs[@]} -eq 0 ]]; then
+                echo "    ${FLOW_GREEN}✓${FLOW_RESET} No prerequisites"
+            else
+                # Display each direct prerequisite
+                for prereq_id in "${direct_prereqs[@]}"; do
+                    # Final safety check: skip if this prerequisite is the same as the concept
+                    [[ "$prereq_id" == "$concept_id" ]] && continue
+
+                    prereq_name=$(jq -r --arg pid "$prereq_id" \
+                        '.concepts[$pid].name // $pid' "$results_file" 2>/dev/null)
+
+                    # Get prerequisite week
+                    prereq_info=$(jq -r --arg pid "$prereq_id" \
+                        '.concepts[$pid] // null' "$results_file" 2>/dev/null)
+
+                    if [[ "$prereq_info" == "null" || -z "$prereq_info" ]]; then
+                        echo "    ${FLOW_RED}✗${FLOW_RESET} ${prereq_name} ${FLOW_RED}(missing)${FLOW_RESET}"
+                        error_count=$((error_count + 1))
+                    else
+                        prereq_week=$(echo "$prereq_info" | jq -r '.introduced_in.week // "?"' 2>/dev/null)
+
+                        if [[ "$prereq_week" == "?" ]]; then
+                            echo "    ${FLOW_YELLOW}⚠${FLOW_RESET} ${prereq_name} ${FLOW_YELLOW}(unknown week)${FLOW_RESET}"
+                            warning_count=$((warning_count + 1))
+                        elif [[ "$prereq_week" -gt "$analyzed_week" ]]; then
+                            echo "    ${FLOW_YELLOW}⚠${FLOW_RESET} ${prereq_name} ${FLOW_YELLOW}(Week ${prereq_week} - future)${FLOW_RESET}"
+                            warning_count=$((warning_count + 1))
+                        else
+                            # Valid prerequisite - show it with its transitive dependencies
+                            echo "    ${FLOW_GREEN}✓${FLOW_RESET} ${prereq_name} ${FLOW_BLUE}(Week ${prereq_week})${FLOW_RESET}"
+
+                            # Get transitive prerequisites (prerequisites of this prerequisite)
+                            typeset -a transitive_prereqs
+                            typeset -A seen_trans
+                            while IFS= read -r trans_prereq_id; do
+                                trans_prereq_id="${trans_prereq_id//\"/}"
+                                [[ -z "$trans_prereq_id" || "$trans_prereq_id" == "null" ]] && continue
+                                [[ "$trans_prereq_id" == "$prereq_id" ]] && continue  # Skip self
+                                [[ "$trans_prereq_id" == "$concept_id" ]] && continue  # Skip circular ref to parent
+                                [[ -n "${seen_trans[$trans_prereq_id]}" ]] && continue  # Skip duplicates
+                                seen_trans[$trans_prereq_id]=1
+                                transitive_prereqs+=("$trans_prereq_id")
+                            done < <(jq -r --arg pid "$prereq_id" \
+                                '.concepts[$pid].prerequisites[]? // empty' "$results_file" 2>/dev/null)
+
+                            # Show transitive dependencies if any
+                            if [[ ${#transitive_prereqs[@]} -gt 0 ]]; then
+                                for trans_prereq_id in "${transitive_prereqs[@]}"; do
+                                    trans_prereq_name=$(jq -r --arg pid "$trans_prereq_id" \
+                                        '.concepts[$pid].name // $pid' "$results_file" 2>/dev/null)
+                                    trans_prereq_week=$(jq -r --arg pid "$trans_prereq_id" \
+                                        '.concepts[$pid].introduced_in.week // "?"' "$results_file" 2>/dev/null)
+                                    echo "       ${FLOW_BLUE}└─${FLOW_RESET} ${trans_prereq_name} ${FLOW_BLUE}(Week ${trans_prereq_week}, via ${prereq_name})${FLOW_RESET}"
+                                done
+                            fi
+                        fi
+                    fi
+                done
+            fi
+
+            echo ""
+        done
 
         return $error_count
     )
