@@ -307,7 +307,12 @@ _slide_identify_key_concepts() {
     if [[ -n "$concept_graph" && "$concept_graph" != "{}" ]]; then
         local graph_concepts
         if command -v jq &>/dev/null; then
-            graph_concepts=$(echo "$concept_graph" | jq -r '.concepts[]? | select(.introduced == true) | .name // .id' 2>/dev/null)
+            # Extract concepts that are introduced in the analyzed file
+            # Our concept structure uses .introduced_in.lecture, not .introduced == true
+            local analyzed_filename
+            analyzed_filename=$(basename "$file_path")
+            graph_concepts=$(echo "$concept_graph" | jq -r --arg file "$analyzed_filename" \
+                '.concepts | to_entries[] | select(.value.introduced_in.lecture | endswith($file)) | .value.name // .value.id' 2>/dev/null)
         fi
 
         if [[ -n "$graph_concepts" ]]; then
