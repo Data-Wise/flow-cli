@@ -2080,14 +2080,15 @@ _dot_token_github() {
   read "?Token name [github-token]: " token_name
   [[ -z "$token_name" ]] && token_name="github-token"
 
-  # Build metadata
+  # Build metadata (ENHANCED with github_user and expires_days)
   local expire_date=""
   if [[ "$expire_days" -gt 0 ]]; then
     expire_date=$(date -v+${expire_days}d +%Y-%m-%d 2>/dev/null || date -d "+${expire_days} days" +%Y-%m-%d 2>/dev/null)
   fi
 
-  local metadata="{\"dot_version\":\"2.0\",\"type\":\"github\",\"token_type\":\"${token_type}\",\"created\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\""
+  local metadata="{\"dot_version\":\"2.1\",\"type\":\"github\",\"token_type\":\"${token_type}\",\"created\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"expires_days\":${expire_days}"
   [[ -n "$expire_date" ]] && metadata="${metadata},\"expires\":\"${expire_date}\""
+  [[ -n "$username" ]] && metadata="${metadata},\"github_user\":\"${username}\""
   metadata="${metadata}}"
 
   # Store in Bitwarden
@@ -2124,6 +2125,15 @@ EOF
 
   # Sync vault
   bw sync --session "$BW_SESSION" >/dev/null 2>&1
+
+  # ALSO store in Keychain with metadata for instant access
+  _flow_log_info "Adding to Keychain for instant access..."
+  security add-generic-password \
+    -a "$token_name" \
+    -s "$_DOT_KEYCHAIN_SERVICE" \
+    -w "$token_value" \
+    -j "$metadata" \
+    -U 2>/dev/null
 
   echo ""
   echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
