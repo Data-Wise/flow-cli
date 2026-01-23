@@ -1,0 +1,66 @@
+{
+  "course": {
+    "name": "Introduction to Statistics (Demo Course)",
+    "code": "STAT-101",
+    "semester": "Spring 2026",
+    "instructor": "Test Instructor"
+  },
+  "concepts": {
+    "descriptive-stats": {
+      "name": "Descriptive Statistics",
+      "category": "fundamental",
+      "week": 1,
+      "file": "lectures/week-01.qmd",
+      "prerequisites": []
+    },
+    "data-types": {
+      "name": "Data Types",
+      "category": "fundamental",
+      "week": 1,
+      "file": "lectures/week-01.qmd",
+      "prerequisites": []
+    },
+    "distributions": {
+      "name": "Distributions",
+      "category": "core",
+      "week": 1,
+      "file": "lectures/week-01.qmd",
+      "prerequisites": ["descriptive-stats", "data-types"]
+    },
+    "probability-basics": {
+      "name": "Probability Basics",
+      "category": "core",
+      "week": 2,
+      "file": "lectures/week-02.qmd",
+      "prerequisites": ["data-types"]
+    },
+    "sampling": {
+      "name": "Sampling Methods",
+      "category": "core",
+      "week": 2,
+      "file": "lectures/week-02.qmd",
+      "prerequisites": ["distributions"]
+    },
+    "inference": {
+      "name": "Statistical Inference",
+      "category": "advanced",
+      "week": 2,
+      "file": "lectures/week-02.qmd",
+      "prerequisites": ["probability-basics", "sampling", "distributions"]
+    },
+    "correlation": {
+      "name": "Correlation",
+      "category": "core",
+      "week": 3,
+      "file": "lectures/week-03.qmd",
+      "prerequisites": ["descriptive-stats", "distributions"]
+    },
+    "linear-regression": {
+      "name": "Linear Regression",
+      "category": "advanced",
+      "week": 3,
+      "file": "lectures/week-03.qmd",
+      "prerequisites": ["correlation", "inference"]
+    }
+  }
+}

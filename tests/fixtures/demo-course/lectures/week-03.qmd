@@ -1,0 +1,69 @@
+---
+title: "Week 3: Correlation and Regression"
+subtitle: "Relationships Between Variables"
+author: "Test Instructor"
+date: "2026-02-03"
+format: html
+concepts:
+  - id: correlation
+    name: "Correlation"
+    category: "core"
+    bloom_level: "understand"
+    cognitive_load: "medium"
+    teaching_time: 20
+    prerequisites:
+      - descriptive-stats
+      - distributions
+  - id: linear-regression
+    name: "Linear Regression"
+    category: "advanced"
+    bloom_level: "apply"
+    cognitive_load: "high"
+    teaching_time: 35
+    prerequisites:
+      - correlation
+      - inference
+---
+
+## Learning Objectives
+
+By the end of this lecture, you will be able to:
+
+1. Calculate and interpret correlation coefficients
+2. Fit simple linear regression models
+3. Assess model fit and assumptions
+
+## Correlation
+
+Correlation measures the strength and direction of linear relationships.
+
+### Pearson Correlation
+
+$$r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2 \sum (y_i - \bar{y})^2}}$$
+
+```{r}
+# Calculate correlation
+x <- c(1, 2, 3, 4, 5)
+y <- c(2, 4, 5, 4, 5)
+cor(x, y)
+```
+
+## Linear Regression
+
+Regression models relationships using a line of best fit.
+
+### Model
+
+$$Y = \beta_0 + \beta_1 X + \epsilon$$
+
+```{r}
+# Fit regression model
+model <- lm(y ~ x)
+summary(model)
+plot(x, y)
+abline(model, col = "red")
+```
+
+## Summary
+
+Correlation and regression are fundamental tools for analyzing relationships between variables.

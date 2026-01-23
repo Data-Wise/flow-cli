@@ -1,0 +1,31 @@
+---
+title: "Week 3: Regression Analysis (BROKEN - Has Circular Dependency)"
+subtitle: "Intentionally Broken for Testing"
+author: "Test Instructor"
+date: "2026-02-03"
+format: html
+concepts:
+  - id: linear-regression
+    name: "Linear Regression"
+    category: "advanced"
+    bloom_level: "apply"
+    cognitive_load: "high"
+    teaching_time: 35
+    prerequisites:
+      - correlation
+      - inference
+  - id: correlation
+    name: "Correlation"
+    category: "core"
+    bloom_level: "understand"
+    cognitive_load: "medium"
+    teaching_time: 20
+    prerequisites:
+      - linear-regression  # CIRCULAR DEPENDENCY!
+---
+
+## This file intentionally has a circular dependency
+
+The `linear-regression` concept requires `correlation`, but `correlation` requires `linear-regression`.
+
+This should be detected by `teach validate --deep`.
