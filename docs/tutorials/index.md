@@ -33,6 +33,9 @@ flowchart TD
         T8["<a href='08-git-feature-workflow/'>Tutorial 8</a><br/>Git Workflow<br/>⏱ 20 min"]
         T9["<a href='09-worktrees/'>Tutorial 9</a><br/>Worktrees<br/>⏱ 20 min"]
         T14["<a href='14-teach-dispatcher/'>Tutorial 14</a><br/>Teaching<br/>⏱ 20 min"]
+        T21["<a href='21-teach-analyze/'>Tutorial 21</a><br/>Teach Analyze<br/>⏱ 25 min"]
+        T22["<a href='22-plugin-optimization/'>Tutorial 22</a><br/>Plugin Optimization<br/>⏱ 20 min"]
+        T23["<a href='23-token-automation/'>Tutorial 23</a><br/>Token Automation<br/>⏱ 15 min"]
     end
 
     subgraph OPTIONAL["📚 Optional"]
@@ -57,6 +60,9 @@ flowchart TD
 
     T10 --> T14
     T12 --> T14
+    T14 --> T21
+    T21 --> T22
+    T22 --> T23
 
     T11 --> T13
 
@@ -65,7 +71,7 @@ flowchart TD
     classDef optional fill:#e2e3e5,stroke:#6c757d,color:#383d41
 
     class T1,T2,T3,T6,T10,T11,T12,T13 beginner
-    class T8,T9,T14 intermediate
+    class T8,T9,T14,T21,T22,T23 intermediate
     class T4,T5,T7 optional
 ```
 
@@ -133,8 +139,11 @@ flowchart TD
 | 12 | [DOT Dispatcher](12-dot-dispatcher.md) | 25 min | 🟢 Beginner | Dotfile & secret management |
 | 13 | [Prompt Dispatcher](13-prompt-dispatcher.md) | 15 min | 🟢 Beginner | Prompt engine switching |
 | 14 | [Teach Dispatcher](14-teach-dispatcher.md) | 20 min | 🟡 Intermediate | Teaching workflow (v5.9.0+) |
+| 21 | [Teach Analyze](21-teach-analyze.md) | 25 min | 🟡 Intermediate | AI content analysis (v5.16.0) |
+| 22 | [Plugin Optimization](22-plugin-optimization.md) | 20 min | 🟡 Intermediate | Load guards & performance |
+| 23 | [Token Automation](23-token-automation.md) | 15 min | 🟡 Intermediate | Smart token management (v5.17.0) ⭐ **NEW** |
 
-**Total estimated time:** ~4 hours (all tutorials)
+**Total estimated time:** ~5 hours (all tutorials)
 
 ---
 
