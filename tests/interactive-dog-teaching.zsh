@@ -157,11 +157,32 @@ cleanup_demo_course() {
     rm -rf "$DEMO_COURSE/.teach/reports" 2>/dev/null
 }
 
+log_test_result() {
+    local task_num="$1"
+    local task_name="$2"
+    local command="$3"
+    local success="$4"
+    local output="$5"
+
+    echo "═══════════════════════════════════════════════════════════════" >> "$LOG_FILE"
+    echo "Task $task_num: $task_name" >> "$LOG_FILE"
+    echo "Time: $(date '+%Y-%m-%d %H:%M:%S')" >> "$LOG_FILE"
+    echo "Command: $command" >> "$LOG_FILE"
+    echo "Success: $success" >> "$LOG_FILE"
+    echo "" >> "$LOG_FILE"
+    echo "Output:" >> "$LOG_FILE"
+    echo "$output" >> "$LOG_FILE"
+    echo "" >> "$LOG_FILE"
+}
+
 # ══════════════════════════════════════════════════════════════════════════════
 # MAIN TEST SEQUENCE
 # ══════════════════════════════════════════════════════════════════════════════
 
 main() {
+    # Set up logging
+    local LOG_FILE="$TEST_DIR/interactive-test-results-$(date +%Y%m%d-%H%M%S).log"
+
     print_banner
 
     # Check prerequisites
@@ -182,6 +203,18 @@ main() {
 
     echo -e "${GREEN}${CHECK} Plugin loaded successfully${NC}"
     echo -e "${GREEN}${CHECK} Demo course ready${NC}"
+    echo -e "${CYAN}${EYES} Logging results to: $LOG_FILE${NC}"
+
+    # Initialize log file
+    cat > "$LOG_FILE" <<EOF
+═══════════════════════════════════════════════════════════════
+INTERACTIVE DOG FEEDING TEST - RESULTS LOG
+═══════════════════════════════════════════════════════════════
+Started: $(date '+%Y-%m-%d %H:%M:%S')
+Demo Course: STAT-101 (Introduction to Statistics)
+═══════════════════════════════════════════════════════════════
+
+EOF
 
     cleanup_demo_course
 
