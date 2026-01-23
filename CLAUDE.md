@@ -638,7 +638,7 @@ export FLOW_DEBUG=1
 - Verbosity control (quiet/normal/verbose)
 - Integration across 9 dispatchers (g, dash, work, finish, etc.)
 
-**Documentation:**
+**Command:** `commands/teach-analyze.zsh` (1,203 lines)
 
 - 2,150+ lines across 4 comprehensive guides
 - 11 Mermaid architecture diagrams
