@@ -59,37 +59,57 @@ _extract_concepts_from_frontmatter() {
 # Parse introduced concepts from concepts array
 # Usage: _parse_introduced_concepts <concepts_json>
 # Returns: Array of concept names (space-separated)
+# Supports two formats:
+#   1. Simple: {introduces: [id1, id2]}
+#   2. Array: [{id: id1, name: "..."}, {id: id2, name: "..."}]
 _parse_introduced_concepts() {
     local concepts_json="$1"
-    
+
     if [[ -z "$concepts_json" || "$concepts_json" == "null" ]]; then
         echo ""
         return 0
     fi
-    
-    # Use yq to extract introduces array, strip quotes, and trim whitespace
-    local introduced
-    introduced=$(echo "$concepts_json" | yq eval -o json '.introduces // [] | .[]' - 2>/dev/null | sed 's/"//g' | tr '\n' ' ' | xargs)
-    
-    echo "$introduced"
+
+    # Check if concepts_json is an array (starts with [)
+    if [[ "$concepts_json" =~ '^\[.*\]$' ]]; then
+        # Array of objects format: extract .id from each object
+        local introduced
+        introduced=$(echo "$concepts_json" | yq eval -o json '.[] | .id' - 2>/dev/null | sed 's/"//g' | tr '\n' ' ' | xargs)
+        echo "$introduced"
+    else
+        # Simple format: extract .introduces array
+        local introduced
+        introduced=$(echo "$concepts_json" | yq eval -o json '.introduces // [] | .[]' - 2>/dev/null | sed 's/"//g' | tr '\n' ' ' | xargs)
+        echo "$introduced"
+    fi
 }
 
 # Parse required concepts (prerequisites) from concepts array
 # Usage: _parse_required_concepts <concepts_json>
 # Returns: Array of prerequisite concept names (space-separated)
+# Supports two formats:
+#   1. Simple: {requires: [prereq1, prereq2]}
+#   2. Array: [{prerequisites: [p1, p2]}, {prerequisites: [p3]}]
 _parse_required_concepts() {
     local concepts_json="$1"
-    
+
     if [[ -z "$concepts_json" || "$concepts_json" == "null" ]]; then
         echo ""
         return 0
     fi
-    
-    # Use yq to extract requires array, strip quotes, and trim whitespace
-    local required
-    required=$(echo "$concepts_json" | yq eval -o json '.requires // [] | .[]' - 2>/dev/null | sed 's/"//g' | tr '\n' ' ' | xargs)
-    
-    echo "$required"
+
+    # Check if concepts_json is an array (starts with [)
+    if [[ "$concepts_json" =~ '^\[.*\]$' ]]; then
+        # Array of objects format: extract all .prerequisites arrays and flatten
+        local required
+        required=$(echo "$concepts_json" | yq eval -o json '.[] | .prerequisites // [] | .[]' - 2>/dev/null | sed 's/"//g' | sort -u | tr '\n' ' ' | xargs)
+        echo "$required"
+    else
+        # Simple format: extract .requires array
+        local required
+        required=$(echo "$concepts_json" | yq eval -o json '.requires // [] | .[]' - 2>/dev/null | sed 's/"//g' | tr '\n' ' ' | xargs)
+        echo "$required"
+    fi
 }
 
 # Extract week number from filename or frontmatter
@@ -219,25 +239,35 @@ _extract_concepts_from_frontmatter() {
     fi
 }
 
-# Function to parse introduced concepts
+# Function to parse introduced concepts (supports both formats)
 _parse_introduced_concepts() {
     concepts_json="$1"
     if [[ -z "$concepts_json" || "$concepts_json" == "null" ]]; then
         echo ""
         return 0
     fi
-    introduced=$(echo "$concepts_json" | yq eval -o json '.introduces // [] | .[]' - 2>/dev/null | sed 's/"//g' | tr '\n' ' ' | xargs)
+    # Check if array format: [{id: "...", ...}]
+    if [[ "$concepts_json" =~ '^\[.*\]$' ]]; then
+        introduced=$(echo "$concepts_json" | yq eval -o json '.[] | .id' - 2>/dev/null | sed 's/"//g' | tr '\n' ' ' | xargs)
+    else
+        introduced=$(echo "$concepts_json" | yq eval -o json '.introduces // [] | .[]' - 2>/dev/null | sed 's/"//g' | tr '\n' ' ' | xargs)
+    fi
     echo "$introduced"
 }
 
-# Function to parse required concepts
+# Function to parse required concepts (supports both formats)
 _parse_required_concepts() {
     concepts_json="$1"
     if [[ -z "$concepts_json" || "$concepts_json" == "null" ]]; then
         echo ""
         return 0
     fi
-    required=$(echo "$concepts_json" | yq eval -o json '.requires // [] | .[]' - 2>/dev/null | sed 's/"//g' | tr '\n' ' ' | xargs)
+    # Check if array format: [{prerequisites: [...], ...}]
+    if [[ "$concepts_json" =~ '^\[.*\]$' ]]; then
+        required=$(echo "$concepts_json" | yq eval -o json '.[] | .prerequisites // [] | .[]' - 2>/dev/null | sed 's/"//g' | sort -u | tr '\n' ' ' | xargs)
+    else
+        required=$(echo "$concepts_json" | yq eval -o json '.requires // [] | .[]' - 2>/dev/null | sed 's/"//g' | tr '\n' ' ' | xargs)
+    fi
     echo "$required"
 }
 
