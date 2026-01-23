@@ -5,9 +5,31 @@
 # CACHE SIZE ANALYSIS
 # ============================================================================
 
-# Analyze total cache size and file count
-# Usage: _analyze_cache_size [cache_dir]
-# Returns: "size_bytes:file_count:size_human"
+# =============================================================================
+# Function: _analyze_cache_size
+# Purpose: Analyze total cache size and file count for a directory
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Cache directory path [default: "_freeze/site"]
+#
+# Returns:
+#   0 - Analysis successful
+#   1 - Cache directory doesn't exist
+#
+# Output:
+#   stdout - Colon-separated string: "size_bytes:file_count:size_human"
+#
+# Example:
+#   info=$(_analyze_cache_size "_freeze/site")
+#   size_bytes=$(echo "$info" | cut -d: -f1)
+#   file_count=$(echo "$info" | cut -d: -f2)
+#   size_human=$(echo "$info" | cut -d: -f3)
+#
+# Notes:
+#   - Returns "0:0:0B" if cache doesn't exist
+#   - Uses du -sk for portable size calculation
+#   - Requires _cache_format_bytes helper
+# =============================================================================
 _analyze_cache_size() {
     local cache_dir="${1:-_freeze/site}"
 
@@ -32,9 +54,30 @@ _analyze_cache_size() {
     echo "$size_bytes:$file_count:$size_human"
 }
 
-# Analyze cache breakdown by directory
-# Usage: _analyze_cache_by_directory [cache_dir]
-# Returns: Multi-line output with directory stats
+# =============================================================================
+# Function: _analyze_cache_by_directory
+# Purpose: Break down cache size by subdirectory (lectures/, assignments/, etc.)
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Cache directory path [default: "_freeze/site"]
+#
+# Returns:
+#   0 - Analysis successful (or no subdirs)
+#   1 - Cache directory doesn't exist
+#
+# Output:
+#   stdout - Multi-line, colon-separated:
+#            "dir_name:size_bytes:size_human:file_count:percentage"
+#
+# Example:
+#   _analyze_cache_by_directory "_freeze/site" | while IFS=: read -r name bytes human count pct; do
+#       echo "$name: $human ($pct%)"
+#   done
+#
+# Notes:
+#   - Only analyzes first-level subdirectories
+#   - Percentage is relative to total cache size
+# =============================================================================
 _analyze_cache_by_directory() {
     local cache_dir="${1:-_freeze/site}"
 
@@ -79,9 +122,32 @@ _analyze_cache_by_directory() {
     done <<< "$subdirs"
 }
 
-# Analyze cache breakdown by file age
-# Usage: _analyze_cache_by_age [cache_dir]
-# Returns: Multi-line output with age categories
+# =============================================================================
+# Function: _analyze_cache_by_age
+# Purpose: Break down cache by file age (< 7 days, 7-30 days, > 30 days)
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Cache directory path [default: "_freeze/site"]
+#
+# Returns:
+#   0 - Analysis successful
+#   1 - Cache directory doesn't exist
+#
+# Output:
+#   stdout - Multi-line, colon-separated:
+#            "label:size_bytes:size_human:count:percentage"
+#
+# Example:
+#   _analyze_cache_by_age "_freeze/site"
+#   # Output:
+#   # < 7 days:1234567:1.2MB:45:60
+#   # 7-30 days:567890:554KB:20:30
+#   # > 30 days:123456:121KB:10:10
+#
+# Notes:
+#   - Uses file modification time (mtime)
+#   - macOS stat command compatible
+# =============================================================================
 _analyze_cache_by_age() {
     local cache_dir="${1:-_freeze/site}"
 
@@ -151,9 +217,33 @@ _analyze_cache_by_age() {
 # CACHE PERFORMANCE ANALYSIS
 # ============================================================================
 
-# Calculate cache hit rate from performance log
-# Usage: _calculate_cache_hit_rate [performance_log] [days]
-# Returns: "hit_rate:hits:misses:avg_hit_time:avg_miss_time"
+# =============================================================================
+# Function: _calculate_cache_hit_rate
+# Purpose: Calculate cache hit rate from performance log data
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Performance log path [default: ".teach/performance-log.json"]
+#   $2 - (optional) Number of days to analyze [default: 7]
+#
+# Returns:
+#   0 - Calculation successful
+#   1 - Log doesn't exist or jq not available
+#
+# Output:
+#   stdout - Colon-separated: "hit_rate:hits:misses:avg_hit_time:avg_miss_time"
+#
+# Example:
+#   data=$(_calculate_cache_hit_rate ".teach/performance-log.json" 30)
+#   hit_rate=$(echo "$data" | cut -d: -f1)
+#   echo "Cache hit rate: $hit_rate%"
+#
+# Dependencies:
+#   - jq (for JSON parsing)
+#
+# Notes:
+#   - Returns "N/A:0:0:0:0" if no data available
+#   - Times are in seconds
+# =============================================================================
 _calculate_cache_hit_rate() {
     local perf_log="${1:-.teach/performance-log.json}"
     local days="${2:-7}"  # Default: last 7 days
@@ -241,9 +331,29 @@ _calculate_cache_hit_rate() {
 # OPTIMIZATION RECOMMENDATIONS
 # ============================================================================
 
-# Generate cache optimization recommendations
-# Usage: _generate_cache_recommendations [cache_dir] [perf_log]
-# Returns: Multi-line recommendations
+# =============================================================================
+# Function: _generate_cache_recommendations
+# Purpose: Generate actionable cache optimization recommendations
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Cache directory path [default: "_freeze/site"]
+#   $2 - (optional) Performance log path [default: ".teach/performance-log.json"]
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Bulleted list of recommendations (or "optimized" message)
+#
+# Example:
+#   echo "Recommendations:"
+#   _generate_cache_recommendations "_freeze/site"
+#
+# Notes:
+#   - Recommends clearing > 30 days old files if > 30% of cache
+#   - Suggests cache rebuild if hit rate < 80%
+#   - Returns "optimized" message if no recommendations
+# =============================================================================
 _generate_cache_recommendations() {
     local cache_dir="${1:-_freeze/site}"
     local perf_log="${2:-.teach/performance-log.json}"
@@ -321,8 +431,34 @@ _generate_cache_recommendations() {
 # FORMATTED CACHE REPORT
 # ============================================================================
 
-# Generate and display formatted cache report
-# Usage: _format_cache_report [cache_dir] [perf_log] [--recommend]
+# =============================================================================
+# Function: _format_cache_report
+# Purpose: Generate and display a formatted cache analysis report
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Cache directory path [default: "_freeze/site"]
+#   $2 - (optional) Performance log path [default: ".teach/performance-log.json"]
+#   --recommend - Include optimization recommendations
+#
+# Returns:
+#   0 - Report generated successfully
+#   1 - Cache doesn't exist
+#
+# Output:
+#   stdout - Formatted report with sections:
+#            - Total stats
+#            - By Directory breakdown
+#            - By Age breakdown
+#            - Cache Performance (if log exists)
+#            - Recommendations (if --recommend flag)
+#
+# Example:
+#   _format_cache_report "_freeze/site" ".teach/performance-log.json" --recommend
+#
+# Notes:
+#   - Uses FLOW_COLORS for consistent theming
+#   - Performance section requires jq and valid log file
+# =============================================================================
 _format_cache_report() {
     local cache_dir="${1:-_freeze/site}"
     local perf_log="${2:-.teach/performance-log.json}"

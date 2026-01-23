@@ -37,10 +37,32 @@ typeset -g ABBREV_DATE_PATTERN='(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec
 # 1. YAML FRONTMATTER PARSING
 # ============================================================================
 
-# Extract date from Quarto YAML frontmatter
-# Usage: _date_parse_quarto_yaml <file> <field>
-# Returns: ISO date (YYYY-MM-DD) or empty string
-# Example: _date_parse_quarto_yaml "hw1.qmd" "due"
+# =============================================================================
+# Function: _date_parse_quarto_yaml
+# Purpose: Extract and normalize a date field from Quarto YAML frontmatter
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the Quarto/Markdown file with YAML frontmatter
+#   $2 - (required) Name of the date field to extract (e.g., "due", "date")
+#
+# Returns:
+#   0 - Success (date extracted and normalized, or field not found/dynamic)
+#   1 - Error (file not found, missing field name, or yq unavailable)
+#
+# Output:
+#   stdout - ISO-8601 date (YYYY-MM-DD) if field exists and is valid
+#            Empty output if field not found, null, or dynamic value
+#
+# Example:
+#   _date_parse_quarto_yaml "assignments/hw1.qmd" "due"
+#   # Output: 2025-01-22
+#
+# Notes:
+#   - Requires yq to be installed for YAML parsing
+#   - Skips dynamic values: "last-modified", "today", "now"
+#   - Normalizes extracted dates via _date_normalize()
+#   - Quotes are stripped from extracted values
+# =============================================================================
 _date_parse_quarto_yaml() {
   local file="$1"
   local field="$2"
@@ -84,10 +106,37 @@ _date_parse_quarto_yaml() {
 # 2. MARKDOWN INLINE DATE PARSING
 # ============================================================================
 
-# Find inline dates in markdown content
-# Usage: _date_parse_markdown_inline <file> [pattern]
-# Returns: Array of "line_number:date" strings
-# Example: _date_parse_markdown_inline "syllabus.qmd" "Jan"
+# =============================================================================
+# Function: _date_parse_markdown_inline
+# Purpose: Find and extract all inline dates from markdown content
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the markdown file to search
+#   $2 - (optional) Custom grep pattern to search for [default: month names + day]
+#
+# Returns:
+#   0 - Success (file exists and was searched)
+#   1 - Error (file not found)
+#
+# Output:
+#   stdout - Newline-separated list of "line_number:ISO_date" pairs
+#            Each line contains the line number and normalized date
+#
+# Example:
+#   _date_parse_markdown_inline "syllabus.qmd"
+#   # Output:
+#   # 15:2025-01-22
+#   # 42:2025-02-10
+#
+#   _date_parse_markdown_inline "schedule.md" "Feb"
+#   # Output: Only lines matching "Feb" pattern
+#
+# Notes:
+#   - Searches for both long-form (January) and abbreviated (Jan) month names
+#   - Normalizes all found dates to ISO-8601 format
+#   - Uses _date_extract_from_line helper for extraction
+#   - Line numbers are 1-indexed (from grep -n)
+# =============================================================================
 _date_parse_markdown_inline() {
   local file="$1"
   local pattern="${2:-}" # Optional search pattern
@@ -121,7 +170,33 @@ _date_parse_markdown_inline() {
   printf '%s\n' "${results[@]}"
 }
 
-# Helper: Extract first date from a text line
+# =============================================================================
+# Function: _date_extract_from_line
+# Purpose: Extract the first date from a single line of text
+# =============================================================================
+# Arguments:
+#   $1 - (required) Text line to extract date from
+#
+# Returns:
+#   0 - Success (date found and extracted)
+#   1 - Error (no recognizable date format found)
+#
+# Output:
+#   stdout - Normalized ISO-8601 date (YYYY-MM-DD)
+#
+# Example:
+#   _date_extract_from_line "Due: January 22, 2025"
+#   # Output: 2025-01-22
+#
+#   _date_extract_from_line "Assignment due 1/22/2025 at midnight"
+#   # Output: 2025-01-22
+#
+# Notes:
+#   - Tries formats in order: ISO, long month, abbreviated month, US format
+#   - For month formats without year, infers current year
+#   - Returns first match found (stops after first successful extraction)
+#   - Uses ZSH regex matching with ${match[]} array
+# =============================================================================
 _date_extract_from_line() {
   local line="$1"
 
@@ -162,14 +237,37 @@ _date_extract_from_line() {
 # 3. DATE NORMALIZATION
 # ============================================================================
 
-# Normalize any date format to ISO-8601 (YYYY-MM-DD)
-# Usage: _date_normalize <date_string>
-# Returns: ISO date or empty string on error
-# Supports:
-#   - ISO: "2025-01-22"
-#   - US: "1/22/2025"
-#   - Long: "January 22, 2025"
-#   - Abbreviated: "Jan 22, 2025" or "Jan 22" (infers current year)
+# =============================================================================
+# Function: _date_normalize
+# Purpose: Convert any supported date format to ISO-8601 (YYYY-MM-DD)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Date string in any supported format
+#
+# Returns:
+#   0 - Success (date normalized successfully)
+#   1 - Error (empty input or unrecognized format)
+#
+# Output:
+#   stdout - ISO-8601 formatted date (YYYY-MM-DD)
+#
+# Example:
+#   _date_normalize "2025-01-22"        # Output: 2025-01-22
+#   _date_normalize "1/22/2025"         # Output: 2025-01-22
+#   _date_normalize "January 22, 2025"  # Output: 2025-01-22
+#   _date_normalize "Jan 22, 2025"      # Output: 2025-01-22
+#   _date_normalize "Jan 22"            # Output: 2025-01-22 (current year)
+#
+# Notes:
+#   - Supported formats:
+#     - ISO: "2025-01-22" (passes through)
+#     - US: "M/D/YYYY" or "MM/DD/YYYY"
+#     - Long: "January 22, 2025"
+#     - Abbreviated: "Jan 22, 2025" or "Jan 22"
+#   - Uses MONTH_ABBREV associative array for name-to-number conversion
+#   - Pads month and day with leading zeros as needed
+#   - Infers current year if year is missing from abbreviated format
+# =============================================================================
 _date_normalize() {
   local date_string="$1"
 
@@ -224,10 +322,36 @@ _date_normalize() {
 # 4. DATE COMPUTATION (Week + Offset)
 # ============================================================================
 
-# Compute date from week start date + offset days
-# Usage: _date_compute_from_week <week_num> <offset_days> <config_file>
-# Returns: ISO date (YYYY-MM-DD)
-# Example: _date_compute_from_week 2 2 ".flow/teach-config.yml" → "2025-01-22"
+# =============================================================================
+# Function: _date_compute_from_week
+# Purpose: Calculate a date from a semester week number plus day offset
+# =============================================================================
+# Arguments:
+#   $1 - (required) Week number (1-16 typically for a semester)
+#   $2 - (required) Offset days from week start (can be negative)
+#   $3 - (optional) Path to config file [default: .flow/teach-config.yml]
+#
+# Returns:
+#   0 - Success (date computed successfully)
+#   1 - Error (invalid input, missing config, or week not found)
+#
+# Output:
+#   stdout - ISO-8601 date (YYYY-MM-DD)
+#   stderr - Error messages if validation fails
+#
+# Example:
+#   _date_compute_from_week 2 2 ".flow/teach-config.yml"
+#   # If week 2 starts 2025-01-20, output: 2025-01-22
+#
+#   _date_compute_from_week 5 -1
+#   # One day before week 5 starts
+#
+# Notes:
+#   - Config file must have semester_info.weeks[] array with number and start_date
+#   - Uses yq to extract week start date from YAML config
+#   - Delegates date arithmetic to _date_add_days()
+#   - Supports both positive and negative day offsets
+# =============================================================================
 _date_compute_from_week() {
   local week_num="$1"
   local offset_days="$2"
@@ -266,10 +390,34 @@ _date_compute_from_week() {
 # 5. DATE ARITHMETIC
 # ============================================================================
 
-# Add days to a date (cross-platform: GNU date / BSD date)
-# Usage: _date_add_days <base_date> <days>
-# Returns: ISO date (YYYY-MM-DD)
-# Example: _date_add_days "2025-01-20" 2 → "2025-01-22"
+# =============================================================================
+# Function: _date_add_days
+# Purpose: Add or subtract days from a date (cross-platform compatible)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Base date in ISO-8601 format (YYYY-MM-DD)
+#   $2 - (required) Number of days to add (negative to subtract)
+#
+# Returns:
+#   0 - Success (implicitly, via date command)
+#   1 - Error (invalid date format)
+#
+# Output:
+#   stdout - Resulting ISO-8601 date (YYYY-MM-DD)
+#   stderr - Error message if base_date format is invalid
+#
+# Example:
+#   _date_add_days "2025-01-20" 2    # Output: 2025-01-22
+#   _date_add_days "2025-01-20" -5   # Output: 2025-01-15
+#   _date_add_days "2025-01-31" 1    # Output: 2025-02-01 (month rollover)
+#
+# Notes:
+#   - Detects and handles both GNU date (Linux) and BSD date (macOS)
+#   - GNU date uses: date -d "$base_date + N days"
+#   - BSD date uses: date -v+Nd or date -v-Nd for negative
+#   - Handles month/year rollovers automatically
+#   - Input must be strict ISO format (YYYY-MM-DD)
+# =============================================================================
 _date_add_days() {
   local base_date="$1"
   local days="$2"
@@ -301,10 +449,34 @@ _date_add_days() {
 # 6. FILE DISCOVERY
 # ============================================================================
 
-# Find all teaching files that may contain dates
-# Usage: _date_find_teaching_files [path]
-# Returns: Array of file paths
-# Searches: assignments/, lectures/, exams/, quizzes/, slides/, rubrics/, root *.qmd/*.md
+# =============================================================================
+# Function: _date_find_teaching_files
+# Purpose: Find all teaching-related files that may contain date references
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Base path to search from [default: current directory]
+#
+# Returns:
+#   0 - Always (even if no files found)
+#
+# Output:
+#   stdout - Sorted, unique list of file paths (one per line)
+#
+# Example:
+#   _date_find_teaching_files "/path/to/course"
+#   # Output:
+#   # /path/to/course/assignments/hw1.qmd
+#   # /path/to/course/lectures/week01.qmd
+#   # /path/to/course/syllabus.qmd
+#
+# Notes:
+#   - Searches these directories (up to depth 2):
+#     assignments/, lectures/, exams/, quizzes/, slides/, rubrics/, syllabus/
+#   - Also checks root-level files: syllabus.qmd, schedule.qmd, index.qmd, README.md
+#   - Only finds .qmd and .md files
+#   - Results are sorted and deduplicated
+#   - Non-existent directories are silently skipped
+# =============================================================================
 _date_find_teaching_files() {
   local base_path="${1:-.}"
   local -a files=()
@@ -351,13 +523,41 @@ _date_find_teaching_files() {
 # 7. CONFIG LOADING
 # ============================================================================
 
-# Load all dates from teach-config.yml
-# Usage: _date_load_config [config_file]
-# Returns: Prints shell code to set CONFIG_DATES array (use with eval)
+# =============================================================================
+# Function: _date_load_config
+# Purpose: Load all dates from teach config into an associative array
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Path to config file [default: .flow/teach-config.yml]
+#
+# Returns:
+#   0 - Success (config loaded and parsed)
+#   1 - Error (config file not found or yq unavailable)
+#
+# Output:
+#   stdout - Shell code to populate CONFIG_DATES associative array
+#            Use with eval to set variables in caller's scope
+#   stderr - Error messages if config or yq unavailable
+#
 # Example:
 #   declare -A CONFIG_DATES
 #   eval "$(_date_load_config)"
-#   echo "${CONFIG_DATES[week_1]}"
+#   echo "${CONFIG_DATES[week_1]}"        # 2025-01-13
+#   echo "${CONFIG_DATES[exam_midterm]}"  # 2025-03-05
+#   echo "${CONFIG_DATES[deadline_hw1]}"  # 2025-01-22
+#   echo "${CONFIG_DATES[holiday_spring_break]}"  # 2025-03-17
+#
+# Notes:
+#   - Loads four categories of dates from config:
+#     1. Week dates: CONFIG_DATES[week_N] (from semester_info.weeks[])
+#     2. Exam dates: CONFIG_DATES[exam_NAME] (from semester_info.exams[])
+#     3. Deadline dates: CONFIG_DATES[deadline_KEY] (from semester_info.deadlines)
+#        - Supports both absolute dates and relative (week + offset) dates
+#     4. Holiday dates: CONFIG_DATES[holiday_NAME] (from semester_info.holidays[])
+#   - Keys are normalized: lowercase, spaces replaced with underscores
+#   - Relative deadlines are computed via _date_compute_from_week()
+#   - Requires yq for YAML parsing
+# =============================================================================
 _date_load_config() {
   local config_file="${1:-.flow/teach-config.yml}"
 
@@ -461,10 +661,36 @@ _date_load_config() {
 # 8. DATE COMPARISON
 # ============================================================================
 
-# Compare dates between file and config
-# Usage: _date_compare <file> <file_dates_array> <config_dates_array>
-# Returns: Prints mismatch records (one per line)
-# Format: "field:file_date:config_date:source"
+# =============================================================================
+# Function: _date_compare
+# Purpose: Compare dates extracted from a file against config reference dates
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the file being compared (for context)
+#   $2 - (required) Name of associative array containing file dates (by ref)
+#   $3 - (required) Name of associative array containing config dates (by ref)
+#
+# Returns:
+#   0 - Always returns success
+#
+# Output:
+#   stdout - Mismatch records, one per line
+#            Format: "field:file_date:config_date:source"
+#
+# Example:
+#   typeset -A file_dates config_dates
+#   file_dates[due]="2025-01-20"
+#   config_dates[due]="2025-01-22"
+#   _date_compare "hw1.qmd" file_dates config_dates
+#   # Output: due:2025-01-20:2025-01-22:config
+#
+# Notes:
+#   - Uses ZSH nameref (local -n) to pass arrays by reference
+#   - Only reports mismatches (matching dates are skipped)
+#   - Only compares keys that exist in both arrays
+#   - The "source" field is always "config" (indicates reference source)
+#   - Caller must populate both arrays before calling
+# =============================================================================
 _date_compare() {
   local file="$1"
   shift
@@ -493,10 +719,37 @@ _date_compare() {
 # 9. FILE MODIFICATION
 # ============================================================================
 
-# Apply date changes to a file
-# Usage: _date_apply_to_file <file> <changes_array>
-# Returns: 0 on success, 1 on error
-# Changes format: "field:old_date:new_date"
+# =============================================================================
+# Function: _date_apply_to_file
+# Purpose: Apply date replacements to a file (YAML frontmatter and inline)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to the file to modify
+#   $@ - (required) Array of change specifications after shift
+#        Format: "field:old_date:new_date"
+#
+# Returns:
+#   0 - Success (at least one modification made)
+#   1 - Error (file not found, backup failed, or no changes applied)
+#
+# Output:
+#   stdout - Success message via _flow_log_success (if available)
+#   stderr - Error messages if file/backup issues
+#
+# Example:
+#   changes=("due:2025-01-20:2025-01-22" "posted:2025-01-15:2025-01-17")
+#   _date_apply_to_file "hw1.qmd" "${changes[@]}"
+#
+# Notes:
+#   - Creates backup file (.bak) before modification
+#   - Updates YAML frontmatter fields via yq
+#   - Updates inline date occurrences via sed
+#   - Handles multiple date formats (ISO, US, long-form)
+#   - Converts between formats when replacing (ISO to US, ISO to long)
+#   - Removes backup on success, restores on failure
+#   - Uses MONTH_ABBREV array for month name lookups
+#   - Temporary files (.tmp) are cleaned up after use
+# =============================================================================
 _date_apply_to_file() {
   local file="$1"
   shift

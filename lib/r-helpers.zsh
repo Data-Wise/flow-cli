@@ -3,11 +3,15 @@
 #
 # Functions:
 #   _detect_r_packages()           - Extract R packages from teaching.yml
+#   _detect_r_packages_from_description() - Extract from DESCRIPTION file
 #   _parse_renv_lock()             - Parse renv.lock if exists
 #   _check_r_package_installed()   - Verify R package installation
 #   _install_r_packages()          - Install missing R packages
 #   _get_r_package_version()       - Get installed package version
 #   _list_r_packages_from_sources() - Get packages from all sources
+#   _check_missing_r_packages()    - Check which packages are missing
+#   _install_missing_r_packages()  - Auto-detect and install missing packages
+#   _show_r_package_status()       - Show R package installation status
 
 typeset -g _FLOW_R_HELPERS_LOADED=1
 
@@ -15,12 +19,30 @@ typeset -g _FLOW_R_HELPERS_LOADED=1
 # R PACKAGE DETECTION
 # ============================================================================
 
-# Detect R packages from teaching.yml
-# Returns: Array of package names (one per line)
-# Exit codes:
-#   0 - Packages found
-#   1 - No teaching.yml found
-#   2 - No r_packages defined
+# =============================================================================
+# Function: _detect_r_packages
+# Purpose: Extract R package names from teaching.yml configuration file
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Packages found and output
+#   1 - No teaching.yml found or yq not available
+#   2 - No r_packages defined in teaching.yml
+#
+# Output:
+#   stdout - Package names, one per line
+#
+# Example:
+#   packages=$(_detect_r_packages)
+#   echo "$packages" | wc -l  # Count packages
+#
+# Notes:
+#   - Requires yq for YAML parsing
+#   - Expects teaching.yml at .flow/teaching.yml
+#   - YAML structure: r_packages: [list of package names]
+# =============================================================================
 _detect_r_packages() {
     local teaching_yml=".flow/teaching.yml"
 
@@ -50,8 +72,31 @@ _detect_r_packages() {
     return 0
 }
 
-# Detect R packages from DESCRIPTION file (R package projects)
-# Returns: Array of package names from Imports/Depends fields
+# =============================================================================
+# Function: _detect_r_packages_from_description
+# Purpose: Extract R package dependencies from DESCRIPTION file (R package projects)
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Packages found and output
+#   1 - No DESCRIPTION file found
+#   2 - No packages defined in Imports/Depends
+#
+# Output:
+#   stdout - Package names from Imports and Depends fields, one per line
+#
+# Example:
+#   deps=$(_detect_r_packages_from_description)
+#   echo "Dependencies: $deps"
+#
+# Notes:
+#   - Parses Imports and Depends sections from DESCRIPTION
+#   - Excludes R itself from Depends
+#   - Uses simplified AWK parser (production code may use R)
+#   - Returns unique sorted list
+# =============================================================================
 _detect_r_packages_from_description() {
     local desc_file="DESCRIPTION"
 
@@ -81,8 +126,29 @@ _detect_r_packages_from_description() {
     return 0
 }
 
-# List R packages from all available sources
-# Returns: Unique list of R packages
+# =============================================================================
+# Function: _list_r_packages_from_sources
+# Purpose: Aggregate R packages from all available configuration sources
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Packages found from at least one source
+#   1 - No packages found in any source
+#
+# Output:
+#   stdout - Unique sorted list of package names, one per line
+#
+# Example:
+#   all_pkgs=$(_list_r_packages_from_sources)
+#   echo "Total packages: $(echo "$all_pkgs" | wc -l)"
+#
+# Notes:
+#   - Aggregates from: teaching.yml, renv.lock, DESCRIPTION
+#   - Returns deduplicated, sorted list
+#   - Silently skips unavailable sources
+# =============================================================================
 _list_r_packages_from_sources() {
     local all_packages=""
 
@@ -116,12 +182,31 @@ _list_r_packages_from_sources() {
 # R PACKAGE INSTALLATION CHECK
 # ============================================================================
 
-# Check if R package is installed
-# Args: $1 - Package name
+# =============================================================================
+# Function: _check_r_package_installed
+# Purpose: Verify if a specific R package is installed in the R environment
+# =============================================================================
+# Arguments:
+#   $1 - (required) Package name to check
+#
 # Returns:
-#   0 - Installed
-#   1 - Not installed
-#   2 - R not available
+#   0 - Package is installed
+#   1 - Package is not installed or name is empty
+#   2 - R is not available on the system
+#
+# Output:
+#   None (exit code only)
+#
+# Example:
+#   if _check_r_package_installed "ggplot2"; then
+#       echo "ggplot2 is installed"
+#   fi
+#
+# Notes:
+#   - Uses R --quiet --slave to suppress output
+#   - Attempts to load package with require()
+#   - Fast check suitable for iterating over many packages
+# =============================================================================
 _check_r_package_installed() {
     local package_name="$1"
 
@@ -141,9 +226,30 @@ _check_r_package_installed() {
     return $?
 }
 
-# Get installed R package version
-# Args: $1 - Package name
-# Returns: Version string (or empty if not installed)
+# =============================================================================
+# Function: _get_r_package_version
+# Purpose: Retrieve the installed version of a specific R package
+# =============================================================================
+# Arguments:
+#   $1 - (required) Package name to query
+#
+# Returns:
+#   0 - Version retrieved successfully
+#   1 - Package name is empty
+#   2 - R is not available on the system
+#
+# Output:
+#   stdout - Version string (e.g., "3.4.0") or empty if not installed
+#
+# Example:
+#   version=$(_get_r_package_version "dplyr")
+#   echo "dplyr version: $version"
+#
+# Notes:
+#   - Returns empty string if package not installed
+#   - Uses packageVersion() R function
+#   - Errors are suppressed (stderr redirected to /dev/null)
+# =============================================================================
 _get_r_package_version() {
     local package_name="$1"
 
@@ -162,9 +268,33 @@ _get_r_package_version() {
     echo "$version"
 }
 
-# Check which packages are missing
-# Args: Package names (one per line from stdin or as arguments)
-# Returns: List of missing packages
+# =============================================================================
+# Function: _check_missing_r_packages
+# Purpose: Identify which packages from a list are not installed
+# =============================================================================
+# Arguments:
+#   $@ - (optional) Package names as arguments
+#        If no arguments, reads package names from stdin (one per line)
+#
+# Returns:
+#   0 - At least one missing package found
+#   1 - All packages are installed (or empty input)
+#
+# Output:
+#   stdout - Missing package names, one per line
+#
+# Example:
+#   # From arguments
+#   missing=$(_check_missing_r_packages ggplot2 dplyr tidyr)
+#
+#   # From stdin
+#   echo -e "ggplot2\ndplyr" | _check_missing_r_packages
+#
+# Notes:
+#   - Calls _check_r_package_installed for each package
+#   - Accepts input from arguments or stdin (pipe-friendly)
+#   - Empty lines in input are ignored
+# =============================================================================
 _check_missing_r_packages() {
     local packages=("$@")
 
@@ -196,14 +326,36 @@ _check_missing_r_packages() {
 # R PACKAGE INSTALLATION
 # ============================================================================
 
-# Install R packages
-# Args: Package names (one per argument)
-#       --quiet - Suppress output
-#       --yes - Skip confirmation prompt
+# =============================================================================
+# Function: _install_r_packages
+# Purpose: Install specified R packages from CRAN
+# =============================================================================
+# Arguments:
+#   $@ - Package names to install (mixed with optional flags)
+#   --quiet, -q  - (optional) Suppress output messages
+#   --yes, -y    - (optional) Skip confirmation prompt
+#
 # Returns:
 #   0 - All packages installed successfully
-#   1 - Some packages failed to install
-#   2 - R not available
+#   1 - Some packages failed to install or no packages specified
+#   2 - R is not available on the system
+#
+# Output:
+#   stdout - Progress messages and installation status (unless --quiet)
+#
+# Example:
+#   # Interactive installation
+#   _install_r_packages ggplot2 dplyr
+#
+#   # Silent automatic installation
+#   _install_r_packages --quiet --yes ggplot2 dplyr
+#
+# Notes:
+#   - Uses cloud.r-project.org as CRAN mirror
+#   - Installs packages one at a time for better error tracking
+#   - Prompts for confirmation unless --yes is specified
+#   - Reports which packages failed at the end
+# =============================================================================
 _install_r_packages() {
     local packages=()
     local quiet=0
@@ -268,15 +420,36 @@ _install_r_packages() {
     return 0
 }
 
-# Install missing R packages (auto-detect from sources)
-# Args:
-#   --quiet - Suppress output
-#   --yes - Skip confirmation
-#   --source <file> - Specific source (teaching.yml, renv.lock, DESCRIPTION)
+# =============================================================================
+# Function: _install_missing_r_packages
+# Purpose: Auto-detect required packages from project sources and install missing ones
+# =============================================================================
+# Arguments:
+#   --quiet, -q      - (optional) Suppress output messages
+#   --yes, -y        - (optional) Skip confirmation prompt
+#   --source <file>  - (optional) Specific source to use:
+#                      teaching.yml|teaching, renv.lock|renv, DESCRIPTION|description
+#
 # Returns:
-#   0 - Success
-#   1 - Some packages failed
-#   2 - No packages found
+#   0 - All packages installed or already present
+#   1 - Some packages failed to install or unknown source
+#   2 - No packages found in configuration
+#
+# Output:
+#   stdout - Progress messages and installation status (unless --quiet)
+#
+# Example:
+#   # From all sources, interactive
+#   _install_missing_r_packages
+#
+#   # From specific source, silent
+#   _install_missing_r_packages --source renv.lock --quiet --yes
+#
+# Notes:
+#   - Without --source, checks all sources (teaching.yml, renv.lock, DESCRIPTION)
+#   - Only installs packages that are not already installed
+#   - Delegates actual installation to _install_r_packages
+# =============================================================================
 _install_missing_r_packages() {
     local quiet=0
     local skip_confirm=0
@@ -350,10 +523,34 @@ _install_missing_r_packages() {
 # R PACKAGE STATUS
 # ============================================================================
 
-# Show R package installation status
-# Args:
-#   --json - Output as JSON
-# Returns: Formatted status report
+# =============================================================================
+# Function: _show_r_package_status
+# Purpose: Display a formatted report of R package installation status
+# =============================================================================
+# Arguments:
+#   --json  - (optional) Output as JSON instead of human-readable format
+#
+# Returns:
+#   0 - Always succeeds (even with no packages)
+#
+# Output:
+#   stdout - Formatted status report:
+#            Human-readable: Colored list with checkmarks and version info
+#            JSON: Object with packages array, installed_count, missing_count
+#
+# Example:
+#   # Human-readable output
+#   _show_r_package_status
+#
+#   # JSON output for scripting
+#   _show_r_package_status --json | jq '.missing_count'
+#
+# Notes:
+#   - Aggregates packages from all sources via _list_r_packages_from_sources
+#   - Shows version number for installed packages
+#   - Uses FLOW_COLORS for terminal output
+#   - JSON output includes: name, version (if installed), installed (boolean)
+# =============================================================================
 _show_r_package_status() {
     local output_json=0
 

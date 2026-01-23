@@ -55,7 +55,32 @@ typeset -gA FLOW_CONFIG=()
 # CONFIG FILE MANAGEMENT
 # ============================================================================
 
-# Initialize config system
+# =============================================================================
+# Function: _flow_config_init
+# Purpose: Initialize the configuration system and load existing config
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   None
+#
+# Side Effects:
+#   - Creates FLOW_CONFIG_DIR if it doesn't exist
+#   - Creates FLOW_PROFILE_DIR if it doesn't exist
+#   - Populates FLOW_CONFIG associative array from file or defaults
+#
+# Example:
+#   _flow_config_init
+#
+# Notes:
+#   - Called automatically when lib/config.zsh is sourced
+#   - If config file exists, loads values via _flow_config_load
+#   - If no config file, uses FLOW_CONFIG_DEFAULTS
+# =============================================================================
 _flow_config_init() {
   # Ensure config directory exists
   [[ ! -d "$FLOW_CONFIG_DIR" ]] && mkdir -p "$FLOW_CONFIG_DIR"
@@ -70,7 +95,35 @@ _flow_config_init() {
   fi
 }
 
-# Load config from file
+# =============================================================================
+# Function: _flow_config_load
+# Purpose: Load configuration values from the config file
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Config file loaded successfully
+#   1 - Config file does not exist
+#
+# Output:
+#   None
+#
+# Side Effects:
+#   - Resets FLOW_CONFIG to defaults first
+#   - Sources FLOW_CONFIG_FILE to override with saved values
+#
+# Example:
+#   _flow_config_load
+#   if [[ $? -eq 0 ]]; then
+#     echo "Config loaded"
+#   fi
+#
+# Notes:
+#   - Always starts with defaults before loading file
+#   - Errors from sourcing are suppressed (2>/dev/null)
+#   - Config file format: FLOW_CONFIG[key]="value"
+# =============================================================================
 _flow_config_load() {
   if [[ ! -f "$FLOW_CONFIG_FILE" ]]; then
     return 1
@@ -85,7 +138,34 @@ _flow_config_load() {
   return 0
 }
 
-# Save config to file
+# =============================================================================
+# Function: _flow_config_save
+# Purpose: Save current configuration values to the config file
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds (file write assumed successful)
+#
+# Output:
+#   Writes to FLOW_CONFIG_FILE
+#
+# Side Effects:
+#   - Creates config directory if it doesn't exist
+#   - Overwrites existing config file
+#   - Adds header comment and timestamp
+#
+# Example:
+#   FLOW_CONFIG[quiet]="1"
+#   _flow_config_save
+#
+# Notes:
+#   - Keys are written in sorted order for consistency
+#   - All current FLOW_CONFIG values are saved (including defaults)
+#   - File format is sourceable ZSH (FLOW_CONFIG[key]="value")
+#   - Adds ISO-8601 timestamp at end of file
+# =============================================================================
 _flow_config_save() {
   local config_dir="${FLOW_CONFIG_FILE:h}"
   [[ ! -d "$config_dir" ]] && mkdir -p "$config_dir"
@@ -118,8 +198,32 @@ EOF
 # CONFIG VALUE ACCESSORS
 # ============================================================================
 
-# Get a config value
-# Usage: _flow_config_get "key" ["default"]
+# =============================================================================
+# Function: _flow_config_get
+# Purpose: Retrieve a configuration value by key with optional default
+# =============================================================================
+# Arguments:
+#   $1 - (required) Configuration key name
+#   $2 - (optional) Default value if key not set [default: from FLOW_CONFIG_DEFAULTS]
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - The configuration value or default
+#
+# Example:
+#   timer=$(_flow_config_get "timer_default")
+#   # => "25"
+#
+#   theme=$(_flow_config_get "unknown_key" "fallback")
+#   # => "fallback"
+#
+# Notes:
+#   - First checks FLOW_CONFIG array
+#   - Falls back to provided default or FLOW_CONFIG_DEFAULTS
+#   - Never returns empty if key exists in defaults
+# =============================================================================
 _flow_config_get() {
   local key="$1"
   local default="${2:-${FLOW_CONFIG_DEFAULTS[$key]:-}}"
@@ -127,8 +231,33 @@ _flow_config_get() {
   echo "${FLOW_CONFIG[$key]:-$default}"
 }
 
-# Set a config value
-# Usage: _flow_config_set "key" "value"
+# =============================================================================
+# Function: _flow_config_set
+# Purpose: Set a configuration value in memory
+# =============================================================================
+# Arguments:
+#   $1 - (required) Configuration key name
+#   $2 - (required) Value to set
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stderr - Warning if unknown key (when FLOW_DEBUG is set)
+#
+# Side Effects:
+#   - Updates FLOW_CONFIG associative array
+#   - Does NOT persist to file (call _flow_config_save separately)
+#
+# Example:
+#   _flow_config_set "timer_default" "30"
+#   _flow_config_set "custom_key" "value"  # Warns in debug mode
+#
+# Notes:
+#   - Allows setting unknown keys (for extensibility)
+#   - Warns about unknown keys when FLOW_DEBUG is enabled
+#   - Changes are in-memory only until _flow_config_save is called
+# =============================================================================
 _flow_config_set() {
   local key="$1"
   local value="$2"
@@ -142,8 +271,32 @@ _flow_config_set() {
   FLOW_CONFIG[$key]="$value"
 }
 
-# Reset a config value to default
-# Usage: _flow_config_reset "key"
+# =============================================================================
+# Function: _flow_config_reset
+# Purpose: Reset a single configuration value to its default
+# =============================================================================
+# Arguments:
+#   $1 - (required) Configuration key to reset
+#
+# Returns:
+#   0 - Key was found in defaults and reset
+#   1 - Key not found in FLOW_CONFIG_DEFAULTS
+#
+# Output:
+#   None
+#
+# Side Effects:
+#   - Updates FLOW_CONFIG[$key] to default value
+#   - Does NOT persist to file (call _flow_config_save separately)
+#
+# Example:
+#   _flow_config_reset "timer_default"
+#   # FLOW_CONFIG[timer_default] is now "25" (the default)
+#
+# Notes:
+#   - Only works for known keys (defined in FLOW_CONFIG_DEFAULTS)
+#   - Returns error for unknown/custom keys
+# =============================================================================
 _flow_config_reset() {
   local key="$1"
 
@@ -155,12 +308,61 @@ _flow_config_reset() {
   fi
 }
 
-# Reset all config to defaults
+# =============================================================================
+# Function: _flow_config_reset_all
+# Purpose: Reset all configuration values to their defaults
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   None
+#
+# Side Effects:
+#   - Replaces entire FLOW_CONFIG array with FLOW_CONFIG_DEFAULTS
+#   - Any custom keys are lost
+#   - Does NOT persist to file (call _flow_config_save separately)
+#
+# Example:
+#   _flow_config_reset_all
+#   _flow_config_save  # Persist the reset
+#
+# Notes:
+#   - Destructive operation - all customizations are lost
+#   - Custom keys (not in defaults) are removed entirely
+#   - Used by profile loading to ensure clean slate
+# =============================================================================
 _flow_config_reset_all() {
   FLOW_CONFIG=("${(@kv)FLOW_CONFIG_DEFAULTS}")
 }
 
-# Check if a config value is set (not default)
+# =============================================================================
+# Function: _flow_config_is_set
+# Purpose: Check if a configuration value differs from its default
+# =============================================================================
+# Arguments:
+#   $1 - (required) Configuration key to check
+#
+# Returns:
+#   0 - Value is different from default (user-modified)
+#   1 - Value matches default or key doesn't exist
+#
+# Output:
+#   None
+#
+# Example:
+#   if _flow_config_is_set "timer_default"; then
+#     echo "Timer has been customized"
+#   fi
+#
+# Notes:
+#   - Uses string comparison between current and default values
+#   - Empty/unset values are compared correctly
+#   - Useful for showing modified indicators in config display
+# =============================================================================
 _flow_config_is_set() {
   local key="$1"
   [[ "${FLOW_CONFIG[$key]:-}" != "${FLOW_CONFIG_DEFAULTS[$key]:-}" ]]
@@ -170,7 +372,35 @@ _flow_config_is_set() {
 # CONFIG DISPLAY
 # ============================================================================
 
-# Show all config values
+# =============================================================================
+# Function: _flow_config_show
+# Purpose: Display all configuration values in a formatted, categorized view
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Filter string to match keys/categories
+#   $2 - (optional) Show all flag (currently unused) [default: "false"]
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Formatted configuration display with:
+#     - Header
+#     - Categories (CORE, UI, TIMER, ADHD, GIT, AI)
+#     - Keys with values
+#     - Asterisk (*) for modified values
+#     - Config file location
+#
+# Example:
+#   _flow_config_show              # Show all config
+#   _flow_config_show "timer"      # Show only timer-related settings
+#   _flow_config_show "git"        # Show only git category
+#
+# Notes:
+#   - Values modified from default are marked with asterisk (*)
+#   - Filter matches both category names and key names
+#   - Uses FLOW_COLORS for formatting
+# =============================================================================
 _flow_config_show() {
   local filter="${1:-}"
   local show_all="${2:-false}"
@@ -230,7 +460,31 @@ _flow_config_show() {
   echo ""
 }
 
-# Show config in export format
+# =============================================================================
+# Function: _flow_config_export
+# Purpose: Output configuration in a sourceable/exportable format
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Each config key-value pair in FLOW_CONFIG[key]="value" format
+#
+# Example:
+#   # Export to file
+#   _flow_config_export > backup-config.zsh
+#
+#   # Pipe to another process
+#   _flow_config_export | grep timer
+#
+# Notes:
+#   - Keys are output in sorted order
+#   - Output is directly sourceable by ZSH
+#   - Useful for backup, migration, or scripting
+# =============================================================================
 _flow_config_export() {
   for key in "${(@ko)FLOW_CONFIG}"; do
     echo "FLOW_CONFIG[$key]=\"${FLOW_CONFIG[$key]}\""
@@ -241,7 +495,38 @@ _flow_config_export() {
 # CONFIG PROFILES
 # ============================================================================
 
-# List available profiles
+# =============================================================================
+# Function: _flow_config_profile_list
+# Purpose: Display all available configuration profiles (built-in and user)
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Formatted list showing:
+#     - Built-in profiles (minimal, developer, adhd, researcher)
+#     - User profiles from FLOW_PROFILE_DIR with save dates
+#
+# Example:
+#   _flow_config_profile_list
+#   # Output:
+#   # CONFIGURATION PROFILES
+#   #
+#   #   Built-in:
+#   #     minimal     - Minimal settings, quiet mode
+#   #     developer   - Full developer settings
+#   #     ...
+#   #   User Profiles:
+#   #     myprofile (saved: 2024-01-15)
+#
+# Notes:
+#   - Built-in profiles are hardcoded descriptions
+#   - User profiles show modification date from stat
+#   - Uses FLOW_COLORS for formatting
+# =============================================================================
 _flow_config_profile_list() {
   echo ""
   echo "${FLOW_COLORS[header]}CONFIGURATION PROFILES${FLOW_COLORS[reset]}"
@@ -270,8 +555,34 @@ _flow_config_profile_list() {
   echo ""
 }
 
-# Save current config as profile
-# Usage: _flow_config_profile_save "name"
+# =============================================================================
+# Function: _flow_config_profile_save
+# Purpose: Save the current configuration as a named profile
+# =============================================================================
+# Arguments:
+#   $1 - (required) Profile name (alphanumeric, hyphens, underscores)
+#
+# Returns:
+#   0 - Profile saved successfully
+#   1 - Error (no name, invalid name, or built-in name)
+#
+# Output:
+#   stdout - Success message with profile file location
+#   stderr - Error messages via _flow_log_error
+#
+# Side Effects:
+#   - Creates profile directory if needed
+#   - Writes profile file to FLOW_PROFILE_DIR/<name>.zsh
+#
+# Example:
+#   _flow_config_profile_save "work"
+#   # Creates ~/.config/flow-cli/profiles/work.zsh
+#
+# Notes:
+#   - Name must start with letter, contain only [a-zA-Z0-9_-]
+#   - Cannot overwrite built-in profiles (minimal, developer, adhd, researcher)
+#   - Profile includes timestamp comment
+# =============================================================================
 _flow_config_profile_save() {
   local name="$1"
 
@@ -312,8 +623,41 @@ EOF
   echo "  Location: $profile_file"
 }
 
-# Load a profile
-# Usage: _flow_config_profile_load "name"
+# =============================================================================
+# Function: _flow_config_profile_load
+# Purpose: Load a configuration profile (built-in or user-defined)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Profile name to load
+#
+# Returns:
+#   0 - Profile loaded successfully
+#   1 - Error (no name or profile not found)
+#
+# Output:
+#   stdout - Success message and reminder to save
+#   stderr - Error messages via _flow_log_error
+#
+# Side Effects:
+#   - Resets FLOW_CONFIG to defaults first
+#   - Applies profile-specific settings
+#   - Does NOT persist (call _flow_config_save to persist)
+#
+# Example:
+#   _flow_config_profile_load "adhd"      # Load built-in ADHD profile
+#   _flow_config_profile_load "mywork"    # Load user profile
+#
+# Built-in Profiles:
+#   minimal    - Quiet mode, no icons, no dopamine features
+#   developer  - Full dispatchers, emoji commits, auto context
+#   adhd       - Dopamine mode, breadcrumbs, icons, short timers
+#   researcher - Long focus timers, long breaks, no auto-push
+#
+# Notes:
+#   - Always resets to defaults before applying profile
+#   - User profiles are sourced from FLOW_PROFILE_DIR
+#   - Changes are in-memory only until saved
+# =============================================================================
 _flow_config_profile_load() {
   local name="$1"
 
@@ -382,8 +726,32 @@ _flow_config_profile_load() {
   echo "${FLOW_COLORS[muted]}Run 'flow config save' to persist changes${FLOW_COLORS[reset]}"
 }
 
-# Delete a user profile
-# Usage: _flow_config_profile_delete "name"
+# =============================================================================
+# Function: _flow_config_profile_delete
+# Purpose: Delete a user-defined configuration profile
+# =============================================================================
+# Arguments:
+#   $1 - (required) Profile name to delete
+#
+# Returns:
+#   0 - Profile deleted successfully
+#   1 - Error (no name, built-in profile, or not found)
+#
+# Output:
+#   stdout - Success message via _flow_log_success
+#   stderr - Error messages via _flow_log_error
+#
+# Side Effects:
+#   - Removes profile file from FLOW_PROFILE_DIR
+#
+# Example:
+#   _flow_config_profile_delete "oldprofile"
+#
+# Notes:
+#   - Cannot delete built-in profiles (minimal, developer, adhd, researcher)
+#   - No confirmation prompt (caller should confirm if needed)
+#   - File is permanently removed
+# =============================================================================
 _flow_config_profile_delete() {
   local name="$1"
 
@@ -413,7 +781,36 @@ _flow_config_profile_delete() {
 # INTERACTIVE CONFIG
 # ============================================================================
 
-# Interactive config wizard
+# =============================================================================
+# Function: _flow_config_wizard
+# Purpose: Run an interactive configuration wizard for common settings
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Interactive prompts for each setting
+#   stdin  - Reads user input for each setting
+#
+# Side Effects:
+#   - Modifies FLOW_CONFIG values based on user input
+#   - Optionally saves config via _flow_config_save
+#
+# Example:
+#   _flow_config_wizard
+#   # Walks through: projects_root, atlas_enabled, quiet, timer_default,
+#   # timer_break, dopamine_mode, auto_breadcrumb, push_after_finish,
+#   # commit_emoji
+#
+# Notes:
+#   - Press Enter to keep current value
+#   - Groups settings by category (Core, Timer, ADHD, Git)
+#   - Uses _flow_confirm for save confirmation
+#   - Emoji wizard header (intentional for ADHD appeal)
+# =============================================================================
 _flow_config_wizard() {
   echo ""
   echo "${FLOW_COLORS[header]}🔧 FLOW-CLI CONFIGURATION WIZARD${FLOW_COLORS[reset]}"
@@ -505,7 +902,35 @@ _flow_config_wizard() {
 # APPLY CONFIG TO ENVIRONMENT
 # ============================================================================
 
-# Apply config values to environment variables
+# =============================================================================
+# Function: _flow_config_apply
+# Purpose: Apply configuration values to environment variables
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   None
+#
+# Side Effects:
+#   - Exports FLOW_PROJECTS_ROOT from config or default
+#   - Exports FLOW_ATLAS_ENABLED from config or default
+#   - Exports FLOW_LOAD_DISPATCHERS from config or default
+#   - Sets FLOW_QUIET=1 if config[quiet]="1"
+#   - Sets FLOW_DEBUG=1 if config[debug]="1"
+#
+# Example:
+#   _flow_config_apply
+#   echo $FLOW_PROJECTS_ROOT  # => /home/user/projects
+#
+# Notes:
+#   - Maps internal config keys to exported environment variables
+#   - Called after config load to sync environment
+#   - Boolean configs (quiet, debug) only set if "1", not unset otherwise
+# =============================================================================
 _flow_config_apply() {
   # Map config values to environment variables
   export FLOW_PROJECTS_ROOT="${FLOW_CONFIG[projects_root]:-$HOME/projects}"

@@ -2,8 +2,33 @@
 # Teaching workflow utility functions
 # Part of Increment 2: Course Context
 
-# Calculate current week number from semester start
-# Returns: Week number (1-16), 0 if before start, or empty if no date configured
+# =============================================================================
+# Function: _calculate_current_week
+# Purpose: Calculate current week number from semester start date
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to course config file (YAML with semester_info.start_date)
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Week number (1-16), "0" if before start, or empty if unconfigured
+#
+# Example:
+#   week=$(_calculate_current_week "course.yml")
+#   echo "Current week: $week"
+#
+# Dependencies:
+#   - yq (for YAML parsing)
+#   - date (macOS compatible)
+#
+# Notes:
+#   - Semester is 16 weeks standard
+#   - Returns 0 for dates before semester start
+#   - Returns 16 for dates after semester end (capped)
+#   - Config format: semester_info.start_date: "YYYY-MM-DD"
+# =============================================================================
 _calculate_current_week() {
   local config_file="$1"
 
@@ -40,8 +65,34 @@ _calculate_current_week() {
   echo "$week"
 }
 
-# Check if week is during a scheduled break
-# Returns: 0 and break name if yes, 1 if no
+# =============================================================================
+# Function: _is_break_week
+# Purpose: Check if a given week falls during a scheduled break
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to course config file
+#   $2 - (required) Week number to check
+#
+# Returns:
+#   0 - Week is during a break (outputs break name)
+#   1 - Week is not during a break (or no breaks configured)
+#
+# Output:
+#   stdout - Break name if during a break (e.g., "Spring Break")
+#
+# Example:
+#   if break_name=$(_is_break_week "course.yml" 9); then
+#       echo "Week 9 is $break_name"
+#   fi
+#
+# Dependencies:
+#   - yq (for YAML parsing)
+#   - _date_to_week (internal)
+#
+# Notes:
+#   - Config format: semester_info.breaks[].{name, start, end}
+#   - Dates in YYYY-MM-DD format
+# =============================================================================
 _is_break_week() {
   local config_file="$1"
   local week="$2"
@@ -83,8 +134,32 @@ _is_break_week() {
   return 1  # Not a break week
 }
 
-# Convert date to week number relative to semester start
-# Returns: Week number or empty if invalid
+# =============================================================================
+# Function: _date_to_week
+# Purpose: Convert a date to week number relative to semester start
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to course config file
+#   $2 - (required) Target date in YYYY-MM-DD format
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Week number (can be negative for dates before start)
+#
+# Example:
+#   week=$(_date_to_week "course.yml" "2026-03-15")
+#   echo "March 15 is week $week"
+#
+# Dependencies:
+#   - yq (for YAML parsing)
+#   - date (macOS compatible)
+#
+# Notes:
+#   - Returns empty if date is invalid or config missing
+#   - Week 1 starts on semester_info.start_date
+# =============================================================================
 _date_to_week() {
   local config_file="$1"
   local target_date="$2"
@@ -112,8 +187,28 @@ _date_to_week() {
   echo "$week"
 }
 
-# Validate date format (YYYY-MM-DD)
-# Returns: 0 if valid, 1 if invalid
+# =============================================================================
+# Function: _validate_date_format
+# Purpose: Validate that a string is a valid YYYY-MM-DD date
+# =============================================================================
+# Arguments:
+#   $1 - (required) Date string to validate
+#
+# Returns:
+#   0 - Valid date format and real date
+#   1 - Invalid format or non-existent date
+#
+# Example:
+#   if _validate_date_format "2026-02-30"; then
+#       echo "Valid date"
+#   else
+#       echo "Invalid date"  # Feb 30 doesn't exist
+#   fi
+#
+# Notes:
+#   - Checks both format (YYYY-MM-DD) and validity (real date)
+#   - Uses macOS-compatible date parsing
+# =============================================================================
 _validate_date_format() {
   local date_str="$1"
 
@@ -130,8 +225,28 @@ _validate_date_format() {
   return 0
 }
 
-# Calculate semester end date (16 weeks from start)
-# Returns: End date in YYYY-MM-DD format
+# =============================================================================
+# Function: _calculate_semester_end
+# Purpose: Calculate semester end date (16 weeks from start)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Semester start date in YYYY-MM-DD format
+#
+# Returns:
+#   0 - Success
+#   1 - Invalid start date
+#
+# Output:
+#   stdout - End date in YYYY-MM-DD format
+#
+# Example:
+#   end_date=$(_calculate_semester_end "2026-01-15")
+#   echo "Semester ends: $end_date"  # → 2026-05-06
+#
+# Notes:
+#   - Standard 16-week semester (112 days)
+#   - macOS compatible date arithmetic
+# =============================================================================
 _calculate_semester_end() {
   local start_date="$1"
 
@@ -148,8 +263,32 @@ _calculate_semester_end() {
   echo "$end_date"
 }
 
-# Suggest semester start date based on current month
-# Returns: Suggested date in YYYY-MM-DD format
+# =============================================================================
+# Function: _suggest_semester_start
+# Purpose: Suggest a reasonable semester start date based on current month
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Suggested date in YYYY-MM-DD format
+#
+# Suggestions:
+#   - Aug-Dec: Fall semester (Aug 20)
+#   - Jan-May: Spring semester (Jan 15)
+#   - Jun-Jul: Summer term (Jun 1)
+#
+# Example:
+#   suggested=$(_suggest_semester_start)
+#   echo "Suggested start: $suggested"
+#
+# Notes:
+#   - January suggests previous year's fall semester
+#   - Provides reasonable defaults for quick setup
+# =============================================================================
 _suggest_semester_start() {
   local current_month=$(date +%m)
   local current_year=$(date +%Y)

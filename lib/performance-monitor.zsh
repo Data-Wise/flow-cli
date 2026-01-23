@@ -25,8 +25,31 @@ typeset -g PERF_LOG_MAX_ENTRIES=1000
 # LOG INITIALIZATION
 # ============================================================================
 
-# Initialize performance log file if it doesn't exist
-# Creates .teach directory and empty log with schema
+# =============================================================================
+# Function: _init_performance_log
+# Purpose: Initialize the performance log file with proper schema
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Success (log file exists or was created)
+#   1 - Error (failed to create directory or file)
+#
+# Output:
+#   None (creates file on disk)
+#
+# Example:
+#   _init_performance_log
+#   # Creates .teach/performance-log.json if not exists
+#
+# Notes:
+#   - Creates .teach directory if it doesn't exist
+#   - Creates log file with version and empty entries array
+#   - Uses PERF_LOG_FILE constant for file path
+#   - Uses PERF_LOG_VERSION constant for schema version
+#   - Idempotent: safe to call multiple times
+# =============================================================================
 _init_performance_log() {
     local log_file="$PERF_LOG_FILE"
 
@@ -53,8 +76,31 @@ EOF
 # LOG ROTATION
 # ============================================================================
 
-# Rotate log if it exceeds max size or max entries
-# Keeps last N entries, archives older ones
+# =============================================================================
+# Function: _rotate_performance_log
+# Purpose: Rotate the performance log when it exceeds size limits
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Success (no rotation needed or rotation completed)
+#
+# Output:
+#   stdout - Info message via _flow_log_info when rotating
+#
+# Example:
+#   _rotate_performance_log
+#   # Archives old log and keeps last PERF_LOG_MAX_ENTRIES entries
+#
+# Notes:
+#   - Checks file size against PERF_LOG_MAX_SIZE (10MB default)
+#   - Archives old log to .teach/performance-log-TIMESTAMP.json
+#   - If jq available, extracts last N entries to new log
+#   - Without jq, creates fresh empty log
+#   - Uses PERF_LOG_MAX_ENTRIES constant (1000 default)
+#   - Cross-platform stat command for file size (BSD/GNU)
+# =============================================================================
 _rotate_performance_log() {
     local log_file="$PERF_LOG_FILE"
 
@@ -91,8 +137,41 @@ _rotate_performance_log() {
 # PERFORMANCE RECORDING
 # ============================================================================
 
-# Record a performance entry to the log
-# Args: operation files duration parallel workers cache_hits cache_misses per_file_json
+# =============================================================================
+# Function: _record_performance
+# Purpose: Record a performance entry with metrics to the log file
+# =============================================================================
+# Arguments:
+#   $1 - (required) Operation type: "validate", "render", or "deploy"
+#   $2 - (required) Number of files processed
+#   $3 - (required) Duration in seconds (can be float, e.g., "12.5")
+#   $4 - (required) Parallel mode: "true" or "false"
+#   $5 - (optional) Worker count [default: 0]
+#   $6 - (optional) Cache hits count [default: 0]
+#   $7 - (optional) Cache misses count [default: 0]
+#   $8 - (optional) Per-file stats as JSON array [default: []]
+#
+# Returns:
+#   0 - Success (entry recorded)
+#   1 - Error (failed to initialize log)
+#
+# Output:
+#   None (writes to PERF_LOG_FILE)
+#
+# Example:
+#   _record_performance "validate" 15 "45.2" "true" 4 10 5 '[{"file":"hw1.qmd","duration_sec":3.2}]'
+#
+# Notes:
+#   - Automatically calculates derived metrics:
+#     - cache_hit_rate (0.0-1.0)
+#     - avg_render_time_sec (duration / files)
+#     - speedup (parallel efficiency estimate)
+#     - slowest_file and slowest_time_sec (from per_file_json)
+#   - Uses jq for proper JSON construction if available
+#   - Falls back to manual JSON construction without jq
+#   - Initializes and rotates log as needed
+#   - Timestamps are UTC ISO-8601 format
+# =============================================================================
 _record_performance() {
     local operation="$1"      # validate, render, deploy
     local files="$2"          # file count
@@ -222,9 +301,32 @@ EOF
 # LOG READING
 # ============================================================================
 
-# Read performance log entries within a time window
-# Args: window_days (7, 30, or empty for all)
-# Returns: JSON array of entries (via stdout)
+# =============================================================================
+# Function: _read_performance_log
+# Purpose: Read performance log entries within a time window
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Number of days to look back [default: 0 = all entries]
+#
+# Returns:
+#   0 - Success (entries returned)
+#   1 - Error (log file not found)
+#
+# Output:
+#   stdout - JSON array of matching log entries
+#
+# Example:
+#   entries=$(_read_performance_log 7)   # Last 7 days
+#   entries=$(_read_performance_log 30)  # Last 30 days
+#   entries=$(_read_performance_log)     # All entries
+#
+# Notes:
+#   - Returns "[]" if log file doesn't exist
+#   - Uses jq for filtering by timestamp if available
+#   - Cross-platform date calculation (BSD/GNU)
+#   - Without jq, returns raw entries section from JSON
+#   - Cutoff date is calculated in UTC
+# =============================================================================
 _read_performance_log() {
     local window_days="${1:-0}"  # 0 = all entries
     local log_file="$PERF_LOG_FILE"
@@ -258,9 +360,32 @@ _read_performance_log() {
 # METRIC CALCULATION
 # ============================================================================
 
-# Calculate moving average for a metric
-# Args: metric window_days
-# Returns: average value (float)
+# =============================================================================
+# Function: _calculate_moving_average
+# Purpose: Calculate the moving average of a metric over a time window
+# =============================================================================
+# Arguments:
+#   $1 - (required) Metric name: "avg_render_time_sec", "cache_hit_rate",
+#                   "speedup", "duration_sec", etc.
+#   $2 - (optional) Number of days for the window [default: 7]
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Average value as float (e.g., "3.45")
+#            Returns "0" if no entries or jq unavailable
+#
+# Example:
+#   avg=$(_calculate_moving_average "avg_render_time_sec" 7)
+#   avg=$(_calculate_moving_average "cache_hit_rate" 30)
+#
+# Notes:
+#   - Requires jq for calculation
+#   - Returns "0" without jq
+#   - Uses _read_performance_log() internally for filtering
+#   - Handles empty arrays gracefully
+# =============================================================================
 _calculate_moving_average() {
     local metric="$1"       # avg_render_time_sec, cache_hit_rate, speedup, duration_sec
     local window_days="${2:-7}"
@@ -276,7 +401,32 @@ _calculate_moving_average() {
     fi
 }
 
-# Get most recent entry for a metric
+# =============================================================================
+# Function: _get_latest_metric
+# Purpose: Get the most recent value for a specific metric
+# =============================================================================
+# Arguments:
+#   $1 - (required) Metric name: "avg_render_time_sec", "cache_hit_rate",
+#                   "files", "parallel", "workers", "speedup", etc.
+#
+# Returns:
+#   0 - Success
+#   1 - Error (log file not found)
+#
+# Output:
+#   stdout - Latest value for the metric (number or string)
+#            Returns "0" if log empty or jq unavailable
+#
+# Example:
+#   latest=$(_get_latest_metric "avg_render_time_sec")  # e.g., "2.45"
+#   latest=$(_get_latest_metric "parallel")             # e.g., "true"
+#
+# Notes:
+#   - Returns value from the most recent entry in the log
+#   - Requires jq for extraction
+#   - Returns "0" without jq or if metric not found
+#   - Uses the "last" entry from the entries array
+# =============================================================================
 _get_latest_metric() {
     local metric="$1"
     local log_file="$PERF_LOG_FILE"
@@ -296,9 +446,36 @@ _get_latest_metric() {
 # ANALYSIS
 # ============================================================================
 
-# Identify slowest files across recent operations
-# Args: count window_days
-# Returns: TSV of file and time
+# =============================================================================
+# Function: _identify_slow_files
+# Purpose: Identify the slowest files based on maximum render time
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Number of files to return [default: 5]
+#   $2 - (optional) Number of days to look back [default: 7]
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Tab-separated values: "filename\tmax_duration"
+#            One file per line, sorted by duration descending
+#            Empty output if no data or jq unavailable
+#
+# Example:
+#   _identify_slow_files 5 7
+#   # Output:
+#   # lectures/week10.qmd	15.2
+#   # assignments/final.qmd	12.8
+#   # exams/midterm.qmd	10.5
+#
+# Notes:
+#   - Aggregates across all entries in the time window
+#   - Uses maximum duration for each file (worst case)
+#   - Groups by file path before sorting
+#   - Requires jq for JSON processing
+#   - Uses per_file arrays from log entries
+# =============================================================================
 _identify_slow_files() {
     local count="${1:-5}"
     local window_days="${2:-7}"
@@ -318,9 +495,35 @@ _identify_slow_files() {
     fi
 }
 
-# Calculate trend direction and percentage change
-# Args: current_value average_value
-# Returns: "↑ X%" or "↓ X%" or "→ 0%"
+# =============================================================================
+# Function: _calculate_trend
+# Purpose: Calculate trend direction and percentage change from average
+# =============================================================================
+# Arguments:
+#   $1 - (required) Current value (float)
+#   $2 - (required) Average/baseline value (float)
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Trend indicator with percentage:
+#            "↑ X%" - Value increased from average
+#            "↓ X%" - Value decreased from average
+#            "→ 0%" - No significant change
+#
+# Example:
+#   _calculate_trend "3.5" "3.0"   # Output: ↑ 16.7%
+#   _calculate_trend "2.5" "3.0"   # Output: ↓ 16.7%
+#   _calculate_trend "3.0" "3.0"   # Output: → 0%
+#
+# Notes:
+#   - Requires bc for floating point math
+#   - Returns "→ 0%" if bc unavailable
+#   - Uses 0.01 threshold for "no change" detection
+#   - Percentage is absolute (no negative sign)
+#   - Division by zero is handled by bc returning error
+# =============================================================================
 _calculate_trend() {
     local current="$1"
     local average="$2"
@@ -347,9 +550,35 @@ _calculate_trend() {
 # VISUALIZATION
 # ============================================================================
 
-# Generate ASCII bar graph
-# Args: value max width
-# Returns: bar string (e.g., "████████░░")
+# =============================================================================
+# Function: _generate_ascii_graph
+# Purpose: Generate an ASCII bar graph representing a value
+# =============================================================================
+# Arguments:
+#   $1 - (required) Current value (float or integer)
+#   $2 - (required) Maximum value for scale
+#   $3 - (optional) Width in characters [default: 50]
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - ASCII bar using filled (█) and empty (░) characters
+#
+# Example:
+#   _generate_ascii_graph 75 100 10
+#   # Output: ████████░░ (7.5 rounded to 8 filled, 2 empty)
+#
+#   _generate_ascii_graph 50 100 20
+#   # Output: ██████████░░░░░░░░░░
+#
+# Notes:
+#   - Requires bc for floating point math
+#   - Falls back to full bar if bc unavailable
+#   - Clamps value to max (no overflow)
+#   - Handles max=0 by treating as max=1
+#   - Uses Unicode block characters for visual clarity
+# =============================================================================
 _generate_ascii_graph() {
     local value="$1"
     local max="$2"
@@ -385,8 +614,38 @@ _generate_ascii_graph() {
 # PERFORMANCE DASHBOARD
 # ============================================================================
 
-# Format and display performance dashboard
-# Args: window_days (7, 30)
+# =============================================================================
+# Function: _format_performance_dashboard
+# Purpose: Display a formatted performance metrics dashboard
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Number of days for trend window [default: 7]
+#
+# Returns:
+#   0 - Success (dashboard displayed)
+#   1 - Error (no performance data available)
+#
+# Output:
+#   stdout - Formatted dashboard with sections:
+#            - Render Time (avg per file with trend)
+#            - Total Validation Time (if parallel mode)
+#            - Cache Hit Rate (with visual bar)
+#            - Parallel Efficiency (workers, speedup)
+#            - Top 5 Slowest Files
+#
+# Example:
+#   _format_performance_dashboard 7     # Last 7 days trends
+#   _format_performance_dashboard 30    # Last 30 days trends
+#
+# Notes:
+#   - Uses FLOW_COLORS for styled output (bold, header, reset)
+#   - Displays warning if no performance data exists
+#   - Suggests running 'teach validate' to collect data
+#   - Includes ASCII bar graphs for visual metrics
+#   - Calculates serial time estimate for parallel runs
+#   - Efficiency percentage assumes I/O bound workload
+#   - Requires jq for full functionality
+# =============================================================================
 _format_performance_dashboard() {
     local window_days="${1:-7}"
     local log_file="$PERF_LOG_FILE"

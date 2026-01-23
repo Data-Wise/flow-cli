@@ -9,9 +9,29 @@ autoload -U colors && colors
 # CPU DETECTION
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-# Detect number of CPU cores
-# Returns: Number of logical CPU cores
-# Platform: macOS (sysctl), Linux (nproc), fallback (4)
+# =============================================================================
+# Function: _detect_cpu_cores
+# Purpose: Detect number of logical CPU cores on the current system
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Number of logical CPU cores (integer between 1 and 128)
+#
+# Example:
+#   local cores=$(_detect_cpu_cores)
+#   echo "System has $cores CPU cores"
+#
+# Notes:
+#   - macOS: uses sysctl -n hw.ncpu
+#   - Linux: uses nproc, falls back to /proc/cpuinfo
+#   - Default fallback: 4 cores if detection fails
+#   - Sanity check ensures result is between 1 and 128
+# =============================================================================
 _detect_cpu_cores() {
     local cores=4  # Default fallback
 
@@ -38,12 +58,34 @@ _detect_cpu_cores() {
 # WORKER POOL MANAGEMENT
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-# Create worker pool for parallel rendering
-# Args:
-#   $1 - Number of workers (optional, defaults to CPU count)
-#   $2 - Job queue file (optional, will create temp if not provided)
-# Returns: "queue_file:result_file:worker_pids"
-# Example: pool=$(_create_worker_pool 8)
+# =============================================================================
+# Function: _create_worker_pool
+# Purpose: Create and start a pool of worker processes for parallel rendering
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Number of workers [default: CPU count]
+#   $2 - (optional) Job queue file path [default: auto-generated temp file]
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Pool info string: "queue_file:result_file:worker_pids"
+#            worker_pids is comma-separated list
+#
+# Example:
+#   local pool=$(_create_worker_pool 8)
+#   local queue="${pool%%:*}"
+#   # Use pool...
+#   _cleanup_workers "$pool" false
+#
+# Notes:
+#   - Spawns worker processes in background using _worker_process
+#   - Minimum 1 worker even if 0 is specified
+#   - Each worker gets unique temp directory for Quarto isolation
+#   - Workers automatically exit when queue is empty
+#   - MUST call _cleanup_workers when done to prevent resource leaks
+# =============================================================================
 _create_worker_pool() {
     local num_workers="${1:-$(_detect_cpu_cores)}"
     local queue_file="${2:-$(mktemp /tmp/quarto-queue.XXXXXX)}"
@@ -66,12 +108,34 @@ _create_worker_pool() {
     echo "${queue_file}:${result_file}:${(j:,:)worker_pids}"
 }
 
-# Worker process main loop
-# Args:
-#   $1 - Queue file path
-#   $2 - Results file path
-#   $3 - Worker ID
-# Note: Runs in background, fetches jobs until queue is empty
+# =============================================================================
+# Function: _worker_process
+# Purpose: Worker process main loop - fetches and executes render jobs
+# =============================================================================
+# Arguments:
+#   $1 - (required) Queue file path to fetch jobs from
+#   $2 - (required) Results file path to write results to
+#   $3 - (required) Worker ID (for temp directory isolation)
+#
+# Returns:
+#   0 - Exits when queue is empty
+#
+# Output:
+#   Writes results to results file via _record_job_result
+#   Error logs saved to /tmp/quarto-error-{job_id}.log on failure
+#
+# Example:
+#   # Called internally by _create_worker_pool
+#   (_worker_process "$queue" "$results" 1) &
+#
+# Notes:
+#   - Runs in background, continuously fetches jobs until queue empty
+#   - Uses atomic job fetching to prevent race conditions
+#   - Each worker has isolated TMPDIR: /tmp/quarto-worker-{id}
+#   - Records timing: start_time, end_time, duration
+#   - Preserves error output for failed renders
+#   - Cleans up temp directory on exit
+# =============================================================================
 _worker_process() {
     local queue_file="$1"
     local results_file="$2"
@@ -135,11 +199,29 @@ _worker_process() {
     rm -rf "$TMPDIR"
 }
 
-# Distribute jobs to queue
-# Args:
-#   $1 - Queue file path
-#   $@ - List of file paths to render
-# Note: Optimizes job order for better parallelism
+# =============================================================================
+# Function: _distribute_jobs
+# Purpose: Distribute render jobs to queue with optimized ordering
+# =============================================================================
+# Arguments:
+#   $1 - (required) Queue file path to write jobs to
+#   $@ - (required) List of file paths to render (remaining arguments)
+#
+# Returns:
+#   0 - Success
+#
+# Output:
+#   Writes optimized job list to queue file
+#
+# Example:
+#   _distribute_jobs "/tmp/queue.txt" lecture1.qmd lecture2.qmd homework1.qmd
+#
+# Notes:
+#   - Sources render-queue.zsh for optimization functions
+#   - Uses _create_job_queue which orders slowest files first
+#   - This ordering improves load balancing in parallel execution
+#   - Must be called after _create_worker_pool, before workers start
+# =============================================================================
 _distribute_jobs() {
     local queue_file="$1"
     shift
@@ -153,11 +235,32 @@ _distribute_jobs() {
     _create_job_queue "$queue_file" "${files[@]}"
 }
 
-# Wait for all workers to complete
-# Args:
-#   $1 - Comma-separated list of worker PIDs
-#   $2 - Timeout in seconds (optional, default 3600)
-# Returns: 0 if all workers completed, 1 if timeout
+# =============================================================================
+# Function: _wait_for_workers
+# Purpose: Wait for all worker processes to complete with timeout
+# =============================================================================
+# Arguments:
+#   $1 - (required) Comma-separated list of worker PIDs
+#   $2 - (optional) Timeout in seconds [default: 3600 (1 hour)]
+#
+# Returns:
+#   0 - All workers completed successfully
+#   1 - Timeout reached (remaining workers are killed)
+#
+# Output:
+#   None
+#
+# Example:
+#   if ! _wait_for_workers "1234,1235,1236" 600; then
+#       echo "Rendering timed out after 10 minutes"
+#   fi
+#
+# Notes:
+#   - Polls worker processes every 500ms using kill -0
+#   - On timeout, sends SIGTERM to all remaining workers
+#   - Checks timeout after each worker completes and every 10 seconds during wait
+#   - Used by _parallel_render orchestrator
+# =============================================================================
 _wait_for_workers() {
     local worker_pids_str="$1"
     local timeout="${2:-3600}"
@@ -195,11 +298,30 @@ _wait_for_workers() {
     return 0
 }
 
-# Aggregate results from all workers
-# Args:
-#   $1 - Results file path
-# Returns: JSON array of result objects
-# Format: [{"file":"path","status":0,"duration":5,"start":123,"end":128}...]
+# =============================================================================
+# Function: _aggregate_results
+# Purpose: Aggregate render results from all workers into JSON format
+# =============================================================================
+# Arguments:
+#   $1 - (required) Results file path to read
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - JSON array of result objects
+#            Format: [{"job_id":1,"file":"path","status":0,"duration":5,"start":123,"end":128},...]
+#
+# Example:
+#   local results=$(_aggregate_results "/tmp/results.txt")
+#   local failed=$(echo "$results" | grep -c '"status":[^0]')
+#
+# Notes:
+#   - Returns "[]" if results file doesn't exist
+#   - Parses pipe-delimited format: job_id|file_path|status|duration|start|end
+#   - Builds JSON without jq dependency (simple string construction)
+#   - Used for final summary display and error reporting
+# =============================================================================
 _aggregate_results() {
     local results_file="$1"
     local -a results=()
@@ -221,10 +343,35 @@ _aggregate_results() {
     echo "[${(j:,:)results}]"
 }
 
-# Cleanup worker pool and temporary files
-# Args:
-#   $1 - Pool info string (from _create_worker_pool)
-#   $2 - Force kill workers (optional, default: false)
+# =============================================================================
+# Function: _cleanup_workers
+# Purpose: Cleanup worker pool and all temporary files
+# =============================================================================
+# Arguments:
+#   $1 - (required) Pool info string from _create_worker_pool
+#   $2 - (optional) Force kill workers: "true" or "false" [default: "false"]
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   None
+#
+# Example:
+#   # Normal cleanup after workers finish
+#   _cleanup_workers "$pool" false
+#
+#   # Force cleanup on interrupt/error
+#   trap "_cleanup_workers '$pool' true" INT TERM EXIT
+#
+# Notes:
+#   - If force_kill=true: sends SIGTERM, waits 1s, then SIGKILL
+#   - Removes queue file and its lock directory
+#   - Removes results file and its lock directory
+#   - Removes all /tmp/quarto-worker-* directories
+#   - Removes all /tmp/quarto-error-*.log files
+#   - MUST be called to prevent resource leaks
+# =============================================================================
 _cleanup_workers() {
     local pool_info="$1"
     local force_kill="${2:-false}"
@@ -270,16 +417,41 @@ _cleanup_workers() {
 # MAIN PARALLEL RENDERING ORCHESTRATOR
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-# Main parallel rendering orchestrator
-# Args:
-#   --workers N     - Number of workers (default: CPU count)
-#   --timeout N     - Timeout in seconds (default: 3600)
-#   --progress      - Show progress bar (default: true)
-#   --quiet         - Suppress output (default: false)
-#   --              - Separator before file list
-#   files...        - List of files to render
-# Returns: 0 if all renders succeeded, 1 otherwise
-# Example: _parallel_render --workers 8 --progress -- *.qmd
+# =============================================================================
+# Function: _parallel_render
+# Purpose: Main orchestrator for parallel Quarto rendering
+# =============================================================================
+# Arguments:
+#   --workers N    - (optional) Number of workers [default: CPU count]
+#   --timeout N    - (optional) Timeout in seconds [default: 3600]
+#   --progress     - (optional) Show progress bar [default: true]
+#   --no-progress  - (optional) Hide progress bar
+#   --quiet        - (optional) Suppress all output (implies --no-progress)
+#   --             - (optional) Separator before file list
+#   files...       - (required) List of Quarto files to render
+#
+# Returns:
+#   0 - All renders succeeded
+#   1 - One or more renders failed or timeout occurred
+#
+# Output:
+#   stdout - Progress bar, results summary, statistics (unless --quiet)
+#   stderr - Error messages
+#
+# Example:
+#   # Render all .qmd files with 8 workers
+#   _parallel_render --workers 8 --progress -- *.qmd
+#
+#   # Quiet mode for scripts
+#   _parallel_render --quiet lectures/*.qmd
+#
+# Notes:
+#   - Creates worker pool, distributes jobs, monitors progress
+#   - Sets up cleanup trap for INT/TERM signals
+#   - Uses optimized job ordering (slowest first)
+#   - Progress bar shows completion %, ETA, elapsed time
+#   - Final display shows per-file results and aggregate statistics
+# =============================================================================
 _parallel_render() {
     local num_workers=$(_detect_cpu_cores)
     local timeout=3600
@@ -387,11 +559,32 @@ _parallel_render() {
     fi
 }
 
-# Monitor progress in real-time
-# Args:
-#   $1 - Results file path
-#   $2 - Total number of files
-# Note: Runs in background, updates every 500ms
+# =============================================================================
+# Function: _monitor_progress
+# Purpose: Monitor and display real-time rendering progress
+# =============================================================================
+# Arguments:
+#   $1 - (required) Results file path to monitor
+#   $2 - (required) Total number of files being rendered
+#
+# Returns:
+#   0 - Exits when all files complete
+#
+# Output:
+#   stdout - Real-time progress bar updates via parallel-progress.zsh
+#
+# Example:
+#   # Called internally by _parallel_render
+#   _monitor_progress "$result_file" "${#files[@]}" &
+#   local monitor_pid=$!
+#
+# Notes:
+#   - Designed to run in background
+#   - Polls results file every 500ms for completion count
+#   - Sources parallel-progress.zsh for display functions
+#   - Exits automatically when completed count >= total
+#   - Kill with monitor_pid when done or on error
+# =============================================================================
 _monitor_progress() {
     local results_file="$1"
     local total_files="$2"
@@ -421,10 +614,33 @@ _monitor_progress() {
     done
 }
 
-# Display final results
-# Args:
-#   $1 - Results JSON array
-#   $2 - Total file count
+# =============================================================================
+# Function: _display_results
+# Purpose: Display final rendering results with per-file status and statistics
+# =============================================================================
+# Arguments:
+#   $1 - (required) Results JSON array from _aggregate_results
+#   $2 - (required) Total file count
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Formatted results table showing:
+#            - Per-file status (checkmark or X) with duration
+#            - Total files, succeeded, failed counts
+#            - Total and average time statistics
+#
+# Example:
+#   local results=$(_aggregate_results "$result_file")
+#   _display_results "$results" 10
+#
+# Notes:
+#   - Uses simple JSON parsing (grep-based, no jq dependency)
+#   - Shows checkmark for success, X for failure
+#   - Extracts basename for cleaner display
+#   - Calculates aggregate statistics from individual results
+# =============================================================================
 _display_results() {
     local results_json="$1"
     local total_files="$2"

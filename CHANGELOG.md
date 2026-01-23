@@ -9,6 +9,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Documentation Debt Remediation (PR #288)
+
+- **348 functions documented** across 32 library files (coverage: 8.6% → 49.4%)
+- `docs/reference/TEACHING-API-REFERENCE.md` - 61 functions (validation, backup, cache, index, utils)
+- `docs/reference/INTEGRATION-API-REFERENCE.md` - 80 functions (atlas, plugins, config, keychain)
+- `docs/reference/SPECIALIZED-API-REFERENCE.md` - 160 functions (dotfiles, AI, rendering, R, Quarto)
+- `docs/diagrams/LIBRARY-ARCHITECTURE.md` - 2 Mermaid diagrams (layer overview + dispatcher architecture)
+- Inline docstrings added to 29 library files (Purpose, Arguments, Returns, Example format)
+
+### Changed
+
+- `README.md` - Added API Reference section with coverage metrics
+- `mkdocs.yml` - Added 4 new navigation entries (Teaching, Integration, Specialized APIs + Library Architecture)
+
+### Dependencies
+
+- `prettier` 3.7.4 → 3.8.0
+
+---
+
+## [5.15.1] - 2026-01-21
+
+### Added - Documentation & Architecture
+
+- `docs/reference/ARCHITECTURE-OVERVIEW.md` - System architecture with 6 Mermaid diagrams (~365 lines)
+- `docs/reference/V-DISPATCHER-REFERENCE.md` - V dispatcher reference (~275 lines)
+- `docs/reference/DOCUMENTATION-COVERAGE.md` - Coverage metrics report (~227 lines)
+- `docs/reference/CORE-API-REFERENCE.md` - Core libraries API reference (47 functions, 1,661 lines)
+- Inline docstrings for `lib/core.zsh`, `lib/tui.zsh`, `lib/git-helpers.zsh`
+- `docs/specs/SPEC-teach-prompt-command-2026-01-21.md` (paused - Scholar coordination)
+
 ---
 
 ## [5.15.0] - 2026-01-20

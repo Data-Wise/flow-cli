@@ -133,12 +133,54 @@ Provide the corrected version with explanation.'
 # RECIPE MANAGEMENT
 # ============================================================================
 
-# Initialize recipes directory
+# =============================================================================
+# Function: _flow_recipe_init
+# Purpose: Initialize the user recipes directory if it doesn't exist
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   None (silent operation)
+#
+# Example:
+#   _flow_recipe_init
+#
+# Notes:
+#   - Creates FLOW_RECIPE_DIR (~/.config/flow/recipes) if missing
+#   - Called automatically before recipe operations that need the directory
+#   - Safe to call multiple times (idempotent)
+# =============================================================================
 _flow_recipe_init() {
   [[ ! -d "$FLOW_RECIPE_DIR" ]] && mkdir -p "$FLOW_RECIPE_DIR"
 }
 
-# List all available recipes
+# =============================================================================
+# Function: _flow_recipe_list
+# Purpose: Display all available AI recipes (built-in and user-created)
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Formatted list of recipes with names and descriptions
+#            Includes built-in recipes, user recipes, and usage examples
+#
+# Example:
+#   _flow_recipe_list
+#
+# Notes:
+#   - Built-in recipes are defined in FLOW_BUILTIN_RECIPES associative array
+#   - User recipes are stored as .recipe files in FLOW_RECIPE_DIR
+#   - Descriptions are truncated to 50 characters for display
+#   - Called when running "flow ai recipe" or "flow ai recipe list"
+# =============================================================================
 _flow_recipe_list() {
   echo ""
   echo "${FLOW_COLORS[header]}AVAILABLE AI RECIPES${FLOW_COLORS[reset]}"
@@ -175,8 +217,29 @@ _flow_recipe_list() {
   echo ""
 }
 
-# Get a recipe by name
-# Returns: recipe content or empty string
+# =============================================================================
+# Function: _flow_recipe_get
+# Purpose: Retrieve a recipe's content by name from built-in or user storage
+# =============================================================================
+# Arguments:
+#   $1 - (required) Recipe name to retrieve
+#
+# Returns:
+#   0 - Recipe found and output
+#   1 - Recipe not found
+#
+# Output:
+#   stdout - Recipe content (prompt template with variables)
+#
+# Example:
+#   local recipe=$(_flow_recipe_get "review")
+#   local recipe=$(_flow_recipe_get "my-custom-recipe")
+#
+# Notes:
+#   - Checks built-in recipes first (FLOW_BUILTIN_RECIPES)
+#   - Falls back to user recipes in FLOW_RECIPE_DIR/*.recipe
+#   - User recipes can override built-in names by creating same-named file
+# =============================================================================
 _flow_recipe_get() {
   local name="$1"
 
@@ -196,7 +259,34 @@ _flow_recipe_get() {
   return 1
 }
 
-# Apply variables to recipe
+# =============================================================================
+# Function: _flow_recipe_apply
+# Purpose: Replace template variables in a recipe with actual values
+# =============================================================================
+# Arguments:
+#   $1 - (required) Recipe content with {{variable}} placeholders
+#   $2 - (required) User input to substitute for {{input}}
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Recipe with all variables replaced
+#
+# Example:
+#   local prompt=$(_flow_recipe_apply "$recipe" "my code here")
+#
+# Notes:
+#   - Supported variables:
+#     {{input}}        - User-provided input
+#     {{project_type}} - Detected project type (r-package, node, etc.)
+#     {{pwd}}          - Current working directory
+#     {{date}}         - Today's date (YYYY-MM-DD format)
+#     {{branch}}       - Current git branch name
+#     {{project}}      - Project name from session or directory
+#   - Uses ZSH parameter expansion for string replacement
+#   - Falls back gracefully if git or project detection fails
+# =============================================================================
 _flow_recipe_apply() {
   local recipe="$1"
   local input="$2"
@@ -225,7 +315,32 @@ _flow_recipe_apply() {
   echo "$recipe"
 }
 
-# Create a new user recipe
+# =============================================================================
+# Function: _flow_recipe_create
+# Purpose: Create a new user recipe from template and open in editor
+# =============================================================================
+# Arguments:
+#   $1 - (required) Name for the new recipe (alphanumeric, hyphens, underscores)
+#
+# Returns:
+#   0 - Recipe created successfully
+#   1 - Invalid name, missing argument, or would overwrite built-in
+#
+# Output:
+#   stdout - Success message with file location and usage instructions
+#   stderr - Error messages for invalid input
+#
+# Example:
+#   _flow_recipe_create "my-review"
+#   _flow_recipe_create "project-setup"
+#
+# Notes:
+#   - Recipe names must start with a letter and contain only [a-zA-Z0-9_-]
+#   - Cannot overwrite built-in recipes (use user recipe to shadow instead)
+#   - Opens template in $EDITOR, $VISUAL, or vim as fallback
+#   - Template includes documentation of available variables
+#   - Recipe saved to FLOW_RECIPE_DIR/<name>.recipe
+# =============================================================================
 _flow_recipe_create() {
   local name="$1"
 
@@ -277,7 +392,29 @@ EOF
   fi
 }
 
-# Edit an existing recipe
+# =============================================================================
+# Function: _flow_recipe_edit
+# Purpose: Open an existing user recipe in the default editor
+# =============================================================================
+# Arguments:
+#   $1 - (required) Name of the user recipe to edit
+#
+# Returns:
+#   0 - Editor opened successfully
+#   1 - Recipe not found, is built-in, or missing argument
+#
+# Output:
+#   stderr - Error message if recipe cannot be edited
+#
+# Example:
+#   _flow_recipe_edit "my-review"
+#
+# Notes:
+#   - Cannot edit built-in recipes directly (suggests creating user recipe)
+#   - Opens recipe file in $EDITOR, $VISUAL, or vim as fallback
+#   - Changes take effect immediately on next recipe use
+#   - File location: FLOW_RECIPE_DIR/<name>.recipe
+# =============================================================================
 _flow_recipe_edit() {
   local name="$1"
 
@@ -305,7 +442,30 @@ _flow_recipe_edit() {
   "$editor" "$recipe_file"
 }
 
-# Delete a user recipe
+# =============================================================================
+# Function: _flow_recipe_delete
+# Purpose: Delete a user-created recipe after confirmation
+# =============================================================================
+# Arguments:
+#   $1 - (required) Name of the user recipe to delete
+#
+# Returns:
+#   0 - Recipe deleted successfully or user declined
+#   1 - Recipe not found, is built-in, or missing argument
+#
+# Output:
+#   stdout - Success message on deletion
+#   stderr - Error message if recipe cannot be deleted
+#
+# Example:
+#   _flow_recipe_delete "old-recipe"
+#
+# Notes:
+#   - Cannot delete built-in recipes
+#   - Prompts for confirmation before deletion
+#   - Deletion is permanent (no undo)
+#   - Uses _flow_confirm for user interaction
+# =============================================================================
 _flow_recipe_delete() {
   local name="$1"
 
@@ -333,7 +493,30 @@ _flow_recipe_delete() {
   fi
 }
 
-# Show recipe content
+# =============================================================================
+# Function: _flow_recipe_show
+# Purpose: Display the full content of a recipe (built-in or user)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Name of the recipe to display
+#
+# Returns:
+#   0 - Recipe displayed successfully
+#   1 - Recipe not found or missing argument
+#
+# Output:
+#   stdout - Formatted display of recipe content with header and dividers
+#
+# Example:
+#   _flow_recipe_show "review"
+#   _flow_recipe_show "my-custom"
+#
+# Notes:
+#   - Works with both built-in and user recipes
+#   - Useful for inspecting recipe content before running
+#   - Shows raw template with {{variable}} placeholders visible
+#   - Uses FLOW_COLORS for formatted output
+# =============================================================================
 _flow_recipe_show() {
   local name="$1"
 
@@ -357,7 +540,35 @@ _flow_recipe_show() {
   echo ""
 }
 
-# Run a recipe
+# =============================================================================
+# Function: _flow_recipe_run
+# Purpose: Execute a recipe by applying variables and sending to Claude CLI
+# =============================================================================
+# Arguments:
+#   $1 - (required) Recipe name to run
+#   $@ - (optional) Input text to substitute into {{input}} placeholder
+#
+# Returns:
+#   0 - Recipe executed successfully
+#   1 - Recipe not found, Claude CLI missing, or execution failed
+#
+# Output:
+#   stdout - Claude's response to the processed prompt
+#   stderr - Error messages for missing dependencies or failed execution
+#
+# Example:
+#   _flow_recipe_run "review" "function foo() { return 42; }"
+#   _flow_recipe_run "commit" "$(git diff --staged)"
+#   _flow_recipe_run "eli5" "what is a monad"
+#
+# Notes:
+#   - If no name provided, displays recipe list
+#   - If recipe requires {{input}} and none provided, prompts interactively
+#   - Applies all template variables via _flow_recipe_apply
+#   - Requires Claude CLI to be installed (npm install -g @anthropic-ai/claude-code)
+#   - Logs usage statistics via _flow_ai_log_usage
+#   - Tracks execution duration for performance monitoring
+# =============================================================================
 _flow_recipe_run() {
   local name="$1"
   shift
@@ -424,7 +635,35 @@ _flow_recipe_run() {
 # RECIPE COMMAND HANDLER
 # ============================================================================
 
-# Main recipe command handler
+# =============================================================================
+# Function: flow_ai_recipe
+# Purpose: Main entry point for recipe command routing and execution
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Action or recipe name [default: list]
+#        Actions: list, show, create, edit, delete, help
+#        Otherwise treated as recipe name to run
+#   $@ - Additional arguments passed to subcommand
+#
+# Returns:
+#   0 - Command executed successfully
+#   1 - Error in subcommand execution
+#
+# Output:
+#   Varies by action (see individual function documentation)
+#
+# Example:
+#   flow_ai_recipe                      # List recipes
+#   flow_ai_recipe list                 # List recipes
+#   flow_ai_recipe show review          # Show review recipe content
+#   flow_ai_recipe create my-prompt     # Create new recipe
+#   flow_ai_recipe review "my code"     # Run review recipe
+#
+# Notes:
+#   - Aliases: ls (list), view (show), new (create), rm (delete)
+#   - Unknown actions are treated as recipe names to run
+#   - Primary interface: "flow ai recipe <action|name>"
+# =============================================================================
 flow_ai_recipe() {
   local action="${1:-list}"
   shift 2>/dev/null
@@ -455,7 +694,34 @@ flow_ai_recipe() {
   esac
 }
 
-# Help for recipe command
+# =============================================================================
+# Function: _flow_recipe_help
+# Purpose: Display comprehensive help for the recipe command system
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Formatted help text including:
+#            - Usage syntax
+#            - Available actions (list, show, create, edit, delete)
+#            - All 10 built-in recipes with descriptions
+#            - Usage examples
+#            - Available template variables
+#
+# Example:
+#   _flow_recipe_help
+#   flow ai recipe help
+#   flow ai recipe --help
+#
+# Notes:
+#   - Uses FLOW_COLORS for consistent styling
+#   - Triggered by: help, --help, -h arguments
+#   - Documents all template variables available in recipes
+# =============================================================================
 _flow_recipe_help() {
   echo ""
   echo "${FLOW_COLORS[header]}╭─────────────────────────────────────────────╮${FLOW_COLORS[reset]}"

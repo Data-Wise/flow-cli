@@ -23,7 +23,29 @@ FLOW_HOOKS=(
 # VERSION MANAGEMENT
 # ============================================================================
 
-# Extract version from installed hook file
+# =============================================================================
+# Function: _get_installed_hook_version
+# Purpose: Extract the version string from an installed git hook file
+# =============================================================================
+# Arguments:
+#   $1 - (required) Full path to the hook file
+#
+# Returns:
+#   0 - Version successfully extracted
+#   1 - File doesn't exist or no version found
+#
+# Output:
+#   stdout - Semantic version string (X.Y.Z) or "0.0.0" if not found
+#
+# Example:
+#   version=$(_get_installed_hook_version "/path/to/.git/hooks/pre-commit")
+#   echo "Installed version: $version"
+#
+# Notes:
+#   - Searches for "# Version: X.Y.Z" comment in hook file
+#   - Returns "0.0.0" for missing files or unversioned hooks
+#   - Used by version comparison functions for upgrade detection
+# =============================================================================
 _get_installed_hook_version() {
   local hook_file="$1"
 
@@ -45,8 +67,35 @@ _get_installed_hook_version() {
   return 0
 }
 
-# Compare two semantic versions (X.Y.Z)
-# Returns: 0 if v1 == v2, 1 if v1 > v2, 2 if v1 < v2
+# =============================================================================
+# Function: _compare_versions
+# Purpose: Compare two semantic version strings (X.Y.Z format)
+# =============================================================================
+# Arguments:
+#   $1 - (required) First version string (e.g., "1.2.3")
+#   $2 - (required) Second version string (e.g., "1.2.4")
+#
+# Returns:
+#   0 - Versions are equal (v1 == v2)
+#   1 - First version is greater (v1 > v2)
+#   2 - First version is lesser (v1 < v2)
+#
+# Output:
+#   None
+#
+# Example:
+#   _compare_versions "1.2.3" "1.2.4"
+#   case $? in
+#       0) echo "Equal" ;;
+#       1) echo "First is newer" ;;
+#       2) echo "Second is newer" ;;
+#   esac
+#
+# Notes:
+#   - Compares major, minor, patch components in order
+#   - Missing components treated as 0 (e.g., "1.2" == "1.2.0")
+#   - Uses ZSH array splitting on "." delimiter
+# =============================================================================
 _compare_versions() {
   local v1="$1"
   local v2="$2"
@@ -71,7 +120,30 @@ _compare_versions() {
   return 0  # v1 == v2
 }
 
-# Check if hook needs upgrade
+# =============================================================================
+# Function: _check_hook_version
+# Purpose: Check if a specific git hook needs an upgrade
+# =============================================================================
+# Arguments:
+#   $1 - (required) Hook name (e.g., "pre-commit", "pre-push")
+#
+# Returns:
+#   0 - Hook is up to date or newer
+#   1 - Hook needs upgrade or not in git repository
+#
+# Output:
+#   stdout - Status message via _flow_log_* functions
+#
+# Example:
+#   if ! _check_hook_version "pre-commit"; then
+#       echo "Upgrade available for pre-commit hook"
+#   fi
+#
+# Notes:
+#   - Compares installed version against $FLOW_HOOK_VERSION
+#   - Must be run from within a git repository
+#   - Logs informational messages about version status
+# =============================================================================
 _check_hook_version() {
   local hook_name="$1"
   local git_root
@@ -109,7 +181,33 @@ _check_hook_version() {
 # HOOK INSTALLATION
 # ============================================================================
 
-# Install a single hook
+# =============================================================================
+# Function: _install_single_hook
+# Purpose: Install a single git hook from template with version management
+# =============================================================================
+# Arguments:
+#   $1 - (required) Hook name (e.g., "pre-commit", "pre-push")
+#   $2 - (required) Git repository root path
+#   $3 - (optional) Force flag: 1 to force install [default: 0]
+#
+# Returns:
+#   0 - Hook installed/upgraded successfully or already up to date
+#   1 - Template not found
+#
+# Output:
+#   stdout - Status messages via _flow_log_* functions
+#
+# Example:
+#   _install_single_hook "pre-commit" "/path/to/repo" 0
+#   _install_single_hook "pre-push" "$git_root" 1  # Force install
+#
+# Notes:
+#   - Templates located in $FLOW_HOOK_TEMPLATE_DIR/<hook>-template.zsh
+#   - Backs up non-flow-managed hooks before overwriting
+#   - Skips install if same version already installed (unless forced)
+#   - Warns but doesn't downgrade if newer version installed
+#   - Sets executable permission on installed hook
+# =============================================================================
 _install_single_hook() {
   local hook_name="$1"
   local git_root="$2"
@@ -166,7 +264,31 @@ _install_single_hook() {
   return 0
 }
 
-# Install all hooks
+# =============================================================================
+# Function: _install_git_hooks
+# Purpose: Install all configured git hooks for Quarto workflow
+# =============================================================================
+# Arguments:
+#   --force, -f - (optional) Force reinstall even if up to date
+#
+# Returns:
+#   0 - All hooks installed successfully
+#   1 - Not in git repo, not a Quarto project, or installation errors
+#
+# Output:
+#   stdout - Progress and status messages, configuration hints
+#
+# Example:
+#   _install_git_hooks
+#   _install_git_hooks --force
+#
+# Notes:
+#   - Installs all hooks defined in $FLOW_HOOKS array
+#   - Requires _quarto.yml in repository root
+#   - Shows configuration options after successful install
+#   - Environment variables: QUARTO_PRE_COMMIT_RENDER, QUARTO_PARALLEL_RENDER,
+#     QUARTO_MAX_PARALLEL, QUARTO_COMMIT_TIMING, QUARTO_COMMIT_SUMMARY
+# =============================================================================
 _install_git_hooks() {
   local force=0
 
@@ -244,6 +366,31 @@ _install_git_hooks() {
 # HOOK UPGRADE
 # ============================================================================
 
+# =============================================================================
+# Function: _upgrade_git_hooks
+# Purpose: Interactively upgrade outdated git hooks to latest version
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - All hooks up to date or upgraded successfully
+#   1 - Not in git repo or upgrade errors occurred
+#
+# Output:
+#   stdout - List of upgradeable hooks with version info, confirmation prompt
+#
+# Example:
+#   _upgrade_git_hooks
+#   # Shows: "pre-commit (v0.9.0 -> v1.0.0)"
+#   # Prompts: "Upgrade these hooks? [Y/n]"
+#
+# Notes:
+#   - Only upgrades hooks older than $FLOW_HOOK_VERSION
+#   - Prompts for confirmation before upgrading
+#   - Uses _install_single_hook with force=1 for upgrade
+#   - Reports summary of upgraded/failed hooks
+# =============================================================================
 _upgrade_git_hooks() {
   local git_root
   git_root=$(git rev-parse --show-toplevel 2>/dev/null)
@@ -320,6 +467,31 @@ _upgrade_git_hooks() {
 # HOOK UNINSTALL
 # ============================================================================
 
+# =============================================================================
+# Function: _uninstall_git_hooks
+# Purpose: Remove all flow-cli managed git hooks from repository
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Uninstall completed (or cancelled by user)
+#   1 - Not in git repository
+#
+# Output:
+#   stdout - Warning message, confirmation prompt, removal status per hook
+#
+# Example:
+#   _uninstall_git_hooks
+#   # Prompts: "This will remove all flow-cli managed hooks"
+#   # Prompts: "Continue? [y/N]"
+#
+# Notes:
+#   - Only removes hooks with "Auto-generated by: teach hooks install" marker
+#   - Skips non-flow-managed hooks with warning
+#   - Requires explicit "y" confirmation (defaults to no)
+#   - Reports count of removed hooks
+# =============================================================================
 _uninstall_git_hooks() {
   local git_root
   git_root=$(git rev-parse --show-toplevel 2>/dev/null)
@@ -371,6 +543,37 @@ _uninstall_git_hooks() {
 # HOOK STATUS
 # ============================================================================
 
+# =============================================================================
+# Function: _check_all_hooks
+# Purpose: Display status of all configured git hooks with version info
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Status check completed
+#   1 - Not in git repository
+#
+# Output:
+#   stdout - Per-hook status with version info:
+#            - Success (green): up to date
+#            - Info (blue): newer than expected
+#            - Warning (yellow): upgrade available
+#            - Error (red): not installed
+#            - Summary with counts and suggested commands
+#
+# Example:
+#   _check_all_hooks
+#   # Output:
+#   # pre-commit: v1.0.0 (up to date)
+#   # pre-push: v0.9.0 (upgrade to v1.0.0)
+#   # Summary: 1 up to date, 1 outdated, 0 missing
+#
+# Notes:
+#   - Checks all hooks in $FLOW_HOOKS array
+#   - Distinguishes between flow-managed and external hooks
+#   - Suggests 'teach hooks upgrade' or 'teach hooks install' as needed
+# =============================================================================
 _check_all_hooks() {
   local git_root
   git_root=$(git rev-parse --show-toplevel 2>/dev/null)
