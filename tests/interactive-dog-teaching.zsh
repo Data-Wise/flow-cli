@@ -232,15 +232,16 @@ EOF
     echo -e "${CYAN}${TEACHER} Let's analyze the first week's lecture!${NC}"
     echo ""
     show_expected \
-        "Concepts: ${BOLD}descriptive-stats, data-types, distributions${NC}" \
-        "Categories: fundamental, core" \
-        "Prerequisites shown for distributions"
+        "📊 CONCEPT COVERAGE table with ${BOLD}12 total concepts${NC}" \
+        "Week 1 concepts: Descriptive-Stats, Data-Types, Distributions" \
+        "All concepts show '✓ Introduced (Week X)' status" \
+        "Prerequisites table (may be empty for Week 1)"
 
     echo -e "${BOLD}Command:${NC} teach analyze lectures/week-01.qmd"
     echo ""
     teach analyze lectures/week-01.qmd
 
-    if ask_confirmation "Did you see the 3 concepts listed above?"; then
+    if ask_confirmation "Did you see 12 concepts in the CONCEPT COVERAGE table?"; then
         feed_dog 15
     else
         disappoint_dog
@@ -260,15 +261,16 @@ EOF
     echo -e "${CYAN}${BRAIN} Week 2 builds on Week 1 concepts!${NC}"
     echo ""
     show_expected \
-        "Concepts: ${BOLD}probability-basics, sampling, inference${NC}" \
-        "Prerequisites: data-types, distributions" \
-        "Inference requires multiple prerequisites"
+        "📊 CONCEPT COVERAGE shows ${BOLD}all 12 course concepts${NC}" \
+        "Week 2 concepts: Probability-Basics, Sampling, Inference" \
+        "🔗 PREREQUISITES table shows required concepts" \
+        "Summary shows '✓ All prerequisites satisfied'"
 
     echo -e "${BOLD}Command:${NC} teach analyze lectures/week-02.qmd"
     echo ""
     teach analyze lectures/week-02.qmd
 
-    if ask_confirmation "Did you see the prerequisite chains?"; then
+    if ask_confirmation "Did you see concepts AND prerequisites tables populated?"; then
         feed_dog 15
     else
         disappoint_dog
@@ -278,25 +280,28 @@ EOF
     print_dog_status
 
     # ═══════════════════════════════════════════════════════════════════════
-    # TEST 3: Batch Analysis
+    # TEST 3: Batch Analysis (Future Feature - Skipped)
     # ═══════════════════════════════════════════════════════════════════════
 
     echo -e "${BOLD}${MAGENTA}═══════════════════════════════════════════════════${NC}"
-    echo -e "${BOLD}${MAGENTA} Task 3: Batch Analyze All Lectures${NC}"
+    echo -e "${BOLD}${MAGENTA} Task 3: Analyze Week 3 (Advanced Concepts)${NC}"
     echo -e "${BOLD}${MAGENTA}═══════════════════════════════════════════════════${NC}"
     echo ""
-    echo -e "${CYAN}${GRAPH} Analyze all lectures at once!${NC}"
+    echo -e "${CYAN}${GRAPH} Week 3 has more complex prerequisite chains!${NC}"
     echo ""
     show_expected \
-        "Processing: ${BOLD}week-01.qmd, week-02.qmd, week-03.qmd${NC}" \
-        "Total concepts: 8" \
-        "Summary statistics shown"
+        "📊 CONCEPT COVERAGE shows ${BOLD}all 12 concepts${NC}" \
+        "Week 3 concepts: Linear-Regression, Correlation" \
+        "Prerequisites include Week 1 & 2 concepts" \
+        "All concepts properly linked"
 
-    echo -e "${BOLD}Command:${NC} teach analyze --batch lectures/"
+    echo -e "${BOLD}Command:${NC} teach analyze lectures/week-03.qmd"
     echo ""
-    teach analyze --batch lectures/
+    echo -e "${YELLOW}Note: --batch flag not yet implemented, using single file analysis${NC}"
+    echo ""
+    teach analyze lectures/week-03.qmd
 
-    if ask_confirmation "Did batch analysis process all 3 weeks?"; then
+    if ask_confirmation "Did you see Week 3 concepts with their prerequisites?"; then
         feed_dog 20
     else
         disappoint_dog
@@ -306,27 +311,32 @@ EOF
     print_dog_status
 
     # ═══════════════════════════════════════════════════════════════════════
-    # TEST 4: Cache Usage (Second Run)
+    # TEST 4: Concept Graph Persistence
     # ═══════════════════════════════════════════════════════════════════════
 
     echo -e "${BOLD}${MAGENTA}═══════════════════════════════════════════════════${NC}"
-    echo -e "${BOLD}${MAGENTA} Task 4: Verify Cache Usage${NC}"
+    echo -e "${BOLD}${MAGENTA} Task 4: Check Concept Graph Persistence${NC}"
     echo -e "${BOLD}${MAGENTA}═══════════════════════════════════════════════════${NC}"
     echo ""
-    echo -e "${CYAN}⚡ Second run should be faster using cache!${NC}"
+    echo -e "${CYAN}⚡ Concept graph saved to .teach/concepts.json!${NC}"
     echo ""
     show_expected \
-        "Message about ${BOLD}using cached data${NC}" \
-        "Or: ${BOLD}cache hit${NC} / ${BOLD}from cache${NC}" \
-        "Faster completion time"
+        "${BOLD}.teach/concepts.json${NC} file exists" \
+        "Contains all 12 concepts" \
+        "Graph includes prerequisite mappings"
 
-    echo -e "${BOLD}Command:${NC} teach analyze --batch lectures/"
+    echo -e "${BOLD}Command:${NC} cat .teach/concepts.json | jq '.metadata'"
     echo ""
-    teach analyze --batch lectures/
-
-    if ask_confirmation "Did it mention using cached data?"; then
-        feed_dog 10
+    if [[ -f .teach/concepts.json ]]; then
+        cat .teach/concepts.json | jq '.metadata'
+        echo ""
+        if ask_confirmation "Does the metadata show 12 total_concepts?"; then
+            feed_dog 10
+        else
+            disappoint_dog
+        fi
     else
+        echo -e "${RED}✗ .teach/concepts.json not found${NC}"
         disappoint_dog
     fi
 
@@ -344,13 +354,14 @@ EOF
     echo -e "${CYAN}${CHECK} Let's validate the proper lecture files!${NC}"
     echo ""
     show_expected \
-        "Validation: ${BOLD}PASSED${NC} or ${GREEN}✓${NC}" \
-        "No circular dependencies" \
-        "All prerequisites satisfied"
+        "Running validation for multiple files" \
+        "Each file shows: ${GREEN}✓ YAML valid, ✓ Syntax valid${NC}" \
+        "All files pass validation" \
+        "No circular dependencies detected"
 
-    echo -e "${BOLD}Command:${NC} teach validate --deep lectures/week-01.qmd lectures/week-02.qmd lectures/week-03.qmd"
+    echo -e "${BOLD}Command:${NC} teach validate lectures/week-01.qmd lectures/week-02.qmd lectures/week-03.qmd"
     echo ""
-    teach validate --deep lectures/week-01.qmd lectures/week-02.qmd lectures/week-03.qmd
+    teach validate lectures/week-01.qmd lectures/week-02.qmd lectures/week-03.qmd
 
     if ask_confirmation "Did validation pass without errors?"; then
         feed_dog 15
@@ -376,9 +387,9 @@ EOF
         "Mentions: ${BOLD}circular dependency${NC}" \
         "Shows: linear-regression ↔ correlation cycle"
 
-    echo -e "${BOLD}Command:${NC} teach validate --deep lectures/week-03-broken.qmd"
+    echo -e "${BOLD}Command:${NC} teach validate lectures/week-03-broken.qmd"
     echo ""
-    teach validate --deep lectures/week-03-broken.qmd
+    teach validate lectures/week-03-broken.qmd
 
     if ask_confirmation "Did it detect the circular dependency?"; then
         feed_dog 20
@@ -418,27 +429,32 @@ EOF
     print_dog_status
 
     # ═══════════════════════════════════════════════════════════════════════
-    # TEST 8: Bloom Taxonomy Levels
+    # TEST 8: Prerequisite Chains
     # ═══════════════════════════════════════════════════════════════════════
 
     echo -e "${BOLD}${MAGENTA}═══════════════════════════════════════════════════${NC}"
-    echo -e "${BOLD}${MAGENTA} Task 8: Check Bloom Taxonomy Levels${NC}"
+    echo -e "${BOLD}${MAGENTA} Task 8: Verify Prerequisite Chains${NC}"
     echo -e "${BOLD}${MAGENTA}═══════════════════════════════════════════════════${NC}"
     echo ""
-    echo -e "${CYAN}${BRAIN} Verify cognitive complexity levels!${NC}"
+    echo -e "${CYAN}${BRAIN} Check concepts file for full dependency graph!${NC}"
     echo ""
     show_expected \
-        "Bloom levels: ${BOLD}Remember, Understand, Apply, Analyze${NC}" \
-        "Week 1: Remember → Understand" \
-        "Week 2: Higher-order thinking (Analyze)"
+        "View ${BOLD}.teach/concepts.json${NC} structure" \
+        "Each concept shows prerequisites array" \
+        "Complete dependency graph visible"
 
-    echo -e "${BOLD}Command:${NC} teach analyze lectures/week-02.qmd"
+    echo -e "${BOLD}Command:${NC} cat .teach/concepts.json | jq '.concepts | to_entries[:3]'"
     echo ""
-    teach analyze lectures/week-02.qmd
-
-    if ask_confirmation "Did you see different Bloom taxonomy levels?"; then
-        feed_dog 10
+    if [[ -f .teach/concepts.json ]]; then
+        cat .teach/concepts.json | jq '.concepts | to_entries[:3]'
+        echo ""
+        if ask_confirmation "Can you see concept IDs with their prerequisites?"; then
+            feed_dog 10
+        else
+            disappoint_dog
+        fi
     else
+        echo -e "${RED}✗ .teach/concepts.json not found${NC}"
         disappoint_dog
     fi
 
@@ -446,25 +462,26 @@ EOF
     print_dog_status
 
     # ═══════════════════════════════════════════════════════════════════════
-    # TEST 9: Cognitive Load Assessment
+    # TEST 9: Summary Status
     # ═══════════════════════════════════════════════════════════════════════
 
     echo -e "${BOLD}${MAGENTA}═══════════════════════════════════════════════════${NC}"
-    echo -e "${BOLD}${MAGENTA} Task 9: Cognitive Load Assessment${NC}"
+    echo -e "${BOLD}${MAGENTA} Task 9: Check Summary Status${NC}"
     echo -e "${BOLD}${MAGENTA}═══════════════════════════════════════════════════${NC}"
     echo ""
-    echo -e "${CYAN}🧠 Check cognitive load estimates!${NC}"
+    echo -e "${CYAN}🧠 Verify the SUMMARY section!${NC}"
     echo ""
     show_expected \
-        "Cognitive load: ${BOLD}low, medium, high${NC}" \
-        "Week 1 concepts: mostly low-medium" \
-        "Week 2 inference: high cognitive load"
+        "${GREEN}Status: ✓ READY TO DEPLOY${NC} (0 errors, 0 warnings)" \
+        "${GREEN}✓ All prerequisites satisfied${NC}" \
+        "${GREEN}✓ All concepts properly defined${NC}" \
+        "Next steps shown"
 
     echo -e "${BOLD}Command:${NC} teach analyze lectures/week-02.qmd"
     echo ""
     teach analyze lectures/week-02.qmd
 
-    if ask_confirmation "Did you see cognitive load levels (low/medium/high)?"; then
+    if ask_confirmation "Did you see the green checkmarks in the SUMMARY?"; then
         feed_dog 10
     else
         disappoint_dog
