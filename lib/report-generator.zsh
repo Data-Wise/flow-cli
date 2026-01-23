@@ -15,6 +15,12 @@
 # Usage:
 #   _report_generate <course_dir> [--format markdown|json] [--output FILE]
 
+# Load guard - prevent double-sourcing
+if [[ -n "$_FLOW_REPORT_GENERATOR_LOADED" ]]; then
+    return 0 2>/dev/null || true
+fi
+typeset -g _FLOW_REPORT_GENERATOR_LOADED=1
+
 # Disable zsh options that cause variable assignments to print
 # This prevents debug output when LOCAL_OPTIONS is enabled by prompt frameworks
 unsetopt local_options 2>/dev/null

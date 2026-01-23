@@ -2,6 +2,13 @@
 # Concept extraction library for teach analyze command
 # Part of flow-cli - Pure ZSH plugin for ADHD-optimized workflow management
 
+
+# Load guard - prevent double-sourcing
+if [[ -n "$_FLOW_CONCEPT_EXTRACTION_LOADED" ]]; then
+    return 0 2>/dev/null || true
+fi
+typeset -g _FLOW_CONCEPT_EXTRACTION_LOADED=1
+
 # Source core library for colors and logging
 source "${0:A:h}/core.zsh"
 

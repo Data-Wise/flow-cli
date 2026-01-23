@@ -28,6 +28,12 @@
 #
 # =============================================================================
 
+# Load guard - prevent double-sourcing
+if [[ -n "$_FLOW_ANALYSIS_CACHE_LOADED" ]]; then
+    return 0 2>/dev/null || true
+fi
+typeset -g _FLOW_ANALYSIS_CACHE_LOADED=1
+
 # Disable zsh options that cause variable assignments to print
 unsetopt local_options 2>/dev/null
 unsetopt print_exit_value 2>/dev/null

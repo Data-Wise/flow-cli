@@ -16,6 +16,12 @@
 #   2. AI analysis enhances the graph (additive only)
 #   3. Graceful fallback if Claude unavailable
 
+# Load guard - prevent double-sourcing
+if [[ -n "$_FLOW_AI_ANALYSIS_LOADED" ]]; then
+    return 0 2>/dev/null || true
+fi
+typeset -g _FLOW_AI_ANALYSIS_LOADED=1
+
 # Source dependencies
 source "${0:A:h}/core.zsh" 2>/dev/null
 
