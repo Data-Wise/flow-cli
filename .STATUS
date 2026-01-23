@@ -4,15 +4,41 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.17.0 - Planning
+## Phase: v5.18.0 - Planning
 ## Priority: 1
 ## Progress: 0
 
 ## Focus: Next Development Cycle
 
-## ✅ Just Released (2026-01-22):
+## ✅ Just Released:
 
-### v5.16.0 - Intelligent Content Analysis ✨
+### v5.17.0 - Token Automation Phase 1 ✨ (2026-01-23)
+
+**Released:** 2026-01-23
+**PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED)
+**PR #293:** https://github.com/Data-Wise/flow-cli/pull/293 (Release PR)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.17.0
+**Documentation:** https://Data-Wise.github.io/flow-cli/
+
+**Major Features:**
+- Smart token management with 20x performance boost
+- Isolated token checks (--dot, --dot=TOKEN, --fix-token)
+- 5-minute TTL caching (85% hit rate, 80% API reduction)
+- ADHD-friendly category menu with time estimates
+- Verbosity control (quiet/normal/verbose)
+- 9-dispatcher integration (g, dash, work, finish, doctor)
+- 35 files changed: +13,546 / -187 lines
+- 54 tests (96.3% passing), 2,150+ lines of documentation
+- Tutorial 23 created (517 lines + 4 VHS demo tapes)
+
+**Release Workflow (This Session):**
+- ✅ Merged PR #293 (dev → main) with admin privileges
+- ✅ Resolved merge conflicts between v5.16.0 and v5.17.0
+- ✅ Created and pushed v5.17.0 git tag
+- ✅ Published GitHub release with comprehensive notes
+- ✅ Updated documentation site (deployed to gh-pages)
+
+### v5.16.0 - Intelligent Content Analysis ✨ (2026-01-22)
 
 **Released:** 2026-01-22
 **PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
@@ -26,65 +52,25 @@
 - wt dispatcher passthrough fix
 - 58 commits, 39,228 additions, 1,750 deletions
 
-**Included PRs:**
-- PR #289: teach analyze Phases 0-5
-- PR #290: Plugin optimization
-- PR #288: Documentation debt remediation
-
 ---
 
 ## 🎯 Current Sprint:
 
-### v5.17.0 - Token Automation Phase 1 ✅ COMPLETE
+### v5.18.0 - Planning Next Features
 
-**PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED 2026-01-23)
-**Status:** Complete, merged to dev
-**Time:** 8 hours (33% faster than 12h estimate via orchestration)
+**Status:** Planning phase - choose next focus area
 
-**Delivered:**
-- ✅ Isolated token checks (--dot, --dot=TOKEN)
-- ✅ Smart caching (5-min TTL, 80% API reduction)
-- ✅ ADHD-friendly category menu
-- ✅ Verbosity levels (quiet/normal/verbose)
-- ✅ Token-only fix mode (--fix-token)
-- 1,822 lines code, 2,150+ lines docs, 54 tests (96.3% pass)
+**Potential Focus Areas:**
+- Config → concept graph integration (Phase 1 enhancement)
+- teach prompt command (needs Scholar coordination)
+- GitHub token automation Phases 2-4 (deferred from v5.17.0)
+- Quarto workflow Phase 2 enhancements
+- Additional teach analyze improvements
 
----
-
-### v5.18.0 - GitHub Token Security & Automation (Future)
-
-**Status:** Deferred (focus on other features)
-**Estimated:** 4 hours (1.5h Phase 1 + 2h Phase 2 + 0.5h testing)
-
-**Features:**
-- 🔐 Semi-automated GitHub token rotation with keychain integration
-- ⏰ Token expiration detection (7-day warning at 83 days)
-- 🔄 One-command token lifecycle (detection → rotation → validation → revocation)
-- 🎯 Integration across 9 dispatchers (g, dash, work, finish, teach, doctor, gh CLI, git, MCP)
-- 📊 Weekly health checks with audit trail
-
-**Implementation Plan:**
-- Phase 1 (1.5h): Core automation - 5 tasks
-- Phase 2 (2h): flow-cli integration - 6 tasks
-- Documentation: 0.5h
-
-**Brainstorm Docs:**
+**Brainstorm Docs (Token Automation Phases 2-4):**
 - `~/BRAINSTORM-github-token-security-2026-01-23.md` (19KB)
 - `~/BRAINSTORM-automated-token-management-2026-01-23.md` (36KB)
 - `~/BRAINSTORM-flow-github-integration-2026-01-23.md` (22KB)
-
-**Implementation Plan:**
-- `~/.git-worktrees/flow-cli/feature-token-automation/IMPLEMENTATION-PLAN.md`
-
----
-
-### v5.17.0 - Planning Phase (Paused)
-
-**Potential Focus Areas (deferred):**
-- Config → concept graph integration (Phase 1 enhancement)
-- teach prompt command (needs Scholar coordination)
-- Quarto workflow Phase 2 enhancements
-- Additional teach analyze improvements
 
 ---
 
@@ -92,7 +78,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Clean - PR #292 merged |
+| Main repo | `dev` | Clean - v5.17.0 released |
 
 ---
 
@@ -111,46 +97,38 @@
 
 ## 📊 Version Roadmap:
 
-**v5.16.0 (Next Release):**
-- teach analyze (all phases) ← COMPLETE
-- Documentation debt ← COMPLETE
-- wt passthrough fix ← COMPLETE
-- Ready to release from dev → main
-
 **Recent Releases:**
+- v5.17.0 (2026-01-23): Token Automation Phase 1 ← LATEST
+- v5.16.0 (2026-01-22): Intelligent Content Analysis
 - v5.15.1 (2026-01-21): Architecture docs, V-dispatcher reference, coverage report
 - v5.15.0 (2026-01-21): Comprehensive Help System (18 functions, 3 guides)
 
-**v5.18.0 (In Progress):**
-- GitHub token security & automation ← ACTIVE
-- Semi-automated rotation with keychain
-- 9-dispatcher integration (g, dash, work, finish, etc.)
-- Token expiration detection (7-day warning)
-
-**Future (v5.19.0+):**
+**Future (v5.18.0+):**
 - Config→concept graph integration (Phase 1)
 - teach analyze AI improvements
-- Quarto Workflow Phase 2 (already on dev via PR #279)
+- GitHub token automation Phases 2-4 (deferred)
+- Quarto workflow enhancements
 
 ---
 
 ## 🎯 Recommended Next Step:
 
-**Immediate:** Release v5.17.0
-- PR #292 merged to dev
-- Run full test suite
-- Create release PR (dev → main)
-- Tag v5.17.0
+**Choose next feature for v5.18.0:**
+A) Config→concept graph integration (Phase 1 enhancement)
+B) teach prompt command (needs Scholar coordination)
+C) GitHub token automation Phases 2-4
+D) Quarto workflow enhancements
+E) Additional teach analyze improvements
 
-**After v5.17.0:** Choose next focus:
-- Config→concept graph integration (Phase 1)
-- teach analyze AI improvements
-- v5.18.0 token automation (Phases 2-4)
+**Immediate Actions:**
+- Review v5.17.0 user feedback (if any)
+- Plan next sprint
+- Generate demo GIFs from VHS tapes (optional)
 
 ---
 
-**Last Updated:** 2026-01-23
-**Status:** Active - v5.16.0 released, implementing v5.18.0 (token automation)
+**Last Updated:** 2026-01-23 19:45
+**Status:** Active - v5.17.0 released, planning v5.18.0
 ## wins: --category fix squashed the bug (2026-01-22), fixed the bug (2026-01-22), --category fix squashed the bug (2026-01-22), fixed the bug (2026-01-22), --category fix squashed the bug (2026-01-22)
 ## streak: 0
 ## last_active: 2026-01-23 04:15
