@@ -62,6 +62,8 @@ run_test ./tests/test-obs-dispatcher.zsh
 
 echo ""
 echo "Core command tests:"
+# Note: test-dash, test-work, test-doctor, test-adhd, test-flow may timeout
+# These source flow.plugin.zsh which requires interactive/tmux context
 run_test ./tests/test-dash.zsh
 run_test ./tests/test-work.zsh
 run_test ./tests/test-doctor.zsh
