@@ -1673,7 +1673,7 @@ _dot_token() {
     fi
   fi
 
-  # Normal mode - handle wizards
+  # Normal mode - handle wizards and subcommands
   case "$subcommand" in
     # Token wizards
     github|gh)
@@ -1684,6 +1684,27 @@ _dot_token() {
       ;;
     pypi|pip)
       _dot_token_pypi "$@"
+      ;;
+
+    # Token automation subcommands (v5.16.0)
+    expiring)
+      _dot_token_expiring "$@"
+      ;;
+    rotate)
+      shift  # Remove 'rotate' from args
+      _dot_token_rotate "$@"
+      ;;
+    sync)
+      shift  # Remove 'sync' from args
+      case "$1" in
+        gh|github)
+          _dot_token_sync_gh
+          ;;
+        *)
+          _flow_log_error "Usage: dot token sync gh"
+          return 1
+          ;;
+      esac
       ;;
 
     # Help
@@ -1736,6 +1757,11 @@ _dot_token_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]}   GitHub PAT wizard           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token npm${FLOW_COLORS[reset]}      NPM token wizard            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token pypi${FLOW_COLORS[reset]}     PyPI token wizard           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Token Automation (v5.16.0):${FLOW_COLORS[reset]}                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}  Check expiration status      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]}    Rotate existing token        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token sync gh${FLOW_COLORS[reset]}   Sync with gh CLI             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Rotate Existing Token:${FLOW_COLORS[reset]}                          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token <name> --refresh${FLOW_COLORS[reset]}                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
