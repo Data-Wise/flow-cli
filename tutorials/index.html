@@ -5021,7 +5021,7 @@
   <span class="md-ellipsis">
     
   
-    Deep Dives
+    Doctor Token Automation
   
 
     
@@ -5034,6 +5034,180 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Doctor Token Automation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/REFCARD-TOKEN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DOCTOR-TOKEN-USER-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/DOCTOR-TOKEN-API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/DOCTOR-TOKEN-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_10" id="__nav_8_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deep Dives
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_10">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -5177,10 +5351,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_9_5" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_10_5" >
         
           
-          <label class="md-nav__link" for="__nav_8_9_5" id="__nav_8_9_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8_10_5" id="__nav_8_10_5_label" tabindex="0">
             
   
   
@@ -5198,8 +5372,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_9_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8_9_5">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_10_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_10_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6922,6 +7096,9 @@
         T8["&lt;a href='08-git-feature-workflow/'&gt;Tutorial 8&lt;/a&gt;&lt;br/&gt;Git Workflow&lt;br/&gt;⏱ 20 min"]
         T9["&lt;a href='09-worktrees/'&gt;Tutorial 9&lt;/a&gt;&lt;br/&gt;Worktrees&lt;br/&gt;⏱ 20 min"]
         T14["&lt;a href='14-teach-dispatcher/'&gt;Tutorial 14&lt;/a&gt;&lt;br/&gt;Teaching&lt;br/&gt;⏱ 20 min"]
+        T21["&lt;a href='21-teach-analyze/'&gt;Tutorial 21&lt;/a&gt;&lt;br/&gt;Teach Analyze&lt;br/&gt;⏱ 25 min"]
+        T22["&lt;a href='22-plugin-optimization/'&gt;Tutorial 22&lt;/a&gt;&lt;br/&gt;Plugin Optimization&lt;br/&gt;⏱ 20 min"]
+        T23["&lt;a href='23-token-automation/'&gt;Tutorial 23&lt;/a&gt;&lt;br/&gt;Token Automation&lt;br/&gt;⏱ 15 min"]
     end
 
     subgraph OPTIONAL["📚 Optional"]
@@ -6946,6 +7123,9 @@
 
     T10 --&gt; T14
     T12 --&gt; T14
+    T14 --&gt; T21
+    T21 --&gt; T22
+    T22 --&gt; T23
 
     T11 --&gt; T13
 
@@ -6954,7 +7134,7 @@
     classDef optional fill:#e2e3e5,stroke:#6c757d,color:#383d41
 
     class T1,T2,T3,T6,T10,T11,T12,T13 beginner
-    class T8,T9,T14 intermediate
+    class T8,T9,T14,T21,T22,T23 intermediate
     class T4,T5,T7 optional</code></pre>
 <p><strong>Legend:</strong> 🟢 Beginner | 🟡 Intermediate | ⚪ Optional</p>
 <hr />
@@ -7101,9 +7281,30 @@
 <td>🟡 Intermediate</td>
 <td>Teaching workflow (v5.9.0+)</td>
 </tr>
+<tr>
+<td>21</td>
+<td><a href="21-teach-analyze/">Teach Analyze</a></td>
+<td>25 min</td>
+<td>🟡 Intermediate</td>
+<td>AI content analysis (v5.16.0)</td>
+</tr>
+<tr>
+<td>22</td>
+<td><a href="22-plugin-optimization/">Plugin Optimization</a></td>
+<td>20 min</td>
+<td>🟡 Intermediate</td>
+<td>Load guards &amp; performance</td>
+</tr>
+<tr>
+<td>23</td>
+<td><a href="23-token-automation/">Token Automation</a></td>
+<td>15 min</td>
+<td>🟡 Intermediate</td>
+<td>Smart token management (v5.17.0) ⭐ <strong>NEW</strong></td>
+</tr>
 </tbody>
 </table>
-<p><strong>Total estimated time:</strong> ~4 hours (all tutorials)</p>
+<p><strong>Total estimated time:</strong> ~5 hours (all tutorials)</p>
 <hr />
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <p>Before starting any tutorial, ensure you have:</p>

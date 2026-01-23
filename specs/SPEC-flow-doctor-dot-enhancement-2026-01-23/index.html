@@ -1,0 +1,8683 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Minimalist ZSH workflow tools with smart dispatchers. Track work sessions, manage multiple projects, visualize productivity metrics with ADHD-friendly design.">
+      
+      
+        <meta name="author" content="DT">
+      
+      
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/specs/SPEC-flow-doctor-dot-enhancement-2026-01-23/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>SPEC: flow doctor DOT Token Enhancement - Flow CLI Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/adhd-colors.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="brown" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-flow-doctor-dot-token-enhancement" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow CLI Documentation" class="md-header__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow CLI Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SPEC: flow doctor DOT Token Enhancement
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="brown" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="brown" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/data-wise/flow-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flow-cli
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../DOC-INDEX/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  📚 Documentation Hub
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/choose-your-path/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/WORKFLOWS-QUICK-WINS/" class="md-tabs__link">
+          
+  
+  
+  Workflows
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/00-START-HERE/" class="md-tabs__link">
+          
+  
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../conventions/adhd/" class="md-tabs__link">
+          
+  
+  
+  Visuals
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../quick-reference-card/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../commands/flow/" class="md-tabs__link">
+          
+  
+  
+  Commands
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/TESTING/" class="md-tabs__link">
+          
+  
+  
+  Testing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/DEVELOPER-GUIDE/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../planning/V4.3-ROADMAP/" class="md-tabs__link">
+          
+  
+  
+  Planning
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow CLI Documentation" class="md-nav__button md-logo" aria-label="Flow CLI Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Flow CLI Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/data-wise/flow-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    flow-cli
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DOC-INDEX/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/choose-your-path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🎯 Choose Your Path
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⚡ Quick Start (5-min)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📦 Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/im-stuck/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🆘 I'm Stuck
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/00-welcome/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ❓ FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔄 Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CHANGELOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📜 Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Learning Path
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/01-first-session/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Your First Session
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/02-multiple-projects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Multiple Projects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03-status-visualizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Status Visualizations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04-web-dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Web Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/05-ai-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. AI-Powered Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/06-dopamine-features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Dopamine Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/07-sync-command/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Sync Command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/08-git-feature-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Git Feature Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/09-worktrees/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Worktrees
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/10-cc-dispatcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. CC Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/11-tm-dispatcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. TM Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/12-dot-dispatcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. DOT Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/13-prompt-dispatcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Prompt Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/14-teach-dispatcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Teach Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/15-nvim-quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Nvim Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/16-vim-motions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Vim Motions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/17-lazyvim-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. LazyVim Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/18-lazyvim-showcase/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. LazyVim Showcase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/19-teaching-git-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Teaching + Git Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/21-teach-analyze/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21. Teach Analyze
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/22-plugin-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22. Plugin Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_23" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_23" id="__nav_4_23_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🎓 Scholar Enhancement
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_23_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_23">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🎓 Scholar Enhancement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/scholar-enhancement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Learning Path
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/scholar-enhancement/01-getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Level 1 - Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/scholar-enhancement/02-intermediate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Level 2 - Intermediate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/scholar-enhancement/03-advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Level 3 - Advanced
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workflows
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/WORKFLOWS-QUICK-WINS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Wins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/TEACHING-WORKFLOW-V3-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Workflow v3.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/TEACHING-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Workflow (Legacy)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/TEACHING-WORKFLOW-VISUAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Visual Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/08-git-feature-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Git Feature Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/WORKTREE-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Worktree Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/DOT-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dotfile Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/ALIAS-MANAGEMENT-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/YOLO-MODE-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    YOLO Mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/WORKFLOW-TUTORIAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/PLUGIN-MANAGEMENT-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugin Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/CONFIG-MANAGEMENT-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Config Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/00-START-HERE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🆕 Teaching v3.0
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🆕 Teaching v3.0
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/TEACHING-WORKFLOW-V3-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Workflow v3.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/INTELLIGENT-CONTENT-ANALYSIS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concept Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/BACKUP-SYSTEM-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup System Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/HELP-SYSTEM-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Help System Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/TEACHING-V3-MIGRATION-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration Guide (v2 → v3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/COURSE-PLANNING-BEST-PRACTICES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Course Planning Best Practices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_7" id="__nav_6_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📖 Course Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📖 Course Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/course-planning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/course-planning/intermediate-stats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    STAT 545 (Graduate)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🚀 Quarto Workflow Phase 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🚀 Quarto Workflow Phase 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/QUARTO-WORKFLOW-PHASE-2-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 2 Complete Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/REFCARD-QUARTO-PHASE2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 2 Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching (Legacy)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Teaching (Legacy)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/TEACHING-SYSTEM-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/TEACHING-COMMANDS-DETAILED/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/TEACHING-DEMO-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo & GIFs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/TEACHING-DATES-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dates Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/DOTFILE-MANAGEMENT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dotfile Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/DOPAMINE-FEATURES-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dopamine Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/MERMAID-DIAGRAMS-QUICK-START/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mermaid Diagrams
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/ENHANCED-HELP-QUICK-START/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enhanced Help
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/MONOREPO-COMMANDS-TUTORIAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monorepo Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/PROJECT-SCOPE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visuals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Visuals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/adhd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/adhd/GIF-GUIDELINES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GIF Creation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-reference-card/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📋 Quick Reference Card
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/CORE-API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/TEACHING-API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/INTEGRATION-API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/SPECIALIZED-API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specialized Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick References
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quick References
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/COMMAND-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Cheatsheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ALIAS-REFERENCE-CARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alias Card
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/WORKFLOW-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/DASHBOARD-QUICK-REF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/REFCARD-OPTIMIZATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugin Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_4" id="__nav_8_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dispatchers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dispatchers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    All Dispatchers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/CC-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CC Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/DOT-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DOT Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/G-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    G Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/MCP-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/OBS-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OBS Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PROMPT-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PROMPT Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/QU-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    QU Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/R-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    R Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/TEACH-DISPATCHER-REFERENCE-v4.6.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TEACH Dispatcher v4.6
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/TEACH-DISPATCHER-REFERENCE-v3.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TEACH Dispatcher v3.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/TEACH-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TEACH Dispatcher (Legacy)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/TM-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TM Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/V-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    V Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/WT-DISPATCHER-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WT Dispatcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_5" id="__nav_8_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ARCHITECTURE-OVERVIEW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/DOCUMENTATION-COVERAGE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Coverage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_6" id="__nav_8_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Reference Cards
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quick Reference Cards
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/REFCARD-DOT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DOT Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/NVIM-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nvim Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PROMPT-DISPATCHER-REFCARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/REFCARD-TEACH-ANALYZE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teach Analyze Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/REFCARD-TEACHING-V3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching v3.0 Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/REFCARD-HELP-SYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Help System Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/REFCARD-TEACHING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Quick Ref (Legacy)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/TEACH-DATES-QUICK-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Dates Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/TEACHING-GIT-WORKFLOW-REFCARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teaching Git Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_7" id="__nav_8_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/COMMAND-EXPLORER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Explorer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PICK-COMMAND-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PICK-PROJECT-DISCOVERY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pick Project Discovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PROJECT-STATUS-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Status Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/PROJECT-DETECTION-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/WORKSPACE-AUDIT-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_8" id="__nav_8_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teach Analyze
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Teach Analyze
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/TEACH-ANALYZE-API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/TEACH-ANALYZE-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_9" id="__nav_8_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Doctor Token Automation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Doctor Token Automation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/REFCARD-TOKEN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/DOCTOR-TOKEN-USER-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/DOCTOR-TOKEN-API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/DOCTOR-TOKEN-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_10" id="__nav_8_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deep Dives
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deep Dives
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../diagrams/ARCHITECTURE-DIAGRAMS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🎨 Architecture Diagrams
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../diagrams/LIBRARY-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📦 Library Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../diagrams/TEACHING-V3-WORKFLOWS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Teaching v3.0 Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8_10_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_10_5" id="__nav_8_10_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🎓 Scholar Enhancement
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_10_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_10_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🎓 Scholar Enhancement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/SCHOLAR-ENHANCEMENT-API/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/API-COMPLETE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📘 API Complete Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/API-REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ADHD-HELPERS-FUNCTION-MAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADHD Helpers Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/CLI-COMMAND-PATTERNS-RESEARCH/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/EXISTING-SYSTEM-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/ZSH-CLEAN-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ZSH Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    flow (main)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    work
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/finish/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    finish
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/hop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/pick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/alias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    alias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/teach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    teach (dispatcher)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/teach-init/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    teach-init
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/capture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    capture (win/yay/catch)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/timer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    timer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/morning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    morning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/dash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dash
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/sync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/doctor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    doctor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/plugin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    plugin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ai
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/do/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    do
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/TESTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧪 Testing Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/SAFE-TESTING-v5.9.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Safe Testing (v5.9.0)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/DOG-FEEDING-TEST-README/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interactive Dog Test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/INTERACTIVE-TEST-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interactive Test Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/TESTING-QUICK-REF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/DEVELOPER-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/BRANCH-WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Branch Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/PR-WORKFLOW-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PR Workflow Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/DOCUMENTATION-STYLE-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Style Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ZSH-DEVELOPMENT-GUIDELINES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONVENTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PHILOSOPHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Philosophy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/V4.3-ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v4.3.0+ Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/INSTALL-IMPROVEMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install Improvements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primary-user-story" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary User Story
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secondary-user-stories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secondary User Stories
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Secondary User Stories">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#story-2-cicd-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Story 2: CI/CD Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#story-3-security-auditing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Story 3: Security Auditing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#story-4-multi-token-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Story 4: Multi-Token Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technical Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-state-v5160" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current State (v5.16.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhanced-architecture-v5170" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enhanced Architecture (v5.17.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cli-interface-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI Interface Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CLI Interface Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhanced-existing-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enhanced Existing Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#token-health-history-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Token Health History Log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#token-health-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Token Health Report
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-validation-rules-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Validation Rules Config
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-existing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required (Existing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional Integrations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uiux-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UI/UX Specifications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UI/UX Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#terminal-output-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal Output Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Terminal Output Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#default-output-normal-verbosity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default Output (Normal Verbosity)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quiet-output-quiet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quiet Output (--quiet)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verbose-output-verbose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verbose Output (--verbose)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interactive-fix-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interactive Fix Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interactive Fix Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#category-selection-single-choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category Selection (Single Choice)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atomic-fix-progress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Atomic Fix Progress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollback-on-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rollback on Failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inline-git-fix-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inline Git Fix Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dry-run-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dry Run Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open Questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Open Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Details
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#future-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Enhancements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#review-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Review Checklist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Review Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functionality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-core-enhancement-p0-12-hours-approved-for-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Core Enhancement (P0 - 12 hours) ✅ APPROVED FOR IMPLEMENTATION
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-safety-reporting-p1-15-hours-deferred-to-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Safety &amp; Reporting (P1 - 15 hours) 🔜 DEFERRED TO FUTURE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-user-experience-p2-5-hours-deferred-to-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: User Experience (P2 - 5 hours) 🔜 DEFERRED TO FUTURE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-advanced-features-p3-6-hours-deferred-to-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Advanced Features (P3 - 6 hours) 🔜 DEFERRED TO FUTURE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-tasks-4-hours-per-phase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Tasks (4 hours per phase)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#approved-approach-phase-1-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Approved Approach: Phase 1 Only
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-rollout-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 Rollout Plan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#future-phases-decision-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Phases Decision Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Success Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantitative" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantitative
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qualitative" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qualitative
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        History
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="History">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2026-01-23-initial-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026-01-23 - Initial Specification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2026-01-23-phase-1-approved-for-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026-01-23 - Phase 1 Approved for Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-implementation-approved" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 Implementation (APPROVED)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#future-phase-decision-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Phase Decision Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/specs/SPEC-flow-doctor-dot-enhancement-2026-01-23.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="spec-flow-doctor-dot-token-enhancement">SPEC: flow doctor DOT Token Enhancement<a class="headerlink" href="#spec-flow-doctor-dot-token-enhancement" title="Permanent link">&para;</a></h1>
+<h2 id="metadata">Metadata<a class="headerlink" href="#metadata" title="Permanent link">&para;</a></h2>
+<p><strong>Status:</strong> phase-1-approved
+<strong>Created:</strong> 2026-01-23
+<strong>Approved for Implementation:</strong> 2026-01-23 (Phase 1 only)
+<strong>From Brainstorm:</strong> Deep analysis with 18 expert questions
+<strong>Feature Branch:</strong> feature/token-automation (to be merged to dev)
+<strong>Target Version:</strong> v5.17.0
+<strong>Effort Estimate:</strong> 12 hours Phase 1 (approved) + 30 hours Phases 2-4 (deferred)
+<strong>Priority:</strong> High (Security &amp; UX improvement)</p>
+<hr />
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Enhance <code>flow doctor</code> command with DOT token automation capabilities. <strong>Phase 1</strong> (approved for implementation) focuses on core enhancements: isolated checks, category-based fixes, and unified validation logic. Phases 2-4 (safety/reporting, user experience, advanced features) are deferred to future development cycles.</p>
+<p>This transforms flow doctor from a general health checker into a sophisticated token lifecycle management tool while maintaining its ADHD-friendly design philosophy.</p>
+<p><strong>Phase 1 Enhancements (12 hours - APPROVED):</strong>
+1. ✅ Isolated token checks (<code>--dot</code> flag)
+2. ✅ Category-based fix selection
+3. ✅ Unified token validation logic (delegate to <code>dot token expiring</code>)
+4. ✅ Verbosity levels (--quiet, --verbose)
+5. ✅ 5-minute cache manager (avoid API rate limits)</p>
+<p><strong>Future Enhancements (30 hours - DEFERRED):</strong>
+- Phase 2: Atomic fixes with rollback, inline git fixes, token reports, multi-token support, history tracking
+- Phase 3: Gamification integration, macOS notifications, event hooks
+- Phase 4: Custom validation rules, CI/CD exit codes, additional event hooks</p>
+<hr />
+<h2 id="primary-user-story">Primary User Story<a class="headerlink" href="#primary-user-story" title="Permanent link">&para;</a></h2>
+<p><strong>As a</strong> flow-cli user with GitHub tokens
+<strong>I want</strong> to quickly check and fix token issues in isolation
+<strong>So that</strong> I can maintain security without running full dependency checks</p>
+<p><strong>Acceptance Criteria:</strong>
+1. ✅ <code>flow doctor --dot</code> checks only token health (&lt; 3 seconds)
+2. ✅ <code>flow doctor --fix-token</code> fixes only token issues (&lt; 60 seconds)
+3. ✅ Failed fixes rollback automatically with recovery instructions
+4. ✅ <code>g push</code> detects expired tokens and offers inline fix
+5. ✅ Token rotations log as "Security maintenance" wins
+6. ✅ All token operations cached for 5 minutes (avoid API rate limits)</p>
+<p><strong>User Journey:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Morning routine</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>$<span class="w"> </span>flow<span class="w"> </span>doctor<span class="w"> </span>--dot
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>🔑<span class="w"> </span>GITHUB<span class="w"> </span>TOKEN
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span>⚠<span class="w"> </span>Expiring<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>days
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Quick fix</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>$<span class="w"> </span>flow<span class="w"> </span>doctor<span class="w"> </span>--fix-token
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>🔄<span class="w"> </span>Rotating<span class="w"> </span>github-token...<span class="w"> </span><span class="o">(</span>30s<span class="w"> </span>estimated<span class="o">)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span>✓<span class="w"> </span>Backup<span class="w"> </span>saved
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span>✓<span class="w"> </span>New<span class="w"> </span>token<span class="w"> </span>generated
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span>✓<span class="w"> </span>Synced<span class="w"> </span>with<span class="w"> </span>gh<span class="w"> </span>CLI
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>✅<span class="w"> </span>Done<span class="w"> </span><span class="o">(</span>28s<span class="o">)</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>🎉<span class="w"> </span>Win<span class="w"> </span>logged:<span class="w"> </span>Security<span class="w"> </span>maintenance
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1"># Later that day</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>$<span class="w"> </span>g<span class="w"> </span>push
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>✓<span class="w"> </span>Token<span class="w"> </span>validated
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="o">[</span>pushes<span class="w"> </span>normally<span class="o">]</span>
+</code></pre></div></p>
+<hr />
+<h2 id="secondary-user-stories">Secondary User Stories<a class="headerlink" href="#secondary-user-stories" title="Permanent link">&para;</a></h2>
+<h3 id="story-2-cicd-integration">Story 2: CI/CD Integration<a class="headerlink" href="#story-2-cicd-integration" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> DevOps engineer
+<strong>I want</strong> machine-readable exit codes from token checks
+<strong>So that</strong> I can integrate flow doctor into CI/CD pipelines</p>
+<p><strong>Acceptance Criteria:</strong>
+- Exit code 0 = all tokens healthy
+- Exit code 1-5 = specific token issues (documented)
+- <code>--format json</code> outputs structured data
+- Runs in non-interactive mode (<code>--fix -y</code>)</p>
+<h3 id="story-3-security-auditing">Story 3: Security Auditing<a class="headerlink" href="#story-3-security-auditing" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> security-conscious developer
+<strong>I want</strong> comprehensive token health reports
+<strong>So that</strong> I can audit token lifecycle and security posture</p>
+<p><strong>Acceptance Criteria:</strong>
+- <code>flow doctor --token-report</code> generates detailed report
+- Report includes rotation history, scope audit, security recommendations
+- Reports saved to <code>~/.flow/reports/token-health-YYYY-MM-DD.txt</code>
+- History tracked in <code>~/.flow/history/token-health.log</code></p>
+<h3 id="story-4-multi-token-management">Story 4: Multi-Token Management<a class="headerlink" href="#story-4-multi-token-management" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> developer managing multiple tokens (GitHub, NPM, PyPI)
+<strong>I want</strong> to check and fix all DOT tokens at once
+<strong>So that</strong> I maintain security across all my credentials</p>
+<p><strong>Acceptance Criteria:</strong>
+- Checks all DOT-managed tokens (github, npm, pypi)
+- Sequential fix with progress indicator (1/3... 2/3... 3/3)
+- Can filter to specific token: <code>flow doctor --dot=github-token</code></p>
+<hr />
+<h2 id="technical-requirements">Technical Requirements<a class="headerlink" href="#technical-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h3>
+<h4 id="current-state-v5160">Current State (v5.16.0)<a class="headerlink" href="#current-state-v5160" title="Permanent link">&para;</a></h4>
+<pre class="mermaid"><code>graph TD
+    A[flow doctor] --&gt; B[Check Dependencies]
+    A --&gt; C[Check Aliases]
+    A --&gt; D[Check GitHub Token]
+    D --&gt; E[Inline Validation Logic]
+    E --&gt; F[GitHub API]
+    E --&gt; G[Check gh CLI]
+    E --&gt; H[Check Claude MCP]</code></pre>
+<p><strong>Problem:</strong> Duplicate validation logic in <code>doctor.zsh</code> and <code>dot-dispatcher.zsh</code></p>
+<h4 id="enhanced-architecture-v5170">Enhanced Architecture (v5.17.0)<a class="headerlink" href="#enhanced-architecture-v5170" title="Permanent link">&para;</a></h4>
+<pre class="mermaid"><code>graph TD
+    A[flow doctor] --&gt; B{Mode?}
+    B --&gt;|--dot| C[Token Check Only]
+    B --&gt;|default| D[Full Health Check]
+    B --&gt;|--fix| E[Category Selection]
+
+    C --&gt; F[dot token expiring]
+    D --&gt; F
+    E --&gt; G{Category?}
+
+    G --&gt;|Token| H[Atomic Token Fix]
+    G --&gt;|Tools| I[Install Tools]
+    G --&gt;|Aliases| J[Fix Aliases]
+
+    F --&gt; K[Cache Manager]
+    K --&gt;|5min TTL| L[GitHub API]
+
+    H --&gt; M[Backup]
+    M --&gt; N[Rotate]
+    N --&gt; O{Success?}
+    O --&gt;|Yes| P[Commit]
+    O --&gt;|No| Q[Rollback]
+    Q --&gt; R[Recovery Instructions]
+
+    P --&gt; S[Sync Services]
+    S --&gt; T[gh CLI]
+    S --&gt; U[Claude MCP]
+    S --&gt; V[Env Vars]
+
+    P --&gt; W[History Log]
+    P --&gt; X[Gamification]</code></pre>
+<h4 id="component-diagram">Component Diagram<a class="headerlink" href="#component-diagram" title="Permanent link">&para;</a></h4>
+<pre class="mermaid"><code>graph LR
+    A[flow doctor] --&gt; B[Doctor Core]
+    B --&gt; C[Token Manager]
+    B --&gt; D[Fix Engine]
+    B --&gt; E[Report Generator]
+
+    C --&gt; F[dot token expiring]
+    C --&gt; G[Cache Manager]
+
+    D --&gt; H[Atomic Fix]
+    D --&gt; I[Rollback Handler]
+
+    E --&gt; J[History Logger]
+    E --&gt; K[Report Formatter]
+
+    F --&gt; L[GitHub API]
+    G --&gt; L
+
+    H --&gt; M[Backup Manager]
+    H --&gt; N[Service Sync]
+
+    J --&gt; O[~/.flow/history/]
+    K --&gt; P[~/.flow/reports/]</code></pre>
+<hr />
+<h3 id="cli-interface-design">CLI Interface Design<a class="headerlink" href="#cli-interface-design" title="Permanent link">&para;</a></h3>
+<h4 id="new-commands">New Commands<a class="headerlink" href="#new-commands" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+<th>Execution Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>flow doctor --dot</code></td>
+<td>Check only DOT tokens</td>
+<td>&lt; 3s</td>
+</tr>
+<tr>
+<td><code>flow doctor --dot=TOKEN</code></td>
+<td>Check specific token</td>
+<td>&lt; 2s</td>
+</tr>
+<tr>
+<td><code>flow doctor --fix-token</code></td>
+<td>Fix only token issues</td>
+<td>&lt; 60s</td>
+</tr>
+<tr>
+<td><code>flow doctor --fix-token -y</code></td>
+<td>Auto-fix tokens (no prompts)</td>
+<td>&lt; 60s</td>
+</tr>
+<tr>
+<td><code>flow doctor --token-report</code></td>
+<td>Generate audit report</td>
+<td>&lt; 5s</td>
+</tr>
+<tr>
+<td><code>flow doctor --token-report --save</code></td>
+<td>Save report to file</td>
+<td>&lt; 5s</td>
+</tr>
+<tr>
+<td><code>flow doctor --dry-run</code></td>
+<td>Preview fixes without applying</td>
+<td>&lt; 3s</td>
+</tr>
+<tr>
+<td><code>flow doctor --quiet</code></td>
+<td>Minimal output (errors only)</td>
+<td>&lt; 3s</td>
+</tr>
+<tr>
+<td><code>flow doctor --verbose</code></td>
+<td>Detailed output + history</td>
+<td>&lt; 5s</td>
+</tr>
+</tbody>
+</table>
+<h4 id="enhanced-existing-commands">Enhanced Existing Commands<a class="headerlink" href="#enhanced-existing-commands" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Enhancement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>flow doctor</code></td>
+<td>Now includes all DOT tokens, not just GitHub</td>
+</tr>
+<tr>
+<td><code>flow doctor --fix</code></td>
+<td>Category selection menu before fixing</td>
+</tr>
+<tr>
+<td><code>flow doctor --fix -y</code></td>
+<td>Auto-fixes all categories</td>
+</tr>
+</tbody>
+</table>
+<h4 id="exit-codes">Exit Codes<a class="headerlink" href="#exit-codes" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>All tokens healthy</td>
+<td>CI/CD success</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Token(s) missing</td>
+<td>Prompt user to configure</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Token(s) expired</td>
+<td>Trigger rotation workflow</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Token(s) invalid</td>
+<td>Regenerate tokens</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Token(s) expiring soon (&lt; 7 days)</td>
+<td>Warning, schedule rotation</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Service sync issues (gh CLI, etc.)</td>
+<td>Fix integration</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="data-models">Data Models<a class="headerlink" href="#data-models" title="Permanent link">&para;</a></h3>
+<h4 id="token-health-history-log">Token Health History Log<a class="headerlink" href="#token-health-history-log" title="Permanent link">&para;</a></h4>
+<p><strong>File:</strong> <code>~/.flow/history/token-health.log</code></p>
+<p><strong>Format:</strong> TSV (Tab-Separated Values)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>timestamp   action  token_name  status  details
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>2026-01-23T12:30:00Z    CHECK   github-token    valid   5 days remaining
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>2026-01-23T12:35:00Z    ROTATE  github-token    success 28s
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>2026-01-23T12:35:28Z    SYNC    gh-cli  success 2s
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>2026-01-23T12:36:00Z    CHECK   github-token    valid   90 days remaining
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>2026-01-23T18:00:00Z    CHECK   npm-token   valid   180 days remaining
+</code></pre></div>
+<p><strong>Schema:</strong>
+- <code>timestamp</code>: ISO 8601 format
+- <code>action</code>: CHECK | ROTATE | SYNC | FIX | BACKUP | ROLLBACK
+- <code>token_name</code>: Secret identifier (e.g., github-token, npm-token)
+- <code>status</code>: valid | expired | invalid | expiring | success | failed
+- <code>details</code>: Human-readable context</p>
+<h4 id="token-health-report">Token Health Report<a class="headerlink" href="#token-health-report" title="Permanent link">&para;</a></h4>
+<p><strong>File:</strong> <code>~/.flow/reports/token-health-YYYY-MM-DD.txt</code></p>
+<p><strong>Sections:</strong>
+1. Report header (timestamp, version)
+2. Token status summary (per token)
+3. Security recommendations
+4. Actions needed
+5. Historical rotation log (last 5)</p>
+<p><strong>Example Structure:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>TOKEN HEALTH REPORT
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Generated: 2026-01-23 12:30:00
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>flow-cli version: v5.17.0
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>=== TOKEN STATUS ===
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>GitHub Token: github-token
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  Status: ⚠ Expiring
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>  Created: 2025-10-15 (100 days ago)
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  Expires: 2026-01-13 (5 days remaining)
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>  Type: fine-grained
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>  User: @username
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>  Last validated: 2026-01-23 12:30:00
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>NPM Token: npm-token
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>  Status: ✓ Valid
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>  Expires: 2026-06-20 (180 days remaining)
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>=== SECURITY RECOMMENDATIONS ===
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>Token Rotation Schedule:
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>  • Rotate tokens every 90 days
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>  • github-token: Rotate in next 5 days
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>Scope Audit:
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>  ⚠ github-token has &#39;delete_repo&#39; scope
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>    Consider removing if not needed
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>Environment Variable Exposure:
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>  ✗ GITHUB_TOKEN not exported in shell
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>=== ACTIONS NEEDED ===
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>1. Rotate github-token (expires in 5 days)
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>   Command: flow doctor --fix-token
+<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>
+<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>2. Export GITHUB_TOKEN environment variable
+<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>   Add to ~/.config/zsh/.zshrc:
+<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>   export GITHUB_TOKEN=$(dot secret github-token)
+<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>
+<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a>=== ROTATION HISTORY ===
+<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a>
+<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a>2026-01-08: Rotated github-token (85 days old)
+<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a>2025-11-20: Rotated github-token (36 days old)
+<a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a>2025-10-15: Created github-token
+<a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a>
+<a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a>=== END REPORT ===
+</code></pre></div></p>
+<h4 id="cache-file">Cache File<a class="headerlink" href="#cache-file" title="Permanent link">&para;</a></h4>
+<p><strong>File:</strong> <code>~/.flow/cache/token-check-TOKENNAME.cache</code></p>
+<p><strong>Format:</strong> JSON</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;token_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;github-token&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;cached_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-01-23T12:30:00Z&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">&quot;expires_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-01-23T12:35:00Z&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">&quot;ttl_seconds&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;valid&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">&quot;days_remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-username&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nt">&quot;services&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="nt">&quot;gh_cli&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;authenticated&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="nt">&quot;claude_mcp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;configured&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="nt">&quot;env_var&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;missing&quot;</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">}</span>
+</code></pre></div>
+<h4 id="custom-validation-rules-config">Custom Validation Rules Config<a class="headerlink" href="#custom-validation-rules-config" title="Permanent link">&para;</a></h4>
+<p><strong>File:</strong> <code>~/.flow/doctor-rules.yaml</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Token validation rules for flow doctor</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nt">token_rules</span><span class="p">:</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">github</span><span class="p">:</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nt">min_days_remaining</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">14</span><span class="w">  </span><span class="c1"># Warn if &lt; 14 days</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="nt">max_age_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">90</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="nt">required_scopes</span><span class="p">:</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">workflow</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nt">forbidden_scopes</span><span class="p">:</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">delete_repo</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">delete_packages</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="nt">check_2fa</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">  </span><span class="nt">npm</span><span class="p">:</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="nt">min_days_remaining</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="nt">max_age_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">180</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="nt">check_registry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">  </span><span class="nt">pypi</span><span class="p">:</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="nt">min_days_remaining</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="nt">check_trusted_publishing</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="c1"># Notification settings</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="nt">notifications</span><span class="p">:</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">  </span><span class="nt">critical_only</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Only notify on expired/invalid</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">  </span><span class="nt">channels</span><span class="p">:</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">macos_notification</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">terminal_bell</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="c1"># History settings</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="nt">history</span><span class="p">:</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="w">  </span><span class="nt">retention_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">365</span>
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;~/.flow/history/token-health.log&quot;</span>
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="c1"># Cache settings</span>
+<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="nt">cache</span><span class="p">:</span>
+<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="w">  </span><span class="nt">ttl_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span><span class="w">  </span><span class="c1"># 5 minutes</span>
+<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;~/.flow/cache/&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h3>
+<h4 id="required-existing">Required (Existing)<a class="headerlink" href="#required-existing" title="Permanent link">&para;</a></h4>
+<ul>
+<li>✅ <code>dot</code> command (DOT dispatcher) - v5.16.0+</li>
+<li>✅ <code>dot token expiring</code> - v5.16.0+</li>
+<li>✅ <code>_dot_token_age_days()</code> helper function</li>
+<li>✅ <code>_dot_token_rotate()</code> function</li>
+<li>✅ <code>_dot_token_sync_gh()</code> function</li>
+<li>✅ <code>jq</code> - JSON parsing</li>
+<li>✅ <code>curl</code> - GitHub API calls</li>
+<li>✅ macOS <code>security</code> - Keychain access</li>
+<li>✅ Bitwarden CLI (<code>bw</code>) - Secret storage</li>
+</ul>
+<h4 id="new-dependencies">New Dependencies<a class="headerlink" href="#new-dependencies" title="Permanent link">&para;</a></h4>
+<ul>
+<li>❌ <strong>None</strong> - All enhancements use existing tools</li>
+</ul>
+<h4 id="optional-integrations">Optional Integrations<a class="headerlink" href="#optional-integrations" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>gh</code> CLI - Enhanced sync (already integrated)</li>
+<li><code>osascript</code> - macOS notifications (already integrated)</li>
+<li>Atlas - State management (future consideration)</li>
+</ul>
+<hr />
+<h2 id="uiux-specifications">UI/UX Specifications<a class="headerlink" href="#uiux-specifications" title="Permanent link">&para;</a></h2>
+<h3 id="terminal-output-design">Terminal Output Design<a class="headerlink" href="#terminal-output-design" title="Permanent link">&para;</a></h3>
+<h4 id="default-output-normal-verbosity">Default Output (Normal Verbosity)<a class="headerlink" href="#default-output-normal-verbosity" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>🔑 DOT TOKENS
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  GitHub Token (github-token)
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    ✓ Valid (@username)
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    ⚠ Expiring in 5 days
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  NPM Token (npm-token)
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    ✓ Valid
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    ✓ 180 days remaining
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>  PyPI Token (pypi-flow-cli)
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    ✗ Expired 10 days ago
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>───────────────────────────────────────────────
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>Quick actions:
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>  flow doctor --fix-token     Fix token issues (30s)
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>  flow doctor --token-report  Generate audit report
+</code></pre></div>
+<h4 id="quiet-output-quiet">Quiet Output (<code>--quiet</code>)<a class="headerlink" href="#quiet-output-quiet" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>🔑 GITHUB TOKEN
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  ✓ Valid
+</code></pre></div>
+<h4 id="verbose-output-verbose">Verbose Output (<code>--verbose</code>)<a class="headerlink" href="#verbose-output-verbose" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>🔑 GITHUB TOKEN
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  ✓ Valid (@username)
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  Metadata:
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    Created: 2025-10-15
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    Age: 100 days
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    Type: fine-grained
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    Expires: 2026-01-13 (5 days remaining)
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>  Token-Dependent Services:
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    ✓ gh CLI authenticated (v2.40.1)
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    ✓ Claude MCP configured
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>    ✗ GITHUB_TOKEN env var not exported
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>  Rotation History:
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    • 2026-01-08: Rotated (85 days old)
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>    • 2025-11-20: Rotated (36 days old)
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>    • 2025-10-15: Created
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>  API Rate Limit:
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>    Used: 142/5000 (2.8%)
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>    Resets: 2026-01-23 13:00:00 (23 min)
+</code></pre></div>
+<h3 id="interactive-fix-flow">Interactive Fix Flow<a class="headerlink" href="#interactive-fix-flow" title="Permanent link">&para;</a></h3>
+<h4 id="category-selection-single-choice">Category Selection (Single Choice)<a class="headerlink" href="#category-selection-single-choice" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>△ Found issues in 3 categories:
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Which category should I fix first?
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>  1. GitHub Token (2 issues, ~30s)
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>     • github-token expiring in 5 days
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>     • pypi-flow-cli expired 10 days ago
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>  2. Missing Tools (5 tools, ~5 min)
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>     • jq, gh, atlas, ...
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>  3. Aliases (1 issue, ~10s)
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>     • pick alias not configured
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>  4. Fix all categories (~5.5 min)
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>  0. Cancel
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>Enter selection [1-4, 0]:
+</code></pre></div>
+<h4 id="atomic-fix-progress">Atomic Fix Progress<a class="headerlink" href="#atomic-fix-progress" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>🔄 Rotating github-token... (30s estimated)
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  [1/5] Creating backup...           ✓ (2s)
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  [2/5] Generating new token...      ✓ (8s)
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  [3/5] Validating via GitHub API... ✓ (3s)
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  [4/5] Storing in vault...          ✓ (5s)
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>  [5/5] Syncing services...          ✓ (10s)
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>✅ Token rotated successfully (28s)
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>Services synced:
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>  ✓ Bitwarden vault updated
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>  ✓ Keychain updated (Touch ID)
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>  ✓ gh CLI authenticated
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>  ✓ Claude MCP configured
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>Old token backed up to:
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>  ~/.flow/backups/github-token-backup-2026-01-23
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>🎉 Win logged: Security maintenance
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>   Streak: 3 days | Goal: 2/3 wins today
+</code></pre></div>
+<h4 id="rollback-on-failure">Rollback on Failure<a class="headerlink" href="#rollback-on-failure" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>🔄 Rotating github-token... (30s estimated)
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  [1/5] Creating backup...           ✓ (2s)
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  [2/5] Generating new token...      ✓ (8s)
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>  [3/5] Validating via GitHub API... ✗ Failed
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>✗ Rotation failed: GitHub API unreachable
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>⚠ Rolling back changes...
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>  ✓ Backup preserved
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>  ✓ Old token still valid
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>  ✓ No services affected
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>Manual recovery (if needed):
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>  Old token saved at: ~/.flow/backups/github-token-backup-2026-01-23
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>  Restore with:
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>    dot secret github-token &lt; ~/.flow/backups/github-token-backup-2026-01-23
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>Next steps:
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>  • Check GitHub API status: https://www.githubstatus.com
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>  • Retry in a few minutes: flow doctor --fix-token
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>  • Or rotate manually: dot token rotate
+</code></pre></div>
+<h3 id="inline-git-fix-flow">Inline Git Fix Flow<a class="headerlink" href="#inline-git-fix-flow" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>$<span class="w"> </span>g<span class="w"> </span>push
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>ℹ<span class="w"> </span>Validating<span class="w"> </span>GitHub<span class="w"> </span>token...
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>✗<span class="w"> </span>GitHub<span class="w"> </span>token<span class="w"> </span>expired<span class="w"> </span>or<span class="w"> </span>invalid
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>Token<span class="w"> </span>rotation<span class="w"> </span>takes<span class="w"> </span>~30s.<span class="w"> </span>Fix<span class="w"> </span>now?<span class="w"> </span><span class="o">[</span>y/n<span class="o">]</span><span class="w"> </span>y
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>🔄<span class="w"> </span>Rotating<span class="w"> </span>github-token...
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">  </span><span class="o">[</span>Progress<span class="w"> </span>as<span class="w"> </span>shown<span class="w"> </span>above<span class="o">]</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>✅<span class="w"> </span>Token<span class="w"> </span>rotated<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>28s<span class="o">)</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>ℹ<span class="w"> </span>Retrying<span class="w"> </span>push...
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>✓<span class="w"> </span>Pushed<span class="w"> </span>to<span class="w"> </span>origin/feature-branch
+</code></pre></div>
+<h3 id="dry-run-output">Dry Run Output<a class="headerlink" href="#dry-run-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>$<span class="w"> </span>flow<span class="w"> </span>doctor<span class="w"> </span>--dry-run
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>🔍<span class="w"> </span>DRY<span class="w"> </span>RUN<span class="w"> </span>MODE<span class="w"> </span><span class="o">(</span>no<span class="w"> </span>changes<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>applied<span class="o">)</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>───────────────────────────────────────────────
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>🔑<span class="w"> </span>DOT<span class="w"> </span>TOKENS
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">  </span>GitHub<span class="w"> </span>Token<span class="w"> </span><span class="o">(</span>github-token<span class="o">)</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span>⚠<span class="w"> </span>Expiring<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>days
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">    </span>Would<span class="w"> </span>fix:
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">      </span>•<span class="w"> </span>Rotate<span class="w"> </span>token<span class="w"> </span><span class="o">(</span>~30s<span class="o">)</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">      </span>•<span class="w"> </span>Sync<span class="w"> </span>gh<span class="w"> </span>CLI<span class="w"> </span><span class="o">(</span>~2s<span class="o">)</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">      </span>•<span class="w"> </span>Update<span class="w"> </span>Claude<span class="w"> </span>MCP<span class="w"> </span><span class="o">(</span>~1s<span class="o">)</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="w">  </span>PyPI<span class="w"> </span>Token<span class="w"> </span><span class="o">(</span>pypi-flow-cli<span class="o">)</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="w">    </span>✗<span class="w"> </span>Expired<span class="w"> </span><span class="m">10</span><span class="w"> </span>days<span class="w"> </span>ago
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="w">    </span>Would<span class="w"> </span>fix:
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="w">      </span>•<span class="w"> </span>Rotate<span class="w"> </span>token<span class="w"> </span><span class="o">(</span>~20s<span class="o">)</span>
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>
+<a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>───────────────────────────────────────────────
+<a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>
+<a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a>Summary:
+<a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a><span class="w">  </span>•<span class="w"> </span><span class="m">2</span><span class="w"> </span>tokens<span class="w"> </span>would<span class="w"> </span>be<span class="w"> </span>rotated
+<a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a><span class="w">  </span>•<span class="w"> </span><span class="m">3</span><span class="w"> </span>services<span class="w"> </span>would<span class="w"> </span>be<span class="w"> </span>synced
+<a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a><span class="w">  </span>•<span class="w"> </span>Estimated<span class="w"> </span>time:<span class="w"> </span>~53<span class="w"> </span>seconds
+<a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a>
+<a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a>Run<span class="w"> </span>without<span class="w"> </span>--dry-run<span class="w"> </span>to<span class="w"> </span>apply<span class="w"> </span>changes
+</code></pre></div>
+<hr />
+<h2 id="open-questions">Open Questions<a class="headerlink" href="#open-questions" title="Permanent link">&para;</a></h2>
+<h3 id="implementation-details">Implementation Details<a class="headerlink" href="#implementation-details" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Cache invalidation strategy:</strong></li>
+<li>Q: Should cache be invalidated on <code>dot token rotate</code> success?</li>
+<li>
+<p>A: Yes - add cache invalidation hook after successful rotation</p>
+</li>
+<li>
+<p><strong>Rollback granularity:</strong></p>
+</li>
+<li>Q: If gh CLI sync fails but token rotated, should we roll back the token?</li>
+<li>
+<p>A: No - token rotation is atomic unit. Service sync failures are non-fatal warnings.</p>
+</li>
+<li>
+<p><strong>Multi-token fix order:</strong></p>
+</li>
+<li>Q: Should we prioritize expired over expiring when fixing multiple tokens?</li>
+<li>
+<p>A: Yes - sort by severity: expired → expiring soon (&lt; 3 days) → expiring (&lt; 7 days)</p>
+</li>
+<li>
+<p><strong>Notification frequency:</strong></p>
+</li>
+<li>Q: How often should we notify about same expired token?</li>
+<li>A: Once per day maximum, tracked in <code>~/.flow/cache/notifications.json</code></li>
+</ol>
+<h3 id="future-enhancements">Future Enhancements<a class="headerlink" href="#future-enhancements" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Auto-heal mode:</strong></li>
+<li>User answer: No for v5.17.0</li>
+<li>
+<p>Revisit in v5.18.0 based on user feedback</p>
+</li>
+<li>
+<p><strong>Parallel token fixes:</strong></p>
+</li>
+<li>Current: Sequential with progress</li>
+<li>
+<p>Future: Consider parallel with promise-like async handling</p>
+</li>
+<li>
+<p><strong>Integration with flow setup:</strong></p>
+</li>
+<li>Should <code>flow setup</code> configure token health checks?</li>
+<li>Potential: Add to setup wizard as optional step</li>
+</ol>
+<hr />
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">&para;</a></h2>
+<h3 id="functionality">Functionality<a class="headerlink" href="#functionality" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] <code>flow doctor --dot</code> isolates token checks (&lt; 3s)</li>
+<li>[ ] <code>flow doctor --dot=TOKEN</code> filters to specific token</li>
+<li>[ ] <code>flow doctor --fix-token</code> fixes only token issues</li>
+<li>[ ] Category selection shows estimated times</li>
+<li>[ ] Atomic fixes create backups before changes</li>
+<li>[ ] Failed fixes rollback with recovery instructions</li>
+<li>[ ] Inline git fixes prompt with time estimate</li>
+<li>[ ] All DOT tokens checked (github, npm, pypi)</li>
+<li>[ ] Sequential multi-token fixes show progress (1/3... 2/3... 3/3)</li>
+<li>[ ] Token reports include all sections (metadata, services, recommendations)</li>
+<li>[ ] Verbosity levels work (--quiet, default, --verbose)</li>
+<li>[ ] Dry run mode shows what would be fixed</li>
+</ul>
+<h3 id="integration">Integration<a class="headerlink" href="#integration" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Delegates to <code>dot token expiring</code> (unified logic)</li>
+<li>[ ] 5-minute cache avoids duplicate GitHub API calls</li>
+<li>[ ] gh CLI synced after token rotation</li>
+<li>[ ] Claude MCP updated after token rotation</li>
+<li>[ ] GITHUB_TOKEN env var checked</li>
+<li>[ ] Gamification: rotations log as "Security maintenance" wins</li>
+<li>[ ] History tracked in <code>~/.flow/history/token-health.log</code></li>
+<li>[ ] Event hooks: finish command checks token health</li>
+</ul>
+<h3 id="ux">UX<a class="headerlink" href="#ux" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] ADHD-friendly: clear categories, time estimates, progress indicators</li>
+<li>[ ] Error messages include recovery steps</li>
+<li>[ ] Success messages include next steps</li>
+<li>[ ] macOS notifications for critical issues only</li>
+<li>[ ] Terminal colors consistent with flow-cli theme</li>
+<li>[ ] Help text updated with new flags</li>
+<li>[ ] Examples in help show common workflows</li>
+</ul>
+<h3 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Unit tests for cache manager (TTL, invalidation)</li>
+<li>[ ] Unit tests for atomic fix logic (backup, rollback)</li>
+<li>[ ] Integration tests for category selection</li>
+<li>[ ] E2E tests for full fix workflow</li>
+<li>[ ] Mock GitHub API for rate limit testing</li>
+<li>[ ] Test rollback with simulated failures</li>
+<li>[ ] Test multi-token fix sequence</li>
+<li>[ ] Test inline git fix integration</li>
+</ul>
+<h3 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] CLAUDE.md updated with new flags</li>
+<li>[ ] DOT-DISPATCHER-REFERENCE.md updated</li>
+<li>[ ] New guide: <code>docs/guides/TOKEN-LIFECYCLE-MANAGEMENT.md</code></li>
+<li>[ ] Update CHANGELOG.md with v5.17.0 features</li>
+<li>[ ] Update README.md examples</li>
+<li>[ ] Add tutorial: <code>docs/tutorials/23-doctor-token-management.md</code></li>
+</ul>
+<h3 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Token checks complete in &lt; 3s (with cache)</li>
+<li>[ ] Token checks complete in &lt; 10s (without cache)</li>
+<li>[ ] Token rotation completes in &lt; 60s (typical)</li>
+<li>[ ] Multi-token fixes respect time estimates (±10%)</li>
+<li>[ ] Cache reduces GitHub API calls by 80%+</li>
+</ul>
+<h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Backups stored with restricted permissions (600)</li>
+<li>[ ] Recovery instructions never expose token values</li>
+<li>[ ] History log doesn't include sensitive data</li>
+<li>[ ] Reports don't expose token values</li>
+<li>[ ] Cache files have proper permissions</li>
+<li>[ ] macOS notifications don't show token details</li>
+</ul>
+<hr />
+<h2 id="implementation-notes">Implementation Notes<a class="headerlink" href="#implementation-notes" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-core-enhancement-p0-12-hours-approved-for-implementation">Phase 1: Core Enhancement (P0 - 12 hours) ✅ APPROVED FOR IMPLEMENTATION<a class="headerlink" href="#phase-1-core-enhancement-p0-12-hours-approved-for-implementation" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> Ready to implement (approved 2026-01-23)
+<strong>Target:</strong> v5.17.0
+<strong>Timeline:</strong> 1.5 days</p>
+<p><strong>Files to modify:</strong>
+- <code>commands/doctor.zsh</code> - Add flags, category selection, verbosity
+- <code>lib/core.zsh</code> - Add cache manager functions
+- <code>commands/flow.zsh</code> - Update help text</p>
+<p><strong>New files:</strong>
+- <code>lib/doctor-cache.zsh</code> - Cache management logic
+- <code>lib/doctor-atomic.zsh</code> - Atomic fix + rollback logic</p>
+<p><strong>Tasks:</strong>
+1. Add <code>--dot</code>, <code>--dot=TOKEN</code>, <code>--fix-token</code> flags (2h)
+2. Implement category selection menu (3h)
+3. Delegate to <code>dot token expiring</code> (2h)
+4. Add verbosity levels (--quiet, --verbose) (2h)
+5. Implement cache manager (5-minute TTL) (3h)</p>
+<p><strong>Tests:</strong>
+- <code>tests/test-doctor-token-flags.zsh</code> (30 tests)
+- <code>tests/test-doctor-cache.zsh</code> (20 tests)</p>
+<hr />
+<h3 id="phase-2-safety-reporting-p1-15-hours-deferred-to-future">Phase 2: Safety &amp; Reporting (P1 - 15 hours) 🔜 DEFERRED TO FUTURE<a class="headerlink" href="#phase-2-safety-reporting-p1-15-hours-deferred-to-future" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> Deferred pending Phase 1 completion and user feedback
+<strong>Dependencies:</strong> Phase 1 must be complete and stable</p>
+<p><strong>Files to modify:</strong>
+- <code>lib/doctor-atomic.zsh</code> - Rollback logic
+- <code>lib/dispatchers/g-dispatcher.zsh</code> - Inline fix prompt
+- <code>commands/doctor.zsh</code> - Report generation</p>
+<p><strong>New files:</strong>
+- <code>lib/doctor-report.zsh</code> - Report formatter
+- <code>lib/doctor-history.zsh</code> - History logger</p>
+<p><strong>Tasks:</strong>
+1. Implement atomic fixes with backup (4h)
+2. Add rollback on failure (2h)
+3. Inline git fix integration (2h)
+4. Token report generation (3h)
+5. Multi-token support (3h)
+6. History tracking (1h)</p>
+<p><strong>Tests:</strong>
+- <code>tests/test-doctor-atomic.zsh</code> (40 tests)
+- <code>tests/test-doctor-rollback.zsh</code> (25 tests)
+- <code>tests/test-doctor-report.zsh</code> (20 tests)</p>
+<hr />
+<h3 id="phase-3-user-experience-p2-5-hours-deferred-to-future">Phase 3: User Experience (P2 - 5 hours) 🔜 DEFERRED TO FUTURE<a class="headerlink" href="#phase-3-user-experience-p2-5-hours-deferred-to-future" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> Deferred pending Phase 1 completion and user feedback
+<strong>Dependencies:</strong> Phase 1 must be complete and stable</p>
+<p><strong>Files to modify:</strong>
+- <code>commands/adhd.zsh</code> - Win logging integration
+- <code>commands/doctor.zsh</code> - Notifications</p>
+<p><strong>Tasks:</strong>
+1. Gamification integration (2h)
+2. macOS notifications (1h)
+3. Event hooks (finish command) (2h)</p>
+<p><strong>Tests:</strong>
+- <code>tests/test-doctor-gamification.zsh</code> (15 tests)
+- <code>tests/test-doctor-notifications.zsh</code> (10 tests)</p>
+<hr />
+<h3 id="phase-4-advanced-features-p3-6-hours-deferred-to-future">Phase 4: Advanced Features (P3 - 6 hours) 🔜 DEFERRED TO FUTURE<a class="headerlink" href="#phase-4-advanced-features-p3-6-hours-deferred-to-future" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> Deferred pending Phase 1 completion and user feedback
+<strong>Dependencies:</strong> Phase 1 must be complete and stable</p>
+<p><strong>New files:</strong>
+- <code>lib/doctor-rules.zsh</code> - Custom rules parser
+- <code>lib/doctor-exit-codes.zsh</code> - Exit code manager</p>
+<p><strong>Tasks:</strong>
+1. Custom validation rules (<code>~/.flow/doctor-rules.yaml</code>) (3h)
+2. Exit codes for CI/CD (1h)
+3. Additional event hooks (2h)</p>
+<p><strong>Tests:</strong>
+- <code>tests/test-doctor-rules.zsh</code> (25 tests)
+- <code>tests/test-doctor-exit-codes.zsh</code> (10 tests)</p>
+<hr />
+<h3 id="documentation-tasks-4-hours-per-phase">Documentation Tasks (4 hours per phase)<a class="headerlink" href="#documentation-tasks-4-hours-per-phase" title="Permanent link">&para;</a></h3>
+<p><strong>Phase 1:</strong>
+- Update help text
+- Quick reference card
+- Basic examples</p>
+<p><strong>Phase 2:</strong>
+- Comprehensive guide: TOKEN-LIFECYCLE-MANAGEMENT.md
+- Tutorial: 23-doctor-token-management.md
+- Update API reference</p>
+<p><strong>Phase 3:</strong>
+- Gamification examples
+- Event hooks documentation
+- Troubleshooting guide</p>
+<p><strong>Phase 4:</strong>
+- Custom rules schema reference
+- CI/CD integration examples
+- Advanced workflows guide</p>
+<hr />
+<h2 id="implementation-strategy">Implementation Strategy<a class="headerlink" href="#implementation-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="approved-approach-phase-1-only">Approved Approach: Phase 1 Only<a class="headerlink" href="#approved-approach-phase-1-only" title="Permanent link">&para;</a></h3>
+<p><strong>Phase 1 Implementation</strong> (12h / 1.5 days) ✅ APPROVED
+- Delivers immediate value
+- Low risk (additive changes)
+- Easy to validate
+- Establishes foundation for future enhancements</p>
+<p><strong>Phases 2-4 Deferred</strong> (30h total)
+- Pending Phase 1 completion
+- User feedback will inform priorities
+- Can be implemented incrementally in future versions</p>
+<h3 id="phase-1-rollout-plan">Phase 1 Rollout Plan<a class="headerlink" href="#phase-1-rollout-plan" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Day 1 (8h):</strong> Implement flags, category selection, delegation</li>
+<li><strong>Day 2 (4h):</strong> Implement cache manager, verbosity levels</li>
+<li><strong>Post-implementation:</strong> Testing, documentation, PR to dev</li>
+<li><strong>Target:</strong> Include in v5.17.0 release</li>
+</ol>
+<h3 id="future-phases-decision-points">Future Phases Decision Points<a class="headerlink" href="#future-phases-decision-points" title="Permanent link">&para;</a></h3>
+<p>After Phase 1 ships, evaluate based on:
+- User adoption and feedback
+- Security incident frequency
+- Feature requests and pain points
+- Development capacity and priorities</p>
+<p><strong>Potential triggers for Phase 2+:</strong>
+- High demand for token reports
+- Security incidents requiring faster response
+- CI/CD integration requests from teams
+- Multi-token management becomes priority</p>
+<hr />
+<h2 id="success-metrics">Success Metrics<a class="headerlink" href="#success-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="quantitative">Quantitative<a class="headerlink" href="#quantitative" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Token check execution time: &lt; 3s (with cache)</li>
+<li>Token rotation time: &lt; 60s (95th percentile)</li>
+<li>GitHub API call reduction: &gt; 80% (via caching)</li>
+<li>User-reported token expiration incidents: -90%</li>
+<li><code>flow doctor</code> usage frequency: +50%</li>
+</ul>
+<h3 id="qualitative">Qualitative<a class="headerlink" href="#qualitative" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Users report "easier token management"</li>
+<li>Fewer support issues related to expired tokens</li>
+<li>Positive feedback on inline git fixes</li>
+<li>Adoption of <code>--fix-token</code> flag (faster workflow)</li>
+</ul>
+<hr />
+<h2 id="history">History<a class="headerlink" href="#history" title="Permanent link">&para;</a></h2>
+<h3 id="2026-01-23-initial-specification">2026-01-23 - Initial Specification<a class="headerlink" href="#2026-01-23-initial-specification" title="Permanent link">&para;</a></h3>
+<p><strong>Created by:</strong> Deep brainstorm with 18 expert questions
+<strong>Status:</strong> Draft
+<strong>From:</strong> feature/token-automation branch</p>
+<p><strong>Key Decisions:</strong>
+1. Add <code>--dot</code> flag (not subcommand) for isolation
+2. Category selection always prompts (single choice)
+3. Full delegation to <code>dot token expiring</code> (unified logic)
+4. Verbosity levels: quiet/normal/verbose
+5. Atomic fixes with rollback on failure
+6. Inline git fixes with time estimates
+7. Token reports with security recommendations
+8. History tracking in <code>~/.flow/history/</code>
+9. Gamification integration (security maintenance wins)
+10. macOS notifications for critical issues only</p>
+<p><strong>User Preferences (18 questions):</strong>
+- Isolation: <code>--dot</code> flag (Recommended)
+- Fix control: Category selection always ask
+- Integration: Full delegation to dot token expiring
+- Verbosity: Quiet/Normal/Verbose levels
+- Fast fix: Add <code>--fix-token</code> flag
+- Safety: Full atomic with rollback
+- Inline fix: Prompt immediately with time estimate
+- Reporting: <code>--token-report</code> flag with --save option
+- Cache: 5-minute TTL for API efficiency
+- Multi-token: Check all DOT tokens
+- Gamification: Track security maintenance wins
+- Notifications: macOS for critical issues
+- History: Store in <code>~/.flow/history/</code>
+- Dry run: Yes - useful for testing
+- Exit codes: Detailed codes for CI/CD
+- Event hooks: finish command + weekly check (opted out of auto-heal)</p>
+<h3 id="2026-01-23-phase-1-approved-for-implementation">2026-01-23 - Phase 1 Approved for Implementation<a class="headerlink" href="#2026-01-23-phase-1-approved-for-implementation" title="Permanent link">&para;</a></h3>
+<p><strong>Decision:</strong> Implement Phase 1 only (12 hours), defer Phases 2-4 (30 hours) to future</p>
+<p><strong>Rationale:</strong>
+- Delivers immediate value (isolated checks, category selection, cache)
+- Low risk (additive changes to existing doctor command)
+- Establishes foundation for future enhancements
+- Allows gathering user feedback before investing in advanced features</p>
+<p><strong>Phase 1 Scope (APPROVED):</strong>
+1. ✅ Add <code>--dot</code>, <code>--dot=TOKEN</code>, <code>--fix-token</code> flags
+2. ✅ Implement category selection menu (ADHD-friendly)
+3. ✅ Delegate to <code>dot token expiring</code> (unified logic)
+4. ✅ Add verbosity levels (--quiet, --verbose)
+5. ✅ Implement 5-minute cache manager</p>
+<p><strong>Phases 2-4 (DEFERRED):</strong>
+- Phase 2: Atomic fixes, rollback, reports, multi-token, history
+- Phase 3: Gamification, notifications, event hooks
+- Phase 4: Custom rules, CI/CD exit codes, advanced hooks</p>
+<p><strong>Next Review:</strong> After Phase 1 ships in v5.17.0 and user feedback collected</p>
+<hr />
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-implementation-approved">Phase 1 Implementation (APPROVED)<a class="headerlink" href="#phase-1-implementation-approved" title="Permanent link">&para;</a></h3>
+<p><strong>Immediate Actions:</strong></p>
+<ol>
+<li>✅ <strong>Spec approved</strong> for Phase 1 implementation (2026-01-23)</li>
+<li>📝 <strong>Create GitHub issue</strong> with link to this spec</li>
+<li>📋 <strong>Break down into 5 tasks</strong> (see Phase 1 section above):</li>
+<li>Task 1: Add flags (2h)</li>
+<li>Task 2: Category selection menu (3h)</li>
+<li>Task 3: Delegate to dot token expiring (2h)</li>
+<li>Task 4: Verbosity levels (2h)</li>
+<li>Task 5: Cache manager (3h)</li>
+<li>🧪 <strong>Set up test infrastructure</strong> (fixtures for Phase 1 only)</li>
+<li>📚 <strong>Create documentation skeleton</strong> (help text, quick reference)</li>
+</ol>
+<p><strong>Implementation Checklist:</strong></p>
+<ul>
+<li>[ ] Add <code>--dot</code>, <code>--dot=TOKEN</code>, <code>--fix-token</code> flags to <code>commands/doctor.zsh</code></li>
+<li>[ ] Implement category selection menu (single choice, ADHD-friendly)</li>
+<li>[ ] Delegate token validation to <code>dot token expiring</code></li>
+<li>[ ] Add verbosity levels (--quiet, --verbose)</li>
+<li>[ ] Create <code>lib/doctor-cache.zsh</code> with 5-minute TTL</li>
+<li>[ ] Write tests: <code>tests/test-doctor-token-flags.zsh</code> (30 tests)</li>
+<li>[ ] Write tests: <code>tests/test-doctor-cache.zsh</code> (20 tests)</li>
+<li>[ ] Update help text in <code>commands/flow.zsh</code></li>
+<li>[ ] Create quick reference documentation</li>
+<li>[ ] Validate with manual testing (use interactive dog test pattern)</li>
+<li>[ ] Create PR to dev branch</li>
+<li>[ ] Update CHANGELOG.md with Phase 1 features</li>
+</ul>
+<h3 id="related-work">Related Work<a class="headerlink" href="#related-work" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Prerequisite:</strong> ✅ Token automation v5.16.0 (merged)</li>
+<li><strong>Dependency:</strong> ✅ DOT dispatcher enhancements (complete)</li>
+<li><strong>Follow-up:</strong> Phases 2-4 pending user feedback and prioritization</li>
+<li><strong>Future:</strong> NPM/PyPI token providers (if demand exists)</li>
+</ul>
+<h3 id="future-phase-decision-point">Future Phase Decision Point<a class="headerlink" href="#future-phase-decision-point" title="Permanent link">&para;</a></h3>
+<p>After Phase 1 ships in v5.17.0:
+- Gather user feedback (1-2 weeks)
+- Measure usage metrics (token check frequency, cache hit rate)
+- Prioritize Phases 2-4 based on actual needs
+- Schedule next phase if there's clear demand</p>
+<hr />
+<p><strong>Phase 1 specification approved. Ready for implementation.</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 DT. Released under MIT License.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/data-wise/flow-cli" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

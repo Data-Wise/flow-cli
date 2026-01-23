@@ -85,6 +85,10 @@
          <lastmod>2026-01-23</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/architecture/DOCTOR-TOKEN-ARCHITECTURE/</loc>
+         <lastmod>2026-01-23</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE/</loc>
          <lastmod>2026-01-23</lastmod>
     </url>
@@ -385,6 +389,10 @@
          <lastmod>2026-01-23</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/guides/DOCTOR-TOKEN-USER-GUIDE/</loc>
+         <lastmod>2026-01-23</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/guides/DOPAMINE-FEATURES-GUIDE/</loc>
          <lastmod>2026-01-23</lastmod>
     </url>
@@ -494,6 +502,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/guides/TESTING/</loc>
+         <lastmod>2026-01-23</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/guides/TOKEN-HEALTH-CHECK/</loc>
          <lastmod>2026-01-23</lastmod>
     </url>
     <url>
@@ -709,6 +721,10 @@
          <lastmod>2026-01-23</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/DOCTOR-TOKEN-API-REFERENCE/</loc>
+         <lastmod>2026-01-23</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/DOCUMENTATION-COVERAGE/</loc>
          <lastmod>2026-01-23</lastmod>
     </url>
@@ -806,6 +822,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-TEACHING/</loc>
+         <lastmod>2026-01-23</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-TOKEN/</loc>
          <lastmod>2026-01-23</lastmod>
     </url>
     <url>
@@ -1022,6 +1042,14 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-flow-alias-enhancement-2026-01-12/</loc>
+         <lastmod>2026-01-23</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-flow-doctor-dot-enhancement-2026-01-23/</loc>
+         <lastmod>2026-01-23</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-github-token-automation-2026-01-23/</loc>
          <lastmod>2026-01-23</lastmod>
     </url>
     <url>
@@ -1278,6 +1306,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/22-plugin-optimization/</loc>
+         <lastmod>2026-01-23</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/tutorials/23-token-automation/</loc>
          <lastmod>2026-01-23</lastmod>
     </url>
     <url>
