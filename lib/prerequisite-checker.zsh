@@ -4,6 +4,13 @@
 # Prerequisite validation library for teach analyze command
 # Phase 0: Prerequisite checking
 
+
+# Load guard - prevent double-sourcing
+if [[ -n "$_FLOW_PREREQUISITE_CHECKER_LOADED" ]]; then
+    return 0 2>/dev/null || true
+fi
+typeset -g _FLOW_PREREQUISITE_CHECKER_LOADED=1
+
 # Disable zsh options that cause variable assignments to print
 # This prevents debug output when LOCAL_OPTIONS is enabled by prompt frameworks
 unsetopt local_options 2>/dev/null

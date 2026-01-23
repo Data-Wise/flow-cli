@@ -107,27 +107,6 @@ if [[ -z "$_FLOW_HOOK_INSTALLER_LOADED" ]]; then
     typeset -g _FLOW_HOOK_INSTALLER_LOADED=1
 fi
 
-# Source analysis cache (Phase 2 Wave 2: Deep Validation)
-if [[ -z "$_FLOW_ANALYSIS_CACHE_LOADED" ]]; then
-    local analysis_cache_path="${0:A:h:h}/analysis-cache.zsh"
-    [[ -f "$analysis_cache_path" ]] && source "$analysis_cache_path"
-    typeset -g _FLOW_ANALYSIS_CACHE_LOADED=1
-fi
-
-# Source concept extraction (Phase 2 Wave 2: Deep Validation)
-if [[ -z "$_FLOW_CONCEPT_EXTRACTION_LOADED" ]]; then
-    local concept_path="${0:A:h:h}/concept-extraction.zsh"
-    [[ -f "$concept_path" ]] && source "$concept_path"
-    typeset -g _FLOW_CONCEPT_EXTRACTION_LOADED=1
-fi
-
-# Source prerequisite checker (Phase 2 Wave 2: Deep Validation)
-if [[ -z "$_FLOW_PREREQUISITE_CHECKER_LOADED" ]]; then
-    local prereq_path="${0:A:h:h}/prerequisite-checker.zsh"
-    [[ -f "$prereq_path" ]] && source "$prereq_path"
-    typeset -g _FLOW_PREREQUISITE_CHECKER_LOADED=1
-fi
-
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
