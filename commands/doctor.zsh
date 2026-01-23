@@ -130,6 +130,109 @@ doctor() {
   echo ""
 
   # ──────────────────────────────────────────────────────────────
+  # GITHUB TOKEN HEALTH
+  # ──────────────────────────────────────────────────────────────
+  echo "${FLOW_COLORS[bold]}🔑 GITHUB TOKEN${FLOW_COLORS[reset]}"
+
+  local token=$(dot secret github-token 2>/dev/null)
+  local token_issues=()
+
+  if [[ -z "$token" ]]; then
+    echo "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Not configured"
+    token_issues+=("missing")
+  else
+    # Validate token via API
+    local api_response=$(curl -s -w "\n%{http_code}" \
+      -H "Authorization: token $token" \
+      "https://api.github.com/user" 2>/dev/null)
+
+    local http_code=$(echo "$api_response" | tail -1)
+    local username=$(echo "$api_response" | sed '$d' | jq -r '.login // "unknown"')
+
+    if [[ "$http_code" != "200" ]]; then
+      echo "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Invalid/Expired"
+      token_issues+=("invalid")
+    else
+      echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Valid (@$username)"
+
+      # Check expiration
+      local age_days=$(_dot_token_age_days "github-token")
+      local days_remaining=$((90 - age_days))
+
+      if [[ $days_remaining -le 7 ]]; then
+        echo "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  Expiring in $days_remaining days"
+        token_issues+=("expiring")
+      fi
+
+      # Test token-dependent services
+      echo ""
+      echo "  ${FLOW_COLORS[muted]}Token-Dependent Services:${FLOW_COLORS[reset]}"
+
+      # Test gh CLI
+      if command -v gh &>/dev/null; then
+        if gh auth status &>/dev/null 2>&1; then
+          echo "    ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} gh CLI authenticated"
+        else
+          echo "    ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} gh CLI not authenticated"
+          token_issues+=("gh-cli")
+        fi
+      else
+        echo "    ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} gh CLI not installed"
+      fi
+
+      # Test Claude Code MCP
+      if [[ -f "$HOME/.claude/settings.json" ]]; then
+        if grep -q "GITHUB_PERSONAL_ACCESS_TOKEN.*\${GITHUB_TOKEN}" "$HOME/.claude/settings.json"; then
+          if [[ -n "$GITHUB_TOKEN" ]]; then
+            echo "    ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Claude Code MCP configured"
+          else
+            echo "    ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} \$GITHUB_TOKEN not exported"
+            token_issues+=("env-var")
+          fi
+        else
+          echo "    ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  Claude MCP not using env var"
+          token_issues+=("mcp-config")
+        fi
+      fi
+    fi
+  fi
+  echo ""
+
+  # Offer fixes if in fix mode
+  if [[ "$mode" == "fix" && ${#token_issues[@]} -gt 0 ]]; then
+    echo "${FLOW_COLORS[info]}Applying token fixes...${FLOW_COLORS[reset]}"
+
+    for issue in "${token_issues[@]}"; do
+      case "$issue" in
+        missing)
+          echo "${FLOW_COLORS[info]}Generating new GitHub token...${FLOW_COLORS[reset]}"
+          dot token github
+          ;;
+
+        invalid|expiring)
+          echo "${FLOW_COLORS[info]}Rotating token...${FLOW_COLORS[reset]}"
+          dot token rotate
+          ;;
+
+        gh-cli)
+          echo "${FLOW_COLORS[info]}Authenticating gh CLI...${FLOW_COLORS[reset]}"
+          _dot_token_sync_gh
+          ;;
+
+        env-var)
+          echo "${FLOW_COLORS[warning]}Add to ~/.config/zsh/.zshrc:${FLOW_COLORS[reset]}"
+          echo "export GITHUB_TOKEN=\$(dot secret github-token)"
+          ;;
+
+        mcp-config)
+          echo "${FLOW_COLORS[info]}Run: ${FLOW_COLORS[cmd]}dot claude tokens${FLOW_COLORS[reset]} to fix Claude MCP"
+          ;;
+      esac
+    done
+    echo ""
+  fi
+
+  # ──────────────────────────────────────────────────────────────
   # ALIAS HEALTH
   # ──────────────────────────────────────────────────────────────
   _doctor_check_aliases
