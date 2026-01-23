@@ -253,7 +253,7 @@ cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
 tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
 wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 dot <cmd>     # Dotfile management (dot edit, dot sync, dot secret)
-teach <cmd>   # Teaching workflow (teach init, teach deploy, teach exam)
+teach <cmd>   # Teaching workflow (teach analyze, teach init, teach deploy, teach exam)
 prompt <cmd>  # Prompt engine switcher (prompt status, prompt toggle)
 v <cmd>       # Vibe coding mode (v on, v off, v status)
 ```
@@ -313,21 +313,21 @@ flow-cli/
 
 ## Key Files
 
-| File                                       | Purpose                  | Notes                    |
-| ------------------------------------------ | ------------------------ | ------------------------ |
-| `flow.plugin.zsh`                          | Plugin entry point       | Source this to load      |
-| `lib/core.zsh`                             | Core utilities           | Logging, colors, helpers |
-| `lib/atlas-bridge.zsh`                     | Atlas integration        | Optional state engine    |
-| `lib/keychain-helpers.zsh`                 | macOS Keychain secrets   | Touch ID support         |
-| `lib/config-validator.zsh`                 | Config validation        | Schema + hash validation |
-| `lib/git-helpers.zsh`                      | Git integration          | Teaching workflow        |
-| `lib/dispatchers/*.zsh`                    | Smart dispatchers        | 12 active dispatchers    |
-| `commands/*.zsh`                           | Core commands            | work, dash, finish, etc. |
-| `docs/reference/DISPATCHER-REFERENCE.md`   | Complete dispatcher docs | All dispatchers          |
-| `docs/reference/ARCHITECTURE-OVERVIEW.md`  | System architecture      | Mermaid diagrams         |
-| `docs/reference/V-DISPATCHER-REFERENCE.md` | V/Vibe dispatcher docs   | Vibe coding mode         |
-| `docs/reference/DOCUMENTATION-COVERAGE.md` | Coverage metrics         | 853 funcs, 8.6% coverage |
-| `.STATUS`                                  | Current progress         | Sprint tracking          |
+| File                                       | Purpose                  | Notes                     |
+| ------------------------------------------ | ------------------------ | ------------------------- |
+| `flow.plugin.zsh`                          | Plugin entry point       | Source this to load       |
+| `lib/core.zsh`                             | Core utilities           | Logging, colors, helpers  |
+| `lib/atlas-bridge.zsh`                     | Atlas integration        | Optional state engine     |
+| `lib/keychain-helpers.zsh`                 | macOS Keychain secrets   | Touch ID support          |
+| `lib/config-validator.zsh`                 | Config validation        | Schema + hash validation  |
+| `lib/git-helpers.zsh`                      | Git integration          | Teaching workflow         |
+| `lib/dispatchers/*.zsh`                    | Smart dispatchers        | 12 active dispatchers     |
+| `commands/*.zsh`                           | Core commands            | work, dash, finish, etc.  |
+| `docs/reference/DISPATCHER-REFERENCE.md`   | Complete dispatcher docs | All dispatchers           |
+| `docs/reference/ARCHITECTURE-OVERVIEW.md`  | System architecture      | Mermaid diagrams          |
+| `docs/reference/V-DISPATCHER-REFERENCE.md` | V/Vibe dispatcher docs   | Vibe coding mode          |
+| `docs/reference/DOCUMENTATION-COVERAGE.md` | Coverage metrics         | 853 funcs, 49.4% coverage |
+| `.STATUS`                                  | Current progress         | Sprint tracking           |
 
 ---
 
@@ -549,16 +549,45 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.16.0 (Ready for Release)
-**Status:** ✅ teach analyze complete (all phases) + optimized + tested
-**Branch:** `dev` (ready for PR to main)
-**Performance:** Sub-10ms for core commands, 3x load reduction from optimization
+**Version:** v5.16.0 ✅ Released 2026-01-22
+**Status:** Production - Planning v5.17.0
+**Branch:** `dev` (post-release, clean working tree)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0
+**Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
-**Tests:** 423 total (393 existing + 29 E2E + 1 interactive)
+**Tests:** 14 test suites passing (100% core tests, 362+ total tests)
 
 ---
 
-## Just Completed (2026-01-23)
+## Recent Releases
+
+### v5.16.0 - Intelligent Content Analysis (2026-01-22)
+
+**Released:** 2026-01-22
+**PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0
+**Changes:** 58 commits, +39,228 / -1,750 lines
+
+**Major Features:**
+
+- Complete teach analyze system (Phases 0-5) with AI-powered insights
+- Plugin optimization (load guards, display extraction, cache fixes)
+- Documentation debt remediation (348 functions, 49.4% coverage)
+- Enhanced prerequisite display with dependency tree visualization
+- wt dispatcher passthrough fix
+
+**Release Session (2026-01-22):**
+
+- Enhanced prerequisite display with per-concept dependency trees
+- Fixed concept extraction bugs (array-of-objects YAML, prerequisite merging)
+- Fixed slide optimizer key concept extraction
+- Updated documentation (REFCARD + API reference)
+- Complete release workflow (version bump → PR → merge → tag → release)
+- Post-release cleanup (.STATUS update, branch cleanup)
+
+---
+
+## Previous Milestones (2026-01-22)
 
 ### E2E and Interactive Test Infrastructure (commit ad4d4c5d)
 
@@ -651,7 +680,14 @@ export FLOW_DEBUG=1
 - Documentation coverage report (853 functions, 8.6% documented)
 - teach prompt command specs (paused for Scholar coordination)
 
-### v5.16.0 (2026-01-21) - Comprehensive Help System
+### v5.15.1 (2026-01-21) - Architecture & Documentation
+
+- Architecture overview with 6 Mermaid diagrams
+- V-dispatcher reference documentation
+- Documentation coverage report (853 functions, 8.6% → 49.4%)
+- teach prompt command specs (paused for Scholar coordination)
+
+### v5.15.0 (2026-01-21) - Comprehensive Help System
 
 - 18 help functions for all teach commands
 - 800-line Help System Guide
@@ -660,7 +696,7 @@ export FLOW_DEBUG=1
 - ADHD-friendly design principles
 - PR #282 merged (38 commits, +66,767/-1,614 lines)
 
-### v5.16.0 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
+### v5.14.0 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
 
 **Teaching Workflow v3.0:**
 
@@ -680,20 +716,16 @@ export FLOW_DEBUG=1
 
 ---
 
-## Recent Features (v5.16.0)
+## Next Development Cycle (v5.17.0)
 
-- ✅ Teaching + Git Integration (5 phases complete)
-- ✅ Scholar teaching wrappers (9 commands)
-- ✅ Config validation with schema + hash caching
-- ✅ Prompt engine dispatcher (Powerlevel10k, Starship, OhMyPosh)
-- ✅ macOS Keychain secret management
-- ✅ Teaching dates automation with YAML sync
-- ✅ Pick worktree support with session indicators
-- ✅ Frecency sorting for recent projects
+**Planning Phase** - See `.STATUS` file for current sprint details
 
-### Next Up
+**Potential Focus Areas:**
 
-See `.STATUS` file for current sprint and planning.
+- Config → concept graph integration (Phase 1 enhancement)
+- teach prompt command (needs Scholar coordination)
+- Quarto workflow Phase 2 enhancements
+- Additional teach analyze improvements
 
 **Future Roadmap:**
 
