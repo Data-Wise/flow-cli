@@ -4,44 +4,44 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.16.0 - In Development
+## Phase: v5.17.0 - Planning
 ## Priority: 1
-## Progress: 60
+## Progress: 0
 
-## Focus: Intelligent Content Analysis (teach analyze)
+## Focus: Next Development Cycle
 
-## ✅ Just Completed (2026-01-22):
+## ✅ Just Released (2026-01-22):
 
-### teach analyze - ALL PHASES COMPLETE + Optimized
+### v5.16.0 - Intelligent Content Analysis ✨
 
-**PR #289:** Merged to dev (Phases 0-5: concept extraction, caching, reports, AI, slides, polish)
-**PR #290:** Merged to dev (post-merge optimization)
+**Released:** 2026-01-22
+**PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0
 
-**Optimization (PR #290):**
-- Added self-protecting load guards to 6 lib files (prevents double/triple-sourcing)
-- Extracted display layer to `lib/analysis-display.zsh` (7 functions, 270 lines)
-- Fixed slide cache path collisions (directory-mirroring structure)
-- Removed redundant sources from `flow.plugin.zsh` and dispatcher
+**Major Features:**
+- teach analyze system (Phases 0-5) - Complete intelligent content analysis with AI
+- Plugin optimization (load guards, display extraction, cache fixes)
+- Documentation debt remediation (348 functions, 49.4% coverage)
+- Enhanced prerequisite display with dependency tree
+- wt dispatcher passthrough fix
+- 58 commits, 39,228 additions, 1,750 deletions
 
-**Brainstorm:** Config→concept graph integration (Option D: Hybrid Enrichment for Phase 1)
-**Spec:** `docs/specs/SPEC-teach-analyze-optimization-2026-01-22.md`
-
-### Bug Fix: wt dispatcher passthrough
-
-- `wt lock/unlock/repair` now correctly passes through to `git worktree`
-- Added `lock|unlock|repair` to known commands list
+**Included PRs:**
+- PR #289: teach analyze Phases 0-5
+- PR #290: Plugin optimization
+- PR #288: Documentation debt remediation
 
 ---
 
 ## 🎯 Current Sprint:
 
-### v5.16.0 - Bundling for Release
+### v5.17.0 - Planning Phase
 
-**On dev (ready for release):**
-- teach analyze (Phases 0-5) — full concept graph + AI + slide optimization
-- teach analyze optimization (load guards, display extraction, cache fix)
-- Documentation debt (348 functions documented, 49.4% coverage)
-- wt dispatcher passthrough fix
+**Potential Focus Areas:**
+- Config → concept graph integration (Phase 1 enhancement)
+- teach prompt command (needs Scholar coordination)
+- Quarto workflow Phase 2 enhancements
+- Additional teach analyze improvements
 
 ---
 
@@ -91,8 +91,8 @@ Release v5.16.0 (dev → main) or start config→concept graph Phase 1.
 
 ---
 
-**Last Updated:** 2026-01-23
-**Status:** Active - v5.16.0 ready for release
+**Last Updated:** 2026-01-22
+**Status:** Active - v5.16.0 released, planning v5.17.0
 ## wins: --category fix squashed the bug (2026-01-22), fixed the bug (2026-01-22), --category fix squashed the bug (2026-01-22), fixed the bug (2026-01-22), --category fix squashed the bug (2026-01-22)
 ## streak: 0
 ## last_active: 2026-01-22 22:26
