@@ -18,14 +18,14 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 
 ## Wave Status
 
-| Wave | Feature | Status | Time | Tests | Agent ID |
-|------|---------|--------|------|-------|----------|
-| **Wave 1** | Profile Management + R Detection | ✅ Complete | 2-3h | 80 (100%) | a1fcf5c |
-| **Wave 2** | Parallel Rendering Infrastructure | ✅ Complete | 3-4h | 74 (100%) | a61a5d9 |
-| **Wave 3** | Custom Validators Framework | ✅ Complete | 2-3h | 38/57 (67%)* | a5832e0 |
-| **Wave 4** | Advanced Caching Strategies | ✅ Complete | 1-2h | 49 (100%) | a35ea55 |
-| **Wave 5** | Performance Monitoring System | ✅ Complete | 1-2h | 44 (100%) | a16ee22 |
-| **Wave 6** | Integration + Documentation | 🔄 In Progress | 2-3h | TBD | a06aee6 |
+| Wave       | Feature                           | Status         | Time | Tests         | Agent ID |
+| ---------- | --------------------------------- | -------------- | ---- | ------------- | -------- |
+| **Wave 1** | Profile Management + R Detection  | ✅ Complete    | 2-3h | 80 (100%)     | a1fcf5c  |
+| **Wave 2** | Parallel Rendering Infrastructure | ✅ Complete    | 3-4h | 74 (100%)     | a61a5d9  |
+| **Wave 3** | Custom Validators Framework       | ✅ Complete    | 2-3h | 38/57 (67%)\* | a5832e0  |
+| **Wave 4** | Advanced Caching Strategies       | ✅ Complete    | 1-2h | 49 (100%)     | a35ea55  |
+| **Wave 5** | Performance Monitoring System     | ✅ Complete    | 1-2h | 44 (100%)     | a16ee22  |
+| **Wave 6** | Integration + Documentation       | 🔄 In Progress | 2-3h | TBD           | a06aee6  |
 
 **Note:** Wave 3 framework is production-ready (100% passing), built-in validators need 2-3h refinement
 
@@ -36,6 +36,7 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 ### ✅ Wave 1: Profile Management + R Package Detection
 
 **Files Created:** 7 files (~1,115 lines)
+
 - `lib/profile-helpers.zsh` (348 lines)
 - `lib/r-helpers.zsh` (290 lines)
 - `lib/renv-integration.zsh` (198 lines)
@@ -43,6 +44,7 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 - Tests: 80 tests (100% passing)
 
 **Features:**
+
 - `teach profiles list/show/set/create`
 - R package auto-detection (teaching.yml, renv.lock, DESCRIPTION)
 - `teach doctor --fix` interactive installation
@@ -55,18 +57,21 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 ### ✅ Wave 2: Parallel Rendering Infrastructure
 
 **Files Created:** 6 files (~2,213 lines)
+
 - `lib/parallel-helpers.zsh` (476 lines)
 - `lib/render-queue.zsh` (409 lines)
 - `lib/parallel-progress.zsh` (208 lines)
 - Tests: 74 tests (100% passing)
 
 **Features:**
+
 - Worker pool with auto-detected CPU cores
 - Smart queue optimization (slowest-first)
 - Real-time progress tracking
 - 3-10x speedup achieved (4.0x in tests)
 
 **Performance:**
+
 - 12 files (avg 13s): Serial 156s → Parallel <50s = 3.5x
 - 8 files test: Serial 40s → Parallel 10s = 4.0x
 
@@ -77,13 +82,15 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 ### ✅ Wave 3: Custom Validators Framework
 
 **Files Created:** 6 files (~2,160 lines)
+
 - `lib/custom-validators.zsh` (350 lines)
 - Built-in validators: citations, links, formatting (~610 lines)
 - Tests: 38/57 passing (framework 100%, validators need refinement)
 
 **Features:**
+
 - Extensible plugin API for custom validators
-- Validator discovery (.teach/validators/*.zsh)
+- Validator discovery (.teach/validators/\*.zsh)
 - `teach validate --custom` and `--validators <list>`
 - 3 built-in validators (need ZSH refactoring)
 
@@ -94,14 +101,17 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 ### ✅ Wave 4: Advanced Caching Strategies
 
 **Files Created:** 3 files (~1,130 lines)
+
 - `lib/cache-analysis.zsh` (244 lines)
 - Tests: 49 tests (100% passing)
 
 **Files Modified:**
+
 - `lib/cache-helpers.zsh` (+140 lines)
 - `commands/teach-cache.zsh` (+46 lines)
 
 **Features:**
+
 - Selective clearing: `--lectures`, `--assignments`, `--old`, `--unused`
 - `teach cache analyze` with directory/age breakdown
 - Cache hit rate calculation (from performance log)
@@ -114,15 +124,18 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 ### ✅ Wave 5: Performance Monitoring System
 
 **Files Created:** 3 files (~1,324 lines)
+
 - `lib/performance-monitor.zsh` (600 lines)
 - `.teach/performance-log.json` (template)
 - Tests: 44 tests (100% passing)
 
 **Files Modified:**
+
 - `lib/dispatchers/teach-dispatcher.zsh` (added --performance flag)
 - `commands/teach-validate.zsh` (auto-instrumentation)
 
 **Features:**
+
 - Automatic performance recording during validation
 - `teach status --performance` dashboard
 - Trend visualization (ASCII graphs)
@@ -141,6 +154,7 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 **Estimated Time:** 2-3 hours
 
 **Tasks:**
+
 1. Integration tests (40-50 tests)
 2. User guide (4,000+ lines)
 3. Update CHANGELOG.md (v4.7.0 entry)
@@ -157,16 +171,16 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 
 ## Statistics (Waves 1-5)
 
-| Metric | Value |
-|--------|-------|
-| **Implementation Time** | ~10 hours (so far) |
-| **Files Created** | 25 files |
-| **Files Modified** | 8 files |
-| **Production Lines** | ~4,500 lines |
-| **Test Lines** | ~2,000+ lines |
+| Metric                  | Value                                 |
+| ----------------------- | ------------------------------------- |
+| **Implementation Time** | ~10 hours (so far)                    |
+| **Files Created**       | 25 files                              |
+| **Files Modified**      | 8 files                               |
+| **Production Lines**    | ~4,500 lines                          |
+| **Test Lines**          | ~2,000+ lines                         |
 | **Documentation Lines** | ~1,000 lines (Wave 6 will add 4,000+) |
-| **Test Coverage** | 285+ tests |
-| **Pass Rate** | 247/285 (87%) |
+| **Test Coverage**       | 285+ tests                            |
+| **Pass Rate**           | 247/285 (87%)                         |
 
 **Note:** Wave 3 framework tests are 100% passing. Built-in validators need refinement (38/57 passing currently, framework is production-ready).
 
@@ -211,18 +225,19 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 
 ## Risk Assessment
 
-| Risk | Status | Mitigation |
-|------|--------|------------|
+| Risk                          | Status    | Mitigation                                                  |
+| ----------------------------- | --------- | ----------------------------------------------------------- |
 | Wave 3 validators need polish | ⚠️ Medium | Framework is solid, validators functional, can polish later |
-| Integration tests complexity | ✅ Low | Wave 6 agent handling this |
-| Documentation scope | ✅ Low | Clear structure, agent experienced |
-| Test pass rate | ✅ Low | 87% currently, Wave 6 will increase |
+| Integration tests complexity  | ✅ Low    | Wave 6 agent handling this                                  |
+| Documentation scope           | ✅ Low    | Clear structure, agent experienced                          |
+| Test pass rate                | ✅ Low    | 87% currently, Wave 6 will increase                         |
 
 ---
 
 ## Success Criteria
 
 **All Met:**
+
 - ✅ Profile management system working
 - ✅ Parallel rendering achieving 3-10x speedup
 - ✅ Custom validator framework extensible
@@ -236,14 +251,14 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 
 ## Timeline
 
-| Phase | Duration | Status |
-|-------|----------|--------|
-| Planning | 30 min | ✅ Complete |
-| Waves 1-3 (parallel) | 3-4 hours | ✅ Complete |
-| Wave 4 | 1-2 hours | ✅ Complete |
-| Wave 5 | 1-2 hours | ✅ Complete |
-| Wave 6 | 2-3 hours | 🔄 In Progress |
-| **Total** | **10-12 hours** | **83% Complete** |
+| Phase                | Duration        | Status           |
+| -------------------- | --------------- | ---------------- |
+| Planning             | 30 min          | ✅ Complete      |
+| Waves 1-3 (parallel) | 3-4 hours       | ✅ Complete      |
+| Wave 4               | 1-2 hours       | ✅ Complete      |
+| Wave 5               | 1-2 hours       | ✅ Complete      |
+| Wave 6               | 2-3 hours       | 🔄 In Progress   |
+| **Total**            | **10-12 hours** | **83% Complete** |
 
 **Time Savings:** 80-85% (vs 40-50 hours manual)
 
@@ -252,6 +267,7 @@ Phase 2 implementation is progressing via orchestrated agent approach (same stra
 ## Agent IDs for Resuming
 
 If needed to resume any agent's work:
+
 - Wave 1: `a1fcf5c` (complete)
 - Wave 2: `a61a5d9` (complete)
 - Wave 3: `a5832e0` (complete)

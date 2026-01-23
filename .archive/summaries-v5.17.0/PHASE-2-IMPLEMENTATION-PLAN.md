@@ -17,6 +17,7 @@
 **Time Savings:** ~80-85%
 
 **Success Criteria:**
+
 - Profile management system with Quarto profile detection and switching
 - Parallel rendering achieving 3-10x speedup on multi-file operations
 - Extensible custom validator framework with 3+ built-in validators
@@ -30,12 +31,12 @@
 
 ### Features by Week
 
-| Week | Feature | Impact | Complexity |
-|------|---------|--------|------------|
-| **Week 9** | Profile Management + R Auto-Install | Medium | Medium |
-| **Week 10-11** | Parallel Rendering (3-10x speedup) | High | High |
-| **Week 11-12** | Custom Validators + Advanced Caching | Medium | Medium |
-| **Week 12** | Performance Monitoring | Low | Low |
+| Week           | Feature                              | Impact | Complexity |
+| -------------- | ------------------------------------ | ------ | ---------- |
+| **Week 9**     | Profile Management + R Auto-Install  | Medium | Medium     |
+| **Week 10-11** | Parallel Rendering (3-10x speedup)   | High   | High       |
+| **Week 11-12** | Custom Validators + Advanced Caching | Medium | Medium     |
+| **Week 12**    | Performance Monitoring               | Low    | Low        |
 
 ### Technical Scope
 
@@ -53,8 +54,9 @@
 **Goal:** Implement Quarto profile management and R package auto-installation
 
 **Files to Create:**
+
 1. `lib/profile-helpers.zsh` (300-350 lines)
-   - Profile detection from _quarto.yml
+   - Profile detection from \_quarto.yml
    - Profile switching logic
    - Profile validation
 
@@ -75,10 +77,12 @@
    - teach profiles create <name>
 
 **Files to Modify:**
+
 - `lib/dispatchers/teach-dispatcher.zsh` - Add profiles subcommand
 - `lib/dispatchers/teach-doctor-impl.zsh` - Add R package checks with --fix
 
 **Testing:**
+
 - `tests/test-teach-profiles-unit.zsh` (40-50 tests)
 - `tests/test-r-helpers-unit.zsh` (30-40 tests)
 - Profile detection, switching, creation
@@ -86,7 +90,8 @@
 - Auto-install prompts and execution
 
 **Success Criteria:**
-- ✅ Detect Quarto profiles from _quarto.yml
+
+- ✅ Detect Quarto profiles from \_quarto.yml
 - ✅ Switch profiles with environment activation
 - ✅ Create new profiles from template
 - ✅ Detect R packages from teaching.yml and renv.lock
@@ -102,6 +107,7 @@
 **Goal:** Implement parallel rendering with 3-10x speedup for multi-file operations
 
 **Files to Create:**
+
 1. `lib/parallel-helpers.zsh` (400-500 lines)
    - Worker pool management
    - Job queue implementation
@@ -122,12 +128,14 @@
    - Statistics collection
 
 **Files to Modify:**
+
 - `lib/dispatchers/teach-dispatcher.zsh` - Add --parallel flag to validate
 - `lib/validation-helpers.zsh` - Integrate parallel rendering
 
 **Implementation Details:**
 
 **Worker Pool Pattern:**
+
 ```zsh
 _create_worker_pool() {
     local num_workers="${1:-$(sysctl -n hw.ncpu)}"
@@ -163,6 +171,7 @@ _worker_process() {
 ```
 
 **Smart Queue Optimization:**
+
 ```zsh
 _optimize_render_queue() {
     local files=("$@")
@@ -192,6 +201,7 @@ _optimize_render_queue() {
 ```
 
 **Testing:**
+
 - `tests/test-parallel-rendering-unit.zsh` (50-60 tests)
 - `tests/test-render-queue-unit.zsh` (30-40 tests)
 - Worker pool creation and cleanup
@@ -208,6 +218,7 @@ _optimize_render_queue() {
 | 30 files, mixed | 420s | 65s | 6.5x |
 
 **Success Criteria:**
+
 - ✅ Auto-detect CPU cores (macOS/Linux)
 - ✅ Create worker pool with N workers
 - ✅ Distribute jobs optimally
@@ -225,6 +236,7 @@ _optimize_render_queue() {
 **Goal:** Create extensible validation framework with plugin support
 
 **Files to Create:**
+
 1. `lib/custom-validators.zsh` (300-350 lines)
    - Validator discovery (.teach/validators/)
    - Validator execution engine
@@ -249,9 +261,11 @@ _optimize_render_queue() {
    - Report formatting issues
 
 **Files to Modify:**
+
 - `lib/dispatchers/teach-dispatcher.zsh` - Add --custom flag to validate
 
 **Validator Plugin API:**
+
 ```zsh
 #!/usr/bin/env zsh
 # .teach/validators/example-validator.zsh
@@ -285,6 +299,7 @@ _validator_cleanup() {
 ```
 
 **Testing:**
+
 - `tests/test-custom-validators-unit.zsh` (40-50 tests)
 - `tests/test-builtin-validators-unit.zsh` (30-40 tests)
 - Validator discovery and loading
@@ -294,6 +309,7 @@ _validator_cleanup() {
 - Error reporting and aggregation
 
 **Success Criteria:**
+
 - ✅ Discover validators in .teach/validators/
 - ✅ Execute validators with file input
 - ✅ Aggregate results across validators
@@ -310,6 +326,7 @@ _validator_cleanup() {
 **Goal:** Implement selective cache management and analysis
 
 **Files to Create:**
+
 1. `lib/cache-analysis.zsh` (200-250 lines)
    - Cache size breakdown by directory
    - File age analysis
@@ -317,10 +334,12 @@ _validator_cleanup() {
    - Optimization recommendations
 
 **Files to Modify:**
+
 - `lib/cache-helpers.zsh` - Add selective clear operations
 - `lib/dispatchers/teach-dispatcher.zsh` - Enhance teach cache command
 
 **New Cache Commands:**
+
 ```bash
 teach cache clear --lectures     # Clear lectures/ only
 teach cache clear --assignments  # Clear assignments/ only
@@ -332,6 +351,7 @@ teach cache analyze --recommend  # With suggestions
 ```
 
 **Cache Analysis Output:**
+
 ```
 Cache Analysis Report
 ─────────────────────────────────────────────────────
@@ -360,12 +380,14 @@ Recommendations:
 ```
 
 **Testing:**
+
 - `tests/test-cache-analysis-unit.zsh` (30-40 tests)
 - Selective clearing operations
 - Size/age analysis accuracy
 - Recommendation logic
 
 **Success Criteria:**
+
 - ✅ Selective cache clearing (by dir, by age)
 - ✅ Detailed cache analysis
 - ✅ Hit rate tracking
@@ -381,6 +403,7 @@ Recommendations:
 **Goal:** Track render performance and visualize trends
 
 **Files to Create:**
+
 1. `lib/performance-monitor.zsh` (250-300 lines)
    - Performance log management
    - Metric collection (render time, cache hits)
@@ -392,10 +415,12 @@ Recommendations:
    - Sample entries
 
 **Files to Modify:**
+
 - `lib/dispatchers/teach-dispatcher.zsh` - Add teach status --performance
 - `lib/validation-helpers.zsh` - Instrument validation with metrics
 
 **Performance Log Schema:**
+
 ```json
 {
   "version": "1.0",
@@ -420,6 +445,7 @@ Recommendations:
 ```
 
 **Performance Dashboard:**
+
 ```bash
 teach status --performance
 
@@ -453,6 +479,7 @@ Top 5 Slowest Files:
 ```
 
 **Testing:**
+
 - `tests/test-performance-monitor-unit.zsh` (30-40 tests)
 - Log writing and reading
 - Metric calculation
@@ -460,6 +487,7 @@ Top 5 Slowest Files:
 - Visualization rendering
 
 **Success Criteria:**
+
 - ✅ Track render time per operation
 - ✅ Calculate cache hit rates
 - ✅ Compute moving averages
@@ -499,6 +527,7 @@ Top 5 Slowest Files:
 **Documentation Outline:**
 
 `docs/guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md`:
+
 - Overview of Phase 2 features
 - Profile Management
   - Profile detection and listing
@@ -527,11 +556,13 @@ Top 5 Slowest Files:
   - Validator errors
 
 **Testing:**
+
 - Run all Phase 2 test suites (180+ tests)
 - Verify 100% pass rate
 - Performance benchmarks on sample projects
 
 **Success Criteria:**
+
 - ✅ All integration tests passing
 - ✅ Comprehensive documentation complete
 - ✅ Performance benchmarks documented
@@ -544,19 +575,20 @@ Top 5 Slowest Files:
 
 ## Risk Assessment
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|------------|
-| Parallel rendering complexity | Medium | High | Start with simple worker pool, iterate |
-| macOS-specific core detection | Low | Medium | Test on multiple macOS versions |
-| Custom validator plugin API | Low | Low | Follow established plugin patterns |
-| Performance overhead of monitoring | Low | Low | Lazy initialization, sampling |
-| R package auto-install failures | Medium | Medium | Robust error handling, user prompts |
+| Risk                               | Probability | Impact | Mitigation                             |
+| ---------------------------------- | ----------- | ------ | -------------------------------------- |
+| Parallel rendering complexity      | Medium      | High   | Start with simple worker pool, iterate |
+| macOS-specific core detection      | Low         | Medium | Test on multiple macOS versions        |
+| Custom validator plugin API        | Low         | Low    | Follow established plugin patterns     |
+| Performance overhead of monitoring | Low         | Low    | Lazy initialization, sampling          |
+| R package auto-install failures    | Medium      | Medium | Robust error handling, user prompts    |
 
 ---
 
 ## Testing Strategy
 
 **Unit Tests:** 180+ tests across 6 test suites
+
 - `tests/test-teach-profiles-unit.zsh` (40-50 tests)
 - `tests/test-r-helpers-unit.zsh` (30-40 tests)
 - `tests/test-parallel-rendering-unit.zsh` (50-60 tests)
@@ -565,11 +597,13 @@ Top 5 Slowest Files:
 - `tests/test-performance-monitor-unit.zsh` (30-40 tests)
 
 **Integration Tests:** 40-50 tests
+
 - `tests/test-phase2-integration.zsh` (40-50 tests)
 - End-to-end workflows
 - Feature interaction testing
 
 **Performance Benchmarks:**
+
 - Serial vs parallel rendering (multiple file counts)
 - Cache hit rate impact on performance
 - Custom validator execution overhead
@@ -583,22 +617,24 @@ Top 5 Slowest Files:
 
 **Orchestrated Approach (Estimated 10-12 hours):**
 
-| Wave | Duration | Dependencies | Agent Type |
-|------|----------|--------------|------------|
-| Wave 1 | 2-3h | None | backend-architect |
-| Wave 2 | 3-4h | None | performance-engineer |
-| Wave 3 | 2-3h | None | backend-architect |
-| Wave 4 | 1-2h | Wave 2 | backend-architect |
-| Wave 5 | 1-2h | Waves 2, 4 | backend-architect |
-| Wave 6 | 2-3h | Waves 1-5 | documentation-writer |
+| Wave   | Duration | Dependencies | Agent Type           |
+| ------ | -------- | ------------ | -------------------- |
+| Wave 1 | 2-3h     | None         | backend-architect    |
+| Wave 2 | 3-4h     | None         | performance-engineer |
+| Wave 3 | 2-3h     | None         | backend-architect    |
+| Wave 4 | 1-2h     | Wave 2       | backend-architect    |
+| Wave 5 | 1-2h     | Waves 2, 4   | backend-architect    |
+| Wave 6 | 2-3h     | Waves 1-5    | documentation-writer |
 
 **Parallel Execution:**
+
 - Waves 1, 2, 3 can run in parallel (independent)
 - Wave 4 depends on Wave 2 completion
 - Wave 5 depends on Waves 2 and 4
 - Wave 6 depends on all previous waves
 
 **Optimal Strategy:**
+
 1. Launch Waves 1, 2, 3 in parallel (3 agents)
 2. After Wave 2 completes → Launch Wave 4
 3. After Waves 2 and 4 complete → Launch Wave 5
@@ -612,6 +648,7 @@ Top 5 Slowest Files:
 ## Success Metrics
 
 **Functional:**
+
 - ✅ Profile management system working
 - ✅ Parallel rendering achieving 3-10x speedup
 - ✅ Custom validator framework with 3+ validators
@@ -619,17 +656,20 @@ Top 5 Slowest Files:
 - ✅ All 180+ tests passing (100%)
 
 **Documentation:**
+
 - ✅ 4,000+ lines of user-facing documentation
 - ✅ Complete API reference for new features
 - ✅ Updated CHANGELOG.md and README.md
 
 **Performance:**
+
 - ✅ Parallel rendering: 3-10x speedup (verified)
 - ✅ Custom validators: < 5s overhead for 3 validators
 - ✅ Performance monitoring: < 100ms overhead
 - ✅ Cache analysis: < 2s for 1000+ files
 
 **Quality:**
+
 - ✅ No breaking changes to Phase 1 features
 - ✅ Backward compatible with existing teaching.yml configs
 - ✅ Clear error messages and user guidance
@@ -640,6 +680,7 @@ Top 5 Slowest Files:
 ## Files Summary
 
 **New Files (15-18):**
+
 ```
 lib/profile-helpers.zsh
 lib/r-helpers.zsh
@@ -667,6 +708,7 @@ docs/guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md
 ```
 
 **Files to Modify (3-5):**
+
 ```
 lib/dispatchers/teach-dispatcher.zsh
 lib/dispatchers/teach-doctor-impl.zsh

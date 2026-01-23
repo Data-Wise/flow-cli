@@ -34,6 +34,7 @@ teach validate --stats
 ### 1. Granular Validation Levels
 
 #### YAML Only (< 1s)
+
 ```bash
 $ teach validate --yaml lectures/week-01.qmd
 
@@ -47,6 +48,7 @@ $ teach validate --yaml lectures/week-01.qmd
 ```
 
 #### Syntax Check (~2s)
+
 ```bash
 $ teach validate --syntax lectures/week-01.qmd
 
@@ -61,6 +63,7 @@ $ teach validate --syntax lectures/week-01.qmd
 ```
 
 #### Full Render (3-15s)
+
 ```bash
 $ teach validate --render lectures/week-01.qmd
 
@@ -164,6 +167,7 @@ $ teach validate --stats lectures/*.qmd
 ### 6. Error Detection
 
 #### Invalid YAML
+
 ```bash
 $ teach validate lectures/broken.qmd
 
@@ -177,6 +181,7 @@ $ teach validate lectures/broken.qmd
 ```
 
 #### Missing Image
+
 ```bash
 $ teach validate lectures/week-02.qmd
 
@@ -194,6 +199,7 @@ $ teach validate lectures/week-02.qmd
 ```
 
 #### Empty Code Chunk
+
 ```bash
 $ teach validate lectures/week-03.qmd
 
@@ -287,6 +293,7 @@ $ teach validate --yaml --quiet broken.qmd
 ## Use Cases
 
 ### During Development
+
 ```bash
 # Quick YAML check while editing
 teach validate --yaml lectures/week-05.qmd
@@ -296,18 +303,21 @@ teach validate --watch
 ```
 
 ### Before Commit
+
 ```bash
 # Syntax validation (pre-commit)
 teach validate --syntax $(git diff --cached --name-only | grep '.qmd$')
 ```
 
 ### Before Deploy
+
 ```bash
 # Full validation with stats
 teach validate --render --stats
 ```
 
 ### CI/CD Pipeline
+
 ```bash
 # Quiet mode for CI
 teach validate --render --quiet
@@ -323,22 +333,24 @@ fi
 
 ## Performance Comparison
 
-| Command | Files | Time | Notes |
-|---------|-------|------|-------|
-| `--yaml` | 10 files | 0.8s | Fastest, good for development |
-| `--syntax` | 10 files | 18s | Catches most errors |
-| `--render` | 10 files | 95s | Production-ready validation |
-| `--watch` overhead | - | 50ms | Per file change event |
+| Command            | Files    | Time | Notes                         |
+| ------------------ | -------- | ---- | ----------------------------- |
+| `--yaml`           | 10 files | 0.8s | Fastest, good for development |
+| `--syntax`         | 10 files | 18s  | Catches most errors           |
+| `--render`         | 10 files | 95s  | Production-ready validation   |
+| `--watch` overhead | -        | 50ms | Per file change event         |
 
 ---
 
 ## Dependencies
 
 ### Required
+
 - `zsh` ✓
 - `quarto` ✓
 
 ### Optional (Graceful Fallback)
+
 - `yq` - YAML validation
 - `jq` - JSON status tracking
 - `fswatch` (macOS) - Watch mode
@@ -346,6 +358,7 @@ fi
 - `gdate` (macOS) - High-precision timestamps
 
 ### Installation
+
 ```bash
 # macOS
 brew install yq jq fswatch coreutils  # coreutils for gdate
@@ -361,9 +374,11 @@ apt-get install yq jq inotify-tools
 Following the Quarto Workflow implementation schedule:
 
 **Completed:**
+
 - ✅ Week 2-3: Validation Commands
 
 **Next:**
+
 - Week 3-4: Cache Management
 - Week 4-5: Health Checks (teach doctor --fix)
 - Week 5-7: Enhanced Deploy (partial, dependencies)

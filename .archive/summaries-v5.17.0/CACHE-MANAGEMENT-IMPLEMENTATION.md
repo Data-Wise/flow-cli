@@ -15,10 +15,10 @@ Implemented a comprehensive cache management system for the flow-cli Quarto teac
 Core utilities for freeze cache management:
 
 - **`_cache_status()`** - Get cache size, file count, last render time
-- **`_cache_clear()`** - Delete _freeze/ with confirmation
+- **`_cache_clear()`** - Delete \_freeze/ with confirmation
 - **`_cache_rebuild()`** - Force full re-render (clear + quarto render)
 - **`_cache_analyze()`** - Detailed breakdown by directory/age
-- **`_cache_clean()`** - Delete both _freeze/ and _site/
+- **`_cache_clean()`** - Delete both \_freeze/ and \_site/
 - **Helper functions:**
   - `_cache_format_time_ago()` - Human-readable time (e.g., "2 hours ago")
   - `_cache_format_bytes()` - Convert bytes to KB/MB/GB
@@ -34,7 +34,7 @@ Interactive cache management interface:
   - `teach cache clear [--force]` - Delete cache with confirmation
   - `teach cache rebuild` - Clear and re-render
   - `teach cache analyze` - Detailed breakdown
-- **`teach_clean()`** - Standalone command to delete _freeze/ + _site/
+- **`teach_clean()`** - Standalone command to delete \_freeze/ + \_site/
 - **Complete help system** with examples
 
 ### 3. `tests/test-teach-cache-unit.zsh` (520 lines)

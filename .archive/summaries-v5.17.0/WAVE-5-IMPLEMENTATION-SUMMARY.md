@@ -20,6 +20,7 @@ Successfully implemented a comprehensive performance monitoring system for track
 **Purpose:** Core performance monitoring library
 
 **Key Functions:**
+
 - `_init_performance_log()` - Initialize log file with schema
 - `_record_performance()` - Record metrics (with/without jq)
 - `_read_performance_log()` - Parse log with time window filtering
@@ -30,6 +31,7 @@ Successfully implemented a comprehensive performance monitoring system for track
 - `_rotate_performance_log()` - Automatic log rotation (10MB/1000 entries)
 
 **Features:**
+
 - JSON-based log storage with version schema
 - Graceful degradation (works with/without jq)
 - Automatic log rotation to prevent bloat
@@ -45,6 +47,7 @@ Successfully implemented a comprehensive performance monitoring system for track
 **Schema Version:** 1.0
 
 **Entry Structure:**
+
 ```json
 {
   "timestamp": "ISO-8601",
@@ -69,6 +72,7 @@ Successfully implemented a comprehensive performance monitoring system for track
 **Purpose:** Comprehensive unit tests
 
 **Test Coverage:**
+
 - Log initialization (3 tests)
 - Performance recording (3 tests)
 - Log reading (3 tests)
@@ -88,12 +92,14 @@ Successfully implemented a comprehensive performance monitoring system for track
 ### 1. `lib/dispatchers/teach-dispatcher.zsh`
 
 **Changes:**
+
 - Added `--performance` flag to `teach status` command
 - Source performance-monitor.zsh on demand
 - Route to `_format_performance_dashboard()` function
 - Updated help text with new flag documentation
 
 **Before:**
+
 ```zsh
 _teach_show_status() {
     if [[ "$1" == "--help" ]]; then
@@ -105,6 +111,7 @@ _teach_show_status() {
 ```
 
 **After:**
+
 ```zsh
 _teach_show_status() {
     if [[ "$1" == "--help" ]]; then
@@ -127,12 +134,14 @@ _teach_show_status() {
 ### 2. `commands/teach-validate.zsh`
 
 **Changes:**
+
 - Added `_record_validation_performance()` function (54 lines)
 - Instrumented `_teach_validate_run()` to call recording function
 - Automatic performance tracking after each validation run
 - Silently skips recording if performance monitor unavailable
 
 **Integration Point:**
+
 ```zsh
 # At end of _teach_validate_run()
 # Record performance metrics (Phase 2 Wave 5)
@@ -269,11 +278,13 @@ _calculate_moving_average "avg_render_time_sec" 7
 **Location:** `.teach/performance-log.json`
 
 **Rotation Policy:**
+
 - Trigger: File size > 10MB OR entries > 1000
 - Action: Archive old log, keep last 1000 entries
 - Archive naming: `performance-log-YYYYMMDD_HHMMSS.json`
 
 **Schema Versioning:**
+
 - Current: v1.0
 - Forward compatible (unknown fields ignored)
 - Version check on read operations
@@ -300,11 +311,13 @@ The system works in multiple modes:
 ### Cross-Platform Support
 
 **Timestamp Handling:**
+
 - macOS: Uses `date -v` syntax
 - Linux: Uses `date -d` syntax
 - Fallback: Basic epoch timestamps
 
 **File Operations:**
+
 - Uses standard POSIX tools
 - No GNU-specific extensions required
 - Works on macOS, Linux, BSD
@@ -314,21 +327,25 @@ The system works in multiple modes:
 ## Integration Points
 
 ### Wave 2 (Parallel Rendering)
+
 - Records parallel vs serial times
 - Tracks worker count and speedup
 - Calculates efficiency metrics
 
 ### Wave 4 (Cache Analysis)
+
 - Records cache hit/miss data
 - Tracks hit rates over time
 - Identifies cache effectiveness
 
 ### teach validate
+
 - Automatically instruments validation runs
 - Zero configuration required
 - Transparent to users
 
 ### teach status
+
 - New `--performance` flag
 - On-demand dashboard display
 - No performance impact when not used
@@ -338,16 +355,19 @@ The system works in multiple modes:
 ## Performance Impact
 
 ### Recording Overhead
+
 - **With jq:** ~50-100ms per entry
 - **Without jq:** ~10-20ms per entry
 - **Typical validation:** <0.2% overhead
 
 ### Dashboard Generation
+
 - **Small log (< 100 entries):** ~200ms
 - **Large log (1000 entries):** ~500ms
 - **Acceptable:** Sub-second response
 
 ### Storage
+
 - **Entry size:** ~300-500 bytes
 - **100 entries:** ~40KB
 - **1000 entries:** ~400KB (rotation trigger: 10MB)
@@ -357,12 +377,14 @@ The system works in multiple modes:
 ## Testing
 
 ### Test Suite Statistics
+
 - **Total Tests:** 44
 - **Pass Rate:** 100%
 - **Coverage:** All core functions tested
 - **Edge Cases:** Corrupt JSON, missing deps, zero files
 
 ### Test Categories
+
 1. **Initialization:** Log creation, schema validation
 2. **Recording:** With/without jq, various metrics
 3. **Reading:** Time windows, filtering, empty logs
@@ -373,6 +395,7 @@ The system works in multiple modes:
 8. **Edge Cases:** Errors, missing files, corrupt data
 
 ### Running Tests
+
 ```bash
 ./tests/test-performance-monitor-unit.zsh
 # ✓ All 44 tests passed
@@ -398,12 +421,14 @@ The system works in multiple modes:
 ## Future Enhancements
 
 ### Short-term (Next Waves)
+
 - [ ] Support 30-day window in CLI (currently hardcoded 7-day)
 - [ ] Add `--metric` flag for specific metric viewing
 - [ ] Export dashboard to markdown file
 - [ ] Email/Slack notifications for performance degradation
 
 ### Long-term (Future Phases)
+
 - [ ] Web-based dashboard (interactive charts)
 - [ ] Historical comparison (week-over-week, month-over-month)
 - [ ] Performance alerts and recommendations
@@ -425,15 +450,18 @@ The system works in multiple modes:
 ## Dependencies
 
 ### Required
+
 - **zsh** (shell)
 - **date** (POSIX or GNU)
 - **bc** (for float calculations)
 
 ### Optional (for full functionality)
+
 - **jq** (JSON manipulation) - Highly recommended
 - **gdate** (GNU date on macOS) - For precise timestamps
 
 ### Graceful Degradation
+
 All features degrade gracefully when optional dependencies are missing.
 
 ---

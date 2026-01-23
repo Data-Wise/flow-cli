@@ -85,6 +85,7 @@ Implemented a comprehensive enhanced deployment system for flow-cli's Quarto tea
 **Results:** 18/25 passing (72%)
 
 **Known Issues:**
+
 - macOS sed compatibility (7 tests)
 - Edge cases in insertion point detection
 
@@ -232,6 +233,7 @@ Remove from index? [Y/n]: y
 ### Cross-References
 
 File `lectures/week-05.qmd`:
+
 ```markdown
 See @sec-introduction for background.
 ```
@@ -239,6 +241,7 @@ See @sec-introduction for background.
 **Detected Dependency:** `lectures/background.qmd` (contains `{#sec-introduction}`)
 
 **Workflow:**
+
 1. Detects cross-reference `@sec-introduction`
 2. Searches all .qmd files for anchor `{#sec-introduction}`
 3. Adds `background.qmd` to dependency list
@@ -247,16 +250,19 @@ See @sec-introduction for background.
 ### Sourced Files
 
 File `lectures/analysis.qmd`:
+
 ```r
 source("scripts/helper.R")
 source("scripts/plot.R")
 ```
 
 **Detected Dependencies:**
+
 - `scripts/helper.R`
 - `scripts/plot.R`
 
 **Workflow:**
+
 1. Parses `source("...")` statements
 2. Resolves relative paths
 3. Adds to dependency list
@@ -264,13 +270,13 @@ source("scripts/plot.R")
 
 ## Performance
 
-| Operation | Time | Notes |
-|-----------|------|-------|
-| Dependency tracking | <2s | Per file, includes grep across all .qmd |
-| Cross-ref validation | <1s | Grep all .qmd for anchors |
-| Index detection | <100ms | Grep single index file |
-| Index update | <50ms | Sed in-place edit |
-| Week number parsing | <10ms | Regex extraction |
+| Operation            | Time   | Notes                                   |
+| -------------------- | ------ | --------------------------------------- |
+| Dependency tracking  | <2s    | Per file, includes grep across all .qmd |
+| Cross-ref validation | <1s    | Grep all .qmd for anchors               |
+| Index detection      | <100ms | Grep single index file                  |
+| Index update         | <50ms  | Sed in-place edit                       |
+| Week number parsing  | <10ms  | Regex extraction                        |
 
 **Optimization:** Dependency tracking parallelizes grep operations for multiple files.
 
@@ -350,13 +356,13 @@ Coverage:     Partial/full deploy, flags, index management
 # .flow/teach-config.yml
 
 git:
-  require_clean: false   # Allow deploying with uncommitted changes
-  auto_pr: true          # Auto-create PRs
+  require_clean: false # Allow deploying with uncommitted changes
+  auto_pr: true # Auto-create PRs
 
 workflow:
-  auto_commit: false     # Prompt for commit messages
-  auto_tag: false        # Manual tagging
-  skip_index: false      # Always prompt for index updates
+  auto_commit: false # Prompt for commit messages
+  auto_tag: false # Manual tagging
+  skip_index: false # Always prompt for index updates
 ```
 
 ## Migration Guide

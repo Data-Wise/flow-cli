@@ -14,11 +14,13 @@
 **Location:** `tests/test-doctor-token-flags.zsh` line 402-437
 
 **Root Cause:**
+
 - GNU `timeout` command not available on all systems
 - Background processes (`doctor --fix-token --yes &`) don't have access to shell functions
 - Exit code 127 ("command not found")
 
 **Solution:**
+
 - Removed timeout complexity entirely
 - Since no actual token issues exist in test environment, command completes instantly
 - Simplified to direct execution with exit code validation
@@ -34,10 +36,12 @@
 **Location:** `tests/test-doctor-token-flags.zsh` line 494-516
 
 **Root Cause:**
+
 - `date +%s%3N` not available on all systems (BSD vs GNU date)
 - Expected < 10ms precision unrealistic for ZSH script execution
 
 **Solution:**
+
 - Changed to second precision (`date +%s`)
 - Adjusted expectation from "< 10ms" to "<= 1s"
 - Still validates cache effectiveness while being portable
@@ -113,10 +117,12 @@
 **Location:** `lib/doctor-cache.zsh` line 76
 
 **Root Cause:**
+
 - `DOCTOR_CACHE_DIR` hardcoded as readonly
 - Tests couldn't set custom cache directory
 
 **Solution:**
+
 ```zsh
 # Before:
 readonly DOCTOR_CACHE_DIR="${HOME}/.flow/cache/doctor"
@@ -138,6 +144,7 @@ fi
 **Location:** `tests/test-doctor-token-e2e.zsh` line 81-90
 
 **Solution:**
+
 - Set `DOCTOR_CACHE_DIR` **before** sourcing `flow.plugin.zsh`
 - Plugin respects pre-set value (Fix 3)
 
@@ -150,11 +157,13 @@ fi
 **Location:** `tests/test-doctor-token-e2e.zsh` S3 tests
 
 **Root Cause:**
+
 - `_dot_token_expiring` makes real GitHub API calls
 - Requires configured tokens in macOS Keychain
 - Cache only written if token validation succeeds
 
 **Solution:**
+
 - Added skip condition: check if Keychain accessible and tokens exist
 - Tests skip gracefully in clean test environments
 - Tests pass when tokens are configured
@@ -170,10 +179,12 @@ fi
 **Location:** `tests/test-doctor-token-e2e.zsh` S7 test
 
 **Root Cause:**
+
 - Phase 1 doesn't include provider validation
 - Invalid providers accepted without error
 
 **Solution:**
+
 - Updated test to match current behavior (no validation)
 - Added TODO comment for Phase 2 enhancement
 - Test passes, documents known limitation
@@ -182,11 +193,11 @@ fi
 
 ## 📊 Final Test Status
 
-| Suite | Passed | Failed | Skipped | Total |
-|-------|--------|--------|---------|-------|
-| Unit Tests | 30 | 0 | 0 | 30 |
-| E2E Tests | 22 | 0 | 2 | 24 |
-| **Total** | **52** | **0** | **2** | **54** |
+| Suite      | Passed | Failed | Skipped | Total  |
+| ---------- | ------ | ------ | ------- | ------ |
+| Unit Tests | 30     | 0      | 0       | 30     |
+| E2E Tests  | 22     | 0      | 2       | 24     |
+| **Total**  | **52** | **0**  | **2**   | **54** |
 
 **Pass Rate:** 96.3% (52/54 passing, 2 expected skips)
 
@@ -204,6 +215,7 @@ fi
 ## 🚀 Next Steps
 
 All Phase 1 testing complete:
+
 - ✅ 30 unit tests (flags, integration)
 - ✅ 27 E2E tests (workflows, performance)
 - ✅ 2,150+ lines of documentation

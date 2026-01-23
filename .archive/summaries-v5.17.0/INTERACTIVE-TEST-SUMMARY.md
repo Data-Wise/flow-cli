@@ -23,6 +23,7 @@ Despite the test framework reporting failures, the **actual command output shows
 #### TEST 1: wt overview display ✅
 
 **Output showed:**
+
 - ✅ Header: `🌳 Worktrees (4 total)`
 - ✅ Formatted table with columns: BRANCH | STATUS | SESSION | PATH
 - ✅ Status icons: 🏠 main, ✅ active
@@ -30,28 +31,33 @@ Despite the test framework reporting failures, the **actual command output shows
 - ✅ Footer tip about filtering and pick wt
 
 **Minor Issue:**
+
 - Debug output visible: `wt_status_icon=` and `colored_status=` assignments
 - This is cosmetic and doesn't affect functionality
 
 #### TEST 2: wt with filter ⚠️
 
 **Output showed:**
+
 - Filter executed without errors
 - Displayed `(0 total)` - unexpected but may be context-specific
 - Table format correct
 
 **Issue:**
+
 - Filter logic needs verification in proper git context
 
 #### TEST 3: wt list (passthrough) ⏸️
 
 **Output:**
+
 - Command executed (no output captured in test)
 - Passthrough functionality exists
 
 #### TEST 4: wt help ✅
 
 **Output showed:**
+
 - ✅ Complete help text with updated content
 - ✅ "MOST COMMON" section shows `wt`, `wt <project>`, `wt create <branch>`
 - ✅ Filter support documented
@@ -61,11 +67,13 @@ Despite the test framework reporting failures, the **actual command output shows
 #### TEST 5: pick help ⏸️
 
 **Output:**
+
 - Command executed (no output in automated mode)
 
 #### TEST 6: Refresh action ✅
 
 **Output showed:**
+
 - ✅ "⟳ Refreshing worktree cache..." message
 - ✅ "✓ Cache cleared" confirmation
 - ✅ Updated overview displayed
@@ -82,6 +90,7 @@ Despite the test framework reporting failures, the **actual command output shows
 ### 1. Debug Output (Cosmetic)
 
 **Issue:** Variable assignments printed during execution
+
 ```
 wt_status_icon=🏠
 colored_status='\033[34m🏠 main\033[0m'
@@ -114,6 +123,7 @@ colored_status='\033[34m🏠 main\033[0m'
 **Ready:** ✅ Core functionality proven working
 
 Evidence:
+
 1. Unit tests: 22/23 passing (95.7%)
 2. Interactive test automated run showed working features
 3. All commands execute without errors
@@ -121,6 +131,7 @@ Evidence:
 5. Refresh function works correctly
 
 **Before merge (optional):**
+
 - [ ] Manual run of interactive test by human user
 - [ ] Validate Ctrl-X delete action with fzf
 - [ ] Validate Ctrl-R refresh action with fzf
@@ -129,6 +140,7 @@ Evidence:
 ### For Post-Merge
 
 **Low priority fixes:**
+
 1. Debug output cleanup (cosmetic)
 2. Verify filter logic in different contexts
 3. Consider automated fzf testing (if possible)
@@ -145,12 +157,14 @@ To properly run the interactive dogfooding test:
 ```
 
 **User actions required:**
+
 1. Press keys to continue through tests
 2. Answer y/n/q for each test validation
 3. Manually test fzf keybindings when prompted
 4. Verify visual output matches expectations
 
 **Expected outcome:**
+
 - 10/10 tests completed
 - Dog happiness > 80%
 - All features validated

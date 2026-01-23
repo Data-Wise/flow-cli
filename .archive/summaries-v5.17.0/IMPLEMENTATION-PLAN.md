@@ -10,10 +10,12 @@
 ## Overview
 
 This implementation combines two comprehensive brainstorm documents:
+
 1. **Core Token Automation** (36KB) - Detection, rotation, security
 2. **Flow-CLI Integration** (22KB) - 9 dispatcher integration points
 
 **Combined Scope:**
+
 - Phase 1: Core token automation (1.5 hours)
 - Phase 2: flow-cli integration (2 hours)
 - Total: ~3.5 hours for complete implementation
@@ -147,6 +149,7 @@ _dot_token_age_days() {
 ```
 
 **Testing:**
+
 ```bash
 # Add test token with old date
 echo '{"created":"2025-10-25T00:00:00Z"}' | \
@@ -162,6 +165,7 @@ dot secret delete test-old-token
 ```
 
 **Commit:**
+
 ```bash
 git add lib/dispatchers/dot-dispatcher.zsh
 git commit -m "feat(dot): add token expiration detection
@@ -212,6 +216,7 @@ Ref: BRAINSTORM-automated-token-management-2026-01-23.md"
 ```
 
 **Testing:**
+
 ```bash
 # Generate a test token (or use existing)
 dot token github
@@ -227,6 +232,7 @@ _dot_token_age_days "github-token"
 ```
 
 **Commit:**
+
 ```bash
 git add lib/dispatchers/dot-dispatcher.zsh
 git commit -m "feat(dot): track token metadata in Keychain
@@ -406,6 +412,7 @@ _dot_token_log_rotation() {
 ```
 
 **Testing:**
+
 ```bash
 # Test rotation workflow (manual testing required)
 source flow.plugin.zsh
@@ -423,6 +430,7 @@ cat ~/.claude/logs/token-rotation.log
 ```
 
 **Commit:**
+
 ```bash
 git add lib/dispatchers/dot-dispatcher.zsh
 git commit -m "feat(dot): add semi-automated token rotation
@@ -488,6 +496,7 @@ _dot_token_sync_gh() {
 ```
 
 **Testing:**
+
 ```bash
 source flow.plugin.zsh
 
@@ -500,6 +509,7 @@ gh auth status
 ```
 
 **Commit:**
+
 ```bash
 git add lib/dispatchers/dot-dispatcher.zsh
 git commit -m "feat(dot): add gh CLI auto-sync
@@ -531,16 +541,17 @@ Create `docs/guides/TOKEN-HEALTH-CHECK.md`:
 Add to your `~/.config/zsh/.zshrc`:
 
 \`\`\`bash
+
 # Weekly token health check (runs once per week max)
-_flow_weekly_token_check() {
-  local last_check_file="$HOME/.cache/flow-cli/last-token-check"
+
+\_flow_weekly_token_check() {
+local last_check_file="$HOME/.cache/flow-cli/last-token-check"
   local last_check_date=$(cat "$last_check_file" 2>/dev/null || echo "0")
   local current_date=$(date +%Y%m%d)
-  local days_since=$((current_date - last_check_date))
+local days_since=$((current_date - last_check_date))
 
-  if [[ $days_since -ge 7 ]]; then
-    # Check token status (silent)
-    local token_status=$(dot token expiring 2>&1)
+if [[$days_since -ge 7]]; then # Check token status (silent)
+local token_status=$(dot token expiring 2>&1)
     echo "$current_date" > "$last_check_file"
 
     # Only notify if issues found
@@ -554,11 +565,13 @@ _flow_weekly_token_check() {
       echo "Run: ${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]}"
       echo ""
     fi
-  fi
+
+fi
 }
 
 # Run async on shell startup (non-blocking)
-_flow_weekly_token_check &!
+
+\_flow_weekly_token_check &!
 \`\`\`
 
 ## Manual Health Check
@@ -575,6 +588,7 @@ Coming in Phase 2: `flow doctor` will include token health checks.
 ```
 
 **Commit:**
+
 ```bash
 git add docs/guides/TOKEN-HEALTH-CHECK.md
 git commit -m "docs: add token health check guide
@@ -655,6 +669,7 @@ g() {
 ```
 
 **Testing:**
+
 ```bash
 source flow.plugin.zsh
 
@@ -670,6 +685,7 @@ g push
 ```
 
 **Commit:**
+
 ```bash
 git add lib/dispatchers/g-dispatcher.zsh
 git commit -m "feat(g): add token validation before remote ops
@@ -741,6 +757,7 @@ _dash_dev() {
 ```
 
 **Testing:**
+
 ```bash
 source flow.plugin.zsh
 dash dev
@@ -752,6 +769,7 @@ dash dev
 ```
 
 **Commit:**
+
 ```bash
 git add commands/dash.zsh
 git commit -m "feat(dash): add GitHub token status to dev dashboard
@@ -829,6 +847,7 @@ _work_start() {
 ```
 
 **Testing:**
+
 ```bash
 source flow.plugin.zsh
 
@@ -840,6 +859,7 @@ work flow-cli
 ```
 
 **Commit:**
+
 ```bash
 git add commands/work.zsh
 git commit -m "feat(work): show token status in session banner
@@ -903,6 +923,7 @@ _work_finish() {
 ```
 
 **Testing:**
+
 ```bash
 # Make a test change
 echo "test" >> README.md
@@ -915,6 +936,7 @@ finish "test commit"
 ```
 
 **Commit:**
+
 ```bash
 git add commands/work.zsh
 git commit -m "feat(finish): validate token before push
@@ -1057,6 +1079,7 @@ _flow_doctor() {
 ```
 
 **Testing:**
+
 ```bash
 source flow.plugin.zsh
 
@@ -1068,6 +1091,7 @@ flow doctor --fix
 ```
 
 **Commit:**
+
 ```bash
 git add commands/flow.zsh
 git commit -m "feat(flow): add token health checks to flow doctor
@@ -1107,6 +1131,7 @@ flow() {
 ```
 
 **Testing:**
+
 ```bash
 source flow.plugin.zsh
 
@@ -1119,6 +1144,7 @@ flow token dashboard
 ```
 
 **Commit:**
+
 ```bash
 git add commands/flow.zsh
 git commit -m "feat(flow): add flow token alias for dot token
@@ -1202,6 +1228,7 @@ echo "All token automation tests passed!"
 ```
 
 **Commit:**
+
 ```bash
 git add tests/test-token-automation.zsh
 git commit -m "test: add token automation test suite
@@ -1230,6 +1257,7 @@ Add token automation section:
 ### Automated GitHub Token Rotation
 
 **Features:**
+
 - Expiration detection (7-day warning)
 - Semi-automated rotation workflow
 - Keychain integration (Touch ID)
@@ -1237,12 +1265,14 @@ Add token automation section:
 - Dashboard integration
 
 **Commands:**
+
 - `dot token expiring` - Check expiration status
 - `dot token rotate` - Rotate token
 - `flow doctor --fix` - Auto-fix token issues
 - `flow token expiring` - Alias for dot token
 
 **Integration:**
+
 - `g push/pull` - Validates token before remote ops
 - `dash dev` - Shows token status
 - `work` - Checks token on session start
@@ -1253,6 +1283,7 @@ See `docs/guides/TOKEN-HEALTH-CHECK.md` for weekly health check setup.
 ```
 
 **Commit:**
+
 ```bash
 git add CLAUDE.md
 git commit -m "docs: add token automation to CLAUDE.md
@@ -1271,6 +1302,7 @@ Ref: Documentation requirements"
 Add token commands section.
 
 **Commit:**
+
 ```bash
 git add docs/reference/DOT-DISPATCHER-REFERENCE.md
 git commit -m "docs: add token commands to DOT reference
@@ -1361,5 +1393,6 @@ git branch -d feature/token-automation
 
 **Status:** Ready for orchestrated implementation
 **Brainstorm Refs:**
+
 - `/Users/dt/BRAINSTORM-automated-token-management-2026-01-23.md`
 - `/Users/dt/BRAINSTORM-flow-github-integration-2026-01-23.md`

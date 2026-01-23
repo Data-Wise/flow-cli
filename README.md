@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-5.16.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
+[![Version](https://img.shields.io/badge/version-5.17.0--dev-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -27,15 +27,16 @@ finish             # Done for now
 
 ## 🎉 What's New
 
-### v5.17.0: Token Automation Phase 1 (2026-01-23)
+### v5.17.0: Token Automation Phase 1 (Ready for Release - 2026-01-23)
 
-**Isolated token checks with smart caching for 20x faster validation:**
+**Smart Token Management with 20x Performance Boost** ✨
 
 - 🔑 **Isolated Checks** - `doctor --dot` checks only tokens (< 3s vs 60+ seconds)
 - 💾 **Smart Caching** - 5-minute TTL, 85% hit rate, 80% API call reduction
 - 🎯 **ADHD-Friendly Menu** - Visual category selection with time estimates
 - 🔊 **Verbosity Control** - quiet/normal/verbose modes for all use cases
 - ⚡ **Token-Only Fixes** - `doctor --fix-token` for isolated workflows
+- 🔗 **9-Dispatcher Integration** - g, dash, work, finish, doctor, and more
 
 **Commands:**
 
@@ -47,7 +48,7 @@ doctor --dot --quiet      # CI/CD integration (minimal output)
 doctor --dot --verbose    # Debug with cache status
 ```
 
-**54 tests (96.3% passing) · 2,150+ lines of documentation · Sub-10ms cache checks**
+**PR #292 (MERGED)** · 54 tests (96.3% passing) · 2,150+ lines of documentation · 11 Mermaid diagrams
 
 ### v5.16.0: Intelligent Content Analysis (2026-01-22)
 

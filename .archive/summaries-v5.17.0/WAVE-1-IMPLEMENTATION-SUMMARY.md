@@ -25,6 +25,7 @@ Wave 1 of Quarto Workflow Phase 2 has been successfully implemented. This wave a
 Complete profile management system for switching between different Quarto rendering contexts:
 
 **Commands:**
+
 - `teach profiles list` - List all available profiles with descriptions
 - `teach profiles show <name>` - Show detailed profile configuration
 - `teach profiles set <name>` - Switch to a different profile
@@ -32,18 +33,21 @@ Complete profile management system for switching between different Quarto render
 - `teach profiles current` - Show currently active profile
 
 **Templates Available:**
+
 - `default` - Standard HTML course website
 - `draft` - Draft content (freeze disabled, hidden content)
 - `print` - PDF handout generation
 - `slides` - Reveal.js presentation format
 
 **Profile Detection:**
+
 - Automatic detection from `_quarto.yml` YAML structure
 - Support for profile descriptions and metadata
 - Environment variable support (`QUARTO_PROFILE`)
 - Integration with `teaching.yml` config
 
 **Profile Switching:**
+
 - Updates `teaching.yml` profile setting
 - Sets `QUARTO_PROFILE` environment variable
 - Validates profile exists before switching
@@ -54,11 +58,13 @@ Complete profile management system for switching between different Quarto render
 Comprehensive R package detection and installation system:
 
 **Package Detection Sources:**
+
 1. **teaching.yml** - `r_packages:` list
 2. **renv.lock** - JSON lockfile parsing (if exists)
 3. **DESCRIPTION** - R package projects (Imports/Depends fields)
 
 **Features:**
+
 - Multi-source package detection
 - Installation status checking
 - Version tracking for installed packages
@@ -66,6 +72,7 @@ Comprehensive R package detection and installation system:
 - Interactive auto-install prompts
 
 **Integration with teach doctor:**
+
 - `teach doctor` now checks R package installation
 - `teach doctor --fix` offers interactive R package installation
 - Prompts: "Install missing R packages? [Y/n]"
@@ -73,6 +80,7 @@ Comprehensive R package detection and installation system:
 - Verification after installation
 
 **Package Status:**
+
 - `_show_r_package_status` - View installation status
 - `_show_renv_status` - Compare installed vs renv.lock
 - JSON output support for scripting
@@ -86,6 +94,7 @@ Comprehensive R package detection and installation system:
 Core profile management functions:
 
 **Functions:**
+
 - `_detect_quarto_profiles()` - Parse `_quarto.yml` for profiles
 - `_list_profiles()` - List profiles with descriptions
 - `_get_current_profile()` - Detect active profile from env/config
@@ -97,6 +106,7 @@ Core profile management functions:
 - `_get_profile_config()` - Get profile configuration YAML
 
 **Features:**
+
 - YAML parsing with `yq`
 - JSON output support (`--json` flag)
 - Quiet mode (`--quiet` flag)
@@ -108,6 +118,7 @@ Core profile management functions:
 R package detection and installation:
 
 **Functions:**
+
 - `_detect_r_packages()` - Extract from teaching.yml
 - `_detect_r_packages_from_description()` - Parse DESCRIPTION file
 - `_list_r_packages_from_sources()` - Aggregate from all sources
@@ -119,6 +130,7 @@ R package detection and installation:
 - `_show_r_package_status()` - Display status report
 
 **Features:**
+
 - Multi-source detection (teaching.yml, renv.lock, DESCRIPTION)
 - Unique package list (deduplication)
 - Interactive installation prompts
@@ -131,6 +143,7 @@ R package detection and installation:
 renv lockfile parsing and synchronization:
 
 **Functions:**
+
 - `_read_renv_lock()` - Parse JSON lockfile
 - `_get_renv_packages()` - Extract package list
 - `_get_renv_package_info()` - Get package details
@@ -141,6 +154,7 @@ renv lockfile parsing and synchronization:
 - `_show_renv_status()` - Display sync status
 
 **Features:**
+
 - JSON parsing with `jq`
 - Version comparison (installed vs lockfile)
 - Sync status checking
@@ -152,11 +166,13 @@ renv lockfile parsing and synchronization:
 Command dispatcher for profile management:
 
 **Command Structure:**
+
 ```bash
 teach profiles <subcommand> [args]
 ```
 
 **Subcommands:**
+
 - `list [--json] [--quiet]` - List profiles
 - `show <name>` - Show profile details
 - `set <name>` - Switch profile
@@ -164,6 +180,7 @@ teach profiles <subcommand> [args]
 - `current` - Show current profile
 
 **Help System:**
+
 - Main help: `teach profiles help`
 - Subcommand help: `teach profiles list --help`
 - Comprehensive examples and usage notes
@@ -174,6 +191,7 @@ teach profiles <subcommand> [args]
 Comprehensive profile management tests:
 
 **Test Coverage:**
+
 - Profile detection (success, no file, no profiles)
 - Profile description extraction
 - Profile configuration parsing
@@ -186,6 +204,7 @@ Comprehensive profile management tests:
 - Command dispatcher integration
 
 **Test Statistics:**
+
 - 45 unit tests
 - Covers all major functions
 - Mock project setups
@@ -197,6 +216,7 @@ Comprehensive profile management tests:
 Comprehensive R package detection tests:
 
 **Test Coverage:**
+
 - Package detection from teaching.yml
 - Package detection from DESCRIPTION
 - Package detection from renv.lock
@@ -209,6 +229,7 @@ Comprehensive R package detection tests:
 - Edge cases (empty lists, invalid JSON)
 
 **Test Statistics:**
+
 - 35 unit tests
 - Conditional tests (skip if R not available)
 - Mock configurations
@@ -226,6 +247,7 @@ Complete implementation documentation.
 ### 1. lib/dispatchers/teach-dispatcher.zsh
 
 **Changes:**
+
 - Added source blocks for new helpers (4 new blocks):
   - `profile-helpers.zsh`
   - `r-helpers.zsh`
@@ -239,6 +261,7 @@ Complete implementation documentation.
 ### 2. lib/dispatchers/teach-doctor-impl.zsh
 
 **Changes:**
+
 - Replaced `_teach_doctor_check_r_packages()` function
 - Enhanced with multi-source detection:
   - teaching.yml
@@ -261,17 +284,20 @@ Complete implementation documentation.
 ### Profile Management Tests
 
 **Command:**
+
 ```bash
 ./tests/test-teach-profiles-unit.zsh
 ```
 
 **Expected Results:**
+
 - 45/45 tests passing
 - All profile operations validated
 - Edge cases covered
 - Error conditions handled
 
 **Key Test Areas:**
+
 - ✅ Profile detection from `_quarto.yml`
 - ✅ Profile listing (3 output modes)
 - ✅ Current profile detection (3 sources)
@@ -284,17 +310,20 @@ Complete implementation documentation.
 ### R Package Detection Tests
 
 **Command:**
+
 ```bash
 ./tests/test-r-helpers-unit.zsh
 ```
 
 **Expected Results:**
+
 - 35/35 tests passing (or skipped if R/jq not available)
 - Multi-source detection validated
 - Installation checking works
 - Status reporting accurate
 
 **Key Test Areas:**
+
 - ✅ Detection from teaching.yml
 - ✅ Detection from DESCRIPTION
 - ✅ Detection from renv.lock
@@ -304,6 +333,7 @@ Complete implementation documentation.
 - ✅ Status reporting (human + JSON)
 
 **Note:** Some tests are skipped if dependencies not available:
+
 - R tests skip if R not installed
 - renv tests skip if jq not installed
 
@@ -322,6 +352,7 @@ teach doctor --fix
 ```
 
 **Flow:**
+
 1. Detects packages from teaching.yml/renv.lock/DESCRIPTION
 2. Checks installation status
 3. Reports missing packages
@@ -343,6 +374,7 @@ teach profiles set default
 ```
 
 **Effect:**
+
 - `QUARTO_PROFILE` environment variable set
 - Quarto uses profile-specific settings
 - Different formats/themes/execution settings applied
@@ -442,7 +474,7 @@ teach deploy
 
 ### Profile Detection Algorithm
 
-1. **Locate _quarto.yml** in current directory
+1. **Locate \_quarto.yml** in current directory
 2. **Parse YAML** using `yq eval '.profile | keys'`
 3. **Extract profile names** from keys
 4. **Get descriptions** from `.profile.<name>.description`
@@ -503,16 +535,16 @@ echo "To persist: add to .zshrc"
 
 ### Required Tools
 
-| Tool | Purpose | Used By |
-|------|---------|---------|
+| Tool   | Purpose      | Used By                         |
+| ------ | ------------ | ------------------------------- |
 | **yq** | YAML parsing | Profile detection, teaching.yml |
-| **jq** | JSON parsing | renv.lock parsing |
-| **R** | R execution | Package checking, installation |
+| **jq** | JSON parsing | renv.lock parsing               |
+| **R**  | R execution  | Package checking, installation  |
 
 ### Optional Tools
 
-| Tool | Purpose | Fallback |
-|------|---------|----------|
+| Tool        | Purpose              | Fallback       |
+| ----------- | -------------------- | -------------- |
 | **Rscript** | Package installation | Uses R instead |
 
 ### Checking Dependencies
@@ -533,21 +565,21 @@ teach doctor
 
 ### Profile Management Errors
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| "No _quarto.yml found" | Missing config | Run `teach init` |
-| "No profiles defined" | Empty profile section | Add profiles to _quarto.yml |
-| "Invalid profile" | Profile doesn't exist | Check `teach profiles list` |
-| "yq not found" | Missing dependency | Install yq: `brew install yq` |
+| Error                   | Cause                 | Solution                      |
+| ----------------------- | --------------------- | ----------------------------- |
+| "No \_quarto.yml found" | Missing config        | Run `teach init`              |
+| "No profiles defined"   | Empty profile section | Add profiles to \_quarto.yml  |
+| "Invalid profile"       | Profile doesn't exist | Check `teach profiles list`   |
+| "yq not found"          | Missing dependency    | Install yq: `brew install yq` |
 
 ### R Package Errors
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| "R not found" | R not installed | Install R from CRAN |
-| "jq not found" | Missing for renv | Install jq: `brew install jq` |
-| "No packages found" | Empty config | Add r_packages to teaching.yml |
-| "Failed to install" | Network/CRAN issue | Check internet, retry |
+| Error               | Cause              | Solution                       |
+| ------------------- | ------------------ | ------------------------------ |
+| "R not found"       | R not installed    | Install R from CRAN            |
+| "jq not found"      | Missing for renv   | Install jq: `brew install jq`  |
+| "No packages found" | Empty config       | Add r_packages to teaching.yml |
+| "Failed to install" | Network/CRAN issue | Check internet, retry          |
 
 ---
 
@@ -555,21 +587,21 @@ teach doctor
 
 ### Profile Operations
 
-| Operation | Time | Notes |
-|-----------|------|-------|
-| List profiles | < 50ms | yq parsing |
-| Show profile | < 30ms | Single yq query |
+| Operation      | Time    | Notes              |
+| -------------- | ------- | ------------------ |
+| List profiles  | < 50ms  | yq parsing         |
+| Show profile   | < 30ms  | Single yq query    |
 | Switch profile | < 100ms | yq write + env set |
-| Create profile | < 150ms | yq merge + write |
+| Create profile | < 150ms | yq merge + write   |
 
 ### R Package Operations
 
-| Operation | Time | Notes |
-|-----------|------|-------|
-| Detect packages | < 100ms | Multi-source scan |
-| Check installed | ~200ms/pkg | R startup overhead |
-| Install package | 5-60s/pkg | Network dependent |
-| Batch install | Parallel | Faster than sequential |
+| Operation       | Time       | Notes                  |
+| --------------- | ---------- | ---------------------- |
+| Detect packages | < 100ms    | Multi-source scan      |
+| Check installed | ~200ms/pkg | R startup overhead     |
+| Install package | 5-60s/pkg  | Network dependent      |
+| Batch install   | Parallel   | Faster than sequential |
 
 ---
 
@@ -577,7 +609,7 @@ teach doctor
 
 ✅ **All success criteria met:**
 
-- ✅ Detect Quarto profiles from _quarto.yml
+- ✅ Detect Quarto profiles from \_quarto.yml
 - ✅ Switch profiles with environment activation
 - ✅ Create new profiles from template
 - ✅ Detect R packages from teaching.yml and renv.lock
@@ -595,6 +627,7 @@ teach doctor
 **Goal:** Implement parallel rendering for 3-10x speedup
 
 **Features:**
+
 - Parallel file processing
 - Progress indicators
 - Worker pool management
@@ -608,6 +641,7 @@ teach doctor
 **Goal:** Extensible validation framework
 
 **Features:**
+
 - Custom validator templates
 - Built-in validators (links, YAML, R code)
 - Validation profiles
@@ -620,6 +654,7 @@ teach doctor
 **Goal:** Render time tracking and trends
 
 **Features:**
+
 - Render time logging
 - Historical trends
 - Performance dashboards
@@ -663,7 +698,7 @@ teach doctor
 
 ### Profile Management
 
-1. **No profile import/export** - Profiles are manually edited in _quarto.yml
+1. **No profile import/export** - Profiles are manually edited in \_quarto.yml
 2. **No profile versioning** - Changes are not tracked
 3. **Limited validation** - Only checks profile exists, not configuration validity
 
@@ -691,6 +726,7 @@ teach doctor
 Wave 1 of Phase 2 has been successfully implemented, delivering comprehensive profile management and R package auto-installation features. The implementation is well-tested (80 tests), documented, and integrated with the existing teaching workflow.
 
 **Key Achievements:**
+
 - ✅ Complete profile management system
 - ✅ Multi-source R package detection
 - ✅ Interactive auto-install with teach doctor --fix

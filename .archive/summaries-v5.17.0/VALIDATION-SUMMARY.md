@@ -21,6 +21,7 @@ Phase 1 (Foundation), Phase 2 (Migration Logic), and Phase 3 (Polish) have been 
 - ✅ Rollback mechanism (bug found and fixed in Phase 3)
 
 **Commits:**
+
 - a497f97: Phase 1 foundation (5 functions, 13 tests)
 - 40b6f4c: Phase 2 migration logic (8 functions, 3 strategies)
 - 30ce4c7: Phase 2 manual testing guide
@@ -33,20 +34,24 @@ Phase 1 (Foundation), Phase 2 (Migration Logic), and Phase 3 (Polish) have been 
 ## Tests Executed
 
 ### 1. Automated Unit Tests (Phase 1)
+
 **File:** `tests/test-teach-init-phase1.zsh`
 **Status:** ✅ All 13 tests passing
 
 **Coverage:**
+
 - Detection: Quarto, MkDocs, unknown (3 tests)
-- Validation: Valid project, missing _quarto.yml, missing index.qmd (3 tests)
+- Validation: Valid project, missing \_quarto.yml, missing index.qmd (3 tests)
 - renv handling: No renv/, already excluded (2 tests)
 - Rollback: Success, missing tag (2 tests)
 - Flag parsing: --dry-run, course name (3 tests)
 
 ### 2. Dry-Run on STAT 545 (Real Project)
+
 **Status:** ✅ Passed
 
 **Output:**
+
 ```
 🔍 DRY RUN MODE - No changes will be made
 
@@ -64,18 +69,21 @@ Actions: 10 steps listed
 ```
 
 **Verification:**
+
 - Detected existing Quarto project correctly
 - Identified renv/ directory
 - Showed complete migration plan
 - No files created (verified with `git status`)
 
 ### 3. Strategy 1 Migration (Test Project)
+
 **Status:** ✅ Passed
 
-**Setup:** Fresh Quarto project with _quarto.yml + index.qmd
+**Setup:** Fresh Quarto project with \_quarto.yml + index.qmd
 **Input:** Strategy 1, semester start: 2025-01-13, skip GitHub
 
 **Results:**
+
 - ✅ Branches created: draft, production
 - ✅ Current branch: draft
 - ✅ Rollback tag: January-2026-pre-migration
@@ -87,22 +95,24 @@ Actions: 10 steps listed
   - `MIGRATION-COMPLETE.md` (1,779 bytes)
 
 **Config Validation:**
+
 ```yaml
 course:
-  name: "Test Course"
-  semester: "January"
+  name: 'Test Course'
+  semester: 'January'
   year: 2026
 
 semester_info:
-  start_date: "2025-01-13"
-  end_date: "2025-05-05"  # Auto-calculated: 16 weeks
+  start_date: '2025-01-13'
+  end_date: '2025-05-05' # Auto-calculated: 16 weeks
 
 branches:
-  draft: "draft"
-  production: "production"
+  draft: 'draft'
+  production: 'production'
 ```
 
 **Documentation Validation:**
+
 - MIGRATION-COMPLETE.md contains:
   - Migration summary (4 sections)
   - Daily workflow examples
@@ -111,6 +121,7 @@ branches:
   - Links to documentation
 
 ### 4. Rollback Testing (Template Failure)
+
 **Status:** ⚠️ **BUG FOUND**
 
 **Setup:** Quarto project, broken FLOW_PLUGIN_DIR to simulate failure
@@ -118,6 +129,7 @@ branches:
 **Actual:** Migration "succeeded" with partial files
 
 **Observations:**
+
 - Template installation failed (cp: No such file or directory)
 - Migration continued instead of rolling back
 - Branches created (draft, production)
@@ -129,6 +141,7 @@ branches:
 The `_teach_install_templates()` function doesn't return non-zero on `cp` command failures. The error chain breaks but doesn't trigger the rollback.
 
 **Code Analysis:**
+
 ```zsh
 # Current (broken):
 _teach_quarto_inplace_conversion() {
@@ -149,12 +162,14 @@ _teach_quarto_inplace_conversion() {
 ```
 
 **Impact:** Medium
+
 - Migration appears to succeed but files are missing
 - User would notice missing scripts/deploy.yml
 - Rollback tag exists, so manual recovery possible
 - No data loss, but confusing user experience
 
 **Proposed Fix (Phase 3):**
+
 ```zsh
 _teach_install_templates() {
   # Add strict error checking
@@ -176,6 +191,7 @@ _teach_install_templates() {
 **Critical Paths Tested:** 100%
 
 **Critical Paths:**
+
 - ✅ Detection (Quarto, generic)
 - ✅ Validation (valid, missing files)
 - ✅ Dry-run mode
@@ -185,6 +201,7 @@ _teach_install_templates() {
 - ⚠️ Rollback (bug found)
 
 **Not Yet Tested:**
+
 - Strategy 2 (parallel branches)
 - Strategy 3 (fresh start)
 - renv exclusion (interactive)
@@ -215,6 +232,7 @@ Compound command blocks `{ cmd1 && cmd2 && cmd3; cmd4 }` don't properly propagat
 **The Fix (2026-01-12):**
 
 **Part 1: Add comprehensive error checking to `_teach_install_templates()`**
+
 ```zsh
 # Verify template directory exists
 if [[ ! -d "$template_dir" ]]; then
@@ -232,6 +250,7 @@ cp "$template_dir/quick-deploy.sh" scripts/ || {
 ```
 
 **Part 2: Use subshell with explicit error propagation**
+
 ```zsh
 # Execute migration with error trapping
 (
@@ -252,11 +271,13 @@ cp "$template_dir/quick-deploy.sh" scripts/ || {
 ```
 
 **Why This Works:**
+
 - Subshell `( ... )` creates isolated execution context
 - `|| exit 1` explicitly propagates errors out of subshell
 - When subshell exits with code 1, the `|| { rollback }` triggers
 
 **Test Results (Post-Fix):**
+
 ```
 Installing templates...
 ✗ Template directory not found: /nonexistent/lib/templates/teaching
@@ -273,12 +294,14 @@ Your repository is back to its original state.
 ```
 
 **Testing:**
+
 - ✅ Manual test with broken FLOW_PLUGIN_DIR: Rollback triggered correctly
 - ✅ Phase 1 tests: All 13 tests still passing (no regression)
 - ✅ Error messages clear and actionable
 - ✅ Repository state clean after rollback
 
 **Changes Made:**
+
 - Commit e7cee68: "fix(teach-init): add proper error handling to migration strategies (Phase 3)"
 - Files: commands/teach-init.zsh (+76, -35 lines)
 - Applied to all 3 strategies (convert, parallel, fresh start)
@@ -288,6 +311,7 @@ Your repository is back to its original state.
 ## Validation Checklist
 
 ### Phase 1 - Foundation
+
 - [x] Project type detection works (Quarto/MkDocs/generic)
 - [x] Quarto validation checks required files
 - [x] renv handling detects and prompts
@@ -296,6 +320,7 @@ Your repository is back to its original state.
 - [x] All 13 unit tests passing
 
 ### Phase 2 - Migration Logic
+
 - [x] Strategy 1 (convert) creates branches correctly
 - [x] Config file generation works (valid YAML)
 - [x] Template files copied correctly (when plugin dir valid)
@@ -307,6 +332,7 @@ Your repository is back to its original state.
 - [ ] Rollback on error - **BUG FOUND**
 
 ### Real-World Integration
+
 - [x] Dry-run on STAT 545 works correctly
 - [x] Detects existing Quarto projects
 - [x] Shows complete migration plan
@@ -325,18 +351,21 @@ Your repository is back to its original state.
 ## Next Steps
 
 ### Immediate (Phase 3: Polish)
+
 1. **Fix rollback bug** - Add error checking to `_teach_install_templates()`
 2. **Add rollback test** - Verify rollback triggers on template failure
 3. **Test Strategy 2+3** - Verify parallel and fresh start strategies
 4. **Edge case testing** - Invalid input, missing files, etc.
 
 ### Before PR (Phase 4: Real-World Testing)
+
 1. **Test on STAT 545** - Non-destructive (dry-run already passed)
 2. **Execute full manual test suite** - All 18 tests from MANUAL-TESTING-PHASE2.md
 3. **Update documentation** - Add migration guide to main docs
 4. **Create PR to dev** - Include validation summary and bug fix
 
 ### Post-Merge
+
 1. **Production testing** - Test on real course migration
 2. **Gather feedback** - Adjust based on actual usage
 3. **Consider Phase 5** - MkDocs support, additional strategies
@@ -348,6 +377,7 @@ Your repository is back to its original state.
 **Status:** Phase 1+2+3 implementation is **READY FOR PR**
 
 **Confidence:** High
+
 - Core functionality works correctly
 - Critical paths validated
 - Bug found and fixed (rollback now working)
@@ -367,6 +397,7 @@ Your repository is back to its original state.
 **Solution:** Subshell with explicit `|| exit 1` after each command
 
 **Testing:**
+
 - Manual validation with simulated failure: ✅ Rollback triggered
 - Phase 1 regression tests: ✅ All 13 tests passing
 - Error messages: ✅ Clear and actionable

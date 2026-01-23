@@ -34,6 +34,7 @@ Successfully implemented Task 1 (Token Flags) and Task 4 (Verbosity Levels) from
 ### Implementation Details
 
 **Variables added (lines 13-16):**
+
 ```zsh
 local dot_check=false          # --dot flag: check only DOT tokens
 local dot_token=""             # --dot=TOKEN: check specific token
@@ -41,6 +42,7 @@ local fix_token_only=false     # --fix-token: fix only token issues
 ```
 
 **Argument parsing (lines 31-46):**
+
 ```zsh
 --dot)
   dot_check=true
@@ -60,6 +62,7 @@ local fix_token_only=false     # --fix-token: fix only token issues
 ```
 
 **Conditional check skipping:**
+
 - Lines 73-124: Skip shell/core/dependencies/integrations if `dot_check=true`
 - Lines 130-147: Token checks always run, but with isolated behavior when `--dot` is active
 - Lines 150-182: Skip plugin manager/plugins/flow-cli status if `dot_check=true`
@@ -70,6 +73,7 @@ local fix_token_only=false     # --fix-token: fix only token issues
 ### Future Enhancement Placeholders
 
 Added comments indicating where delegation to `dot token expiring` will occur:
+
 - Line 137: `# Future: delegate to dot token expiring --name=$dot_token`
 - Line 140: `# Future: delegate to dot token expiring for all tokens`
 - Line 187: `# Note: This is the legacy token check. Future phases will delegate to dot token expiring`
@@ -81,6 +85,7 @@ Added comments indicating where delegation to `dot token expiring` will occur:
 ### New Verbosity System
 
 Added three verbosity levels:
+
 1. **`--quiet` / `-q`** - Minimal output (errors only)
 2. **`normal`** (default) - Standard output
 3. **`--verbose` / `-v`** - Detailed output (existing flag enhanced)
@@ -88,11 +93,13 @@ Added three verbosity levels:
 ### Implementation Details
 
 **Variable added (line 19):**
+
 ```zsh
 local verbosity_level="normal" # quiet, normal, verbose
 ```
 
 **Argument parsing (lines 28-29):**
+
 ```zsh
 --verbose|-v)     verbose=true; verbosity_level="verbose"; shift ;;
 --quiet|-q)       verbosity_level="quiet"; shift ;;
@@ -134,6 +141,7 @@ The existing `echo` statements were replaced with appropriate logging functions:
 Updated `_doctor_help()` function (lines 855-897) to document new flags:
 
 **TOKEN AUTOMATION section (lines 870-873):**
+
 ```
 TOKEN AUTOMATION (v5.17.0)
   --dot              Check only DOT tokens (isolated check)
@@ -142,11 +150,13 @@ TOKEN AUTOMATION (v5.17.0)
 ```
 
 **OPTIONS section (line 878):**
+
 ```
   -q, --quiet    Minimal output (errors only)
 ```
 
 **EXAMPLES section (lines 885-889):**
+
 ```
   $ doctor --dot          # Check only DOT tokens (< 3s)
   $ doctor --dot=github   # Check GitHub token only
@@ -160,39 +170,50 @@ TOKEN AUTOMATION (v5.17.0)
 ## Testing Recommendations
 
 ### Syntax Validation
+
 ✅ **PASSED**: `zsh -n commands/doctor.zsh` (no syntax errors)
 
 ### Manual Testing Scenarios
 
 1. **Isolated token check:**
+
    ```bash
    source flow.plugin.zsh
    doctor --dot
    ```
+
    Expected: Only DOT token section shown, < 3s execution
 
 2. **Specific token check:**
+
    ```bash
    doctor --dot=github-token
    ```
+
    Expected: Only GitHub token checked, message shows token name
 
 3. **Fix token only:**
+
    ```bash
    doctor --fix-token
    ```
+
    Expected: Only token issues fixed, no dependency installs
 
 4. **Quiet mode:**
+
    ```bash
    doctor --quiet
    ```
+
    Expected: Minimal output, only critical messages
 
 5. **Verbose mode:**
+
    ```bash
    doctor --verbose
    ```
+
    Expected: Detailed output including token-dependent services
 
 6. **Flag combinations:**
@@ -206,12 +227,15 @@ TOKEN AUTOMATION (v5.17.0)
 ## Code Quality
 
 ### Comments Added
+
 - Task 1 and Task 4 markers at variable declarations (lines 13, 18)
 - Implementation notes at argument parsing (lines 31, 59, 73, 129, 149)
 - Future enhancement placeholders (lines 137, 140, 187)
 
 ### Backward Compatibility
+
 ✅ All existing flags preserved and functional:
+
 - `--fix` / `-f`
 - `--ai` / `-a`
 - `--update-docs` / `-u`
@@ -220,6 +244,7 @@ TOKEN AUTOMATION (v5.17.0)
 - `--help` / `-h`
 
 ### Function Scope
+
 All verbosity helper functions are properly scoped with `_doctor_` prefix to avoid namespace pollution.
 
 ---
@@ -238,9 +263,11 @@ The implementation prepares for future phases by:
 ## Summary
 
 **Files modified:** 1
+
 - `/Users/dt/.git-worktrees/flow-cli/feature-token-automation/commands/doctor.zsh`
 
 **Lines changed:**
+
 - Added: ~50 lines (variables, argument parsing, helper functions, comments)
 - Modified: ~150 lines (replaced `echo` with verbosity helpers, added conditionals)
 - Total file size: 962 lines
@@ -251,6 +278,7 @@ The implementation prepares for future phases by:
 **Phase 1 readiness:** ✅ Infrastructure complete for Tasks 2, 3, 5
 
 **Next agent tasks:**
+
 - Task 2: Category selection menu (3h)
 - Task 3: Delegation to `dot token expiring` (2h)
 - Task 5: Cache manager (3h)

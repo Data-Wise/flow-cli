@@ -12,6 +12,7 @@
 This document provides step-by-step instructions for testing the teaching workflow implementation before merging to `dev` branch.
 
 **What We're Testing:**
+
 - ✅ Core functionality (teach-init, work, deployment)
 - ✅ Branch safety warnings
 - ✅ Configuration validation
@@ -19,6 +20,7 @@ This document provides step-by-step instructions for testing the teaching workfl
 - ✅ Documentation accuracy
 
 **Testing Levels:**
+
 1. **Automated Tests** (5 min) - Unit and integration tests
 2. **Manual Integration** (15-20 min) - Real workflow testing
 3. **Documentation Verification** (10 min) - Docs match behavior
@@ -37,6 +39,7 @@ command -v zsh && echo "✅ ZSH installed" || echo "✅ ZSH installed"
 ```
 
 **Install Missing Tools:**
+
 ```bash
 brew install yq
 ```
@@ -70,6 +73,7 @@ source flow.plugin.zsh
 ```
 
 **Expected Output:**
+
 ```
 ╔════════════════════════════════════════════════════════════╗
 ║  Teaching Workflow Test Suite                              ║
@@ -99,6 +103,7 @@ source flow.plugin.zsh
 **✅ Pass Criteria:** All 9 tests passing, 0 failures
 
 **❌ Fail Actions:**
+
 - Review test output for specific failures
 - Check file exists in `lib/templates/teaching/`
 - Verify `teach-init` command loaded
@@ -113,6 +118,7 @@ source flow.plugin.zsh
 ```
 
 **Expected Output:**
+
 ```
 ╔════════════════════════════════════════════════════════════╗
 ║  Teaching Workflow - Comprehensive Test Suite             ║
@@ -153,6 +159,7 @@ source flow.plugin.zsh
 **✅ Pass Criteria:** All 32 tests passing, 100% coverage
 
 **❌ Fail Actions:**
+
 - Note which category failed
 - Check test output for error details
 - Verify specific component (detection, validation, etc.)
@@ -167,6 +174,7 @@ source flow.plugin.zsh
 ```
 
 **Expected Output:**
+
 ```
 ╔════════════════════════════════════════════════════════════╗
 ║  Teaching Workflow Increment 2 - Test Suite               ║
@@ -215,6 +223,7 @@ source flow.plugin.zsh
 **✅ Pass Criteria:** All 17 tests passing, 0 failures
 
 **What This Tests:**
+
 - Week calculation from semester start date
 - Break week detection (e.g., Spring Break)
 - Date format validation (YYYY-MM-DD)
@@ -223,6 +232,7 @@ source flow.plugin.zsh
 - Date-to-week conversion utilities
 
 **❌ Fail Actions:**
+
 - Check if teaching-utils.zsh is sourced correctly
 - Verify date command compatibility (macOS BSD date)
 - Check config file format (semester_info section)
@@ -241,6 +251,7 @@ source flow.plugin.zsh
 **✅ Pass Criteria:** No test regressions introduced
 
 **❌ Fail Actions:**
+
 - Identify which existing test broke
 - Verify teaching workflow didn't interfere with other features
 - Check project detection priority order
@@ -276,6 +287,7 @@ teach-init "Test Course"
 ```
 
 **Interactive Prompts:**
+
 ```
 Choose migration strategy:
   1. In-place conversion
@@ -319,6 +331,7 @@ cat .flow/teach-config.yml
 ```
 
 **✅ Pass Criteria:**
+
 - All files created
 - Branches exist
 - Scripts executable
@@ -326,6 +339,7 @@ cat .flow/teach-config.yml
 - Commit created
 
 **❌ Fail Actions:**
+
 - Note missing files/branches
 - Check terminal output for errors
 - Verify yq installed (`command -v yq`)
@@ -350,6 +364,7 @@ work test-course
 ```
 
 **Expected Interactive Prompt:**
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⚠️  WARNING: You are on PRODUCTION branch
@@ -369,6 +384,7 @@ Continue on production anyway? [y/N]
 **Test Actions:**
 
 1. **Type `n` (switch to draft)**
+
    ```bash
    n
    ```
@@ -386,12 +402,14 @@ Continue on production anyway? [y/N]
    ```
 
 **✅ Pass Criteria:**
+
 - Warning displays with red color/emoji
 - Prompt appears with timeout
 - Selecting 'n' switches to draft
 - Editor opens after switch
 
 **❌ Fail Actions:**
+
 - If no warning: Check config exists
 - If no prompt: Verify timeout works
 - If switch fails: Check git state
@@ -416,6 +434,7 @@ work test-course
 ```
 
 **Expected Output:**
+
 ```
 📚 Test Course
   Branch: draft
@@ -436,12 +455,14 @@ Shortcuts loaded:
 - ✅ Editor opens (Ctrl+C to cancel)
 
 **✅ Pass Criteria:**
+
 - Clean output (no warnings)
 - Course context displayed
 - Shortcuts loaded
 - Editor launches
 
 **❌ Fail Actions:**
+
 - If warning appears: Check branch detection logic
 - If no shortcuts: Verify config shortcuts section
 - If no editor: Check EDITOR variable
@@ -471,6 +492,7 @@ git commit -m "Add week 1 lecture"
 ```
 
 **Expected Output:**
+
 ```
 🚀 Quick Deploy: draft → production
 
@@ -513,6 +535,7 @@ git show production:lectures.md
 ```
 
 **✅ Pass Criteria:**
+
 - Script completes without errors
 - Merge successful
 - Returns to draft branch
@@ -520,6 +543,7 @@ git show production:lectures.md
 - Timing displayed
 
 **❌ Fail Actions:**
+
 - If "Must be on draft branch": Check current branch
 - If merge conflict: Note error handling
 - If push fails: Expected (no remote), note behavior
@@ -544,6 +568,7 @@ git checkout production
 ```
 
 **Expected Output:**
+
 ```
 ❌ Must be on draft branch
 Current branch: production
@@ -567,12 +592,14 @@ echo $?
 ```
 
 **✅ Pass Criteria:**
+
 - Script rejects deployment
 - Error message helpful
 - Non-zero exit code
 - No changes made
 
 **❌ Fail Actions:**
+
 - If deployment proceeds: Critical safety bug
 - If unclear error: Note messaging issue
 - Report immediately if safety check fails
@@ -601,6 +628,7 @@ work test-course
 ```
 
 **Expected Output:**
+
 ```
 ✗ Missing required field: branches.draft
 [or similar error message]
@@ -620,11 +648,13 @@ git checkout .flow/teach-config.yml
 ```
 
 **✅ Pass Criteria:**
+
 - Invalid config detected
 - Specific error shown
 - No crash/hang
 
 **❌ Fail Actions:**
+
 - If validation passes: Check validation logic
 - If crash occurs: Note crash details
 - Report with config state
@@ -658,13 +688,15 @@ type test-coursed
 - ✅ Typing shortcut name shows definition
 
 **✅ Pass Criteria:**
+
 - Shortcuts displayed during work
 - Aliases active in shell
 - Shortcuts functional
 
 **❌ Fail Actions:**
+
 - If no shortcuts: Check config shortcuts section
-- If not active: Check eval logic in _load_teaching_shortcuts
+- If not active: Check eval logic in \_load_teaching_shortcuts
 - Report with alias output
 
 ---
@@ -696,11 +728,13 @@ cd ~/.git-worktrees/flow-cli-teaching-workflow
 4. Verify expected outputs match reality
 
 **✅ Pass Criteria:**
+
 - Commands work as documented
 - Output matches examples
 - No outdated information
 
 **❌ Fail Actions:**
+
 - Note discrepancies between docs and behavior
 - List specific examples that don't match
 - Update documentation accordingly
@@ -719,10 +753,12 @@ cd ~/.git-worktrees/flow-cli-teaching-workflow
 - [ ] Troubleshooting solutions valid
 
 **✅ Pass Criteria:**
+
 - All information accurate
 - Examples work
 
 **❌ Fail Actions:**
+
 - Note inaccuracies
 - Update reference card
 
@@ -739,10 +775,12 @@ cd ~/.git-worktrees/flow-cli-teaching-workflow
 - [ ] Timings appropriate
 
 **✅ Pass Criteria:**
+
 - Demo script executable (if VHS installed)
 - Commands valid
 
 **❌ Fail Actions:**
+
 - Note invalid commands
 - Fix demo script
 
@@ -806,6 +844,7 @@ cd ~/.git-worktrees/flow-cli-teaching-workflow
 **Cause:** Plugin not loaded
 
 **Fix:**
+
 ```bash
 source flow.plugin.zsh
 teach-init --help
@@ -818,6 +857,7 @@ teach-init --help
 **Cause:** yq not installed
 
 **Fix:**
+
 ```bash
 brew install yq
 ```
@@ -829,6 +869,7 @@ brew install yq
 **Cause:** Config file missing
 
 **Fix:**
+
 ```bash
 # Check file exists
 ls -la .flow/teach-config.yml
@@ -844,6 +885,7 @@ teach-init "Course Name"
 **Cause:** Scripts not executable
 
 **Fix:**
+
 ```bash
 chmod +x scripts/*.sh
 ```
@@ -863,11 +905,13 @@ Use this template when reporting test results:
 **Commit:** [git rev-parse --short HEAD]
 
 ### Automated Tests
+
 - Basic Suite (9 tests): ✅ PASS / ❌ FAIL
 - Comprehensive Suite (32 tests): ✅ PASS / ❌ FAIL
 - Regression Tests: ✅ PASS / ❌ FAIL
 
 ### Manual Integration Tests
+
 - teach-init: ✅ PASS / ❌ FAIL
 - Branch safety warning: ✅ PASS / ❌ FAIL
 - Work on draft: ✅ PASS / ❌ FAIL
@@ -877,17 +921,21 @@ Use this template when reporting test results:
 - Shortcut loading: ✅ PASS / ❌ FAIL
 
 ### Documentation Verification
+
 - User guide: ✅ ACCURATE / ❌ NEEDS UPDATE
 - Reference card: ✅ ACCURATE / ❌ NEEDS UPDATE
 - Demo script: ✅ VALID / ❌ NEEDS FIX
 
 ### Issues Found
+
 [List any issues discovered]
 
 ### Recommendation
+
 ✅ APPROVED FOR MERGE / ❌ NEEDS FIXES
 
 ### Notes
+
 [Any additional observations]
 ```
 

@@ -39,7 +39,7 @@
 
 - ✅ Cache library: lib/doctor-cache.zsh (799 lines)
 - ✅ doctor.zsh: --dot flag implemented
-- ✅ Cache functions: All present (_doctor_cache_init, etc.)
+- ✅ Cache functions: All present (\_doctor_cache_init, etc.)
 - ✅ Syntax: No errors (zsh -n passed)
 
 ### 5. Documentation (7/7) ✅
@@ -69,6 +69,7 @@
 ## Implementation Metrics
 
 ### Code
+
 - **New files:** 2 (lib/doctor-cache.zsh, docs/reference/REFCARD-TOKEN.md)
 - **Modified files:** 8 (commands/doctor.zsh, CLAUDE.md, README.md, etc.)
 - **Test files:** 3 (54 total tests)
@@ -76,17 +77,20 @@
 - **Lines deleted:** ~670
 
 ### Documentation
+
 - **Total documentation:** 2,350+ lines across 4 files
 - **Coverage:** 100% (all features documented)
 - **Navigation:** Configured in mkdocs.yml
 
 ### Testing
+
 - **Unit tests:** 30 (100% passing)
 - **E2E tests:** 24 (22 passing, 2 expected skips)
 - **Pass rate:** 96.3% (52/54 tests)
 - **Portability:** macOS + Linux verified
 
 ### Performance
+
 - **Cache check:** ~5-8ms (target: < 10ms) ✓
 - **Token check (cached):** ~50-80ms (target: < 100ms) ✓
 - **Token check (fresh):** ~2-3s (target: < 3s) ✓
@@ -97,6 +101,7 @@
 ## Quality Gates
 
 ### Implementation Quality
+
 - ✅ All 5 tasks complete
 - ✅ Performance targets met or exceeded
 - ✅ Zero breaking changes
@@ -104,12 +109,14 @@
 - ✅ Graceful degradation
 
 ### Test Quality
+
 - ✅ Comprehensive unit tests
 - ✅ Real-world E2E scenarios
 - ✅ Portable (no GNU dependencies)
 - ✅ Expected skips documented
 
 ### Documentation Quality
+
 - ✅ Multiple audience levels (user/dev/contributor)
 - ✅ 50+ code examples
 - ✅ 11 Mermaid diagrams
@@ -117,6 +124,7 @@
 - ✅ Troubleshooting guides
 
 ### Code Quality
+
 - ✅ No syntax errors (zsh -n verified)
 - ✅ Consistent style
 - ✅ Proper error handling
@@ -137,6 +145,7 @@
 ## Next Steps
 
 ### 1. Create PR
+
 ```bash
 gh pr create --base dev \
   --title "feat: Phase 1 - Token automation" \
@@ -144,11 +153,13 @@ gh pr create --base dev \
 ```
 
 ### 2. After Merge
+
 - Update .STATUS (status: Complete, progress: 100)
 - Tag release: `git tag -a v5.17.0 -m "Release v5.17.0"`
 - Publish release notes on GitHub
 
 ### 3. Cleanup
+
 - Remove worktree: `git worktree remove ~/.git-worktrees/flow-cli/feature-token-automation`
 - Delete branch: `git branch -d feature/token-automation`
 

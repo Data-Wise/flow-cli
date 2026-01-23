@@ -13,6 +13,7 @@
 **File:** `lib/custom-validators.zsh` (350 lines)
 
 **Features Implemented:**
+
 - ✅ Validator discovery from `.teach/validators/*.zsh`
 - ✅ Plugin API validation (checks for required functions/metadata)
 - ✅ Isolated validator execution (subshells prevent scope pollution)
@@ -23,6 +24,7 @@
 - ✅ Clear error messages and user guidance
 
 **Plugin API:**
+
 ```zsh
 # Required
 VALIDATOR_NAME="..."
@@ -40,12 +42,14 @@ _validator_cleanup() { ... }
 Created 3 built-in validators with comprehensive functionality:
 
 #### a) Citation Validator (`check-citations.zsh`) - 200 lines
+
 - Extracts Pandoc citations (`[@author2020]`, `[@a; @b]`)
 - Validates against .bib files
 - Reports missing citations with line numbers
 - **Status:** ⚠️ Needs refactoring for ZSH compatibility (avoid external commands in subshells)
 
 #### b) Link Validator (`check-links.zsh`) - 230 lines
+
 - Validates internal links (file existence)
 - Checks external URLs (HTTP status codes)
 - Validates image paths
@@ -54,6 +58,7 @@ Created 3 built-in validators with comprehensive functionality:
 - **Status:** ⚠️ Needs refactoring for ZSH compatibility
 
 #### c) Formatting Validator (`check-formatting.zsh`) - 180 lines
+
 - Checks heading hierarchy (no skipped levels)
 - Validates Quarto chunk options
 - Detects mixed quote styles
@@ -66,11 +71,13 @@ Created 3 built-in validators with comprehensive functionality:
 **File:** `commands/teach-validate.zsh` (modified)
 
 **Added Flags:**
+
 - `--custom` - Run custom validators
 - `--validators <list>` - Select specific validators (comma-separated)
 - `--skip-external` - Skip external URL checks
 
 **Examples:**
+
 ```bash
 teach validate --custom
 teach validate --custom --validators check-citations,check-links
@@ -78,6 +85,7 @@ teach validate --custom --skip-external
 ```
 
 **Help Documentation:**
+
 - ✅ Updated help text with custom validator section
 - ✅ Added plugin API documentation
 - ✅ Included examples and usage patterns
@@ -87,6 +95,7 @@ teach validate --custom --skip-external
 Created comprehensive test files (not all passing due to validator bugs):
 
 #### a) Framework Unit Tests (`tests/test-custom-validators-unit.zsh`)
+
 - 31 tests covering:
   - Validator discovery
   - API validation
@@ -98,6 +107,7 @@ Created comprehensive test files (not all passing due to validator bugs):
 - **Failures:** Test cleanup issues, crash detection edge cases
 
 #### b) Built-in Validators Unit Tests (`tests/test-builtin-validators-unit.zsh`)
+
 - 26 tests covering:
   - Citation extraction and validation
   - Link checking (internal/external)
@@ -153,12 +163,15 @@ Created comprehensive test files (not all passing due to validator bugs):
 ### 1. Subshell Isolation vs Command Availability
 
 **Problem:**
+
 - Validators run in isolated subshells for safety
 - External commands (`sort`, `sed`, `grep`) behave unpredictably in some subshell contexts
 - Tests fail with "command not found: sort"
 
 **Solution Attempted:**
+
 - Started converting to ZSH built-ins:
+
   ```zsh
   # Before
   printf '%s\n' "${array[@]}" | sort -u
@@ -173,11 +186,13 @@ Created comprehensive test files (not all passing due to validator bugs):
 ### 2. Line Number Extraction
 
 **Challenge:**
+
 - Need accurate line numbers for error reporting
 - Parsing `.qmd` files line-by-line
 - Maintaining line number context through regex extraction
 
 **Solution:**
+
 - Track `line_num` variable through file parsing
 - Embed line number in result strings (`line_num:data`)
 - Extract and format in error messages
@@ -187,6 +202,7 @@ Created comprehensive test files (not all passing due to validator bugs):
 ### 3. ZSH Parameter Expansion
 
 **Learning:** Discovered powerful ZSH features:
+
 - `${(u)array}` - Unique elements
 - `${#array[@]}` - Array count
 - `${array[@]}` - All elements
@@ -224,15 +240,15 @@ commands/teach-validate.zsh                   +80 lines  ✅ Complete
 
 ## Success Criteria Status
 
-| Criterion | Status | Notes |
-|-----------|--------|-------|
-| Discover validators in .teach/validators/ | ✅ Complete | Working perfectly |
-| Load and validate plugin API | ✅ Complete | Comprehensive validation |
-| Execute validators with isolation | ✅ Complete | Subshell execution working |
-| 3 built-in validators working | ⚠️ Partial | Logic correct, need ZSH refactoring |
-| Aggregate results with formatting | ✅ Complete | Clear, color-coded output |
-| 70-90 tests passing | ⚠️ Partial | 38/57 passing (67%) |
-| Clear plugin API documentation | ✅ Complete | Inline docs + help text |
+| Criterion                                 | Status      | Notes                               |
+| ----------------------------------------- | ----------- | ----------------------------------- |
+| Discover validators in .teach/validators/ | ✅ Complete | Working perfectly                   |
+| Load and validate plugin API              | ✅ Complete | Comprehensive validation            |
+| Execute validators with isolation         | ✅ Complete | Subshell execution working          |
+| 3 built-in validators working             | ⚠️ Partial  | Logic correct, need ZSH refactoring |
+| Aggregate results with formatting         | ✅ Complete | Clear, color-coded output           |
+| 70-90 tests passing                       | ⚠️ Partial  | 38/57 passing (67%)                 |
+| Clear plugin API documentation            | ✅ Complete | Inline docs + help text             |
 
 ---
 
@@ -245,12 +261,14 @@ commands/teach-validate.zsh                   +80 lines  ✅ Complete
 **Specific Changes Needed:**
 
 1. **Replace `sort -u`:**
+
    ```zsh
    # Replace all instances
    unique=(${(u)array})
    ```
 
 2. **Replace `sed`:**
+
    ```zsh
    # Use ZSH parameter expansion
    ${var//pattern/replacement}  # Replace all
@@ -259,6 +277,7 @@ commands/teach-validate.zsh                   +80 lines  ✅ Complete
    ```
 
 3. **Replace `grep -E`:**
+
    ```zsh
    # Use ZSH pattern matching
    [[ "$string" =~ pattern ]]
@@ -278,6 +297,7 @@ commands/teach-validate.zsh                   +80 lines  ✅ Complete
 **Files:** `tests/test-custom-validators-unit.zsh`
 
 **Changes:**
+
 - Call `cleanup_validators` at start of each test
 - Clear temp files between tests
 - Fix test isolation issues
@@ -293,6 +313,7 @@ commands/teach-validate.zsh                   +80 lines  ✅ Complete
 **File:** `lib/custom-validators.zsh`
 
 **Changes:**
+
 - Better error handling in `_execute_validator()`
 - Detect exit codes > 1 as crashes
 - Test with intentionally broken validators
@@ -308,6 +329,7 @@ commands/teach-validate.zsh                   +80 lines  ✅ Complete
 **File:** `docs/guides/CUSTOM-VALIDATORS-GUIDE.md`
 
 **Content:**
+
 - How to create custom validators
 - Plugin API reference with examples
 - Best practices for validator development
@@ -322,11 +344,13 @@ commands/teach-validate.zsh                   +80 lines  ✅ Complete
 ### For Immediate Use
 
 **What's Ready:**
+
 1. The custom validator framework is production-ready
 2. Plugin API is stable and well-documented
 3. Users can create custom validators following the API
 
 **What to Wait For:**
+
 1. Built-in validators need refactoring (1-2 hours)
 2. Tests need fixing after validator refactoring
 
@@ -360,15 +384,18 @@ commands/teach-validate.zsh                   +80 lines  ✅ Complete
 **Wave 3 Status:** 85% Complete
 
 **Core Achievement:** ✅
+
 - Extensible plugin framework is complete and working
 - Plugin API is well-designed and documented
 - Integration with teach validate is seamless
 
 **Remaining Work:** ⚠️
+
 - 2-3 hours to refactor validators and fix tests
 - Already have clear implementation path
 
 **Quality:** High
+
 - Clean architecture
 - Good separation of concerns
 - Comprehensive error handling

@@ -9,6 +9,7 @@
 ## Overview
 
 Wave 4 implements selective cache management and detailed analysis for Quarto freeze cache, enabling users to:
+
 - Clear cache selectively by directory (lectures/, assignments/, slides/)
 - Clear cache by age (files > 30 days old)
 - Analyze cache breakdown by directory and age
@@ -22,6 +23,7 @@ Wave 4 implements selective cache management and detailed analysis for Quarto fr
 ### 1. `lib/cache-analysis.zsh` (244 lines)
 
 **Core Functions:**
+
 - `_analyze_cache_size()` - Calculate total cache size and file count
 - `_analyze_cache_by_directory()` - Breakdown by subdirectory with percentages
 - `_analyze_cache_by_age()` - Categorize files by modification time (< 7 days, 7-30 days, > 30 days)
@@ -30,6 +32,7 @@ Wave 4 implements selective cache management and detailed analysis for Quarto fr
 - `_format_cache_report()` - Pretty-print comprehensive report
 
 **Key Features:**
+
 - Portable size calculation using `du -sk` and `stat -f %z`
 - No dependency on `bc` (uses integer arithmetic with awk)
 - Graceful degradation when jq or performance log unavailable
@@ -42,9 +45,11 @@ Wave 4 implements selective cache management and detailed analysis for Quarto fr
 ### 1. `lib/cache-helpers.zsh` (+140 lines)
 
 **New Function:**
+
 - `_clear_cache_selective()` - Selective cache clearing with filters
 
 **Supported Flags:**
+
 - `--lectures` - Clear lectures/ directory only
 - `--assignments` - Clear assignments/ directory only
 - `--slides` - Clear slides/ directory only
@@ -53,6 +58,7 @@ Wave 4 implements selective cache management and detailed analysis for Quarto fr
 - `--force` - Skip confirmation prompt
 
 **Flag Combinations:**
+
 - Supports multiple flags: `--lectures --old` = old lecture files only
 - Uses intersection logic (files matching ALL criteria)
 - Deduplicates file list before deletion
@@ -60,10 +66,12 @@ Wave 4 implements selective cache management and detailed analysis for Quarto fr
 ### 2. `commands/teach-cache.zsh` (+46 lines)
 
 **Enhanced Commands:**
+
 - `teach_cache_clear()` - Auto-detect selective flags and route to appropriate function
 - `teach_cache_analyze()` - Support `--recommend` flag for optimization suggestions
 
 **Updated Help:**
+
 - Added "SELECTIVE CACHE CLEARING" section
 - Added "CACHE ANALYSIS" section
 - Expanded examples with selective clearing use cases
@@ -81,24 +89,28 @@ Wave 4 implements selective cache management and detailed analysis for Quarto fr
 **Test Coverage:**
 
 #### Suite 1: Cache Size Analysis (6 tests)
+
 - Empty cache handling
 - Size calculation accuracy
 - File count correctness
 - Human-readable formatting
 
 #### Suite 2: Cache Breakdown by Directory (9 tests)
+
 - Directory detection (lectures/, assignments/, slides/)
 - File count per directory
 - Size calculation per directory
 - Percentage calculations (sum to ~100%)
 
 #### Suite 3: Cache Breakdown by Age (7 tests)
+
 - Age categorization (< 7 days, 7-30 days, > 30 days)
 - Modification time parsing
 - File count per age bracket
 - Mock files with different ages
 
 #### Suite 4: Cache Performance Analysis (6 tests)
+
 - Missing log handling (returns N/A)
 - Valid log parsing with jq
 - Hit/miss aggregation
@@ -106,6 +118,7 @@ Wave 4 implements selective cache management and detailed analysis for Quarto fr
 - Average time calculations
 
 #### Suite 5: Selective Cache Clearing (9 tests)
+
 - Clear by single directory (--lectures)
 - Clear by age (--old)
 - Combine filters (--lectures --old)
@@ -115,12 +128,14 @@ Wave 4 implements selective cache management and detailed analysis for Quarto fr
 - Empty directory cleanup
 
 #### Suite 6: Cache Report Formatting (6 tests)
+
 - Basic report generation
 - Report sections (Total, By Directory, By Age, Performance)
 - Recommendations section (--recommend flag)
 - Empty cache handling
 
 #### Suite 7: Optimization Recommendations (6 tests)
+
 - Recommend clearing when > 30% old files
 - No recommendations for optimized cache
 - Hit rate threshold detection (< 80%)
@@ -261,12 +276,14 @@ else:
 ## Dependencies
 
 **Required:**
+
 - `du` - Size calculation (standard on macOS/Linux)
 - `stat` - File modification time (standard)
 - `find` - File discovery (standard)
 - `awk` - Formatting and calculations (standard)
 
 **Optional:**
+
 - `jq` - Performance log parsing (degrades gracefully if missing)
 
 ---
@@ -293,6 +310,7 @@ The cache analysis system reads `.teach/performance-log.json` created by Wave 5'
 ```
 
 **Future Enhancement (Wave 5):**
+
 - Per-file hit tracking for `--unused` flag implementation
 - Trend analysis across multiple operations
 
@@ -357,12 +375,14 @@ teach cache analyze --recommend           # Know before you act
 ## Next Steps
 
 ### Immediate (This PR):
+
 1. ✅ Implementation complete
 2. ✅ Unit tests passing (49/49)
 3. ⏳ Update documentation (docs/reference/, docs/guides/)
 4. ⏳ Integration testing with real teaching projects
 
 ### Future Enhancements:
+
 1. **Per-file hit tracking** (Wave 5 integration)
    - Implement `--unused` flag fully
    - Track which cache files are never used

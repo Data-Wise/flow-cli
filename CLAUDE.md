@@ -7,7 +7,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v5.16.0 (Released)
+- **Current Version:** v5.17.0-dev (In Development)
+- **Latest Release:** v5.16.0 (2026-01-22)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -265,6 +266,7 @@ v <cmd>       # Vibe coding mode (v on, v off, v status)
 **Isolated Token Checks & Smart Caching**
 
 **Phase 1 Features (COMPLETE):**
+
 - ✅ Isolated token checks (`doctor --dot`) - < 3s vs 60+ seconds
 - ✅ Smart caching (5-min TTL, 85% hit rate, 80% API reduction)
 - ✅ ADHD-friendly category menu (visual hierarchy, time estimates)
@@ -272,6 +274,7 @@ v <cmd>       # Vibe coding mode (v on, v off, v status)
 - ✅ Token-only fix mode (`doctor --fix-token`)
 
 **New Commands:**
+
 ```bash
 doctor --dot              # Check only tokens (< 3s, cached)
 doctor --dot=github       # Check specific provider
@@ -281,6 +284,7 @@ doctor --dot --verbose    # Debug output (cache status)
 ```
 
 **Legacy Commands:**
+
 ```bash
 dot token expiring    # Manual expiration check
 dot token rotate      # Manual rotation
@@ -288,6 +292,7 @@ flow token expiring   # Alias for dot token
 ```
 
 **Integration:**
+
 - `g push/pull` - Validates token before remote ops
 - `dash dev` - Shows token status
 - `work` - Checks token on session start
@@ -295,12 +300,14 @@ flow token expiring   # Alias for dot token
 - `doctor` - Full health check including tokens
 
 **Performance:**
+
 - Cache check: ~5-8ms (< 10ms target)
 - Token check (cached): ~50-80ms (< 100ms target)
 - Token check (fresh): ~2-3s (< 3s target)
 - Cache effectiveness: ~85% hit rate
 
 **Documentation:**
+
 - User Guide: `docs/guides/DOCTOR-TOKEN-USER-GUIDE.md`
 - API Reference: `docs/reference/DOCTOR-TOKEN-API-REFERENCE.md`
 - Architecture: `docs/architecture/DOCTOR-TOKEN-ARCHITECTURE.md`
@@ -309,6 +316,7 @@ flow token expiring   # Alias for dot token
 **Tests:** 54 comprehensive tests (52 passing, 2 expected skips)
 
 **Future (Phases 2-4 - Deferred):**
+
 - Multi-token support (npm, pypi)
 - Atomic fixes with rollback
 - Gamification & notifications
@@ -603,17 +611,49 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.16.0 ✅ Released 2026-01-22
-**Status:** Production - Planning v5.17.0
-**Branch:** `dev` (post-release, clean working tree)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0
+**Version:** v5.17.0-dev (In Development)
+**Latest Release:** v5.16.0 (2026-01-22)
+**Status:** Production - PR #292 merged to dev
+**Branch:** `dev` (clean working tree, ready for v5.17.0 release)
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
-**Tests:** 14 test suites passing (100% core tests, 362+ total tests)
+**Tests:** 14 test suites + 54 token automation tests (100% core tests, 416+ total tests)
 
 ---
 
 ## Recent Releases
+
+### v5.17.0 - Token Automation Phase 1 (In Development)
+
+**Status:** Ready for release
+**PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED 2026-01-23)
+**Changes:** 35 files, +13,546 / -187 lines
+
+**Major Features:**
+
+- Isolated token checks (--dot, --dot=TOKEN, --fix-token)
+- Smart caching (5-min TTL, 80% API reduction, 85% hit rate)
+- ADHD-friendly category menu with visual hierarchy
+- Verbosity control (quiet/normal/verbose)
+- Integration across 9 dispatchers (g, dash, work, finish, etc.)
+
+**Documentation:**
+
+- 2,150+ lines across 4 comprehensive guides
+- 11 Mermaid architecture diagrams
+- Complete API reference (800+ lines)
+
+**Tests:**
+
+- 54 comprehensive tests (96.3% pass rate)
+- Unit, E2E, cache, and interactive test suites
+
+**Performance:**
+
+- 20x faster token checks (3s vs 60s)
+- Cache checks: ~5-8ms (50% better than target)
+- 80% API call reduction
 
 ### v5.16.0 - Intelligent Content Analysis (2026-01-22)
 
@@ -770,14 +810,15 @@ export FLOW_DEBUG=1
 
 ---
 
-## Next Development Cycle (v5.17.0)
+## Next Development Cycle (Post v5.17.0)
 
-**Planning Phase** - See `.STATUS` file for current sprint details
+**Current:** Ready to release v5.17.0 (Token Automation Phase 1)
 
 **Potential Focus Areas:**
 
 - Config → concept graph integration (Phase 1 enhancement)
 - teach prompt command (needs Scholar coordination)
+- Token automation Phases 2-4 (deferred - multi-token, gamification)
 - Quarto workflow Phase 2 enhancements
 - Additional teach analyze improvements
 

@@ -12,6 +12,7 @@
 Complete implementation of Quarto workflow enhancements for flow-cli's teaching system, covering all features from Phase 1, Phase 2, and Phase 3:
 
 **Phase 1 - Core Features (Weeks 1-8):**
+
 - Git hook system (pre-commit, pre-push, prepare-commit-msg)
 - Validation commands (teach validate, teach validate --watch)
 - Cache management (teach cache, teach clean)
@@ -21,6 +22,7 @@ Complete implementation of Quarto workflow enhancements for flow-cli's teaching 
 - Status dashboard (teach status enhancements)
 
 **Phase 2 - Enhancements (Weeks 9-12):**
+
 - Quarto profile management
 - R package auto-installation
 - Parallel rendering optimization
@@ -29,6 +31,7 @@ Complete implementation of Quarto workflow enhancements for flow-cli's teaching 
 - Performance monitoring
 
 **Phase 3 - Advanced Features (Weeks 13-16):**
+
 - Template system for course initialization
 - Comprehensive backup management
 - Auto-rollback on CI failures
@@ -42,35 +45,35 @@ Complete implementation of Quarto workflow enhancements for flow-cli's teaching 
 
 ### Core Commands (21 new/enhanced)
 
-| Command | Type | Description |
-|---------|------|-------------|
-| **Phase 1: Core (8 commands)** |
-| `teach init` | Enhanced | Template-based Quarto project creation |
-| `teach hooks install` | New | Install pre-commit/pre-push hooks |
-| `teach hooks upgrade` | New | Upgrade existing hooks to latest version |
-| `teach validate` | New | Staged validation (YAML → syntax → render) |
-| `teach validate --watch` | New | Continuous validation during development |
-| `teach cache` | New | Interactive freeze cache management |
-| `teach clean` | New | Delete _freeze/ + _site/ |
-| `teach doctor` | New | Full health check (deps, config, extensions) |
-| `teach deploy` | Enhanced | Hybrid rendering + partial deploys + index mgmt |
-| `teach backup` | New | Snapshot course before major changes |
-| `teach status` | Enhanced | Full dashboard (cache, deploys, index health) |
+| Command                                | Type     | Description                                     |
+| -------------------------------------- | -------- | ----------------------------------------------- |
+| **Phase 1: Core (8 commands)**         |
+| `teach init`                           | Enhanced | Template-based Quarto project creation          |
+| `teach hooks install`                  | New      | Install pre-commit/pre-push hooks               |
+| `teach hooks upgrade`                  | New      | Upgrade existing hooks to latest version        |
+| `teach validate`                       | New      | Staged validation (YAML → syntax → render)      |
+| `teach validate --watch`               | New      | Continuous validation during development        |
+| `teach cache`                          | New      | Interactive freeze cache management             |
+| `teach clean`                          | New      | Delete \_freeze/ + \_site/                      |
+| `teach doctor`                         | New      | Full health check (deps, config, extensions)    |
+| `teach deploy`                         | Enhanced | Hybrid rendering + partial deploys + index mgmt |
+| `teach backup`                         | New      | Snapshot course before major changes            |
+| `teach status`                         | Enhanced | Full dashboard (cache, deploys, index health)   |
 | **Phase 2: Enhancements (6 commands)** |
-| `teach profiles list` | New | List available Quarto profiles |
-| `teach profiles set <name>` | New | Switch active profile |
-| `teach profiles create <name>` | New | Create new profile |
-| `teach doctor --fix` | Enhanced | Interactive dependency installation |
-| `teach validate --stats` | Enhanced | Performance statistics |
-| `teach cache analyze` | Enhanced | Detailed cache analysis |
-| **Phase 3: Advanced (7 commands)** |
-| `teach templates list` | New | List available templates |
-| `teach templates apply <name>` | New | Apply template to project |
-| `teach templates create <name>` | New | Create template from project |
-| `teach deploy --rollback <tag>` | Enhanced | Auto-rollback on CI failure |
-| `teach deploy --env <name>` | Enhanced | Multi-environment deployment |
-| `teach errors` | New | Error history and recovery |
-| `teach migrate` | New | Migration from existing projects |
+| `teach profiles list`                  | New      | List available Quarto profiles                  |
+| `teach profiles set <name>`            | New      | Switch active profile                           |
+| `teach profiles create <name>`         | New      | Create new profile                              |
+| `teach doctor --fix`                   | Enhanced | Interactive dependency installation             |
+| `teach validate --stats`               | Enhanced | Performance statistics                          |
+| `teach cache analyze`                  | Enhanced | Detailed cache analysis                         |
+| **Phase 3: Advanced (7 commands)**     |
+| `teach templates list`                 | New      | List available templates                        |
+| `teach templates apply <name>`         | New      | Apply template to project                       |
+| `teach templates create <name>`        | New      | Create template from project                    |
+| `teach deploy --rollback <tag>`        | Enhanced | Auto-rollback on CI failure                     |
+| `teach deploy --env <name>`            | Enhanced | Multi-environment deployment                    |
+| `teach errors`                         | New      | Error history and recovery                      |
+| `teach migrate`                        | New      | Migration from existing projects                |
 
 ---
 
@@ -79,16 +82,19 @@ Complete implementation of Quarto workflow enhancements for flow-cli's teaching 
 ### PHASE 1: Core Features (Weeks 1-8)
 
 #### Week 1-2: Hook System Foundation
+
 **Goal:** Implement 5-layer pre-commit hook system
 
 **Files to create:**
+
 - `lib/hooks/pre-commit-template.zsh` - 5-layer validation hook
 - `lib/hooks/pre-push-template.zsh` - Production branch validation
 - `lib/hooks/prepare-commit-msg-template.zsh` - Append validation time
 - `lib/hook-installer.zsh` - Hook installation/upgrade logic
 
 **Hook Architecture:**
-```zsh
+
+````zsh
 #!/usr/bin/env zsh
 # .git/hooks/pre-commit (auto-generated by teach hooks install)
 
@@ -145,9 +151,10 @@ _prompt_commit_anyway() {
     read "?Commit anyway? [y/N] " response
     [[ "$response" =~ ^[Yy]$ ]]
 }
-```
+````
 
 **Testing:**
+
 - `tests/test-teach-hooks-unit.zsh` - Hook installation, version management
 - Test parallel rendering for multiple files
 - Test interactive error prompts
@@ -157,13 +164,16 @@ _prompt_commit_anyway() {
 ---
 
 #### Week 2-3: Validation Commands
+
 **Goal:** Implement granular validation with watch mode
 
 **Files to create:**
+
 - `lib/validation-helpers.zsh` - Shared validation functions
 - `commands/teach-validate.zsh` - Standalone validation command
 
 **Granular Validation:**
+
 ```bash
 teach validate                  # Full validation (YAML + syntax + render)
 teach validate --yaml           # YAML only (fast)
@@ -173,6 +183,7 @@ teach validate --watch          # Continuous validation
 ```
 
 **Watch Mode Implementation:**
+
 ```zsh
 teach validate --watch
 
@@ -189,6 +200,7 @@ teach validate --watch
 ```
 
 **Testing:**
+
 - `tests/test-teach-validate-unit.zsh` - Validation layers
 - Test watch mode with mock file changes
 - Test conflict detection with quarto preview
@@ -198,13 +210,16 @@ teach validate --watch
 ---
 
 #### Week 3-4: Cache Management
+
 **Goal:** Interactive cache management with analysis
 
 **Files to create:**
+
 - `lib/cache-helpers.zsh` - Freeze cache utilities
 - `commands/teach-cache.zsh` - Interactive cache management
 
 **Cache Commands:**
+
 ```bash
 teach cache             # Interactive menu
 teach cache status      # Show size, file count
@@ -214,6 +229,7 @@ teach clean             # Delete _freeze/ + _site/
 ```
 
 **Interactive Menu:**
+
 ```
 ┌─────────────────────────────────────────────┐
 │  Freeze Cache Management                    │
@@ -231,8 +247,9 @@ teach clean             # Delete _freeze/ + _site/
 ```
 
 **Testing:**
+
 - `tests/test-teach-cache-unit.zsh` - Cache management
-- Mock _freeze/ directory
+- Mock \_freeze/ directory
 - Test interactive prompts
 
 **Deliverable:** Interactive cache management
@@ -240,13 +257,16 @@ teach clean             # Delete _freeze/ + _site/
 ---
 
 #### Week 4-5: Health Checks
+
 **Goal:** Comprehensive health check with interactive fix
 
 **Files to create:**
+
 - `lib/doctor-helpers.zsh` - Health check functions
 - `commands/teach-doctor.zsh` - Health check command
 
 **Health Checks:**
+
 ```bash
 teach doctor            # Full health check
 teach doctor --fix      # Interactive fix
@@ -255,13 +275,15 @@ teach doctor --quiet    # Minimal output
 ```
 
 **Checks Performed:**
+
 1. Dependencies (Quarto, Git, yq, R packages, extensions)
 2. Git setup (repository, remote, branches)
-3. Project config (teaching.yml, _quarto.yml, freeze)
+3. Project config (teaching.yml, \_quarto.yml, freeze)
 4. Hook status (installed, version)
-5. Cache health (_freeze/ size, last render)
+5. Cache health (\_freeze/ size, last render)
 
 **Interactive Fix:**
+
 ```bash
 teach doctor
 
@@ -278,6 +300,7 @@ teach doctor
 ```
 
 **Testing:**
+
 - `tests/test-teach-doctor-unit.zsh` - Health checks
 - Mock missing dependencies
 - Test interactive fix prompts
@@ -287,9 +310,11 @@ teach doctor
 ---
 
 #### Week 5-7: Enhanced Deploy
+
 **Goal:** Partial deploys with dependency tracking and index management
 
 **Files to modify:**
+
 - `lib/dispatchers/teach-dispatcher.zsh` - Deploy enhancements
 - `lib/git-helpers.zsh` - Dependency tracking
 - `lib/index-helpers.zsh` - NEW - Index management
@@ -297,12 +322,14 @@ teach doctor
 **Deployment Features:**
 
 1. **Partial Deploys:**
+
 ```bash
 teach deploy lectures/week-05.qmd
 # Deploy single file with dependencies
 ```
 
 2. **Dependency Tracking:**
+
 ```zsh
 _find_dependencies() {
     local file="$1"
@@ -316,6 +343,7 @@ _find_dependencies() {
 ```
 
 3. **Index Management (ADD/UPDATE/REMOVE):**
+
 ```bash
 # Add new lecture
 teach deploy lectures/week-05.qmd
@@ -335,6 +363,7 @@ teach deploy
 ```
 
 4. **Auto-Sorting:**
+
 ```zsh
 # Parse week number from filename
 # week-05.qmd → sort_key = 5
@@ -342,6 +371,7 @@ teach deploy
 ```
 
 5. **Cross-Reference Validation:**
+
 ```zsh
 _validate_cross_references() {
     local files=("$@")
@@ -352,6 +382,7 @@ _validate_cross_references() {
 ```
 
 6. **Auto-Commit + Auto-Tag:**
+
 ```zsh
 # Auto-commit uncommitted changes
 if ! git diff-index --quiet HEAD --; then
@@ -366,6 +397,7 @@ git tag "$tag" && git push origin "$tag"
 ```
 
 **Testing:**
+
 - `tests/test-teach-deploy-unit.zsh` - Deploy logic
 - `tests/test-index-management-unit.zsh` - ADD/UPDATE/REMOVE
 - Test dependency tracking
@@ -376,13 +408,16 @@ git tag "$tag" && git push origin "$tag"
 ---
 
 #### Week 7: Backup System
+
 **Goal:** Automated backup with retention policies
 
 **Files to create:**
+
 - `lib/backup-helpers.zsh` - Backup utilities
 - `commands/teach-backup.zsh` - Backup management
 
 **Backup Commands:**
+
 ```bash
 teach backup create [name]     # Timestamped backup
 teach backup list              # List backups
@@ -392,6 +427,7 @@ teach backup archive           # Archive semester backups
 ```
 
 **Backup Structure:**
+
 ```
 .teach/backups/
 ├── 2026-01-20-1430/          # Timestamped snapshots
@@ -405,16 +441,18 @@ teach backup archive           # Archive semester backups
 ```
 
 **Retention Policies:**
+
 ```yaml
 # teaching.yml
 backup:
   retention:
-    daily: 7      # Keep 7 daily backups
-    weekly: 4     # Keep 4 weekly backups
+    daily: 7 # Keep 7 daily backups
+    weekly: 4 # Keep 4 weekly backups
     semester: all # Keep all semester archives
 ```
 
 **Testing:**
+
 - `tests/test-teach-backup-unit.zsh` - Backup logic
 - Test create/restore/delete
 - Test retention policies
@@ -424,12 +462,15 @@ backup:
 ---
 
 #### Week 8: Enhanced Status
+
 **Goal:** Comprehensive project dashboard
 
 **Files to modify:**
+
 - `lib/dispatchers/teach-dispatcher.zsh` - Enhance teach status
 
 **Status Dashboard:**
+
 ```bash
 teach status
 
@@ -448,6 +489,7 @@ teach status
 ```
 
 **Testing:**
+
 - `tests/test-teach-status-unit.zsh` - Status dashboard
 - Mock project state
 
@@ -458,15 +500,18 @@ teach status
 ### PHASE 2: Enhancements (Weeks 9-12)
 
 #### Week 9: Profile Management + R Package Detection
+
 **Goal:** Quarto profiles and R auto-install
 
 **Files to create:**
+
 - `lib/profile-helpers.zsh` - Profile detection/switching
 - `lib/r-helpers.zsh` - R package detection
 - `lib/renv-integration.zsh` - renv support
 - `commands/teach-profiles.zsh` - Profile management
 
 **Profile Commands:**
+
 ```bash
 teach profiles list             # List profiles
 teach profiles show <name>      # Show profile config
@@ -475,6 +520,7 @@ teach profiles create <name>    # Create profile
 ```
 
 **R Package Auto-Install:**
+
 ```bash
 teach doctor --fix
 
@@ -487,6 +533,7 @@ teach doctor --fix
 ```
 
 **Testing:**
+
 - `tests/test-teach-profiles-unit.zsh` - Profile management
 - `tests/test-r-helpers-unit.zsh` - R package detection
 - Test auto-install prompts
@@ -496,13 +543,16 @@ teach doctor --fix
 ---
 
 #### Week 10-11: Parallel Rendering
+
 **Goal:** 3-10x speedup with parallel rendering
 
 **Files to create:**
+
 - `lib/parallel-helpers.zsh` - Parallel rendering utilities
 - `lib/render-queue.zsh` - Smart render queue
 
 **Parallel Rendering:**
+
 ```bash
 teach validate lectures/*.qmd
 
@@ -520,6 +570,7 @@ teach validate lectures/*.qmd
 ```
 
 **Smart Queue:**
+
 ```zsh
 _optimize_render_queue() {
     # Group by estimated render time
@@ -530,6 +581,7 @@ _optimize_render_queue() {
 ```
 
 **Performance Stats:**
+
 ```bash
 teach validate --stats
 
@@ -542,6 +594,7 @@ teach validate --stats
 ```
 
 **Testing:**
+
 - `tests/test-parallel-rendering-unit.zsh` - Parallel logic
 - Test worker pool management
 - Test progress reporting
@@ -551,13 +604,16 @@ teach validate --stats
 ---
 
 #### Week 11-12: Custom Validators + Advanced Caching
+
 **Goal:** Extensible validation + cache optimization
 
 **Files to create:**
+
 - `lib/custom-validators.zsh` - Custom validation framework
 - `.teach/validators/` - Built-in validators
 
 **Custom Validators:**
+
 ```bash
 teach validate --custom
 
@@ -566,6 +622,7 @@ teach validate --custom
 ```
 
 **Validator Template:**
+
 ```zsh
 #!/usr/bin/env zsh
 # .teach/validators/check-citations.zsh
@@ -590,6 +647,7 @@ _validate() {
 ```
 
 **Advanced Caching:**
+
 ```bash
 teach cache clear --lectures     # Clear lectures/ only
 teach cache clear --old          # Clear > 30 days
@@ -597,6 +655,7 @@ teach cache analyze              # Detailed analysis
 ```
 
 **Cache Analysis:**
+
 ```
 │  Total: 71MB (342 files)
 │  By Directory:
@@ -610,6 +669,7 @@ teach cache analyze              # Detailed analysis
 ```
 
 **Testing:**
+
 - `tests/test-custom-validators-unit.zsh` - Validator framework
 - `tests/test-advanced-caching-unit.zsh` - Selective caching
 
@@ -618,13 +678,16 @@ teach cache analyze              # Detailed analysis
 ---
 
 #### Week 12: Performance Monitoring
+
 **Goal:** Track and visualize performance trends
 
 **Files to create:**
+
 - `lib/performance-monitor.zsh` - Performance tracking
 - `.teach/performance-log.json` - Render statistics
 
 **Performance Tracking:**
+
 ```bash
 teach validate --benchmark
 
@@ -636,6 +699,7 @@ teach validate --benchmark
 ```
 
 **Performance Dashboard:**
+
 ```bash
 teach status --performance
 
@@ -652,6 +716,7 @@ teach status --performance
 ```
 
 **Testing:**
+
 - `tests/test-performance-monitor-unit.zsh` - Tracking logic
 
 **Deliverable:** Performance monitoring system
@@ -661,14 +726,17 @@ teach status --performance
 ### PHASE 3: Advanced Features (Weeks 13-16)
 
 #### Week 13-14: Template System
+
 **Goal:** Course initialization from templates
 
 **Files to create:**
+
 - `lib/template-engine.zsh` - Template processing
 - `templates/` - Built-in templates
 - `commands/teach-templates.zsh` - Template management
 
 **Template Structure:**
+
 ```
 templates/
 ├── basic/
@@ -686,6 +754,7 @@ templates/
 ```
 
 **Template Commands:**
+
 ```bash
 teach templates list                    # List templates
 teach templates show <name>             # Show details
@@ -695,6 +764,7 @@ teach templates import <url>            # Import from GitHub
 ```
 
 **teach init --template:**
+
 ```bash
 teach init --template statistics
 
@@ -708,6 +778,7 @@ teach init --template statistics
 ```
 
 **Testing:**
+
 - `tests/test-teach-templates-unit.zsh` - Template processing
 - Test variable replacement
 - Test GitHub import
@@ -717,12 +788,15 @@ teach init --template statistics
 ---
 
 #### Week 14: Advanced Backups
+
 **Goal:** Compression, differential backups, cloud sync
 
 **Files to modify:**
+
 - `lib/backup-helpers.zsh` - Advanced features
 
 **Advanced Backup:**
+
 ```bash
 teach backup create --full              # Full project backup
 teach backup create --content-only      # No _freeze/, _site/
@@ -731,6 +805,7 @@ teach backup create --compress          # 850MB → 120MB
 ```
 
 **Backup Verification:**
+
 ```bash
 teach backup verify <name>
 
@@ -742,12 +817,14 @@ teach backup verify <name>
 ```
 
 **Cloud Sync (Optional):**
+
 ```bash
 teach backup sync
 # Sync to Dropbox/Google Drive/AWS S3
 ```
 
 **Testing:**
+
 - `tests/test-backup-advanced-unit.zsh` - Advanced features
 - Test compression
 - Test differential backups
@@ -757,13 +834,16 @@ teach backup sync
 ---
 
 #### Week 15: Auto-Rollback + Multi-Environment
+
 **Goal:** CI failure detection and multi-env deployment
 
 **Files to create:**
+
 - `lib/ci-helpers.zsh` - CI integration
 - `lib/rollback-helpers.zsh` - Rollback automation
 
 **Auto-Rollback:**
+
 ```bash
 teach deploy lectures/week-05.qmd
 
@@ -777,22 +857,25 @@ teach deploy lectures/week-05.qmd
 ```
 
 **Rollback Configuration:**
+
 ```yaml
 # teaching.yml
 deploy:
   rollback:
-    auto: true                    # Enable auto-rollback
-    monitor_ci: true              # Monitor CI build
-    timeout: 10                   # Max minutes for CI
+    auto: true # Enable auto-rollback
+    monitor_ci: true # Monitor CI build
+    timeout: 10 # Max minutes for CI
 ```
 
 **Multi-Environment:**
+
 ```bash
 teach deploy --env staging        # Deploy to staging
 teach deploy --promote staging→production  # Promote
 ```
 
 **Environment Status:**
+
 ```bash
 teach status --environments
 
@@ -801,6 +884,7 @@ teach status --environments
 ```
 
 **Testing:**
+
 - `tests/test-rollback-unit.zsh` - Rollback logic
 - `tests/test-multi-env-unit.zsh` - Environment management
 
@@ -809,15 +893,18 @@ teach status --environments
 ---
 
 #### Week 16: Error Recovery + Migration
+
 **Goal:** Smart error recovery and project migration
 
 **Files to create:**
+
 - `lib/error-recovery.zsh` - Error recovery utilities
 - `lib/migration-helpers.zsh` - Migration utilities
 - `commands/teach-migrate.zsh` - Migration command
 - `commands/teach-errors.zsh` - Error history
 
 **Smart Error Recovery:**
+
 ```bash
 teach validate lectures/week-05.qmd
 
@@ -834,6 +921,7 @@ teach validate lectures/week-05.qmd
 ```
 
 **Error History:**
+
 ```bash
 teach errors
 
@@ -842,6 +930,7 @@ teach errors
 ```
 
 **Migration:**
+
 ```bash
 teach migrate --from stat-545-old
 
@@ -859,6 +948,7 @@ teach migrate --from stat-545-old
 ```
 
 **Testing:**
+
 - `tests/test-error-recovery-unit.zsh` - Recovery logic
 - `tests/test-migration-unit.zsh` - Migration logic
 
@@ -936,18 +1026,21 @@ flow-cli/
 ## 🧪 Testing Strategy
 
 ### Unit Tests (Required for ALL features)
+
 - Mock external dependencies (git, quarto, yq)
 - Test all error paths
 - Test interactive prompts
 - Test all helper functions
 
 ### Integration Tests (Required)
+
 - Test full workflow: init → validate → deploy
 - Test with real STAT 545 project
 - Test hook installation/upgrade
 - Test rollback scenarios
 
 ### Performance Tests (Required)
+
 - Pre-commit validation < 5s per file
 - Parallel rendering 3-10x speedup
 - teach deploy local < 60s
@@ -958,6 +1051,7 @@ flow-cli/
 ## ✅ Definition of Done
 
 ### Code Complete
+
 - [ ] All 21 commands implemented
 - [ ] All 22 helper libraries created
 - [ ] All 19 test suites passing (100% coverage)
@@ -965,18 +1059,21 @@ flow-cli/
 - [ ] Performance targets met
 
 ### Documentation Complete
+
 - [ ] User guide: TEACHING-QUARTO-WORKFLOW.md (10,000+ lines)
 - [ ] API reference: TEACH-DISPATCHER-REFERENCE.md updated
 - [ ] All commands have examples
 - [ ] Troubleshooting section complete
 
 ### Testing Complete
+
 - [ ] Unit tests: 100% coverage
 - [ ] Integration tests: All workflows
 - [ ] Performance tests: All targets met
 - [ ] Real project testing: STAT 545 validated
 
 ### Migration Complete
+
 - [ ] teach init --upgrade works
 - [ ] Backup existing hooks
 - [ ] Non-destructive migration
@@ -987,6 +1084,7 @@ flow-cli/
 ## 📖 Reference Documentation
 
 **Master Specifications:**
+
 - `IMPLEMENTATION-READY-SUMMARY.md` - Complete feature checklist (84 decisions)
 - `TEACH-DEPLOY-DEEP-DIVE.md` - Deployment workflow spec
 - `PARTIAL-DEPLOY-INDEX-MANAGEMENT.md` - Index management spec
@@ -994,6 +1092,7 @@ flow-cli/
 - `BRAINSTORM-quarto-workflow-enhancements-2026-01-20.md` - All 84 Q&A
 
 **Key Decisions:**
+
 - Q1-84: Expert questions covering all features
 - Hybrid rendering architecture
 - Interactive error handling (ADHD-friendly)
@@ -1005,22 +1104,22 @@ flow-cli/
 
 ## 🎯 Success Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| **Performance** |
-| Pre-commit (1 file) | < 5s | With freeze cache |
-| Pre-commit (5 files) | < 10s | Parallel rendering |
-| teach deploy (local) | < 60s | Hybrid validation |
-| CI build | 2-5 min | Full site render |
-| Parallel speedup | 3-10x | Compare serial vs parallel |
-| **Reliability** |
-| Broken commits | 0% | Pre-commit validation |
-| CI failures | < 5% | Local validation catches most |
-| Hook conflicts | 0 | Interactive upgrade |
-| **Adoption** |
-| New projects | 100% | Auto-configured |
-| Existing migrations | 50% in 3 months | teach migrate |
-| Documentation coverage | 100% | All features documented |
+| Metric                 | Target          | Measurement                   |
+| ---------------------- | --------------- | ----------------------------- |
+| **Performance**        |
+| Pre-commit (1 file)    | < 5s            | With freeze cache             |
+| Pre-commit (5 files)   | < 10s           | Parallel rendering            |
+| teach deploy (local)   | < 60s           | Hybrid validation             |
+| CI build               | 2-5 min         | Full site render              |
+| Parallel speedup       | 3-10x           | Compare serial vs parallel    |
+| **Reliability**        |
+| Broken commits         | 0%              | Pre-commit validation         |
+| CI failures            | < 5%            | Local validation catches most |
+| Hook conflicts         | 0               | Interactive upgrade           |
+| **Adoption**           |
+| New projects           | 100%            | Auto-configured               |
+| Existing migrations    | 50% in 3 months | teach migrate                 |
+| Documentation coverage | 100%            | All features documented       |
 
 ---
 
@@ -1048,6 +1147,7 @@ cat IMPLEMENTATION-INSTRUCTIONS.md | less
 ## 💡 Implementation Tips
 
 ### ADHD-Friendly Workflow
+
 - **Focus on one week at a time** - Don't look ahead
 - **Celebrate small wins** - Each week is a milestone
 - **Test frequently** - Don't accumulate untested code
@@ -1055,6 +1155,7 @@ cat IMPLEMENTATION-INSTRUCTIONS.md | less
 - **Take breaks** - 16 weeks is a marathon, not a sprint
 
 ### Code Quality
+
 - Follow existing flow-cli patterns
 - Use helper functions from `lib/core.zsh`
 - Add color output for better UX
@@ -1062,6 +1163,7 @@ cat IMPLEMENTATION-INSTRUCTIONS.md | less
 - Document complex logic
 
 ### Testing First
+
 - Write tests before implementation (TDD)
 - Mock external dependencies
 - Test interactive prompts

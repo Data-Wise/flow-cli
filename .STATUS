@@ -35,10 +35,25 @@
 
 ## 🎯 Current Sprint:
 
-### v5.18.0 - GitHub Token Security & Automation
+### v5.17.0 - Token Automation Phase 1 ✅ COMPLETE
 
-**Status:** Implementation in progress
-**Started:** 2026-01-23
+**PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED 2026-01-23)
+**Status:** Complete, merged to dev
+**Time:** 8 hours (33% faster than 12h estimate via orchestration)
+
+**Delivered:**
+- ✅ Isolated token checks (--dot, --dot=TOKEN)
+- ✅ Smart caching (5-min TTL, 80% API reduction)
+- ✅ ADHD-friendly category menu
+- ✅ Verbosity levels (quiet/normal/verbose)
+- ✅ Token-only fix mode (--fix-token)
+- 1,822 lines code, 2,150+ lines docs, 54 tests (96.3% pass)
+
+---
+
+### v5.18.0 - GitHub Token Security & Automation (Future)
+
+**Status:** Deferred (focus on other features)
 **Estimated:** 4 hours (1.5h Phase 1 + 2h Phase 2 + 0.5h testing)
 
 **Features:**
@@ -77,8 +92,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Planning/coordination |
-| `~/.git-worktrees/flow-cli/feature-token-automation` | `feature/token-automation` | Active - Token automation implementation |
+| Main repo | `dev` | Clean - PR #292 merged |
 
 ---
 
@@ -122,11 +136,16 @@
 
 ## 🎯 Recommended Next Step:
 
-**Immediate:** Continue token automation implementation in worktree
-- Start with Phase 1, Task 1.1: Token expiration detector (15 min)
-- Follow orchestration plan in `IMPLEMENTATION-PLAN.md`
+**Immediate:** Release v5.17.0
+- PR #292 merged to dev
+- Run full test suite
+- Create release PR (dev → main)
+- Tag v5.17.0
 
-**After v5.18.0:** Release cycle (dev → main) or config→concept graph Phase 1
+**After v5.17.0:** Choose next focus:
+- Config→concept graph integration (Phase 1)
+- teach analyze AI improvements
+- v5.18.0 token automation (Phases 2-4)
 
 ---
 

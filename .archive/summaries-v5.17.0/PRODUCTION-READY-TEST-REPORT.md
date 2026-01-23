@@ -16,13 +16,13 @@ This report validates the 5 production-ready components from Quarto Workflow Pha
 
 ### Component Status Summary
 
-| Component | Status | Tests | Pass Rate |
-|-----------|--------|-------|-----------|
-| **Validation System** | ✅ PRODUCTION READY | 5/5 | 100% |
-| **Cache Management** | ✅ PRODUCTION READY | 4/4 | 100% |
-| **Health Checks** | ✅ PRODUCTION READY | 7/7 | 100% |
-| **Hook System** | ⚠️ NOT INTEGRATED | 0/2 | 0% |
-| **Backup System** | ⚠️ PARTIAL | 1/3 | 33% |
+| Component             | Status              | Tests | Pass Rate |
+| --------------------- | ------------------- | ----- | --------- |
+| **Validation System** | ✅ PRODUCTION READY | 5/5   | 100%      |
+| **Cache Management**  | ✅ PRODUCTION READY | 4/4   | 100%      |
+| **Health Checks**     | ✅ PRODUCTION READY | 7/7   | 100%      |
+| **Hook System**       | ⚠️ NOT INTEGRATED   | 0/2   | 0%        |
+| **Backup System**     | ⚠️ PARTIAL          | 1/3   | 33%       |
 
 **Production Readiness:** READY WITH FIXES REQUIRED
 
@@ -40,6 +40,7 @@ This report validates the 5 production-ready components from Quarto Workflow Pha
 - **yq Version:** 4.50.1
 
 **Dependencies Detected:**
+
 - ✅ yq (4.50.1)
 - ✅ git (2.52.0)
 - ✅ quarto (1.8.27)
@@ -55,6 +56,7 @@ This report validates the 5 production-ready components from Quarto Workflow Pha
 **Status:** ⚠️ **NOT INTEGRATED** - Code complete but not wired to dispatcher
 
 **Test Files:**
+
 - `lib/hook-installer.zsh` (11,628 bytes) ✅
 - `lib/hooks/pre-commit-template.zsh` (13,040 bytes) ✅
 - `lib/hooks/pre-push-template.zsh` (7,022 bytes) ✅
@@ -64,21 +66,23 @@ This report validates the 5 production-ready components from Quarto Workflow Pha
 
 ### Test Results
 
-| Test Case | Result | Notes |
-|-----------|--------|-------|
+| Test Case             | Result  | Notes                           |
+| --------------------- | ------- | ------------------------------- |
 | `teach hooks install` | ❌ FAIL | Command not found in dispatcher |
-| `teach hooks status` | ❌ FAIL | Command not found in dispatcher |
-| Hook templates exist | ✅ PASS | All 3 templates present |
-| Hook installer exists | ✅ PASS | Full implementation in lib/ |
+| `teach hooks status`  | ❌ FAIL | Command not found in dispatcher |
+| Hook templates exist  | ✅ PASS | All 3 templates present         |
+| Hook installer exists | ✅ PASS | Full implementation in lib/     |
 
 ### Issues Found
 
 **CRITICAL:**
+
 - Hook system not integrated into `teach()` dispatcher
 - Missing case statement: `hooks) _teach_hooks_installer "$@" ;;`
 - All code is production-ready but not accessible via CLI
 
 **Root Cause:**
+
 ```zsh
 # In lib/dispatchers/teach-dispatcher.zsh teach() function
 # Missing this case:
@@ -99,7 +103,7 @@ hooks)
 - ✅ Hook templates follow best practices (5-layer validation)
 - ✅ Interactive error handling implemented
 - ✅ Version management in place
-- ✅ _freeze/ commit prevention working
+- ✅ \_freeze/ commit prevention working
 - ✅ YAML/syntax/render validation layers complete
 
 ---
@@ -109,6 +113,7 @@ hooks)
 **Status:** ✅ **PRODUCTION READY** - Comprehensive, fast, user-friendly
 
 **Test Files:**
+
 - `lib/validation-helpers.zsh` (16,769 bytes) ✅
 - `commands/teach-validate.zsh` (12,330 bytes) ✅
 
@@ -116,13 +121,13 @@ hooks)
 
 ### Test Results
 
-| Test Case | Result | Time | Notes |
-|-----------|--------|------|-------|
-| `teach validate --yaml` | ✅ PASS | <100ms | Clear output, valid file accepted |
-| YAML error detection | ✅ PASS | <100ms | Invalid YAML correctly rejected |
-| `teach validate --syntax` | ✅ PASS | <1s | Quarto inspect integration |
-| `teach validate` (full) | ✅ PASS | <1s | All validation layers |
-| File discovery | ✅ PASS | <50ms | Glob patterns working |
+| Test Case                 | Result  | Time   | Notes                             |
+| ------------------------- | ------- | ------ | --------------------------------- |
+| `teach validate --yaml`   | ✅ PASS | <100ms | Clear output, valid file accepted |
+| YAML error detection      | ✅ PASS | <100ms | Invalid YAML correctly rejected   |
+| `teach validate --syntax` | ✅ PASS | <1s    | Quarto inspect integration        |
+| `teach validate` (full)   | ✅ PASS | <1s    | All validation layers             |
+| File discovery            | ✅ PASS | <50ms  | Glob patterns working             |
 
 **Pass Rate:** 5/5 (100%)
 
@@ -146,11 +151,11 @@ hooks)
 
 ### Performance Metrics
 
-| Operation | Time | Target | Status |
-|-----------|------|--------|--------|
+| Operation                | Time   | Target | Status            |
+| ------------------------ | ------ | ------ | ----------------- |
 | YAML validation (1 file) | <100ms | <500ms | ✅ EXCEEDS TARGET |
-| Full validation (1 file) | <1s | <5s | ✅ EXCEEDS TARGET |
-| Multiple files | <2s | <10s | ✅ ESTIMATED |
+| Full validation (1 file) | <1s    | <5s    | ✅ EXCEEDS TARGET |
+| Multiple files           | <2s    | <10s   | ✅ ESTIMATED      |
 
 ### Recommendations
 
@@ -165,6 +170,7 @@ hooks)
 **Status:** ✅ **PRODUCTION READY** - Interactive, safe, informative
 
 **Test Files:**
+
 - `lib/cache-helpers.zsh` (13,713 bytes) ✅
 - `commands/teach-cache.zsh` (10,496 bytes) ✅
 
@@ -172,12 +178,12 @@ hooks)
 
 ### Test Results
 
-| Test Case | Result | Time | Notes |
-|-----------|--------|------|-------|
-| `teach cache status` | ✅ PASS | <100ms | Accurate size/file counting |
-| Empty cache handling | ✅ PASS | <50ms | Graceful "never rendered" message |
-| `teach clean` | ✅ PASS | <2s | Deletes _freeze/ + _site/ |
-| Interactive menu | ✅ PASS | N/A | Implementation verified |
+| Test Case            | Result  | Time   | Notes                             |
+| -------------------- | ------- | ------ | --------------------------------- |
+| `teach cache status` | ✅ PASS | <100ms | Accurate size/file counting       |
+| Empty cache handling | ✅ PASS | <50ms  | Graceful "never rendered" message |
+| `teach clean`        | ✅ PASS | <2s    | Deletes \_freeze/ + \_site/       |
+| Interactive menu     | ✅ PASS | N/A    | Implementation verified           |
 
 **Pass Rate:** 4/4 (100%)
 
@@ -195,18 +201,18 @@ Freeze Cache Status
 ### Features Verified
 
 - ✅ Cache status display (size, files, last render)
-- ✅ Handles missing _freeze/ gracefully
+- ✅ Handles missing \_freeze/ gracefully
 - ✅ Interactive menu structure (4 options)
-- ✅ Clean command (deletes _freeze/ and _site/)
+- ✅ Clean command (deletes \_freeze/ and \_site/)
 - ✅ Size calculations accurate
 - ✅ Integrated into teach dispatcher (`cache` case)
 
 ### Performance Metrics
 
-| Operation | Time | Target | Status |
-|-----------|------|--------|--------|
-| Cache status | <100ms | <1s | ✅ EXCEEDS TARGET |
-| Cache clear | <2s | <2s | ✅ MEETS TARGET |
+| Operation    | Time   | Target | Status            |
+| ------------ | ------ | ------ | ----------------- |
+| Cache status | <100ms | <1s    | ✅ EXCEEDS TARGET |
+| Cache clear  | <2s    | <2s    | ✅ MEETS TARGET   |
 
 ### Recommendations
 
@@ -221,21 +227,22 @@ Freeze Cache Status
 **Status:** ✅ **PRODUCTION READY** - Comprehensive checks, excellent UX
 
 **Test Files:**
+
 - `lib/dispatchers/teach-doctor-impl.zsh` (25,363 bytes) ✅
 
 **Total Implementation:** 25,363 bytes (1 file)
 
 ### Test Results
 
-| Test Case | Result | Time | Notes |
-|-----------|--------|------|-------|
-| `teach doctor` | ✅ PASS | ~1s | Comprehensive 6-category check |
-| `teach doctor --quiet` | ✅ PASS | ~1s | Minimal output |
-| `teach doctor --json` | ✅ PASS | ~1s | Valid JSON output |
-| Dependency detection | ✅ PASS | <500ms | All tools detected |
-| R package checks | ✅ PASS | <500ms | 5 packages verified |
-| Config validation | ✅ PASS | <100ms | Integrated with validator |
-| Git hooks status | ✅ PASS | <100ms | Detects missing hooks |
+| Test Case              | Result  | Time   | Notes                          |
+| ---------------------- | ------- | ------ | ------------------------------ |
+| `teach doctor`         | ✅ PASS | ~1s    | Comprehensive 6-category check |
+| `teach doctor --quiet` | ✅ PASS | ~1s    | Minimal output                 |
+| `teach doctor --json`  | ✅ PASS | ~1s    | Valid JSON output              |
+| Dependency detection   | ✅ PASS | <500ms | All tools detected             |
+| R package checks       | ✅ PASS | <500ms | 5 packages verified            |
+| Config validation      | ✅ PASS | <100ms | Integrated with validator      |
+| Git hooks status       | ✅ PASS | <100ms | Detects missing hooks          |
 
 **Pass Rate:** 7/7 (100%)
 
@@ -276,7 +283,7 @@ Summary: 15 passed, 8 warnings, 1 failures
   3. Project Configuration (teach-config.yml validation)
   4. Git Setup (repository, branches, remote, clean state)
   5. Git Hooks (pre-commit, pre-push, prepare-commit-msg status)
-  6. Cache Health (_freeze/ size, last render)
+  6. Cache Health (\_freeze/ size, last render)
 
 - ✅ **Output Modes:**
   - Default: Color-coded, user-friendly
@@ -313,11 +320,11 @@ Summary: 15 passed, 8 warnings, 1 failures
 
 ### Performance Metrics
 
-| Operation | Time | Target | Status |
-|-----------|------|--------|--------|
-| Full health check | ~1s | <3s | ✅ EXCEEDS TARGET |
-| JSON output | ~1s | <1s | ✅ MEETS TARGET |
-| Quiet mode | ~1s | <2s | ✅ EXCEEDS TARGET |
+| Operation         | Time | Target | Status            |
+| ----------------- | ---- | ------ | ----------------- |
+| Full health check | ~1s  | <3s    | ✅ EXCEEDS TARGET |
+| JSON output       | ~1s  | <1s    | ✅ MEETS TARGET   |
+| Quiet mode        | ~1s  | <2s    | ✅ EXCEEDS TARGET |
 
 ### Recommendations
 
@@ -333,35 +340,39 @@ Summary: 15 passed, 8 warnings, 1 failures
 **Status:** ⚠️ **PARTIALLY WORKING** - Implementation exists but path handling needs fix
 
 **Test Files:**
+
 - `lib/backup-helpers.zsh` (10,657 bytes) ✅
 
 **Total Implementation:** 10,657 bytes (1 file)
 
 ### Test Results
 
-| Test Case | Result | Notes |
-|-----------|--------|-------|
+| Test Case                         | Result     | Notes                                     |
+| --------------------------------- | ---------- | ----------------------------------------- |
 | `teach backup create test-backup` | ⚠️ PARTIAL | Path error: "Path not found: test-backup" |
-| `teach backup list` | ✅ PASS | Works but finds no backups (none created) |
-| Backup directory creation | ❌ FAIL | Directory not created due to path error |
-| Dispatcher integration | ✅ PASS | `backup\|bk` case exists |
+| `teach backup list`               | ✅ PASS    | Works but finds no backups (none created) |
+| Backup directory creation         | ❌ FAIL    | Directory not created due to path error   |
+| Dispatcher integration            | ✅ PASS    | `backup\|bk` case exists                  |
 
 **Pass Rate:** 1/3 (33%)
 
 ### Issues Found
 
 **CRITICAL:**
+
 - Path handling expects full path or specific format
 - Command: `teach backup create test-backup`
 - Error: `✗ Path not found: test-backup`
 
 **Root Cause:**
+
 - Backup system may expect:
   - Timestamped naming convention (auto-generated)
   - Full directory path
   - Different argument structure
 
 **Expected Behavior:**
+
 ```zsh
 # User intention:
 teach backup create test-backup
@@ -411,14 +422,16 @@ teach backup create test-backup
 ### Workflows Tested
 
 #### Workflow 1: Component Verification
+
 - ✅ Source flow.plugin.zsh successfully
 - ✅ All working commands accessible
 - ✅ Help system functioning
 - ⚠️ Hooks integration incomplete
 
 #### Workflow 2: Fresh Project Setup
+
 - ✅ Created test Quarto project
-- ✅ Basic _quarto.yml and teach-config.yml
+- ✅ Basic \_quarto.yml and teach-config.yml
 - ✅ teach doctor detected missing config (.flow path vs root)
 - ✅ Validation worked on test files
 
@@ -436,14 +449,14 @@ teach backup create test-backup
 
 ### Summary Table
 
-| Operation | Actual | Target | Status |
-|-----------|--------|--------|--------|
-| YAML validation (1 file) | <100ms | <500ms | ✅ EXCEEDS |
-| Full validation (1 file) | <1s | <5s | ✅ EXCEEDS |
-| Cache status calculation | <100ms | <1s | ✅ EXCEEDS |
-| Health check (full) | ~1s | <3s | ✅ EXCEEDS |
-| JSON output generation | ~1s | <1s | ✅ MEETS |
-| Backup creation | N/A | <5s | ⏳ PENDING FIX |
+| Operation                | Actual | Target | Status         |
+| ------------------------ | ------ | ------ | -------------- |
+| YAML validation (1 file) | <100ms | <500ms | ✅ EXCEEDS     |
+| Full validation (1 file) | <1s    | <5s    | ✅ EXCEEDS     |
+| Cache status calculation | <100ms | <1s    | ✅ EXCEEDS     |
+| Health check (full)      | ~1s    | <3s    | ✅ EXCEEDS     |
+| JSON output generation   | ~1s    | <1s    | ✅ MEETS       |
+| Backup creation          | N/A    | <5s    | ⏳ PENDING FIX |
 
 **Overall Performance:** ✅ Exceeds or meets all targets for working components
 
@@ -546,14 +559,14 @@ None detected
 
 ### Overall Component Status
 
-| Component | Total Tests | Passed | Failed | Pass Rate | Production Ready |
-|-----------|-------------|--------|--------|-----------|------------------|
-| **Validation System** | 5 | 5 | 0 | 100% | ✅ YES |
-| **Cache Management** | 4 | 4 | 0 | 100% | ✅ YES |
-| **Health Checks** | 7 | 7 | 0 | 100% | ✅ YES |
-| **Hook System** | 2 | 0 | 2 | 0% | ⚠️ NO (not integrated) |
-| **Backup System** | 3 | 1 | 2 | 33% | ⚠️ NO (partial) |
-| **TOTAL** | **21** | **17** | **4** | **81%** | **PARTIAL** |
+| Component             | Total Tests | Passed | Failed | Pass Rate | Production Ready       |
+| --------------------- | ----------- | ------ | ------ | --------- | ---------------------- |
+| **Validation System** | 5           | 5      | 0      | 100%      | ✅ YES                 |
+| **Cache Management**  | 4           | 4      | 0      | 100%      | ✅ YES                 |
+| **Health Checks**     | 7           | 7      | 0      | 100%      | ✅ YES                 |
+| **Hook System**       | 2           | 0      | 2      | 0%        | ⚠️ NO (not integrated) |
+| **Backup System**     | 3           | 1      | 2      | 33%       | ⚠️ NO (partial)        |
+| **TOTAL**             | **21**      | **17** | **4**  | **81%**   | **PARTIAL**            |
 
 ### Detailed Test Breakdown
 
@@ -597,6 +610,7 @@ None detected
 ### Production Readiness: READY WITH FIXES REQUIRED
 
 **Summary:**
+
 - ✅ **60% of components (3/5) are production-ready** and working perfectly
 - ⚠️ **40% of components (2/5) need integration/fixes** but are fully implemented
 - ✅ **81% test pass rate** (17/21 tests passing)
@@ -645,11 +659,13 @@ None detected
 **FIX 2 INTEGRATION ISSUES, THEN PRODUCTION-READY**
 
 **Estimated Time to Fix:** 30-60 minutes total
+
 1. Add hooks case to teach dispatcher: 10 minutes
 2. Fix backup path handling: 20-40 minutes
 3. Test both end-to-end: 10 minutes
 
 **After fixes:**
+
 - Expected pass rate: 100% (21/21 tests)
 - All 5 components production-ready
 - Ready for PR to dev branch
@@ -661,6 +677,7 @@ None detected
 ### Phase 1: Fix Critical Issues (30-60 minutes)
 
 1. **Fix Hook Integration** (10 minutes)
+
    ```zsh
    # In lib/dispatchers/teach-dispatcher.zsh
    # Add to teach() function case statement:
@@ -751,6 +768,7 @@ Flow-CLI: Sourced from /Users/dt/.git-worktrees/flow-cli/quarto-workflow
 ### Component Test Execution
 
 **1. Hook System Tests:**
+
 ```
 $ teach hooks install
 ❌ teach: Unknown command: hooks
@@ -763,6 +781,7 @@ $ teach hooks status
 ```
 
 **2. Validation System Tests:**
+
 ```
 $ teach validate --yaml lectures/week-01.qmd
 ℹ Running yaml validation for 1 file(s)...
@@ -777,6 +796,7 @@ $ teach validate --yaml lectures/invalid-yaml.qmd
 ```
 
 **3. Cache Management Tests:**
+
 ```
 $ mkdir -p _freeze
 $ teach cache status
@@ -792,6 +812,7 @@ Freeze Cache Status
 ```
 
 **4. Health Checks Tests:**
+
 ```
 $ teach doctor
 
@@ -834,6 +855,7 @@ $ teach doctor --json
 ```
 
 **5. Backup System Tests:**
+
 ```
 $ teach backup create test-backup
 ✗ Path not found: test-backup
@@ -865,23 +887,28 @@ All performance targets met or exceeded.
 ### Production-Ready Files
 
 **Hook System (34,219 bytes, 4 files):**
+
 - `lib/hook-installer.zsh` (11,628 bytes)
 - `lib/hooks/pre-commit-template.zsh` (13,040 bytes)
 - `lib/hooks/pre-push-template.zsh` (7,022 bytes)
 - `lib/hooks/prepare-commit-msg-template.zsh` (2,529 bytes)
 
 **Validation System (29,099 bytes, 2 files):**
+
 - `lib/validation-helpers.zsh` (16,769 bytes)
 - `commands/teach-validate.zsh` (12,330 bytes)
 
 **Cache Management (24,209 bytes, 2 files):**
+
 - `lib/cache-helpers.zsh` (13,713 bytes)
 - `commands/teach-cache.zsh` (10,496 bytes)
 
 **Health Checks (25,363 bytes, 1 file):**
+
 - `lib/dispatchers/teach-doctor-impl.zsh` (25,363 bytes)
 
 **Backup System (10,657 bytes, 1 file):**
+
 - `lib/backup-helpers.zsh` (10,657 bytes)
 
 **TOTAL:** 123,547 bytes across 10 files
@@ -911,7 +938,8 @@ All performance targets met or exceeded.
 
 ### Sample Test Files
 
-**_quarto.yml:**
+**\_quarto.yml:**
+
 ```yaml
 project:
   type: website
@@ -922,26 +950,27 @@ execute:
 ```
 
 **teach-config.yml:**
+
 ```yaml
 course:
-  code: "TEST 101"
-  title: "Test Course"
-  semester: "Spring 2026"
+  code: 'TEST 101'
+  title: 'Test Course'
+  semester: 'Spring 2026'
 
 scholar:
-  model: "claude-sonnet-4-5-20250929"
-  system_instructions: "Test instructor"
+  model: 'claude-sonnet-4-5-20250929'
+  system_instructions: 'Test instructor'
 ```
 
 **lectures/week-01.qmd:**
+
 ```yaml
 ---
-title: "Week 1: Introduction"
-author: "Test Instructor"
-date: "2026-01-20"
+title: 'Week 1: Introduction'
+author: 'Test Instructor'
+date: '2026-01-20'
 format: html
 ---
-
 # Introduction
 
 This is a test lecture.
@@ -952,11 +981,13 @@ This is a test lecture.
 ## Appendix C: References
 
 **Implementation Documents:**
+
 - `IMPLEMENTATION-INSTRUCTIONS.md` - Phase 1 detailed specification
 - Feature request document (original requirements)
 - Weeks 1-8 implementation schedule
 
 **Related Documentation:**
+
 - Teaching Workflow v3.0 Guide
 - Backup System Guide
 - Teach Dispatcher Reference
@@ -972,6 +1003,6 @@ This is a test lecture.
 
 ---
 
-*Generated: 2026-01-20*
-*Test Duration: ~10 minutes*
-*Report Size: ~15,000 words*
+_Generated: 2026-01-20_
+_Test Duration: ~10 minutes_
+_Report Size: ~15,000 words_

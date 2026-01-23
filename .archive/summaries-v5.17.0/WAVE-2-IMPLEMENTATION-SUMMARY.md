@@ -123,17 +123,20 @@ rmdir "$lock_dir"
 ```
 
 **Operations:**
+
 - `_fetch_job_atomic`: Fetch and remove first job from queue
 - `_record_job_result`: Append result to results file
 
 ### 5. Progress Tracking
 
 **Real-time display:**
+
 ```
 [████████░░░░] 67% (8/12) - 45s elapsed, ~22s remaining
 ```
 
 **Features:**
+
 - Updates every 500ms
 - ETA based on average completion time
 - Formatted durations (1m 30s, 45s, etc.)
@@ -171,6 +174,7 @@ _detect_cpu_cores() {
 ### Worker Process
 
 Each worker:
+
 1. Sources render-queue helpers
 2. Fetches jobs atomically from queue
 3. Executes `quarto render` with timing
@@ -259,11 +263,11 @@ Test Groups:
 
 ### Speedup Targets
 
-| Scenario | Serial | Parallel (8 cores) | Speedup Target |
-|----------|--------|-------------------|----------------|
-| 12 files, avg 13s | 156s | <50s | >3x |
-| 20 files, avg 8s | 160s | <30s | >5x |
-| 30 files, mixed | 420s | <70s | >6x |
+| Scenario          | Serial | Parallel (8 cores) | Speedup Target |
+| ----------------- | ------ | ------------------ | -------------- |
+| 12 files, avg 13s | 156s   | <50s               | >3x            |
+| 20 files, avg 8s  | 160s   | <30s               | >5x            |
+| 30 files, mixed   | 420s   | <70s               | >6x            |
 
 ### Test Results
 
@@ -291,6 +295,7 @@ Test Groups:
 **Chosen:** mkdir-based locking
 
 **Rationale:**
+
 - Cross-platform (macOS/Linux)
 - No external dependencies
 - Atomic operation
@@ -298,6 +303,7 @@ Test Groups:
 - Simple retry logic
 
 **flock issues:**
+
 - Syntax differs between platforms
 - Requires file descriptors
 - Parse errors in ZSH when used incorrectly
@@ -309,6 +315,7 @@ Test Groups:
 **Format:** `file_path|duration|timestamp`
 
 **Benefits:**
+
 - Survives across sessions
 - Improves estimation accuracy
 - Auto-pruned to 1000 entries
@@ -319,11 +326,13 @@ Test Groups:
 **Rationale:** Maximize parallelism
 
 If we queue fast files first:
+
 - Slow files start late
 - Last worker still running when others idle
 - Total time = slowest file
 
 If we queue slow files first:
+
 - Slow files start early
 - Fast files fill gaps
 - Better load distribution
@@ -334,6 +343,7 @@ If we queue slow files first:
 **Chosen:** 500ms
 
 **Rationale:**
+
 - Smooth updates
 - Low overhead
 - Responsive feel
@@ -344,6 +354,7 @@ If we queue slow files first:
 ### 1. teach-dispatcher.zsh
 
 Will add:
+
 ```zsh
 --parallel      # Enable parallel rendering
 --workers N     # Specify worker count (default: auto)
@@ -352,6 +363,7 @@ Will add:
 ### 2. validation-helpers.zsh
 
 Will integrate:
+
 ```zsh
 if [[ "$parallel" == "true" ]]; then
     _parallel_render --workers "$num_workers" -- "${files[@]}"
@@ -366,6 +378,7 @@ fi
 ### 3. Error Fallback
 
 If parallel rendering fails:
+
 1. Log error
 2. Fall back to serial rendering
 3. Continue validation
@@ -381,14 +394,14 @@ If parallel rendering fails:
 
 ## Files Summary
 
-| File | Lines | Purpose |
-|------|-------|---------|
-| lib/parallel-helpers.zsh | 476 | Worker pool, orchestration |
-| lib/render-queue.zsh | 409 | Queue optimization, estimation |
-| lib/parallel-progress.zsh | 208 | Progress display |
-| tests/test-parallel-rendering-unit.zsh | ~550 | 39 unit tests |
-| tests/test-render-queue-unit.zsh | ~570 | 35 unit tests |
-| **Total** | **~2,213 lines** | **74 tests** |
+| File                                   | Lines            | Purpose                        |
+| -------------------------------------- | ---------------- | ------------------------------ |
+| lib/parallel-helpers.zsh               | 476              | Worker pool, orchestration     |
+| lib/render-queue.zsh                   | 409              | Queue optimization, estimation |
+| lib/parallel-progress.zsh              | 208              | Progress display               |
+| tests/test-parallel-rendering-unit.zsh | ~550             | 39 unit tests                  |
+| tests/test-render-queue-unit.zsh       | ~570             | 35 unit tests                  |
+| **Total**                              | **~2,213 lines** | **74 tests**                   |
 
 ## Success Criteria
 

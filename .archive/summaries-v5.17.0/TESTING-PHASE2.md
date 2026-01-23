@@ -854,9 +854,9 @@ rm -rf /tmp/flow-test
 
 ## Test Results
 
-**Tester:** ******\_\_\_******
-**Date:** ******\_\_\_******
-**Environment:** ******\_\_\_******
+**Tester:** **\*\***\_\_\_**\*\***
+**Date:** **\*\***\_\_\_**\*\***
+**Environment:** **\*\***\_\_\_**\*\***
 **Status:** [ ] PASS [ ] FAIL [ ] PARTIAL
 
 **Notes:**
