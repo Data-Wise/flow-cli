@@ -1,7 +1,7 @@
 # Teach Analyze API Reference
 
 **Version:** v5.16.0 (Phase 5)
-**Last Updated:** 2026-01-22
+**Last Updated:** 2026-01-22 (Enhanced prerequisite display)
 
 ---
 
@@ -15,6 +15,7 @@ The `teach analyze` system provides intelligent content analysis for teaching wo
 |---------|-------------|-------|
 | Concept Extraction | Parse `concepts:` from YAML frontmatter | Phase 0 |
 | Prerequisite Validation | Detect missing/future prerequisites | Phase 0 |
+| Prerequisite Tree Display | Per-concept dependency tree with transitive deps | Phase 0 |
 | Integration | `teach validate --concepts`, `teach status` | Phase 1 |
 | Smart Caching | SHA-256 content hash, TTL expiration | Phase 2 |
 | Report Generation | Markdown/JSON reports | Phase 2 |
@@ -1085,6 +1086,88 @@ teach slides --optimize --key-concepts --apply-suggestions lectures/week-05.qmd
 
   To generate slides: teach slides --optimize --apply-suggestions lectures/week-05.qmd
 ```
+
+---
+
+## Display API
+
+**File:** `lib/analysis-display.zsh`
+
+### _display_prerequisites_section
+
+Display prerequisite dependency tree for concepts introduced in the analyzed file.
+
+```zsh
+_display_prerequisites_section <results_file> <analyzed_file>
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `results_file` | string | Path to concept graph JSON (e.g., `/tmp/concepts-graph-*.json`) |
+| `analyzed_file` | string | Path to analyzed lecture file (e.g., `lectures/week-03.qmd`) |
+
+**Returns:** Formatted tree display to stdout
+
+**Behavior:**
+
+1. Extracts week number from `analyzed_file` using regex
+2. Queries concept graph for concepts introduced in that week
+3. For each introduced concept:
+   - Displays concept name as header
+   - Lists direct prerequisites (first level)
+   - Recursively shows transitive prerequisites (indented with `↳`)
+   - Adds `(via X)` attribution for transitive dependencies
+   - Color-codes status:
+     - `✓` Green: Prerequisite covered in earlier week
+     - `⚠` Yellow: Covered in same week (suggest reordering)
+     - `✗` Red: Not found or future week (error)
+4. Deduplicates prerequisites to avoid showing same concept multiple times
+5. Filters out self-references
+
+**Output Format:**
+
+```
+🔗 PREREQUISITES
+
+For concepts introduced in Week 3:
+
+Linear Regression
+  ✓ Correlation (Week 2)
+    ↳ Descriptive Statistics (Week 1)
+      (via Correlation)
+  ✓ Statistical Inference (Week 2)
+
+Residuals
+  ✓ Linear Regression (Week 3)
+  ✓ Variance (Week 1)
+```
+
+**Design Features:**
+
+- **Per-concept breakdown**: Each introduced concept gets its own section
+- **Dependency tree**: Transitive dependencies shown with indentation
+- **Attribution tracking**: Shows which prerequisite brings in transitive deps
+- **Status validation**: Checks if prerequisites covered in correct order
+- **Duplicate prevention**: Uses associative array to track seen prerequisites
+- **Subshell isolation**: Runs in subshell `( )` to avoid polluting parent shell state
+
+**Implementation Notes:**
+
+- Uses `jq` for JSON querying (gracefully degrades if not available)
+- Regex extracts week number: `week-0*([0-9]+)` → `3`
+- Quote stripping: `prereq_id="${prereq_id//\"/}"` removes embedded quotes from JSON
+- Process substitution: `< <(jq ...)` feeds data to while loop
+
+**Example Usage:**
+
+```zsh
+# Called from teach-analyze.zsh
+local results_file="/tmp/concepts-graph-12345.json"
+local analyzed_file="lectures/week-03-regression.qmd"
+_display_prerequisites_section "$results_file" "$analyzed_file"
+```
+
+**Performance:** Typical execution < 100ms for files with 10-15 concepts
 
 ---
 

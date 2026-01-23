@@ -122,14 +122,59 @@ concepts:
 │ Introduces: regression, residuals        │
 │ Requires:   correlation, variance        │
 ├──────────────────────────────────────────┤
-│ PREREQUISITES                            │
-│ ✓ correlation (Week 1)                   │
-│ ✓ variance (Week 1)                      │
+│ 🔗 PREREQUISITES                         │
+│                                          │
+│ For concepts introduced in Week 3:       │
+│                                          │
+│ Linear Regression                        │
+│   ✓ Correlation (Week 2)                 │
+│     ↳ Descriptive Statistics (Week 1)    │
+│       (via Correlation)                  │
+│   ✓ Statistical Inference (Week 2)       │
+│                                          │
+│ Residuals                                │
+│   ✓ Linear Regression (Week 3)           │
+│   ✓ Variance (Week 1)                    │
+│                                          │
 ├──────────────────────────────────────────┤
 │ SUMMARY                                  │
 │ Phase: 0 (concept-validated)             │
 ╚══════════════════════════════════════════╝
 ```
+
+### Prerequisite Display Format
+
+The prerequisites section shows a **dependency tree** for each concept introduced in the analyzed file:
+
+```
+🔗 PREREQUISITES
+
+For concepts introduced in Week 3:
+
+Linear Regression
+  ✓ Correlation (Week 2)
+    ↳ Descriptive Statistics (Week 1)
+      (via Correlation)
+  ✓ Statistical Inference (Week 2)
+```
+
+**Features:**
+
+- **Per-concept breakdown**: Each introduced concept listed separately
+- **Direct prerequisites**: First-level indentation (2 spaces)
+- **Transitive prerequisites**: Second-level indentation (4 spaces) with `↳` arrow
+- **Attribution**: Shows `(via X)` to indicate which prerequisite brings in transitive dependencies
+- **Status indicators**:
+  - `✓` Green: Covered in earlier week
+  - `⚠` Yellow: Covered in same week (reordering suggested)
+  - `✗` Red: Not found or future week (error)
+
+**Example Interpretation:**
+
+In the example above:
+- `Linear Regression` requires `Correlation` (Week 2) ← direct
+- `Correlation` itself requires `Descriptive Statistics` (Week 1) ← transitive
+- The `(via Correlation)` shows that `Descriptive Statistics` is a transitive dependency through `Correlation`
 
 ### Phase 4 Output (--slide-breaks)
 
