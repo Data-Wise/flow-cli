@@ -1,0 +1,103 @@
+{
+  "version": "1.0",
+  "schema_version": "concept-graph-v1",
+  "metadata": {
+    "last_updated": "2026-01-22T12:00:00Z",
+    "course_hash": "abc123def456",
+    "total_concepts": 9,
+    "weeks": 3,
+    "extraction_method": "frontmatter"
+  },
+  "concepts": {
+    "mean": {
+      "id": "mean",
+      "name": "Mean",
+      "prerequisites": [],
+      "introduced_in": {
+        "week": 1,
+        "lecture": "lectures/week-01-lecture.qmd",
+        "line_number": 8
+      }
+    },
+    "variance": {
+      "id": "variance",
+      "name": "Variance",
+      "prerequisites": ["mean"],
+      "introduced_in": {
+        "week": 1,
+        "lecture": "lectures/week-01-lecture.qmd",
+        "line_number": 9
+      }
+    },
+    "standard-deviation": {
+      "id": "standard-deviation",
+      "name": "Standard-Deviation",
+      "prerequisites": ["variance"],
+      "introduced_in": {
+        "week": 1,
+        "lecture": "lectures/week-01-lecture.qmd",
+        "line_number": 10
+      }
+    },
+    "correlation": {
+      "id": "correlation",
+      "name": "Correlation",
+      "prerequisites": ["mean", "variance"],
+      "introduced_in": {
+        "week": 2,
+        "lecture": "lectures/week-02-lecture.qmd",
+        "line_number": 8
+      }
+    },
+    "covariance": {
+      "id": "covariance",
+      "name": "Covariance",
+      "prerequisites": ["variance"],
+      "introduced_in": {
+        "week": 2,
+        "lecture": "lectures/week-02-lecture.qmd",
+        "line_number": 9
+      }
+    },
+    "simple-regression": {
+      "id": "simple-regression",
+      "name": "Simple-Regression",
+      "prerequisites": ["correlation", "variance"],
+      "introduced_in": {
+        "week": 3,
+        "lecture": "lectures/week-03-lecture.qmd",
+        "line_number": 8
+      }
+    },
+    "residuals": {
+      "id": "residuals",
+      "name": "Residuals",
+      "prerequisites": ["simple-regression"],
+      "introduced_in": {
+        "week": 3,
+        "lecture": "lectures/week-03-lecture.qmd",
+        "line_number": 9
+      }
+    },
+    "r-squared": {
+      "id": "r-squared",
+      "name": "R-Squared",
+      "prerequisites": ["simple-regression", "residuals"],
+      "introduced_in": {
+        "week": 3,
+        "lecture": "lectures/week-03-lecture.qmd",
+        "line_number": 10
+      }
+    },
+    "regression-assumptions": {
+      "id": "regression-assumptions",
+      "name": "Regression-Assumptions",
+      "prerequisites": ["simple-regression", "residuals"],
+      "introduced_in": {
+        "week": 3,
+        "lecture": "lectures/week-03-lecture.qmd",
+        "line_number": 11
+      }
+    }
+  }
+}

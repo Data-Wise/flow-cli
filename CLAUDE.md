@@ -541,11 +541,51 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.15.1 (Released 2026-01-21)
-**Status:** ✅ Production Ready
+**Version:** v5.16.0 (In Development - Teach Analyze)
+**Branch:** `feature/teach-analyze` (ready for PR to dev)
+**Status:** ✅ All Phases Complete (0-5)
 **Performance:** Sub-10ms for core commands, 3-10x speedup for parallel rendering
 **Documentation:** https://Data-Wise.github.io/flow-cli/
-**Tests:** 100+ test suites across all features
+**Tests:** 362+ tests across 11 suites (100% passing)
+
+---
+
+## In Progress: Intelligent Content Analysis (Teach Analyze)
+
+**Branch:** `feature/teach-analyze`
+**Commits:** 20+
+**Lines:** +18,480/-11,544
+
+### Phase Summary
+
+| Phase | Feature | Status | Tests |
+|-------|---------|--------|-------|
+| 0 | Concept extraction, prerequisite validation | ✅ | ~65 |
+| 1 | Integration (teach validate, teach status) | ✅ | ~20 |
+| 2 | Cache (SHA-256, flock), reports, interactive mode | ✅ | ~65 |
+| 3 | AI analysis (claude CLI, cost tracking) | ✅ | 55 |
+| 4 | Slide optimizer (breaks, key concepts, timing) | ✅ | 109 |
+| 5 | Error handling, slide cache, dependency checks | ✅ | 33 |
+| Integration | teach slides --optimize pipeline | ✅ | 29 |
+
+### Key Files
+
+**Libraries (6):**
+- `lib/concept-extraction.zsh` (446 lines) - YAML frontmatter parsing
+- `lib/prerequisite-checker.zsh` (376 lines) - DAG validation
+- `lib/analysis-cache.zsh` (1,383 lines) - SHA-256 cache with flock
+- `lib/report-generator.zsh` (985 lines) - Markdown/JSON reports
+- `lib/ai-analysis.zsh` (514 lines) - Claude CLI integration
+- `lib/slide-optimizer.zsh` (627 lines) - Heuristic slide breaks
+
+**Command:** `commands/teach-analyze.zsh` (1,203 lines)
+
+**Documentation (5):**
+- `docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md` (user guide)
+- `docs/reference/TEACH-ANALYZE-API-REFERENCE.md` (API docs)
+- `docs/reference/TEACH-ANALYZE-ARCHITECTURE.md` (Mermaid diagrams)
+- `docs/reference/REFCARD-TEACH-ANALYZE.md` (quick reference)
+- `docs/tutorials/21-teach-analyze.md` (interactive tutorial)
 
 ---
 

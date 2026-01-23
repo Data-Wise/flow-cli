@@ -73,6 +73,39 @@ scholar:
     participation: 10
 
 # =============================================================================
+# CONCEPT ANALYSIS (Optional - for prerequisite validation)
+# Used by: teach analyze, teach validate --concepts
+# Docs: https://data-wise.github.io/flow-cli/guides/INTELLIGENT-CONTENT-ANALYSIS.html
+# =============================================================================
+
+concepts:
+  # Enable concept extraction from frontmatter
+  auto_extract: true
+
+  # Validation settings
+  analysis:
+    strict_ordering: true    # Enforce week-based prerequisite ordering
+    warn_orphans: false      # Warn about concepts with no prerequisites
+
+  # Course-level concept definitions (overrides frontmatter)
+  # weeks:
+  #   1:
+  #     introduces: [mean, variance, standard-deviation]
+  #     requires: []
+  #   2:
+  #     introduces: [correlation, covariance]
+  #     requires: [mean, variance]
+  #   3:
+  #     introduces: [simple-regression, residuals, r-squared]
+  #     requires: [correlation, variance]
+
+  # External prerequisites (concepts assumed known but not taught in this course)
+  # global_prerequisites:
+  #   - concept: calculus
+  #     required_for: [optimization, derivatives]
+  #     introduced: 'external'
+
+# =============================================================================
 # EXAMARK (Optional - for exam rendering)
 # Install: npm install -g examark
 # Enable: yq -i '.examark.enabled = true' .flow/teach-config.yml

@@ -320,6 +320,29 @@ _teach_show_status_dashboard() {
         _status_box_line "⏱️ " "Performance" "$perf_label"
     fi
 
+    # Concept analysis status (Phase 1)
+    local concept_label="Not analyzed (run 'teach analyze')"
+    local concepts_file=".teach/concepts.json"
+    if [[ -f "$concepts_file" ]] && command -v jq >/dev/null 2>&1; then
+        local concept_count=$(jq '.metadata.total_concepts // 0' "$concepts_file" 2>/dev/null)
+        local week_count=$(jq '.metadata.weeks // 0' "$concepts_file" 2>/dev/null)
+        local last_updated=$(jq -r '.metadata.last_updated // ""' "$concepts_file" 2>/dev/null)
+
+        if [[ "$concept_count" -gt 0 ]]; then
+            # Calculate time since last analysis
+            local analysis_label=""
+            if [[ -n "$last_updated" && "$last_updated" != "null" ]]; then
+                local analysis_ts=$(date -jf "%Y-%m-%dT%H:%M:%SZ" "$last_updated" +%s 2>/dev/null || \
+                                   date -d "$last_updated" +%s 2>/dev/null)
+                if [[ -n "$analysis_ts" && "$analysis_ts" -gt 0 ]]; then
+                    analysis_label=" ($(_status_time_ago $analysis_ts))"
+                fi
+            fi
+            concept_label="${concept_count} concepts, ${week_count} weeks${analysis_label}"
+        fi
+    fi
+    _status_box_line "📊" "Concepts" "$concept_label"
+
     echo "└─────────────────────────────────────────────────────────────────┘"
     echo ""
 
