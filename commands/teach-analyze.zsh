@@ -162,6 +162,12 @@ _teach_analyze() {
         return 1
     fi
 
+    # Convert relative paths to absolute paths
+    # This is critical for correct course_dir calculation
+    if [[ "${file_path:0:1}" != "/" ]]; then
+        file_path="${PWD}/${file_path}"
+    fi
+
     # Validate file extension
     if [[ "${file_path:e}" != "qmd" && "${file_path:e}" != "md" ]]; then
         echo "${FLOW_YELLOW}Warning: Expected .qmd or .md file, got .${file_path:e}${FLOW_RESET}"

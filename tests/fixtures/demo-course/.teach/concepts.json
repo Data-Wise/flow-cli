@@ -1,87 +1,167 @@
 {
-  "course": {
-    "name": "Introduction to Statistics (Demo Course)",
-    "code": "STAT-101",
-    "semester": "Spring 2026",
-    "instructor": "Test Instructor"
+  "version": "1.0",
+  "schema_version": "concept-graph-v1",
+  "metadata": {
+    "last_updated": "2026-01-23T04:24:16Z",
+    "course_hash": "41b9010dfd6347ac801ccd191267737c91f11eb4",
+    "total_concepts": 12,
+    "weeks": 5,
+    "extraction_method": "frontmatter"
   },
   "concepts": {
     "descriptive-stats": {
-      "name": "Descriptive Statistics",
-      "category": "fundamental",
-      "week": 1,
-      "file": "lectures/week-01.qmd",
-      "prerequisites": []
+      "id": "descriptive-stats",
+      "name": "Descriptive-Stats",
+      "prerequisites": ["data-types", "descriptive-stats"],
+      "introduced_in": {
+        "week": 1,
+        "lecture": "lectures/week-01.qmd",
+        "line_number": 0
+      }
     },
     "data-types": {
-      "name": "Data Types",
-      "category": "fundamental",
-      "week": 1,
-      "file": "lectures/week-01.qmd",
-      "prerequisites": []
+      "id": "data-types",
+      "name": "Data-Types",
+      "prerequisites": ["data-types", "descriptive-stats"],
+      "introduced_in": {
+        "week": 1,
+        "lecture": "lectures/week-01.qmd",
+        "line_number": 0
+      }
     },
     "distributions": {
+      "id": "distributions",
       "name": "Distributions",
-      "category": "core",
-      "week": 1,
-      "file": "lectures/week-01.qmd",
-      "prerequisites": ["descriptive-stats", "data-types"]
+      "prerequisites": ["data-types", "descriptive-stats"],
+      "introduced_in": {
+        "week": 1,
+        "lecture": "lectures/week-01.qmd",
+        "line_number": 0
+      }
     },
     "probability-basics": {
-      "name": "Probability Basics",
-      "category": "core",
-      "week": 2,
-      "file": "lectures/week-02.qmd",
-      "prerequisites": ["data-types"]
+      "id": "probability-basics",
+      "name": "Probability-Basics",
+      "prerequisites": ["data-types", "distributions", "probability-basics", "sampling"],
+      "introduced_in": {
+        "week": 2,
+        "lecture": "lectures/week-02.qmd",
+        "line_number": 0
+      }
     },
     "sampling": {
-      "name": "Sampling Methods",
-      "category": "core",
-      "week": 2,
-      "file": "lectures/week-02.qmd",
-      "prerequisites": ["distributions"]
+      "id": "sampling",
+      "name": "Sampling",
+      "prerequisites": ["data-types", "distributions", "probability-basics", "sampling"],
+      "introduced_in": {
+        "week": 2,
+        "lecture": "lectures/week-02.qmd",
+        "line_number": 0
+      }
     },
     "inference": {
-      "name": "Statistical Inference",
-      "category": "advanced",
-      "week": 2,
-      "file": "lectures/week-02.qmd",
-      "prerequisites": ["probability-basics", "sampling", "distributions"]
-    },
-    "correlation": {
-      "name": "Correlation",
-      "category": "core",
-      "week": 3,
-      "file": "lectures/week-03.qmd",
-      "prerequisites": ["descriptive-stats", "distributions"]
+      "id": "inference",
+      "name": "Inference",
+      "prerequisites": ["data-types", "distributions", "probability-basics", "sampling"],
+      "introduced_in": {
+        "week": 2,
+        "lecture": "lectures/week-02.qmd",
+        "line_number": 0
+      }
     },
     "linear-regression": {
-      "name": "Linear Regression",
-      "category": "advanced",
-      "week": 3,
-      "file": "lectures/week-03.qmd",
-      "prerequisites": ["correlation", "inference"]
+      "id": "linear-regression",
+      "name": "Linear-Regression",
+      "prerequisites": [
+        "correlation",
+        "inference",
+        "linear-regression",
+        "correlation",
+        "descriptive-stats",
+        "distributions",
+        "inference"
+      ],
+      "introduced_in": {
+        "week": 3,
+        "lecture": "lectures/week-03-broken.qmd",
+        "line_number": 0
+      }
+    },
+    "correlation": {
+      "id": "correlation",
+      "name": "Correlation",
+      "prerequisites": [
+        "correlation",
+        "inference",
+        "linear-regression",
+        "correlation",
+        "descriptive-stats",
+        "distributions",
+        "inference"
+      ],
+      "introduced_in": {
+        "week": 3,
+        "lecture": "lectures/week-03-broken.qmd",
+        "line_number": 0
+      }
     },
     "multiple-regression": {
-      "name": "Multiple Regression",
-      "category": "advanced",
-      "week": 4,
-      "file": "lectures/week-04.qmd",
-      "prerequisites": ["linear-regression", "correlation"]
+      "id": "multiple-regression",
+      "name": "Multiple-Regression",
+      "prerequisites": [
+        "correlation",
+        "distributions",
+        "inference",
+        "linear-regression",
+        "multiple-regression"
+      ],
+      "introduced_in": {
+        "week": 4,
+        "lecture": "lectures/week-04.qmd",
+        "line_number": 0
+      }
     },
     "model-selection": {
-      "name": "Model Selection",
-      "category": "advanced",
-      "week": 4,
-      "file": "lectures/week-04.qmd",
-      "prerequisites": ["multiple-regression", "inference"]
+      "id": "model-selection",
+      "name": "Model-Selection",
+      "prerequisites": [
+        "correlation",
+        "distributions",
+        "inference",
+        "linear-regression",
+        "multiple-regression"
+      ],
+      "introduced_in": {
+        "week": 4,
+        "lecture": "lectures/week-04.qmd",
+        "line_number": 0
+      }
     },
     "assumptions-checking": {
-      "name": "Assumptions and Diagnostics",
-      "category": "advanced",
-      "week": 4,
-      "file": "lectures/week-04.qmd",
-      "prerequisites": ["multiple-regression", "distributions"]
+      "id": "assumptions-checking",
+      "name": "Assumptions-Checking",
+      "prerequisites": [
+        "correlation",
+        "distributions",
+        "inference",
+        "linear-regression",
+        "multiple-regression"
+      ],
+      "introduced_in": {
+        "week": 4,
+        "lecture": "lectures/week-04.qmd",
+        "line_number": 0
+      }
+    },
+    "advanced-modeling": {
+      "id": "advanced-modeling",
+      "name": "Advanced-Modeling",
+      "prerequisites": ["multiple-regression", "nonexistent-concept"],
+      "introduced_in": {
+        "week": 5,
+        "lecture": "lectures/week-05-missing-prereq.qmd",
+        "line_number": 0
+      }
     }
   }
 }
