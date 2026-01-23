@@ -2,7 +2,6 @@
 # Run all flow-cli tests locally
 # Usage: ./tests/run-all.sh
 
-set -e
 cd "$(dirname "$0")/.."
 
 echo "========================================="
@@ -12,19 +11,42 @@ echo ""
 
 PASS=0
 FAIL=0
+TIMEOUT=0
 
 run_test() {
     local test_file="$1"
     local name=$(basename "$test_file" .zsh)
     name=${name%.sh}
+    local timeout_seconds=30
 
     echo -n "Running $name... "
-    if zsh "$test_file" > /dev/null 2>&1 || bash "$test_file" > /dev/null 2>&1; then
+
+    # Try zsh first, then bash, with 30s timeout
+    timeout "$timeout_seconds" zsh "$test_file" > /dev/null 2>&1
+    local exit_code=$?
+
+    if [[ $exit_code -eq 124 ]]; then
+        # 124 = timeout
+        echo "⏱️ (timeout after ${timeout_seconds}s)"
+        ((TIMEOUT++))
+    elif [[ $exit_code -eq 0 ]]; then
         echo "✅"
         ((PASS++))
     else
-        echo "❌"
-        ((FAIL++))
+        # Try bash as fallback
+        timeout "$timeout_seconds" bash "$test_file" > /dev/null 2>&1
+        exit_code=$?
+
+        if [[ $exit_code -eq 124 ]]; then
+            echo "⏱️ (timeout after ${timeout_seconds}s)"
+            ((TIMEOUT++))
+        elif [[ $exit_code -eq 0 ]]; then
+            echo "✅"
+            ((PASS++))
+        else
+            echo "❌"
+            ((FAIL++))
+        fi
     fi
 }
 
@@ -56,9 +78,15 @@ run_test ./tests/test-install.sh
 
 echo ""
 echo "========================================="
-echo "  Results: $PASS passed, $FAIL failed"
+echo "  Results: $PASS passed, $FAIL failed, $TIMEOUT timeout"
 echo "========================================="
 
 if [[ $FAIL -gt 0 ]]; then
     exit 1
+fi
+
+if [[ $TIMEOUT -gt 0 ]]; then
+    echo ""
+    echo "Note: Timeout tests may require interactive/tmux context"
+    exit 2
 fi
