@@ -2257,6 +2257,161 @@ _dot_token_age_days() {
 }
 
 # ───────────────────────────────────────────────────────────────────
+# TOKEN ROTATION WORKFLOW
+# ───────────────────────────────────────────────────────────────────
+
+_dot_token_rotate() {
+  local token_name="${1:-github-token}"
+
+  _flow_log_info "Starting token rotation for: $token_name"
+
+  # Step 1: Verify old token exists
+  local old_token=$(dot secret "$token_name" 2>/dev/null)
+  if [[ -z "$old_token" ]]; then
+    _flow_log_error "Token '$token_name' not found in Keychain"
+    return 1
+  fi
+
+  # Step 2: Validate old token (get user info for confirmation)
+  local old_token_user=$(curl -s \
+    -H "Authorization: token $old_token" \
+    -H "Accept: application/vnd.github.v3+json" \
+    "https://api.github.com/user" 2>/dev/null | jq -r '.login // "unknown"')
+
+  echo ""
+  echo "${FLOW_COLORS[header]}╭─────────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔄 Token Rotation${FLOW_COLORS[reset]}                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├─────────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Current token: ${token_name}                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  GitHub user: ${old_token_user}                    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠ This will:${FLOW_COLORS[reset]}                                    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    1. Generate new token (browser)                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    2. Store in Keychain                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    3. Validate new token                           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    4. Keep old token as backup                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰─────────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+
+  read -q "?Continue with rotation? [y/n] " continue_response
+  echo ""
+  if [[ "$continue_response" != "y" ]]; then
+    _flow_log_info "Rotation cancelled"
+    return 0
+  fi
+
+  # Step 3: Backup old token
+  local backup_name="${token_name}-backup-$(date +%Y%m%d)"
+  echo "$old_token" | dot secret add "$backup_name" 2>/dev/null
+  _flow_log_info "Old token backed up as: $backup_name"
+
+  # Step 4: Generate new token (use existing wizard)
+  _flow_log_info "Step 1/4: Generating new token..."
+  echo ""
+  echo "Follow the wizard to create a new token."
+  echo "Use the SAME scopes as before for consistency."
+  echo ""
+
+  # Call existing wizard
+  _dot_token_github
+
+  # Verify new token was created
+  local new_token=$(dot secret "$token_name" 2>/dev/null)
+  if [[ -z "$new_token" || "$new_token" == "$old_token" ]]; then
+    _flow_log_error "New token creation failed or unchanged"
+    _flow_log_info "Restoring old token..."
+    echo "$old_token" | dot secret add "$token_name"
+    dot secret delete "$backup_name" 2>/dev/null
+    return 1
+  fi
+
+  # Step 5: Validate new token
+  _flow_log_info "Step 2/4: Validating new token..."
+  local new_token_user=$(curl -s \
+    -H "Authorization: token $new_token" \
+    -H "Accept: application/vnd.github.v3+json" \
+    "https://api.github.com/user" 2>/dev/null | jq -r '.login // empty')
+
+  if [[ -z "$new_token_user" ]]; then
+    _flow_log_error "New token validation failed"
+    _flow_log_info "Restoring old token..."
+    echo "$old_token" | dot secret add "$token_name"
+    dot secret delete "$backup_name" 2>/dev/null
+    return 1
+  fi
+
+  if [[ "$new_token_user" != "$old_token_user" ]]; then
+    _flow_log_error "New token user ($new_token_user) doesn't match old token user ($old_token_user)"
+    read -q "?Continue anyway? [y/n] " mismatch_continue
+    echo ""
+    if [[ "$mismatch_continue" != "y" ]]; then
+      echo "$old_token" | dot secret add "$token_name"
+      dot secret delete "$backup_name" 2>/dev/null
+      return 1
+    fi
+  fi
+
+  _flow_log_success "New token validated for user: $new_token_user"
+
+  # Step 6: Manual revocation prompt
+  _flow_log_info "Step 3/4: Revoke old token on GitHub..."
+  echo ""
+  echo "${FLOW_COLORS[warning]}Manual Step Required:${FLOW_COLORS[reset]}"
+  echo "Visit: ${FLOW_COLORS[cmd]}https://github.com/settings/tokens${FLOW_COLORS[reset]}"
+  echo "Find token for: ${old_token_user}"
+  echo "Look for token created before today"
+  echo "Click 'Revoke' to delete old token"
+  echo ""
+
+  read -q "?Press 'y' when revocation is complete [y/n] " revoke_confirm
+  echo ""
+
+  if [[ "$revoke_confirm" == "y" ]]; then
+    # Delete backup token (old token now revoked)
+    dot secret delete "$backup_name" 2>/dev/null
+    _flow_log_success "Old token backup removed"
+  else
+    _flow_log_warning "Old token backup kept at: $backup_name"
+    _flow_log_info "Delete manually after revocation: dot secret delete $backup_name"
+  fi
+
+  # Step 7: Log rotation event
+  _dot_token_log_rotation "$token_name" "$new_token_user" "success"
+
+  # Step 8: Update environment variable
+  _flow_log_info "Step 4/4: Updating shell environment..."
+  echo ""
+  _flow_log_warning "Restart your shell to apply changes:"
+  echo "  ${FLOW_COLORS[cmd]}exec zsh${FLOW_COLORS[reset]}"
+  echo ""
+
+  echo ""
+  echo "${FLOW_COLORS[header]}╭─────────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Token Rotation Complete${FLOW_COLORS[reset]}                        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Token: $token_name                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  User: $new_token_user                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Next rotation: ~$(date -v+90d +%Y-%m-%d 2>/dev/null || date -d '+90 days' +%Y-%m-%d)          ${FLOW_COLORS[reset]}${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰─────────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+_dot_token_log_rotation() {
+  local token_name="$1"
+  local user="$2"
+  local status="$3"
+
+  local log_file="$HOME/.claude/logs/token-rotation.log"
+  mkdir -p "$(dirname "$log_file")"
+
+  local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  echo "$timestamp | $token_name | $user | $status" >> "$log_file"
+}
+
+# ───────────────────────────────────────────────────────────────────
 # NPM TOKEN WIZARD
 # ───────────────────────────────────────────────────────────────────
 
