@@ -203,6 +203,11 @@ nav:
       - Teach Analyze:
           - API Reference: reference/TEACH-ANALYZE-API-REFERENCE.md
           - Architecture: reference/TEACH-ANALYZE-ARCHITECTURE.md
+      - Doctor Token Automation:
+          - Quick Reference: reference/REFCARD-TOKEN.md
+          - User Guide: guides/DOCTOR-TOKEN-USER-GUIDE.md
+          - API Reference: reference/DOCTOR-TOKEN-API-REFERENCE.md
+          - Architecture: architecture/DOCTOR-TOKEN-ARCHITECTURE.md
       - Deep Dives:
           - Architecture: reference/ARCHITECTURE.md
           - 🎨 Architecture Diagrams: diagrams/ARCHITECTURE-DIAGRAMS.md

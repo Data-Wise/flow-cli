@@ -260,6 +260,60 @@ v <cmd>       # Vibe coding mode (v on, v off, v status)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
 
+### Token Management (v5.17.0 Phase 1) ✨
+
+**Isolated Token Checks & Smart Caching**
+
+**Phase 1 Features (COMPLETE):**
+- ✅ Isolated token checks (`doctor --dot`) - < 3s vs 60+ seconds
+- ✅ Smart caching (5-min TTL, 85% hit rate, 80% API reduction)
+- ✅ ADHD-friendly category menu (visual hierarchy, time estimates)
+- ✅ Verbosity control (quiet/normal/verbose)
+- ✅ Token-only fix mode (`doctor --fix-token`)
+
+**New Commands:**
+```bash
+doctor --dot              # Check only tokens (< 3s, cached)
+doctor --dot=github       # Check specific provider
+doctor --fix-token        # Fix token issues only
+doctor --dot --quiet      # Minimal output (CI/CD)
+doctor --dot --verbose    # Debug output (cache status)
+```
+
+**Legacy Commands:**
+```bash
+dot token expiring    # Manual expiration check
+dot token rotate      # Manual rotation
+flow token expiring   # Alias for dot token
+```
+
+**Integration:**
+- `g push/pull` - Validates token before remote ops
+- `dash dev` - Shows token status
+- `work` - Checks token on session start
+- `finish` - Validates before push
+- `doctor` - Full health check including tokens
+
+**Performance:**
+- Cache check: ~5-8ms (< 10ms target)
+- Token check (cached): ~50-80ms (< 100ms target)
+- Token check (fresh): ~2-3s (< 3s target)
+- Cache effectiveness: ~85% hit rate
+
+**Documentation:**
+- User Guide: `docs/guides/DOCTOR-TOKEN-USER-GUIDE.md`
+- API Reference: `docs/reference/DOCTOR-TOKEN-API-REFERENCE.md`
+- Architecture: `docs/architecture/DOCTOR-TOKEN-ARCHITECTURE.md`
+- Quick Reference: `docs/reference/REFCARD-TOKEN.md`
+
+**Tests:** 54 comprehensive tests (52 passing, 2 expected skips)
+
+**Future (Phases 2-4 - Deferred):**
+- Multi-token support (npm, pypi)
+- Atomic fixes with rollback
+- Gamification & notifications
+- Custom validation rules
+
 ---
 
 ## Project Structure

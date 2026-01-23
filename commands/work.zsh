@@ -38,6 +38,45 @@ _flow_first_run_welcome() {
   touch "$welcomed_marker"
 }
 
+# ============================================================================
+# TOKEN VALIDATION HELPERS
+# ============================================================================
+
+_work_project_uses_github() {
+  local project_path="$1"
+
+  [[ -d "$project_path/.git" ]] && \
+    git -C "$project_path" remote -v 2>/dev/null | grep -q "github.com"
+}
+
+_work_get_token_status() {
+  local token=$(dot secret github-token 2>/dev/null)
+  [[ -z "$token" ]] && echo "not configured" && return
+
+  local http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+    -H "Authorization: token $token" \
+    "https://api.github.com/user" 2>/dev/null)
+
+  if [[ "$http_code" != "200" ]]; then
+    echo "expired/invalid"
+    return
+  fi
+
+  local age_days=$(_dot_token_age_days "github-token")
+  local days_remaining=$((90 - age_days))
+
+  if [[ $days_remaining -le 7 ]]; then
+    echo "expiring in $days_remaining days"
+  else
+    echo "ok"
+  fi
+}
+
+_work_will_push_to_remote() {
+  # Check if current branch tracks a remote
+  git rev-parse --abbrev-ref --symbolic-full-name @{u} &>/dev/null
+}
+
 work() {
   # Handle help flags
   case "$1" in
@@ -112,6 +151,16 @@ work() {
   else
     # Show context
     _flow_show_work_context "$project" "$project_path"
+  fi
+
+  # Check GitHub token status for GitHub projects
+  if _work_project_uses_github "$project_path"; then
+    local token_status=$(_work_get_token_status)
+    if [[ "$token_status" != "ok" ]]; then
+      echo ""
+      echo "${FLOW_COLORS[warning]}⚠ GitHub Token: $token_status${FLOW_COLORS[reset]}"
+      echo "   Fix: ${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]}"
+    fi
   fi
 
   # Open editor
@@ -413,6 +462,28 @@ finish() {
     local changes=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
     if (( changes > 0 )); then
       if _flow_confirm "Commit $changes change(s)?"; then
+        # If pushing to remote, validate token
+        if _work_will_push_to_remote; then
+          if _work_project_uses_github "$root"; then
+            _flow_log_info "Validating GitHub token..."
+
+            if ! _g_validate_github_token_silent; then
+              _flow_log_error "GitHub token expired or invalid"
+              echo ""
+              read -q "?Rotate token now? [y/n] " rotate_response
+              echo ""
+              if [[ "$rotate_response" == "y" ]]; then
+                dot token rotate
+                [[ $? -ne 0 ]] && return 1
+              else
+                _flow_log_info "Skipping push due to token issue"
+                _flow_log_info "Commit saved locally, push manually later"
+                # Continue with local commit only
+              fi
+            fi
+          fi
+        fi
+
         git add -A
         local commit_msg="${note:-Work session completed}"
         git commit -m "$commit_msg"

@@ -113,6 +113,10 @@ flow() {
     doctor|health)
       doctor "$@"
       ;;
+    token|tokens)
+      # Delegate to dot dispatcher
+      dot token "$@"
+      ;;
     setup)
       setup "$@"
       ;;

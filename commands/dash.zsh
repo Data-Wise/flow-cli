@@ -1001,6 +1001,47 @@ _dash_category_expanded() {
     echo "  ${FLOW_COLORS[muted]}No projects in this category${FLOW_COLORS[reset]}"
   fi
 
+  # Add GitHub Token section for dev category
+  if [[ "$cat" == "dev" ]]; then
+    echo ""
+    echo "  ${FLOW_COLORS[header]}GitHub Token${FLOW_COLORS[reset]}"
+    echo "  ────────────"
+
+    local token=$(dot secret github-token 2>/dev/null)
+    if [[ -z "$token" ]]; then
+      echo "  ${FLOW_COLORS[muted]}Not configured${FLOW_COLORS[reset]}"
+      echo "  Setup: ${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]}"
+    else
+      # Validate token
+      local api_response=$(curl -s -w "\n%{http_code}" \
+        -H "Authorization: token $token" \
+        -H "Accept: application/vnd.github.v3+json" \
+        "https://api.github.com/user" 2>/dev/null)
+
+      local http_code=$(echo "$api_response" | tail -1)
+
+      if [[ "$http_code" == "200" ]]; then
+        local username=$(echo "$api_response" | sed '$d' | jq -r '.login')
+        local age_days=$(_dot_token_age_days "github-token")
+        local days_remaining=$((90 - age_days))
+
+        if [[ $days_remaining -le 0 ]]; then
+          echo "  🔴 ${FLOW_COLORS[error]}EXPIRED${FLOW_COLORS[reset]} - Rotate now!"
+          echo "  Rotate: ${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]}"
+        elif [[ $days_remaining -le 7 ]]; then
+          echo "  🟡 ${FLOW_COLORS[warning]}Expiring in $days_remaining days${FLOW_COLORS[reset]}"
+          echo "  Rotate: ${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]}"
+        else
+          echo "  ✅ ${FLOW_COLORS[success]}Current${FLOW_COLORS[reset]} (@$username)"
+          echo "  Expires: $days_remaining days"
+        fi
+      else
+        echo "  🔴 ${FLOW_COLORS[error]}Invalid${FLOW_COLORS[reset]} - Check token"
+        echo "  Fix: ${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]}"
+      fi
+    fi
+  fi
+
   echo ""
   echo "  ${FLOW_COLORS[muted]}← 'dash' to return to summary${FLOW_COLORS[reset]}"
   echo ""
