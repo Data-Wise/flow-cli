@@ -260,6 +260,35 @@ v <cmd>       # Vibe coding mode (v on, v off, v status)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
 
+### Token Management
+
+**Automated GitHub Token Rotation**
+
+**Features:**
+- Expiration detection (7-day warning)
+- Semi-automated rotation workflow
+- Keychain integration (Touch ID)
+- gh CLI auto-sync
+- Dashboard integration
+
+**Commands:**
+```bash
+dot token expiring    # Check expiration status
+dot token rotate      # Rotate token
+flow token expiring   # Alias for dot token
+flow doctor --fix     # Auto-fix token issues
+```
+
+**Integration:**
+- `g push/pull` - Validates token before remote ops
+- `dash dev` - Shows token status
+- `work` - Checks token on session start
+- `finish` - Validates before push
+- `flow doctor` - Token health check
+
+**Setup:**
+See `docs/guides/TOKEN-HEALTH-CHECK.md` for weekly health check setup.
+
 ---
 
 ## Project Structure
