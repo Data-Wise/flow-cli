@@ -361,7 +361,7 @@ _teach_analyze() {
         _display_slide_section "$slide_data"
     fi
 
-    _display_prerequisites_section "$results_file"
+    _display_prerequisites_section "$results_file" "$file_path"
     local prereq_exit=$?
 
     _display_violations_section "$results_file"

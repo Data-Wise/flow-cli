@@ -59,43 +59,107 @@ _display_concepts_section() {
 }
 
 _display_prerequisites_section() {
-    local results_file="$1"
-    local error_count=0
-    local warning_count=0
+    # Use subshell for complete isolation from parent shell options
+    (
+        results_file="$1"
+        analyzed_file="$2"
+        error_count=0
+        warning_count=0
 
-    echo ""
-    echo "${FLOW_BLUE}🔗 PREREQUISITES${FLOW_RESET}"
-    echo "┌────────────────────────────────────────────────────┐"
-    echo "│ Prerequisite          | Status                     │"
-    echo "├───────────────────────┼────────────────────────────┤"
+        echo ""
+        echo "${FLOW_BLUE}🔗 PREREQUISITES${FLOW_RESET}"
+        echo "┌────────────────────────────────────────────────────┐"
+        echo "│ Prerequisite          | Status                     │"
+        echo "├───────────────────────┼────────────────────────────┤"
 
-    if command -v yq >/dev/null 2>&1; then
-        yq -r '.prerequisites[] | .name + " | " + .status + " (Week " + .week + ")"' "$results_file" 2>/dev/null | \
-        while IFS='|' read -r prereq prereq_status week; do
-            local status_indicator="✓"
-            local color="${FLOW_GREEN}"
+        if ! command -v jq >/dev/null 2>&1; then
+            echo "│ (Install jq for detailed prerequisite view)        │"
+            echo "└────────────────────────────────────────────────────┘"
+            return 0
+        fi
 
-            case "$prereq_status" in
-                "error")
-                    status_indicator="✗"
-                    color="${FLOW_RED}"
+        # Extract the week number from the analyzed file
+        analyzed_week=""
+        if [[ "$analyzed_file" =~ week-0*([0-9]+) ]]; then
+            analyzed_week="${match[1]}"
+        else
+            analyzed_week="1"
+        fi
+
+        # Collect all prerequisites for concepts introduced in this file
+        typeset -A prereq_status_map
+        found_prereqs=false
+
+        # Get concepts introduced in the analyzed file's week
+        while IFS= read -r concept_id; do
+            # Get prerequisites for this concept
+            while IFS= read -r prereq_id; do
+                # Strip any quotes that may have been added
+                prereq_id="${prereq_id//\"/}"
+
+                [[ -z "$prereq_id" || "$prereq_id" == "null" ]] && continue
+
+                # Skip self-references
+                [[ "$prereq_id" == "$concept_id" ]] && continue
+
+                found_prereqs=true
+
+                # Check if prerequisite exists
+                prereq_info=$(jq -r --arg pid "$prereq_id" \
+                    '.concepts[$pid] // null' "$results_file" 2>/dev/null)
+
+                if [[ "$prereq_info" == "null" || -z "$prereq_info" ]]; then
+                    # Missing prerequisite
+                    prereq_status_map["$prereq_id"]="✗ Missing"
                     error_count=$((error_count + 1))
-                    ;;
-                "warning")
-                    status_indicator="⚠"
+                else
+                    # Get the week it was introduced
+                    prereq_week=$(echo "$prereq_info" | jq -r '.introduced_in.week // "?"' 2>/dev/null)
+
+                    if [[ "$prereq_week" == "?" ]]; then
+                        prereq_status_map["$prereq_id"]="⚠ Unknown week"
+                        warning_count=$((warning_count + 1))
+                    elif [[ "$prereq_week" -gt "$analyzed_week" ]]; then
+                        # Future prerequisite
+                        prereq_status_map["$prereq_id"]="⚠ Week $prereq_week (future)"
+                        warning_count=$((warning_count + 1))
+                    else
+                        # Valid prerequisite
+                        prereq_status_map["$prereq_id"]="✓ Week $prereq_week"
+                    fi
+                fi
+            done < <(jq -r --arg cid "$concept_id" \
+                '.concepts[$cid].prerequisites[]? // empty' "$results_file" 2>/dev/null)
+        done < <(jq -r --arg week "$analyzed_week" \
+            '.concepts | to_entries[] | select(.value.introduced_in.week == ($week | tonumber)) | .key' \
+            "$results_file" 2>/dev/null)
+
+        # Display prerequisites
+        if [[ "$found_prereqs" == "true" ]]; then
+            for prereq_key in "${(@k)prereq_status_map}"; do
+                # Strip quotes from the key
+                prereq_id="${prereq_key//\"/}"
+
+                prereq_name=$(jq -r --arg pid "$prereq_id" \
+                    '.concepts[$pid].name // $pid' "$results_file" 2>/dev/null)
+                prereq_status="${prereq_status_map[$prereq_key]}"
+
+                # Determine color based on status symbol
+                color="${FLOW_GREEN}"
+                if [[ "$prereq_status" == ✗* ]]; then
+                    color="${FLOW_RED}"
+                elif [[ "$prereq_status" == ⚠* ]]; then
                     color="${FLOW_YELLOW}"
-                    warning_count=$((warning_count + 1))
-                    ;;
-            esac
+                fi
 
-            printf "│ %-21s │ ${color}%s${FLOW_RESET} %-18s │\n" "$prereq" "$status_indicator" "${prereq_status} ${week}"
-        done
-    else
-        echo "│ (Install yq for detailed prerequisite view)       │"
-    fi
-    echo "└────────────────────────────────────────────────────┘"
+                printf "│ %-21s │ ${color}%-26s${FLOW_RESET} │\n" "$prereq_name" "$prereq_status"
+            done
+        fi
 
-    return $error_count
+        echo "└────────────────────────────────────────────────────┘"
+
+        return $error_count
+    )
 }
 
 _display_violations_section() {
