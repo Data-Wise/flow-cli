@@ -6,84 +6,50 @@
 ## Status: active
 ## Phase: v5.16.0 - In Development
 ## Priority: 1
-## Progress: 40
+## Progress: 60
 
 ## Focus: Intelligent Content Analysis (teach analyze)
 
 ## ✅ Just Completed (2026-01-22):
 
-### Session: PR Review, Cleanup & Docs Update
+### teach analyze - ALL PHASES COMPLETE + Optimized
 
-- Reviewed & merged PR #288 (documentation debt, +11,451/-800)
-- Cleaned up 3 worktrees + 3 remote branches
-- Updated CHANGELOG.md (v5.15.1 + Unreleased sections)
-- Fixed mkdocs nav (Library Architecture entry)
-- Deployed docs to GitHub Pages (2x)
-- Condensed .STATUS (343 → 119 lines)
+**PR #289:** Merged to dev (Phases 0-5: concept extraction, caching, reports, AI, slides, polish)
+**PR #290:** Merged to dev (post-merge optimization)
 
-### Documentation Debt - ALL PHASES COMPLETE ✅
+**Optimization (PR #290):**
+- Added self-protecting load guards to 6 lib files (prevents double/triple-sourcing)
+- Extracted display layer to `lib/analysis-display.zsh` (7 functions, 270 lines)
+- Fixed slide cache path collisions (directory-mirroring structure)
+- Removed redundant sources from `flow.plugin.zsh` and dispatcher
 
-**PR #288:** Merged to dev (squash)
-**Coverage:** 8.6% → 49.4% (348 functions documented across 32 libraries)
-**Worktree:** Cleaned up
-**Branch:** Deleted (local + remote)
+**Brainstorm:** Config→concept graph integration (Option D: Hybrid Enrichment for Phase 1)
+**Spec:** `docs/specs/SPEC-teach-analyze-optimization-2026-01-22.md`
 
-**Phases Delivered:**
-- Phase 1: Core libraries (47 functions) - core.zsh, tui.zsh, git-helpers.zsh
-- Phase 2: Teaching libraries (61 functions) - validation, backup, cache, index, utils
-- Phase 3: Integration libraries (80 functions) - atlas, plugins, config, keychain
-- Phase 4: Specialized libraries (160 functions) - dotfiles, AI, rendering, R, Quarto
+### Bug Fix: wt dispatcher passthrough
 
-**New Documentation Pages (live on GitHub Pages):**
-- `docs/reference/CORE-API-REFERENCE.md` (1,661 lines)
-- `docs/reference/TEACHING-API-REFERENCE.md` (1,042 lines)
-- `docs/reference/INTEGRATION-API-REFERENCE.md` (1,643 lines)
-- `docs/reference/SPECIALIZED-API-REFERENCE.md` (404 lines)
-- `docs/diagrams/LIBRARY-ARCHITECTURE.md` (245 lines, 2 Mermaid diagrams)
+- `wt lock/unlock/repair` now correctly passes through to `git worktree`
+- Added `lock|unlock|repair` to known commands list
 
 ---
 
 ## 🎯 Current Sprint:
 
-### Intelligent Content Analysis (teach analyze) - Ready for Implementation
+### v5.16.0 - Bundling for Release
 
-**Branch:** `feature/teach-analyze`
-**Worktree:** `~/.git-worktrees/flow-cli/teach-analyze`
-**Status:** Phase 0 in progress (active session in worktree)
-
-**Scope:** Phase 0 Ultra-MVP
-- Concept extraction from frontmatter
-- Prerequisite validation (week ordering)
-- Violation detection and reporting
-- Zero AI dependency (heuristic-only)
-
-**Specs:**
-- SPEC-intelligent-content-analysis-2026-01-20.md (1,280 lines)
-- PLAN-teach-analyze-phase0.md (implementation guide)
-
-**Implementation Roadmap:**
-- Phase 0: Prerequisite validation ← IN PROGRESS
-- Phase 1: Caching + batch analysis
-- Phase 2: Integration (validate, deploy)
-- Phase 3: AI enhancement
-- Phase 4: Slide optimization
-- Phase 5: Polish + docs
-
-**What Phase 0 Delivers:**
-```bash
-$ teach analyze lectures/week-05.qmd
-# Validates prerequisites, reports violations
-# Example: Week 5 requires concept from Week 7 → WARNING
-```
+**On dev (ready for release):**
+- teach analyze (Phases 0-5) — full concept graph + AI + slide optimization
+- teach analyze optimization (load guards, display extraction, cache fix)
+- Documentation debt (348 functions documented, 49.4% coverage)
+- wt dispatcher passthrough fix
 
 ---
 
-## 🗂️ Active Worktrees (2):
+## 🗂️ Active Worktrees:
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | Planning/coordination |
-| `teach-analyze` | `feature/teach-analyze` | 🔨 Phase 0 in progress |
 
 ---
 
@@ -91,37 +57,39 @@ $ teach analyze lectures/week-05.qmd
 
 ### SPEC-teach-prompt-command (Paused)
 - ⏸️ Needs Scholar plugin coordination
-- `teach prompt` command deferred until Scholar teaching integration is clearer
+
+### Config→Concept Graph Integration (Phase 1 Enhancement)
+- Brainstorm complete: `docs/specs/BRAINSTORM-config-concept-graph-integration-2026-01-22.md`
+- Approach: Option D (Hybrid Enrichment) — non-breaking config cross-referencing
+- Validate week assignments against `teach-config.yml`
+- Match file titles to config topics as fallback
 
 ---
 
 ## 📊 Version Roadmap:
 
-**v5.16.0 (Next):**
-- Intelligent Content Analysis Phase 0 ← CURRENT FOCUS
-- Documentation debt (merged to dev, bundled for next release)
-- Prerequisite validation (heuristic-only)
+**v5.16.0 (Next Release):**
+- teach analyze (all phases) ← COMPLETE
+- Documentation debt ← COMPLETE
+- wt passthrough fix ← COMPLETE
+- Ready to release from dev → main
 
 **Recent Releases:**
 - v5.15.1 (2026-01-21): Architecture docs, V-dispatcher reference, coverage report
 - v5.15.0 (2026-01-21): Comprehensive Help System (18 functions, 3 guides)
 
 **Future (v5.17.0+):**
-- teach analyze Phases 1-5
+- Config→concept graph integration (Phase 1)
+- teach analyze AI improvements
 - Quarto Workflow Phase 2 (already on dev via PR #279)
 
 ---
 
 ## 🎯 Recommended Next Step:
 
-```bash
-cd ~/.git-worktrees/flow-cli/teach-analyze
-claude
-```
-
-Follow: `PLAN-teach-analyze-phase0.md`
+Release v5.16.0 (dev → main) or start config→concept graph Phase 1.
 
 ---
 
-**Last Updated:** 2026-01-22
-**Status:** Active - v5.16.0 development, teach analyze Phase 0 next
+**Last Updated:** 2026-01-23
+**Status:** Active - v5.16.0 ready for release

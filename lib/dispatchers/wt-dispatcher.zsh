@@ -55,11 +55,11 @@ wt() {
     # Check if first arg looks like a project filter (not a known command)
     # Known commands: list, ls, l, create, add, c, move, mv, clean, prune, status, st, remove, rm, help, h
     case "$1" in
-        list|ls|l|create|add|c|move|mv|clean|prune|status|st|remove|rm|help|h|--help|-h)
+        list|ls|l|create|add|c|move|mv|clean|prune|status|st|remove|rm|help|h|--help|-h|lock|unlock|repair)
             # Known command - proceed to case below
             ;;
         *)
-            # Unknown command - treat as filter
+            # Unknown command - treat as project filter
             _wt_overview "$1"
             return
             ;;
