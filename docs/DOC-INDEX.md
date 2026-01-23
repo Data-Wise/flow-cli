@@ -1,7 +1,7 @@
 # flow-cli Documentation Index
 
-**Version:** 5.12.0
-**Last Updated:** 2026-01-16
+**Version:** 5.17.0-dev
+**Last Updated:** 2026-01-23
 
 ---
 
@@ -13,9 +13,10 @@
 - [Your First Session](tutorials/01-first-session.md) - Your first workflow
 
 ### 📚 Reference Documentation
-- **[API Complete Reference](reference/API-COMPLETE.md)** - Complete API documentation ⭐ **NEW**
-- **[Architecture Diagrams](diagrams/ARCHITECTURE-DIAGRAMS.md)** - System architecture diagrams ⭐ **NEW**
-- [Dispatcher Reference](reference/DISPATCHER-REFERENCE.md) - All 11 dispatchers
+- **[API Complete Reference](reference/API-COMPLETE.md)** - Complete API documentation
+- **[Architecture Diagrams](diagrams/ARCHITECTURE-DIAGRAMS.md)** - System architecture diagrams
+- **[Token Automation](guides/DOCTOR-TOKEN-USER-GUIDE.md)** - Smart token management (v5.17.0) ⭐ **NEW**
+- [Dispatcher Reference](reference/DISPATCHER-REFERENCE.md) - All 12 dispatchers
 - [Command Quick Reference](reference/COMMAND-QUICK-REFERENCE.md) - Command cheat sheet
 - [Workflow Quick Reference](reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
 - [Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md) - All aliases
@@ -197,10 +198,11 @@
 | Feature Area | API Docs | Architecture | User Guide | Tutorial | Coverage |
 |--------------|----------|--------------|------------|----------|----------|
 | Core Functions | ✅ | ✅ | ✅ | ✅ | 100% |
-| Dispatchers (11) | ✅ | ✅ | ✅ | ✅ | 100% |
+| Dispatchers (12) | ✅ | ✅ | ✅ | ✅ | 100% |
 | Commands | ✅ | ✅ | ✅ | ⚠️ | 95% |
 | Worktrees | ✅ | ✅ | ✅ | ✅ | 100% |
 | Teaching System | ✅ | ✅ | ✅ | ✅ | 100% |
+| Token Automation | ✅ | ✅ | ✅ | ✅ | 100% |
 | Cache System | ✅ | ✅ | ✅ | ⚠️ | 90% |
 | Configuration | ✅ | ✅ | ✅ | ⚠️ | 90% |
 | Testing | ✅ | ✅ | ✅ | ⚠️ | 85% |
