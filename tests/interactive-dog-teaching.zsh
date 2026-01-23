@@ -132,7 +132,7 @@ show_expected() {
     echo -e "${CYAN}${EYES} Expected output should contain:${NC}"
     echo ""
     for line in "$@"; do
-        echo -e "  ${DIM}•${NC} $line"
+        echo -e "  ${DIM}*${NC} $line"
     done
     echo ""
 }
