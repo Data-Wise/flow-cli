@@ -2356,7 +2356,7 @@ _dot_token_rotate() {
   _flow_log_success "New token validated for user: $new_token_user"
 
   # Step 6: Manual revocation prompt
-  _flow_log_info "Step 3/4: Revoke old token on GitHub..."
+  _flow_log_info "Step 3/5: Revoke old token on GitHub..."
   echo ""
   echo "${FLOW_COLORS[warning]}Manual Step Required:${FLOW_COLORS[reset]}"
   echo "Visit: ${FLOW_COLORS[cmd]}https://github.com/settings/tokens${FLOW_COLORS[reset]}"
@@ -2380,8 +2380,12 @@ _dot_token_rotate() {
   # Step 7: Log rotation event
   _dot_token_log_rotation "$token_name" "$new_token_user" "success"
 
-  # Step 8: Update environment variable
-  _flow_log_info "Step 4/4: Updating shell environment..."
+  # Step 8: Sync with gh CLI
+  _flow_log_info "Step 4/5: Syncing with gh CLI..."
+  _dot_token_sync_gh
+
+  # Step 9: Update environment variable
+  _flow_log_info "Step 5/5: Updating shell environment..."
   echo ""
   _flow_log_warning "Restart your shell to apply changes:"
   echo "  ${FLOW_COLORS[cmd]}exec zsh${FLOW_COLORS[reset]}"
@@ -2409,6 +2413,40 @@ _dot_token_log_rotation() {
 
   local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   echo "$timestamp | $token_name | $user | $status" >> "$log_file"
+}
+
+# ───────────────────────────────────────────────────────────────────
+# GH CLI INTEGRATION
+# ───────────────────────────────────────────────────────────────────
+
+_dot_token_sync_gh() {
+  _flow_log_info "Syncing token with gh CLI..."
+
+  # Get token from Keychain
+  local token=$(dot secret github-token 2>/dev/null)
+  if [[ -z "$token" ]]; then
+    _flow_log_error "github-token not found in Keychain"
+    _flow_log_info "Add one: ${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  # Check if gh CLI is installed
+  if ! command -v gh &>/dev/null; then
+    _flow_log_warning "gh CLI not installed"
+    _flow_log_info "Install: ${FLOW_COLORS[cmd]}brew install gh${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  # Authenticate gh with token
+  echo "$token" | gh auth login --with-token 2>/dev/null
+
+  if gh auth status &>/dev/null; then
+    local gh_user=$(gh api user --jq '.login' 2>/dev/null)
+    _flow_log_success "gh CLI authenticated as: $gh_user"
+  else
+    _flow_log_error "gh authentication failed"
+    return 1
+  fi
 }
 
 # ───────────────────────────────────────────────────────────────────
