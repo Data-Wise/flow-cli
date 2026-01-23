@@ -2145,6 +2145,108 @@ EOF
 }
 
 # ───────────────────────────────────────────────────────────────────
+# TOKEN EXPIRATION DETECTION
+# ───────────────────────────────────────────────────────────────────
+
+_dot_token_expiring() {
+  _flow_log_info "Checking token expiration status..."
+
+  # Get all GitHub tokens from Keychain
+  local secrets=$(dot secret list 2>/dev/null | grep "•" | sed 's/.*• //')
+  local expiring_tokens=()
+  local expired_tokens=()
+
+  for secret in ${(f)secrets}; do
+    # Only check GitHub tokens
+    if [[ "$secret" =~ github ]]; then
+      local token=$(dot secret "$secret" 2>/dev/null)
+
+      # Validate with GitHub API
+      local api_response=$(curl -s \
+        -H "Authorization: token $token" \
+        -H "Accept: application/vnd.github.v3+json" \
+        "https://api.github.com/user" 2>/dev/null)
+
+      if echo "$api_response" | grep -q '"message":"Bad credentials"'; then
+        expired_tokens+=("$secret")
+      elif echo "$api_response" | grep -q '"login"'; then
+        # Check if created 83+ days ago (7-day warning before 90-day expiration)
+        local token_age_days=$(_dot_token_age_days "$secret")
+        if [[ $token_age_days -ge 83 ]]; then
+          expiring_tokens+=("$secret")
+        fi
+      fi
+    fi
+  done
+
+  # Report findings
+  if [[ ${#expired_tokens[@]} -gt 0 ]]; then
+    _flow_log_error "EXPIRED tokens (need immediate rotation):"
+    for token in "${expired_tokens[@]}"; do
+      echo "  🔴 $token"
+    done
+    echo ""
+  fi
+
+  if [[ ${#expiring_tokens[@]} -gt 0 ]]; then
+    _flow_log_warning "EXPIRING tokens (< 7 days remaining):"
+    for token in "${expiring_tokens[@]}"; do
+      local days_left=$((90 - $(_dot_token_age_days "$token")))
+      echo "  🟡 $token - $days_left days remaining"
+    done
+    echo ""
+  fi
+
+  if [[ ${#expired_tokens[@]} -eq 0 && ${#expiring_tokens[@]} -eq 0 ]]; then
+    _flow_log_success "All GitHub tokens are current"
+    return 0
+  fi
+
+  # Offer rotation
+  if [[ ${#expired_tokens[@]} -gt 0 || ${#expiring_tokens[@]} -gt 0 ]]; then
+    echo ""
+    read -q "?Rotate tokens now? [y/n] " rotate_response
+    echo ""
+    if [[ "$rotate_response" == "y" ]]; then
+      _dot_token_rotate
+    else
+      _flow_log_info "Run ${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]} when ready"
+    fi
+  fi
+}
+
+_dot_token_age_days() {
+  local secret_name="$1"
+
+  # Get creation timestamp from Keychain item metadata
+  local metadata=$(security find-generic-password \
+    -a "$secret_name" \
+    -s "$_DOT_KEYCHAIN_SERVICE" \
+    -g 2>&1 | grep "note:" | sed 's/note: //')
+
+  if [[ -z "$metadata" ]]; then
+    # No metadata, assume old token (flag for rotation)
+    echo 90
+    return
+  fi
+
+  # Parse creation date from JSON metadata
+  local created_date=$(echo "$metadata" | jq -r '.created // empty' 2>/dev/null)
+  if [[ -z "$created_date" ]]; then
+    echo 90
+    return
+  fi
+
+  # Calculate days since creation
+  local created_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%SZ" "$created_date" "+%s" 2>/dev/null)
+  local now_epoch=$(date +%s)
+  local age_seconds=$((now_epoch - created_epoch))
+  local age_days=$((age_seconds / 86400))
+
+  echo $age_days
+}
+
+# ───────────────────────────────────────────────────────────────────
 # NPM TOKEN WIZARD
 # ───────────────────────────────────────────────────────────────────
 
