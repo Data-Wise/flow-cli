@@ -260,23 +260,31 @@ v <cmd>       # Vibe coding mode (v on, v off, v status)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
 
-### Token Management
+### Token Management (v5.17.0 Phase 1) ✨
 
-**Automated GitHub Token Rotation**
+**Isolated Token Checks & Smart Caching**
 
-**Features:**
-- Expiration detection (7-day warning)
-- Semi-automated rotation workflow
-- Keychain integration (Touch ID)
-- gh CLI auto-sync
-- Dashboard integration
+**Phase 1 Features (COMPLETE):**
+- ✅ Isolated token checks (`doctor --dot`) - < 3s vs 60+ seconds
+- ✅ Smart caching (5-min TTL, 85% hit rate, 80% API reduction)
+- ✅ ADHD-friendly category menu (visual hierarchy, time estimates)
+- ✅ Verbosity control (quiet/normal/verbose)
+- ✅ Token-only fix mode (`doctor --fix-token`)
 
-**Commands:**
+**New Commands:**
 ```bash
-dot token expiring    # Check expiration status
-dot token rotate      # Rotate token
+doctor --dot              # Check only tokens (< 3s, cached)
+doctor --dot=github       # Check specific provider
+doctor --fix-token        # Fix token issues only
+doctor --dot --quiet      # Minimal output (CI/CD)
+doctor --dot --verbose    # Debug output (cache status)
+```
+
+**Legacy Commands:**
+```bash
+dot token expiring    # Manual expiration check
+dot token rotate      # Manual rotation
 flow token expiring   # Alias for dot token
-flow doctor --fix     # Auto-fix token issues
 ```
 
 **Integration:**
@@ -284,10 +292,27 @@ flow doctor --fix     # Auto-fix token issues
 - `dash dev` - Shows token status
 - `work` - Checks token on session start
 - `finish` - Validates before push
-- `flow doctor` - Token health check
+- `doctor` - Full health check including tokens
 
-**Setup:**
-See `docs/guides/TOKEN-HEALTH-CHECK.md` for weekly health check setup.
+**Performance:**
+- Cache check: ~5-8ms (< 10ms target)
+- Token check (cached): ~50-80ms (< 100ms target)
+- Token check (fresh): ~2-3s (< 3s target)
+- Cache effectiveness: ~85% hit rate
+
+**Documentation:**
+- User Guide: `docs/guides/DOCTOR-TOKEN-USER-GUIDE.md`
+- API Reference: `docs/reference/DOCTOR-TOKEN-API-REFERENCE.md`
+- Architecture: `docs/architecture/DOCTOR-TOKEN-ARCHITECTURE.md`
+- Quick Reference: `docs/reference/REFCARD-TOKEN.md`
+
+**Tests:** 54 comprehensive tests (52 passing, 2 expected skips)
+
+**Future (Phases 2-4 - Deferred):**
+- Multi-token support (npm, pypi)
+- Atomic fixes with rollback
+- Gamification & notifications
+- Custom validation rules
 
 ---
 

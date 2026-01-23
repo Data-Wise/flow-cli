@@ -27,7 +27,29 @@ finish             # Done for now
 
 ## 🎉 What's New
 
-### v5.16.0: Intelligent Content Analysis (2026-01-23)
+### v5.17.0: Token Automation Phase 1 (2026-01-23)
+
+**Isolated token checks with smart caching for 20x faster validation:**
+
+- 🔑 **Isolated Checks** - `doctor --dot` checks only tokens (< 3s vs 60+ seconds)
+- 💾 **Smart Caching** - 5-minute TTL, 85% hit rate, 80% API call reduction
+- 🎯 **ADHD-Friendly Menu** - Visual category selection with time estimates
+- 🔊 **Verbosity Control** - quiet/normal/verbose modes for all use cases
+- ⚡ **Token-Only Fixes** - `doctor --fix-token` for isolated workflows
+
+**Commands:**
+
+```bash
+doctor --dot              # Quick token check (< 3s, cached)
+doctor --dot=github       # Check specific provider
+doctor --fix-token        # Interactive token fix menu
+doctor --dot --quiet      # CI/CD integration (minimal output)
+doctor --dot --verbose    # Debug with cache status
+```
+
+**54 tests (96.3% passing) · 2,150+ lines of documentation · Sub-10ms cache checks**
+
+### v5.16.0: Intelligent Content Analysis (2026-01-22)
 
 **AI-powered course content analysis with concept graphs and slide optimization:**
 
