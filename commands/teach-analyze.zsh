@@ -250,12 +250,12 @@ _teach_analyze() {
         [[ "$quiet" != "true" ]] && printf "${FLOW_BLUE}Analyzing slide structure...${FLOW_RESET} "
 
         # Mirror source directory structure in cache
-        local _relative_path="${file_path#$course_dir/}"
-        local _cache_subdir="${_relative_path:h}"
-        local _cache_name="${_relative_path:t:r}"
-        local _slide_cache_dir="$course_dir/.teach/analysis-cache/$_cache_subdir"
-        mkdir -p "$_slide_cache_dir" 2>/dev/null
-        local slide_cache_file="$_slide_cache_dir/${_cache_name}-slides.json"
+        local relative_path="${file_path#$course_dir/}"
+        local cache_subdir="${relative_path:h}"
+        local cache_name="${relative_path:t:r}"
+        local slide_cache_dir="$course_dir/.teach/analysis-cache/$cache_subdir"
+        mkdir -p "$slide_cache_dir" 2>/dev/null
+        local slide_cache_file="$slide_cache_dir/${cache_name}-slides.json"
         local file_hash
         file_hash=$(shasum -a 256 "$file_path" 2>/dev/null | cut -d' ' -f1)
 
