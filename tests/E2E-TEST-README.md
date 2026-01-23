@@ -10,7 +10,7 @@ This guide covers the end-to-end (E2E) tests and interactive dog feeding tests f
 
 **Purpose:** Automated end-to-end testing of teach analyze workflow
 
-**Coverage:** 25 tests across 7 sections
+**Coverage:** 29 tests across 8 sections
 
 #### Sections
 
@@ -55,6 +55,13 @@ This guide covers the end-to-end (E2E) tests and interactive dog feeding tests f
 - Dependency graph construction
 - Bloom taxonomy level assignment
 
+##### Extended Test Cases (4 tests)
+
+- Analyze week-04: advanced modeling concepts
+- Detect missing prerequisite (week-05-missing-prereq.qmd)
+- Complex dependency chain validation
+- Highest Bloom level detection (evaluate)
+
 #### Running E2E Tests
 
 ```bash
@@ -67,7 +74,7 @@ This guide covers the end-to-end (E2E) tests and interactive dog feeding tests f
 
 **Expected Results:**
 
-- 25/25 tests passing
+- 29/29 tests passing
 - Cache files created in `.teach/analysis-cache/`
 - Reports generated in `.teach/reports/`
 

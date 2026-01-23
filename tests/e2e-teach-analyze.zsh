@@ -468,6 +468,79 @@ test_bloom_levels() {
 }
 
 # =============================================================================
+# SECTION 8: Extended Test Cases (Week 4+)
+# =============================================================================
+
+log_section "Extended Test Cases"
+
+# Test 8.1: Analyze week-04 (multiple regression concepts)
+test_analyze_week04() {
+    local output
+    output=$(zsh -c "
+        source '$PLUGIN_DIR/flow.plugin.zsh' 2>/dev/null
+        cd '$DEMO_COURSE'
+        teach analyze lectures/week-04.qmd 2>&1
+    ")
+
+    if echo "$output" | grep -q "multiple-regression\|model-selection\|assumptions"; then
+        log_pass "Week 4 analysis extracts advanced concepts"
+    else
+        log_fail "Week 4 analysis missing concepts"
+        return 1
+    fi
+}
+
+# Test 8.2: Detect missing prerequisite
+test_missing_prerequisite() {
+    local output
+    output=$(zsh -c "
+        source '$PLUGIN_DIR/flow.plugin.zsh' 2>/dev/null
+        cd '$DEMO_COURSE'
+        teach validate --deep lectures/week-05-missing-prereq.qmd 2>&1
+    ")
+
+    if echo "$output" | grep -qi "missing\|not found\|nonexistent"; then
+        log_pass "Missing prerequisite detected"
+    else
+        log_fail "Missing prerequisite not detected"
+        return 1
+    fi
+}
+
+# Test 8.3: Complex dependency chain (Week 4 builds on Weeks 1-3)
+test_complex_dependency_chain() {
+    local output
+    output=$(zsh -c "
+        source '$PLUGIN_DIR/flow.plugin.zsh' 2>/dev/null
+        cd '$DEMO_COURSE'
+        teach analyze lectures/week-04.qmd 2>&1
+    ")
+
+    # model-selection should ultimately require concepts from earlier weeks
+    if echo "$output" | grep -qi "prerequisite\|require\|depend"; then
+        log_pass "Complex dependency chain shown"
+    else
+        log_fail "Complex dependencies not shown"
+    fi
+}
+
+# Test 8.4: Highest Bloom level (evaluate)
+test_highest_bloom_level() {
+    local output
+    output=$(zsh -c "
+        source '$PLUGIN_DIR/flow.plugin.zsh' 2>/dev/null
+        cd '$DEMO_COURSE'
+        teach analyze lectures/week-04.qmd 2>&1
+    ")
+
+    if echo "$output" | grep -qi "evaluate"; then
+        log_pass "Highest Bloom level (evaluate) detected in Week 4"
+    else
+        log_fail "Evaluate Bloom level not shown"
+    fi
+}
+
+# =============================================================================
 # CLEANUP AND RUN ALL TESTS
 # =============================================================================
 
@@ -510,6 +583,12 @@ test_markdown_report
 test_full_workflow
 test_dependency_graph
 test_bloom_levels
+
+# Section 8: Extended Test Cases
+test_analyze_week04
+test_missing_prerequisite
+test_complex_dependency_chain
+test_highest_bloom_level
 
 # Cleanup
 cleanup

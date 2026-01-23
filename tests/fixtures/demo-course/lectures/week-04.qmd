@@ -1,0 +1,159 @@
+---
+title: "Week 4: Multiple Regression and Model Selection"
+subtitle: "Advanced Modeling Techniques"
+author: "Test Instructor"
+date: "2026-02-10"
+format: html
+concepts:
+  - id: multiple-regression
+    name: "Multiple Regression"
+    category: "advanced"
+    bloom_level: "apply"
+    cognitive_load: "high"
+    teaching_time: 40
+    prerequisites:
+      - linear-regression
+      - correlation
+  - id: model-selection
+    name: "Model Selection"
+    category: "advanced"
+    bloom_level: "evaluate"
+    cognitive_load: "high"
+    teaching_time: 30
+    prerequisites:
+      - multiple-regression
+      - inference
+  - id: assumptions-checking
+    name: "Assumptions and Diagnostics"
+    category: "advanced"
+    bloom_level: "analyze"
+    cognitive_load: "high"
+    teaching_time: 35
+    prerequisites:
+      - multiple-regression
+      - distributions
+---
+
+## Learning Objectives
+
+By the end of this lecture, you will be able to:
+
+1. Extend simple linear regression to multiple predictors
+2. Select appropriate models using statistical criteria
+3. Check and validate regression assumptions
+
+## Multiple Regression
+
+Multiple regression allows us to model the relationship between a response variable and multiple predictors simultaneously.
+
+### Model Specification
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \epsilon$$
+
+Where:
+- $Y$ is the response variable
+- $X_1, X_2, \ldots, X_p$ are predictor variables
+- $\beta_0, \beta_1, \ldots, \beta_p$ are regression coefficients
+- $\epsilon$ is the error term
+
+```{r}
+# Example: Multiple regression
+data <- data.frame(
+  price = c(200, 250, 300, 350, 400),
+  sqft = c(1000, 1500, 2000, 2500, 3000),
+  bedrooms = c(2, 3, 3, 4, 4)
+)
+
+model <- lm(price ~ sqft + bedrooms, data = data)
+summary(model)
+```
+
+### Interpretation
+
+Each coefficient represents the change in $Y$ for a one-unit change in that predictor, **holding all other predictors constant**.
+
+## Model Selection
+
+How do we choose which predictors to include?
+
+### Criteria
+
+1. **Adjusted R²**: Penalizes model complexity
+2. **AIC (Akaike Information Criterion)**: Lower is better
+3. **BIC (Bayesian Information Criterion)**: Stronger penalty for complexity
+
+```{r}
+# Compare models
+model1 <- lm(price ~ sqft, data = data)
+model2 <- lm(price ~ sqft + bedrooms, data = data)
+
+AIC(model1, model2)
+BIC(model1, model2)
+```
+
+### Variable Selection Methods
+
+- **Forward Selection**: Start with no predictors, add one at a time
+- **Backward Elimination**: Start with all predictors, remove one at a time
+- **Stepwise Selection**: Combination of forward and backward
+
+## Assumptions and Diagnostics
+
+Regression assumptions must be checked for valid inference.
+
+### Key Assumptions
+
+1. **Linearity**: Relationship between X and Y is linear
+2. **Independence**: Observations are independent
+3. **Homoscedasticity**: Constant variance of errors
+4. **Normality**: Errors are normally distributed
+
+### Diagnostic Plots
+
+```{r}
+# Diagnostic plots
+par(mfrow = c(2, 2))
+plot(model)
+```
+
+### Residual Analysis
+
+```{r}
+# Check residuals
+residuals <- residuals(model)
+hist(residuals, main = "Residual Distribution")
+qqnorm(residuals)
+qqline(residuals)
+```
+
+## Model Validation
+
+### Cross-Validation
+
+Split data into training and testing sets to assess predictive performance.
+
+```{r}
+# Simple train-test split
+set.seed(123)
+train_idx <- sample(1:nrow(data), 0.7 * nrow(data))
+train <- data[train_idx, ]
+test <- data[-train_idx, ]
+
+model_train <- lm(price ~ sqft + bedrooms, data = train)
+predictions <- predict(model_train, newdata = test)
+
+# Calculate RMSE
+rmse <- sqrt(mean((test$price - predictions)^2))
+print(paste("RMSE:", rmse))
+```
+
+## Summary
+
+This lecture extended our regression toolkit to multiple predictors, introduced model selection criteria, and emphasized the importance of checking assumptions and validating models.
+
+### Key Takeaways
+
+- Multiple regression allows modeling complex relationships
+- Model selection balances fit and complexity
+- Always check assumptions before making inferences
+- Validation is crucial for assessing model performance

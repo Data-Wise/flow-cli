@@ -1,0 +1,15 @@
+# Generated HTML files from Quarto render
+*.html
+*_files/
+
+# Teaching workflow generated files
+lectures/.teach/
+
+# Validation status (generated)
+.teach/validation-status.json
+
+# Analysis cache
+.teach/analysis-cache/
+
+# Reports
+.teach/reports/

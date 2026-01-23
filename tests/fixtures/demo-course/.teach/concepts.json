@@ -61,6 +61,27 @@
       "week": 3,
       "file": "lectures/week-03.qmd",
       "prerequisites": ["correlation", "inference"]
+    },
+    "multiple-regression": {
+      "name": "Multiple Regression",
+      "category": "advanced",
+      "week": 4,
+      "file": "lectures/week-04.qmd",
+      "prerequisites": ["linear-regression", "correlation"]
+    },
+    "model-selection": {
+      "name": "Model Selection",
+      "category": "advanced",
+      "week": 4,
+      "file": "lectures/week-04.qmd",
+      "prerequisites": ["multiple-regression", "inference"]
+    },
+    "assumptions-checking": {
+      "name": "Assumptions and Diagnostics",
+      "category": "advanced",
+      "week": 4,
+      "file": "lectures/week-04.qmd",
+      "prerequisites": ["multiple-regression", "distributions"]
     }
   }
 }
