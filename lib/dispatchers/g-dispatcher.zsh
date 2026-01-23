@@ -42,6 +42,29 @@ if [[ -z "$_C_BOLD" ]]; then
 fi
 
 # ═══════════════════════════════════════════════════════════════════
+# TOKEN VALIDATION HELPERS
+# ═══════════════════════════════════════════════════════════════════
+
+_g_is_github_remote() {
+  # Check if current repo has GitHub remote
+  git remote -v 2>/dev/null | grep -q "github.com"
+}
+
+_g_validate_github_token_silent() {
+  # Quick validation without output
+  # Returns 0 if valid, 1 if expired/invalid
+  local token=$(dot secret github-token 2>/dev/null)
+  [[ -z "$token" ]] && return 1
+
+  local http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+    -H "Authorization: token $token" \
+    -H "Accept: application/vnd.github.v3+json" \
+    "https://api.github.com/user" 2>/dev/null)
+
+  [[ "$http_code" == "200" ]]
+}
+
+# ═══════════════════════════════════════════════════════════════════
 # MAIN G() DISPATCHER
 # ═══════════════════════════════════════════════════════════════════
 
@@ -161,24 +184,79 @@ g() {
             if [[ -z "$GIT_WORKFLOW_SKIP" ]]; then
                 _g_check_workflow || return 1
             fi
+            # Validate GitHub token before push
+            if _g_is_github_remote; then
+                if ! _g_validate_github_token_silent; then
+                    _flow_log_warning "GitHub token may be expired"
+                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}"
+                    echo ""
+                    read -q "?Continue anyway? [y/n] " continue_response
+                    echo ""
+                    [[ "$continue_response" != "y" ]] && return 1
+                fi
+            fi
             git push "$@"
             ;;
 
         pushu|pu)
+            # Validate GitHub token before push
+            if _g_is_github_remote; then
+                if ! _g_validate_github_token_silent; then
+                    _flow_log_warning "GitHub token may be expired"
+                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}"
+                    echo ""
+                    read -q "?Continue anyway? [y/n] " continue_response
+                    echo ""
+                    [[ "$continue_response" != "y" ]] && return 1
+                fi
+            fi
             git push -u origin HEAD
             ;;
 
         pull|pl)
             shift
+            # Validate GitHub token before pull
+            if _g_is_github_remote; then
+                if ! _g_validate_github_token_silent; then
+                    _flow_log_warning "GitHub token may be expired"
+                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}"
+                    echo ""
+                    read -q "?Continue anyway? [y/n] " continue_response
+                    echo ""
+                    [[ "$continue_response" != "y" ]] && return 1
+                fi
+            fi
             git pull "$@"
             ;;
 
         fetch|f)
             shift
+            # Validate GitHub token before fetch
+            if _g_is_github_remote; then
+                if ! _g_validate_github_token_silent; then
+                    _flow_log_warning "GitHub token may be expired"
+                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}"
+                    echo ""
+                    read -q "?Continue anyway? [y/n] " continue_response
+                    echo ""
+                    [[ "$continue_response" != "y" ]] && return 1
+                fi
+            fi
             git fetch "$@"
             ;;
 
         fa)
+            # Validate GitHub token before fetch all
+            if _g_is_github_remote; then
+                if ! _g_validate_github_token_silent; then
+                    _flow_log_warning "GitHub token may be expired"
+                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}"
+                    echo ""
+                    read -q "?Continue anyway? [y/n] " continue_response
+                    echo ""
+                    [[ "$continue_response" != "y" ]] && return 1
+                fi
+            fi
             git fetch --all
             ;;
 

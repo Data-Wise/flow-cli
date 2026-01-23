@@ -904,6 +904,167 @@ dot secrets help        # Show subcommand help
 
 ---
 
+### Token Health & Automation (v5.16.0)
+
+Proactive token expiration detection and rotation workflows.
+
+#### `dot token expiring`
+
+Check GitHub token expiration status across all DOT-managed tokens.
+
+**Features:**
+- Validates all GitHub tokens via GitHub API
+- Calculates age from enhanced Keychain metadata (dot_version 2.1)
+- Reports expired and expiring tokens (< 7 days remaining)
+- Prompts for rotation if issues found
+- Zero output if all tokens are healthy (silent success)
+
+**Examples:**
+```bash
+dot token expiring          # Check all GitHub tokens
+flow token expiring         # Alias via flow command
+```
+
+**Output (when issues found):**
+```
+🔴 EXPIRED tokens:
+  🔴 old-github-token - Expired (revoke ASAP)
+
+🟡 EXPIRING tokens (< 7 days remaining):
+  🟡 github-token - 3 days remaining
+
+Rotate expiring/expired tokens now? [y/n]
+```
+
+**Output (when healthy):**
+```
+✅ All GitHub tokens are current (> 7 days remaining)
+```
+
+**Integration:**
+- Called by `g push/pull` before GitHub remote operations
+- Displayed in `dash dev` dashboard
+- Checked by `work` on session start for GitHub projects
+- Validated by `finish` before committing to GitHub repos
+- Included in `flow doctor` health checks
+
+---
+
+#### `dot token rotate [name]`
+
+Semi-automated token rotation workflow with backup and validation.
+
+**Features:**
+- Backs up old token before rotation (safety net)
+- Validates new token via GitHub API (real-time check)
+- Prompts for manual revocation on GitHub (security best practice)
+- Logs rotation events with audit trail in metadata
+- Auto-syncs with gh CLI (`gh auth login`)
+- Updates both Bitwarden vault and Keychain with new metadata
+
+**Examples:**
+```bash
+dot token rotate              # Rotate github-token (default)
+dot token rotate my-token     # Rotate specific token
+flow token rotate             # Alias via flow command
+```
+
+**Workflow:**
+```
+🔄 Rotating Token: github-token
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Looking up current token...
+
+  Token Type: github (fine-grained)
+  Created: 2026-01-10
+  Age: 83 days
+  Status: ⚠ Expiring soon
+
+  Backing up current token...
+  ✓ Backup saved to: github-token-backup
+
+  Opening browser to create new token...
+  https://github.com/settings/tokens/new
+  [browser opens]
+
+  Paste new token: ········
+
+  Expiration (days) [90]: 90
+
+  Validating token...
+  ✓ Token validated (@your-username)
+
+  Updating storage...
+  ✓ Bitwarden vault updated
+  ✓ Keychain updated with Touch ID
+  ✓ Metadata: dot_version 2.1
+
+  Syncing with gh CLI...
+  ✓ gh CLI authenticated
+
+⚠ MANUAL STEP REQUIRED:
+
+  Revoke old token at:
+  https://github.com/settings/tokens
+
+  Look for token ending in: ···abc123
+
+✅ Rotation complete!
+```
+
+**Requirements:**
+- Bitwarden CLI (`bw`) installed and configured
+- GitHub API access (for validation)
+- `gh` CLI for auto-sync (optional but recommended)
+
+**Safety Features:**
+- Old token backed up before deletion
+- New token validated before storage
+- Manual revocation prompt (prevents premature deletion)
+- Atomic updates (all-or-nothing storage)
+
+---
+
+#### `dot token sync gh`
+
+Authenticate gh CLI with Keychain-stored GitHub token.
+
+**Features:**
+- Reads token from macOS Keychain (Touch ID)
+- Pipes token securely to `gh auth login`
+- Validates authentication after sync
+- Zero clipboard exposure (direct pipe)
+
+**Examples:**
+```bash
+dot token sync gh           # Sync github-token with gh CLI
+flow token sync gh          # Alias via flow command
+```
+
+**Output:**
+```
+🔄 Syncing GitHub token with gh CLI...
+
+  Reading token from Keychain...
+  ✓ Token retrieved
+
+  Authenticating gh CLI...
+  ✓ gh CLI authenticated as @your-username
+
+✅ gh CLI sync complete
+```
+
+**When to use:**
+- After rotating GitHub token (`dot token rotate`)
+- When `gh` commands fail with authentication errors
+- After fresh gh CLI installation
+- When switching between multiple GitHub accounts
+
+**Note:** This command is automatically called by `dot token rotate`, so manual sync is rarely needed.
+
+---
+
 ### Session Cache (v5.2.0)
 
 Automatic session management with 15-minute idle timeout.

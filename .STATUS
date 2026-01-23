@@ -4,44 +4,87 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.16.0 - In Development
+## Phase: v5.17.0 - Planning
 ## Priority: 1
-## Progress: 60
+## Progress: 0
 
-## Focus: Intelligent Content Analysis (teach analyze)
+## Focus: Next Development Cycle
 
-## ✅ Just Completed (2026-01-22):
+## ✅ Just Released (2026-01-22):
 
-### teach analyze - ALL PHASES COMPLETE + Optimized
+### v5.16.0 - Intelligent Content Analysis ✨
 
-**PR #289:** Merged to dev (Phases 0-5: concept extraction, caching, reports, AI, slides, polish)
-**PR #290:** Merged to dev (post-merge optimization)
+**Released:** 2026-01-22
+**PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0
 
-**Optimization (PR #290):**
-- Added self-protecting load guards to 6 lib files (prevents double/triple-sourcing)
-- Extracted display layer to `lib/analysis-display.zsh` (7 functions, 270 lines)
-- Fixed slide cache path collisions (directory-mirroring structure)
-- Removed redundant sources from `flow.plugin.zsh` and dispatcher
+**Major Features:**
+- teach analyze system (Phases 0-5) - Complete intelligent content analysis with AI
+- Plugin optimization (load guards, display extraction, cache fixes)
+- Documentation debt remediation (348 functions, 49.4% coverage)
+- Enhanced prerequisite display with dependency tree
+- wt dispatcher passthrough fix
+- 58 commits, 39,228 additions, 1,750 deletions
 
-**Brainstorm:** Config→concept graph integration (Option D: Hybrid Enrichment for Phase 1)
-**Spec:** `docs/specs/SPEC-teach-analyze-optimization-2026-01-22.md`
-
-### Bug Fix: wt dispatcher passthrough
-
-- `wt lock/unlock/repair` now correctly passes through to `git worktree`
-- Added `lock|unlock|repair` to known commands list
+**Included PRs:**
+- PR #289: teach analyze Phases 0-5
+- PR #290: Plugin optimization
+- PR #288: Documentation debt remediation
 
 ---
 
 ## 🎯 Current Sprint:
 
-### v5.16.0 - Bundling for Release
+### v5.17.0 - Token Automation Phase 1 ✅ COMPLETE
 
-**On dev (ready for release):**
-- teach analyze (Phases 0-5) — full concept graph + AI + slide optimization
-- teach analyze optimization (load guards, display extraction, cache fix)
-- Documentation debt (348 functions documented, 49.4% coverage)
-- wt dispatcher passthrough fix
+**PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED 2026-01-23)
+**Status:** Complete, merged to dev
+**Time:** 8 hours (33% faster than 12h estimate via orchestration)
+
+**Delivered:**
+- ✅ Isolated token checks (--dot, --dot=TOKEN)
+- ✅ Smart caching (5-min TTL, 80% API reduction)
+- ✅ ADHD-friendly category menu
+- ✅ Verbosity levels (quiet/normal/verbose)
+- ✅ Token-only fix mode (--fix-token)
+- 1,822 lines code, 2,150+ lines docs, 54 tests (96.3% pass)
+
+---
+
+### v5.18.0 - GitHub Token Security & Automation (Future)
+
+**Status:** Deferred (focus on other features)
+**Estimated:** 4 hours (1.5h Phase 1 + 2h Phase 2 + 0.5h testing)
+
+**Features:**
+- 🔐 Semi-automated GitHub token rotation with keychain integration
+- ⏰ Token expiration detection (7-day warning at 83 days)
+- 🔄 One-command token lifecycle (detection → rotation → validation → revocation)
+- 🎯 Integration across 9 dispatchers (g, dash, work, finish, teach, doctor, gh CLI, git, MCP)
+- 📊 Weekly health checks with audit trail
+
+**Implementation Plan:**
+- Phase 1 (1.5h): Core automation - 5 tasks
+- Phase 2 (2h): flow-cli integration - 6 tasks
+- Documentation: 0.5h
+
+**Brainstorm Docs:**
+- `~/BRAINSTORM-github-token-security-2026-01-23.md` (19KB)
+- `~/BRAINSTORM-automated-token-management-2026-01-23.md` (36KB)
+- `~/BRAINSTORM-flow-github-integration-2026-01-23.md` (22KB)
+
+**Implementation Plan:**
+- `~/.git-worktrees/flow-cli/feature-token-automation/IMPLEMENTATION-PLAN.md`
+
+---
+
+### v5.17.0 - Planning Phase (Paused)
+
+**Potential Focus Areas (deferred):**
+- Config → concept graph integration (Phase 1 enhancement)
+- teach prompt command (needs Scholar coordination)
+- Quarto workflow Phase 2 enhancements
+- Additional teach analyze improvements
 
 ---
 
@@ -49,7 +92,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Planning/coordination |
+| Main repo | `dev` | Clean - PR #292 merged |
 
 ---
 
@@ -78,7 +121,13 @@
 - v5.15.1 (2026-01-21): Architecture docs, V-dispatcher reference, coverage report
 - v5.15.0 (2026-01-21): Comprehensive Help System (18 functions, 3 guides)
 
-**Future (v5.17.0+):**
+**v5.18.0 (In Progress):**
+- GitHub token security & automation ← ACTIVE
+- Semi-automated rotation with keychain
+- 9-dispatcher integration (g, dash, work, finish, etc.)
+- Token expiration detection (7-day warning)
+
+**Future (v5.19.0+):**
 - Config→concept graph integration (Phase 1)
 - teach analyze AI improvements
 - Quarto Workflow Phase 2 (already on dev via PR #279)
@@ -87,12 +136,21 @@
 
 ## 🎯 Recommended Next Step:
 
-Release v5.16.0 (dev → main) or start config→concept graph Phase 1.
+**Immediate:** Release v5.17.0
+- PR #292 merged to dev
+- Run full test suite
+- Create release PR (dev → main)
+- Tag v5.17.0
+
+**After v5.17.0:** Choose next focus:
+- Config→concept graph integration (Phase 1)
+- teach analyze AI improvements
+- v5.18.0 token automation (Phases 2-4)
 
 ---
 
 **Last Updated:** 2026-01-23
-**Status:** Active - v5.16.0 ready for release
+**Status:** Active - v5.16.0 released, implementing v5.18.0 (token automation)
 ## wins: --category fix squashed the bug (2026-01-22), fixed the bug (2026-01-22), --category fix squashed the bug (2026-01-22), fixed the bug (2026-01-22), --category fix squashed the bug (2026-01-22)
 ## streak: 0
-## last_active: 2026-01-22 22:26
+## last_active: 2026-01-23 04:15

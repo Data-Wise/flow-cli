@@ -1673,7 +1673,7 @@ _dot_token() {
     fi
   fi
 
-  # Normal mode - handle wizards
+  # Normal mode - handle wizards and subcommands
   case "$subcommand" in
     # Token wizards
     github|gh)
@@ -1684,6 +1684,27 @@ _dot_token() {
       ;;
     pypi|pip)
       _dot_token_pypi "$@"
+      ;;
+
+    # Token automation subcommands (v5.16.0)
+    expiring)
+      _dot_token_expiring "$@"
+      ;;
+    rotate)
+      shift  # Remove 'rotate' from args
+      _dot_token_rotate "$@"
+      ;;
+    sync)
+      shift  # Remove 'sync' from args
+      case "$1" in
+        gh|github)
+          _dot_token_sync_gh
+          ;;
+        *)
+          _flow_log_error "Usage: dot token sync gh"
+          return 1
+          ;;
+      esac
       ;;
 
     # Help
@@ -1736,6 +1757,11 @@ _dot_token_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]}   GitHub PAT wizard           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token npm${FLOW_COLORS[reset]}      NPM token wizard            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token pypi${FLOW_COLORS[reset]}     PyPI token wizard           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Token Automation (v5.16.0):${FLOW_COLORS[reset]}                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}  Check expiration status      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]}    Rotate existing token        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token sync gh${FLOW_COLORS[reset]}   Sync with gh CLI             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Rotate Existing Token:${FLOW_COLORS[reset]}                          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token <name> --refresh${FLOW_COLORS[reset]}                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
@@ -2080,14 +2106,15 @@ _dot_token_github() {
   read "?Token name [github-token]: " token_name
   [[ -z "$token_name" ]] && token_name="github-token"
 
-  # Build metadata
+  # Build metadata (ENHANCED with github_user and expires_days)
   local expire_date=""
   if [[ "$expire_days" -gt 0 ]]; then
     expire_date=$(date -v+${expire_days}d +%Y-%m-%d 2>/dev/null || date -d "+${expire_days} days" +%Y-%m-%d 2>/dev/null)
   fi
 
-  local metadata="{\"dot_version\":\"2.0\",\"type\":\"github\",\"token_type\":\"${token_type}\",\"created\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\""
+  local metadata="{\"dot_version\":\"2.1\",\"type\":\"github\",\"token_type\":\"${token_type}\",\"created\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"expires_days\":${expire_days}"
   [[ -n "$expire_date" ]] && metadata="${metadata},\"expires\":\"${expire_date}\""
+  [[ -n "$username" ]] && metadata="${metadata},\"github_user\":\"${username}\""
   metadata="${metadata}}"
 
   # Store in Bitwarden
@@ -2125,6 +2152,15 @@ EOF
   # Sync vault
   bw sync --session "$BW_SESSION" >/dev/null 2>&1
 
+  # ALSO store in Keychain with metadata for instant access
+  _flow_log_info "Adding to Keychain for instant access..."
+  security add-generic-password \
+    -a "$token_name" \
+    -s "$_DOT_KEYCHAIN_SERVICE" \
+    -w "$token_value" \
+    -j "$metadata" \
+    -U 2>/dev/null
+
   echo ""
   echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Token stored successfully${FLOW_COLORS[reset]}                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
@@ -2142,6 +2178,301 @@ EOF
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
   echo ""
+}
+
+# ───────────────────────────────────────────────────────────────────
+# TOKEN EXPIRATION DETECTION
+# ───────────────────────────────────────────────────────────────────
+
+_dot_token_expiring() {
+  _flow_log_info "Checking token expiration status..."
+
+  # Get all GitHub tokens from Keychain
+  local secrets=$(dot secret list 2>/dev/null | grep "•" | sed 's/.*• //')
+  local expiring_tokens=()
+  local expired_tokens=()
+
+  for secret in ${(f)secrets}; do
+    # Only check GitHub tokens
+    if [[ "$secret" =~ github ]]; then
+      local token=$(dot secret "$secret" 2>/dev/null)
+
+      # Validate with GitHub API
+      local api_response=$(curl -s \
+        -H "Authorization: token $token" \
+        -H "Accept: application/vnd.github.v3+json" \
+        "https://api.github.com/user" 2>/dev/null)
+
+      if echo "$api_response" | grep -q '"message":"Bad credentials"'; then
+        expired_tokens+=("$secret")
+      elif echo "$api_response" | grep -q '"login"'; then
+        # Check if created 83+ days ago (7-day warning before 90-day expiration)
+        local token_age_days=$(_dot_token_age_days "$secret")
+        if [[ $token_age_days -ge 83 ]]; then
+          expiring_tokens+=("$secret")
+        fi
+      fi
+    fi
+  done
+
+  # Report findings
+  if [[ ${#expired_tokens[@]} -gt 0 ]]; then
+    _flow_log_error "EXPIRED tokens (need immediate rotation):"
+    for token in "${expired_tokens[@]}"; do
+      echo "  🔴 $token"
+    done
+    echo ""
+  fi
+
+  if [[ ${#expiring_tokens[@]} -gt 0 ]]; then
+    _flow_log_warning "EXPIRING tokens (< 7 days remaining):"
+    for token in "${expiring_tokens[@]}"; do
+      local days_left=$((90 - $(_dot_token_age_days "$token")))
+      echo "  🟡 $token - $days_left days remaining"
+    done
+    echo ""
+  fi
+
+  if [[ ${#expired_tokens[@]} -eq 0 && ${#expiring_tokens[@]} -eq 0 ]]; then
+    _flow_log_success "All GitHub tokens are current"
+    return 0
+  fi
+
+  # Offer rotation
+  if [[ ${#expired_tokens[@]} -gt 0 || ${#expiring_tokens[@]} -gt 0 ]]; then
+    echo ""
+    read -q "?Rotate tokens now? [y/n] " rotate_response
+    echo ""
+    if [[ "$rotate_response" == "y" ]]; then
+      _dot_token_rotate
+    else
+      _flow_log_info "Run ${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]} when ready"
+    fi
+  fi
+}
+
+_dot_token_age_days() {
+  local secret_name="$1"
+
+  # Get creation timestamp from Keychain item metadata
+  local metadata=$(security find-generic-password \
+    -a "$secret_name" \
+    -s "$_DOT_KEYCHAIN_SERVICE" \
+    -g 2>&1 | grep "note:" | sed 's/note: //')
+
+  if [[ -z "$metadata" ]]; then
+    # No metadata, assume old token (flag for rotation)
+    echo 90
+    return
+  fi
+
+  # Parse creation date from JSON metadata
+  local created_date=$(echo "$metadata" | jq -r '.created // empty' 2>/dev/null)
+  if [[ -z "$created_date" ]]; then
+    echo 90
+    return
+  fi
+
+  # Calculate days since creation
+  local created_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%SZ" "$created_date" "+%s" 2>/dev/null)
+  local now_epoch=$(date +%s)
+  local age_seconds=$((now_epoch - created_epoch))
+  local age_days=$((age_seconds / 86400))
+
+  echo $age_days
+}
+
+# ───────────────────────────────────────────────────────────────────
+# TOKEN ROTATION WORKFLOW
+# ───────────────────────────────────────────────────────────────────
+
+_dot_token_rotate() {
+  local token_name="${1:-github-token}"
+
+  _flow_log_info "Starting token rotation for: $token_name"
+
+  # Step 1: Verify old token exists
+  local old_token=$(dot secret "$token_name" 2>/dev/null)
+  if [[ -z "$old_token" ]]; then
+    _flow_log_error "Token '$token_name' not found in Keychain"
+    return 1
+  fi
+
+  # Step 2: Validate old token (get user info for confirmation)
+  local old_token_user=$(curl -s \
+    -H "Authorization: token $old_token" \
+    -H "Accept: application/vnd.github.v3+json" \
+    "https://api.github.com/user" 2>/dev/null | jq -r '.login // "unknown"')
+
+  echo ""
+  echo "${FLOW_COLORS[header]}╭─────────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔄 Token Rotation${FLOW_COLORS[reset]}                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├─────────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Current token: ${token_name}                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  GitHub user: ${old_token_user}                    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠ This will:${FLOW_COLORS[reset]}                                    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    1. Generate new token (browser)                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    2. Store in Keychain                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    3. Validate new token                           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    4. Keep old token as backup                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰─────────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+
+  read -q "?Continue with rotation? [y/n] " continue_response
+  echo ""
+  if [[ "$continue_response" != "y" ]]; then
+    _flow_log_info "Rotation cancelled"
+    return 0
+  fi
+
+  # Step 3: Backup old token
+  local backup_name="${token_name}-backup-$(date +%Y%m%d)"
+  echo "$old_token" | dot secret add "$backup_name" 2>/dev/null
+  _flow_log_info "Old token backed up as: $backup_name"
+
+  # Step 4: Generate new token (use existing wizard)
+  _flow_log_info "Step 1/4: Generating new token..."
+  echo ""
+  echo "Follow the wizard to create a new token."
+  echo "Use the SAME scopes as before for consistency."
+  echo ""
+
+  # Call existing wizard
+  _dot_token_github
+
+  # Verify new token was created
+  local new_token=$(dot secret "$token_name" 2>/dev/null)
+  if [[ -z "$new_token" || "$new_token" == "$old_token" ]]; then
+    _flow_log_error "New token creation failed or unchanged"
+    _flow_log_info "Restoring old token..."
+    echo "$old_token" | dot secret add "$token_name"
+    dot secret delete "$backup_name" 2>/dev/null
+    return 1
+  fi
+
+  # Step 5: Validate new token
+  _flow_log_info "Step 2/4: Validating new token..."
+  local new_token_user=$(curl -s \
+    -H "Authorization: token $new_token" \
+    -H "Accept: application/vnd.github.v3+json" \
+    "https://api.github.com/user" 2>/dev/null | jq -r '.login // empty')
+
+  if [[ -z "$new_token_user" ]]; then
+    _flow_log_error "New token validation failed"
+    _flow_log_info "Restoring old token..."
+    echo "$old_token" | dot secret add "$token_name"
+    dot secret delete "$backup_name" 2>/dev/null
+    return 1
+  fi
+
+  if [[ "$new_token_user" != "$old_token_user" ]]; then
+    _flow_log_error "New token user ($new_token_user) doesn't match old token user ($old_token_user)"
+    read -q "?Continue anyway? [y/n] " mismatch_continue
+    echo ""
+    if [[ "$mismatch_continue" != "y" ]]; then
+      echo "$old_token" | dot secret add "$token_name"
+      dot secret delete "$backup_name" 2>/dev/null
+      return 1
+    fi
+  fi
+
+  _flow_log_success "New token validated for user: $new_token_user"
+
+  # Step 6: Manual revocation prompt
+  _flow_log_info "Step 3/5: Revoke old token on GitHub..."
+  echo ""
+  echo "${FLOW_COLORS[warning]}Manual Step Required:${FLOW_COLORS[reset]}"
+  echo "Visit: ${FLOW_COLORS[cmd]}https://github.com/settings/tokens${FLOW_COLORS[reset]}"
+  echo "Find token for: ${old_token_user}"
+  echo "Look for token created before today"
+  echo "Click 'Revoke' to delete old token"
+  echo ""
+
+  read -q "?Press 'y' when revocation is complete [y/n] " revoke_confirm
+  echo ""
+
+  if [[ "$revoke_confirm" == "y" ]]; then
+    # Delete backup token (old token now revoked)
+    dot secret delete "$backup_name" 2>/dev/null
+    _flow_log_success "Old token backup removed"
+  else
+    _flow_log_warning "Old token backup kept at: $backup_name"
+    _flow_log_info "Delete manually after revocation: dot secret delete $backup_name"
+  fi
+
+  # Step 7: Log rotation event
+  _dot_token_log_rotation "$token_name" "$new_token_user" "success"
+
+  # Step 8: Sync with gh CLI
+  _flow_log_info "Step 4/5: Syncing with gh CLI..."
+  _dot_token_sync_gh
+
+  # Step 9: Update environment variable
+  _flow_log_info "Step 5/5: Updating shell environment..."
+  echo ""
+  _flow_log_warning "Restart your shell to apply changes:"
+  echo "  ${FLOW_COLORS[cmd]}exec zsh${FLOW_COLORS[reset]}"
+  echo ""
+
+  echo ""
+  echo "${FLOW_COLORS[header]}╭─────────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Token Rotation Complete${FLOW_COLORS[reset]}                        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Token: $token_name                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  User: $new_token_user                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Next rotation: ~$(date -v+90d +%Y-%m-%d 2>/dev/null || date -d '+90 days' +%Y-%m-%d)          ${FLOW_COLORS[reset]}${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰─────────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+_dot_token_log_rotation() {
+  local token_name="$1"
+  local user="$2"
+  local status="$3"
+
+  local log_file="$HOME/.claude/logs/token-rotation.log"
+  mkdir -p "$(dirname "$log_file")"
+
+  local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  echo "$timestamp | $token_name | $user | $status" >> "$log_file"
+}
+
+# ───────────────────────────────────────────────────────────────────
+# GH CLI INTEGRATION
+# ───────────────────────────────────────────────────────────────────
+
+_dot_token_sync_gh() {
+  _flow_log_info "Syncing token with gh CLI..."
+
+  # Get token from Keychain
+  local token=$(dot secret github-token 2>/dev/null)
+  if [[ -z "$token" ]]; then
+    _flow_log_error "github-token not found in Keychain"
+    _flow_log_info "Add one: ${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  # Check if gh CLI is installed
+  if ! command -v gh &>/dev/null; then
+    _flow_log_warning "gh CLI not installed"
+    _flow_log_info "Install: ${FLOW_COLORS[cmd]}brew install gh${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  # Authenticate gh with token
+  echo "$token" | gh auth login --with-token 2>/dev/null
+
+  if gh auth status &>/dev/null; then
+    local gh_user=$(gh api user --jq '.login' 2>/dev/null)
+    _flow_log_success "gh CLI authenticated as: $gh_user"
+  else
+    _flow_log_error "gh authentication failed"
+    return 1
+  fi
 }
 
 # ───────────────────────────────────────────────────────────────────

@@ -121,6 +121,17 @@ wt status         # Health & merge status
 wt help           # Show all commands
 ```
 
+### Health Check: `doctor` (v5.17.0)
+```bash
+doctor            # Full health check (all categories)
+doctor --dot      # Token check only (< 3s, cached)
+doctor --dot=github # Check specific token provider
+doctor --fix-token  # Interactive token fix menu
+doctor --dot --quiet # CI/CD mode (minimal output)
+doctor --dot --verbose # Debug with cache status
+doctor --help     # Show all options
+```
+
 ---
 
 ## 🔥 Timers & Focus
@@ -138,7 +149,9 @@ wt help           # Show all commands
 | Problem | Solution |
 |---------|----------|
 | Commands not found | `source ~/.zshrc` |
-| Check if installed | `flow doctor` |
+| Check if installed | `doctor` or `flow doctor` |
+| Token expired | `doctor --fix-token` (interactive) |
+| Git push failing | `doctor --dot` (check GitHub token) |
 | No projects showing | `status <name> --create` |
 | Editor won't open | `code .` manually |
 
@@ -166,4 +179,4 @@ status my-project active P0 "Next task description"
 
 ---
 
-<small>Flow CLI v5.10.0 | MIT License | [github.com/data-wise/flow-cli](https://github.com/data-wise/flow-cli)</small>
+<small>Flow CLI v5.17.0-dev | MIT License | [github.com/data-wise/flow-cli](https://github.com/data-wise/flow-cli)</small>

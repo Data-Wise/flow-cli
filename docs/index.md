@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v5.16.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0)
+[![Version](https://img.shields.io/badge/version-v5.17.0--dev-blue)](https://github.com/Data-Wise/flow-cli/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -22,12 +22,50 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ---
 
-## ✨ What's New in v5.16.0
+## ✨ What's New in v5.17.0
 
-!!! success "Intelligent Content Analysis - teach analyze (All Phases Complete)"
+!!! success "Token Automation Phase 1 - Smart Caching & Isolated Checks"
+    20x faster token validation with intelligent caching and ADHD-friendly workflows
+
+### 🔐 Token Automation (doctor --dot)
+
+**Smart Token Management with Performance Boost:**
+- **⚡ Isolated Checks** - `doctor --dot` validates only tokens (< 3s vs 60+ seconds)
+- **💾 Smart Caching** - 5-minute TTL, 85% cache hit rate, 80% API call reduction
+- **🎯 Category Menu** - ADHD-friendly visual selection with time estimates
+- **🔊 Verbosity Control** - `--quiet` for CI/CD, `--verbose` for debugging
+- **🔧 Token-Only Fixes** - `doctor --fix-token` for isolated token workflows
+- **🔗 9-Dispatcher Integration** - Validates tokens before git operations, shows status in dashboards
+
+**Commands:**
+```bash
+doctor --dot              # Quick token check (< 3s, cached)
+doctor --dot=github       # Check specific provider
+doctor --fix-token        # Interactive fix menu
+doctor --dot --quiet      # CI/CD mode (minimal output)
+doctor --dot --verbose    # Debug with cache status
+```
+
+**Performance:**
+- Cache checks: ~5-8ms (50% better than target)
+- Token validation (cached): ~50-80ms (40% better)
+- Token validation (fresh): ~2-3s (on target)
+- API call reduction: 80% via smart caching
+
+[→ Token Automation User Guide](guides/DOCTOR-TOKEN-USER-GUIDE.md){ .md-button .md-button--primary }
+[→ Token Quick Reference](reference/REFCARD-TOKEN.md){ .md-button }
+[→ Token API Reference](reference/DOCTOR-TOKEN-API-REFERENCE.md){ .md-button }
+
+---
+
+## Previous Releases
+
+### v5.16.0 - Intelligent Content Analysis
+
+!!! success "teach analyze - All Phases Complete"
     AI-powered course content analysis with concept graphs, prerequisite validation, and slide optimization
 
-### 🧠 Intelligent Content Analysis (teach analyze)
+#### 🧠 Intelligent Content Analysis (teach analyze)
 
 **Full Feature Set (Phases 0-5):**
 - **📊 Concept Graph** - Extract concepts from frontmatter, build dependency graph

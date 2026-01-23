@@ -7,7 +7,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v5.16.0 (Released)
+- **Current Version:** v5.17.0-dev (In Development)
+- **Latest Release:** v5.16.0 (2026-01-22)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -253,12 +254,73 @@ cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
 tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
 wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 dot <cmd>     # Dotfile management (dot edit, dot sync, dot secret)
-teach <cmd>   # Teaching workflow (teach init, teach deploy, teach exam)
+teach <cmd>   # Teaching workflow (teach analyze, teach init, teach deploy, teach exam)
 prompt <cmd>  # Prompt engine switcher (prompt status, prompt toggle)
 v <cmd>       # Vibe coding mode (v on, v off, v status)
 ```
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
+
+### Token Management (v5.17.0 Phase 1) ✨
+
+**Isolated Token Checks & Smart Caching**
+
+**Phase 1 Features (COMPLETE):**
+
+- ✅ Isolated token checks (`doctor --dot`) - < 3s vs 60+ seconds
+- ✅ Smart caching (5-min TTL, 85% hit rate, 80% API reduction)
+- ✅ ADHD-friendly category menu (visual hierarchy, time estimates)
+- ✅ Verbosity control (quiet/normal/verbose)
+- ✅ Token-only fix mode (`doctor --fix-token`)
+
+**New Commands:**
+
+```bash
+doctor --dot              # Check only tokens (< 3s, cached)
+doctor --dot=github       # Check specific provider
+doctor --fix-token        # Fix token issues only
+doctor --dot --quiet      # Minimal output (CI/CD)
+doctor --dot --verbose    # Debug output (cache status)
+```
+
+**Legacy Commands:**
+
+```bash
+dot token expiring    # Manual expiration check
+dot token rotate      # Manual rotation
+flow token expiring   # Alias for dot token
+```
+
+**Integration:**
+
+- `g push/pull` - Validates token before remote ops
+- `dash dev` - Shows token status
+- `work` - Checks token on session start
+- `finish` - Validates before push
+- `doctor` - Full health check including tokens
+
+**Performance:**
+
+- Cache check: ~5-8ms (< 10ms target)
+- Token check (cached): ~50-80ms (< 100ms target)
+- Token check (fresh): ~2-3s (< 3s target)
+- Cache effectiveness: ~85% hit rate
+
+**Documentation:**
+
+- User Guide: `docs/guides/DOCTOR-TOKEN-USER-GUIDE.md`
+- API Reference: `docs/reference/DOCTOR-TOKEN-API-REFERENCE.md`
+- Architecture: `docs/architecture/DOCTOR-TOKEN-ARCHITECTURE.md`
+- Quick Reference: `docs/reference/REFCARD-TOKEN.md`
+
+**Tests:** 54 comprehensive tests (52 passing, 2 expected skips)
+
+**Future (Phases 2-4 - Deferred):**
+
+- Multi-token support (npm, pypi)
+- Atomic fixes with rollback
+- Gamification & notifications
+- Custom validation rules
 
 ---
 
@@ -313,21 +375,21 @@ flow-cli/
 
 ## Key Files
 
-| File                                       | Purpose                  | Notes                    |
-| ------------------------------------------ | ------------------------ | ------------------------ |
-| `flow.plugin.zsh`                          | Plugin entry point       | Source this to load      |
-| `lib/core.zsh`                             | Core utilities           | Logging, colors, helpers |
-| `lib/atlas-bridge.zsh`                     | Atlas integration        | Optional state engine    |
-| `lib/keychain-helpers.zsh`                 | macOS Keychain secrets   | Touch ID support         |
-| `lib/config-validator.zsh`                 | Config validation        | Schema + hash validation |
-| `lib/git-helpers.zsh`                      | Git integration          | Teaching workflow        |
-| `lib/dispatchers/*.zsh`                    | Smart dispatchers        | 12 active dispatchers    |
-| `commands/*.zsh`                           | Core commands            | work, dash, finish, etc. |
-| `docs/reference/DISPATCHER-REFERENCE.md`   | Complete dispatcher docs | All dispatchers          |
-| `docs/reference/ARCHITECTURE-OVERVIEW.md`  | System architecture      | Mermaid diagrams         |
-| `docs/reference/V-DISPATCHER-REFERENCE.md` | V/Vibe dispatcher docs   | Vibe coding mode         |
-| `docs/reference/DOCUMENTATION-COVERAGE.md` | Coverage metrics         | 853 funcs, 8.6% coverage |
-| `.STATUS`                                  | Current progress         | Sprint tracking          |
+| File                                       | Purpose                  | Notes                     |
+| ------------------------------------------ | ------------------------ | ------------------------- |
+| `flow.plugin.zsh`                          | Plugin entry point       | Source this to load       |
+| `lib/core.zsh`                             | Core utilities           | Logging, colors, helpers  |
+| `lib/atlas-bridge.zsh`                     | Atlas integration        | Optional state engine     |
+| `lib/keychain-helpers.zsh`                 | macOS Keychain secrets   | Touch ID support          |
+| `lib/config-validator.zsh`                 | Config validation        | Schema + hash validation  |
+| `lib/git-helpers.zsh`                      | Git integration          | Teaching workflow         |
+| `lib/dispatchers/*.zsh`                    | Smart dispatchers        | 12 active dispatchers     |
+| `commands/*.zsh`                           | Core commands            | work, dash, finish, etc.  |
+| `docs/reference/DISPATCHER-REFERENCE.md`   | Complete dispatcher docs | All dispatchers           |
+| `docs/reference/ARCHITECTURE-OVERVIEW.md`  | System architecture      | Mermaid diagrams          |
+| `docs/reference/V-DISPATCHER-REFERENCE.md` | V/Vibe dispatcher docs   | Vibe coding mode          |
+| `docs/reference/DOCUMENTATION-COVERAGE.md` | Coverage metrics         | 853 funcs, 49.4% coverage |
+| `.STATUS`                                  | Current progress         | Sprint tracking           |
 
 ---
 
@@ -549,16 +611,77 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.16.0 (Ready for Release)
-**Status:** ✅ teach analyze complete (all phases) + optimized + tested
-**Branch:** `dev` (ready for PR to main)
-**Performance:** Sub-10ms for core commands, 3x load reduction from optimization
+**Version:** v5.17.0-dev (In Development)
+**Latest Release:** v5.16.0 (2026-01-22)
+**Status:** Production - PR #292 merged to dev
+**Branch:** `dev` (clean working tree, ready for v5.17.0 release)
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0
+**Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
-**Tests:** 423 total (393 existing + 29 E2E + 1 interactive)
+**Tests:** 14 test suites + 54 token automation tests (100% core tests, 416+ total tests)
 
 ---
 
-## Just Completed (2026-01-23)
+## Recent Releases
+
+### v5.17.0 - Token Automation Phase 1 (In Development)
+
+**Status:** Ready for release
+**PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED 2026-01-23)
+**Changes:** 35 files, +13,546 / -187 lines
+
+**Major Features:**
+
+- Isolated token checks (--dot, --dot=TOKEN, --fix-token)
+- Smart caching (5-min TTL, 80% API reduction, 85% hit rate)
+- ADHD-friendly category menu with visual hierarchy
+- Verbosity control (quiet/normal/verbose)
+- Integration across 9 dispatchers (g, dash, work, finish, etc.)
+
+**Command:** `commands/teach-analyze.zsh` (1,203 lines)
+
+- 2,150+ lines across 4 comprehensive guides
+- 11 Mermaid architecture diagrams
+- Complete API reference (800+ lines)
+
+**Tests:**
+
+- 54 comprehensive tests (96.3% pass rate)
+- Unit, E2E, cache, and interactive test suites
+
+**Performance:**
+
+- 20x faster token checks (3s vs 60s)
+- Cache checks: ~5-8ms (50% better than target)
+- 80% API call reduction
+
+### v5.16.0 - Intelligent Content Analysis (2026-01-22)
+
+**Released:** 2026-01-22
+**PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0
+**Changes:** 58 commits, +39,228 / -1,750 lines
+
+**Major Features:**
+
+- Complete teach analyze system (Phases 0-5) with AI-powered insights
+- Plugin optimization (load guards, display extraction, cache fixes)
+- Documentation debt remediation (348 functions, 49.4% coverage)
+- Enhanced prerequisite display with dependency tree visualization
+- wt dispatcher passthrough fix
+
+**Release Session (2026-01-22):**
+
+- Enhanced prerequisite display with per-concept dependency trees
+- Fixed concept extraction bugs (array-of-objects YAML, prerequisite merging)
+- Fixed slide optimizer key concept extraction
+- Updated documentation (REFCARD + API reference)
+- Complete release workflow (version bump → PR → merge → tag → release)
+- Post-release cleanup (.STATUS update, branch cleanup)
+
+---
+
+## Previous Milestones (2026-01-22)
 
 ### E2E and Interactive Test Infrastructure (commit ad4d4c5d)
 
@@ -651,7 +774,14 @@ export FLOW_DEBUG=1
 - Documentation coverage report (853 functions, 8.6% documented)
 - teach prompt command specs (paused for Scholar coordination)
 
-### v5.16.0 (2026-01-21) - Comprehensive Help System
+### v5.15.1 (2026-01-21) - Architecture & Documentation
+
+- Architecture overview with 6 Mermaid diagrams
+- V-dispatcher reference documentation
+- Documentation coverage report (853 functions, 8.6% → 49.4%)
+- teach prompt command specs (paused for Scholar coordination)
+
+### v5.15.0 (2026-01-21) - Comprehensive Help System
 
 - 18 help functions for all teach commands
 - 800-line Help System Guide
@@ -660,7 +790,7 @@ export FLOW_DEBUG=1
 - ADHD-friendly design principles
 - PR #282 merged (38 commits, +66,767/-1,614 lines)
 
-### v5.16.0 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
+### v5.14.0 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
 
 **Teaching Workflow v3.0:**
 
@@ -680,20 +810,17 @@ export FLOW_DEBUG=1
 
 ---
 
-## Recent Features (v5.16.0)
+## Next Development Cycle (Post v5.17.0)
 
-- ✅ Teaching + Git Integration (5 phases complete)
-- ✅ Scholar teaching wrappers (9 commands)
-- ✅ Config validation with schema + hash caching
-- ✅ Prompt engine dispatcher (Powerlevel10k, Starship, OhMyPosh)
-- ✅ macOS Keychain secret management
-- ✅ Teaching dates automation with YAML sync
-- ✅ Pick worktree support with session indicators
-- ✅ Frecency sorting for recent projects
+**Current:** Ready to release v5.17.0 (Token Automation Phase 1)
 
-### Next Up
+**Potential Focus Areas:**
 
-See `.STATUS` file for current sprint and planning.
+- Config → concept graph integration (Phase 1 enhancement)
+- teach prompt command (needs Scholar coordination)
+- Token automation Phases 2-4 (deferred - multi-token, gamification)
+- Quarto workflow Phase 2 enhancements
+- Additional teach analyze improvements
 
 **Future Roadmap:**
 
