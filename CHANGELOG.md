@@ -9,7 +9,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added - Documentation Debt Remediation (PR #288)
+### Added
+
+#### Intelligent Content Analysis (teach analyze) - Phases 0-5 (PR #289)
+
+- **Full concept graph system** for course content analysis
+  - Phase 0: Concept extraction from frontmatter + prerequisite validation
+  - Phase 1: SHA-256 caching + batch analysis + parallel processing
+  - Phase 2: Violations detection + JSON reports + course-wide analysis
+  - Phase 3: AI analysis integration (Bloom's taxonomy, cognitive load, teaching time)
+  - Phase 4: Slide optimization (break suggestions, key concepts, time estimates)
+  - Phase 5: Polish (error handling, edge cases, performance)
+- `teach analyze <file>` - Analyze single file with concept graph
+- `teach analyze --batch <dir>` - Analyze all course files in parallel
+- `teach analyze --slide-breaks` - Slide optimization with AI suggestions
+- `teach analyze --optimize` - Export VHS demo for slide breaks
+- **7 new library files** (~6,800 lines):
+  - `lib/concept-extraction.zsh` - Extract concepts from frontmatter
+  - `lib/prerequisite-checker.zsh` - Validate prerequisite ordering
+  - `lib/analysis-cache.zsh` - SHA-256 caching + parallel processing
+  - `lib/report-generator.zsh` - JSON/Markdown report generation
+  - `lib/ai-analysis.zsh` - Bloom's taxonomy + cognitive load analysis
+  - `lib/slide-optimizer.zsh` - Slide break suggestions + key concepts
+  - `lib/analysis-display.zsh` - Display formatting functions
+- **8 test suites** (362+ tests, 100% passing):
+  - Phase 0-5 unit + integration tests
+  - Slide optimization tests
+  - Cache invalidation tests
+- **Documentation**:
+  - `docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md` - Complete user guide (1,251 lines)
+  - `docs/reference/TEACH-ANALYZE-API-REFERENCE.md` - API reference (1,134 lines)
+  - `docs/reference/TEACH-ANALYZE-ARCHITECTURE.md` - Architecture diagrams (652 lines)
+  - `docs/reference/REFCARD-TEACH-ANALYZE.md` - Quick reference (232 lines)
+  - `docs/tutorials/21-teach-analyze.md` - Interactive tutorial (433 lines)
+- **Templates**:
+  - `lib/templates/teaching/lecture-with-concepts.qmd.template` - Lecture template with concept frontmatter
+  - `lib/templates/teaching/.teach/concepts.json.example` - Example concept graph
+
+#### Plugin Optimization (PR #290)
+
+- **Self-protecting load guards** for 6 teach analyze libraries (prevents double/triple-sourcing on shell startup)
+- **Display layer extraction** - `lib/analysis-display.zsh` (7 functions, ~270 lines)
+- **Slide cache path fix** - Directory-mirroring structure (prevents path collisions)
+- **Documentation**:
+  - `docs/tutorials/22-plugin-optimization.md` - Step-by-step optimization tutorial
+  - `docs/reference/REFCARD-OPTIMIZATION.md` - Quick reference for optimization patterns
+
+#### Documentation Debt Remediation (PR #288)
 
 - **348 functions documented** across 32 library files (coverage: 8.6% → 49.4%)
 - `docs/reference/TEACHING-API-REFERENCE.md` - 61 functions (validation, backup, cache, index, utils)
@@ -21,7 +67,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `README.md` - Added API Reference section with coverage metrics
-- `mkdocs.yml` - Added 4 new navigation entries (Teaching, Integration, Specialized APIs + Library Architecture)
+- `mkdocs.yml` - Added navigation entries for teach analyze docs, tutorials, and optimization references
+- `teach validate --deep` - Now integrates with concept graph for prerequisite validation
+- `teach validate --concepts` - New flag for concept-only validation
+
+### Fixed
+
+- **wt dispatcher passthrough** - Added `lock|unlock|repair` to known commands (previously treated as project filters)
+- **Test runner timeouts** - Added 30s timeout mechanism to prevent infinite hangs on interactive tests
+  - 13 tests pass normally
+  - 5 tests timeout (expected - require tmux/interactive context)
+  - Exit code 2 for timeouts (distinct from failures)
+- **Load guard optimization** - Removed redundant explicit sources from `flow.plugin.zsh` (glob handles loading)
+- **Dispatcher guard cleanup** - Removed 3 redundant conditional guards from `teach-dispatcher.zsh`
 
 ### Dependencies
 

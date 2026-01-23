@@ -103,6 +103,7 @@ nav:
       - 18. LazyVim Showcase: tutorials/18-lazyvim-showcase.md
       - 19. Teaching + Git Integration: tutorials/19-teaching-git-integration.md
       - 21. Teach Analyze: tutorials/21-teach-analyze.md
+      - 22. Plugin Optimization: tutorials/22-plugin-optimization.md
       - 🎓 Scholar Enhancement:
           - Overview & Learning Path: tutorials/scholar-enhancement/index.md
           - Level 1 - Getting Started: tutorials/scholar-enhancement/01-getting-started.md
@@ -162,6 +163,7 @@ nav:
           - Alias Card: reference/ALIAS-REFERENCE-CARD.md
           - Workflow Patterns: reference/WORKFLOW-QUICK-REFERENCE.md
           - Dashboard Quick Ref: reference/DASHBOARD-QUICK-REF.md
+          - Plugin Optimization: reference/REFCARD-OPTIMIZATION.md
       - Dispatchers:
           - All Dispatchers: reference/DISPATCHER-REFERENCE.md
           - CC Dispatcher: reference/CC-DISPATCHER-REFERENCE.md
