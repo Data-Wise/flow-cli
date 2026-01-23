@@ -2,10 +2,10 @@
   "version": "1.0",
   "schema_version": "concept-graph-v1",
   "metadata": {
-    "last_updated": "2026-01-23T05:07:41Z",
-    "course_hash": "804d693c57be4ea8fb9b71eb5c9c68ee2fbeff8d",
-    "total_concepts": 11,
-    "weeks": 4,
+    "last_updated": "2026-01-23T05:28:04Z",
+    "course_hash": "41b9010dfd6347ac801ccd191267737c91f11eb4",
+    "total_concepts": 12,
+    "weeks": 5,
     "extraction_method": "frontmatter"
   },
   "concepts": {
@@ -69,23 +69,23 @@
         "line_number": 0
       }
     },
-    "correlation": {
-      "id": "correlation",
-      "name": "Correlation",
-      "prerequisites": ["descriptive-stats", "distributions"],
-      "introduced_in": {
-        "week": 3,
-        "lecture": "lectures/week-03.qmd",
-        "line_number": 0
-      }
-    },
     "linear-regression": {
       "id": "linear-regression",
       "name": "Linear-Regression",
       "prerequisites": ["correlation", "inference"],
       "introduced_in": {
         "week": 3,
-        "lecture": "lectures/week-03.qmd",
+        "lecture": "lectures/week-03-broken.qmd",
+        "line_number": 0
+      }
+    },
+    "correlation": {
+      "id": "correlation",
+      "name": "Correlation",
+      "prerequisites": ["linear-regression"],
+      "introduced_in": {
+        "week": 3,
+        "lecture": "lectures/week-03-broken.qmd",
         "line_number": 0
       }
     },
@@ -116,6 +116,16 @@
       "introduced_in": {
         "week": 4,
         "lecture": "lectures/week-04.qmd",
+        "line_number": 0
+      }
+    },
+    "advanced-modeling": {
+      "id": "advanced-modeling",
+      "name": "Advanced-Modeling",
+      "prerequisites": ["nonexistent-concept", "multiple-regression"],
+      "introduced_in": {
+        "week": 5,
+        "lecture": "lectures/week-05-missing-prereq.qmd",
         "line_number": 0
       }
     }

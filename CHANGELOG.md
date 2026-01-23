@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Fixed
+
+---
+
+## [5.16.0] - 2026-01-22
+
+### Added
+
 #### Intelligent Content Analysis (teach analyze) - Phases 0-5 (PR #289)
 
 - **Full concept graph system** for course content analysis

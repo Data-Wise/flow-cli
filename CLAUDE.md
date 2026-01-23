@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v5.15.1 (Released)
+- **Current Version:** v5.16.0 (Released)
 - **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -450,7 +450,7 @@ teach exam "Topic"  # Generate exam via Scholar
 # Core test suites
 tests/test-pick-command.zsh         # Pick: 39 tests
 tests/test-cc-dispatcher.zsh        # CC: 37 tests
-tests/test-dot-v5.14.0-unit.zsh     # DOT: 112+ tests
+tests/test-dot-v5.16.0-unit.zsh     # DOT: 112+ tests
 tests/test-teach-dates-unit.zsh     # Teaching dates: 33 tests
 tests/test-teach-dates-integration.zsh  # Integration: 16 tests
 
@@ -644,14 +644,14 @@ export FLOW_DEBUG=1
 
 ## Recent Releases
 
-### v5.15.1 (2026-01-21) - Documentation Updates
+### v5.16.0 (2026-01-21) - Documentation Updates
 
 - Architecture overview with 6 Mermaid diagrams
 - V-dispatcher reference documentation
 - Documentation coverage report (853 functions, 8.6% documented)
 - teach prompt command specs (paused for Scholar coordination)
 
-### v5.15.0 (2026-01-21) - Comprehensive Help System
+### v5.16.0 (2026-01-21) - Comprehensive Help System
 
 - 18 help functions for all teach commands
 - 800-line Help System Guide
@@ -660,7 +660,7 @@ export FLOW_DEBUG=1
 - ADHD-friendly design principles
 - PR #282 merged (38 commits, +66,767/-1,614 lines)
 
-### v5.14.0 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
+### v5.16.0 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
 
 **Teaching Workflow v3.0:**
 
@@ -680,7 +680,7 @@ export FLOW_DEBUG=1
 
 ---
 
-## Recent Features (v5.14.0)
+## Recent Features (v5.16.0)
 
 - ✅ Teaching + Git Integration (5 phases complete)
 - ✅ Scholar teaching wrappers (9 commands)
@@ -737,10 +737,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 5.13.0"
-git tag -a v5.14.0 -m "v5.14.0"
+git tag -a v5.16.0 -m "v5.16.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v5.14.0
+git push origin main && git push origin v5.16.0
 ```
 
 **Files updated by release script:**
@@ -761,4 +761,4 @@ git push origin main && git push origin v5.14.0
 ---
 
 **Last Updated:** 2026-01-22
-**Status:** Production Ready (v5.15.1)
+**Status:** Production Ready (v5.16.0)
