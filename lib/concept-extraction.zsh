@@ -338,48 +338,53 @@ for file in "${qmd_files[@]}"; do
     fi
     
     introduced=$(_parse_introduced_concepts "$concepts_json")
-    required=$(_parse_required_concepts "$concepts_json")
-    
+
     week=$(_get_week_from_file "$file" "$concepts_json")
     if [[ "$week" -gt "$max_week" ]]; then
         max_week=$week
     fi
-    
+
     rel_path="${file#$course_dir/}"
 
-    # Use ${=var} to enable word splitting in ZSH
-    for concept in ${=introduced}; do
-        [[ -z "$concept" ]] && continue
+    # Process each concept individually to avoid merging prerequisites
+    # Array format: [{id: "...", prerequisites: [...], ...}]
+    if command -v yq >/dev/null 2>&1; then
+        # Count concepts in array
+        concept_count=$(echo "$concepts_json" | yq eval -o json '. | length' - 2>/dev/null)
 
-        existing=$(echo "$graph" | jq -r --arg cid "$concept" '.concepts[$cid] // "null"' 2>/dev/null)
+        for ((idx=0; idx<concept_count; idx++)); do
+            # Extract concept ID
+            concept_id=$(echo "$concepts_json" | yq eval -o json ".[$idx].id" - 2>/dev/null | sed 's/"//g')
+            [[ -z "$concept_id" || "$concept_id" == "null" ]] && continue
 
-        if [[ -z "$existing" || "$existing" == "null" ]]; then
-            line_num=$(_get_concept_line_number "$file" "$concept")
+            # Check if concept already exists
+            existing=$(echo "$graph" | jq -r --arg cid "$concept_id" '.concepts[$cid] // "null"' 2>/dev/null)
 
-            concept_name="${(C)concept}"
+            if [[ -z "$existing" || "$existing" == "null" ]]; then
+                line_num=$(_get_concept_line_number "$file" "$concept_id")
+                concept_name="${(C)concept_id}"
 
-            graph=$(echo "$graph" | jq \
-                --arg cid "$concept" \
-                --arg name "$concept_name" \
-                --argjson w "$week" \
-                --arg lec "$rel_path" \
-                --argjson ln "$line_num" \
-                '.concepts[$cid] = {id: $cid, name: $name, prerequisites: [], introduced_in: {week: $w, lecture: $lec, line_number: $ln}}' 2>/dev/null)
+                graph=$(echo "$graph" | jq \
+                    --arg cid "$concept_id" \
+                    --arg name "$concept_name" \
+                    --argjson w "$week" \
+                    --arg lec "$rel_path" \
+                    --argjson ln "$line_num" \
+                    '.concepts[$cid] = {id: $cid, name: $name, prerequisites: [], introduced_in: {week: $w, lecture: $lec, line_number: $ln}}' 2>/dev/null)
 
-            ((total_concepts++))
-        fi
-    done
+                ((total_concepts++))
 
-    # Use ${=var} to enable word splitting in ZSH
-    for prereq in ${=required}; do
-        [[ -z "$prereq" ]] && continue
+                # Only add prerequisites for newly created concepts (first occurrence wins)
+                # This prevents concepts from accumulating prerequisites across multiple files
+                while IFS= read -r prereq; do
+                    [[ -z "$prereq" || "$prereq" == "null" ]] && continue
 
-        for introduced_concept in ${=introduced}; do
-            [[ -z "$introduced_concept" ]] && continue
-
-            graph=$(echo "$graph" | jq --arg cid "$introduced_concept" --arg prereq "$prereq" '.concepts[$cid].prerequisites += [$prereq]' 2>/dev/null)
+                    graph=$(echo "$graph" | jq --arg cid "$concept_id" --arg prereq "$prereq" \
+                        '.concepts[$cid].prerequisites += [$prereq]' 2>/dev/null)
+                done < <(echo "$concepts_json" | yq eval -o json ".[$idx].prerequisites // [] | .[]" - 2>/dev/null | sed 's/"//g')
+            fi
         done
-    done
+    fi
 done
 
 # Update metadata

@@ -2,17 +2,17 @@
   "version": "1.0",
   "schema_version": "concept-graph-v1",
   "metadata": {
-    "last_updated": "2026-01-23T05:02:22Z",
-    "course_hash": "41b9010dfd6347ac801ccd191267737c91f11eb4",
-    "total_concepts": 12,
-    "weeks": 5,
+    "last_updated": "2026-01-23T05:07:41Z",
+    "course_hash": "804d693c57be4ea8fb9b71eb5c9c68ee2fbeff8d",
+    "total_concepts": 11,
+    "weeks": 4,
     "extraction_method": "frontmatter"
   },
   "concepts": {
     "descriptive-stats": {
       "id": "descriptive-stats",
       "name": "Descriptive-Stats",
-      "prerequisites": ["data-types", "descriptive-stats"],
+      "prerequisites": [],
       "introduced_in": {
         "week": 1,
         "lecture": "lectures/week-01.qmd",
@@ -22,7 +22,7 @@
     "data-types": {
       "id": "data-types",
       "name": "Data-Types",
-      "prerequisites": ["data-types", "descriptive-stats"],
+      "prerequisites": [],
       "introduced_in": {
         "week": 1,
         "lecture": "lectures/week-01.qmd",
@@ -32,7 +32,7 @@
     "distributions": {
       "id": "distributions",
       "name": "Distributions",
-      "prerequisites": ["data-types", "descriptive-stats"],
+      "prerequisites": ["descriptive-stats", "data-types"],
       "introduced_in": {
         "week": 1,
         "lecture": "lectures/week-01.qmd",
@@ -42,7 +42,7 @@
     "probability-basics": {
       "id": "probability-basics",
       "name": "Probability-Basics",
-      "prerequisites": ["data-types", "distributions", "probability-basics", "sampling"],
+      "prerequisites": ["data-types"],
       "introduced_in": {
         "week": 2,
         "lecture": "lectures/week-02.qmd",
@@ -52,7 +52,7 @@
     "sampling": {
       "id": "sampling",
       "name": "Sampling",
-      "prerequisites": ["data-types", "distributions", "probability-basics", "sampling"],
+      "prerequisites": ["distributions"],
       "introduced_in": {
         "week": 2,
         "lecture": "lectures/week-02.qmd",
@@ -62,59 +62,37 @@
     "inference": {
       "id": "inference",
       "name": "Inference",
-      "prerequisites": ["data-types", "distributions", "probability-basics", "sampling"],
+      "prerequisites": ["probability-basics", "sampling", "distributions"],
       "introduced_in": {
         "week": 2,
         "lecture": "lectures/week-02.qmd",
         "line_number": 0
       }
     },
-    "linear-regression": {
-      "id": "linear-regression",
-      "name": "Linear-Regression",
-      "prerequisites": [
-        "correlation",
-        "inference",
-        "linear-regression",
-        "correlation",
-        "descriptive-stats",
-        "distributions",
-        "inference"
-      ],
-      "introduced_in": {
-        "week": 3,
-        "lecture": "lectures/week-03-broken.qmd",
-        "line_number": 0
-      }
-    },
     "correlation": {
       "id": "correlation",
       "name": "Correlation",
-      "prerequisites": [
-        "correlation",
-        "inference",
-        "linear-regression",
-        "correlation",
-        "descriptive-stats",
-        "distributions",
-        "inference"
-      ],
+      "prerequisites": ["descriptive-stats", "distributions"],
       "introduced_in": {
         "week": 3,
-        "lecture": "lectures/week-03-broken.qmd",
+        "lecture": "lectures/week-03.qmd",
+        "line_number": 0
+      }
+    },
+    "linear-regression": {
+      "id": "linear-regression",
+      "name": "Linear-Regression",
+      "prerequisites": ["correlation", "inference"],
+      "introduced_in": {
+        "week": 3,
+        "lecture": "lectures/week-03.qmd",
         "line_number": 0
       }
     },
     "multiple-regression": {
       "id": "multiple-regression",
       "name": "Multiple-Regression",
-      "prerequisites": [
-        "correlation",
-        "distributions",
-        "inference",
-        "linear-regression",
-        "multiple-regression"
-      ],
+      "prerequisites": ["linear-regression", "correlation"],
       "introduced_in": {
         "week": 4,
         "lecture": "lectures/week-04.qmd",
@@ -124,13 +102,7 @@
     "model-selection": {
       "id": "model-selection",
       "name": "Model-Selection",
-      "prerequisites": [
-        "correlation",
-        "distributions",
-        "inference",
-        "linear-regression",
-        "multiple-regression"
-      ],
+      "prerequisites": ["multiple-regression", "inference"],
       "introduced_in": {
         "week": 4,
         "lecture": "lectures/week-04.qmd",
@@ -140,26 +112,10 @@
     "assumptions-checking": {
       "id": "assumptions-checking",
       "name": "Assumptions-Checking",
-      "prerequisites": [
-        "correlation",
-        "distributions",
-        "inference",
-        "linear-regression",
-        "multiple-regression"
-      ],
+      "prerequisites": ["multiple-regression", "distributions"],
       "introduced_in": {
         "week": 4,
         "lecture": "lectures/week-04.qmd",
-        "line_number": 0
-      }
-    },
-    "advanced-modeling": {
-      "id": "advanced-modeling",
-      "name": "Advanced-Modeling",
-      "prerequisites": ["multiple-regression", "nonexistent-concept"],
-      "introduced_in": {
-        "week": 5,
-        "lecture": "lectures/week-05-missing-prereq.qmd",
         "line_number": 0
       }
     }
