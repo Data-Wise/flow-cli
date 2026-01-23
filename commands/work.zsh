@@ -72,6 +72,11 @@ _work_get_token_status() {
   fi
 }
 
+_work_will_push_to_remote() {
+  # Check if current branch tracks a remote
+  git rev-parse --abbrev-ref --symbolic-full-name @{u} &>/dev/null
+}
+
 work() {
   # Handle help flags
   case "$1" in
@@ -457,6 +462,28 @@ finish() {
     local changes=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
     if (( changes > 0 )); then
       if _flow_confirm "Commit $changes change(s)?"; then
+        # If pushing to remote, validate token
+        if _work_will_push_to_remote; then
+          if _work_project_uses_github "$root"; then
+            _flow_log_info "Validating GitHub token..."
+
+            if ! _g_validate_github_token_silent; then
+              _flow_log_error "GitHub token expired or invalid"
+              echo ""
+              read -q "?Rotate token now? [y/n] " rotate_response
+              echo ""
+              if [[ "$rotate_response" == "y" ]]; then
+                dot token rotate
+                [[ $? -ne 0 ]] && return 1
+              else
+                _flow_log_info "Skipping push due to token issue"
+                _flow_log_info "Commit saved locally, push manually later"
+                # Continue with local commit only
+              fi
+            fi
+          fi
+        fi
+
         git add -A
         local commit_msg="${note:-Work session completed}"
         git commit -m "$commit_msg"
