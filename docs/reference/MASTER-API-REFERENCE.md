@@ -101,6 +101,7 @@ When adding new functions:
 - [Git Helpers](#git-helpers) - Git integration
 - [Doctor Cache](#doctor-cache) - Token validation caching (v5.17.0+)
 - [Commands Internal API](#commands-internal-api) - Command helper functions
+- [Teaching Libraries](#teaching-libraries) - AI-powered teaching workflow (v5.16.0+)
 - [Teaching Libraries](#teaching-libraries) - AI-powered teaching
 - [Dispatcher APIs](#dispatcher-apis) - Dispatcher functions
 - [Function Index](#function-index) - Alphabetical index
@@ -1057,33 +1058,513 @@ DOCTOR_CACHE_DIR="$HOME/.flow/cache/doctor"
 ## Teaching Libraries
 
 **Files:**
-- `lib/concept-extraction.zsh` - YAML frontmatter parsing
-- `lib/prerequisite-checker.zsh` - DAG validation
-- `lib/analysis-cache.zsh` - SHA-256 cache with flock
-- `lib/report-generator.zsh` - Markdown/JSON reports
-- `lib/ai-analysis.zsh` - Claude CLI integration
-- `lib/slide-optimizer.zsh` - Heuristic slide breaks
+- `lib/concept-extraction.zsh` - YAML frontmatter parsing (13 functions)
+- `lib/prerequisite-checker.zsh` - DAG validation (20+ functions)
+- `lib/analysis-cache.zsh` - SHA-256 cache with flock (40+ functions)
+- `lib/report-generator.zsh` - Markdown/JSON reports (30+ functions)
+- `lib/ai-analysis.zsh` - Claude CLI integration (15+ functions)
+- `lib/slide-optimizer.zsh` - Heuristic slide breaks (20+ functions)
 
 **Purpose:** AI-powered teaching workflow (v5.16.0+)
 **Total Functions:** 150+
+**System:** `teach analyze` command infrastructure
 
-### Concept Extraction
+### Overview
 
-#### `_teach_extract_concepts`
+The teaching libraries implement intelligent content analysis for educational materials:
 
-Extracts learning concepts from Quarto frontmatter.
+1. **Concept Extraction** - Parses YAML frontmatter for learning concepts
+2. **Prerequisite Validation** - DAG-based dependency checking
+3. **SHA-256 Caching** - Prevents redundant analysis (5-min TTL)
+4. **Report Generation** - Markdown/JSON summaries
+5. **AI Analysis** - Claude CLI integration for insights
+6. **Slide Optimization** - Heuristic break detection
+
+**Workflow:**
+```
+.qmd files → concept extraction → prerequisite check → cache → AI analysis → report
+```
+
+---
+
+### lib/concept-extraction.zsh
+
+**Functions:** 13
+**Purpose:** Extract learning concepts from Quarto YAML frontmatter
+
+#### `_extract_concepts_from_frontmatter`
+
+Extract concepts field from .qmd frontmatter using yq.
 
 **Signature:**
 ```zsh
-_teach_extract_concepts "file.qmd"
+_extract_concepts_from_frontmatter <file_path>
 ```
 
 **Parameters:**
-- `$1` - Quarto file path
+- `$1` - (required) Path to .qmd file
 
 **Returns:**
-- 0 - Success, outputs JSON to stdout
-- 1 - Failed to parse
+- 0 - Success
+- 1 - File not found or yq unavailable
+
+**Output:**
+- stdout - JSON string of concepts section
+- stdout - Empty string if no concepts found
+
+**Format Support:**
+```yaml
+# Simple format
+concepts:
+  introduces: [concept1, concept2]
+  requires: [prereq1, prereq2]
+
+# Array format
+concepts:
+  - id: concept1
+    name: "Concept Name"
+    prerequisites: [prereq1]
+  - id: concept2
+    name: "Another Concept"
+    prerequisites: [prereq2]
+```
+
+**Example:**
+```zsh
+concepts_json=$(_extract_concepts_from_frontmatter "week-05-regression.qmd")
+if [[ -n "$concepts_json" ]]; then
+    echo "Found concepts: $concepts_json"
+fi
+```
+
+---
+
+#### `_parse_introduced_concepts`
+
+Parse introduced concepts from concepts JSON.
+
+**Signature:**
+```zsh
+_parse_introduced_concepts <concepts_json>
+```
+
+**Parameters:**
+- `$1` - (required) Concepts JSON from frontmatter
+
+**Returns:**
+- stdout - Space-separated concept IDs
+- stdout - Empty string if no concepts
+
+**Supports Two Formats:**
+1. Simple: `{introduces: [id1, id2]}`
+2. Array: `[{id: id1, name: "..."}, {id: id2, name: "..."}]`
+
+**Example:**
+```zsh
+concepts_json='{"introduces": ["regression", "correlation"]}'
+introduced=$(_parse_introduced_concepts "$concepts_json")
+echo "$introduced"  # Output: regression correlation
+```
+
+---
+
+#### `_parse_required_concepts`
+
+Parse required concepts (prerequisites) from concepts JSON.
+
+**Signature:**
+```zsh
+_parse_required_concepts <concepts_json>
+```
+
+**Parameters:**
+- `$1` - (required) Concepts JSON from frontmatter
+
+**Returns:**
+- stdout - Space-separated prerequisite concept IDs
+- stdout - Empty string if no prerequisites
+
+**Supports Two Formats:**
+1. Simple: `{requires: [prereq1, prereq2]}`
+2. Array: `[{prerequisites: [p1, p2]}, {prerequisites: [p3]}]`
+
+**Deduplication:**
+- Automatically removes duplicates
+- Uses `sort -u` for uniqueness
+
+**Example:**
+```zsh
+concepts_json='[{"prerequisites": ["mean", "variance"]}, {"prerequisites": ["variance"]}]'
+required=$(_parse_required_concepts "$concepts_json")
+echo "$required"  # Output: mean variance
+```
+
+---
+
+#### `_get_week_from_file`
+
+Extract week number from filename or frontmatter.
+
+**Signature:**
+```zsh
+_get_week_from_file <file_path> [frontmatter_json]
+```
+
+**Parameters:**
+- `$1` - (required) Path to .qmd file
+- `$2` - (optional) Frontmatter JSON (optimization)
+
+**Returns:**
+- stdout - Week number as integer
+- stdout - 0 if not found
+
+**Detection Priority:**
+1. Filename pattern: `week-05-lecture.qmd` → 5
+2. Frontmatter `week` field
+3. Fallback to 0
+
+**Example:**
+```zsh
+week=$(_get_week_from_file "week-08-anova.qmd")
+echo "Week: $week"  # Output: Week: 8
+```
+
+---
+
+#### `_get_concept_line_number`
+
+Find line number where concept appears in file.
+
+**Signature:**
+```zsh
+_get_concept_line_number <file_path> <concept_name>
+```
+
+**Parameters:**
+- `$1` - (required) Path to .qmd file
+- `$2` - (required) Concept name/ID
+
+**Returns:**
+- stdout - Line number (1-based)
+- stdout - 0 if not found
+
+**Search Scope:**
+- Searches within YAML frontmatter only
+- Looks for concept in `introduces` or `id` fields
+
+**Example:**
+```zsh
+line=$(_get_concept_line_number "week-05.qmd" "regression")
+if [[ $line -gt 0 ]]; then
+    echo "Concept 'regression' found at line $line"
+fi
+```
+
+---
+
+#### `_build_concept_graph`
+
+Build complete concept graph from course directory.
+
+**Signature:**
+```zsh
+_build_concept_graph [course_directory]
+```
+
+**Parameters:**
+- `$1` - (optional) Course directory [default: current directory]
+
+**Returns:**
+- stdout - JSON concept graph
+
+**Output Format:**
+```json
+{
+  "concept1": {
+    "introduced_in": "week-05-lecture.qmd",
+    "week": 5,
+    "prerequisites": ["prereq1", "prereq2"]
+  },
+  "concept2": {
+    "introduced_in": "week-06-lecture.qmd",
+    "week": 6,
+    "prerequisites": []
+  }
+}
+```
+
+**Use Case:**
+- Used by `teach analyze` for prerequisite validation
+- Cached for performance
+
+**Example:**
+```zsh
+graph=$(_build_concept_graph "lectures/")
+echo "$graph" | jq '.regression'
+```
+
+---
+
+#### `_load_concept_graph`
+
+Load cached concept graph from disk.
+
+**Signature:**
+```zsh
+_load_concept_graph [course_directory]
+```
+
+**Parameters:**
+- `$1` - (optional) Course directory [default: current]
+
+**Returns:**
+- 0 - Graph loaded
+- 1 - No cached graph found
+
+**Output:**
+- stdout - Cached JSON concept graph
+- stdout - Empty string if cache miss
+
+**Cache Location:**
+- `.teach-cache/concept-graph.json`
+
+**Example:**
+```zsh
+if graph=$(_load_concept_graph); then
+    echo "Loaded cached graph"
+else
+    graph=$(_build_concept_graph)
+fi
+```
+
+---
+
+#### `_save_concept_graph`
+
+Save concept graph to disk cache.
+
+**Signature:**
+```zsh
+_save_concept_graph <graph_json> [course_directory]
+```
+
+**Parameters:**
+- `$1` - (required) Concept graph JSON
+- `$2` - (optional) Course directory [default: current]
+
+**Returns:**
+- 0 - Success
+- 1 - Failed to write
+
+**Cache Location:**
+- `.teach-cache/concept-graph.json`
+
+**Example:**
+```zsh
+graph=$(_build_concept_graph)
+_save_concept_graph "$graph"
+```
+
+---
+
+### lib/prerequisite-checker.zsh
+
+**Functions:** 20+
+**Purpose:** DAG-based prerequisite validation
+
+**Key Functions (Documented in v5.16.0):**
+
+- `_check_prerequisite_chain` - Validates concept dependency chain
+- `_detect_circular_dependencies` - Finds circular prerequisite loops
+- `_topological_sort_concepts` - Sorts concepts by dependency order
+- `_validate_prerequisite_graph` - Complete graph validation
+
+**See:** [TEACH-ANALYZE-API-REFERENCE.md](TEACH-ANALYZE-API-REFERENCE.md) for complete prerequisite checker API
+
+---
+
+### lib/analysis-cache.zsh
+
+**Functions:** 40+
+**Purpose:** SHA-256 cache with flock for content analysis
+
+**Key Features:**
+- **SHA-256 hashing** - Content-based cache keys
+- **flock locking** - Concurrent access safety
+- **5-minute TTL** - Fresh analysis for changed content
+- **Automatic cleanup** - Removes stale entries
+
+**Key Functions (Documented in v5.16.0):**
+
+- `_cache_get_analysis` - Get cached analysis by SHA-256
+- `_cache_set_analysis` - Store analysis with TTL
+- `_cache_invalidate` - Clear cache for file
+- `_cache_cleanup_old` - Remove entries > 1 day
+
+**Cache Structure:**
+```
+.teach-cache/
+├── analysis/
+│   ├── abc123def456.json  # SHA-256 hash
+│   ├── 789ghi012jkl.json
+│   └── ...
+└── locks/
+    └── .cache.lock
+```
+
+**See:** [TEACH-ANALYZE-API-REFERENCE.md](TEACH-ANALYZE-API-REFERENCE.md) for complete cache API
+
+---
+
+### lib/report-generator.zsh
+
+**Functions:** 30+
+**Purpose:** Generate Markdown/JSON analysis reports
+
+**Output Formats:**
+1. **Markdown** - Human-readable summary
+2. **JSON** - Machine-parsable data
+3. **Interactive** - Terminal UI with colors
+
+**Key Functions (Documented in v5.16.0):**
+
+- `_generate_markdown_report` - Create .md summary
+- `_generate_json_report` - Export to JSON
+- `_print_interactive_summary` - Colorized terminal output
+- `_format_prerequisite_tree` - Dependency visualization
+
+**Example Report Structure:**
+```markdown
+# Analysis Report: STAT 545
+
+## Summary
+- Total concepts: 45
+- Total prerequisites: 67
+- Files analyzed: 12
+
+## Concept Distribution
+Week 1: 3 concepts
+Week 2: 5 concepts
+...
+
+## Prerequisite Validation
+✓ No circular dependencies
+✓ All prerequisites defined
+⚠ 2 concepts missing prerequisites
+```
+
+**See:** [TEACH-ANALYZE-API-REFERENCE.md](TEACH-ANALYZE-API-REFERENCE.md) for complete report generator API
+
+---
+
+### lib/ai-analysis.zsh
+
+**Functions:** 15+
+**Purpose:** Claude CLI integration for AI-powered insights
+
+**Features:**
+- **Smart analysis** - Identifies key concepts, difficulty, cognitive load
+- **Cost tracking** - Monitors Claude API usage
+- **Batch processing** - Parallel analysis of multiple files
+- **Caching** - Reuses previous AI analysis
+
+**Key Functions (Documented in v5.16.0):**
+
+- `_ai_analyze_content` - Send content to Claude for analysis
+- `_ai_estimate_cost` - Calculate API cost estimate
+- `_ai_batch_analyze` - Process multiple files in parallel
+- `_ai_cache_analysis` - Store AI analysis with SHA-256
+
+**Example AI Output:**
+```json
+{
+  "key_concepts": ["regression", "correlation", "causation"],
+  "difficulty": "intermediate",
+  "cognitive_load": "medium",
+  "bloom_levels": ["understand", "apply", "analyze"],
+  "estimated_time": "50 minutes"
+}
+```
+
+**See:** [TEACH-ANALYZE-API-REFERENCE.md](TEACH-ANALYZE-API-REFERENCE.md) for complete AI analysis API
+
+---
+
+### lib/slide-optimizer.zsh
+
+**Functions:** 20+
+**Purpose:** Heuristic slide break detection
+
+**Features:**
+- **Content analysis** - Detects natural break points
+- **Slide timing** - Estimates presentation duration
+- **Key concepts** - Highlights main takeaways per slide
+- **Optimization** - Suggests better break locations
+
+**Key Functions (Documented in v5.16.0):**
+
+- `_detect_slide_breaks` - Find natural break points
+- `_estimate_slide_timing` - Calculate presentation time
+- `_extract_slide_concepts` - Identify key concepts per slide
+- `_optimize_slide_breaks` - Suggest improvements
+
+**Heuristics:**
+1. **Heading levels** - H2 = major break, H3 = minor
+2. **Content density** - 3-5 bullet points per slide
+3. **Code blocks** - Separate code examples
+4. **Concept transitions** - Break between concepts
+
+**Example Output:**
+```json
+{
+  "slides": [
+    {
+      "number": 1,
+      "start_line": 1,
+      "end_line": 25,
+      "key_concepts": ["introduction", "motivation"],
+      "estimated_time": "3 minutes"
+    },
+    {
+      "number": 2,
+      "start_line": 26,
+      "end_line": 50,
+      "key_concepts": ["regression_formula", "interpretation"],
+      "estimated_time": "5 minutes"
+    }
+  ],
+  "total_time": "45 minutes",
+  "optimization_suggestions": [
+    "Slide 3: Too dense (7 concepts), consider splitting"
+  ]
+}
+```
+
+**See:** [TEACH-ANALYZE-API-REFERENCE.md](TEACH-ANALYZE-API-REFERENCE.md) for complete slide optimizer API
+
+---
+
+### Teaching Libraries Integration
+
+**Command:** `teach analyze`
+**Workflow:**
+1. **Extract** concepts from .qmd frontmatter
+2. **Validate** prerequisite chains (DAG)
+3. **Cache** analysis results (SHA-256)
+4. **Analyze** with Claude CLI (optional)
+5. **Optimize** slide breaks (optional)
+6. **Report** findings (Markdown/JSON)
+
+**Performance:**
+- Cached analysis: ~50-100ms
+- Fresh analysis: ~2-5s (without AI)
+- AI analysis: ~10-30s (depends on content length)
+
+**Documentation:**
+- Complete API: [TEACH-ANALYZE-API-REFERENCE.md](../reference/TEACH-ANALYZE-API-REFERENCE.md)
+- Architecture: [TEACH-ANALYZE-ARCHITECTURE.md](../reference/TEACH-ANALYZE-ARCHITECTURE.md)
+- Tutorial: [Tutorial 21](../tutorials/21-teach-analyze.md)
+- Quick Ref: [REFCARD-TEACH-ANALYZE.md](../reference/REFCARD-TEACH-ANALYZE.md)
 
 **Output Format:**
 ```json
