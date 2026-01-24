@@ -352,119 +352,293 @@ echo "$(_flow_color_blue 'Info')"
 ## Keychain Helpers
 
 **File:** `lib/keychain-helpers.zsh`
-**Purpose:** macOS Keychain integration for secret management
-**Functions:** 20+
+**Purpose:** macOS Keychain integration for instant, session-free secret access
+**Functions:** 7
 **Platform:** macOS only
+**Service:** flow-cli-secrets
 
-### Secret Storage
+### Overview
 
-#### `_flow_keychain_set`
+The keychain helpers library provides macOS Keychain integration for secure secret management:
 
-Stores secret in macOS Keychain with Touch ID.
+**Features:**
+- **Instant access** - No unlock needed (uses system Keychain)
+- **Touch ID / Apple Watch support** - Biometric authentication
+- **Auto-locks** - Locks with screen lock
+- **Works offline** - No cloud dependency
+- **Secure storage** - Encrypted at rest in macOS Keychain
 
-**Signature:**
-```zsh
-_flow_keychain_set "SECRET_NAME" "secret_value"
+**Service Name:** `flow-cli-secrets` (used to namespace secrets in Keychain)
+
+**Workflow:**
+```
+Add secret → Store in Keychain → Retrieve with Touch ID →
+Use in scripts → Delete when done
 ```
 
-**Parameters:**
-- `$1` - Secret name (e.g., GITHUB_TOKEN)
-- `$2` - Secret value
-
-**Returns:**
-- 0 - Success
-- 1 - Failed to store (keychain locked, permission denied)
-
-**Security:**
-- Uses macOS Keychain
-- Requires Touch ID (or password fallback)
-- Encrypted at rest
-
-**Example:**
-```zsh
-if _flow_keychain_set "GITHUB_TOKEN" "ghp_xxxxxxxxxxxx"; then
-    _flow_log_success "Token stored in keychain"
-else
-    _flow_log_error "Failed to store token"
-fi
-```
+**Migration:** Import from Bitwarden one-time, then use Keychain directly
 
 ---
 
-#### `_flow_keychain_get`
+### Secret Management
 
-Retrieves secret from macOS Keychain.
+#### `_dot_kc_add`
+
+Add or update a secret in macOS Keychain with interactive prompt.
 
 **Signature:**
 ```zsh
-_flow_keychain_get "SECRET_NAME"
+_dot_kc_add <name>
 ```
 
 **Parameters:**
-- `$1` - Secret name
+- `$1` - Name of the secret (e.g., "github-token", "api-key")
 
 **Returns:**
-- 0 - Success, prints value to stdout
-- 1 - Secret not found or keychain locked
+- 0 - Secret successfully stored
+- 1 - Error (missing name, empty value, or Keychain failure)
 
 **Example:**
 ```zsh
-token=$(_flow_keychain_get "GITHUB_TOKEN")
-if [[ $? -eq 0 ]]; then
-    export GITHUB_TOKEN="$token"
-else
-    _flow_log_error "Token not found in keychain"
-fi
+_dot_kc_add "github-token"     # Prompts for value, stores in Keychain
+_dot_kc_add "openai-api-key"   # Updates if already exists
 ```
+
+**Notes:**
+- Uses hidden input (`read -s`) for secure value entry
+- Automatically updates existing secrets (`security -U` flag)
+- Stores under service name "flow-cli-secrets" for namespacing
+- Touch ID / Apple Watch authentication may be required on retrieval
 
 ---
 
-#### `_flow_keychain_delete`
+#### `_dot_kc_get`
 
-Deletes secret from keychain.
+Retrieve a secret value from macOS Keychain.
 
 **Signature:**
 ```zsh
-_flow_keychain_delete "SECRET_NAME"
+_dot_kc_get <name>
 ```
 
 **Parameters:**
-- `$1` - Secret name
+- `$1` - Name of the secret to retrieve
 
 **Returns:**
-- 0 - Success
-- 1 - Failed to delete
+- 0 - Secret found and output
+- 1 - Error (missing name or secret not found)
+
+**Output:**
+- stdout - Raw secret value (no formatting, suitable for piping/capture)
 
 **Example:**
 ```zsh
-_flow_keychain_delete "OLD_TOKEN"
+_dot_kc_get "github-token"                    # Outputs: ghp_xxxx...
+export GITHUB_TOKEN=$(_dot_kc_get "github")   # Capture into variable
+gh auth login --with-token <<< $(_dot_kc_get "github-token")
 ```
+
+**Notes:**
+- Output is raw value only (no decoration) for script compatibility
+- May trigger Touch ID / Apple Watch / password prompt
+- Searches only within "flow-cli-secrets" service namespace
 
 ---
 
-#### `_flow_keychain_list`
+#### `_dot_kc_list`
 
-Lists all flow-cli secrets in keychain.
+List all flow-cli secrets stored in macOS Keychain.
 
 **Signature:**
 ```zsh
-_flow_keychain_list
+_dot_kc_list
 ```
 
 **Parameters:**
 - None
 
 **Returns:**
-- 0 - Success, prints secret names (one per line)
+- 0 - Always (even if no secrets found)
+
+**Output:**
+- stdout - Formatted list of secret names with bullet points
 
 **Example:**
 ```zsh
-_flow_keychain_list
+_dot_kc_list
 # Output:
-# GITHUB_TOKEN
-# NPM_TOKEN
-# HOMEBREW_GITHUB_API_TOKEN
+# Secrets in Keychain (flow-cli):
+#   • github-token
+#   • openai-api-key
+#   • anthropic-key
 ```
+
+**Notes:**
+- Uses `security dump-keychain` to scan all entries
+- Filters to only show secrets with "flow-cli-secrets" service
+- Creates temp file for parsing (cleaned up automatically)
+- Shows unique secrets only (deduplicates)
+- Does NOT show secret values, only names
+
+---
+
+#### `_dot_kc_delete`
+
+Remove a secret from macOS Keychain.
+
+**Signature:**
+```zsh
+_dot_kc_delete <name>
+```
+
+**Parameters:**
+- `$1` - Name of the secret to delete
+
+**Returns:**
+- 0 - Secret successfully deleted
+- 1 - Error (missing name or secret not found)
+
+**Example:**
+```zsh
+_dot_kc_delete "old-api-key"    # Removes secret from Keychain
+_dot_kc_delete "nonexistent"    # Returns error, secret not found
+```
+
+**Notes:**
+- Permanent deletion - cannot be undone
+- Only deletes secrets within "flow-cli-secrets" service namespace
+- May require authentication depending on Keychain settings
+
+---
+
+#### `_dot_kc_import`
+
+Bulk import secrets from Bitwarden folder into macOS Keychain.
+
+**Signature:**
+```zsh
+_dot_kc_import
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- 0 - Import completed (or cancelled by user)
+- 1 - Error (Bitwarden CLI missing, not logged in, or folder not found)
+
+**Output:**
+- stdout - Progress messages showing each imported secret
+
+**Example:**
+```zsh
+_dot_kc_import
+# Output:
+# Import secrets from Bitwarden folder 'flow-cli-secrets'?
+# Continue? [y/N] y
+# ✓ Imported: github-token
+# ✓ Imported: openai-api-key
+# ✓ Imported 2 secret(s) to Keychain
+```
+
+**Dependencies:**
+- Bitwarden CLI (`bw`) installed and unlocked
+- Folder named "flow-cli-secrets" in Bitwarden
+
+**Notes:**
+- Uses item name as secret name, password field as value
+- Falls back to notes field if password is empty
+- Updates existing secrets (does not duplicate)
+- One-time migration - after import, use Keychain directly
+
+---
+
+#### `_dot_kc_help`
+
+Display help documentation for keychain secret commands.
+
+**Signature:**
+```zsh
+_dot_kc_help
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- 0 - Always
+
+**Output:**
+- stdout - Formatted help text with commands, examples, and benefits
+
+**Example:**
+```zsh
+_dot_kc_help
+dot secret help
+dot secret --help
+```
+
+**Help Output:**
+```
+dot secret - macOS Keychain secret management
+
+Commands:
+  dot secret add <name>      Store a secret
+  dot secret get <name>      Retrieve a secret
+  dot secret <name>          Shortcut for 'get'
+  dot secret list            List all secrets
+  dot secret delete <name>   Remove a secret
+  dot secret import          Import from Bitwarden
+
+Benefits:
+  • Instant access (no unlock needed)
+  • Touch ID / Apple Watch support
+  • Auto-locks with screen lock
+  • Works offline
+```
+
+---
+
+#### `_dot_secret_kc`
+
+Main router/dispatcher for all dot secret subcommands.
+
+**Signature:**
+```zsh
+_dot_secret_kc [subcommand] [args...]
+```
+
+**Parameters:**
+- `$1` - (optional) Subcommand: add|get|list|delete|import|help
+- `$@` - Additional arguments passed to subcommand handler
+
+**Subcommands:**
+- `add|new` → `_dot_kc_add`
+- `get` → `_dot_kc_get`
+- `list|ls` → `_dot_kc_list`
+- `delete|rm|remove` → `_dot_kc_delete`
+- `import` → `_dot_kc_import`
+- `help|--help|-h` → `_dot_kc_help`
+- `<name>` → `_dot_kc_get` (implicit get)
+- (empty) → `_dot_kc_help`
+
+**Returns:**
+- Return value from delegated subcommand function
+
+**Example:**
+```zsh
+_dot_secret_kc add "api-key"      # Calls _dot_kc_add
+_dot_secret_kc get "api-key"      # Calls _dot_kc_get
+_dot_secret_kc "api-key"          # Shortcut: calls _dot_kc_get
+_dot_secret_kc list               # Calls _dot_kc_list
+_dot_secret_kc                    # Shows help
+```
+
+**Notes:**
+- Replaces Bitwarden-based `_dot_secret` for local-first Keychain ops
+- Supports aliases: new→add, ls→list, rm/remove→delete
+- Unknown subcommands treated as secret names (implicit get)
+- Empty input shows help
 
 ---
 
