@@ -1,7 +1,7 @@
 # Tutorial 23 Demo 4: Integration with Git Workflows
 # Shows automatic token validation before git push
 
-Output docs/demos/tutorials/23-token-automation-04-integration.gif
+Output ./23-token-automation-04-integration.gif
 
 Set FontSize 16
 Set Width 1000
