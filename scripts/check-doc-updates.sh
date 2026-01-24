@@ -48,7 +48,8 @@ done
 # Extract function names from a file
 extract_functions() {
     local file="$1"
-    grep -oP '^\s*(function\s+)?[_a-zA-Z][_a-zA-Z0-9]*(?=\(\))' "$file" 2>/dev/null || true
+    grep -E "^[[:space:]]*(function[[:space:]]+)?[_a-zA-Z][_a-zA-Z0-9]*\(\)" "$file" 2>/dev/null | \
+        sed -E 's/^[[:space:]]*(function[[:space:]]+)?([_a-zA-Z][_a-zA-Z0-9]*)\(\).*/\2/' || true
 }
 
 # Check if function is documented
@@ -74,8 +75,8 @@ detect_new_functions() {
         # Get functions added in recent commits
         local added_functions
         added_functions=$(git diff "$SINCE_COMMIT" HEAD -- "$file" 2>/dev/null | \
-            grep -oP '^\+\s*(function\s+)?[_a-zA-Z][_a-zA-Z0-9]*(?=\(\))' | \
-            sed 's/^+\s*//' || true)
+            grep -E "^\+[[:space:]]*(function[[:space:]]+)?[_a-zA-Z][_a-zA-Z0-9]*\(\)" | \
+            sed -E 's/^\+[[:space:]]*(function[[:space:]]+)?([_a-zA-Z][_a-zA-Z0-9]*)\(\).*/\2/' || true)
 
         if [[ -n "$added_functions" ]]; then
             while IFS= read -r func; do
@@ -158,8 +159,8 @@ detect_removed_functions() {
         # Get functions removed in recent commits
         local removed_functions
         removed_functions=$(git diff "$SINCE_COMMIT" HEAD -- "$file" 2>/dev/null | \
-            grep -oP '^\-\s*(function\s+)?[_a-zA-Z][_a-zA-Z0-9]*(?=\(\))' | \
-            sed 's/^-\s*//' || true)
+            grep -E "^\-[[:space:]]*(function[[:space:]]+)?[_a-zA-Z][_a-zA-Z0-9]*\(\)" | \
+            sed -E 's/^\-[[:space:]]*(function[[:space:]]+)?([_a-zA-Z][_a-zA-Z0-9]*)\(\).*/\2/' || true)
 
         if [[ -n "$removed_functions" ]]; then
             while IFS= read -r func; do
@@ -253,31 +254,14 @@ generate_summary() {
     echo ""
     echo -e "${BLUE}Summary${NC}"
     echo ""
-
-    local total_warnings=0
-
-    # Count warnings from each category
-    local new_count=$(detect_new_functions 2>&1 | grep -c "⚠️" || echo 0)
-    local modified_count=$(detect_modified_functions 2>&1 | grep -c "⚠️" || echo 0)
-    local removed_count=$(detect_removed_functions 2>&1 | grep -c "⚠️" || echo 0)
-    local dispatcher_count=$(check_dispatcher_changes 2>&1 | grep -c "⚠️" || echo 0)
-    local command_count=$(check_command_changes 2>&1 | grep -c "⚠️" || echo 0)
-
-    total_warnings=$((new_count + modified_count + removed_count + dispatcher_count + command_count))
-
-    if [[ $total_warnings -eq 0 ]]; then
-        echo -e "${GREEN}✅ All documentation is up to date${NC}"
-        echo ""
-        echo "No documentation updates needed based on recent code changes."
-    else
-        echo -e "${YELLOW}⚠️  $total_warnings documentation warning(s) found${NC}"
-        echo ""
-        echo "Next steps:"
-        echo "  1. Review warnings above"
-        echo "  2. Update affected documentation"
-        echo "  3. Run: ./scripts/generate-api-docs.sh --dry-run"
-        echo "  4. Run: ./scripts/generate-doc-dashboard.sh"
-    fi
+    echo "Review the warnings above for documentation updates needed."
+    echo ""
+    echo -e "${YELLOW}Next steps:${NC}"
+    echo "  1. Update documentation for modified functions/commands"
+    echo "  2. Add documentation for new functions"
+    echo "  3. Remove documentation for deleted functions"
+    echo "  4. Run: ./scripts/generate-api-docs.sh --dry-run"
+    echo "  5. Run: ./scripts/generate-doc-dashboard.sh"
     echo ""
 }
 
