@@ -898,21 +898,1167 @@ obs new "New Note Title"
 
 ---
 
-## Remaining Dispatchers
+## wt Dispatcher
 
-The following dispatchers will be completed in Day 4:
+**Domain:** Git worktree management
+**Complexity:** Advanced
+**Most Used:** Yes (advanced git workflows)
 
-- [wt](#wt-dispatcher) - Worktrees (Advanced)
-- [dot](#dot-dispatcher) - Dotfiles & Secrets (Intermediate → Advanced)
-- [teach](#teach-dispatcher) - Teaching Workflow (Intermediate → Advanced)
-- [tm](#tm-dispatcher) - Terminal Manager (Beginner)
-- [prompt](#prompt-dispatcher) - Prompt Engine (Beginner)
-- [v](#v-dispatcher) - Vibe Coding Mode (Beginner)
+### Basics (Beginner)
 
-**Status:** Day 3/7 - Framework Complete, 6 dispatchers documented
+**What it does:** Manages multiple working trees for a single git repository, enabling parallel development without branch switching.
+
+**Why use worktrees:**
+- Work on multiple features simultaneously
+- Test PR without disrupting current work
+- No need to stash or commit incomplete work
+- Each worktree has its own working directory
+
+#### Essential Commands
+
+**Create worktree:**
+```bash
+wt create feature/new-feature
+wt create feature/bug-fix dev
+```
+
+Output:
+```
+✅ Created worktree at ~/.git-worktrees/flow-cli/feature-new-feature
+Switched to branch 'feature/new-feature'
+```
+
+**List worktrees:**
+```bash
+wt list
+wt ls
+```
+
+Output:
+```
+main      /Users/dt/projects/dev-tools/flow-cli (main branch)
+feature-x ~/.git-worktrees/flow-cli/feature-x (feature/x branch)
+hotfix-y  ~/.git-worktrees/flow-cli/hotfix-y (hotfix/y branch)
+```
+
+**Remove worktree:**
+```bash
+wt remove feature/new-feature
+wt rm feature/new-feature
+```
+
+**Prune deleted worktrees:**
+```bash
+wt prune
+```
+
+Cleans up worktrees that were manually deleted from filesystem.
+
+---
+
+### Intermediate
+
+#### Worktree Workflow Pattern
+
+**Scenario:** Working on Feature A, urgent Feature B needed
+
+**Steps:**
+
+1. **Feature A in progress (main repo):**
+   ```bash
+   cd ~/projects/dev-tools/flow-cli
+   # Working on feature A, uncommitted changes
+   ```
+
+2. **Create Feature B worktree:**
+   ```bash
+   wt create feature/urgent-fix dev
+   cd ~/.git-worktrees/flow-cli/feature-urgent-fix
+   ```
+
+3. **Work on Feature B:**
+   ```bash
+   # ... implement urgent fix ...
+   g commit "fix: urgent bug"
+   g push
+   gh pr create
+   ```
+
+4. **Return to Feature A:**
+   ```bash
+   cd ~/projects/dev-tools/flow-cli
+   # All your Feature A changes are still here!
+   ```
+
+5. **Cleanup after merge:**
+   ```bash
+   wt prune
+   ```
+
+---
+
+#### Show Worktree Status
+
+**Check status of all worktrees:**
+```bash
+wt status
+```
+
+Output:
+```
+main      /Users/dt/projects/dev-tools/flow-cli
+  Branch: main
+  Status: clean
+
+feature-x ~/.git-worktrees/flow-cli/feature-x
+  Branch: feature/user-profiles
+  Status: 2 files modified, 1 file added
+
+hotfix-y  ~/.git-worktrees/flow-cli/hotfix-y
+  Branch: hotfix/login-bug
+  Status: clean, ready to push
+```
+
+---
+
+### Advanced
+
+#### Worktree Best Practices
+
+**1. Keep main repo on stable branch:**
+```bash
+# Main repo should stay on main or dev
+cd ~/projects/dev-tools/flow-cli
+git checkout main
+# Never work directly in main repo
+```
+
+**2. Create worktrees from main repo:**
+```bash
+# Always create worktrees from main repo directory
+cd ~/projects/dev-tools/flow-cli  # Main repo
+wt create feature/new-feature dev
+```
+
+**3. Cleanup regularly:**
+```bash
+# Weekly cleanup
+wt prune
+```
+
+**4. Name worktrees clearly:**
+```bash
+# Good names
+wt create feature/user-authentication
+wt create hotfix/critical-security-bug
+wt create test/performance-optimization
+
+# Bad names
+wt create fix
+wt create temp
+```
+
+---
+
+#### Integration with work Command
+
+**Start work in worktree:**
+```bash
+cd ~/.git-worktrees/flow-cli/feature-new-feature
+work new-feature
+# ... develop feature ...
+finish "Add feature X"
+```
+
+---
+
+#### Worktree Locations
+
+**Default location:** `~/.git-worktrees/<repo>/<branch>/`
+
+**Custom location:**
+```bash
+# Not recommended, but possible:
+git worktree add /path/to/custom/location -b branch-name
+```
+
+**Why default is better:**
+- Organized (all worktrees in one place)
+- Easy to find
+- Consistent structure
+- Works with flow-cli's project detection
+
+---
+
+### Reference
+
+<details>
+<summary>Complete wt Dispatcher Command List</summary>
+
+**Basic:**
+- `wt create <branch>` - Create worktree for branch (creates branch from dev)
+- `wt create <branch> <from-branch>` - Create worktree from specific branch
+- `wt list` / `wt ls` - List all worktrees
+- `wt remove <branch>` / `wt rm <branch>` - Remove worktree
+- `wt prune` - Cleanup deleted worktrees
+
+**Status:**
+- `wt status` - Show status of all worktrees
+
+**Help:**
+- `wt help` - Show help
+
+</details>
+
+---
+
+## dot Dispatcher
+
+**Domain:** Dotfile management & secret storage
+**Complexity:** Intermediate → Advanced
+**Most Used:** Yes (configuration & security)
+
+### Basics (Beginner)
+
+**What it does:** Manages dotfiles and stores secrets securely in macOS Keychain with Touch ID.
+
+#### Dotfile Management
+
+**Edit dotfile:**
+```bash
+dot edit zshrc
+dot edit vimrc
+dot edit gitconfig
+```
+
+Opens dotfile in `$EDITOR`.
+
+**Sync dotfiles:**
+```bash
+dot sync
+```
+
+Output:
+```
+✅ Synced 12 dotfiles
+~/.zshrc → ~/dotfiles/zshrc
+~/.vimrc → ~/dotfiles/vimrc
+~/.gitconfig → ~/dotfiles/gitconfig
+```
+
+**Show sync status:**
+```bash
+dot status
+```
+
+Output:
+```
+dotfiles: 12 tracked
+  ✅ ~/.zshrc (synced)
+  ✅ ~/.vimrc (synced)
+  ⚠️  ~/.gitconfig (modified, needs sync)
+```
+
+**Restore dotfile:**
+```bash
+dot restore zshrc
+```
+
+Restores `~/.zshrc` from `~/dotfiles/zshrc`.
+
+---
+
+#### Secret Management (macOS Keychain)
+
+**Store secret:**
+```bash
+dot secret set GITHUB_TOKEN
+```
+
+Workflow:
+1. Prompts: `Enter value for GITHUB_TOKEN:`
+2. You paste token
+3. Touch ID prompt
+4. ✅ Stored in keychain
+
+**Get secret:**
+```bash
+dot secret get GITHUB_TOKEN
+```
+
+Workflow:
+1. Touch ID prompt
+2. Shows token value
+
+**List secrets:**
+```bash
+dot secret list
+```
+
+Output:
+```
+GITHUB_TOKEN
+NPM_TOKEN
+HOMEBREW_GITHUB_API_TOKEN
+ANTHROPIC_API_KEY
+```
+
+**Delete secret:**
+```bash
+dot secret delete GITHUB_TOKEN
+```
+
+Workflow:
+1. Touch ID prompt
+2. ✅ Deleted
+
+---
+
+### Intermediate
+
+#### Token Rotation Workflow
+
+**Check token expiration:**
+```bash
+dot token expiring
+```
+
+Output:
+```
+GitHub Token: 45 days remaining ✅
+NPM Token: 5 days remaining ⚠️
+```
+
+**Rotate token:**
+```bash
+dot token rotate GITHUB_TOKEN
+```
+
+Workflow:
+1. Touch ID (get current value)
+2. Shows current value (for reference)
+3. Prompts for new value
+4. Touch ID (store new value)
+5. ✅ Token rotated
+
+**Complete rotation example:**
+```bash
+# 1. Check expiration
+flow doctor --dot
+# Output: GitHub Token: 5 days remaining ⚠️
+
+# 2. Generate new token on GitHub
+# (Settings → Developer Settings → Tokens)
+
+# 3. Rotate
+dot token rotate GITHUB_TOKEN
+# Current: ghp_old...
+# Enter new: [paste new token]
+# ✅ Rotated
+
+# 4. Verify
+flow doctor --dot=github
+# Output: ✅ Valid (expires in 90 days)
+```
+
+---
+
+#### Integration with git
+
+**Automatic token usage:**
+```bash
+# flow-cli automatically uses keychain token for git
+g push
+# [Retrieves GITHUB_TOKEN from keychain]
+# [Validates before push]
+# [Pushes to remote]
+```
+
+**Manual token export:**
+```bash
+# Export to environment (for other tools)
+export GITHUB_TOKEN=$(dot secret get GITHUB_TOKEN)
+```
+
+---
+
+#### Unlock Keychain
+
+**Unlock for session:**
+```bash
+dot unlock
+```
+
+Touch ID prompt → Unlocks keychain for 5 minutes.
+
+**Why use this:**
+- Batch operations (multiple secret reads)
+- Automation scripts
+- Avoid repeated Touch ID prompts
+
+---
+
+### Advanced
+
+#### Secret Backup & Restore
+
+**Export secrets (encrypted):**
+```bash
+dot secret export secrets-backup.enc
+```
+
+Creates encrypted backup of all secrets.
+
+**Import secrets:**
+```bash
+dot secret import secrets-backup.enc
+```
+
+Restores secrets from backup.
+
+**⚠️ Security Note:**
+- Backup file is encrypted with keychain password
+- Store backup in secure location (1Password, encrypted USB)
+- Never commit backup to git
+
+---
+
+#### Automation with Secrets
+
+**Safe script pattern:**
+```bash
+#!/bin/bash
+# get-secret-safe.sh
+
+# Unlock keychain once
+dot unlock
+
+# Use secrets multiple times (no repeated Touch ID)
+GITHUB_TOKEN=$(dot secret get GITHUB_TOKEN)
+NPM_TOKEN=$(dot secret get NPM_TOKEN)
+
+# Use in script
+curl -H "Authorization: token $GITHUB_TOKEN" ...
+npm publish --token "$NPM_TOKEN"
+```
+
+**Unsafe pattern (avoid):**
+```bash
+# ❌ DON'T: Hard-code secrets
+export GITHUB_TOKEN="ghp_hardcoded"  # NEVER DO THIS
+
+# ❌ DON'T: Store in .zshrc unencrypted
+echo 'export GITHUB_TOKEN="ghp_..."' >> ~/.zshrc
+
+# ✅ DO: Use keychain
+export GITHUB_TOKEN=$(dot secret get GITHUB_TOKEN)
+```
+
+---
+
+#### Token Cache Management (v5.17.0)
+
+**Check cache status:**
+```bash
+flow doctor --dot --verbose
+```
+
+Output:
+```
+GitHub Token
+  Status: ✅ Valid
+  Expires: 45 days
+  Last checked: 2 minutes ago (cached)
+  Cache file: ~/.cache/flow/doctor/tokens.cache
+```
+
+**Clear cache:**
+```bash
+rm ~/.cache/flow/doctor/tokens.cache
+```
+
+Forces fresh token check on next `flow doctor --dot`.
+
+**Cache TTL:**
+- Default: 5 minutes
+- Configurable: `export FLOW_TOKEN_CACHE_TTL=300`
+
+---
+
+### Reference
+
+<details>
+<summary>Complete dot Dispatcher Command List</summary>
+
+**Dotfile Management:**
+- `dot edit <file>` - Edit dotfile in $EDITOR
+- `dot sync` - Sync all dotfiles
+- `dot status` - Show sync status
+- `dot restore <file>` - Restore dotfile from backup
+
+**Secret Management:**
+- `dot secret set <name>` - Store secret in keychain
+- `dot secret get <name>` - Retrieve secret (Touch ID)
+- `dot secret list` - List all secrets
+- `dot secret delete <name>` - Delete secret
+- `dot secret rotate <name>` - Rotate secret (get old, set new)
+- `dot unlock` - Unlock keychain for session
+
+**Token Management (v5.17.0):**
+- `dot token expiring` - Check token expiration (cached)
+- `dot token expiring --force` - Force fresh check
+- `dot token rotate <provider>` - Rotate token
+
+**Backup (Advanced):**
+- `dot secret export <file>` - Export encrypted backup
+- `dot secret import <file>` - Import from backup
+
+**Help:**
+- `dot help` - Show help
+
+</details>
+
+---
+
+## teach Dispatcher
+
+**Domain:** Teaching workflow & course management
+**Complexity:** Intermediate → Advanced
+**Most Used:** Yes (if teaching)
+
+### Basics (Beginner)
+
+**What it does:** Manages teaching workflow with AI-powered course tools via Scholar integration.
+
+#### Essential Commands
+
+**Initialize course:**
+```bash
+teach init
+teach init --config course-config.yml
+teach init --github
+```
+
+Creates:
+```
+course/
+├── lectures/
+├── assignments/
+├── exams/
+├── syllabus.qmd
+└── _quarto.yml
+```
+
+**Show course status:**
+```bash
+teach status
+```
+
+Output:
+```
+Course: STAT-440 Regression Analysis
+Semester: Spring 2026
+Instructor: Dr. Smith
+
+Content:
+  Lectures: 28 (12 deployed, 16 draft)
+  Assignments: 8 (3 graded, 5 pending)
+  Exams: 2 (1 graded, 1 upcoming)
+
+Next Deadlines:
+  HW3 due: 2026-02-15 (3 days)
+  Midterm 1: 2026-02-20 (8 days)
+
+Last Deploy: 2026-02-10 (2 days ago)
+Site: https://username.github.io/stat-440/
+```
+
+**Deploy course site:**
+```bash
+teach deploy
+```
+
+Deploys to GitHub Pages.
+
+---
+
+### Intermediate
+
+#### Content Analysis (AI-Powered)
+
+**Analyze lecture content:**
+```bash
+teach analyze
+teach analyze lectures/week-01/
+```
+
+Output (AI-powered via Scholar):
+```
+Analysis: lectures/week-01/01-introduction.qmd
+
+Concepts Identified:
+  1. Linear Regression (Bloom: Understand)
+     Prerequisites: Basic statistics, algebra
+     Complexity: Medium
+
+  2. Least Squares Method (Bloom: Apply)
+     Prerequisites: Linear regression
+     Complexity: Medium
+
+Content Quality:
+  ✅ Clear learning objectives
+  ✅ Appropriate complexity progression
+  ⚠️  Missing worked example for concept 2
+
+Recommendations:
+  - Add worked example: Calculating least squares by hand
+  - Consider visual: Residual plot explanation
+```
+
+**Batch analysis:**
+```bash
+teach analyze --batch
+```
+
+Analyzes all lectures, generates report.
+
+---
+
+#### Exam Generation (Scholar Integration)
+
+**Generate exam:**
+```bash
+teach exam "Midterm 1: Chapters 1-4"
+```
+
+Scholar workflow:
+1. Analyzes course content (lectures, assignments)
+2. Identifies key concepts
+3. Generates questions at appropriate Bloom levels
+4. Creates answer key
+5. Outputs markdown file
+
+Output:
+```
+✅ Generated: exams/midterm-1.md
+   - 10 questions (3 Remember, 4 Apply, 3 Analyze)
+   - Answer key included
+   - Estimated time: 50 minutes
+```
+
+**With custom template:**
+```bash
+teach exam --template scholar/midterm "Midterm 1"
+```
+
+---
+
+#### Quiz Generation
+
+**Weekly quiz:**
+```bash
+teach quiz "Week 5: Regression Diagnostics"
+```
+
+Similar to exam but shorter, focused on single week.
+
+---
+
+### Advanced
+
+#### Scholar Configuration
+
+**Check Scholar status:**
+```bash
+teach scholar status
+```
+
+Output:
+```
+Scholar CLI: ✅ Installed
+Version: 2.1.0
+Path: /opt/homebrew/bin/scholar
+
+Templates Available:
+  - midterm (comprehensive exam)
+  - final (cumulative exam)
+  - weekly-quiz (10-15 min quiz)
+  - homework (problem set)
+
+Course Config: ✅ Found
+  File: .scholar-config.yml
+  Course: STAT-440
+  Level: Undergraduate
+```
+
+**Select template:**
+```bash
+teach exam --template scholar/final "Final Exam"
+teach quiz --template scholar/weekly "Week 10 Quiz"
+```
+
+---
+
+#### Content Analysis Workflows
+
+**Pre-lecture analysis:**
+```bash
+# Before creating lecture
+teach analyze lectures/week-05/
+
+# Review recommendations
+# Create lecture with improvements
+```
+
+**Post-lecture analysis:**
+```bash
+# After creating lecture
+teach analyze lectures/week-05/regression.qmd
+
+# Check:
+# - Bloom level distribution
+# - Prerequisite coverage
+# - Complexity progression
+```
+
+**Batch report:**
+```bash
+teach analyze --batch > analysis-report.md
+```
+
+Creates comprehensive course analysis.
+
+---
+
+#### Deployment Workflows
+
+**Preview before deploy:**
+```bash
+qu preview
+# Review site locally
+# Fix any issues
+
+teach deploy
+# Deploy to production
+```
+
+**Deploy with validation:**
+```bash
+# Check for broken links
+markdown-link-check lectures/**/*.md
+
+# Deploy
+teach deploy
+
+# Verify
+curl -I https://username.github.io/stat-440/
+```
+
+---
+
+#### Integration with Quarto
+
+**Render specific lecture:**
+```bash
+qu render lectures/week-05/regression.qmd
+```
+
+**Render all lectures:**
+```bash
+qu render --website
+```
+
+**Preview live:**
+```bash
+qu preview
+# Edit files
+# Auto-refresh in browser
+```
+
+---
+
+### Reference
+
+<details>
+<summary>Complete teach Dispatcher Command List</summary>
+
+**Setup:**
+- `teach init` - Initialize course structure
+- `teach init --config <file>` - Init with config
+- `teach init --github` - Init with GitHub Pages
+
+**Status:**
+- `teach status` - Show course status
+- `teach scholar status` - Check Scholar integration
+
+**Content Analysis:**
+- `teach analyze [path]` - Analyze content (AI-powered)
+- `teach analyze --batch` - Batch analysis report
+
+**Generation (Scholar):**
+- `teach exam <topic>` - Generate exam
+- `teach exam --template <name> <topic>` - Use template
+- `teach quiz <topic>` - Generate quiz
+
+**Deployment:**
+- `teach deploy` - Deploy to GitHub Pages
+
+**Help:**
+- `teach help` - Show help
+
+</details>
+
+---
+
+## tm Dispatcher
+
+**Domain:** Terminal profile management
+**Complexity:** Beginner
+**Most Used:** Occasionally
+
+### Basics (Beginner)
+
+**What it does:** Manages terminal window settings (title, profile, visibility).
+
+#### Essential Commands
+
+**Set terminal title:**
+```bash
+tm title "flow-cli development"
+```
+
+Window title updates to "flow-cli development".
+
+**Switch profile:**
+```bash
+tm profile "Solarized Dark"
+tm profile "Nord"
+```
+
+Changes iTerm2/Terminal.app color profile.
+
+**Ghost mode (hide from Spotlight/Alfred):**
+```bash
+tm ghost on
+```
+
+Hides terminal from application switchers.
+
+**Disable ghost mode:**
+```bash
+tm ghost off
+```
+
+**Show current settings:**
+```bash
+tm status
+```
+
+Output:
+```
+Profile: Solarized Dark
+Title: flow-cli development
+Ghost: enabled
+```
+
+---
+
+### Intermediate
+
+#### Use Cases
+
+**1. Project-specific profiles:**
+```bash
+# In work session
+work flow-cli
+tm title "flow-cli dev"
+tm profile "Solarized Dark"
+
+# Switch projects
+work teaching
+tm title "teaching work"
+tm profile "Nord"
+```
+
+**2. Focus mode:**
+```bash
+# Deep work session
+tm ghost on
+tm title "🎯 Focus Mode"
+# No interruptions from app switcher
+```
+
+**3. Presentation mode:**
+```bash
+# Before demo
+tm profile "High Contrast"
+tm title "Demo - flow-cli"
+```
+
+---
+
+### Reference
+
+<details>
+<summary>Complete tm Dispatcher Command List</summary>
+
+- `tm title <text>` - Set terminal title
+- `tm profile <name>` - Switch color profile
+- `tm ghost on` - Enable ghost mode
+- `tm ghost off` - Disable ghost mode
+- `tm status` - Show current settings
+- `tm help` - Show help
+
+</details>
+
+---
+
+## prompt Dispatcher
+
+**Domain:** AI prompt engine switching
+**Complexity:** Beginner
+**Most Used:** Occasionally
+
+### Basics (Beginner)
+
+**What it does:** Switches between Claude (Anthropic) and Gemini (Google) prompt engines.
+
+#### Essential Commands
+
+**Show current engine:**
+```bash
+prompt status
+```
+
+Output:
+```
+Current engine: claude (Anthropic)
+Available: claude, gemini
+```
+
+**Toggle engine:**
+```bash
+prompt toggle
+```
+
+Switches to other engine (claude ↔ gemini).
+
+**Set specific engine:**
+```bash
+prompt use claude
+prompt use gemini
+```
+
+---
+
+### Intermediate
+
+#### Use Cases
+
+**1. Compare responses:**
+```bash
+# Try Claude
+prompt use claude
+# Ask question, see response
+
+# Try Gemini
+prompt use gemini
+# Ask same question, compare
+```
+
+**2. Cost optimization:**
+```bash
+# Use Gemini for simple queries (cheaper)
+prompt use gemini
+
+# Use Claude for complex tasks (better quality)
+prompt use claude
+```
+
+**3. Availability:**
+```bash
+# If Claude is down
+prompt use gemini
+```
+
+---
+
+### Reference
+
+<details>
+<summary>Complete prompt Dispatcher Command List</summary>
+
+- `prompt status` - Show current engine
+- `prompt toggle` - Toggle between engines
+- `prompt use <engine>` - Set specific engine
+- `prompt help` - Show help
+
+</details>
+
+---
+
+## v Dispatcher
+
+**Domain:** Vibe coding mode (focus mode)
+**Complexity:** Beginner
+**Most Used:** Occasionally
+
+### Basics (Beginner)
+
+**What it does:** Enables "vibe coding mode" - focus environment for deep work.
+
+#### Essential Commands
+
+**Enable vibe mode:**
+```bash
+v on
+```
+
+Activates:
+- 🎵 Music playlist (Spotify/Apple Music)
+- 🔕 Do Not Disturb
+- 🎯 Focus settings
+- 📱 Hide notifications
+
+Output:
+```
+🎵 Vibe coding mode: ON
+Music: ✅ Started "Lo-Fi Beats" playlist
+Do Not Disturb: ✅ Enabled
+Focus: Maximum
+Terminal: Ghost mode enabled
+```
+
+**Disable vibe mode:**
+```bash
+v off
+```
+
+Output:
+```
+🎵 Vibe coding mode: OFF
+Music: ⏸️  Paused
+Do Not Disturb: ✅ Disabled
+Focus: Normal
+```
+
+**Show status:**
+```bash
+v status
+```
+
+Output:
+```
+Vibe mode: ON
+Started: 2h 15m ago
+Sessions today: 3
+Total time: 6h 45m
+Current playlist: Lo-Fi Beats
+```
+
+---
+
+### Intermediate
+
+#### Configuration
+
+**Custom playlist:**
+```bash
+# Set in ~/.zshrc
+export FLOW_VIBE_PLAYLIST="My Coding Playlist"
+```
+
+**Auto-enable ghost mode:**
+```bash
+# Set in ~/.zshrc
+export FLOW_VIBE_GHOST=1
+```
+
+**Disable music (DND only):**
+```bash
+# Set in ~/.zshrc
+export FLOW_VIBE_MUSIC=0
+```
+
+---
+
+#### Use Cases
+
+**1. Deep work sessions:**
+```bash
+# Start focused work
+v on
+work my-project
+
+# Code for 2 hours
+
+# Take break
+v off
+```
+
+**2. Flow state:**
+```bash
+# When you hit flow state, lock it in
+v on
+# No interruptions for next 1-2 hours
+```
+
+**3. Pomodoro integration:**
+```bash
+# 25-min work
+v on
+sleep 1500  # 25 minutes
+v off
+
+# 5-min break
+```
+
+---
+
+### Reference
+
+<details>
+<summary>Complete v Dispatcher Command List</summary>
+
+- `v on` - Enable vibe coding mode
+- `v off` - Disable vibe coding mode
+- `v status` - Show current status
+- `v help` - Show help
+
+</details>
+
+---
+
+## Dispatcher Comparison Table
+
+| Dispatcher | Complexity | Daily Use | Key Feature |
+|------------|------------|-----------|-------------|
+| g | Beginner → Advanced | ⭐⭐⭐⭐⭐ | Git workflows |
+| cc | Beginner | ⭐⭐⭐⭐ | Claude Code launcher |
+| r | Intermediate | ⭐⭐⭐⭐ | R package dev |
+| qu | Intermediate | ⭐⭐⭐⭐ | Quarto publishing |
+| mcp | Intermediate | ⭐⭐⭐ | MCP server management |
+| obs | Beginner | ⭐⭐⭐ | Obsidian notes |
+| wt | Advanced | ⭐⭐⭐⭐ | Parallel development |
+| dot | Intermediate → Advanced | ⭐⭐⭐⭐⭐ | Secrets & dotfiles |
+| teach | Intermediate → Advanced | ⭐⭐⭐⭐ | Teaching + AI |
+| tm | Beginner | ⭐⭐ | Terminal settings |
+| prompt | Beginner | ⭐⭐ | AI engine switching |
+| v | Beginner | ⭐⭐⭐ | Focus mode |
+
+---
+
+## Next Steps
+
+- **Beginners:** Start with [g](#g-dispatcher), [cc](#cc-dispatcher), [tm](#tm-dispatcher)
+- **Intermediate:** Explore [r](#r-dispatcher), [qu](#qu-dispatcher), [dot](#dot-dispatcher)
+- **Advanced:** Master [wt](#wt-dispatcher), [teach](#teach-dispatcher) advanced features
+- **Quick Reference:** See [QUICK-REFERENCE.md](../help/QUICK-REFERENCE.md)
+- **Workflows:** See [WORKFLOWS.md](../help/WORKFLOWS.md)
 
 ---
 
 **Version:** v5.17.0-dev
 **Last Updated:** 2026-01-24
-**Next:** Day 4 completes remaining 6 dispatchers (3,000-4,000 lines total)
+**Total:** 12 dispatchers fully documented
+**Lines:** 3,000+ lines
