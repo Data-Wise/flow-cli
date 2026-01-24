@@ -100,6 +100,7 @@ When adding new functions:
 - [Config Validation](#config-validation) - Configuration
 - [Git Helpers](#git-helpers) - Git integration
 - [Doctor Cache](#doctor-cache) - Token validation caching (v5.17.0+)
+- [Commands Internal API](#commands-internal-api) - Command helper functions
 - [Teaching Libraries](#teaching-libraries) - AI-powered teaching
 - [Dispatcher APIs](#dispatcher-apis) - Dispatcher functions
 - [Function Index](#function-index) - Alphabetical index
@@ -1290,6 +1291,225 @@ fi
 - Always document return codes
 - 0 = success, non-zero = error
 - Print output to stdout, errors to stderr
+
+---
+
+## Commands Internal API
+
+**Purpose:** Internal helper functions for command implementations
+**Audience:** Developers, contributors
+**Note:** These are not meant to be called directly by users
+
+### doctor Command Helpers
+
+**File:** `commands/doctor.zsh`
+**Functions:** 7 (v5.17.0 token automation)
+
+#### `_doctor_log_quiet`
+
+Log message unless in quiet mode.
+
+**Signature:**
+```zsh
+_doctor_log_quiet <message>
+```
+
+**Parameters:**
+- `$@` - Message to log
+
+**Behavior:**
+- Logs message in normal and verbose modes
+- Suppresses output in quiet mode (`--quiet` flag)
+
+**Example:**
+```zsh
+_doctor_log_quiet "Checking GitHub token..."
+```
+
+---
+
+#### `_doctor_log_verbose`
+
+Log message only in verbose mode.
+
+**Signature:**
+```zsh
+_doctor_log_verbose <message>
+```
+
+**Parameters:**
+- `$@` - Message to log
+
+**Behavior:**
+- Logs message only when `--verbose` flag is used
+- Silent in normal and quiet modes
+
+**Example:**
+```zsh
+_doctor_log_verbose "Cache hit for token-github (expires in 240s)"
+```
+
+---
+
+#### `_doctor_log_always`
+
+Log message regardless of verbosity level.
+
+**Signature:**
+```zsh
+_doctor_log_always <message>
+```
+
+**Parameters:**
+- `$@` - Message to log
+
+**Behavior:**
+- Always logs message (quiet, normal, verbose)
+- Used for critical messages and errors
+
+**Example:**
+```zsh
+_doctor_log_always "Error: Invalid token"
+```
+
+---
+
+#### `_doctor_select_fix_category`
+
+Show ADHD-friendly menu for selecting which category to fix.
+
+**Signature:**
+```zsh
+_doctor_select_fix_category [token_only] [auto_yes]
+```
+
+**Parameters:**
+- `$1` - (optional) Token-only mode (true/false) [default: false]
+- `$2` - (optional) Auto-yes mode (true/false) [default: false]
+
+**Returns:**
+- 0 - Category selected (outputs category name to stdout)
+- 1 - User cancelled
+- 2 - No issues found
+
+**Output:**
+- stdout - Selected category name ("tokens", "required", "recommended", "aliases", "all")
+
+**Features:**
+- Visual hierarchy with time estimates
+- Single category auto-selection
+- Auto-yes mode for CI/CD
+- Exit option (0)
+
+**Example Menu:**
+```
+╭─ Select Category to Fix ────────────────────────╮
+│                                                  │
+│  1. 🔑 GitHub Token (1 issue, ~30s)             │
+│  2. 📦 Missing Tools (3 tools, ~1m 30s)         │
+│  3. ⚡ Aliases (2 issues, ~10s)                 │
+│                                                  │
+│  4. ✨ Fix All Categories (~2m 10s)             │
+│                                                  │
+│  0. Exit without fixing                          │
+│                                                  │
+╰──────────────────────────────────────────────────╯
+```
+
+**Example:**
+```zsh
+selected=$(_doctor_select_fix_category false false)
+if [[ $? -eq 0 ]]; then
+    echo "User selected: $selected"
+fi
+```
+
+---
+
+#### `_doctor_count_categories`
+
+Count total number of categories with issues.
+
+**Signature:**
+```zsh
+_doctor_count_categories
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- stdout - Number of categories with issues (0-3)
+
+**Categories:**
+- Tokens (GitHub API tokens)
+- Tools (Homebrew, npm, pip packages)
+- Aliases (Shell aliases)
+
+**Example:**
+```zsh
+count=$(_doctor_count_categories)
+if [[ $count -eq 0 ]]; then
+    echo "No issues found"
+fi
+```
+
+---
+
+#### `_doctor_apply_fixes`
+
+Apply fixes for selected category.
+
+**Signature:**
+```zsh
+_doctor_apply_fixes <category> [auto_yes]
+```
+
+**Parameters:**
+- `$1` - (required) Category to fix ("tokens", "tools", "aliases", "all")
+- `$2` - (optional) Auto-yes mode [default: false]
+
+**Behavior:**
+- Tokens: Calls `_doctor_fix_tokens`
+- Tools: Calls `_doctor_interactive_fix`
+- Aliases: Shows message (not yet implemented)
+- All: Applies fixes to all categories sequentially
+
+**Example:**
+```zsh
+_doctor_apply_fixes "tokens"
+_doctor_apply_fixes "all" true  # Auto-yes mode
+```
+
+---
+
+#### `_doctor_fix_tokens`
+
+Fix token-related issues (missing, invalid, expiring).
+
+**Signature:**
+```zsh
+_doctor_fix_tokens
+```
+
+**Parameters:**
+- None (uses global `_doctor_token_issues` array)
+
+**Behavior:**
+- **missing** - Generates new token via `dot token github`
+- **invalid** - Rotates token via `dot token rotate`
+- **expiring** - Rotates token via `dot token rotate`
+
+**Side Effects:**
+- Invalidates token cache
+- May prompt for GitHub authentication
+- Updates keychain secrets
+
+**Example:**
+```zsh
+# Called internally by doctor --fix or doctor --fix-token
+_doctor_fix_tokens
+```
 
 ---
 
