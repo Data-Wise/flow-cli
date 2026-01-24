@@ -62,7 +62,46 @@
 - Updated mkdocs.yml navigation
 - Deployed documentation site
 
-**Commits (10 total):**
+### API Documentation Improvement - Phase 1 (2026-01-24)
+
+**Status:** ✅ Complete - v5.17.0 token automation fully documented
+**Type:** API documentation expansion
+**Impact:** 2.7% → 7.0% coverage (+30 functions)
+
+**Completed (This Session):**
+- ✅ Documented all 30 v5.17.0 token automation functions
+- ✅ Created Commands Internal API section
+- ✅ Added doctor-cache.zsh library (13 functions)
+- ✅ Added doctor command helpers (7 functions)
+- ✅ Added work command helpers (3 functions)
+- ✅ Added dot dispatcher helpers (5 functions)
+- ✅ Added g dispatcher helpers (2 functions)
+
+**Coverage Improvement:**
+- Before: 19 functions (2.7%)
+- After: 49 functions (7.0%)
+- Added: 30 functions (158% increase)
+- Target: 566 functions (80%)
+- Remaining: 517 functions
+
+**Documentation Quality:**
+- Comprehensive parameter documentation
+- Return value specifications
+- Performance metrics included
+- Usage examples for all functions
+- Integration notes and side effects
+- Cache behavior documented
+
+**Files Updated:**
+- docs/reference/MASTER-API-REFERENCE.md (+1,056 lines)
+- docs/DOC-DASHBOARD.md (auto-generated)
+
+**Commits (3 total - this session):**
+1. docs(api): Add comprehensive doctor-cache.zsh documentation (13 functions)
+2. docs(api): Add doctor command internal API documentation (7 functions)
+3. docs(api): Complete v5.17.0 token automation documentation (30 functions)
+
+**Commits (10 total - consolidation):**
 1. Day 1: Automation script skeletons + meta-guide
 2. Day 1: 00-START-HERE.md (main hub)
 3. Day 2: QUICK-REFERENCE.md + WORKFLOWS.md
@@ -120,18 +159,38 @@
 
 ## 🎯 Current Sprint:
 
-### v5.18.0 - Planning Next Features
+### v5.18.0 - API Documentation Improvement
 
-**Status:** Ready for planning - documentation consolidation complete
-**Branch:** dev (clean working tree)
+**Status:** ✅ Phase 1 Complete - v5.17.0 token automation documented
+**Branch:** dev (3 commits ready to push)
+**Progress:** 7.0% coverage (49/704 functions)
 
-**Potential Focus Areas:**
+**Current Focus:** API Documentation Completion (Option A - High Priority)
+- **Target:** 80% coverage (566/704 functions)
+- **Current:** 7.0% coverage (49 functions)
+- **Completed:** v5.17.0 token automation (30 functions)
+- **Remaining:** 517 functions
+- **Tools ready:** generate-api-docs.sh, generate-doc-dashboard.sh, check-doc-updates.sh
+
+**Phase 1 Results (2026-01-24):**
+- ✅ doctor-cache.zsh: 13 functions (cache layer)
+- ✅ doctor.zsh: 7 functions (ADHD menu, logging)
+- ✅ work.zsh: 3 functions (GitHub integration)
+- ✅ dot-dispatcher.zsh: 5 functions (token lifecycle)
+- ✅ g-dispatcher.zsh: 2 functions (git integration)
+- Coverage: 2.7% → 7.0% (+158% increase)
+
+**Next Priorities:**
+- Teaching libraries (67 functions, 3.0% coverage)
+- Git helpers (17 functions, 17.6% coverage)
+- Keychain helpers (7 functions, 57.1% coverage)
+
+**Other Potential Focus Areas (Deferred):**
 - Config → concept graph integration (Phase 1 enhancement)
 - teach prompt command (needs Scholar coordination)
 - GitHub token automation Phases 2-4 (deferred from v5.17.0)
 - Quarto workflow Phase 2 enhancements
 - Additional teach analyze improvements
-- API documentation completion (2.7% → 80% target)
 
 **Brainstorm Docs (Token Automation Phases 2-4):**
 - `~/BRAINSTORM-github-token-security-2026-01-23.md` (19KB)
@@ -186,43 +245,56 @@
 
 ## 🎯 Recommended Next Step:
 
-**Documentation consolidation complete! Choose next feature for v5.18.0:**
+**✅ Selected Option A - API Documentation Completion (In Progress)**
 
-A) **API Documentation Completion** (High priority)
-   - Current: 2.7% coverage (19/704 functions)
-   - Target: 80% coverage (566 functions)
-   - Tools ready: generate-api-docs.sh, generate-doc-dashboard.sh
-   - Estimated effort: 2-3 weeks with automation
+**Phase 1 Complete (2026-01-24):**
+- ✅ v5.17.0 token automation documented (30 functions)
+- ✅ Coverage: 2.7% → 7.0% (+158% increase)
+- ✅ Doctor cache, command helpers, dispatcher integration
+- 3 commits ready to push
+
+**Phase 2 - Continue Documentation (Next Priority):**
+
+**Teaching Libraries** (Highest Impact - 67 functions, 3.0% coverage)
+- concept-extraction.zsh (25+ functions)
+- prerequisite-checker.zsh (20+ functions)
+- analysis-cache.zsh (40+ functions)
+- report-generator.zsh (30+ functions)
+- ai-analysis.zsh (15+ functions)
+- slide-optimizer.zsh (20+ functions)
+
+**Git Helpers** (High Usage - 17 functions, 17.6% coverage)
+- Branch utilities (5+ functions)
+- Commit helpers (4+ functions)
+- Remote operations (3+ functions)
+
+**Keychain Helpers** (Medium Priority - 7 functions, 57.1% coverage)
+- Secret management (3+ functions)
+- Touch ID integration (2+ functions)
+
+**Estimated Effort:**
+- Teaching libs: ~1 week (6 files, comprehensive)
+- Git helpers: ~2 days (1 file, well-structured)
+- Keychain: ~1 day (1 file, partial)
+- **Total:** ~1.5-2 weeks to 30% coverage
+
+**Other Options (Deferred):**
 
 B) **Config→Concept Graph Integration** (Phase 1 enhancement)
-   - Brainstorm complete
-   - Non-breaking enhancement
-   - Improves teach analyze accuracy
-
 C) **teach prompt command** (Needs Scholar coordination)
-   - Paused pending Scholar plugin updates
-   - Spec complete: SPEC-teach-prompt-command-2026-01-21.md
-
-D) **GitHub Token Automation Phases 2-4**
-   - Multi-token support (npm, pypi)
-   - Atomic fixes with rollback
-   - Gamification & notifications
-   - 3 brainstorm docs available
-
-E) **Quarto Workflow Enhancements**
-   - Build on Phase 1+2 foundation
-   - Additional custom validators
-   - Performance monitoring improvements
+D) **GitHub Token Automation Phases 2-4** (Multi-token, gamification)
+E) **Quarto Workflow Enhancements** (Additional validators)
 
 **Immediate Actions:**
-- Review v5.17.0 user feedback (if any)
-- Plan next sprint (v5.18.0 feature selection)
-- Consider API documentation as high-priority investment
+- ✅ Push API documentation Phase 1 (3 commits)
+- ✅ Update .STATUS with progress
+- Continue with Teaching Libraries (Phase 2)
 
 ---
 
-**Last Updated:** 2026-01-24 14:50
-**Status:** Active - Documentation consolidation complete, planning v5.18.0
+**Last Updated:** 2026-01-24 14:48
+**Status:** Active - API Documentation Phase 1 complete, Phase 2 in progress
 ## wins: --category docs consolidated reference docs (2026-01-24)
+## wins: --category docs documented 30 v5.17.0 token functions (2026-01-24)
 ## streak: 0
 ## last_active: 2026-01-24
