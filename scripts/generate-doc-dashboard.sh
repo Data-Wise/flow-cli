@@ -36,7 +36,7 @@ count_total_functions() {
     local count=0
     while IFS= read -r file; do
         local file_count
-        file_count=$(grep -c "^[[:space:]]*\(function[[:space:]]\+\)\?[_a-zA-Z][_a-zA-Z0-9]*()[[:space:]]*{" "$file" 2>/dev/null || echo 0)
+        file_count=$(grep -E "^[[:space:]]*(function[[:space:]]+)?[_a-zA-Z][_a-zA-Z0-9]*\(\)[[:space:]]*\{" "$file" 2>/dev/null | wc -l | tr -d ' ')
         count=$((count + file_count))
     done < <(find "$LIB_DIR" -name "*.zsh" -type f)
     echo "$count"
@@ -60,39 +60,48 @@ count_by_category() {
 
     # Core library
     local core_total core_doc
-    core_total=$(grep -c "^[[:space:]]*\(function[[:space:]]\+\)\?[_a-zA-Z][_a-zA-Z0-9]*()[[:space:]]*{" "$LIB_DIR/core.zsh" 2>/dev/null || echo 0)
+    core_total=$(grep -E "^[[:space:]]*(function[[:space:]]+)?[_a-zA-Z][_a-zA-Z0-9]*\(\)[[:space:]]*\{" "$LIB_DIR/core.zsh" 2>/dev/null | wc -l | tr -d ' ')
     core_doc=$(grep -c "^#### \`_flow_" "$API_DOC" 2>/dev/null || echo 0)
-    local core_pct=$(awk "BEGIN {printf \"%.1f%%\", ($core_doc/$core_total)*100}")
-    echo "| Core Library | $core_total | $core_doc | $core_pct |"
+    local core_pct="0.0"
+    if [[ $core_total -gt 0 ]]; then
+        core_pct=$(awk "BEGIN {printf \"%.1f\", ($core_doc/$core_total)*100}")
+    fi
+    echo "| Core Library | $core_total | $core_doc | ${core_pct}% |"
 
-    # Dispatchers
-    local disp_total=0
-    while IFS= read -r file; do
-        local file_count
-        file_count=$(grep -c "^[[:space:]]*\(function[[:space:]]\+\)\?[_a-zA-Z][_a-zA-Z0-9]*()[[:space:]]*{" "$file" 2>/dev/null || echo 0)
-        disp_total=$((disp_total + file_count))
-    done < <(find "$LIB_DIR/dispatchers" -name "*.zsh" -type f 2>/dev/null)
-
-    local disp_doc=$(grep -c "Dispatcher" "$PROJECT_ROOT/docs/reference/MASTER-DISPATCHER-GUIDE.md" 2>/dev/null || echo 12)
-    local disp_pct=$(awk "BEGIN {printf \"%.1f%%\", ($disp_doc/12)*100}")
-    echo "| Dispatchers | 12 | $disp_doc | $disp_pct |"
+    # Dispatchers - count unique dispatcher sections in MASTER-DISPATCHER-GUIDE
+    local disp_total=12  # We know there are 12 dispatchers
+    local disp_doc=0
+    if [[ -f "$PROJECT_ROOT/docs/reference/MASTER-DISPATCHER-GUIDE.md" ]]; then
+        disp_doc=$(grep -c "^## [a-z]* Dispatcher$" "$PROJECT_ROOT/docs/reference/MASTER-DISPATCHER-GUIDE.md" 2>/dev/null || echo 0)
+    fi
+    local disp_pct="0.0"
+    if [[ $disp_total -gt 0 ]]; then
+        disp_pct=$(awk "BEGIN {printf \"%.1f\", ($disp_doc/$disp_total)*100}")
+    fi
+    echo "| Dispatchers | $disp_total | $disp_doc | ${disp_pct}% |"
 
     # Git helpers
     if [[ -f "$LIB_DIR/git-helpers.zsh" ]]; then
         local git_total git_doc
-        git_total=$(grep -c "^[[:space:]]*\(function[[:space:]]\+\)\?[_a-zA-Z][_a-zA-Z0-9]*()[[:space:]]*{" "$LIB_DIR/git-helpers.zsh" 2>/dev/null || echo 0)
+        git_total=$(grep -E "^[[:space:]]*(function[[:space:]]+)?[_a-zA-Z][_a-zA-Z0-9]*\(\)[[:space:]]*\{" "$LIB_DIR/git-helpers.zsh" 2>/dev/null | wc -l | tr -d ' ')
         git_doc=$(grep -c "^#### \`_flow_git" "$API_DOC" 2>/dev/null || echo 0)
-        local git_pct=$(awk "BEGIN {printf \"%.1f%%\", ($git_doc/$git_total)*100}")
-        echo "| Git Helpers | $git_total | $git_doc | $git_pct |"
+        local git_pct="0.0"
+        if [[ $git_total -gt 0 ]]; then
+            git_pct=$(awk "BEGIN {printf \"%.1f\", ($git_doc/$git_total)*100}")
+        fi
+        echo "| Git Helpers | $git_total | $git_doc | ${git_pct}% |"
     fi
 
     # Keychain helpers
     if [[ -f "$LIB_DIR/keychain-helpers.zsh" ]]; then
         local keychain_total keychain_doc
-        keychain_total=$(grep -c "^[[:space:]]*\(function[[:space:]]\+\)\?[_a-zA-Z][_a-zA-Z0-9]*()[[:space:]]*{" "$LIB_DIR/keychain-helpers.zsh" 2>/dev/null || echo 0)
+        keychain_total=$(grep -E "^[[:space:]]*(function[[:space:]]+)?[_a-zA-Z][_a-zA-Z0-9]*\(\)[[:space:]]*\{" "$LIB_DIR/keychain-helpers.zsh" 2>/dev/null | wc -l | tr -d ' ')
         keychain_doc=$(grep -c "^#### \`_flow_keychain" "$API_DOC" 2>/dev/null || echo 0)
-        local keychain_pct=$(awk "BEGIN {printf \"%.1f%%\", ($keychain_doc/$keychain_total)*100}")
-        echo "| Keychain Helpers | $keychain_total | $keychain_doc | $keychain_pct |"
+        local keychain_pct="0.0"
+        if [[ $keychain_total -gt 0 ]]; then
+            keychain_pct=$(awk "BEGIN {printf \"%.1f\", ($keychain_doc/$keychain_total)*100}")
+        fi
+        echo "| Keychain Helpers | $keychain_total | $keychain_doc | ${keychain_pct}% |"
     fi
 
     # Teaching libraries
@@ -101,13 +110,16 @@ count_by_category() {
     for file in "${teach_files[@]}"; do
         if [[ -f "$LIB_DIR/$file" ]]; then
             local file_count
-            file_count=$(grep -c "^[[:space:]]*\(function[[:space:]]\+\)\?[_a-zA-Z][_a-zA-Z0-9]*()[[:space:]]*{" "$LIB_DIR/$file" 2>/dev/null || echo 0)
+            file_count=$(grep -E "^[[:space:]]*(function[[:space:]]+)?[_a-zA-Z][_a-zA-Z0-9]*\(\)[[:space:]]*\{" "$LIB_DIR/$file" 2>/dev/null | wc -l | tr -d ' ')
             teach_total=$((teach_total + file_count))
         fi
     done
     local teach_doc=$(grep -c "^#### \`_teach" "$API_DOC" 2>/dev/null || echo 0)
-    local teach_pct=$(awk "BEGIN {printf \"%.1f%%\", ($teach_doc/$teach_total)*100}")
-    echo "| Teaching Libraries | $teach_total | $teach_doc | $teach_pct |"
+    local teach_pct="0.0"
+    if [[ $teach_total -gt 0 ]]; then
+        teach_pct=$(awk "BEGIN {printf \"%.1f\", ($teach_doc/$teach_total)*100}")
+    fi
+    echo "| Teaching Libraries | $teach_total | $teach_doc | ${teach_pct}% |"
 
     echo ""
 }
@@ -167,7 +179,7 @@ find_missing_docs() {
     if [[ -d "$PROJECT_ROOT/commands" ]]; then
         while IFS= read -r file; do
             local cmd=$(basename "$file" .zsh)
-            if [[ ! -f "$DOCS_DIR/commands/$cmd.md" ]] && [[ ! -f "$DOCS_DIR/reference/MASTER-API-REFERENCE.md" ]]; then
+            if [[ ! -f "$DOCS_DIR/commands/$cmd.md" ]] && ! grep -q "^#### \`${cmd}\`" "$API_DOC" 2>/dev/null; then
                 echo "- ⚠️  Missing documentation: \`$cmd\` command"
                 command_count=$((command_count + 1))
             fi
@@ -182,10 +194,21 @@ find_missing_docs() {
 
 # Generate the dashboard
 generate_dashboard() {
-    local total_functions documented_functions coverage_pct
+    local total_functions documented_functions coverage_pct coverage_num
     total_functions=$(count_total_functions)
     documented_functions=$(count_documented_functions)
-    coverage_pct=$(awk "BEGIN {printf \"%.1f%%\", ($documented_functions/$total_functions)*100}")
+
+    # Calculate coverage as number (without %)
+    if [[ $total_functions -gt 0 ]]; then
+        coverage_num=$(awk "BEGIN {printf \"%.1f\", ($documented_functions/$total_functions)*100}")
+    else
+        coverage_num="0.0"
+    fi
+    coverage_pct="${coverage_num}%"
+
+    # Calculate progress bar (50 chars wide)
+    local progress_chars=$(awk "BEGIN {print int(($documented_functions/$total_functions)*50)}")
+    local progress_bar=$(printf '%*s' "$progress_chars" | tr ' ' '█')
 
     cat > "$DASHBOARD_FILE" << EOF
 # Documentation Dashboard
@@ -206,7 +229,7 @@ generate_dashboard() {
 
 **Coverage Progress:**
 \`\`\`
-[$( printf '%-50s' | tr ' ' '█' | head -c $(awk "BEGIN {print int(($documented_functions/$total_functions)*50)}"))]  $coverage_pct
+[$progress_bar]  $coverage_pct
 \`\`\`
 
 ---
@@ -237,12 +260,14 @@ $(find_missing_docs)
 
 EOF
 
-    # Add priorities based on coverage
-    if [[ $(echo "$coverage_pct < 50" | bc -l) -eq 1 ]]; then
+    # Add priorities based on coverage (compare as integers)
+    local coverage_int=$(echo "$coverage_num" | cut -d. -f1)
+
+    if [[ $coverage_int -lt 50 ]]; then
         echo "1. 🔴 **CRITICAL:** Documentation coverage below 50%" >> "$DASHBOARD_FILE"
         echo "   - Focus on documenting core functions" >> "$DASHBOARD_FILE"
         echo "   - Run: \`./scripts/generate-api-docs.sh --dry-run\`" >> "$DASHBOARD_FILE"
-    elif [[ $(echo "$coverage_pct < 80" | bc -l) -eq 1 ]]; then
+    elif [[ $coverage_int -lt 80 ]]; then
         echo "1. 🟡 **MODERATE:** Documentation coverage below target (80%)" >> "$DASHBOARD_FILE"
         echo "   - Document high-use functions first" >> "$DASHBOARD_FILE"
         echo "   - Run: \`./scripts/generate-api-docs.sh --dry-run\`" >> "$DASHBOARD_FILE"
