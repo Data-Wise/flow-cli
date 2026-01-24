@@ -55,17 +55,17 @@ finish
 
 ### For Power Users
 
-4. **[YOLO Mode Workflow](YOLO-MODE-WORKFLOW.md)**
+1. **[YOLO Mode Workflow](YOLO-MODE-WORKFLOW.md)**
    - Zero-friction Claude launching
    - Skip all confirmations
    - When to use (and not use)
 
-5. **[Worktree Workflow](WORKTREE-WORKFLOW.md)**
+2. **[Worktree Workflow](WORKTREE-WORKFLOW.md)**
    - Parallel development
    - Feature branches
    - Quick context switching
 
-6. **[Workflows Quick Wins](WORKFLOWS-QUICK-WINS.md)**
+3. **[Workflows Quick Wins](WORKFLOWS-QUICK-WINS.md)**
    - Time-saving tips
    - Advanced patterns
    - Pro shortcuts

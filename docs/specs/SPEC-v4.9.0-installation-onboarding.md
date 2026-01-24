@@ -15,6 +15,7 @@ Transform flow-cli installation from "requires ZSH plugin knowledge" to "works i
 ### Current State (v4.8.1)
 
 **Homebrew (Primary):**
+
 ```bash
 brew tap data-wise/tap
 brew install flow-cli
@@ -22,6 +23,7 @@ brew install flow-cli
 ```
 
 **Plugin Managers:**
+
 ```bash
 # Requires understanding of ZSH plugin managers
 antidote install data-wise/flow-cli
@@ -37,6 +39,7 @@ antidote install data-wise/flow-cli
 ### Target State (v4.9.0)
 
 **One-Liner Install:**
+
 ```bash
 curl -fsSL https://get.flow-cli.dev/install.sh | bash
 # Auto-detects: Homebrew or plugin manager
@@ -45,6 +48,7 @@ curl -fsSL https://get.flow-cli.dev/install.sh | bash
 ```
 
 **First Run:**
+
 ```bash
 $ work my-project
 👋 Welcome to flow-cli! Let's get you set up.
@@ -97,6 +101,7 @@ Quick tutorial? [Y/n] y
 - ✅ Trigger first-run wizard
 
 **Architecture:**
+
 ```bash
 install.sh
 ├── detect_os()           # macOS, Linux, WSL
@@ -125,6 +130,7 @@ install.sh
 ### 2. Enhanced `flow doctor --fix`
 
 **Current State (v4.8.1):**
+
 ```bash
 $ flow doctor
 ✓ work command found
@@ -136,6 +142,7 @@ $ flow doctor --fix
 ```
 
 **Target State (v4.9.0):**
+
 ```bash
 $ flow doctor --fix
 🔍 Checking flow-cli health...
@@ -181,6 +188,7 @@ Install optional tools? [y/N] n
 3. **Optional** - Nice-to-have enhancements (eza, zoxide, delta)
 
 **Implementation:**
+
 ```zsh
 # In commands/doctor.zsh
 _flow_doctor_fix() {
@@ -283,6 +291,7 @@ Setup complete! ✓
 - ✅ Unattended mode (`--unattended` for CI/scripts)
 
 **Implementation:**
+
 ```zsh
 # commands/setup.zsh
 flow_setup() {
@@ -316,6 +325,7 @@ flow_setup() {
 ### 4. Auto-Discovery & Smart Defaults
 
 **Project Root Detection:**
+
 ```bash
 # Try in order:
 1. $FLOW_PROJECTS_ROOT (if set)
@@ -326,6 +336,7 @@ flow_setup() {
 ```
 
 **Shell Integration:**
+
 ```bash
 # Auto-detect shell config file
 1. ~/.zshrc (most common)
@@ -334,6 +345,7 @@ flow_setup() {
 ```
 
 **Package Manager Detection:**
+
 ```bash
 # Order of preference
 1. brew (macOS/Linux)
@@ -426,12 +438,14 @@ flow_setup() {
 ## Success Metrics
 
 ### Quantitative
+
 - **Install time:** < 60 seconds (fresh install to first command)
 - **Setup completion rate:** > 80% complete wizard
 - **Error rate:** < 5% install failures
 - **Time to first win:** < 2 minutes from install
 
 ### Qualitative
+
 - **User feedback:** "It just worked!"
 - **Support requests:** Reduction in install-related issues
 - **Adoption:** More users trying flow-cli

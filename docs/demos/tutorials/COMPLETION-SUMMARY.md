@@ -27,11 +27,13 @@
 ## Technical Specifications
 
 ### Recording Method
+
 - **Tool:** asciinema (terminal recorder)
 - **Converter:** agg v1.7.0 (asciinema gif generator)
 - **Optimizer:** gifsicle -O3 --colors 128 --lossy=80
 
 ### Consistent Settings
+
 ```bash
 agg \
   --cols 120 \            # Terminal width
@@ -43,6 +45,7 @@ agg \
 ```
 
 ### File Sizes
+
 - **Smallest:** Demo 2 (44 KB) - Simple generation
 - **Largest:** Demo 5 (180 KB) - Interactive wizard (20 frames)
 - **Average:** 95 KB per demo
@@ -53,6 +56,7 @@ agg \
 ## What Each Demo Shows
 
 ### Demo 1: Help System (116 KB)
+
 **Purpose:** Teach users how to discover available flags
 
 **Shows:**
@@ -69,9 +73,11 @@ agg \
 ---
 
 ### Demo 2: Basic Generation (44 KB)
+
 **Purpose:** Demonstrate simplest use case
 
 **Command:**
+
 ```bash
 teach slides "Introduction to Statistics" --style conceptual
 ```
@@ -91,9 +97,11 @@ teach slides "Introduction to Statistics" --style conceptual
 ---
 
 ### Demo 3: Style Customization (56 KB)
+
 **Purpose:** Show advanced flag combinations
 
 **Command:**
+
 ```bash
 teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
 ```
@@ -112,9 +120,11 @@ teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
 ---
 
 ### Demo 4: Lesson Plans (76 KB)
+
 **Purpose:** Demonstrate YAML-driven content generation
 
 **Command:**
+
 ```bash
 teach lecture --lesson content/lesson-plans/week03.yml
 ```
@@ -136,9 +146,11 @@ teach lecture --lesson content/lesson-plans/week03.yml
 ---
 
 ### Demo 5: Interactive Mode (180 KB)
+
 **Purpose:** Show wizard-style workflow for beginners
 
 **Command:**
+
 ```bash
 teach exam --interactive
 ```
@@ -164,9 +176,11 @@ teach exam --interactive
 ---
 
 ### Demo 6: Revision Workflow (58 KB)
+
 **Purpose:** Demonstrate iterative content improvement
 
 **Command:**
+
 ```bash
 teach slides --revise slides-v1.md --feedback "Add more practical examples"
 ```
@@ -192,9 +206,11 @@ teach slides --revise slides-v1.md --feedback "Add more practical examples"
 ---
 
 ### Demo 7: Week-Based Generation (51 KB)
+
 **Purpose:** Show semester schedule integration
 
 **Command:**
+
 ```bash
 teach quiz --week 5
 ```
@@ -220,9 +236,11 @@ teach quiz --week 5
 ---
 
 ### Demo 8: Context Integration (71 KB)
+
 **Purpose:** Demonstrate course material integration
 
 **Command:**
+
 ```bash
 teach assignment "Hypothesis Testing Practice" --with-readings
 ```
@@ -281,17 +299,20 @@ docs/demos/tutorials/
 ## Quality Metrics
 
 ### Size Efficiency
+
 - ✅ All demos < 200 KB (target met)
 - ✅ Total < 1 MB (756 KB, 24% under budget)
 - ✅ Average 95 KB (efficient compression)
 
 ### Visual Quality
+
 - ✅ Font size 20 (large, readable)
 - ✅ Resolution 1464x1148 (spacious layout)
 - ✅ Dracula theme (high contrast)
 - ✅ 10 FPS cap (smooth playback)
 
 ### Content Coverage
+
 - ✅ All 8 workflow patterns demonstrated
 - ✅ Real teach commands used (not mocked)
 - ✅ Simulated Scholar output (authentic format)
@@ -332,6 +353,7 @@ docs/demos/tutorials/
 ### Documentation Integration
 
 1. **Update Tutorial Files**
+
    ```bash
    # Add GIF references to:
    docs/tutorials/scholar-enhancement/01-getting-started.md
@@ -340,12 +362,14 @@ docs/demos/tutorials/
    ```
 
 2. **Verify in MkDocs**
+
    ```bash
    mkdocs serve
    # Check: http://127.0.0.1:8000/flow-cli/tutorials/scholar-enhancement/
    ```
 
 3. **Commit Tutorial Updates**
+
    ```bash
    git add docs/tutorials/scholar-enhancement/*.md
    git commit -m "docs: integrate GIF demos into Scholar Enhancement tutorials"

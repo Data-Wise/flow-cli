@@ -57,6 +57,7 @@ teach archive     # Archive semester
 **Command:** `teach init` (enhanced)
 
 **What it does:**
+
 ```bash
 teach init stat-545
 
@@ -68,6 +69,7 @@ teach init stat-545
 ```
 
 **Configuration:**
+
 ```yaml
 # Auto-added to _quarto.yml
 project:
@@ -85,6 +87,7 @@ project:
 **Command:** `teach init` or `teach hooks install`
 
 **What it does:**
+
 ```bash
 teach hooks install
 
@@ -107,6 +110,7 @@ teach hooks install
 - ⏱️ 2-5 minutes (full render)
 
 **Environment Variable:**
+
 ```bash
 # Disable rendering in pre-commit if needed
 QUARTO_PRE_COMMIT_RENDER=0 git commit -m "wip"
@@ -119,6 +123,7 @@ QUARTO_PRE_COMMIT_RENDER=0 git commit -m "wip"
 **Command:** `teach validate` or `teach check`
 
 **What it does:**
+
 ```bash
 teach validate
 
@@ -130,6 +135,7 @@ teach validate
 ```
 
 **Example Output:**
+
 ```
 Validating changed files...
 
@@ -158,6 +164,7 @@ Rendering syllabus/syllabus-final.qmd...
 **Auto-generated documentation:**
 
 **README.md additions:**
+
 ```markdown
 ## Development Workflow
 
@@ -271,6 +278,7 @@ flow-cli/
 ### Configuration Files
 
 **~/.config/flow/teach.conf** (new):
+
 ```bash
 # Quarto settings
 TEACH_QUARTO_FREEZE=1              # Enable freeze by default
@@ -286,6 +294,7 @@ TEACH_HOOK_PRE_PUSH_FULL_SITE=1    # Default: enabled
 ### Error Handling
 
 **Pre-commit hook error:**
+
 ```bash
 $ git commit -m "update lecture"
 
@@ -332,6 +341,7 @@ Fix errors or use: git commit --no-verify
 ### Migration Path
 
 **Existing projects:**
+
 ```bash
 cd ~/projects/teaching/stat-545
 
@@ -344,6 +354,7 @@ teach upgrade
 ```
 
 **New projects:**
+
 ```bash
 # Everything auto-configured
 teach init stat-545
@@ -354,6 +365,7 @@ quarto preview
 ### Opt-Out
 
 Users can disable features:
+
 ```bash
 # Disable freeze
 export TEACH_QUARTO_FREEZE=0

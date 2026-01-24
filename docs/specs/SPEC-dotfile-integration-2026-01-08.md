@@ -77,6 +77,7 @@ Integration of chezmoi + Bitwarden + Mise dotfile management tools into flow-cli
 **Pattern:** Dispatcher (consistent with `g`, `mcp`, `cc`, `r`, `qu`)
 
 **File Structure:**
+
 ```
 lib/
 ├── dispatchers/
@@ -170,6 +171,7 @@ _dot_confirm_action() { ... }
 #### 3. Integration Points
 
 **Dashboard Integration:**
+
 ```zsh
 # In commands/dash.zsh
 if _dot_has_chezmoi; then
@@ -179,6 +181,7 @@ fi
 ```
 
 **Work Command Integration:**
+
 ```zsh
 # In commands/work.zsh
 if [[ "$FLOW_DOTFILE_CHECK_ON_START" != "no" ]]; then
@@ -189,6 +192,7 @@ fi
 ```
 
 **Flow Doctor Integration:**
+
 ```zsh
 # In commands/doctor.zsh
 echo "📁 DOTFILES"
@@ -468,6 +472,7 @@ N/A - CLI only (no web interface)
 ## Review Checklist
 
 ### Design Review
+
 - [x] Command naming approved (`dot`)
 - [x] Dispatcher pattern confirmed
 - [x] Integration points identified
@@ -476,6 +481,7 @@ N/A - CLI only (no web interface)
 - [ ] Open questions resolved
 
 ### Implementation Review
+
 - [ ] Core commands implemented
 - [ ] Secret management functional
 - [ ] Dashboard integration complete
@@ -485,6 +491,7 @@ N/A - CLI only (no web interface)
 - [ ] Performance targets met
 
 ### Testing Review
+
 - [ ] Unit tests passing
 - [ ] Integration tests passing
 - [ ] Performance benchmarks met
@@ -492,6 +499,7 @@ N/A - CLI only (no web interface)
 - [ ] No secrets in logs/history
 
 ### Documentation Review
+
 - [ ] Reference docs complete
 - [ ] Tutorial written
 - [ ] Examples provided
@@ -499,6 +507,7 @@ N/A - CLI only (no web interface)
 - [ ] Migration guide (if needed)
 
 ### Release Review
+
 - [ ] Version bumped (v5.0.0)
 - [ ] Changelog updated
 - [ ] Breaking changes documented

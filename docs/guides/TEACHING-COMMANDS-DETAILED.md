@@ -133,6 +133,7 @@ flowchart TD
 | `--dry-run` | Preview only, no changes | See what would happen |
 
 **Syntax:**
+
 ```bash
 teach init "Course Name"              # Interactive mode
 teach init -y "Course Name"           # Non-interactive (safe defaults)
@@ -150,6 +151,7 @@ teach init --dry-run "Course Name"    # Preview without changes
    - Creates `.flow/teach-config.yml` configuration file
    - Stores course name, semester, schedule, and branch names
    - Example:
+
      ```yaml
      course:
        name: "STAT 545"
@@ -237,6 +239,7 @@ teach init "STAT 545"
 ```
 
 **Non-interactive (safe defaults):**
+
 ```bash
 teach init -y "STAT 440"
 # Uses all defaults, completes in seconds
@@ -326,6 +329,7 @@ flowchart TD
 | Production updated | ✓ Continue | ⚠️ Prompt | Optional rebase |
 
 **Syntax:**
+
 ```bash
 teach deploy              # Standard PR workflow
 teach deploy --direct-push # Bypass PR (advanced users only)
@@ -354,6 +358,7 @@ teach deploy --direct-push # Bypass PR (advanced users only)
 
 2. **Branch Configuration**
    The deploy command reads branch names from `.flow/teach-config.yml`:
+
    ```yaml
    # Preferred format (v5.11.0+)
    branches:
@@ -367,6 +372,7 @@ teach deploy --direct-push # Bypass PR (advanced users only)
    ```
 
 3. **Branch Merge**
+
    ```
    draft (your edits)
       ↓
@@ -431,6 +437,7 @@ teach deploy
 **Error scenarios:**
 
 **On production branch warning:**
+
 ```
 ❌ Must be on draft branch
 Current branch: production
@@ -438,6 +445,7 @@ Run: git checkout draft
 ```
 
 **Uncommitted changes:**
+
 ```
 ❌ Uncommitted changes found
 Commit or stash changes first:
@@ -506,6 +514,7 @@ flowchart TD
 | ⚡ Pending | Undeployed changes | Run `teach deploy` |
 
 **Syntax:**
+
 ```bash
 teach status
 ```
@@ -630,6 +639,7 @@ flowchart LR
 ```
 
 **Syntax:**
+
 ```bash
 teach week           # Current week
 teach week 5         # Info for week 5
@@ -746,6 +756,7 @@ stateDiagram-v2
 ```
 
 **Syntax:**
+
 ```bash
 teach archive
 ```
@@ -821,6 +832,7 @@ teach archive
 Opens the `.flow/teach-config.yml` file in your editor for customization.
 
 **Syntax:**
+
 ```bash
 teach config
 ```
@@ -870,6 +882,7 @@ shortcuts:
 **Common edits:**
 
 **After semester ends:**
+
 ```yaml
 # OLD
 semester: "spring"
@@ -884,6 +897,7 @@ end_date: "2026-12-10"
 ```
 
 **Adding breaks:**
+
 ```yaml
 breaks:
   - name: "Thanksgiving"
@@ -902,6 +916,7 @@ breaks:
 Creates a new exam/quiz template using the `examark` tool (if installed). Sets up structured question format with point values, duration, and automatic grading capabilities.
 
 **Syntax:**
+
 ```bash
 teach exam "Midterm 1"
 teach exam "Final Exam"
@@ -1114,6 +1129,7 @@ teach deploy
 **Problem:** The teaching configuration file doesn't exist
 
 **Solution:**
+
 ```bash
 # Initialize teaching workflow for this course
 teach init "Course Name"
@@ -1134,6 +1150,7 @@ teach init -y "Course Name"
 **Problem:** You tried to deploy but you're on the wrong branch
 
 **Solution:**
+
 ```bash
 # Option 1: Let teach deploy switch for you
 teach deploy
@@ -1154,6 +1171,7 @@ teach deploy
 **Problem:** You made edits but forgot to commit
 
 **Solution:**
+
 ```bash
 # Check what changed
 git status
@@ -1175,6 +1193,7 @@ teach deploy
 **Problem:** Deployment taking > 3 minutes
 
 **Check:**
+
 ```bash
 # View GitHub Actions status
 gh run list
@@ -1193,6 +1212,7 @@ Usually caused by:
 ## Integration with Other Commands
 
 ### With `work` command
+
 ```bash
 # Start work automatically shows teaching context
 work stat-545
@@ -1203,6 +1223,7 @@ work stat-545
 ```
 
 ### With `pick` command
+
 ```bash
 # Pick shows teaching projects with 🎓 icon
 pick
@@ -1211,6 +1232,7 @@ pick
 ```
 
 ### With `dash` command
+
 ```bash
 # Dashboard shows teaching projects
 dash teach

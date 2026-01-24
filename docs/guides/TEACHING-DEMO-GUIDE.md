@@ -26,6 +26,7 @@ To demonstrate teaching workflows, you'll need:
 - Git initialized
 
 **Commands to run:**
+
 ```bash
 # Terminal title
 cd ~/projects/teaching/demo-course-new
@@ -55,6 +56,7 @@ git log --oneline | head -3
 **Objective:** Show real-time course status
 
 **Commands:**
+
 ```bash
 cd ~/projects/teaching/demo-course
 teach status
@@ -82,6 +84,7 @@ teach week
 - Latest changes on production
 
 **Commands:**
+
 ```bash
 cd ~/projects/teaching/demo-course
 
@@ -125,6 +128,7 @@ teach status
 - All materials final
 
 **Commands:**
+
 ```bash
 cd ~/projects/teaching/demo-course
 
@@ -163,11 +167,13 @@ EOF
 ### Option 1: Using asciinema (Recommended)
 
 **Install:**
+
 ```bash
 brew install asciinema
 ```
 
 **Record:**
+
 ```bash
 # Start recording
 asciinema rec teaching-demo-1.cast
@@ -179,11 +185,13 @@ asciinema rec teaching-demo-1.cast
 ```
 
 **Play:**
+
 ```bash
 asciinema play teaching-demo-1.cast
 ```
 
 **Convert to GIF:**
+
 ```bash
 # Using svg-term
 npm install -g svg-term-cli
@@ -199,11 +207,13 @@ svg-term --cast teaching-demo-1.cast --out teaching-demo-1.svg
 ### Option 2: Using ttyrec
 
 **Install:**
+
 ```bash
 brew install ttyrec
 ```
 
 **Record:**
+
 ```bash
 # Start recording
 ttyrec teaching-demo-1.ttyrec
@@ -215,6 +225,7 @@ ttyrec teaching-demo-1.ttyrec
 ```
 
 **Play:**
+
 ```bash
 ttyplay teaching-demo-1.ttyrec
 ```
@@ -230,6 +241,7 @@ ttyplay teaching-demo-1.ttyrec
 4. Stop recording
 
 **Convert to GIF:**
+
 ```bash
 # Using ffmpeg
 brew install ffmpeg
@@ -434,6 +446,7 @@ teach deploy
 ## Publishing GIFs to Documentation
 
 **File naming convention:**
+
 ```
 teaching-{command}-{action}.gif
 
@@ -445,6 +458,7 @@ Examples:
 ```
 
 **Storage location:**
+
 ```
 docs/assets/gifs/teaching/
 ├── teaching-init-setup.gif
@@ -454,6 +468,7 @@ docs/assets/gifs/teaching/
 ```
 
 **Markdown embed:**
+
 ```markdown
 ### Deploy to Students
 

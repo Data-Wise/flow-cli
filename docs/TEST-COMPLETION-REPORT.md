@@ -1,4 +1,5 @@
 # Test Suite Completion Report
+
 ## Teaching Dates Automation - Test Phase
 
 **Date**: 2026-01-16
@@ -11,6 +12,7 @@
 ## Issues Fixed
 
 ### 1. Inline Date Parsing - Long-Form Month Support
+
 **Problem**: The `_date_parse_markdown_inline()` function was only searching for abbreviated month names (Jan, Feb, etc.), missing long-form names (January, February, etc.).
 
 **Fix**: Updated the default grep pattern in line 105 of `lib/date-parser.zsh`:
@@ -24,6 +26,7 @@ grep_pattern='(January|February|March|April|May|June|July|August|September|Octob
 ```
 
 ### 2. Date Extraction Pattern Match
+
 **Problem**: The `_date_extract_from_line()` helper function regex didn't match long-form month names.
 
 **Fix**: Updated regex pattern in line 135:
@@ -37,6 +40,7 @@ if [[ "$line" =~ (January|February|March|April|May|June|July|August|September|Oc
 ```
 
 ### 3. Test Expectations - Line Number Corrections
+
 **Problem**: Test expected dates on lines 2, 4, 6, 8 but actual content was on lines 3, 5, 7, 9 (due to blank lines in markdown).
 
 **Fix**: Updated test expectations in `tests/test-date-parser.zsh`:
@@ -52,6 +56,7 @@ assert_contains "$results" "5:2025-08-26" "Extract abbreviated date from line 5"
 ```
 
 ### 4. Test Data - Missing Year
+
 **Problem**: Test data had "Aug 26" without year, being interpreted as 2026 (current year) instead of 2025.
 
 **Fix**: Added explicit year to test data in line 239:
@@ -65,6 +70,7 @@ Week 2 starts on Aug 26, 2025 and covers DAGs.
 ```
 
 ### 5. Assignment-in-If Pattern
+
 **Problem**: Using `if normalized_date=$(...)` pattern in ZSH was causing unexpected output artifacts in certain test environments.
 
 **Fix**: Separated assignment from conditional check in lines 113-117:
@@ -84,6 +90,7 @@ fi
 ```
 
 ### 6. Long-Form Date Replacement in Files
+
 **Problem**: `_date_apply_to_file()` wasn't converting long-form dates (January 20, 2025) when updating files.
 
 **Fix**: Enhanced the replacement logic to handle multiple date formats:
@@ -106,6 +113,7 @@ local new_long="$new_month_name ${new_day#0}, $new_year"
 ```
 
 ### 7. Test Count Filter
+
 **Problem**: Test was counting all output lines (including debug artifacts) instead of just valid date lines.
 
 **Fix**: Updated line counter to filter for valid date format (line_num:date):
@@ -123,6 +131,7 @@ local count=$(echo "$results" | grep "^[0-9]*:" | wc -l | tr -d ' ')
 ## Test Coverage Summary
 
 ### Test Suite 1: Date Normalization (10 tests)
+
 - ✅ ISO format pass-through
 - ✅ US format (M/D/YYYY and MM/DD/YYYY)
 - ✅ Long month format (January 22, 2025)
@@ -132,6 +141,7 @@ local count=$(echo "$results" | grep "^[0-9]*:" | wc -l | tr -d ' ')
 - ✅ Empty string handling
 
 ### Test Suite 2: Date Arithmetic (7 tests)
+
 - ✅ Add days (positive offsets)
 - ✅ Subtract days (negative offsets)
 - ✅ Month/year boundary transitions
@@ -139,6 +149,7 @@ local count=$(echo "$results" | grep "^[0-9]*:" | wc -l | tr -d ' ')
 - ✅ Large offsets (365 days)
 
 ### Test Suite 3: YAML Frontmatter Parsing (5 tests)
+
 - ✅ Extract ISO dates
 - ✅ Extract and normalize US dates
 - ✅ Skip dynamic date values (last-modified, today)
@@ -146,6 +157,7 @@ local count=$(echo "$results" | grep "^[0-9]*:" | wc -l | tr -d ' ')
 - ✅ Nested YAML date extraction
 
 ### Test Suite 4: Markdown Inline Parsing (5 tests)
+
 - ✅ Extract long-form dates (January 22, 2025)
 - ✅ Extract abbreviated dates with year (Aug 26, 2025)
 - ✅ Extract abbreviated dates with comma (Feb 24, 2025)
@@ -153,11 +165,13 @@ local count=$(echo "$results" | grep "^[0-9]*:" | wc -l | tr -d ' ')
 - ✅ Count correct number of dates
 
 ### Test Suite 5: File Discovery (6 tests)
+
 - ✅ Find files in assignments/, lectures/, exams/
 - ✅ Find root-level files (syllabus.qmd, README.md)
 - ✅ Correct file count
 
 ### Test Suite 6: Config Loading (6 tests)
+
 - ✅ Load week start dates
 - ✅ Compute relative deadlines (week + offset)
 - ✅ Load absolute deadlines
@@ -165,12 +179,14 @@ local count=$(echo "$results" | grep "^[0-9]*:" | wc -l | tr -d ' ')
 - ✅ Load holiday dates
 
 ### Test Suite 7: Week Computation (4 tests)
+
 - ✅ Compute dates from week + positive offset
 - ✅ Compute dates from week + negative offset
 - ✅ Compute dates with zero offset
 - ✅ Week-to-week transitions
 
 ### Test Suite 8: File Modification (3 tests)
+
 - ✅ Update YAML frontmatter dates
 - ✅ Update inline long-form dates (January 20 → January 22)
 - ✅ Backup file creation
@@ -199,6 +215,7 @@ local count=$(echo "$results" | grep "^[0-9]*:" | wc -l | tr -d ' ')
 With the test suite now passing at 100%, the following tasks remain:
 
 ### Task 2: Integration Tests (PENDING)
+
 Create `tests/test-teach-dates-integration.zsh` with:
 - End-to-end sync workflow tests
 - Interactive sync simulation (mocked user input)
@@ -208,6 +225,7 @@ Create `tests/test-teach-dates-integration.zsh` with:
 - Performance tests (50 files < 5 seconds)
 
 ### Task 3: Edge Case Testing (PENDING)
+
 Add tests for:
 - Empty YAML frontmatter
 - Invalid date formats in config
@@ -217,6 +235,7 @@ Add tests for:
 - Multiple YAML documents in one file
 
 ### Task 4: Documentation
+
 - Test suite README
 - Testing guide for contributors
 - Edge case documentation

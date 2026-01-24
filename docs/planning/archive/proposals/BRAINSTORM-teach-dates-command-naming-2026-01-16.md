@@ -490,6 +490,7 @@ teach dates <TAB>
    ```
 
 4. **Progress Indicators**
+
    ```bash
    teach dates sync
    → [1/8] hw01.qmd - Update due date? [y/n/a/q]

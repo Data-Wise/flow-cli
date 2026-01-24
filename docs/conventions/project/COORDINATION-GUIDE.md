@@ -114,6 +114,7 @@ Teaching projects
 4. **Coordinate releases** - Don't break downstream
 
 **Example:**
+
 ```bash
 # Before changing zsh-configuration standards
 grep -r "ALIAS-REFERENCE-CARD" ~/projects/*/README.md
@@ -140,6 +141,7 @@ A breaking change is ANY change that:
 **Before making breaking change:**
 
 1. **Document in proposal:**
+
    ```markdown
    ## Breaking Changes
 
@@ -156,6 +158,7 @@ A breaking change is ANY change that:
    ```
 
 2. **Add to CHANGELOG:**
+
    ```markdown
    ## [Unreleased]
 
@@ -166,6 +169,7 @@ A breaking change is ANY change that:
    ```
 
 3. **Create migration guide:**
+
    ```markdown
    # Migration Guide v1.0 → v2.0
 
@@ -181,6 +185,7 @@ A breaking change is ANY change that:
    - Test after updates
 
 5. **Announce in .planning/NOW.md:**
+
    ```markdown
    ## Active Coordination
 
@@ -203,6 +208,7 @@ A breaking change is ANY change that:
 
 **Process:**
 1. **Check dependency graph:**
+
    ```R
    # Which packages depend on this?
    tools::package_dependencies("medfit", reverse = TRUE)
@@ -222,12 +228,14 @@ A breaking change is ANY change that:
 
 **When updating docs:**
 1. **Build and test locally:**
+
    ```bash
    mkdocs build
    mkdocs serve  # Preview at localhost:8000
    ```
 
 2. **Check for broken links:**
+
    ```bash
    mkdocs build 2>&1 | grep -i "warning\|error"
    ```
@@ -256,12 +264,14 @@ A breaking change is ANY change that:
 **Solution:**
 
 1. **Link, don't duplicate:**
+
    ```markdown
    # In project README
    See [ZSH Alias Reference](../zsh-configuration/docs/user/ALIAS-REFERENCE-CARD.md)
    ```
 
 2. **Use templates:**
+
    ```bash
    # Copy latest template
    cp ~/projects/dev-tools/zsh-configuration/standards/adhd/QUICK-START-TEMPLATE.md \
@@ -269,6 +279,7 @@ A breaking change is ANY change that:
    ```
 
 3. **Reference source of truth:**
+
    ```markdown
    # Commit Message Standards
 
@@ -277,6 +288,7 @@ A breaking change is ANY change that:
    ```
 
 4. **Periodic audits:**
+
    ```bash
    # Check all projects for outdated docs
    grep -r "old-command" ~/projects/*/docs/
@@ -296,11 +308,13 @@ A breaking change is ANY change that:
 - `dev-planning/standards/`
 
 **Sync Command:**
+
 ```bash
 ~/projects/dev-tools/zsh-configuration/scripts/sync-standards.sh
 ```
 
 **Check Sync Status:**
+
 ```bash
 # See which version each hub has
 cat ~/projects/project-hub/standards/.version
@@ -328,11 +342,13 @@ cat ~/projects/dev-tools/dev-planning/standards/.version
 1. **Update source:** `zsh-configuration/standards/documentation/WEBSITE-DESIGN-GUIDE.md`
 
 2. **Run sync script:**
+
    ```bash
    ~/projects/dev-tools/zsh-configuration/scripts/sync-standards.sh
    ```
 
 3. **Document change:**
+
    ```markdown
    ## CHANGELOG
 
@@ -343,12 +359,14 @@ cat ~/projects/dev-tools/dev-planning/standards/.version
    ```
 
 4. **Identify affected projects:**
+
    ```bash
    find ~/projects -name "mkdocs.yml" -type f
    # Lists all projects with documentation sites
    ```
 
 5. **Create propagation plan:**
+
    ```markdown
    ## Standards Propagation Plan
 
@@ -363,6 +381,7 @@ cat ~/projects/dev-tools/dev-planning/standards/.version
    ```
 
 6. **Track in .planning/NOW.md:**
+
    ```markdown
    ## Active Coordination
 
@@ -476,6 +495,7 @@ vim ~/projects/.planning/ROADMAP.md
 **When two projects need incompatible changes:**
 
 1. **Document conflict:**
+
    ```markdown
    # Conflict Log
 
@@ -509,6 +529,7 @@ vim ~/projects/.planning/ROADMAP.md
 
 **Immediate:**
 1. **Identify scope:**
+
    ```bash
    # What's broken?
    # Which projects affected?
@@ -516,12 +537,14 @@ vim ~/projects/.planning/ROADMAP.md
    ```
 
 2. **Rollback if critical:**
+
    ```bash
    git revert <commit>
    # Or restore from backup
    ```
 
 3. **Document incident:**
+
    ```markdown
    # Incident Log
    Date: 2025-12-19

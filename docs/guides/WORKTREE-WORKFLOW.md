@@ -23,6 +23,7 @@ Learn how to combine git worktrees with Claude Code for safe, parallel developme
 ### The Problem with Branch Switching
 
 **Traditional git workflow:**
+
 ```bash
 git checkout -b experiment-refactor
 # Work on experiment...
@@ -86,6 +87,7 @@ git worktree list
 ```
 
 **Output:**
+
 ```
 /Users/dt/projects/flow-cli          abc123 [main]
 /Users/dt/.git-worktrees/flow-cli-refactor  def456 [feature/refactor]
@@ -131,18 +133,21 @@ cc wt status
 ### Mode-First Pattern (NEW!)
 
 **YOLO mode:**
+
 ```bash
 cc yolo wt feature/refactor     # Mode → worktree
 cc yolo wt pick                 # Mode → worktree picker
 ```
 
 **Plan mode:**
+
 ```bash
 cc plan wt feature/refactor     # Plan mode in worktree
 cc plan wt pick                 # Pick worktree for planning
 ```
 
 **Model selection:**
+
 ```bash
 cc opus wt experiment/ui        # Opus model in worktree
 cc haiku wt feature/docs        # Haiku model in worktree
@@ -151,6 +156,7 @@ cc haiku wt feature/docs        # Haiku model in worktree
 ### Backward Compatible Pattern
 
 **Old syntax still works:**
+
 ```bash
 cc wt yolo feature/refactor     # Target → mode (still works)
 cc wt plan feature/refactor     # Target → mode (still works)
@@ -158,6 +164,7 @@ cc wt opus experiment/ui        # Target → mode (still works)
 ```
 
 **Aliases:**
+
 ```bash
 ccw feature/refactor            # cc wt
 ccwy feature/refactor           # cc wt yolo
@@ -317,6 +324,7 @@ cc wt status
 ```
 
 **Output:**
+
 ```
 Worktrees with Claude Session Info
 ────────────────────────────────────────
@@ -354,6 +362,7 @@ cc wt pick
 ### 1. Worktrees Don't Replace Git Safety
 
 **Still required:**
+
 ```bash
 # Before YOLO in worktree
 cd ~/.git-worktrees/flow-cli-experiment
@@ -371,6 +380,7 @@ git add -p                    # Stage selectively
 ### 2. Cleanup Regularly
 
 **Find stale worktrees:**
+
 ```bash
 wt list
 # Or
@@ -384,6 +394,7 @@ wt remove feature/completed
 ### 3. Keep Main Clean
 
 **Never work directly in main worktree during experiments:**
+
 ```bash
 # Good: Separate worktree for experiment
 cc yolo wt experiment/risky-change
@@ -408,6 +419,7 @@ cc yolo                       # ❌ Too risky!
 ### 5. One Claude Session Per Worktree
 
 **Avoid confusion:**
+
 ```bash
 # Good: One session
 cd ~/.git-worktrees/flow-cli-feature-auth
@@ -507,6 +519,7 @@ git commit -m "feat: migrate to async architecture"
 **Error:** `fatal: 'feature/auth' is already checked out at '...'`
 
 **Solution:** Branch already has a worktree
+
 ```bash
 # List existing worktrees
 wt list
@@ -523,6 +536,7 @@ cd ~/.git-worktrees/flow-cli-feature-auth
 **Error:** Created worktree but can't remember path
 
 **Solution:**
+
 ```bash
 # List all worktrees with full paths
 wt list
@@ -536,6 +550,7 @@ cc wt pick
 **Problem:** Worktree doesn't have latest changes
 
 **Solution:** Pull in worktree
+
 ```bash
 cd ~/.git-worktrees/flow-cli-feature-auth
 git status
@@ -555,6 +570,7 @@ git pull origin feature/auth
 **Problem:** Too many old worktrees
 
 **Solution:** Cleanup
+
 ```bash
 # List all worktrees
 wt list
@@ -618,6 +634,7 @@ git worktree prune
 ## Quick Reference
 
 ### Create & Launch
+
 ```bash
 cc wt <branch>              # acceptEdits mode
 cc yolo wt <branch>         # YOLO mode
@@ -626,6 +643,7 @@ cc opus wt <branch>         # Opus model
 ```
 
 ### Pick Existing
+
 ```bash
 cc wt pick                  # acceptEdits mode
 cc yolo wt pick             # YOLO mode
@@ -633,6 +651,7 @@ cc plan wt pick             # Plan mode
 ```
 
 ### Status & Management
+
 ```bash
 cc wt status                # Show all with sessions
 wt list                     # List all worktrees
@@ -640,6 +659,7 @@ wt remove <branch>          # Delete worktree
 ```
 
 ### Aliases
+
 ```bash
 ccw <branch>                # cc wt
 ccwy <branch>               # cc wt yolo

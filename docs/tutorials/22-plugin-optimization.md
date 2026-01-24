@@ -44,6 +44,7 @@ cat flow.plugin.zsh | grep -n "source.*teach"
 ```
 
 **Output:**
+
 ```
 49: source "$FLOW_PLUGIN_DIR/lib/concept-extraction.zsh"
 50: source "$FLOW_PLUGIN_DIR/lib/prerequisite-checker.zsh"
@@ -64,6 +65,7 @@ head -20 commands/teach-analyze.zsh | grep source
 ```
 
 **Output:**
+
 ```zsh
 source "${0:A:h:h}/lib/concept-extraction.zsh"
 source "${0:A:h:h}/lib/prerequisite-checker.zsh"
@@ -97,6 +99,7 @@ flow.plugin.zsh L63:    Glob sources commands/*.zsh
 The solution: each library protects itself from re-sourcing.
 
 **Pattern:**
+
 ```zsh
 # Guard against double-sourcing
 if [[ -n "$_FLOW_CONCEPT_EXTRACTION_LOADED" ]]; then
@@ -171,6 +174,7 @@ echo "Load guards check:"
 ```
 
 **Expected output:**
+
 ```
 Load guards check:
   concept-extraction: ✅
@@ -189,6 +193,7 @@ grep -n "^_display_" commands/teach-analyze.zsh
 ```
 
 **Output:**
+
 ```
 27: _display_analysis_header() {
 43: _display_concepts_section() {
@@ -253,6 +258,7 @@ source "${0:A:h:h}/lib/analysis-display.zsh"
 ### Step 10: Understand the Collision
 
 **Current code:**
+
 ```zsh
 local slide_cache_file="$course_dir/.teach/slide-optimization-${file_path:t:r}.json"
 ```
@@ -267,6 +273,7 @@ local slide_cache_file="$course_dir/.teach/slide-optimization-${file_path:t:r}.j
 ### Step 11: Mirror Directory Structure
 
 **New approach:**
+
 ```zsh
 # Mirror source directory structure in cache
 local relative_path="${file_path#$course_dir/}"  # Strip prefix
@@ -371,6 +378,7 @@ fi
 ```
 
 **Expected output:**
+
 ```
 =========================================
   flow-cli Local Test Suite
@@ -470,12 +478,14 @@ typeset -g _FLOW_*_LOADED=1
 ### Cache Path Best Practices
 
 **Flat structure (bad):**
+
 ```
 .teach/cache-file1.json
 .teach/cache-file2.json
 ```
 
 **Mirrored structure (good):**
+
 ```
 .teach/cache/lectures/week-05/file1.json
 .teach/cache/labs/week-05/file2.json
@@ -494,6 +504,7 @@ typeset -g _FLOW_*_LOADED=1
 ## Practice Exercises
 
 1. **Find double-sourcing in your own project:**
+
    ```bash
    # Trace your plugin's load chain
    grep -rn "source" flow.plugin.zsh lib/ commands/

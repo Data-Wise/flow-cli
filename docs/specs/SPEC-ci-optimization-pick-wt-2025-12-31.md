@@ -50,12 +50,14 @@ Two issues to address:
 ### Recommended Approach
 
 **Option A: Remove macOS job (Fastest)**
+
 ```yaml
 # Only keep zsh-tests job, remove macos-tests entirely
 # ZSH is platform-agnostic, cross-platform stat already fixed
 ```
 
 **Option B: Make macOS non-blocking**
+
 ```yaml
 macos-tests:
   name: macOS Tests
@@ -64,6 +66,7 @@ macos-tests:
 ```
 
 **Option C: Run macOS only on main**
+
 ```yaml
 macos-tests:
   if: github.ref == 'refs/heads/main'
@@ -90,6 +93,7 @@ macos-tests:
 ### Fix
 
 1. **Add error message in pick.zsh:**
+
 ```zsh
 if [[ "$category" == "wt" ]]; then
     if [[ -z "$PROJ_WORKTREE_DIR" ]]; then
@@ -100,11 +104,12 @@ if [[ "$category" == "wt" ]]; then
 fi
 ```
 
-2. **Update documentation:**
+1. **Update documentation:**
    - Add setup instructions to `docs/getting-started/quick-start.md`
    - Add to `docs/reference/PICK-REFERENCE.md`
 
-3. **User configuration:**
+2. **User configuration:**
+
 ```zsh
 # In ~/.zshrc
 export PROJ_WORKTREE_DIR="$HOME/projects/.worktrees"

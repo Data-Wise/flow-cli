@@ -163,6 +163,7 @@ teach lecture --revise lecture.md --no-practice-problems --references
 3. Result: Improved content with new additions
 
 **Example:**
+
 ```bash
 teach slides --revise slides.qmd --diagrams
 # → Select "Add missing content"
@@ -216,6 +217,7 @@ teach slides --revise slides/week-08.qmd
 ```
 
 **Preview Output:**
+
 ```
 📝 Revising: slides/week-08.qmd
 📅 Last modified: 2026-01-17 14:30
@@ -234,6 +236,7 @@ Git diff:
 ```
 
 **No Git Repo?**
+
 ```
 📝 Revising: slides.qmd
 📅 Last modified: 2026-01-17 14:30
@@ -288,6 +291,7 @@ course:
 ```
 
 **With Context:**
+
 ```markdown
 # Multiple Regression
 
@@ -297,6 +301,7 @@ Week 6 and prepare for time series in Week 12.
 ```
 
 **Without Context:**
+
 ```markdown
 # Multiple Regression
 
@@ -348,6 +353,7 @@ teach exam "Topic" --style rigorous --no-proof --diagrams --examples
 ```
 
 **Resolution:**
+
 ```
 1. Start: rigorous preset
    → definitions, explanation, math, proof
@@ -374,6 +380,7 @@ teach quiz "ANOVA" -e -m -x -c -d
 ```
 
 **Expands to:**
+
 ```
 --explanation --math --examples --code --diagrams
 ```
@@ -440,6 +447,7 @@ Understand performance characteristics for efficient workflows.
 ### Optimization Strategies
 
 **1. Use Lesson Plans**
+
 ```bash
 # Slow (type full topic each time)
 teach slides "Multiple Linear Regression with Diagnostics" --style computational
@@ -449,6 +457,7 @@ teach slides -w 8
 ```
 
 **2. Batch Non-Interactive**
+
 ```bash
 # Interactive mode requires waiting for each prompt
 for week in {1..16}; do teach slides -i -w $week; done  # Slow
@@ -462,6 +471,7 @@ Scholar reads context files each time. Keep them small (<500 chars) for speed.
 
 **4. Use --dry-run**
 Preview commands without calling Scholar:
+
 ```bash
 teach exam -w 8 --style rigorous --dry-run
 # Shows what would be generated (instant)
@@ -711,7 +721,7 @@ teach slides --revise slides.qmd  # Option 5 (polish)
 
 ---
 
-## Tutorial Series Complete!
+## Tutorial Series Complete
 
 **Congratulations!** You've completed all three Scholar Enhancement tutorials.
 

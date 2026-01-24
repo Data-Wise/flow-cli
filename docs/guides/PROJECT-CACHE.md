@@ -261,6 +261,7 @@ If cache operations fail (permissions, disk full, etc.):
 **Symptom:** `pick` still slow (~200ms)
 
 **Check:**
+
 ```bash
 # 1. Verify cache is enabled
 echo $FLOW_CACHE_ENABLED  # Should be 1 or empty (default enabled)
@@ -273,6 +274,7 @@ ls -lh ~/.cache/flow-cli/projects.cache
 ```
 
 **Solutions:**
+
 ```bash
 # Force cache regeneration
 flow cache refresh
@@ -288,6 +290,7 @@ flow cache clear && flow cache refresh 2>&1 | grep -i error
 **Cause:** Cache hasn't refreshed yet (< 5 min since last refresh)
 
 **Solutions:**
+
 ```bash
 # Quick fix: Force refresh
 flow cache refresh
@@ -301,6 +304,7 @@ export PROJ_CACHE_TTL=60  # 1 minute
 **Symptom:** `flow cache status` reports "Invalid cache file"
 
 **Solution:**
+
 ```bash
 # Clear and rebuild
 flow cache clear

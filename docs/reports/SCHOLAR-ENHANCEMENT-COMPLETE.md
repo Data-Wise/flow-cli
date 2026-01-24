@@ -38,6 +38,7 @@ The Scholar Enhancement is a comprehensive 6-phase system that extends the teach
 - Topic/week selection with priority handling
 
 **Example:**
+
 ```bash
 teach slides -w 8 --style computational --diagrams --no-practice-problems
 # → explanation, examples, code, diagrams (no practice-problems)
@@ -57,6 +58,7 @@ teach slides -w 8 --style computational --diagrams --no-practice-problems
 - Graceful degradation without yq
 
 **Example:**
+
 ```bash
 teach slides -i
 # → Shows topic menu → User selects Week 8
@@ -79,6 +81,7 @@ teach slides -i
 - 38 integration tests (100% passing)
 
 **Example:**
+
 ```bash
 teach slides --revise slides/week-08.qmd --context --diagrams
 # → Shows diff preview
@@ -283,42 +286,49 @@ Total overhead:       ~25KB  (Negligible)
 ### Simple → Complex Progression
 
 **Level 1: Basic (v5.12.0 compatible)**
+
 ```bash
 teach slides "Topic"
 teach exam "Topic"
 ```
 
 **Level 2: Style Presets**
+
 ```bash
 teach slides "Topic" --style computational
 teach exam "Topic" --style rigorous
 ```
 
 **Level 3: Content Customization**
+
 ```bash
 teach slides "Topic" --style computational --diagrams
 teach exam "Topic" --style rigorous --no-proof
 ```
 
 **Level 4: Week-based (Lesson Plans)**
+
 ```bash
 teach slides -w 8
 teach exam -w 8 --style rigorous
 ```
 
 **Level 5: Interactive**
+
 ```bash
 teach slides -i
 teach exam -i --context
 ```
 
 **Level 6: Revision**
+
 ```bash
 teach slides --revise slides/week-08.qmd
 teach exam --revise exam.qmd --math --examples
 ```
 
 **Level 7: Advanced Combinations**
+
 ```bash
 teach slides -i --context --diagrams --references
 teach exam --revise exam.qmd --context --style rigorous
@@ -448,12 +458,14 @@ teach exam --revise exam.qmd --context --style rigorous
    - Try basic examples
 
 2. **Use Help System:**
+
    ```bash
    teach slides help
    # Shows all universal flags + slides-specific options
    ```
 
 3. **Try Interactive Mode:**
+
    ```bash
    teach slides -i
    # Step-by-step wizard
@@ -472,6 +484,7 @@ teach exam --revise exam.qmd --context --style rigorous
    - `IMPLEMENTATION-PHASES-5-6.md`
 
 3. **Run Tests:**
+
    ```bash
    ./tests/test-teach-flags-phase1-2.zsh
    ./tests/test-teach-integration-phases-1-6.zsh

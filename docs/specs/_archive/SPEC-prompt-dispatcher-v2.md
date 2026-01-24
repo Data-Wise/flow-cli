@@ -99,6 +99,7 @@ Each engine is defined by:
 ### Engine Specifications
 
 #### Engine 1: Powerlevel10k
+
 ```
 Name: powerlevel10k
 Display: Powerlevel10k
@@ -110,6 +111,7 @@ Init Method: source ~/.config/zsh/.p10k.zsh (after antidote loads)
 ```
 
 #### Engine 2: Starship
+
 ```
 Name: starship
 Display: Starship
@@ -122,6 +124,7 @@ Status: ✅ Currently installed and configured
 ```
 
 #### Engine 3: OhMyPosh (NEW)
+
 ```
 Name: ohmyposh
 Display: Oh My Posh
@@ -182,6 +185,7 @@ fi
 **Purpose:** Show which engine is active and what alternatives are available
 
 **Output Format: Formatted Table**
+
 ```
 Prompt Engines:
 
@@ -215,12 +219,15 @@ To switch: prompt toggle
 
 **Behavior:**
 - 2 engines: Show simple menu
+
   ```
   Which prompt engine would you like to use?
   1) starship
   2) powerlevel10k
   ```
+
 - 3+ engines: Show full menu
+
   ```
   Which prompt engine would you like to use?
   1) starship
@@ -296,6 +303,7 @@ To switch: prompt toggle
 **Purpose:** Display comprehensive information about all engines
 
 **Output Format:**
+
 ```
 Available Prompt Engines:
 
@@ -319,6 +327,7 @@ Legend: ● = current, ○ = available
 ### 7. `prompt help` - Display Help
 
 **Output Format:**
+
 ```
 🎨 PROMPT DISPATCHER v5.7.0
    Manage multiple prompt engines: Powerlevel10k, Starship, OhMyPosh
@@ -432,6 +441,7 @@ Fix these issues? (y/n)
 - ✅ Clear error messages and next steps
 
 **Flow Doctor Fix Process:**
+
 ```
 1. Analyze current state (via _doctor_prompt_engines)
 2. Determine what's missing
@@ -443,6 +453,7 @@ Fix these issues? (y/n)
 ```
 
 **User Experience:**
+
 ```
 Installing Oh My Posh...
   ✓ Binary installed via homebrew
@@ -580,6 +591,7 @@ _create_engine_config() {
 - No hardcoded paths (more portable)
 
 **Check Logic:**
+
 ```bash
 # Check Starship
 command -v starship >/dev/null 2>&1
@@ -600,6 +612,7 @@ command -v antidote >/dev/null 2>&1
 - ❌ Provide debugging steps
 
 Example:
+
 ```
 ⚠️  Starship config is invalid
    File: ~/.config/starship.toml
@@ -627,6 +640,7 @@ Manual fix:
 ### Diagnostic Output Examples
 
 #### All Healthy
+
 ```
 🎨 Prompt Engines: ✅ All healthy
   ● Powerlevel10k - installed & configured
@@ -638,6 +652,7 @@ Manual fix:
 ```
 
 #### Missing Optional Engine
+
 ```
 🎨 Prompt Engines: ⚠️  Suboptimal setup
   ● Powerlevel10k - installed & configured
@@ -652,6 +667,7 @@ Status: Working (2/3 engines available)
 ```
 
 #### Broken Configuration
+
 ```
 🎨 Prompt Engines: ⚠️  Config issue
   ● Powerlevel10k - installed & configured
@@ -670,6 +686,7 @@ Manual fix:
 ```
 
 #### Missing Antidote
+
 ```
 🎨 Prompt Engines: ⚠️  Dependency issue
   ❌ Antidote not found
@@ -689,6 +706,7 @@ Status: Partially working (1/3 engines available)
 ### User Workflow
 
 #### Scenario 1: First Time Setup
+
 ```
 $ flow doctor
 
@@ -704,6 +722,7 @@ Fix prompt engines? (y/n) y
 ```
 
 #### Scenario 2: Troubleshooting
+
 ```
 $ flow doctor
 
@@ -719,6 +738,7 @@ User: Selects 'Prompt engines'
 ```
 
 #### Scenario 3: Maintenance Check
+
 ```
 $ flow doctor
 
@@ -825,6 +845,7 @@ _prompt_toggle() {
 ### Command Examples
 
 **Example 1: Check Status**
+
 ```
 $ prompt status
 
@@ -844,6 +865,7 @@ Prompt Engines:
 ```
 
 **Example 2: Toggle Interactively**
+
 ```
 $ prompt toggle
 
@@ -858,6 +880,7 @@ Which prompt engine would you like to use?
 ```
 
 **Example 3: Force Switch**
+
 ```
 $ prompt starship
 ✅ Switched to Starship
@@ -866,6 +889,7 @@ $ prompt starship
 ```
 
 **Example 4: List All Engines**
+
 ```
 $ prompt list
 
@@ -881,6 +905,7 @@ Legend: ● = current, ○ = available
 ```
 
 **Example 5: Validation Error**
+
 ```
 $ prompt ohmyposh
 ❌ Oh My Posh not found in PATH
@@ -918,6 +943,7 @@ All switching operations:
 ### Dispatcher Behavior with Missing Dependencies
 
 **Missing Engine Binary:**
+
 ```bash
 $ prompt starship
 
@@ -934,6 +960,7 @@ Or use flow doctor:
 ```
 
 **Missing Engine Config:**
+
 ```bash
 $ prompt ohmyposh
 
@@ -948,6 +975,7 @@ Ready to switch to Oh My Posh? (y/n)
 ```
 
 **Invalid/Broken Config:**
+
 ```bash
 $ prompt starship
 
@@ -972,6 +1000,7 @@ Or create from template:
 **Command:** `prompt setup-ohmyposh`
 
 **Interactive Workflow:**
+
 ```
 Welcome to OhMyPosh Setup Wizard!
 
@@ -1007,6 +1036,7 @@ Switch: prompt ohmyposh
 ## Testing Strategy
 
 ### Unit Tests (test-prompt-dispatcher.zsh)
+
 - 50+ comprehensive tests covering:
   - All subcommands work correctly
   - Menu rendering (2-engine, 3-engine cases)
@@ -1016,12 +1046,14 @@ Switch: prompt ohmyposh
   - Help output
 
 ### E2E Tests
+
 - Actual engine switching in fresh shell
 - Verify correct engine loads
 - Test toggle menu interaction
 - Test all three engines sequentially
 
 ### Validation Tests
+
 - Check if installed engines detected
 - Check if missing engines properly fail
 - Verify config paths are correct
@@ -1031,10 +1063,12 @@ Switch: prompt ohmyposh
 ## Documentation
 
 ### Reference
+
 - Add `prompt` section to `docs/reference/DISPATCHER-REFERENCE.md`
 - Add to `docs/reference/COMMAND-QUICK-REFERENCE.md`
 
 ### Guides
+
 - Create `docs/guides/PROMPT-DISPATCHER-GUIDE.md` with:
   - All commands explained
   - Examples for each
@@ -1042,6 +1076,7 @@ Switch: prompt ohmyposh
   - Troubleshooting section
 
 ### CLAUDE.md Updates
+
 - Add prompt to dispatcher quick reference
 - Document engine switching in ADHD-friendly guide
 
@@ -1050,6 +1085,7 @@ Switch: prompt ohmyposh
 ## Roadmap
 
 ### v5.7.0 - MVP
+
 - ✅ Three prompt engines (p10k, starship, ohmyposh)
 - ✅ Status, toggle, list, help commands
 - ✅ Validation before switching
@@ -1057,6 +1093,7 @@ Switch: prompt ohmyposh
 - ✅ Complete tests and docs
 
 ### v5.8.0+ - Future Enhancements
+
 - `prompt theme` - Manage themes per engine
 - `prompt history` - Show toggle history
 - `prompt profile` - Performance metrics

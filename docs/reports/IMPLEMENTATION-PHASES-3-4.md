@@ -45,6 +45,7 @@
 - Uses lesson plan style as default (can be overridden)
 
 **Global Variables Set:**
+
 ```zsh
 TEACH_PLAN_TOPIC           # Topic from lesson plan
 TEACH_PLAN_STYLE           # Style preset from lesson plan
@@ -87,6 +88,7 @@ TEACH_RESOLVED_STYLE       # Final style (plan or override)
 - Wizard sets `TEACH_WEEK` which triggers Phase 3
 
 **UI Design:**
+
 ```
 ╭────────────────────────────────────────────────╮
 │ 🎓 Interactive Teaching Content Generator     │
@@ -203,9 +205,11 @@ prerequisites:
 ```
 
 ### Required Fields
+
 - `topic` - The week's topic (string)
 
 ### Optional Fields
+
 - `style` - Default style preset (conceptual, computational, rigorous, applied)
 - `objectives` - Learning objectives (array)
 - `subtopics` - Subtopics to cover (array)
@@ -355,6 +359,7 @@ _teach_scholar_wrapper <subcommand> [args...]
 ### Memory Footprint
 
 **New Structures:**
+
 ```
 Lesson plan globals:    ~3KB  (6 variables)
 Interactive functions:  ~12KB (3 functions)

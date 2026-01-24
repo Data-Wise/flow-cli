@@ -35,33 +35,43 @@ Enhance the teach dispatcher with:
 ## Design Decisions (From Brainstorm)
 
 ### Content Flag Structure
+
 **Decision:** Hybrid approach - presets for common combos + individual flags for fine-tuning
 
 ### Available Presets
+
 **Decision:** 4 presets (conceptual, computational, rigorous, applied)
 
 ### Override Behavior
+
 **Decision:** Add and remove - `--style rigorous --no-proof` removes proof from rigorous preset
 
 ### Default Behavior
+
 **Decision:** In `-i` mode prompt for style; otherwise use balanced default
 
 ### Topic/Week Relationship
+
 **Decision:** Must specify either `--topic` or `--week` (no auto-detection)
 
 ### Lesson Plan Usage
+
 **Decision:** Lesson plan provides defaults, flags override specific items
 
 ### Diagrams
+
 **Decision:** Always opt-in - `--diagrams` flag required; never auto-included
 
 ### Conflict Handling
+
 **Decision:** Conflicting flags cause validation error with helpful message
 
 ### Topic Override
+
 **Decision:** Explicit `--topic` means don't use lesson plan at all
 
 ### Missing Lesson Plan
+
 **Decision:** Prompt interactively - "No plan found. Continue with topic '[X]'? [Y/n]"
 
 ---
@@ -165,6 +175,7 @@ teach slides -w 8 --style computational --diagrams --no-practice-problems
 ## Lesson Plan Schema
 
 ### Location
+
 `.flow/lesson-plans/week-{NN}.yml`
 
 ### Schema (Standard)
@@ -501,24 +512,28 @@ test_teach_slides_conflict_error()
 ## Implementation Phases
 
 ### Phase 1: Flag Infrastructure (3h)
+
 - [ ] Add flags to TEACH_*_FLAGS
 - [ ] Implement `_teach_validate_content_flags()`
 - [ ] Implement conflict detection
 - [ ] Add tests for flag parsing
 
 ### Phase 2: Preset System (2h)
+
 - [ ] Define preset content maps
 - [ ] Implement `_teach_resolve_content()`
 - [ ] Add interactive style selection
 - [ ] Add tests for preset resolution
 
 ### Phase 3: Lesson Plan Integration (2h)
+
 - [ ] Implement `_teach_load_lesson_plan()`
 - [ ] Create lesson plan schema validation
 - [ ] Add missing plan prompt
 - [ ] Add tests for lesson plan loading
 
 ### Phase 4: Scholar Integration (2h)
+
 - [ ] Pass resolved content to Scholar command
 - [ ] Update `_teach_scholar_wrapper()` with content flags
 - [ ] End-to-end testing

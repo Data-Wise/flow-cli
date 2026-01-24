@@ -191,6 +191,7 @@ User invokes pick wt
 ### Wireframes (ASCII)
 
 **Worktree List View:**
+
 ```
 ╔════════════════════════════════════════════════════════════╗
 ║  🌳 WORKTREE PICKER                                        ║
@@ -209,6 +210,7 @@ User invokes pick wt
 ```
 
 **After Navigation:**
+
 ```
   📂 Changed to: ~/.git-worktrees/scribe/live-editor-enhancements
 
@@ -278,6 +280,7 @@ User invokes pick wt
 ### Claude Keybinding Context Awareness
 
 **Problem:** `cc pick` and `cc yolo pick` already launch Claude after pick completes:
+
 ```zsh
 # In cc-dispatcher.zsh:
 pick "$@" && claude --permission-mode acceptEdits  # cc pick
@@ -341,7 +344,8 @@ pick --no-claude "$@" && claude --permission-mode acceptEdits
 [Enter] cd  │  [^S] Status  │  [^L] Log  │  [^W] Worktrees
 ```
 
-4. **Format string:** Use printf with fixed widths for alignment:
+1. **Format string:** Use printf with fixed widths for alignment:
+
    ```zsh
    printf "%-25s %-5s %-3s %s\n" "$name" "$icon" "$type" "$session"
    ```

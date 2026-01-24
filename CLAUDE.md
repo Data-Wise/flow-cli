@@ -7,11 +7,33 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management.
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
+- **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
 - **Current Version:** v5.17.0-dev (In Development)
 - **Latest Release:** v5.16.0 (2026-01-22)
-- **Install:** Via plugin manager (antidote, zinit, oh-my-zsh)
+- **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
+
+### Independence Note
+
+**IMPORTANT:** flow-cli is a **standalone ZSH plugin** with zero external dependencies:
+
+- ✅ Works WITHOUT Oh-My-Zsh (OMZ)
+- ✅ Works WITHOUT any plugin manager
+- ✅ Works WITHOUT any external plugins
+- ✅ OMZ is ONE installation method, NOT a requirement
+- ✅ References to OMZ in code are for USER detection/support only
+
+**User Detection Logic:**
+
+```zsh
+# flow-cli DETECTS user's setup (doesn't require it)
+if [[ -d "$HOME/.oh-my-zsh" ]]; then
+    # User has OMZ → show relevant help
+elif [[ -f "$HOME/.antidoterc" ]]; then
+    # User has antidote → show relevant help
+fi
+```
 
 ### User Environment
 

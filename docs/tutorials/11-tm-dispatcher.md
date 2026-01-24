@@ -137,6 +137,7 @@ tm detect
 ```
 
 **Sample output:**
+
 ```
 Terminal: iTerm2
 Project: flow-cli (zsh)

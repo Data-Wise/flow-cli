@@ -32,6 +32,7 @@ teach doctor
 ```
 
 **Output:**
+
 ```
 ╭────────────────────────────────────────────────────────────╮
 │  📚 Teaching Environment Health Check                       │
@@ -315,6 +316,7 @@ local -a json_results  # JSON result array
 ### Helper Functions
 
 **Output Helpers:**
+
 ```zsh
 _teach_doctor_pass "message"              # ✓ green
 _teach_doctor_warn "message" "fix hint"   # ⚠ yellow
@@ -322,11 +324,13 @@ _teach_doctor_fail "message" "fix hint"   # ✗ red
 ```
 
 **Interactive Fix:**
+
 ```zsh
 _teach_doctor_interactive_fix "name" "install_cmd" ["optional"]
 ```
 
 **Specialized Checks:**
+
 ```zsh
 _teach_doctor_check_dep "name" "cmd" "fix_cmd" "required"
 _teach_doctor_check_r_packages
@@ -488,6 +492,7 @@ Uses flow-cli standard colors:
 ### Common Issues
 
 **Issue:** `yq` not found but installed
+
 ```bash
 # Check PATH
 which yq
@@ -497,6 +502,7 @@ brew reinstall yq
 ```
 
 **Issue:** R packages check fails
+
 ```bash
 # Install R packages manually
 R
@@ -504,6 +510,7 @@ R
 ```
 
 **Issue:** Git hooks show as "not installed" but exist
+
 ```bash
 # Check hook permissions
 ls -la .git/hooks/
@@ -513,6 +520,7 @@ chmod +x .git/hooks/pre-commit
 ```
 
 **Issue:** Cache freshness check incorrect
+
 ```bash
 # Verify _freeze timestamps
 find _freeze -type f -exec stat -f "%m %N" {} \; | sort -rn | head

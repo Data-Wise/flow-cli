@@ -6,7 +6,7 @@
 
 ---
 
-## ✅ YES, Add Mermaid Diagrams!
+## ✅ YES, Add Mermaid Diagrams
 
 **Your Question:** Should we include Mermaid diagrams for `dash` and other commands?
 
@@ -260,6 +260,7 @@ Before publishing each diagram:
    - Verify diagrams render correctly
 
 5. **Ship it!**
+
    ```bash
    git add docs/commands/dash.md
    git commit -m "docs: add dash command with Mermaid diagrams"

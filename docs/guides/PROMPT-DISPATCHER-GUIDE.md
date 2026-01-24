@@ -108,6 +108,7 @@ $ prompt starship
 - Config file at `~/.config/starship.toml`
 
 **Error Examples:**
+
 ```bash
 $ prompt starship
 ❌ Starship not found in PATH
@@ -172,6 +173,7 @@ $ prompt setup-ohmyposh
 4. Shows next steps for customization
 
 **Next Steps After Setup:**
+
 ```bash
 # Customize your configuration
 nano ~/.config/ohmyposh/config.json
@@ -205,6 +207,7 @@ The currently active prompt engine. Set automatically when you switch engines.
 - `ohmyposh` - Oh My Posh
 
 **Usage:**
+
 ```bash
 # See current engine
 echo $FLOW_PROMPT_ENGINE
@@ -220,6 +223,7 @@ export FLOW_PROMPT_ENGINE="starship"
 Assuming you use the recommended `antidote` plugin manager:
 
 **1. Install via antidote:**
+
 ```bash
 # Add to ~/.config/zsh/.zsh_plugins.txt
 romkatv/powerlevel10k
@@ -230,16 +234,19 @@ antidote install
 
 **2. Configure:**
 On first load, Powerlevel10k shows a configuration wizard. Or:
+
 ```bash
 p10k configure
 ```
 
 **3. Verify:**
+
 ```bash
 prompt status
 ```
 
 **4. Switch to it:**
+
 ```bash
 prompt p10k
 ```
@@ -249,11 +256,13 @@ prompt p10k
 Starship is a minimal, language-agnostic prompt engine.
 
 **1. Install:**
+
 ```bash
 brew install starship
 ```
 
 **2. Create basic config:**
+
 ```bash
 mkdir -p ~/.config
 starship config  # Validates existing config
@@ -262,11 +271,13 @@ starship config  # Validates existing config
 Starship provides a default configuration if none exists.
 
 **3. Customize (optional):**
+
 ```bash
 nano ~/.config/starship.toml
 ```
 
 **4. Switch to it:**
+
 ```bash
 prompt starship
 ```
@@ -276,11 +287,13 @@ prompt starship
 Oh My Posh provides extensive themes and customization.
 
 **1. Install:**
+
 ```bash
 brew install oh-my-posh
 ```
 
 **2. Use setup wizard:**
+
 ```bash
 prompt setup-ohmyposh
 ```
@@ -288,12 +301,14 @@ prompt setup-ohmyposh
 This creates `~/.config/ohmyposh/config.json` with defaults.
 
 **3. Customize (optional):**
+
 ```bash
 nano ~/.config/ohmyposh/config.json
 oh-my-posh config  # Validate
 ```
 
 **4. Switch to it:**
+
 ```bash
 prompt ohmyposh
 ```
@@ -303,12 +318,14 @@ prompt ohmyposh
 ### "Engine not found in PATH"
 
 Example:
+
 ```
 ❌ Starship not found in PATH
 Install with: brew install starship
 ```
 
 **Solution:**
+
 ```bash
 brew install starship
 # Restart shell
@@ -318,11 +335,13 @@ exec zsh
 ### "Config missing"
 
 Example:
+
 ```
 ⚠️  OhMyPosh config missing at ~/.config/ohmyposh/config.json
 ```
 
 **Solution:**
+
 ```bash
 prompt setup-ohmyposh
 # Or manually create the config
@@ -335,6 +354,7 @@ prompt setup-ohmyposh
 2. `.zshrc` doesn't check `FLOW_PROMPT_ENGINE`
 
 **Solution:**
+
 ```bash
 # Reload shell manually
 exec zsh -i
@@ -343,17 +363,20 @@ exec zsh -i
 ### Antidote not finding Powerlevel10k
 
 **Check:**
+
 ```bash
 grep powerlevel10k ~/.config/zsh/.zsh_plugins.txt
 ```
 
 **Solution:**
 Add to `.zsh_plugins.txt`:
+
 ```
 romkatv/powerlevel10k
 ```
 
 Then reload antidote:
+
 ```bash
 antidote install
 exec zsh

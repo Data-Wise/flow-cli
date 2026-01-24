@@ -13,7 +13,9 @@
 
 ```bash
 # 1. Install
-antidote install data-wise/flow-cli   # or: zinit light data-wise/flow-cli
+brew install data-wise/tap/flow-cli   # macOS (recommended)
+# or: antidote install data-wise/flow-cli
+# or: zinit light data-wise/flow-cli
 
 # 2. Work
 work my-project    # Start session
@@ -22,6 +24,9 @@ finish             # Done for now
 ```
 
 **That's it.** Everything else is optional.
+
+!!! info "Zero Dependencies"
+flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antidote, or any other framework. Choose any installation method that works for you - they all load the same independent plugin.
 
 ---
 

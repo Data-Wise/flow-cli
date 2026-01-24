@@ -690,6 +690,7 @@ echo $FZF_DEFAULT_OPTS
 - 3 quick examples (basic, common, advanced)
 
 **Format:**
+
 ```markdown
 ## Synopsis
 
@@ -731,6 +732,7 @@ command --complex --options
 4. Mode flags last
 
 **Table format:**
+
 ```markdown
 | Flag | Short | Description |
 |------|-------|-------------|

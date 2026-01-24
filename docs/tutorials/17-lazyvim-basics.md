@@ -277,6 +277,7 @@ Which-key shows available keybindings **as you type**.
 2. A popup appears showing all `<leader>` commands!
 
 **What you see:**
+
 ```
 ╭─ <leader> ────────────────────────╮
 │ b  buffer commands                │

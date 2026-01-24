@@ -854,12 +854,14 @@ test_startup_overhead() {
 
 1. **Create branch:** `git checkout -b feature/dot-dispatcher`
 2. **Scaffold files:**
+
    ```bash
    mkdir -p lib/dispatchers completions
    touch lib/dispatchers/dot-dispatcher.zsh
    touch lib/dotfile-helpers.zsh
    touch completions/_dot
    ```
+
 3. **Implement Phase 1:** Foundation + core workflows (12 hours)
 4. **Test:** Load plugin, verify `dot help` and `dot status`
 

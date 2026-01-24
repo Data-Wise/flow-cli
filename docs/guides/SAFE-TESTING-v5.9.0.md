@@ -209,23 +209,28 @@ git stash list
 These commands **NEVER modify files**:
 
 ### 1. teach status
+
 ```bash
 # Shows course info, validation status, content inventory
 teach status
 ```
+
 **What it does:** Reads config, validates, displays info
 **Risk:** ⚪ NONE
 
 ### 2. teach help
+
 ```bash
 teach help
 teach exam --help
 teach quiz --help
 ```
+
 **What it does:** Displays help text
 **Risk:** ⚪ NONE
 
 ### 3. Config Validation
+
 ```bash
 # Source flow-cli first
 source ~/projects/dev-tools/flow-cli/flow.plugin.zsh
@@ -240,10 +245,12 @@ _teach_has_scholar_config .flow/teach-config.yml
 _teach_config_get "course.name"
 _teach_config_get "course.semester"
 ```
+
 **What it does:** Reads and validates YAML
 **Risk:** ⚪ NONE
 
 ### 4. Hash Functions
+
 ```bash
 # Compute hash (read-only)
 _flow_config_hash .flow/teach-config.yml
@@ -251,15 +258,18 @@ _flow_config_hash .flow/teach-config.yml
 # Check if changed (reads cache file)
 _flow_config_changed .flow/teach-config.yml
 ```
+
 **What it does:** Computes SHA-256, compares with cache
 **Risk:** ⚪ NONE (cache file is in ~/.local/share/flow-cli/)
 
 ### 5. Flag Validation
+
 ```bash
 # Test flag validation (no execution)
 _teach_validate_flags exam --questions 5 --duration 60
 _teach_validate_flags exam --invalid-flag  # Should error
 ```
+
 **What it does:** Validates flags, returns error for invalid
 **Risk:** ⚪ NONE
 
@@ -270,23 +280,29 @@ _teach_validate_flags exam --invalid-flag  # Should error
 These commands **preview output without writing**:
 
 ### 6. teach exam --dry-run
+
 ```bash
 # Preview exam generation (NO files written)
 teach exam "Regression Diagnostics" --dry-run
 ```
+
 **What it does:** Shows what WOULD be generated
 **Risk:** ⚪ NONE (--dry-run prevents file creation)
 
 ### 7. teach quiz --dry-run
+
 ```bash
 teach quiz "Hypothesis Testing" --dry-run --questions 10
 ```
+
 **Risk:** ⚪ NONE
 
 ### 8. teach slides --dry-run
+
 ```bash
 teach slides "ANOVA" --dry-run
 ```
+
 **Risk:** ⚪ NONE
 
 ---
@@ -303,6 +319,7 @@ teach slides "ANOVA" --dry-run
 | `teach syllabus` | `syllabus.qmd` | Yes (git) |
 
 **Recovery if accidentally run:**
+
 ```bash
 # Discard all uncommitted changes
 git checkout -- .
@@ -401,10 +418,12 @@ git stash pop
 ## What's Actually At Risk?
 
 ### Low Risk (Auto-recoverable)
+
 - Cache files in `~/.local/share/flow-cli/` - Can be deleted
 - Generated content files - Git tracked, easily reverted
 
 ### No Risk
+
 - Course config `.flow/teach-config.yml` - Never written by v5.9.0 features
 - Existing course content - Never modified
 - Git history - Never altered

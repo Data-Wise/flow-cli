@@ -278,6 +278,7 @@ Architecture/
    ```
 
 3. **Deploy to GitHub Pages**
+
    ```bash
    mkdocs gh-deploy
    ```

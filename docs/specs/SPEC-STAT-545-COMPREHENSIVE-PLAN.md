@@ -280,6 +280,7 @@ Tags (no branches)
 **Scenario:** Student emails: "Week 8 has typo"
 
 **Workflow:**
+
 ```bash
 [2 minutes total]
 
@@ -310,6 +311,7 @@ win "Fixed Week 8 typo"
 **Scenario:** Friday, preparing Assignment 5 for Tuesday
 
 **Workflow:**
+
 ```bash
 [30 minutes prep, deploy Tuesday]
 
@@ -349,6 +351,7 @@ win "Published Assignment 5"
 **Scenario:** Creating Week 12 quiz
 
 **Complete Workflow:**
+
 ```bash
 [45 minutes total]
 
@@ -404,6 +407,7 @@ win "Published Week 12 quiz"
 **Scenario:** Creating final exam
 
 **Extended Workflow:**
+
 ```bash
 [2-3 hours spread over several days]
 
@@ -458,6 +462,7 @@ git commit -m "docs: Final exam solutions"
 ### Phase 1: Active Semester (January-May)
 
 **Week 1-2: Syllabus Week**
+
 ```
 Deploy Frequency: High (2-3 times/week)
 Activities:
@@ -469,6 +474,7 @@ Branch Usage: draft → production (frequent)
 ```
 
 **Week 3-13: Core Content**
+
 ```
 Deploy Frequency: Moderate (1-2 times/week)
 Activities:
@@ -480,6 +486,7 @@ Branch Usage: draft → production (regular)
 ```
 
 **Week 14-16: Final Exam Period**
+
 ```
 Deploy Frequency: Low (critical fixes only)
 Activities:
@@ -494,6 +501,7 @@ Branch Usage: draft only (production frozen)
 ### Phase 2: Between Semesters (June-December)
 
 **Summer Relaxation (June-August) - 3 months**
+
 ```
 Focus: Rest, reflect, plan
 Pressure: Zero
@@ -508,6 +516,7 @@ Branch: draft only (experimental commits)
 ```
 
 **Fall Intensive (September-December) - 4 months**
+
 ```
 Focus: Build Spring 2027 content
 
@@ -536,6 +545,7 @@ Pressure: Self-imposed deadlines
 ```
 
 **Winter Break (December-January) - 1 month**
+
 ```
 Focus: Final checks
 
@@ -556,6 +566,7 @@ Transition: January 10-12 (3 days before semester)
 **January 10, 2027 - Three Days Before Spring 2027**
 
 **Morning (9am-12pm): Final Review**
+
 ```bash
 work stat-545
 git checkout draft
@@ -573,6 +584,7 @@ git log production..draft --oneline | wc -l
 ```
 
 **Afternoon (1pm-3pm): Archival**
+
 ```bash
 # Archive Spring 2026
 git checkout production
@@ -599,6 +611,7 @@ gh release create spring-2026-final \
 ```
 
 **Afternoon (3pm-4pm): Transition**
+
 ```bash
 # Replace production with draft
 git checkout production
@@ -619,6 +632,7 @@ git log production..draft  # Should be empty
 ```
 
 **Evening (4pm-5pm): Verification**
+
 ```bash
 # Wait for GitHub Actions (2-3 min)
 
@@ -640,6 +654,7 @@ git push origin production
 ```
 
 **Evening (5pm): Celebrate**
+
 ```bash
 win "Successfully transitioned to Spring 2027"
 finish "Spring 2027 deployment complete"
@@ -657,6 +672,7 @@ yay
 **Scripts to Create:**
 
 **1. quick-deploy.sh** - Deploy single commit
+
 ```bash
 #!/bin/bash
 # Deploy current draft commit to production immediately
@@ -673,11 +689,13 @@ echo "✅ Deployed: $DESCRIPTION"
 ```
 
 **Usage:**
+
 ```bash
 ./scripts/quick-deploy.sh "Week 8 typo fix"
 ```
 
 **2. publish-batch.sh** - Deploy multiple commits
+
 ```bash
 #!/bin/bash
 # Show unpublished commits, confirm, then deploy all
@@ -698,11 +716,13 @@ fi
 ```
 
 **Usage:**
+
 ```bash
 ./scripts/publish-batch.sh
 ```
 
 **3. quiz-to-qti.sh** - examark wrapper with auto-commit
+
 ```bash
 #!/bin/bash
 # Generate .qti.zip from .md and commit both
@@ -720,11 +740,13 @@ echo "Next: ./scripts/quick-deploy.sh '$QUIZ_NAME'"
 ```
 
 **Usage:**
+
 ```bash
 ./scripts/quiz-to-qti.sh quizzes/week-12-quiz.md
 ```
 
 **4. semester-archive.sh** - Annual transition helper
+
 ```bash
 #!/bin/bash
 # Guide through semester transition
@@ -748,6 +770,7 @@ echo "4. Tag new semester start"
 ```
 
 **Usage:**
+
 ```bash
 ./scripts/semester-archive.sh "spring-2026-final" "Spring 2027"
 ```
@@ -826,6 +849,7 @@ alias s545u="cd ~/projects/teaching/stat-545 && git log production..draft --onel
 ```
 
 **Enhanced Workflow:**
+
 ```bash
 # All one-liners:
 s545                              # Start session
@@ -999,6 +1023,7 @@ jobs:
 ### File Organization
 
 **Directory Structure:**
+
 ```
 quizzes/
 ├── week-08-quiz.md          # Source (version controlled)
@@ -1022,6 +1047,7 @@ exams/
 - ❌ Must regenerate before Canvas upload
 
 **Regeneration Workflow:**
+
 ```bash
 # When switching machines or after clone
 cd ~/projects/apps/examark
@@ -1042,6 +1068,7 @@ done
 ### Two Workflows: Static vs Dynamic
 
 **Workflow A: Static Markdown Quizzes**
+
 ```
 File: quizzes/week-08-quiz.md (plain Markdown)
 
@@ -1057,6 +1084,7 @@ Use case: Theory questions, conceptual quizzes
 ```
 
 **Workflow B: Dynamic Quarto Quizzes**
+
 ```
 File: quizzes/week-08-quiz.qmd (Quarto + R)
 
@@ -1085,6 +1113,7 @@ correct_mean <- round(mean(data), 2)
    Correct: `r correct_mean` ± 0.5
 
 Use case: Stats quizzes with calculations
+
 ```
 
 **Recommendation:**
@@ -1099,6 +1128,7 @@ Use case: Stats quizzes with calculations
 **Complete Content Pipeline:**
 
 ```
+
 ┌─────────────┐
 │   scholar   │  Generate content with AI
 │ /teaching:* │  (assignments, quizzes, exams)
@@ -1127,6 +1157,7 @@ Use case: Stats quizzes with calculations
 │  flow-cli   │  Track progress
 │    win      │  Celebrate completion
 └─────────────┘
+
 ```
 
 **Example Session:**

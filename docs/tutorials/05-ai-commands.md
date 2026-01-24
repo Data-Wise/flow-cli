@@ -284,4 +284,4 @@ npm install -g @anthropic-ai/claude-code
 
 ---
 
-_Tutorial created: 2025-12-26 (v3.2.0)_
+*Tutorial created: 2025-12-26 (v3.2.0)*

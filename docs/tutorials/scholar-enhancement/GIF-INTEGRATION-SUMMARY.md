@@ -26,6 +26,7 @@ All 8 Scholar Enhancement tutorial GIFs have been integrated into the three-leve
 **File:** `01-getting-started.md`
 
 ### Figure 1: Help System
+
 **Location:** Step 2 - Verify Installation
 **Command:** `teach slides --help`, `teach quiz --help`, `teach lecture --help`
 **File:** scholar-01-help.gif (116 KB)
@@ -42,6 +43,7 @@ All 8 Scholar Enhancement tutorial GIFs have been integrated into the three-leve
 ---
 
 ### Figure 2: Basic Generation
+
 **Location:** Step 3 - Your First AI-Generated Slides
 **Command:** `teach slides "Introduction to Statistics" --style conceptual`
 **File:** scholar-02-generate.gif (44 KB)
@@ -58,6 +60,7 @@ All 8 Scholar Enhancement tutorial GIFs have been integrated into the three-leve
 ---
 
 ### Figure 3: Style Customization
+
 **Location:** Step 5 - Customizing Content
 **Command:** `teach quiz "Hypothesis Testing" --style rigorous --technical-depth high`
 **File:** scholar-03-customize.gif (56 KB)
@@ -78,6 +81,7 @@ All 8 Scholar Enhancement tutorial GIFs have been integrated into the three-leve
 **File:** `02-intermediate.md`
 
 ### Figure 4: YAML-Driven Lesson Plans
+
 **Location:** Step 2 - Create Your First Lesson Plan
 **Command:** `teach lecture --lesson week03.yml`
 **File:** scholar-04-lesson.gif (76 KB)
@@ -94,6 +98,7 @@ All 8 Scholar Enhancement tutorial GIFs have been integrated into the three-leve
 ---
 
 ### Figure 5: Week-Based Generation
+
 **Location:** Step 3 - Generate from Lesson Plan
 **Command:** `teach quiz --week 5`
 **File:** scholar-07-week.gif (51 KB)
@@ -111,6 +116,7 @@ All 8 Scholar Enhancement tutorial GIFs have been integrated into the three-leve
 ---
 
 ### Figure 6: Interactive Wizard Mode
+
 **Location:** Step 8 - Interactive Wizard
 **Command:** `teach exam --interactive`
 **File:** scholar-05-interactive.gif (180 KB)
@@ -132,6 +138,7 @@ All 8 Scholar Enhancement tutorial GIFs have been integrated into the three-leve
 **File:** `03-advanced.md`
 
 ### Figure 7: Revision Workflow
+
 **Location:** Step 2 - Interactive Revision Flow
 **Command:** `teach slides --revise slides-v1.md --feedback "Add more practical examples"`
 **File:** scholar-06-revision.gif (58 KB)
@@ -149,6 +156,7 @@ All 8 Scholar Enhancement tutorial GIFs have been integrated into the three-leve
 ---
 
 ### Figure 8: Context Integration
+
 **Location:** Step 8 - Full Context Awareness
 **Command:** `teach assignment "Hypothesis Testing Practice" --with-readings`
 **File:** scholar-08-context.gif (71 KB)
@@ -222,16 +230,19 @@ Fixed incorrect GIF references during integration:
 ## Tutorial Distribution
 
 ### Getting Started (Beginner - 10 min)
+
 - ✅ 3 GIFs integrated
 - Total size: 216 KB
 - Focus: Discovery, basics, customization
 
 ### Intermediate (20 min)
+
 - ✅ 3 GIFs integrated
 - Total size: 307 KB
 - Focus: YAML, week-based, interactive
 
 ### Advanced (35 min)
+
 - ✅ 2 GIFs integrated
 - Total size: 129 KB
 - Focus: Revision, context awareness
@@ -318,6 +329,7 @@ open http://127.0.0.1:8000/flow-cli/tutorials/scholar-enhancement/
 ### Immediate
 
 1. **Preview in MkDocs**
+
    ```bash
    mkdocs serve
    # Verify all 8 GIFs display correctly
@@ -329,6 +341,7 @@ open http://127.0.0.1:8000/flow-cli/tutorials/scholar-enhancement/
    - Test on mobile/tablet
 
 3. **Deploy to GitHub Pages**
+
    ```bash
    mkdocs gh-deploy --force
    # Live site: https://Data-Wise.github.io/flow-cli/
@@ -336,12 +349,12 @@ open http://127.0.0.1:8000/flow-cli/tutorials/scholar-enhancement/
 
 ### Optional
 
-4. **User Testing**
+1. **User Testing**
    - 2-3 educators complete tutorials
    - Track completion times
    - Gather feedback on GIF clarity
 
-5. **Analytics**
+2. **Analytics**
    - Monitor tutorial completion rates
    - Track which GIFs get most views
    - Identify drop-off points

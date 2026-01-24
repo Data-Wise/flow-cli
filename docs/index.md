@@ -38,6 +38,7 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 - **🔗 9-Dispatcher Integration** - Validates tokens before git operations, shows status in dashboards
 
 **Commands:**
+
 ```bash
 doctor --dot              # Quick token check (< 3s, cached)
 doctor --dot=github       # Check specific provider
@@ -76,6 +77,7 @@ doctor --dot --verbose    # Debug with cache status
 - **📝 Reports** - JSON/Markdown reports for course-wide analysis
 
 **Commands:**
+
 ```bash
 teach analyze lectures/week-05.qmd           # Single file analysis
 teach analyze --batch lectures/              # Parallel batch analysis

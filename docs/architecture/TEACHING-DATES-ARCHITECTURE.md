@@ -565,6 +565,7 @@ graph TB
 - Scholar reads `semester_info.holidays[]` for pacing
 
 **Example:**
+
 ```bash
 # Generate exam for Week 8
 teach exam "Midterm 1" --week 8
@@ -679,6 +680,7 @@ graph TD
 ### Rollback Mechanisms
 
 **File-Level Rollback:**
+
 ```zsh
 # Before modification
 cp file.qmd file.qmd.bak
@@ -691,6 +693,7 @@ rm file.qmd.bak  # Clean up
 ```
 
 **Config-Level Rollback:**
+
 ```bash
 # User can always use git
 git restore .flow/teach-config.yml
@@ -701,6 +704,7 @@ git restore .flow/teach-config.yml
 ```
 
 **Sync-Level Rollback:**
+
 ```bash
 # User can quit during interactive sync
 # Prompt: [y/n/d/q]
@@ -775,6 +779,7 @@ git restore .  # Undo all
 ### Mitigations
 
 **1. Config Validation:**
+
 ```yaml
 # Schema enforces:
 - Date format: YYYY-MM-DD (regex validated)
@@ -784,6 +789,7 @@ git restore .  # Undo all
 ```
 
 **2. Input Sanitization:**
+
 ```zsh
 # All date inputs validated with regex
 if [[ ! "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
@@ -797,6 +803,7 @@ fi
 ```
 
 **3. File Path Validation:**
+
 ```zsh
 # Only operate within project root
 # Use relative paths, not arbitrary paths
@@ -807,6 +814,7 @@ fi
 ```
 
 **4. Backup Before Modification:**
+
 ```zsh
 # Always create backup before modifying
 cp "$file" "${file}.bak"
@@ -860,6 +868,7 @@ timeline
 #### 1. Semester Rollover (v5.12.0)
 
 **Command:**
+
 ```bash
 teach semester new "Spring 2026"
 ```
@@ -879,6 +888,7 @@ teach semester new "Spring 2026"
 #### 2. Multi-Meeting Per Week (v5.12.0)
 
 **Config Schema:**
+
 ```yaml
 weeks:
   - number: 1
@@ -894,6 +904,7 @@ weeks:
 #### 3. External Calendar Import (v5.13.0)
 
 **Command:**
+
 ```bash
 teach dates import-calendar university-calendar.ics
 ```

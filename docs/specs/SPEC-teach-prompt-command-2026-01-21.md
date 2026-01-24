@@ -391,6 +391,7 @@ _teach_prompt_help() {
 ### Output Format
 
 **`teach prompt list`:**
+
 ```
 Available Teaching Prompts
 
@@ -402,6 +403,7 @@ Usage: teach prompt <name> to view a prompt
 ```
 
 **`teach prompt <name>` (error):**
+
 ```
 ✗ Unknown prompt: foo
 
@@ -459,6 +461,7 @@ flowchart TD
 ### Wireframe (Terminal Output)
 
 **Help Output:**
+
 ```
 ┌────────────────────────────────────────────────────────────┐
 │ teach prompt - Display Claude Code teaching prompts        │
@@ -488,6 +491,7 @@ flowchart TD
 ```
 
 **List Output:**
+
 ```
 ┌────────────────────────────────────────────────────────────┐
 │ $ teach prompt list                                        │
@@ -624,7 +628,7 @@ flowchart LR
 
 1. **PAGER handling:** Use `${PAGER:-less}` for portability
 2. **README exclusion:** Skip README.md when listing prompts
-3. **Description extraction:** Parse first `# ` heading from each file
+3. **Description extraction:** Parse first `#` heading from each file
 4. **Error messages:** Include actionable hint (run `teach prompt list`)
 5. **FLOW_ROOT:** Use plugin root for portable path resolution
 

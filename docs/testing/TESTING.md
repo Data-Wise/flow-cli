@@ -363,12 +363,14 @@ When adding a new dispatcher:
 
 1. Create test file: `tests/test-<name>-dispatcher.zsh`
 2. Add to Ubuntu job in `.github/workflows/test.yml`:
+
    ```yaml
    - name: Run <name> dispatcher tests
      run: |
        cd ~/projects/dev-tools/flow-cli
        zsh ./tests/test-<name>-dispatcher.zsh
    ```
+
 3. Add to macOS job (combined or separate step)
 4. Use `continue-on-error: true` if test requires external tools
 

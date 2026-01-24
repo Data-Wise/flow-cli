@@ -361,7 +361,7 @@ run the flow status command to see your first output.
 **Use formatting:**
 
 - **Bold** - Important terms, emphasis
-- _Italic_ - Technical terms first use
+- *Italic* - Technical terms first use
 - `Code` - Commands, file names, variables
 - > Blockquotes - Important callouts
 

@@ -40,7 +40,7 @@ description: Find the right starting point for your goals
 
 **Choose your scenario:**
 
-### I need to...
+### I need to
 
 === "Track my work sessions"
     **Solution:** [Session Tracking Workflow](../guides/WORKFLOWS-QUICK-WINS.md)

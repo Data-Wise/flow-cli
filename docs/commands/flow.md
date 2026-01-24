@@ -14,6 +14,7 @@ flow help [command]
 ```
 
 **Quick examples:**
+
 ```bash
 # Get help
 flow help                      # Show all commands

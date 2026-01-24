@@ -28,9 +28,11 @@
 ## Quick Start Instructions
 
 ### Step 1: Save This File
+
 Save this entire document as `flow-cli-docs-implementation.md` somewhere easy to access.
 
 ### Step 2: Navigate to Your Repo
+
 ````bash
 cd /path/to/flow-cli
 git checkout main
@@ -38,19 +40,23 @@ git pull origin main
 ````
 
 ### Step 3: Create Feature Branch
+
 ````bash
 git checkout -b docs/adhd-friendly-enhancements
 ````
 
 ### Step 4: Create Directory Structure
+
 ````bash
 mkdir -p docs/stylesheets
 ````
 
 ### Step 5: Create Files
+
 Copy each file section below into the appropriate location.
 
 ### Step 6: Commit and Push
+
 ````bash
 git add .
 git commit -m "docs: add ADHD-friendly enhancements - Phase 1"
@@ -60,6 +66,7 @@ git push origin docs/adhd-friendly-enhancements
 ---
 
 ## File Structure Overview
+
 ````
 flow-cli/
 ├── docs/
@@ -105,6 +112,7 @@ flow-cli/
 **Location:** `docs/getting-started/im-stuck.md`
 
 **Action:** CREATE NEW FILE
+
 ````markdown
 ---
 title: 🆘 I'm Stuck - Troubleshooting Guide
@@ -288,6 +296,7 @@ Once you're unstuck:
 **Location:** `docs/getting-started/choose-your-path.md`
 
 **Action:** CREATE NEW FILE
+
 ````markdown
 ---
 title: Choose Your Learning Path
@@ -433,6 +442,7 @@ Not sure which path? Answer these questions:
 **Location:** `docs/quick-reference-card.md`
 
 **Action:** CREATE NEW FILE
+
 ````markdown
 ---
 title: 📋 Starter Quick Reference Card
@@ -577,6 +587,7 @@ status my-project active P0 "Next task description"
 **Location:** `docs/stylesheets/extra.css`
 
 **Action:** CREATE NEW FILE
+
 ````css
 /* ADHD-Friendly Styling Enhancements for Flow CLI Documentation */
 
@@ -864,6 +875,7 @@ details[open] {
 **Action:** MODIFY EXISTING FILE
 
 **Instructions:** Add this section right after the main heading and tagline:
+
 ````markdown
 !!! tldr "⚡ TL;DR - Get Started in 30 Seconds"
 ```bash
@@ -929,15 +941,17 @@ Not sure where to start? Pick what fits you best:
 
 **Action:** MODIFY EXISTING FILE
 
-**Instructions:** 
+**Instructions:**
 
 1. **Add extra CSS reference** (add to the file if not already present):
+
 ````yaml
 extra_css:
   - stylesheets/extra.css
 ````
 
-2. **Update navigation structure** (replace the existing `nav:` section):
+1. **Update navigation structure** (replace the existing `nav:` section):
+
 ````yaml
 nav:
   - Home: index.md
@@ -1066,6 +1080,7 @@ nav:
 ## Git Commands
 
 ### Complete Implementation Workflow
+
 ````bash
 # 1. Navigate to repository
 cd /path/to/flow-cli
@@ -1130,6 +1145,7 @@ git push origin docs/adhd-friendly-enhancements
 Before creating Pull Request:
 
 ### Local Testing
+
 ````bash
 # Install MkDocs if not already installed
 pip install mkdocs-material
@@ -1173,6 +1189,7 @@ mkdocs serve
 **Title:** 📚 Docs: ADHD-Friendly Enhancements - Phase 1
 
 **Description:**
+
 ````markdown
 ## 🎯 Summary
 

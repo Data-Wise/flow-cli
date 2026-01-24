@@ -124,6 +124,7 @@ Semi-automated GitHub Personal Access Token (PAT) lifecycle management with macO
 | **Revocation** | User approval required | Safety: prevent accidental service disruption |
 
 **File Structure:**
+
 ```
 lib/
 ├── dispatchers/
@@ -174,6 +175,7 @@ tests/
 ```
 
 **Metadata Format (Keychain notes field):**
+
 ```json
 {
   "created_at": "2026-01-23T04:30:00Z",
@@ -280,16 +282,19 @@ tests/
 ## Dependencies
 
 ### Required
+
 - **macOS Keychain** (via `security` command) - Already available
 - **curl** - For GitHub API calls - Already available
 - **jq** - For JSON parsing - Already available
 - **Existing `dot secret` commands** - Already implemented in keychain-helpers.zsh
 
 ### Optional
+
 - **gh CLI** - For GitHub CLI integration (already a flow-cli dependency)
 - **git** - For detecting GitHub remotes (already a flow-cli dependency)
 
 ### No New Dependencies
+
 All required tools are already part of flow-cli's existing dependencies.
 
 ---
@@ -322,18 +327,21 @@ All required tools are already part of flow-cli's existing dependencies.
 ## Testing Strategy
 
 ### Unit Tests
+
 - Token age calculation (various dates)
 - Metadata storage/retrieval (JSON parsing)
 - Expiration detection (edge cases: 0 days, 7 days, 90 days)
 - GitHub API validation (mock responses)
 
 ### Integration Tests
+
 - Full rotation workflow (with mock GitHub API)
 - g dispatcher validation (with mock token)
 - dash display (various token states)
 - work/finish warnings (expiration scenarios)
 
 ### Manual Testing Checklist
+
 1. Initial setup: `dot token github` (create new token)
 2. Validation: `dot token status` (check expiration)
 3. Rotation: `dot token rotate github` (full lifecycle)
@@ -346,10 +354,12 @@ All required tools are already part of flow-cli's existing dependencies.
 ## Documentation Plan
 
 ### Reference Documentation
+
 - **DOT-DISPATCHER-REFERENCE.md** - Update with token commands section
 - **API Reference** - Document all `_dot_token_*()` functions
 
 ### Tutorial
+
 - **github-token-setup.md** - Step-by-step setup guide:
   1. Initial token creation
   2. First-time setup
@@ -357,6 +367,7 @@ All required tools are already part of flow-cli's existing dependencies.
   4. Troubleshooting
 
 ### Quick Reference Card
+
 - Update `REFCARD-*.md` with token commands
 - Add token troubleshooting section
 
@@ -365,21 +376,25 @@ All required tools are already part of flow-cli's existing dependencies.
 ## Rollout Plan
 
 ### Phase 1: Core Automation (Week 1)
+
 - Implement token lifecycle functions
 - Test with mock data
 - Document API
 
 ### Phase 2: Integration (Week 1)
+
 - Integrate into 9 dispatchers
 - Test workflows
 - Update documentation
 
 ### Phase 3: Testing & Docs (Week 1)
+
 - Write test suites
 - Create tutorial
 - Update reference docs
 
 ### Phase 4: Release (Week 2)
+
 - Merge to dev
 - Create PR to main
 - Release v5.18.0
@@ -402,11 +417,13 @@ All required tools are already part of flow-cli's existing dependencies.
 ## Related Documents
 
 ### Brainstorm Documents (External)
+
 - `~/BRAINSTORM-github-token-security-2026-01-23.md` (19KB) - Initial security analysis
 - `~/BRAINSTORM-automated-token-management-2026-01-23.md` (36KB) - Automation design with 18 Q&A decisions
 - `~/BRAINSTORM-flow-github-integration-2026-01-23.md` (22KB) - Integration design with 12 Q&A decisions
 
 ### Implementation Plan
+
 - `~/.git-worktrees/flow-cli/feature-token-automation/IMPLEMENTATION-PLAN.md` - Detailed orchestration plan
 
 ---

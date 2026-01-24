@@ -679,6 +679,7 @@ nvim
 7. In terminal: `npm run dev`
 
 **Result:**
+
 ```
 ┌──────────┬────────────────┐
 │ Neo-tree │  App.tsx       │
@@ -740,6 +741,7 @@ nvim lectures/week-01/lecture.qmd
 ### Essential Commands Reference
 
 **LazyVim Management:**
+
 ```bash
 :Lazy           # Plugin manager
 :LazyExtras     # Enable language extras
@@ -748,6 +750,7 @@ nvim lectures/week-01/lecture.qmd
 ```
 
 **LSP:**
+
 ```bash
 K              # Hover docs
 gd             # Go to definition
@@ -758,6 +761,7 @@ gr             # Find references
 ```
 
 **Customization Files:**
+
 ```bash
 ~/.config/nvim/lua/config/keymaps.lua    # Custom keybindings
 ~/.config/nvim/lua/config/options.lua    # Vim options

@@ -216,11 +216,13 @@ flow alias find --exact gst # Exact match only
 ### Add - Create Alias
 
 **One-liner mode:**
+
 ```bash
 flow alias add myalias='echo hello'
 ```
 
 **Interactive mode:**
+
 ```bash
 flow alias add
 # Prompts for name and command with validation

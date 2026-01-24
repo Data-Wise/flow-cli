@@ -202,6 +202,7 @@ exams/midterm1-key.md      # Instructor version (with answers)
 ### Pre-Conversion Checklist
 
 1. **Run examark check**
+
    ```bash
    examark check exams/midterm1.md
    ```
@@ -213,11 +214,13 @@ exams/midterm1-key.md      # Instructor version (with answers)
    - Check point value format `[Xpts]`
 
 3. **Convert to QTI**
+
    ```bash
    ./scripts/exam-to-qti.sh exams/midterm1.md
    ```
 
 4. **Test Canvas compatibility**
+
    ```bash
    examark emulate-canvas exams/midterm1.zip
    ```
@@ -231,6 +234,7 @@ exams/midterm1-key.md      # Instructor version (with answers)
 ```
 
 **Fix:** Add `[x]` after the correct answer:
+
 ```markdown
 c) Correct answer [x]
 ```
@@ -242,6 +246,7 @@ c) Correct answer [x]
 ```
 
 **Fix:** Add type tag after question number:
+
 ```markdown
 1. [MC] Question text? [3pts]
 ```

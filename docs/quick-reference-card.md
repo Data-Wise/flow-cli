@@ -26,6 +26,7 @@ description: Essential commands on one page - print friendly
 ## ⚡ Quick Workflows
 
 ### Start Your Day
+
 ```bash
 dash              # See all projects
 just-start        # Auto-pick high priority
@@ -34,6 +35,7 @@ f25               # Start 25-min timer
 ```
 
 ### During Work
+
 ```bash
 why               # Where am I?
 win "did thing"   # Log progress
@@ -41,6 +43,7 @@ hop other         # Switch project
 ```
 
 ### End of Day
+
 ```bash
 status .          # Update progress
 wins              # See today's wins
@@ -64,6 +67,7 @@ finish            # Close session
 ## 🔌 Smart Dispatchers
 
 ### R Package Development: `r`
+
 ```bash
 r load            # Load package
 r test            # Run tests
@@ -72,6 +76,7 @@ r help            # Show all commands
 ```
 
 ### Git with Safety: `g`
+
 ```bash
 g status          # Safe git status
 g push            # Push with checks
@@ -80,6 +85,7 @@ g help            # Show all commands
 ```
 
 ### Claude Code: `cc`
+
 ```bash
 cc                # Launch Claude HERE
 cc pick           # Open project in Claude
@@ -88,6 +94,7 @@ cc help           # Show all commands
 ```
 
 ### Dotfiles & Secrets: `dot`
+
 ```bash
 dot               # Show dotfile status
 dot secret NAME   # Get Keychain secret (Touch ID)
@@ -96,6 +103,7 @@ dot help          # Show all commands
 ```
 
 ### Prompt Engines: `prompt` (v5.7.0)
+
 ```bash
 prompt status     # Show current engine
 prompt toggle     # Switch engines (menu)
@@ -105,6 +113,7 @@ prompt help       # Show all commands
 ```
 
 ### Teaching: `teach` (v5.8.0)
+
 ```bash
 teach status      # Show course status
 teach exam "Name" # Create exam (Scholar)
@@ -113,6 +122,7 @@ teach help        # Show all commands
 ```
 
 ### Worktrees: `wt` (v5.10.0)
+
 ```bash
 wt list           # List all worktrees
 wt create <branch> # Create worktree for branch
@@ -122,6 +132,7 @@ wt help           # Show all commands
 ```
 
 ### Health Check: `doctor` (v5.17.0)
+
 ```bash
 doctor            # Full health check (all categories)
 doctor --dot      # Token check only (< 3s, cached)
@@ -164,6 +175,7 @@ doctor --help     # Show all options
 **Priority:** `P0` (urgent) → `P4` (someday)
 
 **Update status:**
+
 ```bash
 status my-project active P0 "Next task description"
 ```

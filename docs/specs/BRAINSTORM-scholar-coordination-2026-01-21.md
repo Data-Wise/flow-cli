@@ -333,6 +333,7 @@ _teach_lecture() {
 ### 3. Command Coordination
 
 **Current Scholar Commands (v2.0.1):**
+
 ```
 /teaching:lecture    - Generate lecture notes
 /teaching:assignment - Generate homework
@@ -345,6 +346,7 @@ _teach_lecture() {
 ```
 
 **Current teach-dispatcher Commands (v5.15.0):**
+
 ```
 teach init          - Initialize teaching project
 teach status        - Show project status
@@ -357,6 +359,7 @@ teach syllabus      - Wrapper for Scholar /teaching:syllabus
 ```
 
 **New Prompt Commands (Proposed):**
+
 ```
 teach prompt list           - Show available prompts
 teach prompt show <type>    - Display prompt (paginated)
@@ -561,6 +564,7 @@ _validate_config() {
 #### Current State (Pre-Enhancement)
 
 **Existing course using Scholar:**
+
 ```
 my-course/
 ├── .flow/
@@ -724,6 +728,7 @@ _migrate_config_to_v5_15() {
 - ✅ Backward compatible
 
 **Testing:**
+
 ```bash
 # Existing workflow (should still work)
 teach lecture "ANOVA"

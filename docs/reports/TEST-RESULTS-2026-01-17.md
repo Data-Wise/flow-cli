@@ -27,6 +27,7 @@
 ### Test Breakdown
 
 #### Phase 1: _wt_overview() Function Tests
+
 - ✅ Test 1: Function _wt_overview exists
 - ✅ Test 2: Overview runs without errors
 - ✅ Test 3: Output contains 🌳 Worktrees header
@@ -38,6 +39,7 @@
 - ✅ Test 9: Overview with filter doesn't error
 
 #### Phase 1: wt() Dispatcher Tests
+
 - ✅ Test 10: Function wt exists
 - ✅ Test 11: wt (no args) calls overview
 - ✅ Test 12: wt <filter> works
@@ -45,6 +47,7 @@
 - ✅ Test 14: wt list passes to git worktree
 
 #### Phase 1: Status Icon Tests
+
 - ❌ Test 15: Overview displays worktree rows
   - **Issue:** Row count check sensitivity
   - **Impact:** Cosmetic only, actual output works
@@ -52,18 +55,22 @@
   - **Fix Required:** No (test assertion is overly strict)
 
 #### Phase 1: Session Detection Tests
+
 - ✅ Test 16: Output contains session indicators
 
 #### Phase 2: pick wt Action Function Tests
+
 - ✅ Test 17: Function _pick_wt_delete exists
 - ✅ Test 18: Function _pick_wt_refresh exists
 
 #### Phase 2: Refresh Action Tests
+
 - ✅ Test 19: Refresh action runs
 - ✅ Test 20: Refresh shows overview
 - ✅ Test 21: Refresh shows refresh message
 
 #### Phase 2: pick() Integration Tests
+
 - ✅ Test 22: Function pick exists
 - ✅ Test 23: pick help has worktree section
 
@@ -93,6 +100,7 @@
 ### Test Breakdown
 
 #### Setup Phase
+
 - ✅ Test 1: Create test git repository
 - ✅ Test 2: Create dev branch
 - ✅ Test 3: Create feature/test-1 worktree
@@ -151,6 +159,7 @@
 - Manual validation of refresh flow
 
 **Execution Instructions:**
+
 ```bash
 ./tests/interactive-wt-dogfooding.zsh
 ```
@@ -196,6 +205,7 @@
 ## Known Issues
 
 ### Issue 1: Unit Test Row Count (Non-Critical)
+
 **Test:** Test 15 - Overview displays worktree rows
 **Status:** ❌ FAIL
 **Impact:** None (cosmetic test only)
@@ -204,6 +214,7 @@
 **Workaround:** Visual inspection confirms output works
 
 ### Issue 2: E2E Test Environment (Non-Blocking)
+
 **Test:** E2E setup - Load flow.plugin.zsh
 **Status:** ❌ FAIL
 **Impact:** E2E tests cannot run automatically
@@ -252,10 +263,12 @@
 ## Test Artifacts
 
 ### Logs
+
 - Unit test log: `/var/folders/.../tmp.kAi3Y4DB1J`
 - E2E test log: Not generated (early abort)
 
 ### Test Files
+
 - `tests/test-wt-enhancement-unit.zsh` (350 lines)
 - `tests/test-wt-enhancement-e2e.zsh` (500 lines)
 - `tests/interactive-wt-dogfooding.zsh` (600 lines)

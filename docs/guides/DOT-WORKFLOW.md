@@ -60,6 +60,7 @@ dot edit .zshrc
 ```
 
 **Output:**
+
 ```
 ℹ Opening in vim: dot_zshrc
 
@@ -115,6 +116,7 @@ dot apply -n
 ```
 
 **Output (no changes):**
+
 ```
 ℹ DRY-RUN MODE - No changes will be applied
 
@@ -122,6 +124,7 @@ dot apply -n
 ```
 
 **Output (with changes):**
+
 ```
 ℹ DRY-RUN MODE - No changes will be applied
 
@@ -267,6 +270,7 @@ export GITHUB_TOKEN="{{ bitwarden "item" "github-token" }}"
 ```
 
 **Apply with secrets:**
+
 ```bash
 dot unlock
 dot apply --dry-run  # Preview
@@ -291,6 +295,7 @@ dot token pypi
 ```
 
 **Wizard output:**
+
 ```
 🧙 GitHub Token Wizard
 
@@ -315,6 +320,7 @@ dot secrets
 ```
 
 **Dashboard output:**
+
 ```
 ╭───────────────────────────────────────────────────────────────╮
 │  🔐 Secrets Dashboard                                          │
@@ -336,6 +342,7 @@ dot token pypi-token -r
 ```
 
 **Rotation output:**
+
 ```
 🔄 Rotating token: pypi-token
 
@@ -361,6 +368,7 @@ dot secrets sync github
 ```
 
 **Output:**
+
 ```
 ℹ Syncing secrets to: Data-Wise/flow-cli
 
@@ -379,6 +387,7 @@ dot env init
 ```
 
 **Output:**
+
 ```
 ✓ Generated .envrc with 3 secrets
 

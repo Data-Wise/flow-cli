@@ -31,16 +31,19 @@ Enhance PR #283's static teaching prompts into an integrated, intelligent conten
 ## Secondary User Stories
 
 ### Discovery
+
 **As a** new flow-cli user
 **I want** to discover available prompts easily
 **So that** I know what content types I can generate
 
 ### Customization
+
 **As an** instructor with specific pedagogical preferences
 **I want** to customize prompts for my course
 **So that** generated content matches my teaching style
 
 ### Sharing
+
 **As a** lead instructor
 **I want** to share prompt customizations with TAs
 **So that** all sections have consistent teaching materials

@@ -136,6 +136,7 @@ Successfully implemented the Prompt Engine Dispatcher for flow-cli v5.7.0. The d
 ### Data Structure
 
 Engine registry using associative arrays:
+
 ```bash
 declare -gA PROMPT_ENGINES=(
     [engine_name]="identifier"
@@ -355,16 +356,19 @@ flow-cli/
 ## Future Enhancements (v5.8.0+)
 
 ### v5.8.0 - Theme Management
+
 - `prompt theme` - Manage themes per engine
 - `prompt themes list` - Show available themes
 - `prompt themes set <theme>` - Apply theme
 
 ### v5.9.0 - Performance
+
 - `prompt profile` - Show engine startup time
 - `prompt benchmark` - Compare engine speeds
 - Recommendations based on system performance
 
 ### v6.0.0 - Advanced
+
 - Auto-detection of best engine for context
 - Export/import configurations
 - Multi-machine sync (cloud backup)
@@ -437,17 +441,20 @@ flow-cli/
 ## Next Steps
 
 ### Immediate
+
 1. Merge to dev branch
 2. Review feedback
 3. Test with all 3 engines installed
 4. Merge to main for v5.7.0 release
 
 ### Short Term (v5.7.1)
+
 - Gather user feedback
 - Fix any issues
 - Minor documentation improvements
 
 ### Medium Term (v5.8.0+)
+
 - Theme management
 - Performance profiling
 - Multi-device sync

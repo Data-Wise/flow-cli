@@ -8,6 +8,7 @@
 ## Workflow 1: Initialize a New Course
 
 ### Scenario
+
 You have a new course repository and want to set up the teaching workflow.
 
 ### Step 1: Navigate to course repository
@@ -32,6 +33,7 @@ $ teach init -y "STAT 545"
 ```
 
 **What happens behind the scenes:**
+
 ```
 teach init command
     ├── Read: Course name (STAT 545)
@@ -105,6 +107,7 @@ Your teaching workflow is ready:
 ## Workflow 2: Daily Edit and Deploy
 
 ### Scenario
+
 It's Monday morning. You want to publish this week's lecture and assignments.
 
 ### Step 1: Start work session
@@ -124,6 +127,7 @@ $ work stat-545
 ```
 
 **What `work` command does:**
+
 ```
 work stat-545
     ├── Detect: teaching project (finds .flow/teach-config.yml)
@@ -207,6 +211,7 @@ $ teach deploy
 ```
 
 **What happens:**
+
 ```
 teach deploy
     ├── Safety Checks:
@@ -280,6 +285,7 @@ $ open https://yourname.github.io/stat-545
 ## Workflow 3: Emergency Fix (Typo Fix)
 
 ### Scenario
+
 A student found a typo in assignment 8 answer key. Fix ASAP!
 
 ### Step 1: Quick work session
@@ -332,6 +338,7 @@ $ teach deploy
 ## Workflow 4: End of Semester Wrap-Up
 
 ### Scenario
+
 Last day of spring semester. Need to archive everything and prep for fall.
 
 ### Step 1: Verify everything is deployed
@@ -372,6 +379,7 @@ Create archive? [Y/n] y
 ```
 
 **What happened:**
+
 ```
 teach archive
     ├── Git: Create annotated tag
@@ -444,6 +452,7 @@ $ teach deploy
 ## Workflow 5: Check Course Status Anytime
 
 ### Scenario
+
 You want a quick dashboard of where you are in the semester.
 
 ### Step 1: Get status
@@ -569,12 +578,14 @@ Semester Timeline:
 ### "I'm on production branch - help!"
 
 **Problem:**
+
 ```bash
 $ git branch --show-current
 production
 ```
 
 **Solution:**
+
 ```bash
 # Switch to draft
 $ git checkout draft
@@ -593,6 +604,7 @@ $ work stat-545
 ### "Deployment failed - what happened?"
 
 **Check GitHub Actions:**
+
 ```bash
 # View recent runs
 $ gh run list
@@ -611,6 +623,7 @@ $ gh run view {run-id}
 ### "I forgot to commit before deploy"
 
 **No problem:**
+
 ```bash
 $ git status  # See what's changed
 $ git add .
@@ -623,12 +636,14 @@ $ teach deploy
 ### "How do I undo a deploy?"
 
 **Option 1: Revert in git**
+
 ```bash
 git revert HEAD  # Creates new commit that undoes previous
 teach deploy     # Deploys the revert
 ```
 
 **Option 2: Go back to previous version**
+
 ```bash
 git log --oneline | head -5
 # a1b2c3d current

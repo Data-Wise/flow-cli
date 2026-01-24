@@ -120,12 +120,12 @@ v health            # Health check (Phase 5)
 
 ## Files Created/Modified
 
-### Created:
+### Created
 
 - `~/.config/zsh/functions/v-dispatcher.zsh` (420 lines)
 - `~/.config/zsh/functions/v-utils.zsh` (110 lines)
 
-### Modified:
+### Modified
 
 - `~/.config/zsh/.zshrc` (added v-dispatcher sourcing)
 

@@ -459,7 +459,7 @@ Lead with action, explain after.
 
 1. **Bold for emphasis** - `**important term**`
 2. **Inline code for commands** - `` `command` ``
-3. **Code blocks for examples** - ````bash ... ````
+3. **Code blocks for examples** - ````bash ...````
 4. **Lists for steps** - Numbered or bulleted
 5. **Tables for comparisons** - Old vs New, Option vs Description
 
@@ -561,6 +561,7 @@ command
 Only customize if project has brand colors. Otherwise, stick with indigo.
 
 **Example (if needed):**
+
 ```yaml
 theme:
   palette:
@@ -691,6 +692,7 @@ markdown_extensions:
 ```
 
 Usage:
+
 ````markdown
 === "macOS"
     ```bash
@@ -789,11 +791,13 @@ mkdocs gh-deploy       # Deploy to GitHub Pages
 ### Common Fixes
 
 **Broken links:**
+
 ```bash
 mkdocs build 2>&1 | grep WARNING
 ```
 
 **Port in use:**
+
 ```bash
 lsof -ti:8000 | xargs kill -9
 ```

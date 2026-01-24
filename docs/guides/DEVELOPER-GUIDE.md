@@ -82,6 +82,7 @@ flow-cli/
 ### Development Workflow
 
 1. **Create Feature Branch:**
+
    ```bash
    # IMPORTANT: Always work on dev branch, never main
    git checkout dev
@@ -92,12 +93,14 @@ flow-cli/
    ```
 
 2. **Make Changes:**
+
    ```bash
    cd ~/.git-worktrees/flow-cli-feature
    # Edit files
    ```
 
 3. **Test Changes:**
+
    ```bash
    # Reload plugin
    source flow.plugin.zsh
@@ -110,6 +113,7 @@ flow-cli/
    ```
 
 4. **Commit and PR:**
+
    ```bash
    git add -A
    git commit -m "feat: add new feature"
@@ -148,6 +152,7 @@ flow-cli/
 ### Key Modules
 
 #### `lib/core.zsh`
+
 **Purpose:** Core utilities shared by all commands
 
 **Exports:**
@@ -157,6 +162,7 @@ flow-cli/
 - `_flow_detect_project_type` - Type detection
 
 **Usage:**
+
 ```zsh
 source lib/core.zsh
 
@@ -165,6 +171,7 @@ root=$(_flow_find_project_root)
 ```
 
 #### `lib/project-cache.zsh`
+
 **Purpose:** Project scanning and caching
 
 **Exports:**
@@ -175,6 +182,7 @@ root=$(_flow_find_project_root)
 **Cache TTL:** 5 minutes
 
 **Usage:**
+
 ```zsh
 # Invalidate after worktree operations
 _proj_cache_invalidate
@@ -184,6 +192,7 @@ projects=$(_proj_scan_projects)
 ```
 
 #### `lib/config-validator.zsh`
+
 **Purpose:** YAML config validation via JSON Schema
 
 **Exports:**
@@ -193,6 +202,7 @@ projects=$(_proj_scan_projects)
 **Schema:** `lib/templates/teaching/teach-config.schema.json`
 
 **Usage:**
+
 ```zsh
 if _teach_validate_config "teach-config.yml"; then
     echo "Valid"
@@ -419,6 +429,7 @@ test_mycommand_basic
 - `interactive-<feature>.zsh` - Interactive tests (require user input)
 
 **Test Pattern:**
+
 ```zsh
 #!/usr/bin/env zsh
 
@@ -501,16 +512,19 @@ assert_file_exists() {
 ### Running Tests
 
 **Run All Tests:**
+
 ```bash
 ./tests/run-all.sh
 ```
 
 **Run Specific Test:**
+
 ```bash
 ./tests/test-pick-command.zsh
 ```
 
 **Run with Debug Output:**
+
 ```bash
 FLOW_DEBUG=1 ./tests/test-my-feature.zsh
 ```
@@ -568,6 +582,7 @@ trap cleanup EXIT
 - Avoid backticks
 
 **4. Error Handling:**
+
 ```zsh
 # Check command success
 if command; then
@@ -585,6 +600,7 @@ fi
 ```
 
 **5. Arrays:**
+
 ```zsh
 # Declare arrays
 local -a items
@@ -600,6 +616,7 @@ echo "${#items[@]}"
 ```
 
 **6. Associative Arrays:**
+
 ```zsh
 # Declare
 typeset -gA MY_ARRAY
@@ -628,6 +645,7 @@ done
 - Break long lines at logical points
 
 **Comments:**
+
 ```zsh
 # Single-line comment
 
@@ -644,6 +662,7 @@ function_name() {
 ### Color Usage
 
 **Always use FLOW_COLORS:**
+
 ```zsh
 # Good
 echo -e "${FLOW_COLORS[success]}✓ Success${FLOW_COLORS[reset]}"
@@ -676,6 +695,7 @@ echo -e "\033[32m✓ Success\033[0m"
 ### Documentation Style
 
 **Command Documentation:**
+
 ```markdown
 ### command-name
 
@@ -694,6 +714,7 @@ command-name --option bar
 ```
 
 **See Also:** Related commands
+
 ```
 
 **API Documentation:**
@@ -714,6 +735,7 @@ command-name --option bar
 ```zsh
 result=$(function_name "arg1" "arg2")
 ```
+
 ```
 
 ---
@@ -750,6 +772,7 @@ git push origin dev
 ```
 
 **2. Create Release PR:**
+
 ```bash
 # Create PR from dev to main
 gh pr create \
@@ -760,6 +783,7 @@ gh pr create \
 ```
 
 **3. After PR Merge:**
+
 ```bash
 # Checkout main and tag
 git checkout main
@@ -775,6 +799,7 @@ git push origin v5.10.0
 - Homebrew formula automatically updated via PR
 
 **5. Verify Release:**
+
 ```bash
 # Test Homebrew install
 brew update
@@ -789,16 +814,19 @@ flow --version  # Should show 5.10.0
 ### Debugging
 
 **Enable Debug Mode:**
+
 ```bash
 export FLOW_DEBUG=1
 ```
 
 **Debug Output:**
+
 ```zsh
 [[ -n "$FLOW_DEBUG" ]] && echo "Debug: $variable"
 ```
 
 **Trace Execution:**
+
 ```bash
 zsh -x flow.plugin.zsh
 ```
@@ -840,12 +868,14 @@ git worktree prune
 
 **Issue:** Changes not taking effect
 **Solution:** Reload plugin
+
 ```bash
 source flow.plugin.zsh
 ```
 
 **Issue:** Completion not working
 **Solution:** Rebuild completion cache
+
 ```bash
 rm -f ~/.zcompdump
 compinit
@@ -853,12 +883,14 @@ compinit
 
 **Issue:** Cache stale
 **Solution:** Invalidate cache
+
 ```zsh
 _proj_cache_invalidate
 ```
 
 **Issue:** Test failures
 **Solution:** Check for environment differences
+
 ```bash
 # Reset test environment
 unset FLOW_DEBUG
@@ -898,6 +930,7 @@ rm -rf ~/.cache/flow-cli
 - `chore:` Maintenance
 
 **Examples:**
+
 ```
 feat(wt): add cache invalidation on worktree create
 fix(pick): handle flat worktree naming

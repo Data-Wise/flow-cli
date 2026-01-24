@@ -72,6 +72,7 @@ graph TB
 - Display output based on verbosity
 
 **Entry Points:**
+
 ```zsh
 doctor                    # Main entry (existing)
 doctor --dot              # New: Token check only
@@ -80,6 +81,7 @@ doctor --fix-token        # New: Token fixes only
 ```
 
 **Flow:**
+
 ```
 User Input → Flag Parser → Mode Selection → Handler
                 ↓
@@ -93,6 +95,7 @@ User Input → Flag Parser → Mode Selection → Handler
 ### 2. Flag Processing System
 
 **Implementation:**
+
 ```zsh
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -160,6 +163,7 @@ sequenceDiagram
 ```
 
 **Cache Structure:**
+
 ```
 ~/.flow/
 └── cache/
@@ -170,6 +174,7 @@ sequenceDiagram
 ```
 
 **Cache Entry Format:**
+
 ```json
 {
   "token_name": "github-token",
@@ -231,6 +236,7 @@ flowchart TD
    - Skip menu if no issues
 
 3. **Visual Layout:**
+
 ```
 ╭─ Select Category to Fix ────────────────────────╮
 │                                                  │
@@ -310,6 +316,7 @@ _doctor_log_always()    # All modes
 | verbose | ✅ | ✅ | ✅ |
 
 **Usage:**
+
 ```zsh
 _doctor_log_quiet "Processing..."        # Normal flow
 _doctor_log_verbose "Cache hit: 45s"     # Debug info
@@ -441,6 +448,7 @@ Cleanup frequency: Daily (> 1 day old)
 ### 2. Cache Security
 
 **File Permissions:**
+
 ```bash
 ~/.flow/cache/doctor/     # drwx------  (700)
 ├── token-github.cache    # -rw-------  (600)
@@ -454,6 +462,7 @@ Cleanup frequency: Daily (> 1 day old)
 ### 3. Concurrent Access
 
 **Lock Mechanism:**
+
 ```zsh
 # Acquire lock with timeout
 flock -w $DOCTOR_CACHE_LOCK_TIMEOUT 200

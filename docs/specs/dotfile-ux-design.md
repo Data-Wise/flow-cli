@@ -30,6 +30,7 @@ This document proposes UX integration for dotfile management (chezmoi + Bitwarde
   - flow-cli users likely prefer modern alternatives already installed via Brewfile
 
 **Example commands:**
+
 ```bash
 df              # Status overview (default)
 df edit .zshrc  # Edit dotfile
@@ -110,6 +111,7 @@ Based on dotfile workflow analysis:
 ### 1. `dot edit <file>` - Quick Edit (60% of daily use)
 
 **Flow:**
+
 ```bash
 df edit .zshrc
 # Opens in chezmoi: chezmoi edit ~/.zshrc
@@ -125,6 +127,7 @@ df edit .zshrc
 - Undo available via `dot diff` + `dot apply --force`
 
 **Smart path resolution:**
+
 ```bash
 df edit .zshrc     → ~/.config/zsh/.zshrc
 df edit zshrc      → ~/.config/zsh/.zshrc (fuzzy match)
@@ -135,6 +138,7 @@ df edit ssh        → ~/.ssh/config
 ### 2. `dot sync` - Pull Latest (25% of daily use)
 
 **Flow:**
+
 ```bash
 df sync
 # Pull from remote → preview changes → apply
@@ -154,6 +158,7 @@ df sync
 ### 3. `dot status` - Check Sync State (15% of daily use)
 
 **Flow:**
+
 ```bash
 df
 # OR: df status
@@ -187,6 +192,7 @@ df
 ### Problem 1: Bitwarden Session Expired
 
 **UX Flow:**
+
 ```bash
 $ df edit .zshrc
 ⚠ Bitwarden session expired
@@ -203,6 +209,7 @@ $ df edit .zshrc
 - Falls back to no-secret mode if user declines
 
 **Manual unlock:**
+
 ```bash
 df unlock
 # OR
@@ -212,6 +219,7 @@ df secret unlock
 ### Problem 2: Chezmoi Merge Conflicts
 
 **UX Flow:**
+
 ```bash
 $ df sync
 ⚠ Merge conflict detected:
@@ -240,6 +248,7 @@ Apply merged version? [Y/n]
 ### Problem 3: Secret Injection Failure
 
 **UX Flow:**
+
 ```bash
 $ df apply
 ⚠ Secret injection failed: API key not found in Bitwarden
@@ -267,6 +276,7 @@ Proceed without secrets? [y/N] n
 ### Help System (Tiered Disclosure)
 
 **Level 1: Quick help (`dot`)**
+
 ```bash
 $ df
 # Shows status + quick actions at bottom
@@ -279,6 +289,7 @@ $ df
 ```
 
 **Level 2: Full help (`dot help`)**
+
 ```bash
 $ df help
 
@@ -330,6 +341,7 @@ $ df help
 ```
 
 **Level 3: Command-specific help**
+
 ```bash
 $ df edit --help
 # Detailed help for edit subcommand
@@ -387,6 +399,7 @@ $ work flow-cli
 ```
 
 **Configuration (opt-out):**
+
 ```bash
 # In .zshrc or flow-cli config
 export FLOW_DF_CHECK_ON_WORK=0  # Disable auto-check

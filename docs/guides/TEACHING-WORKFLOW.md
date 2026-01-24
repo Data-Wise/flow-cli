@@ -144,6 +144,7 @@ graph TB
 **Purpose:** Initialize teaching workflow in a course repository
 
 **Usage:**
+
 ```bash
 teach-init "Course Name"
 ```
@@ -158,6 +159,7 @@ teach-init "Course Name"
 2. **Two-branch setup** - Keep current branch, create draft + production
 
 **What it creates:**
+
 ```
 .flow/
   teach-config.yml       # Course configuration
@@ -171,6 +173,7 @@ scripts/
 ```
 
 **Example:**
+
 ```bash
 $ cd ~/projects/teaching/stat-545
 $ teach-init "STAT 545"
@@ -208,6 +211,7 @@ Continue? [y/N] y
 **Purpose:** Start teaching session with branch safety and course context
 
 **Usage:**
+
 ```bash
 work <course-name>
 ```
@@ -233,6 +237,7 @@ work <course-name>
    - Lists loaded shortcuts
 
 **Example (Safe - On Draft Branch):**
+
 ```bash
 $ work stat-545
 
@@ -254,6 +259,7 @@ Shortcuts loaded:
 ```
 
 **Example (During Break Week):**
+
 ```bash
 $ work stat-545
 
@@ -272,6 +278,7 @@ Shortcuts loaded:
 ```
 
 **Example (Warning - On Production Branch):**
+
 ```bash
 $ work stat-545
 
@@ -359,6 +366,7 @@ shortcuts:
 **Purpose:** Fast deployment from draft to production (< 2 min)
 
 **Usage:**
+
 ```bash
 ./scripts/quick-deploy.sh
 ```
@@ -371,6 +379,7 @@ shortcuts:
 5. ✅ Returns to draft branch after deploy
 
 **Output:**
+
 ```bash
 $ ./scripts/quick-deploy.sh
 
@@ -391,6 +400,7 @@ Pushing to remote...
 ```
 
 **Error Handling:**
+
 ```bash
 # If not on draft branch
 ❌ Must be on draft branch
@@ -410,6 +420,7 @@ Resolve conflicts and run again
 **Purpose:** Archive semester at end of term
 
 **Usage:**
+
 ```bash
 ./scripts/semester-archive.sh
 ```
@@ -420,6 +431,7 @@ Resolve conflicts and run again
 3. Pushes tag to remote
 
 **Example:**
+
 ```bash
 $ ./scripts/semester-archive.sh
 
@@ -627,6 +639,7 @@ git commit -m "Initialize Fall 2026 lectures"
 **Problem:** `teach-init` fails with "yq is required"
 
 **Solution:**
+
 ```bash
 brew install yq
 ```
@@ -640,6 +653,7 @@ brew install yq
 **Problem:** `quick-deploy.sh` fails with branch error
 
 **Solution:**
+
 ```bash
 git checkout draft
 ./scripts/quick-deploy.sh
@@ -656,6 +670,7 @@ git checkout draft
 **Cause:** Production branch has changes not in draft (e.g., hotfix)
 
 **Solution:**
+
 ```bash
 # 1. Script already aborted and returned to draft
 git status  # Verify on draft
@@ -682,6 +697,7 @@ git commit -m "Resolve merge conflict"
 **Cause:** You're on production branch
 
 **Solution:**
+
 ```bash
 # Switch to draft branch
 git checkout draft
@@ -702,6 +718,7 @@ work stat-545
 **Cause:** Shortcuts only loaded in teaching session
 
 **Solution:**
+
 ```bash
 # Shortcuts are session-specific
 # Start work session to load them
@@ -719,24 +736,28 @@ s545d
 
 **Checks:**
 1. Verify GitHub Pages enabled
+
    ```bash
    # Go to repo Settings → Pages
    # Source should be: production branch, / (root)
    ```
 
 2. Check GitHub Actions status
+
    ```bash
    gh run list --limit 5
    # Or visit: https://github.com/user/repo/actions
    ```
 
 3. Verify production branch pushed
+
    ```bash
    git checkout production
    git log -1  # Should show recent merge
    ```
 
 4. Check workflow file exists
+
    ```bash
    cat .github/workflows/deploy.yml
    ```
@@ -916,6 +937,7 @@ Semester Schedule
 ```
 
 **Generated Config:**
+
 ```yaml
 semester_info:
   start_date: "2026-01-13"  # YYYY-MM-DD format
@@ -927,6 +949,7 @@ semester_info:
 ```
 
 **Result in Work Session:**
+
 ```bash
 $ work stat-545
 
@@ -1010,6 +1033,7 @@ Next steps:
 Generated exam includes:
 
 #### 1. Frontmatter
+
 ```markdown
 ---
 title: Midterm 1: Weeks 1-8
@@ -1020,6 +1044,7 @@ points: 100
 ```
 
 #### 2. Multiple Choice Section
+
 ```markdown
 ## Section 1: Multiple Choice (30 points)
 
@@ -1031,6 +1056,7 @@ points: 100
 ```
 
 #### 3. Short Answer Section
+
 ```markdown
 ## Section 2: Short Answer (40 points)
 
@@ -1041,6 +1067,7 @@ points: 100
 ```
 
 #### 4. Computational Problems
+
 ```markdown
 ## Section 3: Problems (30 points)
 
@@ -1051,6 +1078,7 @@ points: 100
 ```
 
 #### 5. Answer Key (Instructor Only)
+
 ```markdown
 ## Answer Key (Instructor Only)
 
@@ -1127,6 +1155,7 @@ exams/
 ```
 
 **Reusing questions:**
+
 ```bash
 # Copy questions from bank to exam
 cat exams/questions/regression.md >> exams/midterm1.md
@@ -1168,6 +1197,7 @@ cat exams/questions/regression.md >> exams/final.md
 **Problem:** `examark not installed`
 
 **Solution:**
+
 ```bash
 npm install -g examark
 ```
@@ -1183,6 +1213,7 @@ npm install -g examark
 Check examark documentation: https://github.com/daveagp/examark
 
 **Example valid question:**
+
 ```markdown
 1. [5 pts] Question text?
    - [ ] Option A
@@ -1202,6 +1233,7 @@ Check examark documentation: https://github.com/daveagp/examark
 
 **Solution:**
 Remove the "Answer Key (Instructor Only)" section before generating QTI:
+
 ```bash
 # Remove answer key section before conversion
 sed -i '' '/## Answer Key/,$d' exams/midterm1.md

@@ -24,6 +24,7 @@
 ## Scope
 
 ### In Scope ✅
+
 - `teach-exam` command for guided exam creation
 - examark integration (Markdown → Canvas QTI)
 - Exam template generation
@@ -32,6 +33,7 @@
 - Configuration for exam settings
 
 ### Out of Scope ❌
+
 - Scholar AI integration (defer to future)
 - Automatic exam generation (manual authoring only)
 - Question bank management (simple directory structure)
@@ -43,12 +45,14 @@
 ## Dependencies
 
 ### Required
+
 - ✅ `examark` - npm package for Markdown → Canvas QTI conversion
   - Install: `npm install -g examark`
   - Version: Latest (check compatibility)
   - Docs: https://github.com/daveagp/examark
 
 ### Optional
+
 - ❌ Scholar teaching skills (deferred - not yet available)
 
 ---
@@ -56,11 +60,13 @@
 ## User Stories
 
 ### 1. Create Exam Template
+
 **As a** course instructor
 **I want** to quickly create an exam template
 **So that** I can focus on writing questions, not formatting
 
 **Acceptance:**
+
 ```bash
 $ teach-exam "Midterm 1: Weeks 1-8"
 
@@ -80,11 +86,13 @@ Next steps:
 ```
 
 ### 2. Convert to Canvas QTI
+
 **As a** course instructor
 **I want** to convert markdown exams to Canvas QTI format
 **So that** I can upload them directly to Canvas
 
 **Acceptance:**
+
 ```bash
 $ ./scripts/exam-to-qti.sh exams/midterm1.md
 
@@ -99,11 +107,13 @@ Upload to Canvas:
 ```
 
 ### 3. Reuse Questions
+
 **As a** course instructor
 **I want** to organize questions by topic
 **So that** I can reuse them across exams
 
 **Acceptance:**
+
 ```
 exams/
 ├── midterm1.md           # Full exam
@@ -139,6 +149,7 @@ exams/
 **Template location:** `lib/templates/teaching/exam-template.md`
 
 **Config fields (add to teach-config.yml):**
+
 ```yaml
 examark:
   enabled: true
@@ -153,6 +164,7 @@ examark:
 **File:** `lib/templates/teaching/exam-template.md`
 
 **Structure:**
+
 ```markdown
 ---
 title: {{TOPIC}}
@@ -213,6 +225,7 @@ instructions: |
 **File:** `lib/templates/teaching/teach-config.yml.template`
 
 **Add examark section:**
+
 ```yaml
 # Exam Workflow (Increment 3 - Optional)
 examark:
@@ -240,6 +253,7 @@ examark:
 6. Provide Canvas upload instructions
 
 **Script outline:**
+
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
@@ -288,6 +302,7 @@ fi
 **File:** `commands/teach-init.zsh`
 
 **Modify `_teach_install_templates()`:**
+
 ```zsh
 # Copy script templates
 cp "$template_dir/quick-deploy.sh" scripts/
@@ -301,6 +316,7 @@ chmod +x scripts/*.sh
 **File:** `commands/teach-init.zsh`
 
 **Add to `_teach_show_next_steps()`:**
+
 ```zsh
 echo "  5. (Optional) Enable exam workflow:"
 echo "     npm install -g examark"
@@ -328,6 +344,7 @@ echo "     yq -i '.examark.enabled = true' .flow/teach-config.yml"
 #### 3.2 Update REFCARD-TEACHING.md (30 min)
 
 **Add to commands table:**
+
 ```markdown
 | Command | Purpose | Example |
 |---------|---------|---------|
@@ -426,6 +443,7 @@ flow-cli/
 ## Risks & Mitigations
 
 ### Risk 1: examark Not Maintained
+
 **Likelihood:** Medium
 **Impact:** High
 
@@ -435,6 +453,7 @@ flow-cli/
 - Consider alternative tools if examark deprecated
 
 ### Risk 2: examark Format Incompatibility
+
 **Likelihood:** Medium
 **Impact:** Medium
 
@@ -444,6 +463,7 @@ flow-cli/
 - Provide template that works with examark
 
 ### Risk 3: Low Adoption
+
 **Likelihood:** Medium
 **Impact:** Low
 
@@ -457,12 +477,14 @@ flow-cli/
 ## Success Metrics
 
 ### Must Have
+
 - ✅ teach-exam creates valid exam template
 - ✅ exam-to-qti.sh converts markdown to QTI
 - ✅ QTI file imports successfully into Canvas
 - ✅ Documentation complete
 
 ### Nice to Have
+
 - ✅ Question bank organization guide
 - ✅ Multiple exam format examples
 - ✅ Test suite with 10+ tests
@@ -490,6 +512,7 @@ flow-cli/
 ## Incremental Delivery
 
 ### Milestone 1: Basic Workflow (6 hours)
+
 - teach-exam command
 - Exam template
 - QTI conversion script
@@ -498,6 +521,7 @@ flow-cli/
 **Ship when:** Can create exam and convert to QTI
 
 ### Milestone 2: Polish (2 hours)
+
 - Complete documentation
 - Question bank guide
 - Examples
@@ -505,6 +529,7 @@ flow-cli/
 **Ship when:** Documentation complete
 
 ### Milestone 3: Testing (2 hours)
+
 - Manual testing
 - Test suite (optional)
 
@@ -515,6 +540,7 @@ flow-cli/
 ## Decision Points
 
 ### Should we include Scholar integration?
+
 **Decision:** NO - Defer to future increment
 
 **Rationale:**
@@ -523,6 +549,7 @@ flow-cli/
 - Manual authoring is sufficient for now
 
 ### Should we support multiple exam formats?
+
 **Decision:** NO - Canvas QTI only
 
 **Rationale:**
@@ -531,6 +558,7 @@ flow-cli/
 - Keep scope focused
 
 ### Should we include automated testing?
+
 **Decision:** OPTIONAL - Manual testing sufficient
 
 **Rationale:**

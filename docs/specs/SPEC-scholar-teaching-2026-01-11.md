@@ -63,6 +63,7 @@ Expand the scholar plugin (currently research-focused) to support teaching workf
 ## Secondary User Stories
 
 ### User Story 2: Quality Assurance
+
 **As a** meticulous instructor,
 **I want** scholar to validate generated content for completeness and format correctness,
 **So that** I don't waste time fixing basic errors in AI-generated materials.
@@ -74,6 +75,7 @@ Expand the scholar plugin (currently research-focused) to support teaching workf
 - `--no-validate` flag allows skipping for experienced users
 
 ### User Story 3: Format Flexibility
+
 **As an** instructor publishing to multiple platforms,
 **I want** scholar to output in Markdown, Quarto, LaTeX, or JSON,
 **So that** I can use the same generated content for Canvas, course website, and PDF handouts.
@@ -84,6 +86,7 @@ Expand the scholar plugin (currently research-focused) to support teaching workf
 - Default format read from `.flow/teach-config.yml`
 
 ### User Story 4: Context-Aware Generation
+
 **As an** instructor teaching at different levels,
 **I want** scholar to read course context from flow-cli configuration,
 **So that** generated materials match the course difficulty and style automatically.
@@ -99,6 +102,7 @@ Expand the scholar plugin (currently research-focused) to support teaching workf
 ## Acceptance Criteria (Comprehensive)
 
 ### Functional Requirements
+
 - [ ] `/teaching:exam` generates 10-question exam in < 30s
 - [ ] `/teaching:quiz` generates 5-question quiz in < 15s
 - [ ] `/teaching:lecture` generates lecture outline in < 20s
@@ -109,6 +113,7 @@ Expand the scholar plugin (currently research-focused) to support teaching workf
 - [ ] Generated files have correct metadata (date, course, topic)
 
 ### Integration Requirements
+
 - [ ] Scholar reads `.flow/teach-config.yml` successfully
 - [ ] flow-cli's `teach-exam` wraps `/teaching:exam` correctly
 - [ ] Generated markdown converts with examark (QTI validation)
@@ -116,6 +121,7 @@ Expand the scholar plugin (currently research-focused) to support teaching workf
 - [ ] Generated LaTeX compiles to PDF
 
 ### Quality Requirements
+
 - [ ] User rating of generated content > 8/10
 - [ ] Edit time < 10 min from generation to finalized material
 - [ ] AI generation failure rate < 5%
@@ -128,6 +134,7 @@ Expand the scholar plugin (currently research-focused) to support teaching workf
 ### Architecture
 
 **New Directory Structure:**
+
 ```
 scholar/
 ├── src/
@@ -161,6 +168,7 @@ scholar/
 ```
 
 **Data Flow:**
+
 ```mermaid
 graph TD
     A[User: /teaching:exam ANOVA] --> B[Read .flow/teach-config.yml]
@@ -177,11 +185,13 @@ graph TD
 ### API Design
 
 **Command Signature:**
+
 ```bash
 /teaching:exam <topic> [options]
 ```
 
 **Options:**
+
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `--format` | string | md | Output format (md\|qmd\|tex\|json) |
@@ -194,6 +204,7 @@ graph TD
 | `--no-validate` | flag | false | Skip validation |
 
 **Return Value:**
+
 ```json
 {
   "success": true,
@@ -349,6 +360,7 @@ scholar:
 ## Dependencies
 
 ### Required
+
 | Dependency | Version | Purpose |
 |------------|---------|---------|
 | Node.js | >= 18.0.0 | Runtime environment |
@@ -357,6 +369,7 @@ scholar:
 | ajv | Latest | JSON schema validation |
 
 ### Optional
+
 | Dependency | Version | Purpose |
 |------------|---------|---------|
 | examark | Latest | Markdown → Canvas QTI conversion |
@@ -364,6 +377,7 @@ scholar:
 | texlive | Latest | LaTeX → PDF compilation |
 
 ### Development Dependencies
+
 | Dependency | Version | Purpose |
 |------------|---------|---------|
 | jest | Latest | Unit testing |
@@ -377,6 +391,7 @@ scholar:
 ### Command Output (Terminal)
 
 **Success Output:**
+
 ```
 📝 Generating exam: ANOVA concepts
 
@@ -404,6 +419,7 @@ Next steps:
 ```
 
 **Error Output:**
+
 ```
 📝 Generating exam: ANOVA concepts
 
@@ -435,6 +451,7 @@ Suggestions:
 ### Generated File Format
 
 **Markdown Output (`exams/anova-exam-2026-01-11.md`):**
+
 ```markdown
 # Exam: ANOVA Concepts
 

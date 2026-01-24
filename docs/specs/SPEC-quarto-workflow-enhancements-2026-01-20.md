@@ -158,6 +158,7 @@ teach init stat-545
 ```
 
 **Config:**
+
 ```yaml
 # ~/.config/flow/teaching.yml (extended)
 quarto:
@@ -179,6 +180,7 @@ hooks:
 - Reads config from `teaching.yml`
 
 **Implementation:**
+
 ```bash
 teach hooks install
 
@@ -191,6 +193,7 @@ teach hooks install
 ```
 
 **Output:**
+
 ```
 ✅ Git hooks installed:
    • pre-commit: Validates + renders changed .qmd files
@@ -209,6 +212,7 @@ Disable anytime:
 - Uses freeze cache for speed
 
 **Syntax:**
+
 ```bash
 teach validate              # All changed .qmd files
 teach validate lectures     # Only lectures/*.qmd
@@ -216,6 +220,7 @@ teach validate --full       # Full site render
 ```
 
 **Implementation:**
+
 ```bash
 teach validate
 
@@ -238,6 +243,7 @@ teach validate
 - Uses fzf or simple numbered menu
 
 **Menu:**
+
 ```
 teach cache
 
@@ -250,6 +256,7 @@ Select [1-4]:
 ```
 
 **Commands:**
+
 ```bash
 teach cache refresh  # Direct invocation
 teach cache clear    # With confirmation prompt
@@ -316,6 +323,7 @@ format:
 ### Hook Templates
 
 **templates/hooks/pre-commit.template:**
+
 ```bash
 #!/usr/bin/env zsh
 # Installed by: teach hooks install
@@ -379,6 +387,7 @@ exit 0
 ```
 
 **templates/hooks/pre-push.template:**
+
 ```bash
 #!/usr/bin/env zsh
 # Installed by: teach hooks install
@@ -710,6 +719,7 @@ Commit anyway? [y/N]
 **User Story:** As an instructor, I want dev builds to use freeze caching but production builds to always render fresh.
 
 **Implementation:**
+
 ```yaml
 # _quarto.yml
 project:
@@ -727,6 +737,7 @@ execute:
 ```
 
 **teach deploy enhancement:**
+
 ```zsh
 _teach_deploy() {
     quarto render --profile production
@@ -735,6 +746,7 @@ _teach_deploy() {
 ```
 
 **Config addition:**
+
 ```yaml
 # teaching.yml
 quarto:
@@ -754,6 +766,7 @@ quarto:
 **User Story:** As an instructor, I want pre-commit to detect missing R packages and offer to install them.
 
 **Pre-commit Hook Addition:**
+
 ```zsh
 check_r_dependencies() {
     local file="$1"
@@ -785,6 +798,7 @@ check_r_dependencies() {
 **User Story:** As an instructor, I want to verify my Quarto/freeze/hooks setup with one command.
 
 **Implementation:**
+
 ```zsh
 _teach_doctor() {
     echo "┌─────────────────────────────────────────────┐"
@@ -837,6 +851,7 @@ _teach_doctor() {
 ```
 
 **Usage:**
+
 ```bash
 teach doctor           # Health check
 teach doctor --fix     # Auto-fix issues (future)
@@ -849,6 +864,7 @@ teach doctor --fix     # Auto-fix issues (future)
 **User Story:** As an instructor, I want to be blocked from accidentally committing the 500MB _freeze/ cache.
 
 **Pre-commit Hook Addition:**
+
 ```zsh
 # Check if _freeze/ is staged
 if git diff --cached --name-only | grep -q '^_freeze/'; then
@@ -871,6 +887,7 @@ fi
 **User Story:** As an instructor, I want to run custom checks (e.g., "ensure all lectures have learning objectives").
 
 **Config:**
+
 ```yaml
 # teaching.yml
 validation:
@@ -885,6 +902,7 @@ validation:
 ```
 
 **teach validate enhancement:**
+
 ```zsh
 _teach_validate() {
     # 1. Run Quarto validation (existing)
@@ -903,6 +921,7 @@ _teach_validate() {
 ```
 
 **Example Custom Validator:**
+
 ```bash
 #!/bin/bash
 # scripts/check-learning-objectives.sh

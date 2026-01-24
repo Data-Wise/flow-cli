@@ -305,22 +305,26 @@ feature_complete() {
 **Current API:** Commands communicate through:
 
 1. **Environment variables**
+
    ```zsh
    export FLOW_CURRENT_PROJECT="flow-cli"
    ```
 
 2. **File state**
+
    ```zsh
    echo "project=flow-cli" > ~/.config/flow-cli/.current-session
    ```
 
 3. **Exit codes**
+
    ```zsh
    return 0  # Success
    return 1  # Failure
    ```
 
 4. **stdout/stderr**
+
    ```zsh
    echo "Output"        # To stdout
    echo "Error" >&2     # To stderr
@@ -461,6 +465,7 @@ Commands can then:
 flow-cli provides **zero formal extension points**. All customization is:
 
 1. **User functions in ~/.zshrc**
+
    ```zsh
    # User adds custom function
    my_workflow() {
@@ -469,6 +474,7 @@ flow-cli provides **zero formal extension points**. All customization is:
    ```
 
 2. **Dispatcher passthrough**
+
    ```zsh
    # Unknown subcommands pass to underlying tool
    g cherry-pick abc123  # → git cherry-pick abc123
@@ -476,6 +482,7 @@ flow-cli provides **zero formal extension points**. All customization is:
    ```
 
 3. **Environment variable overrides**
+
    ```zsh
    export FLOW_PROJECTS_ROOT="$HOME/work"
    export FLOW_ATLAS_ENABLED="no"
@@ -678,12 +685,14 @@ Reason: Workflow management is meta-functionality, fits under `flow` namespace
 **Mitigation strategies:**
 
 1. **Namespaced commands**
+
    ```bash
    flow:session:start    # Explicit namespace
    flow:project:pick     # Explicit namespace
    ```
 
 2. **Reserved prefixes**
+
    ```bash
    flow-*     # Reserved for flow-cli
    _flow_*    # Internal functions

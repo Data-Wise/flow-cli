@@ -1101,11 +1101,13 @@ sudo iotop -P
 **Solutions:**
 
 1. **Reduce worker count**:
+
    ```bash
    teach validate --workers 4    # Instead of 8
    ```
 
 2. **Clear old cache**:
+
    ```bash
    teach cache clear --old
    ```
@@ -1131,11 +1133,13 @@ cat .teach/parallel-log/worker-*.log
 **Solutions:**
 
 1. **Clean stale locks**:
+
    ```bash
    rm -rf .teach/parallel-lock/
    ```
 
 2. **Restart validation**:
+
    ```bash
    teach validate --parallel
    ```
@@ -1156,11 +1160,13 @@ watch -n 1 'ps aux | grep quarto'
 **Solutions:**
 
 1. **Reduce worker count**:
+
    ```bash
    teach validate --workers 2
    ```
 
 2. **Increase swap space** (macOS):
+
    ```bash
    # Check current swap
    sysctl vm.swapusage
@@ -1189,11 +1195,13 @@ cat .teach/parallel-progress.txt
 1. **Wait** (large files take time)
 
 2. **Check logs**:
+
    ```bash
    tail -f .teach/parallel-log/worker-1.log
    ```
 
 3. **Cancel and restart**:
+
    ```bash
    # Ctrl+C to cancel
    teach validate --parallel
@@ -2552,6 +2560,7 @@ yq -r '.profile' _quarto.yml
 **Solutions:**
 
 1. **Fix YAML indentation**:
+
    ```yaml
    # Wrong (profiles not under 'profile' key)
    profiles:
@@ -2567,6 +2576,7 @@ yq -r '.profile' _quarto.yml
    ```
 
 2. **Validate YAML**:
+
    ```bash
    yq -r . _quarto.yml > /dev/null
    # If error, fix syntax issues
@@ -2594,17 +2604,20 @@ Rscript -e 'install.packages("tidyverse")'
 **Solutions:**
 
 1. **Set CRAN mirror**:
+
    ```r
    # In ~/.Rprofile
    options(repos = c(CRAN = "https://cran.rstudio.com"))
    ```
 
 2. **Update R**:
+
    ```bash
    brew upgrade r
    ```
 
 3. **Check package name**:
+
    ```bash
    # Some packages have different names
    # dplyr is part of tidyverse
@@ -2633,21 +2646,25 @@ ps aux | grep 'Z'
 **Solutions:**
 
 1. **Clean stale locks**:
+
    ```bash
    rm -rf .teach/parallel-lock/
    ```
 
 2. **Kill zombie processes**:
+
    ```bash
    pkill -9 quarto
    ```
 
 3. **Reduce worker count**:
+
    ```bash
    teach validate --workers 2
    ```
 
 4. **Disable parallel rendering temporarily**:
+
    ```bash
    teach validate --workers 1  # Serial
    ```
@@ -2674,17 +2691,20 @@ ls -l .teach/validators/*.zsh
 **Solutions:**
 
 1. **Make validators executable**:
+
    ```bash
    chmod +x .teach/validators/*.zsh
    ```
 
 2. **Fix shebang**:
+
    ```bash
    # First line must be:
    #!/usr/bin/env zsh
    ```
 
 3. **Check validator syntax**:
+
    ```bash
    zsh -n .teach/validators/check-packages.zsh
    ```
@@ -2711,6 +2731,7 @@ find _freeze/ -name '*.json' -size 0
 **Solutions:**
 
 1. **Enable freeze**:
+
    ```yaml
    # In _quarto.yml
    execute:
@@ -2718,11 +2739,13 @@ find _freeze/ -name '*.json' -size 0
    ```
 
 2. **Clear corrupted cache**:
+
    ```bash
    teach cache clear
    ```
 
 3. **Check file modifications**:
+
    ```bash
    # Files with frequent changes have low hit rates
    git log --oneline lectures/week-08.qmd | wc -l
@@ -2747,11 +2770,13 @@ ls -lh .teach/performance-log.json
 **Solutions:**
 
 1. **Restore from backup**:
+
    ```bash
    cp .teach/performance-log.json.bak .teach/performance-log.json
    ```
 
 2. **Reset log**:
+
    ```bash
    cat > .teach/performance-log.json <<EOF
    {
@@ -2762,6 +2787,7 @@ ls -lh .teach/performance-log.json
    ```
 
 3. **Extract valid entries**:
+
    ```bash
    # Try to salvage valid entries
    jq '.entries | map(select(.timestamp != null))' .teach/performance-log.json.bak > .teach/performance-log.json

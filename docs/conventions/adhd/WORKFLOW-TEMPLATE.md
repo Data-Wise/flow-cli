@@ -667,6 +667,7 @@ Always include variations that show:
 3. **Different complexity levels** (e.g., quick vs thorough)
 
 **Format:**
+
 ```markdown
 ### Variation N: [Name]
 

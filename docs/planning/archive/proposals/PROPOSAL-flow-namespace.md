@@ -227,15 +227,15 @@ v() {
 
 ### 🔧 Medium Effort (1-2 hours)
 
-4. `flow test` with context detection
-5. `flow sync` smart git operations
-6. Rename `tutorial` → `flow learn`
+1. `flow test` with context detection
+2. `flow sync` smart git operations
+3. Rename `tutorial` → `flow learn`
 
 ### 🏗️ Long-term (Future sessions)
 
-7. Full ZSH completions
-8. `flow setup` first-time wizard
-9. Remove `v` dispatcher entirely
+1. Full ZSH completions
+2. `flow setup` first-time wizard
+3. Remove `v` dispatcher entirely
 
 ---
 

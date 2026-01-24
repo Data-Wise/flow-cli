@@ -472,6 +472,7 @@ Let me explain each implementation task in detail so you can decide which to kee
 - Updates documentation to show `teach init` as canonical
 
 **Code changes:**
+
 ```zsh
 # In commands/teach-init.zsh
 teach-init() {
@@ -494,6 +495,7 @@ teach-init() {
 - Shows simple pass/fail output
 
 **Example output:**
+
 ```
 Dependencies:
   ✓ yq (4.35.1)
@@ -515,6 +517,7 @@ Dependencies:
 - Shows usage, options, examples
 
 **Example:**
+
 ```bash
 $ teach exam --help
 
@@ -547,6 +550,7 @@ EXAMPLES
 - Adds `--json` output for scripts
 
 **Example:**
+
 ```bash
 $ teach doctor --fix
   ✗ yq (not found)
@@ -569,6 +573,7 @@ $ teach doctor --fix
 - Adds retention policies (archive assessments, delete old lectures)
 
 **Example:**
+
 ```bash
 $ teach exam "Midterm 1" --update
   Backed up: exams/midterm-1/ → exams/midterm-1/.backups/midterm-1.2026-01-18-1430/
@@ -591,6 +596,7 @@ $ teach exam "Midterm 1" --update
 - Deletes lecture backups (ephemeral content)
 
 **Example:**
+
 ```bash
 $ teach archive
 
@@ -860,10 +866,12 @@ ls exams/
 1. **Review this spec**
 2. **Decide on decision points** (Section 7)
 3. **Create implementation branch:**
+
    ```bash
    git worktree add ~/.git-worktrees/flow-cli-teach-v3 \
      -b feature/teach-v3-enhancements dev
    ```
+
 4. **Start with Quick Wins** (teach doctor skeleton)
 
 ---
@@ -887,27 +895,32 @@ ls exams/
 ## Summary of Changes (v3.0)
 
 ### Core Modifications
+
 - ❌ teach-init → **Delete entirely** (not deprecate)
 - ✅ teach doctor → **Add config validation** to basic version
 - ⚠️ teach archive → **Prompt before deleting** (not auto-delete)
 
 ### New Enhancements (Phase 1)
+
 - **teach status**: Deployment status + backup summary
 - **teach deploy**: Preview changes before PR
 - **Scholar wrappers**: Templates + lesson plan integration
 - **teach init**: Project templates + GitHub setup (optional flags)
 
 ### Future Enhancements (Phase 2)
+
 - **teach week**: Topic preview + content checklist
 - **teach dates**: Holiday detection
 - **teach config**: Interactive editor
 
 ### Testing Strategy
+
 - Unit tests + Integration tests + scholar-demo-course validation
 
 ## Next Steps
 
 1. **Create implementation branch:**
+
    ```bash
    git worktree add ~/.git-worktrees/flow-cli-teach-v3 \
      -b feature/teach-v3-enhancements dev

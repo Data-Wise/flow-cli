@@ -40,6 +40,7 @@
 - Duplication risk
 
 **Example confusion:**
+
 ```
 lesson-plan.yml:               # Global context
   course: "STAT 545"
@@ -71,6 +72,7 @@ lesson-plan.yml:               # Global context
 ### Issue 3: Dashboard Adds More Data
 
 **v5.15.0 adds:**
+
 ```yaml
 semester_info:
   weeks:
@@ -116,6 +118,7 @@ dashboard:
 **Principle:** Reference, don't duplicate
 
 **Pattern:**
+
 ```yaml
 # Good: Reference
 weeks:
@@ -236,6 +239,7 @@ scholar_context:          # NEW: Merge lesson-plan.yml here
 ```
 
 **teach-config.yml** - Structure only:
+
 ```yaml
 course:
   name: "STAT 545"
@@ -256,6 +260,7 @@ scholar_context_file: ".flow/scholar-context.yml"
 ```
 
 **scholar-context.yml** - Pedagogy only:
+
 ```yaml
 # Global pedagogical context for Scholar
 
@@ -277,6 +282,7 @@ common_misconceptions:
 ```
 
 **lesson-plans/week-01.yml** - Week-specific context:
+
 ```yaml
 # Week 1 specific context
 
@@ -363,12 +369,14 @@ dashboard:
 **Consolidate Scholar context files**
 
 **Migration path:**
+
 ```bash
 teach scholar migrate
 # Combines lesson-plan.yml + per-week files into scholar-context.yml
 ```
 
 **New structure:**
+
 ```
 .flow/
 ├── teach-config.yml          # Course structure
@@ -434,6 +442,7 @@ Configuration precedence (highest to lowest):
 - Primitives: Override
 
 **Example:**
+
 ```yaml
 # scholar-context.yml
 learning_objectives:
@@ -485,6 +494,7 @@ teach validate --strict
 ### v5.14.0 → v5.15.0 (Dashboard)
 
 **Manual migration:**
+
 ```yaml
 # Add to existing .flow/teach-config.yml
 
@@ -502,6 +512,7 @@ dashboard:
 ### v5.15.0 → v5.16.0 (Scholar Consolidation)
 
 **Auto-migration command:**
+
 ```bash
 teach scholar migrate
 
@@ -629,6 +640,7 @@ teach lecture "Topic" --week 5
 ### 1. Should dashboard announcements live in YAML or only JSON?
 
 **Option A:** YAML (source), sync to JSON
+
 ```yaml
 dashboard:
   announcements:
@@ -637,6 +649,7 @@ dashboard:
 ```
 
 **Option B:** JSON only (generated)
+
 ```bash
 teach dashboard announce "Welcome" --expires 2026-01-26
 # Only updates .flow/semester-data.json
@@ -652,6 +665,7 @@ teach dashboard announce "Welcome" --expires 2026-01-26
 ### 2. Where should per-week URLs be stored?
 
 **Option A:** In teach-config.yml (structural)
+
 ```yaml
 weeks:
   - number: 5
@@ -659,6 +673,7 @@ weeks:
 ```
 
 **Option B:** Generated from conventions
+
 ```bash
 # Convention: lectures/week-{NN}_{topic-slug}.qmd
 teach dashboard generate --infer-urls
@@ -673,6 +688,7 @@ teach dashboard generate --infer-urls
 **Current:** Manual (Scholar creates file, user adds URL to config)
 
 **Proposed:** Auto-update
+
 ```bash
 teach lecture "Topic" --week 5
 # Creates: lectures/week-05_topic.qmd

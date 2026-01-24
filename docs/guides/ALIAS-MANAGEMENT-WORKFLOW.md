@@ -34,6 +34,7 @@ flow alias doctor
 - Per-alias status (healthy/shadow/broken)
 
 **Example output:**
+
 ```
 ⚡ ALIAS HEALTH CHECK
 
@@ -65,11 +66,13 @@ flow alias find --exact gst
 ### 3. Create a New Alias
 
 **One-liner mode:**
+
 ```bash
 flow alias add myalias='echo hello world'
 ```
 
 **Interactive mode (wizard):**
+
 ```bash
 flow alias add
 # Prompts for:
@@ -124,6 +127,7 @@ flow doctor
 ```
 
 **Output includes:**
+
 ```
 ⚡ ALIASES
   45 aliases (2 shadows, 1 broken)
@@ -236,4 +240,4 @@ flow alias help
 
 ---
 
-_Created: 2026-01-12 (v5.4.0)_
+*Created: 2026-01-12 (v5.4.0)*

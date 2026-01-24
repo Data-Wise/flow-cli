@@ -27,6 +27,7 @@ Currently, flow-cli has no way to verify Scholar availability - it would just fa
 ## Options
 
 ### Option A: Simple CLI Check (Recommended)
+
 **Effort:** ⚡ Quick (30 min)
 **Pros:** Simple, no dependencies, works offline
 **Cons:** Can't check plugin availability directly
@@ -53,6 +54,7 @@ _teach_check_scholar() {
 ---
 
 ### Option B: Plugin Detection via Settings
+
 **Effort:** 🔧 Medium (1-2 hours)
 **Pros:** Can verify Scholar is actually installed
 **Cons:** Relies on settings file structure (may change)
@@ -87,6 +89,7 @@ _teach_check_scholar() {
 ---
 
 ### Option C: Runtime Validation (Most Robust)
+
 **Effort:** 🏗️ Large (2-3 hours)
 **Pros:** Actually tests Scholar availability
 **Cons:** Requires Claude API call, slower, costs API credits
@@ -110,6 +113,7 @@ _teach_validate_scholar() {
 ---
 
 ### Option D: Hybrid Approach (Pragmatic)
+
 **Effort:** 🔧 Medium (1 hour)
 **Pros:** Fast local checks + graceful degradation
 **Cons:** More complex logic
@@ -193,14 +197,16 @@ The `_teach_check_scholar()` function implements step 3.
 
 ## User Experience
 
-### Before (no check):
+### Before (no check)
+
 ```bash
 $ teach exam "Hypothesis Testing"
 # ... long pause ...
 # Cryptic error from Claude CLI
 ```
 
-### After (with check):
+### After (with check)
+
 ```bash
 $ teach exam "Hypothesis Testing"
 ❌ teach: Claude Code CLI not found

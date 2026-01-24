@@ -43,6 +43,7 @@
 ## 📦 What Gets Synced
 
 ### Via Chezmoi (Git)
+
 - `.zshrc`, `.zshenv` (shell configuration)
 - `.gitconfig` (git settings)
 - `.ssh/config` (SSH hosts)
@@ -51,17 +52,20 @@
 - Templates (machine-specific values)
 
 ### Via Bitwarden (Cloud Vault)
+
 - API keys (Anthropic, GitHub, Desktop Commander)
 - Credentials (UNM VPN, services)
 - 2FA codes
 - Secure notes
 
 ### Via Mise (Project-Level)
+
 - R version (4.5.2)
 - Python version (3.12)
 - Node version (per-project)
 
 ### NOT Synced
+
 - R package source code (use git per-package)
 - Large data files (use cloud storage)
 - IDE settings (unless explicitly added)
@@ -81,11 +85,13 @@
 **Steps:**
 
 1. **Initialize Chezmoi on iMac**
+
    ```bash
    chezmoi init
    ```
 
 2. **Add current configs**
+
    ```bash
    chezmoi add ~/.config/zsh/.zshrc
    chezmoi add ~/.config/zsh/.zshenv
@@ -93,11 +99,13 @@
    ```
 
 3. **Create Brewfile**
+
    ```bash
    brew bundle dump --file ~/.local/share/chezmoi/Brewfile
    ```
 
 4. **Version control**
+
    ```bash
    cd ~/.local/share/chezmoi
    git init
@@ -108,6 +116,7 @@
    ```
 
 5. **Test on iMac**
+
    ```bash
    # Edit config
    chezmoi edit ~/.zshrc
@@ -120,6 +129,7 @@
    ```
 
 6. **Setup on MacBook**
+
    ```bash
    chezmoi init --apply git@github.com:Data-Wise/dotfiles-private.git
    ```
@@ -151,12 +161,14 @@ Edit .zshrc on iMac → push → pull on MacBook → changes appear automaticall
      - "Anthropic API Key" → password: `sk-ant-...`
 
 3. **Convert .zshrc to template**
+
    ```bash
    # In ~/.local/share/chezmoi/
    mv dot_config/zsh/dot_zshrc dot_config/zsh/dot_zshrc.tmpl
    ```
 
 4. **Add Bitwarden queries to template**
+
    ```bash
    # In dot_zshrc.tmpl, replace hardcoded secrets:
    
@@ -169,6 +181,7 @@ Edit .zshrc on iMac → push → pull on MacBook → changes appear automaticall
    ```
 
 5. **Test secret injection**
+
    ```bash
    export BW_SESSION=$(bw unlock --raw)
    chezmoi apply
@@ -176,6 +189,7 @@ Edit .zshrc on iMac → push → pull on MacBook → changes appear automaticall
    ```
 
 6. **Commit and sync**
+
    ```bash
    cd ~/.local/share/chezmoi
    git add .
@@ -198,17 +212,20 @@ Edit .zshrc on iMac → push → pull on MacBook → changes appear automaticall
 **Steps:**
 
 1. **Add mise to Brewfile**
+
    ```bash
    # In ~/.local/share/chezmoi/Brewfile
    brew "mise"
    ```
 
 2. **Install on both machines**
+
    ```bash
    brew bundle --file ~/.local/share/chezmoi/Brewfile
    ```
 
 3. **Pin versions in R package projects**
+
    ```bash
    cd ~/R-packages/medfit
    mise use R@4.5.2 python@3.12
@@ -217,12 +234,14 @@ Edit .zshrc on iMac → push → pull on MacBook → changes appear automaticall
    ```
 
 4. **Configure shell integration**
+
    ```bash
    # Add to .zshrc.tmpl (if not already present)
    eval "$(mise activate zsh)"
    ```
 
 5. **Test version consistency**
+
    ```bash
    cd ~/R-packages/medfit
    mise install
@@ -253,6 +272,7 @@ Same R/Python versions on iMac and MacBook for all projects
 ## 📋 Daily Workflows
 
 ### Update Config on iMac
+
 ```bash
 # Edit dotfile
 chezmoi edit ~/.zshrc
@@ -270,12 +290,14 @@ git push
 ```
 
 ### Sync Changes on MacBook
+
 ```bash
 # Pull latest changes
 chezmoi update
 ```
 
 ### Add New Secret
+
 ```bash
 # Option 1: GUI (recommended)
 # Open vault.bitwarden.com → Create Item
@@ -291,6 +313,7 @@ chezmoi apply
 ```
 
 ### Setup New Machine
+
 ```bash
 # 1. Install Homebrew (if needed)
 # 2. Install tools
@@ -317,12 +340,14 @@ mise install
 ## 🔧 Troubleshooting
 
 ### Bitwarden session expired
+
 ```bash
 export BW_SESSION=$(bw unlock --raw)
 chezmoi apply
 ```
 
 ### Secrets not injecting
+
 ```bash
 # Check Bitwarden is unlocked
 bw status
@@ -332,6 +357,7 @@ chezmoi execute-template < ~/.local/share/chezmoi/dot_zshrc.tmpl
 ```
 
 ### Mise not activating
+
 ```bash
 # Verify shell integration in .zshrc
 grep "mise activate" ~/.zshrc
@@ -341,6 +367,7 @@ exec zsh
 ```
 
 ### Chezmoi conflicts
+
 ```bash
 # See what would change
 chezmoi diff
@@ -370,6 +397,7 @@ chezmoi apply --force
 ## 🎓 Key Concepts
 
 ### Chezmoi Templates
+
 ```bash
 # Machine-specific values
 {{ if eq .chezmoi.hostname "iMac.local" }}
@@ -384,6 +412,7 @@ export API_KEY="{{ $item.login.password }}"
 ```
 
 ### Bitwarden Item Structure
+
 ```json
 {
   "name": "Desktop Commander API",
@@ -395,6 +424,7 @@ export API_KEY="{{ $item.login.password }}"
 ```
 
 ### Mise Configuration
+
 ```toml
 # .mise.toml in project root
 [tools]

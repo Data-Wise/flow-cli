@@ -30,6 +30,7 @@ flow plugin list -a
 ```
 
 **Output example:**
+
 ```
 ✓ example-plugin   v1.0.0  Enabled
 ○ my-custom        v0.1.0  Disabled
@@ -65,6 +66,7 @@ flow plugin create my-workflow
 ```
 
 **Prompts:**
+
 ```
 Plugin name: my-workflow
 Created: ~/.config/flow/plugins/my-workflow/
@@ -115,6 +117,7 @@ EOF
 ```
 
 **Reload shell:**
+
 ```bash
 exec zsh
 flow plugin list  # Should show your plugin
@@ -293,6 +296,7 @@ gh repo create flow-plugin-my-awesome-tool --public --source=. --push
 ```
 
 **Now others can install:**
+
 ```bash
 flow plugin install gh:yourusername/flow-plugin-my-awesome-tool
 ```
@@ -512,6 +516,7 @@ flow plugin disable bundled-plugin
 3. Syntax error in main.zsh
 
 **Solutions:**
+
 ```bash
 # Check plugin status
 flow plugin list -a
@@ -535,6 +540,7 @@ zsh -x ~/.config/flow/plugins/my-plugin/main.zsh
 **Cause:** Hook not registered or wrong event name
 
 **Solution:**
+
 ```bash
 # View registered hooks
 flow plugin hooks
@@ -554,6 +560,7 @@ grep "flow_hook_register" ~/.config/flow/plugins/my-plugin/main.zsh
 **Cause:** Function name collision
 
 **Solution:**
+
 ```bash
 # Use plugin prefix in function names
 # Bad:  deploy()
@@ -570,6 +577,7 @@ grep "flow_hook_register" ~/.config/flow/plugins/my-plugin/main.zsh
 ### DO ✅
 
 **1. Prefix function names**
+
 ```bash
 # Avoid conflicts
 _myplugin_helper() { ... }
@@ -577,6 +585,7 @@ myplugin_command() { ... }
 ```
 
 **2. Clean up on disable**
+
 ```bash
 # Add cleanup function
 _myplugin_cleanup() {
@@ -586,6 +595,7 @@ _myplugin_cleanup() {
 ```
 
 **3. Document your plugin**
+
 ```bash
 # Clear README.md with:
 # - What it does
@@ -595,6 +605,7 @@ _myplugin_cleanup() {
 ```
 
 **4. Version your plugin**
+
 ```json
 {
   "version": "1.2.0",  // Semantic versioning
@@ -610,6 +621,7 @@ _myplugin_cleanup() {
 ### DON'T ❌
 
 **1. Don't modify flow-cli core**
+
 ```bash
 # ❌ Bad: Override core functions
 work() { ... }  # Don't do this!
@@ -623,6 +635,7 @@ my_work_wrapper() {
 ```
 
 **2. Don't block the shell**
+
 ```bash
 # ❌ Bad: Long-running operations
 while true; do
@@ -635,6 +648,7 @@ done
 ```
 
 **3. Don't assume dependencies**
+
 ```bash
 # ❌ Bad: Direct usage
 docker ps

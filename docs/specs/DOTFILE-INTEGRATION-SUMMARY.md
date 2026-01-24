@@ -47,6 +47,7 @@ df help             # Full help
 ### #1: `dot edit <file>` (60% daily use)
 
 **Flow:**
+
 ```bash
 df edit .zshrc
 # → Opens in editor
@@ -63,6 +64,7 @@ df edit .zshrc
 ### #2: `dot sync` (25% daily use)
 
 **Flow:**
+
 ```bash
 df sync
 # → Pull from remote
@@ -79,6 +81,7 @@ df sync
 ### #3: `dot status` (15% daily use)
 
 **Flow:**
+
 ```bash
 df
 # OR: df status
@@ -89,6 +92,7 @@ df
 ```
 
 **Output:**
+
 ```
 📦 Dotfiles: 🟢 Synced (2h ago)
 🔐 Secrets: ✓ 3 injected
@@ -101,6 +105,7 @@ df
 ## 4. Error Recovery (ADHD-Optimized)
 
 ### Bitwarden Session Expired
+
 ```bash
 $ df edit .zshrc
 ⚠ Bitwarden session expired
@@ -113,6 +118,7 @@ $ df edit .zshrc
 **Auto-recovery:** Detects + prompts + resumes
 
 ### Merge Conflicts
+
 ```bash
 $ df sync
 ⚠ Merge conflict: ~/.zshrc
@@ -130,6 +136,7 @@ Choice [1-4]: 3
 **Guided resolution:** Clear options, no guessing
 
 ### Secret Injection Failure
+
 ```bash
 $ df apply
 ⚠ Secret missing: "Desktop Commander API"
@@ -181,6 +188,7 @@ $ work flow-cli
 **Integration point:** Add check to `work()` function
 
 **Opt-out:**
+
 ```bash
 export FLOW_DF_CHECK_ON_WORK=0  # Disable
 ```
@@ -206,6 +214,7 @@ $ flow doctor
 ## 6. Discoverability Strategy
 
 ### Level 1: Quick hints (default)
+
 ```bash
 $ df
 # Shows status + 3 quick actions at bottom
@@ -213,12 +222,14 @@ $ df
 ```
 
 ### Level 2: Full help
+
 ```bash
 $ df help
 # Complete reference with examples
 ```
 
 ### Level 3: Inline context
+
 ```bash
 $ df diff
 # Shows changes...
@@ -226,6 +237,7 @@ $ df diff
 ```
 
 ### Level 4: Dashboard integration
+
 ```bash
 $ dash
 # Shows dotfile status + suggested action
@@ -236,6 +248,7 @@ $ dash
 ## 7. Implementation Roadmap
 
 ### Phase 1: Foundation (4 hours)
+
 - [ ] Create `lib/dispatchers/dot-dispatcher.zsh`
 - [ ] Implement `dot status`
 - [ ] Implement `dot help`
@@ -244,6 +257,7 @@ $ dash
 **Deliverable:** Basic `dot` and `dot help` work
 
 ### Phase 2: Core Workflows (8 hours)
+
 - [ ] Implement `dot edit`
 - [ ] Implement `dot sync`
 - [ ] Implement `dot push`
@@ -253,6 +267,7 @@ $ dash
 **Deliverable:** Full edit → preview → apply workflow
 
 ### Phase 3: Secret Management (6 hours)
+
 - [ ] Implement `dot unlock`
 - [ ] Implement `dot secret list`
 - [ ] Implement `dot secret add`
@@ -261,6 +276,7 @@ $ dash
 **Deliverable:** Secrets work transparently
 
 ### Phase 4: Integration (4 hours)
+
 - [ ] Add to `dash` command
 - [ ] Add to `work` command
 - [ ] Add to `flow doctor`
@@ -269,6 +285,7 @@ $ dash
 **Deliverable:** Feels like native flow-cli feature
 
 ### Phase 5: Polish (4 hours)
+
 - [ ] Add ZSH completions (`completions/_dot`)
 - [ ] Write test suite (`tests/dot-dispatcher.test.zsh`)
 - [ ] Update `DISPATCHER-REFERENCE.md`
@@ -313,17 +330,20 @@ flow-cli/
 ## 9. Success Metrics
 
 ### Week 4 (Post-MVP)
+
 - [ ] User runs `dot` at least once per day
 - [ ] Zero manual `chezmoi` commands needed
 - [ ] Secrets successfully injected on both machines
 - [ ] Average command: ≤ 3 words
 
 ### Week 8 (Adoption)
+
 - [ ] Error messages actionable in ≤ 1 step
 - [ ] Status check: < 1 second
 - [ ] User comfortable with all 3 core commands
 
 ### Week 12 (Mastery)
+
 - [ ] Zero sync conflicts (auto-resolved)
 - [ ] Zero secret injection failures
 - [ ] Dashboard integration feels natural
@@ -373,22 +393,26 @@ flow-cli/
 ## 12. Why This Design Works (ADHD Lens)
 
 ### Discoverable
+
 - `dot` → See options immediately
 - Inline hints after every command
 - Help system has 3 levels (quick → full → detailed)
 
 ### Consistent
+
 - Same pattern as all dispatchers (g, mcp, cc, etc.)
 - Same color scheme (green = success, yellow = warning)
 - Same error format (problem → suggestion → action)
 
 ### Forgiving
+
 - Fuzzy path matching (no exact paths needed)
 - Auto-backup before changes
 - Undo always available
 - Preview before destructive operations
 
 ### Fast
+
 - All commands < 3 seconds
 - Zero-config after setup
 - Smart defaults (no flags needed for common tasks)
@@ -429,6 +453,7 @@ flow-cli/
 ## 15. Next Steps
 
 ### Immediate (This Week)
+
 1. **Review design docs:**
    - `dotfile-ux-design.md` (full design)
    - `dot-dispatcher-refcard.md` (quick reference)
@@ -444,16 +469,19 @@ flow-cli/
    - Phased approach OK?
 
 ### Week 1: Foundation
+
 - Create `dot-dispatcher.zsh` skeleton
 - Implement basic status and help
 - Test with existing chezmoi setup
 
 ### Week 2-3: Core Features
+
 - Implement edit/sync/push/diff/apply
 - Add secret management
 - Test on both machines (iMac + MacBook)
 
 ### Week 4: Integration & Polish
+
 - Add to dash/work/doctor
 - Write completions and tests
 - Update documentation
@@ -463,11 +491,13 @@ flow-cli/
 ## 16. Documentation Deliverables
 
 ### Completed (Design Phase)
+
 - ✅ `dotfile-ux-design.md` - Full UX design (69 KB)
 - ✅ `dot-dispatcher-refcard.md` - Quick reference (15 KB)
 - ✅ `DOTFILE-INTEGRATION-SUMMARY.md` - This summary
 
 ### To Create (Implementation Phase)
+
 - [ ] `DOT-DISPATCHER-REFERENCE.md` - User-facing docs
 - [ ] `dotfile-setup.md` - Tutorial for first-time setup
 - [ ] `_dot` - ZSH completion file

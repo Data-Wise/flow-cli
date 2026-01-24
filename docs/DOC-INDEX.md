@@ -8,11 +8,13 @@
 ## Quick Navigation
 
 ### 🚀 Getting Started
+
 - [Quick Start](getting-started/quick-start.md) - 5-minute tutorial
 - [Installation](getting-started/installation.md) - Installation guide
 - [Your First Session](tutorials/01-first-session.md) - Your first workflow
 
 ### 📚 Reference Documentation
+
 - **[API Complete Reference](reference/API-COMPLETE.md)** - Complete API documentation
 - **[Architecture Diagrams](diagrams/ARCHITECTURE-DIAGRAMS.md)** - System architecture diagrams
 - **[Token Automation](guides/DOCTOR-TOKEN-USER-GUIDE.md)** - Smart token management (v5.17.0) ⭐ **NEW**
@@ -22,22 +24,26 @@
 - [Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md) - All aliases
 
 ### 🛠️ Developer Documentation
+
 - **[Developer Guide](guides/DEVELOPER-GUIDE.md)** - Contributing and development ⭐ **NEW**
 - [Architecture](reference/ARCHITECTURE.md) - System design
 - [Conventions](CONVENTIONS.md) - Code standards
 - [Testing Guide](guides/TESTING.md) - Writing tests
 
 ### 📖 Guides & Tutorials
+
 - [ADHD Features Guide](guides/DOPAMINE-FEATURES-GUIDE.md) - Win tracking, streaks, goals
 - [Scholar Integration](guides/SCHOLAR-INTEGRATION.md) - Teaching workflow
 - [Safe Testing](guides/SAFE-TESTING-v5.9.0.md) - Testing in sandboxes
 - [Tutorials Index](tutorials/index.md) - Learning path
 
 ### 🔧 Configuration
+
 - [Environment Variables](getting-started/installation.md#environment-variables) - Env var reference
 - [Flow Command Options](commands/flow.md) - Configuration options
 
 ### 🎓 Teaching System
+
 - [Teaching System Architecture](TEACHING-SYSTEM-ARCHITECTURE.md) - Full system overview
 - [Tutorial 14: Teach Dispatcher](tutorials/14-teach-dispatcher.md) - Teaching commands
 
@@ -114,12 +120,14 @@
 ## Documentation by Feature
 
 ### Git & Worktrees
+
 - **Worktree Detection:** [API-COMPLETE.md#worktree-detection](reference/API-COMPLETE.md#_proj_list_worktrees)
 - **Architecture:** [ARCHITECTURE-DIAGRAMS.md#worktree-detection-flow](diagrams/ARCHITECTURE-DIAGRAMS.md#worktree-detection-flow)
 - **Git Dispatcher:** [DISPATCHER-REFERENCE.md#g-dispatcher](reference/DISPATCHER-REFERENCE.md#g-git-dispatcher)
 - **WT Dispatcher:** [DISPATCHER-REFERENCE.md#wt-dispatcher](reference/DISPATCHER-REFERENCE.md#wt-worktree-dispatcher)
 
 ### Teaching Workflow
+
 - **Overview:** [TEACHING-SYSTEM-ARCHITECTURE.md](TEACHING-SYSTEM-ARCHITECTURE.md)
 - **Scholar Integration:** [guides/SCHOLAR-INTEGRATION.md](guides/SCHOLAR-INTEGRATION.md)
 - **API:** [API-COMPLETE.md#teach-dispatcher](reference/API-COMPLETE.md#teaching-dispatcher-teach)
@@ -127,11 +135,13 @@
 - **Config Validation:** [API-COMPLETE.md#config-validation](reference/API-COMPLETE.md#configuration-validation)
 
 ### Project Management
+
 - **Pick Command:** [API-COMPLETE.md#pick](reference/API-COMPLETE.md#project-picker-pick)
 - **Dashboard:** [API-COMPLETE.md#dash](reference/API-COMPLETE.md#dashboard-dash)
 - **Session Management:** [API-COMPLETE.md#session-management](reference/API-COMPLETE.md#session-management)
 
 ### Cache & Performance
+
 - **Cache System:** [API-COMPLETE.md#cache-management](reference/API-COMPLETE.md#cache-management)
 - **Cache Invalidation:** [ARCHITECTURE-DIAGRAMS.md#cache-invalidation-flow](diagrams/ARCHITECTURE-DIAGRAMS.md#cache-invalidation-flow)
 - **Performance:** [API-COMPLETE.md#performance-characteristics](reference/API-COMPLETE.md#performance-characteristics)
@@ -228,6 +238,7 @@
 ### Code Examples
 
 **Format:**
+
 ```zsh
 # Comment explaining what this does
 command_name --option value
@@ -239,6 +250,7 @@ command_name --option value
 ### Diagrams
 
 **Mermaid Format:**
+
 ```mermaid
 graph TD
     A[Start] --> B[Process]
@@ -248,6 +260,7 @@ graph TD
 ### Cross-References
 
 **Link Format:**
+
 ```markdown
 See [Document Name](path/to/document.md#anchor)
 ```
@@ -287,7 +300,7 @@ See [Document Name](path/to/document.md#anchor)
 - Maximum 3 levels deep (#, ##, ###)
 
 **Code Blocks:**
-- Always specify language (```zsh, ```bash, ```yaml)
+- Always specify language (```zsh,```bash, ```yaml)
 - Include comments for complex examples
 - Show expected output when helpful
 
@@ -317,16 +330,19 @@ See [Document Name](path/to/document.md#anchor)
 ## Search Tips
 
 **Find specific function:**
+
 ```bash
 grep -r "function_name" docs/reference/
 ```
 
 **Find examples:**
+
 ```bash
 grep -r "Example:" docs/
 ```
 
 **Find all references to a feature:**
+
 ```bash
 grep -r "worktree" docs/
 ```

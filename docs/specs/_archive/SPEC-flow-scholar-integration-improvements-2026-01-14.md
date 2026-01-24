@@ -101,6 +101,7 @@ This spec analyzes the current integration between flow-cli's `teach` dispatcher
 The `teach lecture` wrapper exists in flow-cli but Scholar's `/teaching:lecture` skill is still in development. This is the most critical blocker.
 
 **Current Workaround:**
+
 ```bash
 # Users must use Claude directly
 claude "Create a lecture outline for Week 3: Data Wrangling"
@@ -113,6 +114,7 @@ claude "Create a lecture outline for Week 3: Data Wrangling"
 Flow-cli doesn't explicitly pass the config file path to Scholar. Scholar searches parent directories, which works but is fragile.
 
 **Current Flow:**
+
 ```bash
 # flow-cli
 teach exam "Midterm"
@@ -130,6 +132,7 @@ claude --print "/teaching:exam" "Midterm"
 Flow-cli passes flags to Scholar without validation. Invalid flags fail inside Claude with cryptic errors.
 
 **Example:**
+
 ```bash
 teach exam --invalid-flag "Midterm"
 # Results in Claude error, not helpful flow-cli error
@@ -178,6 +181,7 @@ No standardized output directory configuration in flow-cli.
 Add `--config` flag support to pass config path explicitly.
 
 **Implementation in flow-cli:**
+
 ```bash
 # In _teach_build_command()
 local config_path=$(_flow_find_teach_config)
@@ -207,6 +211,7 @@ _flow_find_teach_config() {
 Add standardized output paths in config.
 
 **Config addition (.flow/teach-config.yml):**
+
 ```yaml
 output:
   exams: exams/
@@ -218,6 +223,7 @@ output:
 ```
 
 **Flow-cli change:**
+
 ```bash
 # After Scholar generates content
 _teach_post_process() {
@@ -240,6 +246,7 @@ _teach_post_process() {
 Validate flags before passing to Scholar.
 
 **Implementation:**
+
 ```bash
 # Known flags per command
 typeset -A TEACH_EXAM_FLAGS=(
@@ -281,6 +288,7 @@ _teach_validate_flags() {
 Auto-process generated content.
 
 **Implementation:**
+
 ```bash
 _teach_post_hooks() {
     local generated_file="$1"
@@ -321,6 +329,7 @@ _teach_show_summary() {
 Add `--interactive` flag for iterative refinement.
 
 **Implementation:**
+
 ```bash
 teach exam --interactive "Midterm"
 
@@ -339,6 +348,7 @@ teach exam --interactive "Midterm"
 Show spinner/progress for long operations.
 
 **Implementation:**
+
 ```bash
 _teach_with_progress() {
     local cmd="$1"
@@ -365,6 +375,7 @@ _teach_with_progress() {
 Show Scholar-generated content in `teach status`.
 
 **Implementation:**
+
 ```bash
 _teach_status_enhanced() {
     # Current status display
@@ -399,6 +410,7 @@ _teach_status_enhanced() {
 Combine flow-cli and Scholar help in one view.
 
 **Implementation:**
+
 ```bash
 _teach_help() {
     # Flow-cli native commands
@@ -511,10 +523,12 @@ All enhancements are backward-compatible additions. Existing `teach` commands co
 ## Appendix: Current Test Coverage
 
 ### flow-cli teach dispatcher
+
 - 19 tests for teach-init UX
 - Integration tests with Scholar wrappers
 
 ### Scholar teaching module
+
 - 683 tests total
 - 120 tests for teaching commands (v2.1.0 Phase 2)
 

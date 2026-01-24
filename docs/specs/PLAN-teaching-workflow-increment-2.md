@@ -664,11 +664,13 @@ fi
 ## File Changes Summary
 
 ### New Files (3)
+
 1. `lib/teaching-utils.zsh` - Week calculation utilities
 2. `tests/test-teaching-workflow-increment-2.zsh` - Test suite
 3. `docs/specs/PLAN-teaching-workflow-increment-2.md` - This plan
 
 ### Modified Files (5)
+
 1. `commands/work.zsh` - Add context display
 2. `commands/teach-init.zsh` - Add semester date prompts
 3. `lib/templates/teaching/teach-config.yml.template` - Add semester_info
@@ -719,13 +721,16 @@ fi
 ## Dependencies
 
 ### Required Tools
+
 - `yq` - YAML processing (already required by Increment 1)
 - `date` - macOS date command (built-in)
 
 ### Optional Tools
+
 - `faketime` - For date mocking in tests (recommended)
 
 ### Code Dependencies
+
 - `lib/core.zsh` - Colors and logging
 - `commands/work.zsh` - Work command infrastructure
 - `commands/teach-init.zsh` - Initialization command
@@ -735,6 +740,7 @@ fi
 ## Testing Strategy
 
 ### Automated Tests (11 tests)
+
 1. Week calculation edge cases
 2. Break detection
 3. Context display output
@@ -742,6 +748,7 @@ fi
 5. Missing config handling
 
 ### Manual Integration Tests
+
 1. Initialize new course with semester dates
 2. Verify week display in work session
 3. Test during break week
@@ -749,6 +756,7 @@ fi
 5. Verify performance (< 50ms)
 
 ### Regression Tests
+
 - Ensure Increment 1 features still work
 - Branch safety unchanged
 - Shortcuts still load
@@ -771,21 +779,25 @@ fi
 ## Risk Mitigation
 
 ### Risk 1: Date Parsing Compatibility
+
 **Issue:** macOS `date` command differs from GNU date
 **Mitigation:** Use macOS-specific `-j -f` format
 **Fallback:** Graceful degradation if date parsing fails
 
 ### Risk 2: Performance Impact
+
 **Issue:** Context display adds latency
 **Mitigation:** Cache week calculation within session
 **Target:** Keep total work command < 200ms
 
 ### Risk 3: yq Dependency
+
 **Issue:** Users without yq can't use features
 **Mitigation:** Graceful fallback already in place (Increment 1)
 **Doctor check:** Warn if yq missing
 
 ### Risk 4: Date Configuration Errors
+
 **Issue:** Users enter invalid dates
 **Mitigation:** Validation in teach-init
 **Recovery:** Clear error messages with format examples
@@ -795,18 +807,21 @@ fi
 ## Success Metrics
 
 ### Code Quality
+
 - [ ] All 11 new tests passing
 - [ ] No regression in existing 41 tests
 - [ ] Performance target met (< 50ms context)
 - [ ] Code follows flow-cli conventions
 
 ### User Experience
+
 - [ ] Week display accurate and helpful
 - [ ] Date prompts clear and validated
 - [ ] Context adds value without clutter
 - [ ] Error messages actionable
 
 ### Documentation
+
 - [ ] Guide updated with context features
 - [ ] Reference card shows new config fields
 - [ ] Testing instructions comprehensive
@@ -819,6 +834,7 @@ fi
 If critical issues found:
 
 1. **Revert Commits**
+
    ```bash
    git revert <commit-range>
    git push origin feature/teaching-workflow-increment-2

@@ -158,6 +158,7 @@ B) [Alternative task] 🟡 [est. time]
 ### Visual Elements
 
 **Progress Bars:**
+
 ```
 Full:     ████████████████████ 100%
 Partial:  ██████████░░░░░░░░░░  50%
@@ -238,12 +239,14 @@ Empty:    ░░░░░░░░░░░░░░░░░░░░   0%
 ## 📊 Overall Progress
 
 ```
+
 P0: [Phase Name]         ████████████████████ 100% ✅ (date)
 P1: [Phase Name]         ████████████████████ 100% ✅ (date)
 P2: [Phase Name]         ██████████████░░░░░░  70% 🔄 (date)
   ├─ Subphase A          ████████████████████ 100% ✅
   ├─ Subphase B          ██████████░░░░░░░░░░  50% 🔄
   └─ Subphase C          ░░░░░░░░░░░░░░░░░░░░   0% ⏳
+
 ```
 
 **Status:** [Overall project health indicator]
@@ -460,6 +463,7 @@ dash dev
 ```
 
 **Output:**
+
 ```
 ╭─────────────────────────────────────────────╮
 │ 🎯 YOUR WORK DASHBOARD                      │
@@ -517,6 +521,7 @@ status <project> --show
 ### Typical Day Flow
 
 **Morning (< 2 minutes):**
+
 ```bash
 # 1. See what's active
 dash
@@ -529,6 +534,7 @@ work .               # Opens current project
 ```
 
 **During Work:**
+
 ```bash
 # Start focus timer
 f25
@@ -541,6 +547,7 @@ win "Fixed authentication bug"
 ```
 
 **End of Session (< 30 seconds):**
+
 ```bash
 # Update status
 editstatus           # Add to "JUST COMPLETED"
@@ -552,6 +559,7 @@ wins                 # Celebrate progress!
 ```
 
 **Weekly Review (5-10 minutes):**
+
 ```bash
 # Review all progress
 dash
@@ -571,11 +579,13 @@ edithub              # Update progress bars
 Location: `~/.STATUS-template-enhanced`
 
 **Create from template:**
+
 ```bash
 newstatus
 ```
 
 **Or manually:**
+
 ```bash
 cp ~/.STATUS-template-enhanced ~/projects/my-project/.STATUS
 ```
@@ -585,11 +595,13 @@ cp ~/.STATUS-template-enhanced ~/projects/my-project/.STATUS
 Location: `~/.PROJECT-HUB-template`
 
 **Create from template:**
+
 ```bash
 newhub
 ```
 
 **Or manually:**
+
 ```bash
 cp ~/.PROJECT-HUB-template ~/projects/my-project/PROJECT-HUB.md
 ```
@@ -598,7 +610,8 @@ cp ~/.PROJECT-HUB-template ~/projects/my-project/PROJECT-HUB.md
 
 ## Best Practices
 
-### DO:
+### DO
+
 - ✅ Update .STATUS after EVERY work session
 - ✅ Keep "NEXT ACTIONS" updated with options
 - ✅ Mark recommended action with ⭐
@@ -608,7 +621,8 @@ cp ~/.PROJECT-HUB-template ~/projects/my-project/PROJECT-HUB.md
 - ✅ Keep progress bars accurate
 - ✅ Celebrate small wins
 
-### DON'T:
+### DON'T
+
 - ❌ Skip .STATUS updates (loses context)
 - ❌ Update PROJECT-HUB.md daily (wrong granularity)
 - ❌ Make next actions too vague ("work on it")

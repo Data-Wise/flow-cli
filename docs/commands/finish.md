@@ -13,6 +13,7 @@ finish [note]
 ```
 
 **Quick examples:**
+
 ```bash
 # End session with a note
 finish "Completed auth feature"

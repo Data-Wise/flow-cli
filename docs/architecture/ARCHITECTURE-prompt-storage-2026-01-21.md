@@ -556,30 +556,35 @@ Next steps:
 ## 🎯 Key Design Decisions
 
 ### Decision 1: Hybrid Storage (Tier 1 + Tier 2)
+
 **Rationale:**
 - Global prompts ship with flow-cli (easy distribution)
 - User home copies allow personalization
 - Best of both: defaults + flexibility
 
 ### Decision 2: .claude/prompts/*.local.md Convention
+
 **Rationale:**
 - Follows flow-cli pattern (.local.md for overrides)
 - Explicit `.local` naming shows it's customized
 - Consistent with .claude/settings.local.json
 
 ### Decision 3: Version Control Course Prompts
+
 **Rationale:**
 - TAs/co-instructors need shared teaching style
 - Track evolution of course content
 - Reuse across semesters
 
 ### Decision 4: Built-in Catalog (Not GitHub-only)
+
 **Rationale:**
 - `teach prompt browse` is more discoverable than external repo
 - Curated catalog ensures quality
 - Still allows community contributions
 
 ### Decision 5: Full Metadata Tracking
+
 **Rationale:**
 - Version (compatibility), Last Modified (freshness)
 - Author (credit), Customizer (accountability)

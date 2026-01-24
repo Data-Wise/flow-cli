@@ -390,6 +390,7 @@ claude --dangerously-skip-permissions
 ### Scenario: Refactor Project Structure
 
 **Setup:**
+
 ```bash
 cd ~/projects/flow-cli
 git status                    # Clean working tree
@@ -397,6 +398,7 @@ git checkout -b refactor-cmds
 ```
 
 **Option A: VS Code (Auto-Accept Edits)**
+
 ```bash
 # 1. Open in VS Code
 code .
@@ -419,6 +421,7 @@ git commit -m "refactor: consistent error handling"
 ```
 
 **Option B: CLI (True YOLO)**
+
 ```bash
 # 1. Terminal 1: Launch Claude
 claude --dangerously-skip-permissions
@@ -444,17 +447,20 @@ git reset --hard HEAD
 ### Auto-Accept Not Working in VS Code?
 
 **Check 1:** Are you using Claude Code extension?
+
 ```
 Extensions → Search "Claude Code" → Should be installed
 ```
 
 **Check 2:** Is mode actually toggled?
+
 ```
 Look for indicator: "Auto-accept edits: ON" in chat
 Try pressing Shift+Tab again
 ```
 
 **Check 3:** Are you asking for edits?
+
 ```
 Auto-accept only works for file edits
 Reads/writes/executes still prompt
@@ -463,6 +469,7 @@ Reads/writes/executes still prompt
 ### CLI Mode Not Bypassing Permissions?
 
 **Check 1:** Using correct flag?
+
 ```bash
 # Correct
 claude --dangerously-skip-permissions
@@ -473,6 +480,7 @@ claude --skip-permissions   # ❌ Missing "dangerously"
 ```
 
 **Check 2:** Using CLI, not extension?
+
 ```bash
 # Run from terminal
 claude --dangerously-skip-permissions

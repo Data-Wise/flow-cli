@@ -39,6 +39,7 @@ _proj_list_all() {
 - No benefit from frequent usage
 
 **Measurement:**
+
 ```bash
 time pick >/dev/null
 # Current: ~200ms (100 projects)
@@ -93,6 +94,7 @@ Phase 3: Integration (v5.5.0)
 ### Design
 
 **Cache File Format:**
+
 ```
 # Generated: 1736553600
 flow-cli|dev|🔧|/Users/dt/projects/dev-tools/flow-cli|🟢 2h
@@ -102,6 +104,7 @@ scribe|app|📱|/Users/dt/projects/apps/scribe|🟡 old
 ```
 
 **Cache Location:**
+
 ```bash
 ${XDG_CACHE_HOME:-$HOME/.cache}/flow-cli/projects.cache
 ```
@@ -252,6 +255,7 @@ flow-cache() {
 - Feature flag: `FLOW_CACHE_ENABLED` (default: 1)
 
 **Disable if needed:**
+
 ```zsh
 export FLOW_CACHE_ENABLED=0  # Skip cache, use direct scan
 ```
@@ -762,6 +766,7 @@ done | grep real | awk '{sum+=$2; count++} END {print "Average:", sum/count, "se
 ```
 
 **Expected Results:**
+
 ```
 Without cache: ~0.20s average
 With cache (cold): ~0.20s (initial generation)

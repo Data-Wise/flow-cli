@@ -86,6 +86,7 @@ Created a comprehensive 3-level tutorial series for the Scholar Enhancement feat
 - ✅ Access help system
 
 **Key Commands Introduced:**
+
 ```bash
 teach slides --help
 teach slides "Topic" --style computational
@@ -112,6 +113,7 @@ teach exam "Topic" --no-proof
 - ✅ Understand fallback logic
 
 **Key Commands Introduced:**
+
 ```bash
 teach slides -w 8
 teach slides -i
@@ -138,6 +140,7 @@ teach exam -i -w 8 --style rigorous
 - ✅ Build custom workflows
 
 **Key Commands Introduced:**
+
 ```bash
 teach slides --revise file.qmd
 teach slides -w 8 --context
@@ -309,6 +312,7 @@ teach slides --revise file.qmd --context --diagrams
 ### Immediate (Before Merge)
 
 1. **Generate GIFs from VHS Tapes**
+
    ```bash
    cd docs/demos/tutorials
    for tape in scholar-*.tape; do vhs "$tape"; done
@@ -320,6 +324,7 @@ teach slides --revise file.qmd --context --diagrams
    - Cross-link between levels
 
 3. **Commit Tutorial Work**
+
    ```bash
    git add docs/tutorials/scholar-enhancement/
    git add docs/demos/tutorials/
@@ -334,17 +339,17 @@ teach slides --revise file.qmd --context --diagrams
 
 ### Optional (Post-Merge Polish)
 
-4. **Test Tutorials with Real Users**
+1. **Test Tutorials with Real Users**
    - Get feedback from 2-3 educators
    - Track completion time vs. estimates
    - Identify confusing sections
 
-5. **Add Video Walkthrough**
+2. **Add Video Walkthrough**
    - 5-minute overview video
    - Hosted on YouTube or Vimeo
    - Embedded in tutorial index
 
-6. **Create Tutorial Completion Badge**
+3. **Create Tutorial Completion Badge**
    - Digital badge for completing all 3 levels
    - Share on LinkedIn/Twitter
    - Gamification element
@@ -385,6 +390,7 @@ flow-cli/
 ## Tutorial Quality Checklist
 
 ### Content Quality
+
 - ✅ Clear learning objectives for each level
 - ✅ Progressive complexity (no jumping ahead)
 - ✅ Real-world examples (statistics teaching)
@@ -393,6 +399,7 @@ flow-cli/
 - ✅ Success indicators for each step
 
 ### User Experience
+
 - ✅ ADHD-friendly design (short steps, clear wins)
 - ✅ Interactive exercises (learn by doing)
 - ✅ Visual aids (GIFs + diagrams)
@@ -401,6 +408,7 @@ flow-cli/
 - ✅ Time estimates for planning
 
 ### Technical Accuracy
+
 - ✅ All commands tested (match implementation)
 - ✅ Code examples use correct syntax
 - ✅ File paths match actual structure
@@ -408,6 +416,7 @@ flow-cli/
 - ✅ Version compatibility noted (v5.13.0+)
 
 ### Documentation Standards
+
 - ✅ Consistent markdown formatting
 - ✅ Proper heading hierarchy
 - ✅ Code blocks with language tags

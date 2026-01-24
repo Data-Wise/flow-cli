@@ -32,6 +32,7 @@ PR #283 adds teaching prompts to `lib/templates/teaching/claude-prompts/`. This 
 ## Quick Wins (< 30 min each)
 
 ### ⚡ 1. Fix README Scholar Path Reference
+
 **File:** `lib/templates/teaching/claude-prompts/README.md`
 **Change:** Add clarifying note to line 38
 
@@ -47,6 +48,7 @@ These prompts work with the Scholar plugin's 4-layer teaching style system.
 **Effort:** 5 minutes
 
 ### ⚡ 2. Rename IMPLEMENTATION.md → SPEC-teaching-prompts.md
+
 **Action:** Move and rename after merge
 
 ```bash
@@ -57,6 +59,7 @@ git mv IMPLEMENTATION.md docs/specs/SPEC-teaching-prompts.md
 **Effort:** 2 minutes
 
 ### ⚡ 3. Add Markdown Linting to PR Checklist
+
 **File:** `IMPLEMENTATION.md` (before move)
 **Add to Test plan:**
 
@@ -202,6 +205,7 @@ teaching style in `.claude/teaching-style.local.md` for customization.
 
 See [Scholar plugin documentation](https://github.com/Data-Wise/scholar) for
 teaching style examples.
+
 ```
 
 **Effort:** 30-45 minutes
@@ -246,6 +250,7 @@ teaching style examples.
 ## Implementation Order
 
 ```
+
 PR #283 (current)
 ├── Quick fix: README path clarification
 └── Quick fix: Add markdown lint to test plan
@@ -260,6 +265,7 @@ PR #284 (new: feature/teach-prompt-command)
 └── Add completions for teach prompt
     ↓
 [Merge to dev, prepare v5.16.0]
+
 ```
 
 ---

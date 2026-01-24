@@ -86,10 +86,12 @@ A complete UX design for integrating dotfile management (chezmoi + Bitwarden) in
 ## Related Documents
 
 ### Architecture
+
 - [ARCHITECTURE.md](../reference/ARCHITECTURE.md) - System architecture
 - [DISPATCHER-REFERENCE.md](../reference/DISPATCHER-REFERENCE.md) - Existing dispatcher patterns
 
 ### Background Research
+
 - [dotfile-management-plan_1.md](dotfile-management-plan_1.md) - Original infrastructure plan
   - Comparison: Chezmoi+BW vs SOPS vs Nix
   - Architecture decisions
@@ -168,18 +170,21 @@ All design specs should include:
 ## Review Process
 
 ### Design Phase
+
 1. Create spec documents
 2. Review with stakeholders
 3. Get approval on key decisions
 4. Finalize design
 
 ### Implementation Phase
+
 1. Follow implementation checklist
 2. Build according to design
 3. Match visual mockups exactly
 4. Write tests for all features
 
 ### Release Phase
+
 1. Verify all success criteria
 2. Update documentation
 3. Deploy to production

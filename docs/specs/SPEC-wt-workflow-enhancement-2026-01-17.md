@@ -197,6 +197,7 @@ Enhance the `wt` workflow with:
 ```
 
 After each worktree deletion:
+
 ```
 ✓ Removed worktree: ~/.git-worktrees/flow-cli/feature-old-feature
 

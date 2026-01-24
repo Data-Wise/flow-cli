@@ -29,7 +29,7 @@ Complete implementation of the 5-layer pre-commit hook system for flow-cli Quart
 
 ### Hook Installer (1 file)
 
-4. **lib/hook-installer.zsh** (403 lines)
+1. **lib/hook-installer.zsh** (403 lines)
    - Version management (semantic versioning)
    - Installation/upgrade/uninstall logic
    - Hook status checking
@@ -37,7 +37,7 @@ Complete implementation of the 5-layer pre-commit hook system for flow-cli Quart
 
 ### Test Suite (1 file)
 
-5. **tests/test-teach-hooks-unit.zsh** (608 lines)
+1. **tests/test-teach-hooks-unit.zsh** (608 lines)
    - 10 test suites, 47 assertions
    - Version comparison tests
    - Installation/upgrade tests
@@ -49,17 +49,20 @@ Complete implementation of the 5-layer pre-commit hook system for flow-cli Quart
 ### Pre-Commit Hook (5 Layers)
 
 #### Layer 1: YAML Frontmatter Validation
+
 - ✅ Check for `---` delimiters
 - ✅ Parse YAML with `yq`
 - ✅ Validate syntax
 - ✅ Error reporting with file location
 
 #### Layer 2: Quarto Syntax Check
+
 - ✅ `quarto inspect` validation
 - ✅ Graceful degradation if quarto not installed
 - ✅ Error output capture
 
 #### Layer 3: Full Render (Optional)
+
 - ✅ Controlled by `QUARTO_PRE_COMMIT_RENDER=1`
 - ✅ Parallel rendering for multiple files
 - ✅ Configurable max parallel jobs (`QUARTO_MAX_PARALLEL`)
@@ -67,12 +70,14 @@ Complete implementation of the 5-layer pre-commit hook system for flow-cli Quart
 - ✅ Failure detection and reporting
 
 #### Layer 4: Empty Code Chunk Detection (Warning)
+
 - ✅ Detect empty R chunks: ` ```{r} ``` `
 - ✅ Detect empty Python chunks: ` ```{python} ``` `
 - ✅ Non-blocking warnings with line numbers
 - ✅ Continue commit despite warnings (with prompt)
 
 #### Layer 5: Image Reference Validation (Warning)
+
 - ✅ Extract markdown images: `![alt](path)`
 - ✅ Extract knitr images: `include_graphics("path")`
 - ✅ Check file existence (relative paths)
@@ -80,6 +85,7 @@ Complete implementation of the 5-layer pre-commit hook system for flow-cli Quart
 - ✅ Non-blocking warnings
 
 #### Special: _freeze/ Commit Prevention
+
 - ✅ Hard block on `_freeze/` in staged files
 - ✅ Helpful error message
 - ✅ Suggest unstaging command
@@ -103,6 +109,7 @@ Complete implementation of the 5-layer pre-commit hook system for flow-cli Quart
 ### Pre-Push Hook
 
 #### Production Branch Validation
+
 - ✅ Detect protected branches (main, production, gh-pages)
 - ✅ Require `_site/` directory exists
 - ✅ Verify `_site/index.html` exists
@@ -164,6 +171,7 @@ export QUARTO_COMMIT_SUMMARY=1
 ## Test Coverage
 
 ### Test Suite Statistics
+
 - **Total tests:** 10 test suites
 - **Total assertions:** 47
 - **Pass rate:** 100%
@@ -486,6 +494,7 @@ Phase 3 (Weeks 5-8) will add:
 ## Changelog
 
 ### v1.0.0 (2026-01-20)
+
 - ✅ Initial implementation
 - ✅ 5-layer pre-commit validation
 - ✅ Production pre-push validation

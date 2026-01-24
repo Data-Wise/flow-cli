@@ -121,6 +121,7 @@ Each preset automatically includes the appropriate content types for that teachi
 You can override presets by adding or removing content types.
 
 **Add Content:**
+
 ```bash
 # Add diagrams to computational preset
 teach slides "ANOVA" --style computational --diagrams
@@ -130,6 +131,7 @@ teach lecture "Statistics History" --style conceptual --references
 ```
 
 **Remove Content:**
+
 ```bash
 # Rigorous without proofs
 teach exam "Regression" --style rigorous --no-proof
@@ -183,6 +185,7 @@ The help system shows:
 - Short form aliases
 
 **Pro Tip:** Use tab completion to explore flags:
+
 ```bash
 teach slides --[TAB]
 # Shows all available flags
@@ -220,11 +223,13 @@ Congratulations! You've learned the basics of Scholar Enhancement.
 ## Common Issues
 
 **Issue:** "Invalid style preset" error
+
 ```
 Solution: Use one of: conceptual, computational, rigorous, applied
 ```
 
 **Issue:** "Conflicting flags" error
+
 ```
 Solution: Don't use both --flag and --no-flag
 Example: --math --no-math ❌
@@ -232,6 +237,7 @@ Correct: --math ✓ or --no-math ✓
 ```
 
 **Issue:** Scholar takes a long time
+
 ```
 This is normal! Claude Code processing can take 30-60 seconds.
 ```

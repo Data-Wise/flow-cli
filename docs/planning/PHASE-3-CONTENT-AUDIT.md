@@ -180,12 +180,15 @@ Based on typical documentation traffic patterns:
 ## Issues Found
 
 ### Broken Links
+
 - `reference/EXISTING-SYSTEM-SUMMARY.md` → `../../../dev-planning/MIGRATION.md` (external repo)
 
 ### Unrecognized Links
+
 - `conventions/README.md` → Multiple directory links need updating
 
 ### Missing Template Markers
+
 - TBD after detailed analysis
 
 ---
@@ -220,13 +223,16 @@ Based on typical documentation traffic patterns:
 Given time constraints, focus on **highest-impact files**:
 
 ### Priority 1: Command Documentation (2 files - 30 min)
+
 - **pick.md** → Apply HELP-PAGE-TEMPLATE structure
 - **work.md** → Apply HELP-PAGE-TEMPLATE structure
 
 ### Priority 2: Getting Started (1 file - 15 min)
+
 - **quick-start.md** → Enhance with QUICK-START-TEMPLATE elements
 
 ### Priority 3: Reference Card (1 file - 15 min)
+
 - **CC-DISPATCHER-REFERENCE.md** → Standardize with REFCARD-TEMPLATE
 
 **Total estimated time:** ~1 hour for 4 high-impact files
@@ -257,6 +263,7 @@ Given time constraints, focus on **highest-impact files**:
 ### Files Updated (32 total)
 
 #### Session 1 - Priority Files & Dispatchers (12 files)
+
 **Commit ff463a3, cfa9c3f** (from previous session)
 
 **Priority Files (4):**

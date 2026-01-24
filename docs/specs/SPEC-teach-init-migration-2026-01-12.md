@@ -497,6 +497,7 @@ $ teach-init "STAT 545"
 **Decision:** Smart detection (Option 4)
 
 **Implementation:**
+
 ```zsh
 if git remote get-url origin &>/dev/null; then
   current_url=$(git remote get-url origin)

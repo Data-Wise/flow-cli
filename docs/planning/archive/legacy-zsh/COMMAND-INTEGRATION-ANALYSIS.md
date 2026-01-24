@@ -27,7 +27,7 @@ All 15 new fzf helper commands use **unique names** that don't conflict with exi
 
 ### R Package Development
 
-#### NEW fzf helpers:
+#### NEW fzf helpers
 
 | New  | Description          | Existing Equivalent                   | Integration                           |
 | ---- | -------------------- | ------------------------------------- | ------------------------------------- |
@@ -56,7 +56,7 @@ rt                       # Pick specific test (fuzzy)
 
 ### Project Status & Navigation
 
-#### NEW fzf helpers:
+#### NEW fzf helpers
 
 | New  | Description            | Existing Equivalent       | Integration                                |
 | ---- | ---------------------- | ------------------------- | ------------------------------------------ |
@@ -93,7 +93,7 @@ fs                       # Fuzzy find + preview + edit
 
 ### Git Workflows
 
-#### NEW fzf helpers:
+#### NEW fzf helpers
 
 | New          | Description           | Existing Equivalent        | Conflict?                         |
 | ------------ | --------------------- | -------------------------- | --------------------------------- |
@@ -289,19 +289,19 @@ Based on ADHD-friendly design and your workflows:
 
 ## ✅ Final Recommendations
 
-### Do This Now:
+### Do This Now
 
 1. ✅ **Keep all commands as-is** - No critical conflicts
 2. ✅ **Try for 1 week** - See what you actually use
 3. ✅ **Document as "discovery tools"** vs "speed tools"
 
-### Consider After 1 Week:
+### Consider After 1 Week
 
 1. Rename `gshow` → `glf` if confusion occurs
 2. Add ultra-short aliases for heavily-used commands
 3. Remove any commands you never use
 
-### Integration Strategy:
+### Integration Strategy
 
 - **Coexistence:** New fzf helpers **complement** existing aliases (not replace)
 - **Use case split:**

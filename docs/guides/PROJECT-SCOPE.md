@@ -49,6 +49,7 @@ Tracks, persists, and restores workflow state across sessions and projects.
 - **Environment:** Last working directory, git branch
 
 **Restoration Flow:**
+
 ```
 1. Start shell → Detect last session
 2. Prompt: "Resume [project-name]? (Last: 2 hours ago)"
@@ -73,6 +74,7 @@ Tracks, persists, and restores workflow state across sessions and projects.
 Displays comprehensive overview of all projects at a glance.
 
 **Dashboard View:**
+
 ```
 ═══════════════════════════════════════════════
 Personal Projects Overview (32 total)
@@ -136,6 +138,7 @@ Aggregates next actions across all projects into unified task list.
 - **By Date:** Due today, this week, this month
 
 **Example Output:**
+
 ```
 Quick Wins (< 30 min):
   ⚡ rmediation: Fix typo in README
@@ -159,6 +162,7 @@ Long Projects (> 4 hours):
 Fast fuzzy finder for switching between projects.
 
 **Interface:**
+
 ```bash
 > pp
 # Opens fzf with project list:
@@ -647,11 +651,11 @@ Personal Projects Overview (32 total)
 
 ### Integration Decisions
 
-4. **aiterm Coordination**
+1. **aiterm Coordination**
    - Auto-call or user opt-in?
    - **Recommendation:** Auto-call if installed, silent skip if not
 
-5. **Session Storage Location**
+2. **Session Storage Location**
    - `~/.zsh-sessions/` vs `~/.local/share/flow-cli/`?
    - **Recommendation:** `~/.local/share/flow-cli/` (XDG-compliant)
 
@@ -676,11 +680,13 @@ fzf --version          # Fuzzy finder (project picker)
 ### Installation (Week 1+)
 
 **From npm (future):**
+
 ```bash
 npm install -g flow-cli
 ```
 
 **From source (current):**
+
 ```bash
 cd ~/projects/dev-tools/flow-cli
 

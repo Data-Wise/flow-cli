@@ -29,6 +29,7 @@ This document provides a **complete walkthrough** of how `teach dashboard` integ
 **CRITICAL:** Dashboard content includes user-provided announcements that must be sanitized before display.
 
 **Vulnerable code (DO NOT USE):**
+
 ```javascript
 // ❌ VULNERABLE: innerHTML with untrusted content
 function updateDashboard(week, announcements) {
@@ -38,6 +39,7 @@ function updateDashboard(week, announcements) {
 ```
 
 **Secure code (REQUIRED):**
+
 ```javascript
 // ✅ SECURE: Use textContent or createElement
 function updateDashboard(week, announcements) {
@@ -61,6 +63,7 @@ function updateDashboard(week, announcements) {
 ```
 
 **For HTML content (use DOMPurify):**
+
 ```javascript
 import DOMPurify from 'dompurify';
 
@@ -88,6 +91,7 @@ function updateAnnouncements(announcements) {
 ```
 
 **teach dashboard announce validation:**
+
 ```zsh
 _teach_dashboard_announce() {
     local title="$1"
@@ -118,6 +122,7 @@ _teach_dashboard_announce() {
 ```
 
 **Documentation requirement:**
+
 ```markdown
 ## Security Best Practices
 

@@ -11,6 +11,7 @@ work [PROJECT] [EDITOR]
 ```
 
 **Quick examples:**
+
 ```bash
 # Interactive project selection
 work

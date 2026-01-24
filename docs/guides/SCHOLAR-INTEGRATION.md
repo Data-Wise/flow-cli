@@ -314,11 +314,13 @@ teach init "Course Name"
 ## Related Documentation
 
 ### flow-cli
+
 - [Teaching Commands Detailed](TEACHING-COMMANDS-DETAILED.md)
 - [Teaching Workflow Visual](TEACHING-WORKFLOW-VISUAL.md)
 - [Teaching Demo Guide](TEACHING-DEMO-GUIDE.md)
 
 ### Scholar
+
 - [Scholar Documentation](https://github.com/Data-Wise/scholar)
 - [Scholar API Reference](https://github.com/Data-Wise/scholar/docs/API-REFERENCE.md)
 - [Scholar Configuration](https://github.com/Data-Wise/scholar/docs/CONFIGURATION.md)

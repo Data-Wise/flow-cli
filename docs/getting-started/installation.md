@@ -56,9 +56,14 @@ This auto-detects your plugin manager (antidote, zinit, oh-my-zsh) and installs 
 
 ### Plugin Manager Installation
 
+!!! info "flow-cli is Independent"
+    **Important:** flow-cli has **ZERO dependencies** on Oh-My-Zsh or any other plugin ecosystem. It's a standalone ZSH plugin that works with any plugin manager (or no plugin manager at all).
+
+    The installation methods below are just different ways to load the same plugin. Choose what matches your existing setup.
+
 Choose your plugin manager if not using Homebrew:
 
-=== "Antidote"
+=== "Antidote (Recommended)"
     ```bash
     # Add to your plugins file
     echo "Data-Wise/flow-cli" >> ~/.zsh_plugins.txt
@@ -66,6 +71,8 @@ Choose your plugin manager if not using Homebrew:
     # Regenerate plugins
     antidote update
     ```
+
+    **Why recommended:** Modern, fast, automatic updates
 
 === "Zinit"
     ```bash
@@ -82,6 +89,9 @@ Choose your plugin manager if not using Homebrew:
     # Add to plugins in ~/.zshrc
     plugins=(... flow-cli)
     ```
+
+    !!! warning "OMZ Update Frequency"
+        The Oh-My-Zsh framework receives infrequent updates. Consider using **antidote** (which can load OMZ plugins) for a more modern approach with automatic updates.
 
 === "Manual"
     ```bash
@@ -121,6 +131,7 @@ flow doctor
 ```
 
 Expected output:
+
 ```
 flow doctor - Health Check
 
@@ -383,6 +394,7 @@ Now `work`, `mcp edit`, `dot edit`, and other flow-cli commands will use nvim!
 **"nvim: command not found"**
 
 Check installation:
+
 ```bash
 which nvim
 # If empty, nvim is not in PATH
@@ -391,6 +403,7 @@ which nvim
 **LazyVim plugins not installing:**
 
 Check internet connection and try:
+
 ```bash
 # Inside nvim, run:
 :Lazy sync
@@ -403,6 +416,7 @@ Install a Nerd Font and configure your terminal (see above).
 **"checkhealth" shows errors:**
 
 Inside nvim, run:
+
 ```bash
 :checkhealth
 ```

@@ -203,6 +203,7 @@ parse error near `()'
    ```
 
 3. **Document when functions replace aliases:**
+
    ```zsh
    # REPLACED: alias peek='bat'
    # NOW: peek() function in smart-dispatchers.zsh

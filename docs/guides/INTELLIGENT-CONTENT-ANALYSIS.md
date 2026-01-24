@@ -434,6 +434,7 @@ teach status
 ```
 
 Shows:
+
 ```
 ┌─────────────────────────────────────────────────┐
 │ 📚 STAT 440 - Regression Analysis              │
@@ -740,6 +741,7 @@ teach status
 **Cause:** Lectures don't have `concepts:` in frontmatter.
 
 **Solution:**
+
 ```yaml
 ---
 title: "Week 1 Lecture"
@@ -756,6 +758,7 @@ concepts:          # Add this block
 **Cause:** Missing YAML parser dependency.
 
 **Solution:**
+
 ```bash
 # Install yq
 brew install yq
@@ -769,6 +772,7 @@ teach doctor --fix
 **Cause:** Duplicate concept names or parsing issues.
 
 **Solution:**
+
 ```bash
 # Check the generated graph
 cat .teach/concepts.json | jq '.concepts | keys'
@@ -781,6 +785,7 @@ cat .teach/concepts.json | jq '.concepts | keys'
 **Cause:** Typos in concept names between files.
 
 **Solution:**
+
 ```bash
 # List all unique concept names
 grep -r "introduces:" lectures/ | sort -u
@@ -794,6 +799,7 @@ grep -r "requires:" lectures/ | sort -u
 **Cause:** Stale cache or file system issues.
 
 **Solution:**
+
 ```bash
 # Force cache rebuild
 teach analyze --rebuild-cache
@@ -810,6 +816,7 @@ teach analyze --stats
 **Cause:** Missing concepts.json or invalid format.
 
 **Solution:**
+
 ```bash
 # Regenerate concept graph first
 teach analyze
@@ -826,6 +833,7 @@ ls -la .teach/concepts.json
 **Cause:** Terminal doesn't support interactive input.
 
 **Solution:**
+
 ```bash
 # Use non-interactive mode instead
 teach analyze --verbose
@@ -839,6 +847,7 @@ echo $TERM  # Should show xterm-256color or similar
 **Cause:** Missing prerequisites detected by `--check-prereqs`.
 
 **Solution:**
+
 ```bash
 # See what's blocking
 teach validate --deep

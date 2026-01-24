@@ -32,6 +32,7 @@ The flow doctor token enhancement adds powerful GitHub token management capabili
 ### Why Use This?
 
 **Before Phase 1:**
+
 ```bash
 $ doctor
 # Checks: shell, tools, integrations, dotfiles (slow)
@@ -39,6 +40,7 @@ $ doctor
 ```
 
 **After Phase 1:**
+
 ```bash
 $ doctor --dot
 # Checks: GitHub token only (fast)
@@ -56,6 +58,7 @@ doctor --dot
 ```
 
 **Output:**
+
 ```
 🔑 GITHUB TOKEN
 ✓ Token valid (45 days remaining)
@@ -75,6 +78,7 @@ doctor --fix-token
 ```
 
 **Interactive menu appears:**
+
 ```
 ╭─ Select Category to Fix ────────────────────────╮
 │                                                  │
@@ -102,6 +106,7 @@ doctor --dot --verbose
 ```
 
 **Output:**
+
 ```
 🔑 GITHUB TOKEN
 [Cache hit - age: 45s, TTL: 300s]
@@ -150,6 +155,7 @@ echo $?  # 0 = success, 1 = issues
 ```
 
 **Use in scripts:**
+
 ```bash
 #!/bin/bash
 if ! doctor --dot --quiet; then
@@ -207,6 +213,7 @@ doctor --dot --verbose
 **Purpose:** Check GitHub token health only
 
 **Usage:**
+
 ```bash
 doctor --dot
 ```
@@ -228,6 +235,7 @@ doctor --dot
 **Purpose:** Check specific token provider
 
 **Usage:**
+
 ```bash
 doctor --dot=github
 ```
@@ -244,6 +252,7 @@ doctor --dot=github
 **Purpose:** Fix token issues interactively
 
 **Usage:**
+
 ```bash
 doctor --fix-token
 ```
@@ -268,6 +277,7 @@ doctor --fix-token
 **Purpose:** Minimal output (errors only)
 
 **Usage:**
+
 ```bash
 doctor --dot --quiet
 ```
@@ -289,6 +299,7 @@ doctor --dot --quiet
 **Purpose:** Detailed debug output
 
 **Usage:**
+
 ```bash
 doctor --dot --verbose
 ```
@@ -351,6 +362,7 @@ doctor --fix-token --yes
 3. Network issues
 
 **Solutions:**
+
 ```bash
 # Check cache status
 doctor --dot --verbose
@@ -370,6 +382,7 @@ _doctor_cache_clear
 **Symptom:** Every check is slow (~3s)
 
 **Diagnosis:**
+
 ```bash
 # Check cache directory exists
 ls -la ~/.flow/cache/doctor/
@@ -382,6 +395,7 @@ cat ~/.flow/cache/doctor/token-github.cache
 ```
 
 **Fix:**
+
 ```bash
 # Recreate cache directory
 rm -rf ~/.flow/cache/doctor
@@ -403,6 +417,7 @@ doctor --dot --verbose
 3. Auto-yes mode enabled
 
 **Solutions:**
+
 ```bash
 # Check if issues exist
 doctor --dot
@@ -425,6 +440,7 @@ doctor --fix-token  # Without --yes
 2. Token rotated but cache not cleared
 
 **Solutions:**
+
 ```bash
 # Clear cache
 _doctor_cache_clear "token-github"
@@ -471,6 +487,7 @@ doctor  # Every hour = 0% cache hits + slow
 ### Script Integration
 
 **Fast health check:**
+
 ```bash
 #!/bin/bash
 # Daily check (morning routine)
@@ -488,6 +505,7 @@ fi
 ### Monitoring Automation
 
 **Scheduled checks:**
+
 ```bash
 # crontab
 */5 * * * * doctor --dot --quiet || echo "Token issues" | mail -s "Token Alert" you@example.com
@@ -518,6 +536,7 @@ fi
 **Not recommended** - Cache reduces GitHub API calls by 80%
 
 **Workaround:** Clear before each check:
+
 ```bash
 _doctor_cache_clear && doctor --dot
 ```
@@ -535,6 +554,7 @@ _doctor_cache_clear && doctor --dot
 ### How do I know if cache is working?
 
 **Use verbose mode:**
+
 ```bash
 doctor --dot --verbose
 
@@ -562,6 +582,7 @@ doctor --dot --verbose
 ### Can I use this in CI/CD?
 
 **Yes** - Use `--quiet` for minimal output:
+
 ```bash
 # In CI pipeline
 doctor --dot --quiet
@@ -582,6 +603,7 @@ fi
 **Phase 1:** GitHub only
 
 **Future (Phases 2-4):**
+
 ```bash
 doctor --dot  # Check all tokens
 doctor --dot=github,npm,pypi  # Specific tokens

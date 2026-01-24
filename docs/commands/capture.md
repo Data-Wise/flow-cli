@@ -16,6 +16,7 @@ yay                     # Show recent wins
 ```
 
 **Quick examples:**
+
 ```bash
 # Log wins
 win "Fixed authentication bug"

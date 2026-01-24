@@ -47,9 +47,9 @@ flow alias edit               # Open .zshrc at alias section
 
 ## Medium Effort
 
-4. **`flow alias add`** - Interactive + one-liner (~50 min)
-5. **`flow alias rm`** - Safe removal (~30 min)
-6. **`flow alias test`** - Full pipeline (~30 min)
+1. **`flow alias add`** - Interactive + one-liner (~50 min)
+2. **`flow alias rm`** - Safe removal (~30 min)
+3. **`flow alias test`** - Full pipeline (~30 min)
 
 ---
 

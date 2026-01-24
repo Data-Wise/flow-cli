@@ -33,11 +33,13 @@ Expand `flow alias` command from a read-only reference tool to a full alias mana
 ## Secondary User Stories
 
 ### Story 2: Alias Conflict Detection
+
 **As a** power user with many aliases
 **I want to** know when an alias shadows a system command
 **So that** I don't accidentally break expected behavior
 
 ### Story 3: Safe Alias Removal
+
 **As a** user cleaning up old aliases
 **I want to** remove aliases without risk of data loss
 **So that** I can easily undo if something breaks
@@ -263,26 +265,31 @@ User: flow alias rm bcl
 ## Implementation Notes
 
 ### Phase 1: Doctor (~45 min)
+
 - Core validation engine
 - Shadow detection using `command -v` and `which`
 - Target existence check
 - Formatted output with colors
 
 ### Phase 2: Find + Edit (~15 min)
+
 - Simple grep wrapper for find
 - `$EDITOR +<line>` for edit
 
 ### Phase 3: Add (~50 min)
+
 - One-liner parsing: `name='command'` format
 - Interactive mode with prompts
 - Append to .zshrc with comment header
 
 ### Phase 4: Remove (~30 min)
+
 - Find line in .zshrc
 - Backup file before modification
 - Comment out, don't delete
 
 ### Phase 5: Test (~30 min)
+
 - Reuse validation from doctor
 - Dry-run using `echo` expansion
 - Optional execute with confirmation
