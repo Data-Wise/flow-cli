@@ -161,9 +161,9 @@
 
 ### v5.18.0 - API Documentation Improvement
 
-**Status:** ✅ Phase 1 Complete - v5.17.0 token automation documented
-**Branch:** dev (3 commits ready to push)
-**Progress:** 7.0% coverage (49/704 functions)
+**Status:** 🔄 Phase 2 In Progress - Teaching Libraries
+**Branch:** dev (clean - Phase 1 pushed, Phase 2 started)
+**Progress:** 8.0% coverage (56/704 functions)
 
 **Current Focus:** API Documentation Completion (Option A - High Priority)
 - **Target:** 80% coverage (566/704 functions)
@@ -172,13 +172,21 @@
 - **Remaining:** 517 functions
 - **Tools ready:** generate-api-docs.sh, generate-doc-dashboard.sh, check-doc-updates.sh
 
-**Phase 1 Results (2026-01-24):**
+**Phase 1 Results (2026-01-24) - ✅ COMPLETE:**
 - ✅ doctor-cache.zsh: 13 functions (cache layer)
 - ✅ doctor.zsh: 7 functions (ADHD menu, logging)
 - ✅ work.zsh: 3 functions (GitHub integration)
 - ✅ dot-dispatcher.zsh: 5 functions (token lifecycle)
 - ✅ g-dispatcher.zsh: 2 functions (git integration)
 - Coverage: 2.7% → 7.0% (+158% increase)
+- **Commits:** 4 total (all pushed)
+
+**Phase 2 Progress (2026-01-24) - 🔄 IN PROGRESS:**
+- 🔄 concept-extraction.zsh: 8/13 functions (62% complete)
+- Coverage: 7.0% → 8.0% (+14% increase)
+- **Status:** Teaching libraries overview + concept extraction core functions
+- **Next:** Complete remaining 5 concept-extraction functions
+- **Commits:** 1 (pushed)
 
 **Next Priorities:**
 - Teaching libraries (67 functions, 3.0% coverage)
