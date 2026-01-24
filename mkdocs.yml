@@ -79,6 +79,7 @@ nav:
       - 🆘 I'm Stuck: getting-started/im-stuck.md
       - Welcome: getting-started/00-welcome.md
       - ❓ FAQ: getting-started/faq.md
+      - ❓ FAQ - Dependencies: getting-started/faq-dependencies.md
       - 🔄 Troubleshooting: getting-started/troubleshooting.md
       - 📜 Changelog: CHANGELOG.md
   - Tutorials:
@@ -124,6 +125,7 @@ nav:
       - Config Management: guides/CONFIG-MANAGEMENT-WORKFLOW.md
   - Guides:
       - Start Here: guides/00-START-HERE.md
+      - 🔌 ZSH Plugin Ecosystem: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md
       - 🆕 Teaching v3.0:
           - v3.0 User Guide: guides/TEACHING-WORKFLOW-V3-GUIDE.md
           - Concept Analysis: guides/INTELLIGENT-CONTENT-ANALYSIS.md
@@ -151,77 +153,17 @@ nav:
   - Visuals:
       - Documentation Templates: conventions/adhd/README.md
       - GIF Creation Guide: conventions/adhd/GIF-GUIDELINES.md
+  - Help & Quick Reference:
+      - 🏠 Start Here: help/00-START-HERE.md
+      - ⚡ Quick Reference: help/QUICK-REFERENCE.md
+      - 🔧 Workflows: help/WORKFLOWS.md
+      - 🩺 Troubleshooting: help/TROUBLESHOOTING.md
   - Reference:
-      - 📋 Quick Reference Card: quick-reference-card.md
-      - API Reference:
-          - Core Libraries: reference/CORE-API-REFERENCE.md
-          - Teaching Libraries: reference/TEACHING-API-REFERENCE.md
-          - Integration Libraries: reference/INTEGRATION-API-REFERENCE.md
-          - Specialized Libraries: reference/SPECIALIZED-API-REFERENCE.md
-      - Quick References:
-          - Command Cheatsheet: reference/COMMAND-QUICK-REFERENCE.md
-          - Alias Card: reference/ALIAS-REFERENCE-CARD.md
-          - Workflow Patterns: reference/WORKFLOW-QUICK-REFERENCE.md
-          - Dashboard Quick Ref: reference/DASHBOARD-QUICK-REF.md
-          - Plugin Optimization: reference/REFCARD-OPTIMIZATION.md
-      - Dispatchers:
-          - All Dispatchers: reference/DISPATCHER-REFERENCE.md
-          - CC Dispatcher: reference/CC-DISPATCHER-REFERENCE.md
-          - DOT Dispatcher: reference/DOT-DISPATCHER-REFERENCE.md
-          - G Dispatcher: reference/G-DISPATCHER-REFERENCE.md
-          - MCP Dispatcher: reference/MCP-DISPATCHER-REFERENCE.md
-          - OBS Dispatcher: reference/OBS-DISPATCHER-REFERENCE.md
-          - PROMPT Dispatcher: reference/PROMPT-DISPATCHER-REFERENCE.md
-          - QU Dispatcher: reference/QU-DISPATCHER-REFERENCE.md
-          - R Dispatcher: reference/R-DISPATCHER-REFERENCE.md
-          - TEACH Dispatcher v4.6: reference/TEACH-DISPATCHER-REFERENCE-v4.6.0.md
-          - TEACH Dispatcher v3.0: reference/TEACH-DISPATCHER-REFERENCE-v3.0.md
-          - TEACH Dispatcher (Legacy): reference/TEACH-DISPATCHER-REFERENCE.md
-          - TM Dispatcher: reference/TM-DISPATCHER-REFERENCE.md
-          - V Dispatcher: reference/V-DISPATCHER-REFERENCE.md
-          - WT Dispatcher: reference/WT-DISPATCHER-REFERENCE.md
-      - Architecture:
-          - Overview: reference/ARCHITECTURE-OVERVIEW.md
-          - Documentation Coverage: reference/DOCUMENTATION-COVERAGE.md
-      - Quick Reference Cards:
-          - DOT Quick Ref: reference/REFCARD-DOT.md
-          - Nvim Quick Ref: reference/NVIM-QUICK-REFERENCE.md
-          - Prompt Quick Ref: reference/PROMPT-DISPATCHER-REFCARD.md
-          - Teach Analyze Quick Ref: reference/REFCARD-TEACH-ANALYZE.md
-          - Teaching v3.0 Quick Ref: reference/REFCARD-TEACHING-V3.md
-          - Help System Quick Ref: reference/REFCARD-HELP-SYSTEM.md
-          - Teaching Quick Ref (Legacy): reference/REFCARD-TEACHING.md
-          - Teaching Dates Quick Ref: reference/TEACH-DATES-QUICK-REFERENCE.md
-          - Teaching Git Workflow: reference/TEACHING-GIT-WORKFLOW-REFCARD.md
-      - Project Tools:
-          - Command Explorer: reference/COMMAND-EXPLORER.md
-          - Pick Reference: reference/PICK-COMMAND-REFERENCE.md
-          - Pick Project Discovery: reference/PICK-PROJECT-DISCOVERY.md
-          - Project Status Guide: reference/PROJECT-STATUS-GUIDE.md
-          - Project Detection: reference/PROJECT-DETECTION-GUIDE.md
-          - Workspace Audit: reference/WORKSPACE-AUDIT-GUIDE.md
-      - Teach Analyze:
-          - API Reference: reference/TEACH-ANALYZE-API-REFERENCE.md
-          - Architecture: reference/TEACH-ANALYZE-ARCHITECTURE.md
-      - Doctor Token Automation:
-          - Quick Reference: reference/REFCARD-TOKEN.md
-          - User Guide: guides/DOCTOR-TOKEN-USER-GUIDE.md
-          - API Reference: reference/DOCTOR-TOKEN-API-REFERENCE.md
-          - Architecture: architecture/DOCTOR-TOKEN-ARCHITECTURE.md
-      - Deep Dives:
-          - Architecture: reference/ARCHITECTURE.md
-          - 🎨 Architecture Diagrams: diagrams/ARCHITECTURE-DIAGRAMS.md
-          - 📦 Library Architecture: diagrams/LIBRARY-ARCHITECTURE.md
-          - 📚 Teaching v3.0 Workflows: diagrams/TEACHING-V3-WORKFLOWS.md
-          - 🎓 Scholar Enhancement:
-              - API Reference: reference/SCHOLAR-ENHANCEMENT-API.md
-              - Architecture Guide: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
-          - 📘 API Complete Reference: reference/API-COMPLETE.md
-          - API Reference: reference/API-REFERENCE.md
-          - ADHD Helpers Map: reference/ADHD-HELPERS-FUNCTION-MAP.md
-          - Command Patterns: reference/CLI-COMMAND-PATTERNS-RESEARCH.md
-          - System Summary: reference/EXISTING-SYSTEM-SUMMARY.md
-          - ZSH Workflows: reference/ZSH-CLEAN-WORKFLOW.md
+      - 📚 Master API Reference: reference/MASTER-API-REFERENCE.md
+      - 🎯 Master Dispatcher Guide: reference/MASTER-DISPATCHER-GUIDE.md
+      - 🏗️ Master Architecture: reference/MASTER-ARCHITECTURE.md
+      - 📊 Documentation Dashboard: DOC-DASHBOARD.md
+      - Legacy Docs Archive: reference/.archive/README.md
   - Commands:
       - flow (main): commands/flow.md
       - work: commands/work.md
