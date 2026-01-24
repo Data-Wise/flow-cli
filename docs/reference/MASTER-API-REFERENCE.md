@@ -471,93 +471,606 @@ _flow_keychain_list
 ## Git Helpers
 
 **File:** `lib/git-helpers.zsh`
-**Purpose:** Git integration utilities
-**Functions:** 30+
+**Purpose:** Git integration functions for teaching workflow
+**Functions:** 17
+**Version:** v5.11.0+ (Teaching + Git Integration)
 
-### Token Validation
+### Overview
 
-#### `_flow_git_validate_token`
+The git helpers library provides git integration utilities for teaching workflows, including:
 
-Validates GitHub token before remote operations.
+**Phase 1 (v5.11.0) - Smart Post-Generation:**
+- Standardized commit messages with Scholar attribution
+- Teaching file detection and filtering
+- Interactive commit workflow stubs
+- Branch status checking and remote operations
+- PR creation for deployment
 
-**Signature:**
-```zsh
-_flow_git_validate_token
+**Phase 2 (v5.11.0+) - Branch-Aware Deployment:**
+- Production conflict detection
+- Commit counting and listing
+- PR body generation
+- Automated rebasing
+
+**Workflow:**
 ```
-
-**Parameters:**
-- None (uses GITHUB_TOKEN from keychain or environment)
-
-**Returns:**
-- 0 - Token valid
-- 1 - Token invalid or expired
-
-**Caching:**
-- Uses 5-minute cache (v5.17.0+)
-- Cache file: `~/.cache/flow/doctor/tokens.cache`
-
-**Example:**
-```zsh
-if _flow_git_validate_token; then
-    git push origin dev
-else
-    _flow_log_error "Invalid token, run: dot secret rotate GITHUB_TOKEN"
-    return 1
-fi
+Generate content → Detect teaching files → Commit with metadata →
+Create deploy PR → Check conflicts → Rebase if needed → Deploy
 ```
 
 ---
 
-### Branch Utilities
+### Phase 1: Smart Post-Generation Workflow
 
-#### `_flow_git_current_branch`
+#### `_git_teaching_commit_message`
 
-Gets current git branch name.
+Generate standardized commit message for teaching content.
 
 **Signature:**
 ```zsh
-_flow_git_current_branch
+_git_teaching_commit_message <type> <topic> <command> <course> <semester> <year>
+```
+
+**Parameters:**
+- `$1` - Content type (exam, quiz, slides, lecture, etc.)
+- `$2` - Topic or title of the content
+- `$3` - Full command that generated the content
+- `$4` - Course name (e.g., "STAT 545")
+- `$5` - Semester (Fall, Spring, etc.)
+- `$6` - Year
+
+**Returns:**
+- 0 - Always succeeds
+
+**Output:**
+- stdout - Formatted commit message with conventional commit style
+
+**Example:**
+```zsh
+msg=$(_git_teaching_commit_message "exam" "Hypothesis Testing" \
+    'teach exam "Hypothesis Testing" --questions 20' \
+    "STAT 545" "Fall" "2024")
+
+# Output:
+# teach: add exam for Hypothesis Testing
+#
+# Generated via: teach exam "Hypothesis Testing" --questions 20
+# Course: STAT 545 (Fall 2024)
+#
+# Co-Authored-By: Scholar <scholar@example.com>
+```
+
+**Notes:**
+- Uses conventional commits style (teach: prefix)
+- Includes Scholar co-author attribution
+- Designed for automated git workflows
+
+---
+
+#### `_git_is_clean`
+
+Check if working directory has no uncommitted changes.
+
+**Signature:**
+```zsh
+_git_is_clean
 ```
 
 **Parameters:**
 - None
 
 **Returns:**
-- 0 - Success, prints branch name
-- 1 - Not in git repository
+- 0 - Working directory is clean
+- 1 - Working directory is dirty (has uncommitted changes)
 
 **Example:**
 ```zsh
-branch=$(_flow_git_current_branch)
-echo "Current branch: $branch"
+if _git_is_clean; then
+    echo "Ready to switch branches"
+else
+    echo "Commit or stash changes first"
+fi
 ```
+
+**Notes:**
+- Uses `git status --porcelain` for scriptable output
+- Includes untracked files in "dirty" check
+- Returns 1 if not in a git repository
 
 ---
 
-#### `_flow_git_is_clean`
+#### `_git_is_synced`
 
-Checks if working tree is clean (no uncommitted changes).
+Check if local branch is synchronized with remote.
 
 **Signature:**
 ```zsh
-_flow_git_is_clean
+_git_is_synced
 ```
 
 **Parameters:**
 - None
 
 **Returns:**
-- 0 - Working tree clean
-- 1 - Uncommitted changes exist
+- 0 - Branch is synced (no unpushed or unpulled commits)
+- 1 - Branch is out of sync (ahead, behind, or diverged)
 
 **Example:**
 ```zsh
-if _flow_git_is_clean; then
-    echo "✅ No uncommitted changes"
+if _git_is_synced; then
+    echo "Branch is up to date"
 else
-    echo "⚠️  Uncommitted changes detected"
+    echo "Need to push or pull"
 fi
 ```
+
+**Notes:**
+- Fetches from remote first (may take a moment)
+- Returns 1 if no upstream branch configured
+- Checks both ahead (local commits) and behind (remote commits)
+
+---
+
+#### `_git_teaching_files`
+
+Get list of uncommitted teaching-related files.
+
+**Signature:**
+```zsh
+_git_teaching_files
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- 0 - Always succeeds
+
+**Output:**
+- stdout - File paths (one per line), sorted and deduplicated
+
+**Recognized Paths:**
+- `exams/` - Exam files
+- `slides/` - Presentation slides
+- `assignments/` - Assignment materials
+- `lectures/` - Lecture notes
+- `quizzes/` - Quiz files
+- `homework/` - Homework assignments
+- `labs/` - Lab materials
+
+**Example:**
+```zsh
+local files=$(_git_teaching_files)
+if [[ -n "$files" ]]; then
+    echo "Teaching files to commit:"
+    echo "$files"
+fi
+```
+
+**Notes:**
+- Includes both staged and unstaged changes
+- Includes untracked files in teaching directories
+- Returns empty if no teaching files changed
+
+---
+
+#### `_git_interactive_commit`
+
+Interactive commit workflow for teaching content (stub).
+
+**Signature:**
+```zsh
+_git_interactive_commit <file> <type> <topic> <command> <course> <semester> <year>
+```
+
+**Parameters:**
+- `$1` - File path
+- `$2` - Content type
+- `$3` - Topic
+- `$4` - Command that generated content
+- `$5` - Course name
+- `$6` - Semester
+- `$7` - Year
+
+**Returns:**
+- 0 - Setup complete
+- 1 - Error (e.g., missing dependencies)
+
+**Notes:**
+- This is a stub function for Phase 1
+- Actual interactive prompting handled by teach dispatcher
+- Sources core.zsh for logging helpers
+
+---
+
+#### `_git_create_deploy_pr`
+
+Create a pull request for teaching content deployment.
+
+**Signature:**
+```zsh
+_git_create_deploy_pr <draft_branch> <prod_branch> <title> <body>
+```
+
+**Parameters:**
+- `$1` - Source branch (draft/development)
+- `$2` - Target branch (production)
+- `$3` - PR title
+- `$4` - PR body (markdown)
+
+**Returns:**
+- 0 - PR created successfully
+- 1 - Error (gh not installed, not authenticated, or creation failed)
+
+**Dependencies:**
+- gh CLI (GitHub CLI)
+- gh auth login (authenticated)
+
+**Example:**
+```zsh
+_git_create_deploy_pr "draft" "main" \
+    "Deploy: Week 5 materials" \
+    "$(cat pr-body.md)"
+```
+
+**Notes:**
+- Adds labels: teaching, deploy
+- Requires authenticated GitHub CLI
+- Sources core.zsh for error logging
+
+---
+
+#### `_git_in_repo`
+
+Check if current directory is inside a git repository.
+
+**Signature:**
+```zsh
+_git_in_repo
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- 0 - In a git repository
+- 1 - Not in a git repository
+
+**Example:**
+```zsh
+if _git_in_repo; then
+    echo "Branch: $(_git_current_branch)"
+else
+    echo "Not a git repository"
+fi
+```
+
+**Notes:**
+- Works from any subdirectory of the repo
+- Suppresses all error output
+
+---
+
+#### `_git_current_branch`
+
+Get the name of the current git branch.
+
+**Signature:**
+```zsh
+_git_current_branch
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- 0 - Always succeeds
+
+**Output:**
+- stdout - Branch name, or empty if not in git repo
+
+**Example:**
+```zsh
+local branch=$(_git_current_branch)
+echo "Currently on: $branch"
+```
+
+**Special Cases:**
+- Detached HEAD returns "HEAD"
+- Not in repo returns empty string
+
+---
+
+#### `_git_remote_branch`
+
+Get the upstream tracking branch name.
+
+**Signature:**
+```zsh
+_git_remote_branch
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- 0 - Always succeeds
+
+**Output:**
+- stdout - Remote branch name (e.g., "origin/main"), or empty if none
+
+**Example:**
+```zsh
+local upstream=$(_git_remote_branch)
+if [[ -n "$upstream" ]]; then
+    echo "Tracking: $upstream"
+else
+    echo "No upstream configured"
+fi
+```
+
+**Notes:**
+- Returns empty if no upstream branch configured
+- Format: remote/branch (e.g., "origin/main")
+
+---
+
+#### `_git_commit_teaching_content`
+
+Commit staged files with a teaching-formatted message.
+
+**Signature:**
+```zsh
+_git_commit_teaching_content <message>
+```
+
+**Parameters:**
+- `$1` - Commit message (usually from `_git_teaching_commit_message`)
+
+**Returns:**
+- 0 - Commit successful
+- 1 - Error (no staged changes or commit failed)
+
+**Example:**
+```zsh
+git add exams/midterm.qmd
+local msg=$(_git_teaching_commit_message "exam" "Midterm" ...)
+_git_commit_teaching_content "$msg"
+```
+
+**Notes:**
+- Requires files to be staged first (git add)
+- Uses _flow_log functions for status output
+- Fails gracefully if nothing staged
+
+---
+
+#### `_git_push_current_branch`
+
+Push current branch to origin remote.
+
+**Signature:**
+```zsh
+_git_push_current_branch
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- 0 - Push successful
+- 1 - Error (not on branch or push failed)
+
+**Example:**
+```zsh
+if _git_push_current_branch; then
+    echo "Changes pushed"
+fi
+```
+
+**Notes:**
+- Always pushes to 'origin' remote
+- Requires branch to exist on remote (use -u for first push)
+- Shows git push output for progress
+
+---
+
+### Phase 2: Branch-Aware Deployment
+
+#### `_git_detect_production_conflicts`
+
+Check if production branch has commits that could cause conflicts.
+
+**Signature:**
+```zsh
+_git_detect_production_conflicts <draft_branch> <prod_branch>
+```
+
+**Parameters:**
+- `$1` - Draft/development branch name
+- `$2` - Production branch name
+
+**Returns:**
+- 0 - No conflicts (production hasn't diverged)
+- 1 - Potential conflicts (production has new commits)
+
+**Example:**
+```zsh
+if ! _git_detect_production_conflicts "draft" "main"; then
+    echo "Warning: Production has new commits"
+    echo "Consider rebasing before PR"
+fi
+```
+
+**Notes:**
+- Fetches from remote before checking
+- Uses merge-base to find common ancestor
+- Returns 1 if production has commits since divergence
+
+---
+
+#### `_git_get_commit_count`
+
+Count commits in draft branch not yet in production.
+
+**Signature:**
+```zsh
+_git_get_commit_count <draft_branch> <prod_branch>
+```
+
+**Parameters:**
+- `$1` - Draft/development branch name
+- `$2` - Production branch name
+
+**Returns:**
+- 0 - Always succeeds
+
+**Output:**
+- stdout - Number of commits (integer)
+
+**Example:**
+```zsh
+local count=$(_git_get_commit_count "draft" "main")
+echo "Ready to deploy $count commits"
+```
+
+**Notes:**
+- Compares against remote production branch
+- Returns 0 if branches are identical or error
+
+---
+
+#### `_git_get_commit_list`
+
+Get markdown-formatted list of commits for PR body.
+
+**Signature:**
+```zsh
+_git_get_commit_list <draft_branch> <prod_branch>
+```
+
+**Parameters:**
+- `$1` - Draft/development branch name
+- `$2` - Production branch name
+
+**Returns:**
+- 0 - Always succeeds
+
+**Output:**
+- stdout - Commit subjects as markdown list, one per line
+
+**Example:**
+```zsh
+local commits=$(_git_get_commit_list "draft" "main")
+# Output:
+# - teach: add exam for Hypothesis Testing
+# - teach: add lecture slides for Week 5
+# - fix: correct typo in assignment
+```
+
+**Notes:**
+- Excludes merge commits
+- Format: "- subject" (markdown list item)
+- Empty output if no commits or error
+
+---
+
+#### `_git_generate_pr_body`
+
+Generate complete markdown PR body for deployment.
+
+**Signature:**
+```zsh
+_git_generate_pr_body <draft_branch> <prod_branch>
+```
+
+**Parameters:**
+- `$1` - Draft/development branch name
+- `$2` - Production branch name
+
+**Returns:**
+- 0 - Always succeeds
+
+**Output:**
+- stdout - Complete markdown PR body with:
+  - Changes section (commit list)
+  - Commits section (count and branch info)
+  - Deploy checklist
+  - Attribution footer
+
+**Example:**
+```zsh
+local body=$(_git_generate_pr_body "draft" "main")
+gh pr create --body "$body" ...
+```
+
+**Notes:**
+- Uses `_git_get_commit_count` and `_git_get_commit_list`
+- Includes standard deploy checklist items
+- Attribution shows teach deploy command
+
+---
+
+#### `_git_rebase_onto_production`
+
+Rebase draft branch onto latest production.
+
+**Signature:**
+```zsh
+_git_rebase_onto_production <draft_branch> <prod_branch>
+```
+
+**Parameters:**
+- `$1` - Draft/development branch name
+- `$2` - Production branch name
+
+**Returns:**
+- 0 - Rebase successful
+- 1 - Error (fetch failed or conflicts)
+
+**Example:**
+```zsh
+if _git_rebase_onto_production "draft" "main"; then
+    echo "Ready for clean merge"
+else
+    echo "Resolve conflicts manually"
+fi
+```
+
+**Notes:**
+- Fetches latest production before rebase
+- Provides helpful error messages on conflict
+- User must resolve conflicts manually if they occur
+
+---
+
+#### `_git_has_unpushed_commits`
+
+Check if current branch has local commits not pushed to remote.
+
+**Signature:**
+```zsh
+_git_has_unpushed_commits
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- 0 - Has unpushed commits
+- 1 - All commits pushed (or no upstream)
+
+**Example:**
+```zsh
+if _git_has_unpushed_commits; then
+    echo "You have local commits to push"
+fi
+```
+
+**Notes:**
+- Requires upstream branch configured
+- Returns 1 if no upstream (acts as "nothing to push")
+- Does not fetch first (uses cached remote state)
 
 ---
 
