@@ -223,7 +223,7 @@ graph TD
 5. [Guide: ZSH Plugin Ecosystem](../guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md) (20 min)
    - Understanding your ZSH environment
 
-6. [Reference: Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) (25 min)
+6. [Reference: Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md) (25 min)
    - All 12 dispatchers reference
 
 **Outcome:** Seamless Vim/flow-cli integration for power users
@@ -272,7 +272,7 @@ graph TD
 |--------|----------|----------|
 | **git** (226+ aliases) | Speed up git workflows | [8: Git Feature Workflow](08-git-feature-workflow.md) |
 | **fzf** | File/history fuzzy finding | [Guide: ZSH Plugin Ecosystem](../guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md) |
-| **zsh-completions** | Better tab-completion | [Reference: Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) |
+| **zsh-completions** | Better tab-completion | [Reference: Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md) |
 | **docker** (OMZ) | If you use Docker | See plugin guide for dk aliases |
 | **brew** (OMZ) | Homebrew shortcuts | See plugin guide for bubo, bubc |
 
@@ -318,10 +318,10 @@ gp                     # git push origin branch
 | Topic | Duration | Key Resources |
 |-------|----------|---|
 | All 22 plugins deep dive | 1.5 hrs | [Plugin Ecosystem Guide](../guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md) + Reference |
-| Custom alias creation | 30 min | [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) + [Alias Management](../guides/ALIAS-MANAGEMENT-WORKFLOW.md) |
+| Custom alias creation | 30 min | [Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md) + [Alias Management](../guides/ALIAS-MANAGEMENT-WORKFLOW.md) |
 | Plugin configuration | 45 min | [Plugin Management Workflow](../guides/PLUGIN-MANAGEMENT-WORKFLOW.md) |
 | Performance optimization | 1 hr | [Tutorial 22: Plugin Optimization](22-plugin-optimization.md) |
-| Custom dispatchers | 2 hrs | [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) + Developer Guide |
+| Custom dispatchers | 2 hrs | [Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md) + Developer Guide |
 | ZSH scripting | Variable | [Developer Guide](../guides/DEVELOPER-GUIDE.md) |
 
 **Advanced Tutorials:**
@@ -500,14 +500,14 @@ time zsh -i -c exit
 
 **Goal:** Reference guides, complete API understanding, custom workflows
 
-1. **[Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md)** (20 min)
-    - All aliases across all plugins
+1. **[Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md)** (20 min)
+    - All dispatchers and aliases
 
-2. **[Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)** (20 min)
+2. **[Quick Reference](../help/QUICK-REFERENCE.md)** (20 min)
     - All flow-cli commands
 
-3. **[Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)** (30 min)
-    - Complete dispatcher documentation
+3. **[Master API Reference](../reference/MASTER-API-REFERENCE.md)** (30 min)
+    - Complete API documentation
 
 4. **[Plugin Management Workflow](../guides/PLUGIN-MANAGEMENT-WORKFLOW.md)** (20 min)
     - Add, update, remove plugins
@@ -618,7 +618,7 @@ z help                 → See z plugin features
 **In Documentation:**
 1. Find plugin in table above
 2. Search for plugin name in [Plugin Ecosystem Guide](../guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md)
-3. Look in [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) for all aliases
+3. Look in [Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md) for all aliases
 
 ---
 
@@ -663,15 +663,15 @@ z help                 → See z plugin features
 **Git & Development:**
 - Tutorials 8, 9
 - Guide: Worktree Workflow
-- Reference: G Dispatcher
+- Reference: [Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md#g-dispatcher)
 
 **Claude Code:**
 - Tutorial 10
-- Reference: CC Dispatcher
+- Reference: [Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md#cc-dispatcher)
 
 **Secrets & Config:**
 - Tutorial 12
-- Reference: DOT Dispatcher
+- Reference: [Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher)
 - Guide: Dotfile Management
 
 **Teaching:**
@@ -684,7 +684,7 @@ z help                 → See z plugin features
 
 **Prompt & Automation:**
 - Tutorial 13, 22, 23
-- Reference: Prompt Dispatcher
+- Reference: [Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md#prompt-dispatcher)
 
 **Plugins & Optimization:**
 - Tutorial 22
@@ -703,9 +703,9 @@ z help                 → See z plugin features
    - [Worktree Workflow](../guides/WORKTREE-WORKFLOW.md)
 
 2. **Choose two reference cards** to keep handy
-   - [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)
-   - [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md)
-   - [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)
+   - [Quick Reference](../help/QUICK-REFERENCE.md)
+   - [Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md)
+   - [Master API Reference](../reference/MASTER-API-REFERENCE.md)
 
 3. **Deep dive into one dispatcher**
    - Choose based on your workflow
@@ -716,7 +716,7 @@ z help                 → See z plugin features
 
 1. **Read Developer Guide** to build custom commands
    - [Developer Guide](../guides/DEVELOPER-GUIDE.md)
-   - [Architecture Overview](../reference/ARCHITECTURE-OVERVIEW.md)
+   - [Master Architecture](../reference/MASTER-ARCHITECTURE.md)
 
 2. **Explore optimization**
    - [Plugin Optimization](22-plugin-optimization.md)
@@ -783,14 +783,14 @@ z help                 → See z plugin features
 ### References
 
 - **[Plugin Ecosystem Guide](../guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md)** - All 22 plugins explained
-- **[Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)** - All commands
-- **[Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)** - All 12 dispatchers
-- **[Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md)** - All aliases
+- **[Quick Reference](../help/QUICK-REFERENCE.md)** - All commands
+- **[Master Dispatcher Guide](../reference/MASTER-DISPATCHER-GUIDE.md)** - All 12 dispatchers
+- **[Master API Reference](../reference/MASTER-API-REFERENCE.md)** - Complete API documentation
 
 ### Deep Dives
 
 - **[Developer Guide](../guides/DEVELOPER-GUIDE.md)** - Build custom commands
-- **[Architecture Overview](../reference/ARCHITECTURE-OVERVIEW.md)** - System design
+- **[Master Architecture](../reference/MASTER-ARCHITECTURE.md)** - System design
 - **[Plugin Management](../guides/PLUGIN-MANAGEMENT-WORKFLOW.md)** - Add/update plugins
 
 ---
@@ -841,4 +841,5 @@ z help                 → See z plugin features
 ---
 
 **Last Updated:** 2026-01-24
+**Version:** v5.18.0-dev
 **Feedback:** Issues and suggestions welcome on [GitHub](https://github.com/Data-Wise/flow-cli)

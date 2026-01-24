@@ -2,7 +2,7 @@
 
 **Welcome to flow-cli!** This is your central hub for all documentation.
 
-**Version:** v5.17.0-dev
+**Version:** v5.18.0-dev
 **Last Updated:** 2026-01-24
 **Target Audience:** All users (beginners → advanced)
 
@@ -45,17 +45,17 @@ Follow our progressive tutorial series:
 ### Beginner Path (Week 1 - Core Workflows)
 
 1. [Tutorial 01: First Session](../tutorials/01-first-session.md) - work, finish, dash
-2. [Tutorial 02: Project Switching](../tutorials/02-project-switching.md) - hop, pick
-3. [Tutorial 03: Quick Capture](../tutorials/03-quick-capture.md) - catch, crumb
-4. [Tutorial 04: Git Integration](../tutorials/04-git-basics.md) - g dispatcher
+2. [Tutorial 02: Multiple Projects](../tutorials/02-multiple-projects.md) - hop, pick
+3. [Tutorial 03: Status Visualizations](../tutorials/03-status-visualizations.md) - tracking progress
+4. [Tutorial 04: Web Dashboard](../tutorials/04-web-dashboard.md) - visual insights
 
 **Time:** 30 minutes total
 
 ### Intermediate Path (Week 2 - Smart Dispatchers)
 
-1. [Tutorial 05: R Workflows](../tutorials/05-r-dispatcher.md) - r dispatcher
-2. [Tutorial 06: Quarto Publishing](../tutorials/06-quarto-dispatcher.md) - qu dispatcher
-3. [Tutorial 07: Claude Code](../tutorials/07-claude-dispatcher.md) - cc dispatcher
+1. [Tutorial 05: AI-Powered Commands](../tutorials/05-ai-commands.md) - AI integration
+2. [Tutorial 06: Dopamine Features](../tutorials/06-dopamine-features.md) - Win tracking
+3. [Tutorial 07: Sync Command](../tutorials/07-sync-command.md) - Project sync
 4. [Tutorial 08: Git Feature Workflow](../tutorials/08-git-feature-workflow.md) - Advanced git
 
 **Time:** 1 hour total
@@ -63,9 +63,9 @@ Follow our progressive tutorial series:
 ### Advanced Path (Week 3+ - Power User)
 
 1. [Tutorial 09: Worktrees](../tutorials/09-worktrees.md) - wt dispatcher
-2. [Tutorial 10: MCP Servers](../tutorials/10-mcp-dispatcher.md) - mcp dispatcher
-3. [Tutorial 11: Obsidian Integration](../tutorials/11-obsidian-dispatcher.md) - obs dispatcher
-4. [Tutorial 12: DOT Dispatcher](../tutorials/12-dot-dispatcher.md) - dot dispatcher
+2. [Tutorial 10: CC Dispatcher](../tutorials/10-cc-dispatcher.md) - Claude Code
+3. [Tutorial 11: TM Dispatcher](../tutorials/11-tm-dispatcher.md) - Terminal manager
+4. [Tutorial 12: DOT Dispatcher](../tutorials/12-dot-dispatcher.md) - Dotfile management
 
 **See all:** [Complete Tutorial Index](../tutorials/index.md)
 
@@ -88,10 +88,10 @@ Jump straight to our cheat sheets:
   - Project workflows (teaching, research, dev)
   - Plugin workflows (226 git aliases)
 
-- **[Quick Reference Cards](../reference/)** ← Printable cheat sheets
-  - REFCARD-TOKEN.md (Token management)
-  - REFCARD-TEACH-ANALYZE.md (Teaching workflow)
-  - REFCARD-OPTIMIZATION.md (Performance tuning)
+- **[Master Reference Guides](../reference/)** ← Comprehensive references
+  - [MASTER-DISPATCHER-GUIDE.md](../reference/MASTER-DISPATCHER-GUIDE.md) - All 12 dispatchers
+  - [MASTER-API-REFERENCE.md](../reference/MASTER-API-REFERENCE.md) - Complete API
+  - [MASTER-ARCHITECTURE.md](../reference/MASTER-ARCHITECTURE.md) - System architecture
 
 **Format:** Copy-paste ready, with expected outputs
 
@@ -151,9 +151,9 @@ teach deploy            # Publish to GitHub Pages
 
 ### For Researchers
 
-- **[R Package Guide](../guides/R-PACKAGE-GUIDE.md)** - R development workflow
-- **[r Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#r-dispatcher)** - All commands
-- **[Quarto Integration](../guides/QUARTO-WORKFLOW-GUIDE.md)** - Publishing workflow
+- **[r Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#r-dispatcher)** - R development workflow
+- **[qu Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#qu-dispatcher)** - Quarto commands
+- **[Quarto Workflow Phase 2](../guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md)** - Advanced publishing
 
 **Quick Start:**
 
@@ -167,7 +167,7 @@ qu preview              # Preview document
 
 - **[Git Feature Workflow](../tutorials/08-git-feature-workflow.md)** - Feature branch workflow
 - **[Worktree Guide](../tutorials/09-worktrees.md)** - Parallel development
-- **[Claude Code Integration](../tutorials/07-claude-dispatcher.md)** - AI pair programming
+- **[Claude Code Integration](../tutorials/10-cc-dispatcher.md)** - AI pair programming
 
 **Quick Start:**
 
@@ -269,7 +269,7 @@ flow-cli has 8 types of documentation - each serves a different purpose:
 
 **Purpose:** Contributor guidelines
 
-- [Documentation Meta-Guide](../contributing/DOCUMENTATION-META-GUIDE.md) ← Documentation standards
+- [Documentation Style Guide](../contributing/DOCUMENTATION-STYLE-GUIDE.md) ← Documentation standards
 - [Branch Workflow](../contributing/BRANCH-WORKFLOW.md) - Git workflow
 - [Testing Guide](../guides/TESTING.md) - Test suite
 
@@ -463,20 +463,20 @@ flow doctor --dot    # Token check only (< 3s)
 
 ## 📊 Documentation Stats
 
-**Status:** Consolidated (v5.17.0-dev)
+**Status:** Consolidated (v5.18.0-dev)
 
 - **Master Documents:** 7 (QUICK-REFERENCE, WORKFLOWS, TROUBLESHOOTING, MASTER-DISPATCHER-GUIDE, MASTER-API-REFERENCE, MASTER-ARCHITECTURE, 00-START-HERE)
-- **Tutorials:** 25+ (beginner → advanced → plugins)
-- **Guides:** 12+ (topic-focused deep dives)
-- **Reference Cards:** 8+ (quick lookup)
-- **Total Lines:** ~50,000 lines of documentation
+- **Tutorials:** 23+ (01-23, plus Scholar enhancement)
+- **Guides:** 15+ (topic-focused deep dives)
+- **Reference Files:** 3 master documents + archive
+- **Total Documentation Files:** 360+ markdown files
 
 **Coverage:**
 
 - Commands: 100% (all core commands documented)
 - Dispatchers: 100% (all 12 dispatchers)
-- Functions: 49.4% (853 functions, 421 documented)
-- Tutorials: 80% (20 existing + 8 planned)
+- Functions: 13.8% (704 functions, 97 documented) - Growing daily!
+- Tutorials: 23 complete
 
 ---
 
@@ -486,7 +486,7 @@ After reading this guide, you should:
 
 1. **New users:** [Quick Start](../getting-started/quick-start.md) (5 minutes)
 2. **Returning users:** [Quick Reference](QUICK-REFERENCE.md) (lookup)
-3. **Contributors:** [Documentation Meta-Guide](../contributing/DOCUMENTATION-META-GUIDE.md)
+3. **Contributors:** [Documentation Style Guide](../contributing/DOCUMENTATION-STYLE-GUIDE.md)
 
 ---
 
@@ -526,7 +526,7 @@ Help us improve documentation:
 ---
 
 **Last Updated:** 2026-01-24
-**Version:** v5.17.0-dev
+**Version:** v5.18.0-dev
 **Contributors:** See [CHANGELOG.md](../../CHANGELOG.md)
 
 ---
