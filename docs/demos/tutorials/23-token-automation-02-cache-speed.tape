@@ -1,7 +1,7 @@
 # Tutorial 23 Demo 2: Cache Speed Comparison
 # Shows the dramatic speed difference with caching
 
-Output docs/demos/tutorials/23-token-automation-02-cache-speed.gif
+Output ./23-token-automation-02-cache-speed.gif
 
 Set FontSize 16
 Set Width 1000

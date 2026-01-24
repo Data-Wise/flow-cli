@@ -110,6 +110,8 @@ doctor --dot
 !!! success "20x Faster!"
     Token check: **0.85s** vs **60s** full doctor run
 
+![Isolated Check Demo](../demos/tutorials/23-token-automation-01-isolated-check.gif)
+
 ### What Just Happened?
 
 1. **Isolated check** - Skipped shell, tools, integrations, dotfiles
@@ -170,6 +172,8 @@ sequenceDiagram
 - **85% cache hit rate** in typical workflows
 - **80% API call reduction** (respects rate limits)
 - **Sub-10ms cache lookups** (5-8ms average)
+
+![Cache Speed Demo](../demos/tutorials/23-token-automation-02-cache-speed.gif)
 
 ---
 
@@ -292,6 +296,8 @@ doctor --dot --verbose
 - Verifying cache behavior
 - Performance analysis
 
+![Verbosity Levels Demo](../demos/tutorials/23-token-automation-03-verbosity.gif)
+
 ---
 
 ## Step 7: Integration Workflows
@@ -372,6 +378,8 @@ Committing changes...
 | `gh` CLI | Auto-sync | Sync with gh auth status |
 | `git` | Remote failures | Suggest token check |
 | MCP | Server config | Validate MCP tokens |
+
+![Integration Workflow Demo](../demos/tutorials/23-token-automation-04-integration.gif)
 
 ---
 

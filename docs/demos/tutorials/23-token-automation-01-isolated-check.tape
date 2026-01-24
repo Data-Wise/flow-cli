@@ -1,7 +1,7 @@
 # Tutorial 23 Demo 1: Isolated Token Check
 # Demonstrates doctor --dot for fast, focused token validation
 
-Output docs/demos/tutorials/23-token-automation-01-isolated-check.gif
+Output ./23-token-automation-01-isolated-check.gif
 
 Set FontSize 16
 Set Width 1000

@@ -1,7 +1,7 @@
 # Tutorial 23 Demo 3: Verbosity Levels
 # Demonstrates quiet, normal, and verbose output modes
 
-Output docs/demos/tutorials/23-token-automation-03-verbosity.gif
+Output ./23-token-automation-03-verbosity.gif
 
 Set FontSize 16
 Set Width 1000
@@ -23,10 +23,10 @@ Sleep 500ms
 Enter
 Sleep 1.5s
 
-Type "echo \"Exit code: $?\""
-Sleep 300ms
+Type "# Exit code: 0 (success)"
+Sleep 800ms
 Enter
-Sleep 1s
+Sleep 500ms
 
 Type@500ms "# Normal mode (default) - standard output"
 Sleep 1s
