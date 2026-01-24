@@ -1513,6 +1513,346 @@ _doctor_fix_tokens
 
 ---
 
+### work Command Helpers
+
+**File:** `commands/work.zsh`
+**Functions:** 3 (v5.17.0 token automation)
+
+#### `_work_project_uses_github`
+
+Check if project uses GitHub as remote.
+
+**Signature:**
+```zsh
+_work_project_uses_github <project_path>
+```
+
+**Parameters:**
+- `$1` - (required) Path to project directory
+
+**Returns:**
+- 0 - Project uses GitHub remote
+- 1 - No GitHub remote found
+
+**Example:**
+```zsh
+if _work_project_uses_github "$HOME/projects/my-repo"; then
+    echo "Project uses GitHub"
+fi
+```
+
+---
+
+#### `_work_get_token_status`
+
+Get GitHub token status for work session.
+
+**Signature:**
+```zsh
+_work_get_token_status
+```
+
+**Parameters:**
+- None (uses keychain token)
+
+**Returns:**
+- stdout - Token status string
+
+**Status Values:**
+- `"not configured"` - No token found in keychain
+- `"expired/invalid"` - Token doesn't authenticate (HTTP != 200)
+- `"expiring in N days"` - Token valid but expires soon (< 7 days)
+- `"ok"` - Token valid with sufficient time remaining
+
+**Example:**
+```zsh
+status=$(_work_get_token_status)
+case "$status" in
+    "not configured")
+        echo "⚠️  Set up GitHub token: dot token github"
+        ;;
+    "expired/invalid")
+        echo "⚠️  Token expired, rotate: dot token rotate"
+        ;;
+    "expiring in "*)
+        echo "⚠️  $status"
+        ;;
+    "ok")
+        echo "✓ GitHub token valid"
+        ;;
+esac
+```
+
+---
+
+#### `_work_will_push_to_remote`
+
+Check if current branch will push to remote.
+
+**Signature:**
+```zsh
+_work_will_push_to_remote
+```
+
+**Parameters:**
+- None (checks current git branch)
+
+**Returns:**
+- 0 - Branch tracks a remote (will push)
+- 1 - No remote tracking (local-only branch)
+
+**Use Case:**
+- Determine if token validation needed before `work` session
+- Skip token check for local-only work
+
+**Example:**
+```zsh
+if _work_will_push_to_remote; then
+    # Validate token before allowing push
+    if ! _flow_git_validate_token; then
+        echo "Invalid token, cannot push"
+        return 1
+    fi
+fi
+```
+
+---
+
+### dot Dispatcher Helpers
+
+**File:** `lib/dispatchers/dot-dispatcher.zsh`
+**Functions:** 5 (v5.17.0 token automation)
+
+#### `_dot_token_expiring`
+
+Check all GitHub tokens for expiration status.
+
+**Signature:**
+```zsh
+_dot_token_expiring
+```
+
+**Parameters:**
+- None (scans all GitHub tokens in keychain)
+
+**Returns:**
+- 0 - No expiring tokens
+- 1 - Expiring or expired tokens found
+
+**Output:**
+- Lists expiring tokens (< 7 days)
+- Lists expired tokens (invalid)
+
+**Example:**
+```zsh
+dot token expiring
+# Shows tokens expiring in < 7 days
+```
+
+---
+
+#### `_dot_token_age_days`
+
+Get token age in days since creation.
+
+**Signature:**
+```zsh
+_dot_token_age_days <secret_name>
+```
+
+**Parameters:**
+- `$1` - (required) Secret name (e.g., "github-token")
+
+**Returns:**
+- stdout - Age in days (integer)
+- stdout - 90 if no creation metadata (flags for rotation)
+
+**Implementation:**
+- Reads creation timestamp from keychain metadata
+- Parses JSON metadata field
+- Calculates days elapsed
+
+**Example:**
+```zsh
+age_days=$(_dot_token_age_days "github-token")
+if [[ $age_days -gt 80 ]]; then
+    echo "Token is $age_days days old, consider rotating"
+fi
+```
+
+---
+
+#### `_dot_token_rotate`
+
+Rotate GitHub token (delete old, create new).
+
+**Signature:**
+```zsh
+_dot_token_rotate [token_name]
+```
+
+**Parameters:**
+- `$1` - (optional) Token name [default: "github-token"]
+
+**Returns:**
+- 0 - Rotation successful
+- 1 - Rotation failed
+
+**Workflow:**
+1. Verify old token exists
+2. Validate old token (get username)
+3. Generate new token via `gh` CLI
+4. Store new token in keychain with metadata
+5. Invalidate doctor cache
+6. Sync to `gh` CLI config
+7. Log rotation event
+
+**Side Effects:**
+- Creates rotation log entry
+- Clears doctor cache for the provider
+- Updates keychain
+- Syncs gh CLI configuration
+
+**Example:**
+```zsh
+dot token rotate github-token
+# Rotates token automatically
+```
+
+---
+
+#### `_dot_token_log_rotation`
+
+Log token rotation event.
+
+**Signature:**
+```zsh
+_dot_token_log_rotation <provider> <old_username> <new_username>
+```
+
+**Parameters:**
+- `$1` - (required) Provider name (e.g., "github")
+- `$2` - (required) Old token username
+- `$3` - (required) New token username
+
+**Log Format:**
+```
+[2026-01-23T12:30:00Z] ROTATION github old_user→new_user
+```
+
+**Log Location:**
+- `~/.flow/logs/token-rotations.log`
+
+**Example:**
+```zsh
+_dot_token_log_rotation "github" "user" "user"
+```
+
+---
+
+#### `_dot_token_sync_gh`
+
+Sync token to gh CLI configuration.
+
+**Signature:**
+```zsh
+_dot_token_sync_gh <token>
+```
+
+**Parameters:**
+- `$1` - (required) GitHub token value
+
+**Returns:**
+- 0 - Sync successful
+- 1 - gh CLI not available
+
+**Behavior:**
+- Configures `gh auth login` with provided token
+- Uses `gh` CLI's token storage
+- Enables `gh` commands to work seamlessly
+
+**Example:**
+```zsh
+token=$(dot secret github-token)
+_dot_token_sync_gh "$token"
+```
+
+---
+
+### g Dispatcher Helpers
+
+**File:** `lib/dispatchers/g-dispatcher.zsh`
+**Functions:** 2 (v5.17.0 token automation)
+
+#### `_g_is_github_remote`
+
+Check if current repository has GitHub remote.
+
+**Signature:**
+```zsh
+_g_is_github_remote
+```
+
+**Parameters:**
+- None (checks current directory git repo)
+
+**Returns:**
+- 0 - GitHub remote found
+- 1 - No GitHub remote
+
+**Use Case:**
+- Determine if token validation needed before `g push`
+- Skip token check for non-GitHub remotes
+
+**Example:**
+```zsh
+if _g_is_github_remote; then
+    # Validate token before push
+    _g_validate_github_token_silent || {
+        echo "Invalid token"
+        return 1
+    }
+fi
+```
+
+---
+
+#### `_g_validate_github_token_silent`
+
+Quick token validation without output.
+
+**Signature:**
+```zsh
+_g_validate_github_token_silent
+```
+
+**Parameters:**
+- None (uses keychain token)
+
+**Returns:**
+- 0 - Token valid (HTTP 200)
+- 1 - Token missing, expired, or invalid
+
+**Caching:**
+- Uses doctor cache (5-min TTL) if available
+- Falls back to API call if cache miss
+
+**Performance:**
+- Cached: ~50-80ms
+- Uncached: ~2-3s (API roundtrip)
+
+**Example:**
+```zsh
+if _g_validate_github_token_silent; then
+    git push origin dev
+else
+    echo "Invalid token, run: dot token rotate"
+    return 1
+fi
+```
+
+---
+
 ## See Also
 
 - [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) - Complete dispatcher reference
