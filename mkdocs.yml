@@ -138,7 +138,6 @@ nav:
               - STAT 545 (Graduate): examples/course-planning/intermediate-stats/README.md
       - 🚀 Quarto Workflow Phase 2:
           - Phase 2 Complete Guide: guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md
-          - Phase 2 Quick Reference: reference/REFCARD-QUARTO-PHASE2.md
       - Teaching (Legacy):
           - System Architecture: guides/TEACHING-SYSTEM-ARCHITECTURE.md
           - Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md
@@ -192,7 +191,6 @@ nav:
       - Safe Testing (v5.9.0): guides/SAFE-TESTING-v5.9.0.md
       - Interactive Dog Test: testing/DOG-FEEDING-TEST-README.md
       - Interactive Test Guide: testing/INTERACTIVE-TEST-GUIDE.md
-      - Testing Quick Ref: reference/TESTING-QUICK-REF.md
   - Development:
       - 🛠️ Developer Guide: guides/DEVELOPER-GUIDE.md
       - Contributing: contributing/CONTRIBUTING.md

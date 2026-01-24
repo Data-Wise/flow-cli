@@ -1,0 +1,18 @@
+# .linkcheck-ignore
+# Expected broken links that should not cause CI failures
+# Format: file_pattern:link_pattern (regex supported)
+
+# Archived documentation - links may be outdated but preserved for history
+docs/reference/.archive/.*:.*
+docs/REFERENCE-CONSOLIDATION-PLAN.md:.*
+docs/BRAINSTORM-.*\.md:.*
+
+# Planning and spec documents - may reference future or removed features
+docs/specs/.*:.*
+docs/planning/.*:.*
+
+# Bug reports - may reference deleted files
+docs/bugs/.*:.*
+
+# Test documentation - intentionally broken links for testing
+docs/testing/.*:nonexistent\.md
