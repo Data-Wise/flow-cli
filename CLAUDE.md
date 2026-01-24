@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v5.17.0-dev (In Development)
-- **Latest Release:** v5.16.0 (2026-01-22)
+- **Current Version:** v5.18.0-dev (In Development)
+- **Latest Release:** v5.17.0 (2026-01-23)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -633,11 +633,11 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.17.0-dev (In Development)
-**Latest Release:** v5.16.0 (2026-01-22)
-**Status:** Production - PR #292 merged to dev
-**Branch:** `dev` (clean working tree, ready for v5.17.0 release)
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0
+**Version:** v5.18.0-dev (In Development)
+**Latest Release:** v5.17.0 (2026-01-23)
+**Status:** Production - Documentation consolidation complete
+**Branch:** `dev` (clean working tree, API docs 13.8% coverage)
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.17.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 14 test suites + 54 token automation tests (100% core tests, 416+ total tests)
@@ -646,10 +646,12 @@ export FLOW_DEBUG=1
 
 ## Recent Releases
 
-### v5.17.0 - Token Automation Phase 1 (In Development)
+### v5.17.0 - Token Automation Phase 1 ✨ (2026-01-23)
 
-**Status:** Ready for release
-**PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED 2026-01-23)
+**Released:** 2026-01-23
+**PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED)
+**PR #293:** https://github.com/Data-Wise/flow-cli/pull/293 (Release PR)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.17.0
 **Changes:** 35 files, +13,546 / -187 lines
 
 **Major Features:**
@@ -832,12 +834,20 @@ export FLOW_DEBUG=1
 
 ---
 
-## Next Development Cycle (Post v5.17.0)
+## Next Development Cycle (v5.18.0)
 
-**Current:** Ready to release v5.17.0 (Token Automation Phase 1)
+**Current:** v5.18.0-dev - Documentation consolidation complete, API coverage at 13.8%
+
+**Completed in v5.18.0:**
+
+- Documentation consolidation (66 → 7 master files)
+- API documentation improvement (2.7% → 13.8%, +411% increase)
+- Documentation health check (54 critical broken links fixed)
+- Master documents created (MASTER-API-REFERENCE, MASTER-DISPATCHER-GUIDE, MASTER-ARCHITECTURE)
 
 **Potential Focus Areas:**
 
+- Continue API documentation (target: 80% coverage, currently 13.8%)
 - Config → concept graph integration (Phase 1 enhancement)
 - teach prompt command (needs Scholar coordination)
 - Token automation Phases 2-4 (deferred - multi-token, gamification)

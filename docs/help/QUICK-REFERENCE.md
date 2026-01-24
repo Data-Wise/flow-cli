@@ -2,7 +2,7 @@
 
 **Purpose:** Single-page command lookup for all flow-cli features
 **Format:** Copy-paste ready with expected outputs
-**Version:** v5.17.0-dev
+**Version:** v5.18.0-dev
 **Last Updated:** 2026-01-24
 
 ---
