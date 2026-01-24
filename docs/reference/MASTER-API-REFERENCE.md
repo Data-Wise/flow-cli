@@ -1369,152 +1369,883 @@ _save_concept_graph "$graph"
 
 ### lib/prerequisite-checker.zsh
 
-**Functions:** 20+
-**Purpose:** DAG-based prerequisite validation
+**Functions:** 7
+**Purpose:** DAG-based prerequisite validation and dependency checking
 
-**Key Functions (Documented in v5.16.0):**
+#### `_check_prerequisites`
 
-- `_check_prerequisite_chain` - Validates concept dependency chain
-- `_detect_circular_dependencies` - Finds circular prerequisite loops
-- `_topological_sort_concepts` - Sorts concepts by dependency order
-- `_validate_prerequisite_graph` - Complete graph validation
+Validate all prerequisite dependencies in course data.
 
-**See:** [TEACH-ANALYZE-API-REFERENCE.md](TEACH-ANALYZE-API-REFERENCE.md) for complete prerequisite checker API
+**Signature:**
+```zsh
+_check_prerequisites <course_data_json>
+```
+
+**Parameters:**
+- `$1` - (required) Course data JSON with weeks and concepts
+
+**Returns:**
+- stdout - JSON array of prerequisite violations
+
+**Violation Types:**
+1. **missing** - Prerequisite not defined anywhere
+2. **future** - Prerequisite introduced after dependent concept
+3. **circular** - Circular dependency detected
+
+**Output Format:**
+```json
+[
+  {
+    "concept_id": "regression",
+    "type": "missing",
+    "week": 5,
+    "prerequisite_id": "correlation",
+    "message": "Missing prerequisite: correlation",
+    "suggestion": "Add correlation to earlier week"
+  }
+]
+```
+
+**Global State:**
+- Sets `PREREQUISITE_VIOLATIONS` array
+
+**Example:**
+```zsh
+course_json=$(cat course-data.json)
+violations=$(_check_prerequisites "$course_json")
+if [[ "$violations" != "[]" ]]; then
+    echo "Found violations: $violations"
+fi
+```
+
+---
+
+#### `_validate_concept_graph`
+
+Perform complete graph validation (missing, future, circular).
+
+**Signature:**
+```zsh
+_validate_concept_graph <graph_json>
+```
+
+**Parameters:**
+- `$1` - (required) Concept graph JSON from `_build_concept_graph`
+
+**Returns:**
+- 0 - Graph valid
+- 1 - Validation failures found
+
+**Checks Performed:**
+1. All prerequisites exist
+2. No future prerequisites
+3. No circular dependencies
+4. Transitive closure consistency
+
+**Example:**
+```zsh
+graph=$(_build_concept_graph)
+if _validate_concept_graph "$graph"; then
+    echo "✓ Graph valid"
+else
+    echo "✗ Validation failed"
+fi
+```
+
+---
+
+#### `_detect_circular_dependencies`
+
+Find circular prerequisite loops in concept graph.
+
+**Signature:**
+```zsh
+_detect_circular_dependencies <graph_json>
+```
+
+**Parameters:**
+- `$1` - (required) Concept graph JSON
+
+**Returns:**
+- stdout - JSON array of circular dependency chains
+- stdout - Empty array `[]` if no cycles
+
+**Output Format:**
+```json
+[
+  {
+    "cycle": ["concept-a", "concept-b", "concept-c", "concept-a"],
+    "week_first": 5,
+    "severity": "error"
+  }
+]
+```
+
+**Example:**
+```zsh
+graph=$(_build_concept_graph)
+cycles=$(_detect_circular_dependencies "$graph")
+if [[ "$cycles" != "[]" ]]; then
+    echo "Found circular dependencies: $cycles"
+fi
+```
+
+---
+
+#### `_build_prerequisite_tree`
+
+Build dependency tree for a specific concept (transitive closure).
+
+**Signature:**
+```zsh
+_build_prerequisite_tree <concept_id> <graph_json>
+```
+
+**Parameters:**
+- `$1` - (required) Concept ID to analyze
+- `$2` - (required) Concept graph JSON
+
+**Returns:**
+- stdout - JSON tree structure with all transitive prerequisites
+
+**Output Format:**
+```json
+{
+  "concept": "regression",
+  "direct_prerequisites": ["correlation", "variance"],
+  "transitive_prerequisites": ["mean", "variance", "correlation"],
+  "depth": 2,
+  "total_prerequisites": 3
+}
+```
+
+**Use Case:**
+- Prerequisite tree visualization
+- Dependency depth analysis
+- Learning path planning
+
+**Example:**
+```zsh
+graph=$(_build_concept_graph)
+tree=$(_build_prerequisite_tree "regression" "$graph")
+echo "$tree" | jq '.transitive_prerequisites'
+```
+
+---
+
+#### `_format_prerequisite_tree_display`
+
+Format prerequisite tree for terminal display (with colors and tree structure).
+
+**Signature:**
+```zsh
+_format_prerequisite_tree_display <tree_json>
+```
+
+**Parameters:**
+- `$1` - (required) Prerequisite tree JSON from `_build_prerequisite_tree`
+
+**Returns:**
+- stdout - Formatted terminal output with ANSI colors and tree characters
+
+**Output Example:**
+```
+Prerequisite Tree for: regression
+├─ correlation (Week 4)
+│  └─ variance (Week 3)
+│     └─ mean (Week 2)
+└─ variance (Week 3)
+   └─ mean (Week 2)
+
+Total Prerequisites: 3 (depth: 2)
+```
+
+**Features:**
+- Unicode tree characters (├─, └─, │)
+- Color coding (ANSI escape codes)
+- Week numbers for each prerequisite
+- Depth and count summary
+
+**Example:**
+```zsh
+tree=$(_build_prerequisite_tree "regression" "$graph")
+_format_prerequisite_tree_display "$tree"
+```
+
+---
+
+**Complete API:** See [.archive/TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md#prerequisite-checker) for all 7 functions with detailed examples
 
 ---
 
 ### lib/analysis-cache.zsh
 
-**Functions:** 40+
-**Purpose:** SHA-256 cache with flock for content analysis
+**Functions:** 19
+**Purpose:** SHA-256-based content caching with concurrent access safety
 
-**Key Features:**
-- **SHA-256 hashing** - Content-based cache keys
-- **flock locking** - Concurrent access safety
-- **5-minute TTL** - Fresh analysis for changed content
-- **Automatic cleanup** - Removes stale entries
+#### Overview
 
-**Key Functions (Documented in v5.16.0):**
+Analysis cache system prevents redundant processing by caching results with content-based keys:
 
-- `_cache_get_analysis` - Get cached analysis by SHA-256
-- `_cache_set_analysis` - Store analysis with TTL
-- `_cache_invalidate` - Clear cache for file
-- `_cache_cleanup_old` - Remove entries > 1 day
+- **SHA-256 hashing** - Content changes invalidate cache automatically
+- **flock locking** - Safe concurrent access (multiple `teach analyze` runs)
+- **5-minute TTL** - Balance between freshness and performance
+- **Atomic writes** - Temp file + rename for safety
+- **Auto cleanup** - Removes entries > 1 day old
 
 **Cache Structure:**
 ```
 .teach-cache/
 ├── analysis/
-│   ├── abc123def456.json  # SHA-256 hash
+│   ├── abc123def456.json  # SHA-256 of content
 │   ├── 789ghi012jkl.json
-│   └── ...
+│   └── metadata.json
+├── slides/
+│   └── def456abc123.json  # Slide optimization cache
 └── locks/
-    └── .cache.lock
+    ├── .analysis.lock
+    └── .slides.lock
 ```
 
-**See:** [TEACH-ANALYZE-API-REFERENCE.md](TEACH-ANALYZE-API-REFERENCE.md) for complete cache API
+#### `_cache_compute_hash`
+
+Compute SHA-256 hash of file content.
+
+**Signature:**
+```zsh
+_cache_compute_hash <file_path>
+```
+
+**Parameters:**
+- `$1` - (required) Path to file
+
+**Returns:**
+- stdout - SHA-256 hash (lowercase hex)
+
+**Performance:**
+- Reads full file content
+- ~10-50ms depending on file size
+
+**Example:**
+```zsh
+hash=$(_cache_compute_hash "week-05-lecture.qmd")
+echo "Content hash: $hash"
+```
+
+---
+
+#### `_cache_get_analysis`
+
+Retrieve cached analysis result by content hash.
+
+**Signature:**
+```zsh
+_cache_get_analysis <file_path>
+```
+
+**Parameters:**
+- `$1` - (required) Path to analyzed file
+
+**Returns:**
+- 0 - Cache hit
+- 1 - Cache miss (no entry or expired)
+
+**Output:**
+- stdout - Cached analysis JSON (only on hit)
+
+**TTL Check:**
+- Reads `cached_at` timestamp
+- Compares to current time
+- Returns miss if > 5 minutes old
+
+**Example:**
+```zsh
+if analysis=$(_cache_get_analysis "week-05.qmd"); then
+    echo "Cache hit! Analysis: $analysis"
+else
+    # Perform fresh analysis
+    analysis=$(teach analyze "week-05.qmd")
+    _cache_set_analysis "week-05.qmd" "$analysis"
+fi
+```
+
+---
+
+#### `_cache_set_analysis`
+
+Store analysis result with TTL metadata.
+
+**Signature:**
+```zsh
+_cache_set_analysis <file_path> <analysis_json> [ttl_seconds]
+```
+
+**Parameters:**
+- `$1` - (required) Path to analyzed file
+- `$2` - (required) Analysis result JSON
+- `$3` - (optional) TTL in seconds [default: 300 = 5 minutes]
+
+**Returns:**
+- 0 - Success
+- 1 - Failed to write
+
+**Implementation:**
+- Computes SHA-256 of file content
+- Creates atomic write (temp + rename)
+- Acquires flock for thread safety
+- Stores with timestamp metadata
+
+**Example:**
+```zsh
+analysis='{"concepts": ["regression"], "valid": true}'
+_cache_set_analysis "week-05.qmd" "$analysis"
+```
+
+---
+
+#### `_cache_invalidate_file`
+
+Remove cache entry for specific file.
+
+**Signature:**
+```zsh
+_cache_invalidate_file <file_path>
+```
+
+**Parameters:**
+- `$1` - (required) Path to file
+
+**Returns:**
+- 0 - Success (even if cache didn't exist)
+
+**Use Cases:**
+- After manual content edits
+- Force fresh analysis
+- Cache corruption recovery
+
+**Example:**
+```zsh
+# Edit file then invalidate cache
+vim week-05.qmd
+_cache_invalidate_file "week-05.qmd"
+```
+
+---
+
+#### `_cache_cleanup_old_entries`
+
+Remove cache entries older than 1 day.
+
+**Signature:**
+```zsh
+_cache_cleanup_old_entries
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- stdout - Number of entries removed
+
+**Behavior:**
+- Scans `.teach-cache/analysis/` directory
+- Checks file mtime (modification time)
+- Removes entries > 86400 seconds old
+- Also cleans stale lock files
+
+**Example:**
+```zsh
+removed=$(_cache_cleanup_old_entries)
+echo "Cleaned up $removed old cache entries"
+```
+
+---
+
+#### `_cache_acquire_lock`
+
+Acquire exclusive lock for cache writes.
+
+**Signature:**
+```zsh
+_cache_acquire_lock <cache_type>
+```
+
+**Parameters:**
+- `$1` - (required) Cache type ("analysis" or "slides")
+
+**Returns:**
+- 0 - Lock acquired
+- 1 - Timeout (failed after 2s)
+
+**Implementation:**
+- Uses `flock` if available
+- Falls back to mkdir-based locking (atomic on POSIX)
+- Detects and removes stale locks (dead process)
+
+**File Descriptor:**
+- Uses fd 200 for analysis cache locks
+- Uses fd 201 for slides cache locks
+
+**Example:**
+```zsh
+if _cache_acquire_lock "analysis"; then
+    # ... write to cache
+    _cache_release_lock "analysis"
+else
+    echo "Failed to acquire lock"
+fi
+```
+
+---
+
+#### `_cache_release_lock`
+
+Release exclusive cache lock.
+
+**Signature:**
+```zsh
+_cache_release_lock <cache_type>
+```
+
+**Parameters:**
+- `$1` - (required) Cache type ("analysis" or "slides")
+
+**Returns:**
+- 0 - Always succeeds
+
+**Behavior:**
+- Closes flock file descriptor
+- Removes mkdir-based lock directory
+- Safe to call even if lock wasn't acquired
+
+**Example:**
+```zsh
+_cache_release_lock "analysis"
+```
+
+---
+
+**Complete API:** See [.archive/TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md#analysis-cache) for all 19 functions including metadata management, batch operations, and statistics
 
 ---
 
 ### lib/report-generator.zsh
 
-**Functions:** 30+
-**Purpose:** Generate Markdown/JSON analysis reports
+**Functions:** 12
+**Purpose:** Generate formatted analysis reports (Markdown/JSON/Interactive)
 
-**Output Formats:**
-1. **Markdown** - Human-readable summary
-2. **JSON** - Machine-parsable data
-3. **Interactive** - Terminal UI with colors
+#### `_generate_markdown_report`
 
-**Key Functions (Documented in v5.16.0):**
+Generate human-readable Markdown analysis report.
 
-- `_generate_markdown_report` - Create .md summary
-- `_generate_json_report` - Export to JSON
-- `_print_interactive_summary` - Colorized terminal output
-- `_format_prerequisite_tree` - Dependency visualization
+**Signature:**
+```zsh
+_generate_markdown_report <analysis_data> [output_file]
+```
 
-**Example Report Structure:**
+**Parameters:**
+- `$1` - (required) Analysis data JSON
+- `$2` - (optional) Output file path [default: stdout]
+
+**Returns:**
+- 0 - Success
+- 1 - Failed to generate
+
+**Report Sections:**
+1. **Summary** - Concept/prerequisite counts, file stats
+2. **Concept Distribution** - Concepts per week
+3. **Prerequisite Validation** - Violations summary
+4. **Circular Dependencies** - If detected
+5. **Recommendations** - Suggested improvements
+
+**Example Output:**
 ```markdown
-# Analysis Report: STAT 545
+# Teaching Content Analysis Report
+
+**Generated:** 2026-01-24 15:15
+**Course:** STAT 545
 
 ## Summary
 - Total concepts: 45
 - Total prerequisites: 67
 - Files analyzed: 12
+- Validation status: ✓ PASS
 
 ## Concept Distribution
-Week 1: 3 concepts
-Week 2: 5 concepts
+| Week | Concepts | Prerequisites |
+|------|----------|---------------|
+| 1    | 3        | 0             |
+| 2    | 5        | 3             |
 ...
 
-## Prerequisite Validation
-✓ No circular dependencies
+## Validation Results
+✓ No circular dependencies detected
 ✓ All prerequisites defined
-⚠ 2 concepts missing prerequisites
+⚠ 2 concepts have future prerequisites
+
+## Recommendations
+1. Consider moving "correlation" to Week 4
+2. Add prerequisite "mean" to Week 2
 ```
 
-**See:** [TEACH-ANALYZE-API-REFERENCE.md](TEACH-ANALYZE-API-REFERENCE.md) for complete report generator API
+**Example:**
+```zsh
+analysis=$(teach analyze --json)
+_generate_markdown_report "$analysis" "analysis-report.md"
+```
+
+---
+
+#### `_generate_json_report`
+
+Export analysis data as JSON for machine processing.
+
+**Signature:**
+```zsh
+_generate_json_report <analysis_data> [output_file]
+```
+
+**Parameters:**
+- `$1` - (required) Analysis data
+- `$2` - (optional) Output file [default: stdout]
+
+**Returns:**
+- 0 - Success
+
+**Output Schema:**
+```json
+{
+  "meta": {
+    "generated_at": "2026-01-24T15:15:00Z",
+    "version": "v5.16.0",
+    "course": "STAT 545"
+  },
+  "summary": {
+    "total_concepts": 45,
+    "total_prerequisites": 67,
+    "files_analyzed": 12,
+    "validation_passed": true
+  },
+  "concepts": [
+    {
+      "id": "regression",
+      "week": 5,
+      "prerequisites": ["correlation", "variance"],
+      "transitive_prerequisites": ["mean", "variance", "correlation"]
+    }
+  ],
+  "violations": [],
+  "warnings": []
+}
+```
+
+**Example:**
+```zsh
+analysis=$(teach analyze --json)
+_generate_json_report "$analysis" "analysis.json"
+```
+
+---
+
+#### `_print_interactive_summary`
+
+Display colorized analysis summary in terminal.
+
+**Signature:**
+```zsh
+_print_interactive_summary <analysis_data>
+```
+
+**Parameters:**
+- `$1` - (required) Analysis data JSON
+
+**Returns:**
+- 0 - Success
+
+**Features:**
+- ANSI color codes for status (✓ green, ✗ red, ⚠ yellow)
+- Unicode box drawing characters
+- Progress bars for metrics
+- Collapsible sections (via less/more)
+
+**Example Output:**
+```
+╭─────────────────────────────────────────────────╮
+│ 📊 Teaching Content Analysis                   │
+├─────────────────────────────────────────────────┤
+│                                                 │
+│ ✓ Total Concepts: 45                            │
+│ ✓ Prerequisites: 67                             │
+│ ✓ Files Analyzed: 12                            │
+│                                                 │
+│ Validation: ✓ PASS                              │
+│   ✓ No circular dependencies                    │
+│   ✓ All prerequisites defined                   │
+│   ⚠ 2 future prerequisites                      │
+│                                                 │
+╰─────────────────────────────────────────────────╯
+```
+
+**Example:**
+```zsh
+analysis=$(teach analyze)
+_print_interactive_summary "$analysis"
+```
+
+---
+
+#### `_format_concept_distribution_table`
+
+Format concept distribution as terminal table.
+
+**Signature:**
+```zsh
+_format_concept_distribution_table <analysis_data>
+```
+
+**Parameters:**
+- `$1` - (required) Analysis data JSON
+
+**Returns:**
+- stdout - Formatted table with ANSI colors
+
+**Example Output:**
+```
+Week  Concepts  Prerequisites  Avg Depth
+────  ────────  ─────────────  ─────────
+  1          3              0        0.0
+  2          5              3        1.2
+  3          7              8        1.8
+  4          6             12        2.1
+  5          8             15        2.5
+────  ────────  ─────────────  ─────────
+Total       29             38        1.9
+```
+
+**Example:**
+```zsh
+analysis=$(teach analyze --json)
+_format_concept_distribution_table "$analysis"
+```
+
+---
+
+**Complete API:** See [.archive/TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md#report-generator) for all 12 functions including violation formatting, recommendation generation, and export utilities
 
 ---
 
 ### lib/ai-analysis.zsh
 
-**Functions:** 15+
-**Purpose:** Claude CLI integration for AI-powered insights
+**Functions:** 8
+**Purpose:** Claude CLI integration for AI-powered pedagogical insights
 
-**Features:**
-- **Smart analysis** - Identifies key concepts, difficulty, cognitive load
-- **Cost tracking** - Monitors Claude API usage
-- **Batch processing** - Parallel analysis of multiple files
-- **Caching** - Reuses previous AI analysis
+#### `_ai_analyze_content`
 
-**Key Functions (Documented in v5.16.0):**
+Send content to Claude for pedagogical analysis.
 
-- `_ai_analyze_content` - Send content to Claude for analysis
-- `_ai_estimate_cost` - Calculate API cost estimate
-- `_ai_batch_analyze` - Process multiple files in parallel
-- `_ai_cache_analysis` - Store AI analysis with SHA-256
+**Signature:**
+```zsh
+_ai_analyze_content <file_path> [mode]
+```
 
-**Example AI Output:**
+**Parameters:**
+- `$1` - (required) Path to .qmd file
+- `$2` - (optional) Analysis mode ("full" | "quick") [default: "full"]
+
+**Returns:**
+- 0 - Success
+- 1 - Analysis failed (Claude CLI error, API error)
+
+**Output:**
+- stdout - Analysis JSON
+
+**Analysis Modes:**
+
+**Full Mode** - Comprehensive analysis (~10-30s, $0.01-0.05):
 ```json
 {
   "key_concepts": ["regression", "correlation", "causation"],
   "difficulty": "intermediate",
   "cognitive_load": "medium",
-  "bloom_levels": ["understand", "apply", "analyze"],
-  "estimated_time": "50 minutes"
+  "bloom_taxonomy": ["remember", "understand", "apply", "analyze"],
+  "estimated_time_minutes": 50,
+  "prerequisites_needed": ["mean", "variance"],
+  "learning_objectives": [
+    "Understand relationship between variables",
+    "Apply regression analysis to real data"
+  ],
+  "common_misconceptions": [
+    "Correlation implies causation"
+  ],
+  "suggested_activities": [
+    "Practice with scatter plots",
+    "Interpret regression output"
+  ]
 }
 ```
 
-**See:** [TEACH-ANALYZE-API-REFERENCE.md](TEACH-ANALYZE-API-REFERENCE.md) for complete AI analysis API
+**Quick Mode** - Essential insights only (~3-5s, $0.005-0.01):
+```json
+{
+  "key_concepts": ["regression", "correlation"],
+  "difficulty": "intermediate",
+  "estimated_time_minutes": 50
+}
+```
+
+**Example:**
+```zsh
+# Full analysis
+analysis=$(_ai_analyze_content "week-05-lecture.qmd")
+echo "$analysis" | jq '.key_concepts'
+
+# Quick analysis (faster, cheaper)
+analysis=$(_ai_analyze_content "week-05-lecture.qmd" "quick")
+```
+
+---
+
+#### `_ai_estimate_cost`
+
+Estimate Claude API cost for content analysis.
+
+**Signature:**
+```zsh
+_ai_estimate_cost <file_path> [mode]
+```
+
+**Parameters:**
+- `$1` - (required) Path to file
+- `$2` - (optional) Analysis mode [default: "full"]
+
+**Returns:**
+- stdout - Estimated cost in USD (e.g., "0.023")
+
+**Cost Calculation:**
+- Counts content tokens (input)
+- Estimates response tokens (~500 full, ~100 quick)
+- Uses Claude pricing (Sonnet: $3/1M input, $15/1M output)
+
+**Example:**
+```zsh
+cost=$(_ai_estimate_cost "week-05-lecture.qmd")
+echo "Estimated cost: \$$cost"
+
+# Check before batch processing
+total_cost=0
+for file in lectures/*.qmd; do
+    cost=$(_ai_estimate_cost "$file")
+    total_cost=$(awk "BEGIN {print $total_cost + $cost}")
+done
+echo "Total batch cost: \$$total_cost"
+```
+
+---
+
+#### `_ai_batch_analyze`
+
+Analyze multiple files in parallel with cost tracking.
+
+**Signature:**
+```zsh
+_ai_batch_analyze <file1> <file2> ... [--mode MODE] [--max-cost COST]
+```
+
+**Parameters:**
+- `$@` - File paths to analyze
+- `--mode` - Analysis mode [default: "full"]
+- `--max-cost` - Stop if estimated cost exceeds limit
+
+**Returns:**
+- 0 - Success
+- 1 - Cost limit exceeded or analysis failed
+
+**Features:**
+- Parallel processing (up to 4 concurrent)
+- Progress tracking
+- Cost accumulation
+- Graceful failure handling
+
+**Example:**
+```zsh
+# Analyze all lectures
+_ai_batch_analyze lectures/*.qmd --mode quick
+
+# With cost limit
+_ai_batch_analyze lectures/*.qmd --max-cost 1.00
+```
+
+---
+
+#### `_ai_track_usage`
+
+Track cumulative AI analysis costs.
+
+**Signature:**
+```zsh
+_ai_track_usage <cost> <mode> <file_path>
+```
+
+**Parameters:**
+- `$1` - (required) Cost in USD
+- `$2` - (required) Analysis mode
+- `$3` - (required) File analyzed
+
+**Returns:**
+- 0 - Success
+
+**Log Format:**
+```
+2026-01-24T15:15:00Z,full,week-05-lecture.qmd,0.023
+2026-01-24T15:16:00Z,quick,week-06-lecture.qmd,0.008
+```
+
+**Log Location:**
+- `.teach-cache/ai-usage.log`
+
+**Example:**
+```zsh
+_ai_track_usage "0.023" "full" "week-05.qmd"
+
+# View total usage
+awk -F, '{sum += $4} END {print "Total: $" sum}' .teach-cache/ai-usage.log
+```
+
+---
+
+**Complete API:** See [.archive/TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md#ai-analysis) for all 8 functions including caching, error handling, and rate limiting
 
 ---
 
 ### lib/slide-optimizer.zsh
 
-**Functions:** 20+
-**Purpose:** Heuristic slide break detection
+**Functions:** 8
+**Purpose:** Heuristic slide break detection and optimization
 
-**Features:**
-- **Content analysis** - Detects natural break points
-- **Slide timing** - Estimates presentation duration
-- **Key concepts** - Highlights main takeaways per slide
-- **Optimization** - Suggests better break locations
+#### `_detect_slide_breaks`
 
-**Key Functions (Documented in v5.16.0):**
+Find natural slide break points in content.
 
-- `_detect_slide_breaks` - Find natural break points
-- `_estimate_slide_timing` - Calculate presentation time
-- `_extract_slide_concepts` - Identify key concepts per slide
-- `_optimize_slide_breaks` - Suggest improvements
+**Signature:**
+```zsh
+_detect_slide_breaks <file_path>
+```
 
-**Heuristics:**
-1. **Heading levels** - H2 = major break, H3 = minor
-2. **Content density** - 3-5 bullet points per slide
-3. **Code blocks** - Separate code examples
-4. **Concept transitions** - Break between concepts
+**Parameters:**
+- `$1` - (required) Path to .qmd file
 
-**Example Output:**
+**Returns:**
+- stdout - JSON array of slide breaks
+
+**Heuristics (in priority order):**
+1. **H2 headings** (##) - Always major break
+2. **H3 headings** (###) - Break if > 15 lines since last
+3. **Horizontal rules** (---) - Explicit break
+4. **Content density** - Break after 5 bullet points
+5. **Code blocks** - Break before/after large code
+6. **Concept transitions** - Break when concept changes
+
+**Output Format:**
 ```json
 {
   "slides": [
@@ -1522,25 +2253,201 @@ Week 2: 5 concepts
       "number": 1,
       "start_line": 1,
       "end_line": 25,
-      "key_concepts": ["introduction", "motivation"],
-      "estimated_time": "3 minutes"
+      "break_type": "h2",
+      "heading": "Introduction to Regression",
+      "content_lines": 24
     },
     {
       "number": 2,
       "start_line": 26,
       "end_line": 50,
-      "key_concepts": ["regression_formula", "interpretation"],
-      "estimated_time": "5 minutes"
+      "break_type": "h3",
+      "heading": "Simple Linear Regression",
+      "content_lines": 24
     }
-  ],
-  "total_time": "45 minutes",
-  "optimization_suggestions": [
-    "Slide 3: Too dense (7 concepts), consider splitting"
   ]
 }
 ```
 
-**See:** [TEACH-ANALYZE-API-REFERENCE.md](TEACH-ANALYZE-API-REFERENCE.md) for complete slide optimizer API
+**Example:**
+```zsh
+breaks=$(_detect_slide_breaks "week-05-lecture.qmd")
+echo "$breaks" | jq '.slides | length'  # Number of slides
+```
+
+---
+
+#### `_estimate_slide_timing`
+
+Calculate estimated presentation duration.
+
+**Signature:**
+```zsh
+_estimate_slide_timing <file_path>
+```
+
+**Parameters:**
+- `$1` - (required) Path to .qmd file
+
+**Returns:**
+- stdout - Timing JSON
+
+**Timing Algorithm:**
+- **Text**: 150 words/minute
+- **Bullet points**: 20 seconds each
+- **Code blocks**: 1 minute per 10 lines
+- **Images**: 30 seconds each
+- **Tables**: 1 minute per table
+
+**Output Format:**
+```json
+{
+  "total_minutes": 45,
+  "slides": [
+    {
+      "number": 1,
+      "minutes": 3,
+      "components": {
+        "text": 1.5,
+        "bullets": 0.7,
+        "code": 0.8,
+        "images": 0
+      }
+    }
+  ],
+  "pace": "moderate"  # slow < 2min/slide < moderate < 1min/slide < fast
+}
+```
+
+**Example:**
+```zsh
+timing=$(_estimate_slide_timing "week-05-lecture.qmd")
+total=$(echo "$timing" | jq '.total_minutes')
+echo "Estimated duration: $total minutes"
+```
+
+---
+
+#### `_extract_slide_key_concepts`
+
+Identify main concepts per slide.
+
+**Signature:**
+```zsh
+_extract_slide_key_concepts <file_path> <slide_breaks_json>
+```
+
+**Parameters:**
+- `$1` - (required) Path to .qmd file
+- `$2` - (required) Slide breaks JSON from `_detect_slide_breaks`
+
+**Returns:**
+- stdout - Enhanced slides JSON with key concepts
+
+**Extraction Methods:**
+1. **Frontmatter** - Concepts defined in YAML
+2. **Headings** - Concept names from H2/H3
+3. **Emphasis** - **bold** or *italic* terms
+4. **Code** - Function names, variable names
+5. **Frequency** - Most common terms
+
+**Output Format:**
+```json
+{
+  "slides": [
+    {
+      "number": 1,
+      "key_concepts": ["regression", "correlation", "linear_model"],
+      "concept_density": "medium",  # low/medium/high
+      "callout_suggestions": [
+        {
+          "concept": "regression",
+          "line": 15,
+          "context": "Simple linear regression formula"
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Example:**
+```zsh
+breaks=$(_detect_slide_breaks "week-05.qmd")
+concepts=$(_extract_slide_key_concepts "week-05.qmd" "$breaks")
+echo "$concepts" | jq '.slides[0].key_concepts'
+```
+
+---
+
+#### `_optimize_slide_breaks`
+
+Suggest improvements to slide structure.
+
+**Signature:**
+```zsh
+_optimize_slide_breaks <slide_data_json>
+```
+
+**Parameters:**
+- `$1` - (required) Slide data with concepts and timing
+
+**Returns:**
+- stdout - Optimization suggestions JSON
+
+**Optimization Rules:**
+1. **Too dense** - > 5 concepts per slide → split
+2. **Too long** - > 3 minutes per slide → split
+3. **Too short** - < 30 seconds → merge with next
+4. **Unbalanced** - Large variance in slide times → redistribute
+5. **Concept overflow** - Concept starts but doesn't finish → adjust break
+
+**Output Format:**
+```json
+{
+  "suggestions": [
+    {
+      "slide_number": 3,
+      "type": "split",
+      "severity": "warning",
+      "reason": "7 concepts (recommended: 3-5)",
+      "suggestion": "Split after line 45 (concept: correlation)",
+      "estimated_improvement": "Better cognitive load distribution"
+    },
+    {
+      "slide_number": 5,
+      "type": "merge",
+      "severity": "info",
+      "reason": "Only 20 seconds content",
+      "suggestion": "Merge with slide 6",
+      "estimated_improvement": "Improved flow"
+    }
+  ],
+  "overall_quality": "good",  # poor/fair/good/excellent
+  "optimization_potential": "medium"  # low/medium/high
+}
+```
+
+**Example:**
+```zsh
+breaks=$(_detect_slide_breaks "week-05.qmd")
+concepts=$(_extract_slide_key_concepts "week-05.qmd" "$breaks")
+timing=$(_estimate_slide_timing "week-05.qmd")
+
+# Combine data
+slide_data=$(jq -s '.[0] * .[1] * .[2]' \
+  <(echo "$breaks") \
+  <(echo "$concepts") \
+  <(echo "$timing"))
+
+# Get optimization suggestions
+suggestions=$(_optimize_slide_breaks "$slide_data")
+echo "$suggestions" | jq '.suggestions[]'
+```
+
+---
+
+**Complete API:** See [.archive/TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md#slide-optimizer) for all 8 functions including visualization, export, and integration with `teach analyze --optimize`
 
 ---
 
