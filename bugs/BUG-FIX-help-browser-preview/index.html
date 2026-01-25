@@ -5112,7 +5112,7 @@
 </code></pre></div>
 <p>The <code>type</code> check failed because commands like <code>work</code>, <code>dash</code>, <code>cc</code>, etc. weren't defined in the subshell.</p>
 <h2 id="solution">Solution<a class="headerlink" href="#solution" title="Permanent link">&para;</a></h2>
-<p>Created a helper function <code>_flow_show_help_preview()</code> that runs in the <strong>current shell environment</strong> (where the plugin is loaded), following the existing pattern used by <code>_flow_show_project_preview()</code> in <a href="lib/tui.zsh#L137">lib/tui.zsh</a>.</p>
+<p>Created a helper function <code>_flow_show_help_preview()</code> that runs in the <strong>current shell environment</strong> (where the plugin is loaded), following the existing pattern used by <code>_flow_show_project_preview()</code> in <code>lib/tui.zsh</code>.</p>
 <p><strong>After (fixed):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Helper function defined in current shell</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>_flow_show_help_preview<span class="o">()</span><span class="w"> </span><span class="o">{</span>
@@ -5146,22 +5146,22 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="lib/help-browser.zsh">lib/help-browser.zsh</a></td>
+<td><code>lib/help-browser.zsh</code></td>
 <td>Added <code>_flow_show_help_preview()</code> function</td>
 <td>+18</td>
 </tr>
 <tr>
-<td><a href="lib/help-browser.zsh">lib/help-browser.zsh</a></td>
+<td><code>lib/help-browser.zsh</code></td>
 <td>Simplified fzf preview script</td>
 <td>-13</td>
 </tr>
 <tr>
-<td><a href="tests/test-help-browser-preview.zsh">tests/test-help-browser-preview.zsh</a></td>
+<td><code>tests/test-help-browser-preview.zsh</code></td>
 <td>New test suite</td>
 <td>+109</td>
 </tr>
 <tr>
-<td><a href="tests/interactive-dog-feeding-phase2.zsh">tests/interactive-dog-feeding-phase2.zsh</a></td>
+<td><code>tests/interactive-dog-feeding-phase2.zsh</code></td>
 <td>Updated expected behavior</td>
 <td>+2</td>
 </tr>
@@ -5199,7 +5199,7 @@
 </ul>
 <h2 id="why-this-pattern">Why This Pattern?<a class="headerlink" href="#why-this-pattern" title="Permanent link">&para;</a></h2>
 <p>This fix follows the established pattern in flow-cli's codebase:</p>
-<p><strong>Existing example:</strong> <a href="lib/tui.zsh#L129-L137">lib/tui.zsh:129-137</a></p>
+<p><strong>Existing example:</strong> <code>lib/tui.zsh:129-137</code></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Project picker uses a helper function for fzf preview</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>--preview<span class="o">=</span><span class="s2">&quot;_flow_show_project_preview {}&quot;</span><span class="w"> </span><span class="se">\</span>
 </code></pre></div>

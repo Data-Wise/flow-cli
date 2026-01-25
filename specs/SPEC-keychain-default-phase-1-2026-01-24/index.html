@@ -12,7 +12,7 @@
         <meta name="author" content="DT">
       
       
-        <link rel="canonical" href="https://data-wise.github.io/flow-cli/specs/SPEC-documentation-debt-2026-01-21/">
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/specs/SPEC-keychain-default-phase-1-2026-01-24/">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>SPEC: Documentation Debt Remediation - Flow CLI Documentation</title>
+        <title>SPEC: Keychain Default - Phase 1 - Flow CLI Documentation</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#spec-documentation-debt-remediation" class="md-skip">
+        <a href="#spec-keychain-default-phase-1" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              SPEC: Documentation Debt Remediation
+              SPEC: Keychain Default - Phase 1
             
           </span>
         </div>
@@ -4890,22 +4890,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#executive-summary" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Executive Summary
+        Overview
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Executive Summary">
+    <nav class="md-nav" aria-label="Overview">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#key-metrics" class="md-nav__link">
+  <a href="#background" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Key Metrics
+        Background
       
     </span>
   </a>
@@ -4918,22 +4918,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#problem-statement" class="md-nav__link">
+  <a href="#user-stories" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Problem Statement
+        User Stories
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Problem Statement">
+    <nav class="md-nav" aria-label="User Stories">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-developer-experience-issues" class="md-nav__link">
+  <a href="#us-1-basic-secret-storage-no-bitwarden" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Developer Experience Issues
+        US-1: Basic Secret Storage (No Bitwarden)
       
     </span>
   </a>
@@ -4941,10 +4941,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-maintenance-challenges" class="md-nav__link">
+  <a href="#us-2-optional-cloud-backup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Maintenance Challenges
+        US-2: Optional Cloud Backup
       
     </span>
   </a>
@@ -4952,10 +4952,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-specific-gaps" class="md-nav__link">
+  <a href="#us-3-manual-sync" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Specific Gaps
+        US-3: Manual Sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#us-4-backend-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        US-4: Backend Selection
       
     </span>
   </a>
@@ -4968,34 +4979,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#proposed-solution" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Proposed Solution
+        Configuration
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Proposed Solution">
+    <nav class="md-nav" aria-label="Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#phase-1-core-libraries-priority-critical" class="md-nav__link">
+  <a href="#environment-variable" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Phase 1: Core Libraries (Priority: Critical)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Phase 1: Core Libraries (Priority: Critical)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#11-libcorezsh-14-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.1 lib/core.zsh (14 functions)
+        Environment Variable
       
     </span>
   </a>
@@ -5003,10 +5002,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#12-libtuizsh-16-functions" class="md-nav__link">
+  <a href="#priority-matrix" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.2 lib/tui.zsh (16 functions)
+        Priority Matrix
       
     </span>
   </a>
@@ -5014,48 +5013,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#13-libgit-helperszsh-17-functions" class="md-nav__link">
+  <a href="#configuration-file-future" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.3 lib/git-helpers.zsh (17 functions)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-2-teaching-libraries-priority-high" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Phase 2: Teaching Libraries (Priority: High)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-3-integration-libraries-priority-medium" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Phase 3: Integration Libraries (Priority: Medium)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-4-specialized-libraries-priority-low" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Phase 4: Specialized Libraries (Priority: Low)
+        Configuration File (Future)
       
     </span>
   </a>
@@ -5068,22 +5029,34 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#documentation-format" class="md-nav__link">
+  <a href="#api-changes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Documentation Format
+        API Changes
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Documentation Format">
+    <nav class="md-nav" aria-label="API Changes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#inline-documentation-standard" class="md-nav__link">
+  <a href="#new-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Inline Documentation Standard
+        New Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_dot_secret_backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _dot_secret_backend()
       
     </span>
   </a>
@@ -5091,13 +5064,79 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#api-reference-format" class="md-nav__link">
+  <a href="#_dot_secret_sync" class="md-nav__link">
     <span class="md-ellipsis">
       
-        API Reference Format
+        _dot_secret_sync()
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_dot_secret_status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _dot_secret_status()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modified-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modified Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modified Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_dot_token_add_impl-lines-2017-2190" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _dot_token_add_impl() (lines 2017-2190)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_dot_token_github-_dot_token_npm-_dot_token_pypi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _dot_token_github(), _dot_token_npm(), _dot_token_pypi()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_dot_secret-dispatcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _dot_secret() dispatcher
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -5119,10 +5158,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#wave-1-foundation-2-3-hours" class="md-nav__link">
+  <a href="#increment-1-backend-configuration-30-min" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wave 1: Foundation (2-3 hours)
+        Increment 1: Backend Configuration (30 min)
       
     </span>
   </a>
@@ -5130,10 +5169,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#wave-2-tui-library-2-hours" class="md-nav__link">
+  <a href="#increment-2-refactor-dot-secret-1-hour" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wave 2: TUI Library (2 hours)
+        Increment 2: Refactor dot secret (1 hour)
       
     </span>
   </a>
@@ -5141,10 +5180,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#wave-3-git-helpers-2-3-hours" class="md-nav__link">
+  <a href="#increment-3-refactor-token-workflows-15-hours" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wave 3: Git Helpers (2-3 hours)
+        Increment 3: Refactor Token Workflows (1.5 hours)
       
     </span>
   </a>
@@ -5152,10 +5191,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#wave-4-testing-review-1-2-hours" class="md-nav__link">
+  <a href="#increment-4-add-sync-command-45-min" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wave 4: Testing &amp; Review (1-2 hours)
+        Increment 4: Add Sync Command (45 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#increment-5-update-documentation-30-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Increment 5: Update Documentation (30 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#increment-6-tests-30-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Increment 6: Tests (30 min)
       
     </span>
   </a>
@@ -5168,22 +5229,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#success-criteria" class="md-nav__link">
+  <a href="#migration-path" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Success Criteria
+        Migration Path
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Success Criteria">
+    <nav class="md-nav" aria-label="Migration Path">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#phase-1-complete-when-complete-2026-01-22" class="md-nav__link">
+  <a href="#for-new-users" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Phase 1 Complete When: ✅ COMPLETE (2026-01-22)
+        For New Users
       
     </span>
   </a>
@@ -5191,10 +5252,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#quality-checklist-verified" class="md-nav__link">
+  <a href="#for-existing-users-bitwarden" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quality Checklist: ✅ VERIFIED
+        For Existing Users (Bitwarden)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backward-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward Compatibility
       
     </span>
   </a>
@@ -5207,22 +5279,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#estimated-timeline" class="md-nav__link">
+  <a href="#testing-strategy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Estimated Timeline
+        Testing Strategy
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Estimated Timeline">
+    <nav class="md-nav" aria-label="Testing Strategy">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#recommended-approach" class="md-nav__link">
+  <a href="#unit-tests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recommended Approach
+        Unit Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Testing
       
     </span>
   </a>
@@ -5235,60 +5329,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#alternatives-considered" class="md-nav__link">
+  <a href="#success-metrics" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Alternatives Considered
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Alternatives Considered">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-auto-generate-from-source" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Auto-generate from Source
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-document-only-public-api" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Document Only Public API
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-use-typescriptjsdoc-style" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Use TypeScript/JSDoc Style
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependencies
+        Success Metrics
       
     </span>
   </a>
@@ -5296,10 +5340,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#risks" class="md-nav__link">
+  <a href="#risks-mitigations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Risks
+        Risks &amp; Mitigations
       
     </span>
   </a>
@@ -5307,10 +5351,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#related-documents" class="md-nav__link">
+  <a href="#out-of-scope-future-phases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related Documents
+        Out of Scope (Future Phases)
       
     </span>
   </a>
@@ -5318,63 +5362,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#appendix-full-function-inventory" class="md-nav__link">
+  <a href="#approval" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Appendix: Full Function Inventory
+        Approval
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Appendix: Full Function Inventory">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#libcorezsh-14-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        lib/core.zsh (14 functions)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#libtuizsh-16-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        lib/tui.zsh (16 functions)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#libgit-helperszsh-17-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        lib/git-helpers.zsh (17 functions)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#all-libraries-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        All Libraries Summary
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -5395,7 +5389,7 @@
 
 
   
-    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/specs/SPEC-documentation-debt-2026-01-21.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/specs/SPEC-keychain-default-phase-1-2026-01-24.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -5403,965 +5397,330 @@
   
 
 
-<h1 id="spec-documentation-debt-remediation">SPEC: Documentation Debt Remediation<a class="headerlink" href="#spec-documentation-debt-remediation" title="Permanent link">&para;</a></h1>
-<p><strong>Created:</strong> 2026-01-21
-<strong>Status:</strong> Phase 1 Complete ✅
-<strong>Branch:</strong> <code>feature/documentation-debt</code>
-<strong>Worktree:</strong> <code>~/.git-worktrees/flow-cli/documentation-debt</code>
-<strong>Priority:</strong> Low (non-blocking, quality improvement)</p>
+<h1 id="spec-keychain-default-phase-1">SPEC: Keychain Default - Phase 1<a class="headerlink" href="#spec-keychain-default-phase-1" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2026-01-24
+<strong>Status:</strong> Complete
+<strong>Branch:</strong> feature/keychain-default-phase-1
+<strong>Effort:</strong> 🔧 Medium-High (3-4 hours)
+<strong>Risk:</strong> Medium (Architectural change to secret storage)</p>
 <hr />
-<h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Permanent link">&para;</a></h2>
-<p>flow-cli has grown to 853 functions but only 8.6% have help text. While user-facing documentation is excellent (100% dispatcher coverage), the internal API documentation for helper libraries is nearly non-existent (0.5% coverage). This creates barriers for contributors and makes the codebase harder to maintain.</p>
-<h3 id="key-metrics">Key Metrics<a class="headerlink" href="#key-metrics" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Current</th>
-<th>Target</th>
-<th>Gap</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Total functions</td>
-<td>853</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Functions with help</td>
-<td>73</td>
-<td>200+</td>
-<td>127+</td>
-</tr>
-<tr>
-<td>Dispatcher coverage</td>
-<td>100%</td>
-<td>100%</td>
-<td>✅ Done</td>
-</tr>
-<tr>
-<td>Helper library coverage</td>
-<td>0.5%</td>
-<td>50%+</td>
-<td>~170 functions</td>
-</tr>
-<tr>
-<td>API reference docs</td>
-<td>0 pages</td>
-<td>3 pages</td>
-<td>3 pages</td>
-</tr>
-</tbody>
-</table>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Make macOS Keychain the <strong>default</strong> secret backend, with Bitwarden as an <strong>optional</strong> sync/backup target. This removes the friction of <code>dot unlock</code> for basic secret operations while preserving cloud backup capabilities for users who want them.</p>
+<h3 id="background">Background<a class="headerlink" href="#background" title="Permanent link">&para;</a></h3>
+<p>The current dual-storage architecture stores secrets in BOTH backends:
+- <strong>Bitwarden:</strong> Cloud backup, cross-device sync (requires unlock)
+- <strong>Keychain:</strong> Local cache, instant access (Touch ID)</p>
+<p><strong>Problem:</strong> All token operations require <code>dot unlock</code> first, even for local-only use.</p>
+<p><strong>Solution:</strong> Flip the default - Keychain is primary, Bitwarden is optional sync target.</p>
 <hr />
-<h2 id="problem-statement">Problem Statement<a class="headerlink" href="#problem-statement" title="Permanent link">&para;</a></h2>
-<h3 id="1-developer-experience-issues">1. Developer Experience Issues<a class="headerlink" href="#1-developer-experience-issues" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>No API reference</strong>: Contributors must read source code to understand helper functions</li>
-<li><strong>Inconsistent patterns</strong>: Some functions have comments, most don't</li>
-<li><strong>Discovery barrier</strong>: No way to find available utilities without grep-ing</li>
-</ul>
-<h3 id="2-maintenance-challenges">2. Maintenance Challenges<a class="headerlink" href="#2-maintenance-challenges" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Function duplication</strong>: Similar functions exist because developers don't know utilities exist</li>
-<li><strong>Inconsistent usage</strong>: Same task done different ways across codebase</li>
-<li><strong>Refactoring risk</strong>: Hard to know what's public API vs internal</li>
-</ul>
-<h3 id="3-specific-gaps">3. Specific Gaps<a class="headerlink" href="#3-specific-gaps" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Library</th>
-<th>Functions</th>
-<th>Documented</th>
-<th>Impact</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>dotfile-helpers.zsh</code></td>
-<td>27</td>
-<td>0</td>
-<td>High - complex</td>
-</tr>
-<tr>
-<td><code>atlas-bridge.zsh</code></td>
-<td>23</td>
-<td>0</td>
-<td>Medium - optional</td>
-</tr>
-<tr>
-<td><code>plugin-loader.zsh</code></td>
-<td>23</td>
-<td>0</td>
-<td>Low - internal</td>
-</tr>
-<tr>
-<td><code>validation-helpers.zsh</code></td>
-<td>19</td>
-<td>0</td>
-<td>High - teaching</td>
-</tr>
-<tr>
-<td><code>git-helpers.zsh</code></td>
-<td>17</td>
-<td>0</td>
-<td><strong>Critical</strong></td>
-</tr>
-<tr>
-<td><code>tui.zsh</code></td>
-<td>16</td>
-<td>0</td>
-<td><strong>Critical</strong></td>
-</tr>
-<tr>
-<td><code>config.zsh</code></td>
-<td>16</td>
-<td>0</td>
-<td>Medium</td>
-</tr>
-<tr>
-<td><code>core.zsh</code></td>
-<td>14</td>
-<td>0</td>
-<td><strong>Critical</strong></td>
-</tr>
-<tr>
-<td>Other (24 files)</td>
-<td>207</td>
-<td>2</td>
-<td>Varies</td>
-</tr>
-<tr>
-<td><strong>Total</strong></td>
-<td><strong>342</strong></td>
-<td><strong>2</strong></td>
-<td><strong>0.6%</strong></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="proposed-solution">Proposed Solution<a class="headerlink" href="#proposed-solution" title="Permanent link">&para;</a></h2>
-<h3 id="phase-1-core-libraries-priority-critical">Phase 1: Core Libraries (Priority: Critical)<a class="headerlink" href="#phase-1-core-libraries-priority-critical" title="Permanent link">&para;</a></h3>
-<p><strong>Scope:</strong> 47 functions across 3 files
-<strong>Effort:</strong> 4-6 hours
-<strong>Deliverable:</strong> <code>docs/reference/.archive/CORE-API-REFERENCE.md</code></p>
-<h4 id="11-libcorezsh-14-functions">1.1 lib/core.zsh (14 functions)<a class="headerlink" href="#11-libcorezsh-14-functions" title="Permanent link">&para;</a></h4>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Priority</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>_flow_log()</code></td>
-<td>Base logging function</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_log_success()</code></td>
-<td>Success message (green ✓)</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_log_warning()</code></td>
-<td>Warning message (yellow ⚠)</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_log_error()</code></td>
-<td>Error message (red ✗)</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_log_info()</code></td>
-<td>Info message (blue ℹ)</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_log_muted()</code></td>
-<td>Muted/gray text</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_flow_log_debug()</code></td>
-<td>Debug output (FLOW_DEBUG)</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_flow_status_icon()</code></td>
-<td>Status → emoji mapping</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_project_name()</code></td>
-<td>Extract project name from path</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_find_project_root()</code></td>
-<td>Find .STATUS or .git root</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_in_project()</code></td>
-<td>Check if in project</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_flow_format_duration()</code></td>
-<td>Format seconds as "Xh Ym"</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_time_ago()</code></td>
-<td>Format timestamp as "2 hours ago"</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_flow_confirm()</code></td>
-<td>Y/N confirmation prompt</td>
-<td>P1</td>
-</tr>
-</tbody>
-</table>
-<h4 id="12-libtuizsh-16-functions">1.2 lib/tui.zsh (16 functions)<a class="headerlink" href="#12-libtuizsh-16-functions" title="Permanent link">&para;</a></h4>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Priority</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>_flow_progress_bar()</code></td>
-<td>ASCII progress bar</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_sparkline()</code></td>
-<td>Sparkline graph ▁▂▃▅▇</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_flow_table()</code></td>
-<td>Formatted table output</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_box()</code></td>
-<td>Box around content</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_has_fzf()</code></td>
-<td>Check fzf availability</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_flow_pick_project()</code></td>
-<td>fzf project picker</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_show_project_preview()</code></td>
-<td>Preview for picker</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_flow_has_gum()</code></td>
-<td>Check gum availability</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_flow_input()</code></td>
-<td>Styled text input</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_confirm_styled()</code></td>
-<td>Styled Y/N prompt</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_choose()</code></td>
-<td>Selection menu</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_widget_status()</code></td>
-<td>Status widget</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_flow_widget_timer()</code></td>
-<td>Timer widget</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_flow_spinner_start()</code></td>
-<td>Start spinner</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_spinner_stop()</code></td>
-<td>Stop spinner</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_flow_with_spinner()</code></td>
-<td>Run command with spinner</td>
-<td>P1</td>
-</tr>
-</tbody>
-</table>
-<h4 id="13-libgit-helperszsh-17-functions">1.3 lib/git-helpers.zsh (17 functions)<a class="headerlink" href="#13-libgit-helperszsh-17-functions" title="Permanent link">&para;</a></h4>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Priority</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>_git_in_repo()</code></td>
-<td>Check if in git repo</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_git_current_branch()</code></td>
-<td>Get current branch name</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_git_remote_branch()</code></td>
-<td>Get remote tracking branch</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_git_is_clean()</code></td>
-<td>Check for uncommitted changes</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_git_is_synced()</code></td>
-<td>Check if synced with remote</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_git_has_unpushed_commits()</code></td>
-<td>Check for local commits</td>
-<td>P1</td>
-</tr>
-<tr>
-<td><code>_git_get_commit_count()</code></td>
-<td>Count commits since ref</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_git_get_commit_list()</code></td>
-<td>List commits since ref</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_git_teaching_files()</code></td>
-<td>Get teaching-related files</td>
-<td>P3</td>
-</tr>
-<tr>
-<td><code>_git_teaching_commit_message()</code></td>
-<td>Generate teaching commit msg</td>
-<td>P3</td>
-</tr>
-<tr>
-<td><code>_git_interactive_commit()</code></td>
-<td>Interactive commit flow</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_git_commit_teaching_content()</code></td>
-<td>Commit teaching content</td>
-<td>P3</td>
-</tr>
-<tr>
-<td><code>_git_push_current_branch()</code></td>
-<td>Push with upstream</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_git_create_deploy_pr()</code></td>
-<td>Create deployment PR</td>
-<td>P3</td>
-</tr>
-<tr>
-<td><code>_git_generate_pr_body()</code></td>
-<td>Generate PR description</td>
-<td>P3</td>
-</tr>
-<tr>
-<td><code>_git_detect_production_conflicts()</code></td>
-<td>Check for conflicts</td>
-<td>P2</td>
-</tr>
-<tr>
-<td><code>_git_rebase_onto_production()</code></td>
-<td>Rebase workflow</td>
-<td>P2</td>
-</tr>
-</tbody>
-</table>
-<h3 id="phase-2-teaching-libraries-priority-high">Phase 2: Teaching Libraries (Priority: High)<a class="headerlink" href="#phase-2-teaching-libraries-priority-high" title="Permanent link">&para;</a></h3>
-<p><strong>Scope:</strong> ~60 functions across 5 files
-<strong>Effort:</strong> 6-8 hours
-<strong>Deliverable:</strong> <code>docs/reference/.archive/TEACHING-API-REFERENCE.md</code></p>
-<table>
-<thead>
-<tr>
-<th>Library</th>
-<th>Functions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>validation-helpers.zsh</code></td>
-<td>19</td>
-<td>YAML, frontmatter validation</td>
-</tr>
-<tr>
-<td><code>backup-helpers.zsh</code></td>
-<td>11</td>
-<td>Backup system</td>
-</tr>
-<tr>
-<td><code>cache-helpers.zsh</code></td>
-<td>9</td>
-<td>Cache management</td>
-</tr>
-<tr>
-<td><code>index-helpers.zsh</code></td>
-<td>11</td>
-<td>Index manipulation</td>
-</tr>
-<tr>
-<td><code>teaching-utils.zsh</code></td>
-<td>~10</td>
-<td>Teaching utilities</td>
-</tr>
-</tbody>
-</table>
-<h3 id="phase-3-integration-libraries-priority-medium">Phase 3: Integration Libraries (Priority: Medium)<a class="headerlink" href="#phase-3-integration-libraries-priority-medium" title="Permanent link">&para;</a></h3>
-<p><strong>Scope:</strong> ~80 functions across 6 files
-<strong>Effort:</strong> 8-10 hours
-<strong>Deliverable:</strong> <code>docs/reference/.archive/INTEGRATION-API-REFERENCE.md</code></p>
-<table>
-<thead>
-<tr>
-<th>Library</th>
-<th>Functions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>atlas-bridge.zsh</code></td>
-<td>23</td>
-<td>Atlas state engine</td>
-</tr>
-<tr>
-<td><code>plugin-loader.zsh</code></td>
-<td>23</td>
-<td>Plugin system</td>
-</tr>
-<tr>
-<td><code>config.zsh</code></td>
-<td>16</td>
-<td>Configuration</td>
-</tr>
-<tr>
-<td><code>keychain-helpers.zsh</code></td>
-<td>~8</td>
-<td>macOS Keychain</td>
-</tr>
-<tr>
-<td><code>project-detector.zsh</code></td>
-<td>~8</td>
-<td>Project type detection</td>
-</tr>
-<tr>
-<td><code>project-cache.zsh</code></td>
-<td>~6</td>
-<td>Project caching</td>
-</tr>
-</tbody>
-</table>
-<h3 id="phase-4-specialized-libraries-priority-low">Phase 4: Specialized Libraries (Priority: Low)<a class="headerlink" href="#phase-4-specialized-libraries-priority-low" title="Permanent link">&para;</a></h3>
-<p><strong>Scope:</strong> ~155 functions across remaining files
-<strong>Effort:</strong> 10-12 hours
-<strong>Deliverable:</strong> Individual API sections or appendix</p>
-<hr />
-<h2 id="documentation-format">Documentation Format<a class="headerlink" href="#documentation-format" title="Permanent link">&para;</a></h2>
-<h3 id="inline-documentation-standard">Inline Documentation Standard<a class="headerlink" href="#inline-documentation-standard" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># =============================================================================</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Function: _flow_example</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Purpose: Brief one-line description</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># =============================================================================</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Arguments:</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1">#   $1 - (required) First argument description</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1">#   $2 - (optional) Second argument description [default: &quot;value&quot;]</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1">#</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># Returns:</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1">#   0 - Success</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1">#   1 - Error (describe when)</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1">#</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Output:</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1">#   stdout - What it prints (if any)</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1">#   stderr - Error messages (if any)</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1">#</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="c1"># Example:</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="c1">#   _flow_example &quot;arg1&quot; &quot;arg2&quot;</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="c1">#   result=$(_flow_example &quot;arg1&quot;)</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="c1">#</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="c1"># Dependencies:</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="c1">#   - _flow_log (from core.zsh)</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="c1">#   - fzf (optional)</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="c1">#</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="c1"># Notes:</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="c1">#   - Additional context or gotchas</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="c1"># =============================================================================</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>_flow_example<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">required_arg</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">optional_arg</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">default</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">    </span><span class="c1"># implementation</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="o">}</span>
+<h2 id="user-stories">User Stories<a class="headerlink" href="#user-stories" title="Permanent link">&para;</a></h2>
+<h3 id="us-1-basic-secret-storage-no-bitwarden">US-1: Basic Secret Storage (No Bitwarden)<a class="headerlink" href="#us-1-basic-secret-storage-no-bitwarden" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Before: Required Bitwarden</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>dot<span class="w"> </span>unlock<span class="w">                         </span><span class="c1"># ← REQUIRED</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>dot<span class="w"> </span>token<span class="w"> </span>github<span class="w">                   </span><span class="c1"># Store in both backends</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># After: Just works</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>dot<span class="w"> </span>token<span class="w"> </span>github<span class="w">                   </span><span class="c1"># Stores in Keychain only (default)</span>
 </code></pre></div>
-<h3 id="api-reference-format">API Reference Format<a class="headerlink" href="#api-reference-format" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gu">## _flow_example</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Brief description of what the function does.
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="gu">### Signature</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>\`\`\`zsh
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="ge">_flow_</span>example &lt;required_arg&gt; [optional_arg]
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>\`\`\`
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="gu">### Arguments</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>| Argument | Type | Required | Default | Description |
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>|----------|------|----------|---------|-------------|
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>| <span class="sb">`$1`</span> | string | Yes | - | Description |
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>| <span class="sb">`$2`</span> | string | No | <span class="sb">`&quot;default&quot;`</span> | Description |
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="gu">### Returns</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>| Code | Meaning |
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>|------|---------|
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>| <span class="sb">`0`</span> | Success |
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>| <span class="sb">`1`</span> | Error condition |
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="gu">### Example</span>
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
-<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>\`\`\`zsh
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="gh"># Basic usage</span>
-<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="ge">_flow_</span>example &quot;value&quot;
-<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>
-<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="gh"># With optional arg</span>
-<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="ge">_flow_</span>example &quot;value&quot; &quot;custom&quot;
-<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>
-<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="gh"># Capture output</span>
-<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>result=$(_flow_example &quot;value&quot;)
-<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>\`\`\`
-<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>
-<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="gu">### See Also</span>
-<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>
-<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="k">-</span><span class="w"> </span><span class="sb">`_flow_related`</span> - Related function
-<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="k">-</span><span class="w"> </span><span class="sb">`core.zsh`</span> - Parent library
+<h3 id="us-2-optional-cloud-backup">US-2: Optional Cloud Backup<a class="headerlink" href="#us-2-optional-cloud-backup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Configure Bitwarden sync</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_SECRET_BACKEND</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="w">  </span><span class="c1"># or: flow config set secret_backend both</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Now both backends are used</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>dot<span class="w"> </span>token<span class="w"> </span>github<span class="w">                   </span><span class="c1"># Stores in Keychain + Bitwarden</span>
 </code></pre></div>
+<h3 id="us-3-manual-sync">US-3: Manual Sync<a class="headerlink" href="#us-3-manual-sync" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>dot<span class="w"> </span>secret<span class="w"> </span>sync<span class="w">                    </span><span class="c1"># Sync Keychain ↔ Bitwarden</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>sync<span class="w"> </span>--to-bitwarden<span class="w">     </span><span class="c1"># Push Keychain → Bitwarden</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>dot<span class="w"> </span>secret<span class="w"> </span>sync<span class="w"> </span>--from-bitwarden<span class="w">   </span><span class="c1"># Pull Bitwarden → Keychain</span>
+</code></pre></div>
+<h3 id="us-4-backend-selection">US-4: Backend Selection<a class="headerlink" href="#us-4-backend-selection" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Check current backend</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>status
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Backend: keychain (default)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Bitwarden: not configured</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Configure backend</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_SECRET_BACKEND</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>dot<span class="w"> </span>secret<span class="w"> </span>status
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># Backend: keychain + bitwarden</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Bitwarden: unlocked (session active)</span>
+</code></pre></div>
+<hr />
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<h3 id="environment-variable">Environment Variable<a class="headerlink" href="#environment-variable" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Backend options:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_SECRET_BACKEND</span><span class="o">=</span><span class="s2">&quot;keychain&quot;</span><span class="w">    </span><span class="c1"># Default - Keychain only (no Bitwarden)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_SECRET_BACKEND</span><span class="o">=</span><span class="s2">&quot;bitwarden&quot;</span><span class="w">   </span><span class="c1"># Bitwarden only (legacy mode)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_SECRET_BACKEND</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="w">        </span><span class="c1"># Both backends (sync mode)</span>
+</code></pre></div>
+<h3 id="priority-matrix">Priority Matrix<a class="headerlink" href="#priority-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Backend</th>
+<th><code>dot secret add</code></th>
+<th><code>dot secret get</code></th>
+<th><code>dot token *</code></th>
+<th>Requires Unlock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>keychain</code> (default)</td>
+<td>Keychain only</td>
+<td>Keychain only</td>
+<td>Keychain only</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>bitwarden</code></td>
+<td>Bitwarden only</td>
+<td>Bitwarden only</td>
+<td>Bitwarden only</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>both</code></td>
+<td>Both backends</td>
+<td>Keychain first, fallback Bitwarden</td>
+<td>Both backends</td>
+<td>For write ops</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuration-file-future">Configuration File (Future)<a class="headerlink" href="#configuration-file-future" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># ~/.config/flow/config.yml (future enhancement)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nt">secrets</span><span class="p">:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">keychain</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">bitwarden_sync</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div>
+<hr />
+<h2 id="api-changes">API Changes<a class="headerlink" href="#api-changes" title="Permanent link">&para;</a></h2>
+<h3 id="new-functions">New Functions<a class="headerlink" href="#new-functions" title="Permanent link">&para;</a></h3>
+<h4 id="_dot_secret_backend"><code>_dot_secret_backend()</code><a class="headerlink" href="#_dot_secret_backend" title="Permanent link">&para;</a></h4>
+<p>Returns the configured backend ("keychain", "bitwarden", or "both").</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>_dot_secret_backend<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FLOW_SECRET_BACKEND</span><span class="k">:-</span><span class="nv">keychain</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="o">}</span>
+</code></pre></div>
+<h4 id="_dot_secret_sync"><code>_dot_secret_sync()</code><a class="headerlink" href="#_dot_secret_sync" title="Permanent link">&para;</a></h4>
+<p>Syncs secrets between Keychain and Bitwarden.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>dot<span class="w"> </span>secret<span class="w"> </span>sync<span class="w">              </span><span class="c1"># Interactive sync</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>sync<span class="w"> </span>--to-bw<span class="w">      </span><span class="c1"># Push Keychain → Bitwarden</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>dot<span class="w"> </span>secret<span class="w"> </span>sync<span class="w"> </span>--from-bw<span class="w">    </span><span class="c1"># Pull Bitwarden → Keychain</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>dot<span class="w"> </span>secret<span class="w"> </span>sync<span class="w"> </span>--status<span class="w">     </span><span class="c1"># Show sync status</span>
+</code></pre></div>
+<h4 id="_dot_secret_status"><code>_dot_secret_status()</code><a class="headerlink" href="#_dot_secret_status" title="Permanent link">&para;</a></h4>
+<p>Shows current backend configuration and status.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>_dot_secret_status<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">backend</span><span class="o">=</span><span class="k">$(</span>_dot_secret_backend<span class="k">)</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Backend: </span><span class="nv">$backend</span><span class="s2">&quot;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="nv">$backend</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span>keychain<span class="o">)</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Keychain: </span><span class="k">$(</span>security<span class="w"> </span>list-keychains<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-1<span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Bitwarden: not configured&quot;</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">      </span><span class="p">;;</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span>bitwarden<span class="o">)</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Keychain: not used&quot;</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Bitwarden: </span><span class="k">$(</span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BW_SESSION</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;unlocked&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;locked&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">      </span><span class="p">;;</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">    </span>both<span class="o">)</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Keychain: </span><span class="k">$(</span>security<span class="w"> </span>list-keychains<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-1<span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Bitwarden: </span><span class="k">$(</span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BW_SESSION</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;unlocked&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;locked&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">      </span><span class="p">;;</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">  </span><span class="k">esac</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="o">}</span>
+</code></pre></div>
+<h3 id="modified-functions">Modified Functions<a class="headerlink" href="#modified-functions" title="Permanent link">&para;</a></h3>
+<h4 id="_dot_token_add_impl-lines-2017-2190"><code>_dot_token_add_impl()</code> (lines 2017-2190)<a class="headerlink" href="#_dot_token_add_impl-lines-2017-2190" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Check backend config before Bitwarden operations</li>
+<li>Skip Bitwarden if backend is "keychain"</li>
+<li>Add Bitwarden operations if backend is "both"</li>
+</ul>
+<h4 id="_dot_token_github-_dot_token_npm-_dot_token_pypi"><code>_dot_token_github()</code>, <code>_dot_token_npm()</code>, <code>_dot_token_pypi()</code><a class="headerlink" href="#_dot_token_github-_dot_token_npm-_dot_token_pypi" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Remove mandatory <code>bw</code> requirement check when backend is "keychain"</li>
+<li>Keep Bitwarden logic for "bitwarden" and "both" modes</li>
+</ul>
+<h4 id="_dot_secret-dispatcher"><code>_dot_secret()</code> dispatcher<a class="headerlink" href="#_dot_secret-dispatcher" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Add <code>status</code> subcommand</li>
+<li>Add <code>sync</code> subcommand</li>
+<li>Route based on backend configuration</li>
+</ul>
 <hr />
 <h2 id="implementation-plan">Implementation Plan<a class="headerlink" href="#implementation-plan" title="Permanent link">&para;</a></h2>
-<h3 id="wave-1-foundation-2-3-hours">Wave 1: Foundation (2-3 hours)<a class="headerlink" href="#wave-1-foundation-2-3-hours" title="Permanent link">&para;</a></h3>
-<ol>
-<li><strong>Create API reference template</strong></li>
-<li><code>docs/reference/API-TEMPLATE.md</code></li>
-<li>
-<p>Consistent structure for all libraries</p>
-</li>
-<li>
-<p><strong>Document core.zsh</strong> (14 functions)</p>
-</li>
-<li>Add inline docstrings</li>
-<li>
-<p>Create <code>CORE-API-REFERENCE.md</code></p>
-</li>
-<li>
-<p><strong>Update mkdocs.yml</strong></p>
-</li>
-<li>Add API Reference section</li>
-</ol>
-<h3 id="wave-2-tui-library-2-hours">Wave 2: TUI Library (2 hours)<a class="headerlink" href="#wave-2-tui-library-2-hours" title="Permanent link">&para;</a></h3>
-<ol>
-<li><strong>Document tui.zsh</strong> (16 functions)</li>
-<li>Focus on user-facing utilities</li>
-<li>
-<p>Include visual examples</p>
-</li>
-<li>
-<p><strong>Add to CORE-API-REFERENCE.md</strong></p>
-</li>
-</ol>
-<h3 id="wave-3-git-helpers-2-3-hours">Wave 3: Git Helpers (2-3 hours)<a class="headerlink" href="#wave-3-git-helpers-2-3-hours" title="Permanent link">&para;</a></h3>
-<ol>
-<li><strong>Document git-helpers.zsh</strong> (17 functions)</li>
-<li>Separate teaching-specific from general</li>
-<li>
-<p>Include workflow examples</p>
-</li>
-<li>
-<p><strong>Add to CORE-API-REFERENCE.md</strong></p>
-</li>
-</ol>
-<h3 id="wave-4-testing-review-1-2-hours">Wave 4: Testing &amp; Review (1-2 hours)<a class="headerlink" href="#wave-4-testing-review-1-2-hours" title="Permanent link">&para;</a></h3>
-<ol>
-<li><strong>Verify documentation accuracy</strong></li>
-<li>Test each example</li>
-<li>
-<p>Check for outdated info</p>
-</li>
-<li>
-<p><strong>Add to DOCUMENTATION-COVERAGE.md</strong></p>
-</li>
-<li>Update metrics</li>
-<li>Mark Phase 1 complete</li>
-</ol>
+<h3 id="increment-1-backend-configuration-30-min">Increment 1: Backend Configuration (30 min)<a class="headerlink" href="#increment-1-backend-configuration-30-min" title="Permanent link">&para;</a></h3>
+<p><strong>Files to modify:</strong>
+- <code>lib/core.zsh</code> - Add <code>_dot_secret_backend()</code> function
+- <code>lib/dispatchers/dot-dispatcher.zsh</code> - Add backend check at start</p>
+<p><strong>Deliverables:</strong>
+- <code>FLOW_SECRET_BACKEND</code> environment variable support
+- Default to "keychain" when not set
+- Backend detection function</p>
+<h3 id="increment-2-refactor-dot-secret-1-hour">Increment 2: Refactor <code>dot secret</code> (1 hour)<a class="headerlink" href="#increment-2-refactor-dot-secret-1-hour" title="Permanent link">&para;</a></h3>
+<p><strong>Files to modify:</strong>
+- <code>lib/dispatchers/dot-dispatcher.zsh</code> - <code>_dot_secret()</code> function</p>
+<p><strong>Changes:</strong>
+- Add <code>status</code> subcommand
+- Route <code>add</code>/<code>get</code>/<code>list</code>/<code>delete</code> based on backend
+- For "keychain" backend: use <code>_dot_kc_*</code> functions directly
+- For "bitwarden" backend: use existing <code>_dot_secret_bw_*</code> functions
+- For "both" backend: use Keychain primary, sync to Bitwarden</p>
+<h3 id="increment-3-refactor-token-workflows-15-hours">Increment 3: Refactor Token Workflows (1.5 hours)<a class="headerlink" href="#increment-3-refactor-token-workflows-15-hours" title="Permanent link">&para;</a></h3>
+<p><strong>Files to modify:</strong>
+- <code>lib/dispatchers/dot-dispatcher.zsh</code> - Token functions</p>
+<p><strong>Changes to <code>_dot_token_github()</code> (lines 2017-2190):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Before: Always requires Bitwarden</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>_dot_require_tool<span class="w"> </span><span class="s2">&quot;bw&quot;</span><span class="w"> </span><span class="s2">&quot;brew install bitwarden-cli&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="k">fi</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1"># After: Check backend first</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="nb">local</span><span class="w"> </span><span class="nv">backend</span><span class="o">=</span><span class="k">$(</span>_dot_secret_backend<span class="k">)</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backend</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;bitwarden&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backend</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;both&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>_dot_require_tool<span class="w"> </span><span class="s2">&quot;bw&quot;</span><span class="w"> </span><span class="s2">&quot;brew install bitwarden-cli&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="k">fi</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="k">fi</span>
+</code></pre></div></p>
+<p><strong>Similar changes for:</strong>
+- <code>_dot_token_npm()</code> (lines 2532-2700)
+- <code>_dot_token_pypi()</code> (lines 2711-2870)
+- <code>_dot_token_status()</code> (lines 2902-3000)
+- <code>_dot_env_*()</code> functions (lines 3100-3500)</p>
+<h3 id="increment-4-add-sync-command-45-min">Increment 4: Add Sync Command (45 min)<a class="headerlink" href="#increment-4-add-sync-command-45-min" title="Permanent link">&para;</a></h3>
+<p><strong>Files to create/modify:</strong>
+- <code>lib/dispatchers/dot-dispatcher.zsh</code> - Add <code>_dot_secret_sync()</code></p>
+<p><strong>Functionality:</strong>
+- <code>dot secret sync</code> - Interactive comparison and sync
+- <code>dot secret sync --to-bw</code> - Push all Keychain secrets to Bitwarden
+- <code>dot secret sync --from-bw</code> - Pull all Bitwarden secrets to Keychain
+- <code>dot secret sync --status</code> - Show differences</p>
+<h3 id="increment-5-update-documentation-30-min">Increment 5: Update Documentation (30 min)<a class="headerlink" href="#increment-5-update-documentation-30-min" title="Permanent link">&para;</a></h3>
+<p><strong>Files to update:</strong>
+- <code>docs/reference/REFCARD-TOKEN-SECRETS.md</code>
+- <code>docs/guides/TOKEN-MANAGEMENT-COMPLETE.md</code>
+- <code>lib/keychain-helpers.zsh</code> (help text)</p>
+<h3 id="increment-6-tests-30-min">Increment 6: Tests (30 min)<a class="headerlink" href="#increment-6-tests-30-min" title="Permanent link">&para;</a></h3>
+<p><strong>Files to create/update:</strong>
+- <code>tests/test-keychain-default.zsh</code> - New test suite for backend switching
+- <code>tests/test-dot-secret-keychain.zsh</code> - Update existing tests</p>
 <hr />
-<h2 id="success-criteria">Success Criteria<a class="headerlink" href="#success-criteria" title="Permanent link">&para;</a></h2>
-<h3 id="phase-1-complete-when-complete-2026-01-22">Phase 1 Complete When: ✅ COMPLETE (2026-01-22)<a class="headerlink" href="#phase-1-complete-when-complete-2026-01-22" title="Permanent link">&para;</a></h3>
+<h2 id="migration-path">Migration Path<a class="headerlink" href="#migration-path" title="Permanent link">&para;</a></h2>
+<h3 id="for-new-users">For New Users<a class="headerlink" href="#for-new-users" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[x] <code>docs/reference/.archive/CORE-API-REFERENCE.md</code> exists (~2,000 lines) → <strong>1,661 lines</strong></li>
-<li>[x] 47 functions documented (core.zsh + tui.zsh + git-helpers.zsh) → <strong>47 functions</strong></li>
-<li>[x] All P1 functions have inline docstrings → <strong>All 47 functions</strong></li>
-<li>[x] mkdocs.yml updated with API Reference section → <strong>Added</strong></li>
-<li>[x] DOCUMENTATION-COVERAGE.md updated to reflect progress → <strong>Updated</strong></li>
+<li>No action needed - Keychain is default</li>
+<li>Optional: Set <code>FLOW_SECRET_BACKEND=both</code> for cloud backup</li>
 </ul>
-<h3 id="quality-checklist-verified">Quality Checklist: ✅ VERIFIED<a class="headerlink" href="#quality-checklist-verified" title="Permanent link">&para;</a></h3>
-<ul>
-<li>[x] Every function has: purpose, args, returns, example</li>
-<li>[x] Examples are copy-pasteable and tested</li>
-<li>[x] Cross-references between related functions</li>
-<li>[x] Consistent formatting throughout</li>
-</ul>
-<hr />
-<h2 id="estimated-timeline">Estimated Timeline<a class="headerlink" href="#estimated-timeline" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Phase</th>
-<th>Scope</th>
-<th>Effort</th>
-<th>Priority</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Phase 1</td>
-<td>Core libraries (47 funcs)</td>
-<td>4-6 hours</td>
-<td>Critical</td>
-</tr>
-<tr>
-<td>Phase 2</td>
-<td>Teaching libraries (~60 funcs)</td>
-<td>6-8 hours</td>
-<td>High</td>
-</tr>
-<tr>
-<td>Phase 3</td>
-<td>Integration libraries (~80 funcs)</td>
-<td>8-10 hours</td>
-<td>Medium</td>
-</tr>
-<tr>
-<td>Phase 4</td>
-<td>Specialized libraries (~155 funcs)</td>
-<td>10-12 hours</td>
-<td>Low</td>
-</tr>
-<tr>
-<td><strong>Total</strong></td>
-<td><strong>342 functions</strong></td>
-<td><strong>28-36 hours</strong></td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="recommended-approach">Recommended Approach<a class="headerlink" href="#recommended-approach" title="Permanent link">&para;</a></h3>
+<h3 id="for-existing-users-bitwarden">For Existing Users (Bitwarden)<a class="headerlink" href="#for-existing-users-bitwarden" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>Start with Phase 1</strong> - Maximum impact, minimal effort</li>
-<li><strong>Defer Phase 2-4</strong> - Do incrementally as you touch those files</li>
-<li><strong>Automate where possible</strong> - Consider docstring extraction script</li>
+<li>Existing secrets remain in Bitwarden</li>
+<li>Run <code>dot secret sync --from-bitwarden</code> to copy to Keychain</li>
+<li>Set <code>FLOW_SECRET_BACKEND=keychain</code> (now default)</li>
+<li>Optional: Keep <code>FLOW_SECRET_BACKEND=both</code> for continued sync</li>
 </ol>
-<hr />
-<h2 id="alternatives-considered">Alternatives Considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h2>
-<h3 id="1-auto-generate-from-source">1. Auto-generate from Source<a class="headerlink" href="#1-auto-generate-from-source" title="Permanent link">&para;</a></h3>
-<p><strong>Pros:</strong> Fast, always up-to-date
-<strong>Cons:</strong> No semantic understanding, poor examples
-<strong>Decision:</strong> Rejected - quality matters more than coverage</p>
-<h3 id="2-document-only-public-api">2. Document Only Public API<a class="headerlink" href="#2-document-only-public-api" title="Permanent link">&para;</a></h3>
-<p><strong>Pros:</strong> Less work, cleaner interface
-<strong>Cons:</strong> Need to define "public" vs "internal"
-<strong>Decision:</strong> Partially adopted - mark internal functions as such</p>
-<h3 id="3-use-typescriptjsdoc-style">3. Use TypeScript/JSDoc Style<a class="headerlink" href="#3-use-typescriptjsdoc-style" title="Permanent link">&para;</a></h3>
-<p><strong>Pros:</strong> Tooling support, IDE integration
-<strong>Cons:</strong> ZSH has no standard, would be custom
-<strong>Decision:</strong> Rejected - stick to shell conventions</p>
-<hr />
-<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<h3 id="backward-compatibility">Backward Compatibility<a class="headerlink" href="#backward-compatibility" title="Permanent link">&para;</a></h3>
 <ul>
-<li>None blocking</li>
-<li>Nice to have: docstring extraction tool (future)</li>
+<li><code>FLOW_SECRET_BACKEND=bitwarden</code> preserves old behavior</li>
+<li>Existing <code>dot unlock</code> workflow still works</li>
+<li>No breaking changes to API</li>
 </ul>
 <hr />
-<h2 id="risks">Risks<a class="headerlink" href="#risks" title="Permanent link">&para;</a></h2>
+<h2 id="testing-strategy">Testing Strategy<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="unit-tests">Unit Tests<a class="headerlink" href="#unit-tests" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Backend configuration detection</li>
+<li>Routing based on backend</li>
+<li>Keychain-only operations</li>
+</ul>
+<h3 id="integration-tests">Integration Tests<a class="headerlink" href="#integration-tests" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Token add with Keychain-only backend</li>
+<li>Token add with both backends</li>
+<li>Sync operations</li>
+</ul>
+<h3 id="manual-testing">Manual Testing<a class="headerlink" href="#manual-testing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Test 1: Keychain-only (default)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">unset</span><span class="w"> </span>FLOW_SECRET_BACKEND
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>dot<span class="w"> </span>token<span class="w"> </span>github<span class="w">           </span><span class="c1"># Should NOT require bw unlock</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>dot<span class="w"> </span>secret<span class="w"> </span>list<span class="w">            </span><span class="c1"># Should show Keychain secrets</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># Test 2: Bitwarden-only</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_SECRET_BACKEND</span><span class="o">=</span>bitwarden
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>dot<span class="w"> </span>unlock
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>dot<span class="w"> </span>token<span class="w"> </span>github<span class="w">           </span><span class="c1"># Should require bw unlock</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>dot<span class="w"> </span>secret<span class="w"> </span>list<span class="w">            </span><span class="c1"># Should show Bitwarden secrets</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="c1"># Test 3: Both backends</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_SECRET_BACKEND</span><span class="o">=</span>both
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>dot<span class="w"> </span>unlock
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>dot<span class="w"> </span>token<span class="w"> </span>github<span class="w">           </span><span class="c1"># Stores in both</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>dot<span class="w"> </span>secret<span class="w"> </span>sync<span class="w"> </span>--status<span class="w">   </span><span class="c1"># Shows sync status</span>
+</code></pre></div>
+<hr />
+<h2 id="success-metrics">Success Metrics<a class="headerlink" href="#success-metrics" title="Permanent link">&para;</a></h2>
+<ol>
+<li>✅ <code>dot token github</code> works without <code>dot unlock</code> (default mode)</li>
+<li>✅ <code>FLOW_SECRET_BACKEND</code> environment variable configures behavior</li>
+<li>✅ <code>dot secret sync</code> syncs between backends</li>
+<li>✅ <code>dot secret status</code> shows current configuration</li>
+<li>✅ All existing tests pass</li>
+<li>✅ New tests for backend switching pass</li>
+<li>✅ Documentation updated</li>
+</ol>
+<hr />
+<h2 id="risks-mitigations">Risks &amp; Mitigations<a class="headerlink" href="#risks-mitigations" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Risk</th>
+<th>Impact</th>
 <th>Mitigation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Documentation gets stale</td>
-<td>Add to PR checklist</td>
+<td>Breaking existing workflows</td>
+<td>High</td>
+<td><code>FLOW_SECRET_BACKEND=bitwarden</code> preserves old behavior</td>
 </tr>
 <tr>
-<td>Too much effort</td>
-<td>Start small (Phase 1 only)</td>
+<td>Token sync conflicts</td>
+<td>Medium</td>
+<td>Sync command shows diff before overwriting</td>
 </tr>
 <tr>
-<td>Inconsistent style</td>
-<td>Create and enforce template</td>
+<td>Users confused by change</td>
+<td>Low</td>
+<td>Clear docs, migration guide, status command</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="related-documents">Related Documents<a class="headerlink" href="#related-documents" title="Permanent link">&para;</a></h2>
+<h2 id="out-of-scope-future-phases">Out of Scope (Future Phases)<a class="headerlink" href="#out-of-scope-future-phases" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Configuration file (<code>~/.config/flow/config.yml</code>)</li>
+<li>Auto-sync on session start</li>
+<li>Conflict resolution UI</li>
+<li>Multi-device Keychain sync (iCloud Keychain integration)</li>
+<li>Export/import for backup</li>
+</ol>
+<hr />
+<h2 id="approval">Approval<a class="headerlink" href="#approval" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>docs/reference/DOCUMENTATION-COVERAGE.md</code> - Current metrics</li>
-<li><code>do../reference/MASTER-ARCHITECTURE.md</code> - System context</li>
-<li><code>CLAUDE.md</code> - Project guidelines (documentation standards section)</li>
+<li>[x] Spec reviewed</li>
+<li>[x] Implementation started</li>
+<li>[x] Tests passing (67 tests: 20 unit + 47 automated)</li>
+<li>[x] Documentation updated</li>
+<li>[x] PR created to dev (PR #295)</li>
 </ul>
 <hr />
-<h2 id="appendix-full-function-inventory">Appendix: Full Function Inventory<a class="headerlink" href="#appendix-full-function-inventory" title="Permanent link">&para;</a></h2>
-<h3 id="libcorezsh-14-functions">lib/core.zsh (14 functions)<a class="headerlink" href="#libcorezsh-14-functions" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>_flow_log()
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>_flow_log_success()
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>_flow_log_warning()
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>_flow_log_error()
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>_flow_log_info()
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>_flow_log_muted()
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>_flow_log_debug()
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>_flow_status_icon()
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>_flow_project_name()
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>_flow_find_project_root()
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>_flow_in_project()
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>_flow_format_duration()
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>_flow_time_ago()
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>_flow_confirm()
-</code></pre></div>
-<h3 id="libtuizsh-16-functions">lib/tui.zsh (16 functions)<a class="headerlink" href="#libtuizsh-16-functions" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>_flow_progress_bar()
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>_flow_sparkline()
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>_flow_table()
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>_flow_box()
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>_flow_has_fzf()
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>_flow_pick_project()
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>_flow_show_project_preview()
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>_flow_has_gum()
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>_flow_input()
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>_flow_confirm_styled()
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>_flow_choose()
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>_flow_widget_status()
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>_flow_widget_timer()
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>_flow_spinner_start()
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>_flow_spinner_stop()
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>_flow_with_spinner()
-</code></pre></div>
-<h3 id="libgit-helperszsh-17-functions">lib/git-helpers.zsh (17 functions)<a class="headerlink" href="#libgit-helperszsh-17-functions" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>_git_in_repo()
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>_git_current_branch()
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>_git_remote_branch()
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>_git_is_clean()
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>_git_is_synced()
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>_git_has_unpushed_commits()
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>_git_get_commit_count()
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>_git_get_commit_list()
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>_git_teaching_files()
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>_git_teaching_commit_message()
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>_git_interactive_commit()
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>_git_commit_teaching_content()
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>_git_push_current_branch()
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>_git_create_deploy_pr()
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>_git_generate_pr_body()
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>_git_detect_production_conflicts()
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>_git_rebase_onto_production()
-</code></pre></div>
-<h3 id="all-libraries-summary">All Libraries Summary<a class="headerlink" href="#all-libraries-summary" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Library</th>
-<th>Functions</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>dotfile-helpers.zsh</td>
-<td>27</td>
-</tr>
-<tr>
-<td>atlas-bridge.zsh</td>
-<td>23</td>
-</tr>
-<tr>
-<td>plugin-loader.zsh</td>
-<td>23</td>
-</tr>
-<tr>
-<td>validation-helpers.zsh</td>
-<td>19</td>
-</tr>
-<tr>
-<td>git-helpers.zsh</td>
-<td>17</td>
-</tr>
-<tr>
-<td>tui.zsh</td>
-<td>16</td>
-</tr>
-<tr>
-<td>config.zsh</td>
-<td>16</td>
-</tr>
-<tr>
-<td>core.zsh</td>
-<td>14</td>
-</tr>
-<tr>
-<td>render-queue.zsh</td>
-<td>11</td>
-</tr>
-<tr>
-<td>index-helpers.zsh</td>
-<td>11</td>
-</tr>
-<tr>
-<td>backup-helpers.zsh</td>
-<td>11</td>
-</tr>
-<tr>
-<td>ai-recipes.zsh</td>
-<td>11</td>
-</tr>
-<tr>
-<td>performance-monitor.zsh</td>
-<td>10</td>
-</tr>
-<tr>
-<td>parallel-helpers.zsh</td>
-<td>10</td>
-</tr>
-<tr>
-<td>date-parser.zsh</td>
-<td>10</td>
-</tr>
-<tr>
-<td>r-helpers.zsh</td>
-<td>9</td>
-</tr>
-<tr>
-<td>profile-helpers.zsh</td>
-<td>9</td>
-</tr>
-<tr>
-<td>parallel-progress.zsh</td>
-<td>9</td>
-</tr>
-<tr>
-<td>cache-helpers.zsh</td>
-<td>9</td>
-</tr>
-<tr>
-<td>ai-usage.zsh</td>
-<td>9</td>
-</tr>
-<tr>
-<td>custom-validators.zsh</td>
-<td>8</td>
-</tr>
-<tr>
-<td>cache-analysis.zsh</td>
-<td>8</td>
-</tr>
-<tr>
-<td>config-validator.zsh</td>
-<td>7</td>
-</tr>
-<tr>
-<td>help-browser.zsh</td>
-<td>7</td>
-</tr>
-<tr>
-<td>project-detector.zsh</td>
-<td>7</td>
-</tr>
-<tr>
-<td>inventory.zsh</td>
-<td>6</td>
-</tr>
-<tr>
-<td>status-dashboard.zsh</td>
-<td>6</td>
-</tr>
-<tr>
-<td>keychain-helpers.zsh</td>
-<td>5</td>
-</tr>
-<tr>
-<td>project-cache.zsh</td>
-<td>5</td>
-</tr>
-<tr>
-<td>hook-installer.zsh</td>
-<td>5</td>
-</tr>
-<tr>
-<td>teaching-utils.zsh</td>
-<td>4</td>
-</tr>
-<tr>
-<td>renv-integration.zsh</td>
-<td>4</td>
-</tr>
-<tr>
-<td><strong>Total</strong></td>
-<td><strong>342</strong></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<p><strong>Last Updated:</strong> 2026-01-21
-<strong>Author:</strong> Claude Opus 4.5</p>
+<p><strong>Created:</strong> 2026-01-24
+<strong>Author:</strong> Claude (Orchestrator)</p>
 
 
 

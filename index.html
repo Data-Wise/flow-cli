@@ -595,15 +595,43 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#whats-new-in-v5180" class="md-nav__link">
+  <a href="#whats-new-in-v5190" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ✨ What's New in v5.18.0
+        ✨ What's New in v5.19.0
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="✨ What&#39;s New in v5.18.0">
+    <nav class="md-nav" aria-label="✨ What&#39;s New in v5.19.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keychain-default-backend-pr-295" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔐 Keychain-Default Backend (PR #295)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#previous-release-v5180" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Previous Release: v5.18.0
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Previous Release: v5.18.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -5280,15 +5308,43 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#whats-new-in-v5180" class="md-nav__link">
+  <a href="#whats-new-in-v5190" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ✨ What's New in v5.18.0
+        ✨ What's New in v5.19.0
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="✨ What&#39;s New in v5.18.0">
+    <nav class="md-nav" aria-label="✨ What&#39;s New in v5.19.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keychain-default-backend-pr-295" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔐 Keychain-Default Backend (PR #295)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#previous-release-v5180" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Previous Release: v5.18.0
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Previous Release: v5.18.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -5644,7 +5700,7 @@
 
 
 <h1 id="flow-cli">Flow CLI<a class="headerlink" href="#flow-cli" title="Permanent link">&para;</a></h1>
-<p><a href="https://github.com/Data-Wise/flow-cli/releases/tag/v5.18.0"><img alt="Version" src="https://img.shields.io/badge/version-v5.18.0-blue" /></a>
+<p><a href="https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.0"><img alt="Version" src="https://img.shields.io/badge/version-v5.19.0-blue" /></a>
 <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-green" /></a>
 <a href="https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml"><img alt="Tests" src="https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&amp;branch=main" /></a>
 <a href="https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml"><img alt="Docs" src="https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&amp;branch=main" /></a>
@@ -5664,8 +5720,26 @@
 <strong>That's it!</strong> <a href="#try-it-now">Want to learn more? →</a></p>
 </div>
 <hr />
-<h2 id="whats-new-in-v5180">✨ What's New in v5.18.0<a class="headerlink" href="#whats-new-in-v5180" title="Permanent link">&para;</a></h2>
+<h2 id="whats-new-in-v5190">✨ What's New in v5.19.0<a class="headerlink" href="#whats-new-in-v5190" title="Permanent link">&para;</a></h2>
 <div class="admonition success">
+<p class="admonition-title">Keychain-Default Backend - Zero Dependencies</p>
+<p>Token management now defaults to macOS Keychain with zero external dependencies. Bitwarden sync is optional via environment variable.</p>
+</div>
+<h3 id="keychain-default-backend-pr-295">🔐 Keychain-Default Backend (PR #295)<a class="headerlink" href="#keychain-default-backend-pr-295" title="Permanent link">&para;</a></h3>
+<p><strong>Major Changes:</strong>
+- <strong>Zero Bitwarden dependency</strong> - Keychain-only by default (no CLI required)
+- <strong>Backend abstraction</strong> - 3 modes: <code>keychain</code> (default), <code>bitwarden</code>, <code>both</code> (legacy)
+- <strong>Faster operations</strong> - No unlock prompts, no cloud sync overhead
+- <strong>Optional cloud sync</strong> - Set <code>FLOW_SECRET_BACKEND=bitwarden</code> to enable
+- <strong>67 comprehensive tests</strong> - 100% passing (20 unit + 47 automated + interactive)</p>
+<p><strong>Performance:</strong>
+- No Bitwarden unlock prompt (saves 2-5 seconds)
+- No cloud sync overhead (saves 1-3 seconds per operation)
+- Instant Keychain retrieval (&lt; 50ms)</p>
+<p><strong>Migration:</strong> Backward compatible - existing dual-storage users unaffected.</p>
+<hr />
+<h2 id="previous-release-v5180">📚 Previous Release: v5.18.0<a class="headerlink" href="#previous-release-v5180" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
 <p class="admonition-title">Documentation Consolidation &amp; API Coverage Improvement</p>
 <p>Simplified documentation structure (66 → 7 files) with comprehensive API coverage (+411% increase)</p>
 </div>

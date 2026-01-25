@@ -5109,12 +5109,12 @@
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="c1"># ❌ ccy missing!</span>
 </code></pre></div>
 <h2 id="root-cause">Root Cause<a class="headerlink" href="#root-cause" title="Permanent link">&para;</a></h2>
-<p>The <code>ccy</code> alias was added to the cc-dispatcher (<a href="lib/dispatchers/cc-dispatcher.zsh#L643">lib/dispatchers/cc-dispatcher.zsh:643</a>) but was never added to the alias reference command (<a href="commands/alias.zsh">commands/alias.zsh</a>).</p>
+<p>The <code>ccy</code> alias was added to the cc-dispatcher (<code>lib/dispatchers/cc-dispatcher.zsh:643</code>) but was never added to the alias reference command (<code>commands/alias.zsh</code>).</p>
 <p>The alias command maintains its own curated list of aliases to display (not auto-discovered), so new aliases need to be manually added.</p>
 <h2 id="solution">Solution<a class="headerlink" href="#solution" title="Permanent link">&para;</a></h2>
 <p>Added <code>ccy</code> to both the summary view and detailed Claude Code alias section.</p>
 <h3 id="changes-made">Changes Made<a class="headerlink" href="#changes-made" title="Permanent link">&para;</a></h3>
-<p><strong>File:</strong> <a href="commands/alias.zsh">commands/alias.zsh</a></p>
+<p><strong>File:</strong> <code>commands/alias.zsh</code></p>
 <ol>
 <li><strong>Summary view</strong> (<code>_flow_alias_show_all</code>):</li>
 <li>Updated count: "2 aliases" → "3 aliases"</li>
@@ -5178,7 +5178,7 @@
 </code></pre></div>
 <h3 id="automated-test">Automated Test<a class="headerlink" href="#automated-test" title="Permanent link">&para;</a></h3>
 <p>Updated test suite to verify <code>ccy</code> is included:</p>
-<p><strong>File:</strong> <a href="tests/test-phase2-features.zsh">tests/test-phase2-features.zsh</a></p>
+<p><strong>File:</strong> <code>tests/test-phase2-features.zsh</code></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># Test 22: Claude category
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>test_case &quot;Alias: Claude category view&quot; &amp;&amp; {
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w"> </span> local output=$(flow_alias cc 2&gt;&amp;1)
@@ -5193,7 +5193,7 @@
 <p><code>ccy</code> is a frequently-used shortcut for YOLO mode:</p>
 <ul>
 <li><strong>Common pattern:</strong> <code>ccy</code> to launch Claude Code without permission prompts</li>
-<li><strong>User preference:</strong> Explicitly requested to keep this alias (<a href="lib/dispatchers/cc-dispatcher.zsh#L643">cc-dispatcher.zsh:643</a>)</li>
+<li><strong>User preference:</strong> Explicitly requested to keep this alias (<a href="lib/dispatchers/cc-dispatcher.zsh:643">cc-dispatcher.zsh:643</a>)</li>
 <li><strong>Discoverability:</strong> Users exploring aliases need to see this shortcut</li>
 </ul>
 <h2 id="files-changed">Files Changed<a class="headerlink" href="#files-changed" title="Permanent link">&para;</a></h2>
@@ -5207,12 +5207,12 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="commands/alias.zsh">commands/alias.zsh</a></td>
+<td><code>commands/alias.zsh</code></td>
 <td>Added <code>ccy</code> to summary + detailed views</td>
 <td>+4 modified</td>
 </tr>
 <tr>
-<td><a href="tests/test-phase2-features.zsh">tests/test-phase2-features.zsh</a></td>
+<td><code>tests/test-phase2-features.zsh</code></td>
 <td>Added test assertion for <code>ccy</code></td>
 <td>+1</td>
 </tr>

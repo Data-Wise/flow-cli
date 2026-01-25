@@ -8818,7 +8818,7 @@
 </code></pre></div></p>
 <h3 id="for-contributors">For Contributors<a class="headerlink" href="#for-contributors" title="Permanent link">&para;</a></h3>
 <p>When adding new functions:
-1. Follow naming conventions (see <a href="../../CONVENTIONS.md">CONVENTIONS.md</a>)
+1. Follow naming conventions (see <a href="../../CONVENTIONS/">CONVENTIONS.md</a>)
 2. Add inline documentation
 3. Run <code>./scripts/generate-api-docs.sh</code> to update this file
 4. Test examples</p>
@@ -10348,7 +10348,7 @@
 <a id="__codelineno-137-2" name="__codelineno-137-2" href="#__codelineno-137-2"></a>_format_prerequisite_tree_display<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$tree</span><span class="s2">&quot;</span>
 </code></pre></div></p>
 <hr />
-<p><strong>Complete API:</strong> See <a href="../.archive/TEACH-ANALYZE-API-REFERENCE/#prerequisite-checker">.archive/TEACH-ANALYZE-API-REFERENCE.md</a> for all 7 functions with detailed examples</p>
+<p><strong>Complete API:</strong> See archived TEACH-ANALYZE-API-REFERENCE.md for all 7 functions with detailed examples</p>
 <hr />
 <h3 id="libanalysis-cachezsh">lib/analysis-cache.zsh<a class="headerlink" href="#libanalysis-cachezsh" title="Permanent link">&para;</a></h3>
 <p><strong>Functions:</strong> 19
@@ -10520,7 +10520,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-152-1" name="__codelineno-152-1" href="#__codelineno-152-1"></a>_cache_release_lock<span class="w"> </span><span class="s2">&quot;analysis&quot;</span>
 </code></pre></div></p>
 <hr />
-<p><strong>Complete API:</strong> See <a href="../.archive/TEACH-ANALYZE-API-REFERENCE/#analysis-cache">.archive/TEACH-ANALYZE-API-REFERENCE.md</a> for all 19 functions including metadata management, batch operations, and statistics</p>
+<p><strong>Complete API:</strong> See archived TEACH-ANALYZE-API-REFERENCE.md for all 19 functions including metadata management, batch operations, and statistics</p>
 <hr />
 <h3 id="libreport-generatorzsh">lib/report-generator.zsh<a class="headerlink" href="#libreport-generatorzsh" title="Permanent link">&para;</a></h3>
 <p><strong>Functions:</strong> 12
@@ -10675,7 +10675,7 @@
 <a id="__codelineno-164-2" name="__codelineno-164-2" href="#__codelineno-164-2"></a>_format_concept_distribution_table<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$analysis</span><span class="s2">&quot;</span>
 </code></pre></div></p>
 <hr />
-<p><strong>Complete API:</strong> See <a href="../.archive/TEACH-ANALYZE-API-REFERENCE/#report-generator">.archive/TEACH-ANALYZE-API-REFERENCE.md</a> for all 12 functions including violation formatting, recommendation generation, and export utilities</p>
+<p><strong>Complete API:</strong> See archived TEACH-ANALYZE-API-REFERENCE.md for all 12 functions including violation formatting, recommendation generation, and export utilities</p>
 <hr />
 <h3 id="libai-analysiszsh">lib/ai-analysis.zsh<a class="headerlink" href="#libai-analysiszsh" title="Permanent link">&para;</a></h3>
 <p><strong>Functions:</strong> 8
@@ -10807,7 +10807,7 @@
 <a id="__codelineno-175-4" name="__codelineno-175-4" href="#__codelineno-175-4"></a>awk<span class="w"> </span>-F,<span class="w"> </span><span class="s1">&#39;{sum += $4} END {print &quot;Total: $&quot; sum}&#39;</span><span class="w"> </span>.teach-cache/ai-usage.log
 </code></pre></div></p>
 <hr />
-<p><strong>Complete API:</strong> See <a href="../.archive/TEACH-ANALYZE-API-REFERENCE/#ai-analysis">.archive/TEACH-ANALYZE-API-REFERENCE.md</a> for all 8 functions including caching, error handling, and rate limiting</p>
+<p><strong>Complete API:</strong> See archived TEACH-ANALYZE-API-REFERENCE.md for all 8 functions including caching, error handling, and rate limiting</p>
 <hr />
 <h3 id="libslide-optimizerzsh">lib/slide-optimizer.zsh<a class="headerlink" href="#libslide-optimizerzsh" title="Permanent link">&para;</a></h3>
 <p><strong>Functions:</strong> 8
@@ -10989,7 +10989,7 @@
 <a id="__codelineno-187-13" name="__codelineno-187-13" href="#__codelineno-187-13"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$suggestions</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">&#39;.suggestions[]&#39;</span>
 </code></pre></div></p>
 <hr />
-<p><strong>Complete API:</strong> See <a href="../.archive/TEACH-ANALYZE-API-REFERENCE/#slide-optimizer">.archive/TEACH-ANALYZE-API-REFERENCE.md</a> for all 8 functions including visualization, export, and integration with <code>teach analyze --optimize</code></p>
+<p><strong>Complete API:</strong> See archived TEACH-ANALYZE-API-REFERENCE.md for all 8 functions including visualization, export, and integration with <code>teach analyze --optimize</code></p>
 <hr />
 <h3 id="teaching-libraries-integration">Teaching Libraries Integration<a class="headerlink" href="#teaching-libraries-integration" title="Permanent link">&para;</a></h3>
 <p><strong>Command:</strong> <code>teach analyze</code>
@@ -11005,10 +11005,10 @@
 - Fresh analysis: ~2-5s (without AI)
 - AI analysis: ~10-30s (depends on content length)</p>
 <p><strong>Documentation:</strong>
-- Complete API: <a href="../reference/TEACH-ANALYZE-API-REFERENCE.md">TEACH-ANALYZE-API-REFERENCE.md</a>
-- Architecture: <a href="../reference/TEACH-ANALYZE-ARCHITECTURE.md">TEACH-ANALYZE-ARCHITECTURE.md</a>
+- Complete API: <a href="../.archive/TEACH-ANALYZE-API-REFERENCE/">TEACH-ANALYZE-API-REFERENCE.md</a>
+- Architecture: <a href="../.archive/TEACH-ANALYZE-ARCHITECTURE/">TEACH-ANALYZE-ARCHITECTURE.md</a>
 - Tutorial: <a href="../../tutorials/21-teach-analyze/">Tutorial 21</a>
-- Quick Ref: <a href="../reference/REFCARD-TEACH-ANALYZE.md">REFCARD-TEACH-ANALYZE.md</a></p>
+- Quick Ref: <a href="../.archive/REFCARD-TEACH-ANALYZE/">REFCARD-TEACH-ANALYZE.md</a></p>
 <p><strong>Output Format:</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-188-1" name="__codelineno-188-1" href="#__codelineno-188-1"></a><span class="p">{</span>
 <a id="__codelineno-188-2" name="__codelineno-188-2" href="#__codelineno-188-2"></a><span class="w">  </span><span class="nt">&quot;concepts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -11557,7 +11557,7 @@
 <ul>
 <li><a href="../MASTER-DISPATCHER-GUIDE/">MASTER-DISPATCHER-GUIDE.md</a> - Complete dispatcher reference</li>
 <li><a href="../MASTER-ARCHITECTURE/">MASTER-ARCHITECTURE.md</a> - System architecture</li>
-<li><a href="../../CONVENTIONS.md">CONVENTIONS.md</a> - Coding conventions</li>
+<li><a href="../../CONVENTIONS/">CONVENTIONS.md</a> - Coding conventions</li>
 <li><a href="../../contributing/CONTRIBUTING/">CONTRIBUTING.md</a> - Contributing guide</li>
 </ul>
 <hr />
