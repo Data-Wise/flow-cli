@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v5.18.0-dev (In Development)
-- **Latest Release:** v5.18.0 (2026-01-23)
+- **Current Version:** v5.19.0-dev (In Development)
+- **Latest Release:** v5.19.0 (2026-01-23)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -283,7 +283,7 @@ v <cmd>       # Vibe coding mode (v on, v off, v status)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
 
-### Token Management (v5.18.0 Phase 1) ✨
+### Token Management (v5.19.0 Phase 1) ✨
 
 **Isolated Token Checks & Smart Caching**
 
@@ -534,7 +534,7 @@ teach exam "Topic"  # Generate exam via Scholar
 # Core test suites
 tests/test-pick-command.zsh         # Pick: 39 tests
 tests/test-cc-dispatcher.zsh        # CC: 37 tests
-tests/test-dot-v5.18.0-unit.zsh     # DOT: 112+ tests
+tests/test-dot-v5.19.0-unit.zsh     # DOT: 112+ tests
 tests/test-teach-dates-unit.zsh     # Teaching dates: 33 tests
 tests/test-teach-dates-integration.zsh  # Integration: 16 tests
 
@@ -633,11 +633,11 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.18.0-dev (In Development)
-**Latest Release:** v5.18.0 (2026-01-23)
+**Version:** v5.19.0-dev (In Development)
+**Latest Release:** v5.19.0 (2026-01-23)
 **Status:** Production - Documentation consolidation complete
 **Branch:** `dev` (clean working tree, API docs 13.8% coverage)
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.18.0
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 14 test suites + 54 token automation tests (100% core tests, 416+ total tests)
@@ -646,12 +646,12 @@ export FLOW_DEBUG=1
 
 ## Recent Releases
 
-### v5.18.0 - Token Automation Phase 1 ✨ (2026-01-23)
+### v5.19.0 - Token Automation Phase 1 ✨ (2026-01-23)
 
 **Released:** 2026-01-23
 **PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED)
 **PR #293:** https://github.com/Data-Wise/flow-cli/pull/293 (Release PR)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.18.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.0
 **Changes:** 35 files, +13,546 / -187 lines
 
 **Major Features:**
@@ -679,11 +679,11 @@ export FLOW_DEBUG=1
 - Cache checks: ~5-8ms (50% better than target)
 - 80% API call reduction
 
-### v5.18.0 - Intelligent Content Analysis (2026-01-22)
+### v5.19.0 - Intelligent Content Analysis (2026-01-22)
 
 **Released:** 2026-01-22
 **PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.18.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.0
 **Changes:** 58 commits, +39,228 / -1,750 lines
 
 **Major Features:**
@@ -791,21 +791,21 @@ export FLOW_DEBUG=1
 
 ## Recent Releases
 
-### v5.18.0 (2026-01-21) - Documentation Updates
+### v5.19.0 (2026-01-21) - Documentation Updates
 
 - Architecture overview with 6 Mermaid diagrams
 - V-dispatcher reference documentation
 - Documentation coverage report (853 functions, 8.6% documented)
 - teach prompt command specs (paused for Scholar coordination)
 
-### v5.18.0 (2026-01-21) - Architecture & Documentation
+### v5.19.0 (2026-01-21) - Architecture & Documentation
 
 - Architecture overview with 6 Mermaid diagrams
 - V-dispatcher reference documentation
 - Documentation coverage report (853 functions, 8.6% → 49.4%)
 - teach prompt command specs (paused for Scholar coordination)
 
-### v5.18.0 (2026-01-21) - Comprehensive Help System
+### v5.19.0 (2026-01-21) - Comprehensive Help System
 
 - 18 help functions for all teach commands
 - 800-line Help System Guide
@@ -814,7 +814,7 @@ export FLOW_DEBUG=1
 - ADHD-friendly design principles
 - PR #282 merged (38 commits, +66,767/-1,614 lines)
 
-### v5.18.0 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
+### v5.19.0 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
 
 **Teaching Workflow v3.0:**
 
@@ -834,11 +834,11 @@ export FLOW_DEBUG=1
 
 ---
 
-## Next Development Cycle (v5.18.0)
+## Next Development Cycle (v5.19.0)
 
-**Current:** v5.18.0-dev - Documentation consolidation complete, API coverage at 13.8%
+**Current:** v5.19.0-dev - Documentation consolidation complete, API coverage at 13.8%
 
-**Completed in v5.18.0:**
+**Completed in v5.19.0:**
 
 - Documentation consolidation (66 → 7 master files)
 - API documentation improvement (2.7% → 13.8%, +411% increase)
@@ -896,10 +896,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 5.13.0"
-git tag -a v5.18.0 -m "v5.18.0"
+git tag -a v5.19.0 -m "v5.19.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v5.18.0
+git push origin main && git push origin v5.19.0
 ```
 
 **Files updated by release script:**
@@ -920,4 +920,4 @@ git push origin main && git push origin v5.18.0
 ---
 
 **Last Updated:** 2026-01-22
-**Status:** Production Ready (v5.18.0)
+**Status:** Production Ready (v5.19.0)

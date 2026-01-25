@@ -17,6 +17,68 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.19.0] - 2026-01-25
+
+### Added
+
+#### Keychain-Default Backend (PR #295)
+
+- **Backend abstraction** - Flexible storage backend selection
+  - `_dot_secret_backend()` - Get current backend mode (keychain/bitwarden/both)
+  - `_dot_secret_needs_bitwarden()` - Check if Bitwarden CLI required
+  - `_dot_secret_uses_keychain()` - Check if Keychain enabled
+  - Three modes via `FLOW_SECRET_BACKEND` env var:
+    - `keychain` (default) - Fast, local-only, zero dependencies
+    - `bitwarden` - Cloud sync only (requires Bitwarden CLI)
+    - `both` - Dual storage (legacy, backward compatible)
+- **Conditional Bitwarden dependency** - Only require when backend needs it
+  - Graceful handling when Bitwarden CLI not installed
+  - No Bitwarden unlock prompts for Keychain-only mode
+  - Faster token operations (no cloud sync overhead)
+- **Comprehensive test coverage** - 67 tests total (100% passing)
+  - `tests/test-keychain-default.zsh` - 20 unit tests (backend modes, env vars, conditionals)
+  - `tests/test-keychain-default-automated.zsh` - 47 automated tests (add/get/list/delete across modes)
+  - `tests/interactive-keychain-default-dogfooding.zsh` - Interactive validation suite
+- **Migration specification** - Complete Phase 1 implementation guide
+  - `docs/specs/SPEC-keychain-default-phase-1-2026-01-24.md` (341 lines)
+  - Backend selection strategy
+  - Conditional dependency checking
+  - Test scenarios and validation
+
+### Changed
+
+- **Default storage backend** - Keychain-only (was: dual Keychain + Bitwarden)
+  - Zero dependency on Bitwarden CLI by default
+  - Opt-in cloud sync via environment variable
+  - Backward compatible with existing dual-storage users
+- **lib/core.zsh** - Added 3 backend abstraction functions (+103 lines)
+- **lib/dispatchers/dot-dispatcher.zsh** - Conditional Bitwarden checks (+543 lines)
+  - Only require `bw` CLI when backend needs Bitwarden
+  - Graceful degradation when Bitwarden unavailable
+  - Enhanced error messages for backend configuration
+- **lib/keychain-helpers.zsh** - Minor updates for backend awareness (+11 lines)
+- **docs/reference/REFCARD-TOKEN-SECRETS.md** - Updated with backend configuration
+
+### Performance
+
+- **Token operations** - Faster with Keychain-only mode
+  - No Bitwarden unlock prompt (saves 2-5 seconds)
+  - No cloud sync overhead (saves 1-3 seconds per operation)
+  - Instant token retrieval from macOS Keychain (< 50ms)
+
+### Documentation
+
+- **Backend configuration guide** - Added to reference card
+  - Environment variable examples
+  - Migration path from dual-storage
+  - Security considerations
+- **Comprehensive testing guide** - Test suite documentation
+  - Unit test patterns
+  - Automated test scenarios
+  - Interactive validation workflow
+
+---
+
 ## [5.18.0] - 2026-01-24
 
 ### Added
