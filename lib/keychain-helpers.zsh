@@ -363,19 +363,28 @@ ${FLOW_COLORS[warning]}Commands:${FLOW_COLORS[reset]}
   dot secret <name>          Shortcut for 'get'
   dot secret list            List all stored secrets
   dot secret delete <name>   Remove a secret
+  dot secret status          Show backend configuration
+  dot secret sync            Sync with Bitwarden (--to-bw, --from-bw)
   dot secret import          Import from Bitwarden (one-time)
   dot secret tutorial        Interactive tutorial (10-15 min)
+
+${FLOW_COLORS[warning]}Backend Configuration:${FLOW_COLORS[reset]}
+  export FLOW_SECRET_BACKEND=keychain   # Default (Keychain only)
+  export FLOW_SECRET_BACKEND=bitwarden  # Bitwarden only (legacy)
+  export FLOW_SECRET_BACKEND=both       # Both backends (sync mode)
 
 ${FLOW_COLORS[warning]}Examples:${FLOW_COLORS[reset]}
   dot secret add github-token    # Store GitHub token
   dot secret github-token        # Retrieve it
   dot secret list                # See all secrets
+  dot secret status              # Check backend config
+  dot secret sync --status       # Compare Keychain vs Bitwarden
 
 ${FLOW_COLORS[warning]}Usage in scripts:${FLOW_COLORS[reset]}
   export GITHUB_TOKEN=\$(dot secret github-token)
   gh auth login --with-token <<< \$(dot secret github-token)
 
-${FLOW_COLORS[warning]}Benefits:${FLOW_COLORS[reset]}
+${FLOW_COLORS[warning]}Benefits (Keychain default):${FLOW_COLORS[reset]}
   ${FLOW_COLORS[success]}\342\200\242${FLOW_COLORS[reset]} Instant access (no unlock needed)
   ${FLOW_COLORS[success]}\342\200\242${FLOW_COLORS[reset]} Touch ID / Apple Watch support
   ${FLOW_COLORS[success]}\342\200\242${FLOW_COLORS[reset]} Auto-locks with screen lock
