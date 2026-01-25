@@ -688,7 +688,10 @@ _dot_secret_tutorial() {
   return 0
 }
 
-# Run tutorial if called directly
-if [[ "${(%):-%x}" == "${0}" ]]; then
-  _dot_secret_tutorial "$@"
-fi
+# Note: This file is sourced by flow.plugin.zsh at startup.
+# The tutorial is ONLY run when explicitly called via:
+# - dot secret tutorial (dispatcher calls _dot_secret_tutorial)
+# - Direct execution: ./secret-tutorial.zsh
+#
+# DO NOT auto-run on source - this caused issues with "dot secret status"
+# See: feature/keychain-default-phase-1 for the fix

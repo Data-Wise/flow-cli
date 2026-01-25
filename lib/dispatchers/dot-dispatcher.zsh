@@ -1169,6 +1169,22 @@ _dot_secret() {
       ;;
 
     # ─────────────────────────────────────────────────────────────
+    # STATUS (Show current backend configuration)
+    # ─────────────────────────────────────────────────────────────
+    status)
+      _dot_secret_status "$@"
+      return
+      ;;
+
+    # ─────────────────────────────────────────────────────────────
+    # SYNC (Sync between Keychain and Bitwarden)
+    # ─────────────────────────────────────────────────────────────
+    sync)
+      _dot_secret_sync "$@"
+      return
+      ;;
+
+    # ─────────────────────────────────────────────────────────────
     # HELP
     # ─────────────────────────────────────────────────────────────
     help|--help|-h)
@@ -1296,6 +1312,402 @@ _dot_secret_bw_help() {
   echo "${FLOW_COLORS[muted]}Note: Bitwarden requires 'dot unlock' first${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[muted]}For instant local access, use: dot secret <name>${FLOW_COLORS[reset]}"
   echo ""
+}
+
+# =============================================================================
+# Function: _dot_secret_status
+# Purpose: Show current secret backend configuration and status
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Formatted status display with backend info
+#
+# Example:
+#   dot secret status
+#   # Backend: keychain (default)
+#   # Keychain: login.keychain-db
+#   # Bitwarden: not configured
+# =============================================================================
+_dot_secret_status() {
+  local backend=$(_dot_secret_backend)
+
+  echo ""
+  echo "${FLOW_COLORS[header]}Secret Backend Status${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Show current backend
+  case "$backend" in
+    keychain)
+      echo "${FLOW_COLORS[success]}●${FLOW_COLORS[reset]} Backend: ${FLOW_COLORS[bold]}keychain${FLOW_COLORS[reset]} (default)"
+      echo ""
+      echo "${FLOW_COLORS[info]}Keychain:${FLOW_COLORS[reset]}"
+      echo "  • Status: ${FLOW_COLORS[success]}active${FLOW_COLORS[reset]}"
+      echo "  • Location: $(security list-keychains 2>/dev/null | head -1 | tr -d ' \"')"
+
+      # Count secrets
+      local secret_count=$(_dot_secret_count_keychain 2>/dev/null || echo "0")
+      echo "  • Secrets: $secret_count"
+      echo ""
+      echo "${FLOW_COLORS[muted]}Bitwarden:${FLOW_COLORS[reset]}"
+      echo "  • Status: ${FLOW_COLORS[muted]}not configured${FLOW_COLORS[reset]}"
+      echo "  • Set FLOW_SECRET_BACKEND=both to enable sync"
+      ;;
+
+    bitwarden)
+      echo "${FLOW_COLORS[warning]}●${FLOW_COLORS[reset]} Backend: ${FLOW_COLORS[bold]}bitwarden${FLOW_COLORS[reset]} (legacy mode)"
+      echo ""
+      echo "${FLOW_COLORS[muted]}Keychain:${FLOW_COLORS[reset]}"
+      echo "  • Status: ${FLOW_COLORS[muted]}not used${FLOW_COLORS[reset]}"
+      echo ""
+      echo "${FLOW_COLORS[info]}Bitwarden:${FLOW_COLORS[reset]}"
+      if [[ -n "$BW_SESSION" ]]; then
+        echo "  • Status: ${FLOW_COLORS[success]}unlocked${FLOW_COLORS[reset]}"
+      else
+        echo "  • Status: ${FLOW_COLORS[warning]}locked${FLOW_COLORS[reset]} (run: dot unlock)"
+      fi
+      ;;
+
+    both)
+      echo "${FLOW_COLORS[info]}●${FLOW_COLORS[reset]} Backend: ${FLOW_COLORS[bold]}both${FLOW_COLORS[reset]} (sync mode)"
+      echo ""
+      echo "${FLOW_COLORS[info]}Keychain:${FLOW_COLORS[reset]}"
+      echo "  • Status: ${FLOW_COLORS[success]}active${FLOW_COLORS[reset]} (primary)"
+      echo "  • Location: $(security list-keychains 2>/dev/null | head -1 | tr -d ' \"')"
+      local kc_count=$(_dot_secret_count_keychain 2>/dev/null || echo "0")
+      echo "  • Secrets: $kc_count"
+      echo ""
+      echo "${FLOW_COLORS[info]}Bitwarden:${FLOW_COLORS[reset]}"
+      if [[ -n "$BW_SESSION" ]]; then
+        echo "  • Status: ${FLOW_COLORS[success]}unlocked${FLOW_COLORS[reset]} (sync enabled)"
+      else
+        echo "  • Status: ${FLOW_COLORS[warning]}locked${FLOW_COLORS[reset]} (sync disabled until: dot unlock)"
+      fi
+      ;;
+  esac
+
+  echo ""
+  echo "${FLOW_COLORS[muted]}Configuration:${FLOW_COLORS[reset]}"
+  echo "  FLOW_SECRET_BACKEND=${FLOW_SECRET_BACKEND:-<not set, using keychain>}"
+  echo ""
+}
+
+# Helper: Count Keychain secrets
+_dot_secret_count_keychain() {
+  local dump_file
+  dump_file=$(mktemp)
+  security dump-keychain > "$dump_file" 2>/dev/null
+
+  local count=0
+  local svc_lines
+  svc_lines=$(grep -c "\"svce\"<blob>=\"$_DOT_KEYCHAIN_SERVICE\"" "$dump_file" 2>/dev/null || echo "0")
+  count=$svc_lines
+
+  rm -f "$dump_file"
+  echo "$count"
+}
+
+# =============================================================================
+# Function: _dot_secret_sync
+# Purpose: Sync secrets between Keychain and Bitwarden
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Mode: --to-bw, --from-bw, --status (default: interactive)
+#
+# Returns:
+#   0 - Sync successful
+#   1 - Error (Bitwarden not available, sync failed)
+#
+# Example:
+#   dot secret sync              # Interactive comparison and sync
+#   dot secret sync --status     # Show differences
+#   dot secret sync --to-bw      # Push Keychain → Bitwarden
+#   dot secret sync --from-bw    # Pull Bitwarden → Keychain
+# =============================================================================
+_dot_secret_sync() {
+  local mode="${1:-interactive}"
+
+  # Check if Bitwarden CLI is available
+  if ! command -v bw &>/dev/null; then
+    _flow_log_error "Bitwarden CLI not installed"
+    _flow_log_info "Install: ${FLOW_COLORS[cmd]}brew install bitwarden-cli${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  case "$mode" in
+    --status|-s|status)
+      _dot_secret_sync_status
+      return
+      ;;
+
+    --to-bw|--to-bitwarden|push)
+      _dot_secret_sync_to_bitwarden
+      return
+      ;;
+
+    --from-bw|--from-bitwarden|pull)
+      _dot_secret_sync_from_bitwarden
+      return
+      ;;
+
+    --help|-h|help)
+      _dot_secret_sync_help
+      return
+      ;;
+
+    interactive|"")
+      _dot_secret_sync_interactive
+      return
+      ;;
+
+    *)
+      _flow_log_error "Unknown sync mode: $mode"
+      _dot_secret_sync_help
+      return 1
+      ;;
+  esac
+}
+
+# Sync help
+_dot_secret_sync_help() {
+  echo ""
+  echo "${FLOW_COLORS[header]}dot secret sync${FLOW_COLORS[reset]} - Sync between Keychain and Bitwarden"
+  echo ""
+  echo "${FLOW_COLORS[warning]}Commands:${FLOW_COLORS[reset]}"
+  echo "  dot secret sync              Interactive sync wizard"
+  echo "  dot secret sync --status     Show differences between backends"
+  echo "  dot secret sync --to-bw      Push Keychain → Bitwarden"
+  echo "  dot secret sync --from-bw    Pull Bitwarden → Keychain"
+  echo ""
+  echo "${FLOW_COLORS[muted]}Requires Bitwarden unlocked: dot unlock${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# Show sync status (differences)
+_dot_secret_sync_status() {
+  echo ""
+  echo "${FLOW_COLORS[header]}Sync Status${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Check if Bitwarden is unlocked
+  if [[ -z "$BW_SESSION" ]]; then
+    _flow_log_warning "Bitwarden is locked"
+    _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]} to enable sync status"
+    echo ""
+    echo "${FLOW_COLORS[info]}Keychain secrets:${FLOW_COLORS[reset]}"
+    _dot_kc_list
+    return 0
+  fi
+
+  # Get Keychain secrets
+  echo "${FLOW_COLORS[info]}Keychain secrets:${FLOW_COLORS[reset]}"
+  local -a kc_secrets=()
+  local dump_file
+  dump_file=$(mktemp)
+  security dump-keychain > "$dump_file" 2>/dev/null
+
+  local svc_lines
+  svc_lines=$(grep -n "\"svce\"<blob>=\"$_DOT_KEYCHAIN_SERVICE\"" "$dump_file" 2>/dev/null | cut -d: -f1)
+
+  for line_num in ${(f)svc_lines}; do
+    local start_line=$((line_num - 20))
+    [[ $start_line -lt 1 ]] && start_line=1
+
+    local acct_line
+    acct_line=$(sed -n "${start_line},${line_num}p" "$dump_file" | grep '"acct"<blob>="' | tail -1)
+
+    if [[ -n "$acct_line" ]]; then
+      local account_name
+      account_name="${acct_line#*\"acct\"<blob>=\"}"
+      account_name="${account_name%%\"*}"
+      if [[ -n "$account_name" ]]; then
+        kc_secrets+=("$account_name")
+        echo "  ${FLOW_COLORS[success]}●${FLOW_COLORS[reset]} $account_name"
+      fi
+    fi
+  done
+
+  rm -f "$dump_file"
+
+  if [[ ${#kc_secrets[@]} -eq 0 ]]; then
+    echo "  ${FLOW_COLORS[muted]}(none)${FLOW_COLORS[reset]}"
+  fi
+
+  echo ""
+  echo "${FLOW_COLORS[info]}Bitwarden secrets (flow-cli):${FLOW_COLORS[reset]}"
+
+  # Get Bitwarden items
+  local items_json
+  items_json=$(bw list items --session "$BW_SESSION" 2>/dev/null)
+
+  if [[ -z "$items_json" ]] || [[ "$items_json" == "[]" ]]; then
+    echo "  ${FLOW_COLORS[muted]}(none)${FLOW_COLORS[reset]}"
+  else
+    echo "$items_json" | jq -r '.[] | .name' 2>/dev/null | while read -r name; do
+      if _flow_array_contains "$name" "${kc_secrets[@]}"; then
+        echo "  ${FLOW_COLORS[success]}●${FLOW_COLORS[reset]} $name ${FLOW_COLORS[muted]}(synced)${FLOW_COLORS[reset]}"
+      else
+        echo "  ${FLOW_COLORS[warning]}○${FLOW_COLORS[reset]} $name ${FLOW_COLORS[muted]}(not in Keychain)${FLOW_COLORS[reset]}"
+      fi
+    done
+  fi
+
+  echo ""
+}
+
+# Push Keychain → Bitwarden
+_dot_secret_sync_to_bitwarden() {
+  if [[ -z "$BW_SESSION" ]]; then
+    _flow_log_error "Bitwarden is locked"
+    _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  _flow_log_info "Syncing Keychain → Bitwarden..."
+
+  # Get Keychain secrets
+  local dump_file
+  dump_file=$(mktemp)
+  security dump-keychain > "$dump_file" 2>/dev/null
+
+  local count=0
+  local svc_lines
+  svc_lines=$(grep -n "\"svce\"<blob>=\"$_DOT_KEYCHAIN_SERVICE\"" "$dump_file" 2>/dev/null | cut -d: -f1)
+
+  for line_num in ${(f)svc_lines}; do
+    local start_line=$((line_num - 20))
+    [[ $start_line -lt 1 ]] && start_line=1
+
+    local acct_line
+    acct_line=$(sed -n "${start_line},${line_num}p" "$dump_file" | grep '"acct"<blob>="' | tail -1)
+
+    if [[ -n "$acct_line" ]]; then
+      local secret_name
+      secret_name="${acct_line#*\"acct\"<blob>=\"}"
+      secret_name="${secret_name%%\"*}"
+
+      if [[ -n "$secret_name" ]]; then
+        # Get secret value from Keychain
+        local secret_value
+        secret_value=$(security find-generic-password -a "$secret_name" -s "$_DOT_KEYCHAIN_SERVICE" -w 2>/dev/null)
+
+        if [[ -n "$secret_value" ]]; then
+          # Check if exists in Bitwarden
+          local existing
+          existing=$(bw get item "$secret_name" --session "$BW_SESSION" 2>/dev/null)
+
+          if [[ -n "$existing" ]]; then
+            # Update existing
+            local item_id
+            item_id=$(echo "$existing" | jq -r '.id')
+            local updated_item
+            updated_item=$(echo "$existing" | jq --arg pw "$secret_value" '.login.password = $pw')
+            echo "$updated_item" | bw encode | bw edit item "$item_id" --session "$BW_SESSION" >/dev/null 2>&1
+            _flow_log_success "Updated: $secret_name"
+          else
+            # Create new
+            local new_item
+            new_item=$(jq -n \
+              --arg name "$secret_name" \
+              --arg pw "$secret_value" \
+              '{type: 1, name: $name, login: {password: $pw}}')
+            echo "$new_item" | bw encode | bw create item --session "$BW_SESSION" >/dev/null 2>&1
+            _flow_log_success "Created: $secret_name"
+          fi
+          ((count++))
+        fi
+      fi
+    fi
+  done
+
+  rm -f "$dump_file"
+
+  if [[ $count -gt 0 ]]; then
+    bw sync --session "$BW_SESSION" >/dev/null 2>&1
+    _flow_log_success "Synced $count secret(s) to Bitwarden"
+  else
+    _flow_log_muted "No secrets to sync"
+  fi
+}
+
+# Pull Bitwarden → Keychain
+_dot_secret_sync_from_bitwarden() {
+  if [[ -z "$BW_SESSION" ]]; then
+    _flow_log_error "Bitwarden is locked"
+    _flow_log_info "Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  _flow_log_info "Syncing Bitwarden → Keychain..."
+
+  local items_json
+  items_json=$(bw list items --session "$BW_SESSION" 2>/dev/null)
+
+  if [[ -z "$items_json" ]] || [[ "$items_json" == "[]" ]]; then
+    _flow_log_muted "No secrets in Bitwarden to sync"
+    return 0
+  fi
+
+  local count=0
+
+  echo "$items_json" | jq -c '.[]' 2>/dev/null | while read -r item; do
+    local name
+    local password
+    name=$(echo "$item" | jq -r '.name')
+    password=$(echo "$item" | jq -r '.login.password // .notes // empty')
+
+    if [[ -n "$name" ]] && [[ -n "$password" ]]; then
+      security add-generic-password \
+        -a "$name" \
+        -s "$_DOT_KEYCHAIN_SERVICE" \
+        -w "$password" \
+        -U 2>/dev/null
+      _flow_log_success "Synced: $name"
+      ((count++))
+    fi
+  done
+
+  _flow_log_success "Synced secrets from Bitwarden to Keychain"
+}
+
+# Interactive sync
+_dot_secret_sync_interactive() {
+  echo ""
+  echo "${FLOW_COLORS[header]}Secret Sync Wizard${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Show status first
+  _dot_secret_sync_status
+
+  if [[ -z "$BW_SESSION" ]]; then
+    _flow_log_warning "Unlock Bitwarden to enable sync: dot unlock"
+    return 0
+  fi
+
+  echo "${FLOW_COLORS[warning]}Choose sync direction:${FLOW_COLORS[reset]}"
+  echo "  1) Push Keychain → Bitwarden"
+  echo "  2) Pull Bitwarden → Keychain"
+  echo "  3) Cancel"
+  echo ""
+  echo -n "Choice [1-3]: "
+  local choice
+  read -r choice
+
+  case "$choice" in
+    1)
+      _dot_secret_sync_to_bitwarden
+      ;;
+    2)
+      _dot_secret_sync_from_bitwarden
+      ;;
+    *)
+      _flow_log_muted "Cancelled"
+      ;;
+  esac
 }
 
 _dot_secret_bw_list() {
@@ -2014,14 +2426,19 @@ _dot_token_refresh() {
 # ───────────────────────────────────────────────────────────────────
 
 _dot_token_github() {
-  if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
-    return 1
-  fi
+  local backend=$(_dot_secret_backend)
 
-  # Check if session is active
-  if ! _dot_bw_session_valid; then
-    _flow_log_info "Bitwarden vault is locked. Unlocking..."
-    _dot_unlock || return 1
+  # Only require Bitwarden if backend needs it
+  if _dot_secret_needs_bitwarden; then
+    if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
+      return 1
+    fi
+
+    # Check if session is active
+    if ! _dot_bw_session_valid; then
+      _flow_log_info "Bitwarden vault is locked. Unlocking..."
+      _dot_unlock || return 1
+    fi
   fi
 
   echo ""
@@ -2133,24 +2550,34 @@ _dot_token_github() {
   [[ -n "$username" ]] && metadata="${metadata},\"github_user\":\"${username}\""
   metadata="${metadata}}"
 
-  # Store in Bitwarden
-  _flow_log_info "Storing token in Bitwarden..."
+  # ─────────────────────────────────────────────────────────────────
+  # STORAGE: Based on backend configuration
+  # ─────────────────────────────────────────────────────────────────
+  # Backend options (set via FLOW_SECRET_BACKEND):
+  #   - "keychain" (default): Store only in Keychain, no Bitwarden
+  #   - "bitwarden": Store only in Bitwarden (legacy mode)
+  #   - "both": Store in both backends for cloud backup
+  # ─────────────────────────────────────────────────────────────────
 
-  # Check if token already exists
-  local existing
-  existing=$(bw get item "$token_name" --session "$BW_SESSION" 2>/dev/null)
+  # Store in Bitwarden (if backend requires it)
+  if _dot_secret_needs_bitwarden; then
+    _flow_log_info "Storing token in Bitwarden..."
 
-  if [[ -n "$existing" ]]; then
-    # Update existing
-    local item_id=$(echo "$existing" | jq -r '.id' 2>/dev/null)
-    if [[ -n "$item_id" && "$item_id" != "null" ]]; then
-      local updated_item=$(echo "$existing" | jq --arg pw "$token_value" --arg notes "$metadata" \
-        '.login.password = $pw | .notes = $notes')
-      echo "$updated_item" | bw encode | bw edit item "$item_id" --session "$BW_SESSION" >/dev/null 2>&1
-    fi
-  else
-    # Create new
-    local new_item=$(cat <<EOF
+    # Check if token already exists
+    local existing
+    existing=$(bw get item "$token_name" --session "$BW_SESSION" 2>/dev/null)
+
+    if [[ -n "$existing" ]]; then
+      # Update existing
+      local item_id=$(echo "$existing" | jq -r '.id' 2>/dev/null)
+      if [[ -n "$item_id" && "$item_id" != "null" ]]; then
+        local updated_item=$(echo "$existing" | jq --arg pw "$token_value" --arg notes "$metadata" \
+          '.login.password = $pw | .notes = $notes')
+        echo "$updated_item" | bw encode | bw edit item "$item_id" --session "$BW_SESSION" >/dev/null 2>&1
+      fi
+    else
+      # Create new
+      local new_item=$(cat <<EOF
 {
   "type": 1,
   "name": "$token_name",
@@ -2162,11 +2589,12 @@ _dot_token_github() {
 }
 EOF
 )
-    echo "$new_item" | bw encode | bw create item --session "$BW_SESSION" >/dev/null 2>&1
-  fi
+      echo "$new_item" | bw encode | bw create item --session "$BW_SESSION" >/dev/null 2>&1
+    fi
 
-  # Sync vault
-  bw sync --session "$BW_SESSION" >/dev/null 2>&1
+    # Sync vault
+    bw sync --session "$BW_SESSION" >/dev/null 2>&1
+  fi
 
   # ─────────────────────────────────────────────────────────────────
   # KEYCHAIN METADATA STORAGE
@@ -2190,14 +2618,16 @@ EOF
   #    "github_user":"username"}
   # ─────────────────────────────────────────────────────────────────
 
-  # ALSO store in Keychain with metadata for instant access
-  _flow_log_info "Adding to Keychain for instant access..."
-  security add-generic-password \
-    -a "$token_name" \           # Account: token name (searchable)
-    -s "$_DOT_KEYCHAIN_SERVICE" \ # Service: flow-cli namespace
-    -w "$token_value" \           # Password: actual token (protected)
-    -j "$metadata" \              # JSON attrs: metadata (searchable)
-    -U 2>/dev/null               # Update if exists
+  # Store in Keychain (if backend uses it - default)
+  if _dot_secret_uses_keychain; then
+    _flow_log_info "Storing in Keychain..."
+    security add-generic-password \
+      -a "$token_name" \           # Account: token name (searchable)
+      -s "$_DOT_KEYCHAIN_SERVICE" \ # Service: flow-cli namespace
+      -w "$token_value" \           # Password: actual token (protected)
+      -j "$metadata" \              # JSON attrs: metadata (searchable)
+      -U 2>/dev/null               # Update if exists
+  fi
 
   echo ""
   echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
@@ -2529,14 +2959,19 @@ _dot_token_sync_gh() {
 # ───────────────────────────────────────────────────────────────────
 
 _dot_token_npm() {
-  if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
-    return 1
-  fi
+  local backend=$(_dot_secret_backend)
 
-  # Check if session is active
-  if ! _dot_bw_session_valid; then
-    _flow_log_info "Bitwarden vault is locked. Unlocking..."
-    _dot_unlock || return 1
+  # Only require Bitwarden if backend needs it
+  if _dot_secret_needs_bitwarden; then
+    if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
+      return 1
+    fi
+
+    # Check if session is active
+    if ! _dot_bw_session_valid; then
+      _flow_log_info "Bitwarden vault is locked. Unlocking..."
+      _dot_unlock || return 1
+    fi
   fi
 
   echo ""
@@ -2649,22 +3084,23 @@ _dot_token_npm() {
   [[ -n "$expire_date" ]] && metadata="${metadata},\"expires\":\"${expire_date}\""
   metadata="${metadata}}"
 
-  # Store in Bitwarden
-  _flow_log_info "Storing token in Bitwarden..."
+  # Store in Bitwarden (if backend requires it)
+  if _dot_secret_needs_bitwarden; then
+    _flow_log_info "Storing token in Bitwarden..."
 
-  # Check if token already exists
-  local existing
-  existing=$(bw get item "$token_name" --session "$BW_SESSION" 2>/dev/null)
+    # Check if token already exists
+    local existing
+    existing=$(bw get item "$token_name" --session "$BW_SESSION" 2>/dev/null)
 
-  if [[ -n "$existing" ]]; then
-    local item_id=$(echo "$existing" | jq -r '.id' 2>/dev/null)
-    if [[ -n "$item_id" && "$item_id" != "null" ]]; then
-      local updated_item=$(echo "$existing" | jq --arg pw "$token_value" --arg notes "$metadata" \
-        '.login.password = $pw | .notes = $notes')
-      echo "$updated_item" | bw encode | bw edit item "$item_id" --session "$BW_SESSION" >/dev/null 2>&1
-    fi
-  else
-    local new_item=$(cat <<EOF
+    if [[ -n "$existing" ]]; then
+      local item_id=$(echo "$existing" | jq -r '.id' 2>/dev/null)
+      if [[ -n "$item_id" && "$item_id" != "null" ]]; then
+        local updated_item=$(echo "$existing" | jq --arg pw "$token_value" --arg notes "$metadata" \
+          '.login.password = $pw | .notes = $notes')
+        echo "$updated_item" | bw encode | bw edit item "$item_id" --session "$BW_SESSION" >/dev/null 2>&1
+      fi
+    else
+      local new_item=$(cat <<EOF
 {
   "type": 1,
   "name": "$token_name",
@@ -2676,11 +3112,23 @@ _dot_token_npm() {
 }
 EOF
 )
-    echo "$new_item" | bw encode | bw create item --session "$BW_SESSION" >/dev/null 2>&1
+      echo "$new_item" | bw encode | bw create item --session "$BW_SESSION" >/dev/null 2>&1
+    fi
+
+    # Sync vault
+    bw sync --session "$BW_SESSION" >/dev/null 2>&1
   fi
 
-  # Sync vault
-  bw sync --session "$BW_SESSION" >/dev/null 2>&1
+  # Store in Keychain (if backend uses it - default)
+  if _dot_secret_uses_keychain; then
+    _flow_log_info "Storing in Keychain..."
+    security add-generic-password \
+      -a "$token_name" \
+      -s "$_DOT_KEYCHAIN_SERVICE" \
+      -w "$token_value" \
+      -j "$metadata" \
+      -U 2>/dev/null
+  fi
 
   echo ""
   echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
@@ -2708,14 +3156,15 @@ EOF
 # ───────────────────────────────────────────────────────────────────
 
 _dot_token_pypi() {
-  if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
-    return 1
-  fi
+  local backend=$(_dot_secret_backend)
 
-  # Check if session is active
-  if ! _dot_bw_session_valid; then
-    _flow_log_info "Bitwarden vault is locked. Unlocking..."
-    _dot_unlock || return 1
+  # Only require Bitwarden if backend needs it
+  if _dot_secret_needs_bitwarden; then
+    if ! _dot_require_tool "bw" "brew install bitwarden-cli"; then
+      return 1
+      _flow_log_info "Bitwarden vault is locked. Unlocking..."
+      _dot_unlock || return 1
+    fi
   fi
 
   echo ""
@@ -2817,22 +3266,23 @@ _dot_token_pypi() {
   [[ -n "$expire_date" ]] && metadata="${metadata},\"expires\":\"${expire_date}\""
   metadata="${metadata}}"
 
-  # Store in Bitwarden
-  _flow_log_info "Storing token in Bitwarden..."
+  # Store in Bitwarden (if backend requires it)
+  if _dot_secret_needs_bitwarden; then
+    _flow_log_info "Storing token in Bitwarden..."
 
-  # Check if token already exists
-  local existing
-  existing=$(bw get item "$token_name" --session "$BW_SESSION" 2>/dev/null)
+    # Check if token already exists
+    local existing
+    existing=$(bw get item "$token_name" --session "$BW_SESSION" 2>/dev/null)
 
-  if [[ -n "$existing" ]]; then
-    local item_id=$(echo "$existing" | jq -r '.id' 2>/dev/null)
-    if [[ -n "$item_id" && "$item_id" != "null" ]]; then
-      local updated_item=$(echo "$existing" | jq --arg pw "$token_value" --arg notes "$metadata" \
-        '.login.password = $pw | .notes = $notes')
-      echo "$updated_item" | bw encode | bw edit item "$item_id" --session "$BW_SESSION" >/dev/null 2>&1
-    fi
-  else
-    local new_item=$(cat <<EOF
+    if [[ -n "$existing" ]]; then
+      local item_id=$(echo "$existing" | jq -r '.id' 2>/dev/null)
+      if [[ -n "$item_id" && "$item_id" != "null" ]]; then
+        local updated_item=$(echo "$existing" | jq --arg pw "$token_value" --arg notes "$metadata" \
+          '.login.password = $pw | .notes = $notes')
+        echo "$updated_item" | bw encode | bw edit item "$item_id" --session "$BW_SESSION" >/dev/null 2>&1
+      fi
+    else
+      local new_item=$(cat <<EOF
 {
   "type": 1,
   "name": "$token_name",
@@ -2844,11 +3294,23 @@ _dot_token_pypi() {
 }
 EOF
 )
-    echo "$new_item" | bw encode | bw create item --session "$BW_SESSION" >/dev/null 2>&1
+      echo "$new_item" | bw encode | bw create item --session "$BW_SESSION" >/dev/null 2>&1
+    fi
+
+    # Sync vault
+    bw sync --session "$BW_SESSION" >/dev/null 2>&1
   fi
 
-  # Sync vault
-  bw sync --session "$BW_SESSION" >/dev/null 2>&1
+  # Store in Keychain (if backend uses it - default)
+  if _dot_secret_uses_keychain; then
+    _flow_log_info "Storing in Keychain..."
+    security add-generic-password \
+      -a "$token_name" \
+      -s "$_DOT_KEYCHAIN_SERVICE" \
+      -w "$token_value" \
+      -j "$metadata" \
+      -U 2>/dev/null
+  fi
 
   echo ""
   echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
