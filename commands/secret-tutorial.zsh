@@ -688,10 +688,8 @@ _dot_secret_tutorial() {
   return 0
 }
 
-# Note: This file is sourced by flow.plugin.zsh at startup.
-# The tutorial is ONLY run when explicitly called via:
-# - dot secret tutorial (dispatcher calls _dot_secret_tutorial)
-# - Direct execution: ./secret-tutorial.zsh
-#
-# DO NOT auto-run on source - this caused issues with "dot secret status"
-# See: feature/keychain-default-phase-1 for the fix
+# Run tutorial if called directly (not when sourced by plugin loader)
+# ZSH_EVAL_CONTEXT is "toplevel" only when executed directly
+if [[ "${ZSH_EVAL_CONTEXT}" == "toplevel" ]]; then
+  _dot_secret_tutorial "$@"
+fi
