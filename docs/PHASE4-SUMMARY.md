@@ -23,6 +23,7 @@ Location: Lines 249-332
 - Returns exit code 1 for error states (gracefully hidden in dashboard)
 
 **Example Output:**
+
 ```
   📝 Dotfiles: 🟢 Synced (2h ago) · 12 files tracked
   📝 Dotfiles: 🟡 Modified (3 files pending) · 12 files tracked
@@ -49,6 +50,7 @@ Location: Lines 573-591 (after `_dash_current()` function)
 - Empty line after for spacing
 
 **Implementation:**
+
 ```zsh
 _dash_dotfiles() {
   # Only show if chezmoi is available
@@ -90,21 +92,25 @@ _dash_recent_wins
 ## Design Decisions
 
 ### 1. Single Line Display
+
 - **Why:** ADHD-friendly - minimal cognitive load
 - **How:** All info condensed into one formatted line
 - **Result:** Quick scan without disrupting dashboard flow
 
 ### 2. Conditional Display
+
 - **Why:** Graceful degradation - not all users have chezmoi
 - **How:** Early return if `_dot_has_chezmoi()` fails
 - **Result:** No error messages, dashboard works for all users
 
 ### 3. Placement After Current Session
+
 - **Why:** Dotfiles are system-level context, not project-specific
 - **How:** Placed after `_dash_current` but before project lists
 - **Result:** Clear separation between session info and task lists
 
 ### 4. Fast Execution
+
 - **Why:** Dashboard must load instantly (< 100ms total)
 - **How:** Use cached values, minimal git operations
 - **Result:** No noticeable performance impact
@@ -192,6 +198,7 @@ sudo mv /usr/local/bin/chezmoi.bak /usr/local/bin/chezmoi
 ## Performance Analysis
 
 ### Timing Breakdown
+
 - `_dot_has_chezmoi()`: ~1ms (cached)
 - `_dot_get_status_line()`: ~50-80ms
   - `_dot_get_sync_status()`: ~30ms (chezmoi status)
@@ -201,6 +208,7 @@ sudo mv /usr/local/bin/chezmoi.bak /usr/local/bin/chezmoi
 - `_dash_dotfiles()`: ~50-80ms total
 
 ### Impact on Dashboard
+
 - Before: ~200ms (full dashboard)
 - After: ~280ms (full dashboard with dotfiles)
 - Increase: ~40% (acceptable for the value added)

@@ -276,7 +276,7 @@ Users upgrading from v2.x should:
   - Quarto output directories (`/.quarto/`, `/_site/`)
   - Solution directories (`**/solutions/`, `**/answer-keys/`)
   - Student work (`submissions/`, `grades/`)
-  - R/Python environments (renv, venv, __pycache__)
+  - R/Python environments (renv, venv, **pycache**)
   - macOS artifacts (.DS_Store)
 
 - **Configuration schema updates** - teach-config.yml

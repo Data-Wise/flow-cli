@@ -13,6 +13,7 @@ hop [project]
 ```
 
 **Quick examples:**
+
 ```bash
 # Switch to a project
 hop flow-cli
@@ -125,6 +126,7 @@ Without tmux:
 ## Tmux Tips
 
 !!! tip "View All Sessions"
+
 ```bash # List all tmux sessions
 tmux ls
 

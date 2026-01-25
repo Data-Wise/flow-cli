@@ -648,7 +648,7 @@ test_new_feature() {
 # Run: ✗ FAIL - new_command not found
 ```
 
-2. **Green** - Implement minimal code to pass
+1. **Green** - Implement minimal code to pass
 
 ```zsh
 # Add to commands/new.zsh
@@ -657,7 +657,7 @@ new_command() {
 }
 ```
 
-3. **Refactor** - Improve while keeping tests green
+1. **Refactor** - Improve while keeping tests green
 
 ```zsh
 new_command() {

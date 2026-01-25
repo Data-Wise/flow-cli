@@ -27,6 +27,7 @@
 #### Phase 1: Content Flag Validation (17 tests)
 
 **Group A: Flag Conflict Detection (4 tests)**
+
 ```
 ✓ No conflicts should pass
 ✓ Conflicting flags should fail
@@ -41,6 +42,7 @@
 - ✅ Allows mixing long and short forms in same command
 
 **Group B: Topic/Week Parsing (13 tests)**
+
 ```
 ✓ Topic only, week only
 ✓ Short flags (-t, -w)
@@ -57,6 +59,7 @@
 #### Phase 2: Preset System (28 tests)
 
 **Group A: Style Presets (5 tests)**
+
 ```
 ✓ Conceptual preset (explanation, definitions, examples)
 ✓ Computational preset (explanation, examples, code, practice-problems)
@@ -71,6 +74,7 @@
 - ✅ Invalid preset returns error (not silent failure)
 
 **Group B: Content Resolution (14 tests)**
+
 ```
 ✓ Preset + additions (--style conceptual --diagrams)
 ✓ Preset + removals (--style rigorous --no-proof)
@@ -85,6 +89,7 @@
 - ✅ Individual flags work without preset
 
 **Group C: Content Instructions (9 tests)**
+
 ```
 ✓ Instruction building from resolved content
 ✓ Empty content handling (no instructions)
@@ -103,6 +108,7 @@
 **Status:** ✅ 100% passing
 
 **Test Groups:**
+
 ```
 ✓ Error formatting (_teach_error, _teach_warn)          [3 tests]
 ✓ Command building (_teach_build_command)               [9 tests]
@@ -128,6 +134,7 @@
 **Status:** ✅ 100% passing
 
 **Test Groups:**
+
 ```
 ✓ Config validation                     [7 tests]
 ✓ Date calculation                      [6 tests]
@@ -150,12 +157,14 @@
 ### 1. Function Complexity
 
 **Phase 1 Functions:**
+
 ```zsh
 _teach_validate_content_flags()    # 45 lines - manageable
 _teach_parse_topic_week()          # 48 lines - manageable
 ```
 
 **Phase 2 Functions:**
+
 ```zsh
 TEACH_STYLE_PRESETS               # 10 lines - simple map
 _teach_resolve_content()          # 67 lines - moderate complexity
@@ -171,6 +180,7 @@ _teach_build_content_instructions() # 27 lines - simple
 ### 2. Test Coverage
 
 **Coverage by Component:**
+
 ```
 Content flag validation:     100% (all paths tested)
 Topic/week parsing:          100% (all edge cases)
@@ -190,6 +200,7 @@ Content instructions:        100% (empty + populated)
 ### 3. Error Handling
 
 **Error Messages Quality:**
+
 ```
 ❌ teach: Conflicting flags
 
@@ -233,6 +244,7 @@ Fix: Keep one or the other
 ### Memory Footprint
 
 **New Structures:**
+
 ```
 TEACH_CONTENT_FLAGS:      ~2KB  (9 flags × 3 forms)
 TEACH_SELECTION_FLAGS:    ~1KB  (6 flags)

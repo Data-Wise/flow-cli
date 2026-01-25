@@ -2087,7 +2087,7 @@ teach deploy
 teach doctor
 ```
 
-2. **Enable backups:**
+1. **Enable backups:**
 
 Already enabled by default! Check status:
 
@@ -2095,7 +2095,7 @@ Already enabled by default! Check status:
 teach status  # See "Backup Summary" section
 ```
 
-3. **Configure retention policies:**
+1. **Configure retention policies:**
 
 Edit `.flow/teach-config.yml`:
 
@@ -2107,7 +2107,7 @@ backups:
     syllabi: archive
 ```
 
-4. **Create lesson plan (optional):**
+1. **Create lesson plan (optional):**
 
 ```bash
 cat > lesson-plan.yml <<EOF
@@ -2119,7 +2119,7 @@ weeks:
 EOF
 ```
 
-5. **Use new features:**
+1. **Use new features:**
 
 ```bash
 # Deploy preview

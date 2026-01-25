@@ -95,6 +95,7 @@ exit
 ```
 
 **Convert:**
+
 ```bash
 agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-01-help.cast scholar-01-help.gif
@@ -119,6 +120,7 @@ exit
 ```
 
 **Convert:**
+
 ```bash
 agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-02-generate.cast scholar-02-generate.gif
@@ -143,6 +145,7 @@ exit
 ```
 
 **Convert:**
+
 ```bash
 agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-03-customize.cast scholar-03-customize.gif
@@ -167,6 +170,7 @@ exit
 ```
 
 **Convert:**
+
 ```bash
 agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-04-lesson.cast scholar-04-lesson.gif
@@ -195,6 +199,7 @@ exit
 ```
 
 **Convert:**
+
 ```bash
 agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-05-interactive.cast scholar-05-interactive.gif
@@ -220,6 +225,7 @@ exit
 ```
 
 **Convert:**
+
 ```bash
 agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-06-revision.cast scholar-06-revision.gif
@@ -244,6 +250,7 @@ exit
 ```
 
 **Convert:**
+
 ```bash
 agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-07-week.cast scholar-07-week.gif
@@ -268,6 +275,7 @@ exit
 ```
 
 **Convert:**
+
 ```bash
 agg --cols 100 --rows 30 --font-size 16 --theme dracula --fps-cap 10 \
   scholar-08-context.cast scholar-08-context.gif
@@ -310,6 +318,7 @@ echo "✅ All GIFs generated"
 ```
 
 **Usage:**
+
 ```bash
 chmod +x convert-all.sh
 ./convert-all.sh
@@ -320,24 +329,29 @@ chmod +x convert-all.sh
 ## Tips
 
 ### Terminal Size
+
 - Use `--cols 100 --rows 30` for consistent dimensions
 - Matches documentation site width
 
 ### Theme
+
 - `dracula` theme has good contrast
 - Alternatives: `monokai`, `solarized-dark`
 
 ### Frame Rate
+
 - `--fps-cap 10` = smooth but large files
 - `--fps-cap 5` = smaller files, slightly choppy
 - `--fps-cap 15` = very smooth but very large
 
 ### Optimization
+
 - `--lossy=80` reduces size by ~40%
 - `--colors 128` vs `--colors 256` saves ~20%
 - `-O3` is maximum optimization
 
 ### File Sizes
+
 Target: 100-500 KB per GIF
 - Help screens: ~100-200 KB
 - Command output: ~200-400 KB

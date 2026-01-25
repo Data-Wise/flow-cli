@@ -375,7 +375,7 @@ $ teach deploy
 
 ---
 
-## 🎉 Success!
+## 🎉 Success
 
 You've completed the teaching workflow quick start. Your course is now deployed and ready for review.
 

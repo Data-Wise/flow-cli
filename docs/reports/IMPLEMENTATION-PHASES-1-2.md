@@ -96,6 +96,7 @@ teach slides -t "ANOVA" -w 8              # Topic takes precedence
 ## Test Coverage
 
 ### Unit Tests (45 tests)
+
 File: `tests/test-teach-flags-phase1-2.zsh`
 
 **Phase 1 Tests (17 tests):**
@@ -127,6 +128,7 @@ File: `tests/test-teach-flags-phase1-2.zsh`
   - Empty content handling
 
 ### Regression Tests (28 tests)
+
 File: `tests/test-teach-scholar-wrappers.zsh`
 - All existing tests pass
 - No breaking changes

@@ -242,6 +242,7 @@ teach deploy lectures/week-07-multiple-linear-regression.qmd
 **What Happens During Deploy:**
 
 1. **Dependency Detection:**
+
    ```
    🔍 Finding dependencies...
      Dependencies for lectures/week-07-multiple-linear-regression.qmd:
@@ -253,6 +254,7 @@ teach deploy lectures/week-07-multiple-linear-regression.qmd
    ```
 
 2. **Index Management:**
+
    ```
    📄 New content detected:
      week-07-multiple-linear-regression.qmd: Multiple Linear Regression
@@ -262,12 +264,14 @@ teach deploy lectures/week-07-multiple-linear-regression.qmd
    ```
 
 3. **Backup Creation:**
+
    ```
    💾 Creating backup...
    ✓ Backup created: lectures/.backups/week-07-multiple-linear-regression.2026-01-20-1534/
    ```
 
 4. **Push & PR:**
+
    ```
    Push to origin/draft? [Y/n]: y
    ✓ Pushed to origin/draft
@@ -401,6 +405,7 @@ teach clean --force             # Delete _freeze + _site
 - Watch mode
 
 **Example:**
+
 ```bash
 teach validate --yaml lectures/week-01.qmd
 
@@ -408,6 +413,7 @@ teach validate --yaml lectures/week-01.qmd
 ```
 
 **Common errors:**
+
 ```yaml
 ---
 title: "Week 1: Introduction
@@ -430,6 +436,7 @@ date: 2026-01-20
 - Before deployment
 
 **Example:**
+
 ```bash
 teach validate --syntax lectures/week-02.qmd
 
@@ -438,6 +445,7 @@ teach validate --syntax lectures/week-02.qmd
 ```
 
 **Common errors:**
+
 ```markdown
 ```{r}
 #| label: fig-plot
@@ -445,6 +453,7 @@ teach validate --syntax lectures/week-02.qmd
 
 plot(mtcars)
 ```
+
 ```
 
 #### Layer 3: Full Render (3-15s)
@@ -471,6 +480,7 @@ teach validate --render lectures/week-03.qmd
 ```
 
 **Common errors:**
+
 ```r
 # File not found
 data <- read.csv("../data/regression-data.csv")  # Wrong path
@@ -493,6 +503,7 @@ model <- lm(y ~ x1 + x2 + missing_var, data = df)
 - May confuse students
 
 **Example:**
+
 ```markdown
 ```{r}
 #| label: setup
@@ -501,6 +512,7 @@ model <- lm(y ~ x1 + x2 + missing_var, data = df)
 # Empty chunk - triggers warning
 
 ```
+
 ```
 
 #### Layer 5: Missing Images (warnings)
@@ -572,6 +584,7 @@ fi
 ### Watch Mode Usage
 
 **Start watch mode:**
+
 ```bash
 teach validate --watch lectures/*.qmd
 ```
@@ -587,6 +600,7 @@ teach validate --watch lectures/*.qmd
    - Show results
 
 **Conflict prevention:**
+
 ```
 # If quarto preview is running:
 ⚠️ Quarto preview is running - validation may conflict
@@ -904,6 +918,7 @@ teach deploy lectures/week-07.qmd --auto-commit
 ```
 
 **Custom commit message:**
+
 ```bash
 # Without --auto-commit, you'll be prompted:
 
@@ -927,6 +942,7 @@ teach deploy lectures/week-08.qmd --auto-commit --auto-tag
 ```
 
 **List deployment tags:**
+
 ```bash
 git tag -l "deploy-*" --sort=-version:refname
 
@@ -953,6 +969,7 @@ teach deploy lectures/week-09.qmd --skip-index
 Index files (`home_lectures.qmd`, `home_assignments.qmd`, etc.) provide navigation for students.
 
 **Example index file:**
+
 ```markdown
 ---
 title: "Lectures"
@@ -989,6 +1006,7 @@ teach deploy lectures/week-04-diagnostics.qmd
 ```
 
 **Result in `home_lectures.qmd`:**
+
 ```markdown
 - [Week 1: Introduction](lectures/week-01-intro.qmd)
 - [Week 2: Simple Linear Regression](lectures/week-02-slr.qmd)
@@ -1139,6 +1157,7 @@ teach hooks uninstall
 #### Pre-Commit Hook
 
 **Runs automatically on:**
+
 ```bash
 git commit -m "message"
 ```
@@ -1150,6 +1169,7 @@ git commit -m "message"
 4. Block commit if validation fails
 
 **Example output:**
+
 ```bash
 git commit -m "Update week 5 lecture"
 
@@ -1162,6 +1182,7 @@ git commit -m "Update week 5 lecture"
 ```
 
 **If validation fails:**
+
 ```bash
 git commit -m "Update week 5 lecture"
 
@@ -1177,6 +1198,7 @@ git commit -m "Update week 5 lecture"
 #### Pre-Push Hook
 
 **Runs automatically on:**
+
 ```bash
 git push origin draft
 ```
@@ -1187,6 +1209,7 @@ git push origin draft
 3. Block push if validation fails
 
 **Example output:**
+
 ```bash
 git push origin draft
 
@@ -1205,6 +1228,7 @@ git push origin draft
 #### Prepare-Commit-Msg Hook
 
 **Runs automatically on:**
+
 ```bash
 git commit
 ```
@@ -1214,6 +1238,7 @@ git commit
 2. Adds file count summary
 
 **Example commit message:**
+
 ```
 Update week 5 lecture
 
@@ -1265,6 +1290,7 @@ Backups are created automatically during:
 - Manual edits followed by deploy
 
 **Backup location:**
+
 ```
 lectures/
 ├── week-05-mlr.qmd
@@ -1309,6 +1335,7 @@ teach status
 ```
 
 **Detailed view:**
+
 ```bash
 # Find backups for specific content
 ls lectures/.backups/
@@ -1326,6 +1353,7 @@ cp -R lectures/.backups/week-05-mlr.2026-01-20-1030/* lectures/week-05-mlr.qmd
 ```
 
 **Or use git:**
+
 ```bash
 # If you've committed since backup
 git log --oneline lectures/week-05-mlr.qmd
@@ -1358,6 +1386,7 @@ teach archive Fall-2025
 ```
 
 **Archive structure:**
+
 ```
 .flow/archives/
 └── Fall-2025/
@@ -1476,6 +1505,7 @@ teach doctor --json
 ```
 
 **Use in CI:**
+
 ```bash
 #!/bin/bash
 # .github/workflows/health-check.yml
@@ -1507,6 +1537,7 @@ fi
 **Optimization tips:**
 
 1. **Use appropriate layers:**
+
    ```bash
    # During active editing (fast)
    teach validate --yaml
@@ -1519,6 +1550,7 @@ fi
    ```
 
 2. **Validate changed files only:**
+
    ```bash
    # Instead of all files
    teach validate
@@ -1530,6 +1562,7 @@ fi
    ```
 
 3. **Use watch mode efficiently:**
+
    ```bash
    # Watch only active file
    teach validate --watch lectures/week-05.qmd
@@ -1557,6 +1590,7 @@ execute:
 ```
 
 **Selective freeze:**
+
 ```yaml
 # In frontmatter of expensive lectures
 ---
@@ -1577,6 +1611,7 @@ execute:
 - **When:** Individual lecture updates
 
 **Optimization:**
+
 ```bash
 # Deploy only what changed
 teach deploy lectures/week-05.qmd
@@ -1588,6 +1623,7 @@ teach deploy  # Slower
 ### Parallel Rendering
 
 **Enable in hooks:**
+
 ```bash
 export QUARTO_PARALLEL_RENDER=1
 export QUARTO_MAX_PARALLEL=8  # Adjust based on CPU cores
@@ -1719,6 +1755,7 @@ teach init --course "STAT 440" --semester "Spring 2026"
 **Cause:** Missing `---` delimiters
 
 **Fix:**
+
 ```markdown
 ---
 title: "Week 1: Introduction"
@@ -1733,6 +1770,7 @@ author: "Dr. Smith"
 **Cause:** Unquoted special characters, missing colons
 
 **Common issues:**
+
 ```yaml
 # Wrong
 title: Week 1: Introduction   # Unquoted colon
@@ -1754,6 +1792,7 @@ author: "Dr. Smith"
 **Cause:** Malformed chunk options
 
 **Fix:**
+
 ```markdown
 # Wrong
 ```{r}
@@ -1762,10 +1801,12 @@ author: "Dr. Smith"
 ```
 
 # Right
+
 ```{r}
 #| label: fig-plot
 #| echo: false                 # Colon required
 ```
+
 ```
 
 #### "Render failed"
@@ -1799,6 +1840,7 @@ install.packages("package_name")
 **Cause:** Stale cache
 
 **Fix:**
+
 ```bash
 teach cache clear
 teach cache rebuild
@@ -1809,6 +1851,7 @@ teach cache rebuild
 **Cause:** Many rendered files
 
 **Fix:**
+
 ```bash
 # Analyze cache
 teach cache analyze
@@ -1828,6 +1871,7 @@ teach clean --force
 3. Dynamic dates
 
 **Check freeze config:**
+
 ```yaml
 # _quarto.yml
 execute:
@@ -1835,6 +1879,7 @@ execute:
 ```
 
 **Check frontmatter:**
+
 ```yaml
 ---
 title: "Week 5"
@@ -1850,6 +1895,7 @@ execute:
 **Cause:** Working on wrong branch
 
 **Fix:**
+
 ```bash
 teach deploy
 
@@ -1863,6 +1909,7 @@ teach deploy
 **Cause:** Files modified but not committed
 
 **Fix:**
+
 ```bash
 # Option 1: Auto-commit
 teach deploy lectures/week-05.qmd --auto-commit
@@ -1878,6 +1925,7 @@ teach deploy lectures/week-05.qmd
 **Cause:** Production (main) ahead of draft
 
 **Fix:**
+
 ```bash
 teach deploy
 
@@ -1896,11 +1944,13 @@ teach deploy
 **Cause:** Cross-referenced file missing
 
 **Example:**
+
 ```markdown
 See @sec-introduction for background.
 ```
 
 **Fix:**
+
 ```bash
 # 1. Check if file exists
 find . -name "*introduction*"
@@ -1920,6 +1970,7 @@ teach deploy lectures/week-05.qmd lectures/week-01-introduction.qmd
 **Cause:** Invalid .qmd files staged
 
 **Fix:**
+
 ```bash
 # See what failed
 teach validate --syntax <failed-file>
@@ -1937,6 +1988,7 @@ git commit -m "message"
 3. Wrong working directory
 
 **Fix:**
+
 ```bash
 # Check status
 teach hooks status
@@ -1957,6 +2009,7 @@ chmod +x .git/hooks/pre-commit
 **Cause:** Git cache issues
 
 **Fix:**
+
 ```bash
 # Refresh git index
 git rm --cached -r .
@@ -1970,6 +2023,7 @@ git reset --hard
 **Cause:** Skipped prompt or index file missing
 
 **Fix:**
+
 ```bash
 # Create index file if missing
 touch home_lectures.qmd
@@ -2003,6 +2057,7 @@ teach deploy lectures/week-05.qmd
 
 **Fix:**
 Rename files to use numeric week pattern:
+
 ```bash
 mv lecture05.qmd week-05-lecture.qmd
 ```
@@ -2014,6 +2069,7 @@ mv lecture05.qmd week-05-lecture.qmd
 **Cause:** File watcher not installed
 
 **Fix:**
+
 ```bash
 # macOS
 brew install fswatch
@@ -2027,6 +2083,7 @@ sudo apt-get install inotify-tools
 **Cause:** Both accessing same files
 
 **Fix:**
+
 ```bash
 # Use separate terminals:
 # Terminal 1: quarto preview
@@ -2037,6 +2094,7 @@ teach validate --watch
 ```
 
 Or stop quarto preview:
+
 ```bash
 # Find process
 ps aux | grep "quarto preview"
@@ -2055,6 +2113,7 @@ pkill -f "quarto preview"
 3. External data loading
 
 **Solutions:**
+
 ```bash
 # Use faster validation layers
 teach validate --yaml    # Fastest
@@ -2072,6 +2131,7 @@ git diff --name-only | grep '\.qmd$' | xargs teach validate --syntax
 **Cause:** Full site rebuild
 
 **Solution:**
+
 ```bash
 # Use partial deployment
 teach deploy lectures/week-05.qmd
@@ -2116,6 +2176,7 @@ validate_custom "$1"
 ```
 
 Use in workflow:
+
 ```bash
 teach validate lectures/week-05.qmd
 .flow/validation-custom.zsh lectures/week-05.qmd
@@ -2190,6 +2251,7 @@ deployments:
 ```
 
 **Workflow:**
+
 ```bash
 # Deploy to staging
 git checkout staging

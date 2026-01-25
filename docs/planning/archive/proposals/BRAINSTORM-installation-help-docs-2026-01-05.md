@@ -500,7 +500,7 @@ Pick **ONE** of these paths to start:
 
 ## 📝 Next Steps
 
-### If Option A (Quick Wins):
+### If Option A (Quick Wins)
 
 1. Implement first-run welcome message
 2. Add "See also" to all help functions
@@ -508,13 +508,13 @@ Pick **ONE** of these paths to start:
 4. Create `flow ref` command
 5. Add examples to help output
 
-### If Option B (Interactive Help):
+### If Option B (Interactive Help)
 
 1. Build interactive help browser with fzf
 2. Implement context-aware help
 3. Create aliases reference command
 
-### If Option C (v4.9.0 Onboarding):
+### If Option C (v4.9.0 Onboarding)
 
 1. Start with Phase 1 from SPEC-v4.9.0-installation-onboarding.md
 2. Build install.sh script

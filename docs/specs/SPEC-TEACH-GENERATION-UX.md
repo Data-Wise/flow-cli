@@ -34,6 +34,7 @@ teach <command> [topic] [options]
 ```
 
 **Core Pattern:**
+
 ```bash
 teach <cmd> "Topic"              # Basic: auto-detect week, default format
 teach <cmd> "Topic" -i           # Interactive: step-by-step prompts
@@ -152,12 +153,14 @@ Phase 3: Post-processing (~1-3s)
 ### 2.2 Progress States
 
 **State 1: Starting (Preparation)**
+
 ```
  Preparing slides for "Regression Analysis"...
   Context: Week 8 of 15 | STAT 440
 ```
 
 **State 2: Generating (AI Working)**
+
 ```
  Generating slides (estimated ~20-30s)...
   [===============>        ] 60% | 12s elapsed
@@ -165,6 +168,7 @@ Phase 3: Post-processing (~1-3s)
 ```
 
 **State 3: Finishing (Post-processing)**
+
 ```
  Finalizing content...
   Saving to slides/week08-regression.qmd
@@ -181,6 +185,7 @@ For operations without determinate progress:
 **Spinner frames (Braille dots):** ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
 
 **With elapsed time counter:**
+
 ```
  Generating exam... 15s
  Generating exam... 16s
@@ -196,6 +201,7 @@ For operations without determinate progress:
 | Finish | 1-3s | Static message | Once |
 
 **Implementation (ZSH):**
+
 ```zsh
 _teach_progress_indicator() {
     local message="$1"
@@ -230,6 +236,7 @@ Next steps:
 ### 3.2 Error Message Format
 
 **User Error (recoverable):**
+
 ```
  teach: Topic not found in schedule
 
@@ -241,6 +248,7 @@ Recovery:
 ```
 
 **System Error (AI failure):**
+
 ```
  teach: AI generation failed
 
@@ -258,6 +266,7 @@ Retry?  [Y/n]
 ```
 
 **Config Error:**
+
 ```
  teach: Configuration missing
 
@@ -302,6 +311,7 @@ teach slides -i
 ```
 
 **Step 1: Topic Selection**
+
 ```
  Create Slides
 
@@ -314,6 +324,7 @@ Your choice [1-3]: _
 ```
 
 **Step 2: Configuration**
+
 ```
  Slide Configuration
 
@@ -326,6 +337,7 @@ Press Enter for defaults, or enter choices: _
 ```
 
 **Step 3: Confirmation**
+
 ```
  Ready to Generate
 
@@ -358,6 +370,7 @@ teach slides --revise slides/week08.qmd
 ```
 
 **Step 1: Analysis**
+
 ```
  Analyzing existing file...
 
@@ -368,6 +381,7 @@ teach slides --revise slides/week08.qmd
 ```
 
 **Step 2: Revision Options**
+
 ```
  What would you like to improve?
 
@@ -382,6 +396,7 @@ Your choice [1-6]: _
 ```
 
 **Step 3: Custom Instructions (if option 5)**
+
 ```
  Custom Instructions
 
@@ -393,6 +408,7 @@ Continue?  [Y/n] _
 ```
 
 **Step 4: Preview Changes**
+
 ```
  Preview Changes
 
@@ -437,12 +453,14 @@ Apply changes?  [1] Yes  [2] Show diff  [3] Cancel
 ### 6.2 Cognitive Load Reduction
 
 **Before (high cognitive load):**
+
 ```bash
 teach exam --format quarto --questions 25 --duration 90 --types mc,sa,essay \
   --difficulty mixed --output exams/midterm1.qmd "Chapters 1-5"
 ```
 
 **After (minimal cognitive load):**
+
 ```bash
 teach exam "Midterm 1"                    # Smart defaults
 teach exam -i                             # Guided if unsure
@@ -476,6 +494,7 @@ Every error should include:
 ### 7.1 Command Shortcuts (in teach-dispatcher.zsh)
 
 Already implemented:
+
 ```zsh
 # In case statement
 slides|sl)    _teach_scholar_wrapper "slides" "$@" ;;

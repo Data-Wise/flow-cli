@@ -326,6 +326,7 @@ When working with Claude Code on flow-cli, follow these **strict** steps to main
 5. Commit approved plan to `dev` branch
 
 **Example:**
+
 ```bash
 # Ensure you're on dev
 git checkout dev
@@ -367,6 +368,7 @@ git worktree list
 - ✅ Tell user to start **NEW Claude session** in worktree directory
 
 **Correct Pattern:**
+
 ```bash
 # In planning session (dev branch)
 git worktree add ~/.git-worktrees/flow-cli-cache -b feature/cache dev
@@ -398,6 +400,7 @@ To start implementation, please start a new session:
 - Each commit must build successfully
 
 **Conventional Commit Types:**
+
 ```bash
 feat:      New feature
 fix:       Bug fix
@@ -410,6 +413,7 @@ style:     Formatting, whitespace
 ```
 
 **Examples:**
+
 ```bash
 # Good commits
 git commit -m "feat: add project cache layer with 5min TTL"
@@ -436,6 +440,7 @@ git commit -m "updated files"
 **Steps:**
 
 1. **Rebase onto latest dev** (linear history)
+
    ```bash
    # Fetch latest dev
    git fetch origin dev
@@ -448,17 +453,20 @@ git commit -m "updated files"
    ```
 
 2. **Run full test suite**
+
    ```bash
    ./tests/run-all.sh
    # All tests must pass
    ```
 
 3. **Push feature branch**
+
    ```bash
    git push -u origin feature/<feature-name>
    ```
 
 4. **Create PR to dev**
+
    ```bash
    # Using gh CLI (recommended)
    gh pr create --base dev --title "feat: feature name" --body "..."
@@ -468,6 +476,7 @@ git commit -m "updated files"
    ```
 
 5. **After PR merge, cleanup**
+
    ```bash
    # Remove worktree
    git worktree remove ~/.git-worktrees/flow-cli-<feature-name>
@@ -488,6 +497,7 @@ git commit -m "updated files"
 **Steps:**
 
 1. **Verify dev stability**
+
    ```bash
    git checkout dev
    git pull origin dev
@@ -500,6 +510,7 @@ git commit -m "updated files"
    ```
 
 2. **Create release PR**
+
    ```bash
    # Using gh CLI
    gh pr create --base main --head dev \
@@ -511,6 +522,7 @@ git commit -m "updated files"
    ```
 
 3. **After PR approval and merge**
+
    ```bash
    # Tag release
    git tag -a v5.X.0 -m "Release v5.X.0"
@@ -548,6 +560,7 @@ git status
 Claude Code must **ABORT** and redirect if:
 
 1. **About to commit to main**
+
    ```
    ⛔ ABORT: Cannot commit directly to main
 
@@ -555,6 +568,7 @@ Claude Code must **ABORT** and redirect if:
    ```
 
 2. **About to commit to dev** (without explicit approval)
+
    ```
    ⚠️  WARNING: Committing to dev branch
 
@@ -563,6 +577,7 @@ Claude Code must **ABORT** and redirect if:
    ```
 
 3. **Push to main/dev without PR**
+
    ```
    ⛔ ABORT: Direct push to protected branch blocked
 
@@ -571,6 +586,7 @@ Claude Code must **ABORT** and redirect if:
    ```
 
 4. **Working in worktree from planning session**
+
    ```
    ⚠️  STOP: Do not implement features in planning session
 

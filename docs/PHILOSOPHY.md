@@ -235,4 +235,4 @@ This configuration evolves through:
 
 ---
 
-_Last Updated: 2025-12-17_
+*Last Updated: 2025-12-17*

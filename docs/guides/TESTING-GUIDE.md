@@ -7,11 +7,13 @@
 ## Quick Start
 
 Run all tests:
+
 ```bash
 bash tests/run-all-tests.sh
 ```
 
 Run specific test suite:
+
 ```bash
 zsh tests/test-prompt-dispatcher.zsh     # 47 combined tests
 zsh tests/test-prompt-unit.zsh           # 80 unit tests
@@ -242,6 +244,7 @@ done
 ### Local Machine (Development)
 
 All tests run directly:
+
 ```bash
 zsh tests/test-prompt-unit.zsh
 zsh tests/test-prompt-validation.zsh
@@ -251,6 +254,7 @@ zsh tests/test-prompt-e2e.zsh
 ### CI/CD Pipeline
 
 Recommended minimal tests:
+
 ```bash
 # Quick smoke test (most reliable)
 zsh tests/test-prompt-dispatcher.zsh
@@ -262,12 +266,14 @@ bash tests/run-all-tests.sh
 ### Continuous Integration Strategy
 
 **For fast CI (< 30 seconds):**
+
 ```bash
 # Run original combined suite only
 zsh tests/test-prompt-dispatcher.zsh
 ```
 
 **For comprehensive CI (2-3 minutes):**
+
 ```bash
 # Run all test suites
 bash tests/run-all-tests.sh
@@ -276,18 +282,21 @@ bash tests/run-all-tests.sh
 ## Test Design Philosophy
 
 ### Unit Tests
+
 - **Goal:** Verify isolated functions work correctly
 - **Coverage:** Core functionality in isolation
 - **Speed:** Fast (~2-3 seconds)
 - **Reliability:** Very high (no dependencies)
 
 ### Validation Tests
+
 - **Goal:** Verify engine detection works
 - **Coverage:** Installation and config validation
 - **Speed:** Medium (~3-5 seconds)
 - **Reliability:** Medium (depends on local setup)
 
 ### E2E Tests
+
 - **Goal:** Verify real workflows work end-to-end
 - **Coverage:** Complete user scenarios
 - **Speed:** Slow (5-10 seconds)

@@ -91,8 +91,8 @@ This document synthesizes three parallel analyses:
 | **tm**          | Terminal manager       | title, profile, ghost, switch    | ✅ Complete   |
 | **wt**          | Git worktrees          | create, status, prune            | ✅ Complete   |
 | **v**           | Workflow automation    | (legacy, being replaced)         | 🟡 Deprecated |
-| **dot**         | Dotfiles               | _NEW v5.0.0_ (just released!)    | ✅ Complete   |
-| ~~**df**~~      | _(alternative naming)_ | -                                | -             |
+| **dot**         | Dotfiles               | *NEW v5.0.0* (just released!)    | ✅ Complete   |
+| ~~**df**~~      | *(alternative naming)* | -                                | -             |
 
 **Note:** The `dot` dispatcher was just released in v5.0.0! This addresses the dotfile management gap identified in this brainstorm. See `lib/dispatchers/dot-dispatcher.zsh` (450 LOC).
 

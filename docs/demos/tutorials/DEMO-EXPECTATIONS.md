@@ -7,6 +7,7 @@
 ## Demo 1: Help System
 
 ### Command
+
 ```bash
 teach slides --help
 teach quiz --help
@@ -48,6 +49,7 @@ teach lecture --help
 ## Demo 2: Basic Generation
 
 ### Command
+
 ```bash
 teach slides "Introduction to Statistics" --style conceptual
 ```
@@ -55,6 +57,7 @@ teach slides "Introduction to Statistics" --style conceptual
 ### What You'll See
 
 1. **Header**
+
    ```
    🎓 Scholar Enhancement - Generating Slides
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -65,6 +68,7 @@ teach slides "Introduction to Statistics" --style conceptual
    - Style: conceptual (explanation + definitions + examples)
 
 3. **Content Structure Progress**
+
    ```
    📝 Content Structure:
       ✓ Title slide
@@ -76,6 +80,7 @@ teach slides "Introduction to Statistics" --style conceptual
    ```
 
 4. **Content Preview**
+
    ```
    📊 Included Sections:
       • What is statistics?
@@ -86,6 +91,7 @@ teach slides "Introduction to Statistics" --style conceptual
    ```
 
 5. **Output Summary**
+
    ```
    ✅ Generated: slides/intro-statistics.qmd (1,247 words)
 
@@ -111,6 +117,7 @@ teach slides "Introduction to Statistics" --style conceptual
 ## Demo 3: Style Customization
 
 ### Command
+
 ```bash
 teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
 ```
@@ -118,6 +125,7 @@ teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
 ### What You'll See
 
 1. **Header with Customization**
+
    ```
    🎓 Scholar Enhancement - Generating Quiz
 
@@ -127,6 +135,7 @@ teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
    ```
 
 2. **Style Customization Applied**
+
    ```
    📝 Style Customization Applied:
       ✓ Formal mathematical definitions
@@ -137,6 +146,7 @@ teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
    ```
 
 3. **Question Distribution**
+
    ```
    🎯 Question Types:
       • Theoretical foundations (40%)
@@ -146,6 +156,7 @@ teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
    ```
 
 4. **Content Characteristics**
+
    ```
    📊 Content Characteristics:
       • Graduate-level rigor
@@ -155,6 +166,7 @@ teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
    ```
 
 5. **Output Summary**
+
    ```
    ✅ Generated: quizzes/hypothesis-testing.qmd (15 questions)
 
@@ -180,6 +192,7 @@ teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
 ## Demo 4: YAML-Driven Lesson Plans
 
 ### Command
+
 ```bash
 teach lecture --lesson content/lesson-plans/week03.yml
 ```
@@ -187,6 +200,7 @@ teach lecture --lesson content/lesson-plans/week03.yml
 ### What You'll See
 
 1. **Lesson Plan Loading**
+
    ```
    🎓 Scholar Enhancement - YAML-Driven Content Generation
 
@@ -199,6 +213,7 @@ teach lecture --lesson content/lesson-plans/week03.yml
    ```
 
 2. **Lesson Plan Structure**
+
    ```
    📚 Lesson Plan Structure:
       ✓ 4 learning objectives (understand → apply → analyze)
@@ -209,6 +224,7 @@ teach lecture --lesson content/lesson-plans/week03.yml
    ```
 
 3. **Content Generation Based on Plan**
+
    ```
    🎯 Content Generation Based on Plan:
       • Using OLS derivation activity (20 min, step-by-step)
@@ -218,6 +234,7 @@ teach lecture --lesson content/lesson-plans/week03.yml
    ```
 
 4. **Generated Lecture Outline**
+
    ```
    📝 Generating Lecture Outline:
       ✓ Opening: Review correlation, introduce regression (5 min)
@@ -228,6 +245,7 @@ teach lecture --lesson content/lesson-plans/week03.yml
    ```
 
 5. **Output Summary**
+
    ```
    ✅ Generated: lectures/week03-linear-regression.qmd (2,847 words)
 
@@ -253,6 +271,7 @@ teach lecture --lesson content/lesson-plans/week03.yml
 - Teaching method preferences encoded
 
 **Example YAML Structure:**
+
 ```yaml
 week: 3
 title: "Introduction to Linear Regression"
@@ -282,11 +301,13 @@ teaching_style_overrides:
 ## Using the Demo Course
 
 ### Location
+
 ```bash
 cd ~/projects/teaching/scholar-demo-course
 ```
 
 ### Structure
+
 ```
 scholar-demo-course/
 ├── .flow/
@@ -330,20 +351,25 @@ When you run `teach` commands in this directory, Scholar uses this configuration
 ## Common Patterns Across All Demos
 
 ### 1. Header Format
+
 All demos show:
+
 ```
 🎓 Scholar Enhancement - [Action]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ### 2. Progress Indicators
+
 Checkmarks for completed steps:
+
 ```
 ✓ Task completed
 • Bullet point
 ```
 
 ### 3. Emoji Categories
+
 - 🎓 Scholar Enhancement
 - 📝 Content/Structure
 - 📊 Data/Sections
@@ -351,12 +377,14 @@ Checkmarks for completed steps:
 - ✅ Success/Completion
 
 ### 4. Color Coding
+
 - Headers: Bold
 - Section names: Blue/Purple
 - Values: Default
 - Success: Green checkmarks
 
 ### 5. Output Summary Format
+
 ```
 ✅ Generated: path/to/file.qmd (word count)
 
@@ -374,6 +402,7 @@ Checkmarks for completed steps:
 **Problem:** `teach: command not found`
 
 **Solution:**
+
 ```bash
 # Load flow-cli first
 cd /Users/dt/.git-worktrees/flow-cli/feature/teaching-flags
@@ -385,6 +414,7 @@ source flow.plugin.zsh
 **Problem:** "Not in a teaching project directory"
 
 **Solution:**
+
 ```bash
 # Navigate to teaching course first
 cd ~/projects/teaching/scholar-demo-course
@@ -408,21 +438,25 @@ The demos use simulated output, but real commands require:
 ## Next Demos (Coming Soon)
 
 ### Demo 5: Interactive Mode
+
 - Shows wizard-style question prompts
 - User answers guide content generation
 - Step-by-step workflow
 
 ### Demo 6: Revision Workflow
+
 - Takes existing content file
 - Applies feedback/improvements
 - Shows before/after
 
 ### Demo 7: Week-Based Generation
+
 - Uses `--week 5` flag
 - Auto-detects topic from config
 - Generates for specific week
 
 ### Demo 8: Context Integration
+
 - Includes course materials
 - References readings and datasets
 - Shows context-aware generation

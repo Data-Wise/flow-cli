@@ -68,6 +68,7 @@ graph TB
 #### Implementation Options
 
 **Option A: Direct Hook in teach-dates.zsh (Recommended)**
+
 ```zsh
 # In _teach_dates_sync() after successful date updates
 _teach_dates_sync() {
@@ -97,6 +98,7 @@ _teach_dates_sync() {
 - Hidden behavior (could surprise users)
 
 **Option B: Explicit Flag**
+
 ```zsh
 teach dates sync --regenerate-dashboard
 ```
@@ -120,6 +122,7 @@ teach dates sync --regenerate-dashboard
 #### Implementation Options
 
 **Option A: Pre-deploy Check (Recommended)**
+
 ```zsh
 _teach_deploy() {
     # ... existing checks ...
@@ -239,6 +242,7 @@ _teach_scholar_lecture() {
 #### Option A: Quarto Resource (Recommended)
 
 Add to `_quarto.yml`:
+
 ```yaml
 project:
   resources:
@@ -251,6 +255,7 @@ project:
 - No custom script needed
 
 **Client JS:**
+
 ```javascript
 fetch('.flow/semester-data.json')
     .then(res => res.json())
@@ -462,11 +467,13 @@ teach() {
 - File already 3161 lines (getting large)
 
 **Option B: Separate file (Recommended)**
+
 ```
 lib/dispatchers/teach-dashboard-impl.zsh
 ```
 
 Load in teach-dispatcher.zsh:
+
 ```zsh
 if [[ -z "$_FLOW_TEACH_DASHBOARD_LOADED" ]]; then
     local dashboard_path="${0:A:h}/teach-dashboard-impl.zsh"
@@ -741,6 +748,7 @@ _teach_dashboard_generate() {
 #### Optimization Strategies
 
 **1. Lazy Loading**
+
 ```zsh
 # Only load dashboard code if needed
 if [[ "$1" == "dashboard" ]]; then
@@ -749,6 +757,7 @@ fi
 ```
 
 **2. Caching**
+
 ```zsh
 # Cache parsed config (already exists via config-validator.zsh)
 _TEACH_CONFIG_CACHE=""
@@ -762,6 +771,7 @@ _get_cached_config() {
 ```
 
 **3. Minimize yq/jq Calls**
+
 ```zsh
 # Bad: Multiple yq calls
 weeks=$(yq '.semester_info.weeks' .flow/teach-config.yml)
@@ -936,6 +946,7 @@ test_dates_sync_regenerates_dashboard() {
 ### Phase 2 Features (v5.16.0+)
 
 #### 1. Scholar Auto-Update
+
 ```bash
 # When Scholar creates content, update config
 teach lecture "Topic" --week 5
@@ -944,6 +955,7 @@ teach lecture "Topic" --week 5
 ```
 
 #### 2. Multi-Course Dashboard
+
 ```bash
 # Support multiple courses in one repo
 teach dashboard generate --course stat545
@@ -951,6 +963,7 @@ teach dashboard generate --course stat440
 ```
 
 #### 3. Dashboard Analytics
+
 ```bash
 # Track what students are viewing
 teach dashboard analytics
@@ -958,12 +971,14 @@ teach dashboard analytics
 ```
 
 #### 4. Custom Themes
+
 ```bash
 # User-provided templates
 teach dashboard generate --theme custom.json
 ```
 
 #### 5. Announcement Templates
+
 ```bash
 # Pre-defined announcement types
 teach dashboard announce --template exam

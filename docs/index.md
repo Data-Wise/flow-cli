@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v5.17.0--dev-blue)](https://github.com/Data-Wise/flow-cli/releases)
+[![Version](https://img.shields.io/badge/version-v5.18.0--dev-blue)](https://github.com/Data-Wise/flow-cli/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -22,12 +22,59 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ---
 
-## ✨ What's New in v5.17.0
+## ✨ What's New in v5.18.0
 
-!!! success "Token Automation Phase 1 - Smart Caching & Isolated Checks"
+!!! success "Documentation Consolidation & API Coverage Improvement"
+    Simplified documentation structure (66 → 7 files) with comprehensive API coverage (+411% increase)
+
+### 📚 Documentation Consolidation
+
+**Major Restructure for Clarity:**
+- **📄 Master Documents** - 7 comprehensive guides replace 66 scattered files (95% reduction)
+- **🗺️ Navigation** - Simplified from 71 → 9 entries (92% reduction)
+- **🔗 Link Health** - Fixed 54 critical broken links across hub files
+- **📦 Archive** - 66 legacy files preserved in `.archive/` with migration map
+- **✅ Quality** - Created `.linkcheck-ignore` for expected patterns, zero stale docs
+
+**Master Documents Created:**
+1. `MASTER-API-REFERENCE.md` - Complete API documentation (5,000+ lines)
+2. `MASTER-DISPATCHER-GUIDE.md` - All 12 dispatchers (3,000+ lines)
+3. `MASTER-ARCHITECTURE.md` - System design with 11+ Mermaid diagrams
+4. `QUICK-REFERENCE.md` - Single-page command lookup
+5. `WORKFLOWS.md` - Real-world workflow patterns
+6. `TROUBLESHOOTING.md` - Common issues & solutions
+7. `00-START-HERE.md` - Documentation hub
+
+### 📊 API Documentation Improvement
+
+**Coverage Expansion (Phases 1-4):**
+- **Phase 1**: Token automation (30 functions) - v5.17.0 complete documentation
+- **Phase 2**: Teaching libraries (32 functions) - AI analysis, caching, reports
+- **Phase 3**: Git helpers (14 functions) - Teaching workflow integration
+- **Phase 4**: Keychain helpers (7 functions) - macOS secret management
+- **Total**: 83 new functions documented (+411% increase: 2.7% → 13.8%)
+
+**Documentation Quality:**
+- Comprehensive parameter documentation
+- Return value specifications
+- Performance metrics included
+- Usage examples for all functions
+- Integration notes and side effects
+
+[→ Master API Reference](reference/MASTER-API-REFERENCE.md){ .md-button .md-button--primary }
+[→ Master Dispatcher Guide](reference/MASTER-DISPATCHER-GUIDE.md){ .md-button }
+[→ Documentation Dashboard](DOC-DASHBOARD.md){ .md-button }
+
+---
+
+## Previous Releases
+
+### v5.17.0 - Token Automation Phase 1
+
+!!! success "Smart Caching & Isolated Checks"
     20x faster token validation with intelligent caching and ADHD-friendly workflows
 
-### 🔐 Token Automation (doctor --dot)
+#### 🔐 Token Automation (doctor --dot)
 
 **Smart Token Management with Performance Boost:**
 - **⚡ Isolated Checks** - `doctor --dot` validates only tokens (< 3s vs 60+ seconds)
@@ -38,6 +85,7 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 - **🔗 9-Dispatcher Integration** - Validates tokens before git operations, shows status in dashboards
 
 **Commands:**
+
 ```bash
 doctor --dot              # Quick token check (< 3s, cached)
 doctor --dot=github       # Check specific provider
@@ -53,12 +101,7 @@ doctor --dot --verbose    # Debug with cache status
 - API call reduction: 80% via smart caching
 
 [→ Token Automation User Guide](guides/DOCTOR-TOKEN-USER-GUIDE.md){ .md-button .md-button--primary }
-[→ Token Quick Reference](reference/REFCARD-TOKEN.md){ .md-button }
-[→ Token API Reference](reference/DOCTOR-TOKEN-API-REFERENCE.md){ .md-button }
-
----
-
-## Previous Releases
+[→ Token API Reference](reference/.archive/DOCTOR-TOKEN-API-REFERENCE.md){ .md-button }
 
 ### v5.16.0 - Intelligent Content Analysis
 
@@ -76,6 +119,7 @@ doctor --dot --verbose    # Debug with cache status
 - **📝 Reports** - JSON/Markdown reports for course-wide analysis
 
 **Commands:**
+
 ```bash
 teach analyze lectures/week-05.qmd           # Single file analysis
 teach analyze --batch lectures/              # Parallel batch analysis
@@ -95,7 +139,7 @@ teach validate --deep                        # Prerequisite validation
 - **Test Suite** - 31 new tests for optimization validation (100% passing)
 
 [→ Plugin Optimization Tutorial](tutorials/22-plugin-optimization.md){ .md-button }
-[→ Optimization Quick Reference](reference/REFCARD-OPTIMIZATION.md){ .md-button }
+[→ Optimization Quick Reference](reference/.archive/REFCARD-OPTIMIZATION.md){ .md-button }
 
 ---
 
@@ -185,7 +229,7 @@ Not sure where to start? Pick what fits you best:
 
     Quick reference for commands
 
-    [→ Reference](reference/COMMAND-QUICK-REFERENCE.md)
+    [→ Reference](help/QUICK-REFERENCE.md)
 
 -   :mortar_board: { .lg .middle }
     **Teaching System**
@@ -395,7 +439,7 @@ Commands that adapt to your project:
 
     Complete command reference
 
-    [→ Reference](reference/COMMAND-QUICK-REFERENCE.md)
+    [→ Reference](help/QUICK-REFERENCE.md)
 
 -   :teacher: { .lg .middle }
     **Teaching Commands**

@@ -25,6 +25,7 @@ updated: 2025-12-17     # Last update date
 ```
 
 **Valid statuses:**
+
 | Status | Meaning |
 |--------|---------|
 | `active` | Currently working on |

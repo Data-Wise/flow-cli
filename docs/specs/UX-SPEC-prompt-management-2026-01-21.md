@@ -789,26 +789,31 @@ teach lecture "Topic"
 ## 💡 UX Best Practices Applied
 
 ### 1. Progressive Disclosure
+
 - Show simple options first (g/l)
 - Detailed explanation on demand (diff)
 - Advanced features hidden until needed (merge)
 
 ### 2. Clear Defaults
+
 - Recommend based on context (global for new prompts)
 - Always allow override (never force)
 - Show rationale (why this default?)
 
 ### 3. Reversibility
+
 - Backup before overwrite (promote with backup)
 - Restore command available (teach prompt restore)
 - Diff before merge (show what changes)
 
 ### 4. Visual Hierarchy
+
 - Boxes for important decisions (╔═══╗)
 - Colors for status (✅ ⚠️ ❌)
 - Indentation for sub-items
 
 ### 5. Context-Aware Help
+
 - Next steps after actions (test, commit, promote)
 - Tips at decision points (💡 Tip: ...)
 - Warnings before destructive actions (⚠️ Warning: ...)

@@ -10,26 +10,31 @@
 ## Table of Contents
 
 ### Phase 1: Foundation (Complete)
+
 1. [Course Planning Overview](#1-course-planning-overview) ✅
 2. [Backward Design Principles](#2-backward-design-principles) ✅
 
 ### Phase 2: Assessment & Outcomes (Future)
-3. [Bloom's Taxonomy Integration](#3-blooms-taxonomy-integration) 🚧
-4. [Syllabus Design](#4-syllabus-design) 🚧
-5. [Assessment Design](#5-assessment-design) 🚧
+
+1. [Bloom's Taxonomy Integration](#3-blooms-taxonomy-integration) 🚧
+2. [Syllabus Design](#4-syllabus-design) 🚧
+3. [Assessment Design](#5-assessment-design) 🚧
 
 ### Phase 3: Planning & Content (Future)
-6. [Grading Schema Design](#6-grading-schema-design) 🚧
-7. [Lesson Planning](#7-lesson-planning) 🚧
-8. [Content Creation with Scholar](#8-content-creation-with-scholar) 🚧
+
+1. [Grading Schema Design](#6-grading-schema-design) 🚧
+2. [Lesson Planning](#7-lesson-planning) 🚧
+3. [Content Creation with Scholar](#8-content-creation-with-scholar) 🚧
 
 ### Phase 4: Workflows & Timeline (Future)
-9. [Course Timeline](#9-course-timeline) 🚧
-10. [Semester Maintenance](#10-semester-maintenance) 🚧
-11. [Quality Assurance](#11-quality-assurance) 🚧
-12. [Continuous Improvement](#12-continuous-improvement) 🚧
+
+1. [Course Timeline](#9-course-timeline) 🚧
+2. [Semester Maintenance](#10-semester-maintenance) 🚧
+3. [Quality Assurance](#11-quality-assurance) 🚧
+4. [Continuous Improvement](#12-continuous-improvement) 🚧
 
 ### Appendices
+
 - [A. Complete Course Templates](#appendix-a-complete-course-templates)
 - [B. Alignment Matrix Templates](#appendix-b-alignment-matrix-templates)
 - [C. Research Citations](#appendix-c-research-citations)
@@ -53,18 +58,21 @@ This guide synthesizes educational research on course design with practical impl
 ## How to Use This Guide
 
 ### For First-Time Course Design
+
 1. Read Sections 1-2 (Course Planning Overview + Backward Design)
 2. Follow STAT 545 walkthrough in Section 2.5
 3. Use templates in Appendix A as starting points
 4. Implement using flow-cli commands documented in Section 8
 
 ### For Course Redesign
+
 1. Start with Section 5 (Assessment Design) to audit alignment
 2. Review Section 3 (Bloom's Taxonomy) to upgrade learning outcomes
 3. Use Section 7 (Lesson Planning) to restructure weekly content
 4. Apply Section 12 (Continuous Improvement) for data-driven changes
 
 ### For Specific Tasks
+
 - **Writing learning outcomes** → Section 3.4
 - **Creating assessments** → Section 5.3-5.5
 - **Planning semester timeline** → Section 9
@@ -168,6 +176,7 @@ timeline
 3. **Create syllabus** with policies and grading schema
 
 **flow-cli commands:**
+
 ```bash
 # Initialize course structure
 teach init "STAT 545" --config department-template.yml
@@ -200,6 +209,7 @@ teach doctor --fix
 4. **Build course website**
 
 **flow-cli commands:**
+
 ```bash
 # Create lesson plan structure
 vim lesson-plan.yml
@@ -234,6 +244,7 @@ teach quiz "Week 3 Quiz" --topics "Probability, Distributions"
 3. **Final validation** of environment
 
 **flow-cli commands:**
+
 ```bash
 # Preview deployment changes
 teach deploy  # Shows diff, asks for confirmation
@@ -264,6 +275,7 @@ teach doctor
 3. **Mid-semester check-in** (alignment verification)
 
 **flow-cli commands:**
+
 ```bash
 # Weekly workflow
 work stat-545
@@ -298,6 +310,7 @@ teach exam "Final Exam" --scope "Weeks 1-16"
 4. **Archive semester** (keep important changes, remove drafts)
 
 **flow-cli commands:**
+
 ```bash
 # Archive semester
 teach backup archive "Spring 2026"
@@ -438,6 +451,7 @@ teach doctor
 - ✅ Scholar integration (API keys, config)
 
 **Interactive fix mode:**
+
 ```bash
 teach doctor --fix
 # Prompts to install missing dependencies
@@ -478,6 +492,7 @@ teach doctor --fix
 **Solution:** Design assessments in Phase 1 (8 weeks before semester)
 
 **flow-cli workflow:**
+
 ```bash
 # Week -8: Design all assessments
 teach exam "Midterm 1" --scope "Weeks 1-8"
@@ -502,6 +517,7 @@ teach exam "Final Exam" --scope "Weeks 1-16"
 **Solution:** Create alignment matrix (see Section 5.6)
 
 **Example:**
+
 | Outcome | Assessment Type | Bloom's Level |
 |---------|----------------|---------------|
 | Analyze data distributions | Homework #2, Midterm Q4-6 | Analyze (L4) |
@@ -537,11 +553,13 @@ teach exam "Final Exam" --scope "Weeks 1-16"
 ### The Core Idea
 
 Traditional course design is **forward-thinking**:
+
 ```
 Content → Activities → Assessment → Hope for learning
 ```
 
 Backward design is **outcome-focused**:
+
 ```
 Learning Goals → Assessment → Activities → Guaranteed learning
 ```
@@ -628,6 +646,7 @@ Wiggins & McTighe distinguish three levels:
 4. **Limit to 3-5 outcomes** (cognitive load)
 
 **Template:**
+
 ```
 Students will be able to [ACTION VERB] [OBJECT] in order to [PURPOSE/CONTEXT].
 ```
@@ -857,6 +876,7 @@ analyze it. They need recommendations before their board meeting in 3 weeks.
 **Best practice:** Use formative assessment **before** summative assessment
 
 **Example progression:**
+
 ```
 Week 1-2: Formative
 ├── Exit ticket: "What's one thing you're confused about?"
@@ -1256,6 +1276,7 @@ Each homework targets 1-2 learning outcomes and progressively builds skills:
 - **Assessment type:** Performance task (mini-project)
 
 **Progression pattern:**
+
 ```
 HW1 (Intro) → HW2 (Reinforce) → HW3 (Intro) → HW4 (Reinforce) → Project (Master)
    |              |                 |              |                    |
@@ -2305,6 +2326,7 @@ This appendix provides three complete course templates demonstrating different c
 - **M** = Mastered (expected proficiency, major assessment)
 
 **Usage:**
+
 ```yaml
 # teach-config.yml
 assessment_alignment:
@@ -2370,6 +2392,7 @@ assessment_alignment:
 ## Core Teaching Workflow Commands
 
 **Course Setup:**
+
 ```bash
 teach init <course-name>           # Initialize course structure
 teach init --config template.yml  # Use department template
@@ -2380,6 +2403,7 @@ teach status                       # Show course overview
 ```
 
 **Content Creation with Scholar:**
+
 ```bash
 # Lectures & slides
 teach lecture "Week 5: Regression" --template quarto
@@ -2394,6 +2418,7 @@ teach assignment "HW3: Data Wrangling" --template markdown
 ```
 
 **Deployment:**
+
 ```bash
 teach deploy                       # Preview changes, create PR
 teach deploy --skip-preview        # Deploy without preview
@@ -2401,6 +2426,7 @@ teach status                       # Check deployment status
 ```
 
 **Backup Management:**
+
 ```bash
 teach backup list                  # Show all backups
 teach backup view <timestamp>      # View specific backup
@@ -2410,6 +2436,7 @@ teach backup archive "Spring 2026"        # Archive semester
 ```
 
 **Git Integration:**
+
 ```bash
 teach git status                   # Enhanced git status for teaching projects
 teach git deploy "Add Week 5"      # Commit + push + PR to production

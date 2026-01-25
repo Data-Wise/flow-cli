@@ -12,6 +12,7 @@ pick [PROJECT-NAME]
 ```
 
 **Quick examples:**
+
 ```bash
 # Show all projects
 pick
@@ -87,6 +88,7 @@ pick
 ```
 
 **Output:**
+
 ```
 📦 rmediation
 📦 medfit
@@ -106,6 +108,7 @@ pick dev
 ```
 
 **Output:**
+
 ```
 🔧 flow-cli
 🔧 atlas
@@ -124,6 +127,7 @@ pick flow
 ```
 
 **Output:**
+
 ```
 📁 /Users/dt/projects/dev-tools/flow-cli
 ```
@@ -243,6 +247,7 @@ When you run `pick` without arguments and have a recent session (< 24 hours):
 | `FZF_DEFAULT_OPTS` | (various) | Custom FZF options |
 
 **Example:**
+
 ```bash
 export FLOW_PROJECTS_ROOT="$HOME/work"
 pick
@@ -288,6 +293,7 @@ PROJ_CATEGORIES=(
 **Cause:** `FLOW_PROJECTS_ROOT` not set or points to wrong directory
 
 **Solution:**
+
 ```bash
 # Check current setting
 echo $FLOW_PROJECTS_ROOT
@@ -305,6 +311,7 @@ export FLOW_PROJECTS_ROOT="$HOME/projects"
 **Cause:** Projects lack detection markers (.STATUS, DESCRIPTION, package.json, etc.)
 
 **Solution:**
+
 ```bash
 # Add .STATUS file to project
 cd missing-project
@@ -320,6 +327,7 @@ echo "status: active" > .STATUS
 **Cause:** FZF version too old or custom FZF_DEFAULT_OPTS conflict
 
 **Solution:**
+
 ```bash
 # Update FZF
 brew upgrade fzf

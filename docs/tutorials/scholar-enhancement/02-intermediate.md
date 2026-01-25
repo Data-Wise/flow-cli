@@ -105,6 +105,7 @@ teach slides -w 8
 5. Generates slides
 
 **Comparison:**
+
 ```bash
 # Without lesson plan (long command)
 teach slides "Multiple Regression" --style computational
@@ -135,6 +136,7 @@ teach slides -w 8 --style rigorous
 ```
 
 **Precedence:**
+
 ```
 Command-line style > Lesson plan style > No style
 ```
@@ -152,6 +154,7 @@ teach slides -w 12
 ```
 
 **Fallback Flow:**
+
 ```mermaid
 graph TD
     A[teach slides -w 12] --> B{Lesson plan\nexists?}
@@ -166,6 +169,7 @@ graph TD
 ```
 
 **Example Prompt:**
+
 ```
 ⚠️  No lesson plan found for Week 12
 
@@ -274,18 +278,21 @@ Your choice [1-4]: 2
 You can skip either wizard by providing flags.
 
 **Skip topic wizard (week known):**
+
 ```bash
 teach exam -i -w 8
 # → Shows style menu only
 ```
 
 **Skip style wizard (style known):**
+
 ```bash
 teach quiz -i --style rigorous
 # → Shows topic menu only
 ```
 
 **Skip both (just use interactive flag for verbose output):**
+
 ```bash
 teach lecture -i -w 8 --style computational
 # → No menus, proceeds with provided values
@@ -341,6 +348,7 @@ You've mastered intermediate Scholar features!
 ## Lesson Plan Best Practices
 
 ### 1. Organize by Week
+
 ```
 .flow/lesson-plans/
 ├── week-01.yml
@@ -366,12 +374,14 @@ You've mastered intermediate Scholar features!
 Choose styles that match your teaching philosophy:
 
 **Theory Course:**
+
 ```yaml
 style: rigorous  # Most weeks
 # Occasionally use conceptual for intro weeks
 ```
 
 **Applied Course:**
+
 ```yaml
 style: computational  # Most weeks
 # Occasionally use applied for case studies
@@ -386,6 +396,7 @@ Lesson plans are version-controlled with your course. Use them semester after se
 ## Common Patterns
 
 ### Pattern 1: Semester Setup
+
 ```bash
 # Create all 16 lesson plans at start of semester
 for week in {01..16}; do
@@ -400,6 +411,7 @@ done
 ```
 
 ### Pattern 2: Quick Generation
+
 ```bash
 # Generate week's content in one command
 teach slides -w 8   # Uses lesson plan
@@ -408,6 +420,7 @@ teach quiz -w 8     # Consistent across materials
 ```
 
 ### Pattern 3: Interactive Exploration
+
 ```bash
 # Explore different weeks without memorizing numbers
 teach lecture -i

@@ -13,6 +13,7 @@
 ### Testing
 
 1. **Verify files are in place:**
+
    ```bash
    ls -la lib/templates/teaching/claude-prompts/
    ```
@@ -23,6 +24,7 @@
    - Tables should render correctly
 
 3. **Integration test with teach dispatcher:**
+
    ```bash
    # Verify teach init includes new templates
    flow teach init --dry-run
@@ -33,12 +35,14 @@
 These prompts are used in two ways:
 
 1. **With Scholar Plugin:**
+
    ```bash
    /teaching:lecture "Topic"   # Uses lecture-notes.md structure
    /teaching:slides "Topic"    # Uses revealjs-slides.md structure
    ```
 
 2. **Standalone Reference:**
+
    ```
    Claude, create lecture notes following the structure in
    lib/templates/teaching/claude-prompts/lecture-notes.md
@@ -69,6 +73,7 @@ After this PR is merged, consider:
    - `rubric.md` - Grading rubrics
 
 2. **teach-dispatcher integration:**
+
    ```bash
    flow teach prompt lecture     # Display lecture prompt
    flow teach prompt slides      # Display slides prompt
@@ -76,6 +81,7 @@ After this PR is merged, consider:
    ```
 
 3. **Validation command:**
+
    ```bash
    flow teach validate-style     # Validate teaching-style.local.md
    ```

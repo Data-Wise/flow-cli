@@ -60,11 +60,13 @@ rm -f "$temp_err"
 ```
 
 ### Pros
+
 - Minimal change, low risk
 - Fixes the immediate issue
 - Keeps existing cache system
 
 ### Cons
+
 - Doesn't simplify architecture
 - Still has the subshell export problem
 - Cache can still get out of sync
@@ -78,6 +80,7 @@ rm -f "$temp_err"
 **Changes:** 2 files
 
 ### Philosophy
+
 Trust `bw` CLI to handle session management. Remove custom cache layer.
 
 ### Changes
@@ -99,17 +102,20 @@ _dot_bw_session_valid() {
 ```
 
 ### Remove
+
 - `_dot_session_cache_*` functions (all 6)
 - `DOT_SESSION_*` variables
 - `~/.cache/dot/session` file
 
 ### Pros
+
 - Much simpler code (~100 lines removed)
 - Uses native BW session handling
 - No cache sync issues
 - Aligns with how users expect `bw` to work
 
 ### Cons
+
 - Loses 15-min idle timeout feature
 - User must manually export BW_SESSION
 - Loses session time remaining display
@@ -123,6 +129,7 @@ _dot_bw_session_valid() {
 **Changes:** 2 files
 
 ### Philosophy
+
 Thin wrapper that helps the user but doesn't fight the system.
 
 ### Key Changes
@@ -172,12 +179,14 @@ _dot_bw_session_valid() {
 ```
 
 ### Pros
+
 - Simpler than current (~50 lines removed)
 - Actually works with parent shell
 - Still provides nice UX
 - Falls back gracefully
 
 ### Cons
+
 - No idle timeout feature
 - No session time remaining display
 
@@ -190,6 +199,7 @@ _dot_bw_session_valid() {
 **Changes:** 2 files
 
 ### Philosophy
+
 `dot unlock` just runs `bw unlock`. Period.
 
 ```zsh
@@ -209,13 +219,16 @@ _dot_bw_session_valid() {
 ```
 
 ### Remove Everything Else
+
 - All `_dot_session_cache_*` functions
 - All `DOT_SESSION_*` variables
 - Session time remaining display
 - Custom status checking
 
 ### Update Commands That Check Session
+
 Replace `if ! _dot_bw_session_valid; then` with:
+
 ```zsh
 if ! bw unlock --check &>/dev/null; then
     _flow_log_error "Vault locked. Run: bw unlock"
@@ -224,12 +237,14 @@ fi
 ```
 
 ### Pros
+
 - Maximum simplicity (~150 lines removed)
 - Zero custom session handling
 - Uses native BW completely
 - Most reliable
 
 ### Cons
+
 - Loses all custom UX (time remaining, idle timeout)
 - Less "flow-cli" integrated
 - User sees raw `bw` output
@@ -239,9 +254,11 @@ fi
 ## Recommendation
 
 ### For Quick Fix: **Plan A**
+
 If you just want `dot unlock` to work NOW, fix the `2>&1` bug.
 
 ### For Long-Term: **Plan C** (Smart Wrapper)
+
 Best balance of simplicity and UX:
 - Removes complex cache system
 - Fixes the actual export problem
@@ -249,6 +266,7 @@ Best balance of simplicity and UX:
 - Falls back gracefully
 
 ### For Maximum Reliability: **Plan D**
+
 If you're frustrated with the custom layer:
 - Delete all custom code
 - Just use `bw unlock` directly
@@ -342,6 +360,7 @@ security delete-generic-password \
 **Changes:** New file + dispatcher updates
 
 ### Philosophy
+
 Use macOS native Keychain for local secrets. Keep Bitwarden for cross-device sync, use Keychain for daily local operations.
 
 ### New Commands
@@ -456,6 +475,7 @@ _dot_get_secret() {
 ```
 
 ### Pros
+
 - **Instant access** - No unlock step for daily use
 - **Native security** - macOS handles encryption, Touch ID
 - **Offline** - Works without network
@@ -464,6 +484,7 @@ _dot_get_secret() {
 - **Simple code** - Just `security` command calls
 
 ### Cons
+
 - **macOS only** - No Linux/Windows support
 - **Separate storage** - Not synced with Bitwarden
 - **Migration effort** - One-time import needed
@@ -485,6 +506,7 @@ dot secret sync          # Sync specific secrets from BW → Keychain
 ## Updated Recommendation
 
 ### For macOS Users: **Plan E** (Keychain)
+
 Best for daily local workflow:
 - Instant secret access
 - No unlock dance
@@ -492,9 +514,11 @@ Best for daily local workflow:
 - Automatic screen lock integration
 
 ### For Cross-Platform: **Plan C** (Smart Wrapper)
+
 If you need Linux/Windows support, fix the BW integration.
 
 ### For Quick Fix: **Plan A**
+
 Just fix the `2>&1` bug if you want minimal change.
 
 ---

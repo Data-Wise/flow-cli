@@ -27,12 +27,14 @@ This guide helps you migrate from Teaching Workflow v2.x to v3.0, covering all b
 ### 1. teach-init Command Removed
 
 **v2.x:**
+
 ```bash
 teach-init                    # Standalone command
 teach-init --help             # Help for init
 ```
 
 **v3.0:**
+
 ```bash
 teach init                    # Now part of teach dispatcher
 teach init --help             # Help via dispatcher
@@ -49,12 +51,14 @@ teach init --config custom.yml --github   # New flags
 ### 2. Help System Changes
 
 **v2.x:**
+
 ```bash
 teach exam                    # No built-in help
 teach --help                  # General help only
 ```
 
 **v3.0:**
+
 ```bash
 teach exam --help             # Command-specific help with examples
 teach quiz --help             # Each command has detailed help
@@ -115,6 +119,7 @@ teach doctor --fix
 **Purpose:** Protect your teaching content with automatic backups.
 
 **How It Works:**
+
 ```bash
 # Generate content (auto-creates backup)
 teach exam "Topic" --output exams/midterm-1.pdf
@@ -179,11 +184,13 @@ teach status
 **Purpose:** Review changes before creating PR.
 
 **v2.x:**
+
 ```bash
 teach deploy    # Immediately creates PR
 ```
 
 **v3.0:**
+
 ```bash
 teach deploy
 
@@ -221,11 +228,13 @@ teach deploy
 **Purpose:** Use different output templates for different needs.
 
 **v2.x:**
+
 ```bash
 teach exam "Topic"    # Default template only
 ```
 
 **v3.0:**
+
 ```bash
 # Default template
 teach exam "Topic"
@@ -340,6 +349,7 @@ teach init --config template.yml --github
 ### Migration Steps
 
 1. **Update flow-cli:**
+
    ```bash
    # Via Homebrew
    brew update && brew upgrade flow-cli
@@ -351,6 +361,7 @@ teach init --config template.yml --github
    ```
 
 2. **Replace teach-init:**
+
    ```bash
    # Find all uses
    grep -r "teach-init" ~/projects/teaching/
@@ -360,6 +371,7 @@ teach init --config template.yml --github
    ```
 
 3. **Run teach doctor:**
+
    ```bash
    cd ~/projects/teaching/your-course
    teach doctor
@@ -368,6 +380,7 @@ teach init --config template.yml --github
    Fix any issues reported.
 
 4. **Review Config:**
+
    ```bash
    teach status
    ```
@@ -391,6 +404,7 @@ teach init --config template.yml --github
    Create `lesson-plan.yml` with your course structure.
 
 7. **Test Workflows:**
+
    ```bash
    # Test generation
    teach exam "Test Topic" --dry-run
@@ -456,6 +470,7 @@ workflow:
 **Problem:** `teach-init: command not found`
 
 **Solution:**
+
 ```bash
 # Replace with:
 teach init
@@ -470,6 +485,7 @@ teach init
 **Problem:** `teach doctor` reports config validation errors
 
 **Solution:**
+
 ```bash
 # Check config syntax
 yq eval .flow/teach-config.yml
@@ -490,6 +506,7 @@ teach status
 **Problem:** `.backups/` folders consuming disk space
 
 **Solution:**
+
 ```bash
 # Check backup sizes
 du -sh lectures/.backups/
@@ -537,24 +554,28 @@ workflow:
 ## 🎯 Recommended Adoption Path
 
 ### Week 1: Core Migration
+
 1. Update flow-cli to v3.0
 2. Replace `teach-init` with `teach init`
 3. Run `teach doctor` to validate setup
 4. Review `teach status` for new information
 
 ### Week 2: Backup System
+
 1. Configure retention policies
 2. Test backup creation with sample content
 3. Verify backup structure
 4. Update team documentation
 
 ### Week 3: Enhanced Features
+
 1. Create `lesson-plan.yml`
 2. Test template selection
 3. Try deploy preview workflow
 4. Update deployment scripts
 
 ### Week 4: Optimization
+
 1. Fine-tune backup retention
 2. Customize templates
 3. Integrate `teach doctor` into CI/CD

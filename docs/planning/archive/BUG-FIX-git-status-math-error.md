@@ -56,7 +56,7 @@ untracked="${untracked%%*( )}"
 [[ "$untracked" =~ ^[0-9]+$ ]] || untracked=0
 ```
 
-### How it works:
+### How it works
 
 1. Strip leading/trailing whitespace using ZSH parameter expansion
 2. Validate the value matches the regex `^[0-9]+$` (one or more digits)

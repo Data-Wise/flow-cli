@@ -96,32 +96,32 @@
 
 #### Claude Configuration
 
-6. **~/.claude/PROMPT-MODES-GUIDE.md** - Updated with background modes (v3.0)
-7. **~/.claude/GLOW-RESPONSE-VIEWER-REFCARD.md** - Response viewer quick ref
-8. **~/.claude/RESPONSE-VIEWER-IMPLEMENTATION.md** - Implementation summary
-9. **~/.claude/BACKGROUND-AGENT-ANALYSIS.md** - Background agent analysis
-10. **~/.claude/PHASE-1-BACKGROUND-AGENTS-SUMMARY.md** - Phase 1 complete summary
+1. **~/.claude/PROMPT-MODES-GUIDE.md** - Updated with background modes (v3.0)
+2. **~/.claude/GLOW-RESPONSE-VIEWER-REFCARD.md** - Response viewer quick ref
+3. **~/.claude/RESPONSE-VIEWER-IMPLEMENTATION.md** - Implementation summary
+4. **~/.claude/BACKGROUND-AGENT-ANALYSIS.md** - Background agent analysis
+5. **~/.claude/PHASE-1-BACKGROUND-AGENTS-SUMMARY.md** - Phase 1 complete summary
 
 #### ZSH Functions
 
-11. **~/.config/zsh/functions/claude-response-viewer.zsh** - 420 lines (NEW)
-12. **~/.config/zsh/functions/bg-agents.zsh** - 360 lines (NEW)
-13. **~/.config/zsh/functions/fzf-helpers.zsh** - 15 interactive functions
+1. **~/.config/zsh/functions/claude-response-viewer.zsh** - 420 lines (NEW)
+2. **~/.config/zsh/functions/bg-agents.zsh** - 360 lines (NEW)
+3. **~/.config/zsh/functions/fzf-helpers.zsh** - 15 interactive functions
 
 #### Hooks & Configuration
 
-14. **~/.claude/hooks/prompt-optimizer.sh** - Extended with background modes (+120 lines)
-15. **~/.claude/settings.json** - Fixed hooks format
-16. **~/.config/zsh/.zshrc** - Sourced response viewer + bg-agents
-17. **~/.config/zsh/.zsh_plugins.txt** - Disabled z plugin
+1. **~/.claude/hooks/prompt-optimizer.sh** - Extended with background modes (+120 lines)
+2. **~/.claude/settings.json** - Fixed hooks format
+3. **~/.config/zsh/.zshrc** - Sourced response viewer + bg-agents
+4. **~/.config/zsh/.zsh_plugins.txt** - Disabled z plugin
 
 #### Delegation
 
-18. **~/projects/dev-tools/zsh-configuration/REFACTOR-RESPONSE-VIEWER.md** - Handoff doc
+1. **~/projects/dev-tools/zsh-configuration/REFACTOR-RESPONSE-VIEWER.md** - Handoff doc
 
 ### Session Meta
 
-19. **SESSION-2025-12-16-SUMMARY.md** - This file (updated)
+1. **SESSION-2025-12-16-SUMMARY.md** - This file (updated)
 
 ### Documentation Updated
 

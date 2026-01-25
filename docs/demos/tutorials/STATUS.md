@@ -162,6 +162,7 @@ ls -1 scholar-*.gif | wc -l
 ### Conversion Settings
 
 **Recommended:**
+
 ```bash
 agg \
   --cols 100 \          # Consistent width
@@ -187,9 +188,11 @@ agg \
 ## Demo Specifications
 
 ### Demo 1: Help System
+
 **File:** `scholar-01-help.cast`
 
 **Commands:**
+
 ```bash
 teach slides --help
 teach quiz --help
@@ -201,9 +204,11 @@ teach lecture --help
 ---
 
 ### Demo 2: Basic Generation
+
 **File:** `scholar-02-generate.cast`
 
 **Commands:**
+
 ```bash
 teach slides "Introduction to Statistics" --style conceptual
 ```
@@ -213,9 +218,11 @@ teach slides "Introduction to Statistics" --style conceptual
 ---
 
 ### Demo 3: Style Customization
+
 **File:** `scholar-03-customize.cast`
 
 **Commands:**
+
 ```bash
 teach quiz "Hypothesis Testing" \
   --style rigorous \
@@ -227,9 +234,11 @@ teach quiz "Hypothesis Testing" \
 ---
 
 ### Demo 4: Lesson Plans
+
 **File:** `scholar-04-lesson.cast`
 
 **Commands:**
+
 ```bash
 # Assumes week3.yml exists
 teach lecture "Regression Analysis" --lesson week3.yml
@@ -240,9 +249,11 @@ teach lecture "Regression Analysis" --lesson week3.yml
 ---
 
 ### Demo 5: Interactive Mode
+
 **File:** `scholar-05-interactive.cast`
 
 **Commands:**
+
 ```bash
 teach exam --interactive
 # Answer prompts:
@@ -257,9 +268,11 @@ teach exam --interactive
 ---
 
 ### Demo 6: Revision Workflow
+
 **File:** `scholar-06-revision.cast`
 
 **Commands:**
+
 ```bash
 teach slides "ANOVA" --output slides-v1.md
 # Edit slides-v1.md
@@ -272,9 +285,11 @@ teach slides --revise slides-v1.md \
 ---
 
 ### Demo 7: Week-Based Generation
+
 **File:** `scholar-07-week.cast`
 
 **Commands:**
+
 ```bash
 teach quiz --week 5
 # Shows auto-detected topic from teach-config.yml
@@ -285,9 +300,11 @@ teach quiz --week 5
 ---
 
 ### Demo 8: Context Integration
+
 **File:** `scholar-08-context.cast`
 
 **Commands:**
+
 ```bash
 teach assignment "Homework 3" --with-readings
 # Shows integration with course materials
@@ -334,6 +351,7 @@ gif-for-cli scholar-01-help.gif
 ### Linking GIFs in Markdown
 
 **Pattern:**
+
 ```markdown
 ![Demo: Help System](../../demos/tutorials/scholar-01-help.gif)
 
@@ -371,17 +389,20 @@ asciinema rec scholar-XX.cast
 ### GIF too large (> 500 KB)
 
 **Solution 1:** Increase compression
+
 ```bash
 gifsicle -O3 --colors 64 --lossy=90 \
   input.gif -o output.gif
 ```
 
 **Solution 2:** Reduce FPS
+
 ```bash
 agg --fps-cap 5 input.cast output.gif
 ```
 
 **Solution 3:** Trim duration
+
 ```bash
 # Edit .cast file (it's JSON)
 # Remove frames at beginning/end
@@ -390,6 +411,7 @@ agg --fps-cap 5 input.cast output.gif
 ### Poor quality after optimization
 
 **Solution:** Reduce lossy compression
+
 ```bash
 gifsicle -O3 --colors 256 --lossy=60 \
   input.gif -o output.gif

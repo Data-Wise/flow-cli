@@ -47,17 +47,20 @@ Teaching Workflow v3.0 introduces an automated backup system that creates timest
 Backups are automatically created when:
 
 1. **Scholar generates content**
+
    ```bash
    teach exam "Midterm"      # Creates backup before saving
    teach lecture "Topic"     # Creates backup before saving
    ```
 
 2. **Manual content modification** (if using backup helpers)
+
    ```bash
    _teach_backup_content lectures/week-05.qmd
    ```
 
 3. **Before deletion** (if using delete helpers)
+
    ```bash
    # Backup created automatically before delete
    ```
@@ -754,16 +757,19 @@ du -sh */.backups/* | sort -hr | head -10
 **Solutions:**
 
 1. **Archive old semester:**
+
    ```bash
    teach archive "Fall 2024"
    ```
 
 2. **Delete very old backups:**
+
    ```bash
    find . -type d -name "*.2024-*" -path "*/.backups/*" -exec rm -rf {} \;
    ```
 
 3. **Change retention policy:**
+
    ```yaml
    backups:
      retention:

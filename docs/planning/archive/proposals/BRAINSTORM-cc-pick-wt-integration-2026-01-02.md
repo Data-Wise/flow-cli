@@ -419,7 +419,7 @@ Both end up at the same place, but via different code paths.
 
 ## Documentation Needs
 
-### Current Docs Don't Clearly Explain:
+### Current Docs Don't Clearly Explain
 
 1. **`cc pick` shows worktrees by default**
    - Users might not realize worktrees appear in picker

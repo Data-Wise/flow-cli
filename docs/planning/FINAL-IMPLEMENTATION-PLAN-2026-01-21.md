@@ -249,6 +249,7 @@ For each derivation:
 
 **Practice Problems:**
 Include {{course.pedagogy.practice_problems_count[0]}}-{{course.pedagogy.practice_problems_count[1]}} problems.
+
 ```
 
 ---
@@ -322,6 +323,7 @@ _teach_lecture() {
 
 **Tasks:**
 1. Add versioning headers to 3 prompts (5 min)
+
    ```markdown
    <!--
    Version: 1.0.0
@@ -345,6 +347,7 @@ _teach_lecture() {
 
 **Tasks:**
 1. Add `teach prompt list` command (10 min)
+
    ```zsh
    _teach_prompt_list() {
        echo "📋 Available Teaching Prompts:"
@@ -361,6 +364,7 @@ _teach_lecture() {
    ```
 
 2. Add `teach prompt show <type>` command (10 min)
+
    ```zsh
    _teach_prompt_show() {
        local type="$1"
@@ -372,6 +376,7 @@ _teach_lecture() {
    ```
 
 3. Add routing to teach-dispatcher (5 min)
+
    ```zsh
    case "$1" in
        prompt) shift; _teach_prompt "$@" ;;
@@ -389,6 +394,7 @@ _teach_lecture() {
 
 **Tasks:**
 1. Create ~/.flow/prompts/ on first use (10 min)
+
    ```zsh
    _initialize_user_prompts() {
        if [[ ! -d "$HOME/.flow/prompts" ]]; then
@@ -401,6 +407,7 @@ _teach_lecture() {
    ```
 
 2. Add recovery if deleted (5 min)
+
    ```zsh
    # Detect missing ~/.flow/prompts/ and prompt restore
    if [[ ! -d "$HOME/.flow/prompts" ]]; then
@@ -426,6 +433,7 @@ _teach_lecture() {
    - Show before/after screenshots (optional)
 
 2. Add Quick Start guide (5 min)
+
    ```markdown
    ## Quick Start
 
@@ -434,15 +442,18 @@ _teach_lecture() {
       teach prompt list
       ```
 
-   2. Display a prompt:
+   1. Display a prompt:
+
       ```bash
       teach prompt show lecture
       ```
 
-   3. Generate content:
+   2. Generate content:
+
       ```bash
       teach lecture "Topic Name"
       ```
+
    ```
 
 **Deliverable:** Updated README
@@ -766,24 +777,31 @@ git commit -m "docs: initialize teaching prompts system"
 ## 🔑 Key Design Decisions (Final)
 
 ### Decision 1: teach-config.yml for Course Metadata
+
 **Rationale:** `_variables.yml` too minimal, `.STATUS` too high-level. New file gives clean separation.
 
 ### Decision 2: Editable Global Prompts
+
 **Rationale:** Power users want to customize defaults. Isolation via full copies prevents cross-course pollution.
 
 ### Decision 3: Full Copies (Not Symlinks)
+
 **Rationale:** Each course independent. Safe for git. No shared state issues.
 
 ### Decision 4: Commit .claude/prompts/ to Git
+
 **Rationale:** Share teaching style with TAs. Version control customizations.
 
 ### Decision 5: Auto-Restore with Prompt
+
 **Rationale:** Safety + visibility. User confirms restore vs manual fix.
 
 ### Decision 6: Named Collections
+
 **Rationale:** Organize prompts by level/topic. Stats-101 vs Stats-Advanced.
 
 ### Decision 7: Template Rendering from teach-config.yml
+
 **Rationale:** Course-aware generation. DRY principle. Single source of truth.
 
 ---

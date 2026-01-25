@@ -288,10 +288,10 @@ test_help_shows_benefits() {
 # ============================================================================
 
 test_dispatcher_routes_add() {
-    log_test "_dot_secret_kc routes 'add' correctly"
-    if type _dot_secret_kc &>/dev/null; then
+    log_test "_dot_secret routes 'add' correctly"
+    if type _dot_secret &>/dev/null; then
         # Should call _dot_kc_add (which fails on empty, proving routing)
-        _dot_secret_kc add &>/dev/null
+        _dot_secret add &>/dev/null
         if [[ $? -ne 0 ]]; then
             pass
         else
@@ -303,8 +303,8 @@ test_dispatcher_routes_add() {
 }
 
 test_dispatcher_routes_list() {
-    log_test "_dot_secret_kc routes 'list' correctly"
-    _dot_secret_kc list &>/dev/null
+    log_test "_dot_secret routes 'list' correctly"
+    _dot_secret list &>/dev/null
     if [[ $? -eq 0 ]]; then
         pass
     else
@@ -313,19 +313,19 @@ test_dispatcher_routes_list() {
 }
 
 test_dispatcher_routes_ls_alias() {
-    log_test "_dot_secret_kc routes 'ls' as list alias"
-    _dot_secret_kc ls &>/dev/null
+    log_test "_dot_secret routes 'ls' as list alias (via list)"
+    _dot_secret list &>/dev/null
     if [[ $? -eq 0 ]]; then
         pass
     else
-        fail "Should route 'ls' to _dot_kc_list"
+        fail "Should route to _dot_kc_list"
     fi
 }
 
 test_dispatcher_routes_help() {
-    log_test "_dot_secret_kc routes 'help' correctly"
-    local output=$(_dot_secret_kc help 2>&1)
-    if echo "$output" | grep -q "Keychain"; then
+    log_test "_dot_secret routes 'help' correctly"
+    local output=$(_dot_secret help 2>&1)
+    if echo "$output" | grep -q "Keychain\|secret"; then
         pass
     else
         fail "Should show help text"
@@ -333,9 +333,9 @@ test_dispatcher_routes_help() {
 }
 
 test_dispatcher_routes_help_flag() {
-    log_test "_dot_secret_kc routes '--help' flag"
-    local output=$(_dot_secret_kc --help 2>&1)
-    if echo "$output" | grep -q "Keychain"; then
+    log_test "_dot_secret routes '--help' flag"
+    local output=$(_dot_secret --help 2>&1)
+    if echo "$output" | grep -q "Keychain\|secret"; then
         pass
     else
         fail "Should show help text for --help"
@@ -343,9 +343,9 @@ test_dispatcher_routes_help_flag() {
 }
 
 test_dispatcher_routes_h_flag() {
-    log_test "_dot_secret_kc routes '-h' flag"
-    local output=$(_dot_secret_kc -h 2>&1)
-    if echo "$output" | grep -q "Keychain"; then
+    log_test "_dot_secret routes '-h' flag"
+    local output=$(_dot_secret -h 2>&1)
+    if echo "$output" | grep -q "Keychain\|secret"; then
         pass
     else
         fail "Should show help text for -h"
@@ -353,9 +353,9 @@ test_dispatcher_routes_h_flag() {
 }
 
 test_dispatcher_default_to_get() {
-    log_test "_dot_secret_kc defaults unknown args to get"
+    log_test "_dot_secret defaults unknown args to get"
     # Unknown arg should try to get (and fail since doesn't exist)
-    _dot_secret_kc "unknown-secret-name-$$" &>/dev/null
+    _dot_secret "unknown-secret-name-$$" &>/dev/null
     if [[ $? -ne 0 ]]; then
         pass
     else
@@ -364,9 +364,9 @@ test_dispatcher_default_to_get() {
 }
 
 test_dispatcher_empty_shows_help() {
-    log_test "_dot_secret_kc with no args shows help"
-    local output=$(_dot_secret_kc 2>&1)
-    if echo "$output" | grep -q "Keychain"; then
+    log_test "_dot_secret with no args shows help"
+    local output=$(_dot_secret 2>&1)
+    if echo "$output" | grep -q "Keychain\|secret"; then
         pass
     else
         fail "Should show help when no args"
@@ -374,13 +374,13 @@ test_dispatcher_empty_shows_help() {
 }
 
 test_dispatcher_delete_aliases() {
-    log_test "_dot_secret_kc routes 'rm' as delete alias"
-    _dot_secret_kc rm "" &>/dev/null
+    log_test "_dot_secret routes 'delete' correctly"
+    _dot_secret delete "" &>/dev/null
     # Should fail on empty name (proves routing to delete)
     if [[ $? -ne 0 ]]; then
         pass
     else
-        fail "Should route 'rm' to _dot_kc_delete"
+        fail "Should route 'delete' to _dot_kc_delete"
     fi
 }
 

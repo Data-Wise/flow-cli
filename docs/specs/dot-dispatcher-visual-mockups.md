@@ -765,36 +765,42 @@ $ work flow-cli
 ## Design Principles Demonstrated
 
 ### 1. Clear Visual Hierarchy
+
 - Bold headers with icons
 - Section separators (━━━)
 - Indented content
 - Grouped related info
 
 ### 2. Status-First Design
+
 - 🟢 Green = All good
 - 🟡 Yellow = Action recommended
 - 🔴 Red = Error / conflict
 - 🔵 Blue = Informational
 
 ### 3. Progressive Disclosure
+
 - `dot` → Quick overview
 - `dot status` → Detailed status
 - `dot help` → Full documentation
 - Inline hints → Next action
 
 ### 4. Actionable Errors
+
 - Every error shows:
   1. What's wrong (clear message)
   2. Why it matters (context)
   3. How to fix (command)
 
 ### 5. Safe Defaults
+
 - Preview before apply
 - Backup before changes
 - Confirmation prompts
 - Undo always available
 
 ### 6. ADHD-Optimized
+
 - Zero reading for green status
 - Immediate action suggestions
 - Short command syntax

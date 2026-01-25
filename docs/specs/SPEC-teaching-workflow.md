@@ -21,23 +21,27 @@ Implement a **comprehensive teaching workflow system** in flow-cli that:
 ## User Requirements (From Brainstorm)
 
 ### Scope Decisions
+
 - ✅ **STAT 545 first**, then generalize
 - ✅ **flow-cli owns workflows** (pure ZSH, <10ms)
 - ✅ **Per-course config** (`.flow/teach-config.yml`)
 - ✅ **Full automation** (Scripts + flow-cli + GitHub Actions)
 
 ### Integration Decisions
+
 - ✅ **Scholar**: Direct calls (flow-cli wraps scholar commands)
 - ✅ **Nexus**: Parallel (nexus tracks, flow-cli operates independently)
 - ✅ **Architecture**: Extend `work` command (project-aware, not new dispatcher)
 
 ### Workflow Priorities
+
 1. Generate with scholar (`/teaching:quiz`)
 2. Convert with examark (`md → qti.zip`)
 3. Test in Canvas sandbox
 4. Deploy to production via git
 
 ### Success Criteria
+
 1. ⚡ **Deployment < 2 min** (typo → live)
 2. 📝 **Quiz workflow < 30 min** (generate → Canvas)
 3. 🛡️ **Branch safety** (workflow guard prevents production edits)
@@ -99,6 +103,7 @@ Implement a **comprehensive teaching workflow system** in flow-cli that:
 **File:** `lib/project-detector.zsh`
 
 **Current State:**
+
 ```zsh
 # Line 30-33: Already detects teaching projects
 if [[ -f "$dir/syllabus.qmd" ]] || [[ -d "$dir/lectures" ]]; then
@@ -108,6 +113,7 @@ fi
 ```
 
 **Enhancement Needed:**
+
 ```zsh
 _detect_teaching_enhanced() {
   local dir="$1"
@@ -775,16 +781,19 @@ curl -s https://data-wise.github.io/stat-545 | grep "Week 8"
 ## Dependencies
 
 ### Required (flow-cli)
+
 - `yq` - YAML parsing (for .flow/teach-config.yml)
 - `git` - Version control
 - `quarto` - Course website rendering
 
 ### Required (STAT 545 workflow)
+
 - `scholar` plugin - Quiz/exam generation
 - `examark` - Markdown → Canvas QTI conversion
 - `nexus` CLI (optional) - Course tracking
 
 ### Optional Enhancements
+
 - GitHub CLI (`gh`) - For PR creation
 - Canvas API - Phase 2 auto-upload
 
@@ -793,6 +802,7 @@ curl -s https://data-wise.github.io/stat-545 | grep "Week 8"
 ## Implementation Order
 
 ### Week 1: Core Framework
+
 1. **Day 1** (4 hours)
    - Create `lib/templates/teaching/` with 4 script templates
    - Create `commands/teach-init.zsh` with scaffolding logic
@@ -809,6 +819,7 @@ curl -s https://data-wise.github.io/stat-545 | grep "Week 8"
    - Update CLAUDE.md with teaching patterns
 
 ### Week 2: STAT 545 Migration
+
 1. **Day 1** (3 hours)
    - Run `teach-init` in stat-545 repo
    - Customize scripts for STAT 545 specifics
@@ -825,6 +836,7 @@ curl -s https://data-wise.github.io/stat-545 | grep "Week 8"
    - Document STAT 545 as reference example
 
 ### Week 3: Polish & Documentation
+
 1. **Day 1** (2 hours)
    - Edge case handling
    - Error messages improvement
@@ -847,18 +859,21 @@ curl -s https://data-wise.github.io/stat-545 | grep "Week 8"
 ## Success Metrics
 
 ### Performance
+
 - ✅ `work stat-545` responds in < 50ms (teaching context loading)
 - ✅ `teach-init` completes in < 5 seconds
 - ✅ Quick deploy (typo fix) completes in < 2 min
 - ✅ Quiz workflow (generate → Canvas) completes in < 30 min
 
 ### Reliability
+
 - ✅ Branch guard prevents 100% of accidental production edits
 - ✅ All 4 automation scripts work without manual intervention
 - ✅ GitHub Actions deploy succeeds on first push
 - ✅ Zero manual git commands needed for daily workflow
 
 ### Usability
+
 - ✅ STAT 545 instructor uses shortcuts daily (s545d, s545q)
 - ✅ New quiz creation with scholar takes < 10 min
 - ✅ Course context visible in terminal (week, recent materials)
@@ -878,7 +893,7 @@ curl -s https://data-wise.github.io/stat-545 | grep "Week 8"
 
 ## Next Steps (User Decision Points)
 
-### Before Implementation Begins:
+### Before Implementation Begins
 
 1. **Approve this plan** (via ExitPlanMode)
 2. **Confirm scholar plugin installed** (verify `/teaching:*` commands work)
@@ -889,7 +904,7 @@ curl -s https://data-wise.github.io/stat-545 | grep "Week 8"
    - Keep in flow-cli (reference example)
    - Move to stat-545 repo (cleaner separation)
 
-### After Approval:
+### After Approval
 
 Following workflow protocol:
 1. **Commit this plan** to dev branch (docs/specs/SPEC-teaching-workflow.md)

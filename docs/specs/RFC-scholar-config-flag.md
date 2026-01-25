@@ -99,6 +99,7 @@ Scholar should validate the config using the shared schema:
 **Schema Location:** `https://github.com/Data-Wise/flow-cli/blob/main/lib/templates/teaching/teach-config.schema.json`
 
 **Validation Logic:**
+
 ```python
 # Pseudocode for Scholar
 def validate_config(config_path):
@@ -136,6 +137,7 @@ The schema defines clear ownership boundaries:
 | `examark` | examark | ✅ Yes (read-only) | ❌ No |
 
 **Scholar Section Structure:**
+
 ```yaml
 scholar:
   course_info:
@@ -172,11 +174,13 @@ scholar:
 With config access, Scholar generates more contextually aware content:
 
 **Example 1: Exam Generation**
+
 ```bash
 teach exam "Hypothesis Testing"
 ```
 
 Scholar reads config and generates:
+
 ```markdown
 # STAT 440 - Regression Analysis
 ## Midterm Exam: Hypothesis Testing
@@ -191,6 +195,7 @@ Scholar reads config and generates:
 ```
 
 **Example 2: Syllabus Generation**
+
 ```bash
 teach syllabus
 ```
@@ -202,23 +207,27 @@ Scholar reads ENTIRE config (course, semester_info, grading) and generates compl
 ## Implementation Plan
 
 ### Phase 1: Schema Support (Week 1)
+
 - [ ] Add JSON Schema file to Scholar repository
 - [ ] Implement YAML → JSON Schema validation
 - [ ] Add `--config` flag to `/teaching:exam` (pilot)
 - [ ] Test with flow-cli v5.9.0+
 
 ### Phase 2: Full Command Support (Week 2)
+
 - [ ] Add `--config` to all teaching commands
 - [ ] Update skill frontmatter with config argument
 - [ ] Implement config ownership checks (warn on Scholar section edits)
 
 ### Phase 3: Enhanced Content Generation (Week 3-4)
+
 - [ ] Update content templates to use config context
 - [ ] Implement course-aware defaults
 - [ ] Add grading policy integration
 - [ ] Test with real course configs
 
 ### Phase 4: Documentation & Release (Week 4)
+
 - [ ] Document `--config` flag usage
 - [ ] Create migration guide for existing users
 - [ ] Update API reference
@@ -245,11 +254,13 @@ Scholar reads ENTIRE config (course, semester_info, grading) and generates compl
 ### For Existing Users
 
 **Before (no config):**
+
 ```bash
 claude --print "/teaching:exam 'Topic' --format quarto --difficulty intermediate"
 ```
 
 **After (with config):**
+
 ```bash
 # Create teach-config.yml once
 teach init "STAT 440"
@@ -275,6 +286,7 @@ When both config and flags provided:
 3. Override with command-line flags (highest priority)
 
 Example:
+
 ```bash
 # Config has: tone: "formal"
 teach exam "Topic" --config teach-config.yml --tone conversational
@@ -285,6 +297,7 @@ teach exam "Topic" --config teach-config.yml --tone conversational
 ### Error Messages
 
 **Invalid Schema:**
+
 ```
 ❌ Config validation failed: teach-config.yml
 
@@ -295,6 +308,7 @@ Fix the config file and try again.
 ```
 
 **Missing Scholar Section:**
+
 ```
 ⚠️  No 'scholar' section in teach-config.yml
 Using default settings. Add a 'scholar:' section to customize content generation.
@@ -328,17 +342,20 @@ flow-cli tracks config changes via SHA-256 hash. Scholar can:
 ## Benefits Summary
 
 ### For Users
+
 - ✅ Single configuration file (no duplicated settings)
 - ✅ More contextually aware content generation
 - ✅ Validation catches errors early (before generation)
 - ✅ Consistent course branding across all materials
 
 ### For flow-cli
+
 - ✅ Delegates Scholar-specific config to Scholar
 - ✅ Shared validation reduces maintenance burden
 - ✅ Cleaner command interface (fewer flags to pass)
 
 ### For Scholar
+
 - ✅ Access to rich course context for better generation
 - ✅ Standardized config format across tools
 - ✅ Validation infrastructure (JSON Schema)

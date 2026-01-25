@@ -106,6 +106,7 @@ This starts a work session on `my-project`.
 ✖️ Bad: Theory then maybe example
 The work command initializes a session context...
 (3 paragraphs later) Here's an example maybe.
+
 ```
 
 #### 5. Consistent Patterns
@@ -159,6 +160,7 @@ Every template includes:
 **Style:** Clear, action-oriented, specific
 
 **Examples:**
+
 ```markdown
 ✅ Good markers
 > Interactive project picker with FZF interface for quick navigation
@@ -181,6 +183,7 @@ command [OPTIONS] [ARGUMENTS]
 ```
 
 **Quick examples:**
+
 ```bash
 # Most common usage
 command arg
@@ -188,6 +191,7 @@ command arg
 # With options
 command --option arg
 ```
+
 ```
 
 **Purpose:** Show usage before explaining
@@ -215,6 +219,7 @@ command --option arg
 - **Status:** Production status with 1-3 key feature highlights
 
 **Status Format:**
+
 ```markdown
 ✅ Production ready with [feature1, feature2, feature3]
 🚧 Beta - [known limitations]
@@ -253,6 +258,7 @@ touch docs/planning/CONTENT-AUDIT.md
 ```
 
 **Document structure:**
+
 ```markdown
 # Content Audit
 
@@ -289,6 +295,7 @@ touch docs/planning/CONTENT-AUDIT.md
 - Large batch (10+ files): Simple updates (e.g., footer-only)
 
 **Batch composition:**
+
 ```markdown
 ✅ Good batching
 - Batch 1: Core workflow commands (work, finish, hop, dash, status) - 5 files
@@ -339,6 +346,7 @@ mkdocs build
 ```
 
 **Expected warnings:**
+
 ```
 ✅ Acceptable warnings
 - External links to other repos
@@ -377,6 +385,7 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
 ```
 
 **Track progress:**
+
 ```markdown
 ## Progress Tracking
 
@@ -409,6 +418,7 @@ mkdocs gh-deploy --force
 ### Checklist for Standardized Documentation
 
 #### Template Marker
+
 - [ ] Present at top of document after title
 - [ ] Uses blockquote format (`>`)
 - [ ] One sentence, under 15 words
@@ -416,6 +426,7 @@ mkdocs gh-deploy --force
 - [ ] Describes what reader will learn/do
 
 #### Synopsis Section (Commands)
+
 - [ ] Present after description
 - [ ] Shows command syntax with placeholders
 - [ ] Includes 2-3 quick examples
@@ -423,6 +434,7 @@ mkdocs gh-deploy --force
 - [ ] No explanations in synopsis (save for later)
 
 #### Standard Footer
+
 - [ ] Present at end of document
 - [ ] Horizontal rule separator (`---`)
 - [ ] Last Updated date (YYYY-MM-DD)
@@ -431,6 +443,7 @@ mkdocs gh-deploy --force
 - [ ] Emoji status indicator (✅/🚧/📝)
 
 #### Content Quality
+
 - [ ] Headers create logical hierarchy
 - [ ] Examples before explanations
 - [ ] Tables for comparisons
@@ -440,6 +453,7 @@ mkdocs gh-deploy --force
 - [ ] No broken internal links
 
 #### Cross-References
+
 - [ ] "See Also" section present
 - [ ] Links include context (not just link text)
 - [ ] Category prefixes (Command:, Tutorial:, etc.)
@@ -526,6 +540,7 @@ When tasked with documentation standardization:
 ### Documentation Tools
 
 **MkDocs:**
+
 ```bash
 # Build locally
 mkdocs build
@@ -538,6 +553,7 @@ mkdocs gh-deploy --force
 ```
 
 **File Management:**
+
 ```bash
 # Count files by category
 ls docs/commands/*.md | wc -l
@@ -556,6 +572,7 @@ done
 ```
 
 **Link Checking:**
+
 ```bash
 # Check for broken links (CI does this)
 # See: .github/workflows/ci.yml
@@ -567,6 +584,7 @@ mkdocs build 2>&1 | grep -i warning
 ### Quality Scripts
 
 **Template Compliance Check:**
+
 ```bash
 #!/bin/bash
 # check-compliance.sh
@@ -600,6 +618,7 @@ echo "Compliance: $compliant/$total ($percentage%)"
 ### Before & After: Command Documentation
 
 #### Before (Non-Compliant)
+
 ```markdown
 # work
 
@@ -616,6 +635,7 @@ work my-project
 ```
 
 Last updated: 2025-12-15
+
 ```
 
 **Problems:**
@@ -641,6 +661,7 @@ work [PROJECT] [EDITOR]
 ```
 
 **Quick examples:**
+
 ```bash
 # Interactive project selection
 work
@@ -685,6 +706,7 @@ The `work` command is the **primary entry point** for flow-cli. It sets up your 
 **Last Updated:** 2026-01-07
 **Command Version:** v4.8.0
 **Status:** ✅ Production ready with session tracking and editor integration
+
 ```
 
 **Improvements:**
@@ -718,6 +740,7 @@ Commands for Claude Code integration.
 - Missing usage patterns
 
 #### After
+
 ```markdown
 # CC Dispatcher Reference
 
@@ -766,6 +789,7 @@ cc here         # Explicit HERE target
 **Last Updated:** 2026-01-07
 **Reference Version:** v4.8.0
 **Status:** ✅ Complete with unified grammar and all pattern combinations
+
 ```
 
 ---
@@ -778,7 +802,9 @@ cc here         # Explicit HERE target
 
 **Symptoms:**
 ```
+
 ERROR - Error building page 'file.md': ...
+
 ```
 
 **Diagnosis:**
@@ -802,11 +828,13 @@ mkdocs build 2>&1 | grep ERROR
 #### Issue: Too Many Warnings
 
 **Symptoms:**
+
 ```
 INFO - Doc file contains unrecognized link...
 ```
 
 **Diagnosis:**
+
 ```bash
 # Count warnings
 mkdocs build 2>&1 | grep -c "WARNING\|INFO.*link"
@@ -832,6 +860,7 @@ mkdocs build 2>&1 | grep -c "WARNING\|INFO.*link"
 - Files updated but compliance % unchanged
 
 **Diagnosis:**
+
 ```bash
 # Check if files have all required elements
 for file in docs/commands/*.md; do
@@ -857,6 +886,7 @@ done
 - Complex files requiring research
 
 **Solution:**
+
 ```markdown
 **Split the batch:**
 - If 10 files taking too long → split into 2 batches of 5

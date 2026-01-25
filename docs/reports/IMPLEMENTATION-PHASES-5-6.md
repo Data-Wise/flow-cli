@@ -52,6 +52,7 @@
 - Revision instructions included in Scholar command
 
 **Global Variables Set:**
+
 ```zsh
 TEACH_REVISE_MODE          # Always "improve" for now
 TEACH_REVISE_FILE          # Path to file being revised
@@ -75,7 +76,7 @@ TEACH_REVISE_INSTRUCTIONS  # User-selected revision instructions
 
 **Polish Enhancements:**
 
-2. **Help System Update** - `_teach_scholar_help()`
+1. **Help System Update** - `_teach_scholar_help()`
    - Added `_show_universal_flags()` helper
    - Documents all Phase 1-6 flags:
      - Topic Selection (--topic, --week)
@@ -85,14 +86,14 @@ TEACH_REVISE_INSTRUCTIONS  # User-selected revision instructions
    - Color-coded sections
    - Shown for all Scholar commands
 
-3. **Completion System Update** - `completions/_teach`
+2. **Completion System Update** - `completions/_teach`
    - Added all Phase 1-6 flags to `scholar_flags` array
    - Full flag descriptions for tab completion
    - Short form aliases (-t, -w, -e, -m, -x, -c, -d, -p, -r, -i)
    - Style preset completions
    - File path completion for --revise
 
-4. **Integration Tests** - `tests/test-teach-integration-phases-1-6.zsh`
+3. **Integration Tests** - `tests/test-teach-integration-phases-1-6.zsh`
    - 38 integration tests covering all 6 phases
    - 10 test groups:
      - Style preset + overrides workflow
@@ -116,6 +117,7 @@ TEACH_REVISE_INSTRUCTIONS  # User-selected revision instructions
 - Context included in Scholar command
 
 **Global Variables Set:**
+
 ```zsh
 TEACH_CONTEXT   # Course context from materials
 ```
@@ -146,6 +148,7 @@ teach lecture --revise lecture-notes.md
 ```
 
 **Revision Menu:**
+
 ```
 📝 Revision Options
 
@@ -316,6 +319,7 @@ _teach_scholar_help <command>
 ### Memory Footprint
 
 **New Structures:**
+
 ```
 Revision globals:       ~2KB  (3 variables)
 Context globals:        ~1KB  (1 variable)

@@ -110,6 +110,7 @@ graph LR
 - `_teach_parse_topic_week()` - Topic/week extraction
 
 **Global State:**
+
 ```zsh
 TEACH_TOPIC=""        # Explicit topic string
 TEACH_WEEK=""         # Week number
@@ -139,11 +140,13 @@ graph TB
 - `_teach_build_content_instructions()` - Instruction builder
 
 **Global State:**
+
 ```zsh
 TEACH_CONTENT_RESOLVED=""  # Space-separated content list
 ```
 
 **Resolution Algorithm:**
+
 ```zsh
 1. Initialize content_list = []
 2. If style preset exists:
@@ -183,6 +186,7 @@ graph TB
 - `_teach_integrate_lesson_plan()` - Main orchestrator
 
 **Global State:**
+
 ```zsh
 TEACH_PLAN_TOPIC=""           # Topic from plan
 TEACH_PLAN_STYLE=""           # Style from plan
@@ -218,6 +222,7 @@ graph TB
 - `_teach_interactive_wizard()` - Main wizard orchestrator
 
 **UI Flow:**
+
 ```
 1. Banner: "Interactive Teaching Content Generator"
 2. If no week/topic → Show topic selection menu
@@ -264,6 +269,7 @@ graph TB
 - `_teach_revise_workflow()` - Main orchestrator (48 lines)
 
 **Global State:**
+
 ```zsh
 TEACH_REVISE_MODE="improve"       # Always "improve" for now
 TEACH_REVISE_FILE=""              # File being revised
@@ -271,6 +277,7 @@ TEACH_REVISE_INSTRUCTIONS=""      # User-selected instruction
 ```
 
 **Content Type Detection:**
+
 ```zsh
 # Check YAML frontmatter
 format: revealjs → slides
@@ -312,11 +319,13 @@ graph TB
 - `_teach_build_context()` - Context gathering (40 lines)
 
 **Global State:**
+
 ```zsh
 TEACH_CONTEXT=""  # Course context text
 ```
 
 **Context Format:**
+
 ```
 Course Information:
 - From: .flow/teach-config.yml
@@ -509,17 +518,20 @@ _teach_scholar_wrapper() {
 ### Global Variables
 
 **Phase 1 Variables:**
+
 ```zsh
 typeset -g TEACH_TOPIC=""        # Explicit topic
 typeset -g TEACH_WEEK=""         # Week number
 ```
 
 **Phase 2 Variables:**
+
 ```zsh
 typeset -g TEACH_CONTENT_RESOLVED=""  # Resolved content list
 ```
 
 **Phase 3 Variables:**
+
 ```zsh
 typeset -g TEACH_PLAN_TOPIC=""           # From lesson plan
 typeset -g TEACH_PLAN_STYLE=""           # From lesson plan
@@ -531,6 +543,7 @@ typeset -g TEACH_RESOLVED_STYLE=""       # Final style
 ```
 
 **Phase 5 Variables:**
+
 ```zsh
 typeset -g TEACH_REVISE_MODE=""          # Always "improve"
 typeset -g TEACH_REVISE_FILE=""          # File being revised
@@ -538,6 +551,7 @@ typeset -g TEACH_REVISE_INSTRUCTIONS=""  # Revision instruction
 ```
 
 **Phase 6 Variables:**
+
 ```zsh
 typeset -g TEACH_CONTEXT=""  # Course context
 ```

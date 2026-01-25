@@ -56,6 +56,7 @@ dot
 ```
 
 **Output when chezmoi is not initialized:**
+
 ```
 ╭───────────────────────────────────────────────────╮
 │  📁 Dotfiles Status                                │
@@ -68,6 +69,7 @@ dot
 ```
 
 **Output when chezmoi is ready:**
+
 ```
 ╭───────────────────────────────────────────────────╮
 │  📁 Dotfiles Status                                │
@@ -112,6 +114,7 @@ dot edit .zshrc
 4. If changed, shows diff and prompts for action
 
 **Example session:**
+
 ```
 ℹ Opening in vim: dot_zshrc
 
@@ -162,6 +165,7 @@ dot apply --dry-run
 ```
 
 **Output when nothing to apply:**
+
 ```
 ℹ DRY-RUN MODE - No changes will be applied
 
@@ -169,6 +173,7 @@ dot apply --dry-run
 ```
 
 **Output when changes are pending:**
+
 ```
 ℹ DRY-RUN MODE - No changes will be applied
 
@@ -215,11 +220,13 @@ dot apply
 ### Daily Sync Pattern
 
 **Pull changes from remote:**
+
 ```bash
 dot sync
 ```
 
 **Output:**
+
 ```
 ℹ Fetching from remote...
 
@@ -231,11 +238,13 @@ Apply updates? [Y/n/d]
 ```
 
 **Push your changes:**
+
 ```bash
 dot push
 ```
 
 **Output:**
+
 ```
 ℹ Staging changes...
 ℹ Committing...
@@ -263,6 +272,7 @@ dot secret add github-token
 ```
 
 **Output:**
+
 ```
 Enter secret value: [hidden input]
 
@@ -286,6 +296,7 @@ dot secret list
 ```
 
 **Output:**
+
 ```
 ℹ Secrets in Keychain (flow-cli):
   • github-token
@@ -300,6 +311,7 @@ dot secret delete old-token
 ```
 
 **Output:**
+
 ```
 ✓ Secret 'old-token' deleted
 ```
@@ -317,6 +329,7 @@ dot secret import
 ```
 
 **Output:**
+
 ```
 ℹ Import secrets from Bitwarden folder 'flow-cli-secrets'?
 Continue? [y/N] y
@@ -352,6 +365,7 @@ dot unlock
 ```
 
 **Output:**
+
 ```
 ℹ Enter your Bitwarden master password:
 [password prompt]
@@ -369,6 +383,7 @@ dot secret list
 ```
 
 **Output:**
+
 ```
 ℹ Retrieving items from vault...
 
@@ -403,6 +418,7 @@ export ANTHROPIC_API_KEY="{{ bitwarden "item" "anthropic-api-key" }}"
 ```
 
 **Apply with secrets:**
+
 ```bash
 # Unlock vault first
 dot unlock
@@ -427,6 +443,7 @@ dot token github
 ```
 
 **Example session:**
+
 ```
 🧙 GitHub Token Wizard
 
@@ -460,6 +477,7 @@ dot secrets
 ```
 
 **Output:**
+
 ```
 ╭───────────────────────────────────────────────────────────────╮
 │  🔐 Secrets Dashboard                                          │
@@ -487,6 +505,7 @@ dot token pypi-token --refresh
 ```
 
 **Example session:**
+
 ```
 🔄 Rotating token: pypi-token
 
@@ -516,6 +535,7 @@ dot secrets sync github
 ```
 
 **Example session:**
+
 ```
 ℹ Syncing secrets to: Data-Wise/flow-cli
 
@@ -539,6 +559,7 @@ dot env init
 ```
 
 **Output:**
+
 ```
 ✓ Generated .envrc with 3 secrets
 
@@ -559,24 +580,28 @@ dot env init
 ### Common Errors
 
 **File not tracked:**
+
 ```
 ✗ File not found in managed dotfiles: .zshrc
 ℹ Use 'chezmoi add <file>' to start tracking a new file
 ```
 
 **Vault locked:**
+
 ```
 ✗ Bitwarden vault is locked
 ℹ Run: dot unlock
 ```
 
 **Secret not found:**
+
 ```
 ✗ Secret not found: wrong-name
 Tip: Use 'dot secret list' to see available items
 ```
 
 **Session expired:**
+
 ```
 ✗ Session expired
 Run: dot unlock

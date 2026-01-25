@@ -657,10 +657,10 @@ test_full_quarto_migration() {
 
 ### Phase 2: Migration Logic (Week 2)
 
-5. ✅ Refactor `_teach_migrate_existing_repo` with detection
-6. ✅ Create `_teach_migrate_quarto_project` function
-7. ✅ Add three migration strategies for Quarto
-8. ✅ Integrate error handling with rollback
+1. ✅ Refactor `_teach_migrate_existing_repo` with detection
+2. ✅ Create `_teach_migrate_quarto_project` function
+3. ✅ Add three migration strategies for Quarto
+4. ✅ Integrate error handling with rollback
 
 **Deliverable:** Smart Quarto migration works end-to-end
 
@@ -668,10 +668,10 @@ test_full_quarto_migration() {
 
 ### Phase 3: Polish (Week 3)
 
-9. ✅ Add GitHub push integration
-10. ✅ Add auto-doc generation (`_teach_generate_migration_docs`)
-11. ✅ Add `--dry-run` flag support
-12. ✅ Write comprehensive tests
+1. ✅ Add GitHub push integration
+2. ✅ Add auto-doc generation (`_teach_generate_migration_docs`)
+3. ✅ Add `--dry-run` flag support
+4. ✅ Write comprehensive tests
 
 **Deliverable:** Production-ready v5.4.0
 
@@ -679,10 +679,10 @@ test_full_quarto_migration() {
 
 ### Phase 4: Advanced Features (Future)
 
-13. [ ] Add `--diagnose` command
-14. [ ] Add batch migration
-15. [ ] Add interactive wizard
-16. [ ] Add template system for other frameworks
+1. [ ] Add `--diagnose` command
+2. [ ] Add batch migration
+3. [ ] Add interactive wizard
+4. [ ] Add template system for other frameworks
 
 **Deliverable:** Enhanced user experience
 
@@ -876,34 +876,34 @@ Teaching projects are high-stakes:
 
 ### This Week
 
-4. **Implement Phase 2**
+1. **Implement Phase 2**
    - Refactor migration strategy menu
    - Add Quarto-specific logic
    - Integrate error handling
 
-5. **Manual testing with STAT 545**
+2. **Manual testing with STAT 545**
    - Use dry-run first
    - Run full migration
    - Verify all features
 
-6. **Create PR to dev**
+3. **Create PR to dev**
    - Include tests
    - Update documentation
    - Request review
 
 ### Next Sprint
 
-7. **Implement Phase 3**
+1. **Implement Phase 3**
    - GitHub integration
    - Auto-documentation
    - Final polish
 
-8. **User testing**
+2. **User testing**
    - Migrate STAT 440
    - Migrate causal-inference
    - Gather feedback
 
-9. **Release v5.4.0**
+3. **Release v5.4.0**
    - Merge to main
    - Tag release
    - Update website docs

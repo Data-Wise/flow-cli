@@ -74,6 +74,7 @@ Integrate the dual-mode prompt engine (Powerlevel10k ↔ Starship) into flow-cli
 ### Architecture
 
 #### Dispatcher Pattern
+
 ```
 prompt [action] [options]
     ├── status (s)  → _prompt_status()
@@ -85,6 +86,7 @@ prompt [action] [options]
 ```
 
 #### File Structure
+
 ```
 lib/dispatchers/prompt-dispatcher.zsh    # Main dispatcher + functions
 completions/_prompt                       # Tab completion
@@ -94,6 +96,7 @@ tests/test-prompt-dispatcher.zsh         # Unit & E2E tests
 ```
 
 #### Environment
+
 - Uses existing `FLOW_PROMPT_ENGINE` variable
 - Reads from ~/.zshenv, ~/.zshrc
 - Accesses existing config files unchanged
@@ -127,6 +130,7 @@ tests/test-prompt-dispatcher.zsh         # Unit & E2E tests
 ## Implementation Plan
 
 ### Phase 1: Core Dispatcher (Session 2)
+
 **Time:** ~1 hour
 **Deliverables:**
 - Create `lib/dispatchers/prompt-dispatcher.zsh`
@@ -143,6 +147,7 @@ tests/test-prompt-dispatcher.zsh         # Unit & E2E tests
 **Test:** Basic functionality tests
 
 ### Phase 2: Polish & Completions (Session 3)
+
 **Time:** ~45 minutes
 **Deliverables:**
 - Add `completions/_prompt` for tab completion
@@ -152,6 +157,7 @@ tests/test-prompt-dispatcher.zsh         # Unit & E2E tests
 - Test with different shell environments
 
 ### Phase 3: Documentation (Session 3)
+
 **Time:** ~20 minutes
 **Deliverables:**
 - Update `docs/reference/DISPATCHER-REFERENCE.md`
@@ -161,6 +167,7 @@ tests/test-prompt-dispatcher.zsh         # Unit & E2E tests
 - Create `docs/guides/PROMPT-DISPATCHER.md` if detailed guide needed
 
 ### Phase 4: Comprehensive Testing (Session 4)
+
 **Time:** ~1 hour
 **Deliverables:**
 - Create `tests/test-prompt-dispatcher.zsh` with:
@@ -172,6 +179,7 @@ tests/test-prompt-dispatcher.zsh         # Unit & E2E tests
 - Test backward compatibility with aliases
 
 ### Phase 5: Integration & Release (Session 5)
+
 **Time:** ~30 minutes
 **Deliverables:**
 - Final validation in feature branch
@@ -184,6 +192,7 @@ tests/test-prompt-dispatcher.zsh         # Unit & E2E tests
 ## Data Models
 
 ### FLOW_PROMPT_ENGINE Variable
+
 ```bash
 # In ~/.zshenv
 export FLOW_PROMPT_ENGINE="${FLOW_PROMPT_ENGINE:-powerlevel10k}"
@@ -197,6 +206,7 @@ $FLOW_PROMPT_ENGINE  # Current engine
 ```
 
 ### Engine Configuration
+
 ```
 Powerlevel10k:
   - Config: ~/.config/zsh/.p10k.zsh
@@ -216,6 +226,7 @@ Starship:
 ## API Design
 
 ### Command Structure
+
 ```bash
 prompt [action] [options]
 
@@ -231,6 +242,7 @@ prompt help                # Show this help
 ### Output Format
 
 #### `prompt status`
+
 ```
 🎨 Current Prompt Engine: powerlevel10k
    Alternative: starship
@@ -239,6 +251,7 @@ prompt help                # Show this help
 ```
 
 #### `prompt toggle`
+
 ```
 ✅ Switched to starship
 
@@ -246,6 +259,7 @@ prompt help                # Show this help
 ```
 
 #### `prompt list`
+
 ```
 Available Prompt Engines:
 
@@ -259,6 +273,7 @@ Available Prompt Engines:
 ```
 
 #### `prompt help`
+
 ```
 🎨 PROMPT DISPATCHER
    Manage dual-mode prompt system (Powerlevel10k ↔ Starship)
@@ -287,6 +302,7 @@ EXAMPLES:
 ## Testing Strategy
 
 ### Unit Tests (test-prompt-dispatcher.zsh)
+
 ```
 ✓ Dispatcher routing (all actions)
 ✓ Status output format
@@ -301,6 +317,7 @@ EXAMPLES:
 ```
 
 ### E2E Tests
+
 ```
 ✓ Prompt loads correct engine after toggle
 ✓ No errors in fresh shell
@@ -311,6 +328,7 @@ EXAMPLES:
 ```
 
 ### Integration Tests
+
 ```
 ✓ Dispatcher loads with flow-cli
 ✓ Help system recognizes prompt
@@ -326,6 +344,7 @@ EXAMPLES:
 ### User Interaction Flow
 
 #### Scenario 1: Check Current Engine
+
 ```
 User: prompt status
 System: Shows current engine + alternatives
@@ -334,6 +353,7 @@ Time: ~100ms
 ```
 
 #### Scenario 2: Switch Engines
+
 ```
 User: prompt toggle
 System: Shows "✅ Switched to starship"
@@ -343,6 +363,7 @@ Time: ~500ms
 ```
 
 #### Scenario 3: Learn Available Options
+
 ```
 User: prompt help
 System: Shows all actions with examples
@@ -350,6 +371,7 @@ Time: ~50ms
 ```
 
 #### Scenario 4: Legacy Alias Usage
+
 ```
 User: ptoggle
 System: (maps to prompt toggle)
@@ -372,12 +394,14 @@ Time: ~500ms
 ## Dependencies
 
 ### Required
+
 - Flow-cli base system (already present)
 - ZSH shell (already required)
 - Powerlevel10k (already configured)
 - Starship (already installed)
 
 ### No New Dependencies
+
 - Uses existing `FLOW_PROMPT_ENGINE` variable
 - Uses existing prompt system configuration
 - No additional tools or libraries needed
@@ -436,6 +460,7 @@ Time: ~500ms
 - Primary interface integrated into flow-cli
 
 **Usage:**
+
 ```bash
 prompt help             # See all options
 prompt status          # Show current engine

@@ -54,6 +54,7 @@ prompt status
 ```
 
 **Example output:**
+
 ```
 ℹ Prompt Engines:
 
@@ -87,6 +88,7 @@ prompt toggle
 ```
 
 **You'll see:**
+
 ```
 Which prompt engine would you like to use?
 
@@ -113,6 +115,7 @@ prompt ohmyposh
 ```
 
 **Output:**
+
 ```
 ✓ Switched to Starship
 Reloading shell...
@@ -131,6 +134,7 @@ prompt --dry-run starship
 ```
 
 **Output:**
+
 ```
 🔍 DRY RUN MODE - No changes will be made
 
@@ -152,6 +156,7 @@ prompt --dry-run toggle
 ```
 
 **Output:**
+
 ```
 🔍 DRY RUN MODE - No changes will be made
 
@@ -178,6 +183,7 @@ prompt setup-ohmyposh
 ```
 
 **Output:**
+
 ```
 ℹ Oh My Posh Configuration Wizard
 
@@ -219,6 +225,7 @@ prompt list
 ```
 
 **Output:**
+
 ```
 ℹ Available Prompt Engines:
 
@@ -238,12 +245,14 @@ Legend: ● = current, ○ = available
 ### Engine Not Found
 
 **Problem:**
+
 ```
 ✗ Starship not found in PATH
 Install with: brew install starship
 ```
 
 **Solution:**
+
 ```bash
 brew install starship
 ```
@@ -251,11 +260,13 @@ brew install starship
 ### Config Missing
 
 **Problem:**
+
 ```
 ⚠ OhMyPosh config missing at ~/.config/ohmyposh/config.json
 ```
 
 **Solution:**
+
 ```bash
 prompt setup-ohmyposh
 ```
@@ -265,6 +276,7 @@ prompt setup-ohmyposh
 **Problem:** You switched but the prompt looks the same.
 
 **Solution:** Force a shell reload:
+
 ```bash
 exec zsh -i
 ```

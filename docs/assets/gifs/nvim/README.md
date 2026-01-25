@@ -5,6 +5,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 ## Tutorial 15: Nvim Quick Start (3 GIFs)
 
 ### 1. opening-nvim.gif
+
 **Scene:** Opening and quitting nvim safely
 **Steps:**
 1. Show terminal prompt
@@ -20,6 +21,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 **Tool:** VHS or asciinema + agg
 
 ### 2. basic-edit-save.gif
+
 **Scene:** Making first edit and saving
 **Steps:**
 1. `nvim /tmp/nvim-test.txt`
@@ -33,6 +35,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 **Duration:** ~15 seconds
 
 ### 3. panic-exit.gif
+
 **Scene:** Demonstrating the panic button
 **Steps:**
 1. `nvim /tmp/nvim-test.txt`
@@ -50,6 +53,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 ## Tutorial 16: Vim Motions (3 GIFs)
 
 ### 4. word-motions.gif
+
 **Scene:** Demonstrating w/b/e navigation
 **Steps:**
 1. Open file with multi-word lines
@@ -61,6 +65,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 **Duration:** ~15 seconds
 
 ### 5. text-objects.gif
+
 **Scene:** Using text objects (ciw, di", yap)
 **Steps:**
 1. Show line with quoted text
@@ -71,6 +76,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 **Duration:** ~18 seconds
 
 ### 6. search-jump.gif
+
 **Scene:** Using /, f, t for quick navigation
 **Steps:**
 1. Show file with multiple occurrences of "function"
@@ -84,6 +90,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 ## Tutorial 17: LazyVim Basics (4 GIFs)
 
 ### 7. neo-tree.gif
+
 **Scene:** File navigation with Neo-tree
 **Steps:**
 1. Open nvim in project directory
@@ -95,6 +102,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 **Duration:** ~15 seconds
 
 ### 8. telescope.gif
+
 **Scene:** Fuzzy file finding
 **Steps:**
 1. Press `<leader>ff` to open Telescope
@@ -107,6 +115,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 **Duration:** ~18 seconds
 
 ### 9. window-splits.gif
+
 **Scene:** Window management
 **Steps:**
 1. Open file
@@ -118,6 +127,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 **Duration:** ~20 seconds
 
 ### 10. lazygit.gif
+
 **Scene:** LazyGit integration
 **Steps:**
 1. Press `<leader>gg` to open LazyGit
@@ -132,6 +142,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 ## Tutorial 18: LazyVim Showcase (4 GIFs)
 
 ### 11. which-key-guide.gif
+
 **Scene:** Which-key discovery system
 **Steps:**
 1. Press `<leader>` and wait
@@ -143,6 +154,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 **Duration:** ~18 seconds
 
 ### 12. lsp-workflow.gif
+
 **Scene:** LSP features in action
 **Steps:**
 1. Open R or Python file with errors
@@ -155,6 +167,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 **Duration:** ~25 seconds
 
 ### 13. mason-install.gif
+
 **Scene:** Installing language server with Mason
 **Steps:**
 1. Open Mason (`:Mason`)
@@ -167,6 +180,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 **Duration:** ~20 seconds
 
 ### 14. customization.gif
+
 **Scene:** Adding custom keybinding
 **Steps:**
 1. Open `~/.config/nvim/lua/config/keymaps.lua`
@@ -193,6 +207,7 @@ This directory contains animated GIF demonstrations for the nvim tutorial series
 ### Recording Tools
 
 **Recommended: VHS (charm.sh/vhs)**
+
 ```bash
 # Install
 brew install vhs
@@ -203,6 +218,7 @@ brew install vhs
 ```
 
 **Alternative: asciinema + agg**
+
 ```bash
 # Record
 asciinema rec demo.cast

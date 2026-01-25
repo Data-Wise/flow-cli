@@ -198,6 +198,7 @@ Scenario: Create exam
 **File:** `lib/project-detector.zsh`
 
 **Current State:**
+
 ```zsh
 # Line 30-33: Already detects teaching projects
 if [[ -f "$dir/syllabus.qmd" ]] || [[ -d "$dir/lectures" ]]; then
@@ -207,6 +208,7 @@ fi
 ```
 
 **Enhancement Needed:**
+
 ```zsh
 _detect_teaching_enhanced() {
   local dir="$1"
@@ -1469,7 +1471,7 @@ test_exam_conversion() {
 
 ## Open Questions (Updated)
 
-### Resolved (from deep brainstorm):
+### Resolved (from deep brainstorm)
 
 - ✅ **Which courses in Phase 1?** → STAT 545 only
 - ✅ **Primary pain point?** → Deployment speed (5-15 min → < 2 min)
@@ -1478,7 +1480,7 @@ test_exam_conversion() {
 - ✅ **Quiz vs exam focus?** → Focus on deployment, not assessment tools
 - ✅ **Time budget?** → Flexible, ship incrementally
 
-### Still Open:
+### Still Open
 
 1. **GitHub Pages setup:** Should `teach-init` automate GitHub repo settings (enable Pages, set source)?
    - Option A: Manual (document in next steps)
@@ -1501,19 +1503,21 @@ test_exam_conversion() {
 
 ## Next Steps (Decision Points)
 
-### Before Implementation:
+### Before Implementation
 
 1. **Approve this updated spec** (deep brainstorm incorporated)
 2. **Install examark** (for Increment 3, optional):
+
    ```bash
    npm install -g examark
    ```
+
 3. **Decide on scholar skills:**
    - Build `/scholar:exam` skill now?
    - Or defer to Phase 1.5?
    - **Recommendation:** Defer to Phase 1.5
 
-### After Approval:
+### After Approval
 
 Following workflow protocol:
 
@@ -1524,11 +1528,14 @@ Following workflow protocol:
 
 2. **Commit updated spec** to dev branch
 3. **Create worktree** for feature branch:
+
    ```bash
    git worktree add ~/.git-worktrees/flow-cli-teaching-workflow \
      -b feature/teaching-workflow dev
    ```
+
 4. **Start NEW session** in worktree:
+
    ```bash
    cd ~/.git-worktrees/flow-cli-teaching-workflow
    claude

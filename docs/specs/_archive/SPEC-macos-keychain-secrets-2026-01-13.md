@@ -348,14 +348,17 @@ dot secret delete test-secret
 ## Migration Path
 
 ### Phase 1: Add Keychain Support (This PR)
+
 - New `dot secret` commands
 - Coexists with existing Bitwarden integration
 
 ### Phase 2: Hybrid Mode (Future)
+
 - `dot secret get` tries Keychain first, falls back to Bitwarden
 - Gradual migration of secrets
 
 ### Phase 3: Deprecate BW Session Cache (Future)
+
 - Remove `_dot_session_cache_*` functions
 - Keep `dot unlock` for Bitwarden-only operations
 - Keychain becomes primary for local secrets

@@ -23,6 +23,7 @@ PR #283 introduces excellent teaching prompts but has key gaps:
 ## 🎯 User Stories
 
 ### Primary User Story
+
 **As a** statistics instructor using flow-cli
 **I want** seamless prompt integration in teach-dispatcher commands
 **So that** I can generate course content with one command instead of copy-pasting prompts
@@ -49,6 +50,7 @@ PR #283 introduces excellent teaching prompts but has key gaps:
 ## ⚡ Quick Wins (< 30 min each)
 
 ### 1. Add Versioning to Prompts (5-10 min)
+
 ```markdown
 <!-- Version: 1.0.0 -->
 <!-- Last Updated: 2026-01-21 -->
@@ -63,6 +65,7 @@ PR #283 introduces excellent teaching prompts but has key gaps:
 ### 2. Create `teach prompt` Command (20-30 min)
 
 **Commands:**
+
 ```bash
 teach prompt list           # Show available prompts
 teach prompt show lecture   # Display lecture-notes.md
@@ -138,6 +141,7 @@ teach lecture "Factorial ANOVA"
 - Full diagnostic workflow with `performance::check_model()`
 
 **Sample excerpt:** [Link to sample-lecture-factorial-anova.md]
+
 ```
 
 **Why:** Users see concrete value immediately
@@ -176,6 +180,7 @@ _teach_scholar_lecture() {
 **Solution:** Template rendering from `course.yml`
 
 **Template Syntax (in prompts):**
+
 ```markdown
 **Package Loading:**
 ```r
@@ -185,6 +190,7 @@ pacman::p_load(
 ```
 
 **Example course.yml:**
+
 ```yaml
 course:
   name: "STAT 440 - Regression Analysis"
@@ -200,6 +206,7 @@ course:
 ```
 
 **Rendering Logic:**
+
 ```zsh
 _teach_render_prompt() {
     local prompt_file="$1"
@@ -222,6 +229,7 @@ _teach_render_prompt() {
 **Goal:** Let instructors create course-specific prompt overrides
 
 **Commands:**
+
 ```bash
 teach prompt customize lecture   # Interactive customization
 teach prompt customize slides    # Interactive customization
@@ -229,6 +237,7 @@ teach prompt reset lecture       # Restore default
 ```
 
 **Interactive Flow:**
+
 ```
 teach prompt customize lecture
 
@@ -262,6 +271,7 @@ Use: teach lecture "Topic" (will use customized version)
 ### 7. Content Validation Tool (1-2 hours)
 
 **Command:**
+
 ```bash
 teach validate lecture Week-3-ANOVA.qmd
 ```
@@ -278,6 +288,7 @@ teach validate lecture Week-3-ANOVA.qmd
 - ⚠️ Warning: Only 2 practice problems (prompt recommends 4-10)
 
 **Output:**
+
 ```
 📊 Validation Report: Week-3-ANOVA.qmd
 
@@ -336,6 +347,7 @@ Create 4 new prompt types:
 **Goal:** Trigger prompts via natural language
 
 **Example:**
+
 ```
 [teach-lecture] Create lecture notes for "Interaction Effects"
 [teach-slides] Generate 30 slides on "Random Effects"
@@ -354,6 +366,7 @@ Create 4 new prompt types:
 ### 10. Version Management System
 
 **Commands:**
+
 ```bash
 teach prompt versions lecture   # Show version history
 teach prompt upgrade lecture    # Upgrade to latest version
@@ -372,6 +385,7 @@ teach prompt diff 1.0.0 1.1.0   # Compare versions
 ## 🏛️ Architecture
 
 ### Current Structure
+
 ```
 lib/templates/teaching/claude-prompts/
 ├── README.md                    # Documentation
@@ -381,6 +395,7 @@ lib/templates/teaching/claude-prompts/
 ```
 
 ### Enhanced Structure (Phase 1)
+
 ```
 lib/templates/teaching/claude-prompts/
 ├── README.md                    # Enhanced with examples
@@ -405,6 +420,7 @@ lib/dispatchers/teach-dispatcher.zsh
 ```
 
 ### Enhanced Structure (Phase 2 - Future)
+
 ```
 lib/templates/teaching/claude-prompts/
 ├── ...
@@ -427,6 +443,7 @@ lib/validators/
 ### 1. teach-dispatcher Integration (Phase 1)
 
 **Commands Added:**
+
 ```bash
 teach prompt list              # List available prompts
 teach prompt show <type>       # Display prompt content
@@ -442,6 +459,7 @@ teach validate <file>          # Validate against prompt checklist
 ```
 
 **Routing Changes:**
+
 ```zsh
 # In teach-dispatcher.zsh
 case "$1" in
@@ -459,12 +477,14 @@ esac
 ### 2. Scholar Plugin Integration (Phase 1)
 
 **Option A: Implicit (Recommended for Quick Win)**
+
 ```bash
 # teach lecture calls Scholar with prompt reference
 teach lecture "ANOVA" → scholar teaching:lecture "ANOVA" --prompt lecture-notes.md
 ```
 
 **Option B: Explicit (Phase 2)**
+
 ```bash
 # Scholar skills auto-detect prompts
 /teaching:lecture "ANOVA"  # Scholar checks for lib/templates/.../lecture-notes.md
@@ -500,6 +520,7 @@ teach lecture "ANOVA" → scholar teaching:lecture "ANOVA" --prompt lecture-note
 ### 4. course.yml Integration (Phase 1)
 
 **Template Variables:**
+
 ```yaml
 # course.yml
 course:
@@ -516,6 +537,7 @@ course:
 ```
 
 **Prompt Rendering:**
+
 ```markdown
 <!-- In lecture-notes.md -->
 pacman::p_load({{course.r_packages}})  # → pacman::p_load(emmeans, lme4, car, performance)
@@ -528,16 +550,19 @@ pacman::p_load({{course.r_packages}})  # → pacman::p_load(emmeans, lme4, car, 
 ## 📊 Dependencies
 
 ### Required
+
 - ✅ `yq` - YAML parsing (course.yml, checklist schemas)
 - ✅ `git` - Version tracking
 - ✅ ZSH - teach-dispatcher implementation
 
 ### Optional
+
 - ⚠️ Scholar plugin v2.x - Enhanced `/teaching:*` integration
 - ⚠️ Claude Code - AI recipe triggers
 - ⚠️ `pandoc` - Markdown validation (for teach validate)
 
 ### New Files/Libraries
+
 - `lib/validators/teaching-content-validator.zsh` (Phase 2)
 - `lib/templates/teaching/claude-prompts/schemas/*.yml` (Phase 1)
 - `lib/templates/teaching/claude-prompts/examples/*.md` (Phase 1)
@@ -640,6 +665,7 @@ pacman::p_load({{course.r_packages}})  # → pacman::p_load(emmeans, lme4, car, 
 ### Phase 1 Testing (Manual)
 
 **Prompt Discovery:**
+
 ```bash
 # Test: Can users find prompts?
 teach prompt list              # → Should show 3 prompts
@@ -647,12 +673,14 @@ teach prompt show lecture      # → Should display lecture-notes.md
 ```
 
 **Scholar Integration:**
+
 ```bash
 # Test: Does Scholar integration work?
 teach lecture "Test Topic"     # → Should invoke Scholar or show fallback
 ```
 
 **Documentation:**
+
 ```bash
 # Test: Are examples clear?
 cat lib/templates/teaching/claude-prompts/examples/sample-lecture-anova.md
@@ -664,6 +692,7 @@ cat lib/templates/teaching/claude-prompts/examples/sample-lecture-anova.md
 ### Phase 2 Testing (Unit + Integration)
 
 **Template Rendering:**
+
 ```bash
 # Test: Does course.yml integration work?
 teach lecture "Test" --course course.yml
@@ -671,6 +700,7 @@ teach lecture "Test" --course course.yml
 ```
 
 **Validation:**
+
 ```bash
 # Test: Does validation catch issues?
 teach validate test-lecture.qmd
@@ -678,6 +708,7 @@ teach validate test-lecture.qmd
 ```
 
 **Customization:**
+
 ```bash
 # Test: Does customization persist?
 teach prompt customize lecture  # → Interactive flow
@@ -689,6 +720,7 @@ teach lecture "Test"            # → Should use customized prompt
 ### Phase 3 Testing (Comprehensive)
 
 **New Prompts:**
+
 ```bash
 # Test: Do new prompts generate valid content?
 teach assignment "Homework 3"
@@ -697,6 +729,7 @@ teach validate hw3.qmd          # → Validates against assignment.md checklist
 ```
 
 **Recipes:**
+
 ```bash
 # Test: Do recipes work?
 [teach-lecture] Generate lecture for "GLMs"
@@ -739,18 +772,23 @@ teach validate hw3.qmd          # → Validates against assignment.md checklist
 ## 🔑 Key Decisions
 
 ### Decision 1: teach-dispatcher as Primary Interface
+
 **Rationale:** Users already familiar with teach commands, minimal learning curve
 
 ### Decision 2: Course-Specific Customization via .local.md
+
 **Rationale:** Follows flow-cli convention (.claude/*.local.md pattern)
 
 ### Decision 3: Validation as Opt-In (Phase 1)
+
 **Rationale:** Avoid breaking existing workflows, introduce gradually
 
 ### Decision 4: Examples Over Abstractions
+
 **Rationale:** Users learn faster from concrete examples than descriptions
 
 ### Decision 5: Phased Rollout (3 phases)
+
 **Rationale:** Quick wins build momentum, validate direction before heavy investment
 
 ---
@@ -823,6 +861,7 @@ teach validate hw3.qmd          # → Validates against assignment.md checklist
 ## 🎨 Visual Workflows
 
 ### Current Workflow (Before Enhancement)
+
 ```
 User wants lecture notes
   ↓
@@ -844,6 +883,7 @@ Done (30 min total)
 ```
 
 ### Enhanced Workflow (After Phase 1)
+
 ```
 User wants lecture notes
   ↓
@@ -859,6 +899,7 @@ Savings: 25 minutes (83% reduction)
 ```
 
 ### Enhanced Workflow (After Phase 2)
+
 ```
 User wants customized lecture
   ↓
@@ -908,18 +949,21 @@ Savings: 22 minutes (73% reduction) + quality guarantee
 ## 🔄 Iteration Plan
 
 ### After Phase 1 (Week 1)
+
 - Gather user feedback on teach prompt commands
 - Measure usage: Are prompts being discovered?
 - Identify pain points with current workflow
 - Decide: Proceed to Phase 2 or iterate on Phase 1?
 
 ### After Phase 2 (Week 4)
+
 - Gather feedback on validation accuracy
 - Measure customization adoption
 - Identify missing features
 - Decide: Proceed to Phase 3 or add Phase 2.5?
 
 ### After Phase 3 (Week 8)
+
 - Measure comprehensive system usage
 - Identify next generation features
 - Consider: Prompt marketplace, community templates?

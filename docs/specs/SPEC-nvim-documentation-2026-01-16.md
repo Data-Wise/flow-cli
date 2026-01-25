@@ -96,6 +96,7 @@ Add comprehensive nvim/LazyVim documentation to flow-cli targeting complete begi
 - Integration with flow commands
 
 **Architecture:**
+
 ```zsh
 # File: commands/nvim-tutorial.zsh
 flow-nvim-tutorial()
@@ -111,6 +112,7 @@ flow-nvim-tutorial()
 **Validation:** Honor system - no strict file checking, trust user
 
 **Usage:**
+
 ```bash
 flow nvim-tutorial            # Start lesson 1
 flow nvim-tutorial 3          # Jump to lesson 3
@@ -152,6 +154,7 @@ flow nvim-tutorial reset      # Start over
 ## Critical Files
 
 ### Must Create (7 new files)
+
 1. `docs/tutorials/15-nvim-quick-start.md` (Survival + Basic Editing)
 2. `docs/tutorials/16-vim-motions.md` (Efficient Navigation)
 3. `docs/tutorials/17-lazyvim-basics.md` (Essential Plugins)
@@ -161,6 +164,7 @@ flow nvim-tutorial reset      # Start over
 7. `docs/assets/gifs/nvim/` (directory with 14 GIFs)
 
 ### Must Update (3 files)
+
 1. `docs/commands/work.md` - Fix default editor documentation
 2. `docs/getting-started/installation.md` - Add nvim/LazyVim installation
 3. `mkdocs.yml` - Add navigation for tutorials and references
@@ -170,23 +174,27 @@ flow nvim-tutorial reset      # Start over
 ## Implementation Phases
 
 ### Phase 1: Tutorial 15 (Proof of Concept) - 3-4 hours
+
 - Create first tutorial following template
 - 3 GIFs for basic workflow
 - Test with beginners
 - Iterate based on feedback
 
 ### Phase 2: Complete Tutorial Series - 4-6 hours
+
 - Tutorials 16 (Vim Motions), 17 (LazyVim Basics), 18 (LazyVim Showcase)
 - 11 additional GIFs
 - Cross-link tutorials with clear progression
 - Exercises and honor system checkpoints
 
 ### Phase 3: Reference Card & Interactive Tutorial - 5-7 hours
+
 - 1 quick reference card (general nvim, no R-specific)
 - Interactive shell command with guided tour and checkpoints
 - Progress tracking and validation system
 
 ### Phase 4: Documentation Updates & Deployment - 2-3 hours
+
 - Fix work.md
 - Update installation.md and mkdocs.yml
 - Build and deploy docs
@@ -197,6 +205,7 @@ flow nvim-tutorial reset      # Start over
 ## Verification Steps
 
 ### 1. Documentation Testing
+
 ```bash
 # Code examples run without errors
 cd docs/tutorials && grep -r '```bash' *.md | wc -l
@@ -212,6 +221,7 @@ cat docs/tutorials/1{5,6,7,8}-*.md | head -20
 ```
 
 ### 2. Interactive Tutorial Testing
+
 ```bash
 # Fresh user test
 flow nvim-tutorial reset
@@ -225,12 +235,14 @@ flow nvim-tutorial 3
 ```
 
 ### 3. User Acceptance Testing
+
 - 3-5 beginners (never used vim)
 - Follow Tutorial 15
 - Report confusion, missing info, panic moments
 - Integrate feedback (1 hour)
 
 ### 4. Integration Testing
+
 ```bash
 # work command opens nvim correctly
 work test-project
@@ -249,6 +261,7 @@ r test
 ## Key Exploration Findings
 
 ### Current State
+
 - nvim is default editor (line 54 of commands/work.zsh) but undocumented
 - 58 LazyVim plugins installed including R.nvim
 - R LSP configured but languageserver R package missing
@@ -257,6 +270,7 @@ r test
 - `_flow_open_editor()` handles nvim with blocking mode (correct)
 
 ### Documentation Patterns
+
 - ADHD-friendly: checkpoints, exercises, short paragraphs
 - Tutorial template: 3-part structure (Foundation/Core/Advanced)
 - Reference cards: 1-page, grouped by task
@@ -264,6 +278,7 @@ r test
 - Numbered tutorials (01-14 currently exist, we add 15-18)
 
 ### LazyVim vs Vanilla Nvim
+
 - LazyVim = opinionated distribution (like Ubuntu)
 - 100+ sensible keybindings by default
 - lazy.nvim plugin manager integrated

@@ -9,6 +9,7 @@
 ## Pre-Implementation
 
 ### Design Review
+
 - [x] UX design document complete (`dotfile-ux-design.md`)
 - [x] Visual mockups complete (`dot-dispatcher-visual-mockups.md`)
 - [x] Quick reference card (`dot-dispatcher-refcard.md`)
@@ -18,6 +19,7 @@
 - [ ] User approval on dashboard integration intensity
 
 ### Environment Setup
+
 - [ ] Chezmoi installed on both machines (iMac + MacBook)
 - [ ] Bitwarden CLI installed on both machines
 - [ ] Test dotfiles repository created (private GitHub repo)
@@ -28,11 +30,13 @@
 ## Phase 1: Foundation (Week 1 - 4 hours)
 
 ### File Creation
+
 - [ ] Create `lib/dispatchers/dot-dispatcher.zsh`
 - [ ] Create `lib/dotfile-helpers.zsh`
 - [ ] Add loader to `flow.plugin.zsh`
 
 ### Basic Structure
+
 ```bash
 # In dot-dispatcher.zsh
 df() {
@@ -53,6 +57,7 @@ _dot_help() {
 ```
 
 ### Checklist
+
 - [ ] `dot` command loads without errors
 - [ ] `dot help` displays help text (from mockup)
 - [ ] `dot status` shows basic status
@@ -65,6 +70,7 @@ _dot_help() {
 ## Phase 2: Core Workflows (Week 1-2 - 8 hours)
 
 ### Edit Command
+
 - [ ] Implement `_dot_edit()`
 - [ ] Smart path resolution (fuzzy matching)
 - [ ] Multiple match handling (fzf picker)
@@ -76,6 +82,7 @@ _dot_help() {
 - [ ] Test: `dot edit .zshrc` → edit → preview → apply
 
 ### Sync Command
+
 - [ ] Implement `_dot_sync()`
 - [ ] Pull from remote (chezmoi update)
 - [ ] Show diff before applying
@@ -86,6 +93,7 @@ _dot_help() {
 - [ ] Test: `dot sync` on MacBook after iMac changes
 
 ### Push Command
+
 - [ ] Implement `_dot_push()`
 - [ ] Show local changes (diff)
 - [ ] Auto-generate commit message
@@ -95,6 +103,7 @@ _dot_help() {
 - [ ] Test: `dot push` after local edits
 
 ### Diff Command
+
 - [ ] Implement `_dot_diff()`
 - [ ] Show modified files
 - [ ] Color-coded diff output (red/green)
@@ -103,6 +112,7 @@ _dot_help() {
 - [ ] Test: `dot diff` shows pending changes
 
 ### Apply Command
+
 - [ ] Implement `_dot_apply()`
 - [ ] Show what will be applied
 - [ ] Backup creation
@@ -111,6 +121,7 @@ _dot_help() {
 - [ ] Test: `dot apply` applies pending changes
 
 ### Phase 2 Testing
+
 - [ ] Edit workflow: edit → preview → apply → push
 - [ ] Sync workflow: sync → preview → apply
 - [ ] Error handling: editor fails, backup fails
@@ -123,6 +134,7 @@ _dot_help() {
 ## Phase 3: Secret Management (Week 2-3 - 6 hours)
 
 ### Bitwarden Integration
+
 - [ ] Implement `_dot_unlock()`
 - [ ] Session detection (bw status)
 - [ ] Auto-prompt on locked session
@@ -131,6 +143,7 @@ _dot_help() {
 - [ ] Test: `dot unlock` unlocks vault
 
 ### Secret Commands
+
 - [ ] Implement `_dot_secret_list()`
 - [ ] Show all secrets from vault
 - [ ] Show where secrets are used
@@ -151,6 +164,7 @@ _dot_help() {
 - [ ] Test: `dot secret test` validates injection
 
 ### Auto-Recovery
+
 - [ ] Detect expired session on any `dot` command
 - [ ] Prompt to unlock before continuing
 - [ ] Resume original command after unlock
@@ -158,6 +172,7 @@ _dot_help() {
 - [ ] Test: `dot edit .zshrc` when BW locked → auto-unlock
 
 ### Phase 3 Testing
+
 - [ ] Unlock workflow: expired → prompt → unlock → continue
 - [ ] Secret list shows all secrets
 - [ ] Secret add creates vault item + updates template
@@ -170,6 +185,7 @@ _dot_help() {
 ## Phase 4: Status & Info Commands (Week 3 - 3 hours)
 
 ### Status Command (Enhanced)
+
 - [ ] Show sync state (🟢/🟡/🔴/🔵)
 - [ ] Machine identification
 - [ ] Last sync time
@@ -181,6 +197,7 @@ _dot_help() {
 - [ ] Test: `dot` matches visual mockup
 
 ### List Command
+
 - [ ] Implement `_dot_list()`
 - [ ] Show all tracked files
 - [ ] Group by category (shell, git, ssh, etc.)
@@ -190,6 +207,7 @@ _dot_help() {
 - [ ] Test: `dot list` shows all dotfiles
 
 ### Phase 4 Testing
+
 - [ ] Status output matches Mockup 1-4
 - [ ] List output matches Mockup 12
 - [ ] All state transitions correct (synced → modified → behind)
@@ -200,6 +218,7 @@ _dot_help() {
 ## Phase 5: Troubleshooting (Week 3 - 3 hours)
 
 ### Doctor Command
+
 - [ ] Implement `_dot_doctor()`
 - [ ] Check chezmoi installed
 - [ ] Check bitwarden-cli installed
@@ -215,6 +234,7 @@ _dot_help() {
 - [ ] Test: `dot doctor` runs all checks
 
 ### Undo Command
+
 - [ ] Implement `_dot_undo()`
 - [ ] Show last change
 - [ ] Restore from backup
@@ -224,6 +244,7 @@ _dot_help() {
 - [ ] Test: `dot undo` restores previous state
 
 ### Init Command
+
 - [ ] Implement `_dot_init()`
 - [ ] Interactive setup wizard
 - [ ] Clone from remote repo option
@@ -234,6 +255,7 @@ _dot_help() {
 - [ ] Test: `dot init` on fresh machine
 
 ### Phase 5 Testing
+
 - [ ] Doctor detects all issues
 - [ ] Doctor output matches Mockup 16-17
 - [ ] Undo restores backups correctly
@@ -245,6 +267,7 @@ _dot_help() {
 ## Phase 6: Error Handling (Week 3-4 - 2 hours)
 
 ### Error Cases
+
 - [ ] Chezmoi not installed → suggest install
 - [ ] Bitwarden locked → auto-prompt unlock
 - [ ] Git conflict → show resolution options
@@ -255,6 +278,7 @@ _dot_help() {
 - [ ] Remote unreachable → offline mode
 
 ### Error Messages
+
 - [ ] Every error shows:
   - What went wrong (clear message)
   - Why it matters (context)
@@ -264,6 +288,7 @@ _dot_help() {
 - [ ] Test all error paths
 
 ### Phase 6 Testing
+
 - [ ] All error scenarios tested
 - [ ] Error messages actionable
 - [ ] Auto-recovery works
@@ -275,6 +300,7 @@ _dot_help() {
 ## Phase 7: Integration (Week 4 - 4 hours)
 
 ### Dashboard Integration
+
 - [ ] Add `_dash_dotfiles()` function to `commands/dash.zsh`
 - [ ] Show one-line status in dashboard
 - [ ] Status icon (🟢/🟡/🔴)
@@ -284,6 +310,7 @@ _dot_help() {
 - [ ] Test: `dash` shows dotfile status (Mockup 20)
 
 ### Work Command Integration
+
 - [ ] Add dotfile check to `commands/work.zsh`
 - [ ] Check for remote updates on `work` start
 - [ ] Prompt to sync if behind
@@ -292,12 +319,14 @@ _dot_help() {
 - [ ] Test: `work flow-cli` checks dotfiles (Mockup 21)
 
 ### Flow Doctor Integration
+
 - [ ] Add `_flow_doctor_dotfiles()` to `commands/doctor.zsh`
 - [ ] Include in `flow doctor` checks
 - [ ] Show status in health report
 - [ ] Test: `flow doctor` includes dotfiles
 
 ### Phase 7 Testing
+
 - [ ] Dashboard integration works
 - [ ] Work command integration works
 - [ ] Flow doctor integration works
@@ -309,6 +338,7 @@ _dot_help() {
 ## Phase 8: Completions (Week 4 - 2 hours)
 
 ### ZSH Completions
+
 - [ ] Create `completions/_dot`
 - [ ] Complete subcommands (edit, sync, push, etc.)
 - [ ] Complete file paths for `dot edit`
@@ -318,6 +348,7 @@ _dot_help() {
 - [ ] Test: `dot edit <TAB>` shows tracked files
 
 ### Completion Features
+
 - [ ] Fuzzy matching for file paths
 - [ ] Description text for each completion
 - [ ] Context-aware completions
@@ -329,6 +360,7 @@ _dot_help() {
 ## Phase 9: Documentation (Week 4 - 3 hours)
 
 ### Reference Documentation
+
 - [ ] Create `docs/reference/DOT-DISPATCHER-REFERENCE.md`
 - [ ] Include all commands
 - [ ] Include examples
@@ -337,6 +369,7 @@ _dot_help() {
 - [ ] Update `DISPATCHER-REFERENCE.md` to include `dot`
 
 ### Tutorial
+
 - [ ] Create `docs/tutorials/dotfile-setup.md`
 - [ ] First-time setup guide
 - [ ] Daily workflow examples
@@ -345,6 +378,7 @@ _dot_help() {
 - [ ] Common troubleshooting
 
 ### Updates to Existing Docs
+
 - [ ] Update `README.md` to mention `dot` dispatcher
 - [ ] Update `CLAUDE.md` to include dotfile management
 - [ ] Update `COMMAND-QUICK-REFERENCE.md`
@@ -352,6 +386,7 @@ _dot_help() {
 - [ ] Update `mkdocs.yml` navigation
 
 ### Committed
+
 - [ ] `docs: add dotfile management documentation`
 
 ---
@@ -359,6 +394,7 @@ _dot_help() {
 ## Phase 10: Testing (Week 4 - 2 hours)
 
 ### Unit Tests
+
 - [ ] Create `tests/dot-dispatcher.test.zsh`
 - [ ] Test: `dot` shows status
 - [ ] Test: `dot help` shows help
@@ -372,6 +408,7 @@ _dot_help() {
 - [ ] Test: `dot undo` restores backup
 
 ### Integration Tests
+
 - [ ] Test: Edit workflow (edit → diff → apply → push)
 - [ ] Test: Sync workflow (sync → apply)
 - [ ] Test: Secret workflow (add → test → inject)
@@ -382,6 +419,7 @@ _dot_help() {
 - [ ] Test: Doctor integration
 
 ### Error Handling Tests
+
 - [ ] Test: Chezmoi not installed
 - [ ] Test: Bitwarden locked
 - [ ] Test: Git conflict
@@ -391,6 +429,7 @@ _dot_help() {
 - [ ] Test: Invalid input
 
 ### Performance Tests
+
 - [ ] Test: `dot` completes in < 0.5s
 - [ ] Test: `dot edit` completes in < 1s
 - [ ] Test: `dot sync` completes in < 3s
@@ -398,6 +437,7 @@ _dot_help() {
 - [ ] Test: All commands < 3s
 
 ### Committed
+
 - [ ] `test: add comprehensive df dispatcher tests`
 
 ---
@@ -405,6 +445,7 @@ _dot_help() {
 ## Phase 11: Polish (Week 4 - 2 hours)
 
 ### Code Review
+
 - [ ] Clean up debug statements
 - [ ] Consistent error handling
 - [ ] Consistent color scheme
@@ -413,12 +454,14 @@ _dot_help() {
 - [ ] Add inline comments for complex logic
 
 ### Performance Optimization
+
 - [ ] Profile slow commands
 - [ ] Cache repeated operations
 - [ ] Minimize external command calls
 - [ ] Optimize chezmoi queries
 
 ### UX Polish
+
 - [ ] Verify all output matches mockups
 - [ ] Verify color scheme consistency
 - [ ] Verify icon usage consistency
@@ -426,6 +469,7 @@ _dot_help() {
 - [ ] Test with different color schemes
 
 ### Committed
+
 - [ ] `refactor: polish df dispatcher for release`
 
 ---
@@ -433,6 +477,7 @@ _dot_help() {
 ## Phase 12: Release (Week 4)
 
 ### Pre-Release Checklist
+
 - [ ] All tests passing
 - [ ] Documentation complete
 - [ ] Code reviewed
@@ -442,12 +487,14 @@ _dot_help() {
 - [ ] Mockups match reality
 
 ### Version Bump
+
 - [ ] Update version in `package.json`
 - [ ] Update version in `README.md`
 - [ ] Update version in `CLAUDE.md`
 - [ ] Update version in docs
 
 ### Release Notes
+
 - [ ] Create `CHANGELOG.md` entry for v5.0.0
 - [ ] List new features
 - [ ] List breaking changes (if any)
@@ -455,15 +502,18 @@ _dot_help() {
 - [ ] Include migration guide (if needed)
 
 ### Git
+
 - [ ] Commit: `chore: bump version to 5.0.0`
 - [ ] Tag: `git tag -a v5.0.0 -m "Add df (dotfile) dispatcher"`
 - [ ] Push: `git push origin main --tags`
 
 ### Documentation
+
 - [ ] Deploy docs: `mkdocs gh-deploy --force`
 - [ ] Verify docs site: https://Data-Wise.github.io/flow-cli/
 
 ### Announcement
+
 - [ ] Update project README
 - [ ] Share in relevant channels
 - [ ] Test on both machines (iMac + MacBook)
@@ -473,12 +523,14 @@ _dot_help() {
 ## Post-Release
 
 ### Monitoring (Week 5+)
+
 - [ ] Monitor for bug reports
 - [ ] Collect user feedback
 - [ ] Track usage metrics (if available)
 - [ ] Watch for edge cases
 
 ### Future Enhancements
+
 - [ ] Version management integration (`dot version`)
 - [ ] Package sync (`dot pkg`)
 - [ ] Template picker (`dot template`)
@@ -490,6 +542,7 @@ _dot_help() {
 ## Quick Reference
 
 ### Development Commands
+
 ```bash
 # Load plugin in current shell
 source flow.plugin.zsh
@@ -506,6 +559,7 @@ mkdocs gh-deploy --force  # Deploy
 ```
 
 ### Git Workflow
+
 ```bash
 # Feature branch
 git checkout -b feature/dot-dispatcher
@@ -528,6 +582,7 @@ gh pr create --base dev --fill
 ## Success Criteria
 
 ### Week 4 (MVP Complete)
+
 - [ ] All core commands work (`dot`, `edit`, `sync`, `push`, `diff`)
 - [ ] Secret management works (`unlock`, `secret list`)
 - [ ] Dashboard integration works
@@ -537,12 +592,14 @@ gh pr create --base dev --fill
 - [ ] Documentation complete
 
 ### Week 8 (Adoption)
+
 - [ ] User runs `dot` daily
 - [ ] Zero manual chezmoi commands
 - [ ] Secrets injected correctly
 - [ ] No sync conflicts
 
 ### Week 12 (Mastery)
+
 - [ ] User comfortable with all commands
 - [ ] Integration feels natural
 - [ ] Zero dotfile-related friction
@@ -555,6 +612,7 @@ gh pr create --base dev --fill
 ### Common Issues
 
 **Plugin not loading:**
+
 ```bash
 # Check syntax
 zsh -n lib/dispatchers/dot-dispatcher.zsh
@@ -567,6 +625,7 @@ whence -f df
 ```
 
 **Colors not working:**
+
 ```bash
 # Check terminal support
 echo $TERM
@@ -580,6 +639,7 @@ _flow_log_success "Test"
 ```
 
 **Tests failing:**
+
 ```bash
 # Run in debug mode
 FLOW_DEBUG=1 zsh tests/dot-dispatcher.test.zsh

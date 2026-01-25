@@ -227,7 +227,7 @@ semester_info:
 }
 ```
 
-2. **Example teach-config.yml:**
+1. **Example teach-config.yml:**
 
 ```yaml
 semester_info:
@@ -375,7 +375,7 @@ _date_find_teaching_files() {
 }
 ```
 
-2. **Date extraction workflow:**
+1. **Date extraction workflow:**
 
 ```
 File → Parse YAML frontmatter → Extract date field
@@ -528,7 +528,7 @@ _date_apply_to_file() {
 }
 ```
 
-2. **Workflow:**
+1. **Workflow:**
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -660,7 +660,7 @@ _teach_semester_shift_config_dates() {
 }
 ```
 
-2. **Semester start date calculation:**
+1. **Semester start date calculation:**
 
 ```zsh
 # Calculate semester start date based on academic calendar patterns
@@ -738,7 +738,7 @@ yq eval -i ".semester_info.start_date = \"$start_date\"" teach-config.yml
 yq eval -i ".semester_info.weeks = $weeks_array" teach-config.yml
 ```
 
-2. **Week generation:**
+1. **Week generation:**
 
 ```zsh
 _teach_init_generate_weeks() {
@@ -992,16 +992,16 @@ Given: week: 3, offset_days: 2
 
 ### Sprint 2 (Week 2) - Core Features
 
-4. Phase 3: Date sync command (full implementation) (3-4h)
-5. Phase 4: Semester rollover (3-4h)
+1. Phase 3: Date sync command (full implementation) (3-4h)
+2. Phase 4: Semester rollover (3-4h)
 
 **Why:** Complete the core workflow
 
 ### Sprint 3 (Week 3) - Polish
 
-6. Phase 5: teach init integration (1-2h)
-7. Documentation and examples (2-3h)
-8. Testing and refinement (2-3h)
+1. Phase 5: teach init integration (1-2h)
+2. Documentation and examples (2-3h)
+3. Testing and refinement (2-3h)
 
 **Why:** User experience polish
 

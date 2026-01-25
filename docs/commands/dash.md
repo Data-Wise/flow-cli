@@ -17,6 +17,7 @@ dash --watch     # Live refresh mode
 ```
 
 **Quick examples:**
+
 ```bash
 # Show all projects
 dash
@@ -186,18 +187,18 @@ For accessibility and text-based reference:
 
 ### Phase 2: Sync (Only for "all" category)
 
-3. Find all `.STATUS` files in `~/projects` (excluding `/project-hub`)
-4. For each `.STATUS` file:
+1. Find all `.STATUS` files in `~/projects` (excluding `/project-hub`)
+2. For each `.STATUS` file:
    - Extract project name, category, and path
    - Create category directory in `~/projects/project-hub/` if needed
    - Copy `.STATUS` file to `project-hub/category/name.STATUS`
    - Increment sync counter
-5. Display sync completion message with count
-6. Update coordination timestamp in `PROJECT-HUB.md`
+3. Display sync completion message with count
+4. Update coordination timestamp in `PROJECT-HUB.md`
 
 ### Phase 3: Filter Setup
 
-7. Set filter path based on category:
+1. Set filter path based on category:
    - `teaching` → `~/projects/teaching`
    - `research` → `~/projects/research`
    - `packages` → `~/projects/r-packages`
@@ -207,8 +208,8 @@ For accessibility and text-based reference:
 
 ### Phase 4: Scan & Parse
 
-8. Find all `.STATUS` files in filter path
-9. For each `.STATUS` file:
+1. Find all `.STATUS` files in filter path
+2. For each `.STATUS` file:
    - Parse fields: `status`, `priority`, `progress`, `next`, `type`
    - Assign default values if fields missing
    - Determine project icon based on type
@@ -216,7 +217,7 @@ For accessibility and text-based reference:
 
 ### Phase 5: Categorization
 
-10. Categorize each entry by status:
+1. Categorize each entry by status:
     - `active/working/in progress` → Active Projects array
     - `ready/todo/planned` → Ready Projects array
     - `paused/hold/waiting` → Paused Projects array
@@ -224,27 +225,27 @@ For accessibility and text-based reference:
 
 ### Phase 6: Display
 
-11. Display header with category name
-12. If Active Projects array not empty:
+1. Display header with category name
+2. If Active Projects array not empty:
     - Display "🔥 ACTIVE NOW" section
     - For each project: show name, priority (colored), progress %, next action
-13. If Ready Projects array not empty:
+3. If Ready Projects array not empty:
     - Display "📋 READY TO START" section
     - For each project: show name, priority (colored), next action
-14. If Paused Projects array not empty:
+4. If Paused Projects array not empty:
     - Display "⏸️ PAUSED" section
     - For each project: show name, next action (dimmed)
-15. If Blocked Projects array not empty:
+5. If Blocked Projects array not empty:
     - Display "🚫 BLOCKED" section
     - For each project: show name, next action (dimmed)
 
 ### Phase 7: Summary & Actions
 
-16. Calculate total project count
-17. If total = 0:
+1. Calculate total project count
+2. If total = 0:
     - Show "No projects found" message
     - Display tip about creating `.STATUS` files
-18. If total > 0:
+3. If total > 0:
     - Display separator line
     - Show quick actions menu:
       - `work <name>` - Start working on a project
@@ -458,6 +459,7 @@ priority: 1 # Maps to high urgency
 
 - `.STATUS` files in project directories
 - Format: Key-value pairs with fields
+
   ```
   status: active
   priority: P0

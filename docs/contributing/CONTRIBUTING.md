@@ -34,6 +34,7 @@ Thank you for your interest in contributing! This guide will help you get starte
    ```
 
 4. **Build documentation (optional):**
+
    ```bash
    mkdocs serve
    # Visit http://127.0.0.1:8000
@@ -96,6 +97,7 @@ flow-cli/
    ```
 
 4. **Commit your changes:**
+
    ```bash
    git add .
    git commit -m "feat: add new feature"
@@ -259,6 +261,7 @@ EOF
 ## Adding a New Dispatcher
 
 1. **Create the file:**
+
    ```bash
    touch lib/dispatchers/mydisp-dispatcher.zsh
    ```
@@ -269,6 +272,7 @@ EOF
    - Action functions: `_mydisp_action()`
 
 3. **Create tests:**
+
    ```bash
    touch tests/test-mydisp-dispatcher.zsh
    ```
@@ -312,11 +316,13 @@ EOF
 ### Pull Request Process
 
 1. **Ensure tests pass:**
+
    ```bash
    zsh tests/test-<name>-dispatcher.zsh
    ```
 
 2. **Create PR to `dev` branch:**
+
    ```bash
    g feature finish
    # or: git push && gh pr create

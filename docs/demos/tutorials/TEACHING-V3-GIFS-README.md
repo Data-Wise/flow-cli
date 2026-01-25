@@ -198,6 +198,7 @@ Each tape:
 **MUST follow these rules to prevent errors:**
 
 1. **Use `echo` for all titles and comments**
+
    ```bash
    # ❌ WRONG - causes zsh errors:
    Type "# This is a comment" Enter
@@ -207,14 +208,17 @@ Each tape:
    ```
 
 2. **Source flow-cli at start of EVERY tape**
+
    ```bash
    Hide
    Type "source ~/projects/dev-tools/flow-cli/flow.plugin.zsh" Enter
    Sleep 1s
    ```
+
    This ensures all `teach` commands are available.
 
 3. **Avoid escaped quotes in Type commands**
+
    ```bash
    # ❌ WRONG - VHS parser error:
    Type "teach exam \"Topic\" --template foo" Enter
@@ -224,9 +228,11 @@ Each tape:
    ```
 
 4. **Always optimize GIFs after generation**
+
    ```bash
    gifsicle -O3 tutorial-name.gif -o tutorial-name.gif
    ```
+
    Reduces file size by ~30-40% without quality loss.
 
 5. **Test commands before recording**

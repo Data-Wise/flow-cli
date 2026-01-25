@@ -442,6 +442,7 @@ All commands must complete in < 3s for ADHD-friendliness
 ## Testing Checklist
 
 ### Unit Tests
+
 - [ ] `dot` shows status
 - [ ] `dot help` displays help
 - [ ] `dot edit` opens correct file
@@ -452,6 +453,7 @@ All commands must complete in < 3s for ADHD-friendliness
 - [ ] `dot secret list` shows secrets
 
 ### Integration Tests
+
 - [ ] Edit → diff → apply workflow
 - [ ] Sync → conflict → resolve workflow
 - [ ] Secret injection in templates
@@ -461,6 +463,7 @@ All commands must complete in < 3s for ADHD-friendliness
 - [ ] Flow doctor includes dotfiles
 
 ### Error Handling
+
 - [ ] Graceful handling when chezmoi not installed
 - [ ] Graceful handling when BW locked
 - [ ] Graceful handling when git conflict

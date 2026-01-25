@@ -41,11 +41,13 @@ Add support for **both mode-first and target-first** command orders in the `cc` 
 ## Secondary User Stories
 
 ### Story 2: Explicit HERE
+
 **As a user concerned about launching in wrong directory,**
 **I want** explicit syntax for "launch HERE",
 **So that** my intent is clear in scripts/history.
 
 **Solution:** Add `.` and `here` as target aliases
+
 ```bash
 cc .                  # Explicit HERE
 cc here               # Readable HERE
@@ -53,11 +55,13 @@ cc opus .             # Opus mode HERE
 ```
 
 ### Story 3: Reserved Keyword Handling
+
 **As a user with a project named "opus",**
 **I want** to access my project without conflict,
 **So that** I can use `cc` with any project name.
 
 **Solution:** Modes take precedence, use `pick` for projects
+
 ```bash
 cc opus               # Mode (Opus HERE)
 cc pick opus          # Project (jump to 'opus')
@@ -70,6 +74,7 @@ cc pick opus          # Project (jump to 'opus')
 ### Architecture
 
 #### Current State (v4.7.1)
+
 ```bash
 cc [mode] [target]
   mode   = (empty) | yolo | plan | opus | haiku
@@ -79,6 +84,7 @@ cc [mode] [target]
 **Parsing:** Mode-first only, positional
 
 #### Proposed State (v4.8.0)
+
 ```bash
 cc [mode|target] [target|mode]
   mode   = (empty) | yolo | y | plan | p | opus | o | haiku | h
@@ -119,6 +125,7 @@ flowchart TD
 ### Grammar Specification
 
 #### Reserved Keywords (Modes)
+
 ```
 yolo, y       → --dangerously-skip-permissions
 plan, p       → --permission-mode plan
@@ -127,6 +134,7 @@ haiku, h      → --model haiku --permission-mode acceptEdits
 ```
 
 #### Reserved Keywords (Targets)
+
 ```
 (empty)       → HERE (current directory)
 ., here       → HERE (explicit)
@@ -136,6 +144,7 @@ wt, w         → Worktree (requires branch arg)
 ```
 
 #### Precedence Rules
+
 1. If arg1 is mode keyword → parse as mode-first
 2. If arg1 is target keyword → parse as target-first
 3. If arg1 is unknown → assume project name (target)
@@ -144,6 +153,7 @@ wt, w         → Worktree (requires branch arg)
 ### API Design
 
 #### Function Signature
+
 ```bash
 cc [mode|target] [target|mode] [args...]
 ```
@@ -174,11 +184,13 @@ N/A - No data model changes (pure shell logic)
 ## Dependencies
 
 ### Required
+
 - ZSH 5.8+
 - `pick` function (from flow-cli)
 - Existing `cc` dispatcher base
 
 ### Optional
+
 - None
 
 ---
@@ -207,12 +219,14 @@ Result: Changed to flow-cli directory, launched Claude with Opus
 ### Help Text Updates
 
 #### Before (v4.7.1)
+
 ```
 🚀 LAUNCH MODES:
   cc opus pick          Pick project → Opus model
 ```
 
 #### After (v4.8.0)
+
 ```
 🚀 LAUNCH MODES (Flexible Order):
   cc opus pick          Mode first (unified pattern)
@@ -230,6 +244,7 @@ N/A - CLI only, no accessibility concerns
 ## Open Questions
 
 ### Q1: How to handle three-arg combinations?
+
 **Example:** `cc yolo wt feature` (mode + target + target-arg)
 
 **Options:**
@@ -241,6 +256,7 @@ N/A - CLI only, no accessibility concerns
 **Rationale:** Simplest, consistent with current behavior
 
 ### Q2: Should we warn on ambiguous patterns?
+
 **Example:** Project named "opus"
 
 **Options:**
@@ -253,6 +269,7 @@ N/A - CLI only, no accessibility concerns
 **Rationale:** Matches user preference for zero friction
 
 ### Q3: Should `.` and `here` work with pick?
+
 **Example:** `cc pick .` (pick project, then launch HERE?)
 
 **Options:**
@@ -328,6 +345,7 @@ N/A - CLI only, no accessibility concerns
 ### Error Handling
 
 **Invalid combinations:**
+
 ```bash
 cc yolo plan          # Two modes
 → Error: "Cannot combine modes 'yolo' and 'plan'"
@@ -340,6 +358,7 @@ cc opus haiku         # Two modes
 ```
 
 **Unknown arguments:**
+
 ```bash
 cc invalidmode
 → Assume project name, attempt pick direct jump
@@ -349,6 +368,7 @@ cc invalidmode
 ### Backward Compatibility
 
 **v4.7.1 patterns (all still work):**
+
 ```bash
 cc                    ✅ Launch HERE
 cc pick               ✅ Picker
@@ -359,6 +379,7 @@ cc yolo wt feature    ✅ YOLO + worktree
 ```
 
 **New v4.8.0 patterns:**
+
 ```bash
 cc pick opus          ✅ NEW: Opus + picker
 cc flow opus          ✅ NEW: Jump to flow + Opus
@@ -371,6 +392,7 @@ cc .                  ✅ NEW: Explicit HERE (short)
 ## History
 
 ### 2026-01-02
+
 - Initial spec created from brainstorm
 - Selected Option 3 (Unified Grammar)
 - Defined parsing algorithm
@@ -382,15 +404,19 @@ cc .                  ✅ NEW: Explicit HERE (short)
 ## Appendix A: Rejected Alternatives
 
 ### Option 1: Minimal Change
+
 **Why rejected:** Doesn't add enough value, creates redundant patterns
 
 ### Option 2: Smart Default
+
 **Why rejected:** Breaking change, violates zero-friction priority
 
 ### Option 4: Explicit Flags
+
 **Why rejected:** Too verbose, inconsistent with flow-cli style
 
 ### Option 5: Natural Language
+
 **Why rejected:** Latency, complexity, overkill for simple dispatcher
 
 ---
@@ -398,17 +424,20 @@ cc .                  ✅ NEW: Explicit HERE (short)
 ## Appendix B: Future Enhancements
 
 ### v5.0: Smart Context Detection
+
 ```bash
 cc                    # Smart: HERE if in project, PICK if not
 ```
 
 ### v5.0: Project Namespacing
+
 ```bash
 cc @opus              # Always project
 cc %opus              # Always mode
 ```
 
 ### v5.0: REPL Mode
+
 ```bash
 cc repl
 > mode opus
@@ -417,6 +446,7 @@ cc repl
 ```
 
 ### v6.0: Custom Modes
+
 ```bash
 cc --save-mode mysetup --model opus --yolo
 cc mysetup pick       # Use saved mode

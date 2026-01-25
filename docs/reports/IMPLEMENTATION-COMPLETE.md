@@ -204,11 +204,13 @@ No blocking issues identified.
 ## Performance Notes
 
 ### Session Detection
+
 - Uses `find` to check .claude/ directory age
 - Could be cached for faster rendering
 - Acceptable performance for typical worktree counts (< 10)
 
 ### Status Detection
+
 - Runs `git branch --merged` per worktree
 - O(n) complexity where n = worktree count
 - Acceptable for typical usage
@@ -241,6 +243,7 @@ No blocking issues identified.
 ## Usage Examples
 
 ### Quick Overview
+
 ```bash
 $ wt
 🌳 Worktrees (4 total)
@@ -258,6 +261,7 @@ $ wt
 ```
 
 ### Filtered View
+
 ```bash
 $ wt flow
 🌳 Worktrees (2 total)
@@ -273,6 +277,7 @@ $ wt flow
 ```
 
 ### Interactive Delete
+
 ```bash
 $ pick wt
 # (fzf picker appears)
@@ -282,6 +287,7 @@ $ pick wt
 ```
 
 ### Refresh Cache
+
 ```bash
 $ pick wt
 # (fzf picker appears)
@@ -327,6 +333,7 @@ $ pick wt
 ### Before Merge
 
 1. **Run all tests**
+
    ```bash
    ./tests/test-wt-enhancement-unit.zsh
    ./tests/test-wt-enhancement-e2e.zsh

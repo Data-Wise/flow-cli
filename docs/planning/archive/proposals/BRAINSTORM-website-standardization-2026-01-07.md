@@ -118,6 +118,7 @@ nav:
 - `HELP-PAGE-TEMPLATE.md` - Help documentation structure
 
 **Implementation:**
+
 ```bash
 cd /Users/dt/projects/dev-tools/flow-cli/docs/conventions/adhd
 
@@ -210,6 +211,7 @@ EOF
 **Current problem:** Workflows scattered across Guides section
 
 **Solution:**
+
 ```yaml
 # mkdocs.yml
 nav:
@@ -262,12 +264,14 @@ nav:
 **Implementation Plan:**
 
 1. **Create assets directory:**
+
    ```bash
    mkdir -p docs/assets/gifs
    mkdir -p docs/assets/screenshots
    ```
 
 2. **Create visual gallery page:**
+
    ```markdown
    # Visual Guides
 
@@ -283,6 +287,7 @@ nav:
    ```
 
 3. **Update navigation:**
+
    ```yaml
    nav:
      - Visuals:
@@ -306,6 +311,7 @@ nav:
 **Process:**
 
 1. **Inventory pass:**
+
    ```bash
    # Find docs without template compliance
    for file in docs/**/*.md; do
@@ -334,6 +340,7 @@ nav:
 **Task:** Ensure all reference cards use REFCARD-TEMPLATE.md format
 
 **Current reference cards:**
+
 ```
 ALIAS-REFERENCE-CARD.md          ✅ Good (table format)
 CC-DISPATCHER-REFERENCE.md       🟡 Partial (needs consistency)
@@ -404,6 +411,7 @@ dispatcher cmd1 && dispatcher cmd2
 **Why Later:** Requires recording infrastructure setup
 
 **Future Design:**
+
 ```markdown
 # Interactive Tutorial: CC Dispatcher
 
@@ -456,26 +464,26 @@ cc pick opus
 
 ### Phase 2: Navigation (This Week - 2 hours)
 
-6. Add "Workflows" top-level section
-7. Reorganize "Guides" vs "Tutorials" distinction
-8. Add "Visuals" section placeholder
-9. Update tutorial progression indicators
-10. Deploy and test navigation changes
+1. Add "Workflows" top-level section
+2. Reorganize "Guides" vs "Tutorials" distinction
+3. Add "Visuals" section placeholder
+4. Update tutorial progression indicators
+5. Deploy and test navigation changes
 
 ### Phase 3: Content Audit (Next Week - 3-4 hours)
 
-11. Inventory all docs with template compliance check
-12. Apply templates to top 10 most-viewed pages
-13. Standardize all reference cards
-14. Create first 5 GIFs
-15. Deploy updated documentation
+1. Inventory all docs with template compliance check
+2. Apply templates to top 10 most-viewed pages
+3. Standardize all reference cards
+4. Create first 5 GIFs
+5. Deploy updated documentation
 
 ### Phase 4: GIF Creation (Ongoing)
 
-16. Create GIF for each major feature (20+ total)
-17. Add visual gallery page
-18. Embed GIFs in relevant docs
-19. Optimize all GIFs for size
+1. Create GIF for each major feature (20+ total)
+2. Add visual gallery page
+3. Embed GIFs in relevant docs
+4. Optimize all GIFs for size
 
 ---
 
@@ -559,36 +567,42 @@ nav:
 ## 🔍 Content Type Definitions
 
 ### Quick Start (Getting Started)
+
 - **Purpose:** Get running in < 5 minutes
 - **Audience:** Brand new users
 - **Format:** Code-heavy, minimal prose
 - **Example:** `docs/getting-started/quick-start.md`
 
 ### Tutorial (Step-by-Step Learning)
+
 - **Purpose:** Learn one feature thoroughly
 - **Audience:** Beginners learning flow-cli
 - **Format:** Numbered steps, checkpoints, hands-on
 - **Example:** `docs/tutorials/01-first-session.md`
 
 ### Workflow (Common Patterns)
+
 - **Purpose:** Show how to accomplish real tasks
 - **Audience:** Users who know basics, need patterns
 - **Format:** Scenario → Commands → Variations
 - **Example:** `docs/guides/WORKFLOWS-QUICK-WINS.md`
 
 ### Guide (Deep Dive)
+
 - **Purpose:** Understand concepts and design
 - **Audience:** Advanced users, contributors
 - **Format:** Conceptual explanation + examples
 - **Example:** `docs/guides/PROJECT-SCOPE.md`
 
 ### Reference Card (Quick Lookup)
+
 - **Purpose:** Remind about syntax/options
 - **Audience:** Users who already know the tool
 - **Format:** Tables, no explanations, scannable
 - **Example:** `docs/reference/COMMAND-QUICK-REFERENCE.md`
 
 ### Help Page (Command Documentation)
+
 - **Purpose:** Complete command reference
 - **Audience:** All users needing command details
 - **Format:** Syntax, options, examples, related commands
@@ -698,23 +712,27 @@ Is this for brand new users?
 ## 🎓 ADHD-Friendly Considerations
 
 ### Visual Hierarchy
+
 - **Consistent structure** - Same layout across all docs
 - **Clear headings** - Scannable, descriptive
 - **Tables over prose** - Quick lookup, no reading walls of text
 - **Icons and emojis** - Visual markers for sections
 
 ### Progressive Disclosure
+
 - **Start simple** - Quick Start before Tutorials
 - **Build complexity** - Tutorials before Workflows before Guides
 - **Reference always available** - Quick lookup without learning
 
 ### Navigation
+
 - **Breadcrumbs** - Always know where you are
 - **Next/Previous** - Clear progression
 - **Search** - Fast escape hatch
 - **Quick links** - Jump to common pages
 
 ### Content Design
+
 - **Short paragraphs** - 2-3 sentences max
 - **Code examples** - Show, don't just tell
 - **Visual demos** - GIFs for complex workflows
@@ -727,6 +745,7 @@ Is this for brand new users?
 ### Immediate (This Session)
 
 1. **Create missing templates:**
+
    ```bash
    cd /Users/dt/projects/dev-tools/flow-cli/docs/conventions/adhd
    # Create TUTORIAL-TEMPLATE.md
@@ -736,11 +755,13 @@ Is this for brand new users?
    ```
 
 2. **Document template usage:**
+
    ```bash
    # Update conventions/adhd/README.md with template selection guide
    ```
 
 3. **Commit and document:**
+
    ```bash
    git add docs/conventions/adhd/
    git commit -m "docs: add missing ADHD-friendly templates
@@ -755,18 +776,19 @@ Is this for brand new users?
 
 ### This Week
 
-4. **Update mkdocs.yml:**
+1. **Update mkdocs.yml:**
    - Add Workflows section
    - Add Visuals section
    - Reorganize navigation hierarchy
 
-5. **Create assets directories:**
+2. **Create assets directories:**
+
    ```bash
    mkdir -p docs/assets/gifs
    mkdir -p docs/assets/screenshots
    ```
 
-6. **Apply templates to top 5 pages:**
+3. **Apply templates to top 5 pages:**
    - index.md
    - getting-started/quick-start.md
    - guides/00-START-HERE.md
@@ -775,10 +797,10 @@ Is this for brand new users?
 
 ### Next Week
 
-7. **Create first 5 GIFs**
-8. **Standardize all reference cards**
-9. **Add visual gallery page**
-10. **Deploy and test**
+1. **Create first 5 GIFs**
+2. **Standardize all reference cards**
+3. **Add visual gallery page**
+4. **Deploy and test**
 
 ---
 

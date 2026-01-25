@@ -11,14 +11,14 @@ Flow-cli currently has scattered "install with brew install X" messages but no u
 
 ## Current State Analysis
 
-### What flow-cli does now:
+### What flow-cli does now
 
 - Ad-hoc error messages: "fzf not installed. Install: brew install fzf"
 - No dependency checking on startup
 - No unified list of required/optional tools
 - Antidote plugins managed separately in `~/.config/zsh/.zsh_plugins.txt`
 
-### Dependencies referenced in flow-cli:
+### Dependencies referenced in flow-cli
 
 | Tool   | Type     | Required? | Used By              |
 | ------ | -------- | --------- | -------------------- |
@@ -29,7 +29,7 @@ Flow-cli currently has scattered "install with brew install X" messages but no u
 | zoxide | Homebrew | Optional  | z navigation         |
 | radian | pip      | Optional  | R console            |
 
-### Antidote plugins (19 active):
+### Antidote plugins (19 active)
 
 - powerlevel10k, autosuggestions, syntax-highlighting, completions
 - OMZ: git, fzf, brew, clipboard tools, etc.
@@ -257,14 +257,14 @@ brew bundle --file=~/projects/dev-tools/flow-cli/setup/Brewfile
 
 ### Medium Effort (1-2 hours)
 
-4. 🔧 Implement `flow doctor` command
-5. 🔧 Add `--fix` flag to show install commands
-6. 🔧 Add to `dash` as health indicator
+1. 🔧 Implement `flow doctor` command
+2. 🔧 Add `--fix` flag to show install commands
+3. 🔧 Add to `dash` as health indicator
 
 ### Future (Optional)
 
-7. 🏗️ Interactive `flow setup` wizard
-8. 🏗️ Antidote plugin recommendations
+1. 🏗️ Interactive `flow setup` wizard
+2. 🏗️ Antidote plugin recommendations
 
 ---
 

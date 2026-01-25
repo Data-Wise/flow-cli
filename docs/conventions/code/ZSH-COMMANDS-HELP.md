@@ -254,9 +254,9 @@ EOF
 
 ### Recommended Elements
 
-4. **Options section** — If any flags exist
-5. **Subcommands section** — If dispatcher-style
-6. **See also** — Related commands
+1. **Options section** — If any flags exist
+2. **Subcommands section** — If dispatcher-style
+3. **See also** — Related commands
 
 ### Style Rules
 
@@ -358,6 +358,7 @@ test_help_output() {
    - Complex options → Pattern 4
 
 2. **Add help handling at the top:**
+
    ```zsh
    # Add this as first thing in function
    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
@@ -367,6 +368,7 @@ test_help_output() {
    ```
 
 3. **Update error messages:**
+
    ```zsh
    # Change this:
    echo "Error: invalid input"

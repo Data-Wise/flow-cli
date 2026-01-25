@@ -55,6 +55,7 @@ Layer 7: 📁 DISPATCHER     - Dispatcher-specific checks (from each dispatcher)
 The `dot` dispatcher already integrates with doctor via a **hook function pattern**:
 
 **In `commands/doctor.zsh` (line 96-98):**
+
 ```zsh
 if (( $+functions[_dot_doctor] )); then
   _dot_doctor  # Call if function exists
@@ -62,6 +63,7 @@ fi
 ```
 
 **In `lib/dispatchers/dot-doctor-integration.zsh` (114 lines):**
+
 ```zsh
 _dot_doctor() {
   echo "${FLOW_COLORS[bold]}📁 DOTFILES${FLOW_COLORS[reset]}"
@@ -211,6 +213,7 @@ _prompt_doctor_check_ohmyposh() {
 ```
 
 **In `commands/doctor.zsh` (after line 98):**
+
 ```zsh
 if (( $+functions[_prompt_doctor] )); then
   _prompt_doctor
@@ -260,6 +263,7 @@ Configuration auto-generation is a **wizard-based process** that automatically c
 The teaching workflow initialization (`teach init "STAT 545"`) demonstrates the full pattern:
 
 **What Gets Created:**
+
 ```
 .flow/
 ├── teach-config.yml          # Course configuration (YAML)
@@ -273,6 +277,7 @@ MIGRATION-COMPLETE.md         # Documentation
 ```
 
 **Lifecycle:**
+
 ```
 1. VALIDATE
    ├─ Is git initialized?
@@ -325,6 +330,7 @@ prompt setup-ohmyposh --interactive
 ```
 
 **Generated File: `~/.config/ohmyposh/config.json`**
+
 ```json
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
@@ -360,6 +366,7 @@ prompt setup-starship --interactive
 ```
 
 **Generated File: `~/.config/starship.toml`**
+
 ```toml
 # Created by: prompt setup-starship
 # Date: 2026-01-14

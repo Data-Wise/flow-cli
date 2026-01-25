@@ -127,6 +127,7 @@ done
 **CLI Version:** 2.1.12
 
 **Print Mode (`-p, --print`):**
+
 ```bash
 # Basic usage - outputs to stdout
 claude -p "prompt text"
@@ -142,6 +143,7 @@ claude -p "prompt" --output-format stream-json  # Realtime streaming
 ```
 
 **JSON Output Structure:**
+
 ```json
 {
   "type": "result",
@@ -157,6 +159,7 @@ claude -p "prompt" --output-format stream-json  # Realtime streaming
 ```
 
 **Key Flags for Automation:**
+
 | Flag | Purpose | Use Case |
 |------|---------|----------|
 | `-p, --print` | Non-interactive mode | Required for scripting |
@@ -371,6 +374,7 @@ _flow_claude_with_spinner() {
 ## Example Workflows
 
 ### Teaching Workflow
+
 ```bash
 cd ~/teaching/stat-579
 work stat-579
@@ -384,6 +388,7 @@ finish "Week 8 materials"
 ```
 
 ### Research Workflow  
+
 ```bash
 cd ~/research/multiply-robust
 work mr-paper

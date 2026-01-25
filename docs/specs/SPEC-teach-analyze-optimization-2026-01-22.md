@@ -93,6 +93,7 @@ The 7 display functions (272 lines) are pure presentation — they read a JSON r
 ### Issue 3: Slide Cache Path Collision
 
 **Current path construction:**
+
 ```zsh
 local slide_cache_file="$course_dir/.teach/slide-optimization-${file_path:t:r}.json"
 ```
@@ -189,6 +190,7 @@ typeset -g _FLOW_CONCEPT_EXTRACTION_LOADED=1
 ### Task 2: Remove Redundant Explicit Source from flow.plugin.zsh
 
 **Remove line 56:**
+
 ```zsh
 # REMOVE: source "$FLOW_PLUGIN_DIR/commands/teach-analyze.zsh"
 ```
@@ -196,6 +198,7 @@ typeset -g _FLOW_CONCEPT_EXTRACTION_LOADED=1
 The glob on line 63 (`for cmd_file in commands/*.zsh`) already sources all command files including teach-analyze.zsh. The explicit source was added to ensure load order, but with load guards in the libs, order no longer matters.
 
 **Also remove lines 49-54** (explicit lib sources):
+
 ```zsh
 # REMOVE: These are sourced by teach-analyze.zsh when it loads
 # source "$FLOW_PLUGIN_DIR/lib/concept-extraction.zsh"
@@ -222,6 +225,7 @@ The glob on line 63 (`for cmd_file in commands/*.zsh`) already sources all comma
 7. `_display_summary_section()` (lines 235-299)
 
 **Add to new file header:**
+
 ```zsh
 #!/usr/bin/env zsh
 # lib/analysis-display.zsh
@@ -244,6 +248,7 @@ typeset -g _FLOW_ANALYSIS_DISPLAY_LOADED=1
 ```
 
 **Update `commands/teach-analyze.zsh`:**
+
 ```zsh
 # Replace inline display functions with:
 source "${0:A:h:h}/lib/analysis-display.zsh"
@@ -254,11 +259,13 @@ source "${0:A:h:h}/lib/analysis-display.zsh"
 ### Task 4: Fix Slide Cache Path to Mirror Source Directory
 
 **Current (in `_teach_analyze()`):**
+
 ```zsh
 local slide_cache_file="$course_dir/.teach/slide-optimization-${file_path:t:r}.json"
 ```
 
 **New:**
+
 ```zsh
 # Mirror source directory structure in cache
 local relative_path="${file_path#$course_dir/}"

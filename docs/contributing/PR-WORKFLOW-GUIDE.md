@@ -48,6 +48,7 @@ gh pr create --base dev --title "Add new feature"
 ```
 
 **Branch Workflow (v4.1.0+):**
+
 ```
 feature/* ──► dev ──► main
     │          │        │
@@ -166,6 +167,7 @@ g push  # On main or dev
 ### When to Use Each Branch
 
 **For new features/improvements:**
+
 ```bash
 g feature start my-feature    # Creates from dev
 # ... work on feature ...
@@ -173,6 +175,7 @@ g feature finish              # PR to dev
 ```
 
 **For urgent production fixes:**
+
 ```bash
 git checkout main
 git checkout -b hotfix/critical-bug
@@ -464,7 +467,7 @@ git merge upstream/main
 git push origin main
 ```
 
-### 3. Celebrate!
+### 3. Celebrate
 
 Your contribution is now part of flow-cli! Thank you for contributing.
 
@@ -596,6 +599,7 @@ git push origin feature/your-feature-name
    - ZSH version differences
 
 3. Fix and push:
+
    ```bash
    git add .
    git commit -m "fix: resolve CI test failures"

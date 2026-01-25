@@ -567,7 +567,7 @@ These work great together:
 
 ---
 
-## 🎉 That's It!
+## 🎉 That's It
 
 **You now know:**
 
@@ -586,5 +586,5 @@ dash
 
 ---
 
-_For detailed docs, see: WORKFLOW-IMPLEMENTATION-SUMMARY.md_
-_For quick reference: WORKFLOW-QUICK-REFERENCE.md_
+*For detailed docs, see: WORKFLOW-IMPLEMENTATION-SUMMARY.md*
+*For quick reference: WORKFLOW-QUICK-REFERENCE.md*

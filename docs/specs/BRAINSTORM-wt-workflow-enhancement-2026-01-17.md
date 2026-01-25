@@ -35,33 +35,43 @@ Enhance the `wt` workflow:
 ## Questions & Answers (8 Expert Questions)
 
 ### Q1: When you run `wt` with no args, what should happen?
+
 **A:** Show formatted list (like `wt status` lite) - Quick overview with branch, status icons, path
 
 ### Q2: For `pick wt` delete action, what should happen after selection?
+
 **A:** Confirm each deletion individually - Safe: 'Delete feature/auth? [y/N]'
 
 ### Q3: What should 'update' mean for `pick wt`?
+
 **A:** Refresh cache + rescan worktrees - Force cache invalidation
 
 ### Q4: Should delete/update work on multiple worktrees at once?
+
 **A:** Yes - fzf multi-select with Tab - Power user: select multiple, act on all
 
 ### Q5: Should `wt` (formatted list) also show session indicators like `pick wt`?
+
 **A:** Yes - show 🟢/🟡/⚪ Claude session status - Match pick wt display
 
 ### Q6: Where should delete confirmation happen?
+
 **A:** Inside fzf preview pane - See details before confirming
 
 ### Q7: Should deleted worktrees also delete the branch?
+
 **A:** Ask each time: 'Also delete branch? [y/N]' - User decides per deletion
 
 ### Q8: For the 'update' (cache refresh), should it also show the refreshed list?
+
 **A:** Yes - refresh then show wt (formatted list) - Quick view after refresh
 
 ### Q9 (Bonus): What keybindings should trigger delete/update in pick wt?
+
 **A:** ctrl-x for delete, ctrl-r for refresh - x=remove, r=refresh
 
 ### Q10 (Bonus): Should `wt` also accept a filter argument like `pick wt`?
+
 **A:** Yes - `wt flow` shows only flow-cli worktrees - Match pick wt filter behavior
 
 ---

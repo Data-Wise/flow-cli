@@ -39,9 +39,11 @@ sed -i '' "s/v[0-9]*\.[0-9]*\.[0-9]*/v$VERSION/g" CLAUDE.md
 echo "🔌 Updating flow.plugin.zsh..."
 sed -i '' "s/FLOW_VERSION=\"[^\"]*\"/FLOW_VERSION=\"$VERSION\"/" flow.plugin.zsh
 
-# 5. Update CC-DISPATCHER-REFERENCE.md
+# 5. Update CC-DISPATCHER-REFERENCE.md (archived)
 echo "📖 Updating CC-DISPATCHER-REFERENCE.md..."
-sed -i '' "s/Version: v[0-9]*\.[0-9]*\.[0-9]*/Version: v$VERSION/" docs/reference/CC-DISPATCHER-REFERENCE.md
+if [[ -f "docs/reference/.archive/CC-DISPATCHER-REFERENCE.md" ]]; then
+    sed -i '' "s/Version: v[0-9]*\.[0-9]*\.[0-9]*/Version: v$VERSION/" docs/reference/.archive/CC-DISPATCHER-REFERENCE.md
+fi
 
 # Show changes
 echo ""

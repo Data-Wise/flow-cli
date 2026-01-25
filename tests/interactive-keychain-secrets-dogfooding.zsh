@@ -160,11 +160,11 @@ else
     fail "_dot_kc_delete not found"
 fi
 
-print_test "Check _dot_secret_kc router exists"
-if type _dot_secret_kc &>/dev/null; then
-    pass "_dot_secret_kc router is defined"
+print_test "Check _dot_secret router exists"
+if type _dot_secret &>/dev/null; then
+    pass "_dot_secret router is defined"
 else
-    fail "_dot_secret_kc router not found"
+    fail "_dot_secret router not found"
 fi
 
 # ══════════════════════════════════════════════════════════════════════════════

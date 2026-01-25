@@ -727,8 +727,8 @@ Add to `teach-config.schema.json`:
 
 ### Sprint 2 (Week 2)
 
-4. Phase 2: Branch-aware deployment (Medium)
-5. Phase 4: Teaching mode (Medium)
+1. Phase 2: Branch-aware deployment (Medium)
+2. Phase 4: Teaching mode (Medium)
 
 **Why:** Build on foundation, add power user features
 

@@ -381,6 +381,7 @@ Demonstrates the complete teaching + git integration workflow including:
 - Git status cleanup workflow
 
 **In documentation:**
+
 ```markdown
 ### Teaching Workflow with Git Integration
 
@@ -400,6 +401,7 @@ workflows, branch-aware deployment, and interactive cleanup prompts.
 Demonstrates the dot dispatcher functionality for managing dotfiles and secrets.
 
 **In documentation:**
+
 ```markdown
 ### DOT Dispatcher Usage
 
@@ -462,6 +464,7 @@ git commit -m "docs: update pick GIF for v4.8 UI changes
 - **Vimeo** — Higher quality, no ads
 
 **Embedding asciinema:**
+
 ```markdown
 <script id="asciicast-123456"
   src="https://asciinema.org/a/123456.js"

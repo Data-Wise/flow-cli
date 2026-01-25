@@ -402,4 +402,4 @@ mcp list      # MCP servers
 
 ---
 
-_Last Updated: 2025-12-19_
+*Last Updated: 2025-12-19*

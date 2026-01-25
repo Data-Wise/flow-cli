@@ -56,6 +56,7 @@ This specification defines flow-cli wrapper commands that invoke Scholar teachin
 ### Command-Specific Flags
 
 #### `teach lecture`
+
 | Flag | Description |
 |------|-------------|
 | `--outline` | Generate outline only (no full content) |
@@ -63,12 +64,14 @@ This specification defines flow-cli wrapper commands that invoke Scholar teachin
 | `--from-plan WEEK` | Generate from lesson plan file |
 
 #### `teach slides`
+
 | Flag | Description |
 |------|-------------|
 | `--theme NAME` | Slide theme (default, academic, minimal) |
 | `--from-lecture FILE` | Generate from lecture file |
 
 #### `teach exam`
+
 | Flag | Description |
 |------|-------------|
 | `--questions N` | Number of questions (default: 20) |
@@ -76,12 +79,14 @@ This specification defines flow-cli wrapper commands that invoke Scholar teachin
 | `--types TYPES` | Question types (mc,sa,essay,calc) |
 
 #### `teach quiz`
+
 | Flag | Description |
 |------|-------------|
 | `--questions N` | Number of questions (default: 10) |
 | `--time-limit MIN` | Time limit in minutes (default: 15) |
 
 #### `teach assignment`
+
 | Flag | Description |
 |------|-------------|
 | `--due-date DATE` | Due date (YYYY-MM-DD) |

@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-5.17.0--dev-blue.svg)](https://github.com/Data-Wise/flow-cli/releases)
+[![Version](https://img.shields.io/badge/version-5.18.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.18.0)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -13,7 +13,9 @@
 
 ```bash
 # 1. Install
-antidote install data-wise/flow-cli   # or: zinit light data-wise/flow-cli
+brew install data-wise/tap/flow-cli   # macOS (recommended)
+# or: antidote install data-wise/flow-cli
+# or: zinit light data-wise/flow-cli
 
 # 2. Work
 work my-project    # Start session
@@ -23,13 +25,38 @@ finish             # Done for now
 
 **That's it.** Everything else is optional.
 
+!!! info "Zero Dependencies"
+flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antidote, or any other framework. Choose any installation method that works for you - they all load the same independent plugin.
+
 ---
 
 ## 🎉 What's New
 
-### v5.17.0: Token Automation Phase 1 (Ready for Release - 2026-01-23)
+### v5.18.0: Documentation Consolidation & API Coverage (In Development - 2026-01-24)
 
-**Smart Token Management with 20x Performance Boost** ✨
+**Simplified Documentation with Comprehensive API Coverage** 📚
+
+- 📄 **Master Documents** - 7 comprehensive guides replace 66 files (95% reduction)
+- 🗺️ **Navigation** - Simplified from 71 → 9 entries (92% reduction)
+- 🔗 **Link Health** - Fixed 54 critical broken links across hub files
+- 📊 **API Documentation** - Improved from 2.7% → 13.8% coverage (+411% increase)
+- ✅ **Quality** - Zero stale docs, comprehensive health checks
+- 📦 **Archive** - 66 legacy files preserved with migration map
+
+**Master Documents:**
+
+- MASTER-API-REFERENCE.md (5,000+ lines)
+- MASTER-DISPATCHER-GUIDE.md (3,000+ lines)
+- MASTER-ARCHITECTURE.md (11+ Mermaid diagrams)
+- Plus: QUICK-REFERENCE, WORKFLOWS, TROUBLESHOOTING, 00-START-HERE
+
+[→ Documentation Hub](https://data-wise.github.io/flow-cli/)
+
+---
+
+### v5.17.0: Token Automation Phase 1 ✨ (Released - 2026-01-23)
+
+**Smart Token Management with 20x Performance Boost**
 
 - 🔑 **Isolated Checks** - `doctor --dot` checks only tokens (< 3s vs 60+ seconds)
 - 💾 **Smart Caching** - 5-minute TTL, 85% hit rate, 80% API call reduction

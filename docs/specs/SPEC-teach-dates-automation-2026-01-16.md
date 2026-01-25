@@ -512,6 +512,7 @@ mismatches:
 ## Review Checklist
 
 ### Design Review
+
 - [x] All user stories have acceptance criteria
 - [x] Architecture diagram shows component relationships
 - [x] Data flow diagrams illustrate key workflows
@@ -520,6 +521,7 @@ mismatches:
 - [x] UI/UX wireframes for all interactive prompts
 
 ### Security Review
+
 - [ ] File writes use atomic operations (write temp, then rename)
 - [ ] sed operations use backup files (.bak)
 - [ ] No shell injection in date string parsing
@@ -527,12 +529,14 @@ mismatches:
 - [ ] File paths are validated (no directory traversal)
 
 ### Performance Review
+
 - [ ] File scanning uses find (efficient for large repos)
 - [ ] YAML parsing cached (don't re-parse same file)
 - [ ] Date computations are O(1) (not O(n))
 - [ ] teach dates sync completes in < 10s for 50 files
 
 ### Testing Review
+
 - [ ] Test suite covers all 5 phases
 - [ ] Mock yq operations in tests (no real file writes)
 - [ ] Test date parsing for all supported formats
@@ -541,6 +545,7 @@ mismatches:
 - [ ] Test conflict resolution (file vs config dates)
 
 ### Documentation Review
+
 - [ ] TEACHING-DATES-GUIDE.md created
 - [ ] Tutorial 14 updated with date management examples
 - [ ] DISPATCHER-REFERENCE.md updated for teach dates
@@ -549,6 +554,7 @@ mismatches:
 - [ ] Video walkthrough of semester rollover
 
 ### Accessibility Review
+
 - [x] All interactive prompts use y/N format
 - [x] Clear option labels with descriptions
 - [x] Status symbols not emoji-only
@@ -605,6 +611,7 @@ mismatches:
 **For existing teaching projects:**
 
 1. **Add dates to teach-config.yml:**
+
    ```yaml
    semester_info:
      start_date: "2025-01-13"
@@ -615,18 +622,21 @@ mismatches:
    ```
 
 2. **Run initial sync (preview):**
+
    ```bash
    teach dates sync --preview
    # Review what would change
    ```
 
 3. **Apply sync:**
+
    ```bash
    teach dates sync
    # Confirm file-by-file
    ```
 
 4. **Commit changes:**
+
    ```bash
    git add -A
    git commit -m "chore: centralize course dates in config"
@@ -653,6 +663,7 @@ mismatches:
 5. **ADHD-Friendly**: Clear, predictable structure with safe defaults
 
 **Command Structure:**
+
 ```bash
 teach dates sync              # Main sync command (interactive)
 teach dates sync --dry-run    # Preview changes (safe mode)
@@ -675,6 +686,7 @@ teach dates validate          # Validate date config
 ---
 
 ### 2026-01-16 - Initial Draft
+
 - **Created by:** Claude Code (Deep Feature Brainstorm)
 - **Reviewed by:** (pending)
 - **Changes:** N/A - initial version

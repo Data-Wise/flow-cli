@@ -42,6 +42,7 @@ Phase 3 adds secure Bitwarden integration to the dot dispatcher, enabling secret
 - Clear error messages for troubleshooting
 
 **Usage:**
+
 ```bash
 # Capture in variable
 TOKEN=$(dot secret github-token)
@@ -155,6 +156,7 @@ Checks for `export BW_SESSION` in:
 15. ✓ `_dot_bw_session_valid` returns false without session
 
 **Run tests:**
+
 ```bash
 zsh tests/test-phase3-secrets.zsh
 ```
@@ -177,13 +179,13 @@ zsh tests/test-phase3-secrets.zsh
 
 ### Created (2 files)
 
-3. **docs/SECRET-MANAGEMENT.md** (353 lines)
+1. **docs/SECRET-MANAGEMENT.md** (353 lines)
    - Comprehensive guide to secret management
    - Chezmoi template examples
    - Security best practices
    - Troubleshooting section
 
-4. **tests/test-phase3-secrets.zsh** (228 lines)
+2. **tests/test-phase3-secrets.zsh** (228 lines)
    - 15 automated tests
    - Function existence checks
    - Error handling validation
@@ -196,12 +198,14 @@ zsh tests/test-phase3-secrets.zsh
 ### Chezmoi Templates
 
 **Template Syntax:**
+
 ```go
 {{- bitwarden "item" "github-token" -}}
 {{- bitwardenFields "item" "api-key" "custom-field" -}}
 ```
 
 **Workflow:**
+
 ```bash
 # 1. Unlock vault
 dot unlock
@@ -272,12 +276,14 @@ $ echo "Token retrieved (not displayed)"
 ### Template Integration
 
 **~/.local/share/chezmoi/dot_gitconfig.tmpl:**
+
 ```ini
 [github]
     token = {{ bitwarden "item" "github-token" }}
 ```
 
 **Apply:**
+
 ```bash
 dot unlock
 dot edit .gitconfig

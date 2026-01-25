@@ -87,6 +87,7 @@
 ### High Priority (User-Facing Docs)
 
 1. **Fix DOC-INDEX.md placeholder**
+
    ```markdown
    # Current (broken)
    [Example](path/to/document.md#anchor)
@@ -96,6 +97,7 @@
    ```
 
 2. **Update TEACHING-DEMO-GUIDE.md**
+
    ```markdown
    # Current (broken)
    ![Demo](../../assets/gifs/teaching/teaching-deploy-workflow.gif)
@@ -107,6 +109,7 @@
    ```
 
 3. **Fix GIF-GUIDELINES.md examples**
+
    ```markdown
    # Current (broken)
    ![Example](../../assets/gifs/commands/pick-basic-usage.gif)
@@ -118,16 +121,16 @@
 
 ### Medium Priority (Developer Docs)
 
-4. **Update DOCUMENTATION-STYLE-GUIDE.md**
+1. **Update DOCUMENTATION-STYLE-GUIDE.md**
    - Missing: `../images/dashboard-example.png`
    - Action: Create screenshot or remove reference
 
-5. **Fix COORDINATION-GUIDE.md cross-references**
+2. **Fix COORDINATION-GUIDE.md cross-references**
    - Update zsh-configuration references to reflect current structure
 
 ### Low Priority (Archived/Planning)
 
-6. **Spec document links**
+1. **Spec document links**
    - These are historical - update only if actively referenced
 
 ---
@@ -165,13 +168,13 @@
 
 ### Short-term (This Month)
 
-3. ✅ **Update developer docs**
+1. ✅ **Update developer docs**
    - DOCUMENTATION-STYLE-GUIDE.md images
    - COORDINATION-GUIDE.md cross-references
 
 ### Optional (As Needed)
 
-4. ⚪ **Archive or update spec docs**
+1. ⚪ **Archive or update spec docs**
    - Only if actively referenced
    - Consider moving to `.archive/` if obsolete
 
@@ -180,6 +183,7 @@
 ## 🚀 Next Steps
 
 ### For User
+
 ```bash
 # Quick fixes
 1. Edit docs/DOC-INDEX.md - remove placeholder
@@ -188,6 +192,7 @@
 ```
 
 ### For CI/CD
+
 ```yaml
 # Add to .github/workflows/docs.yml
 - name: Check documentation links

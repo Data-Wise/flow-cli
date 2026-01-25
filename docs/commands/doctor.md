@@ -19,6 +19,7 @@ flow doctor --category <cat> # Check specific category
 ```
 
 **Quick examples:**
+
 ```bash
 # Check health
 flow doctor

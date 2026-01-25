@@ -1,45 +1,52 @@
 # flow-cli Documentation Index
 
-**Version:** 5.17.0-dev
-**Last Updated:** 2026-01-23
+**Version:** 5.18.0-dev
+**Last Updated:** 2026-01-24
 
 ---
 
 ## Quick Navigation
 
 ### 🚀 Getting Started
+
 - [Quick Start](getting-started/quick-start.md) - 5-minute tutorial
 - [Installation](getting-started/installation.md) - Installation guide
 - [Your First Session](tutorials/01-first-session.md) - Your first workflow
 
 ### 📚 Reference Documentation
-- **[API Complete Reference](reference/API-COMPLETE.md)** - Complete API documentation
-- **[Architecture Diagrams](diagrams/ARCHITECTURE-DIAGRAMS.md)** - System architecture diagrams
+
+- **[Master API Reference](reference/MASTER-API-REFERENCE.md)** - Complete API documentation
+- **[Master Architecture](reference/MASTER-ARCHITECTURE.md)** - System architecture with diagrams
 - **[Token Automation](guides/DOCTOR-TOKEN-USER-GUIDE.md)** - Smart token management (v5.17.0) ⭐ **NEW**
-- [Dispatcher Reference](reference/DISPATCHER-REFERENCE.md) - All 12 dispatchers
-- [Command Quick Reference](reference/COMMAND-QUICK-REFERENCE.md) - Command cheat sheet
-- [Workflow Quick Reference](reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
-- [Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md) - All aliases
+- [Master Dispatcher Guide](reference/MASTER-DISPATCHER-GUIDE.md) - All 12 dispatchers
+- [Command Quick Reference](help/QUICK-REFERENCE.md) - Command cheat sheet
+- [Workflow Reference](help/WORKFLOWS.md) - Common workflows
+- [Troubleshooting Guide](help/TROUBLESHOOTING.md) - Common issues and solutions
 
 ### 🛠️ Developer Documentation
+
 - **[Developer Guide](guides/DEVELOPER-GUIDE.md)** - Contributing and development ⭐ **NEW**
-- [Architecture](reference/ARCHITECTURE.md) - System design
+- [Master Architecture](reference/MASTER-ARCHITECTURE.md) - System design
 - [Conventions](CONVENTIONS.md) - Code standards
 - [Testing Guide](guides/TESTING.md) - Writing tests
 
 ### 📖 Guides & Tutorials
+
 - [ADHD Features Guide](guides/DOPAMINE-FEATURES-GUIDE.md) - Win tracking, streaks, goals
 - [Scholar Integration](guides/SCHOLAR-INTEGRATION.md) - Teaching workflow
 - [Safe Testing](guides/SAFE-TESTING-v5.9.0.md) - Testing in sandboxes
 - [Tutorials Index](tutorials/index.md) - Learning path
 
 ### 🔧 Configuration
+
 - [Environment Variables](getting-started/installation.md#environment-variables) - Env var reference
 - [Flow Command Options](commands/flow.md) - Configuration options
 
 ### 🎓 Teaching System
-- [Teaching System Architecture](TEACHING-SYSTEM-ARCHITECTURE.md) - Full system overview
+
+- [Teaching Workflow v3.0](guides/TEACHING-WORKFLOW-V3-GUIDE.md) - Complete v3.0 guide
 - [Tutorial 14: Teach Dispatcher](tutorials/14-teach-dispatcher.md) - Teaching commands
+- [Tutorial 21: Teach Analyze](tutorials/21-teach-analyze.md) - Content analysis
 
 ---
 
@@ -49,9 +56,9 @@
 
 | Document | Description | Coverage |
 |----------|-------------|----------|
-| [API-COMPLETE.md](reference/API-COMPLETE.md) | Complete API reference with all functions | 100% |
-| [DISPATCHER-REFERENCE.md](reference/DISPATCHER-REFERENCE.md) | All 11 dispatchers in detail | 100% |
-| [COMMAND-QUICK-REFERENCE.md](reference/COMMAND-QUICK-REFERENCE.md) | Quick command lookup | All commands |
+| [MASTER-API-REFERENCE.md](reference/MASTER-API-REFERENCE.md) | Complete API reference with all functions | 13.8% (growing) |
+| [MASTER-DISPATCHER-GUIDE.md](reference/MASTER-DISPATCHER-GUIDE.md) | All 12 dispatchers in detail | 100% |
+| [QUICK-REFERENCE.md](help/QUICK-REFERENCE.md) | Quick command lookup | All commands |
 
 **What's Covered:**
 - Core functions (`_flow_log`, `_flow_find_project_root`)
@@ -66,8 +73,8 @@
 
 | Document | Description | Diagrams |
 |----------|-------------|----------|
-| [ARCHITECTURE-DIAGRAMS.md](diagrams/ARCHITECTURE-DIAGRAMS.md) | Visual system architecture | 15 diagrams |
-| [ARCHITECTURE.md](reference/ARCHITECTURE.md) | System design document | Text + Mermaid |
+| [MASTER-ARCHITECTURE.md](reference/MASTER-ARCHITECTURE.md) | System design with Mermaid diagrams | 11+ diagrams |
+| [Documentation Dashboard](DOC-DASHBOARD.md) | API coverage tracking | - |
 
 **Diagrams Included:**
 - System Overview
@@ -107,89 +114,85 @@
 |----------|-------------|-------|
 | [Quick Start](getting-started/quick-start.md) | 5-minute intro | Beginner |
 | [DOPAMINE-FEATURES-GUIDE.md](guides/DOPAMINE-FEATURES-GUIDE.md) | ADHD features | All users |
-| [WORKFLOW-QUICK-REFERENCE.md](reference/WORKFLOW-QUICK-REFERENCE.md) | Common workflows | Intermediate |
+| [WORKFLOWS.md](help/WORKFLOWS.md) | Common workflows | Intermediate |
 
 ---
 
 ## Documentation by Feature
 
 ### Git & Worktrees
-- **Worktree Detection:** [API-COMPLETE.md#worktree-detection](reference/API-COMPLETE.md#_proj_list_worktrees)
-- **Architecture:** [ARCHITECTURE-DIAGRAMS.md#worktree-detection-flow](diagrams/ARCHITECTURE-DIAGRAMS.md#worktree-detection-flow)
-- **Git Dispatcher:** [DISPATCHER-REFERENCE.md#g-dispatcher](reference/DISPATCHER-REFERENCE.md#g-git-dispatcher)
-- **WT Dispatcher:** [DISPATCHER-REFERENCE.md#wt-dispatcher](reference/DISPATCHER-REFERENCE.md#wt-worktree-dispatcher)
+
+- **Git Helpers:** [MASTER-API-REFERENCE.md#git-helpers](reference/MASTER-API-REFERENCE.md#git-helpers)
+- **Architecture:** [MASTER-ARCHITECTURE.md](reference/MASTER-ARCHITECTURE.md)
+- **Git Dispatcher:** [MASTER-DISPATCHER-GUIDE.md#g-dispatcher](reference/MASTER-DISPATCHER-GUIDE.md)
+- **WT Dispatcher:** [MASTER-DISPATCHER-GUIDE.md#wt-dispatcher](reference/MASTER-DISPATCHER-GUIDE.md)
 
 ### Teaching Workflow
-- **Overview:** [TEACHING-SYSTEM-ARCHITECTURE.md](TEACHING-SYSTEM-ARCHITECTURE.md)
+
+- **Teaching v3.0 Guide:** [guides/TEACHING-WORKFLOW-V3-GUIDE.md](guides/TEACHING-WORKFLOW-V3-GUIDE.md)
 - **Scholar Integration:** [guides/SCHOLAR-INTEGRATION.md](guides/SCHOLAR-INTEGRATION.md)
-- **API:** [API-COMPLETE.md#teach-dispatcher](reference/API-COMPLETE.md#teaching-dispatcher-teach)
+- **Teach Dispatcher:** [MASTER-DISPATCHER-GUIDE.md#teach-dispatcher](reference/MASTER-DISPATCHER-GUIDE.md)
 - **Tutorial:** [tutorials/14-teach-dispatcher.md](tutorials/14-teach-dispatcher.md)
-- **Config Validation:** [API-COMPLETE.md#config-validation](reference/API-COMPLETE.md#configuration-validation)
+- **Tutorial 21: Teach Analyze:** [tutorials/21-teach-analyze.md](tutorials/21-teach-analyze.md)
 
 ### Project Management
-- **Pick Command:** [API-COMPLETE.md#pick](reference/API-COMPLETE.md#project-picker-pick)
-- **Dashboard:** [API-COMPLETE.md#dash](reference/API-COMPLETE.md#dashboard-dash)
-- **Session Management:** [API-COMPLETE.md#session-management](reference/API-COMPLETE.md#session-management)
+
+- **Quick Reference:** [QUICK-REFERENCE.md](help/QUICK-REFERENCE.md)
+- **Workflows:** [WORKFLOWS.md](help/WORKFLOWS.md)
+- **Troubleshooting:** [TROUBLESHOOTING.md](help/TROUBLESHOOTING.md)
 
 ### Cache & Performance
-- **Cache System:** [API-COMPLETE.md#cache-management](reference/API-COMPLETE.md#cache-management)
-- **Cache Invalidation:** [ARCHITECTURE-DIAGRAMS.md#cache-invalidation-flow](diagrams/ARCHITECTURE-DIAGRAMS.md#cache-invalidation-flow)
-- **Performance:** [API-COMPLETE.md#performance-characteristics](reference/API-COMPLETE.md#performance-characteristics)
+
+- **Doctor Cache:** [MASTER-API-REFERENCE.md#doctor-cache](reference/MASTER-API-REFERENCE.md#doctor-cache)
+- **Architecture:** [MASTER-ARCHITECTURE.md](reference/MASTER-ARCHITECTURE.md)
+- **Token Automation:** [guides/DOCTOR-TOKEN-USER-GUIDE.md](guides/DOCTOR-TOKEN-USER-GUIDE.md)
 
 ---
 
-## Recent Documentation Updates (v5.12.0)
+## Recent Documentation Updates (v5.18.0)
 
-### New Documentation (2026-01-16)
+### Documentation Consolidation (2026-01-24)
 
-**1. Teaching Dates Automation**
-- [TEACHING-DATES-GUIDE.md](guides/TEACHING-DATES-GUIDE.md) - 1,885 lines, complete workflow guide
-- [TEACHING-DATES-ARCHITECTURE.md](architecture/TEACHING-DATES-ARCHITECTURE.md) - 960 lines, system design
-- [DATE-PARSER-API-REFERENCE.md](reference/DATE-PARSER-API-REFERENCE.md) - 1,256 lines, API docs
-- [TEACH-CONFIG-DATES-SCHEMA.md](reference/TEACH-CONFIG-DATES-SCHEMA.md) - 603 lines, config reference
-- [TEACH-DATES-QUICK-REFERENCE.md](reference/TEACH-DATES-QUICK-REFERENCE.md) - 250 lines, command reference
+**Major Restructure:**
+- 66 files archived to `docs/reference/.archive/`
+- 7 master documents created (95% reduction)
+- Navigation simplified (71 → 9 entries, 92% reduction)
 
-**2. Quality Assurance**
-- [DOCS-HEALTH-CHECK-REPORT.md](DOCS-HEALTH-CHECK-REPORT.md) - Complete link validation report
-- [TEST-COVERAGE-COMPLETE.md](TEST-COVERAGE-COMPLETE.md) - 94 tests, 100% passing
-- [TEST-COVERAGE-ANALYSIS.md](TEST-COVERAGE-ANALYSIS.md) - Coverage analysis
+**New Master Documents:**
+1. [MASTER-API-REFERENCE.md](reference/MASTER-API-REFERENCE.md) - Unified API documentation
+2. [MASTER-DISPATCHER-GUIDE.md](reference/MASTER-DISPATCHER-GUIDE.md) - All 12 dispatchers
+3. [MASTER-ARCHITECTURE.md](reference/MASTER-ARCHITECTURE.md) - System architecture
+4. [QUICK-REFERENCE.md](help/QUICK-REFERENCE.md) - Command quick reference
+5. [WORKFLOWS.md](help/WORKFLOWS.md) - Workflow guide
+6. [TROUBLESHOOTING.md](help/TROUBLESHOOTING.md) - Common issues
+7. [00-START-HERE.md](help/00-START-HERE.md) - Documentation hub
 
-**3. Visual Documentation**
-- Dashboard screenshot (102KB) - Added to commands/dash.md and quick-start.md
-- Optimized teaching-git-workflow.gif (7.5MB → 2.0MB, 73% reduction)
-- VHS regeneration scripts for reproducible screenshots
+**API Documentation Progress (Phases 1-4):**
+- Phase 1: Token automation (30 functions)
+- Phase 2: Teaching libraries (32 functions)
+- Phase 3: Git helpers (14 functions)
+- Phase 4: Keychain helpers (7 functions)
+- **Total:** 83 functions documented
+- **Coverage:** 2.7% → 13.8% (+411% increase)
+- **Target:** 80% coverage (566/704 functions)
 
-### Updated Documentation (2026-01-16)
+### Quality Assurance (2026-01-24)
 
-**1. Documentation Quality**
-- Fixed all high-priority broken links
-- Updated GIF-GUIDELINES.md with real examples
-- Corrected DOCUMENTATION-STYLE-GUIDE.md image paths
-- CLAUDE.md optimization (1,392 → 627 lines, 55% reduction)
+**Documentation Health:**
+- [DOC-DASHBOARD.md](DOC-DASHBOARD.md) - API coverage tracking
+- .linkcheck-ignore - Expected broken links documented
+- All documentation < 90 days old (no stale docs)
+- Navigation consistency verified
 
-**2. Teaching System**
-- Enhanced teach dispatcher tutorial
-- Added dates automation workflows
-- Complete config validation documentation
+### Teaching System Documentation
 
-**3. Test Coverage**
-- 33 unit tests for teach-dates dispatcher
-- 16 integration tests for date synchronization
-- 45 tests for date-parser module
-
-### Previous Release (v5.10.0 - 2026-01-15)
-
-**1. [API-COMPLETE.md](reference/API-COMPLETE.md)**
-- Complete API reference for all functions
-- 100% function coverage
-
-**2. [ARCHITECTURE-DIAGRAMS.md](diagrams/ARCHITECTURE-DIAGRAMS.md)**
-- 15 comprehensive Mermaid diagrams
-- System overview and component architecture
-
-**3. [DEVELOPER-GUIDE.md](guides/DEVELOPER-GUIDE.md)**
-- Complete development setup guide
-- Testing best practices
+**Complete Guides:**
+- [TEACHING-WORKFLOW-V3-GUIDE.md](guides/TEACHING-WORKFLOW-V3-GUIDE.md) - v3.0 user guide
+- [TEACHING-DATES-GUIDE.md](guides/TEACHING-DATES-GUIDE.md) - Dates automation
+- [INTELLIGENT-CONTENT-ANALYSIS.md](guides/INTELLIGENT-CONTENT-ANALYSIS.md) - AI analysis
+- [Tutorial 21: Teach Analyze](tutorials/21-teach-analyze.md) - Interactive tutorial
+- [Tutorial 22: Plugin Optimization](tutorials/22-plugin-optimization.md) - Performance
+- [Tutorial 23: Token Automation](tutorials/23-token-automation.md) - Smart tokens (v5.17.0)
 
 ---
 
@@ -228,6 +231,7 @@
 ### Code Examples
 
 **Format:**
+
 ```zsh
 # Comment explaining what this does
 command_name --option value
@@ -239,6 +243,7 @@ command_name --option value
 ### Diagrams
 
 **Mermaid Format:**
+
 ```mermaid
 graph TD
     A[Start] --> B[Process]
@@ -248,6 +253,7 @@ graph TD
 ### Cross-References
 
 **Link Format:**
+
 ```markdown
 See [Document Name](path/to/document.md#anchor)
 ```
@@ -287,7 +293,7 @@ See [Document Name](path/to/document.md#anchor)
 - Maximum 3 levels deep (#, ##, ###)
 
 **Code Blocks:**
-- Always specify language (```zsh, ```bash, ```yaml)
+- Always specify language (```zsh,```bash, ```yaml)
 - Include comments for complex examples
 - Show expected output when helpful
 
@@ -317,16 +323,19 @@ See [Document Name](path/to/document.md#anchor)
 ## Search Tips
 
 **Find specific function:**
+
 ```bash
 grep -r "function_name" docs/reference/
 ```
 
 **Find examples:**
+
 ```bash
 grep -r "Example:" docs/
 ```
 
 **Find all references to a feature:**
+
 ```bash
 grep -r "worktree" docs/
 ```
@@ -354,6 +363,6 @@ All documentation contributions welcome!
 
 ---
 
-**Last Updated:** 2026-01-16
-**Version:** 5.12.0
+**Last Updated:** 2026-01-24
+**Version:** 5.18.0-dev
 **Maintainer:** Data-Wise

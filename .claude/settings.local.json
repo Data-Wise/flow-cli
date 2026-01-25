@@ -101,7 +101,12 @@
       "Bash(./tests/test-index-management-unit.zsh)",
       "Bash(./tests/test-teach-deploy-unit.zsh)",
       "Bash(teach hooks status:*)",
-      "Bash(markdown-link-check:*)"
+      "Bash(markdown-link-check:*)",
+      "Bash(zoxide query:*)",
+      "Bash(pkill:*)",
+      "Bash(./scripts/lint-docs.sh:*)",
+      "Bash(./scripts/generate-doc-dashboard.sh:*)",
+      "Bash(./scripts/check-doc-updates.sh:*)"
     ]
   }
 }

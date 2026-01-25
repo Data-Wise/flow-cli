@@ -11,6 +11,7 @@
 ## 📋 Pre-Release Checklist
 
 ### Version Management
+
 - [ ] Bump version: 5.13.0 → 5.14.0 in all files
   - [ ] package.json
   - [ ] README.md (badge)
@@ -18,6 +19,7 @@
   - [ ] docs/reference/CC-DISPATCHER-REFERENCE.md
 
 ### Documentation
+
 - [ ] Update CHANGELOG.md with v5.14.0 section
 - [ ] Verify all 6 GIFs embedded in guides
 - [ ] Check MkDocs builds without errors
@@ -25,12 +27,14 @@
 - [ ] Verify GIFs load in production
 
 ### Quality Checks
+
 - [ ] All tests passing (300+ tests)
 - [ ] No syntax errors in ZSH files
 - [ ] Git status clean (no uncommitted changes)
 - [ ] Branch up to date with remote
 
 ### Release Content Verification
+
 - [ ] Teaching Workflow v3.0 Phase 1 complete (10 tasks)
 - [ ] Visual documentation complete (6 GIFs)
 - [ ] All documentation guides updated
@@ -41,40 +45,47 @@
 ## 🚀 Release Steps
 
 ### 1. Version Bump
+
 - [ ] Run: `./scripts/release.sh 5.14.0`
 - [ ] Verify all version files updated
 - [ ] Review changes: `git diff`
 
 ### 2. Update CHANGELOG
+
 - [ ] Add v5.14.0 section with complete feature list
 - [ ] Include visual documentation highlights
 - [ ] List all breaking changes (none expected)
 - [ ] Credit contributors
 
 ### 3. Commit Version Bump
+
 - [ ] Stage all version files
 - [ ] Commit: "chore: bump version to 5.14.0"
 - [ ] Push to dev branch
 
 ### 4. Deploy Documentation
+
 - [ ] Run: `mkdocs build`
 - [ ] Run: `mkdocs gh-deploy --force`
 - [ ] Verify: https://Data-Wise.github.io/flow-cli/
 - [ ] Test GIF loading in production
 
 ### 5. Create Release PR
+
 - [ ] Create PR: dev → main
 - [ ] Title: "Release v5.14.0 - Teaching Workflow v3.0"
 - [ ] Include comprehensive release notes
 - [ ] Request review (if applicable)
 
 ### 6. Merge and Tag
+
 - [ ] Merge PR to main
 - [ ] Switch to main: `git checkout main && git pull`
 - [ ] Tag: `git tag -a v5.14.0 -m "v5.14.0 - Teaching Workflow v3.0"`
 - [ ] Push tag: `git push --tags`
 
 ### 7. GitHub Release
+
 - [ ] Create release on GitHub
 - [ ] Use v5.14.0 tag
 - [ ] Add detailed release notes
@@ -82,6 +93,7 @@
 - [ ] Publish release
 
 ### 8. Homebrew Auto-Update
+
 - [ ] Verify GitHub Actions creates PR
 - [ ] Review formula update PR
 - [ ] Merge formula PR
@@ -92,17 +104,20 @@
 ## 📝 Post-Release
 
 ### Verification
+
 - [ ] GitHub release published
 - [ ] Documentation live with GIFs
 - [ ] Homebrew formula updated
 - [ ] Tag pushed successfully
 
 ### Communication
+
 - [ ] Update project README highlights
 - [ ] Share release announcement (if applicable)
 - [ ] Update issue/PR references
 
 ### Development Continuation
+
 - [ ] Merge main back to dev
 - [ ] Continue development on dev branch
 

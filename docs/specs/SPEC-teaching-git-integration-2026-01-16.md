@@ -280,6 +280,7 @@ Co-Authored-By: Scholar <scholar@example.com>
 ```
 
 **Examples:**
+
 ```
 teach: add exam01 for Hypothesis Testing
 
@@ -562,6 +563,7 @@ Co-Authored-By: Scholar <scholar@example.com>
 ## Review Checklist
 
 ### Design Review
+
 - [x] All user stories have acceptance criteria
 - [x] Architecture diagram shows component relationships
 - [x] Data flow diagrams illustrate key workflows
@@ -570,6 +572,7 @@ Co-Authored-By: Scholar <scholar@example.com>
 - [x] UI/UX wireframes for all interactive prompts
 
 ### Security Review
+
 - [ ] Git operations never expose credentials
 - [ ] teach commands validate branch names (prevent injection)
 - [ ] PR creation uses gh CLI (audited tool)
@@ -578,12 +581,14 @@ Co-Authored-By: Scholar <scholar@example.com>
 - [ ] Config validation prevents malicious YAML
 
 ### Performance Review
+
 - [ ] Git operations are non-blocking where possible
 - [ ] teach status caches git status (< 100ms)
 - [ ] PR creation is asynchronous (doesn't block terminal)
 - [ ] teach deploy pre-flight checks are parallelized
 
 ### Testing Review
+
 - [ ] Test suite covers all 5 phases
 - [ ] Mock git operations in tests (no real repos)
 - [ ] Test interactive prompts with canned responses
@@ -592,6 +597,7 @@ Co-Authored-By: Scholar <scholar@example.com>
 - [ ] Test teaching mode on/off
 
 ### Documentation Review
+
 - [ ] TEACHING-GIT-WORKFLOW.md guide created
 - [ ] Tutorial 14 updated with git integration examples
 - [ ] DISPATCHER-REFERENCE.md updated for teach commands
@@ -600,6 +606,7 @@ Co-Authored-By: Scholar <scholar@example.com>
 - [ ] Video walkthrough of PR workflow
 
 ### Accessibility Review
+
 - [x] All interactive prompts use AskUserQuestion
 - [x] Clear option labels with descriptions
 - [x] Status symbols not emoji-only
@@ -658,6 +665,7 @@ Co-Authored-By: Scholar <scholar@example.com>
 1. **No breaking changes** - All v5.10.0 commands work unchanged
 
 2. **Enable git integration** (optional):
+
    ```yaml
    # Add to teach-config.yml
    git:
@@ -668,6 +676,7 @@ Co-Authored-By: Scholar <scholar@example.com>
    ```
 
 3. **Enable teaching mode** (optional):
+
    ```yaml
    # Add to teach-config.yml
    workflow:
@@ -677,12 +686,14 @@ Co-Authored-By: Scholar <scholar@example.com>
    ```
 
 4. **Install gh CLI** (for teach deploy PR creation):
+
    ```bash
    brew install gh
    gh auth login
    ```
 
 5. **Set up branches** (if not already):
+
    ```bash
    git branch draft
    git checkout draft
@@ -698,6 +709,7 @@ Co-Authored-By: Scholar <scholar@example.com>
 ## History
 
 ### 2026-01-16 - Initial Draft
+
 - **Created by:** Claude Code (Deep Feature Brainstorm)
 - **Reviewed by:** (pending)
 - **Changes:** N/A - initial version

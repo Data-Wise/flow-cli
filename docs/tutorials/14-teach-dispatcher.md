@@ -110,6 +110,7 @@ teach status
 ```
 
 **Example output:**
+
 ```
 📚 STAT 545 - Statistical Programming
 ═══════════════════════════════════════════════════
@@ -150,6 +151,7 @@ teach status
 ```
 
 **When config is valid:**
+
 ```
 📚 STAT 545
 📅 Spring 2026
@@ -159,6 +161,7 @@ teach status
 ```
 
 **When config has issues:**
+
 ```
 📚 STAT 545
 ⚠️  Config: has issues
@@ -173,6 +176,7 @@ teach status --verbose
 ```
 
 **Example with errors:**
+
 ```
 ❌ Config validation failed:
   • Invalid semester 'fall' - must be Spring, Summer, Fall, or Winter
@@ -247,6 +251,7 @@ teach week
 ```
 
 **Example output:**
+
 ```
 📅 Week 3 of 15 (Jan 20 - Jan 24)
    Topic: Data Wrangling with dplyr
@@ -316,6 +321,7 @@ teach dates init
 ```
 
 **Interactive wizard:**
+
 ```
 Semester start date (YYYY-MM-DD): 2025-01-13
 
@@ -364,6 +370,7 @@ teach dates sync --dry-run
 ```
 
 **Output:**
+
 ```
 ⚠️  Date Mismatches Found
 1. assignments/hw1.qmd (1 mismatch)
@@ -379,6 +386,7 @@ teach dates sync
 ```
 
 **Interactive prompts:**
+
 ```
 File: assignments/hw1.qmd
 │ YAML Frontmatter:
@@ -409,6 +417,7 @@ teach dates status
 ```
 
 **Output:**
+
 ```
 📅 Date Status
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

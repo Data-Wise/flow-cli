@@ -214,6 +214,7 @@ If users want even tighter integration:
    ```
 
 3. **Unified config file**
+
    ```yaml
    # ~/.flow/config.yml
    prefer: fast # or: rich

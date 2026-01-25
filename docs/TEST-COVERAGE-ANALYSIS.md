@@ -31,6 +31,7 @@ The Teaching Dates Automation feature has **excellent unit test coverage** (100%
 ### ✅ Well-Covered Components
 
 #### 1. Date Parser Module (lib/date-parser.zsh)
+
 **File:** `tests/test-date-parser.zsh`
 **Status:** 45/45 tests passing (100%)
 
@@ -67,6 +68,7 @@ The Teaching Dates Automation feature has **excellent unit test coverage** (100%
 **Missing Unit Tests:**
 
 #### `_teach_dates_sync()`
+
 - [ ] Flag parsing (--dry-run, --force, --verbose, --assignments, --lectures, --syllabus, --file)
 - [ ] Config file validation
 - [ ] yq dependency check
@@ -78,6 +80,7 @@ The Teaching Dates Automation feature has **excellent unit test coverage** (100%
 - [ ] Summary reporting (applied/skipped counts)
 
 #### `_teach_dates_status()`
+
 - [ ] Status reporting (up-to-date, conflicts, missing)
 - [ ] File scanning
 - [ ] Date comparison logic
@@ -85,6 +88,7 @@ The Teaching Dates Automation feature has **excellent unit test coverage** (100%
 - [ ] Error handling
 
 #### `_teach_dates_init()`
+
 - [ ] Interactive date entry
 - [ ] Week generation
 - [ ] Semester info creation
@@ -93,6 +97,7 @@ The Teaching Dates Automation feature has **excellent unit test coverage** (100%
 - [ ] Error handling
 
 #### `_teach_dates_validate()`
+
 - [ ] Schema validation
 - [ ] Date format validation
 - [ ] Week range validation
@@ -102,6 +107,7 @@ The Teaching Dates Automation feature has **excellent unit test coverage** (100%
 **Missing Integration Tests:**
 
 #### End-to-End Workflow
+
 - [ ] Full sync workflow (init → sync → status)
 - [ ] Multiple file types (assignments, lectures, syllabus)
 - [ ] Config changes propagation
@@ -109,6 +115,7 @@ The Teaching Dates Automation feature has **excellent unit test coverage** (100%
 - [ ] Error recovery
 
 #### Real-World Scenarios
+
 - [ ] Semester rollover
 - [ ] Mid-semester date changes
 - [ ] Holiday adjustments
@@ -258,22 +265,25 @@ The Teaching Dates Automation feature has **excellent unit test coverage** (100%
 ## Recommended Test Implementation Order
 
 ### Week 1: Critical Path
+
 1. ✅ **Day 1-2:** Unit tests for `_teach_dates_sync()` (highest risk)
 2. ✅ **Day 3:** Unit tests for `_teach_dates_status()`
 3. ✅ **Day 4:** Unit tests for `_teach_dates_init()`
 4. ✅ **Day 5:** Unit tests for `_teach_dates_validate()`
 
 ### Week 2: Integration
-5. ✅ **Day 1-2:** Full sync workflow integration tests
-6. ✅ **Day 3:** Multi-file sync tests
-7. ✅ **Day 4:** Config validation integration
-8. ✅ **Day 5:** Git integration tests
+
+1. ✅ **Day 1-2:** Full sync workflow integration tests
+2. ✅ **Day 3:** Multi-file sync tests
+3. ✅ **Day 4:** Config validation integration
+4. ✅ **Day 5:** Git integration tests
 
 ### Week 3: E2E & Polish
-9. ✅ **Day 1-2:** E2E scenarios (new course, rollover)
-10. ✅ **Day 3:** E2E error recovery
-11. ✅ **Day 4:** Documentation and examples
-12. ✅ **Day 5:** Performance testing and optimization
+
+1. ✅ **Day 1-2:** E2E scenarios (new course, rollover)
+2. ✅ **Day 3:** E2E error recovery
+3. ✅ **Day 4:** Documentation and examples
+4. ✅ **Day 5:** Performance testing and optimization
 
 ---
 
@@ -328,22 +338,26 @@ echo "Tests: $TESTS_RUN | Passed: $TESTS_PASSED | Failed: $TESTS_FAILED"
 
 ## Success Metrics
 
-### Phase 1 Complete When:
+### Phase 1 Complete When
+
 - [ ] 30+ unit tests written
 - [ ] All tests passing
 - [ ] Coverage ≥ 80% of teach-dates functions
 
-### Phase 2 Complete When:
+### Phase 2 Complete When
+
 - [ ] 20+ integration tests written
 - [ ] All critical workflows tested
 - [ ] Config validator integration verified
 
-### Phase 3 Complete When:
+### Phase 3 Complete When
+
 - [ ] 10+ e2e scenarios tested
 - [ ] Error recovery verified
 - [ ] Documentation updated
 
-### Overall Success:
+### Overall Success
+
 - [ ] 60+ total tests
 - [ ] 100% unit test coverage
 - [ ] All critical paths tested

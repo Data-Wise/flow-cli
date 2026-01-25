@@ -48,6 +48,7 @@ This transforms flow doctor from a general health checker into a sophisticated t
 6. ✅ All token operations cached for 5 minutes (avoid API rate limits)
 
 **User Journey:**
+
 ```bash
 # Morning routine
 $ flow doctor --dot
@@ -268,6 +269,7 @@ timestamp	action	token_name	status	details
 5. Historical rotation log (last 5)
 
 **Example Structure:**
+
 ```
 TOKEN HEALTH REPORT
 Generated: 2026-01-23 12:30:00

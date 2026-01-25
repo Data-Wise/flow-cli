@@ -102,6 +102,7 @@ brew install fzf bat tig
    ```
 
 3. **Check category configuration:**
+
    ```bash
    # View configured categories
    grep -A20 "PROJ_CATEGORIES" ~/.config/zsh/functions/pick.zsh

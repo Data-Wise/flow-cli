@@ -326,6 +326,7 @@ A: Each tutorial has a "Troubleshooting" section. Also check the API Reference.
 **Ready to start?**
 
 1. **Verify Prerequisites**
+
    ```bash
    teach slides --help | grep "Universal Flags"
    ```
