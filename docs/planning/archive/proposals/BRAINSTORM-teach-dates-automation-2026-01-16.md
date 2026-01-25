@@ -1023,7 +1023,7 @@ Given: week: 3, offset_days: 2
 - `lib/config-validator.zsh` - Validate date fields
 - `lib/dispatchers/teach-dispatcher.zsh` - Add dates and semester subcommands
 - `commands/teach-init.zsh` - Date setup wizard
-- `docs/reference/DISPATCHER-REFERENCE.md` - Document teach dates
+- `docs/reference/MASTER-DISPATCHER-GUIDE.md` - Document teach dates
 - `docs/tutorials/14-teach-dispatcher.md` - Add date management section
 
 ---

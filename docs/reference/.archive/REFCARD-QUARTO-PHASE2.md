@@ -480,9 +480,9 @@ Custom validators use a simple plugin API:
 ## See Also
 
 - **Full Guide**: `docs/guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md`
-- **Teaching Workflow**: `docs/reference/REFCARD-TEACHING-V3.md`
-- **Git Integration**: `docs/reference/TEACHING-GIT-WORKFLOW-REFCARD.md`
-- **API Reference**: `docs/reference/TEACH-DISPATCHER-REFERENCE-v4.6.0.md`
+- **Teaching Workflow**: `docs/reference/.archive/REFCARD-TEACHING-V3.md`
+- **Git Integration**: `docs/reference/.archive/TEACHING-GIT-WORKFLOW-REFCARD.md`
+- **API Reference**: `docs/reference/.archive/TEACH-DISPATCHER-REFERENCE-v4.6.0.md`
 
 ---
 

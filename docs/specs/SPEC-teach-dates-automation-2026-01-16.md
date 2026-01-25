@@ -681,7 +681,7 @@ teach dates validate          # Validate date config
 **References:**
 
 - Command naming brainstorm: BRAINSTORM-teach-dates-command-naming-2026-01-16.md (project root)
-- [Dispatcher reference](../reference/DISPATCHER-REFERENCE.md)
+- [Dispatcher reference](../reference/MASTER-DISPATCHER-GUIDE.md)
 
 ---
 

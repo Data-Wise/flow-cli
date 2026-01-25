@@ -234,7 +234,7 @@ No blocking issues identified.
 ### Pending (Phase 3)
 
 - ⏳ Update `docs/reference/WT-DISPATCHER-REFERENCE.md`
-- ⏳ Update `docs/reference/PICK-COMMAND-REFERENCE.md`
+- ⏳ Update `docs/reference/.archive/PICK-COMMAND-REFERENCE.md`
 - ⏳ Add mermaid diagrams to `docs/ARCHITECTURE-DIAGRAMS.md`
 - ⏳ Update `CLAUDE.md` with new features
 

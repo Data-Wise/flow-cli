@@ -298,7 +298,7 @@ Users upgrading from v2.x should:
 
 ### Documentation
 
-- Updated `docs/reference/DISPATCHER-REFERENCE.md` - Complete teach dispatcher git features
+- Updated `docs/reference/MASTER-DISPATCHER-GUIDE.md` - Complete teach dispatcher git features
 - Added Phase 1-5 examples and workflows
 - Added git configuration reference
 - Updated CLAUDE.md with all phase completion statuses

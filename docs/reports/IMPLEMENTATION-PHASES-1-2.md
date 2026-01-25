@@ -244,7 +244,7 @@ _teach_scholar_wrapper <subcommand> [args...]
 - Test documentation (test file header)
 
 **TODO for final release:**
-- Update `docs/reference/TEACH-DISPATCHER-REFERENCE.md`
+- Update `docs/reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher`
 - Add flag examples to quick reference
 - Update help system (`_teach_scholar_help`)
 - Add to command completion (`completions/_teach`)

@@ -48,7 +48,7 @@ The `type` check failed because commands like `work`, `dash`, `cc`, etc. weren't
 
 ## Solution
 
-Created a helper function `_flow_show_help_preview()` that runs in the **current shell environment** (where the plugin is loaded), following the existing pattern used by `_flow_show_project_preview()` in [lib/tui.zsh](lib/tui.zsh#L137).
+Created a helper function `_flow_show_help_preview()` that runs in the **current shell environment** (where the plugin is loaded), following the existing pattern used by `_flow_show_project_preview()` in `lib/tui.zsh`.
 
 **After (fixed):**
 
@@ -79,10 +79,10 @@ _flow_show_help_preview() {
 
 | File                                                                                 | Change                                     | Lines |
 | ------------------------------------------------------------------------------------ | ------------------------------------------ | ----- |
-| [lib/help-browser.zsh](lib/help-browser.zsh)                                         | Added `_flow_show_help_preview()` function | +18   |
-| [lib/help-browser.zsh](lib/help-browser.zsh)                                         | Simplified fzf preview script              | -13   |
-| [tests/test-help-browser-preview.zsh](tests/test-help-browser-preview.zsh)           | New test suite                             | +109  |
-| [tests/interactive-dog-feeding-phase2.zsh](tests/interactive-dog-feeding-phase2.zsh) | Updated expected behavior                  | +2    |
+| `lib/help-browser.zsh`                                         | Added `_flow_show_help_preview()` function | +18   |
+| `lib/help-browser.zsh`                                         | Simplified fzf preview script              | -13   |
+| `tests/test-help-browser-preview.zsh`           | New test suite                             | +109  |
+| `tests/interactive-dog-feeding-phase2.zsh` | Updated expected behavior                  | +2    |
 
 **Total:** 1 file changed core logic, 2 new/updated test files
 
@@ -132,7 +132,7 @@ Expected behavior now includes:
 
 This fix follows the established pattern in flow-cli's codebase:
 
-**Existing example:** [lib/tui.zsh:129-137](lib/tui.zsh#L129-L137)
+**Existing example:** `lib/tui.zsh:129-137`
 
 ```bash
 # Project picker uses a helper function for fzf preview

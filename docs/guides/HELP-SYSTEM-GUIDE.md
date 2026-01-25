@@ -97,7 +97,7 @@ TIPS
 
 LEARN MORE
   📖 Full guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-  📖 Quick ref: docs/reference/REFCARD-TEACHING-V3.md
+  📖 Quick ref: docs/reference/.archive/REFCARD-TEACHING-V3.md
 
 SEE ALSO:
   teach related-cmd - Description
@@ -342,7 +342,7 @@ Links to comprehensive guides:
 ```
 LEARN MORE
   📖 Full guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md#section
-  📖 Quick ref: docs/reference/REFCARD-TEACHING-V3.md
+  📖 Quick ref: docs/reference/.archive/REFCARD-TEACHING-V3.md
 ```
 
 ### SEE ALSO Section
@@ -596,9 +596,9 @@ typeset -gA FLOW_COLORS=(
 
 ### Quick References
 
-- **[Teaching Quick Reference](../reference/REFCARD-TEACHING-V3.md)** - Command cheat sheet
-- **[Quarto Phase 2 Quick Reference](../reference/REFCARD-QUARTO-PHASE2.md)** - Phase 2 commands
-- **[Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)** - All flow-cli commands
+- **[Teaching Quick Reference](../reference/.archive/REFCARD-TEACHING-V3.md)** - Command cheat sheet
+- **[Quarto Phase 2 Quick Reference](../reference/.archive/REFCARD-QUARTO-PHASE2.md)** - Phase 2 commands
+- **[Command Quick Reference](../help/QUICK-REFERENCE.md)** - All flow-cli commands
 
 ### Tutorials
 

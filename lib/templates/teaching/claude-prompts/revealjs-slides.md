@@ -10,8 +10,8 @@ Generate engaging RevealJS Quarto presentations (25+ slides) for statistics cour
 
 ```yaml
 ---
-title: "Topic Title"
-subtitle: "Course Name"
+title: 'Topic Title'
+subtitle: 'Course Name'
 format:
   revealjs:
     theme: [default, custom.scss]
@@ -57,13 +57,15 @@ Each major concept:
 
 **Incremental Reveal:**
 
-```markdown
+````markdown
 ```{r}
 #| label: fig-example
 #| code-line-numbers: "|1-2|3-4|5"
 code here
 ```
-```
+````
+
+````
 
 ### 4. Tables
 
@@ -71,7 +73,7 @@ For large tables:
 
 ```markdown
 ## ANOVA Summary {.scrollable}
-```
+````
 
 ### 5. Interactive Elements
 
@@ -96,11 +98,11 @@ For large tables:
 
 ## Slide Count Guidelines
 
-| Length | Slides | Pacing |
-|--------|--------|--------|
-| 50 min | 25-30 | ~2 min/slide |
-| 75 min | 35-40 | ~2 min/slide |
-| 90 min | 40-45 | ~2 min/slide |
+| Length | Slides | Pacing       |
+| ------ | ------ | ------------ |
+| 50 min | 25-30  | ~2 min/slide |
+| 75 min | 35-40  | ~2 min/slide |
+| 90 min | 40-45  | ~2 min/slide |
 
 **Minimum: 25 slides**
 
@@ -119,10 +121,10 @@ For large tables:
 
 ## Notation Standards
 
-| Element | Convention |
-|---------|------------|
-| Fixed effects | Greek (α, β, γ, τ) |
-| Random effects | Latin (u, v, w) |
+| Element        | Convention         |
+| -------------- | ------------------ |
+| Fixed effects  | Greek (α, β, γ, τ) |
+| Random effects | Latin (u, v, w)    |
 
 ## Quality Checklist
 

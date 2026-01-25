@@ -657,7 +657,7 @@ You've mastered advanced Scholar Enhancement!
 ### Explore Documentation
 
 **Complete References:**
-- [API Reference](../../reference/SCHOLAR-ENHANCEMENT-API.md) - All 47 flags
+- [API Reference](../../reference/.archive/SCHOLAR-ENHANCEMENT-API.md) - All 47 flags
 - [Architecture Guide](../../architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md) - How it works
 
 **Implementation Details:**
@@ -751,4 +751,4 @@ teach slides --revise slides.qmd  # Option 5 (polish)
 **Navigation:**
 - ← [Intermediate Tutorial](02-intermediate.md)
 - ↑ [Tutorial Overview](../index.md)
-- → [API Reference](../../reference/SCHOLAR-ENHANCEMENT-API.md)
+- → [API Reference](../../reference/.archive/SCHOLAR-ENHANCEMENT-API.md)

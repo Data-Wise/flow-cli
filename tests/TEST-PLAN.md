@@ -1,6 +1,7 @@
 ## Test Plan for Project Cache (v5.3.0)
 
 ### Module Under Test
+
 **File:** `lib/project-cache.zsh`
 **Purpose:** Provides 5-minute TTL caching for project list to achieve sub-10ms performance
 
@@ -53,15 +54,18 @@ tests/
 **Purpose:** Verify TTL-based validity checking
 
 #### Test Cases - Fresh Cache
+
 - [x] Fresh cache (< TTL) is valid
 - [x] Just created cache is valid
 
 #### Test Cases - Stale Cache
+
 - [x] Cache older than TTL is invalid
 - [x] Cache exactly at TTL boundary is invalid
 - [x] Cache just under TTL (TTL - 1s) is valid
 
 #### Test Cases - Missing/Corrupt
+
 - [x] Missing cache file is invalid
 - [x] Empty cache file is invalid
 - [x] Cache without timestamp header is invalid
@@ -70,11 +74,13 @@ tests/
 - [x] Cache with future timestamp is handled gracefully
 
 #### Test Cases - TTL Configuration
+
 - [x] Custom PROJ_CACHE_TTL is respected
 - [x] Zero TTL makes all caches invalid
 - [x] Very long TTL (1 day) keeps old cache valid
 
 #### Test Cases - Edge Cases
+
 - [x] Cache with extra whitespace in timestamp
 - [x] Cache with multiline content
 
@@ -87,6 +93,7 @@ tests/
 **Purpose:** Verify cached list retrieval and auto-regeneration
 
 #### Test Cases - Basic Access
+
 - [x] Cached list returns data
 - [x] Cached list uses existing fresh cache
 - [x] Cached list auto-generates missing cache
@@ -94,20 +101,24 @@ tests/
 - [x] Cached list regenerates corrupt cache
 
 #### Test Cases - Cache Disabled
+
 - [x] FLOW_CACHE_ENABLED=0 skips cache
 - [x] Disabled cache still returns data (fallback)
 - [x] Disabled cache ignores existing cache file
 
 #### Test Cases - Fallback Behavior
+
 - [x] Fallback to uncached on generation failure
 - [x] Fallback to uncached on read failure
 
 #### Test Cases - Filter Passthrough
+
 - [x] Category filter passed to generator
 - [x] Recent-only filter passed to generator
 - [x] Both filters passed together
 
 #### Test Cases - Content Handling
+
 - [x] Cached list skips timestamp header
 - [x] Cached list returns all project lines
 - [x] Cached list preserves pipe-delimited format
@@ -121,6 +132,7 @@ tests/
 **Purpose:** Verify cache clearing functionality
 
 #### Test Cases
+
 - [x] Invalidate deletes existing cache file
 - [x] Invalidate succeeds when cache doesn't exist
 - [x] Invalidate returns correct exit code
@@ -136,6 +148,7 @@ tests/
 **Purpose:** Verify stats display and calculation
 
 #### Test Cases
+
 - [x] Stats show valid cache info
 - [x] Stats report missing cache
 - [x] Stats detect and report stale cache
@@ -152,6 +165,7 @@ tests/
 **Purpose:** Verify flow cache CLI commands
 
 #### Test Cases
+
 - [x] `flow cache refresh` regenerates cache
 - [x] `flow cache refresh` displays success message
 - [x] `flow cache refresh` shows stats after refresh
@@ -170,6 +184,7 @@ tests/
 **Purpose:** End-to-end testing with pick command
 
 #### Test Cases
+
 - [x] First pick generates cache
 - [x] Subsequent pick uses cache (fast)
 - [x] Pick after TTL regenerates cache
@@ -185,56 +200,61 @@ tests/
 
 ### Assertion Framework
 
-| Assertion | Purpose |
-|-----------|---------|
-| `assert_true` | Command returns 0 |
-| `assert_false` | Command returns non-zero |
-| `assert_equals` | Values equal |
-| `assert_not_equals` | Values not equal |
-| `assert_contains` | String contains substring |
-| `assert_not_contains` | String does not contain |
-| `assert_match` | String matches regex |
-| `assert_file_exists` | File exists |
-| `assert_file_not_exists` | File does not exist |
-| `assert_dir_exists` | Directory exists |
-| `assert_performance` | Command executes within time limit |
+| Assertion                | Purpose                            |
+| ------------------------ | ---------------------------------- |
+| `assert_true`            | Command returns 0                  |
+| `assert_false`           | Command returns non-zero           |
+| `assert_equals`          | Values equal                       |
+| `assert_not_equals`      | Values not equal                   |
+| `assert_contains`        | String contains substring          |
+| `assert_not_contains`    | String does not contain            |
+| `assert_match`           | String matches regex               |
+| `assert_file_exists`     | File exists                        |
+| `assert_file_not_exists` | File does not exist                |
+| `assert_dir_exists`      | Directory exists                   |
+| `assert_performance`     | Command executes within time limit |
 
 ### Test Helpers
 
-| Helper | Purpose |
-|--------|---------|
-| `setup_test_cache()` | Initialize temp cache file |
-| `setup_test_projects()` | Create mock project structure |
-| `create_fresh_cache()` | Generate valid cache |
-| `create_stale_cache()` | Generate expired cache |
-| `create_corrupt_cache()` | Generate invalid cache |
-| `time_command()` | Measure execution time |
+| Helper                   | Purpose                       |
+| ------------------------ | ----------------------------- |
+| `setup_test_cache()`     | Initialize temp cache file    |
+| `setup_test_projects()`  | Create mock project structure |
+| `create_fresh_cache()`   | Generate valid cache          |
+| `create_stale_cache()`   | Generate expired cache        |
+| `create_corrupt_cache()` | Generate invalid cache        |
+| `time_command()`         | Measure execution time        |
 
 ---
 
 ## Running Tests
 
 ### Run All Unit Tests
+
 ```bash
 ./tests/run-unit-tests.zsh
 ```
 
 ### Run Specific Test Suite
+
 ```bash
 zsh tests/unit/test-cache-validation.zsh
 ```
 
 ### Run Integration Tests
+
 ```bash
 zsh tests/integration/test-pick-integration.zsh
 ```
 
 ### Run Interactive Dog-Feeding Test (ADHD-Friendly!)
+
 ```bash
 ./tests/interactive-cache-dogfeeding.zsh
 ```
 
 **What it does:**
+
 - Gamified testing experience (feed a virtual dog by passing tests!)
 - Visual progress bars for hunger and happiness
 - Streak bonuses for consecutive passes
@@ -243,6 +263,7 @@ zsh tests/integration/test-pick-integration.zsh
 - Perfect for ADHD-friendly testing workflow
 
 ### Run Original Comprehensive Test
+
 ```bash
 zsh tests/test-project-cache.zsh
 ```
@@ -253,17 +274,17 @@ zsh tests/test-project-cache.zsh
 
 ### Functions Tested
 
-| Function | Test File | Coverage |
-|----------|-----------|----------|
-| `_proj_cache_generate()` | test-cache-generation.zsh | 100% |
-| `_proj_cache_is_valid()` | test-cache-validation.zsh | 100% |
-| `_proj_list_all_cached()` | test-cache-access.zsh | 100% |
-| `_proj_cache_invalidate()` | test-cache-invalidation.zsh | 100% |
-| `_proj_cache_stats()` | test-cache-stats.zsh | 100% |
-| `_proj_format_duration()` | test-cache-stats.zsh | 100% |
-| `flow-cache-refresh()` | test-user-commands.zsh | 100% |
-| `flow-cache-clear()` | test-user-commands.zsh | 100% |
-| `flow-cache-status()` | test-user-commands.zsh | 100% |
+| Function                   | Test File                   | Coverage |
+| -------------------------- | --------------------------- | -------- |
+| `_proj_cache_generate()`   | test-cache-generation.zsh   | 100%     |
+| `_proj_cache_is_valid()`   | test-cache-validation.zsh   | 100%     |
+| `_proj_list_all_cached()`  | test-cache-access.zsh       | 100%     |
+| `_proj_cache_invalidate()` | test-cache-invalidation.zsh | 100%     |
+| `_proj_cache_stats()`      | test-cache-stats.zsh        | 100%     |
+| `_proj_format_duration()`  | test-cache-stats.zsh        | 100%     |
+| `flow-cache-refresh()`     | test-user-commands.zsh      | 100%     |
+| `flow-cache-clear()`       | test-user-commands.zsh      | 100%     |
+| `flow-cache-status()`      | test-user-commands.zsh      | 100%     |
 
 ### Scenarios Covered
 
@@ -284,12 +305,14 @@ zsh tests/test-project-cache.zsh
 ## Success Metrics
 
 ### Test Goals
+
 - **Total Tests:** 64+ test cases
 - **Pass Rate:** 100%
 - **Coverage:** All public functions
 - **Performance:** <10ms cached access verified
 
 ### Achieved (as of 2026-01-11)
+
 - ✅ 64 test cases across 7 test suites
 - ✅ 100% pass rate
 - ✅ Full function coverage
@@ -302,17 +325,20 @@ zsh tests/test-project-cache.zsh
 ## Test Types
 
 ### Unit Tests (64 tests)
+
 - Test single functions in isolation
 - Use mock data and temp files
 - Fast execution (< 1s per suite)
 
 ### Integration Tests (6 tests)
+
 - Test cache + pick command together
 - Use real project scanning
 - Verify end-to-end behavior
 - Performance benchmarking
 
 ### Interactive Dog-Feeding Test (15 tests)
+
 - ADHD-friendly gamified testing
 - Visual progress bars and feedback
 - User validation of each test result
@@ -321,6 +347,7 @@ zsh tests/test-project-cache.zsh
 - Perfect for manual verification
 
 ### Regression Tests
+
 - Prevent previously fixed bugs
 - Validate TTL boundaries
 - Ensure graceful degradation
@@ -361,12 +388,14 @@ run_test "My new feature works" test_my_new_feature
 ## Known Limitations
 
 ### Not Tested
+
 - Network filesystem performance (manual testing only)
 - Very large project sets (> 1000 projects)
 - Concurrent access from multiple shells
 - Cache corruption recovery edge cases
 
 ### Future Test Additions
+
 - [ ] Performance benchmarks (automated)
 - [ ] Stress tests (1000+ projects)
 - [ ] Concurrent access tests

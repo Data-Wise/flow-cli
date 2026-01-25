@@ -15,6 +15,7 @@
 **Changes Needed:**
 
 1. **Replace `sort -u` (3 locations)**
+
    ```zsh
    # BEFORE (lines 73, 104, 125)
    printf '%s\n' "${array[@]}" | sort -u
@@ -25,6 +26,7 @@
    ```
 
 2. **Replace `sed` (line 48)**
+
    ```zsh
    # BEFORE
    keys=$(echo "$bracketed" | sed 's/\[@//g; s/\]//g; s/;//g' | tr ' ' '\n' | grep -E '^@')
@@ -37,6 +39,7 @@
    ```
 
 3. **Replace `grep -E` patterns**
+
    ```zsh
    # BEFORE
    if echo "$key" | grep -qE '@[a-zA-Z]+[0-9]'; then
@@ -46,6 +49,7 @@
    ```
 
 **Test After Changes:**
+
 ```bash
 ./tests/test-builtin-validators-unit.zsh | grep "Citation Validator"
 ```
@@ -59,6 +63,7 @@
 **Changes Needed:**
 
 1. **Replace `sed` for URL extraction (lines 31-32)**
+
    ```zsh
    # BEFORE
    url=$(echo "$link" | sed 's/.*](\([^)]*\)).*/\1/')
@@ -69,6 +74,7 @@
    ```
 
 2. **Replace `grep -oE` patterns**
+
    ```zsh
    # BEFORE
    md_links=$(echo "$line" | grep -oE '\[[^]]+\]\([^)]+\)')
@@ -81,6 +87,7 @@
    ```
 
 3. **Simplify regex to ZSH patterns**
+
    ```zsh
    # BEFORE
    if echo "$url" | grep -qE '^https?://'; then
@@ -91,12 +98,14 @@
 
 **Alternative Approach:**
 Since link extraction is complex, consider using a simpler regex-free approach:
+
 ```zsh
 # Extract links by parsing character-by-character
 # This avoids all external command dependencies
 ```
 
 **Test After Changes:**
+
 ```bash
 ./tests/test-builtin-validators-unit.zsh | grep "Link Validator"
 ```
@@ -110,6 +119,7 @@ Since link extraction is complex, consider using a simpler regex-free approach:
 **Changes Needed:**
 
 1. **Fix heading level calculation (line 86)**
+
    ```zsh
    # BEFORE
    local level
@@ -126,7 +136,8 @@ Since link extraction is complex, consider using a simpler regex-free approach:
    ```
 
 2. **Replace `sed` for chunk option extraction**
-   ```zsh
+
+   ````zsh
    # BEFORE
    chunk_header=$(echo "$line" | sed 's/```{[^,}]*//' | sed 's/}$//')
 
@@ -134,9 +145,10 @@ Since link extraction is complex, consider using a simpler regex-free approach:
    chunk_header="${line#*\{}"    # Remove up to {
    chunk_header="${chunk_header#*,}"  # Remove first part
    chunk_header="${chunk_header%\}}"  # Remove trailing }
-   ```
+   ````
 
 3. **Replace `wc -l` for quote counting**
+
    ```zsh
    # BEFORE
    local doubles
@@ -152,6 +164,7 @@ Since link extraction is complex, consider using a simpler regex-free approach:
    ```
 
 **Test After Changes:**
+
 ```bash
 ./tests/test-builtin-validators-unit.zsh | grep "Formatting Validator"
 ```
@@ -165,6 +178,7 @@ Since link extraction is complex, consider using a simpler regex-free approach:
 **Changes:**
 
 Add `cleanup_validators` calls to these tests:
+
 - `test_run_custom_validators_single` (line ~410)
 - `test_run_custom_validators_select_specific` (line ~430)
 
@@ -180,6 +194,7 @@ test_run_custom_validators_single() {
 ```
 
 **Test After Changes:**
+
 ```bash
 ./tests/test-custom-validators-unit.zsh
 ```
@@ -194,6 +209,7 @@ test_run_custom_validators_single() {
 Validator crashes don't always return exit code 2.
 
 **Fix:**
+
 ```zsh
 # In _execute_validator function (around line 175)
 
@@ -227,6 +243,7 @@ _validate() {
 ```
 
 **Test After Changes:**
+
 ```bash
 ./tests/test-custom-validators-unit.zsh | grep "crash"
 ```
@@ -312,11 +329,13 @@ After completing all tasks, verify:
 ## Success Metrics
 
 **Before:**
+
 - Framework: 87% tests passing
 - Validators: 42% tests passing
 - Built-in validators: Buggy in subshells
 
 **After (Target):**
+
 - Framework: 97%+ tests passing
 - Validators: 92%+ tests passing
 - Built-in validators: Fully functional
@@ -326,21 +345,23 @@ After completing all tasks, verify:
 
 ## Time Estimates
 
-| Task | Estimated | Priority |
-|------|-----------|----------|
-| Task 1: Citation validator | 45 min | High |
-| Task 2: Link validator | 45 min | Medium |
-| Task 3: Formatting validator | 30 min | Low |
-| Task 4: Test cleanup | 15 min | High |
-| Task 5: Crash detection | 15 min | Low |
-| Task 6: User guide | 30 min | High |
-| **Total** | **3 hours** | |
+| Task                         | Estimated   | Priority |
+| ---------------------------- | ----------- | -------- |
+| Task 1: Citation validator   | 45 min      | High     |
+| Task 2: Link validator       | 45 min      | Medium   |
+| Task 3: Formatting validator | 30 min      | Low      |
+| Task 4: Test cleanup         | 15 min      | High     |
+| Task 5: Crash detection      | 15 min      | Low      |
+| Task 6: User guide           | 30 min      | High     |
+| **Total**                    | **3 hours** |          |
 
 **Fast Path (90 minutes):**
+
 - Task 1 + Task 4 + Task 6
 - Gets you: Working citations, clean tests, documentation
 
 **Complete Path (3 hours):**
+
 - All 6 tasks
 - Gets you: 100% complete Wave 3
 

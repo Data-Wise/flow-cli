@@ -752,7 +752,7 @@ Add to `teach-config.schema.json`:
 ### Documentation Updates
 
 - `docs/tutorials/14-teach-dispatcher.md` - Add git integration section
-- `docs/reference/DISPATCHER-REFERENCE.md` - Update teach commands
+- `docs/reference/MASTER-DISPATCHER-GUIDE.md` - Update teach commands
 - `CHANGELOG.md` - v5.11.0 features
 
 ---

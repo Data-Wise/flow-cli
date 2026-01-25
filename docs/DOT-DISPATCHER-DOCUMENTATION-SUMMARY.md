@@ -121,7 +121,7 @@ vhs dot-dispatcher.tape
 
 ---
 
-### 6. Updated: docs/reference/COMMAND-QUICK-REFERENCE.md
+### 6. Updated: docs/help/QUICK-REFERENCE.md
 
 **Changes:**
 
@@ -220,11 +220,11 @@ Root:
 
 All internal links validated:
 
-- [x] guides/DOTFILE-MANAGEMENT.md → reference/DOT-DISPATCHER-REFERENCE.md
+- [x] guides/DOTFILE-MANAGEMENT.md → reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher
 - [x] guides/DOTFILE-MANAGEMENT.md → SECRET-MANAGEMENT.md
-- [x] reference/REFCARD-DOT.md → reference/DOT-DISPATCHER-REFERENCE.md
+- [x] reference/REFCARD-DOT.md → reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher
 - [x] reference/REFCARD-DOT.md → guides/DOTFILE-MANAGEMENT.md
-- [x] reference/DOT-DISPATCHER-REFERENCE.md → SECRET-MANAGEMENT.md
+- [x] reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher → SECRET-MANAGEMENT.md
 
 ### Navigation Validation
 

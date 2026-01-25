@@ -462,7 +462,7 @@ grep daily_goal .STATUS
 Now that you're tracking wins and building streaks:
 
 1. **[Tutorial 7: Sync Command](07-sync-command.md)** - Keep everything in sync
-2. **[Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)** - Full command reference
+2. **[Workflow Quick Reference](../help/WORKFLOWS.md)** - Full command reference
 3. **[Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md)** - Deep dive reference
 
 ---

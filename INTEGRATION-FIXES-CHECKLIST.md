@@ -10,11 +10,13 @@
 ## Critical Priority (Fix First)
 
 ### [ ] Issue #7: Missing Help Function
+
 **File:** `lib/dispatchers/teach-dispatcher.zsh`
 **Time:** 30 min - 1 hour
 **Impact:** `teach help` completely broken
 
 **Tasks:**
+
 - [ ] Create `_teach_dispatcher_help()` function
 - [ ] Include all teach commands (init, deploy, hooks, validate, cache, doctor, backup, status, etc.)
 - [ ] Add examples for each command
@@ -23,6 +25,7 @@
 - [ ] Test: `teach -h` works
 
 **Template:**
+
 ```zsh
 _teach_dispatcher_help() {
     cat << 'EOF'
@@ -66,11 +69,13 @@ EOF
 ## High Priority (Fix Before PR)
 
 ### [ ] Issue #1: Index Link Manipulation
+
 **File:** `lib/index-helpers.zsh` (or similar)
 **Time:** 2-3 hours
 **Tests:** Fixes #12, #13, #14
 
 **Tasks:**
+
 - [ ] Implement `_add_link_to_index()` function
   - [ ] Parse week number from filename
   - [ ] Extract title from YAML frontmatter
@@ -88,6 +93,7 @@ EOF
   - [ ] Handle edge cases (Week 1, Week 10, Week 05)
 
 **Test:**
+
 ```bash
 ./tests/test-index-management-unit.zsh
 # Should pass tests 12, 13, 14
@@ -96,11 +102,13 @@ EOF
 ---
 
 ### [ ] Issue #2: Dependency Scanning
+
 **File:** `lib/deploy-helpers.zsh` (or similar)
 **Time:** 2-4 hours
 **Tests:** Fixes #16, #17, #5, #6 (deploy suite)
 
 **Tasks:**
+
 - [ ] Implement `_find_sourced_files()` function
   - [ ] Scan for R: `source("path/to/file.R")`
   - [ ] Scan for R: `source('path/to/file.R')`
@@ -120,6 +128,7 @@ EOF
   - [ ] Prevent duplicates
 
 **Test:**
+
 ```bash
 ./tests/test-index-management-unit.zsh  # Tests 16, 17
 ./tests/test-teach-deploy-unit.zsh      # Tests 5, 6
@@ -128,11 +137,13 @@ EOF
 ---
 
 ### [ ] Issue #3: Cross-Reference Validation
+
 **File:** `lib/validate-helpers.zsh` (or similar)
 **Time:** 1-2 hours
 **Tests:** Fixes #19
 
 **Tasks:**
+
 - [ ] Fix `_validate_cross_references()` return code
   - [ ] Return 1 if any references are broken
   - [ ] Return 0 only if all references resolve
@@ -147,6 +158,7 @@ EOF
   - [ ] Include in pre-commit hook
 
 **Test:**
+
 ```bash
 ./tests/test-index-management-unit.zsh  # Test 19
 ```
@@ -156,11 +168,13 @@ EOF
 ## Medium Priority (Nice to Have)
 
 ### [ ] Issue #4: Insertion Point Off-by-One
+
 **File:** `lib/index-helpers.zsh`
 **Time:** 30 min - 1 hour
 **Tests:** Fixes #20
 
 **Tasks:**
+
 - [ ] Debug `_find_insertion_point()` function
 - [ ] Fix off-by-one error (returns line 6, should be line 5)
 - [ ] Test edge cases:
@@ -169,6 +183,7 @@ EOF
   - [ ] Insert in middle
 
 **Test:**
+
 ```bash
 ./tests/test-index-management-unit.zsh  # Test 20
 ```
@@ -176,17 +191,20 @@ EOF
 ---
 
 ### [ ] Issue #5: Git Test Environment
+
 **File:** `tests/test-teach-deploy-unit.zsh`
 **Time:** 30 minutes
 **Tests:** Fixes #24
 
 **Tasks:**
+
 - [ ] Update test setup to create `main` branch
 - [ ] Add commits to main branch
 - [ ] Create test commits on draft branch
 - [ ] Test commit counting works
 
 **Code:**
+
 ```zsh
 # In test setup
 git checkout -b main
@@ -197,6 +215,7 @@ git commit --allow-empty -m "Draft changes"
 ```
 
 **Test:**
+
 ```bash
 ./tests/test-teach-deploy-unit.zsh  # Test 24
 ```
@@ -206,22 +225,26 @@ git commit --allow-empty -m "Draft changes"
 ## Low Priority (Polish)
 
 ### [ ] Issue #6: Status Header Format
+
 **File:** `tests/test-teach-status-unit.zsh`
 **Time:** 15 minutes
 **Tests:** Fixes #29
 
 **Options:**
+
 1. **Update test expectation** to match actual output
 2. **Change status output** to include "Teaching Project Status" header
 
 **Recommended:** Update test expectation (implementation is correct)
 
 **Tasks:**
+
 - [ ] Review actual `teach status --full` output
 - [ ] Update test to expect current format
 - [ ] Or: add "Teaching Project Status" header to full view
 
 **Test:**
+
 ```bash
 ./tests/test-teach-status-unit.zsh  # Test 29
 ```
@@ -233,16 +256,19 @@ git commit --allow-empty -m "Draft changes"
 After each fix:
 
 1. **Run specific test suite:**
+
    ```bash
    ./tests/test-<suite-name>.zsh
    ```
 
 2. **Run ALL tests:**
+
    ```bash
    ./tests/run-all.sh
    ```
 
 3. **Verify plugin loads:**
+
    ```bash
    source flow.plugin.zsh
    teach help  # Should work after Issue #7 fixed
@@ -273,13 +299,13 @@ After each fix:
 
 ## Estimated Timeline
 
-| Priority | Issues | Estimated Time |
-|----------|--------|----------------|
-| Critical | 1      | 0.5-1 hour     |
-| High     | 3      | 5-9 hours      |
-| Medium   | 2      | 1-2 hours      |
-| Low      | 1      | 0.25 hours     |
-| **TOTAL** | **7** | **6.75-12.25 hours** |
+| Priority  | Issues | Estimated Time       |
+| --------- | ------ | -------------------- |
+| Critical  | 1      | 0.5-1 hour           |
+| High      | 3      | 5-9 hours            |
+| Medium    | 2      | 1-2 hours            |
+| Low       | 1      | 0.25 hours           |
+| **TOTAL** | **7**  | **6.75-12.25 hours** |
 
 **Recommended Approach:** Fix in priority order, test after each fix.
 

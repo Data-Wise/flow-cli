@@ -434,5 +434,5 @@ Your choice [1-6]: _
 ## Related Documents
 
 - [Main Plugin Integration Spec](../SPEC-claude-code-plugin-integration-2026-01-17.md)
-- [Teach Dispatcher Reference](../../reference/TEACH-DISPATCHER-REFERENCE.md)
-- [Quick Reference Card](../../reference/TEACH-GENERATION-QUICK-REFERENCE.md) (created by UX agent)
+- [Teach Dispatcher Reference](../../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)
+- [Quick Reference Card](../../reference/.archive/TEACH-GENERATION-QUICK-REFERENCE.md) (created by UX agent)

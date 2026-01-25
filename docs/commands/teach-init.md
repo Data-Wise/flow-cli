@@ -266,5 +266,5 @@ work stat-545
 ## See Also
 
 - [Teaching Workflow Guide](../guides/TEACHING-WORKFLOW.md) - Full documentation
-- [Teaching Quick Reference](../reference/REFCARD-TEACHING.md) - Command cheatsheet
+- [Teaching Quick Reference](../reference/.archive/REFCARD-TEACHING.md) - Command cheatsheet
 - [work](work.md) - Start teaching sessions

@@ -5,6 +5,26 @@
 
 ---
 
+## Backend Configuration (NEW in v5.18.0)
+
+| Backend | Description | Requires Unlock |
+|---------|-------------|-----------------|
+| `keychain` (default) | macOS Keychain only - instant access | No |
+| `bitwarden` | Bitwarden only - cloud backup | Yes |
+| `both` | Both backends - local + cloud | Yes (for writes) |
+
+```bash
+# Configure backend (add to .zshrc)
+export FLOW_SECRET_BACKEND=keychain   # Default - instant access
+export FLOW_SECRET_BACKEND=bitwarden  # Legacy mode
+export FLOW_SECRET_BACKEND=both       # Cloud backup enabled
+
+# Check current status
+dot secret status
+```
+
+---
+
 ## Common Commands
 
 | Command | Action | Example |
@@ -16,6 +36,9 @@
 | `dot secret list` | List all secrets | Shows names only |
 | `dot secret add <name>` | Add arbitrary secret | Prompts for value |
 | `dot secret delete <name>` | Remove secret | Permanent deletion |
+| `dot secret status` | Show backend config | Backend & secrets count |
+| `dot secret sync` | Sync Keychain ↔ Bitwarden | Interactive wizard |
+| `dot secret sync --status` | Show sync differences | Compare backends |
 | `dot token expiring` | Check expiration | Shows 7-day warnings |
 | `dot token rotate` | Rotate token | With backup |
 | `dot secret help` | Show help | Display all commands |
@@ -35,9 +58,12 @@ dot token github
 # 2. Browser opens to GitHub token page
 # 3. Create token with recommended scopes
 # 4. Paste token when prompted
-# 5. Token stored in both Bitwarden & Keychain
+# 5. Token stored (based on FLOW_SECRET_BACKEND):
+#    - keychain: Keychain only (default - no unlock needed!)
+#    - bitwarden: Bitwarden only
+#    - both: Keychain + Bitwarden
 
-# ✅ Token ready to use
+# ✅ Token ready to use instantly
 ```
 
 ### Use Token in Scripts

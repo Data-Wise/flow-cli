@@ -646,7 +646,7 @@ graph TD
 ## Related Documentation
 
 - **User Guide:** `docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md`
-- **API Reference:** `docs/reference/TEACH-ANALYZE-API-REFERENCE.md`
-- **Quick Reference:** `docs/reference/REFCARD-TEACH-ANALYZE.md`
-- **Dispatcher:** `docs/reference/TEACH-DISPATCHER-REFERENCE-v4.6.0.md`
+- **API Reference:** `docs/reference/.archive/TEACH-ANALYZE-API-REFERENCE.md`
+- **Quick Reference:** `docs/reference/.archive/REFCARD-TEACH-ANALYZE.md`
+- **Dispatcher:** `docs/reference/.archive/TEACH-DISPATCHER-REFERENCE-v4.6.0.md`
 - **Spec:** `docs/specs/SPEC-intelligent-content-analysis-2026-01-20.md`

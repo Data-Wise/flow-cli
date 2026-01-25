@@ -257,8 +257,8 @@ If you have completions installed, `flow <Tab>` shows available commands.
 
 ## See Also
 
-- **Reference:** [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md) - All commands at a glance
-- **Reference:** [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) - Domain-specific dispatchers
+- **Reference:** [Command Quick Reference](../help/QUICK-REFERENCE.md) - All commands at a glance
+- **Reference:** [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md) - Domain-specific dispatchers
 - **Guide:** [Getting Started](../getting-started/quick-start.md) - 5-minute quick start
 
 ---

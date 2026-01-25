@@ -86,9 +86,9 @@
 
 ### Phase 1: Advanced Features (30 min)
 
-1. [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) - All 8 dispatchers
-2. [Command Reference](../reference/COMMAND-QUICK-REFERENCE.md) - Complete command list
-3. [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common patterns
+1. [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md) - All 8 dispatchers
+2. [Command Reference](../help/QUICK-REFERENCE.md) - Complete command list
+3. [Workflow Quick Reference](../help/WORKFLOWS.md) - Common patterns
 
 ### Phase 2: Customization & Extension (30-60 min)
 
@@ -132,7 +132,7 @@
 ### "I'm a Developer - Show Me the Code"
 
 1. Read: [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md) (10 min)
-2. Browse: [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) (15 min)
+2. Browse: [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md) (15 min)
 3. Review: [Testing Guide](../testing/TESTING.md) (15 min)
 4. Run: `flow doctor` to check your setup
 
@@ -153,10 +153,10 @@
 
 ### Quick References (Keep These Handy)
 
-- [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md) - All commands
-- [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) - All 8 dispatchers
-- [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common patterns
-- [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) - Shortcuts
+- [Command Quick Reference](../help/QUICK-REFERENCE.md) - All commands
+- [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md) - All 8 dispatchers
+- [Workflow Quick Reference](../help/WORKFLOWS.md) - Common patterns
+- [Alias Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md#aliases) - Shortcuts
 
 ### Comprehensive Guides
 
@@ -176,7 +176,7 @@
 → Use `pick` or `hop` - See [Tutorial 2](../tutorials/02-multiple-projects.md)
 
 **"What are the dispatchers?"**
-→ `cc`, `g`, `mcp`, `obs`, `qu`, `r`, `tm`, `wt` - See [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)
+→ `cc`, `g`, `mcp`, `obs`, `qu`, `r`, `tm`, `wt` - See [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
 
 **"How do I check my setup?"**
 → Run `flow doctor` - See [Installation](installation.md)
@@ -215,7 +215,7 @@
 ### For ADHD-Friendly Learning
 
 - ✅ **Hands-on learners:** Jump straight to [Tutorial 1](../tutorials/01-first-session.md)
-- ✅ **Reference learners:** Bookmark [Command Reference](../reference/COMMAND-QUICK-REFERENCE.md)
+- ✅ **Reference learners:** Bookmark [Command Reference](../help/QUICK-REFERENCE.md)
 - ✅ **Speed learners:** Use the [5-Minute Quick Start](#5-minute-quick-start)
 
 ### Best Practices

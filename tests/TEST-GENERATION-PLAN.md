@@ -10,11 +10,13 @@
 ## Executive Summary
 
 ### Current State
+
 - ✅ Increment 2: 17 automated tests (100% passing)
 - ⚠️ Increment 3: 0 automated tests (only manual tests)
 - 📋 Manual tests: 36 test cases documented
 
 ### Gaps Identified
+
 1. **No automated tests for teach-exam command**
 2. **No automated tests for exam template generation**
 3. **No automated tests for QTI conversion script**
@@ -22,6 +24,7 @@
 5. **No error scenario tests for Increment 3**
 
 ### Test Generation Goals
+
 - Add 40+ automated tests for Increment 3
 - Achieve 95%+ code coverage
 - Cover all error paths
@@ -35,15 +38,17 @@
 **Current Tests:** 17 tests in `test-teaching-workflow-increment-2.zsh`
 **Additional Tests Needed:** 8 tests
 
-### Function: _calculate_current_week()
+### Function: \_calculate_current_week()
 
 **Signature:**
+
 ```zsh
 _calculate_current_week(config_file)
 # Returns: Week number (1-16), 0 if before start, or empty if no date
 ```
 
 #### Current Test Coverage (5 tests)
+
 - [x] Week 1 calculation
 - [x] Week 8 calculation
 - [x] Before semester start
@@ -53,6 +58,7 @@ _calculate_current_week(config_file)
 #### Additional Tests Needed
 
 ##### 1. Boundary Values
+
 ```zsh
 test_week_calculation_exact_boundary() {
   # Test: First day of week 2 (day 8)
@@ -68,6 +74,7 @@ test_week_calculation_last_day_week_16() {
 ```
 
 ##### 2. Invalid Date Handling
+
 ```zsh
 test_week_calculation_malformed_date() {
   # Test: Config with malformed date "2026-13-45"
@@ -81,6 +88,7 @@ test_week_calculation_non_date_string() {
 ```
 
 ##### 3. Edge Cases
+
 ```zsh
 test_week_calculation_leap_year() {
   # Test: Semester spanning Feb 29 (leap year)
@@ -97,15 +105,17 @@ test_week_calculation_year_boundary() {
 
 ---
 
-### Function: _is_break_week()
+### Function: \_is_break_week()
 
 **Signature:**
+
 ```zsh
 _is_break_week(config_file, week)
 # Returns: 0 and break name if yes, 1 if no
 ```
 
 #### Current Test Coverage (3 tests)
+
 - [x] Week during break (week 8)
 - [x] Week not during break
 - [x] No breaks configured
@@ -113,6 +123,7 @@ _is_break_week(config_file, week)
 #### Additional Tests Needed
 
 ##### 1. Multiple Breaks
+
 ```zsh
 test_break_detection_multiple_breaks() {
   # Test: Config with 2 breaks (Spring Break week 8, Reading Week 4)
@@ -123,6 +134,7 @@ test_break_detection_multiple_breaks() {
 ```
 
 ##### 2. Break Spanning Multiple Weeks
+
 ```zsh
 test_break_detection_two_week_break() {
   # Test: Break from week 8 to week 9 (14 days)
@@ -135,21 +147,24 @@ test_break_detection_two_week_break() {
 
 ---
 
-### Function: _validate_date_format()
+### Function: \_validate_date_format()
 
 **Signature:**
+
 ```zsh
 _validate_date_format(date_str)
 # Returns: 0 if valid, 1 if invalid
 ```
 
 #### Current Test Coverage (4 tests)
+
 - [x] Valid date format
 - [x] Invalid format variations
 
 #### Additional Tests Needed
 
 ##### 1. Edge Cases
+
 ```zsh
 test_date_validation_february_29_non_leap() {
   # Test: "2026-02-29" (not a leap year)
@@ -169,21 +184,24 @@ test_date_validation_month_13() {
 
 ---
 
-### Function: _calculate_semester_end()
+### Function: \_calculate_semester_end()
 
 **Signature:**
+
 ```zsh
 _calculate_semester_end(start_date)
 # Returns: End date in YYYY-MM-DD format (start + 112 days)
 ```
 
 #### Current Test Coverage (2 tests)
+
 - [x] Spring semester calculation
 - [x] Fall semester calculation
 
 #### Additional Tests Needed
 
 ##### 1. Boundary Conditions
+
 ```zsh
 test_semester_end_leap_year_boundary() {
   # Test: Start date before leap day, end after
@@ -209,6 +227,7 @@ test_semester_end_year_transition() {
 ### Function: teach-exam()
 
 **Signature:**
+
 ```zsh
 teach-exam(topic)
 # Creates exam template with guided prompts
@@ -404,9 +423,10 @@ test_teach_exam_template_substitution_failure() {
 
 ---
 
-### Function: _teach_create_exam_template()
+### Function: \_teach_create_exam_template()
 
 **Signature:**
+
 ```zsh
 _teach_create_exam_template(exam_file, topic, duration, points)
 # Internal helper: generates exam file from template
@@ -673,17 +693,20 @@ test_performance_qti_conversion() {
 ## Test Implementation Priority
 
 ### Phase 1: Critical Path (Week 1)
+
 1. ✅ Increment 2 tests (DONE - 17 tests)
 2. 🔥 teach-exam input validation (5 tests)
 3. 🔥 teach-exam file creation (5 tests)
 4. 🔥 QTI script validation (6 tests)
 
 ### Phase 2: Coverage (Week 2)
+
 5. Template generation tests (8 tests)
 6. Integration tests (8 tests)
 7. Error handling tests (10 tests)
 
 ### Phase 3: Polish (Week 3)
+
 8. Performance tests (3 tests)
 9. Additional edge cases (8 tests)
 10. Documentation examples (5 tests)
@@ -746,29 +769,32 @@ assert_line_count() {
 ## Coverage Goals
 
 ### Current Coverage
+
 - Increment 2: **~85%** (17 tests)
 - Increment 3: **~0%** (manual only)
 
 ### Target Coverage
+
 - Increment 2: **95%+** (25 tests total)
 - Increment 3: **90%+** (40+ tests)
 - Integration: **100%** (8 tests)
 
 ### Coverage by Component
 
-| Component | Lines | Current Tests | Needed Tests | Target Coverage |
-|-----------|-------|---------------|--------------|-----------------|
-| teaching-utils.zsh | 173 | 17 | +8 | 95% |
-| teach-exam.zsh | 218 | 0 | +25 | 90% |
-| exam-to-qti.sh | 132 | 0 | +12 | 85% |
-| Integration | - | 0 | +8 | 100% |
-| **Total** | **523** | **17** | **+53** | **~92%** |
+| Component          | Lines   | Current Tests | Needed Tests | Target Coverage |
+| ------------------ | ------- | ------------- | ------------ | --------------- |
+| teaching-utils.zsh | 173     | 17            | +8           | 95%             |
+| teach-exam.zsh     | 218     | 0             | +25          | 90%             |
+| exam-to-qti.sh     | 132     | 0             | +12          | 85%             |
+| Integration        | -       | 0             | +8           | 100%            |
+| **Total**          | **523** | **17**        | **+53**      | **~92%**        |
 
 ---
 
 ## Success Metrics
 
 ### Quantitative
+
 - ✅ 100+ total tests
 - ✅ 95%+ line coverage
 - ✅ 100% function coverage
@@ -776,6 +802,7 @@ assert_line_count() {
 - ✅ < 30s total test runtime
 
 ### Qualitative
+
 - ✅ All error paths tested
 - ✅ Edge cases documented
 - ✅ Integration workflows verified

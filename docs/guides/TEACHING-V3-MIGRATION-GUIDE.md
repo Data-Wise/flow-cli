@@ -546,8 +546,8 @@ workflow:
 
 - **Full v3.0 Guide:** `docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md`
 - **Backup System Guide:** `docs/guides/BACKUP-SYSTEM-GUIDE.md`
-- **Command Reference:** `docs/reference/TEACH-DISPATCHER-REFERENCE-v3.0.md`
-- **Quick Reference:** `docs/reference/REFCARD-TEACHING-V3.md`
+- **Command Reference:** `docs/reference/.archive/TEACH-DISPATCHER-REFERENCE-v3.0.md`
+- **Quick Reference:** `docs/reference/.archive/REFCARD-TEACHING-V3.md`
 
 ---
 

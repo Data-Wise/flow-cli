@@ -59,7 +59,7 @@ A complete UX design for integrating dotfile management (chezmoi + Bitwarden) in
 - `lib/dispatchers/dot-dispatcher.zsh`
 - `lib/dotfile-helpers.zsh`
 - `completions/_df`
-- `docs/reference/DOT-DISPATCHER-REFERENCE.md`
+- `docs/reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher`
 - `docs/tutorials/dotfile-setup.md`
 - `tests/dot-dispatcher.test.zsh`
 
@@ -87,8 +87,8 @@ A complete UX design for integrating dotfile management (chezmoi + Bitwarden) in
 
 ### Architecture
 
-- [ARCHITECTURE.md](../reference/ARCHITECTURE.md) - System architecture
-- [DISPATCHER-REFERENCE.md](../reference/DISPATCHER-REFERENCE.md) - Existing dispatcher patterns
+- [ARCHITECTURE.md](../reference/MASTER-ARCHITECTURE.md) - System architecture
+- [DISPATCHER-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md) - Existing dispatcher patterns
 
 ### Background Research
 

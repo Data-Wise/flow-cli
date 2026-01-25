@@ -455,5 +455,5 @@ All settings are backward compatible and default to false for safety.
 ## See Also
 
 - [Teaching Workflow Guide](../guides/TEACHING-WORKFLOW.md)
-- [Teaching Reference Card](../reference/REFCARD-TEACHING.md)
-- [TEACH Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE.md)
+- [Teaching Reference Card](../reference/.archive/REFCARD-TEACHING.md)
+- [TEACH Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)

@@ -238,8 +238,8 @@ Domain-specific feature libraries.
 
 ## See Also
 
-- [Core API Reference](../reference/CORE-API-REFERENCE.md)
-- [Teaching API Reference](../reference/TEACHING-API-REFERENCE.md)
-- [Integration API Reference](../reference/INTEGRATION-API-REFERENCE.md)
-- [Specialized API Reference](../reference/SPECIALIZED-API-REFERENCE.md)
-- [Architecture Overview](../reference/ARCHITECTURE-OVERVIEW.md)
+- [Core API Reference](../reference/.archive/CORE-API-REFERENCE.md)
+- [Teaching API Reference](../reference/.archive/TEACHING-API-REFERENCE.md)
+- [Integration API Reference](../reference/.archive/INTEGRATION-API-REFERENCE.md)
+- [Specialized API Reference](../reference/.archive/SPECIALIZED-API-REFERENCE.md)
+- [Architecture Overview](../reference/MASTER-ARCHITECTURE.md)

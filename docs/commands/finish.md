@@ -168,7 +168,7 @@ Use descriptive notes - they become your commit messages and help you remember w
 - **Command:** [work](work.md) - Start a work session
 - **Command:** [hop](hop.md) - Switch projects
 - **Command:** [capture](capture.md) - Log wins and ideas
-- **Reference:** [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
+- **Reference:** [Workflow Quick Reference](../help/WORKFLOWS.md) - Common workflows
 
 ---
 

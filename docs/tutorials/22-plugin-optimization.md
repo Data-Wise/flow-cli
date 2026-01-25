@@ -531,7 +531,7 @@ typeset -g _FLOW_*_LOADED=1
 
 - **Tutorial 23:** Advanced caching strategies with SHA-256 validation
 - **Tutorial 24:** Performance profiling ZSH plugins
-- **Reference:** [ARCHITECTURE-OVERVIEW.md](../reference/ARCHITECTURE-OVERVIEW.md)
+- **Reference:** [ARCHITECTURE-OVERVIEW.md](../reference/MASTER-ARCHITECTURE.md)
 - **Guide:** [Testing Guide](../guides/TESTING.md)
 
 ---

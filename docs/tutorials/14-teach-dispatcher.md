@@ -577,7 +577,7 @@ cat .flow/teach-config.yml
 
 - **[Teaching Workflow Guide](../guides/TEACHING-WORKFLOW.md)** - Comprehensive workflow documentation
 - **[Teaching System Architecture](../guides/TEACHING-SYSTEM-ARCHITECTURE.md)** - How flow-cli and Scholar work together
-- **[Teach Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE.md)** - Complete command reference
+- **[Teach Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)** - Complete command reference
 
 ### Master Scholar Enhancement (AI Content Generation)
 
@@ -590,7 +590,7 @@ The Scholar Enhancement provides powerful AI-assisted content generation with 47
 
 ### Deep Dive into Scholar
 
-- **[Scholar Enhancement API Reference](../reference/SCHOLAR-ENHANCEMENT-API.md)** - All 47 flags, 50+ examples
+- **[Scholar Enhancement API Reference](../reference/.archive/SCHOLAR-ENHANCEMENT-API.md)** - All 47 flags, 50+ examples
 - **[Scholar Enhancement Architecture](../architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md)** - System design with 15+ diagrams
 
 ---

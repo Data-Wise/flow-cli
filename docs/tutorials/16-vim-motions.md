@@ -415,7 +415,7 @@ nvim ~/projects/some-project/src/main.zsh
 
 **If you want to master text objects** → Practice with real code for a week, then return
 
-**If you need a quick reference** → Check [Nvim Quick Reference Card](../reference/NVIM-QUICK-REFERENCE.md)
+**If you need a quick reference** → Check [Nvim Quick Reference Card](../reference/.archive/NVIM-QUICK-REFERENCE.md)
 
 **If you want hands-on drills** → Run the interactive tutorial:
 
@@ -484,6 +484,6 @@ Practice for a week and these will become muscle memory!
 
 **Next Tutorial:** [17: LazyVim Basics - Essential Plugins](17-lazyvim-basics.md)
 
-**Quick Reference:** [Nvim Quick Reference Card](../reference/NVIM-QUICK-REFERENCE.md)
+**Quick Reference:** [Nvim Quick Reference Card](../reference/.archive/NVIM-QUICK-REFERENCE.md)
 
 **Interactive Practice:** `flow nvim-tutorial`

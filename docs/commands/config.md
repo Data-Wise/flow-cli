@@ -269,7 +269,7 @@ export FLOW_PROJECTS_ROOT=~/projects
 ## See Also
 
 - [Getting Started](../getting-started/quick-start.md)
-- [ADHD Helpers Reference](../reference/ADHD-HELPERS-FUNCTION-MAP.md)
+- [ADHD Helpers Reference](../reference/.archive/ADHD-HELPERS-FUNCTION-MAP.md)
 
 ---
 

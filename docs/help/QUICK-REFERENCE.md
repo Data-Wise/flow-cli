@@ -943,7 +943,7 @@ teach status                 # Verify
 
 ### Aliases
 
-flow-cli integrates with 22 ZSH plugins providing 351 aliases. See [Tutorial 24: Git Workflow](../tutorials/24-git-workflow.md) for complete guide.
+flow-cli integrates with 22 ZSH plugins providing 351 aliases. See [Tutorial 24: Git Workflow](../tutorials/17-lazyvim-basics.md) for complete guide.
 
 **Most useful git aliases:**
 
@@ -1007,4 +1007,4 @@ mcp help
 
 **Version:** v5.17.0-dev
 **Last Updated:** 2026-01-24
-**Contributors:** See [CHANGELOG.md](../../CHANGELOG.md)
+**Contributors:** See [CHANGELOG.md](../CHANGELOG.md)

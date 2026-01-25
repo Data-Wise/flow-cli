@@ -282,7 +282,7 @@ graph TD
 
 1. Complete core tutorials (13 total)
 2. Read [Plugin Ecosystem Guide](../guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md)
-3. Explore [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md)
+3. Explore [Alias Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md#aliases)
 4. Use `aliases <plugin>` to discover commands
 5. Practice one dispatcher deep dive (10, 12, 14)
 

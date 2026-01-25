@@ -395,7 +395,7 @@ git remote add origin https://github.com/user/stat-545.git
 ## See Also
 
 - **Full Guide:** `docs/commands/teach.md`
-- **Dispatcher Reference:** `docs/reference/DISPATCHER-REFERENCE.md`
+- **Dispatcher Reference:** `docs/reference/MASTER-DISPATCHER-GUIDE.md`
 - **Schema:** `lib/templates/teaching/teach-config.schema.json`
 - **Git Helpers Source:** `lib/git-helpers.zsh`
 - **Tests:** `tests/test-teaching-mode.zsh`, `tests/test-teach-init-git.zsh`

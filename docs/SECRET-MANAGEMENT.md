@@ -405,4 +405,4 @@ Store multi-line secrets in secure notes:
 
 - [Bitwarden CLI Documentation](https://bitwarden.com/help/cli/)
 - [Chezmoi Bitwarden Integration](https://www.chezmoi.io/user-guide/password-managers/bitwarden/)
-- [dot dispatcher reference](./reference/DOT-DISPATCHER-REFERENCE.md)
+- [dot dispatcher reference](./reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher)

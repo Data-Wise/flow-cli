@@ -554,7 +554,7 @@ nvim
 
 **If you want deep dive into LazyVim** → Continue to [Tutorial 18: LazyVim Showcase](18-lazyvim-showcase.md)
 
-**If you need quick reference** → Check [Nvim Quick Reference Card](../reference/NVIM-QUICK-REFERENCE.md)
+**If you need quick reference** → Check [Nvim Quick Reference Card](../reference/.archive/NVIM-QUICK-REFERENCE.md)
 
 **If you want hands-on practice** → Run the interactive tutorial:
 
@@ -584,6 +584,6 @@ Take time to practice these workflows, then explore more features in Tutorial 18
 
 **Previous Tutorial:** [16: Vim Motions](16-vim-motions.md)
 
-**Quick Reference:** [Nvim Quick Reference Card](../reference/NVIM-QUICK-REFERENCE.md)
+**Quick Reference:** [Nvim Quick Reference Card](../reference/.archive/NVIM-QUICK-REFERENCE.md)
 
 **Interactive Practice:** `flow nvim-tutorial`

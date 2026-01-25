@@ -877,7 +877,7 @@ graph TD
 
 - [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) - Dispatcher reference
 - [MASTER-API-REFERENCE.md](MASTER-API-REFERENCE.md) - API documentation
-- [CONVENTIONS.md](../../CONVENTIONS.md) - Code conventions
+- [CONVENTIONS.md](../CONVENTIONS.md) - Code conventions
 - [TESTING.md](../guides/TESTING.md) - Testing guide
 
 ---

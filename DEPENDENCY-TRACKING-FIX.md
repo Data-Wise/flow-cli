@@ -128,6 +128,7 @@ grep -l "{#${ref_id}}" **/*.qmd
 ## Test Results
 
 ### Before Fix
+
 ```
 Total tests:  25
 Passed:       20
@@ -135,12 +136,14 @@ Failed:       5  ❌
 ```
 
 **Failing tests:**
+
 - Test 5: Find dependencies for lecture file
 - Test 6: Verify specific dependencies
 - Test 7: Validate cross-references in deploy file
 - (Plus 2 unrelated tests)
 
 ### After Fix
+
 ```
 Total tests:  25
 Passed:       23
@@ -148,11 +151,13 @@ Failed:       3  ✅
 ```
 
 **All dependency tests now pass:**
+
 - ✅ Test 5: Find dependencies for lecture file
 - ✅ Test 6: Verify specific dependencies
 - ✅ Test 7: Validate cross-references in deploy file
 
 **Remaining failures (unrelated to dependencies):**
+
 - Test 11: Add new file to index (index management)
 - Test 12: Verify index sorting (index management)
 - Test 24: Calculate commit count between branches (git helpers)

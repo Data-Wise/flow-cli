@@ -90,7 +90,7 @@ prompt [action] [options]
 ```
 lib/dispatchers/prompt-dispatcher.zsh    # Main dispatcher + functions
 completions/_prompt                       # Tab completion
-docs/reference/DISPATCHER-REFERENCE.md   # Documentation
+docs/reference/MASTER-DISPATCHER-GUIDE.md   # Documentation
 docs/guides/PROMPT-DISPATCHER.md         # Guide
 tests/test-prompt-dispatcher.zsh         # Unit & E2E tests
 ```
@@ -160,9 +160,9 @@ tests/test-prompt-dispatcher.zsh         # Unit & E2E tests
 
 **Time:** ~20 minutes
 **Deliverables:**
-- Update `docs/reference/DISPATCHER-REFERENCE.md`
+- Update `docs/reference/MASTER-DISPATCHER-GUIDE.md`
 - Add prompt section with all actions documented
-- Update `docs/reference/COMMAND-QUICK-REFERENCE.md`
+- Update `docs/help/QUICK-REFERENCE.md`
 - Update `CLAUDE.md` quick reference
 - Create `docs/guides/PROMPT-DISPATCHER.md` if detailed guide needed
 

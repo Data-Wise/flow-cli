@@ -625,7 +625,7 @@ Before any merge, verify:
 
 - [PR Workflow Guide](PR-WORKFLOW-GUIDE.md) - Complete PR process
 - [Tutorial: Git Feature Workflow](../tutorials/08-git-feature-workflow.md) - Step-by-step guide
-- [G Dispatcher Reference](../reference/G-DISPATCHER-REFERENCE.md) - All g commands
+- [G Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#g-dispatcher) - All g commands
 
 ---
 

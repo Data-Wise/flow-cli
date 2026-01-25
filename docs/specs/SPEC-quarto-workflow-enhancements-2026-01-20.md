@@ -654,7 +654,7 @@ Commit anyway? [y/N]
 
 8. **Documentation**
    - Write `docs/guides/TEACHING-QUARTO-WORKFLOW.md` (comprehensive)
-   - Update `docs/reference/TEACH-DISPATCHER-REFERENCE.md`
+   - Update `docs/reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher`
    - Add examples to README
 
 ### Edge Cases

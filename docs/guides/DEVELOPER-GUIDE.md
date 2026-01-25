@@ -321,8 +321,8 @@ test_my_action1
 
 **Step 6:** Update documentation
 
-- Add to `docs/reference/DISPATCHER-REFERENCE.md`
-- Add to `docs/reference/COMMAND-QUICK-REFERENCE.md`
+- Add to `do../reference/MASTER-DISPATCHER-GUIDE.md`
+- Add to `docs/help/QUICK-REFERENCE.md`
 - Update `CLAUDE.md` if needed
 
 ### Adding a New Command
@@ -685,7 +685,7 @@ echo -e "\033[32m✓ Success\033[0m"
 **For New Features:**
 1. Add to `CLAUDE.md` (AI context)
 2. Add to reference docs (`docs/reference/`)
-3. Add to quick reference (`docs/reference/COMMAND-QUICK-REFERENCE.md`)
+3. Add to quick reference (`docs/help/QUICK-REFERENCE.md`)
 4. Add examples to guides (`docs/guides/`)
 
 **For Bug Fixes:**

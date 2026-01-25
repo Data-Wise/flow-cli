@@ -244,10 +244,10 @@ None identified.
 
 ## Documentation Updates Needed
 
-1. **docs/reference/COMMAND-QUICK-REFERENCE.md**
+1. **docs/help/QUICK-REFERENCE.md**
    - Add note about dotfile status in dashboard section
 
-2. **docs/reference/DOT-DISPATCHER-REFERENCE.md** (if exists)
+2. **docs/reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher** (if exists)
    - Document dashboard integration
 
 3. **README.md**

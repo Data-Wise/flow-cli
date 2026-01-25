@@ -615,7 +615,7 @@ doctor --dot=github,npm,pypi  # Specific tokens
 
 ### Learn More
 
-- [API Reference](../reference/DOCTOR-TOKEN-API-REFERENCE.md) - Complete API documentation
+- [API Reference](../reference/.archive/DOCTOR-TOKEN-API-REFERENCE.md) - Complete API documentation
 - [Phase 1 Spec](../specs/SPEC-flow-doctor-dot-enhancement-2026-01-23.md) - Implementation details
 - [Test Suites](../../tests/) - Usage examples in tests
 

@@ -174,7 +174,7 @@ Now choose:
         │  (20 min) advanced patterns
         │
         └─ Then:
-           ├─ [Alias Reference](../reference/ALIAS-REFERENCE-CARD.md)
+           ├─ [Alias Reference](../reference/MASTER-DISPATCHER-GUIDE.md#aliases)
            │  (learn git aliases)
            │
            └─ [Plugin Ecosystem](../guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md)
@@ -205,7 +205,7 @@ Now choose:
         │  (25 min) advanced workflows
         │
         └─ Reference:
-           [Neovim Quick Ref](../reference/NVIM-QUICK-REFERENCE.md)
+           [Neovim Quick Ref](../reference/.archive/NVIM-QUICK-REFERENCE.md)
 ```
 
 **Total: 1.5-2 hours**
@@ -231,7 +231,7 @@ Now choose:
 └─────────────────────────────────┘
         │
         └─ Then:
-           ├─ [Alias Reference](../reference/ALIAS-REFERENCE-CARD.md)
+           ├─ [Alias Reference](../reference/MASTER-DISPATCHER-GUIDE.md#aliases)
            │  (20 min) all aliases
            │
            ├─ Try git aliases in [Tutorial 8](../tutorials/08-git-feature-workflow.md)
@@ -339,10 +339,10 @@ STEP 4: Master Your Focus (20-30 min)
 
 | Problem | Answer | Link |
 |---------|--------|------|
-| Can't remember a command | Quick reference | [COMMAND-QUICK-REFERENCE.md](../reference/COMMAND-QUICK-REFERENCE.md) |
+| Can't remember a command | Quick reference | [COMMAND-QUICK-REFERENCE.md](../help/QUICK-REFERENCE.md) |
 | Don't know what to do next | Check index | [TUTORIALS-INDEX.md](../tutorials/index.md) |
 | Confused about plugins | Read guide | [PLUGIN-ECOSYSTEM-GUIDE.md](../guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md) |
-| Lost in learning path | Use navigator | [LEARNING-PATH-NAVIGATION.md](../reference/LEARNING-PATH-NAVIGATION.md) |
+| Lost in learning path | Use navigator | [LEARNING-PATH-NAVIGATION.md](../reference/.archive/LEARNING-PATH-NAVIGATION.md) |
 | Want full context | See map | [LEARNING-PATH-INDEX.md](../tutorials/LEARNING-PATH-INDEX.md) |
 
 ---
@@ -443,13 +443,13 @@ Additional:
 **Keep these 3 links handy:**
 
 1. **When you forget a command:**
-   → [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)
+   → [Command Quick Reference](../help/QUICK-REFERENCE.md)
 
 2. **When you want the next tutorial:**
    → [Tutorials Index](../tutorials/index.md)
 
 3. **When you're lost:**
-   → [Learning Path Navigation](../reference/LEARNING-PATH-NAVIGATION.md)
+   → [Learning Path Navigation](../reference/.archive/LEARNING-PATH-NAVIGATION.md)
 
 ---
 

@@ -824,7 +824,7 @@ test_startup_overhead() {
 - [x] `docs/specs/dot-dispatcher-visual-mockups.md` - 21 visual mockups
 - [x] `docs/specs/dot-dispatcher-implementation-checklist.md` - Implementation guide
 - [x] `docs/specs/README.md` - Specs directory index
-- [ ] `docs/reference/DOT-DISPATCHER-REFERENCE.md` - Complete command reference
+- [ ] `docs/reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher` - Complete command reference
 - [ ] `docs/tutorials/dotfile-setup.md` - First-time setup tutorial
 - [ ] `completions/_dot` - ZSH completions
 
@@ -832,8 +832,8 @@ test_startup_overhead() {
 
 - [ ] `README.md` - Add df dispatcher
 - [ ] `CLAUDE.md` - Add dotfile management context
-- [ ] `docs/reference/DISPATCHER-REFERENCE.md` - Include df
-- [ ] `docs/reference/COMMAND-QUICK-REFERENCE.md` - Add df commands
+- [ ] `docs/reference/MASTER-DISPATCHER-GUIDE.md` - Include df
+- [ ] `docs/help/QUICK-REFERENCE.md` - Add df commands
 - [ ] `docs/reference/WORKFLOW-QUICK-REFERENCE.md` - Add dotfile workflows
 - [ ] `mkdocs.yml` - Update navigation
 

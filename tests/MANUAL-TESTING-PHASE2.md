@@ -12,12 +12,14 @@
 ### Setup
 
 1. **Load the feature branch:**
+
    ```bash
    cd ~/.git-worktrees/flow-cli-teach-init-migration
    source flow.plugin.zsh
    ```
 
 2. **Verify Phase 1 tests pass:**
+
    ```bash
    ./tests/test-teach-init-phase1.zsh
    # Expected: 13/13 tests passing
@@ -36,16 +38,19 @@
 ### Test 1.1: Dry-Run on Quarto Project
 
 **Setup:**
+
 ```bash
 cd ~/projects/teaching/stat-545
 ```
 
 **Execute:**
+
 ```bash
 teach-init --dry-run "STAT 545"
 ```
 
 **Expected Output:**
+
 ```
 🔍 DRY RUN MODE - No changes will be made
 
@@ -84,9 +89,10 @@ teach-init --dry-run "STAT 545"
 ```
 
 **Validation:**
+
 - [ ] Shows "DRY RUN MODE" message
 - [ ] Detects "Quarto website" correctly
-- [ ] Shows _quarto.yml and index.qmd found
+- [ ] Shows \_quarto.yml and index.qmd found
 - [ ] Shows renv/ warning (if present)
 - [ ] Lists all 10 migration steps
 - [ ] No files created (verify: `ls -la .flow` fails)
@@ -98,6 +104,7 @@ teach-init --dry-run "STAT 545"
 ### Test 2.1: Detect Quarto Project
 
 **Setup:**
+
 ```bash
 cd ~/tmp/teach-init-tests
 mkdir test-quarto && cd test-quarto
@@ -107,15 +114,18 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 teach-init --dry-run "Test Quarto"
 ```
 
 **Expected:**
+
 - [ ] Shows "Project type: Quarto website"
-- [ ] Shows validation checks for _quarto.yml and index.qmd
+- [ ] Shows validation checks for \_quarto.yml and index.qmd
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-quarto
 ```
@@ -125,6 +135,7 @@ cd .. && rm -rf test-quarto
 ### Test 2.2: Detect Generic Repository
 
 **Setup:**
+
 ```bash
 mkdir test-generic && cd test-generic
 git init
@@ -133,15 +144,18 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 teach-init --dry-run "Test Generic"
 ```
 
 **Expected:**
+
 - [ ] Shows "Project type: Generic git repository"
 - [ ] Shows standard migration (not Quarto-specific)
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-generic
 ```
@@ -153,6 +167,7 @@ cd .. && rm -rf test-generic
 ### Test 3.1: Valid Quarto Project
 
 **Setup:**
+
 ```bash
 mkdir test-valid-quarto && cd test-valid-quarto
 git init
@@ -161,6 +176,7 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 # Source the plugin to get functions
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
@@ -170,19 +186,22 @@ _teach_validate_quarto_project && echo "✅ PASS" || echo "❌ FAIL"
 ```
 
 **Expected:**
+
 - [ ] Validation passes (exit code 0)
 - [ ] Shows "✅ PASS"
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-valid-quarto
 ```
 
 ---
 
-### Test 3.2: Missing _quarto.yml
+### Test 3.2: Missing \_quarto.yml
 
 **Setup:**
+
 ```bash
 mkdir test-missing-quarto && cd test-missing-quarto
 git init
@@ -191,23 +210,27 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 _teach_validate_quarto_project 2>&1
 ```
 
 **Expected:**
+
 ```
 Project validation failed:
   Missing _quarto.yml
 ```
 
 **Validation:**
+
 - [ ] Shows validation error
-- [ ] Lists "Missing _quarto.yml"
+- [ ] Lists "Missing \_quarto.yml"
 - [ ] Returns exit code 1
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-missing-quarto
 ```
@@ -217,6 +240,7 @@ cd .. && rm -rf test-missing-quarto
 ### Test 3.3: Missing index.qmd
 
 **Setup:**
+
 ```bash
 mkdir test-missing-index && cd test-missing-index
 git init
@@ -225,23 +249,27 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 _teach_validate_quarto_project 2>&1
 ```
 
 **Expected:**
+
 ```
 Project validation failed:
   Missing index.qmd (homepage)
 ```
 
 **Validation:**
+
 - [ ] Shows validation error
 - [ ] Lists "Missing index.qmd (homepage)"
 - [ ] Returns exit code 1
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-missing-index
 ```
@@ -253,6 +281,7 @@ cd .. && rm -rf test-missing-index
 ### Test 4.1: Successful Strategy 1 Migration
 
 **Setup:**
+
 ```bash
 cd ~/tmp/teach-init-tests
 mkdir test-strategy1 && cd test-strategy1
@@ -273,6 +302,7 @@ git add . && git commit -m "Initial commit"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 
@@ -287,6 +317,7 @@ INPUT
 ```
 
 **Expected Output Flow:**
+
 1. Detection: "Detected: Quarto website"
 2. Validation: "✅ Validation passed"
 3. Strategy menu: Shows 3 options
@@ -301,6 +332,7 @@ INPUT
 6. Success: "✅ Migration complete"
 
 **Validation:**
+
 ```bash
 # Check branches
 git branch -a
@@ -323,9 +355,10 @@ git branch --show-current
 ```
 
 **Checklist:**
+
 - [ ] Branches created: draft, production
 - [ ] Current branch: draft
-- [ ] Rollback tag exists: *-pre-migration
+- [ ] Rollback tag exists: \*-pre-migration
 - [ ] Files created:
   - [ ] .flow/teach-config.yml
   - [ ] scripts/quick-deploy.sh (executable)
@@ -336,6 +369,7 @@ git branch --show-current
 - [ ] Config has semester dates
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-strategy1
 ```
@@ -345,6 +379,7 @@ cd .. && rm -rf test-strategy1
 ### Test 4.2: Strategy 1 with Cancellation
 
 **Setup:**
+
 ```bash
 mkdir test-strategy1-cancel && cd test-strategy1-cancel
 git init
@@ -353,6 +388,7 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 
@@ -364,6 +400,7 @@ INPUT
 ```
 
 **Expected:**
+
 ```
 Choose migration strategy:
   1. Convert existing branch → production (preserve history)
@@ -380,6 +417,7 @@ Cancelled
 ```
 
 **Validation:**
+
 ```bash
 # Verify no changes made
 git branch
@@ -393,12 +431,14 @@ git tag -l
 ```
 
 **Checklist:**
+
 - [ ] Shows "Cancelled" message
 - [ ] No branches created
 - [ ] No files created
 - [ ] No tags created
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-strategy1-cancel
 ```
@@ -410,6 +450,7 @@ cd .. && rm -rf test-strategy1-cancel
 ### Test 5.1: Successful Strategy 2 Migration
 
 **Setup:**
+
 ```bash
 cd ~/tmp/teach-init-tests
 mkdir test-strategy2 && cd test-strategy2
@@ -419,6 +460,7 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 
@@ -433,6 +475,7 @@ INPUT
 ```
 
 **Validation:**
+
 ```bash
 # Check branches
 git branch -a
@@ -449,12 +492,14 @@ ls .flow/teach-config.yml
 ```
 
 **Checklist:**
+
 - [ ] All 3 branches exist: main, draft, production
 - [ ] Main branch unchanged (only initial commit)
 - [ ] Draft and production have workflow files
 - [ ] Current branch: draft
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-strategy2
 ```
@@ -466,6 +511,7 @@ cd .. && rm -rf test-strategy2
 ### Test 5.2: Successful Strategy 3 Migration
 
 **Setup:**
+
 ```bash
 cd ~/tmp/teach-init-tests
 mkdir test-strategy3 && cd test-strategy3
@@ -477,6 +523,7 @@ git add . && git commit -m "Second commit"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 
@@ -491,11 +538,13 @@ INPUT
 ```
 
 **Expected:**
+
 - Creates archive tag (not rollback tag)
 - Shows "✅ Migration complete (fresh start)"
 - Shows "💡 Original history preserved in tag: ..."
 
 **Validation:**
+
 ```bash
 # Check archive tag
 git tag -l "*archive"
@@ -517,6 +566,7 @@ git log january-2026-archive --oneline
 ```
 
 **Checklist:**
+
 - [ ] Archive tag exists
 - [ ] Production branch is orphan (1 commit only)
 - [ ] Draft created from production
@@ -524,6 +574,7 @@ git log january-2026-archive --oneline
 - [ ] Message shows "fresh start"
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-strategy3
 ```
@@ -535,6 +586,7 @@ cd .. && rm -rf test-strategy3
 ### Test 7.1: renv Detection and Exclusion
 
 **Setup:**
+
 ```bash
 cd ~/tmp/teach-init-tests
 mkdir test-renv && cd test-renv
@@ -545,6 +597,7 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 
@@ -561,6 +614,7 @@ INPUT
 
 **Expected:**
 During migration, should see:
+
 ```
 ⚠️  Detected renv/ directory
   R package management with symlinks (not suitable for git)
@@ -570,6 +624,7 @@ During migration, should see:
 ```
 
 **Validation:**
+
 ```bash
 # Check .gitignore
 grep "^renv/$" .gitignore
@@ -581,12 +636,14 @@ git status --short
 ```
 
 **Checklist:**
+
 - [ ] Shows renv warning
 - [ ] Prompts to exclude
 - [ ] Adds renv/ to .gitignore
 - [ ] renv/ not tracked by git
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-renv
 ```
@@ -596,6 +653,7 @@ cd .. && rm -rf test-renv
 ### Test 7.2: renv Already Excluded
 
 **Setup:**
+
 ```bash
 mkdir test-renv-existing && cd test-renv-existing
 git init
@@ -606,6 +664,7 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 
@@ -622,11 +681,13 @@ INPUT
 
 **Expected:**
 Should see:
+
 ```
 ℹ️  renv/ already in .gitignore
 ```
 
 **Validation:**
+
 ```bash
 # Check .gitignore has only one renv/ entry
 grep -c "^renv/$" .gitignore
@@ -634,10 +695,12 @@ grep -c "^renv/$" .gitignore
 ```
 
 **Checklist:**
+
 - [ ] Shows "already in .gitignore" message
 - [ ] Does not duplicate entry
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-renv-existing
 ```
@@ -649,6 +712,7 @@ cd .. && rm -rf test-renv-existing
 ### Test 8.1: Simulate Template Installation Failure
 
 **Setup:**
+
 ```bash
 cd ~/tmp/teach-init-tests
 mkdir test-rollback && cd test-rollback
@@ -658,6 +722,7 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 
@@ -675,6 +740,7 @@ INPUT
 
 **Expected:**
 Should see rollback sequence:
+
 ```
 Installing templates...
 cp: /nonexistent/path/lib/templates/teaching/quick-deploy.sh: No such file or directory
@@ -691,6 +757,7 @@ Your repository is back to its original state.
 ```
 
 **Validation:**
+
 ```bash
 # Check branch
 git branch --show-current
@@ -713,6 +780,7 @@ export FLOW_PLUGIN_DIR="$HOME/.git-worktrees/flow-cli-teach-init-migration"
 ```
 
 **Checklist:**
+
 - [ ] Shows "Migration failed" message
 - [ ] Shows rollback steps
 - [ ] Reverts to original branch (main)
@@ -721,6 +789,7 @@ export FLOW_PLUGIN_DIR="$HOME/.git-worktrees/flow-cli-teach-init-migration"
 - [ ] Repository in original state
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-rollback
 ```
@@ -732,6 +801,7 @@ cd .. && rm -rf test-rollback
 ### Test 9.1: GitHub Push - No Existing Remote
 
 **Setup:**
+
 ```bash
 cd ~/tmp/teach-init-tests
 mkdir test-github-new && cd test-github-new
@@ -741,6 +811,7 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 
@@ -757,6 +828,7 @@ INPUT
 
 **Expected:**
 Should see:
+
 ```
 GitHub Integration (Optional)
   Push to GitHub remote? [y/N]: n
@@ -766,6 +838,7 @@ GitHub Integration (Optional)
 ```
 
 **Validation:**
+
 ```bash
 # Verify no remote added
 git remote
@@ -773,11 +846,13 @@ git remote
 ```
 
 **Checklist:**
+
 - [ ] Shows GitHub integration prompt
 - [ ] Shows manual push instructions when skipped
 - [ ] No remote added when skipped
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-github-new
 ```
@@ -787,6 +862,7 @@ cd .. && rm -rf test-github-new
 ### Test 9.2: GitHub Push - Existing Remote (Same URL)
 
 **Setup:**
+
 ```bash
 mkdir test-github-existing && cd test-github-existing
 git init
@@ -798,6 +874,7 @@ git remote add origin https://github.com/test/test.git
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 
@@ -814,6 +891,7 @@ INPUT
 
 **Expected:**
 Should see:
+
 ```
 GitHub Integration (Optional)
   Push to GitHub remote? [y/N]: y
@@ -823,6 +901,7 @@ GitHub Integration (Optional)
 ```
 
 **Validation:**
+
 ```bash
 # Verify remote unchanged
 git remote get-url origin
@@ -830,11 +909,13 @@ git remote get-url origin
 ```
 
 **Checklist:**
+
 - [ ] Detects existing remote
 - [ ] Shows "already configured" message
 - [ ] Attempts to push (may fail without real remote)
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-github-existing
 ```
@@ -846,6 +927,7 @@ cd .. && rm -rf test-github-existing
 ### Test 10.1: MIGRATION-COMPLETE.md Generation
 
 **Setup:**
+
 ```bash
 cd ~/tmp/teach-init-tests
 mkdir test-docs && cd test-docs
@@ -855,6 +937,7 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 
@@ -868,6 +951,7 @@ INPUT
 ```
 
 **Validation:**
+
 ```bash
 # Check file exists
 test -f MIGRATION-COMPLETE.md && echo "✅ File exists"
@@ -877,6 +961,7 @@ cat MIGRATION-COMPLETE.md
 ```
 
 **Expected Content:**
+
 ```markdown
 # Documentation Test Teaching Workflow Migration - COMPLETE ✅
 
@@ -905,6 +990,7 @@ cat MIGRATION-COMPLETE.md
 ```
 
 **Checklist:**
+
 - [ ] File created: MIGRATION-COMPLETE.md
 - [ ] Contains course name
 - [ ] Contains migration date
@@ -914,6 +1000,7 @@ cat MIGRATION-COMPLETE.md
 - [ ] Markdown format valid
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-docs
 ```
@@ -925,6 +1012,7 @@ cd .. && rm -rf test-docs
 ### Test 11.1: Invalid Choice Handling
 
 **Setup:**
+
 ```bash
 cd ~/tmp/teach-init-tests
 mkdir test-invalid && cd test-invalid
@@ -934,6 +1022,7 @@ git add . && git commit -m "Initial"
 ```
 
 **Execute:**
+
 ```bash
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
 
@@ -944,6 +1033,7 @@ INPUT
 ```
 
 **Expected:**
+
 ```
 Choose migration strategy:
   1. Convert existing branch → production (preserve history)
@@ -955,6 +1045,7 @@ Invalid choice
 ```
 
 **Validation:**
+
 ```bash
 # Verify no changes made
 git branch
@@ -965,11 +1056,13 @@ ls .flow 2>/dev/null
 ```
 
 **Checklist:**
+
 - [ ] Shows "Invalid choice" message
 - [ ] Exits cleanly (no error)
 - [ ] No changes made to repository
 
 **Cleanup:**
+
 ```bash
 cd .. && rm -rf test-invalid
 ```
@@ -981,6 +1074,7 @@ cd .. && rm -rf test-invalid
 ### Test 12.1: Dry-Run on STAT 545
 
 **Execute:**
+
 ```bash
 cd ~/projects/teaching/stat-545
 source ~/.git-worktrees/flow-cli-teach-init-migration/flow.plugin.zsh
@@ -988,6 +1082,7 @@ teach-init --dry-run "STAT 545 Real"
 ```
 
 **Validation:**
+
 - [ ] Detects Quarto website
 - [ ] Shows validation passed
 - [ ] Shows renv/ warning (if present)
@@ -1001,56 +1096,64 @@ teach-init --dry-run "STAT 545 Real"
 ### Phase 2 Features Tested
 
 **Detection & Routing:**
+
 - [ ] Test 2.1: Detects Quarto projects correctly
 - [ ] Test 2.2: Detects generic projects correctly
 - [ ] Dry-run shows correct project type
 
 **Validation:**
+
 - [ ] Test 3.1: Passes validation for valid Quarto
-- [ ] Test 3.2: Fails validation without _quarto.yml
+- [ ] Test 3.2: Fails validation without \_quarto.yml
 - [ ] Test 3.3: Fails validation without index.qmd
 
 **Migration Strategies:**
+
 - [ ] Test 4.1: Strategy 1 (convert) succeeds
 - [ ] Test 4.2: Strategy 1 cancellation works
 - [ ] Test 5.1: Strategy 2 (parallel) succeeds
 - [ ] Test 5.2: Strategy 3 (fresh) succeeds
 
 **Safety Features:**
+
 - [ ] Test 7.1: renv detection and exclusion
 - [ ] Test 7.2: renv already excluded handling
 - [ ] Test 8.1: Rollback on error works correctly
 
 **GitHub Integration:**
+
 - [ ] Test 9.1: Skip GitHub push works
 - [ ] Test 9.2: Existing remote handling works
 
 **Documentation:**
+
 - [ ] Test 10.1: MIGRATION-COMPLETE.md generated correctly
 
 **Edge Cases:**
+
 - [ ] Test 11.1: Invalid choice handled gracefully
 
 **Real World:**
+
 - [ ] Test 12.1: STAT 545 dry-run works
 
 ---
 
 ## Test Results Summary
 
-**Date:** _____________
-**Tester:** _____________
-**Environment:** _____________
+**Date:** **\*\***\_**\*\***
+**Tester:** **\*\***\_**\*\***
+**Environment:** **\*\***\_**\*\***
 
 **Total Tests:** 18
-**Passed:** _____
-**Failed:** _____
-**Skipped:** _____
+**Passed:** **\_**
+**Failed:** **\_**
+**Skipped:** **\_**
 
 ### Failed Tests (if any)
 
 | Test | Issue | Notes |
-|------|-------|-------|
+| ---- | ----- | ----- |
 |      |       |       |
 
 ---
@@ -1098,4 +1201,4 @@ Phase 2 is considered **PASSING** if:
 
 **Phase 2 Status:** ⬜ NOT TESTED | ⬜ PASSING | ⬜ FAILING
 
-**Sign-off:** _________________ **Date:** _____________
+**Sign-off:** **\*\*\*\***\_**\*\*\*\*** **Date:** **\*\***\_**\*\***

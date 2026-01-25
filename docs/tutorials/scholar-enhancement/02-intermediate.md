@@ -341,7 +341,7 @@ You've mastered intermediate Scholar features!
 - Complex flag combinations
 - Batch operations
 
-**→ [API Reference](../../reference/SCHOLAR-ENHANCEMENT-API.md)** - Complete flag documentation
+**→ [API Reference](../../reference/.archive/SCHOLAR-ENHANCEMENT-API.md)** - Complete flag documentation
 
 ---
 

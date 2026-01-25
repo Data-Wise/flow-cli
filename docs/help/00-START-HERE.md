@@ -527,7 +527,7 @@ Help us improve documentation:
 
 **Last Updated:** 2026-01-24
 **Version:** v5.18.0-dev
-**Contributors:** See [CHANGELOG.md](../../CHANGELOG.md)
+**Contributors:** See [CHANGELOG.md](../CHANGELOG.md)
 
 ---
 
@@ -536,5 +536,5 @@ Help us improve documentation:
 - [Website](https://Data-Wise.github.io/flow-cli/)
 - [GitHub](https://github.com/Data-Wise/flow-cli)
 - [Issues](https://github.com/Data-Wise/flow-cli/issues)
-- [Changelog](../../CHANGELOG.md)
+- [Changelog](../CHANGELOG.md)
 - [Contributing](../contributing/CONTRIBUTING.md)

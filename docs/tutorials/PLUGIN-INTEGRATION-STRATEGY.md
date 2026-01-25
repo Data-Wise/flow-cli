@@ -234,7 +234,7 @@ gp                         # git push
 
 **Pro Tip:** Run `aliases claude` to see all Claude-related shortcuts!
 
-📚 **Deep Dive:** [Tutorial 24: Git Plugin Power-Ups](24-git-workflow-plugins.md)
+📚 **Deep Dive:** Tutorial 24: Git Plugin Power-Ups (planned)
 
 ```
 

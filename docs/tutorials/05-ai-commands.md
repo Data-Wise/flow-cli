@@ -279,7 +279,7 @@ npm install -g @anthropic-ai/claude-code
 ## What's Next?
 
 - **Tutorial 6:** Custom workflows (coming soon)
-- **Reference:** [COMMAND-QUICK-REFERENCE.md](../reference/COMMAND-QUICK-REFERENCE.md)
+- **Reference:** [COMMAND-QUICK-REFERENCE.md](../help/QUICK-REFERENCE.md)
 - **Help:** `flow ai --help`, `flow do --help`
 
 ---

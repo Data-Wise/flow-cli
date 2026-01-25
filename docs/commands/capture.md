@@ -316,7 +316,7 @@ When you get interrupted, drop a quick `crumb` so you can pick up where you left
 ## See Also
 
 - **Guide:** [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md) - Win streaks and goals
-- **Reference:** [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
+- **Reference:** [Workflow Quick Reference](../help/WORKFLOWS.md) - Common workflows
 - **Command:** [work](work.md) - Start sessions
 - **Command:** [finish](finish.md) - End sessions
 

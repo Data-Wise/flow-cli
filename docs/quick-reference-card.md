@@ -186,7 +186,7 @@ status my-project active P0 "Next task description"
 
 - **Full docs:** [https://data-wise.github.io/flow-cli](https://data-wise.github.io/flow-cli)
 - **Stuck?:** [Troubleshooting Guide](getting-started/im-stuck.md)
-- **Commands:** [Complete Reference](reference/COMMAND-QUICK-REFERENCE.md)
+- **Commands:** [Complete Reference](help/QUICK-REFERENCE.md)
 - **Community:** [GitHub Discussions](https://github.com/data-wise/flow-cli/discussions)
 
 ---
