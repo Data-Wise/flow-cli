@@ -126,6 +126,7 @@ nav:
   - Guides:
       - Start Here: guides/00-START-HERE.md
       - 🔌 ZSH Plugin Ecosystem: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md
+      - 🔐 Token Management Complete Guide: guides/TOKEN-MANAGEMENT-COMPLETE.md
       - 🆕 Teaching v3.0:
           - v3.0 User Guide: guides/TEACHING-WORKFLOW-V3-GUIDE.md
           - Concept Analysis: guides/INTELLIGENT-CONTENT-ANALYSIS.md
@@ -155,6 +156,7 @@ nav:
   - Help & Quick Reference:
       - 🏠 Start Here: help/00-START-HERE.md
       - ⚡ Quick Reference: help/QUICK-REFERENCE.md
+      - 🔐 Token & Secrets Quick Ref: reference/REFCARD-TOKEN-SECRETS.md
       - 🔧 Workflows: help/WORKFLOWS.md
       - 🩺 Troubleshooting: help/TROUBLESHOOTING.md
   - Reference:

@@ -1144,6 +1144,22 @@ _dot_secret() {
       ;;
 
     # ─────────────────────────────────────────────────────────────
+    # TUTORIAL
+    # ─────────────────────────────────────────────────────────────
+    tutorial)
+      # Load and run interactive tutorial
+      local tutorial_file="${0:A:h}/../../commands/secret-tutorial.zsh"
+      if [[ -f "$tutorial_file" ]]; then
+        source "$tutorial_file"
+        _dot_secret_tutorial "$@"
+      else
+        _flow_log_error "Tutorial not found: $tutorial_file"
+        return 1
+      fi
+      return
+      ;;
+
+    # ─────────────────────────────────────────────────────────────
     # BITWARDEN FALLBACK (for cloud-synced secrets)
     # ─────────────────────────────────────────────────────────────
     bw)
@@ -2152,14 +2168,36 @@ EOF
   # Sync vault
   bw sync --session "$BW_SESSION" >/dev/null 2>&1
 
+  # ─────────────────────────────────────────────────────────────────
+  # KEYCHAIN METADATA STORAGE
+  # ─────────────────────────────────────────────────────────────────
+  # The -j flag stores JSON attributes alongside the password.
+  # These attributes are NOT protected like the password itself,
+  # but are still encrypted in Keychain's database.
+  #
+  # Security Model:
+  #   -w (password): Protected, requires Touch ID/password to access
+  #   -j (JSON):     Searchable metadata for fast expiration checks
+  #
+  # Why this design?
+  #   - Enables checking token expiration WITHOUT decrypting password
+  #   - Allows filtering tokens by type/provider without unlock
+  #   - Metadata includes: version, type, created date, expiration
+  #
+  # Example metadata stored:
+  #   {"dot_version":"2.1","type":"github","token_type":"classic",
+  #    "created":"2025-01-24T14:30:00Z","expires":"2025-04-24",
+  #    "github_user":"username"}
+  # ─────────────────────────────────────────────────────────────────
+
   # ALSO store in Keychain with metadata for instant access
   _flow_log_info "Adding to Keychain for instant access..."
   security add-generic-password \
-    -a "$token_name" \
-    -s "$_DOT_KEYCHAIN_SERVICE" \
-    -w "$token_value" \
-    -j "$metadata" \
-    -U 2>/dev/null
+    -a "$token_name" \           # Account: token name (searchable)
+    -s "$_DOT_KEYCHAIN_SERVICE" \ # Service: flow-cli namespace
+    -w "$token_value" \           # Password: actual token (protected)
+    -j "$metadata" \              # JSON attrs: metadata (searchable)
+    -U 2>/dev/null               # Update if exists
 
   echo ""
   echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
@@ -2253,6 +2291,17 @@ _dot_token_expiring() {
 
 _dot_token_age_days() {
   local secret_name="$1"
+
+  # ─────────────────────────────────────────────────────────────────
+  # KEYCHAIN METADATA RETRIEVAL
+  # ─────────────────────────────────────────────────────────────────
+  # Retrieves JSON metadata from Keychain WITHOUT decrypting password.
+  # The metadata was stored via -j flag (see _dot_token_github above).
+  # This enables fast expiration checks without Touch ID prompts.
+  #
+  # Note: 'security find-generic-password -g' outputs metadata to stderr
+  #       with format: note: <JSON>
+  # ─────────────────────────────────────────────────────────────────
 
   # Get creation timestamp from Keychain item metadata
   local metadata=$(security find-generic-password \

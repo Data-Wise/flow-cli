@@ -364,6 +364,7 @@ ${FLOW_COLORS[warning]}Commands:${FLOW_COLORS[reset]}
   dot secret list            List all stored secrets
   dot secret delete <name>   Remove a secret
   dot secret import          Import from Bitwarden (one-time)
+  dot secret tutorial        Interactive tutorial (10-15 min)
 
 ${FLOW_COLORS[warning]}Examples:${FLOW_COLORS[reset]}
   dot secret add github-token    # Store GitHub token
@@ -388,70 +389,6 @@ EOF
 # DISPATCHER INTEGRATION
 # ============================================================================
 
-# =============================================================================
-# Function: _dot_secret_kc
-# Purpose: Main router/dispatcher for all dot secret subcommands
-# =============================================================================
-# Arguments:
-#   $1 - (optional) Subcommand: add|get|list|delete|import|help
-#                   If not recognized, treated as secret name for get operation
-#   $@ - Additional arguments passed to subcommand handler
-#
-# Returns:
-#   Return value from delegated subcommand function
-#
-# Output:
-#   Output from delegated subcommand function
-#
-# Example:
-#   _dot_secret_kc add "api-key"      # Calls _dot_kc_add
-#   _dot_secret_kc get "api-key"      # Calls _dot_kc_get
-#   _dot_secret_kc "api-key"          # Shortcut: calls _dot_kc_get
-#   _dot_secret_kc list               # Calls _dot_kc_list
-#   _dot_secret_kc                    # Shows help
-#
-# Notes:
-#   - Replaces Bitwarden-based _dot_secret for local-first Keychain ops
-#   - Supports aliases: new→add, ls→list, rm/remove→delete
-#   - Unknown subcommands treated as secret names (implicit get)
-#   - Empty input shows help
-# =============================================================================
-_dot_secret_kc() {
-    local subcommand="$1"
-    shift 2>/dev/null  # Safe shift even if no args
-
-    case "$subcommand" in
-        add|new)
-            _dot_kc_add "$@"
-            ;;
-
-        get)
-            _dot_kc_get "$@"
-            ;;
-
-        list|ls)
-            _dot_kc_list
-            ;;
-
-        delete|rm|remove)
-            _dot_kc_delete "$@"
-            ;;
-
-        import)
-            _dot_kc_import
-            ;;
-
-        help|--help|-h)
-            _dot_kc_help
-            ;;
-
-        "")
-            _dot_kc_help
-            ;;
-
-        *)
-            # Default: treat as secret name (get operation)
-            _dot_kc_get "$subcommand"
-            ;;
-    esac
-}
+# Note: The _dot_secret_kc() function has been removed as dead code.
+# All routing is now handled by _dot_secret() in lib/dispatchers/dot-dispatcher.zsh
+# The helper functions below (_dot_kc_add, _dot_kc_get, etc.) are still used.
