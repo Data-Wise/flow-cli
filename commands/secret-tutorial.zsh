@@ -688,7 +688,8 @@ _dot_secret_tutorial() {
   return 0
 }
 
-# Run tutorial if called directly
-if [[ "${(%):-%x}" == "${0}" ]]; then
+# Run tutorial if called directly (not when sourced by plugin loader)
+# ZSH_EVAL_CONTEXT is "toplevel" only when executed directly
+if [[ "${ZSH_EVAL_CONTEXT}" == "toplevel" ]]; then
   _dot_secret_tutorial "$@"
 fi

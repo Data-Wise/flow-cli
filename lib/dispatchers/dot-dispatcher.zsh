@@ -1148,7 +1148,7 @@ _dot_secret() {
     # ─────────────────────────────────────────────────────────────
     tutorial)
       # Load and run interactive tutorial
-      local tutorial_file="${0:A:h}/../../commands/secret-tutorial.zsh"
+      local tutorial_file="${FLOW_PLUGIN_DIR}/commands/secret-tutorial.zsh"
       if [[ -f "$tutorial_file" ]]; then
         source "$tutorial_file"
         _dot_secret_tutorial "$@"
