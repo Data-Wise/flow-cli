@@ -15,6 +15,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Tutorial auto-launch bug** (commit `e7d24e08`)
+  - Fixed source detection using `ZSH_EVAL_CONTEXT` instead of `${(%):-%x} == ${0}`
+  - Fixed path resolution in dot dispatcher using `$FLOW_PLUGIN_DIR`
+  - Tutorial no longer auto-launches when plugin loads
+  - Tutorial still works correctly when called via `dot secret tutorial`
+- **Documentation**: Added `docs/troubleshooting/CLAUDE-CODE-ENVIRONMENT.md`
+  - Explains Claude Code shell environment limitations
+  - Documents flow-cli behavior in different contexts
+  - Provides workarounds for Claude Code sessions
+
 ---
 
 ## [5.17.0] - 2026-01-23

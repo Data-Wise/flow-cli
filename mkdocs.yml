@@ -159,6 +159,7 @@ nav:
       - 🔐 Token & Secrets Quick Ref: reference/REFCARD-TOKEN-SECRETS.md
       - 🔧 Workflows: help/WORKFLOWS.md
       - 🩺 Troubleshooting: help/TROUBLESHOOTING.md
+      - 🤖 Claude Code Environment: troubleshooting/CLAUDE-CODE-ENVIRONMENT.md
   - Reference:
       - 📚 Master API Reference: reference/MASTER-API-REFERENCE.md
       - 🎯 Master Dispatcher Guide: reference/MASTER-DISPATCHER-GUIDE.md
