@@ -1064,8 +1064,8 @@ Switch: prompt ohmyposh
 
 ### Reference
 
-- Add `prompt` section to `docs/reference/DISPATCHER-REFERENCE.md`
-- Add to `docs/reference/COMMAND-QUICK-REFERENCE.md`
+- Add `prompt` section to `docs/reference/MASTER-DISPATCHER-GUIDE.md`
+- Add to `docs/help/QUICK-REFERENCE.md`
 
 ### Guides
 

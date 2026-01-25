@@ -258,10 +258,10 @@ flow alias test gst --exec    # Actually execute it
 
 ## Related
 
-- [Alias Reference Card](../reference/ALIAS-REFERENCE-CARD.md) - Complete alias list
+- [Alias Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md#aliases) - Complete alias list
 - [Alias Management Workflow](../guides/ALIAS-MANAGEMENT-WORKFLOW.md) - Workflow guide
-- [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md) - All commands
-- [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md) - All dispatchers
+- [Command Quick Reference](../help/QUICK-REFERENCE.md) - All commands
+- [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md) - All dispatchers
 
 ---
 

@@ -415,5 +415,5 @@ You've completed the teaching workflow quick start. Your course is now deployed 
 
 **See also:**
 - [Teaching Workflow v3.0 Guide](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) — Comprehensive documentation
-- [Teach Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE-v3.0.md) — All commands
+- [Teach Dispatcher Reference](../reference/.archive/TEACH-DISPATCHER-REFERENCE-v3.0.md) — All commands
 - [Backup System Guide](../guides/BACKUP-SYSTEM-GUIDE.md) — Automatic backups

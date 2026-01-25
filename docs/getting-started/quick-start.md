@@ -236,8 +236,8 @@ cc help
 
 ### Reference
 
-- [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)
-- [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)
+- [Command Quick Reference](../help/QUICK-REFERENCE.md)
+- [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
 - [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md)
 
 ### Get Help

@@ -6,11 +6,11 @@ This directory contains **three comprehensive test suites** for the GitHub token
 
 ## 📋 Overview
 
-| Test Suite | Type | Duration | Tests | Purpose |
-|------------|------|----------|-------|---------|
-| `test-token-automation-unit.zsh` | Unit | ~1 sec | 27 | Fast, isolated function tests |
-| `test-token-automation-e2e.zsh` | E2E | ~5 sec | 20 | Full integration workflows |
-| `interactive-dog-token.zsh` | Interactive | ~5 min | 12 | Human-guided ADHD-friendly QA |
+| Test Suite                       | Type        | Duration | Tests | Purpose                       |
+| -------------------------------- | ----------- | -------- | ----- | ----------------------------- |
+| `test-token-automation-unit.zsh` | Unit        | ~1 sec   | 27    | Fast, isolated function tests |
+| `test-token-automation-e2e.zsh`  | E2E         | ~5 sec   | 20    | Full integration workflows    |
+| `interactive-dog-token.zsh`      | Interactive | ~5 min   | 12    | Human-guided ADHD-friendly QA |
 
 **Total: 59 tests** across all suites
 
@@ -36,6 +36,7 @@ This directory contains **three comprehensive test suites** for the GitHub token
 **Purpose:** Fast, isolated tests of pure function logic
 
 **Coverage:**
+
 - ✅ Function existence (6 tests)
 - ✅ Metadata structure validation (5 tests)
 - ✅ Age calculation logic (2 tests)
@@ -49,6 +50,7 @@ This directory contains **three comprehensive test suites** for the GitHub token
 **Run Time:** < 1 second
 
 **Example:**
+
 ```bash
 $ ./tests/test-token-automation-unit.zsh
 
@@ -75,6 +77,7 @@ Testing: Age calculation for 10-day-old token ... ✓ PASS
 **Purpose:** Full integration testing across all entry points
 
 **Coverage:**
+
 - ✅ Integration points (7 tests) - g, dash, work, doctor
 - ✅ Command help output (2 tests)
 - ✅ Documentation existence (3 tests)
@@ -87,6 +90,7 @@ Testing: Age calculation for 10-day-old token ... ✓ PASS
 **Run Time:** ~5 seconds
 
 **Example:**
+
 ```bash
 $ ./tests/test-token-automation-e2e.zsh
 
@@ -115,6 +119,7 @@ Testing: flow doctor includes GitHub token check ... ✓ PASS
 **Purpose:** ADHD-friendly manual QA with gamification
 
 **Features:**
+
 - 🐕 Feed the dog by completing tasks
 - 😊 Happiness meter (0-100%)
 - ⭐ Star rating system (0-5 stars)
@@ -122,6 +127,7 @@ Testing: flow doctor includes GitHub token check ... ✓ PASS
 - 📊 Progress tracking
 
 **Tasks:**
+
 1. Check token expiration (`dot token expiring`)
 2. View token in dashboard (`dash dev`)
 3. Health check with doctor (`flow doctor`)
@@ -140,6 +146,7 @@ Testing: flow doctor includes GitHub token check ... ✓ PASS
 **Run Time:** 5-10 minutes (user-paced)
 
 **Example:**
+
 ```bash
 $ ./interactive-dog-token.zsh
 
@@ -186,22 +193,22 @@ jobs:
 
 ## 📊 Test Coverage
 
-| Feature | Unit | E2E | Interactive |
-|---------|------|-----|-------------|
-| Token expiration detection | ✅ | ✅ | ✅ |
-| Metadata tracking (v2.1) | ✅ | ✅ | ✅ |
-| Age calculation | ✅ | - | ✅ |
-| GitHub remote detection | ✅ | ✅ | ✅ |
-| g dispatcher integration | ✅ | ✅ | - |
-| dash integration | ✅ | ✅ | ✅ |
-| work integration | ✅ | ✅ | - |
-| finish integration | ✅ | - | - |
-| flow doctor integration | ✅ | ✅ | ✅ |
-| flow token alias | ✅ | ✅ | ✅ |
-| Help system | ✅ | ✅ | ✅ |
-| Documentation | ✅ | ✅ | ✅ |
-| Error handling | - | ✅ | - |
-| Complete workflows | - | ✅ | ✅ |
+| Feature                    | Unit | E2E | Interactive |
+| -------------------------- | ---- | --- | ----------- |
+| Token expiration detection | ✅   | ✅  | ✅          |
+| Metadata tracking (v2.1)   | ✅   | ✅  | ✅          |
+| Age calculation            | ✅   | -   | ✅          |
+| GitHub remote detection    | ✅   | ✅  | ✅          |
+| g dispatcher integration   | ✅   | ✅  | -           |
+| dash integration           | ✅   | ✅  | ✅          |
+| work integration           | ✅   | ✅  | -           |
+| finish integration         | ✅   | -   | -           |
+| flow doctor integration    | ✅   | ✅  | ✅          |
+| flow token alias           | ✅   | ✅  | ✅          |
+| Help system                | ✅   | ✅  | ✅          |
+| Documentation              | ✅   | ✅  | ✅          |
+| Error handling             | -    | ✅  | -           |
+| Complete workflows         | -    | ✅  | ✅          |
 
 **Overall Coverage:** 95%+ (59 tests total)
 
@@ -212,11 +219,13 @@ jobs:
 ### Tests Failing?
 
 1. **Ensure plugin is sourced:**
+
    ```bash
    source flow.plugin.zsh
    ```
 
 2. **Check git remote:**
+
    ```bash
    git remote -v | grep github.com
    ```
@@ -230,6 +239,7 @@ jobs:
 ### Skipped Tests
 
 Some tests skip on git worktrees (`.git` is a file, not a directory):
+
 - `work detects GitHub projects` - Expected skip on worktrees
 - Other worktree-specific limitations documented in test output
 
@@ -249,6 +259,7 @@ Some tests skip on git worktrees (`.git` is a file, not a directory):
 The interactive dog feeding test is specifically designed for ADHD developers:
 
 **Features:**
+
 - ✅ Instant feedback (visual indicators)
 - ✅ Progress tracking (X/12 completed)
 - ✅ Gamification (feed the dog!)
@@ -258,6 +269,7 @@ The interactive dog feeding test is specifically designed for ADHD developers:
 - ✅ Self-paced (press any key to continue)
 
 **Why it works:**
+
 - Immediate gratification from completing tasks
 - Visual progress indicators
 - Emotional connection (help the dog!)
@@ -275,6 +287,7 @@ The interactive dog feeding test is specifically designed for ADHD developers:
 ```
 
 **Expected:**
+
 ```
 Unit: ✅
 E2E: ✅

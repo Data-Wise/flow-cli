@@ -664,7 +664,7 @@ flow_workspace() {
 - [ ] Search index: All command help text + dispatcher docs
 - [ ] Ranking algorithm: Exact match > partial > description
 - [ ] Display: Command + description + example
-- [ ] Documentation: Update `docs/reference/COMMAND-QUICK-REFERENCE.md`
+- [ ] Documentation: Update `docs/help/QUICK-REFERENCE.md`
 
 **Example Usage:**
 

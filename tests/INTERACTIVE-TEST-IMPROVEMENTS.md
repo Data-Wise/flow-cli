@@ -55,18 +55,22 @@ Exit code: 0 (success)
 ## Key Improvements
 
 ### 1. Clear Structure
+
 - **Command** (📝): Shows exactly what's being run
 - **Expected** (✨): Shows what you should see
 - **Actual Output** (🔍): Shows what actually happened
 - **Exit Code**: Shows success (0) or failure (non-zero)
 
 ### 2. Easy Validation
+
 Users can now easily determine if a test passed by:
+
 1. Checking if the actual output matches expected
 2. Looking for the expected ✅ message
 3. Verifying exit code is 0
 
 ### 3. Visual Separation
+
 - Output is wrapped in separators for clarity
 - Different emojis for each section (📝 ✨ 🔍)
 - Color-coded feedback (green for success, red for failure)
@@ -87,6 +91,7 @@ Users can now easily determine if a test passed by:
 ## Example Test Calls
 
 ### Old Format
+
 ```zsh
 run_test \
     "Test 1.1: Cache file is created" \
@@ -95,6 +100,7 @@ run_test \
 ```
 
 ### New Format
+
 ```zsh
 run_test \
     "Test 1.1: Cache file is created" \
@@ -121,6 +127,7 @@ cd ~/.git-worktrees/flow-cli-project-cache
 ```
 
 You'll immediately see the difference - every test now clearly shows:
+
 - What command runs
 - What you should expect
 - What actually happened

@@ -857,7 +857,7 @@ ls exams/
 | `lib/dispatchers/teach-dispatcher.zsh` | Add `_teach_doctor()`, update help, add flag handling | ~200 |
 | `commands/teach-init.zsh` | Add deprecation warning | ~5 |
 | `lib/core.zsh` | Add `_help_header()`, `_help_section()` utilities | ~50 |
-| `docs/reference/TEACH-DISPATCHER-REFERENCE.md` | Document new features | ~100 |
+| `docs/reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher` | Document new features | ~100 |
 
 ---
 

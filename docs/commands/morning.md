@@ -212,7 +212,7 @@ week              # Review accomplishments
 
 - [First Session Tutorial](../tutorials/01-first-session.md)
 - [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md)
-- [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
+- [Workflow Quick Reference](../help/WORKFLOWS.md)
 
 ---
 

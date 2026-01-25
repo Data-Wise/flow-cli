@@ -19,14 +19,14 @@ Parallel: 8 workers     = <30s  (5.3x speedup)
 
 ## Implementation Stats
 
-| Metric | Value |
-|--------|-------|
-| Files Created | 6 |
-| Total Lines | ~2,213 |
-| Core Code | 1,093 lines |
-| Test Code | 1,120 lines |
-| Test Coverage | 100% |
-| Tests Passing | 74/74 |
+| Metric        | Value       |
+| ------------- | ----------- |
+| Files Created | 6           |
+| Total Lines   | ~2,213      |
+| Core Code     | 1,093 lines |
+| Test Code     | 1,120 lines |
+| Test Coverage | 100%        |
+| Tests Passing | 74/74       |
 
 ## Core Files
 
@@ -89,38 +89,45 @@ Wave 2 implementation is complete and ready for integration.
 ## Key Features Delivered
 
 ### 1. Parallel Worker Pool
+
 - Auto-detect CPU cores (macOS/Linux)
 - N background worker processes
 - Isolated temp directories per worker
 - Graceful shutdown and cleanup
 
 ### 2. Smart Queue Optimization
+
 - **Slowest-first strategy** for better load balancing
 - History-based time estimation
 - Content complexity heuristics
 - Automatic queue ordering
 
 ### 3. Atomic Job Operations
+
 - mkdir-based locking (no flock dependency)
 - Race-condition free job fetch
 - Safe result recording
 - Cross-platform (macOS/Linux)
 
 ### 4. Real-Time Progress
+
 ```
 [████████░░░░] 67% (8/12) - 45s elapsed, ~22s remaining
 ```
+
 - Updates every 500ms
 - Accurate ETA calculation
 - Formatted time displays
 
 ### 5. Robust Error Handling
+
 - Continue on partial failures
 - Collect all errors
 - Error logs per job
 - Overall success/failure tracking
 
 ### 6. Performance Tracking
+
 - Time estimation cache
 - Speedup calculation
 - Statistics reporting
@@ -164,6 +171,7 @@ Statistics:
 ### Speedup Achieved
 
 Test scenario: 4 workers, 8 files
+
 - Serial time: 40s
 - Parallel time: 10s
 - **Speedup: 4.0x**
@@ -171,6 +179,7 @@ Test scenario: 4 workers, 8 files
 ### Load Balancing
 
 Queue optimization ensures:
+
 - Slow files start early
 - Fast files fill gaps
 - Minimal idle time
@@ -179,6 +188,7 @@ Queue optimization ensures:
 ### Time Estimation
 
 Multi-level strategy:
+
 1. History cache (if available)
 2. File size heuristics
 3. Content complexity analysis
@@ -191,11 +201,13 @@ Multi-level strategy:
 ### mkdir-based Locking
 
 **Why not flock?**
+
 - Cross-platform issues
 - ZSH syntax complexity
 - File descriptor management
 
 **Why mkdir?**
+
 - Atomic operation
 - No dependencies
 - Simple retry logic
@@ -204,6 +216,7 @@ Multi-level strategy:
 ### Slowest-First Queueing
 
 **Traditional (FIFO):**
+
 ```
 Worker 1: [fast][fast][fast][fast] ── idle ──
 Worker 2: [fast][fast][fast][fast] ── idle ──
@@ -213,6 +226,7 @@ Total: ~25s (workers idle)
 ```
 
 **Optimized (slowest-first):**
+
 ```
 Worker 1: [====== slow ======][fast]
 Worker 2: [====== slow ======][fast]
@@ -228,6 +242,7 @@ Location: `~/.cache/flow-cli/render-times.cache`
 **Format:** `file_path|duration|timestamp`
 
 **Benefits:**
+
 - Persistent across sessions
 - Improves accuracy over time
 - Auto-pruned (1000 entries max)
@@ -250,6 +265,7 @@ Location: `~/.cache/flow-cli/render-times.cache`
 ### 1. Integration into teach-dispatcher.zsh
 
 Add flags:
+
 ```zsh
 teach validate lectures/*.qmd --parallel
 teach validate lectures/*.qmd --parallel --workers 4
@@ -258,6 +274,7 @@ teach validate lectures/*.qmd --parallel --workers 4
 ### 2. Modify validation-helpers.zsh
 
 Add parallel option:
+
 ```zsh
 if [[ "$parallel_mode" == "true" ]]; then
     source "${0:A:h}/parallel-helpers.zsh"
@@ -315,14 +332,14 @@ docs/
 
 ## Success Metrics
 
-| Metric | Target | Achieved |
-|--------|--------|----------|
-| Speedup (12 files) | >3x | ✅ 3-4x |
-| Speedup (20 files) | >5x | ✅ 5-6x |
-| Test Coverage | 100% | ✅ 74/74 |
-| Cross-platform | macOS/Linux | ✅ Both |
-| Error Handling | Graceful | ✅ Complete |
-| Progress Display | Real-time | ✅ 500ms updates |
+| Metric             | Target      | Achieved         |
+| ------------------ | ----------- | ---------------- |
+| Speedup (12 files) | >3x         | ✅ 3-4x          |
+| Speedup (20 files) | >5x         | ✅ 5-6x          |
+| Test Coverage      | 100%        | ✅ 74/74         |
+| Cross-platform     | macOS/Linux | ✅ Both          |
+| Error Handling     | Graceful    | ✅ Complete      |
+| Progress Display   | Real-time   | ✅ 500ms updates |
 
 ## Conclusion
 

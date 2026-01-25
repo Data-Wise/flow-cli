@@ -163,8 +163,8 @@ Use the search bar (top right) to find specific commands or concepts.
 ### Common Issues Database
 
 - [Installation Problems](troubleshooting.md#installation-issues)
-- [Project Detection Issues](../reference/PROJECT-DETECTION-GUIDE.md)
-- [Command Reference](../reference/COMMAND-QUICK-REFERENCE.md)
+- [Project Detection Issues](../reference/.archive/PROJECT-DETECTION-GUIDE.md)
+- [Command Reference](../help/QUICK-REFERENCE.md)
 
 ### Ask the Community
 
@@ -180,4 +180,4 @@ Once you're unstuck:
 !!! success "You're back on track!"
     - [Try the Quick Start →](quick-start.md)
     - [Complete Your First Session →](../tutorials/01-first-session.md)
-    - [Learn Core Commands →](../reference/COMMAND-QUICK-REFERENCE.md)
+    - [Learn Core Commands →](../help/QUICK-REFERENCE.md)

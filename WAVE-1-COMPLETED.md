@@ -34,6 +34,7 @@ teach profiles current           # Show active profile
 ```
 
 **Templates:**
+
 - `default` - Standard HTML website
 - `draft` - Draft mode (freeze disabled)
 - `print` - PDF handouts
@@ -49,6 +50,7 @@ teach doctor --fix               # Auto-install missing packages
 ```
 
 **Sources:**
+
 - teaching.yml (`r_packages:` list)
 - renv.lock (JSON lockfile)
 - DESCRIPTION (R package projects)
@@ -114,6 +116,7 @@ teach profiles current
 ### Unit Test Coverage
 
 **Profile Tests (45):**
+
 - ✅ Profile detection (3 tests)
 - ✅ Profile listing (3 tests)
 - ✅ Current profile detection (3 tests)
@@ -124,6 +127,7 @@ teach profiles current
 - ✅ Command dispatcher (3 tests)
 
 **R Package Tests (35):**
+
 - ✅ teaching.yml detection (3 tests)
 - ✅ DESCRIPTION detection (2 tests)
 - ✅ Multi-source aggregation (2 tests)
@@ -138,7 +142,7 @@ teach profiles current
 
 All success criteria from PHASE-2-IMPLEMENTATION-PLAN.md have been met:
 
-✅ Detect Quarto profiles from _quarto.yml
+✅ Detect Quarto profiles from \_quarto.yml
 ✅ Switch profiles with environment activation
 ✅ Create new profiles from template
 ✅ Detect R packages from teaching.yml and renv.lock
@@ -279,6 +283,7 @@ All dependencies checked by `teach doctor`.
 **Goal:** Implement parallel rendering for 3-10x speedup
 
 **Features:**
+
 - Parallel file processing with worker pools
 - Progress indicators and ETA
 - Intelligent file batching
@@ -286,6 +291,7 @@ All dependencies checked by `teach doctor`.
 - Resource management
 
 **Files to Create:**
+
 - `lib/parallel-helpers.zsh`
 - `lib/render-queue.zsh`
 - `lib/parallel-progress.zsh`
@@ -296,6 +302,7 @@ All dependencies checked by `teach doctor`.
 **Goal:** Extensible validation framework
 
 **Features:**
+
 - Custom validator templates
 - Built-in validators (links, YAML, R code)
 - Validation profiles
@@ -306,6 +313,7 @@ All dependencies checked by `teach doctor`.
 **Goal:** Render time tracking and trends
 
 **Features:**
+
 - Render time logging
 - Historical trends
 - Performance dashboards
@@ -339,6 +347,7 @@ All dependencies checked by `teach doctor`.
 **Status:** Clean working directory (Wave 1 only)
 
 **Commit Message:**
+
 ```
 feat: implement Wave 1 - Profile Management + R Package Detection (Phase 2)
 
@@ -396,6 +405,7 @@ capabilities to the teaching workflow.
 Wave 1 has been successfully completed with all features implemented, tested, and committed. The implementation provides a solid foundation for profile management and R package automation in the teaching workflow.
 
 **Key Achievements:**
+
 - ✅ Complete profile management system
 - ✅ Multi-source R package detection
 - ✅ Interactive auto-install

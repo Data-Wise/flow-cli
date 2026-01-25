@@ -468,9 +468,9 @@ Congratulations! You've mastered token automation. 🎉
 ### Continue Learning
 
 **Explore related features:**
-- [Token Quick Reference](../reference/REFCARD-TOKEN.md) - Command cheat sheet
+- [Token Quick Reference](../reference/.archive/REFCARD-TOKEN.md) - Command cheat sheet
 - [Token User Guide](../guides/DOCTOR-TOKEN-USER-GUIDE.md) - Complete workflows
-- [Token API Reference](../reference/DOCTOR-TOKEN-API-REFERENCE.md) - Developer docs
+- [Token API Reference](../reference/.archive/DOCTOR-TOKEN-API-REFERENCE.md) - Developer docs
 - [Token Architecture](../architecture/DOCTOR-TOKEN-ARCHITECTURE.md) - System design
 
 **Try advanced workflows:**

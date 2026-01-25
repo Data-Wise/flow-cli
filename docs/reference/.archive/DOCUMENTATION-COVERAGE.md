@@ -92,7 +92,7 @@
 | `help-browser.zsh` | 2 | **2** | ✅ **Phase 4 Complete** |
 
 **Library Coverage:** 99.8% (421/422 functions with inline docstrings)
-**API Reference:** `docs/reference/CORE-API-REFERENCE.md` (1,661 lines) + `docs/reference/TEACHING-API-REFERENCE.md` (~1,400 lines) + `docs/reference/INTEGRATION-API-REFERENCE.md` (~1,400 lines) + `docs/reference/SPECIALIZED-API-REFERENCE.md` (~700 lines)
+**API Reference:** `docs/reference/.archive/CORE-API-REFERENCE.md` (1,661 lines) + `docs/reference/.archive/TEACHING-API-REFERENCE.md` (~1,400 lines) + `docs/reference/.archive/INTEGRATION-API-REFERENCE.md` (~1,400 lines) + `docs/reference/.archive/SPECIALIZED-API-REFERENCE.md` (~700 lines)
 
 ---
 
@@ -544,7 +544,7 @@ _flow_example() {
 - `lib/core.zsh` - 14 functions documented
 - `lib/tui.zsh` - 16 functions documented
 - `lib/git-helpers.zsh` - 17 functions documented
-- `docs/reference/CORE-API-REFERENCE.md` - Created
+- `docs/reference/.archive/CORE-API-REFERENCE.md` - Created
 - `mkdocs.yml` - API Reference section added
 - `docs/reference/DOCUMENTATION-COVERAGE.md` - Metrics updated
 
@@ -564,7 +564,7 @@ _flow_example() {
 - `lib/cache-helpers.zsh` - 11 functions documented
 - `lib/index-helpers.zsh` - 12 functions documented
 - `lib/teaching-utils.zsh` - 7 functions documented
-- `docs/reference/TEACHING-API-REFERENCE.md` - Created
+- `docs/reference/.archive/TEACHING-API-REFERENCE.md` - Created
 - `mkdocs.yml` - Teaching Libraries added to API Reference
 - `docs/reference/DOCUMENTATION-COVERAGE.md` - Metrics updated
 
@@ -590,7 +590,7 @@ _flow_example() {
 - `lib/keychain-helpers.zsh` - 7 functions documented
 - `lib/project-detector.zsh` - 4 functions documented
 - `lib/project-cache.zsh` - 9 functions documented
-- `docs/reference/INTEGRATION-API-REFERENCE.md` - Created
+- `docs/reference/.archive/INTEGRATION-API-REFERENCE.md` - Created
 - `mkdocs.yml` - Integration Libraries added to API Reference
 - `docs/reference/DOCUMENTATION-COVERAGE.md` - Metrics updated
 
@@ -628,7 +628,7 @@ _flow_example() {
 - `lib/status-dashboard.zsh` - 3 functions documented
 - `lib/inventory.zsh` - 2 functions documented
 - `lib/help-browser.zsh` - 2 functions documented
-- `docs/reference/SPECIALIZED-API-REFERENCE.md` - Created
+- `docs/reference/.archive/SPECIALIZED-API-REFERENCE.md` - Created
 - `mkdocs.yml` - Specialized Libraries added to API Reference
 - `docs/reference/DOCUMENTATION-COVERAGE.md` - Metrics updated
 

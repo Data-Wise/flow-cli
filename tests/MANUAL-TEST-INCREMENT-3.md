@@ -9,6 +9,7 @@
 ## Prerequisites
 
 ### Required Tools
+
 - [ ] ZSH shell
 - [ ] flow-cli installed (feature/teaching-workflow branch)
 - [ ] yq installed: `brew install yq`
@@ -42,11 +43,13 @@ examark --version
 ### Test 1.1: Command Without Arguments
 
 **Test:**
+
 ```bash
 teach-exam
 ```
 
 **Expected Output:**
+
 ```
 ✗ Usage: teach-exam <topic>
 
@@ -63,6 +66,7 @@ Examples:
 ### Test 1.2: Command Without Teaching Project
 
 **Test:**
+
 ```bash
 # From non-teaching project directory
 cd ~/test-teaching-exam-workflow
@@ -70,6 +74,7 @@ teach-exam "Test Exam"
 ```
 
 **Expected Output:**
+
 ```
 ✗ Not in a teaching project
 Run this command from a teaching project directory
@@ -83,6 +88,7 @@ Initialize with: teach-init "Course Name"
 ### Test 1.3: Initialize Teaching Project
 
 **Test:**
+
 ```bash
 teach-init "Test Course" <<EOF
 1
@@ -94,6 +100,7 @@ EOF
 ```
 
 **Expected:**
+
 - [ ] Prompts for migration strategy (choose 1)
 - [ ] Prompts for semester dates (accept defaults)
 - [ ] Creates `.flow/teach-config.yml`
@@ -102,6 +109,7 @@ EOF
 - [ ] Shows next steps with optional exam workflow step
 
 **Verify Files:**
+
 ```bash
 ls -lh scripts/exam-to-qti.sh
 # Expected: Executable file exists
@@ -117,6 +125,7 @@ yq -r '.examark.enabled' .flow/teach-config.yml
 ### Test 1.4: teach-exam Without examark Enabled
 
 **Test:**
+
 ```bash
 teach-exam "Test Midterm 1" <<EOF
 y
@@ -127,12 +136,14 @@ EOF
 ```
 
 **Expected Output:**
-- Warning: "⚠️  examark not enabled in config"
+
+- Warning: "⚠️ examark not enabled in config"
 - Instructions to enable
 - Prompt: "Continue anyway? [y/N]"
 - After 'y': Creates exam file
 
 **Verify:**
+
 ```bash
 ls -lh exams/test-midterm1.md
 # Expected: File exists
@@ -148,6 +159,7 @@ head -20 exams/test-midterm1.md
 ### Test 1.5: Enable examark in Config
 
 **Test:**
+
 ```bash
 yq -i '.examark.enabled = true' .flow/teach-config.yml
 
@@ -164,6 +176,7 @@ yq -r '.examark.enabled' .flow/teach-config.yml
 ### Test 1.6: teach-exam With examark Enabled
 
 **Test:**
+
 ```bash
 teach-exam "Midterm 2: Advanced Topics" <<EOF
 120
@@ -173,6 +186,7 @@ EOF
 ```
 
 **Expected:**
+
 - [ ] No warning about examark
 - [ ] Prompts for duration [120]: (press Enter for default)
 - [ ] Prompts for points [100]: (press Enter for default)
@@ -181,11 +195,13 @@ EOF
 - [ ] Shows next steps
 
 **Verify File Content:**
+
 ```bash
 cat exams/midterm2.md | head -30
 ```
 
 **Expected Content:**
+
 - [ ] Frontmatter with title, course, duration, points
 - [ ] Multiple choice section
 - [ ] Short answer section
@@ -199,6 +215,7 @@ cat exams/midterm2.md | head -30
 ### Test 1.7: Custom Duration and Points
 
 **Test:**
+
 ```bash
 teach-exam "Quiz 1" <<EOF
 45
@@ -208,6 +225,7 @@ EOF
 ```
 
 **Expected:**
+
 ```bash
 grep "duration: 45" exams/quiz1.md
 grep "points: 25" exams/quiz1.md
@@ -222,6 +240,7 @@ grep "points: 25" exams/quiz1.md
 ### Test 1.8: Default Filename Generation
 
 **Test:**
+
 ```bash
 teach-exam "Final Exam: Comprehensive" <<EOF
 180
@@ -231,10 +250,12 @@ EOF
 ```
 
 **Expected:**
+
 - Default filename: `final-exam-comprehensive`
 - Creates: `exams/final-exam-comprehensive.md`
 
 **Verify:**
+
 ```bash
 ls exams/final-exam-comprehensive.md
 ```
@@ -246,6 +267,7 @@ ls exams/final-exam-comprehensive.md
 ### Test 1.9: Overwrite Existing File
 
 **Test:**
+
 ```bash
 # Create exam first
 teach-exam "Test Overwrite" <<EOF
@@ -264,11 +286,13 @@ EOF
 ```
 
 **Expected:**
+
 - [ ] Warning: "File already exists"
 - [ ] Prompt: "Overwrite? [y/N]"
 - [ ] After 'y': File is overwritten with new content
 
 **Verify:**
+
 ```bash
 grep "Test Overwrite Updated" exams/overwrite-test.md
 # Should find the new title
@@ -281,6 +305,7 @@ grep "Test Overwrite Updated" exams/overwrite-test.md
 ### Test 1.10: Cancel Overwrite
 
 **Test:**
+
 ```bash
 teach-exam "Test Overwrite" <<EOF
 60
@@ -291,6 +316,7 @@ EOF
 ```
 
 **Expected:**
+
 - Warning about existing file
 - After 'n': "Cancelled"
 - File remains unchanged
@@ -304,11 +330,13 @@ EOF
 ### Test 2.1: Template Structure
 
 **Test:**
+
 ```bash
 cat exams/midterm2.md
 ```
 
 **Verify Template Sections:**
+
 - [ ] Frontmatter (---, title, course, duration, points, ---)
 - [ ] Course name populated from config
 - [ ] Header with Name, Date fields
@@ -326,11 +354,13 @@ cat exams/midterm2.md
 ### Test 2.2: Multiple Choice Question Format
 
 **Test:**
+
 ```bash
 grep -A 5 "Multiple Choice" exams/midterm2.md | head -10
 ```
 
 **Expected Format:**
+
 ```markdown
 1. [3 pts] Question text here?
    - [ ] Option A
@@ -340,6 +370,7 @@ grep -A 5 "Multiple Choice" exams/midterm2.md | head -10
 ```
 
 **Verify:**
+
 - [ ] Question numbering
 - [ ] Point values in brackets
 - [ ] Checkbox format (- [ ] and - [x])
@@ -352,11 +383,13 @@ grep -A 5 "Multiple Choice" exams/midterm2.md | head -10
 ### Test 2.3: Answer Key Format
 
 **Test:**
+
 ```bash
 grep -A 20 "Answer Key" exams/midterm2.md
 ```
 
 **Expected:**
+
 - [ ] "Answer Key (Instructor Only)" header
 - [ ] Answers for each section
 - [ ] Explanations provided
@@ -371,11 +404,13 @@ grep -A 20 "Answer Key" exams/midterm2.md
 ### Test 3.1: Script Without Arguments
 
 **Test:**
+
 ```bash
 ./scripts/exam-to-qti.sh
 ```
 
 **Expected Output:**
+
 ```
 ❌ No input file specified
 
@@ -393,11 +428,13 @@ Examples:
 ### Test 3.2: Script With Non-existent File
 
 **Test:**
+
 ```bash
 ./scripts/exam-to-qti.sh exams/nonexistent.md
 ```
 
 **Expected Output:**
+
 ```
 ❌ File not found: exams/nonexistent.md
 ```
@@ -409,6 +446,7 @@ Examples:
 ### Test 3.3: Script With Non-markdown File
 
 **Test:**
+
 ```bash
 touch exams/test.txt
 ./scripts/exam-to-qti.sh exams/test.txt <<EOF
@@ -417,6 +455,7 @@ EOF
 ```
 
 **Expected:**
+
 - Warning: "File does not have .md extension"
 - Prompt: "Continue anyway? [y/N]"
 - After 'n': "Cancelled"
@@ -428,11 +467,13 @@ EOF
 ### Test 3.4: Convert Valid Exam to QTI
 
 **Test:**
+
 ```bash
 ./scripts/exam-to-qti.sh exams/midterm2.md
 ```
 
 **Expected Output:**
+
 - [ ] "🔄 Converting exam to Canvas QTI..."
 - [ ] Shows input and output filenames
 - [ ] "✅ Converted successfully"
@@ -440,12 +481,14 @@ EOF
 - [ ] Shows Canvas upload instructions
 
 **Verify Output File:**
+
 ```bash
 ls -lh exams/midterm2.zip
 file exams/midterm2.zip
 ```
 
 **Expected:**
+
 - [ ] ZIP file created
 - [ ] File type is "Zip archive data"
 
@@ -456,11 +499,13 @@ file exams/midterm2.zip
 ### Test 3.5: Inspect QTI ZIP Contents
 
 **Test:**
+
 ```bash
 unzip -l exams/midterm2.zip
 ```
 
 **Expected:**
+
 - [ ] Contains XML files
 - [ ] Contains manifest file
 - [ ] Contains question items
@@ -472,6 +517,7 @@ unzip -l exams/midterm2.zip
 ### Test 3.6: Conversion Without examark Installed
 
 **Test:**
+
 ```bash
 # Temporarily move examark
 which examark
@@ -486,6 +532,7 @@ sudo mv $(which examark).bak $(which examark)
 ```
 
 **Expected Output:**
+
 ```
 ❌ examark not installed
 
@@ -500,6 +547,7 @@ Install examark:
 ### Test 3.7: Convert Exam With Invalid Format
 
 **Test:**
+
 ```bash
 # Create invalid exam (missing frontmatter)
 cat > exams/invalid.md <<EOF
@@ -516,6 +564,7 @@ EOF
 ```
 
 **Expected:**
+
 - Conversion fails
 - Error message shown
 - Suggestions for common issues
@@ -529,15 +578,17 @@ EOF
 ### Test 4.1: Default examark Configuration
 
 **Test:**
+
 ```bash
 yq '.examark' .flow/teach-config.yml
 ```
 
 **Expected Output:**
+
 ```yaml
 enabled: true
-exam_dir: "exams"
-question_bank: "exams/questions"
+exam_dir: 'exams'
+question_bank: 'exams/questions'
 default_duration: 120
 default_points: 100
 ```
@@ -549,6 +600,7 @@ default_points: 100
 ### Test 4.2: Custom Exam Directory
 
 **Test:**
+
 ```bash
 # Change config
 yq -i '.examark.exam_dir = "assessments"' .flow/teach-config.yml
@@ -569,6 +621,7 @@ ls assessments/custom-dir.md
 **Result:** [ ] PASS / [ ] FAIL
 
 **Cleanup:**
+
 ```bash
 yq -i '.examark.exam_dir = "exams"' .flow/teach-config.yml
 ```
@@ -578,6 +631,7 @@ yq -i '.examark.exam_dir = "exams"' .flow/teach-config.yml
 ### Test 4.3: Custom Default Duration
 
 **Test:**
+
 ```bash
 # Change config
 yq -i '.examark.default_duration = 90' .flow/teach-config.yml
@@ -598,6 +652,7 @@ grep "duration: 90" exams/test-duration.md
 **Result:** [ ] PASS / [ ] FAIL
 
 **Cleanup:**
+
 ```bash
 yq -i '.examark.default_duration = 120' .flow/teach-config.yml
 ```
@@ -607,6 +662,7 @@ yq -i '.examark.default_duration = 120' .flow/teach-config.yml
 ### Test 4.4: Custom Default Points
 
 **Test:**
+
 ```bash
 # Change config
 yq -i '.examark.default_points = 75' .flow/teach-config.yml
@@ -627,6 +683,7 @@ grep "points: 75" exams/test-points.md
 **Result:** [ ] PASS / [ ] FAIL
 
 **Cleanup:**
+
 ```bash
 yq -i '.examark.default_points = 100' .flow/teach-config.yml
 ```
@@ -638,6 +695,7 @@ yq -i '.examark.default_points = 100' .flow/teach-config.yml
 ### Test 5.1: Create Question Bank Structure
 
 **Test:**
+
 ```bash
 mkdir -p exams/questions
 
@@ -672,6 +730,7 @@ ls -lh exams/questions/
 ```
 
 **Expected:**
+
 - [ ] `regression.md` created
 - [ ] `anova.md` created
 - Both files in `exams/questions/` directory
@@ -683,6 +742,7 @@ ls -lh exams/questions/
 ### Test 5.2: Reuse Questions in Exam
 
 **Test:**
+
 ```bash
 # Create new exam
 teach-exam "Comprehensive Final" <<EOF
@@ -740,6 +800,7 @@ unzip -l exams/integration-test.zip
 ```
 
 **Expected:**
+
 - [ ] Exam markdown file created
 - [ ] ZIP file created
 - [ ] ZIP contains XML and manifest
@@ -752,6 +813,7 @@ unzip -l exams/integration-test.zip
 ### Test 6.2: Multiple Exams in Same Course
 
 **Test:**
+
 ```bash
 # Create multiple exams
 teach-exam "Midterm 1" <<EOF
@@ -777,6 +839,7 @@ ls -lh exams/ | grep multi
 ```
 
 **Expected:**
+
 - [ ] All three exams created
 - [ ] No conflicts or overwrites
 - [ ] Each has unique filename
@@ -788,6 +851,7 @@ ls -lh exams/ | grep multi
 ### Test 6.3: teach-init Next Steps Include Exam Workflow
 
 **Test:**
+
 ```bash
 # In a fresh directory
 mkdir -p ~/test-exam-next-steps
@@ -804,6 +868,7 @@ EOF
 ```
 
 **Expected Output Should Include:**
+
 ```
 5. (Optional) Enable exam workflow:
      npm install -g examark
@@ -820,6 +885,7 @@ EOF
 ### Test 7.1: teach-exam With Invalid Course Name Characters
 
 **Test:**
+
 ```bash
 teach-exam "Test/Exam:With|Special*Chars" <<EOF
 60
@@ -829,10 +895,12 @@ EOF
 ```
 
 **Expected:**
+
 - Filename sanitized (slashes, colons, pipes removed)
 - File created successfully
 
 **Verify:**
+
 ```bash
 ls exams/test-exam-with-special-chars.md
 ```
@@ -852,6 +920,7 @@ ls exams/test-exam-with-special-chars.md
 ### Test 7.3: teach-exam With Empty Topic
 
 **Test:**
+
 ```bash
 teach-exam "" <<EOF
 60
@@ -861,6 +930,7 @@ EOF
 ```
 
 **Expected:**
+
 - Usage error shown
 - No file created
 
@@ -873,6 +943,7 @@ EOF
 ### Test 8.1: Help Available
 
 **Test:**
+
 ```bash
 teach-exam --help
 ```
@@ -886,12 +957,14 @@ teach-exam --help
 ### Test 8.2: Script Comments and Documentation
 
 **Test:**
+
 ```bash
 head -20 scripts/exam-to-qti.sh
 head -20 commands/teach-exam.zsh
 ```
 
 **Expected:**
+
 - [ ] Script header with description
 - [ ] Usage examples
 - [ ] Requirements listed
@@ -905,10 +978,12 @@ head -20 commands/teach-exam.zsh
 ### Test 9.1: Upload to Canvas
 
 **Prerequisites:**
+
 - Access to Canvas course
 - Admin/instructor permissions
 
 **Steps:**
+
 1. [ ] Go to Canvas course
 2. [ ] Navigate to: Quizzes
 3. [ ] Click: Import
@@ -919,6 +994,7 @@ head -20 commands/teach-exam.zsh
 8. [ ] Review imported questions
 
 **Expected:**
+
 - [ ] Import succeeds
 - [ ] Multiple choice questions imported
 - [ ] Point values correct
@@ -935,6 +1011,7 @@ _Record any issues with Canvas import here_
 ### Test 9.2: Edit Quiz in Canvas
 
 **Steps:**
+
 1. [ ] Open imported quiz
 2. [ ] Edit settings (time limit, availability)
 3. [ ] Preview quiz
@@ -943,6 +1020,7 @@ _Record any issues with Canvas import here_
 6. [ ] Publish quiz
 
 **Expected:**
+
 - [ ] All settings editable
 - [ ] Quiz displays properly
 - [ ] Answers can be shuffled
@@ -954,25 +1032,25 @@ _Record any issues with Canvas import here_
 
 ## Test Summary
 
-**Date Tested:** _______________
-**Tester:** _______________
+**Date Tested:** **\*\***\_\_\_**\*\***
+**Tester:** **\*\***\_\_\_**\*\***
 **Branch:** feature/teaching-workflow
-**Commit:** _______________
+**Commit:** **\*\***\_\_\_**\*\***
 
 ### Results Summary
 
-| Test Suite | Tests | Passed | Failed | Skipped |
-|------------|-------|--------|--------|---------|
-| 1. teach-exam Command | 10 | ___ | ___ | ___ |
-| 2. Template Validation | 3 | ___ | ___ | ___ |
-| 3. QTI Conversion | 7 | ___ | ___ | ___ |
-| 4. Configuration | 4 | ___ | ___ | ___ |
-| 5. Question Banks | 2 | ___ | ___ | ___ |
-| 6. Integration | 3 | ___ | ___ | ___ |
-| 7. Error Handling | 3 | ___ | ___ | ___ |
-| 8. Documentation | 2 | ___ | ___ | ___ |
-| 9. Canvas Integration | 2 | ___ | ___ | ___ |
-| **TOTAL** | **36** | **___** | **___** | **___** |
+| Test Suite             | Tests  | Passed     | Failed     | Skipped    |
+| ---------------------- | ------ | ---------- | ---------- | ---------- |
+| 1. teach-exam Command  | 10     | \_\_\_     | \_\_\_     | \_\_\_     |
+| 2. Template Validation | 3      | \_\_\_     | \_\_\_     | \_\_\_     |
+| 3. QTI Conversion      | 7      | \_\_\_     | \_\_\_     | \_\_\_     |
+| 4. Configuration       | 4      | \_\_\_     | \_\_\_     | \_\_\_     |
+| 5. Question Banks      | 2      | \_\_\_     | \_\_\_     | \_\_\_     |
+| 6. Integration         | 3      | \_\_\_     | \_\_\_     | \_\_\_     |
+| 7. Error Handling      | 3      | \_\_\_     | \_\_\_     | \_\_\_     |
+| 8. Documentation       | 2      | \_\_\_     | \_\_\_     | \_\_\_     |
+| 9. Canvas Integration  | 2      | \_\_\_     | \_\_\_     | \_\_\_     |
+| **TOTAL**              | **36** | **\_\_\_** | **\_\_\_** | **\_\_\_** |
 
 ### Overall Result
 
@@ -982,15 +1060,17 @@ _Record any issues with Canvas import here_
 
 ### Issues Found
 
-1. _________________________________________________________________
-2. _________________________________________________________________
-3. _________________________________________________________________
+1. ***
+2. ***
+3. ***
 
 ### Notes
 
-___________________________________________________________________
-___________________________________________________________________
-___________________________________________________________________
+---
+
+---
+
+---
 
 ---
 

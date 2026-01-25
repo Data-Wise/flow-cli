@@ -782,7 +782,7 @@ cc here         # Explicit HERE target
 
 - **Command:** [pick](../commands/pick.md) - Project picker
 - **Tutorial:** [CC Dispatcher Tutorial](../tutorials/10-cc-dispatcher.md)
-- **Reference:** [DISPATCHER-REFERENCE.md](../reference/DISPATCHER-REFERENCE.md) - All dispatchers
+- **Reference:** [DISPATCHER-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md) - All dispatchers
 
 ---
 

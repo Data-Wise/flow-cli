@@ -662,9 +662,9 @@ flowchart LR
 
 ## See Also
 
-- [API-COMPLETE.md](../reference/API-COMPLETE.md) - Complete API reference
-- [ARCHITECTURE.md](../reference/ARCHITECTURE.md) - System architecture document
-- [DISPATCHER-REFERENCE.md](../reference/DISPATCHER-REFERENCE.md) - Dispatcher details
+- [API-COMPLETE.md](../reference/MASTER-API-REFERENCE.md) - Complete API reference
+- [ARCHITECTURE.md](../reference/MASTER-ARCHITECTURE.md) - System architecture document
+- [DISPATCHER-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md) - Dispatcher details
 
 ---
 

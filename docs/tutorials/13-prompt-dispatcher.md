@@ -333,8 +333,8 @@ Now that you can manage your prompt engine, try:
 
 ## See Also
 
-- [Prompt Dispatcher Reference](../reference/PROMPT-DISPATCHER-REFERENCE.md) - Full command reference
-- [Prompt Quick Reference Card](../reference/PROMPT-DISPATCHER-REFCARD.md) - Quick lookup
+- [Prompt Dispatcher Reference](../reference/.archive/PROMPT-DISPATCHER-REFERENCE.md) - Full command reference
+- [Prompt Quick Reference Card](../reference/.archive/PROMPT-DISPATCHER-REFCARD.md) - Quick lookup
 - [Powerlevel10k](https://github.com/romkatv/powerlevel10k) - P10k documentation
 - [Starship](https://starship.rs) - Starship documentation
 - [Oh My Posh](https://ohmyposh.dev) - Oh My Posh documentation

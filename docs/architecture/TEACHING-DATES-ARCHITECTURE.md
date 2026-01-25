@@ -959,9 +959,9 @@ teach dates import-calendar university-calendar.ics
 
 ## See Also
 
-- [Date Parser API Reference](../reference/DATE-PARSER-API-REFERENCE.md) - Function documentation
+- [Date Parser API Reference](../reference/.archive/DATE-PARSER-API-REFERENCE.md) - Function documentation
 - [Teaching Dates Guide](../guides/TEACHING-DATES-GUIDE.md) - User guide
-- [Config Schema Reference](../reference/TEACH-CONFIG-DATES-SCHEMA.md) - Schema docs
+- [Config Schema Reference](../reference/.archive/TEACH-CONFIG-DATES-SCHEMA.md) - Schema docs
 
 ---
 

@@ -158,7 +158,7 @@ tmux ls
 - **Command:** [work](work.md) - Start a full work session with editor
 - **Command:** [pick](pick.md) - Interactive project picker with categories
 - **Command:** [finish](finish.md) - End session cleanly
-- **Reference:** [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
+- **Reference:** [Workflow Quick Reference](../help/WORKFLOWS.md) - Common workflows
 
 ---
 

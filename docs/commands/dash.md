@@ -600,8 +600,8 @@ pwd
 ## 🎓 See Also
 
 - [Status Command Reference](status.md) - Update project status
-- [Project Detection Guide](../reference/PROJECT-DETECTION-GUIDE.md) - How types are detected
-- [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
+- [Project Detection Guide](../reference/.archive/PROJECT-DETECTION-GUIDE.md) - How types are detected
+- [Workflow Quick Reference](../help/WORKFLOWS.md) - Common workflows
 
 ---
 

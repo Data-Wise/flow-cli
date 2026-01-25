@@ -428,6 +428,6 @@ teach status  # Shows concept coverage in dashboard
 ## Related
 
 - [Intelligent Content Analysis Guide](../guides/INTELLIGENT-CONTENT-ANALYSIS.md) — Complete user guide
-- [API Reference](../reference/TEACH-ANALYZE-API-REFERENCE.md) — Function documentation
-- [Architecture](../reference/TEACH-ANALYZE-ARCHITECTURE.md) — System design with diagrams
-- [Quick Reference Card](../reference/REFCARD-TEACH-ANALYZE.md) — One-page cheat sheet
+- [API Reference](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md) — Function documentation
+- [Architecture](../reference/.archive/TEACH-ANALYZE-ARCHITECTURE.md) — System design with diagrams
+- [Quick Reference Card](../reference/.archive/REFCARD-TEACH-ANALYZE.md) — One-page cheat sheet

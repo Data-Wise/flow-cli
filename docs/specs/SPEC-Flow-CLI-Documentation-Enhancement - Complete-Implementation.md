@@ -270,8 +270,8 @@ Use the search bar (top right) to find specific commands or concepts.
 
 ### Common Issues Database
 - [Installation Problems](troubleshooting.md#installation)
-- [Project Detection Issues](../reference/PROJECT-DETECTION-GUIDE.md)
-- [Command Reference](../reference/COMMAND-QUICK-REFERENCE.md)
+- [Project Detection Issues](../reference/.archive/PROJECT-DETECTION-GUIDE.md)
+- [Command Reference](../help/QUICK-REFERENCE.md)
 
 ### Ask the Community
 - **GitHub Discussions**: [Ask a Question](https://github.com/data-wise/flow-cli/discussions)
@@ -286,7 +286,7 @@ Once you're unstuck:
 !!! success "You're back on track!"
     - [Try the Quick Start →](quick-start.md)
     - [Complete Your First Session →](../tutorials/01-first-session.md)
-    - [Learn Core Commands →](../reference/COMMAND-QUICK-REFERENCE.md)
+    - [Learn Core Commands →](../help/QUICK-REFERENCE.md)
 ````
 
 ---
@@ -388,7 +388,7 @@ description: Find the right starting point for your goals
 
 **Perfect if you:** Already using Flow CLI, need quick reference
 
-[→ Command Cheatsheet](../reference/COMMAND-QUICK-REFERENCE.md){ .md-button }
+[→ Command Cheatsheet](../help/QUICK-REFERENCE.md){ .md-button }
 [→ Search Docs](../../search.md){ .md-button }
 
 ---
@@ -572,7 +572,7 @@ status my-project active P0 "Next task description"
 
 - **Full docs:** [https://data-wise.github.io/flow-cli](https://data-wise.github.io/flow-cli)
 - **Stuck?:** [Troubleshooting Guide](getting-started/im-stuck.md)
-- **Commands:** [Complete Reference](reference/COMMAND-QUICK-REFERENCE.md)
+- **Commands:** [Complete Reference](help/QUICK-REFERENCE.md)
 - **Community:** [GitHub Discussions](https://github.com/data-wise/flow-cli/discussions)
 
 ---
@@ -924,7 +924,7 @@ Not sure where to start? Pick what fits you best:
 
     Quick reference for commands
 
-    [→ Reference](reference/COMMAND-QUICK-REFERENCE.md)
+    [→ Reference](help/QUICK-REFERENCE.md)
 
 </div>
 
@@ -991,15 +991,15 @@ nav:
   - 📋 Reference (Lookup):
       - 📋 Quick Reference Card: quick-reference-card.md
       - Quick References:
-          - Command Cheatsheet: reference/COMMAND-QUICK-REFERENCE.md
+          - Command Cheatsheet: help/QUICK-REFERENCE.md
           - Alias Card: reference/ALIAS-REFERENCE-CARD.md
           - Workflow Patterns: reference/WORKFLOW-QUICK-REFERENCE.md
-          - Dashboard Quick Ref: reference/DASHBOARD-QUICK-REF.md
+          - Dashboard Quick Ref: reference/.archive/DASHBOARD-QUICK-REF.md
       - Dispatchers:
-          - All Dispatchers: reference/DISPATCHER-REFERENCE.md
+          - All Dispatchers: reference/MASTER-DISPATCHER-GUIDE.md
           - CC Dispatcher: reference/CC-DISPATCHER-REFERENCE.md
-          - DOT Dispatcher: reference/DOT-DISPATCHER-REFERENCE.md
-          - G Dispatcher: reference/G-DISPATCHER-REFERENCE.md
+          - DOT Dispatcher: reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher
+          - G Dispatcher: reference/MASTER-DISPATCHER-GUIDE.md#g-dispatcher
           - MCP Dispatcher: reference/MCP-DISPATCHER-REFERENCE.md
           - OBS Dispatcher: reference/OBS-DISPATCHER-REFERENCE.md
           - QU Dispatcher: reference/QU-DISPATCHER-REFERENCE.md
@@ -1010,13 +1010,13 @@ nav:
           - DOT Quick Ref: reference/REFCARD-DOT.md
       - Project Tools:
           - Command Explorer: reference/COMMAND-EXPLORER.md
-          - Pick Reference: reference/PICK-COMMAND-REFERENCE.md
+          - Pick Reference: reference/.archive/PICK-COMMAND-REFERENCE.md
           - Pick Project Discovery: reference/PICK-PROJECT-DISCOVERY.md
           - Project Status Guide: reference/PROJECT-STATUS-GUIDE.md
-          - Project Detection: reference/PROJECT-DETECTION-GUIDE.md
+          - Project Detection: reference/.archive/PROJECT-DETECTION-GUIDE.md
           - Workspace Audit: reference/WORKSPACE-AUDIT-GUIDE.md
       - Deep Dives:
-          - ADHD Helpers Map: reference/ADHD-HELPERS-FUNCTION-MAP.md
+          - ADHD Helpers Map: reference/.archive/ADHD-HELPERS-FUNCTION-MAP.md
           - Command Patterns: reference/CLI-COMMAND-PATTERNS-RESEARCH.md
           - System Summary: reference/EXISTING-SYSTEM-SUMMARY.md
           - ZSH Workflows: reference/ZSH-CLEAN-WORKFLOW.md

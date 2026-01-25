@@ -475,8 +475,8 @@ flow sync schedule enable
 Now that you understand sync:
 
 1. **[FAQ](../getting-started/faq.md)** - Common questions and troubleshooting
-2. **[Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)** - All commands
-3. **[Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)** - Common workflows
+2. **[Command Quick Reference](../help/QUICK-REFERENCE.md)** - All commands
+3. **[Workflow Quick Reference](../help/WORKFLOWS.md)** - Common workflows
 
 ---
 

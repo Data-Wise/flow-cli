@@ -928,7 +928,7 @@ cc wt plan feature/complex
 
 - **[Git Feature Workflow Tutorial](../tutorials/08-git-feature-workflow.md)** - Full tutorial
 - **[Worktrees Tutorial](../tutorials/09-worktrees.md)** - Parallel development guide
-- **[Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)** - All dispatchers
+- **[Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)** - All dispatchers
 - **ALIAS-REFERENCE-CARD.md** - All core aliases
 - **WORKFLOW-TUTORIAL.md** - Complete tutorial
 - **PROJECT-HUB.md** - Strategic overview

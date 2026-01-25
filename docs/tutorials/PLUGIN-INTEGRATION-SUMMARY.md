@@ -200,7 +200,7 @@ Ctrl+O              # Copy current line
 copyfile file.txt   # Copy contents
 ```
 
-📚 **Full Guide:** [Tutorial 24: Git Power-Ups](24-git-workflow-plugins.md)
+📚 **Full Guide:** Tutorial 24: Git Power-Ups (planned)
 
 ```
 

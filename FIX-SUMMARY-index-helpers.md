@@ -7,6 +7,7 @@
 ## Problem
 
 Index ADD/UPDATE/REMOVE operations were incomplete, causing 3-4 test failures:
+
 1. Test 12: `test_add_to_index` - Link not added to index
 2. Test 13: Verify sorting - Links not sorted by week number
 3. Test 14: `test_update_index_entry` - Title update fails
@@ -37,6 +38,7 @@ if [[ "$line" == *"]("*")"* || "$line" == *"]("*")" ]]; then
 ```
 
 **Result:**
+
 - Correctly extracts filenames from markdown links
 - Properly calculates insertion point for week-based sorting
 - Test 13 (sorting) now passes
@@ -56,6 +58,7 @@ local existing_line=$(grep -n -F "($basename)" "$index_file" 2>/dev/null | cut -
 ```
 
 **Result:**
+
 - Test 12 (add new) now passes
 - Test 14 (update existing) now passes
 
@@ -78,6 +81,7 @@ fi
 ```
 
 **Result:**
+
 - Test 15 (remove link) now passes
 - Handles both `lectures/week-01.qmd` and `week-01.qmd` formats
 
@@ -87,12 +91,14 @@ fi
 **After fixes:** 23/25 passing (92%)
 
 **Fixed tests:**
+
 - ✅ Test 12: Add new link to index
 - ✅ Test 13: Verify links sorted by week number
 - ✅ Test 14: Update existing link in index
 - ✅ Test 15: Remove link from index
 
 **Still failing (not part of this task):**
+
 - ❌ Test 16: Find dependencies (sourced files) - Different issue
 - ❌ Test 17: Find dependencies (cross-references) - Different issue
 

@@ -18,14 +18,14 @@ teach doctor --help       # Show help
 
 ## Check Categories (6)
 
-| # | Category | Checks |
-|---|----------|--------|
-| 1 | **Dependencies** | yq, git, quarto, gh, examark, claude, R packages, Quarto extensions |
-| 2 | **Configuration** | .flow/teach-config.yml, YAML syntax, schema validation, course metadata |
-| 3 | **Git Setup** | Repository, draft branch, production branch, remote, working tree |
-| 4 | **Scholar** | Claude Code, Scholar skills, lesson-plan.yml |
-| 5 | **Git Hooks** | pre-commit, pre-push, prepare-commit-msg (flow-cli managed vs custom) |
-| 6 | **Cache Health** | _freeze/ size, last render time, freshness, file count |
+| #   | Category          | Checks                                                                  |
+| --- | ----------------- | ----------------------------------------------------------------------- |
+| 1   | **Dependencies**  | yq, git, quarto, gh, examark, claude, R packages, Quarto extensions     |
+| 2   | **Configuration** | .flow/teach-config.yml, YAML syntax, schema validation, course metadata |
+| 3   | **Git Setup**     | Repository, draft branch, production branch, remote, working tree       |
+| 4   | **Scholar**       | Claude Code, Scholar skills, lesson-plan.yml                            |
+| 5   | **Git Hooks**     | pre-commit, pre-push, prepare-commit-msg (flow-cli managed vs custom)   |
+| 6   | **Cache Health**  | \_freeze/ size, last render time, freshness, file count                 |
 
 ---
 
@@ -71,8 +71,8 @@ Cache Health:
     "status": "healthy"
   },
   "checks": [
-    {"check":"dep_yq","status":"pass","message":"4.35.2"},
-    {"check":"cache_freshness","status":"warn","message":"31 days old"}
+    { "check": "dep_yq", "status": "pass", "message": "4.35.2" },
+    { "check": "cache_freshness", "status": "warn", "message": "31 days old" }
   ]
 }
 ```
@@ -113,12 +113,12 @@ teach doctor --json | jq '.summary.failures'
 
 ## Files
 
-| File | Lines | Purpose |
-|------|-------|---------|
-| `lib/dispatchers/teach-doctor-impl.zsh` | 626 | Implementation |
-| `tests/test-teach-doctor-unit.zsh` | 615 | Unit tests (39 tests, 100% pass) |
-| `tests/demo-teach-doctor.sh` | 60 | Interactive demo |
-| `docs/teach-doctor-implementation.md` | 585 | Complete documentation |
+| File                                    | Lines | Purpose                          |
+| --------------------------------------- | ----- | -------------------------------- |
+| `lib/dispatchers/teach-doctor-impl.zsh` | 626   | Implementation                   |
+| `tests/test-teach-doctor-unit.zsh`      | 615   | Unit tests (39 tests, 100% pass) |
+| `tests/demo-teach-doctor.sh`            | 60    | Interactive demo                 |
+| `docs/teach-doctor-implementation.md`   | 585   | Complete documentation           |
 
 ---
 
@@ -133,24 +133,28 @@ teach doctor --json | jq '.summary.failures'
 ## Troubleshooting
 
 ### Issue: yq not found but installed
+
 ```bash
 which yq              # Check PATH
 brew reinstall yq     # Reinstall
 ```
 
 ### Issue: R packages check fails
+
 ```bash
 R
 > install.packages(c("ggplot2", "dplyr", "tidyr", "knitr", "rmarkdown"))
 ```
 
 ### Issue: Git hooks not detected
+
 ```bash
 ls -la .git/hooks/         # Check permissions
 chmod +x .git/hooks/*      # Make executable
 ```
 
 ### Issue: Cache freshness incorrect
+
 ```bash
 find _freeze -type f -exec stat -f "%m %N" {} \; | sort -rn | head
 ```

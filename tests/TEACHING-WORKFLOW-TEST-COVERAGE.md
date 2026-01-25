@@ -16,12 +16,12 @@
 **Focus:** Core functionality validation
 **Runtime:** ~5 seconds
 
-| Category | Tests | Status |
-|----------|-------|--------|
-| Template Files | 5 | ✅ |
-| Command Availability | 1 | ✅ |
-| Project Detection | 1 | ✅ |
-| Config Validation | 2 | ✅ |
+| Category             | Tests | Status |
+| -------------------- | ----- | ------ |
+| Template Files       | 5     | ✅     |
+| Command Availability | 1     | ✅     |
+| Project Detection    | 1     | ✅     |
+| Config Validation    | 2     | ✅     |
 
 ### 2. Comprehensive Test Suite (`test-teaching-workflow-comprehensive.zsh`)
 
@@ -29,15 +29,15 @@
 **Focus:** Exhaustive coverage with edge cases
 **Runtime:** ~15 seconds
 
-| Category | Tests | Coverage |
-|----------|-------|----------|
-| Project Detection | 4 | 100% |
-| Config Validation | 6 | 100% |
-| Template Files | 8 | 100% |
-| teach-init Command | 4 | 100% |
-| Work Command Integration | 2 | 100% |
-| Edge Cases | 3 | 100% |
-| Regression Tests | 2 | 100% |
+| Category                 | Tests | Coverage |
+| ------------------------ | ----- | -------- |
+| Project Detection        | 4     | 100%     |
+| Config Validation        | 6     | 100%     |
+| Template Files           | 8     | 100%     |
+| teach-init Command       | 4     | 100%     |
+| Work Command Integration | 2     | 100%     |
+| Edge Cases               | 3     | 100%     |
+| Regression Tests         | 2     | 100%     |
 
 ---
 
@@ -46,6 +46,7 @@
 ### Project Detection (`lib/project-detector.zsh`)
 
 ✅ **Covered:**
+
 - Detection via `syllabus.qmd`
 - Detection via `lectures/` directory
 - Detection via `.flow/teach-config.yml`
@@ -55,11 +56,13 @@
 - Config validation on detection
 
 ❌ **Not Covered:**
+
 - None - full coverage
 
 ### Config Validation (`_flow_validate_teaching_config`)
 
 ✅ **Covered:**
+
 - Valid config acceptance
 - Minimal valid config acceptance
 - Missing `course.name` rejection
@@ -72,11 +75,13 @@
 - Empty config file rejection
 
 ❌ **Not Covered:**
+
 - None - full coverage
 
 ### teach-init Command (`commands/teach-init.zsh`)
 
 ✅ **Covered:**
+
 - Command availability
 - Missing argument error
 - yq dependency check (logic verification)
@@ -84,6 +89,7 @@
 - Non-git directory handling
 
 ❌ **Not Covered:**
+
 - In-place conversion workflow (interactive, requires user input)
 - Two-branch setup workflow (interactive, requires user input)
 - Template substitution (implicit via other tests)
@@ -93,11 +99,13 @@
 ### Work Command Integration (`commands/work.zsh`)
 
 ✅ **Covered:**
+
 - `_work_teaching_session()` config requirement
 - Graceful fallback without yq
 - Teaching project type detection
 
 ❌ **Not Covered:**
+
 - Branch safety warning (interactive, requires git checkout)
 - Shortcut loading (requires active session)
 - Production branch prompt (interactive, requires user input)
@@ -107,12 +115,14 @@
 ### Template Files
 
 ✅ **Covered:**
+
 - All 5 template files exist
 - `quick-deploy.sh` shebang
 - `quick-deploy.sh` branch validation
 - `quick-deploy.sh` timing logic
 
 ❌ **Not Covered:**
+
 - Actual script execution (requires real git repo + GitHub setup)
 - GitHub Actions workflow execution
 
@@ -137,6 +147,7 @@ teach-init "Test Course"
 ```
 
 **Expected:**
+
 - ✅ Current branch renamed to production
 - ✅ Draft branch created from production
 - ✅ Config file generated with correct values
@@ -156,6 +167,7 @@ work test-course
 ```
 
 **Expected:**
+
 - ✅ Warning header displayed (red)
 - ✅ "Students see this branch!" message shown
 - ✅ Prompt to switch to draft appears
@@ -176,6 +188,7 @@ time ./scripts/quick-deploy.sh
 ```
 
 **Expected:**
+
 - ✅ Branch validation passes (on draft)
 - ✅ Deployment completes in < 2 minutes
 - ✅ Changes merged to production
@@ -195,6 +208,7 @@ alias | grep -E "^(testd|test)="
 ```
 
 **Expected:**
+
 - ✅ "Shortcuts loaded:" header shown
 - ✅ Shortcuts displayed with mapping
 - ✅ Aliases active in current session
@@ -211,6 +225,7 @@ alias | grep -E "^(testd|test)="
 ```
 
 **Expected Output:**
+
 ```
 ╔════════════════════════════════════════════════════════════╗
 ║  Teaching Workflow Test Suite                              ║
@@ -230,6 +245,7 @@ alias | grep -E "^(testd|test)="
 ```
 
 **Expected Output:**
+
 ```
 ╔════════════════════════════════════════════════════════════╗
 ║  Teaching Workflow - Comprehensive Test Suite             ║
@@ -311,6 +327,7 @@ Some features cannot be fully tested automatically:
 ### Environment Dependencies
 
 Tests assume:
+
 - `yq` installed (graceful skip if missing)
 - Git configured with user.name and user.email
 - Write access to `/tmp` directory

@@ -273,5 +273,5 @@ teach concepts ...    # Alias
 ## Related
 
 - Full guide: `docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md`
-- API reference: `docs/reference/TEACH-ANALYZE-API-REFERENCE.md`
-- Dispatcher: `docs/reference/TEACH-DISPATCHER-REFERENCE-v4.6.0.md`
+- API reference: `docs/reference/.archive/TEACH-ANALYZE-API-REFERENCE.md`
+- Dispatcher: `docs/reference/.archive/TEACH-DISPATCHER-REFERENCE-v4.6.0.md`

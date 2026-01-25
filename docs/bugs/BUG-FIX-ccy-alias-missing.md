@@ -32,7 +32,7 @@ $ flow alias cc
 
 ## Root Cause
 
-The `ccy` alias was added to the cc-dispatcher ([lib/dispatchers/cc-dispatcher.zsh:643](lib/dispatchers/cc-dispatcher.zsh#L643)) but was never added to the alias reference command ([commands/alias.zsh](commands/alias.zsh)).
+The `ccy` alias was added to the cc-dispatcher (`lib/dispatchers/cc-dispatcher.zsh:643`) but was never added to the alias reference command (`commands/alias.zsh`).
 
 The alias command maintains its own curated list of aliases to display (not auto-discovered), so new aliases need to be manually added.
 
@@ -42,7 +42,7 @@ Added `ccy` to both the summary view and detailed Claude Code alias section.
 
 ### Changes Made
 
-**File:** [commands/alias.zsh](commands/alias.zsh)
+**File:** `commands/alias.zsh`
 
 1. **Summary view** (`_flow_alias_show_all`):
    - Updated count: "2 aliases" → "3 aliases"
@@ -109,7 +109,7 @@ See also: cc help for all Claude commands
 
 Updated test suite to verify `ccy` is included:
 
-**File:** [tests/test-phase2-features.zsh](tests/test-phase2-features.zsh)
+**File:** `tests/test-phase2-features.zsh`
 
 ```diff
 # Test 22: Claude category
@@ -129,15 +129,15 @@ test_case "Alias: Claude category view" && {
 `ccy` is a frequently-used shortcut for YOLO mode:
 
 - **Common pattern:** `ccy` to launch Claude Code without permission prompts
-- **User preference:** Explicitly requested to keep this alias ([cc-dispatcher.zsh:643](lib/dispatchers/cc-dispatcher.zsh#L643))
+- **User preference:** Explicitly requested to keep this alias ([cc-dispatcher.zsh:643](`lib/dispatchers/cc-dispatcher.zsh:643`))
 - **Discoverability:** Users exploring aliases need to see this shortcut
 
 ## Files Changed
 
 | File                                                             | Change                                  | Lines       |
 | ---------------------------------------------------------------- | --------------------------------------- | ----------- |
-| [commands/alias.zsh](commands/alias.zsh)                         | Added `ccy` to summary + detailed views | +4 modified |
-| [tests/test-phase2-features.zsh](tests/test-phase2-features.zsh) | Added test assertion for `ccy`          | +1          |
+| `commands/alias.zsh`                         | Added `ccy` to summary + detailed views | +4 modified |
+| `tests/test-phase2-features.zsh` | Added test assertion for `ccy`          | +1          |
 
 **Total:** 2 files changed, 5 lines modified
 

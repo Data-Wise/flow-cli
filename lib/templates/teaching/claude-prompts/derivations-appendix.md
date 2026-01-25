@@ -10,7 +10,7 @@ Generate comprehensive mathematical appendices for statistics topics. Full deriv
 
 ```yaml
 ---
-title: "Mathematical Appendix: [Topic]"
+title: 'Mathematical Appendix: [Topic]'
 format:
   html:
     toc: true
@@ -39,15 +39,19 @@ bibliography: references.bib
 ## [Result Name]
 
 ### Statement
+
 **Theorem:** [Formal statement]
 
 ### Intuition
+
 [2-3 sentences explaining WHY]
 
 ### Derivation
+
 [Step-by-step with annotations]
 
 ### Key Insight
+
 ::: {.callout-important}
 [Main takeaway]
 :::
@@ -97,30 +101,30 @@ Under $H_0$: $F = \frac{MS_{Trt}}{MS_E} \sim F_{a-1, N-a}$
 
 ## Notation Standards
 
-| Symbol | Meaning |
-|--------|---------|
-| μ | Grand mean |
-| τ_i | Treatment effect |
-| α_i | Factor A effect |
-| β_j | Factor B effect |
-| (αβ)_{ij} | Interaction |
-| ε_{ij} | Error |
+| Symbol     | Meaning          |
+| ---------- | ---------------- |
+| μ          | Grand mean       |
+| τ_i        | Treatment effect |
+| α_i        | Factor A effect  |
+| β_j        | Factor B effect  |
+| (αβ)\_{ij} | Interaction      |
+| ε\_{ij}    | Error            |
 
 ### Random Effects
 
-| Symbol | Meaning |
-|--------|---------|
-| u_i | Random block |
-| v_j | Random subject |
+| Symbol | Meaning        |
+| ------ | -------------- |
+| u_i    | Random block   |
+| v_j    | Random subject |
 
 ### Subscripts
 
-| Notation | Meaning |
-|----------|---------|
-| y_{ij} | Observation j in i |
-| ȳ_{i.} | Mean of group i |
-| ȳ_{..} | Grand mean |
-| β_{j(i)} | Nested effect |
+| Notation  | Meaning            |
+| --------- | ------------------ |
+| y\_{ij}   | Observation j in i |
+| ȳ\_{i.}   | Mean of group i    |
+| ȳ\_{..}   | Grand mean         |
+| β\_{j(i)} | Nested effect      |
 
 ## LaTeX Macros
 
@@ -128,39 +132,39 @@ Use standardized macros (define in `macros.tex` for PDF, `mathjax-macros.html` f
 
 ### Statistical Operators
 
-| Macro | Syntax | Output |
-|-------|--------|--------|
-| Expectation | `\E{X}` | E[X] |
-| Variance | `\Var{X}` | Var(X) |
-| Covariance | `\Cov{X,Y}` | Cov(X,Y) |
-| Probability | `\Prob{A}` | P(A) |
-| Standard Error | `\SE` | SE |
-| MSE | `\mse` | MSE |
-| SSE | `\sse` | SSE |
+| Macro          | Syntax      | Output   |
+| -------------- | ----------- | -------- |
+| Expectation    | `\E{X}`     | E[X]     |
+| Variance       | `\Var{X}`   | Var(X)   |
+| Covariance     | `\Cov{X,Y}` | Cov(X,Y) |
+| Probability    | `\Prob{A}`  | P(A)     |
+| Standard Error | `\SE`       | SE       |
+| MSE            | `\mse`      | MSE      |
+| SSE            | `\sse`      | SSE      |
 
 ### Vectors & Matrices
 
-| Macro | Syntax | Output |
-|-------|--------|--------|
-| Vector | `\vect{y}` | **y** |
-| Trace | `\tr` | tr |
-| Diagonal | `\diag` | diag |
-| Rank | `\rank` | rank |
+| Macro    | Syntax     | Output |
+| -------- | ---------- | ------ |
+| Vector   | `\vect{y}` | **y**  |
+| Trace    | `\tr`      | tr     |
+| Diagonal | `\diag`    | diag   |
+| Rank     | `\rank`    | rank   |
 
 ### Distributions
 
-| Macro | Syntax | Example |
-|-------|--------|---------|
-| Normal | `\Normal` | `$Y \sim \Normal(\mu, \sigma^2)$` |
-| Binomial | `\Binom` | `$X \sim \Binom(n, p)$` |
-| Poisson | `\Poiss` | `$N \sim \Poiss(\lambda)$` |
+| Macro    | Syntax    | Example                           |
+| -------- | --------- | --------------------------------- |
+| Normal   | `\Normal` | `$Y \sim \Normal(\mu, \sigma^2)$` |
+| Binomial | `\Binom`  | `$X \sim \Binom(n, p)$`           |
+| Poisson  | `\Poiss`  | `$N \sim \Poiss(\lambda)$`        |
 
 ### Independence
 
-| Macro | Syntax | Output |
-|-------|--------|--------|
-| Independent | `\indep` | ⊥⊥ |
-| Not independent | `\nindep` | ⊥̸⊥ |
+| Macro           | Syntax    | Output |
+| --------------- | --------- | ------ |
+| Independent     | `\indep`  | ⊥⊥     |
+| Not independent | `\nindep` | ⊥̸⊥     |
 
 ### Example Usage
 
@@ -190,6 +194,7 @@ anova_table <- summary(model)[[1]]
 
 ```markdown
 ### Problem 1
+
 Derive E[MS_A] for two-way ANOVA.
 
 ::: {.callout-note collapse="true" title="Solution"}

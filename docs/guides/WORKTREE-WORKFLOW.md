@@ -672,7 +672,7 @@ ccy                         # cc yolo
 ## Related Documentation
 
 - [YOLO Mode Workflow](./YOLO-MODE-WORKFLOW.md) - Permission bypass strategies
-- [CC Dispatcher Reference](../reference/CC-DISPATCHER-REFERENCE.md) - Complete command guide
+- [CC Dispatcher Reference](../reference/.archive/CC-DISPATCHER-REFERENCE.md) - Complete command guide
 - [Git Feature Workflow](../tutorials/08-git-feature-workflow.md) - Branch management
 
 ---

@@ -202,7 +202,7 @@ Press `Ctrl+C` to interrupt any timer. Your session state is preserved.
 ## See Also
 
 - [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md)
-- [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
+- [Workflow Quick Reference](../help/WORKFLOWS.md)
 
 ---
 

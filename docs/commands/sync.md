@@ -332,7 +332,7 @@ flow sync all --quiet || exit 1
 - [`flow goal`](../guides/DOPAMINE-FEATURES-GUIDE.md) - Manage daily goals
 - [`win`](../guides/DOPAMINE-FEATURES-GUIDE.md) - Log accomplishments
 - [`dash`](dashboard.md) - Project dashboard
-- [`finish`](../reference/WORKFLOW-QUICK-REFERENCE.md) - End work session
+- [`finish`](../help/WORKFLOWS.md) - End work session
 
 ---
 
@@ -366,7 +366,7 @@ flow sync schedule logs            # View logs
 
 - **Guide:** [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md) - Win tracking and goals
 - **Command:** [status](status.md) - Update project status
-- **Reference:** [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md) - Common workflows
+- **Reference:** [Workflow Quick Reference](../help/WORKFLOWS.md) - Common workflows
 
 ---
 

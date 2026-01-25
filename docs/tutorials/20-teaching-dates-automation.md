@@ -602,9 +602,9 @@ yq eval .flow/teach-config.yml
 ### Related Documentation
 
 - **[Teaching Dates Guide](../guides/TEACHING-DATES-GUIDE.md)** - Complete 1,885-line guide with all features
-- **[Date Parser API Reference](../reference/DATE-PARSER-API-REFERENCE.md)** - Technical details
-- **[Teach Config Schema](../reference/TEACH-CONFIG-DATES-SCHEMA.md)** - Full YAML schema
-- **[Quick Reference Card](../reference/TEACH-DATES-QUICK-REFERENCE.md)** - Command cheat sheet
+- **[Date Parser API Reference](../reference/.archive/DATE-PARSER-API-REFERENCE.md)** - Technical details
+- **[Teach Config Schema](../reference/.archive/TEACH-CONFIG-DATES-SCHEMA.md)** - Full YAML schema
+- **[Quick Reference Card](../reference/.archive/TEACH-DATES-QUICK-REFERENCE.md)** - Command cheat sheet
 
 ### What's Next?
 

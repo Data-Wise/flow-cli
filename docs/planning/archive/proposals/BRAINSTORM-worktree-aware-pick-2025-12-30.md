@@ -314,7 +314,7 @@ Follows pattern of `pickr`, `pickdev`, etc.
 | `commands/pick.zsh`                         | Add wt category, worktree lister, keybindings, `--no-claude` flag |
 | `lib/dispatchers/cc-dispatcher.zsh`         | Pass `--no-claude` to all `pick` calls                            |
 | `completions/_pick`                         | Add `wt` to completions, `--no-claude` option                     |
-| `docs/reference/COMMAND-QUICK-REFERENCE.md` | Document `pick wt`                                                |
+| `docs/help/QUICK-REFERENCE.md` | Document `pick wt`                                                |
 | `CLAUDE.md`                                 | Update Quick Reference section                                    |
 
 ---

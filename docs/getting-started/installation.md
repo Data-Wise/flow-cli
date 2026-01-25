@@ -360,7 +360,7 @@ nvim
 | [Tutorial 16: Vim Motions](../tutorials/16-vim-motions.md) | 15 min | Efficient editing |
 | [Tutorial 17: LazyVim Basics](../tutorials/17-lazyvim-basics.md) | 15 min | Essential plugins |
 | [Tutorial 18: LazyVim Showcase](../tutorials/18-lazyvim-showcase.md) | 30 min | Full feature tour |
-| [Nvim Quick Reference](../reference/NVIM-QUICK-REFERENCE.md) | - | Printable reference card |
+| [Nvim Quick Reference](../reference/.archive/NVIM-QUICK-REFERENCE.md) | - | Printable reference card |
 
 **Interactive tutorial:**
 
@@ -578,8 +578,8 @@ flow --version
 
 1. **Quick Start**: Follow [Quick Start Guide](quick-start.md) for a 5-minute tutorial
 2. **Learn Nvim**: Start with [Tutorial 15: Nvim Quick Start](../tutorials/15-nvim-quick-start.md) (10 min)
-3. **Learn Commands**: See [Command Reference](../reference/COMMAND-QUICK-REFERENCE.md)
-4. **Explore Dispatchers**: Read [Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md)
+3. **Learn Commands**: See [Command Reference](../help/QUICK-REFERENCE.md)
+4. **Explore Dispatchers**: Read [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
 
 ---
 

@@ -82,7 +82,7 @@ function_name() {
 ### For Contributors
 
 When adding new functions:
-1. Follow naming conventions (see [CONVENTIONS.md](../../CONVENTIONS.md))
+1. Follow naming conventions (see [CONVENTIONS.md](../CONVENTIONS.md))
 2. Add inline documentation
 3. Run `./scripts/generate-api-docs.sh` to update this file
 4. Test examples
@@ -2261,7 +2261,7 @@ _format_prerequisite_tree_display "$tree"
 
 ---
 
-**Complete API:** See [.archive/TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md#prerequisite-checker) for all 7 functions with detailed examples
+**Complete API:** See archived TEACH-ANALYZE-API-REFERENCE.md for all 7 functions with detailed examples
 
 ---
 
@@ -2512,7 +2512,7 @@ _cache_release_lock "analysis"
 
 ---
 
-**Complete API:** See [.archive/TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md#analysis-cache) for all 19 functions including metadata management, batch operations, and statistics
+**Complete API:** See archived TEACH-ANALYZE-API-REFERENCE.md for all 19 functions including metadata management, batch operations, and statistics
 
 ---
 
@@ -2717,7 +2717,7 @@ _format_concept_distribution_table "$analysis"
 
 ---
 
-**Complete API:** See [.archive/TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md#report-generator) for all 12 functions including violation formatting, recommendation generation, and export utilities
+**Complete API:** See archived TEACH-ANALYZE-API-REFERENCE.md for all 12 functions including violation formatting, recommendation generation, and export utilities
 
 ---
 
@@ -2900,7 +2900,7 @@ awk -F, '{sum += $4} END {print "Total: $" sum}' .teach-cache/ai-usage.log
 
 ---
 
-**Complete API:** See [.archive/TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md#ai-analysis) for all 8 functions including caching, error handling, and rate limiting
+**Complete API:** See archived TEACH-ANALYZE-API-REFERENCE.md for all 8 functions including caching, error handling, and rate limiting
 
 ---
 
@@ -3134,7 +3134,7 @@ echo "$suggestions" | jq '.suggestions[]'
 
 ---
 
-**Complete API:** See [.archive/TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md#slide-optimizer) for all 8 functions including visualization, export, and integration with `teach analyze --optimize`
+**Complete API:** See archived TEACH-ANALYZE-API-REFERENCE.md for all 8 functions including visualization, export, and integration with `teach analyze --optimize`
 
 ---
 
@@ -3155,10 +3155,10 @@ echo "$suggestions" | jq '.suggestions[]'
 - AI analysis: ~10-30s (depends on content length)
 
 **Documentation:**
-- Complete API: [TEACH-ANALYZE-API-REFERENCE.md](../reference/TEACH-ANALYZE-API-REFERENCE.md)
-- Architecture: [TEACH-ANALYZE-ARCHITECTURE.md](../reference/TEACH-ANALYZE-ARCHITECTURE.md)
+- Complete API: [TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md)
+- Architecture: [TEACH-ANALYZE-ARCHITECTURE.md](../reference/.archive/TEACH-ANALYZE-ARCHITECTURE.md)
 - Tutorial: [Tutorial 21](../tutorials/21-teach-analyze.md)
-- Quick Ref: [REFCARD-TEACH-ANALYZE.md](../reference/REFCARD-TEACH-ANALYZE.md)
+- Quick Ref: [REFCARD-TEACH-ANALYZE.md](../reference/.archive/REFCARD-TEACH-ANALYZE.md)
 
 **Output Format:**
 ```json
@@ -3932,7 +3932,7 @@ fi
 
 - [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) - Complete dispatcher reference
 - [MASTER-ARCHITECTURE.md](MASTER-ARCHITECTURE.md) - System architecture
-- [CONVENTIONS.md](../../CONVENTIONS.md) - Coding conventions
+- [CONVENTIONS.md](../CONVENTIONS.md) - Coding conventions
 - [CONTRIBUTING.md](../contributing/CONTRIBUTING.md) - Contributing guide
 
 ---

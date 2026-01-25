@@ -686,7 +686,7 @@ dot help             # Show all commands
 
 ### Further Reading
 
-- [DOT Dispatcher Reference](../reference/DOT-DISPATCHER-REFERENCE.md) - Full command reference
+- [DOT Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher) - Full command reference
 - [Chezmoi Documentation](https://www.chezmoi.io/) - Official chezmoi docs
 - [Bitwarden CLI](https://bitwarden.com/help/cli/) - Bitwarden CLI reference
 

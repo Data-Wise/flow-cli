@@ -752,7 +752,7 @@ ggl                          # Pull latest
 gbd feature/old              # Delete merged branch
 ```
 
-**See:** [Tutorial 24: Git Workflow](../tutorials/24-git-workflow.md) for complete reference
+**See:** [Tutorial 24: Git Workflow](../tutorials/17-lazyvim-basics.md) for complete reference
 
 ---
 
@@ -1020,4 +1020,4 @@ pick              # Interactive project picker
 
 **Version:** v5.17.0-dev
 **Last Updated:** 2026-01-24
-**Contributors:** See [CHANGELOG.md](../../CHANGELOG.md)
+**Contributors:** See [CHANGELOG.md](../CHANGELOG.md)

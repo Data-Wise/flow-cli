@@ -399,9 +399,9 @@ cat .STATUS | grep daily_goal
 
 ## See Also
 
-- [Dashboard Quick Reference](../reference/DASHBOARD-QUICK-REF.md)
-- [Command Quick Reference](../reference/COMMAND-QUICK-REFERENCE.md)
-- [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
+- [Dashboard Quick Reference](../reference/.archive/DASHBOARD-QUICK-REF.md)
+- [Command Quick Reference](../help/QUICK-REFERENCE.md)
+- [Workflow Quick Reference](../help/WORKFLOWS.md)
 
 ---
 

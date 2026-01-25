@@ -84,7 +84,7 @@ We have 22 ZSH plugins (18 OMZ + 4 community) providing 351 aliases. The integra
 
 [Detailed explanation]
 
-See **[Tutorial XX: Title](XX-title.md)** for full guide.
+See **Tutorial (coming soon)** for full guide.
 </details>
 ```
 
@@ -114,7 +114,7 @@ command here
 
 [Additional features]
 
-See **[Tutorial XX](XX-title.md)** for complete guide.
+See **Tutorial (coming soon)** for complete guide.
 </details>
 
 ---
@@ -134,7 +134,7 @@ alias2              # Description
 
 **Pro Tip:** [Helpful tip]
 
-📚 **Deep Dive:** [Tutorial XX: Title](XX-title.md)
+📚 **Deep Dive:** Tutorial (coming soon)
 
 ```
 

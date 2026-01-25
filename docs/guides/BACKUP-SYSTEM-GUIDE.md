@@ -953,9 +953,9 @@ See `lib/backup-helpers.zsh` for implementation details.
 ## See Also
 
 - [Teaching Workflow v3.0 Guide](TEACHING-WORKFLOW-V3-GUIDE.md)
-- [Teach Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE-v3.0.md)
-- [Teaching Config Dates Schema](../reference/TEACH-CONFIG-DATES-SCHEMA.md)
-- [Quick Reference Card](../reference/REFCARD-TEACHING-V3.md)
+- [Teach Dispatcher Reference](../reference/.archive/TEACH-DISPATCHER-REFERENCE-v3.0.md)
+- [Teaching Config Dates Schema](../reference/.archive/TEACH-CONFIG-DATES-SCHEMA.md)
+- [Quick Reference Card](../reference/.archive/REFCARD-TEACHING-V3.md)
 
 ---
 

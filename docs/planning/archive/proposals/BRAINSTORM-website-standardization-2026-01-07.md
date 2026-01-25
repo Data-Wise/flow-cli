@@ -599,7 +599,7 @@ nav:
 - **Purpose:** Remind about syntax/options
 - **Audience:** Users who already know the tool
 - **Format:** Tables, no explanations, scannable
-- **Example:** `docs/reference/COMMAND-QUICK-REFERENCE.md`
+- **Example:** `docs/help/QUICK-REFERENCE.md`
 
 ### Help Page (Command Documentation)
 
@@ -793,7 +793,7 @@ Is this for brand new users?
    - getting-started/quick-start.md
    - guides/00-START-HERE.md
    - tutorials/01-first-session.md
-   - reference/COMMAND-QUICK-REFERENCE.md
+   - help/QUICK-REFERENCE.md
 
 ### Next Week
 
@@ -820,7 +820,7 @@ Is this for brand new users?
 
 3. **Examples:**
    - `docs/tutorials/01-first-session.md` - Good tutorial structure
-   - `docs/reference/COMMAND-QUICK-REFERENCE.md` - Good reference format
+   - `docs/help/QUICK-REFERENCE.md` - Good reference format
    - `docs/guides/WORKFLOWS-QUICK-WINS.md` - Good workflow format
 
 ---

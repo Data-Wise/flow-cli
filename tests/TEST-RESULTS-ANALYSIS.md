@@ -14,6 +14,7 @@
 ✅ **Production Ready** - Cache implementation fully validated
 
 ### Test Breakdown
+
 - **Unit Tests:** 42/42 passing (3 suites)
 - **Integration Tests:** 17/17 passing (1 suite)
 - **Total Automated:** 59/59 passing
@@ -31,22 +32,24 @@
 
 **Key Validations:**
 
-| Category | Tests | What Was Validated |
-|----------|-------|-------------------|
-| **Basic Access** | 2 | Returns data, uses existing cache |
-| **Auto-Regeneration** | 3 | Missing → generate, stale → regenerate, corrupt → regenerate |
-| **Cache Disabled** | 3 | Skips cache, returns data via fallback, ignores cache file |
-| **Fallback Behavior** | 2 | Graceful degradation on generation/read failures |
-| **Filter Passthrough** | 3 | Category, recent, and combined filters work |
-| **Content Handling** | 3 | Skips timestamp, returns all projects, preserves format |
+| Category               | Tests | What Was Validated                                           |
+| ---------------------- | ----- | ------------------------------------------------------------ |
+| **Basic Access**       | 2     | Returns data, uses existing cache                            |
+| **Auto-Regeneration**  | 3     | Missing → generate, stale → regenerate, corrupt → regenerate |
+| **Cache Disabled**     | 3     | Skips cache, returns data via fallback, ignores cache file   |
+| **Fallback Behavior**  | 2     | Graceful degradation on generation/read failures             |
+| **Filter Passthrough** | 3     | Category, recent, and combined filters work                  |
+| **Content Handling**   | 3     | Skips timestamp, returns all projects, preserves format      |
 
 **Critical Tests:**
+
 - ✅ Auto-generates missing cache (prevents cache miss failures)
 - ✅ Regenerates stale cache automatically (ensures fresh data)
 - ✅ Fallback to uncached on errors (graceful degradation)
 - ✅ Cache disabled mode works (allows debugging)
 
 **Insights:**
+
 - **Resilience:** System handles 5 different failure modes gracefully
 - **Transparency:** Cache works invisibly - users never see cache failures
 - **Flexibility:** Supports both cached and uncached modes seamlessly
@@ -61,22 +64,24 @@
 
 **Key Validations:**
 
-| Category | Tests | What Was Validated |
-|----------|-------|-------------------|
-| **File Creation** | 1 | Creates cache file at correct location |
-| **Timestamp** | 3 | Has header, is numeric, is recent (within test time) |
-| **Content** | 1 | Contains project data (not empty) |
-| **Error Handling** | 2 | Fails gracefully without permissions, creates missing dirs |
-| **Filters** | 2 | Accepts category and recent-only filters |
-| **Overwriting** | 1 | Overwrites existing cache (prevents stale data) |
+| Category           | Tests | What Was Validated                                         |
+| ------------------ | ----- | ---------------------------------------------------------- |
+| **File Creation**  | 1     | Creates cache file at correct location                     |
+| **Timestamp**      | 3     | Has header, is numeric, is recent (within test time)       |
+| **Content**        | 1     | Contains project data (not empty)                          |
+| **Error Handling** | 2     | Fails gracefully without permissions, creates missing dirs |
+| **Filters**        | 2     | Accepts category and recent-only filters                   |
+| **Overwriting**    | 1     | Overwrites existing cache (prevents stale data)            |
 
 **Critical Tests:**
+
 - ✅ Timestamp is numeric Unix epoch (validates TTL calculation)
 - ✅ Timestamp is recent (within test execution window - proves it's not cached)
 - ✅ Fails without write permission (security boundary test)
 - ✅ Creates missing parent directory (robust initialization)
 
 **Insights:**
+
 - **XDG Compliance:** Uses `~/.cache/flow-cli/` (standard location)
 - **Atomicity:** Overwrites in one operation (prevents partial updates)
 - **Robustness:** Handles missing directories automatically
@@ -91,22 +96,24 @@
 
 **Key Validations:**
 
-| Category | Tests | What Was Validated |
-|----------|-------|-------------------|
-| **Fresh Cache** | 2 | Fresh cache valid, just-created valid |
-| **Stale Cache** | 3 | Stale invalid, at boundary invalid, just under valid |
-| **Missing/Corrupt** | 5 | Missing, empty, no timestamp, invalid timestamp, negative timestamp |
-| **TTL Configuration** | 3 | Custom TTL, zero TTL, very long TTL |
-| **Edge Cases** | 2 | Extra whitespace, multiline content |
-| **Future Handling** | 1 | Future timestamp handled gracefully (negative age < TTL) |
+| Category              | Tests | What Was Validated                                                  |
+| --------------------- | ----- | ------------------------------------------------------------------- |
+| **Fresh Cache**       | 2     | Fresh cache valid, just-created valid                               |
+| **Stale Cache**       | 3     | Stale invalid, at boundary invalid, just under valid                |
+| **Missing/Corrupt**   | 5     | Missing, empty, no timestamp, invalid timestamp, negative timestamp |
+| **TTL Configuration** | 3     | Custom TTL, zero TTL, very long TTL                                 |
+| **Edge Cases**        | 2     | Extra whitespace, multiline content                                 |
+| **Future Handling**   | 1     | Future timestamp handled gracefully (negative age < TTL)            |
 
 **Critical Tests:**
+
 - ✅ Cache at TTL boundary is invalid (prevents off-by-one errors)
 - ✅ Cache just under TTL is valid (validates < not <=)
 - ✅ Zero TTL makes all invalid (disables cache entirely)
 - ✅ Future timestamp valid (handles clock skew gracefully)
 
 **Insights:**
+
 - **Precision:** TTL boundary tests prevent timing bugs
 - **Configuration:** Supports custom TTL (300s default, user-configurable)
 - **Robustness:** Handles edge cases (whitespace, future timestamps, multiline)
@@ -117,13 +124,13 @@
 
 ### Functions Tested (100% Coverage)
 
-| Function | Test Suite | Coverage |
-|----------|-----------|----------|
-| `_proj_cache_generate()` | Generation | ✅ 100% |
-| `_proj_cache_is_valid()` | Validation | ✅ 100% |
-| `_proj_list_all_cached()` | Access | ✅ 100% |
-| `_proj_cache_invalidate()` | (Not yet in unit tests) | ⚠️ 0% |
-| `_proj_cache_stats()` | (Not yet in unit tests) | ⚠️ 0% |
+| Function                   | Test Suite              | Coverage |
+| -------------------------- | ----------------------- | -------- |
+| `_proj_cache_generate()`   | Generation              | ✅ 100%  |
+| `_proj_cache_is_valid()`   | Validation              | ✅ 100%  |
+| `_proj_list_all_cached()`  | Access                  | ✅ 100%  |
+| `_proj_cache_invalidate()` | (Not yet in unit tests) | ⚠️ 0%    |
+| `_proj_cache_stats()`      | (Not yet in unit tests) | ⚠️ 0%    |
 
 **Note:** Cache invalidation and stats functions will be covered in additional test suites (test-cache-invalidation.zsh, test-cache-stats.zsh, test-user-commands.zsh).
 
@@ -178,38 +185,46 @@
 ### Test Patterns
 
 **Pattern 1: Boundary Testing**
+
 ```zsh
 # Test exactly at TTL boundary
 boundary_time=$(($(date +%s) - PROJ_CACHE_TTL))
 # Test just under TTL boundary
 almost_stale=$(($(date +%s) - PROJ_CACHE_TTL + 1))
 ```
+
 **Why:** Prevents off-by-one errors in TTL validation
 
 **Pattern 2: State Isolation**
+
 ```zsh
 setup_test_cache() {
     TEST_CACHE_FILE=$(mktemp)
     PROJ_CACHE_FILE="$TEST_CACHE_FILE"
 }
 ```
+
 **Why:** Each test gets clean state, no pollution
 
 **Pattern 3: Permission Testing**
+
 ```zsh
 local test_dir=$(mktemp -d)
 chmod 555 "$cache_dir"  # Read-only
 # ... test ...
 chmod 755 "$cache_dir"  # Restore
 ```
+
 **Why:** Validates security boundaries without breaking system
 
 **Pattern 4: Graceful Degradation Validation**
+
 ```zsh
 # Should fallback on generation failure
 _proj_list_all_cached 2>/dev/null
 assert_true "[[ -n '$result' || $? -eq 0 ]]"
 ```
+
 **Why:** Ensures failures don't break user experience
 
 ---
@@ -223,6 +238,7 @@ assert_true "[[ -n '$result' || $? -eq 0 ]]"
 - **Implementation:** Uses `<` (less than), not `<=`
 
 **Code Verified:**
+
 ```zsh
 [[ $age -lt $PROJ_CACHE_TTL ]]  # Correct: strict less-than
 ```
@@ -230,6 +246,7 @@ assert_true "[[ -n '$result' || $? -eq 0 ]]"
 ### 2. Auto-Regeneration is Comprehensive
 
 Tests validate **3 triggers** for regeneration:
+
 1. Missing cache file
 2. Stale cache (age >= TTL)
 3. Corrupt cache (invalid timestamp)
@@ -239,6 +256,7 @@ Tests validate **3 triggers** for regeneration:
 ### 3. Fallback Strategy is Robust
 
 **2 failure modes tested:**
+
 1. Generation failure (no write permission)
 2. Read failure (no read permission)
 
@@ -247,6 +265,7 @@ Tests validate **3 triggers** for regeneration:
 ### 4. Configuration is Flexible
 
 **3 TTL configurations tested:**
+
 1. Custom short (5s) - for testing
 2. Zero (0s) - disables cache entirely
 3. Very long (86400s = 1 day) - for debugging
@@ -256,6 +275,7 @@ Tests validate **3 triggers** for regeneration:
 ### 5. Edge Cases are Handled
 
 **Unusual inputs tested:**
+
 - Extra whitespace in timestamp → doesn't crash
 - Future timestamp → valid (negative age < TTL)
 - Multiline content → preserves correctly
@@ -275,6 +295,7 @@ While these tests validate **correctness**, they don't directly test **performan
 3. **No Redundant Work:** Overwrites existing cache, doesn't append (Test 10)
 
 **Expected Performance:**
+
 - **Cached access:** <10ms (validated in integration tests)
 - **Uncached access:** ~200ms (original baseline)
 - **40x speedup:** Achievable when cache is valid
@@ -286,16 +307,19 @@ While these tests validate **correctness**, they don't directly test **performan
 Based on test coverage, the cache implementation demonstrates:
 
 ✅ **High Reliability**
+
 - 100% test pass rate
 - Comprehensive edge case coverage
 - Graceful degradation on all failures
 
 ✅ **Production Readiness**
+
 - No crashes on permission errors
 - No data loss on corrupt cache
 - Transparent fallback to uncached mode
 
 ✅ **Maintainability**
+
 - Clear test names and organization
 - Isolated test setup/teardown
 - Easy to add new tests
@@ -307,15 +331,19 @@ Based on test coverage, the cache implementation demonstrates:
 ### Immediate Actions (Before Merge)
 
 1. ✅ **Run Integration Tests**
+
    ```bash
    zsh tests/integration/test-pick-integration.zsh
    ```
+
    Validates cache works with `pick` command end-to-end
 
 2. ✅ **Run Comprehensive Test**
+
    ```bash
    zsh tests/test-project-cache.zsh
    ```
+
    Validates all cache functions together
 
 3. ✅ **Manual Interactive Test**
@@ -348,6 +376,7 @@ Based on test coverage, the cache implementation demonstrates:
 **Status:** ✅ **Production Ready**
 
 The project cache implementation has achieved:
+
 - ✅ 100% test pass rate (42/42 tests)
 - ✅ Comprehensive coverage of core functionality
 - ✅ Robust error handling and graceful degradation
@@ -356,6 +385,7 @@ The project cache implementation has achieved:
 **Confidence Level:** **HIGH**
 
 The test suite provides strong evidence that:
+
 1. Cache generation works correctly
 2. TTL validation is precise
 3. Auto-regeneration handles all failure modes
@@ -363,6 +393,7 @@ The test suite provides strong evidence that:
 5. Edge cases are handled gracefully
 
 **Next Steps:**
+
 1. Run integration and comprehensive tests
 2. Merge to `dev` branch
 3. Deploy to production
@@ -386,14 +417,15 @@ The test suite provides strong evidence that:
 
 **Key Validations:**
 
-| Category | Tests | What Was Validated |
-|----------|-------|-------------------|
-| **Cache Generation & Validation** | 5 | File creation, fresh/stale/missing/corrupt detection |
-| **Cache Management** | 4 | Invalidation, stats (valid/missing/stale) |
-| **Cache Access & Integration** | 4 | Auto-generation, cache usage, regeneration, disabled mode |
-| **User Commands** | 4 | Duration formatting, refresh, clear, status commands |
+| Category                          | Tests | What Was Validated                                        |
+| --------------------------------- | ----- | --------------------------------------------------------- |
+| **Cache Generation & Validation** | 5     | File creation, fresh/stale/missing/corrupt detection      |
+| **Cache Management**              | 4     | Invalidation, stats (valid/missing/stale)                 |
+| **Cache Access & Integration**    | 4     | Auto-generation, cache usage, regeneration, disabled mode |
+| **User Commands**                 | 4     | Duration formatting, refresh, clear, status commands      |
 
 **Critical Tests:**
+
 - ✅ End-to-end cache lifecycle (generate → use → invalidate)
 - ✅ Integration with `_proj_list_all_cached()`
 - ✅ User commands (`flow cache refresh/clear/status`)
@@ -419,11 +451,13 @@ The test suite provides strong evidence that:
    - Stale cache → Auto-regenerate flow
 
 **Insights:**
+
 - **Real Environment:** Tests run in actual plugin environment (not mocked)
 - **Command Integration:** Validates user-facing commands work correctly
 - **Lifecycle Complete:** Full cache lifecycle tested end-to-end
 
 **Issue Found & Fixed:**
+
 - **Problem:** Test was trying to source individual lib files, which failed due to path resolution
 - **Solution:** Changed to source `flow.plugin.zsh` directly, which loads all dependencies
 - **Result:** All 17 tests now passing
@@ -434,17 +468,17 @@ The test suite provides strong evidence that:
 
 ### Functions Tested (100% Coverage)
 
-| Function | Test Suites | Coverage |
-|----------|------------|----------|
-| `_proj_cache_generate()` | Generation (unit), Integration | ✅ 100% |
-| `_proj_cache_is_valid()` | Validation (unit), Integration | ✅ 100% |
-| `_proj_list_all_cached()` | Access (unit), Integration | ✅ 100% |
-| `_proj_cache_invalidate()` | Integration | ✅ 100% |
-| `_proj_cache_stats()` | Integration | ✅ 100% |
-| `_proj_format_duration()` | Integration | ✅ 100% |
-| `flow-cache-refresh()` | Integration | ✅ 100% |
-| `flow-cache-clear()` | Integration | ✅ 100% |
-| `flow-cache-status()` | Integration | ✅ 100% |
+| Function                   | Test Suites                    | Coverage |
+| -------------------------- | ------------------------------ | -------- |
+| `_proj_cache_generate()`   | Generation (unit), Integration | ✅ 100%  |
+| `_proj_cache_is_valid()`   | Validation (unit), Integration | ✅ 100%  |
+| `_proj_list_all_cached()`  | Access (unit), Integration     | ✅ 100%  |
+| `_proj_cache_invalidate()` | Integration                    | ✅ 100%  |
+| `_proj_cache_stats()`      | Integration                    | ✅ 100%  |
+| `_proj_format_duration()`  | Integration                    | ✅ 100%  |
+| `flow-cache-refresh()`     | Integration                    | ✅ 100%  |
+| `flow-cache-clear()`       | Integration                    | ✅ 100%  |
+| `flow-cache-status()`      | Integration                    | ✅ 100%  |
 
 **All functions now have 100% coverage!**
 
@@ -505,6 +539,7 @@ The test suite provides strong evidence that:
 **Status:** ✅ **PRODUCTION READY**
 
 The project cache implementation has achieved:
+
 - ✅ 100% test pass rate (59/59 automated tests)
 - ✅ Complete coverage of all functions
 - ✅ End-to-end integration validation
@@ -515,6 +550,7 @@ The project cache implementation has achieved:
 **Confidence Level:** **VERY HIGH**
 
 The combined unit and integration test suites provide strong evidence that:
+
 1. Cache generation works correctly ✅
 2. TTL validation is precise ✅
 3. Auto-regeneration handles all failure modes ✅
@@ -525,6 +561,7 @@ The combined unit and integration test suites provide strong evidence that:
 8. Complete cache lifecycle functions properly ✅
 
 **Next Steps:**
+
 1. ✅ Unit tests (42/42 passing)
 2. ✅ Integration tests (17/17 passing)
 3. ⏭️ Optional: Manual interactive test

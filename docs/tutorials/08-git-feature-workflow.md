@@ -341,7 +341,7 @@ gh auth login
 ## What's Next?
 
 - **[Tutorial 9: Worktrees](09-worktrees.md)** - Parallel development with worktrees
-- **[Git Dispatcher Reference](../reference/DISPATCHER-REFERENCE.md#1-g-git-workflows)** - All g commands
+- **[Git Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#1-g-git-workflows)** - All g commands
 - **[V4.3 Roadmap](../planning/V4.3-ROADMAP.md)** - Upcoming features
 
 ---

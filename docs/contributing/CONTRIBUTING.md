@@ -415,7 +415,7 @@ gh workflow run homebrew-release.yml -f version=X.Y.Z
 ## Questions?
 
 - **Testing:** See [TESTING.md](../testing/TESTING.md)
-- **Dispatchers:** See [DISPATCHER-REFERENCE.md](../reference/DISPATCHER-REFERENCE.md)
+- **Dispatchers:** See [DISPATCHER-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md)
 - **Issues:** https://github.com/Data-Wise/flow-cli/issues
 
 ---

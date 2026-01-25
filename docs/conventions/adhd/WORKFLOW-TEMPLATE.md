@@ -637,7 +637,7 @@ g feature finish
 ## Related Resources
 
 - **Tutorial:** [Tutorial 8: Git Feature Workflow](../../tutorials/08-git-feature-workflow.md)
-- **Reference:** [G Dispatcher Reference](../../reference/G-DISPATCHER-REFERENCE.md)
+- **Reference:** [G Dispatcher Reference](../../reference/MASTER-DISPATCHER-GUIDE.md#g-dispatcher)
 - **Guide:** [Worktree Workflow](../../guides/WORKTREE-WORKFLOW.md)
 
 ---

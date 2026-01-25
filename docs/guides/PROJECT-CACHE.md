@@ -432,7 +432,7 @@ echo 'export FLOW_CACHE_ENABLED=0' >> ~/.zshrc
 
 ## See Also
 
-- [pick Command Reference](../reference/PICK-COMMAND-REFERENCE.md)
+- [pick Command Reference](../reference/.archive/PICK-COMMAND-REFERENCE.md)
 - [flow doctor](../commands/doctor.md) - Verify project configuration
 
 ---

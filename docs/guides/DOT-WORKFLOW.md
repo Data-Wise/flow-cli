@@ -502,4 +502,4 @@ Run: dot unlock
 ---
 
 **Version:** v5.2.0
-**See Also:** [DOT Dispatcher Reference](../reference/DOT-DISPATCHER-REFERENCE.md) | [Tutorial](../tutorials/12-dot-dispatcher.md)
+**See Also:** [DOT Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher) | [Tutorial](../tutorials/12-dot-dispatcher.md)

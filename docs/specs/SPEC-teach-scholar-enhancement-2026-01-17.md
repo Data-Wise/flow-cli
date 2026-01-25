@@ -471,5 +471,5 @@ These files should be archived after this spec is approved.
 ## Related Documents
 
 - [Main Plugin Integration Spec](SPEC-claude-code-plugin-integration-2026-01-17.md)
-- [Teach Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE.md)
-- [Teach Config Dates Schema](../reference/TEACH-CONFIG-DATES-SCHEMA.md)
+- [Teach Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)
+- [Teach Config Dates Schema](../reference/.archive/TEACH-CONFIG-DATES-SCHEMA.md)

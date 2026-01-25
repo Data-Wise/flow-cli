@@ -16,6 +16,7 @@ Migrated Scholar Enhancement tutorial GIF recording workflow from VHS (simulated
 ### Removed (VHS Approach)
 
 ❌ **8 VHS tape files** - Simulated output, brittle, hard to maintain
+
 - `scholar-01-help.tape`
 - `scholar-02-generate.tape`
 - `scholar-03-customize.tape`
@@ -30,18 +31,21 @@ Migrated Scholar Enhancement tutorial GIF recording workflow from VHS (simulated
 ### Added (asciinema Approach)
 
 ✅ **RECORDING-GUIDE.md** - Complete recording workflow
+
 - 8 demo specifications
 - Step-by-step recording instructions
 - Conversion settings (agg + gifsicle)
 - Troubleshooting guide
 
 ✅ **convert-all.sh** - Batch conversion script
+
 - Converts all `.cast` files to GIFs
 - Applies dracula theme
 - Optimizes with gifsicle
 - Shows file sizes
 
 ✅ **Updated STATUS.md** - New approach documentation
+
 - Recording guidelines
 - Quality targets
 - Integration instructions
@@ -118,6 +122,7 @@ brew install asciinema agg gifsicle
 ```
 
 **Tools:**
+
 - **asciinema** - Terminal session recorder
 - **agg** - asciinema GIF generator (Rust-based, fast)
 - **gifsicle** - GIF optimizer
@@ -128,22 +133,22 @@ brew install asciinema agg gifsicle
 
 ### VHS Approach
 
-| File | Size | Method |
-|------|------|--------|
+| File                | Size   | Method               |
+| ------------------- | ------ | -------------------- |
 | scholar-01-help.gif | 384 KB | VHS simulated output |
 
 ### asciinema Approach (Estimated)
 
-| Demo | Est. Size | Method |
-|------|-----------|--------|
-| scholar-01-help | ~150 KB | Real output |
-| scholar-02-generate | ~250 KB | Real output |
-| scholar-03-customize | ~250 KB | Real output |
-| scholar-04-lesson | ~350 KB | Real output |
-| scholar-05-interactive | ~400 KB | Real output |
-| scholar-06-revision | ~350 KB | Real output |
-| scholar-07-week | ~250 KB | Real output |
-| scholar-08-context | ~300 KB | Real output |
+| Demo                   | Est. Size | Method      |
+| ---------------------- | --------- | ----------- |
+| scholar-01-help        | ~150 KB   | Real output |
+| scholar-02-generate    | ~250 KB   | Real output |
+| scholar-03-customize   | ~250 KB   | Real output |
+| scholar-04-lesson      | ~350 KB   | Real output |
+| scholar-05-interactive | ~400 KB   | Real output |
+| scholar-06-revision    | ~350 KB   | Real output |
+| scholar-07-week        | ~250 KB   | Real output |
+| scholar-08-context     | ~300 KB   | Real output |
 
 **Total:** ~2.3 MB (asciinema) vs ~3 MB (VHS estimated)
 

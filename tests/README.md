@@ -56,22 +56,23 @@ zsh tests/test-project-cache.zsh              # Comprehensive cache test
 
 ### Project Cache Tests (NEW - v5.3.0)
 
-| File                                 | Tests | Coverage                              |
-| ------------------------------------ | ----- | ------------------------------------- |
-| `unit/test-cache-generation.zsh`    | 10    | Cache file creation & content         |
-| `unit/test-cache-validation.zsh`    | 17    | TTL logic, validity checking          |
-| `unit/test-cache-access.zsh`        | 18    | Cached access, auto-regeneration      |
-| `unit/test-cache-invalidation.zsh`  | 5     | Cache clearing functionality          |
-| `unit/test-cache-stats.zsh`         | 6     | Statistics display & calculation      |
-| `unit/test-user-commands.zsh`       | 8     | flow cache commands (CLI)             |
-| `integration/test-pick-integration.zsh` | 6  | End-to-end pick + cache              |
-| `test-project-cache.zsh`             | 11    | Comprehensive cache test              |
-| `interactive-cache-dogfeeding.zsh`   | 15    | ADHD-friendly interactive test        |
-| `run-unit-tests.zsh`                 | -     | Unit test orchestrator                |
+| File                                    | Tests | Coverage                         |
+| --------------------------------------- | ----- | -------------------------------- |
+| `unit/test-cache-generation.zsh`        | 10    | Cache file creation & content    |
+| `unit/test-cache-validation.zsh`        | 17    | TTL logic, validity checking     |
+| `unit/test-cache-access.zsh`            | 18    | Cached access, auto-regeneration |
+| `unit/test-cache-invalidation.zsh`      | 5     | Cache clearing functionality     |
+| `unit/test-cache-stats.zsh`             | 6     | Statistics display & calculation |
+| `unit/test-user-commands.zsh`           | 8     | flow cache commands (CLI)        |
+| `integration/test-pick-integration.zsh` | 6     | End-to-end pick + cache          |
+| `test-project-cache.zsh`                | 11    | Comprehensive cache test         |
+| `interactive-cache-dogfeeding.zsh`      | 15    | ADHD-friendly interactive test   |
+| `run-unit-tests.zsh`                    | -     | Unit test orchestrator           |
 
 **Total:** 64 unit tests + 6 integration tests + 11 comprehensive + 15 interactive = **96 cache tests**
 
 **Quick Start:**
+
 ```bash
 # Run all cache unit tests
 ./tests/run-unit-tests.zsh
@@ -87,21 +88,23 @@ cat tests/TEST-PLAN.md
 ```
 
 **Documentation:**
+
 - 📋 **Test Plan:** `tests/TEST-PLAN.md` - Complete test strategy
 - 📖 **Interactive Guide:** `tests/INTERACTIVE-CACHE-TEST-README.md` - How to use dog-feeding test
 - 🔧 **Test Utils:** `tests/test-utils.zsh` - 20+ assertions & helpers
 
 ### Dot Dispatcher Test Suite (NEW)
 
-| File                          | Tests | Coverage                                      |
-| ----------------------------- | ----- | --------------------------------------------- |
-| `test-dot-dispatcher.zsh`     | 52    | Core functionality, helpers, formatting       |
-| `test-integration.zsh`        | 35    | Chezmoi, Bitwarden, dashboard, doctor         |
-| `test-phase3-secrets.zsh`     | 15    | Secret management (Bitwarden)                 |
-| `test-phase4.sh`              | 10    | Dashboard integration                         |
-| `run-all-tests.zsh`           | -     | Test orchestrator (runs all dot tests)        |
+| File                      | Tests | Coverage                                |
+| ------------------------- | ----- | --------------------------------------- |
+| `test-dot-dispatcher.zsh` | 52    | Core functionality, helpers, formatting |
+| `test-integration.zsh`    | 35    | Chezmoi, Bitwarden, dashboard, doctor   |
+| `test-phase3-secrets.zsh` | 15    | Secret management (Bitwarden)           |
+| `test-phase4.sh`          | 10    | Dashboard integration                   |
+| `run-all-tests.zsh`       | -     | Test orchestrator (runs all dot tests)  |
 
 **Quick Start:**
+
 ```bash
 # Run all dot dispatcher tests
 ./tests/run-all-tests.zsh

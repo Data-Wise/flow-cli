@@ -361,7 +361,7 @@ _dot_help() {
 
 ### Reference Documentation
 
-- [ ] Create `docs/reference/DOT-DISPATCHER-REFERENCE.md`
+- [ ] Create `docs/reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher`
 - [ ] Include all commands
 - [ ] Include examples
 - [ ] Include screenshots (or mockups)

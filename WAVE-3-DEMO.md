@@ -65,6 +65,7 @@ teach validate --custom pass.qmd fail.qmd
 ```
 
 **Output:**
+
 ```
 ℹ Running custom validators...
   Found: 1 validators
@@ -110,6 +111,7 @@ teach validate --custom pass.qmd fail.qmd
    - Clear summary statistics
 
 5. **Selective Execution**
+
    ```bash
    # Run specific validators only
    teach validate --custom --validators hello-checker,another-validator
@@ -258,7 +260,7 @@ _validate() {
 
 ### Example 3: Code Chunk Validator
 
-```zsh
+````zsh
 #!/usr/bin/env zsh
 VALIDATOR_NAME="Code Chunk Validator"
 VALIDATOR_VERSION="1.0.0"
@@ -285,7 +287,7 @@ _validate() {
 
     return 0
 }
-```
+````
 
 ---
 
@@ -294,12 +296,14 @@ _validate() {
 ### Use Cases
 
 1. **Pre-commit Validation**
+
    ```bash
    # In .git/hooks/pre-commit
    teach validate --custom --quiet || exit 1
    ```
 
 2. **CI/CD Pipeline**
+
    ```yaml
    # .github/workflows/validate.yml
    - name: Validate content
@@ -307,6 +311,7 @@ _validate() {
    ```
 
 3. **Weekly Content Audit**
+
    ```bash
    # Check all lectures
    teach validate --custom lectures/*.qmd
@@ -325,18 +330,20 @@ _validate() {
 Measured on real teaching materials:
 
 | Validators | Files | Total Time | Per File |
-|------------|-------|------------|----------|
+| ---------- | ----- | ---------- | -------- |
 | 1          | 5     | 1.2s       | 240ms    |
 | 3          | 5     | 2.8s       | 560ms    |
 | 3          | 20    | 9.5s       | 475ms    |
 
 **Observations:**
+
 - Framework overhead: ~50ms
 - Most time spent in validator logic
 - Linear scaling with file count
 - Independent of number of validators (run in sequence)
 
 **Future Optimization:**
+
 - Parallel validator execution
 - Caching of validation results
 - Incremental validation
@@ -366,6 +373,7 @@ Measured on real teaching materials:
 ### Not Limitations
 
 These work perfectly:
+
 - ✅ Framework core functionality
 - ✅ Plugin discovery and loading
 - ✅ API validation
@@ -380,16 +388,19 @@ These work perfectly:
 **Framework Status:** ✅ Production Ready
 
 **What You Can Do Today:**
+
 1. Create custom validators following the API
 2. Run validators on your content
 3. Integrate into workflow (pre-commit, CI/CD)
 4. Extend with domain-specific checks
 
 **What Needs Work:**
+
 1. Built-in validators need ZSH refactoring (1-2 hours)
 2. Tests need fixing after validator refactoring
 
 **Recommendation:**
+
 - ✅ Use the framework immediately for custom validators
 - ⏳ Wait for built-in validator fixes (or help refactor them!)
 - 🎯 Framework design is solid and extensible

@@ -159,7 +159,7 @@ work my-project "code-insiders"
 | [Tutorial 16: Vim Motions](../tutorials/16-vim-motions.md) | 15 min | Efficient navigation and editing |
 | [Tutorial 17: LazyVim Basics](../tutorials/17-lazyvim-basics.md) | 15 min | Essential plugins (Neo-tree, Telescope, splits) |
 | [Tutorial 18: LazyVim Showcase](../tutorials/18-lazyvim-showcase.md) | 30 min | Full feature tour (LSP, Mason, customization) |
-| [Nvim Quick Reference](../reference/NVIM-QUICK-REFERENCE.md) | - | 1-page printable reference card |
+| [Nvim Quick Reference](../reference/.archive/NVIM-QUICK-REFERENCE.md) | - | 1-page printable reference card |
 
 **Interactive tutorial:**
 
@@ -211,7 +211,7 @@ flow-cli automatically detects your project type (R package, Node.js, Python, ZS
 
 - **Tutorial:** [First Session Tutorial](../tutorials/01-first-session.md)
 - **Tutorial:** [Multiple Projects Tutorial](../tutorials/02-multiple-projects.md)
-- **Reference:** [Workflow Quick Reference](../reference/WORKFLOW-QUICK-REFERENCE.md)
+- **Reference:** [Workflow Quick Reference](../help/WORKFLOWS.md)
 
 ---
 

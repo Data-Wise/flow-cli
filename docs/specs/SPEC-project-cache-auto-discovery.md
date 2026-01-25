@@ -844,7 +844,7 @@ With cache (hot): ~0.005s average (40x faster)
 
 1. **README.md** - Add caching/auto-discovery to features list
 2. **docs/getting-started/configuration.md** - Document `FLOW_CACHE_ENABLED`, `FLOW_AUTO_DISCOVER`, `project-categories.conf`
-3. **docs/reference/COMMAND-QUICK-REFERENCE.md** - Add `flow cache`, `flow discover` commands
+3. **do../reference/.archive/COMMAND-QUICK-REFERENCE.md** - Add `flow cache`, `flow discover` commands
 4. **docs/guides/PERFORMANCE-TUNING.md** (NEW) - Caching guide, benchmark results
 5. **CLAUDE.md** - Update architecture section with caching layer
 

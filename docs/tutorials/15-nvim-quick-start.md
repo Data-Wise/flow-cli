@@ -252,7 +252,7 @@ dot edit zsh
 
 **If you want to see LazyVim features** → Skip to [Tutorial 17: LazyVim Basics](17-lazyvim-basics.md)
 
-**If you need a quick reference** → Check [Nvim Quick Reference Card](../reference/NVIM-QUICK-REFERENCE.md)
+**If you need a quick reference** → Check [Nvim Quick Reference Card](../reference/.archive/NVIM-QUICK-REFERENCE.md)
 
 **If you want hands-on practice** → Run the interactive tutorial:
 
@@ -329,6 +329,6 @@ Everything else is optimization. Take a break, then continue to Tutorial 16 when
 
 **Next Tutorial:** [16: Vim Motions - Efficient Navigation](16-vim-motions.md)
 
-**Quick Reference:** [Nvim Quick Reference Card](../reference/NVIM-QUICK-REFERENCE.md)
+**Quick Reference:** [Nvim Quick Reference Card](../reference/.archive/NVIM-QUICK-REFERENCE.md)
 
 **Interactive Practice:** `flow nvim-tutorial`

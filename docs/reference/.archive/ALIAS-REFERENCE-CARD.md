@@ -352,7 +352,7 @@ If you're used to old aliases:
 ## 📖 ADDITIONAL RESOURCES
 
 - **Workflow Quick Reference:** `~/projects/dev-tools/flow-cli/docs/reference/WORKFLOW-QUICK-REFERENCE.md`
-- **Pick Command Guide:** `~/projects/dev-tools/flow-cli/docs/reference/PICK-COMMAND-REFERENCE.md`
+- **Pick Command Guide:** `~/projects/dev-tools/flow-cli/docs/reference/.archive/PICK-COMMAND-REFERENCE.md`
 - **ZSH Development Guidelines:** `~/projects/dev-tools/flow-cli/docs/ZSH-DEVELOPMENT-GUIDELINES.md`
 
 ---

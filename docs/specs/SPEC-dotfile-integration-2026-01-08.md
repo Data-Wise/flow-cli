@@ -616,11 +616,11 @@ N/A - CLI only (no web interface)
 
 ## Related Documents
 
-- [DOT Dispatcher Reference](../reference/DOT-DISPATCHER-REFERENCE.md)
+- [DOT Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher)
 - [DOT Dispatcher Tutorial](../tutorials/12-dot-dispatcher.md)
 - [Implementation Checklist](dot-dispatcher-implementation-checklist.md) (archived)
 - [Quick Reference Card](dot-dispatcher-refcard.md) (archived)
 
 ---
 
-**Implementation Complete:** v5.3.0 - See [DOT Dispatcher Reference](../reference/DOT-DISPATCHER-REFERENCE.md) for current documentation.
+**Implementation Complete:** v5.3.0 - See [DOT Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher) for current documentation.

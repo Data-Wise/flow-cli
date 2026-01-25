@@ -33,42 +33,50 @@ An ADHD-friendly, gamified test suite for the project cache functionality. Feed 
 ### Test Sections
 
 #### Section 1: Basic Cache Generation (3 tests × 10%)
+
 - Cache file creation
 - Timestamp header validation
 - Project data presence
 
 #### Section 2: TTL Validation (3 tests × 15%)
+
 - Fresh cache validity
 - Cache age display
 - Stale cache detection
 
 #### Section 3: Cache Commands (3 tests × 15%)
+
 - `flow cache refresh`
 - `flow cache status`
 - `flow cache clear`
 
 #### Section 4: Auto-Regeneration (3 tests × 20%)
+
 - Missing cache auto-generation
 - Stale cache auto-regeneration
 - Corrupt cache auto-regeneration
 
 #### Section 5: Performance & Integration (3 tests × 25%)
+
 - Cached access speed (<10ms)
 - Cache disabled fallback
 
 ## Scoring
 
 ### Perfect Score (Dog is Full & Happy)
+
 - Hunger: 0%
 - Happiness: >70%
 - All 15 tests passed
 - Outcome: 🎉 **Dog is full and happy!**
 
 ### Good Score (Dog is Mostly Satisfied)
+
 - Tasks: ≥12/15 completed
 - Outcome: 😊 **Dog is mostly satisfied!**
 
 ### Needs Work (Dog is Still Hungry)
+
 - Tasks: <12/15 completed
 - Outcome: 😢 **Dog needs more food...**
 

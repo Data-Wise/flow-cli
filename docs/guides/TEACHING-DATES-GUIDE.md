@@ -1914,4 +1914,4 @@ This assignment covers data wrangling techniques using the `dplyr` package.
 
 ---
 
-**Next:** [Command Reference](../reference/DISPATCHER-REFERENCE.md) | [Tutorial 14: Teaching Workflow](../tutorials/14-teach-dispatcher.md) | [Quick Reference Card](../reference/TEACH-DATES-QUICK-REFERENCE.md)
+**Next:** [Command Reference](../reference/MASTER-DISPATCHER-GUIDE.md) | [Tutorial 14: Teaching Workflow](../tutorials/14-teach-dispatcher.md) | [Quick Reference Card](../reference/.archive/TEACH-DATES-QUICK-REFERENCE.md)

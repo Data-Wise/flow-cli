@@ -114,8 +114,8 @@ Choose ONE path below based on YOUR needs:
 
 | Type | Link | Use When |
 |---|---|---|
-| Quick Reference | [Command Cheatsheet](reference/COMMAND-QUICK-REFERENCE.md) | You forget a command |
-| Dispatcher Docs | [All Dispatchers](reference/DISPATCHER-REFERENCE.md) | Exploring what dispatchers do |
+| Quick Reference | [Command Cheatsheet](help/QUICK-REFERENCE.md) | You forget a command |
+| Dispatcher Docs | [All Dispatchers](reference/MASTER-DISPATCHER-GUIDE.md) | Exploring what dispatchers do |
 | Plugin Overview | [Plugin Learning Map](reference/PLUGIN-LEARNING-MAP.md) | Understanding plugins |
 | Alias Guide | [Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md) | Learning git/docker aliases |
 
@@ -168,7 +168,7 @@ What's your biggest need right now?
 Tutorial 8 ✓ (complete)
 Tutorial 9 ✓ (complete)
 ├─ Read: Worktree Workflow Guide
-├─ Explore: [G Dispatcher Reference](reference/G-DISPATCHER-REFERENCE.md)
+├─ Explore: [G Dispatcher Reference](reference/MASTER-DISPATCHER-GUIDE.md#g-dispatcher)
 ├─ Reference: [Git Aliases](reference/ALIAS-REFERENCE-CARD.md#git-226-aliases)
 └─ Advanced: [Developer Guide](guides/DEVELOPER-GUIDE.md#building-custom-commands)
 ```
@@ -183,7 +183,7 @@ Tutorial 9 ✓ (complete)
 Tutorial 14 ✓ (complete)
 ├─ Read: [Teaching Workflow v3](guides/TEACHING-WORKFLOW-V3-GUIDE.md)
 ├─ Try: [Tutorial 21: Teach Analyze](tutorials/21-teach-analyze.md)
-├─ Reference: [Teach Dispatcher Ref](reference/TEACH-DISPATCHER-REFERENCE-v3.0.md)
+├─ Reference: [Teach Dispatcher Ref](reference/.archive/TEACH-DISPATCHER-REFERENCE-v3.0.md)
 ├─ Deep Dive: [Course Planning Best Practices](guides/COURSE-PLANNING-BEST-PRACTICES.md)
 └─ Advanced: [Intelligent Content Analysis](guides/INTELLIGENT-CONTENT-ANALYSIS.md)
 ```
@@ -226,10 +226,10 @@ Tutorials 15-18 (explore)
 
 | Resource | When to Use | Link |
 |---|---|---|
-| Command Cheatsheet | Daily reference | [COMMAND-QUICK-REFERENCE.md](reference/COMMAND-QUICK-REFERENCE.md) |
-| All Dispatchers | Learn new dispatcher | [DISPATCHER-REFERENCE.md](reference/DISPATCHER-REFERENCE.md) |
+| Command Cheatsheet | Daily reference | [COMMAND-QUICK-REFERENCE.md](help/QUICK-REFERENCE.md) |
+| All Dispatchers | Learn new dispatcher | [DISPATCHER-REFERENCE.md](reference/MASTER-DISPATCHER-GUIDE.md) |
 | Alias Card | Learn new aliases | [ALIAS-REFERENCE-CARD.md](reference/ALIAS-REFERENCE-CARD.md) |
-| Architecture | Understand system | [ARCHITECTURE-OVERVIEW.md](reference/ARCHITECTURE-OVERVIEW.md) |
+| Architecture | Understand system | [ARCHITECTURE-OVERVIEW.md](reference/MASTER-ARCHITECTURE.md) |
 | Quick Wins | Real workflows | [WORKFLOWS-QUICK-WINS.md](guides/WORKFLOWS-QUICK-WINS.md) |
 
 ---
@@ -252,7 +252,7 @@ Tutorials 15-18 (explore)
 ```
 Start: [Developer Guide](guides/DEVELOPER-GUIDE.md)
 ├─ Understand: ZSH scripting basics
-├─ Reference: [Architecture Overview](reference/ARCHITECTURE-OVERVIEW.md)
+├─ Reference: [Architecture Overview](reference/MASTER-ARCHITECTURE.md)
 ├─ Study: How existing dispatchers work
 ├─ Build: Your first custom dispatcher
 └─ Explore: [Alias Management](guides/ALIAS-MANAGEMENT-WORKFLOW.md)
@@ -282,9 +282,9 @@ Start: [Tutorial 22: Optimization](tutorials/22-plugin-optimization.md)
 
 ```
 Study All These:
-├─ [API Complete Reference](reference/API-COMPLETE.md)
+├─ [API Complete Reference](reference/MASTER-API-REFERENCE.md)
 ├─ [Architecture Diagrams](diagrams/ARCHITECTURE-DIAGRAMS.md)
-├─ [All Dispatcher Refs](reference/DISPATCHER-REFERENCE.md)
+├─ [All Dispatcher Refs](reference/MASTER-DISPATCHER-GUIDE.md)
 ├─ [Plugin Learning Map](reference/PLUGIN-LEARNING-MAP.md)
 ├─ [Full Plugin Guide](guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md)
 └─ Source Code: `lib/*.zsh` and `commands/*.zsh`
@@ -298,9 +298,9 @@ Study All These:
 
 | Resource | Purpose | Link |
 |---|---|---|
-| Architecture Overview | Understand system design | [ARCHITECTURE-OVERVIEW.md](reference/ARCHITECTURE-OVERVIEW.md) |
+| Architecture Overview | Understand system design | [ARCHITECTURE-OVERVIEW.md](reference/MASTER-ARCHITECTURE.md) |
 | Architecture Diagrams | Visual system | [ARCHITECTURE-DIAGRAMS.md](diagrams/ARCHITECTURE-DIAGRAMS.md) |
-| API Complete | Every function, every param | [API-COMPLETE.md](reference/API-COMPLETE.md) |
+| API Complete | Every function, every param | [API-COMPLETE.md](reference/MASTER-API-REFERENCE.md) |
 | Developer Guide | Build custom commands | [DEVELOPER-GUIDE.md](guides/DEVELOPER-GUIDE.md) |
 | Contributing | Contribute to project | [CONTRIBUTING.md](contributing/CONTRIBUTING.md) |
 | Source Code | Read implementation | `/lib/` and `/commands/` |
@@ -395,7 +395,7 @@ To learn about a specific plugin:
 |---|---|---|
 | **Custom alias** | [Alias Management](guides/ALIAS-MANAGEMENT-WORKFLOW.md) | 30 min |
 | **Custom ZSH function** | [Developer Guide](guides/DEVELOPER-GUIDE.md) | 1 hr |
-| **Custom dispatcher** | [DISPATCHER-REFERENCE](reference/DISPATCHER-REFERENCE.md) → [Developer Guide](guides/DEVELOPER-GUIDE.md) | 2 hrs |
+| **Custom dispatcher** | [DISPATCHER-REFERENCE](reference/MASTER-DISPATCHER-GUIDE.md) → [Developer Guide](guides/DEVELOPER-GUIDE.md) | 2 hrs |
 | **Custom workflow** | Study existing workflow guides | 1-2 hrs |
 | **Plugin configuration** | [Plugin Management](guides/PLUGIN-MANAGEMENT-WORKFLOW.md) | 30 min |
 
@@ -415,7 +415,7 @@ To learn about a specific plugin:
 #### Build Custom Dispatcher (2 hrs)
 
 ```
-1. Understand: [All Dispatchers](reference/DISPATCHER-REFERENCE.md)
+1. Understand: [All Dispatchers](reference/MASTER-DISPATCHER-GUIDE.md)
 2. Pick one to study: e.g., [CC Dispatcher](reference/CC-DISPATCHER-REFERENCE.md)
 3. Learn code: [Developer Guide](guides/DEVELOPER-GUIDE.md)
 4. Study source: `lib/dispatchers/` in repo
@@ -528,8 +528,8 @@ START HERE
 
 | Problem | Solution | Resources |
 |---|---|---|
-| Command not found | Check quick reference | [Command Quick Reference](reference/COMMAND-QUICK-REFERENCE.md) |
-| Dispatcher not working | Read dispatcher ref | [All Dispatchers](reference/DISPATCHER-REFERENCE.md) |
+| Command not found | Check quick reference | [Command Quick Reference](help/QUICK-REFERENCE.md) |
+| Dispatcher not working | Read dispatcher ref | [All Dispatchers](reference/MASTER-DISPATCHER-GUIDE.md) |
 | Plugin not doing what I expect | Understand plugins | [Plugin Ecosystem Guide](guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md) |
 | Want to know what to learn next | Choose path | [Skill-Based Paths](tutorials/LEARNING-PATH-INDEX.md#skill-based-learning-paths) |
 | Need to see everything at once | Map view | [Complete Ecosystem Map](#complete-learning-ecosystem-map) |
@@ -574,7 +574,7 @@ Are you:
 If you can't find what you need:
 
 1. **Check:** [Plugin Ecosystem Guide](guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md) - Answers 80% of questions
-2. **Search:** [Command Quick Reference](reference/COMMAND-QUICK-REFERENCE.md) - Find any command
+2. **Search:** [Command Quick Reference](help/QUICK-REFERENCE.md) - Find any command
 3. **Browse:** [Tutorials Index](tutorials/index.md) - See all available tutorials
 4. **Ask:** [GitHub Issues](https://github.com/Data-Wise/flow-cli/issues) - Community help
 

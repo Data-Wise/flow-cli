@@ -20,9 +20,9 @@
 2. **6 Check Categories** (as specified in IMPLEMENTATION-INSTRUCTIONS.md)
    - ✅ Dependencies (Quarto, Git, yq, R packages, extensions)
    - ✅ Git setup (repository, remote, branches)
-   - ✅ Project config (teaching.yml, _quarto.yml, validation)
+   - ✅ Project config (teaching.yml, \_quarto.yml, validation)
    - ✅ Hook status (installed, version tracking)
-   - ✅ Cache health (_freeze/ size, last render time)
+   - ✅ Cache health (\_freeze/ size, last render time)
    - ✅ Scholar integration (Claude Code, skills, lesson plan)
 
 3. **Interactive Fix Mode** (`--fix`)
@@ -49,6 +49,7 @@
 **File:** `tests/test-teach-doctor-unit.zsh` (585 lines, 39 tests)
 
 **Test Coverage:**
+
 1. Helper Functions (6 tests)
 2. Dependency Checks (4 tests)
 3. R Package Checks (2 tests)
@@ -85,34 +86,40 @@
 ### 1. Comprehensive Health Checks
 
 **Dependencies:**
+
 - Required: yq, git, quarto, gh
 - Optional: examark, claude
 - R packages: ggplot2, dplyr, tidyr, knitr, rmarkdown
-- Quarto extensions: Auto-detected from _extensions/
+- Quarto extensions: Auto-detected from \_extensions/
 
 **Configuration:**
+
 - .flow/teach-config.yml validation
 - YAML syntax checking
 - Schema validation
 - Course metadata verification
 
 **Git Setup:**
+
 - Repository initialization
 - Branch detection (draft, main/production)
 - Remote configuration
 - Working tree status
 
 **Scholar Integration:**
+
 - Claude Code availability
 - Scholar skills accessibility
 - Lesson plan file detection
 
 **Git Hooks:**
+
 - pre-commit, pre-push, prepare-commit-msg
 - Version tracking (flow-cli managed vs custom)
 
 **Cache Health:**
-- _freeze/ directory size
+
+- \_freeze/ directory size
 - Last render time
 - Freshness analysis (fresh/recent/aging/stale)
 - File count statistics
@@ -120,12 +127,14 @@
 ### 2. Interactive Fix Mode
 
 **What it does:**
+
 - Detects missing dependencies
 - Prompts user: "Install X? [Y/n]"
 - Executes install commands
 - Verifies successful installation
 
 **Example:**
+
 ```
   ✗ yq not found
   → Install yq? [Y/n] y
@@ -134,6 +143,7 @@
 ```
 
 **Supported fixes:**
+
 - Homebrew packages (yq, quarto, gh)
 - NPM packages (examark)
 - R packages (via Rscript)
@@ -142,6 +152,7 @@
 ### 3. CI/CD Integration
 
 **JSON Output:**
+
 ```json
 {
   "summary": {
@@ -158,6 +169,7 @@
 ```
 
 **GitHub Actions Example:**
+
 ```yaml
 - name: Health Check
   run: |
@@ -171,6 +183,7 @@
 **Actual:** 2-5 seconds (depending on number of checks)
 
 **Optimizations:**
+
 - Minimal external command calls
 - Fast file system operations
 - Cached results within single run
@@ -182,28 +195,33 @@
 **From IMPLEMENTATION-INSTRUCTIONS.md (Week 4-5: Health Checks):**
 
 ✅ **Files created:**
+
 - `lib/doctor-helpers.zsh` - ✅ (Implemented in teach-doctor-impl.zsh)
 - `commands/teach-doctor.zsh` - ✅ (Integrated in teach dispatcher)
 
 ✅ **Health Checks:**
+
 - `teach doctor` - ✅ Full health check
 - `teach doctor --fix` - ✅ Interactive fix
 - `teach doctor --json` - ✅ JSON output for CI
 - `teach doctor --quiet` - ✅ Minimal output
 
 ✅ **Checks Performed:**
+
 1. ✅ Dependencies (Quarto, Git, yq, R packages, extensions)
 2. ✅ Git setup (repository, remote, branches)
-3. ✅ Project config (teaching.yml, _quarto.yml, freeze)
+3. ✅ Project config (teaching.yml, \_quarto.yml, freeze)
 4. ✅ Hook status (installed, version)
-5. ✅ Cache health (_freeze/ size, last render)
+5. ✅ Cache health (\_freeze/ size, last render)
 
 ✅ **Interactive Fix:**
+
 - ✅ Prompts user for installation
 - ✅ Executes install commands
 - ✅ Verifies installation
 
 ✅ **Testing:**
+
 - ✅ `tests/test-teach-doctor-unit.zsh` - Health checks
 - ✅ Mock missing dependencies
 - ✅ Test interactive fix prompts
@@ -337,17 +355,17 @@ fi
 
 ## Statistics
 
-| Metric | Value |
-|--------|-------|
-| **Total Lines of Code** | 1,715 |
-| **Implementation** | 620 lines |
-| **Tests** | 585 lines |
-| **Documentation** | 450+ lines |
-| **Demo Script** | 60 lines |
-| **Test Coverage** | 39/39 (100%) |
-| **Check Categories** | 6 |
-| **Helper Functions** | 11 |
-| **Performance** | <5 seconds |
+| Metric                  | Value        |
+| ----------------------- | ------------ |
+| **Total Lines of Code** | 1,715        |
+| **Implementation**      | 620 lines    |
+| **Tests**               | 585 lines    |
+| **Documentation**       | 450+ lines   |
+| **Demo Script**         | 60 lines     |
+| **Test Coverage**       | 39/39 (100%) |
+| **Check Categories**    | 6            |
+| **Helper Functions**    | 11           |
+| **Performance**         | <5 seconds   |
 
 ---
 

@@ -698,11 +698,11 @@ fi
 ## Related Documentation
 
 - [Teaching Workflow v2.0 Spec](SPEC-teaching-workflow-v2.md)
-- [TEACH Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE.md)
+- [TEACH Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)
 - [DOT Dispatcher Tutorial](../tutorials/12-dot-dispatcher.md)
-- [Architecture Reference](../reference/ARCHITECTURE.md)
+- [Architecture Reference](../reference/MASTER-ARCHITECTURE.md)
 - [Testing Guide](../guides/TESTING.md)
 
 ---
 
-**Implementation Complete:** v5.4.1 - See [TEACH Dispatcher Reference](../reference/TEACH-DISPATCHER-REFERENCE.md) for current documentation.
+**Implementation Complete:** v5.4.1 - See [TEACH Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) for current documentation.

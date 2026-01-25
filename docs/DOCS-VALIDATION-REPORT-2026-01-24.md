@@ -56,10 +56,10 @@
 
 | Old Link | New Link | Fix Type |
 |----------|----------|----------|
-| `reference/DOCTOR-TOKEN-API-REFERENCE.md` | `reference/.archive/DOCTOR-TOKEN-API-REFERENCE.md` | Archive path |
+| `reference/.archive/DOCTOR-TOKEN-API-REFERENCE.md` | `reference/.archive/DOCTOR-TOKEN-API-REFERENCE.md` | Archive path |
 | `reference/REFCARD-OPTIMIZATION.md` | `reference/.archive/REFCARD-OPTIMIZATION.md` | Archive path |
-| `reference/COMMAND-QUICK-REFERENCE.md` (line 232) | `help/QUICK-REFERENCE.md` | Consolidated doc |
-| `reference/COMMAND-QUICK-REFERENCE.md` (line 442) | `help/QUICK-REFERENCE.md` | Consolidated doc |
+| `help/QUICK-REFERENCE.md` (line 232) | `help/QUICK-REFERENCE.md` | Consolidated doc |
+| `help/QUICK-REFERENCE.md` (line 442) | `help/QUICK-REFERENCE.md` | Consolidated doc |
 
 **Impact:** Homepage now links to correct documentation resources
 
@@ -94,7 +94,7 @@ WARNING - Doc file 'bugs/BUG-FIX-ccy-alias-missing.md' contains a link
 **Archived reference links:**
 ```
 WARNING - Doc file 'architecture/DOCTOR-TOKEN-ARCHITECTURE.md' contains
-a link '../reference/DOCTOR-TOKEN-API-REFERENCE.md', but target is not found
+a link '../reference/.archive/DOCTOR-TOKEN-API-REFERENCE.md', but target is not found
 ```
 
 **Reason:** Files moved to `.archive/` during consolidation. Some internal docs still reference old locations.
