@@ -10,3 +10,4 @@ backups/
 node_modules
 site/
 .claude/settings.local.json
+tests/logs/
