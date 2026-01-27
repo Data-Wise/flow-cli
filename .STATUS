@@ -6,7 +6,7 @@
 ## Status: active
 ## Phase: v5.20.0-dev - Lesson Plan Extraction
 ## Priority: 1
-## Progress: 0
+## Progress: 90
 
 ## Focus: v5.20.0 Development - Lesson Plan Extraction (#298)
 
@@ -25,6 +25,44 @@
 ---
 
 ## ✅ Just Completed:
+
+### Lesson Plan Extraction Implementation (2026-01-27 Session 5)
+
+**Session Duration:** ~45 min (orchestrated)
+**Status:** ✅ COMMITTED - 4d21af75 pushed to feature branch
+**Impact:** Complete implementation of #298 with 28 tests
+
+**Orchestration (3 parallel agents):**
+- Agent 1: Migration Command → `commands/teach-migrate.zsh` (463 lines)
+- Agent 2: Loader Update → `lib/dispatchers/teach-dispatcher.zsh` (+85 lines)
+- Agent 3: Test Suite → `tests/test-lesson-plan-extraction.zsh` (28 tests)
+
+**Features Implemented:**
+- `teach migrate-config` command with --dry-run, --force, --no-backup flags
+- 3-tier loader priority: lesson-plans.yml → embedded weeks → error hint
+- Backward compatibility for non-migrated configs
+- Demo course fixture (STAT-101, 5 weeks)
+
+**Test Coverage (28 tests, 100% passing):**
+- Section 1: Migration Command (10 tests)
+- Section 2: Loader (8 tests)
+- Section 3: Integration (5 tests)
+- Section 4: Edge Cases (5 tests)
+
+**Files Changed (4 files, +1,640 lines):**
+- commands/teach-migrate.zsh (new, 463 lines)
+- lib/dispatchers/teach-dispatcher.zsh (+85 lines)
+- tests/fixtures/demo-course/.flow/teach-config.yml (new)
+- tests/test-lesson-plan-extraction.zsh (new, 920 lines)
+
+**Commits:**
+- 4d21af75 - feat(teach): add lesson plan extraction and migration (#298)
+
+**Next Steps:**
+- Create PR to dev branch
+- Update Scholar plugin (#299) to read new format
+
+---
 
 ### Config Consolidation Review & Planning (2026-01-27 Session 4)
 
