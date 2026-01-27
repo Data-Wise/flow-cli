@@ -11,6 +11,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Lesson Plan Extraction (#298)
+
+- **`teach migrate-config` command** - Extract embedded weeks from `teach-config.yml` to separate `lesson-plans.yml`
+  - `--dry-run` - Preview changes without modifying files
+  - `--force` - Skip confirmation prompt
+  - `--no-backup` - Don't create `.bak` backup file
+  - Creates backup automatically (`.flow/teach-config.yml.bak`)
+  - Clear progress output with week preview
+
+- **3-tier lesson plan loader** - Updated `_teach_load_lesson_plan()` with priority:
+  1. Primary: Read from `.flow/lesson-plans.yml` (new format)
+  2. Fallback: Read embedded weeks from `teach-config.yml` (with warning)
+  3. Error: Clear message with "Run: teach migrate-config" hint
+
+- **Backward compatibility** - Non-migrated configs still work with deprecation warning:
+  ```
+  ⚠️ Using embedded weeks in teach-config.yml
+     Consider migrating: teach migrate-config
+  ```
+
+- **Demo course fixture** - STAT-101 test course with 5 weeks for E2E testing
+
+- **28 tests** - Comprehensive test suite covering migration, loading, and edge cases
+
 ### Changed
 
 ### Fixed

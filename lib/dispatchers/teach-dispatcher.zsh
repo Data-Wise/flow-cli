@@ -107,6 +107,13 @@ if [[ -z "$_FLOW_HOOK_INSTALLER_LOADED" ]]; then
     typeset -g _FLOW_HOOK_INSTALLER_LOADED=1
 fi
 
+# Source teach-migrate command (v5.20.0 - Lesson Plan Extraction #298)
+if [[ -z "$_FLOW_TEACH_MIGRATE_LOADED" ]]; then
+    local migrate_path="${0:A:h:h}/../commands/teach-migrate.zsh"
+    [[ -f "$migrate_path" ]] && source "$migrate_path"
+    typeset -g _FLOW_TEACH_MIGRATE_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -483,14 +490,16 @@ _teach_build_content_instructions() {
 # LESSON PLAN INTEGRATION (Phase 3 - v5.13.0+)
 # ============================================================================
 
-# Load lesson plan from YAML file (Phase 3 - v5.13.0+)
+# Load lesson plan from YAML file (Phase 3 - v5.13.0+, updated v5.19.2)
 # Usage: _teach_load_lesson_plan <week_number>
 # Sets: TEACH_PLAN_TOPIC, TEACH_PLAN_STYLE, TEACH_PLAN_OBJECTIVES,
 #       TEACH_PLAN_SUBTOPICS, TEACH_PLAN_KEY_CONCEPTS, TEACH_PLAN_PREREQUISITES
 # Returns: 0 if loaded, 1 if not found or invalid
+# Priority: 1) lesson-plans.yml, 2) embedded weeks in teach-config.yml
 _teach_load_lesson_plan() {
     local week="$1"
-    local plan_file=".flow/lesson-plans/week-${week}.yml"
+    local plans_file=".flow/lesson-plans.yml"
+    local config_file=".flow/teach-config.yml"
 
     # Clear previous plan data
     typeset -g TEACH_PLAN_TOPIC=""
@@ -500,11 +509,6 @@ _teach_load_lesson_plan() {
     typeset -g TEACH_PLAN_KEY_CONCEPTS=""
     typeset -g TEACH_PLAN_PREREQUISITES=""
 
-    # Check if plan file exists
-    if [[ ! -f "$plan_file" ]]; then
-        return 1
-    fi
-
     # Check yq availability
     if ! command -v yq &>/dev/null; then
         _teach_warn "yq not available for lesson plan parsing" \
@@ -512,19 +516,91 @@ _teach_load_lesson_plan() {
         return 1
     fi
 
-    # Parse lesson plan fields
-    TEACH_PLAN_TOPIC=$(yq '.topic // ""' "$plan_file" 2>/dev/null)
-    TEACH_PLAN_STYLE=$(yq '.style // ""' "$plan_file" 2>/dev/null)
+    # 1. Primary: Check if lesson-plans.yml exists (preferred format)
+    if [[ -f "$plans_file" ]]; then
+        local week_data
+        week_data=$(yq ".weeks[] | select(.number == $week)" "$plans_file" 2>/dev/null)
 
-    # Parse array fields (objectives, subtopics, key_concepts, prerequisites)
-    TEACH_PLAN_OBJECTIVES=$(yq '.objectives[] // ""' "$plan_file" 2>/dev/null | paste -sd '|' -)
-    TEACH_PLAN_SUBTOPICS=$(yq '.subtopics[] // ""' "$plan_file" 2>/dev/null | paste -sd '|' -)
-    TEACH_PLAN_KEY_CONCEPTS=$(yq '.key_concepts[] // ""' "$plan_file" 2>/dev/null | paste -sd '|' -)
-    TEACH_PLAN_PREREQUISITES=$(yq '.prerequisites[] // ""' "$plan_file" 2>/dev/null | paste -sd '|' -)
+        if [[ -z "$week_data" ]]; then
+            _teach_error "Week $week not found in lesson-plans.yml"
+            return 1
+        fi
+
+        # Extract fields from week data
+        TEACH_PLAN_TOPIC=$(echo "$week_data" | yq '.topic // ""')
+        TEACH_PLAN_STYLE=$(echo "$week_data" | yq '.style // ""')
+        TEACH_PLAN_OBJECTIVES=$(echo "$week_data" | yq '.objectives[]' 2>/dev/null | paste -sd '|' -)
+        TEACH_PLAN_SUBTOPICS=$(echo "$week_data" | yq '.subtopics[]' 2>/dev/null | paste -sd '|' -)
+        TEACH_PLAN_KEY_CONCEPTS=$(echo "$week_data" | yq '.key_concepts[]' 2>/dev/null | paste -sd '|' -)
+        TEACH_PLAN_PREREQUISITES=$(echo "$week_data" | yq '.prerequisites[]' 2>/dev/null | paste -sd '|' -)
+
+        # Validate required fields
+        if [[ -z "$TEACH_PLAN_TOPIC" ]]; then
+            _teach_warn "Lesson plan missing required 'topic' field for week $week"
+            return 1
+        fi
+
+        return 0
+    fi
+
+    # 2. Fallback: Check for embedded weeks in teach-config.yml
+    if _teach_has_embedded_weeks; then
+        _teach_warn "Using embedded weeks in teach-config.yml" \
+            "Consider migrating: teach migrate-config"
+        return $(_teach_load_embedded_week "$week")
+    fi
+
+    # 3. Error: Neither exists
+    _teach_error "lesson-plans.yml not found" \
+        "Run: teach migrate-config"
+    return 1
+}
+
+# Check if teach-config.yml has embedded weeks (v5.19.2)
+# Usage: _teach_has_embedded_weeks
+# Returns: 0 if embedded weeks exist, 1 otherwise
+_teach_has_embedded_weeks() {
+    local config_file=".flow/teach-config.yml"
+
+    [[ -f "$config_file" ]] || return 1
+
+    # Check yq availability (caller should have checked, but be safe)
+    command -v yq &>/dev/null || return 1
+
+    # Check if semester_info.weeks exists and has items
+    local weeks_count
+    weeks_count=$(yq '.semester_info.weeks | length' "$config_file" 2>/dev/null)
+
+    [[ -n "$weeks_count" && "$weeks_count" -gt 0 ]]
+}
+
+# Load week from embedded teach-config.yml (backward compat, v5.19.2)
+# Usage: _teach_load_embedded_week <week_number>
+# Sets: TEACH_PLAN_* variables
+# Returns: 0 if loaded, 1 if not found
+_teach_load_embedded_week() {
+    local week="$1"
+    local config_file=".flow/teach-config.yml"
+
+    local week_data
+    week_data=$(yq ".semester_info.weeks[] | select(.number == $week)" "$config_file" 2>/dev/null)
+
+    if [[ -z "$week_data" ]]; then
+        _teach_error "Week $week not found in teach-config.yml"
+        return 1
+    fi
+
+    # Extract fields (same structure as lesson-plans.yml)
+    TEACH_PLAN_TOPIC=$(echo "$week_data" | yq '.topic // ""')
+    TEACH_PLAN_STYLE=$(echo "$week_data" | yq '.style // ""')
+    TEACH_PLAN_OBJECTIVES=$(echo "$week_data" | yq '.objectives[]' 2>/dev/null | paste -sd '|' -)
+    TEACH_PLAN_SUBTOPICS=$(echo "$week_data" | yq '.subtopics[]' 2>/dev/null | paste -sd '|' -)
+    TEACH_PLAN_KEY_CONCEPTS=$(echo "$week_data" | yq '.key_concepts[]' 2>/dev/null | paste -sd '|' -)
+    TEACH_PLAN_PREREQUISITES=$(echo "$week_data" | yq '.prerequisites[]' 2>/dev/null | paste -sd '|' -)
 
     # Validate required fields
     if [[ -z "$TEACH_PLAN_TOPIC" ]]; then
-        _teach_warn "Lesson plan missing required 'topic' field: $plan_file"
+        _teach_warn "Embedded week missing required 'topic' field for week $week"
         return 1
     fi
 
@@ -4540,6 +4616,8 @@ ${FLOW_COLORS[bold]}════════════════════
   ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]}                    Git hook management
     ${FLOW_COLORS[muted]}install | upgrade | status${FLOW_COLORS[reset]}  Hook operations
   ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]}                    Date management
+  ${FLOW_COLORS[cmd]}teach migrate-config${FLOW_COLORS[reset]}           Extract lesson plans
+    ${FLOW_COLORS[muted]}--dry-run${FLOW_COLORS[reset]}                   Preview changes only
 
 ${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
 ✍️ CONTENT CREATION (Scholar AI)
@@ -4757,6 +4835,14 @@ teach() {
         # Backup management (v5.14.0 - Task 5)
         backup|bk)
             _teach_backup_command "$@"
+            ;;
+
+        # Migration (v5.20.0 - Lesson Plan Extraction #298)
+        migrate-config|migrate)
+            case "$1" in
+                --help|-h|help) _teach_migrate_help; return 0 ;;
+                *) _teach_migrate_config "$@" ;;
+            esac
             ;;
 
         # Health check (v5.14.0 - Task 2)
