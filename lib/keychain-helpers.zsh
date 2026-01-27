@@ -213,12 +213,24 @@ _dot_kc_list() {
     local -a _expired_tokens=()
     local -a _expiring_tokens=()
 
+    # Separate active secrets from backups
+    local -a active_secrets=()
+    local -a backup_secrets=()
+    for secret in "${unique_secrets[@]}"; do
+        if [[ "$secret" == *"-backup-"* ]]; then
+            backup_secrets+=("$secret")
+        else
+            active_secrets+=("$secret")
+        fi
+    done
+
     echo ""
     echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
     echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔐 Secrets (Keychain)${FLOW_COLORS[reset]}                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
     echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
 
-    for secret in "${unique_secrets[@]}"; do
+    # Display active secrets first
+    for secret in "${active_secrets[@]}"; do
         # Get metadata from keychain in subshell to prevent debug output leaking passwords
         # The subshell isolates any shell tracing from exposing sensitive data
         local metadata=""
@@ -314,10 +326,39 @@ _dot_kc_list() {
         fi
     done
 
-    echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
-    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Total: ${#unique_secrets[@]} secret(s)${FLOW_COLORS[reset]}                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    # Show backup section if there are any
+    if [[ ${#backup_secrets[@]} -gt 0 ]]; then
+        echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}📋 Backups (from rotation)${FLOW_COLORS[reset]}                      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
 
-    # Show rotation hint if any tokens need attention
+        for backup in "${backup_secrets[@]}"; do
+            # Extract date from backup name (format: token-name-backup-YYYYMMDD)
+            local backup_date=""
+            if [[ "$backup" =~ -backup-([0-9]{8})$ ]]; then
+                local date_str="${match[1]}"
+                backup_date=$(date -j -f "%Y%m%d" "$date_str" "+%Y-%m-%d" 2>/dev/null)
+            fi
+
+            local name_col=$(printf "%-25s" "$backup")
+            if [[ -n "$backup_date" ]]; then
+                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  📋 ${FLOW_COLORS[muted]}${name_col}${FLOW_COLORS[reset]} ${backup_date}    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+            else
+                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  📋 ${FLOW_COLORS[muted]}${name_col}${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+            fi
+        done
+
+        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Cleanup old backups:${FLOW_COLORS[reset]}                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        for backup in "${backup_secrets[@]}"; do
+            echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret delete $backup${FLOW_COLORS[reset]}${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        done
+    fi
+
+    echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Total: ${#active_secrets[@]} active, ${#backup_secrets[@]} backup(s)${FLOW_COLORS[reset]}               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+
+    # Show hints if any active tokens need attention
     if [[ ${#_expired_tokens[@]} -gt 0 || ${#_expiring_tokens[@]} -gt 0 ]]; then
         echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
         if [[ ${#_expired_tokens[@]} -gt 0 ]]; then

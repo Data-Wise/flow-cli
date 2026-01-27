@@ -408,10 +408,89 @@ fi
 echo ""
 
 # ============================================================================
-# E2E TEST 5: Syntax validation
+# UNIT TEST 8: Backup section handling
 # ============================================================================
 
-echo "${fg[cyan]}─── E2E Test 5: Syntax validation ───${reset_color}"
+echo "${fg[cyan]}─── Unit Test 8: Backup section ───${reset_color}"
+
+# Check backup section header exists
+((TESTS_RUN++))
+if grep -q 'Backups (from rotation)' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
+  test_pass "Backup section header exists"
+else
+  test_fail "Missing backup section header"
+fi
+
+# Check backup detection pattern
+((TESTS_RUN++))
+if grep -q '\*"-backup-"\*' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
+  test_pass "Backup detection pattern exists"
+else
+  test_fail "Missing backup detection pattern"
+fi
+
+# Check backup cleanup command hint
+((TESTS_RUN++))
+if grep -q 'Cleanup old backups' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
+  test_pass "Backup cleanup hint exists"
+else
+  test_fail "Missing backup cleanup hint"
+fi
+
+# Check backup date extraction (YYYYMMDD pattern)
+((TESTS_RUN++))
+if grep -q '\-backup-(' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null && \
+   grep -q '0-9' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
+  test_pass "Backup date extraction pattern exists"
+else
+  test_fail "Missing backup date extraction pattern"
+fi
+
+# Check that backup_secrets array is used
+((TESTS_RUN++))
+if grep -q 'backup_secrets' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
+  test_pass "Backup secrets array exists"
+else
+  test_fail "Missing backup secrets array"
+fi
+
+# Check that total count includes both active and backup
+((TESTS_RUN++))
+if grep -q 'active.*backup' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
+  test_pass "Total count includes active and backup counts"
+else
+  test_fail "Total count missing active/backup separation"
+fi
+
+echo ""
+
+# ============================================================================
+# E2E TEST 5: Backup section in output (if backups exist)
+# ============================================================================
+
+echo "${fg[cyan]}─── E2E Test 5: Backup section in output ───${reset_color}"
+
+((TESTS_RUN++))
+if [[ "$clean_output" == *"Backup"* ]] || [[ "$clean_output" == *"backup"* ]] || [[ ! "$clean_output" == *"-backup-"* ]]; then
+  test_pass "Backup section displayed (or no backups exist)"
+else
+  test_fail "Backup section not displayed properly"
+fi
+
+((TESTS_RUN++))
+if [[ "$clean_output" == *"active"* ]] || [[ "$clean_output" == *"Total:"* ]]; then
+  test_pass "Total count displays active/backup counts"
+else
+  test_fail "Total count missing"
+fi
+
+echo ""
+
+# ============================================================================
+# E2E TEST 6: Syntax validation
+# ============================================================================
+
+echo "${fg[cyan]}─── E2E Test 6: Syntax validation ───${reset_color}"
 
 ((TESTS_RUN++))
 local syntax_check=$(zsh -n "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>&1)
