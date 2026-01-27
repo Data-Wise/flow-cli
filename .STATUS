@@ -12,6 +12,32 @@
 
 ## ✅ Just Completed:
 
+### Feature Request Review & Spec Creation (2026-01-27 Session 3)
+
+**Session Duration:** ~20 min
+**Status:** ✅ COMMITTED - 4e7a617f pushed to dev
+**Impact:** Reviewed GitHub issues, created implementation spec
+
+**Activities:**
+- Reviewed Issue #278 (`teach plan create`) - High priority, fixes broken UX
+- Reviewed Issue #275 (`teach dashboard`) - Medium priority, spec already approved
+- Analyzed current `teach-dispatcher.zsh` lesson plan infrastructure
+- Created `SPEC-teach-plan-create-2026-01-27.md` for Issue #278
+- Updated .STATUS with pending feature requests
+
+**Key Findings:**
+- #278: Low complexity (2-3h), lesson plan infrastructure already exists
+- #275: Medium complexity (8-12h), recommend MVP approach (4-5h)
+
+**Files Changed (2 files, +210 lines):**
+- docs/specs/SPEC-teach-plan-create-2026-01-27.md (new, 210 lines)
+- .STATUS (updated pending features)
+
+**Commits:**
+- 4e7a617f - docs: add teach plan create spec and update pending features
+
+---
+
 ### Backup Section & Secret List Enhancement (2026-01-27 Session 2)
 
 **Session Duration:** ~30 min
@@ -755,6 +781,7 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 **Last Updated:** 2026-01-25 07:00
 **Status:** v5.19.0 Released ✅ - Ready for v5.20.0
+## wins: --category docs reviewed feature requests #278 #275, created spec (2026-01-27)
 ## wins: --category code separate backup section in dot secret list (8 new tests) (2026-01-27)
 ## wins: --category fix token rotation bug fixes (4 bugs, 47 tests) (2026-01-27)
 ## wins: --category code enhanced dot secret list (box format, expiration display) (2026-01-27)
