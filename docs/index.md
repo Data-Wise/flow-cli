@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v5.18.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.18.0)
+[![Version](https://img.shields.io/badge/version-v5.19.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -22,9 +22,32 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ---
 
-## ✨ What's New in v5.18.0
+## ✨ What's New in v5.19.0
 
-!!! success "Documentation Consolidation & API Coverage Improvement"
+!!! success "Keychain-Default Backend - Zero Dependencies"
+    Token management now defaults to macOS Keychain with zero external dependencies. Bitwarden sync is optional via environment variable.
+
+### 🔐 Keychain-Default Backend (PR #295)
+
+**Major Changes:**
+- **Zero Bitwarden dependency** - Keychain-only by default (no CLI required)
+- **Backend abstraction** - 3 modes: `keychain` (default), `bitwarden`, `both` (legacy)
+- **Faster operations** - No unlock prompts, no cloud sync overhead
+- **Optional cloud sync** - Set `FLOW_SECRET_BACKEND=bitwarden` to enable
+- **67 comprehensive tests** - 100% passing (20 unit + 47 automated + interactive)
+
+**Performance:**
+- No Bitwarden unlock prompt (saves 2-5 seconds)
+- No cloud sync overhead (saves 1-3 seconds per operation)
+- Instant Keychain retrieval (< 50ms)
+
+**Migration:** Backward compatible - existing dual-storage users unaffected.
+
+---
+
+## 📚 Previous Release: v5.18.0
+
+!!! info "Documentation Consolidation & API Coverage Improvement"
     Simplified documentation structure (66 → 7 files) with comprehensive API coverage (+411% increase)
 
 ### 📚 Documentation Consolidation

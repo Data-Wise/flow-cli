@@ -17,6 +17,70 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.19.1] - 2026-01-27
+
+### Fixed
+
+#### Token Rotation Bug Fixes (Critical)
+
+- **Line continuation syntax** - Fixed inline comments after backslash breaking `security add-generic-password` command
+  - Was causing: `zsh: command not found: -s flow-cli-secrets`
+  - Root cause: ZSH treats `\` followed by comment as broken continuation
+- **User mismatch check** - Skip validation when old token was expired ("unknown")
+  - Was causing: "New token user doesn't match old token user (unknown)"
+  - Now allows rotation when old token couldn't be validated
+- **Token name mismatch** - Pass token name to wizard during rotation
+  - Was causing: Wizard asked for new name but rotation expected original
+  - Now pre-fills token name from rotation context
+- **Revocation message** - Show helpful message when old token user is unknown
+  - Was showing: "Find token for: unknown" (unhelpful)
+  - Now shows: "Look for any expired/old tokens" with guidance
+
+#### Security Fix
+
+- **Password leakage prevention** - Suppress debug output in `dot secret list`
+  - Was leaking: `kc_output=password: "ghp_..."` when shell tracing enabled
+  - Fixed with: `emulate -L zsh` + `setopt noxtrace noverbose` in subshells
+  - Passwords never appear in terminal output regardless of debug settings
+
+### Added
+
+#### Enhanced Secret List Display
+
+- **Box format output** - Clean, bordered display for `dot secret list`
+- **Type detection with icons**:
+  - 🐙 GitHub (classic PAT, fine-grained)
+  - 📦 npm tokens
+  - 🐍 PyPI tokens
+  - 🔑 Generic secrets
+- **Expiration status display**:
+  - ✓ OK (> 30 days)
+  - ○ Warning (≤ 30 days)
+  - ! Critical (≤ 7 days)
+  - ✗ Expired (< 0 days)
+- **Days remaining calculation** - Shows "Xd left" for each token
+- **Rotation hints** - Suggests `dot token rotate` for expiring tokens
+
+#### Backup Token Management
+
+- **Separate backup section** - Backups from rotation displayed separately
+- **Date extraction** - Shows backup creation date (from YYYYMMDD in name)
+- **Cleanup commands** - Copy-paste-ready delete commands for each backup
+- **Updated totals** - Footer shows "X active, Y backup(s)" count
+
+### Testing
+
+- **test-token-rotation-bugfixes.zsh** - 14 unit tests for bug fixes
+- **test-dot-secret-list.zsh** - 41 tests (33 original + 8 backup section)
+- **Total:** 55 new tests, all passing
+
+### Documentation
+
+- **SPEC-teach-plan-create-2026-01-27.md** - Spec for Issue #278 (`teach plan create`)
+- **Updated .STATUS** - Pending feature requests (#278, #275)
+
+---
+
 ## [5.19.0] - 2026-01-25
 
 ### Added

@@ -2534,10 +2534,16 @@ _dot_token_github() {
   read "?Expiration (days, 0=never) [90]: " expire_days
   [[ -z "$expire_days" ]] && expire_days=90
 
-  # Ask for token name
-  echo ""
-  read "?Token name [github-token]: " token_name
-  [[ -z "$token_name" ]] && token_name="github-token"
+  # Ask for token name (or use passed argument from _dot_token_rotate)
+  local token_name="$1"
+  if [[ -z "$token_name" ]]; then
+    echo ""
+    read "?Token name [github-token]: " token_name
+    [[ -z "$token_name" ]] && token_name="github-token"
+  else
+    echo ""
+    _flow_log_info "Using token name: $token_name"
+  fi
 
   # Build metadata (ENHANCED with github_user and expires_days)
   local expire_date=""
@@ -2619,14 +2625,15 @@ EOF
   # ─────────────────────────────────────────────────────────────────
 
   # Store in Keychain (if backend uses it - default)
+  # Args: -a account, -s service, -w password, -j JSON metadata, -U update if exists
   if _dot_secret_uses_keychain; then
     _flow_log_info "Storing in Keychain..."
     security add-generic-password \
-      -a "$token_name" \           # Account: token name (searchable)
-      -s "$_DOT_KEYCHAIN_SERVICE" \ # Service: flow-cli namespace
-      -w "$token_value" \           # Password: actual token (protected)
-      -j "$metadata" \              # JSON attrs: metadata (searchable)
-      -U 2>/dev/null               # Update if exists
+      -a "$token_name" \
+      -s "$_DOT_KEYCHAIN_SERVICE" \
+      -w "$token_value" \
+      -j "$metadata" \
+      -U 2>/dev/null
   fi
 
   echo ""
@@ -2819,8 +2826,8 @@ _dot_token_rotate() {
   echo "Use the SAME scopes as before for consistency."
   echo ""
 
-  # Call existing wizard
-  _dot_token_github
+  # Call existing wizard with token name to avoid name mismatch
+  _dot_token_github "$token_name"
 
   # Verify new token was created
   local new_token=$(dot secret "$token_name" 2>/dev/null)
@@ -2847,7 +2854,9 @@ _dot_token_rotate() {
     return 1
   fi
 
-  if [[ "$new_token_user" != "$old_token_user" ]]; then
+  # Only warn if old token was valid AND users don't match
+  # Skip check if old token was expired (user = "unknown")
+  if [[ "$old_token_user" != "unknown" && "$new_token_user" != "$old_token_user" ]]; then
     _flow_log_error "New token user ($new_token_user) doesn't match old token user ($old_token_user)"
     read -q "?Continue anyway? [y/n] " mismatch_continue
     echo ""
@@ -2856,6 +2865,8 @@ _dot_token_rotate() {
       dot secret delete "$backup_name" 2>/dev/null
       return 1
     fi
+  elif [[ "$old_token_user" == "unknown" ]]; then
+    _flow_log_info "Old token was expired - skipping user match check"
   fi
 
   _flow_log_success "New token validated for user: $new_token_user"
@@ -2865,8 +2876,12 @@ _dot_token_rotate() {
   echo ""
   echo "${FLOW_COLORS[warning]}Manual Step Required:${FLOW_COLORS[reset]}"
   echo "Visit: ${FLOW_COLORS[cmd]}https://github.com/settings/tokens${FLOW_COLORS[reset]}"
-  echo "Find token for: ${old_token_user}"
-  echo "Look for token created before today"
+  if [[ "$old_token_user" != "unknown" ]]; then
+    echo "Find token for: ${old_token_user}"
+    echo "Look for token created before today"
+  else
+    echo "Look for any expired/old tokens that are no longer needed"
+  fi
   echo "Click 'Revoke' to delete old token"
   echo ""
 

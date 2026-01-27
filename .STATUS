@@ -4,24 +4,119 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.19.0 Phase 1 Complete - Keychain-Default Backend ✅
+## Phase: v5.20.0-dev - Token UX Improvements
 ## Priority: 1
-## Progress: 100
+## Progress: 0
 
-## Focus: v5.19.0 Phase 1 Complete - Keychain as Default Backend ✅
+## Focus: v5.20.0 Development - Token UX Improvements
 
 ## ✅ Just Completed:
 
-### v5.19.0 Phase 1 - Keychain-Default Backend (2026-01-25)
+### Feature Request Review & Spec Creation (2026-01-27 Session 3)
 
-**Session Duration:** ~2 hours (release + review + merge)
-**Status:** ✅ COMPLETE - PR #295 merged to dev
-**PR:** https://github.com/Data-Wise/flow-cli/pull/295 (MERGED)
-**Impact:** Backend abstraction + optional Bitwarden + 67 tests
+**Session Duration:** ~20 min
+**Status:** ✅ COMMITTED - 4e7a617f pushed to dev
+**Impact:** Reviewed GitHub issues, created implementation spec
+
+**Activities:**
+- Reviewed Issue #278 (`teach plan create`) - High priority, fixes broken UX
+- Reviewed Issue #275 (`teach dashboard`) - Medium priority, spec already approved
+- Analyzed current `teach-dispatcher.zsh` lesson plan infrastructure
+- Created `SPEC-teach-plan-create-2026-01-27.md` for Issue #278
+- Updated .STATUS with pending feature requests
+
+**Key Findings:**
+- #278: Low complexity (2-3h), lesson plan infrastructure already exists
+- #275: Medium complexity (8-12h), recommend MVP approach (4-5h)
+
+**Files Changed (2 files, +210 lines):**
+- docs/specs/SPEC-teach-plan-create-2026-01-27.md (new, 210 lines)
+- .STATUS (updated pending features)
+
+**Commits:**
+- 4e7a617f - docs: add teach plan create spec and update pending features
+
+---
+
+### Backup Section & Secret List Enhancement (2026-01-27 Session 2)
+
+**Session Duration:** ~30 min
+**Status:** ✅ COMMITTED - 5bb2fc94 pushed to dev
+**Impact:** Separated backup tokens into dedicated section with cleanup commands
+
+**Features:**
+- **Separate backup section** - Backups (from rotation) now display in their own section
+- **Date extraction** - Shows backup creation date (extracted from YYYYMMDD in name)
+- **Cleanup commands** - Each backup shows copy-paste-ready delete command
+- **Updated totals** - Footer shows "X active, Y backup(s)" count
+
+**Tests (8 new):**
+- test-dot-secret-list.zsh expanded: 33 → 41 tests (+8 backup section tests)
+- All 55 tests passing (41 secret list + 14 rotation bugfixes)
+
+**Files Changed (2 files, +125 lines):**
+- lib/keychain-helpers.zsh (+47 lines) - Backup section display
+- tests/test-dot-secret-list.zsh (+83 lines) - Backup section tests
+
+**Commits:**
+1. fcab61d3 - fix(token): fix token rotation and enhance secret list display
+2. 1271124a - fix(security): suppress debug output leaking passwords
+3. 5bb2fc94 - feat(secrets): add separate backup section in dot secret list
+
+---
+
+### Token Rotation Bug Fixes & Secret List Enhancement (2026-01-27 Session 1)
+
+**Session Duration:** ~1 hour
+**Status:** ✅ COMMITTED - fcab61d3 pushed to dev
+**Impact:** Fixed critical token rotation bugs + enhanced secret list display
+
+**Bug Fixes (4):**
+1. **Line continuation syntax** - Fixed inline comments after `\` breaking `security` command
+2. **User mismatch check** - Skip validation when old token was expired ("unknown")
+3. **Token name mismatch** - Pass token name to wizard during rotation
+4. **Revocation message** - Show helpful message when old token user is unknown
+
+**Enhancements:**
+- Enhanced `dot secret list` with box format and metadata display
+- Type icons: 🐙 GitHub, 📦 npm, 🐍 PyPI, 🔑 other
+- Expiration status: ✓ ok, ○ warning (30d), ! critical (7d), ✗ expired
+- Days remaining count and rotation hints for expiring tokens
+- Shell option isolation (`emulate -L zsh`) to suppress debug output
+
+**Tests (47 new):**
+- test-token-rotation-bugfixes.zsh (14 tests) - All passing
+- test-dot-secret-list.zsh (33 tests) - All passing
+
+**Files Changed (4 files, +893 lines):**
+- lib/dispatchers/dot-dispatcher.zsh (+43 lines) - Bug fixes
+- lib/keychain-helpers.zsh (+153 lines) - Enhanced list display
+- tests/test-token-rotation-bugfixes.zsh (new, 14 tests)
+- tests/test-dot-secret-list.zsh (new, 33 tests)
+
+---
+
+### v5.19.0 Release - Keychain-Default Backend (2026-01-25)
+
+**Session Duration:** ~5 hours (review + merge + release + docs)
+**Status:** ✅ RELEASED - v5.19.0 live on GitHub
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.0
+**Impact:** Zero Bitwarden dependency + backend abstraction + 67 tests + performance gains
 
 **Session Accomplishments:**
 
-1. **v5.18.0 Release Completion**
+1. **v5.19.0 Release Process**
+   - Updated version to 5.19.0 (package.json, CLAUDE.md, flow.plugin.zsh, README.md)
+   - Added comprehensive CHANGELOG.md entry
+   - Created release PR #296 (dev → main)
+   - Resolved merge conflicts (25 files)
+   - Merged PR #296 to main (squash merge)
+   - Created git tag v5.19.0
+   - Published GitHub release with comprehensive notes
+   - Updated documentation site to v5.19.0
+   - Deployed to GitHub Pages
+
+2. **v5.18.0 Release Completion** (earlier in session)
    - Merged PR #294 (dev → main)
    - Created git tag v5.18.0
    - Published GitHub release with comprehensive notes
@@ -277,6 +372,41 @@ fi
 
 ## ✅ Recent Releases:
 
+### v5.19.0 - Keychain-Default Backend (2026-01-25)
+
+**Released:** 2026-01-25
+**PR #295:** https://github.com/Data-Wise/flow-cli/pull/295 (Implementation)
+**PR #296:** https://github.com/Data-Wise/flow-cli/pull/296 (Release PR)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.0
+**Documentation:** https://Data-Wise.github.io/flow-cli/
+
+**Major Features:**
+- Backend abstraction with 3 modes (keychain/bitwarden/both)
+- Keychain-only default (zero Bitwarden dependency)
+- Optional cloud sync via `FLOW_SECRET_BACKEND` environment variable
+- 67 comprehensive tests (100% passing: 20 unit + 47 automated + interactive)
+- Significant performance gains (no unlock prompts, no cloud sync overhead)
+
+**Implementation:**
+- 8 files changed (+2,136 lines)
+- lib/core.zsh - 3 backend abstraction functions (+103 lines)
+- lib/dispatchers/dot-dispatcher.zsh - Conditional Bitwarden checks (+543 lines)
+- lib/keychain-helpers.zsh - Backend awareness (+11 lines)
+- 3 comprehensive test suites (new, 67 tests total)
+- Spec document and reference card updates
+
+**Performance:**
+- No Bitwarden unlock prompt (saves 2-5 seconds)
+- No cloud sync overhead (saves 1-3 seconds per operation)
+- Instant Keychain retrieval (< 50ms)
+
+**Migration:**
+- Existing users: No action required - dual-storage mode continues to work
+- New users: Keychain-only by default - faster, simpler
+- Cloud sync users: Set `FLOW_SECRET_BACKEND=bitwarden` in ~/.zshrc
+
+---
+
 ### v5.18.0 - Documentation Consolidation & Bug Fixes (2026-01-24)
 
 **Released:** 2026-01-24
@@ -459,6 +589,20 @@ fi
 
 ## 📝 Pending:
 
+### Feature Request #278: `teach plan create` (High Priority)
+- **Status:** Spec created - `docs/specs/SPEC-teach-plan-create-2026-01-27.md`
+- **Issue:** https://github.com/Data-Wise/flow-cli/issues/278
+- **Effort:** 2-3 hours
+- **Why:** Fixes broken UX (hint message references non-existent command)
+- **Scope:** `teach plan create/list/show` - uses existing lesson plan infrastructure
+
+### Feature Request #275: `teach dashboard` (Medium Priority)
+- **Status:** Spec approved - `docs/specs/SPEC-teach-dashboard-2026-01-18.md`
+- **Issue:** https://github.com/Data-Wise/flow-cli/issues/275
+- **Effort:** 8-12 hours (recommend MVP: 4-5 hours)
+- **Why:** Eliminates weekly manual dashboard updates for Quarto sites
+- **Scope:** Generate `semester-data.json` from `teach-config.yml`
+
 ### SPEC-teach-prompt-command (Paused)
 - ⏸️ Needs Scholar plugin coordination
 
@@ -484,7 +628,11 @@ fi
 - v5.15.1 (2026-01-21): Architecture docs, V-dispatcher reference, coverage report
 - v5.15.0 (2026-01-21): Comprehensive Help System (18 functions, 3 guides)
 
-**Future (v5.18.0+):**
+**Future (v5.20.0+):**
+- **Token UX Improvements (v5.20.0):**
+  - Token backup before rotation with configurable retention
+  - Interactive token selection for rotation (`dot token rotate` picker)
+  - Notification when tokens are about to expire (shell prompt integration)
 - Config→concept graph integration (Phase 1)
 - teach analyze AI improvements
 - GitHub token automation Phases 2-4 (deferred)
@@ -631,10 +779,16 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-25 06:40
-**Status:** v5.19.0 Phase 1 Complete - Keychain-Default Backend ✅
-## wins: --category code v5.19.0 Phase 1 complete (backend abstraction + 67 tests) (2026-01-25)
+**Last Updated:** 2026-01-25 07:00
+**Status:** v5.19.0 Released ✅ - Ready for v5.20.0
+## wins: --category docs reviewed feature requests #278 #275, created spec (2026-01-27)
+## wins: --category code separate backup section in dot secret list (8 new tests) (2026-01-27)
+## wins: --category fix token rotation bug fixes (4 bugs, 47 tests) (2026-01-27)
+## wins: --category code enhanced dot secret list (box format, expiration display) (2026-01-27)
+## wins: --category ship v5.19.0 released (Keychain-default backend, zero dependencies) (2026-01-25)
+## wins: --category code backend abstraction complete (3 modes + 67 tests passing) (2026-01-25)
 ## wins: --category review comprehensive PR #295 review (5/5 stars, 2,136 lines) (2026-01-25)
+## wins: --category fix resolved 25 merge conflicts for release (2026-01-25)
 ## wins: --category fix fixed 196 mkdocs warnings (documentation health check) (2026-01-25)
 ## wins: --category ship v5.18.0 released with documentation consolidation (2026-01-25)
 ## wins: --category fix tutorial auto-launch and path resolution bugs fixed (2026-01-25)
@@ -643,5 +797,5 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 ## wins: --category docs documented 83 functions (Phases 1-4, +411% coverage) (2026-01-24)
 ## wins: --category docs fixed 54 critical broken links across hub files (2026-01-24)
 ## wins: --category ship deployed v5.18.0-dev to GitHub Pages (2026-01-24)
-## streak: 2
-## last_active: 2026-01-25
+## streak: 3
+## last_active: 2026-01-27
