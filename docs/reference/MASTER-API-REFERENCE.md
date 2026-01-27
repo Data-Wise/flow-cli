@@ -3,8 +3,8 @@
 **Purpose:** Complete API documentation for all flow-cli library functions
 **Audience:** Developers, contributors, advanced users
 **Format:** Function signatures, parameters, return values, examples
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v5.19.1-dev
+**Last Updated:** 2026-01-27
 
 ---
 
@@ -14,8 +14,8 @@ This document provides complete API documentation for all flow-cli library funct
 
 ### Coverage Status
 
-**Total Functions:** 853
-**Documented:** 421 (49.4%)
+**Total Functions:** 716
+**Documented:** 178 (24.9%)
 **Auto-Generated:** Will be updated by `scripts/generate-api-docs.sh`
 
 ### Library Organization
@@ -33,12 +33,16 @@ lib/
 ├── config-validator.zsh        # Config validation (15+ functions)
 ├── git-helpers.zsh             # Git integration (30+ functions)
 ├── doctor-cache.zsh            # Token validation caching (13 functions)
-├── concept-extraction.zsh      # Teaching: YAML parsing (25+ functions)
-├── prerequisite-checker.zsh    # Teaching: DAG validation (20+ functions)
-├── analysis-cache.zsh          # Teaching: Cache management (40+ functions)
-├── report-generator.zsh        # Teaching: Report generation (30+ functions)
-├── ai-analysis.zsh             # Teaching: Claude integration (15+ functions)
-├── slide-optimizer.zsh         # Teaching: Slide breaks (20+ functions)
+├── concept-extraction.zsh      # Teaching: YAML parsing (7 functions)
+├── prerequisite-checker.zsh    # Teaching: DAG validation (7 functions)
+├── analysis-cache.zsh          # Teaching: Cache management (18 functions)
+├── cache-analysis.zsh          # Teaching: Cache statistics (6 functions)
+├── analysis-display.zsh        # Teaching: Display layer (8 functions)
+├── report-generator.zsh        # Teaching: Report generation (11 functions)
+├── ai-analysis.zsh             # Teaching: Claude integration (8 functions)
+├── ai-recipes.zsh              # Teaching: AI prompt templates (11 functions)
+├── ai-usage.zsh                # Teaching: AI usage tracking (9 functions)
+├── slide-optimizer.zsh         # Teaching: Slide breaks (8 functions)
 └── dispatchers/                # 12 dispatcher modules (478+ functions)
     ├── g-dispatcher.zsh
     ├── cc-dispatcher.zsh
@@ -2708,15 +2712,19 @@ DOCTOR_CACHE_DIR="$HOME/.flow/cache/doctor"
 ## Teaching Libraries
 
 **Files:**
-- `lib/concept-extraction.zsh` - YAML frontmatter parsing (13 functions)
-- `lib/prerequisite-checker.zsh` - DAG validation (20+ functions)
-- `lib/analysis-cache.zsh` - SHA-256 cache with flock (40+ functions)
-- `lib/report-generator.zsh` - Markdown/JSON reports (30+ functions)
-- `lib/ai-analysis.zsh` - Claude CLI integration (15+ functions)
-- `lib/slide-optimizer.zsh` - Heuristic slide breaks (20+ functions)
+- `lib/concept-extraction.zsh` - YAML frontmatter parsing (7 functions)
+- `lib/prerequisite-checker.zsh` - DAG validation (7 functions)
+- `lib/analysis-cache.zsh` - SHA-256 cache with flock (18 functions)
+- `lib/cache-analysis.zsh` - Cache statistics and reporting (6 functions)
+- `lib/analysis-display.zsh` - Display layer formatting (8 functions)
+- `lib/report-generator.zsh` - Markdown/JSON reports (11 functions)
+- `lib/ai-analysis.zsh` - Claude CLI integration (8 functions)
+- `lib/ai-recipes.zsh` - AI prompt templates (11 functions)
+- `lib/ai-usage.zsh` - AI usage tracking (9 functions)
+- `lib/slide-optimizer.zsh` - Heuristic slide breaks (8 functions)
 
 **Purpose:** AI-powered teaching workflow (v5.16.0+)
-**Total Functions:** 150+
+**Total Functions:** 93 documented
 **System:** `teach analyze` command infrastructure
 
 ### Overview
@@ -4098,6 +4106,650 @@ echo "$suggestions" | jq '.suggestions[]'
 ---
 
 **Complete API:** See archived TEACH-ANALYZE-API-REFERENCE.md for all 8 functions including visualization, export, and integration with `teach analyze --optimize`
+
+---
+
+### lib/cache-analysis.zsh
+
+**Functions:** 6
+**Purpose:** Cache analysis, statistics, and optimization recommendations
+
+#### `_analyze_cache_size`
+
+Analyze total cache size and file count.
+
+**Signature:**
+```zsh
+_analyze_cache_size [cache_dir]
+```
+
+**Parameters:**
+- `$1` - (optional) Cache directory path [default: `"_freeze/site"`]
+
+**Returns:**
+- 0 - Analysis successful
+- 1 - Cache directory doesn't exist
+
+**Output:**
+- stdout - Colon-separated string: `"size_bytes:file_count:size_human"`
+
+**Example:**
+```zsh
+info=$(_analyze_cache_size "_freeze/site")
+size_bytes=$(echo "$info" | cut -d: -f1)
+file_count=$(echo "$info" | cut -d: -f2)
+size_human=$(echo "$info" | cut -d: -f3)
+echo "Cache: $size_human ($file_count files)"
+```
+
+---
+
+#### `_analyze_cache_by_directory`
+
+Break down cache size by subdirectory.
+
+**Signature:**
+```zsh
+_analyze_cache_by_directory [cache_dir]
+```
+
+**Parameters:**
+- `$1` - (optional) Cache directory path [default: `"_freeze/site"`]
+
+**Returns:**
+- 0 - Analysis successful
+- 1 - Cache directory doesn't exist
+
+**Output:**
+- stdout - Multi-line, colon-separated: `dir_name:size_bytes:size_human:file_count:percentage`
+
+**Example:**
+```zsh
+_analyze_cache_by_directory "_freeze/site" | while IFS=: read -r name bytes human count pct; do
+    echo "$name: $human ($pct%)"
+done
+```
+
+---
+
+#### `_analyze_cache_by_age`
+
+Break down cache by file age (< 7 days, 7-30 days, > 30 days).
+
+**Signature:**
+```zsh
+_analyze_cache_by_age [cache_dir]
+```
+
+**Parameters:**
+- `$1` - (optional) Cache directory path [default: `"_freeze/site"`]
+
+**Returns:**
+- 0 - Analysis successful
+- 1 - Cache directory doesn't exist
+
+**Output:**
+- stdout - Multi-line, colon-separated: `label:size_bytes:size_human:count:percentage`
+
+**Example:**
+```zsh
+_analyze_cache_by_age "_freeze/site"
+# < 7 days:1234567:1.2MB:45:60
+# 7-30 days:567890:554KB:20:30
+# > 30 days:123456:121KB:10:10
+```
+
+---
+
+#### `_calculate_cache_hit_rate`
+
+Calculate cache hit rate from performance log data.
+
+**Signature:**
+```zsh
+_calculate_cache_hit_rate [perf_log] [days]
+```
+
+**Parameters:**
+- `$1` - (optional) Performance log path [default: `".teach/performance-log.json"`]
+- `$2` - (optional) Number of days to analyze [default: `7`]
+
+**Returns:**
+- 0 - Calculation successful
+- 1 - Log doesn't exist or jq not available
+
+**Output:**
+- stdout - Colon-separated: `"hit_rate:hits:misses:avg_hit_time:avg_miss_time"`
+
+**Example:**
+```zsh
+data=$(_calculate_cache_hit_rate ".teach/performance-log.json" 30)
+hit_rate=$(echo "$data" | cut -d: -f1)
+echo "Cache hit rate: ${hit_rate}%"
+```
+
+---
+
+#### `_generate_cache_recommendations`
+
+Generate actionable cache optimization recommendations.
+
+**Signature:**
+```zsh
+_generate_cache_recommendations [cache_dir] [perf_log]
+```
+
+**Parameters:**
+- `$1` - (optional) Cache directory path
+- `$2` - (optional) Performance log path
+
+**Returns:**
+- 0 - Always
+
+**Output:**
+- stdout - Bulleted list of recommendations
+
+**Example:**
+```zsh
+_generate_cache_recommendations "_freeze/site" ".teach/performance-log.json"
+# • Clear > 30 days: Save 121KB (10 files)
+# • Hit rate < 80%: Consider cache rebuild
+```
+
+---
+
+#### `_format_cache_report`
+
+Generate formatted cache analysis report with multiple sections.
+
+**Signature:**
+```zsh
+_format_cache_report [cache_dir] [perf_log] [--recommend]
+```
+
+**Parameters:**
+- `$1` - (optional) Cache directory path
+- `$2` - (optional) Performance log path
+- `--recommend` - Include optimization recommendations
+
+**Returns:**
+- 0 - Report generated successfully
+- 1 - Cache doesn't exist
+
+**Output:**
+- stdout - Formatted report with total stats, directory breakdown, age breakdown, performance, and recommendations
+
+---
+
+### lib/analysis-display.zsh
+
+**Functions:** 8
+**Purpose:** Display layer for teach analyze output formatting
+
+#### `_display_analysis_header`
+
+Display formatted header with title and subtitle.
+
+**Signature:**
+```zsh
+_display_analysis_header <title> <subtitle>
+```
+
+**Parameters:**
+- `$1` - (required) Header title
+- `$2` - (required) Header subtitle
+
+**Output:**
+- stdout - Formatted header with box drawing characters
+
+**Example:**
+```zsh
+_display_analysis_header "Analysis Results" "Week 05 Lecture"
+# ┌──────────────────────────────────────────────────────┐
+# │   Analysis Results                                   │
+# │   Week 05 Lecture                                    │
+# └──────────────────────────────────────────────────────┘
+```
+
+---
+
+#### `_display_concepts_section`
+
+Display extracted concepts in formatted table.
+
+**Signature:**
+```zsh
+_display_concepts_section <results_file>
+```
+
+**Parameters:**
+- `$1` - (required) Path to analysis results JSON file
+
+**Output:**
+- stdout - Formatted table with concept names and introduction weeks
+
+---
+
+#### `_display_prerequisites_section`
+
+Display prerequisite validation with dependency tree visualization.
+
+**Signature:**
+```zsh
+_display_prerequisites_section <results_file> <analyzed_file>
+```
+
+**Parameters:**
+- `$1` - (required) Path to analysis results JSON file
+- `$2` - (required) Path to file being analyzed
+
+**Output:**
+- stdout - Formatted prerequisite tree with validation status
+
+**Status Indicators:**
+- `✓ Green` - Valid prerequisite
+- `✗ Red` - Missing prerequisite
+- `⚠ Yellow` - Future week prerequisite
+
+---
+
+#### `_display_violations_section`
+
+Display constraint violations detected during analysis.
+
+**Signature:**
+```zsh
+_display_violations_section <results_file>
+```
+
+**Parameters:**
+- `$1` - (required) Path to analysis results file
+
+**Output:**
+- stdout - Warning header and bullet list of violations (if any)
+
+---
+
+#### `_display_ai_section`
+
+Display AI-powered analysis results including Bloom levels and cognitive load.
+
+**Signature:**
+```zsh
+_display_ai_section <results_file>
+```
+
+**Parameters:**
+- `$1` - (required) Path to analysis results JSON file (with AI data)
+
+**Output:**
+- stdout - Formatted table with Bloom levels, cognitive load, and teaching times
+
+**Color Coding:**
+- Cognitive load 0.0-0.4: Green (✓)
+- Cognitive load 0.4-0.7: Yellow (⚠)
+- Cognitive load > 0.7: Red (✗)
+
+---
+
+#### `_display_slide_section`
+
+Display slide optimization results including break suggestions.
+
+**Signature:**
+```zsh
+_display_slide_section <slide_data>
+```
+
+**Parameters:**
+- `$1` - (required) Slide optimization JSON data
+
+**Output:**
+- stdout - Formatted table with metrics and suggestions
+
+---
+
+#### `_display_summary_section`
+
+Display final summary with status and next steps.
+
+**Signature:**
+```zsh
+_display_summary_section <results_file> <exit_code>
+```
+
+**Parameters:**
+- `$1` - (required) Path to analysis results file
+- `$2` - (required) Exit code (0 = success, non-zero = issues)
+
+**Output:**
+- stdout - Formatted summary with status box, issue count, and next steps
+
+---
+
+### lib/ai-recipes.zsh
+
+**Functions:** 11
+**Purpose:** AI prompt templates and recipe system for teaching workflows
+
+#### `_flow_ai_recipe_explain`
+
+Generate explanation of code or concept using Claude.
+
+**Signature:**
+```zsh
+_flow_ai_recipe_explain <content> [--verbose]
+```
+
+**Parameters:**
+- `$1` - (required) Code or concept to explain
+- `--verbose` - Include detailed breakdown
+
+**Returns:**
+- 0 - Success
+- 1 - AI error
+
+**Output:**
+- stdout - Explanation text
+
+---
+
+#### `_flow_ai_recipe_review`
+
+Review code for issues, improvements, and best practices.
+
+**Signature:**
+```zsh
+_flow_ai_recipe_review <code> [--focus AREA]
+```
+
+**Parameters:**
+- `$1` - (required) Code to review
+- `--focus` - Focus area: security, performance, readability, all
+
+**Returns:**
+- 0 - Success
+- 1 - AI error
+
+**Output:**
+- stdout - Review feedback with suggestions
+
+---
+
+#### `_flow_ai_recipe_test`
+
+Generate test cases for code.
+
+**Signature:**
+```zsh
+_flow_ai_recipe_test <code> [--framework FRAMEWORK]
+```
+
+**Parameters:**
+- `$1` - (required) Code to generate tests for
+- `--framework` - Test framework: testthat, pytest, jest
+
+**Returns:**
+- 0 - Success
+- 1 - AI error
+
+**Output:**
+- stdout - Generated test code
+
+---
+
+#### `_flow_ai_recipe_document`
+
+Generate documentation for code.
+
+**Signature:**
+```zsh
+_flow_ai_recipe_document <code> [--format FORMAT]
+```
+
+**Parameters:**
+- `$1` - (required) Code to document
+- `--format` - Documentation format: roxygen, docstring, jsdoc
+
+**Returns:**
+- 0 - Success
+- 1 - AI error
+
+**Output:**
+- stdout - Generated documentation
+
+---
+
+#### `_flow_ai_recipe_fix`
+
+Suggest fixes for code issues or errors.
+
+**Signature:**
+```zsh
+_flow_ai_recipe_fix <code> <error_message>
+```
+
+**Parameters:**
+- `$1` - (required) Code with issue
+- `$2` - (required) Error message or description
+
+**Returns:**
+- 0 - Success
+- 1 - AI error
+
+**Output:**
+- stdout - Fixed code with explanation
+
+---
+
+#### `_flow_ai_recipe_commit`
+
+Generate commit message for staged changes.
+
+**Signature:**
+```zsh
+_flow_ai_recipe_commit [--conventional]
+```
+
+**Parameters:**
+- `--conventional` - Use conventional commit format
+
+**Returns:**
+- 0 - Success
+- 1 - No changes or AI error
+
+**Output:**
+- stdout - Generated commit message
+
+---
+
+#### `_flow_ai_recipe_list`
+
+List all available AI recipes.
+
+**Signature:**
+```zsh
+_flow_ai_recipe_list
+```
+
+**Returns:**
+- 0 - Always
+
+**Output:**
+- stdout - Formatted list of recipes with descriptions
+
+---
+
+#### `_flow_ai_recipe`
+
+Main entry point for AI recipe execution.
+
+**Signature:**
+```zsh
+_flow_ai_recipe <recipe_name> [args...]
+```
+
+**Parameters:**
+- `$1` - (required) Recipe name: explain, review, test, document, fix, commit
+- `$@` - Additional arguments passed to recipe
+
+**Returns:**
+- 0 - Recipe executed successfully
+- 1 - Unknown recipe or error
+
+---
+
+### lib/ai-usage.zsh
+
+**Functions:** 9
+**Purpose:** AI command usage tracking and statistics
+
+#### `_flow_ai_log_usage`
+
+Log an AI command execution to usage tracking system.
+
+**Signature:**
+```zsh
+_flow_ai_log_usage <command> <mode> <success> <duration>
+```
+
+**Parameters:**
+- `$1` - (required) Command name: ai, do, recipe, chat
+- `$2` - (required) Mode: default, explain, fix, suggest, create, recipe:<name>
+- `$3` - (required) Success status: "true" or "false"
+- `$4` - (required) Duration in milliseconds
+
+**Returns:**
+- 0 - Always succeeds (best-effort logging)
+
+**Output:** None (writes to FLOW_AI_USAGE_FILE)
+
+**Example:**
+```zsh
+_flow_ai_log_usage "recipe" "recipe:review" "true" "1523"
+```
+
+---
+
+#### `_flow_ai_update_stats`
+
+Update aggregated usage statistics.
+
+**Signature:**
+```zsh
+_flow_ai_update_stats <command> <mode> <success>
+```
+
+**Parameters:**
+- `$1` - (required) Command name
+- `$2` - (required) Mode or recipe name
+- `$3` - (required) Success status
+
+**Returns:**
+- 0 - Stats updated successfully
+
+**Tracks:**
+- total_calls, successful, failed
+- commands.{cmd} - Count per command type
+- modes.{mode} - Count per mode
+- streak_days - Consecutive days of usage
+
+---
+
+#### `_flow_ai_get_stats`
+
+Retrieve raw aggregated statistics JSON.
+
+**Signature:**
+```zsh
+_flow_ai_get_stats
+```
+
+**Returns:**
+- 0 - Always succeeds
+
+**Output:**
+- stdout - JSON object with usage statistics or "{}" if no data
+
+---
+
+#### `flow_ai_stats`
+
+Display formatted AI usage statistics dashboard.
+
+**Signature:**
+```zsh
+flow_ai_stats
+```
+
+**Output:**
+- stdout - Formatted statistics dashboard with overview, top commands, top modes, top recipes
+
+---
+
+#### `flow_ai_suggest`
+
+Provide personalized AI suggestions based on usage.
+
+**Signature:**
+```zsh
+flow_ai_suggest
+```
+
+**Output:**
+- stdout - Personalized suggestions based on project type and usage patterns
+
+---
+
+#### `flow_ai_recent`
+
+Display recent AI command usage history.
+
+**Signature:**
+```zsh
+flow_ai_recent [limit]
+```
+
+**Parameters:**
+- `$1` - (optional) Number of entries to show [default: 10]
+
+**Output:**
+- stdout - List of recent commands with timestamps and status
+
+---
+
+#### `flow_ai_clear_history`
+
+Delete all AI usage tracking data.
+
+**Signature:**
+```zsh
+flow_ai_clear_history
+```
+
+**Returns:**
+- 0 - History cleared or user declined
+
+**Note:** Prompts for confirmation before deletion
+
+---
+
+#### `flow_ai_usage`
+
+Main entry point for AI usage tracking commands.
+
+**Signature:**
+```zsh
+flow_ai_usage [action] [args...]
+```
+
+**Parameters:**
+- `$1` - (optional) Action: stats, suggest, recent, clear, help [default: stats]
+- `$@` - Additional arguments passed to subcommand
+
+**Returns:**
+- 0 - Command executed successfully
+- 1 - Unknown action
 
 ---
 
