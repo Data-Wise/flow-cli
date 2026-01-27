@@ -114,6 +114,7 @@ teach <command> [args]
 | `status` | `s` | Show project status + git changes |
 | `week` | `w` | Show current week number |
 | `doctor` | `doc` | Health checks with auto-fix |
+| `migrate-config` | `mig` | Extract lesson plans from config (v5.20.0) |
 | `hooks` | `hk` | Git hook management |
 | `dates` | `d8` | Date management |
 | `validate` | `val` | Validate .qmd files |
@@ -380,6 +381,50 @@ teach week
 # 📅 Week 8
 #   Semester started: 2026-01-13
 #   Days elapsed: 52
+```
+
+### `teach migrate-config` (v5.20.0)
+
+Extract embedded lesson plans from `teach-config.yml` to separate `lesson-plans.yml`.
+
+```bash
+# Preview migration (no changes)
+teach migrate-config --dry-run
+
+# Run migration (creates backup)
+teach migrate-config
+
+# Skip confirmation prompt
+teach migrate-config --force
+
+# Don't create backup
+teach migrate-config --no-backup
+```
+
+**Before Migration:**
+```
+.flow/
+└── teach-config.yml    # 657 lines (course + 14 weeks embedded)
+```
+
+**After Migration:**
+```
+.flow/
+├── teach-config.yml      # ~50 lines (course meta + reference)
+├── teach-config.yml.bak  # Backup of original
+└── lesson-plans.yml      # ~600 lines (all weeks extracted)
+```
+
+**Flags:**
+- `--dry-run` - Preview changes without modifying files
+- `--force` - Skip confirmation prompt
+- `--no-backup` - Don't create `.bak` backup file
+- `-h`, `--help` - Show help
+
+**Rollback:**
+```bash
+cp .flow/teach-config.yml.bak .flow/teach-config.yml
+rm .flow/lesson-plans.yml
 ```
 
 ### `teach config`

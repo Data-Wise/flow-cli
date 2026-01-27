@@ -1656,6 +1656,42 @@ curl -I https://username.github.io/stat-440/
 
 ---
 
+#### Configuration Migration (v5.20.0)
+
+**Extract lesson plans to separate file:**
+```bash
+# Preview what will be migrated
+teach migrate-config --dry-run
+
+# Run migration (creates backup)
+teach migrate-config
+
+# Force overwrite existing lesson-plans.yml
+teach migrate-config --force
+```
+
+**Before migration:**
+```
+.flow/
+└── teach-config.yml    # 657 lines (course + 14 weeks)
+```
+
+**After migration:**
+```
+.flow/
+├── teach-config.yml      # ~50 lines (course meta)
+├── teach-config.yml.bak  # Backup
+└── lesson-plans.yml      # ~600 lines (weeks)
+```
+
+**Rollback if needed:**
+```bash
+cp .flow/teach-config.yml.bak .flow/teach-config.yml
+rm .flow/lesson-plans.yml
+```
+
+---
+
 #### Integration with Quarto
 
 **Render specific lecture:**
@@ -1702,6 +1738,12 @@ qu preview
 
 **Deployment:**
 - `teach deploy` - Deploy to GitHub Pages
+
+**Migration (v5.20.0):**
+- `teach migrate-config` - Extract lesson plans from config
+- `teach migrate-config --dry-run` - Preview migration
+- `teach migrate-config --force` - Skip confirmation
+- `teach migrate-config --no-backup` - Don't create backup
 
 **Help:**
 - `teach help` - Show help
