@@ -1,0 +1,122 @@
+# STAT-101: Introduction to Statistics
+# Course Configuration for Testing Migration
+# This file contains embedded weeks for migration testing
+
+course:
+  name: "STAT-101"
+  full_name: "STAT 101 - Introduction to Statistics"
+  semester: "fall"
+  year: 2026
+  credits: 3
+  instructor: "Test Instructor"
+  description: "A first course in statistics covering descriptive statistics, probability, and inference."
+
+locations:
+  lectures: "lectures"
+  concepts: ".teach/concepts.json"
+  slides_output: "_site/slides"
+
+settings:
+  default_style: "conceptual"
+  enable_ai_analysis: true
+  cache_enabled: true
+
+semester_info:
+  start_date: "2026-08-26"
+  end_date: "2026-12-15"
+  break_weeks: [10]  # Thanksgiving break
+
+  weeks:
+    - number: 1
+      topic: "Introduction to Statistics"
+      style: "conceptual"
+      date: "2026-08-26"
+      objectives:
+        - "Define and calculate descriptive statistics (mean, median, mode)"
+        - "Distinguish between different data types (categorical, numerical)"
+        - "Understand basic distribution properties"
+      subtopics:
+        - "Measures of central tendency"
+        - "Categorical vs numerical data"
+        - "Distribution shapes"
+      key_concepts:
+        - "descriptive-stats"
+        - "data-types"
+        - "distributions"
+      prerequisites: []
+
+    - number: 2
+      topic: "Probability and Inference"
+      style: "computational"
+      date: "2026-09-02"
+      objectives:
+        - "Calculate basic probabilities"
+        - "Apply different sampling methods"
+        - "Understand the principles of statistical inference"
+      subtopics:
+        - "Probability rules"
+        - "Sampling methods"
+        - "Point estimation and confidence intervals"
+      key_concepts:
+        - "probability-basics"
+        - "sampling"
+        - "inference"
+      prerequisites:
+        - "Week 1: Introduction to Statistics"
+
+    - number: 3
+      topic: "Correlation and Regression"
+      style: "rigorous"
+      date: "2026-09-09"
+      objectives:
+        - "Calculate and interpret correlation coefficients"
+        - "Fit and interpret linear regression models"
+        - "Assess model assumptions"
+      subtopics:
+        - "Correlation vs causation"
+        - "Simple linear regression"
+        - "Model diagnostics"
+      key_concepts:
+        - "correlation"
+        - "regression"
+        - "residuals"
+      prerequisites:
+        - "Week 2: Probability and Inference"
+
+    - number: 4
+      topic: "Hypothesis Testing"
+      style: "applied"
+      date: "2026-09-16"
+      objectives:
+        - "Formulate null and alternative hypotheses"
+        - "Conduct t-tests and chi-square tests"
+        - "Interpret p-values correctly"
+      subtopics:
+        - "Type I and II errors"
+        - "One-sample and two-sample tests"
+        - "P-value interpretation"
+      key_concepts:
+        - "hypothesis"
+        - "t-test"
+        - "p-value"
+      prerequisites:
+        - "Week 2: Probability and Inference"
+        - "Week 3: Correlation and Regression"
+
+    - number: 5
+      topic: "Course Review and Applications"
+      style: "applied"
+      date: "2026-09-23"
+      objectives:
+        - "Apply statistical concepts to real-world problems"
+        - "Choose appropriate statistical tests"
+        - "Communicate statistical findings effectively"
+      subtopics:
+        - "Case studies"
+        - "Statistical communication"
+        - "Review exercises"
+      key_concepts:
+        - "statistical-thinking"
+        - "communication"
+      prerequisites:
+        - "Week 4: Hypothesis Testing"
