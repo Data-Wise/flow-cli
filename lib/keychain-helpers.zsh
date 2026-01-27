@@ -153,10 +153,11 @@ _dot_kc_get() {
 #   - Does NOT show secret values, only names
 # =============================================================================
 _dot_kc_list() {
-    _flow_log_info "Secrets in Keychain (flow-cli):"
+    # Reset shell options to defaults (suppress debug, protect passwords)
+    emulate -L zsh
+    setopt noxtrace noverbose
 
     # Extract secrets with our service from keychain
-    # Use grep to find service blocks, then extract account names
     local dump_file
     dump_file=$(mktemp)
     security dump-keychain > "$dump_file" 2>/dev/null
@@ -169,8 +170,6 @@ _dot_kc_list() {
     svc_lines=$(grep -n "\"svce\"<blob>=\"$_DOT_KEYCHAIN_SERVICE\"" "$dump_file" 2>/dev/null | cut -d: -f1)
 
     for line_num in ${(f)svc_lines}; do
-        # Look backwards from service line to find the account name
-        # Account line appears before service line in the same entry
         local start_line=$((line_num - 20))
         [[ $start_line -lt 1 ]] && start_line=1
 
@@ -190,15 +189,145 @@ _dot_kc_list() {
 
     rm -f "$dump_file"
 
-    # Print unique secrets
-    if [[ "$found_any" == true ]]; then
-        for secret in "${(u)secrets[@]}"; do
-            echo "  • $secret"
-        done
-    else
-        _flow_log_muted "  (no secrets stored)"
-        _flow_log_info "Add one with: ${FLOW_COLORS[cmd]}dot secret add <name>${FLOW_COLORS[reset]}"
+    if [[ "$found_any" != true ]]; then
+        echo ""
+        echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔐 Secrets (Keychain)${FLOW_COLORS[reset]}                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}(no secrets stored)${FLOW_COLORS[reset]}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Add one: ${FLOW_COLORS[cmd]}dot secret add <name>${FLOW_COLORS[reset]}                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+        return 0
     fi
+
+    # Get unique secrets and fetch metadata
+    local -a unique_secrets=("${(u)secrets[@]}")
+    local today_epoch=$(date +%s)
+
+    # Track tokens needing attention (for rotation hints)
+    local -a _expired_tokens=()
+    local -a _expiring_tokens=()
+
+    echo ""
+    echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔐 Secrets (Keychain)${FLOW_COLORS[reset]}                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+
+    for secret in "${unique_secrets[@]}"; do
+        # Get metadata from keychain (stored in icmt/comment field via -j)
+        local kc_output
+        kc_output=$(security find-generic-password -a "$secret" -s "$_DOT_KEYCHAIN_SERVICE" -g 2>&1)
+
+        # Extract JSON from icmt field (contains metadata like type, expires)
+        # Format: "icmt"<blob>="{...json...}"
+        local metadata=""
+        if [[ "$kc_output" == *'"icmt"<blob>="{'* ]]; then
+            # Extract from opening { to closing }
+            metadata="${kc_output#*\"icmt\"<blob>=\"}"
+            metadata="${metadata%%\}\"*}}"
+        fi
+
+        # Parse metadata
+        local type_icon="🔑"
+        local type_label=""
+        local expires=""
+        local status_icon=""
+        local status_text=""
+
+        if [[ -n "$metadata" && "$metadata" == "{"* ]]; then
+            # Extract type
+            local token_type=""
+            if [[ "$metadata" == *'"type":"github"'* ]]; then
+                type_icon="🐙"
+                type_label="GitHub"
+                if [[ "$metadata" == *'"token_type":"classic"'* ]]; then
+                    type_label="GitHub PAT"
+                elif [[ "$metadata" == *'"token_type":"fine-grained"'* ]]; then
+                    type_label="GitHub FG"
+                fi
+            elif [[ "$metadata" == *'"type":"npm"'* ]]; then
+                type_icon="📦"
+                type_label="npm"
+            elif [[ "$metadata" == *'"type":"pypi"'* ]]; then
+                type_icon="🐍"
+                type_label="PyPI"
+            fi
+
+            # Extract expiration
+            if [[ "$metadata" == *'"expires":"'* ]]; then
+                expires="${metadata#*\"expires\":\"}"
+                expires="${expires%%\"*}"
+
+                # Calculate days remaining
+                local expire_epoch=$(date -j -f "%Y-%m-%d" "$expires" +%s 2>/dev/null)
+                if [[ -n "$expire_epoch" ]]; then
+                    local days_left=$(( (expire_epoch - today_epoch) / 86400 ))
+
+                    if [[ $days_left -lt 0 ]]; then
+                        status_icon="${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]}"
+                        status_text="${FLOW_COLORS[error]}expired${FLOW_COLORS[reset]}"
+                        _expired_tokens+=("$secret")
+                    elif [[ $days_left -le 7 ]]; then
+                        status_icon="${FLOW_COLORS[warning]}!${FLOW_COLORS[reset]}"
+                        status_text="${FLOW_COLORS[warning]}${days_left}d left${FLOW_COLORS[reset]}"
+                        _expiring_tokens+=("$secret")
+                    elif [[ $days_left -le 30 ]]; then
+                        status_icon="${FLOW_COLORS[warning]}○${FLOW_COLORS[reset]}"
+                        status_text="${FLOW_COLORS[muted]}${days_left}d left${FLOW_COLORS[reset]}"
+                    else
+                        status_icon="${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]}"
+                        status_text="${FLOW_COLORS[muted]}${days_left}d left${FLOW_COLORS[reset]}"
+                    fi
+                fi
+            elif [[ "$metadata" == *'"expires_days":0'* ]]; then
+                status_icon="${FLOW_COLORS[success]}∞${FLOW_COLORS[reset]}"
+                status_text="${FLOW_COLORS[muted]}no expiry${FLOW_COLORS[reset]}"
+            fi
+        fi
+
+        # Format output row
+        local name_col=$(printf "%-20s" "$secret")
+        local type_col=""
+        local status_col=""
+
+        if [[ -n "$type_label" ]]; then
+            type_col=$(printf "%-12s" "$type_label")
+        else
+            type_col=$(printf "%-12s" "secret")
+        fi
+
+        if [[ -n "$status_text" ]]; then
+            echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  $status_icon $type_icon ${name_col} ${FLOW_COLORS[muted]}${type_col}${FLOW_COLORS[reset]} $status_text  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        else
+            echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  $type_icon ${name_col} ${FLOW_COLORS[muted]}${type_col}${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        fi
+    done
+
+    echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Total: ${#unique_secrets[@]} secret(s)${FLOW_COLORS[reset]}                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+
+    # Show rotation hint if any tokens need attention
+    if [[ ${#_expired_tokens[@]} -gt 0 || ${#_expiring_tokens[@]} -gt 0 ]]; then
+        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        if [[ ${#_expired_tokens[@]} -gt 0 ]]; then
+            echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[error]}⚠ ${#_expired_tokens[@]} expired${FLOW_COLORS[reset]} - rotate now:                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+            for token in "${_expired_tokens[@]}"; do
+                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token rotate $token${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+            done
+        fi
+        if [[ ${#_expiring_tokens[@]} -gt 0 ]]; then
+            echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠ ${#_expiring_tokens[@]} expiring soon${FLOW_COLORS[reset]} - consider rotating:    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+            for token in "${_expiring_tokens[@]}"; do
+                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token rotate $token${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+            done
+        fi
+    fi
+
+    echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+
+    # Clean up tracking arrays
+    unset _expired_tokens _expiring_tokens
 }
 
 # =============================================================================
