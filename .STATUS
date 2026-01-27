@@ -12,7 +12,34 @@
 
 ## ✅ Just Completed:
 
-### Token Rotation Bug Fixes & Secret List Enhancement (2026-01-27)
+### Backup Section & Secret List Enhancement (2026-01-27 Session 2)
+
+**Session Duration:** ~30 min
+**Status:** ✅ COMMITTED - 5bb2fc94 pushed to dev
+**Impact:** Separated backup tokens into dedicated section with cleanup commands
+
+**Features:**
+- **Separate backup section** - Backups (from rotation) now display in their own section
+- **Date extraction** - Shows backup creation date (extracted from YYYYMMDD in name)
+- **Cleanup commands** - Each backup shows copy-paste-ready delete command
+- **Updated totals** - Footer shows "X active, Y backup(s)" count
+
+**Tests (8 new):**
+- test-dot-secret-list.zsh expanded: 33 → 41 tests (+8 backup section tests)
+- All 55 tests passing (41 secret list + 14 rotation bugfixes)
+
+**Files Changed (2 files, +125 lines):**
+- lib/keychain-helpers.zsh (+47 lines) - Backup section display
+- tests/test-dot-secret-list.zsh (+83 lines) - Backup section tests
+
+**Commits:**
+1. fcab61d3 - fix(token): fix token rotation and enhance secret list display
+2. 1271124a - fix(security): suppress debug output leaking passwords
+3. 5bb2fc94 - feat(secrets): add separate backup section in dot secret list
+
+---
+
+### Token Rotation Bug Fixes & Secret List Enhancement (2026-01-27 Session 1)
 
 **Session Duration:** ~1 hour
 **Status:** ✅ COMMITTED - fcab61d3 pushed to dev
@@ -714,6 +741,7 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 **Last Updated:** 2026-01-25 07:00
 **Status:** v5.19.0 Released ✅ - Ready for v5.20.0
+## wins: --category code separate backup section in dot secret list (8 new tests) (2026-01-27)
 ## wins: --category fix token rotation bug fixes (4 bugs, 47 tests) (2026-01-27)
 ## wins: --category code enhanced dot secret list (box format, expiration display) (2026-01-27)
 ## wins: --category ship v5.19.0 released (Keychain-default backend, zero dependencies) (2026-01-25)
