@@ -10,6 +10,20 @@
 
 ## Focus: v5.20.0 Development - Token UX Improvements
 
+## 🎉 Just Released: v5.19.1 (2026-01-27)
+
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.1
+**PR #297:** https://github.com/Data-Wise/flow-cli/pull/297 (MERGED)
+
+**Highlights:**
+- 4 critical token rotation bug fixes
+- Security fix (password leakage prevention)
+- Enhanced `dot secret list` with type icons and expiration display
+- Backup token management with cleanup commands
+- 55 new tests (all passing)
+
+---
+
 ## ✅ Just Completed:
 
 ### Feature Request Review & Spec Creation (2026-01-27 Session 3)
@@ -781,6 +795,7 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 **Last Updated:** 2026-01-25 07:00
 **Status:** v5.19.0 Released ✅ - Ready for v5.20.0
+## wins: --category ship v5.19.1 released (4 bug fixes, security fix, 55 tests) (2026-01-27)
 ## wins: --category docs reviewed feature requests #278 #275, created spec (2026-01-27)
 ## wins: --category code separate backup section in dot secret list (8 new tests) (2026-01-27)
 ## wins: --category fix token rotation bug fixes (4 bugs, 47 tests) (2026-01-27)
