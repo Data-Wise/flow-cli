@@ -4,13 +4,44 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.19.0 Released ✅ - Ready for v5.20.0
+## Phase: v5.20.0-dev - Token UX Improvements
 ## Priority: 1
 ## Progress: 0
 
-## Focus: v5.19.0 Released - Keychain-Default Backend ✅
+## Focus: v5.20.0 Development - Token UX Improvements
 
 ## ✅ Just Completed:
+
+### Token Rotation Bug Fixes & Secret List Enhancement (2026-01-27)
+
+**Session Duration:** ~1 hour
+**Status:** ✅ COMMITTED - fcab61d3 pushed to dev
+**Impact:** Fixed critical token rotation bugs + enhanced secret list display
+
+**Bug Fixes (4):**
+1. **Line continuation syntax** - Fixed inline comments after `\` breaking `security` command
+2. **User mismatch check** - Skip validation when old token was expired ("unknown")
+3. **Token name mismatch** - Pass token name to wizard during rotation
+4. **Revocation message** - Show helpful message when old token user is unknown
+
+**Enhancements:**
+- Enhanced `dot secret list` with box format and metadata display
+- Type icons: 🐙 GitHub, 📦 npm, 🐍 PyPI, 🔑 other
+- Expiration status: ✓ ok, ○ warning (30d), ! critical (7d), ✗ expired
+- Days remaining count and rotation hints for expiring tokens
+- Shell option isolation (`emulate -L zsh`) to suppress debug output
+
+**Tests (47 new):**
+- test-token-rotation-bugfixes.zsh (14 tests) - All passing
+- test-dot-secret-list.zsh (33 tests) - All passing
+
+**Files Changed (4 files, +893 lines):**
+- lib/dispatchers/dot-dispatcher.zsh (+43 lines) - Bug fixes
+- lib/keychain-helpers.zsh (+153 lines) - Enhanced list display
+- tests/test-token-rotation-bugfixes.zsh (new, 14 tests)
+- tests/test-dot-secret-list.zsh (new, 33 tests)
+
+---
 
 ### v5.19.0 Release - Keychain-Default Backend (2026-01-25)
 
@@ -530,7 +561,11 @@ fi
 - v5.15.1 (2026-01-21): Architecture docs, V-dispatcher reference, coverage report
 - v5.15.0 (2026-01-21): Comprehensive Help System (18 functions, 3 guides)
 
-**Future (v5.18.0+):**
+**Future (v5.20.0+):**
+- **Token UX Improvements (v5.20.0):**
+  - Token backup before rotation with configurable retention
+  - Interactive token selection for rotation (`dot token rotate` picker)
+  - Notification when tokens are about to expire (shell prompt integration)
 - Config→concept graph integration (Phase 1)
 - teach analyze AI improvements
 - GitHub token automation Phases 2-4 (deferred)
@@ -679,6 +714,8 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 **Last Updated:** 2026-01-25 07:00
 **Status:** v5.19.0 Released ✅ - Ready for v5.20.0
+## wins: --category fix token rotation bug fixes (4 bugs, 47 tests) (2026-01-27)
+## wins: --category code enhanced dot secret list (box format, expiration display) (2026-01-27)
 ## wins: --category ship v5.19.0 released (Keychain-default backend, zero dependencies) (2026-01-25)
 ## wins: --category code backend abstraction complete (3 modes + 67 tests passing) (2026-01-25)
 ## wins: --category review comprehensive PR #295 review (5/5 stars, 2,136 lines) (2026-01-25)
@@ -691,5 +728,5 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 ## wins: --category docs documented 83 functions (Phases 1-4, +411% coverage) (2026-01-24)
 ## wins: --category docs fixed 54 critical broken links across hub files (2026-01-24)
 ## wins: --category ship deployed v5.18.0-dev to GitHub Pages (2026-01-24)
-## streak: 2
-## last_active: 2026-01-25
+## streak: 3
+## last_active: 2026-01-27

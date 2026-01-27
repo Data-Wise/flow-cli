@@ -157,37 +157,41 @@ _dot_kc_list() {
     emulate -L zsh
     setopt noxtrace noverbose
 
-    # Extract secrets with our service from keychain
-    local dump_file
-    dump_file=$(mktemp)
-    security dump-keychain > "$dump_file" 2>/dev/null
+    # Extract secret names in subshell to prevent debug output from tracing
+    # This isolates variable assignments from any shell hooks that might log them
+    local secrets_raw
+    secrets_raw=$(
+        emulate -L zsh
+        setopt noxtrace noverbose
 
-    local found_any=false
-    local -a secrets=()
+        local dump_file=$(mktemp)
+        security dump-keychain > "$dump_file" 2>/dev/null
 
-    # Find line numbers where our service appears
-    local svc_lines
-    svc_lines=$(grep -n "\"svce\"<blob>=\"$_DOT_KEYCHAIN_SERVICE\"" "$dump_file" 2>/dev/null | cut -d: -f1)
+        local svc_lines=$(grep -n "\"svce\"<blob>=\"$_DOT_KEYCHAIN_SERVICE\"" "$dump_file" 2>/dev/null | cut -d: -f1)
 
-    for line_num in ${(f)svc_lines}; do
-        local start_line=$((line_num - 20))
-        [[ $start_line -lt 1 ]] && start_line=1
+        for line_num in ${(f)svc_lines}; do
+            local start_line=$((line_num - 20))
+            [[ $start_line -lt 1 ]] && start_line=1
 
-        local acct_line
-        acct_line=$(sed -n "${start_line},${line_num}p" "$dump_file" | grep '"acct"<blob>="' | tail -1)
+            local acct_line=$(sed -n "${start_line},${line_num}p" "$dump_file" | grep '"acct"<blob>="' | tail -1)
 
-        if [[ -n "$acct_line" ]]; then
-            local account_name
-            account_name="${acct_line#*\"acct\"<blob>=\"}"
-            account_name="${account_name%%\"*}"
-            if [[ -n "$account_name" ]]; then
-                secrets+=("$account_name")
-                found_any=true
+            if [[ -n "$acct_line" ]]; then
+                local account_name="${acct_line#*\"acct\"<blob>=\"}"
+                account_name="${account_name%%\"*}"
+                [[ -n "$account_name" ]] && echo "$account_name"
             fi
-        fi
-    done
+        done
 
-    rm -f "$dump_file"
+        rm -f "$dump_file"
+    )
+
+    # Parse the output into array
+    local -a secrets=()
+    local found_any=false
+    if [[ -n "$secrets_raw" ]]; then
+        secrets=("${(f)secrets_raw}")
+        found_any=true
+    fi
 
     if [[ "$found_any" != true ]]; then
         echo ""
@@ -215,18 +219,24 @@ _dot_kc_list() {
     echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
 
     for secret in "${unique_secrets[@]}"; do
-        # Get metadata from keychain (stored in icmt/comment field via -j)
-        local kc_output
-        kc_output=$(security find-generic-password -a "$secret" -s "$_DOT_KEYCHAIN_SERVICE" -g 2>&1)
-
-        # Extract JSON from icmt field (contains metadata like type, expires)
-        # Format: "icmt"<blob>="{...json...}"
+        # Get metadata from keychain in subshell to prevent debug output leaking passwords
+        # The subshell isolates any shell tracing from exposing sensitive data
         local metadata=""
-        if [[ "$kc_output" == *'"icmt"<blob>="{'* ]]; then
-            # Extract from opening { to closing }
-            metadata="${kc_output#*\"icmt\"<blob>=\"}"
-            metadata="${metadata%%\}\"*}}"
-        fi
+        metadata=$(
+            # Suppress all tracing in subshell
+            emulate -L zsh
+            setopt noxtrace noverbose
+            unset -f preexec precmd 2>/dev/null
+
+            local kc_output
+            kc_output=$(security find-generic-password -a "$secret" -s "$_DOT_KEYCHAIN_SERVICE" -g 2>&1)
+
+            # Extract JSON from icmt field (contains metadata like type, expires)
+            if [[ "$kc_output" == *'"icmt"<blob>="{'* ]]; then
+                local m="${kc_output#*\"icmt\"<blob>=\"}"
+                echo "${m%%\}\"*}}"
+            fi
+        )
 
         # Parse metadata
         local type_icon="🔑"
