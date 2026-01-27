@@ -349,6 +349,100 @@ echo "$(_flow_color_blue 'Info')"
 
 ---
 
+## Atlas Integration
+
+**File:** `lib/atlas-bridge.zsh`
+**Purpose:** Integration with Atlas state engine for enhanced session management
+**Functions:** 15+
+**Status:** Optional dependency (graceful degradation without Atlas)
+
+> **Note:** This section is a placeholder. Function documentation will be added in a future update.
+> Use `./scripts/generate-api-docs.sh` to auto-generate from source.
+
+### Key Functions
+
+| Function | Purpose |
+|----------|---------|
+| `_flow_init_atlas` | Initialize Atlas connection |
+| `_flow_has_atlas` | Check if Atlas is available |
+| `_flow_atlas_set` | Set state value |
+| `_flow_atlas_get` | Get state value |
+
+---
+
+## Project Detection
+
+**File:** `lib/project-detector.zsh`
+**Purpose:** Automatic project type detection from directory structure
+**Functions:** 25+
+
+> **Note:** This section is a placeholder. Function documentation will be added in a future update.
+
+### Key Functions
+
+| Function | Purpose |
+|----------|---------|
+| `_flow_detect_project_type` | Detect project type (r-package, node, python, quarto, etc.) |
+| `_flow_get_project_icon` | Get icon for project type |
+| `_flow_is_teaching_project` | Check if current directory is a teaching project |
+
+---
+
+## Terminal UI
+
+**File:** `lib/tui.zsh`
+**Purpose:** Terminal UI components for consistent visual output
+**Functions:** 30+
+
+> **Note:** This section is a placeholder. Function documentation will be added in a future update.
+
+### Key Functions
+
+| Function | Purpose |
+|----------|---------|
+| `_flow_box` | Draw bordered box around content |
+| `_flow_spinner` | Show animated spinner |
+| `_flow_progress_bar` | Display progress bar |
+| `_flow_table` | Render formatted table |
+
+---
+
+## Tool Inventory
+
+**File:** `lib/inventory.zsh`
+**Purpose:** Tool and dependency tracking for `flow doctor`
+**Functions:** 10+
+
+> **Note:** This section is a placeholder. Function documentation will be added in a future update.
+
+### Key Functions
+
+| Function | Purpose |
+|----------|---------|
+| `_flow_inventory_check` | Check if tool is installed |
+| `_flow_inventory_version` | Get tool version |
+| `_flow_inventory_list` | List all tracked tools |
+
+---
+
+## Config Validation
+
+**File:** `lib/config-validator.zsh`
+**Purpose:** YAML configuration validation with JSON Schema
+**Functions:** 15+
+
+> **Note:** This section is a placeholder. Function documentation will be added in a future update.
+
+### Key Functions
+
+| Function | Purpose |
+|----------|---------|
+| `_flow_validate_config` | Validate config against schema |
+| `_flow_config_hash` | Get config file hash for change detection |
+| `_flow_config_get` | Get value from config file |
+
+---
+
 ## Keychain Helpers
 
 **File:** `lib/keychain-helpers.zsh`
