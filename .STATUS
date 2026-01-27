@@ -563,6 +563,20 @@ fi
 
 ## 📝 Pending:
 
+### Feature Request #278: `teach plan create` (High Priority)
+- **Status:** Spec created - `docs/specs/SPEC-teach-plan-create-2026-01-27.md`
+- **Issue:** https://github.com/Data-Wise/flow-cli/issues/278
+- **Effort:** 2-3 hours
+- **Why:** Fixes broken UX (hint message references non-existent command)
+- **Scope:** `teach plan create/list/show` - uses existing lesson plan infrastructure
+
+### Feature Request #275: `teach dashboard` (Medium Priority)
+- **Status:** Spec approved - `docs/specs/SPEC-teach-dashboard-2026-01-18.md`
+- **Issue:** https://github.com/Data-Wise/flow-cli/issues/275
+- **Effort:** 8-12 hours (recommend MVP: 4-5 hours)
+- **Why:** Eliminates weekly manual dashboard updates for Quarto sites
+- **Scope:** Generate `semester-data.json` from `teach-config.yml`
+
 ### SPEC-teach-prompt-command (Paused)
 - ⏸️ Needs Scholar plugin coordination
 
