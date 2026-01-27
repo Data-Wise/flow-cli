@@ -353,20 +353,349 @@ echo "$(_flow_color_blue 'Info')"
 
 **File:** `lib/atlas-bridge.zsh`
 **Purpose:** Integration with Atlas state engine for enhanced session management
-**Functions:** 15+
+**Functions:** 23
 **Status:** Optional dependency (graceful degradation without Atlas)
 
-> **Note:** This section is a placeholder. Function documentation will be added in a future update.
-> Use `./scripts/generate-api-docs.sh` to auto-generate from source.
+### Overview
 
-### Key Functions
+The Atlas bridge provides seamless integration with `@data-wise/atlas` when available, with automatic fallback to local file-based operations when Atlas is not installed.
 
-| Function | Purpose |
-|----------|---------|
-| `_flow_init_atlas` | Initialize Atlas connection |
-| `_flow_has_atlas` | Check if Atlas is available |
-| `_flow_atlas_set` | Set state value |
-| `_flow_atlas_get` | Get state value |
+**Architecture:**
+```
+Atlas Available?
+    ├─ Yes → Use Atlas CLI commands
+    └─ No → Use local file fallbacks (worklog, inbox.md, trail.log)
+```
+
+**Environment:**
+- `FLOW_ATLAS_ENABLED` - "auto" (default), "yes", or "no"
+- `FLOW_DATA_DIR` - Directory for local state files
+
+---
+
+### Timestamp Functions
+
+#### `_flow_timestamp`
+
+Get current timestamp in YYYY-MM-DD HH:MM:SS format.
+
+**Signature:**
+```zsh
+_flow_timestamp
+```
+
+**Returns:** Timestamp string (e.g., "2026-01-22 14:30:45")
+
+**Example:**
+```zsh
+ts=$(_flow_timestamp)
+echo "Current time: $ts"
+```
+
+**Dependencies:** `zsh/datetime` module
+
+---
+
+#### `_flow_timestamp_short`
+
+Get current timestamp in short YYYY-MM-DD HH:MM format.
+
+**Signature:**
+```zsh
+_flow_timestamp_short
+```
+
+**Returns:** Short timestamp string (e.g., "2026-01-22 14:30")
+
+**Notes:** Omits seconds for more compact display. Useful for log entries.
+
+---
+
+### Atlas Detection
+
+#### `_flow_has_atlas`
+
+Check if Atlas CLI is available (with session-level caching).
+
+**Signature:**
+```zsh
+_flow_has_atlas
+```
+
+**Returns:**
+- `0` - Atlas is available
+- `1` - Atlas is not installed
+
+**Example:**
+```zsh
+if _flow_has_atlas; then
+    _flow_atlas session start "$project"
+else
+    echo "Atlas not installed, using fallback"
+fi
+```
+
+**Notes:** Result cached in `$_FLOW_ATLAS_AVAILABLE` for session duration.
+
+---
+
+#### `_flow_refresh_atlas`
+
+Force re-check of Atlas CLI availability (clears cache).
+
+**Signature:**
+```zsh
+_flow_refresh_atlas
+```
+
+**Use Case:** After installing/uninstalling Atlas mid-session.
+
+---
+
+#### `_flow_init_atlas`
+
+Initialize Atlas connection (respects `FLOW_ATLAS_ENABLED` setting).
+
+**Signature:**
+```zsh
+_flow_init_atlas
+```
+
+**Notes:** If `FLOW_ATLAS_ENABLED="no"`, Atlas is disabled even if installed.
+
+---
+
+### Atlas CLI Wrappers
+
+#### `_flow_atlas`
+
+Main Atlas CLI wrapper for all atlas calls.
+
+**Signature:**
+```zsh
+_flow_atlas <args...>
+```
+
+**Example:**
+```zsh
+_flow_atlas session start "my-project"
+_flow_atlas project list --status=active
+```
+
+---
+
+#### `_flow_atlas_silent`
+
+Execute Atlas command silently (no output, return code only).
+
+**Signature:**
+```zsh
+_flow_atlas_silent <args...>
+```
+
+**Notes:** Returns success (0) if Atlas not available (graceful degradation).
+
+---
+
+#### `_flow_atlas_json`
+
+Execute Atlas command with JSON output format.
+
+**Signature:**
+```zsh
+_flow_atlas_json <args...>
+```
+
+**Example:**
+```zsh
+project_data=$(_flow_atlas_json project get "my-project")
+echo "$project_data" | jq '.status'
+```
+
+---
+
+#### `_flow_atlas_async`
+
+Execute Atlas command asynchronously (fire-and-forget).
+
+**Signature:**
+```zsh
+_flow_atlas_async <args...>
+```
+
+**Use Case:** Non-critical operations like analytics or background sync.
+
+---
+
+### Project Operations
+
+#### `_flow_get_project`
+
+Get project information by name.
+
+**Signature:**
+```zsh
+_flow_get_project <name>
+```
+
+**Output:** Shell-evaluable variables: `name`, `project_path`, `proj_status`
+
+**Example:**
+```zsh
+if info=$(_flow_get_project "my-project"); then
+    eval "$info"
+    cd "$project_path"
+fi
+```
+
+---
+
+#### `_flow_list_projects`
+
+List all projects (uses Atlas if available, otherwise filesystem scan).
+
+**Signature:**
+```zsh
+_flow_list_projects [status_filter]
+```
+
+**Parameters:**
+- `$1` - (optional) Status filter (e.g., "active", "archived")
+
+**Output:** Project names, one per line
+
+---
+
+### Session Operations
+
+#### `_flow_session_start`
+
+Start a work session for a project.
+
+**Signature:**
+```zsh
+_flow_session_start <project>
+```
+
+**Side Effects:**
+- Creates session state file
+- Exports `FLOW_CURRENT_PROJECT` and `FLOW_SESSION_START`
+- Logs to worklog (fallback mode)
+
+---
+
+#### `_flow_session_end`
+
+End the current work session.
+
+**Signature:**
+```zsh
+_flow_session_end [note]
+```
+
+**Parameters:**
+- `$1` - (optional) Note to record with session end
+
+**Output:** Displays session duration (Xh Ym or Xm format)
+
+---
+
+#### `_flow_session_current`
+
+Get information about the current active session.
+
+**Signature:**
+```zsh
+_flow_session_current
+```
+
+**Output:** Shell-evaluable variables: `project`, `elapsed_mins`
+
+**Returns:** `1` if no active session
+
+---
+
+#### `_flow_today_session_time`
+
+Calculate total session time for today.
+
+**Signature:**
+```zsh
+_flow_today_session_time
+```
+
+**Output:** Total minutes worked today (integer)
+
+---
+
+### Capture Operations
+
+#### `_flow_catch`
+
+Quick capture of a thought/task to inbox.
+
+**Signature:**
+```zsh
+_flow_catch <text> [project]
+```
+
+**Example:**
+```zsh
+_flow_catch "Fix the login bug"
+_flow_catch "Update docs" "my-project"
+```
+
+---
+
+#### `_flow_inbox`
+
+Display the capture inbox contents.
+
+**Signature:**
+```zsh
+_flow_inbox
+```
+
+---
+
+#### `_flow_where`
+
+Get current project context ("where was I?").
+
+**Signature:**
+```zsh
+_flow_where [project]
+```
+
+---
+
+#### `_flow_crumb`
+
+Leave a breadcrumb (context marker for future reference).
+
+**Signature:**
+```zsh
+_flow_crumb <text> [project]
+```
+
+**Use Case:** Helps resume work after interruptions (ADHD-friendly).
+
+---
+
+#### `at`
+
+Shortcut alias for Atlas CLI (or fallback commands).
+
+**Signature:**
+```zsh
+at <command> [args...]
+```
+
+**Subcommands (fallback mode):**
+- `catch|c <text>` - Quick capture
+- `inbox|i` - Show inbox
+- `where|w [project]` - Show context
+- `crumb|b <text>` - Leave breadcrumb
 
 ---
 
@@ -374,17 +703,119 @@ echo "$(_flow_color_blue 'Info')"
 
 **File:** `lib/project-detector.zsh`
 **Purpose:** Automatic project type detection from directory structure
-**Functions:** 25+
+**Functions:** 4
 
-> **Note:** This section is a placeholder. Function documentation will be added in a future update.
+### Overview
 
-### Key Functions
+Detects project type based on marker files and directories present. Used by dashboard, project picker, and context-aware commands.
 
-| Function | Purpose |
-|----------|---------|
-| `_flow_detect_project_type` | Detect project type (r-package, node, python, quarto, etc.) |
-| `_flow_get_project_icon` | Get icon for project type |
-| `_flow_is_teaching_project` | Check if current directory is a teaching project |
+**Supported Types:**
+| Type | Markers |
+|------|---------|
+| r-package | DESCRIPTION + NAMESPACE |
+| python | pyproject.toml, setup.py |
+| node | package.json |
+| rust | Cargo.toml |
+| go | go.mod |
+| quarto | _quarto.yml |
+| obsidian | .obsidian/ |
+| teaching | syllabus.qmd, lectures/, .flow/teach-config.yml |
+| research | manuscript.qmd, paper.qmd |
+| generic | (default fallback) |
+
+---
+
+### Functions
+
+#### `_flow_detect_project_type`
+
+Detect project type based on marker files and directories.
+
+**Signature:**
+```zsh
+_flow_detect_project_type [directory]
+```
+
+**Parameters:**
+- `$1` - (optional) Directory to check [default: $PWD]
+
+**Returns:**
+- `0` - Project type detected
+- `1` - Error (invalid teaching config)
+
+**Output:** Project type string
+
+**Example:**
+```zsh
+type=$(_flow_detect_project_type)
+type=$(_flow_detect_project_type "/path/to/project")
+```
+
+---
+
+#### `_flow_project_commands`
+
+Get suggested commands relevant to a project type.
+
+**Signature:**
+```zsh
+_flow_project_commands [project_type]
+```
+
+**Output:** Space-separated list of relevant commands/tools
+
+**Example:**
+```zsh
+_flow_project_commands "r-package"
+# Output: devtools::check() devtools::test() devtools::document() devtools::build()
+
+_flow_project_commands "python"
+# Output: pytest uv pip ruff
+```
+
+---
+
+#### `_flow_project_icon`
+
+Get emoji icon representing a project type.
+
+**Signature:**
+```zsh
+_flow_project_icon [project_type]
+```
+
+**Output:** Single emoji character
+
+**Icons:**
+| Type | Icon |
+|------|------|
+| r-package | 📦 |
+| python | 🐍 |
+| node | 📗 |
+| rust | 🦀 |
+| go | 🐹 |
+| quarto | 📝 |
+| teaching | 🎓 |
+| research | 🔬 |
+| obsidian | 💎 |
+| generic | 📁 |
+
+---
+
+#### `_flow_validate_teaching_config`
+
+Validate a teaching workflow configuration file.
+
+**Signature:**
+```zsh
+_flow_validate_teaching_config <config_path>
+```
+
+**Returns:**
+- `0` - Configuration is valid (or yq not available)
+- `1` - Configuration is invalid
+
+**Required Fields:** `course.name`, `branches.draft`, `branches.production`
 
 ---
 
@@ -392,54 +823,492 @@ echo "$(_flow_color_blue 'Info')"
 
 **File:** `lib/tui.zsh`
 **Purpose:** Terminal UI components for consistent visual output
-**Functions:** 30+
+**Functions:** 15
 
-> **Note:** This section is a placeholder. Function documentation will be added in a future update.
+### Overview
 
-### Key Functions
+Provides progress bars, sparklines, tables, pickers, and spinners for ADHD-friendly visual feedback.
 
-| Function | Purpose |
-|----------|---------|
-| `_flow_box` | Draw bordered box around content |
-| `_flow_spinner` | Show animated spinner |
-| `_flow_progress_bar` | Display progress bar |
-| `_flow_table` | Render formatted table |
+---
+
+### Progress & Visualization
+
+#### `_flow_progress_bar`
+
+Draw an ASCII progress bar with percentage.
+
+**Signature:**
+```zsh
+_flow_progress_bar <current> <total> [width] [filled_char] [empty_char]
+```
+
+**Parameters:**
+- `$1` - Current value
+- `$2` - Total/maximum value
+- `$3` - Bar width [default: 20]
+- `$4` - Filled character [default: █]
+- `$5` - Empty character [default: ░]
+
+**Example:**
+```zsh
+echo "Progress: $(_flow_progress_bar 7 10)"
+# Output: ██████████████░░░░░░ 70%
+
+_flow_progress_bar 50 100 30 "=" "-"
+# Output: ===============--------------- 50%
+```
+
+---
+
+#### `_flow_sparkline`
+
+Generate a sparkline graph from numeric values.
+
+**Signature:**
+```zsh
+_flow_sparkline <values...>
+```
+
+**Character Set:** ▁▂▃▄▅▆▇█ (8 levels)
+
+**Example:**
+```zsh
+_flow_sparkline 1 3 5 7 5 3 1
+# Output: ▁▃▅▇▅▃▁
+```
+
+---
+
+### Tables & Boxes
+
+#### `_flow_table`
+
+Display formatted table with headers and rows.
+
+**Signature:**
+```zsh
+_flow_table <headers> <rows...>
+```
+
+**Parameters:**
+- `$1` - Comma-separated header columns
+- `$@` - Comma-separated row data
+
+**Example:**
+```zsh
+_flow_table "Name,Status,Time" \
+    "flow-cli,active,2h" \
+    "project-b,paused,1d"
+```
+
+---
+
+#### `_flow_box`
+
+Draw a Unicode box around text content.
+
+**Signature:**
+```zsh
+_flow_box [title] <content> [width]
+```
+
+**Example:**
+```zsh
+_flow_box "Project Info" "Name: flow-cli
+Status: active
+Time: 2h 30m"
+```
+
+**Output:**
+```
+╭─ Project Info ────────────────────────────────╮
+│ Name: flow-cli                                │
+│ Status: active                                │
+│ Time: 2h 30m                                  │
+╰──────────────────────────────────────────────╯
+```
+
+---
+
+### Interactive Pickers
+
+#### `_flow_has_fzf`
+
+Check if fzf (fuzzy finder) is available.
+
+**Signature:**
+```zsh
+_flow_has_fzf
+```
+
+---
+
+#### `_flow_pick_project`
+
+Interactive project picker using fzf with preview.
+
+**Signature:**
+```zsh
+_flow_pick_project
+```
+
+**Output:** Selected project name
+
+**Dependencies:** fzf
+
+---
+
+#### `_flow_has_gum`
+
+Check if gum (glamorous shell tool) is available.
+
+**Signature:**
+```zsh
+_flow_has_gum
+```
+
+---
+
+#### `_flow_input`
+
+Styled text input prompt (uses gum if available).
+
+**Signature:**
+```zsh
+_flow_input [prompt] [placeholder]
+```
+
+**Example:**
+```zsh
+local name=$(_flow_input "Project name" "my-project")
+```
+
+---
+
+#### `_flow_confirm_styled`
+
+Styled yes/no confirmation (uses gum if available).
+
+**Signature:**
+```zsh
+_flow_confirm_styled [prompt]
+```
+
+**Example:**
+```zsh
+if _flow_confirm_styled "Delete these files?"; then
+    rm -rf ./cache
+fi
+```
+
+---
+
+#### `_flow_choose`
+
+Multi-option selector (uses gum/fzf if available).
+
+**Signature:**
+```zsh
+_flow_choose <header> <options...>
+```
+
+**Example:**
+```zsh
+local status=$(_flow_choose "Set status:" "active" "paused" "blocked")
+```
+
+---
+
+### Spinner
+
+#### `_flow_spinner_start`
+
+Start an animated spinner with message.
+
+**Signature:**
+```zsh
+_flow_spinner_start [message] [estimate]
+```
+
+**Animation:** Uses Braille dots: ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
+
+**Example:**
+```zsh
+_flow_spinner_start "Building project..." "~10s"
+# ... long operation ...
+_flow_spinner_stop "Build complete"
+```
+
+---
+
+#### `_flow_spinner_stop`
+
+Stop the running spinner and show completion message.
+
+**Signature:**
+```zsh
+_flow_spinner_stop [message]
+```
+
+---
+
+#### `_flow_with_spinner`
+
+Execute a command while showing a spinner.
+
+**Signature:**
+```zsh
+_flow_with_spinner <message> <estimate> <command...>
+```
+
+**Example:**
+```zsh
+if _flow_with_spinner "Testing..." "~30s" npm test; then
+    echo "Tests passed!"
+fi
+```
 
 ---
 
 ## Tool Inventory
 
 **File:** `lib/inventory.zsh`
-**Purpose:** Tool and dependency tracking for `flow doctor`
-**Functions:** 10+
+**Purpose:** Auto-generate project inventory from .STATUS files
+**Functions:** 2
 
-> **Note:** This section is a placeholder. Function documentation will be added in a future update.
+### Overview
 
-### Key Functions
+Generates project inventory from `.STATUS` files in dev-tools directory for the `dash --inventory` command.
 
-| Function | Purpose |
-|----------|---------|
-| `_flow_inventory_check` | Check if tool is installed |
-| `_flow_inventory_version` | Get tool version |
-| `_flow_inventory_list` | List all tracked tools |
+---
+
+### Functions
+
+#### `_flow_generate_inventory`
+
+Generate project inventory from .STATUS files.
+
+**Signature:**
+```zsh
+_flow_generate_inventory [format]
+```
+
+**Parameters:**
+- `$1` - Output format: "table" (default), "json", or "markdown"
+
+**Output:** Formatted inventory with:
+- Project name
+- Status (🟢 active, ✅ stable, ⏸️ paused, 📦 archived)
+- Type
+- Progress percentage
+- Next action
+- Summary counts
+
+**Example:**
+```zsh
+_flow_generate_inventory              # Table format
+_flow_generate_inventory json         # JSON format
+_flow_generate_inventory > inventory.md
+```
+
+---
+
+#### `_flow_generate_inventory_json`
+
+Generate project inventory in JSON format.
+
+**Signature:**
+```zsh
+_flow_generate_inventory_json
+```
+
+**Output:** JSON object with structure:
+```json
+{
+  "generated": "ISO-8601 timestamp",
+  "source": "~/projects/dev-tools/",
+  "projects": [
+    { "name", "path", "status", "type", "progress", "next" }
+  ]
+}
+```
 
 ---
 
 ## Config Validation
 
 **File:** `lib/config-validator.zsh`
-**Purpose:** YAML configuration validation with JSON Schema
-**Functions:** 15+
+**Purpose:** Teaching config validation with hash-based change detection
+**Functions:** 8
 
-> **Note:** This section is a placeholder. Function documentation will be added in a future update.
+### Overview
 
-### Key Functions
+Schema-based validation for `teach-config.yml` with SHA-256 hash-based change detection. Gracefully falls back when yq is unavailable.
 
-| Function | Purpose |
-|----------|---------|
-| `_flow_validate_config` | Validate config against schema |
-| `_flow_config_hash` | Get config file hash for change detection |
-| `_flow_config_get` | Get value from config file |
+**Ownership Protocol:**
+| Section | Owner |
+|---------|-------|
+| course, semester_info, branches, deployment, automation | flow-cli |
+| scholar | Scholar plugin (read-only for flow-cli) |
+| examark, shortcuts | Shared |
+
+---
+
+### Hash-Based Change Detection
+
+#### `_flow_config_hash`
+
+Compute SHA-256 hash of a configuration file.
+
+**Signature:**
+```zsh
+_flow_config_hash [config_path]
+```
+
+**Parameters:**
+- `$1` - Path to config file [default: .flow/teach-config.yml]
+
+**Returns:**
+- `0` - Success, hash computed
+- `1` - File does not exist
+
+**Output:** SHA-256 hash string (64 hex chars)
+
+**Notes:** Uses `shasum` on macOS, `sha256sum` on Linux. Falls back to mtime.
+
+---
+
+#### `_flow_config_changed`
+
+Check if config file has changed since last read.
+
+**Signature:**
+```zsh
+_flow_config_changed [config_path]
+```
+
+**Returns:**
+- `0` - Config has changed
+- `1` - Config is unchanged
+
+**Example:**
+```zsh
+if _flow_config_changed; then
+    echo "Config changed, reloading..."
+fi
+```
+
+---
+
+#### `_flow_config_invalidate`
+
+Force invalidation of the config hash cache.
+
+**Signature:**
+```zsh
+_flow_config_invalidate
+```
+
+**Use Case:** After config updates or when forcing reload.
+
+---
+
+### Config Validation
+
+#### `_teach_validate_config`
+
+Validate teach-config.yml against schema requirements.
+
+**Signature:**
+```zsh
+_teach_validate_config [config_path] [--quiet]
+```
+
+**Validates:**
+- `course.name` (required)
+- `semester` enum (Spring, Summer, Fall, Winter)
+- `year` range (2020-2100)
+- Date formats (YYYY-MM-DD)
+- Weeks array structure
+- Holidays array with type enum
+- Deadlines (due_date XOR week+offset_days)
+- Exams array
+- Scholar enums (level, difficulty, tone)
+- Grading percentages sum (~100%)
+
+**Returns:**
+- `0` - Config is valid (or yq unavailable)
+- `1` - Config is invalid
+
+---
+
+#### `_teach_config_get`
+
+Get a configuration value with optional default.
+
+**Signature:**
+```zsh
+_teach_config_get <key> [default] [config_path]
+```
+
+**Parameters:**
+- `$1` - Dot-notation key path (e.g., "course.name")
+- `$2` - Default value if not found
+- `$3` - Path to config file
+
+**Example:**
+```zsh
+course_name=$(_teach_config_get "course.name" "Unknown Course")
+level=$(_teach_config_get "scholar.course_info.level" "undergraduate")
+```
+
+---
+
+#### `_teach_has_scholar_config`
+
+Check if the scholar section exists and is configured.
+
+**Signature:**
+```zsh
+_teach_has_scholar_config [config_path]
+```
+
+**Returns:**
+- `0` - Scholar section exists and has content
+- `1` - Scholar section missing or empty
+
+---
+
+#### `_teach_find_config`
+
+Find teach-config.yml by searching up the directory tree.
+
+**Signature:**
+```zsh
+_teach_find_config
+```
+
+**Output:** Full path to teach-config.yml if found
+
+**Use Case:** Commands run from subdirectories of a project.
+
+---
+
+#### `_teach_config_summary`
+
+Display a formatted summary of teaching project configuration.
+
+**Signature:**
+```zsh
+_teach_config_summary [config_path]
+```
+
+**Output:** Formatted multi-line summary with:
+- Course name
+- Semester and year
+- Course level
+- Scholar integration status
+- Config validation status
 
 ---
 
