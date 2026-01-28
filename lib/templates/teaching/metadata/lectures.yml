@@ -1,0 +1,37 @@
+---
+template_version: "1.0"
+template_type: "metadata"
+template_description: "Default _metadata.yml for lectures directory"
+---
+# _metadata.yml for lectures/
+# Place in lectures/ directory to apply to all lecture files
+
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    number-sections: true
+    fig-width: 8
+    fig-height: 5
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+knitr:
+  opts_chunk:
+    fig.align: center
+    out.width: "80%"
+
+# Cross-references
+crossref:
+  fig-prefix: "Figure"
+  tbl-prefix: "Table"
+  eq-prefix: "Equation"
+
+# Bibliography (if used)
+# bibliography: ../references.bib
+# csl: ../apa.csl

@@ -1656,6 +1656,119 @@ curl -I https://username.github.io/stat-440/
 
 ---
 
+#### Configuration Migration (v5.20.0)
+
+**Extract lesson plans to separate file:**
+```bash
+# Preview what will be migrated
+teach migrate-config --dry-run
+
+# Run migration (creates backup)
+teach migrate-config
+
+# Force overwrite existing lesson-plans.yml
+teach migrate-config --force
+```
+
+**Before migration:**
+```
+.flow/
+└── teach-config.yml    # 657 lines (course + 14 weeks)
+```
+
+**After migration:**
+```
+.flow/
+├── teach-config.yml      # ~50 lines (course meta)
+├── teach-config.yml.bak  # Backup
+└── lesson-plans.yml      # ~600 lines (weeks)
+```
+
+**Rollback if needed:**
+```bash
+cp .flow/teach-config.yml.bak .flow/teach-config.yml
+rm .flow/lesson-plans.yml
+```
+
+---
+
+#### Template Management (v5.20.0)
+
+**List available templates:**
+```bash
+teach templates                        # List all templates
+teach templates list --type content    # Filter by type
+teach templates list --source project  # Show only project templates
+```
+
+Output:
+```
+┌──────────────────────────────────────────────────────────────┐
+│ 📁 Teaching Templates                                        │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ CONTENT (.flow/templates/content/)                           │
+│   lecture.qmd      v1.0  Standard lecture with concepts      │
+│   lab.qmd          v1.0  R lab exercise template         [P] │
+│   slides.qmd       v1.0  RevealJS slides template            │
+│                                                              │
+│ PROMPTS (.flow/templates/prompts/)                           │
+│   lecture-notes.md    v1.0  AI lecture notes generator       │
+│   revealjs-slides.md  v1.0  AI slides generator          [D] │
+│                                                              │
+│ Legend: [P] = Project, [D] = Default (plugin)                │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Create file from template:**
+```bash
+# Create lecture for week 5
+teach templates new lecture week-05
+
+# Create lab with topic
+teach templates new lab week-03 --topic "ANOVA"
+
+# Preview without creating
+teach templates new slides week-06 --dry-run
+```
+
+**Validate templates:**
+```bash
+teach templates validate                  # Validate all project templates
+teach templates validate lecture.qmd      # Validate specific template
+```
+
+**Sync from plugin defaults:**
+```bash
+teach templates sync --dry-run    # Preview what would change
+teach templates sync              # Update project templates
+teach templates sync --force      # Overwrite even if newer
+```
+
+**Initialize with templates:**
+```bash
+teach init "STAT-545" --with-templates
+```
+
+Creates:
+```
+.flow/templates/
+├── content/     (4 templates)
+├── prompts/     (3 templates)
+├── metadata/    (3 templates)
+└── checklists/  (2 templates)
+```
+
+**Resolution order:** Project templates override plugin defaults:
+1. `.flow/templates/<type>/<name>` (highest priority)
+2. `lib/templates/teaching/<name>` (fallback)
+
+**Shortcuts:** `teach tmpl`, `teach tpl`
+
+**Quick Reference:** See [REFCARD-TEMPLATES.md](REFCARD-TEMPLATES.md)
+
+---
+
 #### Integration with Quarto
 
 **Render specific lecture:**
@@ -1702,6 +1815,12 @@ qu preview
 
 **Deployment:**
 - `teach deploy` - Deploy to GitHub Pages
+
+**Migration (v5.20.0):**
+- `teach migrate-config` - Extract lesson plans from config
+- `teach migrate-config --dry-run` - Preview migration
+- `teach migrate-config --force` - Skip confirmation
+- `teach migrate-config --no-backup` - Don't create backup
 
 **Help:**
 - `teach help` - Show help
@@ -2045,6 +2164,47 @@ v off
 | tm | Beginner | ⭐⭐ | Terminal settings |
 | prompt | Beginner | ⭐⭐ | AI engine switching |
 | v | Beginner | ⭐⭐⭐ | Focus mode |
+
+---
+
+## Aliases
+
+Flow CLI uses a minimalist alias approach - high-frequency commands only.
+
+### Quick Stats
+
+- **Custom aliases:** 31 (R package + utility)
+- **Git aliases:** 226+ (from git plugin)
+- **Philosophy:** Memorize less, accomplish more
+
+### Key Aliases by Category
+
+| Category | Aliases | Purpose |
+|----------|---------|---------|
+| **R Package** | `rload`, `rtest`, `rdoc`, `rcheck` | Development workflow |
+| **R Quality** | `rcov`, `rcovrep` | Coverage reports |
+| **R CRAN** | `rcheckfast`, `rcheckcran` | Submission checks |
+| **Tool** | `cat='bat'` | Modern replacements |
+
+### Dispatcher Shortcuts
+
+Each dispatcher has built-in shortcuts:
+
+```bash
+g st          # git status
+g co          # git checkout
+r t           # r test
+qu p          # qu preview
+cc y          # cc yolo
+```
+
+### Quick Access
+
+```bash
+als           # List all aliases by category
+```
+
+> **Full Reference:** See archived [ALIAS-REFERENCE-CARD.md](.archive/ALIAS-REFERENCE-CARD.md) for complete alias list with frequencies and descriptions.
 
 ---
 

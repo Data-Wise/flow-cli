@@ -1,3 +1,9 @@
+---
+template_version: "1.0"
+template_type: "prompt"
+template_description: "AI prompt for generating RevealJS slides"
+---
+
 # RevealJS Presentation Generator
 
 ## Purpose

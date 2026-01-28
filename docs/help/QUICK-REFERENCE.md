@@ -613,6 +613,17 @@ teach init --github
 #         📁 assignments/
 #         📁 exams/
 
+# Migrate lesson plans (v5.20.0+)
+teach migrate-config --dry-run    # Preview changes
+teach migrate-config              # Extract weeks to lesson-plans.yml
+# Output: ✅ Extracted 15 weeks to lesson-plans.yml
+
+# Manage templates (v5.20.0+)
+teach templates                   # List available templates
+teach templates new lecture week-05   # Create from template
+teach templates sync --dry-run    # Preview template updates
+# Output: ✅ Created: lectures/week-05.qmd
+
 # Show course status
 teach status
 # Output: Course: STAT-440

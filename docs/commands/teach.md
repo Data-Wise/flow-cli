@@ -114,6 +114,8 @@ teach <command> [args]
 | `status` | `s` | Show project status + git changes |
 | `week` | `w` | Show current week number |
 | `doctor` | `doc` | Health checks with auto-fix |
+| `migrate-config` | `mig` | Extract lesson plans from config (v5.20.0) |
+| `templates` | `tmpl` | Manage content templates (v5.20.0) |
 | `hooks` | `hk` | Git hook management |
 | `dates` | `d8` | Date management |
 | `validate` | `val` | Validate .qmd files |
@@ -381,6 +383,105 @@ teach week
 #   Semester started: 2026-01-13
 #   Days elapsed: 52
 ```
+
+### `teach migrate-config` (v5.20.0)
+
+Extract embedded lesson plans from `teach-config.yml` to separate `lesson-plans.yml`.
+
+```bash
+# Preview migration (no changes)
+teach migrate-config --dry-run
+
+# Run migration (creates backup)
+teach migrate-config
+
+# Skip confirmation prompt
+teach migrate-config --force
+
+# Don't create backup
+teach migrate-config --no-backup
+```
+
+**Before Migration:**
+```
+.flow/
+└── teach-config.yml    # 657 lines (course + 14 weeks embedded)
+```
+
+**After Migration:**
+```
+.flow/
+├── teach-config.yml      # ~50 lines (course meta + reference)
+├── teach-config.yml.bak  # Backup of original
+└── lesson-plans.yml      # ~600 lines (all weeks extracted)
+```
+
+**Flags:**
+- `--dry-run` - Preview changes without modifying files
+- `--force` - Skip confirmation prompt
+- `--no-backup` - Don't create `.bak` backup file
+- `-h`, `--help` - Show help
+
+**Rollback:**
+```bash
+cp .flow/teach-config.yml.bak .flow/teach-config.yml
+rm .flow/lesson-plans.yml
+```
+
+### `teach templates` (v5.20.0)
+
+Manage reusable content templates for lectures, labs, slides, and assignments.
+
+```bash
+# List all available templates
+teach templates
+
+# Filter by type
+teach templates list --type content
+teach templates list --source project
+
+# Create content from template
+teach templates new lecture week-05
+teach templates new lab week-03 --topic "ANOVA"
+teach templates new slides week-06 --dry-run
+
+# Validate templates
+teach templates validate
+teach templates validate lecture.qmd
+
+# Sync from plugin defaults
+teach templates sync --dry-run
+teach templates sync
+teach templates sync --force
+```
+
+**Template types:**
+
+| Type | Directory | Purpose |
+|------|-----------|---------|
+| `content` | `.flow/templates/content/` | .qmd starters (lecture, lab, slides) |
+| `prompts` | `.flow/templates/prompts/` | AI generation prompts |
+| `metadata` | `.flow/templates/metadata/` | _metadata.yml files |
+| `checklists` | `.flow/templates/checklists/` | QA checklists |
+
+**Variable substitution:**
+Templates use `{{VARIABLE}}` syntax. Auto-filled from config:
+
+- `{{WEEK}}` - Week number from CLI
+- `{{TOPIC}}` - Topic from CLI or prompt
+- `{{COURSE}}` - Course name from teach-config.yml
+- `{{DATE}}` - Auto-generated current date
+- `{{INSTRUCTOR}}` - Instructor from config
+- `{{SEMESTER}}` - Semester from config
+
+**Initialize with templates:**
+```bash
+teach init "STAT-545" --with-templates
+```
+
+**Resolution order:** Project templates override plugin defaults.
+
+**See:** [Tutorial 24](../tutorials/24-template-management.md) for step-by-step guide.
 
 ### `teach config`
 

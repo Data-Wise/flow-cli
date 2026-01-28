@@ -17,7 +17,7 @@
 - [Deployment Workflows](#deployment-workflows)
 - [Index Management](#index-management)
 - [Hook System](#hook-system)
-- [Backup & Restore](#backup--restore)
+- [Backup and Restore](#backup-and-restore)
 - [Health Checks](#health-checks)
 - [Performance Optimization](#performance-optimization)
 - [Common Recipes](#common-recipes)
@@ -1280,7 +1280,7 @@ git push --no-verify origin draft
 
 ---
 
-## Backup & Restore
+## Backup and Restore {#backup-and-restore}
 
 ### Automatic Backups
 

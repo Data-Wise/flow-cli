@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v5.19.1-dev (In Development)
-- **Latest Release:** v5.19.1 (2026-01-23)
+- **Current Version:** v5.20.0
+- **Latest Release:** v5.20.0 (2026-01-28)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -282,6 +282,33 @@ v <cmd>       # Vibe coding mode (v on, v off, v status)
 ```
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
+
+### Template Management (v5.20.0) ✨
+
+**Project-local templates at `.flow/templates/`**
+
+```bash
+teach templates              # List all templates
+teach templates list         # List with filtering
+teach templates new lecture week-05   # Create from template
+teach templates new lab week-03 --topic "ANOVA"
+teach templates validate     # Check template syntax
+teach templates sync         # Update from plugin defaults
+teach init --with-templates  # Initialize with templates
+```
+
+**Template Types:**
+
+| Type         | Directory                     | Purpose                                          |
+| ------------ | ----------------------------- | ------------------------------------------------ |
+| `content`    | `.flow/templates/content/`    | .qmd starters (lecture, lab, slides, assignment) |
+| `prompts`    | `.flow/templates/prompts/`    | AI generation prompts (for Scholar)              |
+| `metadata`   | `.flow/templates/metadata/`   | \_metadata.yml files                             |
+| `checklists` | `.flow/templates/checklists/` | QA checklists                                    |
+
+**Resolution Order:** Project templates override plugin defaults.
+
+**Documentation:** `docs/reference/REFCARD-TEMPLATES.md`
 
 ### Token Management (v5.19.1 Phase 1) ✨
 
@@ -633,11 +660,11 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.19.1-dev (In Development)
-**Latest Release:** v5.19.1 (2026-01-23)
-**Status:** Production - Documentation consolidation complete
-**Branch:** `dev` (clean working tree, API docs 13.8% coverage)
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.1
+**Version:** v5.20.0
+**Latest Release:** v5.20.0 (2026-01-28)
+**Status:** Production
+**Branch:** `dev`
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.20.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 14 test suites + 54 token automation tests (100% core tests, 416+ total tests)
@@ -645,6 +672,47 @@ export FLOW_DEBUG=1
 ---
 
 ## Recent Releases
+
+### v5.20.0 - Template Management & Lesson Plan Migration (2026-01-28)
+
+**Released:** 2026-01-28
+**Changes:** 88 commits, 51 files changed, +12,341 / -1,977 lines
+
+**Major Features:**
+
+- **Template Management** (`teach templates`) - Create content from reusable templates
+  - `teach templates list` - View available templates by type/source
+  - `teach templates new lecture week-05` - Create from template with variable substitution
+  - `teach templates validate` - Check template syntax
+  - `teach templates sync` - Update from plugin defaults
+  - Variable substitution: `{{WEEK}}`, `{{TOPIC}}`, `{{COURSE}}`, `{{DATE}}`
+
+- **Lesson Plan Migration** (`teach migrate-config`) - Extract embedded lesson plans
+  - Separates course metadata from curriculum content
+  - `--dry-run` preview, `--force` skip confirmation
+  - Automatic backup creation
+  - Backward compatible (old format still works with warning)
+
+- **Token Age Bug Fix** - Correct Keychain metadata field for expiration calculation
+
+- **API Documentation Phase 1** - Core libraries documented (26.1% coverage)
+  - 9 libraries documented with 86 functions
+  - MASTER-API-REFERENCE.md created
+
+- **Documentation Improvements**
+  - Tutorial 24: Template Management
+  - Tutorial 25: Lesson Plan Migration
+  - 14 broken anchor links fixed
+  - 442 markdown lint violations fixed
+
+**New Files:**
+
+- `commands/teach-templates.zsh` (22KB)
+- `commands/teach-migrate.zsh` (14KB)
+- `lib/template-helpers.zsh` (15KB)
+- `docs/tutorials/24-template-management.md`
+- `docs/tutorials/25-lesson-plan-migration.md`
+- `docs/reference/REFCARD-TEMPLATES.md`
 
 ### v5.19.1 - Token Automation Phase 1 ✨ (2026-01-23)
 

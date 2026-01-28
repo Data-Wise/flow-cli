@@ -10,7 +10,7 @@
 
 1. [Architecture Overview](#1-architecture-overview)
 2. [Adding Tokens](#2-adding-tokens)
-3. [Retrieving & Using Tokens](#3-retrieving--using-tokens)
+3. [Retrieving and Using Tokens](#3-retrieving-and-using-tokens)
 4. [Updating Tokens](#4-updating-tokens)
 5. [Rotating Tokens](#5-rotating-tokens)
 6. [Deleting Tokens](#6-deleting-tokens)
@@ -387,7 +387,7 @@ Expires: Never (manual rotation recommended)
 
 ---
 
-## 3. Retrieving & Using Tokens
+## 3. Retrieving and Using Tokens {#3-retrieving-and-using-tokens}
 
 ### 3.1 Basic Retrieval
 

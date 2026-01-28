@@ -120,6 +120,8 @@ The work command initializes a session context...
 
 ---
 
+<a id="templates-reference"></a>
+
 ## Templates Reference
 
 ### Available Templates
@@ -793,6 +795,8 @@ cc here         # Explicit HERE target
 ```
 
 ---
+
+<a id="troubleshooting"></a>
 
 ## Troubleshooting
 

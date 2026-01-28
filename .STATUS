@@ -4,13 +4,230 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.20.0-dev - Token UX Improvements
+## Phase: v5.20.0-dev - Lesson Plan Extraction
 ## Priority: 1
-## Progress: 0
+## Progress: 100
 
-## Focus: v5.20.0 Development - Token UX Improvements
+## Focus: v5.20.0 Development - Template Support Complete ✅
+
+## 🎉 Just Released: v5.19.1 (2026-01-27)
+
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.1
+**PR #297:** https://github.com/Data-Wise/flow-cli/pull/297 (MERGED)
+
+**Highlights:**
+- 4 critical token rotation bug fixes
+- Security fix (password leakage prevention)
+- Enhanced `dot secret list` with type icons and expiration display
+- Backup token management with cleanup commands
+- 55 new tests (all passing)
+
+---
 
 ## ✅ Just Completed:
+
+### Documentation Lint & Anchor Fixes (2026-01-28)
+
+**Session Duration:** ~45 min
+**Status:** ✅ Committed, pushed, deployed
+**Impact:** Fixed 442 lint violations + 14 broken anchor links
+
+**Activities:**
+- Ran markdownlint-cli2 on MASTER-API-REFERENCE.md and DOC-DASHBOARD.md
+- Fixed 442 lint violations (458 → 16 remaining, all false positives)
+- Fixed issues: MD040 (code fence languages), MD031 (blank lines), MD051 (orphan link), MD033 (HTML escape)
+- Fixed broken table rows in DOC-DASHBOARD.md
+- Added Aliases section to MASTER-DISPATCHER-GUIDE.md (~50 lines)
+- Fixed 14 broken anchor links across 10 documentation files:
+  - LEARNING-PATH-INDEX.md (4 TOC links)
+  - TROUBLESHOOTING.md (Token & → Token and)
+  - DOC-INDEX.md (environment variables link)
+  - REFERENCE-CONSOLIDATION-PLAN.md (3 core libraries links)
+  - TEACHING-QUARTO-WORKFLOW-GUIDE.md (backup & restore)
+  - TOKEN-MANAGEMENT-COMPLETE.md (retrieving & using)
+  - ZSH-PLUGIN-ECOSYSTEM-GUIDE.md (antidote + OMZ)
+- Added explicit HTML anchors to 3 docs files
+- Deployed updated docs to GitHub Pages
+
+**Commits:**
+- 2d2a7675 - fix(docs): fix markdown lint violations in API docs
+- cb8d3eae - fix(docs): add Aliases section and fix broken anchor links
+- c1678b2d - fix(docs): fix broken anchor links across documentation
+
+---
+
+### Token Age Calculation Bug Fix (2026-01-28)
+
+**Session Duration:** ~15 min
+**Status:** ✅ Fixed and pushed (937b9976)
+**Impact:** Resolved false "expiring in 0 days" warning in `work` command
+
+**Root Cause:**
+- `_dot_token_age_days()` searched for `note:` field in Keychain output
+- macOS Keychain stores `-j` JSON metadata in `icmt` (comment) field, not `note`
+- Function always returned 90 (default), causing `days_remaining = 0`
+
+**Fix:**
+- Changed `grep "note:"` to `grep '"icmt"'`
+- Added proper sed pattern to extract JSON from `icmt` field
+- Token status now correctly shows "ok" instead of false expiration warning
+
+**Commits:**
+- 937b9976 - fix(dot): correct Keychain metadata field for token age calculation
+
+---
+
+### Template Support Spec & Worktree (2026-01-28)
+
+**Session Duration:** ~45 min
+**Status:** ✅ Spec created, worktree ready
+**Impact:** Feature #301 ready for implementation
+
+**Activities:**
+- Reviewed Issue #301 (.flow/templates/ support)
+- Conducted interactive brainstorm (8 questions, all design decisions captured)
+- Created comprehensive spec: `docs/specs/SPEC-template-support-2026-01-28.md`
+- Created feature worktree: `~/.git-worktrees/flow-cli/feature-template-support`
+- Posted implementation instructions on issue #301
+
+**Key Design Decisions:**
+- Command pattern: `teach templates <action>` (matches backup pattern)
+- Resolution order: Project > Plugin (user customizations override defaults)
+- Variable syntax: `{{VARIABLE}}` (Mustache-style)
+- Template init: `--with-templates` flag (opt-in)
+- Scholar integration: Auto-detect prompts from `.flow/templates/prompts/`
+
+**Commands Specified:**
+- `teach templates list [--type TYPE]` - List available templates
+- `teach templates new <type> <dest>` - Create from template
+- `teach templates validate` - Check template syntax
+- `teach templates sync [--dry-run]` - Update from plugin defaults
+- `teach init --with-templates` - Create course with templates
+
+**Effort:** ~10-12 hours (2 phases)
+
+**Files Created:**
+- docs/specs/SPEC-template-support-2026-01-28.md (569 lines)
+
+**Commits:**
+- 4efe329a - docs(spec): add .flow/templates/ support specification (#301)
+
+---
+
+### API Documentation - Teaching Libraries (2026-01-28)
+
+**Session Duration:** ~30 min (orchestrated with 3 parallel agents)
+**Status:** ✅ Committed and pushed
+**Impact:** +34 functions documented, coverage 20.1% → 24.9%
+
+**Orchestration (3 parallel agents):**
+- Agent doc-1: concept-extraction.zsh, prerequisite-checker.zsh (14 functions)
+- Agent doc-2: analysis-cache.zsh, cache-analysis.zsh, analysis-display.zsh (32 functions)
+- Agent doc-3: ai-analysis.zsh, ai-recipes.zsh, ai-usage.zsh, report-generator.zsh, slide-optimizer.zsh (53 functions)
+
+**New Libraries Documented (4):**
+- lib/cache-analysis.zsh (6 functions) - Cache statistics and recommendations
+- lib/analysis-display.zsh (8 functions) - Display layer formatting
+- lib/ai-recipes.zsh (11 functions) - AI prompt templates
+- lib/ai-usage.zsh (9 functions) - Usage tracking and stats
+
+**Coverage Improvement:**
+- Before: 20.1% (144/716 functions)
+- After: 24.9% (178/716 functions)
+- Delta: +4.8% (+34 functions)
+- Teaching Libraries: 9.0% → 100.0% (fully documented)
+
+**Commits:**
+- 74e6802b - docs(api): document 4 teaching libraries with 34 functions
+
+---
+
+### Lesson Plan Extraction Implementation (2026-01-27 Session 5)
+
+**Session Duration:** ~45 min (orchestrated)
+**Status:** ✅ MERGED - PR #300 merged to dev (183c4b22)
+**Impact:** Complete implementation of #298 with 28 tests
+
+**Orchestration (3 parallel agents):**
+- Agent 1: Migration Command → `commands/teach-migrate.zsh` (463 lines)
+- Agent 2: Loader Update → `lib/dispatchers/teach-dispatcher.zsh` (+85 lines)
+- Agent 3: Test Suite → `tests/test-lesson-plan-extraction.zsh` (28 tests)
+
+**Features Implemented:**
+- `teach migrate-config` command with --dry-run, --force, --no-backup flags
+- 3-tier loader priority: lesson-plans.yml → embedded weeks → error hint
+- Backward compatibility for non-migrated configs
+- Demo course fixture (STAT-101, 5 weeks)
+
+**Test Coverage (28 tests, 100% passing):**
+- Section 1: Migration Command (10 tests)
+- Section 2: Loader (8 tests)
+- Section 3: Integration (5 tests)
+- Section 4: Edge Cases (5 tests)
+
+**Files Changed (4 files, +1,640 lines):**
+- commands/teach-migrate.zsh (new, 463 lines)
+- lib/dispatchers/teach-dispatcher.zsh (+85 lines)
+- tests/fixtures/demo-course/.flow/teach-config.yml (new)
+- tests/test-lesson-plan-extraction.zsh (new, 920 lines)
+
+**Commits:**
+- 4d21af75 - feat(teach): add lesson plan extraction and migration (#298)
+
+**Next Steps:**
+- Create PR to dev branch
+- Update Scholar plugin (#299) to read new format
+
+---
+
+### Config Consolidation Review & Planning (2026-01-27 Session 4)
+
+**Session Duration:** ~25 min
+**Status:** ✅ Plan revised and finalized
+**Impact:** Interactive planning for #298, shelved #278 and #275
+
+**Plan Revisions:**
+- ❌ Removed: Rename teach-config.yml (keeping original name)
+- ❌ Removed: Teaching style integration (deferred)
+- ✅ Focused: Extract lesson plans only
+
+**Design Decisions (Interactive):**
+1. **Data model:** Reference-only (pointer in teach-config.yml)
+2. **Migration:** Explicit `teach migrate-config` command required
+3. **File structure:** Single lesson-plans.yml (not per-week files)
+4. **Scope:** Lesson plan extraction only (defer teaching_style)
+5. **Backup:** Create .bak file before modifying
+6. **Errors:** Clear messages with "Run: teach migrate-config" hint
+7. **Coordination:** Update Scholar (#299) after flow-cli stable
+
+**Implementation Tasks (~4 hours):**
+1. `teach migrate-config` command (1.5h)
+2. Update `_teach_load_lesson_plan()` (1h)
+3. Error handling updates (30min)
+4. Demo course fixture (30min)
+5. Tests (1h)
+
+**Spec:** `docs/specs/SPEC-lesson-plan-extraction-2026-01-27.md`
+
+**Orchestration Plan (3 parallel agents):**
+```
+Agent 1: Migration Command     Agent 2: Loader Update
+├─ commands/teach-migrate.zsh  ├─ teach-dispatcher.zsh
+├─ Extract weeks via yq        ├─ _teach_load_lesson_plan()
+├─ Create backup               ├─ _teach_has_embedded_weeks()
+└─ Preview/dry-run             └─ Error handling
+
+Agent 3: Fixtures + Tests (after 1 & 2)
+├─ Demo course teach-config.yml
+├─ test-lesson-plan-extraction.zsh
+└─ 23 tests
+```
+
+**Shelved Issues:**
+- #278 (teach plan create) - Shelved for future
+- #275 (teach dashboard) - Shelved for future
+
+---
 
 ### Feature Request Review & Spec Creation (2026-01-27 Session 3)
 
@@ -582,26 +799,55 @@ fi
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Clean - planning complete |
-| Phase 1 Worktree | `feature/keychain-default-phase-1` | Active - ready for implementation |
+| Main repo | `dev` | Clean - all features merged |
+
+**Recently Merged:**
+- ✅ Template Support (PR #302) - Merged 2026-01-28
+- ✅ API Docs Phase 1 (PR #303) - Merged 2026-01-28
+
+**API Documentation Phase 1:** ✅ MERGED (PR #303)
+- **Scope:** Core Libraries (20 functions documented)
+- **Files:** `lib/core.zsh`, `lib/atlas-bridge.zsh`
+- **Coverage:** 24.9% → 26.1% (+13 functions)
+- **Commit:** c14c5bb4
 
 ---
 
 ## 📝 Pending:
 
-### Feature Request #278: `teach plan create` (High Priority)
-- **Status:** Spec created - `docs/specs/SPEC-teach-plan-create-2026-01-27.md`
-- **Issue:** https://github.com/Data-Wise/flow-cli/issues/278
-- **Effort:** 2-3 hours
-- **Why:** Fixes broken UX (hint message references non-existent command)
-- **Scope:** `teach plan create/list/show` - uses existing lesson plan infrastructure
+### Feature Request #298: Lesson Plan Extraction (Active) ⭐
+- **Status:** ✅ Plan revised - Ready to implement
+- **Issue:** https://github.com/Data-Wise/flow-cli/issues/298
+- **Effort:** ~4 hours
+- **Why:** Cleaner separation (course meta vs curriculum)
+- **Scope (Revised):**
+  - ✅ Extract `semester_info.weeks[]` → `.flow/lesson-plans.yml`
+  - ✅ Add `lesson_plans: "lesson-plans.yml"` reference in teach-config.yml
+  - ✅ Create `teach migrate-config` command (with .bak backup)
+  - ❌ NO rename of teach-config.yml
+  - ❌ NO teaching_style integration (deferred)
+- **Design Decisions:**
+  - Reference-only model (pointer, not dual storage)
+  - Single lesson-plans.yml file (not per-week)
+  - Clear error messages with migration hints
+  - .bak backup before modifying
 
-### Feature Request #275: `teach dashboard` (Medium Priority)
-- **Status:** Spec approved - `docs/specs/SPEC-teach-dashboard-2026-01-18.md`
+### Feature Request #299: Scholar Config Sync (Deferred)
+- **Status:** ⏸️ Waiting for #298 to stabilize
+- **Issue:** https://github.com/Data-Wise/flow-cli/issues/299
+- **Effort:** 2-3 hours (after #298 complete)
+- **Why:** Scholar must read from new lesson-plans.yml format
+- **Dependencies:** Requires #298 complete and tested first
+
+### Feature Request #278: `teach plan create` (Shelved)
+- **Status:** ⏸️ Shelved for future
+- **Issue:** https://github.com/Data-Wise/flow-cli/issues/278
+- **Spec:** `docs/specs/SPEC-teach-plan-create-2026-01-27.md`
+
+### Feature Request #275: `teach dashboard` (Shelved)
+- **Status:** ⏸️ Shelved for future
 - **Issue:** https://github.com/Data-Wise/flow-cli/issues/275
-- **Effort:** 8-12 hours (recommend MVP: 4-5 hours)
-- **Why:** Eliminates weekly manual dashboard updates for Quarto sites
-- **Scope:** Generate `semester-data.json` from `teach-config.yml`
+- **Spec:** `docs/specs/SPEC-teach-dashboard-2026-01-18.md`
 
 ### SPEC-teach-prompt-command (Paused)
 - ⏸️ Needs Scholar plugin coordination
@@ -779,8 +1025,21 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-25 07:00
-**Status:** v5.19.0 Released ✅ - Ready for v5.20.0
+**Last Updated:** 2026-01-28 20:45
+**Status:** v5.19.1 Released ✅ - API Docs Phase 1 (PR #303) & Template Support WIP
+## wins: --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
+## wins: --category code PR #303 merged - API docs Phase 1 (20 functions, +26.1% coverage) (2026-01-28)
+## wins: --category docs template management docs updated (CHANGELOG, dispatcher guide, mkdocs nav) (2026-01-28)
+## wins: --category docs API docs extraction script run, coverage dashboard updated (2026-01-28)
+## wins: --category docs API documentation spec created (6 phases, 470 functions, orchestration ready) (2026-01-28)
+## wins: --category fix token age calculation bug fixed (Keychain icmt field parsing) (2026-01-28)
+## wins: --category docs spec created for .flow/templates/ support (#301, 569 lines) (2026-01-28)
+## wins: --category docs documented 4 teaching libraries (34 functions, +4.8% coverage) (2026-01-28)
+## wins: --category review reviewed issue #301, conducted 8-question brainstorm (2026-01-28)
+## wins: --category docs fixed high priority documentation issues (5 sections, image patterns) (2026-01-27)
+## wins: --category code PR #300 merged - lesson plan extraction complete (28 tests, +2,225 lines) (2026-01-27)
+## wins: --category review config consolidation analysis (#298 #299, 14+ integration points) (2026-01-27)
+## wins: --category ship v5.19.1 released (4 bug fixes, security fix, 55 tests) (2026-01-27)
 ## wins: --category docs reviewed feature requests #278 #275, created spec (2026-01-27)
 ## wins: --category code separate backup section in dot secret list (8 new tests) (2026-01-27)
 ## wins: --category fix token rotation bug fixes (4 bugs, 47 tests) (2026-01-27)
@@ -797,5 +1056,5 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 ## wins: --category docs documented 83 functions (Phases 1-4, +411% coverage) (2026-01-24)
 ## wins: --category docs fixed 54 critical broken links across hub files (2026-01-24)
 ## wins: --category ship deployed v5.18.0-dev to GitHub Pages (2026-01-24)
-## streak: 3
-## last_active: 2026-01-27
+## streak: 4
+## last_active: 2026-01-28

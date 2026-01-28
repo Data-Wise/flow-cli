@@ -16,3 +16,11 @@ docs/bugs/.*:.*
 
 # Test documentation - intentionally broken links for testing
 docs/testing/.*:nonexistent\.md
+
+# Image assets - may be generated or not committed to repo
+docs/.*\.md:.*\.(gif|png|jpg|jpeg|svg)
+.*:images/.*\.(gif|png|jpg|jpeg|svg)
+
+# Generated demo assets
+docs/tutorials/.*:.*demo.*\.(gif|png)
+docs/guides/.*:.*screenshot.*\.(png|jpg)

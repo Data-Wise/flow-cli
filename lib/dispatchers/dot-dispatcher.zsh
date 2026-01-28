@@ -2741,10 +2741,11 @@ _dot_token_age_days() {
   # ─────────────────────────────────────────────────────────────────
 
   # Get creation timestamp from Keychain item metadata
+  # Note: macOS Keychain stores -j JSON in "icmt" (comment) field, not "note"
   local metadata=$(security find-generic-password \
     -a "$secret_name" \
     -s "$_DOT_KEYCHAIN_SERVICE" \
-    -g 2>&1 | grep "note:" | sed 's/note: //')
+    -g 2>&1 | grep '"icmt"' | sed 's/.*"icmt"<blob>="\(.*\)"/\1/')
 
   if [[ -z "$metadata" ]]; then
     # No metadata, assume old token (flag for rotation)

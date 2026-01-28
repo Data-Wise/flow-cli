@@ -12,7 +12,7 @@
 ## Table of Contents
 
 1. [Understanding the Ecosystem](#understanding-the-ecosystem)
-2. [Your Setup: Antidote + OMZ Plugins](#your-setup-antidote--omz-plugins)
+2. [Your Setup: Antidote and OMZ Plugins](#your-setup-antidote-and-omz-plugins)
 3. [Plugin Categories](#plugin-categories)
 4. [Beginner's Tutorial](#beginners-tutorial)
 5. [Advanced Usage](#advanced-usage)
@@ -69,7 +69,7 @@
 
 ---
 
-## Your Setup: Antidote + OMZ Plugins
+## Your Setup: Antidote and OMZ Plugins {#your-setup-antidote-and-omz-plugins}
 
 ### Configuration Files
 
