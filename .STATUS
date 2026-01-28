@@ -811,7 +811,14 @@ fi
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Clean - all features merged |
+| Main repo | `dev` | Clean |
+| `~/.git-worktrees/flow-cli/feature-latex-macros` | `feature/latex-macros` | 🚧 WIP - Issue #305 |
+
+**Active Feature:**
+- 🚧 **LaTeX Macro Config** (Issue #305) - Spec complete, ready for implementation
+  - Spec: `docs/specs/SPEC-latex-macros-2026-01-28.md`
+  - Brainstorm: `BRAINSTORM-latex-macros-2026-01-28.md`
+  - Effort: ~14 hours (4 phases)
 
 **Recently Merged:**
 - ✅ Template Support (PR #302) - Merged 2026-01-28
@@ -1037,36 +1044,37 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-28 20:45
-**Status:** v5.19.1 Released ✅ - API Docs Phase 1 (PR #303) & Template Support WIP
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category fix squashed the bug (2026-01-28), fixed the bug (2026-01-28), --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## streak: 0
-## last_active: 2026-01-28 16:18
+**Last Updated:** 2026-01-28 22:55
+**Status:** v5.20.0 Released ✅ - LaTeX Macro Config (Issue #305) WIP
+## wins: --category docs LaTeX macro config spec created (Issue #305, 14h effort, 4 phases) (2026-01-28)
+## wins: --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
+## wins: --category code PR #303 merged - API docs Phase 1 (20 functions, +26.1% coverage) (2026-01-28)
+## wins: --category docs template management docs updated (CHANGELOG, dispatcher guide, mkdocs nav) (2026-01-28)
+## wins: --category docs API docs extraction script run, coverage dashboard updated (2026-01-28)
+## wins: --category docs API documentation spec created (6 phases, 470 functions, orchestration ready) (2026-01-28)
+## wins: --category fix token age calculation bug fixed (Keychain icmt field parsing) (2026-01-28)
+## wins: --category docs spec created for .flow/templates/ support (#301, 569 lines) (2026-01-28)
+## wins: --category docs documented 4 teaching libraries (34 functions, +4.8% coverage) (2026-01-28)
+## wins: --category review reviewed issue #301, conducted 8-question brainstorm (2026-01-28)
+## wins: --category docs fixed high priority documentation issues (5 sections, image patterns) (2026-01-27)
+## wins: --category code PR #300 merged - lesson plan extraction complete (28 tests, +2,225 lines) (2026-01-27)
+## wins: --category review config consolidation analysis (#298 #299, 14+ integration points) (2026-01-27)
+## wins: --category ship v5.19.1 released (4 bug fixes, security fix, 55 tests) (2026-01-27)
+## wins: --category docs reviewed feature requests #278 #275, created spec (2026-01-27)
+## wins: --category code separate backup section in dot secret list (8 new tests) (2026-01-27)
+## wins: --category fix token rotation bug fixes (4 bugs, 47 tests) (2026-01-27)
+## wins: --category code enhanced dot secret list (box format, expiration display) (2026-01-27)
+## wins: --category ship v5.19.0 released (Keychain-default backend, zero dependencies) (2026-01-25)
+## wins: --category code backend abstraction complete (3 modes + 67 tests passing) (2026-01-25)
+## wins: --category review comprehensive PR #295 review (5/5 stars, 2,136 lines) (2026-01-25)
+## wins: --category fix resolved 25 merge conflicts for release (2026-01-25)
+## wins: --category fix fixed 196 mkdocs warnings (documentation health check) (2026-01-25)
+## wins: --category ship v5.18.0 released with documentation consolidation (2026-01-25)
+## wins: --category fix tutorial auto-launch and path resolution bugs fixed (2026-01-25)
+## wins: --category docs CLAUDE-CODE-ENVIRONMENT guide (303 lines troubleshooting) (2026-01-25)
+## wins: --category docs v5.18.0 milestone complete (consolidation + API + health check) (2026-01-24)
+## wins: --category docs documented 83 functions (Phases 1-4, +411% coverage) (2026-01-24)
+## wins: --category docs fixed 54 critical broken links across hub files (2026-01-24)
+## wins: --category ship deployed v5.18.0-dev to GitHub Pages (2026-01-24)
+## streak: 4
+## last_active: 2026-01-28

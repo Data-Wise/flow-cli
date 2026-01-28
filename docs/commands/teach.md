@@ -497,7 +497,7 @@ teach macros list --format json
 
 # Sync macros from source files
 teach macros sync
-teach macros sync --dry-run
+teach macros sync --verbose
 
 # Export macros for Scholar integration
 teach macros export
