@@ -212,6 +212,144 @@ _flow_log_info "Loading configuration from ~/.flowrc"
 
 ---
 
+#### `_flow_log`
+
+Base logging function with color support.
+
+**Signature:**
+```zsh
+_flow_log "level" "message" ["arg2" ...]
+```
+
+**Parameters:**
+- `$1` (required) - Log level: `success`, `warning`, `error`, `info`, `debug`, or `muted`
+- `$@` (required) - Message to display
+
+**Returns:**
+- Always returns 0
+
+**Output:**
+- Colored message to stdout with automatic color reset
+
+**Example:**
+```zsh
+_flow_log success "Operation completed"
+_flow_log error "Something went wrong"
+_flow_log warning "Check configuration"
+```
+
+**Notes:**
+- Uses `FLOW_COLORS` associative array for level-to-color mapping
+- Falls back to 'info' color if level not found
+- Automatically resets color codes after message
+
+---
+
+#### `_flow_log_muted`
+
+Logs muted/gray text without prefix symbol.
+
+**Signature:**
+```zsh
+_flow_log_muted "message"
+```
+
+**Parameters:**
+- `$@` (required) - Message to display
+
+**Returns:**
+- Always returns 0
+
+**Output:**
+- Gray-colored text to stdout
+
+**Example:**
+```zsh
+_flow_log_muted "Last updated: 2 hours ago"
+# Output: Last updated: 2 hours ago (in gray)
+```
+
+**Notes:**
+- No prefix symbol like other logging functions
+- Useful for supplementary information and status details
+
+---
+
+#### `_flow_log_debug`
+
+Log debug message (only when FLOW_DEBUG is set).
+
+**Signature:**
+```zsh
+_flow_log_debug "message"
+```
+
+**Parameters:**
+- `$@` (required) - Message to display
+
+**Returns:**
+- Always returns 0
+
+**Output:**
+- `[debug] message` in gray (only if `FLOW_DEBUG` is set)
+
+**Example:**
+```zsh
+export FLOW_DEBUG=1
+_flow_log_debug "Variable value: $var"
+# Output: [debug] Variable value: foo (in gray)
+```
+
+**Notes:**
+- Silent when `FLOW_DEBUG` is unset or empty
+- Useful for troubleshooting without cluttering normal output
+- Can be toggled on/off via environment variable
+
+---
+
+### Status Icons
+
+#### `_flow_status_icon`
+
+Convert project status string to emoji indicator.
+
+**Signature:**
+```zsh
+_flow_status_icon "status"
+```
+
+**Parameters:**
+- `$1` (required) - Status string (case-insensitive)
+
+**Returns:**
+- Always returns 0
+
+**Output:**
+- Single emoji character representing status
+
+**Status Mapping:**
+- `active` / `ACTIVE` → 🟢 (green circle)
+- `paused` / `PAUSED` → 🟡 (yellow circle)
+- `blocked` / `BLOCKED` → 🔴 (red circle)
+- `archived` / `ARCHIVED` → ⚫ (black circle)
+- `stalled` → 🟠 (orange circle)
+- `(other)` → ⚪ (white circle)
+
+**Example:**
+```zsh
+icon=$(_flow_status_icon "active")
+echo "Status: $icon active"  # Output: Status: 🟢 active
+
+icon=$(_flow_status_icon "PAUSED")
+echo "Status: $icon paused"  # Output: Status: 🟡 paused
+```
+
+**Notes:**
+- Case-insensitive matching for common statuses
+- Used in dashboards and project listings
+
+---
+
 ### Project Utilities
 
 #### `_flow_find_project_root`
@@ -220,11 +358,11 @@ Finds git repository root from current directory.
 
 **Signature:**
 ```zsh
-_flow_find_project_root
+_flow_find_project_root [path]
 ```
 
 **Parameters:**
-- None (uses current directory)
+- `$1` (optional) - Starting directory [default: `$PWD`]
 
 **Returns:**
 - 0 - Success, prints root path to stdout
@@ -238,7 +376,79 @@ if [[ $? -eq 0 ]]; then
 else
     echo "Not in git repository"
 fi
+
+# Start from specific directory
+root=$(_flow_find_project_root "/Users/dt/projects/flow-cli/lib")
 ```
+
+**Notes:**
+- Searches for `.STATUS` file (flow-cli project marker)
+- Falls back to `.git/config` (standard git repo)
+- Uses ZSH `:h` modifier (head/dirname equivalent)
+
+---
+
+#### `_flow_project_name`
+
+Extract project name (directory name) from a path.
+
+**Signature:**
+```zsh
+_flow_project_name [path]
+```
+
+**Parameters:**
+- `$1` (optional) - Path to extract name from [default: `$PWD`]
+
+**Returns:**
+- Always returns 0
+
+**Output:**
+- Project name (last component of path)
+
+**Example:**
+```zsh
+_flow_project_name "/Users/dt/projects/flow-cli"
+# Output: flow-cli
+
+_flow_project_name  # Uses current directory
+# Output: (current directory name)
+```
+
+**Notes:**
+- Uses ZSH `:t` modifier (tail/basename equivalent)
+- Does not validate path exists
+
+---
+
+#### `_flow_in_project`
+
+Check if current directory is inside a flow-cli project.
+
+**Signature:**
+```zsh
+_flow_in_project
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- 0 - Currently in a project directory
+- 1 - Not in a project directory
+
+**Example:**
+```zsh
+if _flow_in_project; then
+    echo "You're in a project!"
+else
+    echo "Navigate to a project first"
+fi
+```
+
+**Notes:**
+- Wrapper around `_flow_find_project_root`
+- Suppresses all output (check return code only)
 
 ---
 
@@ -272,6 +482,239 @@ type=$(_flow_detect_project_type "$PWD")
 echo "Project type: $type"
 # Output: Project type: node
 ```
+
+---
+
+### Time Utilities
+
+#### `_flow_format_duration`
+
+Convert seconds to human-readable duration string.
+
+**Signature:**
+```zsh
+_flow_format_duration "seconds"
+```
+
+**Parameters:**
+- `$1` (required) - Duration in seconds
+
+**Returns:**
+- Always returns 0
+
+**Output:**
+- Formatted duration string
+
+**Format Examples:**
+- `45` → `"45s"`
+- `125` → `"2m"`
+- `3725` → `"1h 2m"`
+- `7200` → `"2h 0m"`
+
+**Example:**
+```zsh
+elapsed=$(_flow_format_duration 3725)
+echo "Session: $elapsed"  # Output: Session: 1h 2m
+```
+
+**Notes:**
+- Seconds shown only for durations < 1 minute
+- Minutes always shown for durations >= 1 minute
+- Hours and minutes shown for durations >= 1 hour
+
+---
+
+#### `_flow_time_ago`
+
+Convert Unix timestamp to relative time string.
+
+**Signature:**
+```zsh
+_flow_time_ago "timestamp"
+```
+
+**Parameters:**
+- `$1` (required) - Unix timestamp (seconds since epoch)
+
+**Returns:**
+- Always returns 0
+
+**Output:**
+- Relative time string
+
+**Format Examples:**
+- `(now - 30)` → `"just now"`
+- `(now - 300)` → `"5m ago"`
+- `(now - 7200)` → `"2h ago"`
+- `(now - 172800)` → `"2d ago"`
+
+**Example:**
+```zsh
+last_commit=$(git log -1 --format=%ct)
+echo "Last commit: $(_flow_time_ago $last_commit)"
+# Output: Last commit: 2h ago
+```
+
+**Notes:**
+- Uses current time for comparison
+- "just now" for anything < 60 seconds
+- Does not handle future timestamps
+
+---
+
+### Input Helpers
+
+#### `_flow_confirm`
+
+Display yes/no confirmation prompt with sensible defaults.
+
+**Signature:**
+```zsh
+_flow_confirm [prompt] [default]
+```
+
+**Parameters:**
+- `$1` (optional) - Prompt message [default: `"Continue?"`]
+- `$2` (optional) - Default answer: `"y"` or `"n"` [default: `"n"`]
+
+**Returns:**
+- 0 - User answered yes (or default was "y" in non-interactive mode)
+- 1 - User answered no (or default was "n" in non-interactive mode)
+
+**Example:**
+```zsh
+# Default "no" behavior
+if _flow_confirm "Delete all files?"; then
+    rm -rf ./build
+fi
+
+# Default "yes" behavior
+if _flow_confirm "Continue with build?" "y"; then
+    make build
+fi
+```
+
+**Notes:**
+- Non-interactive mode (no TTY) returns the default value
+- Capitalizes the default option: `[Y/n]` or `[y/N]`
+- Uses ZSH `read -q` for single-character response
+
+---
+
+### Array Utilities
+
+#### `_flow_array_contains`
+
+Check if a value exists in an array.
+
+**Signature:**
+```zsh
+_flow_array_contains "needle" "haystack_element" [...]
+```
+
+**Parameters:**
+- `$1` (required) - Value to search for (needle)
+- `$@` (required) - Array elements to search through (haystack)
+
+**Returns:**
+- 0 - Value found in array
+- 1 - Value not found
+
+**Example:**
+```zsh
+local -a statuses=(active paused blocked)
+if _flow_array_contains "active" "${statuses[@]}"; then
+    echo "Found active status"
+fi
+
+# Inline usage
+_flow_array_contains "$status" active paused blocked && echo "Valid"
+```
+
+**Notes:**
+- Uses exact string matching
+- Pass array with `${array[@]}` syntax
+
+---
+
+### File Utilities
+
+#### `_flow_read_file`
+
+Safely read file contents (no error if file doesn't exist).
+
+**Signature:**
+```zsh
+_flow_read_file "path"
+```
+
+**Parameters:**
+- `$1` (required) - Path to file
+
+**Returns:**
+- Always returns 0
+
+**Output:**
+- File contents, or empty if file doesn't exist
+
+**Example:**
+```zsh
+# Read a config file, empty string if missing
+local config=$(_flow_read_file "$HOME/.myconfig")
+
+# Use in conditionals
+if [[ -n "$(_flow_read_file "$path/.STATUS")" ]]; then
+    echo "Project has status file"
+fi
+```
+
+**Notes:**
+- Silently handles missing files (no stderr output)
+- Useful for optional configuration files
+
+---
+
+#### `_flow_get_config`
+
+Read a value from a key=value format config file.
+
+**Signature:**
+```zsh
+_flow_get_config "path" "key" [default]
+```
+
+**Parameters:**
+- `$1` (required) - Path to config file
+- `$2` (required) - Key to look up
+- `$3` (optional) - Default value if key not found
+
+**Returns:**
+- Always returns 0
+
+**Output:**
+- Value for key, or default if not found
+
+**File Format:**
+```
+theme=dark
+timeout=30
+# Comments are ignored via grep pattern
+```
+
+**Example:**
+```zsh
+# Simple lookup with default
+local theme=$(_flow_get_config ~/.myconfig "theme" "dark")
+
+# Check if key exists
+local value=$(_flow_get_config "$file" "api_key")
+[[ -z "$value" ]] && echo "API key not configured"
+```
+
+**Notes:**
+- Expects "key=value" format (no spaces around =)
+- Returns default if file doesn't exist or key not found
+- Uses command grep/cut to avoid alias interference
 
 ---
 
@@ -350,6 +793,108 @@ _flow_color_blue "text"
 ```zsh
 echo "$(_flow_color_blue 'Info')"
 ```
+
+---
+
+### Secret Backend Configuration
+
+#### `_dot_secret_backend`
+
+Get the configured secret storage backend.
+
+**Signature:**
+```zsh
+_dot_secret_backend
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- Always returns 0
+
+**Output:**
+- Backend name: `"keychain"` (default), `"bitwarden"`, or `"both"`
+
+**Environment:**
+- `FLOW_SECRET_BACKEND` - Override default backend
+  - `"keychain"` - macOS Keychain only (default, no unlock needed)
+  - `"bitwarden"` - Bitwarden only (requires `dot unlock`)
+  - `"both"` - Both backends (Keychain primary, Bitwarden sync)
+
+**Example:**
+```zsh
+local backend=$(_dot_secret_backend)
+case "$backend" in
+  keychain)  echo "Using macOS Keychain only" ;;
+  bitwarden) echo "Using Bitwarden only" ;;
+  both)      echo "Using both backends" ;;
+esac
+```
+
+**Notes:**
+- Default is `"keychain"` for instant access without unlock
+- `"bitwarden"` mode preserves legacy behavior
+- `"both"` mode enables cloud backup with local performance
+
+---
+
+#### `_dot_secret_needs_bitwarden`
+
+Check if current backend requires Bitwarden.
+
+**Signature:**
+```zsh
+_dot_secret_needs_bitwarden
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- 0 - Bitwarden is needed (backend is `"bitwarden"` or `"both"`)
+- 1 - Bitwarden not needed (backend is `"keychain"`)
+
+**Example:**
+```zsh
+if _dot_secret_needs_bitwarden; then
+  # Ensure Bitwarden is available and unlocked
+  _dot_require_tool "bw" "brew install bitwarden-cli"
+fi
+```
+
+**Notes:**
+- Use this to conditionally skip Bitwarden checks
+- Returns success (0) for `"bitwarden"` and `"both"` modes
+
+---
+
+#### `_dot_secret_uses_keychain`
+
+Check if current backend uses Keychain.
+
+**Signature:**
+```zsh
+_dot_secret_uses_keychain
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- 0 - Keychain is used (backend is `"keychain"` or `"both"`)
+- 1 - Keychain not used (backend is `"bitwarden"`)
+
+**Example:**
+```zsh
+if _dot_secret_uses_keychain; then
+  _dot_kc_add "$name"
+fi
+```
+
+**Notes:**
+- Use this to conditionally use Keychain storage
+- Returns success (0) for `"keychain"` and `"both"` modes
 
 ---
 
@@ -570,6 +1115,74 @@ _flow_list_projects [status_filter]
 
 ---
 
+
+#### `_flow_get_project_fallback`
+
+Find project by name in filesystem (fallback when Atlas unavailable).
+
+**Signature:**
+```zsh
+_flow_get_project_fallback <name>
+```
+
+**Parameters:**
+- `$1` - (required) Project name to look up
+
+**Returns:**
+- `0` - Project found
+- `1` - Project not found
+
+**Output:** Shell-evaluable variables:
+```
+name="project-name"
+project_path="/path/to/project"
+proj_status="active"
+```
+
+**Example:**
+```zsh
+if info=$(_flow_get_project_fallback "flow-cli"); then
+    eval "$info"
+    echo "Found at: $project_path"
+fi
+```
+
+**Notes:**
+- Searches exact match first in `FLOW_PROJECTS_ROOT`, then common subdirectories
+- Search order: root, dev-tools, r-packages/*, research, teaching, quarto
+- Uses `project_path` and `proj_status` to avoid ZSH reserved names
+
+---
+
+#### `_flow_list_projects_fallback`
+
+List projects by scanning filesystem for .STATUS files.
+
+**Signature:**
+```zsh
+_flow_list_projects_fallback [status_filter]
+```
+
+**Parameters:**
+- `$1` - (optional) Status filter (currently ignored in fallback mode)
+
+**Returns:** Always `0`
+
+**Output:** Project names, one per line
+
+**Example:**
+```zsh
+projects=$(_flow_list_projects_fallback)
+echo "Found $(echo "$projects" | wc -l) projects"
+```
+
+**Notes:**
+- Scans recursively for `.STATUS` files in `FLOW_PROJECTS_ROOT`
+- Uses ZSH glob qualifiers: `(N)` for nullglob
+- Uses ZSH modifiers: `:h` = dirname, `:t` = basename
+- Filter parameter ignored (would require parsing `.STATUS` content)
+
+---
 ### Session Operations
 
 #### `_flow_session_start`
@@ -673,6 +1286,41 @@ _flow_where [project]
 
 ---
 
+
+#### `_flow_where_fallback`
+
+Get project context from filesystem (fallback for `_flow_where`).
+
+**Signature:**
+```zsh
+_flow_where_fallback [project]
+```
+
+**Parameters:**
+- `$1` - (optional) Project name to get context for
+
+**Returns:**
+- `0` - Context found
+- `1` - No project context available
+
+**Output:** Project info with status and focus from `.STATUS` file
+
+**Example:**
+```zsh
+# Auto-detect from current directory
+_flow_where_fallback
+
+# Get context for specific project
+_flow_where_fallback "flow-cli"
+```
+
+**Notes:**
+- Detects project from current directory if not specified
+- Parses `.STATUS` file for `Status:` and `Focus:` lines
+- Shows 📁 emoji for visual project identification
+- Falls back to current directory or searches in `FLOW_PROJECTS_ROOT`
+
+---
 #### `_flow_crumb`
 
 Leave a breadcrumb (context marker for future reference).
@@ -695,11 +1343,43 @@ Shortcut alias for Atlas CLI (or fallback commands).
 at <command> [args...]
 ```
 
-**Subcommands (fallback mode):**
-- `catch|c <text>` - Quick capture
-- `inbox|i` - Show inbox
-- `where|w [project]` - Show context
-- `crumb|b <text>` - Leave breadcrumb
+**Parameters:**
+- `$@` - Command and arguments to pass to Atlas or fallback handlers
+
+**Returns:**
+- `0` - Command succeeded
+- `1` - Atlas not available and command not supported
+
+**Subcommands (Atlas mode):**
+Passes through to Atlas CLI when available. See Atlas documentation for all commands.
+
+**Subcommands (fallback mode - when Atlas unavailable):**
+
+| Subcommand | Arguments | Purpose |
+|------------|-----------|---------|
+| `catch` or `c` | `<text> [project]` | Quick capture of thought/task |
+| `inbox` or `i` | (none) | Show captured items |
+| `where` or `w` | `[project]` | Get current project context |
+| `crumb` or `b` | `<text> [project]` | Leave breadcrumb marker |
+
+**Examples:**
+```zsh
+# With Atlas installed (full functionality)
+at session start my-project
+at project list --status=active
+
+# Without Atlas (fallback commands work)
+at catch "Fix login bug"
+at inbox
+at where flow-cli
+at crumb "Debugging auth flow"
+```
+
+**Notes:**
+- Passes through to `atlas` CLI if available
+- Provides essential fallback commands without Atlas
+- 'at' chosen for easy typing (2 characters)
+- Shows helpful error message if Atlas not available and unknown command used
 
 ---
 
