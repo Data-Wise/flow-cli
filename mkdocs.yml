@@ -157,6 +157,7 @@ nav:
       - 🏠 Start Here: help/00-START-HERE.md
       - ⚡ Quick Reference: help/QUICK-REFERENCE.md
       - 🔐 Token & Secrets Quick Ref: reference/REFCARD-TOKEN-SECRETS.md
+      - 📝 Templates Quick Ref: reference/REFCARD-TEMPLATES.md
       - 🔧 Workflows: help/WORKFLOWS.md
       - 🩺 Troubleshooting: help/TROUBLESHOOTING.md
       - 🤖 Claude Code Environment: troubleshooting/CLAUDE-CODE-ENVIRONMENT.md

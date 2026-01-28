@@ -11,6 +11,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Template Management System (#301, #302)
+
+- **`teach templates` command** - Complete template management for teaching workflows
+  - `teach templates list` - List available templates with filtering (`--type`, `--source`)
+  - `teach templates new <type> <dest>` - Create file from template with variable substitution
+  - `teach templates validate` - Check template syntax and metadata
+  - `teach templates sync` - Update from plugin defaults with version comparison
+  - Shortcuts: `teach tmpl`, `teach tpl`
+
+- **4 template types:**
+  - `content/` - .qmd starters (lecture, lab, slides, assignment)
+  - `prompts/` - AI generation prompts for Scholar integration
+  - `metadata/` - \_metadata.yml templates
+  - `checklists/` - QA checklists (pre-publish, new-content)
+
+- **Resolution order:** Project templates (`.flow/templates/`) override plugin defaults
+
+- **Variable substitution:** `{{VARIABLE}}` syntax with auto-fill for WEEK, TOPIC, COURSE, DATE, INSTRUCTOR
+
+- **15 default templates** - Ready-to-use templates in `lib/templates/teaching/`
+
+- **`teach init --with-templates`** - Create course with template directory structure
+
+- **560 tests** - Comprehensive test suite for template management
+
 #### Lesson Plan Extraction (#298)
 
 - **`teach migrate-config` command** - Extract embedded weeks from `teach-config.yml` to separate `lesson-plans.yml`
@@ -39,6 +64,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 ### Fixed
+
+#### Token Age Calculation Bug
+
+- **Keychain metadata field** - Fixed `_dot_token_age_days()` searching wrong field
+  - Was searching: `note:` field (doesn't exist in macOS Keychain)
+  - Now searches: `icmt` field (where `-j` JSON metadata is stored)
+  - Fixes false "expiring in 0 days" warning in `work` command
 
 ---
 

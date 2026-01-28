@@ -1692,6 +1692,83 @@ rm .flow/lesson-plans.yml
 
 ---
 
+#### Template Management (v5.20.0)
+
+**List available templates:**
+```bash
+teach templates                        # List all templates
+teach templates list --type content    # Filter by type
+teach templates list --source project  # Show only project templates
+```
+
+Output:
+```
+┌──────────────────────────────────────────────────────────────┐
+│ 📁 Teaching Templates                                        │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ CONTENT (.flow/templates/content/)                           │
+│   lecture.qmd      v1.0  Standard lecture with concepts      │
+│   lab.qmd          v1.0  R lab exercise template         [P] │
+│   slides.qmd       v1.0  RevealJS slides template            │
+│                                                              │
+│ PROMPTS (.flow/templates/prompts/)                           │
+│   lecture-notes.md    v1.0  AI lecture notes generator       │
+│   revealjs-slides.md  v1.0  AI slides generator          [D] │
+│                                                              │
+│ Legend: [P] = Project, [D] = Default (plugin)                │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Create file from template:**
+```bash
+# Create lecture for week 5
+teach templates new lecture week-05
+
+# Create lab with topic
+teach templates new lab week-03 --topic "ANOVA"
+
+# Preview without creating
+teach templates new slides week-06 --dry-run
+```
+
+**Validate templates:**
+```bash
+teach templates validate                  # Validate all project templates
+teach templates validate lecture.qmd      # Validate specific template
+```
+
+**Sync from plugin defaults:**
+```bash
+teach templates sync --dry-run    # Preview what would change
+teach templates sync              # Update project templates
+teach templates sync --force      # Overwrite even if newer
+```
+
+**Initialize with templates:**
+```bash
+teach init "STAT-545" --with-templates
+```
+
+Creates:
+```
+.flow/templates/
+├── content/     (4 templates)
+├── prompts/     (3 templates)
+├── metadata/    (3 templates)
+└── checklists/  (2 templates)
+```
+
+**Resolution order:** Project templates override plugin defaults:
+1. `.flow/templates/<type>/<name>` (highest priority)
+2. `lib/templates/teaching/<name>` (fallback)
+
+**Shortcuts:** `teach tmpl`, `teach tpl`
+
+**Quick Reference:** See [REFCARD-TEMPLATES.md](REFCARD-TEMPLATES.md)
+
+---
+
 #### Integration with Quarto
 
 **Render specific lecture:**
