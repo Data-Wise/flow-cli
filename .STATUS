@@ -771,19 +771,17 @@ fi
 |----------|--------|--------|
 | Main repo | `dev` | Clean - specs pushed |
 | Template Support | `feature/template-support` | 🚧 WIP - Implementation |
-| API Docs Phase 1 | `feature/api-docs-phase-1` | 🚧 WIP - Core Libraries |
 
 **Template Support:**
 - **Location:** `~/.git-worktrees/flow-cli/feature-template-support`
 - **Spec:** `docs/specs/SPEC-template-support-2026-01-28.md`
 - **Issue:** #301
 
-**API Documentation Phase 1:**
-- **Location:** `~/.git-worktrees/flow-cli/feature-api-docs-phase-1`
-- **Spec:** `docs/specs/SPEC-api-documentation-2026-01-28.md`
-- **Scope:** Core Libraries (~80 functions)
-- **Files:** `lib/core.zsh`, `lib/atlas-bridge.zsh`, `lib/config-validator.zsh`
-- **Target:** 13.8% → 25% coverage
+**API Documentation Phase 1:** ✅ MERGED (PR #303)
+- **Scope:** Core Libraries (20 functions documented)
+- **Files:** `lib/core.zsh`, `lib/atlas-bridge.zsh`
+- **Coverage:** 24.9% → 26.1% (+13 functions)
+- **Commit:** c14c5bb4
 
 ---
 
@@ -1001,6 +999,7 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 **Last Updated:** 2026-01-28 19:30
 **Status:** v5.19.1 Released ✅ - API Docs Phase 1 (PR #303) & Template Support WIP
+## wins: --category code PR #303 merged - API docs Phase 1 (20 functions, +26.1% coverage) (2026-01-28)
 ## wins: --category docs template management docs updated (CHANGELOG, dispatcher guide, mkdocs nav) (2026-01-28)
 ## wins: --category docs API docs extraction script run, coverage dashboard updated (2026-01-28)
 ## wins: --category docs API documentation spec created (6 phases, 470 functions, orchestration ready) (2026-01-28)
