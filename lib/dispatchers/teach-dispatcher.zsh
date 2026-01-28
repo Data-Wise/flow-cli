@@ -114,6 +114,13 @@ if [[ -z "$_FLOW_TEACH_MIGRATE_LOADED" ]]; then
     typeset -g _FLOW_TEACH_MIGRATE_LOADED=1
 fi
 
+# Source teach-templates command (v5.20.0 - Template Support #301)
+if [[ -z "$_FLOW_TEACH_TEMPLATES_LOADED" ]]; then
+    local templates_path="${0:A:h:h}/../commands/teach-templates.zsh"
+    [[ -f "$templates_path" ]] && source "$templates_path"
+    typeset -g _FLOW_TEACH_TEMPLATES_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -3457,6 +3464,7 @@ _teach_init() {
     local course_name=""
     local external_config=""
     local create_github=false
+    local with_templates=false
 
     # Parse arguments
     while [[ $# -gt 0 ]]; do
@@ -3468,6 +3476,10 @@ _teach_init() {
                 ;;
             --github)
                 create_github=true
+                shift
+                ;;
+            --with-templates)
+                with_templates=true
                 shift
                 ;;
             --help|-h|help)
@@ -3593,13 +3605,55 @@ Initialized via: teach init" 2>/dev/null
         fi
     fi
 
+    # Initialize templates if requested (v5.20.0 - Template Support #301)
+    if [[ "$with_templates" == "true" ]]; then
+        echo ""
+        echo "  ${FLOW_COLORS[info]}Setting up templates...${FLOW_COLORS[reset]}"
+
+        # Create template directories
+        local template_dir
+        template_dir=$(_teach_create_template_dirs)
+
+        # Count templates synced
+        local content_count=0
+        local prompts_count=0
+
+        # Sync templates from plugin
+        local plugin_dir="$(_template_get_plugin_dir)"
+
+        # Sync prompts (from claude-prompts/)
+        if [[ -d "$plugin_dir/claude-prompts" ]]; then
+            for tmpl in "$plugin_dir/claude-prompts"/*.md(.N); do
+                cp "$tmpl" "$template_dir/prompts/"
+                ((prompts_count++))
+            done
+        fi
+
+        # Sync content templates (from .template files)
+        for tmpl in "$plugin_dir"/*.template(.N); do
+            local name="${${tmpl:t}%.template}.qmd"
+            cp "$tmpl" "$template_dir/content/$name"
+            ((content_count++))
+        done
+
+        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Created .flow/templates/content/ ($content_count templates)"
+        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Created .flow/templates/prompts/ ($prompts_count templates)"
+        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Created .flow/templates/metadata/"
+        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Created .flow/templates/checklists/"
+    fi
+
     echo ""
     echo "${FLOW_COLORS[success]}✅ Teaching project initialized!${FLOW_COLORS[reset]}"
     echo ""
     echo "  Next steps:"
     echo "    1. Review config: teach config"
     echo "    2. Check environment: teach doctor"
-    echo "    3. Generate content: teach exam \"Topic\""
+    if [[ "$with_templates" == "true" ]]; then
+        echo "    3. List templates: teach templates list"
+        echo "    4. Create content: teach templates new lecture week-01"
+    else
+        echo "    3. Generate content: teach exam \"Topic\""
+    fi
     echo ""
 }
 
@@ -3707,6 +3761,7 @@ ${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
 ${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}--config FILE${FLOW_COLORS[reset]}       Load configuration from external file
   ${FLOW_COLORS[cmd]}--github${FLOW_COLORS[reset]}            Create GitHub repository (requires gh CLI)
+  ${FLOW_COLORS[cmd]}--with-templates${FLOW_COLORS[reset]}    Initialize .flow/templates/ with defaults
   ${FLOW_COLORS[cmd]}--help, -h${FLOW_COLORS[reset]}          Show this help message
 
 ${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
@@ -3715,6 +3770,7 @@ ${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
     • Git workflow (draft/production branches)
     • Teaching mode settings (auto-commit, auto-push)
     • Backup retention policies
+    • Template directories (with --with-templates)
 
 ${FLOW_COLORS[bold]}INTERACTIVE SETUP${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]}          # Interactive prompts for all settings
@@ -3733,9 +3789,13 @@ ${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
   ${FLOW_COLORS[muted]}# Create GitHub repo${FLOW_COLORS[reset]}
   $ teach init "STAT 545" --github
 
+  ${FLOW_COLORS[muted]}# Initialize with templates${FLOW_COLORS[reset]}
+  $ teach init "STAT 545" --with-templates
+
 ${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
   Creates: ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}
   Creates: ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} (optional template)
+  Creates: ${FLOW_COLORS[accent]}.flow/templates/${FLOW_COLORS[reset]} (with --with-templates)
 
 ${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
   • Run ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} after init to verify setup
@@ -4618,6 +4678,8 @@ ${FLOW_COLORS[bold]}════════════════════
   ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]}                    Date management
   ${FLOW_COLORS[cmd]}teach migrate-config${FLOW_COLORS[reset]}           Extract lesson plans
     ${FLOW_COLORS[muted]}--dry-run${FLOW_COLORS[reset]}                   Preview changes only
+  ${FLOW_COLORS[cmd]}teach templates${FLOW_COLORS[reset]}                Template management
+    ${FLOW_COLORS[muted]}list | new | validate | sync${FLOW_COLORS[reset]}  Template operations
 
 ${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
 ✍️ CONTENT CREATION (Scholar AI)
@@ -4677,7 +4739,7 @@ ${FLOW_COLORS[bold]}SHORTCUTS${FLOW_COLORS[reset]}
   ${FLOW_COLORS[accent]}lec${FLOW_COLORS[reset]} → lecture  ${FLOW_COLORS[accent]}sl${FLOW_COLORS[reset]} → slides   ${FLOW_COLORS[accent]}e${FLOW_COLORS[reset]} → exam
   ${FLOW_COLORS[accent]}q${FLOW_COLORS[reset]} → quiz      ${FLOW_COLORS[accent]}hw${FLOW_COLORS[reset]} → assign   ${FLOW_COLORS[accent]}syl${FLOW_COLORS[reset]} → syllabus
   ${FLOW_COLORS[accent]}d${FLOW_COLORS[reset]} → deploy    ${FLOW_COLORS[accent]}bk${FLOW_COLORS[reset]} → backup  ${FLOW_COLORS[accent]}s${FLOW_COLORS[reset]} → status
-  ${FLOW_COLORS[accent]}w${FLOW_COLORS[reset]} → week      ${FLOW_COLORS[accent]}c${FLOW_COLORS[reset]} → config
+  ${FLOW_COLORS[accent]}w${FLOW_COLORS[reset]} → week      ${FLOW_COLORS[accent]}c${FLOW_COLORS[reset]} → config   ${FLOW_COLORS[accent]}tmpl${FLOW_COLORS[reset]} → templates
 
 ${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
   ${FLOW_COLORS[muted]}# Setup new course${FLOW_COLORS[reset]}
@@ -4927,6 +4989,15 @@ teach() {
                     ;;
             esac
             ;;
+
+        # Template management (v5.20.0 - Template Support #301)
+        templates|tmpl|tpl)
+            case "$1" in
+                --help|-h|help) _teach_templates_help; return 0 ;;
+                *) _teach_templates "$@" ;;
+            esac
+            ;;
+
         *)
             _teach_error "Unknown command: $cmd"
             echo ""
