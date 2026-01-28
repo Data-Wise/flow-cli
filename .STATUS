@@ -4,23 +4,35 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.20.0-dev - Lesson Plan Extraction
+## Phase: v5.20.0 Released
 ## Priority: 1
 ## Progress: 100
 
-## Focus: v5.20.0 Development - Template Support Complete ✅
+## 🎉 Just Released: v5.20.0 (2026-01-28)
 
-## 🎉 Just Released: v5.19.1 (2026-01-27)
-
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.1
-**PR #297:** https://github.com/Data-Wise/flow-cli/pull/297 (MERGED)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.20.0
+**PR #304:** https://github.com/Data-Wise/flow-cli/pull/304 (MERGED)
 
 **Highlights:**
+- Template Management System (`teach templates`)
+- Lesson Plan Migration (`teach migrate-config`)
+- Token Age Bug Fix (Keychain metadata field)
+- API Documentation Phase 1 (26.1% coverage)
+- Tutorial 24 & 25 created
+- 14 broken anchor links + 442 lint violations fixed
+
+**Stats:** 88 commits, 51 files, +12,341/-1,977 lines
+
+---
+
+## Previous Release: v5.19.1 (2026-01-27)
+
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.1
+
+**Highlights:**
+- Token Automation Phase 1 (isolated checks, smart caching)
 - 4 critical token rotation bug fixes
 - Security fix (password leakage prevention)
-- Enhanced `dot secret list` with type icons and expiration display
-- Backup token management with cleanup commands
-- 55 new tests (all passing)
 
 ---
 
