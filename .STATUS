@@ -26,6 +26,27 @@
 
 ## ✅ Just Completed:
 
+### Token Age Calculation Bug Fix (2026-01-28)
+
+**Session Duration:** ~15 min
+**Status:** ✅ Fixed and pushed (937b9976)
+**Impact:** Resolved false "expiring in 0 days" warning in `work` command
+
+**Root Cause:**
+- `_dot_token_age_days()` searched for `note:` field in Keychain output
+- macOS Keychain stores `-j` JSON metadata in `icmt` (comment) field, not `note`
+- Function always returned 90 (default), causing `days_remaining = 0`
+
+**Fix:**
+- Changed `grep "note:"` to `grep '"icmt"'`
+- Added proper sed pattern to extract JSON from `icmt` field
+- Token status now correctly shows "ok" instead of false expiration warning
+
+**Commits:**
+- 937b9976 - fix(dot): correct Keychain metadata field for token age calculation
+
+---
+
 ### Template Support Spec & Worktree (2026-01-28)
 
 **Session Duration:** ~45 min
@@ -748,12 +769,13 @@ fi
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Clean - spec complete |
-| Template Support | `feature/template-support` | Ready for implementation |
+| Main repo | `dev` | Clean - bug fix pushed |
+| Template Support | `feature/template-support` | 🚧 WIP - Implementation |
 
 **Worktree Location:** `~/.git-worktrees/flow-cli/feature-template-support`
 **Spec:** `docs/specs/SPEC-template-support-2026-01-28.md`
 **Issue:** #301
+**Status:** Work in Progress - Spec complete, implementation started
 
 ---
 
@@ -969,8 +991,9 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-28 16:00
-**Status:** v5.19.1 Released ✅ - Template Support spec ready (#301)
+**Last Updated:** 2026-01-28 17:30
+**Status:** v5.19.1 Released ✅ - Template Support WIP (#301)
+## wins: --category fix token age calculation bug fixed (Keychain icmt field parsing) (2026-01-28)
 ## wins: --category docs spec created for .flow/templates/ support (#301, 569 lines) (2026-01-28)
 ## wins: --category docs documented 4 teaching libraries (34 functions, +4.8% coverage) (2026-01-28)
 ## wins: --category review reviewed issue #301, conducted 8-question brainstorm (2026-01-28)
