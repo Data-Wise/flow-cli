@@ -390,7 +390,7 @@ g commit "msg"    # Quick commit
 # Master API Reference
 
 ## Table of Contents
-- [Core Libraries](#core-libraries)
+- [Core Library](reference/MASTER-API-REFERENCE.md#core-library)
 - [Teaching Libraries](#teaching-libraries)
 - [Integration Libraries](#integration-libraries)
 - [Specialized Libraries](#specialized-libraries)
@@ -453,8 +453,8 @@ _flow_log_success "Build completed"
 
 ## Function Index (Alphabetical)
 
-- `_flow_detect_project_type()` → [Core Libraries](#core-libraries)
-- `_flow_log_error()` → [Core Libraries](#core-libraries)
+- `_flow_detect_project_type()` → [Core Library](reference/MASTER-API-REFERENCE.md#core-library)
+- `_flow_log_error()` → [Core Library](reference/MASTER-API-REFERENCE.md#core-library)
 ...
 
 ---

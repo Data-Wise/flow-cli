@@ -39,7 +39,7 @@
 
 ### 🔧 Configuration
 
-- [Environment Variables](getting-started/installation.md#environment-variables) - Env var reference
+- [Environment Variables](help/QUICK-REFERENCE.md#environment-variables) - Configuration settings
 - [Flow Command Options](commands/flow.md) - Configuration options
 
 ### 🎓 Teaching System

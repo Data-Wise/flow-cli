@@ -14,7 +14,7 @@
 - [Installation Issues](#installation-issues)
 - [Command Not Found Errors](#command-not-found-errors)
 - [Git Integration Problems](#git-integration-problems)
-- [Token & Authentication Issues](#token--authentication-issues)
+- [Token and Authentication Issues](#token-and-authentication-issues)
 - [Performance Problems](#performance-problems)
 - [Plugin Issues](#plugin-issues)
 - [Atlas Integration Issues](#atlas-integration-issues)
@@ -357,7 +357,7 @@ git merge --abort
 
 ---
 
-## Token & Authentication Issues
+## Token and Authentication Issues
 
 ### Issue: Token check takes too long
 

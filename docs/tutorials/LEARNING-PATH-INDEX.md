@@ -60,7 +60,7 @@
 - Launch Claude Code everywhere
 - Manage secrets safely
 
-**Next Step:** Choose your [skill-based path](#skill-based-learning-paths) or continue with [core skills](#core-skills-foundation-intermediate)
+**Next Step:** Choose your [skill-based path](#skill-based-learning-paths) or continue with [core skills](#phase-2-core-skills-1-hour)
 
 ---
 
@@ -130,7 +130,7 @@ graph TD
 
 **Outcome:** Productive, motivated, fast git workflows
 
-**Next:** [Advanced Workflows](#advanced-workflows-the-power-moves)
+**Next:** [Advanced Workflows](#phase-4-advanced-features-15-hours)
 
 ---
 
@@ -163,7 +163,7 @@ graph TD
 
 **Outcome:** Complete content creation pipeline with AI assistance
 
-**Next:** [Teaching Workflow Deep Dive](#teaching-workflow-advanced)
+**Next:** [Teaching Workflow Deep Dive](#2-teaching-professional)
 
 ---
 
@@ -197,7 +197,7 @@ graph TD
 
 **Outcome:** Efficient parallel workflow without context switching
 
-**Next:** [Advanced Workflows](#advanced-workflows-the-power-moves)
+**Next:** [Advanced Workflows](#phase-4-advanced-features-15-hours)
 
 ---
 
@@ -736,7 +736,7 @@ z help                 → See z plugin features
 | Haven't started | [Beginner Fast Track](#beginner-fast-track) | 90 min |
 | Completed 1-2 tutorials | Skip to [Skill-Based Paths](#skill-based-learning-paths) | 15 min to choose |
 | Completed 5-10 tutorials | Jump to [Phase 3](#phase-3-intermediate-workflows-15-hours) | 1.5 hrs |
-| Completed most tutorials | Explore [Reference](#reference) section | 30 min+ |
+| Completed most tutorials | Explore [Reference](#references) section | 30 min+ |
 | Want to customize everything | Read [Developer Guide](../guides/DEVELOPER-GUIDE.md) | 1 hr |
 | Need specific plugin help | Use [Plugin Reference Companion](#plugin-reference-companion) | 5 min |
 

@@ -15,7 +15,7 @@
 - [Documentation Types](#documentation-types)
 - [Creation Workflows](#creation-workflows)
 - [Update Workflows](#update-workflows)
-- [Standards & Conventions](#standards--conventions)
+- [Standards and Conventions](#standards-and-conventions)
 - [Quality Assurance](#quality-assurance)
 - [Maintenance Processes](#maintenance-processes)
 
@@ -504,7 +504,7 @@ command --option value
 
 ---
 
-## Creation Workflows
+## Creation Workflows { #creation-workflows }
 
 ### Workflow 1: Adding a New Feature
 
@@ -913,6 +913,8 @@ command --option value
    - Command docs (as "see also")
 
 ---
+
+<a id="update-workflows"></a>
 
 ## Update Workflows
 
@@ -1380,7 +1382,7 @@ cat docs/DOC-DASHBOARD.md
 
 ---
 
-## Standards & Conventions
+## Standards and Conventions
 
 ### File Naming Conventions
 

@@ -740,6 +740,8 @@ result=$(function_name "arg1" "arg2")
 
 ---
 
+<a id="release-process"></a>
+
 ## Release Process
 
 ### Version Numbering
