@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-5.20.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.20.0)
+[![Version](https://img.shields.io/badge/version-5.21.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.21.0)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 

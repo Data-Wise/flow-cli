@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [5.21.0] - 2026-01-28
 
 ### Added
 
@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **6 macro categories:** operators, distributions, symbols, matrices, derivatives, probability
 
 - **Config schema** - New `latex_macros` section in `teach-config.yml`:
+
   ```yaml
   scholar:
     latex_macros:
@@ -39,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         warn_unused: true
         warn_conflicts: true
       export:
-        format: "json"
+        format: 'json'
         include_in_prompts: true
   ```
 
@@ -58,22 +59,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **New Files:**
 
-| File | Lines | Purpose |
-|------|-------|---------|
-| `lib/macro-parser.zsh` | ~1,200 | Format parsers, macro registry |
-| `commands/teach-macros.zsh` | ~550 | list, sync, export commands |
-| `tests/test-macro-parser.zsh` | 771 | Unit tests (54 tests) |
-| `docs/reference/REFCARD-MACROS.md` | 163 | Quick reference |
+| File                               | Lines  | Purpose                        |
+| ---------------------------------- | ------ | ------------------------------ |
+| `lib/macro-parser.zsh`             | ~1,200 | Format parsers, macro registry |
+| `commands/teach-macros.zsh`        | ~550   | list, sync, export commands    |
+| `tests/test-macro-parser.zsh`      | 771    | Unit tests (54 tests)          |
+| `docs/reference/REFCARD-MACROS.md` | 163    | Quick reference                |
 
 **Modified Files:**
 
-| File | Changes |
-|------|---------|
-| `lib/dispatchers/teach-dispatcher.zsh` | Added `macros` subcommand routing |
-| `lib/dispatchers/teach-doctor-impl.zsh` | Added macro health check section |
-| `lib/config-validator.zsh` | Added latex_macros schema validation |
-| `lib/templates/teaching/teach-config.yml.template` | Added latex_macros section |
-| `completions/_teach` | Added macros completions |
+| File                                               | Changes                              |
+| -------------------------------------------------- | ------------------------------------ |
+| `lib/dispatchers/teach-dispatcher.zsh`             | Added `macros` subcommand routing    |
+| `lib/dispatchers/teach-doctor-impl.zsh`            | Added macro health check section     |
+| `lib/config-validator.zsh`                         | Added latex_macros schema validation |
+| `lib/templates/teaching/teach-config.yml.template` | Added latex_macros section           |
+| `completions/_teach`                               | Added macros completions             |
 
 #### Template Management System (#301, #302)
 

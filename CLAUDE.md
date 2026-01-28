@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v5.20.0
-- **Latest Release:** v5.20.0 (2026-01-28)
+- **Current Version:** v5.21.0
+- **Latest Release:** v5.21.0 (2026-01-28)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -678,11 +678,11 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.20.0
-**Latest Release:** v5.20.0 (2026-01-28)
+**Version:** v5.21.0
+**Latest Release:** v5.21.0 (2026-01-28)
 **Status:** Production
 **Branch:** `dev`
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.20.0
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.21.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 14 test suites + 54 token automation tests (100% core tests, 416+ total tests)
