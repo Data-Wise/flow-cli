@@ -4198,6 +4198,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#teach-templates-v5200" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        teach templates (v5.20.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#teach-config" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5489,6 +5500,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#teach-templates-v5200" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        teach templates (v5.20.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#teach-config" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5716,6 +5738,11 @@
 <td><code>migrate-config</code></td>
 <td><code>mig</code></td>
 <td>Extract lesson plans from config (v5.20.0)</td>
+</tr>
+<tr>
+<td><code>templates</code></td>
+<td><code>tmpl</code></td>
+<td>Manage content templates (v5.20.0)</td>
 </tr>
 <tr>
 <td><code>hooks</code></td>
@@ -6005,41 +6032,111 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>cp<span class="w"> </span>.flow/teach-config.yml.bak<span class="w"> </span>.flow/teach-config.yml
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>rm<span class="w"> </span>.flow/lesson-plans.yml
 </code></pre></div></p>
+<h3 id="teach-templates-v5200"><code>teach templates</code> (v5.20.0)<a class="headerlink" href="#teach-templates-v5200" title="Permanent link">&para;</a></h3>
+<p>Manage reusable content templates for lectures, labs, slides, and assignments.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># List all available templates</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>teach<span class="w"> </span>templates
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Filter by type</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>list<span class="w"> </span>--type<span class="w"> </span>content
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>teach<span class="w"> </span>templates<span class="w"> </span>list<span class="w"> </span>--source<span class="w"> </span>project
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="c1"># Create content from template</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lab<span class="w"> </span>week-03<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>slides<span class="w"> </span>week-06<span class="w"> </span>--dry-run
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="c1"># Validate templates</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>teach<span class="w"> </span>templates<span class="w"> </span>validate
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>teach<span class="w"> </span>templates<span class="w"> </span>validate<span class="w"> </span>lecture.qmd
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="c1"># Sync from plugin defaults</span>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync<span class="w"> </span>--dry-run
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync<span class="w"> </span>--force
+</code></pre></div>
+<p><strong>Template types:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Directory</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>content</code></td>
+<td><code>.flow/templates/content/</code></td>
+<td>.qmd starters (lecture, lab, slides)</td>
+</tr>
+<tr>
+<td><code>prompts</code></td>
+<td><code>.flow/templates/prompts/</code></td>
+<td>AI generation prompts</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>.flow/templates/metadata/</code></td>
+<td>_metadata.yml files</td>
+</tr>
+<tr>
+<td><code>checklists</code></td>
+<td><code>.flow/templates/checklists/</code></td>
+<td>QA checklists</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable substitution:</strong>
+Templates use <code>{{VARIABLE}}</code> syntax. Auto-filled from config:</p>
+<ul>
+<li><code>{{WEEK}}</code> - Week number from CLI</li>
+<li><code>{{TOPIC}}</code> - Topic from CLI or prompt</li>
+<li><code>{{COURSE}}</code> - Course name from teach-config.yml</li>
+<li><code>{{DATE}}</code> - Auto-generated current date</li>
+<li><code>{{INSTRUCTOR}}</code> - Instructor from config</li>
+<li><code>{{SEMESTER}}</code> - Semester from config</li>
+</ul>
+<p><strong>Initialize with templates:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT-545&quot;</span><span class="w"> </span>--with-templates
+</code></pre></div></p>
+<p><strong>Resolution order:</strong> Project templates override plugin defaults.</p>
+<p><strong>See:</strong> <a href="../../tutorials/24-template-management/">Tutorial 24</a> for step-by-step guide.</p>
 <h3 id="teach-config"><code>teach config</code><a class="headerlink" href="#teach-config" title="Permanent link">&para;</a></h3>
 <p>Open the teaching configuration file in your editor.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>teach<span class="w"> </span>config
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="c1"># Opens .flow/teach-config.yml in $EDITOR</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># View config without editing</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>teach<span class="w"> </span>config<span class="w"> </span>--view
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># Print to stdout</span>
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>teach<span class="w"> </span>config<span class="w"> </span>--cat
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>teach<span class="w"> </span>config
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># Opens .flow/teach-config.yml in $EDITOR</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># View config without editing</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>teach<span class="w"> </span>config<span class="w"> </span>--view
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Print to stdout</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>teach<span class="w"> </span>config<span class="w"> </span>--cat
 </code></pre></div>
 <hr />
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <p>Teaching projects use <code>.flow/teach-config.yml</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nt">course</span><span class="p">:</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">STAT 545</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="nt">code</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stat-545</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Spring 2026</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="nt">semester</span><span class="p">:</span>
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-01-13</span>
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-05-08</span>
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
-<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1"># Git configuration (v5.12.0)</span>
-<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="nt">git</span><span class="p">:</span>
-<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">  </span><span class="nt">draft_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">draft</span><span class="w">           </span><span class="c1"># Development branch</span>
-<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">  </span><span class="nt">production_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">       </span><span class="c1"># Deployment branch</span>
-<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="w">  </span><span class="nt">auto_pr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                 </span><span class="c1"># Auto-create PRs</span>
-<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="w">  </span><span class="nt">require_clean</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">           </span><span class="c1"># Block deploy if uncommitted changes</span>
-<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>
-<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="c1"># Workflow configuration (v5.12.0)</span>
-<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="nt">workflow</span><span class="p">:</span>
-<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a><span class="w">  </span><span class="nt">teaching_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">          </span><span class="c1"># Streamlined auto-commit workflow</span>
-<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a><span class="w">  </span><span class="nt">auto_commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">            </span><span class="c1"># Auto-commit after content generation</span>
-<a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a><span class="w">  </span><span class="nt">auto_push</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">              </span><span class="c1"># Auto-push commits (safety: false)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nt">course</span><span class="p">:</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">STAT 545</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span><span class="nt">code</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stat-545</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Spring 2026</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="nt">semester</span><span class="p">:</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-01-13</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-05-08</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="c1"># Git configuration (v5.12.0)</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="nt">git</span><span class="p">:</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">  </span><span class="nt">draft_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">draft</span><span class="w">           </span><span class="c1"># Development branch</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="w">  </span><span class="nt">production_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">       </span><span class="c1"># Deployment branch</span>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="w">  </span><span class="nt">auto_pr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                 </span><span class="c1"># Auto-create PRs</span>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="w">  </span><span class="nt">require_clean</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">           </span><span class="c1"># Block deploy if uncommitted changes</span>
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>
+<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="c1"># Workflow configuration (v5.12.0)</span>
+<a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a><span class="nt">workflow</span><span class="p">:</span>
+<a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a><span class="w">  </span><span class="nt">teaching_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">          </span><span class="c1"># Streamlined auto-commit workflow</span>
+<a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a><span class="w">  </span><span class="nt">auto_commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">            </span><span class="c1"># Auto-commit after content generation</span>
+<a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a><span class="w">  </span><span class="nt">auto_push</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">              </span><span class="c1"># Auto-push commits (safety: false)</span>
 </code></pre></div>
 <p><strong>Git Settings (v5.12.0):</strong>
 - <code>draft_branch</code> - Branch for development work (default: "draft")
