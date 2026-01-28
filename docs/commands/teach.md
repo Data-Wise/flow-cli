@@ -561,7 +561,9 @@ scholar:
 
 When `include_in_prompts: true`, macros are automatically included in AI context for content generation commands (`teach exam`, `teach quiz`, etc.).
 
-**See:** [REFCARD-MACROS.md](../reference/REFCARD-MACROS.md) for quick reference.
+**See:**
+- [Tutorial 26: LaTeX Macros](../tutorials/26-latex-macros.md) for step-by-step guide
+- [REFCARD-MACROS.md](../reference/REFCARD-MACROS.md) for quick reference
 
 ### `teach config`
 

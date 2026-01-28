@@ -10,7 +10,6 @@
 | `teach macros list` | List macros with filtering options |
 | `teach macros sync` | Extract macros from source files |
 | `teach macros export` | Export for Scholar or other tools |
-| `teach macros validate` | Check for undefined/unused macros |
 | `teach macros help` | Show usage help |
 
 ## Quick Examples
@@ -30,17 +29,14 @@ teach macros export --format json
 
 # Export as MathJax config
 teach macros export --format mathjax > mathjax-config.js
-
-# Validate macro usage
-teach macros validate
 ```
 
 ## Configuration
 
-Add to `teach-config.yml`:
+Add to `.flow/teach-config.yml` under the `scholar:` section:
 
 ```yaml
-teaching_style:
+scholar:
   latex_macros:
     enabled: true
     sources:
@@ -51,8 +47,8 @@ teaching_style:
       warn_undefined: true
       warn_unused: true
       warn_conflicts: true
-    scholar:
-      export_format: "json"
+    export:
+      format: "json"
       include_in_prompts: true
 ```
 
@@ -140,11 +136,10 @@ MACROS
 |------|----------|-------------|
 | `--category CAT` | list | Filter by category |
 | `--format FMT` | export | Output format (json, mathjax, latex, qmd) |
-| `--output FILE` | export | Write to file instead of stdout |
 | `--dry-run, -n` | sync | Preview without changes |
 | `--force, -f` | sync | Overwrite existing cache |
-| `--quiet, -q` | validate | Suppress warnings |
-| `--json` | list, validate | Output as JSON |
+| `--json` | list | Output as JSON |
+| `--verbose, -v` | sync | Show detailed output |
 
 ## Troubleshooting
 
