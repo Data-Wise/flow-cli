@@ -1044,8 +1044,10 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-28 22:55
-**Status:** v5.20.0 Released ✅ - LaTeX Macro Config (Issue #305) WIP
+**Last Updated:** 2026-01-28 23:59
+**Status:** v5.21.0 Released ✅ - LaTeX Macro Configuration Support
+## wins: --category ship v5.21.0 released (LaTeX macros, 80 tests, teach macros command) (2026-01-28)
+## wins: --category code PR #306 merged - LaTeX macro configuration (#305, +4,460 lines) (2026-01-28)
 ## wins: --category docs LaTeX macro config spec created (Issue #305, 14h effort, 4 phases) (2026-01-28)
 ## wins: --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
 ## wins: --category code PR #303 merged - API docs Phase 1 (20 functions, +26.1% coverage) (2026-01-28)
@@ -1076,5 +1078,5 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 ## wins: --category docs documented 83 functions (Phases 1-4, +411% coverage) (2026-01-24)
 ## wins: --category docs fixed 54 critical broken links across hub files (2026-01-24)
 ## wins: --category ship deployed v5.18.0-dev to GitHub Pages (2026-01-24)
-## streak: 4
+## streak: 5
 ## last_active: 2026-01-28
