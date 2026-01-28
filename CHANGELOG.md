@@ -7,9 +7,74 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [5.21.0] - 2026-01-28
 
 ### Added
+
+#### LaTeX Macro Configuration Support (#305)
+
+- **`teach macros` command** - Complete macro management for consistent AI-generated notation
+  - `teach macros list` - Display all macros with expansions and categories
+  - `teach macros sync` - Extract macros from source files (QMD, LaTeX, MathJax)
+  - `teach macros export` - Export for Scholar AI integration (JSON, MathJax, LaTeX formats)
+  - `teach macros help` - Show usage documentation
+  - Shortcuts: `teach macro`, `teach m`
+
+- **3 source format parsers:**
+  - QMD (Quarto shortcode includes with `\newcommand`)
+  - MathJax HTML (script tags with `TeX.Macros` or `\newcommand`)
+  - LaTeX (standard `.tex` files with `\newcommand`, `\DeclareMathOperator`)
+
+- **6 macro categories:** operators, distributions, symbols, matrices, derivatives, probability
+
+- **Config schema** - New `latex_macros` section in `teach-config.yml`:
+
+  ```yaml
+  scholar:
+    latex_macros:
+      enabled: true
+      sources: []
+      auto_discover: true
+      validation:
+        warn_undefined: true
+        warn_unused: true
+        warn_conflicts: true
+      export:
+        format: 'json'
+        include_in_prompts: true
+  ```
+
+- **Health check integration** - `teach doctor` now includes macro health section:
+  - Source file existence check
+  - Cache sync status
+  - CLAUDE.md documentation check
+  - Unused macro detection
+
+- **54 tests** - Comprehensive test suite for macro parser (`tests/test-macro-parser.zsh`)
+
+- **Documentation:**
+  - `docs/reference/REFCARD-MACROS.md` - Quick reference card (163 lines)
+  - Updated `docs/commands/teach.md` with macros subcommand
+  - Updated `mkdocs.yml` navigation
+
+**New Files:**
+
+| File                               | Lines  | Purpose                        |
+| ---------------------------------- | ------ | ------------------------------ |
+| `lib/macro-parser.zsh`             | ~1,200 | Format parsers, macro registry |
+| `commands/teach-macros.zsh`        | ~550   | list, sync, export commands    |
+| `tests/test-macro-parser.zsh`      | 771    | Unit tests (54 tests)          |
+| `docs/reference/REFCARD-MACROS.md` | 163    | Quick reference                |
+
+**Modified Files:**
+
+| File                                               | Changes                              |
+| -------------------------------------------------- | ------------------------------------ |
+| `lib/dispatchers/teach-dispatcher.zsh`             | Added `macros` subcommand routing    |
+| `lib/dispatchers/teach-doctor-impl.zsh`            | Added macro health check section     |
+| `lib/config-validator.zsh`                         | Added latex_macros schema validation |
+| `lib/templates/teaching/teach-config.yml.template` | Added latex_macros section           |
+| `completions/_teach`                               | Added macros completions             |
 
 #### Template Management System (#301, #302)
 

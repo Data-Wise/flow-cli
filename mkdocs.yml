@@ -105,8 +105,10 @@ nav:
       - 19. Teaching + Git Integration: tutorials/19-teaching-git-integration.md
       - 21. Teach Analyze: tutorials/21-teach-analyze.md
       - 22. Plugin Optimization: tutorials/22-plugin-optimization.md
+      - 23. Token Automation: tutorials/23-token-automation.md
       - 24. Template Management: tutorials/24-template-management.md
       - 25. Lesson Plan Migration: tutorials/25-lesson-plan-migration.md
+      - 26. LaTeX Macros: tutorials/26-latex-macros.md
       - 🎓 Scholar Enhancement:
           - Overview & Learning Path: tutorials/scholar-enhancement/index.md
           - Level 1 - Getting Started: tutorials/scholar-enhancement/01-getting-started.md
@@ -160,6 +162,7 @@ nav:
       - ⚡ Quick Reference: help/QUICK-REFERENCE.md
       - 🔐 Token & Secrets Quick Ref: reference/REFCARD-TOKEN-SECRETS.md
       - 📝 Templates Quick Ref: reference/REFCARD-TEMPLATES.md
+      - 📐 LaTeX Macros Quick Ref: reference/REFCARD-MACROS.md
       - 🔧 Workflows: help/WORKFLOWS.md
       - 🩺 Troubleshooting: help/TROUBLESHOOTING.md
       - 🤖 Claude Code Environment: troubleshooting/CLAUDE-CODE-ENVIRONMENT.md

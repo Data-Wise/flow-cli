@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v5.20.0
-- **Latest Release:** v5.20.0 (2026-01-28)
+- **Current Version:** v5.21.0
+- **Latest Release:** v5.21.0 (2026-01-28)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -276,7 +276,7 @@ cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
 tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
 wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 dot <cmd>     # Dotfile management (dot edit, dot sync, dot secret)
-teach <cmd>   # Teaching workflow (teach analyze, teach init, teach deploy, teach exam)
+teach <cmd>   # Teaching workflow (teach analyze, teach init, teach deploy, teach exam, teach macros)
 prompt <cmd>  # Prompt engine switcher (prompt status, prompt toggle)
 v <cmd>       # Vibe coding mode (v on, v off, v status)
 ```
@@ -296,6 +296,24 @@ teach templates validate     # Check template syntax
 teach templates sync         # Update from plugin defaults
 teach init --with-templates  # Initialize with templates
 ```
+
+### LaTeX Macro Management (v5.21.0) ✨
+
+**Consistent notation for AI-generated content**
+
+```bash
+teach macros list            # Show all macros with expansions
+teach macros list --category operators  # Filter by category
+teach macros sync            # Extract from source files
+teach macros export          # Export for Scholar integration
+teach macros export --format json  # Export as JSON
+```
+
+**Supported formats:** QMD (`_macros.qmd`), MathJax HTML, LaTeX (`.tex`)
+
+**Categories:** operators, distributions, symbols, matrices, derivatives, probability
+
+**Primary use:** Ensure `teach exam`, `teach quiz` generate `\E{Y}` instead of `E[Y]`
 
 **Template Types:**
 
@@ -660,11 +678,11 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.20.0
-**Latest Release:** v5.20.0 (2026-01-28)
+**Version:** v5.21.0
+**Latest Release:** v5.21.0 (2026-01-28)
 **Status:** Production
 **Branch:** `dev`
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.20.0
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.21.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 14 test suites + 54 token automation tests (100% core tests, 416+ total tests)

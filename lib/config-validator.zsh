@@ -170,6 +170,7 @@ _flow_config_invalidate() {
 #   - Validates: deadlines (due_date XOR week+offset_days), exams array
 #   - Validates: scholar.course_info.level, difficulty, style.tone enums
 #   - Validates: grading percentages sum to ~100% (95-105 tolerance)
+#   - Validates: scholar.latex_macros (enabled bool, sources array, format enums)
 #   - Uses _flow_log_* functions for colored output
 # =============================================================================
 _teach_validate_config() {
@@ -381,6 +382,76 @@ _teach_validate_config() {
                 errors+=("Grading percentages sum to $grading_sum% - should be ~100%")
             fi
         fi
+    fi
+
+    # Validate scholar.latex_macros (if present)
+    local latex_macros_enabled=$(yq -r '.scholar.latex_macros.enabled // ""' "$config_file" 2>/dev/null)
+    if [[ -n "$latex_macros_enabled" && "$latex_macros_enabled" != "null" ]]; then
+        # Validate enabled is boolean
+        case "$latex_macros_enabled" in
+            true|false) ;;
+            *) errors+=("Invalid scholar.latex_macros.enabled '$latex_macros_enabled' - must be true or false") ;;
+        esac
+    fi
+
+    # Validate scholar.latex_macros.sources array (if present)
+    local sources_count=$(yq -r '.scholar.latex_macros.sources // [] | length' "$config_file" 2>/dev/null)
+    if [[ -n "$sources_count" && "$sources_count" != "null" && "$sources_count" -gt 0 ]]; then
+        for ((i=0; i<sources_count; i++)); do
+            local source_path=$(yq -r ".scholar.latex_macros.sources[$i].path // \"\"" "$config_file" 2>/dev/null)
+            local source_format=$(yq -r ".scholar.latex_macros.sources[$i].format // \"\"" "$config_file" 2>/dev/null)
+
+            # Validate path is present
+            if [[ -z "$source_path" || "$source_path" == "null" ]]; then
+                errors+=("latex_macros.sources[$i]: missing required field 'path'")
+            fi
+
+            # Validate format enum
+            if [[ -n "$source_format" && "$source_format" != "null" ]]; then
+                case "$source_format" in
+                    qmd|mathjax|latex) ;;
+                    *) errors+=("latex_macros.sources[$i]: invalid format '$source_format' - must be qmd, mathjax, or latex") ;;
+                esac
+            fi
+        done
+    fi
+
+    # Validate scholar.latex_macros.auto_discover (if present)
+    local auto_discover=$(yq -r '.scholar.latex_macros.auto_discover // ""' "$config_file" 2>/dev/null)
+    if [[ -n "$auto_discover" && "$auto_discover" != "null" ]]; then
+        case "$auto_discover" in
+            true|false) ;;
+            *) errors+=("Invalid scholar.latex_macros.auto_discover '$auto_discover' - must be true or false") ;;
+        esac
+    fi
+
+    # Validate scholar.latex_macros.validation booleans (if present)
+    for field in warn_undefined warn_unused warn_conflicts; do
+        local val=$(yq -r ".scholar.latex_macros.validation.$field // \"\"" "$config_file" 2>/dev/null)
+        if [[ -n "$val" && "$val" != "null" ]]; then
+            case "$val" in
+                true|false) ;;
+                *) errors+=("Invalid scholar.latex_macros.validation.$field '$val' - must be true or false") ;;
+            esac
+        fi
+    done
+
+    # Validate scholar.latex_macros.export.format enum (if present)
+    local export_format=$(yq -r '.scholar.latex_macros.export.format // ""' "$config_file" 2>/dev/null)
+    if [[ -n "$export_format" && "$export_format" != "null" ]]; then
+        case "$export_format" in
+            qmd|mathjax|latex|json) ;;
+            *) errors+=("Invalid scholar.latex_macros.export.format '$export_format' - must be qmd, mathjax, latex, or json") ;;
+        esac
+    fi
+
+    # Validate scholar.latex_macros.export.include_in_prompts (if present)
+    local include_in_prompts=$(yq -r '.scholar.latex_macros.export.include_in_prompts // ""' "$config_file" 2>/dev/null)
+    if [[ -n "$include_in_prompts" && "$include_in_prompts" != "null" ]]; then
+        case "$include_in_prompts" in
+            true|false) ;;
+            *) errors+=("Invalid scholar.latex_macros.export.include_in_prompts '$include_in_prompts' - must be true or false") ;;
+        esac
     fi
 
     # Report errors

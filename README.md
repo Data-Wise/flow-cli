@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-5.20.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.20.0)
+[![Version](https://img.shields.io/badge/version-5.21.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.21.0)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -51,6 +51,27 @@ flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antid
 - Plus: QUICK-REFERENCE, WORKFLOWS, TROUBLESHOOTING, 00-START-HERE
 
 [→ Documentation Hub](https://data-wise.github.io/flow-cli/)
+
+---
+
+### v5.21.0: LaTeX Macro Configuration (Coming Soon)
+
+**Consistent AI-generated content with custom notation**
+
+- 📐 **teach macros** - Manage LaTeX macros for consistent notation
+  - Sync from QMD, LaTeX, or MathJax source files
+  - Export for Scholar AI integration
+  - Categories: operators, distributions, symbols, matrices
+- 🏥 **teach doctor** - Now includes macro health checks
+- 🎯 **Primary use case:** Ensure `teach exam` generates `\E{Y}` not `E[Y]`
+
+**Commands:**
+
+```bash
+teach macros list                # Show all macros
+teach macros sync                # Extract from source files
+teach macros export --format json  # Export for Scholar
+```
 
 ---
 

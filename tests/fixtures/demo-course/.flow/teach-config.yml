@@ -21,6 +21,14 @@ settings:
   enable_ai_analysis: true
   cache_enabled: true
 
+scholar:
+  latex_macros:
+    enabled: true
+    sources:
+      - path: "_macros.qmd"
+        format: "qmd"
+    auto_discover: false
+
 semester_info:
   start_date: '2026-08-26'
   end_date: '2026-12-15'
