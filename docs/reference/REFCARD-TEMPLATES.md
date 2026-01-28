@@ -95,22 +95,26 @@ teach templates sync
 ## Default Templates
 
 ### Content
+
 - `lecture.qmd` - Standard lecture with concepts
 - `lab.qmd` - R lab exercise with scaffolding
 - `slides.qmd` - RevealJS presentations
 - `assignment.qmd` - Homework template
 
 ### Prompts (for Scholar AI)
+
 - `lecture-notes.md` - Lecture generation prompt
 - `revealjs-slides.md` - Slides generation prompt
 - `derivations-appendix.md` - Math appendix prompt
 
 ### Metadata
+
 - `lectures.yml` - Lecture directory defaults
 - `labs.yml` - Lab directory defaults
 - `slides.yml` - Slides directory defaults
 
 ### Checklists
+
 - `pre-publish.md` - Pre-deploy QA checklist
 - `new-content.md` - New content creation checklist
 

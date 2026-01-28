@@ -52,7 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Backward compatibility** - Non-migrated configs still work with deprecation warning:
 
-  ```
+  ```text
   ⚠️ Using embedded weeks in teach-config.yml
      Consider migrating: teach migrate-config
   ```
