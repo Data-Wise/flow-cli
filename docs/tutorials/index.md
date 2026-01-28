@@ -2,7 +2,7 @@
 
 > **Learn flow-cli step by step** - From your first session to advanced workflows.
 >
-> **Total time:** ~3 hours | **14 tutorials** | **Beginner → Intermediate**
+> **Total time:** ~4 hours | **17 tutorials** | **Beginner → Intermediate**
 
 ---
 
@@ -36,6 +36,9 @@ flowchart TD
         T21["<a href='21-teach-analyze/'>Tutorial 21</a><br/>Teach Analyze<br/>⏱ 25 min"]
         T22["<a href='22-plugin-optimization/'>Tutorial 22</a><br/>Plugin Optimization<br/>⏱ 20 min"]
         T23["<a href='23-token-automation/'>Tutorial 23</a><br/>Token Automation<br/>⏱ 15 min"]
+        T24["<a href='24-template-management/'>Tutorial 24</a><br/>Templates<br/>⏱ 15 min"]
+        T25["<a href='25-lesson-plan-migration/'>Tutorial 25</a><br/>Lesson Plans<br/>⏱ 10 min"]
+        T26["<a href='26-latex-macros/'>Tutorial 26</a><br/>LaTeX Macros<br/>⏱ 15 min"]
     end
 
     subgraph OPTIONAL["📚 Optional"]
@@ -63,6 +66,9 @@ flowchart TD
     T14 --> T21
     T21 --> T22
     T22 --> T23
+    T23 --> T24
+    T24 --> T25
+    T24 --> T26
 
     T11 --> T13
 
@@ -71,7 +77,7 @@ flowchart TD
     classDef optional fill:#e2e3e5,stroke:#6c757d,color:#383d41
 
     class T1,T2,T3,T6,T10,T11,T12,T13 beginner
-    class T8,T9,T14,T21,T22,T23 intermediate
+    class T8,T9,T14,T21,T22,T23,T24,T25,T26 intermediate
     class T4,T5,T7 optional
 ```
 

@@ -1769,6 +1769,91 @@ Creates:
 
 ---
 
+#### LaTeX Macro Management (v5.21.0)
+
+Manage LaTeX macros for consistent AI-generated notation.
+
+**Primary use case:** Ensure Scholar generates `\E{Y}` instead of `E[Y]`.
+
+**List macros:**
+```bash
+teach macros                         # Show all macros
+teach macros list                    # Same with more options
+teach macros list --category operators  # Filter by category
+teach macros list --format json      # JSON output
+```
+
+Output:
+```
+LaTeX Macros (14 available)
+
+OPERATORS
+  \E             → \mathbb{E}           Expectation
+  \Var           → \text{Var}           Variance
+  \Cov           → \text{Cov}           Covariance
+
+DISTRIBUTIONS
+  \Normal        → \mathcal{N}          Normal distribution
+  \Binomial      → \text{Bin}           Binomial distribution
+
+SYMBOLS
+  \indep         → \perp\!\!\!\perp     Independence
+  \iid           → \text{i.i.d.}        IID notation
+
+Source: _macros.qmd (synced 2h ago)
+```
+
+**Sync from source files:**
+```bash
+teach macros sync              # Extract from configured sources
+teach macros sync --dry-run    # Preview without changes
+teach macros sync --force      # Overwrite existing cache
+```
+
+**Export for Scholar:**
+```bash
+teach macros export                 # Default JSON to stdout
+teach macros export --format json   # JSON format
+teach macros export --format mathjax  # MathJax config
+teach macros export --format latex  # LaTeX \newcommand
+```
+
+**Configuration:**
+```yaml
+scholar:
+  latex_macros:
+    enabled: true
+    sources:
+      - path: "_macros.qmd"
+        format: "qmd"
+    auto_discover: true
+    validation:
+      warn_undefined: true
+      warn_unused: true
+    export:
+      format: "json"
+      include_in_prompts: true
+```
+
+**Supported formats:**
+- QMD (Quarto) - `{=tex}` blocks with `\newcommand`
+- LaTeX - Standard `.tex` files
+- MathJax - HTML with `MathJax.Hub.Config`
+
+**Macro categories:**
+- operators (`\E`, `\Var`, `\Cov`)
+- distributions (`\Normal`, `\Binomial`)
+- symbols (`\indep`, `\iid`)
+- matrices (`\bX`, `\bbeta`)
+- derivatives (`\dd`, `\pd`)
+- probability (`\Prob`, `\given`)
+
+**Shortcuts:** `teach macro`, `teach m`
+
+**Quick Reference:** See [REFCARD-MACROS.md](REFCARD-MACROS.md)
+
+---
+
 #### Integration with Quarto
 
 **Render specific lecture:**
@@ -1821,6 +1906,19 @@ qu preview
 - `teach migrate-config --dry-run` - Preview migration
 - `teach migrate-config --force` - Skip confirmation
 - `teach migrate-config --no-backup` - Don't create backup
+
+**Templates (v5.20.0):**
+- `teach templates` - List all templates
+- `teach templates list` - List with filtering
+- `teach templates new <type> <dest>` - Create from template
+- `teach templates validate` - Check template syntax
+- `teach templates sync` - Update from plugin defaults
+
+**Macros (v5.21.0):**
+- `teach macros` - List all macros
+- `teach macros list` - List with filtering/JSON
+- `teach macros sync` - Extract from source files
+- `teach macros export` - Export for Scholar
 
 **Help:**
 - `teach help` - Show help

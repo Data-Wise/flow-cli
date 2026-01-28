@@ -106,16 +106,18 @@ teach <command> [args]
 | `exam [name]` | `e` | Create exam (with auto-commit) |
 | `quiz [name]` | `q` | Create quiz (with auto-commit) |
 | `slides [name]` | `sl` | Create slides (with auto-commit) |
-| `lecture [name]` | `l` | Create lecture notes (with auto-commit) |
-| `assignment [name]` | `as` | Create assignment (with auto-commit) |
+| `lecture [name]` | `lec` | Create lecture notes (with auto-commit) |
+| `assignment [name]` | `hw` | Create assignment (with auto-commit) |
 | `deploy` | `d` | Deploy draft → production (creates PR) |
 | `archive` | `a` | Archive semester |
 | `config` | `c` | Edit teach-config.yml |
 | `status` | `s` | Show project status + git changes |
 | `week` | `w` | Show current week number |
 | `doctor` | `doc` | Health checks with auto-fix |
+| `analyze` | `concept` | Content analysis with AI insights (v5.16.0) |
 | `migrate-config` | `mig` | Extract lesson plans from config (v5.20.0) |
 | `templates` | `tmpl` | Manage content templates (v5.20.0) |
+| `macros` | `m` | LaTeX macro management (v5.21.0) |
 | `hooks` | `hk` | Git hook management |
 | `dates` | `d8` | Date management |
 | `validate` | `val` | Validate .qmd files |
@@ -483,6 +485,86 @@ teach init "STAT-545" --with-templates
 
 **See:** [Tutorial 24](../tutorials/24-template-management.md) for step-by-step guide.
 
+### `teach macros` (v5.21.0)
+
+Manage LaTeX macros for consistent AI-generated content notation.
+
+```bash
+# List all available macros
+teach macros list
+teach macros list --category operators
+teach macros list --format json
+
+# Sync macros from source files
+teach macros sync
+teach macros sync --verbose
+
+# Export macros for Scholar integration
+teach macros export
+teach macros export --format mathjax
+teach macros export --format json > macros.json
+
+# Get help
+teach macros help
+```
+
+**Primary purpose:** Ensure AI-generated content (via Scholar) uses correct notation like `\E{Y}` instead of `E[Y]`.
+
+**Subcommands:**
+
+| Subcommand | Description |
+|------------|-------------|
+| `list` | Display all macros with expansions |
+| `sync` | Extract macros from source files |
+| `export` | Export for Scholar AI integration |
+| `help` | Show usage help |
+
+**Source file formats supported:**
+
+| Format | File Pattern | Example |
+|--------|--------------|---------|
+| QMD | `_macros.qmd` | Quarto shortcode includes |
+| MathJax | `*.html` with MathJax config | HTML script tags |
+| LaTeX | `*.tex` | Standard `\newcommand` |
+
+**Macro categories:**
+
+- **operators** - `\E`, `\Var`, `\Cov`, `\Corr`
+- **distributions** - `\Normal`, `\Binomial`, `\Poisson`
+- **symbols** - `\indep`, `\iid`, `\convp`, `\convd`
+- **matrices** - `\bX`, `\bbeta`, `\bY`
+- **derivatives** - `\dd`, `\pd`, `\grad`
+- **probability** - `\Prob`, `\given`
+
+**Configuration:**
+
+Macros are configured in `.flow/teach-config.yml`:
+
+```yaml
+scholar:
+  latex_macros:
+    enabled: true
+    sources:
+      - path: "_macros.qmd"
+        format: "qmd"
+    auto_discover: true
+    validation:
+      warn_undefined: true
+      warn_unused: true
+      warn_conflicts: true
+    export:
+      format: "json"
+      include_in_prompts: true
+```
+
+**Integration with Scholar:**
+
+When `include_in_prompts: true`, macros are automatically included in AI context for content generation commands (`teach exam`, `teach quiz`, etc.).
+
+**See:**
+- [Tutorial 26: LaTeX Macros](../tutorials/26-latex-macros.md) for step-by-step guide
+- [REFCARD-MACROS.md](../reference/REFCARD-MACROS.md) for quick reference
+
 ### `teach config`
 
 Open the teaching configuration file in your editor.
@@ -497,6 +579,244 @@ teach config --view
 # Print to stdout
 teach config --cat
 ```
+
+### Scholar Content Commands
+
+Generate AI-powered teaching content using the Scholar plugin.
+
+#### `teach lecture`
+
+Generate lecture notes with comprehensive content.
+
+```bash
+teach lecture "Introduction to Regression"
+teach lecture --week 5 --topic "Linear Models"
+teach lecture "Hypothesis Testing" --style formal
+```
+
+**Flags:**
+- `--week`, `-w` - Week number for organization
+- `--topic`, `-t` - Topic override
+- `--style` - Output style (formal/casual)
+- `--template` - Template format (quarto/typst/markdown)
+- `--dry-run` - Preview without generating
+
+#### `teach slides`
+
+Generate presentation slides.
+
+```bash
+teach slides "ANOVA Overview"
+teach slides --week 8 --optimize   # With slide break optimization
+teach slides "Regression" --template revealjs
+```
+
+**Flags:**
+- `--week`, `-w` - Week number
+- `--optimize` - Run slide optimizer for break suggestions
+- `--template` - Slide format (revealjs/beamer/pptx)
+
+#### `teach exam`
+
+Generate exams with customizable question types.
+
+```bash
+teach exam "Midterm 1"
+teach exam "Final" --topics "regression,anova,hypothesis-testing"
+teach exam "Quiz 5" --duration 30 --points 50
+```
+
+**Flags:**
+- `--topics` - Comma-separated topic list
+- `--duration` - Exam duration in minutes
+- `--points` - Total points
+- `--question-types` - Types (multiple-choice/short-answer/problem)
+
+#### `teach quiz`
+
+Generate quick quizzes.
+
+```bash
+teach quiz "Chapter 5"
+teach quiz --week 3 --questions 10
+```
+
+#### `teach assignment`
+
+Generate homework assignments.
+
+```bash
+teach assignment "Homework 3"
+teach assignment "Lab 5" --due "2026-02-15"
+```
+
+#### `teach syllabus`
+
+Generate course syllabus.
+
+```bash
+teach syllabus
+teach syllabus --template formal
+```
+
+#### `teach rubric`
+
+Generate grading rubrics.
+
+```bash
+teach rubric "Final Project"
+teach rubric "Presentation" --criteria "content,delivery,visuals"
+```
+
+#### `teach feedback`
+
+Generate student feedback templates.
+
+```bash
+teach feedback "Assignment 3"
+```
+
+### `teach doctor`
+
+Comprehensive health check for teaching projects.
+
+```bash
+teach doctor              # Full health check
+teach doctor --fix        # Interactive fix mode
+teach doctor --json       # JSON output for automation
+teach doctor --quiet      # Minimal output
+```
+
+**Check categories:**
+- Dependencies (yq, git, quarto, gh, claude, examark)
+- Configuration validation
+- Git status and branch setup
+- Scholar integration
+- Hook installation
+- Cache health
+- **Macro health** (v5.21.0) - Source files, cache sync, usage
+
+### `teach validate`
+
+Validate .qmd files for syntax and content issues.
+
+```bash
+teach validate                    # Validate all files
+teach validate lectures/week-05.qmd  # Single file
+teach validate --yaml             # YAML frontmatter only
+teach validate --syntax           # YAML + syntax checking
+teach validate --render           # Full render validation
+teach validate --watch            # Continuous watch mode
+teach validate --concepts         # Concept graph validation
+teach validate --macros           # LaTeX macro validation
+```
+
+**Validation layers:**
+1. YAML frontmatter validation
+2. Syntax checking (typos, delimiters)
+3. Full render via `quarto render`
+4. Empty chunk detection
+5. Image reference checking
+
+### `teach analyze`
+
+Analyze course content for concepts, prerequisites, and AI insights.
+
+```bash
+teach analyze lectures/week-05.qmd      # Single file analysis
+teach analyze --batch lectures/         # Batch directory
+teach analyze --slide-breaks week-05.qmd  # Slide optimization
+teach analyze --ai                       # Include AI analysis
+teach analyze --report markdown          # Generate report
+```
+
+**Analysis features:**
+- Concept extraction from frontmatter
+- Prerequisite validation (DAG ordering)
+- Bloom's taxonomy classification
+- Cognitive load estimation
+- Teaching time estimates
+- Slide break suggestions
+
+### `teach hooks`
+
+Manage git hooks for teaching workflow.
+
+```bash
+teach hooks install     # Install teaching hooks
+teach hooks status      # Check hook status
+teach hooks upgrade     # Upgrade to latest
+teach hooks uninstall   # Remove hooks
+```
+
+**Installed hooks:**
+- `pre-commit` - Validation before commit
+- `pre-push` - Production branch protection
+- `prepare-commit-msg` - Message formatting
+
+### `teach dates`
+
+Manage semester dates and scheduling.
+
+```bash
+teach dates             # Show current date info
+teach dates --calendar  # Show semester calendar
+teach dates week 8      # What date is week 8?
+```
+
+### `teach profiles`
+
+Manage Quarto rendering profiles.
+
+```bash
+teach profiles list           # Show available profiles
+teach profiles show draft     # Display profile config
+teach profiles set production # Activate profile
+teach profiles create slides  # Create new profile
+```
+
+**Built-in profiles:** default, draft, production, slides, print
+
+### `teach cache`
+
+Manage Quarto freeze cache.
+
+```bash
+teach cache status              # Show cache stats
+teach cache clear               # Clear all cache
+teach cache clear --lectures    # Clear only lectures
+teach cache clear --old 7       # Clear older than 7 days
+teach cache analyze             # Detailed diagnostics
+teach cache rebuild             # Clear and regenerate
+```
+
+### `teach clean`
+
+Delete build artifacts.
+
+```bash
+teach clean              # Interactive cleanup
+teach clean --all        # Remove all artifacts
+teach clean --output     # Remove _output only
+teach clean --freeze     # Remove _freeze only
+```
+
+### `teach backup`
+
+Manage content backups.
+
+```bash
+teach backup create lectures/week-05  # Create backup
+teach backup list                      # List all backups
+teach backup restore week-05.2026-01-20  # Restore backup
+teach backup delete old-backup         # Delete backup
+teach backup archive spring-2026       # Archive semester
+```
+
+**Retention policies:**
+- Daily backups: 7 days
+- Weekly backups: 4 weeks
+- Semester archives: Indefinite
 
 ---
 
