@@ -283,6 +283,33 @@ v <cmd>       # Vibe coding mode (v on, v off, v status)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
 
+### Template Management (v5.20.0) ✨
+
+**Project-local templates at `.flow/templates/`**
+
+```bash
+teach templates              # List all templates
+teach templates list         # List with filtering
+teach templates new lecture week-05   # Create from template
+teach templates new lab week-03 --topic "ANOVA"
+teach templates validate     # Check template syntax
+teach templates sync         # Update from plugin defaults
+teach init --with-templates  # Initialize with templates
+```
+
+**Template Types:**
+
+| Type | Directory | Purpose |
+|------|-----------|---------|
+| `content` | `.flow/templates/content/` | .qmd starters (lecture, lab, slides, assignment) |
+| `prompts` | `.flow/templates/prompts/` | AI generation prompts (for Scholar) |
+| `metadata` | `.flow/templates/metadata/` | _metadata.yml files |
+| `checklists` | `.flow/templates/checklists/` | QA checklists |
+
+**Resolution Order:** Project templates override plugin defaults.
+
+**Documentation:** `docs/reference/REFCARD-TEMPLATES.md`
+
 ### Token Management (v5.19.1 Phase 1) ✨
 
 **Isolated Token Checks & Smart Caching**

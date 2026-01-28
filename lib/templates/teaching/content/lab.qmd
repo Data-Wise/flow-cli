@@ -1,0 +1,104 @@
+---
+template_version: "1.0"
+template_type: "lab"
+template_description: "R lab exercise template with code scaffolding"
+template_variables: [WEEK, TOPIC, COURSE, DATE, INSTRUCTOR]
+---
+---
+title: "Lab {{WEEK}}: {{TOPIC}}"
+subtitle: "{{COURSE}}"
+author: "{{INSTRUCTOR}}"
+date: "{{DATE}}"
+format:
+  html:
+    toc: true
+    code-fold: false
+    code-tools: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Overview
+
+**Objectives:**
+
+1.
+2.
+3.
+
+**Prerequisites:**
+
+- Completed Week {{WEEK}} lecture
+- R and RStudio installed
+- Required packages: tidyverse, ggplot2
+
+## Setup
+
+```{r}
+#| label: setup
+#| message: false
+
+# Load required packages
+library(tidyverse)
+library(ggplot2)
+
+# Set seed for reproducibility
+set.seed(545)
+```
+
+## Part 1: Data Exploration
+
+### Exercise 1.1
+
+
+
+```{r}
+#| label: exercise-1-1
+
+# Your code here
+
+```
+
+### Exercise 1.2
+
+
+
+```{r}
+#| label: exercise-1-2
+
+# Your code here
+
+```
+
+## Part 2: Analysis
+
+
+
+### Exercise 2.1
+
+
+
+```{r}
+#| label: exercise-2-1
+
+# Your code here
+
+```
+
+## Part 3: Interpretation
+
+### Questions
+
+1.
+
+2.
+
+3.
+
+## Submission
+
+- Complete all exercises
+- Render to HTML
+- Submit via Canvas by [deadline]
