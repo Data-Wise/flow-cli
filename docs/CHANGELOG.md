@@ -6,6 +6,60 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [5.20.0] - 2026-01-28
+
+### Added
+
+- **Template Management System** (`teach templates`) - Create content from reusable templates (#301, #302)
+  - `teach templates list` - View available templates by type (content/prompts/metadata/checklists)
+  - `teach templates new <type> <week>` - Create from template with variable substitution
+  - `teach templates validate` - Check template syntax and variables
+  - `teach templates sync` - Update project templates from plugin defaults
+  - Variable substitution: `{{WEEK}}`, `{{TOPIC}}`, `{{COURSE}}`, `{{DATE}}`, `{{INSTRUCTOR}}`
+  - Template types: content (.qmd starters), prompts (AI generation), metadata, checklists
+  - Resolution order: Project templates override plugin defaults
+
+- **Lesson Plan Migration** (`teach migrate-config`) - Extract embedded lesson plans (#298, #300)
+  - Separates course metadata from curriculum content
+  - Creates `.flow/lesson-plans.yml` from embedded `semester_info.weeks`
+  - `--dry-run` - Preview migration without changes
+  - `--force` - Skip confirmation prompt
+  - `--no-backup` - Don't create `.bak` backup file
+  - Automatic backup creation for safety
+  - Backward compatible (old format works with deprecation warning)
+
+### Fixed
+
+- **Token Age Bug** - Correct Keychain metadata field for expiration calculation (#302)
+  - Fixed `cdat` → `mdat` field usage for token creation date
+  - Accurate expiration warnings for GitHub tokens
+
+### Documentation
+
+- **API Documentation Phase 1** (#303)
+  - 9 core libraries documented with 86 functions
+  - MASTER-API-REFERENCE.md created (26.1% coverage)
+  - Documentation dashboard with coverage metrics
+
+- **New Tutorials**
+  - Tutorial 24: Template Management (430 lines)
+  - Tutorial 25: Lesson Plan Migration (328 lines)
+
+- **Reference Cards**
+  - REFCARD-TEMPLATES.md - Template quick reference
+
+- **Fixes**
+  - 14 broken anchor links fixed across 10 files
+  - 442 markdown lint violations resolved
+  - Added Aliases section to MASTER-DISPATCHER-GUIDE.md
+
+### Tests
+
+- Template management test suite (560 lines)
+- Lesson plan extraction test suite (954 lines)
+
+---
+
 ## [5.15.1] - 2026-01-21
 
 ### Documentation
