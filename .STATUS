@@ -28,21 +28,31 @@
 
 ### Documentation Lint & Anchor Fixes (2026-01-28)
 
-**Session Duration:** ~20 min
+**Session Duration:** ~45 min
 **Status:** ✅ Committed, pushed, deployed
-**Impact:** Fixed 442 lint violations + broken anchor links
+**Impact:** Fixed 442 lint violations + 14 broken anchor links
 
 **Activities:**
 - Ran markdownlint-cli2 on MASTER-API-REFERENCE.md and DOC-DASHBOARD.md
 - Fixed 442 lint violations (458 → 16 remaining, all false positives)
 - Fixed issues: MD040 (code fence languages), MD031 (blank lines), MD051 (orphan link), MD033 (HTML escape)
 - Fixed broken table rows in DOC-DASHBOARD.md
-- Added Aliases section to MASTER-DISPATCHER-GUIDE.md
-- Fixed `#1-g-git-workflows` anchor link → `#g-dispatcher`
+- Added Aliases section to MASTER-DISPATCHER-GUIDE.md (~50 lines)
+- Fixed 14 broken anchor links across 10 documentation files:
+  - LEARNING-PATH-INDEX.md (4 TOC links)
+  - TROUBLESHOOTING.md (Token & → Token and)
+  - DOC-INDEX.md (environment variables link)
+  - REFERENCE-CONSOLIDATION-PLAN.md (3 core libraries links)
+  - TEACHING-QUARTO-WORKFLOW-GUIDE.md (backup & restore)
+  - TOKEN-MANAGEMENT-COMPLETE.md (retrieving & using)
+  - ZSH-PLUGIN-ECOSYSTEM-GUIDE.md (antidote + OMZ)
+- Added explicit HTML anchors to 3 docs files
 - Deployed updated docs to GitHub Pages
 
 **Commits:**
 - 2d2a7675 - fix(docs): fix markdown lint violations in API docs
+- cb8d3eae - fix(docs): add Aliases section and fix broken anchor links
+- c1678b2d - fix(docs): fix broken anchor links across documentation
 
 ---
 
@@ -1017,9 +1027,9 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-28 20:15
+**Last Updated:** 2026-01-28 20:45
 **Status:** v5.19.1 Released ✅ - API Docs Phase 1 (PR #303) & Template Support WIP
-## wins: --category docs fixed 442 lint violations + broken anchors, deployed docs (2026-01-28)
+## wins: --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
 ## wins: --category code PR #303 merged - API docs Phase 1 (20 functions, +26.1% coverage) (2026-01-28)
 ## wins: --category docs template management docs updated (CHANGELOG, dispatcher guide, mkdocs nav) (2026-01-28)
 ## wins: --category docs API docs extraction script run, coverage dashboard updated (2026-01-28)
