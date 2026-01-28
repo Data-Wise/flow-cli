@@ -82,7 +82,7 @@ _teach_templates_list() {
             echo "[]"
         else
             echo ""
-            _flow_log_warn "No templates found"
+            _flow_log_warning "No templates found"
             echo ""
             echo "To initialize templates:"
             echo "  teach init --with-templates"
@@ -167,29 +167,33 @@ _teach_templates_list_pretty() {
 
 _teach_templates_list_json() {
     local templates="$1"
+    local first=1
+    local version=""
+    local desc=""
+    typeset -A metadata
 
     echo "["
-    local first=1
 
     while IFS='|' read -r source type name path; do
         [[ -z "$source" ]] && continue
 
-        typeset -A metadata
-        _teach_parse_template_metadata "$path" metadata 2>/dev/null
+        metadata=()
+        _teach_parse_template_metadata "$path" metadata >/dev/null 2>&1
+
+        version="${metadata[template_version]:-}"
+        desc="${metadata[template_description]:-}"
 
         [[ $first -eq 0 ]] && echo ","
         first=0
 
-        cat <<EOF
-  {
-    "source": "$source",
-    "type": "$type",
-    "name": "$name",
-    "path": "$path",
-    "version": "${metadata[template_version]:-}",
-    "description": "${metadata[template_description]:-}"
-  }
-EOF
+        echo "  {"
+        echo "    \"source\": \"$source\","
+        echo "    \"type\": \"$type\","
+        echo "    \"name\": \"$name\","
+        echo "    \"path\": \"$path\","
+        echo "    \"version\": \"$version\","
+        echo "    \"description\": \"$desc\""
+        echo "  }"
     done <<< "$templates"
 
     echo ""
@@ -374,7 +378,7 @@ _teach_templates_validate() {
     local project_dir="$(_template_get_project_dir)"
 
     if [[ ! -d "$project_dir" ]]; then
-        _flow_log_warn "No project templates directory found"
+        _flow_log_warning "No project templates directory found"
         echo "  Expected: .flow/templates/"
         echo ""
         echo "  Create with: teach init --with-templates"
