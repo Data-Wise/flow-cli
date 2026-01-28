@@ -105,6 +105,8 @@ nav:
       - 19. Teaching + Git Integration: tutorials/19-teaching-git-integration.md
       - 21. Teach Analyze: tutorials/21-teach-analyze.md
       - 22. Plugin Optimization: tutorials/22-plugin-optimization.md
+      - 24. Template Management: tutorials/24-template-management.md
+      - 25. Lesson Plan Migration: tutorials/25-lesson-plan-migration.md
       - 🎓 Scholar Enhancement:
           - Overview & Learning Path: tutorials/scholar-enhancement/index.md
           - Level 1 - Getting Started: tutorials/scholar-enhancement/01-getting-started.md
