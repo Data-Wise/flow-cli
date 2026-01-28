@@ -811,7 +811,14 @@ fi
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Clean - all features merged |
+| Main repo | `dev` | Clean |
+| `~/.git-worktrees/flow-cli/feature-latex-macros` | `feature/latex-macros` | 🚧 WIP - Issue #305 |
+
+**Active Feature:**
+- 🚧 **LaTeX Macro Config** (Issue #305) - Spec complete, ready for implementation
+  - Spec: `docs/specs/SPEC-latex-macros-2026-01-28.md`
+  - Brainstorm: `BRAINSTORM-latex-macros-2026-01-28.md`
+  - Effort: ~14 hours (4 phases)
 
 **Recently Merged:**
 - ✅ Template Support (PR #302) - Merged 2026-01-28
@@ -1037,8 +1044,9 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-28 20:45
-**Status:** v5.19.1 Released ✅ - API Docs Phase 1 (PR #303) & Template Support WIP
+**Last Updated:** 2026-01-28 22:55
+**Status:** v5.20.0 Released ✅ - LaTeX Macro Config (Issue #305) WIP
+## wins: --category docs LaTeX macro config spec created (Issue #305, 14h effort, 4 phases) (2026-01-28)
 ## wins: --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
 ## wins: --category code PR #303 merged - API docs Phase 1 (20 functions, +26.1% coverage) (2026-01-28)
 ## wins: --category docs template management docs updated (CHANGELOG, dispatcher guide, mkdocs nav) (2026-01-28)
