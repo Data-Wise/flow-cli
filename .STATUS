@@ -999,8 +999,9 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-28 18:00
-**Status:** v5.19.1 Released ✅ - API Docs Phase 1 & Template Support WIP
+**Last Updated:** 2026-01-28 19:30
+**Status:** v5.19.1 Released ✅ - API Docs Phase 1 (PR #303) & Template Support WIP
+## wins: --category docs API docs extraction script run, coverage dashboard updated (2026-01-28)
 ## wins: --category docs API documentation spec created (6 phases, 470 functions, orchestration ready) (2026-01-28)
 ## wins: --category fix token age calculation bug fixed (Keychain icmt field parsing) (2026-01-28)
 ## wins: --category docs spec created for .flow/templates/ support (#301, 569 lines) (2026-01-28)
