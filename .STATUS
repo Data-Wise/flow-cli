@@ -26,6 +26,26 @@
 
 ## ✅ Just Completed:
 
+### Documentation Lint & Anchor Fixes (2026-01-28)
+
+**Session Duration:** ~20 min
+**Status:** ✅ Committed, pushed, deployed
+**Impact:** Fixed 442 lint violations + broken anchor links
+
+**Activities:**
+- Ran markdownlint-cli2 on MASTER-API-REFERENCE.md and DOC-DASHBOARD.md
+- Fixed 442 lint violations (458 → 16 remaining, all false positives)
+- Fixed issues: MD040 (code fence languages), MD031 (blank lines), MD051 (orphan link), MD033 (HTML escape)
+- Fixed broken table rows in DOC-DASHBOARD.md
+- Added Aliases section to MASTER-DISPATCHER-GUIDE.md
+- Fixed `#1-g-git-workflows` anchor link → `#g-dispatcher`
+- Deployed updated docs to GitHub Pages
+
+**Commits:**
+- 2d2a7675 - fix(docs): fix markdown lint violations in API docs
+
+---
+
 ### Token Age Calculation Bug Fix (2026-01-28)
 
 **Session Duration:** ~15 min
@@ -997,8 +1017,9 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-28 19:30
+**Last Updated:** 2026-01-28 20:15
 **Status:** v5.19.1 Released ✅ - API Docs Phase 1 (PR #303) & Template Support WIP
+## wins: --category docs fixed 442 lint violations + broken anchors, deployed docs (2026-01-28)
 ## wins: --category code PR #303 merged - API docs Phase 1 (20 functions, +26.1% coverage) (2026-01-28)
 ## wins: --category docs template management docs updated (CHANGELOG, dispatcher guide, mkdocs nav) (2026-01-28)
 ## wins: --category docs API docs extraction script run, coverage dashboard updated (2026-01-28)

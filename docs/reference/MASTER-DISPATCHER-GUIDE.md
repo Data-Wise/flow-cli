@@ -2167,6 +2167,47 @@ v off
 
 ---
 
+## Aliases
+
+Flow CLI uses a minimalist alias approach - high-frequency commands only.
+
+### Quick Stats
+
+- **Custom aliases:** 31 (R package + utility)
+- **Git aliases:** 226+ (from git plugin)
+- **Philosophy:** Memorize less, accomplish more
+
+### Key Aliases by Category
+
+| Category | Aliases | Purpose |
+|----------|---------|---------|
+| **R Package** | `rload`, `rtest`, `rdoc`, `rcheck` | Development workflow |
+| **R Quality** | `rcov`, `rcovrep` | Coverage reports |
+| **R CRAN** | `rcheckfast`, `rcheckcran` | Submission checks |
+| **Tool** | `cat='bat'` | Modern replacements |
+
+### Dispatcher Shortcuts
+
+Each dispatcher has built-in shortcuts:
+
+```bash
+g st          # git status
+g co          # git checkout
+r t           # r test
+qu p          # qu preview
+cc y          # cc yolo
+```
+
+### Quick Access
+
+```bash
+als           # List all aliases by category
+```
+
+> **Full Reference:** See archived [ALIAS-REFERENCE-CARD.md](.archive/ALIAS-REFERENCE-CARD.md) for complete alias list with frequencies and descriptions.
+
+---
+
 ## Next Steps
 
 - **Beginners:** Start with [g](#g-dispatcher), [cc](#cc-dispatcher), [tm](#tm-dispatcher)
