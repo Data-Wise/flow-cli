@@ -6602,35 +6602,37 @@
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>---
 <a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>
-<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>## Release Process
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>&lt;a id=&quot;release-process&quot;&gt;&lt;/a&gt;
 <a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>
-<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>### Version Numbering
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>## Release Process
 <a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>
-<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>**Semantic Versioning:** `MAJOR.MINOR.PATCH`
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>### Version Numbering
 <a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>
-<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>- **MAJOR:** Breaking changes
-<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a>- **MINOR:** New features (backward compatible)
-<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a>- **PATCH:** Bug fixes
-<a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a>
-<a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a>**Example:** v5.10.0
-<a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a>- Major: 5 (current architecture)
-<a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a>- Minor: 10 (worktree detection feature)
-<a id="__codelineno-32-16" name="__codelineno-32-16" href="#__codelineno-32-16"></a>- Patch: 0 (initial release of feature)
-<a id="__codelineno-32-17" name="__codelineno-32-17" href="#__codelineno-32-17"></a>
-<a id="__codelineno-32-18" name="__codelineno-32-18" href="#__codelineno-32-18"></a>### Release Checklist
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>**Semantic Versioning:** `MAJOR.MINOR.PATCH`
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a>
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a>- **MAJOR:** Breaking changes
+<a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a>- **MINOR:** New features (backward compatible)
+<a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a>- **PATCH:** Bug fixes
+<a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a>
+<a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a>**Example:** v5.10.0
+<a id="__codelineno-32-16" name="__codelineno-32-16" href="#__codelineno-32-16"></a>- Major: 5 (current architecture)
+<a id="__codelineno-32-17" name="__codelineno-32-17" href="#__codelineno-32-17"></a>- Minor: 10 (worktree detection feature)
+<a id="__codelineno-32-18" name="__codelineno-32-18" href="#__codelineno-32-18"></a>- Patch: 0 (initial release of feature)
 <a id="__codelineno-32-19" name="__codelineno-32-19" href="#__codelineno-32-19"></a>
-<a id="__codelineno-32-20" name="__codelineno-32-20" href="#__codelineno-32-20"></a>**1. Prepare Release (on dev branch):**
-<a id="__codelineno-32-21" name="__codelineno-32-21" href="#__codelineno-32-21"></a>```bash
-<a id="__codelineno-32-22" name="__codelineno-32-22" href="#__codelineno-32-22"></a># Update version numbers
-<a id="__codelineno-32-23" name="__codelineno-32-23" href="#__codelineno-32-23"></a>./scripts/release.sh 5.10.0
-<a id="__codelineno-32-24" name="__codelineno-32-24" href="#__codelineno-32-24"></a>
-<a id="__codelineno-32-25" name="__codelineno-32-25" href="#__codelineno-32-25"></a># Verify changes
-<a id="__codelineno-32-26" name="__codelineno-32-26" href="#__codelineno-32-26"></a>git diff
-<a id="__codelineno-32-27" name="__codelineno-32-27" href="#__codelineno-32-27"></a>
-<a id="__codelineno-32-28" name="__codelineno-32-28" href="#__codelineno-32-28"></a># Commit version bump
-<a id="__codelineno-32-29" name="__codelineno-32-29" href="#__codelineno-32-29"></a>git add -A
-<a id="__codelineno-32-30" name="__codelineno-32-30" href="#__codelineno-32-30"></a>git commit -m &quot;chore: bump version to v5.10.0&quot;
-<a id="__codelineno-32-31" name="__codelineno-32-31" href="#__codelineno-32-31"></a>git push origin dev
+<a id="__codelineno-32-20" name="__codelineno-32-20" href="#__codelineno-32-20"></a>### Release Checklist
+<a id="__codelineno-32-21" name="__codelineno-32-21" href="#__codelineno-32-21"></a>
+<a id="__codelineno-32-22" name="__codelineno-32-22" href="#__codelineno-32-22"></a>**1. Prepare Release (on dev branch):**
+<a id="__codelineno-32-23" name="__codelineno-32-23" href="#__codelineno-32-23"></a>```bash
+<a id="__codelineno-32-24" name="__codelineno-32-24" href="#__codelineno-32-24"></a># Update version numbers
+<a id="__codelineno-32-25" name="__codelineno-32-25" href="#__codelineno-32-25"></a>./scripts/release.sh 5.10.0
+<a id="__codelineno-32-26" name="__codelineno-32-26" href="#__codelineno-32-26"></a>
+<a id="__codelineno-32-27" name="__codelineno-32-27" href="#__codelineno-32-27"></a># Verify changes
+<a id="__codelineno-32-28" name="__codelineno-32-28" href="#__codelineno-32-28"></a>git diff
+<a id="__codelineno-32-29" name="__codelineno-32-29" href="#__codelineno-32-29"></a>
+<a id="__codelineno-32-30" name="__codelineno-32-30" href="#__codelineno-32-30"></a># Commit version bump
+<a id="__codelineno-32-31" name="__codelineno-32-31" href="#__codelineno-32-31"></a>git add -A
+<a id="__codelineno-32-32" name="__codelineno-32-32" href="#__codelineno-32-32"></a>git commit -m &quot;chore: bump version to v5.10.0&quot;
+<a id="__codelineno-32-33" name="__codelineno-32-33" href="#__codelineno-32-33"></a>git push origin dev
 </code></pre></div>
 <p><strong>2. Create Release PR:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Create PR from dev to main</span>
