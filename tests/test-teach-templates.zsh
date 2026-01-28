@@ -337,6 +337,223 @@ test_template_resolution
 echo ""
 
 # ============================================================================
+# INTEGRATION: teach templates new
+# ============================================================================
+
+echo "━━━ Integration: teach templates new ━━━"
+
+# Source command file for integration tests
+source "$PROJECT_ROOT/commands/teach-templates.zsh" 2>/dev/null || true
+
+# Create a mock project for integration testing
+INTEGRATION_DIR="$TEST_DIR/integration-project"
+mkdir -p "$INTEGRATION_DIR/.flow/templates/content"
+cd "$INTEGRATION_DIR"
+
+# Test 1: new command requires template type
+test_new_requires_type() {
+    local output
+    output=$(_teach_templates new 2>&1)
+
+    if [[ "$output" == *"Usage"* || "$output" == *"template type"* ]]; then
+        test_pass "new command shows usage when missing type"
+    else
+        test_fail "new requires type" "should show usage"
+    fi
+}
+test_new_requires_type
+
+# Test 2: new command errors on unknown template
+test_new_unknown_template() {
+    local output
+    output=$(_teach_templates new nonexistent destination 2>&1)
+
+    if [[ "$output" == *"not found"* || "$output" == *"Unknown"* || "$output" == *"error"* ]]; then
+        test_pass "new command errors on unknown template"
+    else
+        test_fail "new unknown template" "should show error, got: $output"
+    fi
+}
+test_new_unknown_template
+
+# Test 3: new --dry-run shows preview
+test_new_dry_run() {
+    local output
+    output=$(_teach_templates new lecture week-01 --dry-run 2>&1)
+
+    if [[ "$output" == *"preview"* || "$output" == *"Would create"* || "$output" == *"dry"* ]]; then
+        test_pass "new --dry-run shows preview"
+    else
+        test_fail "new --dry-run" "should show preview, got: $output"
+    fi
+}
+test_new_dry_run
+
+# Test 4: new creates file from template
+test_new_creates_file() {
+    # Note: when providing full path, file is created without additional extension
+    local dest_file="$INTEGRATION_DIR/lectures/week-02"
+    mkdir -p "$INTEGRATION_DIR/lectures"
+
+    # Run new command
+    _teach_templates new lecture "$dest_file" --week 02 --topic "Intro" 2>/dev/null
+
+    if [[ -f "$dest_file" ]]; then
+        test_pass "new command creates file"
+    else
+        test_fail "new creates file" "file not created: $dest_file"
+    fi
+}
+test_new_creates_file
+
+# Test 5: new substitutes variables
+test_new_substitutes_vars() {
+    # Note: when providing full path, file is created without additional extension
+    local dest_file="$INTEGRATION_DIR/lectures/week-03"
+    mkdir -p "$INTEGRATION_DIR/lectures"
+
+    _teach_templates new lecture "$dest_file" --week 03 --topic "Regression" 2>/dev/null
+
+    if [[ -f "$dest_file" ]]; then
+        local content
+        content=$(cat "$dest_file")
+        if [[ "$content" == *"03"* || "$content" == *"Regression"* ]]; then
+            test_pass "new substitutes variables"
+        else
+            test_fail "new substitutes vars" "variables not substituted"
+        fi
+    else
+        test_fail "new substitutes vars" "file not created"
+    fi
+}
+test_new_substitutes_vars
+
+# Test 6: new preserves template metadata structure
+test_new_preserves_frontmatter() {
+    # Note: when providing full path, file is created without additional extension
+    local dest_file="$INTEGRATION_DIR/lectures/week-04"
+    mkdir -p "$INTEGRATION_DIR/lectures"
+
+    _teach_templates new lecture "$dest_file" --week 04 2>/dev/null
+
+    if [[ -f "$dest_file" ]]; then
+        local first_line
+        first_line=$(head -1 "$dest_file")
+        if [[ "$first_line" == "---" ]]; then
+            test_pass "new preserves YAML frontmatter"
+        else
+            test_fail "new preserves frontmatter" "first line should be ---, got: $first_line"
+        fi
+    else
+        test_fail "new preserves frontmatter" "file not created"
+    fi
+}
+test_new_preserves_frontmatter
+
+# Test 7: new refuses to overwrite without --force
+test_new_no_overwrite() {
+    local dest_file="$INTEGRATION_DIR/lectures/existing.qmd"
+    mkdir -p "$INTEGRATION_DIR/lectures"
+    echo "existing content" > "$dest_file"
+
+    local output
+    output=$(_teach_templates new lecture "$INTEGRATION_DIR/lectures/existing" 2>&1)
+
+    local content
+    content=$(cat "$dest_file")
+    if [[ "$content" == "existing content" ]]; then
+        test_pass "new refuses to overwrite without --force"
+    else
+        test_fail "new no overwrite" "file was overwritten"
+    fi
+}
+test_new_no_overwrite
+
+# Test 8: new --force overwrites
+test_new_force_overwrite() {
+    # Note: file path used in new must match the existing file
+    local dest_file="$INTEGRATION_DIR/lectures/overwrite-test"
+    mkdir -p "$INTEGRATION_DIR/lectures"
+    echo "old content" > "$dest_file"
+
+    _teach_templates new lecture "$dest_file" --force 2>/dev/null
+
+    local content
+    content=$(cat "$dest_file")
+    if [[ "$content" != "old content" ]]; then
+        test_pass "new --force overwrites file"
+    else
+        test_fail "new --force" "file was not overwritten"
+    fi
+}
+test_new_force_overwrite
+
+cd "$ORIGINAL_PWD" 2>/dev/null || cd "$PROJECT_ROOT"
+
+echo ""
+
+# ============================================================================
+# INTEGRATION: teach init --with-templates
+# ============================================================================
+
+echo "━━━ Integration: teach init --with-templates ━━━"
+
+# Source teach dispatcher for init command
+source "$PROJECT_ROOT/lib/dispatchers/teach-dispatcher.zsh" 2>/dev/null || true
+
+# Test 1: init --with-templates creates template directories
+test_init_with_templates() {
+    local init_dir="$TEST_DIR/init-test"
+    mkdir -p "$init_dir"
+    cd "$init_dir"
+
+    # Run init with templates (suppress interactive prompts)
+    _teach_init "TEST-101" --with-templates 2>/dev/null
+
+    local all_dirs=1
+    for type in content prompts metadata checklists; do
+        if [[ ! -d "$init_dir/.flow/templates/$type" ]]; then
+            all_dirs=0
+        fi
+    done
+
+    if [[ $all_dirs -eq 1 ]]; then
+        test_pass "init --with-templates creates template directories"
+    else
+        test_fail "init --with-templates" "not all template directories created"
+    fi
+
+    cd "$PROJECT_ROOT"
+}
+test_init_with_templates
+
+# Test 2: init --with-templates syncs prompts
+test_init_syncs_prompts() {
+    local init_dir="$TEST_DIR/init-prompts-test"
+    mkdir -p "$init_dir"
+    cd "$init_dir"
+
+    _teach_init "TEST-102" --with-templates 2>/dev/null
+
+    local prompts_dir="$init_dir/.flow/templates/prompts"
+    if [[ -d "$prompts_dir" ]]; then
+        local count=$(ls -1 "$prompts_dir" 2>/dev/null | wc -l | tr -d ' ')
+        if [[ $count -gt 0 ]]; then
+            test_pass "init --with-templates syncs $count prompt templates"
+        else
+            test_fail "init syncs prompts" "no prompts synced"
+        fi
+    else
+        test_fail "init syncs prompts" "prompts directory not created"
+    fi
+
+    cd "$PROJECT_ROOT"
+}
+test_init_syncs_prompts
+
+echo ""
+
+# ============================================================================
 # SUMMARY
 # ============================================================================
 
