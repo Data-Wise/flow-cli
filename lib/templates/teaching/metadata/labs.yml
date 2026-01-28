@@ -1,0 +1,29 @@
+---
+template_version: "1.0"
+template_type: "metadata"
+template_description: "Default _metadata.yml for labs directory"
+---
+# _metadata.yml for labs/
+# Place in labs/ directory to apply to all lab files
+
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    code-tools: true
+    number-sections: true
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  eval: true
+
+# Lab-specific chunk options (show code by default)
+knitr:
+  opts_chunk:
+    fig.align: center
+    fig.width: 7
+    fig.height: 5
+    comment: "#>"

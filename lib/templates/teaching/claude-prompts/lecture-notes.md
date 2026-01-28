@@ -1,3 +1,9 @@
+---
+template_version: "1.0"
+template_type: "prompt"
+template_description: "AI prompt for generating comprehensive lecture notes"
+---
+
 # Comprehensive Lecture Notes Generator
 
 ## Purpose

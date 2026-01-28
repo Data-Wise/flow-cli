@@ -1,0 +1,29 @@
+---
+template_version: "1.0"
+template_type: "metadata"
+template_description: "Default _metadata.yml for slides directory"
+---
+# _metadata.yml for slides/
+# Place in slides/ directory to apply to all slide files
+
+format:
+  revealjs:
+    theme: default
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    preview-links: auto
+    footer: "{{COURSE}}"
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+# Slide-specific chunk options
+knitr:
+  opts_chunk:
+    fig.align: center
+    fig.width: 8
+    fig.height: 5
+    out.width: "90%"

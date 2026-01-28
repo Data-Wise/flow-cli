@@ -1,4 +1,10 @@
 ---
+template_version: "1.0"
+template_type: "lecture"
+template_description: "Lecture template with concept frontmatter for teach analyze"
+template_variables: [LECTURE_TITLE, WEEK_NUM, SUBTITLE, DATE, CONCEPT_1, CONCEPT_2, PREREQ_1, PREREQ_2]
+---
+---
 title: "{{LECTURE_TITLE}}"
 subtitle: "Week {{WEEK_NUM}} - {{SUBTITLE}}"
 week: {{WEEK_NUM}}

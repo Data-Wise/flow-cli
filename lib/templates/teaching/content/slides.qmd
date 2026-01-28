@@ -1,0 +1,103 @@
+---
+template_version: "1.0"
+template_type: "slides"
+template_description: "RevealJS slides template for lectures"
+template_variables: [WEEK, TOPIC, COURSE, DATE, INSTRUCTOR]
+---
+---
+title: "{{TOPIC}}"
+subtitle: "Week {{WEEK}} - {{COURSE}}"
+author: "{{INSTRUCTOR}}"
+date: "{{DATE}}"
+format:
+  revealjs:
+    theme: default
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    footer: "{{COURSE}} | Week {{WEEK}}"
+execute:
+  echo: true
+  warning: false
+---
+
+# {{TOPIC}} {background-color="#003366"}
+
+## Learning Objectives
+
+1.
+2.
+3.
+
+## Outline
+
+- Section 1
+- Section 2
+- Section 3
+- Summary
+
+# Section 1 {background-color="#336699"}
+
+## Key Concept
+
+::: {.incremental}
+- Point 1
+- Point 2
+- Point 3
+:::
+
+## Example
+
+```{r}
+#| echo: true
+#| eval: true
+
+# Example code
+```
+
+## Visual
+
+```{r}
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5
+
+# Visualization code
+```
+
+# Section 2 {background-color="#336699"}
+
+## Main Points
+
+::: {.columns}
+::: {.column width="50%"}
+**Left Column**
+
+- Item 1
+- Item 2
+:::
+::: {.column width="50%"}
+**Right Column**
+
+- Item 1
+- Item 2
+:::
+:::
+
+# Summary {background-color="#003366"}
+
+## Key Takeaways
+
+1.
+2.
+3.
+
+## Next Week
+
+- Preview of upcoming topics
+
+## Questions?
+
+::: {.callout-note}
+Office hours: [Day/Time]
+:::

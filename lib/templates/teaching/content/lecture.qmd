@@ -1,0 +1,50 @@
+---
+template_version: "1.0"
+template_type: "lecture"
+template_description: "Standard lecture template with concept frontmatter"
+template_variables: [WEEK, TOPIC, COURSE, DATE, INSTRUCTOR, SEMESTER]
+---
+---
+title: "Week {{WEEK}}: {{TOPIC}}"
+subtitle: "{{COURSE}} - {{SEMESTER}}"
+author: "{{INSTRUCTOR}}"
+date: "{{DATE}}"
+format:
+  html:
+    toc: true
+    code-fold: true
+concepts:
+  - id: ""
+    name: ""
+    prerequisites: []
+---
+
+## Learning Objectives
+
+By the end of this lecture, students will be able to:
+
+1.
+2.
+3.
+
+## Introduction
+
+
+
+## Main Content
+
+### Section 1
+
+
+
+### Section 2
+
+
+
+## Summary
+
+
+
+## Next Steps
+
+

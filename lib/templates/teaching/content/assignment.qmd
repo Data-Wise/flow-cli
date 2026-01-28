@@ -1,0 +1,86 @@
+---
+template_version: "1.0"
+template_type: "assignment"
+template_description: "Homework assignment template"
+template_variables: [TOPIC, COURSE, DATE, INSTRUCTOR, DUE_DATE]
+---
+---
+title: "{{TOPIC}}"
+subtitle: "{{COURSE}}"
+author: "{{INSTRUCTOR}}"
+date: "{{DATE}}"
+format:
+  html:
+    toc: true
+  pdf:
+    toc: false
+---
+
+## Assignment Information
+
+| Item | Details |
+|------|---------|
+| **Due Date** | {{DUE_DATE}} |
+| **Points** | 100 |
+| **Submission** | Canvas |
+| **Format** | PDF or HTML |
+
+## Instructions
+
+1. Complete all problems below
+2. Show all work for full credit
+3. Code should be included and reproducible
+4. Submit via Canvas by the due date
+
+## Problem 1 (20 points)
+
+
+
+### Part (a)
+
+
+
+### Part (b)
+
+
+
+## Problem 2 (25 points)
+
+
+
+### Part (a)
+
+
+
+### Part (b)
+
+
+
+## Problem 3 (25 points)
+
+
+
+## Problem 4 (30 points)
+
+
+
+### Part (a)
+
+
+
+### Part (b)
+
+
+
+### Part (c)
+
+
+
+## Submission Checklist
+
+- [ ] All problems completed
+- [ ] Work shown for calculations
+- [ ] Code runs without errors
+- [ ] Interpretations provided where requested
+- [ ] Document rendered to PDF/HTML
+- [ ] Submitted to Canvas
