@@ -1574,6 +1574,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../tutorials/23-token-automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    23. Token Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../tutorials/24-template-management/" class="md-nav__link">
         
   
@@ -1629,6 +1657,34 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../tutorials/26-latex-macros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    26. LaTeX Macros
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
     
     
@@ -1645,10 +1701,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_25" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_27" >
         
           
-          <label class="md-nav__link" for="__nav_4_25" id="__nav_4_25_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_27" id="__nav_4_27_label" tabindex="0">
             
   
   
@@ -1666,8 +1722,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_25_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_25">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_27_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_27">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3396,6 +3452,34 @@
     
   
     📝 Templates Quick Ref
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFCARD-MACROS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📐 LaTeX Macros Quick Ref
   
 
     
@@ -6565,17 +6649,84 @@
 <p><strong>Shortcuts:</strong> <code>teach tmpl</code>, <code>teach tpl</code></p>
 <p><strong>Quick Reference:</strong> See <a href="../REFCARD-TEMPLATES/">REFCARD-TEMPLATES.md</a></p>
 <hr />
+<h4 id="latex-macro-management-v5210">LaTeX Macro Management (v5.21.0)<a class="headerlink" href="#latex-macro-management-v5210" title="Permanent link">&para;</a></h4>
+<p>Manage LaTeX macros for consistent AI-generated notation.</p>
+<p><strong>Primary use case:</strong> Ensure Scholar generates <code>\E{Y}</code> instead of <code>E[Y]</code>.</p>
+<p><strong>List macros:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-150-1" name="__codelineno-150-1" href="#__codelineno-150-1"></a>teach<span class="w"> </span>macros<span class="w">                         </span><span class="c1"># Show all macros</span>
+<a id="__codelineno-150-2" name="__codelineno-150-2" href="#__codelineno-150-2"></a>teach<span class="w"> </span>macros<span class="w"> </span>list<span class="w">                    </span><span class="c1"># Same with more options</span>
+<a id="__codelineno-150-3" name="__codelineno-150-3" href="#__codelineno-150-3"></a>teach<span class="w"> </span>macros<span class="w"> </span>list<span class="w"> </span>--category<span class="w"> </span>operators<span class="w">  </span><span class="c1"># Filter by category</span>
+<a id="__codelineno-150-4" name="__codelineno-150-4" href="#__codelineno-150-4"></a>teach<span class="w"> </span>macros<span class="w"> </span>list<span class="w"> </span>--format<span class="w"> </span>json<span class="w">      </span><span class="c1"># JSON output</span>
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-151-1" name="__codelineno-151-1" href="#__codelineno-151-1"></a>LaTeX Macros (14 available)
+<a id="__codelineno-151-2" name="__codelineno-151-2" href="#__codelineno-151-2"></a>
+<a id="__codelineno-151-3" name="__codelineno-151-3" href="#__codelineno-151-3"></a>OPERATORS
+<a id="__codelineno-151-4" name="__codelineno-151-4" href="#__codelineno-151-4"></a>  \E             → \mathbb{E}           Expectation
+<a id="__codelineno-151-5" name="__codelineno-151-5" href="#__codelineno-151-5"></a>  \Var           → \text{Var}           Variance
+<a id="__codelineno-151-6" name="__codelineno-151-6" href="#__codelineno-151-6"></a>  \Cov           → \text{Cov}           Covariance
+<a id="__codelineno-151-7" name="__codelineno-151-7" href="#__codelineno-151-7"></a>
+<a id="__codelineno-151-8" name="__codelineno-151-8" href="#__codelineno-151-8"></a>DISTRIBUTIONS
+<a id="__codelineno-151-9" name="__codelineno-151-9" href="#__codelineno-151-9"></a>  \Normal        → \mathcal{N}          Normal distribution
+<a id="__codelineno-151-10" name="__codelineno-151-10" href="#__codelineno-151-10"></a>  \Binomial      → \text{Bin}           Binomial distribution
+<a id="__codelineno-151-11" name="__codelineno-151-11" href="#__codelineno-151-11"></a>
+<a id="__codelineno-151-12" name="__codelineno-151-12" href="#__codelineno-151-12"></a>SYMBOLS
+<a id="__codelineno-151-13" name="__codelineno-151-13" href="#__codelineno-151-13"></a>  \indep         → \perp\!\!\!\perp     Independence
+<a id="__codelineno-151-14" name="__codelineno-151-14" href="#__codelineno-151-14"></a>  \iid           → \text{i.i.d.}        IID notation
+<a id="__codelineno-151-15" name="__codelineno-151-15" href="#__codelineno-151-15"></a>
+<a id="__codelineno-151-16" name="__codelineno-151-16" href="#__codelineno-151-16"></a>Source: _macros.qmd (synced 2h ago)
+</code></pre></div></p>
+<p><strong>Sync from source files:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-152-1" name="__codelineno-152-1" href="#__codelineno-152-1"></a>teach<span class="w"> </span>macros<span class="w"> </span>sync<span class="w">              </span><span class="c1"># Extract from configured sources</span>
+<a id="__codelineno-152-2" name="__codelineno-152-2" href="#__codelineno-152-2"></a>teach<span class="w"> </span>macros<span class="w"> </span>sync<span class="w"> </span>--dry-run<span class="w">    </span><span class="c1"># Preview without changes</span>
+<a id="__codelineno-152-3" name="__codelineno-152-3" href="#__codelineno-152-3"></a>teach<span class="w"> </span>macros<span class="w"> </span>sync<span class="w"> </span>--force<span class="w">      </span><span class="c1"># Overwrite existing cache</span>
+</code></pre></div></p>
+<p><strong>Export for Scholar:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-153-1" name="__codelineno-153-1" href="#__codelineno-153-1"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w">                 </span><span class="c1"># Default JSON to stdout</span>
+<a id="__codelineno-153-2" name="__codelineno-153-2" href="#__codelineno-153-2"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>json<span class="w">   </span><span class="c1"># JSON format</span>
+<a id="__codelineno-153-3" name="__codelineno-153-3" href="#__codelineno-153-3"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>mathjax<span class="w">  </span><span class="c1"># MathJax config</span>
+<a id="__codelineno-153-4" name="__codelineno-153-4" href="#__codelineno-153-4"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>latex<span class="w">  </span><span class="c1"># LaTeX \newcommand</span>
+</code></pre></div></p>
+<p><strong>Configuration:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-154-1" name="__codelineno-154-1" href="#__codelineno-154-1"></a><span class="nt">scholar</span><span class="p">:</span>
+<a id="__codelineno-154-2" name="__codelineno-154-2" href="#__codelineno-154-2"></a><span class="w">  </span><span class="nt">latex_macros</span><span class="p">:</span>
+<a id="__codelineno-154-3" name="__codelineno-154-3" href="#__codelineno-154-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-154-4" name="__codelineno-154-4" href="#__codelineno-154-4"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
+<a id="__codelineno-154-5" name="__codelineno-154-5" href="#__codelineno-154-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;_macros.qmd&quot;</span>
+<a id="__codelineno-154-6" name="__codelineno-154-6" href="#__codelineno-154-6"></a><span class="w">        </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qmd&quot;</span>
+<a id="__codelineno-154-7" name="__codelineno-154-7" href="#__codelineno-154-7"></a><span class="w">    </span><span class="nt">auto_discover</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-154-8" name="__codelineno-154-8" href="#__codelineno-154-8"></a><span class="w">    </span><span class="nt">validation</span><span class="p">:</span>
+<a id="__codelineno-154-9" name="__codelineno-154-9" href="#__codelineno-154-9"></a><span class="w">      </span><span class="nt">warn_undefined</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-154-10" name="__codelineno-154-10" href="#__codelineno-154-10"></a><span class="w">      </span><span class="nt">warn_unused</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-154-11" name="__codelineno-154-11" href="#__codelineno-154-11"></a><span class="w">    </span><span class="nt">export</span><span class="p">:</span>
+<a id="__codelineno-154-12" name="__codelineno-154-12" href="#__codelineno-154-12"></a><span class="w">      </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;json&quot;</span>
+<a id="__codelineno-154-13" name="__codelineno-154-13" href="#__codelineno-154-13"></a><span class="w">      </span><span class="nt">include_in_prompts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div></p>
+<p><strong>Supported formats:</strong>
+- QMD (Quarto) - <code>{=tex}</code> blocks with <code>\newcommand</code>
+- LaTeX - Standard <code>.tex</code> files
+- MathJax - HTML with <code>MathJax.Hub.Config</code></p>
+<p><strong>Macro categories:</strong>
+- operators (<code>\E</code>, <code>\Var</code>, <code>\Cov</code>)
+- distributions (<code>\Normal</code>, <code>\Binomial</code>)
+- symbols (<code>\indep</code>, <code>\iid</code>)
+- matrices (<code>\bX</code>, <code>\bbeta</code>)
+- derivatives (<code>\dd</code>, <code>\pd</code>)
+- probability (<code>\Prob</code>, <code>\given</code>)</p>
+<p><strong>Shortcuts:</strong> <code>teach macro</code>, <code>teach m</code></p>
+<p><strong>Quick Reference:</strong> See <a href="../REFCARD-MACROS/">REFCARD-MACROS.md</a></p>
+<hr />
 <h4 id="integration-with-quarto">Integration with Quarto<a class="headerlink" href="#integration-with-quarto" title="Permanent link">&para;</a></h4>
 <p><strong>Render specific lecture:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-150-1" name="__codelineno-150-1" href="#__codelineno-150-1"></a>qu<span class="w"> </span>render<span class="w"> </span>lectures/week-05/regression.qmd
+<div class="highlight"><pre><span></span><code><a id="__codelineno-155-1" name="__codelineno-155-1" href="#__codelineno-155-1"></a>qu<span class="w"> </span>render<span class="w"> </span>lectures/week-05/regression.qmd
 </code></pre></div></p>
 <p><strong>Render all lectures:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-151-1" name="__codelineno-151-1" href="#__codelineno-151-1"></a>qu<span class="w"> </span>render<span class="w"> </span>--website
+<div class="highlight"><pre><span></span><code><a id="__codelineno-156-1" name="__codelineno-156-1" href="#__codelineno-156-1"></a>qu<span class="w"> </span>render<span class="w"> </span>--website
 </code></pre></div></p>
 <p><strong>Preview live:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-152-1" name="__codelineno-152-1" href="#__codelineno-152-1"></a>qu<span class="w"> </span>preview
-<a id="__codelineno-152-2" name="__codelineno-152-2" href="#__codelineno-152-2"></a><span class="c1"># Edit files</span>
-<a id="__codelineno-152-3" name="__codelineno-152-3" href="#__codelineno-152-3"></a><span class="c1"># Auto-refresh in browser</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-157-1" name="__codelineno-157-1" href="#__codelineno-157-1"></a>qu<span class="w"> </span>preview
+<a id="__codelineno-157-2" name="__codelineno-157-2" href="#__codelineno-157-2"></a><span class="c1"># Edit files</span>
+<a id="__codelineno-157-3" name="__codelineno-157-3" href="#__codelineno-157-3"></a><span class="c1"># Auto-refresh in browser</span>
 </code></pre></div></p>
 <hr />
 <h3 id="reference_8">Reference<a class="headerlink" href="#reference_8" title="Permanent link">&para;</a></h3>
@@ -6609,6 +6760,19 @@
 - `teach migrate-config --force` - Skip confirmation
 - `teach migrate-config --no-backup` - Don't create backup
 
+**Templates (v5.20.0):**
+- `teach templates` - List all templates
+- `teach templates list` - List with filtering
+- `teach templates new <type> <dest>` - Create from template
+- `teach templates validate` - Check template syntax
+- `teach templates sync` - Update from plugin defaults
+
+**Macros (v5.21.0):**
+- `teach macros` - List all macros
+- `teach macros list` - List with filtering/JSON
+- `teach macros sync` - Extract from source files
+- `teach macros export` - Export for Scholar
+
 **Help:**
 - `teach help` - Show help
 
@@ -6623,53 +6787,53 @@
 <p><strong>What it does:</strong> Manages terminal window settings (title, profile, visibility).</p>
 <h4 id="essential-commands_8">Essential Commands<a class="headerlink" href="#essential-commands_8" title="Permanent link">&para;</a></h4>
 <p><strong>Set terminal title:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-153-1" name="__codelineno-153-1" href="#__codelineno-153-1"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli development&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-158-1" name="__codelineno-158-1" href="#__codelineno-158-1"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli development&quot;</span>
 </code></pre></div></p>
 <p>Window title updates to "flow-cli development".</p>
 <p><strong>Switch profile:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-154-1" name="__codelineno-154-1" href="#__codelineno-154-1"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Solarized Dark&quot;</span>
-<a id="__codelineno-154-2" name="__codelineno-154-2" href="#__codelineno-154-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Nord&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-159-1" name="__codelineno-159-1" href="#__codelineno-159-1"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Solarized Dark&quot;</span>
+<a id="__codelineno-159-2" name="__codelineno-159-2" href="#__codelineno-159-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Nord&quot;</span>
 </code></pre></div></p>
 <p>Changes iTerm2/Terminal.app color profile.</p>
 <p><strong>Ghost mode (hide from Spotlight/Alfred):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-155-1" name="__codelineno-155-1" href="#__codelineno-155-1"></a>tm<span class="w"> </span>ghost<span class="w"> </span>on
+<div class="highlight"><pre><span></span><code><a id="__codelineno-160-1" name="__codelineno-160-1" href="#__codelineno-160-1"></a>tm<span class="w"> </span>ghost<span class="w"> </span>on
 </code></pre></div></p>
 <p>Hides terminal from application switchers.</p>
 <p><strong>Disable ghost mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-156-1" name="__codelineno-156-1" href="#__codelineno-156-1"></a>tm<span class="w"> </span>ghost<span class="w"> </span>off
+<div class="highlight"><pre><span></span><code><a id="__codelineno-161-1" name="__codelineno-161-1" href="#__codelineno-161-1"></a>tm<span class="w"> </span>ghost<span class="w"> </span>off
 </code></pre></div></p>
 <p><strong>Show current settings:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-157-1" name="__codelineno-157-1" href="#__codelineno-157-1"></a>tm<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-162-1" name="__codelineno-162-1" href="#__codelineno-162-1"></a>tm<span class="w"> </span>status
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-158-1" name="__codelineno-158-1" href="#__codelineno-158-1"></a>Profile: Solarized Dark
-<a id="__codelineno-158-2" name="__codelineno-158-2" href="#__codelineno-158-2"></a>Title: flow-cli development
-<a id="__codelineno-158-3" name="__codelineno-158-3" href="#__codelineno-158-3"></a>Ghost: enabled
+<div class="highlight"><pre><span></span><code><a id="__codelineno-163-1" name="__codelineno-163-1" href="#__codelineno-163-1"></a>Profile: Solarized Dark
+<a id="__codelineno-163-2" name="__codelineno-163-2" href="#__codelineno-163-2"></a>Title: flow-cli development
+<a id="__codelineno-163-3" name="__codelineno-163-3" href="#__codelineno-163-3"></a>Ghost: enabled
 </code></pre></div></p>
 <hr />
 <h3 id="intermediate_8">Intermediate<a class="headerlink" href="#intermediate_8" title="Permanent link">&para;</a></h3>
 <h4 id="use-cases">Use Cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h4>
 <p><strong>1. Project-specific profiles:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-159-1" name="__codelineno-159-1" href="#__codelineno-159-1"></a><span class="c1"># In work session</span>
-<a id="__codelineno-159-2" name="__codelineno-159-2" href="#__codelineno-159-2"></a>work<span class="w"> </span>flow-cli
-<a id="__codelineno-159-3" name="__codelineno-159-3" href="#__codelineno-159-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli dev&quot;</span>
-<a id="__codelineno-159-4" name="__codelineno-159-4" href="#__codelineno-159-4"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Solarized Dark&quot;</span>
-<a id="__codelineno-159-5" name="__codelineno-159-5" href="#__codelineno-159-5"></a>
-<a id="__codelineno-159-6" name="__codelineno-159-6" href="#__codelineno-159-6"></a><span class="c1"># Switch projects</span>
-<a id="__codelineno-159-7" name="__codelineno-159-7" href="#__codelineno-159-7"></a>work<span class="w"> </span>teaching
-<a id="__codelineno-159-8" name="__codelineno-159-8" href="#__codelineno-159-8"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;teaching work&quot;</span>
-<a id="__codelineno-159-9" name="__codelineno-159-9" href="#__codelineno-159-9"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Nord&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-164-1" name="__codelineno-164-1" href="#__codelineno-164-1"></a><span class="c1"># In work session</span>
+<a id="__codelineno-164-2" name="__codelineno-164-2" href="#__codelineno-164-2"></a>work<span class="w"> </span>flow-cli
+<a id="__codelineno-164-3" name="__codelineno-164-3" href="#__codelineno-164-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli dev&quot;</span>
+<a id="__codelineno-164-4" name="__codelineno-164-4" href="#__codelineno-164-4"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Solarized Dark&quot;</span>
+<a id="__codelineno-164-5" name="__codelineno-164-5" href="#__codelineno-164-5"></a>
+<a id="__codelineno-164-6" name="__codelineno-164-6" href="#__codelineno-164-6"></a><span class="c1"># Switch projects</span>
+<a id="__codelineno-164-7" name="__codelineno-164-7" href="#__codelineno-164-7"></a>work<span class="w"> </span>teaching
+<a id="__codelineno-164-8" name="__codelineno-164-8" href="#__codelineno-164-8"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;teaching work&quot;</span>
+<a id="__codelineno-164-9" name="__codelineno-164-9" href="#__codelineno-164-9"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Nord&quot;</span>
 </code></pre></div></p>
 <p><strong>2. Focus mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-160-1" name="__codelineno-160-1" href="#__codelineno-160-1"></a><span class="c1"># Deep work session</span>
-<a id="__codelineno-160-2" name="__codelineno-160-2" href="#__codelineno-160-2"></a>tm<span class="w"> </span>ghost<span class="w"> </span>on
-<a id="__codelineno-160-3" name="__codelineno-160-3" href="#__codelineno-160-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;🎯 Focus Mode&quot;</span>
-<a id="__codelineno-160-4" name="__codelineno-160-4" href="#__codelineno-160-4"></a><span class="c1"># No interruptions from app switcher</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-165-1" name="__codelineno-165-1" href="#__codelineno-165-1"></a><span class="c1"># Deep work session</span>
+<a id="__codelineno-165-2" name="__codelineno-165-2" href="#__codelineno-165-2"></a>tm<span class="w"> </span>ghost<span class="w"> </span>on
+<a id="__codelineno-165-3" name="__codelineno-165-3" href="#__codelineno-165-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;🎯 Focus Mode&quot;</span>
+<a id="__codelineno-165-4" name="__codelineno-165-4" href="#__codelineno-165-4"></a><span class="c1"># No interruptions from app switcher</span>
 </code></pre></div></p>
 <p><strong>3. Presentation mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-161-1" name="__codelineno-161-1" href="#__codelineno-161-1"></a><span class="c1"># Before demo</span>
-<a id="__codelineno-161-2" name="__codelineno-161-2" href="#__codelineno-161-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;High Contrast&quot;</span>
-<a id="__codelineno-161-3" name="__codelineno-161-3" href="#__codelineno-161-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;Demo - flow-cli&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-166-1" name="__codelineno-166-1" href="#__codelineno-166-1"></a><span class="c1"># Before demo</span>
+<a id="__codelineno-166-2" name="__codelineno-166-2" href="#__codelineno-166-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;High Contrast&quot;</span>
+<a id="__codelineno-166-3" name="__codelineno-166-3" href="#__codelineno-166-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;Demo - flow-cli&quot;</span>
 </code></pre></div></p>
 <hr />
 <h3 id="reference_9">Reference<a class="headerlink" href="#reference_9" title="Permanent link">&para;</a></h3>
@@ -6694,42 +6858,42 @@
 <p><strong>What it does:</strong> Switches between Claude (Anthropic) and Gemini (Google) prompt engines.</p>
 <h4 id="essential-commands_9">Essential Commands<a class="headerlink" href="#essential-commands_9" title="Permanent link">&para;</a></h4>
 <p><strong>Show current engine:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-162-1" name="__codelineno-162-1" href="#__codelineno-162-1"></a>prompt<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-167-1" name="__codelineno-167-1" href="#__codelineno-167-1"></a>prompt<span class="w"> </span>status
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-163-1" name="__codelineno-163-1" href="#__codelineno-163-1"></a>Current engine: claude (Anthropic)
-<a id="__codelineno-163-2" name="__codelineno-163-2" href="#__codelineno-163-2"></a>Available: claude, gemini
+<div class="highlight"><pre><span></span><code><a id="__codelineno-168-1" name="__codelineno-168-1" href="#__codelineno-168-1"></a>Current engine: claude (Anthropic)
+<a id="__codelineno-168-2" name="__codelineno-168-2" href="#__codelineno-168-2"></a>Available: claude, gemini
 </code></pre></div></p>
 <p><strong>Toggle engine:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-164-1" name="__codelineno-164-1" href="#__codelineno-164-1"></a>prompt<span class="w"> </span>toggle
+<div class="highlight"><pre><span></span><code><a id="__codelineno-169-1" name="__codelineno-169-1" href="#__codelineno-169-1"></a>prompt<span class="w"> </span>toggle
 </code></pre></div></p>
 <p>Switches to other engine (claude ↔ gemini).</p>
 <p><strong>Set specific engine:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-165-1" name="__codelineno-165-1" href="#__codelineno-165-1"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
-<a id="__codelineno-165-2" name="__codelineno-165-2" href="#__codelineno-165-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
+<div class="highlight"><pre><span></span><code><a id="__codelineno-170-1" name="__codelineno-170-1" href="#__codelineno-170-1"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
+<a id="__codelineno-170-2" name="__codelineno-170-2" href="#__codelineno-170-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
 </code></pre></div></p>
 <hr />
 <h3 id="intermediate_9">Intermediate<a class="headerlink" href="#intermediate_9" title="Permanent link">&para;</a></h3>
 <h4 id="use-cases_1">Use Cases<a class="headerlink" href="#use-cases_1" title="Permanent link">&para;</a></h4>
 <p><strong>1. Compare responses:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-166-1" name="__codelineno-166-1" href="#__codelineno-166-1"></a><span class="c1"># Try Claude</span>
-<a id="__codelineno-166-2" name="__codelineno-166-2" href="#__codelineno-166-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
-<a id="__codelineno-166-3" name="__codelineno-166-3" href="#__codelineno-166-3"></a><span class="c1"># Ask question, see response</span>
-<a id="__codelineno-166-4" name="__codelineno-166-4" href="#__codelineno-166-4"></a>
-<a id="__codelineno-166-5" name="__codelineno-166-5" href="#__codelineno-166-5"></a><span class="c1"># Try Gemini</span>
-<a id="__codelineno-166-6" name="__codelineno-166-6" href="#__codelineno-166-6"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
-<a id="__codelineno-166-7" name="__codelineno-166-7" href="#__codelineno-166-7"></a><span class="c1"># Ask same question, compare</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-171-1" name="__codelineno-171-1" href="#__codelineno-171-1"></a><span class="c1"># Try Claude</span>
+<a id="__codelineno-171-2" name="__codelineno-171-2" href="#__codelineno-171-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
+<a id="__codelineno-171-3" name="__codelineno-171-3" href="#__codelineno-171-3"></a><span class="c1"># Ask question, see response</span>
+<a id="__codelineno-171-4" name="__codelineno-171-4" href="#__codelineno-171-4"></a>
+<a id="__codelineno-171-5" name="__codelineno-171-5" href="#__codelineno-171-5"></a><span class="c1"># Try Gemini</span>
+<a id="__codelineno-171-6" name="__codelineno-171-6" href="#__codelineno-171-6"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
+<a id="__codelineno-171-7" name="__codelineno-171-7" href="#__codelineno-171-7"></a><span class="c1"># Ask same question, compare</span>
 </code></pre></div></p>
 <p><strong>2. Cost optimization:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-167-1" name="__codelineno-167-1" href="#__codelineno-167-1"></a><span class="c1"># Use Gemini for simple queries (cheaper)</span>
-<a id="__codelineno-167-2" name="__codelineno-167-2" href="#__codelineno-167-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
-<a id="__codelineno-167-3" name="__codelineno-167-3" href="#__codelineno-167-3"></a>
-<a id="__codelineno-167-4" name="__codelineno-167-4" href="#__codelineno-167-4"></a><span class="c1"># Use Claude for complex tasks (better quality)</span>
-<a id="__codelineno-167-5" name="__codelineno-167-5" href="#__codelineno-167-5"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
+<div class="highlight"><pre><span></span><code><a id="__codelineno-172-1" name="__codelineno-172-1" href="#__codelineno-172-1"></a><span class="c1"># Use Gemini for simple queries (cheaper)</span>
+<a id="__codelineno-172-2" name="__codelineno-172-2" href="#__codelineno-172-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
+<a id="__codelineno-172-3" name="__codelineno-172-3" href="#__codelineno-172-3"></a>
+<a id="__codelineno-172-4" name="__codelineno-172-4" href="#__codelineno-172-4"></a><span class="c1"># Use Claude for complex tasks (better quality)</span>
+<a id="__codelineno-172-5" name="__codelineno-172-5" href="#__codelineno-172-5"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
 </code></pre></div></p>
 <p><strong>3. Availability:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-168-1" name="__codelineno-168-1" href="#__codelineno-168-1"></a><span class="c1"># If Claude is down</span>
-<a id="__codelineno-168-2" name="__codelineno-168-2" href="#__codelineno-168-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
+<div class="highlight"><pre><span></span><code><a id="__codelineno-173-1" name="__codelineno-173-1" href="#__codelineno-173-1"></a><span class="c1"># If Claude is down</span>
+<a id="__codelineno-173-2" name="__codelineno-173-2" href="#__codelineno-173-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
 </code></pre></div></p>
 <hr />
 <h3 id="reference_10">Reference<a class="headerlink" href="#reference_10" title="Permanent link">&para;</a></h3>
@@ -6752,7 +6916,7 @@
 <p><strong>What it does:</strong> Enables "vibe coding mode" - focus environment for deep work.</p>
 <h4 id="essential-commands_10">Essential Commands<a class="headerlink" href="#essential-commands_10" title="Permanent link">&para;</a></h4>
 <p><strong>Enable vibe mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-169-1" name="__codelineno-169-1" href="#__codelineno-169-1"></a>v<span class="w"> </span>on
+<div class="highlight"><pre><span></span><code><a id="__codelineno-174-1" name="__codelineno-174-1" href="#__codelineno-174-1"></a>v<span class="w"> </span>on
 </code></pre></div></p>
 <p>Activates:
 - 🎵 Music playlist (Spotify/Apple Music)
@@ -6760,70 +6924,70 @@
 - 🎯 Focus settings
 - 📱 Hide notifications</p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-170-1" name="__codelineno-170-1" href="#__codelineno-170-1"></a>🎵 Vibe coding mode: ON
-<a id="__codelineno-170-2" name="__codelineno-170-2" href="#__codelineno-170-2"></a>Music: ✅ Started &quot;Lo-Fi Beats&quot; playlist
-<a id="__codelineno-170-3" name="__codelineno-170-3" href="#__codelineno-170-3"></a>Do Not Disturb: ✅ Enabled
-<a id="__codelineno-170-4" name="__codelineno-170-4" href="#__codelineno-170-4"></a>Focus: Maximum
-<a id="__codelineno-170-5" name="__codelineno-170-5" href="#__codelineno-170-5"></a>Terminal: Ghost mode enabled
+<div class="highlight"><pre><span></span><code><a id="__codelineno-175-1" name="__codelineno-175-1" href="#__codelineno-175-1"></a>🎵 Vibe coding mode: ON
+<a id="__codelineno-175-2" name="__codelineno-175-2" href="#__codelineno-175-2"></a>Music: ✅ Started &quot;Lo-Fi Beats&quot; playlist
+<a id="__codelineno-175-3" name="__codelineno-175-3" href="#__codelineno-175-3"></a>Do Not Disturb: ✅ Enabled
+<a id="__codelineno-175-4" name="__codelineno-175-4" href="#__codelineno-175-4"></a>Focus: Maximum
+<a id="__codelineno-175-5" name="__codelineno-175-5" href="#__codelineno-175-5"></a>Terminal: Ghost mode enabled
 </code></pre></div></p>
 <p><strong>Disable vibe mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-171-1" name="__codelineno-171-1" href="#__codelineno-171-1"></a>v<span class="w"> </span>off
+<div class="highlight"><pre><span></span><code><a id="__codelineno-176-1" name="__codelineno-176-1" href="#__codelineno-176-1"></a>v<span class="w"> </span>off
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-172-1" name="__codelineno-172-1" href="#__codelineno-172-1"></a>🎵 Vibe coding mode: OFF
-<a id="__codelineno-172-2" name="__codelineno-172-2" href="#__codelineno-172-2"></a>Music: ⏸️  Paused
-<a id="__codelineno-172-3" name="__codelineno-172-3" href="#__codelineno-172-3"></a>Do Not Disturb: ✅ Disabled
-<a id="__codelineno-172-4" name="__codelineno-172-4" href="#__codelineno-172-4"></a>Focus: Normal
+<div class="highlight"><pre><span></span><code><a id="__codelineno-177-1" name="__codelineno-177-1" href="#__codelineno-177-1"></a>🎵 Vibe coding mode: OFF
+<a id="__codelineno-177-2" name="__codelineno-177-2" href="#__codelineno-177-2"></a>Music: ⏸️  Paused
+<a id="__codelineno-177-3" name="__codelineno-177-3" href="#__codelineno-177-3"></a>Do Not Disturb: ✅ Disabled
+<a id="__codelineno-177-4" name="__codelineno-177-4" href="#__codelineno-177-4"></a>Focus: Normal
 </code></pre></div></p>
 <p><strong>Show status:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-173-1" name="__codelineno-173-1" href="#__codelineno-173-1"></a>v<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-178-1" name="__codelineno-178-1" href="#__codelineno-178-1"></a>v<span class="w"> </span>status
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-174-1" name="__codelineno-174-1" href="#__codelineno-174-1"></a>Vibe mode: ON
-<a id="__codelineno-174-2" name="__codelineno-174-2" href="#__codelineno-174-2"></a>Started: 2h 15m ago
-<a id="__codelineno-174-3" name="__codelineno-174-3" href="#__codelineno-174-3"></a>Sessions today: 3
-<a id="__codelineno-174-4" name="__codelineno-174-4" href="#__codelineno-174-4"></a>Total time: 6h 45m
-<a id="__codelineno-174-5" name="__codelineno-174-5" href="#__codelineno-174-5"></a>Current playlist: Lo-Fi Beats
+<div class="highlight"><pre><span></span><code><a id="__codelineno-179-1" name="__codelineno-179-1" href="#__codelineno-179-1"></a>Vibe mode: ON
+<a id="__codelineno-179-2" name="__codelineno-179-2" href="#__codelineno-179-2"></a>Started: 2h 15m ago
+<a id="__codelineno-179-3" name="__codelineno-179-3" href="#__codelineno-179-3"></a>Sessions today: 3
+<a id="__codelineno-179-4" name="__codelineno-179-4" href="#__codelineno-179-4"></a>Total time: 6h 45m
+<a id="__codelineno-179-5" name="__codelineno-179-5" href="#__codelineno-179-5"></a>Current playlist: Lo-Fi Beats
 </code></pre></div></p>
 <hr />
 <h3 id="intermediate_10">Intermediate<a class="headerlink" href="#intermediate_10" title="Permanent link">&para;</a></h3>
 <h4 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h4>
 <p><strong>Custom playlist:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-175-1" name="__codelineno-175-1" href="#__codelineno-175-1"></a><span class="c1"># Set in ~/.zshrc</span>
-<a id="__codelineno-175-2" name="__codelineno-175-2" href="#__codelineno-175-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_PLAYLIST</span><span class="o">=</span><span class="s2">&quot;My Coding Playlist&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-180-1" name="__codelineno-180-1" href="#__codelineno-180-1"></a><span class="c1"># Set in ~/.zshrc</span>
+<a id="__codelineno-180-2" name="__codelineno-180-2" href="#__codelineno-180-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_PLAYLIST</span><span class="o">=</span><span class="s2">&quot;My Coding Playlist&quot;</span>
 </code></pre></div></p>
 <p><strong>Auto-enable ghost mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-176-1" name="__codelineno-176-1" href="#__codelineno-176-1"></a><span class="c1"># Set in ~/.zshrc</span>
-<a id="__codelineno-176-2" name="__codelineno-176-2" href="#__codelineno-176-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_GHOST</span><span class="o">=</span><span class="m">1</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-181-1" name="__codelineno-181-1" href="#__codelineno-181-1"></a><span class="c1"># Set in ~/.zshrc</span>
+<a id="__codelineno-181-2" name="__codelineno-181-2" href="#__codelineno-181-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_GHOST</span><span class="o">=</span><span class="m">1</span>
 </code></pre></div></p>
 <p><strong>Disable music (DND only):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-177-1" name="__codelineno-177-1" href="#__codelineno-177-1"></a><span class="c1"># Set in ~/.zshrc</span>
-<a id="__codelineno-177-2" name="__codelineno-177-2" href="#__codelineno-177-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_MUSIC</span><span class="o">=</span><span class="m">0</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-182-1" name="__codelineno-182-1" href="#__codelineno-182-1"></a><span class="c1"># Set in ~/.zshrc</span>
+<a id="__codelineno-182-2" name="__codelineno-182-2" href="#__codelineno-182-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_MUSIC</span><span class="o">=</span><span class="m">0</span>
 </code></pre></div></p>
 <hr />
 <h4 id="use-cases_2">Use Cases<a class="headerlink" href="#use-cases_2" title="Permanent link">&para;</a></h4>
 <p><strong>1. Deep work sessions:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-178-1" name="__codelineno-178-1" href="#__codelineno-178-1"></a><span class="c1"># Start focused work</span>
-<a id="__codelineno-178-2" name="__codelineno-178-2" href="#__codelineno-178-2"></a>v<span class="w"> </span>on
-<a id="__codelineno-178-3" name="__codelineno-178-3" href="#__codelineno-178-3"></a>work<span class="w"> </span>my-project
-<a id="__codelineno-178-4" name="__codelineno-178-4" href="#__codelineno-178-4"></a>
-<a id="__codelineno-178-5" name="__codelineno-178-5" href="#__codelineno-178-5"></a><span class="c1"># Code for 2 hours</span>
-<a id="__codelineno-178-6" name="__codelineno-178-6" href="#__codelineno-178-6"></a>
-<a id="__codelineno-178-7" name="__codelineno-178-7" href="#__codelineno-178-7"></a><span class="c1"># Take break</span>
-<a id="__codelineno-178-8" name="__codelineno-178-8" href="#__codelineno-178-8"></a>v<span class="w"> </span>off
+<div class="highlight"><pre><span></span><code><a id="__codelineno-183-1" name="__codelineno-183-1" href="#__codelineno-183-1"></a><span class="c1"># Start focused work</span>
+<a id="__codelineno-183-2" name="__codelineno-183-2" href="#__codelineno-183-2"></a>v<span class="w"> </span>on
+<a id="__codelineno-183-3" name="__codelineno-183-3" href="#__codelineno-183-3"></a>work<span class="w"> </span>my-project
+<a id="__codelineno-183-4" name="__codelineno-183-4" href="#__codelineno-183-4"></a>
+<a id="__codelineno-183-5" name="__codelineno-183-5" href="#__codelineno-183-5"></a><span class="c1"># Code for 2 hours</span>
+<a id="__codelineno-183-6" name="__codelineno-183-6" href="#__codelineno-183-6"></a>
+<a id="__codelineno-183-7" name="__codelineno-183-7" href="#__codelineno-183-7"></a><span class="c1"># Take break</span>
+<a id="__codelineno-183-8" name="__codelineno-183-8" href="#__codelineno-183-8"></a>v<span class="w"> </span>off
 </code></pre></div></p>
 <p><strong>2. Flow state:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-179-1" name="__codelineno-179-1" href="#__codelineno-179-1"></a><span class="c1"># When you hit flow state, lock it in</span>
-<a id="__codelineno-179-2" name="__codelineno-179-2" href="#__codelineno-179-2"></a>v<span class="w"> </span>on
-<a id="__codelineno-179-3" name="__codelineno-179-3" href="#__codelineno-179-3"></a><span class="c1"># No interruptions for next 1-2 hours</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-184-1" name="__codelineno-184-1" href="#__codelineno-184-1"></a><span class="c1"># When you hit flow state, lock it in</span>
+<a id="__codelineno-184-2" name="__codelineno-184-2" href="#__codelineno-184-2"></a>v<span class="w"> </span>on
+<a id="__codelineno-184-3" name="__codelineno-184-3" href="#__codelineno-184-3"></a><span class="c1"># No interruptions for next 1-2 hours</span>
 </code></pre></div></p>
 <p><strong>3. Pomodoro integration:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-180-1" name="__codelineno-180-1" href="#__codelineno-180-1"></a><span class="c1"># 25-min work</span>
-<a id="__codelineno-180-2" name="__codelineno-180-2" href="#__codelineno-180-2"></a>v<span class="w"> </span>on
-<a id="__codelineno-180-3" name="__codelineno-180-3" href="#__codelineno-180-3"></a>sleep<span class="w"> </span><span class="m">1500</span><span class="w">  </span><span class="c1"># 25 minutes</span>
-<a id="__codelineno-180-4" name="__codelineno-180-4" href="#__codelineno-180-4"></a>v<span class="w"> </span>off
-<a id="__codelineno-180-5" name="__codelineno-180-5" href="#__codelineno-180-5"></a>
-<a id="__codelineno-180-6" name="__codelineno-180-6" href="#__codelineno-180-6"></a><span class="c1"># 5-min break</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-185-1" name="__codelineno-185-1" href="#__codelineno-185-1"></a><span class="c1"># 25-min work</span>
+<a id="__codelineno-185-2" name="__codelineno-185-2" href="#__codelineno-185-2"></a>v<span class="w"> </span>on
+<a id="__codelineno-185-3" name="__codelineno-185-3" href="#__codelineno-185-3"></a>sleep<span class="w"> </span><span class="m">1500</span><span class="w">  </span><span class="c1"># 25 minutes</span>
+<a id="__codelineno-185-4" name="__codelineno-185-4" href="#__codelineno-185-4"></a>v<span class="w"> </span>off
+<a id="__codelineno-185-5" name="__codelineno-185-5" href="#__codelineno-185-5"></a>
+<a id="__codelineno-185-6" name="__codelineno-185-6" href="#__codelineno-185-6"></a><span class="c1"># 5-min break</span>
 </code></pre></div></p>
 <hr />
 <h3 id="reference_11">Reference<a class="headerlink" href="#reference_11" title="Permanent link">&para;</a></h3>
@@ -6966,14 +7130,14 @@
 </table>
 <h3 id="dispatcher-shortcuts">Dispatcher Shortcuts<a class="headerlink" href="#dispatcher-shortcuts" title="Permanent link">&para;</a></h3>
 <p>Each dispatcher has built-in shortcuts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-181-1" name="__codelineno-181-1" href="#__codelineno-181-1"></a>g<span class="w"> </span>st<span class="w">          </span><span class="c1"># git status</span>
-<a id="__codelineno-181-2" name="__codelineno-181-2" href="#__codelineno-181-2"></a>g<span class="w"> </span>co<span class="w">          </span><span class="c1"># git checkout</span>
-<a id="__codelineno-181-3" name="__codelineno-181-3" href="#__codelineno-181-3"></a>r<span class="w"> </span>t<span class="w">           </span><span class="c1"># r test</span>
-<a id="__codelineno-181-4" name="__codelineno-181-4" href="#__codelineno-181-4"></a>qu<span class="w"> </span>p<span class="w">          </span><span class="c1"># qu preview</span>
-<a id="__codelineno-181-5" name="__codelineno-181-5" href="#__codelineno-181-5"></a>cc<span class="w"> </span>y<span class="w">          </span><span class="c1"># cc yolo</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-186-1" name="__codelineno-186-1" href="#__codelineno-186-1"></a>g<span class="w"> </span>st<span class="w">          </span><span class="c1"># git status</span>
+<a id="__codelineno-186-2" name="__codelineno-186-2" href="#__codelineno-186-2"></a>g<span class="w"> </span>co<span class="w">          </span><span class="c1"># git checkout</span>
+<a id="__codelineno-186-3" name="__codelineno-186-3" href="#__codelineno-186-3"></a>r<span class="w"> </span>t<span class="w">           </span><span class="c1"># r test</span>
+<a id="__codelineno-186-4" name="__codelineno-186-4" href="#__codelineno-186-4"></a>qu<span class="w"> </span>p<span class="w">          </span><span class="c1"># qu preview</span>
+<a id="__codelineno-186-5" name="__codelineno-186-5" href="#__codelineno-186-5"></a>cc<span class="w"> </span>y<span class="w">          </span><span class="c1"># cc yolo</span>
 </code></pre></div>
 <h3 id="quick-access">Quick Access<a class="headerlink" href="#quick-access" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-182-1" name="__codelineno-182-1" href="#__codelineno-182-1"></a>als<span class="w">           </span><span class="c1"># List all aliases by category</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-187-1" name="__codelineno-187-1" href="#__codelineno-187-1"></a>als<span class="w">           </span><span class="c1"># List all aliases by category</span>
 </code></pre></div>
 <blockquote>
 <p><strong>Full Reference:</strong> See archived <a href="../.archive/ALIAS-REFERENCE-CARD/">ALIAS-REFERENCE-CARD.md</a> for complete alias list with frequencies and descriptions.</p>

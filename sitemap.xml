@@ -753,6 +753,10 @@
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-MACROS/</loc>
+         <lastmod>2026-01-28</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-TEMPLATES/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
@@ -914,6 +918,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/specs/SPEC-keychain-default-phase-1-2026-01-24/</loc>
+         <lastmod>2026-01-28</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/specs/SPEC-latex-macros-2026-01-28/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
@@ -1198,6 +1206,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/25-lesson-plan-migration/</loc>
+         <lastmod>2026-01-28</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/tutorials/26-latex-macros/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
