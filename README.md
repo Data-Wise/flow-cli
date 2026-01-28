@@ -54,6 +54,27 @@ flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antid
 
 ---
 
+### v5.21.0: LaTeX Macro Configuration (Coming Soon)
+
+**Consistent AI-generated content with custom notation**
+
+- 📐 **teach macros** - Manage LaTeX macros for consistent notation
+  - Sync from QMD, LaTeX, or MathJax source files
+  - Export for Scholar AI integration
+  - Categories: operators, distributions, symbols, matrices
+- 🏥 **teach doctor** - Now includes macro health checks
+- 🎯 **Primary use case:** Ensure `teach exam` generates `\E{Y}` not `E[Y]`
+
+**Commands:**
+
+```bash
+teach macros list                # Show all macros
+teach macros sync                # Extract from source files
+teach macros export --format json  # Export for Scholar
+```
+
+---
+
 ### v5.17.0: Token Automation Phase 1 ✨ (Released - 2026-01-23)
 
 **Smart Token Management with 20x Performance Boost**

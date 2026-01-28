@@ -72,6 +72,25 @@ scholar:
     final: 25
     participation: 10
 
+  # LaTeX macro configuration for consistent AI-generated content
+  # Ensures Scholar-generated content uses the same notation as your course
+  latex_macros:
+    enabled: true
+    sources:
+      # List of macro source files in priority order (later files override earlier)
+      # - path: "_macros.qmd"
+      #   format: "qmd"
+      # - path: "includes/mathjax-macros.html"
+      #   format: "mathjax"
+    auto_discover: true        # Scan common locations for macro files
+    validation:
+      warn_undefined: true     # Warn if macro used but not defined
+      warn_unused: true        # Warn if defined but never used
+      warn_conflicts: true     # Warn if same macro defined differently
+    export:
+      format: "json"           # qmd | mathjax | latex | json
+      include_in_prompts: true # Include macros in AI context
+
 # =============================================================================
 # CONCEPT ANALYSIS (Optional - for prerequisite validation)
 # Used by: teach analyze, teach validate --concepts

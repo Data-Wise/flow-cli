@@ -121,6 +121,13 @@ if [[ -z "$_FLOW_TEACH_TEMPLATES_LOADED" ]]; then
     typeset -g _FLOW_TEACH_TEMPLATES_LOADED=1
 fi
 
+# Source teach-macros command (v5.21.0 - LaTeX Macro Support)
+if [[ -z "$_FLOW_TEACH_MACROS_LOADED" ]]; then
+    local macros_path="${0:A:h:h}/../commands/teach-macros.zsh"
+    [[ -f "$macros_path" ]] && source "$macros_path"
+    typeset -g _FLOW_TEACH_MACROS_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -4680,6 +4687,8 @@ ${FLOW_COLORS[bold]}════════════════════
     ${FLOW_COLORS[muted]}--dry-run${FLOW_COLORS[reset]}                   Preview changes only
   ${FLOW_COLORS[cmd]}teach templates${FLOW_COLORS[reset]}                Template management
     ${FLOW_COLORS[muted]}list | new | validate | sync${FLOW_COLORS[reset]}  Template operations
+  ${FLOW_COLORS[cmd]}teach macros${FLOW_COLORS[reset]}                   LaTeX macro management
+    ${FLOW_COLORS[muted]}list | sync | export${FLOW_COLORS[reset]}        Macro operations
 
 ${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
 ✍️ CONTENT CREATION (Scholar AI)
@@ -4995,6 +5004,14 @@ teach() {
             case "$1" in
                 --help|-h|help) _teach_templates_help; return 0 ;;
                 *) _teach_templates "$@" ;;
+            esac
+            ;;
+
+        # LaTeX macro management (v5.21.0 - LaTeX Macro Support)
+        macros|macro|m)
+            case "$1" in
+                --help|-h|help) _teach_macros_help; return 0 ;;
+                *) _teach_macros "$@" ;;
             esac
             ;;
 

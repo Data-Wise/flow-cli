@@ -276,7 +276,7 @@ cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
 tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
 wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 dot <cmd>     # Dotfile management (dot edit, dot sync, dot secret)
-teach <cmd>   # Teaching workflow (teach analyze, teach init, teach deploy, teach exam)
+teach <cmd>   # Teaching workflow (teach analyze, teach init, teach deploy, teach exam, teach macros)
 prompt <cmd>  # Prompt engine switcher (prompt status, prompt toggle)
 v <cmd>       # Vibe coding mode (v on, v off, v status)
 ```
@@ -296,6 +296,24 @@ teach templates validate     # Check template syntax
 teach templates sync         # Update from plugin defaults
 teach init --with-templates  # Initialize with templates
 ```
+
+### LaTeX Macro Management (v5.21.0) ✨
+
+**Consistent notation for AI-generated content**
+
+```bash
+teach macros list            # Show all macros with expansions
+teach macros list --category operators  # Filter by category
+teach macros sync            # Extract from source files
+teach macros export          # Export for Scholar integration
+teach macros export --format json  # Export as JSON
+```
+
+**Supported formats:** QMD (`_macros.qmd`), MathJax HTML, LaTeX (`.tex`)
+
+**Categories:** operators, distributions, symbols, matrices, derivatives, probability
+
+**Primary use:** Ensure `teach exam`, `teach quiz` generate `\E{Y}` instead of `E[Y]`
 
 **Template Types:**
 

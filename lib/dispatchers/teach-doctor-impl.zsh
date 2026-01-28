@@ -73,6 +73,10 @@ _teach_doctor() {
         echo ""
     fi
     _teach_doctor_check_cache
+    if [[ "$json" == "false" ]]; then
+        echo ""
+    fi
+    _teach_doctor_check_macros
 
     # Output results
     if [[ "$json" == "true" ]]; then
@@ -593,6 +597,137 @@ _teach_doctor_check_cache() {
     else
         _teach_doctor_warn "No freeze cache found" "Will be created on first render"
         json_results+=("{\"check\":\"cache_exists\",\"status\":\"warn\",\"message\":\"not found\"}")
+    fi
+}
+
+# Check LaTeX macro health
+_teach_doctor_check_macros() {
+    if [[ "$json" == "false" ]]; then
+        echo ""
+        echo "LaTeX Macros:"
+    fi
+
+    # Check if macro parser library is available
+    if ! typeset -f _flow_discover_macro_sources >/dev/null 2>&1; then
+        # Try to source it
+        local lib_dir="${0:A:h}"
+        if [[ -f "$lib_dir/../macro-parser.zsh" ]]; then
+            source "$lib_dir/../macro-parser.zsh" 2>/dev/null
+        fi
+    fi
+
+    # Check if macro parser functions are available
+    if ! typeset -f _flow_discover_macro_sources >/dev/null 2>&1; then
+        _teach_doctor_warn "Macro parser library not loaded"
+        json_results+=("{\"check\":\"macro_parser\",\"status\":\"warn\",\"message\":\"library not loaded\"}")
+        return 0
+    fi
+
+    # 1. Check for source files
+    local -a sources
+    sources=($(cd "$PWD" && _flow_discover_macro_sources 2>/dev/null))
+
+    if (( ${#sources} == 0 )); then
+        _teach_doctor_warn "No macro source files found" "Create _macros.qmd or configure in teach-config.yml"
+        json_results+=("{\"check\":\"macro_sources\",\"status\":\"warn\",\"message\":\"no sources found\"}")
+    else
+        local source_names=""
+        for src in "${sources[@]}"; do
+            [[ -n "$source_names" ]] && source_names+=", "
+            source_names+="${src:t}"
+        done
+        _teach_doctor_pass "Source file(s): $source_names"
+        json_results+=("{\"check\":\"macro_sources\",\"status\":\"pass\",\"message\":\"${#sources} source(s) found\"}")
+    fi
+
+    # 2. Check config sync (.flow/macros.yml cache)
+    local cache_dir=".flow/macros"
+    local cache_file="$cache_dir/macros.yml"
+
+    if [[ -f "$cache_file" ]]; then
+        # Check if cache is up to date by comparing mtime with source files
+        local cache_mtime=0
+        if [[ -f "$cache_file" ]]; then
+            cache_mtime=$(stat -f %m "$cache_file" 2>/dev/null || stat -c %Y "$cache_file" 2>/dev/null || echo 0)
+        fi
+
+        local stale=0
+        for src in "${sources[@]}"; do
+            if [[ -f "$src" ]]; then
+                local src_mtime
+                src_mtime=$(stat -f %m "$src" 2>/dev/null || stat -c %Y "$src" 2>/dev/null || echo 0)
+                if (( src_mtime > cache_mtime )); then
+                    stale=1
+                    break
+                fi
+            fi
+        done
+
+        if (( stale )); then
+            _teach_doctor_warn "Config cache out of date" "Run: teach macros sync"
+            json_results+=("{\"check\":\"macro_cache\",\"status\":\"warn\",\"message\":\"out of date\"}")
+        else
+            _teach_doctor_pass "Config cache up to date"
+            json_results+=("{\"check\":\"macro_cache\",\"status\":\"pass\",\"message\":\"up to date\"}")
+        fi
+    else
+        if (( ${#sources} > 0 )); then
+            _teach_doctor_warn "No macro cache found" "Run: teach macros sync"
+            json_results+=("{\"check\":\"macro_cache\",\"status\":\"warn\",\"message\":\"not found\"}")
+        fi
+    fi
+
+    # 3. Check CLAUDE.md for macro documentation
+    if [[ -f "CLAUDE.md" ]]; then
+        if command grep -qi 'latex.*macro\|macro.*latex\|math.*notation\|notation.*math' CLAUDE.md 2>/dev/null; then
+            _teach_doctor_pass "CLAUDE.md has macro documentation"
+            json_results+=("{\"check\":\"claudemd_macros\",\"status\":\"pass\",\"message\":\"documented\"}")
+        else
+            _teach_doctor_warn "CLAUDE.md missing macro section" "Add LaTeX macro documentation for AI assistance"
+            json_results+=("{\"check\":\"claudemd_macros\",\"status\":\"warn\",\"message\":\"no macro section\"}")
+        fi
+    else
+        _teach_doctor_warn "CLAUDE.md not found" "Create CLAUDE.md with macro documentation"
+        json_results+=("{\"check\":\"claudemd_macros\",\"status\":\"warn\",\"message\":\"file not found\"}")
+    fi
+
+    # 4. Check for unused macros (optional warning)
+    if (( ${#sources} > 0 )); then
+        # Load macros first
+        _flow_clear_macros 2>/dev/null
+        for src in "${sources[@]}"; do
+            _flow_parse_macros "$src" 2>/dev/null
+        done
+
+        local macro_count=$(_flow_macro_count 2>/dev/null)
+
+        if (( macro_count > 0 )); then
+            local unused
+            unused=$(_flow_find_unused_macros "$PWD" 2>/dev/null)
+            local unused_count
+            unused_count=$(echo "$unused" | grep -c '^' 2>/dev/null || echo 0)
+            # Filter out empty lines
+            if [[ -z "$unused" ]]; then
+                unused_count=0
+            fi
+
+            if (( unused_count > 0 )); then
+                _teach_doctor_warn "$unused_count macro(s) unused in content"
+                json_results+=("{\"check\":\"macro_usage\",\"status\":\"warn\",\"message\":\"$unused_count unused\"}")
+
+                # Show unused macros in verbose mode
+                if [[ "$quiet" == "false" ]]; then
+                    echo "    ${FLOW_COLORS[muted]}→ Unused: $(echo "$unused" | tr '\n' ' ' | sed 's/ $//')${FLOW_COLORS[reset]}"
+                fi
+            else
+                _teach_doctor_pass "All $macro_count macros in use"
+                json_results+=("{\"check\":\"macro_usage\",\"status\":\"pass\",\"message\":\"all $macro_count used\"}")
+            fi
+        else
+            if [[ "$quiet" == "false" ]]; then
+                echo "    ${FLOW_COLORS[muted]}→ No macros parsed from sources${FLOW_COLORS[reset]}"
+            fi
+        fi
     fi
 }
 

@@ -1,0 +1,28 @@
+---
+title: "LaTeX Macros"
+---
+
+```{=tex}
+% Statistical operators
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}[2]{\text{Cov}(#1, #2)}
+\newcommand{\Corr}[2]{\text{Corr}(#1, #2)}
+\newcommand{\MSE}{\text{MSE}}
+\newcommand{\Bias}{\text{Bias}}
+
+% Probability
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\given}{\mid}
+
+% Symbols
+\newcommand{\indep}{\perp\!\!\!\perp}
+\newcommand{\iid}{\overset{\text{iid}}{\sim}}
+
+% Matrices
+\newcommand{\bm}[1]{\boldsymbol{#1}}
+\newcommand{\transpose}{^{\mathsf{T}}}
+
+% Derivatives
+\newcommand{\dd}[2]{\frac{d #1}{d #2}}
+```

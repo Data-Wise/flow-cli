@@ -160,6 +160,7 @@ nav:
       - ⚡ Quick Reference: help/QUICK-REFERENCE.md
       - 🔐 Token & Secrets Quick Ref: reference/REFCARD-TOKEN-SECRETS.md
       - 📝 Templates Quick Ref: reference/REFCARD-TEMPLATES.md
+      - 📐 LaTeX Macros Quick Ref: reference/REFCARD-MACROS.md
       - 🔧 Workflows: help/WORKFLOWS.md
       - 🩺 Troubleshooting: help/TROUBLESHOOTING.md
       - 🤖 Claude Code Environment: troubleshooting/CLAUDE-CODE-ENVIRONMENT.md
