@@ -769,13 +769,21 @@ fi
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Clean - bug fix pushed |
+| Main repo | `dev` | Clean - specs pushed |
 | Template Support | `feature/template-support` | 🚧 WIP - Implementation |
+| API Docs Phase 1 | `feature/api-docs-phase-1` | 🚧 WIP - Core Libraries |
 
-**Worktree Location:** `~/.git-worktrees/flow-cli/feature-template-support`
-**Spec:** `docs/specs/SPEC-template-support-2026-01-28.md`
-**Issue:** #301
-**Status:** Work in Progress - Spec complete, implementation started
+**Template Support:**
+- **Location:** `~/.git-worktrees/flow-cli/feature-template-support`
+- **Spec:** `docs/specs/SPEC-template-support-2026-01-28.md`
+- **Issue:** #301
+
+**API Documentation Phase 1:**
+- **Location:** `~/.git-worktrees/flow-cli/feature-api-docs-phase-1`
+- **Spec:** `docs/specs/SPEC-api-documentation-2026-01-28.md`
+- **Scope:** Core Libraries (~80 functions)
+- **Files:** `lib/core.zsh`, `lib/atlas-bridge.zsh`, `lib/config-validator.zsh`
+- **Target:** 13.8% → 25% coverage
 
 ---
 
@@ -991,8 +999,9 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-28 17:30
-**Status:** v5.19.1 Released ✅ - Template Support WIP (#301)
+**Last Updated:** 2026-01-28 18:00
+**Status:** v5.19.1 Released ✅ - API Docs Phase 1 & Template Support WIP
+## wins: --category docs API documentation spec created (6 phases, 470 functions, orchestration ready) (2026-01-28)
 ## wins: --category fix token age calculation bug fixed (Keychain icmt field parsing) (2026-01-28)
 ## wins: --category docs spec created for .flow/templates/ support (#301, 569 lines) (2026-01-28)
 ## wins: --category docs documented 4 teaching libraries (34 functions, +4.8% coverage) (2026-01-28)
