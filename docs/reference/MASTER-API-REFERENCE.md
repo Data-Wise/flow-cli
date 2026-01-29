@@ -56,7 +56,7 @@ lib/
     ├── tm-dispatcher.zsh
     ├── prompt-dispatcher.zsh
     └── v-dispatcher.zsh
-```text
+```
 
 ---
 
@@ -82,7 +82,7 @@ function_name() {
     # Example:
     #   function_name "arg1" "arg2"
 }
-```text
+```
 
 ### For Contributors
 
@@ -129,7 +129,7 @@ Logs success message with green checkmark.
 
 ```zsh
 _flow_log_success "message"
-```text
+```
 
 **Parameters:**
 - `$1` - Message to log
@@ -142,7 +142,7 @@ _flow_log_success "message"
 ```zsh
 _flow_log_success "Project initialized successfully"
 # Output: ✅ Project initialized successfully
-```text
+```
 
 ---
 
@@ -154,7 +154,7 @@ Logs error message with red X.
 
 ```zsh
 _flow_log_error "message"
-```text
+```
 
 **Parameters:**
 - `$1` - Error message
@@ -167,7 +167,7 @@ _flow_log_error "message"
 ```zsh
 _flow_log_error "Configuration file not found"
 # Output: ❌ Configuration file not found
-```text
+```
 
 ---
 
@@ -179,7 +179,7 @@ Logs warning message with yellow warning sign.
 
 ```zsh
 _flow_log_warning "message"
-```text
+```
 
 **Parameters:**
 - `$1` - Warning message
@@ -192,7 +192,7 @@ _flow_log_warning "message"
 ```zsh
 _flow_log_warning "Token expires in 5 days"
 # Output: ⚠️  Token expires in 5 days
-```text
+```
 
 ---
 
@@ -204,7 +204,7 @@ Logs info message with blue info icon.
 
 ```zsh
 _flow_log_info "message"
-```text
+```
 
 **Parameters:**
 - `$1` - Info message
@@ -217,7 +217,7 @@ _flow_log_info "message"
 ```zsh
 _flow_log_info "Loading configuration from ~/.flowrc"
 # Output: ℹ️  Loading configuration from ~/.flowrc
-```text
+```
 
 ---
 
@@ -229,7 +229,7 @@ Base logging function with color support.
 
 ```zsh
 _flow_log "level" "message" ["arg2" ...]
-```text
+```
 
 **Parameters:**
 - `$1` (required) - Log level: `success`, `warning`, `error`, `info`, `debug`, or `muted`
@@ -247,7 +247,7 @@ _flow_log "level" "message" ["arg2" ...]
 _flow_log success "Operation completed"
 _flow_log error "Something went wrong"
 _flow_log warning "Check configuration"
-```text
+```
 
 **Notes:**
 - Uses `FLOW_COLORS` associative array for level-to-color mapping
@@ -264,7 +264,7 @@ Logs muted/gray text without prefix symbol.
 
 ```zsh
 _flow_log_muted "message"
-```text
+```
 
 **Parameters:**
 - `$@` (required) - Message to display
@@ -280,7 +280,7 @@ _flow_log_muted "message"
 ```zsh
 _flow_log_muted "Last updated: 2 hours ago"
 # Output: Last updated: 2 hours ago (in gray)
-```text
+```
 
 **Notes:**
 - No prefix symbol like other logging functions
@@ -296,7 +296,7 @@ Log debug message (only when FLOW_DEBUG is set).
 
 ```zsh
 _flow_log_debug "message"
-```text
+```
 
 **Parameters:**
 - `$@` (required) - Message to display
@@ -313,7 +313,7 @@ _flow_log_debug "message"
 export FLOW_DEBUG=1
 _flow_log_debug "Variable value: $var"
 # Output: [debug] Variable value: foo (in gray)
-```text
+```
 
 **Notes:**
 - Silent when `FLOW_DEBUG` is unset or empty
@@ -332,7 +332,7 @@ Convert project status string to emoji indicator.
 
 ```zsh
 _flow_status_icon "status"
-```text
+```
 
 **Parameters:**
 - `$1` (required) - Status string (case-insensitive)
@@ -359,7 +359,7 @@ echo "Status: $icon active"  # Output: Status: 🟢 active
 
 icon=$(_flow_status_icon "PAUSED")
 echo "Status: $icon paused"  # Output: Status: 🟡 paused
-```text
+```
 
 **Notes:**
 - Case-insensitive matching for common statuses
@@ -377,7 +377,7 @@ Finds git repository root from current directory.
 
 ```zsh
 _flow_find_project_root [path]
-```text
+```
 
 **Parameters:**
 - `$1` (optional) - Starting directory [default: `$PWD`]
@@ -398,7 +398,7 @@ fi
 
 # Start from specific directory
 root=$(_flow_find_project_root "/Users/dt/projects/flow-cli/lib")
-```text
+```
 
 **Notes:**
 - Searches for `.STATUS` file (flow-cli project marker)
@@ -415,7 +415,7 @@ Extract project name (directory name) from a path.
 
 ```zsh
 _flow_project_name [path]
-```text
+```
 
 **Parameters:**
 - `$1` (optional) - Path to extract name from [default: `$PWD`]
@@ -434,7 +434,7 @@ _flow_project_name "/Users/dt/projects/flow-cli"
 
 _flow_project_name  # Uses current directory
 # Output: (current directory name)
-```text
+```
 
 **Notes:**
 - Uses ZSH `:t` modifier (tail/basename equivalent)
@@ -450,7 +450,7 @@ Check if current directory is inside a flow-cli project.
 
 ```zsh
 _flow_in_project
-```text
+```
 
 **Parameters:**
 - None
@@ -467,7 +467,7 @@ if _flow_in_project; then
 else
     echo "Navigate to a project first"
 fi
-```text
+```
 
 **Notes:**
 - Wrapper around `_flow_find_project_root`
@@ -483,7 +483,7 @@ Detects project type from directory structure.
 
 ```zsh
 _flow_detect_project_type "/path/to/project"
-```text
+```
 
 **Parameters:**
 - `$1` - Project directory path
@@ -506,7 +506,7 @@ _flow_detect_project_type "/path/to/project"
 type=$(_flow_detect_project_type "$PWD")
 echo "Project type: $type"
 # Output: Project type: node
-```text
+```
 
 ---
 
@@ -520,7 +520,7 @@ Convert seconds to human-readable duration string.
 
 ```zsh
 _flow_format_duration "seconds"
-```text
+```
 
 **Parameters:**
 - `$1` (required) - Duration in seconds
@@ -542,7 +542,7 @@ _flow_format_duration "seconds"
 ```zsh
 elapsed=$(_flow_format_duration 3725)
 echo "Session: $elapsed"  # Output: Session: 1h 2m
-```text
+```
 
 **Notes:**
 - Seconds shown only for durations < 1 minute
@@ -559,7 +559,7 @@ Convert Unix timestamp to relative time string.
 
 ```zsh
 _flow_time_ago "timestamp"
-```text
+```
 
 **Parameters:**
 - `$1` (required) - Unix timestamp (seconds since epoch)
@@ -582,7 +582,7 @@ _flow_time_ago "timestamp"
 last_commit=$(git log -1 --format=%ct)
 echo "Last commit: $(_flow_time_ago $last_commit)"
 # Output: Last commit: 2h ago
-```text
+```
 
 **Notes:**
 - Uses current time for comparison
@@ -601,7 +601,7 @@ Display yes/no confirmation prompt with sensible defaults.
 
 ```zsh
 _flow_confirm [prompt] [default]
-```text
+```
 
 **Parameters:**
 - `$1` (optional) - Prompt message [default: `"Continue?"`]
@@ -623,7 +623,7 @@ fi
 if _flow_confirm "Continue with build?" "y"; then
     make build
 fi
-```text
+```
 
 **Notes:**
 - Non-interactive mode (no TTY) returns the default value
@@ -642,7 +642,7 @@ Check if a value exists in an array.
 
 ```zsh
 _flow_array_contains "needle" "haystack_element" [...]
-```text
+```
 
 **Parameters:**
 - `$1` (required) - Value to search for (needle)
@@ -662,7 +662,7 @@ fi
 
 # Inline usage
 _flow_array_contains "$status" active paused blocked && echo "Valid"
-```text
+```
 
 **Notes:**
 - Uses exact string matching
@@ -680,7 +680,7 @@ Safely read file contents (no error if file doesn't exist).
 
 ```zsh
 _flow_read_file "path"
-```text
+```
 
 **Parameters:**
 - `$1` (required) - Path to file
@@ -701,7 +701,7 @@ local config=$(_flow_read_file "$HOME/.myconfig")
 if [[ -n "$(_flow_read_file "$path/.STATUS")" ]]; then
     echo "Project has status file"
 fi
-```text
+```
 
 **Notes:**
 - Silently handles missing files (no stderr output)
@@ -717,7 +717,7 @@ Read a value from a key=value format config file.
 
 ```zsh
 _flow_get_config "path" "key" [default]
-```text
+```
 
 **Parameters:**
 - `$1` (required) - Path to config file
@@ -736,7 +736,7 @@ _flow_get_config "path" "key" [default]
 theme=dark
 timeout=30
 # Comments are ignored via grep pattern
-```text
+```
 
 **Example:**
 
@@ -747,7 +747,7 @@ local theme=$(_flow_get_config ~/.myconfig "theme" "dark")
 # Check if key exists
 local value=$(_flow_get_config "$file" "api_key")
 [[ -z "$value" ]] && echo "API key not configured"
-```text
+```
 
 **Notes:**
 - Expects "key=value" format (no spaces around =)
@@ -766,7 +766,7 @@ Outputs text in red.
 
 ```zsh
 _flow_color_red "text"
-```text
+```
 
 **Parameters:**
 - `$1` - Text to colorize
@@ -775,7 +775,7 @@ _flow_color_red "text"
 
 ```zsh
 echo "$(_flow_color_red 'Error occurred')"
-```text
+```
 
 ---
 
@@ -787,7 +787,7 @@ Outputs text in green.
 
 ```zsh
 _flow_color_green "text"
-```text
+```
 
 **Parameters:**
 - `$1` - Text to colorize
@@ -796,7 +796,7 @@ _flow_color_green "text"
 
 ```zsh
 echo "$(_flow_color_green 'Success!')"
-```text
+```
 
 ---
 
@@ -808,7 +808,7 @@ Outputs text in yellow.
 
 ```zsh
 _flow_color_yellow "text"
-```text
+```
 
 **Parameters:**
 - `$1` - Text to colorize
@@ -817,7 +817,7 @@ _flow_color_yellow "text"
 
 ```zsh
 echo "$(_flow_color_yellow 'Warning')"
-```text
+```
 
 ---
 
@@ -829,7 +829,7 @@ Outputs text in blue.
 
 ```zsh
 _flow_color_blue "text"
-```text
+```
 
 **Parameters:**
 - `$1` - Text to colorize
@@ -838,7 +838,7 @@ _flow_color_blue "text"
 
 ```zsh
 echo "$(_flow_color_blue 'Info')"
-```text
+```
 
 ---
 
@@ -852,7 +852,7 @@ Get the configured secret storage backend.
 
 ```zsh
 _dot_secret_backend
-```text
+```
 
 **Parameters:**
 - None
@@ -878,7 +878,7 @@ case "$backend" in
   bitwarden) echo "Using Bitwarden only" ;;
   both)      echo "Using both backends" ;;
 esac
-```text
+```
 
 **Notes:**
 - Default is `"keychain"` for instant access without unlock
@@ -895,7 +895,7 @@ Check if current backend requires Bitwarden.
 
 ```zsh
 _dot_secret_needs_bitwarden
-```text
+```
 
 **Parameters:**
 - None
@@ -911,7 +911,7 @@ if _dot_secret_needs_bitwarden; then
   # Ensure Bitwarden is available and unlocked
   _dot_require_tool "bw" "brew install bitwarden-cli"
 fi
-```text
+```
 
 **Notes:**
 - Use this to conditionally skip Bitwarden checks
@@ -927,7 +927,7 @@ Check if current backend uses Keychain.
 
 ```zsh
 _dot_secret_uses_keychain
-```text
+```
 
 **Parameters:**
 - None
@@ -942,7 +942,7 @@ _dot_secret_uses_keychain
 if _dot_secret_uses_keychain; then
   _dot_kc_add "$name"
 fi
-```text
+```
 
 **Notes:**
 - Use this to conditionally use Keychain storage
@@ -967,7 +967,7 @@ The Atlas bridge provides seamless integration with `@data-wise/atlas` when avai
 Atlas Available?
     ├─ Yes → Use Atlas CLI commands
     └─ No → Use local file fallbacks (worklog, inbox.md, trail.log)
-```text
+```
 
 **Environment:**
 - `FLOW_ATLAS_ENABLED` - "auto" (default), "yes", or "no"
@@ -985,7 +985,7 @@ Get current timestamp in YYYY-MM-DD HH:MM:SS format.
 
 ```zsh
 _flow_timestamp
-```text
+```
 
 **Returns:** Timestamp string (e.g., "2026-01-22 14:30:45")
 
@@ -994,7 +994,7 @@ _flow_timestamp
 ```zsh
 ts=$(_flow_timestamp)
 echo "Current time: $ts"
-```text
+```
 
 **Dependencies:** `zsh/datetime` module
 
@@ -1008,7 +1008,7 @@ Get current timestamp in short YYYY-MM-DD HH:MM format.
 
 ```zsh
 _flow_timestamp_short
-```text
+```
 
 **Returns:** Short timestamp string (e.g., "2026-01-22 14:30")
 
@@ -1026,7 +1026,7 @@ Check if Atlas CLI is available (with session-level caching).
 
 ```zsh
 _flow_has_atlas
-```text
+```
 
 **Returns:**
 - `0` - Atlas is available
@@ -1040,7 +1040,7 @@ if _flow_has_atlas; then
 else
     echo "Atlas not installed, using fallback"
 fi
-```text
+```
 
 **Notes:** Result cached in `$_FLOW_ATLAS_AVAILABLE` for session duration.
 
@@ -1054,7 +1054,7 @@ Force re-check of Atlas CLI availability (clears cache).
 
 ```zsh
 _flow_refresh_atlas
-```text
+```
 
 **Use Case:** After installing/uninstalling Atlas mid-session.
 
@@ -1068,7 +1068,7 @@ Initialize Atlas connection (respects `FLOW_ATLAS_ENABLED` setting).
 
 ```zsh
 _flow_init_atlas
-```text
+```
 
 **Notes:** If `FLOW_ATLAS_ENABLED="no"`, Atlas is disabled even if installed.
 
@@ -1084,14 +1084,14 @@ Main Atlas CLI wrapper for all atlas calls.
 
 ```zsh
 _flow_atlas <args...>
-```text
+```
 
 **Example:**
 
 ```zsh
 _flow_atlas session start "my-project"
 _flow_atlas project list --status=active
-```text
+```
 
 ---
 
@@ -1103,7 +1103,7 @@ Execute Atlas command silently (no output, return code only).
 
 ```zsh
 _flow_atlas_silent <args...>
-```text
+```
 
 **Notes:** Returns success (0) if Atlas not available (graceful degradation).
 
@@ -1117,14 +1117,14 @@ Execute Atlas command with JSON output format.
 
 ```zsh
 _flow_atlas_json <args...>
-```text
+```
 
 **Example:**
 
 ```zsh
 project_data=$(_flow_atlas_json project get "my-project")
 echo "$project_data" | jq '.status'
-```text
+```
 
 ---
 
@@ -1136,7 +1136,7 @@ Execute Atlas command asynchronously (fire-and-forget).
 
 ```zsh
 _flow_atlas_async <args...>
-```text
+```
 
 **Use Case:** Non-critical operations like analytics or background sync.
 
@@ -1152,7 +1152,7 @@ Get project information by name.
 
 ```zsh
 _flow_get_project <name>
-```text
+```
 
 **Output:** Shell-evaluable variables: `name`, `project_path`, `proj_status`
 
@@ -1163,7 +1163,7 @@ if info=$(_flow_get_project "my-project"); then
     eval "$info"
     cd "$project_path"
 fi
-```text
+```
 
 ---
 
@@ -1175,7 +1175,7 @@ List all projects (uses Atlas if available, otherwise filesystem scan).
 
 ```zsh
 _flow_list_projects [status_filter]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Status filter (e.g., "active", "archived")
@@ -1193,7 +1193,7 @@ Find project by name in filesystem (fallback when Atlas unavailable).
 
 ```zsh
 _flow_get_project_fallback <name>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Project name to look up
@@ -1208,7 +1208,7 @@ _flow_get_project_fallback <name>
 name="project-name"
 project_path="/path/to/project"
 proj_status="active"
-```text
+```
 
 **Example:**
 
@@ -1217,7 +1217,7 @@ if info=$(_flow_get_project_fallback "flow-cli"); then
     eval "$info"
     echo "Found at: $project_path"
 fi
-```text
+```
 
 **Notes:**
 - Searches exact match first in `FLOW_PROJECTS_ROOT`, then common subdirectories
@@ -1234,7 +1234,7 @@ List projects by scanning filesystem for .STATUS files.
 
 ```zsh
 _flow_list_projects_fallback [status_filter]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Status filter (currently ignored in fallback mode)
@@ -1248,7 +1248,7 @@ _flow_list_projects_fallback [status_filter]
 ```zsh
 projects=$(_flow_list_projects_fallback)
 echo "Found $(echo "$projects" | wc -l) projects"
-```text
+```
 
 **Notes:**
 - Scans recursively for `.STATUS` files in `FLOW_PROJECTS_ROOT`
@@ -1268,7 +1268,7 @@ Start a work session for a project.
 
 ```zsh
 _flow_session_start <project>
-```text
+```
 
 **Side Effects:**
 - Creates session state file
@@ -1285,7 +1285,7 @@ End the current work session.
 
 ```zsh
 _flow_session_end [note]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Note to record with session end
@@ -1302,7 +1302,7 @@ Get information about the current active session.
 
 ```zsh
 _flow_session_current
-```text
+```
 
 **Output:** Shell-evaluable variables: `project`, `elapsed_mins`
 
@@ -1318,7 +1318,7 @@ Calculate total session time for today.
 
 ```zsh
 _flow_today_session_time
-```text
+```
 
 **Output:** Total minutes worked today (integer)
 
@@ -1334,14 +1334,14 @@ Quick capture of a thought/task to inbox.
 
 ```zsh
 _flow_catch <text> [project]
-```text
+```
 
 **Example:**
 
 ```zsh
 _flow_catch "Fix the login bug"
 _flow_catch "Update docs" "my-project"
-```text
+```
 
 ---
 
@@ -1353,7 +1353,7 @@ Display the capture inbox contents.
 
 ```zsh
 _flow_inbox
-```text
+```
 
 ---
 
@@ -1365,7 +1365,7 @@ Get current project context ("where was I?").
 
 ```zsh
 _flow_where [project]
-```text
+```
 
 ---
 
@@ -1378,7 +1378,7 @@ Get project context from filesystem (fallback for `_flow_where`).
 
 ```zsh
 _flow_where_fallback [project]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Project name to get context for
@@ -1397,7 +1397,7 @@ _flow_where_fallback
 
 # Get context for specific project
 _flow_where_fallback "flow-cli"
-```text
+```
 
 **Notes:**
 - Detects project from current directory if not specified
@@ -1415,7 +1415,7 @@ Leave a breadcrumb (context marker for future reference).
 
 ```zsh
 _flow_crumb <text> [project]
-```text
+```
 
 **Use Case:** Helps resume work after interruptions (ADHD-friendly).
 
@@ -1429,7 +1429,7 @@ Shortcut alias for Atlas CLI (or fallback commands).
 
 ```zsh
 at <command> [args...]
-```text
+```
 
 **Parameters:**
 - `$@` - Command and arguments to pass to Atlas or fallback handlers
@@ -1462,7 +1462,7 @@ at catch "Fix login bug"
 at inbox
 at where flow-cli
 at crumb "Debugging auth flow"
-```text
+```
 
 **Notes:**
 - Passes through to `atlas` CLI if available
@@ -1509,7 +1509,7 @@ Detect project type based on marker files and directories.
 
 ```zsh
 _flow_detect_project_type [directory]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Directory to check [default: $PWD]
@@ -1525,7 +1525,7 @@ _flow_detect_project_type [directory]
 ```zsh
 type=$(_flow_detect_project_type)
 type=$(_flow_detect_project_type "/path/to/project")
-```text
+```
 
 ---
 
@@ -1537,7 +1537,7 @@ Get suggested commands relevant to a project type.
 
 ```zsh
 _flow_project_commands [project_type]
-```text
+```
 
 **Output:** Space-separated list of relevant commands/tools
 
@@ -1549,7 +1549,7 @@ _flow_project_commands "r-package"
 
 _flow_project_commands "python"
 # Output: pytest uv pip ruff
-```text
+```
 
 ---
 
@@ -1561,7 +1561,7 @@ Get emoji icon representing a project type.
 
 ```zsh
 _flow_project_icon [project_type]
-```text
+```
 
 **Output:** Single emoji character
 
@@ -1590,7 +1590,7 @@ Validate a teaching workflow configuration file.
 
 ```zsh
 _flow_validate_teaching_config <config_path>
-```text
+```
 
 **Returns:**
 - `0` - Configuration is valid (or yq not available)
@@ -1622,7 +1622,7 @@ Draw an ASCII progress bar with percentage.
 
 ```zsh
 _flow_progress_bar <current> <total> [width] [filled_char] [empty_char]
-```text
+```
 
 **Parameters:**
 - `$1` - Current value
@@ -1639,7 +1639,7 @@ echo "Progress: $(_flow_progress_bar 7 10)"
 
 _flow_progress_bar 50 100 30 "=" "-"
 # Output: ===============--------------- 50%
-```text
+```
 
 ---
 
@@ -1651,7 +1651,7 @@ Generate a sparkline graph from numeric values.
 
 ```zsh
 _flow_sparkline <values...>
-```text
+```
 
 **Character Set:** ▁▂▃▄▅▆▇█ (8 levels)
 
@@ -1660,7 +1660,7 @@ _flow_sparkline <values...>
 ```zsh
 _flow_sparkline 1 3 5 7 5 3 1
 # Output: ▁▃▅▇▅▃▁
-```text
+```
 
 ---
 
@@ -1674,7 +1674,7 @@ Display formatted table with headers and rows.
 
 ```zsh
 _flow_table <headers> <rows...>
-```text
+```
 
 **Parameters:**
 - `$1` - Comma-separated header columns
@@ -1686,7 +1686,7 @@ _flow_table <headers> <rows...>
 _flow_table "Name,Status,Time" \
     "flow-cli,active,2h" \
     "project-b,paused,1d"
-```text
+```
 
 ---
 
@@ -1698,7 +1698,7 @@ Draw a Unicode box around text content.
 
 ```zsh
 _flow_box [title] <content> [width]
-```text
+```
 
 **Example:**
 
@@ -1706,7 +1706,7 @@ _flow_box [title] <content> [width]
 _flow_box "Project Info" "Name: flow-cli
 Status: active
 Time: 2h 30m"
-```text
+```
 
 **Output:**
 
@@ -1716,7 +1716,7 @@ Time: 2h 30m"
 │ Status: active                                │
 │ Time: 2h 30m                                  │
 ╰──────────────────────────────────────────────╯
-```text
+```
 
 ---
 
@@ -1730,7 +1730,7 @@ Check if fzf (fuzzy finder) is available.
 
 ```zsh
 _flow_has_fzf
-```text
+```
 
 ---
 
@@ -1742,7 +1742,7 @@ Interactive project picker using fzf with preview.
 
 ```zsh
 _flow_pick_project
-```text
+```
 
 **Output:** Selected project name
 
@@ -1758,7 +1758,7 @@ Check if gum (glamorous shell tool) is available.
 
 ```zsh
 _flow_has_gum
-```text
+```
 
 ---
 
@@ -1770,13 +1770,13 @@ Styled text input prompt (uses gum if available).
 
 ```zsh
 _flow_input [prompt] [placeholder]
-```text
+```
 
 **Example:**
 
 ```zsh
 local name=$(_flow_input "Project name" "my-project")
-```text
+```
 
 ---
 
@@ -1788,7 +1788,7 @@ Styled yes/no confirmation (uses gum if available).
 
 ```zsh
 _flow_confirm_styled [prompt]
-```text
+```
 
 **Example:**
 
@@ -1796,7 +1796,7 @@ _flow_confirm_styled [prompt]
 if _flow_confirm_styled "Delete these files?"; then
     rm -rf ./cache
 fi
-```text
+```
 
 ---
 
@@ -1808,13 +1808,13 @@ Multi-option selector (uses gum/fzf if available).
 
 ```zsh
 _flow_choose <header> <options...>
-```text
+```
 
 **Example:**
 
 ```zsh
 local status=$(_flow_choose "Set status:" "active" "paused" "blocked")
-```text
+```
 
 ---
 
@@ -1828,7 +1828,7 @@ Start an animated spinner with message.
 
 ```zsh
 _flow_spinner_start [message] [estimate]
-```text
+```
 
 **Animation:** Uses Braille dots: ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
@@ -1838,7 +1838,7 @@ _flow_spinner_start [message] [estimate]
 _flow_spinner_start "Building project..." "~10s"
 # ... long operation ...
 _flow_spinner_stop "Build complete"
-```text
+```
 
 ---
 
@@ -1850,7 +1850,7 @@ Stop the running spinner and show completion message.
 
 ```zsh
 _flow_spinner_stop [message]
-```text
+```
 
 ---
 
@@ -1862,7 +1862,7 @@ Execute a command while showing a spinner.
 
 ```zsh
 _flow_with_spinner <message> <estimate> <command...>
-```text
+```
 
 **Example:**
 
@@ -1870,7 +1870,7 @@ _flow_with_spinner <message> <estimate> <command...>
 if _flow_with_spinner "Testing..." "~30s" npm test; then
     echo "Tests passed!"
 fi
-```text
+```
 
 ---
 
@@ -1896,7 +1896,7 @@ Generate project inventory from .STATUS files.
 
 ```zsh
 _flow_generate_inventory [format]
-```text
+```
 
 **Parameters:**
 - `$1` - Output format: "table" (default), "json", or "markdown"
@@ -1915,7 +1915,7 @@ _flow_generate_inventory [format]
 _flow_generate_inventory              # Table format
 _flow_generate_inventory json         # JSON format
 _flow_generate_inventory > inventory.md
-```text
+```
 
 ---
 
@@ -1927,7 +1927,7 @@ Generate project inventory in JSON format.
 
 ```zsh
 _flow_generate_inventory_json
-```text
+```
 
 **Output:** JSON object with structure:
 
@@ -1939,7 +1939,7 @@ _flow_generate_inventory_json
     { "name", "path", "status", "type", "progress", "next" }
   ]
 }
-```text
+```
 
 ---
 
@@ -1973,7 +1973,7 @@ Compute SHA-256 hash of a configuration file.
 
 ```zsh
 _flow_config_hash [config_path]
-```text
+```
 
 **Parameters:**
 - `$1` - Path to config file [default: .flow/teach-config.yml]
@@ -1996,7 +1996,7 @@ Check if config file has changed since last read.
 
 ```zsh
 _flow_config_changed [config_path]
-```text
+```
 
 **Returns:**
 - `0` - Config has changed
@@ -2008,7 +2008,7 @@ _flow_config_changed [config_path]
 if _flow_config_changed; then
     echo "Config changed, reloading..."
 fi
-```text
+```
 
 ---
 
@@ -2020,7 +2020,7 @@ Force invalidation of the config hash cache.
 
 ```zsh
 _flow_config_invalidate
-```text
+```
 
 **Use Case:** After config updates or when forcing reload.
 
@@ -2036,7 +2036,7 @@ Validate teach-config.yml against schema requirements.
 
 ```zsh
 _teach_validate_config [config_path] [--quiet]
-```text
+```
 
 **Validates:**
 - `course.name` (required)
@@ -2064,7 +2064,7 @@ Get a configuration value with optional default.
 
 ```zsh
 _teach_config_get <key> [default] [config_path]
-```text
+```
 
 **Parameters:**
 - `$1` - Dot-notation key path (e.g., "course.name")
@@ -2076,7 +2076,7 @@ _teach_config_get <key> [default] [config_path]
 ```zsh
 course_name=$(_teach_config_get "course.name" "Unknown Course")
 level=$(_teach_config_get "scholar.course_info.level" "undergraduate")
-```text
+```
 
 ---
 
@@ -2088,7 +2088,7 @@ Check if the scholar section exists and is configured.
 
 ```zsh
 _teach_has_scholar_config [config_path]
-```text
+```
 
 **Returns:**
 - `0` - Scholar section exists and has content
@@ -2104,7 +2104,7 @@ Find teach-config.yml by searching up the directory tree.
 
 ```zsh
 _teach_find_config
-```text
+```
 
 **Output:** Full path to teach-config.yml if found
 
@@ -2120,7 +2120,7 @@ Display a formatted summary of teaching project configuration.
 
 ```zsh
 _teach_config_summary [config_path]
-```text
+```
 
 **Output:** Formatted multi-line summary with:
 - Course name
@@ -2157,7 +2157,7 @@ The keychain helpers library provides macOS Keychain integration for secure secr
 ```text
 Add secret → Store in Keychain → Retrieve with Touch ID →
 Use in scripts → Delete when done
-```text
+```
 
 **Migration:** Import from Bitwarden one-time, then use Keychain directly
 
@@ -2173,7 +2173,7 @@ Add or update a secret in macOS Keychain with interactive prompt.
 
 ```zsh
 _dot_kc_add <name>
-```text
+```
 
 **Parameters:**
 - `$1` - Name of the secret (e.g., "github-token", "api-key")
@@ -2187,7 +2187,7 @@ _dot_kc_add <name>
 ```zsh
 _dot_kc_add "github-token"     # Prompts for value, stores in Keychain
 _dot_kc_add "openai-api-key"   # Updates if already exists
-```text
+```
 
 **Notes:**
 - Uses hidden input (`read -s`) for secure value entry
@@ -2205,7 +2205,7 @@ Retrieve a secret value from macOS Keychain.
 
 ```zsh
 _dot_kc_get <name>
-```text
+```
 
 **Parameters:**
 - `$1` - Name of the secret to retrieve
@@ -2223,7 +2223,7 @@ _dot_kc_get <name>
 _dot_kc_get "github-token"                    # Outputs: ghp_xxxx...
 export GITHUB_TOKEN=$(_dot_kc_get "github")   # Capture into variable
 gh auth login --with-token <<< $(_dot_kc_get "github-token")
-```text
+```
 
 **Notes:**
 - Output is raw value only (no decoration) for script compatibility
@@ -2240,7 +2240,7 @@ List all flow-cli secrets stored in macOS Keychain.
 
 ```zsh
 _dot_kc_list
-```text
+```
 
 **Parameters:**
 - None
@@ -2260,7 +2260,7 @@ _dot_kc_list
 #   • github-token
 #   • openai-api-key
 #   • anthropic-key
-```text
+```
 
 **Notes:**
 - Uses `security dump-keychain` to scan all entries
@@ -2279,7 +2279,7 @@ Remove a secret from macOS Keychain.
 
 ```zsh
 _dot_kc_delete <name>
-```text
+```
 
 **Parameters:**
 - `$1` - Name of the secret to delete
@@ -2293,7 +2293,7 @@ _dot_kc_delete <name>
 ```zsh
 _dot_kc_delete "old-api-key"    # Removes secret from Keychain
 _dot_kc_delete "nonexistent"    # Returns error, secret not found
-```text
+```
 
 **Notes:**
 - Permanent deletion - cannot be undone
@@ -2310,7 +2310,7 @@ Bulk import secrets from Bitwarden folder into macOS Keychain.
 
 ```zsh
 _dot_kc_import
-```text
+```
 
 **Parameters:**
 - None
@@ -2332,7 +2332,7 @@ _dot_kc_import
 # ✓ Imported: github-token
 # ✓ Imported: openai-api-key
 # ✓ Imported 2 secret(s) to Keychain
-```text
+```
 
 **Dependencies:**
 - Bitwarden CLI (`bw`) installed and unlocked
@@ -2354,7 +2354,7 @@ Display help documentation for keychain secret commands.
 
 ```zsh
 _dot_kc_help
-```text
+```
 
 **Parameters:**
 - None
@@ -2371,7 +2371,7 @@ _dot_kc_help
 _dot_kc_help
 dot secret help
 dot secret --help
-```text
+```
 
 **Help Output:**
 
@@ -2391,7 +2391,7 @@ Benefits:
   • Touch ID / Apple Watch support
   • Auto-locks with screen lock
   • Works offline
-```text
+```
 
 ---
 
@@ -2403,7 +2403,7 @@ Main router/dispatcher for all dot secret subcommands.
 
 ```zsh
 _dot_secret_kc [subcommand] [args...]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Subcommand: add|get|list|delete|import|help
@@ -2430,7 +2430,7 @@ _dot_secret_kc get "api-key"      # Calls _dot_kc_get
 _dot_secret_kc "api-key"          # Shortcut: calls _dot_kc_get
 _dot_secret_kc list               # Calls _dot_kc_list
 _dot_secret_kc                    # Shows help
-```text
+```
 
 **Notes:**
 - Replaces Bitwarden-based `_dot_secret` for local-first Keychain ops
@@ -2469,7 +2469,7 @@ The git helpers library provides git integration utilities for teaching workflow
 ```text
 Generate content → Detect teaching files → Commit with metadata →
 Create deploy PR → Check conflicts → Rebase if needed → Deploy
-```text
+```
 
 ---
 
@@ -2483,7 +2483,7 @@ Generate standardized commit message for teaching content.
 
 ```zsh
 _git_teaching_commit_message <type> <topic> <command> <course> <semester> <year>
-```text
+```
 
 **Parameters:**
 - `$1` - Content type (exam, quiz, slides, lecture, etc.)
@@ -2513,7 +2513,7 @@ msg=$(_git_teaching_commit_message "exam" "Hypothesis Testing" \
 # Course: STAT 545 (Fall 2024)
 #
 # Co-Authored-By: Scholar <scholar@example.com>
-```text
+```
 
 **Notes:**
 - Uses conventional commits style (teach: prefix)
@@ -2530,7 +2530,7 @@ Check if working directory has no uncommitted changes.
 
 ```zsh
 _git_is_clean
-```text
+```
 
 **Parameters:**
 - None
@@ -2547,7 +2547,7 @@ if _git_is_clean; then
 else
     echo "Commit or stash changes first"
 fi
-```text
+```
 
 **Notes:**
 - Uses `git status --porcelain` for scriptable output
@@ -2564,7 +2564,7 @@ Check if local branch is synchronized with remote.
 
 ```zsh
 _git_is_synced
-```text
+```
 
 **Parameters:**
 - None
@@ -2581,7 +2581,7 @@ if _git_is_synced; then
 else
     echo "Need to push or pull"
 fi
-```text
+```
 
 **Notes:**
 - Fetches from remote first (may take a moment)
@@ -2598,7 +2598,7 @@ Get list of uncommitted teaching-related files.
 
 ```zsh
 _git_teaching_files
-```text
+```
 
 **Parameters:**
 - None
@@ -2626,7 +2626,7 @@ if [[ -n "$files" ]]; then
     echo "Teaching files to commit:"
     echo "$files"
 fi
-```text
+```
 
 **Notes:**
 - Includes both staged and unstaged changes
@@ -2643,7 +2643,7 @@ Interactive commit workflow for teaching content (stub).
 
 ```zsh
 _git_interactive_commit <file> <type> <topic> <command> <course> <semester> <year>
-```text
+```
 
 **Parameters:**
 - `$1` - File path
@@ -2673,7 +2673,7 @@ Create a pull request for teaching content deployment.
 
 ```zsh
 _git_create_deploy_pr <draft_branch> <prod_branch> <title> <body>
-```text
+```
 
 **Parameters:**
 - `$1` - Source branch (draft/development)
@@ -2695,7 +2695,7 @@ _git_create_deploy_pr <draft_branch> <prod_branch> <title> <body>
 _git_create_deploy_pr "draft" "main" \
     "Deploy: Week 5 materials" \
     "$(cat pr-body.md)"
-```text
+```
 
 **Notes:**
 - Adds labels: teaching, deploy
@@ -2712,7 +2712,7 @@ Check if current directory is inside a git repository.
 
 ```zsh
 _git_in_repo
-```text
+```
 
 **Parameters:**
 - None
@@ -2729,7 +2729,7 @@ if _git_in_repo; then
 else
     echo "Not a git repository"
 fi
-```text
+```
 
 **Notes:**
 - Works from any subdirectory of the repo
@@ -2745,7 +2745,7 @@ Get the name of the current git branch.
 
 ```zsh
 _git_current_branch
-```text
+```
 
 **Parameters:**
 - None
@@ -2761,7 +2761,7 @@ _git_current_branch
 ```zsh
 local branch=$(_git_current_branch)
 echo "Currently on: $branch"
-```text
+```
 
 **Special Cases:**
 - Detached HEAD returns "HEAD"
@@ -2777,7 +2777,7 @@ Get the upstream tracking branch name.
 
 ```zsh
 _git_remote_branch
-```text
+```
 
 **Parameters:**
 - None
@@ -2797,7 +2797,7 @@ if [[ -n "$upstream" ]]; then
 else
     echo "No upstream configured"
 fi
-```text
+```
 
 **Notes:**
 - Returns empty if no upstream branch configured
@@ -2813,7 +2813,7 @@ Commit staged files with a teaching-formatted message.
 
 ```zsh
 _git_commit_teaching_content <message>
-```text
+```
 
 **Parameters:**
 - `$1` - Commit message (usually from `_git_teaching_commit_message`)
@@ -2828,7 +2828,7 @@ _git_commit_teaching_content <message>
 git add exams/midterm.qmd
 local msg=$(_git_teaching_commit_message "exam" "Midterm" ...)
 _git_commit_teaching_content "$msg"
-```text
+```
 
 **Notes:**
 - Requires files to be staged first (git add)
@@ -2845,7 +2845,7 @@ Push current branch to origin remote.
 
 ```zsh
 _git_push_current_branch
-```text
+```
 
 **Parameters:**
 - None
@@ -2860,7 +2860,7 @@ _git_push_current_branch
 if _git_push_current_branch; then
     echo "Changes pushed"
 fi
-```text
+```
 
 **Notes:**
 - Always pushes to 'origin' remote
@@ -2879,7 +2879,7 @@ Check if production branch has commits that could cause conflicts.
 
 ```zsh
 _git_detect_production_conflicts <draft_branch> <prod_branch>
-```text
+```
 
 **Parameters:**
 - `$1` - Draft/development branch name
@@ -2896,7 +2896,7 @@ if ! _git_detect_production_conflicts "draft" "main"; then
     echo "Warning: Production has new commits"
     echo "Consider rebasing before PR"
 fi
-```text
+```
 
 **Notes:**
 - Fetches from remote before checking
@@ -2913,7 +2913,7 @@ Count commits in draft branch not yet in production.
 
 ```zsh
 _git_get_commit_count <draft_branch> <prod_branch>
-```text
+```
 
 **Parameters:**
 - `$1` - Draft/development branch name
@@ -2930,7 +2930,7 @@ _git_get_commit_count <draft_branch> <prod_branch>
 ```zsh
 local count=$(_git_get_commit_count "draft" "main")
 echo "Ready to deploy $count commits"
-```text
+```
 
 **Notes:**
 - Compares against remote production branch
@@ -2946,7 +2946,7 @@ Get markdown-formatted list of commits for PR body.
 
 ```zsh
 _git_get_commit_list <draft_branch> <prod_branch>
-```text
+```
 
 **Parameters:**
 - `$1` - Draft/development branch name
@@ -2966,7 +2966,7 @@ local commits=$(_git_get_commit_list "draft" "main")
 # - teach: add exam for Hypothesis Testing
 # - teach: add lecture slides for Week 5
 # - fix: correct typo in assignment
-```text
+```
 
 **Notes:**
 - Excludes merge commits
@@ -2983,7 +2983,7 @@ Generate complete markdown PR body for deployment.
 
 ```zsh
 _git_generate_pr_body <draft_branch> <prod_branch>
-```text
+```
 
 **Parameters:**
 - `$1` - Draft/development branch name
@@ -3004,7 +3004,7 @@ _git_generate_pr_body <draft_branch> <prod_branch>
 ```zsh
 local body=$(_git_generate_pr_body "draft" "main")
 gh pr create --body "$body" ...
-```text
+```
 
 **Notes:**
 - Uses `_git_get_commit_count` and `_git_get_commit_list`
@@ -3021,7 +3021,7 @@ Rebase draft branch onto latest production.
 
 ```zsh
 _git_rebase_onto_production <draft_branch> <prod_branch>
-```text
+```
 
 **Parameters:**
 - `$1` - Draft/development branch name
@@ -3039,7 +3039,7 @@ if _git_rebase_onto_production "draft" "main"; then
 else
     echo "Resolve conflicts manually"
 fi
-```text
+```
 
 **Notes:**
 - Fetches latest production before rebase
@@ -3056,7 +3056,7 @@ Check if current branch has local commits not pushed to remote.
 
 ```zsh
 _git_has_unpushed_commits
-```text
+```
 
 **Parameters:**
 - None
@@ -3071,7 +3071,7 @@ _git_has_unpushed_commits
 if _git_has_unpushed_commits; then
     echo "You have local commits to push"
 fi
-```text
+```
 
 **Notes:**
 - Requires upstream branch configured
@@ -3103,7 +3103,7 @@ The doctor cache system provides high-performance caching for token validation r
 ├── token-github.cache
 ├── token-npm.cache
 └── token-pypi.cache
-```text
+```
 
 **Cache Format (JSON):**
 
@@ -3118,7 +3118,7 @@ The doctor cache system provides high-performance caching for token validation r
   "days_remaining": 45,
   "username": "your-username"
 }
-```text
+```
 
 ### Core Functions
 
@@ -3130,7 +3130,7 @@ Initialize cache directory structure.
 
 ```zsh
 _doctor_cache_init
-```text
+```
 
 **Parameters:**
 - None
@@ -3150,7 +3150,7 @@ _doctor_cache_init
 if [[ $? -eq 0 ]]; then
     echo "Cache initialized"
 fi
-```text
+```
 
 ---
 
@@ -3162,7 +3162,7 @@ Get cached token validation result if still valid.
 
 ```zsh
 _doctor_cache_get <cache_key>
-```text
+```
 
 **Parameters:**
 - `$1` - Cache key (e.g., "token-github", "token-npm")
@@ -3188,7 +3188,7 @@ if cached_data=$(_doctor_cache_get "token-github"); then
 else
     echo "Cache miss, need to validate token"
 fi
-```text
+```
 
 ---
 
@@ -3200,7 +3200,7 @@ Store token validation result in cache.
 
 ```zsh
 _doctor_cache_set <cache_key> <value> [ttl_seconds]
-```text
+```
 
 **Parameters:**
 - `$1` - Cache key (e.g., "token-github")
@@ -3225,7 +3225,7 @@ _doctor_cache_set "token-github" "$validation_json"
 
 # Cache with custom TTL (10 minutes)
 _doctor_cache_set "token-npm" "$validation_json" 600
-```text
+```
 
 ---
 
@@ -3237,7 +3237,7 @@ Clear specific cache entry or entire cache.
 
 ```zsh
 _doctor_cache_clear [cache_key]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Cache key to clear [default: clear all]
@@ -3257,7 +3257,7 @@ _doctor_cache_clear "token-github"
 
 # Clear all doctor cache entries
 _doctor_cache_clear
-```text
+```
 
 ---
 
@@ -3269,7 +3269,7 @@ Show cache statistics and list cached entries.
 
 ```zsh
 _doctor_cache_stats
-```text
+```
 
 **Parameters:**
 - None
@@ -3291,13 +3291,13 @@ Cached Entries:
   token-github    (valid, expires in 4m 23s)
   token-npm       (valid, expires in 2m 15s)
   token-pypi      (expired)
-```text
+```
 
 **Example:**
 
 ```zsh
 _doctor_cache_stats
-```text
+```
 
 ---
 
@@ -3309,7 +3309,7 @@ Clean up cache entries older than 1 day.
 
 ```zsh
 _doctor_cache_clean_old
-```text
+```
 
 **Parameters:**
 - None
@@ -3331,7 +3331,7 @@ _doctor_cache_clean_old
 ```zsh
 cleaned=$(_doctor_cache_clean_old)
 echo "Cleaned $cleaned old entries"
-```text
+```
 
 ---
 
@@ -3345,7 +3345,7 @@ Get the cache file path for a token.
 
 ```zsh
 _doctor_cache_get_cache_path <cache_key>
-```text
+```
 
 **Parameters:**
 - `$1` - Cache key (e.g., "token-github", "token-npm")
@@ -3361,7 +3361,7 @@ _doctor_cache_get_cache_path <cache_key>
 ```zsh
 cache_file=$(_doctor_cache_get_cache_path "token-github")
 # Returns: ~/.flow/cache/doctor/token-github.cache
-```text
+```
 
 ---
 
@@ -3373,7 +3373,7 @@ Get the lock file path for cache operations.
 
 ```zsh
 _doctor_cache_get_lock_path <cache_key>
-```text
+```
 
 **Parameters:**
 - `$1` - Cache key
@@ -3389,7 +3389,7 @@ _doctor_cache_get_lock_path <cache_key>
 ```zsh
 lock_file=$(_doctor_cache_get_lock_path "token-github")
 # Returns: ~/.flow/cache/doctor/.token-github.lock
-```text
+```
 
 ---
 
@@ -3401,7 +3401,7 @@ Acquire exclusive lock for cache write operations.
 
 ```zsh
 _doctor_cache_acquire_lock <cache_key>
-```text
+```
 
 **Parameters:**
 - `$1` - Cache key
@@ -3430,7 +3430,7 @@ else
     echo "Failed to acquire lock"
     return 1
 fi
-```text
+```
 
 ---
 
@@ -3442,7 +3442,7 @@ Release exclusive lock for cache operations.
 
 ```zsh
 _doctor_cache_release_lock <cache_key>
-```text
+```
 
 **Parameters:**
 - `$1` - Cache key
@@ -3459,7 +3459,7 @@ _doctor_cache_release_lock <cache_key>
 
 ```zsh
 _doctor_cache_release_lock "token-github"
-```text
+```
 
 ---
 
@@ -3473,7 +3473,7 @@ Convenience wrapper to get token validation cache.
 
 ```zsh
 _doctor_cache_token_get <provider>
-```text
+```
 
 **Parameters:**
 - `$1` - Provider name (github, npm, pypi)
@@ -3492,13 +3492,13 @@ if cached=$(_doctor_cache_token_get "github"); then
     status=$(echo "$cached" | jq -r '.status')
     echo "GitHub token: $status"
 fi
-```text
+```
 
 **Equivalent to:**
 
 ```zsh
 _doctor_cache_get "token-${provider}"
-```text
+```
 
 ---
 
@@ -3510,7 +3510,7 @@ Convenience wrapper to cache token validation result.
 
 ```zsh
 _doctor_cache_token_set <provider> <value> [ttl_seconds]
-```text
+```
 
 **Parameters:**
 - `$1` - Provider name (github, npm, pypi)
@@ -3526,13 +3526,13 @@ _doctor_cache_token_set <provider> <value> [ttl_seconds]
 ```zsh
 result='{"status": "valid", "days_remaining": 45}'
 _doctor_cache_token_set "github" "$result"
-```text
+```
 
 **Equivalent to:**
 
 ```zsh
 _doctor_cache_set "token-${provider}" "$value" "$ttl"
-```text
+```
 
 ---
 
@@ -3544,7 +3544,7 @@ Convenience wrapper to invalidate token validation cache.
 
 ```zsh
 _doctor_cache_token_clear <provider>
-```text
+```
 
 **Parameters:**
 - `$1` - Provider name (github, npm, pypi)
@@ -3563,13 +3563,13 @@ _doctor_cache_token_clear <provider>
 # After rotating GitHub token, invalidate cache
 dot secret rotate GITHUB_TOKEN
 _doctor_cache_token_clear "github"
-```text
+```
 
 **Equivalent to:**
 
 ```zsh
 _doctor_cache_clear "token-${provider}"
-```text
+```
 
 ---
 
@@ -3582,7 +3582,7 @@ DOCTOR_CACHE_DEFAULT_TTL=300        # 5 minutes
 DOCTOR_CACHE_LOCK_TIMEOUT=2         # 2 seconds
 DOCTOR_CACHE_MAX_AGE_SECONDS=86400  # 1 day
 DOCTOR_CACHE_DIR="$HOME/.flow/cache/doctor"
-```text
+```
 
 ---
 
@@ -3640,7 +3640,7 @@ The teaching libraries implement intelligent content analysis for educational ma
 
 ```text
 .qmd files → concept extraction → prerequisite check → cache → AI analysis → report
-```text
+```
 
 ---
 
@@ -3657,7 +3657,7 @@ Extract concepts field from .qmd frontmatter using yq.
 
 ```zsh
 _extract_concepts_from_frontmatter <file_path>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to .qmd file
@@ -3686,7 +3686,7 @@ concepts:
   - id: concept2
     name: "Another Concept"
     prerequisites: [prereq2]
-```text
+```
 
 **Example:**
 
@@ -3695,7 +3695,7 @@ concepts_json=$(_extract_concepts_from_frontmatter "week-05-regression.qmd")
 if [[ -n "$concepts_json" ]]; then
     echo "Found concepts: $concepts_json"
 fi
-```text
+```
 
 ---
 
@@ -3707,7 +3707,7 @@ Parse introduced concepts from concepts JSON.
 
 ```zsh
 _parse_introduced_concepts <concepts_json>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Concepts JSON from frontmatter
@@ -3726,7 +3726,7 @@ _parse_introduced_concepts <concepts_json>
 concepts_json='{"introduces": ["regression", "correlation"]}'
 introduced=$(_parse_introduced_concepts "$concepts_json")
 echo "$introduced"  # Output: regression correlation
-```text
+```
 
 ---
 
@@ -3738,7 +3738,7 @@ Parse required concepts (prerequisites) from concepts JSON.
 
 ```zsh
 _parse_required_concepts <concepts_json>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Concepts JSON from frontmatter
@@ -3761,7 +3761,7 @@ _parse_required_concepts <concepts_json>
 concepts_json='[{"prerequisites": ["mean", "variance"]}, {"prerequisites": ["variance"]}]'
 required=$(_parse_required_concepts "$concepts_json")
 echo "$required"  # Output: mean variance
-```text
+```
 
 ---
 
@@ -3773,7 +3773,7 @@ Extract week number from filename or frontmatter.
 
 ```zsh
 _get_week_from_file <file_path> [frontmatter_json]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to .qmd file
@@ -3793,7 +3793,7 @@ _get_week_from_file <file_path> [frontmatter_json]
 ```zsh
 week=$(_get_week_from_file "week-08-anova.qmd")
 echo "Week: $week"  # Output: Week: 8
-```text
+```
 
 ---
 
@@ -3805,7 +3805,7 @@ Find line number where concept appears in file.
 
 ```zsh
 _get_concept_line_number <file_path> <concept_name>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to .qmd file
@@ -3826,7 +3826,7 @@ line=$(_get_concept_line_number "week-05.qmd" "regression")
 if [[ $line -gt 0 ]]; then
     echo "Concept 'regression' found at line $line"
 fi
-```text
+```
 
 ---
 
@@ -3838,7 +3838,7 @@ Build complete concept graph from course directory.
 
 ```zsh
 _build_concept_graph [course_directory]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Course directory [default: current directory]
@@ -3861,7 +3861,7 @@ _build_concept_graph [course_directory]
     "prerequisites": []
   }
 }
-```text
+```
 
 **Use Case:**
 - Used by `teach analyze` for prerequisite validation
@@ -3872,7 +3872,7 @@ _build_concept_graph [course_directory]
 ```zsh
 graph=$(_build_concept_graph "lectures/")
 echo "$graph" | jq '.regression'
-```text
+```
 
 ---
 
@@ -3884,7 +3884,7 @@ Load cached concept graph from disk.
 
 ```zsh
 _load_concept_graph [course_directory]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Course directory [default: current]
@@ -3908,7 +3908,7 @@ if graph=$(_load_concept_graph); then
 else
     graph=$(_build_concept_graph)
 fi
-```text
+```
 
 ---
 
@@ -3920,7 +3920,7 @@ Save concept graph to disk cache.
 
 ```zsh
 _save_concept_graph <graph_json> [course_directory]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Concept graph JSON
@@ -3938,7 +3938,7 @@ _save_concept_graph <graph_json> [course_directory]
 ```zsh
 graph=$(_build_concept_graph)
 _save_concept_graph "$graph"
-```text
+```
 
 ---
 
@@ -3955,7 +3955,7 @@ Validate all prerequisite dependencies in course data.
 
 ```zsh
 _check_prerequisites <course_data_json>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Course data JSON with weeks and concepts
@@ -3981,7 +3981,7 @@ _check_prerequisites <course_data_json>
     "suggestion": "Add correlation to earlier week"
   }
 ]
-```text
+```
 
 **Global State:**
 - Sets `PREREQUISITE_VIOLATIONS` array
@@ -3994,7 +3994,7 @@ violations=$(_check_prerequisites "$course_json")
 if [[ "$violations" != "[]" ]]; then
     echo "Found violations: $violations"
 fi
-```text
+```
 
 ---
 
@@ -4006,7 +4006,7 @@ Perform complete graph validation (missing, future, circular).
 
 ```zsh
 _validate_concept_graph <graph_json>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Concept graph JSON from `_build_concept_graph`
@@ -4030,7 +4030,7 @@ if _validate_concept_graph "$graph"; then
 else
     echo "✗ Validation failed"
 fi
-```text
+```
 
 ---
 
@@ -4042,7 +4042,7 @@ Find circular prerequisite loops in concept graph.
 
 ```zsh
 _detect_circular_dependencies <graph_json>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Concept graph JSON
@@ -4061,7 +4061,7 @@ _detect_circular_dependencies <graph_json>
     "severity": "error"
   }
 ]
-```text
+```
 
 **Example:**
 
@@ -4071,7 +4071,7 @@ cycles=$(_detect_circular_dependencies "$graph")
 if [[ "$cycles" != "[]" ]]; then
     echo "Found circular dependencies: $cycles"
 fi
-```text
+```
 
 ---
 
@@ -4083,7 +4083,7 @@ Build dependency tree for a specific concept (transitive closure).
 
 ```zsh
 _build_prerequisite_tree <concept_id> <graph_json>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Concept ID to analyze
@@ -4102,7 +4102,7 @@ _build_prerequisite_tree <concept_id> <graph_json>
   "depth": 2,
   "total_prerequisites": 3
 }
-```text
+```
 
 **Use Case:**
 - Prerequisite tree visualization
@@ -4115,7 +4115,7 @@ _build_prerequisite_tree <concept_id> <graph_json>
 graph=$(_build_concept_graph)
 tree=$(_build_prerequisite_tree "regression" "$graph")
 echo "$tree" | jq '.transitive_prerequisites'
-```text
+```
 
 ---
 
@@ -4127,7 +4127,7 @@ Format prerequisite tree for terminal display (with colors and tree structure).
 
 ```zsh
 _format_prerequisite_tree_display <tree_json>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Prerequisite tree JSON from `_build_prerequisite_tree`
@@ -4146,7 +4146,7 @@ Prerequisite Tree for: regression
    └─ mean (Week 2)
 
 Total Prerequisites: 3 (depth: 2)
-```text
+```
 
 **Features:**
 - Unicode tree characters (├─, └─, │)
@@ -4159,7 +4159,7 @@ Total Prerequisites: 3 (depth: 2)
 ```zsh
 tree=$(_build_prerequisite_tree "regression" "$graph")
 _format_prerequisite_tree_display "$tree"
-```text
+```
 
 ---
 
@@ -4195,7 +4195,7 @@ Analysis cache system prevents redundant processing by caching results with cont
 └── locks/
     ├── .analysis.lock
     └── .slides.lock
-```text
+```
 
 #### `_cache_compute_hash`
 
@@ -4205,7 +4205,7 @@ Compute SHA-256 hash of file content.
 
 ```zsh
 _cache_compute_hash <file_path>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to file
@@ -4222,7 +4222,7 @@ _cache_compute_hash <file_path>
 ```zsh
 hash=$(_cache_compute_hash "week-05-lecture.qmd")
 echo "Content hash: $hash"
-```text
+```
 
 ---
 
@@ -4234,7 +4234,7 @@ Retrieve cached analysis result by content hash.
 
 ```zsh
 _cache_get_analysis <file_path>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to analyzed file
@@ -4261,7 +4261,7 @@ else
     analysis=$(teach analyze "week-05.qmd")
     _cache_set_analysis "week-05.qmd" "$analysis"
 fi
-```text
+```
 
 ---
 
@@ -4273,7 +4273,7 @@ Store analysis result with TTL metadata.
 
 ```zsh
 _cache_set_analysis <file_path> <analysis_json> [ttl_seconds]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to analyzed file
@@ -4295,7 +4295,7 @@ _cache_set_analysis <file_path> <analysis_json> [ttl_seconds]
 ```zsh
 analysis='{"concepts": ["regression"], "valid": true}'
 _cache_set_analysis "week-05.qmd" "$analysis"
-```text
+```
 
 ---
 
@@ -4307,7 +4307,7 @@ Remove cache entry for specific file.
 
 ```zsh
 _cache_invalidate_file <file_path>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to file
@@ -4326,7 +4326,7 @@ _cache_invalidate_file <file_path>
 # Edit file then invalidate cache
 vim week-05.qmd
 _cache_invalidate_file "week-05.qmd"
-```text
+```
 
 ---
 
@@ -4338,7 +4338,7 @@ Remove cache entries older than 1 day.
 
 ```zsh
 _cache_cleanup_old_entries
-```text
+```
 
 **Parameters:**
 - None
@@ -4357,7 +4357,7 @@ _cache_cleanup_old_entries
 ```zsh
 removed=$(_cache_cleanup_old_entries)
 echo "Cleaned up $removed old cache entries"
-```text
+```
 
 ---
 
@@ -4369,7 +4369,7 @@ Acquire exclusive lock for cache writes.
 
 ```zsh
 _cache_acquire_lock <cache_type>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Cache type ("analysis" or "slides")
@@ -4396,7 +4396,7 @@ if _cache_acquire_lock "analysis"; then
 else
     echo "Failed to acquire lock"
 fi
-```text
+```
 
 ---
 
@@ -4408,7 +4408,7 @@ Release exclusive cache lock.
 
 ```zsh
 _cache_release_lock <cache_type>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Cache type ("analysis" or "slides")
@@ -4425,7 +4425,7 @@ _cache_release_lock <cache_type>
 
 ```zsh
 _cache_release_lock "analysis"
-```text
+```
 
 ---
 
@@ -4446,7 +4446,7 @@ Generate human-readable Markdown analysis report.
 
 ```zsh
 _generate_markdown_report <analysis_data> [output_file]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Analysis data JSON
@@ -4492,14 +4492,14 @@ _generate_markdown_report <analysis_data> [output_file]
 ## Recommendations
 1. Consider moving "correlation" to Week 4
 2. Add prerequisite "mean" to Week 2
-```text
+```
 
 **Example:**
 
 ```zsh
 analysis=$(teach analyze --json)
 _generate_markdown_report "$analysis" "analysis-report.md"
-```text
+```
 
 ---
 
@@ -4511,7 +4511,7 @@ Export analysis data as JSON for machine processing.
 
 ```zsh
 _generate_json_report <analysis_data> [output_file]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Analysis data
@@ -4546,14 +4546,14 @@ _generate_json_report <analysis_data> [output_file]
   "violations": [],
   "warnings": []
 }
-```text
+```
 
 **Example:**
 
 ```zsh
 analysis=$(teach analyze --json)
 _generate_json_report "$analysis" "analysis.json"
-```text
+```
 
 ---
 
@@ -4565,7 +4565,7 @@ Display colorized analysis summary in terminal.
 
 ```zsh
 _print_interactive_summary <analysis_data>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Analysis data JSON
@@ -4596,14 +4596,14 @@ _print_interactive_summary <analysis_data>
 │   ⚠ 2 future prerequisites                      │
 │                                                 │
 ╰─────────────────────────────────────────────────╯
-```text
+```
 
 **Example:**
 
 ```zsh
 analysis=$(teach analyze)
 _print_interactive_summary "$analysis"
-```text
+```
 
 ---
 
@@ -4615,7 +4615,7 @@ Format concept distribution as terminal table.
 
 ```zsh
 _format_concept_distribution_table <analysis_data>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Analysis data JSON
@@ -4635,14 +4635,14 @@ Week  Concepts  Prerequisites  Avg Depth
   5          8             15        2.5
 ────  ────────  ─────────────  ─────────
 Total       29             38        1.9
-```text
+```
 
 **Example:**
 
 ```zsh
 analysis=$(teach analyze --json)
 _format_concept_distribution_table "$analysis"
-```text
+```
 
 ---
 
@@ -4663,7 +4663,7 @@ Send content to Claude for pedagogical analysis.
 
 ```zsh
 _ai_analyze_content <file_path> [mode]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to .qmd file
@@ -4700,7 +4700,7 @@ _ai_analyze_content <file_path> [mode]
     "Interpret regression output"
   ]
 }
-```text
+```
 
 **Quick Mode** - Essential insights only (~3-5s, $0.005-0.01):
 
@@ -4710,7 +4710,7 @@ _ai_analyze_content <file_path> [mode]
   "difficulty": "intermediate",
   "estimated_time_minutes": 50
 }
-```text
+```
 
 **Example:**
 
@@ -4721,7 +4721,7 @@ echo "$analysis" | jq '.key_concepts'
 
 # Quick analysis (faster, cheaper)
 analysis=$(_ai_analyze_content "week-05-lecture.qmd" "quick")
-```text
+```
 
 ---
 
@@ -4733,7 +4733,7 @@ Estimate Claude API cost for content analysis.
 
 ```zsh
 _ai_estimate_cost <file_path> [mode]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to file
@@ -4760,7 +4760,7 @@ for file in lectures/*.qmd; do
     total_cost=$(awk "BEGIN {print $total_cost + $cost}")
 done
 echo "Total batch cost: \$$total_cost"
-```text
+```
 
 ---
 
@@ -4772,7 +4772,7 @@ Analyze multiple files in parallel with cost tracking.
 
 ```zsh
 _ai_batch_analyze <file1> <file2> ... [--mode MODE] [--max-cost COST]
-```text
+```
 
 **Parameters:**
 - `$@` - File paths to analyze
@@ -4797,7 +4797,7 @@ _ai_batch_analyze lectures/*.qmd --mode quick
 
 # With cost limit
 _ai_batch_analyze lectures/*.qmd --max-cost 1.00
-```text
+```
 
 ---
 
@@ -4809,7 +4809,7 @@ Track cumulative AI analysis costs.
 
 ```zsh
 _ai_track_usage <cost> <mode> <file_path>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Cost in USD
@@ -4824,7 +4824,7 @@ _ai_track_usage <cost> <mode> <file_path>
 ```text
 2026-01-24T15:15:00Z,full,week-05-lecture.qmd,0.023
 2026-01-24T15:16:00Z,quick,week-06-lecture.qmd,0.008
-```text
+```
 
 **Log Location:**
 - `.teach-cache/ai-usage.log`
@@ -4836,7 +4836,7 @@ _ai_track_usage "0.023" "full" "week-05.qmd"
 
 # View total usage
 awk -F, '{sum += $4} END {print "Total: $" sum}' .teach-cache/ai-usage.log
-```text
+```
 
 ---
 
@@ -4857,7 +4857,7 @@ Find natural slide break points in content.
 
 ```zsh
 _detect_slide_breaks <file_path>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to .qmd file
@@ -4896,14 +4896,14 @@ _detect_slide_breaks <file_path>
     }
   ]
 }
-```text
+```
 
 **Example:**
 
 ```zsh
 breaks=$(_detect_slide_breaks "week-05-lecture.qmd")
 echo "$breaks" | jq '.slides | length'  # Number of slides
-```text
+```
 
 ---
 
@@ -4915,7 +4915,7 @@ Calculate estimated presentation duration.
 
 ```zsh
 _estimate_slide_timing <file_path>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to .qmd file
@@ -4949,7 +4949,7 @@ _estimate_slide_timing <file_path>
   ],
   "pace": "moderate"  # slow < 2min/slide < moderate < 1min/slide < fast
 }
-```text
+```
 
 **Example:**
 
@@ -4957,7 +4957,7 @@ _estimate_slide_timing <file_path>
 timing=$(_estimate_slide_timing "week-05-lecture.qmd")
 total=$(echo "$timing" | jq '.total_minutes')
 echo "Estimated duration: $total minutes"
-```text
+```
 
 ---
 
@@ -4969,7 +4969,7 @@ Identify main concepts per slide.
 
 ```zsh
 _extract_slide_key_concepts <file_path> <slide_breaks_json>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to .qmd file
@@ -5004,7 +5004,7 @@ _extract_slide_key_concepts <file_path> <slide_breaks_json>
     }
   ]
 }
-```text
+```
 
 **Example:**
 
@@ -5012,7 +5012,7 @@ _extract_slide_key_concepts <file_path> <slide_breaks_json>
 breaks=$(_detect_slide_breaks "week-05.qmd")
 concepts=$(_extract_slide_key_concepts "week-05.qmd" "$breaks")
 echo "$concepts" | jq '.slides[0].key_concepts'
-```text
+```
 
 ---
 
@@ -5024,7 +5024,7 @@ Suggest improvements to slide structure.
 
 ```zsh
 _optimize_slide_breaks <slide_data_json>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Slide data with concepts and timing
@@ -5064,7 +5064,7 @@ _optimize_slide_breaks <slide_data_json>
   "overall_quality": "good",  # poor/fair/good/excellent
   "optimization_potential": "medium"  # low/medium/high
 }
-```text
+```
 
 **Example:**
 
@@ -5082,7 +5082,7 @@ slide_data=$(jq -s '.[0] * .[1] * .[2]' \
 # Get optimization suggestions
 suggestions=$(_optimize_slide_breaks "$slide_data")
 echo "$suggestions" | jq '.suggestions[]'
-```text
+```
 
 ---
 
@@ -5103,7 +5103,7 @@ Analyze total cache size and file count.
 
 ```zsh
 _analyze_cache_size [cache_dir]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Cache directory path [default: `"_freeze/site"`]
@@ -5123,7 +5123,7 @@ size_bytes=$(echo "$info" | cut -d: -f1)
 file_count=$(echo "$info" | cut -d: -f2)
 size_human=$(echo "$info" | cut -d: -f3)
 echo "Cache: $size_human ($file_count files)"
-```text
+```
 
 ---
 
@@ -5135,7 +5135,7 @@ Break down cache size by subdirectory.
 
 ```zsh
 _analyze_cache_by_directory [cache_dir]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Cache directory path [default: `"_freeze/site"`]
@@ -5153,7 +5153,7 @@ _analyze_cache_by_directory [cache_dir]
 _analyze_cache_by_directory "_freeze/site" | while IFS=: read -r name bytes human count pct; do
     echo "$name: $human ($pct%)"
 done
-```text
+```
 
 ---
 
@@ -5165,7 +5165,7 @@ Break down cache by file age (< 7 days, 7-30 days, > 30 days).
 
 ```zsh
 _analyze_cache_by_age [cache_dir]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Cache directory path [default: `"_freeze/site"`]
@@ -5184,7 +5184,7 @@ _analyze_cache_by_age "_freeze/site"
 # < 7 days:1234567:1.2MB:45:60
 # 7-30 days:567890:554KB:20:30
 # > 30 days:123456:121KB:10:10
-```text
+```
 
 ---
 
@@ -5196,7 +5196,7 @@ Calculate cache hit rate from performance log data.
 
 ```zsh
 _calculate_cache_hit_rate [perf_log] [days]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Performance log path [default: `".teach/performance-log.json"`]
@@ -5215,7 +5215,7 @@ _calculate_cache_hit_rate [perf_log] [days]
 data=$(_calculate_cache_hit_rate ".teach/performance-log.json" 30)
 hit_rate=$(echo "$data" | cut -d: -f1)
 echo "Cache hit rate: ${hit_rate}%"
-```text
+```
 
 ---
 
@@ -5227,7 +5227,7 @@ Generate actionable cache optimization recommendations.
 
 ```zsh
 _generate_cache_recommendations [cache_dir] [perf_log]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Cache directory path
@@ -5245,7 +5245,7 @@ _generate_cache_recommendations [cache_dir] [perf_log]
 _generate_cache_recommendations "_freeze/site" ".teach/performance-log.json"
 # • Clear > 30 days: Save 121KB (10 files)
 # • Hit rate < 80%: Consider cache rebuild
-```text
+```
 
 ---
 
@@ -5257,7 +5257,7 @@ Generate formatted cache analysis report with multiple sections.
 
 ```zsh
 _format_cache_report [cache_dir] [perf_log] [--recommend]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Cache directory path
@@ -5286,7 +5286,7 @@ Display formatted header with title and subtitle.
 
 ```zsh
 _display_analysis_header <title> <subtitle>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Header title
@@ -5303,7 +5303,7 @@ _display_analysis_header "Analysis Results" "Week 05 Lecture"
 # │   Analysis Results                                   │
 # │   Week 05 Lecture                                    │
 # └──────────────────────────────────────────────────────┘
-```text
+```
 
 ---
 
@@ -5315,7 +5315,7 @@ Display extracted concepts in formatted table.
 
 ```zsh
 _display_concepts_section <results_file>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to analysis results JSON file
@@ -5333,7 +5333,7 @@ Display prerequisite validation with dependency tree visualization.
 
 ```zsh
 _display_prerequisites_section <results_file> <analyzed_file>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to analysis results JSON file
@@ -5357,7 +5357,7 @@ Display constraint violations detected during analysis.
 
 ```zsh
 _display_violations_section <results_file>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to analysis results file
@@ -5375,7 +5375,7 @@ Display AI-powered analysis results including Bloom levels and cognitive load.
 
 ```zsh
 _display_ai_section <results_file>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to analysis results JSON file (with AI data)
@@ -5398,7 +5398,7 @@ Display slide optimization results including break suggestions.
 
 ```zsh
 _display_slide_section <slide_data>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Slide optimization JSON data
@@ -5416,7 +5416,7 @@ Display final summary with status and next steps.
 
 ```zsh
 _display_summary_section <results_file> <exit_code>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to analysis results file
@@ -5440,7 +5440,7 @@ Generate explanation of code or concept using Claude.
 
 ```zsh
 _flow_ai_recipe_explain <content> [--verbose]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Code or concept to explain
@@ -5463,7 +5463,7 @@ Review code for issues, improvements, and best practices.
 
 ```zsh
 _flow_ai_recipe_review <code> [--focus AREA]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Code to review
@@ -5486,7 +5486,7 @@ Generate test cases for code.
 
 ```zsh
 _flow_ai_recipe_test <code> [--framework FRAMEWORK]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Code to generate tests for
@@ -5509,7 +5509,7 @@ Generate documentation for code.
 
 ```zsh
 _flow_ai_recipe_document <code> [--format FORMAT]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Code to document
@@ -5532,7 +5532,7 @@ Suggest fixes for code issues or errors.
 
 ```zsh
 _flow_ai_recipe_fix <code> <error_message>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Code with issue
@@ -5555,7 +5555,7 @@ Generate commit message for staged changes.
 
 ```zsh
 _flow_ai_recipe_commit [--conventional]
-```text
+```
 
 **Parameters:**
 - `--conventional` - Use conventional commit format
@@ -5577,7 +5577,7 @@ List all available AI recipes.
 
 ```zsh
 _flow_ai_recipe_list
-```text
+```
 
 **Returns:**
 - 0 - Always
@@ -5595,7 +5595,7 @@ Main entry point for AI recipe execution.
 
 ```zsh
 _flow_ai_recipe <recipe_name> [args...]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Recipe name: explain, review, test, document, fix, commit
@@ -5620,7 +5620,7 @@ Log an AI command execution to usage tracking system.
 
 ```zsh
 _flow_ai_log_usage <command> <mode> <success> <duration>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Command name: ai, do, recipe, chat
@@ -5637,7 +5637,7 @@ _flow_ai_log_usage <command> <mode> <success> <duration>
 
 ```zsh
 _flow_ai_log_usage "recipe" "recipe:review" "true" "1523"
-```text
+```
 
 ---
 
@@ -5649,7 +5649,7 @@ Update aggregated usage statistics.
 
 ```zsh
 _flow_ai_update_stats <command> <mode> <success>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Command name
@@ -5675,7 +5675,7 @@ Retrieve raw aggregated statistics JSON.
 
 ```zsh
 _flow_ai_get_stats
-```text
+```
 
 **Returns:**
 - 0 - Always succeeds
@@ -5693,7 +5693,7 @@ Display formatted AI usage statistics dashboard.
 
 ```zsh
 flow_ai_stats
-```text
+```
 
 **Output:**
 - stdout - Formatted statistics dashboard with overview, top commands, top modes, top recipes
@@ -5708,7 +5708,7 @@ Provide personalized AI suggestions based on usage.
 
 ```zsh
 flow_ai_suggest
-```text
+```
 
 **Output:**
 - stdout - Personalized suggestions based on project type and usage patterns
@@ -5723,7 +5723,7 @@ Display recent AI command usage history.
 
 ```zsh
 flow_ai_recent [limit]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Number of entries to show [default: 10]
@@ -5741,7 +5741,7 @@ Delete all AI usage tracking data.
 
 ```zsh
 flow_ai_clear_history
-```text
+```
 
 **Returns:**
 - 0 - History cleared or user declined
@@ -5758,7 +5758,7 @@ Main entry point for AI usage tracking commands.
 
 ```zsh
 flow_ai_usage [action] [args...]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Action: stats, suggest, recent, clear, help [default: stats]
@@ -5787,10 +5787,10 @@ flow_ai_usage [action] [args...]
 - AI analysis: ~10-30s (depends on content length)
 
 **Documentation:**
-- Complete API: [TEACH-ANALYZE-API-REFERENCE.md](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md)
-- Architecture: [TEACH-ANALYZE-ARCHITECTURE.md](../reference/.archive/TEACH-ANALYZE-ARCHITECTURE.md)
+- Complete API: [TEACH-ANALYZE-API-REFERENCE.md](../reference/MASTER-API-REFERENCE.md#teaching-libraries)
+- Architecture: [TEACH-ANALYZE-ARCHITECTURE.md](../reference/MASTER-ARCHITECTURE.md#component-design)
 - Tutorial: [Tutorial 21](../tutorials/21-teach-analyze.md)
-- Quick Ref: [REFCARD-TEACH-ANALYZE.md](../reference/.archive/REFCARD-TEACH-ANALYZE.md)
+- Quick Ref: [REFCARD-TEACH-ANALYZE.md](../reference/MASTER-API-REFERENCE.md#teaching-libraries)
 
 **Output Format:**
 
@@ -5806,14 +5806,14 @@ flow_ai_usage [action] [args...]
     }
   ]
 }
-```text
+```
 
 **Example:**
 
 ```zsh
 concepts=$(_teach_extract_concepts "lectures/week-01/regression.qmd")
 echo "$concepts" | jq '.concepts[] | .name'
-```text
+```
 
 ---
 
@@ -5827,7 +5827,7 @@ Retrieves cached analysis result.
 
 ```zsh
 _teach_cache_get "file.qmd"
-```text
+```
 
 **Parameters:**
 - `$1` - File path
@@ -5852,7 +5852,7 @@ else
     result=$(_teach_analyze_file "lecture.qmd")
     _teach_cache_set "lecture.qmd" "$result"
 fi
-```text
+```
 
 ---
 
@@ -5862,7 +5862,7 @@ fi
 
 ```bash
 ./scripts/generate-api-docs.sh
-```text
+```
 
 ### A
 
@@ -6029,7 +6029,7 @@ Log message unless in quiet mode.
 
 ```zsh
 _doctor_log_quiet <message>
-```text
+```
 
 **Parameters:**
 - `$@` - Message to log
@@ -6042,7 +6042,7 @@ _doctor_log_quiet <message>
 
 ```zsh
 _doctor_log_quiet "Checking GitHub token..."
-```text
+```
 
 ---
 
@@ -6054,7 +6054,7 @@ Log message only in verbose mode.
 
 ```zsh
 _doctor_log_verbose <message>
-```text
+```
 
 **Parameters:**
 - `$@` - Message to log
@@ -6067,7 +6067,7 @@ _doctor_log_verbose <message>
 
 ```zsh
 _doctor_log_verbose "Cache hit for token-github (expires in 240s)"
-```text
+```
 
 ---
 
@@ -6079,7 +6079,7 @@ Log message regardless of verbosity level.
 
 ```zsh
 _doctor_log_always <message>
-```text
+```
 
 **Parameters:**
 - `$@` - Message to log
@@ -6092,7 +6092,7 @@ _doctor_log_always <message>
 
 ```zsh
 _doctor_log_always "Error: Invalid token"
-```text
+```
 
 ---
 
@@ -6104,7 +6104,7 @@ Show ADHD-friendly menu for selecting which category to fix.
 
 ```zsh
 _doctor_select_fix_category [token_only] [auto_yes]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Token-only mode (true/false) [default: false]
@@ -6138,7 +6138,7 @@ _doctor_select_fix_category [token_only] [auto_yes]
 │  0. Exit without fixing                          │
 │                                                  │
 ╰──────────────────────────────────────────────────╯
-```text
+```
 
 **Example:**
 
@@ -6147,7 +6147,7 @@ selected=$(_doctor_select_fix_category false false)
 if [[ $? -eq 0 ]]; then
     echo "User selected: $selected"
 fi
-```text
+```
 
 ---
 
@@ -6159,7 +6159,7 @@ Count total number of categories with issues.
 
 ```zsh
 _doctor_count_categories
-```text
+```
 
 **Parameters:**
 - None
@@ -6179,7 +6179,7 @@ count=$(_doctor_count_categories)
 if [[ $count -eq 0 ]]; then
     echo "No issues found"
 fi
-```text
+```
 
 ---
 
@@ -6191,7 +6191,7 @@ Apply fixes for selected category.
 
 ```zsh
 _doctor_apply_fixes <category> [auto_yes]
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Category to fix ("tokens", "tools", "aliases", "all")
@@ -6208,7 +6208,7 @@ _doctor_apply_fixes <category> [auto_yes]
 ```zsh
 _doctor_apply_fixes "tokens"
 _doctor_apply_fixes "all" true  # Auto-yes mode
-```text
+```
 
 ---
 
@@ -6220,7 +6220,7 @@ Fix token-related issues (missing, invalid, expiring).
 
 ```zsh
 _doctor_fix_tokens
-```text
+```
 
 **Parameters:**
 - None (uses global `_doctor_token_issues` array)
@@ -6240,7 +6240,7 @@ _doctor_fix_tokens
 ```zsh
 # Called internally by doctor --fix or doctor --fix-token
 _doctor_fix_tokens
-```text
+```
 
 ---
 
@@ -6257,7 +6257,7 @@ Check if project uses GitHub as remote.
 
 ```zsh
 _work_project_uses_github <project_path>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Path to project directory
@@ -6272,7 +6272,7 @@ _work_project_uses_github <project_path>
 if _work_project_uses_github "$HOME/projects/my-repo"; then
     echo "Project uses GitHub"
 fi
-```text
+```
 
 ---
 
@@ -6284,7 +6284,7 @@ Get GitHub token status for work session.
 
 ```zsh
 _work_get_token_status
-```text
+```
 
 **Parameters:**
 - None (uses keychain token)
@@ -6316,7 +6316,7 @@ case "$status" in
         echo "✓ GitHub token valid"
         ;;
 esac
-```text
+```
 
 ---
 
@@ -6328,7 +6328,7 @@ Check if current branch will push to remote.
 
 ```zsh
 _work_will_push_to_remote
-```text
+```
 
 **Parameters:**
 - None (checks current git branch)
@@ -6351,7 +6351,7 @@ if _work_will_push_to_remote; then
         return 1
     fi
 fi
-```text
+```
 
 ---
 
@@ -6368,7 +6368,7 @@ Check all GitHub tokens for expiration status.
 
 ```zsh
 _dot_token_expiring
-```text
+```
 
 **Parameters:**
 - None (scans all GitHub tokens in keychain)
@@ -6386,7 +6386,7 @@ _dot_token_expiring
 ```zsh
 dot token expiring
 # Shows tokens expiring in < 7 days
-```text
+```
 
 ---
 
@@ -6398,7 +6398,7 @@ Get token age in days since creation.
 
 ```zsh
 _dot_token_age_days <secret_name>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Secret name (e.g., "github-token")
@@ -6419,7 +6419,7 @@ age_days=$(_dot_token_age_days "github-token")
 if [[ $age_days -gt 80 ]]; then
     echo "Token is $age_days days old, consider rotating"
 fi
-```text
+```
 
 ---
 
@@ -6431,7 +6431,7 @@ Rotate GitHub token (delete old, create new).
 
 ```zsh
 _dot_token_rotate [token_name]
-```text
+```
 
 **Parameters:**
 - `$1` - (optional) Token name [default: "github-token"]
@@ -6460,7 +6460,7 @@ _dot_token_rotate [token_name]
 ```zsh
 dot token rotate github-token
 # Rotates token automatically
-```text
+```
 
 ---
 
@@ -6472,7 +6472,7 @@ Log token rotation event.
 
 ```zsh
 _dot_token_log_rotation <provider> <old_username> <new_username>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) Provider name (e.g., "github")
@@ -6483,7 +6483,7 @@ _dot_token_log_rotation <provider> <old_username> <new_username>
 
 ```text
 [2026-01-23T12:30:00Z] ROTATION github old_user→new_user
-```text
+```
 
 **Log Location:**
 - `~/.flow/logs/token-rotations.log`
@@ -6492,7 +6492,7 @@ _dot_token_log_rotation <provider> <old_username> <new_username>
 
 ```zsh
 _dot_token_log_rotation "github" "user" "user"
-```text
+```
 
 ---
 
@@ -6504,7 +6504,7 @@ Sync token to gh CLI configuration.
 
 ```zsh
 _dot_token_sync_gh <token>
-```text
+```
 
 **Parameters:**
 - `$1` - (required) GitHub token value
@@ -6523,7 +6523,7 @@ _dot_token_sync_gh <token>
 ```zsh
 token=$(dot secret github-token)
 _dot_token_sync_gh "$token"
-```text
+```
 
 ---
 
@@ -6540,7 +6540,7 @@ Check if current repository has GitHub remote.
 
 ```zsh
 _g_is_github_remote
-```text
+```
 
 **Parameters:**
 - None (checks current directory git repo)
@@ -6563,7 +6563,7 @@ if _g_is_github_remote; then
         return 1
     }
 fi
-```text
+```
 
 ---
 
@@ -6575,7 +6575,7 @@ Quick token validation without output.
 
 ```zsh
 _g_validate_github_token_silent
-```text
+```
 
 **Parameters:**
 - None (uses keychain token)
@@ -6601,7 +6601,175 @@ else
     echo "Invalid token, run: dot token rotate"
     return 1
 fi
-```text
+```
+
+---
+
+### teach-plan Command Helpers
+
+**File:** `commands/teach-plan.zsh`
+**Functions:** 7 (v5.22.0 lesson plan CRUD)
+
+#### `_teach_plan`
+
+Main dispatcher for lesson plan subcommands.
+
+**Signature:**
+
+```zsh
+_teach_plan <action> [args...]
+```
+
+**Parameters:**
+- `$1` - Action: `create|c|new`, `list|ls|l`, `show|s|view`, `edit|e`, `delete|del|rm`, `help`
+- `$@` - Remaining arguments passed to subcommand
+
+**Returns:**
+- 0 on success
+- 1 on error or unknown action
+
+**Behavior:**
+- Bare number argument (e.g., `_teach_plan 5`) dispatches to `_teach_plan_show`
+- Unknown action returns error with help hint
+
+---
+
+#### `_teach_plan_create`
+
+Create a new week entry in `.flow/lesson-plans.yml`.
+
+**Signature:**
+
+```zsh
+_teach_plan_create <week> [--topic TOPIC] [--style STYLE] [--force]
+```
+
+**Parameters:**
+- `$1` - (required) Week number (1-20)
+- `--topic|-t` - Topic name (prompted interactively if omitted)
+- `--style|-s` - Content style: `conceptual`, `computational`, `rigorous`, `applied`
+- `--force|-f` - Overwrite existing week entry
+
+**Returns:**
+- 0 on success
+- 1 on validation error, duplicate week, or missing `.flow` directory
+
+**Behavior:**
+- Auto-creates `lesson-plans.yml` if missing (requires `.flow/` dir)
+- Auto-populates topic from `.flow/teach-config.yml` when `--topic` omitted
+- Uses `yq strenv()` for YAML-injection-safe string construction
+- Creates backup before modification, restores on validation failure
+- Sorts weeks by number after insertion
+- Prompts interactively for topic, style, objectives, subtopics when not provided via flags
+
+**Dependencies:** `yq`
+
+---
+
+#### `_teach_plan_list`
+
+List all week entries in `.flow/lesson-plans.yml`.
+
+**Signature:**
+
+```zsh
+_teach_plan_list [--json]
+```
+
+**Parameters:**
+- `--json|-j` - Output as JSON array instead of formatted table
+
+**Returns:**
+- 0 on success (including empty list)
+- 1 if `yq` not found
+
+**Output:**
+- Table with columns: Week, Topic, Style, Objectives count
+- Total week count
+- Gap detection (warns about missing weeks in sequence)
+
+---
+
+#### `_teach_plan_show`
+
+Display a single week's lesson plan details.
+
+**Signature:**
+
+```zsh
+_teach_plan_show <week> [--json]
+```
+
+**Parameters:**
+- `$1` - (required) Week number
+- `--json|-j` - Output as JSON object
+
+**Returns:**
+- 0 on success
+- 1 if week not found or file missing
+
+**Output:**
+- Formatted display with: topic, style, objectives, subtopics, key concepts, prerequisites
+- Edit/delete hints
+
+---
+
+#### `_teach_plan_edit`
+
+Open `.flow/lesson-plans.yml` in `$EDITOR`, jumping to the specified week's line.
+
+**Signature:**
+
+```zsh
+_teach_plan_edit <week>
+```
+
+**Parameters:**
+- `$1` - (required) Week number
+
+**Returns:**
+- 0 on successful edit with valid YAML
+- 1 if week not found, file missing, or max retries exceeded
+
+**Behavior:**
+- Detects editor type (vim/nano/code) for line-jump syntax
+- Validates YAML after each edit
+- Bounded retry loop (max 3 attempts) on invalid YAML
+- Prompts to re-open editor or abort
+
+---
+
+#### `_teach_plan_delete`
+
+Remove a week entry from `.flow/lesson-plans.yml`.
+
+**Signature:**
+
+```zsh
+_teach_plan_delete <week> [--force]
+```
+
+**Parameters:**
+- `$1` - (required) Week number
+- `--force|-f` - Skip confirmation prompt
+
+**Returns:**
+- 0 on success
+- 1 if week not found or deletion fails
+
+---
+
+#### `_teach_plan_help`
+
+Display formatted help for all teach plan commands.
+
+**Signature:**
+
+```zsh
+_teach_plan_help
+```
+
+**Output:** Usage, actions, options, shortcuts, examples, file locations, see-also references.
 
 ---
 
@@ -6614,7 +6782,7 @@ fi
 
 ---
 
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v5.22.0-dev
+**Last Updated:** 2026-01-29
 **Auto-Generation:** Run `./scripts/generate-api-docs.sh` to update function index
-**Total Functions:** 853 (421 documented, 432 pending)
+**Total Functions:** 860 (428 documented, 432 pending)

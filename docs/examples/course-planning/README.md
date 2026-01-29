@@ -241,15 +241,15 @@ Have a course using flow-cli? Share it as an example!
 **Quality & Automation (NEW v3.0):**
 - [Git Hooks Integration](../../guides/TEACHING-WORKFLOW-V3-GUIDE.md#8-git-hooks-integration) - Automated quality checks
 - [Backup System Guide](../../guides/BACKUP-SYSTEM-GUIDE.md) - Protect your content
-- [Teaching v3.0 Quick Reference](../../reference/.archive/REFCARD-TEACHING-V3.md) - Command cheatsheet
+- [Teaching v3.0 Quick Reference](../../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) - Command cheatsheet
 
 **Performance & Scale (Phase 2):**
 - [Quarto Workflow Phase 2 Guide](../../guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md) - Advanced features
-- [Phase 2 Quick Reference](../../reference/.archive/REFCARD-QUARTO-PHASE2.md) - Parallel rendering, validators
+- [Phase 2 Quick Reference](../../reference/MASTER-DISPATCHER-GUIDE.md#qu-dispatcher) - Parallel rendering, validators
 
 **Command Reference:**
-- [Teach Dispatcher Reference v4.6.0](../../reference/.archive/TEACH-DISPATCHER-REFERENCE-v4.6.0.md) - Complete command docs
-- [Teaching Git Workflow Refcard](../../reference/.archive/TEACHING-GIT-WORKFLOW-REFCARD.md) - Git integration
+- [Teach Dispatcher Reference v4.6.0](../../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) - Complete command docs
+- [Teaching Git Workflow Refcard](../../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) - Git integration
 
 ---
 

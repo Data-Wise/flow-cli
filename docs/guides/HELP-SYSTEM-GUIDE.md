@@ -97,7 +97,7 @@ TIPS
 
 LEARN MORE
   📖 Full guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-  📖 Quick ref: docs/reference/.archive/REFCARD-TEACHING-V3.md
+  📖 Quick ref: docs/reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher
 
 SEE ALSO:
   teach related-cmd - Description
@@ -157,6 +157,14 @@ AI-powered content generation:
 | `teach init` | `_teach_init_help()` | Initialize teaching project |
 | `teach config` | `_teach_config_help()` | Manage configuration |
 | `teach profiles` | `_teach_profiles_help()` | Quarto profile management |
+
+### Lesson Plan Management (1)
+
+| Command | Help Function | Purpose |
+|---------|---------------|---------|
+| `teach plan` | `_teach_plan_help()` | CRUD management of lesson plan weeks |
+
+**Note:** `teach plan help` shows all subcommands: create, list, show, edit, delete.
 
 ---
 
@@ -342,7 +350,7 @@ Links to comprehensive guides:
 ```
 LEARN MORE
   📖 Full guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md#section
-  📖 Quick ref: docs/reference/.archive/REFCARD-TEACHING-V3.md
+  📖 Quick ref: docs/reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher
 ```
 
 ### SEE ALSO Section
@@ -596,8 +604,8 @@ typeset -gA FLOW_COLORS=(
 
 ### Quick References
 
-- **[Teaching Quick Reference](../reference/.archive/REFCARD-TEACHING-V3.md)** - Command cheat sheet
-- **[Quarto Phase 2 Quick Reference](../reference/.archive/REFCARD-QUARTO-PHASE2.md)** - Phase 2 commands
+- **[Teaching Quick Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)** - Command cheat sheet
+- **[Quarto Phase 2 Quick Reference](../reference/MASTER-DISPATCHER-GUIDE.md#qu-dispatcher)** - Phase 2 commands
 - **[Command Quick Reference](../help/QUICK-REFERENCE.md)** - All flow-cli commands
 
 ### Tutorials

@@ -167,27 +167,50 @@ Choose output format for generated content:
 
 **Why it matters:** Generate content in your preferred format without manual conversion.
 
-### 6. Lesson Plan Integration
+### 6. Lesson Plan Management (v5.22.0)
 
-Create `lesson-plan.yml` in your project root:
+Create and manage lesson plans with the `teach plan` command:
+
+```bash
+# Create a week with topic and style
+teach plan create 5 --topic "Multiple Regression" --style computational
+
+# Create interactively (prompted for details)
+teach plan create 6
+
+# Auto-populate topic from teach-config.yml
+teach plan create 7 --style applied
+
+# List all plans with gap detection
+teach plan list
+
+# View a specific week
+teach plan show 5
+
+# Edit in $EDITOR (jumps to correct line)
+teach plan edit 5
+```
+
+Plans are stored in `.flow/lesson-plans.yml`:
 
 ```yaml
-course: STAT 440
-semester: Spring 2026
 weeks:
   - number: 5
     topic: "Multiple Regression"
-    learning_objectives:
+    style: "computational"
+    objectives:
       - "Understand multicollinearity"
       - "Interpret regression coefficients"
-    key_concepts:
-      - "Adjusted R-squared"
-      - "VIF"
+    subtopics: []
+    key_concepts: []
+    prerequisites: []
 ```
 
-Scholar commands automatically load this for enhanced context.
+Scholar commands automatically load plans for enhanced context.
 
 **Why it matters:** More targeted, course-specific content generation.
+
+**See:** [Tutorial 27: Lesson Plan Management](../tutorials/27-lesson-plan-management.md)
 
 ### 7. Smart Initialization
 
@@ -565,7 +588,7 @@ With hooks:
 - Auto-formatted messages → Clear history
 ```
 
-See [Teaching Git Workflow Refcard](../reference/.archive/TEACHING-GIT-WORKFLOW-REFCARD.md) for complete hook documentation and advanced configuration.
+See [Teaching Git Workflow Refcard](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) for complete hook documentation and advanced configuration.
 
 ---
 
@@ -620,28 +643,25 @@ teach init "STAT 440" --github
   - `syllabi/`
   - `rubrics/`
 
-### Step 3: Create Lesson Plan (Optional but Recommended)
+### Step 3: Create Lesson Plans (Optional but Recommended)
+
+Use `teach plan` to create structured lesson plans that Scholar reads automatically:
 
 ```bash
-cat > lesson-plan.yml <<EOF
-course: STAT 440
-semester: Spring 2026
-instructor: Dr. Smith
+# Create first few weeks
+teach plan create 1 --topic "Introduction to Regression" --style conceptual
+teach plan create 2 --topic "Simple Linear Regression" --style computational
+teach plan create 3 --topic "Model Diagnostics" --style applied
 
-weeks:
-  - number: 1
-    topic: "Introduction to Regression"
-    learning_objectives:
-      - "Understand correlation vs causation"
-      - "Learn simple linear regression"
-    key_concepts:
-      - "Least squares"
-      - "R-squared"
-      - "Residuals"
-EOF
+# Review what you've created
+teach plan list
 ```
 
-Scholar will automatically use this for enhanced context.
+Plans are stored in `.flow/lesson-plans.yml` and loaded by Scholar for targeted content generation.
+
+**Tip:** If your `teach-config.yml` has week topics, `teach plan create N` auto-populates the topic.
+
+**See:** [Tutorial 27: Lesson Plan Management](../tutorials/27-lesson-plan-management.md) for the complete workflow.
 
 ### Step 4: Verify Setup
 
@@ -1349,23 +1369,26 @@ teach dates init
 
 **Create at semester start:**
 
-```yaml
-# lesson-plan.yml
-course: STAT 440
-semester: Spring 2026
+```bash
+# Create plans for key weeks
+teach plan create 1 --topic "Introduction" --style conceptual
+teach plan create 2 --topic "Foundations" --style computational
 
-weeks:
-  - number: 1
-    topic: "Introduction"
-    learning_objectives: [...]
-    key_concepts: [...]
+# Or create all weeks using config auto-populate
+for w in $(seq 1 15); do
+    teach plan create $w --style conceptual
+done
+
+# Review for gaps
+teach plan list
 ```
 
 **Benefits:**
 
 - Scholar generates more targeted content
 - Consistent terminology across materials
-- Easy to revise and reuse
+- Easy to revise with `teach plan edit N`
+- Gap detection warns about missing weeks
 
 ### 2. Regular Health Checks
 
@@ -2138,10 +2161,10 @@ teach init --config template.yml
 
 ## Reference
 
-- [Teach Dispatcher Reference](../reference/.archive/TEACH-DISPATCHER-REFERENCE-v3.0.md)
+- [Teach Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)
 - [Backup System Guide](BACKUP-SYSTEM-GUIDE.md)
 - [Migration Guide](TEACHING-V3-MIGRATION-GUIDE.md)
-- [Quick Reference Card](../reference/.archive/REFCARD-TEACHING-V3.md)
+- [Quick Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)
 
 ---
 

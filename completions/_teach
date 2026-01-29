@@ -50,6 +50,9 @@ _teach() {
     'macros:Manage LaTeX macros'
     'macro:Macros (alias)'
     'm:Macros (alias)'
+    # Lesson plan management (v5.22.0)
+    'plan:Manage lesson plan weeks'
+    'pl:Plan (alias)'
   )
 
   # Universal flags for Scholar commands (v5.13.0+ with Phases 1-6)
@@ -221,6 +224,71 @@ _teach() {
                   _arguments \
                     '--type[Filter by type]:type:(content prompts metadata checklists)' \
                     '--source[Filter by source]:source:(project plugin)'
+                  ;;
+              esac
+              ;;
+          esac
+          ;;
+        # Lesson plan management (v5.22.0)
+        plan|pl)
+          local -a plan_subcmds
+          plan_subcmds=(
+            'create:Add week to lesson plans'
+            'c:Create (alias)'
+            'new:Create (alias)'
+            'list:Show all weeks in table'
+            'ls:List (alias)'
+            'l:List (alias)'
+            'show:Display week details'
+            's:Show (alias)'
+            'view:Show (alias)'
+            'edit:Open in $EDITOR at correct line'
+            'e:Edit (alias)'
+            'delete:Remove week entry'
+            'del:Delete (alias)'
+            'rm:Delete (alias)'
+            'help:Show plan help'
+          )
+          _arguments -C \
+            '1:action:->plan_action' \
+            '*::arg:->plan_args' \
+          && return 0
+          case "$state" in
+            plan_action)
+              _describe -t plan_subcmds 'plan action' plan_subcmds
+              ;;
+            plan_args)
+              case "$line[1]" in
+                create|c|new)
+                  _arguments \
+                    '1:week number:' \
+                    '--topic[Topic name]:topic:' \
+                    '-t[Topic (short form)]:topic:' \
+                    '--style[Content style]:style:(conceptual computational rigorous applied)' \
+                    '-s[Style (short form)]:style:(conceptual computational rigorous applied)' \
+                    '--force[Overwrite existing week]' \
+                    '-f[Force (short form)]'
+                  ;;
+                list|ls|l)
+                  _arguments \
+                    '--json[Output as JSON array]' \
+                    '-j[JSON output (short form)]'
+                  ;;
+                show|s|view)
+                  _arguments \
+                    '1:week number:' \
+                    '--json[Output as JSON object]' \
+                    '-j[JSON output (short form)]'
+                  ;;
+                edit|e)
+                  _arguments \
+                    '1:week number:'
+                  ;;
+                delete|del|rm)
+                  _arguments \
+                    '1:week number:' \
+                    '--force[Skip confirmation]' \
+                    '-f[Force (short form)]'
                   ;;
               esac
               ;;

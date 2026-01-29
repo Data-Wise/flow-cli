@@ -109,6 +109,7 @@ nav:
       - 24. Template Management: tutorials/24-template-management.md
       - 25. Lesson Plan Migration: tutorials/25-lesson-plan-migration.md
       - 26. LaTeX Macros: tutorials/26-latex-macros.md
+      - 27. Lesson Plan Management: tutorials/27-lesson-plan-management.md
       - 🎓 Scholar Enhancement:
           - Overview & Learning Path: tutorials/scholar-enhancement/index.md
           - Level 1 - Getting Started: tutorials/scholar-enhancement/01-getting-started.md
@@ -163,6 +164,7 @@ nav:
       - 🔐 Token & Secrets Quick Ref: reference/REFCARD-TOKEN-SECRETS.md
       - 📝 Templates Quick Ref: reference/REFCARD-TEMPLATES.md
       - 📐 LaTeX Macros Quick Ref: reference/REFCARD-MACROS.md
+      - 📋 Lesson Plan Quick Ref: reference/REFCARD-TEACH-PLAN.md
       - 🔧 Workflows: help/WORKFLOWS.md
       - 🩺 Troubleshooting: help/TROUBLESHOOTING.md
       - 🤖 Claude Code Environment: troubleshooting/CLAUDE-CODE-ENVIRONMENT.md
@@ -171,7 +173,6 @@ nav:
       - 🎯 Master Dispatcher Guide: reference/MASTER-DISPATCHER-GUIDE.md
       - 🏗️ Master Architecture: reference/MASTER-ARCHITECTURE.md
       - 📊 Documentation Dashboard: DOC-DASHBOARD.md
-      - Legacy Docs Archive: reference/.archive/README.md
   - Commands:
       - flow (main): commands/flow.md
       - work: commands/work.md

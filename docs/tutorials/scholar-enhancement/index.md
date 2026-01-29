@@ -258,7 +258,7 @@ Track your progress:
 ### Documentation
 
 **Complete References:**
-- [API Reference](../../reference/.archive/SCHOLAR-ENHANCEMENT-API.md) - All 47 flags
+- [API Reference](../../reference/MASTER-API-REFERENCE.md#teaching-libraries) - All 47 flags
 - [Architecture Guide](../../architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md) - System design
 
 **Implementation Details:**

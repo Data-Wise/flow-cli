@@ -1237,11 +1237,11 @@ Slide optimization results are cached by content hash:
 
 ## Related Documentation
 
-- [Architecture Documentation](../reference/.archive/TEACH-ANALYZE-ARCHITECTURE.md)
-- [API Reference](../reference/.archive/TEACH-ANALYZE-API-REFERENCE.md)
-- [Quick Reference Card](../reference/.archive/REFCARD-TEACH-ANALYZE.md)
+- [Architecture Documentation](../reference/MASTER-ARCHITECTURE.md#component-design)
+- [API Reference](../reference/MASTER-API-REFERENCE.md#teaching-libraries)
+- [Quick Reference Card](../reference/MASTER-API-REFERENCE.md#teaching-libraries)
 - [Teaching Workflow Guide](TEACHING-WORKFLOW-V3-GUIDE.md)
-- [Teach Dispatcher Reference](../reference/.archive/TEACH-DISPATCHER-REFERENCE-v4.6.0.md)
+- [Teach Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)
 
 ---
 

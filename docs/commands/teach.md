@@ -118,6 +118,7 @@ teach <command> [args]
 | `migrate-config` | `mig` | Extract lesson plans from config (v5.20.0) |
 | `templates` | `tmpl` | Manage content templates (v5.20.0) |
 | `macros` | `m` | LaTeX macro management (v5.21.0) |
+| `plan` | `pl` | Lesson plan CRUD management (v5.22.0) |
 | `hooks` | `hk` | Git hook management |
 | `dates` | `d8` | Date management |
 | `validate` | `val` | Validate .qmd files |
@@ -565,6 +566,104 @@ When `include_in_prompts: true`, macros are automatically included in AI context
 - [Tutorial 26: LaTeX Macros](../tutorials/26-latex-macros.md) for step-by-step guide
 - [REFCARD-MACROS.md](../reference/REFCARD-MACROS.md) for quick reference
 
+### `teach plan` (v5.22.0)
+
+Manage lesson plan week entries in `.flow/lesson-plans.yml`.
+
+```bash
+# Create a new week (interactive prompts for missing fields)
+teach plan create 3 --topic "Probability Foundations" --style rigorous
+
+# Create with auto-populated topic from teach-config.yml
+teach plan create 5
+
+# List all weeks (table with gap detection)
+teach plan list
+teach plan list --json
+
+# Show a single week's details
+teach plan show 3
+teach plan show 3 --json
+teach plan 3                 # shortcut: bare number
+
+# Edit in $EDITOR (jumps to correct line)
+teach plan edit 3
+
+# Delete with confirmation
+teach plan delete 3
+teach plan delete 3 --force  # skip confirmation
+
+# Overwrite existing week
+teach plan create 3 --topic "Updated Topic" --force
+```
+
+**Subcommands:**
+
+| Subcommand | Description |
+|------------|-------------|
+| `create <week>` | Add week entry (interactive or with flags) |
+| `list` | Show all weeks in table format |
+| `show <week>` | Display formatted week details |
+| `edit <week>` | Open `$EDITOR` at correct line |
+| `delete <week>` | Remove week entry (with confirmation) |
+| `help` | Show usage help |
+
+**Options:**
+
+| Option | Description |
+|--------|-------------|
+| `--topic, -t` | Topic name (prompted if not provided) |
+| `--style, -s` | `conceptual`, `computational`, `rigorous`, `applied` |
+| `--json, -j` | Machine-readable JSON output |
+| `--force, -f` | Skip confirmation / overwrite existing |
+
+**YAML schema:**
+
+```yaml
+# .flow/lesson-plans.yml
+weeks:
+  - number: 1
+    topic: "Introduction to Statistics"
+    style: "conceptual"
+    objectives:
+      - "Define descriptive statistics"
+      - "Identify data types"
+    subtopics:
+      - "Measures of central tendency"
+    key_concepts:
+      - "descriptive-stats"
+    prerequisites: []
+```
+
+**Features:**
+
+- **Auto-populate** — pulls topic from `teach-config.yml` if available
+- **Sorted insert** — weeks maintained in order by number
+- **Gap detection** — `teach plan list` warns about missing weeks
+- **YAML validation** — validates after edits, offers re-edit on failure
+- **Integration** — created plans load via `teach slides --week N`, `teach lecture --week N`
+
+**Workflow example:**
+
+```bash
+# After migrating config
+teach migrate-config
+
+# Add a new week not in the original config
+teach plan create 16 --topic "Final Review" --style conceptual
+
+# Review all plans
+teach plan list
+
+# Edit week 5 to add objectives
+teach plan edit 5
+
+# Generate slides using the plan
+teach slides --week 5
+```
+
+**See:** [Tutorial 25](../tutorials/25-lesson-plan-migration.md) for migration + plan management workflow.
+
 ### `teach config`
 
 Open the teaching configuration file in your editor.
@@ -876,5 +975,5 @@ All settings are backward compatible and default to false for safety.
 ## See Also
 
 - [Teaching Workflow Guide](../guides/TEACHING-WORKFLOW.md)
-- [Teaching Reference Card](../reference/.archive/REFCARD-TEACHING.md)
+- [Teaching Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)
 - [TEACH Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)

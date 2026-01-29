@@ -1,9 +1,9 @@
-# Tutorial: Lesson Plan Migration
+# Tutorial: Lesson Plan Migration & Management
 
-> **What you'll learn:** Extract and migrate lesson plans using `teach migrate-config`
+> **What you'll learn:** Extract lesson plans with `teach migrate-config` and manage them with `teach plan`
 >
-> **Time:** ~10 minutes | **Level:** Beginner
-> **Version:** v5.20.0
+> **Time:** ~15 minutes | **Level:** Beginner
+> **Version:** v5.20.0 (migration), v5.22.0 (plan management)
 
 ---
 
@@ -34,7 +34,8 @@ By the end of this tutorial, you will:
 2. Preview migration changes
 3. Run the migration
 4. Verify the results
-5. Use the new format
+5. Manage plans with `teach plan` (create, list, show, edit, delete)
+6. Use plans with Scholar content generation
 
 ---
 
@@ -315,10 +316,103 @@ teach quiz "Week 5" --topic "Distributions"
 
 ---
 
+## Managing Plans After Migration (v5.22.0)
+
+Once migrated, use `teach plan` to manage individual weeks:
+
+### List All Plans
+
+```bash
+$ teach plan list
+
+  Week   Topic                               Style           Objectives
+  ────   ───────────────────────────────────  ───────────────  ──────────
+  1      Introduction to Statistics           conceptual       2
+  2      Data Visualization                   applied          3
+  3      Probability Foundations              rigorous         1
+  ...
+  15     Review & Synthesis                   conceptual       0
+
+  15 week(s) total
+```
+
+### Add a New Week
+
+```bash
+# Add a week not in the original config
+$ teach plan create 16 --topic "Final Review" --style conceptual
+
+  ✓ Created lesson plan for Week 16: "Final Review" (conceptual)
+
+  View:  teach plan show 16
+  Edit:  teach plan edit 16
+  List:  teach plan list
+```
+
+### View Week Details
+
+```bash
+$ teach plan show 1
+
+╔════════════════════════════════════════════════════╗
+║  Week 1: Introduction to Statistics
+╚════════════════════════════════════════════════════╝
+
+  Style:          conceptual
+
+  Objectives:
+    • Define descriptive statistics
+    • Identify data types
+
+  Subtopics:
+    - Measures of central tendency
+    - Variability
+
+  Edit:   teach plan edit 1
+  Delete: teach plan delete 1
+```
+
+### Edit a Week
+
+```bash
+# Opens $EDITOR at the correct line number
+$ teach plan edit 5
+
+Week 5 starts at line 42
+# (editor opens lesson-plans.yml at line 42)
+# YAML validated after saving
+```
+
+### Delete a Week
+
+```bash
+$ teach plan delete 16
+
+  Delete Week 16: "Final Review"?
+  Confirm [y/N]: y
+
+  ✓ Deleted Week 16: "Final Review"
+```
+
+### Use Plans with Scholar
+
+Plans integrate directly with content generation:
+
+```bash
+# Slides use plan topic, style, and objectives
+teach slides --week 5
+
+# Lectures include plan context
+teach lecture --week 5
+```
+
+---
+
 ## Next Steps
 
 - **Delete backup** when satisfied (`.flow/teach-config.yml.bak`)
-- **Update Scholar** if you use it (`teach scholar update`)
+- **Manage plans** with `teach plan` (create, list, show, edit, delete)
+- **Generate content** using plans with `teach slides --week N`
 - See [MASTER-DISPATCHER-GUIDE.md](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) for more teach commands
 
 ---

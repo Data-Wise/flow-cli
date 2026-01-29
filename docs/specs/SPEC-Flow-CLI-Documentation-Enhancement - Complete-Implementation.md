@@ -270,7 +270,7 @@ Use the search bar (top right) to find specific commands or concepts.
 
 ### Common Issues Database
 - [Installation Problems](troubleshooting.md#installation)
-- [Project Detection Issues](../reference/.archive/PROJECT-DETECTION-GUIDE.md)
+- [Project Detection Issues](../reference/MASTER-DISPATCHER-GUIDE.md#dispatcher-comparison-table)
 - [Command Reference](../help/QUICK-REFERENCE.md)
 
 ### Ask the Community
@@ -994,7 +994,7 @@ nav:
           - Command Cheatsheet: help/QUICK-REFERENCE.md
           - Alias Card: reference/ALIAS-REFERENCE-CARD.md
           - Workflow Patterns: reference/WORKFLOW-QUICK-REFERENCE.md
-          - Dashboard Quick Ref: reference/.archive/DASHBOARD-QUICK-REF.md
+          - Dashboard Quick Ref: reference/MASTER-DISPATCHER-GUIDE.md
       - Dispatchers:
           - All Dispatchers: reference/MASTER-DISPATCHER-GUIDE.md
           - CC Dispatcher: reference/CC-DISPATCHER-REFERENCE.md
@@ -1010,13 +1010,13 @@ nav:
           - DOT Quick Ref: reference/REFCARD-DOT.md
       - Project Tools:
           - Command Explorer: reference/COMMAND-EXPLORER.md
-          - Pick Reference: reference/.archive/PICK-COMMAND-REFERENCE.md
+          - Pick Reference: reference/MASTER-DISPATCHER-GUIDE.md
           - Pick Project Discovery: reference/PICK-PROJECT-DISCOVERY.md
           - Project Status Guide: reference/PROJECT-STATUS-GUIDE.md
-          - Project Detection: reference/.archive/PROJECT-DETECTION-GUIDE.md
+          - Project Detection: reference/MASTER-DISPATCHER-GUIDE.md#dispatcher-comparison-table
           - Workspace Audit: reference/WORKSPACE-AUDIT-GUIDE.md
       - Deep Dives:
-          - ADHD Helpers Map: reference/.archive/ADHD-HELPERS-FUNCTION-MAP.md
+          - ADHD Helpers Map: reference/MASTER-API-REFERENCE.md#core-library
           - Command Patterns: reference/CLI-COMMAND-PATTERNS-RESEARCH.md
           - System Summary: reference/EXISTING-SYSTEM-SUMMARY.md
           - ZSH Workflows: reference/ZSH-CLEAN-WORKFLOW.md

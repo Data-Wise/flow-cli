@@ -646,7 +646,7 @@ fi
    - Show example context output
    - Add troubleshooting for date issues
 
-2. **`docs/reference/.archive/REFCARD-TEACHING.md`**
+2. **`docs/reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher`**
    - Add semester_info configuration fields
    - Add break configuration example
    - Update work command output example
@@ -676,7 +676,7 @@ fi
 3. `lib/templates/teaching/teach-config.yml.template` - Add semester_info
 4. `flow.plugin.zsh` - Source teaching-utils.zsh
 5. `docs/guides/TEACHING-WORKFLOW.md` - Document context features
-6. `docs/reference/.archive/REFCARD-TEACHING.md` - Update reference
+6. `docs/reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher` - Update reference
 7. `README.md` - Update overview
 8. `TESTING-INSTRUCTIONS.md` - Add Increment 2 tests
 

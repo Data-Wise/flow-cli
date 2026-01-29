@@ -3,7 +3,7 @@
 **Status:** draft
 **Created:** 2026-01-28
 **Issue:** #305
-**From Brainstorm:** [BRAINSTORM-latex-macros-2026-01-28.md](../../BRAINSTORM-latex-macros-2026-01-28.md)
+**From Brainstorm:** BRAINSTORM-latex-macros-2026-01-28.md (inline, not saved separately)
 
 ---
 
