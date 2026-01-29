@@ -32,7 +32,32 @@ flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antid
 
 ## 🎉 What's New
 
-### v5.18.0: Documentation Consolidation & API Coverage (In Development - 2026-01-24)
+### v5.22.0: Help System Excellence & Dispatcher Unification (In Development - 2026-01-29)
+
+**100% Standards-Compliant Help + Unified Namespace** 🌟
+
+- 🎯 **teach help - Gold Standard** - 100% compliance with flow-cli standards (⭐⭐⭐⭐⭐)
+  - 🔥 MOST COMMON section - 5 commands you use 80% of the time
+  - 💡 QUICK EXAMPLES - Copy-paste ready one-liners
+  - 💡 TIP callout - Clarifies dependencies and behavior
+  - Best help experience across all dispatchers
+
+- 🔗 **Unified Namespace** - All dispatchers work through `flow` command
+  - `flow teach help` - Access any dispatcher via flow prefix
+  - `flow g status` / `flow r test` - Consistent command structure
+  - Backward compatible - direct calls still work (`teach help`)
+
+**Commands:**
+
+```bash
+flow teach help          # 🔥 New: Standards-compliant help
+teach help               # Still works - backward compatible
+flow g status            # All dispatchers through flow namespace
+```
+
+---
+
+### v5.18.0: Documentation Consolidation & API Coverage (Completed - 2026-01-24)
 
 **Simplified Documentation with Comprehensive API Coverage** 📚
 
