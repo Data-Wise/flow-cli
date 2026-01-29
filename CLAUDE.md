@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v5.21.0
-- **Latest Release:** v5.21.0 (2026-01-28)
+- **Current Version:** v5.22.0
+- **Latest Release:** v5.22.0 (2026-01-28)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -283,7 +283,7 @@ v <cmd>       # Vibe coding mode (v on, v off, v status)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
 
-### Template Management (v5.20.0) ✨
+### Template Management (v5.22.0) ✨
 
 **Project-local templates at `.flow/templates/`**
 
@@ -297,7 +297,7 @@ teach templates sync         # Update from plugin defaults
 teach init --with-templates  # Initialize with templates
 ```
 
-### LaTeX Macro Management (v5.21.0) ✨
+### LaTeX Macro Management (v5.22.0) ✨
 
 **Consistent notation for AI-generated content**
 
@@ -351,7 +351,7 @@ teach plan delete 3 --force              # Remove week
 
 **Documentation:** `docs/reference/REFCARD-TEACH-PLAN.md`
 
-### Token Management (v5.19.1 Phase 1) ✨
+### Token Management (v5.22.0 Phase 1) ✨
 
 **Isolated Token Checks & Smart Caching**
 
@@ -602,7 +602,7 @@ teach exam "Topic"  # Generate exam via Scholar
 # Core test suites
 tests/test-pick-command.zsh         # Pick: 39 tests
 tests/test-cc-dispatcher.zsh        # CC: 37 tests
-tests/test-dot-v5.19.1-unit.zsh     # DOT: 112+ tests
+tests/test-dot-v5.22.0-unit.zsh     # DOT: 112+ tests
 tests/test-teach-dates-unit.zsh     # Teaching dates: 33 tests
 tests/test-teach-dates-integration.zsh  # Integration: 16 tests
 
@@ -706,11 +706,11 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.21.0
-**Latest Release:** v5.21.0 (2026-01-28)
+**Version:** v5.22.0
+**Latest Release:** v5.22.0 (2026-01-28)
 **Status:** Production
 **Branch:** `dev`
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.21.0
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 14 test suites + 54 token automation tests (100% core tests, 416+ total tests)
@@ -719,7 +719,7 @@ export FLOW_DEBUG=1
 
 ## Recent Releases
 
-### v5.20.0 - Template Management & Lesson Plan Migration (2026-01-28)
+### v5.22.0 - Template Management & Lesson Plan Migration (2026-01-28)
 
 **Released:** 2026-01-28
 **Changes:** 88 commits, 51 files changed, +12,341 / -1,977 lines
@@ -760,12 +760,12 @@ export FLOW_DEBUG=1
 - `docs/tutorials/25-lesson-plan-migration.md`
 - `docs/reference/REFCARD-TEMPLATES.md`
 
-### v5.19.1 - Token Automation Phase 1 ✨ (2026-01-23)
+### v5.22.0 - Token Automation Phase 1 ✨ (2026-01-23)
 
 **Released:** 2026-01-23
 **PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED)
 **PR #293:** https://github.com/Data-Wise/flow-cli/pull/293 (Release PR)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.1
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
 **Changes:** 35 files, +13,546 / -187 lines
 
 **Major Features:**
@@ -793,11 +793,11 @@ export FLOW_DEBUG=1
 - Cache checks: ~5-8ms (50% better than target)
 - 80% API call reduction
 
-### v5.19.1 - Intelligent Content Analysis (2026-01-22)
+### v5.22.0 - Intelligent Content Analysis (2026-01-22)
 
 **Released:** 2026-01-22
 **PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.1
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
 **Changes:** 58 commits, +39,228 / -1,750 lines
 
 **Major Features:**
@@ -905,21 +905,21 @@ export FLOW_DEBUG=1
 
 ## Recent Releases
 
-### v5.19.1 (2026-01-21) - Documentation Updates
+### v5.22.0 (2026-01-21) - Documentation Updates
 
 - Architecture overview with 6 Mermaid diagrams
 - V-dispatcher reference documentation
 - Documentation coverage report (853 functions, 8.6% documented)
 - teach prompt command specs (paused for Scholar coordination)
 
-### v5.19.1 (2026-01-21) - Architecture & Documentation
+### v5.22.0 (2026-01-21) - Architecture & Documentation
 
 - Architecture overview with 6 Mermaid diagrams
 - V-dispatcher reference documentation
 - Documentation coverage report (853 functions, 8.6% → 49.4%)
 - teach prompt command specs (paused for Scholar coordination)
 
-### v5.19.1 (2026-01-21) - Comprehensive Help System
+### v5.22.0 (2026-01-21) - Comprehensive Help System
 
 - 18 help functions for all teach commands
 - 800-line Help System Guide
@@ -928,7 +928,7 @@ export FLOW_DEBUG=1
 - ADHD-friendly design principles
 - PR #282 merged (38 commits, +66,767/-1,614 lines)
 
-### v5.19.1 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
+### v5.22.0 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
 
 **Teaching Workflow v3.0:**
 
@@ -948,11 +948,11 @@ export FLOW_DEBUG=1
 
 ---
 
-## Next Development Cycle (v5.19.1)
+## Next Development Cycle (v5.22.0)
 
-**Current:** v5.19.1-dev - Documentation consolidation complete, API coverage at 13.8%
+**Current:** v5.22.0-dev - Documentation consolidation complete, API coverage at 13.8%
 
-**Completed in v5.19.1:**
+**Completed in v5.22.0:**
 
 - Documentation consolidation (66 → 7 master files)
 - API documentation improvement (2.7% → 13.8%, +411% increase)
@@ -1010,10 +1010,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 5.13.0"
-git tag -a v5.19.1 -m "v5.19.1"
+git tag -a v5.22.0 -m "v5.22.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v5.19.1
+git push origin main && git push origin v5.22.0
 ```
 
 **Files updated by release script:**
@@ -1034,4 +1034,4 @@ git push origin main && git push origin v5.19.1
 ---
 
 **Last Updated:** 2026-01-22
-**Status:** Production Ready (v5.19.1)
+**Status:** Production Ready (v5.22.0)
