@@ -158,6 +158,14 @@ AI-powered content generation:
 | `teach config` | `_teach_config_help()` | Manage configuration |
 | `teach profiles` | `_teach_profiles_help()` | Quarto profile management |
 
+### Lesson Plan Management (1)
+
+| Command | Help Function | Purpose |
+|---------|---------------|---------|
+| `teach plan` | `_teach_plan_help()` | CRUD management of lesson plan weeks |
+
+**Note:** `teach plan help` shows all subcommands: create, list, show, edit, delete.
+
 ---
 
 ## Progressive Disclosure Pattern
