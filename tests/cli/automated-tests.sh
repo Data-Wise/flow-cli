@@ -489,7 +489,7 @@ fi
 log_section "Documentation"
 
 # Test: Key docs exist
-for doc in "docs/commands/sync.md" "docs/reference/DISPATCHER-REFERENCE.md" "CLAUDE.md"; do
+for doc in "docs/commands/sync.md" "docs/reference/MASTER-DISPATCHER-GUIDE.md" "CLAUDE.md"; do
     if [[ -f "$FLOW_CLI_DIR/$doc" ]]; then
         log_pass "$doc exists"
     else

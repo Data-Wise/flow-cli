@@ -128,6 +128,13 @@ if [[ -z "$_FLOW_TEACH_MACROS_LOADED" ]]; then
     typeset -g _FLOW_TEACH_MACROS_LOADED=1
 fi
 
+# Source teach-plan command (v5.22.0 - Lesson Plan CRUD #278)
+if [[ -z "$_FLOW_TEACH_PLAN_LOADED" ]]; then
+    local plan_path="${0:A:h:h}/../commands/teach-plan.zsh"
+    [[ -f "$plan_path" ]] && source "$plan_path"
+    typeset -g _FLOW_TEACH_PLAN_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -2323,22 +2330,6 @@ _teach_scholar_wrapper() {
         esac
     done
 
-    # Special case: lecture --from-plan
-    if [[ "$subcommand" == "lecture" ]]; then
-        local from_plan=""
-        for ((i=1; i<=${#args[@]}; i++)); do
-            if [[ "${args[$i]}" == "--from-plan" ]]; then
-                from_plan="${args[$((i+1))]}"
-                break
-            fi
-        done
-
-        if [[ -n "$from_plan" ]]; then
-            _teach_lecture_from_plan "$from_plan" "${args[@]}"
-            return $?
-        fi
-    fi
-
     # Special case: slides --from-lecture (v5.15.0+)
     # Converts lecture .qmd files to RevealJS slides
     if [[ "$subcommand" == "slides" ]]; then
@@ -2547,47 +2538,6 @@ _teach_scholar_wrapper() {
 
     # Execute with subcommand for spinner message
     _teach_execute "$scholar_cmd" "$verbose" "$subcommand" "$topic" "$full_command"
-}
-
-# Lecture from lesson plan (special workflow)
-_teach_lecture_from_plan() {
-    local week="$1"
-    shift
-    local -a extra_args=("$@")
-    local plan_file=".flow/lesson-plans/${week}.yml"
-
-    if [[ ! -f "$plan_file" ]]; then
-        _teach_error "Lesson plan not found: $plan_file" \
-            "Create the lesson plan file first"
-        return 1
-    fi
-
-    # Check yq available
-    if ! command -v yq &>/dev/null; then
-        _teach_error "yq required for lesson plan parsing" \
-            "Install: brew install yq"
-        return 1
-    fi
-
-    # Read lesson plan metadata
-    local topic objectives
-    topic=$(yq '.topic // ""' "$plan_file" 2>/dev/null)
-    objectives=$(yq '.objectives | join(", ")' "$plan_file" 2>/dev/null)
-
-    if [[ -z "$topic" ]]; then
-        _teach_error "No 'topic' field in lesson plan: $plan_file"
-        return 1
-    fi
-
-    # Note: /teaching:lecture is NOT yet implemented in Scholar
-    _teach_warn "/teaching:lecture not yet in Scholar" \
-        "Using slides as workaround (lecture notes coming in Scholar v2.1.0)"
-
-    # Build Scholar command with context from lesson plan
-    local scholar_cmd="/teaching:slides \"$topic\""
-    [[ -n "$objectives" ]] && scholar_cmd="$scholar_cmd --objectives \"$objectives\""
-
-    _teach_execute "$scholar_cmd" "true"
 }
 
 # ============================================================================
@@ -4683,6 +4633,8 @@ ${FLOW_COLORS[bold]}════════════════════
   ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]}                    Git hook management
     ${FLOW_COLORS[muted]}install | upgrade | status${FLOW_COLORS[reset]}  Hook operations
   ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]}                    Date management
+  ${FLOW_COLORS[cmd]}teach plan${FLOW_COLORS[reset]}                       Lesson plan management
+    ${FLOW_COLORS[muted]}create | list | show | edit | delete${FLOW_COLORS[reset]}  Plan operations
   ${FLOW_COLORS[cmd]}teach migrate-config${FLOW_COLORS[reset]}           Extract lesson plans
     ${FLOW_COLORS[muted]}--dry-run${FLOW_COLORS[reset]}                   Preview changes only
   ${FLOW_COLORS[cmd]}teach templates${FLOW_COLORS[reset]}                Template management
@@ -4749,6 +4701,7 @@ ${FLOW_COLORS[bold]}SHORTCUTS${FLOW_COLORS[reset]}
   ${FLOW_COLORS[accent]}q${FLOW_COLORS[reset]} → quiz      ${FLOW_COLORS[accent]}hw${FLOW_COLORS[reset]} → assign   ${FLOW_COLORS[accent]}syl${FLOW_COLORS[reset]} → syllabus
   ${FLOW_COLORS[accent]}d${FLOW_COLORS[reset]} → deploy    ${FLOW_COLORS[accent]}bk${FLOW_COLORS[reset]} → backup  ${FLOW_COLORS[accent]}s${FLOW_COLORS[reset]} → status
   ${FLOW_COLORS[accent]}w${FLOW_COLORS[reset]} → week      ${FLOW_COLORS[accent]}c${FLOW_COLORS[reset]} → config   ${FLOW_COLORS[accent]}tmpl${FLOW_COLORS[reset]} → templates
+  ${FLOW_COLORS[accent]}pl${FLOW_COLORS[reset]} → plan
 
 ${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
   ${FLOW_COLORS[muted]}# Setup new course${FLOW_COLORS[reset]}
@@ -4906,6 +4859,14 @@ teach() {
         # Backup management (v5.14.0 - Task 5)
         backup|bk)
             _teach_backup_command "$@"
+            ;;
+
+        # Lesson plan management (v5.22.0 - Issue #278)
+        plan|pl)
+            case "$1" in
+                --help|-h|help) _teach_plan_help; return 0 ;;
+                *) _teach_plan "$@" ;;
+            esac
             ;;
 
         # Migration (v5.20.0 - Lesson Plan Extraction #298)

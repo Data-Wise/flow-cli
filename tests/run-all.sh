@@ -83,6 +83,10 @@ echo "Optimization tests (v5.16.0):"
 run_test ./tests/test-plugin-optimization.zsh
 
 echo ""
+echo "Teach command tests:"
+run_test ./tests/test-teach-plan.zsh
+
+echo ""
 echo "E2E tests (v5.16.0):"
 run_test ./tests/e2e-teach-analyze.zsh
 
