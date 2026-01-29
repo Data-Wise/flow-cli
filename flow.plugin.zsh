@@ -133,7 +133,7 @@ _flow_plugin_init
 
 # Export loaded marker
 export FLOW_PLUGIN_LOADED=1
-export FLOW_VERSION="5.19.1"
+export FLOW_VERSION="5.22.0"
 
 # Register exit hook for plugin cleanup
 add-zsh-hook zshexit _flow_plugin_cleanup
