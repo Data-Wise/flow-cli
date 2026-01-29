@@ -155,6 +155,44 @@ flow() {
       flow_alias "$@"
       ;;
 
+    # ── Dispatchers (delegate to dispatcher functions) ─────────────────────
+    teach)
+      teach "$@"
+      ;;
+    g|git)
+      g "$@"
+      ;;
+    r)
+      r "$@"
+      ;;
+    qu|quarto)
+      qu "$@"
+      ;;
+    mcp)
+      mcp "$@"
+      ;;
+    obs|obsidian)
+      obs "$@"
+      ;;
+    cc|claude)
+      cc "$@"
+      ;;
+    tm|terminal)
+      tm "$@"
+      ;;
+    wt|worktree)
+      wt "$@"
+      ;;
+    dot|dotfiles)
+      dot "$@"
+      ;;
+    prompt)
+      prompt "$@"
+      ;;
+    v|vibe)
+      v "$@"
+      ;;
+
     # ── Unknown ─────────────────────────────────────────────────────────────
     *)
       echo "Unknown command: $cmd"
