@@ -53,6 +53,9 @@ _teach() {
     # Lesson plan management (v5.22.0)
     'plan:Manage lesson plan weeks'
     'pl:Plan (alias)'
+    # AI prompt management (v5.23.0)
+    'prompt:Manage AI teaching prompts'
+    'pr:Prompt (alias)'
   )
 
   # Universal flags for Scholar commands (v5.13.0+ with Phases 1-6)
@@ -289,6 +292,78 @@ _teach() {
                     '1:week number:' \
                     '--force[Skip confirmation]' \
                     '-f[Force (short form)]'
+                  ;;
+              esac
+              ;;
+          esac
+          ;;
+        # AI prompt management (v5.23.0)
+        prompt|pr)
+          local -a prompt_subcmds
+          prompt_subcmds=(
+            'list:List prompts with tier indicators'
+            'ls:List (alias)'
+            'l:List (alias)'
+            'show:Display prompt in pager'
+            'cat:Show (alias)'
+            's:Show (alias)'
+            'edit:Create course override and open editor'
+            'ed:Edit (alias)'
+            'validate:Check syntax and Scholar compatibility'
+            'val:Validate (alias)'
+            'v:Validate (alias)'
+            'export:Render with resolved variables'
+            'x:Export (alias)'
+            'help:Show prompt help'
+          )
+          _arguments -C \
+            '1:action:->prompt_action' \
+            '*::arg:->prompt_args' \
+          && return 0
+          case "$state" in
+            prompt_action)
+              _describe -t prompt_subcmds 'prompt action' prompt_subcmds
+              ;;
+            prompt_args)
+              case "$line[1]" in
+                list|ls|l)
+                  _arguments \
+                    '--tier[Filter by tier]:tier:(course user plugin)' \
+                    '-t[Tier (short form)]:tier:(course user plugin)' \
+                    '--json[Output as JSON]' \
+                    '-j[JSON output (short form)]' \
+                    '--verbose[Show file paths]' \
+                    '-v[Verbose (short form)]'
+                  ;;
+                show|cat|s)
+                  _arguments \
+                    '1:prompt name:' \
+                    '--raw[Output without pager]' \
+                    '-r[Raw output (short form)]' \
+                    '--tier[Force specific tier]:tier:(course user plugin)' \
+                    '-t[Tier (short form)]:tier:(course user plugin)'
+                  ;;
+                edit|ed)
+                  _arguments \
+                    '1:prompt name:' \
+                    '--global[Edit user-level prompt]' \
+                    '-g[Global (short form)]'
+                  ;;
+                validate|val|v)
+                  _arguments \
+                    '1:prompt name (optional):' \
+                    '--all[Validate all prompts]' \
+                    '-a[All (short form)]' \
+                    '--strict[Treat warnings as errors]' \
+                    '-s[Strict (short form)]'
+                  ;;
+                export|x)
+                  _arguments \
+                    '1:prompt name:' \
+                    '--macros[Include LaTeX macros]' \
+                    '-m[Macros (short form)]' \
+                    '--json[Output as JSON]' \
+                    '-j[JSON (short form)]'
                   ;;
               esac
               ;;
