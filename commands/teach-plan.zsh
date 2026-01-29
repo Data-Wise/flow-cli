@@ -205,69 +205,61 @@ _teach_plan_create() {
         read -r subtopics
     fi
 
-    # Build YAML entry
-    local yaml_entry
-    yaml_entry="number: $week
-topic: \"$topic\"
-style: \"$style\""
+    # Build entry safely using yq env vars (prevents YAML injection)
+    local temp_file
+    temp_file=$(mktemp)
+
+    # Create base entry — strenv() safely escapes quotes/newlines in user input
+    PLAN_TOPIC="$topic" PLAN_STYLE="$style" \
+        yq -n ".number = $week | .topic = strenv(PLAN_TOPIC) | .style = strenv(PLAN_STYLE)" > "$temp_file"
 
     # Add objectives array
     if [[ -n "$objectives" ]]; then
-        yaml_entry="$yaml_entry
-objectives:"
+        yq -i '.objectives = []' "$temp_file"
         IFS=',' read -rA obj_list <<< "$objectives"
         for obj in "${obj_list[@]}"; do
             obj="${obj## }"  # trim leading space
             obj="${obj%% }"  # trim trailing space
-            yaml_entry="$yaml_entry
-  - \"$obj\""
+            PLAN_ITEM="$obj" yq -i '.objectives += [strenv(PLAN_ITEM)]' "$temp_file"
         done
     else
-        yaml_entry="$yaml_entry
-objectives: []"
+        yq -i '.objectives = []' "$temp_file"
     fi
 
     # Add subtopics array
     if [[ -n "$subtopics" ]]; then
-        yaml_entry="$yaml_entry
-subtopics:"
+        yq -i '.subtopics = []' "$temp_file"
         IFS=',' read -rA sub_list <<< "$subtopics"
         for sub in "${sub_list[@]}"; do
             sub="${sub## }"
             sub="${sub%% }"
-            yaml_entry="$yaml_entry
-  - \"$sub\""
+            PLAN_ITEM="$sub" yq -i '.subtopics += [strenv(PLAN_ITEM)]' "$temp_file"
         done
     else
-        yaml_entry="$yaml_entry
-subtopics: []"
+        yq -i '.subtopics = []' "$temp_file"
     fi
 
-    yaml_entry="$yaml_entry
-key_concepts: []
-prerequisites: []"
+    yq -i '.key_concepts = [] | .prerequisites = []' "$temp_file"
 
-    # Create temp file with new entry
-    local temp_file
-    temp_file=$(mktemp)
+    # Backup before modification (restore on failure)
+    local backup_file="${_TEACH_PLAN_FILE}.bak"
+    cp "$_TEACH_PLAN_FILE" "$backup_file"
 
-    # Add entry to weeks array
-    echo "$yaml_entry" | yq -i '.weeks += [load("/dev/stdin")]' "$_TEACH_PLAN_FILE" 2>/dev/null
-    if [[ $? -ne 0 ]]; then
-        # Fallback: write entry to temp and load
-        echo "$yaml_entry" > "$temp_file"
-        yq -i ".weeks += [load(\"$temp_file\")]" "$_TEACH_PLAN_FILE" 2>/dev/null
-        rm -f "$temp_file"
-    fi
+    # Add entry to weeks array from temp file
+    yq -i ".weeks += [load(\"$temp_file\")]" "$_TEACH_PLAN_FILE" 2>/dev/null
+    rm -f "$temp_file"
 
     # Sort weeks by number
     yq -i '.weeks |= sort_by(.number)' "$_TEACH_PLAN_FILE" 2>/dev/null
 
-    # Validate result
+    # Validate result — restore backup on failure
     if ! yq eval '.' "$_TEACH_PLAN_FILE" &>/dev/null; then
-        _flow_log_error "Generated invalid YAML - please check $_TEACH_PLAN_FILE"
+        _flow_log_error "Generated invalid YAML - restoring backup"
+        cp "$backup_file" "$_TEACH_PLAN_FILE"
+        rm -f "$backup_file"
         return 1
     fi
+    rm -f "$backup_file"
 
     echo ""
     _flow_log_success "Created lesson plan for Week $week: \"$topic\" ($style)"
@@ -552,54 +544,61 @@ _teach_plan_edit() {
         fi
     fi
 
-    # Find line number for the week entry
+    # Find line number for the week entry (-- ends option parsing, $ anchors match)
     local line_num
-    line_num=$(grep -n "number: $week" "$_TEACH_PLAN_FILE" 2>/dev/null | head -1 | cut -d: -f1)
+    line_num=$(grep -n -- "number: ${week}$" "$_TEACH_PLAN_FILE" 2>/dev/null | head -1 | cut -d: -f1)
 
     local editor="${EDITOR:-vi}"
+    local max_edit_attempts=3
+    local edit_attempts=0
 
-    if [[ -n "$line_num" ]]; then
-        echo "${FLOW_COLORS[info]}Week $week starts at line $line_num${FLOW_COLORS[reset]}"
-        # Try to open at line number (works with vi, vim, nano, code, etc.)
-        case "$editor" in
-            *vim*|*vi*|*nvim*)
-                "$editor" "+$line_num" "$_TEACH_PLAN_FILE"
-                ;;
-            *nano*)
-                "$editor" "+$line_num" "$_TEACH_PLAN_FILE"
-                ;;
-            *code*|*codium*)
-                "$editor" --goto "$_TEACH_PLAN_FILE:$line_num"
-                ;;
-            *)
-                "$editor" "$_TEACH_PLAN_FILE"
-                ;;
-        esac
-    else
-        "$editor" "$_TEACH_PLAN_FILE"
-    fi
+    # Edit-validate loop (bounded retries instead of unbounded recursion)
+    while true; do
+        ((edit_attempts++))
 
-    # Validate YAML after edit
-    if command -v yq &>/dev/null; then
-        if ! yq eval '.' "$_TEACH_PLAN_FILE" &>/dev/null; then
-            echo ""
-            _flow_log_error "Invalid YAML detected after edit"
-            echo -n "${FLOW_COLORS[prompt]}Re-open editor to fix? [Y/n]: ${FLOW_COLORS[reset]}"
-            read -r fix_answer
-            case "$fix_answer" in
-                n|N|no)
-                    _flow_log_warning "YAML is invalid - please fix manually"
-                    return 1
+        if [[ -n "$line_num" ]]; then
+            [[ $edit_attempts -eq 1 ]] && echo "${FLOW_COLORS[info]}Week $week starts at line $line_num${FLOW_COLORS[reset]}"
+            case "$editor" in
+                *vim*|*vi*|*nvim*)
+                    "$editor" "+$line_num" "$_TEACH_PLAN_FILE"
+                    ;;
+                *nano*)
+                    "$editor" "+$line_num" "$_TEACH_PLAN_FILE"
+                    ;;
+                *code*|*codium*)
+                    "$editor" --goto "$_TEACH_PLAN_FILE:$line_num"
                     ;;
                 *)
-                    _teach_plan_edit "$week"
-                    return $?
+                    "$editor" "$_TEACH_PLAN_FILE"
                     ;;
             esac
         else
-            _flow_log_success "YAML validated successfully"
+            "$editor" "$_TEACH_PLAN_FILE"
         fi
-    fi
+
+        # Validate YAML after edit
+        if ! command -v yq &>/dev/null || yq eval '.' "$_TEACH_PLAN_FILE" &>/dev/null; then
+            _flow_log_success "YAML validated successfully"
+            break
+        fi
+
+        echo ""
+        _flow_log_error "Invalid YAML detected after edit"
+
+        if [[ $edit_attempts -ge $max_edit_attempts ]]; then
+            _flow_log_warning "Max retries ($max_edit_attempts) reached - please fix YAML manually"
+            return 1
+        fi
+
+        echo -n "${FLOW_COLORS[prompt]}Re-open editor to fix? [Y/n]: ${FLOW_COLORS[reset]}"
+        read -r fix_answer
+        case "$fix_answer" in
+            n|N|no)
+                _flow_log_warning "YAML is invalid - please fix manually"
+                return 1
+                ;;
+        esac
+    done
 
     return 0
 }
