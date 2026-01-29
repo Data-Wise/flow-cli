@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.22.0] - Unreleased
+
+### Added
+
+#### Lesson Plan Management (#278)
+
+- **`teach plan` command** - Full CRUD for lesson plan weeks in `.flow/lesson-plans.yml`
+  - `teach plan create <week>` - Add week with interactive prompts, auto-populate from config
+  - `teach plan list` - Table view with gap detection, JSON output
+  - `teach plan show <week>` - Formatted display with objectives, subtopics, prerequisites
+  - `teach plan edit <week>` - Opens `$EDITOR` at correct line with YAML validation
+  - `teach plan delete <week>` - Remove with confirmation (or `--force`)
+  - Shortcuts: `teach pl`, `teach plan c`, `teach plan ls`, `teach plan s`
+
+- **Auto-populate topics** from `teach-config.yml` when creating new weeks
+- **Sorted insertion** - weeks always maintained in order by number
+- **Gap detection** - `teach plan list` warns about missing weeks in sequence
+
+### Fixed
+
+- **Stale test path** - `automated-tests.sh` updated for archived `DISPATCHER-REFERENCE.md`
+
+### Removed
+
+- **`_teach_lecture_from_plan()`** - Dead code referencing obsolete per-file format (`.flow/lesson-plans/week-N.yml`)
+- **`--from-plan` flag** - Removed unused call site in lecture dispatch
+
+---
+
 ## [5.21.0] - 2026-01-28
 
 ### Added
