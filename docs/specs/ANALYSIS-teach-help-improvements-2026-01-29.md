@@ -8,7 +8,9 @@
 
 ## Executive Summary
 
-The `teach` dispatcher help system is **comprehensive and well-structured**, but has **7 identified gaps** compared to flow-cli dispatcher standards. Most gaps are **cosmetic/UX** rather than functional.
+The `teach` dispatcher help system is **comprehensive and well-structured**, but has
+**7 identified gaps** compared to flow-cli dispatcher standards.
+Most gaps are **cosmetic/UX** rather than functional.
 
 **Rating:** ⭐⭐⭐⭐☆ (4/5 stars)
 
@@ -100,7 +102,7 @@ _C_RED='\033[31m'      # Errors
 ## Comparison Matrix (vs Official Standards)
 
 | Requirement (CONVENTIONS.md) | `g` dispatcher | `r` dispatcher | `teach` dispatcher | Gap? |
-|---------|---------------|---------------|-------------------|------|
+| --------- | --------------- | --------------- | ------------------- | ------ |
 | **🔥 MOST COMMON section** | ✅ Compliant | ✅ Compliant | ❌ **NON-COMPLIANT** | **YES** |
 | **💡 QUICK EXAMPLES section** | ✅ Compliant | ✅ Compliant | ❌ **NON-COMPLIANT** | **YES** |
 | Standard color scheme | ✅ Compliant | ✅ Compliant | ⚠️ Custom (better) | Acceptable |
@@ -132,7 +134,8 @@ _C_RED='\033[31m'      # Errors
 ### Gap 1: Missing "MOST COMMON" Section ⭐ HIGH PRIORITY
 
 **Standard Pattern (from `g` and `r`):**
-```
+
+```text
 🔥 MOST COMMON (80% of daily use):
   teach init            Initialize teaching project
   teach doctor --fix    Verify and fix dependencies
@@ -163,7 +166,8 @@ Add after the header, before "SETUP & CONFIGURATION":
 ### Gap 2: Missing "QUICK EXAMPLES" Section ⭐ HIGH PRIORITY
 
 **Standard Pattern:**
-```
+
+```text
 💡 QUICK EXAMPLES:
   $ g                      # Quick status
   $ g aa                   # Add all
@@ -194,7 +198,8 @@ Add after "MOST COMMON", before categories:
 ### Gap 3: Missing TIP Callout ⭐ MEDIUM PRIORITY
 
 **Standard Pattern (from `g`):**
-```
+
+```text
 💡 TIP: Unknown commands pass through to git
   g remote -v        → git remote -v
 ```
@@ -224,6 +229,7 @@ Add after examples, before "LEARN MORE":
 - Would be valuable for teaching workflow (some commands take minutes)
 
 **Recommendation (Optional Enhancement):**
+
 ```zsh
 teach validate --yaml        # ~5 seconds
 teach validate --render      # ~30-60 seconds (full render)
@@ -240,7 +246,7 @@ teach exam <topic>           # ~45-90 seconds (AI generation)
 **Observed Differences:**
 
 | Element | `g/r` dispatcher | `teach` dispatcher |
-|---------|-----------------|-------------------|
+| --------- | ---------------- | ------------------- |
 | Header box | Single-line box | Double-line box (`═`, `║`) |
 | Section headers | 🔥/💡/📋 + color | 📋/✍️/✅ + separator line |
 | Command color | Cyan | Light blue (117) |
@@ -291,8 +297,10 @@ Document error behavior or implement passthrough to Scholar:
 ## Strengths (Keep These!)
 
 ### ✅ Dedicated Shortcuts Section
+
 **Better than other dispatchers:**
-```
+
+```text
 SHORTCUTS
   i → init      doc → doctor  val → validate
   lec → lecture  sl → slides   e → exam
@@ -305,6 +313,7 @@ SHORTCUTS
 - Helps memorization
 
 ### ✅ Categorized Organization
+
 **5 logical sections:**
 1. Setup & Configuration
 2. Content Creation
@@ -315,8 +324,10 @@ SHORTCUTS
 **Better than:** `g` and `r` which have flatter structures
 
 ### ✅ Rich Examples
+
 **Multi-line workflows:**
-```
+
+```text
 # Setup new course
 $ teach init "STAT 440" --github
 $ teach doctor --fix
@@ -326,7 +337,8 @@ $ teach hooks install
 **Better than:** Single-line examples in other dispatchers
 
 ### ✅ Cross-References
-```
+
+```text
 📚 SEE ALSO:
   qu - Quarto commands
   g - Git commands
@@ -347,13 +359,13 @@ $ teach hooks install
 
 ### Optional Enhancements (MEDIUM PRIORITY)
 
-4. **Add dependency indicators** (⚡ for Scholar-required commands)
-5. **Document error behavior** (what happens with invalid commands)
+1. **Add dependency indicators** (⚡ for Scholar-required commands)
+2. **Document error behavior** (what happens with invalid commands)
 
 ### Future Considerations (LOW PRIORITY)
 
-6. **Add timing estimates** (would be flow-cli first)
-7. **Standardize color scheme** (only if consistency is critical)
+1. **Add timing estimates** (would be flow-cli first)
+2. **Standardize color scheme** (only if consistency is critical)
 
 ---
 
@@ -417,16 +429,19 @@ EXAMPLES
 ## Implementation Priority
 
 ### Phase 1: Quick Wins (15 minutes)
+
 - [ ] Add "MOST COMMON" section (5 commands)
 - [ ] Add "QUICK EXAMPLES" section (4 examples)
 - [ ] Add TIP callout (Scholar dependency)
 
 ### Phase 2: Polish (30 minutes)
+
 - [ ] Add ⚡ indicators for Scholar commands
 - [ ] Add timing estimates to slow commands
 - [ ] Document error behavior
 
 ### Phase 3: Optional (Future)
+
 - [ ] Standardize color scheme across all dispatchers
 - [ ] Add interactive mode (`teach help -i` with fzf)
 - [ ] Add command search (`teach help --search <term>`)
