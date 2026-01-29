@@ -216,6 +216,105 @@ Test full dependency chain visualization.
 | 5-7/10          | ⭐⭐⭐     | Good! Satisfied dog          |
 | <5/10           | ⭐⭐       | Needs work. Hungry dog       |
 
+### 3. Teach Plan Security Tests (test-teach-plan-security.zsh)
+
+**Purpose:** Validate YAML injection prevention, input sanitization, and edge case handling
+
+**Coverage:** 24 tests across 6 sections
+
+#### Sections
+
+##### YAML Injection Prevention (8 tests)
+- Topic with double quotes preserved
+- Topic with single quotes preserved
+- Topic with YAML special chars (colon, brackets)
+- Topic with backslashes
+- Topic with hash character (YAML comment)
+- Topic with pipe character (YAML literal indicator)
+- Very long topic (500 chars)
+- Objectives with embedded quotes
+
+##### Backup & Restore (2 tests)
+- Backup file cleaned up after success
+- Existing data preserved when adding new week
+
+##### Temp File Cleanup (1 test)
+- No temp files leaked after create
+
+##### Boundary Conditions (7 tests)
+- Week 1 (minimum) accepted
+- Week 20 (maximum) accepted
+- Week 21 (over maximum) rejected
+- Non-numeric week argument rejected
+- Negative week number rejected
+- Empty --topic flag handled
+- Missing .flow directory fails gracefully
+
+##### Corrupted File Handling (3 tests)
+- List handles corrupted YAML without crash
+- Show returns error for corrupted YAML
+- Delete returns error for corrupted YAML
+
+##### Multi-Operation Safety (3 tests)
+- Multiple sequential creates produce valid file
+- Recreate after delete works correctly
+- Force overwrite preserves other weeks
+
+#### Running Security Tests
+
+```bash
+./tests/test-teach-plan-security.zsh
+```
+
+**Expected Results:** 24/24 tests passing
+
+---
+
+### 4. Teach Plan E2E Tests (e2e-teach-plan.zsh)
+
+**Purpose:** End-to-end workflow testing for teach plan CRUD operations
+
+**Coverage:** 15 tests across 6 sections
+
+#### Sections
+
+##### Fresh Course Setup (3 tests)
+- Create 3 weeks from scratch
+- Auto-populate topic from config
+- List shows gaps and count for non-consecutive weeks
+
+##### Full CRUD Lifecycle (2 tests)
+- Complete cycle: create → show → list → delete → verify
+- Force overwrite: blocked without flag, replaced with flag
+
+##### Bulk Week Creation (2 tests)
+- Full 15-week semester creation with auto-populated topics
+- Weeks sorted correctly after out-of-order creation
+
+##### JSON Output (3 tests)
+- List --json produces valid JSON with correct count
+- Show --json contains all expected fields
+- Empty list --json returns empty array
+
+##### Delete Patterns (2 tests)
+- Delete middle week preserves others
+- Delete all weeks leaves valid empty file
+
+##### Dispatcher Integration (3 tests)
+- Bare number dispatches to show
+- Action aliases (ls, s, l) all work
+- Unknown action returns error
+
+#### Running E2E Tests
+
+```bash
+./tests/e2e-teach-plan.zsh
+```
+
+**Expected Results:** 15/15 tests passing
+
+---
+
 ## Demo Course Fixture
 
 **Location:** `tests/fixtures/demo-course/`
@@ -449,6 +548,7 @@ ls tests/fixtures/demo-course/lectures/
 - [Testing Guide](../docs/guides/TESTING.md) - Complete testing overview
 - [Teach Analyze Tutorial](../docs/tutorials/21-teach-analyze.md) - User guide
 - [Teach Analyze API](../docs/reference/TEACH-ANALYZE-API-REFERENCE.md) - API docs
+- [Teach Plan Quick Ref](../docs/reference/REFCARD-TEACH-PLAN.md) - Plan command reference
 - [Demo Course README](fixtures/demo-course/README.md) - Course details
 
 ---
