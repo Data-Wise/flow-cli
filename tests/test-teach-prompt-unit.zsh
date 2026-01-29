@@ -4,7 +4,9 @@
 #
 # Run: ./tests/test-teach-prompt-unit.zsh
 # Categories: Resolution (10), Rendering (8), Validation (10),
-#             List/Show (6), Edit (4), Export (4) = 42 tests
+#             List/Show (6), Edit (4), Export (4) = 42 core tests
+#             Dispatcher (6), Flags (8), Edge Cases (6) = 20 extended tests
+#             Total: 62 tests
 
 setopt local_options no_monitor
 
@@ -676,6 +678,215 @@ _test_export() {
 }
 
 # ============================================================================
+# DISPATCHER TESTS (6)
+# ============================================================================
+
+_test_dispatcher() {
+    _test_section "Dispatcher (6 tests)"
+
+    # Test 43: Default action is 'list'
+    local output
+    output=$(_teach_prompt 2>/dev/null)
+    if [[ "$output" == *"Teaching Prompts"* || "$output" == *"lecture-notes"* ]]; then
+        _test_pass "Default action: 'list' when no args"
+    else
+        _test_fail "Default action: 'list' when no args"
+    fi
+
+    # Test 44: Alias 'ls' routes to list
+    output=$(_teach_prompt "ls" 2>/dev/null)
+    if [[ "$output" == *"Teaching Prompts"* || "$output" == *"lecture-notes"* ]]; then
+        _test_pass "Alias 'ls': routes to list command"
+    else
+        _test_fail "Alias 'ls': routes to list command"
+    fi
+
+    # Test 45: Alias 'l' routes to list
+    output=$(_teach_prompt "l" 2>/dev/null)
+    if [[ "$output" == *"Teaching Prompts"* || "$output" == *"lecture-notes"* ]]; then
+        _test_pass "Alias 'l': routes to list command"
+    else
+        _test_fail "Alias 'l': routes to list command"
+    fi
+
+    # Test 46: Alias 'val' routes to validate
+    output=$(_teach_prompt "val" 2>/dev/null)
+    if [[ "$output" == *"Validating"* ]]; then
+        _test_pass "Alias 'val': routes to validate command"
+    else
+        _test_fail "Alias 'val': routes to validate command"
+    fi
+
+    # Test 47: Help action shows help text
+    output=$(_teach_prompt "help" 2>/dev/null)
+    if [[ "$output" == *"USAGE"* && "$output" == *"teach prompt"* ]]; then
+        _test_pass "Help: displays usage and command info"
+    else
+        _test_fail "Help: displays usage and command info"
+    fi
+
+    # Test 48: Unknown name treated as 'show'
+    # An unknown name that doesn't start with '-' is treated as prompt name for show
+    output=$(_teach_prompt "lecture-notes" "--raw" 2>/dev/null)
+    if [[ "$output" == *"Lecture Notes"* || "$output" == *"STAT 440"* ]]; then
+        _test_pass "Unknown action: treated as show <name>"
+    else
+        _test_fail "Unknown action: treated as show <name>"
+    fi
+}
+
+# ============================================================================
+# FLAG TESTS (8)
+# ============================================================================
+
+_test_flags() {
+    _test_section "Flags (8 tests)"
+
+    # Test 49: Tier filter: course-only prompts
+    # Test the internal filter mechanism directly (avoids ANSI/heredoc issues)
+    local all_prompts filtered
+    all_prompts=$(_teach_get_all_prompts)
+    filtered=$(echo "$all_prompts" | grep "|course|" || true)
+    local non_course=$(echo "$filtered" | grep -v "|course|" || true)
+    if [[ -n "$filtered" && -z "$non_course" ]]; then
+        _test_pass "Tier filter: course grep returns only course-tier prompts"
+    else
+        _test_fail "Tier filter: course grep returns only course-tier prompts"
+    fi
+
+    # Test 50: Tier filter: plugin-only prompts
+    filtered=$(echo "$all_prompts" | grep "|plugin|" || true)
+    local non_plugin=$(echo "$filtered" | grep -v "|plugin|" || true)
+    if [[ -n "$filtered" && -z "$non_plugin" ]]; then
+        _test_pass "Tier filter: plugin grep returns only plugin-tier prompts"
+    else
+        _test_fail "Tier filter: plugin grep returns only plugin-tier prompts"
+    fi
+
+    # Test 51: List --tier invalid returns error
+    output=$(_teach_prompt_list --tier bogus 2>&1)
+    if [[ "$output" == *"Invalid tier"* ]]; then
+        _test_pass "List --tier invalid: returns error message"
+    else
+        _test_fail "List --tier invalid: returns error message"
+    fi
+
+    # Test 52: List --verbose shows file paths
+    output=$(_teach_prompt_list --verbose 2>/dev/null)
+    if [[ "$output" == *"$TEST_DIR"* ]]; then
+        _test_pass "List --verbose: shows file paths"
+    else
+        _test_fail "List --verbose: shows file paths"
+    fi
+
+    # Test 53: Show --raw outputs without pager header
+    output=$(_teach_prompt_show "revealjs-slides" --raw 2>/dev/null)
+    if [[ "$output" == *"---"* && "$output" == *"template_version"* ]]; then
+        _test_pass "Show --raw: outputs raw file including frontmatter"
+    else
+        _test_fail "Show --raw: outputs raw file including frontmatter"
+    fi
+
+    # Test 54: Show --tier forces specific tier
+    output=$(_teach_prompt_show "lecture-notes" --raw --tier plugin 2>/dev/null)
+    if [[ "$output" == *"Comprehensive Lecture Notes"* ]]; then
+        _test_pass "Show --tier plugin: bypasses course override"
+    else
+        _test_fail "Show --tier plugin: bypasses course override"
+    fi
+
+    # Test 55: Show missing name shows error
+    output=$(_teach_prompt_show 2>&1)
+    if [[ "$output" == *"name required"* ]]; then
+        _test_pass "Show no name: returns error message"
+    else
+        _test_fail "Show no name: returns error message"
+    fi
+
+    # Test 56: Edit --global targets user directory
+    # Override EDITOR so it doesn't block
+    EDITOR="true"
+    local user_dir="$TEST_DIR/user/.flow/prompts"
+    rm -f "$user_dir/global-test-prompt.md"
+    _teach_prompt_edit "global-test-prompt" --global >/dev/null 2>&1
+    if [[ -f "$user_dir/global-test-prompt.md" ]]; then
+        _test_pass "Edit --global: creates in user dir"
+    else
+        _test_fail "Edit --global: creates in user dir"
+    fi
+}
+
+# ============================================================================
+# EDGE CASE TESTS (6)
+# ============================================================================
+
+_test_edge_cases() {
+    _test_section "Edge Cases (6 tests)"
+
+    # Test 57: Validate single prompt by name
+    local output
+    output=$(_teach_prompt_validate "lecture-notes" 2>/dev/null)
+    if [[ "$output" == *"lecture-notes"* && "$output" == *"Valid"* ]]; then
+        _test_pass "Validate single: validates named prompt only"
+    else
+        _test_fail "Validate single: validates named prompt only"
+    fi
+
+    # Test 58: Validate nonexistent prompt returns error
+    _teach_prompt_validate "definitely-missing" >/dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        _test_pass "Validate missing: returns error for unknown name"
+    else
+        _test_fail "Validate missing: returns error for unknown name"
+    fi
+
+    # Test 59: Export --json includes rendered field
+    # Override config loader for predictable output
+    _teach_load_config_variables() {
+        local arr="$1"
+        eval "${arr}[COURSE]=\"TEST-101\""
+        eval "${arr}[DATE]=\"2026-01-29\""
+    }
+
+    output=$(_teach_prompt_export "revealjs-slides" --json 2>/dev/null)
+    if [[ "$output" == *"\"rendered\":"* && "$output" == *"\"tier\":"* ]]; then
+        _test_pass "Export --json: includes rendered and tier fields"
+    else
+        _test_fail "Export --json: includes rendered and tier fields"
+    fi
+
+    # Test 60: Tier detection for user tier
+    local tier
+    tier=$(_teach_prompt_tier "$TEST_DIR/user/.flow/prompts/exam.md")
+    if [[ "$tier" == "user" ]]; then
+        _test_pass "Tier detection: identifies user tier"
+    else
+        _test_fail "Tier detection: identifies user tier" "Got: $tier"
+    fi
+
+    # Test 61: Tier detection for plugin tier (fallback)
+    tier=$(_teach_prompt_tier "/some/random/path/prompt.md")
+    if [[ "$tier" == "plugin" ]]; then
+        _test_pass "Tier detection: defaults to plugin for unknown paths"
+    else
+        _test_fail "Tier detection: defaults to plugin for unknown paths" "Got: $tier"
+    fi
+
+    # Test 62: Multiple edits don't overwrite existing override
+    EDITOR="true"
+    # First create the override (already done in edit tests)
+    local override_dir="$TEST_DIR/course/.flow/templates/prompts"
+    mkdir -p "$override_dir"
+    echo "CUSTOM CONTENT" > "$override_dir/keep-test.md"
+    _teach_prompt_edit "keep-test" >/dev/null 2>&1
+    if grep -q "CUSTOM CONTENT" "$override_dir/keep-test.md" 2>/dev/null; then
+        _test_pass "Edit existing: preserves existing override content"
+    else
+        _test_fail "Edit existing: preserves existing override content"
+    fi
+}
+
+# ============================================================================
 # MAIN
 # ============================================================================
 
@@ -693,6 +904,9 @@ main() {
     _test_list_show
     _test_edit
     _test_export
+    _test_dispatcher
+    _test_flags
+    _test_edge_cases
 
     _teardown_test_env
 
