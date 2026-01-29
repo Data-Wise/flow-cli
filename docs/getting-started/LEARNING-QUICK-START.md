@@ -205,7 +205,7 @@ Now choose:
         │  (25 min) advanced workflows
         │
         └─ Reference:
-           [Neovim Quick Ref](../reference/.archive/NVIM-QUICK-REFERENCE.md)
+           [Neovim Quick Ref](../reference/MASTER-DISPATCHER-GUIDE.md)
 ```
 
 **Total: 1.5-2 hours**
@@ -342,7 +342,7 @@ STEP 4: Master Your Focus (20-30 min)
 | Can't remember a command | Quick reference | [COMMAND-QUICK-REFERENCE.md](../help/QUICK-REFERENCE.md) |
 | Don't know what to do next | Check index | [TUTORIALS-INDEX.md](../tutorials/index.md) |
 | Confused about plugins | Read guide | [PLUGIN-ECOSYSTEM-GUIDE.md](../guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md) |
-| Lost in learning path | Use navigator | [LEARNING-PATH-NAVIGATION.md](../reference/.archive/LEARNING-PATH-NAVIGATION.md) |
+| Lost in learning path | Use navigator | [LEARNING-PATH-NAVIGATION.md](../reference/MASTER-DISPATCHER-GUIDE.md) |
 | Want full context | See map | [LEARNING-PATH-INDEX.md](../tutorials/LEARNING-PATH-INDEX.md) |
 
 ---
@@ -449,7 +449,7 @@ Additional:
    → [Tutorials Index](../tutorials/index.md)
 
 3. **When you're lost:**
-   → [Learning Path Navigation](../reference/.archive/LEARNING-PATH-NAVIGATION.md)
+   → [Learning Path Navigation](../reference/MASTER-DISPATCHER-GUIDE.md)
 
 ---
 

@@ -305,6 +305,6 @@ test_pick_wt_refresh()
 
 ## Related Documents
 
-- [WT-DISPATCHER-REFERENCE.md](../reference/.archive/WT-DISPATCHER-REFERENCE.md)
-- [PICK-COMMAND-REFERENCE.md](../reference/.archive/PICK-COMMAND-REFERENCE.md)
+- [WT-DISPATCHER-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md#wt-dispatcher)
+- [PICK-COMMAND-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md)
 - [ARCHITECTURE-DIAGRAMS.md](../diagrams/ARCHITECTURE-DIAGRAMS.md)

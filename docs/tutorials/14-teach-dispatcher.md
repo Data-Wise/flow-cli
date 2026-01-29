@@ -590,7 +590,7 @@ The Scholar Enhancement provides powerful AI-assisted content generation with 47
 
 ### Deep Dive into Scholar
 
-- **[Scholar Enhancement API Reference](../reference/.archive/SCHOLAR-ENHANCEMENT-API.md)** - All 47 flags, 50+ examples
+- **[Scholar Enhancement API Reference](../reference/MASTER-API-REFERENCE.md#teaching-libraries)** - All 47 flags, 50+ examples
 - **[Scholar Enhancement Architecture](../architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md)** - System design with 15+ diagrams
 
 ---

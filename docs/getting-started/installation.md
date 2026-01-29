@@ -360,7 +360,7 @@ nvim
 | [Tutorial 16: Vim Motions](../tutorials/16-vim-motions.md) | 15 min | Efficient editing |
 | [Tutorial 17: LazyVim Basics](../tutorials/17-lazyvim-basics.md) | 15 min | Essential plugins |
 | [Tutorial 18: LazyVim Showcase](../tutorials/18-lazyvim-showcase.md) | 30 min | Full feature tour |
-| [Nvim Quick Reference](../reference/.archive/NVIM-QUICK-REFERENCE.md) | - | Printable reference card |
+| [Nvim Quick Reference](../reference/MASTER-DISPATCHER-GUIDE.md) | - | Printable reference card |
 
 **Interactive tutorial:**
 

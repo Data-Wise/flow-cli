@@ -4,7 +4,7 @@
 **Last Updated:** 2026-01-21
 **Status:** Production Ready
 
-> **Quick Reference**: For command syntax and common workflows, see the [Phase 2 Quick Reference Card](../reference/.archive/REFCARD-QUARTO-PHASE2.md).
+> **Quick Reference**: For command syntax and common workflows, see the [Phase 2 Quick Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md#qu-dispatcher).
 
 ---
 
@@ -2942,8 +2942,8 @@ teach validate  # (no --custom flag)
 **Documentation:**
 - Phase 1 Guide: `docs/guides/TEACHING-WORKFLOW-GUIDE.md`
 - Phase 2 Guide: `docs/guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md` (this document)
-- **Phase 2 Quick Reference**: `docs/reference/.archive/REFCARD-QUARTO-PHASE2.md` ⭐ NEW
-- API Reference: `docs/reference/.archive/TEACH-DISPATCHER-REFERENCE-v4.6.0.md`
+- **Phase 2 Quick Reference**: `docs/reference/MASTER-DISPATCHER-GUIDE.md#qu-dispatcher` ⭐ NEW
+- API Reference: `docs/reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher`
 
 **Issues:**
 - Report bugs: https://github.com/Data-Wise/flow-cli/issues

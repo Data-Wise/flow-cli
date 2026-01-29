@@ -1275,7 +1275,7 @@ sed -i '' '/## Answer Key/,$d' exams/midterm1.md
 
 ## See Also
 
-- [Quick Reference Card](../reference/.archive/REFCARD-TEACHING.md) - Command cheat sheet
+- [Quick Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) - Command cheat sheet
 - [TEACH Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) - Full command reference
 - [teach-init Command](../commands/teach-init.md) - Initialize teaching projects
 

@@ -674,7 +674,7 @@ Cache Performance:
 
 ## See Also
 
-- [API Reference](../reference/.archive/DOCTOR-TOKEN-API-REFERENCE.md)
+- [API Reference](../reference/MASTER-API-REFERENCE.md#doctor-cache)
 - [User Guide](../guides/DOCTOR-TOKEN-USER-GUIDE.md)
 - [Phase 1 Spec](../specs/SPEC-flow-doctor-dot-enhancement-2026-01-23.md)
 - [Test Suites](../../tests/)

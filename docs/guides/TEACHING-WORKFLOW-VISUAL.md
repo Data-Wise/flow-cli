@@ -660,5 +660,5 @@ teach deploy
 
 - [Detailed Command Reference](./TEACHING-COMMANDS-DETAILED.md) - Deep dive into each command
 - [Demo Guide](./TEACHING-DEMO-GUIDE.md) - Recording visual demonstrations
-- [Quick Reference Card](../reference/.archive/REFCARD-TEACHING.md) - Command cheat sheet
+- [Quick Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) - Command cheat sheet
 - [Teaching Workflow Guide](./TEACHING-WORKFLOW.md) - Architecture and design

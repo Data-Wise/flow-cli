@@ -250,7 +250,7 @@ If teaching different course, borrow specific elements:
 
 **flow-cli Documentation:**
 - [Teaching Workflow v3.0 Guide](../../../guides/TEACHING-WORKFLOW-V3-GUIDE.md) - Implementation workflow
-- [Teach Dispatcher Reference](../../../reference/.archive/TEACH-DISPATCHER-REFERENCE-v3.0.md) - Commands
+- [Teach Dispatcher Reference](../../../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) - Commands
 
 **Educational Research:**
 - Wiggins, G., & McTighe, J. (1998). *Understanding by Design*. ASCD.

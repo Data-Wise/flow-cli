@@ -444,7 +444,7 @@ wt list
 ## What's Next?
 
 - **[Git Feature Workflow](08-git-feature-workflow.md)** - Feature branch workflow
-- **[CC Dispatcher Reference](../reference/.archive/CC-DISPATCHER-REFERENCE.md)** - Full Claude Code commands
+- **[CC Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#cc-dispatcher)** - Full Claude Code commands
 - **[Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)** - All dispatchers
 
 ---

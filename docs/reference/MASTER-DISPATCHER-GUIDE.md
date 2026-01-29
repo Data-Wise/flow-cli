@@ -2383,7 +2383,7 @@ cc y          # cc yolo
 als           # List all aliases by category
 ```
 
-> **Full Reference:** See archived [ALIAS-REFERENCE-CARD.md](.archive/ALIAS-REFERENCE-CARD.md) for complete alias list with frequencies and descriptions.
+> **Full Reference:** See archived [ALIAS-REFERENCE-CARD.md](MASTER-DISPATCHER-GUIDE.md#aliases) for complete alias list with frequencies and descriptions.
 
 ---
 

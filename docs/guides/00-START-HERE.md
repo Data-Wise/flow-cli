@@ -96,7 +96,7 @@ Example: `cc help`, `r help`, `qu help`
 ### Command References
 
 - **[Command Quick Reference](../help/QUICK-REFERENCE.md)** - All commands at a glance
-- **[CC Dispatcher Reference](../reference/.archive/CC-DISPATCHER-REFERENCE.md)** - Complete `cc` command guide
+- **[CC Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#cc-dispatcher)** - Complete `cc` command guide
 - **[Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)** - All 8 dispatchers
 - **[Workflow Quick Reference](../help/WORKFLOWS.md)** - Common workflows
 
@@ -293,7 +293,7 @@ See [Release Notes](https://github.com/Data-Wise/flow-cli/releases/tag/v4.8.0)
 2. ✅ Read this guide
 3. → Try the [Quick Start Tutorial](../getting-started/quick-start.md)
 4. → Explore [Dopamine Features](DOPAMINE-FEATURES-GUIDE.md)
-5. → Master the [CC Dispatcher](../reference/.archive/CC-DISPATCHER-REFERENCE.md)
+5. → Master the [CC Dispatcher](../reference/MASTER-DISPATCHER-GUIDE.md#cc-dispatcher)
 
 **Ready to get started?** Pick a guide above and dive in! 🎯
 

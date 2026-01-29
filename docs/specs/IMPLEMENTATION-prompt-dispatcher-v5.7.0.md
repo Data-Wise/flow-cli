@@ -117,7 +117,7 @@ Successfully implemented the Prompt Engine Dispatcher for flow-cli v5.7.0. The d
    - Customization examples
    - Performance tips
 
-2. **Reference** (`do../reference/.archive/PROMPT-DISPATCHER-REFCARD.md`)
+2. **Reference** (`do../reference/MASTER-DISPATCHER-GUIDE.md#prompt-dispatcher`)
    - Quick command reference
    - Engine comparison table
    - Configuration paths
@@ -467,7 +467,7 @@ flow-cli/
 | `completions/_prompt` | New | ✅ |
 | `tests/test-prompt-dispatcher.zsh` | New | ✅ |
 | `docs/guides/PROMPT-DISPATCHER-GUIDE.md` | New | ✅ |
-| `do../reference/.archive/PROMPT-DISPATCHER-REFCARD.md` | New | ✅ |
+| `do../reference/MASTER-DISPATCHER-GUIDE.md#prompt-dispatcher` | New | ✅ |
 | `docs/specs/IMPLEMENTATION-prompt-dispatcher-v5.7.0.md` | New | ✅ |
 
 ## Conclusion

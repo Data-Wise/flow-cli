@@ -329,7 +329,7 @@ You've learned to:
 - **Explore aiterm features:** `ait --help`
 - **Set up auto-switching:** `export TM_AUTO_SWITCH=1`
 - **Customize iTerm2 profiles** for different project types
-- **Read the reference:** [TM-DISPATCHER-REFERENCE.md](../reference/.archive/TM-DISPATCHER-REFERENCE.md)
+- **Read the reference:** [TM-DISPATCHER-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md#tm-dispatcher)
 
 ---
 

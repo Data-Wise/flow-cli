@@ -588,7 +588,7 @@ With hooks:
 - Auto-formatted messages → Clear history
 ```
 
-See [Teaching Git Workflow Refcard](../reference/.archive/TEACHING-GIT-WORKFLOW-REFCARD.md) for complete hook documentation and advanced configuration.
+See [Teaching Git Workflow Refcard](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) for complete hook documentation and advanced configuration.
 
 ---
 
@@ -2161,10 +2161,10 @@ teach init --config template.yml
 
 ## Reference
 
-- [Teach Dispatcher Reference](../reference/.archive/TEACH-DISPATCHER-REFERENCE-v3.0.md)
+- [Teach Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)
 - [Backup System Guide](BACKUP-SYSTEM-GUIDE.md)
 - [Migration Guide](TEACHING-V3-MIGRATION-GUIDE.md)
-- [Quick Reference Card](../reference/.archive/REFCARD-TEACHING-V3.md)
+- [Quick Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)
 
 ---
 
