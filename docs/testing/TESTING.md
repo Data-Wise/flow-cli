@@ -447,7 +447,7 @@ The workflow includes performance tracking:
 
 ## Related Documentation
 
-- [COMMAND-QUICK-REFERENCE.md](../reference/.archive/COMMAND-QUICK-REFERENCE.md) - Command reference
+- [COMMAND-QUICK-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md) - Command reference
 - [DISPATCHER-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md) - Dispatcher documentation
 - [CONTRIBUTING.md](../contributing/CONTRIBUTING.md) - Contribution guidelines
 

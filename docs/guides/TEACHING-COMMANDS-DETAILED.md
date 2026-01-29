@@ -1244,6 +1244,6 @@ dash teach
 ## See Also
 
 - [Teaching Workflow Guide](./TEACHING-WORKFLOW.md) - Architecture and principles
-- [Quick Reference Card](../reference/.archive/REFCARD-TEACHING.md) - Command cheat sheet
+- [Quick Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) - Command cheat sheet
 - [teach-init Deep Dive](../commands/teach-init.md) - Detailed initialization
 - [work Command](../commands/work.md) - Work session management

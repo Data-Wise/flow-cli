@@ -560,7 +560,7 @@ claude --dangerously-skip-permissions
 
 ## Related Documentation
 
-- [CC Dispatcher Reference](../reference/.archive/CC-DISPATCHER-REFERENCE.md) - Claude Code launcher
+- [CC Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#cc-dispatcher) - Claude Code launcher
 - [Git Feature Workflow](../tutorials/08-git-feature-workflow.md) - Branch management
 - [Worktree Guide](../tutorials/09-worktrees.md) - Isolated development
 

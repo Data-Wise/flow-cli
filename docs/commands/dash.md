@@ -600,7 +600,7 @@ pwd
 ## 🎓 See Also
 
 - [Status Command Reference](status.md) - Update project status
-- [Project Detection Guide](../reference/.archive/PROJECT-DETECTION-GUIDE.md) - How types are detected
+- [Project Detection Guide](../reference/MASTER-DISPATCHER-GUIDE.md#dispatcher-comparison-table) - How types are detected
 - [Workflow Quick Reference](../help/WORKFLOWS.md) - Common workflows
 
 ---

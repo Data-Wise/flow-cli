@@ -686,7 +686,7 @@ teach config                # Enable teaching mode
 
 ## See Also
 
-- **Quick Reference:** [Teaching Git Workflow Refcard](../reference/.archive/TEACHING-GIT-WORKFLOW-REFCARD.md)
+- **Quick Reference:** [Teaching Git Workflow Refcard](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)
 - **Command Docs:** [teach command](../commands/teach.md)
 - **Dispatcher Reference:** [DISPATCHER-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md)
 - **Git Helpers Source:** `lib/git-helpers.zsh` (311 lines, 20+ functions)

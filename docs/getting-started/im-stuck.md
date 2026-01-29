@@ -163,7 +163,7 @@ Use the search bar (top right) to find specific commands or concepts.
 ### Common Issues Database
 
 - [Installation Problems](troubleshooting.md#installation-issues)
-- [Project Detection Issues](../reference/.archive/PROJECT-DETECTION-GUIDE.md)
+- [Project Detection Issues](../reference/MASTER-DISPATCHER-GUIDE.md#dispatcher-comparison-table)
 - [Command Reference](../help/QUICK-REFERENCE.md)
 
 ### Ask the Community

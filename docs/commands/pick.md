@@ -366,8 +366,8 @@ echo $FZF_DEFAULT_OPTS
 ## See Also
 
 - **Tutorial:** [Tutorial 2: Multiple Projects](../tutorials/02-multiple-projects.md)
-- **Reference:** [Pick Command Reference](../reference/.archive/PICK-COMMAND-REFERENCE.md)
-- **Guide:** [Project Detection Guide](../reference/.archive/PROJECT-DETECTION-GUIDE.md)
+- **Reference:** [Pick Command Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
+- **Guide:** [Project Detection Guide](../reference/MASTER-DISPATCHER-GUIDE.md#dispatcher-comparison-table)
 
 ---
 

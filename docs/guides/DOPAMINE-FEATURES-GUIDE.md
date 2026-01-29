@@ -399,7 +399,7 @@ cat .STATUS | grep daily_goal
 
 ## See Also
 
-- [Dashboard Quick Reference](../reference/.archive/DASHBOARD-QUICK-REF.md)
+- [Dashboard Quick Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
 - [Command Quick Reference](../help/QUICK-REFERENCE.md)
 - [Workflow Quick Reference](../help/WORKFLOWS.md)
 

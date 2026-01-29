@@ -484,7 +484,7 @@ cc diff
 ## What's Next?
 
 - **[Worktrees Tutorial](09-worktrees.md)** - Deep dive into parallel development
-- **[CC Dispatcher Reference](../reference/.archive/CC-DISPATCHER-REFERENCE.md)** - Complete command reference
+- **[CC Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#cc-dispatcher)** - Complete command reference
 - **[Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)** - All flow-cli dispatchers
 
 ---

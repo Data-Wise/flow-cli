@@ -374,7 +374,7 @@ pick --no-claude "$@" && claude --permission-mode acceptEdits
 | `commands/pick.zsh` | Add wt category, worktree lister, keybindings, `--no-claude` flag | P0 |
 | `lib/dispatchers/cc-dispatcher.zsh` | Pass `--no-claude` to all `pick` calls | P0 |
 | `completions/_pick` | Add `wt` to category completions, `--no-claude` option | P1 |
-| `do../reference/.archive/COMMAND-QUICK-REFERENCE.md` | Document `pick wt` | P1 |
+| `do../reference/MASTER-DISPATCHER-GUIDE.md` | Document `pick wt` | P1 |
 | `CLAUDE.md` | Update Quick Reference section | P2 |
 | `docs/tutorials/` | Add worktree navigation tutorial | P2 |
 

@@ -124,7 +124,7 @@ doctor --dot --verbose    # Debug with cache status
 - API call reduction: 80% via smart caching
 
 [→ Token Automation User Guide](guides/DOCTOR-TOKEN-USER-GUIDE.md){ .md-button .md-button--primary }
-[→ Token API Reference](reference/.archive/DOCTOR-TOKEN-API-REFERENCE.md){ .md-button }
+[→ Token API Reference](reference/MASTER-API-REFERENCE.md#doctor-cache){ .md-button }
 
 ### v5.16.0 - Intelligent Content Analysis
 
@@ -162,7 +162,7 @@ teach validate --deep                        # Prerequisite validation
 - **Test Suite** - 31 new tests for optimization validation (100% passing)
 
 [→ Plugin Optimization Tutorial](tutorials/22-plugin-optimization.md){ .md-button }
-[→ Optimization Quick Reference](reference/.archive/REFCARD-OPTIMIZATION.md){ .md-button }
+[→ Optimization Quick Reference](reference/MASTER-ARCHITECTURE.md#performance-optimization){ .md-button }
 
 ---
 

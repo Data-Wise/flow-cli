@@ -780,7 +780,7 @@ gr             # Find references
 **Resources:**
 
 - [LazyVim Documentation](https://lazyvim.org)
-- [Nvim Quick Reference](../reference/.archive/NVIM-QUICK-REFERENCE.md)
+- [Nvim Quick Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
 - [Nvim Quick Start Tutorial](15-nvim-quick-start.md)
 
 **Troubleshooting:**
@@ -809,6 +809,6 @@ The journey doesn't stop here - LazyVim is **endlessly customizable**. Start wit
 
 **Previous Tutorial:** [17: LazyVim Basics](17-lazyvim-basics.md)
 
-**Quick Reference:** [Nvim Quick Reference Card](../reference/.archive/NVIM-QUICK-REFERENCE.md)
+**Quick Reference:** [Nvim Quick Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md)
 
 **Interactive Practice:** `flow nvim-tutorial`

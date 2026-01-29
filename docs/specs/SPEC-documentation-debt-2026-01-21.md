@@ -61,7 +61,7 @@ flow-cli has grown to 853 functions but only 8.6% have help text. While user-fac
 
 **Scope:** 47 functions across 3 files
 **Effort:** 4-6 hours
-**Deliverable:** `docs/reference/.archive/CORE-API-REFERENCE.md`
+**Deliverable:** `docs/reference/MASTER-API-REFERENCE.md#core-library`
 
 #### 1.1 lib/core.zsh (14 functions)
 
@@ -129,7 +129,7 @@ flow-cli has grown to 853 functions but only 8.6% have help text. While user-fac
 
 **Scope:** ~60 functions across 5 files
 **Effort:** 6-8 hours
-**Deliverable:** `docs/reference/.archive/TEACHING-API-REFERENCE.md`
+**Deliverable:** `docs/reference/MASTER-API-REFERENCE.md#teaching-libraries`
 
 | Library | Functions | Description |
 |---------|-----------|-------------|
@@ -143,7 +143,7 @@ flow-cli has grown to 853 functions but only 8.6% have help text. While user-fac
 
 **Scope:** ~80 functions across 6 files
 **Effort:** 8-10 hours
-**Deliverable:** `docs/reference/.archive/INTEGRATION-API-REFERENCE.md`
+**Deliverable:** `docs/reference/MASTER-API-REFERENCE.md#teaching-libraries`
 
 | Library | Functions | Description |
 |---------|-----------|-------------|
@@ -296,7 +296,7 @@ result=$(_flow_example "value")
 
 ### Phase 1 Complete When: ✅ COMPLETE (2026-01-22)
 
-- [x] `docs/reference/.archive/CORE-API-REFERENCE.md` exists (~2,000 lines) → **1,661 lines**
+- [x] `docs/reference/MASTER-API-REFERENCE.md#core-library` exists (~2,000 lines) → **1,661 lines**
 - [x] 47 functions documented (core.zsh + tui.zsh + git-helpers.zsh) → **47 functions**
 - [x] All P1 functions have inline docstrings → **All 47 functions**
 - [x] mkdocs.yml updated with API Reference section → **Added**

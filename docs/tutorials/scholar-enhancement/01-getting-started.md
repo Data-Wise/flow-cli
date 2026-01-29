@@ -215,7 +215,7 @@ Congratulations! You've learned the basics of Scholar Enhancement.
 - Complex flag combinations
 
 **Quick Reference:**
-- [API Reference](../../reference/.archive/SCHOLAR-ENHANCEMENT-API.md)
+- [API Reference](../../reference/MASTER-API-REFERENCE.md#teaching-libraries)
 - [Architecture Guide](../../architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md)
 
 ---
