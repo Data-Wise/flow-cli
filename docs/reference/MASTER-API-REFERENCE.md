@@ -6605,6 +6605,174 @@ fi
 
 ---
 
+### teach-plan Command Helpers
+
+**File:** `commands/teach-plan.zsh`
+**Functions:** 7 (v5.22.0 lesson plan CRUD)
+
+#### `_teach_plan`
+
+Main dispatcher for lesson plan subcommands.
+
+**Signature:**
+
+```zsh
+_teach_plan <action> [args...]
+```
+
+**Parameters:**
+- `$1` - Action: `create|c|new`, `list|ls|l`, `show|s|view`, `edit|e`, `delete|del|rm`, `help`
+- `$@` - Remaining arguments passed to subcommand
+
+**Returns:**
+- 0 on success
+- 1 on error or unknown action
+
+**Behavior:**
+- Bare number argument (e.g., `_teach_plan 5`) dispatches to `_teach_plan_show`
+- Unknown action returns error with help hint
+
+---
+
+#### `_teach_plan_create`
+
+Create a new week entry in `.flow/lesson-plans.yml`.
+
+**Signature:**
+
+```zsh
+_teach_plan_create <week> [--topic TOPIC] [--style STYLE] [--force]
+```
+
+**Parameters:**
+- `$1` - (required) Week number (1-20)
+- `--topic|-t` - Topic name (prompted interactively if omitted)
+- `--style|-s` - Content style: `conceptual`, `computational`, `rigorous`, `applied`
+- `--force|-f` - Overwrite existing week entry
+
+**Returns:**
+- 0 on success
+- 1 on validation error, duplicate week, or missing `.flow` directory
+
+**Behavior:**
+- Auto-creates `lesson-plans.yml` if missing (requires `.flow/` dir)
+- Auto-populates topic from `.flow/teach-config.yml` when `--topic` omitted
+- Uses `yq strenv()` for YAML-injection-safe string construction
+- Creates backup before modification, restores on validation failure
+- Sorts weeks by number after insertion
+- Prompts interactively for topic, style, objectives, subtopics when not provided via flags
+
+**Dependencies:** `yq`
+
+---
+
+#### `_teach_plan_list`
+
+List all week entries in `.flow/lesson-plans.yml`.
+
+**Signature:**
+
+```zsh
+_teach_plan_list [--json]
+```
+
+**Parameters:**
+- `--json|-j` - Output as JSON array instead of formatted table
+
+**Returns:**
+- 0 on success (including empty list)
+- 1 if `yq` not found
+
+**Output:**
+- Table with columns: Week, Topic, Style, Objectives count
+- Total week count
+- Gap detection (warns about missing weeks in sequence)
+
+---
+
+#### `_teach_plan_show`
+
+Display a single week's lesson plan details.
+
+**Signature:**
+
+```zsh
+_teach_plan_show <week> [--json]
+```
+
+**Parameters:**
+- `$1` - (required) Week number
+- `--json|-j` - Output as JSON object
+
+**Returns:**
+- 0 on success
+- 1 if week not found or file missing
+
+**Output:**
+- Formatted display with: topic, style, objectives, subtopics, key concepts, prerequisites
+- Edit/delete hints
+
+---
+
+#### `_teach_plan_edit`
+
+Open `.flow/lesson-plans.yml` in `$EDITOR`, jumping to the specified week's line.
+
+**Signature:**
+
+```zsh
+_teach_plan_edit <week>
+```
+
+**Parameters:**
+- `$1` - (required) Week number
+
+**Returns:**
+- 0 on successful edit with valid YAML
+- 1 if week not found, file missing, or max retries exceeded
+
+**Behavior:**
+- Detects editor type (vim/nano/code) for line-jump syntax
+- Validates YAML after each edit
+- Bounded retry loop (max 3 attempts) on invalid YAML
+- Prompts to re-open editor or abort
+
+---
+
+#### `_teach_plan_delete`
+
+Remove a week entry from `.flow/lesson-plans.yml`.
+
+**Signature:**
+
+```zsh
+_teach_plan_delete <week> [--force]
+```
+
+**Parameters:**
+- `$1` - (required) Week number
+- `--force|-f` - Skip confirmation prompt
+
+**Returns:**
+- 0 on success
+- 1 if week not found or deletion fails
+
+---
+
+#### `_teach_plan_help`
+
+Display formatted help for all teach plan commands.
+
+**Signature:**
+
+```zsh
+_teach_plan_help
+```
+
+**Output:** Usage, actions, options, shortcuts, examples, file locations, see-also references.
+
+---
+
 ## See Also
 
 - [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) - Complete dispatcher reference
@@ -6614,7 +6782,7 @@ fi
 
 ---
 
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v5.22.0-dev
+**Last Updated:** 2026-01-29
 **Auto-Generation:** Run `./scripts/generate-api-docs.sh` to update function index
-**Total Functions:** 853 (421 documented, 432 pending)
+**Total Functions:** 860 (428 documented, 432 pending)

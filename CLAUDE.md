@@ -276,7 +276,7 @@ cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
 tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
 wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 dot <cmd>     # Dotfile management (dot edit, dot sync, dot secret)
-teach <cmd>   # Teaching workflow (teach analyze, teach init, teach deploy, teach exam, teach macros)
+teach <cmd>   # Teaching workflow (teach analyze, teach init, teach deploy, teach exam, teach macros, teach plan)
 prompt <cmd>  # Prompt engine switcher (prompt status, prompt toggle)
 v <cmd>       # Vibe coding mode (v on, v off, v status)
 ```
@@ -327,6 +327,29 @@ teach macros export --format json  # Export as JSON
 **Resolution Order:** Project templates override plugin defaults.
 
 **Documentation:** `docs/reference/REFCARD-TEMPLATES.md`
+
+### Lesson Plan Management (v5.22.0) ✨
+
+**CRUD management of lesson plan weeks**
+
+```bash
+teach plan create 3 --topic "Probability" --style rigorous
+teach plan create 5                      # Auto-populate from config
+teach plan list                          # Table with gap detection
+teach plan list --json                   # JSON output
+teach plan show 3                        # Formatted details
+teach plan 3                             # Shortcut for show
+teach plan edit 3                        # Open in $EDITOR at line
+teach plan delete 3 --force              # Remove week
+```
+
+**Styles:** conceptual, computational, rigorous, applied
+
+**Files:** `.flow/lesson-plans.yml` (centralized), `.flow/teach-config.yml` (topic source)
+
+**Shortcuts:** `teach pl`, `teach plan c`, `teach plan ls`, `teach plan s`
+
+**Documentation:** `docs/reference/REFCARD-TEACH-PLAN.md`
 
 ### Token Management (v5.19.1 Phase 1) ✨
 
@@ -430,7 +453,7 @@ flow-cli/
 ├── completions/             # ZSH completions
 ├── hooks/                   # ZSH hooks
 ├── docs/                    # Documentation (MkDocs)
-├── tests/                   # Test suite (423 tests)
+├── tests/                   # Test suite (462 tests)
 │   ├── fixtures/            # Test fixtures
 │   │   └── demo-course/     # STAT-101 demo course for E2E
 │   ├── e2e-teach-analyze.zsh           # E2E: 29 tests
@@ -572,7 +595,7 @@ teach exam "Topic"  # Generate exam via Scholar
 
 ### Test Suite Overview
 
-**Status:** ✅ 423 tests total
+**Status:** ✅ 462 tests total
 **Documentation:** [Complete Testing Guide](docs/guides/TESTING.md)
 
 ```bash
@@ -582,6 +605,11 @@ tests/test-cc-dispatcher.zsh        # CC: 37 tests
 tests/test-dot-v5.19.1-unit.zsh     # DOT: 112+ tests
 tests/test-teach-dates-unit.zsh     # Teaching dates: 33 tests
 tests/test-teach-dates-integration.zsh  # Integration: 16 tests
+
+# Teach plan tests (v5.22.0)
+tests/test-teach-plan.zsh           # Unit: 32 tests
+tests/test-teach-plan-security.zsh  # Security: 24 tests (YAML injection, edge cases)
+tests/e2e-teach-plan.zsh            # E2E: 15 tests (CRUD workflows)
 
 # E2E tests (teach analyze)
 tests/e2e-teach-analyze.zsh         # E2E: 29 tests (8 sections)

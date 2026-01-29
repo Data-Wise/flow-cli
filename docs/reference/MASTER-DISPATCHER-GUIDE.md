@@ -1854,6 +1854,80 @@ scholar:
 
 ---
 
+#### Lesson Plan Management (v5.22.0)
+
+CRUD management of individual week entries in `.flow/lesson-plans.yml`.
+
+**Primary use case:** Create and manage lesson plans that feed into Scholar content generation (`teach slides --week N`, `teach lecture --week N`).
+
+**Create a week:**
+```bash
+# With options
+teach plan create 3 --topic "Probability" --style rigorous
+
+# Interactive (prompted for details)
+teach plan create 5
+
+# Auto-populates topic from teach-config.yml if available
+```
+
+**List all weeks:**
+```bash
+teach plan list
+```
+
+Output:
+```
+  Week   Topic                               Style           Objectives
+  ────   ───────────────────────────────────  ───────────────  ──────────
+  1      Introduction to Statistics           conceptual       2
+  3      Probability Foundations              rigorous         1
+  5      Sampling Distributions              computational    0
+
+  3 week(s) total
+  Gaps: weeks 2 4
+```
+
+**Show week details:**
+```bash
+teach plan show 1
+teach plan show 1 --json     # JSON output
+teach plan 1                 # Shortcut (bare number)
+```
+
+**Edit in $EDITOR:**
+```bash
+teach plan edit 3            # Opens at correct line number
+```
+
+**Delete a week:**
+```bash
+teach plan delete 3          # With confirmation
+teach plan delete 3 --force  # Skip confirmation
+```
+
+**YAML schema:**
+```yaml
+# .flow/lesson-plans.yml
+weeks:
+  - number: 1
+    topic: "Introduction to Statistics"
+    style: "conceptual"
+    objectives:
+      - "Define descriptive statistics"
+    subtopics:
+      - "Measures of central tendency"
+    key_concepts:
+      - "descriptive-stats"
+    prerequisites: []
+```
+
+**Styles:** `conceptual`, `computational`, `rigorous`, `applied`
+
+**Shortcuts:** `teach pl`, `teach plan c`, `teach plan ls`, `teach plan s`
+
+---
+
 #### Integration with Quarto
 
 **Render specific lecture:**
@@ -1919,6 +1993,13 @@ qu preview
 - `teach macros list` - List with filtering/JSON
 - `teach macros sync` - Extract from source files
 - `teach macros export` - Export for Scholar
+
+**Lesson Plans (v5.22.0):**
+- `teach plan create <week>` - Add week entry (interactive or with flags)
+- `teach plan list` - Show all weeks in table
+- `teach plan show <week>` - Display week details
+- `teach plan edit <week>` - Open in $EDITOR at correct line
+- `teach plan delete <week>` - Remove week entry (with confirmation)
 
 **Help:**
 - `teach help` - Show help
