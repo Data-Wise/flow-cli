@@ -173,7 +173,6 @@ nav:
       - 🎯 Master Dispatcher Guide: reference/MASTER-DISPATCHER-GUIDE.md
       - 🏗️ Master Architecture: reference/MASTER-ARCHITECTURE.md
       - 📊 Documentation Dashboard: DOC-DASHBOARD.md
-      - Legacy Docs Archive: reference/.archive/README.md
   - Commands:
       - flow (main): commands/flow.md
       - work: commands/work.md
