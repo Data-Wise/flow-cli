@@ -1,0 +1,22 @@
+course:
+  name: "STAT 440"
+  semester: "January 2026"
+  year: 2026
+
+git:
+  draft_branch: draft
+  production_branch: main
+  auto_pr: true
+  require_clean: true
+
+workflow:
+  teaching_mode: false
+  auto_commit: false
+  auto_push: false
+
+backups:
+  retention:
+    assessments: archive    # Keep exam/quiz backups forever
+    syllabi: archive        # Keep syllabus backups forever
+    lectures: semester      # Delete lecture backups at semester end
+  archive_dir: .flow/archives
