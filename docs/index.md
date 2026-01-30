@@ -56,6 +56,21 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ## 📚 Previous Releases
 
+### v5.23.0 - AI Prompt Management (2026-01-29)
+
+**New Feature:** `teach prompt` command with 3-tier resolution
+
+Manage AI teaching prompts with course, user, and plugin-level customization. Create overrides, validate syntax, export rendered prompts, and seamlessly integrate with Scholar for AI content generation.
+
+- **Commands:** list, show, edit, validate, export with full alias support
+- **3-tier resolution:** Course > User > Plugin precedence
+- **Scholar integration:** Auto-resolve prompts for all Scholar calls
+- **107 tests:** Comprehensive unit, E2E, and interactive testing
+
+[Tutorial →](tutorials/28-teach-prompt.md) | [Quick Reference →](reference/REFCARD-PROMPTS.md)
+
+---
+
 ### v5.22.0 - Lesson Plan Management (2026-01-29)
 
 !!! info "CRUD Operations for Lesson Plans"
