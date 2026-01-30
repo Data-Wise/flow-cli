@@ -12,13 +12,13 @@ Set Padding 20
 Set Theme "Monokai"
 
 # Title card
-Type "# Dot Dispatcher Demo - Dotfile Management"
+Type "echo 'Dot Dispatcher Demo - Dotfile Management'"
 Sleep 2s
 Enter
 Sleep 500ms
 
 # Scene 1: Check status
-Type "# Check dotfile status"
+Type "echo 'Check dotfile status'"
 Sleep 500ms
 Enter
 Type "dot"
@@ -100,5 +100,5 @@ Sleep 3s
 Ctrl+C
 Enter
 Sleep 500ms
-Type "# Dotfile management made easy!"
+Type "echo 'Dotfile management made easy!'"
 Sleep 2s
