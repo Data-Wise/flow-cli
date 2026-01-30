@@ -219,4 +219,4 @@ teach plan help
 ---
 
 **Last Updated:** 2026-01-29
-**Version:** v5.22.0
+**Version:** v5.23.0

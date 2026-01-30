@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v5.22.1-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.1)
+[![Version](https://img.shields.io/badge/version-v5.23.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -22,41 +22,44 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ---
 
-## ✨ What's New in v5.22.1
+## ✨ What's New in v5.23.0
 
-!!! success "Dispatcher Routing & Help System Excellence"
-    Unified command namespace and gold-standard help system make flow-cli more discoverable and user-friendly.
+!!! success "AI Prompt Management & Documentation Quality"
+    Manage AI teaching prompts with 3-tier resolution. Enhanced GIF quality across all teaching documentation.
 
-### 🔗 Unified Command Namespace
+### 🤖 AI Prompt Management
 
-**All 12 dispatchers now work through `flow` command:**
+**New `teach prompt` command with 3-tier resolution:**
 
-- `flow teach help` - Access teach dispatcher via unified namespace
-- `flow g status` - Git dispatcher through flow prefix
-- `flow r test` - R dispatcher through flow prefix
-- All dispatchers (`teach`, `g`, `r`, `qu`, `mcp`, `obs`, `cc`, `tm`, `wt`, `dot`, `prompt`, `v`)
-  accessible via `flow` prefix
-- **Backward compatible** - Direct calls still work (e.g., `teach help`)
+- `teach prompt list` - Show prompts with tier indicators [C]/[U]/[P]
+- `teach prompt show <name>` - Display prompt content in pager
+- `teach prompt edit <name>` - Create course override and open editor
+- `teach prompt validate` - Check syntax and Scholar compatibility
+- `teach prompt export <name>` - Render with resolved variables
+- **3-tier resolution:** Course > User > Plugin precedence
+- **Scholar integration:** Auto-resolve prompts for all Scholar calls
+- **107 tests:** Comprehensive unit, E2E, and interactive testing
 
-### ⭐ Gold-Standard Help System
+[Tutorial →](tutorials/28-teach-prompt.md) | [Quick Reference →](reference/REFCARD-PROMPTS.md)
 
-**teach help achieves 100% standards compliance:**
+### 📊 Documentation GIF Quality Enhancement
 
-- **🔥 MOST COMMON** section - Shows 5 most-used commands (80% daily use)
-- **💡 QUICK EXAMPLES** section - Copy-paste ready one-liners with inline comments
-- **💡 TIP** callout - Clarifies Scholar plugin dependency and error behavior
-- **Rating:** ⭐⭐⭐⭐⭐ (5/5 stars) - Best help system across all flow-cli dispatchers
+**Improved readability and consistency across 21 teaching GIFs:**
 
-**Bug Fixes:**
+- **Standardized font size:** All GIFs now use 18px font (up from 14-16px)
+- **Fixed syntax errors:** 133 lines corrected across 9 VHS tapes
+- **Added Shell directives:** Consistent ZSH behavior across all demos
+- **Optimized file sizes:** 10.9% reduction (2.48MB → 2.21MB)
+- **Validation tooling:** New `validate-vhs-tapes.sh` script + comprehensive style guide
+- **Embedded GIFs:** All teaching GIFs now embedded directly in documentation
 
-- Fixed 66 markdown linting issues in documentation
-- Updated stale test paths for archived files
+[Style Guide →](contributing/VHS-TAPE-STYLE-GUIDE.md)
 
 ---
 
 ## 📚 Previous Releases
 
-### v5.23.0 - AI Prompt Management (2026-01-29)
+### v5.22.0 - Lesson Plan Management (2026-01-29)
 
 **New Feature:** `teach prompt` command with 3-tier resolution
 
@@ -71,10 +74,10 @@ Manage AI teaching prompts with course, user, and plugin-level customization. Cr
 
 ---
 
-### v5.22.0 - Lesson Plan Management (2026-01-29)
+### v5.22.0 - Lesson Plan & Template Management (2026-01-29)
 
-!!! info "CRUD Operations for Lesson Plans"
-    Centralized lesson plan management with auto-population and gap detection
+!!! info "CRUD Operations + Reusable Templates"
+    Centralized lesson plan management with template system for content creation
 
 **Features:**
 
@@ -82,12 +85,12 @@ Manage AI teaching prompts with course, user, and plugin-level customization. Cr
   - `teach plan create <week>` - Add week with interactive prompts
   - `teach plan list` - Table view with gap detection, JSON output
   - `teach plan show <week>` - Formatted display with objectives/subtopics
-  - `teach plan edit <week>` - Opens editor at correct line with validation
-  - `teach plan delete <week>` - Remove with confirmation
   - Shortcuts: `teach pl`, `teach plan c`, `teach plan ls`
-- **Auto-populate** from `teach-config.yml` when creating weeks
-- **Sorted insertion** - Weeks maintained in order by number
-- **Gap detection** - Warns about missing weeks in sequence
+- **`teach templates` command** - Manage reusable content templates
+  - `teach templates list` - View available templates by type/source
+  - `teach templates new lecture week-05` - Create from template
+  - Variable substitution: `{{WEEK}}`, `{{TOPIC}}`, `{{COURSE}}`
+- **71 new tests** — 462 total tests across all features
 
 ### v5.21.0 - LaTeX Macro Configuration (2026-01-28)
 
@@ -585,4 +588,4 @@ Commands that adapt to your project:
 
 ---
 
-**v5.22.1** · Pure ZSH · MIT License
+**v5.23.0** · Pure ZSH · MIT License

@@ -720,12 +720,13 @@ export FLOW_DEBUG=1
 
 ## Recent Releases
 
-### v5.23.0 - AI Prompt Management (2026-01-29)
+### v5.23.0 - AI Prompt Management + GIF Quality Enhancement (2026-01-29)
 
 **Released:** 2026-01-29
-**PR #313:** https://github.com/Data-Wise/flow-cli/pull/313 (MERGED)
+**PR #313:** https://github.com/Data-Wise/flow-cli/pull/313 (MERGED - AI Prompts)
+**PR #315:** https://github.com/Data-Wise/flow-cli/pull/315 (MERGED - GIF Quality)
 **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0
-**Changes:** 17 files changed, +4,738 / -22 lines
+**Changes:** 67 files changed, +9,012 / -44 lines
 
 **Major Features:**
 
@@ -737,10 +738,20 @@ export FLOW_DEBUG=1
   - `teach prompt export` - Export for Scholar integration
   - Auto-resolve integration: Scholar automatically injects course-specific prompts
 
+- **Documentation GIF Quality Enhancement** (PR #315)
+  - Standardized font size to 18px across 21 teaching GIFs (up from 14-16px)
+  - Fixed 133 ZSH syntax errors in 9 VHS tapes (`Type "#..."` → `Type "echo '...'`)
+  - Added Shell directives for consistent ZSH behavior
+  - Optimized GIF file sizes (10.9% reduction: 2.48MB → 2.21MB)
+  - Created validation tooling (`validate-vhs-tapes.sh` + comprehensive style guide)
+  - Embedded all teaching GIFs directly in documentation
+  - 50 files changed, +4,274 lines
+
 - **Implementation:**
   - commands/teach-prompt.zsh (625 lines) - Full CRUD command
   - lib/prompt-helpers.zsh (454 lines) - 3-tier resolution engine
-  - Scholar auto-resolve integration in teach-dispatcher.zsh
+  - scripts/validate-vhs-tapes.sh (validation automation)
+  - VHS-TAPE-STYLE-GUIDE.md (419 lines)
 
 - **Testing:**
   - 107 comprehensive tests (100% passing)
@@ -751,10 +762,10 @@ export FLOW_DEBUG=1
 - **Documentation:**
   - Tutorial 28: teach-prompt.md (step-by-step guide)
   - REFCARD-PROMPTS.md (quick reference)
-  - TESTING-SUMMARY.md (complete test docs)
+  - VHS-TAPE-STYLE-GUIDE.md (complete standards)
   - Demo course v2.0.0 with prompts + lesson plans + macros
 
-**Stats:** 17 files, +4,738 / -22 lines
+**Combined Stats:** 67 files, +9,012 / -44 lines
 
 ---
 
