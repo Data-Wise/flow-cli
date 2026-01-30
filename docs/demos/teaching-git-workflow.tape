@@ -3,6 +3,7 @@
 
 # Terminal setup
 Output docs/assets/gifs/teaching-git-workflow.gif
+Set Shell zsh
 Set FontSize 18
 Set Width 1200
 Set Height 800

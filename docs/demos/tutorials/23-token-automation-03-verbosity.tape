@@ -2,18 +2,19 @@
 # Demonstrates quiet, normal, and verbose output modes
 
 Output ./23-token-automation-03-verbosity.gif
+Set Shell zsh
 
 Set FontSize 18
 Set Width 1000
 Set Height 600
 Set Theme "Catppuccin Mocha"
 
-Type "# Step 6: Verbosity Levels"
+Type "echo 'Step 6: Verbosity Levels'"
 Sleep 800ms
 Enter
 Sleep 500ms
 
-Type "# Quiet mode (CI/CD) - minimal output"
+Type "echo 'Quiet mode (CI/CD) - minimal output'"
 Sleep 1s
 Enter
 Sleep 500ms
@@ -23,7 +24,7 @@ Sleep 500ms
 Enter
 Sleep 1.5s
 
-Type "# Exit code: 0 (success)"
+Type "echo 'Exit code: 0 (success)'"
 Sleep 800ms
 Enter
 Sleep 500ms
