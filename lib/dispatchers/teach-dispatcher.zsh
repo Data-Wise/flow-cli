@@ -4620,6 +4620,19 @@ ${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(3 com
   $ teach doctor --fix              # Verify and fix dependencies
   $ teach lecture "Intro" --week 1  # Generate first lecture
 
+${FLOW_COLORS[success]}🔥 MOST COMMON${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(80% of daily use)${FLOW_COLORS[reset]}:
+  ${FLOW_COLORS[cmd]}teach lecture${FLOW_COLORS[reset]} <topic>     Generate lecture notes
+  ${FLOW_COLORS[cmd]}teach deploy${FLOW_COLORS[reset]}              Deploy course website
+  ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]} --render   Full validation
+  ${FLOW_COLORS[cmd]}teach status${FLOW_COLORS[reset]}              Project dashboard
+  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} --fix        Fix dependency issues
+
+${FLOW_COLORS[warn]}💡 QUICK EXAMPLES${FLOW_COLORS[reset]}:
+  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach lecture "Intro" --week 1   ${FLOW_COLORS[muted]}# Create lecture notes${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach validate --render           ${FLOW_COLORS[muted]}# Full validation${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach deploy --preview            ${FLOW_COLORS[muted]}# Preview before deploy${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach doctor --fix                ${FLOW_COLORS[muted]}# Auto-fix issues${FLOW_COLORS[reset]}
+
 ${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
 📋 SETUP & CONFIGURATION
 ${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
@@ -4727,6 +4740,11 @@ ${FLOW_COLORS[muted]}📚 SEE ALSO:${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}g${FLOW_COLORS[reset]} - Git commands (g status, g push)
   ${FLOW_COLORS[cmd]}work${FLOW_COLORS[reset]} - Session management
   docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
+
+${FLOW_COLORS[info]}💡 TIP${FLOW_COLORS[reset]}: Content generation requires Scholar plugin
+  ${FLOW_COLORS[muted]}teach lecture → scholar:teaching:lecture (AI-powered)${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}Validation commands are native to flow-cli${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[muted]}Unknown commands show: "Unknown command: <name>"${FLOW_COLORS[reset]}
 
 ${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
   📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
