@@ -253,7 +253,7 @@ All use 14px font
 
 ## Rollout Options
 
-### Option A: Quick Fix (v5.22.1 patch)
+### Option A: Quick Fix (v5.23.0 - completed in PR #315)
 **Timeline:** 1 week
 **Scope:** Phase 1 only
 - Fix fonts + syntax
@@ -291,7 +291,7 @@ All use 14px font
 - **VHS:** `brew install vhs` (terminal recorder)
 - **gifsicle:** `brew install gifsicle` (GIF optimizer)
 - **ZSH:** Already available
-- **flow-cli:** v5.22.0+ with teaching workflow
+- **flow-cli:** v5.23.0+ with teaching workflow
 
 ---
 

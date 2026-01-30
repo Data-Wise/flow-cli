@@ -171,7 +171,7 @@ Phase 4: Verification & Rollout (2-3 hours)
 ### Option A: Quick Fix (Recommended for Urgent)
 **Timeline:** 1 week
 **Scope:** Phase 1 only
-**Release:** v5.22.1 (patch)
+**Release:** v5.23.0 (completed in PR #315)
 
 ✅ Fixes critical readability issues
 ✅ Removes syntax errors
@@ -247,7 +247,7 @@ Phase 4: Verification & Rollout (2-3 hours)
 | VHS | `brew install vhs` | Generate GIFs from tapes |
 | gifsicle | `brew install gifsicle` | Optimize GIF file sizes |
 | ZSH | Built-in | Shell for VHS tapes |
-| flow-cli | v5.22.0+ | Teaching workflow commands |
+| flow-cli | v5.23.0+ | Teaching workflow commands |
 
 ---
 

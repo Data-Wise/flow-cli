@@ -843,7 +843,7 @@ Show
 **Option A: Quick Fix (Phase 1 Only)**
 - Fix font sizes and syntax errors
 - Regenerate GIFs
-- Release as v5.22.1 (patch)
+- Released as v5.23.0 (completed in PR #315)
 - Defer automation to v5.23.0
 
 **Option B: Complete Solution (All Phases)**
