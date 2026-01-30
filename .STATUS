@@ -4,59 +4,120 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.20.0 Released
+## Phase: v5.23.0 Planning
 ## Priority: 1
-## Progress: 100
+## Progress: 5
 
-## 🎉 Just Released: v5.20.0 (2026-01-28)
+## 🚧 Next: v5.23.0 - teach prompt Command
 
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.20.0
-**PR #304:** https://github.com/Data-Wise/flow-cli/pull/304 (MERGED)
+**Branch:** `feature/teach-prompt`
+**Worktree:** `~/.git-worktrees/flow-cli/feature-teach-prompt`
+**Spec:** `docs/specs/SPEC-teach-prompt-v2-2026-01-29.md`
 
-**Highlights:**
-- Template Management System (`teach templates`)
-- Lesson Plan Migration (`teach migrate-config`)
-- Token Age Bug Fix (Keychain metadata field)
-- API Documentation Phase 1 (26.1% coverage)
-- Tutorial 24 & 25 created
-- 14 broken anchor links + 442 lint violations fixed
+**Scope:**
+- `teach prompt` command with 3-tier resolution (Course > User > Plugin)
+- 5 MVP subcommands: list, show, edit, validate, export
+- Auto-resolve prompts in Scholar wrapper (zero friction)
+- Scholar v2.1.0 coordination (Handlebars-style templates)
 
-**Stats:** 88 commits, 51 files, +12,341/-1,977 lines
+**Status:** Spec approved, worktree created, ready for implementation
+
+**Start implementation:**
+```bash
+cd ~/.git-worktrees/flow-cli/feature-teach-prompt
+claude
+# Read WORKTREE-PLAN.md for orchestration guide
+```
 
 ---
 
-## Previous Release: v5.19.1 (2026-01-27)
+## 📊 Branch Monitoring (2026-01-29)
 
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.1
+### Active Worktrees
+| Worktree | Branch | Commits Ahead of dev |
+|----------|--------|---------------------|
+| Main repo | `main` | 3 (release merge PRs) |
+| `~/.git-worktrees/flow-cli/feature-teach-prompt` | `feature/teach-prompt` | 2 (spec + plan) |
+
+### Recent PRs (all MERGED)
+| PR | Branch | Title |
+|----|--------|-------|
+| #312 | dev | Release v5.22.0 |
+| #311 | fix/archive-links | fix(docs): replace 102 broken archive links |
+| #310 | dev | Release: v5.22.0 - Lesson Plan Management |
+| #309 | docs/teach-plan-gaps | docs: Tutorial 27 + guide updates |
+| #308 | feature/teach-plan | feat: teach plan CRUD command |
+
+### CI Status
+- CI Tests (main): PASS
+- CI Tests (dev): PASS
+- Homebrew Release (v5.22.0): PASS
+- Release workflow (main): FAIL (expected - push trigger)
+
+### Stale Branches (Cleanup Candidates)
+**Local (2):**
+- `feature/lesson-plan-extraction` - tracking branch [gone]
+- `feature/teach-dates-automation` - merged, can delete
+
+**Remote (20 merged into dev):**
+- `docs/claude-md-v5.6`, `docs/fix-grid-cards`, `docs/homepage-badges`, `docs/status-roadmap`
+- `feature/api-docs-phase-1`, `feature/comprehensive-help`, `feature/docs-link-fixes`
+- `feature/keychain-default-phase-1`, `feature/latex-macros`, `feature/lecture-to-slides`
+- `feature/nvim-documentation`, `feature/teach-analyze`, `feature/teach-analyze-optimize`
+- `feature/teach-dates-automation`, `feature/teaching-flags`, `feature/teaching-git-integration`
+- `feature/teaching-prompts`, `feature/teaching-workflow-v3`, `feature/token-automation`
+- `feature/tutorial-enhancement`, `feature/wt-enhancement`, `fix/archive-links`
+
+**Recommended:** Run `git branch -d feature/lesson-plan-extraction feature/teach-dates-automation` locally, then prune remotes with `/craft:git:clean`
+
+---
+
+## 🎉 Just Released: v5.22.0 (2026-01-29)
+
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
+**PRs:** #308, #309, #310, #311, #312 (all MERGED)
 
 **Highlights:**
-- Token Automation Phase 1 (isolated checks, smart caching)
-- 4 critical token rotation bug fixes
-- Security fix (password leakage prevention)
+- `teach plan` CRUD command for lesson plan management (#278)
+- 71 new tests (32 unit + 24 security + 15 E2E) — 462 total
+- Tutorial 27, REFCARD-TEACH-PLAN, API reference, completions
+- 102 broken .archive/ links migrated to master files (67 docs)
+- 374 malformed code fences fixed in MASTER-API-REFERENCE.md
+- mkdocs strict build: 0 warnings (was 1 warning + 90 INFO issues)
+- Site deployed with all fixes verified
+
+**Stats:** 85 files changed, +4,772 / -603 lines
+
+---
+
+## Previous Release: v5.21.0 (2026-01-28)
+
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.21.0
+
+**Highlights:**
+- LaTeX Macro Management (`teach macros`)
+- Integration tests for teach macros (26 tests)
 
 ---
 
 ## ✅ Just Completed:
 
-### Documentation Lint & Anchor Fixes (2026-01-28)
+### v5.22.0 Release (2026-01-29)
 
-**Session Duration:** ~45 min
-**Status:** ✅ Committed, pushed, deployed
-**Impact:** Fixed 442 lint violations + 14 broken anchor links
+**Session Duration:** ~3 hours
+**Status:** ✅ Released, deployed, verified
+**Impact:** teach plan command + massive docs cleanup
 
 **Activities:**
-- Ran markdownlint-cli2 on MASTER-API-REFERENCE.md and DOC-DASHBOARD.md
-- Fixed 442 lint violations (458 → 16 remaining, all false positives)
-- Fixed issues: MD040 (code fence languages), MD031 (blank lines), MD051 (orphan link), MD033 (HTML escape)
-- Fixed broken table rows in DOC-DASHBOARD.md
-- Added Aliases section to MASTER-DISPATCHER-GUIDE.md (~50 lines)
-- Fixed 14 broken anchor links across 10 documentation files:
-  - LEARNING-PATH-INDEX.md (4 TOC links)
-  - TROUBLESHOOTING.md (Token & → Token and)
-  - DOC-INDEX.md (environment variables link)
-  - REFERENCE-CONSOLIDATION-PLAN.md (3 core libraries links)
-  - TEACHING-QUARTO-WORKFLOW-GUIDE.md (backup & restore)
-  - TOKEN-MANAGEMENT-COMPLETE.md (retrieving & using)
+- Code review of teach plan (5 critical/high issues fixed: YAML injection, temp file leak, backup/restore, grep anchoring, bounded retries)
+- Debugged 14 test failures (ZSH $RANDOM subshell bug → mktemp fix)
+- All 71 teach plan tests passing (32 unit + 24 security + 15 E2E)
+- Documentation gaps filled: Tutorial 27, REFCARD, API ref, help guide, dispatcher guide, completions, mkdocs nav
+- Migrated 102 broken .archive/ links to MASTER-DISPATCHER-GUIDE/API-REFERENCE/ARCHITECTURE
+- Fixed 374 malformed code fence closers in MASTER-API-REFERENCE.md (page was rendering as single code block)
+- Strict mkdocs build passes with 0 warnings
+- Site deployed and verified (5 key pages: 200 OK)
+- Version bumped, tagged v5.22.0, GitHub release created
   - ZSH-PLUGIN-ECOSYSTEM-GUIDE.md (antidote + OMZ)
 - Added explicit HTML anchors to 3 docs files
 - Deployed updated docs to GitHub Pages
@@ -811,24 +872,8 @@ fi
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Clean |
-| `~/.git-worktrees/flow-cli/feature-latex-macros` | `feature/latex-macros` | 🚧 WIP - Issue #305 |
-
-**Active Feature:**
-- 🚧 **LaTeX Macro Config** (Issue #305) - Spec complete, ready for implementation
-  - Spec: `docs/specs/SPEC-latex-macros-2026-01-28.md`
-  - Brainstorm: `BRAINSTORM-latex-macros-2026-01-28.md`
-  - Effort: ~14 hours (4 phases)
-
-**Recently Merged:**
-- ✅ Template Support (PR #302) - Merged 2026-01-28
-- ✅ API Docs Phase 1 (PR #303) - Merged 2026-01-28
-
-**API Documentation Phase 1:** ✅ MERGED (PR #303)
-- **Scope:** Core Libraries (20 functions documented)
-- **Files:** `lib/core.zsh`, `lib/atlas-bridge.zsh`
-- **Coverage:** 24.9% → 26.1% (+13 functions)
-- **Commit:** c14c5bb4
+| Main repo | `main` | Clean (v5.22.0) |
+| `~/.git-worktrees/flow-cli/feature-teach-prompt` | `feature/teach-prompt` | 🚧 Ready for implementation |
 
 ---
 
@@ -1044,39 +1089,8 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-28 23:59
-**Status:** v5.21.0 Released ✅ - LaTeX Macro Configuration Support
-## wins: --category ship v5.21.0 released (LaTeX macros, 80 tests, teach macros command) (2026-01-28)
-## wins: --category code PR #306 merged - LaTeX macro configuration (#305, +4,460 lines) (2026-01-28)
-## wins: --category docs LaTeX macro config spec created (Issue #305, 14h effort, 4 phases) (2026-01-28)
-## wins: --category docs fixed 442 lint violations + 14 broken anchor links across 10 files (2026-01-28)
-## wins: --category code PR #303 merged - API docs Phase 1 (20 functions, +26.1% coverage) (2026-01-28)
-## wins: --category docs template management docs updated (CHANGELOG, dispatcher guide, mkdocs nav) (2026-01-28)
-## wins: --category docs API docs extraction script run, coverage dashboard updated (2026-01-28)
-## wins: --category docs API documentation spec created (6 phases, 470 functions, orchestration ready) (2026-01-28)
-## wins: --category fix token age calculation bug fixed (Keychain icmt field parsing) (2026-01-28)
-## wins: --category docs spec created for .flow/templates/ support (#301, 569 lines) (2026-01-28)
-## wins: --category docs documented 4 teaching libraries (34 functions, +4.8% coverage) (2026-01-28)
-## wins: --category review reviewed issue #301, conducted 8-question brainstorm (2026-01-28)
-## wins: --category docs fixed high priority documentation issues (5 sections, image patterns) (2026-01-27)
-## wins: --category code PR #300 merged - lesson plan extraction complete (28 tests, +2,225 lines) (2026-01-27)
-## wins: --category review config consolidation analysis (#298 #299, 14+ integration points) (2026-01-27)
-## wins: --category ship v5.19.1 released (4 bug fixes, security fix, 55 tests) (2026-01-27)
-## wins: --category docs reviewed feature requests #278 #275, created spec (2026-01-27)
-## wins: --category code separate backup section in dot secret list (8 new tests) (2026-01-27)
-## wins: --category fix token rotation bug fixes (4 bugs, 47 tests) (2026-01-27)
-## wins: --category code enhanced dot secret list (box format, expiration display) (2026-01-27)
-## wins: --category ship v5.19.0 released (Keychain-default backend, zero dependencies) (2026-01-25)
-## wins: --category code backend abstraction complete (3 modes + 67 tests passing) (2026-01-25)
-## wins: --category review comprehensive PR #295 review (5/5 stars, 2,136 lines) (2026-01-25)
-## wins: --category fix resolved 25 merge conflicts for release (2026-01-25)
-## wins: --category fix fixed 196 mkdocs warnings (documentation health check) (2026-01-25)
-## wins: --category ship v5.18.0 released with documentation consolidation (2026-01-25)
-## wins: --category fix tutorial auto-launch and path resolution bugs fixed (2026-01-25)
-## wins: --category docs CLAUDE-CODE-ENVIRONMENT guide (303 lines troubleshooting) (2026-01-25)
-## wins: --category docs v5.18.0 milestone complete (consolidation + API + health check) (2026-01-24)
-## wins: --category docs documented 83 functions (Phases 1-4, +411% coverage) (2026-01-24)
-## wins: --category docs fixed 54 critical broken links across hub files (2026-01-24)
-## wins: --category ship deployed v5.18.0-dev to GitHub Pages (2026-01-24)
-## streak: 5
-## last_active: 2026-01-28
+**Last Updated:** 2026-01-29
+**Status:** v5.22.0 Released ✅ | v5.23.0 Planning (teach prompt)
+## wins: --category ship v5.22.0 released (teach plan, docs cleanup, 462 tests) (2026-01-29), --category ship v5.21.0 released (LaTeX macros, 80 tests) (2026-01-28)
+## streak: 0
+## last_active: 2026-01-29
