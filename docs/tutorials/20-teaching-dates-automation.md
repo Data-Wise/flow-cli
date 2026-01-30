@@ -170,6 +170,8 @@ semester_info:
 
 **Demo:**
 
+![teach dates init Demo](../demos/tutorials/tutorial-20-dates-init.gif)
+
 The `teach dates init` wizard walks you through setting up your semester configuration interactively.
 
 !!! success "Checkpoint"
@@ -362,6 +364,8 @@ Run without --dry-run to apply changes
 
 **Demo:**
 
+![teach dates sync --dry-run Demo](../demos/tutorials/tutorial-20-dates-sync-dry-run.gif)
+
 The `teach dates sync --dry-run` command previews all changes before applying them, showing exactly which files and dates will be updated.
 
 !!! warning "Check Before Applying"
@@ -424,6 +428,8 @@ Skipped: 0 files
 ```
 
 **Demo:**
+
+![teach dates sync Interactive Mode Demo](../demos/tutorials/tutorial-20-dates-sync-interactive.gif)
 
 The interactive sync mode prompts you to review and approve each change before applying it.
 
