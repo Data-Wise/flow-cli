@@ -11,3 +11,4 @@ node_modules
 site/
 .claude/settings.local.json
 tests/logs/
+WORKTREE-README.md

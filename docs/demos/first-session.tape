@@ -6,7 +6,7 @@
 Output first-session.gif
 
 Set Shell zsh
-Set FontSize 14
+Set FontSize 18
 Set Width 1200
 Set Height 600
 Set Padding 20
@@ -16,10 +16,10 @@ Set Theme "Catppuccin Mocha"
 # SCENE 1: Starting a Work Session
 # ============================================================================
 
-Type "# Tutorial 1: Your First Work Session"
+Type "echo 'Tutorial 1: Your First Work Session'"
 Sleep 500ms
 Enter
-Type "# Scene 1: Start tracking your work"
+Type "echo 'Scene 1: Start tracking your work'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -29,7 +29,7 @@ Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# Start a work session"
+Type "echo 'Start a work session'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -48,12 +48,12 @@ Sleep 500ms
 # SCENE 2: Working on Code
 # ============================================================================
 
-Type "# Scene 2: Do some work..."
+Type "echo 'Scene 2: Do some work...'"
 Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Edit a file, run tests, etc."
+Type "echo 'Edit a file, run tests, etc.'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -63,7 +63,7 @@ Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# Check project status"
+Type "echo 'Check project status'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -82,12 +82,12 @@ Sleep 500ms
 # SCENE 3: Finishing the Session
 # ============================================================================
 
-Type "# Scene 3: Finish your session"
+Type "echo 'Scene 3: Finish your session'"
 Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# End session with a quick note"
+Type "echo 'End session with a quick note'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -97,7 +97,7 @@ Sleep 500ms
 Enter
 Sleep 2s
 
-Type "# Session tracked! See summary:"
+Type "echo 'Session tracked! See summary:'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -116,21 +116,21 @@ Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# Quick Reference"
+Type "echo 'Quick Reference'"
 Sleep 500ms
 Enter
-Type "#   work         - Start tracking a session"
+Type "echo '  work         - Start tracking a session'"
 Sleep 300ms
 Enter
-Type "#   dash         - View project dashboard"
+Type "echo '  dash         - View project dashboard'"
 Sleep 300ms
 Enter
-Type "#   finish       - End session with optional note"
+Type "echo '  finish       - End session with optional note'"
 Sleep 300ms
 Enter
 Sleep 2s
 
-Type "# That's it! You've completed your first session."
+Type "echo 'That's it! You've completed your first session.'"
 Sleep 500ms
 Enter
 Sleep 3s

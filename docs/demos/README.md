@@ -4,37 +4,110 @@ This directory contains interactive demos and walkthroughs for flow-cli features
 
 ## Available Demos
 
+### Dispatcher Demos
+
+Quick demonstrations of flow-cli's smart dispatchers:
+
+#### Claude Code Dispatcher (`cc`)
+
+![CC Dispatcher Demo](cc-dispatcher.gif)
+
+**File:** `cc-dispatcher.tape`
+**Duration:** ~30 seconds
+
+**Demonstrates:**
+- `cc` - Launch Claude Code in current directory
+- `cc pick` - Interactive project picker
+- `cc yolo` - Quick launch in new window
+
+#### Dopamine Features
+
+![Dopamine Features Demo](dopamine-features.gif)
+
+**File:** `dopamine-features.tape`
+**Duration:** ~45 seconds
+
+**Demonstrates:**
+- `win` - Log accomplishments (auto-categorized)
+- `yay` - View recent wins
+- `yay --week` - Weekly summary with graph
+- `flow goal` - Daily goal progress
+
+#### DOT Dispatcher
+
+![DOT Dispatcher Demo](dot-dispatcher.gif)
+
+**File:** `dot-dispatcher.tape`
+**Duration:** ~40 seconds
+
+**Demonstrates:**
+- `dot edit` - Quick dotfile editing
+- `dot secret` - macOS Keychain secret management
+- `dot sync` - Sync dotfiles across machines
+
+#### First Session
+
+![First Session Demo](first-session.gif)
+
+**File:** `first-session.tape`
+**Duration:** ~35 seconds
+
+**Demonstrates:**
+- Initial setup and welcome
+- Project detection
+- Quick commands overview
+
 ### Teaching Workflow Demo
 
-**File:** `teaching-workflow.tape`
-**Tool:** VHS (https://github.com/charmbracelet/vhs)
-**Duration:** ~60 seconds
-**Output:** `teaching-workflow.gif`
+![Teaching Workflow Demo](teaching-workflow.gif)
 
-**What it demonstrates:**
-1. Initialize teaching workflow with `teach-init`
+**File:** `teaching-workflow.tape`
+**Duration:** ~60 seconds
+
+**Demonstrates:**
+1. Initialize teaching workflow with `teach init`
 2. Branch safety warning when on production
 3. Teaching-aware `work` session
-4. Fast deployment with `quick-deploy.sh`
+4. Fast deployment with `teach deploy`
 5. Configuration review
 
-**Generate the GIF:**
+### Tutorial Demos
+
+For comprehensive tutorial GIFs, see:
+- [Teaching v3.0 Tutorial GIFs](tutorials/TEACHING-V3-GIFS-README.md) - 6 teaching workflow demos
+- [Token Automation Tutorial GIFs](tutorials/) - 4 token automation demos
+- [Teaching Dates Tutorial GIFs](tutorials/) - 3 dates automation demos
+
+---
+
+## Generating Demos
+
+### Prerequisites
 
 ```bash
 # Install VHS (if not installed)
 brew install vhs
 
-# Generate demo
+# Optional: Install gifsicle for optimization
+brew install gifsicle
+```
+
+### Generate a Single Demo
+
+```bash
 cd docs/demos
 vhs teaching-workflow.tape
 
 # Output: teaching-workflow.gif
 ```
 
-**Use in documentation:**
+### Optimize GIFs
 
-```markdown
-![Teaching Workflow Demo](../assets/gifs/teaching-git-workflow.gif)
+```bash
+# Optimize with gifsicle (-O3 for maximum compression)
+gifsicle -O3 teaching-workflow.gif -o teaching-workflow.gif
+
+# Typical reduction: 10-20% file size
 ```
 
 ---
