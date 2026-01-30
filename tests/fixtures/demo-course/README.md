@@ -142,13 +142,54 @@ The demo course supports cache testing:
 
 ## Configuration
 
+### Course Config
+
+**File:** `.flow/teach-config.yml`
+
+Contains:
+- Course metadata (name, code, semester, instructor)
+- Week definitions with topics, styles, and objectives
+- Scholar settings and macro configuration
+- Semester dates and break weeks
+
+### Lesson Plans
+
+**File:** `.flow/lesson-plans.yml`
+
+Contains:
+- Detailed weekly lesson plans (5 weeks)
+- Learning objectives, activities, and assessments
+- Materials and prerequisites
+- Duration and timing information
+
+### Teaching Prompts
+
+**Directory:** `.flow/templates/prompts/`
+
+Course-level prompt overrides:
+- `lecture-notes.md` - Custom STAT-101 lecture generator
+- `quiz-questions.md` - Quiz question generator with difficulty levels
+
+These override plugin defaults, demonstrating 3-tier resolution.
+
+### Concepts Registry
+
 **File:** `.teach/concepts.json`
 
 Contains:
-
-- Course metadata (name, code, semester, instructor)
 - Full concept registry with week assignments
 - Prerequisite mappings
+- Bloom taxonomy and cognitive load metadata
+
+### LaTeX Macros
+
+**File:** `_macros.qmd`
+
+Contains:
+- Statistical notation macros (E, Var, Cov, etc.)
+- Probability symbols
+- Distribution notation
+- Hypothesis testing symbols
 
 ## Usage in Tests
 
@@ -160,13 +201,31 @@ Contains:
 
 **Coverage:** 25+ tests across all teach analyze features
 
-### Interactive Dog Feeding Test
+### Interactive Dog Feeding Test (teach analyze)
 
 ```bash
 ./tests/interactive-dog-teaching.zsh
 ```
 
 **Coverage:** 10 interactive tasks with user validation
+
+### Interactive Dog Feeding Test (teach prompt)
+
+```bash
+./tests/interactive-dog-prompt.zsh
+```
+
+**Coverage:** 12 interactive tasks testing prompt management
+
+### E2E Test Suite (teach prompt)
+
+```bash
+./tests/e2e-teach-prompt.zsh
+```
+
+**Coverage:** 33 tests for prompt list, show, edit, validate, export, advanced features
+
+**See:** `tests/TESTING-SUMMARY.md` for complete test documentation
 
 ## Maintenance
 
@@ -187,5 +246,6 @@ Contains:
 ---
 
 **Created:** 2026-01-22
-**Version:** 1.0.0
+**Updated:** 2026-01-29 (Added prompts, lesson plans, macros)
+**Version:** 2.0.0
 **Status:** Production Ready

@@ -1,28 +1,54 @@
 ---
-title: "LaTeX Macros"
+title: "LaTeX Macros for STAT-101"
+format: html
 ---
 
-```{=tex}
-% Statistical operators
-\newcommand{\E}{\mathbb{E}}
-\newcommand{\Var}{\text{Var}}
-\newcommand{\Cov}[2]{\text{Cov}(#1, #2)}
-\newcommand{\Corr}[2]{\text{Corr}(#1, #2)}
-\newcommand{\MSE}{\text{MSE}}
-\newcommand{\Bias}{\text{Bias}}
+```{=latex}
+% Operators
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\Var}[1]{\text{Var}\left(#1\right)}
+\newcommand{\Cov}[2]{\text{Cov}\left(#1, #2\right)}
+\newcommand{\Corr}[2]{\text{Corr}\left(#1, #2\right)}
+\newcommand{\SD}[1]{\text{SD}\left(#1\right)}
 
 % Probability
-\newcommand{\Prob}{\mathbb{P}}
-\newcommand{\given}{\mid}
+\newcommand{\Prob}[1]{\text{P}\left(#1\right)}
+\newcommand{\given}{\,|\,}
 
-% Symbols
-\newcommand{\indep}{\perp\!\!\!\perp}
-\newcommand{\iid}{\overset{\text{iid}}{\sim}}
+% Distributions
+\newcommand{\Normal}[2]{\mathcal{N}\left(#1, #2\right)}
+\newcommand{\Binom}[2]{\text{Binomial}\left(#1, #2\right)}
+\newcommand{\Uniform}[2]{\mathcal{U}\left(#1, #2\right)}
+\newcommand{\tdist}[1]{t_{#1}}
+\newcommand{\chisq}[1]{\chi^2_{#1}}
+
+% Statistics (sample vs population)
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\ybar}{\bar{y}}
+\newcommand{\phat}{\hat{p}}
+\newcommand{\betahat}{\hat{\beta}}
+
+% Hypothesis testing
+\newcommand{\Ho}{H_0}
+\newcommand{\Ha}{H_a}
+\newcommand{\pvalue}{\text{p-value}}
 
 % Matrices
-\newcommand{\bm}[1]{\boldsymbol{#1}}
-\newcommand{\transpose}{^{\mathsf{T}}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
 
-% Derivatives
-\newcommand{\dd}[2]{\frac{d #1}{d #2}}
+% Common symbols
+\newcommand{\iid}{\stackrel{\text{iid}}{\sim}}
+\newcommand{\indep}{\perp\!\!\!\perp}
 ```
+
+These macros are used throughout the course to maintain consistent notation.
+
+## Examples
+
+- Expected value: $\E{X}$
+- Variance: $\Var{X}$
+- Normal distribution: $X \sim \Normal{\mu}{\sigma^2}$
+- Sample mean: $\xbar$
+- Probability: $\Prob{A \given B}$
+- Null hypothesis: $\Ho$

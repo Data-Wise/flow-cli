@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.23.0] - Unreleased
+
+### Added
+
+#### AI Prompt Management
+
+- **`teach prompt` command** - Manage AI teaching prompts with 3-tier resolution
+  - `teach prompt list` - List prompts with tier indicators [C]/[U]/[P]
+  - `teach prompt show <name>` - Display prompt in `$PAGER`
+  - `teach prompt edit <name>` - Create course override and open `$EDITOR`
+  - `teach prompt validate` - Check syntax and Scholar compatibility
+  - `teach prompt export <name>` - Render with resolved variables
+  - Aliases: `teach pr`, `teach pr ls`, `teach pr cat`, `teach pr ed`, `teach pr val`, `teach pr x`
+
+- **3-tier prompt resolution** - Course > User > Plugin precedence
+  - Course: `.flow/templates/prompts/<name>.md`
+  - User: `~/.flow/prompts/<name>.md`
+  - Plugin: `lib/templates/teaching/claude-prompts/<name>.md`
+
+- **Scholar auto-resolve** - `_teach_scholar_wrapper()` auto-resolves and renders matching prompts for every Scholar call
+
+- **Tab completions** for all prompt subcommands and flags
+
+- **42 unit tests** covering resolution, rendering, validation, list/show, edit, export
+
+- **Documentation** - Reference card (`REFCARD-PROMPTS.md`) and tutorial (28-teach-prompt.md)
+
+---
+
 ## [5.22.0] - Unreleased
 
 ### Added
