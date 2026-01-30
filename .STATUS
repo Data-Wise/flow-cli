@@ -8,6 +8,36 @@
 ## Priority: 1
 ## Progress: 100
 
+## ✅ Just Completed: Spec File Archival & Version Updates (2026-01-29)
+
+**Session Duration:** ~10 min
+**Status:** ✅ Complete, committed, and pushed
+**Impact:** Cleaned up 5 teaching GIF spec files, corrected version references
+
+**Activities:**
+1. **Version Reference Updates**
+   - Updated teaching GIF spec files from planned v5.22.1 → actual v5.23.0
+   - Updated dependency requirements from v5.22.0+ → v5.23.0+
+   - Added PR #315 completion notes
+
+2. **Spec File Archival**
+   - Moved 5 completed spec files to docs/specs/_archive/
+   - Files archived: INDEX, SPEC, SUMMARY, CHECKLIST, EXAMPLES
+   - Teaching GIF enhancement completed in PR #315 (released v5.23.0)
+
+**Files Changed:**
+- docs/specs/INDEX-teaching-gifs-enhancement.md (version update, then archived)
+- docs/specs/SPEC-teaching-gifs-enhancement-2026-01-29.md (version update, then archived)
+- docs/specs/SUMMARY-teaching-gifs-audit.md (version update, then archived)
+- docs/specs/CHECKLIST-teaching-gifs-enhancement.md (archived)
+- docs/specs/EXAMPLES-vhs-syntax-fixes.md (archived)
+
+**Commits:**
+- e7bc7f40 - docs(specs): update teaching GIF enhancement release version to v5.23.0
+- c5612c00 - chore(specs): archive completed teaching GIF enhancement specs
+
+---
+
 ## ✅ Just Released: v5.23.0 - AI Prompt Management + GIF Quality (2026-01-29)
 
 **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0
@@ -1313,6 +1343,6 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 **Last Updated:** 2026-01-29
 **Status:** v5.23.0 Released ✅ | Documentation Deployed ✅ | CLAUDE.md Cleaned ✅ | GIF Enhancement Spec Ready ✅
-## wins: --category ship v5.23.0 released (teach prompt, 107 tests, demo v2.0.0) (2026-01-29), --category ship v5.22.0 released (teach plan, docs cleanup, 462 tests) (2026-01-29), --category ship v5.21.0 released (LaTeX macros, 80 tests) (2026-01-28), --category docs teaching GIF enhancement spec complete (2026-01-29), --category docs CLAUDE.md audit & cleanup (7 errors + 5 warnings fixed, 16% smaller) (2026-01-29)
-## streak: 5
+## wins: --category ship v5.23.0 released (teach prompt, 107 tests, demo v2.0.0) (2026-01-29), --category ship v5.22.0 released (teach plan, docs cleanup, 462 tests) (2026-01-29), --category ship v5.21.0 released (LaTeX macros, 80 tests) (2026-01-28), --category docs teaching GIF enhancement spec complete (2026-01-29), --category docs CLAUDE.md audit & cleanup (7 errors + 5 warnings fixed, 16% smaller) (2026-01-29), --category docs archived 5 completed spec files + version corrections (2026-01-29)
+## streak: 6
 ## last_active: 2026-01-29
