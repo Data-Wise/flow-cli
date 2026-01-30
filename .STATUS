@@ -37,6 +37,38 @@
 
 ---
 
+## ✅ Just Completed: CLAUDE.md Audit & Cleanup (2026-01-29)
+
+**Session Duration:** ~45 min (audit + fixes + orchestration)
+**Status:** ✅ Complete, staged for next release
+**Impact:** Cleaner documentation, all links valid, 16% file size reduction
+
+**Activities:**
+1. **Audit Phase** (`/claude-md:audit`)
+   - Found 7 broken documentation links (v5.18.0 consolidation)
+   - Found 3 version issues (stale v5.22.0 references)
+   - Identified duplicate content and optimization opportunities
+
+2. **Fix Phase** (`/claude-md:fix`)
+   - Fixed all 7 broken links to consolidated master docs
+   - Added v5.23.0 release section (AI Prompt Management)
+   - Corrected version confusion (v5.22.0 → v5.17.0, v5.16.0)
+   - Updated test counts and latest release link
+
+3. **Cleanup Phase** (`/craft:do` orchestration)
+   - Removed duplicate "Recent Releases" section (lines 945-1019)
+   - Condensed "Previous Milestones" historical content
+   - Verified all documentation references
+   - CLAUDE.md: 1,077 → 901 lines (-176 lines, -16.3%)
+
+**Commits:**
+- f1331ef9 - docs(claude): fix documentation links and version references
+- 95415341 - docs(CLAUDE): complete cleanup - remove duplicates, condense history
+
+**Next Steps:** Staged on dev, will be included in next feature release
+
+---
+
 ## ✅ Just Completed: Teaching GIF Enhancement Spec & Worktree (2026-01-29)
 
 **Session Duration:** ~1.5 hours (orchestration + worktree creation)
@@ -1271,7 +1303,7 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 ---
 
 **Last Updated:** 2026-01-29
-**Status:** v5.23.0 Released ✅ | Documentation Deployed ✅ | GIF Enhancement Spec Ready ✅
-## wins: --category ship v5.23.0 released (teach prompt, 107 tests, demo v2.0.0) (2026-01-29), --category ship v5.22.0 released (teach plan, docs cleanup, 462 tests) (2026-01-29), --category ship v5.21.0 released (LaTeX macros, 80 tests) (2026-01-28), --category docs teaching GIF enhancement spec complete (2026-01-29)
-## streak: 4
+**Status:** v5.23.0 Released ✅ | Documentation Deployed ✅ | CLAUDE.md Cleaned ✅ | GIF Enhancement Spec Ready ✅
+## wins: --category ship v5.23.0 released (teach prompt, 107 tests, demo v2.0.0) (2026-01-29), --category ship v5.22.0 released (teach plan, docs cleanup, 462 tests) (2026-01-29), --category ship v5.21.0 released (LaTeX macros, 80 tests) (2026-01-28), --category docs teaching GIF enhancement spec complete (2026-01-29), --category docs CLAUDE.md audit & cleanup (7 errors + 5 warnings fixed, 16% smaller) (2026-01-29)
+## streak: 5
 ## last_active: 2026-01-29
