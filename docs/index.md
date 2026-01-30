@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v5.19.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.0)
+[![Version](https://img.shields.io/badge/version-v5.22.1-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.1)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -18,34 +18,95 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
     work my-project         # Start working
     win "tried flow-cli!"   # Log your first win
     ```
-    **That's it!** [Want to learn more? →](#try-it-now)
+    **That's it!** [Want to learn more? →](#-try-it-now)
 
 ---
 
-## ✨ What's New in v5.19.0
+## ✨ What's New in v5.22.1
 
-!!! success "Keychain-Default Backend - Zero Dependencies"
-    Token management now defaults to macOS Keychain with zero external dependencies. Bitwarden sync is optional via environment variable.
+!!! success "Dispatcher Routing & Help System Excellence"
+    Unified command namespace and gold-standard help system make flow-cli more discoverable and user-friendly.
 
-### 🔐 Keychain-Default Backend (PR #295)
+### 🔗 Unified Command Namespace
 
-**Major Changes:**
-- **Zero Bitwarden dependency** - Keychain-only by default (no CLI required)
-- **Backend abstraction** - 3 modes: `keychain` (default), `bitwarden`, `both` (legacy)
-- **Faster operations** - No unlock prompts, no cloud sync overhead
-- **Optional cloud sync** - Set `FLOW_SECRET_BACKEND=bitwarden` to enable
-- **67 comprehensive tests** - 100% passing (20 unit + 47 automated + interactive)
+**All 12 dispatchers now work through `flow` command:**
 
-**Performance:**
-- No Bitwarden unlock prompt (saves 2-5 seconds)
-- No cloud sync overhead (saves 1-3 seconds per operation)
-- Instant Keychain retrieval (< 50ms)
+- `flow teach help` - Access teach dispatcher via unified namespace
+- `flow g status` - Git dispatcher through flow prefix
+- `flow r test` - R dispatcher through flow prefix
+- All dispatchers (`teach`, `g`, `r`, `qu`, `mcp`, `obs`, `cc`, `tm`, `wt`, `dot`, `prompt`, `v`)
+  accessible via `flow` prefix
+- **Backward compatible** - Direct calls still work (e.g., `teach help`)
 
-**Migration:** Backward compatible - existing dual-storage users unaffected.
+### ⭐ Gold-Standard Help System
+
+**teach help achieves 100% standards compliance:**
+
+- **🔥 MOST COMMON** section - Shows 5 most-used commands (80% daily use)
+- **💡 QUICK EXAMPLES** section - Copy-paste ready one-liners with inline comments
+- **💡 TIP** callout - Clarifies Scholar plugin dependency and error behavior
+- **Rating:** ⭐⭐⭐⭐⭐ (5/5 stars) - Best help system across all flow-cli dispatchers
+
+**Bug Fixes:**
+
+- Fixed 66 markdown linting issues in documentation
+- Updated stale test paths for archived files
 
 ---
 
-## 📚 Previous Release: v5.18.0
+## 📚 Previous Releases
+
+### v5.22.0 - Lesson Plan Management (2026-01-29)
+
+!!! info "CRUD Operations for Lesson Plans"
+    Centralized lesson plan management with auto-population and gap detection
+
+**Features:**
+
+- **`teach plan` command** - Full CRUD for lesson plan weeks
+  - `teach plan create <week>` - Add week with interactive prompts
+  - `teach plan list` - Table view with gap detection, JSON output
+  - `teach plan show <week>` - Formatted display with objectives/subtopics
+  - `teach plan edit <week>` - Opens editor at correct line with validation
+  - `teach plan delete <week>` - Remove with confirmation
+  - Shortcuts: `teach pl`, `teach plan c`, `teach plan ls`
+- **Auto-populate** from `teach-config.yml` when creating weeks
+- **Sorted insertion** - Weeks maintained in order by number
+- **Gap detection** - Warns about missing weeks in sequence
+
+### v5.21.0 - LaTeX Macro Configuration (2026-01-28)
+
+!!! info "Consistent AI-Generated Notation"
+    Manage LaTeX macros for consistent mathematical notation across Scholar-generated content
+
+**Features:**
+
+- **`teach macros` command** - Complete macro management
+  - `teach macros list` - Display all macros with categories
+  - `teach macros sync` - Extract from source files (QMD, LaTeX, MathJax)
+  - `teach macros export` - Export for Scholar AI integration (JSON/LaTeX formats)
+- **3 source parsers:** QMD, MathJax HTML, LaTeX
+- **6 categories:** operators, distributions, symbols, matrices, derivatives, probability
+- **Health check integration** - `teach doctor` includes macro health
+- **54 comprehensive tests**
+
+### v5.20.0 - Template Management (2026-01-28)
+
+!!! info "Reusable Content Templates"
+    Project-local templates with variable substitution
+
+**Features:**
+
+- **`teach templates` command** - Manage reusable templates
+  - `teach templates list` - View by type/source
+  - `teach templates new lecture week-05` - Create from template
+  - `teach templates validate` - Check syntax
+  - `teach templates sync` - Update from plugin defaults
+- **Variable substitution:** `{{WEEK}}`, `{{TOPIC}}`, `{{COURSE}}`, `{{DATE}}`
+- **4 template types:** content, prompts, metadata, checklists
+- **Resolution order:** Project templates override plugin defaults
+
+### v5.18.0 - Documentation Consolidation
 
 !!! info "Documentation Consolidation & API Coverage Improvement"
     Simplified documentation structure (66 → 7 files) with comprehensive API coverage (+411% increase)
@@ -87,10 +148,6 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 [→ Master API Reference](reference/MASTER-API-REFERENCE.md){ .md-button .md-button--primary }
 [→ Master Dispatcher Guide](reference/MASTER-DISPATCHER-GUIDE.md){ .md-button }
 [→ Documentation Dashboard](DOC-DASHBOARD.md){ .md-button }
-
----
-
-## Previous Releases
 
 ### v5.17.0 - Token Automation Phase 1
 
@@ -170,18 +227,21 @@ teach validate --deep                        # Prerequisite validation
 
 ### 🎓 Teaching Workflow v3.0 (v5.14.0)
 
-**Wave 1: Foundation**
+#### Wave 1: Foundation
+
 - **🏥 teach doctor** - Comprehensive environment health check (--fix, --json, --quiet)
 - **📖 Enhanced Help** - All 10 teach commands now have --help with EXAMPLES
 - **🔄 Unified Dispatcher** - Removed standalone `teach-init`, now `teach init`
 
-**Wave 2: Backup System**
+#### Wave 2: Backup System
+
 - **💾 Automated Backups** - Timestamped snapshots on every content modification
 - **📦 Retention Policies** - `archive` (keep forever) vs `semester` (auto-cleanup)
 - **🗑️ Safe Deletion** - Interactive confirmation with file preview
 - **📊 Status Integration** - Backup summary in `teach status`
 
-**Wave 3: Enhancements**
+#### Wave 3: Enhancements
+
 - **🚀 Deploy Preview** - `teach deploy --preview` shows changes before PR
 - **📚 Scholar Templates** - Template selection + automatic lesson plan loading
 - **✅ Enhanced Status** - Deployment status + backup info in `teach status`
@@ -203,7 +263,8 @@ All new features demonstrated with optimized tutorial GIFs (5.7MB total):
 
 ### Previous Release: v5.13.0
 
-**WT Enhancement + Scholar Integration**
+#### WT Enhancement + Scholar Integration
+
 - Enhanced worktree management with formatted overview and smart filtering
 - 9 Scholar wrapper commands for teaching content generation
 - Multi-select worktree actions with interactive delete
@@ -280,6 +341,7 @@ finish             # Done
 
 ??? example "📺 See it in action"
     ![flow-cli demo](assets/demo.gif)
+    <!-- markdownlint-disable MD046 -->
 
     **Expected output:**
 
@@ -335,7 +397,7 @@ flow goal        # Daily progress bar
 
 ### 🔥 Streaks
 
-```
+```text
 Day 1: 🌱 Building momentum
 Day 3: 🔥 On a roll!
 Day 7: 🔥🔥 Strong week!
@@ -376,14 +438,14 @@ trail             # See your trail
 
 Commands that adapt to your project:
 
-| Dispatcher    | Example          | What it does                   |
-| ------------- | ---------------- | ------------------------------ |
-| `cc`          | `cc`             | Claude Code here               |
-| `cc`          | `cc pick`        | Pick project → Claude          |
-| `r`           | `r test`         | R package tests                |
-| `qu`          | `qu preview`     | Quarto preview                 |
-| `g`           | `g push`         | Git with safety                |
-| `teach`       | `teach init "STAT 545"` | Teaching workflow commands     |
+| Dispatcher    | Example                     | What it does               |
+| ------------- | --------------------------- | -------------------------- |
+| `cc`          | `cc`                        | Claude Code here           |
+| `cc`          | `cc pick`                   | Pick project → Claude      |
+| `r`           | `r test`                    | R package tests            |
+| `qu`          | `qu preview`                | Quarto preview             |
+| `g`           | `g push`                    | Git with safety            |
+| `teach`       | `teach init "STAT 545"`     | Teaching workflow commands |
 
 **Get help:** `cc help`, `r help`, `qu help`
 
@@ -489,6 +551,7 @@ Commands that adapt to your project:
 ## 🧠 Design Philosophy
 
 !!! abstract "Built for ADHD"
+    <!-- markdownlint-disable MD046 -->
 
     | Feature | Why It Matters |
     |---------|----------------|
@@ -507,4 +570,4 @@ Commands that adapt to your project:
 
 ---
 
-**v5.10.0** · Pure ZSH · MIT License
+**v5.22.1** · Pure ZSH · MIT License

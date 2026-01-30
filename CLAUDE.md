@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v5.22.0
-- **Latest Release:** v5.22.0 (2026-01-28)
+- **Current Version:** v5.23.0
+- **Latest Release:** v5.23.0 (2026-01-29)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -706,8 +706,8 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.22.0
-**Latest Release:** v5.22.0 (2026-01-28)
+**Version:** v5.23.0
+**Latest Release:** v5.23.0 (2026-01-29)
 **Status:** Production
 **Branch:** `dev`
 **Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
