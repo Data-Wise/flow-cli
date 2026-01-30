@@ -1,0 +1,87 @@
+---
+title: "Week 1: Introduction to Statistics"
+subtitle: "Foundational Concepts"
+author: "Test Instructor"
+date: "2026-01-20"
+format: html
+concepts:
+  - id: descriptive-stats
+    name: "Descriptive Statistics"
+    category: "fundamental"
+    bloom_level: "understand"
+    cognitive_load: "low"
+    teaching_time: 15
+  - id: data-types
+    name: "Data Types"
+    category: "fundamental"
+    bloom_level: "remember"
+    cognitive_load: "low"
+    teaching_time: 10
+  - id: distributions
+    name: "Distributions"
+    category: "core"
+    bloom_level: "understand"
+    cognitive_load: "medium"
+    teaching_time: 20
+    prerequisites:
+      - descriptive-stats
+      - data-types
+---
+
+## Learning Objectives
+
+By the end of this lecture, you will be able to:
+
+1. Define and calculate descriptive statistics (mean, median, mode)
+2. Distinguish between different data types (categorical, numerical)
+3. Understand basic distribution properties
+
+## Descriptive Statistics
+
+Descriptive statistics summarize and describe the features of a dataset.
+
+### Measures of Central Tendency
+
+- **Mean**: Average of all values
+- **Median**: Middle value when sorted
+- **Mode**: Most frequent value
+
+```{r}
+# Example: Calculate mean
+data <- c(10, 20, 30, 40, 50)
+mean(data)
+```
+
+## Data Types
+
+Understanding data types is fundamental to choosing appropriate statistical methods.
+
+### Categorical Data
+
+- **Nominal**: Categories without order (e.g., colors, names)
+- **Ordinal**: Categories with order (e.g., rankings)
+
+### Numerical Data
+
+- **Discrete**: Countable values (e.g., number of students)
+- **Continuous**: Measurable values (e.g., height, weight)
+
+## Distributions
+
+Distributions describe how data values are spread across possible outcomes.
+
+### Key Properties
+
+- **Shape**: Symmetry, skewness
+- **Center**: Mean, median
+- **Spread**: Range, variance
+
+```{r}
+# Visualize a distribution
+hist(rnorm(1000), main="Normal Distribution")
+```
+
+## Summary
+
+This lecture introduced three fundamental concepts that form the foundation for statistical analysis.
+
