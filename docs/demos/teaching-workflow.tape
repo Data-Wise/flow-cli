@@ -15,10 +15,10 @@ Set Theme "Catppuccin Mocha"
 # SCENE 1: Initialize Teaching Workflow
 # ============================================================================
 
-Type "# Teaching Workflow Demo"
+Type "echo 'Teaching Workflow Demo'"
 Sleep 500ms
 Enter
-Type "# Scene 1: Initialize teaching workflow for a course"
+Type "echo 'Scene 1: Initialize teaching workflow for a course'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -63,7 +63,7 @@ Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# Now initialize teaching workflow"
+Type "echo 'Now initialize teaching workflow'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -92,7 +92,7 @@ Sleep 500ms
 # SCENE 2: Inspect What Was Created
 # ============================================================================
 
-Type "# Scene 2: Inspect what teach-init created"
+Type "echo 'Scene 2: Inspect what teach-init created'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -121,7 +121,7 @@ Sleep 500ms
 # SCENE 3: Production Branch Warning
 # ============================================================================
 
-Type "# Scene 3: Branch safety - warning when on production"
+Type "echo 'Scene 3: Branch safety - warning when on production'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -150,7 +150,7 @@ Sleep 500ms
 # SCENE 4: Safe Work on Draft Branch
 # ============================================================================
 
-Type "# Scene 4: Working on draft branch (safe)"
+Type "echo 'Scene 4: Working on draft branch (safe)'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -177,7 +177,7 @@ Sleep 500ms
 # SCENE 5: Make Changes and Deploy
 # ============================================================================
 
-Type "# Scene 5: Make changes and deploy"
+Type "echo 'Scene 5: Make changes and deploy'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -202,7 +202,7 @@ Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# Deploy to production (< 2 min)"
+Type "echo 'Deploy to production (< 2 min)'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -221,7 +221,7 @@ Sleep 500ms
 # SCENE 6: Verify Deployment
 # ============================================================================
 
-Type "# Scene 6: Verify deployment succeeded"
+Type "echo 'Scene 6: Verify deployment succeeded'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -245,7 +245,7 @@ Sleep 500ms
 # SCENE 7: Show Configuration
 # ============================================================================
 
-Type "# Scene 7: Course configuration"
+Type "echo 'Scene 7: Course configuration'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -264,7 +264,7 @@ Sleep 500ms
 # FINAL: Summary
 # ============================================================================
 
-Type "# ✅ Teaching Workflow Demo Complete!"
+Type "echo '✅ Teaching Workflow Demo Complete!'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -274,42 +274,32 @@ Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# What we demonstrated:"
+Type "echo 'What we demonstrated:'"
 Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# 1. teach-init: Initialize workflow (branches + scripts)"
+Type "echo '1. teach-init: Initialize workflow (branches + scripts)'"
 Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# 2. Branch safety: Warning when on production"
+Type "echo '2. Branch safety: Warning when on production'"
 Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# 3. work command: Teaching-aware session"
+Type "echo '3. work command: Teaching-aware session'"
 Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# 4. quick-deploy: Fast deployment (< 2 min)"
+Type "echo '4. quick-deploy: Fast deployment (< 2 min)'"
 Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# 5. Configuration: .flow/teach-config.yml"
-Sleep 500ms
-Enter
-Sleep 500ms
-
-Type "#"
-Sleep 500ms
-Enter
-Sleep 500ms
-
-Type "# Time from typo to live: < 2 minutes ⚡"
+Type "echo '5. Configuration: .flow/teach-config.yml'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -319,7 +309,17 @@ Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# Learn more: https://data-wise.github.io/flow-cli/guides/TEACHING-WORKFLOW/"
+Type "echo 'Time from typo to live: < 2 minutes ⚡'"
+Sleep 500ms
+Enter
+Sleep 500ms
+
+Type "#"
+Sleep 500ms
+Enter
+Sleep 500ms
+
+Type "echo 'Learn more: https://data-wise.github.io/flow-cli/guides/TEACHING-WORKFLOW/'"
 Sleep 500ms
 Enter
 Sleep 3s
