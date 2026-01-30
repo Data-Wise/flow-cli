@@ -170,8 +170,8 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | Clean (v5.23.0 released) |
-| `~/.git-worktrees/flow-cli/feature-teach-prompt` | `feature/teach-prompt` | ✅ MERGED (cleanup ready) |
-| `~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement` | `feature/teaching-gifs-enhancement` | 📋 Ready for implementation |
+
+**Note:** All feature worktrees cleaned up (teach-prompt and teaching-gifs-enhancement merged in v5.23.0)
 
 ### Recent PRs (all MERGED)
 | PR | Branch | Title |
@@ -1085,75 +1085,22 @@ fi
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Clean (v5.23.0 released) |
-| `~/.git-worktrees/flow-cli/feature-teach-prompt` | `feature/teach-prompt` | ✅ MERGED (cleanup ready) |
-| `~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement` | `feature/teaching-gifs-enhancement` | 📋 Ready for implementation |
+| Main repo | `dev` | ✅ Clean (v5.23.0 released) |
 
-**GIF Enhancement Worktree:**
-- **Location:** `~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement`
-- **Specs:** 5 documents committed (INDEX, SUMMARY, SPEC, CHECKLIST, EXAMPLES)
-- **Guide:** `WORKTREE-README.md` with implementation instructions
-- **Quick Start:** `cd ~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement`
-- **Next:** Start NEW session in worktree to begin Phase 1 implementation
-
-**Cleanup Commands (for merged feature/teach-prompt):**
-```bash
-git worktree remove ~/.git-worktrees/flow-cli/feature-teach-prompt
-git branch -d feature/teach-prompt  # If not auto-deleted
-```
+**Note:** All feature worktrees completed and cleaned up:
+- ✅ `feature/teach-prompt` - Merged in PR #313 (v5.23.0)
+- ✅ `feature/teaching-gifs-enhancement` - Merged in PR #315 (v5.23.0)
 
 ---
 
 ## 📝 Pending:
 
-### Teaching GIF Enhancement (Ready) ✨
-- **Status:** 📋 Spec complete, worktree created, ready for implementation
-- **Location:** `~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement`
-- **Effort:** ~14 hours (Option C: Incremental rollout)
-- **Why:** Fix small fonts (14px → 18px), syntax errors (87 lines), optimize size (7.7MB → 5.0MB)
-- **Scope:**
-  - Phase 1: Critical fixes (3 VHS tapes, 6 GIFs, basic optimization)
-  - Phase 2: Validation (script + pre-commit hooks)
-  - Phase 3: Documentation (style guide, CHANGELOG entries)
-- **Documentation:**
-  - Index: `docs/specs/INDEX-teaching-gifs-enhancement.md`
-  - Summary: `docs/specs/SUMMARY-teaching-gifs-audit.md`
-  - Full Spec: `docs/specs/SPEC-teaching-gifs-enhancement-2026-01-29.md` (16,000+ words)
-  - Checklist: `docs/specs/CHECKLIST-teaching-gifs-enhancement.md` (700+ lines)
-  - Examples: `docs/specs/EXAMPLES-vhs-syntax-fixes.md` (500+ lines)
-  - Guide: `WORKTREE-README.md` in worktree root
-- **Key Findings:**
-  - 6 GIFs with 14-16px font (too small for readability)
-  - 3 VHS tapes with 87 syntax errors (`Type "#..."` → `Type "echo '...'`)
-  - File size optimization potential: 30-40% reduction
-- **Next Steps:**
-  - Start NEW session in worktree: `cd ~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement && claude`
-  - Follow 3-phase implementation plan from SPEC
-  - Create PR to dev when complete
-
-### Feature Request #298: Lesson Plan Extraction (Active) ⭐
-- **Status:** ✅ Plan revised - Ready to implement
-- **Issue:** https://github.com/Data-Wise/flow-cli/issues/298
-- **Effort:** ~4 hours
-- **Why:** Cleaner separation (course meta vs curriculum)
-- **Scope (Revised):**
-  - ✅ Extract `semester_info.weeks[]` → `.flow/lesson-plans.yml`
-  - ✅ Add `lesson_plans: "lesson-plans.yml"` reference in teach-config.yml
-  - ✅ Create `teach migrate-config` command (with .bak backup)
-  - ❌ NO rename of teach-config.yml
-  - ❌ NO teaching_style integration (deferred)
-- **Design Decisions:**
-  - Reference-only model (pointer, not dual storage)
-  - Single lesson-plans.yml file (not per-week)
-  - Clear error messages with migration hints
-  - .bak backup before modifying
-
-### Feature Request #299: Scholar Config Sync (Deferred)
-- **Status:** ⏸️ Waiting for #298 to stabilize
+### Feature Request #299: Scholar Config Sync (Unblocked) ⭐
+- **Status:** ⏸️ Ready to implement (#298 complete)
 - **Issue:** https://github.com/Data-Wise/flow-cli/issues/299
-- **Effort:** 2-3 hours (after #298 complete)
+- **Effort:** 2-3 hours
 - **Why:** Scholar must read from new lesson-plans.yml format
-- **Dependencies:** Requires #298 complete and tested first
+- **Note:** Blocked dependency (#298) now complete as of v5.22.0
 
 ### Feature Request #278: `teach plan create` (Shelved)
 - **Status:** ⏸️ Shelved for future
@@ -1165,9 +1112,6 @@ git branch -d feature/teach-prompt  # If not auto-deleted
 - **Issue:** https://github.com/Data-Wise/flow-cli/issues/275
 - **Spec:** `docs/specs/SPEC-teach-dashboard-2026-01-18.md`
 
-### SPEC-teach-prompt-command (Paused)
-- ⏸️ Needs Scholar plugin coordination
-
 ### Config→Concept Graph Integration (Phase 1 Enhancement)
 - Brainstorm complete: `docs/specs/BRAINSTORM-config-concept-graph-integration-2026-01-22.md`
 - Approach: Option D (Hybrid Enrichment) — non-breaking config cross-referencing
@@ -1175,8 +1119,9 @@ git branch -d feature/teach-prompt  # If not auto-deleted
 - Match file titles to config topics as fallback
 
 ### API Documentation Improvement
-- Current coverage: 2.7% (19/704 functions)
+- Current coverage: 13.8% (97/704 functions)
 - Target: 80% (566/704 functions)
+- Completed: v5.17.0 token automation (30 functions) + teaching libraries (32) + git helpers (14) + keychain (7)
 - Tools ready: `scripts/generate-api-docs.sh --dry-run`
 - Dashboard: `scripts/generate-doc-dashboard.sh`
 
@@ -1343,6 +1288,6 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 **Last Updated:** 2026-01-29
 **Status:** v5.23.0 Released ✅ | Documentation Deployed ✅ | CLAUDE.md Cleaned ✅ | GIF Enhancement Spec Ready ✅
-## wins: --category ship v5.23.0 released (teach prompt, 107 tests, demo v2.0.0) (2026-01-29), --category ship v5.22.0 released (teach plan, docs cleanup, 462 tests) (2026-01-29), --category ship v5.21.0 released (LaTeX macros, 80 tests) (2026-01-28), --category docs teaching GIF enhancement spec complete (2026-01-29), --category docs CLAUDE.md audit & cleanup (7 errors + 5 warnings fixed, 16% smaller) (2026-01-29), --category docs archived 5 completed spec files + version corrections (2026-01-29)
-## streak: 6
+## wins: --category ship v5.23.0 released (teach prompt, 107 tests, demo v2.0.0) (2026-01-29), --category ship v5.22.0 released (teach plan, docs cleanup, 462 tests) (2026-01-29), --category ship v5.21.0 released (LaTeX macros, 80 tests) (2026-01-28), --category docs teaching GIF enhancement spec complete (2026-01-29), --category docs CLAUDE.md audit & cleanup (7 errors + 5 warnings fixed, 16% smaller) (2026-01-29), --category docs archived 5 completed spec files + version corrections (2026-01-29), --category docs STATUS cleanup - removed 3 stale items, updated API coverage (2026-01-29)
+## streak: 7
 ## last_active: 2026-01-29
