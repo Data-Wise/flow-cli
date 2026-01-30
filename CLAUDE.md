@@ -799,12 +799,12 @@ export FLOW_DEBUG=1
 - `docs/tutorials/25-lesson-plan-migration.md`
 - `docs/reference/REFCARD-TEMPLATES.md`
 
-### v5.17.0 - Token Automation Phase 1 ✨ (2026-01-23)
+---
+
+### v5.17.0 - Token Automation Phase 1 (2026-01-23)
 
 **Released:** 2026-01-23
 **PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED)
-**PR #293:** https://github.com/Data-Wise/flow-cli/pull/293 (Release PR)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.17.0
 **Changes:** 35 files, +13,546 / -187 lines
 
 **Major Features:**
@@ -813,18 +813,9 @@ export FLOW_DEBUG=1
 - Smart caching (5-min TTL, 80% API reduction, 85% hit rate)
 - ADHD-friendly category menu with visual hierarchy
 - Verbosity control (quiet/normal/verbose)
-- Integration across 9 dispatchers (g, dash, work, finish, etc.)
+- Integration across 9 dispatchers
 
-**Command:** `commands/teach-analyze.zsh` (1,203 lines)
-
-- 2,150+ lines across 4 comprehensive guides
-- 11 Mermaid architecture diagrams
-- Complete API reference (800+ lines)
-
-**Tests:**
-
-- 54 comprehensive tests (96.3% pass rate)
-- Unit, E2E, cache, and interactive test suites
+**Tests:** 54 comprehensive tests (96.3% pass rate)
 
 **Performance:**
 
@@ -832,11 +823,12 @@ export FLOW_DEBUG=1
 - Cache checks: ~5-8ms (50% better than target)
 - 80% API call reduction
 
+---
+
 ### v5.16.0 - Intelligent Content Analysis (2026-01-22)
 
 **Released:** 2026-01-22
 **PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0
 **Changes:** 58 commits, +39,228 / -1,750 lines
 
 **Major Features:**
@@ -847,173 +839,6 @@ export FLOW_DEBUG=1
 - Enhanced prerequisite display with dependency tree visualization
 - wt dispatcher passthrough fix
 
-**Release Session (2026-01-22):**
-
-- Enhanced prerequisite display with per-concept dependency trees
-- Fixed concept extraction bugs (array-of-objects YAML, prerequisite merging)
-- Fixed slide optimizer key concept extraction
-- Updated documentation (REFCARD + API reference)
-- Complete release workflow (version bump → PR → merge → tag → release)
-- Post-release cleanup (.STATUS update, branch cleanup)
-
----
-
-## Previous Milestones (2026-01-22)
-
-### E2E and Interactive Test Infrastructure (commit ad4d4c5d)
-
-**Created comprehensive test infrastructure for teach analyze:**
-
-1. **E2E Test Suite** (`tests/e2e-teach-analyze.zsh`)
-   - 29 automated tests across 8 sections
-   - Setup, single file, validation, batch, slide optimization, reports, integration, extended cases
-   - Uses demo course fixture (STAT-101)
-   - 48% pass rate (expected - validates implementation readiness)
-
-2. **Interactive Dog Feeding Test** (`tests/interactive-dog-teaching.zsh`)
-   - 10 gamified tasks with ADHD-friendly mechanics
-   - Dog hunger/happiness tracking (0-100)
-   - Star rating system (0-5 ⭐)
-   - User validation approach
-   - Expected output shown before commands
-
-3. **Demo Course Fixture** (`tests/fixtures/demo-course/`)
-   - STAT-101: Introduction to Statistics
-   - 11 concepts across 5 weeks (8 valid + 2 broken for error testing)
-   - Proper Bloom taxonomy (Remember → Evaluate)
-   - Cognitive load distribution (low/medium/high)
-   - Prerequisite chains for dependency validation
-   - Broken files: circular dependency, missing prerequisite
-
-4. **Documentation**
-   - `tests/E2E-TEST-README.md` - Complete E2E and interactive testing guide
-   - `tests/fixtures/demo-course/README.md` - Demo course structure and usage
-   - Updated `tests/run-all.sh` to include E2E tests
-
-**Test Count:** 393 → 423 tests (+29 E2E, +1 interactive = +30 total)
-
-### Documentation Update: Plugin Optimization Tutorial & Reference
-
-- **Tutorial 22:** Plugin optimization step-by-step (`docs/tutorials/22-plugin-optimization.md`)
-  - Load guard patterns
-  - Display layer extraction
-  - Cache path collision fixes
-  - Test timeout mechanisms
-- **Quick Reference:** Optimization patterns (`docs/reference/REFCARD-OPTIMIZATION.md`)
-- **CHANGELOG.md:** Updated with teach analyze (PR #289), optimization (PR #290), and fixes
-- **mkdocs.yml:** Added 2 new navigation entries
-
-### Teach Analyze - Complete (PR #289 + #290)
-
-**All Phases (0-5) Merged to dev:**
-
-### Phase Summary
-
-| Phase       | Feature                                           | Status | Tests |
-| ----------- | ------------------------------------------------- | ------ | ----- |
-| 0           | Concept extraction, prerequisite validation       | ✅     | ~65   |
-| 1           | Integration (teach validate, teach status)        | ✅     | ~20   |
-| 2           | Cache (SHA-256, flock), reports, interactive mode | ✅     | ~65   |
-| 3           | AI analysis (claude CLI, cost tracking)           | ✅     | 55    |
-| 4           | Slide optimizer (breaks, key concepts, timing)    | ✅     | 109   |
-| 5           | Error handling, slide cache, dependency checks    | ✅     | 33    |
-| Integration | teach slides --optimize pipeline                  | ✅     | 29    |
-
-### Key Files
-
-**Libraries (6):**
-
-- `lib/concept-extraction.zsh` (446 lines) - YAML frontmatter parsing
-- `lib/prerequisite-checker.zsh` (376 lines) - DAG validation
-- `lib/analysis-cache.zsh` (1,383 lines) - SHA-256 cache with flock
-- `lib/report-generator.zsh` (985 lines) - Markdown/JSON reports
-- `lib/ai-analysis.zsh` (514 lines) - Claude CLI integration
-- `lib/slide-optimizer.zsh` (627 lines) - Heuristic slide breaks
-
-**Command:** `commands/teach-analyze.zsh` (1,203 lines)
-
-**Documentation (5):**
-
-- `docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md` (user guide)
-- `docs/reference/TEACH-ANALYZE-API-REFERENCE.md` (API docs)
-- `docs/reference/TEACH-ANALYZE-ARCHITECTURE.md` (Mermaid diagrams)
-- `docs/reference/REFCARD-TEACH-ANALYZE.md` (quick reference)
-- `docs/tutorials/21-teach-analyze.md` (interactive tutorial)
-
----
-
-## Recent Releases
-
-### v5.22.0 (2026-01-21) - Documentation Updates
-
-- Architecture overview with 6 Mermaid diagrams
-- V-dispatcher reference documentation
-- Documentation coverage report (853 functions, 8.6% documented)
-- teach prompt command specs (paused for Scholar coordination)
-
-### v5.22.0 (2026-01-21) - Architecture & Documentation
-
-- Architecture overview with 6 Mermaid diagrams
-- V-dispatcher reference documentation
-- Documentation coverage report (853 functions, 8.6% → 49.4%)
-- teach prompt command specs (paused for Scholar coordination)
-
-### v5.22.0 (2026-01-21) - Comprehensive Help System
-
-- 18 help functions for all teach commands
-- 800-line Help System Guide
-- 450-line Quick Reference Card
-- Progressive disclosure UX pattern
-- ADHD-friendly design principles
-- PR #282 merged (38 commits, +66,767/-1,614 lines)
-
-### v5.22.0 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
-
-**Teaching Workflow v3.0:**
-
-- teach doctor with 6 health check categories
-- Automated backup system with retention policies
-- Enhanced teach status with deployment info
-- Scholar template selection
-- teach init reimplemented with --config/--github flags
-
-**Quarto Workflow Phase 1+2:**
-
-- 3-10x parallel rendering speedup
-- Custom validator framework
-- Advanced cache management
-- Performance monitoring dashboard
-- 545+ tests (100% passing)
-
----
-
-## Next Development Cycle (v5.22.0)
-
-**Current:** v5.22.0-dev - Documentation consolidation complete, API coverage at 13.8%
-
-**Completed in v5.22.0:**
-
-- Documentation consolidation (66 → 7 master files)
-- API documentation improvement (2.7% → 13.8%, +411% increase)
-- Documentation health check (54 critical broken links fixed)
-- Master documents created (MASTER-API-REFERENCE, MASTER-DISPATCHER-GUIDE, MASTER-ARCHITECTURE)
-
-**Potential Focus Areas:**
-
-- Continue API documentation (target: 80% coverage, currently 13.8%)
-- Config → concept graph integration (Phase 1 enhancement)
-- teach prompt command (needs Scholar coordination)
-- Token automation Phases 2-4 (deferred - multi-token, gamification)
-- Quarto workflow Phase 2 enhancements
-- Additional teach analyze improvements
-
-**Future Roadmap:**
-
-- Installation improvements (curl one-liner)
-- Remote state sync (optional cloud backup)
-- Multi-device support
-- Shared templates
-
 ---
 
 ## Common Tasks
@@ -1023,7 +848,7 @@ export FLOW_DEBUG=1
 1. Edit `lib/dispatchers/<name>-dispatcher.zsh`
 2. Update help function `_<name>_help()`
 3. Test: `source flow.plugin.zsh && <name> help`
-4. Update docs: `docs/reference/DISPATCHER-REFERENCE.md`
+4. Update docs: `docs/reference/MASTER-DISPATCHER-GUIDE.md`
 
 ### Deploy Documentation
 
@@ -1042,17 +867,17 @@ open https://Data-Wise.github.io/flow-cli/
 
 ```bash
 # Use the release script to bump all version files
-./scripts/release.sh 5.13.0
+./scripts/release.sh 5.23.0
 
 # Review changes
 git diff
 
 # Commit and tag
-git add -A && git commit -m "chore: bump version to 5.13.0"
-git tag -a v5.22.0 -m "v5.22.0"
+git add -A && git commit -m "chore: bump version to 5.23.0"
+git tag -a v5.23.0 -m "v5.23.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v5.22.0
+git push origin main && git push origin v5.23.0
 ```
 
 **Files updated by release script:**
@@ -1072,5 +897,5 @@ git push origin main && git push origin v5.22.0
 
 ---
 
-**Last Updated:** 2026-01-22
-**Status:** Production Ready (v5.22.0)
+**Last Updated:** 2026-01-29
+**Status:** Production Ready (v5.23.0)
