@@ -34,6 +34,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Documentation** - Reference card (`REFCARD-PROMPTS.md`) and tutorial (28-teach-prompt.md)
 
+#### Documentation GIF Quality Improvements
+
+- **VHS tape validation script** (`scripts/validate-vhs-tapes.sh`)
+  - Validates font size (minimum 18px)
+  - Checks for problematic `Type "#"` syntax
+  - Verifies Shell directive presence
+  - Validates Width/Height settings
+  - All 20 teaching-related tapes passing
+
+- **Comprehensive VHS tape style guide** (`docs/contributing/VHS-TAPE-STYLE-GUIDE.md`)
+  - Standard templates for teaching tutorials and dispatcher demos
+  - Font size requirements and readability guidelines
+  - Syntax guidelines (echo vs # comments)
+  - Common pitfalls with before/after examples
+  - Best practices for timing and pacing
+
+- **Enhanced GIF generation script** with auto-validation and optimization
+  - 3-step process: validate → generate → optimize
+  - Automatic gifsicle optimization
+  - Size reduction reporting
+
+### Changed
+
+#### Documentation GIF Improvements
+
+- **Standardized font sizes** - All teaching GIFs now use 18px font (up from 14-16px)
+  - Improved readability on high-resolution displays
+  - Consistent visual appearance across all documentation
+
+- **Fixed ZSH syntax errors** - 133 lines fixed across 9 VHS tapes
+  - Replaced `Type "#..."` with `Type "echo '...'"`
+  - Commands now execute without errors when copy-pasted
+
+- **Added Shell directives** - `Set Shell zsh` added to 9 tapes
+  - Ensures consistent behavior across environments
+
+- **Optimized GIF file sizes** - 10.9% reduction (2.48MB → 2.21MB)
+  - Best reductions: 20-21% for token automation GIFs
+  - Faster page load times, especially on mobile
+
+- **Regenerated 13 GIFs** with improved quality and standards compliance
+
 ---
 
 ## [5.22.0] - Unreleased
