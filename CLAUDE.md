@@ -399,9 +399,9 @@ flow token expiring   # Alias for dot token
 **Documentation:**
 
 - User Guide: `docs/guides/DOCTOR-TOKEN-USER-GUIDE.md`
-- API Reference: `docs/reference/DOCTOR-TOKEN-API-REFERENCE.md`
+- API Reference: `docs/reference/MASTER-API-REFERENCE.md` (Token Management section)
 - Architecture: `docs/architecture/DOCTOR-TOKEN-ARCHITECTURE.md`
-- Quick Reference: `docs/reference/REFCARD-TOKEN.md`
+- Quick Reference: `docs/reference/REFCARD-TOKEN-SECRETS.md`
 
 **Tests:** 54 comprehensive tests (52 passing, 2 expected skips)
 
@@ -465,21 +465,21 @@ flow-cli/
 
 ## Key Files
 
-| File                                       | Purpose                  | Notes                     |
-| ------------------------------------------ | ------------------------ | ------------------------- |
-| `flow.plugin.zsh`                          | Plugin entry point       | Source this to load       |
-| `lib/core.zsh`                             | Core utilities           | Logging, colors, helpers  |
-| `lib/atlas-bridge.zsh`                     | Atlas integration        | Optional state engine     |
-| `lib/keychain-helpers.zsh`                 | macOS Keychain secrets   | Touch ID support          |
-| `lib/config-validator.zsh`                 | Config validation        | Schema + hash validation  |
-| `lib/git-helpers.zsh`                      | Git integration          | Teaching workflow         |
-| `lib/dispatchers/*.zsh`                    | Smart dispatchers        | 12 active dispatchers     |
-| `commands/*.zsh`                           | Core commands            | work, dash, finish, etc.  |
-| `docs/reference/DISPATCHER-REFERENCE.md`   | Complete dispatcher docs | All dispatchers           |
-| `docs/reference/ARCHITECTURE-OVERVIEW.md`  | System architecture      | Mermaid diagrams          |
-| `docs/reference/V-DISPATCHER-REFERENCE.md` | V/Vibe dispatcher docs   | Vibe coding mode          |
-| `docs/reference/DOCUMENTATION-COVERAGE.md` | Coverage metrics         | 853 funcs, 49.4% coverage |
-| `.STATUS`                                  | Current progress         | Sprint tracking           |
+| File                                        | Purpose                  | Notes                    |
+| ------------------------------------------- | ------------------------ | ------------------------ |
+| `flow.plugin.zsh`                           | Plugin entry point       | Source this to load      |
+| `lib/core.zsh`                              | Core utilities           | Logging, colors, helpers |
+| `lib/atlas-bridge.zsh`                      | Atlas integration        | Optional state engine    |
+| `lib/keychain-helpers.zsh`                  | macOS Keychain secrets   | Touch ID support         |
+| `lib/config-validator.zsh`                  | Config validation        | Schema + hash validation |
+| `lib/git-helpers.zsh`                       | Git integration          | Teaching workflow        |
+| `lib/dispatchers/*.zsh`                     | Smart dispatchers        | 12 active dispatchers    |
+| `commands/*.zsh`                            | Core commands            | work, dash, finish, etc. |
+| `docs/reference/MASTER-DISPATCHER-GUIDE.md` | Complete dispatcher docs | All 12 dispatchers       |
+| `docs/reference/MASTER-ARCHITECTURE.md`     | System architecture      | Mermaid diagrams         |
+| `docs/reference/MASTER-API-REFERENCE.md`    | API documentation        | Function reference       |
+| `docs/DOC-DASHBOARD.md`                     | Doc coverage metrics     | Auto-generated stats     |
+| `.STATUS`                                   | Current progress         | Sprint tracking          |
 
 ---
 
@@ -544,8 +544,8 @@ teach help           # Teaching dispatcher help
    ```
 
 3. **Update docs:**
-   - Add to `docs/reference/DISPATCHER-REFERENCE.md`
-   - Update `docs/reference/COMMAND-QUICK-REFERENCE.md`
+   - Add to `docs/reference/MASTER-DISPATCHER-GUIDE.md`
+   - Update `docs/help/QUICK-REFERENCE.md`
    - Update `mkdocs.yml` if needed
 
 ---
@@ -660,16 +660,17 @@ See [Testing Guide](docs/guides/TESTING.md) for:
 
 ### Key Docs
 
-| Document                                     | Purpose                   |
-| -------------------------------------------- | ------------------------- |
-| `docs/guides/DOPAMINE-FEATURES-GUIDE.md`     | Win/streak/goal features  |
-| `docs/reference/DISPATCHER-REFERENCE.md`     | Complete dispatcher guide |
-| `docs/reference/ALIAS-REFERENCE-CARD.md`     | All aliases               |
-| `docs/reference/COMMAND-QUICK-REFERENCE.md`  | Quick command lookup      |
-| `docs/reference/WORKFLOW-QUICK-REFERENCE.md` | Common workflows          |
-| `docs/getting-started/quick-start.md`        | 5-minute tutorial         |
-| `docs/CONVENTIONS.md`                        | Code standards            |
-| `docs/PHILOSOPHY.md`                         | Design principles         |
+| Document                                    | Purpose                   |
+| ------------------------------------------- | ------------------------- |
+| `docs/guides/DOPAMINE-FEATURES-GUIDE.md`    | Win/streak/goal features  |
+| `docs/reference/MASTER-DISPATCHER-GUIDE.md` | Complete dispatcher guide |
+| `docs/reference/MASTER-API-REFERENCE.md`    | API function reference    |
+| `docs/reference/MASTER-ARCHITECTURE.md`     | System architecture       |
+| `docs/help/QUICK-REFERENCE.md`              | Quick command lookup      |
+| `docs/help/WORKFLOWS.md`                    | Common workflows          |
+| `docs/getting-started/quick-start.md`       | 5-minute tutorial         |
+| `docs/CONVENTIONS.md`                       | Code standards            |
+| `docs/PHILOSOPHY.md`                        | Design principles         |
 
 ### Updating Docs
 
@@ -710,19 +711,52 @@ export FLOW_DEBUG=1
 **Latest Release:** v5.23.0 (2026-01-29)
 **Status:** Production
 **Branch:** `dev`
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
-**Tests:** 14 test suites + 54 token automation tests (100% core tests, 416+ total tests)
-
-**Recent Improvements (dev branch):**
-
-- ✅ Dispatcher routing - All 12 dispatchers accessible via `flow` command
-- ✅ teach help system - 100% standards compliance (⭐⭐⭐⭐⭐)
+**Tests:** 107 tests (62 unit + 33 E2E + 12 interactive) for teach prompt + 462 total tests
 
 ---
 
 ## Recent Releases
+
+### v5.23.0 - AI Prompt Management (2026-01-29)
+
+**Released:** 2026-01-29
+**PR #313:** https://github.com/Data-Wise/flow-cli/pull/313 (MERGED)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0
+**Changes:** 17 files changed, +4,738 / -22 lines
+
+**Major Features:**
+
+- **AI Prompt Management** (`teach prompt`) - 3-tier resolution system
+  - `teach prompt list` - List prompts by scope (Course > User > Plugin)
+  - `teach prompt show <name>` - Display prompt content with metadata
+  - `teach prompt edit <name>` - Edit prompts with automatic validation
+  - `teach prompt validate` - Check all prompts for syntax errors
+  - `teach prompt export` - Export for Scholar integration
+  - Auto-resolve integration: Scholar automatically injects course-specific prompts
+
+- **Implementation:**
+  - commands/teach-prompt.zsh (625 lines) - Full CRUD command
+  - lib/prompt-helpers.zsh (454 lines) - 3-tier resolution engine
+  - Scholar auto-resolve integration in teach-dispatcher.zsh
+
+- **Testing:**
+  - 107 comprehensive tests (100% passing)
+  - 62 unit tests (full command coverage)
+  - 33 E2E tests (workflows + edge cases)
+  - 12 interactive dogfooding tasks
+
+- **Documentation:**
+  - Tutorial 28: teach-prompt.md (step-by-step guide)
+  - REFCARD-PROMPTS.md (quick reference)
+  - TESTING-SUMMARY.md (complete test docs)
+  - Demo course v2.0.0 with prompts + lesson plans + macros
+
+**Stats:** 17 files, +4,738 / -22 lines
+
+---
 
 ### v5.22.0 - Template Management & Lesson Plan Migration (2026-01-28)
 
@@ -765,12 +799,12 @@ export FLOW_DEBUG=1
 - `docs/tutorials/25-lesson-plan-migration.md`
 - `docs/reference/REFCARD-TEMPLATES.md`
 
-### v5.22.0 - Token Automation Phase 1 ✨ (2026-01-23)
+### v5.17.0 - Token Automation Phase 1 ✨ (2026-01-23)
 
 **Released:** 2026-01-23
 **PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED)
 **PR #293:** https://github.com/Data-Wise/flow-cli/pull/293 (Release PR)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.17.0
 **Changes:** 35 files, +13,546 / -187 lines
 
 **Major Features:**
@@ -798,11 +832,11 @@ export FLOW_DEBUG=1
 - Cache checks: ~5-8ms (50% better than target)
 - 80% API call reduction
 
-### v5.22.0 - Intelligent Content Analysis (2026-01-22)
+### v5.16.0 - Intelligent Content Analysis (2026-01-22)
 
 **Released:** 2026-01-22
 **PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.16.0
 **Changes:** 58 commits, +39,228 / -1,750 lines
 
 **Major Features:**
