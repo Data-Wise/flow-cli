@@ -37,13 +37,70 @@
 
 ---
 
+## ✅ Just Completed: Teaching GIF Enhancement Spec & Worktree (2026-01-29)
+
+**Session Duration:** ~1.5 hours (orchestration + worktree creation)
+**Status:** ✅ Spec complete, worktree created, ready for implementation
+**Impact:** Comprehensive plan for fixing GIF documentation issues
+
+**Activities:**
+1. **Comprehensive Teaching Docs Review**
+   - Analyzed 69 teaching files (17,317 lines total)
+   - Created TEACHING-DOCS-REVIEW.md (635 lines)
+   - Identified gaps: version drift, entry point confusion, missing troubleshooting
+   - 4-phase roadmap (77 hours), 5 quick wins (<2 hours each)
+
+2. **GIF Enhancement Specification** (via /craft:do orchestration)
+   - Delegated to craft:workflow-orchestrator agent
+   - Created 5 comprehensive documents:
+     1. INDEX-teaching-gifs-enhancement.md (navigation hub)
+     2. SUMMARY-teaching-gifs-audit.md (critical findings)
+     3. SPEC-teaching-gifs-enhancement-2026-01-29.md (16,000+ words)
+     4. CHECKLIST-teaching-gifs-enhancement.md (700+ lines)
+     5. EXAMPLES-vhs-syntax-fixes.md (500+ lines)
+   - Key findings: 6 GIFs with 14px font, 3 VHS tapes with 87 syntax errors, 30-40% file size optimization
+
+3. **Worktree Creation**
+   - Created feature/teaching-gifs-enhancement branch from dev
+   - Staged and committed 6 files (5 specs + TEACHING-DOCS-REVIEW.md)
+   - Created worktree at `~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement`
+   - Created WORKTREE-README.md implementation guide
+   - Fixed branch checkout conflict (switched main repo to dev)
+
+4. **Documentation Updates**
+   - Updated docs/index.md badges from v5.19.0 → v5.22.1
+   - Rewrote "What's New" section for v5.22.1 (Dispatcher Routing & Help System)
+   - Fixed 11 markdown linting errors
+   - Deployed to GitHub Pages
+
+**Files Created:**
+- docs/specs/INDEX-teaching-gifs-enhancement.md
+- docs/specs/SUMMARY-teaching-gifs-audit.md
+- docs/specs/SPEC-teaching-gifs-enhancement-2026-01-29.md (16,000+ words)
+- docs/specs/CHECKLIST-teaching-gifs-enhancement.md (700+ lines)
+- docs/specs/EXAMPLES-vhs-syntax-fixes.md (500+ lines)
+- TEACHING-DOCS-REVIEW.md (635 lines)
+- ~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement/WORKTREE-README.md
+
+**Commits:**
+- docs(teaching): comprehensive review and GIF enhancement specs
+
+**Next Steps:**
+- Start NEW session in worktree to begin Phase 1 implementation
+- Fix 3 VHS tapes with syntax errors
+- Regenerate 6 GIFs with 18px font
+- Optimize with gifsicle
+
+---
+
 ## 📊 Branch Monitoring (2026-01-29)
 
 ### Active Worktrees
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | Clean (v5.23.0 released) |
-| `~/.git-worktrees/flow-cli/feature-teach-prompt` | `feature/teach-prompt` | ✅ MERGED (can remove) |
+| `~/.git-worktrees/flow-cli/feature-teach-prompt` | `feature/teach-prompt` | ✅ MERGED (cleanup ready) |
+| `~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement` | `feature/teaching-gifs-enhancement` | 📋 Ready for implementation |
 
 ### Recent PRs (all MERGED)
 | PR | Branch | Title |
@@ -959,8 +1016,16 @@ fi
 |----------|--------|--------|
 | Main repo | `dev` | Clean (v5.23.0 released) |
 | `~/.git-worktrees/flow-cli/feature-teach-prompt` | `feature/teach-prompt` | ✅ MERGED (cleanup ready) |
+| `~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement` | `feature/teaching-gifs-enhancement` | 📋 Ready for implementation |
 
-**Cleanup Command:**
+**GIF Enhancement Worktree:**
+- **Location:** `~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement`
+- **Specs:** 5 documents committed (INDEX, SUMMARY, SPEC, CHECKLIST, EXAMPLES)
+- **Guide:** `WORKTREE-README.md` with implementation instructions
+- **Quick Start:** `cd ~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement`
+- **Next:** Start NEW session in worktree to begin Phase 1 implementation
+
+**Cleanup Commands (for merged feature/teach-prompt):**
 ```bash
 git worktree remove ~/.git-worktrees/flow-cli/feature-teach-prompt
 git branch -d feature/teach-prompt  # If not auto-deleted
@@ -969,6 +1034,31 @@ git branch -d feature/teach-prompt  # If not auto-deleted
 ---
 
 ## 📝 Pending:
+
+### Teaching GIF Enhancement (Ready) ✨
+- **Status:** 📋 Spec complete, worktree created, ready for implementation
+- **Location:** `~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement`
+- **Effort:** ~14 hours (Option C: Incremental rollout)
+- **Why:** Fix small fonts (14px → 18px), syntax errors (87 lines), optimize size (7.7MB → 5.0MB)
+- **Scope:**
+  - Phase 1: Critical fixes (3 VHS tapes, 6 GIFs, basic optimization)
+  - Phase 2: Validation (script + pre-commit hooks)
+  - Phase 3: Documentation (style guide, CHANGELOG entries)
+- **Documentation:**
+  - Index: `docs/specs/INDEX-teaching-gifs-enhancement.md`
+  - Summary: `docs/specs/SUMMARY-teaching-gifs-audit.md`
+  - Full Spec: `docs/specs/SPEC-teaching-gifs-enhancement-2026-01-29.md` (16,000+ words)
+  - Checklist: `docs/specs/CHECKLIST-teaching-gifs-enhancement.md` (700+ lines)
+  - Examples: `docs/specs/EXAMPLES-vhs-syntax-fixes.md` (500+ lines)
+  - Guide: `WORKTREE-README.md` in worktree root
+- **Key Findings:**
+  - 6 GIFs with 14-16px font (too small for readability)
+  - 3 VHS tapes with 87 syntax errors (`Type "#..."` → `Type "echo '...'`)
+  - File size optimization potential: 30-40% reduction
+- **Next Steps:**
+  - Start NEW session in worktree: `cd ~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement && claude`
+  - Follow 3-phase implementation plan from SPEC
+  - Create PR to dev when complete
 
 ### Feature Request #298: Lesson Plan Extraction (Active) ⭐
 - **Status:** ✅ Plan revised - Ready to implement
@@ -1181,7 +1271,7 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 ---
 
 **Last Updated:** 2026-01-29
-**Status:** v5.23.0 Released ✅ | Documentation Deployed ✅
-## wins: --category ship v5.23.0 released (teach prompt, 107 tests, demo v2.0.0) (2026-01-29), --category ship v5.22.0 released (teach plan, docs cleanup, 462 tests) (2026-01-29), --category ship v5.21.0 released (LaTeX macros, 80 tests) (2026-01-28)
-## streak: 3
+**Status:** v5.23.0 Released ✅ | Documentation Deployed ✅ | GIF Enhancement Spec Ready ✅
+## wins: --category ship v5.23.0 released (teach prompt, 107 tests, demo v2.0.0) (2026-01-29), --category ship v5.22.0 released (teach plan, docs cleanup, 462 tests) (2026-01-29), --category ship v5.21.0 released (LaTeX macros, 80 tests) (2026-01-28), --category docs teaching GIF enhancement spec complete (2026-01-29)
+## streak: 4
 ## last_active: 2026-01-29
