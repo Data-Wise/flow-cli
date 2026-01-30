@@ -3,7 +3,7 @@
 
 Output ./23-token-automation-03-verbosity.gif
 
-Set FontSize 16
+Set FontSize 18
 Set Width 1000
 Set Height 600
 Set Theme "Catppuccin Mocha"

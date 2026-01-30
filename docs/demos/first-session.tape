@@ -6,7 +6,7 @@
 Output first-session.gif
 
 Set Shell zsh
-Set FontSize 14
+Set FontSize 18
 Set Width 1200
 Set Height 600
 Set Padding 20
