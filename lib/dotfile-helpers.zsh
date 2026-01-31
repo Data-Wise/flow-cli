@@ -709,6 +709,19 @@ typeset -g DOT_SESSION_CACHE_DIR="${HOME}/.cache/dot"
 typeset -g DOT_SESSION_CACHE_FILE="${DOT_SESSION_CACHE_DIR}/session"
 typeset -g DOT_SESSION_IDLE_TIMEOUT=${DOT_SESSION_IDLE_TIMEOUT:-900}  # 15 min default
 
+# ============================================================================
+# CHEZMOI SAFETY CACHE (Phase 1)
+# ============================================================================
+
+# Cache variables for Chezmoi size and ignore patterns
+typeset -g _DOT_SIZE_CACHE
+typeset -g _DOT_SIZE_CACHE_TIME
+typeset -g _DOT_IGNORE_CACHE
+typeset -g _DOT_IGNORE_CACHE_TIME
+
+# Cache TTL (5 minutes = 300 seconds)
+typeset -g _DOT_CACHE_TTL=300
+
 # =============================================================================
 # Function: _dot_session_cache_init
 # Purpose: Initialize session cache directory with secure permissions
@@ -1038,6 +1051,169 @@ _dot_bw_get_status() {
 }
 
 # ============================================================================
+# CHEZMOI SAFETY CACHE HELPERS (Phase 1)
+# ============================================================================
+
+# =============================================================================
+# Function: _dot_is_cache_valid
+# Purpose: Check if a cache is still valid based on TTL
+# =============================================================================
+# Arguments:
+#   $1 - (required) Cache timestamp (Unix epoch seconds)
+#   $2 - (optional) Custom TTL in seconds [default: $_DOT_CACHE_TTL]
+#
+# Returns:
+#   0 - Cache is valid (age < TTL)
+#   1 - Cache is expired or invalid (no timestamp)
+#
+# Example:
+#   if _dot_is_cache_valid "$_DOT_SIZE_CACHE_TIME"; then
+#       echo "Cache still valid"
+#   fi
+#
+#   # Custom TTL (10 minutes)
+#   if _dot_is_cache_valid "$cache_time" 600; then
+#       echo "Cache valid for 10 minutes"
+#   fi
+#
+# Notes:
+#   - Returns 1 if cache_time is empty (no cache)
+#   - Uses $_DOT_CACHE_TTL (300s / 5min) by default
+#   - Calculates age as (now - cache_time) in seconds
+# =============================================================================
+_dot_is_cache_valid() {
+    local cache_time="$1"
+    local ttl="${2:-$_DOT_CACHE_TTL}"
+
+    if [[ -z "$cache_time" ]]; then
+        return 1
+    fi
+
+    local now=$(date +%s)
+    local age=$((now - cache_time))
+
+    (( age < ttl ))
+}
+
+# =============================================================================
+# Function: _dot_get_cached_size
+# Purpose: Retrieve cached Chezmoi size if still valid
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Cache is valid, size returned via stdout
+#   1 - Cache expired or empty (no size returned)
+#
+# Output:
+#   stdout - Cached size value if valid
+#
+# Example:
+#   if size=$(_dot_get_cached_size); then
+#       echo "Cached size: $size"
+#   else
+#       size=$(du -sh ~/.local/share/chezmoi)
+#       _dot_cache_size "$size"
+#   fi
+#
+# Notes:
+#   - Checks $_DOT_SIZE_CACHE_TIME validity
+#   - Returns cached value from $_DOT_SIZE_CACHE
+#   - Returns 1 if cache expired or not set
+# =============================================================================
+_dot_get_cached_size() {
+    if _dot_is_cache_valid "$_DOT_SIZE_CACHE_TIME"; then
+        echo "$_DOT_SIZE_CACHE"
+        return 0
+    fi
+    return 1
+}
+
+# =============================================================================
+# Function: _dot_cache_size
+# Purpose: Store Chezmoi size in cache with current timestamp
+# =============================================================================
+# Arguments:
+#   $1 - (required) Size value to cache
+#
+# Returns:
+#   0 - Always
+#
+# Example:
+#   size=$(du -sh ~/.local/share/chezmoi | awk '{print $1}')
+#   _dot_cache_size "$size"
+#
+# Notes:
+#   - Sets $_DOT_SIZE_CACHE to provided value
+#   - Sets $_DOT_SIZE_CACHE_TIME to current Unix timestamp
+#   - Call after computing expensive size calculation
+# =============================================================================
+_dot_cache_size() {
+    _DOT_SIZE_CACHE="$1"
+    _DOT_SIZE_CACHE_TIME=$(date +%s)
+}
+
+# =============================================================================
+# Function: _dot_get_cached_ignore
+# Purpose: Retrieve cached Chezmoi ignore patterns if still valid
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Cache is valid, patterns returned via stdout
+#   1 - Cache expired or empty (no patterns returned)
+#
+# Output:
+#   stdout - Cached ignore patterns if valid
+#
+# Example:
+#   if patterns=$(_dot_get_cached_ignore); then
+#       echo "$patterns"
+#   else
+#       patterns=$(chezmoi ignored)
+#       _dot_cache_ignore "$patterns"
+#   fi
+#
+# Notes:
+#   - Checks $_DOT_IGNORE_CACHE_TIME validity
+#   - Returns cached value from $_DOT_IGNORE_CACHE
+#   - Returns 1 if cache expired or not set
+# =============================================================================
+_dot_get_cached_ignore() {
+    if _dot_is_cache_valid "$_DOT_IGNORE_CACHE_TIME"; then
+        echo "$_DOT_IGNORE_CACHE"
+        return 0
+    fi
+    return 1
+}
+
+# =============================================================================
+# Function: _dot_cache_ignore
+# Purpose: Store Chezmoi ignore patterns in cache with current timestamp
+# =============================================================================
+# Arguments:
+#   $1 - (required) Ignore patterns to cache
+#
+# Returns:
+#   0 - Always
+#
+# Example:
+#   patterns=$(chezmoi ignored)
+#   _dot_cache_ignore "$patterns"
+#
+# Notes:
+#   - Sets $_DOT_IGNORE_CACHE to provided value
+#   - Sets $_DOT_IGNORE_CACHE_TIME to current Unix timestamp
+#   - Call after computing expensive ignore pattern check
+# =============================================================================
+_dot_cache_ignore() {
+    _DOT_IGNORE_CACHE="$1"
+    _DOT_IGNORE_CACHE_TIME=$(date +%s)
+}
+
+# ============================================================================
 # SECURITY HELPERS (Phase 3)
 # ============================================================================
 
@@ -1123,6 +1299,134 @@ _dot_security_check_bw_session() {
 _dot_security_init
 
 # ============================================================================
+# GIT SAFETY HELPERS (Phase 2)
+# ============================================================================
+
+# =============================================================================
+# Function: _dot_check_git_in_path
+# Purpose: Detect .git directories in target path before chezmoi tracking
+# =============================================================================
+# Arguments:
+#   $1 - (required) Target path to scan for .git directories
+#
+# Returns:
+#   0 - .git directories found (paths returned via stdout)
+#   1 - No .git directories found
+#
+# Output:
+#   stdout - Space-separated list of .git directory paths
+#
+# Example:
+#   if git_dirs=$(_dot_check_git_in_path "$target"); then
+#       _flow_log_warning "Found .git directories: $git_dirs"
+#   fi
+#
+# Notes:
+#   - Performance optimized:
+#     1. Checks target/.git first (fast)
+#     2. For git repos, uses 'git submodule status' (faster than find)
+#     3. For non-git dirs, uses find with 2s timeout
+#   - Handles symlinks with user confirmation
+#   - Warns on large directories (1000+ files)
+#   - Uses _flow_timeout for cross-platform timeout support
+#   - Maxdepth 5 to prevent deep recursion
+# =============================================================================
+_dot_check_git_in_path() {
+    local target="$1"
+    local git_dirs=()
+
+    # Handle symlinks
+    if [[ -L "$target" ]]; then
+        _flow_log_warning "Target is a symlink: $target"
+        read -q "REPLY?Follow symlink and scan target? (Y/n) "
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
+            # Resolve symlink (try readlink -f first, fallback to realpath)
+            local resolved
+            resolved=$(readlink -f "$target" 2>/dev/null || realpath "$target" 2>/dev/null)
+            if [[ -n "$resolved" ]]; then
+                target="$resolved"
+                _flow_log_info "Following to: $target"
+            else
+                _flow_log_error "Failed to resolve symlink"
+                return 1
+            fi
+        else
+            # User declined to follow - check only symlink target
+            local real_target=$(readlink "$target" 2>/dev/null)
+            if [[ -n "$real_target" ]] && [[ -d "${real_target}/.git" ]]; then
+                git_dirs+=("${real_target}/.git")
+            fi
+            if (( ${#git_dirs[@]} > 0 )); then
+                echo "${git_dirs[@]}"
+                return 0
+            fi
+            return 1
+        fi
+    fi
+
+    # Check if target itself has .git (fast check)
+    if [[ -d "$target/.git" ]]; then
+        git_dirs+=("$target/.git")
+    fi
+
+    # Performance optimization: use git commands if it's a git repo
+    if [[ -d "$target/.git" ]] && command -v git &>/dev/null; then
+        # Fast path: check for git submodules
+        local submodule_count
+        submodule_count=$(git -C "$target" submodule status 2>/dev/null | wc -l | tr -d ' ')
+
+        # Sanitize count
+        submodule_count="${submodule_count##*( )}"
+        submodule_count="${submodule_count%%*( )}"
+        [[ "$submodule_count" =~ ^[0-9]+$ ]] || submodule_count=0
+
+        if (( submodule_count > 0 )); then
+            _flow_log_info "Found $submodule_count git submodule(s) in $target"
+            # Add submodule .git directories
+            while IFS= read -r submodule_path; do
+                local sub_git_dir="${target}/${submodule_path}/.git"
+                [[ -d "$sub_git_dir" ]] && git_dirs+=("$sub_git_dir")
+            done < <(git -C "$target" submodule foreach --quiet 'echo $sm_path' 2>/dev/null)
+        fi
+    else
+        # Slow path: use find with timeout for non-git directories
+        # Check directory size first
+        local file_count
+        file_count=$(find "$target" -type f 2>/dev/null | head -1000 | wc -l | tr -d ' ')
+
+        # Sanitize count
+        file_count="${file_count##*( )}"
+        file_count="${file_count%%*( )}"
+        [[ "$file_count" =~ ^[0-9]+$ ]] || file_count=0
+
+        if (( file_count >= 1000 )); then
+            _flow_log_info "Large directory detected. Git scan may take a few seconds..."
+        fi
+
+        # Use timeout wrapper (2 second limit)
+        local find_result
+        while IFS= read -r gitdir; do
+            git_dirs+=("$gitdir")
+        done < <(_flow_timeout 2 find "$target" -name ".git" -type d -maxdepth 5 2>/dev/null)
+
+        # Check if find timed out (exit code 124)
+        local find_exit=$?
+        if (( find_exit == 124 )); then
+            _flow_log_warning "Git directory scan timed out after 2 seconds"
+            _flow_log_info "Large directories may have .git subdirectories not detected"
+        fi
+    fi
+
+    # Return results
+    if (( ${#git_dirs[@]} > 0 )); then
+        echo "${git_dirs[@]}"
+        return 0
+    fi
+    return 1
+}
+
+# ============================================================================
 # FORMATTING HELPERS
 # ============================================================================
 
@@ -1184,5 +1488,345 @@ _dot_format_file_count() {
     echo "1 file"
   else
     echo "$count files"
+  fi
+}
+
+# ============================================================================
+# OUTPUT HELPERS (for dot commands)
+# ============================================================================
+
+# =============================================================================
+# Function: _dot_warn
+# Purpose: Display warning message with dot context
+# =============================================================================
+# Arguments:
+#   $1 - (required) Warning message
+#
+# Returns:
+#   0 - Always
+#
+# Example:
+#   _dot_warn "Large file detected: config.db"
+#
+# Notes:
+#   - Wrapper around _flow_log_warning for consistency
+# =============================================================================
+_dot_warn() {
+  _flow_log_warning "$@"
+}
+
+# =============================================================================
+# Function: _dot_info
+# Purpose: Display info message with dot context
+# =============================================================================
+# Arguments:
+#   $1 - (required) Info message
+#
+# Returns:
+#   0 - Always
+#
+# Example:
+#   _dot_info "Scanning directory..."
+#
+# Notes:
+#   - Wrapper around _flow_log_info for consistency
+# =============================================================================
+_dot_info() {
+  _flow_log_info "$@"
+}
+
+# =============================================================================
+# Function: _dot_success
+# Purpose: Display success message with dot context
+# =============================================================================
+# Arguments:
+#   $1 - (required) Success message
+#
+# Returns:
+#   0 - Always
+#
+# Example:
+#   _dot_success "Added 3 files to chezmoi"
+#
+# Notes:
+#   - Wrapper around _flow_log_success for consistency
+# =============================================================================
+_dot_success() {
+  _flow_log_success "$@"
+}
+
+# =============================================================================
+# Function: _dot_header
+# Purpose: Display section header with dot context
+# =============================================================================
+# Arguments:
+#   $1 - (required) Header text
+#
+# Returns:
+#   0 - Always
+#
+# Example:
+#   _dot_header "Preview: dot add ~/.config"
+#
+# Notes:
+#   - Uses heavy box drawing for visual separation
+#   - FLOW_COLORS[bold] for emphasis
+# =============================================================================
+_dot_header() {
+  local text="$1"
+  echo ""
+  echo "${FLOW_COLORS[bold]}${text}${FLOW_COLORS[reset]}"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+}
+
+# ============================================================================
+# CHEZMOI SAFETY - PREVIEW & AUTO-SUGGESTION (Phase 1)
+# ============================================================================
+
+# =============================================================================
+# Function: _dot_preview_add
+# Purpose: Preview files before adding to chezmoi with safety warnings
+# =============================================================================
+# Arguments:
+#   $1 - (required) Target path to add (file or directory)
+#
+# Returns:
+#   0 - User confirmed, proceed with add
+#   1 - User cancelled or error
+#
+# Example:
+#   if _dot_preview_add "$target"; then
+#       chezmoi add "$target"
+#   fi
+#
+# Notes:
+#   - Shows file count, total size
+#   - Warns about large files (>50KB = 51200 bytes)
+#   - Warns about generated files (.log, .sqlite, .db, .cache)
+#   - Warns about git metadata (/.git/ in path)
+#   - Offers auto-ignore suggestions
+#   - Uses _flow_get_file_size() and _flow_human_size() from Wave 1
+# =============================================================================
+_dot_preview_add() {
+  local target="$1"
+
+  # Validate target exists
+  if [[ ! -e "$target" ]]; then
+    _flow_log_error "Target not found: $target"
+    return 1
+  fi
+
+  # Display header
+  _dot_header "Preview: dot add $target"
+
+  # Collect file information
+  local file_count=0
+  local total_bytes=0
+  local large_files=()
+  local generated_files=()
+  local git_files=0
+  local all_files=()
+
+  # Handle single file vs directory
+  if [[ -f "$target" ]]; then
+    # Single file
+    file_count=1
+    all_files+=("$target")
+    local size=$(_flow_get_file_size "$target")
+    total_bytes=$size
+
+    # Check if large
+    if (( size > 51200 )); then
+      large_files+=("$target:$size")
+    fi
+
+    # Check if generated
+    if [[ "$target" =~ \.(log|sqlite|db|cache)$ ]]; then
+      generated_files+=("$target:$size")
+    fi
+
+    # Check if git metadata
+    if [[ "$target" =~ /\.git/ ]]; then
+      git_files=1
+    fi
+  else
+    # Directory - scan all files
+    while IFS= read -r file; do
+      all_files+=("$file")
+      file_count=$((file_count + 1))
+
+      local size=$(_flow_get_file_size "$file")
+      total_bytes=$((total_bytes + size))
+
+      # Check if large
+      if (( size > 51200 )); then
+        large_files+=("$file:$size")
+      fi
+
+      # Check if generated
+      if [[ "$file" =~ \.(log|sqlite|db|cache)$ ]]; then
+        generated_files+=("$file:$size")
+      fi
+
+      # Check if git metadata
+      if [[ "$file" =~ /\.git/ ]]; then
+        git_files=$((git_files + 1))
+      fi
+    done < <(find "$target" -type f 2>/dev/null)
+  fi
+
+  # Display summary
+  echo "Files to add: ${FLOW_COLORS[bold]}$file_count${FLOW_COLORS[reset]}"
+  echo "Total size: ${FLOW_COLORS[bold]}$(_flow_human_size $total_bytes)${FLOW_COLORS[reset]}"
+  echo ""
+
+  # Display warnings
+  local has_warnings=false
+
+  # Git metadata warning
+  if (( git_files > 0 )); then
+    has_warnings=true
+    _dot_warn "⚠️  $git_files git metadata files detected"
+    _dot_info "These will be skipped (covered by .chezmoiignore)"
+    echo ""
+  fi
+
+  # Large files warning
+  if (( ${#large_files[@]} > 0 )); then
+    has_warnings=true
+    _dot_warn "⚠️  Large files detected:"
+    for entry in "${large_files[@]}"; do
+      local filepath="${entry%%:*}"
+      local filesize="${entry##*:}"
+      local filename=$(basename "$filepath")
+      local human_size=$(_flow_human_size $filesize)
+      echo "  - ${filename} (${human_size})"
+    done
+    echo ""
+  fi
+
+  # Generated files warning
+  if (( ${#generated_files[@]} > 0 )); then
+    has_warnings=true
+    _dot_warn "⚠️  Generated files detected:"
+    for entry in "${generated_files[@]}"; do
+      local filepath="${entry%%:*}"
+      local filesize="${entry##*:}"
+      local filename=$(basename "$filepath")
+      local human_size=$(_flow_human_size $filesize)
+      echo "  - ${filename} (${human_size})"
+    done
+    echo ""
+    _dot_info "💡 Consider excluding: *.log, *.sqlite, *.db, *.cache"
+    echo ""
+
+    # Offer auto-ignore
+    read -q "REPLY?Auto-add ignore patterns? (Y/n) "
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
+      # Extract patterns from generated files
+      local patterns=()
+      for entry in "${generated_files[@]}"; do
+        local filepath="${entry%%:*}"
+        if [[ "$filepath" =~ \.([^.]+)$ ]]; then
+          local ext="${match[1]}"
+          patterns+=("*.$ext")
+        fi
+      done
+
+      # Call auto-suggest function
+      if (( ${#patterns[@]} > 0 )); then
+        _dot_suggest_ignore_patterns "${patterns[@]}"
+      fi
+      echo ""
+    fi
+  fi
+
+  # Final confirmation
+  if $has_warnings; then
+    read -q "REPLY?Proceed with adding to chezmoi? (Y/n) "
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
+      return 0
+    else
+      _dot_info "Add cancelled"
+      return 1
+    fi
+  fi
+
+  return 0
+}
+
+# =============================================================================
+# Function: _dot_suggest_ignore_patterns
+# Purpose: Auto-suggest and add ignore patterns to .chezmoiignore
+# =============================================================================
+# Arguments:
+#   $@ - Array of file patterns to add (e.g., "*.log" "*.sqlite")
+#
+# Returns:
+#   0 - Patterns added successfully
+#   1 - Error or user cancelled
+#
+# Example:
+#   _dot_suggest_ignore_patterns "*.log" "*.db" "*.cache"
+#
+# Notes:
+#   - Creates .chezmoiignore if missing
+#   - Skips duplicate patterns
+#   - Adds patterns one per line
+#   - Preserves existing content
+# =============================================================================
+_dot_suggest_ignore_patterns() {
+  local patterns=("$@")
+
+  if (( ${#patterns[@]} == 0 )); then
+    return 1
+  fi
+
+  local ignore_file="${HOME}/.local/share/chezmoi/.chezmoiignore"
+  local added_count=0
+
+  # Create .chezmoiignore if missing
+  if [[ ! -f "$ignore_file" ]]; then
+    mkdir -p "$(dirname "$ignore_file")"
+    touch "$ignore_file"
+    _dot_info "Created .chezmoiignore"
+  fi
+
+  # Read existing patterns
+  local existing_patterns=()
+  if [[ -f "$ignore_file" ]]; then
+    while IFS= read -r line; do
+      # Skip empty lines and comments
+      [[ -z "$line" || "$line" =~ ^# ]] && continue
+      existing_patterns+=("$line")
+    done < "$ignore_file"
+  fi
+
+  # Add unique patterns
+  for pattern in "${patterns[@]}"; do
+    # Check if pattern already exists
+    local exists=false
+    for existing in "${existing_patterns[@]}"; do
+      if [[ "$existing" == "$pattern" ]]; then
+        exists=true
+        break
+      fi
+    done
+
+    # Add if new
+    if ! $exists; then
+      echo "$pattern" >> "$ignore_file"
+      added_count=$((added_count + 1))
+      _dot_success "Added $pattern to .chezmoiignore"
+    fi
+  done
+
+  if (( added_count > 0 )); then
+    return 0
+  else
+    _dot_info "All patterns already in .chezmoiignore"
+    return 0
   fi
 }
