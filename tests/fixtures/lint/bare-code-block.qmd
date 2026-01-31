@@ -1,0 +1,22 @@
+---
+title: "Test"
+---
+
+# Heading
+
+```
+bare code with no language
+```
+
+```{r}
+#| label: good-chunk
+x <- 1
+```
+
+```text
+this is fine
+```
+
+```
+another bare block
+```

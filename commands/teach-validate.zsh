@@ -86,6 +86,14 @@ teach-validate() {
                 deep_mode=1
                 shift
                 ;;
+            --lint)
+                mode="lint"
+                shift
+                ;;
+            --quick-checks)
+                custom_validators="lint-shared"
+                shift
+                ;;
             --validators)
                 shift
                 custom_validators="$1"
@@ -147,6 +155,17 @@ teach-validate() {
         # Run custom validators
         local args=(--project-root ".")
         [[ -n "$custom_validators" ]] && args+=(--validators "$custom_validators")
+        [[ $skip_external -eq 1 ]] && args+=(--skip-external)
+        _run_custom_validators "${args[@]}" "${files[@]}"
+    elif [[ "$mode" == "lint" ]]; then
+        # Run lint validators (all lint-* validators in .teach/validators/)
+        local args=(--project-root ".")
+        if [[ -n "$custom_validators" ]]; then
+            args+=(--validators "$custom_validators")
+        else
+            # Filter to only lint-* validators
+            args+=(--validators "lint-shared,lint-slides,lint-lectures,lint-labs")
+        fi
         [[ $skip_external -eq 1 ]] && args+=(--skip-external)
         _run_custom_validators "${args[@]}" "${files[@]}"
     else
@@ -713,6 +732,8 @@ OPTIONS:
   --syntax              YAML + Quarto syntax validation (~2s)
   --render              Full render validation (slow, 3-15s per file)
   --custom              Run custom validators from .teach/validators/
+  --lint                Run Quarto-aware lint rules (.teach/validators/lint-*.zsh)
+  --quick-checks        Run fast lint subset only (Phase 1 rules)
   --concepts            Validate concept prerequisites (Phase 1)
   --validators <list>   Comma-separated list of validators (with --custom)
   --skip-external       Skip external URL checks (with --custom)
@@ -754,6 +775,12 @@ EXAMPLES:
 
   # Skip external URL checks (faster)
   teach validate --custom --skip-external
+
+  # Run Quarto lint checks (structural rules)
+  teach validate --lint
+
+  # Run fast lint subset only
+  teach validate --quick-checks
 
   # Watch mode (auto-validate on save)
   teach validate --watch

@@ -1,0 +1,12 @@
+---
+title: "Test"
+---
+
+::: {.callout-note}
+This callout is opened but never closed.
+
+## Next Section
+
+::: {.callout-tip}
+This one is properly closed.
+:::
