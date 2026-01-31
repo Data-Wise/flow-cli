@@ -1041,6 +1041,17 @@ fi
 
 ---
 
+## 🎯 Next Action:
+
+**Push branch to remote** - Backup spec before implementation
+```bash
+git push -u origin feature/dot-chezmoi-safety
+```
+
+Then start Phase 0 implementation (cross-platform helpers) in a fresh session.
+
+---
+
 ## 🎯 Current Sprint:
 
 ### v5.19.0 Phase 1 - Keychain-Default Backend ✅
