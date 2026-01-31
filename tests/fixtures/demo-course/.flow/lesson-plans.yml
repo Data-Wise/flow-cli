@@ -1,0 +1,253 @@
+# STAT-101 Lesson Plans
+# Extracted from teach-config.yml using teach migrate-config
+# Each week's detailed lesson plan with objectives, activities, and assessments
+
+weeks:
+  - number: 1
+    topic: "Introduction to Statistics"
+    style: "conceptual"
+    date: "2026-08-26"
+    duration: "75 minutes"
+
+    objectives:
+      - "Define and calculate descriptive statistics (mean, median, mode)"
+      - "Distinguish between different data types (categorical, numerical)"
+      - "Understand basic distribution properties"
+
+    subtopics:
+      - "Measures of central tendency"
+      - "Categorical vs numerical data"
+      - "Distribution shapes"
+
+    key_concepts:
+      - "descriptive-stats"
+      - "data-types"
+      - "distributions"
+
+    prerequisites: []
+
+    activities:
+      - type: "lecture"
+        duration: "30 min"
+        description: "Introduction to statistical thinking and data types"
+      - type: "demo"
+        duration: "15 min"
+        description: "R demonstration of summary statistics"
+      - type: "practice"
+        duration: "20 min"
+        description: "Small group exercise: Calculate statistics by hand"
+      - type: "discussion"
+        duration: "10 min"
+        description: "Debrief common errors and misconceptions"
+
+    assessments:
+      - type: "formative"
+        description: "In-class polling questions"
+      - type: "homework"
+        description: "Practice problems on descriptive statistics"
+
+    materials:
+      - "Lecture slides"
+      - "R script for demonstrations"
+      - "Dataset: student_survey.csv"
+      - "Handout: Summary statistics reference sheet"
+
+  - number: 2
+    topic: "Probability and Inference"
+    style: "computational"
+    date: "2026-09-02"
+    duration: "75 minutes"
+
+    objectives:
+      - "Calculate basic probabilities"
+      - "Apply different sampling methods"
+      - "Understand the principles of statistical inference"
+
+    subtopics:
+      - "Probability rules"
+      - "Sampling methods"
+      - "Point estimation and confidence intervals"
+
+    key_concepts:
+      - "probability-basics"
+      - "sampling"
+      - "inference"
+
+    prerequisites:
+      - "Week 1: Introduction to Statistics"
+
+    activities:
+      - type: "review"
+        duration: "10 min"
+        description: "Quick review of Week 1 concepts"
+      - type: "lecture"
+        duration: "25 min"
+        description: "Probability basics and sampling theory"
+      - type: "demo"
+        duration: "15 min"
+        description: "Simulation of sampling distributions in R"
+      - type: "lab"
+        duration: "25 min"
+        description: "Hands-on: Draw random samples and calculate statistics"
+
+    assessments:
+      - type: "quiz"
+        description: "Short quiz on Week 1 material"
+      - type: "lab-report"
+        description: "Write-up of sampling simulation results"
+
+    materials:
+      - "Lecture slides with animations"
+      - "R script for sampling simulation"
+      - "Lab worksheet"
+      - "Population dataset for sampling"
+
+  - number: 3
+    topic: "Correlation and Regression"
+    style: "rigorous"
+    date: "2026-09-09"
+    duration: "75 minutes"
+
+    objectives:
+      - "Calculate and interpret correlation coefficients"
+      - "Fit and interpret linear regression models"
+      - "Assess model assumptions"
+
+    subtopics:
+      - "Correlation vs causation"
+      - "Simple linear regression"
+      - "Model diagnostics"
+
+    key_concepts:
+      - "correlation"
+      - "regression"
+      - "residuals"
+
+    prerequisites:
+      - "Week 2: Probability and Inference"
+
+    activities:
+      - type: "warm-up"
+        duration: "10 min"
+        description: "Scatterplot interpretation exercise"
+      - type: "lecture"
+        duration: "30 min"
+        description: "Mathematical derivation of regression line"
+      - type: "demo"
+        duration: "15 min"
+        description: "Fitting regression models in R"
+      - type: "case-study"
+        duration: "20 min"
+        description: "Analysis of real dataset: height vs weight"
+
+    assessments:
+      - type: "problem-set"
+        description: "Regression analysis homework"
+      - type: "peer-review"
+        description: "Exchange and critique analyses"
+
+    materials:
+      - "Lecture slides with mathematical derivations"
+      - "R markdown template for regression analysis"
+      - "Case study dataset"
+      - "Residual diagnostic plots handout"
+
+  - number: 4
+    topic: "Hypothesis Testing"
+    style: "applied"
+    date: "2026-09-16"
+    duration: "75 minutes"
+
+    objectives:
+      - "Formulate null and alternative hypotheses"
+      - "Conduct t-tests and chi-square tests"
+      - "Interpret p-values correctly"
+
+    subtopics:
+      - "Type I and II errors"
+      - "One-sample and two-sample tests"
+      - "P-value interpretation"
+
+    key_concepts:
+      - "hypothesis"
+      - "t-test"
+      - "p-value"
+
+    prerequisites:
+      - "Week 2: Probability and Inference"
+      - "Week 3: Correlation and Regression"
+
+    activities:
+      - type: "debate"
+        duration: "15 min"
+        description: "What does p < 0.05 really mean?"
+      - type: "lecture"
+        duration: "25 min"
+        description: "Hypothesis testing framework and common tests"
+      - type: "demo"
+        duration: "15 min"
+        description: "Running t-tests in R with real data"
+      - type: "workshop"
+        duration: "20 min"
+        description: "Choose and conduct appropriate tests for scenarios"
+
+    assessments:
+      - type: "quiz"
+        description: "Hypothesis testing concepts"
+      - type: "analysis-report"
+        description: "Write up of hypothesis test results"
+
+    materials:
+      - "Lecture slides"
+      - "R script library of common tests"
+      - "Scenario cards for workshop"
+      - "P-value interpretation guide"
+
+  - number: 5
+    topic: "Course Review and Applications"
+    style: "applied"
+    date: "2026-09-23"
+    duration: "75 minutes"
+
+    objectives:
+      - "Apply statistical concepts to real-world problems"
+      - "Choose appropriate statistical tests"
+      - "Communicate statistical findings effectively"
+
+    subtopics:
+      - "Case studies"
+      - "Statistical communication"
+      - "Review exercises"
+
+    key_concepts:
+      - "statistical-thinking"
+      - "communication"
+
+    prerequisites:
+      - "Week 4: Hypothesis Testing"
+
+    activities:
+      - type: "review-game"
+        duration: "20 min"
+        description: "Jeopardy-style review of all topics"
+      - type: "case-study"
+        duration: "30 min"
+        description: "Full analysis of complex real-world dataset"
+      - type: "presentations"
+        duration: "20 min"
+        description: "Student groups present their analyses"
+      - type: "reflection"
+        duration: "5 min"
+        description: "What was most challenging? Most useful?"
+
+    assessments:
+      - type: "project"
+        description: "Comprehensive data analysis project"
+      - type: "peer-feedback"
+        description: "Evaluate other groups' presentations"
+
+    materials:
+      - "Review slides"
+      - "Complex dataset for case study"
+      - "Presentation rubric"
+      - "Course evaluation survey"

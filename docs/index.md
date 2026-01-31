@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v5.19.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.19.0)
+[![Version](https://img.shields.io/badge/version-v6.0.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.0.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -18,34 +18,132 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
     work my-project         # Start working
     win "tried flow-cli!"   # Log your first win
     ```
-    **That's it!** [Want to learn more? →](#try-it-now)
+    **That's it!** [Want to learn more? →](#-try-it-now)
 
 ---
 
-## ✨ What's New in v5.19.0
+## ✨ What's New in v6.0.0
 
-!!! success "Keychain-Default Backend - Zero Dependencies"
-    Token management now defaults to macOS Keychain with zero external dependencies. Bitwarden sync is optional via environment variable.
+!!! success "🛡️ Comprehensive Chezmoi Safety Features"
+    Never accidentally track 196KB of .git files again! Intelligent safety features prevent common dotfile management mistakes.
 
-### 🔐 Keychain-Default Backend (PR #295)
+### 🔍 Preview-Before-Add
 
-**Major Changes:**
-- **Zero Bitwarden dependency** - Keychain-only by default (no CLI required)
-- **Backend abstraction** - 3 modes: `keychain` (default), `bitwarden`, `both` (legacy)
-- **Faster operations** - No unlock prompts, no cloud sync overhead
-- **Optional cloud sync** - Set `FLOW_SECRET_BACKEND=bitwarden` to enable
-- **67 comprehensive tests** - 100% passing (20 unit + 47 automated + interactive)
+**See exactly what you're adding before committing:**
 
-**Performance:**
-- No Bitwarden unlock prompt (saves 2-5 seconds)
-- No cloud sync overhead (saves 1-3 seconds per operation)
-- Instant Keychain retrieval (< 50ms)
+- **File analysis:** Count, total size, large file warnings (>50KB)
+- **Git metadata detection:** Catches nested `.git` directories (prevents 196KB bloat!)
+- **Generated file detection:** Identifies `.log`, `.sqlite`, `.db`, `.cache` files
+- **Smart suggestions:** Auto-suggest ignore patterns for common files
+- **Cross-platform:** Works on macOS (BSD) and Linux (GNU)
 
-**Migration:** Backward compatible - existing dual-storage users unaffected.
+```bash
+dot add ~/.config/nvim
+# Shows preview with warnings before adding
+```
+
+### 📝 Ignore Pattern Management
+
+**Smart `.chezmoiignore` control:**
+
+- `dot ignore add "*.log"` - Add patterns with deduplication
+- `dot ignore list` - View all patterns with line numbers
+- `dot ignore edit` - Open in $EDITOR
+- Auto-initialization with sensible defaults
+
+### 📊 Repository Health
+
+**Proactive bloat detection:**
+
+- `dot size` - Total repo size + top 10 largest files
+- Health indicators: OK (<1MB), Warning (1-10MB), Critical (>10MB)
+- File type distribution analysis
+- Actionable cleanup suggestions
+
+### 🏥 Enhanced Doctor
+
+**9 comprehensive chezmoi validation checks:**
+
+- `flow doctor --dot` - Fast chezmoi-only health check
+- Large file detection (>100KB threshold)
+- Auto-ignore pattern coverage verification
+- Cross-platform compatibility validation
+
+[User Guide →](guides/CHEZMOI-SAFETY-GUIDE.md) | [Quick Reference →](reference/REFCARD-DOT-SAFETY.md) | [Architecture →](architecture/DOT-SAFETY-ARCHITECTURE.md)
+
+**Stats:** 170+ tests · 1,950+ lines of documentation · 15+ Mermaid diagrams
 
 ---
 
-## 📚 Previous Release: v5.18.0
+## 📚 Previous Releases
+
+### v5.23.0 - AI Prompt Management & Documentation Quality (2026-01-29)
+
+!!! info "3-Tier Prompt Resolution + Enhanced GIF Quality"
+    Manage AI teaching prompts with course overrides. Enhanced documentation GIF quality across all tutorials.
+
+**Features:**
+
+- **`teach prompt` command** - 3-tier resolution (Course > User > Plugin)
+- **Scholar integration** - Auto-resolve prompts for AI content generation
+- **GIF quality enhancement** - Standardized 18px font, 10.9% size reduction
+- **107 tests** - Comprehensive unit, E2E, and interactive testing
+
+[Tutorial →](tutorials/28-teach-prompt.md) | [Quick Reference →](reference/REFCARD-PROMPTS.md)
+
+---
+
+### v5.22.0 - Lesson Plan & Template Management (2026-01-28)
+
+!!! info "CRUD Operations + Reusable Templates"
+    Centralized lesson plan management with template system for content creation
+
+**Features:**
+
+- **`teach plan` command** - Full CRUD for lesson plan weeks
+  - `teach plan create <week>` - Add week with interactive prompts
+  - `teach plan list` - Table view with gap detection, JSON output
+  - `teach plan show <week>` - Formatted display with objectives/subtopics
+  - Shortcuts: `teach pl`, `teach plan c`, `teach plan ls`
+- **`teach templates` command** - Manage reusable content templates
+  - `teach templates list` - View available templates by type/source
+  - `teach templates new lecture week-05` - Create from template
+  - Variable substitution: `{{WEEK}}`, `{{TOPIC}}`, `{{COURSE}}`
+- **71 new tests** — 462 total tests across all features
+
+### v5.21.0 - LaTeX Macro Configuration (2026-01-28)
+
+!!! info "Consistent AI-Generated Notation"
+    Manage LaTeX macros for consistent mathematical notation across Scholar-generated content
+
+**Features:**
+
+- **`teach macros` command** - Complete macro management
+  - `teach macros list` - Display all macros with categories
+  - `teach macros sync` - Extract from source files (QMD, LaTeX, MathJax)
+  - `teach macros export` - Export for Scholar AI integration (JSON/LaTeX formats)
+- **3 source parsers:** QMD, MathJax HTML, LaTeX
+- **6 categories:** operators, distributions, symbols, matrices, derivatives, probability
+- **Health check integration** - `teach doctor` includes macro health
+- **54 comprehensive tests**
+
+### v5.20.0 - Template Management (2026-01-28)
+
+!!! info "Reusable Content Templates"
+    Project-local templates with variable substitution
+
+**Features:**
+
+- **`teach templates` command** - Manage reusable templates
+  - `teach templates list` - View by type/source
+  - `teach templates new lecture week-05` - Create from template
+  - `teach templates validate` - Check syntax
+  - `teach templates sync` - Update from plugin defaults
+- **Variable substitution:** `{{WEEK}}`, `{{TOPIC}}`, `{{COURSE}}`, `{{DATE}}`
+- **4 template types:** content, prompts, metadata, checklists
+- **Resolution order:** Project templates override plugin defaults
+
+### v5.18.0 - Documentation Consolidation
 
 !!! info "Documentation Consolidation & API Coverage Improvement"
     Simplified documentation structure (66 → 7 files) with comprehensive API coverage (+411% increase)
@@ -87,10 +185,6 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 [→ Master API Reference](reference/MASTER-API-REFERENCE.md){ .md-button .md-button--primary }
 [→ Master Dispatcher Guide](reference/MASTER-DISPATCHER-GUIDE.md){ .md-button }
 [→ Documentation Dashboard](DOC-DASHBOARD.md){ .md-button }
-
----
-
-## Previous Releases
 
 ### v5.17.0 - Token Automation Phase 1
 
@@ -170,18 +264,21 @@ teach validate --deep                        # Prerequisite validation
 
 ### 🎓 Teaching Workflow v3.0 (v5.14.0)
 
-**Wave 1: Foundation**
+#### Wave 1: Foundation
+
 - **🏥 teach doctor** - Comprehensive environment health check (--fix, --json, --quiet)
 - **📖 Enhanced Help** - All 10 teach commands now have --help with EXAMPLES
 - **🔄 Unified Dispatcher** - Removed standalone `teach-init`, now `teach init`
 
-**Wave 2: Backup System**
+#### Wave 2: Backup System
+
 - **💾 Automated Backups** - Timestamped snapshots on every content modification
 - **📦 Retention Policies** - `archive` (keep forever) vs `semester` (auto-cleanup)
 - **🗑️ Safe Deletion** - Interactive confirmation with file preview
 - **📊 Status Integration** - Backup summary in `teach status`
 
-**Wave 3: Enhancements**
+#### Wave 3: Enhancements
+
 - **🚀 Deploy Preview** - `teach deploy --preview` shows changes before PR
 - **📚 Scholar Templates** - Template selection + automatic lesson plan loading
 - **✅ Enhanced Status** - Deployment status + backup info in `teach status`
@@ -203,7 +300,8 @@ All new features demonstrated with optimized tutorial GIFs (5.7MB total):
 
 ### Previous Release: v5.13.0
 
-**WT Enhancement + Scholar Integration**
+#### WT Enhancement + Scholar Integration
+
 - Enhanced worktree management with formatted overview and smart filtering
 - 9 Scholar wrapper commands for teaching content generation
 - Multi-select worktree actions with interactive delete
@@ -280,6 +378,7 @@ finish             # Done
 
 ??? example "📺 See it in action"
     ![flow-cli demo](assets/demo.gif)
+    <!-- markdownlint-disable MD046 -->
 
     **Expected output:**
 
@@ -335,7 +434,7 @@ flow goal        # Daily progress bar
 
 ### 🔥 Streaks
 
-```
+```text
 Day 1: 🌱 Building momentum
 Day 3: 🔥 On a roll!
 Day 7: 🔥🔥 Strong week!
@@ -376,14 +475,14 @@ trail             # See your trail
 
 Commands that adapt to your project:
 
-| Dispatcher    | Example          | What it does                   |
-| ------------- | ---------------- | ------------------------------ |
-| `cc`          | `cc`             | Claude Code here               |
-| `cc`          | `cc pick`        | Pick project → Claude          |
-| `r`           | `r test`         | R package tests                |
-| `qu`          | `qu preview`     | Quarto preview                 |
-| `g`           | `g push`         | Git with safety                |
-| `teach`       | `teach init "STAT 545"` | Teaching workflow commands     |
+| Dispatcher    | Example                     | What it does               |
+| ------------- | --------------------------- | -------------------------- |
+| `cc`          | `cc`                        | Claude Code here           |
+| `cc`          | `cc pick`                   | Pick project → Claude      |
+| `r`           | `r test`                    | R package tests            |
+| `qu`          | `qu preview`                | Quarto preview             |
+| `g`           | `g push`                    | Git with safety            |
+| `teach`       | `teach init "STAT 545"`     | Teaching workflow commands |
 
 **Get help:** `cc help`, `r help`, `qu help`
 
@@ -489,6 +588,7 @@ Commands that adapt to your project:
 ## 🧠 Design Philosophy
 
 !!! abstract "Built for ADHD"
+    <!-- markdownlint-disable MD046 -->
 
     | Feature | Why It Matters |
     |---------|----------------|
@@ -507,4 +607,4 @@ Commands that adapt to your project:
 
 ---
 
-**v5.10.0** · Pure ZSH · MIT License
+**v5.23.0** · Pure ZSH · MIT License

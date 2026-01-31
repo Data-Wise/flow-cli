@@ -2,6 +2,7 @@
 # Shows preview of date changes before applying
 
 Output tutorial-20-dates-sync-dry-run.gif
+Set Shell zsh
 
 Set FontSize 18
 Set Width 1400
@@ -15,7 +16,7 @@ Type "Tutorial 20: Teaching Dates Automation - Part 2" Sleep 1s Enter
 Sleep 1s
 
 # Run dry-run
-Type "# Preview what would change (dry-run)" Enter
+Type "echo 'Preview what would change (dry-run)'" Enter
 Sleep 500ms
 Type "teach dates sync --dry-run" Enter
 Sleep 1.5s
@@ -65,5 +66,5 @@ Sleep 2s
 
 # Success message
 Type "" Enter
-Type "# ✅ Preview complete - review and apply!" Enter
+Type "echo '✅ Preview complete - review and apply!'" Enter
 Sleep 2s

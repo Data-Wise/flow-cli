@@ -26,21 +26,42 @@ This directory contains VHS tapes and generated GIF demos for Teaching Workflow 
 
 ---
 
+## Quality Standards (v5.23.0+)
+
+**All VHS tapes in this repository follow strict quality standards:**
+
+- ✅ **Font Size:** Minimum 18px for optimal readability
+- ✅ **Shell Directive:** `Set Shell zsh` for consistent behavior
+- ✅ **Comment Syntax:** Use `Type "echo '...'"` (not `Type "#..."`)
+- ✅ **Validation:** All tapes pass `scripts/validate-vhs-tapes.sh`
+- ✅ **Optimization:** All GIFs optimized with `gifsicle -O3`
+
+**Style Guide:** See [`docs/contributing/VHS-TAPE-STYLE-GUIDE.md`](../../contributing/VHS-TAPE-STYLE-GUIDE.md)
+
+---
+
 ## Regenerating GIFs
 
 ### Prerequisites
 
 - VHS installed: `brew install vhs`
-- flow-cli v5.14.0+ (with Teaching Workflow v3.0)
+- gifsicle installed: `brew install gifsicle` (for optimization)
+- flow-cli v5.23.0+ (with Teaching Workflow v3.0)
 - scholar-demo-course available at `~/projects/teaching/scholar-demo-course/`
 
-### Quick Regeneration
+### Quick Regeneration (Recommended)
 
 ```bash
-# Run the generation script
+# Run the enhanced generation script with validation + optimization
 cd docs/demos/tutorials
 ./generate-teaching-v3-gifs.sh
 ```
+
+**The script automatically:**
+1. ✅ Validates all VHS tapes before generation
+2. 🎬 Generates GIFs from tapes
+3. 🗜️ Optimizes GIFs with gifsicle (-O3)
+4. 📊 Reports size reductions
 
 ### Manual Generation
 

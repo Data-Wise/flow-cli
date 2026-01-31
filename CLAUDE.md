@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v5.22.0
-- **Latest Release:** v5.22.0 (2026-01-28)
+- **Current Version:** v6.0.0
+- **Latest Release:** v6.0.0 (2026-01-31)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -399,9 +399,9 @@ flow token expiring   # Alias for dot token
 **Documentation:**
 
 - User Guide: `docs/guides/DOCTOR-TOKEN-USER-GUIDE.md`
-- API Reference: `docs/reference/DOCTOR-TOKEN-API-REFERENCE.md`
+- API Reference: `docs/reference/MASTER-API-REFERENCE.md` (Token Management section)
 - Architecture: `docs/architecture/DOCTOR-TOKEN-ARCHITECTURE.md`
-- Quick Reference: `docs/reference/REFCARD-TOKEN.md`
+- Quick Reference: `docs/reference/REFCARD-TOKEN-SECRETS.md`
 
 **Tests:** 54 comprehensive tests (52 passing, 2 expected skips)
 
@@ -465,21 +465,21 @@ flow-cli/
 
 ## Key Files
 
-| File                                       | Purpose                  | Notes                     |
-| ------------------------------------------ | ------------------------ | ------------------------- |
-| `flow.plugin.zsh`                          | Plugin entry point       | Source this to load       |
-| `lib/core.zsh`                             | Core utilities           | Logging, colors, helpers  |
-| `lib/atlas-bridge.zsh`                     | Atlas integration        | Optional state engine     |
-| `lib/keychain-helpers.zsh`                 | macOS Keychain secrets   | Touch ID support          |
-| `lib/config-validator.zsh`                 | Config validation        | Schema + hash validation  |
-| `lib/git-helpers.zsh`                      | Git integration          | Teaching workflow         |
-| `lib/dispatchers/*.zsh`                    | Smart dispatchers        | 12 active dispatchers     |
-| `commands/*.zsh`                           | Core commands            | work, dash, finish, etc.  |
-| `docs/reference/DISPATCHER-REFERENCE.md`   | Complete dispatcher docs | All dispatchers           |
-| `docs/reference/ARCHITECTURE-OVERVIEW.md`  | System architecture      | Mermaid diagrams          |
-| `docs/reference/V-DISPATCHER-REFERENCE.md` | V/Vibe dispatcher docs   | Vibe coding mode          |
-| `docs/reference/DOCUMENTATION-COVERAGE.md` | Coverage metrics         | 853 funcs, 49.4% coverage |
-| `.STATUS`                                  | Current progress         | Sprint tracking           |
+| File                                        | Purpose                  | Notes                    |
+| ------------------------------------------- | ------------------------ | ------------------------ |
+| `flow.plugin.zsh`                           | Plugin entry point       | Source this to load      |
+| `lib/core.zsh`                              | Core utilities           | Logging, colors, helpers |
+| `lib/atlas-bridge.zsh`                      | Atlas integration        | Optional state engine    |
+| `lib/keychain-helpers.zsh`                  | macOS Keychain secrets   | Touch ID support         |
+| `lib/config-validator.zsh`                  | Config validation        | Schema + hash validation |
+| `lib/git-helpers.zsh`                       | Git integration          | Teaching workflow        |
+| `lib/dispatchers/*.zsh`                     | Smart dispatchers        | 12 active dispatchers    |
+| `commands/*.zsh`                            | Core commands            | work, dash, finish, etc. |
+| `docs/reference/MASTER-DISPATCHER-GUIDE.md` | Complete dispatcher docs | All 12 dispatchers       |
+| `docs/reference/MASTER-ARCHITECTURE.md`     | System architecture      | Mermaid diagrams         |
+| `docs/reference/MASTER-API-REFERENCE.md`    | API documentation        | Function reference       |
+| `docs/DOC-DASHBOARD.md`                     | Doc coverage metrics     | Auto-generated stats     |
+| `.STATUS`                                   | Current progress         | Sprint tracking          |
 
 ---
 
@@ -544,8 +544,8 @@ teach help           # Teaching dispatcher help
    ```
 
 3. **Update docs:**
-   - Add to `docs/reference/DISPATCHER-REFERENCE.md`
-   - Update `docs/reference/COMMAND-QUICK-REFERENCE.md`
+   - Add to `docs/reference/MASTER-DISPATCHER-GUIDE.md`
+   - Update `docs/help/QUICK-REFERENCE.md`
    - Update `mkdocs.yml` if needed
 
 ---
@@ -660,16 +660,17 @@ See [Testing Guide](docs/guides/TESTING.md) for:
 
 ### Key Docs
 
-| Document                                     | Purpose                   |
-| -------------------------------------------- | ------------------------- |
-| `docs/guides/DOPAMINE-FEATURES-GUIDE.md`     | Win/streak/goal features  |
-| `docs/reference/DISPATCHER-REFERENCE.md`     | Complete dispatcher guide |
-| `docs/reference/ALIAS-REFERENCE-CARD.md`     | All aliases               |
-| `docs/reference/COMMAND-QUICK-REFERENCE.md`  | Quick command lookup      |
-| `docs/reference/WORKFLOW-QUICK-REFERENCE.md` | Common workflows          |
-| `docs/getting-started/quick-start.md`        | 5-minute tutorial         |
-| `docs/CONVENTIONS.md`                        | Code standards            |
-| `docs/PHILOSOPHY.md`                         | Design principles         |
+| Document                                    | Purpose                   |
+| ------------------------------------------- | ------------------------- |
+| `docs/guides/DOPAMINE-FEATURES-GUIDE.md`    | Win/streak/goal features  |
+| `docs/reference/MASTER-DISPATCHER-GUIDE.md` | Complete dispatcher guide |
+| `docs/reference/MASTER-API-REFERENCE.md`    | API function reference    |
+| `docs/reference/MASTER-ARCHITECTURE.md`     | System architecture       |
+| `docs/help/QUICK-REFERENCE.md`              | Quick command lookup      |
+| `docs/help/WORKFLOWS.md`                    | Common workflows          |
+| `docs/getting-started/quick-start.md`       | 5-minute tutorial         |
+| `docs/CONVENTIONS.md`                       | Code standards            |
+| `docs/PHILOSOPHY.md`                        | Design principles         |
 
 ### Updating Docs
 
@@ -706,14 +707,14 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.22.0
-**Latest Release:** v5.22.0 (2026-01-28)
+**Version:** v5.23.0
+**Latest Release:** v5.23.0 (2026-01-29)
 **Status:** Production
 **Branch:** `dev`
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
-**Tests:** 14 test suites + 54 token automation tests (100% core tests, 416+ total tests)
+**Tests:** 107 tests (62 unit + 33 E2E + 12 interactive) for teach prompt + 462 total tests
 
 **Recent Improvements (dev branch):**
 
@@ -723,6 +724,121 @@ export FLOW_DEBUG=1
 ---
 
 ## Recent Releases
+
+### v6.0.0 - Comprehensive Chezmoi Safety Features (2026-01-31)
+
+**Released:** 2026-01-31
+**PR #316:** https://github.com/Data-Wise/flow-cli/pull/316 (MERGED)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.0.0
+**Changes:** Major safety enhancements to dot dispatcher
+
+**Major Features:**
+
+- **Preview-Before-Add** (`dot add`) - Intelligent file analysis before adding to chezmoi
+  - File counting with human-readable size display
+  - Large file detection (>50KB warnings)
+  - Generated file detection (`.log`, `.sqlite`, `.db`, `.cache`)
+  - Git metadata detection (prevents tracking nested `.git` directories)
+  - Smart auto-ignore suggestions
+  - Cross-platform support (BSD/GNU `find` and `du`)
+
+- **Ignore Pattern Management** (`dot ignore`) - Smart `.chezmoiignore` management
+  - `dot ignore add <pattern>` - Add patterns with deduplication
+  - `dot ignore list` - Display all patterns with line numbers
+  - `dot ignore remove <pattern>` - Remove specific patterns
+  - `dot ignore edit` - Open in `$EDITOR`
+  - Auto-initialization with sensible defaults
+
+- **Repository Size Analysis** (`dot size`) - Proactive bloat detection
+  - Total repository size tracking
+  - Top 10 largest files identification
+  - File type distribution analysis
+  - Health indicators (OK/Warning/Critical)
+  - Actionable cleanup suggestions
+
+- **Enhanced Health Checks** (`flow doctor --dot`) - 9 comprehensive checks
+  - Chezmoi installation verification
+  - Repository initialization status
+  - `.chezmoiignore` existence
+  - Large file detection (>100KB)
+  - Generated file detection
+  - Git metadata detection
+  - Repository size validation (<10MB healthy)
+  - Auto-ignore pattern coverage
+  - Cross-platform utilities check
+
+**Implementation:**
+
+- `lib/dispatchers/dot-dispatcher.zsh` - Enhanced with safety commands
+- `lib/platform-helpers.zsh` - Cross-platform `find`/`du` abstraction
+- `commands/doctor.zsh` - Enhanced with 9 dot-specific checks
+
+**Testing:**
+
+- 170+ comprehensive tests across 5 suites
+- Unit tests for all safety features
+- Integration tests for workflows
+- Cross-platform compatibility tests
+
+**Documentation:**
+
+- `docs/guides/CHEZMOI-SAFETY-GUIDE.md` (400+ lines) - User guide
+- `docs/reference/REFCARD-DOT-SAFETY.md` (350+ lines) - Quick reference
+- `docs/architecture/DOT-SAFETY-ARCHITECTURE.md` (600+ lines) - System architecture
+- `docs/reference/API-DOT-SAFETY.md` (600+ lines) - API reference
+
+**Stats:** 1,950+ lines of documentation, 170+ tests
+
+---
+
+### v5.23.0 - AI Prompt Management + GIF Quality Enhancement (2026-01-29)
+
+**Released:** 2026-01-29
+**PR #313:** https://github.com/Data-Wise/flow-cli/pull/313 (MERGED - AI Prompts)
+**PR #315:** https://github.com/Data-Wise/flow-cli/pull/315 (MERGED - GIF Quality)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0
+**Changes:** 67 files changed, +9,012 / -44 lines
+
+**Major Features:**
+
+- **AI Prompt Management** (`teach prompt`) - 3-tier resolution system
+  - `teach prompt list` - List prompts by scope (Course > User > Plugin)
+  - `teach prompt show <name>` - Display prompt content with metadata
+  - `teach prompt edit <name>` - Edit prompts with automatic validation
+  - `teach prompt validate` - Check all prompts for syntax errors
+  - `teach prompt export` - Export for Scholar integration
+  - Auto-resolve integration: Scholar automatically injects course-specific prompts
+
+- **Documentation GIF Quality Enhancement** (PR #315)
+  - Standardized font size to 18px across 21 teaching GIFs (up from 14-16px)
+  - Fixed 133 ZSH syntax errors in 9 VHS tapes (`Type "#..."` → `Type "echo '...'`)
+  - Added Shell directives for consistent ZSH behavior
+  - Optimized GIF file sizes (10.9% reduction: 2.48MB → 2.21MB)
+  - Created validation tooling (`validate-vhs-tapes.sh` + comprehensive style guide)
+  - Embedded all teaching GIFs directly in documentation
+  - 50 files changed, +4,274 lines
+
+- **Implementation:**
+  - commands/teach-prompt.zsh (625 lines) - Full CRUD command
+  - lib/prompt-helpers.zsh (454 lines) - 3-tier resolution engine
+  - scripts/validate-vhs-tapes.sh (validation automation)
+  - VHS-TAPE-STYLE-GUIDE.md (419 lines)
+
+- **Testing:**
+  - 107 comprehensive tests (100% passing)
+  - 62 unit tests (full command coverage)
+  - 33 E2E tests (workflows + edge cases)
+  - 12 interactive dogfooding tasks
+
+- **Documentation:**
+  - Tutorial 28: teach-prompt.md (step-by-step guide)
+  - REFCARD-PROMPTS.md (quick reference)
+  - VHS-TAPE-STYLE-GUIDE.md (complete standards)
+  - Demo course v2.0.0 with prompts + lesson plans + macros
+
+**Combined Stats:** 67 files, +9,012 / -44 lines
+
+---
 
 ### v5.22.0 - Template Management & Lesson Plan Migration (2026-01-28)
 
@@ -765,12 +881,12 @@ export FLOW_DEBUG=1
 - `docs/tutorials/25-lesson-plan-migration.md`
 - `docs/reference/REFCARD-TEMPLATES.md`
 
-### v5.22.0 - Token Automation Phase 1 ✨ (2026-01-23)
+---
+
+### v5.17.0 - Token Automation Phase 1 (2026-01-23)
 
 **Released:** 2026-01-23
 **PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED)
-**PR #293:** https://github.com/Data-Wise/flow-cli/pull/293 (Release PR)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
 **Changes:** 35 files, +13,546 / -187 lines
 
 **Major Features:**
@@ -779,18 +895,9 @@ export FLOW_DEBUG=1
 - Smart caching (5-min TTL, 80% API reduction, 85% hit rate)
 - ADHD-friendly category menu with visual hierarchy
 - Verbosity control (quiet/normal/verbose)
-- Integration across 9 dispatchers (g, dash, work, finish, etc.)
+- Integration across 9 dispatchers
 
-**Command:** `commands/teach-analyze.zsh` (1,203 lines)
-
-- 2,150+ lines across 4 comprehensive guides
-- 11 Mermaid architecture diagrams
-- Complete API reference (800+ lines)
-
-**Tests:**
-
-- 54 comprehensive tests (96.3% pass rate)
-- Unit, E2E, cache, and interactive test suites
+**Tests:** 54 comprehensive tests (96.3% pass rate)
 
 **Performance:**
 
@@ -798,11 +905,12 @@ export FLOW_DEBUG=1
 - Cache checks: ~5-8ms (50% better than target)
 - 80% API call reduction
 
-### v5.22.0 - Intelligent Content Analysis (2026-01-22)
+---
+
+### v5.16.0 - Intelligent Content Analysis (2026-01-22)
 
 **Released:** 2026-01-22
 **PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
 **Changes:** 58 commits, +39,228 / -1,750 lines
 
 **Major Features:**
@@ -813,173 +921,6 @@ export FLOW_DEBUG=1
 - Enhanced prerequisite display with dependency tree visualization
 - wt dispatcher passthrough fix
 
-**Release Session (2026-01-22):**
-
-- Enhanced prerequisite display with per-concept dependency trees
-- Fixed concept extraction bugs (array-of-objects YAML, prerequisite merging)
-- Fixed slide optimizer key concept extraction
-- Updated documentation (REFCARD + API reference)
-- Complete release workflow (version bump → PR → merge → tag → release)
-- Post-release cleanup (.STATUS update, branch cleanup)
-
----
-
-## Previous Milestones (2026-01-22)
-
-### E2E and Interactive Test Infrastructure (commit ad4d4c5d)
-
-**Created comprehensive test infrastructure for teach analyze:**
-
-1. **E2E Test Suite** (`tests/e2e-teach-analyze.zsh`)
-   - 29 automated tests across 8 sections
-   - Setup, single file, validation, batch, slide optimization, reports, integration, extended cases
-   - Uses demo course fixture (STAT-101)
-   - 48% pass rate (expected - validates implementation readiness)
-
-2. **Interactive Dog Feeding Test** (`tests/interactive-dog-teaching.zsh`)
-   - 10 gamified tasks with ADHD-friendly mechanics
-   - Dog hunger/happiness tracking (0-100)
-   - Star rating system (0-5 ⭐)
-   - User validation approach
-   - Expected output shown before commands
-
-3. **Demo Course Fixture** (`tests/fixtures/demo-course/`)
-   - STAT-101: Introduction to Statistics
-   - 11 concepts across 5 weeks (8 valid + 2 broken for error testing)
-   - Proper Bloom taxonomy (Remember → Evaluate)
-   - Cognitive load distribution (low/medium/high)
-   - Prerequisite chains for dependency validation
-   - Broken files: circular dependency, missing prerequisite
-
-4. **Documentation**
-   - `tests/E2E-TEST-README.md` - Complete E2E and interactive testing guide
-   - `tests/fixtures/demo-course/README.md` - Demo course structure and usage
-   - Updated `tests/run-all.sh` to include E2E tests
-
-**Test Count:** 393 → 423 tests (+29 E2E, +1 interactive = +30 total)
-
-### Documentation Update: Plugin Optimization Tutorial & Reference
-
-- **Tutorial 22:** Plugin optimization step-by-step (`docs/tutorials/22-plugin-optimization.md`)
-  - Load guard patterns
-  - Display layer extraction
-  - Cache path collision fixes
-  - Test timeout mechanisms
-- **Quick Reference:** Optimization patterns (`docs/reference/REFCARD-OPTIMIZATION.md`)
-- **CHANGELOG.md:** Updated with teach analyze (PR #289), optimization (PR #290), and fixes
-- **mkdocs.yml:** Added 2 new navigation entries
-
-### Teach Analyze - Complete (PR #289 + #290)
-
-**All Phases (0-5) Merged to dev:**
-
-### Phase Summary
-
-| Phase       | Feature                                           | Status | Tests |
-| ----------- | ------------------------------------------------- | ------ | ----- |
-| 0           | Concept extraction, prerequisite validation       | ✅     | ~65   |
-| 1           | Integration (teach validate, teach status)        | ✅     | ~20   |
-| 2           | Cache (SHA-256, flock), reports, interactive mode | ✅     | ~65   |
-| 3           | AI analysis (claude CLI, cost tracking)           | ✅     | 55    |
-| 4           | Slide optimizer (breaks, key concepts, timing)    | ✅     | 109   |
-| 5           | Error handling, slide cache, dependency checks    | ✅     | 33    |
-| Integration | teach slides --optimize pipeline                  | ✅     | 29    |
-
-### Key Files
-
-**Libraries (6):**
-
-- `lib/concept-extraction.zsh` (446 lines) - YAML frontmatter parsing
-- `lib/prerequisite-checker.zsh` (376 lines) - DAG validation
-- `lib/analysis-cache.zsh` (1,383 lines) - SHA-256 cache with flock
-- `lib/report-generator.zsh` (985 lines) - Markdown/JSON reports
-- `lib/ai-analysis.zsh` (514 lines) - Claude CLI integration
-- `lib/slide-optimizer.zsh` (627 lines) - Heuristic slide breaks
-
-**Command:** `commands/teach-analyze.zsh` (1,203 lines)
-
-**Documentation (5):**
-
-- `docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md` (user guide)
-- `docs/reference/TEACH-ANALYZE-API-REFERENCE.md` (API docs)
-- `docs/reference/TEACH-ANALYZE-ARCHITECTURE.md` (Mermaid diagrams)
-- `docs/reference/REFCARD-TEACH-ANALYZE.md` (quick reference)
-- `docs/tutorials/21-teach-analyze.md` (interactive tutorial)
-
----
-
-## Recent Releases
-
-### v5.22.0 (2026-01-21) - Documentation Updates
-
-- Architecture overview with 6 Mermaid diagrams
-- V-dispatcher reference documentation
-- Documentation coverage report (853 functions, 8.6% documented)
-- teach prompt command specs (paused for Scholar coordination)
-
-### v5.22.0 (2026-01-21) - Architecture & Documentation
-
-- Architecture overview with 6 Mermaid diagrams
-- V-dispatcher reference documentation
-- Documentation coverage report (853 functions, 8.6% → 49.4%)
-- teach prompt command specs (paused for Scholar coordination)
-
-### v5.22.0 (2026-01-21) - Comprehensive Help System
-
-- 18 help functions for all teach commands
-- 800-line Help System Guide
-- 450-line Quick Reference Card
-- Progressive disclosure UX pattern
-- ADHD-friendly design principles
-- PR #282 merged (38 commits, +66,767/-1,614 lines)
-
-### v5.22.0 (2026-01-19) - Teaching Workflow v3.0 + Quarto Workflow
-
-**Teaching Workflow v3.0:**
-
-- teach doctor with 6 health check categories
-- Automated backup system with retention policies
-- Enhanced teach status with deployment info
-- Scholar template selection
-- teach init reimplemented with --config/--github flags
-
-**Quarto Workflow Phase 1+2:**
-
-- 3-10x parallel rendering speedup
-- Custom validator framework
-- Advanced cache management
-- Performance monitoring dashboard
-- 545+ tests (100% passing)
-
----
-
-## Next Development Cycle (v5.22.0)
-
-**Current:** v5.22.0-dev - Documentation consolidation complete, API coverage at 13.8%
-
-**Completed in v5.22.0:**
-
-- Documentation consolidation (66 → 7 master files)
-- API documentation improvement (2.7% → 13.8%, +411% increase)
-- Documentation health check (54 critical broken links fixed)
-- Master documents created (MASTER-API-REFERENCE, MASTER-DISPATCHER-GUIDE, MASTER-ARCHITECTURE)
-
-**Potential Focus Areas:**
-
-- Continue API documentation (target: 80% coverage, currently 13.8%)
-- Config → concept graph integration (Phase 1 enhancement)
-- teach prompt command (needs Scholar coordination)
-- Token automation Phases 2-4 (deferred - multi-token, gamification)
-- Quarto workflow Phase 2 enhancements
-- Additional teach analyze improvements
-
-**Future Roadmap:**
-
-- Installation improvements (curl one-liner)
-- Remote state sync (optional cloud backup)
-- Multi-device support
-- Shared templates
-
 ---
 
 ## Common Tasks
@@ -989,7 +930,7 @@ export FLOW_DEBUG=1
 1. Edit `lib/dispatchers/<name>-dispatcher.zsh`
 2. Update help function `_<name>_help()`
 3. Test: `source flow.plugin.zsh && <name> help`
-4. Update docs: `docs/reference/DISPATCHER-REFERENCE.md`
+4. Update docs: `docs/reference/MASTER-DISPATCHER-GUIDE.md`
 
 ### Deploy Documentation
 
@@ -1008,17 +949,17 @@ open https://Data-Wise.github.io/flow-cli/
 
 ```bash
 # Use the release script to bump all version files
-./scripts/release.sh 5.13.0
+./scripts/release.sh 5.23.0
 
 # Review changes
 git diff
 
 # Commit and tag
-git add -A && git commit -m "chore: bump version to 5.13.0"
-git tag -a v5.22.0 -m "v5.22.0"
+git add -A && git commit -m "chore: bump version to 5.23.0"
+git tag -a v5.23.0 -m "v5.23.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v5.22.0
+git push origin main && git push origin v5.23.0
 ```
 
 **Files updated by release script:**
@@ -1038,5 +979,5 @@ git push origin main && git push origin v5.22.0
 
 ---
 
-**Last Updated:** 2026-01-22
-**Status:** Production Ready (v5.22.0)
+**Last Updated:** 2026-01-29
+**Status:** Production Ready (v5.23.0)

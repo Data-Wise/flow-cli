@@ -6,7 +6,7 @@
 Output cc-dispatcher.gif
 
 Set Shell zsh
-Set FontSize 14
+Set FontSize 18
 Set Width 1200
 Set Height 650
 Set Padding 20
@@ -16,10 +16,10 @@ Set Theme "Catppuccin Mocha"
 # SCENE 1: Basic Launch
 # ============================================================================
 
-Type "# Tutorial 10: CC Dispatcher"
+Type "echo 'Tutorial 10: CC Dispatcher'"
 Sleep 500ms
 Enter
-Type "# Scene 1: Launch Claude Code"
+Type "echo 'Scene 1: Launch Claude Code'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -29,7 +29,7 @@ Sleep 500ms
 Enter
 Sleep 500ms
 
-Type "# Launch Claude in current directory"
+Type "echo 'Launch Claude in current directory'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -39,7 +39,7 @@ Sleep 500ms
 Enter
 Sleep 2s
 
-Type "# Press Ctrl+C to exit for demo"
+Type "echo 'Press Ctrl+C to exit for demo'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -56,12 +56,12 @@ Sleep 500ms
 # SCENE 2: Project Picker
 # ============================================================================
 
-Type "# Scene 2: Pick a project, then launch Claude"
+Type "echo 'Scene 2: Pick a project, then launch Claude'"
 Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Pick from all projects"
+Type "echo 'Pick from all projects'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -71,7 +71,7 @@ Sleep 500ms
 Enter
 Sleep 2s
 
-Type "# Shows fzf picker (interactive)"
+Type "echo 'Shows fzf picker (interactive)'"
 Sleep 500ms
 Enter
 Sleep 1s
@@ -88,12 +88,12 @@ Sleep 500ms
 # SCENE 3: YOLO Mode
 # ============================================================================
 
-Type "# Scene 3: YOLO Mode (skip edit prompts)"
+Type "echo 'Scene 3: YOLO Mode (skip edit prompts)'"
 Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Launch with YOLO mode"
+Type "echo 'Launch with YOLO mode'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -103,7 +103,7 @@ Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Equivalent: cc y"
+Type "echo 'Equivalent: cc y'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -120,12 +120,12 @@ Sleep 500ms
 # SCENE 4: Model Selection
 # ============================================================================
 
-Type "# Scene 4: Select model"
+Type "echo 'Scene 4: Select model'"
 Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Use Opus model"
+Type "echo 'Use Opus model'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -138,7 +138,7 @@ Sleep 1s
 Ctrl+C
 Sleep 500ms
 
-Type "# Use Haiku for quick tasks"
+Type "echo 'Use Haiku for quick tasks'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -160,12 +160,12 @@ Sleep 500ms
 # SCENE 5: Unified Grammar
 # ============================================================================
 
-Type "# Scene 5: Unified Grammar"
+Type "echo 'Scene 5: Unified Grammar'"
 Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Both orders work!"
+Type "echo 'Both orders work!'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -183,22 +183,22 @@ Sleep 300ms
 Enter
 Sleep 1s
 
-Type "# Quick Reference:"
+Type "echo 'Quick Reference:'"
 Sleep 500ms
 Enter
-Type "#   cc          - Launch here"
+Type "echo '  cc          - Launch here'"
 Sleep 300ms
 Enter
-Type "#   cc pick     - Pick project"
+Type "echo '  cc pick     - Pick project'"
 Sleep 300ms
 Enter
-Type "#   cc yolo     - Skip edit prompts"
+Type "echo '  cc yolo     - Skip edit prompts'"
 Sleep 300ms
 Enter
-Type "#   cc opus     - Use Opus model"
+Type "echo '  cc opus     - Use Opus model'"
 Sleep 300ms
 Enter
-Type "#   cc resume   - Resume session"
+Type "echo '  cc resume   - Resume session'"
 Sleep 300ms
 Enter
 Sleep 3s

@@ -4,49 +4,370 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v5.23.0 Planning
+## Phase: v6.0.0 Released
 ## Priority: 1
-## Progress: 5
+## Progress: 100
 
-## 🚧 Next: v5.23.0 - teach prompt Command
+## ✅ Just Completed: v6.0.0 Release Documentation Update (2026-01-31)
 
-**Branch:** `feature/teach-prompt`
-**Worktree:** `~/.git-worktrees/flow-cli/feature-teach-prompt`
-**Spec:** `docs/specs/SPEC-teach-prompt-v2-2026-01-29.md`
+**Session Duration:** ~30 min (post-merge documentation updates)
+**Status:** ✅ All version references, changelog, and navigation updated
+**Impact:** Complete v6.0.0 release documentation with chezmoi safety features
 
-**Scope:**
-- `teach prompt` command with 3-tier resolution (Course > User > Plugin)
-- 5 MVP subcommands: list, show, edit, validate, export
-- Auto-resolve prompts in Scholar wrapper (zero friction)
-- Scholar v2.1.0 coordination (Handlebars-style templates)
+**Activities:**
 
-**Status:** Spec approved, worktree created, ready for implementation
+1. **Version Reference Updates** (47 files)
+   - Updated v5.23.0 → v6.0.0 across README.md, CLAUDE.md, package.json
+   - Badge URLs, documentation cross-references, version fields
 
-**Start implementation:**
-```bash
-cd ~/.git-worktrees/flow-cli/feature-teach-prompt
-claude
-# Read WORKTREE-PLAN.md for orchestration guide
+2. **Changelog Entry** (CHANGELOG.md)
+   - Comprehensive v6.0.0 release notes following Keep a Changelog format
+   - 5 major sections: Added, Changed, Documentation, Testing, Performance
+   - Detailed feature descriptions for all chezmoi safety enhancements
+
+3. **README.md What's New Section**
+   - Added v6.0.0 section highlighting chezmoi safety features
+   - Real problem context (196KB .git bloat prevention)
+   - Command examples and benefits
+   - PR #316 reference with stats
+
+4. **Navigation Updates** (mkdocs.yml)
+   - Added 🛡️ Chezmoi Safety Features to Guides section
+   - Added quick reference card to Help & Quick Reference
+   - Added API documentation to Reference section
+   - Created new Architecture section with 4 docs (Chezmoi Safety, Doctor Token, Teaching Dates, Scholar Enhancement)
+
+5. **.STATUS File Update**
+   - Updated Phase to v6.0.0 Released
+   - New Just Completed entry documenting this update session
+
+**Previous Session (same day):** Comprehensive Safety Documentation
+1. **User Documentation** (CHEZMOI-SAFETY-GUIDE.md - 400+ lines)
+   - Quick start guide with basic workflows
+   - Command reference with examples (dot add, ignore, size, doctor)
+   - Safety check explanations (large files, generated files, git metadata)
+   - Troubleshooting guide with solutions
+   - Best practices and advanced usage
+   - Performance metrics and thresholds
+
+2. **Quick Reference Card** (REFCARD-DOT-SAFETY.md - 350+ lines)
+   - Command cheat sheet with aliases
+   - Ignore pattern syntax reference
+   - Size thresholds and indicators
+   - Health check overview (9 checks)
+   - Performance metrics table
+   - Common workflow examples
+   - Exit codes reference
+
+3. **Architecture Documentation** (DOT-SAFETY-ARCHITECTURE.md - 600+ lines)
+   - System architecture diagrams (15+ Mermaid diagrams)
+   - Component details with code examples
+   - Data flow sequences (file addition, size analysis)
+   - Caching strategy and lifecycle
+   - Cross-platform support (BSD vs GNU)
+   - Integration points (Chezmoi, Git, Doctor)
+   - Security considerations
+
+4. **API Reference** (API-DOT-SAFETY.md - 600+ lines)
+   - Platform abstraction layer (3 functions)
+   - Cache management (3 functions)
+   - Safety features (3 core functions)
+   - Utility functions (4 helpers)
+   - Constants and thresholds
+   - Usage patterns and examples
+   - Performance benchmarks
+
+**Documentation Quality:**
 ```
+User Documentation:
+✓ CHEZMOI-SAFETY-GUIDE.md (400+ lines)
+  - 6 major sections
+  - 40+ code examples
+  - 25+ tables
+  - Troubleshooting guide
+
+Quick Reference:
+✓ REFCARD-DOT-SAFETY.md (350+ lines)
+  - Command cheat sheet
+  - Pattern syntax guide
+  - Threshold reference
+  - Common workflows
+
+Architecture:
+✓ DOT-SAFETY-ARCHITECTURE.md (600+ lines)
+  - 15+ Mermaid diagrams
+  - Component details
+  - Data flow sequences
+  - Integration points
+
+API Reference:
+✓ API-DOT-SAFETY.md (600+ lines)
+  - 13 functions documented
+  - Performance benchmarks
+  - Usage patterns
+  - Exit codes
+
+Total: 1,950+ lines, 15+ diagrams, 40+ examples
+```
+
+**Files Created:**
+- docs/guides/CHEZMOI-SAFETY-GUIDE.md (new, 400+ lines)
+- docs/reference/REFCARD-DOT-SAFETY.md (new, 350+ lines)
+- docs/architecture/DOT-SAFETY-ARCHITECTURE.md (new, 600+ lines)
+- docs/reference/API-DOT-SAFETY.md (new, 600+ lines)
+
+**Files Modified:**
+- .STATUS (updated with documentation completion)
+
+**Next Steps:**
+- Push branch to remote (already done)
+- Create PR to dev branch
+- Full release preparation (v6.0.0)
+
+---
+
+## ✅ Just Completed: Chezmoi Safety Spec Updates (2026-01-30)
+
+**Session Duration:** ~2 hours (orchestrated review + spec updates)
+**Status:** ✅ Spec updated with orchestrator feedback, ready for implementation
+**Impact:** Comprehensive safety enhancement plan with cross-platform support
+
+**Activities:**
+1. **Orchestrator Review**
+   - Launched comprehensive spec review via /craft:orchestrate
+   - Review score: 4.3/5.0 → 4.8/5.0 (projected after updates)
+   - Identified 6 critical issues and 10 high-priority gaps
+   - Generated 1,400+ lines of recommendations
+
+2. **Spec Enhancements** (+1,807 lines)
+   - Added Cross-Platform Compatibility section (BSD vs GNU helpers)
+   - Added Performance Optimizations (timeouts, large directory warnings)
+   - Added Architecture Integration (cache patterns, doctor integration)
+   - Added Test Infrastructure (170+ lines, 15+ tests, mock framework)
+   - Added Migration Guide (6-step cleanup for existing users)
+   - Added FAQ section (15 questions: general, technical, troubleshooting)
+
+3. **Implementation Plan Restructured**
+   - Phase 0: Foundation & Cross-Platform (4-5h) — NEW
+   - Phase 1: Safety Features (8-10h, was 6-8h)
+   - Phase 2: Health & Visibility (6-7h, unchanged)
+   - Phase 3: Integration & Architecture (4-5h) — NEW
+   - Phase 4: Testing & Documentation (4-5h, was 2-4h)
+   - Total effort: 16-20 hours (was 12-16 hours)
+
+4. **New Functions Specified**
+   - `_flow_get_file_size()` - Cross-platform file size detection
+   - `_flow_human_size()` - Human-readable sizes without numfmt
+   - `_flow_timeout()` - Timeout wrapper for find operations
+   - Cache helpers: `_dot_is_cache_valid()`, `_dot_cache_size()`
+   - `.gitignore` import: `_dot_suggest_from_gitignore()`
+
+**Key Improvements:**
+- Fixed BSD vs GNU compatibility (stat, sed, timeout)
+- Added 2-second timeout for find operations (prevents hanging)
+- Symlink handling in git detection
+- `.gitignore` pattern import feature
+- Complete test suite with mocking
+- Comprehensive migration guide
+
+**Files Changed (2 files, +1,807 lines):**
+- docs/specs/SPEC-dot-chezmoi-safety-2026-01-30.md (modified, +1,783 lines)
+- docs/specs/SPEC-dot-chezmoi-safety-2026-01-30-UPDATE-SUMMARY.md (new, 340 lines)
+
+**Commits (2 total):**
+- e79ff84e - feat(dot): add comprehensive safety enhancement spec
+- 76fbc552 - docs(spec): incorporate orchestrator review feedback
+
+**Branch Status:**
+- Branch: feature/dot-chezmoi-safety
+- Implementation: 0% (spec only)
+- Tests: Not started
+- Next: Begin Phase 0 (cross-platform helpers in lib/core.zsh)
+
+**Review Score:**
+- Completeness: 4.5/5.0 (was missing architecture integration)
+- Implementation: 4.0/5.0 (cross-platform issues fixed)
+- Testing: 4.2/5.0 (added test infrastructure)
+- Documentation: 4.5/5.0 (added migration guide + FAQ)
+- Integration: 4.0/5.0 (doctor integration specified)
+- ADHD-Friendly: 4.8/5.0 (excellent UX maintained)
+- **Overall: 4.3/5.0 → 4.8/5.0** (projected after implementation)
+
+---
+
+## ✅ Just Completed: Spec File Archival & Version Updates (2026-01-29)
+
+**Session Duration:** ~10 min
+**Status:** ✅ Complete, committed, and pushed
+**Impact:** Cleaned up 5 teaching GIF spec files, corrected version references
+
+**Activities:**
+1. **Version Reference Updates**
+   - Updated teaching GIF spec files from planned v5.22.1 → actual v5.23.0
+   - Updated dependency requirements from v5.22.0+ → v5.23.0+
+   - Added PR #315 completion notes
+
+2. **Spec File Archival**
+   - Moved 5 completed spec files to docs/specs/_archive/
+   - Files archived: INDEX, SPEC, SUMMARY, CHECKLIST, EXAMPLES
+   - Teaching GIF enhancement completed in PR #315 (released v5.23.0)
+
+**Files Changed:**
+- docs/specs/INDEX-teaching-gifs-enhancement.md (version update, then archived)
+- docs/specs/SPEC-teaching-gifs-enhancement-2026-01-29.md (version update, then archived)
+- docs/specs/SUMMARY-teaching-gifs-audit.md (version update, then archived)
+- docs/specs/CHECKLIST-teaching-gifs-enhancement.md (archived)
+- docs/specs/EXAMPLES-vhs-syntax-fixes.md (archived)
+
+**Commits:**
+- e7bc7f40 - docs(specs): update teaching GIF enhancement release version to v5.23.0
+- c5612c00 - chore(specs): archive completed teaching GIF enhancement specs
+
+---
+
+## ✅ Just Released: v5.23.0 - AI Prompt Management + GIF Quality (2026-01-29)
+
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0
+**Documentation:** https://Data-Wise.github.io/flow-cli/
+**Branch:** dev (merged from feature/teach-prompt + feature/teaching-gifs-enhancement)
+
+**Features:**
+- `teach prompt` command with 3-tier resolution (Course > User > Plugin)
+- 5 subcommands: list, show, edit, validate, export
+- Scholar auto-resolve integration (automatic prompt injection)
+- Full alias support: `teach pr`, `teach pr ls`, `teach pr cat`, etc.
+- Comprehensive tab completions
+
+**Documentation GIF Enhancement (PR #315):**
+- Standardized 18px font across 21 teaching GIFs (improved readability)
+- Fixed 133 ZSH syntax errors in 9 VHS tapes
+- Added Shell directives for consistent behavior
+- Optimized GIF file sizes (10.9% reduction, 2.48MB → 2.21MB)
+- Created validation tooling (`validate-vhs-tapes.sh` + style guide)
+- Embedded all GIFs directly in documentation
+- 50 files changed, +4,274 lines
+
+**Testing:**
+- 62 unit tests (100% passing)
+- 33 E2E tests (100% passing)
+- 12 interactive dogfooding tasks
+- 107 total tests, 100% pass rate
+
+**Documentation:**
+- Tutorial 28: teach-prompt.md (step-by-step guide)
+- REFCARD-PROMPTS.md (quick reference)
+- VHS-TAPE-STYLE-GUIDE.md (419 lines)
+- Demo course v2.0.0 (prompts, lesson plans, macros)
+
+**Stats:** 67 files changed, +9,012 / -44 lines (prompt + GIF work combined)
+
+---
+
+## ✅ Just Completed: Smart Documentation Update (2026-01-29)
+
+**Session Duration:** ~30 min (detection + automated fixes)
+**Status:** ✅ Complete, ready to commit
+**Impact:** Consistent version references, accurate release notes, updated key files
+
+**Activities:**
+1. **Documentation Audit**
+   - Detected version inconsistencies (docs/index.md showing v5.22.1 instead of v5.23.0)
+   - Found incorrect "What's New" content (Dispatcher Routing vs AI Prompt + GIF Quality)
+   - Identified missing PR #315 content in .STATUS and CLAUDE.md
+
+2. **Automated Fixes**
+   - Updated docs/index.md with v5.23.0 "What's New" section
+   - Added AI Prompt Management + GIF Quality Enhancement highlights
+   - Updated docs/index.md Previous Releases section (v5.22.0 now includes templates)
+   - Updated .STATUS with PR #315 completion and combined stats
+   - Teaching/index.md already at v5.23.0 (no change needed)
+
+3. **Documentation Updates**
+   - docs/index.md: Updated "What's New" with both AI prompts and GIF quality
+   - .STATUS: Added PR #315 to Just Released section with combined stats
+   - All version badges verified at v5.23.0
+
+**Files Modified:**
+- docs/index.md (What's New section + Previous Releases)
+- .STATUS (Just Released section)
+
+**Next:** Commit changes and update CLAUDE.md Just Completed section
+
+---
+
+## ✅ Just Completed: Teaching GIF Enhancement Spec & Worktree (2026-01-29)
+
+**Session Duration:** ~1.5 hours (orchestration + worktree creation)
+**Status:** ✅ Spec complete, worktree created, ready for implementation
+**Impact:** Comprehensive plan for fixing GIF documentation issues
+
+**Activities:**
+1. **Comprehensive Teaching Docs Review**
+   - Analyzed 69 teaching files (17,317 lines total)
+   - Created TEACHING-DOCS-REVIEW.md (635 lines)
+   - Identified gaps: version drift, entry point confusion, missing troubleshooting
+   - 4-phase roadmap (77 hours), 5 quick wins (<2 hours each)
+
+2. **GIF Enhancement Specification** (via /craft:do orchestration)
+   - Delegated to craft:workflow-orchestrator agent
+   - Created 5 comprehensive documents:
+     1. INDEX-teaching-gifs-enhancement.md (navigation hub)
+     2. SUMMARY-teaching-gifs-audit.md (critical findings)
+     3. SPEC-teaching-gifs-enhancement-2026-01-29.md (16,000+ words)
+     4. CHECKLIST-teaching-gifs-enhancement.md (700+ lines)
+     5. EXAMPLES-vhs-syntax-fixes.md (500+ lines)
+   - Key findings: 6 GIFs with 14px font, 3 VHS tapes with 87 syntax errors, 30-40% file size optimization
+
+3. **Worktree Creation**
+   - Created feature/teaching-gifs-enhancement branch from dev
+   - Staged and committed 6 files (5 specs + TEACHING-DOCS-REVIEW.md)
+   - Created worktree at `~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement`
+   - Created WORKTREE-README.md implementation guide
+   - Fixed branch checkout conflict (switched main repo to dev)
+
+4. **Documentation Updates**
+   - Updated docs/index.md badges from v5.19.0 → v5.22.1
+   - Rewrote "What's New" section for v5.22.1 (Dispatcher Routing & Help System)
+   - Fixed 11 markdown linting errors
+   - Deployed to GitHub Pages
+
+**Files Created:**
+- docs/specs/INDEX-teaching-gifs-enhancement.md
+- docs/specs/SUMMARY-teaching-gifs-audit.md
+- docs/specs/SPEC-teaching-gifs-enhancement-2026-01-29.md (16,000+ words)
+- docs/specs/CHECKLIST-teaching-gifs-enhancement.md (700+ lines)
+- docs/specs/EXAMPLES-vhs-syntax-fixes.md (500+ lines)
+- TEACHING-DOCS-REVIEW.md (635 lines)
+- ~/.git-worktrees/flow-cli/feature-teaching-gifs-enhancement/WORKTREE-README.md
+
+**Commits:**
+- docs(teaching): comprehensive review and GIF enhancement specs
+
+**Next Steps:**
+- Start NEW session in worktree to begin Phase 1 implementation
+- Fix 3 VHS tapes with syntax errors
+- Regenerate 6 GIFs with 18px font
+- Optimize with gifsicle
 
 ---
 
 ## 📊 Branch Monitoring (2026-01-29)
 
 ### Active Worktrees
-| Worktree | Branch | Commits Ahead of dev |
-|----------|--------|---------------------|
-| Main repo | `main` | 3 (release merge PRs) |
-| `~/.git-worktrees/flow-cli/feature-teach-prompt` | `feature/teach-prompt` | 2 (spec + plan) |
+| Worktree | Branch | Status |
+|----------|--------|--------|
+| Main repo | `dev` | Clean (v5.23.0 released) |
+
+**Note:** All feature worktrees cleaned up (teach-prompt and teaching-gifs-enhancement merged in v5.23.0)
 
 ### Recent PRs (all MERGED)
 | PR | Branch | Title |
 |----|--------|-------|
+| #313 | feature/teach-prompt | feat: teach prompt command with 3-tier resolution |
 | #312 | dev | Release v5.22.0 |
 | #311 | fix/archive-links | fix(docs): replace 102 broken archive links |
 | #310 | dev | Release: v5.22.0 - Lesson Plan Management |
 | #309 | docs/teach-plan-gaps | docs: Tutorial 27 + guide updates |
-| #308 | feature/teach-plan | feat: teach plan CRUD command |
 
 ### CI Status
 - CI Tests (main): PASS
@@ -72,21 +393,57 @@ claude
 
 ---
 
-## 🎉 Just Released: v5.22.0 (2026-01-29)
+## ✅ Just Completed: v5.23.0 Release & Deployment (2026-01-29)
 
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
-**PRs:** #308, #309, #310, #311, #312 (all MERGED)
+**Session Duration:** ~2 hours (code review, testing, merge, release, docs deployment)
+**Status:** ✅ Released, deployed, documented, verified
+**Impact:** AI prompt management with 3-tier resolution + 107 tests + demo course v2.0.0
 
-**Highlights:**
-- `teach plan` CRUD command for lesson plan management (#278)
-- 71 new tests (32 unit + 24 security + 15 E2E) — 462 total
-- Tutorial 27, REFCARD-TEACH-PLAN, API reference, completions
-- 102 broken .archive/ links migrated to master files (67 docs)
-- 374 malformed code fences fixed in MASTER-API-REFERENCE.md
-- mkdocs strict build: 0 warnings (was 1 warning + 90 INFO issues)
-- Site deployed with all fixes verified
+**Activities:**
+1. **Code Review of PR #313** (comprehensive analysis)
+   - Architecture: ⭐⭐⭐⭐⭐ Clean 3-tier resolution
+   - Testing: ⭐⭐⭐⭐⭐ 89/89 tests passing
+   - Integration: ⭐⭐⭐⭐⭐ Seamless Scholar auto-resolve
+   - Overall: 4.9/5 - Production-ready, approved
 
-**Stats:** 85 files changed, +4,772 / -603 lines
+2. **Test Creation & Enhancement**
+   - Created `interactive-dog-prompt.zsh` (509 lines, 12 gamified tasks)
+   - Enhanced E2E tests (27 → 33 tests, +6 advanced features)
+   - Updated demo course to v2.0.0 with prompts, lesson plans, macros
+   - Created TESTING-SUMMARY.md (complete test documentation)
+   - All 107 tests passing (62 unit + 33 E2E + 12 interactive)
+
+3. **PR #313 Merge**
+   - Committed test enhancements (8 files, +1,524 lines)
+   - Merged to dev (968c601a)
+   - Total: 17 files changed, +4,738 / -22 lines
+
+4. **Release v5.23.0**
+   - Updated version to 5.23.0 (package.json, README.md, CLAUDE.md, CHANGELOG.md)
+   - Created git tag v5.23.0
+   - Published GitHub release with comprehensive notes
+   - Release URL: https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0
+
+5. **Documentation Site Deployment**
+   - Added Tutorial 28 to mkdocs.yml navigation
+   - Added REFCARD-PROMPTS to quick reference section
+   - Updated docs/index.md with v5.23.0 release notes
+   - Built and deployed to GitHub Pages (14.17 seconds)
+   - Site URL: https://Data-Wise.github.io/flow-cli/
+
+**Commits (3 total):**
+- 759c0c47 - test: add comprehensive dogfooding and E2E tests
+- bb5c30cc - chore: bump version to v5.23.0
+- 1c8ffe9d - docs: update documentation site for v5.23.0
+
+**Test Results:**
+```
+Unit Tests:    62/62  ✅ 100%
+E2E Tests:     33/33  ✅ 100%
+Interactive:   12/12  ✅ Ready
+─────────────────────────────
+Total:        107/107 ✅ 100%
+```
 
 ---
 
@@ -662,6 +1019,49 @@ fi
 
 ## ✅ Recent Releases:
 
+### v5.23.0 - AI Prompt Management (2026-01-29)
+
+**Released:** 2026-01-29
+**PR #313:** https://github.com/Data-Wise/flow-cli/pull/313 (MERGED)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0
+**Documentation:** https://Data-Wise.github.io/flow-cli/
+
+**Major Features:**
+- `teach prompt` command with 3-tier resolution (Course > User > Plugin)
+- 5 subcommands: list, show, edit, validate, export
+- Scholar auto-resolve integration (automatic prompt injection)
+- Full alias support and tab completions
+- 107 comprehensive tests (62 unit + 33 E2E + 12 interactive)
+
+**Implementation:**
+- 17 files changed (+4,738 / -22 lines)
+- commands/teach-prompt.zsh (625 lines)
+- lib/prompt-helpers.zsh (454 lines) - 3-tier resolution engine
+- lib/dispatchers/teach-dispatcher.zsh (+36 lines) - Scholar integration
+- Demo course v2.0.0 with prompts, lesson plans, macros
+
+**Documentation:**
+- Tutorial 28: teach-prompt.md
+- REFCARD-PROMPTS.md quick reference
+- TESTING-SUMMARY.md (complete test docs)
+- Site deployed with v5.23.0 content
+
+---
+
+### v5.22.0 - Template & Lesson Plan Management (2026-01-29)
+
+**Released:** 2026-01-29
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.22.0
+
+**Highlights:**
+- `teach plan` CRUD command (#278)
+- `teach templates` management (#301)
+- `teach migrate-config` extraction
+- 71 new tests — 462 total tests
+- 102 broken .archive/ links fixed
+
+---
+
 ### v5.19.0 - Keychain-Default Backend (2026-01-25)
 
 **Released:** 2026-01-25
@@ -756,6 +1156,17 @@ fi
 - Enhanced prerequisite display with dependency tree
 - wt dispatcher passthrough fix
 - 58 commits, 39,228 additions, 1,750 deletions
+
+---
+
+## 🎯 Next Action:
+
+**Push branch to remote** - Backup spec before implementation
+```bash
+git push -u origin feature/dot-chezmoi-safety
+```
+
+Then start Phase 0 implementation (cross-platform helpers) in a fresh session.
 
 ---
 
@@ -872,36 +1283,22 @@ fi
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `main` | Clean (v5.22.0) |
-| `~/.git-worktrees/flow-cli/feature-teach-prompt` | `feature/teach-prompt` | 🚧 Ready for implementation |
+| Main repo | `dev` | ✅ Clean (v5.23.0 released) |
+
+**Note:** All feature worktrees completed and cleaned up:
+- ✅ `feature/teach-prompt` - Merged in PR #313 (v5.23.0)
+- ✅ `feature/teaching-gifs-enhancement` - Merged in PR #315 (v5.23.0)
 
 ---
 
 ## 📝 Pending:
 
-### Feature Request #298: Lesson Plan Extraction (Active) ⭐
-- **Status:** ✅ Plan revised - Ready to implement
-- **Issue:** https://github.com/Data-Wise/flow-cli/issues/298
-- **Effort:** ~4 hours
-- **Why:** Cleaner separation (course meta vs curriculum)
-- **Scope (Revised):**
-  - ✅ Extract `semester_info.weeks[]` → `.flow/lesson-plans.yml`
-  - ✅ Add `lesson_plans: "lesson-plans.yml"` reference in teach-config.yml
-  - ✅ Create `teach migrate-config` command (with .bak backup)
-  - ❌ NO rename of teach-config.yml
-  - ❌ NO teaching_style integration (deferred)
-- **Design Decisions:**
-  - Reference-only model (pointer, not dual storage)
-  - Single lesson-plans.yml file (not per-week)
-  - Clear error messages with migration hints
-  - .bak backup before modifying
-
-### Feature Request #299: Scholar Config Sync (Deferred)
-- **Status:** ⏸️ Waiting for #298 to stabilize
+### Feature Request #299: Scholar Config Sync (Unblocked) ⭐
+- **Status:** ⏸️ Ready to implement (#298 complete)
 - **Issue:** https://github.com/Data-Wise/flow-cli/issues/299
-- **Effort:** 2-3 hours (after #298 complete)
+- **Effort:** 2-3 hours
 - **Why:** Scholar must read from new lesson-plans.yml format
-- **Dependencies:** Requires #298 complete and tested first
+- **Note:** Blocked dependency (#298) now complete as of v5.22.0
 
 ### Feature Request #278: `teach plan create` (Shelved)
 - **Status:** ⏸️ Shelved for future
@@ -913,9 +1310,6 @@ fi
 - **Issue:** https://github.com/Data-Wise/flow-cli/issues/275
 - **Spec:** `docs/specs/SPEC-teach-dashboard-2026-01-18.md`
 
-### SPEC-teach-prompt-command (Paused)
-- ⏸️ Needs Scholar plugin coordination
-
 ### Config→Concept Graph Integration (Phase 1 Enhancement)
 - Brainstorm complete: `docs/specs/BRAINSTORM-config-concept-graph-integration-2026-01-22.md`
 - Approach: Option D (Hybrid Enrichment) — non-breaking config cross-referencing
@@ -923,8 +1317,9 @@ fi
 - Match file titles to config topics as fallback
 
 ### API Documentation Improvement
-- Current coverage: 2.7% (19/704 functions)
+- Current coverage: 13.8% (97/704 functions)
 - Target: 80% (566/704 functions)
+- Completed: v5.17.0 token automation (30 functions) + teaching libraries (32) + git helpers (14) + keychain (7)
 - Tools ready: `scripts/generate-api-docs.sh --dry-run`
 - Dashboard: `scripts/generate-doc-dashboard.sh`
 
@@ -1090,7 +1485,7 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 ---
 
 **Last Updated:** 2026-01-29
-**Status:** v5.22.0 Released ✅ | v5.23.0 Planning (teach prompt)
-## wins: --category ship v5.22.0 released (teach plan, docs cleanup, 462 tests) (2026-01-29), --category ship v5.21.0 released (LaTeX macros, 80 tests) (2026-01-28)
+**Status:** v5.23.0 Released ✅ | Documentation Deployed ✅ | CLAUDE.md Cleaned ✅ | GIF Enhancement Spec Ready ✅
+## wins: --category fix squashed the bug (2026-01-31), fixed the bug (2026-01-31), --category fix squashed the bug (2026-01-31), fixed the bug (2026-01-31), --category fix squashed the bug (2026-01-31)
 ## streak: 0
-## last_active: 2026-01-29
+## last_active: 2026-01-31 16:21

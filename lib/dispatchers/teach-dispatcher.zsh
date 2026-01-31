@@ -135,6 +135,13 @@ if [[ -z "$_FLOW_TEACH_PLAN_LOADED" ]]; then
     typeset -g _FLOW_TEACH_PLAN_LOADED=1
 fi
 
+# Source teach-prompt command (v5.23.0 - AI Prompt Management)
+if [[ -z "$_FLOW_TEACH_PROMPT_LOADED" ]]; then
+    local prompt_path="${0:A:h:h}/../commands/teach-prompt.zsh"
+    [[ -f "$prompt_path" ]] && source "$prompt_path"
+    typeset -g _FLOW_TEACH_PROMPT_LOADED=1
+fi
+
 # ============================================================================
 # TEACH DISPATCHER
 # ============================================================================
@@ -2533,6 +2540,25 @@ _teach_scholar_wrapper() {
         scholar_cmd="$scholar_cmd --template \"$template\""
     fi
 
+    # Auto-resolve teaching prompt (v5.23.0 - Prompt Management)
+    if typeset -f _teach_resolve_prompt >/dev/null 2>&1; then
+        local prompt_path
+        prompt_path=$(_teach_resolve_prompt "$subcommand" 2>/dev/null)
+        if [[ -n "$prompt_path" && -f "$prompt_path" ]]; then
+            # Build extra vars from current context
+            typeset -A _scholar_prompt_vars
+            [[ -n "$topic" ]] && _scholar_prompt_vars[TOPIC]="$topic"
+            [[ -n "$TEACH_WEEK" ]] && _scholar_prompt_vars[WEEK]="$TEACH_WEEK"
+            [[ -n "$style" ]] && _scholar_prompt_vars[STYLE]="$style"
+
+            local rendered_prompt
+            rendered_prompt=$(_teach_render_prompt "$prompt_path" _scholar_prompt_vars 2>/dev/null)
+            if [[ -n "$rendered_prompt" ]]; then
+                scholar_cmd="$scholar_cmd --prompt \"$rendered_prompt\""
+            fi
+        fi
+    fi
+
     # Build full command string for commit message (v5.11.0+)
     local full_command="teach $subcommand ${args[*]}"
 
@@ -4654,6 +4680,8 @@ ${FLOW_COLORS[bold]}════════════════════
     ${FLOW_COLORS[muted]}list | new | validate | sync${FLOW_COLORS[reset]}  Template operations
   ${FLOW_COLORS[cmd]}teach macros${FLOW_COLORS[reset]}                   LaTeX macro management
     ${FLOW_COLORS[muted]}list | sync | export${FLOW_COLORS[reset]}        Macro operations
+  ${FLOW_COLORS[cmd]}teach prompt${FLOW_COLORS[reset]}                   AI prompt management
+    ${FLOW_COLORS[muted]}list | show | edit | validate | export${FLOW_COLORS[reset]}
 
 ${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
 ✍️ CONTENT CREATION (Scholar AI)
@@ -4991,6 +5019,14 @@ teach() {
             case "$1" in
                 --help|-h|help) _teach_macros_help; return 0 ;;
                 *) _teach_macros "$@" ;;
+            esac
+            ;;
+
+        # AI prompt management (v5.23.0 - Prompt Management)
+        prompt|pr)
+            case "$1" in
+                --help|-h|help) _teach_prompt_help; return 0 ;;
+                *) _teach_prompt "$@" ;;
             esac
             ;;
 

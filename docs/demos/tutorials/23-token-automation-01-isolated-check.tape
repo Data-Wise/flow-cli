@@ -2,13 +2,14 @@
 # Demonstrates doctor --dot for fast, focused token validation
 
 Output ./23-token-automation-01-isolated-check.gif
+Set Shell zsh
 
-Set FontSize 16
+Set FontSize 18
 Set Width 1000
 Set Height 600
 Set Theme "Catppuccin Mocha"
 
-Type "# Step 3: Isolated Check - doctor --dot"
+Type "echo 'Step 3: Isolated Check - doctor --dot'"
 Sleep 800ms
 Enter
 Sleep 500ms
@@ -23,7 +24,7 @@ Sleep 1s
 Enter
 Sleep 800ms
 
-Type "# Try again to see cache in action"
+Type "echo 'Try again to see cache in action'"
 Sleep 800ms
 Enter
 Sleep 500ms

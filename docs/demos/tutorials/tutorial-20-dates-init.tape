@@ -2,6 +2,7 @@
 # Shows the interactive wizard for initializing date configuration
 
 Output tutorial-20-dates-init.gif
+Set Shell zsh
 
 Set FontSize 18
 Set Width 1400
@@ -15,13 +16,13 @@ Type "Tutorial 20: Teaching Dates Automation - Part 1" Sleep 1s Enter
 Sleep 1s
 
 # Setup: Navigate to course directory
-Type "# Step 1: Navigate to course directory" Enter
+Type "echo 'Step 1: Navigate to course directory'" Enter
 Sleep 500ms
 Type "cd ~/projects/teaching/stat-545" Enter
 Sleep 1s
 
 Type "" Enter
-Type "# Step 2: Initialize date configuration" Enter
+Type "echo 'Step 2: Initialize date configuration'" Enter
 Sleep 500ms
 Type "teach dates init" Enter
 Sleep 1.5s
@@ -40,7 +41,7 @@ Sleep 1s
 
 # Verify config
 Type "" Enter
-Type "# Step 3: Verify config was created" Enter
+Type "echo 'Step 3: Verify config was created'" Enter
 Sleep 500ms
 Type "cat .flow/teach-config.yml | head -20" Enter
 Sleep 500ms
@@ -60,5 +61,5 @@ Sleep 2s
 
 # Success message
 Type "" Enter
-Type "# ✅ Date configuration initialized!" Enter
+Type "echo '✅ Date configuration initialized!'" Enter
 Sleep 2s

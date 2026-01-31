@@ -2,6 +2,7 @@
 # Shows: teach init → deploy → status workflow
 
 Output tutorial-14-teach-workflow.gif
+Set Shell zsh
 
 Set FontSize 18
 Set Width 1400
@@ -15,7 +16,7 @@ Type "Tutorial 14: Teaching Workflow with Teach Dispatcher" Sleep 1s Enter
 Sleep 1s
 
 # Scene 1: Initialize
-Type "# Part 1: Initialize a course" Enter
+Type "echo 'Part 1: Initialize a course'" Enter
 Sleep 500ms
 Type "teach init 'STAT 545'" Enter
 Sleep 1.5s
@@ -37,7 +38,7 @@ Sleep 1s
 
 # Scene 2: Create content
 Type "" Enter
-Type "# Part 2: Generate teaching content" Enter
+Type "echo 'Part 2: Generate teaching content'" Enter
 Sleep 500ms
 Type "teach exam 'Midterm 1'" Enter
 Sleep 1.5s
@@ -60,7 +61,7 @@ Sleep 1.5s
 
 # Scene 3: Deploy
 Type "" Enter
-Type "# Part 3: Deploy to production" Enter
+Type "echo 'Part 3: Deploy to production'" Enter
 Sleep 500ms
 Type "teach deploy" Enter
 Sleep 1.5s
@@ -90,7 +91,7 @@ Sleep 2s
 
 # Scene 4: Status
 Type "" Enter
-Type "# Part 4: Check course status" Enter
+Type "echo 'Part 4: Check course status'" Enter
 Sleep 500ms
 Type "teach status" Enter
 Sleep 1.5s
@@ -111,5 +112,5 @@ Sleep 2s
 
 # Final message
 Type "" Enter
-Type "# ✅ Complete teaching workflow demonstrated!" Enter
+Type "echo '✅ Complete teaching workflow demonstrated!'" Enter
 Sleep 2s

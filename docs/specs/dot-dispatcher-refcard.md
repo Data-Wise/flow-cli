@@ -254,12 +254,14 @@ $ flow doctor
 ## Keyboard Shortcuts (via ZSH completion)
 
 ```bash
-df <TAB>        → Show all actions
-df e<TAB>       → Complete to 'edit'
-df s<TAB>       → Ambiguous: sync, status, secret
-df edit <TAB>   → List tracked files
-df se<TAB>      → Complete to 'secret'
-df sec <TAB>    → Show: list, add, test, unlock
+df <TAB>           → Show all actions
+df e<TAB>          → Complete to 'edit'
+df s<TAB>          → Ambiguous: sync, status, secret, size
+df edit <TAB>      → List tracked files
+df se<TAB>         → Complete to 'secret'
+df sec <TAB>       → Show: list, add, test, unlock
+df ig<TAB>         → Complete to 'ignore'
+df ignore <TAB>    → Show: add, list, remove, edit, help
 ```
 
 ---
@@ -334,6 +336,15 @@ $ df help
   df unlock         Unlock Bitwarden
   df secret test    Test secret injection
 
+🚫 IGNORE PATTERNS:
+  df ignore add     Add ignore pattern
+  df ignore list    List all patterns
+  df ignore remove  Remove pattern
+  df ignore edit    Edit .chezmoiignore
+
+📊 REPOSITORY HEALTH:
+  df size           Analyze repository size
+
 📋 STATUS & INFO:
   df                Status overview (default)
   df status         Full sync status
@@ -355,6 +366,133 @@ $ df help
 📚 See also: dash (shows dotfile status)
             work (checks for updates)
             flow doctor (includes dotfile check)
+```
+
+---
+
+## Ignore Pattern Management
+
+**Purpose:** Prevent chezmoi from tracking files that should remain local (machine-specific configs, generated files, etc.)
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `dot ignore add <pattern>` | Add ignore pattern to .chezmoiignore | `dot ignore add ".DS_Store"` |
+| `dot ignore list` | List all patterns with line numbers | `dot ignore list` |
+| `dot ignore ls` | Alias for list | `dot ignore ls` |
+| `dot ignore remove <pattern>` | Remove pattern from .chezmoiignore | `dot ignore remove ".DS_Store"` |
+| `dot ignore rm <pattern>` | Alias for remove | `dot ignore rm ".DS_Store"` |
+| `dot ignore edit` | Open .chezmoiignore in $EDITOR | `dot ignore edit` |
+| `dot ignore help` | Show ignore command help | `dot ignore help` |
+
+**Common Use Cases:**
+
+```bash
+# Ignore OS-specific files
+dot ignore add ".DS_Store"
+dot ignore add "Thumbs.db"
+
+# Ignore IDE configs (machine-specific)
+dot ignore add ".vscode/settings.json"
+dot ignore add ".idea/"
+
+# Ignore generated files
+dot ignore add "*.log"
+dot ignore add "node_modules/"
+
+# View what's being ignored
+dot ignore list
+
+# Edit manually for complex patterns
+dot ignore edit
+```
+
+**Pattern Format:** Uses gitignore-style patterns (wildcards, directories, negation)
+
+---
+
+## Repository Health Monitoring
+
+**Purpose:** Analyze chezmoi repository size to detect bloat and maintain performance.
+
+| Command | Description | Output |
+|---------|-------------|--------|
+| `dot size` | Show repository size analysis | Total size, largest files, suggestions |
+
+**Output Example:**
+
+```bash
+$ dot size
+
+Repository Size Analysis
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 Total Size: 1.2 MB
+
+📁 Largest Files:
+  1. dot_gitconfig.tmpl          245 KB
+  2. dot_config/nvim/init.vim    128 KB
+  3. Brewfile                     87 KB
+  4. dot_zshrc                    64 KB
+  5. dot_ssh/config               32 KB
+
+💡 Suggestions:
+  • Consider adding *.log to .chezmoiignore
+  • Large binary detected: dot_background.png (should this be tracked?)
+```
+
+**When to Use:**
+- Repository feels slow to sync
+- Suspecting unwanted files are being tracked
+- Regular maintenance (monthly check)
+- Before adding large files
+
+**Safety Threshold:** < 10 MB recommended (faster sync, smaller backups)
+
+---
+
+## Safety Features
+
+**Intelligent Git Detection:**
+
+When using `dot add` or `dot edit`, the dispatcher checks if the target file is inside a git repository:
+
+```bash
+$ dot add ~/projects/my-app/.env
+⚠️  WARNING: This file is inside a git repository!
+   Repository: /Users/dt/projects/my-app
+
+   Adding to chezmoi will duplicate version control.
+
+   Continue? [y/N]
+```
+
+**Auto-Suggest Ignore Patterns:**
+
+When adding large or generated files, suggests adding to .chezmoiignore instead:
+
+```bash
+$ dot add node_modules/
+⚠️  Large directory detected (234 MB)
+
+💡 Suggestion: Add to .chezmoiignore instead?
+
+   Run: dot ignore add "node_modules/"
+
+   Continue with add? [y/N]
+```
+
+**Preview Before Apply:**
+
+All destructive operations show preview with confirmation:
+
+```bash
+$ dot sync
+📥 Changes from remote:
+  M  dot_zshrc
+  +  dot_config/nvim/init.vim
+  -  old_config.txt
+
+Apply these changes? [Y/n]
 ```
 
 ---
@@ -382,6 +520,13 @@ Need to...
 ├─ Manage API keys/secrets?
 │  └─→ df secret list
 │  └─→ df secret add
+│
+├─ Prevent tracking certain files?
+│  └─→ df ignore add ".DS_Store"
+│  └─→ df ignore list
+│
+├─ Check repository size?
+│  └─→ df size
 │
 ├─ Fix sync issues?
 │  └─→ df doctor

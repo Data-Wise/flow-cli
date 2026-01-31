@@ -97,29 +97,57 @@ nav:
       - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
       - 12. DOT Dispatcher: tutorials/12-dot-dispatcher.md
       - 13. Prompt Dispatcher: tutorials/13-prompt-dispatcher.md
-      - 14. Teach Dispatcher: tutorials/14-teach-dispatcher.md
       - 15. Nvim Quick Start: tutorials/15-nvim-quick-start.md
       - 16. Vim Motions: tutorials/16-vim-motions.md
       - 17. LazyVim Basics: tutorials/17-lazyvim-basics.md
       - 18. LazyVim Showcase: tutorials/18-lazyvim-showcase.md
-      - 19. Teaching + Git Integration: tutorials/19-teaching-git-integration.md
-      - 21. Teach Analyze: tutorials/21-teach-analyze.md
       - 22. Plugin Optimization: tutorials/22-plugin-optimization.md
       - 23. Token Automation: tutorials/23-token-automation.md
-      - 24. Template Management: tutorials/24-template-management.md
-      - 25. Lesson Plan Migration: tutorials/25-lesson-plan-migration.md
-      - 26. LaTeX Macros: tutorials/26-latex-macros.md
-      - 27. Lesson Plan Management: tutorials/27-lesson-plan-management.md
-      - 🎓 Scholar Enhancement:
-          - Overview & Learning Path: tutorials/scholar-enhancement/index.md
-          - Level 1 - Getting Started: tutorials/scholar-enhancement/01-getting-started.md
-          - Level 2 - Intermediate: tutorials/scholar-enhancement/02-intermediate.md
-          - Level 3 - Advanced: tutorials/scholar-enhancement/03-advanced.md
+  - 🎓 Teaching:
+      - Overview: teaching/index.md
+      - Getting Started:
+          - Quick Start: tutorials/14-teach-dispatcher.md
+          - Setup & Initialization: commands/teach-init.md
+          - Complete v3.0 Workflow: guides/TEACHING-WORKFLOW-V3-GUIDE.md
+      - Core Workflows:
+          - Content Creation: guides/INTELLIGENT-CONTENT-ANALYSIS.md
+          - Git Integration: tutorials/19-teaching-git-integration.md
+          - Visual Workflow Guide: guides/TEACHING-WORKFLOW-VISUAL.md
+      - Features:
+          - Content Analysis: tutorials/21-teach-analyze.md
+          - AI-Powered Prompts: tutorials/28-teach-prompt.md
+          - Template Management: tutorials/24-template-management.md
+          - LaTeX Macros: tutorials/26-latex-macros.md
+          - Lesson Plans: tutorials/27-lesson-plan-management.md
+          - Lesson Plan Migration: tutorials/25-lesson-plan-migration.md
+          - Backup & Safety: guides/BACKUP-SYSTEM-GUIDE.md
+      - Reference:
+          - Command Overview: commands/teach.md
+          - Quick Reference Cards:
+              - Templates: reference/REFCARD-TEMPLATES.md
+              - LaTeX Macros: reference/REFCARD-MACROS.md
+              - Lesson Plans: reference/REFCARD-TEACH-PLAN.md
+              - Prompts: reference/REFCARD-PROMPTS.md
+          - Help System: guides/HELP-SYSTEM-GUIDE.md
+      - Advanced:
+          - Scholar Integration:
+              - Overview & Learning Path: tutorials/scholar-enhancement/index.md
+              - Level 1 - Getting Started: tutorials/scholar-enhancement/01-getting-started.md
+              - Level 2 - Intermediate: tutorials/scholar-enhancement/02-intermediate.md
+              - Level 3 - Advanced: tutorials/scholar-enhancement/03-advanced.md
+          - Course Planning Best Practices: guides/COURSE-PLANNING-BEST-PRACTICES.md
+          - Migration from v2: guides/TEACHING-V3-MIGRATION-GUIDE.md
+          - System Architecture: guides/TEACHING-SYSTEM-ARCHITECTURE.md
+          - Course Examples:
+              - Overview: examples/course-planning/README.md
+              - STAT 545 (Graduate): examples/course-planning/intermediate-stats/README.md
+      - Legacy (v2.x):
+          - v2 Workflow: guides/TEACHING-WORKFLOW.md
+          - Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md
+          - Dates Guide: guides/TEACHING-DATES-GUIDE.md
+          - Demo & GIFs: guides/TEACHING-DEMO-GUIDE.md
   - Workflows:
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
-      - Teaching Workflow v3.0: guides/TEACHING-WORKFLOW-V3-GUIDE.md
-      - Teaching Workflow (Legacy): guides/TEACHING-WORKFLOW.md
-      - Teaching Visual Guide: guides/TEACHING-WORKFLOW-VISUAL.md
       - Git Feature Flow: tutorials/08-git-feature-workflow.md
       - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
       - Dotfile Workflow: guides/DOT-WORKFLOW.md
@@ -132,23 +160,9 @@ nav:
       - Start Here: guides/00-START-HERE.md
       - 🔌 ZSH Plugin Ecosystem: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md
       - 🔐 Token Management Complete Guide: guides/TOKEN-MANAGEMENT-COMPLETE.md
-      - 🆕 Teaching v3.0:
-          - v3.0 User Guide: guides/TEACHING-WORKFLOW-V3-GUIDE.md
-          - Concept Analysis: guides/INTELLIGENT-CONTENT-ANALYSIS.md
-          - Backup System Guide: guides/BACKUP-SYSTEM-GUIDE.md
-          - Help System Guide: guides/HELP-SYSTEM-GUIDE.md
-          - Migration Guide (v2 → v3): guides/TEACHING-V3-MIGRATION-GUIDE.md
-          - 📚 Course Planning Best Practices: guides/COURSE-PLANNING-BEST-PRACTICES.md
-          - 📖 Course Examples:
-              - Overview: examples/course-planning/README.md
-              - STAT 545 (Graduate): examples/course-planning/intermediate-stats/README.md
       - 🚀 Quarto Workflow Phase 2:
           - Phase 2 Complete Guide: guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md
-      - Teaching (Legacy):
-          - System Architecture: guides/TEACHING-SYSTEM-ARCHITECTURE.md
-          - Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md
-          - Demo & GIFs: guides/TEACHING-DEMO-GUIDE.md
-          - Dates Guide: guides/TEACHING-DATES-GUIDE.md
+      - 🛡️ Chezmoi Safety Features: guides/CHEZMOI-SAFETY-GUIDE.md
       - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
@@ -162,9 +176,7 @@ nav:
       - 🏠 Start Here: help/00-START-HERE.md
       - ⚡ Quick Reference: help/QUICK-REFERENCE.md
       - 🔐 Token & Secrets Quick Ref: reference/REFCARD-TOKEN-SECRETS.md
-      - 📝 Templates Quick Ref: reference/REFCARD-TEMPLATES.md
-      - 📐 LaTeX Macros Quick Ref: reference/REFCARD-MACROS.md
-      - 📋 Lesson Plan Quick Ref: reference/REFCARD-TEACH-PLAN.md
+      - 🛡️ Chezmoi Safety Quick Ref: reference/REFCARD-DOT-SAFETY.md
       - 🔧 Workflows: help/WORKFLOWS.md
       - 🩺 Troubleshooting: help/TROUBLESHOOTING.md
       - 🤖 Claude Code Environment: troubleshooting/CLAUDE-CODE-ENVIRONMENT.md
@@ -172,6 +184,7 @@ nav:
       - 📚 Master API Reference: reference/MASTER-API-REFERENCE.md
       - 🎯 Master Dispatcher Guide: reference/MASTER-DISPATCHER-GUIDE.md
       - 🏗️ Master Architecture: reference/MASTER-ARCHITECTURE.md
+      - 🛡️ Chezmoi Safety API: reference/API-DOT-SAFETY.md
       - 📊 Documentation Dashboard: DOC-DASHBOARD.md
   - Commands:
       - flow (main): commands/flow.md
@@ -180,8 +193,6 @@ nav:
       - hop: commands/hop.md
       - pick: commands/pick.md
       - alias: commands/alias.md
-      - teach (dispatcher): commands/teach.md
-      - teach-init: commands/teach-init.md
       - capture (win/yay/catch): commands/capture.md
       - timer: commands/timer.md
       - morning: commands/morning.md
@@ -210,6 +221,11 @@ nav:
       - Guidelines: ZSH-DEVELOPMENT-GUIDELINES.md
       - Conventions: CONVENTIONS.md
       - Philosophy: PHILOSOPHY.md
+  - Architecture:
+      - 🛡️ Chezmoi Safety: architecture/DOT-SAFETY-ARCHITECTURE.md
+      - 🔐 Doctor Token System: architecture/DOCTOR-TOKEN-ARCHITECTURE.md
+      - 📅 Teaching Dates: architecture/TEACHING-DATES-ARCHITECTURE.md
+      - 🎓 Scholar Enhancement: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
   - Planning:
       - v4.3.0+ Roadmap: planning/V4.3-ROADMAP.md
       - Install Improvements: planning/INSTALL-IMPROVEMENTS.md

@@ -2,18 +2,19 @@
 # Shows automatic token validation before git push
 
 Output ./23-token-automation-04-integration.gif
+Set Shell zsh
 
-Set FontSize 16
+Set FontSize 18
 Set Width 1000
 Set Height 600
 Set Theme "Catppuccin Mocha"
 
-Type "# Step 7: Integration Workflows"
+Type "echo 'Step 7: Integration Workflows'"
 Sleep 800ms
 Enter
 Sleep 500ms
 
-Type "# Git push validates token automatically"
+Type "echo 'Git push validates token automatically'"
 Sleep 1s
 Enter
 Sleep 500ms

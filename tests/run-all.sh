@@ -59,6 +59,7 @@ run_test ./tests/test-r-dispatcher.zsh
 run_test ./tests/test-qu-dispatcher.zsh
 run_test ./tests/test-mcp-dispatcher.zsh
 run_test ./tests/test-obs-dispatcher.zsh
+run_test ./tests/test-dot-chezmoi-safety.zsh
 
 echo ""
 echo "Core command tests:"
@@ -91,6 +92,7 @@ echo ""
 echo "E2E tests:"
 run_test ./tests/e2e-teach-plan.zsh
 run_test ./tests/e2e-teach-analyze.zsh
+run_test ./tests/e2e-dot-safety.zsh
 
 echo ""
 echo "========================================="

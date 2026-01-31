@@ -2,6 +2,7 @@
 # Shows interactive file-by-file sync with user prompts
 
 Output tutorial-20-dates-sync-interactive.gif
+Set Shell zsh
 
 Set FontSize 18
 Set Width 1400
@@ -15,7 +16,7 @@ Type "Tutorial 20: Teaching Dates Automation - Part 3" Sleep 1s Enter
 Sleep 1s
 
 # Run interactive sync
-Type "# Apply changes interactively" Enter
+Type "echo 'Apply changes interactively'" Enter
 Sleep 500ms
 Type "teach dates sync" Enter
 Sleep 1.5s
@@ -89,5 +90,5 @@ Sleep 2s
 
 # Final note
 Type "" Enter
-Type "# ✅ Date sync complete - all dates synchronized!" Enter
+Type "echo '✅ Date sync complete - all dates synchronized!'" Enter
 Sleep 2s

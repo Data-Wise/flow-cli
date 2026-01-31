@@ -6,7 +6,7 @@
 Output dopamine-features.gif
 
 Set Shell zsh
-Set FontSize 14
+Set FontSize 18
 Set Width 1200
 Set Height 650
 Set Padding 20
@@ -16,15 +16,15 @@ Set Theme "Catppuccin Mocha"
 # SCENE 1: Logging Wins
 # ============================================================================
 
-Type "# Tutorial 6: Dopamine Features"
+Type "echo 'Tutorial 6: Dopamine Features'"
 Sleep 500ms
 Enter
-Type "# Scene 1: Log your accomplishments"
+Type "echo 'Scene 1: Log your accomplishments'"
 Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Log a coding win"
+Type "echo 'Log a coding win'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -34,7 +34,7 @@ Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Log a documentation win"
+Type "echo 'Log a documentation win'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -44,7 +44,7 @@ Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Log a review win"
+Type "echo 'Log a review win'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -63,12 +63,12 @@ Sleep 500ms
 # SCENE 2: View Your Wins
 # ============================================================================
 
-Type "# Scene 2: Celebrate your progress"
+Type "echo 'Scene 2: Celebrate your progress'"
 Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# See recent wins"
+Type "echo 'See recent wins'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -78,7 +78,7 @@ Sleep 500ms
 Enter
 Sleep 2s
 
-Type "# Weekly summary with graph"
+Type "echo 'Weekly summary with graph'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -97,12 +97,12 @@ Sleep 500ms
 # SCENE 3: Daily Goals
 # ============================================================================
 
-Type "# Scene 3: Set daily goals"
+Type "echo 'Scene 3: Set daily goals'"
 Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Set a daily goal of 3 wins"
+Type "echo 'Set a daily goal of 3 wins'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -112,7 +112,7 @@ Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Check progress toward goal"
+Type "echo 'Check progress toward goal'"
 Sleep 500ms
 Enter
 Sleep 500ms
@@ -131,35 +131,35 @@ Sleep 500ms
 # SCENE 4: Auto-Categorization
 # ============================================================================
 
-Type "# Scene 4: Auto-categorized wins"
+Type "echo 'Scene 4: Auto-categorized wins'"
 Sleep 500ms
 Enter
 Sleep 1s
 
-Type "# Wins are auto-categorized:"
+Type "echo 'Wins are auto-categorized:'"
 Sleep 300ms
 Enter
-Type "#   code    - Fixed, implemented, refactored"
+Type "echo '  code    - Fixed, implemented, refactored'"
 Sleep 300ms
 Enter
-Type "#   docs    - Documented, updated docs"
+Type "echo '  docs    - Documented, updated docs'"
 Sleep 300ms
 Enter
-Type "#   review  - Reviewed, PR"
+Type "echo '  review  - Reviewed, PR'"
 Sleep 300ms
 Enter
-Type "#   ship    - Deployed, released"
+Type "echo '  ship    - Deployed, released'"
 Sleep 300ms
 Enter
-Type "#   fix     - Fixed, patched, resolved"
+Type "echo '  fix     - Fixed, patched, resolved'"
 Sleep 300ms
 Enter
-Type "#   test    - Tested, added tests"
+Type "echo '  test    - Tested, added tests'"
 Sleep 300ms
 Enter
 Sleep 2s
 
-Type "# Start logging your wins today!"
+Type "echo 'Start logging your wins today!'"
 Sleep 500ms
 Enter
 Sleep 3s

@@ -68,6 +68,8 @@ draft branch              production branch
 
 **Demo:**
 
+![Teaching Workflow Demo](../demos/tutorials/tutorial-14-teach-workflow.gif)
+
 !!! info "Updated for v3.0"
     This tutorial covers the legacy workflow. For the current v3.0 workflow, see:
     - [Teaching Workflow v3.0 Guide](../guides/TEACHING-WORKFLOW-V3-GUIDE.md)
