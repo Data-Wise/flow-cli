@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v5.23.0
-- **Latest Release:** v5.23.0 (2026-01-29)
+- **Current Version:** v6.0.0
+- **Latest Release:** v6.0.0 (2026-01-31)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -719,6 +719,72 @@ export FLOW_DEBUG=1
 ---
 
 ## Recent Releases
+
+### v6.0.0 - Comprehensive Chezmoi Safety Features (2026-01-31)
+
+**Released:** 2026-01-31
+**PR #316:** https://github.com/Data-Wise/flow-cli/pull/316 (MERGED)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.0.0
+**Changes:** Major safety enhancements to dot dispatcher
+
+**Major Features:**
+
+- **Preview-Before-Add** (`dot add`) - Intelligent file analysis before adding to chezmoi
+  - File counting with human-readable size display
+  - Large file detection (>50KB warnings)
+  - Generated file detection (`.log`, `.sqlite`, `.db`, `.cache`)
+  - Git metadata detection (prevents tracking nested `.git` directories)
+  - Smart auto-ignore suggestions
+  - Cross-platform support (BSD/GNU `find` and `du`)
+
+- **Ignore Pattern Management** (`dot ignore`) - Smart `.chezmoiignore` management
+  - `dot ignore add <pattern>` - Add patterns with deduplication
+  - `dot ignore list` - Display all patterns with line numbers
+  - `dot ignore remove <pattern>` - Remove specific patterns
+  - `dot ignore edit` - Open in `$EDITOR`
+  - Auto-initialization with sensible defaults
+
+- **Repository Size Analysis** (`dot size`) - Proactive bloat detection
+  - Total repository size tracking
+  - Top 10 largest files identification
+  - File type distribution analysis
+  - Health indicators (OK/Warning/Critical)
+  - Actionable cleanup suggestions
+
+- **Enhanced Health Checks** (`flow doctor --dot`) - 9 comprehensive checks
+  - Chezmoi installation verification
+  - Repository initialization status
+  - `.chezmoiignore` existence
+  - Large file detection (>100KB)
+  - Generated file detection
+  - Git metadata detection
+  - Repository size validation (<10MB healthy)
+  - Auto-ignore pattern coverage
+  - Cross-platform utilities check
+
+**Implementation:**
+
+- `lib/dispatchers/dot-dispatcher.zsh` - Enhanced with safety commands
+- `lib/platform-helpers.zsh` - Cross-platform `find`/`du` abstraction
+- `commands/doctor.zsh` - Enhanced with 9 dot-specific checks
+
+**Testing:**
+
+- 170+ comprehensive tests across 5 suites
+- Unit tests for all safety features
+- Integration tests for workflows
+- Cross-platform compatibility tests
+
+**Documentation:**
+
+- `docs/guides/CHEZMOI-SAFETY-GUIDE.md` (400+ lines) - User guide
+- `docs/reference/REFCARD-DOT-SAFETY.md` (350+ lines) - Quick reference
+- `docs/architecture/DOT-SAFETY-ARCHITECTURE.md` (600+ lines) - System architecture
+- `docs/reference/API-DOT-SAFETY.md` (600+ lines) - API reference
+
+**Stats:** 1,950+ lines of documentation, 170+ tests
+
+---
 
 ### v5.23.0 - AI Prompt Management + GIF Quality Enhancement (2026-01-29)
 

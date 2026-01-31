@@ -7,6 +7,121 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [6.0.0] - 2026-01-31
+
+### Added
+
+#### Comprehensive Chezmoi Safety Features (#316)
+
+- **Preview-Before-Add** (`dot add`) - Intelligent file analysis before adding to chezmoi
+  - File counting with human-readable size display (KB/MB/GB)
+  - Large file detection with >50KB warnings
+  - Generated file detection (`.log`, `.sqlite`, `.db`, `.cache`)
+  - Git metadata detection (prevents tracking nested `.git` directories)
+  - Smart auto-ignore pattern suggestions
+  - Cross-platform support (BSD/GNU `find` and `du`)
+  - Interactive confirmation workflow
+
+- **Ignore Pattern Management** (`dot ignore`) - Smart `.chezmoiignore` management suite
+  - `dot ignore add <pattern>` - Add patterns with automatic deduplication
+  - `dot ignore list` - Display all patterns with line numbers
+  - `dot ignore remove <pattern>` - Remove specific patterns safely
+  - `dot ignore edit` - Open `.chezmoiignore` in `$EDITOR`
+  - Auto-initialization with sensible defaults on first use
+  - Pattern validation and conflict detection
+
+- **Repository Size Analysis** (`dot size`) - Proactive bloat detection
+  - Total repository size tracking with health indicators
+  - Top 10 largest files identification with sizes
+  - File type distribution analysis
+  - Health status: OK (<1MB), Warning (1-10MB), Critical (>10MB)
+  - Actionable cleanup suggestions
+  - Cross-platform compatibility
+
+- **Enhanced Health Checks** (`flow doctor --dot`) - 9 comprehensive validation checks
+  - Chezmoi installation verification
+  - Repository initialization status
+  - `.chezmoiignore` file existence
+  - Large file detection (>100KB threshold)
+  - Generated file detection
+  - Git metadata detection (prevents 196KB `.git` bloat)
+  - Repository size validation (<10MB healthy threshold)
+  - Auto-ignore pattern coverage verification
+  - Cross-platform utilities check (BSD/GNU compatibility)
+
+- **Cross-Platform Support** - BSD and GNU compatibility layer
+  - `lib/platform-helpers.zsh` - Portable `find` and `du` wrappers
+  - Automatic platform detection (`uname` based)
+  - Consistent behavior across macOS (BSD) and Linux (GNU)
+  - Fallback mechanisms for missing tools
+
+### Changed
+
+- **dot dispatcher** - Major enhancements to safety and usability
+  - Replaced direct `chezmoi add` with safety wrapper
+  - Enhanced help text with safety feature documentation
+  - Improved error messages and user guidance
+
+- **flow doctor** - Enhanced with chezmoi-specific health checks
+  - New `--dot` flag for chezmoi-only checks (fast execution)
+  - Integration with dot safety validation suite
+  - Category-based reporting for better UX
+
+### Documentation
+
+- **User Guide** - `docs/guides/CHEZMOI-SAFETY-GUIDE.md` (400+ lines)
+  - Quick start workflows
+  - Command reference with examples
+  - Safety check explanations
+  - Troubleshooting guide
+  - Best practices and advanced usage
+
+- **Quick Reference** - `docs/reference/REFCARD-DOT-SAFETY.md` (350+ lines)
+  - Command cheat sheet with aliases
+  - Ignore pattern syntax reference
+  - Size thresholds and health indicators
+  - Exit codes and error handling
+
+- **Architecture Documentation** - `docs/architecture/DOT-SAFETY-ARCHITECTURE.md` (600+ lines)
+  - System architecture diagrams (15+ Mermaid diagrams)
+  - Component details with code examples
+  - Data flow sequences
+  - Cross-platform support strategy
+  - Integration points
+
+- **API Reference** - `docs/reference/API-DOT-SAFETY.md` (600+ lines)
+  - Platform abstraction layer functions
+  - Cache management functions
+  - Safety feature functions
+  - Utility functions and constants
+  - Performance benchmarks
+
+### Testing
+
+- **170+ comprehensive tests** across 5 test suites
+  - Unit tests for preview, ignore, size, doctor features
+  - Integration tests for complete workflows
+  - Cross-platform compatibility tests
+  - Security and edge case validation
+  - Performance regression tests
+
+### Performance
+
+- **Optimized file operations** - Efficient cross-platform implementation
+  - Single-pass file scanning for size and type detection
+  - Cached health check results (5-minute TTL)
+  - Sub-second response for most operations
+  - Minimal overhead on `dot add` workflow
+
+### Migration
+
+- **Backward Compatible** - No breaking changes to existing workflows
+  - `dot add` still works, now with safety preview
+  - All existing commands and flags preserved
+  - Opt-out available via environment variable if needed
+
+---
+
 ## [5.23.0] - 2026-01-29
 
 ### Added

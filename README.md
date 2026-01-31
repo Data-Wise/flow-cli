@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-5.23.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0)
+[![Version](https://img.shields.io/badge/version-6.0.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.0.0)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -32,32 +32,69 @@ flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antid
 
 ## 🎉 What's New
 
-### v5.22.0: Help System Excellence & Dispatcher Unification (In Development - 2026-01-29)
+### v6.0.0: Comprehensive Chezmoi Safety Features 🛡️ (Released - 2026-01-31)
 
-**100% Standards-Compliant Help + Unified Namespace** 🌟
+**Never Accidentally Track 196KB of .git Files Again**
 
-- 🎯 **teach help - Gold Standard** - 100% compliance with flow-cli standards (⭐⭐⭐⭐⭐)
-  - 🔥 MOST COMMON section - 5 commands you use 80% of the time
-  - 💡 QUICK EXAMPLES - Copy-paste ready one-liners
-  - 💡 TIP callout - Clarifies dependencies and behavior
-  - Best help experience across all dispatchers
+Real problem solved: Accidentally tracked 30 `.git` files (196KB) from LazyVim during chezmoi setup. v6.0.0 prevents this with intelligent safety features.
 
-- 🔗 **Unified Namespace** - All dispatchers work through `flow` command
-  - `flow teach help` - Access any dispatcher via flow prefix
-  - `flow g status` / `flow r test` - Consistent command structure
-  - Backward compatible - direct calls still work (`teach help`)
+- 🔍 **Preview-Before-Add** - See exactly what you're adding before committing
+  - File count, total size, large file warnings (>50KB)
+  - Git metadata detection (catches nested `.git` directories)
+  - Generated file detection (`.log`, `.sqlite`, `.db`, `.cache`)
+  - Smart auto-ignore suggestions
+
+- 📝 **Ignore Pattern Management** - Smart `.chezmoiignore` control
+  - `dot ignore add "*.log"` - Add patterns with deduplication
+  - `dot ignore list` - View all patterns with line numbers
+  - `dot ignore edit` - Open in $EDITOR
+  - Auto-initialization with sensible defaults
+
+- 📊 **Repository Health** - Proactive bloat detection
+  - `dot size` - Total repo size + top 10 largest files
+  - Health indicators: OK (<1MB), Warning (1-10MB), Critical (>10MB)
+  - File type distribution analysis
+  - Actionable cleanup suggestions
+
+- 🏥 **Enhanced Doctor** - 9 comprehensive chezmoi checks
+  - `flow doctor --dot` - Fast chezmoi-only health check
+  - Large file detection (>100KB threshold)
+  - Auto-ignore pattern coverage verification
+  - Cross-platform compatibility (BSD/GNU)
 
 **Commands:**
 
 ```bash
-flow teach help          # 🔥 New: Standards-compliant help
-teach help               # Still works - backward compatible
-flow g status            # All dispatchers through flow namespace
+dot add ~/.config/nvim    # Preview files before adding
+dot ignore add "*.log"    # Smart ignore pattern management
+dot size                  # Repository health check
+flow doctor --dot         # Comprehensive chezmoi validation
 ```
+
+**PR #316 (MERGED)** · 170+ tests · 1,950+ lines of documentation · 15+ Mermaid diagrams
 
 ---
 
-### v5.18.0: Documentation Consolidation & API Coverage (Completed - 2026-01-24)
+### v5.23.0: AI Prompt Management + GIF Quality (Released - 2026-01-29)
+
+**3-Tier Prompt Resolution for Teaching Workflows**
+
+- 📝 **teach prompt** - Manage AI teaching prompts with course overrides
+  - `teach prompt list` - View all prompts with tier indicators [C]/[U]/[P]
+  - `teach prompt edit <name>` - Create course-specific override
+  - Auto-resolve integration with Scholar plugin
+
+- 🎬 **Documentation GIF Quality** - Enhanced visual documentation
+  - Standardized 18px font across 21 GIFs
+  - Fixed 133 ZSH syntax errors
+  - 10.9% file size reduction (2.48MB → 2.21MB)
+  - VHS tape validation + style guide
+
+**107 tests · 67 files changed · +9,012 lines**
+
+---
+
+### v5.18.0: Documentation Consolidation & API Coverage (Released - 2026-01-24)
 
 **Simplified Documentation with Comprehensive API Coverage** 📚
 
@@ -326,19 +363,19 @@ flow cache refresh # Force rebuild
 
 Context-aware commands that adapt to your project:
 
-| Command              | What it does                      |
-| -------------------- | --------------------------------- |
-| `cc`                 | Launch Claude Code here           |
-| `cc pick`            | Pick project → Claude             |
-| `cc pick opus` ✨    | Pick → Opus (natural order!)      |
-| `dot`                | Manage dotfiles & secrets         |
-| `dot edit .zshrc`    | Edit dotfile with preview         |
-| `dot ignore add`     | Add ignore pattern (safety) ✨    |
-| `dot size`           | Analyze repository size ✨        |
-| `r test`             | Run R package tests               |
-| `qu preview`         | Preview Quarto doc                |
-| `g push`             | Git push with safety              |
-| `flow sync`          | Sync data across devices          |
+| Command           | What it does                   |
+| ----------------- | ------------------------------ |
+| `cc`              | Launch Claude Code here        |
+| `cc pick`         | Pick project → Claude          |
+| `cc pick opus` ✨ | Pick → Opus (natural order!)   |
+| `dot`             | Manage dotfiles & secrets      |
+| `dot edit .zshrc` | Edit dotfile with preview      |
+| `dot ignore add`  | Add ignore pattern (safety) ✨ |
+| `dot size`        | Analyze repository size ✨     |
+| `r test`          | Run R package tests            |
+| `qu preview`      | Preview Quarto doc             |
+| `g push`          | Git push with safety           |
+| `flow sync`       | Sync data across devices       |
 
 Each dispatcher has built-in help: `cc help`, `dot help`, `r help`, etc.
 

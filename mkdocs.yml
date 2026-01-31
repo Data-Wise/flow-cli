@@ -162,6 +162,7 @@ nav:
       - 🔐 Token Management Complete Guide: guides/TOKEN-MANAGEMENT-COMPLETE.md
       - 🚀 Quarto Workflow Phase 2:
           - Phase 2 Complete Guide: guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md
+      - 🛡️ Chezmoi Safety Features: guides/CHEZMOI-SAFETY-GUIDE.md
       - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
@@ -175,6 +176,7 @@ nav:
       - 🏠 Start Here: help/00-START-HERE.md
       - ⚡ Quick Reference: help/QUICK-REFERENCE.md
       - 🔐 Token & Secrets Quick Ref: reference/REFCARD-TOKEN-SECRETS.md
+      - 🛡️ Chezmoi Safety Quick Ref: reference/REFCARD-DOT-SAFETY.md
       - 🔧 Workflows: help/WORKFLOWS.md
       - 🩺 Troubleshooting: help/TROUBLESHOOTING.md
       - 🤖 Claude Code Environment: troubleshooting/CLAUDE-CODE-ENVIRONMENT.md
@@ -182,6 +184,7 @@ nav:
       - 📚 Master API Reference: reference/MASTER-API-REFERENCE.md
       - 🎯 Master Dispatcher Guide: reference/MASTER-DISPATCHER-GUIDE.md
       - 🏗️ Master Architecture: reference/MASTER-ARCHITECTURE.md
+      - 🛡️ Chezmoi Safety API: reference/API-DOT-SAFETY.md
       - 📊 Documentation Dashboard: DOC-DASHBOARD.md
   - Commands:
       - flow (main): commands/flow.md
@@ -218,6 +221,11 @@ nav:
       - Guidelines: ZSH-DEVELOPMENT-GUIDELINES.md
       - Conventions: CONVENTIONS.md
       - Philosophy: PHILOSOPHY.md
+  - Architecture:
+      - 🛡️ Chezmoi Safety: architecture/DOT-SAFETY-ARCHITECTURE.md
+      - 🔐 Doctor Token System: architecture/DOCTOR-TOKEN-ARCHITECTURE.md
+      - 📅 Teaching Dates: architecture/TEACHING-DATES-ARCHITECTURE.md
+      - 🎓 Scholar Enhancement: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
   - Planning:
       - v4.3.0+ Roadmap: planning/V4.3-ROADMAP.md
       - Install Improvements: planning/INSTALL-IMPROVEMENTS.md
