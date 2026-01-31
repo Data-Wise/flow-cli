@@ -665,3 +665,156 @@ _dot_secret_uses_keychain() {
   local backend=$(_dot_secret_backend)
   [[ "$backend" == "keychain" ]] || [[ "$backend" == "both" ]]
 }
+
+# ============================================================================
+# CROSS-PLATFORM UTILITIES (BSD vs GNU)
+# ============================================================================
+
+# =============================================================================
+# Function: _flow_get_file_size
+# Purpose: Get file size in bytes (cross-platform: BSD macOS vs GNU Linux)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Path to file
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - File size in bytes, or 0 on error
+#
+# Example:
+#   local size=$(_flow_get_file_size "/path/to/file.txt")
+#   echo "File is $size bytes"
+#
+# Notes:
+#   - Detects GNU vs BSD stat automatically
+#   - GNU stat (Linux): stat -c%s
+#   - BSD stat (macOS): stat -f%z
+#   - Returns 0 if file doesn't exist or on error
+# =============================================================================
+_flow_get_file_size() {
+  local file="$1"
+
+  # Detect stat flavor
+  if stat --version 2>/dev/null | grep -q GNU; then
+    # GNU stat (Linux)
+    stat -c%s "$file" 2>/dev/null || echo 0
+  else
+    # BSD stat (macOS)
+    stat -f%z "$file" 2>/dev/null || echo 0
+  fi
+}
+
+# =============================================================================
+# Function: _flow_human_size
+# Purpose: Convert bytes to human-readable size (cross-platform)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Size in bytes
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Human-readable size (e.g., "2.5G", "150M", "4.2K", "512 bytes")
+#
+# Example:
+#   local bytes=1572864
+#   echo "Size: $(_flow_human_size $bytes)"
+#   # Output: Size: 1M
+#
+# Notes:
+#   - Prefers numfmt (GNU coreutils) if available
+#   - Fallback: manual conversion (GB/MB/KB/bytes)
+#   - Handles edge cases: 0 bytes, negative values
+#   - On macOS with Homebrew: brew install coreutils (provides gnumfmt)
+# =============================================================================
+_flow_human_size() {
+  local bytes="$1"
+
+  # Handle edge cases
+  if [[ -z "$bytes" ]] || (( bytes < 0 )); then
+    echo "0 bytes"
+    return
+  fi
+
+  if (( bytes == 0 )); then
+    echo "0 bytes"
+    return
+  fi
+
+  # For very small files (< 1KB), always show "X bytes" format
+  if (( bytes < 1024 )); then
+    echo "${bytes} bytes"
+    return
+  fi
+
+  # Prefer numfmt if available (GNU coreutils)
+  if command -v numfmt &>/dev/null; then
+    numfmt --to=iec "$bytes" 2>/dev/null
+    return
+  fi
+
+  # Fallback: manual conversion with integer arithmetic
+  if (( bytes >= 1073741824 )); then
+    # GB (1024^3)
+    local gb=$((bytes / 1073741824))
+    echo "${gb}G"
+  elif (( bytes >= 1048576 )); then
+    # MB (1024^2)
+    local mb=$((bytes / 1048576))
+    echo "${mb}M"
+  else
+    # KB (1024)
+    local kb=$((bytes / 1024))
+    echo "${kb}K"
+  fi
+}
+
+# =============================================================================
+# Function: _flow_timeout
+# Purpose: Run command with timeout (cross-platform: GNU vs macOS)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Timeout in seconds
+#   $@ - (required) Command to run with arguments
+#
+# Returns:
+#   Exit code of command, or 124 on timeout (GNU timeout convention)
+#
+# Example:
+#   # Limit find to 2 seconds
+#   _flow_timeout 2 find /large/directory -name "*.txt"
+#
+#   # Check return code
+#   _flow_timeout 5 slow_command
+#   [[ $? -eq 124 ]] && echo "Command timed out"
+#
+# Notes:
+#   - Uses GNU timeout if available (Linux, Homebrew coreutils)
+#   - Fallback: gtimeout (macOS with brew install coreutils)
+#   - Last resort: runs command without timeout (no error)
+#   - Returns 124 on timeout (matches GNU timeout convention)
+#   - To install on macOS: brew install coreutils
+# =============================================================================
+_flow_timeout() {
+  local timeout_seconds="$1"
+  shift
+
+  # Try GNU timeout first (standard on Linux, brew coreutils on macOS)
+  if command -v timeout &>/dev/null; then
+    timeout "$timeout_seconds" "$@"
+    return
+  fi
+
+  # Try gtimeout (macOS with Homebrew coreutils)
+  if command -v gtimeout &>/dev/null; then
+    gtimeout "$timeout_seconds" "$@"
+    return
+  fi
+
+  # Fallback: run without timeout
+  # NOTE: This is safe - better to complete slowly than fail
+  "$@"
+}
