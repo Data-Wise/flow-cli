@@ -59,6 +59,7 @@ run_test ./tests/test-r-dispatcher.zsh
 run_test ./tests/test-qu-dispatcher.zsh
 run_test ./tests/test-mcp-dispatcher.zsh
 run_test ./tests/test-obs-dispatcher.zsh
+run_test ./tests/test-dot-chezmoi-safety.zsh
 
 echo ""
 echo "Core command tests:"
