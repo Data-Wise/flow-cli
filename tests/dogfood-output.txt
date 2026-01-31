@@ -1,0 +1,156 @@
+
+[1m[0;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[1m[0;36m  teach validate --lint - Dogfooding Test (Automated)[0m
+[1m[0;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+[0;36mDOGFOOD [1]: Basic lint check on single file with errors[0m ... [0;31m✗[0m
+  [0;31m-> Should have detected errors[0m
+[0;36mDOGFOOD [2]: Clean file with no errors passes[0m ... [0;32m✓[0m
+
+[2m┌─ Output: Clean file passes[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-slides[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-lectures[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-labs[0m
+│ 
+│ [38;5;117mℹ Running custom validators...[0m
+│   Selected: lint-shared, lint-slides, lint-lectures, lint-labs
+│ 
+│ → lint-shared (v1.0.0)
+│   ✓ All files passed
+│ 
+│ ────────────────────────────────────────────────────
+│ [38;5;114m✓ Summary: All validators passed[0m
+│   Files checked: 1
+│   Validators run: 1
+│   Time: 0s
+[2m└─[0m
+
+[0;36mDOGFOOD [3]: Batch process multiple files[0m ... [0;32m✓[0m
+
+[2m┌─ Output: Multiple files processed[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-slides[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-lectures[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-labs[0m
+│ 
+│ [38;5;117mℹ Running custom validators...[0m
+│   Selected: lint-shared, lint-slides, lint-lectures, lint-labs
+│ 
+│ → lint-shared (v1.0.0)
+│ errors=''
+│ exit_code=0
+│   file2.qmd:
+│     ✗ Line 7: LINT_CODE_LANG_TAG: Fenced code block without language tag
+│ errors='Line 7: LINT_CODE_LANG_TAG: Fenced code block without language tag'
+│ exit_code=1
+│   file3.qmd:
+│     ✗ Line 7: LINT_HEADING_HIERARCHY: Heading level skip (h1 -> h3)
+│   ✗ 2 errors found
+[2m└─[0m
+
+[0;36mDOGFOOD [4]: --quick-checks runs only lint-shared[0m ... [0;32m✓[0m
+
+[2m┌─ Output: --quick-checks flag[0m
+│ 
+│ [38;5;117mℹ Running custom validators...[0m
+│   Selected: lint-shared
+│ 
+│ → lint-shared (v1.0.0)
+│   quick-test.qmd:
+│     ✗ Line 5: LINT_CODE_LANG_TAG: Fenced code block without language tag
+│   ✗ 1 errors found
+│ 
+│ ────────────────────────────────────────────────────
+│ [38;5;203m✗ Summary: 1 errors found[0m
+│   Files checked: 1
+│   Validators run: 1
+│   Time: 0s
+[2m└─[0m
+
+[0;36mDOGFOOD [5]: Help text shows lint flags[0m ... [0;31m✗[0m
+  [0;31m-> Help should mention lint flags[0m
+[0;36mDOGFOOD [6]: All 4 lint rules detect issues[0m ... [0;32m✓[0m
+
+[2m┌─ Output: All 4 rule types triggered[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-slides[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-lectures[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-labs[0m
+│ 
+│ [38;5;117mℹ Running custom validators...[0m
+│   Selected: lint-shared, lint-slides, lint-lectures, lint-labs
+│ 
+│ → lint-shared (v1.0.0)
+│   all-errors.qmd:
+│     ✗ Line 9: LINT_CODE_LANG_TAG: Fenced code block without language tag
+│     ✗ Line 17: LINT_DIV_BALANCE: Unclosed fenced div (:::)
+│     ✗ callout_type=callout-invalid
+│     ✗ Line 13: LINT_CALLOUT_VALID: Unknown callout type '.callout-invalid' (valid: note, tip, important, warning, caution)
+│     ✗ Line 7: LINT_HEADING_HIERARCHY: Heading level skip (h1 -> h3)
+│   ✗ 5 errors found
+│ 
+│ ────────────────────────────────────────────────────
+[2m└─[0m
+
+[0;36mDOGFOOD [7]: Performance check (5 files in <3s)[0m ... [0;32m✓[0m
+  [2m(Completed in 0s)[0m
+[0;36mDOGFOOD [8]: Real stat-545 course files[0m ... [0;32m✓[0m
+
+[2m┌─ Output: Real stat-545 file (week-02 slides)[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-slides[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-lectures[0m
+│ script_name=lint-shared
+│ [38;5;221m⚠ Validator not found: lint-labs[0m
+│ 
+│ [38;5;117mℹ Running custom validators...[0m
+│   Selected: lint-shared, lint-slides, lint-lectures, lint-labs
+│ 
+│ → lint-shared (v1.0.0)
+│   slides/week-02_crd-anova_slides.qmd:
+│     ✗ callout_type=callout-tip
+│     ✗ callout_type=callout-note
+│     ✗ callout_type=callout-note
+│     ✗ callout_type=callout-important
+│     ✗ callout_type=callout-warning
+│     ✗ callout_type=callout-note
+│     ✗ callout_type=callout-note
+│     ✗ callout_type=callout-warning
+[2m└─[0m
+
+[0;36mDOGFOOD [9]: Validator deployed to stat-545[0m ... [0;32m✓[0m
+
+[2m┌─ Output: Validator metadata[0m
+│ VALIDATOR_NAME="Quarto Lint: Shared Rules"
+│ VALIDATOR_VERSION="1.0.0"
+[2m└─[0m
+
+[0;36mDOGFOOD [10]: Pre-commit hook includes lint[0m ... [0;32m✓[0m
+
+[2m┌─ Output: Pre-commit hook excerpt[0m
+│     echo -e "  Running Quarto lint checks..."
+│     LINT_OUTPUT=$(teach validate --lint --quick-checks $STAGED_QMD 2>&1 || true)
+│     if [ -n "$LINT_OUTPUT" ]; then
+│         echo "$LINT_OUTPUT" | head -20
+│     fi
+│ fi
+[2m└─[0m
+
+
+[1m[0;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[1m  Dogfooding Test Results[0m
+[1m[0;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+Tests run:    10
+[0;32mTests passed: 8[0m
+[0;31mTests failed: 2[0m
+
+[0;31mSOME DOGFOODING TESTS FAILED[0m
