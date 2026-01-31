@@ -92,6 +92,7 @@ echo ""
 echo "E2E tests:"
 run_test ./tests/e2e-teach-plan.zsh
 run_test ./tests/e2e-teach-analyze.zsh
+run_test ./tests/e2e-dot-safety.zsh
 
 echo ""
 echo "========================================="
