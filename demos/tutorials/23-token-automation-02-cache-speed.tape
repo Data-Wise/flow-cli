@@ -2,18 +2,19 @@
 # Shows the dramatic speed difference with caching
 
 Output ./23-token-automation-02-cache-speed.gif
+Set Shell zsh
 
-Set FontSize 16
+Set FontSize 18
 Set Width 1000
 Set Height 600
 Set Theme "Catppuccin Mocha"
 
-Type "# Step 4: Cache Demonstration"
+Type "echo 'Step 4: Cache Demonstration'"
 Sleep 800ms
 Enter
 Sleep 500ms
 
-Type "# First check (cache MISS) - fresh GitHub API call"
+Type "echo 'First check (cache MISS) - fresh GitHub API call'"
 Sleep 1s
 Enter
 Sleep 500ms
