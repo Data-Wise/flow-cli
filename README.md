@@ -326,17 +326,19 @@ flow cache refresh # Force rebuild
 
 Context-aware commands that adapt to your project:
 
-| Command           | What it does                 |
-| ----------------- | ---------------------------- |
-| `cc`              | Launch Claude Code here      |
-| `cc pick`         | Pick project → Claude        |
-| `cc pick opus` ✨ | Pick → Opus (natural order!) |
-| `dot`             | Manage dotfiles & secrets    |
-| `dot edit .zshrc` | Edit dotfile with preview    |
-| `r test`          | Run R package tests          |
-| `qu preview`      | Preview Quarto doc           |
-| `g push`          | Git push with safety         |
-| `flow sync`       | Sync data across devices     |
+| Command              | What it does                      |
+| -------------------- | --------------------------------- |
+| `cc`                 | Launch Claude Code here           |
+| `cc pick`            | Pick project → Claude             |
+| `cc pick opus` ✨    | Pick → Opus (natural order!)      |
+| `dot`                | Manage dotfiles & secrets         |
+| `dot edit .zshrc`    | Edit dotfile with preview         |
+| `dot ignore add`     | Add ignore pattern (safety) ✨    |
+| `dot size`           | Analyze repository size ✨        |
+| `r test`             | Run R package tests               |
+| `qu preview`         | Preview Quarto doc                |
+| `g push`             | Git push with safety              |
+| `flow sync`          | Sync data across devices          |
 
 Each dispatcher has built-in help: `cc help`, `dot help`, `r help`, etc.
 
@@ -344,6 +346,7 @@ Each dispatcher has built-in help: `cc help`, `dot help`, `r help`, etc.
 **✨ New in v5.0.0:** Dotfile management with `dot` dispatcher
 **✨ New in v5.5.0:** macOS Keychain secrets with Touch ID - instant access, no unlock needed!
 **✨ New in v5.9.0:** Schema-based config validation with hash-based caching for teaching workflows!
+**✨ New in v5.23.1:** Intelligent safety checks - git detection, preview, auto-suggestions for ignore patterns!
 
 ---
 

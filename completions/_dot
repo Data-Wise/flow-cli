@@ -27,6 +27,8 @@ _dot() {
     'unlock:Unlock Bitwarden vault'
     'u:Unlock Bitwarden vault (alias)'
     'secret:macOS Keychain secret management'
+    'ignore:Manage .chezmoiignore patterns'
+    'size:Analyze repository size'
     'doctor:Run diagnostics'
     'dr:Run diagnostics (alias)'
     'undo:Rollback last apply'
@@ -75,6 +77,22 @@ _dot() {
           ;;
         diff|d|apply|a)
           _describe -t files 'managed file' files
+          ;;
+        ignore)
+          # Ignore pattern management subcommands
+          if [[ ${#line[@]} -eq 1 ]]; then
+            local -a ignore_cmds
+            ignore_cmds=(
+              'add:Add ignore pattern'
+              'list:List all patterns'
+              'ls:List all patterns (alias)'
+              'remove:Remove ignore pattern'
+              'rm:Remove ignore pattern (alias)'
+              'edit:Edit .chezmoiignore in $EDITOR'
+              'help:Show ignore command help'
+            )
+            _describe -t ignore 'ignore command' ignore_cmds
+          fi
           ;;
         secret)
           # Keychain secret commands
