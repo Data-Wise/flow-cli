@@ -45,6 +45,11 @@ dot() {
       _dot_status "$@"
       ;;
 
+    size)
+      shift
+      _dot_size "$@"
+      ;;
+
     help|--help|-h)
       _dot_help
       ;;
@@ -84,6 +89,11 @@ dot() {
     apply|a)
       shift
       _dot_apply "$@"
+      ;;
+
+    ignore|ig)
+      shift
+      _dot_ignore "$@"
       ;;
 
     # ─────────────────────────────────────────────────────────────
@@ -251,6 +261,97 @@ _dot_status() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
+# SIZE COMMAND (Phase 1 - Repository Analysis)
+# ═══════════════════════════════════════════════════════════════════
+
+_dot_size() {
+  local chezmoi_dir="$HOME/.local/share/chezmoi"
+
+  # Check chezmoi installed
+  if ! _dot_has_chezmoi; then
+    _flow_log_error "Chezmoi not installed"
+    _flow_log_info "Install with: ${FLOW_COLORS[cmd]}brew install chezmoi${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  # Check directory exists
+  if [[ ! -d "$chezmoi_dir" ]]; then
+    _flow_log_error "Chezmoi directory not found: $chezmoi_dir"
+    _flow_log_info "Initialize with: ${FLOW_COLORS[cmd]}chezmoi init${FLOW_COLORS[reset]}"
+    return 1
+  fi
+
+  echo ""
+  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}📊 Chezmoi Repository Size${FLOW_COLORS[reset]}                    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+
+  # Total size with cache
+  local size_display
+  if size_display=$(_dot_get_cached_size); then
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Total: ${FLOW_COLORS[bold]}$size_display${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(cached)${FLOW_COLORS[reset]}                      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  else
+    local size=$(du -sh "$chezmoi_dir" 2>/dev/null | cut -f1)
+    _dot_cache_size "$size"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Total: ${FLOW_COLORS[bold]}$size${FLOW_COLORS[reset]}                                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  fi
+
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Top 10 largest files:${FLOW_COLORS[reset]}                         ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+
+  # Top 10 files
+  (
+    cd "$chezmoi_dir" || return 1
+    find . -type f -not -path "./.git/*" -exec du -h {} + 2>/dev/null | \
+    sort -rh | \
+    head -10 | \
+    while IFS=$'\t' read -r size path; do
+      # Strip leading ./
+      path="${path#./}"
+
+      # Truncate path if too long (max 35 chars)
+      local display_path="$path"
+      if [[ ${#path} -gt 35 ]]; then
+        display_path="...${path: -32}"
+      fi
+
+      # Warn if .git in path
+      if [[ "$path" == *".git"* ]] || [[ "$path" == *"dot_git"* ]]; then
+        printf "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠️  %-6s  %-35s${FLOW_COLORS[reset]} ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}\n" "$size" "$display_path"
+      else
+        printf "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}     %-6s  %-35s ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}\n" "$size" "$display_path"
+      fi
+    done
+  )
+
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+
+  # Check for nested .git directories
+  local git_count=$(find "$chezmoi_dir" -name ".git" -type d -not -path "$chezmoi_dir/.git" 2>/dev/null | wc -l | tr -d ' ')
+  local git_dot_count=$(find "$chezmoi_dir" -name "dot_git" -type d 2>/dev/null | wc -l | tr -d ' ')
+  local total_git_dirs=$((git_count + git_dot_count))
+
+  if (( total_git_dirs > 0 )); then
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠️  Found $total_git_dirs nested git directories${FLOW_COLORS[reset]}          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Fix: dot ignore add '**/.git'${FLOW_COLORS[reset]}                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  fi
+
+  # Check for large files (>100KB)
+  local large_count=$(find "$chezmoi_dir" -type f -not -path "$chezmoi_dir/.git/*" -size +100k 2>/dev/null | wc -l | tr -d ' ')
+  if (( large_count > 0 )); then
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠️  Found $large_count files larger than 100KB${FLOW_COLORS[reset]}          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Review with: dot size | grep '⚠️'${FLOW_COLORS[reset]}             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  fi
+
+  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# ═══════════════════════════════════════════════════════════════════
 # HELP COMMAND (Phase 1)
 # ═══════════════════════════════════════════════════════════════════
 
@@ -262,6 +363,7 @@ _dot_help() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}COMMON COMMANDS${FLOW_COLORS[reset]}                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot${FLOW_COLORS[reset]}              Show status + quick actions     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot size${FLOW_COLORS[reset]}         Analyze repository size         ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot add FILE${FLOW_COLORS[reset]}     Add file to chezmoi             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot edit FILE${FLOW_COLORS[reset]}    Edit dotfile (auto-add/create)  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot sync${FLOW_COLORS[reset]}         Pull latest changes from remote ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
@@ -839,6 +941,133 @@ _dot_apply() {
       _flow_log_muted "Cancelled"
     fi
   fi
+}
+
+# ───────────────────────────────────────────────────────────────────
+# IGNORE COMMAND - Manage .chezmoiignore patterns
+# ───────────────────────────────────────────────────────────────────
+
+_dot_ignore() {
+  local ignore_file="$HOME/.local/share/chezmoi/.chezmoiignore"
+  local subcommand="${1:-list}"
+
+  case "$subcommand" in
+    add)
+      if [[ -z "$2" ]]; then
+        _flow_log_error "Usage: dot ignore add <pattern>"
+        return 1
+      fi
+
+      local pattern="$2"
+
+      # Create file if missing
+      if [[ ! -f "$ignore_file" ]]; then
+        mkdir -p "$(dirname "$ignore_file")"
+        touch "$ignore_file"
+        _flow_log_info "Created .chezmoiignore"
+      fi
+
+      # Check if pattern exists
+      if grep -qF "$pattern" "$ignore_file" 2>/dev/null; then
+        _flow_log_warning "Pattern already in .chezmoiignore: $pattern"
+        return 0
+      fi
+
+      # Add pattern
+      echo "$pattern" >> "$ignore_file"
+      _flow_log_success "Added pattern to .chezmoiignore: $pattern"
+      ;;
+
+    list|ls|"")
+      if [[ ! -f "$ignore_file" ]]; then
+        _flow_log_info "No .chezmoiignore file found"
+        _flow_log_info "Create patterns with: ${FLOW_COLORS[cmd]}dot ignore add <pattern>${FLOW_COLORS[reset]}"
+        return 0
+      fi
+
+      echo ""
+      echo "${FLOW_COLORS[header]}.chezmoiignore patterns:${FLOW_COLORS[reset]}"
+      echo ""
+      nl -w2 -s"  " "$ignore_file"
+      echo ""
+      ;;
+
+    remove|rm)
+      if [[ -z "$2" ]]; then
+        _flow_log_error "Usage: dot ignore remove <pattern>"
+        return 1
+      fi
+
+      local pattern="$2"
+
+      if [[ ! -f "$ignore_file" ]]; then
+        _flow_log_error "No .chezmoiignore file found"
+        return 1
+      fi
+
+      # Check if pattern exists
+      if ! grep -qF "$pattern" "$ignore_file" 2>/dev/null; then
+        _flow_log_error "Pattern not found in .chezmoiignore: $pattern"
+        return 1
+      fi
+
+      # Remove using temp file (cross-platform)
+      local temp_file
+      temp_file=$(mktemp)
+      grep -vF "$pattern" "$ignore_file" > "$temp_file"
+      mv "$temp_file" "$ignore_file"
+      _flow_log_success "Removed pattern from .chezmoiignore: $pattern"
+      ;;
+
+    edit)
+      if [[ ! -f "$ignore_file" ]]; then
+        mkdir -p "$(dirname "$ignore_file")"
+        touch "$ignore_file"
+        _flow_log_info "Created .chezmoiignore"
+      fi
+
+      ${EDITOR:-vim} "$ignore_file"
+      ;;
+
+    help|--help|-h)
+      echo ""
+      echo "${FLOW_COLORS[header]}dot ignore${FLOW_COLORS[reset]} - Manage .chezmoiignore patterns"
+      echo ""
+      echo "${FLOW_COLORS[bold]}USAGE:${FLOW_COLORS[reset]}"
+      echo "  dot ignore [add|list|remove|edit]"
+      echo ""
+      echo "${FLOW_COLORS[bold]}COMMANDS:${FLOW_COLORS[reset]}"
+      echo "  ${FLOW_COLORS[cmd]}add <pattern>${FLOW_COLORS[reset]}     Add pattern to .chezmoiignore"
+      echo "  ${FLOW_COLORS[cmd]}list${FLOW_COLORS[reset]}, ${FLOW_COLORS[cmd]}ls${FLOW_COLORS[reset]}        List all patterns (default)"
+      echo "  ${FLOW_COLORS[cmd]}remove <pattern>${FLOW_COLORS[reset]}  Remove pattern from .chezmoiignore"
+      echo "  ${FLOW_COLORS[cmd]}edit${FLOW_COLORS[reset]}              Open .chezmoiignore in \$EDITOR"
+      echo ""
+      echo "${FLOW_COLORS[bold]}EXAMPLES:${FLOW_COLORS[reset]}"
+      echo "  ${FLOW_COLORS[muted]}# Ignore all .git directories${FLOW_COLORS[reset]}"
+      echo "  dot ignore add '**/.git'"
+      echo ""
+      echo "  ${FLOW_COLORS[muted]}# Ignore log files${FLOW_COLORS[reset]}"
+      echo "  dot ignore add '*.log'"
+      echo ""
+      echo "  ${FLOW_COLORS[muted]}# Show all patterns${FLOW_COLORS[reset]}"
+      echo "  dot ignore list"
+      echo ""
+      echo "  ${FLOW_COLORS[muted]}# Remove pattern${FLOW_COLORS[reset]}"
+      echo "  dot ignore remove '*.log'"
+      echo ""
+      echo "  ${FLOW_COLORS[muted]}# Edit manually${FLOW_COLORS[reset]}"
+      echo "  dot ignore edit"
+      echo ""
+      ;;
+
+    *)
+      _flow_log_error "Unknown ignore command: $subcommand"
+      echo ""
+      _flow_log_info "Usage: ${FLOW_COLORS[cmd]}dot ignore [add|list|remove|edit]${FLOW_COLORS[reset]}"
+      _flow_log_info "Run ${FLOW_COLORS[cmd]}dot ignore help${FLOW_COLORS[reset]} for more information"
+      return 1
+      ;;
+  esac
 }
 
 # ───────────────────────────────────────────────────────────────────
@@ -2052,6 +2281,194 @@ _dot_secret_bw_help_detailed() {
 _dot_doctor() {
   _flow_log_warning "Phase 3: Doctor diagnostics not yet implemented"
   _flow_log_info "Coming in Phase 3 (Integration)"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# DOCTOR HEALTH CHECK (Integrated with flow doctor)
+# ═══════════════════════════════════════════════════════════════════
+
+_dot_doctor_check_chezmoi_health() {
+  local chezmoi_dir="$HOME/.local/share/chezmoi"
+  local ignore_file="$chezmoi_dir/.chezmoiignore"
+
+  echo ""
+  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔧 Dotfile Management Health${FLOW_COLORS[reset]}                  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+
+  # 1. Check chezmoi installed
+  if command -v chezmoi &>/dev/null; then
+    local version=$(chezmoi --version 2>/dev/null | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} chezmoi installed ($version)                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  else
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} chezmoi not installed                         ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Install: brew install chezmoi${FLOW_COLORS[reset]}                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+    echo ""
+    return 1
+  fi
+
+  # 2. Check repository initialized
+  if [[ -d "$chezmoi_dir/.git" ]]; then
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Repository initialized                        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+
+    # 3. Check remote configured
+    local remote=$(cd "$chezmoi_dir" && git remote get-url origin 2>/dev/null)
+    if [[ -n "$remote" ]]; then
+      # Truncate remote if too long
+      local display_remote="$remote"
+      if [[ ${#remote} -gt 30 ]]; then
+        display_remote="...${remote: -27}"
+      fi
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Remote: $display_remote    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    else
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  No remote repository configured              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Add: chezmoi git remote add origin <url>${FLOW_COLORS[reset]}    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    fi
+  else
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Repository not initialized                    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Initialize: chezmoi init${FLOW_COLORS[reset]}                      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+    echo ""
+    return 1
+  fi
+
+  # 4. Check .chezmoiignore
+  if [[ -f "$ignore_file" ]]; then
+    local pattern_count=$(grep -c -v '^$' "$ignore_file" 2>/dev/null || echo 0)
+    if (( pattern_count > 0 )); then
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} .chezmoiignore configured ($pattern_count patterns)  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    else
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  .chezmoiignore is empty                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Add: dot ignore add <pattern>${FLOW_COLORS[reset]}               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    fi
+  else
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  No .chezmoiignore file found                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Create: dot ignore add '**/.git'${FLOW_COLORS[reset]}            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  fi
+
+  # 5. Check managed file count
+  local managed_count=$(chezmoi managed 2>/dev/null | wc -l | tr -d ' ')
+  if (( managed_count > 0 )); then
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} $managed_count files managed                          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  else
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  No files managed by chezmoi                  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  fi
+
+  # 6. Check repository size
+  if [[ -d "$chezmoi_dir" ]]; then
+    local size_bytes=$(du -sk "$chezmoi_dir" 2>/dev/null | cut -f1)
+    local size_mb=$((size_bytes / 1024))
+
+    if (( size_mb < 5 )); then
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Repository size: ${size_mb} MB (healthy)           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    elif (( size_mb < 20 )); then
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  Repository size: ${size_mb} MB (consider cleanup) ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Analyze: dot size${FLOW_COLORS[reset]}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    else
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Repository size: ${size_mb} MB (too large)         ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Cleanup: dot size${FLOW_COLORS[reset]}                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    fi
+  fi
+
+  # 7. Check for large files (>100KB)
+  local large_files=$(find "$chezmoi_dir" -type f -not -path "$chezmoi_dir/.git/*" -size +100k 2>/dev/null)
+  local large_count=0
+  if [[ -n "$large_files" ]]; then
+    large_count=$(echo "$large_files" | wc -l | tr -d ' ')
+  fi
+
+  if (( large_count > 0 )); then
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  Large files tracked (>100KB):                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "$large_files" | head -3 | while read -r file; do
+      local size=$(du -h "$file" 2>/dev/null | cut -f1)
+      local rel_path="${file#$chezmoi_dir/}"
+      # Truncate path if too long
+      if [[ ${#rel_path} -gt 35 ]]; then
+        rel_path="...${rel_path: -32}"
+      fi
+      printf "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}     %-6s  %-35s ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}\n" "$size" "$rel_path"
+    done
+    if (( large_count > 3 )); then
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}     ${FLOW_COLORS[muted]}...and $((large_count - 3)) more${FLOW_COLORS[reset]}                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    fi
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Review: dot size${FLOW_COLORS[reset]}                               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  else
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} No large files tracked                        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  fi
+
+  # 8. Check for nested .git directories
+  local git_dirs=$(find "$chezmoi_dir" -name ".git" -type d -not -path "$chezmoi_dir/.git" 2>/dev/null)
+  local git_dot_dirs=$(find "$chezmoi_dir" -name "dot_git" -type d 2>/dev/null)
+  local git_count=0
+  local git_dot_count=0
+  if [[ -n "$git_dirs" ]]; then
+    git_count=$(echo "$git_dirs" | wc -l | tr -d ' ')
+  fi
+  if [[ -n "$git_dot_dirs" ]]; then
+    git_dot_count=$(echo "$git_dot_dirs" | wc -l | tr -d ' ')
+  fi
+  local total_git=$((git_count + git_dot_count))
+
+  if [[ -n "$git_dirs" ]] || [[ -n "$git_dot_dirs" ]]; then
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Git directories tracked ($total_git found):        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    if [[ -n "$git_dirs" ]]; then
+      echo "$git_dirs" | head -2 | while read -r gitdir; do
+        local rel_path="${gitdir#$chezmoi_dir/}"
+        if [[ ${#rel_path} -gt 40 ]]; then
+          rel_path="...${rel_path: -37}"
+        fi
+        printf "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}     - %-40s ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}\n" "$rel_path"
+      done
+    fi
+    if [[ -n "$git_dot_dirs" ]]; then
+      echo "$git_dot_dirs" | head -2 | while read -r gitdir; do
+        local rel_path="${gitdir#$chezmoi_dir/}"
+        if [[ ${#rel_path} -gt 40 ]]; then
+          rel_path="...${rel_path: -37}"
+        fi
+        printf "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}     - %-40s ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}\n" "$rel_path"
+      done
+    fi
+    if (( total_git > 2 )); then
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}     ${FLOW_COLORS[muted]}...and $((total_git - 2)) more${FLOW_COLORS[reset]}                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    fi
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Fix: dot ignore add '**/.git'${FLOW_COLORS[reset]}                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  else
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} No nested git directories tracked             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  fi
+
+  # 9. Check sync status
+  local sync_status=$(_dot_get_sync_status 2>/dev/null || echo "unknown")
+  local last_sync=$(_dot_get_last_sync_time 2>/dev/null || echo "never")
+
+  case "$sync_status" in
+    "synced")
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Sync status: synced ($last_sync)              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      ;;
+    "modified")
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  Sync status: local changes ($last_sync)      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Sync: dot push${FLOW_COLORS[reset]}                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      ;;
+    "behind")
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  Sync status: behind remote ($last_sync)      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Pull: dot sync${FLOW_COLORS[reset]}                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      ;;
+    "ahead")
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[info]}ℹ${FLOW_COLORS[reset]}  Sync status: ahead of remote ($last_sync)    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Push: dot push${FLOW_COLORS[reset]}                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      ;;
+    *)
+      echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[info]}ℹ${FLOW_COLORS[reset]}  Sync status: $sync_status                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+      ;;
+  esac
+
+  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+  echo ""
 }
 
 _dot_undo() {
