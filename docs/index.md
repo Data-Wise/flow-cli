@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v5.23.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0)
+[![Version](https://img.shields.io/badge/version-v6.0.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.0.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -22,59 +22,78 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ---
 
-## ✨ What's New in v5.23.0
+## ✨ What's New in v6.0.0
 
-!!! success "AI Prompt Management & Documentation Quality"
-    Manage AI teaching prompts with 3-tier resolution. Enhanced GIF quality across all teaching documentation.
+!!! success "🛡️ Comprehensive Chezmoi Safety Features"
+    Never accidentally track 196KB of .git files again! Intelligent safety features prevent common dotfile management mistakes.
 
-### 🤖 AI Prompt Management
+### 🔍 Preview-Before-Add
 
-**New `teach prompt` command with 3-tier resolution:**
+**See exactly what you're adding before committing:**
 
-- `teach prompt list` - Show prompts with tier indicators [C]/[U]/[P]
-- `teach prompt show <name>` - Display prompt content in pager
-- `teach prompt edit <name>` - Create course override and open editor
-- `teach prompt validate` - Check syntax and Scholar compatibility
-- `teach prompt export <name>` - Render with resolved variables
-- **3-tier resolution:** Course > User > Plugin precedence
-- **Scholar integration:** Auto-resolve prompts for all Scholar calls
-- **107 tests:** Comprehensive unit, E2E, and interactive testing
+- **File analysis:** Count, total size, large file warnings (>50KB)
+- **Git metadata detection:** Catches nested `.git` directories (prevents 196KB bloat!)
+- **Generated file detection:** Identifies `.log`, `.sqlite`, `.db`, `.cache` files
+- **Smart suggestions:** Auto-suggest ignore patterns for common files
+- **Cross-platform:** Works on macOS (BSD) and Linux (GNU)
 
-[Tutorial →](tutorials/28-teach-prompt.md) | [Quick Reference →](reference/REFCARD-PROMPTS.md)
+```bash
+dot add ~/.config/nvim
+# Shows preview with warnings before adding
+```
 
-### 📊 Documentation GIF Quality Enhancement
+### 📝 Ignore Pattern Management
 
-**Improved readability and consistency across 21 teaching GIFs:**
+**Smart `.chezmoiignore` control:**
 
-- **Standardized font size:** All GIFs now use 18px font (up from 14-16px)
-- **Fixed syntax errors:** 133 lines corrected across 9 VHS tapes
-- **Added Shell directives:** Consistent ZSH behavior across all demos
-- **Optimized file sizes:** 10.9% reduction (2.48MB → 2.21MB)
-- **Validation tooling:** New `validate-vhs-tapes.sh` script + comprehensive style guide
-- **Embedded GIFs:** All teaching GIFs now embedded directly in documentation
+- `dot ignore add "*.log"` - Add patterns with deduplication
+- `dot ignore list` - View all patterns with line numbers
+- `dot ignore edit` - Open in $EDITOR
+- Auto-initialization with sensible defaults
 
-[Style Guide →](contributing/VHS-TAPE-STYLE-GUIDE.md)
+### 📊 Repository Health
+
+**Proactive bloat detection:**
+
+- `dot size` - Total repo size + top 10 largest files
+- Health indicators: OK (<1MB), Warning (1-10MB), Critical (>10MB)
+- File type distribution analysis
+- Actionable cleanup suggestions
+
+### 🏥 Enhanced Doctor
+
+**9 comprehensive chezmoi validation checks:**
+
+- `flow doctor --dot` - Fast chezmoi-only health check
+- Large file detection (>100KB threshold)
+- Auto-ignore pattern coverage verification
+- Cross-platform compatibility validation
+
+[User Guide →](guides/CHEZMOI-SAFETY-GUIDE.md) | [Quick Reference →](reference/REFCARD-DOT-SAFETY.md) | [Architecture →](architecture/DOT-SAFETY-ARCHITECTURE.md)
+
+**Stats:** 170+ tests · 1,950+ lines of documentation · 15+ Mermaid diagrams
 
 ---
 
 ## 📚 Previous Releases
 
-### v5.22.0 - Lesson Plan Management (2026-01-29)
+### v5.23.0 - AI Prompt Management & Documentation Quality (2026-01-29)
 
-**New Feature:** `teach prompt` command with 3-tier resolution
+!!! info "3-Tier Prompt Resolution + Enhanced GIF Quality"
+    Manage AI teaching prompts with course overrides. Enhanced documentation GIF quality across all tutorials.
 
-Manage AI teaching prompts with course, user, and plugin-level customization. Create overrides, validate syntax, export rendered prompts, and seamlessly integrate with Scholar for AI content generation.
+**Features:**
 
-- **Commands:** list, show, edit, validate, export with full alias support
-- **3-tier resolution:** Course > User > Plugin precedence
-- **Scholar integration:** Auto-resolve prompts for all Scholar calls
-- **107 tests:** Comprehensive unit, E2E, and interactive testing
+- **`teach prompt` command** - 3-tier resolution (Course > User > Plugin)
+- **Scholar integration** - Auto-resolve prompts for AI content generation
+- **GIF quality enhancement** - Standardized 18px font, 10.9% size reduction
+- **107 tests** - Comprehensive unit, E2E, and interactive testing
 
 [Tutorial →](tutorials/28-teach-prompt.md) | [Quick Reference →](reference/REFCARD-PROMPTS.md)
 
 ---
 
-### v5.22.0 - Lesson Plan & Template Management (2026-01-29)
+### v5.22.0 - Lesson Plan & Template Management (2026-01-28)
 
 !!! info "CRUD Operations + Reusable Templates"
     Centralized lesson plan management with template system for content creation
