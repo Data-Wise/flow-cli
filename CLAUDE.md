@@ -716,6 +716,11 @@ export FLOW_DEBUG=1
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 107 tests (62 unit + 33 E2E + 12 interactive) for teach prompt + 462 total tests
 
+**Recent Improvements (dev branch):**
+
+- ✅ Dispatcher routing - All 12 dispatchers accessible via `flow` command
+- ✅ teach help system - 100% standards compliance (⭐⭐⭐⭐⭐)
+
 ---
 
 ## Recent Releases
