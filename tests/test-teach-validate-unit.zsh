@@ -752,6 +752,20 @@ test_teach_validate_help() {
   fi
 }
 
+test_lint_flag_parsing() {
+  test_start "teach-validate --lint flag is recognized"
+
+  local output
+  output=$(teach-validate --lint --help 2>&1)
+  local result=$?
+
+  if assert_success $result "--lint should be recognized"; then
+    if assert_contains "$output" "lint" "Help should mention lint"; then
+      test_pass
+    fi
+  fi
+}
+
 test_teach_validate_no_files() {
   test_start "teach-validate with no files (should find all)"
 
@@ -858,6 +872,7 @@ run_all_tests() {
   # Command Tests
   echo "${YELLOW}COMMAND TESTS${RESET}"
   test_teach_validate_help
+  test_lint_flag_parsing
   test_teach_validate_no_files
   echo ""
 

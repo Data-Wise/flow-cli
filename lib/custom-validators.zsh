@@ -442,6 +442,7 @@ _run_custom_validators() {
     local selected_validators=()
     local files=()
     local skip_external=0
+    local quiet=0
     local project_root="."
 
     # Parse arguments
@@ -453,6 +454,9 @@ _run_custom_validators() {
                 ;;
             --skip-external)
                 skip_external=1
+                ;;
+            --quiet|-q)
+                quiet=1
                 ;;
             --project-root)
                 shift
@@ -491,15 +495,14 @@ _run_custom_validators() {
         for selected in "${selected_validators[@]}"; do
             local found=0
             for script in "${available_validators[@]}"; do
-                local script_name
-                script_name=$(_get_validator_name_from_path "$script")
+                local script_name=$(_get_validator_name_from_path "$script")
                 if [[ "$script_name" == "$selected" ]]; then
                     validators_to_run+=("$script")
                     found=1
                     break
                 fi
             done
-            if [[ $found -eq 0 ]]; then
+            if [[ $found -eq 0 && $quiet -eq 0 ]]; then
                 _flow_log_warning "Validator not found: $selected"
             fi
         done
@@ -513,26 +516,28 @@ _run_custom_validators() {
     fi
 
     # Display header
-    echo
-    _flow_log_info "Running custom validators..."
-    if [[ ${#selected_validators[@]} -gt 0 ]]; then
-        echo "  Selected: ${(j:, :)selected_validators}"
-    else
-        echo "  Found: ${#validators_to_run[@]} validators"
+    if [[ $quiet -eq 0 ]]; then
+        echo
+        _flow_log_info "Running custom validators..."
+        if [[ ${#selected_validators[@]} -gt 0 ]]; then
+            echo "  Selected: ${(j:, :)selected_validators}"
+        else
+            echo "  Found: ${#validators_to_run[@]} validators"
+        fi
+        echo
     fi
-    echo
 
     # Validate and run each validator
     local total_errors=0
     local start_time=$(date +%s)
     local -A all_results  # validator|file -> errors
 
+    local validator_name api_errors metadata version validator_file_errors errors exit_code
+
     for script in "${validators_to_run[@]}"; do
-        local validator_name
         validator_name=$(_get_validator_name_from_path "$script")
 
         # Validate API compliance
-        local api_errors
         api_errors=$(_validate_validator_api "$script")
         if [[ $? -ne 0 ]]; then
             _flow_log_error "→ $validator_name: INVALID PLUGIN API"
@@ -544,27 +549,23 @@ _run_custom_validators() {
         fi
 
         # Load metadata
-        local metadata
         metadata=$(_load_validator_metadata "$script")
-        local version
         version=$(echo "$metadata" | grep -o '"version": "[^"]*"' | cut -d'"' -f4)
 
         # Display validator header
-        echo "→ $validator_name (v$version)"
+        [[ $quiet -eq 0 ]] && echo "→ $validator_name (v$version)"
 
         # Run validator on each file
-        local validator_file_errors=0
+        validator_file_errors=0
         for file in "${files[@]}"; do
             # Skip if file doesn't exist
             if [[ ! -f "$file" ]]; then
-                echo "  $file:"
-                echo "    File not found (skipped)"
+                [[ $quiet -eq 0 ]] && echo "  $file:"
+                [[ $quiet -eq 0 ]] && echo "    File not found (skipped)"
                 continue
             fi
 
             # Execute validator
-            local errors
-            local exit_code
 
             # Pass --skip-external flag to validator if needed
             if [[ $skip_external -eq 1 ]]; then
@@ -578,8 +579,8 @@ _run_custom_validators() {
 
             # Handle validator crash
             if [[ $exit_code -eq 2 ]]; then
-                echo "  $file:"
-                echo "    ✗ VALIDATOR CRASHED"
+                [[ $quiet -eq 0 ]] && echo "  $file:"
+                [[ $quiet -eq 0 ]] && echo "    ✗ VALIDATOR CRASHED"
                 ((total_errors++))
                 ((validator_file_errors++))
                 continue
@@ -587,22 +588,26 @@ _run_custom_validators() {
 
             # Display errors if any
             if [[ $exit_code -ne 0 && -n "$errors" ]]; then
-                echo "  $file:"
+                [[ $quiet -eq 0 ]] && echo "  $file:"
                 echo "$errors" | while IFS= read -r error; do
-                    [[ -n "$error" ]] && echo "    ✗ $error"
-                    ((total_errors++))
-                    ((validator_file_errors++))
+                    if [[ -n "$error" ]]; then
+                        [[ $quiet -eq 0 ]] && echo "    ✗ $error"
+                        ((total_errors++))
+                        ((validator_file_errors++))
+                    fi
                 done
             fi
         done
 
         # Display validator summary
-        if [[ $validator_file_errors -eq 0 ]]; then
-            echo "  ✓ All files passed"
-        else
-            echo "  ✗ $validator_file_errors errors found"
+        if [[ $quiet -eq 0 ]]; then
+            if [[ $validator_file_errors -eq 0 ]]; then
+                echo "  ✓ All files passed"
+            else
+                echo "  ✗ $validator_file_errors errors found"
+            fi
+            echo
         fi
-        echo
     done
 
     # Calculate duration
@@ -672,12 +677,12 @@ _list_custom_validators() {
     _flow_log_info "Available Custom Validators:"
     echo
 
+    local name api_errors metadata version description
+
     for script in "${validators[@]}"; do
-        local name
         name=$(_get_validator_name_from_path "$script")
 
         # Validate API
-        local api_errors
         api_errors=$(_validate_validator_api "$script" 2>&1)
         if [[ $? -ne 0 ]]; then
             echo "  ✗ $name (INVALID API)"
@@ -685,11 +690,8 @@ _list_custom_validators() {
         fi
 
         # Load metadata
-        local metadata
         metadata=$(_load_validator_metadata "$script")
 
-        local version
-        local description
         version=$(echo "$metadata" | grep -o '"version": "[^"]*"' | cut -d'"' -f4)
         description=$(echo "$metadata" | grep -o '"description": "[^"]*"' | cut -d'"' -f4)
 
