@@ -81,6 +81,7 @@ nav:
       - ❓ FAQ: getting-started/faq.md
       - ❓ FAQ - Dependencies: getting-started/faq-dependencies.md
       - 🔄 Troubleshooting: getting-started/troubleshooting.md
+      - 🎉 Release Notes: RELEASES.md
       - 📜 Changelog: CHANGELOG.md
   - Tutorials:
       - Overview & Learning Path: tutorials/index.md
