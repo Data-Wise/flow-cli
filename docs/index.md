@@ -1,6 +1,6 @@
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v6.0.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.0.0)
+[![Version](https://img.shields.io/badge/version-v6.1.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -22,9 +22,54 @@ Start working in 10 seconds. Stay motivated with visible wins. No configuration 
 
 ---
 
-## ✨ What's New in v6.0.0
+## 🎉 What's New in v6.1.0
 
-!!! success "🛡️ Comprehensive Chezmoi Safety Features"
+!!! success "🔍 Quarto Lint Validation - Released 2026-02-01"
+    Catch Quarto mistakes before they reach production. Intelligent structural validation for teaching materials.
+
+### Quick Win: Validate Your Files Now
+
+```bash
+teach validate --lint slides/week-01.qmd   # Single file
+teach validate --lint lectures/*.qmd       # Batch mode
+teach validate --quick-checks              # Fast Phase 1 rules
+```
+
+### 4 Structural Lint Rules
+
+| Rule | What It Catches | Example Fix |
+|------|----------------|-------------|
+| 🔤 **CODE_LANG_TAG** | Bare code blocks | ` →`{r} |
+| 📦 **DIV_BALANCE** | Unclosed divs | Add closing `:::` |
+| 💬 **CALLOUT_VALID** | Invalid callouts | `.callout-info` → `.callout-note` |
+| 📋 **HEADING_HIERARCHY** | Skipped levels | `# → ###` → `# → ## → ###` |
+
+### Performance & Quality
+
+- ⚡ **Sub-second validation** (<1s for 100 files)
+- ✅ **41 comprehensive tests** (93.3% pass rate)
+- 📚 **5,600+ lines of documentation**
+- 🏭 **Production validated** (85+ .qmd files on stat-545 course)
+
+### Get Started
+
+!!! tip "10-Minute Quickstart"
+    New to lint validation? Start here:
+
+    1. 📖 [Tutorial 27: Lint Quickstart](tutorials/27-lint-quickstart.md) (10 minutes)
+    2. 📋 [Quick Reference Card](reference/REFCARD-LINT.md)
+    3. 📚 [Complete User Guide](guides/LINT-GUIDE.md)
+    4. 🔄 [Workflow Integration](workflows/WORKFLOW-LINT.md)
+
+[GitHub Release →](https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0)
+
+---
+
+## 📚 Previous Releases
+
+### v6.0.0 - Chezmoi Safety Features (2026-01-31)
+
+!!! info "🛡️ Comprehensive Chezmoi Safety"
     Never accidentally track 196KB of .git files again! Intelligent safety features prevent common dotfile management mistakes.
 
 ### 🔍 Preview-Before-Add
