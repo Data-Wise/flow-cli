@@ -62,9 +62,9 @@ teach validate --quick-checks
 | Document | Purpose | Audience |
 |----------|---------|----------|
 | **[Implementation Plan](plans/2026-01-31-teach-validate-lint.md)** | Feature design | Developers |
-| **[Test Coverage](../tests/TEST-COVERAGE-LINT.md)** | Test inventory | QA |
-| **[Dogfooding Report](../tests/DOGFOODING-REPORT.md)** | Real-world validation | Stakeholders |
-| **[lint-shared.zsh](.teach/validators/lint-shared.zsh)** | Validator code | Developers |
+| **Test Coverage** (`tests/TEST-COVERAGE-LINT.md`) | Test inventory | QA |
+| **Dogfooding Report** (`tests/DOGFOODING-REPORT.md`) | Real-world validation | Stakeholders |
+| **Validator Source** (`.teach/validators/lint-shared.zsh`) | Validator code | Developers |
 
 ---
 
@@ -236,8 +236,8 @@ teach validate --quick-checks
 ### For Developers
 
 - **Implementation Plan:** [2026-01-31-teach-validate-lint.md](plans/2026-01-31-teach-validate-lint.md)
-- **Test Coverage:** [TEST-COVERAGE-LINT.md](../tests/TEST-COVERAGE-LINT.md)
-- **Validator Source:** [lint-shared.zsh](../.teach/validators/lint-shared.zsh)
+- **Test Coverage:** `tests/TEST-COVERAGE-LINT.md` (in repository)
+- **Validator Source:** `.teach/validators/lint-shared.zsh` (in repository)
 
 ---
 

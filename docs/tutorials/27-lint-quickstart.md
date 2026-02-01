@@ -336,7 +336,8 @@ You learned:
 
 - **Full Guide:** [LINT-GUIDE.md](../guides/LINT-GUIDE.md)
 - **Quick Reference:** [REFCARD-LINT.md](../reference/REFCARD-LINT.md)
-- **Test Coverage:** [TEST-COVERAGE-LINT.md](../../tests/TEST-COVERAGE-LINT.md)
+- **Workflow Integration:** [WORKFLOW-LINT.md](../workflows/WORKFLOW-LINT.md)
+- **Migration Guide:** [LINT-MIGRATION-GUIDE.md](../guides/LINT-MIGRATION-GUIDE.md)
 
 ---
 
