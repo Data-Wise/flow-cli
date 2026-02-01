@@ -1,0 +1,15 @@
+---
+title: "Test"
+---
+
+::: {.callout-info}
+This is not a valid callout type.
+:::
+
+::: {.callout-danger}
+Neither is this.
+:::
+
+::: {.callout-note}
+This one is fine.
+:::

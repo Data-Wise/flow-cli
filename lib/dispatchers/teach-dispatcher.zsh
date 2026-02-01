@@ -1148,10 +1148,13 @@ ${FLOW_COLORS[bold]}VALIDATION MODES${FLOW_COLORS[reset]}
   ${FLOW_COLORS[cmd]}--syntax${FLOW_COLORS[reset]}       YAML + syntax check
   ${FLOW_COLORS[cmd]}--render${FLOW_COLORS[reset]}       Full render validation
   ${FLOW_COLORS[cmd]}--custom${FLOW_COLORS[reset]}       Run custom validators
+  ${FLOW_COLORS[cmd]}--lint${FLOW_COLORS[reset]}         Run Quarto-aware lint rules (.teach/validators/lint-*.zsh)
+  ${FLOW_COLORS[cmd]}--quick-checks${FLOW_COLORS[reset]} Run fast lint subset only (Phase 1 rules)
   ${FLOW_COLORS[cmd]}--deep${FLOW_COLORS[reset]}         Full validation + concept analysis (Layer 6)
   ${FLOW_COLORS[cmd]}--concepts${FLOW_COLORS[reset]}     Concept prerequisite validation only
 
 ${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[cmd]}--validators${FLOW_COLORS[reset]} <list>  Comma-separated validator list (with --custom)
   ${FLOW_COLORS[cmd]}--watch, -w${FLOW_COLORS[reset]}          Watch mode (fswatch)
   ${FLOW_COLORS[cmd]}--stats${FLOW_COLORS[reset]}              Show validation statistics
   ${FLOW_COLORS[cmd]}--quiet, -q${FLOW_COLORS[reset]}          Minimal output
