@@ -156,6 +156,7 @@ teach-validate() {
         local args=(--project-root ".")
         [[ -n "$custom_validators" ]] && args+=(--validators "$custom_validators")
         [[ $skip_external -eq 1 ]] && args+=(--skip-external)
+        [[ $quiet -eq 1 ]] && args+=(--quiet)
         _run_custom_validators "${args[@]}" "${files[@]}"
     elif [[ "$mode" == "lint" ]]; then
         # Run lint validators (all lint-* validators in .teach/validators/)
@@ -167,6 +168,7 @@ teach-validate() {
             args+=(--validators "lint-shared,lint-slides,lint-lectures,lint-labs")
         fi
         [[ $skip_external -eq 1 ]] && args+=(--skip-external)
+        [[ $quiet -eq 1 ]] && args+=(--quiet)
         _run_custom_validators "${args[@]}" "${files[@]}"
     else
         _teach_validate_run "$mode" "$quiet" "$stats_mode" "${files[@]}"
@@ -487,6 +489,17 @@ _teach_validate_run() {
     fi
 
     for file in "${files[@]}"; do
+        if [[ ! -f "$file" ]]; then
+            _flow_log_error "File not found: $file"
+            ((failed++))
+            continue
+        fi
+        if [[ ! -r "$file" ]]; then
+            _flow_log_error "File not readable: $file"
+            ((failed++))
+            continue
+        fi
+
         [[ $quiet -eq 0 ]] && echo ""
         [[ $quiet -eq 0 ]] && _flow_log_info "Validating: $file"
 
