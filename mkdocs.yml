@@ -116,6 +116,7 @@ nav:
       - Features:
           - Content Analysis: tutorials/21-teach-analyze.md
           - AI-Powered Prompts: tutorials/28-teach-prompt.md
+          - Lint Validation: tutorials/27-lint-quickstart.md
           - Template Management: tutorials/24-template-management.md
           - LaTeX Macros: tutorials/26-latex-macros.md
           - Lesson Plans: tutorials/27-lesson-plan-management.md
@@ -124,6 +125,7 @@ nav:
       - Reference:
           - Command Overview: commands/teach.md
           - Quick Reference Cards:
+              - Lint Validation: reference/REFCARD-LINT.md
               - Templates: reference/REFCARD-TEMPLATES.md
               - LaTeX Macros: reference/REFCARD-MACROS.md
               - Lesson Plans: reference/REFCARD-TEACH-PLAN.md
@@ -151,6 +153,7 @@ nav:
       - Git Feature Flow: tutorials/08-git-feature-workflow.md
       - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
       - Dotfile Workflow: guides/DOT-WORKFLOW.md
+      - Lint Integration: workflows/WORKFLOW-LINT.md
       - Alias Management: guides/ALIAS-MANAGEMENT-WORKFLOW.md
       - YOLO Mode: guides/YOLO-MODE-WORKFLOW.md
       - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
@@ -163,6 +166,9 @@ nav:
       - 🚀 Quarto Workflow Phase 2:
           - Phase 2 Complete Guide: guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md
       - 🛡️ Chezmoi Safety Features: guides/CHEZMOI-SAFETY-GUIDE.md
+      - 🔍 Lint Validation:
+          - User Guide: guides/LINT-GUIDE.md
+          - Migration Guide: guides/LINT-MIGRATION-GUIDE.md
       - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
       - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
       - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
