@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v6.0.0
-- **Latest Release:** v6.0.0 (2026-01-31)
+- **Current Version:** v6.1.0
+- **Latest Release:** v6.1.0 (2026-01-31)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -283,7 +283,7 @@ v <cmd>       # Vibe coding mode (v on, v off, v status)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
 
-### Template Management (v5.22.0) ✨
+### Template Management (v6.1.0) ✨
 
 **Project-local templates at `.flow/templates/`**
 
@@ -297,7 +297,7 @@ teach templates sync         # Update from plugin defaults
 teach init --with-templates  # Initialize with templates
 ```
 
-### LaTeX Macro Management (v5.22.0) ✨
+### LaTeX Macro Management (v6.1.0) ✨
 
 **Consistent notation for AI-generated content**
 
@@ -328,7 +328,7 @@ teach macros export --format json  # Export as JSON
 
 **Documentation:** `docs/reference/REFCARD-TEMPLATES.md`
 
-### Lesson Plan Management (v5.22.0) ✨
+### Lesson Plan Management (v6.1.0) ✨
 
 **CRUD management of lesson plan weeks**
 
@@ -351,7 +351,7 @@ teach plan delete 3 --force              # Remove week
 
 **Documentation:** `docs/reference/REFCARD-TEACH-PLAN.md`
 
-### Token Management (v5.22.0 Phase 1) ✨
+### Token Management (v6.1.0 Phase 1) ✨
 
 **Isolated Token Checks & Smart Caching**
 
@@ -602,11 +602,11 @@ teach exam "Topic"  # Generate exam via Scholar
 # Core test suites
 tests/test-pick-command.zsh         # Pick: 39 tests
 tests/test-cc-dispatcher.zsh        # CC: 37 tests
-tests/test-dot-v5.22.0-unit.zsh     # DOT: 112+ tests
+tests/test-dot-v6.1.0-unit.zsh     # DOT: 112+ tests
 tests/test-teach-dates-unit.zsh     # Teaching dates: 33 tests
 tests/test-teach-dates-integration.zsh  # Integration: 16 tests
 
-# Teach plan tests (v5.22.0)
+# Teach plan tests (v6.1.0)
 tests/test-teach-plan.zsh           # Unit: 32 tests
 tests/test-teach-plan-security.zsh  # Security: 24 tests (YAML injection, edge cases)
 tests/e2e-teach-plan.zsh            # E2E: 15 tests (CRUD workflows)
@@ -707,11 +707,11 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v5.23.0
-**Latest Release:** v5.23.0 (2026-01-29)
+**Version:** v6.1.0
+**Latest Release:** v6.1.0 (2026-01-29)
 **Status:** Production
 **Branch:** `dev`
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 107 tests (62 unit + 33 E2E + 12 interactive) for teach prompt + 462 total tests
@@ -725,11 +725,11 @@ export FLOW_DEBUG=1
 
 ## Recent Releases
 
-### v6.0.0 - Comprehensive Chezmoi Safety Features (2026-01-31)
+### v6.1.0 - Comprehensive Chezmoi Safety Features (2026-01-31)
 
 **Released:** 2026-01-31
 **PR #316:** https://github.com/Data-Wise/flow-cli/pull/316 (MERGED)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.0.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0
 **Changes:** Major safety enhancements to dot dispatcher
 
 **Major Features:**
@@ -791,12 +791,12 @@ export FLOW_DEBUG=1
 
 ---
 
-### v5.23.0 - AI Prompt Management + GIF Quality Enhancement (2026-01-29)
+### v6.1.0 - AI Prompt Management + GIF Quality Enhancement (2026-01-29)
 
 **Released:** 2026-01-29
 **PR #313:** https://github.com/Data-Wise/flow-cli/pull/313 (MERGED - AI Prompts)
 **PR #315:** https://github.com/Data-Wise/flow-cli/pull/315 (MERGED - GIF Quality)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v5.23.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0
 **Changes:** 67 files changed, +9,012 / -44 lines
 
 **Major Features:**
@@ -834,13 +834,13 @@ export FLOW_DEBUG=1
   - Tutorial 28: teach-prompt.md (step-by-step guide)
   - REFCARD-PROMPTS.md (quick reference)
   - VHS-TAPE-STYLE-GUIDE.md (complete standards)
-  - Demo course v2.0.0 with prompts + lesson plans + macros
+  - Demo course v6.1.0 with prompts + lesson plans + macros
 
 **Combined Stats:** 67 files, +9,012 / -44 lines
 
 ---
 
-### v5.22.0 - Template Management & Lesson Plan Migration (2026-01-28)
+### v6.1.0 - Template Management & Lesson Plan Migration (2026-01-28)
 
 **Released:** 2026-01-28
 **Changes:** 88 commits, 51 files changed, +12,341 / -1,977 lines
@@ -883,7 +883,7 @@ export FLOW_DEBUG=1
 
 ---
 
-### v5.17.0 - Token Automation Phase 1 (2026-01-23)
+### v6.1.0 - Token Automation Phase 1 (2026-01-23)
 
 **Released:** 2026-01-23
 **PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED)
@@ -907,7 +907,7 @@ export FLOW_DEBUG=1
 
 ---
 
-### v5.16.0 - Intelligent Content Analysis (2026-01-22)
+### v6.1.0 - Intelligent Content Analysis (2026-01-22)
 
 **Released:** 2026-01-22
 **PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
@@ -956,10 +956,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 5.23.0"
-git tag -a v5.23.0 -m "v5.23.0"
+git tag -a v6.1.0 -m "v6.1.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v5.23.0
+git push origin main && git push origin v6.1.0
 ```
 
 **Files updated by release script:**
@@ -980,4 +980,4 @@ git push origin main && git push origin v5.23.0
 ---
 
 **Last Updated:** 2026-01-29
-**Status:** Production Ready (v5.23.0)
+**Status:** Production Ready (v6.1.0)

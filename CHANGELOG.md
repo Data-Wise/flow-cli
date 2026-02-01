@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - dev branch
 
+_(No unreleased changes)_
+
+---
+
+## [6.1.0] - 2026-02-01
+
 ### Added
 
 #### Quarto Structural Lint Validation (#319)

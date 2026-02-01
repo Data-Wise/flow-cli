@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-6.0.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.0.0)
+[![Version](https://img.shields.io/badge/version-6.1.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -32,39 +32,47 @@ flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antid
 
 ## 🎉 What's New
 
-### Coming in v6.1.0: Quarto Lint Validation 🔍 (In Development)
+### v6.1.0: Quarto Lint Validation 🔍 (Released 2026-02-01)
 
-**Structural Quality Checks for Teaching Materials**
+**Catch Quarto mistakes before they reach production**
 
-Prevent common Quarto mistakes before they reach production with intelligent lint checking.
+✅ **Released and ready to use!**
 
-- ✅ **4 Structural Lint Rules** - Detect issues automatically
-  - Bare code blocks without language tags (` →`{r} or ```python)
-  - Unbalanced fenced divs (unclosed :::)
-  - Invalid callout types (typos in .callout-\* classes)
-  - Skipped heading levels (h1 → h3 without h2)
+**4 Structural Lint Rules:**
 
-- 🚀 **Fast & Non-Intrusive** - Sub-second validation
-  - <0.1s for single file
-  - <1s for 5 files
-  - <10s for 100 files
-  - Warn-only mode (never blocks commits)
+- 🔤 Bare code blocks → detects missing language tags
+- 📦 Unbalanced divs → catches unclosed `::: `
+- 💬 Invalid callouts → validates `.callout-*` types
+- 📋 Heading hierarchy → prevents level skips (h1 → h3)
 
-- 🔌 **Seamless Integration** - Works with existing workflow
-  - `teach validate --lint` - Run structural checks
-  - `teach validate --quick-checks` - Phase 1 rules only
-  - Pre-commit hook integration included
-  - Zero dependencies (pure ZSH)
+**Performance:**
 
-**Commands:**
+- ⚡ <0.1s for single file
+- ⚡ <1s for 5 files
+- ⚡ <10s for 100 files
+
+**Quality:**
+**Quick Start:**
 
 ```bash
-teach validate --lint lectures/week-05.qmd        # Single file
-teach validate --lint --quick-checks lectures/    # Batch mode
-teach validate --lint --watch                     # Live checking
+# Single file check
+teach validate --lint slides/week-01.qmd
+
+# Batch validation
+teach validate --lint lectures/*.qmd
+
+# Quick checks only (Phase 1 rules)
+teach validate --quick-checks
 ```
 
-**PR #319 (MERGED to dev)** · 41 tests · 5,600+ lines of documentation · Production validated
+**Documentation:**
+
+- 📖 [10-Minute Tutorial](https://data-wise.github.io/flow-cli/tutorials/27-lint-quickstart/)
+- 📋 [Quick Reference](https://data-wise.github.io/flow-cli/reference/REFCARD-LINT/)
+- 📚 [Complete Guide](https://data-wise.github.io/flow-cli/guides/LINT-GUIDE/)
+- 🔄 [Workflow Integration](https://data-wise.github.io/flow-cli/workflows/WORKFLOW-LINT/)
+
+[GitHub Release →](https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0)
 
 ---
 
