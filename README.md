@@ -32,6 +32,42 @@ flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antid
 
 ## 🎉 What's New
 
+### Coming in v6.1.0: Quarto Lint Validation 🔍 (In Development)
+
+**Structural Quality Checks for Teaching Materials**
+
+Prevent common Quarto mistakes before they reach production with intelligent lint checking.
+
+- ✅ **4 Structural Lint Rules** - Detect issues automatically
+  - Bare code blocks without language tags (` →`{r} or ```python)
+  - Unbalanced fenced divs (unclosed :::)
+  - Invalid callout types (typos in .callout-\* classes)
+  - Skipped heading levels (h1 → h3 without h2)
+
+- 🚀 **Fast & Non-Intrusive** - Sub-second validation
+  - <0.1s for single file
+  - <1s for 5 files
+  - <10s for 100 files
+  - Warn-only mode (never blocks commits)
+
+- 🔌 **Seamless Integration** - Works with existing workflow
+  - `teach validate --lint` - Run structural checks
+  - `teach validate --quick-checks` - Phase 1 rules only
+  - Pre-commit hook integration included
+  - Zero dependencies (pure ZSH)
+
+**Commands:**
+
+```bash
+teach validate --lint lectures/week-05.qmd        # Single file
+teach validate --lint --quick-checks lectures/    # Batch mode
+teach validate --lint --watch                     # Live checking
+```
+
+**PR #319 (MERGED to dev)** · 41 tests · 5,600+ lines of documentation · Production validated
+
+---
+
 ### v6.0.0: Comprehensive Chezmoi Safety Features 🛡️ (Released - 2026-01-31)
 
 **Never Accidentally Track 196KB of .git Files Again**
