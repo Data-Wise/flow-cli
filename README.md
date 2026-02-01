@@ -201,7 +201,7 @@ teach validate --deep                  # Prerequisite validation
 **Professional Quarto teaching workflow with automation and safety:**
 
 - 🔍 **5-Layer Validation** - Automated validation via git hooks (YAML, syntax, render, chunks, images)
-- 💾 **teach validate** - Standalone validation with watch mode + conflict detection
+- 💾 **teach validate** - Standalone validation with watch mode, conflict detection, and structural lint checks (--lint)
 - 🗄️ **teach cache** - Interactive Quarto freeze cache management with TUI
 - 🏥 **teach doctor** - Comprehensive health checks with interactive fix mode
 - 📊 **Enhanced Deploy** - Index management (ADD/UPDATE/REMOVE) + dependency tracking

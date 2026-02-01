@@ -42,18 +42,18 @@ fi
 # COLOR HELPERS (for lint errors without symbols)
 # ============================================================================
 # Note: The custom validators framework adds its own ✗ prefix,
-# so we just apply colors without additional symbols
+# so we just apply colors without additional emoji symbols to avoid duplication
 
 _lint_error() {
-    echo -e "${FLOW_COLORS[error]}🔴 $*${FLOW_COLORS[reset]}"
+    echo -e "${FLOW_COLORS[error]}$*${FLOW_COLORS[reset]}"
 }
 
 _lint_warning() {
-    echo -e "${FLOW_COLORS[warning]}⚠️  $*${FLOW_COLORS[reset]}"
+    echo -e "${FLOW_COLORS[warning]}$*${FLOW_COLORS[reset]}"
 }
 
 _lint_suggestion() {
-    echo -e "${FLOW_COLORS[info]}💡 Suggestion: $*${FLOW_COLORS[reset]}"
+    echo -e "${FLOW_COLORS[info]}Suggestion: $*${FLOW_COLORS[reset]}"
 }
 
 # ============================================================================
@@ -110,7 +110,7 @@ _check_code_lang_tag() {
                 # Valid: ```{r}, ```{python}, ```text, ```r, etc.
                 # Invalid: bare ``` with nothing after
                 local after_backticks="${line#\`\`\`}"
-                after_backticks="${after_backticks## }"  # trim leading space
+                after_backticks="${after_backticks##[[:space:]]}"  # trim leading whitespace (spaces, tabs)
                 if [[ -z "$after_backticks" ]]; then
                     # Error with color and emoji
                     errors+=("$(_lint_error "Line $line_num: LINT_CODE_LANG_TAG: Fenced code block without language tag")")
@@ -157,7 +157,7 @@ _check_div_balance() {
         [[ $in_code_block -eq 1 ]] && continue
 
         # Detect div openers: ::: {.something} or ::: something
-        if [[ "$line" =~ ^:::+\  || "$line" =~ ^:::+\{ ]]; then
+        if [[ "$line" =~ ^:::+[[:space:]] || "$line" =~ ^:::+\{ ]]; then
             ((div_depth++))
             div_stack+=($line_num)
         # Detect div closers: bare ::: (with optional trailing whitespace)
