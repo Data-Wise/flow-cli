@@ -38,8 +38,8 @@ teach validate --quick-checks              # Fast Phase 1 rules
 ### 4 Structural Lint Rules
 
 | Rule | What It Catches | Example Fix |
-|------|----------------|-------------|
-| 🔤 **CODE_LANG_TAG** | Bare code blocks | ` →`{r} |
+| ---- | --------------- | ----------- |
+| 🔤 **CODE_LANG_TAG** | Bare code blocks | ` ` → ` `{r} |
 | 📦 **DIV_BALANCE** | Unclosed divs | Add closing `:::` |
 | 💬 **CALLOUT_VALID** | Invalid callouts | `.callout-info` → `.callout-note` |
 | 📋 **HEADING_HIERARCHY** | Skipped levels | `# → ###` → `# → ## → ###` |
@@ -55,7 +55,6 @@ teach validate --quick-checks              # Fast Phase 1 rules
 
 !!! tip "10-Minute Quickstart"
     New to lint validation? Start here:
-
     1. 📖 [Tutorial 27: Lint Quickstart](tutorials/27-lint-quickstart.md) (10 minutes)
     2. 📋 [Quick Reference Card](reference/REFCARD-LINT.md)
     3. 📚 [Complete User Guide](guides/LINT-GUIDE.md)
@@ -119,8 +118,6 @@ dot add ~/.config/nvim
 **Stats:** 170+ tests · 1,950+ lines of documentation · 15+ Mermaid diagrams
 
 ---
-
-## 📚 Previous Releases
 
 ### v5.23.0 - AI Prompt Management & Documentation Quality (2026-01-29)
 
