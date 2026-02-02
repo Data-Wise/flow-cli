@@ -1,3 +1,10 @@
+---
+tags:
+  - guide
+  - dopamine
+  - adhd
+---
+
 # Dopamine Features Guide
 
 **Motivation-boosting features for sustained productivity**

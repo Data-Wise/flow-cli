@@ -1,3 +1,8 @@
+---
+tags:
+  - getting-started
+---
+
 # Installation
 
 > **Time:** ~5 minutes | **Level:** Beginner

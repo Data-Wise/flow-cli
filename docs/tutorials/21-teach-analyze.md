@@ -1,3 +1,9 @@
+---
+tags:
+  - tutorial
+  - teaching
+---
+
 # Tutorial: Intelligent Content Analysis
 
 > **What you'll learn:** Validate lecture prerequisites, detect concept gaps, and generate optimized slides using `teach analyze`

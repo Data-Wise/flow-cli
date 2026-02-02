@@ -1,3 +1,10 @@
+---
+tags:
+  - commands
+  - teaching
+  - dispatchers
+---
+
 # teach - Teaching Workflow Dispatcher
 
 Unified command interface for managing course websites and teaching workflows.

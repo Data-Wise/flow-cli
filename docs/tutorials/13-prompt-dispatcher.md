@@ -1,3 +1,9 @@
+---
+tags:
+  - tutorial
+  - dispatchers
+---
+
 # Tutorial: Prompt Dispatcher - Manage Your Shell Prompt
 
 **Level:** Beginner

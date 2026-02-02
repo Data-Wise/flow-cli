@@ -24,7 +24,7 @@ tags:
 
     [-> Quick Wins](WORKFLOWS-QUICK-WINS.md)
 
--   :git:{ .lg .middle } **Git & Branching**
+-   :material-source-branch:{ .lg .middle } **Git & Branching**
 
     ---
 

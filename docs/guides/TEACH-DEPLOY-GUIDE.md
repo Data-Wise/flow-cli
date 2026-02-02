@@ -1,3 +1,9 @@
+---
+tags:
+  - guide
+  - teaching
+---
+
 # Teaching Deployment Guide
 
 > Deploy your course website from local preview to production with confidence.

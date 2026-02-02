@@ -1,3 +1,10 @@
+---
+tags:
+  - tutorial
+  - dispatchers
+  - configuration
+---
+
 # Tutorial: DOT Dispatcher - Dotfile Management
 
 **Level:** Beginner

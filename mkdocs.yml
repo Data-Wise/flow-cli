@@ -43,6 +43,7 @@ theme:
 
 plugins:
   - search
+  - tags
   - exclude:
       glob:
         - doc-index.md
@@ -233,6 +234,7 @@ nav:
   # ── Reference (merged: Reference + Commands + Architecture) ───────
   - 📚 Reference:
       - reference/index.md
+      - Tags Index: tags.md
       - API & Architecture:
           - 📚 Master API Reference: reference/MASTER-API-REFERENCE.md
           - 🎯 Master Dispatcher Guide: reference/MASTER-DISPATCHER-GUIDE.md

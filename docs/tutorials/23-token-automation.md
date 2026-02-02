@@ -1,3 +1,10 @@
+---
+tags:
+  - tutorial
+  - security
+  - configuration
+---
+
 # Tutorial 23: Token Automation
 
 > **Smart token management with caching and isolated checks**

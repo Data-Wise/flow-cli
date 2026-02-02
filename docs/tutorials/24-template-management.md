@@ -1,3 +1,9 @@
+---
+tags:
+  - tutorial
+  - teaching
+---
+
 # Tutorial: Template Management
 
 > **What you'll learn:** Create and manage teaching content templates with `teach templates`

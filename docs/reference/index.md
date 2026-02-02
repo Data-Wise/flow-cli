@@ -65,10 +65,14 @@ tags:
 
 | Page | Description |
 |------|-------------|
-| [flow](../commands/flow.md) | Main entry point | [work](../commands/work.md) | Session management |
-| [finish](../commands/finish.md) | End session | [hop](../commands/hop.md) | Quick switch |
-| [pick](../commands/pick.md) | Project picker | [dash](../commands/dash.md) | Dashboard |
-| [doctor](../commands/doctor.md) | Health check | [sync](../commands/sync.md) | Git sync |
+| [flow](../commands/flow.md) | Main entry point |
+| [work](../commands/work.md) | Session management |
+| [finish](../commands/finish.md) | End session |
+| [hop](../commands/hop.md) | Quick switch |
+| [pick](../commands/pick.md) | Project picker |
+| [dash](../commands/dash.md) | Dashboard |
+| [doctor](../commands/doctor.md) | Health check |
+| [sync](../commands/sync.md) | Git sync |
 
 ### Quick Reference Cards
 
