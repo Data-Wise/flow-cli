@@ -422,6 +422,8 @@ teach templates sync --force
 - **Create prompts** for Scholar integration
 - **Add checklists** for content QA
 - See [REFCARD-TEMPLATES.md](../reference/REFCARD-TEMPLATES.md) for quick reference
+- See how templates feed into Scholar generation: [Scholar Wrappers Guide](../guides/SCHOLAR-WRAPPERS-GUIDE.md)
+- All teach commands at a glance: [REFCARD-TEACH-DISPATCHER.md](../reference/REFCARD-TEACH-DISPATCHER.md)
 
 ---
 

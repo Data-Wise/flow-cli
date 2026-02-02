@@ -578,8 +578,12 @@ cat .flow/teach-config.yml
 ### Learn More About Teaching Workflow
 
 - **[Teaching Workflow Guide](../guides/TEACHING-WORKFLOW.md)** - Comprehensive workflow documentation
+- **[Scholar Wrappers Guide](../guides/SCHOLAR-WRAPPERS-GUIDE.md)** - Complete guide to all 9 AI content generation commands
 - **[Teaching System Architecture](../guides/TEACHING-SYSTEM-ARCHITECTURE.md)** - How flow-cli and Scholar work together
 - **[Teach Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)** - Complete command reference
+- **[All Commands Quick Reference](../reference/REFCARD-TEACH-DISPATCHER.md)** - All 29 teach subcommands at a glance
+- **[Config Schema Reference](../reference/TEACH-CONFIG-SCHEMA.md)** - Every teach-config.yml field documented
+- **[Deployment Guide](../guides/TEACH-DEPLOY-GUIDE.md)** - Local preview to production deployment
 
 ### Master Scholar Enhancement (AI Content Generation)
 

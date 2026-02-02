@@ -412,3 +412,5 @@ You've learned to:
 - [REFCARD-MACROS.md](../reference/REFCARD-MACROS.md)
 - [teach doctor](../commands/teach.md#teach-doctor)
 - [Tutorial 24: Template Management](24-template-management.md)
+- [Scholar Wrappers Guide](../guides/SCHOLAR-WRAPPERS-GUIDE.md) - How macros integrate with AI content generation
+- [Config Schema Reference](../reference/TEACH-CONFIG-SCHEMA.md) - `scholar.latex_macros` configuration
