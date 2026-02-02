@@ -1426,6 +1426,8 @@ Forces fresh token check on next `flow doctor --dot`.
 **Complexity:** Intermediate → Advanced
 **Most Used:** Yes (if teaching)
 
+> **Quick Links:** [All Commands Reference](REFCARD-TEACH-DISPATCHER.md) | [Scholar Wrappers Guide](../guides/SCHOLAR-WRAPPERS-GUIDE.md) | [Config Schema](TEACH-CONFIG-SCHEMA.md) | [Deploy Guide](../guides/TEACH-DEPLOY-GUIDE.md)
+
 ### Basics (Beginner)
 
 **What it does:** Manages teaching workflow with AI-powered course tools via Scholar integration.
