@@ -4,9 +4,49 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Phase: v6.1.0 Released & Deployed
+## Phase: Teach Comprehensive Documentation (feature/teach-comprehensive)
 ## Priority: 1
-## Progress: 100
+## Progress: 10
+
+## 🚧 In Progress: Comprehensive Teaching Documentation (2026-02-02)
+
+**Branch:** `feature/teach-comprehensive`
+**Worktree:** `~/.git-worktrees/flow-cli/feature-teach-comprehensive`
+**Spec:** `docs/specs/SPEC-teach-comprehensive-2026-02-02.md`
+**Target:** v6.2.0
+
+**Objective:** Fill documentation gaps across all 29 teach subcommands. Documentation-only effort (no code changes).
+
+**Gap Summary:**
+- 9 Scholar wrappers (lecture, exam, quiz, etc.) have ZERO documentation
+- Core workflow commands (init, deploy, config) barely mentioned
+- No unified reference card for teach dispatcher
+- teach-config.yml schema never formally documented
+- Missing per-feature REFCARDs (analyze, dates, doctor)
+
+**Deliverables (8):**
+
+| # | File | Type | Status |
+|---|------|------|--------|
+| D1 | REFCARD-TEACH-DISPATCHER.md | Reference card | Pending |
+| D2 | SCHOLAR-WRAPPERS-GUIDE.md | Guide | Pending |
+| D3 | TEACH-CONFIG-SCHEMA.md | Reference | Pending |
+| D4 | TEACH-DEPLOY-GUIDE.md | Guide | Pending |
+| D5 | REFCARD-ANALYSIS.md | Reference card | Pending |
+| D6 | REFCARD-DATES.md | Reference card | Pending |
+| D7 | REFCARD-DOCTOR.md | Reference card | Pending |
+| D8 | mkdocs.yml + cross-references | Integration | Pending |
+
+**4 Mermaid Diagrams:** Workflow overview, Scholar architecture, config chain, command taxonomy
+
+**Quality Bar:** Publication-ready, STAT-101 examples, bidirectional cross-references
+
+**Files Created (planning phase):**
+- ORCHESTRATE-teach-comprehensive.md (implementation plan)
+- BRAINSTORM-teach-comprehensive-2026-02-02.md (decisions + gap analysis)
+- docs/specs/SPEC-teach-comprehensive-2026-02-02.md (17.2K comprehensive spec)
+
+---
 
 ## ✅ Just Completed: Documentation Index Redesign (2026-02-01)
 
@@ -1480,9 +1520,10 @@ Then start Phase 0 implementation (cross-platform helpers) in a fresh session.
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | ✅ Clean (v5.23.0 released) |
+| Main repo | `dev` | ✅ Clean (v6.1.0 released) |
+| `~/.git-worktrees/flow-cli/feature-teach-comprehensive` | `feature/teach-comprehensive` | 🚧 Planning complete, implementation pending |
 
-**Note:** All feature worktrees completed and cleaned up:
+**Completed worktrees:**
 - ✅ `feature/teach-prompt` - Merged in PR #313 (v5.23.0)
 - ✅ `feature/teaching-gifs-enhancement` - Merged in PR #315 (v5.23.0)
 
@@ -1681,8 +1722,8 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 
 ---
 
-**Last Updated:** 2026-01-29
-**Status:** v5.23.0 Released ✅ | Documentation Deployed ✅ | CLAUDE.md Cleaned ✅ | GIF Enhancement Spec Ready ✅
+**Last Updated:** 2026-02-02
+**Status:** v6.1.0 Released ✅ | Teach Comprehensive branch created 🚧 | Spec + ORCHESTRATE ready
 ## wins: --category fix squashed the bug (2026-01-31), fixed the bug (2026-01-31), --category fix squashed the bug (2026-01-31), fixed the bug (2026-01-31), --category fix squashed the bug (2026-01-31)
 ## streak: 0
 ## last_active: 2026-01-31 16:21
