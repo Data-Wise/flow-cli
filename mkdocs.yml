@@ -48,6 +48,33 @@ plugins:
         - doc-index.md
         - '*.bak'
         - '*.tmp'
+        - 'specs/**'
+        - 'reports/**'
+        - 'plans/**'
+        - 'implementation/**'
+        - 'bugs/**'
+        - 'diagrams/**'
+        - 'releases/**'
+        - 'demos/**'
+        - 'reference/.archive/**'
+        - 'BRAINSTORM-*.md'
+        - 'DECISION-*.md'
+        - 'SESSION-*.md'
+        - 'IMPLEMENTATION-PLAN-*.md'
+        - 'DOCS-*.md'
+        - 'DOT-DISPATCHER-*.md'
+        - 'HOOK-SYSTEM-*.md'
+        - 'LINT-FEATURE-*.md'
+        - 'PHASE*-*.md'
+        - 'REFERENCE-CONSOLIDATION-*.md'
+        - 'SECRET-MANAGEMENT.md'
+        - 'TEACHING-SYSTEM-ARCHITECTURE.md'
+        - 'TUTORIAL-WORKFLOW-*.md'
+        - 'AWESOME-ZSH-PLUGINS-ENTRY.md'
+        - 'TEST-COMPLETION-REPORT.md'
+        - 'TEST-COVERAGE-*.md'
+        - 'teach-doctor-implementation.md'
+        - 'FEATURE-REQUEST-QUARTO-WORKFLOW-ENHANCEMENTS.md'
 
 markdown_extensions:
   - admonition
@@ -258,6 +285,10 @@ nav:
       - Planning:
           - v4.3.0+ Roadmap: planning/V4.3-ROADMAP.md
           - Install Improvements: planning/INSTALL-IMPROVEMENTS.md
+          - Feature Requests:
+              - Config Consolidation: FEATURE-REQUEST-config-consolidation.md
+              - Quarto Cache Clearing: FEATURE-REQUEST-qu-sass-cache-clearing.md
+              - Scholar Config: FEATURE-REQUEST-scholar-config-consolidation.md
 
 extra:
   social:
