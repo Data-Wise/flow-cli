@@ -188,6 +188,8 @@ teach pr x exam          # Render with variables
 - Explore `teach macros` to manage LaTeX macros used in prompts
 - See `teach templates` for content templates
 - Read the [REFCARD-PROMPTS.md](../reference/REFCARD-PROMPTS.md) for complete flag reference
+- See how prompts integrate with Scholar wrappers: [Scholar Wrappers Guide](../guides/SCHOLAR-WRAPPERS-GUIDE.md)
+- Full config reference: [Config Schema](../reference/TEACH-CONFIG-SCHEMA.md)
 
 ---
 

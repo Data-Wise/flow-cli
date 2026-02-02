@@ -14,6 +14,8 @@ Learn to use the Scholar Enhancement for AI-powered teaching content generation.
 
 The Scholar Enhancement extends flow-cli's teach dispatcher with AI-powered content generation. Create slides, exams, quizzes, and other teaching materials using Claude Code and the Scholar plugin.
 
+> **See also:** [Scholar Wrappers Guide](../../guides/SCHOLAR-WRAPPERS-GUIDE.md) for complete command reference, and [All Commands Quick Reference](../../reference/REFCARD-TEACH-DISPATCHER.md) for all 29 teach subcommands.
+
 **Key Features:**
 - 🎨 **4 Style Presets** - predefined content styles (conceptual, computational, rigorous, applied)
 - 🎛️ **9 Content Flags** - fine-tune what's included

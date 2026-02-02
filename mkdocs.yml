@@ -112,6 +112,8 @@ nav:
           - Complete v3.0 Workflow: guides/TEACHING-WORKFLOW-V3-GUIDE.md
       - Core Workflows:
           - Content Creation: guides/INTELLIGENT-CONTENT-ANALYSIS.md
+          - Scholar Wrappers: guides/SCHOLAR-WRAPPERS-GUIDE.md
+          - Deployment: guides/TEACH-DEPLOY-GUIDE.md
           - Git Integration: tutorials/19-teaching-git-integration.md
           - Visual Workflow Guide: guides/TEACHING-WORKFLOW-VISUAL.md
       - Features:
@@ -125,8 +127,13 @@ nav:
           - Backup & Safety: guides/BACKUP-SYSTEM-GUIDE.md
       - Reference:
           - Command Overview: commands/teach.md
+          - Config Schema: reference/TEACH-CONFIG-SCHEMA.md
           - Quick Reference Cards:
+              - All Commands: reference/REFCARD-TEACH-DISPATCHER.md
               - Lint Validation: reference/REFCARD-LINT.md
+              - Content Analysis: reference/REFCARD-ANALYSIS.md
+              - Date Management: reference/REFCARD-DATES.md
+              - Health Check: reference/REFCARD-DOCTOR.md
               - Templates: reference/REFCARD-TEMPLATES.md
               - LaTeX Macros: reference/REFCARD-MACROS.md
               - Lesson Plans: reference/REFCARD-TEACH-PLAN.md
