@@ -125,6 +125,9 @@ nav:
           - Lesson Plans: tutorials/27-lesson-plan-management.md
           - Lesson Plan Migration: tutorials/25-lesson-plan-migration.md
           - Backup & Safety: guides/BACKUP-SYSTEM-GUIDE.md
+      - Tutorials:
+          - First Exam Walkthrough: tutorials/29-first-exam-walkthrough.md
+          - New Instructor Workflow: tutorials/30-new-instructor-complete-workflow.md
       - Reference:
           - Command Overview: commands/teach.md
           - Config Schema: reference/TEACH-CONFIG-SCHEMA.md
@@ -138,6 +141,8 @@ nav:
               - LaTeX Macros: reference/REFCARD-MACROS.md
               - Lesson Plans: reference/REFCARD-TEACH-PLAN.md
               - Prompts: reference/REFCARD-PROMPTS.md
+              - Scholar Flags: reference/REFCARD-SCHOLAR-FLAGS.md
+          - Troubleshooting: guides/TEACHING-TROUBLESHOOTING.md
           - Help System: guides/HELP-SYSTEM-GUIDE.md
       - Advanced:
           - Scholar Integration:
